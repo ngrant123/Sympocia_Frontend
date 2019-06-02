@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import img2 from '/Users/nathangrant/Desktop/company/src/designs/background/SecondPageBackground.png';
 import secondstatue from '/Users/nathangrant/Desktop/company/src/designs/img/test.png';
+import { Link } from "react-router-dom";
 
 
 export const SecondContainer = styled.div`
@@ -96,7 +97,7 @@ export const SecondPassword = styled.textarea`
 
 `;
 
-export const SecondPageLogin = styled.div`
+export const SecondPageLogin = styled(Link)`
 
   position:absolute;
   width:20%; 
@@ -115,6 +116,14 @@ export const SecondPageLogin = styled.div`
    align-items: center;
    justify-content: center;
    border-radius:10px;
+
+    transition: all ease 0.8s;
+   
+    &:hover{
+      text-decoration:none;
+      color:white;
+      background-color:#6941E5;
+    }
 
 
 `;

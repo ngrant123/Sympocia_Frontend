@@ -5,7 +5,7 @@ import CompanyLocationBackground from "/Users/nathangrant/Desktop/company/src/de
 import CompanyNameBackground from "/Users/nathangrant/Desktop/company/src/designs/img/CompanyName.png"
 import CompanyTypeBackground from "/Users/nathangrant/Desktop/company/src/designs/img/CompanyType.png"
 import Particles from 'react-particles-js';
-import PaymentOptionsScreen from "/Users/nathangrant/Desktop/company/src/Components/MediumComp/PaymentOptionsScreen.js"
+import PaymentOptionsScreen from "/Users/nathangrant/Desktop/company/src/Components/MediumComp/MediumSignupComp/PaymentOptionsScreen.js"
 
 const BodyContainer= styled.div`
 
@@ -392,7 +392,7 @@ class LSignupPage extends Component {
      
 							      "color": "#000000",
 							   
-							    }
+							    	}
 							    },
 							    "interactivity": {
 							        "events": {

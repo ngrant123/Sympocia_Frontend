@@ -13,14 +13,14 @@ export const SignInformation = styled.div`
   left:65%;
   right:5%;
   padding: 8%;
-  height:30%;
+  height:50%;
   top: 23%;
   font-size: 1.5em;
   text-align: center;
   color: palevioletred;
   border-radius:10px;
 `;
-     
+
 //Basically a wrapper for everything
 //Stack div elements make container absolute then elements relative
 export const Container = styled.div`
@@ -127,7 +127,7 @@ export const NavPassword = styled.textarea`
 
 `;
 
-export const NavSubmitButton = styled.div`
+export const NavSubmitButton = styled(Link)`
 
    position:absolute;
    left:92%;
@@ -144,6 +144,13 @@ export const NavSubmitButton = styled.div`
    align-items: center;
    justify-content: center;
    border-radius:10px;
+   transition: all ease 0.8s;
+   
+    &:hover{
+      text-decoration:none;
+      color:white;
+      background-color:#6941E5;
+    }
 
  `;
 
@@ -230,7 +237,7 @@ export const IntroMain = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius:5px;
+  border-radius:10px;
 
 
 
@@ -242,7 +249,7 @@ export const IntroSec = styled.div`
   top:65%;
   left:16%;
   height:10%;
-  width:15%;
+  width:25%;
   text-align:center;
 
   color:white;
@@ -251,6 +258,7 @@ export const IntroSec = styled.div`
   border-color:whtie;
   font-size:20px;
   font-family:Myriad Pro;
+  border-radius:20px;
   
   display: flex;
   align-items: center;
@@ -260,7 +268,7 @@ export const IntroSec = styled.div`
 
 `;
 
- export const SubmitButton = styled.div`
+ export const SubmitButton = styled(Link)`
 
    position:absolute;
    left:36%;
@@ -284,6 +292,7 @@ export const IntroSec = styled.div`
     color:#C8B0F4;
    border-style:solid;
    border-color: #C8B0F4;
+   text-decoration:none;
 
    }
 

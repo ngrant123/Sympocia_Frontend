@@ -5,7 +5,10 @@ import ReactDom from "react-dom";
 import Landing from "./Pages/Landing";
 import Signup from "./Components/LargeComp/LSignUpPage";
 import HomeScreen from "./Components/LargeComp/LHome";
+import ProfileScreen from "./Components/LargeComp/LProfile";
 import {BrowserRouter as Router, Route , Switch} from 'react-router-dom';
+import NetworkScreen from "./Components/LargeComp/LNetwork.js";
+import InvestorScreen from "./Components/LargeComp/LInvestor.js";
 
 
 //Starting point for the web application
@@ -29,11 +32,13 @@ const application  = (
 				<Signup value = {"This is a tester"}/>
 				)
 			}/>
-			<Router path="/home" component = {HomeScreen} />
+			<Route path="/home" component = {HomeScreen} />
+			<Route path="/profile" component = {ProfileScreen} />
+			<Route path="/network" component = {NetworkScreen} />
+			<Route path="/investor" component= {InvestorScreen} />
 
 		</Switch>
 	</Router>
-
 
 
 	);

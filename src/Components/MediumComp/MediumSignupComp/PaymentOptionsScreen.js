@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import Payment from "/Users/nathangrant/Desktop/company/src/Components/SmallComp/PaymentOption.js";
-import Pay from "/Users/nathangrant/Desktop/company/src/Components/SmallComp/Payment.js";
+import Payment from "/Users/nathangrant/Desktop/company/src/Components/SmallComp/SmallSignupComp/PaymentOption.js";
+import Pay from "/Users/nathangrant/Desktop/company/src/Components/SmallComp/SmallSignupComp/Payment.js";
 
 
 const PaymentOptionContainer = styled.div`
@@ -123,7 +123,6 @@ const paymentOptions = [
 	const paymentStyleUL = 
 
 	{
-
 		margin:'10px 0'
 	};
 
@@ -136,14 +135,46 @@ class PaymentOptions extends Component{
 //Wrapper this component around container then change containers opacity
 
 
+constructor(props){
+
+	super(props);
+	this.state={
+
+
+		paymentOption:paymentOptions
+
+	}
+
+	this.handleClick=this.handleClick.bind(this);
+}
+
 handleClick(){
-	console.log("This functions been accessed through the child component");
 	document.getElementById("paysectionid").style.zIndex=1;
 	document.getElementById("paysectionid").style.opacity=1;
 
+/*
+	var object={
+		pricedescription:'Tester',
+		number: '$0',
+		description: 'Free for everybody and anybody',
+		id:4
 
+	}
+
+	paymentOptions.push(object);
+	console.log(paymentOptions);
+	this.setState({
+
+		paymentOption:paymentOptions
+
+
+	});
+	console.log(this.state.paymentOption);
+	*/
 
 }
+
+
 	render(){
 
 //Fix spacing between ul li elements
@@ -154,7 +185,7 @@ handleClick(){
 						<ul style={{paymentStyleUL}}>
 							<li style={{display:"flex"}}>
 
-									{ paymentOptions.map(payment =>
+									{ this.state.paymentOption.map(payment =>
 								
 											<Payment 
 												pricedescription={payment.pricedescription}

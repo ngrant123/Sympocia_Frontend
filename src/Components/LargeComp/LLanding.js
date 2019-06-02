@@ -68,10 +68,6 @@ class LLanding extends Component {
     var lastN= document.getElementById("LastName").value;
     var emailFirst= document.getElementById("Email").value;
 
-    console.log(firstN);
-    console.log(lastN);
-    console.log(emailFirst);
-
     //Verify that fields arent null or anything 
 
 
@@ -90,30 +86,15 @@ class LLanding extends Component {
       });
     }
 
-
-
-    //Test if the information is recorder
-    console.log("This is a tester");
-    console.log(this.state.firstname);
-    console.log(this.state.lastname);
-    console.log(this.state.email);
-
-
-    
-
   }
 
   //Login function for first and second page
 
   handleLoginClick = () =>{
-    console.log("Function is getting accessed");
 
     var loginusername= document.getElementById("LoginId").value;
     var loginpassword= document.getElementById("LoginPassword").value;
 
-    console.log(loginusername);
-    console.log(loginpassword);
-    //Check information given 
 
 
     if(loginusername==null || loginpassword==null){
@@ -130,12 +111,6 @@ class LLanding extends Component {
       });
 
     }
-
-    //Tester
-
-    console.log("Tester");
-    console.log(this.state.username);
-    console.log(this.state.password);
 
   }
 
@@ -159,7 +134,7 @@ render(){
 
                     <NavEmail id="LoginId" placeholder="Email"></NavEmail>
                     <NavPassword id="LoginPassword" placeholder="Password"></NavPassword>
-                    <NavSubmitButton onClick = {() =>  this.handleLoginClick()}>Login </NavSubmitButton>
+                    <NavSubmitButton onClick = {() =>  this.handleLoginClick()} to="/profile">Login </NavSubmitButton>
                   </NavBarContainer>
 
                   <FirstStatue></FirstStatue>
@@ -183,7 +158,7 @@ render(){
 
                           <EmailInput id ="Email" placeholder="Email" ></EmailInput>
 
-                          <SubmitButton information = { this.state.firstname } onClick ={() => this.handleSignupClick()}> Sign Up  </SubmitButton>
+                          <SubmitButton information = { this.state.firstname } onClick ={() => this.handleSignupClick()} to="/signup"> Sign Up  </SubmitButton>
 
                   	</SignInformation>
               </FirstContainer>
@@ -220,7 +195,7 @@ render(){
 
                       <SecondPassword name="SecondPagePassword" placeholder="Password"></SecondPassword>
 
-                      <SecondPageLogin name="SecondPageLogin">Login</SecondPageLogin>
+                      <SecondPageLogin name="SecondPageLogin" to="/profile">Login</SecondPageLogin>
 
                     </SecondBottomNav>
 
