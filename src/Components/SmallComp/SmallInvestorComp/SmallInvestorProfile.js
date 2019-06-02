@@ -167,7 +167,11 @@ class SmallInvestorProfile extends Component{
 
 		this.state={
 
-			name:props.name
+			name:props.name,
+			bio:props.bio,
+			activenumber:props.activenumber,
+			investmentnumber:props.investmentnumber,
+			investments:props.investments
 		}
 	}
 

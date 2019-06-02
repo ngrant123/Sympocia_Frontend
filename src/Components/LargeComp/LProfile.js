@@ -168,12 +168,12 @@ const SmallProfileContainerTitleDescrip = styled.div`
 	width:45%;
 	left:0%;
 	height:100%;
-	background-color:#c1d9f8;
+	background-color:	#5298f8;
 	transition:.8s;
 
 	&:hover{
 
-		background-color:	#5298f8;
+		background-color:	#c1d9f8;
 	}
 
 

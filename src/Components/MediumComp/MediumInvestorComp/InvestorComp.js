@@ -260,23 +260,117 @@ const data = [
 
 
 	{
-		name:"Nathan"
+		name:"Nathan",
+		bio:"At 10 years old I created this bitch yeah hurd",
+		activenumber:2,
+		investmentnumber:4,
+		investments:[
+			{
+				date:"June 24 1996",
+				description:"24 On this date I investment this amount of money into this company",
+				companyName:"Stars Wars enterprise"
+
+			},
+			{
+				date:"June 25 1996",
+				description:" 25 On this date I investment this amount of money into this company",
+				companyName:"Wars enterprise"
+
+			},
+			{
+				date:"June 26 1996",
+				description:" 26 On this date I investment this amount of money into this company",
+				companyName:" enterprise"
+
+			}
+		]
+
 
 	},
 	{
-		name:"Edward"
+		name:"Edward",
+		bio:"At 10 years old I created this bitch yeah hurd",
+		activenumber:3,
+		investmentnumber:5,
+		investments:[
+			{
+				date:"June 27 1996",
+				description:"27 On this date I investment this amount of money into this company",
+				companyName:"Stars enterprise"
+
+			},
+			{
+				date:"June 28 1996",
+				description:" 28 On this date I investment this amount of money into this company",
+				companyName:"Wars Wars enterprise"
+
+			},
+			{
+				date:"June 29 1996",
+				description:" 29 On this date I investment this amount of money into this company",
+				companyName:" enterprise enterprise"
+
+			}
+		]
+
+
 
 	},
 	{
-		name:"Christian"
+		name:"Christian",
+		bio:"At 10 years old I created this bitch yeah hurd",
+		activenumber:6,
+		investmentnumber:7,
+		investments:[
+			{
+				date:"June 30 1996",
+				description:"31 On this date I investment this amount of money into this company",
+				companyName:"3Stars Wars enterprise"
+
+			},
+			{
+				date:"June 31 1996",
+				description:" 32 On this date I investment this amount of money into this company",
+				companyName:"2Wars enterprise"
+
+			},
+			{
+				date:"June 32 1996",
+				description:" 33 On this date I investment this amount of money into this company",
+				companyName:" enterprise1"
+
+			}
+		]
+
+
 
 	},
 	{
-		name:"Daniel"
+		name:"Daniel",
+		bio:"At 10 years old I created this bitch yeah hurd",
+		activenumber:8,
+		investmentnumber:9,
+		investments:[
+			{
+				date:"June 44 1996",
+				description:"44 On this date I investment this amount of money into this company",
+				companyName:"3Stars Wars enterprise"
 
+			},
+			{
+				date:"June 45 1996",
+				description:" 45 On this date I investment this amount of money into this company",
+				companyName:"5Wars enterprise"
+
+			},
+			{
+				date:"June 46 1996",
+				description:" 46 On this date I investment this amount of money into this company",
+				companyName:" 3enterprise"
+
+			}
+		]
 	}
-
-
 ];
 
 
@@ -328,6 +422,10 @@ class InvestorComp extends Component{
 										
 											<SmallInvestorProfile 
 												name={data.name}
+												bio={data.bio}
+												activenumber={data.activenumber}
+												investmentnunber={data.investmentnumber}
+												investments={data.investments}
 											/>
 									</li>
 								)}
