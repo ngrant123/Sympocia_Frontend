@@ -3,8 +3,6 @@ import img from '/Users/nathangrant/Desktop/company/src/designs/background/Landi
 import firststatue from '/Users/nathangrant/Desktop/company/src/designs/img/test3.png';
 import {BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 
-//Tip: Use Styled Components for all of these pages
-//Starting div can not be moved must be used basically as a container for everything else
 
 
 export const SignInformation = styled.div`
@@ -21,8 +19,6 @@ export const SignInformation = styled.div`
   border-radius:10px;
 `;
 
-//Basically a wrapper for everything
-//Stack div elements make container absolute then elements relative
 export const Container = styled.div`
    position: absolute;
    top: 0; 
@@ -36,8 +32,6 @@ export const Container = styled.div`
 `;
 
 
-//Container for first part of website
-//Image has to take the form as a variable then be placed within curly braces
 export const FirstContainer = styled.div`
    position: relative;
    top: 0; 

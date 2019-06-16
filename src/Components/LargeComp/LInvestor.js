@@ -200,8 +200,8 @@ const InvestorBody = styled.div`
 	left:35%;
 	top:10%;
 	border-radius:10px;
-	opacity:1;
-	z-index:2;
+	opacity:0;
+	z-index:-2;
 	transition:1s;
 	overflow:hidden;
 
@@ -242,105 +242,105 @@ const LocationStyle = {
 
 class LInvestor extends Component{
 
+	handleNameButtonAnimation(){
 
-	handleClickFunction(param){
+			var intervalposition=0;
+			var containerwidth=35;
+			var namecontainerwidth=45;
+			var containerleftposition=30;
+			var widthcounter=1;
+			var containerleftcounter=1.75;
 
 			var container=document.getElementById("container");	
-			//document.getElementById("searchindustryid").style.opacity="0";
+			var searchnamecontainer=document.getElementById("searchnameid");
+
+			var id=setInterval(frame,30);
+
+			function frame(){
+				intervalposition++;
+
+
+				if(intervalposition==17){
+
+					clearInterval(id);
+				}
+				else{
+
+					containerwidth=containerwidth-widthcounter;
+					namecontainerwidth=namecontainerwidth+widthcounter+2;
+					containerleftposition=containerleftposition-containerleftcounter;
+
+					
+					container.style.left=containerleftposition+'%';
+
+					container.style.width=containerwidth+'%';
+					searchnamecontainer.style.width=namecontainerwidth+'%';
+				}
+			}
+
 			document.getElementById("divider").style.opacity="0";
+			document.getElementById("searchindustryid").style.opacity="0"
+	}
+
+	handleIndustrybuttonAnimation(){
+
+
+			var intervalposition=0;
+			var counter=10;
+			var industrycontainerstyleleft=45;
+			var containerstyleleft=30;
+			var containerleftcounter=7;
+			var containerwidth=35;
+			var containerwidthcounter=4;
+			var industrycontainerwidth=35;
+			var industrycontainerwidthcounter=14;
+
+			var container=document.getElementById("container");	
 			var searchnamecontainer=document.getElementById("searchnameid");
 			var industrycontainer=document.getElementById("searchindustryid");
 
 
-		console.log(param);
-		if(param==1){
-			document.getElementById("searchindustryid").style.opacity="0";
-			//for this I want the container to stay the same but the width to change
-			//then I want the um.... left to change also 
-			console.log(1);
 
-			var position=0;
 			var id=setInterval(frame,30);
-			var globalinteger=35;
-			var secondgloabalinterger=45;
-			var thirdglobalinteger=30;
-			var counter=1;
-			var count2=1.75;
-
 
 			function frame(){
-				position++;
+				intervalposition++;
 
-
-				if(position==17){
+				if(intervalposition==5){
 
 					clearInterval(id);
 				}
 				else{
-					console.log(globalinteger);
-					globalinteger=globalinteger-counter;
-					secondgloabalinterger=secondgloabalinterger+counter+2;
-					thirdglobalinteger=thirdglobalinteger-count2;
+					industrycontainerstyleleft=industrycontainerstyleleft-counter;
+					containerwidth=containerwidth-containerwidthcounter;
+					industrycontainerwidth=industrycontainerwidth+industrycontainerwidthcounter;
 
-					container.style.width=globalinteger+'%';
-					container.style.left=thirdglobalinteger+'%';
+					industrycontainer.style.left=industrycontainerstyleleft+"%";
 
-					searchnamecontainer.style.width=secondgloabalinterger+'%';
-					//thirdglobalinteger=thirdglobalinteger-count2;
-					
+					containerstyleleft=containerstyleleft-containerleftcounter;
+					container.style.left=containerstyleleft+'%';
+
+					container.style.width=containerwidth+'%';
+					industrycontainer.style.width=industrycontainerwidth+"%";
 				}
 			}
-		}
-		else{
+
+			document.getElementById("divider").style.opacity="0";
 			document.getElementById("searchnameid").style.opacity="0";
 			document.getElementById("locationid").style.opacity="1";
 			document.getElementById("locationid").style.zIndex="1";
 
-			var id=setInterval(frame,30);
-			var position=0;
-			var counter=10;
-			var globalindustry=45;
-			var thirdglobalinteger=30;
-			var count2=7;
-			var globalinteger=35;
-			var counterer=4;
-			var industrycontainerwidth=35;
-			var industrycontainerwidthcounter=14;
 
-			function frame(){
-				position++;
-
-				if(position==5){
-
-					clearInterval(id);
-				}
-				else{
-					globalindustry=globalindustry-counter;
-					secondgloabalinterger=secondgloabalinterger+counter+2;
-					globalinteger=globalinteger-counterer;
-					industrycontainerwidth=industrycontainerwidth+industrycontainerwidthcounter;
-
-					container.style.width=globalinteger+'%';
-
-					industrycontainer.style.left=globalindustry+"%";
-					industrycontainer.style.width=industrycontainerwidth+"%";
-
-					thirdglobalinteger=thirdglobalinteger-count2;
-					container.style.left=thirdglobalinteger+'%';
-				}
-			}
-		}
 	}
 
 	handleLocationClick(){
 
 		var locationdiv=document.getElementById("locationid");
-		document.getElementById("investorbody").style.opacity="1";
-		document.getElementById("investorbody").style.zIndex="2";
 		var locationdivtop=30
 		var locationdivleft=37
 		var position=0;
 		var counter=3.8;
+
 
 		var id=setInterval(frame,30);
 
@@ -358,28 +358,28 @@ class LInvestor extends Component{
 		
 			} 
 		}
+
+		document.getElementById("investorbody").style.opacity="1";
+		document.getElementById("investorbody").style.zIndex="2";
 	}
 
-	handleHoverEffect(param){
-		console.log("This container has been hovered");
+	HoverEffectInvestorNameContainer(){
 
-		if(param==1){
 			document.getElementById("searchnameid").style.borderRadius="10px";
 			document.getElementById("searchnameid").style.boxShadow="5px 10px 7px 5px #888888";
 
 			document.getElementById("searchindustryid").style.borderRadius="none";
 			document.getElementById("searchindustryid").style.boxShadow="none";
 
-		}
-		else{
+	}
+
+	HoverEffectInvestorIndustryContainer(){
 			document.getElementById("searchindustryid").style.borderRadius="10px";
 			document.getElementById("searchindustryid").style.boxShadow="5px 10px 7px 5px #888888";
 
 			document.getElementById("searchnameid").style.borderRadius="none";
 			document.getElementById("searchnameid").style.boxShadow="none";
 
-
-		}
 	}
 
 	render(){
@@ -391,14 +391,14 @@ class LInvestor extends Component{
 				</NavContainer>
 
 				<SearchContainer id="container">
-					<SearchByNameContainer id="searchnameid" onMouseEnter={()=>this.handleHoverEffect(1)}>
+					<SearchByNameContainer id="searchnameid" onMouseEnter={()=>this.HoverEffectInvestorNameContainer()}>
 						<SearchByNameDescription> Search By Name : </SearchByNameDescription>
 						<SearchByNameTextarea placeholder="Enter Investors Name"></SearchByNameTextarea>
-						<SearchByNameButton onClick={()=>this.handleClickFunction(1)}>Search</SearchByNameButton>
+						<SearchByNameButton onClick={()=>this.handleNameButtonAnimation()}>Search</SearchByNameButton>
 					</SearchByNameContainer>
 					<Divider id="divider"/>
 
-					<SearchByIndustryContainer id="searchindustryid" onMouseEnter={()=>this.handleHoverEffect(2)}>
+					<SearchByIndustryContainer id="searchindustryid" onMouseEnter={()=>this.HoverEffectInvestorIndustryContainer()}>
 						<SearchByIndustryDescription>Search By Industry : </SearchByIndustryDescription>
 						<input list="startupcategories" name="startupcategories" style={StartuptypeStyle} placeholder="Pick an industry"/>
 								<datalist id="startupcategories">
@@ -406,7 +406,7 @@ class LInvestor extends Component{
 									<option value= "Engineering" />
 									<option value="Consulting" />
 								</datalist>
-					<SearchIndustryButton onClick={()=>this.handleClickFunction(2)}>Search</SearchIndustryButton>
+					<SearchIndustryButton onClick={()=>this.handleIndustrybuttonAnimation()}>Search</SearchIndustryButton>
 
 					</SearchByIndustryContainer>					
 

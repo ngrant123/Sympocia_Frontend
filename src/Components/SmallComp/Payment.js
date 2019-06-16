@@ -226,9 +226,7 @@ class Payment extends Component {
 	}
 
 	handleOnClick(){
-			console.log("Payment handle is being clicked");
 			var counter=this.state.counter;
-			console.log(counter);
 
 			if(counter==1){
 
@@ -246,8 +244,6 @@ class Payment extends Component {
 			else{
 
 				console.log("Next page will be accessed here");
-
-
 
 			}
 		}

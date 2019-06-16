@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { ScrollPage, Section } from 'react-scrollpage';
 import {BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import { Home } from '/Users/nathangrant/Desktop/company/src/Components/LargeComp/LHome';
-//import { SignupPage } from '/Users/nathangrant/Desktop/company/src/Components/LargeComp/LSignUpPage';
 
 import  {
         Container,
@@ -40,9 +39,6 @@ import  {
 
 
 class LLanding extends Component {
-//Main structure of the front page
-
-  //Constructor to pass in props and everything 
 
   constructor(props){
 
@@ -59,7 +55,6 @@ class LLanding extends Component {
 
   }
 
-  //Function to handleOnClick for sign up page
 
    handleSignupClick = () =>{
 
@@ -68,7 +63,6 @@ class LLanding extends Component {
     var lastN= document.getElementById("LastName").value;
     var emailFirst= document.getElementById("Email").value;
 
-    //Verify that fields arent null or anything 
 
 
     if(firstN==null || lastN==null || emailFirst==null){
@@ -76,7 +70,6 @@ class LLanding extends Component {
     }
     else{
 
-    //Change the state to pass it to future props
     this.setState({
 
       firstname: firstN,
@@ -88,7 +81,6 @@ class LLanding extends Component {
 
   }
 
-  //Login function for first and second page
 
   handleLoginClick = () =>{
 
@@ -178,7 +170,6 @@ render(){
 
                     </SecondPageHead>
 
-
                     <SecondPageDescrip>
 
                           Come up with an interesting explanation about 
@@ -186,9 +177,6 @@ render(){
                           the startup experience and etc.
 
                     </SecondPageDescrip>
-
-                     
-
                     <SecondBottomNav>
 
                       <SecondLogin name="SecondPageLogin" placeholder="Username"></SecondLogin>
@@ -210,6 +198,5 @@ render(){
 		);
 	}
 }
-
 
 export default LLanding;

@@ -459,7 +459,6 @@ class ProfileComp extends Component{
 		this.handleAddEmployee=this.handleAddEmployee.bind(this);
 		this.displayEmployee=this.displayEmployee.bind(this);
 		this.displayNotification=this.displayNotification.bind(this);
-		this.handleUserChoiceofPost=this.handleUserChoiceofPost.bind(this);
 		
 	}
 
@@ -471,11 +470,14 @@ class ProfileComp extends Component{
 	handleAddEmployee(props){
 
 		//Idea is basically for the key, if array is empty create a key but if it is not then access previous key then add one to it
-
+		var Employee;
+		var EmployeeContainer;
+		var Employeelength;
+		var LastEmployeekey;
 
 		if(this.state.Employees.length==0){
 
-			var Employee ={
+			Employee ={
 
 				title:props.title,
 				bio:props.bio,
@@ -488,7 +490,7 @@ class ProfileComp extends Component{
 
 			};
 
-			var EmployeeContainer=this.state.Employees;
+			EmployeeContainer=this.state.Employees;
 			EmployeeContainer.push(Employee);
 
 			this.setState({
@@ -498,24 +500,24 @@ class ProfileComp extends Component{
 			});
 		}
 		else{
-			var length=this.state.Employees.length;
-			var Lastkey=this.state.Employees[length-1].id;
+			Employeelength=this.state.Employees.length;
+			LastEmployeekey=this.state.Employees[Employeelength-1].id;
 
-			var Employee ={
+			Employee ={
 
-				id:Lastkey+1,
+				id:LastEmployeekey+1,
 				title:props.title,
 				bio:props.bio,
 				imgUrl:props.imgUrl,
 				name:props.name,
 				email:props.email,
 				location:props.location,
-				id:Lastkey+1,
+				id:LastEmployeekey+1,
 				shortbio:props.shortbio
 
 			};
 
-			var EmployeeContainer=this.state.Employees;
+			EmployeeContainer=this.state.Employees;
 			EmployeeContainer.push(Employee);
 
 
@@ -536,7 +538,7 @@ class ProfileComp extends Component{
 		tempprops.neworemployee=1;
 
 
-		this.props.displaytoplevelprofile(tempprops);
+		this.props.displaytoplevelemployeeprofile(tempprops);
 	}
 
 	displayNotification(props){
@@ -545,41 +547,32 @@ class ProfileComp extends Component{
 		var tempprops=props;
 		tempprops.neworemployee=2;
 
-		this.props.displaytoplevelprofile(tempprops);
+		this.props.displaytoplevelnewsprofile(tempprops);
 	}
 
-	handleUserChoiceofPost(param){
-
-		if(param==1){
-			//For regular posting
-			this.setState({
+	handleRegularPost=()=>{
+		this.setState({
 				postdecider:1
 
 
 			});
+	}
 
-
-		}
-		else if(param==2){
-			//For image posting
+	hanleImagePost=()=>{
 			document.getElementById("postphotoimagefile").click();
 			this.setState({
 				postdecider:2
 
 			});
+	}
 
-
-
-		}
-		else{
-			//For map positng
+	handleLocationPost=()=>{
 			this.setState({
 				postdecider:3
 
 			});
-
-		}
 	}
+
 
 	handleOnchangeImagepost(){
 		//console.log(document.getElementById("imagefile").value);
@@ -654,13 +647,13 @@ class ProfileComp extends Component{
 
 	render(){
 		//Condidtional rendering for post/image/location section 
-		var post;
+		var PostOptions;
 
 		if(this.state.postdecider==1){
-			post = <PostTextContainer placeholder="Whats on your mind?"></PostTextContainer>;
+			PostOptions = <PostTextContainer placeholder="Whats on your mind?"></PostTextContainer>;
 		}
 		else if(this.state.postdecider==2){
-			post  = <PostImageContainer>
+			PostOptions  = <PostImageContainer>
 
 								<ImageContainer>
 									<img src="" id="postimagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",opacity:"0"}}/>
@@ -701,7 +694,10 @@ class ProfileComp extends Component{
 						<CreateAPostLine>
 
 							<CreatePostContainer
-								handleUserChoiceofPost={this.handleUserChoiceofPost}
+								handleRegularPost={this.handleRegularPost}
+								hanleImagePost={this.hanleImagePost}
+								handleLocationPost={this.handleLocationPost}
+
 							 />
 
 							 <input type="file" name="postimage" id="postphotoimagefile" style={{position:"relative",opacity:"1", zIndex:"-3"}} onChange={()=>this.handleOnchangeImagepost()}></input>
@@ -715,7 +711,7 @@ class ProfileComp extends Component{
 						
 					</CreateAPost>
 
-					{post}
+					{PostOptions}
 
 					<SubmitPostionBottom> Submit</SubmitPostionBottom>
 					<AttachFileButton> Attach File </AttachFileButton>

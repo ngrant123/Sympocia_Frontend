@@ -209,7 +209,7 @@ class MediumCompanyStats extends Component{
 		this.displayData=this.displayData.bind(this);
 
 	}
-	handleNotificationsAdd(){
+	AddNotificationsAndCheckLimit(){
 
 		var numEmployees=this.state.Notifications;
 		var num=numEmployees.length+1;
@@ -248,12 +248,12 @@ class MediumCompanyStats extends Component{
 		else{
 
 		    var Lastkey=this.state.Notifications[lengthContainer-1].key;
+			var Container=this.state.Notifications;
 			var NotificationObject={
 				time:datevalue,
 				notification:notificationvalue,
 				key:Lastkey+1
 			}
-			var Container=this.state.Notifications;
 			Container.push(NotificationObject);
 
 			this.setState({
@@ -289,7 +289,7 @@ class MediumCompanyStats extends Component{
 				<NotificationTitle>
 
 					<Caption><b>News</b></Caption>
-					<AddButton data-toggle="modal" data-target="#mymodal" onClick={()=>this.handleNotificationsAdd()}><b>+</b></AddButton>
+					<AddButton data-toggle="modal" data-target="#mymodal" onClick={()=>this.AddNotificationsAndCheckLimit()}><b>+</b></AddButton>
 
 				</NotificationTitle>
 				<NotificationDescription>

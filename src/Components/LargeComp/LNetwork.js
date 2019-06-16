@@ -13,10 +13,7 @@ const Container = styled.div`
 
 class LNetwork extends Component{
 
-
-
 	render(){
-
 
 		return(
 			<Container>

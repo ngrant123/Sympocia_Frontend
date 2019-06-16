@@ -175,12 +175,14 @@ class SmallInvestorProfile extends Component{
 		}
 	}
 
+	handledisplayInvestorPage =()=>{
+		this.props.handleDisplayInvestorProfile(this.state);
+	}
 	render(){
-
 
 		return(
 
-			<Container>
+			<Container onClick={()=>this.handledisplayInvestorPage()}>
 				<InvestorIcon></InvestorIcon>
 				<NameIconContainer>
 					<Name>{this.state.name}</Name>

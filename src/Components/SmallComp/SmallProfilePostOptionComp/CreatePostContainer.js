@@ -111,42 +111,42 @@ class CreatePostContainer extends Component{
 
 	}
 
-	handleClick(param){
-
-		if(param==1){
+	handleRegularPost(){	
 			document.getElementById("AddPicture").style.backgroundColor="#909090";
 			document.getElementById("CreatePost").style.backgroundColor="#f9f9f9";
 			document.getElementById("LocationEvent").style.backgroundColor="#909090";
-			this.props.handleUserChoiceofPost(1);
+			this.props.handleRegularPost();
 
 			document.getElementById("postimageid").src=pencil;
 			document.getElementById("imageid").src=cameranotactivated;
 			document.getElementById("eventimageid").src=eventnotactivated;
+	}
 
+	handleImagePost(){
 
-		}
-		else if(param==2){
 
 			document.getElementById("AddPicture").style.backgroundColor="#f9f9f9";
 			document.getElementById("CreatePost").style.backgroundColor="#909090";
 			document.getElementById("LocationEvent").style.backgroundColor="#909090";
-			this.props.handleUserChoiceofPost(2);
+			this.props.hanleImagePost();
 
 			document.getElementById("postimageid").src=pencilnotactivated;
 			document.getElementById("imageid").src=camera;
 			document.getElementById("eventimageid").src=eventnotactivated;
 
-		}
-		else{
+	}
+
+	handleLocationPost(){
+
 			document.getElementById("AddPicture").style.backgroundColor="#909090";
 			document.getElementById("CreatePost").style.backgroundColor="#909090";
 			document.getElementById("LocationEvent").style.backgroundColor="#f9f9f9";
-			this.props.handleUserChoiceofPost(3);
+			this.props.handleLocationPost(3);
 
 			document.getElementById("postimageid").src=pencilnotactivated;
 			document.getElementById("imageid").src=cameranotactivated;
 			document.getElementById("eventimageid").src=event;
-		}
+
 	}
 
 
@@ -156,18 +156,18 @@ class CreatePostContainer extends Component{
 
 			<Container>
 
-				<CreateAPost id="CreatePost" onClick={()=>this.handleClick(1)}> 
+				<CreateAPost id="CreatePost" onClick={()=>this.handleRegularPost()}> 
 					<img id="postimageid" src={pencil} style={{position:'absolute',backgroundColor:'red', width:'30%', height:'90%',left:'5%',transform: 'scale(1)'}}/>
 					<Description>Post</Description>
 				</CreateAPost>
 
 
-				<AddPicture id="AddPicture" onClick= {()=>this.handleClick(2)}>
+				<AddPicture id="AddPicture" onClick= {()=>this.handleImagePost()}>
 				<img id="imageid" src={cameranotactivated} style={{position:'absolute',backgroundColor:'red', width:'30%', height:'90%',left:'5%',transform: 'scale(1)'}}/> 
 				<Description>Image</Description> 
 				</AddPicture>
 
-				<LocationEvent id="LocationEvent" onClick={()=>this.handleClick(3)}>
+				<LocationEvent id="LocationEvent" onClick={()=>this.handleLocationPost()}>
 				<img id="eventimageid" src={eventnotactivated} style={{position:'absolute',backgroundColor:'red', width:'20%', height:'80%',left:'5%',transform: 'scale(1)', top:'10%'}}/>  
 				<Description>Event</Description> 
 				</LocationEvent>

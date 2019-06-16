@@ -177,7 +177,6 @@ handleClick(){
 
 	render(){
 
-//Fix spacing between ul li elements
 		return (
 			<div>
 					<PaymentOptionContainer>

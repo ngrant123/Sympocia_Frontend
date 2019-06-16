@@ -273,7 +273,6 @@ class LSignupPage extends Component {
 	constructor(props){
 
 		super(props);
-		//Passes in the information from the first page then adds newly defined information 
 
 		this.state= {
 
@@ -284,62 +283,10 @@ class LSignupPage extends Component {
 			location:"",
 			companytype:"",
 			backgroundURL:""
-			  /*
-
-			  Previous Prop Information
-
-		      firstname:"",
-		      lastname:"",
-		      email:"",
-		      password:"",
-		      username:""
-
-		      */
-  
+	
 		};
 	}
 
-
-//Changes the state of the descriptions and background img
-	handleDivClick(param){
-
-		console.log("Function works");
-		console.log(param);
-		console.log(this.state.pageText);
-
-		if(param==1){
-			console.log("First method is being acceessed");
-
-			this.setState({
-
-				companynameDescrip:"Location Information",
-				pageText:"This field will change for the user and is therefore option 1",
-				backgroundURL:CompanyLocationBackground
-			});
-		}
-		else if(param==2){
-
-			this.setState({
-
-				companynameDescrip:"Option 2 Infromation",
-				pageText:"This field will change for the user and is therefore option 2",
-				backgroundURL:CompanyNameBackground
-
-			});
-		}
-		else{
-			this.setState({
-
-				companynameDescrip:"Option 3 Information",
-				pageText:"This field will chage for the user and is therefore option 3",
-				backgroundURL:CompanyTypeBackground
-
-			});
-			
-		}
-		console.log(this.state.pageText);
-
-	}
 
 	handleSubmit(){
 
@@ -367,6 +314,36 @@ class LSignupPage extends Component {
 
 
 
+	}
+	handleCompanyDivClick = () =>{
+
+			this.setState({
+
+				companynameDescrip:"Location Information",
+				pageText:"This field will change for the user and is therefore option 1",
+				backgroundURL:CompanyLocationBackground
+			});
+	}
+
+	handleLocationDivClick =()=>{
+
+			this.setState({
+
+				companynameDescrip:"Option 2 Infromation",
+				pageText:"This field will change for the user and is therefore option 2",
+				backgroundURL:CompanyNameBackground
+
+			});
+	}
+
+	handleCompanyTypeDivClick=()=>{
+			this.setState({
+
+				companynameDescrip:"Option 3 Information",
+				pageText:"This field will chage for the user and is therefore option 3",
+				backgroundURL:CompanyTypeBackground
+
+			});
 	}
 
 
@@ -410,14 +387,14 @@ class LSignupPage extends Component {
 
 						<DescriptionCompany> Company 1 </DescriptionCompany>
 
-						<CompanyName id="company" placeholder="Company Name" onClick={()=> this.handleDivClick(1)}></CompanyName>
+						<CompanyName id="company" placeholder="Company Name" onClick={()=> this.handleCompanyDivClick()}></CompanyName>
 
 						<DescriptionLocation> Location Company </DescriptionLocation>
-						<LocationName id="location" placeholder="Location" onClick={()=> this.handleDivClick(2)}></LocationName>
+						<LocationName id="location" placeholder="Location" onClick={()=> this.handleLocationDivClick()}></LocationName>
 
 						<DescriptionCompanyType> Company Type </DescriptionCompanyType>
 			
-							<input list="startupcategories" name="startupcategories" style={divStyle} onClick={()=> this.handleDivClick(3)}/>
+							<input list="startupcategories" name="startupcategories" style={divStyle} onClick={()=> this.handleCompanyTypeDivClick()}/>
 								<datalist id="startupcategories">
 									<option value="Fashion" />
 									<option value= "Engineering" />

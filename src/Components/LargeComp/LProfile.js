@@ -662,10 +662,11 @@ class LProfile extends Component{
 			update:0
 
 		}
-		this.displaytoplevelprofile=this.displaytoplevelprofile.bind(this);
+		this.displaytoplevelemployeeprofile=this.displaytoplevelemployeeprofile.bind(this);
+		this.displaytoplevelnewsprofile=this.displaytoplevelnewsprofile.bind(this);
 	}
 
-	handleEditButton(param){
+	handleEditButton(){
 
 		
 		document.getElementById("SaveButtonID").style.opacity=1;
@@ -676,14 +677,21 @@ class LProfile extends Component{
 		document.getElementById("Title").style.pointerEvents="auto";
 		document.getElementById("Bio").style.pointerEvents="auto";
 
-
-
 	}
 
-	handleExitButton(param){
-		
-		if(param==1){
+	handleExitButtonNewsProfile(){
+				
 
+			document.getElementById("NewsProfile").style.opacity=0;
+			document.getElementById("NewsProfile").style.zIndex=-1;
+			document.getElementById("NewsSaveButtonID").style.opacity=0;
+			document.getElementById("NewsSaveButtonID").style.pointerEvents="none";
+			document.getElementById("NewsCancelButtonID").style.opacity=0;
+			document.getElementById("NewsCancelButtonID").style.pointerEvents="none";
+		
+	}
+
+	handleExitButtonSmallProfile(){
 			document.getElementById("SmallProfile").style.opacity=0;
 			document.getElementById("SmallProfile").style.zIndex=-1;
 			document.getElementById("SaveButtonID").style.opacity=0;
@@ -691,15 +699,7 @@ class LProfile extends Component{
 			document.getElementById("CancelButtonID").style.opacity=0;
 			document.getElementById("CancelButtonID").style.pointerEvents="none";
 
-		}
-		else{
-			document.getElementById("NewsProfile").style.opacity=0;
-			document.getElementById("NewsProfile").style.zIndex=-1;
-			document.getElementById("NewsSaveButtonID").style.opacity=0;
-			document.getElementById("NewsSaveButtonID").style.pointerEvents="none";
-			document.getElementById("NewsCancelButtonID").style.opacity=0;
-			document.getElementById("NewsCancelButtonID").style.pointerEvents="none";
-		}
+
 	}
 
 	handleSaveButton(){
@@ -709,7 +709,7 @@ class LProfile extends Component{
 	}
 
 
-	handleCancelButton(param){
+	handleCancelButton(){
 		//Set back to previous state using this.state
 
 		document.getElementById("Title").style.pointerEvents="none";
@@ -722,20 +722,9 @@ class LProfile extends Component{
 
 	}
 
-	displaytoplevelprofile(props){
+	displaytoplevelemployeeprofile(props){
 		//One function that checks if the user wants to display a news feed notification or an profile
-		console.log(props);
 
-		if(props.title==null){
-			document.getElementById("NewsProfile").style.zIndex=3;
-			document.getElementById("NewsProfile").style.opacity=1;
-			this.setState({
-
-				description:props.description,
-				date:props.date
-			});
-		}
-		else{
 			document.getElementById("SmallProfile").style.zIndex=3;
 			document.getElementById("SmallProfile").style.opacity=1;
 
@@ -755,10 +744,19 @@ class LProfile extends Component{
 						document.getElementById("ViewEmployeeimagecontainer").style.opacity=1;
 				}
 			);
+		
+	}
+
+	displaytoplevelnewsprofile(props){
+			document.getElementById("NewsProfile").style.zIndex=3;
+			document.getElementById("NewsProfile").style.opacity=1;
+			this.setState({
+
+				description:props.description,
+				date:props.date
+			});
 
 
-
-		}
 	}
 
 	dontdelete(){
@@ -815,10 +813,10 @@ class LProfile extends Component{
 
 						 		</SmallProfileIdentityContainer>
 
-						 	<EditButton onClick={()=>this.handleEditButton(1)}></EditButton>
-						 	<ExitButton onClick={()=>this.handleExitButton(1)} id="Exit">X</ExitButton>
-						 	<SaveButton onClick={()=>this.handleSaveButton(1)} id="SaveButtonID">Save</SaveButton>
-						 	<CancelButton onClick={()=>this.handleCancelButton(1)} id="CancelButtonID">Cancel</CancelButton>
+						 	<EditButton onClick={()=>this.handleEditButton()}></EditButton>
+						 	<ExitButton onClick={()=>this.handleExitButtonSmallProfile()} id="Exit">X</ExitButton>
+						 	<SaveButton onClick={()=>this.handleSaveButton()} id="SaveButtonID">Save</SaveButton>
+						 	<CancelButton onClick={()=>this.handleCancelButton()} id="CancelButtonID">Cancel</CancelButton>
 						 </SmallProfile>
 
 						  <NewsProfile id="NewsProfile">	
@@ -826,10 +824,10 @@ class LProfile extends Component{
 							 		<NewsProfileTitleDescription></NewsProfileTitleDescription>
 								 	<NewsProfileBio id="NewsBio" placeholder={this.state.description}></NewsProfileBio>
 								 	<NewsProfileBioDescription><b>{this.state.date}</b></NewsProfileBioDescription>
-						 	<EditButton onClick={()=>this.handleEditButton(2)}></EditButton>
-						 	<ExitButton onClick={()=>this.handleExitButton(2)} id="NewsExit">X</ExitButton>
-						 	<SaveButton onClick={()=>this.handleSaveButton(2)} id="NewsSaveButtonID">Save</SaveButton>
-						 	<CancelButton onClick={()=>this.handleCancelButton(2)} id="NewsCancelButtonID">Cancel</CancelButton>
+						 	<EditButton onClick={()=>this.handleEditButton()}></EditButton>
+						 	<ExitButton onClick={()=>this.handleExitButtonNewsProfile()} id="NewsExit">X</ExitButton>
+						 	<SaveButton onClick={()=>this.handleSaveButton()} id="NewsSaveButtonID">Save</SaveButton>
+						 	<CancelButton onClick={()=>this.handleCancelButton()} id="NewsCancelButtonID">Cancel</CancelButton>
 						 </NewsProfile>
 
 						<NavContainer> 
@@ -848,7 +846,8 @@ class LProfile extends Component{
 
 						<Profile>
 							<ProfileComp 
-								displaytoplevelprofile={this.displaytoplevelprofile}
+								displaytoplevelemployeeprofile={this.displaytoplevelemployeeprofile}
+								displaytoplevelnewsprofile={this.displaytoplevelnewsprofile}
 							 />
 						</Profile>
 					</FirstProfileContainer>

@@ -148,8 +148,6 @@ class PaymentOption extends Component {
 
 	handleHoverIn(){
 
-		console.log("This hover function is being accessed");
-		console.log(this.state.id);
 		document.getElementById(this.state.id).style.color="#8b62ea";
 
 
@@ -157,15 +155,12 @@ class PaymentOption extends Component {
 
 	handleHoverOut(){
 
-		console.log("This hover out function is working");
-
 		document.getElementById(this.state.id).style="black";
 
 	}
 
 	handleOnClick(){
 
-		console.log("This functions is being clicked");
 
 		//Fix later 
 		document.getElementById(this.state.id+"container").style.borderStyle="solid";
@@ -174,9 +169,6 @@ class PaymentOption extends Component {
 
 		this.props.handleClick();
 
-	}
-	onLoad(){
-		console.log("This onload function is being accessed");
 	}
 
 
