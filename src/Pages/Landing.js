@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-//import css from "../CSS/LargeComp.css";
-import LLanding from "../Components/LargeComp/LLanding";
+import LLanding from "../Components/Landing/LargeLandingComp/LLanding";
 
 
 

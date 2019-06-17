@@ -3,12 +3,12 @@
 import React from "react";
 import ReactDom from "react-dom";
 import Landing from "./Pages/Landing";
-import Signup from "./Components/LargeComp/LSignUpPage";
+import Signup from "./Components/Signup/LargeSignupComp/LSignUpPage";
 import HomeScreen from "./Components/LargeComp/LHome";
-import ProfileScreen from "./Components/LargeComp/LProfile";
+import ProfileScreen from "./Components/Profile/LargeProfileComp/LProfile";
 import {BrowserRouter as Router, Route , Switch} from 'react-router-dom';
 import NetworkScreen from "./Components/LargeComp/LNetwork.js";
-import InvestorScreen from "./Components/LargeComp/LInvestor.js";
+import InvestorScreen from "./Components/Investor/LargeInvestorComp/LInvestor.js";
 
 
 //Starting point for the web application
