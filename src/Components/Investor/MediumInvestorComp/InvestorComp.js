@@ -5,6 +5,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import SmallInvestorProfile from "../SmallInvestorComp/SmallInvestorProfile.js";
 import SmallInvestorMediaContainer from "../SmallInvestorComp/SmallInvestorMediaContainer.js";
 import SmallInvestmentsContainer from "../SmallInvestorComp/SmallInvestments.js";
+import UserActions from "../../../Actions/Tasks/userTasks.js";
 
 
 
@@ -1329,63 +1330,16 @@ class InvestorComp extends Component{
 			lastName=investorfirstlastname[1];
 
 		}
-		firstnameindicator=this.searchforfirstName(firstName,data);
+		firstnameindicator=UserActions.searchforfirstName(firstName,data);
 		lastnameindicator=[];
 		if(firstnameindicator.length!=0)
-			lastnameindicator=this.searchforLastName(firstnameindicator,lastName);
+			lastnameindicator=UserActions.searchforLastName(firstnameindicator,lastName);
 
 		if(lastnameindicator.length==0)
 			this.storefirsteightinvestors(firstnameindicator,8,0);
 		else
 			this.storefirsteightinvestors(lastnameindicator,8,0);
 	}
-
-	searchforfirstName(firstName,data){
-		var investorcontainer=[];
-		var investorname;
-		var investorobject;
-		var fullname;
-		var firstname;
-
-		for(var i=0;i<data.length;i++){
-			investorobject=data[i];
-			investorname=investorobject.name;
-			fullname=investorname.split(" ");
-			firstname=fullname[0];
-
-			if(firstname==firstName)
-				investorcontainer.push(investorobject);
-		}
-
-		return investorcontainer;
-	}
-
-	searchforLastName(firstnamecontainer,lastName){
-
-		var investorcontainer=[];
-		var investorobject;
-		var investorname;
-		var fullname;
-		var lastname;
-
-		for(var i=0;i<firstnamecontainer.length;i++){
-
-			investorobject=firstnamecontainer[i];
-			investorname=investorobject.name;
-			fullname=investorname.split(" ");
-			if(fullname.length>1){
-				lastname=fullname[1];
-
-				if(lastname=lastName)
-					investorcontainer.push(investorobject);
-
-			}
-		}
-		return investorcontainer;
-
-	}
-
-
 
 	DisplayInvestmentContainer = () =>{
 

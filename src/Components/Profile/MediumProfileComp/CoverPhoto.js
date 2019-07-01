@@ -78,6 +78,7 @@ class CoverPhoto extends Component{
 		reader.onloadend=function(){
 
 			node.src=reader.result;
+			console.log(reader.result);
 			document.getElementById("coverphotoimage").style.opacity=1;
 		}
 

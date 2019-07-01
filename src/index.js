@@ -7,6 +7,7 @@ import Signup from "./Components/Signup/LargeSignupComp/LSignUpPage";
 import ProfileScreen from "./Components/Profile/LargeProfileComp/LProfile";
 import {BrowserRouter as Router, Route , Switch} from 'react-router-dom';
 import InvestorScreen from "./Components/Investor/LargeInvestorComp/LInvestor.js";
+import HomeScreen from "./Components/Home/LargeHomeComp/LargeHomeContainer.js";
 
 
 //Starting point for the web application
@@ -30,6 +31,7 @@ const application  = (
 				<Signup value = {"This is a tester"}/>
 				)
 			}/>
+			<Route path="/home" component= {HomeScreen}/>
 			<Route path="/profile" component = {ProfileScreen} />
 			<Route path="/investor" component= {InvestorScreen} />
 

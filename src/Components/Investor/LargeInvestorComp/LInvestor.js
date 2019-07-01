@@ -201,7 +201,7 @@ const InvestorBody = styled.div`
 	top:10%;
 	border-radius:10px;
 	opacity:0;
-	z-index:-2;
+	z-index:-2; 
 	transition:1s;
 	overflow:hidden;
 

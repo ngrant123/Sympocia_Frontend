@@ -670,7 +670,7 @@ class ProfileComp extends Component{
 
 			<ProfileContainer>
 			  <div class="dropdown" style={{position:"absolute", height:"10%",width:"13%",left:"2%",top:"2%"}}>
-				    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>{this.state.industryType}
+				    <button class="btn btn-primary dropdosuwn-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>{this.state.industryType}
 				    <span class="caret"></span></button>
 				    <ul class="dropdown-menu">
 				      <li><a href="#">Fashion</a></li>
@@ -681,7 +681,6 @@ class ProfileComp extends Component{
 
   				<ActivityLogButton>Activity Log</ActivityLogButton>
   				<FriendsButton>Friendships</FriendsButton>
-
 
 
 				<PostContainer>

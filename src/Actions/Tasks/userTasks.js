@@ -1,0 +1,63 @@
+
+module.exports = {
+
+	searchforfirstName(firstName,data){
+		var investorcontainer=[];
+		var investorname;
+		var investorobject;
+		var fullname;
+		var firstname;
+
+		for(var i=0;i<data.length;i++){
+			investorobject=data[i];
+			investorname=investorobject.name;
+			fullname=investorname.split(" ");
+			firstname=fullname[0];
+
+			if(firstname==firstName)
+				investorcontainer.push(investorobject);
+		}
+
+		return investorcontainer;
+},
+
+searchforLastName(firstnamecontainer,lastName){
+
+		var investorcontainer=[];
+		var investorobject;
+		var investorname;
+		var fullname;
+		var lastname;
+
+		for(var i=0;i<firstnamecontainer.length;i++){
+
+			investorobject=firstnamecontainer[i];
+			investorname=investorobject.name;
+			fullname=investorname.split(" ");
+			if(fullname.length>1){
+				lastname=fullname[1];
+
+				if(lastname=lastName)
+					investorcontainer.push(investorobject);
+
+			}
+		}
+		return investorcontainer;
+
+	}
+
+/*
+
+	Should be implemented later in developement after mvp is set up 
+	//To do list
+
+	1.) Verify user input
+	2.) verify email
+	3.)Verify number of characters in a bio or something
+
+
+*/
+
+
+};
+
