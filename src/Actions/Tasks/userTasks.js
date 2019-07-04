@@ -44,7 +44,21 @@ searchforLastName(firstnamecontainer,lastName){
 		}
 		return investorcontainer;
 
-	}
+	},
+
+
+greetingdependingonTime(employeename){
+	var currenttime=new Date();
+	var getHour=currenttime.getHours();
+	var employeeName=employeename; 
+
+	if(getHour>=1&&getHour<12)
+		return "Hope you're having a good morning "+employeeName;
+	else if(getHour>=12 && getHour<6)
+		return "Hope you're having a good evening "+employeeName;
+	else
+		return "Hope you're having a good night "+employeeName;
+}
 
 /*
 

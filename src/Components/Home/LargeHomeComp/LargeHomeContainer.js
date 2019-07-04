@@ -4,6 +4,7 @@ import NavBar from "../../Profile/MediumProfileComp/NavBar.js"
 import MediumPostContainer from "../MediumHomeContainer/MediumPostContainer.js"
 import MediumCompanyDetailsContainer from "../MediumHomeContainer/MediumCompanyDetailsContainer.js"
 import MediumNotificationContainer from "../MediumHomeContainer/MediumNotificationContainer.js";
+import Datetime from "../../../Actions/Tasks/userTasks.js";
 
 const Container= styled.div`
 
@@ -39,9 +40,9 @@ const CompanyDetailsContainer = styled.div`
 	position:fixed;
 	background-color:blue;
 	width:23%;
-	height:80%;
+	height:70%;
 	border-radius:5px;
-	top:15%;
+	top:25%;
 	left:5%;
 	overflow:hidden;
 	box-shadow: 1px 1px 1px 1px #999a9b;
@@ -74,8 +75,71 @@ const PostDivider = styled.div`
 
 `;
 
+const GreetingsContainer = styled.div`
+	position:absolute;
+	left:5%;
+	height:8%;
+	width:23%;
+	top:15%;
+	background-color:	#f2f3f8;
+	border-radius:5px;
+	font-size:130%;
+	padding:7px;
+	color:	#6f7bbe;
+	box-shadow: 1px 1px 1px 1px #b9baba; 
+
+
+`;
+
+const UpgradeButton = styled.div`
+
+	position:absolute;
+	width:15%;
+	height:5%;
+	border-radius:5px;
+	top:8%;
+	background-color:#5298F8;
+	left:83%;
+	font-size:160%;
+	color:white;
+	text-align:center;
+	border-style:solid;
+	border-color:white;
+	border-width:2px;
+
+`;
+
+
 
 class LargeHomeContainer extends Component{
+
+	constructor(props){
+
+		super(props);
+		this.state={
+			greetingdescription:""
+		}
+	}
+
+	componentDidMount(){
+
+		//Get the user from the database and place it in below
+
+		var greeting=Datetime.greetingdependingonTime("Nathan");
+		this.setState({
+
+			greetingdescription:greeting
+		});
+
+
+	}
+	
+	Greetings = () =>{
+
+		var greetings=this.state.greetingdescription;
+		return <p>{greetings}</p>;
+	}
+
 
 	render(){
 
@@ -85,6 +149,9 @@ class LargeHomeContainer extends Component{
 				<NavContainer>
 					<NavBar/>
 				</NavContainer>
+				<UpgradeButton>Upgrade</UpgradeButton>
+
+				<GreetingsContainer><b>{this.state.greetingdescription}</b> <p2 style={{fontSize:"60%", color:"#a8a9af"}}>Update yourself with all of the latest information</p2></GreetingsContainer>
 
 				<PostCreationContainer>
 					<MediumPostContainer/>
