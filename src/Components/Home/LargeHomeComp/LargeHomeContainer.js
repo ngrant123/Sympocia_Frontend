@@ -5,6 +5,7 @@ import MediumPostContainer from "../MediumHomeContainer/MediumPostContainer.js"
 import MediumCompanyDetailsContainer from "../MediumHomeContainer/MediumCompanyDetailsContainer.js"
 import MediumNotificationContainer from "../MediumHomeContainer/MediumNotificationContainer.js";
 import Datetime from "../../../Actions/Tasks/userTasks.js";
+import { getNewFeedUpdates } from "../../../Actions/Requests/HomePageAxiosRequests.js";
 
 const Container= styled.div`
 
@@ -130,8 +131,6 @@ class LargeHomeContainer extends Component{
 
 			greetingdescription:greeting
 		});
-
-
 	}
 	
 	Greetings = () =>{
@@ -139,7 +138,6 @@ class LargeHomeContainer extends Component{
 		var greetings=this.state.greetingdescription;
 		return <p>{greetings}</p>;
 	}
-
 
 	render(){
 
