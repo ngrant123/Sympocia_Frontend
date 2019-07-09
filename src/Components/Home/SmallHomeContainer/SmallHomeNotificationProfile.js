@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Container = styled.div`
 
 	position:relative;
-	background-color:#fbfcfc;
+	background-color:white;
 	height:55px;
 	width:85%;
 	top:20px;
@@ -40,12 +40,14 @@ const NotificationContainer = styled.div`
 const NotificationPersonImage = styled.div`
 
 	position:absolute;
-	background-color:red;
-	width:20%;
-	height:80%;
-	left:2%;
-	top:10%;
+	width:17%;
+	height:68%;
+	left:5%;
+	top:6%;
 	border-radius:50%;
+	background-color:blue;
+	border-style:solid;
+	border-color:#C8B0F4;
 
 `;
 
@@ -75,6 +77,18 @@ const TimeNotificationActivated = styled.div`
 
 `;
 
+const CompanyName = styled.div`
+
+	position:absolute;
+	width:17%;
+	height:23%;
+	left:5%;
+	top:75%;
+	font-size:80%;
+	text-align:center;
+
+`;
+
 
 
 
@@ -96,18 +110,13 @@ class SmallHomeNotificationProfile extends Component{
 		return(
 
 			<Container>
-				<CompanyIconNotification>
-					<img src={this.state.companyicon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-				</CompanyIconNotification>
-					<NotificationContainer>
+
 						<NotificationPersonImage>
 							<img src={this.state.profileimage} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
 						</NotificationPersonImage>
+						<CompanyName>Razu</CompanyName>
 						<NotificationText><span style={{color:"#20ff1e"}}> Harvey </span> commented on your story</NotificationText>
 						<TimeNotificationActivated>Today at 12:30 pm</TimeNotificationActivated>
-
-
-					</NotificationContainer>
 
 			</Container>
 
