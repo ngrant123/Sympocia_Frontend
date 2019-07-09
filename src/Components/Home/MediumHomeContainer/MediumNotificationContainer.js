@@ -8,7 +8,7 @@ const Container = styled.div`
 	position:relative;
 	width:100%;
 	height:100%;
-	background-color:white;
+	background-color:#dbe9f6;
 	border-radius:5px;
 	overflow:scroll;
 	transition:.8s;

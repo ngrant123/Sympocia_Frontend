@@ -37,6 +37,18 @@ const PostCreationContainer= styled.div`
 
 `;
 
+const PostBackgroundDivider = styled.div`
+	
+	position:absolute;
+	width:42%;
+	height:100%;
+	left:29%;
+
+	z-index:0.5;
+
+
+`;
+
 const CompanyDetailsContainer = styled.div`
 	position:fixed;
 	background-color:blue;
@@ -59,6 +71,7 @@ const NotificationContainer = styled.div`
 	left:72%;
 	top:15%;
 	border-radius:5px;
+	box-shadow: 1px 1px 1px 1px #999a9b;
 
 `;
 
@@ -144,6 +157,7 @@ class LargeHomeContainer extends Component{
 
 		return(
 			<Container>
+				<PostBackgroundDivider/>
 				<NavContainer>
 					<NavBar/>
 				</NavContainer>
@@ -151,9 +165,11 @@ class LargeHomeContainer extends Component{
 
 				<GreetingsContainer><b>{this.state.greetingdescription}</b> <p2 style={{fontSize:"60%", color:"#a8a9af"}}>Update yourself with all of the latest information</p2></GreetingsContainer>
 
+			
 				<PostCreationContainer>
 					<MediumPostContainer/>
 				</PostCreationContainer>
+				
 
 				<CompanyDetailsContainer>
 					<MediumCompanyDetailsContainer/>

@@ -6,7 +6,7 @@ const Container = styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	background-color:#f7f8ff;
+	background-color:white;
 
 `;
 
@@ -15,7 +15,6 @@ const IndustryTypeContainer = styled.div`
 	width:100%
 	height:20%;
 	overflow:hidden;
-	background-color:#e2e5f5;
 
 `;
 
@@ -25,7 +24,6 @@ const PostOptionsContainer = styled.div`
 	height:15%;
 	top:85%;
 	overflow:hidden;
-	background-color:#f7f8ff;
 
 `;
 
@@ -53,6 +51,7 @@ const PostOptionsContainer = styled.div`
  	font-size:120%;
  	background-color:#f7f8ff;
  	border-style:none;
+ 	color:	#55557a;
 
  `;
 
@@ -63,7 +62,6 @@ const PostOptionsContainer = styled.div`
  	width:25%;
  	top:2%;
  	border-radius:5px;
- 	box-shadow: 1px 1px 1px 1px #b9baba;
 	transition:.8s;
 
  	&:hover{
@@ -153,12 +151,14 @@ const PostOptionsContainer = styled.div`
  const ProfileImageContainer = styled.div`
 
  	position:absolute;
- 	left:25%;
- 	height:50%;
- 	width:55%;
- 	top:20%;
+ 	left:20%;
+ 	height:55%;
+ 	width:60%;
+ 	top:6%;
  	border-radius:50%;
  	background-color:blue;
+ 	border-style:solid;
+	border-color:	#af9ad5;
  	z-index:3;
 
 
@@ -184,16 +184,33 @@ const PostOptionsContainer = styled.div`
  	position:absolute;
  	width:50%;
  	height:17%;
- 	top:80%;
- 	left:27%;
- 	background-color:#5298F8;
- 	border-radius:5px;
- 	color:white;
+ 	top:65%;
+ 	left:25%;
+ 	color:	#af9ad5;
  	text-align:center;
- 	font-size:115%;
-
+ 	font-size:135%;
+ 	border-style:solid;
+ 	border-color:	#dcdde8;
+ 	border-width:1px 0px 0px 0px;
 
  `;
+
+
+const CompanyTitleContainer = styled.div`
+
+	position:absolute;
+ 	width:50%;
+ 	height:17%;
+ 	top:85%;
+ 	left:25%;
+ 	border-radius:5px;
+ 	color:	#af9ad5;
+ 	text-align:center;
+ 	font-size:105%;
+
+
+`;
+
 
  const testdata = {
 
@@ -238,10 +255,7 @@ class MediumPostContainer extends Component{
 						    </ul>
   				 </div>
 
-
 				<IndustryTypeContainer/>
-
-				<ViewProfileButton>Edit</ViewProfileButton>
 
 				<PostContainer>
 
@@ -250,11 +264,8 @@ class MediumPostContainer extends Component{
 						<ProfileImageContainer>
 							<img src={testdata.profileimage} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>
 						</ProfileImageContainer>
-
-						<CompanyIconContainer>
-							<img src={testdata.coverphotoimage} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"5px",boxShadow: "1px 1px 1px 1px #b9baba"}}/>
-						</CompanyIconContainer>
-						<EmployeeTitleContainer>CEO</EmployeeTitleContainer>
+						<EmployeeTitleContainer><b>CEO</b></EmployeeTitleContainer>
+						<CompanyTitleContainer>Razu</CompanyTitleContainer>
 		
 					</ProfileContainer>
 
