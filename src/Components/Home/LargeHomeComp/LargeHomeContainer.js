@@ -5,7 +5,9 @@ import MediumPostContainer from "../MediumHomeContainer/MediumPostContainer.js"
 import MediumCompanyDetailsContainer from "../MediumHomeContainer/MediumCompanyDetailsContainer.js"
 import MediumNotificationContainer from "../MediumHomeContainer/MediumNotificationContainer.js";
 import Datetime from "../../../Actions/Tasks/userTasks.js";
-import { getNewFeedUpdates } from "../../../Actions/Requests/HomePageAxiosRequests.js";
+import { getNewFeedUpdates } from "../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+import MediumMapDetails from "../MediumHomeContainer/MediumMapDetails.js";
+import Industries from "../../../Actions/Requests/Constants.js";
 
 const Container= styled.div`
 
@@ -95,7 +97,6 @@ const GreetingsContainer = styled.div`
 	height:8%;
 	width:23%;
 	top:15%;
-	background-color:	#f2f3f8;
 	border-radius:5px;
 	font-size:130%;
 	padding:7px;
@@ -124,14 +125,31 @@ const UpgradeButton = styled.div`
 `;
 
 
+const MediumPieChartContainer = styled.div`
+
+	position:absolute;
+	border-radius:blue;
+	height:40%;
+	width:26%;
+	left:72%;
+	top:50%;
+	border-radius:5px;
+	box-shadow: 1px 1px 1px 1px #999a9b;
+	overflow-flow:hidden;
+
+
+`;
+
 
 class LargeHomeContainer extends Component{
 
 	constructor(props){
 
 		super(props);
+
 		this.state={
-			greetingdescription:""
+			greetingdescription:"",
+			industries:[]
 		}
 	}
 
@@ -140,9 +158,12 @@ class LargeHomeContainer extends Component{
 		//Get the user from the database and place it in below
 
 		var greeting=Datetime.greetingdependingonTime("Nathan");
+		var industriesConstants=Industries.INDUSTRIES;
 		this.setState({
 
-			greetingdescription:greeting
+			greetingdescription:greeting,
+			industries:industriesConstants
+
 		});
 	}
 	
@@ -150,6 +171,12 @@ class LargeHomeContainer extends Component{
 
 		var greetings=this.state.greetingdescription;
 		return <p>{greetings}</p>;
+	}
+	handleChange=(props)=>{
+
+		var industryValue=document.getElementById(props).innerHTML;
+		console.log(industryValue);
+		
 	}
 
 	render(){
@@ -175,19 +202,24 @@ class LargeHomeContainer extends Component{
 					<MediumCompanyDetailsContainer/>
 				</CompanyDetailsContainer>
 
+				<MediumPieChartContainer>
+					<MediumMapDetails/>
+
+				</MediumPieChartContainer>
+
 				<NotificationContainer>
 					<MediumNotificationContainer/>
 				</NotificationContainer>
 
 				<div class="dropdown" style={{position:"absolute", height:"4%",width:"7%",left:"63%",top:"47%", zIndex:"2"}}>
-						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
-						    <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-						    <li><a href="#">Fashion</a></li>
-						    <li><a href="#">Health</a></li>
-						    <li><a href="#">Consulting</a></li>
-						</ul>
+						    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
+						    	<span class="caret"></span>
+						    </button>
+						    <ul class="dropdown-menu">
+								{this.state.industries.map(data=>
+									 <li onClick={()=>this.handleChange(data.id)} id={data.id}><a href="#">{data.industry}</a></li>
+								)}
+						    </ul>
   				 </div>
 
   				 <div class="dropdown" style={{position:"absolute", height:"4%",width:"7%",left:"55%",top:"47%", zIndex:"2"}}>

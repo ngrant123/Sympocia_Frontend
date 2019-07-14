@@ -1,5 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
+import { PropTypes } from "prop-types";
 
 const Container = styled.div`
 
@@ -123,6 +124,12 @@ class SmallHomeNotificationProfile extends Component{
 
 		)
 	}
+}
+
+SmallHomeNotificationProfile.propTypes={
+
+	companyicon:PropTypes.string,
+	profileImage:PropTypes.string
 }
 
 export default SmallHomeNotificationProfile;

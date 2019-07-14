@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SmallProfile from "../../Profile/SmallProfilePostOptionComp/SmallProfile.js";
 import bannerimage from "../../../designs/background/banner.png";
 import FriendsProfile from "../SmallHomeContainer/SmallHomeFriendsProfile.js";
+import { PropTypes } from "prop-types";
 
 
 const Container = styled.div`
@@ -82,7 +83,7 @@ const CompanyDetailsDivider = styled.div`
 const SmallProfileContainer = styled.div`
 	
 	position:relative;
-	background-color:	#c1b1de;
+	background-color:#c1b1de;
 	top:72%;
 	left:10%;
 	width:35%;
@@ -452,8 +453,14 @@ class MediumCompanyDetailsContainer extends Component{
 		this.state={
 			EmployeeArrayContainer:testerdata,
 			ActiveFriends:2,
+			numberOfPoints:5,
 			savebuttonindicator:0,
-			greetingdescription:""
+			reputation:"Much Love",
+			greetingdescription:"",
+			industry:"Industrial Engineering",
+			companyBio:"This is a description about the company and shit that nobody reads etc etc etc",
+			companyName:"Razu"
+
 
 		};
 	}
@@ -505,15 +512,15 @@ class MediumCompanyDetailsContainer extends Component{
 				</BackgroundImageContainer>
 
 					<CompanyNameTitle>Company Name: </CompanyNameTitle>
-					<CompanyName>Razu</CompanyName>
+					<CompanyName>{this.state.companyName}</CompanyName>
 
 					<IndustryTitle>Industry: </IndustryTitle>
-					<Industry>Industrial Engineering </Industry>
+					<Industry>{this.state.industry}</Industry>
 
 
 					<CompanyDetailTitle>Company Bio: </CompanyDetailTitle>
 					<CompanyDescription id="CompanySummaryBio" onClick={()=>this.handleCompanySummaryClick()}>
-						This is a description about the company and shit that nobody reads etc etc etc
+						{this.state.companyBio}
 					</CompanyDescription>
 					{this.ShortCompanyBioSaveButton()}
 
@@ -556,19 +563,19 @@ class MediumCompanyDetailsContainer extends Component{
 
 				<ActiveUserContainer>
 					<ActiveUserTitle>Active Friends:</ActiveUserTitle>
-					<ActiveFriends>Hello</ActiveFriends>
+					<ActiveFriends>{this.state.ActiveFriends}</ActiveFriends>
 				</ActiveUserContainer>
 
 				<ReputationContainer>
 
 					<ReputationTitle>Reputation:</ReputationTitle>
-					<Reputation>Much love</Reputation>
+					<Reputation>{this.state.reputation}</Reputation>
 
 				</ReputationContainer>
 
 				<PointsContainer>
 					<NumberOfPointsTitle>Number of Points:</NumberOfPointsTitle>
-					<Points>5</Points>
+					<Points>{this.state.numberOfPoints}</Points>
 				</PointsContainer>
 
 				<EditAndChangleIndustryContainer>

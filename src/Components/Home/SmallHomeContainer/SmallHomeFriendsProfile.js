@@ -1,5 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
+import { PropTypes } from "prop-types";
 
 const Container = styled.div`
 
@@ -39,7 +40,8 @@ class SmallHomeFriendsProfile extends Component{
 
 		this.state={
 
-
+			companyName:"",
+			imageContainer:""
 
 		}
 	}
@@ -56,10 +58,14 @@ class SmallHomeFriendsProfile extends Component{
 
 		)
 	}
-
-
-
-
 }
+
+
+SmallHomeFriendsProfile.propTypes={
+
+	companyName:PropTypes.string,
+	imageContainer:PropTypes.string
+
+};
 
 export default SmallHomeFriendsProfile;

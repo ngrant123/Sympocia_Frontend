@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-
+import Industries from "../../../Actions/Requests/Constants.js";
 
 const Container = styled.div`
 	position:absolute;
@@ -226,13 +226,32 @@ class MediumPostContainer extends Component{
 		super(props);
 
 		this.state={
+			companyTitle:"CEO",
+			companyName:"Razu",
+			industries:[]
 
 		};
+	}
+	
+	componentDidMount(){
+
+		var industriesConstants=Industries.INDUSTRIES;
+
+		this.setState({
+
+			industries:industriesConstants
+
+		})
 	}
 
 	handleTextareaClick(){
 		document.getElementById("posttextarea").value="";
 		//document.getElementById("posttextarea").style.borderColor="red";
+	}
+
+	handleChange(props){
+		var industryValue=document.getElementById(props).innerHTML;
+		console.log(industryValue);
 	}
 
 	render(){
@@ -245,14 +264,14 @@ class MediumPostContainer extends Component{
 
 
 				<div class="dropdown" style={{position:"absolute", height:"13%",width:"20%",left:"70%",top:"5%", zIndex:"2"}}>
-						    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
-						    	<span class="caret"></span>
-						    </button>
-						    <ul class="dropdown-menu">
-						      <li><a href="#">Fashion</a></li>
-						      <li><a href="#">Health</a></li>
-						      <li><a href="#">Consulting</a></li>
-						    </ul>
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
+						   	<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							{this.state.industries.map(data=>
+								<li onClick={()=>this.handleChange(data.id)} id={data.id}><a href="#">{data.industry}</a></li>
+							)}
+						</ul>
   				 </div>
 
 				<IndustryTypeContainer/>
@@ -264,8 +283,8 @@ class MediumPostContainer extends Component{
 						<ProfileImageContainer>
 							<img src={testdata.profileimage} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>
 						</ProfileImageContainer>
-						<EmployeeTitleContainer><b>CEO</b></EmployeeTitleContainer>
-						<CompanyTitleContainer>Razu</CompanyTitleContainer>
+						<EmployeeTitleContainer><b>{this.state.companyTitle}</b></EmployeeTitleContainer>
+						<CompanyTitleContainer>{this.state.companyName}</CompanyTitleContainer>
 		
 					</ProfileContainer>
 
@@ -288,6 +307,5 @@ class MediumPostContainer extends Component{
 		)
 	}
 }
-
 
 export default MediumPostContainer;
