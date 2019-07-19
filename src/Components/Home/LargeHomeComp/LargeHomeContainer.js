@@ -1,13 +1,14 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import NavBar from "../../Profile/MediumProfileComp/NavBar.js"
-import MediumPostContainer from "../MediumHomeContainer/MediumPostContainer.js"
+import MediumPostCreationContainer from "../MediumHomeContainer/MediumPostCreationContainer.js"
 import MediumCompanyDetailsContainer from "../MediumHomeContainer/MediumCompanyDetailsContainer.js"
 import MediumNotificationContainer from "../MediumHomeContainer/MediumNotificationContainer.js";
 import Datetime from "../../../Actions/Tasks/userTasks.js";
 import { getNewFeedUpdates } from "../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 import MediumMapDetails from "../MediumHomeContainer/MediumMapDetails.js";
 import Industries from "../../../Actions/Requests/Constants.js";
+import Posts from "../MediumHomeContainer/MediumPostContainer.js";
 
 const Container= styled.div`
 
@@ -29,7 +30,6 @@ const PostCreationContainer= styled.div`
 	position:absolute;
 	width:40%;
 	height:30%;
-	background-color:blue;
 	top:15%;
 	left:30%;
 	border-radius:5px;
@@ -45,9 +45,7 @@ const PostBackgroundDivider = styled.div`
 	width:42%;
 	height:100%;
 	left:29%;
-
 	z-index:0.5;
-
 
 `;
 
@@ -127,8 +125,7 @@ const UpgradeButton = styled.div`
 
 const MediumPieChartContainer = styled.div`
 
-	position:absolute;
-	border-radius:blue;
+	position:fixed;
 	height:40%;
 	width:26%;
 	left:72%;
@@ -137,6 +134,18 @@ const MediumPieChartContainer = styled.div`
 	box-shadow: 1px 1px 1px 1px #999a9b;
 	overflow-flow:hidden;
 
+
+`;
+
+const PostContainer = styled.div`
+
+	position:relative;
+	width:40%;
+	height:30%;
+	top:55%;
+	left:30%;
+	border-radius:5px;
+	border-radius:5px;
 
 `;
 
@@ -194,8 +203,12 @@ class LargeHomeContainer extends Component{
 
 			
 				<PostCreationContainer>
-					<MediumPostContainer/>
+					<MediumPostCreationContainer/>
 				</PostCreationContainer>
+
+				<PostContainer>
+					<Posts/>
+				</PostContainer>
 				
 
 				<CompanyDetailsContainer>
@@ -204,12 +217,12 @@ class LargeHomeContainer extends Component{
 
 				<MediumPieChartContainer>
 					<MediumMapDetails/>
-
 				</MediumPieChartContainer>
 
 				<NotificationContainer>
 					<MediumNotificationContainer/>
 				</NotificationContainer>
+
 
 				<div class="dropdown" style={{position:"absolute", height:"4%",width:"7%",left:"63%",top:"47%", zIndex:"2"}}>
 						    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
