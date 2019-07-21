@@ -19,6 +19,7 @@ const IndustryTypeContainer = styled.div`
 `;
 
 const PostOptionsContainer = styled.div`
+
 	position:absolute;
 	width:100%;
 	height:15%;
@@ -28,6 +29,7 @@ const PostOptionsContainer = styled.div`
 `;
 
  const PostContainer = styled.div`
+
  	position:absolute;
  	left:5%;
  	width:90%;
@@ -41,6 +43,7 @@ const PostOptionsContainer = styled.div`
  `;
 
  const PostTextarea = styled.textarea`
+ 
  	position:absolute;
  	height:100%;
  	width:70%;

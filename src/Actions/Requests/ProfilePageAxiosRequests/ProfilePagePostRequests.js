@@ -5,7 +5,10 @@ import BASE_URL from "../Constants.js";
 const baseurl=BASE_URL.BASE_URL;
 
 export function addEmployeeData(userId,employeeData){
-	//
+	/*
+		userId:number
+		employeeData:object
+	*/
 
 	axios.put(`${baseurl}/addEmployee`,{
 
@@ -24,6 +27,11 @@ export function addEmployeeData(userId,employeeData){
 
 
 export function addNewsData(userId,newsData){
+
+	/*
+		userId:number
+		newsdata:object
+	*/
 
 	axios.put(`${baseurl}/addNews`,{
 
@@ -45,6 +53,11 @@ export function addNewsData(userId,newsData){
 
 export function addPostData(userId,postData){
 
+	/*
+		userId:number
+		postdata:object
+	*/
+
 	axios.post(`${baseurl}/addPost`,{
 
 		params:{
@@ -57,12 +70,16 @@ export function addPostData(userId,postData){
 
 	}).catch(err=>{
 
-
 		console.log(err.message);
 	})
 }
 
 export function updateEmployee(userId,updatedEmployeeData){
+
+	/*
+		userId:number
+		updateemployeedata:object
+	*/
 
 	axios.put(`${baseurl}/updateEmployee`,{
 		params:{

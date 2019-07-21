@@ -4,11 +4,12 @@ import BASE_URL from "../Constants.js";
 const baseurl=""+BASE_URL.BASE_URL;
 
 export function getNewFeedUpdates(userId){
+	//userId:number
 
 	console.log(BASE_URL.BASE_URL);
 
 
-	axios.get(`${baseurl}/Posts`,{ 
+	axios.get(`${baseurl}/Posts`,{
 
 		params:{
 			userId
@@ -25,6 +26,7 @@ export function getNewFeedUpdates(userId){
 }
 
 export function getNotificationsUpdate(userId){
+	//userId:number
 
 	axios.get(`${baseurl}/Notifications`, { 
 
@@ -44,6 +46,7 @@ export function getNotificationsUpdate(userId){
 
 
 export function getPosts(industryid){
+	//industryId:number
 
 
 	axios.get(`${baseurl}/getPosts`, {
@@ -57,4 +60,34 @@ export function getPosts(industryid){
 		catch(err=>{
 			console.log("An Error has occured");
 		})
+}
+
+export function getUserCompanyInformation(userId){
+
+	axios.get(`${baseurl}/getUserCompanyInfo`,{
+		params:{
+			userid:userId
+		}
+	}).then(res=>{
+
+		console.log(res.data);
+	}).catch(err=>{
+		console.log(err.message);
+	})
+}
+
+export function getUserDataInfo(userId){
+
+
+	axios.get(`${baseurl}/getUserData`,{
+		params:{
+			userid:userId
+		}
+	}).then(res=>{
+
+		console.log(res.data);
+
+	}).catch(err=>{
+		console.log(err.message);
+	})
 }

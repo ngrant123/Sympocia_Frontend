@@ -1,5 +1,9 @@
 export function sendUsersNewsFeedAddition(newsfeed,userId){
+	/*
+	userId:number
+	newsfeed:object
 
+	*/
 	axios.put(`${baseurl}/InsertNewsFeed`, { params: 
 			{ 
 				newsFeed: newsfeed,
@@ -15,5 +19,4 @@ export function sendUsersNewsFeedAddition(newsfeed,userId){
 
 			console.log(err.message);
 		})
-
 }

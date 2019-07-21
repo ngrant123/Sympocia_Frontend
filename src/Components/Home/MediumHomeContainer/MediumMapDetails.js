@@ -143,12 +143,10 @@ class MediumMapDetails extends Component{
 	}
 
 	handleChange=(props)=>{
-
 		
 		var industryValue=document.getElementById(props).innerHTML;
 		console.log(industryValue);
 		
-
 	}
 
 

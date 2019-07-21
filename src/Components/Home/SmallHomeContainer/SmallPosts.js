@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import SmallRegularPost from "./SmallRegularPost.js";
+
 
 const RegularPostContainer=styled.div`
 
@@ -11,7 +13,18 @@ const RegularPostContainer=styled.div`
 	border-radius:1px;
 	box-shadow:0px 0px 5px 1px;
 
+	overflow-y:scroll;
 `;
+
+
+const PostContainer = styled.div`
+	
+	position:absolute;
+	height:100%;
+	width:100%;
+
+`;
+
 
 const RegularPostProfilePicture = styled.div`
 
@@ -186,8 +199,12 @@ const MapPostContainer=styled.div`
 
 const PostPrivacyContainer = styled.div`
 
-	
-	
+	position:absolute;
+	left:65%;
+	height:10%;
+	width:13%;
+	background-color:black;
+	top:2%;
 
 `;
 
@@ -202,6 +219,7 @@ const OptionsContainer = styled.div`
 	
 
 `;
+
 
 
 export function Tester(props){
@@ -239,85 +257,19 @@ export function RegularPostFunction(){
 
 			},
 			{
-
 				name:"Jabari",
 				comment:"Hey there 2"
 
 			},
 			{
-
 				name:"Denis",
 				comment:"Hey there 3"
-
 			}
 
 		]);
 
-	const [containerHeight,setHeight] = useState(170);
-
 	
-	return <RegularPostContainer id="RegularPostContainer">
-
-				<RegularPostProfilePicture>
-
-					<img id="EmployeeImageContainer" src=""/>
-
-				</RegularPostProfilePicture>
-
-				<RegularPostReputationContainer>
-
-					{employyeInfo.reputation}
-
-				</RegularPostReputationContainer>
-
-				<RegularPostTitleContainer>
-					<b>{employyeInfo.title}</b>
-
-				</RegularPostTitleContainer>
-
-				<RegularPostCompanyContainer>
-
-					<b>{employyeInfo.companyName}</b>
-
-				</RegularPostCompanyContainer>
-
-				<RegularPostIndustryContainer>
-
-					{employyeInfo.companyIndustry}
-
-				</RegularPostIndustryContainer>
-
-				<RegularPostContentContainer>
-					This is just a test post to see how stuff looks 
-				</RegularPostContentContainer>
-
-				<RegularPostCommentContainer onClick={handleCommentSectionClick({containerHeight})}>
-
-					<RegularPostCommentImageContainer>
-					</RegularPostCommentImageContainer>
-
-					<p style={{position:"absolute",left:"25%",top:"10%",color:"#1e6ecd"}}> Click here to comment... </p>
-
-				</RegularPostCommentContainer>
-				<RegularPostLikesContainer></RegularPostLikesContainer>
-				<RegularPostCommentsNumberContainer></RegularPostCommentsNumberContainer>
-
-				<OptionsContainer></OptionsContainer>
-				
-		   </RegularPostContainer>;
-
-}
-
- const handleCommentSectionClick=(props)=>{
-	var regularContainer=document.getElementById("RegularPostContainer");
-	console.log("Button is clicked");
-
-	if(props==170){
-		console.log(props);
-	}
-
-
-
+	return <SmallRegularPost/>;
 
 }
 

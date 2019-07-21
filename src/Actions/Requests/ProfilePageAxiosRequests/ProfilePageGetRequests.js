@@ -4,8 +4,8 @@ import BASE_URL from "../Constants.js";
 const baseurl=BASE_URL.BASE_URL;
 
 export function getActivityLog(userId){
+	//userId:number
 
-	//var BaseURL= BASE_URL.BASE_URL;
 	axios.get(`${baseurl}/ActivityLog`,{
 
 		param:{
@@ -24,6 +24,7 @@ export function getActivityLog(userId){
 }
 
 export function getFriendships(userId){
+	//userId:number
 
 	axios.get(`${baseurl}/Friendships`,{
 
@@ -41,6 +42,7 @@ export function getFriendships(userId){
 }
 
 export function getCoverPhotoImage(userId){
+	//userId:number
 
 	axios.get(`${baseurl}/CoverPhoto`,{
 
@@ -57,6 +59,7 @@ export function getCoverPhotoImage(userId){
 }
 
 export function getCompanyIcon(userId){
+	//userId:number
 
 
 	axios.get(`${baseurl}/CompanyIcon`,{
@@ -75,6 +78,7 @@ export function getCompanyIcon(userId){
 }
 
 export function getCompanyBio(userId){
+	//userId:number
 
 	axios.get(`${baseurl}/CompanyBio`,{
 
@@ -88,6 +92,6 @@ export function getCompanyBio(userId){
 	}).catch(err=>{
 
 		console.log(err.message);
-		
+
 	})
 }
