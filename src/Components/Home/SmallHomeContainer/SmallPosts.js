@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import SmallRegularPost from "./SmallRegularPost.js";
+import SmallImagePost from "./SmallImagePost.js";
 
 
 const RegularPostContainer=styled.div`
@@ -239,44 +240,13 @@ export function Tester(props){
 }
 
 export function RegularPostFunction(){
-
-	const [employyeInfo,setEmployeeInfo]=useState({
-
-				title:"CEO",
-				reputation:"Beginner",
-				companyName:"Google",
-				companyIndustry:"Engineering",
-				imgSrc:""
-
-			});
-
-	const [comments,getComments]=useState([
-			{
-				name:"Nathan",
-				comment:"Hey there 1"
-
-			},
-			{
-				name:"Jabari",
-				comment:"Hey there 2"
-
-			},
-			{
-				name:"Denis",
-				comment:"Hey there 3"
-			}
-
-		]);
-
 	
 	return <SmallRegularPost/>;
 
 }
 
 export function  RegularImageFunction(){
-	return <ImagePostContainer>
-				
-		   </ImagePostContainer>;
+	return <SmallImagePost/>;
 }
 	
 

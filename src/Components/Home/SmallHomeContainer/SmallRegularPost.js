@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import CommentsContainer from "./SmallPostCommentContainer.js";
+import Comments from "./SmallPostCommentContainer.js";
 
 const RegularPostContainer=styled.div`
 
@@ -198,14 +198,16 @@ const OptionsContainer = styled.div`
 const CommentContainer = styled.div`
 
 	position:absolute;
-	top:50%;
-	width:107%;
-	height:20%;
-	background-color:red;
+	top:38%;
+	width:100%;
+	height:50%;
+	background-color:#ebf1f8;
+	overflow-y:scroll;
+
 `;
 
 
-const PosterInfo={
+const PosterInfo = {
 
 	postCompany:"Google",
 	postReputation:"Beginner",
@@ -223,7 +225,7 @@ class SmallRegularPost extends Component{
 		super(props);
 		this.state={
 
-			commentButton:"false"
+			inductorCommentButton:"false"
 		}
 	}
 
@@ -252,15 +254,22 @@ class SmallRegularPost extends Component{
 			postCreationContainerObject.container.style.height=postCreationContainerObject.divHeight+"px";
 
 			this.setState({
-				commentButton:"true"
 
-			});
+				inductorCommentButton:"true"
+			})
+
 		}
+
+		console.log(this.state);
 	}
 
 	displayCommentSection =()=>{
 
-		return this.state.commentButton="false"? <p></p> : <CommentContainer></CommentContainer>;
+		return this.state.inductorCommentButton=="false" ? <p></p> :
+			 <CommentContainer>
+			 	<Comments/>
+
+			</CommentContainer>;
 	}
 
 
