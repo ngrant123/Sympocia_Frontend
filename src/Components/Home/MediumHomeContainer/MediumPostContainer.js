@@ -48,7 +48,7 @@ class MediumPostContainer extends Component{
 
 				<ul>
 					{data.map(data =>
-						<li style={{position:"relative",listStyle:"none",marginBottom:"25px",marginTop:"20px",left:"-65px"}}>
+						<li style={{position:"relative",listStyle:"none",marginBottom:"20px",marginTop:"20px",left:"-65px"}}>
 							<Tester
 								postdata={data.posttype}
 							/>

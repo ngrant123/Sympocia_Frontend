@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import SmallRegularPost from "./SmallRegularPost.js";
 import SmallImagePost from "./SmallImagePost.js";
+import SmallMapPost from "./SmallMapPost.js";
 
 
 const RegularPostContainer=styled.div`
@@ -185,6 +186,7 @@ const ImagePostContainer=styled.div`
 	box-shadow:0px 0px 1px 1px;
 
 `;
+
 const MapPostContainer=styled.div`
 
 	
@@ -251,8 +253,6 @@ export function  RegularImageFunction(){
 	
 
 export function RegularMapFunction (){
-	return <MapPostContainer>
-				
-		   </MapPostContainer>;
+	return <SmallMapPost />;
 	
 }

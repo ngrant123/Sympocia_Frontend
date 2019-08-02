@@ -161,7 +161,6 @@ const ExitIcon = styled.div`
 class SmallInvestorProfile extends Component{
 
 	constructor(props){
-		console.log(props);
 
 		super(props);
 
