@@ -22,6 +22,7 @@ const ImagePostContainer=styled.div`
 	left:0%;
 	padding-bottom:5px;
 	border-radius:5px;
+
 `;
 
 const ImageContainer = styled.div`
@@ -44,6 +45,8 @@ const ExpandImagePostContainer = styled.div`
 	left:5%;
 	border-radius:5px;
 	z-index:2;
+	opacity:0.3;
+	transition:.8s;
 
 `;
 
@@ -98,7 +101,9 @@ const CommentContainer = styled.div`
 	left:5%;
 	border-radius:5px;
 	z-index:2;
+	opacity:0.3;
 	color:#1e6ecd;
+	transition:.8s;
 
 `;
 
@@ -155,6 +160,8 @@ const ReputationContainer = styled.div`
 	color:white;
 	text-align:center;
 	font-size:110%;
+	opacity:0.3;
+	transition:.8s;
 
 `;
 
@@ -168,6 +175,8 @@ const ProfilePictureContainer = styled.div`
 	left:75%;
 	border-radius:50%;
 	z-index:2;
+	opacity:0.3;
+	transition:.8s;
 
 `;
 
@@ -182,6 +191,8 @@ const NameContainer = styled.div`
 	border-radius:5px;
 	text-align:center;
 	color:	#9262e8;
+	opacity:0.3;
+	transition:.8s;
 
 `;
 
@@ -196,6 +207,8 @@ const TitleContainer = styled.div`
 	border-radius:5px;
 	text-align:center;
 	color:	#9262e8;
+	opacity:0.3;
+	transition:.8s;
 	
 `;
 
@@ -210,6 +223,8 @@ const CompanyContainer = styled.div`
 	border-radius:5px;
 	text-align:center;
 	color:#9262e8;
+	opacity:0.3;
+	transition:.8s;
 	
 `;
 
@@ -223,6 +238,8 @@ const CommentDiv = styled.div`
 	border-radius:5px;
 	box-shadow:0px 0px 1px 1px;
 	overflow-y:scroll;
+	opacity:0.3;
+	transition:.8s;
 
 
 
@@ -412,13 +429,37 @@ class SmallImagePost extends Component{
 		})
 	}
 
+	handleMouseEnter(){
+
+			document.getElementById("expandImageContainer").style.opacity="1";
+			document.getElementById("commentContainer").style.opacity="1";
+			document.getElementById("optionsContainer").style.opacity="1";
+			document.getElementById("reputationContainer").style.opacity="1";
+			document.getElementById("profilepictureContainer").style.opacity="1";
+			document.getElementById("nameContainer").style.opacity="1";
+			document.getElementById("titleContainer").style.opacity="1";
+			document.getElementById("companyContainer").style.opacity="1";
+	}
+
+	handleMouseOut(){
+
+			document.getElementById("expandImageContainer").style.opacity=".3";
+			document.getElementById("commentContainer").style.opacity=".3";
+			document.getElementById("optionsContainer").style.opacity=".3";
+			document.getElementById("reputationContainer").style.opacity=".3";
+			document.getElementById("profilepictureContainer").style.opacity=".3";
+			document.getElementById("nameContainer").style.opacity=".3";
+			document.getElementById("titleContainer").style.opacity=".3";
+			document.getElementById("companyContainer").style.opacity=".3";
+	}
+
 	render(){
 
 		return(
 
 			<Container>
 
-				<ImagePostContainer>
+				<ImagePostContainer onMouseEnter={()=>this.handleMouseEnter()} onMouseOut={()=>this.handleMouseOut()}>
 						<ImageContainer>
 							<img src="" style={{position:"relative",width:"100%",height:"100%",backgroundColor:"blue",borderRadius:"5px"}} />
 						</ImageContainer>

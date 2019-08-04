@@ -63,7 +63,7 @@ const CompanyDetailsContainer = styled.div`
 `;
 
 const NotificationContainer = styled.div`
-	position:absolute;
+	position:fixed;
 	background-color:blue;
 	border-radius:blue;
 	height:30%;
