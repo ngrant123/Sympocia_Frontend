@@ -5,7 +5,10 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import SmallInvestorProfile from "../SmallInvestorComp/SmallInvestorProfile.js";
 import SmallInvestorMediaContainer from "../SmallInvestorComp/SmallInvestorMediaContainer.js";
 import SmallInvestmentsContainer from "../SmallInvestorComp/SmallInvestments.js";
-import UserActions from "../../../Actions/Tasks/userTasks.js";
+import {
+		searchforfirstName,
+		searchforLastName
+		} from "../../../Actions/Tasks/userTasks.js";
 
 
 
@@ -234,8 +237,6 @@ const NextIcon = styled.div`
 
 		background-color:#C8B0F4;
 	}
-
-
 `;
 
 const PreviousIcon = styled.div`
@@ -255,7 +256,6 @@ const PreviousIcon = styled.div`
 
 		background-color:#C8B0F4;
 	}
-
 `;
 
 const PageContainer = styled.div`
@@ -274,8 +274,6 @@ const PageContainer = styled.div`
 
 		background-color:	#c4bfe6;
 	}
-
-
 `;
 
 
@@ -285,8 +283,6 @@ const InvestorModalContainer = styled.div`
 	width:100%;
 	height:100%;
 	z-index:2;
-	
-
 
 `;
 
@@ -326,7 +322,6 @@ const ImageContainer = styled.div`
 	border-style:solid;
 	border-width:5px;
 	border-color:#C8B0F4;
-
 `;
 
 
@@ -1330,10 +1325,10 @@ class InvestorComp extends Component{
 			lastName=investorfirstlastname[1];
 
 		}
-		firstnameindicator=UserActions.searchforfirstName(firstName,data);
+		firstnameindicator=searchforfirstName(firstName,data);
 		lastnameindicator=[];
 		if(firstnameindicator.length!=0)
-			lastnameindicator=UserActions.searchforLastName(firstnameindicator,lastName);
+			lastnameindicator=searchforLastName(firstnameindicator,lastName);
 
 		if(lastnameindicator.length==0)
 			this.storefirsteightinvestors(firstnameindicator,8,0);

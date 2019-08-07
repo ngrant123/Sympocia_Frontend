@@ -4,7 +4,7 @@ import NavBar from "../../Profile/MediumProfileComp/NavBar.js"
 import MediumPostCreationContainer from "../MediumHomeContainer/MediumPostCreationContainer.js"
 import MediumCompanyDetailsContainer from "../MediumHomeContainer/MediumCompanyDetailsContainer.js"
 import MediumNotificationContainer from "../MediumHomeContainer/MediumNotificationContainer.js";
-import Datetime from "../../../Actions/Tasks/userTasks.js";
+import { greetingdependingonTime } from "../../../Actions/Tasks/userTasks.js";
 import { getNewFeedUpdates } from "../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 import MediumMapDetails from "../MediumHomeContainer/MediumMapDetails.js";
 import Industries from "../../../Actions/Requests/Constants.js";
@@ -166,7 +166,7 @@ class LargeHomeContainer extends Component{
 
 		//Get the user from the database and place it in below
 
-		var greeting=Datetime.greetingdependingonTime("Nathan");
+		var greeting=greetingdependingonTime("Nathan");
 		var industriesConstants=Industries.INDUSTRIES;
 		this.setState({
 

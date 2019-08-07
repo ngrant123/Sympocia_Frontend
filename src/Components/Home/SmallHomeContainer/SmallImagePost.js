@@ -470,7 +470,7 @@ class SmallImagePost extends Component{
 							</ExpandedDivProfileContainer>
 
 							<ImageDescription>
-							This is a description about the image etc etc etc etc 
+								This is a description about the image etc etc etc etc 
 							</ImageDescription>
 
 							<ExpandDescriptionContainer onClick={()=>this.handleImageDescription()}>Expand Description</ExpandDescriptionContainer>
