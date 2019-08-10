@@ -162,9 +162,7 @@ const PostOptionsContainer = styled.div`
  	background-color:blue;
  	border-style:solid;
 	border-color:	#af9ad5;
- 	z-index:3;
-
-
+ 	z-index:2;
 
  `;
 

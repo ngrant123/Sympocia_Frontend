@@ -387,7 +387,10 @@ class LInvestor extends Component{
 		return(
 			<Container>
 				<NavContainer>
-					<GeneralNav />
+					<GeneralNav 
+						chatLocation={"Investor"}
+
+					/>
 				</NavContainer>
 
 				<SearchContainer id="container">

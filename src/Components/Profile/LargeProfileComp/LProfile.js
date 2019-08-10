@@ -831,7 +831,9 @@ class LProfile extends Component{
 						 </NewsProfile>
 
 						<NavContainer> 
-							<GeneralNav />
+							<GeneralNav 
+								chatLocation={"Profile"}
+							/>
 						</NavContainer>
 
 						<CompanyIcon>

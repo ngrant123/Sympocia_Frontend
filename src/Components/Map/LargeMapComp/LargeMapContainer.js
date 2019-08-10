@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { credientialMapSearch } from "../../../Actions/Tasks/userTasks.js";
+import { 
+		credientialMapSearch,
+		UserLocation
+
+		} from "../../../Actions/Tasks/userTasks.js";
 import {
 		  Map, 
 		  TileLayer, 
@@ -43,6 +47,33 @@ const SearchContainer = styled.div`
 
 `;
 
+const testerdata= [
+	[
+		72,
+		-44
+
+	],
+	[
+		72,
+		-43
+	]
+
+]
+
+const testtest= {
+
+	tester:{
+		test:"test",
+		data:2
+	},
+	tester:{
+		test:"test",
+		data:3
+	}
+}
+
+
+
 
 
 class LargeMapContainer extends Component {
@@ -56,7 +87,8 @@ class LargeMapContainer extends Component {
 		    lng:0,
 		    testlat:0,
 		    zoom: 16,
-			showShadowBackground:false
+			showShadowBackground:false,
+			companiesLocation:[]
   		  }
 
 	}
@@ -77,6 +109,8 @@ class LargeMapContainer extends Component {
 			navigator.geolocation.getCurrentPosition((position)=> {
 					let longitude = position.coords.longitude;
 					let latitude = position.coords.latitude;
+					console.log(longitude);
+					console.log(latitude);
 
 					let testlatitude = position.coords.latitude+1;
 
@@ -93,8 +127,10 @@ class LargeMapContainer extends Component {
 			},function(e){
 
 				console.log(e);
+				UserLocation();
 
 			},{
+				//timeout:10000,
 				 enableHighAccuracy: true
 			});
 	
@@ -103,7 +139,6 @@ class LargeMapContainer extends Component {
 			console.log("Not supported");
 			this.getLocationManually();
 		}
-
 	}
 
 
@@ -114,24 +149,12 @@ class LargeMapContainer extends Component {
 
 
 	handleSumbit =() => {
-		let credientials = [];
 
 		let industyValue=document.getElementById("IndustrySearchValue").value;
 		let areaValue=document.getElementByIdl("AreaSearchValue").value;
 		let nameValue=document.getElementById("NameSearchValue").value;
 
-
-		if(industyValue!=null){
-			credientials.push(industyValue);
-		}
-		else if(areaValue!=null){
-			credientials.push(areaValue);
-		}
-		else{
-			credientials.push(nameValue);
-		}
-
-		credientialMapSearch(credientials);
+		credientialMapSearch(industyValue,areaValue,nameValue);
 		
 	}
 
@@ -161,11 +184,19 @@ class LargeMapContainer extends Component {
 			          </Popup>
 			        </Marker>
 
-			         <Marker position={position2}>
-			          <Popup>
-			            A pretty CSS3 popup. <br /> Easily customizable.
-			          </Popup>
-			        </Marker>
+			        <ul>
+			        	{testerdata.map(data=>
+			        		<li>
+						         <Marker position={data}>
+						          <Popup>
+						            A pretty CSS3 popup. <br /> Easily customizable.
+						          </Popup>
+						        </Marker>
+				       		</li>
+
+			        	)}
+
+			        </ul>
       			</Map>
 
       			<SearchContainer>

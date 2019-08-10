@@ -166,6 +166,34 @@ const NavBarSytle = {
 
 class NavBar extends Component{
 
+	constructor(props){
+
+		super(props);
+
+		this.state={
+
+			pageChatLocation:props.chatLocation
+		}
+	}
+
+	componentDidMount(){
+
+		switch(this.state.pageChatLocation){
+			//Change redux state to make it display for each respective page
+			case "Home":
+				break;
+
+			case "Profile":
+				break;
+
+			case "Investor":
+				break;
+
+			case "Map":
+				break;
+		}
+	}
+
 	HomeButtonClick() {
 
 

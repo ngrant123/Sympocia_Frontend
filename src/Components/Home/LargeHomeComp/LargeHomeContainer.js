@@ -9,6 +9,7 @@ import { getNewFeedUpdates } from "../../../Actions/Requests/HomePageAxiosReques
 import MediumMapDetails from "../MediumHomeContainer/MediumMapDetails.js";
 import Industries from "../../../Actions/Requests/Constants.js";
 import Posts from "../MediumHomeContainer/MediumPostContainer.js";
+import Chat from "../../GeneralComponents/ChatComponent/LargeChatComponent/LargeChatComponent.js";
 
 const Container= styled.div`
 
@@ -27,6 +28,7 @@ const NavContainer = styled.div`
 `;
 
 const PostCreationContainer= styled.div`
+
 	position:absolute;
 	width:40%;
 	height:30%;
@@ -149,6 +151,29 @@ const PostContainer = styled.div`
 
 `;
 
+const ChatContainer = styled.div`
+
+	position:absolute;
+	background-color:red;
+	width:30%;
+	height:55%;
+	top:20%;
+	left:35%;
+	z-index:4;
+	border-radius:5px;
+
+`;
+
+const ShadowContainer = styled.div`
+
+	position:absolute;
+	height:100%;
+	width:100%;
+	z-index:3;
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+`;
+
 
 class LargeHomeContainer extends Component{
 
@@ -158,7 +183,10 @@ class LargeHomeContainer extends Component{
 
 		this.state={
 			greetingdescription:"",
-			industries:[]
+			industries:[],
+			//TESTER CHAT MESSAGE INDICATOR
+			displayChatMessages:true
+
 		}
 	}
 
@@ -175,12 +203,35 @@ class LargeHomeContainer extends Component{
 
 		});
 	}
+
+	closeShadowContainer=()=>{
+
+		this.setState({
+			displayChatMessages:false
+		})
+
+	}
+
+	ChatMessage = () =>{
+		return this.state.displayChatMessages ?
+			<ShadowContainer id="shadowContainer" onClick={()=>this.closeShadowContainer()}>
+
+				<ChatContainer>
+					<Chat />
+
+				</ChatContainer>
+
+			</ShadowContainer>
+
+			: <p></p>;
+	}
 	
 	Greetings = () =>{
 
 		var greetings=this.state.greetingdescription;
 		return <p>{greetings}</p>;
 	}
+
 	handleChange=(props)=>{
 
 		var industryValue=document.getElementById(props).innerHTML;
@@ -195,8 +246,14 @@ class LargeHomeContainer extends Component{
 			<Container>
 				<PostBackgroundDivider/>
 				<NavContainer>
-					<NavBar/>
+					<NavBar
+						chatLocation={"Home"}
+					/>
 				</NavContainer>
+
+				{this.ChatMessage()}
+
+
 				<UpgradeButton>Upgrade</UpgradeButton>
 
 				<GreetingsContainer><b>{this.state.greetingdescription}</b> <p2 style={{fontSize:"60%", color:"#a8a9af"}}>Update yourself with all of the latest information</p2></GreetingsContainer>

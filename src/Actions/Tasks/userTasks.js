@@ -1,4 +1,6 @@
 
+	//import { getUserLocation } from "../MapPageAxiosRequests/MapPageGetRequests.js";
+
 	export function searchforfirstName(firstName,data){
 		var investorcontainer=[];
 		var investorname;
@@ -57,12 +59,39 @@
 			return "Hope you're having a good night "+employeeName;
 	}
 
-	export function credientialMapSearch(credientials){
+	export function credientialMapSearch(searchByIndustry, searchByArea, searchByName){
+
+		if(searchByName!=null){
+
+		}
+		else{
+			if(searchByIndustry!=null && searchByArea!=null){
+
+
+			}
+			else if(searchByIndustry!=null && searchByArea==null){
+
+
+			}
+			else if(searchByIndustry==null && searchByArea!=null){
+
+
+			}
+		}
+	}
+
+	export function UserLocation(userId){
+		//decrypt userId
+		let userId2=decrypt(userId);
+		//getUserLocation()
 
 
 
 
+	}
 
+	function decrypt(userId){
+		console.log("Tester method");
 
 	}
 
