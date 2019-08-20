@@ -214,15 +214,16 @@ class LargeHomeContainer extends Component{
 
 	ChatMessage = () =>{
 		return this.state.displayChatMessages ?
-			<ShadowContainer id="shadowContainer" onClick={()=>this.closeShadowContainer()}>
+			<div>
+				<ShadowContainer id="shadowContainer" onClick={()=>this.closeShadowContainer()}/>
+					<ChatContainer>
+						<Chat />
 
-				<ChatContainer>
-					<Chat />
+					</ChatContainer>
 
-				</ChatContainer>
 
-			</ShadowContainer>
-
+			</div>
+	
 			: <p></p>;
 	}
 	
