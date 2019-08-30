@@ -11,7 +11,7 @@ const initialState = {
 
 };
 
-export default (state = initialState, action){
+export function UserInformationRedux(state = initialState, action){
 
 
 	switch(action.type){
@@ -25,7 +25,7 @@ export default (state = initialState, action){
 		case "UPDATE_COMPANY_BIO":
 			return {...state,
 					 companyBio:action.companyBio
-					}
+					};
 			break;
 
 		case "UPDATE_COMPANY_ICON":
@@ -47,7 +47,7 @@ export default (state = initialState, action){
 
 			break;
 		default:
-			return initialState;
+			return state;
 
 	}
 }

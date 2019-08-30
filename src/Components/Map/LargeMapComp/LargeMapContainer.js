@@ -83,8 +83,8 @@ class LargeMapContainer extends Component {
 		super(props);
 
 		  this.state = {
-		    lat: 0,
-		    lng:0,
+		    lat: -73.97732549999999,
+		    lng:40.7527743,
 		    testlat:0,
 		    zoom: 16,
 			showShadowBackground:false,

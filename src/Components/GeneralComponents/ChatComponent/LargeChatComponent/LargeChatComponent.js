@@ -33,9 +33,9 @@ const SearchTextFieled = styled.textarea`
 	position:absolute;
 	width:80%;
 	height:90%;
-	background-color:blue;
 	resize:none;
 	padding:5px;
+	border-style:none;
 
 
 `;
@@ -77,7 +77,7 @@ const MessagesContainer = styled.div`
 	padding:10px;
 	transition:.8s;
 	border-radius:5px;
-	background-color:blue;
+	background-color:white;
 
 	&:hover{
 		box-shadow: 1px 1px 1px 1px #999a9b;
@@ -157,7 +157,7 @@ class LargeChatComponent extends Component{
 		return  <GeneralMessageContainer>
 					<SearchContainer>
 
-						<SearchTextFieled>
+						<SearchTextFieled placeholder="Search for someone here">
 
 						</SearchTextFieled>
 
