@@ -3,12 +3,12 @@
 import React from "react";
 import ReactDom from "react-dom";
 import Landing from "./Pages/Landing";
-import Signup from "./Components/LargeComp/LSignUpPage";
-import HomeScreen from "./Components/LargeComp/LHome";
-import ProfileScreen from "./Components/LargeComp/LProfile";
+import Signup from "./Components/Signup/LargeSignupComp/LSignUpPage";
+import ProfileScreen from "./Components/Profile/LargeProfileComp/LProfile";
 import {BrowserRouter as Router, Route , Switch} from 'react-router-dom';
-import NetworkScreen from "./Components/LargeComp/LNetwork.js";
-import InvestorScreen from "./Components/LargeComp/LInvestor.js";
+import InvestorScreen from "./Components/Investor/LargeInvestorComp/LInvestor.js";
+import HomeScreen from "./Components/Home/LargeHomeComp/LargeHomeContainer.js";
+import MapScreen from "./Components/Map/LargeMapComp/LargeMapContainer.js"
 
 
 //Starting point for the web application
@@ -32,10 +32,10 @@ const application  = (
 				<Signup value = {"This is a tester"}/>
 				)
 			}/>
-			<Route path="/home" component = {HomeScreen} />
+			<Route path="/home" component= {HomeScreen}/>
 			<Route path="/profile" component = {ProfileScreen} />
-			<Route path="/network" component = {NetworkScreen} />
 			<Route path="/investor" component= {InvestorScreen} />
+			<Route path="/map" component= {MapScreen} />
 
 		</Switch>
 	</Router>
