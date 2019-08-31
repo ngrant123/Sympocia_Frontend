@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import SmallRegularPost from "./SmallRegularPost.js";
-import SmallImagePost from "./SmallImagePost.js";
-import SmallMapPost from "./SmallMapPost.js";
+import SmallRegularPost from "../SmallPostComponent/SmallRegularPost.js";
+import SmallImagePost from "../SmallPostComponent/SmallImagePost.js";
+import SmallMapPost from "../SmallPostComponent/SmallMapPost.js";
 
 
 const RegularPostContainer=styled.div`
@@ -225,7 +225,7 @@ const OptionsContainer = styled.div`
 
 
 
-export function Tester(props){
+export function MediumPosts(props){
 	console.log(props);
 	var postresult="";
 	if(props.postdata=="regularpost"){

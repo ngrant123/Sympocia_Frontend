@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import Industries from "../../../Actions/Requests/Constants.js";
+import Industries  from "../../../../Constants/constants.js";
 
 const Container = styled.div`
 	position:absolute;
@@ -19,7 +19,6 @@ const IndustryTypeContainer = styled.div`
 `;
 
 const PostOptionsContainer = styled.div`
-
 	position:absolute;
 	width:100%;
 	height:15%;
@@ -220,7 +219,7 @@ const CompanyTitleContainer = styled.div`
  }
 
 
-class MediumPostContainer extends Component{
+class LargePostComponent extends Component{
 
 
 	constructor(props){
@@ -236,7 +235,7 @@ class MediumPostContainer extends Component{
 	
 	componentDidMount(){
 
-		var industriesConstants=Industries.INDUSTRIES;
+		let industriesConstants=Industries.INDUSTRIES;
 
 		this.setState({
 
@@ -255,6 +254,10 @@ class MediumPostContainer extends Component{
 		console.log(industryValue);
 	}
 
+	testerClick(){
+		console.log(this.state.industries);
+	}
+
 	render(){
 
 
@@ -265,7 +268,7 @@ class MediumPostContainer extends Component{
 
 
 				<div class="dropdown" style={{position:"absolute", height:"13%",width:"20%",left:"70%",top:"5%", zIndex:"2"}}>
-						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}} onClick={()=>this.testerClick()}>Industry
 						   	<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu">
@@ -286,7 +289,7 @@ class MediumPostContainer extends Component{
 						</ProfileImageContainer>
 						<EmployeeTitleContainer><b>{this.state.companyTitle}</b></EmployeeTitleContainer>
 						<CompanyTitleContainer>{this.state.companyName}</CompanyTitleContainer>
-		
+	 	
 					</ProfileContainer>
 
 					<PostTextarea id="posttextarea" onClick={()=>this.handleTextareaClick()}>
@@ -309,4 +312,4 @@ class MediumPostContainer extends Component{
 	}
 }
 
-export default MediumPostContainer;
+export default LargePostComponent;

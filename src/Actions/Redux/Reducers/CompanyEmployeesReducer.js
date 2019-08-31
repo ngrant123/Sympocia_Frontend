@@ -25,9 +25,7 @@ const initialState =[
 export function EmployeesReducer(state = initialState, action){
 
 	const { type, payload }= action;
-	const { employeeeId , employeeData } = payload
-
-	//const employeeArray=state[employeeId];
+	const { employeeeId , employeeData } = payload;
 
 		switch(type){
 

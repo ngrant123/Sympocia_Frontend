@@ -1,5 +1,5 @@
 import axios from "axios";
-import BASE_URL from "../Constants.js";
+import BASE_URL from "../../../Constants/constants.js";
 
 const baseurl=""+BASE_URL.BASE_URL;
 

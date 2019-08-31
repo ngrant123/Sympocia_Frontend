@@ -1,15 +1,15 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import NavBar from "../../Profile/MediumProfileComp/NavBar.js"
-import MediumPostCreationContainer from "../MediumHomeContainer/MediumPostCreationContainer.js"
 import MediumCompanyDetailsContainer from "../MediumHomeContainer/MediumCompanyDetailsContainer.js"
 import MediumNotificationContainer from "../MediumHomeContainer/MediumNotificationContainer.js";
 import { greetingdependingonTime } from "../../../Actions/Tasks/userTasks.js";
 import { getNewFeedUpdates } from "../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 import MediumMapDetails from "../MediumHomeContainer/MediumMapDetails.js";
-import Industries from "../../../Actions/Requests/Constants.js";
+import Industries from "../../../Constants/constants.js";
 import Posts from "../MediumHomeContainer/MediumPostContainer.js";
 import Chat from "../../GeneralComponents/ChatComponent/LargeChatComponent/LargeChatComponent.js";
+import GeneralPostCreationContainer from "../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 
 const Container= styled.div`
 
@@ -261,7 +261,7 @@ class LargeHomeContainer extends Component{
 
 			
 				<PostCreationContainer>
-					<MediumPostCreationContainer/>
+					<GeneralPostCreationContainer/>
 				</PostCreationContainer>
 
 				<PostContainer>

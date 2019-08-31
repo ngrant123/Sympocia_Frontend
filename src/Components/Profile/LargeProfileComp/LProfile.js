@@ -94,7 +94,6 @@ const SecondPostContainer = styled.div`
 const PostContainer = styled.div`
 
 	position:relative;
-	background-color:black;
 	top:3%;
 	height:80%;
 	left:27%;

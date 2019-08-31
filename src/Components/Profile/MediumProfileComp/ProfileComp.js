@@ -9,7 +9,8 @@ import ReactGoogleMapLoader from "react-google-maps-loader";
 import ReactGoogleMap from "react-google-maps";
 import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
 import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton'
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import GeneralPostComponent from "../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 
 const ProfileContainer = styled.div`
 
@@ -45,9 +46,9 @@ const CompanyDetails = styled.div`
 	left:2%;
 	height:75%;
 	border-radius:5px;
-	border-radius:5px;
 	border-style:solid;
-	border-width: 1px;
+ 	border-width:2px 1px 2px 1px;
+ 	border-color:#e0e0e0;
 
 
 
@@ -62,9 +63,10 @@ const CompanyStats = styled.div`
 	width:18%;
 	top:18%;
 	border-radius:5px;
-	border-style:solid;
 	overflow:hidden;
-	border-width: 1px;
+	border-style:solid;
+ 	border-width:2px 1px 2px 1px;
+ 	border-color:#e0e0e0;
 
 
 
@@ -685,35 +687,7 @@ class ProfileComp extends Component{
 
 				<PostContainer>
 
-					<CreateAPost>
-					<PostLocation onClick={()=>this.handleLocationClick(1)}>{this.state.location}</PostLocation>
-					<GeneralLocation id="GeneralLocation" onClick={()=>this.handleLocationClick(2)}>General</GeneralLocation>
-					<DesignatedLocation id="DesignatedLocation" onClick={()=>this.handleLocationClick(3)}>Designated</DesignatedLocation>
-
-						<CreateAPostLine>
-
-							<CreatePostContainer
-								handleRegularPost={this.handleRegularPost}
-								hanleImagePost={this.hanleImagePost}
-								handleLocationPost={this.handleLocationPost}
-
-							 />
-
-							 <input type="file" name="postimage" id="postphotoimagefile" style={{position:"relative",opacity:"1", zIndex:"-3"}} onChange={()=>this.handleOnchangeImagepost()}></input>
-
-						 </CreateAPostLine>
-						<Options> 
-
-							<Option />
-
-						</Options>
-						
-					</CreateAPost>
-
-					{PostOptions}
-
-					<SubmitPostionBottom> Submit</SubmitPostionBottom>
-					<AttachFileButton> Attach File </AttachFileButton>
+					<GeneralPostComponent />
 
 				</PostContainer>
 
