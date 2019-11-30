@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
+
 import { 
 		credientialMapSearch,
 		UserLocation
@@ -47,6 +49,19 @@ const SearchContainer = styled.div`
 
 `;
 
+const NavBar = styled.div`
+	position:absolute;
+	left:10%;
+	height:7%;
+	background-color:white;
+	width:85%;
+	z-index:5;
+	border-radius:5px;
+
+
+
+`;
+
 const testerdata= [
 	[
 		72,
@@ -71,9 +86,6 @@ const testtest= {
 		data:3
 	}
 }
-
-
-
 
 
 class LargeMapContainer extends Component {
@@ -172,6 +184,13 @@ class LargeMapContainer extends Component {
 
 			<Container>
 				{this.displayShadowBackground()}
+
+				<NavBar>
+					<GeneralNavBar
+						pageType={"Map"}
+					/>
+
+				</NavBar>
 
 				<Map center={position} zoom={this.state.zoom} style={{position:"absolute",height:"900px",width:"107%",zIndex:"1"}}>
 			        <TileLayer

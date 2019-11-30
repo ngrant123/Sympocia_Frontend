@@ -1,7 +1,7 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import backgroundimage from "../../../designs/background/tester7.png";
-import GeneralNav from "../../Profile/MediumProfileComp/NavBar.js";
+import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import Typed from "react-typed";
 import InvestorComp from "../MediumInvestorComp/InvestorComp.js";
 
@@ -151,8 +151,9 @@ const SearchIndustryButton = styled.div`
 const NavContainer = styled.div`
 
 	position:absolute;
-	height:7%
+	height:7%;
 	width:100%;
+	background-color:white;
 
 `;
 
@@ -387,9 +388,8 @@ class LInvestor extends Component{
 		return(
 			<Container>
 				<NavContainer>
-					<GeneralNav 
-						chatLocation={"Investor"}
-
+					<GeneralNavBar
+						pageType={"Investor"}
 					/>
 				</NavContainer>
 

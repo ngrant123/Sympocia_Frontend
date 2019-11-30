@@ -24,12 +24,12 @@ export const SecondContainer = styled.div`
  export const SecondPageHead = styled.div`
 
    position:absolute;
-   color:#E18DFD;
-   font-size:60px;
-
-   top:20%;
+   color:black;
+   font-size:90px;
+   top:10%;
    left:10%;
    font-family:Myriad Pro;
+   z-index:2;
 
  `;
 
@@ -39,11 +39,14 @@ export const SecondContainer = styled.div`
    position:absolute;
    color:black;
 
-   top:40%;
+   top:0%;
    left:10%;
-   font-size:35px;
+   font-size:20px;
+   border-radius:5px;
    width:48%;
    font-family:Myriad Pro;
+   padding:240px 0px 0px 0px;
+   height:100%;
   
  `;
 

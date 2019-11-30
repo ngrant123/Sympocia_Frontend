@@ -5,7 +5,7 @@ import { MediumPosts } from "../../GeneralComponents/PostComponent/MediumPostCom
 const PostContainer = styled.div`
 
 	position:absolute;
-	height:110%;
+	height:130%;
 	width:90%;
 `;
 
@@ -54,8 +54,6 @@ class PostComp extends Component{
 		}
 	}
 
-
-
 	render(){
 
 		return(
@@ -63,12 +61,11 @@ class PostComp extends Component{
 			<PostContainer>
 				<ul>
 					{Testerdata.map(data=>
+
 						<li style={{position:"relative",listStyle:"none",marginBottom:"20px",marginTop:"20px",left:"-60px"}}>
 							<MediumPosts 
 								postdata={data.posttype}
-
 							/>
-
 						</li>
 
 						)}

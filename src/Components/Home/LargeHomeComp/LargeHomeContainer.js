@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import NavBar from "../../Profile/MediumProfileComp/NavBar.js"
+import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import MediumCompanyDetailsContainer from "../MediumHomeContainer/MediumCompanyDetailsContainer.js"
 import MediumNotificationContainer from "../MediumHomeContainer/MediumNotificationContainer.js";
 import { greetingdependingonTime } from "../../../Actions/Tasks/userTasks.js";
@@ -21,7 +21,7 @@ const Container= styled.div`
 `;
 
 const NavContainer = styled.div`
-	position:absolute;
+	position:fixed;
 	width:100%;
 	height:7%;
 
@@ -77,8 +77,6 @@ const NotificationContainer = styled.div`
 
 `;
 
-//Re structure posts in order of popularity 
-//comments/likes etc 
 const PostDivider = styled.div`
 
 	position:absolute;
@@ -90,6 +88,7 @@ const PostDivider = styled.div`
 	border-radius:5px;
 
 `;
+
 
 const GreetingsContainer = styled.div`
 	position:absolute;
@@ -247,8 +246,8 @@ class LargeHomeContainer extends Component{
 			<Container>
 				<PostBackgroundDivider/>
 				<NavContainer>
-					<NavBar
-						chatLocation={"Home"}
+					<GeneralNavBar
+						pageType={"Home"}
 					/>
 				</NavContainer>
 

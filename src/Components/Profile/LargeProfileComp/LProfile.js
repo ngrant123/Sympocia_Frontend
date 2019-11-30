@@ -6,6 +6,8 @@ import ProfileComp from "../MediumProfileComp/ProfileComp.js";
 import Post from "../MediumProfileComp/PostComp.js";
 import Icon from "../SmallProfilePostOptionComp/CompanyIcon.js";
 import img from "../../../designs/background/tester2.png";
+import Industries from "../../../Constants/constants.js";
+import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 
 
 const ProfileContainer = styled.div`
@@ -31,11 +33,12 @@ const FirstProfileContainer = styled.div`
 `;
 
 const NavContainer = styled.div`
-	position:absolute;
+	position:fixed;
 	height:7%;
 	left:0%;
 	width:100%;
-
+	z-index:4;
+	background:white;
 
 `;
 
@@ -105,25 +108,26 @@ const PostContainer = styled.div`
 
 `;
 
-const FriendsContainer = styled.div`
+const SmallProfileContainer = styled.div`
 
-	position:absolute;
+	position:fixed;
 	background-color:red;
 	width:23%;
 	height:50%;
-	top:10%;
+	top:40%;
 	left:1%;
 	border-radius:5px;
+	transition:.8s;
 
 `;
 
-const UserContainer = styled.div`
+const SmallNewsContainer = styled.div`
 	
-	position:absolute;
+	position:fixed;
 	background-color:red;
 	width:18%;
 	height:50%;
-	top:10%;
+	top:40%;
 	left:80%;
 	border-radius:5px;
 
@@ -639,17 +643,25 @@ const SmallProfileEmailValue = styled.textarea`
 
 `;
 
+const PostDivider = styled.div`
 
+	position:absolute;
+	background-color:#4d5050;
+	height:1%;
+	width:40%;
+	top:52%;
+	left:30%;
+	top:100%;
+	border-radius:5px;
 
-
-
-
+`;
 
 class LProfile extends Component{
 	constructor(props){
 
 		super(props);
 		this.state={
+
 			title:"",
 			bio:"",
 			imgUrl:"",
@@ -658,11 +670,25 @@ class LProfile extends Component{
 			name:"",
 			location:"",
 			date:"",
-			update:0
+			update:0,
+			industries:[],
+			displaySmallProfilesAndNews:false
 
 		}
 		this.displaytoplevelemployeeprofile=this.displaytoplevelemployeeprofile.bind(this);
 		this.displaytoplevelnewsprofile=this.displaytoplevelnewsprofile.bind(this);
+	}
+
+	componentDidMount(){
+
+		let industries=Industries.INDUSTRIES;
+
+		this.setState({
+			industries:industries
+
+		});
+
+		window.addEventListener('scroll',this.ScrollFunction);
 	}
 
 	handleEditButton(){
@@ -704,7 +730,7 @@ class LProfile extends Component{
 	handleSaveButton(){
 		this.setState({
 			update:1
-		});
+		}) ;
 	}
 
 
@@ -777,6 +803,43 @@ class LProfile extends Component{
 
 	}
 
+	ScrollFunction=()=>{
+
+		let profileCompanyDetailsHeigth=document.getElementById("CompanyAndPostInfoContainer").offsetHeight;
+		let profileCompanyDetailsTop=document.getElementById("CompanyAndPostInfoContainer").offsetTop;
+		let totalProfileHeightAndTop=profileCompanyDetailsHeigth;
+
+		if(window.pageYOffset>totalProfileHeightAndTop){
+			this.setState({
+				displaySmallProfilesAndNews:true
+			})
+		}
+		else{
+
+			this.setState({
+				displaySmallProfilesAndNews:false
+			})
+		}
+	}
+
+	displaySmallCompanyDetail =()=>{
+
+		return this.state.displaySmallProfilesAndNews?
+			<SmallProfileContainer id="smallProfileContainer">
+			</SmallProfileContainer>
+			:<p></p>
+		;
+	}
+
+	displaySmallCompanyNews =()=>{
+
+		return this.state.displaySmallProfilesAndNews?
+			<SmallNewsContainer id="smallNewContainer">
+			</SmallNewsContainer>
+			:<p></p>
+		;
+	}
+
 	render(){
 
 		return(
@@ -830,8 +893,8 @@ class LProfile extends Component{
 						 </NewsProfile>
 
 						<NavContainer> 
-							<GeneralNav 
-								chatLocation={"Profile"}
+							<GeneralNavBar
+								pageType="Profile"
 							/>
 						</NavContainer>
 
@@ -845,27 +908,49 @@ class LProfile extends Component{
 						</CoverPhotoContainer>
 
 
-						<Profile>
+						<Profile id="CompanyAndPostInfoContainer">
 							<ProfileComp 
 								displaytoplevelemployeeprofile={this.displaytoplevelemployeeprofile}
 								displaytoplevelnewsprofile={this.displaytoplevelnewsprofile}
 							 />
 						</Profile>
+
 					</FirstProfileContainer>
+
+					<div class="dropdown" style={{position:"absolute", height:"4%",width:"7%",left:"63%",top:"95%", zIndex:"2"}}>
+						    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
+						    	<span class="caret"></span>
+						    </button>
+						    <ul class="dropdown-menu">
+								{this.state.industries.map(data=>
+									 <li onClick={()=>this.handleChange(data.id)} id={data.id}><a href="#">{data.industry}</a></li>
+								)}
+						    </ul>
+  				 </div>
+
+  				 <div class="dropdown" style={{position:"absolute", height:"4%",width:"7%",left:"55%",top:"95%", zIndex:"2"}}>
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Order By
+						    <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+						    <li><a href="#">Fashion</a></li>
+						    <li><a href="#">Health</a></li>
+						    <li><a href="#">Consulting</a></li>
+						</ul>
+  				 </div>
+
+  				 <PostDivider/>
+
 
 					<SecondPostContainer>
 						<PostContainer>
+
 							<Post />
 
 						</PostContainer>
 
-						<FriendsContainer>
-
-						</FriendsContainer>
-
-						<UserContainer>
-
-						</UserContainer>
+						{this.displaySmallCompanyDetail()}
+						{this.displaySmallCompanyNews()}
 
 					</SecondPostContainer>
 

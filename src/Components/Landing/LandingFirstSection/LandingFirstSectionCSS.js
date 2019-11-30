@@ -17,6 +17,7 @@ export const SignInformation = styled.div`
   text-align: center;
   color: palevioletred;
   border-radius:10px;
+  box-shadow: 5px 5px 5px 5px #888888;
 `;
 
 export const Container = styled.div`
@@ -89,7 +90,7 @@ export const NavEmail = styled.textarea`
     position:absolute;
     padding :.5em;
     width:15%;
-    height:30px;
+    height:50px;
     font-size:15px;
     background-color:#35313C;
 
@@ -107,7 +108,7 @@ export const NavPassword = styled.textarea`
    position:absolute;
    padding :.5em;
    width:10%;
-   height:30px;
+   height:50px;
    font-size:15px;
    border-style:solid;
    background-color:#35313C;
@@ -127,7 +128,8 @@ export const NavSubmitButton = styled(Link)`
    left:92%;
    top:10%;
    width:5%;
-   height:30px;
+   height:50px;
+   fontSize:160%;
 
    background-color:#C8B0F4;
    color:white;
@@ -157,14 +159,14 @@ export const NameInput = styled.textarea`
   position:absolute;
   padding :.5em;
   width:60%;
-  height:30px;
+  height:50px;
   font-size:15px;
   background-color:#4D4C4D;
 
   color:#DBDADC;
   resize:none;
   left:20%;
-  top:20%;
+  top:25%;
 
   display: flex;
   align-items: center;
@@ -179,14 +181,14 @@ export const LastInput = styled.textarea`
   position:absolute;
   padding :.5em;
   width:60%;
-  height:30px;
+  height:50px;
   font-size:15px;
   background-color:#4D4C4D;
 
   color:white;
   resize:none;
   left:20%;
-  top:40%;
+  top:43%;
   border-radius:10px;
 
 `;
@@ -197,15 +199,16 @@ export const EmailInput = styled.textarea`
   position:absolute;
   padding :.5em;
   width:60%;
-  height:30px;
+  height:50px;
   font-size:15px;
   background-color:#4D4C4D;
-
   color:white;
   resize:none;
   left:20%;
   top:60%;
   border-radius:10px;
+  overflow:hidden
+
 
 
 `;
@@ -262,7 +265,38 @@ export const IntroSec = styled.div`
 
 `;
 
- export const SubmitButton = styled(Link)`
+ export const SubmitButton = styled.div`
+
+   position:absolute;
+   left:36%;
+   top:75%;
+   width:30%;
+   height:10%;
+   border-color: #C8B0F4;
+   border-style:solid;
+   background-color:#C8B0F4;
+   color:white;
+   text-decoration:none;
+
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   z-index:2;
+   &:hover{
+
+      background-color:white;
+
+    color:#C8B0F4;
+   border-style:solid;
+   border-color: #C8B0F4;
+   text-decoration:none;
+
+   }
+
+ `;
+
+  export const ActualSubmitButton = styled(Link)`
 
    position:absolute;
    left:36%;

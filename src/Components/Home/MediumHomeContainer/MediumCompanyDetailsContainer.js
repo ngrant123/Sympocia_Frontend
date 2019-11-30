@@ -500,7 +500,6 @@ class MediumCompanyDetailsContainer extends Component{
 		return(
 			<Container>
 				<PaymentOptionContainer/>
-
 				<BackgroundImageContainer>
 
 
