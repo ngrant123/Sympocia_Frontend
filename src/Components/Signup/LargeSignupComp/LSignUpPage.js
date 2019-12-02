@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import styled from "styled-components";
-import secondPageBackground from "../../../designs/background/SignupPageBackground.png";
-import CompanyLocationBackground from "../../../designs/img/CompanyLocation.png";
-import CompanyNameBackground from "../../../designs/img/CompanyName.png"
-import CompanyTypeBackground from "../../../designs/img/CompanyType.png"
+import CompanySetupPage from "../MediumSignupComp/CompanySetupPage.js";
+import PersonalSetupDisplayPage from "../MediumSignupComp/PersonalSetupDisplayPage.js";
 import Particles from 'react-particles-js';
-import PaymentOptionsScreen from "../MediumSignupComp/PaymentOptionsScreen.js"
+import { connect } from 'react-redux';
+import Typed from "react-typed";
 
 const BodyContainer= styled.div`
 
@@ -139,7 +138,6 @@ const DescriptionLocation = styled.div`
 	font-size:20px;
 	font-family:Helvetica;
 
-
 `;
 
 
@@ -267,91 +265,244 @@ const Payment1Container = styled.div`
 
 `;
 
+
+const PersonalSectionContainer=styled.div`
+	position:absolute;
+	background-color:white;
+	width:30%;
+	height:50%;
+	left:15%;
+	top:35%;
+	border-radius:5px;
+	border-style:solid;
+    border-color: #5298F8;
+
+`;
+
+const PersonalSectionCard=styled.div`
+	position:absolute;
+	background-color:white;
+	width:90%;
+	height:90%;
+	left:5%;
+	transition:.8s;
+	top:5%;
+	border-radius:5px;
+	padding:5px;
+
+    &:hover{
+    	box-shadow: 5px 5px 5px 5px #c4c4c4;
+    }
+`;
+
+const CompanySectionContainer=styled.div`
+	position:absolute;
+	background-color:white;
+	width:30%;
+	height:50%;
+	left:55%;
+	top:35%;
+	border-radius:5px;
+	border-style:solid;
+    border-color:#5298F8;
+`;
+
+const CompanySectionCard=styled.div`
+	position:absolute;
+	background-color:white;
+	width:90%;
+	height:90%;
+	left:5%;
+	transition:.8s;
+	top:5%;
+	border-radius:5px;
+
+    &:hover{
+    	box-shadow: 5px 5px 5px 5px #c4c4c4;
+    }
+`;
+
+const TitleHeader=styled.div`
+	position:absolute;
+	width:70%;
+	height:20%;
+	top:3%;
+	left:17%;
+	font-size:80px;
+
+`;
+
+const HeaderCSS={
+	position:"relative",
+	left:"18%",
+	fontSize:"40px",
+	color:"#5298F8"
+}
+
+const HeaderDescriptionCSS={
+	position:"relative",
+	left:"5%",
+	fontSize:"15px",
+	color:"	#383838"
+
+}
+
+
+
+const PersonalPageButton=styled.div`
+	position:absolute;
+	background-color:#5298F8;
+	color:white;
+	width:50%;
+	height:15%;
+	top:80%;
+	left:20%;
+	transition:.8s;
+	border-radius:5px;
+	text-align:center;
+	padding:5px;
+	font-size:15px;
+
+	&:hover{
+		background-color:#0b6cef;
+	}
+
+
+
+`;
+
+const CompanyPageButton=styled.div`
+	position:absolute;
+	background-color:#5298F8;
+	color:white;
+	width:50%;
+	height:15%;
+	top:80%;
+	left:20%;
+	transition:.8s;
+	border-radius:5px;
+	text-align:center;
+	padding:5px;
+	font-size:15px;
+
+	&:hover{
+		background-color:#0b6cef;
+	}
+
+
+`;
+
 class LSignupPage extends Component {
 
 
 	constructor(props){
-
 		super(props);
 
 		this.state= {
 
-			pageText:"Description about what the website does and what the user is going to be doing now",
-			companynameDescrip:"Information",
-			personalInformation:props,
-			companyname:"",
-			location:"",
-			companytype:"",
-			backgroundURL:""
-	
+			displayPersonalSetupPage:false,
+			displayCompanySetupPage:false,
+			hideInitialScreen:false
 		};
 	}
 
 
-	handleSubmit(){
+	DisplayPersonalSetupPage=()=>{
 
-		//Update the state with all of the displayed user information 
-		var companyName= document.getElementById("company").value;
-		var Location= document.getElementById("location").value;
-		
+		return this.state.displayPersonalSetupPage==false?
+				<React.Fragment>
+				</React.Fragment>:
+				<PersonalSetupDisplayPage/>
 
-		//Test
-		console.log(companyName);
-		console.log(Location);
+	}
 
+
+	DisplayCompanySetupPage=()=>{
+
+		return this.state.displayCompanySetupPage==false?
+			<React.Fragment>
+			</React.Fragment>:
+			<CompanySetupPage/>
+	}
+
+	TitleDisplayNameHeader=()=>{
+		console.log(this.props);
+		return <TitleHeader>
+					<b>
+						What are you looking for on here {this.props.firstName}?
+					</b>
+			   </TitleHeader>
+	}
+
+
+	DisplayPersonalOrCompanyChoices=()=>{
+
+
+		return this.state.hideInitialScreen==true?
+			<React.Fragment></React.Fragment>: 
+			<React.Fragment>
+				{this.TitleDisplayNameHeader()}
+
+				<PersonalSectionContainer>
+						<PersonalSectionCard>
+							<p style={HeaderCSS}><b>Entertainment</b></p>
+							<p style={HeaderDescriptionCSS}>Interested in viewing videos, posts, and images
+							from your friends and people you are interested in? Click on the button below</p>
+
+
+							<PersonalPageButton onClick={()=>this.handleDisplayPersonalSetupPage()}>Click here</PersonalPageButton>
+
+						</PersonalSectionCard>
+
+				</PersonalSectionContainer>
+
+				<CompanySectionContainer>
+						<CompanySectionCard>
+							<p style={HeaderCSS}><b>Business</b></p>
+							<p style={HeaderDescriptionCSS}> Ready to show the world your hobby that you're 
+							proud of? Or maybe you have a startup or business and you want to connect with people
+							who you think would want to see it? Click on the button below to get started</p>
+
+
+							<CompanyPageButton onClick={()=>this.handleDisplayCompanySetupPage()}>Click here</CompanyPageButton>
+
+						</CompanySectionCard>
+
+				</CompanySectionContainer>
+
+				{this.DisplayPersonalSetupPage()}
+				{this.DisplayCompanySetupPage()}
+
+			</React.Fragment>
+
+	}
+
+
+
+	handleDisplayPersonalSetupPage=()=>{
 
 		this.setState({
-
-			companyname:companyName,
-			location:Location, 
-		
-
-		});
-
-		//Make payment screen apppear
-		document.getElementById("payment").style.opacity="1";
-		document.getElementById("payment").style.pointerEvents="auto";
+			displayPersonalSetupPage:true,
+			hideInitialScreen:true
+		})
+	} 
 
 
+	handleDisplayCompanySetupPage=()=>{
 
-	}
-	handleCompanyDivClick = () =>{
-
-			this.setState({
-
-				companynameDescrip:"Location Information",
-				pageText:"This field will change for the user and is therefore option 1",
-				backgroundURL:CompanyLocationBackground
-			});
+		this.setState({
+			displayCompanySetupPage:true,
+			hideInitialScreen:true
+		})
 	}
 
-	handleLocationDivClick =()=>{
 
-			this.setState({
-
-				companynameDescrip:"Option 2 Infromation",
-				pageText:"This field will change for the user and is therefore option 2",
-				backgroundURL:CompanyNameBackground
-
-			});
-	}
-
-	handleCompanyTypeDivClick=()=>{
-			this.setState({
-
-				companynameDescrip:"Option 3 Information",
-				pageText:"This field will chage for the user and is therefore option 3",
-				backgroundURL:CompanyTypeBackground
-
-			});
-	}
 
 
 	render(){
 
 		return (
-
-
+			<React.Fragment>
 				<BodyContainer id="particles-js"> 
 						<Particles
 						    params={{
@@ -379,49 +530,24 @@ class LSignupPage extends Component {
 							            }
 							        }
 							    },
-
 							}}
 						/>
-					
-					<SignUp id="signup">
-
-						<DescriptionCompany> Company 1 </DescriptionCompany>
-
-						<CompanyName id="company" placeholder="Company Name" onClick={()=> this.handleCompanyDivClick()}></CompanyName>
-
-						<DescriptionLocation> Location Company </DescriptionLocation>
-						<LocationName id="location" placeholder="Location" onClick={()=> this.handleLocationDivClick()}></LocationName>
-
-						<DescriptionCompanyType> Company Type </DescriptionCompanyType>
-			
-							<input list="startupcategories" name="startupcategories" style={divStyle} onClick={()=> this.handleCompanyTypeDivClick()}/>
-								<datalist id="startupcategories">
-									<option value="Fashion" />
-									<option value= "Engineering" />
-								</datalist>
-				
-					</SignUp>
-
-
-	
-						<SubmitInformation id="submit" onClick={()=> this.handleSubmit()}>Submit</SubmitInformation>
-						<ImageContainer id="ImageContainer"style={{backgroundImage: 'url(' + this.state.backgroundURL + ')'}}></ImageContainer>
-
-						<TitleAreaDiv id="titlearea"><b> {this.state.companynameDescrip} </b> </TitleAreaDiv>
-						<TextAreaDiv id="textarea"> {this.state.pageText} </TextAreaDiv>
-
-
-					<PaymentScreen id="payment">
-
-						<PaymentOptionsScreen />
-
-					</PaymentScreen>
-
-
 				</BodyContainer>
+
+				{this.DisplayPersonalOrCompanyChoices()}
+			</React.Fragment>
+
 
 		)
 	}
 }
 
-export default LSignupPage;
+
+const mapStateToProps=(state)=>{
+	return{
+		firstName:state.personalInformation.firstName
+	}
+}
+
+
+export default connect(mapStateToProps)(LSignupPage);

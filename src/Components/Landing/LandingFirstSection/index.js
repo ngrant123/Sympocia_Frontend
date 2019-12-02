@@ -24,37 +24,12 @@ import  {
         IntroMain, 
         IntroSec,
         SubmitButton,
-        ActualSubmitButton
+        ActualSubmitButton,
+        FloatDivScrollDownContainer,
+        CompanyHeader
         } from "./LandingFirstSectionCSS";
 
 
-const FloatDivScrollDownContainer=styled.div`
-	position:absolute;
-	height:20%;
-	width:20%;
-	text-align:center;
-	font-size:15px;
-	top:75%;
-	background-color:white;
-	left:70%;
-	padding:40px;
-	border-radius:5px;
-	box-shadow: 5px 10px 7px 5px #888888;
-`;
-
-
-const CompanyHeader = styled.div`
-
-	position:absolute;
-	top:-5%;
-	left:2%;
-	height:15%;
-	width:45%;
-	z-index:2;
-	font-size:130px;
-	color:#C8B0F4;
-
-`;
 
 const CreatAccountTitleCSS={
 

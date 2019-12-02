@@ -5,8 +5,6 @@ import {BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import  FirstSection from '../LandingFirstSection';
 import  SecondSection  from '../LandingSecondSection';
 import ThirdSection from '../LandingThirdSection';
-import  FourthSection  from '../LandingFourthSection';
-import FifthSection from '../LandingFifthSection';
 
 const Container = styled.div`
    position: absolute;
