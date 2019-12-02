@@ -1,5 +1,5 @@
 import axios from "axios";
-import BASE_URL from "../Constants.js";
+import BASE_URL from "../../../Constants/constants.js";
 
 
 const baseurl=BASE_URL.BASE_URL;
@@ -95,6 +95,20 @@ export function updateEmployee(userId,updatedEmployeeData){
 	})
 }
 
+export function createProfile(personalData){
+	const {firstName,lastName,email}=personalData;
+
+	const CreateUrl='http://localhost:4000/api/profile/alter';
+	axios.post(`${CreateUrl}/createProfile`,{
+		firstName:firstName,
+		lastName:lastName,
+		email:email
+	}).then(profile=>{
+		return profile;
+	}).catch(err=>{
+		return err.message;
+	})
+}
 
 
 

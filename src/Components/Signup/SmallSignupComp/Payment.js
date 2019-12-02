@@ -1,7 +1,8 @@
 import React, {Component} from "react"
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
+import {createProfile}from "../../../Actions/Requests/ProfilePageAxiosRequests/ProfilePagePostRequests.js";
+import {connect} from 'react-redux';
 
 const Container= styled.div`
 	position:absolute;
@@ -283,6 +284,12 @@ class Payment extends Component {
 		}
 
 
+		handleSendDataToDatabase=()=>{
+			const personalData={firstName:this.props.firstName,lastName:this.props.lastName,email:this.props.email}
+			console.log(createProfile(personalData));
+		}
+
+
 
 	render(){
 
@@ -296,7 +303,7 @@ class Payment extends Component {
 
 			}
 			else{
-				ButtonLink = <NextPageLink to="/profile">
+				ButtonLink = <NextPageLink to="/profile" onClick={()=>this.handleSendDataToDatabase()}>
 								Submit
 					 		 </NextPageLink>;
 
@@ -347,4 +354,16 @@ class Payment extends Component {
 
 }
 
-export default Payment;
+
+const mapStateToProps=(state)=>{
+
+
+	return {
+		firstName:state.personalInformation.firstName,
+		lastName:state.personalInformation.lastName,
+		email:state.personalInformation.email
+	}
+
+}
+
+export default connect(mapStateToProps)(Payment);

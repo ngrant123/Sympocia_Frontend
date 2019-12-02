@@ -399,7 +399,6 @@ class LSignupPage extends Component {
 		super(props);
 
 		this.state= {
-
 			displayPersonalSetupPage:false,
 			displayCompanySetupPage:false,
 			hideInitialScreen:false
@@ -419,14 +418,14 @@ class LSignupPage extends Component {
 
 	DisplayCompanySetupPage=()=>{
 
-		return this.state.displayCompanySetupPage==false?
-			<React.Fragment>
-			</React.Fragment>:
-			<CompanySetupPage/>
+		console.log(this.state);
+		if(this.state.displayCompanySetupPage==false)
+			return <React.Fragment/>;
+		else 
+			return <CompanySetupPage/>
 	}
 
 	TitleDisplayNameHeader=()=>{
-		console.log(this.props);
 		return <TitleHeader>
 					<b>
 						What are you looking for on here {this.props.firstName}?
@@ -438,8 +437,14 @@ class LSignupPage extends Component {
 	DisplayPersonalOrCompanyChoices=()=>{
 
 
+
 		return this.state.hideInitialScreen==true?
-			<React.Fragment></React.Fragment>: 
+			<React.Fragment>
+
+				{this.DisplayPersonalSetupPage()}
+				{this.DisplayCompanySetupPage()}
+				
+			</React.Fragment>: 
 			<React.Fragment>
 				{this.TitleDisplayNameHeader()}
 
@@ -460,8 +465,9 @@ class LSignupPage extends Component {
 						<CompanySectionCard>
 							<p style={HeaderCSS}><b>Business</b></p>
 							<p style={HeaderDescriptionCSS}> Ready to show the world your hobby that you're 
-							proud of? Or maybe you have a startup or business and you want to connect with people
-							who you think would want to see it? Click on the button below to get started</p>
+								proud of? Or maybe you have a startup or business and you want to connect with people
+								who you think would want to see it? Click on the button below to get started
+							</p>
 
 
 							<CompanyPageButton onClick={()=>this.handleDisplayCompanySetupPage()}>Click here</CompanyPageButton>

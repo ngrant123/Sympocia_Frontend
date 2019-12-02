@@ -5,7 +5,6 @@ import CompanyLocationBackground from "../../../designs/img/CompanyLocation.png"
 import CompanyNameBackground from "../../../designs/img/CompanyName.png"
 import PaymentOptionsScreen from "../MediumSignupComp/PaymentOptionsScreen.js";
 import CompanyTypeBackground from "../../../designs/img/CompanyType.png"
-import Particles from 'react-particles-js';
 
 const SignUp = styled.div`
 
@@ -250,6 +249,7 @@ const Payment1Container = styled.div`
 class CompanySetupPage extends Component{
 
 	constructor(props){
+		console.log('Setup Page is accessed');
 		super(props);
 		this.state={};
 	}
