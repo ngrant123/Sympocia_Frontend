@@ -8,7 +8,7 @@ const Container= styled.div`
 	position:absolute;
 	height:100%;
 	width:100%;
-	background-color:white;
+	background-color:red;
 	border-style:solid;
 	transition: all ease 0.8s;
 
@@ -342,9 +342,6 @@ class Payment extends Component {
 				</BackBankcontainer>
 
 				{ButtonLink}
-
-
-
 			</Container>
 
 

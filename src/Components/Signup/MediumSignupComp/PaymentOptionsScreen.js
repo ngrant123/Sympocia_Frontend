@@ -8,7 +8,7 @@ const PaymentOptionContainer = styled.div`
 
 	position:absolute;
 	background-color:white;
-	height:100%;
+	height:105%;
 	width:100%;
 	border-radius:5px;
 	border-style:solid;
@@ -87,10 +87,34 @@ const PaySection = styled.div`
 	width:100%;
 	height:100%;
 	opacity:0;
-	z-index:-1;
 	transition: all ease 0.8s;
 
 `;
+
+
+const ExitPaymentOptionScreen=styled.div`
+	position:absolute;
+	background-color:white;
+	width:20%;
+	height:10%;
+	left:10%;
+	top:87%;
+	border-radius:5px;
+	color:#C8B0F4;	
+	border-style:solid;
+    border-color:#C8B0F4;
+    text-align:center;
+    font-size:30px;
+    transition:.8s;
+    z-index:3;
+
+    &:hover{
+
+    	background-color:#A57FEA;
+    	color:white;
+    }
+`;
+
 
 const paymentOptions = [
 
@@ -127,7 +151,7 @@ const paymentOptions = [
 	};
 
 
-
+//Could be just turned into a functional component later
 
 
 class PaymentOptions extends Component{
@@ -140,17 +164,18 @@ constructor(props){
 	super(props);
 	this.state={
 
-
-		paymentOption:paymentOptions
-
+		paymentOption:paymentOptions,
+		displayPaymentOptionsScreen:false,
+		displayPaymentScreen:false
 	}
 
 	this.handleClick=this.handleClick.bind(this);
 }
 
 handleClick(){
-	document.getElementById("paysectionid").style.zIndex=1;
-	document.getElementById("paysectionid").style.opacity=1;
+
+
+	this.props.handleBackClick();
 
 /*
 	var object={
@@ -174,12 +199,20 @@ handleClick(){
 
 }
 
+handleDisplayPaymentScreen=()=>{
 
-	render(){
+	console.log("Payment Screen clicked");
+	this.setState({
+		displayPaymentScreen:true,
+		displayPaymentOptionsScreen:false
+	})
+}
 
-		return (
-			<div>
-					<PaymentOptionContainer>
+handleDisplayPaymentSCreenOrPaymentOptions=()=>{
+
+
+	return this.state.displayPaymentScreen==false?
+				<PaymentOptionContainer>
 
 						<ul style={{paymentStyleUL}}>
 							<li style={{display:"flex"}}>
@@ -192,26 +225,29 @@ handleClick(){
 												description={payment.description}
 												id={payment.id}
 												key={payment.id}
-												handleClick={this.handleClick}
+												handleDisplayPaymentScreen={this.handleDisplayPaymentScreen}
 
 											/>
 										)
 									}
 							</li>
 						</ul>
-					
+						<ExitPaymentOptionScreen onClick={()=>this.handleClick()}> Back </ExitPaymentOptionScreen>
 
-					 </PaymentOptionContainer>
-
+					 </PaymentOptionContainer>:
 					 <PaySection id="paysectionid">
-
-						<Pay />
-
-
-
+						<Pay/>
 					 </PaySection>
 
-			 </div>
+}
+
+
+	render(){
+
+		return (
+			<React.Fragment>
+				{this.handleDisplayPaymentSCreenOrPaymentOptions()}
+			</React.Fragment> 
 		)
 	}
 }

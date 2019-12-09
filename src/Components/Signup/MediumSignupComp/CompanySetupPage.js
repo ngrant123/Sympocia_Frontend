@@ -4,8 +4,11 @@ import secondPageBackground from "../../../designs/background/SignupPageBackgrou
 import CompanyLocationBackground from "../../../designs/img/CompanyLocation.png";
 import CompanyNameBackground from "../../../designs/img/CompanyName.png"
 import PaymentOptionsScreen from "../MediumSignupComp/PaymentOptionsScreen.js";
-import CompanyTypeBackground from "../../../designs/img/CompanyType.png"
-
+import CompanyTypeBackground from "../../../designs/img/CompanyType.png";
+import STATES from "../../../Constants/locationConstants.js";
+import INDUSTRIES from "../../../Constants/industryConstants.js";
+import { connect } from "react-redux";
+ 
 const SignUp = styled.div`
 
 	position:absolute;
@@ -70,7 +73,6 @@ const CompanyName = styled.textarea`
 	}
 
 	 transition: all ease 0.8s;
-
 `;
 
 const DescriptionCompany = styled.div`
@@ -82,6 +84,7 @@ const DescriptionCompany = styled.div`
 	height:8%;
 	font-size:20px;
 	font-family:Helvetica;
+	color:#4a4a4a;
 
 
 `;
@@ -197,19 +200,6 @@ const ImageContainer = styled.div`
 
 
 `;
-const divStyle = {
-  	position:'absolute',
-	backgroundColor:'#4D4C4D',
-	resize:'none',
-	width:'60%',
-	height:'8%',
-	left:'17%',
-	top:'60%',
-	fontSize:'20px',
-	borderRadius:'5px',
-	color:'white'
-  
-};
 
 const InputContainer = styled.div`
 
@@ -223,7 +213,7 @@ const InputContainer = styled.div`
 const PaymentScreen = styled.div`
 
 	position:absolute;
-	background-color:red;
+	background-color:white;
 	width:60%;
 	height:60%;
 	left:20%;
@@ -245,40 +235,141 @@ const Payment1Container = styled.div`
 
 `;
 
+const LocationChoiceModule=styled.div`
+	position:absolute;
+	background-color:white;
+	top:35%;
+	left:35%;
+	width:30%;
+	height:30%;
+	font-size:20px;
+	font-family:Helvetica;
+	z-index:2;
+	border-radius:5px;
+	border-style:solid;
+    border-color:#5298F8;
+    overflow-y:scroll;
+`;
+
+const LocationContainer=styled.div`
+	position:relative;
+	background-color:#5298F8;
+	width:160px;
+	height:50px;
+	border-radius:5px;
+	transition:.8s;
+	padding:10px;
+	color:white;
+
+
+	&:hover{
+		background-color:#0a65e0;
+		color:white;
+	}
+
+`;
+
+
+
+const IndustryChoiceModule=styled.div`
+
+	position:absolute;
+	background-color:white;
+	top:50%;
+	left:35%;
+	width:30%;
+	height:30%;
+	font-size:20px;
+	font-family:Helvetica;
+	z-index:2;
+	border-radius:5px;
+	border-style:solid;
+    border-color:#5298F8;
+    overflow-y:scroll;
+
+`;
+
+const IndustryName=styled.textarea`
+	position:absolute;
+	background-color:#4D4C4D;
+	resize:none;
+	width:60%;
+	height:8%;
+	left:17%;
+	top:60%;
+	font-size:20px;
+	border-radius:5px;
+	color:white;
+
+	::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+	  color: #DBDADC;
+	  opacity: 1; /* Firefox */
+	}
+
+`;
+
+const IndustryContainer=styled.div`
+	position:relative;
+	background-color:#5298F8;
+	width:160px;
+	height:50px;
+	border-radius:5px;
+	transition:.8s;
+	padding:10px;
+	color:white;
+
+
+	&:hover{
+		background-color:#0a65e0;
+		color:white;
+	}
+
+`;
+
 
 class CompanySetupPage extends Component{
 
 	constructor(props){
 		console.log('Setup Page is accessed');
 		super(props);
-		this.state={};
+		this.state={
+			pageText:"Before we set up your profile, we need to know a few details about your company or hobby that you're are doing ",
+			companynameDescrip:"Company Details",
+			displayPaymentScreen:false,
+			displayLocationChoiceDiv:false,
+			displayIndustryChoiceDiv:false,
+			searchLocationTyped:"",
+			cityPicked:{},
+			industryPicked:"",
+			location:[],
+			industries:INDUSTRIES.INDUSTRIES
+		};
 	}
-
 
 	handleSubmit(){
 
-		//Update the state with all of the displayed user information 
-		var companyName= document.getElementById("company").value;
-		var Location= document.getElementById("location").value;
-
-		this.setState({
-
-			companyname:companyName,
-			location:Location, 
-		});
-
-		//Make payment screen apppear
+		console.log("Submit clicked");
 		document.getElementById("payment").style.opacity="1";
 		document.getElementById("payment").style.pointerEvents="auto";
 	}
+
+
+	handleBackButtonEvent=()=>{
+		console.log("Back event clicked");
+		document.getElementById("payment").style.opacity="0";
+		document.getElementById("payment").style.pointerEvents="none";
+	}
+
 
 	handleCompanyDivClick = () =>{
 
 			this.setState({
 
-				companynameDescrip:"Location Information",
-				pageText:"This field will change for the user and is therefore option 1",
-				backgroundURL:CompanyLocationBackground
+				companynameDescrip:"Company Name",
+				pageText:"Tell us the name of your idea or your company. It'll make people finding you easier ",
+				backgroundURL:CompanyLocationBackground,
+				displayLocationChoiceDiv:false,
+				displayIndustryChoiceDiv:false
 			});
 	}
 
@@ -286,9 +377,10 @@ class CompanySetupPage extends Component{
 
 			this.setState({
 
-				companynameDescrip:"Option 2 Infromation",
-				pageText:"This field will change for the user and is therefore option 2",
-				backgroundURL:CompanyNameBackground
+				companynameDescrip:"Whats your location?",
+				pageText:"We use this for a number of reasons. We use this to pair you up with other similiar minded people and it also helps us tailor the experience to your geographical location",
+				backgroundURL:CompanyNameBackground,
+				displayIndustryChoiceDiv:false
 
 			});
 	}
@@ -298,10 +390,167 @@ class CompanySetupPage extends Component{
 
 				companynameDescrip:"Option 3 Information",
 				pageText:"This field will chage for the user and is therefore option 3",
-				backgroundURL:CompanyTypeBackground
+				backgroundURL:CompanyTypeBackground,
+				displayLocationChoiceDiv:false,
+				displayIndustryChoiceDiv:true
 
 			});
 	}
+
+	handleHideLocationDiv=(cityPicked)=>{
+
+		this.setState({
+			displayLocationChoiceDiv:false,
+			cityPicked:cityPicked
+		},function(){
+
+			document.getElementById("location").value=this.state.cityPicked.city;
+
+		});
+	}
+
+	handleDisplayLocationDiv=()=>{
+
+		return this.state.displayLocationChoiceDiv==true ?
+					<LocationChoiceModule>
+						<ul style={{padding:"5px"}}>
+							{this.state.location.map(data=>(
+									<li style={{display:"inline-block",listStyle:"none",marginLeft:"20px",marginBottom:"40px"}}>
+										<LocationContainer onClick={()=>this.handleHideLocationDiv(data)}>
+											{data.city}
+										</LocationContainer>
+
+									</li>
+								)
+							)
+						}
+
+						</ul>
+					</LocationChoiceModule>:
+					<React.Fragment>
+					</React.Fragment>
+	}
+
+
+	handleDisplayAndSearchLocation=(searchCharacters)=>{
+
+		if(this.state.displayLocationChoiceDiv==false){
+
+			this.setState({
+				displayLocationChoiceDiv:true
+			})
+		}
+
+		console.log(searchCharacters)
+		if(searchCharacters==""){
+			this.setState({
+				location:[]
+			})
+		}else{
+			const cities=this.searchForCities(searchCharacters);
+
+			this.setState({
+				location:cities
+			},function(){
+				
+			})
+
+
+		}
+	}
+
+
+	searchForCities=(searchCharacters)=>{
+
+		const states=STATES.STATES;
+		console.log(states);
+		const returnCities=[];
+
+		for(var i=0;i<states.length;i++){
+			const selectedState=states[i].state;
+			
+			if(selectedState.includes(searchCharacters)==true){
+				const city=states[i].cities;
+				for(var j=0;j<city.length;j++){
+					const selectedCity=city[j];
+					returnCities.push(selectedCity);
+
+				}
+			}
+		}
+		return returnCities;
+	}
+
+	handleSearchIndustry=(character)=>{
+		const industries=this.state.industries;
+
+		console.log(character);
+		if(character==""){
+			this.setState({
+				industries:INDUSTRIES.INDUSTRIES
+			})
+		}
+		else{
+			const displaySearchIndustries=[];
+
+			for(var i=0;i<industries.length;i++){
+
+				const selectedIndustries=industries[i].industry;
+				console.log(selectedIndustries);
+
+				if(selectedIndustries.includes(character)==true){
+					console.log("Accessed");
+					const industry={industry:selectedIndustries};
+					displaySearchIndustries.push(industry);
+				}
+			}
+
+			this.setState({
+				industries:displaySearchIndustries
+			})
+
+		}
+
+	}
+
+	handleHideIndustryDiv=(data)=>{
+
+		this.setState({
+			displayIndustryChoiceDiv:false,
+			industryPicked:data
+		},function(){
+			document.getElementById("industry").value=this.state.industryPicked;
+		});
+
+
+	}
+
+	handleDisplayIndustryDiv=()=>{
+
+		return this.state.displayIndustryChoiceDiv==true ?
+			<IndustryChoiceModule>
+				<ul style={{padding:"5px"}}>
+						{this.state.industries.map(data=>(
+							<li>
+								<li style={{display:"inline-block",listStyle:"none",marginLeft:"20px",marginBottom:"40px"}}>
+										<IndustryContainer onClick={()=>this.handleHideIndustryDiv(data.industry)}>
+											{data.industry}
+										</IndustryContainer>
+
+									</li>
+							</li>
+								)
+							)
+						}
+
+				</ul>
+			</IndustryChoiceModule>:
+			<React.Fragment>
+			</React.Fragment>
+	}  
+
+
+
 
 	render(){
 
@@ -310,27 +559,20 @@ class CompanySetupPage extends Component{
 
 					<SignUp id="signup">
 
-						<DescriptionCompany> Company 1 </DescriptionCompany>
+						<p style={{fontSize:"30px",position:"absolute",left:"15%",top:"5%"}}><b>Background Information</b></p>
 
-						<CompanyName id="company" placeholder="Company Name" onClick={()=> this.handleCompanyDivClick()}></CompanyName>
+						<DescriptionCompany> Company Name</DescriptionCompany>
 
-						<DescriptionLocation> Location Company </DescriptionLocation>
-						<LocationName id="location" placeholder="Location" onClick={()=> this.handleLocationDivClick()}></LocationName>
+						<CompanyName id="company" placeholder="Enter your company name" onClick={()=> this.handleCompanyDivClick()}></CompanyName>
+
+						<DescriptionLocation> Location </DescriptionLocation>
+						<LocationName id="location" placeholder="Start typing a location" onClick={()=> this.handleLocationDivClick()} onChange={event=>this.handleDisplayAndSearchLocation(event.target.value)}></LocationName>
 
 						<DescriptionCompanyType> Company Type </DescriptionCompanyType>
-			
-							<input list="startupcategories" name="startupcategories" style={divStyle} onClick={()=> this.handleCompanyTypeDivClick()}/>
-								<datalist id="startupcategories">
-									<option value="Fashion" />
-									<option value= "Engineering" />
-									<option value="Fashion" />
-		
-								</datalist>
-				
+						<IndustryName id="industry" placeholder="Enter your company type"  onClick={()=> this.handleCompanyTypeDivClick()} onChange={event=>this.handleSearchIndustry(event.target.value)}></IndustryName>
+
 					</SignUp>
 
-
-	
 						<SubmitInformation id="submit" onClick={()=> this.handleSubmit()}>Submit</SubmitInformation>
 						<ImageContainer id="ImageContainer"style={{backgroundImage: 'url(' + this.state.backgroundURL + ')'}}></ImageContainer>
 
@@ -339,13 +581,21 @@ class CompanySetupPage extends Component{
 
 
 					<PaymentScreen id="payment">
-						<PaymentOptionsScreen />
+						<PaymentOptionsScreen 
+							handleBackClick={this.handleBackButtonEvent}
+						/>
 					</PaymentScreen>
+
+					{this.handleDisplayLocationDiv()}
+					{this.handleDisplayIndustryDiv()}
 
 			</React.Fragment>
 
 		)
 	}
 }
+
+
+
 
 export default CompanySetupPage;

@@ -167,7 +167,7 @@ class PaymentOption extends Component {
 		document.getElementById(this.state.id+"container").style.borderRadius="5px";
 		document.getElementById(this.state.id+"container").style.borderColor=" #C8B0F4";
 
-		this.props.handleClick();
+		this.props.handleDisplayPaymentScreen();
 
 	}
 
