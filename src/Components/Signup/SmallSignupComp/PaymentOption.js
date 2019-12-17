@@ -1,5 +1,9 @@
 import React, {Component} from "react";
 import styled from "styled-components";
+import { addPaymentPlan } from '../../../Actions/Redux/Actions/PersonalProfile.js';
+import { connect } from 'react-redux';
+import {createProfile} from "../../../Actions/Requests/ProfilePageAxiosRequests/ProfilePagePostRequests.js";
+import {createCompanyProfile} from "../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests";
 
 const Payment1 = styled.div`
 
@@ -82,6 +86,12 @@ const P1SecondDescription = styled.div`
 	font-size:14px;
 	text-align:center;
 	font-family:Helvetica;
+	overflow-y:scroll;
+	transition:.8s;
+
+	&:hover{
+		background-color:white;
+	}
 
 `;
 
@@ -161,14 +171,35 @@ class PaymentOption extends Component {
 
 	handleOnClick(){
 
-
 		//Fix later 
 		document.getElementById(this.state.id+"container").style.borderStyle="solid";
 		document.getElementById(this.state.id+"container").style.borderRadius="5px";
 		document.getElementById(this.state.id+"container").style.borderColor=" #C8B0F4";
 
-		this.props.handleDisplayPaymentScreen();
+		this.props.addPaymentPlan(this.state.pricedescription);
 
+		if(this.state.pricedescription=='Free'){
+			//send  data to db and move to profile page
+
+			const PersonalProfile={
+				firstName:this.props.firstName,
+				lastName:this.props.lastName,
+				email:this.props.email
+			}
+
+			const CompanyProfile={
+				companyName:this.props.companyName,
+				location:this.props.companyLocation,
+				industry:this.props.companyIndustry
+			}
+
+			//createProfile(PersonalProfile);
+			//createCompanyProfile(CompanyProfile);
+
+		}
+		else
+			this.props.handleDisplayPaymentScreen();
+		
 	}
 
 
@@ -193,12 +224,35 @@ class PaymentOption extends Component {
 						 </P1SecondDescription>
 						<P1Submit onMouseOver= {()=> this.handleHoverIn()} onMouseOut={()=> this.handleHoverOut()} onClick={()=> this.handleOnClick()}> Choose Free </P1Submit>
 
-
 					</Payment1>	
-			
 		)
 	}
 }
 
+const mapStateToProps=(state)=>{
 
-export default PaymentOption;
+
+	return{
+		firstName:state.personalInformation.firstName,
+		lastName:state.personalInformation.lastName,
+		email:state.personalInformation.email,
+		companyName:state.personalInformation.companyName,
+		companyLocation:state.personalInformation.companyLocation,
+		companyIndustry:state.personalInformation.companyIndustry
+	}
+}
+
+
+const mapDispatchToProps=dispatch=>{
+
+	return{
+		addPaymentPlan:(paymentPlan)=>dispatch(addPaymentPlan(paymentPlan))
+	}
+}
+
+
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(PaymentOption);

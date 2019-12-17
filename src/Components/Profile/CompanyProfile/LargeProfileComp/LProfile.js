@@ -5,9 +5,9 @@ import CoverPhoto from "../MediumProfileComp/CoverPhoto.js";
 import ProfileComp from "../MediumProfileComp/ProfileComp.js";
 import Post from "../MediumProfileComp/PostComp.js";
 import Icon from "../SmallProfilePostOptionComp/CompanyIcon.js";
-import img from "../../../designs/background/tester2.png";
-import Industries from "../../../Constants/constants.js";
-import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
+import img from "../../../../designs/background/tester2.png";
+import Industries from "../../../../Constants/constants.js";
+import { GeneralNavBar } from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 
 
 const ProfileContainer = styled.div`
@@ -27,8 +27,6 @@ const FirstProfileContainer = styled.div`
 	position:relative;
 	width:100%;
 	height:100%;
-
-
 
 `;
 

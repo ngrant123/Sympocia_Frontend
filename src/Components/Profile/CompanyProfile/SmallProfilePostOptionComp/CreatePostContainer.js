@@ -1,11 +1,11 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import camera from '../../../designs/postimages/cameraactivated.png';
-import pencil from '../../../designs/postimages/pencilactivated.png';
-import event from '../../../designs/postimages/eventactivated.png';
-import cameranotactivated from '../../../designs/postimages/Notcameraactivated.png';
-import pencilnotactivated from '../../../designs/postimages/Notpencilactivated.png';
-import eventnotactivated from '../../../designs/postimages/Noteventactivated.png';
+import camera from '../../../../designs/postimages/cameraactivated.png';
+import pencil from '../../../../designs/postimages/pencilactivated.png';
+import event from '../../../../designs/postimages/eventactivated.png';
+import cameranotactivated from '../../../../designs/postimages/Notcameraactivated.png';
+import pencilnotactivated from '../../../../designs/postimages/Notpencilactivated.png';
+import eventnotactivated from '../../../../designs/postimages/Noteventactivated.png';
 
 
 

@@ -1,7 +1,7 @@
 
 
 const initialState ={
-	companyName:"",
+	companyName:'',
 	companyIndustry:"",
 	companyLocation:"",
 	companyIcon:"",
@@ -10,45 +10,50 @@ const initialState ={
 }
 
 
-export function CompanyInformationReducer(state=initialState, action){
+const CompanyInformationReducer=(state=initialState, action)=>{
 
 	const { type,payload }=action;
+
+	console.log(payload);
+	console.log(type);
 
 	switch(type){
 
 		case 'UPDATE_COMPANY_NAME':
-			return {...,
-					companyName:payload.companyName
+			console.log('Company Name accessed');
+			return {
+					...state,
+					companyName:payload
 					}
 			break;
 
 		case 'UPDATE_COMPANY_INDUSTRY':
-			return {...,
-					companyIndustry:payload.companyIndustry
+			return {...state,
+					companyIndustry:payload
 					}
 				break;
 
 		case 'UPDATE_COMPANY_LOCATION':
-			return {...,
-					companyLocation:payload.companyLocation
+			return {...state,
+					companyLocation:payload
 					}
 			break;
 
 		case 'UPDATE_COMPANY_ICON':
-			return {...,
-					companyIcon:payload.companyIcon
+			return {...state,
+					companyIcon:payload
 					}
 			break;
 
 		case 'UPDATE_COMPANY_BIO':
-			return {...,
-					companyBio:payload.companyBio
+			return {...state,
+					companyBio:payload
 					}
 			break;
 
 		case 'UPDATE_COMPANY_COVER_PHOTO':
-			return {...,
-					companyCoverPhoto:payload.companyCoverPhoto
+			return {...state,
+					companyCoverPhoto:payload
 					}
 			break;
 
@@ -57,3 +62,6 @@ export function CompanyInformationReducer(state=initialState, action){
 			break;
 	}
 }
+
+
+export default CompanyInformationReducer;

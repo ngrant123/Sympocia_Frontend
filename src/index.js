@@ -4,7 +4,8 @@ import React from "react";
 import ReactDom from "react-dom";
 import Landing from "./Pages/Landing";
 import Signup from "./Components/Signup/LargeSignupComp/LSignUpPage";
-import ProfileScreen from "./Components/Profile/LargeProfileComp/LProfile";
+import CompanyProfileScreen from "./Components/Profile/CompanyProfile/LargeProfileComp/LProfile";
+import PersonalProfileScreen from "./Components/Profile/PersonalProfile/LargeProfileComp/ControlledComponents/LProfile";
 import {BrowserRouter as Router, Route , Switch} from 'react-router-dom';
 import InvestorScreen from "./Components/Investor/LargeInvestorComp/LInvestor.js";
 import HomeScreen from "./Components/Home/LargeHomeComp/LargeHomeContainer.js";
@@ -37,7 +38,8 @@ const application  = (
 					)
 				}/>
 				<Route path="/home" component= {HomeScreen}/>
-				<Route path="/profile" component = {ProfileScreen} />
+				<Route path="/companyProfile" component = {CompanyProfileScreen} />
+				<Route path="/profile" component={PersonalProfileScreen}/>
 				<Route path="/investor" component= {InvestorScreen} />
 				<Route path="/map" component= {MapScreen} />
 

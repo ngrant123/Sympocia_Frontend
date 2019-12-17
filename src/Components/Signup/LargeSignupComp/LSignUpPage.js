@@ -392,6 +392,13 @@ const CompanyPageButton=styled.div`
 
 `;
 
+const BottomNotificationContainer=styled.div`
+	position:absolute;
+	
+
+
+`;
+
 class LSignupPage extends Component {
 
 
@@ -476,8 +483,6 @@ class LSignupPage extends Component {
 
 				</CompanySectionContainer>
 
-				{this.DisplayPersonalSetupPage()}
-				{this.DisplayCompanySetupPage()}
 
 			</React.Fragment>
 

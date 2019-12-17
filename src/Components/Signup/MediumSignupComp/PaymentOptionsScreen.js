@@ -88,6 +88,7 @@ const PaySection = styled.div`
 	height:100%;
 	opacity:0;
 	transition: all ease 0.8s;
+	z-index:3;
 
 `;
 
@@ -150,6 +151,33 @@ const paymentOptions = [
 		margin:'10px 0'
 	};
 
+	const BackButton=styled.div`
+		position:absolute;
+		background-color:#C8B0F4;
+		color:white;
+  		text-align:center;
+		font-family:Myriad Pro;
+		font-size:25px;
+		top:85%;
+		width:20%;
+		left:15%;
+		border-radius:5px;
+		height:10%;
+		z-index:3;
+
+		  &:hover{
+
+	      background-color:white;
+
+	    color:#C8B0F4;
+	   border-style:solid;
+	   border-color: #C8B0F4;
+	   transition: all ease 0.8s;
+	   overflow:hidden;
+
+	   }
+	`;
+
 
 //Could be just turned into a functional component later
 
@@ -208,6 +236,15 @@ handleDisplayPaymentScreen=()=>{
 	})
 }
 
+handleDisplayPaymentOptionsScreen=()=>{
+
+	this.setState({
+		displayPaymentScreen:false,
+		displayPaymentOptionsScreen:true
+	})
+
+}
+
 handleDisplayPaymentSCreenOrPaymentOptions=()=>{
 
 
@@ -235,9 +272,10 @@ handleDisplayPaymentSCreenOrPaymentOptions=()=>{
 						<ExitPaymentOptionScreen onClick={()=>this.handleClick()}> Back </ExitPaymentOptionScreen>
 
 					 </PaymentOptionContainer>:
-					 <PaySection id="paysectionid">
+					 <React.Fragment>
 						<Pay/>
-					 </PaySection>
+						<BackButton onClick={()=>this.handleDisplayPaymentOptionsScreen()}>Back</BackButton>
+					</React.Fragment>
 
 }
 

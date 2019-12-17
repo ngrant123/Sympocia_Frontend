@@ -8,6 +8,12 @@ import CompanyTypeBackground from "../../../designs/img/CompanyType.png";
 import STATES from "../../../Constants/locationConstants.js";
 import INDUSTRIES from "../../../Constants/industryConstants.js";
 import { connect } from "react-redux";
+import { 
+			addCompanyName,
+			addCompanyType,
+			addCompanyLocation 
+		} from "../../../Actions/Redux/Actions/CompanyActions.js";
+
  
 const SignUp = styled.div`
 
@@ -22,8 +28,6 @@ const SignUp = styled.div`
 	border-radius:5px;
 	opacity:.99;
 	transition: all ease 0.8s;
-
-
 `;
 
 const TextAreaDiv = styled.div`
@@ -348,7 +352,15 @@ class CompanySetupPage extends Component{
 
 	handleSubmit(){
 
-		console.log("Submit clicked");
+		const company=document.getElementById('company').value;
+		const location=document.getElementById('location').value;
+		const industry=document.getElementById('industry').value;
+
+		this.props.addCompanyName(company);
+		this.props.addCompanyType(industry);
+		this.props.addCompanyLocation(this.state.cityPicked);
+	
+
 		document.getElementById("payment").style.opacity="1";
 		document.getElementById("payment").style.pointerEvents="auto";
 	}
@@ -597,5 +609,14 @@ class CompanySetupPage extends Component{
 
 
 
+const mapDispatchToProps=(dispatch)=>{
 
-export default CompanySetupPage;
+	return{
+		addCompanyName:(companyName)=>dispatch(addCompanyName(companyName)),
+		addCompanyType:(companyType)=>dispatch(addCompanyType(companyType)),
+		addCompanyLocation:(location)=>dispatch(addCompanyLocation(location))
+	}
+}
+export default connect(
+				null,
+				mapDispatchToProps )(CompanySetupPage);

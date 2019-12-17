@@ -37,10 +37,56 @@ const addPersonalIdentificationId=(userId)=>{
 	}
 }
 
+const addSignInStatus=(signInStatus)=>{
+
+	return{
+		type:'UPDATE_SIGNIN_STATUS',
+		payload:signInStatus
+	}
+}
+
+const addAccountNumber=(accountNumber)=>{
+
+	return{
+		type:'ADD_ACCOUNT_NUMBER',
+		payload:accountNumber
+	} 
+}
+
+const addCardDate=(accountDate)=>{
+
+	return{
+		type:'ADD_CARD_DATE',
+		payload:accountDate
+	}
+}
+
+const addCvv=(accountCvv)=>{
+
+	return{
+		type:'ADD_CVV',
+		payload:accountCvv
+	}
+}
+
+
+const addPaymentPlan=(paymentPlan)=>{
+
+	return{
+		type:'ADD_PAYMENT_PLAN',
+		payload:paymentPlan
+	}
+}
+
 
 module.exports={
 	addName,
 	addLastName,
 	addEmail,
-	addPersonalIdentificationId
+	addPersonalIdentificationId,
+	addSignInStatus,
+	addCardDate,
+	addAccountNumber,
+	addCvv,
+	addPaymentPlan
 }

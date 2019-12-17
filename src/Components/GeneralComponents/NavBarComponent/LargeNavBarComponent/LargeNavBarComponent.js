@@ -196,7 +196,7 @@ const ProfilePicture = styled.div`
 const MapAndHomeContainer = styled.div`
 	position:absolute;
 	width:100%;
-	height:100%;
+	height:8%;
 	background-color:#232323;
 	border-radius:0px 0px 5px 5px;
 `;

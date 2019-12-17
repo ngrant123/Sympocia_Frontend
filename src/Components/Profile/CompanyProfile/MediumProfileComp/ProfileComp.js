@@ -4,13 +4,13 @@ import Option from "../SmallProfilePostOptionComp/Options.js";
 import CreatePostContainer from "../SmallProfilePostOptionComp/CreatePostContainer.js";
 import AddEmployeesAction from "../SmallProfilePostOptionComp/AddEmployees.js";
 import SmallProfile from "../SmallProfilePostOptionComp/SmallProfile.js";
-import MediumCompanyStats from "../MediumProfileComp/MediumCompanyStats.js";
+import MediumCompanyStats from "./MediumCompanyStats.js";
 import ReactGoogleMapLoader from "react-google-maps-loader";
 import ReactGoogleMap from "react-google-maps";
 import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import GeneralPostComponent from "../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
+import GeneralPostComponent from "../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 
 const ProfileContainer = styled.div`
 

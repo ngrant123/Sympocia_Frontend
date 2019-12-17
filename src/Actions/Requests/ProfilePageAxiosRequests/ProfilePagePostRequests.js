@@ -96,13 +96,16 @@ export function updateEmployee(userId,updatedEmployeeData){
 }
 
 export function createProfile(personalData){
-	const {firstName,lastName,email}=personalData;
+	const {firstName,lastName,email,paymentPlan,stripToken}=personalData;
 
 	const CreateUrl='http://localhost:4000/api/profile/alter';
+
 	axios.post(`${CreateUrl}/createProfile`,{
 		firstName:firstName,
 		lastName:lastName,
-		email:email
+		email:email,
+		stripToken:stripToken,
+		paymentPlan:paymentPlan
 	}).then(profile=>{
 		return profile;
 	}).catch(err=>{
