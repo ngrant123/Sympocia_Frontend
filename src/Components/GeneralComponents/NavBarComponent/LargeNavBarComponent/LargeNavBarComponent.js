@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown'
 
 const ProfileAndInvestorContainer = styled.div`
 	position:absolute;
@@ -376,16 +378,212 @@ const MapAndHomeInvestorLink = styled(Link)`
 
 `;
 
-export function GeneralNavBar(pageProps){
-	let pageType =pageProps.pageType;
+const Container=styled.div`
+	position:absolute;
+	width:100%;
+	height:8%;
+	border-radius:0px 0px 5px 5px;
 
-	if(pageType=="Profile" || pageType=="Investor"){
-		return ProfileOrInvestorHeader();
-	}
-	else{
-		return MapOrHomeHeader();
-	}
+
+`;
+
+const SearchButton=styled.textarea`
+	position:relative;
+	left:30%;
+	height:60%;
+	top:10px;
+	width:40%;
+	resize:none;
+	border-radius:5px;
+	border-style:none;
+	text-align:center;
+`;
+
+const ButtonsListCSS={
+	display:"inline-block",
+	listStyle:"none",
+	marginRight:"10px"
 }
+
+const ProfileDropDownListCSS={
+
+	display:"inline-block",
+	listStyle:"none",
+	marginRight:"20px"
+	
+}
+
+const PersonalProfileChatContainer=styled.div`
+	position:relative;
+	background-color:red;
+	width:50%;
+	height:60px;
+	border-radius:5px;
+	transition:.8s;
+
+	&:hover{
+
+		box-shadow: 5px 5px 10px 	#9395a0;
+	}
+`;
+
+
+const PersonalProfileNotificationsContainer=styled.div`
+
+	position:relative;
+	background-color:red;
+	width:50%;
+	height:60px;
+	border-radius:5px;
+	transition:.8s;
+
+	&:hover{
+
+		box-shadow: 5px 5px 10px 	#9395a0;
+	}
+
+
+`;
+
+const CompanyProfileChatContainer=styled.div`
+	position:relative;
+	background-color:red;
+	width:50%;
+	height:60px;
+	border-radius:5px;
+	transition:.8s;
+	
+	&:hover{
+
+		box-shadow: 5px 5px 10px 	#9395a0;
+	}
+`;
+
+
+const CompanyProfileNotificationsContainer=styled.div`
+
+	position:relative;
+	background-color:red;
+	width:50%;
+	height:60px;
+	border-radius:5px;
+	transition:.8s;
+
+	&:hover{
+
+		box-shadow: 5px 5px 10px 	#9395a0;
+	}
+
+
+`;
+
+export function GeneralNavBar(pageProps){
+	
+	return(
+		<Container>
+
+			<SearchButton placeholder="Search for anyone nigga"/>
+
+			<ul style={{position:"relative",left:"39%",top:"30%"}}>
+				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>Primary</Button> </li>
+				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>Primary</Button> </li>
+				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>Primary</Button> </li>
+			</ul>
+
+
+			<ul style={{position:"absolute",left:"80%",top:"10%"}}>
+				<li style={ProfileDropDownListCSS}>
+					<Dropdown>
+						  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
+						  
+						  </Dropdown.Toggle>
+
+						  <Dropdown.Menu>
+						
+						    {displayProfileOptions("Company")}
+
+						  </Dropdown.Menu>
+
+					</Dropdown>
+
+				</li>
+				<li style={ProfileDropDownListCSS}>
+					<Dropdown>
+						  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
+						   
+						  </Dropdown.Toggle>
+
+						  <Dropdown.Menu>
+
+							{displayProfileOptions("Personal")}
+						    
+						  </Dropdown.Menu>
+
+					</Dropdown>
+
+				</li>
+
+			</ul>
+
+		</Container>
+	)
+}
+
+ function displayProfileOptions(props){
+ 	if(props=="Personal"){
+ 		return(
+ 			<React.Fragment>
+ 				<ul style={{listStyle:"none"}}>	
+ 					<li style={{marginBottom:"10px"}}>
+ 						<PersonalProfileChatContainer>
+
+ 						</PersonalProfileChatContainer>
+
+ 					</li>
+
+ 					<li>
+ 						<PersonalProfileNotificationsContainer>
+
+ 						</PersonalProfileNotificationsContainer>
+
+
+ 					</li>
+
+ 				</ul>
+ 			</React.Fragment>
+
+ 		)
+ 	}
+ 	else{
+ 		return(
+ 			<React.Fragment>
+	 			<ul style={{listStyle:"none"}}>	
+	 					<li style={{marginBottom:"10px"}}>
+	 						<CompanyProfileChatContainer>
+
+	 						</CompanyProfileChatContainer>
+
+	 					</li>
+
+	 					<li>
+	 						<CompanyProfileNotificationsContainer>
+
+	 						</CompanyProfileNotificationsContainer>
+
+
+	 					</li>
+
+	 				</ul>
+
+ 			</React.Fragment>
+		
+		) 
+ 	}
+
+
+}
+
+
 
 function MapOrHomeHeader(){
 	return <MapAndHomeContainer>

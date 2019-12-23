@@ -5,7 +5,7 @@ import ReactDom from "react-dom";
 import Landing from "./Pages/Landing";
 import Signup from "./Components/Signup/LargeSignupComp/LSignUpPage";
 import CompanyProfileScreen from "./Components/Profile/CompanyProfile/LargeProfileComp/LProfile";
-import PersonalProfileScreen from "./Components/Profile/PersonalProfile/LargeProfileComp/ControlledComponents/LProfile";
+import PersonalProfileScreen from "./Components/Profile/PersonalProfile/PersonalProfileSet/PersonalProfileContainer";
 import {BrowserRouter as Router, Route , Switch} from 'react-router-dom';
 import InvestorScreen from "./Components/Investor/LargeInvestorComp/LInvestor.js";
 import HomeScreen from "./Components/Home/LargeHomeComp/LargeHomeContainer.js";
