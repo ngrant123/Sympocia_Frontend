@@ -490,12 +490,12 @@ export function GeneralNavBar(pageProps){
 				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>Primary</Button> </li>
 			</ul>
 
-
+		
 			<ul style={{position:"absolute",left:"80%",top:"10%"}}>
 				<li style={ProfileDropDownListCSS}>
 					<Dropdown>
 						  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
-						  
+				 		  
 						  </Dropdown.Toggle>
 
 						  <Dropdown.Menu>

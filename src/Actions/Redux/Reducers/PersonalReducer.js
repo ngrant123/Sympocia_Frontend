@@ -10,8 +10,8 @@ const initialState={
 	accountNumber:0,
 	dateOnCard:'',
 	cvv:0,
-	paymentPlan:''
-
+	paymentPlan:'',
+	firstTimeIndicator:false
 }
 
 const PersonalProfile=(state={initialState},action)=>{
@@ -81,6 +81,14 @@ const PersonalProfile=(state={initialState},action)=>{
 			return{
 				...state,
 				paymentPlan:payload
+			}
+			break;
+
+		case 'FIRST_TIME_INDICATOR':
+
+			return{
+				...state,
+				firstTimeIndicator:payload
 			}
 			break;
 

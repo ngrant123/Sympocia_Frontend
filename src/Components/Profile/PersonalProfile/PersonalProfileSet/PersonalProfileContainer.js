@@ -5,14 +5,18 @@ import PostsContainer from "../PersonalProfileSubset/PostSection/PostContainer.j
 import PersonalInformation from "../PersonalProfileSubset/PersonalDetails/PersonalInformation.js";
 import Anime from 'react-anime';
 import Typed from "react-typed";
-import {useSelector,useDispatch} from 'react-redux';
+import {useSelector,useDispatch, connect} from 'react-redux';
+import { getProfile } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import { UserProvider } from "../UserContext.js";
 
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'
 
 const Container=styled.div`
+
 	position:absolute;
 	width:100%;
 	height:100%;
+
 `;
 
 
@@ -28,6 +32,7 @@ const ProfilePictureContainer=styled.div`
 	border-width:7px;
 	border-radius:5px;
 	box-shadow: 5px 5px 5px 5px #f1f1f1;
+
 `;
 
 
@@ -389,9 +394,7 @@ const RecentlyAddBlogsButton=styled.div`
 	text-align:center;
 	border-radius:5px;
 	color:white;
-	text-align:center;
-
-
+	text-align:center;	
 
 `;
 /*
@@ -421,102 +424,200 @@ const LProfile = (props) => {
 
 */
 
-const handleChangeProfilePicture=()=>{
 
 
-	console.log('Change pic button clicked');
+
+class LProfile extends Component{
+
+
+	constructor(props){
+		super(props);
+
+		this.state={
+			profile:{
+				images:[],
+				videos:[],
+				blogs:[]
+			},
+			displayImages:true,
+		    displayVideos:false,
+		    displayBlogs:false    
+		};
+
+	}
+
+
+	componentDidMount(){
+
+		const userId=this.props.id;
+		const firstTimeIndicator=this.props.firstTimeIndicator;
+
+
+		if(firstTimeIndicator==true){
+			//Start tutorial mode
+
+		 }else if (userId!=null){
+			//const profile=getProfile(userId);
+			//changeDisplayItem([]);
+			/*
+				OPTION 1:
+
+				Get the profile from the db then check if the unique id 
+				matches the one in the redux store then depending on that determines
+				what kind of page to display? 
+				*/
+		}
+
+
+	}
+
+	 handleChangeProfilePicture=()=>{
+
+
+		console.log('Change pic button clicked');
+	}
+
+	/*
+
+		Could be done in such a better way nigga
+
+	*/
+
+	displayImages=()=>{
+
+		this.setState(prevState => ({
+		    ...prevState,                     
+		    displayImages:true,
+		    displayVideos:false,
+		    displayBlogs:false
+		    }
+		))
+	}
+
+
+	displayVideos=()=>{
+
+		this.setState(prevState=>({
+
+			...prevState,
+			displayImages:false,
+		    displayVideos:true,
+		    displayBlogs:false
+		}))
+	}
+
+
+	displayBlogs=()=>{
+
+		this.setState(prevState=>({
+			...prevState,
+			displayImages:false,
+		    displayVideos:false,
+		    displayBlogs:true
+		}))
+
+	}
+
+	render(){
+		return(
+
+			<UserProvider value={this.state}>
+				<Container>
+
+					<HeaderContainer>
+
+						<GeneralNavBar/>
+
+					</HeaderContainer>
+
+					<ProfileContainer>
+
+						<ImageButtonContainer onClick={()=>this.displayImages()}>
+							 Images
+							<p style={{fontSize:"30%"}}>Check out the images that you have here </p>
+						</ImageButtonContainer>
+
+						<RecentlyAddedImagesButton>
+							Recently Added
+						</RecentlyAddedImagesButton>
+
+
+						<VideoButtonContainer onClick={()=>this.displayVideos()}>
+							Videos
+							<br/>
+							<p style={{fontSize:"30%"}}>See how many people's seem your videos below :) </p>
+						</VideoButtonContainer>
+
+						<RecentlyAddedVideoButton>
+							Recently Added
+						</RecentlyAddedVideoButton>
+
+
+						<BlogsButtonContainer onClick={()=>this.displayBlogs()}>
+							Blogs
+							<br/>
+							<p style={{fontSize:"30%"}}>See how many people's seem your videos below :) </p>
+
+						</BlogsButtonContainer>
+
+						<RecentlyAddBlogsButton>
+							Recently Added
+						</RecentlyAddBlogsButton>
+
+
+						<ProfilePictureContainer>
+
+
+							<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
+								Change Profile Picture
+							</ChangePictureButton>
+
+						</ProfilePictureContainer>
+
+
+						<NameContainer>
+							<ChangeBioButton>
+								Edit Bio
+							</ChangeBioButton>
+
+
+						</NameContainer>
+
+						<PersonalProfileInformationContainer>
+
+							<PersonalInformation/>
+
+						</PersonalProfileInformationContainer>
+
+						<PersonalProfileContentContainer>
+
+							<PostsContainer/>
+
+						</PersonalProfileContentContainer>
+
+					</ProfileContainer>
+
+
+				</Container>
+
+		</UserProvider>
+
+
+
+		)
+	}
+
 }
 
-const LProfile=()=>{
 
-	//const displayImagesOrVideos=useSelector(state=>this.state.images);
-	useEffect(()=>{
-
-		console.log('Component mounted');
-	})
-
-	return(
-		<Container>
-
-			<HeaderContainer>
-
-				<GeneralNavBar/>
-
-			</HeaderContainer>
-
-			<ProfileContainer>
-
-				<ImageButtonContainer>
-					 Images
-					<p style={{fontSize:"30%"}}>Check out the images that you have here </p>
-				</ImageButtonContainer>
-
-				<RecentlyAddedImagesButton>
-					Recently Added
-				</RecentlyAddedImagesButton>
+const mapStateToProps=(state)=>{
 
 
-				<VideoButtonContainer>
-					Videos
-					<br/>
-					<p style={{fontSize:"30%"}}>See how many people's seem your videos below :) </p>
-				</VideoButtonContainer>
-
-				<RecentlyAddedVideoButton>
-					Recently Added
-				</RecentlyAddedVideoButton>
-
-
-				<BlogsButtonContainer>
-					Blogs
-					<br/>
-					<p style={{fontSize:"30%"}}>See how many people's seem your videos below :) </p>
-
-				</BlogsButtonContainer>
-
-				<RecentlyAddBlogsButton>
-					Recently Added
-				</RecentlyAddBlogsButton>
-
-
-				
-
-				<ProfilePictureContainer>
-
-
-					<ChangePictureButton onClick={()=>handleChangeProfilePicture()}>
-						Change Profile Picture
-					</ChangePictureButton>
-
-				</ProfilePictureContainer>
-
-
-				<NameContainer>
-					<ChangeBioButton>
-						Edit Bio
-					</ChangeBioButton>
-
-
-				</NameContainer>
-
-				<PersonalProfileInformationContainer>
-
-					<PersonalInformation/>
-
-				</PersonalProfileInformationContainer>
-
-				<PersonalProfileContentContainer>
-
-					<PostsContainer/>
-
-				</PersonalProfileContentContainer>
-
-			</ProfileContainer>
-
-
-		</Container>
-
-	)
+	return{
+		_id:state.personalInformation.id
+	}
 }
 
-export default LProfile;
+export default connect(
+	mapStateToProps,
+	null)(LProfile);

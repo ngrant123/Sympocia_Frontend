@@ -1,5 +1,5 @@
 import axios from "axios";
-import BASE_URL from "../Constants.js";
+import BASE_URL from "../../../Constants/constants.js";
 
 const baseurl=BASE_URL.BASE_URL;
 
@@ -47,7 +47,7 @@ export function getCoverPhotoImage(userId){
 	axios.get(`${baseurl}/CoverPhoto`,{
 
 		params:{
-			userid:userid
+			userid:userId
 		}
 	}).then(res=>{
 
@@ -94,4 +94,22 @@ export function getCompanyBio(userId){
 		console.log(err.message);
 
 	})
+}
+
+export function getProfile(userId){
+
+
+	const getUrl='localhost:4000/api/seacrh';
+
+	axios.get(`${getUrl}/`,{
+		params:{
+			id:userId
+		}
+	}).then(profile=>{
+		return profile;
+
+	}).catch(err=>{
+		return err.message
+	})
+
 }

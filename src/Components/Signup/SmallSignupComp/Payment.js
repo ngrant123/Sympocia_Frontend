@@ -1,12 +1,14 @@
 import React, {Component} from "react"
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import {createProfile}from "../../../Actions/Requests/ProfilePageAxiosRequests/ProfilePagePostRequests.js";
+import {createProfile}from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {connect} from 'react-redux';
 import {  
 		  addCardDate,
 		  addAccountNumber,
-		  addCvv
+		  addCvv,
+		  addPersonalIdentificationId,
+		  firstTimeUsage
 		} from '../../../Actions/Redux/Actions/PersonalProfile.js';
 
 
@@ -296,19 +298,23 @@ class Payment extends Component {
 
 			const accountCvv=document.getElementById('accountCvv').value;
 			this.props.addCvv(accountCvv);
+			this.props.firstTime(true);
 
+			
 			const personalData={
 				firstName:this.props.firstName,
 				lastName:this.props.lastName,
 				email:this.props.email,
 				accountNumber:this.props.accountNumber,
 				accountDate:this.props.dateOnCard,
-				accountCvv:this.props.cvv
+				accountCvv:this.props.cvv,
+				firstTime:this.props.firstTime
 			} 
 
+			const {_id}=createProfile(personalData);
+			this.props.addPersonalIdentificationId(_id);
+
 			///Implement strip api on frontend
-
-
 			//console.log(createProfile(personalData));
 		}
 
@@ -404,7 +410,6 @@ const mapStateToProps=(state)=>{
 		accountDate:state.personalInformation.dateOnCard,
 		accountCvv:state.personalInformation.cvv
 	}
-
 }
 
 const mapDispatchToProps =(dispatch)=>{
@@ -412,9 +417,10 @@ const mapDispatchToProps =(dispatch)=>{
 	return{
 		addCardDate: (cardDate)=> dispatch(addCardDate(cardDate)),
 		addAccountNumber:(accountNumber)=>dispatch(addAccountNumber(accountNumber)),
-		addCvv:(cvv)=>dispatch(addCvv(cvv))
+		addCvv:(cvv)=>dispatch(addCvv(cvv)),
+		addPersonalIdentificationId:(userId)=>dispatch(addPersonalIdentificationId(userId)),
+		firstTimeUsage:(firstTime)=>dispatch(firstTimeUsage(firstTime))
 	}
-
 }
 
 

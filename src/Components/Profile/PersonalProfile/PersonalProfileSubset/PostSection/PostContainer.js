@@ -1,6 +1,8 @@
-import React, { Component } from "react";
+import React, { Component,useContext,useState } from "react";
 import styled from "styled-components";
 import PostCreationComponent from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
+import UserContext from "../../PersonalProfileSet/PersonalProfileContainer.js";
+import { UserConsumer } from "../../UserContext";
 
 const ImageOrVideosContainer=styled.div`
 	
@@ -54,79 +56,95 @@ const BlogsContainer=styled.div`
 `;
 
 
-const ImageContainers=[
-	{
-	},
-	{
-	},
-	{
-	}
-	
-]
 
-
-class MediumProfileContentsContainer extends Component{
+class PostContainer extends Component{
 
 
 	constructor(props){
-
 		super(props);
-		this.state={
-			imageVidoesBlogsContainer:[]
-
-		}
+		this.state={};
 	}
 
 	componentDidMount(){
 
-		this.setState({
-			imageVidoesBlogsContainer:ImageContainers
-		})
+
+
+
 	}
+	
+	 handleDisplayProps=(displayedItemsIndicator)=>{
+	 	
+	 	const { 
+	 			displayImages,
+		    	displayVideos,
+		    	displayBlogs 
+		    } = displayedItemsIndicator;
 
+		console.log(displayedItemsIndicator);
 
-	handleDisplayProps=()=>{
+		var displayItems=[];
+		const {profile}=displayedItemsIndicator;
 
-		if(this.state.imageVidoesBlogsContainer.length==0)
-			return <p style={{position:"relative",fontSize:"150%",left:"20%"}}> Add some images to get started</p>;
-		else{
-			return(
-				<ul >
-						<p style={{position:"absolute",left:"92%"}}> See all </p>
-						{this.state.imageVidoesBlogsContainer.map(data=>
-
-							<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
-
-								<div style={{position:"relative",backgroundColor:"red",width:"160px",height:"140px",borderRadius:"5px"}}>
-
-								</div>
-							</li>
-						)}
-					</ul>
-			)
+		if(displayImages==true){
+			displayItems=profile.images;
+			console.log("Images Clicked");
 		}
-	}
+		else if(displayVideos==true){
+			displayItems=profile.videos;
+			console.log("Videos Clicked");
+		}
+		else{
+			displayItems=profile.blogs;
+			console.log("Blogs Clicked");
+		}
 
+		 	if(displayItems.length==0)
+				return <p style={{position:"relative",fontSize:"150%",left:"20%"}}> Add some images to get started</p>;
+			else{
+				return(
+					<ul>
+							<p style={{position:"absolute",left:"92%"}}> See all </p>
+							{displayItems.map(data=>
+
+								<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
+
+									<div style={{position:"relative",backgroundColor:"red",width:"160px",height:"140px",borderRadius:"5px"}}>
+
+									</div>
+								</li>
+							)}
+						</ul>
+					)
+				}
+
+	 	}
 
 	render(){
-
 		return(
-			<React.Fragment>
+			<UserConsumer>
+				{ displayedItemsIndicator=>{
 
-				<ImageOrVideosContainer>
+					return <React.Fragment>
 
-					{this.handleDisplayProps()}
+								<ImageOrVideosContainer>
 
+									{this.handleDisplayProps(displayedItemsIndicator)}
 
-				</ImageOrVideosContainer>
+								</ImageOrVideosContainer>
 
-				<PostCreationContainer>
-					<PostCreationComponent/>
-				</PostCreationContainer>
+								<PostCreationContainer>
+									<PostCreationComponent/>
+								</PostCreationContainer>
 
-			</React.Fragment>
+							</React.Fragment>
+					}
+				}
+			</UserConsumer>
 		)
 	}
 }
 
-export default MediumProfileContentsContainer;
+
+
+
+export default PostContainer;

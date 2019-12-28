@@ -79,6 +79,15 @@ const addPaymentPlan=(paymentPlan)=>{
 }
 
 
+const firstTimeUsage=(firstTime)=>{
+
+	return{
+		type:'FIRST_TIME_INDICATOR',
+		payload:firstTime
+	}
+}
+
+
 module.exports={
 	addName,
 	addLastName,
@@ -88,5 +97,6 @@ module.exports={
 	addCardDate,
 	addAccountNumber,
 	addCvv,
-	addPaymentPlan
+	addPaymentPlan,
+	firstTimeUsage
 }

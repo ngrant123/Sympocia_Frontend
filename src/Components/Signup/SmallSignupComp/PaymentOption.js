@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import { addPaymentPlan } from '../../../Actions/Redux/Actions/PersonalProfile.js';
 import { connect } from 'react-redux';
-import {createProfile} from "../../../Actions/Requests/ProfilePageAxiosRequests/ProfilePagePostRequests.js";
+import {createProfile} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {createCompanyProfile} from "../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests";
 
 const Payment1 = styled.div`
@@ -230,7 +230,6 @@ class PaymentOption extends Component {
 }
 
 const mapStateToProps=(state)=>{
-
 
 	return{
 		firstName:state.personalInformation.firstName,
