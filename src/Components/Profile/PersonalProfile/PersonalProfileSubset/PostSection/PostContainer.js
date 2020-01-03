@@ -52,9 +52,16 @@ const BlogsContainer=styled.div`
 	width:30%;
 	top:35%;
 	border-radius:5px;
+	
 
 `;
 
+
+/*
+Doesn't have to be a class component
+Change later
+
+*/
 
 
 class PostContainer extends Component{
@@ -62,7 +69,9 @@ class PostContainer extends Component{
 
 	constructor(props){
 		super(props);
-		this.state={};
+		this.state={
+		
+		};
 	}
 
 	componentDidMount(){
@@ -82,41 +91,71 @@ class PostContainer extends Component{
 
 		console.log(displayedItemsIndicator);
 
-		var displayItems=[];
+		
 		const {profile}=displayedItemsIndicator;
+		let displayItems=profile.images;
 
-		if(displayImages==true){
-			displayItems=profile.images;
-			console.log("Images Clicked");
-		}
-		else if(displayVideos==true){
+		if(displayVideos==true){
 			displayItems=profile.videos;
-			console.log("Videos Clicked");
-		}
-		else{
-			displayItems=profile.blogs;
-			console.log("Blogs Clicked");
-		}
 
-		 	if(displayItems.length==0)
-				return <p style={{position:"relative",fontSize:"150%",left:"20%"}}> Add some images to get started</p>;
+			if(displayItems.length==0)
+				return <p style={{position:"relative",fontSize:"150%",left:"20%"}}> Add some videos to get started </p> 
 			else{
+
 				return(
-					<ul>
+						<ul>
 							<p style={{position:"absolute",left:"92%"}}> See all </p>
 							{displayItems.map(data=>
 
 								<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
+									<img  onClick={()=>this.handleVideoClick(data)} src={data.thumbnail} style={{position:"relative",backgroundColor:"red",width:"160px",height:"140px",borderRadius:"5px"}}>
+									</img>
+								</li>
+							)}
+						</ul>
+				)
+			}
+		}
+		else if(displayBlogs==true){
+			displayItems=profile.blogs;
+			console.log("Blogs Clicked");
+		}
+		else{
+			displayItems=profile.images;
+			console.log("Images Clicked");
 
-									<div style={{position:"relative",backgroundColor:"red",width:"160px",height:"140px",borderRadius:"5px"}}>
+			console.log(profile);
+			console.log(displayItems);
+		 	if(displayItems.length==0)
+				return <p style={{position:"relative",fontSize:"150%",left:"20%"}}> Add some images to get started</p>;
+			else{
+				return(
+						<ul>
+							<p style={{position:"absolute",left:"92%"}}> See all </p>
+							{displayItems.map(data=>
 
-									</div>
+								<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
+									<img  onClick={()=>this.handleImageClick(data)} src={data.imgUrl} style={{position:"relative",backgroundColor:"red",width:"160px",height:"140px",borderRadius:"5px"}}>
+
+									</img>
+					
 								</li>
 							)}
 						</ul>
 					)
 				}
 
+		}
+	 	}
+
+
+	 	handleImageClick=(imgData)=>{
+	 		this.props.handleImageModal(imgData);
+	 	}
+
+	 	handleVideoClick=(videoData)=>{
+
+	 		this.props.handleVideoModal(videoData);
 	 	}
 
 	render(){
