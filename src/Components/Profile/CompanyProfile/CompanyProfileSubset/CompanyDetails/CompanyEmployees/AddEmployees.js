@@ -271,7 +271,6 @@ const ShortDescriptionTitle = styled.div`
 	background-color:#5298F8;
 	padding:5px 5px 5px 5px;
 	overflow:hidden;
-	z-index:-2;
 
 `;
 
@@ -287,10 +286,15 @@ const ShortDescriptionTextarea = styled.textarea`
 	padding:5px 5px 5px 5px;
 	overflow:hidden;
 	resize:none;
-	z-index:-2;
 
 
 `;
+
+const ButtonListCSS={
+	display:"inline-block",
+	listStyle:"none",
+	marginRight:"30px"
+}
 
 class AddEmployees extends Component{
 
@@ -310,14 +314,96 @@ class AddEmployees extends Component{
 			name:"",
 			continueAddemployee:"Continue",
 			addEmployeeClick:1,
-			shortbio:""
-
-
+			shortbio:"",
+			displaySecondPage:false,
+			justMounted:false
 		};
+	}
+
+	componentDidMount(){
 
 
-		this.deciderButton=this.deciderButton.bind(this);
+		this.setState(prevState=>({
+			...prevState,
+			justMounted:true
+		}))
+
+			document.getElementById("TitleCaptionValue").value="";
+			document.getElementById("BioValue").value="";
+			document.getElementById("employeeimagecontainer").src="";
+			document.getElementById("EmployeeName").value="";
+			document.getElementById("EmployeeEmail").value="";
+			document.getElementById("Location").value="";
+
+	}
+
+
+	handleNextPageButton=()=>{
+
+		if(this.state.displaySecondPage==true){
+			var titlevalue=document.getElementById("TitleCaptionValue").value;
+			var biodescription=document.getElementById("BioValue").value;
+			var imageurl=document.getElementById("employeeimagecontainer").src;
+			var Employeename=document.getElementById("EmployeeName").value;
+			var Emplpyeeemail=document.getElementById("EmployeeEmail").value;
+			var Employeelocation=document.getElementById("Location").value;
+		}
+		else{
+				if(this.state.displaySecondPage==true && this.state.justMounted==true){
+			document.getElementById("ShortDescriptionTextarea").value="";
+				this.setState(prevState=>({
+					...prevState,
+					justMounted:false
+				}))
+		}
+
+
+		}
+	
 		
+
+
+		return this.state.displaySecondPage==false?
+			<button type="button" class="btn btn-default" id="AddEmployeeButton" onClick={()=>this.setState(prevState=>({...prevState,
+				title:titlevalue,
+				bio:biodescription,
+				imgUrl:imageurl,
+				name:Employeename,
+				email:Emplpyeeemail,
+				location:Employeelocation,
+				displaySecondPage:true}))}>{this.state.continueAddemployee}</button>:
+			<button type="button" class="btn btn-default" id="AddEmployeeButton" data-dismiss="modal" onClick={()=>this.handleAddEmployee()}>{this.state.continueAddemployee}</button>
+	}
+
+	handleDisplaySecondPage=()=>{
+
+		return this.state.displaySecondPage==false?
+			<React.Fragment>
+
+					<FirstSectionContainer id="firstcontainer">
+						<NameEmployee>Full Name</NameEmployee>
+						<NameEmployeeTextarea placeholder="First Name" id="EmployeeName"></NameEmployeeTextarea>
+						<EmployeeEmailContainer>Email</EmployeeEmailContainer>
+						<EmployeeEmailTextarea placeholder="Email Addresses" id="EmployeeEmail"></EmployeeEmailTextarea>
+						<EmployeeLocationContainer>Location</EmployeeLocationContainer>
+						<EmployeeLocationTextarea placeholder="Location" id="Location"></EmployeeLocationTextarea>
+					</FirstSectionContainer>
+
+					<SecondSectionContainer id="secondcontainer">
+
+						<TitleContainer placeholder="e.x. CEO,CTO" id="TitleCaptionValue"></TitleContainer>
+						<TitleCaption> Title </TitleCaption>
+						<EmployeeBioCaption>Bio</EmployeeBioCaption>
+						<EmployeeBio id="BioValue" placeholder="Write something nice :)"></EmployeeBio>
+
+					</SecondSectionContainer>
+
+			</React.Fragment>:
+			<React.Fragment>
+				<ShortDescriptionTitle id="ShortDescriptionTitle">Add a short description about yourself</ShortDescriptionTitle>
+				<ShortDescriptionTextarea id="ShortDescriptionTextarea"></ShortDescriptionTextarea>
+
+			</React.Fragment>
 	}
 
 	handleChildAddClick(){
@@ -335,97 +421,29 @@ class AddEmployees extends Component{
 	}
 
 	handleAddEmployee(){
-		console.log(this.state.addEmployeeClick);
 
-		if(this.state.addEmployeeClick==1){
-
-			document.getElementById("firstcontainer").style.opacity=0;
-			document.getElementById("firstcontainer").style.zIndex=-4;
-
-			document.getElementById("secondcontainer").style.opacity=0;
-			document.getElementById("secondcontainer").style.zIndex=-4;
-
-
-
-
-			this.setState({
-
-				addEmployeeClick:2,
-				continueAddemployee:"Add Employee"
-			})
-
-			document.getElementById("ShortDescriptionTitle").style.zIndex=2;
-			document.getElementById("ShortDescriptionTextarea").style.zIndex=2;
-
-
-
-
-		}
-		else{
-
-		var titlevalue=document.getElementById("TitleCaptionValue").value;
-		var biodescription=document.getElementById("BioValue").value;
-		var imageurl=document.getElementById("employeeimagecontainer").src;
-		var Employeename=document.getElementById("EmployeeName").value;
-		var Emplpyeeemail=document.getElementById("EmployeeEmail").value;
-		var Employeelocation=document.getElementById("Location").value;
 		var ShortDescription=document.getElementById("ShortDescriptionTextarea").value;
-
+		document.getElementById("ShortDescriptionTextarea").value="";
 
 		//Callback function becasue setState is asychronous
 
-		this.setState({
+		this.setState(prevState=>({
+			...prevState,
+			displaySecondPage:false,
+			shortbio:ShortDescription
+		}),function(){
 
-				title:titlevalue,
-				bio:biodescription,
-				imgUrl:imageurl,
-				name:Employeename,
-				email:Emplpyeeemail,
-				location:Employeelocation,
-				shortbio:ShortDescription,
-				addEmployeeClick:1
+			document.getElementById("TitleCaptionValue").value="";
+			document.getElementById("BioValue").value="";
+			document.getElementById("employeeimagecontainer").src="";
+			document.getElementById("EmployeeName").value="";
+			document.getElementById("EmployeeEmail").value="";
+			document.getElementById("Location").value="";
 
-		}, function () {
-
-		document.getElementById("TitleCaptionValue").value="";
-		document.getElementById("BioValue").value="";
-		document.getElementById("employeeimagecontainer").src="";
-		document.getElementById("EmployeeName").value="";
-		document.getElementById("EmployeeEmail").value="";
-		document.getElementById("Location").value="";
-		document.getElementById("employeeimagecontainer").style.opacity=0;
+	      	this.props.handleAddEmployee(this.state);
 
 
-		document.getElementById("ShortDescriptionTextarea").style.zIndex=-2;
-		document.getElementById("ShortDescriptionTextarea").value="";
-		document.getElementById("ShortDescriptionTitle").style.zIndex=-2;
-
-
-		document.getElementById("firstcontainer").style.opacity=1;
-		document.getElementById("firstcontainer").style.zIndex=4;
-		document.getElementById("secondcontainer").style.opacity=1;
-		document.getElementById("secondcontainer").style.zIndex=4;
-
-
-
-
-      	this.props.handleAddEmployee(this.state);
-
-  		}.bind(this));
-
-		}
-
-	}
-
-	deciderButton =(param)=>{
-		console.log(param);
-
-		if(param==1){
-			return <button type="button" class="btn btn-default" id="AddEmployeeButton" onClick={()=>this.handleAddEmployee()}>{this.state.continueAddemployee}</button>;
-		}
-		else{
-			return <button type="button" class="btn btn-default" id="AddEmployeeButton" data-dismiss="modal" onClick={()=>this.handleAddEmployee()}>{this.state.continueAddemployee}</button>;
-		}
+		}.bind(this));
 	}
 
 
@@ -440,7 +458,6 @@ class AddEmployees extends Component{
 			node.style.opacity="1";
 
 		}
-
 
 		if(dataUrl!=null){
 			reader.readAsDataURL(dataUrl);
@@ -459,35 +476,21 @@ class AddEmployees extends Component{
 
 	handleClick(){
 
-		this.setState({
-			addEmployeeClick:1
-
-
-		},function(){
-
 		document.getElementById("TitleCaptionValue").value="";
 		document.getElementById("BioValue").value="";
 		document.getElementById("employeeimagecontainer").src="";
 		document.getElementById("EmployeeName").value="";
 		document.getElementById("EmployeeEmail").value="";
 		document.getElementById("Location").value="";
-		document.getElementById("employeeimagecontainer").style.opacity=0;
-
-
-		document.getElementById("ShortDescriptionTextarea").style.zIndex=-2;
 		document.getElementById("ShortDescriptionTextarea").value="";
-		document.getElementById("ShortDescriptionTitle").style.zIndex=-2;
 
+	}
 
-		document.getElementById("firstcontainer").style.opacity=1;
-		document.getElementById("firstcontainer").style.zIndex=4;
-		document.getElementById("secondcontainer").style.opacity=1;
-		document.getElementById("secondcontainer").style.zIndex=4;
-
-		}.bind(this));
-
-
-
+	handleBackButton=()=>{
+		console.log('Test');
+		return this.state.displaySecondPage==false?
+			<React.Fragment></React.Fragment>:
+			<button type="button" class="btn btn-default" onClick={()=>this.setState(prevState=>({...prevState,displaySecondPage:false}))}>Back</button>
 	}
 
 	render(){
@@ -501,12 +504,10 @@ class AddEmployees extends Component{
 
 					<AddEmployeeIcon data-toggle="modal" data-target="#myModal" onClick={()=>this.handleChildAddClick()}>+</AddEmployeeIcon>
 
-
 				</EmployeeTitle>
 				<EmployeeDescription>
 					Add new or current employees to show everyone the team that you guys have
 				</EmployeeDescription>
-
 
 				
 				 <div class="modal fade" id="myModal" role="dialog">
@@ -526,35 +527,19 @@ class AddEmployees extends Component{
 								 </ImageContainer>
 								 <input type="file" name="img" id="employeeimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleUploadEmployeeImage()}></input>
 									 &nbsp;
-									 	<ShortDescriptionTitle id="ShortDescriptionTitle">Add a short description about yourself</ShortDescriptionTitle>
-									 	<ShortDescriptionTextarea id="ShortDescriptionTextarea"></ShortDescriptionTextarea>
-								
-									 	<FirstSectionContainer id="firstcontainer">
-									 		<NameEmployee>Full Name</NameEmployee>
-									 		<NameEmployeeTextarea placeholder="First Name" id="EmployeeName"></NameEmployeeTextarea>
-									 		<EmployeeEmailContainer>Email</EmployeeEmailContainer>
-									 		<EmployeeEmailTextarea placeholder="Email Addresses" id="EmployeeEmail"></EmployeeEmailTextarea>
-									 		<EmployeeLocationContainer>Location</EmployeeLocationContainer>
-									 		<EmployeeLocationTextarea placeholder="Location" id="Location"></EmployeeLocationTextarea>
 
-
-
-									 	</FirstSectionContainer>
-									 	<SecondSectionContainer id="secondcontainer">
-
-									 		<TitleContainer placeholder="e.x. CEO,CTO" id="TitleCaptionValue"></TitleContainer>
-									 		<TitleCaption> Title </TitleCaption>
-									 		<EmployeeBioCaption>Bio</EmployeeBioCaption>
-									 		<EmployeeBio id="BioValue" placeholder="Write something nice :)"></EmployeeBio>
-
-									 	</SecondSectionContainer>
+								 {this.handleDisplaySecondPage()}
 							
 									
 								  </div>
 								  <div class="modal-body"> &nbsp; </div>
 								  <div class="modal-footer">
-								    {this.deciderButton(this.state.addEmployeeClick)}
-								    <button type="button" class="btn btn-default" data-dismiss="modal" onClick={()=>this.handleClick()}>Close</button>
+								  	<ul>
+								  		<li key="1" style={ButtonListCSS}>{this.handleBackButton()}</li>
+								  		<li key="2" style={ButtonListCSS}>{this.handleNextPageButton()}</li>
+								  		<li key="3" style={ButtonListCSS}><button type="button" class="btn btn-default" data-dismiss="modal" onClick={()=>this.handleClick()}>Close</button></li>
+								  	</ul>
+								    	
 								  </div>
 							</div>	      
 					 </div>

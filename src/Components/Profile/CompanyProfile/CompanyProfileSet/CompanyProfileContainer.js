@@ -864,8 +864,6 @@ class LProfile extends Component{
 						 			<SmallProfileEmailValue placeholder={this.state.email}></SmallProfileEmailValue>
 
 
-
-
 						 		</SmallProfileIdentityContainer>
 
 						 	<EditButton onClick={()=>this.handleEditButton()}></EditButton>
