@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import Notification from "../SmallProfilePostOptionComp/Notification.js";
+import Notification from "./Notification.js";
 
 
 

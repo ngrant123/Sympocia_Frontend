@@ -2,11 +2,11 @@
 
 const initialState ={
 	companyName:'',
-	companyIndustry:"",
-	companyLocation:"",
-	companyIcon:"",
-	companyBio:"",
-	companyCoverPhoto:""
+	companyIndustry:'',
+	companyLocation:'',
+	companyIcon:'',
+	companyBio:'',
+	companyCoverPhoto:''
 }
 
 

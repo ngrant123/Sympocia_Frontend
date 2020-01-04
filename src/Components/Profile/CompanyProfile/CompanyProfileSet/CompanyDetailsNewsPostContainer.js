@@ -1,10 +1,8 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import Option from "../SmallProfilePostOptionComp/Options.js";
-import CreatePostContainer from "../SmallProfilePostOptionComp/CreatePostContainer.js";
-import AddEmployeesAction from "../SmallProfilePostOptionComp/AddEmployees.js";
-import SmallProfile from "../SmallProfilePostOptionComp/SmallProfile.js";
-import MediumCompanyStats from "./MediumCompanyStats.js";
+import AddEmployeesAction from "../CompanyProfileSubset/CompanyDetails/CompanyEmployees/AddEmployees.js";
+import SmallProfile from "../CompanyProfileSubset/CompanyDetails/CompanyEmployees/SmallProfile.js";
+import MediumCompanyStats from "../CompanyProfileSubset/CompanyDetails/CompanyNews/MediumCompanyStats.js";
 import ReactGoogleMapLoader from "react-google-maps-loader";
 import ReactGoogleMap from "react-google-maps";
 import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
@@ -12,16 +10,15 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import GeneralPostComponent from "../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 
+
 const ProfileContainer = styled.div`
 
 	position:relative;
 	background-color:#fefefd;
 	width:100%;
 	height:100%;
-
-
-
 `;
+
 const PostContainer = styled.div`
 
 	position:absolute;
@@ -552,100 +549,6 @@ class ProfileComp extends Component{
 		this.props.displaytoplevelnewsprofile(tempprops);
 	}
 
-	handleRegularPost=()=>{
-		this.setState({
-				postdecider:1
-
-
-			});
-	}
-
-	hanleImagePost=()=>{
-			document.getElementById("postphotoimagefile").click();
-			this.setState({
-				postdecider:2
-
-			});
-	}
-
-	handleLocationPost=()=>{
-			this.setState({
-				postdecider:3
-
-			});
-	}
-
-
-	handleOnchangeImagepost(){
-		//console.log(document.getElementById("imagefile").value);
-		var node = document.getElementById('postimagecontainer');
-		var dataUrl=document.getElementById("postphotoimagefile").files[0];
-		var reader= new FileReader();
-
-		reader.onloadend=function(){
-			node.src=reader.result;
-			node.style.opacity="1";
-
-		}
-
-		if(dataUrl!=null){
-			reader.readAsDataURL(dataUrl);
-
-		}
-		else {
-			alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
-		}
-	}
-
-	handleLocationClick(param){
-
-		if(param==1){
-			this.disappearOrappear(1);
-		}
-		else if(param==2){
-
-			this.setState({
-
-				location:"General"
-
-			});
-			this.disappearOrappear(2);	
-		}
-		else{
-
-			this.setState({
-
-				location:"Designated"
-
-			});
-				this.disappearOrappear(3);	
-
-
-		}
-	}
-
-	disappearOrappear(param){
-
-			if(param==1){
-
-				document.getElementById("GeneralLocation").style.opacity="1";
-				document.getElementById("GeneralLocation").style.zIndex="2";
-
-				document.getElementById("DesignatedLocation").style.opacity="1";
-				document.getElementById("DesignatedLocation").style.zIndex="2";	
-
-			}
-			else{
-
-				document.getElementById("GeneralLocation").style.opacity="0";
-				document.getElementById("GeneralLocation").style.zIndex="-2";
-
-				document.getElementById("DesignatedLocation").style.opacity="0";
-				document.getElementById("DesignatedLocation").style.zIndex="-2";	
-		}
-	}
-
-
 
 	render(){
 		//Condidtional rendering for post/image/location section 
@@ -708,26 +611,26 @@ class ProfileComp extends Component{
 
 					<EmployeeContainer> 
 
-					<ul style={{EmployeeCSS}}>
+						<ul style={{EmployeeCSS}}>
 
-						{this.state.Employees.map(data =>
+							{this.state.Employees.map(data =>
 
-							<li style={{ display:"inline-block", marginLeft:"19px", marginBottom:"10px"}}>
-								<SmallProfile 
-									title={data.title}
-									imgUrl={data.imgUrl}
-									bio={data.bio}
-									id={data.id}
-									name={data.name}
-									location={data.location}
-									email={data.email}
-									displayEmployee={this.displayEmployee}
-									shortbio={data.shortbio}
-								/>
-							</li> 
-							)
-						}
-					</ul>
+								<li style={{ display:"inline-block", marginLeft:"19px", marginBottom:"10px"}}>
+									<SmallProfile 
+										title={data.title}
+										imgUrl={data.imgUrl}
+										bio={data.bio}
+										id={data.id}
+										name={data.name}
+										location={data.location}
+										email={data.email}
+										displayEmployee={this.displayEmployee}
+										shortbio={data.shortbio}
+									/>
+								</li> 
+								)
+							}
+						</ul>
 
 					</EmployeeContainer>
 

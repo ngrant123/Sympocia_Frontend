@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import Industries  from "../../../../Constants/constants.js";
+import { connect } from "react-redux";
 
 const Container = styled.div`
 	position:absolute;
@@ -286,8 +287,8 @@ class LargePostComponent extends Component{
 						<ProfileImageContainer>
 							<img src={testdata.profileimage} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>
 						</ProfileImageContainer>
-						<EmployeeTitleContainer><b>{this.state.companyTitle}</b></EmployeeTitleContainer>
-						<CompanyTitleContainer>{this.state.companyName}</CompanyTitleContainer>
+						<EmployeeTitleContainer><b>{this.props.companyName}</b></EmployeeTitleContainer>
+						<CompanyTitleContainer>{this.props.companyPosition}</CompanyTitleContainer>
 	 	
 					</ProfileContainer>
 
@@ -311,4 +312,19 @@ class LargePostComponent extends Component{
 	}
 }
 
-export default LargePostComponent;
+
+const mapStateToProps=(state)=>{
+	return{
+		firstName:state.personalInformation.firstName,
+		lastName:state.personalInformation.lastName,
+		companyName:state.companyInformation.companyName,
+		companyPosition:state.companyInformation.companyPosition
+	}
+}
+
+
+
+export default connect(
+		mapStateToProps,
+		null)
+		(LargePostComponent);

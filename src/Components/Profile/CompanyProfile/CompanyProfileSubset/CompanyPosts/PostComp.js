@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import { MediumPosts } from "../../../GeneralComponents/PostComponent/MediumPostComponent/MediumPosts.js";
+import { MediumPosts } from "../../../../GeneralComponents/PostComponent/MediumPostComponent/MediumPosts.js";
 
 const PostContainer = styled.div`
 

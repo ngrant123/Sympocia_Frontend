@@ -5,12 +5,12 @@ Structure for the redux state for the
 */
 const initialState =[
 		{
-			employeeName:"",
-			employeeShortDescription:"",
-			employeeEmail:"",
-			employeeLocation:"",
-			employeeTitle:"",
-			employeeBio:"",
+			employeeName:'',
+			employeeShortDescription:'',
+			employeeEmail:'',
+			employeeLocation:'',
+			employeeTitle:'',
+			employeeBio:'',
 			employeeId:0
 		}
 	]

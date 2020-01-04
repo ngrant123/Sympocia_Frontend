@@ -7,8 +7,8 @@ import { combineReducers } from 'redux';
 
 const allReducers=combineReducers({
 	personalInformation: PersonalReducer,
-	companyEmployeeReducer:CompanyEmployeesReducer,
-	companyReducer:CompanyReducer
+	companyEmployeeInformation:CompanyEmployeesReducer,
+	companyInformation:CompanyReducer
 });
 
 export default allReducers;

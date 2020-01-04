@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import GeneralNav from "../MediumProfileComp/NavBar.js";
-import CoverPhoto from "../MediumProfileComp/CoverPhoto.js";
-import ProfileComp from "../MediumProfileComp/ProfileComp.js";
-import Post from "../MediumProfileComp/PostComp.js";
-import Icon from "../SmallProfilePostOptionComp/CompanyIcon.js";
+import CoverPhoto from "../CompanyProfileSubset/CompanyCoverPhoto/CoverPhoto.js";
+import CompanyDetailsNewsPostContainer from "./CompanyDetailsNewsPostContainer.js";
+import Posts from "../CompanyProfileSubset/CompanyPosts/PostComp.js";
+import Icon from "./CompanyIcon.js";
 import img from "../../../../designs/background/tester2.png";
 import Industries from "../../../../Constants/constants.js";
 import { GeneralNavBar } from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
@@ -18,10 +17,8 @@ const ProfileContainer = styled.div`
 	height:100%;
 	top:0%;
 	left:0%;
-
-
-
 `;
+
 
 const FirstProfileContainer = styled.div`
 	position:relative;
@@ -46,8 +43,6 @@ const CoverPhotoContainer = styled.div`
 	top:7%;
 	background-color:#242424;
 	width:100%;
-
-
 
 `;
 
@@ -905,9 +900,8 @@ class LProfile extends Component{
 							<CoverPhoto /> 
 						</CoverPhotoContainer>
 
-
 						<Profile id="CompanyAndPostInfoContainer">
-							<ProfileComp 
+							<CompanyDetailsNewsPostContainer 
 								displaytoplevelemployeeprofile={this.displaytoplevelemployeeprofile}
 								displaytoplevelnewsprofile={this.displaytoplevelnewsprofile}
 							 />
@@ -943,7 +937,7 @@ class LProfile extends Component{
 					<SecondPostContainer>
 						<PostContainer>
 
-							<Post />
+							<Posts />
 
 						</PostContainer>
 
