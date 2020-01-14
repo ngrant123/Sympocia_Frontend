@@ -1,6 +1,10 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import domtoimage from 'dom-to-image';
+import { connect } from "react-redux";
+import { addCompanyIcon } from "../../../../Actions/Redux/Actions/CompanyActions";
+
+
 
 
 const Container=styled.div`
@@ -35,8 +39,10 @@ class CompanyIcon extends Component{
 			node.style.opacity="1";
 			document.getElementById("container").src=reader.result;
 
-		}
+			const iconUrl=reader.result;
+			this.props.addCompanyIcon(iconUrl);
 
+		}
 
 		if(dataUrl!=null){
 			reader.readAsDataURL(dataUrl);
@@ -66,4 +72,22 @@ class CompanyIcon extends Component{
 	}
 }
 
-export default CompanyIcon;
+const mapStateToProps=(state)=>{
+
+	return{
+		companyIcon:state.companyInformation.companyIcon
+	}
+}
+
+const mapDispatchToProps=dispatch=>{
+
+	return{
+		addCompanyIcon:(coverIconUrl)=> dispatch(addCompanyIcon(coverIconUrl))
+
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+	)(CompanyIcon);

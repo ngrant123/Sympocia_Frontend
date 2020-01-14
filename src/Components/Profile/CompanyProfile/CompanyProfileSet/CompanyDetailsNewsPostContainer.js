@@ -9,7 +9,9 @@ import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import GeneralPostComponent from "../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
-
+import { CompanyConsumer } from "../CompanyContext.js";
+import { connect } from "react-redux";
+import { addEmployee } from "../../../../Actions/Redux/Actions/CompanyActions.js";
 
 const ProfileContainer = styled.div`
 
@@ -461,6 +463,16 @@ class ProfileComp extends Component{
 		
 	}
 
+	componentDidMount(){
+		
+
+		this.setState(prevState=>({
+
+			...prevState,
+			mapStateToProps:this.props.employees
+		}))
+	}
+
 	handleUpdateProfile(){
 
 	}
@@ -489,6 +501,7 @@ class ProfileComp extends Component{
 
 			};
 
+			this.props.addEmployee(Employee);
 			EmployeeContainer=this.state.Employees;
 			EmployeeContainer.push(Employee);
 
@@ -516,6 +529,7 @@ class ProfileComp extends Component{
 
 			};
 
+			this.props.addEmployee(Employee);
 			EmployeeContainer=this.state.Employees;
 			EmployeeContainer.push(Employee);
 
@@ -571,86 +585,101 @@ class ProfileComp extends Component{
 
 		}
 
+		/*
+
+			Might use redux instead of context here but just going to user both
+
+		*/
+
 		return(
 
-			<ProfileContainer>
-			  <div class="dropdown" style={{position:"absolute", height:"10%",width:"13%",left:"2%",top:"2%"}}>
-				    <button class="btn btn-primary dropdosuwn-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>{this.state.industryType}
-				    <span class="caret"></span></button>
-				    <ul class="dropdown-menu">
-				      <li><a href="#">Fashion</a></li>
-				      <li><a href="#">Health</a></li>
-				      <li><a href="#">Consulting</a></li>
-				    </ul>
-  				</div>
+			<CompanyConsumer>
 
-  				<ActivityLogButton>Activity Log</ActivityLogButton>
-  				<FriendsButton>Friendships</FriendsButton>
+				{ companyInformation=>{
 
+					return <ProfileContainer>
+						  <div class="dropdown" style={{position:"absolute", height:"10%",width:"13%",left:"2%",top:"2%"}}>
+							    <button class="btn btn-primary dropdosuwn-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>{companyInformation.companyState.companyIndustry}
+							    <span class="caret"></span></button>
+							    <ul class="dropdown-menu">
+							      <li><a href="#">Fashion</a></li>
+							      <li><a href="#">Health</a></li>
+							      <li><a href="#">Consulting</a></li>
+							    </ul>
+			  				</div>
 
-				<PostContainer>
-
-					<GeneralPostComponent />
-
-				</PostContainer>
-
-				<CompanyDetails>
-
-					<EmployeeTitle>
-
-						<AddEmployeesAction
-							
-							handleAddEmployee={this.handleAddEmployee}
-							numberofEmployeeCompany={this.state.Employees}
-							key={1}
-
-						/>
-
-					</EmployeeTitle>
+			  				<ActivityLogButton>Activity Log</ActivityLogButton>
+			  				<FriendsButton>Friendships</FriendsButton>
 
 
-					<EmployeeContainer> 
+							<PostContainer>
 
-						<ul style={{EmployeeCSS}}>
+								<GeneralPostComponent />
 
-							{this.state.Employees.map(data =>
+							</PostContainer>
 
-								<li style={{ display:"inline-block", marginLeft:"19px", marginBottom:"10px"}}>
-									<SmallProfile 
-										title={data.title}
-										imgUrl={data.imgUrl}
-										bio={data.bio}
-										id={data.id}
-										name={data.name}
-										location={data.location}
-										email={data.email}
-										displayEmployee={this.displayEmployee}
-										shortbio={data.shortbio}
+							<CompanyDetails>
+
+								<EmployeeTitle>
+
+									<AddEmployeesAction
+										
+										handleAddEmployee={this.handleAddEmployee}
+										numberofEmployeeCompany={this.state.Employees}
+										key={1}
+
 									/>
-								</li> 
-								)
-							}
-						</ul>
 
-					</EmployeeContainer>
+								</EmployeeTitle>
 
 
-					<CompanyBio placeholder="Tell us about your company"></CompanyBio>
-					<SaveButton>Save</SaveButton>
-					<CancelButton>Cancel</CancelButton>
+								<EmployeeContainer> 
 
-				</CompanyDetails>
+									<ul style={{EmployeeCSS}}>
 
-				<CompanyStats>
+										{this.state.Employees.map(data =>
 
-					<MediumCompanyStats 
-						number={1}
-						displayEmployee={this.displayNotification}
-					/>
+											<li style={{ display:"inline-block", marginLeft:"19px", marginBottom:"10px"}}>
+												<SmallProfile 
+													title={data.title}
+													imgUrl={data.imgUrl}
+													bio={data.bio}
+													id={data.id}
+													name={data.name}
+													location={data.location}
+													email={data.email}
+													displayEmployee={this.displayEmployee}
+													shortbio={data.shortbio}
+												/>
+											</li> 
+											)
+										}
+									</ul>
 
-				</CompanyStats>
+								</EmployeeContainer>
 
-			</ProfileContainer>
+
+								<CompanyBio placeholder="Tell us about your company"></CompanyBio>
+								<SaveButton>Save</SaveButton>
+								<CancelButton>Cancel</CancelButton>
+
+							</CompanyDetails>
+
+							<CompanyStats>
+
+								<MediumCompanyStats 
+									number={1}
+									displayEmployee={this.displayNotification}
+								/>
+
+							</CompanyStats>
+
+					</ProfileContainer>
+
+					}
+				}
+
+			</CompanyConsumer>
 
 		)
 	}
@@ -658,4 +687,22 @@ class ProfileComp extends Component{
 }
 
 
-export default ProfileComp;
+const mapStateToProps=(state)=>{
+
+	return{
+		employees:state.companyEmployeeInformation
+	}
+
+}
+
+const mapDispatchToProps=dispatch=>{
+
+	return{
+		addEmployee:(employeeInformation)=>dispatch(addEmployee(employeeInformation))
+	}
+}
+
+export default connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(ProfileComp);

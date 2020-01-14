@@ -85,6 +85,39 @@ const IndustryListCSS={
 
 }
 
+const FriendsModal=styled.div`
+	position:absolute;
+	background-color:white;
+	width:95%;
+	height:90%;
+	z-index:3;
+	border-radius:5x;
+
+`;
+
+const SearchBar=styled.div`
+	position:absolute;
+
+
+
+`;
+
+const SearchButton=styled.div`
+
+	position:absolute;
+
+`; 
+
+const Friends=styled.div`
+
+	position:absolute;
+ 
+
+`;
+
+
+
+
 class MediumProfilePersonalInformation extends Component{
 
 	constructor(props){
@@ -92,7 +125,8 @@ class MediumProfilePersonalInformation extends Component{
 		super(props);
 		this.state={
 			friendsContainer:[],
-			industriesContainer:[]
+			industriesContainer:[],
+			displayFriendsModal:false
 
 		}
 	}
@@ -147,21 +181,34 @@ class MediumProfilePersonalInformation extends Component{
 							)
 						}
 					</ul>
-					)
+			)
 		}
+	}
 
+
+	handleDisplayFriendsModal=()=>{
+
+		return this.state.displayFriendsModal==true? 
+			<FriendsModal>
+
+
+l
+			</FriendsModal>:
+			<React.Fragment>
+			</React.Fragment>
 	}
 
 	render(){
 
 		return(
 			<React.Fragment>	
+				{this.handleDisplayFriendsModal()}
 				<p style={{position:"relative",fontSize:"200%",left:"13%",color:"#92a1cf",fontFamily:"'Fredoka One', cursive"}}> Friends 
 					<p1 style={FriendsDescriptionCSS}> 
 					<b>View all of you friends and see what they've been up to</b> 
 					</p1>
 				</p>
-				<FriendsTitleContainer>
+				<FriendsTitleContainer onClick={()=>this.setState(prevState=>({...prevState,displayFriendsModal:true}))}>
 					
 					{this.handleDisplayFriends()}
 

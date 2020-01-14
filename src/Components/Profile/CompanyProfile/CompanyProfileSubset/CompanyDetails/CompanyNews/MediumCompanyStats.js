@@ -1,8 +1,8 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import Notification from "./Notification.js";
-
-
+import {connect } from "react-redux";
+import {addNews} from "../../../../../../Actions/Redux/Actions/CompanyNewsActions.js";
 
 const Container = styled.div`
 	position:absolute;
@@ -181,14 +181,14 @@ const NotificaiontCaption = styled.div`
 const TesterData= [
 
 	{
-		time:'Jun 01 2017',
-		notification:'Receivedstor',
+		newsDate:'Jun 01 2017',
+		news:'Receivedstor',
 		key:1
 
 	},
 	{
-		time:'Jun 01 2017',
-		notification:'Received 10M From angel investorReceived 10M From angel investorReceived 10M From angel investorReceived 10M From angel investor',
+		newsDate:'Jun 01 2017',
+		news:'Received 10M From angel investorReceived 10M From angel investorReceived 10M From angel investorReceived 10M From angel investor',
 		key:2
 
 	}
@@ -209,6 +209,21 @@ class MediumCompanyStats extends Component{
 		this.displayData=this.displayData.bind(this);
 
 	}
+
+	componentDidMount(){
+
+		/*
+
+			
+		*/
+
+		this.setState(prevState=>({
+			Notifications:this.props.companyNews
+		}))
+
+	}
+
+
 	AddNotificationsAndCheckLimit(){
 
 		var numEmployees=this.state.Notifications;
@@ -222,7 +237,7 @@ class MediumCompanyStats extends Component{
 		}
 	}
 
-	handleAddNotification(){
+	handleAddNews(){
 
 		var datevalue=document.getElementById("DateCaptionValue").value;
 		var notificationvalue=document.getElementById("NotificationValue").value;
@@ -230,18 +245,18 @@ class MediumCompanyStats extends Component{
 
 
 		if(lengthContainer==0){
-			NotificationObject={
-				time:datevalue,
-				notification:notificationvalue,
+			newsObject={
+				newsDate:datevalue,
+				news:notificationvalue,
 				key:1
 			}
 			 var Container=this.state.Notifications;
-			 Container.push(NotificationObject);
+			 this.props.addNews(newsObject);
+			 Container.push(newsObject);
 			
 			this.setState({
 
 				Notifications:Container
-
 			});
 
 		}
@@ -249,12 +264,14 @@ class MediumCompanyStats extends Component{
 
 		    var Lastkey=this.state.Notifications[lengthContainer-1].key;
 			var Container=this.state.Notifications;
-			var NotificationObject={
-				time:datevalue,
-				notification:notificationvalue,
+			this.props.addNews(newsObject);
+
+			var newsObject={
+				newsDate:datevalue,
+				news:notificationvalue,
 				key:Lastkey+1
 			}
-			Container.push(NotificationObject);
+			Container.push(newsObject);
 
 			this.setState({
 
@@ -319,7 +336,7 @@ class MediumCompanyStats extends Component{
 								  </div>
 								  <div class="modal-body"> &nbsp; </div>
 								  <div class="modal-footer">
-								    <button type="button" class="btn btn-default" data-dismiss="modal" id="AddNotification" onClick={()=>this.handleAddNotification()}>Add News</button>
+								    <button type="button" class="btn btn-default" data-dismiss="modal" id="AddNotification" onClick={()=>this.handleAddNews()}>Add News</button>
 								    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 								  </div>
 							</div>	      
@@ -335,8 +352,8 @@ class MediumCompanyStats extends Component{
 							{this.state.Notifications.map(data =>
 								<li style={{display:"inline-block",marginBottom:"10px",marginLeft:"1px"}}>
 										<Notification 
-											date={data.time}
-											caption={data.notification}
+											date={data.newsDate}
+											caption={data.news}
 											id={data.key}
 											displayData={this.displayData}
 										/>	
@@ -355,4 +372,24 @@ class MediumCompanyStats extends Component{
 	}
 }
 
-export default MediumCompanyStats;
+const mapStateToProps=(state)=>{
+	return{
+
+		companyNews:state.companyNewsInformation
+	}
+}
+
+const mapDispatchToProps=dispatch=>{
+
+	return{
+		addNews:(news)=>dispatch(addNews(news))
+	}
+}
+
+
+export default connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(MediumCompanyStats);
+
+

@@ -608,7 +608,6 @@ class CompanySetupPage extends Component{
 }
 
 
-
 const mapDispatchToProps=(dispatch)=>{
 
 	return{

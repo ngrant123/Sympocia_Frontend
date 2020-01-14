@@ -66,9 +66,18 @@ const updateEmployeeBio=(employeeInformation)=>{
 }
 
 
+const AddEmployee=(employeeInformation)=>{
+
+	return{
+		type:'ADD_EMPLOYEE',
+		payload:employeeInformation
+	}
+}
+
 
 module.exports={
 	updateEmployeeName,
 	updateEmployeeShortDescription,
+	AddEmployee
 
 }

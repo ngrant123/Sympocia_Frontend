@@ -15,10 +15,8 @@ const initialState =[
 		}
 	]
 
-
 const EmployeesReducer=(state = initialState, action)=>{
 
-		
 		const { type, payload }=action;
 
 		switch(type){
@@ -31,7 +29,7 @@ const EmployeesReducer=(state = initialState, action)=>{
 									...employee,
 									employeeName:payload.changeEmployeeInfo
 								}
-					}
+						}
 					else
 						return employee;
 					})
@@ -99,6 +97,13 @@ const EmployeesReducer=(state = initialState, action)=>{
 						})
 					);
 
+				break;
+
+
+			case 'ADD_EMPLOYEE':
+				let employees=state;
+				const newEmployees=employees.push(payload);
+				return newEmployees;
 				break;
 
 

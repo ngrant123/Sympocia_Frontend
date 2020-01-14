@@ -7,8 +7,8 @@ import Icon from "./CompanyIcon.js";
 import img from "../../../../designs/background/tester2.png";
 import Industries from "../../../../Constants/constants.js";
 import { GeneralNavBar } from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
-
-
+import { connect } from "react-redux";
+import { CompanyProvider } from "../CompanyContext.js";
 const ProfileContainer = styled.div`
 
 	position:absolute;
@@ -665,7 +665,9 @@ class LProfile extends Component{
 			date:"",
 			update:0,
 			industries:[],
-			displaySmallProfilesAndNews:false
+			displaySmallProfilesAndNews:false,
+			companyState:{},
+			companyEmployees:[]
 
 		}
 		this.displaytoplevelemployeeprofile=this.displaytoplevelemployeeprofile.bind(this);
@@ -675,12 +677,22 @@ class LProfile extends Component{
 	componentDidMount(){
 
 		let industries=Industries.INDUSTRIES;
+		/*
 
-		this.setState({
-			industries:industries
+			Here see if the user is logged in user redux
+			then if they are access the information using redux then bubble it down using context
 
-		});
+			If not make an api call and toggle the user as logged in
 
+		*/
+
+		this.setState(prevState=>({
+			...prevState,
+			industries:industries,
+			companyState:this.props.companyInformation,
+			companyEmployees:this.props.companyEmployees
+		}))
+	
 		window.addEventListener('scroll',this.ScrollFunction);
 	}
 
@@ -837,117 +849,139 @@ class LProfile extends Component{
 
 		return(
 
-			<ProfileContainer>
+			<CompanyProvider value={this.state}>
 
-				<FirstProfileContainer>
+				<ProfileContainer>
 
-						 <SmallProfile id="SmallProfile">	
+					<FirstProfileContainer>
 
-						 		<SmallProfileContainerTitleDescrip>
-						 			<SmallProfileImage id="smallprofileimage">
-						 				<img src="" id="ViewEmployeeimagecontainer" style={{position:"relative",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"0",borderStyle:"solid",borderWidth:"2px",borderColor:"#5298F8"}}/>
-						 			</SmallProfileImage>
-									<hr style={{position:"relative", top:"50%"}}></hr>
-						 			<SmallProfileShortBio>{this.state.shortbio}</SmallProfileShortBio>
-						 		</SmallProfileContainerTitleDescrip>
+							{/*
+								
+								Has to be refactored in the near distant future from lines 846 to 
+								889 got to go chief it aint it
 
-						 		<SmallProfileIdentityContainer>
-						 			<SmallProfileNameCaption>Name:</SmallProfileNameCaption>
-						 			<SmallProfileNameValue placeholder={this.state.name}></SmallProfileNameValue>
-						 			<SmallProfileTitleCaption>Tite:</SmallProfileTitleCaption>
-						 			<SmallProfileTitleValue placeholder={this.state.title}></SmallProfileTitleValue>
-						 			<SmallProfileLocationCaption>Location:</SmallProfileLocationCaption>
-						 			<SmallProfileLocationValue placeholder={this.state.location}></SmallProfileLocationValue>
-						 			<SmallProfileBioCaption>Bio:</SmallProfileBioCaption>
-						 			<SmallProfileBioValue placeholder={this.state.shortbio}></SmallProfileBioValue>
-						 			<SmallProfileEmailCaption>Email:</SmallProfileEmailCaption>
-						 			<SmallProfileEmailValue placeholder={this.state.email}></SmallProfileEmailValue>
+							*/}
+
+							 <SmallProfile id="SmallProfile">	
+
+							 		<SmallProfileContainerTitleDescrip>
+							 			<SmallProfileImage id="smallprofileimage">
+							 				<img src="" id="ViewEmployeeimagecontainer" style={{position:"relative",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"0",borderStyle:"solid",borderWidth:"2px",borderColor:"#5298F8"}}/>
+							 			</SmallProfileImage>
+										<hr style={{position:"relative", top:"50%"}}></hr>
+							 			<SmallProfileShortBio>{this.state.shortbio}</SmallProfileShortBio>
+							 		</SmallProfileContainerTitleDescrip>
+
+							 		<SmallProfileIdentityContainer>
+
+							 			<SmallProfileNameCaption>Name:</SmallProfileNameCaption>
+							 			<SmallProfileNameValue placeholder={this.state.name}></SmallProfileNameValue>
+							 			<SmallProfileTitleCaption>Tite:</SmallProfileTitleCaption>
+							 			<SmallProfileTitleValue placeholder={this.state.title}></SmallProfileTitleValue>
+							 			<SmallProfileLocationCaption>Location:</SmallProfileLocationCaption>
+							 			<SmallProfileLocationValue placeholder={this.state.location}></SmallProfileLocationValue>
+							 			<SmallProfileBioCaption>Bio:</SmallProfileBioCaption>
+							 			<SmallProfileBioValue placeholder={this.state.shortbio}></SmallProfileBioValue>
+							 			<SmallProfileEmailCaption>Email:</SmallProfileEmailCaption>
+							 			<SmallProfileEmailValue placeholder={this.state.email}></SmallProfileEmailValue>
+
+							 		</SmallProfileIdentityContainer>
+
+							 	<EditButton onClick={()=>this.handleEditButton()}></EditButton>
+							 	<ExitButton onClick={()=>this.handleExitButtonSmallProfile()} id="Exit">X</ExitButton>
+							 	<SaveButton onClick={()=>this.handleSaveButton()} id="SaveButtonID">Save</SaveButton>
+							 	<CancelButton onClick={()=>this.handleCancelButton()} id="CancelButtonID">Cancel</CancelButton>
+							 </SmallProfile>
+
+							  <NewsProfile id="NewsProfile">	
+								  <NewsProfileContainerBackground></NewsProfileContainerBackground>
+								 		<NewsProfileTitleDescription></NewsProfileTitleDescription>
+									 	<NewsProfileBio id="NewsBio" placeholder={this.state.description}></NewsProfileBio>
+									 	<NewsProfileBioDescription><b>{this.state.date}</b></NewsProfileBioDescription>
+							 	<EditButton onClick={()=>this.handleEditButton()}></EditButton>
+							 	<ExitButton onClick={()=>this.handleExitButtonNewsProfile()} id="NewsExit">X</ExitButton>
+							 	<SaveButton onClick={()=>this.handleSaveButton()} id="NewsSaveButtonID">Save</SaveButton>
+							 	<CancelButton onClick={()=>this.handleCancelButton()} id="NewsCancelButtonID">Cancel</CancelButton>
+							 </NewsProfile>
+
+							<NavContainer> 
+								<GeneralNavBar
+									pageType="Profile"
+								/>
+							</NavContainer>
+
+							<CompanyIcon>
+								<Icon />
+							</CompanyIcon>
+							<StatueContainer></StatueContainer>
+
+							<CoverPhotoContainer> 
+								<CoverPhoto /> 
+							</CoverPhotoContainer>
+
+							<Profile id="CompanyAndPostInfoContainer">
+								<CompanyDetailsNewsPostContainer 
+									displaytoplevelemployeeprofile={this.displaytoplevelemployeeprofile}
+									displaytoplevelnewsprofile={this.displaytoplevelnewsprofile}
+								 />
+							</Profile>
+
+						</FirstProfileContainer>
+
+						<div class="dropdown" style={{position:"absolute", height:"4%",width:"7%",left:"63%",top:"95%", zIndex:"2"}}>
+							    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
+							    	<span class="caret"></span>
+							    </button>
+							    <ul class="dropdown-menu">
+									{this.state.industries.map(data=>
+										 <li onClick={()=>this.handleChange(data.id)} id={data.id}><a href="#">{data.industry}</a></li>
+									)}
+							    </ul>
+	  				 </div>
+
+	  				 <div class="dropdown" style={{position:"absolute", height:"4%",width:"7%",left:"55%",top:"95%", zIndex:"2"}}>
+							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Order By
+							    <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+							    <li><a href="#">Fashion</a></li>
+							    <li><a href="#">Health</a></li>
+							    <li><a href="#">Consulting</a></li>
+							</ul>
+	  				 </div>
+
+	  				 <PostDivider/>
 
 
-						 		</SmallProfileIdentityContainer>
+						<SecondPostContainer>
+							<PostContainer>
 
-						 	<EditButton onClick={()=>this.handleEditButton()}></EditButton>
-						 	<ExitButton onClick={()=>this.handleExitButtonSmallProfile()} id="Exit">X</ExitButton>
-						 	<SaveButton onClick={()=>this.handleSaveButton()} id="SaveButtonID">Save</SaveButton>
-						 	<CancelButton onClick={()=>this.handleCancelButton()} id="CancelButtonID">Cancel</CancelButton>
-						 </SmallProfile>
+								<Posts />
 
-						  <NewsProfile id="NewsProfile">	
-							  <NewsProfileContainerBackground></NewsProfileContainerBackground>
-							 		<NewsProfileTitleDescription></NewsProfileTitleDescription>
-								 	<NewsProfileBio id="NewsBio" placeholder={this.state.description}></NewsProfileBio>
-								 	<NewsProfileBioDescription><b>{this.state.date}</b></NewsProfileBioDescription>
-						 	<EditButton onClick={()=>this.handleEditButton()}></EditButton>
-						 	<ExitButton onClick={()=>this.handleExitButtonNewsProfile()} id="NewsExit">X</ExitButton>
-						 	<SaveButton onClick={()=>this.handleSaveButton()} id="NewsSaveButtonID">Save</SaveButton>
-						 	<CancelButton onClick={()=>this.handleCancelButton()} id="NewsCancelButtonID">Cancel</CancelButton>
-						 </NewsProfile>
+							</PostContainer>
 
-						<NavContainer> 
-							<GeneralNavBar
-								pageType="Profile"
-							/>
-						</NavContainer>
+							{this.displaySmallCompanyDetail()}
+							{this.displaySmallCompanyNews()}
 
-						<CompanyIcon>
-							<Icon />
-						</CompanyIcon>
-						<StatueContainer></StatueContainer>
+						</SecondPostContainer>
 
-						<CoverPhotoContainer> 
-							<CoverPhoto /> 
-						</CoverPhotoContainer>
-
-						<Profile id="CompanyAndPostInfoContainer">
-							<CompanyDetailsNewsPostContainer 
-								displaytoplevelemployeeprofile={this.displaytoplevelemployeeprofile}
-								displaytoplevelnewsprofile={this.displaytoplevelnewsprofile}
-							 />
-						</Profile>
-
-					</FirstProfileContainer>
-
-					<div class="dropdown" style={{position:"absolute", height:"4%",width:"7%",left:"63%",top:"95%", zIndex:"2"}}>
-						    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
-						    	<span class="caret"></span>
-						    </button>
-						    <ul class="dropdown-menu">
-								{this.state.industries.map(data=>
-									 <li onClick={()=>this.handleChange(data.id)} id={data.id}><a href="#">{data.industry}</a></li>
-								)}
-						    </ul>
-  				 </div>
-
-  				 <div class="dropdown" style={{position:"absolute", height:"4%",width:"7%",left:"55%",top:"95%", zIndex:"2"}}>
-						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Order By
-						    <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-						    <li><a href="#">Fashion</a></li>
-						    <li><a href="#">Health</a></li>
-						    <li><a href="#">Consulting</a></li>
-						</ul>
-  				 </div>
-
-  				 <PostDivider/>
-
-
-					<SecondPostContainer>
-						<PostContainer>
-
-							<Posts />
-
-						</PostContainer>
-
-						{this.displaySmallCompanyDetail()}
-						{this.displaySmallCompanyNews()}
-
-					</SecondPostContainer>
-
-			</ProfileContainer>
+				</ProfileContainer>
+			</CompanyProvider>
 
 		)
 	}
 }
 
-export default LProfile;
+
+const mapStateToProps=(state)=>{
+
+	return{
+		companyInformation:state.companyInformation,
+		companyEmployees:state.companyEmployeeInformation
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	null
+)(LProfile);

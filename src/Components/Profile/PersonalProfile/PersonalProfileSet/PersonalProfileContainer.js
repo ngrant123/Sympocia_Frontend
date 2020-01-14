@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { GeneralNavBar } from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import PostsContainer from "../PersonalProfileSubset/PostSection/PostContainer.js";
 import PersonalInformation from "../PersonalProfileSubset/PersonalDetails/PersonalInformation.js";
-import Anime from 'react-anime';
 import Typed from "react-typed";
 import {useSelector,useDispatch, connect} from 'react-redux';
 import { getProfile } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
@@ -572,7 +571,7 @@ class LProfile extends Component{
 			displayImages:false,
 			displayImageModal:false,
 		    displayVideos:false,
-		    displayVideoModal:true,
+		    displayVideoModal:false,
 		    videoData:{},
 		    displayBlogs:false
 		};

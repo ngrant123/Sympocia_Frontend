@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import SocialMedia from "./SocialMediaContainer.js";
+import { connect } from "react-redux";
+import { addCompanyCoverPhoto } from "../../../../../Actions/Redux/Actions/CompanyActions";
+
 
 const Container= styled.div`
 	position:absolute;
@@ -59,11 +62,22 @@ const SocialMediaContainer = styled.div`
 `;
 
 
+
 class CoverPhoto extends Component{
 
 	constructor(props){
 
 		super(props);
+
+		this.state={
+			coverPhotoUrl:""
+		}
+	}
+
+	componentDidMount(){
+
+
+		//
 	}
 
 	handleChangeCover(){
@@ -79,6 +93,10 @@ class CoverPhoto extends Component{
 			node.src=reader.result;
 			console.log(reader.result);
 			document.getElementById("coverphotoimage").style.opacity=1;
+
+			const coverPhotoUrl=reader.result;
+			this.props.addCompanyCoverPhoto(coverPhotoUrl);
+
 		}
 
 		if(image!=null){
@@ -111,13 +129,29 @@ class CoverPhoto extends Component{
 					</SocialMediaContainer>
 				</NaveBarContainer>
 
-				<img src="" name="coverphotoimage" id="coverphotoimage" style={{position:"relative",height:"100%", width:"80%",left:"10%",top:"0%",opacity:"0"}}/>
+				<img src={this.props.coverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"relative",height:"100%", width:"80%",left:"10%",top:"0%",opacity:"0"}}/>
 			</Container>
-
 
 		)
 	}
-
 }
 
-export default CoverPhoto;
+const mapStateToProps=(state)=>{
+
+	return{
+		coverPhoto:state.companyInformation.companyCoverPhoto
+	}
+}
+
+const mapDispatchToProps=dispatch=>{
+
+	return{
+		addCompanyCoverPhoto:(coverPhotoUrl)=> dispatch(addCompanyCoverPhoto(coverPhotoUrl))
+
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+	)(CoverPhoto);
