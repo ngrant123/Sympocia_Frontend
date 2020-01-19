@@ -16,10 +16,8 @@ import PersonalHomeFeed from "../../PersonalHomeFeed/PersonalizedPage";
     top:-151px;
     left:-14%;
     width:101vw;
-    background: linear-gradient(to left, #9933ff 0%, #ff99ff 100%);
   }
 `;
-
 
 const CommunityContainerAnimation=styled.div`
 	position:relative;
@@ -28,7 +26,7 @@ const CommunityContainerAnimation=styled.div`
 	height:40%;
 	paddding-left:5px;
 	transition: transform 300ms ease-in-out;
-	boxShadow: "1px 1px 1px 1px #d5d5d5";
+	box-shadow: 1px 1px 1px 1px #d5d5d5;
 	border-radius:5px;
 	animation:${keyFrameExampleTwo} 1s ease-in-out 0s forwards;
 `;
@@ -40,9 +38,8 @@ const CommunityContainer=styled.div`
 	height:40%;
 	paddding-left:5px;
 	transition: transform 300ms ease-in-out;
-	boxShadow: "1px 1px 1px 1px #d5d5d5";
+	boxShadow: 1px 1px 1px 1px #d5d5d5;
 	border-radius:5px;
-
 `;
 
 
@@ -72,13 +69,22 @@ class ExplorePage extends Component{
 
 		this.state={
 			communities:[{
-				communityName:"Acting"
+				communityName:"Acting",
+				backgroundColor:"linear-gradient(to left, #9933ff 0%, #ff99ff 100%)",
+				key:1
 			},{
-				communityName:"Sports"
+				communityName:"Sports",
+				backgroundColor:"linear-gradient(to right, #ff9933 0%, #ffff00 100%)",
+				key:2
 			},{
-				communityName:"Walking"
+				communityName:"Walking",
+				backgroundColor:"linear-gradient(to right, #00ccff 0%, #00ffff 100%)",
+				key:3
+
 			},{
-				communityName:"Diving"
+				communityName:"Diving",
+				backgroundColor:"linear-gradient(to right, #ffff66 0%, #ffffcc 100%)",
+				key:4
 			}],
 			tempcommunities:[{}],
 			temp2communities:[{}],
@@ -86,6 +92,7 @@ class ExplorePage extends Component{
 			displayPersonalPage:false,
 			displayInitialPage:true,
 			triggerModalProps:{},
+			backgroundColor:""
 		}
 	}
 
@@ -100,12 +107,13 @@ class ExplorePage extends Component{
 
 	handleDisplayPersonalizedPage=(props)=>{
 		
+
 		const propObject={
 			communites:this.state.communities,
 			targetedCommunity:props
 		}
-		this.setState(prevState=>({
 
+		this.setState(prevState=>({
 			...prevState,
 			triggerAnimation:true,
 			triggerModalProps:props,
@@ -115,10 +123,24 @@ class ExplorePage extends Component{
 			this.triggerTimer();
 			}
 		);
+
+	   this.displayAnimation(props);
 	}
 
-	triggerTimer=()=>{
+	displayAnimation=(props)=>{
 
+
+		console.log(props);
+		const backgroundColor=document.getElementById(props.key+"").style.background;
+		this.setState(prevState=>({
+			...prevState,
+			backgroundColor:backgroundColor
+		}))
+	}
+
+	
+
+	triggerTimer=()=>{
 		console.log("Timer start");
 		setTimeout(function(){ 
 			this.setState(prevState=>({
@@ -133,15 +155,16 @@ class ExplorePage extends Component{
 	}
 
 	displayCommunityList=()=>{
-		return this.state.displayInitialPage==true ?
+
+		console.log(this.state.tempcommunities);
+		return this.state.displayInitialPage==true?
 				<Container>
 					<ul>
 						{this.state.tempcommunities.map(data=>
 
-							<li style={CommunitiesListCSS} key={data.tester}> 
+							<li style={CommunitiesListCSS} key={data.key}> 
 								{this.displayCommunityAnimation(data)}
 							 </li>
-
 							)}
 					</ul>
 				</Container>:<React.Fragment></React.Fragment>
@@ -159,9 +182,18 @@ class ExplorePage extends Component{
 	}
 
 	displayCommunityAnimation=(data)=>{
-		return this.state.triggerAnimation==true?<CommunityContainerAnimation><p>{data.tester} </p></CommunityContainerAnimation>:
-			<CommunityContainer onClick={()=>this.handleDisplayPersonalizedPage(data)}><p>{data.tester} </p></CommunityContainer>;
+		console.log(data);
+
+		if(this.state.triggerAnimation==true){
+			const backgroundColor=this.state.backgroundColor;
+			return <CommunityContainerAnimation style={{background:this.state.backgroundColor}}><p> </p></CommunityContainerAnimation>;
+		}
+		else{
+			return <CommunityContainer id={data.key} style={{background:data.backgroundColor}} onClick={()=>this.handleDisplayPersonalizedPage(data)}><p></p></CommunityContainer>;
+		}
 	}
+
+
 
 	render(){
 		return(
@@ -171,6 +203,7 @@ class ExplorePage extends Component{
 
 				{this.displayCommunityList()}
 				{this.displayPersonalizedPage()}
+				
 			</React.Fragment>
 
 

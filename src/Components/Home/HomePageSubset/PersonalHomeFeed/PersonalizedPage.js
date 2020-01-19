@@ -2,6 +2,9 @@ import React,{Component} from "react";
 import styled, {keyframes} from "styled-components";
 import Chat from "./ChatRoom.js";
 import { connect } from "react-redux";
+import SubCommunities from "./SubCommunities";
+import ActivePeopleModal from "./ActivePeopleModal";
+
 
  const keyFrameExampleTwo= keyframes`
   0% {
@@ -13,7 +16,6 @@ import { connect } from "react-redux";
   100% {
   	height:20%;
     width:100%;
-    background: orange;
   }
 `;
 
@@ -96,6 +98,8 @@ const PostsChatInformation=styled.div`
 	background-color:white;
 	overflow-y:scroll;
 	overflow-x:hidden;
+	opacity:0;
+  	transition:opacity 2s linear;
 `;
 
 
@@ -174,6 +178,15 @@ const Option=styled.div`
 `;
 
 
+const BackgroundModalContainer= styled.div`
+	position:absolute;
+	width:100%;
+	height:100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index:3;
+
+`;
+
 
 const ChatContainer=styled.div`
 	position:absolute;
@@ -188,6 +201,31 @@ const ChatContainer=styled.div`
 	border-width:1px;
 	border-color:#5298F8;
 
+`;
+
+const SubCommunitiesContainer=styled.div`
+	position:absolute;
+	background-color:white;
+	border-radius:5px;
+	width:40%;
+	height:50%;
+	z-index:3;
+	left:30%;
+	top:15%;
+
+
+`;
+
+const ActivePeopleContainer=styled.div`
+
+	position:absolute;
+	background-color:white;
+	border-radius:5px;
+	width:40%;
+	height:50%;
+	z-index:3;
+	left:30%;
+	top:15%;
 `;
 
 
@@ -234,33 +272,32 @@ class PersonalizedPage extends Component{
 			selectedCommunityTitle:"",
 			communityCounter:0,
 			communities:[],
+			backgroundColor:"",
+			untogglePostOptions:false,
+			displayPopularVideos:false,
+			displayModalPeopleActive:false,
+			displayModalSubCommunities:false,
 			subCommunities:[{
-				category:"Anime"
+				category:"Anime",
+				backgroundColor:"linear-gradient(to left, #9933ff 0%, #ff99ff 100%)",
+				color:"#9933ff",
+				key:1
 			},
 			{
-				category:"Dogs"
+				category:"Dogs",
+				backgroundColor:"linear-gradient(to left, #8E2DE2 0%, #4A00E0 100%)",
+				color:"#8E2DE2",
+				key:2
 			},
-			{category:"Cats"},{category:"Terminates"},{category:"Coding"},{category:"Cars"},{
-				category:"Anime"
-			},
-			{
-				category:"Dogs"
-			},
-			{category:"Cats"},{category:"Terminates"},{category:"Coding"},{category:"Cars"},{
-				category:"Anime"
-			},
-			{
-				category:"Dogs"
-			},
-			{category:"Cats"},{category:"Terminates"},{category:"Coding"},{category:"Cars"},{
-				category:"Anime"
-			},
-			{
-				category:"Dogs"
-			},
-			{category:"Cats"},{category:"Terminates"},{category:"Coding"},{category:"Cars"}]
-		}
+			{category:"Cats",backgroundColor:"linear-gradient(to left, #ee9ca7 0%, #ffdde1 100%)",color:"#ee9ca7",
+				key:3},
+			{category:"Terminates",backgroundColor:"linear-gradient(to left, #b92b27 0%, #1565C0 100%)",color:"#b92b27",
+				key:4},
+			{category:"Coding",backgroundColor:"linear-gradient(to left, #f953c6 0%, #b91d73 100%)",color:"#f953c6",
+				key:5}
+		]
 	}
+}
 
 	  handleScroll=()=>{
 
@@ -278,33 +315,48 @@ class PersonalizedPage extends Component{
 	  		
 	  		/*
 				Could be done in a better way
-
 	  		*/
 
-	  		console.log(this.props);
-	  		const communities=this.props.communities;
-	  		let communityCounter=0;
-	  		console.log(this.props.selectedCommunity.communityName);
 
-	  		for(var i=0;i<communities.length;i++){
-	  			const community=communities[i];
+	  		const postContainerElement=document.getElementById("postChatInformation");
+	  		const headerContentsContainerElement=document.getElementById("headerContents");
 
-	  			if(community.communityName==this.props.selectedCommunity.communityName){
-	  				communityCounter=i;
-	  				break;
-	  			}
-	  		}
 
-		  	this.setState(prevState=>({
-		  		...prevState,
-		  		selectedCommunityTitle:this.props.selectedCommunity.communityName,
-		  		communities:this.props.communities,
-		  		communityCounter:communityCounter
-		  		})
+	  
+
+				console.log(this.props);
+		  		const communities=this.props.communities;
+		  		let communityCounter=0;
+		  		console.log(this.props.selectedCommunity.communityName);
+
+		  		//Keep track of where you are at in the array of subcommuities
+
+		  		for(var i=0;i<communities.length;i++){
+		  			const community=communities[i];
+
+		  			if(community.communityName==this.props.selectedCommunity.communityName){
+		  				communityCounter=i;
+		  				break;
+		  			}
+		  		}
+
+			  	this.setState(prevState=>({
+				  		...prevState,
+				  		selectedCommunityTitle:this.props.selectedCommunity.communityName,
+				  		communities:this.props.communities,
+				  		communityCounter:communityCounter,
+				  		backgroundColor:this.props.selectedCommunity.backgroundColor
+			  		})
 		  	)
-	  }
 
+			  	setTimeout(function(){
+					postContainerElement.style.opacity="1";
+					headerContentsContainerElement.style.opacity="1";
+
+			  	},500);
+	  }
 	  handlePreviousCommunityButton=()=>{
+
 
 	  	if(this.state.communityCounter!=0){
 
@@ -317,6 +369,7 @@ class PersonalizedPage extends Component{
 	  		this.setState(prevState=>({
 	  			...prevState,
 	  			selectedCommunityTitle:newCommunity.communityName,
+	  			backgroundColor:newCommunity.backgroundColor,
 	  			communityCounter:newCounter
 	  		}))
 	  	}
@@ -334,67 +387,97 @@ class PersonalizedPage extends Component{
 	  		this.setState(prevState=>({
 	  			...prevState,
 	  			selectedCommunityTitle:newCommunity.communityName,
+	  			backgroundColor:newCommunity.backgroundColor,
 	  			communityCounter:newCounter
 	  		}))
 	  	}
-
-
-
 	  }
+
+	  handleSeeAllPopularVideos=()=>{
+
+	  	return this.state.displayPopularVideos==true?
+	  		<React.Fragment>
+	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayPopularVideos:false}))}/>
+	  		</React.Fragment>:
+	  		<React.Fragment>
+	  		</React.Fragment>
+	  }
+
+
 	  handleHeaderContents=()=>{
 
+	  	const previousButton=this.state.communityCounter==0? <React.Fragment></React.Fragment>:<p onClick={()=>this.handlePreviousCommunityButton()}> &lt; </p>;
+	  	const nextButton=this.state.communityCounter==this.props.communities.length-1?<React.Fragment></React.Fragment>:<p onClick={()=>this.handleNextCommunityButton()}>&gt;</p>;
 	  	return(
-	  		<React.Fragment>
+	  
+	  			<div style={{position:"absolute",width:"100%",height:"100%",opacity:"0",transition:"opacity 2s linear"}} id="headerContents">
 
-	  			<p style={{position:"absolute",left:"35%",top:"35%",fontSize:"60px",color:"white"}}>
-	  				<b>
-		  				<ul>
-		  					<li style={{listStyle:"none",display:"inline-block"}}><p onClick={()=>this.handlePreviousCommunityButton()}> &lt; </p> </li>
-		  					<li style={{listStyle:"none",display:"inline-block"}}>&nbsp;&nbsp;&nbsp;&nbsp; {this.state.selectedCommunityTitle} &nbsp;&nbsp;&nbsp;&nbsp;</li>
-		  					<li style={{listStyle:"none",display:"inline-block"}}><p onClick={()=>this.handleNextCommunityButton()}>&gt;</p> </li>
+		  			<p style={{position:"absolute",left:"35%",top:"35%",fontSize:"60px",color:"white"}}>
+		  				<b> 
+			  				<ul>
+			  					<li style={{listStyle:"none",display:"inline-block"}}>{previousButton}</li>
+			  					<li style={{listStyle:"none",display:"inline-block"}}>&nbsp;&nbsp;&nbsp;&nbsp; {this.state.selectedCommunityTitle} &nbsp;&nbsp;&nbsp;&nbsp;</li>
+			  					<li style={{listStyle:"none",display:"inline-block"}}>{nextButton}</li>
 
-		  				</ul>
-	  				</b>
+			  				</ul>
+		  				</b>
+		  			</p>
 
-	  			</p>
-
-	  			<p style={{position:"absolute",top:"60%",left:"30%",color:"white",fontSize:"20px"}}> <b>Popular Videos </b></p>
-	  			<p style={{position:"absolute",top:"60%",left:"40%",color:"white",fontSize:"15px"}}> <b>See all </b></p>
-		 		<PopularContainer>
-		 			<ul>
-		 				{this.state.popularVideos.map(data=>
-		 					<li style={{listStyle:"none",display:"inline-block",marginRight:"30px"}}> 
-		 						<PopularVideos>
+		  			<p style={{position:"absolute",top:"60%",left:"30%",color:"white",fontSize:"20px"}}> <b>Popular Videos </b></p>
+		  			<p style={{position:"absolute",top:"60%",left:"40%",color:"white",fontSize:"15px"}} onClick={()=>this.setState(prevState=>({...prevState,displayPopularVideos:true}))}> <b>See all </b></p>
+			 		<PopularContainer>
+			 			<ul>
+			 				{this.state.popularVideos.map(data=>
+			 					<li style={{listStyle:"none",display:"inline-block",marginRight:"30px"}}> 
+			 						<PopularVideos>
 
 
-		 						</PopularVideos>
-		 					</li>
-		 				)}
-		 			</ul>
+			 						</PopularVideos>
+			 					</li>
+			 				)}
+			 			</ul>
 
-		 		</PopularContainer>
+			 		</PopularContainer>
 
-		 		<p style={{position:"absolute",top:"25%",left:"80%",color:"white",fontSize:"20px"}}> <b>Active People</b> </p>
-		 		<p style={{position:"absolute",top:"25%",left:"89%",color:"white",fontSize:"15px"}}> <b>See all</b> </p>
-		 		<ActiveContainer>
+			 		<p style={{position:"absolute",top:"25%",left:"80%",color:"white",fontSize:"20px"}}> <b>Active People</b> </p>
+			 		<p style={{position:"absolute",top:"25%",left:"95%",color:"white",fontSize:"15px"}} onClick={()=>this.setState(prevState=>({...prevState,displayModalPeopleActive:true}))}> <b>See all</b> </p>
+			 		<ActiveContainer>
 
-		 			<ul>
-		 				{this.state.activePeople.map(data=>
+			 			<ul>
+			 				{this.state.activePeople.map(data=>
 
-		 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
-		 							<ActiveProfilePictures>
+			 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
+			 							<ActiveProfilePictures>
 
-		 							</ActiveProfilePictures>
-		 						</li>
-		 				)}
-		 			</ul>
-		 		</ActiveContainer>
-	 		</React.Fragment>
+			 							</ActiveProfilePictures>
+			 						</li>
+			 				)}
+			 			</ul>
+			 		</ActiveContainer>
+
+		 		</div>
 	  	)
 	  }
 
-	  handleHeaderAnimatedContents=()=>{
+	  handleSeeAllPeopleActiveModal=()=>{
+	  	return this.state.displayModalPeopleActive==true?
+	  		<React.Fragment>
+	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayModalPeopleActive:false}))}/>
 
+	  			<ActivePeopleContainer>
+	  				<ActivePeopleModal
+	  					peopleActive={this.state.activePeople}
+	  				/>
+
+
+	  			</ActivePeopleContainer>
+	  		</React.Fragment>:
+	  		<React.Fragment>
+	  		</React.Fragment>
+
+	  }
+
+	  handleHeaderAnimatedContents=()=>{
 
 
 	  	return (
@@ -405,16 +488,58 @@ class PersonalizedPage extends Component{
 	  	)
 	  }
 
+	  handleSubCommunitiesChoices=(props)=>{
+
+	  	console.log(props);
+
+	  }
+
+	  handleSeeAllSubCommunities=()=>{
+
+	  	return this.state.displayModalSubCommunities==true?
+	  		<React.Fragment>
+	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayModalSubCommunities:false}))}/>
+	  			<SubCommunitiesContainer>
+	  				<SubCommunities
+	  					subCommunities={this.state.subCommunities}
+	  					subCommunitiesChoices={this.handleSubCommunitiesChoices}
+	  				/>
+
+	  			</SubCommunitiesContainer>
+	  		</React.Fragment>:
+	  		<React.Fragment>
+	  		</React.Fragment>
+	  }
+
 
 	  handleHeaderAnimation=()=>{
-
+	  	const backgroundColor=this.state.backgroundColor;
 	  	return this.state.headerAnimation==false ? 
-	  		<Container>
+	  		<Container id="headerContainer" style={{background:backgroundColor}}>
 	  			{this.handleHeaderContents()}
 	  		</Container>:
-	  		<CommunityHeaderAnimation>
+	  		<CommunityHeaderAnimation style={{background:backgroundColor}}>
 	  			{this.handleHeaderAnimatedContents()}
 	  		</CommunityHeaderAnimation>
+	  }
+
+	  changeOptionColors=(option)=>{
+
+	  	/*
+	  		Could be implementd in  better way
+	  	*/
+	  	const element=document.getElementById(option);
+	  	if(element.style.color=="white"){
+
+	  		element.style.color="black";
+	  		element.style.backgroundColor="white";
+	  		element.style.borderColor="#5298F8";
+
+	  	}else{
+	  		element.style.color="white";
+	  		element.style.backgroundColor="#5298F8";
+
+	  	}
 	  }
 
 	render(){
@@ -423,9 +548,11 @@ class PersonalizedPage extends Component{
 		return(
 			<React.Fragment>
 			
+				{this.handleSeeAllSubCommunities()}
+				{this.handleSeeAllPeopleActiveModal()}
+				{this.handleSeeAllPopularVideos()}
 				{this.handleHeaderAnimation()}
-
-
+				
 
 				<PostsChatInformation id="postChatInformation" onScroll={()=>this.handleScroll()}>
 					<PostOptionsContainer>
@@ -435,10 +562,10 @@ class PersonalizedPage extends Component{
 							<li>
 								<PostOptions>
 									<ul style={{listStyle:"none"}}>
-										<li style={{PostOptionCSS}}><Option>Posts</Option></li>
-										<li style={{PostOptionCSS}}><Option>Images</Option></li>
-										<li style={{PostOptionCSS}}><Option>Videos</Option></li>
-										<li style={{PostOptionCSS}}><Option>Blogs</Option></li>
+										<li style={{PostOptionCSS}} key={1}><Option id="postOption" onClick={()=>this.changeOptionColors("postOption")}>Posts</Option></li>
+										<li style={{PostOptionCSS}} key={2}><Option id="imageOption" onClick={()=>this.changeOptionColors("imageOption")}>Images</Option></li>
+										<li style={{PostOptionCSS}} key={3}><Option id="videoOption" onClick={()=>this.changeOptionColors("videoOption")}>Videos</Option></li>
+										<li style={{PostOptionCSS}} key={4}><Option id="blogOption" onClick={()=>this.changeOptionColors("blogOption")}>Blogs</Option></li>
 									</ul>
 								</PostOptions>
 							</li>
@@ -458,23 +585,16 @@ class PersonalizedPage extends Component{
 							)}
 
 						</ul>
-						<p style={{position:"absolute",left:"90%",top:"10%",color:"#5298F8"}}>See all </p>
-						
-
+						<p style={{position:"absolute",left:"90%",top:"10%",color:"#5298F8"}} onClick={()=>this.setState(prevState=>({...prevState,displayModalSubCommunities:true}))}>See all </p>
 					</CommunityChoicesContainer>
 
-					<ChatContainer>
+					<ChatContainer id="chatContainer">
 						<Chat/>
 
 					</ChatContainer>
 
 				</PostsChatInformation>
-
-
-
 			</React.Fragment>
-
-
 		)
 	}
 }
