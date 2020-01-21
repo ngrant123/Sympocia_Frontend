@@ -33,28 +33,53 @@ const ActivePeopleContainer=styled.div`
 const ActivePeopleListCSS={
 
 	display:"inline-block",
-	listStyle:"none"
+	listStyle:"none",
+	marginRight:"30px",
+	marginTop:"20px"
 }
 
-
-const CommunityChoicesDiv=styled.div`
+const PeopleContainer =styled.div`
 	position:relative;
-	width:140px;
-	height:20%;
-	padding:10px;
+	width:100px;
+	height:50%;
+	background-color:white;
 	border-radius:5px;
-	transition:.8s;
+	box-shadow: 1px 5px 5px 1px #d5d5d5;
 
-	border-style:solid;	
-	border-width:4px;
-	border-image-slice: 1;
-	margin:10px;
-
-	&:hover{
-		box-shadow: 1px 5px 5px 1px #d5d5d5;
-	}
 `;
 
+const ProfilePicture=styled.div`
+	position:relative;
+	width:60px;
+	height:40%;
+	background-color:red;
+	border-radius:50%;
+	margin-bottom:10px;
+	text-align:center;
+
+`;
+
+const MessageButton=styled.div`
+	position:relative;
+	width:60px;
+	height:20%;
+	border-radius:5px;
+	background-color:#5298F8;
+	font-size:10px;
+	color:white;
+	padding-top:7px;
+	text-align:center;
+	border-style:solid;
+	border-width:1px;
+	border-color:#0750b3;
+
+
+`;
+
+
+const ProfileContainerContentsCSS={
+	listStyle:"none"
+}
 
 
 
@@ -78,7 +103,24 @@ const ActivePeopleModal=(props)=>{
 					<ul>
 						{friendsArray.map(data=>
 								<li style={ActivePeopleListCSS}>
-									<p> Tester </p>
+									<PeopleContainer>
+										<ul style={{position:"relative",left:"-20%",top:"5%"}}>
+
+											<li style={ProfileContainerContentsCSS}>
+												<ProfilePicture>
+
+												</ProfilePicture>
+											</li>
+											<li style={ProfileContainerContentsCSS}>
+												<p style={{overflowX:"scroll",color:"#a2a2a2"}}><b>Nathan</b></p>
+											</li>
+											<li style={ProfileContainerContentsCSS}>
+												<MessageButton>
+													Message
+												</MessageButton>
+											</li>
+										</ul>
+									</PeopleContainer>
 								</li>
 							)}
 					</ul>

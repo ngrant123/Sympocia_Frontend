@@ -20,15 +20,30 @@ const Container=styled.div`
 
 const PageIndicator=styled.div`
 	position:absolute;
-	background-color:blue;
+	background-color:white;
 	width:5%;
 	height:20%;
 	top:12%;
 	left:2%;
 	border-radius:5%;
 	z-index:4;
+	box-shadow: 1px 1px 1px 1px #d5d5d5;
 `;
 
+
+const PersonalPageIndicator=styled.div`
+	position:absolute;
+	background-color:white;
+	width:5%;
+	height:10%;
+	top:23%;
+	left:8%;
+	border-radius:5%;
+	z-index:4;
+	box-shadow: 1px 1px 1px 1px #d5d5d5;
+
+
+`;
 
 const Home=styled.div`
 	position:absolute;
@@ -40,6 +55,50 @@ const Home=styled.div`
 
 `;
 
+const ExploreIcon=styled.div`
+	position:relative;
+	width:50px;
+	height:30%;
+	left:-80%;
+	border-radius:5px;
+	box-shadow: 1px 1px 1px 1px #d5d5d5;
+
+
+`;
+
+const ForYouIcon=styled.div`
+	position:relative;
+	width:50px;
+	height:30%;
+	left:-80%;
+	border-radius:5px;
+	box-shadow: 1px 1px 1px 1px #d5d5d5;
+
+`;
+
+const FollowedForYouPageIcon=styled.div`
+	position:relative;
+	width:50px;
+	height:30%;
+	left:-80%;
+	border-radius:5px;
+	box-shadow: 1px 1px 1px 1px #d5d5d5;
+
+
+
+`;
+
+const CustomizedForYouPageIcon=styled.div`
+	position:relative;
+	width:50px;
+	height:30%;
+	left:-80%;
+	border-radius:5px;
+	box-shadow: 1px 1px 1px 1px #d5d5d5;
+
+
+`;
+
 
 class HomePageContainer extends Component{
 
@@ -48,7 +107,8 @@ class HomePageContainer extends Component{
 
 		this.state={
 			displayPersonalFeed:false,
-			displayExplorerFeed:true
+			displayExplorerFeed:true,
+			displayForYourChoices:false
 
 		}
 	}
@@ -59,21 +119,77 @@ class HomePageContainer extends Component{
 			<ExplorePage/>:<PersonalPage/>
 	}
 
+	handleDisplayForYouChoices=()=>{
+	
+		if(this.state.displayForYourChoices==false){
+			this.setState(prevState=>({
+				...prevState,
+				displayForYourChoices:true
+			}))
+		}else{
+				this.setState(prevState=>({
+				...prevState,
+				displayForYourChoices:false
+			}))
 
+		}
+			
+
+	}
+
+	handleDisplayHideForYouChoices=()=>{
+
+		this.setState(prevState=>({
+				...prevState,
+				displayForYourChoices:false
+			}))
+	}
+
+	displayForYouChoices=()=>{
+
+		return this.state.displayForYourChoices==true?
+			<PersonalPageIndicator>
+				<ul>	
+					<li style={{listStyle:"none",marginBottom:"10px",marginTop:"10px"}}>
+						<FollowedForYouPageIcon>
+
+						</FollowedForYouPageIcon>
+					</li>
+					<li style={{listStyle:"none"}}>
+						<CustomizedForYouPageIcon>
+
+						</CustomizedForYouPageIcon>
+
+					</li>
+				</ul>
+			</PersonalPageIndicator>:<React.Fragment></React.Fragment>
+	}
 	render(){
-
-
 		return(
 			<Container>
 				<GeneralNavBar/>
 
 				<PageIndicator>
 					<ul>
-						<li>    </li>
-						<li>    </li>
-					</ul>
+						<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}} onClick={()=>this.handleDisplayHideForYouChoices()}>
+							<ExploreIcon>
+								<p style={{fontSize:"10px"}}>Explore </p>
+							</ExploreIcon>
+						</li>
+						<li style={{listStyle:"none"}} onClick={()=>this.handleDisplayForYouChoices()}>
+							<ForYouIcon>
+								<p style={{fontSize:"10px"}}>For you</p>
+							</ForYouIcon>
+						</li>
 
+						{/*
+							Home for you like for what you subscribed
+							and something like a mix between what you already like and what you may like
+						*/}
+					</ul>
 				</PageIndicator>
+
+				{this.displayForYouChoices()}
 				{this.displayPersonalOrExploreFeed()}
 
 			</Container>

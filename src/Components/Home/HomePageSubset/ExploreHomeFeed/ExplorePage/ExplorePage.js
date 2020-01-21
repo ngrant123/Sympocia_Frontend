@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import styled, {keyframes} from "styled-components";
 import { keyFrameExampleOne } from './KeyFrames';
 import PersonalHomeFeed from "../../PersonalHomeFeed/PersonalizedPage";
+import ExplorePageCommunities from "./ExplorePageCommunities";
 
 
  const keyFrameExampleTwo= keyframes`
@@ -40,6 +41,7 @@ const CommunityContainer=styled.div`
 	transition: transform 300ms ease-in-out;
 	boxShadow: 1px 1px 1px 1px #d5d5d5;
 	border-radius:5px;
+	padding:10px;
 `;
 
 
@@ -54,6 +56,15 @@ const Container=styled.div`
 
 `;
 
+const PopularVideosContainer=styled.div`
+	position:relative;
+	width:80%;
+	height:35%;
+	background-color:red;
+	border-radius:5px;
+
+`;
+
 const CommunitiesListCSS={
 	display:"inline-block",
 	listStyle:"none",
@@ -61,6 +72,10 @@ const CommunitiesListCSS={
 	marginBottom:"50px"
 		
 	}
+
+const CommunityContainerCSS={
+	listStyle:"none"
+}
 
 class ExplorePage extends Component{
 
@@ -71,19 +86,48 @@ class ExplorePage extends Component{
 			communities:[{
 				communityName:"Acting",
 				backgroundColor:"linear-gradient(to left, #9933ff 0%, #ff99ff 100%)",
+				popularVideos:[
+					{
+						videoUrl:""
+					},
+					{
+						videoUrl:""
+					}
+				],
 				key:1
 			},{
 				communityName:"Sports",
 				backgroundColor:"linear-gradient(to right, #ff9933 0%, #ffff00 100%)",
+				popularVideos:[
+					{
+						videoUrl:""
+					}
+				],
 				key:2
 			},{
 				communityName:"Walking",
 				backgroundColor:"linear-gradient(to right, #00ccff 0%, #00ffff 100%)",
+				popularVideos:[
+					{
+						videoUrl:""
+					},
+					{
+						videoUrl:""
+					}
+				],
 				key:3
 
 			},{
 				communityName:"Diving",
 				backgroundColor:"linear-gradient(to right, #ffff66 0%, #ffffcc 100%)",
+				popularVideos:[
+					{
+						videoUrl:""
+					},
+					{
+						videoUrl:""
+					}
+				],
 				key:4
 			}],
 			tempcommunities:[{}],
@@ -189,7 +233,11 @@ class ExplorePage extends Component{
 			return <CommunityContainerAnimation style={{background:this.state.backgroundColor}}><p> </p></CommunityContainerAnimation>;
 		}
 		else{
-			return <CommunityContainer id={data.key} style={{background:data.backgroundColor}} onClick={()=>this.handleDisplayPersonalizedPage(data)}><p></p></CommunityContainer>;
+			return <CommunityContainer id={data.key} style={{background:data.backgroundColor}} onClick={()=>this.handleDisplayPersonalizedPage(data)}>
+						<ExplorePageCommunities
+							communityData={data}
+						/>
+					</CommunityContainer>;
 		}
 	}
 

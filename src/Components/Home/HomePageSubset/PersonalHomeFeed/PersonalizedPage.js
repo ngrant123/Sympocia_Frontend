@@ -49,7 +49,7 @@ const PopularContainer=styled.div`
 	position:relative;
 	width:40%;
 	background-color:white;
-	height:20%;
+	height:25%;
 	top:70%;
 	left:30%;
 	border-radius:5px;
@@ -82,7 +82,7 @@ const ActiveContainer =styled.div`
 const ActiveProfilePictures=styled.div`
 	position:relative;
 	width:50px;
-	height:20%;
+	height:25%;
 	border-radius:50%;
 	background-color:red;
 
@@ -405,19 +405,21 @@ class PersonalizedPage extends Component{
 
 
 	  handleHeaderContents=()=>{
+	  	const counter=this.state.communityCounter;
+	  	const previousCommunityTitle=counter>0?<p onClick={()=>this.handlePreviousCommunityButton()}>{this.state.communities[counter-1].communityName}</p>:<React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</React.Fragment>;
+	  	const nextCommunityTitle=counter==this.props.communities.length-1?<React.Fragment></React.Fragment>:<p onClick={()=>this.handleNextCommunityButton()}>{this.props.communities[counter+1].communityName}</p>;
+	 
 
-	  	const previousButton=this.state.communityCounter==0? <React.Fragment></React.Fragment>:<p onClick={()=>this.handlePreviousCommunityButton()}> &lt; </p>;
-	  	const nextButton=this.state.communityCounter==this.props.communities.length-1?<React.Fragment></React.Fragment>:<p onClick={()=>this.handleNextCommunityButton()}>&gt;</p>;
 	  	return(
 	  
 	  			<div style={{position:"absolute",width:"100%",height:"100%",opacity:"0",transition:"opacity 2s linear"}} id="headerContents">
 
-		  			<p style={{position:"absolute",left:"35%",top:"35%",fontSize:"60px",color:"white"}}>
+		  			<p id="communityContainer" style={{position:"absolute",left:"30%",top:"35%",fontSize:"60px",color:"white"}}>
 		  				<b> 
 			  				<ul>
-			  					<li style={{listStyle:"none",display:"inline-block"}}>{previousButton}</li>
-			  					<li style={{listStyle:"none",display:"inline-block"}}>&nbsp;&nbsp;&nbsp;&nbsp; {this.state.selectedCommunityTitle} &nbsp;&nbsp;&nbsp;&nbsp;</li>
-			  					<li style={{listStyle:"none",display:"inline-block"}}>{nextButton}</li>
+			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>{previousCommunityTitle}</li>
+			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px"}}>&nbsp;&nbsp;&nbsp;&nbsp; {this.state.selectedCommunityTitle} &nbsp;&nbsp;&nbsp;&nbsp;</li>
+			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>{nextCommunityTitle}</li>
 
 			  				</ul>
 		  				</b>
@@ -573,7 +575,7 @@ class PersonalizedPage extends Component{
 
 					</PostOptionsContainer>
 
-					<p style={{position:"relative",fontSize:"60px",left:"23%"}}><b>Categories</b></p>
+					<p style={{position:"relative",fontSize:"30px",left:"23%"}}><b>Categories</b></p>
 					<CommunityChoicesContainer>
 
 						<ul style={{textAlign:"center",overflowY:"scroll",width:"90%"}}>
