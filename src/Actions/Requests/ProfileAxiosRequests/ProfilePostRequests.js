@@ -3,6 +3,7 @@ import BASE_URL from "../../../Constants/constants.js";
 
 
 const baseurl=BASE_URL.BASE_URL;
+const CreateUrl='http://localhost:4000/api/profile/alter';
 
 export function addEmployeeData(userId,employeeData){
 	/*
@@ -98,7 +99,6 @@ export function updateEmployee(userId,updatedEmployeeData){
 export function createProfile(personalData){
 	const {firstName,lastName,email,paymentPlan,stripToken}=personalData;
 
-	const CreateUrl='http://localhost:4000/api/profile/alter';
 
 	axios.post(`${CreateUrl}/createProfile`,{
 		firstName:firstName,
@@ -110,6 +110,30 @@ export function createProfile(personalData){
 		return profile;
 	}).catch(err=>{
 		return err.message;
+	})
+}
+
+export function setBio(personalId,bio){
+
+	axios.post(`${CreateUrl}/setBio`,{
+		_id:personalId,
+		bio:bio
+	}).then(profile=>{
+		return profile;
+	}).catch(err=>{
+		console.log(err.message);
+	})
+}
+
+export function setProfilePicture(profileId,pictureUrl){
+
+	axios.post(`${CreateUrl}/setProfilePicture`,{
+		_id:profileId,
+		profilePicture:pictureUrl
+	}).then(profile=>{
+		return profile;
+	}).catch(err=>{
+		console.log(err.message);
 	})
 }
 

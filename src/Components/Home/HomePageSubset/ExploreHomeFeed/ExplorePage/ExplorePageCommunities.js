@@ -22,7 +22,7 @@ const PopularVideos=styled.div`
 	background-color:red;
 	top:10px;
 	border-radius:5px;
-	overflow-x:scroll;
+	overflow:hidden;
 `;
 
 
@@ -34,11 +34,9 @@ const ExplorePageCommunities=(props)=>{
 		<li style={{listStyle:"none",display:"inline-block"}}>Testing</li>
 
 	*/
-
-	const [communityData,changeCommunityData]=useState([]);
-
+	const [popularVideos,changePopularVideosData]=useState([]);
 	useEffect(()=>{
-		changeCommunityData(props.communityData.popularVideos);
+		changePopularVideosData(props.communityData.popularVideos);
 	},[])
 
 
@@ -52,10 +50,9 @@ const ExplorePageCommunities=(props)=>{
 							<li style={{listStyle:"none"}}>
 								<PopularVideosContainer>
 									<ul>
-										{communityData.map(data=>
+										{popularVideos.map(data=>
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
 												<PopularVideos>
-
 
 												</PopularVideos>
 										    </li>

@@ -1,9 +1,12 @@
 import React,{Component} from "react";
 import styled, {keyframes} from "styled-components";
 import { keyFrameExampleOne } from './KeyFrames';
-import PersonalHomeFeed from "../../PersonalHomeFeed/PersonalizedPage";
+import PersonalHomeFeed from "../../PersonalHomeFeed/PersonalizedPage/PersonalizedPage.js";
 import ExplorePageCommunities from "./ExplorePageCommunities";
-
+import {connect} from "react-redux";
+import {
+			getCommunitiesNotFollowed
+		} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
  const keyFrameExampleTwo= keyframes`
   0% {
@@ -142,6 +145,17 @@ class ExplorePage extends Component{
 
 	componentDidMount(){
 
+		/*
+			Make api call
+			const communities=getCommunitiesNotFollowed(this.props.id);
+
+			this.setState(prevState=>({
+				...prevState,
+				tempcommunities:communities
+			}))
+
+		*/
+
 		this.setState(prevState=>({
 			...prevState,
 			tempcommunities:this.state.communities
@@ -247,8 +261,6 @@ class ExplorePage extends Component{
 		return(
 
 			<React.Fragment>
-				
-
 				{this.displayCommunityList()}
 				{this.displayPersonalizedPage()}
 				
@@ -259,4 +271,15 @@ class ExplorePage extends Component{
 	}
 }
 
-export default ExplorePage;
+const mapStateToProps=(state)=>{
+
+
+	return {
+		_id:state.personalInformation.id
+	}
+}
+
+
+export default connect(
+	mapStateToProps,
+	null)(ExplorePage);

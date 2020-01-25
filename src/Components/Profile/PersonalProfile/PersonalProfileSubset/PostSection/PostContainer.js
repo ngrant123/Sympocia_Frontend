@@ -30,7 +30,7 @@ const PostCreationContainer=styled.div`
 	position:absolute;
 	background-color:blue;
 	height:65%;
-	top:35%;
+	top:40%;
 	left:1%;
 	width:85%;
 	box-shadow: 10px 10px 20px 	#dbdddf;
@@ -86,7 +86,10 @@ class PostContainer extends Component{
 	 	const { 
 	 			displayImages,
 		    	displayVideos,
-		    	displayBlogs 
+		    	displayBlogs,
+		    	images,
+		    	videos,
+		    	blogs
 		    } = displayedItemsIndicator;
 
 		console.log(displayedItemsIndicator);
@@ -108,7 +111,7 @@ class PostContainer extends Component{
 							{displayItems.map(data=>
 
 								<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
-									<img  onClick={()=>this.handleVideoClick(data)} src={data.thumbnail} style={{position:"relative",backgroundColor:"red",width:"160px",height:"140px",borderRadius:"5px"}}>
+									<img  onClick={()=>this.handleVideoClick(data)} src={data.thumbnail} style={{position:"relative",backgroundColor:"red",width:"120px",height:"100px",borderRadius:"5px"}}>
 									</img>
 								</li>
 							)}
@@ -135,7 +138,7 @@ class PostContainer extends Component{
 							{displayItems.map(data=>
 
 								<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
-									<img  onClick={()=>this.handleImageClick(data)} src={data.imgUrl} style={{position:"relative",backgroundColor:"red",width:"170px",height:"170px",borderRadius:"5px"}}>
+									<img  onClick={()=>this.handleImageClick(data)} src={data.imgUrl} style={{position:"relative",backgroundColor:"red",width:"120px",height:"100px",borderRadius:"5px"}}>
 
 									</img>
 					
@@ -174,6 +177,7 @@ class PostContainer extends Component{
 								<PostCreationContainer>
 									<PostCreationComponent/>
 								</PostCreationContainer>
+
 
 							</React.Fragment>
 					}

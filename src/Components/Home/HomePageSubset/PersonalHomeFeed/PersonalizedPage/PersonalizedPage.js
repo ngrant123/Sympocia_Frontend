@@ -4,7 +4,9 @@ import Chat from "./ChatRoom.js";
 import { connect } from "react-redux";
 import SubCommunities from "./SubCommunities";
 import ActivePeopleModal from "./ActivePeopleModal";
-
+import {
+		getCommunityById
+	} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
  const keyFrameExampleTwo= keyframes`
   0% {
@@ -72,10 +74,12 @@ const ActiveContainer =styled.div`
 	background-color:white;
 	top:15%;
 	left:80%;
-	border-radius:5px;
 	padding:5px;
 	padding-top:10px;
-	overflow-y:scroll;
+	overflow:auto;
+
+	-ms-overflow-style: none;  /* IE 10+ */
+    scrollbar-width: none;
 `;
 
 
@@ -96,10 +100,10 @@ const PostsChatInformation=styled.div`
 	left:7%;
 	z-index:2;
 	background-color:white;
-	overflow-y:scroll;
+	overflow-y:auto;
 	overflow-x:hidden;
 	opacity:0;
-  	transition:opacity 2s linear;
+  	transition:opacity 1s linear;
 `;
 
 
@@ -113,7 +117,7 @@ const CommunityChoicesContainer=styled.div`
 	border-radius:5px;
 	top:2%;
 	padding:10px;
-	overflow-y:hidden;
+	overflow:hidden;
 	
 
 `;
@@ -128,6 +132,7 @@ const CommunityChoicesDiv=styled.div`
 	border-style:solid;
 	border-color:black;
 	border-width:2px;
+	overflow:hidden;
 
 	&:hover{
 		box-shadow: 1px 5px 5px 1px #d5d5d5;
@@ -229,10 +234,12 @@ const ActivePeopleContainer=styled.div`
 `;
 
 
+
+
 const CommunityChoicesListCSS={
 	display:"inline-block",
 	listStyle:"none",
-	marginRight:"50px",
+	marginRight:"20px",
 	marginBottom:"50px",
 	fontSize:"20px",
 	padding:"10px",
@@ -268,7 +275,7 @@ class PersonalizedPage extends Component{
 		this.state={ 
 			headerAnimation:false,
 			popularVideos:[{},{},{},{}],
-			activePeople:[{},{},{},{}],
+			activePeople:[{},{},{},{},{}],
 			selectedCommunityTitle:"",
 			communityCounter:0,
 			communities:[],
@@ -325,6 +332,12 @@ class PersonalizedPage extends Component{
 	  
 
 				console.log(this.props);
+				/*
+					Make api call here
+
+
+
+				*/
 		  		const communities=this.props.communities;
 		  		let communityCounter=0;
 		  		console.log(this.props.selectedCommunity.communityName);
@@ -355,7 +368,16 @@ class PersonalizedPage extends Component{
 
 			  	},500);
 	  }
+
+
+	  getCommunityData=(communityId)=>{
+
+	  		return getCommunityById(communityId);
+	  }
+
 	  handlePreviousCommunityButton=()=>{
+
+	  	this.fadeOutInEffect();
 
 
 	  	if(this.state.communityCounter!=0){
@@ -365,6 +387,8 @@ class PersonalizedPage extends Component{
 
 	  		/*
 				make an api call here
+				const newCommunityData=getCommunityData(newCommunity.id);
+
 	  		*/
 	  		this.setState(prevState=>({
 	  			...prevState,
@@ -373,9 +397,28 @@ class PersonalizedPage extends Component{
 	  			communityCounter:newCounter
 	  		}))
 	  	}
+
+	  }
+
+
+	  fadeOutInEffect=()=>{
+
+	  		document.getElementById("postChatInformation").style.opacity="0";
+	  		document.getElementById("headerContents").style.opacity="0";
+
+	  		setTimeout(function(){
+	  			document.getElementById("postChatInformation").style.opacity="1";
+			  	document.getElementById("headerContents").style.opacity="1";
+	  		},1000);
+
+
+
+
 	  }
 
 	  handleNextCommunityButton=()=>{
+
+	  		this.fadeOutInEffect();
 	  		if((this.state.communityCounter+1)<this.state.communities.length){
 
 	  		const newCounter=this.state.communityCounter+1;
@@ -383,6 +426,8 @@ class PersonalizedPage extends Component{
 
 	  		/*
 				make an api call here
+				const newCommunityData=getCommunityData(newCommunity.id);
+ 
 	  		*/
 	  		this.setState(prevState=>({
 	  			...prevState,
@@ -426,7 +471,7 @@ class PersonalizedPage extends Component{
 		  			</p>
 
 		  			<p style={{position:"absolute",top:"60%",left:"30%",color:"white",fontSize:"20px"}}> <b>Popular Videos </b></p>
-		  			<p style={{position:"absolute",top:"60%",left:"40%",color:"white",fontSize:"15px"}} onClick={()=>this.setState(prevState=>({...prevState,displayPopularVideos:true}))}> <b>See all </b></p>
+		  			<p style={{position:"absolute",top:"60%",left:"65%",color:"white",fontSize:"15px"}} onClick={()=>this.setState(prevState=>({...prevState,displayPopularVideos:true}))}> <b>See all </b></p>
 			 		<PopularContainer>
 			 			<ul>
 			 				{this.state.popularVideos.map(data=>
@@ -476,7 +521,6 @@ class PersonalizedPage extends Component{
 	  		</React.Fragment>:
 	  		<React.Fragment>
 	  		</React.Fragment>
-
 	  }
 
 	  handleHeaderAnimatedContents=()=>{
@@ -572,17 +616,16 @@ class PersonalizedPage extends Component{
 								</PostOptions>
 							</li>
 						</ul>
-
 					</PostOptionsContainer>
 
 					<p style={{position:"relative",fontSize:"30px",left:"23%"}}><b>Categories</b></p>
 					<CommunityChoicesContainer>
 
-						<ul style={{textAlign:"center",overflowY:"scroll",width:"90%"}}>
+						<ul style={{textAlign:"center",overflow:"hidden",width:"90%"}}>
 
 							{this.state.subCommunities.map(data=>
 								<li style={CommunityChoicesListCSS}>
-									<CommunityChoicesDiv> {data.category} </CommunityChoicesDiv>
+									<CommunityChoicesDiv style={{borderColor:data.color}}> {data.category} </CommunityChoicesDiv>
 								</li>
 							)}
 
@@ -592,7 +635,6 @@ class PersonalizedPage extends Component{
 
 					<ChatContainer id="chatContainer">
 						<Chat/>
-
 					</ChatContainer>
 
 				</PostsChatInformation>

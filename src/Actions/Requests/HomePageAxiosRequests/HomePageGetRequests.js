@@ -2,6 +2,7 @@ import axios from "axios";
 import BASE_URL from "../../../Constants/constants.js";
 
 const baseurl=""+BASE_URL.BASE_URL;
+const GetUrl="http://localhost:4000/api/posts/search";
 
 export function getNewFeedUpdates(userId){
 	//userId:number
@@ -91,3 +92,32 @@ export function getUserDataInfo(userId){
 		console.log(err.message);
 	})
 }
+
+
+export function getCommunitiesNotFollowed(userId){
+
+	axios.get(`${GetUrl}/getCommunitiesNotFollowed`,{
+		_id:userId
+	}).then(posts=>{
+		return posts;
+	}).catch(err=>{
+
+		console.log(err.message);
+	})
+}
+
+export function getCommunityById(communityId){
+
+	axios.get(`${GetUrl}/getCommunityById`,{
+		_id:communityId
+	}).then(communityData=>{
+
+		return communityData;
+	}).catch(err=>{
+		console.log(err.message);
+	})
+}
+
+
+
+

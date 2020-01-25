@@ -2,6 +2,7 @@ import axios from "axios";
 import BASE_URL from "../../../Constants/constants.js";
 
 const baseurl=BASE_URL.BASE_URL;
+const SearchUrl='http://localhost:4000/api/profile/search';
 
 export function getActivityLog(userId){
 	//userId:number
@@ -111,5 +112,49 @@ export function getProfile(userId){
 	}).catch(err=>{
 		return err.message
 	})
+
+}
+
+
+
+export function getVideos(profileId){
+
+	axios.get(`${SearchUrl}/getVideos`,{
+		_id:profileId
+	}).then(videos=>{
+		return videos;
+	}).catch(err=>{
+		console.log(err.message);
+	})
+} 
+
+export function getImages(profileId){
+
+	axios.get(`${SearchUrl}/getImages`,{
+		_id:profileId
+	}).then(images=>{
+		return images;
+	}).catch(err=>{
+		console.log(err.message);
+	})
+
+
+
+
+}
+
+
+export function getBlogs(profileId){
+
+
+	axios.get(`${SearchUrl}/getBlogs`,{
+			_id:profileId
+		}).then(blogs=>{
+			return blogs;
+		}).catch(err=>{
+			console.log(err.message);
+		})
+
+
 
 }

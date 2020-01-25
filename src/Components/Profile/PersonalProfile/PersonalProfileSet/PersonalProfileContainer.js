@@ -5,7 +5,18 @@ import PostsContainer from "../PersonalProfileSubset/PostSection/PostContainer.j
 import PersonalInformation from "../PersonalProfileSubset/PersonalDetails/PersonalInformation.js";
 import Typed from "react-typed";
 import {useSelector,useDispatch, connect} from 'react-redux';
-import { getProfile } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import { 
+			getProfile,
+			getVideos,
+			getImages,
+			getBlogs
+		 } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+
+import {
+	setBio,
+	setProfilePicture
+} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+
 import { UserProvider } from "../UserContext.js";
 import Button from 'react-bootstrap/Button';
 import { Player } from 'video-react';
@@ -21,11 +32,10 @@ const Container=styled.div`
 
 `;
 
-
 const ProfilePictureContainer=styled.div`
 	position:absolute;
 	width:25%;
-	height:30%;
+	height:35%;
 	top:13%;
 	left:2%;
 	background-color:white;
@@ -33,8 +43,6 @@ const ProfilePictureContainer=styled.div`
 	border-color:white;
 	border-width:7px;
 	border-radius:5px;
-	box-shadow: 5px 5px 5px 5px #f1f1f1;
-
 `;
 
 
@@ -42,7 +50,7 @@ const HeaderContainer=styled.div`
 
 	width:100%;
 	height:30%;
-	background-color: #e6e6fa;
+	background-color:#f5f5fa;
 
 `;
 
@@ -67,7 +75,6 @@ const PersonalProfileInformationContainer= styled.div`
 
 	&:hover{
 		box-shadow: 5px 5px 5px 5px #d5d5d5;
-
 	}
 `;
 
@@ -76,7 +83,7 @@ const PersonalProfileContentContainer= styled.div`
 	position:relative;
 	top:0%;
 	width:64%;
-	height:95%;
+	height:80%;
 	left:30%;
 	background-color:white;
 	border-radius:5px;
@@ -542,6 +549,11 @@ class LProfile extends Component{
 		super(props);
 
 		this.state={
+			/*
+				images:[],
+				videos:[],
+				blogs:[]
+			*/
 			profile:{
 				images:[
 					{
@@ -573,7 +585,9 @@ class LProfile extends Component{
 		    displayVideos:false,
 		    displayVideoModal:false,
 		    videoData:{},
-		    displayBlogs:false
+		    displayBlogs:false,
+		    isOwnProfile:false,
+		    profileId:0
 		};
 
 	}
@@ -581,32 +595,96 @@ class LProfile extends Component{
 
 	componentDidMount(){
 
-		const userId=this.props.id;
+		const profileId=this.props.profileId;
 		const firstTimeIndicator=this.props.firstTimeIndicator;
 
-
+		/*
 		if(firstTimeIndicator==true){
 			//Start tutorial mode
 
 		 }else if (userId!=null){
-			//const profile=getProfile(userId);
-			//changeDisplayItem([]);
+
+		 	
+				if(profileId==this.props._id){
+					const {
+						name
+						images,
+						friends,
+						industries}=getProfile(this.props._id);
+
+					this.setState({
+						...prevState,
+						name:name,
+						images:images,
+						friends:friends,
+						industries:industries,
+						isOwnProfile:true
+					})
+				}
+				else{
+
+					const {
+						name
+						images,
+						friends,
+						industries}=getProfile(profileId);
+
+					this.setState({
+						...prevState,
+						name:name,
+						images:images,
+						friends:friends,
+						industries:industries,
+						isOwnProfile:false
+					})
+				}
+
+			*/
 			/*
 				OPTION 1:
-
 				Get the profile from the db then check if the unique id 
 				matches the one in the redux store then depending on that determines
 				what kind of page to display? 
-				*/
+				
 		}
+		*/
 	}
 
 	 handleChangeProfilePicture=()=>{
 
 
+	 	document.getElementById("profilePicutreImageFile").click();
 		console.log('Change pic button clicked');
 	}
 
+
+	changeProfilePicture=()=>{
+
+		let profileContainer=document.getElementById("profilePicture");
+		let image=document.getElementById("profilePicutreImageFile").files[0];
+		let reader= new FileReader();
+
+
+		reader.onloadend=function(){
+
+			profileContainer.src=reader.result;
+
+			/*
+				if(this.state.isOwnProfile==true)
+					setProfilePicture(this.props._id,reader.result);
+				else
+					setProfilePicture(this.state.profileId,reader.result);
+			*/
+			console.log(reader.result);
+		}
+
+		if(image!=null){
+			reader.readAsDataURL(image);
+		}
+		else{
+			alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
+		}
+	}
 	/*
 
 		Could be done in such a better way nigga
@@ -616,9 +694,28 @@ class LProfile extends Component{
 	displayImages=()=>{
 
 		this.changeButtonsColor("images");
+		//Could use Context later but for now using redux
+		/*
+			const userImages=[];
+			if(this.state.isOwnProfile==false)
+				userImages=getImages(this.state.profileId);
+			else
+				userImages=getImages(this.props._id);
+
+			
+			this.setState(prevState => ({
+		    ...prevState,  
+		    images:userImages               
+		    displayImages:true,
+		    displayVideos:false,
+		    displayBlogs:false
+		    }
+		))
+		*/
 
 		this.setState(prevState => ({
-		    ...prevState,                     
+		    ...prevState,  
+		    //images                   
 		    displayImages:true,
 		    displayVideos:false,
 		    displayBlogs:false
@@ -631,6 +728,25 @@ class LProfile extends Component{
 	
 
 		this.changeButtonsColor("videos");
+
+
+		/*
+			const userVideos=[];
+			if(this.state.isOwnProfile==false)
+				userVideos=getVideos(this.state.profileId);
+			else
+				userVideos=getVideos(this.props._id);
+
+			
+			this.setState(prevState => ({
+		    ...prevState,  
+		    videos:userVideos               
+		    displayImages:true,
+		    displayVideos:false,
+		    displayBlogs:false
+		    }
+		))
+		*/
 
 		this.setState(prevState=>({
 
@@ -691,6 +807,24 @@ class LProfile extends Component{
 
 		this.changeButtonsColor("blog");
 
+		/*
+			const userBlogs=[];
+			if(this.state.isOwnProfile==false)
+				userVideos=getBlogs(this.state.profileId);
+			else
+				userVideos=getBlogs(this.props._id);
+
+			
+			this.setState(prevState => ({
+		    ...prevState,  
+		    blogs:userBlogs               
+		    displayImages:true,
+		    displayVideos:false,
+		    displayBlogs:false
+		    }
+		))
+		*/
+
 		this.setState(prevState=>({
 			...prevState,
 			displayImages:false,
@@ -709,7 +843,6 @@ class LProfile extends Component{
 			imgUrl:imgData
 
 		}))
-
 	}
 
 	ImageModal=()=>{
@@ -725,7 +858,6 @@ class LProfile extends Component{
 
 
 				SelectedImageContainer = <img src={this.state.imgUrl.imgUrl} style={SelectedImageCss}></img>;
-
 		}
 		return this.state.displayImageModal?
 					<React.Fragment>
@@ -809,13 +941,10 @@ class LProfile extends Component{
 
 			</React.Fragment>:
 			<React.Fragment></React.Fragment>
-
-
 	}
 
 	handleBlogsModal=()=>{
 		console.log("Blog modal button clicked");
-
 
 	}
 
@@ -876,8 +1005,8 @@ class LProfile extends Component{
 
 
 						<ProfilePictureContainer>
-
-
+							<img id="profilePicture" src="" style={{position:"absolute",width:"100%",height:"100%"}}></img>
+							<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} onChange={()=>this.changeProfilePicture()}></input>
 							<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
 								Change Profile Picture
 							</ChangePictureButton>
@@ -885,13 +1014,16 @@ class LProfile extends Component{
 						</ProfilePictureContainer>
 
 
-						<NameContainer>
-							<ChangeBioButton>
-								Edit Bio
-							</ChangeBioButton>
+						{/*
+							<NameContainer>
+								<ChangeBioButton>
+									Edit Bio
+								</ChangeBioButton>
 
 
-						</NameContainer>
+							</NameContainer>
+						*/}
+						
 
 						<PersonalProfileInformationContainer>
 

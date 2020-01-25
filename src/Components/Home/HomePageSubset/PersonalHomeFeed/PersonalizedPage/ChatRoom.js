@@ -16,7 +16,7 @@ const SongPlaying =styled.div`
 	padding:10px;
 	top:0%;
 	background-color:white;
-	overflow-x:scroll;
+	overflow:hidden;
 `;
 
 const MessageContainer=styled.div`
@@ -35,6 +35,7 @@ const MessageBox=styled.textarea`
 	text-align:center;
 	resize:none;
 	border-style:none;
+	overflow:hidden;
 
 `;
 

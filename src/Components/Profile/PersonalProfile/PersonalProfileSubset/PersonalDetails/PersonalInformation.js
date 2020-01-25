@@ -2,6 +2,7 @@ import React,{ Component } from "react";
 import styled from "styled-components";
 import IndustryContainer from "./IndustryContainer.js";
 import FriendsContainer from "./FriendsContainer.js";
+import {UserConsumer} from "../../UserContext.js";
 
 
 const FriendsTitleContainer=styled.div`
@@ -116,6 +117,7 @@ const Friends=styled.div`
 `;
 
 
+//Could be turned into a functional component when refactored
 
 
 class MediumProfilePersonalInformation extends Component{
@@ -127,7 +129,6 @@ class MediumProfilePersonalInformation extends Component{
 			friendsContainer:[],
 			industriesContainer:[],
 			displayFriendsModal:false
-
 		}
 	}
 
@@ -139,7 +140,29 @@ class MediumProfilePersonalInformation extends Component{
 		})
 	}
 
-	handleDisplayFriends=()=>{
+	handleDisplayFriends=(personalInformation)=>{
+
+		const {friends}=personalInformation;
+
+		/*
+		if(friends.length==0)
+			return <p style={{color:"#5298F8"}}>You currently have no friends. Add new people </p>
+		else{
+				return(
+					<ul>
+						{friends.map(data=>
+								<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
+									<FriendsContainer
+										friendImage={data.profileimage}
+										friendName={data.name}
+
+									/>
+								</li>
+						)}
+					</ul>
+					)
+			}
+		*/
 
 		if(this.state.friendsContainer.length==0)
 			return <p style={{color:"#5298F8"}}>You currently have no friends. Add new people </p>
@@ -147,7 +170,6 @@ class MediumProfilePersonalInformation extends Component{
 				return(
 					<ul>
 						{this.state.friendsContainer.map(data=>
-
 								<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
 									<FriendsContainer
 										friendImage={data.profileimage}
@@ -162,8 +184,34 @@ class MediumProfilePersonalInformation extends Component{
 
 	}
 
-	handleDisplayIndustries=()=>{
+	handleDisplayIndustries=(personalInformation)=>{
 
+		const {industries}=personalInformation;
+
+		/*
+
+		if(industries.length==0)
+			return <p style={{color:"#5298F8"}}>You currently have no friends. Add new people </p>
+		else{
+				return(
+					<ul>
+						{industries.map(data=>
+
+							<li style={IndustryListCSS}>
+
+								<IndustryContainer
+									name={data.name}
+									imgSrc={data.imgsrc}
+								/>
+							</li>
+							)
+						}
+					</ul>
+			)
+		}
+
+
+		*/
 		if(this.state.industriesContainer.length==0)
 			return <p style={{color:"#5298F8"}}>You currently have no friends. Add new people </p>
 		else{
@@ -192,7 +240,7 @@ class MediumProfilePersonalInformation extends Component{
 			<FriendsModal>
 
 
-l
+
 			</FriendsModal>:
 			<React.Fragment>
 			</React.Fragment>
@@ -201,34 +249,41 @@ l
 	render(){
 
 		return(
-			<React.Fragment>	
-				{this.handleDisplayFriendsModal()}
-				<p style={{position:"relative",fontSize:"200%",left:"13%",color:"#92a1cf",fontFamily:"'Fredoka One', cursive"}}> Friends 
-					<p1 style={FriendsDescriptionCSS}> 
-					<b>View all of you friends and see what they've been up to</b> 
-					</p1>
-				</p>
-				<FriendsTitleContainer onClick={()=>this.setState(prevState=>({...prevState,displayFriendsModal:true}))}>
-					
-					{this.handleDisplayFriends()}
 
-				</FriendsTitleContainer>
+		<UserConsumer>
+				{ personalInformation=>{
 
-				<p style={{position:"relative",fontSize:"200%",left:"7%",color:"#92a1cf",fontFamily:"'Fredoka One', cursive"}}>Industries interested in:
-				</p>
-					<p1 style={IndustryDescriptionCSS}> 
-						<b>Check out the industries that you subscribed to</b> 
-					</p1>
+				return <React.Fragment>	
+							{this.handleDisplayFriendsModal()}
+							<p style={{position:"relative",fontSize:"200%",left:"13%",color:"#92a1cf",fontFamily:"'Fredoka One', cursive"}}> Friends 
+								<p1 style={FriendsDescriptionCSS}> 
+								<b>View all of you friends and see what they've been up to</b> 
+								</p1>
+							</p>
+							<FriendsTitleContainer onClick={()=>this.setState(prevState=>({...prevState,displayFriendsModal:true}))}>
+								
+								{this.handleDisplayFriends(personalInformation)}
+
+							</FriendsTitleContainer>
+
+							<p style={{position:"relative",fontSize:"200%",left:"7%",color:"#92a1cf",fontFamily:"'Fredoka One', cursive"}}>Industries interested in:
+							</p>
+								<p1 style={IndustryDescriptionCSS}> 
+									<b>Check out the industries that you subscribed to</b> 
+								</p1>
 
 
-				<IndustriesContainer>
+							<IndustriesContainer>
 
-					{this.handleDisplayIndustries()}
+								{this.handleDisplayIndustries(personalInformation)}
 
-				</IndustriesContainer>
-
-			</React.Fragment>
+							</IndustriesContainer>
+					</React.Fragment>
+				}
+			}
+		</UserConsumer>
 		)
+
 	}
 }
 

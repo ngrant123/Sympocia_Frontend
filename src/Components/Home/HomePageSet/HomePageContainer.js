@@ -4,7 +4,8 @@ import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavB
 import { connect } from "react-redux";
 import HomeConext from "../HomeContext.js";
 import ExplorePage from "../HomePageSubset/ExploreHomeFeed/ExplorePage/ExplorePage";
-import PersonalPage from "../HomePageSubset/PersonalHomeFeed/PersonalizedPage";
+import PersonalFeed from "../HomePageSubset/PersonalHomeFeed/PersonalFeed/PersonalFeedContainer";
+import CustomizedFeed from "../HomePageSubset/PersonalHomeFeed/CustomizedPersonalFeed/CustomizedFeedContainer";
 
 
 const Container=styled.div`
@@ -14,7 +15,6 @@ const Container=styled.div`
 	background-color:white;
 	overflow-y:scroll;
 	overflow-x:hidden;
-
 `;
 
 
@@ -84,15 +84,13 @@ const FollowedForYouPageIcon=styled.div`
 	border-radius:5px;
 	box-shadow: 1px 1px 1px 1px #d5d5d5;
 
-
-
 `;
 
 const CustomizedForYouPageIcon=styled.div`
 	position:relative;
 	width:50px;
 	height:30%;
-	left:-80%;
+	left:-80%;p
 	border-radius:5px;
 	box-shadow: 1px 1px 1px 1px #d5d5d5;
 
@@ -108,15 +106,32 @@ class HomePageContainer extends Component{
 		this.state={
 			displayPersonalFeed:false,
 			displayExplorerFeed:true,
-			displayForYourChoices:false
-
+			displayCustomizedFeed:false,
+			displayForYourChoices:false,
+			profileId:0
 		}
+	}
+
+	componentDidMount(){
+
+		/*
+			
+
+		*/
 	}
 
 	displayPersonalOrExploreFeed=()=>{
 
-		return this.state.displayExplorerFeed==true? 
-			<ExplorePage/>:<PersonalPage/>
+		if(this.state.displayCustomizedFeed==true){
+
+
+			return <CustomizedFeed/>
+		}else if(this.state.displayPersonalFeed==true){	
+			return <PersonalFeed/>	
+		}
+		else{
+			return <ExplorePage/>;
+		}
 	}
 
 	handleDisplayForYouChoices=()=>{
@@ -131,10 +146,7 @@ class HomePageContainer extends Component{
 				...prevState,
 				displayForYourChoices:false
 			}))
-
 		}
-			
-
 	}
 
 	handleDisplayHideForYouChoices=()=>{
@@ -151,12 +163,20 @@ class HomePageContainer extends Component{
 			<PersonalPageIndicator>
 				<ul>	
 					<li style={{listStyle:"none",marginBottom:"10px",marginTop:"10px"}}>
-						<FollowedForYouPageIcon>
+						<FollowedForYouPageIcon onClick={()=>this.setState(prevState=>({
+																		...prevState,
+																		displayPersonalFeed:true,
+																		displayExplorerFeed:false,
+																		displayCustomizedFeed:false}))}>
 
 						</FollowedForYouPageIcon>
 					</li>
 					<li style={{listStyle:"none"}}>
-						<CustomizedForYouPageIcon>
+						<CustomizedForYouPageIcon onClick={()=>this.setState(prevState=>({
+																		...prevState,
+																		displayPersonalFeed:false,
+																		displayExplorerFeed:false,
+																		displayCustomizedFeed:true}))}>
 
 						</CustomizedForYouPageIcon>
 
@@ -172,7 +192,11 @@ class HomePageContainer extends Component{
 				<PageIndicator>
 					<ul>
 						<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}} onClick={()=>this.handleDisplayHideForYouChoices()}>
-							<ExploreIcon>
+							<ExploreIcon onClick={()=>this.setState(prevState=>({
+																		...prevState,
+																		displayPersonalFeed:false,
+																		displayExplorerFeed:true,
+																		displayCustomizedFeed:false}))}>
 								<p style={{fontSize:"10px"}}>Explore </p>
 							</ExploreIcon>
 						</li>
@@ -198,8 +222,6 @@ class HomePageContainer extends Component{
 }
 
 const mapStateToProps=()=>{
-
-
 	return{
 
 	}

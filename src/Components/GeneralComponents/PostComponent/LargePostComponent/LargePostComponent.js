@@ -303,7 +303,7 @@ class LargePostComponent extends Component{
 					<PostOptionButton><b>Post</b></PostOptionButton>
 					<ImageOptionButton><b>Image</b></ImageOptionButton>
 					<LocationOptionButton><b>Event</b></LocationOptionButton>
-					<SubmitOptionButton><b>Submit</b></SubmitOptionButton>
+					<SubmitOptionButton><b>Video</b></SubmitOptionButton>
 
 				</PostOptionsContainer>
 
