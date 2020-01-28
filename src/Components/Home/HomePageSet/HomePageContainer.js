@@ -14,6 +14,7 @@ const Container=styled.div`
 	height:100%;
 	background-color:white;
 	overflow-y:scroll;
+	transition:.8s;
 	overflow-x:hidden;
 `;
 
@@ -155,28 +156,57 @@ class HomePageContainer extends Component{
 				...prevState,
 				displayForYourChoices:false
 			}))
+	
+	}
+//Could be implemented in a better way
+
+	handleDisplayCustomizedForYouPage=()=>{
+
+		document.getElementById('container').style.backgroundColor="#222222";
+
+		this.setState(prevState=>({
+					 ...prevState,
+					displayPersonalFeed:false,
+					displayExplorerFeed:false,
+					displayCustomizedFeed:true}))
 	}
 
+	handleDisplayFollowedCommunitiesPage=()=>{
+
+		document.getElementById('container').style.backgroundColor="white";
+
+		this.setState(prevState=>({
+					 ...prevState,
+					 displayPersonalFeed:true,
+					 displayExplorerFeed:false,
+					 displayCustomizedFeed:false}))
+	}
+
+
+	handleDisplayExplorePage=()=>{
+
+		document.getElementById('container').style.backgroundColor="white";
+
+		this.setState(prevState=>({
+						...prevState,
+						displayPersonalFeed:false,
+						displayExplorerFeed:true,
+						displayCustomizedFeed:false}))
+
+
+	}
 	displayForYouChoices=()=>{
 
 		return this.state.displayForYourChoices==true?
 			<PersonalPageIndicator>
 				<ul>	
 					<li style={{listStyle:"none",marginBottom:"10px",marginTop:"10px"}}>
-						<FollowedForYouPageIcon onClick={()=>this.setState(prevState=>({
-																		...prevState,
-																		displayPersonalFeed:true,
-																		displayExplorerFeed:false,
-																		displayCustomizedFeed:false}))}>
+						<FollowedForYouPageIcon onClick={()=>this.handleDisplayFollowedCommunitiesPage()}>
 
 						</FollowedForYouPageIcon>
 					</li>
 					<li style={{listStyle:"none"}}>
-						<CustomizedForYouPageIcon onClick={()=>this.setState(prevState=>({
-																		...prevState,
-																		displayPersonalFeed:false,
-																		displayExplorerFeed:false,
-																		displayCustomizedFeed:true}))}>
+						<CustomizedForYouPageIcon onClick={()=>this.handleDisplayCustomizedForYouPage()}>
 
 						</CustomizedForYouPageIcon>
 
@@ -186,17 +216,13 @@ class HomePageContainer extends Component{
 	}
 	render(){
 		return(
-			<Container>
+			<Container id="container">
 				<GeneralNavBar/>
 
 				<PageIndicator>
 					<ul>
 						<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}} onClick={()=>this.handleDisplayHideForYouChoices()}>
-							<ExploreIcon onClick={()=>this.setState(prevState=>({
-																		...prevState,
-																		displayPersonalFeed:false,
-																		displayExplorerFeed:true,
-																		displayCustomizedFeed:false}))}>
+							<ExploreIcon onClick={()=>this.handleDisplayExplorePage()}>
 								<p style={{fontSize:"10px"}}>Explore </p>
 							</ExploreIcon>
 						</li>

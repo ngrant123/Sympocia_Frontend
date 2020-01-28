@@ -11,12 +11,24 @@ import CommunityContainer from "./CommunityContainer";
   }
 `;
 
+ const keyFrameOnClick= keyframes`
+  0% {
+	left:110%;
+  }
+  100% {
+  	top:0%;
+  	width:100%;
+    left:0%;
+
+  }
+`;
+
+
 const CommunityContainerAnimation=styled.div`
 
 	position:relative;
 	width:70%;
 	height:30%;
-	background-color:white;
 	transition: transform 300ms ease-in-out;
 	border-radius:5px;
 	animation:${keyFrame} 1s ease-in-out 0s forwards;

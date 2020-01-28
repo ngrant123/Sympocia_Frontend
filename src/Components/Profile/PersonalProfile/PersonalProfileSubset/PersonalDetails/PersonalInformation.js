@@ -177,11 +177,10 @@ class MediumProfilePersonalInformation extends Component{
 
 									/>
 								</li>
-						)}
+							)}
 					</ul>
 					)
 			}
-
 	}
 
 	handleDisplayIndustries=(personalInformation)=>{
@@ -209,8 +208,6 @@ class MediumProfilePersonalInformation extends Component{
 					</ul>
 			)
 		}
-
-
 		*/
 		if(this.state.industriesContainer.length==0)
 			return <p style={{color:"#5298F8"}}>You currently have no friends. Add new people </p>

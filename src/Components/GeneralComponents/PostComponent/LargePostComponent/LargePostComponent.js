@@ -289,14 +289,13 @@ class LargePostComponent extends Component{
 						</ProfileImageContainer>
 						<EmployeeTitleContainer><b>{this.props.companyName}</b></EmployeeTitleContainer>
 						<CompanyTitleContainer>{this.props.companyPosition}</CompanyTitleContainer>
-	 	
+						
 					</ProfileContainer>
 
 					<PostTextarea id="posttextarea" onClick={()=>this.handleTextareaClick()}>
 						Order the post in according to recent, popular?
 					</PostTextarea>
 				</PostContainer>
-
 
 				<PostOptionsContainer>
 

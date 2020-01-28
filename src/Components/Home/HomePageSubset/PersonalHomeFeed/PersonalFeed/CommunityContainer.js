@@ -75,6 +75,7 @@ const CommunityContainer=(props)=>{
 	//Dont need state
 	const [popularVideos,changePopularVideos]=useState([{},{},{},{},{}]);
 	const [activePeople,changeActivePeople]=useState([{},{},{},{},{},{},{},{},{},{}]);
+	
 
 	useEffect(()=>{
 		/*

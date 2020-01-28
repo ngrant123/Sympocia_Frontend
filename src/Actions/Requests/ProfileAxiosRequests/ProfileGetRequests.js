@@ -137,10 +137,6 @@ export function getImages(profileId){
 	}).catch(err=>{
 		console.log(err.message);
 	})
-
-
-
-
 }
 
 

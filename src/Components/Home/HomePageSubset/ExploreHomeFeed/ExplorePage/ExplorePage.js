@@ -53,7 +53,6 @@ const Container=styled.div`
 	top:12%; 
 	width:85%;
 	height:85%;
-	background-color:white;
 	left:10%;
 	padding:20px;
 
@@ -219,7 +218,6 @@ class ExplorePage extends Component{
 				<Container>
 					<ul>
 						{this.state.tempcommunities.map(data=>
-
 							<li style={CommunitiesListCSS} key={data.key}> 
 								{this.displayCommunityAnimation(data)}
 							 </li>

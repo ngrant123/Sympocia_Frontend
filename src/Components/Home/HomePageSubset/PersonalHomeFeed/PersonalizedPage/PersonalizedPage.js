@@ -95,7 +95,7 @@ const ActiveProfilePictures=styled.div`
 
 const PostsChatInformation=styled.div`
 	position:relative;
-	width:90%;
+	width:92%;
 	height:50%;
 	left:7%;
 	z-index:2;
@@ -195,14 +195,13 @@ const BackgroundModalContainer= styled.div`
 
 const ChatContainer=styled.div`
 	position:absolute;
-	width:20%;
-	height:80%;
+	width:25%;
+	height:87%;
 	top:5%;
-	left:78%;
-	background-color:blue;
+	left:75%;
 	border-radius:5px;
 	overflow:visible;
-		border-style:solid;
+	border-style:solid;
 	border-width:1px;
 	border-color:#5298F8;
 
@@ -410,10 +409,6 @@ class PersonalizedPage extends Component{
 	  			document.getElementById("postChatInformation").style.opacity="1";
 			  	document.getElementById("headerContents").style.opacity="1";
 	  		},1000);
-
-
-
-
 	  }
 
 	  handleNextCommunityButton=()=>{
@@ -459,7 +454,7 @@ class PersonalizedPage extends Component{
 	  
 	  			<div style={{position:"absolute",width:"100%",height:"100%",opacity:"0",transition:"opacity 2s linear"}} id="headerContents">
 
-		  			<p id="communityContainer" style={{position:"absolute",left:"30%",top:"35%",fontSize:"60px",color:"white"}}>
+		  			<div id="communityContainer" style={{position:"absolute",left:"30%",top:"35%",fontSize:"60px",color:"white"}}>
 		  				<b> 
 			  				<ul>
 			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>{previousCommunityTitle}</li>
@@ -468,7 +463,7 @@ class PersonalizedPage extends Component{
 
 			  				</ul>
 		  				</b>
-		  			</p>
+		  			</div>
 
 		  			<p style={{position:"absolute",top:"60%",left:"30%",color:"white",fontSize:"20px"}}> <b>Popular Videos </b></p>
 		  			<p style={{position:"absolute",top:"60%",left:"65%",color:"white",fontSize:"15px"}} onClick={()=>this.setState(prevState=>({...prevState,displayPopularVideos:true}))}> <b>See all </b></p>

@@ -42,7 +42,6 @@ const FriendsContainer=(props)=>{
 		<React.Fragment>
 
 			<Container>
-
 				<FriendsProfilePicture>
 
 					<img id="friendProfileImage" src={props.friendImage} style={{height:"40px",width:"40px"}}/>
