@@ -4,6 +4,7 @@ import Chat from "./ChatRoom.js";
 import { connect } from "react-redux";
 import SubCommunities from "./SubCommunities";
 import ActivePeopleModal from "./ActivePeopleModal";
+import PostsContainer from "./PostsContainer";
 import {
 		getCommunityById
 	} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
@@ -16,14 +17,15 @@ import {
 	top:0px;
   }
   100% {
-  	height:20%;
+  	height:15%;
     width:100%;
   }
 `;
 
 
 const CommunityHeaderAnimation=styled.div`
-	position:relative;
+	position:sticky;
+	top:0%;
 	background-color:red;
 	width:400px;
 	height:40%;
@@ -31,7 +33,16 @@ const CommunityHeaderAnimation=styled.div`
 	transition: transform 300ms ease-in-out;
 	boxShadow: "1px 1px 1px 1px #d5d5d5";
 	border-radius:5px;
+	z-index:3;
 	animation:${keyFrameExampleTwo} 1s ease-in-out 0s forwards;
+`;
+
+const PersonalizedPageContainer=styled.div`
+	position:absolute;
+	width:100%;
+	height:100%;
+	overflow-y:scroll;
+
 `;
 
 const Container=styled.div`
@@ -95,30 +106,31 @@ const ActiveProfilePictures=styled.div`
 
 const PostsChatInformation=styled.div`
 	position:relative;
-	width:92%;
-	height:50%;
-	left:7%;
+	top:0%;
+	width:100%;
+	height:45%;
+	left:0%;
 	z-index:2;
 	background-color:white;
-	overflow-y:auto;
-	overflow-x:hidden;
 	opacity:0;
+	overflow-x:visible;
   	transition:opacity 1s linear;
-`;
+  	padding-top:20px;
+  `;
 
 
 const CommunityChoicesContainer=styled.div`
-	position:relative;
+	position:fixed;
 	width:50%;
-	height:20%;
+	height:10%;
 	left:23%;
 	box-shadow: 1px 5px 5px 1px #d5d5d5;
 	background-color:white;
 	border-radius:5px;
-	top:2%;
 	padding:10px;
 	overflow:hidden;
-	
+	background-color:white;
+
 
 `;
 
@@ -140,19 +152,17 @@ const CommunityChoicesDiv=styled.div`
 `;
 
 const PostOptionsContainer=styled.div`
-	position:absolute;
+	position:fixed;
 	width:15%;
-	height:40%;
-	background-color:white;
+	height:20%;
 	border-radius:5px;
-	top:5%;
 	left:7%;
+	z-index:4;
 `;
 
 const PostOptions=styled.div`
 
 	position:relative;
-	background-color:white;
 	width:80%;
 	top:5%;
 	border-radius:5px;
@@ -194,17 +204,18 @@ const BackgroundModalContainer= styled.div`
 
 
 const ChatContainer=styled.div`
-	position:absolute;
-	width:25%;
-	height:87%;
-	top:5%;
+	position:fixed;
+	width:22%;
+	height:45%;
 	left:75%;
 	border-radius:5px;
 	overflow:visible;
 	border-style:solid;
+	background-color:white;
 	border-width:1px;
 	border-color:#5298F8;
-
+	transition:.8s;
+	z-index:4;
 `;
 
 const SubCommunitiesContainer=styled.div`
@@ -216,8 +227,6 @@ const SubCommunitiesContainer=styled.div`
 	z-index:3;
 	left:30%;
 	top:15%;
-
-
 `;
 
 const ActivePeopleContainer=styled.div`
@@ -232,7 +241,37 @@ const ActivePeopleContainer=styled.div`
 	top:15%;
 `;
 
+const PostContainer=styled.div`
+	position:absolute;
+	padding-left:40px;
+	left:0%;
+	top:50%;
+	width:100%;
+	height:140%;
+	z-index:3;
+	background-color:white;
+	overflow:visible;
+	transition:1s;
+`;
 
+const ExamplePosts=styled.div`
+	position:relative;
+	width:80%;
+	height:70%;
+	background-color:red;
+	z-index:3;
+`;
+
+
+const PreventScrollScreen=styled.div`
+	position:absolute;
+	width:80%;
+	height:100%;
+	z-index:4;
+	background-color:blue;
+	opacity:0;
+	overflow:visible;
+`;
 
 
 const CommunityChoicesListCSS={
@@ -308,13 +347,22 @@ class PersonalizedPage extends Component{
 	  handleScroll=()=>{
 
 	  	document.getElementById("postChatInformation").style.overflow="visible";
+	  	document.getElementById("postChatInformation").style.top="0%";
+
+	  	document.getElementById("postsContainer").style.opacity="0";
 	  	if(this.state.headerAnimation==false){
+	  		document.getElementById("chatContainer").style.height="10%";
 
 	  		this.setState(prevState=>({
 	  			...prevState,
 	  			headerAnimation:true
 	  		}))
-	  	  }		
+	  	  }
+	  	   	 setTimeout(()=>{
+
+			document.getElementById("postsContainer").style.opacity="1";
+
+	  	 },1000);	
 	  }
 
 	  componentDidMount(){
@@ -333,9 +381,6 @@ class PersonalizedPage extends Component{
 				console.log(this.props);
 				/*
 					Make api call here
-
-
-
 				*/
 		  		const communities=this.props.communities;
 		  		let communityCounter=0;
@@ -520,7 +565,6 @@ class PersonalizedPage extends Component{
 
 	  handleHeaderAnimatedContents=()=>{
 
-
 	  	return (
 	  		<React.Fragment>
 
@@ -556,7 +600,7 @@ class PersonalizedPage extends Component{
 	  handleHeaderAnimation=()=>{
 	  	const backgroundColor=this.state.backgroundColor;
 	  	return this.state.headerAnimation==false ? 
-	  		<Container id="headerContainer" style={{background:backgroundColor}}>
+	  		<Container id="headerContainer" style={{background:backgroundColor}} onScroll={()=>this.handleScroll()}>
 	  			{this.handleHeaderContents()}
 	  		</Container>:
 	  		<CommunityHeaderAnimation style={{background:backgroundColor}}>
@@ -579,15 +623,34 @@ class PersonalizedPage extends Component{
 	  	}else{
 	  		element.style.color="white";
 	  		element.style.backgroundColor="#5298F8";
-
 	  	}
 	  }
 
+	  handleChatContainer=()=>{
+	  	return this.state.headerAnimation==false? <Chat/>:<React.Fragment></React.Fragment>
+	  }
+
+
+	  handleActivateScrollPostsContainer=()=>{
+
+	  	return this.state.headerAnimation==true?<PostsContainer/>:
+	  		<React.Fragment>
+		  		<PreventScrollScreen/>
+		  		<PostsContainer/>
+	  		</React.Fragment>
+	  }
+
+	  handleDisplayPostsList=()=>{
+
+	  	return this.state.headerAnimation==false?<ExamplePosts/>:<PostsContainer/>;
+
+
+	  }
 	render(){
 
 
 		return(
-			<React.Fragment>
+			<PersonalizedPageContainer onScroll={()=>this.handleScroll()}>
 			
 				{this.handleSeeAllSubCommunities()}
 				{this.handleSeeAllPeopleActiveModal()}
@@ -596,7 +659,7 @@ class PersonalizedPage extends Component{
 				
 
 				<PostsChatInformation id="postChatInformation" onScroll={()=>this.handleScroll()}>
-					<PostOptionsContainer>
+					<PostOptionsContainer >
 
 						<ul style={{listStyle:"none"}}>
 							<li><p style={{position:"relative",fontSize:"15px",left:"20%"}}><b>Post Options</b></p></li>
@@ -613,7 +676,7 @@ class PersonalizedPage extends Component{
 						</ul>
 					</PostOptionsContainer>
 
-					<p style={{position:"relative",fontSize:"30px",left:"23%"}}><b>Categories</b></p>
+					<p style={{position:"fixed",fontSize:"30px",left:"23%",width:"20%"}}><b>Categories</b></p>
 					<CommunityChoicesContainer>
 
 						<ul style={{textAlign:"center",overflow:"hidden",width:"90%"}}>
@@ -623,17 +686,21 @@ class PersonalizedPage extends Component{
 									<CommunityChoicesDiv style={{borderColor:data.color}}> {data.category} </CommunityChoicesDiv>
 								</li>
 							)}
-
 						</ul>
 						<p style={{position:"absolute",left:"90%",top:"10%",color:"#5298F8"}} onClick={()=>this.setState(prevState=>({...prevState,displayModalSubCommunities:true}))}>See all </p>
 					</CommunityChoicesContainer>
 
 					<ChatContainer id="chatContainer">
-						<Chat/>
+						{this.handleChatContainer()}
 					</ChatContainer>
 
+					<PostContainer id="postsContainer">
+						{this.handleDisplayPostsList()}
+						
+					</PostContainer>
+			
 				</PostsChatInformation>
-			</React.Fragment>
+			</PersonalizedPageContainer>
 		)
 	}
 }

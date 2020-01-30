@@ -16,6 +16,7 @@ const Container=styled.div`
 	overflow-y:scroll;
 	transition:.8s;
 	overflow-x:hidden;
+	overflow-y:scroll;
 `;
 
 

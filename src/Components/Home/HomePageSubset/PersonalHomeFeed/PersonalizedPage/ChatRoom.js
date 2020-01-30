@@ -79,6 +79,7 @@ const ExtendedMessageBox=styled.div`
 	padding:10px;
 	word-break:break-all;
 	overflow-y:scroll;
+	background-color:white;
 `;
 
 const MessageListCSS={

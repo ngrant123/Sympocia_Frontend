@@ -383,21 +383,22 @@ const Container=styled.div`
 	width:100%;
 	height:8%;
 	border-radius:0px 0px 5px 5px;
-	z-index:3;
+	z-index:6;
 
 
 `;
 
 const SearchButton=styled.textarea`
-	position:relative;
+	position:fixed;
 	left:30%;
-	height:60%;
+	height:5%;
 	top:10px;
 	width:40%;
 	resize:none;
 	border-radius:5px;
 	border-style:none;
 	text-align:center;
+	z-index:5;
 `;
 
 const ButtonsListCSS={
@@ -485,14 +486,14 @@ export function GeneralNavBar(pageProps){
 
 			<SearchButton placeholder="Search for anyone nigga"/>
 
-			<ul style={{position:"relative",left:"39%",top:"30%"}}>
+			<ul style={{position:"fixed",left:"39%",top:"7%"}}>
 				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>Primary</Button> </li>
 				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>Primary</Button> </li>
 				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>Primary</Button> </li>
 			</ul>
 
 		
-			<ul style={{position:"absolute",left:"80%",top:"10%"}}>
+			<ul style={{position:"fixed",left:"80%",top:"2%"}}>
 				<li style={ProfileDropDownListCSS}>
 					<Dropdown>
 						  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
