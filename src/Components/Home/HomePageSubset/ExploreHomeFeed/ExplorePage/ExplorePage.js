@@ -259,9 +259,7 @@ class ExplorePage extends Component{
 		return(
 
 			<React.Fragment>
-				<p> Recommended </p>
-				{this.displayCommunityList()}
-				{this.displayPersonalizedPage()}				
+						
 			</React.Fragment>
 
 
