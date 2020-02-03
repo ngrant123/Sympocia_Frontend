@@ -219,7 +219,6 @@ class HomePageContainer extends Component{
 		return(
 			<Container id="container">
 				<GeneralNavBar/>
-
 				<PageIndicator>
 					<ul>
 						<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}} onClick={()=>this.handleDisplayHideForYouChoices()}>

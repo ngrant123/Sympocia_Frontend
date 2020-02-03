@@ -1,6 +1,26 @@
 import React,{Component} from "react";
 import styled,{keyframes} from "styled-components";
 import CommunityContainer from "./CommunityContainer";
+import PersonalizedPage from "../PersonalizedPage/PersonalizedPage"
+
+
+
+ const keyFrameExampleThree= keyframes`
+  0% {
+  	top:10%;
+  	left:20%
+	width:70%;
+	height:30%;
+  }
+  100% {
+  	top:0%;
+  	left:0%;
+    height: 40%;
+    width:100%;
+  }
+`;
+
+
  const keyFrame= keyframes`
   0% {
 	left:110%;
@@ -24,6 +44,16 @@ import CommunityContainer from "./CommunityContainer";
 `;
 
 
+const CommunityTransitionAnimation=styled.div`
+	position:relative;
+	background-color:red;
+	width:70%;
+	height:30%;
+	transition: transform 300ms ease-in-out;
+	border-radius:5px;
+	z-index:1;
+	animation:${keyFrameExampleThree} 1s ease-in-out 0s forwards;
+`;
 const CommunityContainerAnimation=styled.div`
 
 	position:relative;
@@ -45,25 +75,39 @@ class PersonalFeedContainer extends Component{
 		this.state={
 				communities:[
 					{
-						category:"Anime",
+						communityName:"Anime",
 						backgroundColor:"linear-gradient(to left, #9933ff 0%, #ff99ff 100%)",
+						popularVideos:[
+							{
+								videoUrl:""
+							},
+							{
+								videoUrl:""
+							}
+						],
 						color:"#9933ff",
 						key:1
 					},
 			{
-				category:"Dogs",
-				backgroundColor:"linear-gradient(to left, #8E2DE2 0%, #4A00E0 100%)",
-				color:"#8E2DE2",
-				key:2
-			},
-			{category:"Cats",backgroundColor:"linear-gradient(to left, #ee9ca7 0%, #ffdde1 100%)",color:"#ee9ca7",
-				key:3},
-			{category:"Terminates",backgroundColor:"linear-gradient(to left, #b92b27 0%, #1565C0 100%)",color:"#b92b27",
-				key:4},
-			{category:"Coding",backgroundColor:"linear-gradient(to left, #f953c6 0%, #b91d73 100%)",color:"#f953c6",
-				key:5}
-			],
-			communityArray:[]
+
+				communityName:"Dogs",
+						backgroundColor:"linear-gradient(to left, #8E2DE2 0%, #4A00E0 100%)",
+						popularVideos:[
+							{
+								videoUrl:""
+							},
+							{
+								videoUrl:""
+							}
+						],
+						color:"#8E2DE2",
+						key:2
+
+			}],
+			communityArray:[],
+			triggerAnimation:false,
+			selectedCommunity:{},
+			displayPersonalizedPage:false
 		}
 	}
 
@@ -90,7 +134,6 @@ class PersonalFeedContainer extends Component{
 
 				community.push(specificCommunity);
 
-
 				this.setState(prevState=>({
 					...prevState,
 					communityArray:community
@@ -105,23 +148,60 @@ class PersonalFeedContainer extends Component{
 		return new Promise(resolve => setTimeout(resolve, seconds));
 	}
 
-	render(){
-		return(
-			<React.Fragment>
-				<ul style={{paddingTop:"10%"}}>
+
+	 TransitionAnimationTrigger=()=>{
+	 	console.log("Tester");
+	 	if(this.state.triggerAnimation==true)
+			this.triggerAnimation();
+
+	 	return this.state.triggerAnimation==false?
+	 		<ul style={{paddingTop:"10%"}}>
 					{this.state.communityArray.map(data=>
 						<li style={{paddingBottom:"40px",listStyle:"none"}}>
-							<CommunityContainerAnimation>
+							<CommunityContainerAnimation onClick={()=>this.setState(prevState=>({
+																					...prevState,
+																					triggerAnimation:true,
+																					selectedCommunity:data
+																		}))}>
 								<CommunityContainer
 									data={data}
 								/>
 							</CommunityContainerAnimation>
 						</li>
 					)}
-				</ul>
+			</ul>:
+				<CommunityTransitionAnimation style={{background:this.state.selectedCommunity.backgroundColor}}>
+				</CommunityTransitionAnimation>
+	}
 
+	triggerAnimation=()=>{
+
+		setTimeout(()=>{
+			this.setState(prevState=>({
+				...prevState,
+				displayPersonalizedPage:true
+			}))
+		},1300);
+	}
+
+	displayPersonalizedPage=()=>{
+		console.log(this.state.selectedCommunity);
+
+		return this.state.displayPersonalizedPage==true?
+			<PersonalizedPage
+				selectedCommunity={this.state.selectedCommunity}
+				communities={this.state.communities}
+			/>:
+			<React.Fragment></React.Fragment>
+	}
+
+	render(){
+		return(
+			<React.Fragment>
+
+				{this.displayPersonalizedPage()}
+				{this.TransitionAnimationTrigger()}
 			</React.Fragment>
-
 		)
 	}
 

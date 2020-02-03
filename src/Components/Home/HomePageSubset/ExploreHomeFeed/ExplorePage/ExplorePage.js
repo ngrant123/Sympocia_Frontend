@@ -42,7 +42,7 @@ const CommunityContainer=styled.div`
 	height:40%;
 	paddding-left:5px;
 	transition: transform 300ms ease-in-out;
-	boxShadow: 1px 1px 1px 1px #d5d5d5;
+	box-shadow: 10px 20px 20px  #BDBDBD;
 	border-radius:5px;
 	padding:10px;
 `;
@@ -87,7 +87,7 @@ class ExplorePage extends Component{
 		this.state={
 			communities:[{
 				communityName:"Acting",
-				backgroundColor:"linear-gradient(to left, #9933ff 0%, #ff99ff 100%)",
+				backgroundColor:"linear-gradient(to right, #c6ffdf, #c9facc, #d0f4b9, #dbeda7, #e8e496, #f0d989, #f8cd7f, #ffc079, #ffae75, #ff9c74, #fd8a77, #f7797d)",
 				popularVideos:[
 					{
 						videoUrl:""
@@ -216,7 +216,9 @@ class ExplorePage extends Component{
 		console.log(this.state.tempcommunities);
 		return this.state.displayInitialPage==true?
 				<Container>
-					<ul>
+					<ul>	
+						<li> Recoommended</li>
+						<li> Recoommended</li>
 						{this.state.tempcommunities.map(data=>
 							<li style={CommunitiesListCSS} key={data.key}> 
 								{this.displayCommunityAnimation(data)}
@@ -253,15 +255,13 @@ class ExplorePage extends Component{
 		}
 	}
 
-
-
 	render(){
 		return(
 
 			<React.Fragment>
+				<p> Recommended </p>
 				{this.displayCommunityList()}
-				{this.displayPersonalizedPage()}
-				
+				{this.displayPersonalizedPage()}				
 			</React.Fragment>
 
 

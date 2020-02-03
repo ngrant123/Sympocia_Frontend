@@ -88,7 +88,7 @@ const CommunityContainer=(props)=>{
 
 		<React.Fragment>
 			<Container style={{background:props.data.backgroundColor}}>
-				<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.category}</p>
+				<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.communityName}</p>
 
 				<ul style={{position:"relative",left:"50%",top:"10%"}}>
 					<li style={CommunityDetailsListCSS}>

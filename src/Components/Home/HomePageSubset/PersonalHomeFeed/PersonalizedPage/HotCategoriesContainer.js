@@ -10,6 +10,7 @@ const Container=styled.div`
 	background-color:white;
 	border-radius:5px;
 	box-shadow: 1px 1px 5px 5px #d5d5d5;
+	overflow:hidden;
 `;
 
 const OptionsContainer=styled.div`
@@ -26,6 +27,22 @@ const OptionsContainer=styled.div`
 	}
 `;
 
+const PopularVideos=styled.div`
+	position:relative;
+	background-color:red;
+	border-radius:5px;
+	width:310px;
+	height:70%;
+`;
+
+const Communities=styled.div`
+	position:relative;
+	border-radius:5px;
+	background-color:red;
+	height:30%;
+	width:300px;
+
+`;
 
 const HeaderOptionsCSS={
 	listStyle:"none",
@@ -34,28 +51,67 @@ const HeaderOptionsCSS={
 	marginRight:"10px"
 }
 
+const HeaderLastOptionCSS={
+	listStyle:"none",
+	display:"inline-block",
+	fontSize:"20px",
+	marginLeft:"70%",
+	color:"#5298F8"
+	
+}
+
+
+
 const HotCategoriesContainer=()=>{
+
+	const [displayPopularVideos,changePopularVideos]=useState(false);
+
+	//Test Display
+	const [popularVideos,changePopular]=useState([{},{},{}]);
+	const [popularCommunities,changeCommunities]=useState([{},{},{},{},{},{},{},{},{}]);
+
+	const displayPopularVidoesOrCommunities=()=>{
+
+		return displayPopularVideos==false?
+			<React.Fragment>
+				{popularVideos.map(data=>
+					<li style={{listStyle:"none",display:"inline-block",marginLeft:"10px",padding:"10px"}}>
+						<PopularVideos>
+						</PopularVideos>
+					</li>
+
+
+				)}
+			</React.Fragment>:
+			<React.Fragment>
+				{popularCommunities.map(data=>
+					<li style={{listStyle:"none",display:"inline-block",marginLeft:"10px",padding:"10px"}}>
+						<Communities>
+						</Communities>
+					</li>
+				)}
+			</React.Fragment>;
+	}
+
 
 	return(
 		<Container>
 			<ul style={{paddingTop:"10px"}}>
 				<li style={HeaderOptionsCSS}>
-					<OptionsContainer>Popular Videos</OptionsContainer>
+					<OptionsContainer onClick={()=>changePopularVideos(false)}>Popular Videos</OptionsContainer>
 				</li>
 
-				<li style={HeaderOptionsCSS}>
+				<li style={HeaderOptionsCSS} onClick={()=>changePopularVideos(true)}>
 					<OptionsContainer>Popular Communities</OptionsContainer>
 				</li>
+
+				<li style={HeaderLastOptionCSS}>
+					<p>See all </p>
+
+				</li>
 			</ul>
-
 			<ul>
-				<li>	
-					Tester
-				</li>
-				<li>
-					Tester
-
-				</li>
+				{displayPopularVidoesOrCommunities()}
 
 			</ul>
 

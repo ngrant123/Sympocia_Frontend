@@ -92,6 +92,8 @@ const PersonalProfile=(state={initialState},action)=>{
 			}
 			break;
 
+	
+
 		default:
 			return state;
 			break;
