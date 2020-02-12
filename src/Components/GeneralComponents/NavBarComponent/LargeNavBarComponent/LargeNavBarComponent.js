@@ -480,7 +480,7 @@ const CompanyProfileNotificationsContainer=styled.div`
 `;
 
 export function GeneralNavBar(pageProps){
-	
+	console.log(pageProps);
 	return(
 		<Container>
 
@@ -501,8 +501,14 @@ export function GeneralNavBar(pageProps){
 						  </Dropdown.Toggle>
 
 						  <Dropdown.Menu>
-						
-						    {displayProfileOptions("Company")}
+							
+							<Dropdown.Item>
+						    	<PersonalProfileChatContainer onClick={()=>displayChatContainerForPersonalPage(pageProps)}/>
+						    </Dropdown.Item>
+ 					
+ 							<Dropdown.Item>
+ 								<PersonalProfileNotificationsContainer/>
+ 							</Dropdown.Item>
 
 						  </Dropdown.Menu>
 
@@ -517,7 +523,13 @@ export function GeneralNavBar(pageProps){
 
 						  <Dropdown.Menu>
 
-							{displayProfileOptions("Personal")}
+						  	<Dropdown.Item>
+								<CompanyProfileChatContainer onClick={()=>displayChatContainerForCompanyPage(pageProps)}/>
+							</Dropdown.Item>
+
+							<Dropdown.Item>
+								<CompanyProfileNotificationsContainer/>
+							</Dropdown.Item>
 						    
 						  </Dropdown.Menu>
 
@@ -531,38 +543,42 @@ export function GeneralNavBar(pageProps){
 	)
 }
 
- function displayProfileOptions(props){
- 	if(props=="Personal"){
- 		return(
+const displayChatContainerForPersonalPage=(pageProps)=>{
+
+	pageProps.displayChatPage("personal");
+}
+
+const displayChatContainerForCompanyPage=(pageProps)=>{
+	pageProps.displayChatPage("company");
+}
+
+const displayPersonalProfileOptions=(pageProps)=>{
+	return(
  			<React.Fragment>
  				<ul style={{listStyle:"none"}}>	
  					<li style={{marginBottom:"10px"}}>
- 						<PersonalProfileChatContainer>
-
+ 						<PersonalProfileChatContainer onClick={()=>displayChatContainerForPersonalPage(pageProps)}>
  						</PersonalProfileChatContainer>
-
  					</li>
 
  					<li>
  						<PersonalProfileNotificationsContainer>
 
  						</PersonalProfileNotificationsContainer>
-
-
  					</li>
-
  				</ul>
  			</React.Fragment>
 
  		)
- 	}
- 	else{
- 		return(
+}
+
+ const displayCompanyProfileOptions=(pageProps)=>{
+
+	return(
  			<React.Fragment>
 	 			<ul style={{listStyle:"none"}}>	
 	 					<li style={{marginBottom:"10px"}}>
-	 						<CompanyProfileChatContainer>
-
+	 						<CompanyProfileChatContainer onClick={()=>displayChatContainerForCompanyPage(pageProps)}>
 	 						</CompanyProfileChatContainer>
 
 	 					</li>
@@ -580,56 +596,4 @@ export function GeneralNavBar(pageProps){
  			</React.Fragment>
 		
 		) 
- 	}
-
-
 }
-
-
-
-function MapOrHomeHeader(){
-	return <MapAndHomeContainer>
-					<ProfilePicture>
-
-					</ProfilePicture>
-
-					<CompanyIcon>
-
-					</CompanyIcon>
-					<MapAndHomeHomeLink to="/home">Home</MapAndHomeHomeLink>
-					<MapAndHomeProfileLink to="/profile">Profile</MapAndHomeProfileLink>
-					<MapAndHomeMapLink to="/map">Maps</MapAndHomeMapLink>
-					<MapAndHomeInvestorLink to="/investor">Investors</MapAndHomeInvestorLink>
-
-					<MapAndHomeIndustryButton>Explore Industry</MapAndHomeIndustryButton>
-
-					<MapAndHomeSearchBarTextArea placeholder="Search By Name"></MapAndHomeSearchBarTextArea>
-					<MapAndHomeSearchBarSubmit to="/">Search</MapAndHomeSearchBarSubmit>
-
-
-			</MapAndHomeContainer>;
-}
-
-function ProfileOrInvestorHeader(){
-	return <ProfileAndInvestorContainer>
-					<ProfilePicture>
-
-					</ProfilePicture>
-
-					<CompanyIcon>
-
-					</CompanyIcon>
-					<ProfileAndInvestorHomeLink to="/home">Home</ProfileAndInvestorHomeLink>
-					<ProfileAndInvestorProfileLink to="/profile">Profile</ProfileAndInvestorProfileLink>
-					<ProfileAndInvestorMapLink to="/map">Maps</ProfileAndInvestorMapLink>
-					<ProfileAndInvestorInvestorLink to="/investor">Investors</ProfileAndInvestorInvestorLink>
-
-					<ProfileAndInvestorIndustryButton>Explore Industry</ProfileAndInvestorIndustryButton>
-
-					<ProfileAndInvestorSearchBarTextArea placeholder="Search By Name"></ProfileAndInvestorSearchBarTextArea>
-					<ProfileAndInvestorSearchBarSubmit to="/">Search</ProfileAndInvestorSearchBarSubmit>
-		   </ProfileAndInvestorContainer>;
-
-}
-
-

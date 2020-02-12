@@ -3,7 +3,7 @@ import styled from "styled-components";
 import backgroundimage from "../../../designs/background/tester7.png";
 import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import Typed from "react-typed";
-import InvestorComp from "../MediumInvestorComp/InvestorComp.js";
+import InvestorComp from "../InvestorSubset/InvestorResults/InvestorList/InvestorResults.js";
 
 
 
@@ -27,7 +27,6 @@ const SearchContainer = styled.div`
 	top:20%;
 	left:30%;
 	transition: all ease 0.8s;
-  	box-shadow: 1px 1px 30px 10px 	#ffffa5;
   	opacity:0.9;
  
 `;
@@ -67,6 +66,8 @@ const SearchByNameTextarea = styled.textarea`
 	border-radius:5px;
 	top:35%;
 	text-align:center;
+	border-style:none;
+	box-shadow: 1px 1px 5px #888888;
 
 
 
@@ -78,7 +79,7 @@ const SearchByNameButton = styled.div`
 	color:white;
 	width:50%;
 	height:20%;
-	left:5%;
+	left:20%;
 	top:65%;
 	border-radius:5px;
 	text-align:center;
@@ -133,7 +134,7 @@ const SearchIndustryButton = styled.div`
 	color:white;
 	width:50%;
 	height:20%;
-	left:5%;
+	left:12%;
 	top:65%;
 	border-radius:5px;
 	text-align:center;
@@ -164,12 +165,11 @@ const LocationContainer = styled.div`
 	top:30%;
 	left:37%;
 	height:13%;
-	width:22%;
+	width:19%;
 	border-radius:5px;
 	opacity:0;
 	z-index:-2;
 	transition:.8s;
-	box-shadow: 1px 1px 30px 10px 	#ffffa5;
 	overflow:hidden;
 
 `;
@@ -193,16 +193,15 @@ const SearchLocationButton = styled.div`
 
 `;
 
-const InvestorBody = styled.div`
+const InvestorResultsBody = styled.div`
 	position:absolute;
 	background-color:#f7f8f8;
-	width:55%;
+	width:76%;
 	height:85%;
-	left:35%;
-	top:10%;
+	left:23%;
+	top:13%;
 	border-radius:10px;
-	opacity:0;
-	z-index:-2; 
+	z-index:2; 
 	transition:1s;
 	overflow:hidden;
 
@@ -243,6 +242,14 @@ const LocationStyle = {
 
 class LInvestor extends Component{
 
+
+	constructor(props){
+		super(props);
+
+		this.state={
+			displayInvestorResults:false
+		}
+	}
 	handleNameButtonAnimation(){
 
 			var intervalposition=0;
@@ -279,7 +286,7 @@ class LInvestor extends Component{
 				}
 			}
 
-			document.getElementById("divider").style.opacity="0";
+			
 			document.getElementById("searchindustryid").style.opacity="0"
 	}
 
@@ -326,7 +333,6 @@ class LInvestor extends Component{
 				}
 			}
 
-			document.getElementById("divider").style.opacity="0";
 			document.getElementById("searchnameid").style.opacity="0";
 			document.getElementById("locationid").style.opacity="1";
 			document.getElementById("locationid").style.zIndex="1";
@@ -360,8 +366,9 @@ class LInvestor extends Component{
 			} 
 		}
 
-		document.getElementById("investorbody").style.opacity="1";
-		document.getElementById("investorbody").style.zIndex="2";
+		this.setState({
+			displayInvestorResults:true
+		})
 	}
 
 	HoverEffectInvestorNameContainer(){
@@ -383,15 +390,24 @@ class LInvestor extends Component{
 
 	}
 
+	displayInvestorResults=()=>{
+
+
+		return this.state.displayInvestorResults==false?
+			<React.Fragment></React.Fragment>:
+			<InvestorResultsBody id="investorbody">
+				<InvestorComp/>
+			</InvestorResultsBody>
+
+	}
+
 	render(){
 
 		return(
 			<Container>
-				<NavContainer>
 					<GeneralNavBar
 						pageType={"Investor"}
 					/>
-				</NavContainer>
 
 				<SearchContainer id="container">
 					<SearchByNameContainer id="searchnameid" onMouseEnter={()=>this.HoverEffectInvestorNameContainer()}>
@@ -399,7 +415,6 @@ class LInvestor extends Component{
 						<SearchByNameTextarea placeholder="Enter Investors Name"></SearchByNameTextarea>
 						<SearchByNameButton onClick={()=>this.handleNameButtonAnimation()}>Search</SearchByNameButton>
 					</SearchByNameContainer>
-					<Divider id="divider"/>
 
 					<SearchByIndustryContainer id="searchindustryid" onMouseEnter={()=>this.HoverEffectInvestorIndustryContainer()}>
 						<SearchByIndustryDescription>Search By Industry : </SearchByIndustryDescription>
@@ -415,8 +430,8 @@ class LInvestor extends Component{
 
 				</SearchContainer>
 
-						<LocationContainer id="locationid">
-						<input list="locationoptions" name="locationoptions" style={LocationStyle} placeholder="Pick an industry" id="locationoptions"/>
+					<LocationContainer id="locationid">
+						<input list="locationoptions" name="locationoptions" style={LocationStyle} placeholder="Pick an location" id="locationoptions"/>
 								<datalist id="locationoptions">
 									<option value="New York" />
 									<option value= "California" />
@@ -427,9 +442,8 @@ class LInvestor extends Component{
 
 					</LocationContainer>
 					
-					<InvestorBody id="investorbody">
-						<InvestorComp/>
-					</InvestorBody>
+					{this.displayInvestorResults()}
+
 
 					<InvestorDescriptionPage id="investpagedescription">
 						  <b><Typed 

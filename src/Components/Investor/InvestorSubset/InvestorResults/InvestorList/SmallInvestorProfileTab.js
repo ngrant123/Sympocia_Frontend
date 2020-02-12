@@ -8,14 +8,13 @@ const Container = styled.div`
 	width:90%;
 	left:5%;
 	top:1px;
-	background-color:#eaf1f8;
 	border-radius:5px;
 	box-shadow: 1px 1px 2px 2px #b9c0c7; 
 	transition:.8s
 
 	&:hover{
 
-		background-color:#d5e1ee;
+		box-shadow: 1px 10px 10px #b9c0c7; 
 	}
 `;
 
@@ -88,7 +87,7 @@ const ActiveDescription = styled.div`
 	width:100%;
 	height:57%;
 	font-size:103%;
-	overflow:auto;
+	overflow:hidden;
 	color:#C8B0F4;
 
 `;
@@ -118,7 +117,7 @@ const InvestmentDescription = styled.div`
 	height:51%;
 	top:0%;
 	font-size:98%;
-	overflow:auto;
+	overflow:hidden;
 	color:#C8B0F4;
 `;
 
@@ -129,7 +128,7 @@ const InvestmentNumber = styled.div`
 	height:51%;
 	top:0%;
 	font-size:90%;
-	overflow:auto;
+	overflow:hidden;
 
 `;
 
@@ -158,9 +157,10 @@ const ExitIcon = styled.div`
 
 
 
-class SmallInvestorProfile extends Component{
+class SmallInvestorProfileTab extends Component{
 
 	constructor(props){
+
 
 		super(props);
 
@@ -175,7 +175,7 @@ class SmallInvestorProfile extends Component{
 	}
 
 	handledisplayInvestorPage =()=>{
-		this.props.handleDisplayInvestorProfile(this.state);
+		this.props.bubbleUpInvestorData(this.state);
 	}
 	render(){
 
@@ -211,4 +211,4 @@ class SmallInvestorProfile extends Component{
 	}
 }
 
-export default SmallInvestorProfile;
+export default SmallInvestorProfileTab;

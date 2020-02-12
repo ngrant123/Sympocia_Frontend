@@ -6,7 +6,7 @@ import HomeConext from "../HomeContext.js";
 import ExplorePage from "../HomePageSubset/ExploreHomeFeed/ExplorePage/ExplorePage";
 import PersonalFeed from "../HomePageSubset/PersonalHomeFeed/PersonalFeed/PersonalFeedContainer";
 import CustomizedFeed from "../HomePageSubset/PersonalHomeFeed/CustomizedPersonalFeed/CustomizedFeedContainer";
-
+import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -96,7 +96,6 @@ const CustomizedForYouPageIcon=styled.div`
 	border-radius:5px;
 	box-shadow: 1px 1px 1px 1px #d5d5d5;
 
-
 `;
 
 
@@ -110,7 +109,9 @@ class HomePageContainer extends Component{
 			displayExplorerFeed:true,
 			displayCustomizedFeed:false,
 			displayForYourChoices:false,
-			profileId:0
+			profileId:0,
+			displayChatPage:false,
+			chatPageIndicator:""
 		}
 	}
 
@@ -215,10 +216,43 @@ class HomePageContainer extends Component{
 				</ul>
 			</PersonalPageIndicator>:<React.Fragment></React.Fragment>
 	}
+
+	displayChatPage=(pageIndicator)=>{
+
+		this.setState(prevState=>({
+
+			...prevState,
+			displayChatPage:true,
+			chatPageIndicator:pageIndicator
+		}))
+	}
+
+	hideChatPage=()=>{
+		this.setState(prevState=>({
+
+			...prevState,
+			displayChatPage:false
+		}))
+
+	}
+
+	chatPage=()=>{
+		console.log(this.state.displayChatPage);
+		return this.state.displayChatPage==true?
+			<ChatPageContainer
+				pageIndicator={this.state.chatPageIndicator}
+				hideChatContainer={this.hideChatPage}
+			/>:<React.Fragment></React.Fragment>
+	}
+
 	render(){
 		return(
 			<Container id="container">
-				<GeneralNavBar/>
+				<GeneralNavBar
+					displayChatPage={this.displayChatPage}
+				/>
+
+				{this.chatPage()}
 				<PageIndicator>
 					<ul>
 						<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}} onClick={()=>this.handleDisplayHideForYouChoices()}>

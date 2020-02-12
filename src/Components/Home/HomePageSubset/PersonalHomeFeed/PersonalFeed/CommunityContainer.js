@@ -89,8 +89,9 @@ const CommunityContainer=(props)=>{
 		<React.Fragment>
 			<Container style={{background:props.data.backgroundColor}}>
 				<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.communityName}</p>
-
-				<ul style={{position:"relative",left:"50%",top:"10%"}}>
+				<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"20%",padding:"10px",borderRadius:"5px"}}>Active People</p>
+				<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"50%",padding:"10px",borderRadius:"5px"}}>Popular Videos</p>
+				<ul style={{position:"relative",top:"-30%",left:"50%"}}>
 					<li style={CommunityDetailsListCSS}>
 						<ActivePeopleContainer>
 							<ul>

@@ -34,24 +34,34 @@ const RecommendedContainer=(props)=>{
 
 	useEffect(()=>{
 
-
-
 	})
 
 	return(
 		<React.Fragment>
-			<p style={{fontSize:"30px",fontFamily:"'Fredoka One', cursive",color:"white"}}>Recommended Communities</p>
-			<p style={{fontSize:"15px",fontFamily:"'Fredoka One', cursive",color:"white"}}>Here are recommended communities</p>
-
-			{recommendation.map(data=>
-				<li style={{listStyle:"none",display:"inline-block",paddingLeft:"50px"}}>
-					<Recommendation style={{background:data.backgroundColor}}>
-						<NameContainer>
-							<p style={{color:"white",fontSize:"20px"}}><b>{data.communityName}</b></p>
-						</NameContainer>
-					</Recommendation>
+			<ul style={{padding:"0px"}}>
+				<li style={{listStyle:"none"}}>
+					<ul style={{padding:"0px"}}>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"40%"}}>
+							<p style={{fontSize:"30px",color:"#9933ff"}}><b>Recommended Communities</b></p>
+						</li>
+						<li style={{marginRight:"5%",listStyle:"none",display:"inline-block",color:"#a642ff",backgroundColor:"#e5c9ff",borderRadius:"5px",padding:"10px",boxShadow:"10px 10px 10px black"}}>Most Popular</li>
+						<li style={{listStyle:"none",display:"inline-block",color:"#a642ff",backgroundColor:"#e5c9ff",borderRadius:"5px",padding:"10px",boxShadow:"10px 10px 10px black"}}>Newest</li>
+					</ul>
 				</li>
-			)}
+				<li style={{listStyle:"none"}}><p style={{fontSize:"15px",color:"#9933ff",marginBottom:"20px"}}>Here are some recommended communities for you</p></li>
+			</ul>
+
+			<ul style={{position:"relative",boxShadow:"10px 10px 10px black",padding:"15px",borderRadius:"5px",borderStyle:"solid"}}>
+				{recommendation.map(data=>
+					<li style={{listStyle:"none",display:"inline-block",paddingLeft:"50px"}}>
+						<Recommendation style={{background:data.backgroundColor}}>
+							<NameContainer>
+								<p style={{color:"white",fontSize:"20px"}}><b>{data.communityName}</b></p>
+							</NameContainer>
+						</Recommendation>
+					</li>
+				)}
+			</ul>
 
 
 		</React.Fragment>
