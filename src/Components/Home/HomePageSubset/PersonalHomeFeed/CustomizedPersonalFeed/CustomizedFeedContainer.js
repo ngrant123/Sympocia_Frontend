@@ -11,7 +11,6 @@ const RecommendedContainer=styled.div`
 	left:15%;
 	border-radius:5px;
 	padding-left:10px;
-	box-shadow: 10px 10px 10px 1px black;
 `;
 
 const ColorTextChangeCSS={

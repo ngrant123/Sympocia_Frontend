@@ -28,13 +28,11 @@ const FirstProfileContainer = styled.div`
 `;
 
 const NavContainer = styled.div`
-	position:fixed;
+	position:relative;
 	height:7%;
 	left:0%;
 	width:100%;
 	z-index:4;
-	background:white;
-
 `;
 
 const CoverPhotoContainer = styled.div`
@@ -850,8 +848,13 @@ class LProfile extends Component{
 		return(
 
 			<CompanyProvider value={this.state}>
-
 				<ProfileContainer>
+
+					<NavContainer> 
+						<GeneralNavBar
+							pageType="Profile"
+						/>
+					</NavContainer>
 
 					<FirstProfileContainer>
 
@@ -904,16 +907,11 @@ class LProfile extends Component{
 							 	<CancelButton onClick={()=>this.handleCancelButton()} id="NewsCancelButtonID">Cancel</CancelButton>
 							 </NewsProfile>
 
-							<NavContainer> 
-								<GeneralNavBar
-									pageType="Profile"
-								/>
-							</NavContainer>
 
 							<CompanyIcon>
 								<Icon />
 							</CompanyIcon>
-							<StatueContainer></StatueContainer>
+							<StatueContainer/>
 
 							<CoverPhotoContainer> 
 								<CoverPhoto /> 

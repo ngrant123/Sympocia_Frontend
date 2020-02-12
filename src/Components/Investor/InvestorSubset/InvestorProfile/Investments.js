@@ -5,19 +5,11 @@ import styled from "styled-components";
 const Container = styled.div`
 	position:relative;
 	width:90%;
-	height:50px;
+	height:45%;
 	top:7px;
-	border-radius:5px;
-	box-shadow: 1px 1px 5px 5px #d8d9df;
 	transition:.8s;
-
-	&:hover{
-		background-color:#c8ddf8;
-		box-shadow: 1px 1px 30px 10px 	#ffffa5;
-
-	}
-
-
+	border-bottom: 5px solid #787878;
+	padding:20px;
 `;
 
 const ImageContainer = styled.div`
@@ -69,6 +61,18 @@ const InvestmentDescription = styled.div`
 
 `;
 
+const InvestmentLabels=styled.div`
+	position:relative;
+	height:20%;
+	padding:10px;
+	padding-bottom:20px;
+	text-align:center;
+	background-color:#5298F8;
+	margin-right:10px;
+	border-radius:5px;
+	color:white;
+
+`;
 
 
 
@@ -93,19 +97,31 @@ class SmallInvestments extends Component{
 
 
 		this.props.handleDisplaySmallInvestment(this.state);
-
 	}
 
 	render(){
 		return(
-			<Container onClick={()=>this.handleDisplaySmallInvestment()}>
-				<ImageContainer>
+			<Container>
+				<p style={{fontSize:"40px"}}><b>Sympocia</b></p>
+				<p>New York, New York </p>
+				<p>June 23 1995 </p>
 
-				</ImageContainer>
-			
-				<DateContainer>{this.state.date}</DateContainer>
-				<TypeOfInvestmentContainer>{this.state.investmentType}</TypeOfInvestmentContainer>
-				<InvestmentDescription>{this.state.description}</InvestmentDescription>
+				<ul style={{padding:"0px"}}>
+					<li style={{listStye:"none",display:"inline-block"}}>
+						<InvestmentLabels>
+							Money
+						</InvestmentLabels>
+
+					</li>
+
+					<li style={{listStye:"none",display:"inline-block"}}> 
+						<InvestmentLabels>
+							Investment Money
+						</InvestmentLabels>
+
+					</li>
+				</ul>
+				
  
 			</Container>
 		)

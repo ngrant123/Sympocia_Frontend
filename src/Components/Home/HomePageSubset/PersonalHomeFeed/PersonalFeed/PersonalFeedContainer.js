@@ -148,6 +148,36 @@ class PersonalFeedContainer extends Component{
 		return new Promise(resolve => setTimeout(resolve, seconds));
 	}
 
+	changeColorForFastestGrowingButton=()=>{
+
+		document.getElementById("fastestGrowingButton").style.color="white";
+		document.getElementById("fastestGrowingButton").style.backgroundColor="#5298F8";
+
+		document.getElementById("mostPopularButton").style.color="#6e6e6e";
+		document.getElementById("mostPopularButton").style.backgroundColor="white";
+
+		this.setState(prevState=>({
+			...prevState,
+			popularOrNewCommunites:this.state.newestCommunities
+		}))
+	}
+
+	changeColorForPopularButton=()=>{
+
+		console.log("Change button");
+
+		document.getElementById("mostPopularButton").style.color="white";
+		document.getElementById("mostPopularButton").style.backgroundColor="#5298F8";
+
+		document.getElementById("fastestGrowingButton").style.color="#6e6e6e";
+		document.getElementById("fastestGrowingButton").style.backgroundColor="white";
+
+		this.setState(prevState=>({
+			...prevState,
+			popularOrNewCommunites:this.state.popularCommunities
+		}))
+	}
+
 
 	 TransitionAnimationTrigger=()=>{
 	 	console.log("Tester");
@@ -155,7 +185,18 @@ class PersonalFeedContainer extends Component{
 			this.triggerAnimation();
 
 	 	return this.state.triggerAnimation==false?
-	 		<ul style={{paddingTop:"10%"}}>
+	 		<ul style={{position:"relative",paddingTop:"10%"}}>
+	 			<ul style={{position:"relative",left:"20%",marginBottom:"30px"}}>
+					<li style={{listStyle:"none"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"25%"}}><b>My communities</b></li>
+							<li onClick={()=>this.changeColorForPopularButton()} id="mostPopularButton" style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"#5298F8",color:"white",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"10px",borderRadius:"5px"}}>Most Popular</li>
+							<li onClick={()=>this.changeColorForFastestGrowingButton()} id="fastestGrowingButton" style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"white",color:"#6e6e6e",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"5px",borderRadius:"5px"}}>Fastest Growing</li>
+						</ul>
+					</li>
+					<li style={{listStyle:"none",width:"30%"}}>Go back and check out the newest posts in the communities you follow. </li>
+
+				</ul>
 					{this.state.communityArray.map(data=>
 						<li style={{paddingBottom:"40px",listStyle:"none"}}>
 							<CommunityContainerAnimation onClick={()=>this.setState(prevState=>({
@@ -198,7 +239,6 @@ class PersonalFeedContainer extends Component{
 	render(){
 		return(
 			<React.Fragment>
-
 				{this.displayPersonalizedPage()}
 				{this.TransitionAnimationTrigger()}
 			</React.Fragment>

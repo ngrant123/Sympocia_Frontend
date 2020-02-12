@@ -7,7 +7,7 @@ import Signup from "./Components/Signup/LargeSignupComp/LSignUpPage";
 import CompanyProfileScreen from "./Components/Profile/CompanyProfile/CompanyProfileSet/CompanyProfileContainer";
 import PersonalProfileScreen from "./Components/Profile/PersonalProfile/PersonalProfileSet/PersonalProfileContainer";
 import {BrowserRouter as Router, Route , Switch} from 'react-router-dom';
-import InvestorScreen from "./Components/Investor/LargeInvestorComp/LInvestor.js";
+import InvestorScreen from "./Components/Investor/InvestorSet/InvestorContainer.js";
 import HomeScreen from "./Components/Home/HomePageSet/HomePageContainer.js";
 import MapScreen from "./Components/Map/LargeMapComp/LargeMapContainer.js";
 import allReducers from './Actions/Redux/Reducers';

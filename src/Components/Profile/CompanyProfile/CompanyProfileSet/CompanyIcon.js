@@ -29,7 +29,7 @@ class CompanyIcon extends Component{
 		    //console.log(image.value);
 	}
 	handleSubmit(){
-
+		console.log(this.props);
 		var node = document.getElementById('imagecontainer');
 		var dataUrl=document.getElementById("imagefile").files[0];
 		var reader= new FileReader();
@@ -40,8 +40,8 @@ class CompanyIcon extends Component{
 			document.getElementById("container").src=reader.result;
 
 			const iconUrl=reader.result;
+			console.log(iconUrl);
 			this.props.addCompanyIcon(iconUrl);
-
 		}
 
 		if(dataUrl!=null){
@@ -51,6 +51,11 @@ class CompanyIcon extends Component{
 		else{
 			alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
 		}
+	}
+
+	 handleTest(){
+		console.log("Click");
+
 	}
 
 	render(){
@@ -83,11 +88,10 @@ const mapDispatchToProps=dispatch=>{
 
 	return{
 		addCompanyIcon:(coverIconUrl)=> dispatch(addCompanyIcon(coverIconUrl))
-
 	}
 }
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-	)(CompanyIcon);
+)(CompanyIcon);

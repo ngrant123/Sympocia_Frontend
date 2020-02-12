@@ -2,16 +2,16 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton'
-import SmallInvestorProfile from "../SmallInvestorComp/SmallInvestorProfile.js";
-import SmallInvestorMediaContainer from "../SmallInvestorComp/SmallInvestorMediaContainer.js";
-import SmallInvestmentsContainer from "../SmallInvestorComp/SmallInvestments.js";
+import SmallInvestorProfileTab from "./SmallInvestorProfileTab.js";
+import InvestorProfile from "../../InvestorProfile/InvestorProfile.js";
+import SmallInvestorMediaContainer from "../../InvestorProfile/InvestorMediaContainer.js";
+import SmallInvestmentsContainer from "../../InvestorProfile/Investments.js";
+import SearchInformation from "./SearchInformation";
+import Investors from "./Investors";
 import {
 		searchforfirstName,
 		searchforLastName
-		} from "../../../Actions/Tasks/userTasks.js";
-
-
-
+	} from "../../../../../Actions/Tasks/userTasks.js";
 
 const Container = styled.div`
 
@@ -37,7 +37,7 @@ const SearchBox = styled.div`
 
 const InvestorBox = styled.div`
 	position:relative;
-	background-color:	#f2f5f8;
+	background-color:white;
 	width:80%;
 	height:70%;
 	left:10%;
@@ -178,29 +178,27 @@ const InvestorOptionsContainer = styled.div`
 
 const InvestOptionsAlphabetize = styled.div`
 
-	position:absolute;
+	position:relative;
 	background-color:#1674f4;
-	width:15%;
+	width:110%;
 	height:60%;
-	top:20%;
-	left:7%;
 	border-radius:5px;
 	text-align:center;
 	color:white;
+	padding:5px;
 
 `;
 
 const InvestOptionsActiveButton = styled.div`
 
-	position:absolute;
+	position:relative;
 	background-color:#1674f4;
-	width:10%;
+	width:110%;
 	height:60%;
-	top:20%;
-	left:25%;
 	border-radius:5px;
 	text-align:center;
 	color:white;
+	padding:5px;
 
 `;
 
@@ -208,17 +206,12 @@ const PreviousNextIconContainer= styled.div`
 	position:absolute;
 	width:100%;
 	height:9%;
-	background-color:#bfcae6;
 	border-radius:5px;
 	text-align:center;
 	color:white;
 	font-size:140%;
 	transition:.8s;
 
-	&:hover{
-
-		background-color:	#c4bfe6;
-	}
 `;
 const NextIcon = styled.div`
 	position:absolute;
@@ -262,27 +255,24 @@ const PageContainer = styled.div`
 	position:absolute;
 	width:100%;
 	height:9%;
-	background-color:#bfcae6;
 	border-radius:5px;
 	top:91%;
 	text-align:center;
 	color:white;
 	font-size:140%;
 	transition:.8s;
-
-		&:hover{
-
-		background-color:	#c4bfe6;
-	}
 `;
 
 
 const InvestorModalContainer = styled.div`
 
 	position:absolute;
-	width:100%;
-	height:100%;
-	z-index:2;
+	width:50%;
+	height:80%;
+	background-color:red; 
+	z-index:5;
+	margin-left:10%;
+	margin-top:10%;
 
 `;
 
@@ -411,8 +401,8 @@ const ShadowContainerInvestor = styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-	display:block;
+	background-color:rgba(0,0,0,0.4); /* Black w/ opacity */
+	z-index:5;
 
 `;
 
@@ -510,6 +500,26 @@ const InvestmentBioDescription = styled.div`
 	}
 
 `;
+
+const SearchInformationContainer=styled.div`
+	position:absolute;
+	width:37%;
+	height:70%;
+	top:25%;
+	border-radius:5px;
+	margin-left:15px;
+	padding:5px;
+`;
+
+const InvestorsContainer=styled.div`
+	position:absolute;
+	left:41%;
+	width:58%;
+	top:25%;
+	height:70%;
+	border-radius:5px;
+`;
+
 
 const MessageButton = styled.div`
 
@@ -1106,6 +1116,15 @@ const data = [
 		]
 	}
 ];
+
+const TestContainer=styled.div`
+	position:relative;
+	width:20px;
+	height:20%;
+	background-color:red;
+
+
+`;
 //Write Search method
 //Write and get working method that seperates investors to appropriate column
 
@@ -1128,180 +1147,22 @@ class InvestorComp extends Component{
 			stackInvestorsContainer:[],
 			investments:[],
 			displayInvestorContainer:false,
-			displayInvestmentContainer:false
+			displayInvestmentContainer:false,
+			investorData:{}
 		
 		};
 	}
 
-	componentDidMount(){
-		this.handleInvestorPageData(data);
-	}
-
-	/*
-		Handles Investor Data and checks to see if the data can fit on one 
-		page or it has to go on multiple
-
-	*/
-
-	handleInvestorPageData =(data)=>{
-		var length=data.length;
-		var stoppingpoint;
-		var startingpoint;
-
-		//checks to see if data can fit on one page
-		if(length<=8){
-			this.placedataintocolumns(data);
-		}
-		else if(length>8){
-			stoppingpoint=8*investorpagetracker;
-			startingpoint=stoppingpoint-8;
-			this.storefirsteightinvestors(data,stoppingpoint,startingpoint);
-		}
-		this.disableorenablePreviousButton(true);
-
-	}
-
-//Stores the recnt eight investors and displays them on the screen
-
-	storefirsteightinvestors = (data,stoppingpoint,startingpoint) =>{
-			var tempinvestorcontainer=[];
-			var counter=startingpoint;
-			var limitcounter=0;
-			var investorobject;
-
-			 while(data[counter]!=null){
-			 	if(counter<stoppingpoint){
-				 	investorobject=data[counter];
-					tempinvestorcontainer.push(investorobject);
-				 	counter++;
-
-			 	}
-			 	else
-			 		break;
-			 }
-			//Not being used but decent idea
-			//this.state.stackInvestorsContainer.push(tempinvestorcontainer);
-			this.placedataintocolumns(tempinvestorcontainer);
-	}
-
-	//Places the data into either the left or right investor body
-
-	placedataintocolumns = (data) =>{
-
-		var counter=0;
-		var rightinvestorcontainer=[];
-		var leftinvestorcontainer=[];
-		var investorobject;
 
 
-		while(counter<data.length){
-			investorobject=data[counter];
 
-			if(counter>3){
-				rightinvestorcontainer.push(investorobject);
+	handleDisappearInvestorModal=(data)=>{
 
-			}
-			else{
-				leftinvestorcontainer.push(investorobject);
-			}
-			counter++;
-		}
-
-		//Investigate further later but this is the only fix 
-
-		this.setState({
-			firstinvestors:[],
-			secondinvestors:[]
-		},function(){
-
-			this.setState({
-					firstinvestors:leftinvestorcontainer,
-					secondinvestors:rightinvestorcontainer
-			});
-			
-		});
-
-		
-	}
-	
-	//Based on the investor page tracker we can determine where the user is and what data should be displayed
-	handleNextButton = () => {
-
-		var tracker=8*investorpagetracker;
-		var startpoint=tracker-8;
-		var nextbuttonindicator=false;
-
-		investorpagetracker++;
-		this.storefirsteightinvestors(data,tracker,startpoint);
-		this.disableorenablePreviousButton(false);
-
-
-		if(tracker>=this.state.totalinvestors.length)
-			this.disableorenableNextButton(true);
-
-
-	}
-
-	disableorenableNextButton(decider){
-		if(decider==true)
-			document.getElementById("nextButton").style.zIndex="-2";
-		else
-			document.getElementById("nextButton").style.zIndex="2";
-	}
-
-	handlePreviousButton = () =>{
-		console.log(this.state.stackInvestorsContainer);
-		investorpagetracker--;
-		var stoppingpoint=8*investorpagetracker;
-		var startingpoint=stoppingpoint-8;
-
-		this.storefirsteightinvestors(data,stoppingpoint,startingpoint);
-
-		this.disableorenableNextButton(false);
-		if(startingpoint==0)
-			this.disableorenablePreviousButton(true);
-
-	}
-
-	disableorenablePreviousButton(decider){
-		if(decider==true)
-			document.getElementById("previousbutton").style.zIndex="-2";
-		else
-			document.getElementById("previousbutton").style.zIndex="2";
-
-	}
-
-	handleDisplayInvestorProfile = (props)=>{
-
-
-		this.setState({
-
-			name:props.name,
-			bio:props.bio,
-			activenumber:props.activenumber,
-			investmentnumber:props.investmentnumber,
-			investments:props.investments,
-			displayInvestorContainer:true
-
-		});
-	}
-
-
-	handleDisplaySmallInvestment=(props)=>{
-		this.setState({
-			amount:props.amount,
-			companyname:props.companyName,
-			displayInvestmentContainer:true
-		});
-	}
-
-
-	handleDisappearInvestorModal(){
-		console.log(this.state.displayInvestorContainer)
-		this.setState({
-			displayInvestorContainer:false
-
-		});
+		this.setState(prevState=>({
+			...prevState,
+			displayInvestorContainer:!this.state.displayInvestorContainer,
+			investorData:data
+		}))
 	}
 
 	handleDisappearInvestmentModal(){
@@ -1358,73 +1219,22 @@ class InvestorComp extends Component{
 		return investmentdisplay;
 	}
 
-
-
-	DisplayInvestorsContainer = () =>{
-
-		var displayInvestor = (this.state.displayInvestorContainer) ? (
-		
-
-					<InvestorModalContainer id="modalcontainer">
-						<ShadowContainerInvestor id="shadowinvesmentcontainer" onClick={()=>this.handleDisappearInvestorModal()}/>
-						<InvestorSmallProfile id="smallinvestorprofile">
-										<this.DisplayInvestmentContainer/>
-								
-										<ImageContainer />
-
-										<SocialMediaContainer>
-											<SmallInvestorMediaContainer/>
-										</SocialMediaContainer>
-
-
-										<NameContainer>
-											{this.state.name}
-										</NameContainer>
-
-										<BioGraphyContainer>
-											Biography:
-										</BioGraphyContainer>
-
-										<BioGraphyText>
-											{this.state.bio}
-										</BioGraphyText>
-
-										<InvestmentContainer>
-											<ul style={{display:"block"}}>
-												
-													{this.state.investments.map(data=>
-														<li style={{listStyle:"none",marginBottom:"10px"}}>
-															<SmallInvestmentsContainer 
-
-																investmentType={data.investmentType}
-																date={data.date}
-																description={data.description}
-																companyName={data.companyName}
-																amount={data.amount}
-																handleDisplaySmallInvestment={this.handleDisplaySmallInvestment}
-
-															/>
-														</li>
-														)
-													}
-											</ul>
-										</InvestmentContainer>
-							</InvestorSmallProfile>
-
-						</InvestorModalContainer>	
-				) : (<p></p>);
-
-				return displayInvestor;
-		
-	
+	display=()=>{
+		this.setState({
+			displayInvestorContainer:false
+		})
 	}
 
-	handleInvementsModalDisappear(){
-		document.getElementById("shadowinvesmentcontainer").style.display="none";
-		document.getElementById("shadowinvesmentcontainer").style.zIndex=-1;
 
-		document.getElementById("invesmentcontainer").style.display="none";
-		document.getElementById("invesmentcontainer").style.zIndex=-1;
+	DisplayInvestorsContainer=(data)=>{
+		console.log(data);
+		return this.state.displayInvestorContainer==true ? 
+			<React.Fragment>
+				<ShadowContainerInvestor onClick={()=>this.display()}/>
+				<InvestorProfile/>
+				
+			</React.Fragment>
+			:<React.Fragment></React.Fragment>;
 	}
 
 	render(){
@@ -1432,8 +1242,8 @@ class InvestorComp extends Component{
 
 		return(
 
-			<Container >
-				<this.DisplayInvestorsContainer/>
+			<Container>
+				{this.DisplayInvestorsContainer()}
 
 						
 				<SearchBox>
@@ -1449,71 +1259,57 @@ class InvestorComp extends Component{
 			
 
 					<InvestorOptionsContainer>
-						<InvestOptionsAlphabetize>Alphabetize</InvestOptionsAlphabetize>
-						<InvestOptionsActiveButton>Active</InvestOptionsActiveButton>
-
-
+						<ul style={{padding:"10px"}}>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
+								<InvestOptionsAlphabetize>Alphabetize</InvestOptionsAlphabetize>
+							</li>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
+								<InvestOptionsActiveButton>Active</InvestOptionsActiveButton>
+							</li>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
+								<InvestOptionsActiveButton>Active</InvestOptionsActiveButton>
+							</li>
+						</ul>
+					
 					</InvestorOptionsContainer>
-
 				</SearchBox>
 
-				<InvestorBox>
-					<PreviousNextIconContainer>
-						<NextIcon id="nextButton" onClick={()=>this.handleNextButton()}>Next</NextIcon>
-						<PreviousIcon id="previousbutton" onClick={()=>this.handlePreviousButton()}>Previous</PreviousIcon>
+				{/*
+					<ul style={{position:"absolute",width:"100%",height:"60%",top:"25%",paddingLeft:"10px",backgroundColor:"black"}}>
+					<li style={{listStyle:"none",display:"inline-block",marginRight:"50px"}}>
+						<TestContainer	/>
+					</li>
 
-					</PreviousNextIconContainer>
+					<li style={{listStyle:"none",display:"inline-block"}}>
 
-					<FirstSectionInvestorBody>
-						<ul style={{listStyle:"none",marginBottom:"20px",position:"relative"}}>
-							<FirstInvestorProfileContainer>
-								{this.state.firstinvestors.map(data=>
-									<li style={{ position:"relative",marginBottom:"17px"}}>
+						<Investors
+							firstinvestors={this.state.firstinvestors}
+							secondinvestors={this.state.secondinvestors}
+						/>
 
-										
-											<SmallInvestorProfile 
-												name={data.name}
-												bio={data.bio}
-												activenumber={data.activenumber}
-												investmentnumber={data.investmentnumber}
-												investments={data.investments}
-												amount={data.amount}
-												handleDisplayInvestorProfile={this.handleDisplayInvestorProfile}
-											/>
-									</li>
-								)}
-								</FirstInvestorProfileContainer>
-							
-						</ul>
+					</li>
+				</ul>
+				*/}
+				
+						<SearchInformationContainer>
+							<SearchInformation/>
 
-					</FirstSectionInvestorBody>
-					<SecondSectionInvestorBody>
 
-						<ul style={{listStyle:"none",marginBottom:"20px",position:"relative"}}>
-							<SecondInvestorProfileContainer>
-								{this.state.secondinvestors.map(data=>
-									<li style={{ position:"relative",marginBottom:"17px"}}>
+						</SearchInformationContainer>
+				
 
-										
-											<SmallInvestorProfile 
-												name={data.name}
-												bio={data.bio}
-												activenumber={data.activenumber}
-												investmentnumber={data.investmentnumber}
-												investments={data.investments}
-												amount={data.amount}
-												handleDisplayInvestorProfile={this.handleDisplayInvestorProfile}
-											/>
-									</li>
-								)}
-								</SecondInvestorProfileContainer>
-						</ul>
+						 <InvestorsContainer>
+						 	<Investors
+								firstinvestors={this.state.firstinvestors}
+								secondinvestors={this.state.secondinvestors}
+								totalinvestors={this.state.totalinvestors}
+								displayInvestorProfile={this.handleDisappearInvestorModal}
+							/>
 
-					</SecondSectionInvestorBody>
 
-					<PageContainer></PageContainer>
-
-				</InvestorBox>
+						 </InvestorsContainer>
+						
+				
 
 			</Container>
 

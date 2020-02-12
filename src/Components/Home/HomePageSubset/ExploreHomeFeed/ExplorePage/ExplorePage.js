@@ -10,16 +10,16 @@ import {
 
  const keyFrameExampleTwo= keyframes`
   0% {
-    width:400px;
+    width:410px;
 	height:40%;
 	left:0%;
 	top:0px;
   }
   100% {
-    height: 50%;
-    top:-151px;
-    left:-14%;
-    width:101vw;
+    height: 55%;
+    top:-430px;
+    left:-25%;
+    width:110vw;
   }
 `;
 
@@ -38,8 +38,8 @@ const CommunityContainerAnimation=styled.div`
 const CommunityContainer=styled.div`
 	position:relative;
 	background: linear-gradient(to left, #9933ff 0%, #ff99ff 100%);
-	width:400px;
-	height:40%;
+	width:450px;
+	height:50%;
 	paddding-left:5px;
 	transition: transform 300ms ease-in-out;
 	box-shadow: 10px 20px 20px  #BDBDBD;
@@ -56,6 +56,19 @@ const Container=styled.div`
 	left:10%;
 	padding:20px;
 
+`;
+
+const ListCommunities=styled.div`
+	position:relative;
+	width:80px;
+	height:7%;
+	background-color:white;
+	border-radius:5px;
+	padding:10px;
+	margin-right:20px;
+	box-shadow:1px 1px 5px #6e6e6e;
+	color:#5298F8;
+	overflow-x:hidden;
 `;
 
 const PopularVideosContainer=styled.div`
@@ -138,7 +151,11 @@ class ExplorePage extends Component{
 			displayPersonalPage:false,
 			displayInitialPage:true,
 			triggerModalProps:{},
-			backgroundColor:""
+			backgroundColor:"",
+			mostPopularButtonColor:"#5298F8",
+			popularCommunities:[{communityName:"Cats"},{communityName:"Poop"},{communityName:"Turtles"}],
+			newestCommunities:[{communityName:"Lotion"},{communityName:"Dinosaur"}],
+			popularOrNewCommunites:[]
 		}
 	}
 
@@ -152,12 +169,12 @@ class ExplorePage extends Component{
 				...prevState,
 				tempcommunities:communities
 			}))
-
 		*/
 
 		this.setState(prevState=>({
 			...prevState,
-			tempcommunities:this.state.communities
+			tempcommunities:this.state.communities,
+			popularOrNewCommunites:this.state.popularCommunities
 		}))
 	}
 
@@ -211,19 +228,65 @@ class ExplorePage extends Component{
 			 2000);
 	}
 
+	changeColorForPopularButton=()=>{
+
+		console.log("Change button");
+
+		document.getElementById("popularButton").style.color="white";
+		document.getElementById("popularButton").style.backgroundColor="#5298F8";
+
+		document.getElementById("bestCommunitiesButton").style.color="#6e6e6e";
+		document.getElementById("bestCommunitiesButton").style.backgroundColor="white";
+
+		this.setState(prevState=>({
+			...prevState,
+			popularOrNewCommunites:this.state.popularCommunities
+		}))
+	}
+
+	changeColorForNewestCommunitiesButton=()=>{
+
+		document.getElementById("bestCommunitiesButton").style.color="white";
+		document.getElementById("bestCommunitiesButton").style.backgroundColor="#5298F8";
+
+		document.getElementById("popularButton").style.color="#6e6e6e";
+		document.getElementById("popularButton").style.backgroundColor="white";
+
+		this.setState(prevState=>({
+			...prevState,
+			popularOrNewCommunites:this.state.newestCommunities
+		}))
+	}
+
 	displayCommunityList=()=>{
 
 		console.log(this.state.tempcommunities);
 		return this.state.displayInitialPage==true?
 				<Container>
-					<ul>	
-						<li> Recoommended</li>
-						<li> Recoommended</li>
+					<ul style={{listStyle:"none"}}>	
+						<li style={{marginLeft:"30%",marginBottom:"10px",fontSize:"40px"}}><b> Explore Communities</b></li>
+						<li style={{marginLeft:"20%",marginBottom:"20px",color:	"#6e6e6e",fontSize:"20px"}}> Browse Sympocias top growing communities that everyone seems to enjoy </li>
+						<ul style={{marginBottom:"30px"}}>
+							<li onClick={()=>this.changeColorForPopularButton()} id="popularButton"style={{display:"inline-block",marginLeft:"30%",fontSize:"15px",backgroundColor:"#5298F8",padding:"10px",color:"white",borderRadius:"5px",boxShadow:"1px 1px 5px #6e6e6e"}}>Most Popular</li>
+							<li onClick={()=>this.changeColorForNewestCommunitiesButton()} id="bestCommunitiesButton" style={{color:"#6e6e6e",display:"inline-block",marginLeft:"10%",fontSize:"15px",boxShadow:"1px 1px 5px #6e6e6e",padding:"10px",borderRadius:"5px"}}>Newest Communities</li>
+						</ul>
+						<ul style={{marginLeft:"20%",padding:"20px",marginBottom:"20px",boxShadow:"1px 1px 5px #6e6e6e",borderRadius:"5px",width:"55%"}}>
+							{this.state.popularOrNewCommunites.map(data=>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<ListCommunities>
+										{data.communityName}
+									</ListCommunities>
+									 
+								</li>
+							)}
+						</ul>
+						<ul>
 						{this.state.tempcommunities.map(data=>
 							<li style={CommunitiesListCSS} key={data.key}> 
 								{this.displayCommunityAnimation(data)}
 							 </li>
-							)}
+						)}
+						</ul>
 					</ul>
 				</Container>:<React.Fragment></React.Fragment>
 	}
@@ -259,7 +322,9 @@ class ExplorePage extends Component{
 		return(
 
 			<React.Fragment>
-						
+
+				{this.displayCommunityList()}
+				{this.displayPersonalizedPage()}				
 			</React.Fragment>
 
 
