@@ -129,7 +129,7 @@ class CoverPhoto extends Component{
 					</SocialMediaContainer>
 				</NaveBarContainer>
 
-				<img src={this.props.coverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"relative",height:"100%", width:"80%",left:"10%",top:"0%",opacity:"0"}}/>
+				<img src={this.props.coverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"relative",height:"100%", width:"100%",top:"0%",opacity:"0"}}/>
 			</Container>
 
 		)
