@@ -9,6 +9,7 @@ import Industries from "../../../../Constants/constants.js";
 import { GeneralNavBar } from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import { connect } from "react-redux";
 import { CompanyProvider } from "../CompanyContext.js";
+
 const ProfileContainer = styled.div`
 
 	position:absolute;
@@ -909,7 +910,9 @@ class LProfile extends Component{
 
 
 							<CompanyIcon>
-								<Icon />
+								<Icon 
+									sendCompanyIconToRedux={this.sendCompanyIconToRedux}
+								/>
 							</CompanyIcon>
 							<StatueContainer/>
 
@@ -925,30 +928,6 @@ class LProfile extends Component{
 							</Profile>
 
 						</FirstProfileContainer>
-
-						<div class="dropdown" style={{position:"absolute", height:"4%",width:"7%",left:"63%",top:"95%", zIndex:"2"}}>
-							    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
-							    	<span class="caret"></span>
-							    </button>
-							    <ul class="dropdown-menu">
-									{this.state.industries.map(data=>
-										 <li onClick={()=>this.handleChange(data.id)} id={data.id}><a href="#">{data.industry}</a></li>
-									)}
-							    </ul>
-	  				 </div>
-
-	  				 <div class="dropdown" style={{position:"absolute", height:"4%",width:"7%",left:"55%",top:"95%", zIndex:"2"}}>
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Order By
-							    <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu">
-							    <li><a href="#">Fashion</a></li>
-							    <li><a href="#">Health</a></li>
-							    <li><a href="#">Consulting</a></li>
-							</ul>
-	  				 </div>
-
-	  				 <PostDivider/>
 
 
 						<SecondPostContainer>

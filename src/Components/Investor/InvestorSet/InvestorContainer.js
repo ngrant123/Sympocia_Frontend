@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import backgroundimage from "../../../designs/background/tester7.png";
+import backgroundimage from "../../../designs/background/illustration_4823700.png";
 import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import Typed from "react-typed";
 import InvestorComp from "../InvestorSubset/InvestorResults/InvestorList/InvestorResults.js";

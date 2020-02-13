@@ -11,7 +11,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import GeneralPostComponent from "../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 import { CompanyConsumer } from "../CompanyContext.js";
 import { connect } from "react-redux";
-import { addEmployee } from "../../../../Actions/Redux/Actions/CompanyActions.js";
+import { addEmployee } from "../../../../Actions/Redux/Actions/CompanyEmployeesActions.js";
 
 const ProfileContainer = styled.div`
 
@@ -489,15 +489,13 @@ class ProfileComp extends Component{
 		if(this.state.Employees.length==0){
 
 			Employee ={
-
-				title:props.title,
-				bio:props.bio,
-				imgUrl:props.imgUrl,
-				name:props.name,
-				email:props.email,
-				location:props.location,
-				id:1,
-				shortbio:props.shortbio
+				employeeName:props.name,
+				employeeShortDescription:props.shortbio,
+				employeeEmail:props.email,
+				employeeLocation:props.location,
+				employeeTitle:props.title,
+				employeeBio:props.bio,
+				employeeId:0
 
 			};
 
@@ -517,15 +515,13 @@ class ProfileComp extends Component{
 
 			Employee ={
 
-				id:LastEmployeekey+1,
-				title:props.title,
-				bio:props.bio,
-				imgUrl:props.imgUrl,
-				name:props.name,
-				email:props.email,
-				location:props.location,
-				id:LastEmployeekey+1,
-				shortbio:props.shortbio
+				employeeName:props.name,
+				employeeShortDescription:props.shortbio,
+				employeeEmail:props.email,
+				employeeLocation:props.location,
+				employeeTitle:props.title,
+				employeeBio:props.bio,
+				employeeId:LastEmployeekey+1
 
 			};
 
@@ -535,10 +531,7 @@ class ProfileComp extends Component{
 
 
 			this.setState({
-
 				Employees:EmployeeContainer
-
-
 			});
 		}
 	}

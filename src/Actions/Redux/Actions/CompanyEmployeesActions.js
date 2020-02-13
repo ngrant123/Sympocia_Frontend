@@ -66,8 +66,9 @@ const updateEmployeeBio=(employeeInformation)=>{
 }
 
 
-const AddEmployee=(employeeInformation)=>{
+const addEmployee=(employeeInformation)=>{
 
+	console.log("Testing");
 	return{
 		type:'ADD_EMPLOYEE',
 		payload:employeeInformation
@@ -78,6 +79,6 @@ const AddEmployee=(employeeInformation)=>{
 module.exports={
 	updateEmployeeName,
 	updateEmployeeShortDescription,
-	AddEmployee
+	addEmployee
 
 }

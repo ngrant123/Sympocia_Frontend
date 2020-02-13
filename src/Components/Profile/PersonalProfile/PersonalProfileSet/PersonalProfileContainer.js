@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { GeneralNavBar } from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import PostsContainer from "../PersonalProfileSubset/PostSection/PostContainer.js";
 import PersonalInformation from "../PersonalProfileSubset/PersonalDetails/PersonalInformation.js";
+import ProfileStatue from "../../../../designs/background/ProfileStatue.png";
 import Typed from "react-typed";
 import {useSelector,useDispatch, connect} from 'react-redux';
 import { 
@@ -43,8 +44,27 @@ const ProfilePictureContainer=styled.div`
 	border-color:white;
 	border-width:7px;
 	border-radius:5px;
+	z-index:3;
 `;
 
+const BackgroundStatueContainer=styled.div`
+
+	position:absolute;
+	width:5%;
+	height:5%;
+	top:48%;
+	left:2%;
+	background:rgb(37, 16, 13) url(${ProfileStatue});
+    background-size: cover; /* or contain depending on what you want */
+    background-position: center center;
+    background-repeat: no-repeat;
+    text-align:center;
+    margin:auto;
+    padding:10px;
+	z-index:3;
+
+
+`;
 
 const HeaderContainer=styled.div`
 
@@ -300,6 +320,7 @@ const ChangePictureButton=styled.div`
 	padding:5px;
 	border-radius:5px;
 	color:white;
+	left:5%;
 
 
 
@@ -1013,6 +1034,9 @@ class LProfile extends Component{
 
 						</ProfilePictureContainer>
 
+						<BackgroundStatueContainer>
+
+						</BackgroundStatueContainer>
 
 						{/*
 							<NameContainer>

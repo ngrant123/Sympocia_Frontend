@@ -330,7 +330,7 @@ class AddEmployees extends Component{
 
 			document.getElementById("TitleCaptionValue").value="";
 			document.getElementById("BioValue").value="";
-			document.getElementById("employeeimagecontainer").src="";
+			document.getElementById("employeeimagefile").src="";
 			document.getElementById("EmployeeName").value="";
 			document.getElementById("EmployeeEmail").value="";
 			document.getElementById("Location").value="";
@@ -340,39 +340,37 @@ class AddEmployees extends Component{
 
 	handleNextPageButton=()=>{
 
-		if(this.state.displaySecondPage==true){
-			var titlevalue=document.getElementById("TitleCaptionValue").value;
-			var biodescription=document.getElementById("BioValue").value;
-			var imageurl=document.getElementById("employeeimagecontainer").src;
-			var Employeename=document.getElementById("EmployeeName").value;
-			var Emplpyeeemail=document.getElementById("EmployeeEmail").value;
-			var Employeelocation=document.getElementById("Location").value;
-		}
-		else{
-				if(this.state.displaySecondPage==true && this.state.justMounted==true){
+		var titlevalue;
+		var biodescription;
+		var imageurl;
+		var Employeename;
+		var Emplpyeeemail;
+		var Employeelocation;
+		if(this.state.displaySecondPage!=true){
+			if(this.state.displaySecondPage==true && this.state.justMounted==true){
 			document.getElementById("ShortDescriptionTextarea").value="";
-				this.setState(prevState=>({
-					...prevState,
-					justMounted:false
-				}))
+					this.setState(prevState=>({
+								...prevState,
+								justMounted:false
+							}))
+					}
 		}
-
-
-		}
-	
-		
-
-
 		return this.state.displaySecondPage==false?
 			<button type="button" class="btn btn-default" id="AddEmployeeButton" onClick={()=>this.setState(prevState=>({...prevState,
-				title:titlevalue,
-				bio:biodescription,
-				imgUrl:imageurl,
-				name:Employeename,
-				email:Emplpyeeemail,
-				location:Employeelocation,
+				title:document.getElementById("TitleCaptionValue").value,
+				bio:document.getElementById("BioValue").value,
+				imgUrl:document.getElementById("employeeimagefile").src,
+				name:document.getElementById("EmployeeName").value,
+				email:document.getElementById("EmployeeEmail").value,
+				location:document.getElementById("Location").value,
 				displaySecondPage:true}))}>{this.state.continueAddemployee}</button>:
 			<button type="button" class="btn btn-default" id="AddEmployeeButton" data-dismiss="modal" onClick={()=>this.handleAddEmployee()}>{this.state.continueAddemployee}</button>
+	}
+
+	toggleSecondPage=()=>{
+		this.setState({
+			displaySecondPage:true
+		})
 	}
 
 	handleDisplaySecondPage=()=>{
@@ -420,7 +418,8 @@ class AddEmployees extends Component{
 
 	}
 
-	handleAddEmployee(){
+	handleAddEmployee(props){
+		console.log(props);
 
 		var ShortDescription=document.getElementById("ShortDescriptionTextarea").value;
 		document.getElementById("ShortDescriptionTextarea").value="";
@@ -439,7 +438,7 @@ class AddEmployees extends Component{
 			document.getElementById("EmployeeName").value="";
 			document.getElementById("EmployeeEmail").value="";
 			document.getElementById("Location").value="";
-
+			console.log("Teste");
 	      	this.props.handleAddEmployee(this.state);
 
 
@@ -453,7 +452,7 @@ class AddEmployees extends Component{
 		var dataUrl=document.getElementById("employeeimagefile").files[0];
 		var reader= new FileReader();
 
-		reader.onloadend=function(){
+		reader.onloadend=()=>{
 			node.src=reader.result;
 			node.style.opacity="1";
 
@@ -476,14 +475,9 @@ class AddEmployees extends Component{
 
 	handleClick(){
 
-		document.getElementById("TitleCaptionValue").value="";
-		document.getElementById("BioValue").value="";
-		document.getElementById("employeeimagecontainer").src="";
-		document.getElementById("EmployeeName").value="";
-		document.getElementById("EmployeeEmail").value="";
-		document.getElementById("Location").value="";
-		document.getElementById("ShortDescriptionTextarea").value="";
-
+		this.setState({
+			displaySecondPage:false
+		})
 	}
 
 	handleBackButton=()=>{
@@ -505,6 +499,7 @@ class AddEmployees extends Component{
 					<AddEmployeeIcon data-toggle="modal" data-target="#myModal" onClick={()=>this.handleChildAddClick()}>+</AddEmployeeIcon>
 
 				</EmployeeTitle>
+
 				<EmployeeDescription>
 					Add new or current employees to show everyone the team that you guys have
 				</EmployeeDescription>

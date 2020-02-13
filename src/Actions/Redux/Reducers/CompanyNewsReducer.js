@@ -1,11 +1,4 @@
 const initialState=[
-	{
-
-		date:"",
-		news:"",
-		newsId:0
-
-	}
 ];
 
 
@@ -55,8 +48,8 @@ const NewsReducer=(state=initialState,action)=>{
 		case ('ADD_NEWS'):
 
 			let news=state;
-			const updateNews=news.push(payload);
-			return updateNews;
+			news.push(payload);
+			return news;
 		break;
 
 

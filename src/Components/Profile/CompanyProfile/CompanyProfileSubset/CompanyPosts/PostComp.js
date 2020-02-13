@@ -29,6 +29,20 @@ const Post = styled.div`
 	border-radius:5px;
 `;
 
+
+const PostDivider = styled.div`
+
+	position:absolute;
+	background-color:#4d5050;
+	height:1%;
+	width:90%;
+	border-radius:5px;
+	top:-5%;
+	left:3%;
+
+`;
+
+
 const Testerdata=[
 	{
 		posttype:"regularpost"
@@ -50,6 +64,7 @@ class PostComp extends Component{
 		super(props);
 
 		this.state={
+			industries:[]
 
 		}
 	}
@@ -58,20 +73,57 @@ class PostComp extends Component{
 
 		return(
 
-			<PostContainer>
-				<ul>
-					{Testerdata.map(data=>
+			<React.Fragment>
 
-						<li style={{position:"relative",listStyle:"none",marginBottom:"20px",marginTop:"20px",left:"-60px"}}>
-							<MediumPosts 
-								postdata={data.posttype}
-							/>
-						</li>
+				<ul style={{position:"absolute",width:"90%",top:"-10%"}}>
+					<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
+						<div class="dropdown" style={{height:"4%",top:"-10%",zIndex:"6"}}>
+								    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
+								    	<span class="caret"></span>
+								    </button>
+								    <ul class="dropdown-menu">
+										{this.state.industries.map(data=>
+											 <li onClick={()=>this.handleChange(data.id)} id={data.id}><a href="#">{data.industry}</a></li>
+										)}
+								    </ul>
+		  				 </div>
+		  			</li>
 
-						)}
-				</ul>
+		  			<li style={{listStyle:"none",display:"inline-block"}}>
 
-			</PostContainer>
+		  				 <div class="dropdown" style={{ height:"4%",zIndex:"2"}}>
+								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Order By
+								    <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+								    <li><a href="#">Fashion</a></li>
+								    <li><a href="#">Health</a></li>
+								    <li><a href="#">Consulting</a></li>
+								</ul>
+		  				 </div>
+
+	  				</li>
+
+	  			</ul>
+
+	  			<PostDivider/>
+
+				<PostContainer>
+					<ul>
+						{Testerdata.map(data=>
+
+							<li style={{position:"relative",listStyle:"none",marginBottom:"20px",marginTop:"20px",left:"-60px"}}>
+								<MediumPosts 
+									postdata={data.posttype}
+								/>
+							</li>
+
+							)}
+					</ul>
+
+				</PostContainer>
+
+			</React.Fragment>
 		)
 	}
 

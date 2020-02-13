@@ -4,21 +4,13 @@ Structure for the redux state for the
 
 */
 const initialState =[
-		{
-			employeeName:'',
-			employeeShortDescription:'',
-			employeeEmail:'',
-			employeeLocation:'',
-			employeeTitle:'',
-			employeeBio:'',
-			employeeId:0
-		}
+		
 	]
 
 const EmployeesReducer=(state = initialState, action)=>{
 
 		const { type, payload }=action;
-
+		console.log("Testing");
 		switch(type){
 
 			case 'UPDATE_EMPLOYEE_NAME':
@@ -99,11 +91,10 @@ const EmployeesReducer=(state = initialState, action)=>{
 
 				break;
 
-
 			case 'ADD_EMPLOYEE':
 				let employees=state;
-				const newEmployees=employees.push(payload);
-				return newEmployees;
+				employees.push(payload);
+				return employees;
 				break;
 
 

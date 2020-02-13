@@ -111,7 +111,7 @@ class PostContainer extends Component{
 							{displayItems.map(data=>
 
 								<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
-									<img  onClick={()=>this.handleVideoClick(data)} src={data.thumbnail} style={{position:"relative",backgroundColor:"red",width:"120px",height:"100px",borderRadius:"5px"}}>
+									<img  onClick={()=>this.handleVideoClick(data)} src={data.thumbnail} style={{position:"relative",backgroundColor:"red",width:"160px",height:"140px"}}>
 									</img>
 								</li>
 							)}
@@ -138,7 +138,7 @@ class PostContainer extends Component{
 							{displayItems.map(data=>
 
 								<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
-									<img  onClick={()=>this.handleImageClick(data)} src={data.imgUrl} style={{position:"relative",backgroundColor:"red",width:"120px",height:"100px",borderRadius:"5px"}}>
+									<img  onClick={()=>this.handleImageClick(data)} src={data.imgUrl} style={{position:"relative",backgroundColor:"red",width:"160px",height:"140px"}}>
 
 									</img>
 					

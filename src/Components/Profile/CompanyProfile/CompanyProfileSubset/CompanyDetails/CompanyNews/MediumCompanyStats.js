@@ -213,13 +213,14 @@ class MediumCompanyStats extends Component{
 	componentDidMount(){
 
 		/*
-
-			
-		*/
-
+	
+		
+		console.log(this.props);
 		this.setState(prevState=>({
 			Notifications:this.props.companyNews
 		}))
+
+		*/
 
 	}
 
@@ -264,13 +265,14 @@ class MediumCompanyStats extends Component{
 
 		    var Lastkey=this.state.Notifications[lengthContainer-1].key;
 			var Container=this.state.Notifications;
-			this.props.addNews(newsObject);
+			
 
 			var newsObject={
 				newsDate:datevalue,
 				news:notificationvalue,
 				key:Lastkey+1
 			}
+			this.props.addNews(newsObject);
 			Container.push(newsObject);
 
 			this.setState({
@@ -348,7 +350,6 @@ class MediumCompanyStats extends Component{
 
 
 					<ul>
-		
 							{this.state.Notifications.map(data =>
 								<li style={{display:"inline-block",marginBottom:"10px",marginLeft:"1px"}}>
 										<Notification 

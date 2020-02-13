@@ -34,7 +34,7 @@ class CompanyIcon extends Component{
 		var dataUrl=document.getElementById("imagefile").files[0];
 		var reader= new FileReader();
 
-		reader.onloadend=function(){
+		reader.onloadend=()=>{
 			node.src=reader.result;
 			node.style.opacity="1";
 			document.getElementById("container").src=reader.result;
@@ -66,9 +66,6 @@ class CompanyIcon extends Component{
 					+
 					<img src="" id="imagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"0"}}/>
 				</Container>
-				
-
-			
 				<input type="file" name="img" id="imagefile" onSubmit={()=>this.handleSubmit()} style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleSubmit()}></input>
 				
 			</div>
