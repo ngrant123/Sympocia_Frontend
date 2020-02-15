@@ -4,7 +4,17 @@ import CompanySetupPage from "../MediumSignupComp/CompanySetupPage.js";
 import PersonalSetupDisplayPage from "../MediumSignupComp/PersonalSetupDisplayPage.js";
 import Particles from 'react-particles-js';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 import Typed from "react-typed";
+
+import {
+	addName,
+	addLastName,
+	addEmail
+} from "../../../Actions/Redux/Actions/PersonalProfile.js";
+import {
+	createProfile
+} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const BodyContainer= styled.div`
 
@@ -349,7 +359,7 @@ const HeaderDescriptionCSS={
 
 
 
-const PersonalPageButton=styled.div`
+const PersonalPageButton=styled(Link)`
 	position:absolute;
 	background-color:#5298F8;
 	color:white;
@@ -462,7 +472,7 @@ class LSignupPage extends Component {
 							from your friends and people you are interested in? Click on the button below</p>
 
 
-							<PersonalPageButton onClick={()=>this.handleDisplayPersonalSetupPage()}>Click here</PersonalPageButton>
+							<PersonalPageButton to="/home" onClick={()=>this.handleDisplayPersonalSetupPage()}>Click here</PersonalPageButton>
 
 						</PersonalSectionCard>
 
@@ -491,6 +501,16 @@ class LSignupPage extends Component {
 
 
 	handleDisplayPersonalSetupPage=()=>{
+
+		this.props.addFirstName(this.props.firstName);
+		this.props.addLastName(this.props.lastName);
+		this.props.addEmail(this.props.email);
+
+		createProfile({
+			firstName:this.props.firstName,
+			lastName:this.props.lastName,
+			email:this.props.email
+		});
 
 		this.setState({
 			displayPersonalSetupPage:true,
@@ -556,9 +576,23 @@ class LSignupPage extends Component {
 
 const mapStateToProps=(state)=>{
 	return{
-		firstName:state.personalInformation.firstName
+		firstName:state.personalInformation.firstName,
+		lastName:state.personalInformation.lastName,
+		email:state.personalInformation.email
+	}
+}
+
+const mapDispatchToProps=dispatch=>{
+
+	return{
+		addFirstName:(firstName)=>dispatch(addName(firstName)),
+		addLastName:(lastName)=>dispatch(addLastName(lastName)),
+		addEmail:(email)=>dispatch(addEmail(email))
 	}
 }
 
 
-export default connect(mapStateToProps)(LSignupPage);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(LSignupPage);

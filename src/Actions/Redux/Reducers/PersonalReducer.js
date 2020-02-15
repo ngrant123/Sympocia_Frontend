@@ -7,9 +7,6 @@ const initialState={
 	lastName:'',
 	email:'',
 	signInStatus:false,
-	accountNumber:0,
-	dateOnCard:'',
-	cvv:0,
 	paymentPlan:'',
 	firstTimeIndicator:false
 }
@@ -52,27 +49,6 @@ const PersonalProfile=(state={initialState},action)=>{
 			return {
 				...state,
 				signInStatus:payload
-			}
-			break;
-
-		case 'ADD_ACCOUNT_NUMBER':
-			return{
-				...state,
-				accountNumber:payload
-			}
-			break;
-
-		case 'ADD_CARD_DATE':
-			return{
-				...state,
-				dateOnCard:payload
-			}
-			break;
-
-		case 'ADD_CVV':
-			return{
-				...state,
-				cvv:payload
 			}
 			break;
 

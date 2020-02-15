@@ -145,10 +145,10 @@ const EmployeeBioCaption = styled.div`
 
 `;
 
-
+//Could be turned into a functional component
 class SmallProfile extends Component {
 	constructor(props){
-
+		console.log("TEsting");
 		super(props);
 
 		this.state ={
@@ -183,7 +183,7 @@ class SmallProfile extends Component {
 							<Image>
 								<img src="" id={this.state.id+"imagecontainer"} style={{position:"relative",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"1"}}/>
 							</Image>
-							<Title><b>{this.state.title}</b></Title>
+							<Title><b>{this.props.title}</b></Title>
 
 			    </Profile> 
 		)

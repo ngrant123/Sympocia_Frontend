@@ -6,7 +6,9 @@ const initialState ={
 	companyLocation:'',
 	companyIcon:'',
 	companyBio:'',
-	companyCoverPhoto:''
+	companyCoverPhoto:'',
+	id:0,
+	firstTimeIndicator:true
 }
 
 
@@ -25,6 +27,21 @@ const CompanyInformationReducer=(state=initialState, action)=>{
 					...state,
 					companyName:payload
 					}
+			break;
+
+		case 'UPDATE_COMPANY_ID':
+
+			return{
+				...state,
+				id:payload
+			}
+			break;
+
+		case 'UPDATE_FIRST_TIME_USAGE':
+			return{
+				...state,
+				firstTimeIndicator:payload
+			}
 			break;
 
 		case 'UPDATE_COMPANY_INDUSTRY':
@@ -56,6 +73,13 @@ const CompanyInformationReducer=(state=initialState, action)=>{
 					companyCoverPhoto:payload
 					}
 			break;
+
+		case 'UPDATE_PAYMENT_PLAN':
+			return{
+				...state,
+				paymentPlan:payload
+			}
+		break;
 
 		default:
 			return state;

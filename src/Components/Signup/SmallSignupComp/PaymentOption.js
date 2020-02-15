@@ -1,9 +1,15 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import { addPaymentPlan } from '../../../Actions/Redux/Actions/PersonalProfile.js';
+import { addPaymentPlan } from '../../../Actions/Redux/Actions/CompanyActions.js';
 import { connect } from 'react-redux';
 import {createProfile} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {createCompanyProfile} from "../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests";
+import { Link } from "react-router-dom";
+
+import {
+	addCompanyId,
+	updatefirstTimeUsage
+} from "../../../Actions/Redux/Actions/CompanyActions.js";
 
 const Payment1 = styled.div`
 
@@ -129,10 +135,35 @@ const P1Submit = styled.div`
 
 `;
 
+const RedirectToHomePageButton = styled(Link)`
+	position:absolute;
+	background-color:#C8B0F4;
+	color:white;
+	width:50%;
+	height:10%;
+	left:20%;
+	top:80%;
+	border-radius:5px;
+	font-size:20px;
+
+	text-align:center;
+	font-family:Myriad Pro;
+	padding:10px;
+	   transition: all ease 0.8s;
 
 
 
+	&:hover{
 
+    background-color:white;
+
+    color:#C8B0F4;
+   border-style:solid;
+   border-color: #C8B0F4;
+   transition: all ease 0.8s;
+
+   }
+`;
 
 class PaymentOption extends Component {
 
@@ -149,9 +180,6 @@ class PaymentOption extends Component {
 			number: props.number,
 			description: props.description,
 			id:props.id
-
-		
-
 		};
 	}
 
@@ -169,8 +197,7 @@ class PaymentOption extends Component {
 
 	}
 
-	handleOnClick(){
-
+	handleOnClick=async()=>{
 		//Fix later 
 		document.getElementById(this.state.id+"container").style.borderStyle="solid";
 		document.getElementById(this.state.id+"container").style.borderRadius="5px";
@@ -181,25 +208,29 @@ class PaymentOption extends Component {
 		if(this.state.pricedescription=='Free'){
 			//send  data to db and move to profile page
 
-			const PersonalProfile={
-				firstName:this.props.firstName,
-				lastName:this.props.lastName,
-				email:this.props.email
-			}
-
 			const CompanyProfile={
 				companyName:this.props.companyName,
-				location:this.props.companyLocation,
-				industry:this.props.companyIndustry
+				companyLocation:this.props.companyLocation,
+				companyIndustry:this.props.companyIndustry,
+				paymentPlan:"Free"
 			}
 
 			//createProfile(PersonalProfile);
-			//createCompanyProfile(CompanyProfile);
+			const {_id}=await createCompanyProfile(CompanyProfile);
+			this.props.addCompanyId(_id);
+			this.props.updatefirstTimeUsage(true);
 
 		}
 		else
 			this.props.handleDisplayPaymentScreen();
 		
+	}
+
+	handleDisplayOrDontDisplayHomePage=()=>{
+
+		return this.state.pricedescription!="Free"?
+			<P1Submit onMouseOver= {()=> this.handleHoverIn()} onMouseOut={()=> this.handleHoverOut()} onClick={()=> this.handleOnClick()}> Choose Free </P1Submit>:
+			<RedirectToHomePageButton to="/home">Choose Free</RedirectToHomePageButton>
 	}
 
 
@@ -222,7 +253,7 @@ class PaymentOption extends Component {
 
 							</ul>
 						 </P1SecondDescription>
-						<P1Submit onMouseOver= {()=> this.handleHoverIn()} onMouseOut={()=> this.handleHoverOut()} onClick={()=> this.handleOnClick()}> Choose Free </P1Submit>
+						{this.handleDisplayOrDontDisplayHomePage()}
 
 					</Payment1>	
 		)
@@ -235,9 +266,9 @@ const mapStateToProps=(state)=>{
 		firstName:state.personalInformation.firstName,
 		lastName:state.personalInformation.lastName,
 		email:state.personalInformation.email,
-		companyName:state.personalInformation.companyName,
-		companyLocation:state.personalInformation.companyLocation,
-		companyIndustry:state.personalInformation.companyIndustry
+		companyName:state.companyInformation.companyName,
+		companyLocation:state.companyInformation.companyLocation,
+		companyIndustry:state.companyInformation.companyIndustry
 	}
 }
 
@@ -245,13 +276,15 @@ const mapStateToProps=(state)=>{
 const mapDispatchToProps=dispatch=>{
 
 	return{
-		addPaymentPlan:(paymentPlan)=>dispatch(addPaymentPlan(paymentPlan))
+		addCompanyId:(companyId)=>dispatch(addCompanyId(companyId)),
+		addPaymentPlan:(pricedescription)=>dispatch(addPaymentPlan(pricedescription)),
+		updatefirstTimeUsage:(indicator)=>dispatch(updatefirstTimeUsage(indicator))
 	}
 }
 
 
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )(PaymentOption);

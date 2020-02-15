@@ -12,6 +12,9 @@ import GeneralPostComponent from "../../../GeneralComponents/PostComponent/Large
 import { CompanyConsumer } from "../CompanyContext.js";
 import { connect } from "react-redux";
 import { addEmployee } from "../../../../Actions/Redux/Actions/CompanyEmployeesActions.js";
+import {
+		addEmployeeToCompanyDB
+	} from "../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
 
 const ProfileContainer = styled.div`
 
@@ -446,7 +449,7 @@ const EmployeeCSS = {
 class ProfileComp extends Component{
 
 	constructor(props){
-
+		console.log("Testing");
 		super(props);
 
 		this.state= {
@@ -481,59 +484,23 @@ class ProfileComp extends Component{
 	handleAddEmployee(props){
 
 		//Idea is basically for the key, if array is empty create a key but if it is not then access previous key then add one to it
-		var Employee;
-		var EmployeeContainer;
-		var Employeelength;
-		var LastEmployeekey;
 
-		if(this.state.Employees.length==0){
 
-			Employee ={
+		/*
+			FIX REDUX IMPLEMENTATION OF THIS
+		*/
+			const Employee ={
 				employeeName:props.name,
 				employeeShortDescription:props.shortbio,
 				employeeEmail:props.email,
 				employeeLocation:props.location,
 				employeeTitle:props.title,
 				employeeBio:props.bio,
-				employeeId:0
-
+				employeeImg:props.imgUrl
 			};
 
 			this.props.addEmployee(Employee);
-			EmployeeContainer=this.state.Employees;
-			EmployeeContainer.push(Employee);
-
-			this.setState({
-
-				Employees:EmployeeContainer
-
-			});
-		}
-		else{
-			Employeelength=this.state.Employees.length;
-			LastEmployeekey=this.state.Employees[Employeelength-1].id;
-
-			Employee ={
-
-				employeeName:props.name,
-				employeeShortDescription:props.shortbio,
-				employeeEmail:props.email,
-				employeeLocation:props.location,
-				employeeTitle:props.title,
-				employeeBio:props.bio,
-				employeeId:LastEmployeekey+1
-
-			};
-
-			this.props.addEmployee(Employee);
-			EmployeeContainer=this.state.Employees;
-			EmployeeContainer.push(Employee);
-
-
-			this.setState({
-				Employees:EmployeeContainer
-			});
-		}
+			addEmployeeToCompanyDB(this.props.id,Employee);
 	}
 //COMBINE THESE TWO METHODS
 
@@ -580,7 +547,7 @@ class ProfileComp extends Component{
 
 		/*
 
-			Might use redux instead of context here but just going to user both
+			Might use redux instead of context here but just going to use both
 
 		*/
 
@@ -592,7 +559,7 @@ class ProfileComp extends Component{
 
 					return <ProfileContainer>
 						  <div class="dropdown" style={{position:"absolute", height:"10%",width:"13%",left:"2%",top:"2%"}}>
-							    <button class="btn btn-primary dropdosuwn-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>{companyInformation.companyState.companyIndustry}
+							    <button class="btn btn-primary dropdosuwn-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>{companyInformation.state.industry}
 							    <span class="caret"></span></button>
 							    <ul class="dropdown-menu">
 							      <li><a href="#">Fashion</a></li>
@@ -619,18 +586,18 @@ class ProfileComp extends Component{
 										
 										handleAddEmployee={this.handleAddEmployee}
 										numberofEmployeeCompany={this.state.Employees}
+										addEmployeeToContext={companyInformation.updateEmployees}
 										key={1}
 
 									/>
 
 								</EmployeeTitle>
 
-
 								<EmployeeContainer> 
 
 									<ul style={{EmployeeCSS}}>
 
-										{this.state.Employees.map(data =>
+										{companyInformation.state.companyEmployees.map(data =>
 
 											<li style={{ display:"inline-block", marginLeft:"19px", marginBottom:"10px"}}>
 												<SmallProfile 

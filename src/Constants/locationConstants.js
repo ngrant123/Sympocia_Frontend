@@ -6,28 +6,35 @@ export default{
 			cities:[
 				{
 					city:"Brooklyn",
-					tester:"Yup"
+					state:"New York"
 				},
 				{
-					city:"Brookyln"
+					city:"Brookyln",
+					state:"New York"
 				},
 					{
-					city:"Brooklyn"
+					city:"Brooklyn",
+					state:"New York"
 				},
 				{
-					city:"Brookyln"
+					city:"Brookyln",
+					state:"New York"
 				},
 					{
-					city:"Brooklyn"
+					city:"Brooklyn",
+					state:"New York"
 				},
 				{
-					city:"Brookyln"
+					city:"Brookyln",
+					state:"New York"
 				},	
 				{
-					city:"Brooklyn"
+					city:"Brooklyn",
+					state:"New York"
 				},
 				{
-					city:"Brookyln"
+					city:"Brookyln",
+					state:"New York"
 				}
 
 

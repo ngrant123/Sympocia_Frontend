@@ -45,31 +45,6 @@ const addSignInStatus=(signInStatus)=>{
 	}
 }
 
-const addAccountNumber=(accountNumber)=>{
-
-	return{
-		type:'ADD_ACCOUNT_NUMBER',
-		payload:accountNumber
-	} 
-}
-
-const addCardDate=(accountDate)=>{
-
-	return{
-		type:'ADD_CARD_DATE',
-		payload:accountDate
-	}
-}
-
-const addCvv=(accountCvv)=>{
-
-	return{
-		type:'ADD_CVV',
-		payload:accountCvv
-	}
-}
-
-
 const addPaymentPlan=(paymentPlan)=>{
 
 	return{
@@ -94,9 +69,6 @@ module.exports={
 	addEmail,
 	addPersonalIdentificationId,
 	addSignInStatus,
-	addCardDate,
-	addAccountNumber,
-	addCvv,
 	addPaymentPlan,
 	firstTimeUsage
 }

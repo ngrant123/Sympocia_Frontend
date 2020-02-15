@@ -99,14 +99,16 @@ export function updateEmployee(userId,updatedEmployeeData){
 export function createProfile(personalData){
 	const {firstName,lastName,email,paymentPlan,stripToken}=personalData;
 
+	const personalInformation={
+		...personalData,
+		ownsABusiness:false,
+		isInvestor:false,
+		firstTimeLoggedIn:true
+	}
+	console.log(personalData);
 
-	axios.post(`${CreateUrl}/createProfile`,{
-		firstName:firstName,
-		lastName:lastName,
-		email:email,
-		stripToken:stripToken,
-		paymentPlan:paymentPlan
-	}).then(profile=>{
+	axios.post(`${CreateUrl}/createProfile`,personalInformation).then(profile=>{
+		console.log(profile);
 		return profile;
 	}).catch(err=>{
 		return err.message;

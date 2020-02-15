@@ -359,7 +359,7 @@ class AddEmployees extends Component{
 			<button type="button" class="btn btn-default" id="AddEmployeeButton" onClick={()=>this.setState(prevState=>({...prevState,
 				title:document.getElementById("TitleCaptionValue").value,
 				bio:document.getElementById("BioValue").value,
-				imgUrl:document.getElementById("employeeimagefile").src,
+				imgUrl:document.getElementById("employeeimagecontainer").src,
 				name:document.getElementById("EmployeeName").value,
 				email:document.getElementById("EmployeeEmail").value,
 				location:document.getElementById("Location").value,
@@ -440,6 +440,7 @@ class AddEmployees extends Component{
 			document.getElementById("Location").value="";
 			console.log("Teste");
 	      	this.props.handleAddEmployee(this.state);
+	      	this.props.addEmployeeToContext(this.state);
 
 
 		}.bind(this));

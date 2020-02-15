@@ -9,6 +9,9 @@ import Industries from "../../../../Constants/constants.js";
 import { GeneralNavBar } from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import { connect } from "react-redux";
 import { CompanyProvider } from "../CompanyContext.js";
+import {
+	getCompanyInformation
+} from "../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 
 const ProfileContainer = styled.div`
 
@@ -663,46 +666,85 @@ class LProfile extends Component{
 			location:"",
 			date:"",
 			update:0,
-			industries:[],
+			industry:"",
 			displaySmallProfilesAndNews:false,
-			companyState:{},
-			companyEmployees:[]
+			locationState:"",
+			locationCity:"",
+			companyEmployees:[],
+			id:"",
+			news:[],
+			owner:false,
+			coverPhoto:""
 
 		}
 		this.displaytoplevelemployeeprofile=this.displaytoplevelemployeeprofile.bind(this);
 		this.displaytoplevelnewsprofile=this.displaytoplevelnewsprofile.bind(this);
 	}
 
-	componentDidMount(){
+	async componentDidMount(){
 
 		let industries=Industries.INDUSTRIES;
 		/*
-
 			Here see if the user is logged in user redux
 			then if they are access the information using redux then bubble it down using context
 
 			If not make an api call and toggle the user as logged in
-
 		*/
+
+		/*
+			Id will be passed in as a prop then depending on if the 
+			id matches the id in the redux store shows what kind of things will be edited and what
+			the viewer can see or not (set is owner to true or false)
+		*/
+
+
 
 		this.setState(prevState=>({
 			...prevState,
 			industries:industries,
 			companyState:this.props.companyInformation,
-			companyEmployees:this.props.companyEmployees
+			companyEmployees:this.props.companyEmployees,
+			owner:true
 		}))
-	
+
+		const {
+			name,
+			companyIconPicture,
+			companyCoverPhoto,
+			employees,
+			locationState,
+			locationCity,
+			industry,
+			bio,
+			companyCreationDate,
+			news,
+			_id }=await getCompanyInformation('5e45eed4377126074a257398'); //All depends on that id using that one as an example
+
+			this.setState({
+				bio:bio,
+				imgUrl:companyIconPicture,
+				email:"",
+				name:name,
+				location:locationState,
+				locationCity:locationCity,
+				industry:industry,
+				companyEmployees:employees,
+				news:news,
+				coverPhoto:companyCoverPhoto,
+				id:_id
+			})
+		
+
+
 		window.addEventListener('scroll',this.ScrollFunction);
 	}
 
 	handleEditButton(){
 
-		
 		document.getElementById("SaveButtonID").style.opacity=1;
 		document.getElementById("SaveButtonID").style.pointerEvents="auto";
 		document.getElementById("CancelButtonID").style.opacity=1;
 		document.getElementById("CancelButtonID").style.pointerEvents="auto";
-
 		document.getElementById("Title").style.pointerEvents="auto";
 		document.getElementById("Bio").style.pointerEvents="auto";
 
@@ -718,6 +760,7 @@ class LProfile extends Component{
 			document.getElementById("NewsCancelButtonID").style.opacity=0;
 			document.getElementById("NewsCancelButtonID").style.pointerEvents="none";
 		
+
 	}
 
 	handleExitButtonSmallProfile(){
@@ -848,7 +891,16 @@ class LProfile extends Component{
 
 		return(
 
-			<CompanyProvider value={this.state}>
+			<CompanyProvider value={{
+				state:this.state,
+				updateEmployees:(employeeInformation)=>{
+					const employees=this.state.companyEmployees;
+					employees.push(employeeInformation);
+					this.setState({
+						companyEmployees:employees
+					})
+
+				}}}>
 				<ProfileContainer>
 
 					<NavContainer> 
@@ -924,6 +976,7 @@ class LProfile extends Component{
 								<CompanyDetailsNewsPostContainer 
 									displaytoplevelemployeeprofile={this.displaytoplevelemployeeprofile}
 									displaytoplevelnewsprofile={this.displaytoplevelnewsprofile}
+									id={this.state.id}
 								 />
 							</Profile>
 
@@ -954,7 +1007,8 @@ const mapStateToProps=(state)=>{
 
 	return{
 		companyInformation:state.companyInformation,
-		companyEmployees:state.companyEmployeeInformation
+		companyEmployees:state.companyEmployeeInformation,
+		_id:state.companyInformation.id
 	}
 }
 

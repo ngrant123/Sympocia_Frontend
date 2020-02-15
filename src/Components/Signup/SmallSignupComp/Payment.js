@@ -1,15 +1,14 @@
 import React, {Component} from "react"
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import {createProfile}from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {
+		createCompanyProfile
+	}  from "../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
 import {connect} from 'react-redux';
-import {  
-		  addCardDate,
-		  addAccountNumber,
-		  addCvv,
-		  addPersonalIdentificationId,
-		  firstTimeUsage
-		} from '../../../Actions/Redux/Actions/PersonalProfile.js';
+import {
+	addCompanyId,
+	updatefirstTimeUsage
+} from "../../../Actions/Redux/Actions/CompanyActions.js";
 
 
 const Container= styled.div`
@@ -288,31 +287,29 @@ class Payment extends Component {
 		this.state = {
 
 			paymentdetails1:'Step 1: Enter you Account Number and Account Date',
+			accountNumber:0,
+			accountDate:"",
 			displayFirstCardPage:true,
 			counter:1
 		}
 	}
 
 
-		handleSendDataToDatabase=()=>{
-
+		handleSendDataToDatabase=async()=>{
 			const accountCvv=document.getElementById('accountCvv').value;
-			this.props.addCvv(accountCvv);
-			this.props.firstTime(true);
 
-			
 			const personalData={
-				firstName:this.props.firstName,
-				lastName:this.props.lastName,
-				email:this.props.email,
-				accountNumber:this.props.accountNumber,
-				accountDate:this.props.dateOnCard,
-				accountCvv:this.props.cvv,
-				firstTime:this.props.firstTime
-			} 
-
-			const {_id}=createProfile(personalData);
-			this.props.addPersonalIdentificationId(_id);
+				companyName:this.props.companyName,
+				companyIndustry:this.props.companyIndustry,
+				companyLocation:this.props.companyLocation,
+				paymentPlan:this.props.paymentPlan,
+				firstTime:true
+			}
+			
+			console.log("Testing request");
+			const {_id}=await createCompanyProfile(personalData);
+			this.props.addCompanyId(_id);
+			this.props.updatefirstTimeUsage(true);
 
 			///Implement strip api on frontend
 			//console.log(createProfile(personalData));
@@ -320,14 +317,12 @@ class Payment extends Component {
 
 		handleFirstPageContinueClick=()=>{
 
-
-			const accountNumber=document.getElementById('accountNumber').value;
-			const accountDate=document.getElementById('accountDate').value;
-
-			this.props.addAccountNumber(accountNumber);
-			this.props.addCardDate(accountDate);
+			const accountNumber=document.getElementById("accountNumber").value;
+			const accountDate=document.getElementById("accountDate").value;
 
 			this.setState({
+				accountNumber:accountNumber,
+				accountDate:accountDate,
 				displayFirstCardPage:false
 			})
 		}
@@ -337,8 +332,6 @@ class Payment extends Component {
 				displayFirstCardPage:true
 			})
 		}
-
-
 
 		handleDisplayFirstOrSecondCardPage=()=>{
 
@@ -376,7 +369,7 @@ class Payment extends Component {
 						<CVVBackBar id="accountCvv" placeholder="CVV"></CVVBackBar>
 					</BackBankcontainer>
 
-					<NextPageLink to="/profile" onClick={()=>this.handleSendDataToDatabase()}>
+					<NextPageLink to='/home' onClick={()=>this.handleSendDataToDatabase()}>
 								Submit
 					</NextPageLink>
 
@@ -384,11 +377,7 @@ class Payment extends Component {
 						Back
 					</BackButton>
 				</React.Fragment>
-
 		}
-
-
-
 	render(){
 		return(
 
@@ -401,25 +390,19 @@ class Payment extends Component {
 
 
 const mapStateToProps=(state)=>{
-
 	return {
-		firstName:state.personalInformation.firstName,
-		lastName:state.personalInformation.lastName,
-		email:state.personalInformation.email,
-		accountNumber:state.personalInformation.accountNumber,
-		accountDate:state.personalInformation.dateOnCard,
-		accountCvv:state.personalInformation.cvv
+		companyName:state.companyInformation.companyName,
+		companyLocation:state.companyInformation.companyLocation,
+		companyIndustry:state.companyInformation.companyIndustry,
+		paymentPlan:state.companyInformation.paymentPlan
 	}
 }
 
 const mapDispatchToProps =(dispatch)=>{
 
 	return{
-		addCardDate: (cardDate)=> dispatch(addCardDate(cardDate)),
-		addAccountNumber:(accountNumber)=>dispatch(addAccountNumber(accountNumber)),
-		addCvv:(cvv)=>dispatch(addCvv(cvv)),
-		addPersonalIdentificationId:(userId)=>dispatch(addPersonalIdentificationId(userId)),
-		firstTimeUsage:(firstTime)=>dispatch(firstTimeUsage(firstTime))
+			addCompanyId:(companyId)=>dispatch(addCompanyId(companyId)),
+			updatefirstTimeUsage:(indicator)=>dispatch(updatefirstTimeUsage(indicator))
 	}
 }
 

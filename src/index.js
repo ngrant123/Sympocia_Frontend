@@ -13,16 +13,26 @@ import MapScreen from "./Components/Map/LargeMapComp/LargeMapContainer.js";
 import allReducers from './Actions/Redux/Reducers';
 import { Provider } from 'react-redux';
 import { createStore,compose } from 'redux';
+import {loadState,saveState} from './reduxState';
+import throttle from 'lodash.throttle';
 
 //Starting point for the web application
 const enhancers = compose(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );
 
+//load previous data into store
+
+const previousState=loadState();
 const store=createStore(
 	allReducers,
+	previousState,
 	enhancers
 );
+
+store.subscribe(throttle(() => {
+  saveState(store.getState());
+}, 1000));
 
 const application  = (
 
@@ -33,10 +43,7 @@ const application  = (
 	//Use exact path when you have similar paths because the computer actually connects to the first path
 
 				<Route exact path="/" component= {Landing}/>
-				<Route path="/signup" render= {(props) => (
-					<Signup value = {"This is a tester"}/>
-					)
-				}/>
+				<Route path="/signup" component={Signup}/>
 				<Route path="/home" component= {HomeScreen}/>
 				<Route path="/companyProfile" component = {CompanyProfileScreen} />
 				<Route path="/profile" component={PersonalProfileScreen}/>

@@ -51,6 +51,30 @@ const addCompanyCoverPhoto=(companyCoverPhoto)=>{
 	}
 }
 
+const addCompanyId=(companyId)=>{
+
+	return{
+		type:'UPDATE_COMPANY_ID',
+		payload:companyId
+	}
+}
+
+const updatefirstTimeUsage=(indicator)=>{
+	return{
+		type:'UPDATE_FIRST_TIME_USAGE',
+		payload:indicator
+	}
+}
+
+const addPaymentPlan=(paymentPlan)=>{
+
+	return{
+		type:'UPDATE_PAYMENT_PLAN',
+		payload:paymentPlan
+	}
+
+}
+
 
 module.exports={
 	addCompanyName,
@@ -58,6 +82,8 @@ module.exports={
 	addCompanyLocation,
 	addCompanyBio,
 	addCompanyIcon,
-	addCompanyCoverPhoto
-
+	addCompanyCoverPhoto,
+	addCompanyId,
+	updatefirstTimeUsage,
+	addPaymentPlan
 }
