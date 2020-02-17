@@ -900,6 +900,13 @@ class LProfile extends Component{
 						companyEmployees:employees
 					})
 
+				},
+				updateNews:(newsInformation)=>{
+					const news=this.state.news;
+					news.push(newsInformation);
+					this.setState({
+						news:news
+					})
 				}}}>
 				<ProfileContainer>
 

@@ -59,6 +59,7 @@ const Caption = styled.div`
 
 `;
 
+//Could be a functional component
 
 class Notification extends Component{
 
@@ -78,7 +79,7 @@ class Notification extends Component{
 
 	}
 
-		handleDivEnter(){
+	handleDivEnter(){
 
 		document.getElementById(this.state.key).style.borderStyle="solid";
 		document.getElementById(this.state.key).style.borderWidth="1px";
@@ -94,6 +95,7 @@ class Notification extends Component{
 
 	handleClick(){
 		this.props.displayData(this.state);
+		this.props.addNewsToContext(this.state);
 
 	}
 
