@@ -1,6 +1,6 @@
 import React,{ useState,useEffect } from "react";
 import styled from "styled-components";
-
+import ReactCardFlip from 'react-card-flip';
 
 
 const PopularVideosContainer=styled.div`
@@ -35,6 +35,8 @@ const ExplorePageCommunities=(props)=>{
 
 	*/
 	const [popularVideos,changePopularVideosData]=useState([]);
+	//TEST
+	const [indicator,changeIndicator]=useState(false);
 	useEffect(()=>{
 		changePopularVideosData(props.communityData.popularVideos);
 	},[])
@@ -42,28 +44,40 @@ const ExplorePageCommunities=(props)=>{
 
 	return(
 		<React.Fragment>
-			<ul>
-							<li style={CommunityContainerCSS}><b><p style={{fontSize:"50px",color:"white",marginBottom:"50px"}}>{props.communityData.communityName}</p></b></li>
-							<li style={CommunityContainerCSS}>
-								<p style={{marginBottom:"10px",color:"white"}}>Popular videos</p>
-							</li>
-							<li style={{listStyle:"none"}}>
-								<PopularVideosContainer>
-									<ul>
-										{popularVideos.map(data=>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-												<PopularVideos>
+			<ReactCardFlip isFlipped={indicator} flipDirection="horizontal">
+				<React.Fragment>
+					<ul>
+									<li style={CommunityContainerCSS}><b><p style={{fontSize:"50px",color:"white",marginBottom:"50px"}}>{props.communityData.communityName}</p></b></li>
+									<li style={CommunityContainerCSS}>
+										<p style={{marginBottom:"10px",color:"white"}}>Popular videos</p>
+									</li>
+									<li style={{listStyle:"none"}}>
+										<PopularVideosContainer onClick={()=>changeIndicator(true)}>
+											<ul>
+												{popularVideos.map(data=>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
+														<PopularVideos>
 
-												</PopularVideos>
-										    </li>
-										)}
-									</ul>
+														</PopularVideos>
+												    </li>
+												)}
+											</ul>
 
-								</PopularVideosContainer>
-							</li>
+										</PopularVideosContainer>
+									</li>
 
 
-			</ul>
+					</ul>
+				</React.Fragment>
+
+
+				<React.Fragment>
+				<p> Testing </p>	
+
+
+
+				</React.Fragment>
+			</ReactCardFlip>
 		</React.Fragment>
 	)
 }

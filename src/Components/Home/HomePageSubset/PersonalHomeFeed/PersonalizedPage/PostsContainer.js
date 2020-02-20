@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import { ScrollPage, Section } from 'react-scrollpage';
 import HotCategoriesContainer from "./HotCategoriesContainer";
+import ImageContainer from "../../../../../Components/GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 
 
 const ExamplePosts=styled.div`
@@ -26,8 +27,6 @@ class PostContainer extends Component{
 		/*
 			Get posts from api call
 		*/
-
-
 	}
 
 	render(){
@@ -41,12 +40,10 @@ class PostContainer extends Component{
 		return(
 			<React.Fragment>
 			 <ScrollPage {...options}>
-			 	<ul style={{listStyle:"none"}}>
+			 	<ul style={{listStyle:"none",marginTop:"10px"}}>
 			 		<li>
 			 			<Section>
-						<ExamplePosts>
-
-						</ExamplePosts>
+							<ImageContainer/>
 						</Section>
 
 					

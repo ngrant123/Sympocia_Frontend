@@ -27,7 +27,7 @@ const SearchContainer = styled.div`
 	top:20%;
 	left:30%;
 	transition: all ease 0.8s;
-  	opacity:0.9;
+  	opacity:0;
  
 `;
 
@@ -214,7 +214,7 @@ const InvestorDescriptionPage = styled.div`
 	left:70%;
 	top:30%;
 	font-size:310%;
-	color:	#fefbfa;
+	color:	#4a4a4a;
 	font-family:'Roboto', sans-serif;
 
 `;
@@ -250,6 +250,18 @@ class LInvestor extends Component{
 			displayInvestorResults:false
 		}
 	}
+
+	async componentDidMount(){
+		await this.timerFunction(1500);
+
+		document.getElementById("container").style.opacity=1;
+		document.getElementById("locationid").style.opacity=1;
+	}
+
+	timerFunction=(seconds)=>{
+		return new Promise(resolve => setTimeout(resolve, seconds));
+	}
+
 	handleNameButtonAnimation(){
 
 			var intervalposition=0;
@@ -378,7 +390,6 @@ class LInvestor extends Component{
 
 			document.getElementById("searchindustryid").style.borderRadius="none";
 			document.getElementById("searchindustryid").style.boxShadow="none";
-
 	}
 
 	HoverEffectInvestorIndustryContainer(){
@@ -430,7 +441,7 @@ class LInvestor extends Component{
 
 				</SearchContainer>
 
-					<LocationContainer id="locationid">
+				<LocationContainer id="locationid">
 						<input list="locationoptions" name="locationoptions" style={LocationStyle} placeholder="Pick an location" id="locationoptions"/>
 								<datalist id="locationoptions">
 									<option value="New York" />
@@ -440,7 +451,7 @@ class LInvestor extends Component{
 
 						<SearchLocationButton id="locationsearchbutton" onClick={()=>this.handleLocationClick()}>Search</SearchLocationButton>
 
-					</LocationContainer>
+				</LocationContainer>
 					
 					{this.displayInvestorResults()}
 
