@@ -104,7 +104,6 @@ const ImageContainer = styled.div`
 	font-size:260%;
 	left:40%;
 	top:10%;
-
 `;
 
 const TitleContainer = styled.textarea`
@@ -211,6 +210,7 @@ class MediumCompanyStats extends Component{
 			Notifications:[]
 		}
 		this.displayData=this.displayData.bind(this);
+		console.log("Test");
 
 	}
 
@@ -325,8 +325,8 @@ class MediumCompanyStats extends Component{
 									{companyInformation.state.news.map(data =>
 										<li style={{display:"inline-block",marginBottom:"10px",marginLeft:"1px"}}>
 												<Notification 
-													date={data.newsDate}
-													caption={data.news}
+													date={data.date}
+													caption={data.newsDescription}
 													id={data.key}
 													displayData={this.displayData}
 													addNewsToContext={companyInformation.updateNews}

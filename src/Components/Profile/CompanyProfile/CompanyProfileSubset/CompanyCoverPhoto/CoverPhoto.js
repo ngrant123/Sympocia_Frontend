@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SocialMedia from "./SocialMediaContainer.js";
 import { connect } from "react-redux";
 import { addCompanyCoverPhoto } from "../../../../../Actions/Redux/Actions/CompanyActions";
+import {CompanyConsumer} from "../../CompanyContext.js";
 
 
 const Container= styled.div`

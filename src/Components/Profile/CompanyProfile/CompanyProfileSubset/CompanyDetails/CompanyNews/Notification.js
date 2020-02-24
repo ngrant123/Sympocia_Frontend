@@ -75,6 +75,8 @@ class Notification extends Component{
 			key:props.id
 		};
 
+		console.log("TEs 2");
+
 	//	handleClick=handleClick.bind(this);
 
 	}

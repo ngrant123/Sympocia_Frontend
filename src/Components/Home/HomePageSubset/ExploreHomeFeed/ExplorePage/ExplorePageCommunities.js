@@ -1,6 +1,5 @@
 import React,{ useState,useEffect } from "react";
 import styled from "styled-components";
-import ReactCardFlip from 'react-card-flip';
 
 
 const PopularVideosContainer=styled.div`
@@ -44,8 +43,6 @@ const ExplorePageCommunities=(props)=>{
 
 	return(
 		<React.Fragment>
-			<ReactCardFlip isFlipped={indicator} flipDirection="horizontal">
-				<React.Fragment>
 					<ul>
 									<li style={CommunityContainerCSS}><b><p style={{fontSize:"50px",color:"white",marginBottom:"50px"}}>{props.communityData.communityName}</p></b></li>
 									<li style={CommunityContainerCSS}>
@@ -68,16 +65,6 @@ const ExplorePageCommunities=(props)=>{
 
 
 					</ul>
-				</React.Fragment>
-
-
-				<React.Fragment>
-				<p> Testing </p>	
-
-
-
-				</React.Fragment>
-			</ReactCardFlip>
 		</React.Fragment>
 	)
 }

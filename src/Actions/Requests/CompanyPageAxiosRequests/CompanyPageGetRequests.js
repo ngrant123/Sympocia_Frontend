@@ -11,7 +11,8 @@ export async function getCompanyInformation(companyId){
 			}
 		})
 		const {data}=companyData;
-		return data;
+		console.log(data.data)
+		return data.data;
 	}catch(err){
 		console.log(err.message);
 	}

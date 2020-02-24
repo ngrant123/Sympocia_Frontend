@@ -3,7 +3,6 @@ import styled from "styled-components";
 import ImageInformation from "./ImageInformation.js";
 import Comments from "./Comments.js";
 import {ImageProvider} from "./ImageContext.js";
-import ReactCardFlip from 'react-card-flip';
 
 const Container=styled.div`
 	position:relative;
