@@ -3,6 +3,8 @@ import styled from "styled-components";
 import domtoimage from 'dom-to-image';
 import { connect } from "react-redux";
 import { addCompanyIcon } from "../../../../Actions/Redux/Actions/CompanyActions";
+import {CompanyConsumer} from "../CompanyContext.js";
+import {sendCompanyIconToDB} from "../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
 
 
 
@@ -16,6 +18,7 @@ const Container=styled.div`
 	font-size:785%;
 	color:#7f7f7f;
 	text-align:center;
+	overflow:hidden;
 
 `;
 
@@ -28,8 +31,9 @@ class CompanyIcon extends Component{
 			console.log("This is getting clicked");
 		    //console.log(image.value);
 	}
-	handleSubmit(){
+	handleSubmit(companyId){
 		console.log(this.props);
+		console.log(companyId);
 		var node = document.getElementById('imagecontainer');
 		var dataUrl=document.getElementById("imagefile").files[0];
 		var reader= new FileReader();
@@ -42,6 +46,7 @@ class CompanyIcon extends Component{
 			const iconUrl=reader.result;
 			console.log(iconUrl);
 			this.props.addCompanyIcon(iconUrl);
+			sendCompanyIconToDB(companyId,iconUrl);
 		}
 
 		if(dataUrl!=null){
@@ -61,14 +66,19 @@ class CompanyIcon extends Component{
 	render(){
 
 		return(
-			<div>
-				<Container id="container" onClick={()=>this.handleCompanyClick()} src="">
-					+
-					<img src="" id="imagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"0"}}/>
-				</Container>
-				<input type="file" name="img" id="imagefile" onSubmit={()=>this.handleSubmit()} style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleSubmit()}></input>
-				
-			</div>
+			<CompanyConsumer>	
+				{companyInformation=>{
+					return <div>
+								<Container id="container" onClick={()=>this.handleCompanyClick()} src="">
+									+
+									<img src={companyInformation.state.imgUrl} id="imagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"1"}}/>
+								</Container>
+								<input type="file" name="img" id="imagefile" onSubmit={()=>this.handleSubmit()} style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleSubmit(companyInformation.state.id)}></input>
+								
+							</div>
+				}}
+
+			</CompanyConsumer>
 
 		)
 	}

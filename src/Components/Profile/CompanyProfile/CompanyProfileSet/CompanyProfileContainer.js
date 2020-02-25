@@ -706,6 +706,7 @@ class LProfile extends Component{
 			companyEmployees:this.props.companyEmployees,
 			owner:true
 		}))
+		console.log("Testeing");
 		const{
 			name,
 			companyIconPicture,
@@ -718,7 +719,7 @@ class LProfile extends Component{
 			_id,
 			news,
 			employees
-		}=await getCompanyInformation('5e4af7e0ad0afc203b25eabd'); //All depends on that id using that one as an example
+		}=await getCompanyInformation('5e5424fe92abe0050bf580cd'); //All depends on that id using that one as an example
 			
 		this.setState({
 				bio:bio,

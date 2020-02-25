@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-
+import CommentContainer from "../../../CommentsComponent/index.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -21,6 +21,7 @@ class Comments extends Component{
 
 		return (
 			<Container>
+				<CommentContainer/>
 
 
 

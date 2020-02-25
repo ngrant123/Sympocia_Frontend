@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SocialMedia from "./SocialMediaContainer.js";
 import { connect } from "react-redux";
 import { addCompanyCoverPhoto } from "../../../../../Actions/Redux/Actions/CompanyActions";
+import {sendCoverPhotoToDB} from "../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js"
 import {CompanyConsumer} from "../../CompanyContext.js";
 
 
@@ -10,6 +11,7 @@ const Container= styled.div`
 	position:absolute;
 	width:100%;
 	height:100%
+	overflow:hidden;
 
 `;
 
@@ -81,15 +83,15 @@ class CoverPhoto extends Component{
 		//
 	}
 
-	handleChangeCover(){
-
+	handleChangeCover(companyId){
+		console.log(companyId);
 
 		var node=document.getElementById("coverphotoimage");
 		var image=document.getElementById("coverphotoimagefile").files[0];
 		var reader= new FileReader();
 
 
-		reader.onloadend=function(){
+		reader.onloadend=()=>{
 
 			node.src=reader.result;
 			console.log(reader.result);
@@ -97,6 +99,7 @@ class CoverPhoto extends Component{
 
 			const coverPhotoUrl=reader.result;
 			this.props.addCompanyCoverPhoto(coverPhotoUrl);
+			sendCoverPhotoToDB(companyId,coverPhotoUrl);
 
 		}
 
@@ -118,28 +121,31 @@ class CoverPhoto extends Component{
 	render(){
 
 		return(
+			<CompanyConsumer>
+				{companyInformation=>{
+					return <Container>
+								<NaveBarContainer>
+									<UpdateCoverPhoto onClick={()=>this.handleClickButton()}>
+										+ Cover Photo
+										 <input type="file" name="img" id="coverphotoimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleChangeCover(companyInformation.state.id)}></input>
+									</UpdateCoverPhoto>
+									<SocialMediaContainer>
+										<SocialMedia/>
+									</SocialMediaContainer>
+								</NaveBarContainer>
 
-			<Container>
-				<NaveBarContainer>
-					<UpdateCoverPhoto onClick={()=>this.handleClickButton()}>
-						+ Cover Photo
-						 <input type="file" name="img" id="coverphotoimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleChangeCover()}></input>
-					</UpdateCoverPhoto>
-					<SocialMediaContainer>
-						<SocialMedia/>
-					</SocialMediaContainer>
-				</NaveBarContainer>
+								{/*
+									
+									Could prevent images of a certain size from being uploaded
+									Youtube only allows at least 2048 pixels wide and 1152 pixels tall to be uploaded
 
-				{/*
-					
-					Could prevent images of a certain size from being uploaded
-					Youtube only allows at least 2048 pixels wide and 1152 pixels tall to be uploaded
+								*/}
 
-				*/}
-
-				<img src={this.props.coverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"relative",height:"100%", width:"100%",top:"0%",opacity:"0"}}/>
-			</Container>
-
+								<img src={companyInformation.state.coverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"relative",height:"100%", width:"100%",top:"0%",opacity:"1"}}/>
+							</Container>
+					}
+				}
+			</CompanyConsumer>
 		)
 	}
 }

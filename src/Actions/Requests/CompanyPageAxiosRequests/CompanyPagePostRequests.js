@@ -100,9 +100,50 @@ export async function addNewsToDB(newsObject,companyId){
 
 		console.log(err.message);
 	}
+}
+
+
+export function sendCoverPhotoToDB(companyId,coverPhotoData){
+
+	console.log("Testing cover photo api");
+	const CreateUrl='http://localhost:4000/api/company/alter';
+	try{
+
+		axios.post(`${CreateUrl}/addCoverPhoto`,{
+			companyId:companyId,
+			imageData:coverPhotoData
+		}).then(confirmation=>{
+
+			return confirmation;
+
+		}).catch(err=>{
+			console.log(err);
+		})
+
+	}catch(err){
+		console.log(err);
+	}
+}
+
+export function sendCompanyIconToDB(companyId,imgData){
+	console.log("Testing Company icon function");
+	const CreateUrl='http://localhost:4000/api/company/alter';
+
+	try{
+		axios.post(`${CreateUrl}/addCompanyProfilePicture`,{
+			companyId:companyId,
+			imgData:imgData
+		}).then(confirmation=>{
+			return confirmation;
+		}).catch(err=>{
+			console.log(err);
+		})
 
 
 
+	}catch(err){
+		console.log(err);
+	}
 
 }
 

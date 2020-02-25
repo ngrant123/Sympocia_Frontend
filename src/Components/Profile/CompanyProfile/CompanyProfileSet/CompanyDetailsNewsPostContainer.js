@@ -11,7 +11,6 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import GeneralPostComponent from "../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 import { CompanyConsumer } from "../CompanyContext.js";
 import { connect } from "react-redux";
-import { addEmployee } from "../../../../Actions/Redux/Actions/CompanyEmployeesActions.js";
 import {
 		addEmployeeToCompanyDB
 	} from "../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
@@ -245,6 +244,7 @@ const EmployeeContainer = styled.div`
 	font-family:'Roboto', sans-serif;
 	color:#424242;
 	overflow:scroll;
+	overflow-x:hidden;
 
 
 	
@@ -441,7 +441,8 @@ const TesterData=[
 ];
 
 const EmployeeCSS = {
-	 listStyleType: 'none'
+	 listStyleType: 'none',
+	 overflowX:"hidden"
 
 }
 
@@ -465,17 +466,6 @@ class ProfileComp extends Component{
 		this.displayNotification=this.displayNotification.bind(this);
 		
 	}
-
-	componentDidMount(){
-		
-
-		this.setState(prevState=>({
-
-			...prevState,
-			mapStateToProps:this.props.employees
-		}))
-	}
-
 	handleUpdateProfile(){
 
 	}
@@ -498,8 +488,6 @@ class ProfileComp extends Component{
 				employeeBio:props.bio,
 				employeeImg:props.imgUrl
 			};
-
-			this.props.addEmployee(Employee);
 			addEmployeeToCompanyDB(this.props.id,Employee);
 	}
 //COMBINE THESE TWO METHODS
@@ -509,8 +497,6 @@ class ProfileComp extends Component{
 		//Gets state from small profile file then displays it 
 		var tempprops=props;
 		tempprops.neworemployee=1;
-
-
 		this.props.displaytoplevelemployeeprofile(tempprops);
 	}
 
@@ -655,14 +641,8 @@ const mapStateToProps=(state)=>{
 
 }
 
-const mapDispatchToProps=dispatch=>{
-
-	return{
-		addEmployee:(employeeInformation)=>dispatch(addEmployee(employeeInformation))
-	}
-}
 
 export default connect(
 		mapStateToProps,
-		mapDispatchToProps
+		null
 	)(ProfileComp);
