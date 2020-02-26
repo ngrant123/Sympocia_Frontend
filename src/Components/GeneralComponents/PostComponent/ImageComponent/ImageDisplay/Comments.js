@@ -8,6 +8,7 @@ const Container=styled.div`
 	height:82%;
 	background-color:red;
 	margin-top:13px;
+	overflow-y:scroll;
 
 `;
 

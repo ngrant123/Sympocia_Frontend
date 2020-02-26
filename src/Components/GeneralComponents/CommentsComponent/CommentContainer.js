@@ -19,6 +19,17 @@ const CommentCreationContainer=styled.div`
 	border-color:#a2a2a2;
 `;
 
+const ExtendedTextArea=styled.div`
+	position:relative;
+	width:500px;
+	height:40%;
+	background-color:white;
+	border-radius:10px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#a2a2a2;
+	margin-bottom:10px;
+`;
 
 const ProfilePicture=styled.div`
 	position:relative;
@@ -103,7 +114,8 @@ class CommentsContainer extends Component{
 			}
 			],
 			displayResponses:false,
-			keyToDisplayRespones:0
+			keyToDisplayRespones:0,
+			extendCreationAreaa:false
 		}
 	}
 	componentDidMount(){
@@ -113,15 +125,34 @@ class CommentsContainer extends Component{
 
 	extendCommentCreation=(key)=>{
 		console.log("Testing");
-		this.setState({
-			keyToDisplayRespones:key
-		},function(){
-				if(key==this.state.keyToDisplayRespones){
-				const element=document.getElementById("commentCreationContainer"+key);
-				element.style.width=400+"px";
-				element.style.height=30+"%";
+
+		if(this.state.extendCreationAreaa==false || key!=this.state.keyToDisplayRespones){
+				return <CommentCreationContainer id={"commentCreationContainer"+key} onClick={()=>this.setState({extendCreationAreaa:true})}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+									<ProfilePicture>
+
+									</ProfilePicture>
+								</li>
+
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<CommentTextArea placeholder="Enter a comment">
+
+									</CommentTextArea>
+
+								</li>
+							</ul>
+						</CommentCreationContainer>
+		}
+		else{
+
+			if(key==this.state.keyToDisplayRespones){
+
+				return <ExtendedTextArea>
+
+					   </ExtendedTextArea>;
 			}
-		})
+		}
 	}
 
 	ResponseCreationContainer=(key)=>{
@@ -129,30 +160,14 @@ class CommentsContainer extends Component{
 		return (
 			<React.Fragment>
 				<ul style={{padding:"0px",marginLeft:"10%"}}>
-					<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5px",backgroundColor:"black"}} onClick={()=>this.setState({displayResponses:true})}>
+					<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5px"}} onClick={()=>this.setState({displayResponses:true})}>
 
 						<b>View 5 replies </b>
 					</li>
 
 					<li style={{listStyle:"none",display:"inline-block"}}>
 						
-						<CommentCreationContainer id={"commentCreationContainer"+key} onClick={()=>this.extendCommentCreation(key)}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-									<ProfilePicture>
-
-									</ProfilePicture>
-
-								</li>
-
-
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<CommentTextArea placeholder="Enter a comment">
-
-									</CommentTextArea>
-								</li>
-							</ul>
-						</CommentCreationContainer>
+						{this.extendCommentCreation(key)}
 					</li>
 				</ul>
 			</React.Fragment>
@@ -180,7 +195,7 @@ class CommentsContainer extends Component{
 	render(){
 		return(
 			<React.Fragment>
-				<ul style={{padding:"0px",backgroundColor:"red"}}>
+				<ul style={{padding:"0px",backgroundColor:"white"}}>
 					{this.state.comments.map(data=>
 						<li style={{padding:"0px",listStyle:"none",marginBottom:"10px"}} key={data.key} onClick={()=>this.setState({keyToDisplayRespones:data.key})}>
 							<Comment/>	
