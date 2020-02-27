@@ -21,7 +21,7 @@ import {
 import { UserProvider } from "../UserContext.js";
 import Button from 'react-bootstrap/Button';
 import { Player } from 'video-react';
-
+import PersonalPostsIndex from "../PersonalProfileSubset/PersonalPosts/index.js";
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'
 
 const Container=styled.div`
@@ -47,38 +47,18 @@ const ProfilePictureContainer=styled.div`
 	z-index:3;
 `;
 
-const BackgroundStatueContainer=styled.div`
-
-	position:absolute;
-	width:5%;
-	height:5%;
-	top:48%;
-	left:2%;
-	background:rgb(37, 16, 13) url(${ProfileStatue});
-    background-size: cover; /* or contain depending on what you want */
-    background-position: center center;
-    background-repeat: no-repeat;
-    text-align:center;
-    margin:auto;
-    padding:10px;
-	z-index:3;
-
-
-`;
-
 const HeaderContainer=styled.div`
 
 	width:100%;
 	height:30%;
-	background-color:#f5f5fa;
+	background-color:white;
 
 `;
 
 const ProfileContainer=styled.div`
-	width:100%;
+	width:30%;
 	height:70%;
-	background-color:white;
-	box-shadow: 5px 5px 5px 5px #d5d5d5;
+	background-color:red;
 `;
 
 const PersonalProfileInformationContainer= styled.div`
@@ -89,9 +69,9 @@ const PersonalProfileInformationContainer= styled.div`
 	left:2%
 	background-color:#fbfdff;
 	border-radius:5px;
-	box-shadow: 2px 2px 2px 2px #d5d5d5;
 	transition:.8s;
 	padding:10px;
+	overflow-y:scroll;
 
 	&:hover{
 		box-shadow: 5px 5px 5px 5px #d5d5d5;
@@ -109,208 +89,6 @@ const PersonalProfileContentContainer= styled.div`
 	border-radius:5px;
 `;
 
-const ImageButtonContainer=styled.div`
-	position:absolute;
-	width:15%;
-	height:7%;
-	top:18%;
-	left:30%;
-	font-size:230%;
-	padding:10px;
-	box-shadow: 2px 2px 2px 2px #d5d5d5;
-	background-color:#3386f6;
-	text-align:center;
-	transition:.8s;
-	border-radius:5px;
-	color:white;
-
-	font-family: 'Permanent Marker', cursive;
-	font-family: 'Baloo Bhai', cursive;
-	font-family: 'Concert One', cursive;
-	font-family: 'Permanent Marker', cursive;
-	font-family: 'Fredoka One', cursive;
-
-
-
-  &::before,
-  &::after {
-    box-sizing: inherit;
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-
-  &::before,
-  &::after {
-    top: 0;
-    left: 0;
-  }
-
-  &::before {
-    border: 2px solid transparent; // We're animating border-color again
-  }
-
-  &:hover::before {
-    border-color: #3386f6;
-    border-radius:5px;
-
-    transition:
-      border-top-color 0.15s linear, // Stagger border appearances
-      border-right-color 0.15s linear 0.10s,
-      border-bottom-color 0.15s linear 0.20s;
-      border-left-color 0.15s linear 0.20s;
-  }
-
-  &::after {
-    border: 0 solid transparent;
-  }
-
-  &:hover::after {
-    border-top: 2px solid $border-color; // Shows border
-    border-left-width: 2px; // Solid edges, invisible borders
-    border-right-width: 2px; // Solid edges, invisible borders
-
-    transition:
-      transform 0.4s linear 0s,
-      border-left-width 0s linear 0.35s; // Solid edge post-rotation
-  }
-`;
-
-const VideoButtonContainer=styled.div`
-	position:absolute;
-	width:15%;
-	height:7%;
-	top:18%;
-	font-size:230%;
-	padding:10px;
-	box-shadow: 2px 2px 2px 2px #d5d5d5;
-	left:53%;
-	background-color:white;
-	text-align:center;
-	border-radius:5px;
-	color:#5298F8;
-	transition:.8s;
-
-	font-family: 'Concert One', cursive;
-	font-family: 'Permanent Marker', cursive;
-	font-family: 'Fredoka One', cursive;
-
-
-
-  &::before,
-  &::after {
-    box-sizing: inherit;
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-
-  &::before,
-  &::after {
-    top: 0;
-    left: 0;
-  }
-
-  &::before {
-    border: 2px solid transparent; // We're animating border-color again
-  }
-
-  &:hover::before {
-    border-color:#af9ad5;
-    border-radius:5px;
-
-    transition:
-      border-top-color 0.15s linear, // Stagger border appearances
-      border-right-color 0.15s linear 0.10s,
-      border-bottom-color 0.15s linear 0.20s;
-      border-left-color 0.15s linear 0.20s;
-  }
-
-  &::after {
-    border: 0 solid transparent;
-  }
-
-  &:hover::after {
-    border-top: 2px solid $border-color; // Shows border
-    border-left-width: 2px; // Solid edges, invisible borders
-    border-right-width: 2px; // Solid edges, invisible borders
-
-    transition:
-      transform 0.4s linear 0s,
-      border-left-width 0s linear 0.35s; // Solid edge post-rotation
-  }
-
-
-`;
-
-const BlogsButtonContainer=styled.div`
-
-	position:absolute;
-	width:15%;
-	height:7%;
-	top:18%;
-	font-size:230%;
-	padding:10px;
-	box-shadow: 2px 2px 2px 2px #d5d5d5;
-	left:76%;
-	background-color:white;
-	text-align:center;
-	border-radius:5px;
-	color:#5298F8;
-	font-family: 'Concert One', cursive;
-	font-family: 'Permanent Marker', cursive;
-	font-family: 'Fredoka One', cursive;
-	transition:.8s;
-
-
-  &::before,
-  &::after {
-    box-sizing: inherit;
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-
-  &::before,
-  &::after {
-    top: 0;
-    left: 0;
-  }
-
-  &::before {
-    border: 2px solid transparent; // We're animating border-color again
-  }
-
-  &:hover::before {
-    border-color:#189318;
-    border-radius:5px;
-
-    transition:
-      border-top-color 0.15s linear, // Stagger border appearances
-      border-right-color 0.15s linear 0.10s,
-      border-bottom-color 0.15s linear 0.20s;
-      border-left-color 0.15s linear 0.20s;
-  }
-
-  &::after {
-    border: 0 solid transparent;
-  }
-
-  &:hover::after {
-    border-top: 2px solid $border-color; // Shows border
-    border-left-width: 2px; // Solid edges, invisible borders
-    border-right-width: 2px; // Solid edges, invisible borders
-
-    transition:
-      transform 0.4s linear 0s,
-      border-left-width 0s linear 0.35s; // Solid edge post-rotation
-  }
-
-
-`;
 
 
 const ChangePictureButton=styled.div`	
@@ -325,111 +103,6 @@ const ChangePictureButton=styled.div`
 
 
 `;
-
-const NameContainer=styled.div`
-	position:absolute;
-	top:45%;
-	font-size:120%;
-	left:3%;
-	width:25%;
-	height:22%;
-`;
-
-const ChangeBioButton=styled.div`
-	position:relative;
-	background-color:white;
-	width:80%;
-	height:20%;
-	left:5%;
-	border-radius:5px;
-	border-style:solid;
-	border-color:#0649a4;
-	border-width:1px;
-	text-align:center;
-	transition:.8s;
-	box-shadow: 1px 1px 1px 1px #d5d5d5;
-
-	color:#5298F8;
-	&:hover{
-		background-color:white;
-		box-shadow: 2px 2px 2px 2px #d5d5d5;
-	}
-
-`;
-
-const AddInterestedIndustryButton=styled.div`
-	position:absolute;
-	background-color:white;
-	width:40%;
-	height:30%;
-	top:35%;
-	left:40%;
-	border-radius:5px;
-	border-style:solid;
-	border-width:1px;
-	border-color:	#0649a4;
-	transition:.8s;
-	text-align:center;
-	color:#5298F8;
-	box-shadow: 1px 1px 1px 1px #d5d5d5;
-
-	&:hover{
-		background-color:white;
-		box-shadow: 2px 2px 2px 2px #d5d5d5;
-	}
-`;
-
-const RecentlyAddedVideoButton=styled.div`
-	position:absolute;
-	width:6%;
-	height:3%;
-	top:20%;
-	font-size:80%;
-	background-color:#92f200;
-	box-shadow: 2px 2px 2px 2px #d5d5d5;
-	left:69%;
-	text-align:center;
-	border-radius:5px;
-	color:white;
-
-
-`;
-
-
-const RecentlyAddedImagesButton=styled.div`
-	position:absolute;
-	width:6%;
-	height:3%;
-	top:20%;
-	font-size:80%;
-	box-shadow: 2px 2px 2px 2px #d5d5d5;
-	left:46%;
-	background-color:#92f200;
-	text-align:center;
-	border-radius:5px;
-	color:white;
-	text-align:center;
-
-
-`;
-
-const RecentlyAddBlogsButton=styled.div`
-
-	position:absolute;
-	width:6%;
-	height:3%;
-	top:20%;
-	font-size:80%;
-	box-shadow: 2px 2px 2px 2px #d5d5d5;
-	left:92%;
-	background-color:#92f200;
-	text-align:center;
-	border-radius:5px;
-	color:white;
-	text-align:center;	
-
-`;
-
 
 const BackgroundModalContainer= styled.div`
 	position:absolute;
@@ -499,33 +172,16 @@ const Video=styled.div`
 	margin-bottom:50px;
 `;
 
+const PostInformationContainer=styled.div`
+	position:absolute;
+	background-color:white;
+	width:60%;
+	height:83%;
+	left:33%;
+	z-index:4;
+	top:15%;
 
-/*
-const LProfile = (props) => {
-
- const [vantaEffect, setVantaEffect] = useState(0)
-  const myRef = useRef(null)
-  useEffect(() => {
-    if (!vantaEffect) {
-      setVantaEffect(BIRDS({
-        el: myRef.current
-      }))
-    }
-    return () => {
-      if (vantaEffect) vantaEffect.destroy()
-    }
-  }, [vantaEffect])
-
-  return (	
-
-	  	<div  style={{position:'absolute', width:'100%', height:'100%'}}ref={myRef}>
-	    Foreground content goes here
-	  	</div>
-
-  )
-}
-
-*/
+`;
 
 const ImageListCSS={
 	display:"inline-block",
@@ -992,39 +648,6 @@ class LProfile extends Component{
 
 					<ProfileContainer>
 
-						<ImageButtonContainer id="imageButton" onClick={()=>this.displayImages()}>
-							 Images
-							<p style={{fontSize:"30%"}}>Check out the images that you have here </p>
-						</ImageButtonContainer>
-
-						<RecentlyAddedImagesButton>
-							Recently Added
-						</RecentlyAddedImagesButton>
-
-
-						<VideoButtonContainer id="videoButton" onClick={()=>this.displayVideos()}>
-							Videos
-							<br/>
-							<p style={{fontSize:"30%"}}>See how many people's seem your videos below :) </p>
-						</VideoButtonContainer>
-
-						<RecentlyAddedVideoButton>
-							Recently Added
-						</RecentlyAddedVideoButton>
-
-
-						<BlogsButtonContainer id="blogsButton" onClick={()=>this.displayBlogs()}>
-							Blogs
-							<br/>
-							<p style={{fontSize:"30%"}}>See how many people's seem your videos below :) </p>
-
-						</BlogsButtonContainer>
-
-						<RecentlyAddBlogsButton>
-							Recently Added
-						</RecentlyAddBlogsButton>
-
-
 						<ProfilePictureContainer>
 							<img id="profilePicture" src="" style={{position:"absolute",width:"100%",height:"100%"}}></img>
 							<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} onChange={()=>this.changeProfilePicture()}></input>
@@ -1034,40 +657,15 @@ class LProfile extends Component{
 
 						</ProfilePictureContainer>
 
-						<BackgroundStatueContainer>
-
-						</BackgroundStatueContainer>
-
-						{/*
-							<NameContainer>
-								<ChangeBioButton>
-									Edit Bio
-								</ChangeBioButton>
-
-
-							</NameContainer>
-						*/}
-						
-
 						<PersonalProfileInformationContainer>
-
 							<PersonalInformation/>
-
 						</PersonalProfileInformationContainer>
-
-						<PersonalProfileContentContainer>
-
-							<PostsContainer
-								handleImageModal={this.handleImageModal}
-								handleVideoModal={this.handleVideoModal}
-								handleBlogsModal={this.handleBlogsModal}
-							/>
-
-						</PersonalProfileContentContainer>
-
 					</ProfileContainer>
-					
 
+					<PostInformationContainer>
+						<PersonalPostsIndex/>
+					</PostInformationContainer>
+ 
 				</Container>
 
 		</UserProvider>
