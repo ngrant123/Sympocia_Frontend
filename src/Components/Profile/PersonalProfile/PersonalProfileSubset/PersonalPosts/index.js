@@ -327,14 +327,12 @@ const PersonalPostsIndex=()=>{
 
 					{
 						displayBlogs==true?
-						<Container3>
-						</Container3>:<React.Fragment></React.Fragment>
+						<BlogsPosts/>:<React.Fragment></React.Fragment>
 					}
 
 					{
 						displayRegularPosts==true?
-						<Container4>
-						</Container4>:<React.Fragment></React.Fragment>
+						<RegularPost/>:<React.Fragment></React.Fragment>
 					}
 			</ul>
 

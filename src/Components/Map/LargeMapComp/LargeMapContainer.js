@@ -15,6 +15,8 @@ import {
 
 	} from 'react-leaflet';
 
+	import ReactMapGL from 'react-map-gl';
+
 
 const Container = styled.div`
 
@@ -87,6 +89,8 @@ const testtest= {
 	}
 }
 
+const MAPBOX_TOKEN ="pk.eyJ1IjoibmdyYW50MTIzIiwiYSI6ImNrNzZzcjV3NTAwaGYza3BqbHZjNXJhZDkifQ.DsFpgYjX7ZUtOe7cFmylhQ"
+
 
 class LargeMapContainer extends Component {
 
@@ -94,6 +98,7 @@ class LargeMapContainer extends Component {
 
 		super(props);
 
+		/*
 		  this.state = {
 		    lat: -73.97732549999999,
 		    lng:40.7527743,
@@ -102,6 +107,16 @@ class LargeMapContainer extends Component {
 			showShadowBackground:false,
 			companiesLocation:[]
   		  }
+  		  */
+  		  this.state = {
+		    viewport: {
+		      width: 400,
+		      height: 400,
+		      latitude: 37.7577,
+		      longitude: -122.4376,
+		      zoom: 8
+		    }
+		  };
 
 	}
 
@@ -191,6 +206,14 @@ class LargeMapContainer extends Component {
 					/>
 
 				</NavBar>
+				 <ReactMapGL
+					        {...this.state.viewport}
+					        onViewportChange={(viewport) => this.setState({viewport})}
+					        mapboxApiAccessToken={MAPBOX_TOKEN}
+					      />
+					
+
+			{/*
 
 				<Map center={position} zoom={this.state.zoom} style={{position:"absolute",height:"900px",width:"107%",zIndex:"1"}}>
 			        <TileLayer
@@ -218,35 +241,9 @@ class LargeMapContainer extends Component {
 			        </ul>
       			</Map>
 
-      			<SearchContainer>
-      				<form style={{position:"absolute",top:"10%",left:"15%",width:"90%",height:"80%"}}>
 
-      					<label style={{fontSize:"150%",marginRight:"10px",color:"#5298F8"}}> Enter the industry you want to search:  <span style={{fontSize:"60%"}}> ( Optional ) </span></label>
-      					<input type="text" id="IndustrySearchValue" placeholder="Text1" style={{marginBottom:"10px",width:"70%",height:"12%"}} />
 
-      					<br/>
-      					<hr style={{position:"fixed",left:"0%",width:"40%"}}/>
-      					<br/>
-      					<label style={{fontSize:"150%",marginRight:"10px",color:"#5298F8"}}>Enter the area: <span style={{fontSize:"60%"}}> ( Optional ) </span></label>
-      					<br/>
-      					<input type="text" id="AreaSearchValue" placeholder="" style={{marginBottom:"10px",width:"70%",height:"12%"}}/>
-      					<br/>
-      					<hr style={{position:"fixed",left:"0%",width:"40%"}}/>
-      					<br/>
-      					<label style={{fontSize:"150%",marginRight:"10px",color:"#5298F8"}}> Search by Name: <span style={{fontSize:"60%"}}> ( Optional ) </span></label>
-      					<br/>
-      					<input type="text" id="NameSearchValue" placeholder="Text1" style={{marginBottom:"10px",width:"70%",height:"12%"}}/>
-      					<br/>
-
-      					<input type="submit" placeholder="Submit"
-      						 style={{position:"absolute",left:"5%",width:"60%",height:"12%",borderRadius:"5px",
-      								backgroundColor:"#5298F8",color:"white"}} 
-      						onClick={()=>this.handleSumbit()}
-      					/>
-      				</form>
-
-      			</SearchContainer>
-
+			*/}
 			</Container>
 		)
 	}

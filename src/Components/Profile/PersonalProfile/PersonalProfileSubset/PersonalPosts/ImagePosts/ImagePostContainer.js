@@ -85,15 +85,13 @@ class ImagePostsContainer extends Component{
 											</li>
 
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"24%"}}>
-												Shares
+												Comments
 											</li>
 
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",color:"#C8B0F4"}}>
 												Dec 23, 1996
 											</li>
 										</ul>
-
-
 									</li>
 
 								</ul>
