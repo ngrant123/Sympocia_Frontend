@@ -58,20 +58,18 @@ const HeaderContainer=styled.div`
 const ProfileContainer=styled.div`
 	width:30%;
 	height:70%;
-	background-color:red;
+	background-color:white;
 `;
 
 const PersonalProfileInformationContainer= styled.div`
 	position:absolute;
-	top:53%;
+	top:50%;
 	width:25%;
-	height:45%;
 	left:2%
 	background-color:#fbfdff;
 	border-radius:5px;
 	transition:.8s;
 	padding:10px;
-	overflow-y:scroll;
 
 	&:hover{
 		box-shadow: 5px 5px 5px 5px #d5d5d5;

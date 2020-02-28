@@ -7,7 +7,7 @@ const Container=styled.div`
 `;
 
 
-class BlogsPostsContainer extends Component{
+class RegularPostsContainer extends Component{
 
 
 	render(){
@@ -22,4 +22,4 @@ class BlogsPostsContainer extends Component{
 	}
 }
 
-export default BlogsPostsContainer;
+export default RegularPostsContainer;
