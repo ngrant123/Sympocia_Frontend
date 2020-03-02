@@ -47,7 +47,7 @@ const IndustryContainer=styled.div`
 	position:relative;
 	background-color:white;
 	width:150px;
-	height:130%;
+	height:35%;
 	border-radius:5px;
 	border-style:solid;
 	border-widht:2px;

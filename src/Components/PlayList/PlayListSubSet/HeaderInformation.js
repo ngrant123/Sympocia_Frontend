@@ -99,7 +99,7 @@ class HeaderInformation extends Component{
 					<li style={{listStyle:"none",marginLeft:"40%",marginBottom:"10px"}}>
 						<CurrentPlayListName>
 
-							Testing this shit out lets get it baby
+							Testing this out lets get it baby
 						</CurrentPlayListName>
 
 					</li>

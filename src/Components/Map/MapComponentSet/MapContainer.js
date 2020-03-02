@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
-
+import SearchComponent from "../MapComponentSubSet/SearchComponent.js";
 import { 
 		credientialMapSearch,
 		UserLocation
@@ -85,7 +85,7 @@ const testtest= {
 const MAPBOX_TOKEN ="pk.eyJ1IjoibmdyYW50MTIzIiwiYSI6ImNrNzZzcjV3NTAwaGYza3BqbHZjNXJhZDkifQ.DsFpgYjX7ZUtOe7cFmylhQ"
 
 
-class LargeMapContainer extends Component {
+class MapContainer extends Component {
 
 	constructor(props){
 
@@ -109,8 +109,6 @@ class LargeMapContainer extends Component {
 		      longitude: -122.4376,
 		      zoom: 8
 		    },
-		    industries:[{},{},{},{},{}],
-		    addedOption:[{},{}],
 		    lat: -73.97732549999999,
 		    lng:40.7527743,
 		    testlat:0,
@@ -217,87 +215,11 @@ class LargeMapContainer extends Component {
 					onClick={(e)=>this.handleClickOnMap(e)}
 				/>
 
-
-				<SearchContainer>
-      				<ul style={{padding:"0px"}}>
-      					<li style={{listStyle:"none"}}> 
-      						Meet new people
-      					</li>
-      					<li style={{listStyle:"none"}}>
-      						Industries
-      					</li>
-
-      					{this.state.industries.map(data=>
-      						<li style={{listStyle:"none",display:"inline-block"}}>
-      							Testing
-      						</li>
-
-      					)}
-
-      					{this.state.addedOption.map(data=>
-      						<li style={{listStyle:"none",display:"inline-block"}}>
-      							Testing
-      						</li>
-      					)}
-
-      					<li>
-      						<ul style={{padding:"0px"}}>
-      							<li>
-      								Testing
-
-      							</li>
-
-      							<li>
-      								Testing 
-
-      							</li>
-
-
-      						</ul>
-      					</li>
-
-      					<li>
-	      					<ul style={{padding:"0px"}}>
-	      							<li>
-	      								Testing
-
-	      							</li>
-
-	      							<li>
-	      								Testing 
-
-	      							</li>
-      						</ul>
-
-      					</li>
-
-      					<li>
-
-      						<ul style={{padding:"0px"}}>
-      							<li>
-      								Testing
-
-      							</li>
-
-      							<li>
-      								Testing 
-
-      							</li>
-
-
-      						</ul>
-
-      					</li>
-
-
-
-      				</ul>
-
-      			</SearchContainer>
+      			<SearchComponent/>
 
 			</Container>
 		)
 	}
 }
 
-export default LargeMapContainer;
+export default MapContainer;

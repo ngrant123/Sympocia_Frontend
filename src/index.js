@@ -9,7 +9,7 @@ import PersonalProfileScreen from "./Components/Profile/PersonalProfile/Personal
 import {BrowserRouter as Router, Route , Switch} from 'react-router-dom';
 import InvestorScreen from "./Components/Investor/InvestorSet/InvestorContainer.js";
 import HomeScreen from "./Components/Home/HomePageSet/HomePageContainer.js";
-import MapScreen from "./Components/Map/LargeMapComp/LargeMapContainer.js";
+import MapScreen from "./Components/Map/MapComponentSet/MapContainer.js";
 import PlayList from "./Components/PlayList/PlayListSet/PlayListContainer.js";
 import allReducers from './Actions/Redux/Reducers';
 import { Provider } from 'react-redux';

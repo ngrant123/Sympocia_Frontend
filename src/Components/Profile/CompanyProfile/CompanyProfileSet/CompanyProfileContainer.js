@@ -719,7 +719,7 @@ class LProfile extends Component{
 			_id,
 			news,
 			employees
-		}=await getCompanyInformation('5e5424fe92abe0050bf580cd'); //All depends on that id using that one as an example
+		}=await getCompanyInformation('5e57fc333e20486b54b15416'); //All depends on that id using that one as an example
 			
 		this.setState({
 				bio:bio,
