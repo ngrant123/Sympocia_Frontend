@@ -1,10 +1,10 @@
-import React, { Component} from "react";
+import React, {useState,Component} from "react";
 import styled from 'styled-components';
-import { ScrollPage, Section } from 'react-scrollpage';
 import {BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import  FirstSection from '../LandingFirstSection';
 import  SecondSection  from '../LandingSecondSection';
 import ThirdSection from '../LandingThirdSection';
+import ReactPageScroller from "react-page-scroller";
 
 const Container = styled.div`
    position: absolute;
@@ -20,32 +20,52 @@ const Container = styled.div`
 
 const LLanding=()=>{
 
-   const options = {
-      curPage: 1,           // inital page number, most 1
-      totalPage: 3,         // totoal page number
-      delay: 1200           // delay between two scoll animation
+
+    const [options,changeOptions]=useState({
+      customPageNumber:0,
+      pageOnChange:0,
+      blockScrollUp:false
+    })
+
+    const preventScrollAnimation=()=>{
+      const options={
+        customPageNumber:0,
+        pageOnChange:0,
+        blockScrollUp:true,
+        blockScrollDown:true
+      }
+
+      changeOptions(options);
     }
+
+    const enableScrollAnimation=()=>{
+
+      const options={
+        customPageNumber:0,
+        pageOnChange:0,
+        blockScrollUp:false,
+        blockScrollDown:false
+
+      }
+
+      changeOptions(options)
+    }
+    //Could use context but theres not really any point for this its too heavy
+
     return(
 
-        <ScrollPage {...options}>
-        <Container>
-
-           <Section>
-              <FirstSection/>
-           </Section>
-
-            <Section>
-              <SecondSection/>
-            </Section>
-
-            <Section>
-              <ThirdSection/>
-
-            </Section>
+        <ReactPageScroller
+          {...options}
+        >
+                <FirstSection/>
+                <SecondSection
+                  preventScroll={preventScrollAnimation}
+                  enableScroll={enableScrollAnimation}
+                />
+                <ThirdSection/>
 
 
-        </Container>
-      </ScrollPage> 
+      </ReactPageScroller>
       )
 
 }

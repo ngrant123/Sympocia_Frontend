@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import LandingPageScrollDiv from '../../GeneralComponents/LandingPageComponent/LandingScrollPageIndicator';
 import { useDispatch,useSelector } from 'react-redux';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import {
 	addName,
@@ -26,47 +27,15 @@ import  {
         SubmitButton,
         ActualSubmitButton,
         FloatDivScrollDownContainer,
-        CompanyHeader
+        CompanyHeader,
+        CreateAccountTitle,
+        JoinFamily,
+        TermsOfAgreement,
+        ArrowDownContainer
         } from "./LandingFirstSectionCSS";
 
 
 
-const CreatAccountTitleCSS={
-
-	position:"relative",
-	top:"-60%",
-	fontSize:"95%",
-	width:"160%",
-	height:"20%",
-	color:"black",
-	left:"-35%"
-
-
-}
-
-const JoinFamilyTitleCSS={
-
-	position:"relative",
-	top:"-60%",
-	fontSize:"170%",
-	width:"120%",
-	height:"20%",
-	color:"black",
-	left:"-10%"
-
-}
-
-const TermsOfAgreementsCSS={
-
-	color:"black",
-	position:"relative",
-	height:"30%",
-	width:"170%",
-	top:"92%",
-	left:"-40%",
-	fontSize:"10px"
-
-}
 
 const handleClearTextAreaClick=(divId)=>{
 	document.getElementById(divId).placeholder="";
@@ -86,10 +55,11 @@ const handleLoginClick=()=>{
 }
 
 
-const FirstSection=()=>{
+const FirstSection=(props)=>{
 	
 	const dispatch=useDispatch();
 	const state=useSelector(state=>state);
+	console.log(props);
 
 	const handleSignupClick=()=>{
 
@@ -104,9 +74,6 @@ const FirstSection=()=>{
 		document.getElementById('ActualSubmitButton').click();
 	
 	}
-
-
-
 
 	return(
 
@@ -127,19 +94,19 @@ const FirstSection=()=>{
 
                   <IntroMain>
 
-                    Built For Startups
+                    Built For Everyone
                   </IntroMain>
 
                   <IntroSec>
-                    The first social media platform made for startups to help
-                    them excel and reach their true potential
+                    The first social entertainment platform made for people who are tired
+                    of their data being used and being pushed an agenda
                   </IntroSec>
 
               		<SignInformation>
 
-              				<p style={JoinFamilyTitleCSS}>Join the family</p>
+              				<JoinFamily>Join the family</JoinFamily>
 
-              				<p style={CreatAccountTitleCSS}>Create an account within minutes</p>
+              				<CreateAccountTitle>Create an account within minutes</CreateAccountTitle>
 
                         	<NameInput id="Name" placeholder="Firstname" onClick={() => handleClearTextAreaClick("Name")} onChange={e =>inspectLetterTyedName(e.target.value)}></NameInput>
 
@@ -158,11 +125,11 @@ const FirstSection=()=>{
                           <SubmitButton onClick ={() => handleSignupClick()}> Sign Up  </SubmitButton>
                           <ActualSubmitButton id="ActualSubmitButton" to="/signup"> Sign Up  </ActualSubmitButton>
 
-						<p style={TermsOfAgreementsCSS}>
+						<TermsOfAgreement>
 							 By clicking Sign Up, you agree to our Terms, Data Policy and Cookies Policy.
 							 We dont use your data or sell it without letting you know first.
 
-						</p>
+						</TermsOfAgreement>
 
                   	</SignInformation>
 
@@ -173,6 +140,12 @@ const FirstSection=()=>{
                   		and joining a family
 
                   	</FloatDivScrollDownContainer>
+
+                  	<ArrowDownContainer>
+	                  	<ExpandMoreIcon
+	                  		style={{color:"#C8B0F4",fontSize:170,zIndex:6}}
+	                  	/>
+	                  </ArrowDownContainer>
               </FirstContainer>
 	)
 }

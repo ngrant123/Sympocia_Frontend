@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import img2 from '../../../designs/background/ThirdSectionBackground.png';
 import LandingPageScrollDiv from '../../GeneralComponents/LandingPageComponent/LandingScrollPageIndicator';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Typed from "react-typed";
 
 
@@ -136,6 +137,10 @@ const ThirdSection=()=>{
 
                 	
                 </InformationBubble3>
+
+                 <ExpandLessIcon
+                  		style={{position:"absolute",left:"45%",top:"80%",color:"#C8B0F4",fontSize:200,zIndex:6}}
+                  	/>
 
 
 				{/*

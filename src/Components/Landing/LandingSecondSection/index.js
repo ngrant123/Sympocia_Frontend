@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import LandingPageScrollDiv from '../../GeneralComponents/LandingPageComponent/LandingScrollPageIndicator';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
   import {
 
           SecondContainer,
@@ -15,6 +17,7 @@ import LandingPageScrollDiv from '../../GeneralComponents/LandingPageComponent/L
           SecondPageStatue
 
         } from "./LandingSecondSectionCSS";
+import INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
 
 
 const LandingPageScrollBar= styled.div`
@@ -38,9 +41,9 @@ const IndustryDivContainer=styled.div`
 	top:60%;
 	left:5%; 
 	padding:20px;
-	overflow:hidden;
+	overflow-y:scroll;
 	border-radius:5px;
-	 box-shadow: 5px 5px 5px 5px #888888;
+	box-shadow: 5px 5px 5px 5px #888888;
 `;
 
 const IndustryContainer=styled.div`
@@ -82,8 +85,15 @@ const arrayList=[
 ]
 
 
-const SecondSection=()=>{
+const SecondSection=(props)=>{
 
+	const disableScroll=()=>{
+		props.preventScroll();
+	}
+
+	const enableScroll=()=>{
+		props.enableScroll()
+	}
 	return (
 		     <SecondContainer>
                     <SecondPageStatue></SecondPageStatue>
@@ -107,17 +117,17 @@ const SecondSection=()=>{
                           <br/>
 
                           <p>
-                          	<b>Meet people in industry such as:</b>
+                          	<b>Meet people in industries such as:</b>
 
                           </p>
 
-                          <IndustryDivContainer>
+                          <IndustryDivContainer onMouseEnter={()=>disableScroll()} onMouseLeave={()=>enableScroll()}>
 
                           	<ul>
-                          		{arrayList.map(data=>
+                          		{INDUSTRIES.INDUSTRIES.map(data=>
                           			<li style={{display:"inline-block",listStyle:"none",marginLeft:"10px",marginBottom:"40px"}}>
 
-                          				<IndustryContainer>Testing</IndustryContainer>
+                          				<IndustryContainer>{data.industry}</IndustryContainer>
                           			</li>
                           		)}
                  
@@ -128,7 +138,9 @@ const SecondSection=()=>{
 
                     </SecondPageDescrip>    
 
-
+                    <ExpandMoreIcon
+                  		style={{position:"absolute",left:"45%",top:"80%",color:"#C8B0F4",fontSize:200,zIndex:6}}
+                  	/>
                     {/*
                     <LandingPageScrollBar>
 
@@ -137,6 +149,7 @@ const SecondSection=()=>{
                     	/>
 
                     </LandingPageScrollBar>
+
                     */
                     } 
 

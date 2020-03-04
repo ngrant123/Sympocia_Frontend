@@ -12,12 +12,19 @@ export const SignInformation = styled.div`
   right:5%;
   padding: 8%;
   height:50%;
+  width:30%;
   top: 23%;
   font-size: 1.5em;
   text-align: center;
-  color: palevioletred;
   border-radius:10px;
   box-shadow: 5px 5px 5px 5px #888888;
+
+
+  @media screen and (max-width:1024px) {background-color:white;width:60%;left:20%;top:40%;height:50%}
+  @media screen and (max-width:400px) {background-color:white;width:80%;left:10%;top:40%;height:40%}
+  @media screen and (max-width:400px) {background-color:white;width:80%;left:10%;top:40%;height:50%}
+  @media screen and (max-width:420px) {background-color:white;width:80%;left:10%;top:40%;height:45%}
+
 `;
 
 export const Container = styled.div`
@@ -30,6 +37,7 @@ export const Container = styled.div`
    display:block;
 
    textarea::-webkit-input-placeholder {  color:#DBDADC;}
+
 `;
 
 
@@ -71,6 +79,9 @@ export const FirstStatue = styled.div`
   text-align:center;
   margin:auto;
   padding:0;
+
+  //Ipad resolution
+  @media screen and (max-width:1024px) {width:100%;left:0%}
 
 
 `;
@@ -173,6 +184,9 @@ export const NameInput = styled.textarea`
   justify-content: center;
   border-radius:10px;
 
+
+  @media screen and (max-width:330px) {height:40px}
+
 `;
 
 
@@ -191,6 +205,8 @@ export const LastInput = styled.textarea`
   top:43%;
   border-radius:10px;
 
+  @media screen and (max-width:330px) {height:40px}
+
 `;
 
 
@@ -207,8 +223,10 @@ export const EmailInput = styled.textarea`
   left:20%;
   top:60%;
   border-radius:10px;
+  margin-bottom:5px;
   overflow:hidden
 
+  @media screen and (max-width:330px) {height:40px}
 
 
 `;
@@ -216,7 +234,6 @@ export const IntroMain = styled.div`
 
   background-color:#292730;
   position:absolute;
-  height:10%;
   left:11%;
   top:50%;
   width:33%;
@@ -236,6 +253,8 @@ export const IntroMain = styled.div`
   justify-content: center;
   border-radius:10px;
 
+@media screen and (max-width:1045px) {font-size:30px}
+@media screen and (max-width:1024px) {display:none}
 
 
 `;
@@ -245,12 +264,11 @@ export const IntroSec = styled.div`
   background-color:#292730;
   top:65%;
   left:16%;
-  height:10%;
   width:25%;
   text-align:center;
 
   color:white;
-  padding:3em;
+  padding:5px;
   border-style:solid;
   border-color:whtie;
   font-size:20px;
@@ -261,6 +279,9 @@ export const IntroSec = styled.div`
   align-items: center;
   justify-content: center;
   border-radius:5px;
+
+
+@media screen and (max-width:1024px) {display:none}
 
 
 `;
@@ -294,6 +315,11 @@ export const IntroSec = styled.div`
 
    }
 
+  @media screen and (max-width:400px) {top:78%}
+  @media screen and (max-width:330px) {top:79%;font-size:10px}
+  @media screen and (max-width:414px) {top:77%;}
+
+
  `;
 
   export const ActualSubmitButton = styled(Link)`
@@ -324,6 +350,10 @@ export const IntroSec = styled.div`
 
    }
 
+
+  @media screen and (max-width:400px) {top:78%} 
+  @media screen and (max-width:400px) {top:79%;font-size:10px}
+  @media screen and (max-width:414px) {top:77%;}
  `;
 
 
@@ -339,6 +369,13 @@ export const IntroSec = styled.div`
   padding:40px;
   border-radius:5px;
   box-shadow: 5px 10px 7px 5px #888888;
+
+
+  @media screen and (max-width:1024px) {display:none}
+  @media screen and (max-width:1160px) {font-size:10px}
+
+   @media screen and (max-height:630px) {font-size:10px}
+   @media screen and (max-height:400px) {display:none}
 `;
 
 
@@ -352,6 +389,97 @@ export const CompanyHeader = styled.div`
   z-index:2;
   font-size:130px;
   color:#C8B0F4;
+
+  @media screen and (max-width:1024px) {font-size:90px;top:2%;left:25%}
+  @media screen and (max-width:414px) {font-size:60px;left:12%}
+  @media screen and (max-width:400px) {font-size:60px;left:10%}
+
+`;
+
+
+export const CreateAccountTitle=styled.div`
+  position:relative;
+  top:-60%;
+  font-size:95%;
+  width:160%;
+  height:20%;
+  color:black
+  left:-35%;
+
+  @media screen and (max-width:1375px) {top:-45%}
+  @media screen and (max-width:1024px) {top:-27%;font-size:20px}
+  @media screen and (max-width:600px) {font-size:15px;top:-15%}
+  @media screen and (max-width:430px) {top:-11%;font-size:15px}
+
+   @media screen and (max-height:730px) {font-size:20px;top:-70%}
+   @media screen and (max-height:630px) {font-size:15px;top:-80%}
+
+   @media screen and (max-height:400px) {display:none}
+
+`;
+
+export const JoinFamily=styled.div`
+
+  position:relative;
+  top:-60%;
+  font-size:170%;
+  width:120%;
+  height:20%;
+  color:black;
+  left:-10%;
+
+  @media screen and (max-width:1375px) {font-size:30px;top:-50%}
+  @media screen and (max-width:1155px) {font-size:20px}
+  @media screen and (max-width:1024px) {top:-30%;font-size:30px}
+  @media screen and (max-width:730px) {font-size:20px;top:-20%}
+  @media screen and (max-width:600px) {font-size:20px;top:-15%}
+  @media screen and (max-width:414px) {top:-10%;font-size:30px}
+  @media screen and (max-width:400px) {top:-9%;font-size:20px}
+
+
+  @media screen and (max-height:730px) {font-size:20px;top:-70%}
+  @media screen and (max-height:630px) {font-size:15px;top:-90%}
+
+   @media screen and (max-height:400px) {display:none}
+`;
+
+export const TermsOfAgreement=styled.div`
+
+  color:black;
+  position:relative;
+  height:30%;
+  width:170%;
+  top:92%;
+  left:-40%;
+  font-size:10px;
+
+
+  @media screen and (max-width:1375px) {top:80%;font-size:10px}
+  @media screen and (max-width:1024px) {left:10%;width:75%;top:70 %;font-size:10px}
+  @media screen and (max-width:900px) {display:none}
+  @media screen and (max-width:400px) {left:5%;width:90%;top:60%;font-size:7px}
+  @media screen and (max-width:414px) {left:5%;width:90%;top:60%;font-size:7px}
+  @media screen and (max-width:330px) {left:2%;width:100%;top:60%;font-size:6px}
+
+
+   @media screen and (max-height:630px) {font-size:10px;top:110%}
+
+   @media screen and (max-height:400px) {display:none}
+
+`;
+
+
+
+export const ArrowDownContainer=styled.div`
+  position:absolute;
+  left:45%;
+  top:80%;
+
+
+  @media screen and (max-width:1024px) {left:12%;width:75%;top:85%}
+  @media screen and (max-width:400px) {left:5%;width:90%;top:80%;font-size:7px}
+
+
 
 `;
 

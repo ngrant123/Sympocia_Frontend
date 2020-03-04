@@ -6,7 +6,7 @@ import CompanyNameBackground from "../../../designs/img/CompanyName.png"
 import PaymentOptionsScreen from "../MediumSignupComp/PaymentOptionsScreen.js";
 import CompanyTypeBackground from "../../../designs/img/CompanyType.png";
 import STATES from "../../../Constants/locationConstants.js";
-import INDUSTRIES from "../../../Constants/industryConstants.js";
+import INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
 import { connect } from "react-redux";
 import { 
 			addCompanyName,
