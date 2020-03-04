@@ -411,10 +411,8 @@ export const CreateAccountTitle=styled.div`
   @media screen and (max-width:600px) {font-size:15px;top:-15%}
   @media screen and (max-width:430px) {top:-11%;font-size:15px}
 
-   @media screen and (max-height:730px) {font-size:20px;top:-70%}
-   @media screen and (max-height:630px) {font-size:15px;top:-80%}
 
-   @media screen and (max-height:400px) {display:none}
+  @media screen and (max-height:420px) {display:none}
 
 `;
 
@@ -436,11 +434,7 @@ export const JoinFamily=styled.div`
   @media screen and (max-width:414px) {top:-10%;font-size:30px}
   @media screen and (max-width:400px) {top:-9%;font-size:20px}
 
-
-  @media screen and (max-height:730px) {font-size:20px;top:-70%}
-  @media screen and (max-height:630px) {font-size:15px;top:-90%}
-
-   @media screen and (max-height:400px) {display:none}
+   @media screen and (max-height:420px) {display:none}
 `;
 
 export const TermsOfAgreement=styled.div`
