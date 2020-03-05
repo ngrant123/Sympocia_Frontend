@@ -186,8 +186,11 @@ export const NameInput = styled.textarea`
 
 
   @media screen and (max-width:330px) {height:40px}
+  @media screen and (max-height:530px) {top:10%}
+  @media screen and (max-height:414px) {height:35px} 
+  @media screen and (max-height:325px) {height:30px}
 
-`;
+`;  
 
 
 export const LastInput = styled.textarea`
@@ -198,7 +201,7 @@ export const LastInput = styled.textarea`
   height:50px;
   font-size:15px;
   background-color:#4D4C4D;
-
+  margin-bottom:5%;
   color:white;
   resize:none;
   left:20%;
@@ -206,6 +209,10 @@ export const LastInput = styled.textarea`
   border-radius:10px;
 
   @media screen and (max-width:330px) {height:40px}
+  @media screen and (max-height:570px) {top:45%}
+  @media screen and (max-height:530px) {top:30%}
+  @media screen and (max-height:414px) {height:35px}
+  @media screen and (max-height:325px) {height:30px}
 
 `;
 
@@ -227,6 +234,10 @@ export const EmailInput = styled.textarea`
   overflow:hidden
 
   @media screen and (max-width:330px) {height:40px}
+  @media screen and (max-height:570px) {top:65%}
+  @media screen and (max-height:530px) {top:50%}
+  @media screen and (max-height:414px) {height:35px}
+
 
 
 `;
@@ -318,6 +329,8 @@ export const IntroSec = styled.div`
   @media screen and (max-width:400px) {top:78%}
   @media screen and (max-width:330px) {top:79%;font-size:10px}
   @media screen and (max-width:414px) {top:77%;}
+  @media screen and (max-height:570px) {top:85%}
+  @media screen and (max-height:530px) {top:75%;height:20%}
 
 
  `;
@@ -354,6 +367,8 @@ export const IntroSec = styled.div`
   @media screen and (max-width:400px) {top:78%} 
   @media screen and (max-width:400px) {top:79%;font-size:10px}
   @media screen and (max-width:414px) {top:77%;}
+  @media screen and (max-height:570px) {top:85%}
+  @media screen and (max-height:530px) {top:75%;height:20%}
  `;
 
 
@@ -393,6 +408,7 @@ export const CompanyHeader = styled.div`
   @media screen and (max-width:1024px) {font-size:90px;top:2%;left:25%}
   @media screen and (max-width:414px) {font-size:60px;left:12%}
   @media screen and (max-width:400px) {font-size:60px;left:10%}
+  @media screen and (max-height:325px) {left:15%}
 
 `;
 
@@ -413,6 +429,7 @@ export const CreateAccountTitle=styled.div`
 
 
   @media screen and (max-height:420px) {display:none}
+    @media screen and (max-height:680px) {display:none}
 
 `;
 
@@ -434,7 +451,8 @@ export const JoinFamily=styled.div`
   @media screen and (max-width:414px) {top:-10%;font-size:30px}
   @media screen and (max-width:400px) {top:-9%;font-size:20px}
 
-   @media screen and (max-height:420px) {display:none}
+  @media screen and (max-height:420px) {display:none}
+  @media screen and (max-height:680px) {display:none}
 `;
 
 export const TermsOfAgreement=styled.div`
@@ -459,6 +477,8 @@ export const TermsOfAgreement=styled.div`
    @media screen and (max-height:630px) {font-size:10px;top:110%}
 
    @media screen and (max-height:400px) {display:none}
+   @media screen and (max-height:680px) {display:none}
+   @media screen and (max-height:930px) {top:110%}
 
 `;
 

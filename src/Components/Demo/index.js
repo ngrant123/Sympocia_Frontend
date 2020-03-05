@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import ImageContainer from "../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
+import RegularPostContainer from "../GeneralComponents/PostComponent/RegularPostComponent/RegularPostContainer.js";
 import CommentsContainer from "../GeneralComponents/CommentsComponent/index.js";
 
 const CommentsContainerTesting=styled.div`
@@ -27,13 +28,13 @@ const DemoContainer=()=>{
 			</li>
 
 			<li style={CSS}>
+				<RegularPostContainer/>
+				
+			</li>
+			<li style={CSS}>
 				<CommentsContainerTesting>
 					<CommentsContainer/>
 				</CommentsContainerTesting>
-			</li>
-
-			<li style={CSS}>
-				
 			</li>
 
 

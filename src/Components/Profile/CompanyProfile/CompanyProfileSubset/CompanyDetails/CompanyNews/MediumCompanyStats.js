@@ -333,12 +333,9 @@ class MediumCompanyStats extends Component{
 												/>	
 											</li>
 									)}
-								
 							</ul>
 
 						</NewsContainer>
-
-
 					</Container>
 					}
 				}
