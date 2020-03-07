@@ -12,7 +12,6 @@ const Container=styled.div`
 	z-index:3;
 	border-radius:5px;
 	padding:5px;
-	box-shadow: 1px 1px 20px #888888;
 `;
 
 const Image=styled.div`

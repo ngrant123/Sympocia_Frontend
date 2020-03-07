@@ -1,8 +1,10 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import ImageContainer from "../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
-import RegularPostContainer from "../GeneralComponents/PostComponent/RegularPostComponent/RegularPostContainer.js";
+import RegularPostContainer from "../GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
 import CommentsContainer from "../GeneralComponents/CommentsComponent/index.js";
+import BlogPostContainer from "../GeneralComponents/PostComponent/BlogComponent/BlogPostDisplay/BlogPostContainer.js";
+import VideoPostContainer from "../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
 
 const CommentsContainerTesting=styled.div`
 	position:absolute;
@@ -31,17 +33,23 @@ const DemoContainer=()=>{
 				<RegularPostContainer/>
 				
 			</li>
+		{/*
 			<li style={CSS}>
 				<CommentsContainerTesting>
 					<CommentsContainer/>
 				</CommentsContainerTesting>
 			</li>
-
-
+		*/}
+			
 			<li style={CSS}>
+				<BlogPostContainer/>
 				
 			</li>
 
+			<li style={CSS}>
+				<VideoPostContainer/>
+				
+			</li>
 
 
 

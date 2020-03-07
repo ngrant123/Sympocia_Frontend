@@ -1,7 +1,8 @@
 import React,{useState,useEffect,Component} from "react";
 import styled from "styled-components";
-import CommentsContainer from "../../../GeneralComponents/CommentsComponent/index.js";
-import 
+import CommentsContainer from "../../../../GeneralComponents/CommentsComponent/index.js";
+import PosterInformation from "./PosterInformation.js";
+import PostContent from "./PostInformation.js";
 
 
 const Container=styled.div`
@@ -12,7 +13,6 @@ const Container=styled.div`
 	z-index:3;
 	border-radius:5px;
 	padding:5px;
-	box-shadow: 1px 1px 20px #888888;
 `;
 
 const PostInformationContainer=styled.div`
@@ -24,7 +24,7 @@ const PostInformationContainer=styled.div`
 
 const PostContentAndCommentsButtons=styled.div`
 	position:relative;
-	height:90%;
+	height:80%;
 	width:800;
 	background-color:blue;
 
@@ -36,6 +36,7 @@ const CommentsContainerDiv=styled.div`
 	width:35%;
 	height:90%;
 	top:0%;
+	left:60%;
 	background-color:blue;
 	border-radius:5px;
 	overflow-y:scroll;
@@ -115,7 +116,6 @@ const RegularPostContainer=()=>{
 
 		if(displayCommentsAndResponses==true){
 			const postContainer=document.getElementById("postContentContainer");
-			postContainer.style.width="400px";
 
 			return <CommentsContainerDiv>
 						<CommentsContainer/>
@@ -125,84 +125,32 @@ const RegularPostContainer=()=>{
 		}
 	}
 
+	const DisplayCommentsState=()=>{
+		changeDisplayCommentsAndResponses(true);
+	}
+	const HideComments=()=>{
+		changeDisplayCommentsAndResponses(false);
+	}
+
 	return(
 		<Container>
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-					<PostInformationContainer>
-						<ul style={{position:"absolute",listStyle:"none"}}>
-							<li style={{listStyle:"none"}}>
-
-								<PostProfilePicture>
-
-								</PostProfilePicture>
-							</li>
-
-							<li style={{listStyle:"none"}}>
-
-								<NameContainer>
-									
-									Nathan Grant
-								</NameContainer>
-							</li>
-
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										Testing 
-									</li>
-
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										Tesitng
-
-									</li>
-
-
-								</ul>
-
-							</li>
-
-							<li style={{listStyle:"none",left:"20%",marginBottom:"2%"}}>
-
-								<IndustryButton>
-									Engineering
-
-								</IndustryButton>
-							</li>
-
-
-							<li style={{listStyle:"none",left:"20%"}}>
-
-								<IndustryButton>
-									Stamp
-
-								</IndustryButton>
-							</li>
-
-							<li style={{listStyle:"none",left:"20%"}}>
-
-								<DateContainer>
-									Posted 2 days ago
-
-								</DateContainer>
-							</li>
-
-						</ul>
-
-					</PostInformationContainer>
+					<PosterInformation/>
 
 				</li>
 
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-					<PostContentAndCommentsButtons id="postContentContainer">
-
-					</PostContentAndCommentsButtons>
-				</li>
-
-				<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-						{DisplayCommentsAndResponses()}
+					<PostContent
+						displayComments={DisplayCommentsState}	
+						hideComments={HideComments}
+					/>
 				</li>
 			</ul>
+
+			{DisplayCommentsAndResponses()}
+
+
 
 
 		</Container>
