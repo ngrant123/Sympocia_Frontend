@@ -50,8 +50,8 @@ const PeopleWhoLikedPostContainer=styled.div`
 const SmallProfilePicture=styled.div`
 	position:relative;
 	background-color:black;
-	width:40px;
-	height:80%;
+	width:50px;
+	height:75%;
 	border-radius:50%;
 `;
 

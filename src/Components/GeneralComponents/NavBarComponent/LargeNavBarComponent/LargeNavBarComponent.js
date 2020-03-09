@@ -379,11 +379,12 @@ const MapAndHomeInvestorLink = styled(Link)`
 `;
 
 const Container=styled.div`
-	position:absolute;
+	position:fixed;
 	width:100%;
-	height:8%;
+	height:12%;
 	border-radius:0px 0px 5px 5px;
 	z-index:6;
+	background-color:white;
 
 
 `;
@@ -487,9 +488,52 @@ export function GeneralNavBar(pageProps){
 			<SearchButton placeholder="Search for anyone nigga"/>
 
 			<ul style={{position:"fixed",left:"39%",top:"7%"}}>
-				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>Primary</Button> </li>
-				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>Primary</Button> </li>
-				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>Primary</Button> </li>
+				<li style={ButtonsListCSS}>
+					<Button variant="primary" style={{backgroundColor:"#5298F8"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								Testing
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								ME
+							</li>
+
+						</ul>
+					</Button>
+				</li>
+
+
+				{
+					/*
+						Do something special with the creation Button
+						
+					*/
+				}
+				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#C8B0F4"}}>
+					<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									Testing
+								</li>
+
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									Create
+								</li>
+
+							</ul>
+					</Button></li>
+				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>
+					<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								Testing
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								Explore
+							</li>
+
+						</ul>
+				</Button></li>
 			</ul>
 
 		

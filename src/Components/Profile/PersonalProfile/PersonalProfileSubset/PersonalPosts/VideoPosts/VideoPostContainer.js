@@ -1,5 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
+import SmallVideoContainer from "./SmallVideos.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -43,7 +44,6 @@ const SmallVideo=styled.div`
 	background-color:red;
 	border-radius:5px;
 `;
-
 
 
 class VideoPostsContainer extends Component{
@@ -126,41 +126,7 @@ class VideoPostsContainer extends Component{
 						<ul style={{padding:"0px"}}>
 							{this.state.videos.map(data=>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"5%"}}>
-									<SmallVideoComponent>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none"}}>
-												<SmallVideo/>
-											</li>
-
-											<li style={{listStyle:"none",fontSize:"15px"}}>
-												<b> Title of small video  Title of small video  </b>
-											</li>
-
-											<li style={{listStyle:"none"}}>
-												Nathan Grant
-											</li>
-
-											<li style={{listStyle:"none"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-														127k views
-													</li>
-
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														6 days ago
-													</li>
-												</ul>
-											</li>
-
-											<li style={{listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
-												Industry Button
-											</li>
-
-
-									
-										</ul>
-
-									</SmallVideoComponent>
+									<SmallVideoContainer/>
 								</li>
 							)}
 						</ul>
