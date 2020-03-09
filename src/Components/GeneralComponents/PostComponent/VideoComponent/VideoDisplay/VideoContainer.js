@@ -7,7 +7,6 @@ const Container=styled.div`
 	position:relative;
 	width:90%;
 	height:60%;
-	background-color:red;
 	z-index:3;
 	border-radius:5px;
 	padding:5px;
