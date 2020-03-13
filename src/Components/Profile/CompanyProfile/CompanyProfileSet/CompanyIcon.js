@@ -77,7 +77,6 @@ class CompanyIcon extends Component{
 								
 							</div>
 				}}
-
 			</CompanyConsumer>
 
 		)

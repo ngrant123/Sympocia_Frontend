@@ -4,7 +4,7 @@ import SmallVideosContainer from "../../../../Profile/PersonalProfile/PersonalPr
 
 const Container=styled.div`
 	position:relative;
-	width:350px;
+	width:320px;
 	height:95%;
 	border-radius:5px;
 	box-shadow: 1px 1px 5px #d5d5d5;

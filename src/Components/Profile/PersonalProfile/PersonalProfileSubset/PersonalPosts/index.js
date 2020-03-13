@@ -197,9 +197,8 @@ const PersonalPostsIndex=()=>{
 	const displayCreationPostContainer=()=>{
 
 		return displayCreationPost==true?
-				<PostCreationContainer>
-					<CreateAPostComponent/>
-				</PostCreationContainer>:
+				
+					<CreateAPostComponent/>:
 				<React.Fragment></React.Fragment>
 	}
 

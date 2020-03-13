@@ -141,7 +141,7 @@ class ChatRoom extends Component{
 
 				</Chat>
 				<MessageBox placeholder="Submit something stoopid" onChange={event=>this.handleTextChange(event)}/>
-					<ul style={{position:"absolute",padding:"5px"}}>
+				<ul style={{position:"relative",padding:"5px",backgroundColor:"white"}}>
 									<li style={MessageListNestedCSS}>
 										<EmojiButton>
 										</EmojiButton>
@@ -152,7 +152,7 @@ class ChatRoom extends Component{
 										</SubmitButton>
 
 									</li>
-							</ul>
+					</ul>
 
 			</React.Fragment>
 		)

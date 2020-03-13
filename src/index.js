@@ -8,6 +8,7 @@ import CompanyProfileScreen from "./Components/Profile/CompanyProfile/CompanyPro
 import PersonalProfileScreen from "./Components/Profile/PersonalProfile/PersonalProfileSet/PersonalProfileContainer";
 import {BrowserRouter as Router, Route , Switch} from 'react-router-dom';
 import InvestorScreen from "./Components/Investor/InvestorSet/InvestorContainer.js";
+import BlogPostCreation from "./Components/GeneralComponents/PostComponent/BlogComponent/BlogPostCreation/index.js";
 import HomeScreen from "./Components/Home/HomePageSet/HomePageContainer.js";
 import MapScreen from "./Components/Map/MapComponentSet/MapContainer.js";
 import PlayList from "./Components/PlayList/PlayListSet/PlayListContainer.js";
@@ -58,10 +59,10 @@ const application  = (
 				<Route path="/profile" component={PersonalProfileScreen}/>
 				<Route path="/investor" component= {InvestorScreen} />
 				<Route path="/map" component= {MapScreen} />
-
-
+				
 				//TEST
 				<Route path="/demo" component={Demo}/>
+				<Route Path="/blog" component={BlogPostCreation}/>
 
 			</Switch>
 		</Router>

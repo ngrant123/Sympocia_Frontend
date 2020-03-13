@@ -151,8 +151,8 @@ class SmallProfile extends Component {
 		console.log("TEsting");
 		super(props);
 		console.log(props);
+		
 		this.state ={
-
 			title:props.title,
 			bio:props.bio,
 			imageurl:props.imgUrl,

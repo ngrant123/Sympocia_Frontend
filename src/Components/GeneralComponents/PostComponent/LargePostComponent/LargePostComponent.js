@@ -1,12 +1,17 @@
 import React,{Component} from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import Industries  from "../../../../Constants/constants.js";
 import { connect } from "react-redux";
+import RegularPostCreation from "../RegularPostComponent/RegularPostCreation/index.js";
+import VideoPostCreation from "../VideoComponent/VideoCreation/index.js";
+import ImagePostCreation from "../ImageComponent/ImageCreation/index.js";
+import BlogPostCreation from "../BlogComponent/BlogPostCreation/index.js";
 
 const Container = styled.div`
-	position:absolute;
+	position:relative;
 	width:100%;
-	height:100%;
+	height:50%;
 	background-color:white;
 
 `;
@@ -95,9 +100,9 @@ const PostOptionsContainer = styled.div`
 
 
  const PostOptionButton = styled.div`
- 	position:absolute;
+ 	position:relative;
  	height:70%;
- 	width:15%;
+ 	width:100px;
  	background-color:#C8B0F4;
  	left:7%;
  	top:5%;
@@ -106,6 +111,28 @@ const PostOptionsContainer = styled.div`
  	text-align:center;
 
  `;
+
+
+const BlogOptionButton=styled(Link)`
+	position:relative;
+ 	background-color:#C8B0F4;
+ 	left:7%;
+ 	top:5%;
+ 	border-radius:5px;
+ 	color:	#f7f4f8;
+ 	text-align:center;
+ 	padding:15px;
+ 	margin-top:2px;
+ 	top:15px;
+ 	text-decoration:none;
+
+ 	&:hover{
+ 		color:white;
+ 		border-style:none;
+ 	text-decoration:none;
+ 	}
+
+`;
 
   const ImageOptionButton = styled.div`
 
@@ -230,18 +257,18 @@ class LargePostComponent extends Component{
 			companyTitle:"CEO",
 			companyName:"Razu",
 			industries:[]
-
 		};
+
+		console.log("Teste");
 	}
 	
 	componentDidMount(){
 
 		let industriesConstants=Industries.INDUSTRIES;
-
 		this.setState({
 
-			industries:industriesConstants
-
+			industries:industriesConstants,
+			displayElement:this.originalScreen()
 		})
 	}
 
@@ -258,15 +285,44 @@ class LargePostComponent extends Component{
 		console.log(this.state.industries);
 	}
 
-	render(){
+	displayPostOptions=(props)=>{
+
+		console.log("Testing");
+		console.log(props);
+
+		if(props=="RegularPost"){
+			this.setState({
+					displayElement:<RegularPostCreation 
+										displayProps={this.displayPostOptions}
+									/>})
+		}else if(props=="ImagePosts"){
+			this.setState({
+					displayElement:<ImagePostCreation
+														displayProps={this.displayPostOptions}
+													/>})
+
+
+		}else if(props=="VideoPosts"){
+			this.setState({
+					displayElement:<VideoPostCreation 
+										displayProps={this.displayPostOptions}
+									/>})
+
+		}else{
+
+			this.setState({
+					displayElement:<RegularPostCreation 
+										displayProps={this.displayPostOptions}
+									/>})
+		}
+
+	}
 
 
 
-		return(
-
-			<Container>
-
-
+	originalScreen=()=>{
+		return (
+			<React.Fragment>
 				<div class="dropdown" style={{position:"absolute", height:"13%",width:"20%",left:"70%",top:"5%", zIndex:"2"}}>
 						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
 						   	<span class="caret"></span>
@@ -299,13 +355,53 @@ class LargePostComponent extends Component{
 
 				<PostOptionsContainer>
 
-					<PostOptionButton><b>Post</b></PostOptionButton>
-					<ImageOptionButton><b>Image</b></ImageOptionButton>
-					<LocationOptionButton><b>Event</b></LocationOptionButton>
-					<SubmitOptionButton><b>Video</b></SubmitOptionButton>
+					<ul style={{padding:"0px",marginLeft:"10%",marginTop:"5px"}}>
+						<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+							<PostOptionButton onClick={()=>this.setState({displayElement:<RegularPostCreation
+																							displayProps={this.displayPostOptions}
+																						  />})}>
+								Post
+							</PostOptionButton>
+						</li>
+
+						<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+							<PostOptionButton  onClick={()=>this.setState({displayElement:<ImagePostCreation
+																							displayProps={this.displayPostOptions}
+																							/>})}>
+								Image
+							</PostOptionButton>
+						</li>
+
+						<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+							<PostOptionButton onClick={()=>this.setState({displayElement:<VideoPostCreation
+																								displayProps={this.displayPostOptions}
+																							/>})}>
+								Video
+							</PostOptionButton>
+						</li>
+
+						<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"5px"}}>
+							<BlogOptionButton to="/blog">
+								Blog
+							</BlogOptionButton>
+						</li>
+					</ul>
+			
 
 				</PostOptionsContainer>
+			</React.Fragment>
+		)
+	}
 
+
+	render(){
+
+
+
+		return(
+
+			<Container>
+				{this.state.displayElement}
 			</Container>
 		)
 	}

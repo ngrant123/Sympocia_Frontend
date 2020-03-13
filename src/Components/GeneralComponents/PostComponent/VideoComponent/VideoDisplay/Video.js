@@ -16,7 +16,7 @@ import Comments from "../../../../GeneralComponents/CommentsComponent/index.js";
 
 const Container=styled.div`
 	position:relative;
-	width:900px;
+	width:870px;
 	height:95%;
 	background-color:black;
 	border-radius:5px;
@@ -127,7 +127,7 @@ class Video extends Component{
 
 		this.state={
 			displayComments:false,
-			displayDescription:true,
+			displayDescription:false,
 			seconds:0
 		}
 	}

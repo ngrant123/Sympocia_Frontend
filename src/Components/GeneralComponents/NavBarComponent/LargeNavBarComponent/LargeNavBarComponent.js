@@ -1,8 +1,9 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown'
+import NavBar from "./NavBar.js";
 
 const ProfileAndInvestorContainer = styled.div`
 	position:absolute;
@@ -480,115 +481,23 @@ const CompanyProfileNotificationsContainer=styled.div`
 
 `;
 
-export function GeneralNavBar(pageProps){
-	console.log(pageProps);
-	return(
-		<Container>
-
-			<SearchButton placeholder="Search for anyone nigga"/>
-
-			<ul style={{position:"fixed",left:"39%",top:"7%"}}>
-				<li style={ButtonsListCSS}>
-					<Button variant="primary" style={{backgroundColor:"#5298F8"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								Testing
-							</li>
-
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								ME
-							</li>
-
-						</ul>
-					</Button>
-				</li>
-
-
-				{
-					/*
-						Do something special with the creation Button
-						
-					*/
-				}
-				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#C8B0F4"}}>
-					<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									Testing
-								</li>
-
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									Create
-								</li>
-
-							</ul>
-					</Button></li>
-				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>
-					<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								Testing
-							</li>
-
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								Explore
-							</li>
-
-						</ul>
-				</Button></li>
-			</ul>
-
-		
-			<ul style={{position:"fixed",left:"80%",top:"2%"}}>
-				<li style={ProfileDropDownListCSS}>
-					<Dropdown>
-						  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
-				 		  
-						  </Dropdown.Toggle>
-
-						  <Dropdown.Menu>
-							
-							<Dropdown.Item>
-						    	<PersonalProfileChatContainer onClick={()=>displayChatContainerForPersonalPage(pageProps)}/>
-						    </Dropdown.Item>
- 					
- 							<Dropdown.Item>
- 								<PersonalProfileNotificationsContainer/>
- 							</Dropdown.Item>
-
-						  </Dropdown.Menu>
-
-					</Dropdown>
-
-				</li>
-				<li style={ProfileDropDownListCSS}>
-					<Dropdown>
-						  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
-						   
-						  </Dropdown.Toggle>
-
-						  <Dropdown.Menu>
-
-						  	<Dropdown.Item>
-								<CompanyProfileChatContainer onClick={()=>displayChatContainerForCompanyPage(pageProps)}/>
-							</Dropdown.Item>
-
-							<Dropdown.Item>
-								<CompanyProfileNotificationsContainer/>
-							</Dropdown.Item>
-						    
-						  </Dropdown.Menu>
-
-					</Dropdown>
-
-				</li>
-
-			</ul>
-
-		</Container>
-	)
+export const GeneralNavBar=(pageProps)=>{
+	if(pageProps.page=="Home"){
+		return <NavBar
+				pageProps={pageProps}
+				color="transparent"
+				/>
+	}else{
+		return (
+			<NavBar
+				pageProps={pageProps}
+				color="none"
+			/>
+		);
+	}
 }
 
 const displayChatContainerForPersonalPage=(pageProps)=>{
-
 	pageProps.displayChatPage("personal");
 }
 

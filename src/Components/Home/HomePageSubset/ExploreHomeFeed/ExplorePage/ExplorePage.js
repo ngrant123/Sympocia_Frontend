@@ -315,8 +315,8 @@ class ExplorePage extends Component{
 							communityData={data}
 						/>
 					</CommunityContainer>;
+			}
 		}
-	}
 
 	render(){
 		return(

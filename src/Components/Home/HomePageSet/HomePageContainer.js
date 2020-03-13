@@ -1,6 +1,6 @@
 import React , {Component} from "react";
 import styled from "styled-components";
-import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
+import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import { connect } from "react-redux";
 import HomeConext from "../HomeContext.js";
 import ExplorePage from "../HomePageSubset/ExploreHomeFeed/ExplorePage/ExplorePage";
@@ -8,9 +8,15 @@ import PersonalFeed from "../HomePageSubset/PersonalHomeFeed/PersonalFeed/Person
 import CustomizedFeed from "../HomePageSubset/PersonalHomeFeed/CustomizedPersonalFeed/CustomizedFeedContainer";
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
 
+import ExploreIcon from '@material-ui/icons/Explore';
+import PersonPinIcon from '@material-ui/icons/PersonPin';
+import AssistantIcon from '@material-ui/icons/Assistant';
+import YoutubeSearchedForIcon from '@material-ui/icons/YoutubeSearchedFor';
+
 const Container=styled.div`
 	position:absolute;
 	width:100%;
+	padding:10px;
 	height:100%;
 	background-color:white;
 	overflow-y:scroll;
@@ -22,27 +28,22 @@ const Container=styled.div`
 
 const PageIndicator=styled.div`
 	position:absolute;
-	background-color:white;
 	width:5%;
 	height:20%;
-	top:12%;
+	top:7%;
 	left:2%;
 	border-radius:5%;
 	z-index:4;
-	box-shadow: 1px 1px 1px 1px #d5d5d5;
 `;
 
 
 const PersonalPageIndicator=styled.div`
 	position:absolute;
-	background-color:white;
-	width:5%;
-	height:10%;
-	top:23%;
-	left:8%;
+	height:40%;
+	top:30%;
+	left:10%;
 	border-radius:5%;
 	z-index:4;
-	box-shadow: 1px 1px 1px 1px #d5d5d5;
 
 
 `;
@@ -57,45 +58,65 @@ const Home=styled.div`
 
 `;
 
-const ExploreIcon=styled.div`
+const ExploreIconContainer=styled.div`
 	position:relative;
-	width:50px;
-	height:30%;
+	width:70px;
 	left:-80%;
 	border-radius:5px;
+	background-color:white;
+	padding:10px;
 	box-shadow: 1px 1px 1px 1px #d5d5d5;
+	transition:.8s;
 
-
+	&:hover{
+		box-shadow: 1px 1px 10px #707070;	
+	}
 `;
 
-const ForYouIcon=styled.div`
+const ForYouIconContainer=styled.div`
 	position:relative;
-	width:50px;
-	height:30%;
+	width:70px;
 	left:-80%;
 	border-radius:5px;
+	background-color:white;
+	padding:10px;
 	box-shadow: 1px 1px 1px 1px #d5d5d5;
+	transition:.8s;
 
+	&:hover{
+		box-shadow: 1px 1px 10px #707070;	
+	}
 `;
 
 const FollowedForYouPageIcon=styled.div`
 	position:relative;
-	width:50px;
-	height:30%;
+	width:70px;
+	padding-left:5px;
 	left:-80%;
 	border-radius:5px;
-	box-shadow: 1px 1px 1px 1px #d5d5d5;
 
+	background-color:white;
+	box-shadow: 1px 1px 1px 1px #d5d5d5;
+	transition:.8s;
+
+	&:hover{
+		box-shadow: 1px 1px 10px #707070;	
+	}
 `;
 
 const CustomizedForYouPageIcon=styled.div`
 	position:relative;
-	width:50px;
-	height:30%;
-	left:-80%;p
+	padding-left:5px;
+	left:-80%;
+
+	background-color:white;
 	border-radius:5px;
 	box-shadow: 1px 1px 1px 1px #d5d5d5;
+	transition:.8s;
 
+	&:hover{
+		box-shadow: 1px 1px 10px #707070;	
+	}
 `;
 
 
@@ -193,6 +214,7 @@ class HomePageContainer extends Component{
 						...prevState,
 						displayPersonalFeed:false,
 						displayExplorerFeed:true,
+						displayForYourChoices:false,
 						displayCustomizedFeed:false}))
 
 
@@ -202,14 +224,36 @@ class HomePageContainer extends Component{
 		return this.state.displayForYourChoices==true?
 			<PersonalPageIndicator>
 				<ul>	
-					<li style={{listStyle:"none",marginBottom:"10px",marginTop:"10px"}}>
+					<li style={{listStyle:"none",marginBottom:"20px",marginTop:"10px"}}>
 						<FollowedForYouPageIcon onClick={()=>this.handleDisplayFollowedCommunitiesPage()}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginLeft:"20%"}}>
+									<AssistantIcon
+										style={{fontSize:30}}
+									/>	
+								</li>
 
+								<li style={{listStyle:"none",fontSize:"10px",marginLeft:"20%"}}>
+									Following
+								</li>
+
+							</ul>
 						</FollowedForYouPageIcon>
 					</li>
 					<li style={{listStyle:"none"}}>
 						<CustomizedForYouPageIcon onClick={()=>this.handleDisplayCustomizedForYouPage()}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginLeft:"20%"}}>
+									<YoutubeSearchedForIcon
+										style={{fontSize:30}}
+									/>	
+								</li>
 
+								<li style={{listStyle:"none",fontSize:"10px"}}>
+									Recommended
+								</li>
+
+							</ul>
 						</CustomizedForYouPageIcon>
 
 					</li>
@@ -250,20 +294,43 @@ class HomePageContainer extends Component{
 			<Container id="container">
 				<GeneralNavBar
 					displayChatPage={this.displayChatPage}
+					page={"Home"}
 				/>
 
 				{this.chatPage()}
 				<PageIndicator>
 					<ul>
-						<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}} onClick={()=>this.handleDisplayHideForYouChoices()}>
-							<ExploreIcon onClick={()=>this.handleDisplayExplorePage()}>
-								<p style={{fontSize:"10px"}}>Explore </p>
-							</ExploreIcon>
+						<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
+						
+							<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none"}}>
+										<ExploreIcon
+											style={{fontSize:50}}
+										/>
+									</li>
+
+									<li style={{listStyle:"none"}}>
+										Explore
+									</li>
+								</ul>
+							</ExploreIconContainer>
+
 						</li>
 						<li style={{listStyle:"none"}} onClick={()=>this.handleDisplayForYouChoices()}>
-							<ForYouIcon>
-								<p style={{fontSize:"10px"}}>For you</p>
-							</ForYouIcon>
+							<ForYouIconContainer>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none"}}>
+										<PersonPinIcon
+											style={{fontSize:50}}
+										/>
+									</li>
+
+									<li style={{listStyle:"none"}}>
+										For You
+									</li>
+								</ul>
+							</ForYouIconContainer>
 						</li>
 
 						{/*

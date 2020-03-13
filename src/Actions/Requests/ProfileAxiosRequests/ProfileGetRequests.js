@@ -101,7 +101,6 @@ export function getProfile(userId){
 
 
 	const getUrl='localhost:4000/api/seacrh';
-
 	axios.get(`${getUrl}/`,{
 		params:{
 			id:userId
