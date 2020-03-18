@@ -7,12 +7,13 @@ import PostContent from "./PostInformation.js";
 
 const Container=styled.div`
 	position:relative;
-	width:90%;
-	height:50%;
+	width:50%;
+	height:10%;
 	background-color:white;
 	z-index:3;
 	border-radius:5px;
 	padding:5px;
+
 `;
 
 const PostInformationContainer=styled.div`

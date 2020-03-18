@@ -35,7 +35,6 @@ const BlogPostContainer=()=>{
 
 				<li style={{listStyle:"none",display:"inline-block"}}>
 					<RecommendedBlogs/>
-
 				</li>
 			</ul>
 

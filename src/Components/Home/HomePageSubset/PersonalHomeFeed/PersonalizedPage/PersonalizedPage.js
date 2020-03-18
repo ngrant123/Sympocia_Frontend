@@ -235,13 +235,14 @@ const PostContainer=styled.div`
 	position:absolute;
 	padding-left:40px;
 	left:0%;
-	top:50%;
+	top:45%;
 	width:100%;
 	height:140%;
 	z-index:3;
-	background-color:white;
 	overflow:visible;
 	transition:1s;
+	box-shadow: 1px 5px 50px #d5d5d5;
+	padding-top:2%;
 `;
 
 const ExamplePosts=styled.div`
@@ -857,7 +858,7 @@ class PersonalizedPage extends Component{
 				{this.handleHeaderAnimation()}
 				
 
-				<PostsChatInformation id="postChatInformation" onScroll={()=>this.handleScroll()}>
+				<PostsChatInformation  id="postChatInformation" onScroll={()=>this.handleScroll()}>
 					<ul>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginLeft:"3%"}}>
 

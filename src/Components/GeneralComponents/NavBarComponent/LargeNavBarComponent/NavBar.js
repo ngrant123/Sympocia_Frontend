@@ -3,10 +3,14 @@ import styled from "styled-components";
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown'
 
+import ExploreIcon from '@material-ui/icons/Explore';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
 const Container=styled.div`
 	position:fixed;
 	width:100%;
-	height:12%;
+	height:14%;
 	border-radius:0px 0px 5px 5px;
 	z-index:6;
 	background-color:white;
@@ -127,11 +131,11 @@ const NavBar=(pageProps)=>{
 					<Button variant="primary" style={{backgroundColor:"#5298F8"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
-								Testing
+								<AccountCircleIcon/>
 							</li>
 
 							<li style={{listStyle:"none",display:"inline-block"}}>
-								ME
+								Me
 							</li>
 
 						</ul>
@@ -147,7 +151,8 @@ const NavBar=(pageProps)=>{
 				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#C8B0F4"}}>
 					<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block"}}>
-									Testing
+									<AddCircleIcon
+									/>
 								</li>
 
 								<li style={{listStyle:"none",display:"inline-block"}}>
@@ -159,7 +164,7 @@ const NavBar=(pageProps)=>{
 				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>
 					<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
-								Testing
+								<ExploreIcon/>
 							</li>
 
 							<li style={{listStyle:"none",display:"inline-block"}}>

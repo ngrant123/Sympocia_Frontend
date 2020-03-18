@@ -1,12 +1,16 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import {connect} from "react-redux";
-
+import {
+            quickSearchIndustry,
+            searchForCompanies
+      } from "../../../Actions/Requests/MapPageAxiosRequests/MapPageGetRequests.js";
+import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 
 const SearchContainer = styled.div`
 
       position:absolute;
-      width:30%;
+      width:35%;
       height:60%;
       top:15%;
       left:3%;
@@ -21,23 +25,30 @@ const SearchContainer = styled.div`
 const IndustryButtons=styled.div`
       position:relative;
       width:120px;
-      height:80%;
       border-radius:5px;
       border-style:solid;
       border-width:1px;
       border-color:#5298F8;
       margin-bottom:5px;
       text-align:center;
-      padding-top:5px;
+      overflow-y:hidden;
+      padding:5px;
+      transition:.8s;
+
+      &:hover{
+
+            color:white;
+            background-color:#5298F8;
+
+      }
 `;
 
 const IndustryContainer=styled.div`
       position:relative;
       width:80%;
-      height:10%;
+      height:15%;
       overflow-x:auto;
       left:10%;
-
 
 `;
 
@@ -92,7 +103,7 @@ class SearchComponent extends Component{
 		super(props);
 
 		this.state={
-		    industries:[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}],
+		    industries:[],
 		    addedOption:[]
 		}
 	}
@@ -133,10 +144,10 @@ class SearchComponent extends Component{
                                     </li>
 
                                     <IndustryContainer>
-                  					{this.state.industries.map(data=>
+                  					{COMPANY_INDUSTRIES.INDUSTRIES.map(data=>
                   						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
                   							<IndustryButtons>
-                                                                  Testing
+                                                                  {data.industry}
                                                             </IndustryButtons>
                   						</li>
 

@@ -8,10 +8,10 @@ const Container=styled.div`
 	position:relative;
 	width:90%;
 	height:50%;
-	background-color:white;
 	z-index:3;
 	border-radius:5px;
 	padding:5px;
+	box-shadow: 1px 1px 50px #d5d5d5;
 `;
 
 const Image=styled.div`

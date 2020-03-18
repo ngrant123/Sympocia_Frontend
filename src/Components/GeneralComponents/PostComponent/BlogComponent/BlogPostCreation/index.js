@@ -5,13 +5,16 @@ import {
 	BlogConsumer,
 	BlogProvider
 } from "./BlogContext.js";
-
+import {GeneralNavBar} from "../../../NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
+import AdditionalInformation from "./AdditionalInformation.js";
+import TextOptions from "./TextOptions.js";
+import Blog from "./Blog.js";
 
 const Container=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	background-color:blue;
+	background-color:#FFFFFF;
 
 
 `;
@@ -44,7 +47,10 @@ class BlogPostCreation extends Component{
 				state:this.state.userInformation
 			}}>
 				<Container>
-
+					<GeneralNavBar/>
+					<AdditionalInformation/>
+					<TextOptions/>
+					<Blog/>
 				</Container>
 
 			</BlogProvider>

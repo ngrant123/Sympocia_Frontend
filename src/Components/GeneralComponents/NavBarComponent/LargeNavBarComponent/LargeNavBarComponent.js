@@ -482,7 +482,7 @@ const CompanyProfileNotificationsContainer=styled.div`
 `;
 
 export const GeneralNavBar=(pageProps)=>{
-	if(pageProps.page=="Home"){
+	if(pageProps.page=="Home"|| pageProps.page=="Map"){
 		return <NavBar
 				pageProps={pageProps}
 				color="transparent"

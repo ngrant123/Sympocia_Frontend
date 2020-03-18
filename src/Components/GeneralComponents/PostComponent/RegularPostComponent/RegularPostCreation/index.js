@@ -14,6 +14,8 @@ import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined'
 import {createRegularPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 import SendIcon from '@material-ui/icons/Send';
+import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
+import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 
 const Container = styled.div`
 	position:relative;
@@ -25,7 +27,6 @@ const Container = styled.div`
 
 const TextArea=styled.div`
 	position:relative;
-	height:65%;
 	width:100%;
 	background-color:#fefdff;
 	resize:none;
@@ -33,10 +34,11 @@ const TextArea=styled.div`
 	border-radius:5px;
 	border-style:none;
 	box-shadow:1px 1px 5px #9395a0;
-	font-size:20px;
+	font-size:15px;
 	padding:40px;
 	overflow:hidden;
 	z-index:1;
+	display:flex-wrap;
 `;
 
 const ProfilePicture=styled.div`
@@ -85,7 +87,23 @@ const Photo=styled.div`
  const RegularPostCreation=(props)=>{
 	const [displayCameraModal,changeDisplayCameraModal]=useState(false);
 	const [postContents,changePostContents]=useState("");
+
+	const  [firstTimeClickIndicator,changeClickIndicator]=useState(true);
 	const [displayBold,changeBold]=useState(false);
+	const [displayItalics,changeItalics]=useState(false);
+	const [displayCodingBlock,changeCodingBlockDisplay]=useState(false);
+	const [codingBlockCounter,changeCodingBlockCounter]=useState(1);
+
+	const [displayBulletList,changeBulletListDisplay]=useState(false);
+	const[firstTimeClickBulletList,changeFirstTimeClickBullet]=useState(false);
+	const [bulletListContent,changeBulletListContent]=useState("");
+
+
+	const [displayNumberedList,chnageNumberedBulletList]=useState(false);
+	const[firstTimeClickNumberList,changeFirstTimeClickNumber]=useState(false);
+	const [numberListContent,changeNumberListContent]=useState("");
+
+
 	const {personalInformation}=useSelector(state=>state);
 	console.log(props);
 
@@ -115,8 +133,9 @@ const Photo=styled.div`
 				return <React.Fragment></React.Fragment>;
 			}
 		}
-
+//
 	const stopRecording=()=>{
+
 		var video=document.getElementById("video");
 		var stream=video.srcObject;
 		video.srcObject=null;
@@ -148,22 +167,273 @@ const Photo=styled.div`
 
 	}
 
-	const addBold=(props)=>{
+	const addItalics=(props)=>{
 		var textArea=document.getElementById("textAreaContainer");
-        var boldTextHolder= document.createElement("b");
-        boldTextHolder.innerHTML=" \u00A0";
-        textArea.appendChild(boldTextHolder);
-//
+		var italicTextHolder=document.createElement("I");
+		var textContainer;
+
+		if(props.key=="Enter"){
+			textContainer=document.createElement("br");
+		}else if(props.key==" "){
+			textContainer=document.createTextNode(' ');
+		}
+		else{
+			textContainer=document.createTextNode(""+props.key);
+		}
+
+		italicTextHolder.appendChild(textContainer);
+		textArea.appendChild(italicTextHolder);
+		setCursorLocation(textArea,textArea.innerText.length);
+
 	}
+
+	const addBold=(props)=>{
+
+		var textArea=document.getElementById("textAreaContainer");
+        var boldTextHolder= document.createElement("strong");
+        var textContainer;
+		if(props.key=="Enter"){
+			textContainer=document.createElement("br");
+		}else if(props.key==" "){
+			textContainer=document.createTextNode(' ');
+		}
+		else{
+			textContainer=document.createTextNode(""+props.key);
+		}
+
+        boldTextHolder.appendChild(textContainer);
+        textArea.appendChild(boldTextHolder);
+        setCursorLocation(textArea,textArea.innerText.length);
+
+	}
+
+	const setCursorLocation=(textArea,length)=>{
+
+		/*
+			if(textArea.setSelectionRange){
+				textArea.focus();
+				textArea.setSelectionRange(length,length);
+			}else{
+				var range = window.getSelection();
+			    range.moveEnd('character', length);
+			    range.moveStart('character', length);
+			    range.select();
+			}
+		*/
+
+		var range = document.createRange();
+	    var sel = window.getSelection();
+
+	    /*
+	    var lengthOfTextArea;
+	    var counter=0;
+	    while(textArea.childNodes[counter]!=null){
+	    	var length=textArea.childNodes.length;
+	    	lengthOfTextArea+=length;
+	    	counter++;
+	    }
+
+	    var newCounter=counter--;
+	    */
+
+	    range.setStart(textArea.lastChild,1);
+	    range.collapse(true);
+	    sel.removeAllRanges();
+	    sel.addRange(range);
+	    textArea.focus();
+
+	}
+
+	const addCodingBlock=(props)=>{
+		var textArea=document.getElementById("textAreaContainer");
+		var codeBlockContainer=document.createElement("span");
+
+
+					if(props.key=="Enter"){
+						var newLineContainer=document.createElement("br");
+						var newLine=document.createTextNode(' ');
+						newLineContainer.appendChild(newLine);
+						textArea.appendChild(newLineContainer);
+						return;
+
+					}else{
+
+						if(codingBlockCounter==1 || codingBlockCounter==30){
+
+
+									if(codingBlockCounter==1){
+										var currentCodingCounter=codingBlockCounter+1;
+										changeCodingBlockCounter(currentCodingCounter);
+									}else if(codingBlockCounter==30){
+
+										changeCodingBlockCounter(2);
+									}
+
+									var newLineContainer=document.createElement("br");
+									var newLine=document.createTextNode(' ');
+									newLineContainer.appendChild(newLine);
+									textArea.appendChild(newLineContainer);
+									return;
+							}
+							
+							else{
+								var currentCodingCounter=codingBlockCounter+1;
+								changeCodingBlockCounter(currentCodingCounter);
+
+							}
+					}
+
+					var code=document.createTextNode(""+props.key);
+					codeBlockContainer.style.backgroundColor="#E3CEF6";
+					codeBlockContainer.style.color="white";
+					
+					codeBlockContainer.style.paddingTop="5px";
+					codeBlockContainer.style.paddingLeft="5px";
+					codeBlockContainer.style.paddingBottom="5px";
+
+					codeBlockContainer.appendChild(code);
+					textArea.appendChild(codeBlockContainer);
+
+		 setCursorLocation(textArea,textArea.innerText.length);
+
+	}
+
+/*
+	Problem with this is with the contents of the else state 
+	with the implementation the implementation is shit u stoopid
+
+
+*/
+	const addBulletList=(props)=>{
+		var textArea=document.getElementById("textAreaContainer");
+		var liItem;
+		if(props.key=="Enter" || firstTimeClickBulletList==false){
+
+				
+				var textNode;
+				if(firstTimeClickBulletList==false){
+					changeFirstTimeClickBullet(true);
+					changeBulletListContent(bulletListContent+props.key);
+				    textNode=document.createTextNode(""+props.key);
+				}
+				else{
+					textNode=document.createTextNode("");
+					 changeBulletListContent(bulletListContent);
+				}
+				
+				var ulList=document.createElement('ul');
+				liItem=document.createElement('li');
+
+				liItem.appendChild(textNode);
+				liItem.addEventListener("click",function(){
+					console.log("Test");
+				})
+
+				ulList.appendChild(liItem);
+				textArea.append(ulList);
+
+				
+
+		}else{
+			var liElement=textArea.lastChild;
+			changeBulletListContent(bulletListContent+props.key);
+			liElement.innerHTML="<li>"+bulletListContent+props.key+"</li>";
+			liElement.addEventListener("click",function(){		
+					console.log(liElement.innerText);
+					changeBulletListContent(liElement.innerText);
+			})
+		}
+
+		setCursorLocation(textArea,textArea.innerText.length);
+	}
+
+	const updatedBulletListContent=(props)=>{
+		console.log("Test bullet list");
+		console.log(props);
+
+	}
+
+	const addNumberedList=(props)=>{
+
+		var textArea=document.getElementById("textAreaContainer");
+
+		if(props.key=="Enter" || firstTimeClickNumberList==false){
+
+				
+				var textNode;
+				if(firstTimeClickNumberList==false){
+					changeFirstTimeClickNumber(true);
+				    textNode=document.createTextNode(""+props.key);
+				}
+				else{
+					textNode=document.createTextNode("");
+					 changeNumberListContent(numberListContent);
+				}
+				
+				var ulList=document.createElement("OL");
+				var liItem=document.createElement("LI");
+				liItem.appendChild(textNode);
+				ulList.appendChild(liItem);
+				textArea.append(ulList);
+
+		}else{
+			var liElement=textArea.lastChild;
+			changeNumberListContent(numberListContent+props.key);
+			liElement.innerHTML="<li>"+numberListContent+props.key+"</li>";
+		}
+
+		setCursorLocation(textArea,textArea.innerText.length);
+
+	}
+
 
 	const regardLetters=(props)=>{
 
-		if(displayBold==true){
-			addBold(props);
+		if(props.key!=' '){
+			props.preventDefault();
+			if(displayBold==true && displayItalics==true){
+				addBold(props);
+				addItalics(props);
+			}
+			else if(displayItalics==true && displayBold==false){
+				addItalics(props);
+
+			}
+			else if(displayItalics==false&& displayBold==true){
+				addBold(props);
+			}else if(displayCodingBlock==true){
+				addCodingBlock(props);
+			}else if(displayBulletList==true){
+				addBulletList(props);
+			}else if(displayNumberedList==true){
+				addNumberedList(props);
+			}
+			else{
+				changePostContents(postContents+props.key);
+				removeFontVariations(props);
+			}
+		}else{
+			changeBulletListContent(bulletListContent+props.key);
+			changeNumberListContent(numberListContent+props.key);
 		}
-		else{
-			changePostContents(postContents+props.key);
+	}
+//Contains a bug where for some reason it creates a newline after the user presses enter fix later
+	const removeFontVariations=(props)=>{
+		var textArea=document.getElementById("textAreaContainer");
+
+        if(props.key!="Enter"){
+        	var TextHolder= document.createElement("span");
+			var textContainer=document.createTextNode(""+props.key);
+			TextHolder.appendChild(textContainer);
+	        textArea.appendChild(TextHolder);
+	    }else{
+	     	var newLineHolder=document.createElement("P");
+			newLineHolder.innerHTML=" &#160;"
+			textArea.appendChild(newLineHolder);
+
 		}
+
+        setCursorLocation(textArea,textArea.innerText.length);
 	}
 
 	const sendRegularPost=()=>{
@@ -174,16 +444,37 @@ const Photo=styled.div`
 		createRegularPost("12345678",content);
 		
 	}
+	const enableCodingBlock=()=>{
+		changeCodingBlockDisplay(!displayCodingBlock);
+		changeItalics(false);
+		changeBold(false);
+	}
 
-/*
-	const displayPostOption=(postOption)=>{
-		if(postOption=="RegularPost"){
-			props.dispal
-		}
+	const enableBulletList=()=>{
 
+		changeBulletListDisplay(!displayNumberedList);
+		chnageNumberedBulletList(false);
+		changeItalics(false);
+		changeBold(false);
+		changeCodingBlockDisplay(false);
+	}
+
+	const enableNumberedLst=()=>{
+		changeBulletListDisplay(false);
+		chnageNumberedBulletList(!displayNumberedList);
+		changeItalics(false);
+		changeBold(false);
+		changeCodingBlockDisplay(false);
 
 	}
-*/
+
+	const emptyTextArea=()=>{
+		if(firstTimeClickIndicator==true){
+			document.getElementById("textAreaContainer").innerHTML="";
+			changeClickIndicator(false);
+		}	
+	}
+
 
 	return(
 		<Container>
@@ -224,21 +515,25 @@ const Photo=styled.div`
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<FormatItalicOutlinedIcon
 										style={{fontSize:30}}
+										onClick={()=>changeItalics(!displayItalics)}
 									/>
 								</li>
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<CodeOutlinedIcon
 										style={{fontSize:30}}
+										onClick={()=>enableCodingBlock()}
 									/>
 								</li>
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<FormatListBulletedOutlinedIcon
 										style={{fontSize:30}}
+										onClick={()=>enableBulletList()}
 									/>
 								</li>
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<FormatListNumberedOutlinedIcon
 										style={{fontSize:30}}
+										onClick={()=>enableNumberedLst()}
 									/>
 								</li>
 								<li style={{listStyle:"none",display:"inline-block"}}>
@@ -276,9 +571,12 @@ const Photo=styled.div`
 										Industries
 									   	<span class="caret"></span>
 									</button>
-									<ul class="dropdown-menu">
-										<li><a href="">Most Popular</a></li>
-										<li><a href="">Most Recent</a></li>
+									<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
+										{PERSONAL_INDUSTRIES.INDUSTRIES.map(data=>
+											<li>
+												<a href="#">{data.industry}</a>
+											</li>
+										)}
 										
 									</ul>
 			  				 </div>
@@ -316,7 +614,7 @@ const Photo=styled.div`
 
 				<li style={{listStyle:"none",marginBottom:"1%"}}>
 					<TextArea id="textarea">
-						<p style={{position:"absolute",height:"75%",width:"85%",overflowY:"auto"}} contenteditable="true" id="textAreaContainer"  onKeyPress={e=>regardLetters(e)}>
+						<p style={{float:"left",width:"85%",overflowY:"auto",outline:"none"}} onClick={()=>emptyTextArea()} contenteditable="true" id="textAreaContainer"  onKeyPress={e=>regardLetters(e)}>
 							Testing
 						</p>
 					</TextArea>

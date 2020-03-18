@@ -315,8 +315,8 @@ const IndustryName=styled.textarea`
 const IndustryContainer=styled.div`
 	position:relative;
 	background-color:#5298F8;
-	width:160px;
-	height:50px;
+	width:190px;
+	height:70px;
 	border-radius:5px;
 	transition:.8s;
 	padding:10px;

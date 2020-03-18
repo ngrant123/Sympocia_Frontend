@@ -1,12 +1,13 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Industries  from "../../../../Constants/constants.js";
 import { connect } from "react-redux";
 import RegularPostCreation from "../RegularPostComponent/RegularPostCreation/index.js";
 import VideoPostCreation from "../VideoComponent/VideoCreation/index.js";
 import ImagePostCreation from "../ImageComponent/ImageCreation/index.js";
 import BlogPostCreation from "../BlogComponent/BlogPostCreation/index.js";
+import PERSONAL_INDUSTRIES from "../../../../Constants/personalIndustryConstants.js";
+import COMPANY_INDUSTRIES from "../../../../Constants/industryConstants.js";
 
 const Container = styled.div`
 	position:relative;
@@ -252,11 +253,11 @@ class LargePostComponent extends Component{
 
 	constructor(props){
 		super(props);
-
 		this.state={
 			companyTitle:"CEO",
 			companyName:"Razu",
-			industries:[]
+			industries:PERSONAL_INDUSTRIES.INDUSTRIES,
+			indicatorForPersonalOrCompanyPost:"profile"
 		};
 
 		console.log("Teste");
@@ -264,10 +265,11 @@ class LargePostComponent extends Component{
 	
 	componentDidMount(){
 
-		let industriesConstants=Industries.INDUSTRIES;
-		this.setState({
+		/*
+			Find out if the poster is from a company or personal profile
+		*/
 
-			industries:industriesConstants,
+		this.setState({
 			displayElement:this.originalScreen()
 		})
 	}
@@ -327,9 +329,11 @@ class LargePostComponent extends Component{
 						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
 						   	<span class="caret"></span>
 						</button>
-						<ul class="dropdown-menu">
+						<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
 							{this.state.industries.map(data=>
-								<li onClick={()=>this.handleChange(data.id)} id={data.id}><a href="#">{data.industry}</a></li>
+								<li onClick={()=>this.handleChange(data.id)} id={data.id}>
+									<a href="#">{data.industry}</a>
+								</li>
 							)}
 						</ul>
   				 </div>

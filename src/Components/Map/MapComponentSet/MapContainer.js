@@ -5,10 +5,8 @@ import SearchComponent from "../MapComponentSubSet/SearchComponent.js";
 import { 
 		credientialMapSearch,
 		UserLocation
-
 		} from "../../../Actions/Tasks/userTasks.js";
-
-import ReactMapGL ,{Marker} from 'react-map-gl';
+import ReactMapGL ,{Marker,Popup } from 'react-map-gl';
 
 
 const Container = styled.div`
@@ -52,10 +50,8 @@ const NavBar = styled.div`
 	width:85%;
 	z-index:5;
 	border-radius:5px;
-
-
-
 `;
+
 
 const testerdata= [
 	[
@@ -194,6 +190,11 @@ class MapContainer extends Component {
 		console.log("Clicked on map");
 	}
 
+	dispayPopupModal=()=>{
+
+
+	}
+
 	render(){
 
 		const position=[this.state.lat,this.state.lng];
@@ -205,15 +206,20 @@ class MapContainer extends Component {
 				{this.displayShadowBackground()}
 
 					<GeneralNavBar
-						pageType={"Map"}
+						page={"Map"}
 					/>
 				<ReactMapGL
 					{...this.state.viewport}
 					mapboxApiAccessToken={MAPBOX_TOKEN}
 					mapStyle="mapbox://styles/ngrant123/ck77anbmh01mg1ipu8893ou54"
 					onViewportChange={(viewport) => this.setState({viewport})}
-					onClick={(e)=>this.handleClickOnMap(e)}
-				/>
+					onClick={(e)=>this.handleClickOnMap(e)}>
+
+					<Marker latitude={37.78} longitude={-122.41} offsetLeft={-20} offsetTop={-10}>
+			          <div onClick={()=>this.dispayPopupModal()}>You are here</div>
+			        </Marker>
+
+				</ReactMapGL>
 
       			<SearchComponent/>
 

@@ -4,6 +4,7 @@ import backgroundimage from "../../../designs/background/illustration_4823700.pn
 import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import Typed from "react-typed";
 import InvestorComp from "../InvestorSubset/InvestorResults/InvestorList/InvestorResults.js";
+import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 
 
 
@@ -430,10 +431,10 @@ class LInvestor extends Component{
 					<SearchByIndustryContainer id="searchindustryid" onMouseEnter={()=>this.HoverEffectInvestorIndustryContainer()}>
 						<SearchByIndustryDescription>Search By Industry : </SearchByIndustryDescription>
 						<input list="startupcategories" name="startupcategories" style={StartuptypeStyle} placeholder="Pick an industry"/>
-								<datalist id="startupcategories">
-									<option value="Fashion" />
-									<option value= "Engineering" />
-									<option value="Consulting" />
+								<datalist id="startupcategories" style={{height:"50px"}}>
+									{COMPANY_INDUSTRIES.INDUSTRIES.map(data=>
+										<option value={data.industry} />
+									)}
 								</datalist>
 					<SearchIndustryButton onClick={()=>this.handleIndustrybuttonAnimation()}>Search</SearchIndustryButton>
 

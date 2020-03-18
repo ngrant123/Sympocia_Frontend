@@ -52,13 +52,9 @@ const SmallVideoContainer=()=>{
 											<li style={{listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
 												Industry Button
 											</li>
-
-
-									
 										</ul>
 
 		</SmallVideoComponent>
-
 
 	)
 }
