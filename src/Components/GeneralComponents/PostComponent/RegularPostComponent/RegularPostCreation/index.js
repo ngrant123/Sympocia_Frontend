@@ -96,7 +96,8 @@ const Photo=styled.div`
 
 	const [displayBulletList,changeBulletListDisplay]=useState(false);
 	const[firstTimeClickBulletList,changeFirstTimeClickBullet]=useState(false);
-	const [bulletListContent,changeBulletListContent]=useState("");
+	const [bulletListContent,changeBulletListContent]=useState({content:"",index:0,maxIndex:0});
+	const[bulletListParentNode,changeBulletListParentNode]=useState();
 
 
 	const [displayNumberedList,chnageNumberedBulletList]=useState(false);
@@ -309,16 +310,19 @@ const Photo=styled.div`
 		var liItem;
 		if(props.key=="Enter" || firstTimeClickBulletList==false){
 
-				
+				//const [bulletListContent,changeBulletListContent]=useState({bulletContent:"",bullIndex:0});
+
 				var textNode;
 				if(firstTimeClickBulletList==false){
 					changeFirstTimeClickBullet(true);
-					changeBulletListContent(bulletListContent+props.key);
+					changeBulletListContent({...bulletListContent,content:props.key,index:0});
 				    textNode=document.createTextNode(""+props.key);
 				}
 				else{
 					textNode=document.createTextNode("");
-					 changeBulletListContent(bulletListContent);
+					var nextMax=bulletListContent.maxIndex;
+					nextMax+=1;
+					changeBulletListContent({...bulletListContent,content:"",index:nextMax,maxIndex:nextMax});
 				}
 				
 				var ulList=document.createElement('ul');
@@ -327,24 +331,46 @@ const Photo=styled.div`
 				liItem.appendChild(textNode);
 				liItem.addEventListener("click",function(){
 					console.log("Test");
+					const currentIndex=getBulletLiIndex(this);
+					changeBulletListContent({...bulletListContent,content:liItem.innerText,index:currentIndex});
 				})
 
 				ulList.appendChild(liItem);
+				changeBulletListParentNode(this.parentNode);
 				textArea.append(ulList);
 
-				
-
 		}else{
-			var liElement=textArea.lastChild;
-			changeBulletListContent(bulletListContent+props.key);
-			liElement.innerHTML="<li>"+bulletListContent+props.key+"</li>";
+			var liElement=bulletListParentNode.childNodes[bulletListContent.index];
+			if(props.key==" "){
+				changeBulletListContent({...bulletListContent,content:bulletListContent.content+"&#160;"});
+				liElement.innerHTML="<li>"+bulletListContent.content+"&#160; </li>";
+
+			}else{
+				changeBulletListContent({...bulletListContent,content:bulletListContent.content+props.key});
+				liElement.innerHTML="<li>"+bulletListContent.content+props.key+"</li>";
+			}
+
 			liElement.addEventListener("click",function(){		
-					console.log(liElement.innerText);
-					changeBulletListContent(liElement.innerText);
-			})
-		}
+					const currentIndex=getBulletLiIndex(this);
+					changeBulletListContent({...bulletListContent,content:liElement.innerText,index:currentIndex});
+				})
+			}
 
 		setCursorLocation(textArea,textArea.innerText.length);
+	}
+
+	const getBulletLiIndex=(element)=>{
+
+		var child=element.parentNode.childNodes;
+		changeBulletListParentNode(element.parentNode);
+		var currentIndex;
+
+		for(var i=0;i<child.length;i++){
+			if(child[i]==element){
+				return i;
+			}
+		}
+		return null;
 	}
 
 	const updatedBulletListContent=(props)=>{
@@ -388,8 +414,6 @@ const Photo=styled.div`
 
 
 	const regardLetters=(props)=>{
-
-		if(props.key!=' '){
 			props.preventDefault();
 			if(displayBold==true && displayItalics==true){
 				addBold(props);
@@ -409,13 +433,10 @@ const Photo=styled.div`
 				addNumberedList(props);
 			}
 			else{
+				changeFirstTimeClickBullet(false);
 				changePostContents(postContents+props.key);
 				removeFontVariations(props);
 			}
-		}else{
-			changeBulletListContent(bulletListContent+props.key);
-			changeNumberListContent(numberListContent+props.key);
-		}
 	}
 //Contains a bug where for some reason it creates a newline after the user presses enter fix later
 	const removeFontVariations=(props)=>{
@@ -452,7 +473,7 @@ const Photo=styled.div`
 
 	const enableBulletList=()=>{
 
-		changeBulletListDisplay(!displayNumberedList);
+		changeBulletListDisplay(!displayBulletList);
 		chnageNumberedBulletList(false);
 		changeItalics(false);
 		changeBold(false);
@@ -614,7 +635,7 @@ const Photo=styled.div`
 
 				<li style={{listStyle:"none",marginBottom:"1%"}}>
 					<TextArea id="textarea">
-						<p style={{float:"left",width:"85%",overflowY:"auto",outline:"none"}} onClick={()=>emptyTextArea()} contenteditable="true" id="textAreaContainer"  onKeyPress={e=>regardLetters(e)}>
+						<p style={{float:"left",width:"85%",overflowY:"auto",outline:"none"}} onClick={()=>emptyTextArea()} contentEditable="true" id="textAreaContainer"  onKeyPress={e=>regardLetters(e)}>
 							Testing
 						</p>
 					</TextArea>

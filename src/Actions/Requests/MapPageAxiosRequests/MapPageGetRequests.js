@@ -10,13 +10,11 @@ export function quickSearchIndustry(id,industryArray){
 			industries:industryArray
 		}
 	}).then(companies=>{
-
 		return companies;
 	}).catch(err=>{
 		console.log(err);
 		return err;
 	})
-
 }
 /*
 
@@ -24,9 +22,9 @@ export function quickSearchIndustry(id,industryArray){
 */
 
 export function searchForCompanies(id,searchCriteria){
+
 	const Url="http://localhost:4000/api/map/search";
 	const {state,industry,name}=searchCriteria;
-
 	axios.get(`${Url}/searchForCompanies`,{
 		params:{
 			id:id,

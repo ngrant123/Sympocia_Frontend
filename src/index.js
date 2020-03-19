@@ -59,7 +59,6 @@ const application  = (
 				<Route path="/profile" component={PersonalProfileScreen}/>
 				<Route path="/investor" component= {InvestorScreen} />
 				<Route path="/map" component= {MapScreen} />
-				
 				//TEST
 				<Route path="/demo" component={Demo}/>
 				<Route Path="/blog" component={BlogPostCreation}/>

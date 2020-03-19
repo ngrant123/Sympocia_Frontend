@@ -6,20 +6,20 @@ import {
             searchForCompanies
       } from "../../../Actions/Requests/MapPageAxiosRequests/MapPageGetRequests.js";
 import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
+import LOCATIONS from "../../../Constants/locationConstants.js";
+import {MapConsumer} from "../MapContext.js";
 
 const SearchContainer = styled.div`
 
       position:absolute;
       width:35%;
-      height:60%;
+      height:65%;
       top:15%;
       left:3%;
       background-color:white;
       z-index:5;
       border-radius:5px;
       overflow:hidden;
-
-
 `;
 
 const IndustryButtons=styled.div`
@@ -36,10 +36,8 @@ const IndustryButtons=styled.div`
       transition:.8s;
 
       &:hover{
-
             color:white;
             background-color:#5298F8;
-
       }
 `;
 
@@ -96,17 +94,67 @@ const SubmitButtton=styled.div`
 
 `;
 
+const SearchOptionsContainer=styled.div`
+      border-color:#5298F8;
+      border-style:solid;
+      border-width:1px;
+      color:#5298F8;
+      background-color:white;
+      border-radius:5px;
+      padding:10px;
+`;
+
+const MapBoxInputCSS={
+      position:"relative",
+      width:"180%",
+      height:"10%",
+      padding:"5px",
+      color:"3F3F3F",
+      borderStyle:"solid",
+      borderWidth:"1px",
+      borderColor:"#CCCCCC",
+      borderRadius:"5px",
+      resize:"none",
+      left:"5%",
+      paddingLeft:"10px",
+      paddingTop:"10px"
+}
+
+
 class SearchComponent extends Component{
 
 	constructor(props){
 
 		super(props);
+            console.log("Teste");
 
 		this.state={
 		    industries:[],
-		    addedOption:[]
+		    addedOption:[],
+                addedOptionsObject:{},
+                locations:[]
 		}
 	}
+
+      componentDidMount=()=>{
+
+            const locationArray=LOCATIONS.worldcities;
+            const newLocationArray=[];
+            const deciderMap=new Map();
+
+            for(var i=0;i<locationArray.length;i++){
+                  const location=locationArray[i].admin_name;
+                  if(deciderMap.has(location)==false){
+                        deciderMap.set(location,1);
+                        newLocationArray.push(locationArray[i]);
+                  }else
+                        continue;
+            }
+
+            this.setState({
+                  locations:newLocationArray
+            })
+      }
 
 
       displaySelectedOption=()=>{
@@ -118,8 +166,10 @@ class SearchComponent extends Component{
                   return <React.Fragment>
 
                               {this.state.addedOption.map(data=>
-                                          <li style={{listStyle:"none",display:"inline-block"}}>
-                                                Testing
+                                          <li style={{listStyle:"none",display:"inline-block",marginTop:"2%",marginLeft:"2%"}}>
+                                                <SearchOptionsContainer>
+                                                      {data}
+                                                </SearchOptionsContainer>
                                           </li>
                                     )}
 
@@ -127,115 +177,173 @@ class SearchComponent extends Component{
             }
       }
 
+      addOption=(props)=>{
+            props.displayInformationalModal(false);
+            const location=document.getElementById("locationId").value;
+            const industry=document.getElementById("industryId").value;
+            const name=document.getElementById("nameId").value;
+            const newOptionArray=[];
+            const newObject={}
+
+            if(location!=""){
+                  newOptionArray.push(location);
+                  newObject={...this.state.addedOptionsObject,state:location}
+            }
+
+            if(industry!=""){
+                  newOptionArray.push(industry);
+                  newObject={...this.state.addedOptionsObject,industry:industry}
+            }
+
+            if(name!=""){
+                  newOptionArray.push(industry);
+                  newObject={...this.state.addedOptionsObject,name:name}
+            }
+
+            this.setState({
+                  addedOption:newOptionArray,
+                  addedOptionsObject:newObject
+            })
+      }
+
+      addQuickSearchIndustry=(data)=>{
+            const quickSearchData=this.state.industries;
+            quickSearchData.push(data);
+            this.setState({
+                  industries:quickSearchData
+            },function(){
+                  const companies=quickSearchIndustry(this.props.id,this.state.industries);
+            })
+      }
+
+      submitData=()=>{
+            const addedOptions=this.state.addedOptionsObject;
+            const companies=searchForCompanies(this.props.id,addedOptions);
+      }
+
 	render(){
 
 		return (
+                  <MapConsumer>
+                        {mapContext=>{
+                              return <SearchContainer>
+                                          <ul style={{padding:"0px"}}>
+                                                      <li style={{listStyle:"none",fontSize:"40px",color:"#9F68FD",marginLeft:"20%"}}> 
+                                                            <b>Meet new people</b>
+                                                      </li>
+                                                      <li style={{listStyle:"none",fontSize:"17px",marginLeft:"40%",color:"#585858"}}>
+                                                            Industries:
+                                                      </li>
+                                                      <li style={{listStyle:"none",fontSize:"13px",marginLeft:"25%",color:"#585858",marginBottom:"2%"}}>
+                                                            Quick search your favorite industries
+                                                      </li>
 
-			<SearchContainer>
-				<ul style={{padding:"0px"}}>
-      					<li style={{listStyle:"none",fontSize:"40px",color:"#9F68FD",marginLeft:"20%"}}> 
-      						<b>Meet new people</b>
-      					</li>
-      					<li style={{listStyle:"none",fontSize:"17px",marginLeft:"40%",color:"#585858"}}>
-      						Industries:
-      					</li>
-                                    <li style={{listStyle:"none",fontSize:"13px",marginLeft:"25%",color:"#585858",marginBottom:"2%"}}>
-                                          Quick search your favorite industries
-                                    </li>
+                                                      <IndustryContainer>
+                                                                  {COMPANY_INDUSTRIES.INDUSTRIES.map(data=>
+                                                                        <li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+                                                                              <IndustryButtons onClick={()=>this.addQuickSearchIndustry()}>
+                                                                                    {data.industry}
+                                                                              </IndustryButtons>
+                                                                        </li>
+                                                                  )}
+                                                            
+                                                      </IndustryContainer>
 
-                                    <IndustryContainer>
-                  					{COMPANY_INDUSTRIES.INDUSTRIES.map(data=>
-                  						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-                  							<IndustryButtons>
-                                                                  {data.industry}
-                                                            </IndustryButtons>
-                  						</li>
+                                                      <li style={{listStyle:"none",fontSize:"13px",marginLeft:"35%",color:"#585858",marginTop:"1%"}}>
+                                                           Search categories:
+                                                      </li>
 
-                  					)}
-                                          
-                                    </IndustryContainer>
+                                                      <li>
+                                                            <ul style={{padding:"0px"}}>
+                                                                  <li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
+                                                                        <input id="locationId" list="locationsWorld" name="startupcategories" style={MapBoxInputCSS} placeholder="Search by state (e.x New York)"/>
+                                                                              <datalist id="locationsWorld" style={{height:"50px"}}>
+                                                                                    {this.state.locations.map(data=>
+                                                                                          <option value={data.admin_name}/>
+                                                                                    )}
+                                                                              </datalist>
+                                                                  </li>
 
-                                    <li style={{listStyle:"none",fontSize:"13px",marginLeft:"35%",color:"#585858",marginTop:"1%"}}>
-                                         Search categories:
-                                    </li>
+                                                                  <li style={{position:"absolute",listStyle:"none",display:"inline-block"}}>
+                                                                        <AddOptionButton onClick={()=>this.addOption(mapContext)}>
+                                                                              Add
+                                                                        </AddOptionButton>
 
-      					<li>
-      						<ul style={{padding:"0px"}}>
-      							<li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
-      								<MapTextBox
-                                                      placeholder="Search by state (e.x New York)"
-                                                      />
-
-      							</li>
-
-      							<li style={{position:"absolute",listStyle:"none",display:"inline-block"}}>
-      								<AddOptionButton>
-                                                            Add
-                                                      </AddOptionButton>
-
-      							</li>
-
-
-      						</ul>
-      					</li>
-
-      					<li>
-	      					<ul style={{padding:"0px"}}>
-                                                <li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
-                                                      <MapTextBox
-                                                      placeholder="Search by industry (e.x. Fashion)"
-                                                      />
-
-                                                </li>
-
-                                                <li style={{position:"absolute",listStyle:"none",display:"inline-block"}}>
-                                                      <AddOptionButton>
-                                                            Add
-                                                      </AddOptionButton>
-
-                                                </li>
+                                                                  </li>
 
 
-                                          </ul>
+                                                            </ul>
+                                                      </li>
 
-      					</li>
+                                                      <li>
+                                                            <ul style={{padding:"0px"}}>
+                                                                  <li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
+                                   
+                                                                         <input id="industryId" list="industriesWorld" name="startupcategories" style={MapBoxInputCSS} placeholder="Search by industry (e.x. Fashion)"/>
+                                                                              <datalist id="industriesWorld" style={{height:"50px"}}>
+                                                                                    {COMPANY_INDUSTRIES.INDUSTRIES.map(data=>
+                                                                                          <option value={data.industry}/>
+                                                                                    )}
+                                                                              </datalist>
 
-      					<li>
+                                                                  </li>
 
-      						<ul style={{padding:"0px"}}>
-                                                <li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
-                                                      <MapTextBox
-                                                      placeholder="Search by name"
-                                                      />
+                                                                  <li style={{position:"absolute",listStyle:"none",display:"inline-block"}}>
+                                                                        <AddOptionButton onClick={()=>this.addOption(mapContext)}>
+                                                                              Add
+                                                                        </AddOptionButton>
 
-                                                </li>
-
-                                                <li style={{position:"absolute",listStyle:"none",display:"inline-block"}}>
-                                                      <AddOptionButton>
-                                                            Add
-                                                      </AddOptionButton>
-
-                                                </li>
-
-
-                                          </ul>
-
-      					</li>
-                                    {this.displaySelectedOption()}
-
-                                    <li>
-                                          <SubmitButtton>
-                                                Submit
-                                          </SubmitButtton>
-
-                                    </li>
-      				</ul>
+                                                                  </li>
 
 
-			</SearchContainer>
-		)
-	}
+                                                            </ul>
+
+                                                      </li>
+
+                                                      <li>
+
+                                                            <ul style={{padding:"0px"}}>
+                                                                  <li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
+                                                                        <MapTextBox
+                                                                        placeholder="Search by name"
+                                                                        id="nameId"
+                                                                        />
+                                                                  </li>
+
+                                                                  <li style={{position:"absolute",listStyle:"none",display:"inline-block"}}>
+                                                                        <AddOptionButton onClick={()=>this.addOption(mapContext)}>
+                                                                              Add
+                                                                        </AddOptionButton>
+
+                                                                  </li>
+
+
+                                                            </ul>
+
+                                                      </li>
+                                                      {this.displaySelectedOption()}
+
+                                                      <li>
+                                                            <SubmitButtton onClick={()=>this.submitData()}>
+                                                                  Submit
+                                                            </SubmitButtton>
+
+                                                      </li>
+                                                </ul>
+                                 </SearchContainer>
+                              }
+                        }
+                  </MapConsumer>
+      		)
+      	}
+      }
+
+const mapStateToProps=(state)=>{
+      return{
+            companyInformation:state.companyInformation
+      }
 }
 
-
-export default SearchComponent;
+export default (connect)(
+            mapStateToProps
+      )(SearchComponent);

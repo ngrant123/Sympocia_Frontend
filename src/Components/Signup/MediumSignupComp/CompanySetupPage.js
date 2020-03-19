@@ -466,8 +466,6 @@ class CompanySetupPage extends Component{
 			},function(){
 				
 			})
-
-
 		}
 	}
 
@@ -578,7 +576,7 @@ class CompanySetupPage extends Component{
 						<CompanyName id="company" placeholder="Enter your company name" onClick={()=> this.handleCompanyDivClick()}></CompanyName>
 
 						<DescriptionLocation> Location </DescriptionLocation>
-						<LocationName id="location" placeholder="Start typing a location" onClick={()=> this.handleLocationDivClick()} onChange={event=>this.handleDisplayAndSearchLocation(event.target.value)}></LocationName>
+						<LocationName id="location" placeholder="Start typing a location" onClick={()=> this.handleLocationDivClick()}></LocationName>
 
 						<DescriptionCompanyType> Company Type </DescriptionCompanyType>
 						<IndustryName id="industry" placeholder="Enter your company type"  onClick={()=> this.handleCompanyTypeDivClick()} onChange={event=>this.handleSearchIndustry(event.target.value)}></IndustryName>

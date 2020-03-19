@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Link} from "react-router-dom";
 import styled from "styled-components";
 import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import SearchComponent from "../MapComponentSubSet/SearchComponent.js";
@@ -7,6 +8,7 @@ import {
 		UserLocation
 		} from "../../../Actions/Tasks/userTasks.js";
 import ReactMapGL ,{Marker,Popup } from 'react-map-gl';
+import {MapProvider} from "../MapContext.js";
 
 
 const Container = styled.div`
@@ -53,11 +55,76 @@ const NavBar = styled.div`
 `;
 
 
+const MarkerContainer=styled.div`
+
+	position:relative;
+	background-color:white;
+	width:70px;
+	height:65px;
+	border-radius:5px;
+	padding:2px;
+	overflow:hidden;
+	box-shadow:2px 2px 5px #707070;
+
+`;
+
+const CompanyLogo=styled.div`
+	position:relative;
+	background-color:red;
+	border-radius:50%;
+	width:70%;
+	height:65%;
+`;
+
+const ViewCompanyButton=styled(Link)`
+	position:relative;
+	text-align:center;
+	background-color:#5298F8;
+	width:40px;
+	height:10%;
+	border-radius:5px;
+	padding:5px;
+	color:white;
+	margin-top:20%;
+
+`;
+
+const EmployeePicture=styled.div`
+	position:relative;
+	background-color:red;
+	border-radius:50%;
+	width:50px;
+	height:40px;
+
+`;
+const EmployeesContainer=styled.div`
+	position:relative;
+	width:90%;
+	height:50px;
+	overflow:hidden;
+	margin-bottom:10px;
+	box-shadow:2px 2px 2px #707070;
+	border-radius:5px;
+`;
+
+const InformationalModal=styled.div`
+	position:absolute;
+	top:15%;
+	left:40%;
+	height:20%;
+	width:25%;
+	background-color:white;
+	border-radius:5px;
+	padding:5px;
+
+
+`;
+
+
 const testerdata= [
 	[
 		72,
 		-44
-
 	],
 	[
 		72,
@@ -82,10 +149,10 @@ const MAPBOX_TOKEN ="pk.eyJ1IjoibmdyYW50MTIzIiwiYSI6ImNrNzZzcjV3NTAwaGYza3BqbHZj
 
 
 class MapContainer extends Component {
-
 	constructor(props){
 
 		super(props);
+		console.log("testing");
 
 		/*
 		  this.state = {
@@ -101,8 +168,8 @@ class MapContainer extends Component {
 		    viewport: {
 		      width: "100%",
 		      height:"100%",
-		      latitude: 37.7577,
-		      longitude: -122.4376,
+		      latitude:40.730610,
+		      longitude:-73.935242,
 		      zoom: 8
 		    },
 		    lat: -73.97732549999999,
@@ -110,13 +177,19 @@ class MapContainer extends Component {
 		    testlat:0,
 		    zoom: 16,
 			showShadowBackground:false,
-			companiesLocation:[]
+			companiesLocation:[{employees:[{},{},{},{},{}],name:"Google",id:1234567876543,activeTime:"2",long:-73.935242,lat:40.730610}],
+			displayPopup:false,
+			popupLat:0,
+			popupLong:0,
+			displayInformationalModal:true,
+			selectedCompany:{}
 		  };
 
 	}
 
 	componentDidMount(){	
-
+		console.log("testing");
+		/*
 		if(this.state.lat==0 && this.state.lng==0){
 
 			this.setState({
@@ -143,7 +216,6 @@ class MapContainer extends Component {
 						lng:longitude,
 						testlat:testlatitude,
 						showShadowBackground:false
-
 					});
 
 			},function(e){
@@ -161,12 +233,7 @@ class MapContainer extends Component {
 			console.log("Not supported");
 			this.getLocationManually();
 		}
-	}
-
-
-	getLocationManually = () =>{
-
-
+		*/
 	}
 
 
@@ -185,14 +252,63 @@ class MapContainer extends Component {
 		return this.state.showShadowBackground ? <ShadowBackground /> : <p style={{display:"none"}}></p> ;
 	}
 
-	handleClickOnMap=(e)=>{
-		console.log(e);
-		console.log("Clicked on map");
+	dispayPopupModal=(props)=>{
+		this.setState({
+			displayPopup:true,
+			popupLat:props.lat,
+			popupLong:props.long,
+			selectedCompany:{
+				name:props.name,
+				id:props.id,
+				activeTime:props.activeTime,
+				employees:props.employees
+			}
+		})
+	}
+	closePopModal=()=>{
+		this.setState({
+			displayPopup:false
+		})
 	}
 
-	dispayPopupModal=()=>{
+	popup=()=>{
+
+		if(this.state.displayPopup==true){
+			return <Popup 
+						latitude={this.state.popupLat} longitude={this.state.popupLong}
+						style={{boxShadow:"2px 2px 5px #707070"}}
+						onClose={()=>this.closePopModal()}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none"}}>
+								<h1>{this.state.selectedCompany.name}</h1>
+							</li>
+							<li style={{listStyle:"none",marginBottom:"2%"}}>
+								Active:{this.state.selectedCompany.activeTime} days ago	
+							</li>
+							<li style={{listStyle:"none",marginBottom:"2%"}}>
+									Employees:
+							</li>
+						</ul>
+
+						<EmployeesContainer>
+							{this.state.selectedCompany.employees.map(data=>
+												<li style={{display:"inline-block",listStyle:"none",marginRight:"2%",marginBottom:"1%"}}>
+													<EmployeePicture>
+													</EmployeePicture>
+												</li>
+											)}
+						</EmployeesContainer>
+						<ViewCompanyButton to="/profile">
+							View Company
+						</ViewCompanyButton>
+						
+					</Popup>
+		}
+	}
 
 
+	handleClick=(props)=>{
+		console.log(props);
 	}
 
 	render(){
@@ -201,29 +317,74 @@ class MapContainer extends Component {
 		const position2=[this.state.testlat,this.state.lng];
 
 		return(
+			<MapProvider
+				value={{
+					displayInformationalModal:(decider)=>{
+						this.setState({
+							displayInformationalModal:decider
+						})
+					}
+				}}
+			>
+				<Container>
+					{this.displayShadowBackground()}
 
-			<Container>
-				{this.displayShadowBackground()}
+						<GeneralNavBar
+							page={"Map"}
+						/>
+					<ReactMapGL
+						{...this.state.viewport}
+						mapboxApiAccessToken={MAPBOX_TOKEN}
+						mapStyle="mapbox://styles/ngrant123/ck77anbmh01mg1ipu8893ou54"
+						onViewportChange={(viewport) => this.setState({viewport})}
+						onClick={e=>this.handleClick(e)}
+						style={{height:"100%"}}
+						center={this.state.center}>
 
-					<GeneralNavBar
-						page={"Map"}
-					/>
-				<ReactMapGL
-					{...this.state.viewport}
-					mapboxApiAccessToken={MAPBOX_TOKEN}
-					mapStyle="mapbox://styles/ngrant123/ck77anbmh01mg1ipu8893ou54"
-					onViewportChange={(viewport) => this.setState({viewport})}
-					onClick={(e)=>this.handleClickOnMap(e)}>
+						{this.state.companiesLocation.map(data=>
+							<Marker latitude={data.lat} longitude={data.long} offsetLeft={-20} offsetTop={-10}>
+					          <MarkerContainer onClick={()=>this.dispayPopupModal(data)}>
+					          		<ul style={{padding:"0px"}}>
+					          			<li style={{listStyle:"none",marginLeft:"20%"}}>
+					          				<CompanyLogo>
+					          				</CompanyLogo>
+					          			</li>
 
-					<Marker latitude={37.78} longitude={-122.41} offsetLeft={-20} offsetTop={-10}>
-			          <div onClick={()=>this.dispayPopupModal()}>You are here</div>
-			        </Marker>
+					          			<li style={{listStyle:"none",fontSize:"10px",textAlign:"center"}}>
+					          				{data.name}
+					          			</li>
 
-				</ReactMapGL>
+					          		</ul>
+					          </MarkerContainer>
+					        </Marker>
+				        )}
+						{this.state.displayInformationalModal && (
+							
+							<InformationalModal>
+								<p style={{color:"#5298F8"}}> Search for companies who are nearby and connect with them. Heres how the map works:</p>
+								<ul>
+									<li>
+										Choose by what state and industry you want (or search directly by name)
+									</li>
 
-      			<SearchComponent/>
+									<li>
+										When all your information is done press submit and let us handle the rest
 
-			</Container>
+									</li>
+
+								</ul>
+
+							</InformationalModal>
+
+						)}
+				       {this.popup()}
+
+					</ReactMapGL>
+
+	      			<SearchComponent/>
+
+				</Container>
+			</MapProvider>
 		)
 	}
 }
