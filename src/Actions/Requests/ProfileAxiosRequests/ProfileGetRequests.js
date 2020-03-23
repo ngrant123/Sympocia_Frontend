@@ -138,7 +138,6 @@ export function getImages(profileId){
 	})
 }
 
-
 export function getBlogs(profileId){
 
 
@@ -149,7 +148,55 @@ export function getBlogs(profileId){
 		}).catch(err=>{
 			console.log(err.message);
 		})
-
-
-
 }
+
+
+export async function getProfileByName(profileName){	
+
+	try{
+
+		const profile=await axios.get(`${SearchUrl}/getProfileByName`,{
+				params:{
+					name:profileName
+				}
+			});
+
+		const {data}=profile;
+		return profile;
+
+	}catch(err){
+		console.log(err.message);
+		return err.message;
+	}
+}
+
+export async function getInvestorsInIndustryAndArea(investorsSearchCriteria){
+
+	try{
+		console.log("Test api calls");
+		const {industry,location}=investorsSearchCriteria;
+		const investorProfiles=await axios.get(`${SearchUrl}/getInvestors`,{
+			params:{
+				industry:industry,
+				location:location
+			}
+		});
+
+		const {data}=investorProfiles;
+		return investorProfiles;
+
+	}catch(err){
+		console.log(err.message);
+		return err.message;
+	}
+}
+
+
+
+
+
+
+
+
+
+

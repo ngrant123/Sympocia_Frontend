@@ -13,6 +13,7 @@ import {
 			addCompanyType,
 			addCompanyLocation 
 		} from "../../../Actions/Redux/Actions/CompanyActions.js";
+import ReactMapGL ,{Marker,Popup } from 'react-map-gl';
 
  
 const SignUp = styled.div`
@@ -245,7 +246,7 @@ const LocationChoiceModule=styled.div`
 	top:35%;
 	left:35%;
 	width:30%;
-	height:30%;
+	height:40%;
 	font-size:20px;
 	font-family:Helvetica;
 	z-index:2;
@@ -330,6 +331,20 @@ const IndustryContainer=styled.div`
 
 `;
 
+const MarkerContainer=styled.div`
+
+	position:relative;
+	background-color:white;
+	width:70px;
+	height:65px;
+	border-radius:5px;
+	padding:2px;
+	overflow:hidden;
+	box-shadow:2px 2px 5px #707070;
+
+`;
+
+const MAPBOX_TOKEN ="pk.eyJ1IjoibmdyYW50MTIzIiwiYSI6ImNrNzZzcjV3NTAwaGYza3BqbHZjNXJhZDkifQ.DsFpgYjX7ZUtOe7cFmylhQ"
 
 class CompanySetupPage extends Component{
 
@@ -337,6 +352,13 @@ class CompanySetupPage extends Component{
 		console.log('Setup Page is accessed');
 		super(props);
 		this.state={
+			viewport: {
+		      width: "100%",
+		      height:"100%",
+		      latitude:40.730610,
+		      longitude:-73.935242,
+		      zoom: 8
+		    },
 			pageText:"Before we set up your profile, we need to know a few details about your company or hobby that you're are doing ",
 			companynameDescrip:"Company Details",
 			displayPaymentScreen:false,
@@ -346,21 +368,23 @@ class CompanySetupPage extends Component{
 			cityPicked:{},
 			industryPicked:"",
 			location:[],
-			industries:INDUSTRIES.INDUSTRIES
+			industries:INDUSTRIES.INDUSTRIES,
+			displayMarker:false,
+			long:0,
+			lat:0
 		};
 	}
 
 	handleSubmit(){
-
 		const company=document.getElementById('company').value;
-		const location=document.getElementById('location').value;
+		//const location=document.getElementById('location').value;
 		const industry=document.getElementById('industry').value;
+		const locationObject={long:this.state.long,lat:this.state.lat};
 
 		this.props.addCompanyName(company);
 		this.props.addCompanyType(industry);
-		this.props.addCompanyLocation(this.state.cityPicked);
+		this.props.addCompanyLocation(locationObject);
 	
-
 		document.getElementById("payment").style.opacity="1";
 		document.getElementById("payment").style.pointerEvents="auto";
 	}
@@ -392,8 +416,8 @@ class CompanySetupPage extends Component{
 				companynameDescrip:"Whats your location?",
 				pageText:"We use this for a number of reasons. We use this to pair you up with other similiar minded people and it also helps us tailor the experience to your geographical location",
 				backgroundURL:CompanyNameBackground,
-				displayIndustryChoiceDiv:false
-
+				displayIndustryChoiceDiv:false,
+				displayLocationChoiceDiv:true
 			});
 	}
 
@@ -421,27 +445,42 @@ class CompanySetupPage extends Component{
 		});
 	}
 
-	handleDisplayLocationDiv=()=>{
+	updateLatLongMarker=(props)=>{
+		const {lngLat}=props;
+		const long=lngLat[0];
+		const lat=lngLat[1];
 
+		this.setState({
+			long:long,
+			lat:lat,
+			displayMarker:true
+		})
+	}
+
+
+	handleDisplayLocationDiv=()=>{
 		return this.state.displayLocationChoiceDiv==true ?
 					<LocationChoiceModule>
-						<ul style={{padding:"5px"}}>
-							{this.state.location.map(data=>(
-									<li style={{display:"inline-block",listStyle:"none",marginLeft:"20px",marginBottom:"40px"}}>
-										<LocationContainer onClick={()=>this.handleHideLocationDiv(data)}>
-											{data.city}
-										</LocationContainer>
+						<ReactMapGL
+							{...this.state.viewport}
+							mapboxApiAccessToken={MAPBOX_TOKEN}
+							mapStyle="mapbox://styles/ngrant123/ck78412jk0v5s1io79mvz3etw"
+							onClick={(e)=>this.updateLatLongMarker(e)}
+							onViewportChange={(viewport) => this.setState({viewport})}
+							style={{height:"100%",width:"100%"}}
+							center={this.state.center}>
 
-									</li>
-								)
-							)
-						}
-
-						</ul>
+							{this.state.displayMarker && (
+								<Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
+						          <MarkerContainer>
+						          </MarkerContainer>
+						        </Marker>
+							)}
+						</ReactMapGL>
 					</LocationChoiceModule>:
 					<React.Fragment>
 					</React.Fragment>
-	}
+		}
 
 
 	handleDisplayAndSearchLocation=(searchCharacters)=>{
@@ -546,8 +585,7 @@ class CompanySetupPage extends Component{
 										<IndustryContainer onClick={()=>this.handleHideIndustryDiv(data.industry)}>
 											{data.industry}
 										</IndustryContainer>
-
-									</li>
+								</li>
 							</li>
 								)
 							)
@@ -588,7 +626,6 @@ class CompanySetupPage extends Component{
 
 						<TitleAreaDiv id="titlearea"><b> {this.state.companynameDescrip} </b> </TitleAreaDiv>
 						<TextAreaDiv id="textarea"> {this.state.pageText} </TextAreaDiv>
-
 
 					<PaymentScreen id="payment">
 						<PaymentOptionsScreen 

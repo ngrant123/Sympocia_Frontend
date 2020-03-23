@@ -96,7 +96,7 @@ const Photo=styled.div`
 
 	const [displayBulletList,changeBulletListDisplay]=useState(false);
 	const[firstTimeClickBulletList,changeFirstTimeClickBullet]=useState(false);
-	const [bulletListContent,changeBulletListContent]=useState({content:"",index:0,maxIndex:0});
+	const [bulletListContent,changeBulletListContent]=useState({content:"",index:0,maxIndex:0,ulElement:{}});
 	const[bulletListParentNode,changeBulletListParentNode]=useState();
 
 
@@ -209,8 +209,8 @@ const Photo=styled.div`
 	}
 
 	const setCursorLocation=(textArea,length)=>{
-
 		/*
+
 			if(textArea.setSelectionRange){
 				textArea.focus();
 				textArea.setSelectionRange(length,length);
@@ -300,34 +300,34 @@ const Photo=styled.div`
 	}
 
 /*
-	Problem with this is with the contents of the else state 
-	with the implementation the implementation is shit u stoopid
-
+	Problem now is that the cursor blinknin thing is not working and 
+	when a user types something it places it on the end no matter the
+	location
 
 */
 	const addBulletList=(props)=>{
 		var textArea=document.getElementById("textAreaContainer");
 		var liItem;
-		if(props.key=="Enter" || firstTimeClickBulletList==false){
-
-				//const [bulletListContent,changeBulletListContent]=useState({bulletContent:"",bullIndex:0});
+		if(props.key=="Enter" || firstTimeClickBulletList==true){
 
 				var textNode;
-				if(firstTimeClickBulletList==false){
-					changeFirstTimeClickBullet(true);
-					changeBulletListContent({...bulletListContent,content:props.key,index:0});
+				var ulList;
+				if(firstTimeClickBulletList==true){
+					changeFirstTimeClickBullet(false);
 				    textNode=document.createTextNode(""+props.key);
+				    ulList=document.createElement('ul');
+				    changeBulletListContent({...bulletListContent,content:props.key,index:0,ulElement:ulList});
 				}
 				else{
+
 					textNode=document.createTextNode("");
 					var nextMax=bulletListContent.maxIndex;
 					nextMax+=1;
 					changeBulletListContent({...bulletListContent,content:"",index:nextMax,maxIndex:nextMax});
+					ulList=bulletListContent.ulElement;
 				}
 				
-				var ulList=document.createElement('ul');
 				liItem=document.createElement('li');
-
 				liItem.appendChild(textNode);
 				liItem.addEventListener("click",function(){
 					console.log("Test");
@@ -336,15 +336,16 @@ const Photo=styled.div`
 				})
 
 				ulList.appendChild(liItem);
-				changeBulletListParentNode(this.parentNode);
+				console.log("LI item parent node");
+				console.log(liItem.parentNode);
 				textArea.append(ulList);
+				changeBulletListParentNode(liItem.parentNode);
 
 		}else{
-			var liElement=bulletListParentNode.childNodes[bulletListContent.index];
+			var liElement=bulletListContent.ulElement.childNodes[bulletListContent.index];
 			if(props.key==" "){
 				changeBulletListContent({...bulletListContent,content:bulletListContent.content+"&#160;"});
 				liElement.innerHTML="<li>"+bulletListContent.content+"&#160; </li>";
-
 			}else{
 				changeBulletListContent({...bulletListContent,content:bulletListContent.content+props.key});
 				liElement.innerHTML="<li>"+bulletListContent.content+props.key+"</li>";
@@ -362,7 +363,10 @@ const Photo=styled.div`
 	const getBulletLiIndex=(element)=>{
 
 		var child=element.parentNode.childNodes;
-		changeBulletListParentNode(element.parentNode);
+		//changeBulletListParentNode(element.parentNode);
+
+		console.log("LI item parent node");
+		console.log(element.parentNode);
 		var currentIndex;
 
 		for(var i=0;i<child.length;i++){
@@ -387,8 +391,8 @@ const Photo=styled.div`
 
 				
 				var textNode;
-				if(firstTimeClickNumberList==false){
-					changeFirstTimeClickNumber(true);
+				if(firstTimeClickNumberList==true){
+					changeFirstTimeClickNumber(false);
 				    textNode=document.createTextNode(""+props.key);
 				}
 				else{
@@ -474,6 +478,7 @@ const Photo=styled.div`
 	const enableBulletList=()=>{
 
 		changeBulletListDisplay(!displayBulletList);
+		changeFirstTimeClickBullet(!firstTimeClickBulletList);
 		chnageNumberedBulletList(false);
 		changeItalics(false);
 		changeBold(false);

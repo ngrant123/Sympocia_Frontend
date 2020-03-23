@@ -5,9 +5,8 @@ import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavB
 import Typed from "react-typed";
 import InvestorComp from "../InvestorSubset/InvestorResults/InvestorList/InvestorResults.js";
 import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
-
-
-
+import LOCATIONS  from "../../../Constants/locationConstants.js";
+import {getInvestorsInIndustryAndArea} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 const Container = styled.div`
 	position:absolute;
 	height:100%;
@@ -16,7 +15,6 @@ const Container = styled.div`
 	background-size: cover;
 	background-position:center center;
 	overflow:hidden;
-
 `;
 
 const SearchContainer = styled.div`
@@ -29,7 +27,6 @@ const SearchContainer = styled.div`
 	left:30%;
 	transition: all ease 0.8s;
   	opacity:0;
- 
 `;
 
 const SearchByNameContainer = styled.div`
@@ -41,7 +38,6 @@ const SearchByNameContainer = styled.div`
 	transition:.8s;
 	border-radius:5px;
 	box-shadow: 5px 10px 7px 5px #888888;
-
 `;
 
 const SearchByNameDescription = styled.div`
@@ -248,15 +244,34 @@ class LInvestor extends Component{
 		super(props);
 
 		this.state={
-			displayInvestorResults:false
+			displayInvestorResults:false,
+			locations:[]
 		}
 	}
 
-	async componentDidMount(){
-		await this.timerFunction(1500);
-
+	 componentDidMount(){
+		//await this.timerFunction(1500);
+		console.log("Test");
 		document.getElementById("container").style.opacity=1;
 		document.getElementById("locationid").style.opacity=1;
+
+
+		const locationArray=LOCATIONS.worldcities;
+        const newLocationArray=[];
+        const deciderMap=new Map();
+
+            for(var i=0;i<locationArray.length;i++){
+                  const location=locationArray[i].admin_name;
+                  if(deciderMap.has(location)==false){
+                        deciderMap.set(location,1);
+                        newLocationArray.push(locationArray[i]);
+                  }else
+                        continue;
+            }
+
+            this.setState({
+                  locations:newLocationArray
+            })
 	}
 
 	timerFunction=(seconds)=>{
@@ -305,7 +320,7 @@ class LInvestor extends Component{
 
 	handleIndustrybuttonAnimation(){
 
-
+/*
 			var intervalposition=0;
 			var counter=10;
 			var industrycontainerstyleleft=45;
@@ -349,12 +364,103 @@ class LInvestor extends Component{
 			document.getElementById("searchnameid").style.opacity="0";
 			document.getElementById("locationid").style.opacity="1";
 			document.getElementById("locationid").style.zIndex="1";
-
+			*/
+			var demo=[2,6,1,9,6,8,3];
+			const array=this.quicksortAlgo(demo);
+			console.log(array);
 
 	}
 
-	handleLocationClick(){
 
+//TEST
+
+
+
+
+
+
+
+ quicksortAlgo=(demo)=>{
+	const randomNum=demo.length-1;
+	const finalArray=[];
+	var lastNum=randomNum-1;;
+
+	if(demo.length==1){
+		return demo;
+	}else{
+
+				
+		
+			let firstNum=0;
+			let pivot=demo[randomNum];
+
+			while(lastNum!=firstNum){
+
+				if(demo[lastNum]<=pivot && demo[firstNum]>=pivot){
+					const firstNumber=demo[firstNum];
+					const lastNumber=demo[lastNum];
+
+					demo[lastNum]=firstNumber;
+					demo[firstNum]=lastNumber;
+
+					lastNum--;
+					firstNum++;
+
+				}else if(lastNum==firstNum){
+					break;
+				}
+				 if(demo[firstNum]<pivot){
+					firstNum++;
+				}
+
+				 if(demo[lastNum]>pivot){
+					lastNum--;
+				}
+			}
+
+			const leftArray=[];
+			const rigthArray=[];
+			for(var i=0;i<firstNum;i++){
+				leftArray.push(demo[i]);
+			}
+
+			for(var i=lastNum;i<lastNum;i++){
+				rigthArray.push(demo[i]);
+			}
+
+			const leftReOrderedArray=this.quicksortAlgo(leftArray);
+			const rigthReOrderArray=this.quicksortAlgo(rigthArray);
+
+			
+			for(var i=0;i<leftReOrderedArray.length;i++){
+				finalArray.push(leftReOrderedArray[i]);
+			}
+
+			for(var i=lastNum;i<rigthReOrderArray.length;i++){
+				finalArray.push(rigthReOrderArray[i]);
+			}
+
+			return finalArray;
+		}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	handleLocationClick(){
+		this.sendDataToDB();
 		var locationdiv=document.getElementById("locationid");
 		var locationdivtop=30
 		var locationdivleft=37
@@ -384,6 +490,20 @@ class LInvestor extends Component{
 		})
 	}
 
+	 async sendDataToDB(){
+		const location=document.getElementById("industries").value;
+		const industry=document.getElementById("locations").value;
+
+		const searchCritia={
+			industry:industry,
+			location:location
+		}
+		const investorsData=await getInvestorsInIndustryAndArea(searchCritia);
+		this.setState({
+			investorResults:investorsData
+		})
+	}
+
 	HoverEffectInvestorNameContainer(){
 
 			document.getElementById("searchnameid").style.borderRadius="10px";
@@ -408,7 +528,9 @@ class LInvestor extends Component{
 		return this.state.displayInvestorResults==false?
 			<React.Fragment></React.Fragment>:
 			<InvestorResultsBody id="investorbody">
-				<InvestorComp/>
+				<InvestorComp
+					investorData={this.state.investorResults}
+				/>
 			</InvestorResultsBody>
 
 	}
@@ -430,10 +552,10 @@ class LInvestor extends Component{
 
 					<SearchByIndustryContainer id="searchindustryid" onMouseEnter={()=>this.HoverEffectInvestorIndustryContainer()}>
 						<SearchByIndustryDescription>Search By Industry : </SearchByIndustryDescription>
-						<input list="startupcategories" name="startupcategories" style={StartuptypeStyle} placeholder="Pick an industry"/>
+						<input id="industries" list="startupcategories" style={StartuptypeStyle} placeholder="Pick an industry"/>
 								<datalist id="startupcategories" style={{height:"50px"}}>
 									{COMPANY_INDUSTRIES.INDUSTRIES.map(data=>
-										<option value={data.industry} />
+										<option value={data.industry}/>
 									)}
 								</datalist>
 					<SearchIndustryButton onClick={()=>this.handleIndustrybuttonAnimation()}>Search</SearchIndustryButton>
@@ -443,19 +565,17 @@ class LInvestor extends Component{
 				</SearchContainer>
 
 				<LocationContainer id="locationid">
-						<input list="locationoptions" name="locationoptions" style={LocationStyle} placeholder="Pick an location" id="locationoptions"/>
-								<datalist id="locationoptions">
-									<option value="New York" />
-									<option value= "California" />
-									<option value="New Jersey" />
-								</datalist>
-
+							<input id="locations" list="locationcategories" style={LocationStyle} placeholder="Pick a location"/>
+							<datalist id="locationcategories" style={{height:"40px"}}>
+									{this.state.locations.map(data=>
+										<option value={data.admin_name}/>
+									)}
+							</datalist>		
 						<SearchLocationButton id="locationsearchbutton" onClick={()=>this.handleLocationClick()}>Search</SearchLocationButton>
 
 				</LocationContainer>
-					
-					{this.displayInvestorResults()}
 
+				{this.displayInvestorResults()}
 
 					<InvestorDescriptionPage id="investpagedescription">
 						  <b><Typed 

@@ -177,7 +177,7 @@ class MapContainer extends Component {
 		    testlat:0,
 		    zoom: 16,
 			showShadowBackground:false,
-			companiesLocation:[{employees:[{},{},{},{},{}],name:"Google",id:1234567876543,activeTime:"2",long:-73.935242,lat:40.730610}],
+			companiesLocation:[],
 			displayPopup:false,
 			popupLat:0,
 			popupLong:0,
@@ -255,11 +255,11 @@ class MapContainer extends Component {
 	dispayPopupModal=(props)=>{
 		this.setState({
 			displayPopup:true,
-			popupLat:props.lat,
-			popupLong:props.long,
+			popupLat:props.latitude,
+			popupLong:props.longitude,
 			selectedCompany:{
 				name:props.name,
-				id:props.id,
+				id:props._id,
 				activeTime:props.activeTime,
 				employees:props.employees
 			}
@@ -323,9 +323,14 @@ class MapContainer extends Component {
 						this.setState({
 							displayInformationalModal:decider
 						})
-					}
-				}}
-			>
+					},
+					updateCompaniesLocation:(companiesArray)=>{
+						this.setState({
+							companiesLocation:companiesArray
+							})
+						}
+					}}
+				>
 				<Container>
 					{this.displayShadowBackground()}
 
@@ -342,7 +347,7 @@ class MapContainer extends Component {
 						center={this.state.center}>
 
 						{this.state.companiesLocation.map(data=>
-							<Marker latitude={data.lat} longitude={data.long} offsetLeft={-20} offsetTop={-10}>
+							<Marker latitude={data.latitude} longitude={data.longitude} offsetLeft={-20} offsetTop={-10}>
 					          <MarkerContainer onClick={()=>this.dispayPopupModal(data)}>
 					          		<ul style={{padding:"0px"}}>
 					          			<li style={{listStyle:"none",marginLeft:"20%"}}>

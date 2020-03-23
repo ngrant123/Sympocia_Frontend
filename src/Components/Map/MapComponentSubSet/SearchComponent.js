@@ -180,24 +180,21 @@ class SearchComponent extends Component{
       addOption=(props)=>{
             props.displayInformationalModal(false);
             const location=document.getElementById("locationId").value;
-            const industry=document.getElementById("industryId").value;
+            const industry=document.getElementById("industryId").value.trim();
             const name=document.getElementById("nameId").value;
             const newOptionArray=[];
-            const newObject={}
+            let newObject={}
 
             if(location!=""){
                   newOptionArray.push(location);
-                  newObject={...this.state.addedOptionsObject,state:location}
             }
 
             if(industry!=""){
                   newOptionArray.push(industry);
-                  newObject={...this.state.addedOptionsObject,industry:industry}
             }
 
             if(name!=""){
-                  newOptionArray.push(industry);
-                  newObject={...this.state.addedOptionsObject,name:name}
+                  newOptionArray.push(name);
             }
 
             this.setState({
@@ -206,23 +203,30 @@ class SearchComponent extends Component{
             })
       }
 
-      addQuickSearchIndustry=(data)=>{
-            const quickSearchData=this.state.industries;
-            quickSearchData.push(data);
+      addQuickSearchIndustry=async(data,mapContext)=>{
+            mapContext.displayInformationalModal(false);
+            let quickSearchData=this.state.industries;
+            quickSearchData.push(data.trim());
+            const companies=await quickSearchIndustry("5e73bd457ad9932ff75c40bf",this.state.industries);
+            mapContext.updateCompaniesLocation(companies);
+            console.log(companies);
+
             this.setState({
                   industries:quickSearchData
-            },function(){
-                  const companies=quickSearchIndustry(this.props.id,this.state.industries);
-            })
+            });
       }
 
-      submitData=()=>{
-            const addedOptions=this.state.addedOptionsObject;
-            const companies=searchForCompanies(this.props.id,addedOptions);
+      submitData=async(mapContext)=>{
+          //  const addedOptions=this.state.addedOptionsObject;
+            const location=document.getElementById("locationId").value;
+            const industry=document.getElementById("industryId").value.trim();
+            const name=document.getElementById("nameId").value;
+            const addedOptions={state:location,industry:industry,name:name};
+            const companies=await searchForCompanies("5e73bd457ad9932ff75c40bf",addedOptions);
+            mapContext.updateCompaniesLocation(companies);
       }
 
 	render(){
-
 		return (
                   <MapConsumer>
                         {mapContext=>{
@@ -241,12 +245,11 @@ class SearchComponent extends Component{
                                                       <IndustryContainer>
                                                                   {COMPANY_INDUSTRIES.INDUSTRIES.map(data=>
                                                                         <li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-                                                                              <IndustryButtons onClick={()=>this.addQuickSearchIndustry()}>
+                                                                              <IndustryButtons onClick={()=>this.addQuickSearchIndustry(data.industry,mapContext)}>
                                                                                     {data.industry}
                                                                               </IndustryButtons>
                                                                         </li>
                                                                   )}
-                                                            
                                                       </IndustryContainer>
 
                                                       <li style={{listStyle:"none",fontSize:"13px",marginLeft:"35%",color:"#585858",marginTop:"1%"}}>
@@ -324,7 +327,7 @@ class SearchComponent extends Component{
                                                       {this.displaySelectedOption()}
 
                                                       <li>
-                                                            <SubmitButtton onClick={()=>this.submitData()}>
+                                                            <SubmitButtton onClick={()=>this.submitData(mapContext)}>
                                                                   Submit
                                                             </SubmitButtton>
 
