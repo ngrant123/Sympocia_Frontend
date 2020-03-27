@@ -97,13 +97,20 @@ export function updateEmployee(userId,updatedEmployeeData){
 }
 
 export function createProfile(personalData){
-	const {firstName,lastName,email,paymentPlan,stripToken}=personalData;
-
-	const personalInformation={
+	const {firstName,lastName,email,paymentPlan,isInvestor,location,stripToken}=personalData;
+	let personalInformation;
+	if(isInvestor==true){
+		const {industries}=personalData;
+		personalInformation={
+			...personalData,
+			firstTimeLoggedIn:true,
+			industries:industries
+		}
+	}else{
+		personalInformation={
 		...personalData,
-		ownsABusiness:false,
-		isInvestor:false,
 		firstTimeLoggedIn:true
+		}
 	}
 	console.log(personalData);
 

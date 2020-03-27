@@ -175,15 +175,19 @@ export async function getInvestorsInIndustryAndArea(investorsSearchCriteria){
 	try{
 		console.log("Test api calls");
 		const {industry,location}=investorsSearchCriteria;
-		const investorProfiles=await axios.get(`${SearchUrl}/getInvestors`,{
+		console.log(investorsSearchCriteria);
+		const industryArray=[];
+		industryArray.push(industry);
+		const investorProfiles=await axios.get(`${SearchUrl}/getInvestorProfiles`,{
 			params:{
-				industry:industry,
+				industry:industryArray,
 				location:location
 			}
 		});
 
 		const {data}=investorProfiles;
-		return investorProfiles;
+		const investorResults=data.data;
+		return investorResults;
 
 	}catch(err){
 		console.log(err.message);
@@ -191,6 +195,63 @@ export async function getInvestorsInIndustryAndArea(investorsSearchCriteria){
 	}
 }
 
+export async function getNewestInvestors(investors){
+
+	try{
+
+		const newestInvestors=await axios.get(`${SearchUrl}/getNewestInvestors`,{
+			params:{
+				investos:investors
+			}
+		})
+
+
+		const{data}=newestInvestors;
+		const result=data.data;
+		return data;
+
+	}catch(err){
+		console.log(err.message);
+	}
+}
+
+export async function getActiveInvestors(investors){
+	try{
+		const activeInvestors=await axios.get(`${SearchUrl}/getActiveInvestors`,{
+			params:{
+				investos:investors
+			}
+		})
+
+
+		const{data}=activeInvestors;
+		const result=data.data;
+		return data;
+
+
+	}catch(err){
+		console.log(err.message);
+	}
+}
+
+
+export async function getMostPopular(investors){
+	try{
+		const mostPopularInvestors=await axios.get(`${SearchUrl}/getMostPopularInvestors`,{
+			params:{
+				investos:investors
+			}
+		})
+
+		const{data}=mostPopularInvestors;
+		const result=data.data;
+		return data;
+
+
+	}catch(err){
+		console.log(err.message);
+	}
+}
 
 
 

@@ -1,6 +1,6 @@
 import React,{useState,useEffect,Component} from "react";
 import styled from "styled-components";
-
+import {InvestorConsumer} from "../../../InvestorContext.js";
 
 const Container=styled.div`
 	width:400px;
@@ -79,59 +79,72 @@ const SearchInformation=(props)=>{
 	},[])
 
 	return(
-		<React.Fragment>
-			<p style={{marginLeft:"35px",fontSize:"35px",color:"#353737"}}><b>Fashion Investors</b></p>
-			<p style={{paddingLeft:"25%",fontSize:"15px",color:"#8c939a"}}> New York Investors </p>
+		<InvestorConsumer>
+			{investorInformationCriteria=>{
+				console.log(investorInformationCriteria);
+				return <React.Fragment>
+				<p style={{marginLeft:"35px",fontSize:"35px",color:"#353737"}}><b>{investorInformationCriteria.state.searchCriteria.industry} Investors</b></p>
+				<p style={{paddingLeft:"25%",fontSize:"15px",color:"#8c939a"}}>{investorInformationCriteria.state.searchCriteria.location} Investors </p>
 
 
-			<ul style={{padding:"0px"}}>
-				<li style={{marginBottom:"20px",listStyle:"none"}}> 
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<OptionsButton onClick={()=>changeInvestors(activeNow)}>
-								Active Now
-							</OptionsButton>
-						</li>
+				<ul style={{padding:"0px"}}>
+					<li style={{marginBottom:"20px",listStyle:"none"}}> 
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<OptionsButton onClick={()=>changeInvestors(activeNow)}>
+									Active Now
+								</OptionsButton>
+							</li>
 
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<OptionsButton onClick={()=>changeInvestors(mostPopular)}>
-								Most Popular
-							</OptionsButton>
-						</li>
-
-
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<OptionsButton onClick={()=>changeInvestors(newest)}>
-								Newest
-							</OptionsButton>
-
-						</li>
-					</ul>
-
-				</li>
-
-				<li style={{marginLeft:"5px",listStyle:"none"}}> 
-					<InvestorsContainer>
-						<ul style={{padding:"10px"}}>
-							{investors.map(data=>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"10px",marginBottom:"10px"}}>
-									<InvestorInformation>
-										<InvestorProfilePicture>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<OptionsButton onClick={()=>changeInvestors(mostPopular)}>
+									Most Popular
+								</OptionsButton>
+							</li>
 
 
-										</InvestorProfilePicture>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<OptionsButton onClick={()=>changeInvestors(newest)}>
+									Newest
+								</OptionsButton>
 
-										<p style={{marginLeft:"15px"}}>Nathan Grant </p>
-									</InvestorInformation>
-								</li>
-							)}
+							</li>
 						</ul>
-					</InvestorsContainer>
-				</li>
-			</ul>
 
-			<p style={{color:"#5b5d60"}}><b>Here are a list of fashion designers in new york that you could talk to :)</b></p>
-		</React.Fragment>
+					</li>
+
+					<li style={{marginLeft:"5px",listStyle:"none"}}> 
+						<InvestorsContainer>
+							<ul style={{padding:"10px"}}>
+								{investors.map(data=>
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"10px",marginBottom:"10px"}}>
+										<InvestorInformation>
+											<InvestorProfilePicture>
+
+
+											</InvestorProfilePicture>
+
+											<p style={{marginLeft:"15px"}}>Nathan Grant </p>
+										</InvestorInformation>
+									</li>
+								)}
+							</ul>
+						</InvestorsContainer>
+					</li>
+				</ul>
+
+				<p style={{color:"#5b5d60"}}><b>Here are a list of {investorInformationCriteria.state.searchCriteria.industry} 
+					investors in {investorInformationCriteria.state.searchCriteria.industry} that you could talk to :)</b></p>
+			</React.Fragment>
+
+
+
+
+
+
+				}
+			}
+		</InvestorConsumer>
 	)
 }
 

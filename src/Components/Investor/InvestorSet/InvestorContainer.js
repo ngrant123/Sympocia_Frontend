@@ -7,6 +7,10 @@ import InvestorComp from "../InvestorSubset/InvestorResults/InvestorList/Investo
 import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 import LOCATIONS  from "../../../Constants/locationConstants.js";
 import {getInvestorsInIndustryAndArea} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {InvestorProvider} from "../InvestorContext.js";
+import {connect} from "react-redux";
+
+
 const Container = styled.div`
 	position:absolute;
 	height:100%;
@@ -200,7 +204,7 @@ const InvestorResultsBody = styled.div`
 	border-radius:10px;
 	z-index:2; 
 	transition:1s;
-	overflow:hidden;
+	overflow-y:auto;
 
 `;
 
@@ -245,12 +249,13 @@ class LInvestor extends Component{
 
 		this.state={
 			displayInvestorResults:false,
-			locations:[]
+			locations:[],
+			investorResults:[]
 		}
 	}
 
-	 componentDidMount(){
-		//await this.timerFunction(1500);
+	 async componentDidMount(){
+		await this.timerFunction(1500);
 		console.log("Test");
 		document.getElementById("container").style.opacity=1;
 		document.getElementById("locationid").style.opacity=1;
@@ -320,7 +325,6 @@ class LInvestor extends Component{
 
 	handleIndustrybuttonAnimation(){
 
-/*
 			var intervalposition=0;
 			var counter=10;
 			var industrycontainerstyleleft=45;
@@ -364,103 +368,10 @@ class LInvestor extends Component{
 			document.getElementById("searchnameid").style.opacity="0";
 			document.getElementById("locationid").style.opacity="1";
 			document.getElementById("locationid").style.zIndex="1";
-			*/
-			var demo=[2,6,1,9,6,8,3];
-			const array=this.quicksortAlgo(demo);
-			console.log(array);
-
 	}
 
-
-//TEST
-
-
-
-
-
-
-
- quicksortAlgo=(demo)=>{
-	const randomNum=demo.length-1;
-	const finalArray=[];
-	var lastNum=randomNum-1;;
-
-	if(demo.length==1){
-		return demo;
-	}else{
-
-				
-		
-			let firstNum=0;
-			let pivot=demo[randomNum];
-
-			while(lastNum!=firstNum){
-
-				if(demo[lastNum]<=pivot && demo[firstNum]>=pivot){
-					const firstNumber=demo[firstNum];
-					const lastNumber=demo[lastNum];
-
-					demo[lastNum]=firstNumber;
-					demo[firstNum]=lastNumber;
-
-					lastNum--;
-					firstNum++;
-
-				}else if(lastNum==firstNum){
-					break;
-				}
-				 if(demo[firstNum]<pivot){
-					firstNum++;
-				}
-
-				 if(demo[lastNum]>pivot){
-					lastNum--;
-				}
-			}
-
-			const leftArray=[];
-			const rigthArray=[];
-			for(var i=0;i<firstNum;i++){
-				leftArray.push(demo[i]);
-			}
-
-			for(var i=lastNum;i<lastNum;i++){
-				rigthArray.push(demo[i]);
-			}
-
-			const leftReOrderedArray=this.quicksortAlgo(leftArray);
-			const rigthReOrderArray=this.quicksortAlgo(rigthArray);
-
-			
-			for(var i=0;i<leftReOrderedArray.length;i++){
-				finalArray.push(leftReOrderedArray[i]);
-			}
-
-			for(var i=lastNum;i<rigthReOrderArray.length;i++){
-				finalArray.push(rigthReOrderArray[i]);
-			}
-
-			return finalArray;
-		}
-	
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	handleLocationClick(){
-		this.sendDataToDB();
+	handleLocationClick=async()=>{
+		await this.sendDataToDB();
 		var locationdiv=document.getElementById("locationid");
 		var locationdivtop=30
 		var locationdivleft=37
@@ -491,16 +402,19 @@ class LInvestor extends Component{
 	}
 
 	 async sendDataToDB(){
-		const location=document.getElementById("industries").value;
-		const industry=document.getElementById("locations").value;
-
-		const searchCritia={
+		const location=document.getElementById("locations").value;
+		const industry=document.getElementById("industries").value;
+		
+		const searchCriteria={
 			industry:industry,
 			location:location
 		}
-		const investorsData=await getInvestorsInIndustryAndArea(searchCritia);
+
+		const investorsData=await getInvestorsInIndustryAndArea(searchCriteria);
+		console.log(investorsData);
 		this.setState({
-			investorResults:investorsData
+			investorResults:investorsData,
+			searchCriteria:searchCriteria
 		})
 	}
 
@@ -523,8 +437,6 @@ class LInvestor extends Component{
 	}
 
 	displayInvestorResults=()=>{
-
-
 		return this.state.displayInvestorResults==false?
 			<React.Fragment></React.Fragment>:
 			<InvestorResultsBody id="investorbody">
@@ -538,57 +450,75 @@ class LInvestor extends Component{
 	render(){
 
 		return(
-			<Container>
-					<GeneralNavBar
-						pageType={"Investor"}
-					/>
+			<InvestorProvider
+				value={{
+					state:this.state
+				}}
+			>
+				<Container>
+						<GeneralNavBar
+							pageType={"Investor"}
+						/>
 
-				<SearchContainer id="container">
-					<SearchByNameContainer id="searchnameid" onMouseEnter={()=>this.HoverEffectInvestorNameContainer()}>
-						<SearchByNameDescription> Search By Name : </SearchByNameDescription>
-						<SearchByNameTextarea placeholder="Enter Investors Name"></SearchByNameTextarea>
-						<SearchByNameButton onClick={()=>this.handleNameButtonAnimation()}>Search</SearchByNameButton>
-					</SearchByNameContainer>
+					<SearchContainer id="container">
+						<SearchByNameContainer id="searchnameid" onMouseEnter={()=>this.HoverEffectInvestorNameContainer()}>
+							<SearchByNameDescription> Search By Name : </SearchByNameDescription>
+							<SearchByNameTextarea placeholder="Enter Investors Name"></SearchByNameTextarea>
+							<SearchByNameButton onClick={()=>this.handleNameButtonAnimation()}>Search</SearchByNameButton>
+						</SearchByNameContainer>
 
-					<SearchByIndustryContainer id="searchindustryid" onMouseEnter={()=>this.HoverEffectInvestorIndustryContainer()}>
-						<SearchByIndustryDescription>Search By Industry : </SearchByIndustryDescription>
-						<input id="industries" list="startupcategories" style={StartuptypeStyle} placeholder="Pick an industry"/>
-								<datalist id="startupcategories" style={{height:"50px"}}>
-									{COMPANY_INDUSTRIES.INDUSTRIES.map(data=>
-										<option value={data.industry}/>
-									)}
-								</datalist>
-					<SearchIndustryButton onClick={()=>this.handleIndustrybuttonAnimation()}>Search</SearchIndustryButton>
+						<SearchByIndustryContainer id="searchindustryid" onMouseEnter={()=>this.HoverEffectInvestorIndustryContainer()}>
+							<SearchByIndustryDescription>Search By Industry : </SearchByIndustryDescription>
+							<input id="industries" list="startupcategories" style={StartuptypeStyle} placeholder="Pick an industry"/>
+									<datalist id="startupcategories" style={{height:"50px"}}>
+										{COMPANY_INDUSTRIES.INDUSTRIES.map(data=>
+											<option value={data.industry}/>
+										)}
+									</datalist>
+						<SearchIndustryButton onClick={()=>this.handleIndustrybuttonAnimation()}>Search</SearchIndustryButton>
 
-					</SearchByIndustryContainer>					
+						</SearchByIndustryContainer>					
 
-				</SearchContainer>
+					</SearchContainer>
 
-				<LocationContainer id="locationid">
-							<input id="locations" list="locationcategories" style={LocationStyle} placeholder="Pick a location"/>
-							<datalist id="locationcategories" style={{height:"40px"}}>
-									{this.state.locations.map(data=>
-										<option value={data.admin_name}/>
-									)}
-							</datalist>		
-						<SearchLocationButton id="locationsearchbutton" onClick={()=>this.handleLocationClick()}>Search</SearchLocationButton>
+					<LocationContainer id="locationid">
+								<input id="locations" list="locationcategories" style={LocationStyle} placeholder="Pick a location"/>
+								<datalist id="locationcategories" style={{height:"40px"}}>
+										{this.state.locations.map(data=>
+											<option value={data.admin_name}/>
+										)}
+								</datalist>		
+							<SearchLocationButton id="locationsearchbutton" onClick={()=>this.handleLocationClick()}>Search</SearchLocationButton>
 
-				</LocationContainer>
+					</LocationContainer>
 
-				{this.displayInvestorResults()}
+					{this.displayInvestorResults()}
 
-					<InvestorDescriptionPage id="investpagedescription">
-						  <b><Typed 
-		                    strings={['Search for Investors in your industry or in your state.^1000' ,'Finding the perfect investor for you is just a couple of clicks away.^1000','Lets get started :)']} 
-		                    typeSpeed={60} 
-		                    backSpeed={30} 
-                		  /></b>
-					</InvestorDescriptionPage>
+						<InvestorDescriptionPage id="investpagedescription">
+							  <b><Typed 
+			                    strings={['Search for Investors in your industry or in your state.^1000' ,'Finding the perfect investor for you is just a couple of clicks away.^1000','Lets get started :)']} 
+			                    typeSpeed={60} 
+			                    backSpeed={30} 
+	                		  /></b>
+						</InvestorDescriptionPage>
 
 
-			</Container>
+				</Container>
+			</InvestorProvider>
 
 		)
 	}
 }
-export default LInvestor;
+
+const mapStateToProps=(state)=>{
+
+	return{
+
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	null
+)(LInvestor);
+

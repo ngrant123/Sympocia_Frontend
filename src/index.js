@@ -59,10 +59,10 @@ const application  = (
 				<Route path="/profile" component={PersonalProfileScreen}/>
 				<Route path="/investor" component= {InvestorScreen} />
 				<Route path="/map" component= {MapScreen} />
-				<Route Path="/blog" component={BlogPostCreation}/>
+				
 				//TEST
 				<Route path="/demo" component={Demo}/>
-				
+				<Route Path="/blog" component={BlogPostCreation}/>
 
 			</Switch>
 		</Router>

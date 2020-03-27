@@ -6,7 +6,7 @@ import Particles from 'react-particles-js';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import Typed from "react-typed";
-
+import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 import {
 	addName,
 	addLastName,
@@ -15,6 +15,7 @@ import {
 import {
 	createProfile
 } from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import ReactMapGL ,{Marker,Popup } from 'react-map-gl';
 
 const BodyContainer= styled.div`
 
@@ -401,24 +402,140 @@ const CompanyPageButton=styled.div`
 
 
 `;
+const MapContainer=styled.div`
+	position:absolute;
+	background-color:white;
+	top:35%;
+	width:50%;
+	height:45%;
+	font-size:20px;
+	font-family:Helvetica;
+	z-index:2;
+	border-radius:5px;
+	border-style:solid;
+    border-color:#5298F8;
+    overflow-y:scroll;
+`;
+
+const MarkerContainer=styled.div`
+
+	position:relative;
+	background-color:white;
+	width:70px;
+	height:65px;
+	border-radius:5px;
+	padding:2px;
+	overflow:hidden;
+	box-shadow:2px 2px 5px #707070;
+`;
 
 const BottomNotificationContainer=styled.div`
 	position:absolute;
-	
+`;
 
+const Button=styled(Link)`
+	position:absolute;
+	width:15%;
+	height:5%;
+	border-radius:5px;
+	background-color:#C8B0F4;
+	color:white;
+	text-decoration:none;
+	text-align:center;
+	font-size:15px;
+	padding:10px;
+	left:57%;
+	top:65%;
+
+	&:hover{
+		color:white;
+		text-decoration:none;
+	}
+`;
+
+const SubmitButton=styled(Link)`
+	position:relative;
+	border-radius:5px;
+	width:30%;
+	background-color:#C8B0F4;
+	color:white;
+	text-decoration:none;
+	text-align:center;
+	font-size:15px;
+	padding:10px;
+
+	&:hover{
+		color:white;
+		text-decoration:none;
+	}
 
 `;
 
-class LSignupPage extends Component {
+const AsisgnEveryIndustryButton=styled.div`
+	position:relative;
+	border-radius:5px;
+	background-color:#5298F8;
+	color:white;
+	text-decoration:none;
+	text-align:center;
+	font-size:15px;
+	padding:10px;
+	top:65%;
 
+	&:hover{
+		color:white;
+		text-decoration:none;
+	}
+`;
+
+const IndustryButton=styled.div`
+	position:relative;
+	border-radius:5px;
+	background-color:#5298F8;
+	color:white;
+	text-decoration:none;
+	text-align:center;
+	font-size:15px;
+	padding:10px;
+	top:65%;
+
+	&:hover{
+		color:white;
+		text-decoration:none;
+	}
+`;
+
+const StartuptypeStyle ={
+	position:'relative',
+	padding:"10px",
+	textAlign:'center',
+	borderRadius:'5px'
+}
+
+const MAPBOX_TOKEN ="pk.eyJ1IjoibmdyYW50MTIzIiwiYSI6ImNrNzZzcjV3NTAwaGYza3BqbHZjNXJhZDkifQ.DsFpgYjX7ZUtOe7cFmylhQ"
+
+class LSignupPage extends Component {
 
 	constructor(props){
 		super(props);
 
 		this.state= {
+			viewport: {
+		      width: "100%",
+		      height:"100%",
+		      latitude:40.730610,
+		      longitude:-73.935242,
+		      zoom: 8
+		    },
 			displayPersonalSetupPage:false,
 			displayCompanySetupPage:false,
-			hideInitialScreen:false
+			displayPersonalInvestorPage:false,
+			hideInitialScreen:false,
+			displayInvestorMapScreen:true,
+			selectedIndustries:[],
+			long:0,
+			lat:0,
+			displayMarker:false
 		};
 	}
 
@@ -453,14 +570,10 @@ class LSignupPage extends Component {
 
 	DisplayPersonalOrCompanyChoices=()=>{
 
-
-
 		return this.state.hideInitialScreen==true?
 			<React.Fragment>
-
 				{this.DisplayPersonalSetupPage()}
 				{this.DisplayCompanySetupPage()}
-				
 			</React.Fragment>: 
 			<React.Fragment>
 				{this.TitleDisplayNameHeader()}
@@ -471,11 +584,21 @@ class LSignupPage extends Component {
 							<p style={HeaderDescriptionCSS}>Interested in viewing videos, posts, and images
 							from your friends and people you are interested in? Click on the button below</p>
 
+							<ul>
+								<li style={{listStyle:"none"}}>
+									 <div class="custom-control custom-checkbox mb-3">
+									    <input type="checkbox" class="custom-control-input" id="investorCheckbox" required/>
+									    <label class="custom-control-label" for="investorCheckbox">Check this checkbox if you plan on investing now or the future (dont worry if you dont know how we'll try our best to teach you)</label>
+									    <div class="invalid-feedback"></div>
+									  </div>
 
-							<PersonalPageButton to="/home" onClick={()=>this.handleDisplayPersonalSetupPage()}>Click here</PersonalPageButton>
+								</li>
+							</ul>
+
+
+							<PersonalPageButton to="/home" onClick={e=>this.handleDisplayPersonalSetupPage(e)}>Click here</PersonalPageButton>
 
 						</PersonalSectionCard>
-
 				</PersonalSectionContainer>
 
 				<CompanySectionContainer>
@@ -485,12 +608,9 @@ class LSignupPage extends Component {
 								proud of? Or maybe you have a startup or business and you want to connect with people
 								who you think would want to see it? Click on the button below to get started
 							</p>
-
-
 							<CompanyPageButton onClick={()=>this.handleDisplayCompanySetupPage()}>Click here</CompanyPageButton>
 
 						</CompanySectionCard>
-
 				</CompanySectionContainer>
 
 
@@ -500,22 +620,37 @@ class LSignupPage extends Component {
 
 
 
-	handleDisplayPersonalSetupPage=()=>{
+	handleDisplayPersonalSetupPage=(e)=>{
 
-		this.props.addFirstName(this.props.firstName);
-		this.props.addLastName(this.props.lastName);
-		this.props.addEmail(this.props.email);
+		const checkbox=document.getElementById("investorCheckbox");
+		const valueOfCheckbox=checkbox.checked;
+		if(valueOfCheckbox==true){
+			e.preventDefault();
+			this.setState({
+				hideInitialScreen:true,
+				displayCompanySetupPage:false,
+				displayPersonalSetupPage:false,
+				displayPersonalInvestorPage:true
+			})
 
-		createProfile({
-			firstName:this.props.firstName,
-			lastName:this.props.lastName,
-			email:this.props.email
-		});
+		}else{
 
-		this.setState({
-			displayPersonalSetupPage:true,
-			hideInitialScreen:true
-		})
+			this.props.addFirstName(this.props.firstName);
+			this.props.addLastName(this.props.lastName);
+			this.props.addEmail(this.props.email);
+
+			createProfile({
+				firstName:this.props.firstName,
+				lastName:this.props.lastName,
+				email:this.props.email,
+				isInvestor:false
+			});
+
+			this.setState({
+				displayPersonalSetupPage:true,
+				hideInitialScreen:true
+			})
+		}
 	} 
 
 
@@ -527,6 +662,223 @@ class LSignupPage extends Component {
 		})
 	}
 
+	updateLatLongMarker=(props)=>{
+		const {lngLat}=props;
+		const long=lngLat[0];
+		const lat=lngLat[1];
+
+		this.setState({
+			long:long,
+			lat:lat,
+			displayMarker:true
+		})
+	}
+
+
+	handleCreateInvestorProfileClick=(e)=>{
+
+		if(this.state.lat==0&&this.state.long==0){
+			e.preventDefault();
+		}else{
+
+			this.props.addFirstName(this.props.firstName);
+			this.props.addLastName(this.props.lastName);
+			this.props.addEmail(this.props.email);
+
+			const locationObject={long:this.state.long,lat:this.state.lat};
+			const isInvestor=true;
+
+			createProfile({
+				firstName:this.props.firstName,
+				lastName:this.props.lastName,
+				email:this.props.email,
+				isInvestor:true,
+				location:locationObject
+			});
+		}
+	}
+
+
+
+	displayPersonalInvestorSection=()=>{
+		console.log("Testing sign up page");
+		return this.state.displayPersonalInvestorPage==false?
+			<React.Fragment></React.Fragment>:
+			<React.Fragment>
+				{this.displayMapScreenOrIndustryScreen()}
+			</React.Fragment>
+	}
+
+
+
+handleCreateInvestorProfileClick=(e)=>{
+
+			this.props.addFirstName(this.props.firstName);
+			this.props.addLastName(this.props.lastName);
+			this.props.addEmail(this.props.email);
+
+			const locationObject={long:this.state.long,lat:this.state.lat};
+			const industries=this.state.selectedIndustries;
+			const isInvestor=true;
+
+			createProfile({
+				firstName:this.props.firstName,
+				lastName:this.props.lastName,
+				email:this.props.email,
+				isInvestor:true,
+				industries:industries,
+				location:locationObject
+			});
+}
+
+handleNextPageClick=(e)=>{
+
+	e.preventDefault();
+	if(this.state.lat==0&&this.state.long==0){
+		alert('Please tell us your location to continue the process');
+	}else{
+		this.setState({
+			displayInvestorMapScreen:false
+		})
+	}
+}
+
+addIndustry=(props)=>{
+	const currentSelectedIndustries=this.state.selectedIndustries;
+	if(currentSelectedIndustries.length>0){
+		var addIndustryIndicator=false;
+		for(var i=0;i<currentSelectedIndustries.length;i++){
+		const industry=currentSelectedIndustries[i];
+
+			if(props==industry){
+				addIndustryIndicator=true;
+			}
+		}
+
+		if(addIndustryIndicator==false)
+			currentSelectedIndustries.push(props);
+	}else{
+		currentSelectedIndustries.push(props);
+	}
+	
+	this.setState({
+		selectedIndustries:currentSelectedIndustries
+	})
+
+}
+
+
+	displayMapScreenOrIndustryScreen=()=>{
+		return this.state.displayInvestorMapScreen==true? 
+			<ul style={{listStyle:"none"}}>
+						<TitleHeader style={{fontSize:"60px"}}>
+							<b>You indicated that you were interested in investing in other people</b>
+						</TitleHeader>
+				
+						<MapContainer>
+							<ReactMapGL
+									{...this.state.viewport}
+									mapboxApiAccessToken={MAPBOX_TOKEN}
+									mapStyle="mapbox://styles/ngrant123/ck78412jk0v5s1io79mvz3etw"
+									onClick={(e)=>this.updateLatLongMarker(e)}
+									onViewportChange={(viewport) => this.setState({viewport})}
+									style={{height:"100%",width:"100%"}}
+									center={this.state.center}>
+
+									{this.state.displayMarker && (
+										<Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
+								          <MarkerContainer>
+								          </MarkerContainer>
+								        </Marker>
+									)}
+							</ReactMapGL>
+						</MapContainer>
+
+						<p style={{zIndeX:"2",position:"absolute",left:"57%",top:"35%",fontSize:"25px"}}>
+							Tell us where you're most located. We need this information so that we can easily match you
+							with similar minded startups. Additionally it also helps people find you easier if they 
+							are just looking for investors in a certain geographical location. 
+						</p>
+
+						<Button to="/home" onClick={e=>this.handleNextPageClick(e)}>
+							Next
+						</Button>
+
+
+			</ul>:
+			<ul style={{listStyle:"none"}}>
+				<TitleHeader style={{fontSize:"60px"}}>
+							<b>You indicated that you were interested in investing in other people</b>
+				</TitleHeader>
+
+				<ul style={{backgroundColor:"white",width:"30%",position:"absolute",top:"45%",left:"10%",padding:"0px",borderRadius:"5px"}}>
+					<li style={{listStyle:"none",marginBottom:"5%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{display:"inline-block",listStyle:"none"}}>
+								<AsisgnEveryIndustryButton>
+									Pick every industry
+								</AsisgnEveryIndustryButton>
+							</li>
+
+							<li style={{display:"inline-block",listStyle:"none",marginLeft:"10%"}}>
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																															borderColor:"#5298F8",
+																															borderStyle:"solid",
+																															borderWidth:"1px",
+																															color:"#5298F8",
+																															backgroundColor:"white"}}>
+										Industries
+									   	<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" style={{height:"250px",overflowY:"auto"}}>
+										{COMPANY_INDUSTRIES.INDUSTRIES.map(data=>
+											<li onClick={()=>this.addIndustry(data.industry)}><a href="javascript:;">{data.industry}</a></li>
+										)}
+										
+									</ul>
+			  				 	</div>
+							</li>
+						</ul>
+					</li>
+
+					<li style={{listStyle:"none"}}>
+						 <ul style={{padding:"0px"}}>
+						 	<li style={{listStyle:"none",fontSize:"25px"}}>
+						 		<b>Selected Industries</b>
+						 	</li>
+
+						 	<li style={{listStyle:"none"}}>
+							 	{this.state.selectedIndustries.map(industry=>
+							 		<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+							 			<IndustryButton>
+							 				{industry}
+							 			</IndustryButton>
+							 		</li>
+							 	)}
+						 	</li>
+						 </ul>
+					</li>
+				</ul>
+
+				<ul style={{position:"absolute",top:"45%",left:"50%",width:"45%"}}>
+					<li style={{listStyle:"none",marginBottom:"10%",fontSize:"17px"}}>
+						We use this informaation to help you connect with other people who are also interested in the 
+						same thing that you are interested in. Additionally, it also helps people find you when they 
+						are looking for people in specific industries to talk to
+					</li>
+
+					<li style={{listStyle:"none"}}>
+
+						<SubmitButton to="/home" onClick={e=>this.handleCreateInvestorProfileClick(e)}>
+							Submit
+						</SubmitButton> 
+					</li>
+				</ul>
+
+			</ul>
+
+	}
 
 
 
@@ -566,6 +918,8 @@ class LSignupPage extends Component {
 				</BodyContainer>
 
 				{this.DisplayPersonalOrCompanyChoices()}
+				{this.displayPersonalInvestorSection()}
+
 			</React.Fragment>
 
 

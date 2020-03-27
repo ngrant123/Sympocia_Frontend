@@ -75,7 +75,7 @@ const InvestmentLabels=styled.div`
 `;
 
 
-
+//Could be a functional component
 class SmallInvestments extends Component{
 
 	constructor(props){
@@ -88,7 +88,7 @@ class SmallInvestments extends Component{
 			amount:props.amount
 
 		};
-
+		console.log(props);
 		console.log(this.state);
 	}
 

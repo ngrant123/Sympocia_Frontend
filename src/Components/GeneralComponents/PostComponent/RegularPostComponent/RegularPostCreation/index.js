@@ -199,7 +199,7 @@ const Photo=styled.div`
 			textContainer=document.createTextNode(' ');
 		}
 		else{
-			textContainer=document.createTextNode(""+props.key);
+			textContainer=document.createTextNode("");
 		}
 
         boldTextHolder.appendChild(textContainer);
@@ -418,7 +418,7 @@ const Photo=styled.div`
 
 
 	const regardLetters=(props)=>{
-			props.preventDefault();
+			//props.preventDefault();
 			if(displayBold==true && displayItalics==true){
 				addBold(props);
 				addItalics(props);
@@ -441,6 +441,7 @@ const Photo=styled.div`
 				changePostContents(postContents+props.key);
 				removeFontVariations(props);
 			}
+			return true;
 	}
 //Contains a bug where for some reason it creates a newline after the user presses enter fix later
 	const removeFontVariations=(props)=>{

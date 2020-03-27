@@ -385,10 +385,10 @@ class Investors extends Component{
 								{this.state.firstinvestors.map(data=>
 									<li style={{ position:"relative",marginBottom:"17px"}}>
 											<SmallInvestorProfileTab 
-												name={data.name}
+												name={data.firstName}
 												bio={data.bio}
 												activenumber={data.activenumber}
-												investmentnumber={data.investmentnumber}
+												investmentnumber={data.investments.length}
 												investments={data.investments}
 												amount={data.amount}
 												bubbleUpInvestorData={this.bubbleUpInvestorData}
@@ -407,10 +407,10 @@ class Investors extends Component{
 									<li style={{ position:"relative",marginBottom:"17px"}}>
 
 											<SmallInvestorProfileTab 
-												name={data.name}
+												name={data.firstName}
 												bio={data.bio}
 												activenumber={data.activenumber}
-												investmentnumber={data.investmentnumber}
+												investmentnumber={data.investments.length}
 												investments={data.investments}
 												amount={data.amount}
 												bubbleUpInvestorData={this.bubbleUpInvestorData}

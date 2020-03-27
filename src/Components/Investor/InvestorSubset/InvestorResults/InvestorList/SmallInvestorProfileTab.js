@@ -185,7 +185,7 @@ class SmallInvestorProfileTab extends Component{
 				<InvestorIcon></InvestorIcon>
 				<NameIconContainer>
 					<Name>{this.state.name}</Name>
-					<NameshortDescription>This ia a short description about the investor</NameshortDescription>
+					<NameshortDescription>{this.state.bio}</NameshortDescription>
 
 				</NameIconContainer>
 				<ActiveInvestmentContainer>
@@ -196,7 +196,7 @@ class SmallInvestorProfileTab extends Component{
 
 					<InvestmentsContainer>
 						<InvestmentDescription>Investments:</InvestmentDescription>
-						<InvestmentNumber>4</InvestmentNumber>
+						<InvestmentNumber>{this.state.investmentnumber}</InvestmentNumber>
 
 
 					</InvestmentsContainer>

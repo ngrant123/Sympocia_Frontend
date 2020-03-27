@@ -77,13 +77,13 @@ const InvestorProfile=(props)=>{
 	const displayAdditionalInformation=()=>{
 
 		if(additionalInformation=="bio"){
-			return <p style={{marginLeft:"10%",marginRight:"7%",marginBottom:"10%"}}>{bio}</p>;
+			return <p style={{marginLeft:"10%",marginRight:"7%",marginBottom:"10%"}}>{props.investorData.bio}</p>;
 		}else if(additionalInformation=="investments"){
 			return <ul style={{position:"relative",top:"-7%"}}>
 					{investments.map(data=>
 						<li style={{listStyle:"none",marginBottom:"10%"}}>
 							<Investments
-								data={data}
+								data={props.investorData.investments}
 							/>
 						</li>
 					)}
@@ -117,11 +117,11 @@ const InvestorProfile=(props)=>{
 
 			</InvestorProfilePicture>
 
-			<p style={{marginLeft:"37%",fontSize:"20px"}}> Investor Name  </p>
+			<p style={{marginLeft:"37%",fontSize:"20px"}}>{props.investorData.name}</p>
 			<p style={{marginLeft:"39%"}}>Sympocia Rating</p>
 			<InvestorRating>
 			</InvestorRating>
-			<p style={{marginLeft:"20px"}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+			<p style={{marginLeft:"20px"}}>{props.investorData.bio}</p>
 
 			<ul style={{marginLeft:"10%"}}>
 				<li style={{listStyle:"none",display:"inline-block"}}>

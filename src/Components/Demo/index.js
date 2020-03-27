@@ -70,7 +70,6 @@ const DemoContainer=()=>{
 			
 			<li style={CSS}>
 				<BlogPostContainer/>
-				
 			</li>
 
 			<li style={CSS}>
