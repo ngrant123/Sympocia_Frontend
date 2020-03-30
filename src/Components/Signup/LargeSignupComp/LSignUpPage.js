@@ -10,7 +10,8 @@ import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 import {
 	addName,
 	addLastName,
-	addEmail
+	addEmail,
+	addPersonalIdentificationId
 } from "../../../Actions/Redux/Actions/PersonalProfile.js";
 import {
 	createProfile
@@ -620,7 +621,7 @@ class LSignupPage extends Component {
 
 
 
-	handleDisplayPersonalSetupPage=(e)=>{
+	handleDisplayPersonalSetupPage=async(e)=>{
 
 		const checkbox=document.getElementById("investorCheckbox");
 		const valueOfCheckbox=checkbox.checked;
@@ -639,13 +640,14 @@ class LSignupPage extends Component {
 			this.props.addLastName(this.props.lastName);
 			this.props.addEmail(this.props.email);
 
-			createProfile({
+			const profileCreationId=await createProfile({
 				firstName:this.props.firstName,
 				lastName:this.props.lastName,
 				email:this.props.email,
 				isInvestor:false
 			});
 
+			this.props.addPersonalIdentificationId(profileCreationId);
 			this.setState({
 				displayPersonalSetupPage:true,
 				hideInitialScreen:true
@@ -672,30 +674,6 @@ class LSignupPage extends Component {
 			lat:lat,
 			displayMarker:true
 		})
-	}
-
-
-	handleCreateInvestorProfileClick=(e)=>{
-
-		if(this.state.lat==0&&this.state.long==0){
-			e.preventDefault();
-		}else{
-
-			this.props.addFirstName(this.props.firstName);
-			this.props.addLastName(this.props.lastName);
-			this.props.addEmail(this.props.email);
-
-			const locationObject={long:this.state.long,lat:this.state.lat};
-			const isInvestor=true;
-
-			createProfile({
-				firstName:this.props.firstName,
-				lastName:this.props.lastName,
-				email:this.props.email,
-				isInvestor:true,
-				location:locationObject
-			});
-		}
 	}
 
 
@@ -941,7 +919,8 @@ const mapDispatchToProps=dispatch=>{
 	return{
 		addFirstName:(firstName)=>dispatch(addName(firstName)),
 		addLastName:(lastName)=>dispatch(addLastName(lastName)),
-		addEmail:(email)=>dispatch(addEmail(email))
+		addEmail:(email)=>dispatch(addEmail(email)),
+		addPersonalIdentificationId:(id)=>dispatch(addPersonalIdentificationId(id))
 	}
 }
 

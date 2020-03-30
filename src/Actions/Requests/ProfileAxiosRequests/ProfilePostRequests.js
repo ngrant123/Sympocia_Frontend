@@ -96,7 +96,8 @@ export function updateEmployee(userId,updatedEmployeeData){
 	})
 }
 
-export function createProfile(personalData){
+export async function createProfile(personalData){
+	console.log("Profile create profile route");
 	const {firstName,lastName,email,paymentPlan,isInvestor,location,stripToken}=personalData;
 	let personalInformation;
 	if(isInvestor==true){
@@ -114,12 +115,10 @@ export function createProfile(personalData){
 	}
 	console.log(personalData);
 
-	axios.post(`${CreateUrl}/createProfile`,personalInformation).then(profile=>{
-		console.log(profile);
-		return profile;
-	}).catch(err=>{
-		return err.message;
-	})
+	const profileCreationResults=await axios.post(`${CreateUrl}/createProfile`,personalInformation);
+	const {data}=profileCreationResults;
+	const {_id}=data.data;
+	return _id;
 }
 
 export function setBio(personalId,bio){

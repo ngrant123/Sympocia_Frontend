@@ -97,21 +97,23 @@ export function getCompanyBio(userId){
 	})
 }
 
-export function getProfile(userId){
+export async function getProfile(userId){
 
+	try{
+		const profile=await axios.get(`${SearchUrl}`,{
+			params:{
+				id:userId
+			}
+		});
 
-	const getUrl='localhost:4000/api/seacrh';
-	axios.get(`${getUrl}/`,{
-		params:{
-			id:userId
-		}
-	}).then(profile=>{
-		return profile;
+		const {data}=profile;
+		const profileData=data.data;
+		return profileData
 
-	}).catch(err=>{
-		return err.message
-	})
-
+	}catch(err){
+		console.log(err.message);
+	}
+	
 }
 
 

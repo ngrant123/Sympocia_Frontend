@@ -2,10 +2,12 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown'
-
+import {Link} from "react-router-dom";
 import ExploreIcon from '@material-ui/icons/Explore';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+
+import {useSelector} from "react-redux";
 
 const Container=styled.div`
 	position:fixed;
@@ -34,7 +36,7 @@ const SearchButton=styled.textarea`
 const ButtonsListCSS={
 	display:"inline-block",
 	listStyle:"none",
-	marginRight:"10px"
+	marginRight:"110px"
 }
 
 const ProfileDropDownListCSS={
@@ -106,12 +108,27 @@ const CompanyProfileNotificationsContainer=styled.div`
 		box-shadow: 5px 5px 10px 	#9395a0;
 	}
 
-
 `;
+
+const NavBarButton=styled(Link)`
+	position:absolute;
+	background-color:#5298F8;
+	padding:10px;
+	color:white;
+	border-radius:5px;
+
+&:hover{
+		color:white;
+		text-decoration:none;
+	}
+`;
+
 
 const NavBar=(pageProps)=>{
 	const {color}=pageProps;
-	console.log("Teste");
+	console.log("Testing");
+	const state=useSelector(state=>state.personalInformation);
+	const {id}=state;
 	const displayChatContainerForPersonalPage=(pageProps)=>{
 
 			pageProps.displayChatPage("personal");
@@ -128,7 +145,12 @@ const NavBar=(pageProps)=>{
 
 			<ul style={{position:"fixed",left:"39%",top:"7%"}}>
 				<li style={ButtonsListCSS}>
-					<Button variant="primary" style={{backgroundColor:"#5298F8"}}>
+					<NavBarButton to={{
+							pathname:"/profile",
+							state:{
+								personalId:id
+							}
+						}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<AccountCircleIcon/>
@@ -139,7 +161,7 @@ const NavBar=(pageProps)=>{
 							</li>
 
 						</ul>
-					</Button>
+					</NavBarButton>
 				</li>
 
 
@@ -148,8 +170,10 @@ const NavBar=(pageProps)=>{
 						Do something special with the creation Button	
 					*/
 				}
-				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#C8B0F4"}}>
-					<ul style={{padding:"0px"}}>
+				<li style={ButtonsListCSS}>
+					<NavBarButton  to="/demo" style={{backgroundColor:"#C8B0F4"}}>
+						<ul style={{padding:"0px"}}>
+
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<AddCircleIcon
 									/>
@@ -159,10 +183,12 @@ const NavBar=(pageProps)=>{
 									Create
 								</li>
 
-							</ul>
-					</Button></li>
-				<li style={ButtonsListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8"}}>
-					<ul style={{padding:"0px"}}>
+						</ul>
+					</NavBarButton>
+				</li>
+				<li style={ButtonsListCSS}>
+					<NavBarButton  to="/home">
+						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<ExploreIcon/>
 							</li>
@@ -172,7 +198,8 @@ const NavBar=(pageProps)=>{
 							</li>
 
 						</ul>
-				</Button></li>
+					</NavBarButton>
+				</li>
 			</ul>
 
 		

@@ -222,13 +222,12 @@ class LProfile extends Component{
 
 	constructor(props){
 		super(props);
+		console.log(props.location.state);
 
 		this.state={
-			/*
-				images:[],
-				videos:[],
-				blogs:[]
-			*/
+			images:[],
+			videos:[],
+			blogs:[],
 			profile:{
 				images:[
 					{
@@ -270,59 +269,46 @@ class LProfile extends Component{
 
 	componentDidMount(){
 
-		const profileId=this.props.profileId;
+		const {_id}=this.props;
 		const firstTimeIndicator=this.props.firstTimeIndicator;
 
-		/*
 		if(firstTimeIndicator==true){
 			//Start tutorial mode
 
-		 }else if (userId!=null){
-
-		 	
-				if(profileId==this.props._id){
+		 }else{
+				if(_id==this.props._id){
 					const {
-						name
+						name,
 						images,
 						friends,
 						industries}=getProfile(this.props._id);
 
-					this.setState({
+					this.setState(prevState=>({
 						...prevState,
 						name:name,
 						images:images,
 						friends:friends,
 						industries:industries,
 						isOwnProfile:true
-					})
+					}));
 				}
 				else{
-
 					const {
-						name
+						name,
 						images,
 						friends,
-						industries}=getProfile(profileId);
+						industries}=getProfile(_id);
 
-					this.setState({
+					this.setState(prevState=>({
 						...prevState,
 						name:name,
 						images:images,
 						friends:friends,
 						industries:industries,
 						isOwnProfile:false
-					})
-				}
-
-			*/
-			/*
-				OPTION 1:
-				Get the profile from the db then check if the unique id 
-				matches the one in the redux store then depending on that determines
-				what kind of page to display? 
-				
+					}));
+				}	
 		}
-		*/
 	}
 
 	 handleChangeProfilePicture=()=>{

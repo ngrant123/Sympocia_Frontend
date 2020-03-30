@@ -88,7 +88,7 @@ const Photo=styled.div`
 	const [displayCameraModal,changeDisplayCameraModal]=useState(false);
 	const [postContents,changePostContents]=useState("");
 
-	const  [firstTimeClickIndicator,changeClickIndicator]=useState(true);
+	const [firstTimeClickIndicator,changeClickIndicator]=useState(true);
 	const [displayBold,changeBold]=useState(false);
 	const [displayItalics,changeItalics]=useState(false);
 	const [displayCodingBlock,changeCodingBlockDisplay]=useState(false);
@@ -103,6 +103,17 @@ const Photo=styled.div`
 	const [displayNumberedList,chnageNumberedBulletList]=useState(false);
 	const[firstTimeClickNumberList,changeFirstTimeClickNumber]=useState(false);
 	const [numberListContent,changeNumberListContent]=useState("");
+
+	const [displayQuoteBlock,changeQuoteBlockDisplay]=useState(false);
+	const [firstTimeQuoteBlockClicked,changeFirstTimeQuoteBlock]=useState(false);
+
+
+
+
+	const [textContent,changeTextContent]=useState([]);
+	const [cursorLocation,changeCursorLocation]=useState(0);
+
+
 
 
 	const {personalInformation}=useSelector(state=>state);
@@ -188,8 +199,9 @@ const Photo=styled.div`
 
 	}
 
-	const addBold=(props)=>{
+	const addBold=async(props)=>{
 
+		/*
 		var textArea=document.getElementById("textAreaContainer");
         var boldTextHolder= document.createElement("strong");
         var textContainer;
@@ -199,13 +211,26 @@ const Photo=styled.div`
 			textContainer=document.createTextNode(' ');
 		}
 		else{
-			textContainer=document.createTextNode("");
+			textContainer=document.createTextNode(""+props.key);
 		}
 
         boldTextHolder.appendChild(textContainer);
         textArea.appendChild(boldTextHolder);
         setCursorLocation(textArea,textArea.innerText.length);
+        */
+        var newTextContent;
+        var cursorLocation=cursorLocation;
 
+        if(props.key=="Enter")
+        	var newTextContent=textContent.splice(cursorLocation+1,0,"/n");
+        else
+        	var newTextContent=textContent.splice(cursorLocation+1,0,props.key);
+        
+
+        await changeTextContent(newTextContent);
+        var newString=textContent.toString();
+        var textContainer=document.createTextNode(""+newString);
+        var textArea=document.getElementById("textAreaContainer");
 	}
 
 	const setCursorLocation=(textArea,length)=>{
@@ -242,7 +267,6 @@ const Photo=styled.div`
 	    sel.removeAllRanges();
 	    sel.addRange(range);
 	    textArea.focus();
-
 	}
 
 	const addCodingBlock=(props)=>{
@@ -416,9 +440,26 @@ const Photo=styled.div`
 
 	}
 
+	const addQuoteBlock=(props)=>{
+			var textArea=document.getElementById("textAreaContainer");
+
+			if(firstTimeQuoteBlockClicked==true){
+				changeFirstTimeQuoteBlock(false);
+				
+				/*
+					
+
+
+				*/
+			}
+
+
+
+	}
+
 
 	const regardLetters=(props)=>{
-			//props.preventDefault();
+			props.preventDefault();
 			if(displayBold==true && displayItalics==true){
 				addBold(props);
 				addItalics(props);
@@ -436,12 +477,46 @@ const Photo=styled.div`
 			}else if(displayNumberedList==true){
 				addNumberedList(props);
 			}
+			else if(displayQuoteBlock==true){
+				addQuoteBlock(props);
+			}
 			else{
 				changeFirstTimeClickBullet(false);
 				changePostContents(postContents+props.key);
-				removeFontVariations(props);
+				//removeFontVariations(props);
+
+				var newString="";
+				var text=textContent;
+
+				if(text.length==0){
+					var newArray=[];
+					newArray.push(props.key);
+					changeTextContent(newArray);
+					newString=props.key;
+					var newCursorLocation=cursorLocation+1;
+					changeCursorLocation(newCursorLocation);
+				}else{
+					var newCursorLocation=cursorLocation+1;
+					changeCursorLocation(newCursorLocation);
+					if(props.key=="Enter"){
+						text.splice(newCursorLocation,0,"\n");
+					    
+					}else{
+						text.splice(newCursorLocation,0,props.key);
+					}
+
+					for(var i=0;i<text.length;i++){
+						newString+=text[i];
+					}
+				}
+
+		        var textContainer=document.createTextNode(""+newString);
+		        var textArea=document.getElementById("textAreaContainer");
+		        textArea.innerText="";
+		        textArea.append(textContainer);
+		        setCursorLocation(textArea,textArea.innerText.length);
+
 			}
-			return true;
 	}
 //Contains a bug where for some reason it creates a newline after the user presses enter fix later
 	const removeFontVariations=(props)=>{
@@ -456,9 +531,7 @@ const Photo=styled.div`
 	     	var newLineHolder=document.createElement("P");
 			newLineHolder.innerHTML=" &#160;"
 			textArea.appendChild(newLineHolder);
-
 		}
-
         setCursorLocation(textArea,textArea.innerText.length);
 	}
 
@@ -469,11 +542,11 @@ const Photo=styled.div`
 		const {id}=personalInformation;
 		createRegularPost("12345678",content);
 		
-	}
-	const enableCodingBlock=()=>{
 		changeCodingBlockDisplay(!displayCodingBlock);
 		changeItalics(false);
 		changeBold(false);
+	}
+	const enableCodingBlock=()=>{
 	}
 
 	const enableBulletList=()=>{
@@ -495,11 +568,67 @@ const Photo=styled.div`
 
 	}
 
+	const enableBlockQuotes=()=>{
+		changeQuoteBlockDisplay(!displayQuoteBlock);
+		changeBulletListDisplay(false);
+		chnageNumberedBulletList(false);
+
+	}
+
 	const emptyTextArea=()=>{
 		if(firstTimeClickIndicator==true){
 			document.getElementById("textAreaContainer").innerHTML="";
 			changeClickIndicator(false);
-		}	
+		}else{
+			var ctl = document.getElementById('textAreaContainer');
+	        var startPos = ctl.selectionStart;
+	        changeCursorLocation(startPos);
+		}
+	}
+
+	const handleCursorLocation=(props)=>{
+		console.log(props);
+		
+		if(props.keyCode==37){
+			//left
+			var newCurrent=cursorLocation-1;
+			changeCursorLocation(newCurrent)
+		}
+		else if(props.keyCode==39){
+			//right
+			var newCurrent=cursorLocation+1;
+			changeCursorLocation(newCurrent)
+		}else if(props.keyCode==37){
+			//up
+			var counter=0;
+			var currentLocation=cursorLocation;
+			while(counter<2&&currentLocation>=0){
+				const character=textContent[currentLocation];
+				if(character=='/n'){
+					counter++;
+				}
+				currentLocation--;
+			}
+			cursorLocation++;
+			changeCursorLocation(cursorLocation);
+			
+		}else if(props.keyCode==37){
+			//down
+			var counter=0;
+			var currentLocation=cursorLocation;
+			while(counter<1&&currentLocation<textContent.length){
+				const character=textContent[currentLocation];
+				if(character=='/n'){
+					currentLocation++;
+					break;
+				}
+				currentLocation++;
+			}
+			changeCursorLocation(cursorLocation);
+		}else{
+			regardLetters(props);
+
+		}
 	}
 
 
@@ -566,6 +695,7 @@ const Photo=styled.div`
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<FormatQuoteRoundedIcon
 										style={{fontSize:30}}
+										onClick={()=>enableBlockQuotes()}
 									/>
 								</li>
 								<li style={{listStyle:"none",display:"inline-block"}}>
@@ -641,7 +771,7 @@ const Photo=styled.div`
 
 				<li style={{listStyle:"none",marginBottom:"1%"}}>
 					<TextArea id="textarea">
-						<p style={{float:"left",width:"85%",overflowY:"auto",outline:"none"}} onClick={()=>emptyTextArea()} contentEditable="true" id="textAreaContainer"  onKeyPress={e=>regardLetters(e)}>
+						<p style={{float:"left",width:"85%",overflowY:"auto",outline:"none"}} onClick={()=>emptyTextArea()} contentEditable="true" id="textAreaContainer" onKeyDown={e=>handleCursorLocation(e)}  onKeyPress={e=>regardLetters(e)}>
 							Testing
 						</p>
 					</TextArea>
