@@ -261,7 +261,6 @@ class PaymentOption extends Component {
 }
 
 const mapStateToProps=(state)=>{
-
 	return{
 		firstName:state.personalInformation.firstName,
 		lastName:state.personalInformation.lastName,

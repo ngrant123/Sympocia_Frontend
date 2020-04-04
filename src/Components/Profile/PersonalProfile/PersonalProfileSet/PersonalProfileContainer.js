@@ -22,6 +22,7 @@ import { UserProvider } from "../UserContext.js";
 import Button from 'react-bootstrap/Button';
 import { Player } from 'video-react';
 import PersonalPostsIndex from "../PersonalProfileSubset/PersonalPosts/index.js";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'
 
 const Container=styled.div`
@@ -37,7 +38,7 @@ const ProfilePictureContainer=styled.div`
 	position:absolute;
 	width:25%;
 	height:35%;
-	top:13%;
+	top:15%;
 	left:2%;
 	background-color:white;
 	border-style:solid;
@@ -45,6 +46,7 @@ const ProfilePictureContainer=styled.div`
 	border-width:7px;
 	border-radius:5px;
 	z-index:3;
+	box-shadow: 1px 1px 10px #d5d5d5;
 `;
 
 const HeaderContainer=styled.div`
@@ -63,9 +65,9 @@ const ProfileContainer=styled.div`
 
 const PersonalProfileInformationContainer= styled.div`
 	position:absolute;
-	top:50%;
+	top:52%;
 	width:25%;
-	left:2%
+	left:3%
 	background-color:#fbfdff;
 	border-radius:5px;
 	transition:.8s;
@@ -176,7 +178,7 @@ const PostInformationContainer=styled.div`
 	width:60%;
 	height:83%;
 	left:33%;
-	z-index:4;
+	z-index:8;
 	top:15%;
 
 `;
@@ -213,6 +215,17 @@ const VideoThumbNailCSS={
 	borderRadius:"5px"
 
 }
+
+const ShadowContainer= styled.div`
+
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	display:block;
+	z-index:7;
+
+`;
 
 
 
@@ -261,13 +274,16 @@ class LProfile extends Component{
 		    videoData:{},
 		    displayBlogs:false,
 		    isOwnProfile:false,
-		    profileId:0
+		    profileId:0,
+		    userProfile:{},
+		    isLoading:true,
+		    displayShadowBackground:false
 		};
 
 	}
 
 
-	componentDidMount(){
+	async componentDidMount(){
 
 		const {_id}=this.props;
 		const firstTimeIndicator=this.props.firstTimeIndicator;
@@ -277,42 +293,28 @@ class LProfile extends Component{
 
 		 }else{
 				if(_id==this.props._id){
-					const {
-						name,
-						images,
-						friends,
-						industries}=getProfile(this.props._id);
+					const profile=await getProfile(this.props._id);
 
 					this.setState(prevState=>({
 						...prevState,
-						name:name,
-						images:images,
-						friends:friends,
-						industries:industries,
+						isLoading:false,
+						userProfile:profile,
 						isOwnProfile:true
 					}));
 				}
 				else{
-					const {
-						name,
-						images,
-						friends,
-						industries}=getProfile(_id);
+					const profile=await getProfile(_id);
 
 					this.setState(prevState=>({
 						...prevState,
-						name:name,
-						images:images,
-						friends:friends,
-						industries:industries,
-						isOwnProfile:false
+						isLoading:false,
+						userProfile:profile
 					}));
-				}	
+			}	
 		}
 	}
 
 	 handleChangeProfilePicture=()=>{
-
 
 	 	document.getElementById("profilePicutreImageFile").click();
 		console.log('Change pic button clicked');
@@ -321,22 +323,25 @@ class LProfile extends Component{
 
 	changeProfilePicture=()=>{
 
+		console.log("Change picture button clicked");
 		let profileContainer=document.getElementById("profilePicture");
 		let image=document.getElementById("profilePicutreImageFile").files[0];
 		let reader= new FileReader();
 
-
-		reader.onloadend=function(){
+		reader.onloadend=()=>{
 
 			profileContainer.src=reader.result;
+			const profileUrl=profileContainer.src;
+			this.setState({
+				userProfile:{
+					...this.state.userProfile,
+					profilePicture:profileUrl
+				}
+			});
 
-			/*
-				if(this.state.isOwnProfile==true)
-					setProfilePicture(this.props._id,reader.result);
-				else
-					setProfilePicture(this.state.profileId,reader.result);
-			*/
+			//send profile picture to database
 			console.log(reader.result);
+			setProfilePicture(this.state.userProfile._id,profileUrl);
 		}
 
 		if(image!=null){
@@ -347,33 +352,12 @@ class LProfile extends Component{
 		}
 	}
 	/*
-
 		Could be done in such a better way nigga
-
 	*/
 
 	displayImages=()=>{
 
 		this.changeButtonsColor("images");
-		//Could use Context later but for now using redux
-		/*
-			const userImages=[];
-			if(this.state.isOwnProfile==false)
-				userImages=getImages(this.state.profileId);
-			else
-				userImages=getImages(this.props._id);
-
-			
-			this.setState(prevState => ({
-		    ...prevState,  
-		    images:userImages               
-		    displayImages:true,
-		    displayVideos:false,
-		    displayBlogs:false
-		    }
-		))
-		*/
-
 		this.setState(prevState => ({
 		    ...prevState,  
 		    //images                   
@@ -389,25 +373,6 @@ class LProfile extends Component{
 	
 
 		this.changeButtonsColor("videos");
-
-
-		/*
-			const userVideos=[];
-			if(this.state.isOwnProfile==false)
-				userVideos=getVideos(this.state.profileId);
-			else
-				userVideos=getVideos(this.props._id);
-
-			
-			this.setState(prevState => ({
-		    ...prevState,  
-		    videos:userVideos               
-		    displayImages:true,
-		    displayVideos:false,
-		    displayBlogs:false
-		    }
-		))
-		*/
 
 		this.setState(prevState=>({
 
@@ -468,24 +433,6 @@ class LProfile extends Component{
 
 		this.changeButtonsColor("blog");
 
-		/*
-			const userBlogs=[];
-			if(this.state.isOwnProfile==false)
-				userVideos=getBlogs(this.state.profileId);
-			else
-				userVideos=getBlogs(this.props._id);
-
-			
-			this.setState(prevState => ({
-		    ...prevState,  
-		    blogs:userBlogs               
-		    displayImages:true,
-		    displayVideos:false,
-		    displayBlogs:false
-		    }
-		))
-		*/
-
 		this.setState(prevState=>({
 			...prevState,
 			displayImages:false,
@@ -540,7 +487,6 @@ class LProfile extends Component{
 
 												</img>
 										</li>
-
 									)} 
 								</ul>
 
@@ -606,13 +552,26 @@ class LProfile extends Component{
 
 	handleBlogsModal=()=>{
 		console.log("Blog modal button clicked");
-
 	}
 
 	BlogModal=()=>{
 		return <React.Fragment/>;
-
 	}
+
+	displayShadow=()=>{
+		console.log("Testing display shafow");
+		this.setState({
+			displayShadowBackground:true
+		})
+	}
+
+	disappearShadow=()=>{
+		this.setState({
+			displayShadowBackground:false
+		})
+	}
+
+
 
 	render(){
 		return(
@@ -620,24 +579,39 @@ class LProfile extends Component{
 			<UserProvider value={this.state}>
 
 				<Container>
+					{this.state.displayShadowBackground==true?
+							<ShadowContainer
+								onClick={()=>this.setState({
+									displayShadowBackground:false
+								})}
+							/>:
+							<React.Fragment></React.Fragment>}
+
 					{this.ImageModal()}
 					{this.VideoModal()}
 					{this.BlogModal()}
 
 					<HeaderContainer>
-
 						<GeneralNavBar/>
-
 					</HeaderContainer>
 
 					<ProfileContainer>
 
 						<ProfilePictureContainer>
-							<img id="profilePicture" src="" style={{position:"absolute",width:"100%",height:"100%"}}></img>
-							<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} onChange={()=>this.changeProfilePicture()}></input>
-							<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
-								Change Profile Picture
-							</ChangePictureButton>
+							{this.state.userProfile.profilePicture==null?
+								<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
+								<img id="profilePicture" src={this.state.userProfile.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
+							}
+							
+							{this.state.isOwnProfile==true?
+								<React.Fragment>
+									<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} onChange={()=>this.changeProfilePicture()}></input>
+									<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
+										Change Profile Picture
+									</ChangePictureButton>
+								</React.Fragment>:
+								<React.Fragment></React.Fragment>
+							}
 
 						</ProfilePictureContainer>
 
@@ -647,8 +621,13 @@ class LProfile extends Component{
 					</ProfileContainer>
 
 					<PostInformationContainer>
-						<PersonalPostsIndex/>
+						<PersonalPostsIndex
+							displayShadowOverlay={this.displayShadow}
+							disappearShadow={this.disappearShadow}
+						/>
 					</PostInformationContainer>
+
+					
  
 				</Container>
 
@@ -656,7 +635,6 @@ class LProfile extends Component{
 
 		)
 	}
-
 }
 
 

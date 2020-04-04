@@ -57,69 +57,64 @@ const PersonalInformation=()=>{
 
 	const [displayFriendsAndIndustryContainer,changeIndicator]=useState(false);
 
-
 	return(
 		<UserConsumer>
 			{personalInformation=>{
 				return <React.Fragment>
-							{displayFriendsAndIndustryContainer==false?
+						{personalInformation.isLoading==true?<p>Loading please wait</p>:
 								<React.Fragment>
-									<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4"}}><b>Nathan Grant</b></p>
-									<BioContainer>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-										sed do eiusmod tempor incididunt ut labore et dolore magna 
-										aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-										ullamco laboris nisi ut aliquip ex ea commodo consequat.
-										Duis aute irure dolor in reprehenderit in voluptate velit
-										esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-										occaecat cupidatat non proident, sunt in culpa qui officia 
-										deserunt mollit anim id est laborum.
-									</BioContainer>
+									{displayFriendsAndIndustryContainer==false?
+									<React.Fragment>
+										<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4"}}><b>{personalInformation.userProfile.firstName}</b></p>
+										<BioContainer>
+											{personalInformation.userProfile.bio}
+										</BioContainer>
 
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
-											Social Media
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
+												Social Media
 
-										</li>
-										<li style={{listStyle:"none",display:"inline-block",marginLeft:"30%",marginRight:"10%"}}>
-											<ControlPointIcon
-												style={{fontSize:40,color:"#5298F8"}}
-											 />
-										</li>
+											</li>
+											<li style={{listStyle:"none",display:"inline-block",marginLeft:"30%",marginRight:"10%"}}>
+												<ControlPointIcon
+													style={{fontSize:40,color:"#5298F8"}}
+												 />
+											</li>
 
-										<li style={{listStyle:"none",display:"inline-block",marginBottom:"15px"}}>
-											<ControlPointIcon
-												style={{fontSize:40,color:"#5298F8"}}
-											/>
-										</li>
+											<li style={{listStyle:"none",display:"inline-block",marginBottom:"15px"}}>
+												<ControlPointIcon
+													style={{fontSize:40,color:"#5298F8"}}
+												/>
+											</li>
 
-										<li style={{listStyle:"none",marginBottom:"20px"}}>
-											<FriendsAndIndustryDisplayButton onClick={()=>changeIndicator(true)}>
-												Views Friends
-											</FriendsAndIndustryDisplayButton>
+											<li style={{listStyle:"none",marginBottom:"20px"}}>
+												<FriendsAndIndustryDisplayButton onClick={()=>changeIndicator(true)}>
+													Views Friends
+												</FriendsAndIndustryDisplayButton>
 
-										</li>
+											</li>
 
-										<li style={{listStyle:"none"}}>
-											<FriendsAndIndustryDisplayButton onClick={()=>changeIndicator(true)}>
-												View Interested Industries
-											</FriendsAndIndustryDisplayButton>
+											<li style={{listStyle:"none"}}>
+												<FriendsAndIndustryDisplayButton onClick={()=>changeIndicator(true)}>
+													View Interested Industries
+												</FriendsAndIndustryDisplayButton>
 
-										</li>
-									</ul>
-								</React.Fragment>
-								:<React.Fragment>
-									<BackButton onClick={()=>changeIndicator(false)}>
-										Back
-									</BackButton>
-									<FriendsAndIndustryInformation/>
+											</li>
+										</ul>
+									</React.Fragment>
+									:<React.Fragment>
+										<BackButton onClick={()=>changeIndicator(false)}>
+											Back
+										</BackButton>
+										<FriendsAndIndustryInformation/>
 
-								 </React.Fragment>
+									 </React.Fragment>
 
-							}
+								}
 
-							
+							</React.Fragment>
 
+						}
 						</React.Fragment>
 				}}
 		</UserConsumer>

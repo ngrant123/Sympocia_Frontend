@@ -467,8 +467,7 @@ class CompanySetupPage extends Component{
 							mapStyle="mapbox://styles/ngrant123/ck78412jk0v5s1io79mvz3etw"
 							onClick={(e)=>this.updateLatLongMarker(e)}
 							onViewportChange={(viewport) => this.setState({viewport})}
-							style={{height:"100%",width:"100%"}}
-							center={this.state.center}>
+							style={{height:"100%",width:"100%"}}>
 
 							{this.state.displayMarker && (
 								<Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>

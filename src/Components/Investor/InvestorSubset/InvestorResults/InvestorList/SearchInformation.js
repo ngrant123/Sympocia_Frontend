@@ -136,12 +136,6 @@ const SearchInformation=(props)=>{
 				<p style={{color:"#5b5d60"}}><b>Here are a list of {investorInformationCriteria.state.searchCriteria.industry} 
 					investors in {investorInformationCriteria.state.searchCriteria.industry} that you could talk to :)</b></p>
 			</React.Fragment>
-
-
-
-
-
-
 				}
 			}
 		</InvestorConsumer>

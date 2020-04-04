@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-
+import {UserConsumer} from "../../../UserContext.js";
+import NoImagesModal from "./NoImagesModal.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -35,7 +36,7 @@ class ImagePostsContainer extends Component{
 
 	constructor(props){
 		super(props);
-
+		console.log("Testing images requests");
 		this.state={
 		 	images:[
 		 		{},
@@ -48,60 +49,59 @@ class ImagePostsContainer extends Component{
 
 	render(){
 		return(
+			<UserConsumer>
+				{personalInformation=>{
+					return <Container>
+						{personalInformation.isLoading==true?
+								<p>Give us a second we're getting your information</p>:
+								<React.Fragment>
+								{personalInformation.images.length==0?<NoImagesModal/>:
+										<ul style={{padding:"0px"}}>	
+											{personalInformation.images.map(data=>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>
+													<ImageContainer>
+														<ul style={{padding:"0px"}}>	
+															<li style={{listStyle:"none"}}>
+																<Image>
+																	<img src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
+																</Image>
+															</li>
 
-			<Container>
-				<ul style={{padding:"0px"}}>	
-					{this.state.images.map(data=>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>
-							<ImageContainer>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none"}}>
-										<Image>
+															<li style={{listStyle:"none",marginBottom:"5%"}}>
+																
+																<ImageCaption>
+																	{data.caption}
+																</ImageCaption>
+															</li>
 
-										</Image>
-									</li>
+															<li style={{listStyle:"none"}}>
+																<ul style={{padding:"0px"}}>
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+																		Likes 
+																	</li>
 
-									<li style={{listStyle:"none",marginBottom:"5%"}}>
-										
-										<ImageCaption>
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"24%"}}>
+																		Comments
+																	</li>
 
-											Lorem ipsum dolor sit amet, consectetur 
-											adipiscing elit, sed do eiusmod tempor 
-											incididunt ut labore et dolore magna aliqua.
-											 Ut enim ad minim veniam, quis nostrud exercitation
-											  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-											   Duis aute irure dolor in reprehenderit in voluptate velit 
-											   esse cillum dolore eu fugiat nulla pariatur. Excepteur
-											    sint occaecat cupidatat non proident, sunt in culpa qui
-											     officia deserunt mollit anim id est laborum.
-										</ImageCaption>
-										
-									</li>
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",color:"#C8B0F4"}}>
+																		{data.datePosted}
+																	</li>
+																</ul>
+															</li>
 
-									<li style={{listStyle:"none"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-												Likes 
-											</li>
+														</ul>
 
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"24%"}}>
-												Comments
-											</li>
-
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",color:"#C8B0F4"}}>
-												Dec 23, 1996
-											</li>
+													</ImageContainer>
+												</li>
+											)}
 										</ul>
-									</li>
-
-								</ul>
-
-							</ImageContainer>
-						</li>
-					)}
-				</ul>
-
-			</Container>
+								}
+								</React.Fragment>
+							}
+					</Container>
+				}}
+			</UserConsumer>
 		)
 	}
 }

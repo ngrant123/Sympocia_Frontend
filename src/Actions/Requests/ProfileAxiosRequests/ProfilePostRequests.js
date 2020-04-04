@@ -133,16 +133,22 @@ export function setBio(personalId,bio){
 	})
 }
 
-export function setProfilePicture(profileId,pictureUrl){
+export async function setProfilePicture(profileId,pictureUrl){
 
-	axios.post(`${CreateUrl}/setProfilePicture`,{
-		_id:profileId,
-		profilePicture:pictureUrl
-	}).then(profile=>{
-		return profile;
-	}).catch(err=>{
-		console.log(err.message);
-	})
+	try{
+		console.log("Profile picture api reached");
+		const profilePictureVerification=await axios.post(`${CreateUrl}/setProfilePicture`,{
+				_id:profileId,
+				profilePicture:pictureUrl
+			});
+
+		const profileChangeResults=profilePictureVerification.data;
+		const results=profileChangeResults.data;
+		return results;
+
+	}catch(err){
+		console.log(err);
+	}
 }
 
 

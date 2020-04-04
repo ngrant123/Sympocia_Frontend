@@ -8,6 +8,8 @@ import BlogsPosts from "./BlogPosts/BlogPostsContainer.js";
 import RegularPost from "./RegularPosts/RegularPostContainer.js";
 import Dropdown from 'react-bootstrap/Dropdown';
 
+import {UserConsumer} from "../../UserContext.js";
+
 const PostCreationContainer=styled.div`
 	position:relative;
 	background-color:blue;
@@ -100,6 +102,19 @@ const Container4=styled.div`
 
 `;
 
+const PostCreation=styled.div`
+	z-index:4;
+`;
+
+const ShadowContainer= styled.div`
+	position:absolute;
+	width:100%;
+	height:100%;
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	display:block;
+	z-index:1;
+
+`;
 
 const listCSSButton={	
 	listStyle:"none",
@@ -110,13 +125,14 @@ const listCSSButton={
 }
 
 
-const PersonalPostsIndex=()=>{
+const PersonalPostsIndex=(props)=>{
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
 	const [displayRegularPosts,changeDisplayForRegularPosts]=useState(false);
 
 	const [displayCreationPost,changeDisplayCreationPost]=useState(false);
+	console.log("Teste");
 
 	useEffect(()=>{
 
@@ -161,6 +177,7 @@ const PersonalPostsIndex=()=>{
 			image.style.color="#C8B0F4";
 			image.style.borderBottom="solid";
 			image.style.borderColor="#C8B0F4";
+
 			changeDisplayForImages(true);
 
 		}else if(kindOfPost=="video"){
@@ -195,148 +212,193 @@ const PersonalPostsIndex=()=>{
 	}
 
 	const displayCreationPostContainer=()=>{
+		if(displayCreationPost==true){
+			return <React.Fragment>
+						<PostCreation>
+							<CreateAPostComponent/>
+						</PostCreation>
+					</React.Fragment>;
+		}else
+			return <React.Fragment></React.Fragment>
+	}
 
-		return displayCreationPost==true?
-				
-					<CreateAPostComponent/>:
-				<React.Fragment></React.Fragment>
+	const displayOrHideCreationPost=()=>{
+		console.log("Test");
+
+		if(displayCreationPost==false){
+			console.log("Tur");
+			props.displayShadowOverlay();
+		}
+		changeDisplayCreationPost(!displayCreationPost);
+	}
+
+	const getAndDisplayVideos=()=>{
+
+	}
+
+	const disappearShadowOverlay=()=>{
+		props.disappearShadow();
+		changeDisplayCreationPost(!displayCreationPost);
 	}
 
 	return (
-		<React.Fragment>
-			<ul>
-				<li style={{listStyle:"none",marginBottom:"5%"}}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"5%",color:"#C8B0F4"}}>
-							<b>Create a post</b>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block"}}>
-								<CommentCreationContainer onClick={()=>changeDisplayCreationPost(!displayCreationPost)}>
+		<UserConsumer>
+			{personalInformation=>{
+				return <React.Fragment>
+							{displayCreationPost==true?
+								<ShadowContainer
+									onClick={()=>disappearShadowOverlay()}
+								/>:
+								<React.Fragment></React.Fragment>}
+							<ul>
+								<li style={{listStyle:"none",marginBottom:"5%"}}>
 									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-											<ProfilePicture>
-
-											</ProfilePicture>
+										<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"5%",color:"#C8B0F4"}}>
+											<b>Create a post</b>
 										</li>
 
 										<li style={{listStyle:"none",display:"inline-block"}}>
-											<CommentTextArea placeholder="Enter a comment">
+												<CommentCreationContainer onClick={()=>displayOrHideCreationPost()}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+															<ProfilePicture>
 
-											</CommentTextArea>
+															</ProfilePicture>
+														</li>
 
+														<li style={{listStyle:"none",display:"inline-block"}}>
+															<CommentTextArea placeholder="Enter a comment">
+
+															</CommentTextArea>
+
+														</li>
+													</ul>
+											</CommentCreationContainer>
 										</li>
 									</ul>
-							</CommentCreationContainer>
-						</li>
-					</ul>
-				</li>
-				{displayCreationPostContainer()}
-
-				<li style={{listStyle:"none",marginBottom:"20px"}}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<SearchIcon
-										style={{fontSize:40}}
-									/>
 								</li>
+								<li style={{listStyle:"none",marginBottom:"5%"}}>
+									{personalInformation.isOwnProfile==true?
+										<React.Fragment>
+											{displayCreationPostContainer()}
+										</React.Fragment>:
+										<React.Fragment></React.Fragment>
+									}
+								</li> 
 
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<SearchPostsTextArea
-										placeholder="Search for any posts here"
-									/>
+								<li style={{listStyle:"none",marginBottom:"20px"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<SearchIcon
+														style={{fontSize:40}}
+													/>
+												</li>
+
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<SearchPostsTextArea
+														placeholder="Search for any posts here"
+													/>
+												</li>
+
+											</ul>
+										</li>
+
+										<li id="images" onClick={()=>handlePostsClick("image")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+											Images
+										</li>
+
+										<li id="videos" onClick={()=>handlePostsClick("video")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+											Videos
+										</li>
+
+
+										<li id="regularPosts" onClick={()=>handlePostsClick("regularPost")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+											Regular Posts
+										</li>
+
+										<li id="blogs" onClick={()=>handlePostsClick("blog")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+											Blogs
+										</li>
+
+										<li style={listCSSButton}>	
+
+											<div class="dropdown">
+													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																			borderColor:"#5298F8",
+																																			borderStyle:"solid",
+																																			borderWidth:"1px",
+																																			color:"#5298F8",
+																																			backgroundColor:"white"}}>
+														Sort By
+													   	<span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu">
+														<li><a href="">Most Popular</a></li>
+														<li><a href="">Most Recent</a></li>
+														
+													</ul>
+							  				 </div>
+
+
+										</li>
+
+										<li style={listCSSButton}>
+											<div class="dropdown">
+													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																			borderColor:"#5298F8",
+																																			borderStyle:"solid",
+																																			borderWidth:"1px",
+																																			color:"#5298F8",
+																																			backgroundColor:"white"}}>
+														Industries
+													   	<span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu">
+														<li><a href="">Most Popular</a></li>
+														<li><a href="">Most Recent</a></li>
+														
+													</ul>
+							  				 </div>
+										</li>
+
+									</ul>
 								</li>
+					
+									{
+										displayImages==true?
+										<ImagePosts/>:<React.Fragment></React.Fragment>
+									}
 
+									{
+										displayVideos==true?
+										<VideoPosts
+											id={personalInformation.userProfile._id}	
+										/>:<React.Fragment></React.Fragment>
+									}
+
+
+									{
+										displayBlogs==true?
+										<BlogsPosts
+											id={personalInformation.userProfile._id}
+										/>:<React.Fragment></React.Fragment>
+									}
+
+									{
+										displayRegularPosts==true?
+										<RegularPost
+											id={personalInformation.userProfile._id}
+										/>:<React.Fragment></React.Fragment>
+									}
 							</ul>
-						</li>
-
-						<li id="images" onClick={()=>handlePostsClick("image")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
-							Images
-						</li>
-
-						<li id="videos" onClick={()=>handlePostsClick("video")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-							Videos
-						</li>
 
 
-						<li id="regularPosts" onClick={()=>handlePostsClick("regularPost")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-							Regular Posts
-						</li>
-
-						<li id="blogs" onClick={()=>handlePostsClick("blog")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-							Blogs
-						</li>
-
-						<li style={listCSSButton}>	
-
-							<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																															borderColor:"#5298F8",
-																															borderStyle:"solid",
-																															borderWidth:"1px",
-																															color:"#5298F8",
-																															backgroundColor:"white"}}>
-										Sort By
-									   	<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu">
-										<li><a href="">Most Popular</a></li>
-										<li><a href="">Most Recent</a></li>
-										
-									</ul>
-			  				 </div>
-
-
-						</li>
-
-						<li style={listCSSButton}>
-							<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																															borderColor:"#5298F8",
-																															borderStyle:"solid",
-																															borderWidth:"1px",
-																															color:"#5298F8",
-																															backgroundColor:"white"}}>
-										Industries
-									   	<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu">
-										<li><a href="">Most Popular</a></li>
-										<li><a href="">Most Recent</a></li>
-										
-									</ul>
-			  				 </div>
-						</li>
-
-					</ul>
-				</li>
-	
-					{
-						displayImages==true?
-						<ImagePosts/>:<React.Fragment></React.Fragment>
-					}
-
-					{
-						displayVideos==true?
-						<VideoPosts/>:<React.Fragment></React.Fragment>
-					}
-
-
-					{
-						displayBlogs==true?
-						<BlogsPosts/>:<React.Fragment></React.Fragment>
-					}
-
-					{
-						displayRegularPosts==true?
-						<RegularPost/>:<React.Fragment></React.Fragment>
-					}
-			</ul>
-
-
-		</React.Fragment>
+						</React.Fragment>
+				}}
+			
+		</UserConsumer>
 	)
 }
 

@@ -160,9 +160,10 @@ class FriendsAndIndustryInformation extends Component{
 
 	handleDisplayFriends=(personalInformation)=>{
 
-		const {friends}=personalInformation;
-
-		/*
+		//const {friends}=personalInformation;
+		console.log("Display friends");
+		const {userProfile}=personalInformation;
+		const {friends}=userProfile;
 		if(friends.length==0)
 			return <p style={{color:"#5298F8"}}>You currently have no friends. Add new people </p>
 		else{
@@ -171,27 +172,8 @@ class FriendsAndIndustryInformation extends Component{
 						{friends.map(data=>
 								<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
 									<FriendsContainer
-										friendImage={data.profileimage}
-										friendName={data.name}
-
-									/>
-								</li>
-						)}
-					</ul>
-					)
-			}
-		*/
-
-		if(this.state.friendsContainer.length==0)
-			return <p style={{color:"#5298F8"}}>You currently have no friends. Add new people </p>
-		else{
-				return(
-					<ul>
-						{this.state.friendsContainer.map(data=>
-								<li style={{display:"inline-block",listStyle:"none",marginRight:"20px"}}>
-									<FriendsContainer
-										friendImage={data.profileimage}
-										friendName={data.name}
+										friendImage={data.profilePicture}
+										friendName={data.firstName}
 
 									/>
 								</li>
@@ -202,37 +184,15 @@ class FriendsAndIndustryInformation extends Component{
 	}
 
 	handleDisplayIndustries=(personalInformation)=>{
+		const {userProfile}=personalInformation;
+		const {interestedIndustries}=userProfile;
 
-		const {industries}=personalInformation;
-
-		/*
-
-		if(industries.length==0)
-			return <p style={{color:"#5298F8"}}>You currently have no friends. Add new people </p>
+		if(interestedIndustries.length==0)
+			return <p style={{color:"#5298F8"}}>You currently have not picked an industry yet. Follow stuff :) </p>
 		else{
 				return(
 					<ul>
-						{industries.map(data=>
-
-							<li style={IndustryListCSS}>
-
-								<IndustryContainer
-									name={data.name}
-									imgSrc={data.imgsrc}
-								/>
-							</li>
-							)
-						}
-					</ul>
-			)
-		}
-		*/
-		if(this.state.industriesContainer.length==0)
-			return <p style={{color:"#5298F8"}}>You currently have no friends. Add new people </p>
-		else{
-				return(
-					<ul>
-						{this.state.industriesContainer.map(data=>
+						{interestedIndustries.map(data=>
 
 							<li style={IndustryListCSS}>
 
@@ -264,8 +224,7 @@ class FriendsAndIndustryInformation extends Component{
 
 			<UserConsumer>
 				{ personalInformation=>{
-
-				return <React.Fragment>	
+					return <React.Fragment>	
 
 							{this.handleDisplayFriendsModal()}
 							<p style={{position:"relative",fontSize:"200%",left:"7%",color:"#92a1cf"}}> <b>Friends </b>
@@ -292,7 +251,7 @@ class FriendsAndIndustryInformation extends Component{
 
 							</IndustriesContainer>
 						</React.Fragment>
-					}
+					}		
 				}
 			</UserConsumer>
 		)

@@ -9,12 +9,15 @@ import BlogPostCreation from "../BlogComponent/BlogPostCreation/index.js";
 import PERSONAL_INDUSTRIES from "../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../Constants/industryConstants.js";
 
+import {PostProvider} from "../PostContext.js";
+
 const Container = styled.div`
 	position:relative;
 	width:100%;
 	height:50%;
 	background-color:white;
-
+	z-index:6;
+	border-radius:5px;
 `;
 
 const IndustryTypeContainer = styled.div`
@@ -45,7 +48,7 @@ const PostOptionsContainer = styled.div`
  	border-style:solid;
  	border-width:2px 0px 2px 0px;
  	border-color:#e0e0e0;
-
+ 	z-index:6;
  `;
 
  const PostTextarea = styled.textarea`
@@ -257,7 +260,8 @@ class LargePostComponent extends Component{
 			companyTitle:"CEO",
 			companyName:"Razu",
 			industries:PERSONAL_INDUSTRIES.INDUSTRIES,
-			indicatorForPersonalOrCompanyPost:"profile"
+			indicatorForPersonalOrCompanyPost:"profile",
+			id:""
 		};
 
 		console.log("Teste");
@@ -269,8 +273,10 @@ class LargePostComponent extends Component{
 			Find out if the poster is from a company or personal profile
 		*/
 
+
 		this.setState({
-			displayElement:this.originalScreen()
+			displayElement:this.originalScreen(),
+			id:this.props._id
 		})
 	}
 
@@ -300,8 +306,8 @@ class LargePostComponent extends Component{
 		}else if(props=="ImagePosts"){
 			this.setState({
 					displayElement:<ImagePostCreation
-														displayProps={this.displayPostOptions}
-													/>})
+										displayProps={this.displayPostOptions}
+									/>})
 
 
 		}else if(props=="VideoPosts"){
@@ -324,76 +330,76 @@ class LargePostComponent extends Component{
 
 	originalScreen=()=>{
 		return (
-			<React.Fragment>
-				<div class="dropdown" style={{position:"absolute", height:"13%",width:"20%",left:"70%",top:"5%", zIndex:"2"}}>
-						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
-						   	<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
-							{this.state.industries.map(data=>
-								<li onClick={()=>this.handleChange(data.id)} id={data.id}>
-									<a href="#">{data.industry}</a>
-								</li>
-							)}
-						</ul>
-  				 </div>
+				<React.Fragment>
+					<div class="dropdown" style={{position:"absolute", height:"13%",width:"20%",left:"70%",top:"5%", zIndex:"2"}}>
+							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
+							   	<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
+								{this.state.industries.map(data=>
+									<li onClick={()=>this.handleChange(data.id)} id={data.id}>
+										<a href="#">{data.industry}</a>
+									</li>
+								)}
+							</ul>
+	  				 </div>
 
-				<IndustryTypeContainer/>
+					<IndustryTypeContainer/>
 
-				<PostContainer>
+					<PostContainer>
 
-					<ProfileContainer>
+						<ProfileContainer>
 
-						<ProfileImageContainer>
-							<img src={testdata.profileimage} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>
-						</ProfileImageContainer>
-						<EmployeeTitleContainer><b>{this.props.companyName}</b></EmployeeTitleContainer>
-						<CompanyTitleContainer>{this.props.companyPosition}</CompanyTitleContainer>
-						
-					</ProfileContainer>
+							<ProfileImageContainer>
+								<img src={testdata.profileimage} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>
+							</ProfileImageContainer>
+							<EmployeeTitleContainer><b>{this.props.companyName}</b></EmployeeTitleContainer>
+							<CompanyTitleContainer>{this.props.companyPosition}</CompanyTitleContainer>
+							
+						</ProfileContainer>
 
-					<PostTextarea id="posttextarea" onClick={()=>this.handleTextareaClick()}>
-						Order the post in according to recent, popular?
-					</PostTextarea>
-				</PostContainer>
+						<PostTextarea id="posttextarea" onClick={()=>this.handleTextareaClick()}>
+							Order the post in according to recent, popular?
+						</PostTextarea>
+					</PostContainer>
 
-				<PostOptionsContainer>
+					<PostOptionsContainer>
 
-					<ul style={{padding:"0px",marginLeft:"10%",marginTop:"5px"}}>
-						<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
-							<PostOptionButton onClick={()=>this.setState({displayElement:<RegularPostCreation
-																							displayProps={this.displayPostOptions}
-																						  />})}>
-								Post
-							</PostOptionButton>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
-							<PostOptionButton  onClick={()=>this.setState({displayElement:<ImagePostCreation
-																							displayProps={this.displayPostOptions}
-																							/>})}>
-								Image
-							</PostOptionButton>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
-							<PostOptionButton onClick={()=>this.setState({displayElement:<VideoPostCreation
+						<ul style={{padding:"0px",marginLeft:"10%",marginTop:"5px"}}>
+							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+								<PostOptionButton onClick={()=>this.setState({displayElement:<RegularPostCreation
 																								displayProps={this.displayPostOptions}
-																							/>})}>
-								Video
-							</PostOptionButton>
-						</li>
+																							  />})}>
+									Post
+								</PostOptionButton>
+							</li>
 
-						<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"5px"}}>
-							<BlogOptionButton to="/blog">
-								Blog
-							</BlogOptionButton>
-						</li>
-					</ul>
-			
+							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+								<PostOptionButton  onClick={()=>this.setState({displayElement:<ImagePostCreation
+																								displayProps={this.displayPostOptions}
+																								/>})}>
+									Image
+								</PostOptionButton>
+							</li>
 
-				</PostOptionsContainer>
-			</React.Fragment>
+							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+								<PostOptionButton onClick={()=>this.setState({displayElement:<VideoPostCreation
+																									displayProps={this.displayPostOptions}
+																								/>})}>
+									Video
+								</PostOptionButton>
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"5px"}}>
+								<BlogOptionButton to="/blog">
+									Blog
+								</BlogOptionButton>
+							</li>
+						</ul>
+				
+
+					</PostOptionsContainer>
+				</React.Fragment>
 		)
 	}
 
@@ -403,10 +409,15 @@ class LargePostComponent extends Component{
 
 
 		return(
-
-			<Container>
-				{this.state.displayElement}
-			</Container>
+			<PostProvider
+				value={{
+					userProfileId:this.state.id
+				}}
+			>
+				<Container>
+					{this.state.displayElement}
+				</Container>
+			</PostProvider>
 		)
 	}
 }
@@ -417,7 +428,8 @@ const mapStateToProps=(state)=>{
 		firstName:state.personalInformation.firstName,
 		lastName:state.personalInformation.lastName,
 		companyName:state.companyInformation.companyName,
-		companyPosition:state.companyInformation.companyPosition
+		companyPosition:state.companyInformation.companyPosition,
+		_id:state.personalInformation.id
 	}
 }
 

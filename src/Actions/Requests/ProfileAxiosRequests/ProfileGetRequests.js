@@ -100,23 +100,19 @@ export function getCompanyBio(userId){
 export async function getProfile(userId){
 
 	try{
-		const profile=await axios.get(`${SearchUrl}`,{
+		console.log("Connected with profile route");
+		const profile=await axios.get(`${SearchUrl}/getProfile`,{
 			params:{
 				id:userId
 			}
 		});
-
 		const {data}=profile;
 		const profileData=data.data;
-		return profileData
-
+		return profileData;
 	}catch(err){
 		console.log(err.message);
 	}
-	
 }
-
-
 
 export function getVideos(profileId){
 
@@ -254,6 +250,69 @@ export async function getMostPopular(investors){
 		console.log(err.message);
 	}
 }
+
+export async function getVideosFromUser(userId){
+	try{
+		console.log("Video Route for requests");
+		const videos=await axios.get(`${SearchUrl}/getUserVideos`,{
+			params:{
+				id:userId
+			}
+		})
+
+		const {data}=videos;
+		const {headerVideo,videoPosts}=data.data;
+		const videoObject={
+							headerVideo:headerVideo,
+							videos:videoPosts
+						  };
+		return videoObject;
+
+	}catch(err){
+		console.log(err);
+	}
+}
+export async function getBlogFromUser(userId){
+	try{
+		const blogsPostsData=await axios.get(`${SearchUrl}/getUserBlogs`,{
+			params:{
+				id:userId
+			}
+		})
+
+		const {data}=blogsPostsData;
+		const {headerBlog,blogPosts}=data.data;
+		const blogObject={
+							headerBlog:headerBlog,
+							blogs:blogPosts
+						  };
+		return blogObject;
+
+
+	}catch(err){
+		console.log(err);
+	}
+}
+
+
+export async function getRegularPostFromUser(userId){
+	try{
+		console.log("Testing regular posts api call");
+		const regularPostsResults=await axios.get(`${SearchUrl}/getUserRegularPosts`,{
+			params:{
+				id:userId
+			}
+		})
+
+		const {data}=regularPostsResults;
+		const {regularPosts}=data.data;
+		return regularPosts;
+
+	}catch(err){
+		console.log(err);
+	}
+}
+
 
 
 
