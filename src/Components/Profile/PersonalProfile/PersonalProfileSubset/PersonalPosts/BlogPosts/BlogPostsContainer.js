@@ -1,12 +1,16 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import {getBlogFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import NoPostsModal from "../NoPostsModal.js";
 
 
 const Container=styled.div`
 	position:absolute;
 	width:95%;
 	height:80%;
+	overflow-y:scroll;
+	padding:10px;
+	padding-right:10px;
 `;
 
 const ThumbnailBlogComponent=styled.div`
@@ -81,7 +85,9 @@ class BlogsPostsContainer extends Component{
 				{this.state.isLoading==true?<p>Currently loading blog posts</p>:
 					<React.Fragment>
 						{this.state.blogs.length==0&&this.state.headerBlog==null?
-							<p>Currently there are no posts available here</p>:
+							<NoPostsModal
+								postType={"blog"}
+							/>:
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none"}}>
 										<ThumbnailBlogComponent>

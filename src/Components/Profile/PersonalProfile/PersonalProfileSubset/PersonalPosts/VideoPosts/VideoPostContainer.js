@@ -3,11 +3,15 @@ import styled from "styled-components";
 import SmallVideoContainer from "./SmallVideos.js";
 import {getVideosFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {UserConsumer} from "../../../UserContext.js";
+import NoPostsModal from "../NoPostsModal.js";
 
 const Container=styled.div`
 	position:absolute;
 	width:95%;
 	height:80%;
+	overflow-y:scroll;
+	padding:10px;
+	padding-right:10px;
 `;
 
 const ThumbnailVideoComponent=styled.div`
@@ -78,7 +82,9 @@ class VideoPostsContainer extends Component{
 			<Container>
 				{this.state.isLoading==true ? <p>We are currently getting the videos please wait </p>:
 					<React.Fragment>
-						{this.state.videos.length==0? <p> Currently there are no videos available here </p>:
+						{this.state.videos.length==0? <NoPostsModal
+															postType={"video"}
+														/>:
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none"}}>
 									{this.state.headerVideo==null? <React.Fragment></React.Fragment>:

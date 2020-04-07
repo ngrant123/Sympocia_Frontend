@@ -1,7 +1,7 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import {UserConsumer} from "../../../UserContext.js";
-import NoImagesModal from "./NoImagesModal.js";
+import NoPostsModal from "../NoPostsModal.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -55,7 +55,9 @@ class ImagePostsContainer extends Component{
 						{personalInformation.isLoading==true?
 								<p>Give us a second we're getting your information</p>:
 								<React.Fragment>
-								{personalInformation.images.length==0?<NoImagesModal/>:
+								{personalInformation.images.length==0?<NoPostsModal
+																		postType={"image"}
+																	  />:
 										<ul style={{padding:"0px"}}>	
 											{personalInformation.images.map(data=>
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>

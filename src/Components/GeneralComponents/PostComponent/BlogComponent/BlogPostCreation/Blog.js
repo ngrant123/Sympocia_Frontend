@@ -43,6 +43,11 @@ class Blog extends Component{
 
 		return(
 
+			/*
+				Could in the future implement blinking in and out animation
+				 when the user just enters the blog page
+			*/
+
 			<Container>
 				<p id="textArea" style={{height:"40%",outline:"none",color:"#A5A4A4",fontSize:"30px"}} onClick={()=>this.emptyTextArea()} contenteditable="true">
 					Click here to start your masterpiece...

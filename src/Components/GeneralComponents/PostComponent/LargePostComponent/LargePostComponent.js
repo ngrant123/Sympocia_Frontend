@@ -272,12 +272,38 @@ class LargePostComponent extends Component{
 		/*
 			Find out if the poster is from a company or personal profile
 		*/
+		console.log(this.props);
 
+		if(this.props.postOption=="regularPost"){
+			this.setState({
+				displayElement:<RegularPostCreation 
+										displayProps={this.displayPostOptions}
+									/>,
+				id:this.props._id
+			})
+		}else if(this.props.postOption=="image"){
 
-		this.setState({
-			displayElement:this.originalScreen(),
-			id:this.props._id
-		})
+			this.setState({
+				displayElement:<ImagePostCreation
+										displayProps={this.displayPostOptions}
+									/>,
+				id:this.props._id
+			})
+
+		}else if(this.props.postOption=="video"){
+
+			this.setState({
+				displayElement:<VideoPostCreation 
+										displayProps={this.displayPostOptions}
+									/>,
+				id:this.props._id
+			})
+		}else{
+			this.setState({
+				displayElement:this.originalScreen(),
+				id:this.props._id
+			})
+		}
 	}
 
 	handleTextareaClick(){
@@ -391,7 +417,7 @@ class LargePostComponent extends Component{
 							</li>
 
 							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"5px"}}>
-								<BlogOptionButton to="/blog">
+								<BlogOptionButton id="blogCreationButton" to="/blog">
 									Blog
 								</BlogOptionButton>
 							</li>

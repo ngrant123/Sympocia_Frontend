@@ -10,6 +10,7 @@ const Container = styled.div`
 	background-color:white;
 	box-shadow:1px 1px 5px #9395a0;
 	border-radius:5px;
+	overflow-y:scroll;
 `;
 
 
