@@ -83,24 +83,30 @@ class EditImageCreation extends Component{
 		const selectedSubCommunities=this.state.subIndustriesSelected;
 		const imgUrl=this.state.imgUrl;
 		const searchCriteriaIndustryArray=[];
-		//this could be done in a better way but... niggas is on a time clench and stressed soooooo.....
+		debugger;
+		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		var counter=0;
 		for(var i=0;i<industries.length;i++){
 			var {subCommunity}=industries[i];
-			for(var j=0;j<subCommunity.lenght;j++){
-				const targetedSubCommunity=subCommunity[i];
-				if(targetedSubCommunity==selectedSubCommunities[counter]){
+			for(var j=0;j<subCommunity.length;j++){
+				const targetedSubCommunity=subCommunity[j];
+				if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
 					const searchObject={
 						industry:industries[i].industry,
 						subCommunitiy:selectedSubCommunities[counter]
 					}
 					searchCriteriaIndustryArray.push(searchObject);
 					counter++;
-					continue;
+					break;
 				}
 			}
 		}
+		const searchCriteriaObject={
+			imgUrl:imgUrl,
+			industryArray:searchCriteriaIndustryArray
+		}
 
+		console.log(searchCriteriaObject);
 	}
 
 	addSelectedSubCommunity=(subIndustry)=>{
