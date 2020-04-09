@@ -20,7 +20,7 @@ const CreatePostContainer=styled.div`
 	box-shadow:1px 1px 5px #9395a0;
 
 	&:hover{
-		box-shadow:5px 5px 5px #9395a0;
+		box-shadow:5px 5px 5px 5px #9395a0;
 	}
 `;
 
