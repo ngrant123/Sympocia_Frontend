@@ -3,6 +3,9 @@ import styled from "styled-components";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import SendIcon from '@material-ui/icons/Send';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {createImagePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {connect} from "react-redux";
+
 
 const Image=styled.div`
 	position:relative;
@@ -40,7 +43,7 @@ class EditImageCreation extends Component{
 		this.state={
 			imgUrl:"",
 			isCaptionCleared:false,
-			isImageTitleCleared:false,
+			isImageDescriptionCleared:false,
 			industriesSelected:[],
 			subIndustriesSelectedDropDown:[],
 			subIndustriesSelected:[]
@@ -66,13 +69,13 @@ class EditImageCreation extends Component{
 				...prevState,
 				isCaptionCleared:true
 			}))
-		}else if(this.state.isImageTitleCleared==false){
+		}else if(this.state.isImageDescriptionCleared==false){
 
-			document.getElementById("titleTextArea").value="";
-			document.getElementById("titleTextArea").stlye.color="black";
+			document.getElementById("descriptionTextArea").value="";
+			document.getElementById("descriptionTextArea").stlye.color="black";
 			this.setState(prevState=>({
 				...prevState,
-				isImageTitleCleared:true
+				isImageDescriptionCleared:true
 			}))
 		}
 	}
@@ -83,7 +86,9 @@ class EditImageCreation extends Component{
 		const selectedSubCommunities=this.state.subIndustriesSelected;
 		const imgUrl=this.state.imgUrl;
 		const searchCriteriaIndustryArray=[];
-		debugger;
+		var descriptionTextArea=(this.state.isImageDescriptionCleared==false)?"":document.getElementById("descriptionTextArea").value;
+		var captionTextArea=(this.state.isCaptionCleared==false)?"":document.getElementById("captionTextArea").value;
+
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		var counter=0;
 		for(var i=0;i<industries.length;i++){
@@ -93,7 +98,7 @@ class EditImageCreation extends Component{
 				if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
 					const searchObject={
 						industry:industries[i].industry,
-						subCommunitiy:selectedSubCommunities[counter]
+						subCommunity:selectedSubCommunities[counter]
 					}
 					searchCriteriaIndustryArray.push(searchObject);
 					counter++;
@@ -103,10 +108,11 @@ class EditImageCreation extends Component{
 		}
 		const searchCriteriaObject={
 			imgUrl:imgUrl,
-			industryArray:searchCriteriaIndustryArray
+			industryArray:searchCriteriaIndustryArray,
+			description:descriptionTextArea,
+			caption:captionTextArea
 		}
-
-		console.log(searchCriteriaObject);
+		createImagePost(this.props._id,searchCriteriaObject);
 	}
 
 	addSelectedSubCommunity=(subIndustry)=>{
@@ -335,7 +341,7 @@ class EditImageCreation extends Component{
 					</li>
 
 					<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
-											<ImageTextArea id="titleTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
+											<ImageTextArea id="descriptionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
 												Write a title description...
 											</ImageTextArea>
 
@@ -363,6 +369,15 @@ class EditImageCreation extends Component{
 	}
 }
 
-export default EditImageCreation;
+const mapStateToProps=state=>{
+	return{
+		_id:state.personalInformation.id
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	null
+)(EditImageCreation);
 
 

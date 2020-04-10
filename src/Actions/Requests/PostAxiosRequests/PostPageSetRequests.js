@@ -19,3 +19,24 @@ export const createRegularPost=async(userId,postContent,industry,subComunity)=>{
 		return err;
 	}
 }
+
+export const createImagePost=async(_id,searchCriteria)=>{
+	try{
+		console.log(_id);
+		console.log(searchCriteria);
+		const CreateURl='http://localhost:4000/api/posts/alter';
+		const imagePost=await axios.post(`${CreateURl}/createImagePost`,{
+			_id:_id,
+			searchCriteria:searchCriteria
+		})
+
+		console.log(imagePost);
+		const {data}=imagePost;
+		const imageCreationResponse=data.data;
+		return imageCreationResponse;
+
+	}catch(err){
+		console.log(err.message);
+		return err.message;
+	}
+}
