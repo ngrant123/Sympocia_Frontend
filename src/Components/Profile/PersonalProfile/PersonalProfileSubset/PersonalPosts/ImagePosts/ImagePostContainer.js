@@ -22,6 +22,7 @@ const Image=styled.div`
 	height:75%;
 	background-color:black;
 	border-radius:5px;
+	overflow:hidden;
 `;
 
 const ImageCaption=styled.div`
@@ -47,6 +48,16 @@ class ImagePostsContainer extends Component{
 		}
 	}
 
+	constructDate=(date)=>{
+		var convertedDate=new Date(parseInt(date));
+		var dateToString=convertedDate.toString();
+		var current=new Date();
+
+		//work on this a little more
+		return dateToString;
+
+	}
+
 	render(){
 		return(
 			<UserConsumer>
@@ -55,11 +66,11 @@ class ImagePostsContainer extends Component{
 						{personalInformation.isLoading==true?
 								<p>Give us a second we're getting your information</p>:
 								<React.Fragment>
-								{personalInformation.images.length==0?<NoPostsModal
+								{personalInformation.userProfile.imagePost.length==0?<NoPostsModal
 																		postType={"image"}
 																	  />:
 										<ul style={{padding:"0px"}}>	
-											{personalInformation.images.map(data=>
+											{personalInformation.userProfile.imagePost.map(data=>
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>
 													<ImageContainer>
 														<ul style={{padding:"0px"}}>	
@@ -68,13 +79,14 @@ class ImagePostsContainer extends Component{
 																	<img src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
 																</Image>
 															</li>
-
-															<li style={{listStyle:"none",marginBottom:"5%"}}>
+															{data.caption!=""?
+																<li style={{listStyle:"none",marginBottom:"5%"}}>
 																
-																<ImageCaption>
-																	{data.caption}
-																</ImageCaption>
-															</li>
+																	<ImageCaption>
+																		{data.caption}
+																	</ImageCaption>
+																</li>:<React.Fragment></React.Fragment>
+															}
 
 															<li style={{listStyle:"none"}}>
 																<ul style={{padding:"0px"}}>
@@ -87,7 +99,7 @@ class ImagePostsContainer extends Component{
 																	</li>
 
 																	<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",color:"#C8B0F4"}}>
-																		{data.datePosted}
+																		{this.constructDate(data.datePosted)}
 																	</li>
 																</ul>
 															</li>

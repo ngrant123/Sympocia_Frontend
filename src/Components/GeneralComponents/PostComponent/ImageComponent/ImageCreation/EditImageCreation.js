@@ -5,6 +5,7 @@ import SendIcon from '@material-ui/icons/Send';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {createImagePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {connect} from "react-redux";
+import {industryPostOptions} from "../../IndustryPostOptions.js";
 
 
 const Image=styled.div`
@@ -134,34 +135,18 @@ class EditImageCreation extends Component{
 		}
 	}
 
-	addSelectedIndustry=(industry)=>{
+	addSelectedIndustry=async(industry)=>{
 		console.log(industry);
 		const currentSelectedIndustries=this.state.industriesSelected;
 
 		var subIndustries=this.state.subIndustriesSelectedDropDown;
 		var newSubCommunityMap=this.state.subCommunitiesMap;
-		var industryContainerIndicator=false;
-		for(var i=0;i<currentSelectedIndustries.length;i++){
-			const industryArray=currentSelectedIndustries[i].industry;
-			if(industry==industryArray){
-				industryContainerIndicator=true;
-				break;
-			}
-		}
 
-		if(industryContainerIndicator!=true){
-			currentSelectedIndustries.push(industry);
-			const subCommunities=industry.subCommunity;
-			var subCommunityCounter=subIndustries.length;
-			for(var i=0;i<subCommunities.length;i++){
-				const subCommunity=subCommunities[i];
-				if(!newSubCommunityMap.has(subCommunity)){
-					subIndustries.push(subCommunity);
-					newSubCommunityMap.set(subCommunity,subCommunityCounter);
-					subCommunityCounter++;
-				}
-			}
-		}
+		const {
+			industriesSelected,
+			subCommunitiesMap,
+			subIndustriesSelectedDropDown
+		}=await industryPostOptions(industry,currentSelectedIndustries,subIndustries,newSubCommunityMap);
 
 		this.setState({
 			industriesSelected:currentSelectedIndustries,

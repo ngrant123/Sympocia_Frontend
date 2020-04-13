@@ -327,7 +327,6 @@ class LProfile extends Component{
 		let profileContainer=document.getElementById("profilePicture");
 		let image=document.getElementById("profilePicutreImageFile").files[0];
 		let reader= new FileReader();
-
 		reader.onloadend=()=>{
 
 			profileContainer.src=reader.result;
@@ -514,7 +513,6 @@ class LProfile extends Component{
 			displayVideoModal:true,
 			videoData:videoData
 		}));
-
 	}
 
 
@@ -541,7 +539,6 @@ class LProfile extends Component{
 								</img>
     						</li>
     					)}
-
     				</ul>
 				</VideoModal>
 
@@ -549,7 +546,6 @@ class LProfile extends Component{
 			</React.Fragment>:
 			<React.Fragment></React.Fragment>
 	}
-
 	handleBlogsModal=()=>{
 		console.log("Blog modal button clicked");
 	}
@@ -602,7 +598,7 @@ class LProfile extends Component{
 								<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
 								<img id="profilePicture" src={this.state.userProfile.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
 							}
-							
+
 							{this.state.isOwnProfile==true?
 								<React.Fragment>
 									<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} onChange={()=>this.changeProfilePicture()}></input>
@@ -626,21 +622,13 @@ class LProfile extends Component{
 							disappearShadow={this.disappearShadow}
 						/>
 					</PostInformationContainer>
-
-					
- 
 				</Container>
-
 		</UserProvider>
-
 		)
 	}
 }
 
-
 const mapStateToProps=(state)=>{
-
-
 	return{
 		_id:state.personalInformation.id
 	}

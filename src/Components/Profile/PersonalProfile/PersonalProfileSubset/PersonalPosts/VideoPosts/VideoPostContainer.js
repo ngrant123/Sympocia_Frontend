@@ -11,7 +11,7 @@ const Container=styled.div`
 	height:80%;
 	overflow-y:scroll;
 	padding:10px;
-	padding-right:10px;
+	padding-right:20px;
 `;
 
 const ThumbnailVideoComponent=styled.div`
