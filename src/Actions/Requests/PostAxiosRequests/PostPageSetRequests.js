@@ -40,3 +40,48 @@ export const createImagePost=async(_id,searchCriteria)=>{
 		return err.message;
 	}
 }
+
+export const createVideoPost=async(_id,searchCriteria)=>{
+	try{
+		debugger;
+		console.log(_id);
+		console.log(searchCriteria);
+		const CreateURl='http://localhost:4000/api/posts/alter';
+		const videoPost=await axios.post(`${CreateURl}/createVideoPost`,{
+			_id:_id,
+			searchCriteria:searchCriteria
+		})
+
+		console.log(videoPost);
+		const {data}=videoPost;
+		const videoCreationResponse=data.data;
+		return videoCreationResponse;
+
+	}catch(err){
+		console.log(err.message);
+		return err.message;
+	}
+}
+
+
+export const createBlogPost=async(_id,searchCriteria)=>{
+	try{
+		debugger;
+		console.log(_id);
+		console.log(searchCriteria);
+		const CreateURl='http://localhost:4000/api/posts/alter';
+		const blogPost=await axios.post(`${CreateURl}/createBlogPost`,{
+			_id:_id,
+			searchCriteria:searchCriteria
+		})
+
+		console.log(blogPost);
+		const {data}=blogPost;
+		const blogCreationResponse=data.data;
+		return blogCreationResponse;
+
+	}catch(err){
+		console.log(err.message);
+		return err.message;
+	}
+}

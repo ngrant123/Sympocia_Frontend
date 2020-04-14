@@ -71,7 +71,7 @@ class ImagePostsContainer extends Component{
 																	  />:
 										<ul style={{padding:"0px"}}>	
 											{personalInformation.userProfile.imagePost.map(data=>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"9%"}}>
 													<ImageContainer>
 														<ul style={{padding:"0px"}}>	
 															<li style={{listStyle:"none"}}>
@@ -103,9 +103,7 @@ class ImagePostsContainer extends Component{
 																	</li>
 																</ul>
 															</li>
-
 														</ul>
-
 													</ImageContainer>
 												</li>
 											)}

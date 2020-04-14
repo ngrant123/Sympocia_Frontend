@@ -9,13 +9,23 @@ import {GeneralNavBar} from "../../../NavBarComponent/LargeNavBarComponent/Large
 import AdditionalInformation from "./AdditionalInformation.js";
 import TextOptions from "./TextOptions.js";
 import Blog from "./Blog.js";
+import BlogEditSubmitModal from "./BlogEditSubmitModal.js";
 
 const Container=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
 	background-color:#FFFFFF;
+`;
 
+const ShadowContainer = styled.div`
+
+	position:absolute;
+	width:100%;
+	height:100%;
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	display:block;
+	z-index:4;
 
 `;
 
@@ -28,7 +38,8 @@ class BlogPostCreation extends Component{
 
 		console.log("Teste");
 		this.state={
-			userInformation:{}
+			userInformation:{},
+			displayEditButtonSubmitModal:false
 		}
 	}
 
@@ -37,6 +48,22 @@ class BlogPostCreation extends Component{
 			userInformation:this.props.state
 		})
 	}
+
+	editBlogSubmitModal=()=>{
+		return this.state.displayEditButtonSubmitModal==false?<React.Fragment></React.Fragment>:
+		<React.Fragment>
+			<ShadowContainer onClick={()=>this.setState({displayEditButtonSubmitModal:false})}/>
+			<BlogEditSubmitModal/>
+		</React.Fragment>
+	}
+
+	displayOrHideSubmitModal=()=>{
+		this.setState({
+			displayEditButtonSubmitModal:!this.state.displayEditButtonSubmitModal
+		})
+	}
+
+
 
 
 	render(){
@@ -49,10 +76,12 @@ class BlogPostCreation extends Component{
 				<Container>
 					<GeneralNavBar/>
 					<AdditionalInformation/>
-					<TextOptions/>
+					<TextOptions
+						displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
+					/>
 					<Blog/>
+					{this.editBlogSubmitModal()}
 				</Container>
-
 			</BlogProvider>
 
 		)

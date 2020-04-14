@@ -15,11 +15,55 @@ const SmallVideo=styled.div`
 	position:relative;
 	height:65%;
 	width:100%;
-	background-color:red;
+	background-color:white;
 	border-radius:5px;
 `;
 
+const IndustryButtonCSS={
+	listStyle:"none",
+	padding:"5px",
+	width:"50%",
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white",
+	borderRadius:"5px"
+}
+
 const SmallVideoContainer=(videoData)=>{
+
+	const displayIndustries=()=>{
+		const {industriesUploaded}=videoData.video;
+		if(industriesUploaded.length>1){
+			return <ul style={{padding:"0px"}}>
+						<li style={IndustryButtonCSS}>
+							{industriesUploaded[0].industry}
+						</li>
+						<li style={{listStyle:"none",display:"inline-block"}}>
+							(View more...)
+						</li>
+					</ul>
+		}else{
+			return <ul style={{padding:"0px"}}>
+						<li style={IndustryButtonCSS}>
+							{industriesUploaded.industry}
+						</li>
+					</ul>
+			}
+	}
+
+
+	const constructDate=()=>{
+		const date=videoData.video.datePosted;
+		var convertedDate=new Date(parseInt(date));
+		var dateToString=convertedDate.toString();
+		var current=new Date();
+
+		//work on this a little more
+		return dateToString;
+
+	}
 
 	return(
 		<UserConsumer>
@@ -29,13 +73,13 @@ const SmallVideoContainer=(videoData)=>{
 												<li style={{listStyle:"none"}}>
 													<SmallVideo>
 														<video width="100%" height="100%" controls autoplay>
-																<source src={videoData.videoUrl} type="video/mp4"/>
+																<source src={videoData.video.videoUrl} type="video/mp4"/>
 														</video>
 													</SmallVideo>
 												</li>
 
 												<li style={{listStyle:"none",fontSize:"15px"}}>
-													<b>{videoData.title} </b>
+													<b>{videoData.video.title} </b>
 												</li>
 
 												<li style={{listStyle:"none"}}>
@@ -45,17 +89,17 @@ const SmallVideoContainer=(videoData)=>{
 												<li style={{listStyle:"none"}}>
 													<ul style={{padding:"0px"}}>
 														<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-															{videoData.views} views
+															{videoData.video.views} views
 														</li>
 
 														<li style={{listStyle:"none",display:"inline-block"}}>
-															{videoData.datePosted} days ago
+															{constructDate()}
 														</li>
 													</ul>
 												</li>
 
-												<li style={{listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
-													{videoData.industry}
+												<li style={{listStyle:"none"}}>
+													{displayIndustries()}
 												</li>
 											</ul>
 

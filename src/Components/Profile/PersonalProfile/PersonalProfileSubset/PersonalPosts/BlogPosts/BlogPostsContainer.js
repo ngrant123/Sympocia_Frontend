@@ -63,17 +63,17 @@ class BlogsPostsContainer extends Component{
 			],
 			firstVideo:{},
 			isLoading:true,
-			blogs:[],
+			blogs:[{},{},{}],
 			headerBlog:{}
 		}
 	}
 
 	async componentDidMount(){
-		const {	headerBlog,blogs}=await getBlogFromUser(this.props.id);
+		//const {	headerBlog,blogs}=await getBlogFromUser(this.props.id);
 
 		this.setState({
-			headerBlog:headerBlog,
-			blogs:blogs,
+			//headerBlog:headerBlog,
+		//	blogs:blogs,
 			isLoading:false
 		})
 	}

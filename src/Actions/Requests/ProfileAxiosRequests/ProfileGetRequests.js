@@ -258,7 +258,7 @@ export async function getVideosFromUser(userId){
 			params:{
 				id:userId
 			}
-		})
+		});
 
 		const {data}=videos;
 		const {headerVideo,videoPosts}=data.data;

@@ -67,6 +67,7 @@ class VideoPostsContainer extends Component{
 	}
 
 	async componentDidMount(){
+		console.log("Testing video api call");
 		const {headerVideo,videos}=await getVideosFromUser(this.props.id);
 		this.setState({
 			headerVideo:headerVideo,
@@ -137,7 +138,7 @@ class VideoPostsContainer extends Component{
 								<li style={{listStyle:"none",marginTop:"5%"}}>	
 									<ul style={{padding:"0px"}}>
 										{this.state.videos.map(data=>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"5%"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"9%"}}>
 												<SmallVideoContainer
 													video={data}
 												/>

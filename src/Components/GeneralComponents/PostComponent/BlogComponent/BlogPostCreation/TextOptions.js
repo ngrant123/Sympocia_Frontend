@@ -76,6 +76,10 @@ const TextOptions=(props)=>{
 
 	}
 
+	const handleSubmitBlogData=()=>{
+
+	}
+
 	return(
 		<Container>
 			<ul style={{padding:"0px"}}>
@@ -174,7 +178,7 @@ const TextOptions=(props)=>{
 				</li>
 
 				<li style={{listStyle:"none"}}>
-					<SubmitButton>
+					<SubmitButton onClick={()=>props.displayEditBlogSubmitModal()}>
 						Submit
 					</SubmitButton>
 				</li>
