@@ -1,15 +1,14 @@
 import axios from "axios";
 
 
-export const createRegularPost=async(userId,postContent,industry,subComunity)=>{
+export const createRegularPost=async(userId,searchCriteria)=>{
 	const CreateURl='http://localhost:4000/api/posts/alter';
 	try{
+		debugger;
 			console.log("Regular post creation api working");
 			const regularPostCreationVerification=await axios.post(`${CreateURl}/createRegularPost`,{
 														id:userId,
-														content:postContent,
-														subCommunity:subComunity,
-														industry:industry
+														searchCriteria:searchCriteria
 												});
 
 			const results=regularPostCreationVerification.data;

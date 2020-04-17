@@ -1,5 +1,4 @@
 //Beginning stages of the website.... the website architecture will almost definetly change and everything lol
-
 import React from "react";
 import ReactDom from "react-dom";
 import Landing from "./Pages/Landing";
@@ -59,7 +58,6 @@ const application  = (
 				<Route path="/profile" component={PersonalProfileScreen}/>
 				<Route path="/investor" component= {InvestorScreen} />
 				<Route path="/map" component= {MapScreen} />
-				
 				//TEST
 				<Route path="/demo" component={Demo}/>
 				<Route Path="/blog" component={BlogPostCreation}/>

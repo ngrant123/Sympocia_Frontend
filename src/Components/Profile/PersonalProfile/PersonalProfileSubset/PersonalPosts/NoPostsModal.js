@@ -18,6 +18,8 @@ const CreatePostContainer=styled.div`
 	border-radius:5px;
 	transition:.8s;
 	box-shadow:1px 1px 5px #9395a0;
+	padding-top:20px;
+	height:90%;
 
 	&:hover{
 		box-shadow:5px 5px 5px 5px #9395a0;
@@ -38,8 +40,8 @@ const RecommendedContainer=styled.div`
 
 const RecommendedImage=styled.div`
 	 position:relative;
-	 width:110px;
-	 height:100px;
+	 width:70px;
+	 height:70px;
 	 border-radius:5px;
 	 background-color:red;
 `;
@@ -91,8 +93,8 @@ const NoPostsModal=(props)=>{
 										<img position="relative" src={SympociaIcon} width="100%" height="100%"/>
 									</SympociaStampIconContainer>
 								</li>
-								<p style={{fontSize:"20px",marginLeft:"10%"}}><b>Upload a picture of your own to get started</b></p>
-								<p>Show people your story through images and start sharing your story to others </p>
+								<p style={{fontSize:"20px",marginLeft:"10%"}}><b>Upload a {props.postType} of your own to get started</b></p>
+								<p>Show people your story through {props.postType}s and start sharing your story to others </p>
 								<li onClick={()=>postContext.updatePostComponent(props.postType)}style={{marginLeft:"33%",listStyle:"none",display:"inline-block",padding:"5px",color:"white",backgroundColor:"#C8B0F4",borderRadius:"5px",padding:"10px",fontSize:"15px"}}>
 									{props.postType=="blog"?
 										<p><a style={{textDecoration:"none",color:"white"}} href="/blog">Upload a {props.postType}</a></p>:
@@ -233,7 +235,7 @@ const NoPostsModal=(props)=>{
 								<RecommendedContainer>
 									<ul style={{position:"relative",padding:"0px"}}>
 											<p style={{fontSize:"20px"}}>
-												<b>Recommended Image</b>
+												<b>Recommended {props.postType}</b>
 										    </p>
 											<p style={{color:"#999999"}}>Since we noticed that this profile doesnt have any posts here are 
 												a list of recommended posts that we could find 
@@ -243,13 +245,44 @@ const NoPostsModal=(props)=>{
 												<ul style={{padding:"0px"}}>
 													{recommendedRegularPosts.map(data=>
 														<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",marginBottom:"2%"}}>
-															<RecommendedImage>
+															<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<ul style={{padding:"0px"}}>
+																		<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+																			<RecommendedImage>
 
-															</RecommendedImage>
+																			</RecommendedImage>
+																		</li>
+																		<li style={{listStyle:"none",display:"inline-block"}}>
+																			<ul style={{padding:"0px"}}>
+																				<li style={{listStyle:"none",fontSize:"25px"}}>
+																					<b>Nathan</b>
+																				</li>
+																				<li style={{color:"#A4A4A4"}}>
+																					Short bio about user etc etc etc
+																				</li>
+																			</ul>
+
+																		</li>
+
+																	</ul>
+																</li>
+
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	
+																	Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+																			 sed do eiusmod tempor incididunt ut labore et dolore magna
+																			 aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+																			 ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+																			 Duis aute irure dolor in reprehenderit in voluptate velit 
+																			 esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+																			 occaecat cupidatat non proident, sunt in culpa qui officia 
+																			 deserunt mollit anim id est laborum.
+																</li>
+															</ul>
 														</li>
 													)}
 												</ul>
-
 											</li>
 									</ul>
 								</RecommendedContainer>

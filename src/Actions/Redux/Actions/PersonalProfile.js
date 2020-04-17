@@ -55,7 +55,6 @@ const addPaymentPlan=(paymentPlan)=>{
 
 
 const firstTimeUsage=(firstTime)=>{
-
 	return{
 		type:'FIRST_TIME_INDICATOR',
 		payload:firstTime

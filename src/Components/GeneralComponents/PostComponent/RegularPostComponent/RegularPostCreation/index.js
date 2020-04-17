@@ -17,6 +17,7 @@ import SendIcon from '@material-ui/icons/Send';
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 import {PostConsumer} from "../../PostContext.js";
+import IndustryPostOptions from "../../IndustryPostOptions.js";
 
 const Container = styled.div`
 	position:relative;
@@ -108,6 +109,9 @@ const Photo=styled.div`
 	const [selectecIndustry,changeSelectedIndustry]=useState("");
 	const [subCommunities,changeSubCommunity]=useState([]);
 	const [selectedSubCommunity,changeSelectedSubCommunity]=useState("");
+
+	const [industriesSelected,changeIndustriesSelected]=useState([]);
+	const [subIndustriesSelected,changeSubIndustriesSelected]=useState([]);
 
 
 	const {personalInformation}=useSelector(state=>state);
@@ -467,14 +471,56 @@ const Photo=styled.div`
         setCursorLocation(textArea,textArea.innerText.length);
 	}
 
+
+
+
+
 	const sendRegularPost=async(userId)=>{
 		console.log("Teste");
 		console.log(userId);
+		debugger;
+		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
+		const searchCriteriaIndustryArray=[];
 		const content=document.getElementById("textAreaContainer").innerText;
+		const industries=industriesSelected;
+		const selectedSubCommunities=subIndustriesSelected; 
+
+		var counter=0;
+		for(var i=0;i<industries.length;i++){
+			var {subCommunity}=industries[i];
+			var addIndustryOrIndustryObject=false;
+			var subCommunitiyArray=[];
+			var subCommunityCounter=0;
+			while(subCommunityCounter<subCommunity.length){
+				const targetedSubCommunity=subCommunity[subCommunityCounter];
+				if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
+					subCommunitiyArray.push(selectedSubCommunities[counter]);
+					counter++;
+					subCommunityCounter=0;
+				}else{
+					subCommunityCounter++;
+				}
+			}
+			const searchObject={
+						industry:industries[i].industry,
+						subIndustry:subCommunitiyArray
+			}
+				searchCriteriaIndustryArray.push(searchObject);
+		}
+		const searchCriteriaObject={
+			post:content,
+			industryArray:searchCriteriaIndustryArray
+		}
+
 		const {id}=personalInformation;
-		const confirmationSuccess=await createRegularPost(userId,content,selectecIndustry,selectedSubCommunity);
+		const confirmationSuccess=await createRegularPost(userId,searchCriteriaObject);
 		
 	}
+
+
+
+
+
 	const enableCodingBlock=()=>{
 		changeCodingBlockDisplay(!displayCodingBlock);
 		changeItalics(false);
@@ -520,6 +566,14 @@ const Photo=styled.div`
 		}
 	}
 
+	const alterSelectedIndustry=(selectedIndustries)=>{
+		changeIndustriesSelected(selectedIndustries);
+	}
+
+	const alterSelectedSubCommunities=(selectedSubCommunities)=>{
+		changeSubIndustriesSelected(selectedSubCommunities);
+	}
+
 
 
 	return(
@@ -544,8 +598,8 @@ const Photo=styled.div`
 											</ProfilePicture> 
 										</li>
 
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",top:"0%"}}>
-											<ul style={{padding:"5px",position:"relative",top:"-30px",borderRadius:"5px",boxShadow:"1px 1px 5px 	#9395a0"}}>
+										<li style={{position:"relative",top:"5px",listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+											<ul style={{padding:"5px",borderRadius:"5px",boxShadow:"1px 1px 5px 	#9395a0"}}>
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													<ImageOutlinedIcon
 														style={{fontSize:30}}
@@ -608,6 +662,40 @@ const Photo=styled.div`
 
 										</li>
 
+										<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",marginRight:"-1%"}}>
+											<div class="dropdown">
+													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																			borderColor:"#5298F8",
+																																			borderStyle:"solid",
+																																			borderWidth:"1px",
+																																			color:"#5298F8",
+																																			backgroundColor:"white"}}>
+														Post Option
+													   	<span class="caret"></span>
+													</button>
+
+													<ul class="dropdown-menu">
+														<li onClick={()=>props.displayProps("ImagePosts")}><a>Image</a></li>
+														<li onClick={()=>props.displayProps("VideoPosts")}><a>Video</a></li>
+														<li onClick={()=>props.displayProps("RegularPost")}><a>Post</a></li>
+														<li onClick={()=>props.displayProps("RegularPost")}><a href={"/blog"}>Blog</a></li>
+													</ul>
+							  				 </div>
+										</li>
+										<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
+											<ul>
+												<IndustryPostOptions
+														alterSelectedIndustry={alterSelectedIndustry}
+														alterSelectedSubCommunities={alterSelectedSubCommunities}
+												/>
+											</ul>
+
+										</li>
+										
+										{/*
+
+
+
 										<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"-50px",marginRight:"1%"}}>
 											<div class="dropdown">
 													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
@@ -625,27 +713,6 @@ const Photo=styled.div`
 																<a href="javascript:;" onClick={()=>setIndustry(data.industry)}>{data.industry}</a>
 															</li>
 														)}
-													</ul>
-							  				 </div>
-										</li>
-
-										<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"-50px",marginRight:"1%"}}>
-											<div class="dropdown">
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																			borderColor:"#5298F8",
-																																			borderStyle:"solid",
-																																			borderWidth:"1px",
-																																			color:"#5298F8",
-																																			backgroundColor:"white"}}>
-														Post Option
-													   	<span class="caret"></span>
-													</button>
-
-													<ul class="dropdown-menu">
-														<li onClick={()=>props.displayProps("ImagePosts")}><a>Image</a></li>
-														<li onClick={()=>props.displayProps("VideoPosts")}><a>Video</a></li>
-														<li onClick={()=>props.displayProps("RegularPost")}><a>Post</a></li>
-														<li onClick={()=>props.displayProps("RegularPost")}><a href={"/blog"}>Blog</a></li>
 													</ul>
 							  				 </div>
 										</li>
@@ -675,6 +742,7 @@ const Photo=styled.div`
 											<React.Fragment>
 											</React.Fragment>
 										}
+									*/}
 									</ul>
 								</li>
 

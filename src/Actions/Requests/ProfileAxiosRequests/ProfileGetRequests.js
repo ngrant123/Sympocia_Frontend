@@ -287,8 +287,7 @@ export async function getBlogFromUser(userId){
 							blogs:blogPosts
 						  };
 		return blogObject;
-
-
+		
 	}catch(err){
 		console.log(err);
 	}

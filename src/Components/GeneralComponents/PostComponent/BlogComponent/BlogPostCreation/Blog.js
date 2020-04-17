@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-
+import {BlogConsumer} from "./BlogContext.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -20,7 +20,8 @@ class Blog extends Component{
 		super(props);
 
 		this.state={
-			firstTimeClick:true
+			firstTimeClick:true,
+			blogPostContents:"Testing blog contents"
 		}
 	}
 
@@ -38,21 +39,24 @@ class Blog extends Component{
 		}
 	}
 
+	handleBlogTextAreaChange=(savePostInformationFunction)=>{
+		savePostInformationFunction.updateBlogPost(this.state.blogPostContents);
+	}
+
 
 	render(){
-
 		return(
+			//Needs to be fixed later but now this will work
 
-			/*
-				Could in the future implement blinking in and out animation
-				 when the user just enters the blog page
-			*/
-
-			<Container>
-				<p id="textArea" style={{height:"40%",outline:"none",color:"#A5A4A4",fontSize:"30px"}} onClick={()=>this.emptyTextArea()} contenteditable="true">
-					Click here to start your masterpiece...
-				</p>
-			</Container>
+			<BlogConsumer>
+				{postInformation=>{
+					return <Container>
+								<p id="textArea" style={{height:"40%",outline:"none",color:"#A5A4A4",fontSize:"30px"}} onClick={()=>this.emptyTextArea()} contenteditable="true" onKeyPress={()=>this.handleBlogTextAreaChange(postInformation)}>
+									Click here to start your masterpiece...
+								</p>
+							</Container>
+				}}
+			</BlogConsumer>
 
 		)
 	}

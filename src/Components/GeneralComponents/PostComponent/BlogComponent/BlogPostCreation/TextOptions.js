@@ -12,6 +12,8 @@ import GifIcon from '@material-ui/icons/Gif';
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
 import TextFormatIcon from '@material-ui/icons/TextFormat';
 
+import {BlogConsumer} from "./BlogContext.js";
+
 const Container=styled.div`
 	position:fixed;
 	width:15%;
@@ -81,111 +83,114 @@ const TextOptions=(props)=>{
 	}
 
 	return(
-		<Container>
-			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",marginBottom:"20%"}}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-							<ProfilePicture/>
-						</li>
+		<BlogConsumer>
+				{ personInformation=>{
+					return <Container>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginBottom:"20%"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+												<ProfilePicture/>
+											</li>
 
-						<li  style={{listStyle:"none",display:"inline-block"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",fontSize:"30px"}}>
-									<b>Nathan</b>
-								</li>
+											<li  style={{listStyle:"none",display:"inline-block"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",fontSize:"30px"}}>
+														<b>Nathan</b>
+													</li>
 
-								<li style={{listStyle:"none"}}>
-									Started 2 days ago
-								</li>
-
-
-							</ul>
-						</li>
-
-					</ul>
-
-				</li>
-
-				<li style={{listStyle:"none"}}>
-					<ul style={{padding:"10px",minHeight:"50%",borderRadius:"5px"}}>
-						<li style={TextOptionsCSS}>
-									<ImageOutlinedIcon
-										style={{fontSize:40}}
-									/>
-								</li>
-
-								<li style={TextOptionsCSS}>
-									<FormatBoldOutlinedIcon
-										style={{fontSize:40}}
-										onClick={()=>changeBold()}
-									/>
-								</li>
-
-								<li style={TextOptionsCSS}>
-									<TextFormatIcon
-										style={{fontSize:40}}
-										onClick={()=>changeBold()}
-									/>
-								</li>
-
-								<li style={TextOptionsCSS}>
-									<FormatItalicOutlinedIcon
-										style={{fontSize:40}}
-										onClick={()=>changeItalics()}
-									/>
-								</li>
-								<li style={TextOptionsCSS}>
-									<CodeOutlinedIcon
-										style={{fontSize:40}}
-										onClick={()=>enableCodingBlock()}
-									/>
-								</li>
-								<li style={TextOptionsCSS}>
-									<FormatListBulletedOutlinedIcon
-										style={{fontSize:40}}
-										onClick={()=>enableBulletList()}
-									/>
-								</li>
-								<li style={TextOptionsCSS}>
-									<FormatListNumberedOutlinedIcon
-										style={{fontSize:40}}
-										onClick={()=>enableNumberedLst()}
-									/>
-								</li>
-								<li style={TextOptionsCSS}>
-									<FormatQuoteRoundedIcon
-										style={{fontSize:40}}
-									/>
-								</li>
-								<li style={TextOptionsCSS}>
-									<FunctionsRoundedIcon
-										style={{fontSize:40}}
-									/>
-								</li>
-								<li style={TextOptionsCSS}>
-									<EmojiEmotionsOutlinedIcon
-										style={{fontSize:40}}
-										/>
-								</li>
-								<li style={TextOptionsCSS}>
-									<GifIcon	
-										style={{fontSize:40}}
-									/>
-								</li>
-
-					</ul>
-				</li>
-
-				<li style={{listStyle:"none"}}>
-					<SubmitButton onClick={()=>props.displayEditBlogSubmitModal()}>
-						Submit
-					</SubmitButton>
-				</li>
-			</ul>
+													<li style={{listStyle:"none"}}>
+														Started 2 days ago
+													</li>
 
 
-		</Container>
+												</ul>
+											</li>
+
+										</ul>
+
+									</li>
+
+									<li style={{listStyle:"none"}}>
+										<ul style={{padding:"10px",minHeight:"50%",borderRadius:"5px"}}>
+											<li style={TextOptionsCSS}>
+														<ImageOutlinedIcon
+															style={{fontSize:40}}
+														/>
+													</li>
+
+													<li style={TextOptionsCSS}>
+														<FormatBoldOutlinedIcon
+															style={{fontSize:40}}
+															onClick={()=>changeBold()}
+														/>
+													</li>
+
+													<li style={TextOptionsCSS}>
+														<TextFormatIcon
+															style={{fontSize:40}}
+															onClick={()=>changeBold()}
+														/>
+													</li>
+
+													<li style={TextOptionsCSS}>
+														<FormatItalicOutlinedIcon
+															style={{fontSize:40}}
+															onClick={()=>changeItalics()}
+														/>
+													</li>
+													<li style={TextOptionsCSS}>
+														<CodeOutlinedIcon
+															style={{fontSize:40}}
+															onClick={()=>enableCodingBlock()}
+														/>
+													</li>
+													<li style={TextOptionsCSS}>
+														<FormatListBulletedOutlinedIcon
+															style={{fontSize:40}}
+															onClick={()=>enableBulletList()}
+														/>
+													</li>
+													<li style={TextOptionsCSS}>
+														<FormatListNumberedOutlinedIcon
+															style={{fontSize:40}}
+															onClick={()=>enableNumberedLst()}
+														/>
+													</li>
+													<li style={TextOptionsCSS}>
+														<FormatQuoteRoundedIcon
+															style={{fontSize:40}}
+														/>
+													</li>
+													<li style={TextOptionsCSS}>
+														<FunctionsRoundedIcon
+															style={{fontSize:40}}
+														/>
+													</li>
+													<li style={TextOptionsCSS}>
+														<EmojiEmotionsOutlinedIcon
+															style={{fontSize:40}}
+															/>
+													</li>
+													<li style={TextOptionsCSS}>
+														<GifIcon	
+															style={{fontSize:40}}
+														/>
+													</li>
+
+										</ul>
+									</li>
+
+									<li style={{listStyle:"none"}}>
+										<SubmitButton onClick={()=>props.displayEditBlogSubmitModal()}>
+											Submit
+										</SubmitButton>
+									</li>
+								</ul>
+							</Container>
+						}}
+		</BlogConsumer>
+		
 	)
 }
 

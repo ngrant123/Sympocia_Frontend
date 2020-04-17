@@ -7,6 +7,7 @@ import ExplorePage from "../HomePageSubset/ExploreHomeFeed/ExplorePage/ExplorePa
 import PersonalFeed from "../HomePageSubset/PersonalHomeFeed/PersonalFeed/PersonalFeedContainer";
 import CustomizedFeed from "../HomePageSubset/PersonalHomeFeed/CustomizedPersonalFeed/CustomizedFeedContainer";
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
+import SearchExploreScreen from "../HomePageSubset/SearchExplorePage/SearchExploreSet/index.js";
 
 import ExploreIcon from '@material-ui/icons/Explore';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
@@ -339,9 +340,13 @@ class HomePageContainer extends Component{
 						*/}
 					</ul>
 				</PageIndicator>
-
-				{this.displayForYouChoices()}
-				{this.displayPersonalOrExploreFeed()}
+				{this.props.displaySearch==null?
+					<SearchExploreScreen/>:
+					<React.Fragment>
+						{this.displayForYouChoices()}
+						{this.displayPersonalOrExploreFeed()}
+					</React.Fragment>
+				}
 
 			</Container>
 		)

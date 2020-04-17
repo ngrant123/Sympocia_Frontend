@@ -39,7 +39,8 @@ class BlogPostCreation extends Component{
 		console.log("Teste");
 		this.state={
 			userInformation:{},
-			displayEditButtonSubmitModal:false
+			displayEditButtonSubmitModal:false,
+			blog:""
 		}
 	}
 
@@ -63,27 +64,27 @@ class BlogPostCreation extends Component{
 		})
 	}
 
-
-
-
 	render(){
-
 		return(
-
 			<BlogProvider value={{
-				state:this.state.userInformation
+				personInformation:this.state.userInformation,
+				blogPostState:this.state.blog,
+				updateBlogPost:(blogPost)=>{
+					this.setState({
+						blog:blogPost
+					})
+				}
 			}}>
 				<Container>
 					<GeneralNavBar/>
 					<AdditionalInformation/>
 					<TextOptions
 						displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
-					/>
-					<Blog/>
-					{this.editBlogSubmitModal()}
+				/>
+				<Blog/>
+				{this.editBlogSubmitModal()}
 				</Container>
 			</BlogProvider>
-
 		)
 	}
 }
@@ -100,7 +101,3 @@ export default connect(
 		mapStateToProps,
 		null
 	)(BlogPostCreation);
-
-
-
-
