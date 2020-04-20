@@ -293,6 +293,7 @@ class LProfile extends Component{
 
 		 }else{
 				if(_id==this.props._id){
+					debugger;
 					const profile=await getProfile(this.props._id);
 
 					this.setState(prevState=>({
