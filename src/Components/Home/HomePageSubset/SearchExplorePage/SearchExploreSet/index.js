@@ -36,7 +36,6 @@ const CommentTextArea=styled.textarea`
 
 class SearchExploreContainer extends Component{
 
-
 	constructor(props){
 		super(props);
 		this.state={
@@ -79,6 +78,9 @@ class SearchExploreContainer extends Component{
 												<li style={{marginLeft:"5%",listStyle:"none",display:"inline-block",fontSize:"40px"}}>
 													<b>Explore Communities</b>
 												</li>
+												<li style={{marginLeft:"5%",listStyle:"none",display:"inline-block",fontSize:"15px"}}>
+													Check out the posts 
+												</li>
 								</ul>
 								
 							</li>
@@ -88,11 +90,11 @@ class SearchExploreContainer extends Component{
 
 								<div class="dropdown">
 									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																				borderColor:"#5298F8",
-																																				borderStyle:"solid",
-																																				borderWidth:"1px",
-																																				color:"#5298F8",
-																																				backgroundColor:"white"}}>
+																																borderColor:"#5298F8",
+																																borderStyle:"solid",
+																																borderWidth:"1px",
+																																color:"#5298F8",
+																																backgroundColor:"white"}}>
 										Sort By
 										<span class="caret"></span>
 									</button>

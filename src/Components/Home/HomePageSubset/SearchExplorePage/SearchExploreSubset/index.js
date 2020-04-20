@@ -124,7 +124,6 @@ class SearchExplorePosts extends Component{
 							</li>
 
 							<li style={{listStyle:"none",display:"inline-block"}}>
-
 								<div class="dropdown">
 									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																																				borderColor:"#5298F8",

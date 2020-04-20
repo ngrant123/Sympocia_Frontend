@@ -1,7 +1,5 @@
 import React,{useState} from "react";
 import styled from "styled-components";
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 const Container=styled.div`
 	position:absolute;

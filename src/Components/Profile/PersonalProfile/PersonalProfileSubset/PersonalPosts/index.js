@@ -113,7 +113,6 @@ const ShadowContainer= styled.div`
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
 	z-index:1;
-
 `;
 
 const listCSSButton={	
