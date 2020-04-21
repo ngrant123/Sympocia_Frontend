@@ -331,7 +331,6 @@ const PersonalPostsIndex=(props)=>{
 												Videos
 											</li>
 
-
 											<li id="regularPosts" onClick={()=>handlePostsClick("regularPost")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 												Regular Posts
 											</li>

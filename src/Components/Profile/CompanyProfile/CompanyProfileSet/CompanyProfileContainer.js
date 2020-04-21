@@ -56,11 +56,7 @@ const Profile = styled.div`
 	height:56%;
 	width:93%;
 	border-radius:5px;
-
-
-
 `;
-
 
 const CompanyIcon = styled. div`
 
@@ -674,7 +670,8 @@ class LProfile extends Component{
 			id:"",
 			news:[],
 			owner:false,
-			coverPhoto:""
+			coverPhoto:"",
+			isOwnProfile:true
 
 		}
 		this.displaytoplevelemployeeprofile=this.displaytoplevelemployeeprofile.bind(this);
@@ -1014,11 +1011,10 @@ class LProfile extends Component{
 
 
 const mapStateToProps=(state)=>{
-
 	return{
 		companyInformation:state.companyInformation,
 		companyEmployees:state.companyEmployeeInformation,
-		_id:state.companyInformation.id
+		id:state.companyInformation.id
 	}
 }
 

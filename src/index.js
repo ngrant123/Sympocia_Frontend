@@ -17,11 +17,7 @@ import { createStore,compose } from 'redux';
 import {loadState,saveState} from './reduxState';
 
 //TEST
-
 import Demo from "./Components/Demo/index.js";
-
-
-
 import throttle from 'lodash.throttle';
 
 //Starting point for the web application
@@ -30,7 +26,6 @@ const enhancers = compose(
   );
 
 //load previous data into store
-
 const previousState=loadState();
 const store=createStore(
 	allReducers,

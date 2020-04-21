@@ -8,7 +8,7 @@ import ReactGoogleMap from "react-google-maps";
 import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import GeneralPostComponent from "../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
+import CompanyPostsContainer from "../CompanyProfileSubset/CompanyPosts/index.js";
 import { CompanyConsumer } from "../CompanyContext.js";
 import { connect } from "react-redux";
 import {
@@ -30,12 +30,9 @@ const PostContainer = styled.div`
 	height:65%;
 	top:20%;
 	left:28%;
-	background-color:#f9f9f9;
 	border-radius:5px;
-	border-style:solid;
-	border-width: 2px;
-	border-color:#D5D5D5;
-	z-index:2;
+	background-color:white;
+	z-index:4;
 `;
 
 const CompanyDetails = styled.div`
@@ -50,8 +47,8 @@ const CompanyDetails = styled.div`
 	border-style:solid;
  	border-width:2px 1px 2px 1px;
  	border-color:#e0e0e0;
-
-
+ 	overflow-y:auto;
+ 	overflow-x:hidden;
 
 `;
 
@@ -219,7 +216,7 @@ const Options = styled.div`
 
 const EmployeeTitle = styled.div`
 
-	position:absolute;
+	position:relative;
 	width:75%;
 	height:27%;
 	left:10%;
@@ -235,7 +232,7 @@ const EmployeeTitle = styled.div`
 
 const EmployeeContainer = styled.div`
 
-	position:absolute;
+	position:relative;
 	width:100%;
 	height:30%;
 	left:1%;
@@ -245,6 +242,7 @@ const EmployeeContainer = styled.div`
 	color:#424242;
 	overflow:scroll;
 	overflow-x:hidden;
+	border-style:none;
 
 
 	
@@ -253,9 +251,9 @@ const EmployeeContainer = styled.div`
 const CompanyBio = styled.textarea`
 
 	position:absolute;
-	width:80%;
+	width:90%;
 	height:16%;
-	left:10%;
+	left:5%;
 	top:65%;
 	font-size:90%;
 	resize:none;
@@ -472,10 +470,6 @@ class ProfileComp extends Component{
 
 
 	handleAddEmployee(props){
-
-		//Idea is basically for the key, if array is empty create a key but if it is not then access previous key then add one to it
-
-
 		/*
 			FIX REDUX IMPLEMENTATION OF THIS
 		*/
@@ -509,6 +503,28 @@ class ProfileComp extends Component{
 		this.props.displaytoplevelnewsprofile(tempprops);
 	}
 
+	handleCompanyDescriptionDisplay=(companyInformation)=>{
+		if(companyInformation.state.bio==null && companyInformation.state.isOwnProfile==false){
+			return <p> Currently this company does not have a description about their company.
+					   Why not message them about it instead?
+					</p>
+		}else if(companyInformation.state.isOwnProfile==false){
+			return <p style={{paddingLeft:"2%",marginLeft:"2%",marginRight:"2%",position:"relative",color:"#848484"}}>	
+						{companyInformation.state.bio}
+					</p>
+		}else{
+			return <React.Fragment>
+						<CompanyBio id="companyBio" placeholder="Tell us about your company">
+							{companyInformation.state.bio}
+						</CompanyBio>
+						<SaveButton>Save</SaveButton>
+						<CancelButton>Cancel</CancelButton>
+					</React.Fragment>
+
+		}
+
+	}
+
 
 	render(){
 		//Condidtional rendering for post/image/location section 
@@ -527,15 +543,6 @@ class ProfileComp extends Component{
 
 						</PostImageContainer>;
 		}
-		else{
-
-		}
-
-		/*
-
-			Might use redux instead of context here but just going to use both
-
-		*/
 
 		return(
 
@@ -560,7 +567,7 @@ class ProfileComp extends Component{
 
 							<PostContainer>
 
-								<GeneralPostComponent />
+								<CompanyPostsContainer/>
 
 							</PostContainer>
 
@@ -603,12 +610,7 @@ class ProfileComp extends Component{
 									</ul>
 
 								</EmployeeContainer>
-
-
-								<CompanyBio placeholder="Tell us about your company"></CompanyBio>
-								<SaveButton>Save</SaveButton>
-								<CancelButton>Cancel</CancelButton>
-
+								{this.handleCompanyDescriptionDisplay(companyInformation)}
 							</CompanyDetails>
 
 							<CompanyStats>

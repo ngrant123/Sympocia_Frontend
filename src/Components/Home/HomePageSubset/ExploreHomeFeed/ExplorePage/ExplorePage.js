@@ -7,6 +7,8 @@ import {connect} from "react-redux";
 import {
 			getCommunitiesNotFollowed
 		} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+import CreatePostComponent  from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js"; 
+import Checkbox from '@material-ui/core/Checkbox';
 
  const keyFrameExampleTwo= keyframes`
   0% {
@@ -92,6 +94,41 @@ const CommunityContainerCSS={
 	listStyle:"none"
 }
 
+const DisplayRecommendedPageLabelCSS={
+	listStyle:"none",
+	display:"inline-block",
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white",
+	padding:"5px",
+	borderRadius:"5px",
+	marginRight:"2%",
+	fontSize:"15px",
+	width:"15%"
+}
+
+
+const ProfilePicture=styled.div`
+	position:relative;
+	width:45px;
+	height:5%;
+	background-color:black;
+	border-radius:50%;
+`;
+
+const CommentTextArea=styled.textarea`
+	position:relative;
+	resize:none;
+	border-style:none;
+	height:5%;
+	text-align:center;
+	padding-top:10px;
+	width:220%;
+`;
+
+
 class ExplorePage extends Component{
 
 	constructor(props){
@@ -155,7 +192,8 @@ class ExplorePage extends Component{
 			mostPopularButtonColor:"#5298F8",
 			popularCommunities:[{communityName:"Cats"},{communityName:"Poop"},{communityName:"Turtles"}],
 			newestCommunities:[{communityName:"Lotion"},{communityName:"Dinosaur"}],
-			popularOrNewCommunites:[]
+			popularOrNewCommunites:[],
+			displayCreatePostComponent:false
 		}
 	}
 
@@ -258,13 +296,67 @@ class ExplorePage extends Component{
 		}))
 	}
 
+	handleCheckBoxCheck=()=>{
+		console.log("Testeing check box check");
+		console.log(this.props);
+		this.props.displayGrids(true);
+	}
+
+	handleDisplayCreationPost=()=>{
+		this.setState({
+
+		})
+	}
+
 	displayCommunityList=()=>{
 
 		console.log(this.state.tempcommunities);
 		return this.state.displayInitialPage==true?
 				<Container>
 					<ul style={{listStyle:"none"}}>	
-						<li style={{marginLeft:"30%",marginBottom:"10px",fontSize:"40px"}}><b> Explore Communities</b></li>
+						<li style={{listStyle:"none"}}>
+ 							<ul onClick={()=>this.setState({displayCreatePostComponent:!this.state.displayCreatePostComponent})}style={{padding:"0px",marginLeft:"30%"}}>
+ 								<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%",color:"#C8B0F4"}}>
+													<b>Create a post</b>
+												</li>
+
+												<li style={{listStyle:"none",display:"inline-block",width:"45%",boxShadow:"1px 1px 5px #848484",borderRadius:"5px"}}>
+													<ul style={{padding:"10px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+															<ProfilePicture>
+															</ProfilePicture>
+														</li>
+														<li style={{listStyle:"none",display:"inline-block"}}>
+															<CommentTextArea placeholder="Start typing here to create a post"/>
+														</li>
+
+
+													</ul>
+								</li>
+ 							</ul>
+						</li>
+						{this.state.displayCreatePostComponent==true?
+							<li style={{listStyle:"none",width:"70%",marginLeft:"20%",marginTop:"3%"}}>
+								<CreatePostComponent/>
+							</li>:
+							<React.Fragment>
+							</React.Fragment>}
+
+						<li style={{marginBottom:"10px"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",fontSize:"40px",marginLeft:"30%",marginRight:"20%"}}>
+									<b> Explore Communities</b> 
+								</li>
+								<li style={DisplayRecommendedPageLabelCSS}>
+									<Checkbox
+										style={{fontSize:20,color:"#5298F8"}}
+										onChange={()=>this.handleCheckBoxCheck()}
+									/>
+									Click here to view a more recommeneded feed that will grow to your tastes
+								</li>
+
+							</ul>
+						</li>
 						<li style={{marginLeft:"20%",marginBottom:"20px",color:	"#6e6e6e",fontSize:"20px"}}> Browse Sympocias top growing communities that everyone seems to enjoy </li>
 						<ul style={{marginBottom:"30px"}}>
 							<li onClick={()=>this.changeColorForPopularButton()} id="popularButton"style={{display:"inline-block",marginLeft:"30%",fontSize:"15px",backgroundColor:"#5298F8",padding:"10px",color:"white",borderRadius:"5px",boxShadow:"1px 1px 5px #6e6e6e"}}>Most Popular</li>

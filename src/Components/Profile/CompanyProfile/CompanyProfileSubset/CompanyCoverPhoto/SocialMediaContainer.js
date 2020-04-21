@@ -15,7 +15,7 @@ const FacebookContainer =styled.div`
 	left:10%;
 	width:14%;
 	top:10%;
-	height:80%;
+	height:15%;
 	border-radius:50%;
 	border-style:solid;
 	border-width:1px;
@@ -42,7 +42,7 @@ const InstagramContainer = styled.div`
 	left:30%;
 	width:14%;
 	top:10%;
-	height:80%;
+	height:15%;
 	border-radius:50%;
 	border-style:solid;
 	border-width:1px;
@@ -70,7 +70,7 @@ const TwitterContainer = styled.div`
 	left:50%;
 	width:14%;
 	top:10%;
-	height:80%;
+	height:15%;
 	border-radius:50%;
 	border-style:solid;
 	border-width:1px;

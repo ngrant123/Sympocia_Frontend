@@ -133,7 +133,8 @@ class HomePageContainer extends Component{
 			displayForYourChoices:false,
 			profileId:0,
 			displayChatPage:false,
-			chatPageIndicator:""
+			chatPageIndicator:"",
+			displaySearchExplorePage:true
 		}
 	}
 
@@ -155,7 +156,9 @@ class HomePageContainer extends Component{
 			return <PersonalFeed/>	
 		}
 		else{
-			return <ExplorePage/>;
+			return <ExplorePage
+						displayGrids={this.handleDisplayGridLayout}
+					/>;
 		}
 	}
 
@@ -290,6 +293,14 @@ class HomePageContainer extends Component{
 			/>:<React.Fragment></React.Fragment>
 	}
 
+	handleDisplayGridLayout=(indicator)=>{
+		console.log("Testing grid layout");
+		this.setState(prevState=>({
+			...prevState,
+			displaySearchExplorePage:indicator
+		}))
+	}
+
 	render(){
 		return(
 			<Container id="container">
@@ -340,8 +351,10 @@ class HomePageContainer extends Component{
 						*/}
 					</ul>
 				</PageIndicator>
-				{this.props.displaySearch==null?
-					<SearchExploreScreen/>:
+				{this.state.displaySearchExplorePage==true?
+					<SearchExploreScreen
+						displayGrids={this.handleDisplayGridLayout}
+					/>:
 					<React.Fragment>
 						{this.displayForYouChoices()}
 						{this.displayPersonalOrExploreFeed()}

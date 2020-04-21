@@ -18,7 +18,7 @@ const Container= styled.div`
 const NaveBarContainer = styled.div`
 	position:absolute;
 	width:100%;
-	height:20%;
+	height:400px;
 	top:0%
 
 `;
@@ -28,7 +28,7 @@ const UpdateCoverPhoto = styled.div`
 	position:absolute;
 	left:5%;
 	width:15%;
-	height:70%;
+	height:10%;
 	top:10%;
 	border-radius:10px;
 	text-align:center;
@@ -78,9 +78,7 @@ class CoverPhoto extends Component{
 	}
 
 	componentDidMount(){
-
-
-		//
+		console.log("Testing cover photo component");
 	}
 
 	handleChangeCover(companyId){
@@ -113,9 +111,7 @@ class CoverPhoto extends Component{
 	}
 
 	handleClickButton(){
-
 		document.getElementById("coverphotoimagefile").click();
-
 	}
 
 	render(){
@@ -125,23 +121,25 @@ class CoverPhoto extends Component{
 				{companyInformation=>{
 					return <Container>
 								<NaveBarContainer>
-									<UpdateCoverPhoto onClick={()=>this.handleClickButton()}>
-										+ Cover Photo
-										 <input type="file" name="img" id="coverphotoimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleChangeCover(companyInformation.state.id)}></input>
-									</UpdateCoverPhoto>
+									{companyInformation.state.isOwnProfile==true?
+										<UpdateCoverPhoto onClick={()=>this.handleClickButton()}>
+											+ Cover Photo
+											 <input type="file" name="img" id="coverphotoimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleChangeCover(companyInformation.state.id)}></input>
+										</UpdateCoverPhoto>:
+										<React.Fragment>
+										</React.Fragment>
+									}
 									<SocialMediaContainer>
 										<SocialMedia/>
 									</SocialMediaContainer>
 								</NaveBarContainer>
 
 								{/*
-									
 									Could prevent images of a certain size from being uploaded
 									Youtube only allows at least 2048 pixels wide and 1152 pixels tall to be uploaded
-
 								*/}
 
-								<img src={companyInformation.state.coverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"relative",height:"100%", width:"100%",top:"0%",opacity:"1"}}/>
+								<img src={companyInformation.state.coverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"relative",height:"100%", width:"100%",top:"0%",opacity:"0"}}/>
 							</Container>
 					}
 				}

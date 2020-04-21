@@ -280,7 +280,14 @@ class MediumCompanyStats extends Component{
 						<NotificationTitle>
 
 							<Caption><b>News</b></Caption>
-							<AddButton data-toggle="modal" data-target="#mymodal" onClick={()=>this.AddNotificationsAndCheckLimit()}><b>+</b></AddButton>
+							{companyInformation.state.isOwnProfile==true?
+								<AddButton data-toggle="modal" data-target="#mymodal" onClick={()=>this.AddNotificationsAndCheckLimit()}>
+									<b>+</b>
+								</AddButton>:
+								<React.Fragment>
+								</React.Fragment>
+
+							}
 
 						</NotificationTitle>
 						<NotificationDescription>

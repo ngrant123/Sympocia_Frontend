@@ -3,6 +3,8 @@ import styled from "styled-components";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import Checkbox from '@material-ui/core/Checkbox';
 import SearchExplorePosts from "../SearchExploreSubset/index.js";
+import CreatePostComponent from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
+import IndustryOptions from "../../../../GeneralComponents/PostComponent/IndustryPostOptions.js"
 
 const CommentCreationContainer=styled.div`
 	position:relative;
@@ -41,13 +43,29 @@ class SearchExploreContainer extends Component{
 		this.state={
 			subCommunitiesDisplay:[],
 			selectedIndustry:"",
-			selectedSubCommunities:[]
+			selectedSubCommunities:[],
+			selectedIndustries:[],
+			displayCreatePostComponent:false
 		}
 	}
 
 	handleCheckBoxCheck=()=>{
 		console.log("Testing");
+		this.props.displayGrids(false);
 	}
+
+	alterSelectedIndustry=(selectedIndustries)=>{
+		this.setState({
+			selectedIndustries:selectedIndustries
+		})
+	}
+
+	alterSelectedSubCommunities=(selectedSubCommunities)=>{
+		this.setState({
+			selectedSubCommunities:selectedSubCommunities
+		})
+	}
+
 
 	render(){
 		return(
@@ -56,7 +74,7 @@ class SearchExploreContainer extends Component{
 					<li style={{listStyle:"none",marginBottom:"1%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",marginBottom:"2%"}}>
-								<ul style={{padding:"0px"}}>
+								<ul onClick={()=>this.setState({displayCreatePostComponent:!this.state.displayCreatePostComponent})}style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%",color:"#C8B0F4"}}>
 													<b>Create a post</b>
 												</li>
@@ -75,43 +93,39 @@ class SearchExploreContainer extends Component{
 													</ul>
 												</li>
 
-												<li style={{marginLeft:"5%",listStyle:"none",display:"inline-block",fontSize:"40px"}}>
-													<b>Explore Communities</b>
-												</li>
-												<li style={{marginLeft:"5%",listStyle:"none",display:"inline-block",fontSize:"15px"}}>
-													Check out the posts 
+												<li style={{marginLeft:"5%",listStyle:"none",display:"inline-block"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",fontSize:"40px"}}>
+															<b>Explore Communities</b>
+														</li>
+														<li style={{listStyle:"none"}}>
+															Check out the posts that we think you might like here. 
+														</li>
+													</ul>
+													
 												</li>
 								</ul>
+							</li>
+							{this.state.displayCreatePostComponent==true?
+								<li style={{listStyle:"none",width:"70%",marginLeft:"20%",marginTop:"3%",marginBottom:"2%"}}>
+									<CreatePostComponent/>
+								</li>:
+								<React.Fragment>
+								</React.Fragment>
+							}
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<IndustryOptions
+									alterSelectedIndustry={this.alterSelectedIndustry}
+									alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+								/>
 								
 							</li>
-							Select Industries:
 
-							<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
-
-								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																borderColor:"#5298F8",
-																																borderStyle:"solid",
-																																borderWidth:"1px",
-																																color:"#5298F8",
-																																backgroundColor:"white"}}>
-										Sort By
-										<span class="caret"></span>
-									</button>
-										<ul class="dropdown-menu">
-										
-											{PERSONAL_INDUSTRIES.INDUSTRIES.map(data=>
-												<li><a href="">{data.industry}</a></li>
-											)}				
-										</ul>
-								</div>
-							</li>
-
-							<li style={{listStyle:"none",display:"inline-block",marginLeft:"70%"}}>
-								Grid Style
+							<li style={{listStyle:"none",display:"inline-block",marginLeft:"45%"}}>
+								Checkout a more generalized view of the communities you arent following by clicking here
 								<Checkbox
 									style={{fontSize:20,color:"#5298F8"}}
-									onChange={this.handleCheckBoxCheck()}
+									onChange={()=>this.handleCheckBoxCheck()}
 								/>
 							</li>
 						</ul> 

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { addCompanyIcon } from "../../../../Actions/Redux/Actions/CompanyActions";
 import {CompanyConsumer} from "../CompanyContext.js";
 import {sendCompanyIconToDB} from "../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 
 
 
@@ -24,11 +25,18 @@ const Container=styled.div`
 
 class CompanyIcon extends Component{
 
+	constructor(props){
+		super(props);
+		this.state={
+			imgUrl:""
+		}
+	}
 
-	handleCompanyClick(){
-
-			document.getElementById("imagefile").click();
-			console.log("This is getting clicked");
+	handleCompanyClick(companyInformation){
+			if(companyInformation.state.isOwnProfile==true){
+				document.getElementById("imagefile").click();
+				console.log("This is getting clicked");
+			}
 		    //console.log(image.value);
 	}
 	handleSubmit(companyId){
@@ -63,15 +71,26 @@ class CompanyIcon extends Component{
 
 	}
 
+	handleSettingDefaultProfilePicture=(companyInformation)=>{
+		if(companyInformation.state.imgUrl=="" && companyInformation.state.isOwnProfile!=true){
+			return <img src={NoProfilePicture} id="imagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"1"}}/>
+		}else{
+			return <React.Fragment>
+						+
+						<img src={companyInformation.state.imgUrl} id="imagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"1"}}/>
+				   </React.Fragment>
+		}
+
+	}
+
 	render(){
 
 		return(
 			<CompanyConsumer>	
 				{companyInformation=>{
 					return <div>
-								<Container id="container" onClick={()=>this.handleCompanyClick()} src="">
-									+
-									<img src={companyInformation.state.imgUrl} id="imagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"1"}}/>
+								<Container id="container" onClick={()=>this.handleCompanyClick(companyInformation)} src="">
+									{this.handleSettingDefaultProfilePicture(companyInformation)}
 								</Container>
 								<input type="file" name="img" id="imagefile" onSubmit={()=>this.handleSubmit()} style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleSubmit(companyInformation.state.id)}></input>
 								

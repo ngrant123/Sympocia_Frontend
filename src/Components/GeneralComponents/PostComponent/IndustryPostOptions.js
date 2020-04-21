@@ -207,8 +207,8 @@ class IndustryPostOptions extends Component{
 													)}
 												</ul>
 											</li>
-											<li style={{listStyle:"none"}}>
-												Choose an sub-industry (optional):
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<p>Choose an sub-industry (optional):</p>
 												<div class="dropdown">
 																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																																							borderColor:"#5298F8",
@@ -228,7 +228,7 @@ class IndustryPostOptions extends Component{
 																	</ul>
 											  	</div>
 											</li>
-											<li style={{listStyle:"none"}}>
+											<li style={{listStyle:"none",display:"inline-block"}}>
 													<ul style={{padding:"0px"}}>
 														{this.state.subIndustriesSelected.map(data=>
 															<li style={{listStyle:"none",display:"inline-block",marginRight:"1px",marginBottom:"1%"}}>

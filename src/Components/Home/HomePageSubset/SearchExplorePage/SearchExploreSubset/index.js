@@ -5,7 +5,6 @@ import ImagePostsModal from './ImagePostsModal.js';
 import VideosPostsModal from './VideoPostsModal.js';
 import BlogsPostsModal from './BlogPostsModal.js';
 import RegularPostsModal from './RegularPostsModal.js';
-
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
@@ -32,7 +31,8 @@ class SearchExplorePosts extends Component{
 			displayImagePosts:true,
 			displayVideoPosts:false,
 			displayBlogPosts:false,
-			displayRegularPosts:false
+			displayRegularPosts:false,
+			postOptionHeader:"Images"
 		}
 	}
 
@@ -58,13 +58,14 @@ class SearchExplorePosts extends Component{
 			<React.Fragment></React.Fragment>
 	}
 
-	displayImages=()=>{
+	displayImages=()=>{                                        
 		console.log("TEsting calls");
 		this.setState({
 			displayImagePosts:true,
 			displayVideoPosts:false,
 			displayBlogPosts:false,
-			displayRegularPosts:false
+			displayRegularPosts:false,
+			postOptionHeader:"Images"
 		})
 	}
 
@@ -73,7 +74,8 @@ class SearchExplorePosts extends Component{
 			displayImagePosts:false,
 			displayVideoPosts:true,
 			displayBlogPosts:false,
-			displayRegularPosts:false
+			displayRegularPosts:false,
+			postOptionHeader:"Videos"
 		})
 	}
 
@@ -82,7 +84,8 @@ class SearchExplorePosts extends Component{
 			displayImagePosts:false,
 			displayVideoPosts:false,
 			displayBlogPosts:true,
-			displayRegularPosts:false
+			displayRegularPosts:false,
+			postOptionHeader:"Blogs"
 		})
 	}
 
@@ -91,7 +94,8 @@ class SearchExplorePosts extends Component{
 			displayImagePosts:false,
 			displayVideoPosts:false,
 			displayBlogPosts:false,
-			displayRegularPosts:true
+			displayRegularPosts:true,
+			postOptionHeader:"Posts"
 		})
 	}
 	render(){
@@ -101,7 +105,7 @@ class SearchExplorePosts extends Component{
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"50px"}}>
-								<b>Images</b>
+								<b>{this.state.postOptionHeader}</b>
 							</li>
 							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 								<div class="btn-group">
@@ -115,10 +119,10 @@ class SearchExplorePosts extends Component{
 											<span class="caret"></span>
 										</button>
 											<ul class="dropdown-menu">
-													<li onClick={()=>{this.displayImages()}}><a href="">Images</a></li>	
-													<li onClick={()=>{this.displayVideos()}}><a href="">Videos</a></li>	
-													<li onClick={()=>{this.displayBlogs()}}><a href="">Blogs</a></li>	
-													<li onClick={()=>{this.displayRegularPosts()}}><a href="">Posts</a></li>		
+													<li onClick={()=>this.displayImages()}><a href="javascript:;">Images</a></li>	
+													<li onClick={()=>this.displayVideos()}><a href="javascript:;">Videos</a></li>	
+													<li onClick={()=>this.displayBlogs()}><a href="javascript:;">Blogs</a></li>	
+													<li onClick={()=>this.displayRegularPosts()}><a href="javascript:;">Posts</a></li>		
 											</ul>
 								</div>
 							</li>
@@ -135,9 +139,9 @@ class SearchExplorePosts extends Component{
 										<span class="caret"></span>
 									</button>
 										<ul class="dropdown-menu">
-											<li><a href="">Most Popular</a></li>
-											<li><a href="">Newest</a></li>
-											<li><a href="">Popular</a></li>						
+											<li><a href="javascript:;">Most Popular</a></li>
+											<li><a href="javascript:;">Newest</a></li>
+											<li><a href="javascript:;">Popular</a></li>						
 										</ul>
 								</div>
 							</li>
@@ -149,7 +153,7 @@ class SearchExplorePosts extends Component{
 								{this.handleDisplayVideos()}
 								{this.handleDisplayBlogs()}
 								{this.handleDisplayRegularPosts()}
-								<li style={{position:"relative",listStyle:"none",display:"inline-block",marginTop:"-15px",top:"-80px",marginLeft:"15%",paddingTop:"10px"}}>
+								<li style={{position:"relative",listStyle:"none",display:"inline-block",marginTop:"-15px",top:"-80px",marginLeft:"15%",paddingTop:"10px",marginTop:"40%"}}>
 									<li style={{listStyle:"none",display:"inline-block"}}> 
 										Industry:
 									</li>
