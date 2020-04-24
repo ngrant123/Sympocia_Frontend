@@ -287,7 +287,7 @@ export async function getBlogFromUser(userId){
 							blogs:blogPosts
 						  };
 		return blogObject;
-		
+
 	}catch(err){
 		console.log(err);
 	}
@@ -302,6 +302,7 @@ export async function getRegularPostFromUser(userId){
 				id:userId
 			}
 		})
+		debugger;
 
 		const {data}=regularPostsResults;
 		const {regularPosts}=data.data;

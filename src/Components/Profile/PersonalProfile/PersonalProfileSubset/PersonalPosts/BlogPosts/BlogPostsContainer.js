@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import {getBlogFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {getCompanyBlogs} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import NoPostsModal from "../NoPostsModal.js";
 import {UserConsumer} from "../../../UserContext.js";
 
@@ -8,7 +9,7 @@ import {UserConsumer} from "../../../UserContext.js";
 const Container=styled.div`
 	position:absolute;
 	width:95%;
-	height:80%;
+	height:125%;
 	overflow-y:scroll;
 	padding:10px;
 	padding-right:10px;
@@ -70,13 +71,24 @@ class BlogsPostsContainer extends Component{
 	}
 
 	async componentDidMount(){
-		const {	headerBlog,blogs}=await getBlogFromUser(this.props.id);
-		debugger;
-		this.setState({
-			headerBlog:headerBlog,
-			blogs:blogs,
-			isLoading:false
-		})
+		if(this.props.profile=="Personal"){
+			
+			const {	headerBlog,blogs}=await getBlogFromUser(this.props.id);
+			this.setState({
+				headerBlog:headerBlog,
+				blogs:blogs,
+				isLoading:false
+			})
+		}else{				
+		
+			const {	headerBlog,blogPosts}=await getCompanyBlogs(this.props.id);
+			debugger;
+			this.setState({
+				headerBlog:headerBlog,
+				blogs:blogPosts,
+				isLoading:false
+			})
+		}
 	}
 
 	constructName=(personalInformation)=>{
@@ -96,6 +108,7 @@ class BlogsPostsContainer extends Component{
 										{this.state.blogs.length==0&&this.state.headerBlog==null?
 											<NoPostsModal
 												postType={"blog"}
+												profilePageType={this.props.profile}
 											/>:
 												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:"none"}}>

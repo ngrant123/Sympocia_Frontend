@@ -1,6 +1,10 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import {CompanyConsumer} from "../../../CompanyContext.js";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import {
+		addEmployeeToCompanyDB
+	} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
 
 const AddEmployeeIcon = styled.div`
 
@@ -339,7 +343,7 @@ class AddEmployees extends Component{
 	}
 
 
-	handleNextPageButton=()=>{
+	handleNextPageButton=(companyId)=>{
 
 		var titlevalue;
 		var biodescription;
@@ -360,12 +364,11 @@ class AddEmployees extends Component{
 			<button type="button" class="btn btn-default" id="AddEmployeeButton" onClick={()=>this.setState(prevState=>({...prevState,
 				title:document.getElementById("TitleCaptionValue").value,
 				bio:document.getElementById("BioValue").value,
-				imgUrl:document.getElementById("employeeimagecontainer").src,
 				name:document.getElementById("EmployeeName").value,
 				email:document.getElementById("EmployeeEmail").value,
 				location:document.getElementById("Location").value,
 				displaySecondPage:true}))}>{this.state.continueAddemployee}</button>:
-			<button type="button" class="btn btn-default" id="AddEmployeeButton" data-dismiss="modal" onClick={()=>this.handleAddEmployee()}>{this.state.continueAddemployee}</button>
+			<button type="button" class="btn btn-default" id="AddEmployeeButton" data-dismiss="modal" onClick={()=>this.handleAddEmployee(companyId)}>{this.state.continueAddemployee}</button>
 	}
 
 	toggleSecondPage=()=>{
@@ -374,7 +377,7 @@ class AddEmployees extends Component{
 		})
 	}
 
-	handleDisplaySecondPage=()=>{
+	handleDisplaySecondPage=(compnyI)=>{
 
 		return this.state.displaySecondPage==false?
 			<React.Fragment>
@@ -419,8 +422,7 @@ class AddEmployees extends Component{
 
 	}
 
-	handleAddEmployee(props){
-		console.log(props);
+	handleAddEmployee(companyId){
 
 		var ShortDescription=document.getElementById("ShortDescriptionTextarea").value;
 		document.getElementById("ShortDescriptionTextarea").value="";
@@ -439,10 +441,17 @@ class AddEmployees extends Component{
 			document.getElementById("EmployeeName").value="";
 			document.getElementById("EmployeeEmail").value="";
 			document.getElementById("Location").value="";
-			console.log("Teste");
-	      	this.props.handleAddEmployee(this.state);
-	      	this.props.addEmployeeToContext(this.state);
 
+			const Employee ={
+				employeeName:this.state.name,
+				employeeShortDescription:this.state.shortbio,
+				employeeEmail:this.state.email,
+				employeeLocation:this.state.location,
+				employeeTitle:this.state.title,
+				employeeBio:this.state.bio,
+				employeeImg:this.state.imgUrl
+			};
+			addEmployeeToCompanyDB(companyId,Employee);
 
 		}.bind(this));
 	}
@@ -457,7 +466,9 @@ class AddEmployees extends Component{
 		reader.onloadend=()=>{
 			node.src=reader.result;
 			node.style.opacity="1";
-
+			this.setState({
+				imgUrl:reader.result
+			})
 		}
 
 		if(dataUrl!=null){
@@ -497,7 +508,10 @@ class AddEmployees extends Component{
 				{companyInformation=>{
 					return <Container>
 								<EmployeeTitle>
-										<b>Employees</b>
+										<AccountCircleIcon
+											style={{fontSize:20}}
+										/>
+										<b style={{marginLeft:"2%"}}>Employees</b>
 
 									{companyInformation.state.isOwnProfile==true?
 										<AddEmployeeIcon data-toggle="modal" data-target="#myModal" onClick={()=>this.handleChildAddClick()}>
@@ -540,7 +554,7 @@ class AddEmployees extends Component{
 												  <div class="modal-footer">
 												  	<ul>
 												  		<li key="1" style={ButtonListCSS}>{this.handleBackButton()}</li>
-												  		<li key="2" style={ButtonListCSS}>{this.handleNextPageButton()}</li>
+												  		<li key="2" style={ButtonListCSS}>{this.handleNextPageButton(companyInformation.state.userProfile._id)}</li>
 												  		<li key="3" style={ButtonListCSS}><button type="button" class="btn btn-default" data-dismiss="modal" onClick={()=>this.handleClick()}>Close</button></li>
 												  	</ul>
 												    	

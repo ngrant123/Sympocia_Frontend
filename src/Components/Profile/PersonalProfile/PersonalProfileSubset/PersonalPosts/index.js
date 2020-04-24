@@ -385,13 +385,17 @@ const PersonalPostsIndex=(props)=>{
 						
 										{
 											displayImages==true?
-											<ImagePosts/>:<React.Fragment></React.Fragment>
+											<ImagePosts
+												personalInformation={personalInformation}
+												profile="Personal"
+											/>:<React.Fragment></React.Fragment>
 										}
 
 										{
 											displayVideos==true?
 											<VideoPosts
-												id={personalInformation.userProfile._id}	
+												id={personalInformation.userProfile._id}
+												profile="Personal"
 											/>:<React.Fragment></React.Fragment>
 										}
 
@@ -400,6 +404,7 @@ const PersonalPostsIndex=(props)=>{
 											displayBlogs==true?
 											<BlogsPosts
 												id={personalInformation.userProfile._id}
+												profile="Personal"
 											/>:<React.Fragment></React.Fragment>
 										}
 
@@ -407,6 +412,7 @@ const PersonalPostsIndex=(props)=>{
 											displayRegularPosts==true?
 											<RegularPost
 												id={personalInformation.userProfile._id}
+												profile="Personal"
 											/>:<React.Fragment></React.Fragment>
 										}
 								</ul>

@@ -2,13 +2,14 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import SmallVideoContainer from "./SmallVideos.js";
 import {getVideosFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {getCompanyVideos} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import {UserConsumer} from "../../../UserContext.js";
 import NoPostsModal from "../NoPostsModal.js";
 
 const Container=styled.div`
 	position:absolute;
 	width:95%;
-	height:80%;
+	height:125%;
 	overflow-y:scroll;
 	padding:10px;
 	padding-right:20px;
@@ -68,12 +69,22 @@ class VideoPostsContainer extends Component{
 
 	async componentDidMount(){
 		console.log("Testing video api call");
-		const {headerVideo,videos}=await getVideosFromUser(this.props.id);
-		this.setState({
-			headerVideo:headerVideo,
-			videos:videos,
-			isLoading:false
-		})
+		if(this.props.profile=="Personal"){
+			const {headerVideo,videos}=await getVideosFromUser(this.props.id);
+			this.setState({
+				headerVideo:headerVideo,
+				videos:videos,
+				isLoading:false
+			})
+		}else{	
+			const {headerVideo,videoPosts}=await getCompanyVideos(this.props.id);
+			this.setState({
+				headerVideo:headerVideo,
+				videos:videoPosts,
+				isLoading:false
+			})
+
+		}
 	}
 
 	
@@ -85,6 +96,7 @@ class VideoPostsContainer extends Component{
 					<React.Fragment>
 						{this.state.videos.length==0? <NoPostsModal
 															postType={"video"}
+															profilePageType={this.props.profile}
 														/>:
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none"}}>

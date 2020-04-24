@@ -28,18 +28,27 @@ class CompanyIcon extends Component{
 	constructor(props){
 		super(props);
 		this.state={
-			imgUrl:""
+			imgUrl:"",
+			companyInformation:{}
 		}
 	}
 
-	handleCompanyClick(companyInformation){
+	handleCompanyClick=(companyInformation)=>{
+			debugger;
 			if(companyInformation.state.isOwnProfile==true){
 				document.getElementById("imagefile").click();
 				console.log("This is getting clicked");
+				this.setState({
+					companyInformation:companyInformation
+				})
 			}
 		    //console.log(image.value);
 	}
-	handleSubmit(companyId){
+
+	handleSubmit=(companyInformation)=>{
+		debugger;
+		const companyId=this.state.companyInformation.state.userProfile._id;
+		console.log(this.state.companyInformation);
 		console.log(this.props);
 		console.log(companyId);
 		var node = document.getElementById('imagecontainer');
@@ -53,7 +62,6 @@ class CompanyIcon extends Component{
 
 			const iconUrl=reader.result;
 			console.log(iconUrl);
-			this.props.addCompanyIcon(iconUrl);
 			sendCompanyIconToDB(companyId,iconUrl);
 		}
 
@@ -68,23 +76,20 @@ class CompanyIcon extends Component{
 
 	 handleTest(){
 		console.log("Click");
-
 	}
 
 	handleSettingDefaultProfilePicture=(companyInformation)=>{
-		if(companyInformation.state.imgUrl=="" && companyInformation.state.isOwnProfile!=true){
+		if(companyInformation.state.userProfile.companyIconPicture=="" && companyInformation.state.isOwnProfile!=true){
 			return <img src={NoProfilePicture} id="imagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"1"}}/>
 		}else{
 			return <React.Fragment>
 						+
-						<img src={companyInformation.state.imgUrl} id="imagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"1"}}/>
+						<img src={companyInformation.state.userProfile.companyIconPicture} id="imagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"1"}}/>
 				   </React.Fragment>
 		}
-
 	}
 
 	render(){
-
 		return(
 			<CompanyConsumer>	
 				{companyInformation=>{
@@ -92,8 +97,7 @@ class CompanyIcon extends Component{
 								<Container id="container" onClick={()=>this.handleCompanyClick(companyInformation)} src="">
 									{this.handleSettingDefaultProfilePicture(companyInformation)}
 								</Container>
-								<input type="file" name="img" id="imagefile" onSubmit={()=>this.handleSubmit()} style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleSubmit(companyInformation.state.id)}></input>
-								
+								<input type="file" name="img" id="imagefile" onSubmit={()=>this.handleSubmit(companyInformation)} style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleSubmit(companyInformation.state.id)}></input>					
 							</div>
 				}}
 			</CompanyConsumer>
@@ -102,21 +106,4 @@ class CompanyIcon extends Component{
 	}
 }
 
-const mapStateToProps=(state)=>{
-
-	return{
-		companyIcon:state.companyInformation.companyIcon
-	}
-}
-
-const mapDispatchToProps=dispatch=>{
-
-	return{
-		addCompanyIcon:(coverIconUrl)=> dispatch(addCompanyIcon(coverIconUrl))
-	}
-}
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(CompanyIcon);
+export default CompanyIcon;

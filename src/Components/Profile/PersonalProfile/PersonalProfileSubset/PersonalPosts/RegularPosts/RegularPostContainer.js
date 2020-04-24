@@ -1,14 +1,17 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import {getRegularPostFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {getCompanyRegularPosts} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import NoPostsModal from "../NoPostsModal.js";
 import {UserConsumer} from "../../../UserContext.js";
 
 const Container=styled.div`
 	position:absolute;
 	width:95%;
-	height:50%;
-	background-color:white;
+	height:125%;
+	overflow-y:scroll;
+	padding:10px;
+	padding-right:20px;
 `;
 
 const RegularPostContainer=styled.div`
@@ -86,13 +89,23 @@ class RegularPostsContainer extends Component{
 	}
 
 	async componentDidMount(){
-		const regularPosts=await getRegularPostFromUser(this.props.id);
 		debugger;
-		console.log(regularPosts);
-		this.setState({
-			regularPosts:regularPosts,
-			isLoading:false
-		})
+		if(this.props.profile=="Personal"){
+			const regularPosts=await getRegularPostFromUser(this.props.id);
+				debugger;
+				console.log(regularPosts);
+				this.setState({
+					regularPosts:regularPosts,
+					isLoading:false
+				})
+		}else{	
+			const regularPosts=await getCompanyRegularPosts(this.props.id);
+				console.log(regularPosts);
+				this.setState({
+					regularPosts:regularPosts,
+					isLoading:false
+				})
+		}
 	}
 
 	render(){
@@ -104,6 +117,7 @@ class RegularPostsContainer extends Component{
 								<React.Fragment>
 									{this.state.regularPosts.length==0?<NoPostsModal
 																		postType={"post"}
+																		profilePageType={this.props.profile}
 																	/>:
 												<ul style={{padding:"0px"}}>
 													{this.state.regularPosts.map(data=>

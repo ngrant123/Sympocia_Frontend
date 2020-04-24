@@ -7,6 +7,7 @@ import {CompanyConsumer} from "../../../CompanyContext.js";
 import {
 	addNewsToDB
 } from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
+import StorageIcon from '@material-ui/icons/Storage';
 
 const Container = styled.div`
 	position:absolute;
@@ -279,7 +280,12 @@ class MediumCompanyStats extends Component{
 
 						<NotificationTitle>
 
-							<Caption><b>News</b></Caption>
+							<Caption>
+								<StorageIcon
+									style={{fontSize:20}}
+								/>
+								<b style={{maringLeft:"2%"}}>News</b>
+							</Caption>
 							{companyInformation.state.isOwnProfile==true?
 								<AddButton data-toggle="modal" data-target="#mymodal" onClick={()=>this.AddNotificationsAndCheckLimit()}>
 									<b>+</b>
@@ -329,7 +335,7 @@ class MediumCompanyStats extends Component{
 
 
 							<ul>
-									{companyInformation.state.news.map(data =>
+									{companyInformation.state.userProfile.news.map(data =>
 										<li style={{display:"inline-block",marginBottom:"10px",marginLeft:"1px"}}>
 												<Notification 
 													date={data.date}

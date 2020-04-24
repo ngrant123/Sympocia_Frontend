@@ -1,6 +1,7 @@
 import React,{useState,useEffect,useContext} from "react";
 import styled from "styled-components";
-import {PostConsumer} from "./PostsContext.js";
+import {PostContext} from "./PostsContext.js";
+import {CompanyPostsContext} from "../../../CompanyProfile/CompanyPostsContext.js";
 import SympociaIcon from "../../../../../designs/img/SympociaIcon.jpg"
 
 const SympociaStampIconContainer=styled.div`
@@ -19,7 +20,7 @@ const CreatePostContainer=styled.div`
 	transition:.8s;
 	box-shadow:1px 1px 5px #9395a0;
 	padding-top:20px;
-	height:90%;
+	height:140%;
 
 	&:hover{
 		box-shadow:5px 5px 5px 5px #9395a0;
@@ -76,8 +77,14 @@ const IndustryButtonCSS={
 
 const NoPostsModal=(props)=>{
 	console.log("No posts modal testing");
-	const postContext=useContext(PostConsumer);
+	var postContext;
+	if(props.profilePageType=="Company"){
+		postContext=useContext(CompanyPostsContext);
+	}else{
+		 postContext=useContext(PostContext);
+	}
 	console.log(postContext);
+	console.log(props);
 	useEffect(()=>{
 
 	},[]);
@@ -85,7 +92,7 @@ const NoPostsModal=(props)=>{
 	const createPostModal=()=>{
 		if(props!=null){
 
-			return <li style={{marginRight:"20%",listStyle:"none",display:"inline-block"}}>
+			return <li style={{marginRight:"5%",listStyle:"none",display:"inline-block"}}>
 						<CreatePostContainer>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",marginLeft:"20%",marginBottom:"2%"}}>
@@ -115,7 +122,7 @@ const NoPostsModal=(props)=>{
 			return <ul style={{padding:"0px"}}>
 					{createPostModal()}
 
-					<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginLeft:"-15%"}}>	
+					<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
 						<RecommendedContainer>
 							<ul style={{position:"relative",padding:"0px"}}>
 									<p style={{fontSize:"20px"}}>
@@ -149,7 +156,7 @@ const NoPostsModal=(props)=>{
 							{createPostModal()}
 
 
-							<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginLeft:"-15%"}}>	
+							<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
 								<RecommendedContainer>
 									<ul style={{position:"relative",padding:"0px"}}>
 											<p style={{fontSize:"20px"}}>
@@ -190,7 +197,7 @@ const NoPostsModal=(props)=>{
 				return <ul style={{padding:"0px"}}>
 							{createPostModal()}
 
-							<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginLeft:"-15%"}}>	
+							<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
 								<RecommendedContainer>
 										<ul style={{position:"relative",padding:"0px"}}>
 												<p style={{fontSize:"20px"}}>
@@ -229,9 +236,8 @@ const NoPostsModal=(props)=>{
 			}else{
 				const [recommendedRegularPosts,changeRecommendedRegularPosts]=useState([{},{},{}]);
 				return <ul style={{padding:"0px"}}>
-							{createPostModal()}
 
-							<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginLeft:"-15%"}}>	
+							<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
 								<RecommendedContainer>
 									<ul style={{position:"relative",padding:"0px"}}>
 											<p style={{fontSize:"20px"}}>

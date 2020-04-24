@@ -1,9 +1,12 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import CreationPostComponent from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
-import PostContainer from "../../../PersonalProfile/PersonalProfileSubset/PersonalPosts/index";
 import ImagePosts from "../../../PersonalProfile/PersonalProfileSubset/PersonalPosts/ImagePosts/ImagePostContainer.js";
-
+import VideoPosts from "../../../PersonalProfile/PersonalProfileSubset/PersonalPosts/VideoPosts/VideoPostContainer.js";
+import BlogsPosts from "../../../PersonalProfile/PersonalProfileSubset/PersonalPosts/BlogPosts/BlogPostsContainer.js";
+import RegularPost from "../../../PersonalProfile/PersonalProfileSubset/PersonalPosts/RegularPosts/RegularPostContainer.js";
+import {CompanyConsumer} from "../../CompanyContext.js";
+import {CompanyPostProvider} from "../../CompanyPostsContext.js";
 
 const ProfilePicture=styled.div`
 	position:relative;
@@ -38,8 +41,11 @@ class CompanyPosts extends Component{
 			displayImages:true,
 			displayVideos:false,
 			displayBlogs:false,
-			displayRegularPost:false
+			displayRegularPost:false,
+			displayCreationPost:false,
+			creationPostOption:""
 		}
+		console.log("Testing Company posts");
 	}
 
 	componentDidMount(){
@@ -136,51 +142,109 @@ class CompanyPosts extends Component{
 
 	render(){
 		return(
-			<React.Fragment>
-				<ul style={{padding:"0px"}}>
-					<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%",color:"#C8B0F4",zIndex:"4",marginBottom:"2%"}}>
-													<b>Create a post</b>
+			<CompanyConsumer>
+				{personalInformation=>{
+					return <React.Fragment>
+								<CompanyPostProvider
+									value={{
+										updatePostComponent:(postOption)=>{
+												this.setState({
+													displayCreationPost:true,
+													creationPostOption:postOption
+												})
+												this.props.displayShadowOverlay();
+											}
+									}}
+								>
+									<ul style={{padding:"0px"}}>
+										<li onClick={()=>this.setState({displayCreationPost:!this.state.displayCreationPost})} style={{listStyle:"none"}}>
+											<li  style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%",color:"#C8B0F4",zIndex:"4",marginBottom:"2%"}}>
+
+																			<b>Create a post</b>
+																		</li>
+
+																		<li style={{listStyle:"none",display:"inline-block",width:"55%",height:"20%",boxShadow:"1px 1px 5px #848484",borderRadius:"5px"}}>
+																			<ul style={{padding:"10px"}}>
+																				<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+																					<ProfilePicture>
+																					</ProfilePicture>
+																				</li>
+																				<li style={{listStyle:"none",display:"inline-block"}}>
+																					<CommentTextArea placeholder="Start typing here to create a post"/>
+																				</li>
+
+
+																			</ul>
+																		</li>
+										</li>
+										{this.state.displayCreationPost==true?
+											<li style={{listStyle:"none",height:"180%",marginBottom:"-20%"}}>
+												<CreationPostComponent
+													postOption={this.state.creationPostOption}
+													profileType="Company"
+												/>
+											</li>:
+											<React.Fragment>
+											</React.Fragment>}
+
+										<li style={{listStyle:"none",boxShadow:"1px 1px 5px #848484"}}>
+											<ul style={{padding:"10px"}}>
+												<li id="images" onClick={()=>this.handlePostsClick("image")} style={PostOptionCSS}>
+													Images
 												</li>
 
-												<li style={{listStyle:"none",display:"inline-block",width:"55%",height:"20%",boxShadow:"1px 1px 5px #848484",borderRadius:"5px"}}>
-													<ul style={{padding:"10px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-															<ProfilePicture>
-															</ProfilePicture>
-														</li>
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<CommentTextArea placeholder="Start typing here to create a post"/>
-														</li>
+												<li id="videos" onClick={()=>this.handlePostsClick("video")} style={PostOptionCSS}>
+													Videos
+												</li>
 
+												<li id="regularPosts" onClick={()=>this.handlePostsClick("regularPost")} style={PostOptionCSS}>
+													Regular Posts
+												</li>
 
-													</ul>
-					</li>
+												<li id="blogs" onClick={()=>this.handlePostsClick("blog")} style={PostOptionCSS}>
+													Blogs
+												</li>
+											</ul>
+										</li>
+										<li style={{listStyle:"none",height:"130%"}}>
+											{
+												this.state.displayImages==true?
+												<ImagePosts
+													personalInformation={personalInformation.state}
+													profile="Company"
+												/>:<React.Fragment></React.Fragment>
+											}
 
-					<li style={{listStyle:"none",boxShadow:"1px 1px 5px #848484"}}>
-						<ul style={{padding:"10px"}}>
-							<li id="images" onClick={()=>this.handlePostsClick("image")} style={PostOptionCSS}>
-								Images
-							</li>
+											{
+												this.state.displayVideos==true?
+												<VideoPosts
+													id={personalInformation.state.userProfile._id}	
+													profile="Company"
+												/>:<React.Fragment></React.Fragment>
+											}
 
-							<li id="videos" onClick={()=>this.handlePostsClick("video")} style={PostOptionCSS}>
-								Videos
-							</li>
+											{
+												this.state.displayBlogs==true?
+												<BlogsPosts
+													id={personalInformation.state.userProfile._id}
+													profile="Company"
+												/>:<React.Fragment></React.Fragment>
+											}
 
-							<li id="regularPosts" onClick={()=>this.handlePostsClick("regularPost")} style={PostOptionCSS}>
-								Regular Posts
-							</li>
+											{
+												this.state.displayRegularPost==true?
+												<RegularPost
+													id={personalInformation.state.userProfile._id}
+													profile="Company"
+												/>:<React.Fragment></React.Fragment>
+											}
+										</li>
+									</ul>
+								</CompanyPostProvider>
 
-							<li id="blogs" onClick={()=>this.handlePostsClick("blog")} style={PostOptionCSS}>
-								Blogs
-							</li>
-						</ul>
-					</li>
-					<li style={{listStyle:"none"}}>
-						<ImagePosts/>
-					</li>
-				</ul>
-
-			</React.Fragment>
+							</React.Fragment>
+				}}
+			</CompanyConsumer>
 		)
 	}
 }

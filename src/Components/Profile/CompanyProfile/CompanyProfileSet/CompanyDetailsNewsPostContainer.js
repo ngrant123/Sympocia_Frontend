@@ -11,9 +11,6 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import CompanyPostsContainer from "../CompanyProfileSubset/CompanyPosts/index.js";
 import { CompanyConsumer } from "../CompanyContext.js";
 import { connect } from "react-redux";
-import {
-		addEmployeeToCompanyDB
-	} from "../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
 
 const ProfileContainer = styled.div`
 
@@ -49,6 +46,8 @@ const CompanyDetails = styled.div`
  	border-color:#e0e0e0;
  	overflow-y:auto;
  	overflow-x:hidden;
+ 	transition:.8s;
+ 	z-index:7;
 
 `;
 
@@ -236,7 +235,7 @@ const EmployeeContainer = styled.div`
 	width:100%;
 	height:30%;
 	left:1%;
-	top:32%;
+	top:5%;
 	font-size:150%;
 	font-family:'Roboto', sans-serif;
 	color:#424242;
@@ -451,38 +450,19 @@ class ProfileComp extends Component{
 		console.log("Testing");
 		super(props);
 
-		this.state= {
-
+		this.state={
 			Employees:[],
 			title:"Poop",
 			postdecider:1,
 			industryType:"Engineering",
 			location:"Location"
 		}
-		this.handleAddEmployee=this.handleAddEmployee.bind(this);
 		this.displayEmployee=this.displayEmployee.bind(this);
 		this.displayNotification=this.displayNotification.bind(this);
 		
 	}
 	handleUpdateProfile(){
 
-	}
-
-
-	handleAddEmployee(props){
-		/*
-			FIX REDUX IMPLEMENTATION OF THIS
-		*/
-			const Employee ={
-				employeeName:props.name,
-				employeeShortDescription:props.shortbio,
-				employeeEmail:props.email,
-				employeeLocation:props.location,
-				employeeTitle:props.title,
-				employeeBio:props.bio,
-				employeeImg:props.imgUrl
-			};
-			addEmployeeToCompanyDB(this.props.id,Employee);
 	}
 //COMBINE THESE TWO METHODS
 
@@ -541,7 +521,7 @@ class ProfileComp extends Component{
 								</ImageContainer>
 								<ImageContainerTextarea></ImageContainerTextarea>
 
-						</PostImageContainer>;
+							</PostImageContainer>;
 		}
 
 		return(
@@ -552,7 +532,7 @@ class ProfileComp extends Component{
 
 					return <ProfileContainer>
 						  <div class="dropdown" style={{position:"absolute", height:"10%",width:"13%",left:"2%",top:"2%"}}>
-							    <button class="btn btn-primary dropdosuwn-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>{companyInformation.state.industry}
+							    <button class="btn btn-primary dropdosuwn-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>{companyInformation.state.userProfile.industry}
 							    <span class="caret"></span></button>
 							    <ul class="dropdown-menu">
 							      <li><a href="#">Fashion</a></li>
@@ -588,21 +568,13 @@ class ProfileComp extends Component{
 
 								<EmployeeContainer> 
 
-									<ul style={{EmployeeCSS}}>
+									<ul style={EmployeeCSS}>
 
-										{companyInformation.state.companyEmployees.map(data =>
+										{companyInformation.state.userProfile.employees.map(data =>
 
 											<li style={{ display:"inline-block", marginLeft:"19px", marginBottom:"10px"}}>
 												<SmallProfile 
-													title={data.title}
-													imgUrl={data.imgUrl}
-													bio={data.bio}
-													id={data.id}
-													name={data.name}
-													location={data.location}
-													email={data.email}
-													displayEmployee={this.displayEmployee}
-													shortbio={data.shortbio}
+													employeeData={data}
 												/>
 											</li> 
 											)

@@ -97,6 +97,7 @@ class CoverPhoto extends Component{
 
 			const coverPhotoUrl=reader.result;
 			this.props.addCompanyCoverPhoto(coverPhotoUrl);
+			debugger;
 			sendCoverPhotoToDB(companyId,coverPhotoUrl);
 
 		}
@@ -113,6 +114,14 @@ class CoverPhoto extends Component{
 	handleClickButton(){
 		document.getElementById("coverphotoimagefile").click();
 	}
+	handleDisplayCoverPhoto=(companyInformation)=>{
+		if(companyInformation.state.userProfile.companyCoverPhoto==null || companyInformation.state.userProfile.companyCoverPhoto==""){
+			return <img src={companyInformation.state.userProfile.companyCoverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"relative",height:"100%", width:"100%",top:"0%",opacity:"1"}}/>;
+		}else{
+			return <img src={companyInformation.state.userProfile.companyCoverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"absolute",top:"0%",opacity:"1"}}/>;
+
+		}
+	}
 
 	render(){
 
@@ -120,26 +129,29 @@ class CoverPhoto extends Component{
 			<CompanyConsumer>
 				{companyInformation=>{
 					return <Container>
-								<NaveBarContainer>
-									{companyInformation.state.isOwnProfile==true?
-										<UpdateCoverPhoto onClick={()=>this.handleClickButton()}>
-											+ Cover Photo
-											 <input type="file" name="img" id="coverphotoimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleChangeCover(companyInformation.state.id)}></input>
-										</UpdateCoverPhoto>:
-										<React.Fragment>
-										</React.Fragment>
-									}
-									<SocialMediaContainer>
-										<SocialMedia/>
-									</SocialMediaContainer>
-								</NaveBarContainer>
+								{/*
+
+									<NaveBarContainer>
+										{companyInformation.state.isOwnProfile==true?
+											<UpdateCoverPhoto onClick={()=>this.handleClickButton()}>
+												+ Cover Photo
+												 <input type="file" name="img" id="coverphotoimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleChangeCover(companyInformation.state.userProfile._id)}></input>
+											</UpdateCoverPhoto>:
+											<React.Fragment>
+											</React.Fragment>
+										}
+										<SocialMediaContainer>
+											<SocialMedia/>
+										</SocialMediaContainer>
+									</NaveBarContainer>
+								*/}
 
 								{/*
 									Could prevent images of a certain size from being uploaded
 									Youtube only allows at least 2048 pixels wide and 1152 pixels tall to be uploaded
 								*/}
 
-								<img src={companyInformation.state.coverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"relative",height:"100%", width:"100%",top:"0%",opacity:"0"}}/>
+								{this.handleDisplayCoverPhoto(companyInformation)}
 							</Container>
 					}
 				}

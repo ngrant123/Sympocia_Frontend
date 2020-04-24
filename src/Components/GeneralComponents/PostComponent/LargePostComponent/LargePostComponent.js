@@ -437,7 +437,8 @@ class LargePostComponent extends Component{
 		return(
 			<PostProvider
 				value={{
-					userProfileId:this.state.id
+					userProfileId:this.state.id,
+					profileType:this.props.profileType
 				}}
 			>
 				<Container>

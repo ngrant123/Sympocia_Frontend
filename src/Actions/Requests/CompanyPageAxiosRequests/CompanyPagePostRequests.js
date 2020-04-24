@@ -43,6 +43,7 @@ export async function addEmployeeToCompanyDB(companyId,employeeInformation){
 
 	const CreateUrl='http://localhost:4000/api/company/alter';
 	try{
+		debugger;
 		const {
 			  employeeBio,
 			  employeeImg,

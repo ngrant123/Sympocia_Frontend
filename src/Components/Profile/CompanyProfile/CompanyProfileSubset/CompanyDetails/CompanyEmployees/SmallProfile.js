@@ -151,17 +151,7 @@ class SmallProfile extends Component {
 		console.log("TEsting");
 		super(props);
 		console.log(props);
-		
-		this.state ={
-			title:props.title,
-			bio:props.bio,
-			imageurl:props.imgUrl,
-			id:props.id,
-			name:props.name,
-			email:props.email,
-			location:props.location,
-			shortbio:props.shortbio
-		}
+
 	}
 
 	handleOnClick(){
@@ -175,9 +165,9 @@ class SmallProfile extends Component {
 
 				<Profile onClick={()=>this.handleOnClick()}> 
 							<Image>
-								<img src={this.state.imageurl} id={this.state.id+"imagecontainer"} style={{position:"relative",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"1"}}/>
+								<img src={this.props.employeeData.imgUrl} style={{position:"relative",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"1"}}/>
 							</Image>
-							<Title><b>{this.props.title}</b></Title>
+							<Title><b>{this.props.employeeData.title}</b></Title>
 
 			    </Profile> 
 		)

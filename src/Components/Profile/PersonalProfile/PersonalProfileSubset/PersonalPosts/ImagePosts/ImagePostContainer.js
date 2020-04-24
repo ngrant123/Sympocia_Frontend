@@ -1,13 +1,11 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import {UserConsumer} from "../../../UserContext.js";
 import NoPostsModal from "../NoPostsModal.js";
 
 const Container=styled.div`
 	position:absolute;
 	width:95%;
 	height:95%;
-
 `;
 
 
@@ -60,17 +58,17 @@ class ImagePostsContainer extends Component{
 
 	render(){
 		return(
-			<UserConsumer>
-				{personalInformation=>{
-					return <Container>
-						{personalInformation.isLoading==true?
+				<Container>
+						{this.props.personalInformation.isLoading==true?
 								<p>Give us a second we're getting your information</p>:
 								<React.Fragment>
-								{personalInformation.userProfile.imagePost.length==0?<NoPostsModal
+								{this.props.personalInformation.userProfile.imagePost.length==0 ||
+									this.props.personalInformation.userProfile.imagePost.length==null?<NoPostsModal
 																		postType={"image"}
+																		profilePageType={this.props.profile}
 																	  />:
 										<ul style={{padding:"0px"}}>	
-											{personalInformation.userProfile.imagePost.map(data=>
+											{this.props.personalInformation.userProfile.imagePost.map(data=>
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"9%"}}>
 													<ImageContainer>
 														<ul style={{padding:"0px"}}>	
@@ -112,8 +110,6 @@ class ImagePostsContainer extends Component{
 								</React.Fragment>
 							}
 					</Container>
-				}}
-			</UserConsumer>
 		)
 	}
 }

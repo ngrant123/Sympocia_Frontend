@@ -652,201 +652,31 @@ class LProfile extends Component{
 
 		super(props);
 		this.state={
-
-			title:"",
-			bio:"",
-			imgUrl:"",
-			description:"",
-			email:"",
-			name:"",
-			location:"",
-			date:"",
-			update:0,
-			industry:"",
-			displaySmallProfilesAndNews:false,
-			locationState:"",
-			locationCity:"",
-			companyEmployees:[],
-			id:"",
-			news:[],
 			owner:false,
 			coverPhoto:"",
-			isOwnProfile:true
-
+			isOwnProfile:true,
+			isLoading:true,
+			userProfile:{
+				imagePost:[]
+			}
 		}
-		this.displaytoplevelemployeeprofile=this.displaytoplevelemployeeprofile.bind(this);
-		this.displaytoplevelnewsprofile=this.displaytoplevelnewsprofile.bind(this);
 	}
 
 	async componentDidMount(){
-
-		let industries=Industries.INDUSTRIES;
-		/*
-			Here see if the user is logged in user redux
-			then if they are access the information using redux then bubble it down using context
-
-			If not make an api call and toggle the user as logged in
-		*/
-
-		/*
-			Id will be passed in as a prop then depending on if the 
-			id matches the id in the redux store shows what kind of things will be edited and what
-			the viewer can see or not (set is owner to true or false)
-		*/
-
-
-
-		this.setState(prevState=>({
-			...prevState,
-			industries:industries,
-			companyState:this.props.companyInformation,
-			companyEmployees:this.props.companyEmployees,
-			owner:true
-		}))
-		console.log("Testeing");
-		const{
-			name,
-			companyIconPicture,
-			companyCoverPhoto,pplContacted,
-			locationState,
-			locationCity,
-			industry,
-			bio,
-			companyCreationDate,
-			_id,
-			news,
-			employees
-		}=await getCompanyInformation('5e73c036a642cb30031f3785'); //All depends on that id using that one as an example
-			
+		const companyProfile=await getCompanyInformation('5e9feedd05d39681c255f908');
+		console.log(companyProfile);
 		this.setState({
-				bio:bio,
-				imgUrl:companyIconPicture,
-				email:"",
-				name:name,
-				location:locationState,
-				locationCity:locationCity,
-				industry:industry,
-				companyEmployees:employees,
-				news:news,
-				coverPhoto:companyCoverPhoto,
-				id:_id
-			})
-		
-
-		
-
-
+				isLoading:false,
+				userProfile:companyProfile
+			});
 		window.addEventListener('scroll',this.ScrollFunction);
 	}
 
-	handleEditButton(){
-
-		document.getElementById("SaveButtonID").style.opacity=1;
-		document.getElementById("SaveButtonID").style.pointerEvents="auto";
-		document.getElementById("CancelButtonID").style.opacity=1;
-		document.getElementById("CancelButtonID").style.pointerEvents="auto";
-		document.getElementById("Title").style.pointerEvents="auto";
-		document.getElementById("Bio").style.pointerEvents="auto";
+	displaytoplevelnewsprofile=()=>{
 
 	}
 
-	handleExitButtonNewsProfile(){
-				
-
-			document.getElementById("NewsProfile").style.opacity=0;
-			document.getElementById("NewsProfile").style.zIndex=-1;
-			document.getElementById("NewsSaveButtonID").style.opacity=0;
-			document.getElementById("NewsSaveButtonID").style.pointerEvents="none";
-			document.getElementById("NewsCancelButtonID").style.opacity=0;
-			document.getElementById("NewsCancelButtonID").style.pointerEvents="none";
-		
-
-	}
-
-	handleExitButtonSmallProfile(){
-			document.getElementById("SmallProfile").style.opacity=0;
-			document.getElementById("SmallProfile").style.zIndex=-1;
-			document.getElementById("SaveButtonID").style.opacity=0;
-			document.getElementById("SaveButtonID").style.pointerEvents="none";
-			document.getElementById("CancelButtonID").style.opacity=0;
-			document.getElementById("CancelButtonID").style.pointerEvents="none";
-
-
-	}
-
-	handleSaveButton(){
-		this.setState({
-			update:1
-		}) ;
-	}
-
-
-	handleCancelButton(){
-		//Set back to previous state using this.state
-
-		document.getElementById("Title").style.pointerEvents="none";
-		document.getElementById("Title").style.placeholder=this.state.title;
-		document.getElementById("Bio").style.placeholder=this.state.bio;
-		document.getElementById("SaveButtonID").style.opacity=0;
-		document.getElementById("SaveButtonID").style.pointerEvents="none";
-		document.getElementById("CancelButtonID").style.opacity=0;
-		document.getElementById("CancelButtonID").style.pointerEvents="none";
-
-	}
-
-	displaytoplevelemployeeprofile(props){
-		//One function that checks if the user wants to display a news feed notification or an profile
-
-			document.getElementById("SmallProfile").style.zIndex=3;
-			document.getElementById("SmallProfile").style.opacity=1;
-
-				this.setState({
-
-					title:props.title,
-					bio:props.bio,
-					name:props.name,
-					location:props.location,
-					email:props.email,
-					imageUrl:props.imageurl,
-					shortbio:props.shortbio
-					},
-					function(){
-
-						document.getElementById("ViewEmployeeimagecontainer").src=this.state.imageUrl;
-						document.getElementById("ViewEmployeeimagecontainer").style.opacity=1;
-				}
-			);
-		
-	}
-
-	displaytoplevelnewsprofile(props){
-			document.getElementById("NewsProfile").style.zIndex=3;
-			document.getElementById("NewsProfile").style.opacity=1;
-			this.setState({
-
-				description:props.description,
-				date:props.date
-			});
-
-
-	}
-
-	dontdelete(){
-		document.getElementById("SmallProfile").style.opacity=0;
-		document.getElementById("SmallProfile").style.zIndex=-2;
-
-	}
-
-	displaySmallProfile =(param)=>{
-
-		if(param==1){
-			return 
-
-		}
-		else{
-
-
-		}
+	displaytoplevelemployeeprofile=()=>{
 
 	}
 
@@ -862,7 +692,6 @@ class LProfile extends Component{
 			})
 		}
 		else{
-
 			this.setState({
 				displaySmallProfilesAndNews:false
 			})
@@ -908,101 +737,56 @@ class LProfile extends Component{
 						news:news
 					})
 				}}}>
-				<ProfileContainer>
-
-					<NavContainer> 
-						<GeneralNavBar
-							pageType="Profile"
-						/>
-					</NavContainer>
-
-					<FirstProfileContainer>
-
-							{/*
-								
-								Has to be refactored in the near distant future from lines 846 to 
-								889 got to go chief it aint it
-
-							*/}
-
-							 <SmallProfile id="SmallProfile">	
-
-							 		<SmallProfileContainerTitleDescrip>
-							 			<SmallProfileImage id="smallprofileimage">
-							 				<img src="" id="ViewEmployeeimagecontainer" style={{position:"relative",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"0",borderStyle:"solid",borderWidth:"2px",borderColor:"#5298F8"}}/>
-							 			</SmallProfileImage>
-										<hr style={{position:"relative", top:"50%"}}></hr>
-							 			<SmallProfileShortBio>{this.state.shortbio}</SmallProfileShortBio>
-							 		</SmallProfileContainerTitleDescrip>
-
-							 		<SmallProfileIdentityContainer>
-
-							 			<SmallProfileNameCaption>Name:</SmallProfileNameCaption>
-							 			<SmallProfileNameValue placeholder={this.state.name}></SmallProfileNameValue>
-							 			<SmallProfileTitleCaption>Tite:</SmallProfileTitleCaption>
-							 			<SmallProfileTitleValue placeholder={this.state.title}></SmallProfileTitleValue>
-							 			<SmallProfileLocationCaption>Location:</SmallProfileLocationCaption>
-							 			<SmallProfileLocationValue placeholder={this.state.location}></SmallProfileLocationValue>
-							 			<SmallProfileBioCaption>Bio:</SmallProfileBioCaption>
-							 			<SmallProfileBioValue placeholder={this.state.shortbio}></SmallProfileBioValue>
-							 			<SmallProfileEmailCaption>Email:</SmallProfileEmailCaption>
-							 			<SmallProfileEmailValue placeholder={this.state.email}></SmallProfileEmailValue>
-
-							 		</SmallProfileIdentityContainer>
-
-							 	<EditButton onClick={()=>this.handleEditButton()}></EditButton>
-							 	<ExitButton onClick={()=>this.handleExitButtonSmallProfile()} id="Exit">X</ExitButton>
-							 	<SaveButton onClick={()=>this.handleSaveButton()} id="SaveButtonID">Save</SaveButton>
-							 	<CancelButton onClick={()=>this.handleCancelButton()} id="CancelButtonID">Cancel</CancelButton>
-							 </SmallProfile>
-
-							  <NewsProfile id="NewsProfile">	
-								  <NewsProfileContainerBackground></NewsProfileContainerBackground>
-								 		<NewsProfileTitleDescription></NewsProfileTitleDescription>
-									 	<NewsProfileBio id="NewsBio" placeholder={this.state.description}></NewsProfileBio>
-									 	<NewsProfileBioDescription><b>{this.state.date}</b></NewsProfileBioDescription>
-							 	<EditButton onClick={()=>this.handleEditButton()}></EditButton>
-							 	<ExitButton onClick={()=>this.handleExitButtonNewsProfile()} id="NewsExit">X</ExitButton>
-							 	<SaveButton onClick={()=>this.handleSaveButton()} id="NewsSaveButtonID">Save</SaveButton>
-							 	<CancelButton onClick={()=>this.handleCancelButton()} id="NewsCancelButtonID">Cancel</CancelButton>
-							 </NewsProfile>
-
-
-							<CompanyIcon>
-								<Icon 
-									sendCompanyIconToRedux={this.sendCompanyIconToRedux}
+					{this.state.isLoading==false?
+						<React.Fragment>
+							<ProfileContainer>
+									<NavContainer> 
+								<GeneralNavBar
+									pageType="Profile"
 								/>
-							</CompanyIcon>
-							<StatueContainer/>
+							</NavContainer>
+							<FirstProfileContainer>
 
-							<CoverPhotoContainer> 
-								<CoverPhoto /> 
-							</CoverPhotoContainer>
+									<CompanyIcon>
+										<Icon 
+											sendCompanyIconToRedux={this.sendCompanyIconToRedux}
+										/>
+									</CompanyIcon>
+									<StatueContainer/>
 
-							<Profile id="CompanyAndPostInfoContainer">
-								<CompanyDetailsNewsPostContainer 
-									displaytoplevelemployeeprofile={this.displaytoplevelemployeeprofile}
-									displaytoplevelnewsprofile={this.displaytoplevelnewsprofile}
-									id={this.state.id}
-								 />
-							</Profile>
+									<CoverPhotoContainer> 
+										<CoverPhoto /> 
+									</CoverPhotoContainer>
 
-						</FirstProfileContainer>
+									<Profile id="CompanyAndPostInfoContainer">
+										<CompanyDetailsNewsPostContainer 
+											displaytoplevelemployeeprofile={this.displaytoplevelemployeeprofile}
+											displaytoplevelnewsprofile={this.displaytoplevelnewsprofile}
+											id={this.state.id}
+										 />
+									</Profile>
+
+								</FirstProfileContainer>
 
 
-						<SecondPostContainer>
-							<PostContainer>
+								<SecondPostContainer>
+									<PostContainer>
+										<Posts />
+									</PostContainer>
 
-								<Posts />
+									{this.displaySmallCompanyDetail()}
+									{this.displaySmallCompanyNews()}
 
-							</PostContainer>
+								</SecondPostContainer>
 
-							{this.displaySmallCompanyDetail()}
-							{this.displaySmallCompanyNews()}
+						</ProfileContainer>
+						</React.Fragment>:
+						<React.Fragment>
+						</React.Fragment>
 
-						</SecondPostContainer>
 
-				</ProfileContainer>
+					}
+					
 			</CompanyProvider>
 
 		)

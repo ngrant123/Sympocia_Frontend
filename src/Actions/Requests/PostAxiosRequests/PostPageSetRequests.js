@@ -19,14 +19,16 @@ export const createRegularPost=async(userId,searchCriteria)=>{
 	}
 }
 
-export const createImagePost=async(_id,searchCriteria)=>{
+export const createImagePost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
+		debugger;
 		console.log(_id);
 		console.log(searchCriteria);
 		const CreateURl='http://localhost:4000/api/posts/alter';
 		const imagePost=await axios.post(`${CreateURl}/createImagePost`,{
 			_id:_id,
-			searchCriteria:searchCriteria
+			searchCriteria:searchCriteria,
+			profileIndicator:profileIndicator
 		})
 
 		console.log(imagePost);

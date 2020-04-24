@@ -6,6 +6,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {createImagePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {connect} from "react-redux";
 import IndustryPostOptions from "../../IndustryPostOptions.js";
+import {PostConsumer} from "../../PostContext.js";
 
 
 const Image=styled.div`
@@ -79,7 +80,8 @@ class EditImageCreation extends Component{
 		}
 	}
 
-	sendImageDateToDB=()=>{
+	sendImageDateToDB=(profilePostType)=>{
+		debugger;
 		console.log("Submit button clicked");
 		const industries=this.state.industriesSelected;
 		const selectedSubCommunities=this.state.subIndustriesSelected;
@@ -117,7 +119,7 @@ class EditImageCreation extends Component{
 			description:descriptionTextArea,
 			caption:captionTextArea
 		}
-		createImagePost(this.props._id,searchCriteriaObject);
+		createImagePost(this.props._id,searchCriteriaObject,profilePostType);
 	}
 
 	alterSelectedIndustry=(selectedIndustries)=>{
@@ -134,54 +136,58 @@ class EditImageCreation extends Component{
 
 	render(){
 		return(
-			<React.Fragment>
-				<ul style={{padding:"10px"}}>
-					<li style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
-						<Image>
-							<img src={this.state.imgUrl} style={{position:"relative",height:"100%",width:"100%"}}/>
-						</Image>
-					</li>
+			<PostConsumer>
+				{profilePostInformation=>{
+					return <React.Fragment>
+								<ul style={{padding:"10px"}}>
+									<li style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
+										<Image>
+											<img src={this.state.imgUrl} style={{position:"relative",height:"100%",width:"100%"}}/>
+										</Image>
+									</li>
 
-					<li style={{position:"absolute",listStyle:"none",display:"inline-block"}}>
-						<ul style={{padding:"0px",width:"300px"}}>
-							<IndustryPostOptions
-								alterSelectedIndustry={this.alterSelectedIndustry}
-								alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-							/>
-									
+									<li style={{position:"absolute",listStyle:"none",display:"inline-block"}}>
+										<ul style={{padding:"0px",width:"300px"}}>
+											<IndustryPostOptions
+												alterSelectedIndustry={this.alterSelectedIndustry}
+												alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+											/>
+													
 
-					<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
-								<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
-												Writing a caption...
-								</ImageTextArea>
+									<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
+												<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
+																Writing a caption...
+												</ImageTextArea>
 
-					</li>
+									</li>
 
-					<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
-											<ImageTextArea id="descriptionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
-												Write a title description...
-											</ImageTextArea>
+									<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
+															<ImageTextArea id="descriptionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
+																Write a title description...
+															</ImageTextArea>
 
-					</li>
+									</li>
 
-					<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-												<ul onClick={()=>this.sendImageDateToDB()}>
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<SendIcon
-															style={{fontSize:20,color:"white"}}
-														/>
-													</li>
+									<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+																<ul onClick={()=>this.sendImageDateToDB(profilePostInformation.profileType)}>
+																	<li style={{listStyle:"none",display:"inline-block"}}>
+																		<SendIcon
+																			style={{fontSize:20,color:"white"}}
+																		/>
+																	</li>
 
-													<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-														Send
-													</li>
+																	<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																		Send
+																	</li>
 
-												</ul>
-					 </li>
-							</ul>
-					</li>
-				</ul>
-			</React.Fragment>
+																</ul>
+									 </li>
+											</ul>
+									</li>
+								</ul>
+							</React.Fragment>
+					}}
+			</PostConsumer>
 		)
 	}
 }
