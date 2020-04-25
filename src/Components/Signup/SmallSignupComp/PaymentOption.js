@@ -8,7 +8,8 @@ import { Link } from "react-router-dom";
 
 import {
 	addCompanyId,
-	updatefirstTimeUsage
+	updatefirstTimeUsage,
+	loginCompanyPage
 } from "../../../Actions/Redux/Actions/CompanyActions.js";
 
 const Payment1 = styled.div`
@@ -219,6 +220,7 @@ class PaymentOption extends Component {
 			const {_id}=await createCompanyProfile(CompanyProfile);
 			this.props.addCompanyId(_id);
 			this.props.updatefirstTimeUsage(true);
+			this.props.loginIndicator(true);
 
 		}
 		else
@@ -277,7 +279,8 @@ const mapDispatchToProps=dispatch=>{
 	return{
 		addCompanyId:(companyId)=>dispatch(addCompanyId(companyId)),
 		addPaymentPlan:(pricedescription)=>dispatch(addPaymentPlan(pricedescription)),
-		updatefirstTimeUsage:(indicator)=>dispatch(updatefirstTimeUsage(indicator))
+		updatefirstTimeUsage:(indicator)=>dispatch(updatefirstTimeUsage(indicator)),
+		loginCompanyPage:(loginIndicator)=>dispatch(loginCompanyPage(loginIndicator))
 	}
 }
 

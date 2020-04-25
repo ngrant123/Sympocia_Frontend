@@ -6,6 +6,7 @@ import IndustryPostOptions from "../../IndustryPostOptions.js";
 import SendIcon from '@material-ui/icons/Send';
 import {connect} from "react-redux";
 import {createVideoPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {PostConsumer} from "../../PostContext.js";
 
 const TextContainerDescription=styled.textarea`
 	height:30%;
@@ -79,7 +80,7 @@ class EditVideoModal extends Component{
 		})
 	}
 
-	sendVideoDataToDB=()=>{
+	sendVideoDataToDB=(profilePostType)=>{
 
 		const videoTitle=document.getElementById("videoTitle").value;
 		const videoDescription=document.getElementById("videoDescription").value;
@@ -118,114 +119,119 @@ class EditVideoModal extends Component{
 			industryArray:searchCriteriaIndustryArray,
 			videoSrc:this.props.videoSrc
 		}
-		createVideoPost(this.props._id,searchVideoResult);
+		createVideoPost(this.props._id,searchVideoResult,profilePostType);
 	}
 
 	render(){
 
 		return(
-			<React.Fragment>
-				<ul style={{padding:"0px"}}>
-					<li style={{listStyle:"none",display:"inline-block",marginRight:"15%"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",marginBottom:"4%"}}>
-										<ul style={{padding:"0px",width:"110%"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-												<img src="" style={{borderRadius:"50%",width:"90px",height:"100px"}}/>
-											</li>
+			<PostConsumer>
+				{profilePostInformation=>{
+					return <React.Fragment>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"15%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",marginBottom:"4%"}}>
+													<ul style={{padding:"0px",width:"110%"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+															<img src="" style={{borderRadius:"50%",width:"90px",height:"100px"}}/>
+														</li>
 
-											<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e"}}>
-												<b>Edit Video</b>
-											</li>
-										</ul>		
-							</li>
+														<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e"}}>
+															<b>Edit Video</b>
+														</li>
+													</ul>		
+										</li>
 
-							<li style={{listStyle:"none",paddingTop:"3%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
-										<SubtitlesIcon
-											style={{ fontSize: 20 }}
-										/>
-									</li>
+										<li style={{listStyle:"none",paddingTop:"3%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
+													<SubtitlesIcon
+														style={{ fontSize: 20 }}
+													/>
+												</li>
 
-									<li style={{listStyle:"none",display:"inline-block",fontSize:"15px"}}>
-										Title for video (optional)
-									</li>
+												<li style={{listStyle:"none",display:"inline-block",fontSize:"15px"}}>
+													Title for video (optional)
+												</li>
 
-								</ul>
+											</ul>
 
-							</li>
+										</li>
 
-							<li style={{listStyle:"none"}}>
-								<TextContainerTitle
-											placeholder="Write a title for your video"
-											id="videoTitle"
-									/>
+										<li style={{listStyle:"none"}}>
+											<TextContainerTitle
+														placeholder="Write a title for your video"
+														id="videoTitle"
+												/>
 
-							</li>
-							<li style={{color:"#5298F8"}}>
-								You will be able to edit this title at any point later
-							</li>
+										</li>
+										<li style={{color:"#5298F8"}}>
+											You will be able to edit this title at any point later
+										</li>
 
-							<li style={{listStyle:"none",paddingTop:"3%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
-										<DescriptionIcon
-											style={{ fontSize: 20 }}
-										/>
-									</li>
+										<li style={{listStyle:"none",paddingTop:"3%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
+													<DescriptionIcon
+														style={{ fontSize: 20 }}
+													/>
+												</li>
 
-									<li style={{listStyle:"none",display:"inline-block",fontSize:"15px"}}>
-										Enter a description for your video (optional)
-									</li>
-								</ul>
-							</li>
+												<li style={{listStyle:"none",display:"inline-block",fontSize:"15px"}}>
+													Enter a description for your video (optional)
+												</li>
+											</ul>
+										</li>
 
-							<li style={{listStyle:"none",fontSize:"15px"}}>
-										<TextContainerDescription
-											placeholder="Write a description about your video"
-											id="videoDescription"
-										/>
-							</li>
-							<li style={{listStyle:"none",color:"#5298F8"}}>
-								You will be able to edit this description at any point later
-							</li>
-						</ul>
-					</li>
-					<li style={{position:"relative",top:"-560px",listStyle:"none",display:"inline-block",marginLeft:"60%"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none"}}>
-								<video width="100%" height="50%" controls autoplay>
-										<source src={this.props.videoSrc} type="video/mp4"/>
-								</video>
-							</li>
-							<li  style={{listStyle:"none"}}>
-								<IndustryPostOptions
-									alterSelectedIndustry={this.alterSelectedIndustry}
-									alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-								/>
+										<li style={{listStyle:"none",fontSize:"15px"}}>
+													<TextContainerDescription
+														placeholder="Write a description about your video"
+														id="videoDescription"
+													/>
+										</li>
+										<li style={{listStyle:"none",color:"#5298F8"}}>
+											You will be able to edit this description at any point later
+										</li>
+									</ul>
+								</li>
+								<li style={{position:"relative",top:"-560px",listStyle:"none",display:"inline-block",marginLeft:"60%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none"}}>
+											<video width="100%" height="50%" controls autoplay>
+													<source src={this.props.videoSrc} type="video/mp4"/>
+											</video>
+										</li>
+										<li  style={{listStyle:"none"}}>
+											<IndustryPostOptions
+												alterSelectedIndustry={this.alterSelectedIndustry}
+												alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+											/>
 
-							</li>
-							<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-												<ul onClick={()=>this.sendVideoDataToDB()}>
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<SendIcon
-															style={{fontSize:20,color:"white"}}
-														/>
-													</li>
+										</li>
+										<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+															<ul onClick={()=>this.sendVideoDataToDB(profilePostInformation.profileType)}>
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<SendIcon
+																		style={{fontSize:20,color:"white"}}
+																	/>
+																</li>
 
-													<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-														Send
-													</li>
+																<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																	Send
+																</li>
 
-												</ul>
-							 </li>
-						</ul>
-					</li>
-				</ul>
+															</ul>
+										 </li>
+									</ul>
+								</li>
+							</ul>
 
-			</React.Fragment>
+						</React.Fragment>
+				}}
 
+
+			</PostConsumer>
 		)
 	}
 }

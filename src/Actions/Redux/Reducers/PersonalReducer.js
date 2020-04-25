@@ -8,7 +8,8 @@ const initialState={
 	email:'',
 	signInStatus:false,
 	paymentPlan:'',
-	firstTimeIndicator:false
+	firstTimeIndicator:false,
+	loggedIn:false
 }
 
 const PersonalProfile=(state={initialState},action)=>{
@@ -68,6 +69,12 @@ const PersonalProfile=(state={initialState},action)=>{
 			}
 			break;
 
+		case 'LOGIN_PERSONAL_PAGE':
+			return{
+				...state,
+				loggedIn:payload
+			}
+			break;
 	
 
 		default:

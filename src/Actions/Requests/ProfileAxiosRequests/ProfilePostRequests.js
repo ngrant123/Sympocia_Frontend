@@ -4,6 +4,7 @@ import BASE_URL from "../../../Constants/constants.js";
 
 const baseurl=BASE_URL.BASE_URL;
 const CreateUrl='http://localhost:4000/api/profile/alter';
+const CreatePostUrl='http://localhost:4000/api/posts/alter';
 
 export function addEmployeeData(userId,employeeData){
 	/*
@@ -97,6 +98,7 @@ export function updateEmployee(userId,updatedEmployeeData){
 }
 
 export async function createProfile(personalData){
+	debugger;
 	console.log("Profile create profile route");
 	const {firstName,lastName,email,paymentPlan,isInvestor,location,stripToken}=personalData;
 	let personalInformation;
@@ -134,7 +136,6 @@ export function setBio(personalId,bio){
 }
 
 export async function setProfilePicture(profileId,pictureUrl){
-
 	try{
 		console.log("Profile picture api reached");
 		const profilePictureVerification=await axios.post(`${CreateUrl}/setProfilePicture`,{
@@ -145,13 +146,10 @@ export async function setProfilePicture(profileId,pictureUrl){
 		const profileChangeResults=profilePictureVerification.data;
 		const results=profileChangeResults.data;
 		return results;
-
 	}catch(err){
 		console.log(err);
 	}
 }
-
-
 
 
 

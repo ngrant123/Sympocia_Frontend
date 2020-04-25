@@ -1,7 +1,9 @@
 const loadState=()=>{
 
 	try{
-
+		//Used to remove local state 
+		//localStorage.removeItem('state');
+		
 	 	const serializedState = localStorage.getItem('state');
 	 	console.log(serializedState);
 	    if (serializedState === null) {

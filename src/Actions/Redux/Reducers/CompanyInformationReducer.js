@@ -8,7 +8,8 @@ const initialState ={
 	companyBio:'',
 	companyCoverPhoto:'',
 	id:0,
-	firstTimeIndicator:true
+	firstTimeIndicator:true,
+	loggedIn:false
 }
 
 
@@ -80,6 +81,13 @@ const CompanyInformationReducer=(state=initialState, action)=>{
 				paymentPlan:payload
 			}
 		break;
+
+		case 'LOGIN_COMPANY_PAGE':
+			return{
+				...state,
+				loggedIn:payload
+			}
+			break;
 
 		default:
 			return state;

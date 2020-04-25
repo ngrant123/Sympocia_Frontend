@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -7,7 +7,9 @@ import ExploreIcon from '@material-ui/icons/Explore';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {loginPersonalPage} from "../../../../Actions/Redux/Actions/PersonalProfile.js";
+import {loginCompanyPage} from "../../../../Actions/Redux/Actions/CompanyActions.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -125,10 +127,24 @@ const NavBarButton=styled(Link)`
 
 
 const NavBar=(pageProps)=>{
+	debugger;
 	const {color}=pageProps;
-	console.log("Testing");
-	const state=useSelector(state=>state.personalInformation);
-	const {id}=state;
+	const personalProfileState=useSelector(state=>state.personalInformation);
+	const companyProfileState=useSelector(state=>state.companyInformation);
+	const dispatch=useDispatch();
+	const [displayPersonalProfileIcon,changeDisplayPersonalProfileIcon]=useState(false);
+	const [displayCompanyProfileIcon,changeDisplayCompanyProfileIcon]=useState(false);
+
+	useEffect(()=>{
+		if(personalProfileState.id!=null){
+			changeDisplayPersonalProfileIcon(true);
+		}
+		if(companyProfileState.id!=null){
+			changeDisplayCompanyProfileIcon(true);
+		}
+	},[])
+
+
 	const displayChatContainerForPersonalPage=(pageProps)=>{
 
 			pageProps.displayChatPage("personal");
@@ -136,7 +152,18 @@ const NavBar=(pageProps)=>{
 
 	const displayChatContainerForCompanyPage=(pageProps)=>{
 			pageProps.displayChatPage("company");
-		}
+
+	}
+
+	const logInToCompanyProfile=()=>{
+		dispatch(loginCompanyPage(true));
+		dispatch(loginPersonalPage(false));
+	}
+
+	const loginToPersonalProfile=()=>{
+		dispatch(loginCompanyPage(false));
+		dispatch(loginPersonalPage(true));
+	}
 
 	return(
 		<Container style={{backgroundColor:color}}>
@@ -145,10 +172,28 @@ const NavBar=(pageProps)=>{
 
 			<ul style={{position:"fixed",left:"39%",top:"7%"}}>
 				<li style={ButtonsListCSS}>
-					<NavBarButton to={{
-							pathname:"/profile",
+					{personalProfileState.loggedIn==true?
+							<NavBarButton to={{
+								pathname:"/profile",
+								state:{
+									personalId:personalProfileState.id
+								}
+							}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<AccountCircleIcon/>
+								</li>
+
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									Me
+								</li>
+
+							</ul>
+						</NavBarButton>:
+						<NavBarButton to={{
+							pathname:"/companyProfile",
 							state:{
-								personalId:id
+								personalId:companyProfileState.id
 							}
 						}}>
 						<ul style={{padding:"0px"}}>
@@ -162,6 +207,7 @@ const NavBar=(pageProps)=>{
 
 						</ul>
 					</NavBarButton>
+					}
 				</li>
 
 
@@ -196,7 +242,6 @@ const NavBar=(pageProps)=>{
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Explore
 							</li>
-
 						</ul>
 					</NavBarButton>
 				</li>
@@ -204,48 +249,50 @@ const NavBar=(pageProps)=>{
 
 		
 			<ul style={{position:"fixed",left:"80%",top:"2%"}}>
-				<li style={ProfileDropDownListCSS}>
-					<Dropdown>
-						  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
-				 		  
-						  </Dropdown.Toggle>
+				{personalProfileState.loggedIn==true || displayPersonalProfileIcon==true?
+					<li style={ProfileDropDownListCSS} onClick={()=>loginToPersonalProfile()}>
+						<Dropdown>
+							  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
+					 		  
+							  </Dropdown.Toggle>
 
-						  <Dropdown.Menu>
-							
-							<Dropdown.Item>
-						    	<PersonalProfileChatContainer onClick={()=>displayChatContainerForPersonalPage(pageProps)}/>
-						    </Dropdown.Item>
- 					
- 							<Dropdown.Item>
- 								<PersonalProfileNotificationsContainer/>
- 							</Dropdown.Item>
+							  <Dropdown.Menu>
+								
+								<Dropdown.Item>
+							    	<PersonalProfileChatContainer onClick={()=>displayChatContainerForPersonalPage(pageProps)}/>
+							    </Dropdown.Item>
+	 					
+	 							<Dropdown.Item>
+	 								<PersonalProfileNotificationsContainer/>
+	 							</Dropdown.Item>
+							  </Dropdown.Menu>
+						</Dropdown>
+					</li>:<React.Fragment></React.Fragment>
+				}
+	
+				{companyProfileState.loggenIn==true || displayCompanyProfileIcon==true?
+					<li style={ProfileDropDownListCSS} onClick={()=>logInToCompanyProfile()}>
+						<Dropdown>
+							  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
+							   
+							  </Dropdown.Toggle>
 
-						  </Dropdown.Menu>
+							  <Dropdown.Menu>
 
-					</Dropdown>
+							  	<Dropdown.Item>
+									<CompanyProfileChatContainer onClick={()=>displayChatContainerForCompanyPage(pageProps)}/>
+								</Dropdown.Item>
 
-				</li>
-				<li style={ProfileDropDownListCSS}>
-					<Dropdown>
-						  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
-						   
-						  </Dropdown.Toggle>
+								<Dropdown.Item>
+									<CompanyProfileNotificationsContainer/>
+								</Dropdown.Item>
+							    
+							  </Dropdown.Menu>
 
-						  <Dropdown.Menu>
+						</Dropdown>
 
-						  	<Dropdown.Item>
-								<CompanyProfileChatContainer onClick={()=>displayChatContainerForCompanyPage(pageProps)}/>
-							</Dropdown.Item>
-
-							<Dropdown.Item>
-								<CompanyProfileNotificationsContainer/>
-							</Dropdown.Item>
-						    
-						  </Dropdown.Menu>
-
-					</Dropdown>
-
-				</li>
+					</li>:<React.Fragment></React.Fragment>
+				}
 
 			</ul>
 

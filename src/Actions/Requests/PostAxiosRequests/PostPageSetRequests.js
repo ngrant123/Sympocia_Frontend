@@ -1,14 +1,15 @@
 import axios from "axios";
 
 
-export const createRegularPost=async(userId,searchCriteria)=>{
+export const createRegularPost=async(userId,searchCriteria,profileIndicator)=>{
 	const CreateURl='http://localhost:4000/api/posts/alter';
 	try{
 		debugger;
 			console.log("Regular post creation api working");
 			const regularPostCreationVerification=await axios.post(`${CreateURl}/createRegularPost`,{
 														id:userId,
-														searchCriteria:searchCriteria
+														searchCriteria:searchCriteria,
+														profileIndicator:profileIndicator
 												});
 
 			const results=regularPostCreationVerification.data;
@@ -42,7 +43,7 @@ export const createImagePost=async(_id,searchCriteria,profileIndicator)=>{
 	}
 }
 
-export const createVideoPost=async(_id,searchCriteria)=>{
+export const createVideoPost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
 		debugger;
 		console.log(_id);
@@ -50,7 +51,8 @@ export const createVideoPost=async(_id,searchCriteria)=>{
 		const CreateURl='http://localhost:4000/api/posts/alter';
 		const videoPost=await axios.post(`${CreateURl}/createVideoPost`,{
 			_id:_id,
-			searchCriteria:searchCriteria
+			searchCriteria:searchCriteria,
+			profileIndicator:profileIndicator
 		})
 
 		console.log(videoPost);
@@ -65,7 +67,7 @@ export const createVideoPost=async(_id,searchCriteria)=>{
 }
 
 
-export const createBlogPost=async(_id,searchCriteria)=>{
+export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
 		debugger;
 		console.log(_id);
@@ -73,7 +75,8 @@ export const createBlogPost=async(_id,searchCriteria)=>{
 		const CreateURl='http://localhost:4000/api/posts/alter';
 		const blogPost=await axios.post(`${CreateURl}/createBlogPost`,{
 			_id:_id,
-			searchCriteria:searchCriteria
+			searchCriteria:searchCriteria,
+			profileIndicator:profileIndicator
 		})
 
 		console.log(blogPost);

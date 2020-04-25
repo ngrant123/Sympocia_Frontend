@@ -61,6 +61,12 @@ const firstTimeUsage=(firstTime)=>{
 	}
 }
 
+const loginPersonalPage=(loginIndicator)=>{
+	return{
+		type:'LOGIN_PERSONAL_PAGE',
+		payload:loginIndicator
+	}
+}
 
 module.exports={
 	addName,
@@ -69,5 +75,6 @@ module.exports={
 	addPersonalIdentificationId,
 	addSignInStatus,
 	addPaymentPlan,
-	firstTimeUsage
+	firstTimeUsage,
+	loginPersonalPage
 }

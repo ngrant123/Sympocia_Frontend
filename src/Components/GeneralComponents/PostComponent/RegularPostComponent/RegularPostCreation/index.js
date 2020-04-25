@@ -475,7 +475,7 @@ const Photo=styled.div`
 
 
 
-	const sendRegularPost=async(userId)=>{
+	const sendRegularPost=async(userId,profilePostType)=>{
 		console.log("Teste");
 		console.log(userId);
 		debugger;
@@ -513,7 +513,7 @@ const Photo=styled.div`
 		}
 
 		const {id}=personalInformation;
-		const confirmationSuccess=await createRegularPost(userId,searchCriteriaObject);
+		const confirmationSuccess=await createRegularPost(userId,searchCriteriaObject,profilePostType);
 		
 	}
 
@@ -756,7 +756,7 @@ const Photo=styled.div`
 
 								<li style={{listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",padding:"10px",textAlign:"center",fontSize:"15px",borderRadius:"5px",marginLeft:"80%"}}>
 									
-									<ul onClick={()=>sendRegularPost(userInformation.userProfileId)} style={{padding:"0px"}}>
+									<ul onClick={()=>sendRegularPost(userInformation.userProfileId,userInformation.profileType)} style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 											<SendIcon
 												style={{fontSize:20,color:"white"}}

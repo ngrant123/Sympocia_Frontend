@@ -340,7 +340,7 @@ class Payment extends Component {
 					<PaymentDetails>
 						<p><b>Step 1: Enter you Account Number and Account Date</b></p>
 					</PaymentDetails>
-
+						
 					<Bankcontainer>
 
 						<GoodThru> 

@@ -11,7 +11,8 @@ import {
 	addName,
 	addLastName,
 	addEmail,
-	addPersonalIdentificationId
+	addPersonalIdentificationId,
+	loginPersonalPage
 } from "../../../Actions/Redux/Actions/PersonalProfile.js";
 import {
 	createProfile
@@ -639,7 +640,8 @@ class LSignupPage extends Component {
 			this.props.addFirstName(this.props.firstName);
 			this.props.addLastName(this.props.lastName);
 			this.props.addEmail(this.props.email);
-
+			console.log(this.props);
+			debugger;
 			const profileCreationId=await createProfile({
 				firstName:this.props.firstName,
 				lastName:this.props.lastName,
@@ -648,6 +650,8 @@ class LSignupPage extends Component {
 			});
 
 			this.props.addPersonalIdentificationId(profileCreationId);
+			this.props.loginPersonalPage(true);
+
 			this.setState({
 				displayPersonalSetupPage:true,
 				hideInitialScreen:true
@@ -689,7 +693,7 @@ class LSignupPage extends Component {
 
 
 
-handleCreateInvestorProfileClick=(e)=>{
+handleCreateInvestorProfileClick=async(e)=>{
 
 			this.props.addFirstName(this.props.firstName);
 			this.props.addLastName(this.props.lastName);
@@ -698,8 +702,8 @@ handleCreateInvestorProfileClick=(e)=>{
 			const locationObject={long:this.state.long,lat:this.state.lat};
 			const industries=this.state.selectedIndustries;
 			const isInvestor=true;
-
-			createProfile({
+			debugger;
+			const profileId=await createProfile({
 				firstName:this.props.firstName,
 				lastName:this.props.lastName,
 				email:this.props.email,
@@ -707,6 +711,8 @@ handleCreateInvestorProfileClick=(e)=>{
 				industries:industries,
 				location:locationObject
 			});
+			this.props.addPersonalIdentificationId(profileId);
+			this.props.loginPersonalPage(true);
 }
 
 handleNextPageClick=(e)=>{
@@ -738,11 +744,9 @@ addIndustry=(props)=>{
 	}else{
 		currentSelectedIndustries.push(props);
 	}
-	
 	this.setState({
 		selectedIndustries:currentSelectedIndustries
 	})
-
 }
 
 
@@ -920,7 +924,8 @@ const mapDispatchToProps=dispatch=>{
 		addFirstName:(firstName)=>dispatch(addName(firstName)),
 		addLastName:(lastName)=>dispatch(addLastName(lastName)),
 		addEmail:(email)=>dispatch(addEmail(email)),
-		addPersonalIdentificationId:(id)=>dispatch(addPersonalIdentificationId(id))
+		addPersonalIdentificationId:(id)=>dispatch(addPersonalIdentificationId(id)),
+		loginPersonalPage:(loginIndicator)=>dispatch(loginPersonalPage(loginIndicator))
 	}
 }
 
