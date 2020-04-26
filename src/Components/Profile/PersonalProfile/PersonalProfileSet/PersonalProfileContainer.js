@@ -24,7 +24,7 @@ import { Player } from 'video-react';
 import PersonalPostsIndex from "../PersonalProfileSubset/PersonalPosts/index.js";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'
-import { useParams } from "react-router";
+import { withRouter } from "react-router-dom";
 
 const Container=styled.div`
 
@@ -283,20 +283,24 @@ class LProfile extends Component{
 
 	}
 
+	/*
+	
+
+	*/
+
 
 	async componentDidMount(){
 		debugger;
-		const {_id}=this.props;
-		const testData=useParams();
+		const {id}=this.props.match.params;
 		const firstTimeIndicator=this.props.firstTimeIndicator;
 
 		if(firstTimeIndicator==true){
 			//Start tutorial mode
 
 		 }else{
-				if(_id==this.props.personalId){
+				if(id==this.props.personalId){
 					debugger;
-					const profile=await getProfile(this.props._id);
+					const profile=await getProfile(this.props.personalId);
 
 					this.setState(prevState=>({
 						...prevState,
@@ -306,7 +310,7 @@ class LProfile extends Component{
 					}));
 				}
 				else{
-					const profile=await getProfile(_id);
+					const profile=await getProfile(id);
 
 					this.setState(prevState=>({
 						...prevState,
@@ -637,6 +641,6 @@ const mapStateToProps=(state)=>{
 	}
 }
 
-export default connect(
+export default withRouter(connect(
 	mapStateToProps,
-	null)(LProfile);
+	null)(LProfile));

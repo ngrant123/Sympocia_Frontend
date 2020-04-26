@@ -129,7 +129,6 @@ class CoverPhoto extends Component{
 			<CompanyConsumer>
 				{companyInformation=>{
 					return <Container>
-								{/*
 
 									<NaveBarContainer>
 										{companyInformation.state.isOwnProfile==true?
@@ -144,7 +143,6 @@ class CoverPhoto extends Component{
 											<SocialMedia/>
 										</SocialMediaContainer>
 									</NaveBarContainer>
-								*/}
 
 								{/*
 									Could prevent images of a certain size from being uploaded

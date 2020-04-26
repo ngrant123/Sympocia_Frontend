@@ -78,6 +78,7 @@ class VideoPostsContainer extends Component{
 			})
 		}else{	
 			const {headerVideo,videoPosts}=await getCompanyVideos(this.props.id);
+			debugger;
 			this.setState({
 				headerVideo:headerVideo,
 				videos:videoPosts,

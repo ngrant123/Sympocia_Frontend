@@ -663,13 +663,39 @@ class LProfile extends Component{
 	}
 
 	async componentDidMount(){
-		const companyProfile=await getCompanyInformation('5e9feedd05d39681c255f908');
-		console.log(companyProfile);
-		this.setState({
-				isLoading:false,
-				userProfile:companyProfile
-			});
-		window.addEventListener('scroll',this.ScrollFunction);
+
+		debugger;
+		const {id}=this.props.match.params;
+		const firstTimeIndicator=this.props.firstTimeIndicator;
+
+		if(firstTimeIndicator==true){
+			//Start tutorial mode
+
+		 }else{
+				if(id==this.props.companyPersonalId){
+					debugger;
+					const profile=await getCompanyInformation(this.props.companyPersonalId);
+
+					this.setState({
+						isLoading:false,
+						userProfile:profile,
+						isOwnProfile:true
+					});
+
+					window.addEventListener('scroll',this.ScrollFunction);
+				}
+				else{
+					const profile=await getCompanyInformation(id);
+
+					this.setState(prevState=>({
+						...prevState,
+						isLoading:false,
+						userProfile:profile,
+						isOwnProfile:false
+					}));
+			}	
+		}
+
 	}
 
 	displaytoplevelnewsprofile=()=>{
@@ -798,7 +824,7 @@ const mapStateToProps=(state)=>{
 	return{
 		companyInformation:state.companyInformation,
 		companyEmployees:state.companyEmployeeInformation,
-		id:state.companyInformation.id
+		companyPersonalId:state.companyInformation.id
 	}
 }
 

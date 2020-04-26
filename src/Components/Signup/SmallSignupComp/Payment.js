@@ -7,8 +7,10 @@ import {
 import {connect} from 'react-redux';
 import {
 	addCompanyId,
-	updatefirstTimeUsage
+	updatefirstTimeUsage,
+	loginCompanyPage
 } from "../../../Actions/Redux/Actions/CompanyActions.js";
+import {loginPersonalPage} from "../../../Actions/Redux/Actions/PersonalProfile.js";
 
 
 const Container= styled.div`
@@ -310,6 +312,8 @@ class Payment extends Component {
 			const {_id}=await createCompanyProfile(personalData);
 			this.props.addCompanyId(_id);
 			this.props.updatefirstTimeUsage(true);
+			this.props.loginCompanyPage(true);
+			this.props.loginPersonalPage(false);
 
 			///Implement strip api on frontend
 			//console.log(createProfile(personalData));
@@ -402,7 +406,10 @@ const mapDispatchToProps =(dispatch)=>{
 
 	return{
 			addCompanyId:(companyId)=>dispatch(addCompanyId(companyId)),
-			updatefirstTimeUsage:(indicator)=>dispatch(updatefirstTimeUsage(indicator))
+			updatefirstTimeUsage:(indicator)=>dispatch(updatefirstTimeUsage(indicator)),
+			loginCompanyPage:(loginIndicator)=>dispatch(loginCompanyPage(loginIndicator)),
+			loginPersonalPage:(loginIndicator)=>dispatch(loginPersonalPage(loginIndicator))
+
 	}
 }
 

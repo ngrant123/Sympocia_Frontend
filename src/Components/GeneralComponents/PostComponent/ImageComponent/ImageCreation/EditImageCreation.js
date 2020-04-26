@@ -119,7 +119,12 @@ class EditImageCreation extends Component{
 			description:descriptionTextArea,
 			caption:captionTextArea
 		}
-		createImagePost(this.props._id,searchCriteriaObject,profilePostType);
+
+		if(profilePostType=="Company"){
+			createImagePost(this.props.companyProfileId,searchCriteriaObject,profilePostType);
+		}
+		else
+			createImagePost(this.props.personalProfileId,searchCriteriaObject,profilePostType);
 	}
 
 	alterSelectedIndustry=(selectedIndustries)=>{
@@ -194,7 +199,8 @@ class EditImageCreation extends Component{
 
 const mapStateToProps=state=>{
 	return{
-		_id:state.personalInformation.id
+		personalProfileId:state.personalInformation.id,
+		companyProfileId:state.companyInformation.id
 	}
 }
 

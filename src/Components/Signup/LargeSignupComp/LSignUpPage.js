@@ -18,6 +18,7 @@ import {
 	createProfile
 } from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import ReactMapGL ,{Marker,Popup } from 'react-map-gl';
+import {loginCompanyPage} from "../../../Actions/Redux/Actions/CompanyActions.js";
 
 const BodyContainer= styled.div`
 
@@ -651,6 +652,8 @@ class LSignupPage extends Component {
 
 			this.props.addPersonalIdentificationId(profileCreationId);
 			this.props.loginPersonalPage(true);
+			this.props.loginCompanyPage(false);
+
 
 			this.setState({
 				displayPersonalSetupPage:true,
@@ -713,6 +716,7 @@ handleCreateInvestorProfileClick=async(e)=>{
 			});
 			this.props.addPersonalIdentificationId(profileId);
 			this.props.loginPersonalPage(true);
+			this.props.loginCompanyPage(false);
 }
 
 handleNextPageClick=(e)=>{
@@ -925,7 +929,8 @@ const mapDispatchToProps=dispatch=>{
 		addLastName:(lastName)=>dispatch(addLastName(lastName)),
 		addEmail:(email)=>dispatch(addEmail(email)),
 		addPersonalIdentificationId:(id)=>dispatch(addPersonalIdentificationId(id)),
-		loginPersonalPage:(loginIndicator)=>dispatch(loginPersonalPage(loginIndicator))
+		loginPersonalPage:(loginIndicator)=>dispatch(loginPersonalPage(loginIndicator)),
+		loginCompanyPage:(loginIndicator)=>dispatch(loginCompanyPage(loginIndicator))
 	}
 }
 

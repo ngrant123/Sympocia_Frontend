@@ -144,7 +144,11 @@ class BlogEditSubmitModal extends Component{
 			imgUrl:this.state.pictureUrl
 		}
 
-		const blogPostResponse=await createBlogPost(this.props._id,blogPostSendObject,profilePostType);
+			if(profilePostType=="Company"){
+			createBlogPost(this.props.companyProfileId,blogPostSendObject,profilePostType);
+		}
+		else
+			createBlogPost(this.props.personalProfileId,blogPostSendObject,profilePostType);
 	}
 
 	render(){
@@ -255,7 +259,8 @@ class BlogEditSubmitModal extends Component{
 
 const mapStateToProps=state=>{
 	return{
-		_id:state.personalInformation.id
+		personalProfileId:state.personalInformation.id,
+		companyProfileId:state.companyInformation.id
 	}
 }
 

@@ -119,7 +119,12 @@ class EditVideoModal extends Component{
 			industryArray:searchCriteriaIndustryArray,
 			videoSrc:this.props.videoSrc
 		}
-		createVideoPost(this.props._id,searchVideoResult,profilePostType);
+		
+		if(profilePostType=="Company"){
+			createVideoPost(this.props.companyProfileId,searchVideoResult,profilePostType);
+		}
+		else
+			createVideoPost(this.props.personalProfileId,searchVideoResult,profilePostType);
 	}
 
 	render(){
@@ -238,7 +243,8 @@ class EditVideoModal extends Component{
 
 const mapStateToProps=state=>{
 	return{
-		_id:state.personalInformation.id
+		personalProfileId:state.personalInformation.id,
+		companyProfileId:state.companyInformation.id
 	}
 }
 

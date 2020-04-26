@@ -12,6 +12,9 @@ import {
 	loginCompanyPage
 } from "../../../Actions/Redux/Actions/CompanyActions.js";
 
+
+import {loginPersonalPage} from "../../../Actions/Redux/Actions/PersonalProfile.js";
+
 const Payment1 = styled.div`
 
 	position:relative;
@@ -198,8 +201,9 @@ class PaymentOption extends Component {
 
 	}
 
-	handleOnClick=async()=>{
+	handleOnClick=async(e)=>{
 		//Fix later 
+		debugger;
 		document.getElementById(this.state.id+"container").style.borderStyle="solid";
 		document.getElementById(this.state.id+"container").style.borderRadius="5px";
 		document.getElementById(this.state.id+"container").style.borderColor=" #C8B0F4";
@@ -217,14 +221,18 @@ class PaymentOption extends Component {
 			}
 
 			//createProfile(PersonalProfile);
+			debugger;
 			const {_id}=await createCompanyProfile(CompanyProfile);
 			this.props.addCompanyId(_id);
 			this.props.updatefirstTimeUsage(true);
-			this.props.loginIndicator(true);
-
+			this.props.loginCompanyPage(true);
+			this.props.loginPersonalPage(false);
 		}
-		else
+		else{
+			debugger;
+			e.preventDefault();
 			this.props.handleDisplayPaymentScreen();
+		}
 		
 	}
 
@@ -255,8 +263,7 @@ class PaymentOption extends Component {
 
 							</ul>
 						 </P1SecondDescription>
-						{this.handleDisplayOrDontDisplayHomePage()}
-
+						<RedirectToHomePageButton to="/home" onMouseOver= {()=> this.handleHoverIn()} onMouseOut={()=> this.handleHoverOut()} onClick={e=> this.handleOnClick(e)}> Choose Free </RedirectToHomePageButton>
 					</Payment1>	
 		)
 	}
@@ -280,7 +287,8 @@ const mapDispatchToProps=dispatch=>{
 		addCompanyId:(companyId)=>dispatch(addCompanyId(companyId)),
 		addPaymentPlan:(pricedescription)=>dispatch(addPaymentPlan(pricedescription)),
 		updatefirstTimeUsage:(indicator)=>dispatch(updatefirstTimeUsage(indicator)),
-		loginCompanyPage:(loginIndicator)=>dispatch(loginCompanyPage(loginIndicator))
+		loginCompanyPage:(loginIndicator)=>dispatch(loginCompanyPage(loginIndicator)),
+		loginPersonalPage:(loginIndicator)=>dispatch(loginPersonalPage(loginIndicator))
 	}
 }
 

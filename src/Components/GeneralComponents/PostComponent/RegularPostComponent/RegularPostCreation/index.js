@@ -18,6 +18,7 @@ import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConsta
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 import {PostConsumer} from "../../PostContext.js";
 import IndustryPostOptions from "../../IndustryPostOptions.js";
+import {connect} from "react-redux";
 
 const Container = styled.div`
 	position:relative;
@@ -475,9 +476,8 @@ const Photo=styled.div`
 
 
 
-	const sendRegularPost=async(userId,profilePostType)=>{
+	const sendRegularPost=async(profilePostType)=>{
 		console.log("Teste");
-		console.log(userId);
 		debugger;
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const searchCriteriaIndustryArray=[];
@@ -513,8 +513,12 @@ const Photo=styled.div`
 		}
 
 		const {id}=personalInformation;
-		const confirmationSuccess=await createRegularPost(userId,searchCriteriaObject,profilePostType);
 		
+		if(profilePostType=="Company"){
+			createRegularPost(this.props.companyProfileId,searchCriteriaObject,profilePostType);
+		}
+		else
+			createRegularPost(this.props.personalProfileId,searchCriteriaObject,profilePostType);
 	}
 
 
@@ -779,5 +783,22 @@ const Photo=styled.div`
 			)
 		}
 
-export default RegularPostCreation;
+const mapStateToProps=state=>{
+	return{
+		personalProfileId:state.personalInformation.id,
+		companyProfileId:state.companyInformation.id
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	null
+)(RegularPostCreation);
+
+
+
+
+
+
+
 

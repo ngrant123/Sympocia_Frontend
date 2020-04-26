@@ -33,7 +33,7 @@ const store=createStore(
 	enhancers
 );
 
-store.subscribe(throttle(() => {
+store.subscribe(throttle(() =>{
   saveState(store.getState());
 }, 1000));
 
@@ -44,19 +44,17 @@ const application  = (
 			<Switch>
 	
 	//Use exact path when you have similar paths because the computer actually connects to the first path
-				<Route path="/companyProfile/:id" component = {CompanyProfileScreen} />
-				<Route exact path="/profile" component={PersonalProfileScreen}>
-					<Route path="/:id" component={PersonalProfileScreen}/>
-				</Route>
-				<Route exact path="/" component= {Landing}/>
-				<Route path="/playList" component={PlayList}/>
-				<Route path="/signup" component={Signup}/>
-				<Route path="/home" component= {HomeScreen}/>
-				<Route path="/investor" component= {InvestorScreen} />
-				<Route path="/map" component= {MapScreen} />
+				<Route exact path="/profile/:id" component={PersonalProfileScreen}/>
+				<Route exact path="/companyProfile/:id" component = {CompanyProfileScreen} />
+				<Route exact exact path="/" component= {Landing}/>
+				<Route exact path="/playList" component={PlayList}/>
+				<Route exact path="/signup" component={Signup}/>
+				<Route exact path="/home" component= {HomeScreen}/>
+				<Route exact path="/investor" component= {InvestorScreen} />
+				<Route exact path="/map" component= {MapScreen} />
 				//TEST
-				<Route path="/demo" component={Demo}/>
-				<Route Path="/blog" component={BlogPostCreation}/>
+				<Route exact path="/demo" component={Demo}/>
+				<Route exact path="/blog" component={BlogPostCreation}/>
 
 			</Switch>
 		</Router>

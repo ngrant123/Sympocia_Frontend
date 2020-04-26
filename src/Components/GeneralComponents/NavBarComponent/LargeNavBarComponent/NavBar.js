@@ -125,7 +125,6 @@ const NavBarButton=styled(Link)`
 
 
 const NavBar=(pageProps)=>{
-	debugger;
 	const dispatch=useDispatch();
 
 	const {color}=pageProps;
@@ -169,13 +168,8 @@ const NavBar=(pageProps)=>{
 
 			<ul style={{position:"fixed",left:"39%",top:"7%"}}>
 				<li style={ButtonsListCSS}>
-					{personalProfileState.loggdIn==true?
-							<NavBarButton to={{
-								pathname:`/profile/${personalProfileState.id}`,
-								search:{
-									personalId:personalProfileState.id
-								}
-							}}>
+					{personalProfileState.loggedIn==true?
+							<NavBarButton to={`/profile/${personalProfileState.id}`}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<AccountCircleIcon/>
@@ -187,12 +181,7 @@ const NavBar=(pageProps)=>{
 
 							</ul>
 						</NavBarButton>:
-						<NavBarButton to={{
-							pathname:"/companyProfile",
-							state:{
-								personalId:companyProfileState.id
-							}
-						}}>
+						<NavBarButton to={`/companyProfile/${companyProfileState.id}`}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<AccountCircleIcon/>

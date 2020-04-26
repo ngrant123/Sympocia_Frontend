@@ -74,37 +74,39 @@ class PostComp extends Component{
 		return(
 
 			<React.Fragment>
+				{/*
+					<ul style={{position:"absolute",width:"90%",top:"-10%"}}>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
+							<div class="dropdown" style={{height:"4%",top:"-10%",zIndex:"6"}}>
+									    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
+									    	<span class="caret"></span>
+									    </button>
+									    <ul class="dropdown-menu">
+											{this.state.industries.map(data=>
+												 <li onClick={()=>this.handleChange(data.id)} id={data.id}><a href="#">{data.industry}</a></li>
+											)}
+									    </ul>
+			  				 </div>
+			  			</li>
 
-				<ul style={{position:"absolute",width:"90%",top:"-10%"}}>
-					<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
-						<div class="dropdown" style={{height:"4%",top:"-10%",zIndex:"6"}}>
-								    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
-								    	<span class="caret"></span>
-								    </button>
-								    <ul class="dropdown-menu">
-										{this.state.industries.map(data=>
-											 <li onClick={()=>this.handleChange(data.id)} id={data.id}><a href="#">{data.industry}</a></li>
-										)}
-								    </ul>
-		  				 </div>
-		  			</li>
+			  			<li style={{listStyle:"none",display:"inline-block"}}>
 
-		  			<li style={{listStyle:"none",display:"inline-block"}}>
+			  				 <div class="dropdown" style={{ height:"4%",zIndex:"2"}}>
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Order By
+									    <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+									    <li><a href="#">Fashion</a></li>
+									    <li><a href="#">Health</a></li>
+									    <li><a href="#">Consulting</a></li>
+									</ul>
+			  				 </div>
 
-		  				 <div class="dropdown" style={{ height:"4%",zIndex:"2"}}>
-								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Order By
-								    <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-								    <li><a href="#">Fashion</a></li>
-								    <li><a href="#">Health</a></li>
-								    <li><a href="#">Consulting</a></li>
-								</ul>
-		  				 </div>
+		  				</li>
 
-	  				</li>
+		  			</ul>
 
-	  			</ul>
+				*/}
 
 			</React.Fragment>
 		)

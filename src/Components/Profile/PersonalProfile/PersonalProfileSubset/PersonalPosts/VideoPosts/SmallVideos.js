@@ -83,7 +83,8 @@ const SmallVideoContainer=(videoData)=>{
 												</li>
 
 												<li style={{listStyle:"none"}}>
-													{personalInformation.userProfile.firstName}
+
+													{/*{personalInformation.userProfile.firstName}*/}
 												</li>
 
 												<li style={{listStyle:"none"}}>
