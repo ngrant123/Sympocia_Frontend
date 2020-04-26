@@ -77,8 +77,6 @@ const PersonalProfileNotificationsContainer=styled.div`
 
 		box-shadow: 5px 5px 10px 	#9395a0;
 	}
-
-
 `;
 
 const CompanyProfileChatContainer=styled.div`
@@ -128,10 +126,11 @@ const NavBarButton=styled(Link)`
 
 const NavBar=(pageProps)=>{
 	debugger;
+	const dispatch=useDispatch();
+
 	const {color}=pageProps;
 	const personalProfileState=useSelector(state=>state.personalInformation);
 	const companyProfileState=useSelector(state=>state.companyInformation);
-	const dispatch=useDispatch();
 	const [displayPersonalProfileIcon,changeDisplayPersonalProfileIcon]=useState(false);
 	const [displayCompanyProfileIcon,changeDisplayCompanyProfileIcon]=useState(false);
 
@@ -146,13 +145,11 @@ const NavBar=(pageProps)=>{
 
 
 	const displayChatContainerForPersonalPage=(pageProps)=>{
-
 			pageProps.displayChatPage("personal");
-		}
+	}
 
 	const displayChatContainerForCompanyPage=(pageProps)=>{
 			pageProps.displayChatPage("company");
-
 	}
 
 	const logInToCompanyProfile=()=>{
@@ -172,10 +169,10 @@ const NavBar=(pageProps)=>{
 
 			<ul style={{position:"fixed",left:"39%",top:"7%"}}>
 				<li style={ButtonsListCSS}>
-					{personalProfileState.loggedIn==true?
+					{personalProfileState.loggdIn==true?
 							<NavBarButton to={{
-								pathname:"/profile",
-								state:{
+								pathname:`/profile/${personalProfileState.id}`,
+								search:{
 									personalId:personalProfileState.id
 								}
 							}}>

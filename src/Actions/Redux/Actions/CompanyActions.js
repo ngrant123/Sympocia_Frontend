@@ -76,6 +76,14 @@ const addPaymentPlan=(paymentPlan)=>{
 }
 
 
+const loginCompanyPage=(loginIndicator)=>{
+	return{
+		type:'LOGIN_COMPANY_PAGE',
+		payload:loginIndicator
+	}
+}
+
+
 module.exports={
 	addCompanyName,
 	addCompanyType,
@@ -85,5 +93,6 @@ module.exports={
 	addCompanyCoverPhoto,
 	addCompanyId,
 	updatefirstTimeUsage,
-	addPaymentPlan
+	addPaymentPlan,
+	loginCompanyPage
 }

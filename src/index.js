@@ -44,13 +44,14 @@ const application  = (
 			<Switch>
 	
 	//Use exact path when you have similar paths because the computer actually connects to the first path
-
+				<Route path="/companyProfile/:id" component = {CompanyProfileScreen} />
+				<Route exact path="/profile" component={PersonalProfileScreen}>
+					<Route path="/:id" component={PersonalProfileScreen}/>
+				</Route>
 				<Route exact path="/" component= {Landing}/>
 				<Route path="/playList" component={PlayList}/>
 				<Route path="/signup" component={Signup}/>
 				<Route path="/home" component= {HomeScreen}/>
-				<Route path="/companyProfile" component = {CompanyProfileScreen} />
-				<Route path="/profile" component={PersonalProfileScreen}/>
 				<Route path="/investor" component= {InvestorScreen} />
 				<Route path="/map" component= {MapScreen} />
 				//TEST

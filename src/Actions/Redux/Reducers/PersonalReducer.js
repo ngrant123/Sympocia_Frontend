@@ -15,7 +15,7 @@ const initialState={
 const PersonalProfile=(state={initialState},action)=>{
 
 	const { type, payload }=action;
-	
+	debugger;
 	switch(type){
 
 		case 'ADD_EMAIL':

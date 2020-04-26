@@ -24,6 +24,7 @@ import { Player } from 'video-react';
 import PersonalPostsIndex from "../PersonalProfileSubset/PersonalPosts/index.js";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'
+import { useParams } from "react-router";
 
 const Container=styled.div`
 
@@ -284,15 +285,16 @@ class LProfile extends Component{
 
 
 	async componentDidMount(){
-
+		debugger;
 		const {_id}=this.props;
+		const testData=useParams();
 		const firstTimeIndicator=this.props.firstTimeIndicator;
 
 		if(firstTimeIndicator==true){
 			//Start tutorial mode
 
 		 }else{
-				if(_id==this.props._id){
+				if(_id==this.props.personalId){
 					debugger;
 					const profile=await getProfile(this.props._id);
 
@@ -631,7 +633,7 @@ class LProfile extends Component{
 
 const mapStateToProps=(state)=>{
 	return{
-		_id:state.personalInformation.id
+		personalId:state.personalInformation.id
 	}
 }
 
