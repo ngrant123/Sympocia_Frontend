@@ -92,6 +92,7 @@ class BlogsPostsContainer extends Component{
 	}
 
 	constructName=(personalInformation)=>{
+		debugger;
 		const firstName=personalInformation.userProfile.firstName;
 		const lastName=personalInformation.userProfile.lastName;
 		const fullName=firstName+" "+lastName
@@ -205,10 +206,11 @@ class BlogsPostsContainer extends Component{
 																			<li style={{listStyle:"none",fontSize:"15px"}}>
 																				<b> {data.title} </b>
 																			</li>
-
-																			<li style={{listStyle:"none"}}>
-																				{this.constructName(personalInformation)}
-																			</li>
+																			{/*
+																				<li style={{listStyle:"none"}}>
+																					{this.constructName(personalInformation)}
+																				</li>
+																			*/}
 
 																			<li style={{listStyle:"none"}}>
 																				<ul style={{padding:"0px"}}>

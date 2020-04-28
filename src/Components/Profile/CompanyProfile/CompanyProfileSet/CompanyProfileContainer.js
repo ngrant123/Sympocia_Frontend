@@ -682,7 +682,7 @@ class LProfile extends Component{
 						isOwnProfile:true
 					});
 
-					window.addEventListener('scroll',this.ScrollFunction);
+					//window.addEventListener('scroll',this.ScrollFunction);
 				}
 				else{
 					const profile=await getCompanyInformation(id);

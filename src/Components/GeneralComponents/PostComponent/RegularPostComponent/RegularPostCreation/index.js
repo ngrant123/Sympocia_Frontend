@@ -477,7 +477,7 @@ const Photo=styled.div`
 
 
 	const sendRegularPost=async(profilePostType)=>{
-		console.log("Teste");
+		console.log("REgular Post test");
 		debugger;
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const searchCriteriaIndustryArray=[];
@@ -513,12 +513,12 @@ const Photo=styled.div`
 		}
 
 		const {id}=personalInformation;
-		
+		debugger;
 		if(profilePostType=="Company"){
-			createRegularPost(this.props.companyProfileId,searchCriteriaObject,profilePostType);
+			createRegularPost(props.companyProfileId,searchCriteriaObject,profilePostType);
+		}else{
+			createRegularPost(props.personalProfileId,searchCriteriaObject,profilePostType);
 		}
-		else
-			createRegularPost(this.props.personalProfileId,searchCriteriaObject,profilePostType);
 	}
 
 
@@ -760,7 +760,7 @@ const Photo=styled.div`
 
 								<li style={{listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",padding:"10px",textAlign:"center",fontSize:"15px",borderRadius:"5px",marginLeft:"80%"}}>
 									
-									<ul onClick={()=>sendRegularPost(userInformation.userProfileId,userInformation.profileType)} style={{padding:"0px"}}>
+									<ul onClick={()=>sendRegularPost(userInformation.profileType)} style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 											<SendIcon
 												style={{fontSize:20,color:"white"}}

@@ -19,7 +19,7 @@ const HeaderImage=styled.div`
 
 const ImagesContainer=styled.div`
 	position:relative;
-	width:320px;
+	width:280px;
 	height:230px;
 	border-radius:5px;
 	background-color:red;
@@ -27,7 +27,7 @@ const ImagesContainer=styled.div`
 
 const ShadowContainer= styled.div`
 	position:absolute;
-	width:320px;
+	width:280px;
 	height:230px;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
@@ -94,7 +94,7 @@ const ImagePostsModal=()=>{
 				<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"2%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
 					<ul style={{padding:"0px"}}>
 						{images.map(data=>
-							<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"2%"}}>
+							<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
 										<ShadowContainer/>

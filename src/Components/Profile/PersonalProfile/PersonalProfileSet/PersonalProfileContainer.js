@@ -290,7 +290,6 @@ class LProfile extends Component{
 
 
 	async componentDidMount(){
-		debugger;
 		const {id}=this.props.match.params;
 		const firstTimeIndicator=this.props.firstTimeIndicator;
 

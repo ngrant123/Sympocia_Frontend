@@ -45,6 +45,7 @@ class BlogPostCreation extends Component{
 	}
 
 	componentDidMount=()=>{
+		debugger;
 		this.setState({
 			userInformation:this.props.state
 		})

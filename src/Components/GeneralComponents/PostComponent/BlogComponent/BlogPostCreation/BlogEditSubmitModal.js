@@ -105,8 +105,7 @@ class BlogEditSubmitModal extends Component{
 		})
 	}
 
-	sendBlogDataToDB=async(blogPostInformation,profilePostType)=>{
-		debugger;
+	sendBlogDataToDB=(blogPostInformation,profilePostType)=>{
 		const {title,description}=this.state;
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const industries=this.state.industriesSelected;
@@ -143,21 +142,26 @@ class BlogEditSubmitModal extends Component{
 			blog:blogPostInformation.blogPostState,
 			imgUrl:this.state.pictureUrl
 		}
+		//Could do one of two things...pass in a prop that explains where to send it... or just check redux store and see which account if logged in 
+		//and take id from there
 
-			if(profilePostType=="Company"){
-			createBlogPost(this.props.companyProfileId,blogPostSendObject,profilePostType);
-		}
-		else
-			createBlogPost(this.props.personalProfileId,blogPostSendObject,profilePostType);
+			//Quick fix but this could be implemented in a better way
+
+			if(this.props.personalProfile.loggedIn==true){
+				createBlogPost(this.props.personalProfile.id,blogPostSendObject,"Personal");
+			}
+			else{
+				createBlogPost(this.props.companyProfile.id,blogPostSendObject,"Company");
+			}
 	}
 
 	render(){
 		return(
 			<BlogConsumer>
-				{blogPostInformation=>{
-					return <PostConsumer>
-								{profilePostInformation=>{
-									return <Container>	
+				{blogPostInformation=>(
+					 <PostConsumer>
+								{profilePostInformation=>(
+									  <Container>	
 												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:'none',marginLeft:"5%",marginTop:"5%"}}>
 														<ul style={{padding:"0px"}}>
@@ -228,7 +232,7 @@ class BlogEditSubmitModal extends Component{
 																		/>
 																	</li>
 																	<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-																				<ul onClick={()=>this.sendBlogDataToDB(blogPostInformation,profilePostInformation.profileType)}>
+																				<ul onClick={()=>this.sendBlogDataToDB(blogPostInformation,profilePostInformation)}>
 																					<li style={{listStyle:"none",display:"inline-block"}}>
 																						<SendIcon
 																							style={{fontSize:20,color:"white"}}
@@ -246,11 +250,9 @@ class BlogEditSubmitModal extends Component{
 													</li>
 												</ul>
 											</Container>
-								}}
-								
-							}
+								)}
 						</PostConsumer>
-				}}
+				)}
 			</BlogConsumer>
 		)
 	}
@@ -259,8 +261,8 @@ class BlogEditSubmitModal extends Component{
 
 const mapStateToProps=state=>{
 	return{
-		personalProfileId:state.personalInformation.id,
-		companyProfileId:state.companyInformation.id
+		personalProfile:state.personalInformation,
+		companyProfile:state.companyInformation
 	}
 }
 

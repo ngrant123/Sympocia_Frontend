@@ -11,16 +11,16 @@ const HeaderBlog=styled.div`
 
 const VideosContainer=styled.div`
 	position:relative;
-	width:300px;
-	height:250px;
+	width:280px;
+	height:230px;
 	border-radius:5px;
 	background-color:red;
 `;
 
 const ShadowContainer= styled.div`
 	position:absolute;
-	width:300px;
-	height:250px;
+	width:280px;
+	height:230px;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
 	z-index:1;
@@ -101,51 +101,52 @@ const BlogPostModal=()=>{
 				</li>
 
 				<li style={{width:"60%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",height:"80%",overflowY:"auto",marginBottom:"20%"}}>
-					<ul style={{padding:"0px"}}>
+					<ul style={{padding:"0px",backgroundColor:"yellow"}}>
 
 						{blogs.map(data=>
-							<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
+							<li style={{list0Style:"none",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
 								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%",backgroundColor:"yellow",marginRight:"2%"}}>
+									<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%",marginRight:"2%"}}>
 										<ShadowContainer/>
 										<VideosContainer/>
 									</li>
-									<li style={{position:"absolute",listStyle:"none",display:"inline-block",top:"0px",width:"75%"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",height:"170px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
-												<b>
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-													sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-													Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-													nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-													reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-													 pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-													qui officia deserunt mollit anim id est laborum.
-												</b>
+									<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
+										{/*
+											<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",height:"170px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
+														<b>
+															Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+															sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+															Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+															nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
+															reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+															pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa 
+															qui officia deserunt mollit anim id est laborum.
+														</b>
 
-											</li>
-											<li style={{listStyle:"none",position:"absolute"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block"}}>
+													</li>
+													<li style={{listStyle:"none"}}>
 														<ul style={{padding:"0px"}}>
 															<li style={{listStyle:"none",display:"inline-block"}}>
-																<ProfileImage>
-																</ProfileImage>
-															</li>
-															<li style={{listStyle:"none",display:"inline-block",color:"#A4A4A4",fontSize:"20px"}}>
-																Nathan
+																<ul style={{padding:"0px"}}>
+																	<li style={{listStyle:"none",display:"inline-block"}}>
+																		<ProfileImage>
+																		</ProfileImage>
+																	</li>
+																	<li style={{listStyle:"none",display:"inline-block",color:"#A4A4A4",fontSize:"20px"}}>
+																		Nathan
 
+																	</li>
+																</ul>
+															</li>
+															<li style={ImageLabelCSS}>
+																Engineering
 															</li>
 														</ul>
 													</li>
-													<li style={ImageLabelCSS}>
-														Engineering
-													</li>
 												</ul>
-
-											</li>
-
-										</ul>
+										*/}
+										TESting
 									</li>
 								</ul>
 							</li>

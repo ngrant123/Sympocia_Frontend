@@ -71,8 +71,8 @@ export async function getCompanyRegularPosts(companyId){
 		debugger;
 
 		const {data}=companyRegularPosts;
-		console.log(data.data)
-		return data.data;
+		const {regularPosts}=data.data;
+		return regularPosts;
 
 	}catch(err){
 			return err.message

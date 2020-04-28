@@ -201,7 +201,6 @@ const PersonalPostsIndex=(props)=>{
 
 		}else{
 
-
 			const regularPost=document.getElementById("regularPosts");
 			regularPost.style.color="#C8B0F4";
 			regularPost.style.borderBottom="solid";
@@ -231,7 +230,7 @@ const PersonalPostsIndex=(props)=>{
 			console.log("Tur");
 			props.displayShadowOverlay();
 		}
-		changeDisplayCreationPost(!displayCreationPost);
+		changeDisplayCreationPost(true);
 	}
 
 	const getAndDisplayVideos=()=>{
@@ -417,8 +416,6 @@ const PersonalPostsIndex=(props)=>{
 										}
 								</ul>
 							</PostProvider>
-
-
 						</React.Fragment>
 				}}
 			

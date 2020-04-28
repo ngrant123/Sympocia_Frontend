@@ -115,7 +115,7 @@ class RegularPostsContainer extends Component{
 					return <Container>
 							{this.state.isLoading==true?<p>We are currently getting posts</p>:
 								<React.Fragment>
-									{this.state.regularPosts.length==0?<NoPostsModal
+									{this.state.regularPosts.length==0 ||this.state.regularPosts==undefined?<NoPostsModal
 																		postType={"post"}
 																		profilePageType={this.props.profile}
 																	/>:
