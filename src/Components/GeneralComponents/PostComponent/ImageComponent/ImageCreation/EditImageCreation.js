@@ -6,8 +6,11 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {createImagePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {connect} from "react-redux";
 import IndustryPostOptions from "../../IndustryPostOptions.js";
-import {PostConsumer} from "../../PostContext.js";
+import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
+import {ImageConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/ImagePosts/ImagePostContext.js";
 
+import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
+import FilterImage from "./FilterImage.js";
 
 const Image=styled.div`
 	position:relative;
@@ -48,7 +51,8 @@ class EditImageCreation extends Component{
 			isImageDescriptionCleared:false,
 			industriesSelected:[],
 			subIndustriesSelectedDropDown:[],
-			subIndustriesSelected:[]
+			subIndustriesSelected:[],
+			displayFilterPictureModal:false
 		}
 	}
 
@@ -80,8 +84,11 @@ class EditImageCreation extends Component{
 		}
 	}
 
-	sendImageDateToDB=(profilePostType)=>{
+	sendImageDateToDB=(profilePostInformation,imageContextConsumer)=>{
 		debugger;
+		const profilePostType=profilePostInformation.profileType;
+		profilePostInformation.hideCreationPost();
+
 		console.log("Submit button clicked");
 		const industries=this.state.industriesSelected;
 		const selectedSubCommunities=this.state.subIndustriesSelected;
@@ -113,18 +120,36 @@ class EditImageCreation extends Component{
 			}
 				searchCriteriaIndustryArray.push(searchObject);
 		}
+		debugger;
 		const searchCriteriaObject={
 			imgUrl:imgUrl,
 			industryArray:searchCriteriaIndustryArray,
 			description:descriptionTextArea,
 			caption:captionTextArea
 		}
+		this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteriaObject);
 
-		if(profilePostType=="Company"){
-			createImagePost(this.props.companyProfileId,searchCriteriaObject,profilePostType);
+		/*
+		if(this.props.personalProfile.loggedIn==true){
+				createImagePost(this.props.personalProfileId,searchCriteriaObject,"Personal");
+			}
+		else{
+				createImagePost(this.props.companyProfileId,searchCriteriaObject,"Company");
+			}
+		*/
+	}
+
+	pushDummyImageObjectToProfile=(profilePostInformation,searchCriteriaObject)=>{
+		debugger;
+		const date=new Date();
+		const dateInMill=date.getTime();
+		const newImageObject={
+			...searchCriteriaObject,
+			industriesUploaded:searchCriteriaObject.industryArray,
+			comments:[],
+			datePosted:dateInMill
 		}
-		else
-			createImagePost(this.props.personalProfileId,searchCriteriaObject,profilePostType);
+		profilePostInformation.updateImagePost(newImageObject);
 	}
 
 	alterSelectedIndustry=(selectedIndustries)=>{
@@ -142,56 +167,85 @@ class EditImageCreation extends Component{
 	render(){
 		return(
 			<PostConsumer>
-				{profilePostInformation=>{
-					return <React.Fragment>
-								<ul style={{padding:"10px"}}>
-									<li style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
-										<Image>
-											<img src={this.state.imgUrl} style={{position:"relative",height:"100%",width:"100%"}}/>
-										</Image>
-									</li>
+				{profilePostInformation=>(
+						<ImageConsumer>
+							{imageContextConsumer=>(
+								<React.Fragment>
+									<ul style={{padding:"10px"}}>
+										<li style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
+											<Image>
+											<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"60%",padding:"15px"}}>
+													<li style={{listStyle:"none"}}>
+														<a href="javascript:;">
+															<HighlightOffIcon
+																style={{fontSize:30}}
+															/>
+														</a>
+													</li>
+													<li onClick={()=>this.setState({displayFilterPictureModal:true})} style={{listStyle:"none"}}>
+														<a href="javascript:;">
+															<FormatColorFillIcon
+																style={{fontSize:30}}
+															/>
+														</a>
+													</li>
 
-									<li style={{position:"absolute",listStyle:"none",display:"inline-block"}}>
-										<ul style={{padding:"0px",width:"300px"}}>
-											<IndustryPostOptions
-												alterSelectedIndustry={this.alterSelectedIndustry}
-												alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+												</ul>
+												<img src={this.state.imgUrl} style={{height:"100%",width:"100%"}}/>
+											</Image>
+										</li>
+
+										{this.state.displayFilterPictureModal==false?
+											<li style={{position:"absolute",listStyle:"none",display:"inline-block"}}>
+												<ul style={{padding:"0px",width:"300px"}}>
+													<IndustryPostOptions
+														alterSelectedIndustry={this.alterSelectedIndustry}
+														alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+													/>
+															
+
+													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
+																<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
+																				Writing a caption...
+																</ImageTextArea>
+
+													</li>
+
+													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
+																			<ImageTextArea id="descriptionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
+																				Write a title description...
+																			</ImageTextArea>
+
+													</li>
+
+													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+																		<ul onClick={()=>this.sendImageDateToDB(profilePostInformation,imageContextConsumer)}>
+																			<li style={{listStyle:"none",display:"inline-block"}}>
+																				<SendIcon
+																					style={{fontSize:20,color:"white"}}
+																				/>
+																			</li>
+
+																			<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																				Send
+																			</li>
+
+																		</ul>
+											 		</li>
+												</ul>
+											</li>:
+											<FilterImage
+												imgUrl={this.state.imgUrl}
 											/>
-													
-
-									<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
-												<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
-																Writing a caption...
-												</ImageTextArea>
-
-									</li>
-
-									<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
-															<ImageTextArea id="descriptionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
-																Write a title description...
-															</ImageTextArea>
-
-									</li>
-
-									<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-																<ul onClick={()=>this.sendImageDateToDB(profilePostInformation.profileType)}>
-																	<li style={{listStyle:"none",display:"inline-block"}}>
-																		<SendIcon
-																			style={{fontSize:20,color:"white"}}
-																		/>
-																	</li>
-
-																	<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																		Send
-																	</li>
-
-																</ul>
-									 </li>
-											</ul>
-									</li>
-								</ul>
-							</React.Fragment>
-					}}
+										}
+										
+									</ul>
+								</React.Fragment>
+							) 
+						}
+						</ImageConsumer>
+					)
+			}
 			</PostConsumer>
 		)
 	}

@@ -2,13 +2,14 @@ import React,{useState,useEffect,useContext} from "react";
 import styled from "styled-components";
 import {PostContext} from "./PostsContext.js";
 import {CompanyPostsContext} from "../../../CompanyProfile/CompanyPostsContext.js";
-import SympociaIcon from "../../../../../designs/img/SympociaIcon.jpg"
+import SympociaIcon from "../../../../../designs/img/SympociaIcon.jpg";
+import {useSelector} from "react-redux";
 
 const SympociaStampIconContainer=styled.div`
 	position:relative;
 	border-radius:50%;
 	width:65%;
-	height:35%;
+	height:40%;
 	background-color:red;
 `;
 
@@ -20,7 +21,7 @@ const CreatePostContainer=styled.div`
 	transition:.8s;
 	box-shadow:1px 1px 5px #9395a0;
 	padding-top:20px;
-	height:140%;
+	height:60%;
 
 	&:hover{
 		box-shadow:5px 5px 5px 5px #9395a0;
@@ -41,8 +42,8 @@ const RecommendedContainer=styled.div`
 
 const RecommendedImage=styled.div`
 	 position:relative;
-	 width:70px;
-	 height:70px;
+	 width:150px;
+	 height:120px;
 	 border-radius:5px;
 	 background-color:red;
 `;
@@ -91,7 +92,6 @@ const NoPostsModal=(props)=>{
 
 	const createPostModal=()=>{
 		if(props!=null){
-
 			return <li style={{marginRight:"5%",listStyle:"none",display:"inline-block"}}>
 						<CreatePostContainer>
 							<ul style={{padding:"0px"}}>
@@ -118,11 +118,11 @@ const NoPostsModal=(props)=>{
 		console.log("Testing");
 
 		if(props.postType=="image"&&props.postType!=null){
-			const [recommendedImage,changeRecommendedImages]=useState([{}]);
+			const [recommendedImage,changeRecommendedImages]=useState([{},{},{},{},{}]);
 			return <ul style={{padding:"0px"}}>
 					{createPostModal()}
 
-					<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
+					<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"1%"}}>	
 						<RecommendedContainer>
 							<ul style={{position:"relative",padding:"0px"}}>
 									<p style={{fontSize:"20px"}}>
@@ -132,17 +132,16 @@ const NoPostsModal=(props)=>{
 										a list of recommended images that we could find 
 									</p>
 
-									<li style={{listStyle:"none"}}>
+									<li style={{listStyle:"none",height:"340px",overflowY:"auto"}}>
 										<ul style={{padding:"0px"}}>
 											{recommendedImage.map(data=>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",marginBottom:"2%"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",marginBottom:"2%",marginBottom:"10%"}}>
 													<RecommendedImage>
 
 													</RecommendedImage>
 												</li>
 											)}
 										</ul>
-
 									</li>
 							</ul>
 						</RecommendedContainer>
@@ -154,7 +153,6 @@ const NoPostsModal=(props)=>{
 				const [recommendedVideo,changeRecommendedVideos]=useState([{},{},{}]);
 				return <ul style={{padding:"0px"}}>
 							{createPostModal()}
-
 
 							<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
 								<RecommendedContainer>

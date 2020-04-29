@@ -8,7 +8,6 @@ const Container = styled.div`
 	position:relative;
 	width:100%;
 	background-color:white;
-	box-shadow:1px 1px 5px #9395a0;
 	border-radius:5px;
 	overflow-y:scroll;
 `;

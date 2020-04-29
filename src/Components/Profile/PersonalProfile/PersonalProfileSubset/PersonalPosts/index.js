@@ -10,6 +10,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 import {UserConsumer} from "../../UserContext.js";
 import {PostProvider} from "./PostsContext.js";
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 
 const PostCreationContainer=styled.div`
 	position:relative;
@@ -132,6 +133,7 @@ const PersonalPostsIndex=(props)=>{
 
 	const [displayCreationPost,changeDisplayCreationPost]=useState(false);
 	const [postOption,changePostOption]=useState();
+	const [personalInformation,changePersonalInformation]=useState([]);
 	console.log("Teste");
 
 	useEffect(()=>{
@@ -247,6 +249,10 @@ const PersonalPostsIndex=(props)=>{
 				changeDisplayCreationPost(false);
 		}
 	}
+	const initializePersonalInformationToState=(personalInformationData)=>{
+		debugger;
+		changePersonalInformation(personalInformation);
+	}
 
 	return (
 		<UserConsumer>
@@ -258,15 +264,35 @@ const PersonalPostsIndex=(props)=>{
 										changePostOption(postOption);
 										changeDisplayCreationPost(true);
 										props.displayShadowOverlay();
+									},
+									hideCreationPost:()=>{
+										props.disappearShadow();
+										changeDisplayCreationPost(false)
+									},
+									updateImagePost:(imagePost)=>{
+										debugger;
+										const currentImages=personalInformation.userProfile.imagePost
+										currentImages.push(imagePost);
+										const newPersonalInfoObject={
+											...personalInformation,
+											userProfile:{
+												...personalInformation.userProfile,
+												imagePost:currentImages
+											}
+										}
+										changePersonalInformation(newPersonalInfoObject);
 									}
 								}}
 							>
+							{initializePersonalInformationToState(personalInformation)}
 							{displayCreatePostAndShadowOverlay(personalInformation)}
-								{displayCreationPost==true?
+								{
+									displayCreationPost==true?
 									<ShadowContainer
 										onClick={()=>disappearShadowOverlay()}
 									/>:
-									<React.Fragment></React.Fragment>}
+									<React.Fragment></React.Fragment>
+								}
 								<ul>
 									<li style={{listStyle:"none",marginBottom:"5%"}}>
 										<ul style={{padding:"0px"}}>
@@ -277,9 +303,12 @@ const PersonalPostsIndex=(props)=>{
 											<li style={{listStyle:"none",display:"inline-block"}}>
 													<CommentCreationContainer onClick={()=>displayOrHideCreationPost()}>
 														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+															<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%",marginTop:"-20px"}}>
 																<ProfilePicture>
-
+																	{personalInformation.profilePicture!=null?
+																		<img src={personalInformation.profilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%",borderRadius:"50%"}}/>:
+																		<img src={NoProfilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%"}}/>
+																	}
 																</ProfilePicture>
 															</li>
 

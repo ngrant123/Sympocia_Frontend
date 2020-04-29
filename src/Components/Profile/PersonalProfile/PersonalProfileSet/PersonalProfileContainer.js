@@ -25,6 +25,8 @@ import PersonalPostsIndex from "../PersonalProfileSubset/PersonalPosts/index.js"
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'
 import { withRouter } from "react-router-dom";
+import {PostDisplayProvider} from "../PostDisplayModalContext.js";
+import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 
 const Container=styled.div`
 
@@ -68,7 +70,7 @@ const PersonalProfileInformationContainer= styled.div`
 	position:absolute;
 	top:52%;
 	width:25%;
-	left:3%
+	left:3%;
 	background-color:#fbfdff;
 	border-radius:5px;
 	transition:.8s;
@@ -179,8 +181,19 @@ const PostInformationContainer=styled.div`
 	width:60%;
 	height:83%;
 	left:33%;
+	z-index:7;
+	top:15%;
+`;
+
+const PostInformationContainerShadowOverlay=styled.div`
+	position:absolute;
+	background-color:white;
+	width:60%;
+	height:83%;
+	left:33%;
 	z-index:8;
 	top:15%;
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 
 `;
 
@@ -228,7 +241,10 @@ const ShadowContainer= styled.div`
 
 `;
 
-
+const ImagePopupContainer=styled.div`
+	margin-left:20%;
+	margin-top:10%;
+`;
 
 
 class LProfile extends Component{
@@ -278,15 +294,17 @@ class LProfile extends Component{
 		    profileId:0,
 		    userProfile:{},
 		    isLoading:true,
-		    displayShadowBackground:false
+		    displayShadowBackground:false,
+		    displayImageModal:false,
+		    imageModalData:{},
+		    displayVideoModal:false,
+		    videoModalData:{},
+		    displayBlogModal:false,
+		    blogModalData:{},
+		    displayRegularPostModal:false,
+		    regularModalData:{}
 		};
-
 	}
-
-	/*
-	
-
-	*/
 
 
 	async componentDidMount(){
@@ -426,10 +444,7 @@ class LProfile extends Component{
 
 			document.getElementById("videoButton").style.backgroundColor="white";
 			document.getElementById("videoButton").style.color="#3386f6";
-
-
 		}
-
 
 	}
 
@@ -457,7 +472,7 @@ class LProfile extends Component{
 
 		}))
 	}
-
+/*
 	ImageModal=()=>{
 		console.log("Image Modal");
 
@@ -510,7 +525,7 @@ class LProfile extends Component{
 					<React.Fragment>
 					</React.Fragment>
 	}
-
+*/
 
 	handleVideoModal=(videoData)=>{
 		console.log("Video modal button clicked");
@@ -521,7 +536,7 @@ class LProfile extends Component{
 		}));
 	}
 
-
+/*
 	VideoModal=()=>{
 
 		return this.state.displayVideoModal?
@@ -552,13 +567,18 @@ class LProfile extends Component{
 			</React.Fragment>:
 			<React.Fragment></React.Fragment>
 	}
+*/
+
 	handleBlogsModal=()=>{
 		console.log("Blog modal button clicked");
 	}
 
+/*
 	BlogModal=()=>{
 		return <React.Fragment/>;
 	}
+
+*/
 
 	displayShadow=()=>{
 		console.log("Testing display shafow");
@@ -573,62 +593,136 @@ class LProfile extends Component{
 		})
 	}
 
+	ImageModal=()=>{
+		const newImageObject={
+			...this.state.imageModalData,
+			firstName:this.state.userProfile.firstName,
+			lastName:this.state.userProfile.lastName
+		}
+		return this.state.displayImagePostModal?
+			<ImagePopupContainer>
+				<ImageContainer
+					imageData={newImageObject}
+				/>
+			</ImagePopupContainer>:
+			<React.Fragment></React.Fragment>
+	}
+
+	VideoModal=()=>{
+
+	}
+
+	BlogModal=()=>{
+
+	}
+
 
 
 	render(){
 		return(
 
 			<UserProvider value={this.state}>
+				<PostDisplayProvider
+					value={{
+						handleImagePostModal:(imagePostData)=>{
+							console.log(imagePostData);
+							this.setState({
+								imageModalData:imagePostData,
+								displayImagePostModal:true,
+								displayShadowBackground:true
+							})
+						},
+						handleVideoPostModal:(videoPostData)=>{
+							this.setState({
+								videoModalData:videoPostData,
+								displayVideoPostModal:true,
+								displayShadowBackground:true
+							})
+						},
+						handleBlogPostModal:(blogPostData)=>{
+							this.setState({
+								blogModalData:blogPostData,
+								displayBlogPostModal:true,
+								displayShadowBackground:true
+							})
+						},
+						handleRegularPostModal:(regularPostData)=>{
+							this.setState({
+								regularModalData:regularPostData,
+								displayRegularPostModal:true,
+								displayShadowBackground:true
+							})
+						}
+					}}
+				>
+					<Container>
+						{this.state.displayShadowBackground==true?
+								<ShadowContainer
+									onClick={()=>this.setState({
+										displayShadowBackground:false,
+										displayRegularPostModal:false,
+										displayBlogPostModal:false,
+										displayVideoPostModal:false,
+										displayImagePostModal:false
+									})}
+								/>:
+								<React.Fragment></React.Fragment>}
 
-				<Container>
-					{this.state.displayShadowBackground==true?
-							<ShadowContainer
+						{this.ImageModal()}
+						{this.VideoModal()}
+						{this.BlogModal()}
+
+						<HeaderContainer>
+							<GeneralNavBar/>
+						</HeaderContainer>
+
+						<ProfileContainer>
+
+							<ProfilePictureContainer>
+								{this.state.userProfile.profilePicture==null?
+									<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
+									<img id="profilePicture" src={this.state.userProfile.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
+								}
+
+								{this.state.isOwnProfile==true?
+									<React.Fragment>
+										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} onChange={()=>this.changeProfilePicture()}></input>
+										<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
+											Change Profile Picture
+										</ChangePictureButton>
+									</React.Fragment>:
+									<React.Fragment></React.Fragment>
+								}
+
+							</ProfilePictureContainer>
+
+							<PersonalProfileInformationContainer>
+								<PersonalInformation/>
+							</PersonalProfileInformationContainer>
+						</ProfileContainer>
+
+						{
+							this.state.displayVideoPostModal==true||this.state.displayImagePostModal==true ||
+							this.state.displayBlogPostModal==true || this.state.displayRegularPostModal==true?
+							<PostInformationContainerShadowOverlay
 								onClick={()=>this.setState({
-									displayShadowBackground:false
-								})}
+										displayShadowBackground:false,
+										displayRegularPostModal:false,
+										displayBlogPostModal:false,
+										displayVideoPostModal:false,
+										displayImagePostModal:false
+									})}
 							/>:
-							<React.Fragment></React.Fragment>}
-
-					{this.ImageModal()}
-					{this.VideoModal()}
-					{this.BlogModal()}
-
-					<HeaderContainer>
-						<GeneralNavBar/>
-					</HeaderContainer>
-
-					<ProfileContainer>
-
-						<ProfilePictureContainer>
-							{this.state.userProfile.profilePicture==null?
-								<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-								<img id="profilePicture" src={this.state.userProfile.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
-							}
-
-							{this.state.isOwnProfile==true?
-								<React.Fragment>
-									<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} onChange={()=>this.changeProfilePicture()}></input>
-									<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
-										Change Profile Picture
-									</ChangePictureButton>
-								</React.Fragment>:
-								<React.Fragment></React.Fragment>
-							}
-
-						</ProfilePictureContainer>
-
-						<PersonalProfileInformationContainer>
-							<PersonalInformation/>
-						</PersonalProfileInformationContainer>
-					</ProfileContainer>
-
-					<PostInformationContainer>
-						<PersonalPostsIndex
-							displayShadowOverlay={this.displayShadow}
-							disappearShadow={this.disappearShadow}
-						/>
-					</PostInformationContainer>
-				</Container>
+							<React.Fragment></React.Fragment>
+						}
+						<PostInformationContainer>
+							<PersonalPostsIndex
+								displayShadowOverlay={this.displayShadow}
+								disappearShadow={this.disappearShadow}
+							/>
+						</PostInformationContainer>
+					</Container>
+			</PostDisplayProvider>
 		</UserProvider>
 		)
 	}

@@ -1,13 +1,14 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import NoPostsModal from "../NoPostsModal.js";
+import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
+
 
 const Container=styled.div`
 	position:absolute;
 	width:95%;
 	height:95%;
 `;
-
 
 const ImageContainer=styled.div`
 	position:relative;
@@ -30,20 +31,34 @@ const ImageCaption=styled.div`
 	color:#767677;
 `;
 
+const IndustryButtonCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white",
+	listStyle:"none",
+	padding:"5px",
+	borderRadius:"5px"
+}
+
 
 class ImagePostsContainer extends Component{
 
 	constructor(props){
 		super(props);
 		console.log("Testing images requests");
+		console.log(props);
 		this.state={
-		 	images:[
-		 		{},
-		 		{},
-		 		{},
-		 		{}
-		 	]
+		 	images:[]
 		}
+	}
+
+	componentDidMount(){
+		const profileImages=this.props.personalInformation.userProfile.imagePost;
+		this.setState({
+			images:profileImages
+		})
 	}
 
 	constructDate=(date)=>{
@@ -58,58 +73,67 @@ class ImagePostsContainer extends Component{
 
 	render(){
 		return(
-				<Container>
-						{this.props.personalInformation.isLoading==true?
-								<p>Give us a second we're getting your information</p>:
-								<React.Fragment>
-								{this.props.personalInformation.userProfile.imagePost.length==0 ||
-									this.props.personalInformation.userProfile.imagePost.length==null?<NoPostsModal
-																		postType={"image"}
-																		profilePageType={this.props.profile}
-																	  />:
-										<ul style={{padding:"0px"}}>	
-											{this.props.personalInformation.userProfile.imagePost.map(data=>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"9%"}}>
-													<ImageContainer>
-														<ul style={{padding:"0px"}}>	
-															<li style={{listStyle:"none"}}>
-																<Image>
-																	<img src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
-																</Image>
-															</li>
-															{data.caption!=""?
-																<li style={{listStyle:"none",marginBottom:"5%"}}>
-																
-																	<ImageCaption>
-																		{data.caption}
-																	</ImageCaption>
-																</li>:<React.Fragment></React.Fragment>
-															}
+			<PostDisplayConsumer>
+				{postDisplayModal=>{
+					return <Container>
+								{this.props.personalInformation.isLoading==true?
+										<p>Give us a second we're getting your information</p>:
+										<React.Fragment>
+										{this.props.personalInformation.userProfile.imagePost.length==0 ||
+											this.props.personalInformation.userProfile.imagePost.length==null?<NoPostsModal
+																				postType={"image"}
+																				profilePageType={this.props.profile}
+																			  />:
+												<ul style={{padding:"0px"}}>	
+													{this.props.personalInformation.userProfile.imagePost.map(data=>
+														<li onClick={()=>postDisplayModal.handleImagePostModal(data)}style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"9%"}}>
+															<a href="javascript:;" style={{textDecoration:"none"}}>
+																<ImageContainer>
+																	<ul style={{padding:"0px"}}>	
+																		<li style={{listStyle:"none"}}>
+																			<Image>
+																				<img src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
+																			</Image>
+																		</li>
+																		{data.caption!=""?
+																			<li style={{listStyle:"none",marginBottom:"5%"}}>
+																			
+																				<ImageCaption>
+																					{data.caption}
+																				</ImageCaption>
+																			</li>:<React.Fragment></React.Fragment>
+																		}
 
-															<li style={{listStyle:"none"}}>
-																<ul style={{padding:"0px"}}>
-																	<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-																		Likes 
-																	</li>
+																		<li style={{listStyle:"none"}}>
+																			<ul style={{padding:"0px"}}>
+																				<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+																					Likes 
+																				</li>
 
-																	<li style={{listStyle:"none",display:"inline-block",marginRight:"24%"}}>
-																		Comments
-																	</li>
+																				<li style={{listStyle:"none",display:"inline-block",marginRight:"24%"}}>
+																					Comments
+																				</li>
 
-																	<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",color:"#C8B0F4"}}>
-																		{this.constructDate(data.datePosted)}
-																	</li>
-																</ul>
-															</li>
-														</ul>
-													</ImageContainer>
-												</li>
-											)}
-										</ul>
-								}
-								</React.Fragment>
-							}
-					</Container>
+																				<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",color:"#C8B0F4"}}>
+																					{this.constructDate(data.datePosted)}
+																				</li>
+																				<li style={IndustryButtonCSS}>
+																					{data.industriesUploaded[0].industry}					
+																				</li>
+																			</ul>
+																		</li>
+																	</ul>
+																</ImageContainer>
+															</a>
+														</li>
+													)}
+												</ul>
+										}
+										</React.Fragment>
+									}
+							</Container>
+				}}
+				</PostDisplayConsumer>
 		)
 	}
 }

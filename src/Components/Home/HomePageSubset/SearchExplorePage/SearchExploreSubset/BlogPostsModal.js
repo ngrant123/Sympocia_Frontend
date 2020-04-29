@@ -101,7 +101,7 @@ const BlogPostModal=()=>{
 				</li>
 
 				<li style={{width:"60%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",height:"80%",overflowY:"auto",marginBottom:"20%"}}>
-					<ul style={{padding:"0px",backgroundColor:"yellow"}}>
+					<ul style={{padding:"0px"}}>
 
 						{blogs.map(data=>
 							<li style={{list0Style:"none",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
@@ -110,10 +110,9 @@ const BlogPostModal=()=>{
 										<ShadowContainer/>
 										<VideosContainer/>
 									</li>
-									<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
-										{/*
-											<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",height:"170px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
+									<li style={{position:"relative",top:"0%",listStyle:"none",display:"inline-block"}}>
+											<ul style={{padding:"0px",position:"absolute",top:"-230px"}}>
+													<li style={{listStyle:"none",height:"170px",width:"280px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
 														<b>
 															Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
 															sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -145,8 +144,6 @@ const BlogPostModal=()=>{
 														</ul>
 													</li>
 												</ul>
-										*/}
-										TESting
 									</li>
 								</ul>
 							</li>

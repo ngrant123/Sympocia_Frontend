@@ -9,7 +9,7 @@ const Container=styled.div`
 	height:82%;
 	z-index:3;
 	background-color:white;
-	margin-top:13px;
+	top:30px;
 `;
 
 const IndustryButton=styled.div`
@@ -53,40 +53,32 @@ const ImagePostsButtons=styled.div`
 `; 
 
 //Could be turned into a functional component im a bot
-class ImageInformation extends Component{
-
-
-
-	render(){
-
-
+const ImageInformation=(props)=>{
+	debugger;
 		return (
 			<ImageConsumer>
 				{information=>{
 					return <Container>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
-										<p style={{fontSize:"20px"}}>Nathan Grant </p>
+										<p style={{fontSize:"20px"}}>{props.imageInformation.firstName} {props.imageInformation.lastName} </p>
 									</li>
 
 									<li style={{listStyle:"none",display:"inline-block"}}>
 										<IndustryButton>
-											Testing
+											{props.imageInformation.industriesUploaded[0].industry}
 										</IndustryButton>
 									</li>
 
 								</ul>
 
-								<p style={{height:"30%",width:"90%",fontSize:"40px",overflow:"hidden"}}><b>Another description about this shit </b></p>
+								<p style={{height:"30%",width:"90%",fontSize:"40px",overflow:"hidden"}}>
+									<b>
+										{props.imageInformation.caption}
+									</b>
+								</p>
 								<p style={{height:"35%",overflow:"hidden"}}> 
-									 Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-									 sed do eiusmod tempor incididunt ut labore et dolore magna 
-									 aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-									 ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-									 Duis aute irure dolor in reprehenderit in voluptate velit
-									 esse cillum dolore eu fugiat nulla pariatur. Excepteur 
-									 sint occaecat cupidatat non proident, sunt in culpa qui 
-									 officia deserunt mollit anim id est laborum.
+									 {props.imageInformation.description}
 								 </p>
 
 								 <ul style={{padding:"0px",marginTop:"5px"}}>
@@ -105,7 +97,6 @@ class ImageInformation extends Component{
 			</ImageConsumer>
 
 		)
-	}
 }
 
 export default ImageInformation;

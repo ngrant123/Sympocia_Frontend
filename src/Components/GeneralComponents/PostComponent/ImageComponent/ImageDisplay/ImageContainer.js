@@ -8,7 +8,9 @@ const Container=styled.div`
 	position:relative;
 	width:90%;
 	height:50%;
-	z-index:3;
+	z-index:9;
+	border-radius:5px;
+	background-color:white;
 	border-radius:5px;
 	padding:5px;
 	box-shadow: 1px 1px 50px #d5d5d5;
@@ -41,8 +43,10 @@ const ImageButtons=styled.div`
 	}
 `;
 
-const ImageContainer=()=>{
-
+const ImageContainer=(props)=>{
+	console.log("Image Modal data");
+	console.log(props);
+	debugger;
 	const [commentImageIndicator,changeIndicator]=useState(true);
 
 	return(
@@ -77,8 +81,8 @@ const ImageContainer=()=>{
 
 							</li>
 							<li style={{listStyle:"none"}}>
-								<Image>
-
+								<Image>	
+									<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%"}}/>
 								</Image>
 							</li>
 						</ul>
@@ -88,8 +92,10 @@ const ImageContainer=()=>{
 						{
 							commentImageIndicator==true?
 								<ImageInformation
+									imageInformation={props.imageData}
 								/>
 								:<Comments
+									imageComments={props.imageData}
 								/>
 						}
 

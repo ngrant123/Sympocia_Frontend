@@ -59,7 +59,8 @@ class IndustryPostOptions extends Component{
 		}
 	}
 
-	addSelectedIndustry=async(industry)=>{
+	addSelectedIndustry=(industry)=>{
+		debugger;
 		console.log(industry);
 		const currentSelectedIndustries=this.state.industriesSelected;
 
@@ -79,13 +80,16 @@ class IndustryPostOptions extends Component{
 			currentSelectedIndustries.push(industry);
 			const subCommunities=industry.subCommunity;
 			var subCommunityCounter=subIndustries.length;
-			for(var i=0;i<subCommunities.length;i++){
-				const subCommunity=subCommunities[i];
-				if(!newSubCommunityMap.has(subCommunity)){
-					subIndustries.push(subCommunity);
-					newSubCommunityMap.set(subCommunity,subCommunityCounter);
-					subCommunityCounter++;
+			if(subCommunities!=null){
+				for(var i=0;i<subCommunities.length;i++){
+					const subCommunity=subCommunities[i];
+					if(!newSubCommunityMap.has(subCommunity)){
+						subIndustries.push(subCommunity);
+						newSubCommunityMap.set(subCommunity,subCommunityCounter);
+						subCommunityCounter++;
+					}
 				}
+
 			}
 		}
 

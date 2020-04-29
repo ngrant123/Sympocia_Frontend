@@ -142,9 +142,6 @@ class BlogEditSubmitModal extends Component{
 			blog:blogPostInformation.blogPostState,
 			imgUrl:this.state.pictureUrl
 		}
-		//Could do one of two things...pass in a prop that explains where to send it... or just check redux store and see which account if logged in 
-		//and take id from there
-
 			//Quick fix but this could be implemented in a better way
 
 			if(this.props.personalProfile.loggedIn==true){

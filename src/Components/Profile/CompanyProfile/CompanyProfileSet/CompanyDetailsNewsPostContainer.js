@@ -24,7 +24,7 @@ const PostContainer = styled.div`
 
 	position:absolute;
 	width:47%;
-	height:65%;
+	height:140%;
 	top:20%;
 	left:28%;
 	border-radius:5px;

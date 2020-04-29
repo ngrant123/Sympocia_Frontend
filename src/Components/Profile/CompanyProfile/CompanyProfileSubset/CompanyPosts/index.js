@@ -163,7 +163,7 @@ class CompanyPosts extends Component{
 																			<b>Create a post</b>
 																		</li>
 
-																		<li style={{listStyle:"none",display:"inline-block",width:"55%",height:"20%",boxShadow:"1px 1px 5px #848484",borderRadius:"5px"}}>
+																		<li style={{listStyle:"none",display:"inline-block",width:"55%",height:"10%",boxShadow:"1px 1px 5px #848484",borderRadius:"5px",overflow:"hidden"}}>
 																			<ul style={{padding:"10px"}}>
 																				<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 																					<ProfilePicture>
