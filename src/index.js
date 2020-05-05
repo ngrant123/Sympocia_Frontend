@@ -45,7 +45,7 @@ const application  = (
 	
 	//Use exact path when you have similar paths because the computer actually connects to the first path
 				<Route exact path="/profile/:id" component={PersonalProfileScreen}/>
-				<Route exact path="/companyProfile/:id" component = {CompanyProfileScreen} />
+				<Route exact path="/companyProfile/:id" component={CompanyProfileScreen} />
 				<Route exact exact path="/" component= {Landing}/>
 				<Route exact path="/playList" component={PlayList}/>
 				<Route exact path="/signup" component={Signup}/>

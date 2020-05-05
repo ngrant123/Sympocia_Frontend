@@ -33,6 +33,10 @@ const SearchButton=styled.textarea`
 	border-style:none;
 	text-align:center;
 	z-index:5;
+
+	border-style:solid;
+	border-width:2px;
+	border-color:#BDBDBD;
 `;
 
 const ButtonsListCSS={
@@ -164,7 +168,7 @@ const NavBar=(pageProps)=>{
 	return(
 		<Container style={{backgroundColor:color}}>
 
-			<SearchButton placeholder="Search for anyone nigga"/>
+			<SearchButton placeholder="Search for a community or a person"/>
 
 			<ul style={{position:"fixed",left:"39%",top:"7%"}}>
 				<li style={ButtonsListCSS}>

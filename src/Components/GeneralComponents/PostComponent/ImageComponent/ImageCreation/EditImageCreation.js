@@ -8,9 +8,11 @@ import {connect} from "react-redux";
 import IndustryPostOptions from "../../IndustryPostOptions.js";
 import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
 import {ImageConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/ImagePosts/ImagePostContext.js";
-
 import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
-import FilterImage from "./FilterImage.js";
+import FilterImageSelection from "./FilterImageSelection.js";
+import ProcessImage from 'react-imgpro';
+import {CompanyPostConsumer} from "../../../../Profile/CompanyProfile/CompanyPostsContext.js";
+
 
 const Image=styled.div`
 	position:relative;
@@ -57,9 +59,16 @@ class EditImageCreation extends Component{
 	}
 
 	componentDidMount(){
+
 		console.log("Testing component");
+		const imageElement= <ProcessImage
+									image={this.props.imageSrcUrl}
+									resize={{width:450,height:400}}
+									quality={100}
+									processedImage={(src, err) => this.setState({ src, err })}
+							/>;
 		this.setState({
-			imgUrl:this.props.imageSrcUrl
+			imgElement:imageElement
 		})
 	}
 
@@ -84,15 +93,14 @@ class EditImageCreation extends Component{
 		}
 	}
 
-	sendImageDateToDB=(profilePostInformation,imageContextConsumer)=>{
+	sendImageDateToDB=(profilePostInformation,companyPostContextConsumer)=>{
 		debugger;
-		const profilePostType=profilePostInformation.profileType;
-		profilePostInformation.hideCreationPost();
+		
 
 		console.log("Submit button clicked");
 		const industries=this.state.industriesSelected;
+		const imgUrl=this.state.src;
 		const selectedSubCommunities=this.state.subIndustriesSelected;
-		const imgUrl=this.state.imgUrl;
 		const searchCriteriaIndustryArray=[];
 		var descriptionTextArea=(this.state.isImageDescriptionCleared==false)?"":document.getElementById("descriptionTextArea").value;
 		var captionTextArea=(this.state.isCaptionCleared==false)?"":document.getElementById("captionTextArea").value;
@@ -104,14 +112,16 @@ class EditImageCreation extends Component{
 			var addIndustryOrIndustryObject=false;
 			var subCommunitiyArray=[];
 			var subCommunityCounter=0;
-			while(subCommunityCounter<subCommunity.length){
-				const targetedSubCommunity=subCommunity[subCommunityCounter];
-				if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
-					subCommunitiyArray.push(selectedSubCommunities[counter]);
-					counter++;
-					subCommunityCounter=0;
-				}else{
-					subCommunityCounter++;
+			if(subCommunity!=null){
+				while(subCommunityCounter<subCommunity.length){
+					const targetedSubCommunity=subCommunity[subCommunityCounter];
+					if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
+						subCommunitiyArray.push(selectedSubCommunities[counter]);
+						counter++;
+						subCommunityCounter=0;
+					}else{
+						subCommunityCounter++;
+					}
 				}
 			}
 			const searchObject={
@@ -127,16 +137,21 @@ class EditImageCreation extends Component{
 			description:descriptionTextArea,
 			caption:captionTextArea
 		}
-		this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteriaObject);
 
-		/*
-		if(this.props.personalProfile.loggedIn==true){
-				createImagePost(this.props.personalProfileId,searchCriteriaObject,"Personal");
+		if(profilePostInformation==null){
+			companyPostContextConsumer.hideCreationPost();
+			this.pushDummyImageObjectToProfile(companyPostContextConsumer,searchCriteriaObject);
+		}else{
+			profilePostInformation.hideCreationPost();
+			this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteriaObject);
+		}
+
+			if(this.props.personalProfile.loggedIn==true){
+					createImagePost(this.props.personalProfile.id,searchCriteriaObject,"Personal");
 			}
-		else{
-				createImagePost(this.props.companyProfileId,searchCriteriaObject,"Company");
+			else{
+					createImagePost(this.props.companyProfile.id,searchCriteriaObject,"Company");
 			}
-		*/
 	}
 
 	pushDummyImageObjectToProfile=(profilePostInformation,searchCriteriaObject)=>{
@@ -164,12 +179,38 @@ class EditImageCreation extends Component{
 		})
 	}
 
+	displayFilteredImageHandle=(imageFilter)=>{
+		console.log("Testing image filtering");
+		const type=""+imageFilter.type+"";
+		const value=imageFilter.value;
+		debugger;
+		const imageElement= <ProcessImage
+									image={this.props.imageSrcUrl}
+									resize={{width:450,height:450}}
+									quality={100}
+									processedImage={(src, err) => this.setState({ src, err })}
+									{...{[type]:value}}
+							/>;
+
+		this.setState({
+			imgElement:imageElement
+		},function(){
+			console.log(this.state.imgElement);
+			debugger;
+		})
+	}
+
+	handleDisplaySubmitModal=()=>{
+		this.setState({
+			displayFilterPictureModal:false
+		})
+	}
 	render(){
 		return(
 			<PostConsumer>
 				{profilePostInformation=>(
-						<ImageConsumer>
-							{imageContextConsumer=>(
+						<CompanyPostConsumer>
+							{companyPostInformation=>(
 								<React.Fragment>
 									<ul style={{padding:"10px"}}>
 										<li style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
@@ -191,7 +232,7 @@ class EditImageCreation extends Component{
 													</li>
 
 												</ul>
-												<img src={this.state.imgUrl} style={{height:"100%",width:"100%"}}/>
+												{this.state.imgElement}
 											</Image>
 										</li>
 
@@ -219,7 +260,7 @@ class EditImageCreation extends Component{
 													</li>
 
 													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-																		<ul onClick={()=>this.sendImageDateToDB(profilePostInformation,imageContextConsumer)}>
+																		<ul onClick={()=>this.sendImageDateToDB(profilePostInformation,companyPostInformation)}>
 																			<li style={{listStyle:"none",display:"inline-block"}}>
 																				<SendIcon
 																					style={{fontSize:20,color:"white"}}
@@ -234,8 +275,10 @@ class EditImageCreation extends Component{
 											 		</li>
 												</ul>
 											</li>:
-											<FilterImage
-												imgUrl={this.state.imgUrl}
+											<FilterImageSelection
+												imgUrl={this.props.imageSrcUrl}
+												displayFilteredImage={this.displayFilteredImageHandle}
+												switchBackToSubmitModal={this.handleDisplaySubmitModal}
 											/>
 										}
 										
@@ -243,7 +286,7 @@ class EditImageCreation extends Component{
 								</React.Fragment>
 							) 
 						}
-						</ImageConsumer>
+						</CompanyPostConsumer>
 					)
 			}
 			</PostConsumer>
@@ -253,8 +296,8 @@ class EditImageCreation extends Component{
 
 const mapStateToProps=state=>{
 	return{
-		personalProfileId:state.personalInformation.id,
-		companyProfileId:state.companyInformation.id
+		personalProfile:state.personalInformation,
+		companyProfile:state.companyInformation
 	}
 }
 

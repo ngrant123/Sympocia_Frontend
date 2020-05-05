@@ -6,7 +6,8 @@ import IndustryPostOptions from "../../IndustryPostOptions.js";
 import SendIcon from '@material-ui/icons/Send';
 import {connect} from "react-redux";
 import {createVideoPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-import {PostConsumer} from "../../PostContext.js";
+import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
+import {CompanyPostConsumer} from "../../../../Profile/CompanyProfile/CompanyPostsContext.js";
 
 const TextContainerDescription=styled.textarea`
 	height:30%;
@@ -80,7 +81,7 @@ class EditVideoModal extends Component{
 		})
 	}
 
-	sendVideoDataToDB=(profilePostType)=>{
+	sendVideoDataToDB=(videoPostInformation,companyPostContextConsumer)=>{
 
 		const videoTitle=document.getElementById("videoTitle").value;
 		const videoDescription=document.getElementById("videoDescription").value;
@@ -116,135 +117,149 @@ class EditVideoModal extends Component{
 		const searchVideoResult={
 			title:videoTitle,
 			description:videoDescription,
-			industryArray:searchCriteriaIndustryArray,
-			videoSrc:this.props.videoSrc
+			industriesUploaded:searchCriteriaIndustryArray,
+			videoUrl:this.props.videoSrc
 		}
-		
-		if(profilePostType=="Company"){
-			createVideoPost(this.props.companyProfileId,searchVideoResult,profilePostType);
+		if(videoPostInformation==null){
+			companyPostContextConsumer.hideCreationPost();
+			this.pushDummyVideoObjectToProfile(companyPostContextConsumer,searchVideoResult);
+		}else{
+			videoPostInformation.hideCreationPost();
+			this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
 		}
-		else
-			createVideoPost(this.props.personalProfileId,searchVideoResult,profilePostType);
+
+			if(this.props.personalProfile.loggedIn!=true){
+				createVideoPost(this.props.companyProfile.id,searchVideoResult,"Company");
+			}
+			else
+				createVideoPost(this.props.personalProfile.id,searchVideoResult,"Personal");
 	}
+
+
+	pushDummyVideoObjectToProfile=(videoPostInformation,searchCriteriaObject)=>{
+		debugger;
+		const date=new Date();
+		const dateInMill=date.getTime();
+		const newImageObject={
+			...searchCriteriaObject,
+			industriesUploaded:searchCriteriaObject.industriesUploaded,
+			comments:[],
+			datePosted:dateInMill
+		}
+		videoPostInformation.updateVideoPost(newImageObject);
+	}
+
 
 	render(){
 
 		return(
 			<PostConsumer>
-				{profilePostInformation=>{
-					return <React.Fragment>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"15%"}}>
+				{videoPostInformation=>(
+						<CompanyPostConsumer>
+							{companyPostInformation=>(
+								 <React.Fragment>
 									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",marginBottom:"4%"}}>
-													<ul style={{padding:"0px",width:"110%"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-															<img src="" style={{borderRadius:"50%",width:"90px",height:"100px"}}/>
+										<li style={{position:"relative",listStyle:"none",display:"inline-block",marginRight:"15%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e",marginBottom:"4%"}}>
+													<b>Edit Video Description</b>
+
+												</li>
+
+												<li style={{listStyle:"none",paddingTop:"3%"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",}}>
+															<b>Title for video (optional)</b>
 														</li>
 
-														<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e"}}>
-															<b>Edit Video</b>
+														<li style={{color:"#5298F8",listStyle:"none"}}>
+															You will be able to edit this title at any point later
 														</li>
-													</ul>		
-										</li>
 
-										<li style={{listStyle:"none",paddingTop:"3%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
-													<SubtitlesIcon
-														style={{ fontSize: 20 }}
-													/>
+													</ul>
+
 												</li>
 
-												<li style={{listStyle:"none",display:"inline-block",fontSize:"15px"}}>
-													Title for video (optional)
+												<li style={{listStyle:"none"}}>
+													<TextContainerTitle
+																placeholder="Write a title for your video"
+																id="videoTitle"
+														/>
+
 												</li>
 
-											</ul>
+												<li style={{listStyle:"none",paddingTop:"3%",marginTop:"3%"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
+															<b>Enter a description for your video (optional)</b>
+														</li>
 
-										</li>
-
-										<li style={{listStyle:"none"}}>
-											<TextContainerTitle
-														placeholder="Write a title for your video"
-														id="videoTitle"
-												/>
-
-										</li>
-										<li style={{color:"#5298F8"}}>
-											You will be able to edit this title at any point later
-										</li>
-
-										<li style={{listStyle:"none",paddingTop:"3%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
-													<DescriptionIcon
-														style={{ fontSize: 20 }}
-													/>
+														<li style={{listStyle:"none",color:"#5298F8"}}>
+															You will be able to edit this description at any point later
+														</li>
+													</ul>
 												</li>
 
-												<li style={{listStyle:"none",display:"inline-block",fontSize:"15px"}}>
-													Enter a description for your video (optional)
+												<li style={{listStyle:"none",fontSize:"15px"}}>
+															<TextContainerDescription
+																placeholder="Write a description about your video"
+																id="videoDescription"
+															/>
+												</li>
+
+												<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e",marginBottom:"4%"}}>
+													<b>Edit Video</b>
+
 												</li>
 											</ul>
 										</li>
-
-										<li style={{listStyle:"none",fontSize:"15px"}}>
-													<TextContainerDescription
-														placeholder="Write a description about your video"
-														id="videoDescription"
+										<li style={{top:"-560px",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",borderRadius:"5px"}}>
+													<video width="50%" height="50%" controls autoplay>
+															<source src={this.props.videoSrc} type="video/mp4"/>
+													</video>
+												</li>
+												<li  style={{listStyle:"none"}}>
+													<IndustryPostOptions
+														alterSelectedIndustry={this.alterSelectedIndustry}
+														alterSelectedSubCommunities={this.alterSelectedSubCommunities}
 													/>
-										</li>
-										<li style={{listStyle:"none",color:"#5298F8"}}>
-											You will be able to edit this description at any point later
+
+												</li>
+												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+																	<ul onClick={()=>this.sendVideoDataToDB(videoPostInformation,companyPostInformation)}>
+																		<li style={{listStyle:"none",display:"inline-block"}}>
+																			<SendIcon
+																				style={{fontSize:20,color:"white"}}
+																			/>
+																		</li>
+
+																		<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																			Send
+																		</li>
+
+																	</ul>
+												 </li>
+											</ul>
 										</li>
 									</ul>
-								</li>
-								<li style={{position:"relative",top:"-560px",listStyle:"none",display:"inline-block",marginLeft:"60%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none"}}>
-											<video width="100%" height="50%" controls autoplay>
-													<source src={this.props.videoSrc} type="video/mp4"/>
-											</video>
-										</li>
-										<li  style={{listStyle:"none"}}>
-											<IndustryPostOptions
-												alterSelectedIndustry={this.alterSelectedIndustry}
-												alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-											/>
-
-										</li>
-										<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-															<ul onClick={()=>this.sendVideoDataToDB(profilePostInformation.profileType)}>
-																<li style={{listStyle:"none",display:"inline-block"}}>
-																	<SendIcon
-																		style={{fontSize:20,color:"white"}}
-																	/>
-																</li>
-
-																<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																	Send
-																</li>
-
-															</ul>
-										 </li>
-									</ul>
-								</li>
-							</ul>
-
-						</React.Fragment>
-				}}
-
-
+									</React.Fragment>
+								) 
+							}
+						</CompanyPostConsumer>
+						)
+				}
 			</PostConsumer>
 		)
 	}
 }
 
+
 const mapStateToProps=state=>{
 	return{
-		personalProfileId:state.personalInformation.id,
-		companyProfileId:state.companyInformation.id
+		personalProfile:state.personalInformation,
+		companyProfile:state.companyInformation
 	}
 }
 

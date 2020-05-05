@@ -30,9 +30,12 @@ export async function getCompanyVideos(userId){
 	debugger;
 
 	const {data}=companyVideos;
-	console.log(data.data)
-	return data.data;
-
+	const {headerVideo,videoPosts}=data.data;
+	const videoObject={
+						headerVideo:headerVideo,
+						videos:videoPosts
+				      };
+		return videoObject;
 	}catch(err){
 		return err.message
 	}

@@ -17,7 +17,7 @@ import Comments from "../../../../GeneralComponents/CommentsComponent/index.js";
 const Container=styled.div`
 	position:relative;
 	width:870px;
-	height:95%;
+	height:100%;
 	background-color:black;
 	border-radius:5px;
 
@@ -50,14 +50,11 @@ const CommentsContainer=styled.div`
 	background-color:blue;
 	overflow-y:auto;
 	border-radius:5px;
-
-
-
 `;
 
 const VideoCommentsAndModalContainer=styled.div`
 	position:absolute;
-	width:85%;
+	width:100%;
 	height:80%;
 	z-index:3;
 	top:10%;
@@ -124,7 +121,7 @@ class Video extends Component{
 
 	constructor(props){
 		super(props);
-
+		console.log(this.props.video.videoUrl);
 		this.state={
 			displayComments:false,
 			displayDescription:false,
@@ -162,7 +159,7 @@ displayOrHideVideoAndComments=()=>{
 	
 }
 
-displayDescription=()=>{
+displayDescription=(postInformation)=>{
 
 	return this.state.displayDescription==false? <React.Fragment></React.Fragment>:
 		<DescriptionModal>
@@ -176,7 +173,7 @@ displayDescription=()=>{
 						</li>
 
 						<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"white",marginRight:"35%"}}>
-							<b>Nathan</b>
+							<b>{postInformation.firstName}</b>
 						</li>
 						<li onClick={()=>this.setState({displayDescription:false})} style={{position:"relative",listStyle:"none",display:"inline-block",color:"white"}}>
 							<b>Close</b>
@@ -185,12 +182,7 @@ displayDescription=()=>{
 				</li>
 
 				<li style={{listStyle:"none",marginBottom:"2%",padding:"5px",fontSize:"15px",color:"white"}}>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-					exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-					dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-					Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-					mollit anim id est laborum.
+					{postInformation.description}
 				</li>
 			</ul>
 
@@ -216,9 +208,9 @@ displayShadow=()=>{
 					<ul style={{padding:"0px",position:"relative",zIndex:"5px"}}>
 
 						<li style={{listStyle:"none",display:"inline-block",color:"yellow",marginRight:"2%"}}>
-							<SmallVideoModal id="smallVideoMaodl">
+							<SmallVideoModal key={this.props.video.videoUrl} id="smallVideoMaodl">
 								<video id="smallVideo" position="relative" height="100%" width="100%" controls autoplay>
-								    <source src="https://www.w3schools.com/tags/movie.mp4" codecs="avc1.42E01E, mp4a.40.2"/>
+								    <source src={this.props.video.videoUrl} type="video/mp4"/>
 								</video>
 
 							</SmallVideoModal>
@@ -226,7 +218,8 @@ displayShadow=()=>{
 
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<CommentsContainer>
-								<Comments/>  
+								<Comments
+								/>  
 
 							</CommentsContainer>
 						</li>
@@ -235,11 +228,11 @@ displayShadow=()=>{
 
 				{this.displayOrHideVideoAndComments()}
 
-    			<video id="video" position="relative" height="100%" width="100%" controls autoplay>
-				    <source src="https://www.w3schools.com/tags/movie.mp4" codecs="avc1.42E01E, mp4a.40.2"/>
+    			<video  key={this.props.video.videoUrl} id="video" position="relative" height="100%" width="100%" controls autoplay>
+				    <source src={this.props.video.videoUrl} type="video/mp4"/>
 				</video>
 
-				{this.displayDescription()}
+				{this.displayDescription(this.props.video)}
 
 				<OptionsContainer>
 					<ul style={{padding:"0px"}}>

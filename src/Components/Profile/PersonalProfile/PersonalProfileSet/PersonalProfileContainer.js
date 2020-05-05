@@ -27,6 +27,7 @@ import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import { withRouter } from "react-router-dom";
 import {PostDisplayProvider} from "../PostDisplayModalContext.js";
 import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
+import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
 
 const Container=styled.div`
 
@@ -241,7 +242,7 @@ const ShadowContainer= styled.div`
 
 `;
 
-const ImagePopupContainer=styled.div`
+const PostPopupContainer=styled.div`
 	margin-left:20%;
 	margin-top:10%;
 `;
@@ -472,60 +473,6 @@ class LProfile extends Component{
 
 		}))
 	}
-/*
-	ImageModal=()=>{
-		console.log("Image Modal");
-
-		let {imgUrl}=this.state.imgUrl;
-		let SelectedImageContainer;
-
-		if(imgUrl==null){
-			SelectedImageContainer = <p>Tester information</p>
-		}
-		else{
-
-
-				SelectedImageContainer = <img src={this.state.imgUrl.imgUrl} style={SelectedImageCss}></img>;
-		}
-		return this.state.displayImageModal?
-					<React.Fragment>
-						<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayImageModal:false}))}/>
-
-						<ImageModal onClick={()=>this.setState(prevState=>({...prevState,displayImageModal:true}))}>
-							<SelectedImage>
-								{SelectedImageContainer}
-							</SelectedImage>
-
-							<ImagePortfolioContainer>
-
-								<ul>
-									{this.state.profile.images.map(data=>
-
-										<li style={{display:"inline-block",listStyle:"none",marginRight:"20px",marginBottom:"10px"}}>
-									
-												<img onClick={()=>this.setState(prevState=>({...prevState,imgUrl:data}))} src={data.imgUrl} style={ImageCSS}>
-
-												</img>
-										</li>
-									)} 
-								</ul>
-
-							</ImagePortfolioContainer>
-
-							<ul style={{position:"relative",top:"15%"}}>
-
-								<li style={ImageListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8",position:"relative",width:"130%",height:"10%"}}>Likes</Button></li>
-								<li style={ImageListCSS}><Button variant="primary" style={{backgroundColor:"#5298F8",position:"relative",width:"130%",height:"10%"}}>Comments</Button></li>
-
-							</ul>
-
-						</ImageModal>
-
-					</React.Fragment>:
-					<React.Fragment>
-					</React.Fragment>
-	}
-*/
 
 	handleVideoModal=(videoData)=>{
 		console.log("Video modal button clicked");
@@ -536,49 +483,10 @@ class LProfile extends Component{
 		}));
 	}
 
-/*
-	VideoModal=()=>{
-
-		return this.state.displayVideoModal?
-			<React.Fragment>
-				<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayVideoModal:false}))}/>
-
-				<VideoModal>
-					<Video>
-	    				<video id="myVideo" width="100%" height="100%" controls>
-							  <source src={this.state.videoData.video} type="video/mp4"/>
-							  Your browser does not support HTML5 video.
-						</video>
-					</Video>
-
-					
-    				<ul style={{position:"relative",overflowY:"hidden",overflowX:"scroll",backgroundColor:"#e6e6e6",padding:"5px",paddingLeft:"10px"}}>
-    					{this.state.profile.videos.map(data=>
-    						<li style={{display:"inline-block",listStyle:"none",marginRight:"20px",marginBottom:"10px"}}>
-	    						<img onClick={()=>this.setState(prevState=>({...prevState,videoData:data}))} src={data.thumbnail} style={VideoThumbNailCSS}>
-
-								</img>
-    						</li>
-    					)}
-    				</ul>
-				</VideoModal>
-
-
-			</React.Fragment>:
-			<React.Fragment></React.Fragment>
-	}
-*/
 
 	handleBlogsModal=()=>{
 		console.log("Blog modal button clicked");
 	}
-
-/*
-	BlogModal=()=>{
-		return <React.Fragment/>;
-	}
-
-*/
 
 	displayShadow=()=>{
 		console.log("Testing display shafow");
@@ -594,22 +502,40 @@ class LProfile extends Component{
 	}
 
 	ImageModal=()=>{
-		const newImageObject={
-			...this.state.imageModalData,
-			firstName:this.state.userProfile.firstName,
-			lastName:this.state.userProfile.lastName
+		var newImageObject={};
+		if(this.state.isLoading!=true){
+			newImageObject={
+				...this.state.imageModalData,
+				firstName:this.state.userProfile.firstName,
+				lastName:this.state.userProfile.lastName
+			}
 		}
 		return this.state.displayImagePostModal?
-			<ImagePopupContainer>
+			<PostPopupContainer>
 				<ImageContainer
 					imageData={newImageObject}
 				/>
-			</ImagePopupContainer>:
+			</PostPopupContainer>:
 			<React.Fragment></React.Fragment>
 	}
 
 	VideoModal=()=>{
-
+		debugger;
+		var newVideoObject={};
+		if(this.state.isLoading!=true){
+			newVideoObject={
+				...this.state.videoModalData,
+				firstName:this.state.userProfile.firstName,
+				lastName:this.state.userProfile.lastName
+			}
+		}
+		return this.state.displayVideoPostModal?
+			<PostPopupContainer>
+				<VideoContainer
+					videoData={newVideoObject}
+				/>
+			</PostPopupContainer>:
+			<React.Fragment></React.Fragment>
 	}
 
 	BlogModal=()=>{

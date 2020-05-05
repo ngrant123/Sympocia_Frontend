@@ -4,7 +4,7 @@ import SmallVideosContainer from "../../../../Profile/PersonalProfile/PersonalPr
 
 const Container=styled.div`
 	position:relative;
-	width:320px;
+	width:250px;
 	height:95%;
 	border-radius:5px;
 	box-shadow: 1px 1px 5px #d5d5d5;
@@ -13,7 +13,7 @@ const Container=styled.div`
 
 
 const RecommendedVideos=()=>{
-
+	debugger;
 	const [videos,changeVideos]=useState([{},{},{},{},{}]);
 
 	return(
@@ -46,16 +46,18 @@ const RecommendedVideos=()=>{
 					</ul>
 				</li>
 
+
 				<li style={{listStyle:"none",position:"relative"}}>
 					<ul style={{padding:"0px"}}>
 						{videos.map(data=>
 							<li style={{listStyle:"none",marginBottom:"10%",marginLeft:"10%"}}>
-								<SmallVideosContainer/>
+							
 
 							</li>
 						)}
 					</ul>
 				</li>
+				
 			</ul>
 
 		</Container>

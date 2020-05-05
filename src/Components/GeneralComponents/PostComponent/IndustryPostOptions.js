@@ -115,12 +115,14 @@ class IndustryPostOptions extends Component{
 			}
 		}
 
-		for(var i=0;i<industry.subCommunity.length;i++){
-			const subCommunity=industry.subCommunity;
-			var focusedSubCommunity=subCommunity[i];
-			this.removeSubCommunity(focusedSubCommunity,"dropDown");
+		if(industry.subCommunity!=null){
+			for(var i=0;i<industry.subCommunity.length;i++){
+				const subCommunity=industry.subCommunity;
+				var focusedSubCommunity=subCommunity[i];
+				this.removeSubCommunity(focusedSubCommunity,"dropDown");
+			}
 		}
-
+		
 		this.setState({
 			industriesSelected:industries
 		})

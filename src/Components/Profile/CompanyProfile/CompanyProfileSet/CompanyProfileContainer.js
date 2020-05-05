@@ -12,6 +12,11 @@ import { CompanyProvider } from "../CompanyContext.js";
 import {
 	getCompanyInformation
 } from "../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
+import {CompanyPostDisplayProvider} from "../CompanyProfilePostsDisplayContext.js";
+import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
+import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
+
+
 
 const ProfileContainer = styled.div`
 
@@ -25,7 +30,7 @@ const ProfileContainer = styled.div`
 
 
 const FirstProfileContainer = styled.div`
-	position:relative;
+	position:absolute;
 	width:100%;
 	height:100%;
 
@@ -644,8 +649,30 @@ const PostDivider = styled.div`
 	left:30%;
 	top:100%;
 	border-radius:5px;
+`;
+
+
+const ImagePopupContainer=styled.div`
+	margin-left:20%;
+	margin-top:10%;
+`;
+
+
+const ShadowContainer= styled.div`
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	z-index:10;
 
 `;
+
+const PostPopupContainer=styled.div`
+	margin-left:20%;
+	margin-top:10%;
+`;
+
+
 
 class LProfile extends Component{
 	constructor(props){
@@ -658,7 +685,9 @@ class LProfile extends Component{
 			isLoading:true,
 			userProfile:{
 				imagePost:[]
-			}
+			},
+			displayShadowBackground:false
+			
 		}
 	}
 
@@ -742,6 +771,45 @@ class LProfile extends Component{
 		;
 	}
 
+	ImageModal=()=>{
+		const newImageObject={
+			...this.state.imageModalData,
+			firstName:this.state.userProfile.firstName,
+			lastName:this.state.userProfile.lastName
+		}
+		return this.state.displayImagePostModal?
+			<ImagePopupContainer>
+				<ImageContainer
+					imageData={newImageObject}
+				/>
+			</ImagePopupContainer>:
+			<React.Fragment></React.Fragment>
+	}
+
+	VideoModal=()=>{
+		debugger;
+		var newVideoObject={};
+		if(this.state.videoModalData!=null){
+			newVideoObject={
+				...this.state.videoModalData,
+				firstName:this.state.userProfile.name
+			}
+		}
+		return this.state.displayVideoPostModal?
+			<PostPopupContainer>
+				<VideoContainer
+					videoData={newVideoObject}
+				/>
+			</PostPopupContainer>:
+			<React.Fragment></React.Fragment>
+
+	}
+
+	BlogModal=()=>{
+
+	}
+
+
 	render(){
 
 		return(
@@ -763,16 +831,53 @@ class LProfile extends Component{
 						news:news
 					})
 				}}}>
+					<CompanyPostDisplayProvider
+						value={{
+							handleImagePostModal:(imagePostData)=>{
+								console.log(imagePostData);
+								this.setState({
+									imageModalData:imagePostData,
+									displayImagePostModal:true,
+									displayShadowBackground:true
+								})
+							},
+							handleVideoPostModal:(videoPostData)=>{
+								this.setState({
+									videoModalData:videoPostData,
+									displayVideoPostModal:true,
+									displayShadowBackground:true
+								})
+							},
+							handleBlogPostModal:(blogPostData)=>{
+								this.setState({
+									blogModalData:blogPostData,
+									displayBlogPostModal:true,
+									displayShadowBackground:true
+								})
+							},
+							handleRegularPostModal:(regularPostData)=>{
+								this.setState({
+									regularModalData:regularPostData,
+									displayRegularPostModal:true,
+									displayShadowBackground:true
+								})
+							}
+						}}
+					>
 					{this.state.isLoading==false?
 						<React.Fragment>
+
 							<ProfileContainer>
 									<NavContainer> 
 								<GeneralNavBar
 									pageType="Profile"
 								/>
 							</NavContainer>
-							<FirstProfileContainer>
+							{this.ImageModal()}
+							{this.VideoModal()}
+							{this.BlogModal()}
 
+							<FirstProfileContainer>
 									<CompanyIcon>
 										<Icon 
 											sendCompanyIconToRedux={this.sendCompanyIconToRedux}
@@ -812,7 +917,8 @@ class LProfile extends Component{
 
 
 					}
-					
+
+				</CompanyPostDisplayProvider>
 			</CompanyProvider>
 
 		)

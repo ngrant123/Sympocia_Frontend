@@ -164,7 +164,7 @@ const NoPostsModal=(props)=>{
 												a list of recommended videos that we could find 
 											</p>
 
-											<li style={{listStyle:"none"}}>
+											<li style={{listStyle:"none",height:"400px",overflowY:"auto"}}>
 												<ul style={{padding:"0px"}}>
 													{recommendedVideo.map(data=>
 														<React.Fragment>

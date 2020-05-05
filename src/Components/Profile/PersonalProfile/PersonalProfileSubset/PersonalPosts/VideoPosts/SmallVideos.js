@@ -13,7 +13,7 @@ const SmallVideoComponent=styled.div`
 const SmallVideo=styled.div`
 
 	position:relative;
-	height:65%;
+	height:50%;
 	width:100%;
 	background-color:white;
 	border-radius:5px;
@@ -32,13 +32,17 @@ const IndustryButtonCSS={
 }
 
 const SmallVideoContainer=(videoData)=>{
-
+	console.log(videoData);
 	const displayIndustries=()=>{
+		debugger;
 		const {industriesUploaded}=videoData.video;
-		if(industriesUploaded.length>1){
+		if(industriesUploaded.length>=1){
+			const industry=industriesUploaded[0].industry;
+			console.log("Small video industry");
+			console.log(industry);
 			return <ul style={{padding:"0px"}}>
 						<li style={IndustryButtonCSS}>
-							{industriesUploaded[0].industry}
+							{industry}
 						</li>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							(View more...)
@@ -72,7 +76,7 @@ const SmallVideoContainer=(videoData)=>{
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none"}}>
 													<SmallVideo>
-														<video width="100%" height="100%" controls autoplay>
+														<video width="100%" height="100%" controls autoplay muted>
 																<source src={videoData.video.videoUrl} type="video/mp4"/>
 														</video>
 													</SmallVideo>

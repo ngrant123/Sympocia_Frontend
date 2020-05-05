@@ -6,30 +6,31 @@ import RecommendedVideos from "./RecommendedVideos.js";
 const Container=styled.div`
 	position:relative;
 	width:90%;
-	height:60%;
-	z-index:3;
+	height:70%;
+	z-index:9;
+	border-radius:5px;
+	background-color:white;
 	border-radius:5px;
 	padding:5px;
+	box-shadow: 1px 1px 50px #d5d5d5;
+	overflow-y:auto;
 `;
 
-const VideoContainer=()=>{
-
-
+const VideoContainer=(data)=>{
+	console.log("Popup video modal");
+	console.log(data);
 	return(
-
 		<Container>
 			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
-					<Video/> 
-
+				<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+					<Video
+						video={data.videoData}
+					/> 
 				</li>
-
 				<li style={{listStyle:"none",display:"inline-block"}}>
 					<RecommendedVideos/>
 				</li> 
-
 			</ul>
-
 		</Container>
 	)
 }

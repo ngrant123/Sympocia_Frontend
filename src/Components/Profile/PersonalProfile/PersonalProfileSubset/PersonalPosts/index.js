@@ -11,6 +11,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {UserConsumer} from "../../UserContext.js";
 import {PostProvider} from "./PostsContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import {getVideosFromUser} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 const PostCreationContainer=styled.div`
 	position:relative;
@@ -134,6 +135,9 @@ const PersonalPostsIndex=(props)=>{
 	const [displayCreationPost,changeDisplayCreationPost]=useState(false);
 	const [postOption,changePostOption]=useState();
 	const [personalInformation,changePersonalInformation]=useState([]);
+
+	const [videoPost,changeVideoPosts]=useState({});
+	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
 	console.log("Teste");
 
 	useEffect(()=>{
@@ -148,7 +152,7 @@ const PersonalPostsIndex=(props)=>{
 		Could be implemented in a better way
 	*/
 
-	const handlePostsClick=(kindOfPost)=>{
+	const handlePostsClick=async(kindOfPost,id)=>{
 
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
@@ -184,12 +188,25 @@ const PersonalPostsIndex=(props)=>{
 
 		}else if(kindOfPost=="video"){
 
+			debugger
 			const videos=document.getElementById("videos");
 			videos.style.color="#C8B0F4";
 			videos.style.borderBottom="solid";
 			videos.style.borderColor="#C8B0F4";
 			changeDisplayForVideos(true);
 
+			console.log("Testing video api call");
+			const videoPostResponse=await getVideosFromUser(id);
+			const header=videoPostResponse.headerVideo;
+			const videoPosts=videoPostResponse.videos;
+
+			const videoObject={
+				headerVideo:header,
+				videos:videoPosts
+			}
+			changeVideoPosts(videoObject);
+			changeVideosLoadingIndicator(false);
+			
 
 		}else if(kindOfPost=="blog"){
 
@@ -281,7 +298,21 @@ const PersonalPostsIndex=(props)=>{
 											}
 										}
 										changePersonalInformation(newPersonalInfoObject);
-									}
+									},
+									updateVideoPost:(videoObject)=>{
+										debugger;
+											const currentVideoObject=videoPost;
+											const videos=currentVideoObject.videos;
+
+											videos.push(videoObject);
+
+											const newVideoObject={
+												...currentVideoObject,
+												videos:videos
+											}
+											changeVideoPosts(newVideoObject);
+											//this.hideCreationPost();
+										}
 								}}
 							>
 							{initializePersonalInformationToState(personalInformation)}
@@ -355,15 +386,15 @@ const PersonalPostsIndex=(props)=>{
 												Images
 											</li>
 
-											<li id="videos" onClick={()=>handlePostsClick("video")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+											<li id="videos" onClick={()=>handlePostsClick("video",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 												Videos
 											</li>
 
-											<li id="regularPosts" onClick={()=>handlePostsClick("regularPost")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+											<li id="regularPosts" onClick={()=>handlePostsClick("regularPost",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 												Regular Posts
 											</li>
 
-											<li id="blogs" onClick={()=>handlePostsClick("blog")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+											<li id="blogs" onClick={()=>handlePostsClick("blog",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 												Blogs
 											</li>
 
@@ -422,8 +453,9 @@ const PersonalPostsIndex=(props)=>{
 										{
 											displayVideos==true?
 											<VideoPosts
+												videos={videoPost}
+												isLoadingIndicatorVideos={isLoadingIndicatorVideos}
 												id={personalInformation.userProfile._id}
-												profile="Personal"
 											/>:<React.Fragment></React.Fragment>
 										}
 

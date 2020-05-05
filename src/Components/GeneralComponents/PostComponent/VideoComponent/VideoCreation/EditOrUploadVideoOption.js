@@ -26,7 +26,7 @@ class EditOrUploadVideoOption extends Component{
 				{this.state.displayEditVideoModal==false?
 					<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
-								<video width="100%" height="70%" controls autoplay>
+								<video width="100%" height="90%" controls autoplay>
 									<source src={this.props.videoSrc} type="video/mp4"/>
 								</video>
 							</li>

@@ -8,10 +8,10 @@ import EditOrUploadVideoOption from "./EditOrUploadVideoOption.js";
 const Container = styled.div`
 	position:absolute;
 	width:100%;
-	height:100%;
+	height:140%;
 	border-radius:5px;
 	background-color:white;
-	padding:5px;
+	padding:20px;
 	overflow-y:auto;
 
 `;

@@ -2,7 +2,8 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import NoPostsModal from "../NoPostsModal.js";
 import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
-
+import EditIcon from '@material-ui/icons/Edit';
+import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -71,11 +72,20 @@ class ImagePostsContainer extends Component{
 
 	}
 
+	displayPostModal=(profileAction,companyAction,data)=>{
+		if(profileAction==null)
+			companyAction.handleImagePostModal(data);
+		else
+			profileAction.handleImagePostModal(data);
+	}
+
 	render(){
 		return(
 			<PostDisplayConsumer>
-				{postDisplayModal=>{
-					return <Container>
+				{postDisplayModal=>(
+					<CompanyPostDisplayConsumer>
+						{companyPostDisplayModal=>(
+							<Container>
 								{this.props.personalInformation.isLoading==true?
 										<p>Give us a second we're getting your information</p>:
 										<React.Fragment>
@@ -86,15 +96,21 @@ class ImagePostsContainer extends Component{
 																			  />:
 												<ul style={{padding:"0px"}}>	
 													{this.props.personalInformation.userProfile.imagePost.map(data=>
-														<li onClick={()=>postDisplayModal.handleImagePostModal(data)}style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"9%"}}>
+														<li onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,data)} style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"9%"}}>
 															<a href="javascript:;" style={{textDecoration:"none"}}>
 																<ImageContainer>
+								
 																	<ul style={{padding:"0px"}}>	
 																		<li style={{listStyle:"none"}}>
 																			<Image>
+																				<EditIcon
+																					style={{position:"absolute",fontSize:35,color:"white"}}
+																				/>
 																				<img src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
+
 																			</Image>
 																		</li>
+
 																		{data.caption!=""?
 																			<li style={{listStyle:"none",marginBottom:"5%"}}>
 																			
@@ -132,7 +148,10 @@ class ImagePostsContainer extends Component{
 										</React.Fragment>
 									}
 							</Container>
-				}}
+							)
+						}
+					</CompanyPostDisplayConsumer>
+				)}
 				</PostDisplayConsumer>
 		)
 	}

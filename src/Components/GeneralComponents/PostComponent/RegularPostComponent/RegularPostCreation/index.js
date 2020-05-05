@@ -144,7 +144,7 @@ const Photo=styled.div`
 				return <React.Fragment></React.Fragment>;
 			}
 		}
-//
+
 	const stopRecording=()=>{
 
 		var video=document.getElementById("video");
@@ -152,6 +152,7 @@ const Photo=styled.div`
 		video.srcObject=null;
 	}
 	const photo=()=>{
+		debugger;
 		document.getElementById("cameraModal").style.visibility="hidden";
 
 		var canvas = document.getElementById('canvas');
@@ -397,9 +398,7 @@ const Photo=styled.div`
 
 		var textArea=document.getElementById("textAreaContainer");
 
-		if(props.key=="Enter" || firstTimeClickNumberList==false){
-
-				
+		if(props.key=="Enter" || firstTimeClickNumberList==false){				
 				var textNode;
 				if(firstTimeClickNumberList==true){
 					changeFirstTimeClickNumber(false);
