@@ -1,6 +1,8 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import {BlogConsumer} from "./BlogContext.js";
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const Container=styled.div`
 	position:absolute;
@@ -21,7 +23,9 @@ class Blog extends Component{
 
 		this.state={
 			firstTimeClick:true,
-			blogPostContents:"Testing blog contents"
+			blogPostContents:"Testing blog contents",
+			firstEdit:true,
+			editorState:""
 		}
 	}
 
@@ -40,8 +44,23 @@ class Blog extends Component{
 	}
 
 	handleBlogTextAreaChange=(savePostInformationFunction)=>{
-		savePostInformationFunction.updateBlogPost(this.state.blogPostContents);
+		if(!this.state.firstEdit){
+			console.log(this.state.editorState.getCurrentContent().getPlainText('\u0001'));
+			savePostInformationFunction.updateBlogPost(this.state.editorState);
+			this.setState({
+				firstEdit:true
+			})
+		}
 	}
+
+	onEditorStateChange=(editorState)=>{
+		console.log(editorState);
+		this.setState({
+			editorState:editorState,
+			firstEdit:false
+		})
+	}
+
 
 
 	render(){
@@ -51,9 +70,15 @@ class Blog extends Component{
 			<BlogConsumer>
 				{postInformation=>{
 					return <Container>
-								<p id="textArea" style={{height:"40%",outline:"none",color:"#A5A4A4",fontSize:"30px"}} onClick={()=>this.emptyTextArea()} contenteditable="true" onKeyPress={()=>this.handleBlogTextAreaChange(postInformation)}>
-									Click here to start your masterpiece...
-								</p>
+								<Editor
+									  editorState={this.state.editorState}
+									  toolbarClassName="toolbarClassName"
+									  wrapperClassName="wrapperClassName"
+									  editorClassName="editorClassName"
+									  onEditorStateChange={this.onEditorStateChange}
+									  placeholder="Start typing to create your masterpiece"
+								/>
+								{this.handleBlogTextAreaChange(postInformation)}
 							</Container>
 				}}
 			</BlogConsumer>

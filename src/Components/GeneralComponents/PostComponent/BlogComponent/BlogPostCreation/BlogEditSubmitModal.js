@@ -134,7 +134,8 @@ class BlogEditSubmitModal extends Component{
 			}
 				searchCriteriaIndustryArray.push(searchObject);
 		}
-
+		debugger;
+		const rawDraftContentState = JSON.stringify(convertToRaw(blogPostInformation.blogPostState));
 		const blogPostSendObject={
 			title:title,
 			description:description,

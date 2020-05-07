@@ -19,11 +19,12 @@ import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 import {PostConsumer} from "../../PostContext.js";
 import IndustryPostOptions from "../../IndustryPostOptions.js";
 import {connect} from "react-redux";
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const Container = styled.div`
 	position:relative;
 	width:100%;
-	height:100%;
 	background-color:white;
 
 `;
@@ -114,9 +115,11 @@ const Photo=styled.div`
 	const [industriesSelected,changeIndustriesSelected]=useState([]);
 	const [subIndustriesSelected,changeSubIndustriesSelected]=useState([]);
 
-
 	const {personalInformation}=useSelector(state=>state);
+	const [editorState,changeEditorState]=useState();
 	console.log(props);
+
+	/*
 
 	const displayCamera=()=>{
 		if(displayCameraModal==true){
@@ -335,12 +338,10 @@ const Photo=styled.div`
 
 	}
 
-/*
 	Problem now is that the cursor blinknin thing is not working and 
 	when a user types something it places it on the end no matter the
 	location
 
-*/
 	const addBulletList=(props)=>{
 		var textArea=document.getElementById("textAreaContainer");
 		var liItem;
@@ -506,59 +507,6 @@ const Photo=styled.div`
 		}
 	}
 
-
-
-
-
-	const sendRegularPost=async(profilePostType)=>{
-		console.log("REgular Post test");
-		debugger;
-		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
-		const searchCriteriaIndustryArray=[];
-		const content=document.getElementById("textAreaContainer").innerText;
-		const industries=industriesSelected;
-		const selectedSubCommunities=subIndustriesSelected; 
-
-		var counter=0;
-		for(var i=0;i<industries.length;i++){
-			var {subCommunity}=industries[i];
-			var addIndustryOrIndustryObject=false;
-			var subCommunitiyArray=[];
-			var subCommunityCounter=0;
-			while(subCommunityCounter<subCommunity.length){
-				const targetedSubCommunity=subCommunity[subCommunityCounter];
-				if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
-					subCommunitiyArray.push(selectedSubCommunities[counter]);
-					counter++;
-					subCommunityCounter=0;
-				}else{
-					subCommunityCounter++;
-				}
-			}
-			const searchObject={
-						industry:industries[i].industry,
-						subIndustry:subCommunitiyArray
-			}
-				searchCriteriaIndustryArray.push(searchObject);
-		}
-		const searchCriteriaObject={
-			post:content,
-			industryArray:searchCriteriaIndustryArray
-		}
-
-		const {id}=personalInformation;
-		debugger;
-		if(profilePostType=="Company"){
-			createRegularPost(props.companyProfileId,searchCriteriaObject,profilePostType);
-		}else{
-			createRegularPost(props.personalProfileId,searchCriteriaObject,profilePostType);
-		}
-	}
-
-
-
-
-
 	const enableCodingBlock=()=>{
 		changeCodingBlockDisplay(!displayCodingBlock);
 		changeItalics(false);
@@ -612,14 +560,89 @@ const Photo=styled.div`
 		changeSubIndustriesSelected(selectedSubCommunities);
 	}
 
+*/
+
+const sendRegularPost=async(profilePostType)=>{
+		console.log("REgular Post test");
+		debugger;
+		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
+		const searchCriteriaIndustryArray=[];
+		const content=editorState;
+		const industries=industriesSelected;
+		const selectedSubCommunities=subIndustriesSelected; 
+
+		var counter=0;
+		for(var i=0;i<industries.length;i++){
+			var {subCommunity}=industries[i];
+			var addIndustryOrIndustryObject=false;
+			var subCommunitiyArray=[];
+			var subCommunityCounter=0;
+			while(subCommunityCounter<subCommunity.length){
+				const targetedSubCommunity=subCommunity[subCommunityCounter];
+				if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
+					subCommunitiyArray.push(selectedSubCommunities[counter]);
+					counter++;
+					subCommunityCounter=0;
+				}else{
+					subCommunityCounter++;
+				}
+			}
+			const searchObject={
+						industry:industries[i].industry,
+						subIndustry:subCommunitiyArray
+			}
+				searchCriteriaIndustryArray.push(searchObject);
+		}
+		const searchCriteriaObject={
+			post:content,
+			industryArray:searchCriteriaIndustryArray
+		}
+
+		const {id}=personalInformation;
+		debugger;
+		if(profilePostType=="Company"){
+			createRegularPost(props.companyProfileId,searchCriteriaObject,profilePostType);
+		}else{
+			createRegularPost(props.personalProfileId,searchCriteriaObject,profilePostType);
+		}
+	}
+	const onEditorStateChange=(editorState)=>{
+		changeEditorState(editorState);
+	}
 
 
 	return(
 		<PostConsumer>
 			{userInformation=>{
 				return <Container>
-							{displayCameraModalIndicator()}
+							<ul>
+								<li style={{listStyle:"none"}}>
+									<Editor
+									  editorState={editorState}
+									  toolbarClassName="toolbarClassName"
+									  wrapperClassName="wrapperClassName"
+									  editorClassName="editorClassName"
+									  onEditorStateChange={onEditorStateChange}
+									/>
+								</li>
+								<li style={{listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",padding:"10px",textAlign:"center",fontSize:"15px",borderRadius:"5px",marginLeft:"80%"}}>
+										
+										<ul onClick={()=>sendRegularPost(userInformation.profileType)} style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+												<SendIcon
+													style={{fontSize:20,color:"white"}}
+												/>
+											</li>
 
+											<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
+												Send
+											</li>
+										</ul>
+
+								</li>
+							</ul>
+						{/*
+							{displayCameraModalIndicator()}
 							<CameraModal id="cameraModal">
 											<PhotoButton id="photoButton" onClick={()=>photo()}/>
 											<video id="video" height="70%" width="100%" autoplay="true">
@@ -729,58 +752,6 @@ const Photo=styled.div`
 											</ul>
 
 										</li>
-										
-										{/*
-
-
-
-										<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"-50px",marginRight:"1%"}}>
-											<div class="dropdown">
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																			borderColor:"#5298F8",
-																																			borderStyle:"solid",
-																																			borderWidth:"1px",
-																																			color:"#5298F8",
-																																			backgroundColor:"white"}}>
-														Industries
-													   	<span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
-														{PERSONAL_INDUSTRIES.INDUSTRIES.map(data=>
-															<li>
-																<a href="javascript:;" onClick={()=>setIndustry(data.industry)}>{data.industry}</a>
-															</li>
-														)}
-													</ul>
-							  				 </div>
-										</li>
-
-										{subCommunities.length!=0?
-											<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"-50px"}}>
-												<div class="dropdown">
-														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																				borderColor:"#5298F8",
-																																				borderStyle:"solid",
-																																				borderWidth:"1px",
-																																				color:"#5298F8",
-																																				backgroundColor:"white"}}>
-															Sub-communities
-														   	<span class="caret"></span>
-														</button>
-
-														<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
-															{subCommunities.map(data=>
-																<li>
-																	<a href="javascript:;" onClick={()=>changeSelectedSubCommunity(data.industry)}>{data.industry}</a>
-																</li>
-															)}
-														</ul>
-								  				 </div>
-											</li>:
-											<React.Fragment>
-											</React.Fragment>
-										}
-									*/}
 									</ul>
 								</li>
 
@@ -811,6 +782,12 @@ const Photo=styled.div`
 							<canvas id="canvas"  style={{width:"240",height:"297",border:"1px solid #d3d3d3"}}>
 
 							</canvas>
+
+
+
+
+						*/}
+							
 						</Container>
 					}}
 				</PostConsumer>
