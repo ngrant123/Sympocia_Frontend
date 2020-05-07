@@ -35,7 +35,7 @@ class BlogPostCreation extends Component{
 
 	constructor(props){
 		super(props);
-
+		console.log(props);
 		console.log("Teste");
 		this.state={
 			userInformation:{},
@@ -46,8 +46,13 @@ class BlogPostCreation extends Component{
 
 	componentDidMount=()=>{
 		debugger;
+		var isOwner=false;
+		if(this.props.state._id==this.props.match.params.id){
+			isOwner=true;
+		}
 		this.setState({
-			userInformation:this.props.state
+			userInformation:this.props.personalInformation,
+			isOwner:isOwner
 		})
 	}
 
@@ -68,6 +73,7 @@ class BlogPostCreation extends Component{
 	render(){
 		return(
 			<BlogProvider value={{
+				isOwner:this.state.isOwner,
 				personInformation:this.state.userInformation,
 				blogPostState:this.state.blog,
 				updateBlogPost:(blogPost)=>{
@@ -93,7 +99,7 @@ class BlogPostCreation extends Component{
 const mapStateToProps=(state)=>{
 
 	return{
-		state:state.personalInformation
+		personalInformation:state.personalInformation
 	}
 }
 

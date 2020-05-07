@@ -54,7 +54,7 @@ const application  = (
 				<Route exact path="/map" component= {MapScreen} />
 				//TEST
 				<Route exact path="/demo" component={Demo}/>
-				<Route exact path="/blog" component={BlogPostCreation}/>
+				<Route exact path="/blog/:id" component={BlogPostCreation}/>
 
 			</Switch>
 		</Router>

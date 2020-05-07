@@ -10,7 +10,6 @@ const Container=styled.div`
 	position:absolute;
 	width:95%;
 	height:125%;
-	overflow-y:scroll;
 	padding:10px;
 	padding-right:10px;
 `;
@@ -46,10 +45,11 @@ const SmallBlogComponent=styled.div`
 const SmallBlog=styled.div`
 
 	position:relative;
-	height:65%;
+	height:50%;
 	width:100%;
 	background-color:red;
 	border-radius:5px;
+	overflow:hidden;
 `;
 
 
@@ -74,6 +74,7 @@ class BlogsPostsContainer extends Component{
 		if(this.props.profile=="Personal"){
 			
 			const {	headerBlog,blogs}=await getBlogFromUser(this.props.id);
+			console.log(blogs);
 			this.setState({
 				headerBlog:headerBlog,
 				blogs:blogs,
@@ -194,7 +195,7 @@ class BlogsPostsContainer extends Component{
 													<li style={{listStyle:"none",marginTop:"5%"}}>	
 														<ul style={{padding:"0px"}}>
 															{this.state.blogs.map(data=>
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"5%"}}>
+																<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"-7%"}}>
 																	<SmallBlogComponent>
 																		<ul style={{padding:"0px"}}>
 																			<li style={{listStyle:"none"}}>
@@ -206,13 +207,16 @@ class BlogsPostsContainer extends Component{
 																			<li style={{listStyle:"none",fontSize:"15px"}}>
 																				<b> {data.title} </b>
 																			</li>
+																			<li style={{listStyle:"none",fontSize:"15px"}}>
+																				{data.description}
+																			</li>
 																			{/*
 																				<li style={{listStyle:"none"}}>
 																					{this.constructName(personalInformation)}
 																				</li>
 																			*/}
 
-																			<li style={{listStyle:"none"}}>
+																			<li style={{listStyle:"none",color:"#8c8c8c"}}>
 																				<ul style={{padding:"0px"}}>
 																					<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 																						127k views

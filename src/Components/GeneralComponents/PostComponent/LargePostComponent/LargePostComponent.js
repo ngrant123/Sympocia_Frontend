@@ -417,13 +417,11 @@ class LargePostComponent extends Component{
 							</li>
 
 							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"5px"}}>
-								<BlogOptionButton id="blogCreationButton" to="/blog">
+								<BlogOptionButton id="blogCreationButton" to={`/blog/${this.props._id}`}>
 									Blog
 								</BlogOptionButton>
 							</li>
 						</ul>
-				
-
 					</PostOptionsContainer>
 				</React.Fragment>
 		)

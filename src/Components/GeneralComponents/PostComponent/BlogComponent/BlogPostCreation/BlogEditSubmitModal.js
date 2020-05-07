@@ -7,6 +7,7 @@ import {createBlogPost} from "../../../../../Actions/Requests/PostAxiosRequests/
 import {connect} from "react-redux";
 import {BlogConsumer} from "./BlogContext.js";
 import {PostConsumer} from "../../PostContext.js";
+import { convertToRaw } from 'draft-js';
 
 const Container=styled.div`
 	position:absolute;
@@ -118,14 +119,16 @@ class BlogEditSubmitModal extends Component{
 			var subCommunitiyArray=[];
 			var subCommunityCounter=0;
 
-			while(subCommunityCounter<subCommunity.length){
-				const targetedSubCommunity=subCommunity[subCommunityCounter];
-				if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
-					subCommunitiyArray.push(selectedSubCommunities[counter]);
-					counter++;
-					subCommunityCounter=0;
-				}else{
-					subCommunityCounter++;
+			if(subCommunity!=null){
+				while(subCommunityCounter<subCommunity.length){
+					const targetedSubCommunity=subCommunity[subCommunityCounter];
+					if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
+						subCommunitiyArray.push(selectedSubCommunities[counter]);
+						counter++;
+						subCommunityCounter=0;
+					}else{
+						subCommunityCounter++;
+					}
 				}
 			}
 			const searchObject={
@@ -135,12 +138,12 @@ class BlogEditSubmitModal extends Component{
 				searchCriteriaIndustryArray.push(searchObject);
 		}
 		debugger;
-		const rawDraftContentState = JSON.stringify(convertToRaw(blogPostInformation.blogPostState));
+		const rawDraftContentState = JSON.stringify(convertToRaw(blogPostInformation.blogPostState.getCurrentContent()));
 		const blogPostSendObject={
 			title:title,
 			description:description,
 			industryArray:searchCriteriaIndustryArray,
-			blog:blogPostInformation.blogPostState,
+			blog:rawDraftContentState,
 			imgUrl:this.state.pictureUrl
 		}
 			//Quick fix but this could be implemented in a better way

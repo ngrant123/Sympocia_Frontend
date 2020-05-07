@@ -382,20 +382,28 @@ const PersonalPostsIndex=(props)=>{
 												</ul>
 											</li>
 
-											<li id="images" onClick={()=>handlePostsClick("image")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
-												Images
+											<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+												<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
+													Images
+												</a>
 											</li>
 
-											<li id="videos" onClick={()=>handlePostsClick("video",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-												Videos
+											<li onClick={()=>handlePostsClick("video",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+												<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+													Videos
+												</a>
 											</li>
 
-											<li id="regularPosts" onClick={()=>handlePostsClick("regularPost",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-												Regular Posts
+											<li onClick={()=>handlePostsClick("regularPost",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+												<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+													Regular Posts
+												</a>
 											</li>
 
-											<li id="blogs" onClick={()=>handlePostsClick("blog",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-												Blogs
+											<li onClick={()=>handlePostsClick("blog",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+												<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+													Blogs
+												</a>
 											</li>
 
 											<li style={listCSSButton}>	
