@@ -69,7 +69,10 @@ const ImageContainer=(props)=>{
 		}}>
 			<React.Fragment>>
 				{displayImageModal==true?
-					null:
+					<EditImageCreation
+						imageSrcUrl={props.imageData.imgUrl}
+
+					/>:
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"70px"}}>
 							<ul>
@@ -103,7 +106,7 @@ const ImageContainer=(props)=>{
 								</li>
 								<li style={{listStyle:"none"}}>
 									<Image>	
-										
+										<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%"}}/>
 									</Image>
 								</li>
 

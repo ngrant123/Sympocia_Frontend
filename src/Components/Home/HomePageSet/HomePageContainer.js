@@ -161,7 +161,7 @@ class HomePageContainer extends Component{
 			chatPageIndicator:"",
 			displaySearchExplorePage:true,
 			recruitsPost:[{},{},{},{},{},{},{}],
-			displayRecruitsPosts:true
+			displayRecruitsPosts:false
 		}
 	}
 
