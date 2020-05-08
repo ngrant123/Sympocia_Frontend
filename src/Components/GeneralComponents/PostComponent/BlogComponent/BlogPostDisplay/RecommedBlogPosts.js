@@ -4,11 +4,12 @@ import styled from "styled-components";
 
 const RecommededBlogsContainer=styled.div`
 	position:relative;
-	height:90%;
+	height:120%;
 	width:400px;
 	border-radius:5px;
 	box-shadow: 1px 1px 5px #d5d5d5;
 	overflow-y:auto;
+	top:0px;
 `;
 
 

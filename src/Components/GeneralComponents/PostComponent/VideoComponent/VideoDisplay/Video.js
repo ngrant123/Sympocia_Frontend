@@ -121,7 +121,6 @@ class Video extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(this.props.video.videoUrl);
 		this.state={
 			displayComments:false,
 			displayDescription:false,
@@ -208,9 +207,9 @@ displayShadow=()=>{
 					<ul style={{padding:"0px",position:"relative",zIndex:"5px"}}>
 
 						<li style={{listStyle:"none",display:"inline-block",color:"yellow",marginRight:"2%"}}>
-							<SmallVideoModal key={this.props.video.videoUrl} id="smallVideoMaodl">
+							<SmallVideoModal  id="smallVideoMaodl">
 								<video id="smallVideo" position="relative" height="100%" width="100%" controls autoplay>
-								    <source src={this.props.video.videoUrl} type="video/mp4"/>
+								    <source src="" type="video/mp4"/>
 								</video>
 
 							</SmallVideoModal>
@@ -228,11 +227,11 @@ displayShadow=()=>{
 
 				{this.displayOrHideVideoAndComments()}
 
-    			<video  key={this.props.video.videoUrl} id="video" position="relative" height="100%" width="100%" controls autoplay>
-				    <source src={this.props.video.videoUrl} type="video/mp4"/>
+    			<video   id="video" position="relative" height="100%" width="100%" controls autoplay>
+				    <source src="" type="video/mp4"/>
 				</video>
 
-				{this.displayDescription(this.props.video)}
+				{this.displayDescription()}
 
 				<OptionsContainer>
 					<ul style={{padding:"0px"}}>

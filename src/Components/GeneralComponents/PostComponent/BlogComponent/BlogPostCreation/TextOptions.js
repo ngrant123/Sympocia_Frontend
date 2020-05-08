@@ -111,7 +111,7 @@ const TextOptions=(props)=>{
 
 									</li>
 
-									<li style={{listStyle:"none"}}>
+									<li style={{listStyle:"none",filter:" blur(8px)"}}>
 										<ul style={{padding:"10px",minHeight:"50%",borderRadius:"5px"}}>
 											<li style={TextOptionsCSS}>
 														<ImageOutlinedIcon

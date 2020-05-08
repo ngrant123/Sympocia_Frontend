@@ -56,7 +56,7 @@ const PostOptionsContainer = styled.div`
  	position:absolute;
  	height:100%;
  	width:70%;
- 	left:30%
+ 	left:200px;
  	overflow:scroll;
  	resize:none;
  	padding:20px;

@@ -33,15 +33,11 @@ const PostContentAndCommentsButtons=styled.div`
 
 
 const CommentsContainerDiv=styled.div`
+
 	position:absolute;
-	width:35%;
-	height:90%;
-	top:0%;
-	left:60%;
-	background-color:blue;
-	border-radius:5px;
-	overflow-y:scroll;
-	background-color:blue;
+	width:80%;
+	height:300px;
+	margin-top:13px;
 `;
 
 const PostProfilePicture=styled.div`
@@ -113,18 +109,6 @@ const SocialMedaIcon=styled.div`
 const RegularPostContainer=()=>{
 
 	const [displayCommentsAndResponses,changeDisplayCommentsAndResponses]=useState(false);
-	const DisplayCommentsAndResponses=()=>{
-
-		if(displayCommentsAndResponses==true){
-			const postContainer=document.getElementById("postContentContainer");
-
-			return <CommentsContainerDiv>
-						<CommentsContainer/>
-				  </CommentsContainerDiv>
-		}else{
-			return <React.Fragment></React.Fragment>
-		}
-	}
 
 	const DisplayCommentsState=()=>{
 		changeDisplayCommentsAndResponses(true);
@@ -140,16 +124,20 @@ const RegularPostContainer=()=>{
 					<PosterInformation/>
 
 				</li>
+				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",height:"20%",overflow:"hidden"}}>
+					{displayCommentsAndResponses==true?
+						<CommentsContainerDiv>
+							<CommentsContainer/>
+					  </CommentsContainerDiv>:
+					  <PostContent
+							displayComments={DisplayCommentsState}	
+							hideComments={HideComments}
+						/>
 
-				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-					<PostContent
-						displayComments={DisplayCommentsState}	
-						hideComments={HideComments}
-					/>
+					}
 				</li>
 			</ul>
 
-			{DisplayCommentsAndResponses()}
 
 
 

@@ -4,6 +4,8 @@ import {getRegularPostFromUser} from "../../../../../../Actions/Requests/Profile
 import {getCompanyRegularPosts} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import NoPostsModal from "../NoPostsModal.js";
 import {UserConsumer} from "../../../UserContext.js";
+import { convertFromRaw,EditorState } from 'draft-js';
+import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 
 const Container=styled.div`
 	position:absolute;
@@ -17,22 +19,25 @@ const Container=styled.div`
 const RegularPostContainer=styled.div`
 	background-color:white;
 	width:102%;
-	height:60%;
+	height:30%;
 	border-radius:5px;
 	box-shadow: 10px 10px 20px 	#dbdddf;
 `;
 
-
 const ProfilePicture=styled.div`
 	position:relative;
 	border-radius:50%;
-	height:30%;
-	width:30%
+	height:40%;
+	width:45%;
 	background-color:red;
 	margin-top:2%;
 	overflow:hidden;
-	border-radius:5px;
-	margin-left:25%;
+	border-radius:50%;
+	margin-left:20%;
+
+	border-style:solid;
+	border-width:2px;
+	border-color:#5298F8;
 `;
 
 const PostCommentsAndLikesButtons=styled.div`
@@ -52,6 +57,7 @@ const Post=styled.div`
 	height:50%;
 	overflow-y:scroll;
 	font-size:15px;
+	padding-top:30px;
 `;
 
 const CommentsProfile=styled.div`
@@ -90,22 +96,47 @@ class RegularPostsContainer extends Component{
 
 	async componentDidMount(){
 		debugger;
+
 		if(this.props.profile=="Personal"){
 			const regularPosts=await getRegularPostFromUser(this.props.id);
+			const newRegularPosts=await this.constructRegularPosts(regularPosts);
 				debugger;
 				console.log(regularPosts);
+				console.log(newRegularPosts);
 				this.setState({
-					regularPosts:regularPosts,
+					regularPosts:newRegularPosts,
 					isLoading:false
 				})
-		}else{	
+		}else{									
 			const regularPosts=await getCompanyRegularPosts(this.props.id);
-				console.log(regularPosts);
+			const newRegularPosts=await this.constructRegularPosts(regularPosts);
+			debugger;
+
+			console.log(newRegularPosts);
+			console.log(regularPosts);
+
 				this.setState({
-					regularPosts:regularPosts,
+					regularPosts:newRegularPosts,
 					isLoading:false
 				})
+			}
+	}
+
+	constructRegularPosts=(regularPosts)=>{
+		debugger;
+		for(var i=0;i<regularPosts.length;i++){
+			const {post}=regularPosts[i];
+			var DBEditorState = convertFromRaw(JSON.parse(post));
+			var postContentState=EditorState.createWithContent(DBEditorState);
+			const content=postContentState.getCurrentContent().getPlainText('\u0001');
+
+			const newRegularPost={
+				...regularPosts[i],
+				post:content
+			}
+			regularPosts[i]=newRegularPost
 		}
+		return regularPosts;
 	}
 
 	render(){
@@ -128,7 +159,10 @@ class RegularPostsContainer extends Component{
 																		<ul style={{padding:"0px"}}>
 																			<li style={{listStyle:"none",marginBottom:"2%"}}>
 																				<ProfilePicture>
-																					<img src={personalInformation.userProfile.profilePicture} width="100%" height="100%"/>
+																					{personalInformation.userProfile.profilePicture==null?
+																					 	<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
+																					 	<img id="profilePicture" src={personalInformation.userProfile.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
+																					}
 																				</ProfilePicture>
 																			</li>
 																			<li style={{listStyle:"none",marginBottom:"2%",marginLeft:"30%"}}>
@@ -151,7 +185,6 @@ class RegularPostsContainer extends Component{
 																						<PostCommentsAndLikesButtons>
 																							{data.comments.length} comments
 																						</PostCommentsAndLikesButtons>
-
 																					</li>
 																				</ul>
 																			</li>
@@ -161,7 +194,7 @@ class RegularPostsContainer extends Component{
 
 																	<li style={{listStyle:"none",display:"inline-block"}}>
 																		<ul style={{padding:"0px"}}>
-																			<li style={{listStyle:"none",marginTop:"5%"}}>
+																			<li style={{listStyle:"none"}}>
 																				<Post>
 																					{data.post}
 

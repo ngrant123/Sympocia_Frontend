@@ -67,12 +67,9 @@ const ImageContainer=(props)=>{
 				changeIndicator(indicator);
 			}
 		}}>
-			<Container>
+			<React.Fragment>>
 				{displayImageModal==true?
-					<EditImageCreation
-						imageSrcUrl={props.imageData.imgUrl}
-
-					/>:
+					null:
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"70px"}}>
 							<ul>
@@ -106,7 +103,7 @@ const ImageContainer=(props)=>{
 								</li>
 								<li style={{listStyle:"none"}}>
 									<Image>	
-										<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%"}}/>
+										
 									</Image>
 								</li>
 
@@ -127,7 +124,7 @@ const ImageContainer=(props)=>{
 						</li>
 					</ul>
 				}
-			</Container>
+			</React.Fragment>
 		</ImageProvider>
 
 	)

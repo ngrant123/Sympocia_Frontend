@@ -21,6 +21,7 @@ import IndustryPostOptions from "../../IndustryPostOptions.js";
 import {connect} from "react-redux";
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { convertToRaw} from 'draft-js';
 
 const Container = styled.div`
 	position:relative;
@@ -551,7 +552,7 @@ const Photo=styled.div`
 			}
 		}
 	}
-
+*/
 	const alterSelectedIndustry=(selectedIndustries)=>{
 		changeIndustriesSelected(selectedIndustries);
 	}
@@ -560,14 +561,14 @@ const Photo=styled.div`
 		changeSubIndustriesSelected(selectedSubCommunities);
 	}
 
-*/
-
 const sendRegularPost=async(profilePostType)=>{
 		console.log("REgular Post test");
 		debugger;
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const searchCriteriaIndustryArray=[];
 		const content=editorState;
+		const rawDraftContentState = JSON.stringify(convertToRaw(content.getCurrentContent()));
+
 		const industries=industriesSelected;
 		const selectedSubCommunities=subIndustriesSelected; 
 
@@ -594,7 +595,7 @@ const sendRegularPost=async(profilePostType)=>{
 				searchCriteriaIndustryArray.push(searchObject);
 		}
 		const searchCriteriaObject={
-			post:content,
+			post:rawDraftContentState,
 			industryArray:searchCriteriaIndustryArray
 		}
 
@@ -615,7 +616,17 @@ const sendRegularPost=async(profilePostType)=>{
 		<PostConsumer>
 			{userInformation=>{
 				return <Container>
-							<ul>
+							<ul style={{padding:"10px"}}>			
+								<li style={{listStyle:"none"}}>	
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<IndustryPostOptions
+												alterSelectedIndustry={alterSelectedIndustry}
+												alterSelectedSubCommunities={alterSelectedSubCommunities}
+											/>
+										</li>
+									</ul>
+								</li>
 								<li style={{listStyle:"none"}}>
 									<Editor
 									  editorState={editorState}
@@ -625,20 +636,40 @@ const sendRegularPost=async(profilePostType)=>{
 									  onEditorStateChange={onEditorStateChange}
 									/>
 								</li>
-								<li style={{listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",padding:"10px",textAlign:"center",fontSize:"15px",borderRadius:"5px",marginLeft:"80%"}}>
-										
-										<ul onClick={()=>sendRegularPost(userInformation.profileType)} style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-												<SendIcon
-													style={{fontSize:20,color:"white"}}
-												/>
-											</li>
+								<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",marginRight:"-1%"}}>
+											<div class="dropdown">
+													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																			borderColor:"#5298F8",
+																																			borderStyle:"solid",
+																																			borderWidth:"1px",
+																																			color:"#5298F8",
+																																			backgroundColor:"white"}}>
+														Post Option
+													   	<span class="caret"></span>
+													</button>
 
-											<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
-												Send
-											</li>
-										</ul>
+													<ul class="dropdown-menu">
+														<li onClick={()=>props.displayProps("ImagePosts")}><a>Image</a></li>
+														<li onClick={()=>props.displayProps("VideoPosts")}><a>Video</a></li>
+														<li onClick={()=>props.displayProps("RegularPost")}><a>Post</a></li>
+														<li onClick={()=>props.displayProps("RegularPost")}><a href={"/blog"}>Blog</a></li>
+													</ul>
+							  				 </div>
+								</li>
+								<li style={{listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px",marginLeft:"80%"}}>
+										<a href="javascript:void(0);">
+											<ul onClick={()=>sendRegularPost(userInformation.profileType)} style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+													<SendIcon
+														style={{fontSize:20,color:"white"}}
+													/>
+												</li>
 
+												<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
+													Send
+												</li>
+											</ul>
+										</a>
 								</li>
 							</ul>
 						{/*
@@ -775,6 +806,13 @@ const sendRegularPost=async(profilePostType)=>{
 										<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
 											Send
 										</li>
+									</ul>
+
+								</li>
+								<li>	
+									<ul style={{padding:"0px"}}>
+
+
 									</ul>
 
 								</li>

@@ -4,6 +4,7 @@ import {getBlogFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRe
 import {getCompanyBlogs} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import NoPostsModal from "../NoPostsModal.js";
 import {UserConsumer} from "../../../UserContext.js";
+import {Link} from "react-router-dom";
 
 
 const Container=styled.div`
@@ -50,6 +51,12 @@ const SmallBlog=styled.div`
 	background-color:red;
 	border-radius:5px;
 	overflow:hidden;
+`;
+
+const BlogContainer=styled(Link)`
+	
+
+
 `;
 
 
@@ -195,46 +202,48 @@ class BlogsPostsContainer extends Component{
 													<li style={{listStyle:"none",marginTop:"5%"}}>	
 														<ul style={{padding:"0px"}}>
 															{this.state.blogs.map(data=>
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"-7%"}}>
-																	<SmallBlogComponent>
-																		<ul style={{padding:"0px"}}>
-																			<li style={{listStyle:"none"}}>
-																				<SmallBlog>
-																					<img src={data.blogImageUrl} width="100%" height="100%"/>
-																				</SmallBlog>
-																			</li>
-
-																			<li style={{listStyle:"none",fontSize:"15px"}}>
-																				<b> {data.title} </b>
-																			</li>
-																			<li style={{listStyle:"none",fontSize:"15px"}}>
-																				{data.description}
-																			</li>
-																			{/*
+																<BlogContainer to={{pathname:`/blog/${personalInformation.userProfile._id}`,state:data}}>
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"-7%"}}>
+																		<SmallBlogComponent>
+																			<ul style={{padding:"0px"}}>
 																				<li style={{listStyle:"none"}}>
-																					{this.constructName(personalInformation)}
+																					<SmallBlog>
+																						<img src={data.blogImageUrl} width="100%" height="100%"/>
+																					</SmallBlog>
 																				</li>
-																			*/}
 
-																			<li style={{listStyle:"none",color:"#8c8c8c"}}>
-																				<ul style={{padding:"0px"}}>
-																					<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-																						127k views
+																				<li style={{listStyle:"none",fontSize:"15px"}}>
+																					<b> {data.title} </b>
+																				</li>
+																				<li style={{listStyle:"none",fontSize:"15px"}}>
+																					{data.description}
+																				</li>
+																				{/*
+																					<li style={{listStyle:"none"}}>
+																						{this.constructName(personalInformation)}
 																					</li>
+																				*/}
 
-																					<li style={{listStyle:"none",display:"inline-block"}}>
-																						6 days ago
-																					</li>
-																				</ul>
-																			</li>
+																				<li style={{listStyle:"none",color:"#8c8c8c"}}>
+																					<ul style={{padding:"0px"}}>
+																						<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+																							127k views
+																						</li>
 
-																			<li style={{listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
-																				{data.industriesUploaded[0].industry}
-																			</li>
-																		</ul>
+																						<li style={{listStyle:"none",display:"inline-block"}}>
+																							6 days ago
+																						</li>
+																					</ul>
+																				</li>
 
-																	</SmallBlogComponent>
-																</li>
+																				<li style={{listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
+																					{data.industriesUploaded[0].industry}
+																				</li>
+																			</ul>
+
+																		</SmallBlogComponent>
+																	</li>
+																</BlogContainer>
 															)}
 														</ul>
 													</li>

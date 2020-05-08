@@ -118,7 +118,6 @@ class SearchExploreContainer extends Component{
 									alterSelectedIndustry={this.alterSelectedIndustry}
 									alterSelectedSubCommunities={this.alterSelectedSubCommunities}
 								/>
-								
 							</li>
 
 							<li style={{listStyle:"none",display:"inline-block",marginLeft:"45%"}}>

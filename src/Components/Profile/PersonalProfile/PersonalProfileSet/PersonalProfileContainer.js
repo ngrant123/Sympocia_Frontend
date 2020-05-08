@@ -242,9 +242,22 @@ const ShadowContainer= styled.div`
 
 `;
 
+const ImagePopupContainer=styled.div`
+	margin-left:20%;
+	margin-top:10%;
+	position:relative;
+	width:70%;
+	height:60%;
+	background-color:white;
+	padding:20px;
+	z-index:9;
+	border-radius:5px;
+`;
+
 const PostPopupContainer=styled.div`
 	margin-left:20%;
 	margin-top:10%;
+
 `;
 
 
@@ -511,11 +524,11 @@ class LProfile extends Component{
 			}
 		}
 		return this.state.displayImagePostModal?
-			<PostPopupContainer>
+			<ImagePopupContainer>
 				<ImageContainer
 					imageData={newImageObject}
 				/>
-			</PostPopupContainer>:
+			</ImagePopupContainer>:
 			<React.Fragment></React.Fragment>
 	}
 

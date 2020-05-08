@@ -29,7 +29,7 @@ const BlogPostContainer=()=>{
 
 		<Container>
 			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+				<li style={{listStyle:"none",display:"inline-block",marginRight:"-5%"}}>
 						<BlogPost/>
 				</li>
 

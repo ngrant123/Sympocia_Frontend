@@ -5,7 +5,7 @@ import {ImageConsumer} from "./ImageContext.js";
 
 const Container=styled.div`
 	position:absolute;
-	width:50%;
+	width:40%;
 	height:82%;
 	z-index:3;
 	background-color:white;
@@ -59,14 +59,14 @@ const ImageInformation=(props)=>{
 			<ImageConsumer>
 				{information=>{
 					return <Container>
-								<ul style={{padding:"0px"}}>
+								<ul style={{padding:"0px",marginTop:"23%"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
-										<p style={{fontSize:"20px"}}>{props.imageInformation.firstName} {props.imageInformation.lastName} </p>
+										<p style={{fontSize:"20px"}}> </p>
 									</li>
 
 									<li style={{listStyle:"none",display:"inline-block"}}>
 										<IndustryButton>
-											{props.imageInformation.industriesUploaded[0].industry}
+											
 										</IndustryButton>
 									</li>
 
@@ -74,11 +74,11 @@ const ImageInformation=(props)=>{
 
 								<p style={{height:"30%",width:"90%",fontSize:"40px",overflow:"hidden"}}>
 									<b>
-										{props.imageInformation.caption}
+									
 									</b>
 								</p>
 								<p style={{height:"35%",overflow:"hidden"}}> 
-									 {props.imageInformation.description}
+								
 								 </p>
 
 								 <ul style={{padding:"0px",marginTop:"5px"}}>

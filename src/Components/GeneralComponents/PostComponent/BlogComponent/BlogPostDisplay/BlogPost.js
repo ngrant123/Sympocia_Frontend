@@ -60,7 +60,7 @@ const BlogPost=()=>{
 
 		<BlogContainer>
 			<ul style={{padding:"0px"}}>
-				<li style={{position:"relative",listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+				<li style={{position:"relative",listStyle:"none",display:"inline-block",marginRight:"-2 %"}}>
 					<Container1>
 
 				

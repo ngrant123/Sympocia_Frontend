@@ -25,9 +25,11 @@ class Blog extends Component{
 			firstTimeClick:true,
 			blogPostContents:"Testing blog contents",
 			firstEdit:true,
-			editorState:""
+			editorState:"",
+			initialValue:true
 		}
 	}
+
 
 	emptyTextArea=()=>{
 		if(this.state.firstTimeClick==true){
@@ -61,6 +63,18 @@ class Blog extends Component{
 		})
 	}
 
+	handleSetInitialBlogContent=(postInformation)=>{
+		if(postInformation.isOwner==true && this.state.initialValue==true){
+			this.setState({
+				editorState:postInformation.blog,
+				initialValue:false
+			},function(){
+				return this.state.editorState;	
+			})
+		}
+		return this.state.editorState;
+	}
+
 
 
 	render(){
@@ -71,12 +85,13 @@ class Blog extends Component{
 				{postInformation=>{
 					return <Container>
 								<Editor
-									  editorState={this.state.editorState}
+									  editorState={this.handleSetInitialBlogContent(postInformation)}
 									  toolbarClassName="toolbarClassName"
 									  wrapperClassName="wrapperClassName"
 									  editorClassName="editorClassName"
 									  onEditorStateChange={this.onEditorStateChange}
 									  placeholder="Start typing to create your masterpiece"
+									  readOnly={!postInformation.isOwner}
 								/>
 								{this.handleBlogTextAreaChange(postInformation)}
 							</Container>

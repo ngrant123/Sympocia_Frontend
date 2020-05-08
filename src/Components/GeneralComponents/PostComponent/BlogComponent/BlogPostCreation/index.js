@@ -10,6 +10,7 @@ import AdditionalInformation from "./AdditionalInformation.js";
 import TextOptions from "./TextOptions.js";
 import Blog from "./Blog.js";
 import BlogEditSubmitModal from "./BlogEditSubmitModal.js";
+import { convertFromRaw,EditorState } from 'draft-js';
 
 const Container=styled.div`
 	position:absolute;
@@ -47,12 +48,15 @@ class BlogPostCreation extends Component{
 	componentDidMount=()=>{
 		debugger;
 		var isOwner=false;
-		if(this.props.state._id==this.props.match.params.id){
+		if(this.props.personalInformation.id==this.props.match.params.id){
 			isOwner=true;
 		}
+		var DBEditorState = convertFromRaw(JSON.parse(this.props.location.state.blog));
+		var blogContentState=EditorState.createWithContent(DBEditorState);
 		this.setState({
 			userInformation:this.props.personalInformation,
-			isOwner:isOwner
+			isOwner:isOwner,
+			blogContent:blogContentState
 		})
 	}
 
@@ -73,6 +77,7 @@ class BlogPostCreation extends Component{
 	render(){
 		return(
 			<BlogProvider value={{
+				blog:this.state.blogContent,
 				isOwner:this.state.isOwner,
 				personInformation:this.state.userInformation,
 				blogPostState:this.state.blog,

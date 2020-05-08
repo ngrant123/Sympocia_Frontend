@@ -4,15 +4,14 @@ import styled from "styled-components";
 
 const PostContentAndCommentsButtons=styled.div`
 	position:relative;
-	height:80%;
-	width:800;
+	width:800px;
 	overflow:hidden;
 
 `;
 
 const PostContent=styled.div`
 	position:relative;
-	width:95%;
+	width:130%;
 	max-height:250px;
 	overflow-y:auto;
 	font-size:20px;
@@ -72,11 +71,10 @@ const PostInformation=(props)=>{
 
 	}
 	return(
-
-		<PostContentAndCommentsButtons id="postContentContainer">
+		<React.Fragment>
 			<ul style={{padding:"0px",position:"absolute"}}>
 		
-				<li style={{listStyle:"none",maxHeight:"80%"}}>
+				<li style={{listStyle:"none",maxHeight:"80%",marginBottom:"2%"}}>
 					<PostContent id="postContent">
 						Lorem ipsum dolor sit amet, enim aenean integer vitae,
 						nibh eleifend voluptatem fringilla, amet fermentum platea,
@@ -121,8 +119,8 @@ const PostInformation=(props)=>{
 
 				</li>
 			</ul>
+		</React.Fragment>
 
-		</PostContentAndCommentsButtons>
 	)
 }
 

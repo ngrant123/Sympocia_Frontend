@@ -6,7 +6,7 @@ import RecommendedVideos from "./RecommendedVideos.js";
 const Container=styled.div`
 	position:relative;
 	width:90%;
-	height:70%;
+	height:85%;
 	z-index:9;
 	border-radius:5px;
 	background-color:white;

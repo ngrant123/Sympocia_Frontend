@@ -13,6 +13,7 @@ import ExploreIcon from '@material-ui/icons/Explore';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import AssistantIcon from '@material-ui/icons/Assistant';
 import YoutubeSearchedForIcon from '@material-ui/icons/YoutubeSearchedFor';
+import RecruitsPosts from "./RecruitsPostsModal.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -120,6 +121,30 @@ const CustomizedForYouPageIcon=styled.div`
 	}
 `;
 
+const RecruitsProfileContainer=styled.div`
+	width:85%;
+	height:20%;
+	background-color:red;
+	border-radius:50%;
+	border-style:solid;
+	border-color:#5298F8;
+	border-width:2px;
+	transition:8s;
+
+	&:hover{
+		box-shadow: 1px 1px 10px #707070; 
+	}
+`;
+
+const ShadowContainer= styled.div`
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	z-index:10;
+
+`;
+
 
 class HomePageContainer extends Component{
 
@@ -134,7 +159,9 @@ class HomePageContainer extends Component{
 			profileId:0,
 			displayChatPage:false,
 			chatPageIndicator:"",
-			displaySearchExplorePage:true
+			displaySearchExplorePage:true,
+			recruitsPost:[{},{},{},{},{},{},{}],
+			displayRecruitsPosts:true
 		}
 	}
 
@@ -310,6 +337,19 @@ class HomePageContainer extends Component{
 				/>
 
 				{this.chatPage()}
+				{this.state.displayRecruitsPosts==true?
+						<React.Fragment>
+							<ShadowContainer
+								onClick={()=>this.setState({displayRecruitsPosts:!this.state.displayRecruitsPosts})}
+							/>
+							<RecruitsPosts/>
+						</React.Fragment>
+						:<React.Fragment></React.Fragment>}
+
+						{/*
+							Home for you like for what you subscribed
+							and something like a mix between what you already like and what you may like
+				*/}
 				<PageIndicator>
 					<ul>
 						<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
@@ -339,16 +379,23 @@ class HomePageContainer extends Component{
 									</li>
 
 									<li style={{listStyle:"none"}}>
-										For You
+										 New posts
+									</li>
+									<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
+										<ul style={{padding:"0px"}}>
+											{this.state.recruitsPost.map(data=>
+												<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
+													<a style={{textDecoration:"none"}} href="javascript:void(0);">
+														<RecruitsProfileContainer>
+														</RecruitsProfileContainer>
+													</a>
+												</li>
+											)}
+										</ul>
 									</li>
 								</ul>
 							</ForYouIconContainer>
 						</li>
-
-						{/*
-							Home for you like for what you subscribed
-							and something like a mix between what you already like and what you may like
-						*/}
 					</ul>
 				</PageIndicator>
 				{this.state.displaySearchExplorePage==true?
@@ -360,7 +407,6 @@ class HomePageContainer extends Component{
 						{this.displayPersonalOrExploreFeed()}
 					</React.Fragment>
 				}
-
 			</Container>
 		)
 	}

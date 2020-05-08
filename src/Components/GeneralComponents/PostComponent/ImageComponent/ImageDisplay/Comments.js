@@ -5,7 +5,7 @@ import {ImageConsumer} from "./ImageContext.js";
 
 const Container=styled.div`
 	position:absolute;
-	width:50%;
+	width:40%;
 	height:82%;
 	margin-top:13px;
 	overflow-y:scroll;
