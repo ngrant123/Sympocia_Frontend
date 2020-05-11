@@ -594,7 +594,7 @@ class LProfile extends Component{
 						}
 					}}
 				>
-					<Container>
+					<Container id="personalContainer">
 						{this.state.displayShadowBackground==true?
 								<ShadowContainer
 									onClick={()=>this.setState({
@@ -637,6 +637,7 @@ class LProfile extends Component{
 
 							<PersonalProfileInformationContainer>
 								<PersonalInformation/>
+
 							</PersonalProfileInformationContainer>
 						</ProfileContainer>
 

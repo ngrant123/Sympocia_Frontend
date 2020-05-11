@@ -166,7 +166,6 @@ class HomePageContainer extends Component{
 	}
 
 	componentDidMount(){
-
 		/*
 			
 

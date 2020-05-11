@@ -12,6 +12,7 @@ import {UserConsumer} from "../../UserContext.js";
 import {PostProvider} from "./PostsContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {getVideosFromUser} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import FriendsGauge from "./FriendsGauge.js";
 
 const PostCreationContainer=styled.div`
 	position:relative;
@@ -32,8 +33,8 @@ const PostCreationContainer=styled.div`
 
 
 const CommentCreationContainer=styled.div`
-	position:absolute;
-	width:50%;
+	position:relative;
+	width:190%;
 	height:7%;
 	top:0%;
 	background-color:white;
@@ -325,6 +326,9 @@ const PersonalPostsIndex=(props)=>{
 									<React.Fragment></React.Fragment>
 								}
 								<ul>
+									<li style={{listStyle:"none",marginBottom:"10%"}}>
+										<FriendsGauge/>
+									</li>
 									<li style={{listStyle:"none",marginBottom:"5%"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"5%",color:"#C8B0F4"}}>
