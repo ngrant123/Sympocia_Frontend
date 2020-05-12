@@ -28,6 +28,7 @@ import { withRouter } from "react-router-dom";
 import {PostDisplayProvider} from "../PostDisplayModalContext.js";
 import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
+import SponsorModal from "./SponsorModalPortal/SponsorDisplayModal.js";
 
 const Container=styled.div`
 
@@ -316,7 +317,19 @@ class LProfile extends Component{
 		    displayBlogModal:false,
 		    blogModalData:{},
 		    displayRegularPostModal:false,
-		    regularModalData:{}
+		    regularModalData:{},
+		    displaySponsorModal:(sponsorData)=>{
+		    	debugger;
+		    	const test={...this.state,userProfile:{...this.state.userProfile,
+		    			sponsor:sponsorData}};
+		    	this.setState({
+		    		...this.state,
+		    		userProfile:{
+		    			...this.state.userProfile,
+		    			sponsor:sponsorData
+		    		}
+		    	})
+		    }
 		};
 	}
 
@@ -366,7 +379,6 @@ class LProfile extends Component{
 		let image=document.getElementById("profilePicutreImageFile").files[0];
 		let reader= new FileReader();
 		reader.onloadend=()=>{
-
 			profileContainer.src=reader.result;
 			const profileUrl=profileContainer.src;
 			this.setState({
@@ -661,6 +673,14 @@ class LProfile extends Component{
 								disappearShadow={this.disappearShadow}
 							/>
 						</PostInformationContainer>
+
+						{this.state.userProfile.sponsor==null?
+							<React.Fragment>
+							</React.Fragment>:
+							<SponsorModal
+								sponsorData={this.state.userProfile.sponsor}
+							/>
+						}
 					</Container>
 			</PostDisplayProvider>
 		</UserProvider>

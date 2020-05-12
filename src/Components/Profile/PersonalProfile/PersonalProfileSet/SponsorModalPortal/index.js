@@ -62,7 +62,7 @@ const LocationStyle = {
 const SponsorPortal=(props)=>{
 
 	const [imageData,changeImageData]=useState();
-	const [displayDescriptionScreen,changeChangeDescriptionScreen]=useState(true);
+	const [displayDescriptionScreen,changeChangeDescriptionScreen]=useState(false);
 
 	useEffect(()=>{
 
@@ -117,8 +117,9 @@ const SponsorPortal=(props)=>{
 						<input type="file" name="img" id="imageFile" style={{opacity:"0"}} onChange={()=>displayImage()} accept="image/x-png,image/gif,image/jpeg"></input>					
 					</ul>:
 					<DescriptionModal
-						imgData={displayDescriptionScreen}
+						imgData={imageData}
 						backButton={displayUploadImageSearchProfileScreen}
+						closeModal={props.closeModal}
 					/>
 				}
 			</SponsorModal>
