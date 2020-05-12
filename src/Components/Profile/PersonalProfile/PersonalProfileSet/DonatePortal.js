@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
+import StripeCheckout from "react-stripe-checkout";
+import {loadStripe} from "@stripe/stripe-js";
 
 const DonateContainer=styled.div`
 	position:fixed;
@@ -22,11 +24,20 @@ const ShadowContainer= styled.div`
 	top:0px;
 `;
 
+const stripePromise=loadStripe('pk_test_OLEtDzV7lwtccHsmV9cn4DaP00a1U7RZqD');
 
 const DonatePortal=(props)=>{
+
+	const handleStripeToken=(token)=>{
+		console.log("Stripe token");
+		console.log(token);
+	}
+
 	return createPortal(
 			<React.Fragment>
-				<DonateContainer/>
+				<DonateContainer>
+					<button onClick={()=>handleStripeToken()}type="button" class="btn btn-primary">Primary</button>
+				</DonateContainer>
 				<ShadowContainer onClick={()=>props.closeModal()}/>
 			</React.Fragment>,
 		document.getElementById("personalContainer")
