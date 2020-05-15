@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import StripeCheckout from "react-stripe-checkout";
 import {loadStripe} from "@stripe/stripe-js";
 
 const DonateContainer=styled.div`
@@ -28,10 +27,12 @@ const stripePromise=loadStripe('pk_test_OLEtDzV7lwtccHsmV9cn4DaP00a1U7RZqD');
 
 const DonatePortal=(props)=>{
 
-	const handleStripeToken=(token)=>{
+	const handleStripeToken=async()=>{
 		console.log("Stripe token");
+		const token=await stripePromise;
 		console.log(token);
 	}
+
 
 	return createPortal(
 			<React.Fragment>

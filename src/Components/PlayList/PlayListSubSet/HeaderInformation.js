@@ -83,7 +83,7 @@ class HeaderInformation extends Component{
 			<Container>
 				<p style={{position:"relative",fontSize:"60px",top:"20%",left:"30%"}}><b>Play list Information</b></p>
 
-				<ul style={{position:"relative",top:"20%"}}>
+				<ul style={{position:"relative",top:"5%"}}>
 					<li style={{listStyle:"none"}}>
 						<ul style={{position:"relative",padding:"10px",height:"20%",width:"60%",left:"20%",borderRadius:"5px",marginBottom:"5px",overflowX:"auto"}}>
 							{this.state.playListContainer.map(data=>

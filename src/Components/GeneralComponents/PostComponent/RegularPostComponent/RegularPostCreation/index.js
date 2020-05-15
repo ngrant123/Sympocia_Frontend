@@ -578,14 +578,17 @@ const sendRegularPost=async(profilePostType)=>{
 			var addIndustryOrIndustryObject=false;
 			var subCommunitiyArray=[];
 			var subCommunityCounter=0;
-			while(subCommunityCounter<subCommunity.length){
-				const targetedSubCommunity=subCommunity[subCommunityCounter];
-				if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
-					subCommunitiyArray.push(selectedSubCommunities[counter]);
-					counter++;
-					subCommunityCounter=0;
-				}else{
-					subCommunityCounter++;
+
+			if(subCommunity!=null){
+				while(subCommunityCounter<subCommunity.length){
+					const targetedSubCommunity=subCommunity[subCommunityCounter];
+					if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
+						subCommunitiyArray.push(selectedSubCommunities[counter]);
+						counter++;
+						subCommunityCounter=0;
+					}else{
+						subCommunityCounter++;
+					}
 				}
 			}
 			const searchObject={

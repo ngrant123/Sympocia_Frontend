@@ -1,5 +1,6 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
+import ImagePostDisplayPortal from "../../../HomePageSet/ImageHomeDisplayPortal.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -8,22 +9,21 @@ const Container=styled.div`
 	margin-top:1%;
 `;
 
+const HeaderImageCSS={
+	width:"100%",
+	height:"80%",
+	borderRadius:"5px",
+	backgroundColor:"red",
+	borderRadius:"5px"
+}
 
-const HeaderImage=styled.div`
-	width:100%;
-	height:80%;
-	border-radius:5px;
-	background-color:red;
-	border-radius:5px;
-`;
-
-const ImagesContainer=styled.div`
-	position:relative;
-	width:280px;
-	height:230px;
-	border-radius:5px;
-	background-color:red;
-`;
+const ImageCSS={
+	position:"relative",
+	width:"280px",
+	height:"230px",
+	borderRadius:"5px",
+	backgroundColor:"red"
+}
 
 const ShadowContainer= styled.div`
 	position:absolute;
@@ -52,75 +52,108 @@ const ImageLabelCSS={
 	borderRadius:"5px",
 	marginRight:"2%"
 }
-const ImagePostsModal=()=>{
-	const [images,changeImages]=useState([{},{},{},{}]);
+const ImagePostsModal=(props)=>{
+	debugger;
+	const headerImage=props.posts[0];
+	const images=props.posts.slice(1,props.posts.length);
 
+	const [displayImageDisplayPortal,changeImageDisplay]=useState(false);
+	const [selectedImage,changeSelectedImage]=useState();
+	const [displayRecommendedImages,changeRecommendedImages]=useState();
+
+
+	const closeModal=()=>{
+		changeImageDisplay(false)
+	}
+
+	const handleDisplayHeaderImage=()=>{
+		changeSelectedImage(headerImage);
+		changeRecommendedImages(images);
+		changeImageDisplay(true);
+	}
+
+	const displayImageModal=(data)=>{
+		changeSelectedImage(data);
+		changeRecommendedImages(images);
+		changeImageDisplay(true);
+	}
 	return(
 			<React.Fragment>
-				<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",backgroundColor:"red",width:"90%",borderRadius:"5px"}}>
-							 <HeaderImage>
+				{props.posts.length>=1?
+					<React.Fragment>
 
-							 </HeaderImage>
-						</li>
-						<li style={{listStyle:"none",width:"80%"}}>
+						<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
 							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",fontSize:"30px",marginRight:"2%"}}>
-									<b>Nathan</b>
+								<li onClick={()=>handleDisplayHeaderImage()} style={{listStyle:"none",backgroundColor:"red",width:"90%",borderRadius:"5px",position:"relative",top:"-80px"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<img src={headerImage.imgUrl} style={HeaderImageCSS}/>
+									</a>
 								</li>
+								<li style={{listStyle:"none",width:"80%",position:"relative",top:"-70px"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",fontSize:"30px",marginRight:"2%"}}>
+											<b>Nathan</b>
+										</li>
 
-								<li style={ImageLabelCSS}>
-									Engineering
-								</li>
+										<li style={ImageLabelCSS}>
+											{headerImage.industriesUploaded[0].industry}
+										</li>
 
-								<li style={ImageLabelCSS}>
-									Follow
+										<li style={ImageLabelCSS}>
+											Recruit
+										</li>
+										<li style={{listStyle:"none",width:"90%"}}>
+											{headerImage.description}
+										</li>
+									</ul>
 								</li>
 							</ul>
 						</li>
-						<li style={{listStyle:"none",width:"90%"}}>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-							sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-							 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-							  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-							  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-							  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-							  qui officia deserunt mollit anim id est laborum.
-						</li>
-					</ul>
-				</li>
 
-				<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"2%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
-					<ul style={{padding:"0px"}}>
-						{images.map(data=>
-							<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
-										<ShadowContainer/>
-										<ImagesContainer/>
-									</li>
-									<li style={{listStyle:"none",marginBottom:"1%"}}>
+						<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"2%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
+							<ul style={{padding:"0px"}}>
+								{images.map(data=>
+									<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
 										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-												<b>Nathan</b>
+											<li onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<ShadowContainer/>
+													<img src={data.imgUrl} style={ImageCSS}/>
+												</a>
 											</li>
+											<li style={{listStyle:"none",marginBottom:"1%"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+														{/*
+														<b>Nathan</b>
+														*/}
+													</li>
 
-											<li style={ImageLabelCSS}>
-												Engineering
+													<li style={ImageLabelCSS}>
+														{data.industriesUploaded[0].industry}
+													</li>
+												</ul>
 											</li>
-										</ul>
+											<li style={{listStyle:"none",width:"100%",height:"20%",overflow:"hidden"}}>
+												  <p>{data.description}</p>
+											</li>
+							 			</ul>
 									</li>
-									<li style={{listStyle:"none",width:"100%",height:"20%",overflow:"hidden"}}>
-										  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit
-										  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-										  </p>
-									</li>
-								</ul>
-							</li>
-						)}
-					</ul>
-				</li>
+								)}
+							</ul>
+						</li>
+
+						{displayImageDisplayPortal==false?
+							null:
+							<ImagePostDisplayPortal
+								closeModal={closeModal}
+								selectedImage={selectedImage}
+								recommendedImages={displayRecommendedImages}
+							/>
+						}
+					</React.Fragment>
+					:<p>No posts </p>
+				}
 			</React.Fragment>
 	)
 }

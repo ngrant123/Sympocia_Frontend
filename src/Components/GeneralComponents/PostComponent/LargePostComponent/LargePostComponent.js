@@ -194,7 +194,6 @@ const BlogOptionButton=styled(Link)`
  	border-style:solid;
 	border-color:	#af9ad5;
  	z-index:2;
-
  `;
 
  const CompanyIconContainer = styled.div`
@@ -415,9 +414,8 @@ class LargePostComponent extends Component{
 									Video
 								</PostOptionButton>
 							</li>
-
 							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"5px"}}>
-								<BlogOptionButton id="blogCreationButton" to={`/blog/${this.props._id}`}>
+								<BlogOptionButton id="blogCreationButton" to={{pathname:`/blog/${this.props._id}`,state:{postType:"Creation"}}}>
 									Blog
 								</BlogOptionButton>
 							</li>

@@ -45,23 +45,26 @@ const ImageLabelCSS={
 	marginRight:"2%"
 }
 
-const VideoPostModal=()=>{
-	const [videos,changeVideos]=useState([{},{},{}]);
+const VideoPostModal=(props)=>{
+	debugger;
+	console.log(props);
+	const headerVideo=props.posts[0];
+	const videos=props.posts.slice(1,props.posts.length);
+	console.log(videos);
 	return(
 		<React.Fragment>
 			<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
 					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",backgroundColor:"red",width:"90%",borderRadius:"5px"}}>
-							 <HeaderVideo>
-
-							 </HeaderVideo>
+						<li style={{listStyle:"none",width:"90%",borderRadius:"5px"}}>
+								<video id="smallVideo" key={headerVideo.videoUrl} position="relative" height="80%" width="120%" controls autoplay>
+									<source src={headerVideo.videoUrl} type="video/mp4"/>
+								</video>
 						</li>
 						<li style={{listStyle:"none",width:"80%"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",fontSize:"15px",marginRight:"2%",width:"130%"}}>
 									<b> 
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-										sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+										{headerVideo.title}
 									</b>
 								</li>
 								<li style={{listStyle:"none"}}>
@@ -70,25 +73,18 @@ const VideoPostModal=()=>{
 											Nathan
 										</li>
 										<li style={ImageLabelCSS}>
-											Engineering
+											{headerVideo.industriesUploaded[0].industry}
 										</li>
 
 										<li style={ImageLabelCSS}>
 											Follow
 										</li>
-
 									</ul>
 								</li>
 							</ul>
 						</li>
 						<li style={{listStyle:"none",width:"90%",height:"10%",overflow:"hidden",color:"#A4A4A4"}}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-									sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-									nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-									reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-									 pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-									qui officia deserunt mollit anim id est laborum.
+									{headerVideo.description}
 						</li>
 					</ul>
 				</li>
@@ -100,14 +96,15 @@ const VideoPostModal=()=>{
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
 										<ShadowContainer/>
-										<VideosContainer/>
+										<video id="smallVideo" position="relative" height="290px" width="580px" controls autoplay>
+											<source src={data.videoUrl} type="video/mp4"/>
+										</video>
 									</li>
 									<li style={{listStyle:"none",marginBottom:"1%"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",width:"150%"}}>
 												<b> 
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-													sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+													{data.title}
 												</b>
 											</li>
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
@@ -115,7 +112,7 @@ const VideoPostModal=()=>{
 											</li>
 
 											<li style={ImageLabelCSS}>
-												Engineering
+												{data.industriesUploaded[0].industry}
 											</li>
 										</ul>
 									</li>

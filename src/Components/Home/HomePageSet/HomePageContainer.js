@@ -15,6 +15,10 @@ import AssistantIcon from '@material-ui/icons/Assistant';
 import YoutubeSearchedForIcon from '@material-ui/icons/YoutubeSearchedFor';
 import RecruitsPosts from "./RecruitsPostsModal.js";
 
+import AppsIcon from '@material-ui/icons/Apps';
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+import PlayListComponent from "../../PlayList/PlayListSet/PlayListContainer.js";
+
 const Container=styled.div`
 	position:absolute;
 	width:100%;
@@ -153,7 +157,7 @@ class HomePageContainer extends Component{
 
 		this.state={
 			displayPersonalFeed:false,
-			displayExplorerFeed:true,
+			displayExplorerFeed:false,
 			displayCustomizedFeed:false,
 			displayForYourChoices:false,
 			profileId:0,
@@ -161,7 +165,8 @@ class HomePageContainer extends Component{
 			chatPageIndicator:"",
 			displaySearchExplorePage:true,
 			recruitsPost:[{},{},{},{},{},{},{}],
-			displayRecruitsPosts:false
+			displayRecruitsPosts:false,
+			displayPlayListPage:false
 		}
 	}
 
@@ -188,108 +193,45 @@ class HomePageContainer extends Component{
 		}
 	}
 
-	handleDisplayForYouChoices=()=>{
-	
-		if(this.state.displayForYourChoices==false){
-			this.setState(prevState=>({
-				...prevState,
-				displayForYourChoices:true
-			}))
-		}else{
-				this.setState(prevState=>({
-				...prevState,
-				displayForYourChoices:false
-			}))
-		}
-	}
-
-	handleDisplayHideForYouChoices=()=>{
-
-		this.setState(prevState=>({
-				...prevState,
-				displayForYourChoices:false
-			}))
-	
-	}
-//Could be implemented in a better way
-
-	handleDisplayCustomizedForYouPage=()=>{
-
-		document.getElementById('container').style.backgroundColor="#222222";
-
-		this.setState(prevState=>({
-					 ...prevState,
-					displayPersonalFeed:false,
-					displayExplorerFeed:false,
-					displayCustomizedFeed:true}))
-	}
-
 	handleDisplayFollowedCommunitiesPage=()=>{
 
-		document.getElementById('container').style.backgroundColor="white";
+		document.getElementById('conatiner').style.backgroundColor="white";
 
 		this.setState(prevState=>({
 					 ...prevState,
 					 displayPersonalFeed:true,
 					 displayExplorerFeed:false,
-					 displayCustomizedFeed:false}))
+					 displayCustomizedFeed:false,
+					 displaySearchExplorePage:false
+				}))
 	}
 
 
 	handleDisplayExplorePage=()=>{
 
-		document.getElementById('container').style.backgroundColor="white";
+		document.getElementById('conatiner').style.backgroundColor="white";
 
 		this.setState(prevState=>({
 						...prevState,
 						displayPersonalFeed:false,
-						displayExplorerFeed:true,
+						displayExplorerFeed:false,
+						displaySearchExplorePage:true,
 						displayForYourChoices:false,
-						displayCustomizedFeed:false}))
+						displayCustomizedFeed:false
+					}))
 
 
 	}
-	displayForYouChoices=()=>{
-
-		return this.state.displayForYourChoices==true?
-			<PersonalPageIndicator>
-				<ul>	
-					<li style={{listStyle:"none",marginBottom:"20px",marginTop:"10px"}}>
-						<FollowedForYouPageIcon onClick={()=>this.handleDisplayFollowedCommunitiesPage()}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginLeft:"20%"}}>
-									<AssistantIcon
-										style={{fontSize:30}}
-									/>	
-								</li>
-
-								<li style={{listStyle:"none",fontSize:"10px",marginLeft:"20%"}}>
-									Following
-								</li>
-
-							</ul>
-						</FollowedForYouPageIcon>
-					</li>
-					<li style={{listStyle:"none"}}>
-						<CustomizedForYouPageIcon onClick={()=>this.handleDisplayCustomizedForYouPage()}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginLeft:"20%"}}>
-									<YoutubeSearchedForIcon
-										style={{fontSize:30}}
-									/>	
-								</li>
-
-								<li style={{listStyle:"none",fontSize:"10px"}}>
-									Recommended
-								</li>
-
-							</ul>
-						</CustomizedForYouPageIcon>
-
-					</li>
-				</ul>
-			</PersonalPageIndicator>:<React.Fragment></React.Fragment>
+	handleDisplayPlayListPage=()=>{
+		this.setState(prevState=>({
+						...prevState,
+						displayPersonalFeed:false,
+						displayExplorerFeed:false,
+						displaySearchExplorePage:false,
+						displayPlayListPage:true,
+					}))
 	}
+
 
 	displayChatPage=(pageIndicator)=>{
 
@@ -321,15 +263,36 @@ class HomePageContainer extends Component{
 
 	handleDisplayGridLayout=(indicator)=>{
 		console.log("Testing grid layout");
+		console.log(indicator);
 		this.setState(prevState=>({
 			...prevState,
-			displaySearchExplorePage:indicator
+			displaySearchExplorePage:indicator,
+			displayExplorerFeed:!this.state.displayExplorerFeed
 		}))
+	}
+
+	displaySelectedScreen=()=>{
+
+		if(this.state.displayPersonalFeed==true){
+			return <PersonalFeed/>
+		}else if(this.state.displayExplorerFeed==true){
+			return <ExplorePage
+						displayGrids={this.handleDisplayGridLayout}
+					/>;
+
+
+		}else if(this.state.displaySearchExplorePage==true){
+				return <SearchExploreScreen
+								displayGrids={this.handleDisplayGridLayout}
+							/>;
+		}else if(this.state.displayPlayListPage==true){
+			return <PlayListComponent/>
+		}
 	}
 
 	render(){
 		return(
-			<Container id="container">
+			<Container id="homePageContainer">
 				<GeneralNavBar
 					displayChatPage={this.displayChatPage}
 					page={"Home"}
@@ -352,33 +315,44 @@ class HomePageContainer extends Component{
 				<PageIndicator>
 					<ul>
 						<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
-						
-							<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none"}}>
-										<ExploreIcon
-											style={{fontSize:50}}
-										/>
-									</li>
+							<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+								<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none"}}>
+											<ExploreIcon
+												style={{fontSize:50}}
+											/>
+										</li>
 
-									<li style={{listStyle:"none"}}>
-										Explore
-									</li>
-								</ul>
-							</ExploreIconContainer>
-
+										<li style={{listStyle:"none"}}>
+											Explore
+										</li>
+									</ul>
+								</ExploreIconContainer>
+							</a>
 						</li>
-						<li style={{listStyle:"none"}} onClick={()=>this.handleDisplayForYouChoices()}>
+						<li style={{listStyle:"none"}}>
 							<ForYouIconContainer>
 								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none"}}>
-										<PersonPinIcon
-											style={{fontSize:50}}
-										/>
+									<li onClick={()=>this.handleDisplayFollowedCommunitiesPage()} style={{listStyle:"none",marginBottom:"20%"}}>
+										<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+											<AppsIcon
+												style={{fontSize:40}}
+											/>
+										</a>
 									</li>
 
-									<li style={{listStyle:"none"}}>
-										 New posts
+									<li style={{listStyle:"none",marginBottom:"20%"}}>
+										<a onClick={()=>this.handleDisplayPlayListPage()}style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+											<PlaylistAddIcon
+												style={{fontSize:40}}
+											/>
+										</a>
+									</li>
+									<li style={{listStyle:"none",marginBottom:"10%"}}>
+										<PersonPinIcon
+											style={{fontSize:40}}
+										/>
 									</li>
 									<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
 										<ul style={{padding:"0px"}}>
@@ -395,17 +369,10 @@ class HomePageContainer extends Component{
 								</ul>
 							</ForYouIconContainer>
 						</li>
+
 					</ul>
 				</PageIndicator>
-				{this.state.displaySearchExplorePage==true?
-					<SearchExploreScreen
-						displayGrids={this.handleDisplayGridLayout}
-					/>:
-					<React.Fragment>
-						{this.displayForYouChoices()}
-						{this.displayPersonalOrExploreFeed()}
-					</React.Fragment>
-				}
+				{this.displaySelectedScreen()}
 			</Container>
 		)
 	}

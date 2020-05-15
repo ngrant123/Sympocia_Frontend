@@ -61,7 +61,7 @@ const ImageInformation=(props)=>{
 					return <Container>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginTop:"23%"}}>
-										<p style={{fontSize:"20px"}}>{props.imageInformation.firstName} {props.imageInformation.lastName} </p>
+										<p style={{fontSize:"20px"}}>{props.imageInformation.firstName}</p>
 									</li>
 
 									<li style={{listStyle:"none",display:"inline-block"}}>

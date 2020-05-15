@@ -93,19 +93,16 @@ class PostContainer extends Component{
 		return(
 			<React.Fragment>
 
-
-				<ReactSnapScroll 
+		{/*
+			<ReactSnapScroll 
 					transition="move-top-bottom"
 					customDuration={"50000","50000"}
 					>
-				<ImageContainer/>
-				<RegularPostContainer/>
-				<BlogPostContainer/>
-				<VideoPostContainer/>
 			 			
 		
 
 			</ReactSnapScroll>
+		*/}
 			
 
 			</React.Fragment>

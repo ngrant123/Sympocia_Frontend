@@ -51,8 +51,13 @@ class BlogPostCreation extends Component{
 		if(this.props.personalInformation.id==this.props.match.params.id){
 			isOwner=true;
 		}
-		var DBEditorState = convertFromRaw(JSON.parse(this.props.location.state.blog));
-		var blogContentState=EditorState.createWithContent(DBEditorState);
+		var blogContentState;
+		if(this.props.location.state.postType=="Creation"){
+			blogContentState="";
+		}else{
+			var DBEditorState = convertFromRaw(JSON.parse(this.props.location.state.blog));
+			blogContentState=EditorState.createWithContent(DBEditorState);
+		}
 		this.setState({
 			userInformation:this.props.personalInformation,
 			isOwner:isOwner,

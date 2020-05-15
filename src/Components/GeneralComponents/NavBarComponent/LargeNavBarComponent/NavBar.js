@@ -10,6 +10,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {useSelector,useDispatch} from "react-redux";
 import {loginPersonalPage} from "../../../../Actions/Redux/Actions/PersonalProfile.js";
 import {loginCompanyPage} from "../../../../Actions/Redux/Actions/CompanyActions.js";
+import SearchBarModal from "./SearchBarModal.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -18,8 +19,6 @@ const Container=styled.div`
 	border-radius:0px 0px 5px 5px;
 	z-index:6;
 	background-color:white;
-
-
 `;
 
 const SearchButton=styled.textarea`
@@ -32,7 +31,7 @@ const SearchButton=styled.textarea`
 	border-radius:5px;
 	border-style:none;
 	text-align:center;
-	z-index:5;
+	z-index:6;
 
 	border-style:solid;
 	border-width:2px;
@@ -128,6 +127,14 @@ const NavBarButton=styled(Link)`
 `;
 
 
+
+const BackgroundContainer=styled.div`
+	position:fixed;
+	width:100%;
+	height:100%;
+	z-index:7;
+`;
+
 const NavBar=(pageProps)=>{
 	const dispatch=useDispatch();
 
@@ -136,6 +143,9 @@ const NavBar=(pageProps)=>{
 	const companyProfileState=useSelector(state=>state.companyInformation);
 	const [displayPersonalProfileIcon,changeDisplayPersonalProfileIcon]=useState(false);
 	const [displayCompanyProfileIcon,changeDisplayCompanyProfileIcon]=useState(false);
+
+	const [displaySearchModal,changeDisplaySearchModal]=useState(false);
+
 
 	useEffect(()=>{
 		if(personalProfileState.id!=null){
@@ -168,7 +178,14 @@ const NavBar=(pageProps)=>{
 	return(
 		<Container style={{backgroundColor:color}}>
 
-			<SearchButton placeholder="Search for a community or a person"/>
+			<SearchButton onClick={()=>changeDisplaySearchModal(!displaySearchModal)} placeholder="Search for a community or a person"/>
+			{displaySearchModal==true?
+				<React.Fragment>
+					<BackgroundContainer onClick={()=>changeDisplaySearchModal(!displaySearchModal)}/>
+					<SearchBarModal/>
+				</React.Fragment>:
+				<React.Fragment></React.Fragment>
+			}
 
 			<ul style={{position:"fixed",left:"39%",top:"7%"}}>
 				<li style={ButtonsListCSS}>
@@ -218,7 +235,6 @@ const NavBar=(pageProps)=>{
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									Create
 								</li>
-
 						</ul>
 					</NavBarButton>
 				</li>

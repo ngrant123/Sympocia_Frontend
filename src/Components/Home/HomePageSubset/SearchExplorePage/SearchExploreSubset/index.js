@@ -8,6 +8,8 @@ import RegularPostsModal from './RegularPostsModal.js';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
+import {getPostsForHomePage} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+
 const Container=styled.div`
 	position:absolute;
 	width:85%;
@@ -38,23 +40,31 @@ class SearchExplorePosts extends Component{
 
 	handleDisplayImages=()=>{
 		return this.state.displayImagePosts==true?
-			<ImagePostsModal/>:
+			<ImagePostsModal
+				posts={this.props.posts}
+			/>:
 			<React.Fragment></React.Fragment>
 	}
 
 	handleDisplayVideos=()=>{
 		return this.state.displayVideoPosts==true?
-			<VideosPostsModal/>:
+			<VideosPostsModal
+				posts={this.props.posts}
+			/>:
 			<React.Fragment></React.Fragment>
 	}
 	handleDisplayBlogs=()=>{
 		return this.state.displayBlogPosts==true?
-			<BlogsPostsModal/>:
+			<BlogsPostsModal
+				posts={this.props.posts}
+			/>:
 			<React.Fragment></React.Fragment>
 	}
 	handleDisplayRegularPosts=()=>{
 		return this.state.displayRegularPosts==true?
-			<RegularPostsModal/>:
+			<RegularPostsModal
+				posts={this.props.posts}
+			/>:
 			<React.Fragment></React.Fragment>
 	}
 
@@ -67,6 +77,8 @@ class SearchExplorePosts extends Component{
 			displayRegularPosts:false,
 			postOptionHeader:"Images"
 		})
+
+		this.props.changePostOption("Images");
 	}
 
 	displayVideos=()=>{
@@ -77,6 +89,8 @@ class SearchExplorePosts extends Component{
 			displayRegularPosts:false,
 			postOptionHeader:"Videos"
 		})
+
+		this.props.changePostOption("Videos");
 	}
 
 	displayBlogs=()=>{
@@ -87,6 +101,8 @@ class SearchExplorePosts extends Component{
 			displayRegularPosts:false,
 			postOptionHeader:"Blogs"
 		})
+
+		this.props.changePostOption("Blogs");
 	}
 
 	displayRegularPosts=()=>{
@@ -97,6 +113,8 @@ class SearchExplorePosts extends Component{
 			displayRegularPosts:true,
 			postOptionHeader:"Posts"
 		})
+
+		this.props.changePostOption("RegularPosts");
 	}
 	render(){
 		return(

@@ -1,5 +1,9 @@
 export default{
 	INDUSTRIES:[
+		{	
+			industry:"General",
+			id:1
+		},
 		{ industry:"Photography",
 			subCommunity:[
 				{industry:"Landscape"},
@@ -9,7 +13,7 @@ export default{
 				{industry:"Portrait"},
 				{industry:"Fashion"}
 			],
-			id:1 },
+		id:1 },
 		{ industry:"Gaming",
 			subCommunity:[
 				{industry:"Super Smash Bros"},

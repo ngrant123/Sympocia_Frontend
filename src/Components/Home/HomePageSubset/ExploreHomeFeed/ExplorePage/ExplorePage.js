@@ -232,7 +232,7 @@ class ExplorePage extends Component{
 			tempcommunities:this.state.temp2communities
 
 		}),function(){
-			this.triggerTimer();
+				this.triggerTimer();
 			}
 		);
 
@@ -254,14 +254,14 @@ class ExplorePage extends Component{
 
 	triggerTimer=()=>{
 		console.log("Timer start");
+		debugger;
 		setTimeout(function(){ 
-			this.setState(prevState=>({
-				...prevState,
+			this.setState({
 				displayInitialPage:false,
 				displayPersonalPage:true
 
-			}))
-			 }
+			})
+		 }
 			 .bind(this), 
 			 2000);
 	}

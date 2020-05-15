@@ -5,6 +5,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import SearchExplorePosts from "../SearchExploreSubset/index.js";
 import CreatePostComponent from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 import IndustryOptions from "../../../../GeneralComponents/PostComponent/IndustryPostOptions.js"
+import {connect} from "react-redux";
+import {getPostsForHomePage} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 const CommentCreationContainer=styled.div`
 	position:relative;
@@ -40,13 +42,22 @@ class SearchExploreContainer extends Component{
 
 	constructor(props){
 		super(props);
+		console.log("Search Explore");
 		this.state={
 			subCommunitiesDisplay:[],
 			selectedIndustry:"",
 			selectedSubCommunities:[],
 			selectedIndustries:[],
-			displayCreatePostComponent:false
+			displayCreatePostComponent:false,
+			postOption:"Images",
+			postsInformation:[]
 		}
+	}
+
+	componentDidMount(){
+		//If user just gets to the page set industry to general and postType to images
+		debugger;
+		this.changeHomePagePosts(this.state.postOption);
 	}
 
 	handleCheckBoxCheck=()=>{
@@ -57,15 +68,73 @@ class SearchExploreContainer extends Component{
 	alterSelectedIndustry=(selectedIndustries)=>{
 		this.setState({
 			selectedIndustries:selectedIndustries
+		},function(){
+			this.changeHomePagePosts(this.state.postOption);
 		})
 	}
 
 	alterSelectedSubCommunities=(selectedSubCommunities)=>{
 		this.setState({
 			selectedSubCommunities:selectedSubCommunities
+		},function(){
+			this.changeHomePagePosts(this.state.postOption);
 		})
 	}
 
+	changeHomePagePosts=async(postOption)=>{
+		debugger;
+		const industries=this.state.selectedIndustries;
+		const selectedSubCommunities=this.state.selectedSubCommunities;
+		const searchCriteriaIndustryArray=[];
+		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
+		var counter=0;
+		for(var i=0;i<industries.length;i++){
+			var {subCommunity}=industries[i];
+			var addIndustryOrIndustryObject=false;
+			var subCommunitiyArray=[];
+			var subCommunityCounter=0;
+			if(subCommunity!=null){
+				while(subCommunityCounter<subCommunity.length){
+					const targetedSubCommunity=subCommunity[subCommunityCounter];
+					if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
+						subCommunitiyArray.push(selectedSubCommunities[counter]);
+						counter++;
+						subCommunityCounter=0;
+					}else{
+						subCommunityCounter++;
+					}
+				}
+			}
+			const searchObject={
+						industry:industries[i].industry,
+						subIndustry:subCommunitiyArray
+			}
+				searchCriteriaIndustryArray.push(searchObject);
+		}
+		debugger;
+		if(this.props.personalInformation.loggedIn==true){
+				const homePagePosts=await getPostsForHomePage(this.props.personalInformation.id,searchCriteriaIndustryArray,postOption);
+				console.log(homePagePosts);
+				this.setState({
+					postsInformation:homePagePosts
+				})
+			}else{
+
+				const homePagePosts=await getPostsForHomePage(this.props.companyInformation.id,searchCriteriaIndustryArray,postOption);
+				this.setState({
+					postsInformation:homePagePosts
+				})
+			}
+		}
+
+	handleChangePostOption=(props)=>{
+		debugger;
+		this.setState({
+			postOption:props
+		},function(){
+			this.changeHomePagePosts(this.state.postOption);
+		})
+	}
 
 	render(){
 		return(
@@ -131,7 +200,10 @@ class SearchExploreContainer extends Component{
 					</li>
 
 					<li style={{listStyle:"none"}}>
-						<SearchExplorePosts/>
+						<SearchExplorePosts
+							changePostOption={this.handleChangePostOption}
+							posts={this.state.postsInformation}
+						/>
 					</li>
 				</ul>
 			</React.Fragment>
@@ -139,4 +211,17 @@ class SearchExploreContainer extends Component{
 	}
 }
 
-export default SearchExploreContainer;
+const mapStateToProps=(state)=>{
+	return{
+		personalInformation:state.personalInformation,
+		companyInformation:state.companyInformation
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	null
+)(SearchExploreContainer);
+
+
+

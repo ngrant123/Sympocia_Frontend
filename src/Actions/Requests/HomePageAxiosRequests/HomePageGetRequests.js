@@ -119,5 +119,31 @@ export function getCommunityById(communityId){
 }
 
 
+export async function getPostsForHomePage(userId,industrySelected,postTypes){
+	try{
+		debugger;
+		console.log(industrySelected);
+		console.log(JSON.stringify(industrySelected));
+		const postResponse=await axios.get(`${GetUrl}/getPostsForHomePage`,{
+			params:{
+				id:userId,
+				industry:JSON.stringify(industrySelected),
+				postTypes:postTypes
+			}
+		});
+		console.log(postResponse);
+		const {data}=postResponse;
+		const posts=data.data;
+		return posts;
+
+	}catch(err){
+		console.log(err);
+		const {data}=err;
+		return data;
+	}
+}
+
+
+
 
 

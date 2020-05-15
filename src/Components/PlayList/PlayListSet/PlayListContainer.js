@@ -16,10 +16,9 @@ const PlayListContainer=()=>{
 
 
 	return (
-
 		<Container>
-			<GeneralNavBar/>
 			<HeaderInformation/>
+			<hr/>
 			<PlayListContent/>
 		</Container>
 

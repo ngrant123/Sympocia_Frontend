@@ -447,7 +447,7 @@ class PersonalizedPage extends Component{
 				Could be done in a better way
 	  		*/
 
-
+	  		debugger;
 	  		const postContainerElement=document.getElementById("postChatInformation");
 	  		const headerContentsContainerElement=document.getElementById("headerContents");
 
@@ -731,7 +731,6 @@ class PersonalizedPage extends Component{
 	  		</React.Fragment>
 	  }
 
-
 	  handleHeaderAnimation=()=>{
 	  	const backgroundColor=this.state.backgroundColor;
 	  	return this.state.headerAnimation==false ? 
@@ -856,7 +855,6 @@ class PersonalizedPage extends Component{
 				{this.handleSeeAllPeopleActiveModal()}
 				{this.handleSeeAllPopularVideos()}
 				{this.handleHeaderAnimation()}
-				
 
 				<PostsChatInformation  id="postChatInformation" onScroll={()=>this.handleScroll()}>
 					<ul>
@@ -952,12 +950,115 @@ class PersonalizedPage extends Component{
 									</ul>
 								</li>
 							</ul>
+						</li>
+					</ul>
+					<ChatAndIndustryInfoContainer id="chatContainer">
+						{this.handleChatContainer()}
+					</ChatAndIndustryInfoContainer>
+
+					<PostContainer id="postsContainer">
+						<PostsContainer/>
+					</PostContainer>
+				
+				</PostsChatInformation>
+{/*
+	<PostsChatInformation  id="postChatInformation" onScroll={()=>this.handleScroll()}>
+					<ul>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginLeft:"3%"}}>
+
+							<li style={{listStyle:"none",marginBottom:"2%"}}>
+								<ul>
+									<li style={{listStyle:"none"}}>
+										<DisplaySubCommunities>
+											<ul style={{padding:"5px"}}>
+												<li style={{display:"inline-block",listStyle:"none",marginRight:"5%"}}>
+													<AddCircleOutlineIcon
+														style={{fontSize:40,color:"#5298F8"}}
+													/>
+												</li>
+
+												<li style={{position:"relative",display:"inline-block",listStyle:"none",top:"-10px"}}>
+													<p style={{fontSize:"20px",color:"#5298F8"}}>SubCommunities</p>
+												</li>
+											</ul>
+										</DisplaySubCommunities>
+									</li>
+								</ul>
+							</li>
+
+							<li style={{listStyle:"none",marginLeft:"14%"}}>
+								<CreatePostContainer onClick={()=>this.setState({displayPostCreation:true})}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+													<ProfilePicture>
+													</ProfilePicture>
+												</li>
+
+												<li style={{listStyle:"none",display:"inline-block"}}>
+														<CommentTextArea
+															placeholder="Click here to create a post"
+														/>
+												</li>
+											</ul>
+								</CreatePostContainer>  
+							</li>
+						</li>
+
+						<li style={{listStyle:"none",display:"inline-block"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{position:"relative",top:"-25px",listStyle:"none",marginRight:"5%"}}>
+									<SearchContainer>
+										<ul style={{paddingTop:"5px"}}>
+											<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
+												<SearchIcon
+													style={{fontSize:30}}
+												/>
+											</li>
+											<SearchTextArea
+												placeholder="Type here to search"
+											/>
 
 
+										</ul>
+
+									</SearchContainer>
+								</li>
+
+								<li style={{listStyle:"none"}}>
+									<ul>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											Display:
+										</li>
+
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<PostOptions>	
+												Regular posts
+											</PostOptions>
+										</li>
+
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<PostOptions>	
+												Images
+											</PostOptions>
+										</li>
+
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<PostOptions>	
+												Videos
+											</PostOptions>
+										</li>
+
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<PostOptions>	
+												Blogs
+											</PostOptions>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
 					</ul>
 
-					
 						<ChatAndIndustryInfoContainer id="chatContainer">
 							{this.handleChatContainer()}
 						</ChatAndIndustryInfoContainer>
@@ -968,6 +1069,7 @@ class PersonalizedPage extends Component{
 					</PostContainer>
 			
 				</PostsChatInformation>
+*/}
 			</PersonalizedPageContainer>
 		)
 	}

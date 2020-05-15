@@ -9,6 +9,20 @@ const HeaderBlog=styled.div`
 	border-radius:5px;
 `;
 
+const HeaderBlogCSS={
+	width:"400px",
+	height:"100%",
+	borderRadius:"5px",
+	borderRadius:"5px"
+}
+
+const VideoContainerCSS={
+	position:"relative",
+	width:"280px",
+	height:"230px",
+	borderRadius:"5px"
+}
+
 const VideosContainer=styled.div`
 	position:relative;
 	width:280px;
@@ -54,21 +68,21 @@ const ImageLabelCSS={
 	marginRight:"2%"
 }
 
-const BlogPostModal=()=>{
-	const [blogs,changeBlgos]=useState([{},{},{}]);
+const BlogPostModal=(props)=>{
+	const headerBlog=props.posts[0];
+	const blogs=props.posts.slice(1,props.posts.length);
+	console.log(props);
 	return(
 		<React.Fragment>
 			<li style={{position:"relative",top:"-170px",listStyle:"none",display:"inline-block",width:"50%"}}>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",width:"120%",borderRadius:"5px",marginBottom:"2%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-									<HeaderBlog>
-									</HeaderBlog>
+							<ul style={{padding:"0px",height:"55%",width:"100%"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",backgroundColor:"red"}}>
+									<img src={headerBlog.blogImageUrl} style={HeaderBlogCSS}/>
 								</li>
-								<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block",width:"40%",fontSize:"25px",height:"55%",overflow:"hidden"}}>
-									<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-									sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.	
+								<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",width:"40%",fontSize:"25px",height:"55%",overflow:"hidden"}}>
+									<b>{headerBlog.title}
 									</b>
 								</li>
 							</ul>
@@ -79,23 +93,16 @@ const BlogPostModal=()=>{
 											Nathan
 										</li>
 										<li style={ImageLabelCSS}>
-											Engineering
+											{headerBlog.industriesUploaded[0].industry}
 										</li>
 
 										<li style={ImageLabelCSS}>
 											Follow
 										</li>
-
 							</ul>
 						</li>
 						<li style={{listStyle:"none",width:"90%",height:"10%",overflow:"hidden",color:"#A4A4A4"}}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-									sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-									nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-									reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-									 pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-									qui officia deserunt mollit anim id est laborum.
+									{headerBlog.description}
 						</li>
 					</ul>
 				</li>
@@ -108,19 +115,13 @@ const BlogPostModal=()=>{
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%",marginRight:"2%"}}>
 										<ShadowContainer/>
-										<VideosContainer/>
+										<img src={data.blogImageUrl} style={VideoContainerCSS}/>
 									</li>
 									<li style={{position:"relative",top:"0%",listStyle:"none",display:"inline-block"}}>
 											<ul style={{padding:"0px",position:"absolute",top:"-230px"}}>
 													<li style={{listStyle:"none",height:"170px",width:"280px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
 														<b>
-															Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-															sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-															Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-															nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-															reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-															pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-															qui officia deserunt mollit anim id est laborum.
+															{data.description}
 														</b>
 
 													</li>
@@ -139,7 +140,7 @@ const BlogPostModal=()=>{
 																</ul>
 															</li>
 															<li style={ImageLabelCSS}>
-																Engineering
+																{data.industriesUploaded[0].industry}
 															</li>
 														</ul>
 													</li>
