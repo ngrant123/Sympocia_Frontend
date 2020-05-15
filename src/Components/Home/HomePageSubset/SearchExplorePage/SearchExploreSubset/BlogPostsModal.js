@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import styled from "styled-components";
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 
 const HeaderBlog=styled.div`
 	width:400px;
@@ -46,13 +47,13 @@ const ShadowContainer= styled.div`
 	}
 `;
 
-const ProfileImage=styled.div`
-	position:relative;
-	width:50px;
-	height:50px;
-	background-color:red;
-	border-radius:50%;
 
+const ProfileImageCSS=styled.div`
+	position:"relative",
+	width:"50px",
+	height:"50px",
+	backgroundColor:"red",
+	borderRadius:"50%"
 `;
 
 const ImageLabelCSS={
@@ -90,7 +91,7 @@ const BlogPostModal=(props)=>{
 						<li style={{listStyle:"none",width:"80%"}}>
 							<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
-											Nathan
+											{headerBlog.firstName}
 										</li>
 										<li style={ImageLabelCSS}>
 											{headerBlog.industriesUploaded[0].industry}
@@ -130,12 +131,10 @@ const BlogPostModal=(props)=>{
 															<li style={{listStyle:"none",display:"inline-block"}}>
 																<ul style={{padding:"0px"}}>
 																	<li style={{listStyle:"none",display:"inline-block"}}>
-																		<ProfileImage>
-																		</ProfileImage>
+		
 																	</li>
 																	<li style={{listStyle:"none",display:"inline-block",color:"#A4A4A4",fontSize:"20px"}}>
-																		Nathan
-
+																		{data.firtsName}
 																	</li>
 																</ul>
 															</li>

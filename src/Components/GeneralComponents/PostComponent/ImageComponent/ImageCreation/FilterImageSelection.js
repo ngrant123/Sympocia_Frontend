@@ -118,7 +118,6 @@ conditional expression in processed image component
 						{data.type}
 					</li>
 				</React.Fragment>
-
 	}
 
 	bubbleUpSelectedFilter=(data)=>{

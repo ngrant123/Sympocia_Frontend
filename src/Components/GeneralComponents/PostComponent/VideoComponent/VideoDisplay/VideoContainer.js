@@ -5,8 +5,8 @@ import RecommendedVideos from "./RecommendedVideos.js";
 
 const Container=styled.div`
 	position:relative;
-	width:90%;
-	height:85%;
+	width:100%;
+	height:100%;
 	z-index:9;
 	border-radius:5px;
 	background-color:white;
@@ -28,7 +28,9 @@ const VideoContainer=(data)=>{
 					/> 
 				</li>
 				<li style={{listStyle:"none",display:"inline-block"}}>
-					<RecommendedVideos/>
+					<RecommendedVideos
+						videos={data.recommendedVideos}
+					/>
 				</li> 
 			</ul>
 		</Container>

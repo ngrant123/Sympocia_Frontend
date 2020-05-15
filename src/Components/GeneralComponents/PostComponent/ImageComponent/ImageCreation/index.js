@@ -56,6 +56,7 @@ class ImageCreation extends Component{
 
 	handleNewlyCreatedImage=(imgData)=>{
 		document.getElementById("container").style.height="100%";
+		localStorage.removeItem('placeholder');
 		this.setState({
 				pictureUrl:imgData,
 				displayEditImagesScreen:true

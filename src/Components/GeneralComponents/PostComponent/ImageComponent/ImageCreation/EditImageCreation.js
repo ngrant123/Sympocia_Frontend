@@ -59,7 +59,6 @@ class EditImageCreation extends Component{
 	}
 
 	componentDidMount(){
-
 		console.log("Testing component");
 		const imageElement= <ProcessImage
 									image={this.props.imageSrcUrl}
@@ -67,9 +66,12 @@ class EditImageCreation extends Component{
 									quality={100}
 									processedImage={(src, err) => this.setState({ src, err })}
 							/>;
+
 		this.setState({
 			imgElement:imageElement
-		})
+		},()=>{
+			localStorage.removeItem('placeholder');
+		});
 	}
 
 	clearImageCaptionTextArea=()=>{
@@ -195,8 +197,7 @@ class EditImageCreation extends Component{
 		this.setState({
 			imgElement:imageElement
 		},function(){
-			console.log(this.state.imgElement);
-			debugger;
+			localStorage.removeItem('placeholder');
 		})
 	}
 

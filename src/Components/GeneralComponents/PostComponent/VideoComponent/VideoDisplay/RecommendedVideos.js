@@ -4,16 +4,45 @@ import SmallVideosContainer from "../../../../Profile/PersonalProfile/PersonalPr
 
 const Container=styled.div`
 	position:relative;
-	width:250px;
+	width:400px;
 	height:95%;
 	border-radius:5px;
 	box-shadow: 1px 1px 5px #d5d5d5;
 	overflow-y:auto;
 `;
 
+const ImageLabelCSS={
+	listStyle:"none",
+	display:"inline-block",
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white",
+	padding:"5px",
+	borderRadius:"5px",
+	marginRight:"2%"
+}
 
-const RecommendedVideos=()=>{
+const ShadowContainer= styled.div`
+	position:absolute;
+	height:290px;
+	width:370px;
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	display:block;
+	z-index:1;
+	transition:.8s;
+	border-radius:5px;
+
+	&:hover{
+		background-color:transparent
+	}
+`;
+
+
+const RecommendedVideos=(props)=>{
 	debugger;
+	console.log(props);
 	const [videos,changeVideos]=useState([{},{},{},{},{}]);
 
 	return(
@@ -49,10 +78,34 @@ const RecommendedVideos=()=>{
 
 				<li style={{listStyle:"none",position:"relative"}}>
 					<ul style={{padding:"0px"}}>
-						{videos.map(data=>
-							<li style={{listStyle:"none",marginBottom:"10%",marginLeft:"10%"}}>
-							
+						{props.videos.map(data=>
+							<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
+												<ShadowContainer/>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<video id="smallVideo" key={data.videoUrl} position="relative" height="290px" width="370px" controls autoplay>
+														<source src={data.videoUrl} type="video/mp4"/>
+													</video>
+												</a>
+											</li>
+											<li style={{listStyle:"none",marginBottom:"1%"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",width:"150%"}}>
+														<b> 
+															{data.title}
+														</b>
+													</li>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+														<b>{data.firstName}</b>
+													</li>
 
+													<li style={ImageLabelCSS}>
+														{data.industriesUploaded[0].industry}
+													</li>
+												</ul>
+											</li>
+										</ul>
 							</li>
 						)}
 					</ul>

@@ -16,7 +16,7 @@ import Comments from "../../../../GeneralComponents/CommentsComponent/index.js";
 
 const Container=styled.div`
 	position:relative;
-	width:870px;
+	width:830px;
 	height:100%;
 	background-color:black;
 	border-radius:5px;
@@ -54,7 +54,7 @@ const CommentsContainer=styled.div`
 
 const VideoCommentsAndModalContainer=styled.div`
 	position:absolute;
-	width:100%;
+	width:80%;
 	height:80%;
 	z-index:3;
 	top:10%;
