@@ -539,6 +539,7 @@ class LProfile extends Component{
 			<ImagePopupContainer>
 				<ImageContainer
 					imageData={newImageObject}
+					profileType="personalProfile"
 				/>
 			</ImagePopupContainer>:
 			<React.Fragment></React.Fragment>

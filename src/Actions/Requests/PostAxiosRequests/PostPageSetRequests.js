@@ -89,3 +89,63 @@ export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 		return err.message;
 	}
 }
+
+
+export const addStampPost =async(userId,postId,profileType,postType)=>{
+	try{
+		debugger;
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const postStampResponse= await axios.post(`${CreateUrl}/addStamp`,{
+			_id:userId,
+			postId:postId,
+			profileType:profileType,
+			postType:postType
+		});
+
+		const {data}=postStampResponse;
+		const postStampData=data.data;
+		return postStampData;
+	}catch(err){
+		console.log(err);
+	}
+
+}
+
+export const unStampPost=async(userId,postId,profileType,postType)=>{
+	try{
+		debugger;
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const unStampPostResponse=await axios.post(`${CreateUrl}/unStamp`,{
+			_id:userId,
+			postId:postId,
+			profileType:profileType,
+			postType:postType
+		}) ;
+
+		const {data}=unStampPostResponse.data;
+		const unStampPostData=data.data;
+		return unStampPostData;
+	}catch(err){
+		console.log(err);
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
