@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import BlogHomeDisplayPortal from "../../../HomePageSet/BlogHomeDisplayPortal.js";
 
 const HeaderBlog=styled.div`
 	width:400px;
@@ -47,14 +48,21 @@ const ShadowContainer= styled.div`
 	}
 `;
 
+const ProfileImage=styled.div`
+	position:relative;
+	width:50px;
+	height:50px;
+	background-color:red;
+	border-radius:50%;
+`;
 
-const ProfileImageCSS=styled.div`
+const ProfileImageCSS={
 	position:"relative",
 	width:"50px",
 	height:"50px",
 	backgroundColor:"red",
 	borderRadius:"50%"
-`;
+}
 
 const ImageLabelCSS={
 	listStyle:"none",
@@ -73,83 +81,127 @@ const BlogPostModal=(props)=>{
 	const headerBlog=props.posts[0];
 	const blogs=props.posts.slice(1,props.posts.length);
 	console.log(props);
+
+	const [displayBlogDisplayPortal,changeBlogDisplay]=useState(false);
+	const [selectedBlog,changeSelectedBlog]=useState();
+	const [displayRecommendedBlogs,changeRecommendedBlogs]=useState();
+
+
+	const closeModal=()=>{
+		changeBlogDisplay(false)
+	}
+
+	const handleDisplayHeaderBlog=()=>{
+		changeSelectedBlog(headerBlog);
+		changeRecommendedBlogs(blogs);
+		changeBlogDisplay(true);
+	}
+
+	const displayBlogModal=(data)=>{
+		changeSelectedBlog(data);
+		changeRecommendedBlogs(blogs);
+		changeBlogDisplay(true);
+	}
+
+
 	return(
 		<React.Fragment>
-			<li style={{position:"relative",top:"-170px",listStyle:"none",display:"inline-block",width:"50%"}}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",width:"120%",borderRadius:"5px",marginBottom:"2%"}}>
-							<ul style={{padding:"0px",height:"55%",width:"100%"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",backgroundColor:"red"}}>
-									<img src={headerBlog.blogImageUrl} style={HeaderBlogCSS}/>
-								</li>
-								<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",width:"40%",fontSize:"25px",height:"55%",overflow:"hidden"}}>
-									<b>{headerBlog.title}
-									</b>
-								</li>
-							</ul>
-						</li>
-						<li style={{listStyle:"none",width:"80%"}}>
-							<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
-											{headerBlog.firstName}
-										</li>
-										<li style={ImageLabelCSS}>
-											{headerBlog.industriesUploaded[0].industry}
-										</li>
-
-										<li style={ImageLabelCSS}>
-											Follow
-										</li>
-							</ul>
-						</li>
-						<li style={{listStyle:"none",width:"90%",height:"10%",overflow:"hidden",color:"#A4A4A4"}}>
-									{headerBlog.description}
-						</li>
-					</ul>
-				</li>
-
-				<li style={{width:"60%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",height:"80%",overflowY:"auto",marginBottom:"20%"}}>
-					<ul style={{padding:"0px"}}>
-
-						{blogs.map(data=>
-							<li style={{list0Style:"none",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%",marginRight:"2%"}}>
-										<ShadowContainer/>
-										<img src={data.blogImageUrl} style={VideoContainerCSS}/>
+			{props.posts.length>=1?
+				<React.Fragment>
+				<li style={{position:"relative",top:"-170px",listStyle:"none",display:"inline-block",width:"50%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",width:"120%",borderRadius:"5px",marginBottom:"2%"}}>
+								<ul style={{padding:"0px",height:"55%",width:"100%"}}>
+									<li onClick={()=>handleDisplayHeaderBlog()} style={{listStyle:"none",display:"inline-block",marginRight:"2%",backgroundColor:"red"}}>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<img src={headerBlog.blogImageUrl} style={HeaderBlogCSS}/>
+										</a>
 									</li>
-									<li style={{position:"relative",top:"0%",listStyle:"none",display:"inline-block"}}>
-											<ul style={{padding:"0px",position:"absolute",top:"-230px"}}>
-													<li style={{listStyle:"none",height:"170px",width:"280px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
-														<b>
-															{data.description}
-														</b>
-
-													</li>
-													<li style={{listStyle:"none"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block"}}>
-																<ul style={{padding:"0px"}}>
-																	<li style={{listStyle:"none",display:"inline-block"}}>
-		
-																	</li>
-																	<li style={{listStyle:"none",display:"inline-block",color:"#A4A4A4",fontSize:"20px"}}>
-																		{data.firtsName}
-																	</li>
-																</ul>
-															</li>
-															<li style={ImageLabelCSS}>
-																{data.industriesUploaded[0].industry}
-															</li>
-														</ul>
-													</li>
-												</ul>
+									<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",width:"40%",fontSize:"25px",height:"55%",overflow:"hidden"}}>
+										<b>{headerBlog.title}
+										</b>
 									</li>
 								</ul>
 							</li>
-						)}
-					</ul>
-				</li>
+							<li style={{listStyle:"none",width:"80%"}}>
+								<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
+												{headerBlog.firstName}
+											</li>
+											<li style={ImageLabelCSS}>
+												{headerBlog.industriesUploaded[0].industry}
+											</li>
+
+											<li style={ImageLabelCSS}>
+												Follow
+											</li>
+								</ul>
+							</li>
+							<li style={{listStyle:"none",width:"90%",height:"10%",overflow:"hidden",color:"#A4A4A4"}}>
+										{headerBlog.description}
+							</li>
+						</ul>
+					</li>
+
+					<li style={{width:"60%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",height:"80%",overflowY:"auto",marginBottom:"20%"}}>
+						<ul style={{padding:"0px"}}>
+
+							{blogs.map(data=>
+								<li style={{list0Style:"none",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
+									<ul style={{padding:"0px"}}>
+										<li onClick={()=>displayBlogModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",marginRight:"2%"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<ShadowContainer/>
+												<img src={data.blogImageUrl} style={VideoContainerCSS}/>
+											</a>
+										</li>
+										<li style={{position:"relative",top:"0%",listStyle:"none",display:"inline-block"}}>
+												<ul style={{padding:"0px",position:"absolute",top:"-100px"}}>
+														<li style={{listStyle:"none",height:"170px",width:"280px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
+															<b>
+																{data.description}
+															</b>
+
+														</li>
+														<li style={{listStyle:"none"}}>
+															<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
+																	{data.ownerImgUrl==null?
+																		<img id="profilePicture" src={NoProfilePicture} style={ProfileImageCSS}/>:
+																		<img id="profilePicture" src={data.ownerImgUrl} style={ProfileImageCSS}/>
+																	}
+																</li>
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<ul style={{padding:"0px"}}>
+																		<li style={{listStyle:"none"}}>
+																			{data.firstName}
+																		</li>
+
+																		<li style={ImageLabelCSS}>
+																			{data.industriesUploaded[0].industry}
+																		</li>
+																	</ul>
+																</li>
+															</ul>
+														</li>
+													</ul>
+										</li>
+									</ul>
+								</li>
+							)}
+						</ul>
+					</li>
+					{displayBlogDisplayPortal==false?
+								null:
+								<BlogHomeDisplayPortal
+									closeModal={closeModal}
+									selectedBlog={selectedBlog}
+									recommendedBlogs={displayRecommendedBlogs}
+								/>
+						}
+				</React.Fragment>
+			:<p> No posts </p>
+			}
 		</React.Fragment>
 	)
 }

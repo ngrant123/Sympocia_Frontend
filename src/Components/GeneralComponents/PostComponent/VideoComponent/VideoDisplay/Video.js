@@ -11,6 +11,9 @@ import {  Player,
   VolumeMenuButton } from 'video-react';
 import QierPlayer from 'qier-player';
 import Comments from "../../../../GeneralComponents/CommentsComponent/index.js";
+import { Icon, InlineIcon } from '@iconify/react';
+import stampIcon from '@iconify/icons-fa-solid/stamp';
+
 
 
 
@@ -237,7 +240,14 @@ displayShadow=()=>{
 				<OptionsContainer>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",marginBottom:"20px"}}>
-							Like
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<Icon icon={stampIcon}/>
+								</li>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									Stamp
+								</li>
+							</ul>
 						</li>
 
 						<li style={{listStyle:"none",marginBottom:"20px"}}>

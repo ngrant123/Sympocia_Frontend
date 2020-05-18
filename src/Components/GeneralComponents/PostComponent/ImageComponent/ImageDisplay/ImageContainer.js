@@ -7,6 +7,7 @@ import EditImageCreation from "../ImageCreation/EditImageCreation.js";
 import EditIcon from '@material-ui/icons/Edit';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {addStampPost,unStampPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import StampIcon from "../../../../../designs/img/StampIcon.png";
 
 
 const Container=styled.div`
@@ -70,7 +71,6 @@ const StampIconEffect=styled.div`
 	  width:100px;
 	  border-radius:5px;
 	  position:absolute;
-	  background-color:#ef8080;
 	  animation:${keyFrame} 1s ease-in-out 0s forwards;
 `;
 
@@ -158,9 +158,13 @@ const ImageContainer=(props)=>{
 								<li style={{listStyle:"none"}}>
 									<Image>	
 										{displayStampEffect==true?
-												<StampIconEffect
-													id="stampEffect"
-												/>:
+												<React.Fragment>
+													<StampIconEffect
+														id="stampEffect"
+													>
+														<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+													</StampIconEffect>
+												</React.Fragment>:
 												null}
 										<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%"}}/>
 									</Image>
