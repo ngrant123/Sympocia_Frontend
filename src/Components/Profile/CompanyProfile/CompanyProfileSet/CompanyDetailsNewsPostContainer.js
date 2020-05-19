@@ -313,26 +313,31 @@ const EmployeeButton = styled.div`
 	left:70%;
 `;
 
-const ActivityLogButton = styled.div`
-	position:absolute;
+const RecruitButton = styled.div`
+
+
+	position:relative;
 	width:10%;
 	height:8%;
 	left:70%;
-	text-align:center;
-	border-radius:0px 0px 5px 5px;
-	box-shadow: 2px 2px 1px 1px #d8d9df;
-	transition:.3s;
-	color:black;
-	text-align:center;
-	padding:5px;
+	animation: glowing 1300ms infinite;
+	position:absolute;
+	color:white;
+	padding:10px;
+	background-color:white;
+	border-radius:5px;
 
-	&:hover{
-		background-color:#C8B0F4;
-		color:white;
-	}
+
+	@keyframes glowing {
+      0% { background-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { background-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { background-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+  }
 `;
 
-const FriendsButton = styled.div`
+
+
+const SponsorButton = styled.div`
 	position:absolute;
 	width:10%;
 	height:8%;
@@ -541,8 +546,8 @@ class ProfileComp extends Component{
 							    </ul>
 			  				</div>
 
-			  				<ActivityLogButton>Activity Log</ActivityLogButton>
-			  				<FriendsButton>Friendships</FriendsButton>
+			  				<RecruitButton>Recruit</RecruitButton>
+			  				<SponsorButton>Sponsor</SponsorButton>
 
 
 							<PostContainer>

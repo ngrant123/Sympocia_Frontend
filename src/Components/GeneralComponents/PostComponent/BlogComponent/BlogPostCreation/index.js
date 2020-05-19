@@ -94,7 +94,9 @@ class BlogPostCreation extends Component{
 			}}>
 				<Container>
 					<GeneralNavBar/>
-					<AdditionalInformation/>
+					<AdditionalInformation
+						blogData={this.props.location.state}
+					/>
 					<TextOptions
 						displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
 				/>

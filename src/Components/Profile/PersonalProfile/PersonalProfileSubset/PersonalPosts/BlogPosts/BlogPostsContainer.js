@@ -73,7 +73,8 @@ class BlogsPostsContainer extends Component{
 			firstVideo:{},
 			isLoading:true,
 			blogs:[{},{},{}],
-			headerBlog:{}
+			headerBlog:{},
+			profileType:this.props.profileType
 		}
 	}
 
@@ -202,7 +203,7 @@ class BlogsPostsContainer extends Component{
 													<li style={{listStyle:"none",marginTop:"5%"}}>	
 														<ul style={{padding:"0px"}}>
 															{this.state.blogs.map(data=>
-																<BlogContainer to={{pathname:`/blog/${personalInformation.userProfile._id}`,state:data}}>
+																<BlogContainer to={{pathname:`/blog/${personalInformation.userProfile._id}`,state:{...data,profileType:this.state.profileType}}}>
 																	<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"-7%"}}>
 																		<SmallBlogComponent>
 																			<ul style={{padding:"0px"}}>

@@ -25,6 +25,7 @@ const VideoContainer=(data)=>{
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 					<Video
 						video={data.videoData}
+						profileType={data.profileType}
 					/> 
 				</li>
 				<li style={{listStyle:"none",display:"inline-block"}}>

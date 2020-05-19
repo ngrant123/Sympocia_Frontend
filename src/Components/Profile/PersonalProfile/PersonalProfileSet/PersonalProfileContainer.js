@@ -257,7 +257,7 @@ const ImagePopupContainer=styled.div`
 
 const PostPopupContainer=styled.div`
 	margin-left:20%;
-	margin-top:10%;
+	margin-top:5%;
 
 `;
 
@@ -559,6 +559,7 @@ class LProfile extends Component{
 			<PostPopupContainer>
 				<VideoContainer
 					videoData={newVideoObject}
+					profileType="personalProfile"
 				/>
 			</PostPopupContainer>:
 			<React.Fragment></React.Fragment>

@@ -632,11 +632,8 @@ const SmallProfileEmailValue = styled.textarea`
 	padding:5px 5px 5px 5px;
 	color:#5298f8;
 	border-radius:5px;
-
 	border-style:1px;
 	font-size:105%;
-
-
 `;
 
 const PostDivider = styled.div`
@@ -693,7 +690,9 @@ class LProfile extends Component{
 			userProfile:{
 				imagePost:[]
 			},
-			displayShadowBackground:false
+			displayShadowBackground:false,
+			displaySponsorModal:false,
+			sponsorModalData:{}
 			
 		}
 	}
@@ -788,6 +787,7 @@ class LProfile extends Component{
 			<ImagePopupContainer>
 				<ImageContainer
 					imageData={newImageObject}
+					profileType="companyProfile"
 				/>
 			</ImagePopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -806,6 +806,7 @@ class LProfile extends Component{
 			<PostPopupContainer>
 				<VideoContainer
 					videoData={newVideoObject}
+					profileType="companyProfile"
 				/>
 			</PostPopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -837,7 +838,15 @@ class LProfile extends Component{
 					this.setState({
 						news:news
 					})
-				}}}>
+				},
+				displaySponsor:(sponsorModalData)=>{
+					this.setState({
+						displaySponsorModal:true,
+						sponsorModalData:sponsorModalData
+					})
+				}
+
+				}}>
 					<CompanyPostDisplayProvider
 						value={{
 							handleImagePostModal:(imagePostData)=>{
@@ -875,11 +884,11 @@ class LProfile extends Component{
 						<React.Fragment>
 
 							<ProfileContainer>
-									<NavContainer> 
-								<GeneralNavBar
-									pageType="Profile"
-								/>
-							</NavContainer>
+								<NavContainer> 
+									<GeneralNavBar
+										pageType="Profile"
+									/>
+								</NavContainer>
 							{this.ImageModal()}
 							{this.VideoModal()}
 							{this.BlogModal()}
@@ -921,11 +930,17 @@ class LProfile extends Component{
 						</React.Fragment>:
 						<React.Fragment>
 						</React.Fragment>
-
-
 					}
 
 				</CompanyPostDisplayProvider>
+
+				{this.state.displaySponsorModal==false?
+							<React.Fragment>
+							</React.Fragment>:
+							<SponsorModal
+								sponsorData={this.state.sponsorModalData}
+							/>
+				}
 			</CompanyProvider>
 
 		)

@@ -476,7 +476,7 @@ const PersonalPostsIndex=(props)=>{
 											displayBlogs==true?
 											<BlogsPosts
 												id={personalInformation.userProfile._id}
-												profile="Personal"
+												profileType="personalProfile"
 											/>:<React.Fragment></React.Fragment>
 										}
 

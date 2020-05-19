@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import ReactDom from "react-dom";
-import styled from "styled-components";
+import styled , {keyframes}from "styled-components";
 import {  Player,
   ControlBar,
   ReplayControl,
@@ -10,11 +10,17 @@ import {  Player,
   PlaybackRateMenuButton,
   VolumeMenuButton } from 'video-react';
 import QierPlayer from 'qier-player';
+
 import Comments from "../../../../GeneralComponents/CommentsComponent/index.js";
 import { Icon, InlineIcon } from '@iconify/react';
 import stampIcon from '@iconify/icons-fa-solid/stamp';
+import shareIcon from '@iconify/icons-fa-solid/share';
 
-
+import ChatIcon from '@material-ui/icons/Chat';
+import DescriptionIcon from '@material-ui/icons/Description';
+import StampIcon from "../../../../../designs/img/StampIcon.png";
+import {connect} from "react-redux";
+import {addStampPost,unStampPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 
 const Container=styled.div`
@@ -30,10 +36,9 @@ const OptionsContainer=styled.div`
 	position:absolute;
 	width:7%;
 	height:75%;
-	background-color:red;
 	z-index:3;
 	top:0%;
-	left:90%;
+	left:85%;
 `;
 
 const SmallVideoModal=styled.div`
@@ -116,6 +121,30 @@ const IndustryContainer=styled.div`
 	}
 `;
 
+const keyFrame=keyframes`
+	  0%{
+	    opacity: 0;
+	  }
+	  10%{
+	    opacity:.50;
+	    transform-origin: 50% 50%;
+	    transform: scale(5);
+	    transition: all .3s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+	  }
+	  100%{
+	    opacity:1;
+	    transform: scale(1);
+	  }
+
+`;
+const StampIconEffect=styled.div`
+	  height:200px;
+	  width:200px;
+	  border-radius:5px;
+	  position:absolute;
+	  animation:${keyFrame} 1s ease-in-out 0s forwards;
+`;
+
 
 
 
@@ -128,7 +157,8 @@ class Video extends Component{
 		this.state={
 			displayComments:false,
 			displayDescription:false,
-			seconds:0
+			seconds:0,
+			displayStampEffect:false
 		}
 	}
 
@@ -199,6 +229,32 @@ displayShadow=()=>{
 	return this.state.displayComments==true?<ShadowContainer onClick={()=>this.setState({displayComments:false})}/>:
 		<React.Fragment></React.Fragment>
 }
+
+createOrRemoveStampEffect=()=>{
+		var isPersonalProfile=this.props.profileType=="personalProfile"?true:false;
+		debugger;
+		//(userId,postId,profileType,postType)
+		if(this.state.displayStampEffect==false){
+			if(isPersonalProfile==true){
+				addStampPost(this.props.video.owner,this.props.video._id,"personal","VideoPost");
+			}else{
+				addStampPost(this.props.video.owner,this.props.video._id,"company","VideoPost");
+			}
+			this.setState({
+				displayStampEffect:true
+			})
+
+		}else{
+			if(isPersonalProfile==true){
+				unStampPost(this.props.video.owner,this.props.video._id,"personal","VideoPost");
+			}else{
+				unStampPost(this.props.video.owner,this.props.video._id,"company","VideoPost");
+			}
+			this.setState({
+				displayStampEffect:false
+			})
+		}
+}
 //Like,Dislike,Comment,Share,Promote
 
 	render(){
@@ -230,6 +286,14 @@ displayShadow=()=>{
 				</VideoCommentsAndModalContainer>
 
 				{this.displayOrHideVideoAndComments()}
+				{this.state.displayStampEffect==true?
+						<StampIconEffect
+							id="stampEffect"
+						>
+							<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+						</StampIconEffect>:
+						null
+				}
 
     			<video  key={this.props.video.videoUrl} id="video" position="relative" height="100%" width="100%" controls autoplay>
 				    <source src={this.props.video.videoUrl} type="video/mp4"/>
@@ -238,36 +302,71 @@ displayShadow=()=>{
 				{this.displayDescription(this.props.video)}
 
 				<OptionsContainer>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",marginBottom:"20px"}}>
+					<ul style={{paddingTop:"10px"}}>
+						<li onClick={()=>this.createOrRemoveStampEffect()} style={{listStyle:"none",marginBottom:"20px"}}>
 							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<Icon icon={stampIcon}/>
+								<li style={{listStyle:"none",marginLeft:"5%"}}>
+									<Icon 
+										icon={stampIcon}
+										style={{fontSize:30,color:"white"}}
+									/>
 								</li>
-								<li style={{listStyle:"none",display:"inline-block"}}>
+								<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
 									Stamp
 								</li>
 							</ul>
 						</li>
 
-						<li style={{listStyle:"none",marginBottom:"20px"}}>
-							Dislike
-						</li>
+						{/*
+							<li style={{listStyle:"none",marginBottom:"20px"}}>
+								Dislike
+							</li>
 
+						*/}
 						<li onClick={()=>this.setState({displayComments:!this.state.displayComments})} style={{listStyle:"none",marginBottom:"20px"}}>
-							Comments
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginLeft:"5%"}}>
+									<ChatIcon
+										style={{fontSize:30,color:"white"}}
+									/>
+								</li>
+								<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+									Comments
+								</li>
+							</ul>
 						</li>
 
 						<li style={{listStyle:"none",marginBottom:"20px"}}>
-							Share
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginLeft:"5%"}}>
+									<Icon 
+										icon={shareIcon}
+										style={{fontSize:30,color:"white"}}
+									/>
+								</li>
+								<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+									Stamp
+								</li>
+							</ul>
 						</li>
 
-						<li style={{listStyle:"none",marginBottom:"20px"}}>
-							Promote
-						</li>
+						{/*
+							<li style={{listStyle:"none",marginBottom:"20px"}}>
+								Promote
+							</li>
+						*/}
 
 						<li onClick={()=>this.setState({displayDescription:!this.state.displayDescription})} style={{listStyle:"none",marginBottom:"20px"}}>
-							Description
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginLeft:"5%"}}>
+									<DescriptionIcon
+										style={{fontSize:30,color:"white"}}
+									/>
+								</li>
+								<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+									Description
+								</li>
+							</ul>
 						</li>
 					</ul>
 
@@ -280,4 +379,15 @@ displayShadow=()=>{
 	}
 }
 
-export default Video;
+
+const mapStateToProps=(state)=>{
+	return {
+		personalInformation:state=>state.personalInformation,
+		companyInformation:state=>state.companyInformation
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	null
+)(Video);
