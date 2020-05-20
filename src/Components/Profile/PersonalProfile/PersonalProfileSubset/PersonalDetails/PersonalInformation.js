@@ -4,7 +4,7 @@ import {UserConsumer} from "../../UserContext.js";
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import FriendsAndIndustryInformation from "./FriendsAndIndustryInformation.js";
 import DonatePortal from "../../PersonalProfileSet/DonatePortal.js";
-import SponsorPortal from "../../PersonalProfileSet/SponsorModalPortal/index.js";
+import ChampionPortal from "../../PersonalProfileSet/ChampionModalPortal/index.js";
 
 
 const BioContainer=styled.div`
@@ -106,7 +106,7 @@ const PersonalInformation=()=>{
 
 	const [displayFriendsAndIndustryContainer,changeIndicator]=useState(false);
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);
-	const [displaySponsorModal,changeDisplaySponsorModal]=useState(false);
+	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 
 	const handleRecruitButton=()=>{
 
@@ -118,9 +118,9 @@ const PersonalInformation=()=>{
 
 	}
 
-	const handleSponsorButton=()=>{
+	const handleChampionButton=()=>{
 		console.log("Download modal");
-			changeDisplaySponsorModal(!displaySponsorModal);
+			changeDisplayChampionModal(!displayChampionModal);
 
 	}
 
@@ -188,8 +188,8 @@ const PersonalInformation=()=>{
 											</li>
 											<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
 												<a style={{textDecoration:"none"}} href="javascript:void(0)">
-													<SponsorButton onClick={()=>handleSponsorButton()}>
-														Sponsor Someone
+													<SponsorButton onClick={()=>handleChampionButton()}>
+														Champion Someone
 													</SponsorButton>
 												</a>
 											</li>
@@ -213,9 +213,9 @@ const PersonalInformation=()=>{
 								closeModal={handleDonateButton}
 							/>:null
 						}
-						{displaySponsorModal==true?
-							<SponsorPortal
-								closeModal={handleSponsorButton}
+						{displayChampionModal==true?
+							<ChampionPortal
+								closeModal={handleChampionButton}
 							/>:null
 						}
 						</React.Fragment>

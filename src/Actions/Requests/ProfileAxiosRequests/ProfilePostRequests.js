@@ -152,6 +152,23 @@ export async function setProfilePicture(profileId,pictureUrl){
 }
 
 
+export const createChampion=async(profileId,championData)=>{
+	try{
+		const championCreationResponse=await axios.post(`${CreateUrl}/createChampion`,{
+			_id:profileId,
+			championData:championData
+		});
+
+		const {data}=championCreationResponse.data;
+		const championResponse=data.data;
+		return championResponse;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+
+}
+
 
 
 

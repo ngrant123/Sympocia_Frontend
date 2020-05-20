@@ -7,6 +7,7 @@ import CreatePostComponent from "../../../../GeneralComponents/PostComponent/Lar
 import IndustryOptions from "../../../../GeneralComponents/PostComponent/IndustryPostOptions.js"
 import {connect} from "react-redux";
 import {getPostsForHomePage} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+import PersonalHomeFeed from "../../PersonalHomeFeed/PersonalizedPage/PersonalizedPage.js";
 
 const CommentCreationContainer=styled.div`
 	position:relative;

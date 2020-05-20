@@ -11,6 +11,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import CompanyPostsContainer from "../CompanyProfileSubset/CompanyPosts/index.js";
 import { CompanyConsumer } from "../CompanyContext.js";
 import { connect } from "react-redux";
+import ChampionModalPrompt from "../../PersonalProfile/PersonalProfileSet/ChampionModalPortal/index.js";
 
 const ProfileContainer = styled.div`
 
@@ -326,6 +327,7 @@ const RecruitButton = styled.div`
 	padding:10px;
 	background-color:white;
 	border-radius:5px;
+	z-index:12;
 
 
 	@keyframes glowing {
@@ -337,7 +339,7 @@ const RecruitButton = styled.div`
 
 
 
-const SponsorButton = styled.div`
+const ChampionButton = styled.div`
 	position:absolute;
 	width:10%;
 	height:8%;
@@ -349,6 +351,7 @@ const SponsorButton = styled.div`
 	color:black;
 	text-align:center;
 	padding:5px;
+	z-index:12;
 
 	&:hover{
 		background-color:#C8B0F4;
@@ -460,7 +463,8 @@ class ProfileComp extends Component{
 			title:"Poop",
 			postdecider:1,
 			industryType:"Engineering",
-			location:"Location"
+			location:"Location",
+			displayChampionPortal:false
 		}
 		this.displayEmployee=this.displayEmployee.bind(this);
 		this.displayNotification=this.displayNotification.bind(this);
@@ -510,6 +514,20 @@ class ProfileComp extends Component{
 
 	}
 
+	closeChampionModal=()=>{
+		this.setState({
+			displayChampionPortal:false
+		})
+	}
+
+	displayChampionPortalHandle=()=>{
+		debugger;
+		console.log("test")
+		this.setState({
+			displayChampionPortal:true
+		})
+	}
+
 
 	render(){
 		//Condidtional rendering for post/image/location section 
@@ -530,9 +548,7 @@ class ProfileComp extends Component{
 		}
 
 		return(
-
 			<CompanyConsumer>
-
 				{ companyInformation=>{
 
 					return <ProfileContainer>
@@ -547,7 +563,14 @@ class ProfileComp extends Component{
 			  				</div>
 
 			  				<RecruitButton>Recruit</RecruitButton>
-			  				<SponsorButton>Sponsor</SponsorButton>
+			  				<ChampionButton onClick={()=>this.displayChampionPortalHandle()}>Champion</ChampionButton>
+
+			  				{this.state.displayChampionPortal==true?
+			  					<ChampionModalPrompt
+			  						closeModal={this.closeChampionModal}
+			  						profileType="Company"
+			  					/>
+			  				:null}
 
 
 							<PostContainer>
@@ -598,12 +621,9 @@ class ProfileComp extends Component{
 								/>
 
 							</CompanyStats>
-
 					</ProfileContainer>
-
 					}
 				}
-
 			</CompanyConsumer>
 
 		)

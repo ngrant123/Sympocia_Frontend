@@ -28,7 +28,7 @@ import { withRouter } from "react-router-dom";
 import {PostDisplayProvider} from "../PostDisplayModalContext.js";
 import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
-import SponsorModal from "./SponsorModalPortal/SponsorDisplayModal.js";
+import ChampionModal from "./ChampionModalPortal/ChampionDisplayModal.js";
 
 const Container=styled.div`
 
@@ -318,16 +318,13 @@ class LProfile extends Component{
 		    blogModalData:{},
 		    displayRegularPostModal:false,
 		    regularModalData:{},
-		    displaySponsorModal:(sponsorData)=>{
+		    displayChampionModal:false,
+		    champion:{},
+		    displayChampionModal:(championData)=>{
 		    	debugger;
-		    	const test={...this.state,userProfile:{...this.state.userProfile,
-		    			sponsor:sponsorData}};
 		    	this.setState({
 		    		...this.state,
-		    		userProfile:{
-		    			...this.state.userProfile,
-		    			sponsor:sponsorData
-		    		}
+		    		champion:championData
 		    	})
 		    }
 		};
@@ -345,21 +342,27 @@ class LProfile extends Component{
 				if(id==this.props.personalId){
 					debugger;
 					const profile=await getProfile(this.props.personalId);
+					var containsChampion=profile.championData!=""?true:false;
 
 					this.setState(prevState=>({
 						...prevState,
 						isLoading:false,
 						userProfile:profile,
-						isOwnProfile:true
+						isOwnProfile:true,
+						displayChampion:containsChampion,
+						champion:profile.championData
 					}));
 				}
 				else{
 					const profile=await getProfile(id);
+					var containsChampion=profile.championData!=""?true:false;
 
 					this.setState(prevState=>({
 						...prevState,
 						isLoading:false,
-						userProfile:profile
+						userProfile:profile,
+						displayChampion:containsChampion,
+						championModalData:profile.championData
 					}));
 			}	
 		}
@@ -676,11 +679,11 @@ class LProfile extends Component{
 							/>
 						</PostInformationContainer>
 
-						{this.state.userProfile.sponsor==null?
+						{this.state.displayChampion==false?
 							<React.Fragment>
 							</React.Fragment>:
-							<SponsorModal
-								sponsorData={this.state.userProfile.sponsor}
+							<ChampionModal
+								championData={this.state.champion}
 							/>
 						}
 					</Container>

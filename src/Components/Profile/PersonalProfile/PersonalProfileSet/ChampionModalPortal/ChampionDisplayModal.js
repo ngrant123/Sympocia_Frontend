@@ -90,18 +90,18 @@ class SponsorDisplayModal extends Component{
 									<li style={{width:"40%",listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",marginBottom:"3%",width:"40%"}}>
-													<img src={this.props.sponsorData.imgUrl} style={{width:"170%",height:"35%",borderRadius:"50%"}}/>
+													<img src={this.props.championData.imgUrl} style={{width:"170%",height:"35%",borderRadius:"50%"}}/>
 											</li>
 
 											<li style={{listStyle:"none",fontSize:"30px",color:"#5298F8"}}>
-												<b>{this.props.sponsorData.name}</b>
+												<b>{this.props.championData.name}</b>
 											</li>
 
 											<li style={{listStyle:"none",marginTop:"10%"}}>
 												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:"none",display:"inline-block"}}>
-														{this.props.sponsorData.instagramUrl!=null?
-															<a style={{textDecoration:"none"}}href={this.props.sponsorData.instagramUrl}>
+														{this.props.championData.instagramUrl!=null?
+															<a style={{textDecoration:"none"}}href={this.props.championData.instagramUrl}>
 																<InstagramIcon
 																	style={{fontSize:20}}
 																/>
@@ -112,8 +112,8 @@ class SponsorDisplayModal extends Component{
 													</li>
 													<li style={{listStyle:"none",display:"inline-block",marginLeft:"20%"}}>
 
-													{this.props.sponsorData.tikTokUrl!=null?
-															<a style={{textDecoration:"none"}}href={this.props.sponsorData.instagramUrl}>
+													{this.props.championData.tikTokUrl!=null?
+															<a style={{textDecoration:"none"}}href={this.props.championData.instagramUrl}>
 																<Icon icon={tiktokIcon} 
 																	style={{fontSize:20}}
 																/>
@@ -128,7 +128,7 @@ class SponsorDisplayModal extends Component{
 									</li>
 
 									<li style={{height:"40%",overflowY:"auto",position:"relative",top:"-50px",listStyle:"none",display:"inline-block",width:"50%"}}>
-										{this.props.sponsorData.description}
+										{this.props.championData.description}
 									</li>
 								</ul>
 							</li>
@@ -138,16 +138,16 @@ class SponsorDisplayModal extends Component{
 						<ul style={{padding:"10px"}}>
 							<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
 							
-									<img src={this.props.sponsorData.imgUrl} style={{position:"relative",top:"-30px",width:"80px",height:"80%",borderRadius:"50%"}}/>
+									<img src={this.props.championData.imgUrl} style={{position:"relative",top:"-30px",width:"80px",height:"80%",borderRadius:"50%"}}/>
 							</li>
 
 							<li style={{position:"relative",top:"-5px",overflow:"hidden",listStyle:"none",display:"inline-block",width:"50%"}}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",fontSize:"20px"}}>
-										<b>{this.props.sponsorData.name}</b> 
+										<b>{this.props.championData.name}</b> 
 									</li>
 									<li style={{listStyle:"none",width:"70%",height:"45%",color:"#BDBDBD"}}>
-										{this.props.sponsorData.description}
+										{this.props.championData.description}
 									</li>
 								</ul>
 							</li>

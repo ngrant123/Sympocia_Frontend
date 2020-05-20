@@ -150,4 +150,27 @@ export function sendCompanyIconToDB(companyId,imgData){
 
 
 
+export const createCompanyChampion=async(companyId,championData)=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/company/alter';
+		const championCreationResponse=await axios.post(`${CreateUrl}/createChampion`,{
+			_id:companyId,
+			championData:championData
+		});
+
+		const {data}=championCreationResponse.data;
+		const championResponse=data.data;
+		return championResponse;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+
+}
+
+
+
+
+
 

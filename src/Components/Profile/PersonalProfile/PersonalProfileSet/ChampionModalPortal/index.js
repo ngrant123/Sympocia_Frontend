@@ -12,7 +12,7 @@ const SponsorModal=styled.div`
 	top:10%;
 	border-radius:5px;
 	left:30%;
-	overflow:hidden;
+	overflow:auto;
 
 `;
 
@@ -60,7 +60,13 @@ const LocationStyle = {
 
 
 const SponsorPortal=(props)=>{
-
+	debugger;
+	var parentDiv;
+	if(props.profileType=="Company"){
+		parentDiv=document.getElementById("companyProfileContainer");
+	}else{
+		parentDiv=document.getElementById("personalContainer");
+	}
 	const [imageData,changeImageData]=useState();
 	const [displayDescriptionScreen,changeChangeDescriptionScreen]=useState(false);
 
@@ -120,12 +126,13 @@ const SponsorPortal=(props)=>{
 						imgData={imageData}
 						backButton={displayUploadImageSearchProfileScreen}
 						closeModal={props.closeModal}
+						profileType={props.profileType}
 					/>
 				}
 			</SponsorModal>
 			<ShadowContainer onClick={()=>props.closeModal()}/>
 		</React.Fragment>
-	,document.getElementById("personalContainer"));
+	,parentDiv);
 }
 
 export default SponsorPortal;

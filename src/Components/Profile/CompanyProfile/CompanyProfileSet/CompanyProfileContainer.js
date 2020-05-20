@@ -15,6 +15,7 @@ import {
 import {CompanyPostDisplayProvider} from "../CompanyProfilePostsDisplayContext.js";
 import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
+import ChampionModal from "../../PersonalProfile/PersonalProfileSet/ChampionModalPortal/ChampionDisplayModal.js";
 
 
 
@@ -691,9 +692,8 @@ class LProfile extends Component{
 				imagePost:[]
 			},
 			displayShadowBackground:false,
-			displaySponsorModal:false,
-			sponsorModalData:{}
-			
+			displayChampionModal:false,
+			championModalData:{}
 		}
 	}
 
@@ -708,30 +708,39 @@ class LProfile extends Component{
 
 		 }else{
 				if(id==this.props.companyPersonalId){
-					debugger;
-					const profile=await getCompanyInformation(this.props.companyPersonalId);
 
+					const profile=await getCompanyInformation(this.props.companyPersonalId);
+					var containsChampion=profile.championData!=""?true:false;
+					debugger;
 					this.setState({
 						isLoading:false,
 						userProfile:profile,
-						isOwnProfile:true
+						isOwnProfile:true,
+						displayChampionModal:containsChampion,
+						championModalData:profile.championData
 					});
 
 					//window.addEventListener('scroll',this.ScrollFunction);
 				}
 				else{
 					const profile=await getCompanyInformation(id);
+					var containsChampion=profile.championData!=""?true:false;
 
+					debugger;
 					this.setState(prevState=>({
 						...prevState,
 						isLoading:false,
 						userProfile:profile,
-						isOwnProfile:false
+						isOwnProfile:false,
+						displayChampionModal:containsChampion,
+						championModalData:profile.championData
 					}));
 			}	
 		}
 
 	}
+
+
 
 	displaytoplevelnewsprofile=()=>{
 
@@ -836,13 +845,13 @@ class LProfile extends Component{
 					const news=this.state.news;
 					news.push(newsInformation);
 					this.setState({
-						news:news
+		  				news:news
 					})
 				},
-				displaySponsor:(sponsorModalData)=>{
+				displayChampionModal:(championModalData)=>{
 					this.setState({
-						displaySponsorModal:true,
-						sponsorModalData:sponsorModalData
+						displayChampionModal:true,
+						championModalData:championModalData
 					})
 				}
 
@@ -883,12 +892,14 @@ class LProfile extends Component{
 					{this.state.isLoading==false?
 						<React.Fragment>
 
-							<ProfileContainer>
-								<NavContainer> 
+							<ProfileContainer id="companyProfileContainer">
+								<NavContainer>  
 									<GeneralNavBar
 										pageType="Profile"
 									/>
 								</NavContainer>
+
+
 							{this.ImageModal()}
 							{this.VideoModal()}
 							{this.BlogModal()}
@@ -934,13 +945,14 @@ class LProfile extends Component{
 
 				</CompanyPostDisplayProvider>
 
-				{this.state.displaySponsorModal==false?
+				{this.state.displayChampionModal==false?
 							<React.Fragment>
 							</React.Fragment>:
-							<SponsorModal
-								sponsorData={this.state.sponsorModalData}
+							<ChampionModal
+								championData={this.state.championModalData}
 							/>
 				}
+				
 			</CompanyProvider>
 
 		)
