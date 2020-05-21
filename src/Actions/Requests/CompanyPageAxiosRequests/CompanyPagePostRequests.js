@@ -170,6 +170,26 @@ export const createCompanyChampion=async(companyId,championData)=>{
 }
 
 
+export const addRecruit=async(personalProfile,targetedProfile)=>{
+	try{
+		
+		const CreateUrl='http://localhost:4000/api/company/alter';
+		const recruitResponse=await axios.post(`${CreateUrl}/addRecruit`,{
+			personalProfileId:personalProfile,
+			targetProfile:targetedProfile
+		});
+		const {data}=recruitResponse;
+		const recruitData=data.data;
+		return recruitData;
+		
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+
+}
+
+
 
 
 

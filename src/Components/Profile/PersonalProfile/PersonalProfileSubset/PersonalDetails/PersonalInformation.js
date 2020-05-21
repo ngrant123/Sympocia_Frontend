@@ -6,7 +6,7 @@ import FriendsAndIndustryInformation from "./FriendsAndIndustryInformation.js";
 import DonatePortal from "../../PersonalProfileSet/DonatePortal.js";
 import ChampionPortal from "../../PersonalProfileSet/ChampionModalPortal/index.js";
 import {useSelector} from "react-redux";
-//import {recruitUser} from ""
+import {addRecruit} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 
 
@@ -110,7 +110,7 @@ const PersonalInformation=(props)=>{
 	const [displayFriendsAndIndustryContainer,changeIndicator]=useState(false);
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
-	const personalRedux=useSelector(state=>state);
+	const personalRedux=useSelector(state=>state.personalInformation);
 
 	const handleUnRecruitButton=()=>{
 
@@ -119,8 +119,9 @@ const PersonalInformation=(props)=>{
 	const handleRecruitButton=(personalInformation)=>{
 		props.displayConfetti();
 		console.log(personalInformation);
-		const profileId=personalInformation._id;
-		//recruitUser(personalRedux.id,profileId);
+		debugger;
+		const profileId=personalInformation.userProfile._id;
+		addRecruit(personalRedux.id,profileId);
 
 	}
 
