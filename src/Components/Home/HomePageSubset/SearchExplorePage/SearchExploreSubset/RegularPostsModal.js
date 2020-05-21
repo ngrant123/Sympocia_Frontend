@@ -1,5 +1,10 @@
 import React,{useState} from "react";
 import styled from "styled-components";
+import PersonalIndustry from "../../../../../Constants/personalIndustryConstants.js";
+import CompanyIndustry from "../../../../../Constants/industryConstants.js";
+import {useSelector} from "react-redux";
+import {displayPersonalIndustryFeed} from "./ImagePostsModal.js";
+import {HomeConsumer} from "../../../HomeContext.js";
 
 const Container=styled.div`
 	position:absolute;

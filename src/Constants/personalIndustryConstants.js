@@ -2,9 +2,11 @@ export default{
 	INDUSTRIES:[
 		{	
 			industry:"General",
+			backgroundColor:"linear-gradient(to left, #9933ff 0%, #ff99ff 100%)",
 			id:1
 		},
 		{ industry:"Photography",
+			backgroundColor:"linear-gradient(to right, #ff9933 0%, #ffff00 100%)",
 			subCommunity:[
 				{industry:"Landscape"},
 				{industry:"Wildlife"},
@@ -15,6 +17,7 @@ export default{
 			],
 		id:1 },
 		{ industry:"Gaming",
+			backgroundColor:"linear-gradient(to right, #00ccff 0%, #00ffff 100%)",
 			subCommunity:[
 				{industry:"Super Smash Bros"},
 				{industry:"Call of duty"},
@@ -38,6 +41,7 @@ export default{
 				{industry:"Simulator"}
 			],id:2 },
 		{ industry:"TV Shows",
+			backgroundColor:"linear-gradient(to right, #f12711 0%, #f5af19 100%)",
 			subCommunity:[
 				{industry:"Drama"},
 				{industry:"Comedy"},
@@ -58,7 +62,9 @@ export default{
 				{industry:"Riverdale"},
 				{industry:"Orange is the new black"}
 			],id:3},
-		{ industry:"Movies",subCommunity:[
+		{ industry:"Movies",
+				backgroundColor:"linear-gradient(to right, #c6ffdf, #c9facc, #d0f4b9, #dbeda7, #e8e496, #f0d989, #f8cd7f, #ffc079, #ffae75, #ff9c74, #fd8a77, #f7797d)",
+				subCommunity:[
 				{industry:"Action"},
 				{industry:"Adventure"},
 				{industry:"Comedy"},
@@ -68,7 +74,9 @@ export default{
 				{industry:"Horror"},
 				{industry:"Science Fiction"}
 			],id:1 },
-		{ industry:"Music",subCommunity:[
+		{ industry:"Music",
+				backgroundColor:"linear-gradient(to right,#2193b0 0%, #6dd5ed 100%)",
+				subCommunity:[
 				{industry:"Jazz"},
 				{industry:"Rap"},
 				{industry:"Hip Hop"},
@@ -83,6 +91,7 @@ export default{
 				{industry:"Pop Music"}
 			],id:2 },
 		{ industry:"News",
+			backgroundColor:"linear-gradient(to right,#ee9ca7 0%, #ffdde1 100%)",
 			subCommunity:[
 				{industry:"Sports"},
 				{industry:"Technology"},
@@ -93,12 +102,13 @@ export default{
 				{industry:"Environmental"},
 				{industry:"World Wide"}
 			],id:3},
-		{ industry:"Social Sciences And Managment",id:1 },
-		{ industry:"Finance",id:2 },
-		{ industry:"Arts & Humanities",id:3},
-		{ industry:"Law",id:1 },
-		{ industry:"Medicine",id:2 },
+		{ industry:"Social Sciences And Managment",backgroundColor:"linear-gradient(to right,#f953c6 0%, #b91d73 100%)",id:1 },
+		{ industry:"Finance",backgroundColor:"linear-gradient(to right,#654ea3 0%, #eaafc8 100%)",id:2 },
+		{ industry:"Arts & Humanities",backgroundColor:"linear-gradient(to right,#FF416C 0%, #FF4B2B 100%)",id:3},
+		{ industry:"Law",backgroundColor:"linear-gradient(to right, #8a2387, #a21e81, #b71d7a, #ca2170, #d92c66, #e2355d, #e93f54, #ef4b4b, #f25442, #f35d38, #f3672d, #f27121",id:1 },
+		{ industry:"Medicine",backgroundColor:"linear-gradient(to right,#a8ff78 0%, #78ffd6 100%)",id:2 },
 		{ industry:"Art",
+			backgroundColor:"linear-gradient(to right,#FDC830 0%, #F37335 100%)",
 			subCommunity:[
 				{industry:"Graffiti"},
 				{industry:"Animation"},
@@ -110,6 +120,7 @@ export default{
 				{industry:"Contemporary Art"}
 			],id:3},
 		{ industry:"Graphic Design",
+			backgroundColor:"linear-gradient(to right,#00B4DB 0%, #0083B0 100%)",
 			subCommunity:[
 				{industry:"User Interface Graphics"},
 				{industry:"Art And Illustrations"},
@@ -117,6 +128,7 @@ export default{
 				{industry:"Illustration And posters"}
 			],id:1 },
 		{ industry:"Design",
+			backgroundColor:"linear-gradient(to right,#ad5389 0%,#ad5389 100%)",
 			subCommunity:[
 				{industry:"Architecture And Interior"},
 				{industry:"Garden And Landscape"},
@@ -124,14 +136,16 @@ export default{
 				{industry:"Furniture Design"}
 			],id:2 },
 		{ industry:"Anthropology",
-		subCommunity:[
+				backgroundColor:"linear-gradient(to right,#bc4e9c 0%,#f80759 100%)",
+				subCommunity:[
 				{industry:"Biological"},
 				{industry:"Cultural"},
 				{industry:"Linguistic"},
 				{industry:"Archaeology"}
 			],id:3},
 		{ industry:"Computer Science",
-		subCommunity:[
+				backgroundColor:"linear-gradient(to right,#11998e 0%,#38ef7d 100%)",
+				subCommunity:[
 				{industry:"Artificial Intelligence"},
 				{industry:"Computer Architecture and Engineering"},
 				{industry:"Computer Graphics and Visualization"},
@@ -145,8 +159,9 @@ export default{
 				{industry:"Cloud Computing"},
 				{industry:"Machine Learning"}
 			],id:1 },
-		{ industry:"Cooking",id:2 },
+		{ industry:"Cooking",backgroundColor:"linear-gradient(to right,#11998e 0%,#38ef7d 100%)",id:2},
 		{ industry:"Anime/Manga",
+			backgroundColor:"linear-gradient(to right, #40e0d0, #53dba5, #79d274, #a1c542, #cab206, #df9e00, #f18811, #ff6f2c, #ff5940, #ff4154, #ff266a, #ff0080)",
 			subCommunity:[
 				{industry:"Dragon Ball"},
 				{industry:"One piece"},
@@ -166,6 +181,7 @@ export default{
 			],
 			id:3},
 		{ industry:"Poetry",
+			backgroundColor:"linear-gradient(to right, #0f0c29, #131433, #19193e, #1f1e49, #262454, #282656, #2a2858, #2c2a5a, #2a2953, #28274c, #262645, #24243e)",
 			subCommunity:[
 				{industry:"Haiku"},
 				{industry:"Free Verse"},
@@ -175,8 +191,9 @@ export default{
 				{industry:"Acrostic"},
 				{industry:"Sonnets"}
 			],id:1 },
-		{ industry:"Books",id:2 },
+		{ industry:"Books",backgroundColor:"linear-gradient(to right,#fc4a1a 0%,#f7b733 100%)",id:2 },
 		{ industry:"Comics",
+			backgroundColor:"linear-gradient(to right,#ff9966 0%,#ff5e62 100%)",
 			subCommunity:[
 					{industry:"Marvel"},
 					{industry:"DC"},
@@ -185,6 +202,7 @@ export default{
 					{industry:"Horror"}
 				],id:3},
 		{ industry:"Science",
+			backgroundColor:"linear-gradient(to right,#7F00FF 0%,#E100FF 100%)",
 			subCommunity:[
 					{industry:"Astronomy"},
 					{industry:"Biology"},
@@ -195,11 +213,12 @@ export default{
 					{industry:"Behavorial Sciences"},
 					{industry:"Health Sciences"}
 				],id:1 },
-		{ industry:"Engineering",id:2 },
-		{ industry:"Mechanical Engineering",id:3},
-		{ industry:"Computer Engineering",id:1 },
-		{ industry:"Electrical Engineering",id:2 },
+		{ industry:"Engineering",backgroundColor:"linear-gradient(to right, #0cebeb, #00eae2, #00e9d8, #00e8cd, #00e6c2, #0de7bf, #18e9bb, #22eab7, #24efbb, #25f4be, #27fac2, #29ffc6",id:2 },
+		{ industry:"Mechanical Engineering",backgroundColor:"linear-gradient(to right,#CB356B 0%,#BD3F32 100%)",id:3},
+		{ industry:"Computer Engineering",backgroundColor:"linear-gradient(to right,#000046 0%,#1CB5E0 100%)",id:1 },
+		{ industry:"Electrical Engineering",backgroundColor:"linear-gradient(to right,#56CCF2 0%,#2F80ED 100%)",id:2 },
 		{ industry:"Mathematics",
+			backgroundColor:"linear-gradient(to right,#E44D26 0%,#F16529 100%)",
 			subCommunity:[
 					{industry:"Algebra"},
 					{industry:"Calculus 1"},
@@ -217,10 +236,11 @@ export default{
 					{industry:"Probability and statistics"},
 					{industry:"Game Theory"}
 				],id:3},
-		{ industry:"Civil Engineering",id:1 },
-		{ industry:"Chemical Engineering",id:2 },
-		{ industry:"Economics",id:3},
+		{ industry:"Civil Engineering",backgroundColor:"linear-gradient(to right,#D66D75 0%,#E29587 100%)",id:1 },
+		{ industry:"Chemical Engineering",backgroundColor:"linear-gradient(to right,#F7971E 0%,#FFD200 100%)",id:2 },
+		{ industry:"Economics",backgroundColor:"linear-gradient(to right,#0575E6 0%,#021B79 100%)",id:3},
 		{ industry:"History",
+			backgroundColor:"linear-gradient(to right,#093028 0%,#237A57 100%)",
 			subCommunity:[
 					{industry:"Political History"},
 					{industry:"Diplomatics History"},
@@ -230,6 +250,7 @@ export default{
 					{industry:"Intellectual History"}
 				],id:1 },
 		{ industry:"Animation",
+			backgroundColor:"linear-gradient(to right,#ee0979 0%,#ff6a00 100%)",
 			subCommunity:[
 					{industry:"Traditional"},
 					{industry:"Digital 2D"},
@@ -237,9 +258,10 @@ export default{
 					{industry:"Motion Capture"},
 					{industry:"Stop motion"}
 				],id:2 },
-		{ industry:"ASMR",id:3},
-		{ industry:"Beauty",id:1 },
+		{ industry:"ASMR",backgroundColor:"linear-gradient(to right,#c0c0aa 0%,#1cefff 100%)",id:3},
+		{ industry:"Beauty",backgroundColor:"linear-gradient(to right,#E44D26 0%,#F16529 100%)",id:1 },
 		{ industry:"Fashion",
+			backgroundColor:"linear-gradient(to right,#ff7e5f 0%,#ff7e5f 100%)",
 			subCommunity:[
 					{industry:"Vintage Fashion Style"},
 					{industry:"Bohemian Fashion Style"},
@@ -250,13 +272,14 @@ export default{
 					{industry:"Sophisticated Fashion Style"},
 					{industry:"Tomboy Fashion Style"}
 				],id:2 },
-		{ industry:"Comedy",id:3},
-		{ industry:"Vlogs",id:1 },
-		{ industry:"DIY",id:2 },
-		{ industry:"Family",id:3},
-		{ industry:"Health",id:1 },
-		{ industry:"Fitness",id:2 },
+		{ industry:"Comedy",backgroundColor:"linear-gradient(to right,#f4c4f3 0%,#fc67fa 100%)",id:3},
+		{ industry:"Vlogs",backgroundColor:"linear-gradient(to right,#41295a 0%,#2F0743 100%)",id:1 },
+		{ industry:"DIY",backgroundColor:"linear-gradient(to right,#4ECDC4 0%,#556270 100%)",id:2 },
+		{ industry:"Family",backgroundColor:"linear-gradient(to right,#f85032 0%,#e73827 100%)",id:3},
+		{ industry:"Health",backgroundColor:"linear-gradient(to right,#56ab2f 0%,#a8e063 100%)",id:1 },
+		{ industry:"Fitness",backgroundColor:"linear-gradient(to right,#000428 0%,#004e92 100%)",id:2 },
 		{ industry:"Dance",
+			backgroundColor:"linear-gradient(to right,#F00000 0%,#DC281E 100%)",
 			subCommunity:[
 					{industry:"Contemporary"},
 					{industry:"Ballet"},
@@ -265,8 +288,9 @@ export default{
 					{industry:"Hip Hop"},
 					{industry:"Ballroom"}
 				],id:3},
-		{ industry:"Pranks",id:1 },
+		{ industry:"Pranks",backgroundColor:"linear-gradient(to right,#e96443 0%,#904e95 100%)",id:1 },
 		{ industry:"Sports",
+			backgroundColor:"linear-gradient(to right,#00d2ff 0%,#928DAB 100%)",
 			subCommunity:[
 					{industry:"Soccer"},
 					{industry:"Cricket"},
@@ -280,7 +304,7 @@ export default{
 					{industry:"Golf"},
 					{industry:"Rugby"}
 				],id:2 },
-		{ industry:"Technology",id:3},
-		{ industry:"Travel",id:1 }
+		{ industry:"Technology",backgroundColor:"linear-gradient(to right,#FF5F6D 0%,#FFC371 100%)",id:3},
+		{ industry:"Travel",backgroundColor:"linear-gradient(to right,#1e3c72 0%,#2a5298 100%)",id:1 }
 	]
 };

@@ -361,7 +361,7 @@ class Payment extends Component {
 
 					<NextPage onClick= {()=> this.handleFirstPageContinueClick()}>
 							Continue 
-					 </NextPage>
+					</NextPage>
 				</React.Fragment>:
 				<React.Fragment>
 					<PaymentDetails>

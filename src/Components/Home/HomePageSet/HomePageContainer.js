@@ -2,7 +2,6 @@ import React , {Component} from "react";
 import styled from "styled-components";
 import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import { connect } from "react-redux";
-import HomeConext from "../HomeContext.js";
 import ExplorePage from "../HomePageSubset/ExploreHomeFeed/ExplorePage/ExplorePage";
 import PersonalFeed from "../HomePageSubset/PersonalHomeFeed/PersonalFeed/PersonalFeedContainer";
 import CustomizedFeed from "../HomePageSubset/PersonalHomeFeed/CustomizedPersonalFeed/CustomizedFeedContainer";
@@ -18,6 +17,8 @@ import RecruitsPosts from "./RecruitsPostsModal.js";
 import AppsIcon from '@material-ui/icons/Apps';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PlayListComponent from "../../PlayList/PlayListSet/PlayListContainer.js";
+import {HomeProvider} from "../HomeContext.js";
+import Symposium from "../HomePageSubset/PersonalHomeFeed/PersonalizedPage/PersonalizedPage.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -166,7 +167,8 @@ class HomePageContainer extends Component{
 			displaySearchExplorePage:true,
 			recruitsPost:[{},{},{},{},{},{},{}],
 			displayRecruitsPosts:false,
-			displayPlayListPage:false
+			displayPlayListPage:false,
+			displayExpandedSymposium:false
 		}
 	}
 
@@ -177,39 +179,25 @@ class HomePageContainer extends Component{
 		*/
 	}
 
-	displayPersonalOrExploreFeed=()=>{
-
-		if(this.state.displayCustomizedFeed==true){
-
-
-			return <CustomizedFeed/>
-		}else if(this.state.displayPersonalFeed==true){	
-			return <PersonalFeed/>	
-		}
-		else{
-			return <ExplorePage
-						displayGrids={this.handleDisplayGridLayout}
-					/>;
-		}
-	}
 
 	handleDisplayFollowedCommunitiesPage=()=>{
 
-		document.getElementById('conatiner').style.backgroundColor="white";
+		document.getElementById('homePageContainer').style.backgroundColor="white";
 
 		this.setState(prevState=>({
 					 ...prevState,
 					 displayPersonalFeed:true,
 					 displayExplorerFeed:false,
 					 displayCustomizedFeed:false,
-					 displaySearchExplorePage:false
+					 displaySearchExplorePage:false,
+					displayExpandedSymposium:false
 				}))
 	}
 
 
 	handleDisplayExplorePage=()=>{
 
-		document.getElementById('conatiner').style.backgroundColor="white";
+		document.getElementById('homePageContainer').style.backgroundColor="white";
 
 		this.setState(prevState=>({
 						...prevState,
@@ -217,7 +205,9 @@ class HomePageContainer extends Component{
 						displayExplorerFeed:false,
 						displaySearchExplorePage:true,
 						displayForYourChoices:false,
-						displayCustomizedFeed:false
+						displayCustomizedFeed:false,
+						displayExpandedSymposium:false
+
 					}))
 
 
@@ -229,6 +219,7 @@ class HomePageContainer extends Component{
 						displayExplorerFeed:false,
 						displaySearchExplorePage:false,
 						displayPlayListPage:true,
+						displayExpandedSymposium:false
 					}))
 	}
 
@@ -249,7 +240,6 @@ class HomePageContainer extends Component{
 			...prevState,
 			displayChatPage:false
 		}))
-
 	}
 
 	chatPage=()=>{
@@ -279,101 +269,121 @@ class HomePageContainer extends Component{
 			return <ExplorePage
 						displayGrids={this.handleDisplayGridLayout}
 					/>;
-
-
 		}else if(this.state.displaySearchExplorePage==true){
 				return <SearchExploreScreen
 								displayGrids={this.handleDisplayGridLayout}
 							/>;
 		}else if(this.state.displayPlayListPage==true){
 			return <PlayListComponent/>
+		}else if(this.state.displayExpandedSymposium==true){
+			return <Symposium
+						selectedSymposium={this.state.selectedSymposiumPersonalFeed}
+						symposiums={this.state.symposiums}
+					/>
 		}
 	}
 
 	render(){
 		return(
-			<Container id="homePageContainer">
-				<GeneralNavBar
-					displayChatPage={this.displayChatPage}
-					page={"Home"}
-				/>
+			<HomeProvider
+				value={{
+					displaySymposium:(data)=>{
+						this.setState(prevState=>({
+							...prevState,
+							displayPersonalFeed:false,
+							displayExplorerFeed:false,
+							displaySearchExplorePage:false,
+							displayPlayListPage:false,
+							displayExpandedSymposium:true,
+							selectedSymposiumPersonalFeed:data.selectedSymposiums,
+							symposiums:data.symposiums
+						}))	
+					}
+				}}
+			>
+				<Container id="homePageContainer">
+					<GeneralNavBar
+						displayChatPage={this.displayChatPage}
+						page={"Home"}
+					/>
 
-				{this.chatPage()}
-				{this.state.displayRecruitsPosts==true?
-						<React.Fragment>
-							<ShadowContainer
-								onClick={()=>this.setState({displayRecruitsPosts:!this.state.displayRecruitsPosts})}
-							/>
-							<RecruitsPosts/>
-						</React.Fragment>
-						:<React.Fragment></React.Fragment>}
+					{this.chatPage()}
+					{this.state.displayRecruitsPosts==true?
+							<React.Fragment>
+								<ShadowContainer
+									onClick={()=>this.setState({displayRecruitsPosts:!this.state.displayRecruitsPosts})}
+								/>
+								<RecruitsPosts/>
+							</React.Fragment>
+							:<React.Fragment></React.Fragment>}
 
-						{/*
-							Home for you like for what you subscribed
-							and something like a mix between what you already like and what you may like
-				*/}
-				<PageIndicator>
-					<ul>
-						<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
-							<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-								<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+							{/*
+								Home for you like for what you subscribed
+								and something like a mix between what you already like and what you may like
+					*/}
+					<PageIndicator>
+						<ul>
+							<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
+								<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+									<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none"}}>
+												<ExploreIcon
+													style={{fontSize:50}}
+												/>
+											</li>
+
+											<li style={{listStyle:"none"}}>
+												Explore
+											</li>
+										</ul>
+									</ExploreIconContainer>
+								</a>
+							</li>
+							<li style={{listStyle:"none"}}>
+								<ForYouIconContainer>
 									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none"}}>
-											<ExploreIcon
-												style={{fontSize:50}}
-											/>
+										<li onClick={()=>this.handleDisplayFollowedCommunitiesPage()} style={{listStyle:"none",marginBottom:"20%"}}>
+											<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+												<AppsIcon
+													style={{fontSize:40}}
+												/>
+											</a>
 										</li>
 
-										<li style={{listStyle:"none"}}>
-											Explore
+										<li style={{listStyle:"none",marginBottom:"20%"}}>
+											<a onClick={()=>this.handleDisplayPlayListPage()}style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+												<PlaylistAddIcon
+													style={{fontSize:40}}
+												/>
+											</a>
+										</li>
+										<li style={{listStyle:"none",marginBottom:"10%"}}>
+											<PersonPinIcon
+												style={{fontSize:40}}
+											/>
+										</li>
+										<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
+											<ul style={{padding:"0px"}}>
+												{this.state.recruitsPost.map(data=>
+													<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
+														<a style={{textDecoration:"none"}} href="javascript:void(0);">
+															<RecruitsProfileContainer>
+															</RecruitsProfileContainer>
+														</a>
+													</li>
+												)}
+											</ul>
 										</li>
 									</ul>
-								</ExploreIconContainer>
-							</a>
-						</li>
-						<li style={{listStyle:"none"}}>
-							<ForYouIconContainer>
-								<ul style={{padding:"0px"}}>
-									<li onClick={()=>this.handleDisplayFollowedCommunitiesPage()} style={{listStyle:"none",marginBottom:"20%"}}>
-										<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-											<AppsIcon
-												style={{fontSize:40}}
-											/>
-										</a>
-									</li>
+								</ForYouIconContainer>
+							</li>
 
-									<li style={{listStyle:"none",marginBottom:"20%"}}>
-										<a onClick={()=>this.handleDisplayPlayListPage()}style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-											<PlaylistAddIcon
-												style={{fontSize:40}}
-											/>
-										</a>
-									</li>
-									<li style={{listStyle:"none",marginBottom:"10%"}}>
-										<PersonPinIcon
-											style={{fontSize:40}}
-										/>
-									</li>
-									<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
-										<ul style={{padding:"0px"}}>
-											{this.state.recruitsPost.map(data=>
-												<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
-													<a style={{textDecoration:"none"}} href="javascript:void(0);">
-														<RecruitsProfileContainer>
-														</RecruitsProfileContainer>
-													</a>
-												</li>
-											)}
-										</ul>
-									</li>
-								</ul>
-							</ForYouIconContainer>
-						</li>
-
-					</ul>
-				</PageIndicator>
-				{this.displaySelectedScreen()}
-			</Container>
+						</ul>
+					</PageIndicator>
+					{this.displaySelectedScreen()}
+				</Container>
+			</HomeProvider>
 		)
 	}
 }

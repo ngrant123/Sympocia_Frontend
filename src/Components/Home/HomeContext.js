@@ -8,4 +8,7 @@ const HomeProvider=HomeContext.Provider;
 const HomeConsumer=HomeContext.Consumer;
 
 
-export default HomeContext;
+export{
+	HomeProvider,
+	HomeConsumer
+}

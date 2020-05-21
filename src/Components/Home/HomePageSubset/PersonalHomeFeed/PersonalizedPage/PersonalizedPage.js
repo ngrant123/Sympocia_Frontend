@@ -2,7 +2,7 @@ import React,{Component} from "react";
 import styled, {keyframes} from "styled-components";
 import Chat from "./ChatRoom.js";
 import { connect } from "react-redux";
-import SubCommunities from "./SubCommunities";
+import SubSymposiums from "./SubSymposiums";
 import ActivePeopleModal from "./ActivePeopleModal";
 import PostsContainer from "./PostsContainer";
 import {
@@ -29,7 +29,7 @@ import PostCreation from "../../../../GeneralComponents/PostComponent/LargePostC
 `;
 
 
-const CommunityHeaderAnimation=styled.div`
+const SymposiumHeaderAnimation=styled.div`
 	position:sticky;
 	top:0%;
 	background-color:red;
@@ -125,7 +125,7 @@ const PostsChatInformation=styled.div`
   `;
 
 
-const CommunityChoicesContainer=styled.div`
+const SymposiumChoicesContainer=styled.div`
 	position:fixed;
 	width:50%;
 	height:10%;
@@ -140,7 +140,7 @@ const CommunityChoicesContainer=styled.div`
 
 `;
 
-const CommunityChoicesDiv=styled.div`
+const SymposiumChoicesDiv=styled.div`
 	position:relative;
 	width:100%;
 	height:70%;
@@ -208,7 +208,7 @@ const ChatAndIndustryInfoContainer=styled.div`
 	z-index:4;
 `;
 
-const SubCommunitiesContainer=styled.div`
+const SubSymposiumsContainer=styled.div`
 	position:absolute;
 	background-color:white;
 	border-radius:5px;
@@ -265,7 +265,7 @@ const PreventScrollScreen=styled.div`
 `;
 
 
-const CommunityChoicesListCSS={
+const SymposiumChoicesListCSS={
 	display:"inline-block",
 	listStyle:"none",
 	marginRight:"20px",
@@ -275,7 +275,7 @@ const CommunityChoicesListCSS={
 	paddingRight:"20px"
 }
 
-const CommunityChoicesListCSSLast={
+const SymposiumChoicesListCSSLast={
 	display:"inline-block",
 	listStyle:"none",
 	marginRight:"50px",
@@ -328,7 +328,7 @@ const CommentTextArea=styled.textarea`
 `;
 
 
-const DisplaySubCommunities=styled.div`
+const DisplaySubSymposiums=styled.div`
 	position:relative;
 	width:250px;
 	height:15%;
@@ -410,34 +410,15 @@ class PersonalizedPage extends Component{
 				{key:1,startTime:0,endTime:12}
 			],
 			activePeople:[{}],
-			selectedCommunityTitle:"",
-			communityCounter:0,
-			communities:[],
+			selectedSymposiumTitle:"",
+			symposiumCounter:0,
+			symposiums:[],
 			backgroundColor:"",
 			untogglePostOptions:false,
 			displayPopularVideos:false,
 			displayModalPeopleActive:false,
-			displayModalSubCommunities:false,
-			displayPostCreation:false,
-			subCommunities:[{
-				category:"Anime",
-				backgroundColor:"linear-gradient(to left, #9933ff 0%, #ff99ff 100%)",
-				color:"#9933ff",
-				key:1
-			},
-			{
-				category:"Dogs",
-				backgroundColor:"linear-gradient(to left, #8E2DE2 0%, #4A00E0 100%)",
-				color:"#8E2DE2",
-				key:2
-			},
-			{category:"Cats",backgroundColor:"linear-gradient(to left, #ee9ca7 0%, #ffdde1 100%)",color:"#ee9ca7",
-				key:3},
-			{category:"Terminates",backgroundColor:"linear-gradient(to left, #b92b27 0%, #1565C0 100%)",color:"#b92b27",
-				key:4},
-			{category:"Coding",backgroundColor:"linear-gradient(to left, #f953c6 0%, #b91d73 100%)",color:"#f953c6",
-				key:5}
-		]
+			displayModalSubSymposiums:false,
+			displayPostCreation:false
 	}
 }
 
@@ -447,38 +428,36 @@ class PersonalizedPage extends Component{
 				Could be done in a better way
 	  		*/
 
-	  		debugger;
-	  		const postContainerElement=document.getElementById("postChatInformation");
-	  		const headerContentsContainerElement=document.getElementById("headerContents");
-
-
-	  
+		  		debugger;
+		  		const postContainerElement=document.getElementById("postChatInformation");
+		  		const headerContentsContainerElement=document.getElementById("headerContents");
 
 				console.log(this.props);
 				/*
 					Make api call here
 				*/
-		  		const communities=this.props.communities;
-		  		let communityCounter=0;
-		  		console.log(this.props.selectedCommunity.communityName);
+				const propSymposiums=this.props.symposiums;
+				propSymposiums.push(this.props.selectedSymposium);
+		  		const symposiums=propSymposiums.reverse();
+		  		let symposiumCounter=0;
 
 		  		//Keep track of where you are at in the array of subcommuities
 
-		  		for(var i=0;i<communities.length;i++){
-		  			const community=communities[i];
+		  		for(var i=0;i<symposiums.length;i++){
+		  			const symposium=symposiums[i];
 
-		  			if(community.communityName==this.props.selectedCommunity.communityName){
-		  				communityCounter=i;
+		  			if(symposium.symposiumName==this.props.selectedSymposium.symposiumName){
+		  				symposiumCounter=i;
 		  				break;
 		  			}
 		  		}
 
 			  	this.setState(prevState=>({
 				  		...prevState,
-				  		selectedCommunityTitle:this.props.selectedCommunity.communityName,
-				  		communities:this.props.communities,
-				  		communityCounter:communityCounter,
-				  		backgroundColor:this.props.selectedCommunity.backgroundColor
+				  		selectedSymposiumTitle:this.props.selectedSymposium.symposiumName,
+				  		symposiums:this.props.symposiums,
+				  		symposiumCounter:symposiumCounter,
+				  		backgroundColor:this.props.selectedSymposium.backgroundColor
 			  		})
 		  	)
 
@@ -488,7 +467,6 @@ class PersonalizedPage extends Component{
 
 			  	},500);
 	  }
-
 
 	  handleScroll=()=>{
 
@@ -510,20 +488,15 @@ class PersonalizedPage extends Component{
 	  }
 
 
-	  getCommunityData=(communityId)=>{
-
-	  		return getCommunityById(communityId);
-	  }
-
-	  handlePreviousCommunityButton=()=>{
+	  handlePreviousSymposiumButton=()=>{
 
 	  	this.fadeOutInEffect();
 
 
-	  	if(this.state.communityCounter!=0){
+	  	if(this.state.symposiumCounter!=0){
 
-	  		const newCounter=this.state.communityCounter-1;
-	  		const newCommunity=this.state.communities[newCounter];
+	  		const newCounter=this.state.symposiumCounter-1;
+	  		const newSymposium=this.state.symposiums[newCounter];
 
 	  		/*
 				make an api call here
@@ -532,9 +505,9 @@ class PersonalizedPage extends Component{
 	  		*/
 	  		this.setState(prevState=>({
 	  			...prevState,
-	  			selectedCommunityTitle:newCommunity.communityName,
-	  			backgroundColor:newCommunity.backgroundColor,
-	  			communityCounter:newCounter
+	  			selectedSymposiumTitle:newSymposium.symposiumName,
+	  			backgroundColor:newSymposium.backgroundColor,
+	  			symposiumCounter:newCounter
 	  		}))
 	  	}
 
@@ -563,13 +536,13 @@ class PersonalizedPage extends Component{
 	  		}  	
 	  }
 
-	  handleNextCommunityButton=()=>{
+	  handleNextSymposiumButton=()=>{
 
 	  		this.fadeOutInEffect();
-	  		if((this.state.communityCounter+1)<this.state.communities.length){
+	  		if((this.state.symposiumCounter+1)<this.state.symposiums.length){
 
-	  		const newCounter=this.state.communityCounter+1;
-	  		const newCommunity=this.state.communities[newCounter];
+	  		const newCounter=this.state.symposiumCounter+1;
+	  		const newSymposium=this.state.symposiums[newCounter];
 
 	  		/*
 				make an api call here
@@ -578,15 +551,14 @@ class PersonalizedPage extends Component{
 	  		*/
 	  		this.setState(prevState=>({
 	  			...prevState,
-	  			selectedCommunityTitle:newCommunity.communityName,
-	  			backgroundColor:newCommunity.backgroundColor,
-	  			communityCounter:newCounter
+	  			selectedSymposiumTitle:newSymposium.symposiumName,
+	  			backgroundColor:newSymposium.backgroundColor,
+	  			symposiumCounter:newCounter
 	  		}))
 	  	}
 	  }
 
 	  handleSeeAllPopularVideos=()=>{
-
 	  	return this.state.displayPopularVideos==true?
 	  		<React.Fragment>
 	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayPopularVideos:false}))}/>
@@ -597,7 +569,7 @@ class PersonalizedPage extends Component{
 
 	  //Method below is not working completely correct but is doing half it correctly moving on 
 	   replayVideo=(startTime,endTime,key)=>{
-
+	   		/*
 	   		if(this.state.headerAnimation==false){
 		   		const video=document.getElementById("video"+key);
 		   		video.play();
@@ -609,6 +581,7 @@ class PersonalizedPage extends Component{
 		   			this.replayVideo(startTime,endTime,key);
 		   		},videoDuration*1000);
 	   		}
+	   		*/
 	   }
 
 	 timerFunction=(seconds)=>{
@@ -617,21 +590,27 @@ class PersonalizedPage extends Component{
 
 
 	  handleHeaderContents=()=>{
-	  	const counter=this.state.communityCounter;
-	  	const previousCommunityTitle=counter>0?<p onClick={()=>this.handlePreviousCommunityButton()}>{this.state.communities[counter-1].communityName}</p>:<React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</React.Fragment>;
-	  	const nextCommunityTitle=counter==this.props.communities.length-1?<React.Fragment></React.Fragment>:<p onClick={()=>this.handleNextCommunityButton()}>{this.props.communities[counter+1].communityName}</p>;
+	  	const counter=this.state.symposiumCounter;
+	  	var nextSymposiumTitle;
+	  	var previousSymposiumTitle;
+	  	if(this.state.symposiums.length==0){
+	  		previousSymposiumTitle="";	
+	  		nextSymposiumTitle="";
+	  	}else{
+	  		previousSymposiumTitle=counter>0?<p onClick={()=>this.handlePreviousSymposiumButton()}>{this.state.symposiums[counter-1].symposiumName}</p>:<React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</React.Fragment>;
+	  		nextSymposiumTitle=counter==this.props.symposiums.length-1?<React.Fragment></React.Fragment>:<p onClick={()=>this.handleNextSymposiumButton()}>{this.props.symposiums[counter+1].symposiumName}</p>;
+	  	}
 	 
 
 	  	return(
-	  
 	  			<div style={{position:"absolute",width:"100%",height:"100%",opacity:"0",transition:"opacity 2s linear"}} id="headerContents">
 
-		  			<div id="communityContainer" style={{position:"absolute",left:"30%",top:"35%",fontSize:"60px",color:"white"}}>
+		  			<div id="symposiumContainer" style={{position:"absolute",left:"30%",top:"35%",fontSize:"60px",color:"white"}}>
 		  				<b> 
 			  				<ul>
-			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>{previousCommunityTitle}</li>
-			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px"}}>&nbsp;&nbsp;&nbsp;&nbsp; {this.state.selectedCommunityTitle} &nbsp;&nbsp;&nbsp;&nbsp;</li>
-			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>{nextCommunityTitle}</li>
+			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>{previousSymposiumTitle}</li>
+			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px"}}>&nbsp;&nbsp;&nbsp;&nbsp; {this.state.selectedSymposiumTitle} &nbsp;&nbsp;&nbsp;&nbsp;</li>
+			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>{nextSymposiumTitle}</li>
 
 			  				</ul>
 		  				</b>
@@ -708,24 +687,28 @@ class PersonalizedPage extends Component{
 	  	)
 	  }
 
-	  handleSubCommunitiesChoices=(props)=>{
+	  handleSubSymposiumsChoices=(props)=>{
 
 	  	console.log(props);
 
 	  }
 
-	  handleSeeAllSubCommunities=()=>{
+	  handleSeeAllSubSymposiums=()=>{
 
-	  	return this.state.displayModalSubCommunities==true?
+	  	return this.state.displayModalSubSymposiums==true?
 	  		<React.Fragment>
-	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayModalSubCommunities:false}))}/>
-	  			<SubCommunitiesContainer>
-	  				<SubCommunities
-	  					subCommunities={this.state.subCommunities}
-	  					subCommunitiesChoices={this.handleSubCommunitiesChoices}
-	  				/>
+	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayModalSubSymposiums:false}))}/>
+	  				{/*
+	  					Need to figure out how the subSymposiums are goint to displayed here
+						<SubCommunitiesContainer>
+			  				<SubSymposiums
+			  					subCommunities={this.state.SubSymposiums}
+			  					subCommunitiesChoices={this.handleSubCommunitiesChoices}
+			  				/>
 
-	  			</SubCommunitiesContainer>
+			  			</SubCommunitiesContainer>
+
+	  				*/}
 	  		</React.Fragment>:
 	  		<React.Fragment>
 	  		</React.Fragment>
@@ -737,9 +720,9 @@ class PersonalizedPage extends Component{
 	  		<Container id="headerContainer" style={{background:backgroundColor}} onScroll={()=>this.handleScroll()}>
 	  			{this.handleHeaderContents()}
 	  		</Container>:
-	  		<CommunityHeaderAnimation id="animatedHeaderAnimatedContainer" style={{background:backgroundColor}}>
+	  		<SymposiumHeaderAnimation id="animatedHeaderAnimatedContainer" style={{background:backgroundColor}}>
 	  			{this.handleHeaderAnimatedContents()}
-	  		</CommunityHeaderAnimation>
+	  		</SymposiumHeaderAnimation>
 	  }
 
 	  changeOptionColors=(option)=>{
@@ -851,7 +834,7 @@ class PersonalizedPage extends Component{
 			<PersonalizedPageContainer onScroll={()=>this.handleScroll()}>
 				
 				{this.handleDisplayPostCreation()}
-				{this.handleSeeAllSubCommunities()}
+				{this.handleSeeAllSubSymposiums()}
 				{this.handleSeeAllPeopleActiveModal()}
 				{this.handleSeeAllPopularVideos()}
 				{this.handleHeaderAnimation()}
@@ -863,7 +846,7 @@ class PersonalizedPage extends Component{
 							<li style={{listStyle:"none",marginBottom:"2%"}}>
 								<ul>
 									<li style={{listStyle:"none"}}>
-										<DisplaySubCommunities>
+										<DisplaySubSymposiums>
 											<ul style={{padding:"5px"}}>
 												<li style={{display:"inline-block",listStyle:"none",marginRight:"5%"}}>
 													<AddCircleOutlineIcon
@@ -872,10 +855,10 @@ class PersonalizedPage extends Component{
 												</li>
 
 												<li style={{position:"relative",display:"inline-block",listStyle:"none",top:"-10px"}}>
-													<p style={{fontSize:"20px",color:"#5298F8"}}>SubCommunities</p>
+													<p style={{fontSize:"20px",color:"#5298F8"}}>SubSymposiums</p>
 												</li>
 											</ul>
-										</DisplaySubCommunities>
+										</DisplaySubSymposiums>
 									</li>
 								</ul>
 							</li>
@@ -961,115 +944,6 @@ class PersonalizedPage extends Component{
 					</PostContainer>
 				
 				</PostsChatInformation>
-{/*
-	<PostsChatInformation  id="postChatInformation" onScroll={()=>this.handleScroll()}>
-					<ul>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginLeft:"3%"}}>
-
-							<li style={{listStyle:"none",marginBottom:"2%"}}>
-								<ul>
-									<li style={{listStyle:"none"}}>
-										<DisplaySubCommunities>
-											<ul style={{padding:"5px"}}>
-												<li style={{display:"inline-block",listStyle:"none",marginRight:"5%"}}>
-													<AddCircleOutlineIcon
-														style={{fontSize:40,color:"#5298F8"}}
-													/>
-												</li>
-
-												<li style={{position:"relative",display:"inline-block",listStyle:"none",top:"-10px"}}>
-													<p style={{fontSize:"20px",color:"#5298F8"}}>SubCommunities</p>
-												</li>
-											</ul>
-										</DisplaySubCommunities>
-									</li>
-								</ul>
-							</li>
-
-							<li style={{listStyle:"none",marginLeft:"14%"}}>
-								<CreatePostContainer onClick={()=>this.setState({displayPostCreation:true})}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-													<ProfilePicture>
-													</ProfilePicture>
-												</li>
-
-												<li style={{listStyle:"none",display:"inline-block"}}>
-														<CommentTextArea
-															placeholder="Click here to create a post"
-														/>
-												</li>
-											</ul>
-								</CreatePostContainer>  
-							</li>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{position:"relative",top:"-25px",listStyle:"none",marginRight:"5%"}}>
-									<SearchContainer>
-										<ul style={{paddingTop:"5px"}}>
-											<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
-												<SearchIcon
-													style={{fontSize:30}}
-												/>
-											</li>
-											<SearchTextArea
-												placeholder="Type here to search"
-											/>
-
-
-										</ul>
-
-									</SearchContainer>
-								</li>
-
-								<li style={{listStyle:"none"}}>
-									<ul>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											Display:
-										</li>
-
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<PostOptions>	
-												Regular posts
-											</PostOptions>
-										</li>
-
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<PostOptions>	
-												Images
-											</PostOptions>
-										</li>
-
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<PostOptions>	
-												Videos
-											</PostOptions>
-										</li>
-
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<PostOptions>	
-												Blogs
-											</PostOptions>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
-
-						<ChatAndIndustryInfoContainer id="chatContainer">
-							{this.handleChatContainer()}
-						</ChatAndIndustryInfoContainer>
-	
-
-					<PostContainer id="postsContainer">
-						<PostsContainer/>
-					</PostContainer>
-			
-				</PostsChatInformation>
-*/}
 			</PersonalizedPageContainer>
 		)
 	}

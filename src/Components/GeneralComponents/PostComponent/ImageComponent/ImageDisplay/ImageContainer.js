@@ -98,7 +98,6 @@ const ImageContainer=(props)=>{
 				addStampPost(props.imageData.owner,props.imageData._id,"company","ImagePost");
 			}
 			changeDisplayStampEffect(true);
-
 		}else{
 			if(isPersonalProfile==true){
 				unStampPost(props.imageData.owner,props.imageData._id,"personal","ImagePost");

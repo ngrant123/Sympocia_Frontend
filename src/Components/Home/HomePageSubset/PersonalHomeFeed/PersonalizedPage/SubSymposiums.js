@@ -57,7 +57,7 @@ const CommunityChoicesDiv=styled.div`
 
 
 
-class SubCommunities extends Component{
+class SubSymposiums extends Component{
 
 
 
@@ -155,4 +155,4 @@ class SubCommunities extends Component{
 	}
 }
 
-export default SubCommunities;
+export default SubSymposiums;

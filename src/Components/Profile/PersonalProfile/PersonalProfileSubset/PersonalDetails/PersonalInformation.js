@@ -109,7 +109,6 @@ const PersonalInformation=()=>{
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 
 	const handleRecruitButton=()=>{
-
 	}
 
 	const handleDonateButton=()=>{
@@ -161,38 +160,54 @@ const PersonalInformation=()=>{
 
 											</li>
 
-											<li style={{listStyle:"none"}}>
+											<li style={{listStyle:"none",marginBottom:"2%"}}>
 												<FriendsAndIndustryDisplayButton onClick={()=>changeIndicator(true)}>
 													View Interested Industries
 												</FriendsAndIndustryDisplayButton>
 
 											</li>
-											<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-														<a style={{textDecoration:"none"}} href="javascript:void(0);">
-															<RecruitButton onClick={()=>handleRecruitButton()}>
-																+ Recruit
-															</RecruitButton>
-														</a>
-													</li>
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<a style={{textDecoration:"none"}} href="javascript:void(0);">
-															<DonateButton onClick={()=>handleDonateButton()}>
-																Donate
-															</DonateButton>
-															
-														</a>
-													</li>
-												</ul>
-											</li>
-											<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
-												<a style={{textDecoration:"none"}} href="javascript:void(0)">
-													<SponsorButton onClick={()=>handleChampionButton()}>
-														Champion Someone
-													</SponsorButton>
-												</a>
-											</li>
+											{personalInformation.isOwnProfile==true?
+												<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+															<a style={{textDecoration:"none"}} href="javascript:void(0);">
+																<RecruitButton onClick={()=>handleRecruitButton()}>
+																	- Recruit
+																</RecruitButton>
+															</a>
+														</li>
+													</ul>
+												</li>
+												:<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+															<a style={{textDecoration:"none"}} href="javascript:void(0);">
+																<RecruitButton onClick={()=>handleRecruitButton()}>
+																	+ Recruit
+																</RecruitButton>
+															</a>
+														</li>
+														<li style={{listStyle:"none",display:"inline-block"}}>
+															<a style={{textDecoration:"none"}} href="javascript:void(0);">
+																<DonateButton onClick={()=>handleDonateButton()}>
+																	Donate
+																</DonateButton>
+																
+															</a>
+														</li>
+													</ul>
+												</li> }
+											
+
+											{personalInformation.isOwnProfile==true?
+												<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
+													<a style={{textDecoration:"none"}} href="javascript:void(0)">
+														<SponsorButton onClick={()=>handleChampionButton()}>
+															Champion Someone
+														</SponsorButton>
+													</a>
+												</li>:<React.Fragment></React.Fragment>}
+						
 										</ul>
 									</React.Fragment>
 									:<React.Fragment>

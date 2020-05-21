@@ -340,9 +340,12 @@ class LProfile extends Component{
 
 		 }else{
 				if(id==this.props.personalId){
-					debugger;
+					
 					const profile=await getProfile(this.props.personalId);
-					var containsChampion=profile.championData!=""?true:false;
+					debugger;
+					var containsChampion=false;
+					if(profile.championData!=null)
+						containsChampion=profile.championData.name!=""?true:false;
 
 					this.setState(prevState=>({
 						...prevState,
@@ -355,7 +358,9 @@ class LProfile extends Component{
 				}
 				else{
 					const profile=await getProfile(id);
-					var containsChampion=profile.championData!=""?true:false;
+					var containsChampion=false;
+					if(profile.championData!=null)
+						containsChampion=profile.championData.name!=""?true:false;
 
 					this.setState(prevState=>({
 						...prevState,
@@ -474,7 +479,6 @@ class LProfile extends Component{
 			document.getElementById("videoButton").style.backgroundColor="white";
 			document.getElementById("videoButton").style.color="#3386f6";
 		}
-
 	}
 
 

@@ -39,7 +39,6 @@ class FriendsGauge extends React.Component {
   constructNodeElements=()=>{
     const ProgressBarSteps=[];
       for(var i=0;i<this.state.numberOfNodes;i++){
-        debugger;
         const StepElement= <Step  transition="scale"
                                   index={i}>
                               {({ accomplished,index }) => (
@@ -54,7 +53,6 @@ class FriendsGauge extends React.Component {
   }
 
   handleLockIconChange=(currentNode)=>{
-    debugger;
     const intervalValue=100/(this.state.numberOfNodes-1);
     const currentIntervalValue=currentNode*intervalValue;
 
