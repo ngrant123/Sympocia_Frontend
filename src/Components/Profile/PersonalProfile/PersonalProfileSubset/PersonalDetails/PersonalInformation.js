@@ -5,6 +5,9 @@ import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import FriendsAndIndustryInformation from "./FriendsAndIndustryInformation.js";
 import DonatePortal from "../../PersonalProfileSet/DonatePortal.js";
 import ChampionPortal from "../../PersonalProfileSet/ChampionModalPortal/index.js";
+import {useSelector} from "react-redux";
+//import {recruitUser} from ""
+
 
 
 const BioContainer=styled.div`
@@ -102,13 +105,23 @@ const SponsorButton=styled.div`
 	}
 `;
 
-const PersonalInformation=()=>{
+const PersonalInformation=(props)=>{
 
 	const [displayFriendsAndIndustryContainer,changeIndicator]=useState(false);
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
+	const personalRedux=useSelector(state=>state);
 
-	const handleRecruitButton=()=>{
+	const handleUnRecruitButton=()=>{
+
+	}
+
+	const handleRecruitButton=(personalInformation)=>{
+		props.displayConfetti();
+		console.log(personalInformation);
+		const profileId=personalInformation._id;
+		//recruitUser(personalRedux.id,profileId);
+
 	}
 
 	const handleDonateButton=()=>{
@@ -171,7 +184,7 @@ const PersonalInformation=()=>{
 													<ul style={{padding:"0px"}}>
 														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 															<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																<RecruitButton onClick={()=>handleRecruitButton()}>
+																<RecruitButton onClick={()=>handleUnRecruitButton()}>
 																	- Recruit
 																</RecruitButton>
 															</a>
@@ -182,7 +195,7 @@ const PersonalInformation=()=>{
 													<ul style={{padding:"0px"}}>
 														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 															<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																<RecruitButton onClick={()=>handleRecruitButton()}>
+																<RecruitButton onClick={()=>handleRecruitButton(personalInformation)}>
 																	+ Recruit
 																</RecruitButton>
 															</a>

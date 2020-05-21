@@ -29,6 +29,7 @@ import {PostDisplayProvider} from "../PostDisplayModalContext.js";
 import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
 import ChampionModal from "./ChampionModalPortal/ChampionDisplayModal.js";
+import Confetti from 'react-confetti'
 
 const Container=styled.div`
 
@@ -326,7 +327,8 @@ class LProfile extends Component{
 		    		...this.state,
 		    		champion:championData
 		    	})
-		    }
+		    },
+		    displayConfetti:false
 		};
 	}
 
@@ -576,6 +578,19 @@ class LProfile extends Component{
 
 	}
 
+	displayConfetti=()=>{
+		this.setState({
+			displayConfetti:true
+		})
+
+		setTimeout(()=>{
+			this.setState({
+				displayConfetti:false
+			})
+		},5000);
+
+	}
+
 
 
 	render(){
@@ -616,6 +631,14 @@ class LProfile extends Component{
 					}}
 				>
 					<Container id="personalContainer">
+					{this.state.displayConfetti==true?
+						<Confetti
+							style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
+							 run={true}
+						/>
+					:<React.Fragment></React.Fragment>}
+	
+
 						{this.state.displayShadowBackground==true?
 								<ShadowContainer
 									onClick={()=>this.setState({
@@ -657,7 +680,9 @@ class LProfile extends Component{
 							</ProfilePictureContainer>
 
 							<PersonalProfileInformationContainer>
-								<PersonalInformation/>
+								<PersonalInformation
+									displayConfetti={this.displayConfetti}
+								/>
 
 							</PersonalProfileInformationContainer>
 						</ProfileContainer>
