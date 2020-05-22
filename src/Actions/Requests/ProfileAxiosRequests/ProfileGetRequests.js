@@ -313,6 +313,23 @@ export async function getRegularPostFromUser(userId){
 	}
 }
 
+export const getProfileForHomePage=async(id)=>{
+	try{
+		const profileResult=await axios.get(`${SearchUrl}/getProfileForHomePage`,{
+			params:{
+				_id:id
+			}
+		});
+		const {data}=profileResult;
+		const profileData=data.data;
+		return profileData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
 
 
 

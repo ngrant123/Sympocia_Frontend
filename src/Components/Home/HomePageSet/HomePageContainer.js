@@ -20,6 +20,9 @@ import PlayListComponent from "../../PlayList/PlayListSet/PlayListContainer.js";
 import {HomeProvider} from "../HomeContext.js";
 import Symposium from "../HomePageSubset/PersonalHomeFeed/PersonalizedPage/PersonalizedPage.js";
 
+import {getProfileForHomePage} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {getCompanyProfileForHomePage} from "../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
+
 const Container=styled.div`
 	position:absolute;
 	width:100%;
@@ -172,11 +175,18 @@ class HomePageContainer extends Component{
 		}
 	}
 
-	componentDidMount(){
+	async componentDidMount(){
 		/*
 			
 
 		*/
+		var profile;
+		debugger;
+		if(this.props.personalInformation.loggedIn==true){
+			//profile=await getProfile(this.props.personalInformation.id)
+		}else{
+			//profile=await getCompanyProfileForHomePageP(this.props.companyInformation.id);
+		}
 	}
 
 
@@ -388,21 +398,17 @@ class HomePageContainer extends Component{
 	}
 }
 
-const mapStateToProps=()=>{
+const mapStateToProps=(state)=>{
 	return{
-
+		personalInformation:state=>state.personalInformation,
+		companyInformation:state=>state.companyInformation
 	}
 }
 
-const mapDispatchToPorps=dispatch=>{
 
-	return {
-
-	}
-}
 
 
 export default connect(
 		mapStateToProps,
-		mapDispatchToPorps
+		null
 	)(HomePageContainer);

@@ -83,6 +83,23 @@ export async function getCompanyRegularPosts(companyId){
 }
 
 
+export const getCompanyProfileForHomePage=async(id)=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/company/search';
+		const companyProfileResult=await axios.get(`${CreateUrl}/getCompanyProfileForHomePage`,{
+			params:{
+				_id:id
+			}
+		});
+		const {data}=companyProfileResult;
+		const companyProfileData=data.data;
+		return companyProfileData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
 
 
 
