@@ -183,10 +183,11 @@ class HomePageContainer extends Component{
 		var profile;
 		debugger;
 		if(this.props.personalInformation.loggedIn==true){
-			//profile=await getProfile(this.props.personalInformation.id)
+			profile=await getProfileForHomePage(this.props.personalInformation.id)
 		}else{
-			//profile=await getCompanyProfileForHomePageP(this.props.companyInformation.id);
+			profile=await getCompanyProfileForHomePage(this.props.companyInformation.id);
 		}
+		debugger;
 	}
 
 
@@ -400,12 +401,10 @@ class HomePageContainer extends Component{
 
 const mapStateToProps=(state)=>{
 	return{
-		personalInformation:state=>state.personalInformation,
-		companyInformation:state=>state.companyInformation
+		personalInformation:state.personalInformation,
+		companyInformation:state.companyInformation
 	}
 }
-
-
 
 
 export default connect(

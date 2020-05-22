@@ -315,6 +315,7 @@ export async function getRegularPostFromUser(userId){
 
 export const getProfileForHomePage=async(id)=>{
 	try{
+		debugger;
 		const profileResult=await axios.get(`${SearchUrl}/getProfileForHomePage`,{
 			params:{
 				_id:id
