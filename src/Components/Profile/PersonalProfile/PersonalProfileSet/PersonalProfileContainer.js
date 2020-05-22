@@ -588,7 +588,6 @@ class LProfile extends Component{
 				displayConfetti:false
 			})
 		},5000);
-
 	}
 
 
@@ -631,12 +630,12 @@ class LProfile extends Component{
 					}}
 				>
 					<Container id="personalContainer">
-					{this.state.displayConfetti==true?
-						<Confetti
-							style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
-							 run={true}
-						/>
-					:<React.Fragment></React.Fragment>}
+						{this.state.displayConfetti==true?
+							<Confetti
+								style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
+								 run={true}
+							/>
+						:<React.Fragment></React.Fragment>}
 	
 
 						{this.state.displayShadowBackground==true?

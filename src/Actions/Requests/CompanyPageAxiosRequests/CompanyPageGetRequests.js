@@ -94,7 +94,6 @@ export const getCompanyProfileForHomePage=async(id)=>{
 		const {data}=companyProfileResult;
 		const companyProfileData=data.data;
 		return companyProfileData;
-
 	}catch(err){
 		console.log(err);
 		return err;
