@@ -332,6 +332,43 @@ export const getProfileForHomePage=async(id)=>{
 }
 
 
+export const getRecruitsPostsHomePage=async(id,currentTime)=>{
+	try{
+		const {data}=await axios.get(`${SearchUrl}/getRecruitsPostsHomePage`,{
+			params:{
+				id:id,
+				currentTime:currentTime
+			}
+		});
+
+		const recruitPostResponse=data.data;
+		return recruitPostResponse;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const getUserImages=async(userId)=>{
+	try{
+		console.log("User imaegs");
+		const userImageResponse=await axios.get(`${SearchUrl}/getUserImages`,{
+			params:{
+				_id:userId
+			}
+		});
+		console.log(userImageResponse);
+		const {data}=userImageResponse;
+		const userImageData=data.data;
+		return userImageData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
 
 
 

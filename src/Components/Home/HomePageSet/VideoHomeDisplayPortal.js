@@ -8,13 +8,13 @@ const ShadowContainerVideos=styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:8;
+	z-index:11;
 	top:0px;
 `;
 
 const Container=styled.div`
 	position:absolute;
-	z-index:9;
+	z-index:13;
 	height:85%;
 	width:95%;
 	border-radius:5px;

@@ -165,7 +165,7 @@ const ImageContainer=(props)=>{
 													</StampIconEffect>
 												</React.Fragment>:
 												null}
-										<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%"}}/>
+										<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
 									</Image>
 								</li>
 

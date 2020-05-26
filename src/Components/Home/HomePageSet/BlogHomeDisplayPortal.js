@@ -15,7 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const Container=styled.div`
 	position:absolute;
-	z-index:9;
+	z-index:13;
 	height:95%;
 	width:80%;
 	border-radius:5px;
@@ -31,7 +31,7 @@ const ShadowContainerBlog=styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:8;
+	z-index:11;
 	top:0px;
 `;
 
@@ -178,23 +178,18 @@ const BlogHomeDisplayPortal=(props)=>{
 									<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 											<ProfilePicture>
-												{props.ownerImgUrl==null?
+												{props.selectedBlog.owner.ownerImgUrl==null?
 													<img src={NoProfilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>:
-													<img src={props.ownerImgUrl} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+													<img src={props.selectedBlog.owner.ownerImgUrl} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
 												}
 											</ProfilePicture>
 										</li>
 										<li style={{listStyle:"none",display:"inline-block"}}>
-											<b>Nathan</b>
+											<b>{props.selectedBlog.owner.firstName}</b>
 										</li>
 
 										<li style={{height:"90px",overflowY:"auto",listStyle:"none",display:"inline-block"}}>
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-											 incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis 
-											 nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-											  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 
-											  eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt 
-											  in culpa qui officia deserunt mollit anim id est laborum.
+											{props.selectedBlog.title}
 										</li>
 									</ul>
 								</li>

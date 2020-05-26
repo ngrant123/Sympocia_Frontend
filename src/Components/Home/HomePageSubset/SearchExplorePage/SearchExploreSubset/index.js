@@ -1,13 +1,11 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-
 import {ImagePostsModal} from './ImagePostsModal.js';
 import VideosPostsModal from './VideoPostsModal.js';
 import BlogsPostsModal from './BlogPostsModal.js';
 import RegularPostsModal from './RegularPostsModal.js';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-
 import {getPostsForHomePage} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 const Container=styled.div`

@@ -6,6 +6,7 @@ import {useSelector} from "react-redux";
 import {displayPersonalIndustryFeed} from "./ImagePostsModal.js";
 import {HomeConsumer} from "../../../HomeContext.js";
 
+
 const Container=styled.div`
 	position:absolute;
 	width:95%;

@@ -22,6 +22,7 @@ import Symposium from "../HomePageSubset/PersonalHomeFeed/PersonalizedPage/Perso
 
 import {getProfileForHomePage} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getCompanyProfileForHomePage} from "../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
+import NoProfileIcon from "../../../designs/img/NoProfilePicture.png";
 
 const Container=styled.div`
 	position:absolute;
@@ -130,7 +131,8 @@ const CustomizedForYouPageIcon=styled.div`
 `;
 
 const RecruitsProfileContainer=styled.div`
-	width:85%;
+	position:relative;
+	width:90%;
 	height:20%;
 	background-color:red;
 	border-radius:50%;
@@ -153,6 +155,15 @@ const ShadowContainer= styled.div`
 
 `;
 
+const RecruitImageCSS={
+	borderRadius:"50%",
+	borderStyle:"solid",
+	borderColor:"#5298F8",
+	borderWidth:"2px",
+	widht:"40%",
+	height:"20%"
+}
+
 
 class HomePageContainer extends Component{
 
@@ -168,24 +179,34 @@ class HomePageContainer extends Component{
 			displayChatPage:false,
 			chatPageIndicator:"",
 			displaySearchExplorePage:true,
-			recruitsPost:[{},{},{},{},{},{},{}],
+			recruitsPost:[],
 			displayRecruitsPosts:false,
 			displayPlayListPage:false,
-			displayExpandedSymposium:false
+			displayExpandedSymposium:false,
+			isPersonalProfile:true,
+			profileId:""
 		}
 	}
 
 	async componentDidMount(){
 		/*
-			
-
 		*/
 		var profile;
 		debugger;
 		if(this.props.personalInformation.loggedIn==true){
 			profile=await getProfileForHomePage(this.props.personalInformation.id)
+			this.setState({
+				recruitsPost:profile.recruits,
+				isPersonalProfile:true,
+				profileId:profile._id
+			})
 		}else{
 			profile=await getCompanyProfileForHomePage(this.props.companyInformation.id);
+			this.setState({
+				recruitsPost:profile.recruits,
+				isPersonalProfile:false,
+				profileId:profile._id
+			})
 		}
 		debugger;
 	}
@@ -324,7 +345,11 @@ class HomePageContainer extends Component{
 								<ShadowContainer
 									onClick={()=>this.setState({displayRecruitsPosts:!this.state.displayRecruitsPosts})}
 								/>
-								<RecruitsPosts/>
+								<RecruitsPosts
+									recruits={this.state.recruitsPost}
+									id={this.state.profileId}
+									isPersonalProfile={this.state.isPersonalProfile}
+								/>
 							</React.Fragment>
 							:<React.Fragment></React.Fragment>}
 
@@ -379,8 +404,10 @@ class HomePageContainer extends Component{
 												{this.state.recruitsPost.map(data=>
 													<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
 														<a style={{textDecoration:"none"}} href="javascript:void(0);">
-															<RecruitsProfileContainer>
-															</RecruitsProfileContainer>
+																{data.profilePicture==null||data.profilePicture==""?
+																	<img src={NoProfileIcon} style={RecruitImageCSS}/>:
+																	<img src={data.profilePicture} style={RecruitImageCSS}/>
+																}
 														</a>
 													</li>
 												)}

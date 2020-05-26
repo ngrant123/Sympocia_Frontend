@@ -79,7 +79,8 @@ class BlogsPostsContainer extends Component{
 	}
 
 	async componentDidMount(){
-		if(this.props.profile=="Personal"){
+		debugger;
+		if(this.props.profileType=="Personal"){
 			
 			const {	headerBlog,blogs}=await getBlogFromUser(this.props.id);
 			console.log(blogs);
