@@ -14,8 +14,8 @@ export const SignInformation = styled.div`
   height:50%;
   width:30%;
   top: 23%;
-  font-size: 1.5em;
-  text-align: center;
+  font-size:1.5em;
+  text-align:center;
   border-radius:10px;
   box-shadow: 5px 5px 5px 5px #888888;
 
@@ -129,6 +129,28 @@ export const NavPassword = styled.textarea`
    left:78%;
    top:10%;
    border-radius:10px;
+
+
+`;
+
+export const InputTextArea=styled.textarea`
+
+  padding :.5em;
+  height:50px;
+  font-size:15px;
+  background-color:#4D4C4D;
+
+  color:#DBDADC;
+  resize:none;
+  align-items: center;
+  justify-content: center;
+  border-radius:10px;
+
+
+  @media screen and (max-width:330px) {height:40px}
+  @media screen and (max-height:530px) {top:10%}
+  @media screen and (max-height:414px) {height:35px} 
+  @media screen and (max-height:325px) {height:30px}
 
 
 `;
@@ -297,11 +319,9 @@ export const IntroSec = styled.div`
 
 `;
 
- export const SubmitButton = styled.div`
+ export const SubmitButton = styled(Link)`
 
-   position:absolute;
-   left:36%;
-   top:75%;
+  
    width:30%;
    height:10%;
    border-color: #C8B0F4;
@@ -313,6 +333,11 @@ export const IntroSec = styled.div`
    display: flex;
    align-items: center;
    justify-content: center;
+   transition:8s;
+  border-radius:5px;
+  padding:20px;
+  margin-left:30%;
+  margin-bottom:5%;
 
    z-index:2;
    &:hover{
@@ -415,12 +440,11 @@ export const CompanyHeader = styled.div`
 
 export const CreateAccountTitle=styled.div`
   position:relative;
-  top:-60%;
   font-size:95%;
   width:160%;
   height:20%;
-  color:black
-  left:-35%;
+  color:black;
+  margin-left:-30%;
 
   @media screen and (max-width:1375px) {top:-45%}
   @media screen and (max-width:1024px) {top:-27%;font-size:20px}
@@ -436,12 +460,9 @@ export const CreateAccountTitle=styled.div`
 export const JoinFamily=styled.div`
 
   position:relative;
-  top:-60%;
   font-size:170%;
-  width:120%;
   height:20%;
   color:black;
-  left:-10%;
 
   @media screen and (max-width:1375px) {font-size:30px;top:-50%}
   @media screen and (max-width:1155px) {font-size:20px}
@@ -460,14 +481,11 @@ export const TermsOfAgreement=styled.div`
   color:black;
   position:relative;
   height:30%;
-  width:170%;
-  top:92%;
-  left:-40%;
   font-size:10px;
 
 
-  @media screen and (max-width:1375px) {top:80%;font-size:10px}
-  @media screen and (max-width:1024px) {left:10%;width:75%;top:70 %;font-size:10px}
+  @media screen and (max-width:1375px) {font-size:10px}
+  @media screen and (max-width:1024px) {left:10%;width:75%;font-size:10px}
   @media screen and (max-width:900px) {display:none}
   @media screen and (max-width:400px) {left:5%;width:90%;top:60%;font-size:7px}
   @media screen and (max-width:414px) {left:5%;width:90%;top:60%;font-size:7px}

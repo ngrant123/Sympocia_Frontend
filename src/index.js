@@ -1,7 +1,7 @@
 //Beginning stages of the website.... the website architecture will almost definetly change and everything lol
 import React from "react";
 import ReactDom from "react-dom";
-import Landing from "./Pages/Landing";
+import Landing from "./Components/Landing/LandingFirstSection/index.js";
 import Signup from "./Components/Signup/LargeSignupComp/LSignUpPage";
 import CompanyProfileScreen from "./Components/Profile/CompanyProfile/CompanyProfileSet/CompanyProfileContainer";
 import PersonalProfileScreen from "./Components/Profile/PersonalProfile/PersonalProfileSet/PersonalProfileContainer";
@@ -46,7 +46,7 @@ const application  = (
 	//Use exact path when you have similar paths because the computer actually connects to the first path
 				<Route exact path="/profile/:id" component={PersonalProfileScreen}/>
 				<Route exact path="/companyProfile/:id" component={CompanyProfileScreen} />
-				<Route exact exact path="/" component= {Landing}/>
+				<Route exact path="/" component= {Landing}/>
 				<Route exact path="/playList" component={PlayList}/>
 				<Route exact path="/signup" component={Signup}/>
 				<Route exact path="/home" component= {HomeScreen}/>

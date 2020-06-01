@@ -312,7 +312,6 @@ const PersonalPostsIndex=(props)=>{
 												videos:videos
 											}
 											changeVideoPosts(newVideoObject);
-											//this.hideCreationPost();
 										}
 								}}
 							>
@@ -327,7 +326,12 @@ const PersonalPostsIndex=(props)=>{
 								}
 								<ul>
 									<li style={{listStyle:"none",marginBottom:"10%"}}>
-										<FriendsGauge/>
+											{personalInformation.isLoading==true?
+													<p>Give us a second </p>:
+													<FriendsGauge
+														personalInformation={personalInformation}
+													/>
+												}
 									</li>
 									{personalInformation.isOwnProfile==true?
 										<React.Fragment>

@@ -369,6 +369,61 @@ export const getUserImages=async(userId)=>{
 }
 
 
+export const checkIfEmailIsUsed=async(email)=>{
+	try{
+
+		const emailResponse=await axios.get(`${SearchUrl}/searchForEmail`,{
+			params:{
+				email:email
+			}
+		});
+		debugger;
+		const {data}=emailResponse;
+		const emailData=data.data;
+		return emailData;
+	}catch(err){
+		console.log(err);
+		return err.message;
+	}
+
+}
+
+export const loginProfile=async(email,password)=>{
+	try{
+
+		const loginResponse=await axios.get(`${SearchUrl}/loginProfile`,{
+									params:{
+										email:email,
+										password:password
+									}
+								});
+
+		const {data}=loginResponse;
+		const loginData=data.data;
+		return loginData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+
+}
+
+
+export const getRecruitsInformation=async(userId)=>{
+	try{
+		const recruitsInformationResponse=await axios.get(`${SearchUrl}/getRecruitsInformation`,{
+			params:{
+				_id:userId
+			}
+		});
+
+		const {data}=recruitsInformationResponse;
+		const recruitsData=data.data;
+		return recruitsData;
+	}catch(err){
+		console.log(err);
+	}
+}
 
 
 

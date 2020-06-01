@@ -180,29 +180,7 @@ const PersonalInformation=(props)=>{
 												</FriendsAndIndustryDisplayButton>
 
 											</li>
-
-											<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-															<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																<RecruitButton onClick={()=>handleRecruitButton(personalInformation)}>
-																	+ Recruit
-																</RecruitButton>
-															</a>
-														</li>
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																<DonateButton onClick={()=>handleDonateButton()}>
-																	Donate
-																</DonateButton>
-																
-															</a>
-														</li>
-													</ul>
-												</li>
-
-											{/*
-												{personalInformation.isOwnProfile==true?
+											{personalInformation.isOwnProfile==true?
 													<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
 														<ul style={{padding:"0px"}}>
 															<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
@@ -232,9 +210,7 @@ const PersonalInformation=(props)=>{
 																</a>
 															</li>
 														</ul>
-													</li> }
-											*/}
-
+											</li> }
 								
 											
 
