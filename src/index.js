@@ -16,6 +16,8 @@ import { Provider } from 'react-redux';
 import { createStore,compose } from 'redux';
 import {loadState,saveState} from './reduxState';
 
+import ErrorBoundary from "./ErrorBoundary.js";
+
 //TEST
 import Demo from "./Components/Demo/index.js";
 import throttle from 'lodash.throttle';
@@ -38,29 +40,27 @@ store.subscribe(throttle(() =>{
 }, 1000));
 
 const application  = (
+		<ErrorBoundary>
+			<Provider store={store}>
+				<Router>
+					<Switch>
+			//Use exact path when you have similar paths because the computer actually connects to the first path
+						<Route exact path="/profile/:id" component={PersonalProfileScreen}/>
+						<Route exact path="/companyProfile/:id" component={CompanyProfileScreen} />
+						<Route exact path="/" component= {Landing}/>
+						<Route exact path="/playList" component={PlayList}/>
+						<Route exact path="/signup" component={Signup}/>
+						<Route exact path="/home" component= {HomeScreen}/>
+						<Route exact path="/investor" component= {InvestorScreen} />
+						<Route exact path="/map" component= {MapScreen} />
+						//TEST
+						<Route exact path="/demo" component={Demo}/>
+						<Route exact path="/blog/:id" component={BlogPostCreation}/>
 
-	<Provider store={store}>
-		<Router>
-			<Switch>
-	
-	//Use exact path when you have similar paths because the computer actually connects to the first path
-				<Route exact path="/profile/:id" component={PersonalProfileScreen}/>
-				<Route exact path="/companyProfile/:id" component={CompanyProfileScreen} />
-				<Route exact path="/" component= {Landing}/>
-				<Route exact path="/playList" component={PlayList}/>
-				<Route exact path="/signup" component={Signup}/>
-				<Route exact path="/home" component= {HomeScreen}/>
-				<Route exact path="/investor" component= {InvestorScreen} />
-				<Route exact path="/map" component= {MapScreen} />
-				//TEST
-				<Route exact path="/demo" component={Demo}/>
-				<Route exact path="/blog/:id" component={BlogPostCreation}/>
-
-			</Switch>
-		</Router>
-	</Provider>
-
-
+					</Switch>
+				</Router>
+			</Provider>
+		</ErrorBoundary>
 	);
 
 

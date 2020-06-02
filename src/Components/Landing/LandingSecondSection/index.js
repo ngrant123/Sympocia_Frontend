@@ -118,7 +118,7 @@ const SecondSection=(props)=>{
                 />
               </li>
               <li style={{listStyle:"none",height:"70%"}}>
-                        <li onClick={()=>props.increaseCounter()} style={{listStyle:"none",display:"inline-block"}}>
+                        <li onClick={()=>props.decreaseCounter()} style={{listStyle:"none",display:"inline-block"}}>
                           <a href="javascript:void(0);" style={{textDecoration:"none"}}>
                             <ArrowBackIosIcon style={{marginRight:"3%"}}/>
                           </a>

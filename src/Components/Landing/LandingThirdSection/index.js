@@ -80,7 +80,7 @@ const ThirdSection=(props)=>{
 		            </li>
 		            <li style={{listStyle:"none"}}>
 		            	<ul style={{padding:"0px"}}>
-		            		<li style={{listStyle:"none"}}>
+		            			<li style={{listStyle:"none"}}>
 									<p style={{fontSize:"40px",marginLeft:"10%",marginBottom:"2%"}}> 
 										<b>Heres a more in depth look at what we are trying to accomplish if you're not convinced yet</b> 
 									</p>
@@ -88,6 +88,11 @@ const ThirdSection=(props)=>{
 								<p style={{marginLeft:"25%",fontSize:"20px",marginBottom:"2%",color:"#b3b3b3"}}> Click the cards below to learn about what we are doing here at Sympocia </p>
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
+										<li onClick={()=>props.decreaseCounter()} style={{position:"relative",top:"-200px",listStyle:"none",display:"inline-block"}}>
+				                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+				                            <ArrowBackIosIcon/>
+				                          </a>
+				                        </li>
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",marginLeft:"5%"}}>
 											<InformationCard style={{marginRight:"5%",marginLeft:"10%"}}>
 												<ul style={{padding:"0px"}}>

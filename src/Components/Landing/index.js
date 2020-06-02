@@ -12,7 +12,7 @@ const Container=styled.div`
 
 const LandingPage=(props)=>{
 
-	const [currentPageCounter,changePageCounter]=useState(2);
+	const [currentPageCounter,changePageCounter]=useState(0);
 
 	const increasePageCounter=()=>{
 		debugger;

@@ -165,6 +165,7 @@ const FirstSection=(props)=>{
 	return(
 
 		     <FirstContainer id="firstContainer">
+            {null.map(data=><p>Hello </p>)}
               <ul style={{padding:"0px"}}>
                    <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
                       <ul style={{padding:"0px"}}>
@@ -175,9 +176,7 @@ const FirstSection=(props)=>{
                           </li>
                           <NavBarLogin
                             props={props}
-                          />
-
-                          
+                          /> 
                       </ul>
                   </li>
                   <li style={{listStyle:"none"}}>
