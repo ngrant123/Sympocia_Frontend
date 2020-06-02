@@ -47,15 +47,12 @@ export const FirstContainer = styled.div`
    left: 0; 
    height: 100%; 
    width: 100%;
-
-    background-image:url(${img});
-    background-size: cover; /* or contain depending on what you want */
-    background-position: center center;
-    background-repeat: no-repeat;
-    text-align:center;
+  text-align:center;
     margin:auto;
     padding:0;
     textarea::-webkit-input-placeholder {  color:#DBDADC;}
+    opacity:0;
+    transition:.8s;
 
 `;
 
@@ -98,39 +95,37 @@ export const NavBarContainer= styled.div`
 
 export const NavEmail = styled.textarea`
 
-    position:absolute;
+    position:relative;
     padding :.5em;
-    width:15%;
+    width:110%;
     height:50px;
     font-size:15px;
-    background-color:#35313C;
+    background-color:white;
 
     color:#DBDADC;
     resize:none;
-    left:60%;
-    top:10%;
     border-radius:10px;
-
-
+    outline:none;
+    border-color:#e5e5e5;
+    border-width:2px;
 `;
 
 export const NavPassword = styled.textarea`
 
-   position:absolute;
+   position:relative;
    padding :.5em;
-   width:10%;
+    width:110%
    height:50px;
    font-size:15px;
    border-style:solid;
-   background-color:#35313C;
+   background-color:white;
 
-   color:#DBDADC;
+   color:#a6a6a6;
    resize:none;
-   left:78%;
-   top:10%;
    border-radius:10px;
-
-
+   outline:none;
+   border-color:#e5e5e5;
+   border-width:2px;
 `;
 
 export const InputTextArea=styled.textarea`
@@ -157,9 +152,7 @@ export const InputTextArea=styled.textarea`
 
 export const NavSubmitButton = styled(Link)`
 
-   position:absolute;
-   left:92%;
-   top:10%;
+   position:relative;
    width:5%;
    height:50px;
    fontSize:160%;

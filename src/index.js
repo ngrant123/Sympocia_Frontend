@@ -1,7 +1,7 @@
 //Beginning stages of the website.... the website architecture will almost definetly change and everything lol
 import React from "react";
 import ReactDom from "react-dom";
-import Landing from "./Components/Landing/LandingFirstSection/index.js";
+import Landing from "./Components/Landing/index.js";
 import Signup from "./Components/Signup/LargeSignupComp/LSignUpPage";
 import CompanyProfileScreen from "./Components/Profile/CompanyProfile/CompanyProfileSet/CompanyProfileContainer";
 import PersonalProfileScreen from "./Components/Profile/PersonalProfile/PersonalProfileSet/PersonalProfileContainer";

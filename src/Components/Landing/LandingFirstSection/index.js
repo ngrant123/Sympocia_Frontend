@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import styled from 'styled-components';
 import { Redirect } from "react-router-dom";
 import LandingPageScrollDiv from '../../GeneralComponents/LandingPageComponent/LandingScrollPageIndicator';
@@ -41,7 +41,84 @@ import  {
         ArrowDownContainer,
         InputTextArea
      } from "./LandingFirstSectionCSS";
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import LandingImage from '../../../designs/img/FirstSectionLandingPAgeImage.png'
 
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import NavBarLogin from "../NavBarImplementation.js";
+
+
+const LoginBox=styled.textarea`
+    position:relative;
+    padding :.5em;
+    width:110%;
+    height:50px;
+    font-size:15px;
+    background-color:white;
+
+    color:#DBDADC;
+    resize:none;
+    border-radius:10px;
+    outline:none;
+    border-color:#e5e5e5;
+    border-width:2px;
+`;
+
+const Submit=styled.div`
+   width:70%;
+   height:50px;
+   border-color: #C8B0F4;
+   border-style:solid;
+   background-color:#C8B0F4;
+   color:white;
+   text-decoration:none;
+
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition:8s;
+  border-radius:5px;
+  padding:20px;
+  margin-left:30%;
+  margin-bottom:5%;
+
+   z-index:2;
+   &:hover{
+
+      background-color:white;
+
+    color:#C8B0F4;
+   border-style:solid;
+   border-color: #C8B0F4;
+   text-decoration:none;
+
+   }
+`;
+
+
+const SignUpButton={
+    listStyle:"none",
+    display:"inline-block",
+    backgroundColor:"#3898ec",
+    borderRadius:"5px",
+    padding:"10px",
+    color:"white",
+    marginRight:"2%"
+}
+
+const ExploreButton={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec"
+}
 
 const handleClearTextAreaClick=(divId)=>{
 	document.getElementById(divId).placeholder="";
@@ -55,40 +132,7 @@ const inspectLetterTyedName=(character)=>{
 	}
 }
 
-const handleLoginClick=async(event,props,dispatch)=>{
-  event.preventDefault();
-  const email=document.getElementById("LoginEmail").value;
-  const password=document.getElementById("LoginPassword").value;
 
-  const loginResults=await loginProfile(email,password);
- 
-  debugger;
-  if(typeof loginResults!='object'){
-    alert(loginResults);
-  }else{
-     const {passWordIndicator,profileType,profile}=loginResults;
-    if(profileType=="Personal"){
-      const {_id,firstName,lastName,email}=profile;
-
-      dispatch(addName(firstName));
-      dispatch(addLastName(lastName));
-      dispatch(addEmail(email));
-
-      dispatch(addPersonalIdentificationId(_id));
-      dispatch(loginPersonalPage(true));
-      dispatch(loginCompanyPage(false));
-
-    }else{
-      const {_id}=profile;
-      dispatch(addCompanyId(_id));
-      dispatch(updatefirstTimeUsage(true));
-      dispatch(loginCompanyPage(true));
-      dispatch(loginPersonalPage(false));
-
-    }
-    props.history.push('/home');
-  }
-}
 
 
 const FirstSection=(props)=>{
@@ -96,6 +140,13 @@ const FirstSection=(props)=>{
 	const dispatch=useDispatch();
 	const state=useSelector(state=>state);
 	console.log(props);
+
+  useEffect(()=>{
+    setTimeout(()=>{
+        const container=document.getElementById("firstContainer");
+        container.style.opacity="1";
+    },200);
+  },[]);
 
 	const handleSignupClick=(props)=>{
 
@@ -113,136 +164,93 @@ const FirstSection=(props)=>{
 
 	return(
 
-		     <FirstContainer>
-  		     	<CompanyHeader>	
-  		     		<b>Sympocia</b>
-  		     	</CompanyHeader>
+		     <FirstContainer id="firstContainer">
+              <ul style={{padding:"0px"}}>
+                   <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
+                      <ul style={{padding:"0px"}}>
+                          <li style={{listStyle:"none",display:"inline-block"}}>
+                            <p style={{fontSize:"100px",color:"#C8B0F4",marginLeft:"-20%"}}>
+                                <b>Sympocia</b>
+                            </p>
+                          </li>
+                          <NavBarLogin
+                            props={props}
+                          />
 
-                  <NavBarContainer>
-
-                    <NavEmail id="LoginEmail" placeholder="Email"></NavEmail>
-                    <NavPassword id="LoginPassword" placeholder="Password"></NavPassword>
-                    <NavSubmitButton onClick = {e =>  handleLoginClick(e,props,dispatch)} to="/profile">Login </NavSubmitButton>
-                  </NavBarContainer>
-
-                  <FirstStatue></FirstStatue>
-
-                  <IntroMain>
-
-                    Built For Everyone
-                  </IntroMain>
-
-                  <IntroSec>
-                    The first social entertainment platform made for people who are tired
-                    of their data being used and being pushed an agenda
-                  </IntroSec>
-
-              		<SignInformation>
-
-                     <ul style={{position:"relative",left:"-50%",top:"-40%",padding:"0px",width:"200%"}}>
-                        <JoinFamily>
-                          <b>Join the family</b>
-                        </JoinFamily>
-                        <CreateAccountTitle>Create an account within minutes</CreateAccountTitle>
-
-                        <p> Click here to begin </p>
-                        <SubmitButton to="/signup"> Sign up </SubmitButton>
-
+                          
                       </ul>
-                     {/*
+                  </li>
+                  <li style={{listStyle:"none"}}>
+                    <ul style={{padding:"0px"}}>
+                        <li style={{listStyle:"none",display:"inline-block",width:"90%",height:"60%"}}>
+                            <ul style={{padding:"0px"}}>
+                              <li style={{listStyle:"none",display:"inline-block",width:"50%",height:"50%"}}>
+                                <ul style={{padding:"0px"}}>
+                                  <li style={{listStyle:"none",display:"inline-block"}}>
+                                      <p style={{fontSize:"40px",marginBottom:"10%"}}>
+                                          <b>Finally.... a platform where you can just be yourself</b>
+                                      </p>
+                                      <p>
+                                          We've all been there. You've asked yourself "I really like this photo but will 
+                                          it get likes?" or "Will anyone care about my hobbies". You've also asked yourself,
+                                          "Why do I feel so alone after using social media". We've asked these question also. 
+                                          Which is why we built <b>Sympocia</b>
+                                      </p>
 
-                      <li style={{listStyle:"none",marginBottom:"5%"}}>
-                          <ul style={{padding:"0px"}}>
-                            <li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-                                <InputTextArea id="firstName" placeholder="First Name"/>
-                            </li>
-                             <li style={{listStyle:"none",display:"inline-block"}}>
-                                <InputTextArea id="lastName" placeholder="Last Name"/>
-                            </li>
-                          </ul>
-                      </li>
-
-                      <li style={{listStyle:"none"}}>
-                          <InputTextArea id="password" style={{paddingRight:"45%"}} placeholder="Password"/>
-                      </li>
-
-                        <SubmitButton to="/signup" onClick={e=>handleSignupClick(e)}> Submit </SubmitButton>
-
-                        <TermsOfAgreement>
-                           By clicking Sign Up, you agree to our Terms, Data Policy and Cookies Policy.
-                           We dont use your data or sell it without letting you know first.
-
-                        </TermsOfAgreement>
-                    </ul>
-
-                   
-              				<JoinFamily>Join the family</JoinFamily>
-
-              				<CreateAccountTitle>Create an account within minutes</CreateAccountTitle>
-                            <ul style={{padding:"0px",backgroundColor:"blue"}}>
-                              <li style={{listStyle:"none"}}>
-                                <InputTextArea placeholder="Email" />
+                                      <p>
+                                         Introducing the first social entertainment platform focused on you expressing yourself
+                                         regardless of whether people like it or not
+                                      </p>
+                                  </li>
+                                  <li style={{listStyle:"none"}}>
+                                      <ul style={{padding:"0px"}}>
+                                          <li style={SignUpButton}>
+                                              Sign Up
+                                          </li>
+                                          <li style={ExploreButton}>
+                                              Explore
+                                          </li>
+                                      </ul>
+                                  </li>
+                                </ul>
                               </li>
 
-                              <li style={{listStyle:"none"}}>
-                                  <ul style={{padding:"0px"}}>
-                                    <li style={{listStyle:"none",display:"inline-block"}}>
-                                        <InputTextArea placeholder="First Name"/>
-                                    </li>
-
-                                    <li style={{listStyle:"none",display:"inline-block"}}>
-                                        <InputTextArea placeholder="Last Name"/>
-                                    </li>
-                                  </ul>
-                              </li>
-
-                              <li style={{listStyle:"none"}}>
-                                <InputTextArea placeholder="Password"/>
-                              </li>
-
-                              <li style={{listStyle:"none"}}>
-
+                              <li style={{position:"relative",top:"-100px",listStyle:"none",display:"inline-block",width:"40%"}}>
+                                  <img src={LandingImage} style={{width:"95%",height:"80%"}}/>
                               </li>
                             </ul>
+                        </li>
+                        <li onClick={()=>props.increaseCounter()} style={{listStyle:"none",display:"inline-block"}}>
+                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <ArrowForwardIosIcon/>
+                          </a>
+                        </li>
+                    </ul>
+                  </li>
+                  <li style={{listStyle:"none"}}>
+                    <ul style={{padding:"0px"}}>
+                        <li style={{listStyle:"none",display:"inline-block"}}>
+                            <FiberManualRecordIcon/>
+                        </li>
 
-                           
+                        <li onClick={()=>props.displaySelectedPage(1)} style={{listStyle:"none",display:"inline-block"}}>
+                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <RadioButtonUncheckedIcon/>
+                          </a>
+                        </li>
 
-                                <EmailInput id ="Email" placeholder="Email" onClick={() => handleClearTextAreaClick("Email")} ></EmailInput>
-
-                              	<NameInput id="Name" placeholder="Firstname" onClick={() => handleClearTextAreaClick("Name")} onChange={e =>inspectLetterTyedName(e.target.value)}></NameInput>
-
-
-                              	<LastInput id ="LastName" placeholder="Lastname" onClick={() => handleClearTextAreaClick("LastName")} onChange={e=>inspectLetterTyedName(e.target.value)}></LastInput>
-
-                                
-
-                              
-
-                                	Think of a better way of doing this with the signup SubmitButton.
-                                	Instead of rendering two seperate divs and everything
+                        <li onClick={()=>props.displaySelectedPage(2)} style={{listStyle:"none",display:"inline-block"}}>
+                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <RadioButtonUncheckedIcon/>
+                          </a>
+                        </li>
+                    </ul>
+                  </li>
+               </ul>
 
 
-                                
-                                <SubmitButton onClick ={() => handleSignupClick()}> Sign Up  </SubmitButton>
-                                <ActualSubmitButton id="ActualSubmitButton" to="/signup"> Sign Up  </ActualSubmitButton>
 
-                          */}
-                  	</SignInformation>
-
-                  	<FloatDivScrollDownContainer>
-
-                  		Scroll down to hear about the company mission and 
-                  		why joining our platform is a step in pursuing your dream 
-                  		and joining a family
-
-                  	</FloatDivScrollDownContainer>
-
-                  	<ArrowDownContainer>
-	                  	<ExpandMoreIcon
-	                  		style={{color:"#C8B0F4",fontSize:170,zIndex:6}}
-	                  	/>
-	                  </ArrowDownContainer>
-              </FirstContainer>
+        </FirstContainer>
 	)
 }
 

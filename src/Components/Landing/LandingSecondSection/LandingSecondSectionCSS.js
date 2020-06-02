@@ -9,15 +9,12 @@ export const SecondContainer = styled.div`
   position:relative;
   width:100%;
   height:100%;
-
-  background-image:url(${img2});
-  background-size: cover; /* or contain depending on what you want */
-  background-position: center center;
-  background-repeat: no-repeat;
   text-align:center;
   background-size: contain
   margin:auto;
-  padding:0;
+  padding:0;  
+  opacity:0;
+  transition:.8s;
 
 `;
 

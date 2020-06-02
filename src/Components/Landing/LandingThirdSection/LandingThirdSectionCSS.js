@@ -5,11 +5,8 @@ export const ThirdContainer=styled.div`
  position:absolute;
   width:100%;
   height:100%;
-
-  background-image:url(${img2});
-  background-size: cover; /* or contain depending on what you want */
-  background-repeat: no-repeat;
-
+  opacity:0;
+  transition:.8s;
 `;
 
 
