@@ -22,12 +22,13 @@ const Chat=(props)=>{
 		return <ul>
 					{chat.map(data=>
 						<React.Fragment>
-							{data.senderId==owner?
+							{data.senderId==owner ||data.owner==owner?
 								<li style={{backgroundColor:"red"}}>
 									{data.chatMessage}
+									{data.message}
 								</li>:
 								<li style={{backgroundColor:"blue"}}>
-									{data.chatMessage}
+									{data.message}
 								</li>
 							}
 						</React.Fragment>

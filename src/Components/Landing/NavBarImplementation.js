@@ -65,7 +65,8 @@ const Submit=styled.div`
 
 const NavBar=(props)=>{
 	const dispatch=useDispatch();
-	var {props}=props;
+  console.log(props);
+	var {props}=props.props;
 	const handleLoginClick=async(event,props,dispatch)=>{
 		debugger;
 	  event.preventDefault();

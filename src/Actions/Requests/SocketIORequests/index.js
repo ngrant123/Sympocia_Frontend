@@ -1,24 +1,19 @@
-import io from 'socket.io-client';
-var socket = io();
-
-export const connectToRoom=(roomId)=>{
+export const connectToRoom=(socket,roomId)=>{
+	debugger;
 	try{
-		socket.on('connect',()=>{
-			socket.emit('room',roomId);
-		})
-
+		socket.emit('room',roomId);
+		return socket;
 	}catch(err){
 		console.log(err);
 		return err;
-	}
-
+	} 
 }
 
-export const receieveMessage=()=>{
+export const sendMessage=(socket,data)=>{
 	try{
-		socket.on('message',(data)=>{
-			console.log(data);
-		})
+		debugger;
+		socket.emit('roomMessage',data);
+
 	}catch(err){
 		console.log(err);
 		return err;

@@ -10,10 +10,10 @@ import {sendMessagePersonal,createChat} from "../../../../../Actions/Requests/Pr
 
 import {getCompanies,getCompanyProfileGeneralMessages} from "../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import {connectToRoom,receieveMessage} from "../../../../../Actions/Requests/SocketIORequests";
-
-
+import {connectToRoom,sendMessage} from "../../../../../Actions/Requests/SocketIORequests";
+import io from 'socket.io-client';
 import AppsIcon from '@material-ui/icons/Apps';
+
 const Container=styled.div`
 	position:fixed;
 	width:60%;
@@ -93,9 +93,11 @@ const BackButtonCSS={
 }
 
 
+const socket = io('http://localhost:4000');
+
+
+
 class SecondPageContainer extends Component{
-
-
 
 	constructor(props){
 		super(props);
@@ -111,27 +113,22 @@ class SecondPageContainer extends Component{
 		}
 
 		if(this.props.selectedConversation!=null){
-			connectToRoom(this.props.selectedConversation._id);
-			receieveMessage();
+			connectToRoom(socket,this.props.selectedConversation._id);
 		}
 	}
 
-	async componentDidMount(){
-		var profiles;
-		if(this.props.selectedConversation==null){
-			if(this.props.profileType==true){
-				profiles=await getProfiles();
-				console.log(profiles);
-			}else{
-				profiles=await getCompanies();
-			}
-			const chatIndicator=this.props.selectedConversation==null?[]:this.props.selectedConversation.chat;
-			this.setState({
-				people:profiles,
-				selectedConvesation:this.props.selectedConversation,
-				chat:chatIndicator
+ componentDidMount(){
+		
+
+		this.setState({
+				selectedConversation:this.props.selectedConversation,
+				chat:this.props.selectedConversation.chat
 			})
-		}
+
+		socket.on("roomMessage",(message)=>{
+			console.log("Socket response");
+			console.log(message);
+		})
 	}
 
 	handleDisplayMoreInformation=()=>{
@@ -159,6 +156,7 @@ class SecondPageContainer extends Component{
 		currentTimeStamp=currentTimeStamp.getTime();
 
 		const messageObject={
+			room:this.props.selectedConversation._id,
 			chatMessage:data,
 			timeStamp:currentTimeStamp,
 			senderId:this.props.id
@@ -168,6 +166,7 @@ class SecondPageContainer extends Component{
 
 		var participantsArray=[];
 		participantsArray.push(this.state.selectedConversation._id);
+
 		/*
 
 			if(this.props.profileType==true){
@@ -184,6 +183,7 @@ class SecondPageContainer extends Component{
 
 			}
 		*/
+
 		var newChat;
 		if(this.state.chat.length>0){
 			var chat=this.state.chat;
@@ -193,6 +193,7 @@ class SecondPageContainer extends Component{
 			var newChat=[];
 			newChat.push(messageObject);
 		}
+		sendMessage(socket,messageObject);
 		this.setState({
 			chat:newChat
 		})

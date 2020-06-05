@@ -8,6 +8,8 @@ import {getCompanyProfileGeneralMessages} from "../../../../Actions/Requests/Com
 
 import {getPersonalProfileChat} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
+
 	
 	
 const Container=styled.div`
@@ -135,11 +137,12 @@ const ChatContainer=(props)=>{
 			var isPersonalProfile=state.personalInformation.loggedIn;
 			if(isPersonalProfile==true){
 				const chats=await getPersonalProfileGeneralMessages(state.personalInformation.id);
+				console.log(chats);
 				changePersonalProfileIndicator(true);
 				changeOwnerId(state.personalInformation.id);
 				console.log(chats);
 				debugger;
-				//changeRecruits(chats);
+				changeRecruits(chats);
 			}else{
 				const chats=await getCompanyProfileGeneralMessages(state.companyInformation.id);
 				changePersonalProfileIndicator(false);
@@ -187,21 +190,29 @@ const ChatContainer=(props)=>{
 
 					<ul style={{height:"65%",padding:"0px",zIndex:"9",overflowY:"scroll",paddingLeft:"5%"}}>
 						{recruits.map(data=>
-							<li onClick={()=>displaySecondPageHandler(data)} style={{height:"30%",listStyle:"none",marginBottom:"5%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-										<ProfilePicture>
-
-										</ProfilePicture>
-									</li>
-									<li style={{listStyle:"none",display:"inline-block",padding:"0px"}}>
-										<ProfileChatInformation>
-											<p style={{fontSize:"20px"}}><b> Nathan Grant</b></p>
-											<p style={{color:"#b9b9b9"}}> This is a sample message </p>
-										</ProfileChatInformation>
-									</li>
-								</ul>
-							</li>
+							<React.Fragment>
+								{data.participants.length>0?
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>displaySecondPageHandler(data)} style={{height:"30%",listStyle:"none",marginBottom:"5%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+													{data.participants[0].profilePicture!=null?
+														<img src={data.participants[0].profilePicture.profilePicture} style={{position:"relative",width:"70px",height:"80%",borderRadius:"50%",top:"-50px"}}/>:
+														<img src={NoProfilePicture} style={{position:"relative",width:"70px",height:"80%",borderRadius:"50%",top:"-50px"}}/>
+													}
+												</li>
+												<li style={{listStyle:"none",display:"inline-block",padding:"0px"}}>
+													<ProfileChatInformation>
+														<p style={{fontSize:"20px"}}><b>{data.participants[0].firstName}</b></p>
+														<p style={{color:"#b9b9b9"}}>{data.chat[(data.chat.length)-1].message}</p>
+													</ProfileChatInformation>
+												</li>
+											</ul>
+										</li>
+									</a>:null
+								}
+							</React.Fragment>
+							
 						)}
 					</ul>
 			</Container>:
