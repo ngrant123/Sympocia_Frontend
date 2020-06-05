@@ -165,7 +165,6 @@ const FirstSection=(props)=>{
 	return(
 
 		     <FirstContainer id="firstContainer">
-            {null.map(data=><p>Hello </p>)}
               <ul style={{padding:"0px"}}>
                    <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
                       <ul style={{padding:"0px"}}>
@@ -203,12 +202,16 @@ const FirstSection=(props)=>{
                                   </li>
                                   <li style={{listStyle:"none"}}>
                                       <ul style={{padding:"0px"}}>
+                                        <a href="/signup" style={{textDecoration:"none"}}>
                                           <li style={SignUpButton}>
                                               Sign Up
                                           </li>
+                                        </a>
+                                        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
                                           <li style={ExploreButton}>
                                               Explore
                                           </li>
+                                        </a>
                                       </ul>
                                   </li>
                                 </ul>

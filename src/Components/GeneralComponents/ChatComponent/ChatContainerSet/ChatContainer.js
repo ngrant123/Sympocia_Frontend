@@ -2,10 +2,14 @@ import React,{useState,useEffect,Component} from "react";
 import styled from "styled-components";
 import {useSelector} from "react-redux";
 import chatColumn from "../../../../designs/img/ChatFirstPageColumn.png";
-import ChatTab from "./ChatTab";
 import SecondPageChatContainer from "../ChatContainerSubSet/ChatSecondPage/SecondPageContainer.js";
+import {getPersonalProfileGeneralMessages} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {getCompanyProfileGeneralMessages} from "../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 
-
+import {getPersonalProfileChat} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+	
+	
 const Container=styled.div`
 	position:fixed;
 	background-color:white;
@@ -21,7 +25,7 @@ const Container=styled.div`
 	border-color:#dddddd;
 `;
 
-const ChatOptionsButton=styled.div`
+const ChatOptionsButton=styled.div `
 	width:50px;
 	height:10%;
 	background-color:red;
@@ -62,6 +66,21 @@ const ColumnBackground=styled.div`
 
 `;
 
+const InputContainer=styled.textarea`
+	position:relative;
+	border-radius:5px;
+	width:70%;
+	margin-left:5%;
+	margin-top:2%;
+	border-style:solid;
+	border-width:1px;
+	border-color:#D8D8D8;
+	resize:none;
+	padding:5px;
+	margin-right:5%;
+`;
+
+
 const BackgroundContainer=styled.div`
 	position:fixed;
 	width:100%;
@@ -70,28 +89,73 @@ const BackgroundContainer=styled.div`
 	z-index:4;
 `;
 
+const ProfilePicture=styled.div`
+	position:relative;
+	width:70px;
+	height:80%;
+	border-radius:50%;
+	background-color:blue;
+`;
+
+const ProfileChatInformation=styled.div`
+	position:relative;
+	width:230px;
+	height:110%;
+	overflow:hidden;
+	border-bottom:1px solid #d1d1d1;
+`;
+
+const ChatOptions={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginRight:"2%"
+}
+
 
 const ChatContainer=(props)=>{
 	console.log(props);
-
 	const state= useSelector(state=>state);
-	const [friends,changeFriends]=useState([{},{},{},{},{}]);
-	const [displaySecondOrFirstPage,changeToFirstOrSecondPage]=useState("First");
-	console.log(state);
-	console.log(displaySecondOrFirstPage);
+	const [recruits,changeRecruits]=useState([]);
+	const [selectedRecruit,changeSelectedRecruit]=useState();
+	const [displaySecondPage,changeSecondPage]=useState(false);
+	const [personalProfileIndicator,changePersonalProfileIndicator]=useState(false);
+
+	const [ownerId,changeOwnerId]=useState("");
+
 
 	useEffect(()=>{
-
-
+		const getData=async()=>{
+			var isPersonalProfile=state.personalInformation.loggedIn;
+			if(isPersonalProfile==true){
+				const chats=await getPersonalProfileGeneralMessages(state.personalInformation.id);
+				changePersonalProfileIndicator(true);
+				changeOwnerId(state.personalInformation.id);
+				console.log(chats);
+				debugger;
+				//changeRecruits(chats);
+			}else{
+				const chats=await getCompanyProfileGeneralMessages(state.companyInformation.id);
+				changePersonalProfileIndicator(false);
+				changeOwnerId(state.companyInformation.id);
+			}
+		}
+		getData();
 	},[]);
 
-	const displaySecondPage=()=>{
-		console.log("Clicked");
-		changeToFirstOrSecondPage("Second");
+	const displaySecondPageHandler=(data)=>{
+		changeSecondPage(true);
+		changeSelectedRecruit(data)
 	}
 
-	const displayFirstPage=()=>{
-		changeToFirstOrSecondPage("First");
+	const displayOriginalScreen=()=>{
+		changeSecondPage(false);
 	}
 
 	return(
@@ -99,60 +163,54 @@ const ChatContainer=(props)=>{
 			<BackgroundContainer
 				onClick={()=>props.hideChatContainer()}
 			/>
-			{displaySecondOrFirstPage=="First"?
+			{displaySecondPage==false?
 				<Container>
 
-					<SearchBar placeholder="Search by name here">
+					<InputContainer placeholder="Search by name here"
+					/>
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<BorderColorIcon
+							onClick={()=>changeSecondPage(true)}
+							style={{fontSize:"30",color:"#5298F8"}}
+						/>
+					</a>
 
-					</SearchBar>
-					<ColumnBackground/>
-
-					<ul style={{borderRadius:"5px",width:"65%",marginLeft:"17%",padding:"10px",borderStyle:"solid",borderColor:"#5298F8"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"15%"}}>
-							<ChatOptionsButton>
-
-							</ChatOptionsButton>
+					<ul style={{marginTop:"3%"}}>
+						<li style={ChatOptions}>
+							Recent messages
 						</li>
 
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"15%"}}>
-							<ChatOptionsButton>
-
-							</ChatOptionsButton>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<ChatOptionsButton>
-
-							</ChatOptionsButton>
+						<li style={ChatOptions}>
+							My favorites
 						</li>
 					</ul>
 
-					<ul style={{paddingLeft:"10px"}}>
-						<li style={{listStyle:"none",display:"inline-block",paddingRight:"30%"}}>
-							<p style={{padding:"10px",borderradius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
-							<p style={{position:"relative",marginRight:"70px",padding:"10px",color:"white",backgroundColor:"#5298F8",width:"30%",borderRadius:"5px"}}>3</p>
-							Unread Messages</p>
-						</li>
+					<ul style={{height:"65%",padding:"0px",zIndex:"9",overflowY:"scroll",paddingLeft:"5%"}}>
+						{recruits.map(data=>
+							<li onClick={()=>displaySecondPageHandler(data)} style={{height:"30%",listStyle:"none",marginBottom:"5%"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+										<ProfilePicture>
 
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<p style={{padding:"10px",borderradius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
-							<p style={{position:"relative",padding:"10px",color:"white",backgroundColor:"#5298F8",width:"30%",borderRadius:"5px"}}>3</p> Message invites</p>
-						</li>
-					</ul>
-
-					<ul style={{height:"37%",padding:"0px",zIndex:"9",overflowY:"scroll",paddingLeft:"5%"}}>
-						{friends.map(data=>
-							<li style={{listStyle:"none",marginBottom:"5%"}}>
-								<ChatTab
-									displaySecondPageAction={displaySecondPage}
-								/>
+										</ProfilePicture>
+									</li>
+									<li style={{listStyle:"none",display:"inline-block",padding:"0px"}}>
+										<ProfileChatInformation>
+											<p style={{fontSize:"20px"}}><b> Nathan Grant</b></p>
+											<p style={{color:"#b9b9b9"}}> This is a sample message </p>
+										</ProfileChatInformation>
+									</li>
+								</ul>
 							</li>
 						)}
 					</ul>
-
 			</Container>:
 			<SecondPageChatContainer
-				friends={friends}
+				recruits={recruits}
+				selectedConversation={selectedRecruit}
+				profileType={personalProfileIndicator}
+				displayOriginalScreen={displayOriginalScreen}
+				id={ownerId}
 			/>
 		}
 		</React.Fragment>

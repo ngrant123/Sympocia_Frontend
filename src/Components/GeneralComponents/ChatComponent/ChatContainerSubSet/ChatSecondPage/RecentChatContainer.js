@@ -2,17 +2,17 @@ import React,{useState,useEffect,Component} from "react";
 import styled from "styled-components";
 
 const Container=styled.div`
-	position:absolute;
+	position:relative;
 	background-color:white;
-	width:65%;
-	height:15%;
+	width:500px;
+	height:10%;
 	border-radius:5px;
 	box-shadow: 1px 1px 30px #d5d5d5;
-	left:15%;
-	top:2%;
 	overflow-x:auto;
 	overflow-y:hidden;
-	white-space: nowrap
+	white-space: nowrap;
+	margin-top:1%;
+	margin-left:5%;
 `;
 
 const RecentsContainer=styled.div`

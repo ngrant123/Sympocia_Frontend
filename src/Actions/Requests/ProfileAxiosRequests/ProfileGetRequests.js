@@ -24,78 +24,6 @@ export function getActivityLog(userId){
 	})
 }
 
-export function getFriendships(userId){
-	//userId:number
-
-	axios.get(`${baseurl}/Friendships`,{
-
-		params:{
-			userid:userId
-		}
-	})
-	.then(response=>{
-
-
-	}).catch(err=>{
-
-
-	})
-}
-
-export function getCoverPhotoImage(userId){
-	//userId:number
-
-	axios.get(`${baseurl}/CoverPhoto`,{
-
-		params:{
-			userid:userId
-		}
-	}).then(res=>{
-
-		console.log(res.data);
-	}).catch(err=>{
-
-		console.log(err.message);
-	})
-}
-
-export function getCompanyIcon(userId){
-	//userId:number
-
-
-	axios.get(`${baseurl}/CompanyIcon`,{
-
-		params:{
-			userid:userId
-		}
-
-	}).then(res=>{
-		console.log(res.data);
-
-	}).catch(err=>{
-		console.log(err.message);
-
-	})
-}
-
-export function getCompanyBio(userId){
-	//userId:number
-
-	axios.get(`${baseurl}/CompanyBio`,{
-
-		params:{
-			userid:userId
-		}
-	}).then(res=>{
-
-		console.log(res.data);
-
-	}).catch(err=>{
-
-		console.log(err.message);
-
-	})
-}
 
 export async function getProfile(userId){
 
@@ -422,6 +350,58 @@ export const getRecruitsInformation=async(userId)=>{
 		return recruitsData;
 	}catch(err){
 		console.log(err);
+	}
+}
+
+export const getPersonalProfileGeneralMessages=async(personalId)=>{
+	try{
+		debugger;
+		const chatsResponse=await axios.get(`${SearchUrl}/chatMessages`,{
+			params:{
+				_id:personalId
+			}
+		});
+
+		const {data}=chatsResponse;
+		const {chatMessage}=data.data;
+		return chatMessage;
+	}catch(err){
+		console.log(err);
+		return err.message;
+	}
+}
+
+export const getPersonalProfileChat=async(personalId,chatId)=>{
+	try{
+
+		const chatResponse=await axios.get(`${SearchUrl}/getChat`,{
+			params:{
+				_id:personalId,
+				chatId:chatId
+			}
+		});
+
+		const {data}=chatResponse;
+		const chatData=data.data;
+		return chatData;
+
+	}catch(err){
+		console.log(err);
+		return err.message;
+	}
+}
+
+
+export const getProfiles=async()=>{
+	try{
+		const profilesResponse=await axios.get(`${SearchUrl}/getProfiles`);
+		const {data}=profilesResponse;
+		const profilesData=data.data;
+		return profilesData
+
+	}catch(err){
+		console.log(err);
+		return err;
 	}
 }
 

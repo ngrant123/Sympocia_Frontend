@@ -31,6 +31,7 @@
     "react-card-flip": "^1.0.10",
     "react-chartjs-2": "^2.7.6",
     "react-confetti": "^5.0.1",
+    "react-cube3d": "0.0.8",
     "react-dom": "^16.13.1",
     "react-draft-wysiwyg": "^1.14.5",
     "react-dropdown": "^1.6.4",

@@ -189,6 +189,42 @@ export const addRecruit=async(personalProfile,targetedProfile)=>{
 
 }
 
+export const sendMessagePersonal=async(owner,message,participants)=>{
+	try{
+		const messageResponse=await axios.post(`${CreateUrl}/sendMessagePersonal`,{
+			message:message,
+			participants:participants,
+			owner:owner
+		});
+
+		const {data}=messageResponse;
+		const messageData=data.data;
+		return messageData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+export const createChat=async(owner,message,participants)=>{
+	try{
+		const messageResponse=await axios.post(`${CreateUrl}/createMessagePersonal`,{
+			message:message,
+			participants:participants,
+			owner:owner
+		});
+
+		const {data}=messageResponse;
+		const messageData=data.data;
+		return messageData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
 
 
 

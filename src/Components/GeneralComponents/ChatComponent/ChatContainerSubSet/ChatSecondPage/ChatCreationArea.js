@@ -1,5 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
+import SendIcon from '@material-ui/icons/Send';
 
 
 const Container=styled.div`
@@ -7,8 +8,6 @@ const Container=styled.div`
 	width:80%;
 	height:10%;
 	background-color:white;
-	top:20%;
-	left:10%;
 `;
 const PictureButton=styled.div`
 	position:relative;
@@ -34,18 +33,21 @@ const GifButton=styled.div`
 
 const TextArea=styled.textarea`
 	position:absolute;
-	width:65%;
-	height:60%;
+	width:80%;
+	height:70%;
 	left:25%;
-	top:10px;
+	top:0px;
 	resize:none;
-	background-color:#eef3f8;
-	border-radius:5px;
-	border-style:none;
+	background-color:white;
 	padding:5px;
 	outline: none;
 	z-index:6;
+	border-color:#D8D8D8;
+	border-radius:5px;	
+	border-style:solid;
+	border-width:1px;
 `;
+
 
 const SympociaLikeStampButton=styled.div`
 	position:relative;
@@ -77,8 +79,8 @@ class ChatCreationArea extends Component{
 
 		this.state={
 			previousScrollHeight:0,
-			originalScrollHeight:0
-
+			originalScrollHeight:0,
+			initialTextCleared:false
 		}
 	}
 
@@ -91,17 +93,24 @@ class ChatCreationArea extends Component{
 
 			const differenceBetweenHeight=Math.abs(this.state.previousScrollHeight-TextArea.scrollHeight);
 			TextArea.style.top="-"+(TextArea.offsetTop+differenceBetweenHeight+10)+"px";
-	  		TextArea.style.height = Math.min((TextArea.scrollHeight+10), ChatAreaHeightLimit) + "px";
+	  		TextArea.style.height = Math.min((TextArea.scrollHeight+20), ChatAreaHeightLimit) + "px";
 
 	  		this.setState({
-				previousScrollHeight:TextArea.scrollHeight
+				previousScrollHeight:TextArea.scrollHeight,
+				initialTextCleared:true
 			})
 		}
 		else{
 			this.setState({
 				previousScrollHeight:TextArea.scrollHeight,
-				originalScrollHeight:TextArea.scrollHeight
+				originalScrollHeight:TextArea.scrollHeight,
+				initialTextCleared:true
 			})
+		}
+	}
+	bubbleUpMessage=()=>{
+		if(this.state.initialTextCleared!=false){
+			this.props.sendMessage(document.getElementById("TextArea").value);
 		}
 	}
  
@@ -114,24 +123,12 @@ class ChatCreationArea extends Component{
 					placeholder="Type a message..."
 					onInput={()=>this.handleInput()}
 				/>
-
-
-				<ul style={{padding:"10px"}}>
-					<li style={ChatCreationListCSS}>
-						<PictureButton/>
-					</li>
-					<li style={ChatCreationListCSS}>
-						<AddImageButton/>
-					</li>
-					<li style={ChatCreationListCSS}>
-						<GifButton/>
-					</li>
-					<li style={LastChatCreationButtonCSS}>
-						<SympociaLikeStampButton
-						/>
-					</li>
-
-				</ul>
+				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					<SendIcon
+						onClick={()=>this.bubbleUpMessage()}
+						style={{position:"absolute",left:"110%",top:"20%",fontSize:30,color:"#5298F8"}}
+					/>
+				</a>
 
 			</Container>
 		)

@@ -101,6 +101,39 @@ export const getCompanyProfileForHomePage=async(id)=>{
 }
 
 
+export const getCompanyProfileGeneralMessages=async(companyId)=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/company/search';
+		const chatsResponse=await axios.post(`${CreateUrl}/chatMesasge`,{
+			params:{
+				_id:companyId
+			}
+		});
+
+		const {data}=chatsResponse;
+		const chatData=data.data;
+		return chatData;
+
+	}catch(err){
+		console.log(err);
+		return err.message;
+	}
+}
+
+export const getCompanies=async()=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/company/search';
+		const companiesResponse=await axios.get(`${CreateUrl}/getCompanies`);
+		const {data}=companiesResponse;
+		const companiesData=data.data;
+		return companiesData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
 
 
 

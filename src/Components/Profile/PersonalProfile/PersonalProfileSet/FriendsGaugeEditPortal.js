@@ -126,6 +126,10 @@ const FriendsGaugeEditPortal=(props)=>{
 		}
 	}
 
+	const addNodeToProfile=()=>{
+
+	}
+
 	const addNodeModal=()=>{
 		debugger;
 		if(displayAddNodeScreen==true){
@@ -196,7 +200,7 @@ const FriendsGaugeEditPortal=(props)=>{
 							<InputContainer style={{height:"40%"}}placeholder="Enter a description (optional)"/>
 						</li>
 
-						<SubmitButton>
+						<SubmitButton onClick={()=>addNodeToProfile()}>
 							Submit
 						</SubmitButton>
 

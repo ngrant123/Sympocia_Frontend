@@ -4,36 +4,43 @@ import styled from "styled-components";
 
 const Container=styled.div`
 	position:relative;
-	height:70%;
-	width:80%;
-	background-color:red;
-	top:20%;
-	left:10%;
+	height:400px;
+	overflow-y:auto;
+	width:700px;
+	background-color:white;
+	border-radius:5px;	
+	border-style:solid;
+	border-width:1px;
+	border-color:#D8D8D8;
 `;
 
-class Chat extends Component{
+const Chat=(props)=>{
+	console.log(props);
+	const {chat,owner}=props;
+	const constructChat=()=>{
+		//chat.reverse();
+		return <ul>
+					{chat.map(data=>
+						<React.Fragment>
+							{data.senderId==owner?
+								<li style={{backgroundColor:"red"}}>
+									{data.chatMessage}
+								</li>:
+								<li style={{backgroundColor:"blue"}}>
+									{data.chatMessage}
+								</li>
+							}
+						</React.Fragment>
+					)}
 
-
-
-	constructor(props){
-		super(props);
-
-		this.state={
-
-		}
+			  </ul> 
 	}
 
-
-
-	render(){
-
-		return(
+	return(
 			<Container>
-
-
+				{constructChat()}
 			</Container>
-		)
-	}
+	)
 }
 
 export default Chat;

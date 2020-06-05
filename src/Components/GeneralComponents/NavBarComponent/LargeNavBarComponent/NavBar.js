@@ -136,6 +136,7 @@ const BackgroundContainer=styled.div`
 `;
 
 const NavBar=(pageProps)=>{
+	console.log(pageProps);
 	const dispatch=useDispatch();
 
 	const {color}=pageProps;
@@ -158,11 +159,11 @@ const NavBar=(pageProps)=>{
 
 
 	const displayChatContainerForPersonalPage=(pageProps)=>{
-			pageProps.displayChatPage("personal");
+			pageProps.pageProps.displayChatPage("personal");
 	}
 
 	const displayChatContainerForCompanyPage=(pageProps)=>{
-			pageProps.displayChatPage("company");
+			pageProps.pageProps.displayChatPage("company");
 	}
 
 	const logInToCompanyProfile=()=>{
