@@ -362,8 +362,9 @@ export const getPersonalProfileGeneralMessages=async(personalId)=>{
 			}
 		});
 
+		console.log(chatsResponse);
 		const {data}=chatsResponse;
-		const {chatMessage}=data.data;
+		const chatMessage=data.data;
 		return chatMessage;
 	}catch(err){
 		console.log(err);
@@ -399,6 +400,46 @@ export const getProfiles=async()=>{
 		const profilesData=data.data;
 		return profilesData
 
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const getSymposiumsExplore=async(id,symposiums)=>{
+	try{
+		debugger;
+		const jsonObject=JSON.stringify(symposiums);
+		const symposiumResponse=await axios.get(`${SearchUrl}/getSymposiumsExplore`,{
+			params:{
+				_id:id,
+				symposiums:symposiums.toString()
+			}
+		});
+
+		const {data}=symposiumResponse;
+		const symposiumData=data.data;
+		return symposiumData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const getSymposiumsFollowed=async(id,symposiumsMap)=>{
+	try{
+		const jsonObject=JSON.stringify(symposiumsMap);
+		const symposiumResponse=await axios.get(`${SearchUrl}/getSymposiumsFollowed`,{
+			params:{
+				_id:id,
+				symposiumsMap:jsonObject
+			}
+		});
+
+		const {data}=symposiumResponse;
+		const symposiumData=data.data;
+		return symposiumData;
 	}catch(err){
 		console.log(err);
 		return err;

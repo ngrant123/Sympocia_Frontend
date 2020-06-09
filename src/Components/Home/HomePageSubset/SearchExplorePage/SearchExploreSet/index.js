@@ -50,6 +50,7 @@ class SearchExploreContainer extends Component{
 			selectedSubCommunities:[],
 			selectedIndustries:[],
 			displayCreatePostComponent:false,
+			displayPersonalPage:false,
 			postOption:"Images",
 			postsInformation:[]
 		}

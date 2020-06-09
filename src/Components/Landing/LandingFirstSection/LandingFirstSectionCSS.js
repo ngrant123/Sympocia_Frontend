@@ -97,7 +97,7 @@ export const NavEmail = styled.textarea`
 
     position:relative;
     padding :.5em;
-    width:110%;
+    width:0%;
     height:50px;
     font-size:15px;
     background-color:white;
@@ -114,7 +114,7 @@ export const NavPassword = styled.textarea`
 
    position:relative;
    padding :.5em;
-    width:110%
+   width:10%;
    height:50px;
    font-size:15px;
    border-style:solid;

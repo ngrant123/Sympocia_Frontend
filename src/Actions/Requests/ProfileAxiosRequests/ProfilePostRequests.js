@@ -226,6 +226,45 @@ export const createChat=async(owner,message,participants)=>{
 	}
 }
 
+//get axios request not allowing me to pass in array values which is why this is here
+
+export const getSymposiumsExplore=async(id,symposiums)=>{
+	try{
+		debugger;
+		const symposiumResponse=await axios.post(`${CreateUrl}/getSymposiumsExplore`,{
+				_id:id,
+				symposiums:symposiums
+		});
+
+		const {data}=symposiumResponse;
+		const symposiumData=data.data;
+		return symposiumData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+export const getSymposiumsFollowed=async(id,symposiumsMap)=>{
+	try{
+		const symposiumResponse=await axios.get(`${CreateUrl}/getSymposiumsFollowed`,{
+				_id:id,
+				symposiumsMap:symposiumsMap
+		});
+
+		const {data}=symposiumResponse;
+		const symposiumData=data.data;
+		return symposiumData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+
 
 
 

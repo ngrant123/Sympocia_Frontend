@@ -1,5 +1,6 @@
 import React,{ useState,useEffect } from "react";
 import styled from "styled-components";
+import StampIcon from "../../../../../designs/img/StampIcon.png";
 
 
 const PopularVideosContainer=styled.div`
@@ -16,13 +17,36 @@ const CommunityContainerCSS={
 }
 const PopularVideos=styled.div`
 	position:relative;
-	width:60px;
-	height:70%;
+	width:130px;
+	height:40%;
 	background-color:red;
 	top:10px;
 	border-radius:5px;
 	overflow:hidden;
 `;
+
+const CommunityContainer=styled.div`
+	position:relative;
+	width:450px;
+	height:50%;
+	paddding-left:5px;
+	transition: transform 300ms ease-in-out;
+	box-shadow: 10px 20px 20px  #BDBDBD;
+	border-radius:5px;
+	overflow-y:auto;
+`;
+
+const FollowCSSButton={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec"
+}
 
 
 const ExplorePageCommunities=(props)=>{
@@ -37,35 +61,50 @@ const ExplorePageCommunities=(props)=>{
 	//TEST
 	const [indicator,changeIndicator]=useState(false);
 	useEffect(()=>{
-		changePopularVideosData(props.communityData.popularVideos);
-	},[])
+		changePopularVideosData([{},{},{}]);
+	},[]);
 
 
 	return(
-		<React.Fragment>
-					<ul>
-									<li style={CommunityContainerCSS}><b><p style={{fontSize:"50px",color:"white",marginBottom:"50px"}}>{props.communityData.communityName}</p></b></li>
-									<li style={CommunityContainerCSS}>
-										<p style={{marginBottom:"10px",color:"white"}}>Popular videos</p>
+		<CommunityContainer>
+			{popularVideos==null?null:
+					<ul style={{padding:"0px"}}>
+						<li style={{position:"relative",listStyle:"none",background:props.communityData.backgroundColor}}>
+							<ul style={{padding:"20px"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
+									<p style={{color:"white",fontSize:"30px"}}><b>{props.communityData.industry}</b></p>
+									<p style={{color:"white"}}>Popular Videos</p>
+								</li>
+								<li style={FollowCSSButton}>
+									Follow +
+								</li>
+							</ul>
+						</li>
+						<li style={{listStyle:"none"}}>
+							{props.communityData.popularPosts.length==0?
+								<ul>
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<img src={StampIcon} style={{position:"relative",width:"40%",height:"50%"}}/>
 									</li>
-									<li style={{listStyle:"none"}}>
-										<PopularVideosContainer onClick={()=>changeIndicator(true)}>
-											<ul>
-												{popularVideos.map(data=>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-														<PopularVideos>
+									<li style={{listStyle:"none",display:"inline-block"}}>
 
-														</PopularVideos>
-												    </li>
-												)}
-											</ul>
-
-										</PopularVideosContainer>
 									</li>
 
+								</ul>:
+								<ul>
+									{popularVideos.map(data=>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"10px",marginBottom:"3%"}}>
+											<PopularVideos>
 
+											</PopularVideos>
+										 </li>
+									)}
+								</ul>
+							}
+						</li>
 					</ul>
-		</React.Fragment>
+				}		
+		</CommunityContainer>
 	)
 }
 

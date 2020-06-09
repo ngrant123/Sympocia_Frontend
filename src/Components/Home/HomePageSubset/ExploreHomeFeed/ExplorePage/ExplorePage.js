@@ -9,6 +9,9 @@ import {
 		} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 import CreatePostComponent  from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js"; 
 import Checkbox from '@material-ui/core/Checkbox';
+import {getSymposiumsExplore} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
+import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 
  const keyFrameExampleTwo= keyframes`
   0% {
@@ -135,54 +138,7 @@ class ExplorePage extends Component{
 		super(props);
 
 		this.state={
-			communities:[{
-				communityName:"Acting",
-				backgroundColor:"linear-gradient(to right, #c6ffdf, #c9facc, #d0f4b9, #dbeda7, #e8e496, #f0d989, #f8cd7f, #ffc079, #ffae75, #ff9c74, #fd8a77, #f7797d)",
-				popularVideos:[
-					{
-						videoUrl:""
-					},
-					{
-						videoUrl:""
-					}
-				],
-				key:1
-			},{
-				communityName:"Sports",
-				backgroundColor:"linear-gradient(to right, #ff9933 0%, #ffff00 100%)",
-				popularVideos:[
-					{
-						videoUrl:""
-					}
-				],
-				key:2
-			},{
-				communityName:"Walking",
-				backgroundColor:"linear-gradient(to right, #00ccff 0%, #00ffff 100%)",
-				popularVideos:[
-					{
-						videoUrl:""
-					},
-					{
-						videoUrl:""
-					}
-				],
-				key:3
-
-			},{
-				communityName:"Diving",
-				backgroundColor:"linear-gradient(to right, #ffff66 0%, #ffffcc 100%)",
-				popularVideos:[
-					{
-						videoUrl:""
-					},
-					{
-						videoUrl:""
-					}
-				],
-				key:4
-			}],
-			tempcommunities:[{}],
+			symposiums:[],
 			temp2communities:[{}],
 			triggerAnimation:false,
 			displayPersonalPage:false,
@@ -197,39 +153,42 @@ class ExplorePage extends Component{
 		}
 	}
 
-	componentDidMount(){
-
+	async componentDidMount(){
 		/*
 			Make api call
 			const communities=getCommunitiesNotFollowed(this.props.id);
 
 			this.setState(prevState=>({
 				...prevState,
-				tempcommunities:communities
+				symposiums:communities
 			}))
 		*/
+		debugger;
+		const{userInformation}=this.props;
+		const {id,isPersonalPage}=userInformation;
+		var symposiums;
+		if(isPersonalPage==true){
+			symposiums=await getSymposiumsExplore(id,PERSONAL_INDUSTRIES.INDUSTRIES);
+		}else{
 
+		}
+
+		debugger;
 		this.setState(prevState=>({
 			...prevState,
-			tempcommunities:this.state.communities,
+			symposiums:symposiums,
 			popularOrNewCommunites:this.state.popularCommunities
 		}))
 	}
 
 
 	handleDisplayPersonalizedPage=(props)=>{
-		
-
-		const propObject={
-			communites:this.state.communities,
-			targetedCommunity:props
-		}
 
 		this.setState(prevState=>({
 			...prevState,
 			triggerAnimation:true,
 			triggerModalProps:props,
-			tempcommunities:this.state.temp2communities
+			symposiums:this.state.symposiums
 
 		}),function(){
 				this.triggerTimer();
@@ -309,8 +268,7 @@ class ExplorePage extends Component{
 	}
 
 	displayCommunityList=()=>{
-
-		console.log(this.state.tempcommunities);
+		console.log(this.state.symposiums);
 		return this.state.displayInitialPage==true?
 				<Container>
 					<ul style={{listStyle:"none"}}>	
@@ -373,7 +331,7 @@ class ExplorePage extends Component{
 							)}
 						</ul>
 						<ul>
-						{this.state.tempcommunities.map(data=>
+						{this.state.symposiums.map(data=>
 							<li style={CommunitiesListCSS} key={data.key}> 
 								{this.displayCommunityAnimation(data)}
 							 </li>
@@ -389,7 +347,7 @@ class ExplorePage extends Component{
 		return this.state.displayPersonalPage==true ? 
 			<PersonalHomeFeed
 				selectedCommunity={this.state.triggerModalProps}
-				communities={this.state.communities}
+				communities={this.state.symposiums}
 			/>
 		:<React.Fragment></React.Fragment>;
 	}
@@ -402,11 +360,12 @@ class ExplorePage extends Component{
 			return <CommunityContainerAnimation style={{background:this.state.backgroundColor}}><p> </p></CommunityContainerAnimation>;
 		}
 		else{
-			return <CommunityContainer id={data.key} style={{background:data.backgroundColor}} onClick={()=>this.handleDisplayPersonalizedPage(data)}>
-						<ExplorePageCommunities
+			return <ExplorePageCommunities
 							communityData={data}
-						/>
-					</CommunityContainer>;
+							id={data.key}
+							backgroundColor={data.backgroundColor}
+							onClick={()=>this.handleDisplayPersonalizedPage(data)}
+						/>;
 			}
 		}
 

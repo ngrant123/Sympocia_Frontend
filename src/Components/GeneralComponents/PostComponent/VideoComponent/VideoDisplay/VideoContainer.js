@@ -26,7 +26,7 @@ const VideoContainer=(data)=>{
 					<Video
 						video={data.videoData}
 						profileType={data.profileType}
-					/> 
+					/>  
 				</li>
 				<li style={{listStyle:"none",display:"inline-block"}}>
 					<RecommendedVideos

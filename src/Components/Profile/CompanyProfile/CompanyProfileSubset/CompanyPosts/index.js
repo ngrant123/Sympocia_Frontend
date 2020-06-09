@@ -431,7 +431,7 @@ const PersonalPostsIndex=(props)=>{
 											displayImages==true?
 											<ImagePosts
 												personalInformation={personalInformation.state}
-												profile="Personal"
+												profile="Company"
 											/>:<React.Fragment></React.Fragment>
 										}
 
@@ -449,15 +449,15 @@ const PersonalPostsIndex=(props)=>{
 											displayBlogs==true?
 											<BlogsPosts
 												id={personalInformation.state.userProfile._id}
-												profile="Personal"
+												profile="Company"
 											/>:<React.Fragment></React.Fragment>
 										}
-
+										
 										{
 											displayRegularPosts==true?
 											<RegularPost
 												id={personalInformation.state.userProfile._id}
-												profile="Personal"
+												profile="Company"
 											/>:<React.Fragment></React.Fragment>
 										}
 								</ul>

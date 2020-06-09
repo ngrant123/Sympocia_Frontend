@@ -80,7 +80,7 @@ const ProfileChatInformation=styled.div`
 `;
 
 const BackButtonCSS={
-	listStyle:"none",
+listStyle:"none",
   display:"inline-block",
   backgroundColor:"white",
   borderRadius:"5px",
@@ -109,30 +109,72 @@ class SecondPageContainer extends Component{
 			people:[],
 			isPersonalPage:false,
 			createNewMessage:false,
-			chat:[]
+			chat:[],
+			firstTimeEnteringChat:true,
+			roomId:null
 		}
 
 		if(this.props.selectedConversation!=null){
-			connectToRoom(socket,this.props.selectedConversation._id);
+			connectToRoom(socket,this.props.selectedConversation.chatId);
 		}
 	}
 
- componentDidMount(){
+ async componentDidMount(){
 		
-
-		this.setState({
+		var profiles;
+		if(this.props.selectedConversation==null){
+			if(this.props.profileType==true){
+				profiles=await getProfiles();
+				console.log(profiles);
+			}else{
+				profiles=await getCompanies();
+			}
+			const chatIndicator=this.props.selectedConversation==null?[]:this.props.selectedConversation.chat;
+			this.setState({
+				people:profiles,
+				selectedConversation:this.props.selectedConversation,
+				chat:chatIndicator
+			})
+		}else{
+			this.setState({
 				selectedConversation:this.props.selectedConversation,
 				chat:this.props.selectedConversation.chat
 			})
+		}
 
-		socket.on("roomMessage",(message)=>{
+		
+
+		socket.on('message',this.handleChatData);
+	}
+
+	handleChatData=(chat)=>{
+		debugger;
+		console.log("Socket response");
+			console.log(chat);
 			console.log("Socket response");
-			console.log(message);
-		})
+			const messageObject={
+				room:chat.room,
+				chatMessage:chat.chatMessage,
+				timeStamp:chat.timeStamp,
+				senderId:chat.senderId
+			}
+
+			var newChat;
+			if(this.state.chat.length>0){
+				var chat=this.state.chat;
+				chat.splice(0, 0, messageObject);
+				newChat=chat;
+			}else{
+				var newChat=[];
+				newChat.push(messageObject);
+			}
+			this.setState({
+				chat:newChat,
+				firstTimeEnteringChat:false
+			})
 	}
 
 	handleDisplayMoreInformation=()=>{
-
 		return this.state.displayAdditionalInformation==true?
 			<AdditionalInformation
 				hideDisplayPage={()=>this.setState(prevState=>({
@@ -149,40 +191,59 @@ class SecondPageContainer extends Component{
 		})
 	}
 
-	sendMessageHandler=(data)=>{
+	sendMessageHandler=async(data)=>{
 		console.log(data);
 		debugger;
 		var currentTimeStamp=new Date();
 		currentTimeStamp=currentTimeStamp.getTime();
-
-		const messageObject={
-			room:this.props.selectedConversation._id,
+		var roomId=this.props.selectedConversation==null?null:this.props.selectedConversation.chatId;
+		if(roomId==null){
+			roomId=this.state.roomId==null?null:this.state.roomId;
+		}
+		var messageObject={
+			room:roomId,
 			chatMessage:data,
 			timeStamp:currentTimeStamp,
 			senderId:this.props.id
 		}
 
+		sendMessage(socket,messageObject);
+
+		debugger;
 		//Reason behind this is that later down the wrong it would make have multiple people in conversation easier
-
 		var participantsArray=[];
-		participantsArray.push(this.state.selectedConversation._id);
+		console.log(this.state);
+		var roomId=null;
 
-		/*
+		if(this.state.selectedConversation.participants==null){
+			var participantId=this.state.selectedConversation._id;
+			participantsArray.push(participantId);
+		}else{
+			participantsArray.push(this.state.selectedConversation.participants[0]._id);
+			participantsArray.push(this.props.id);
+		}
 
 			if(this.props.profileType==true){
 				if(this.state.createNewMessage==true){
-					var chatResponse=createChat(this.props.id,messageObject,participantsArray);
-					//Create socket connection 
-					const {_id}=chatResponse;
-					connectToRoom(_id);
-					receieveMessage();
+					var chatResponse=await createChat(this.props.id,messageObject,participantsArray);
+					//Create socket connection  
+					const _id=chatResponse;
+					connectToRoom(_id._id);
+					roomId=_id._id;
+					this.props.displayOriginalScreen()
 				}else{
-					sendMessagePersonal(this.props.id,messageObject,participantsArray);
+					await sendMessagePersonal(this.props.id,messageObject,participantsArray);
 				}
 			}else{
 
 			}
-		*/
+
+		messageObject={
+			...messageObject,
+			firstName:this.props.ownerInfo.firstName,
+			profilePicture:this.props.ownerInfo.profilePicture
+		}
+
 
 		var newChat;
 		if(this.state.chat.length>0){
@@ -193,9 +254,11 @@ class SecondPageContainer extends Component{
 			var newChat=[];
 			newChat.push(messageObject);
 		}
-		sendMessage(socket,messageObject);
 		this.setState({
-			chat:newChat
+			chat:newChat,
+			createNewMessage:false,
+			firstTimeEnteringChat:false,
+			roomId:roomId
 		})
 	}
 
@@ -287,13 +350,15 @@ class SecondPageContainer extends Component{
 											<Chat
 												chat={this.state.chat}
 												owner={this.props.id}
+												ownerShortInfo={this.props.ownerInfo}
+												participantInformation={(this.props.selectedConversation==null)?null:this.props.selectedConversation.participants[0]}
+												firstTimeEnteringChat={this.state.firstTimeEnteringChat}
 											/>
 										</li>
 									</ul>
 								</li>
 								<ChatCreationArea
 									sendMessage={this.sendMessageHandler}
-
 								/>
 
 

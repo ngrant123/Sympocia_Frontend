@@ -23,6 +23,8 @@ import Symposium from "../HomePageSubset/PersonalHomeFeed/PersonalizedPage/Perso
 import {getProfileForHomePage} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getCompanyProfileForHomePage} from "../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import NoProfileIcon from "../../../designs/img/NoProfilePicture.png";
+import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
+import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -193,22 +195,47 @@ class HomePageContainer extends Component{
 		*/
 		var profile;
 		debugger;
+		
+		
+
 		if(this.props.personalInformation.loggedIn==true){
+			var symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
 			profile=await getProfileForHomePage(this.props.personalInformation.id)
+
 			this.setState({
 				recruitsPost:profile.recruits,
 				isPersonalProfile:true,
-				profileId:profile._id
+				profileId:profile._id,
+				symposiumsMap:symposiumsMap
 			})
 		}else{
+			var symposiumsMap=this.constructSymposiumsMap(COMPANY_INDUSTRIES.INDUSTRIES);
 			profile=await getCompanyProfileForHomePage(this.props.companyInformation.id);
+
 			this.setState({
 				recruitsPost:profile.recruits,
 				isPersonalProfile:false,
-				profileId:profile._id
+				profileId:profile._id,
+				symposiumsMap:symposiumsMap
 			})
 		}
+
 		debugger;
+	}
+
+	constructSymposiumsMap=(symposiums)=>{
+		debugger;
+		var symposiumsHashMap=new Map();
+		for(var i=0;i<symposiums.length;i++){
+			const {industry,backgroundColor,subCommunity}=symposiums[i];
+			if(!symposiumsHashMap.has(industry)){
+				const symposiumInformation={
+					backgroundColor:backgroundColor,
+					subCommunity:subCommunity
+				}
+				symposiumsHashMap.set(industry,symposiumInformation);
+			}
+		}
 	}
 
 
@@ -298,8 +325,14 @@ class HomePageContainer extends Component{
 		if(this.state.displayPersonalFeed==true){
 			return <PersonalFeed/>
 		}else if(this.state.displayExplorerFeed==true){
+			const userObject={
+				id:this.state.profileId,
+				isPersonalPage:this.state.isPersonalProfile
+			}
 			return <ExplorePage
 						displayGrids={this.handleDisplayGridLayout}
+						userInformation={userObject}
+						symposiumMap={this.state.symposiumsMap}
 					/>;
 		}else if(this.state.displaySearchExplorePage==true){
 				return <SearchExploreScreen
@@ -401,16 +434,21 @@ class HomePageContainer extends Component{
 										</li>
 										<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
 											<ul style={{padding:"0px"}}>
-												{this.state.recruitsPost.map(data=>
-													<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
-														<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																{data.profilePicture==null||data.profilePicture==""?
-																	<img src={NoProfileIcon} style={RecruitImageCSS}/>:
-																	<img src={data.profilePicture} style={RecruitImageCSS}/>
-																}
-														</a>
-													</li>
-												)}
+												{this.state.recruitsPost!=null?
+													<React.Fragment>
+														{this.state.recruitsPost.map(data=>
+															<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
+																<a style={{textDecoration:"none"}} href="javascript:void(0);">
+																		{data.profilePicture==null||data.profilePicture==""?
+																			<img src={NoProfileIcon} style={RecruitImageCSS}/>:
+																			<img src={data.profilePicture} style={RecruitImageCSS}/>
+																		}
+																</a>
+															</li>
+														)}
+													</React.Fragment>:null
+												}
+												
 											</ul>
 										</li>
 									</ul>

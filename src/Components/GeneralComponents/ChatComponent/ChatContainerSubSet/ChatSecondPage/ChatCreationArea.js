@@ -111,6 +111,9 @@ class ChatCreationArea extends Component{
 	bubbleUpMessage=()=>{
 		if(this.state.initialTextCleared!=false){
 			this.props.sendMessage(document.getElementById("TextArea").value);
+			this.setState({
+				initialTextCleared:false
+			})
 		}
 	}
  

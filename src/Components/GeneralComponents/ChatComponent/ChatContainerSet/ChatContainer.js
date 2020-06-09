@@ -128,23 +128,31 @@ const ChatContainer=(props)=>{
 	const [selectedRecruit,changeSelectedRecruit]=useState();
 	const [displaySecondPage,changeSecondPage]=useState(false);
 	const [personalProfileIndicator,changePersonalProfileIndicator]=useState(false);
+	const [ownerProfileInfo,changeOwnerProfileInformation]=useState();
 
 	const [ownerId,changeOwnerId]=useState("");
-
-
 	useEffect(()=>{
 		const getData=async()=>{
 			var isPersonalProfile=state.personalInformation.loggedIn;
 			if(isPersonalProfile==true){
+				debugger;
 				const chats=await getPersonalProfileGeneralMessages(state.personalInformation.id);
-				console.log(chats);
+				const {chatMessage}=chats;
 				changePersonalProfileIndicator(true);
 				changeOwnerId(state.personalInformation.id);
+
+				const ownerName=chats.firstName;
+				const ownerProfilePicture=chats.profilePicture;
 				console.log(chats);
-				debugger;
-				changeRecruits(chats);
+				const ownerObject={
+					firstName:ownerName,
+					profilePicture:ownerProfilePicture
+				}
+				console.log(chatMessage);
+				changeOwnerProfileInformation(ownerObject);
+				changeRecruits(chatMessage);
 			}else{
-				const chats=await getCompanyProfileGeneralMessages(state.companyInformation.id);
+				const {chatMessage}=await getCompanyProfileGeneralMessages(state.companyInformation.id);
 				changePersonalProfileIndicator(false);
 				changeOwnerId(state.companyInformation.id);
 			}
@@ -159,6 +167,15 @@ const ChatContainer=(props)=>{
 
 	const displayOriginalScreen=()=>{
 		changeSecondPage(false);
+	}
+
+	const test=(data)=>{
+		debugger;
+		console.log(data);
+		return <ProfileChatInformation>
+														<p style={{fontSize:"20px"}}><b>{data.participants[0].firstName}</b></p>
+														<p style={{color:"#b9b9b9"}}>{data.chat[data.chat.length-1].message}</p>
+													</ProfileChatInformation>;
 	}
 
 	return(
@@ -202,17 +219,13 @@ const ChatContainer=(props)=>{
 													}
 												</li>
 												<li style={{listStyle:"none",display:"inline-block",padding:"0px"}}>
-													<ProfileChatInformation>
-														<p style={{fontSize:"20px"}}><b>{data.participants[0].firstName}</b></p>
-														<p style={{color:"#b9b9b9"}}>{data.chat[(data.chat.length)-1].message}</p>
-													</ProfileChatInformation>
+													{test(data)}
 												</li>
 											</ul>
 										</li>
 									</a>:null
 								}
 							</React.Fragment>
-							
 						)}
 					</ul>
 			</Container>:
@@ -222,6 +235,7 @@ const ChatContainer=(props)=>{
 				profileType={personalProfileIndicator}
 				displayOriginalScreen={displayOriginalScreen}
 				id={ownerId}
+				ownerInfo={ownerProfileInfo}
 			/>
 		}
 		</React.Fragment>

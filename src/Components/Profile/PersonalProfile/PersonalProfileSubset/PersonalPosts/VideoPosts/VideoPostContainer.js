@@ -58,7 +58,7 @@ const SmallVideo=styled.div`
 
 
 class VideoPostsContainer extends Component{
-
+ 
 
 	constructor(props){
 		super(props);
@@ -134,7 +134,6 @@ class VideoPostsContainer extends Component{
 																							<Description>
 																								{this.state.headerVideo.description}
 																							</Description>
-							
 																						</li>
 																					</ul>
 																				</li>
