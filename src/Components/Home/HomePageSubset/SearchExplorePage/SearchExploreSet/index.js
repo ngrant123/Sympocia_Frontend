@@ -114,20 +114,50 @@ class SearchExploreContainer extends Component{
 				searchCriteriaIndustryArray.push(searchObject);
 		}
 		debugger;
+		var homePagePosts;
 		if(this.props.personalInformation.loggedIn==true){
-				const homePagePosts=await getPostsForHomePage(this.props.personalInformation.id,searchCriteriaIndustryArray,postOption);
-				console.log(homePagePosts);
-				this.setState({
-					postsInformation:homePagePosts
-				})
+				homePagePosts=await getPostsForHomePage(this.props.personalInformation.id,searchCriteriaIndustryArray,postOption);
+				
 			}else{
 
-				const homePagePosts=await getPostsForHomePage(this.props.companyInformation.id,searchCriteriaIndustryArray,postOption);
-				this.setState({
-					postsInformation:homePagePosts
-				})
+				homePagePosts=await getPostsForHomePage(this.props.companyInformation.id,searchCriteriaIndustryArray,postOption);
+				
 			}
+
+			var newHomePagePosts=this.addSuggestedSymposiums(homePagePosts);
+
+			this.setState({
+					postsInformation:newHomePagePosts
+				})
 		}
+	addSuggestedSymposiums=(posts)=>{
+		return this.suggestedSymposiumsRecursive(posts);
+	}
+
+	suggestedSymposiumsRecursive=(posts)=>{
+		debugger;
+		if(posts==null||posts.length==0){
+			return posts;
+		}else if(posts.length==1){
+			posts.splice(1,0,"suggestedSymposium");
+			return posts;
+		}else{
+			var randomNumber;
+			if(posts.length<5){
+				randomNumber=Math.floor(Math.random() * ((posts.length-1) - 1 + 1)) + 1;
+			}else{
+				randomNumber=Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+			}
+			posts.splice(randomNumber,0,"suggestedSymposium");
+			const currentPosts=posts.slice(0,6);
+			const newPost=posts.slice(6,posts.length);
+			const returnArray=this.suggestedSymposiumsRecursive(newPost);
+			for(var i=0;i<returnArray.length;i++){
+				currentPosts.push(returnArray[i]);
+			}
+			return currentPosts;
+		}
+	}
 
 	handleChangePostOption=(props)=>{
 		debugger;

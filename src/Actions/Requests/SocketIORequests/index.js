@@ -19,3 +19,14 @@ export const sendMessage=(socket,data)=>{
 		return err;
 	}
 }
+
+export const sendChatRoomMessage=(socket,data)=>{
+	try{
+		debugger;
+		socket.emit('chatRoomMessage',data);
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}

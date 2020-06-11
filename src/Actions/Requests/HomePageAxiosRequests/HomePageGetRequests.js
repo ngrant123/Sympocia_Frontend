@@ -143,6 +143,24 @@ export async function getPostsForHomePage(userId,industrySelected,postTypes){
 	}
 }
 
+export const getSymposiumId=async(name)=>{
+	try{
+		const symposiumResponse=await axios.get(`${GetUrl}/getSymposiumId`,{
+			params:{
+				industryName:name
+			}
+		});
+		const {data}=symposiumResponse;
+		const symposiumIdData=data.data;
+		return data;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+
+}
+
 
 
 

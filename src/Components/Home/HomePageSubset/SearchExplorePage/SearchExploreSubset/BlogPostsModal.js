@@ -2,7 +2,11 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import BlogHomeDisplayPortal from "../../../HomePageSet/BlogHomeDisplayPortal.js";
-import {displayPersonalIndustryFeed} from "./ImagePostsModal.js";
+import {
+	displayPersonalIndustryFeed,
+	displayPersonalIndustryFeedSuggested,
+	constructSuggestedSymposium
+} from "./ImagePostsModal.js";
 import {useSelector} from "react-redux";
 import {HomeConsumer} from "../../../HomeContext.js";
 
@@ -113,7 +117,11 @@ const BlogPostModal=(props)=>{
 		console.log("Testing");
 	}
 
-//displayPersonalIndustryFeed(personalInformationRedux,images,homePageInformation,headerImage)}
+	const handleDisplayToExtendedSymposium=(homePageInformation,selectedSymposium,symposiums)=>{
+		//personalInformationRedux
+		displayPersonalIndustryFeedSuggested(personalInformationRedux,homePageInformation,selectedSymposium,symposiums);
+	}
+
 	return(
 		<HomeConsumer>
 				{homePageInformation=>{
@@ -140,7 +148,7 @@ const BlogPostModal=(props)=>{
 																<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
 																	{headerBlog.firstName}
 																</li>
-																<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,blogs,homePageInformation,headerBlog)} style={ImageLabelCSS}>
+																<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,headerBlog.industriesUploaded)} style={ImageLabelCSS}>
 																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																		{headerBlog.industriesUploaded[0].industry}
 																	</a>
@@ -160,47 +168,54 @@ const BlogPostModal=(props)=>{
 										<li style={{width:"60%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",height:"80%",overflowY:"auto",marginBottom:"20%"}}>
 											<ul style={{padding:"0px"}}>
 												{blogs.map(data=>
-													<li style={{list0Style:"none",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
-														<ul style={{padding:"0px"}}>
-															<li onClick={()=>displayBlogModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",marginRight:"2%"}}>
-																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																	<ShadowContainer/>
-																	<img src={data.blogImageUrl} style={VideoContainerCSS}/>
-																</a>
-															</li>
-															<li style={{position:"relative",top:"0%",listStyle:"none",display:"inline-block"}}>
-																	<ul style={{padding:"0px",position:"absolute",top:"-100px"}}>
-																			<li style={{listStyle:"none",height:"170px",width:"280px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
-																				<b>
-																					{data.description}
-																				</b>
+													<React.Fragment>
+															{data=="suggestedSymposium"?
+																<li style={{backgroundColor:"red",listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
+																	{constructSuggestedSymposium(personalInformationRedux,homePageInformation)}
+																</li>
+															:<li style={{list0Style:"none",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
+																<ul style={{padding:"0px"}}>
+																	<li onClick={()=>displayBlogModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",marginRight:"2%"}}>
+																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																			<ShadowContainer/>
+																			<img src={data.blogImageUrl} style={VideoContainerCSS}/>
+																		</a>
+																	</li>
+																	<li style={{position:"relative",top:"0%",listStyle:"none",display:"inline-block"}}>
+																			<ul style={{padding:"0px",position:"absolute",top:"-100px"}}>
+																					<li style={{listStyle:"none",height:"170px",width:"280px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
+																						<b>
+																							{data.description}
+																						</b>
 
-																			</li>
-																			<li style={{listStyle:"none"}}>
-																				<ul style={{padding:"0px"}}>
-																					<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
-																						{data.ownerImgUrl==null?
-																							<img id="profilePicture" src={NoProfilePicture} style={ProfileImageCSS}/>:
-																							<img id="profilePicture" src={data.ownerImgUrl} style={ProfileImageCSS}/>
-																						}
 																					</li>
-																					<li style={{listStyle:"none",display:"inline-block"}}>
+																					<li style={{listStyle:"none"}}>
 																						<ul style={{padding:"0px"}}>
-																							<li style={{listStyle:"none"}}>
-																								{data.firstName}
+																							<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
+																								{data.ownerImgUrl==null?
+																									<img id="profilePicture" src={NoProfilePicture} style={ProfileImageCSS}/>:
+																									<img id="profilePicture" src={data.ownerImgUrl} style={ProfileImageCSS}/>
+																								}
 																							</li>
+																							<li style={{listStyle:"none",display:"inline-block"}}>
+																								<ul style={{padding:"0px"}}>
+																									<li style={{listStyle:"none"}}>
+																										{data.firstName}
+																									</li>
 
-																							<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,blogs,homePageInformation,headerBlog)} style={ImageLabelCSS}>
-																								{data.industriesUploaded[0].industry}
+																									<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,headerBlog.industriesUploaded)} style={ImageLabelCSS}>
+																										{data.industriesUploaded[0].industry}
+																									</li>
+																								</ul>
 																							</li>
 																						</ul>
 																					</li>
 																				</ul>
-																			</li>
-																		</ul>
+																		</li>
+																	</ul>
 																</li>
-															</ul>
-														</li>
+														}	
+														</React.Fragment>
 													)}
 											</ul>
 										</li>

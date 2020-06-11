@@ -132,6 +132,13 @@ const CommentTextArea=styled.textarea`
 `;
 
 
+/*
+	The main point of the trigger animation method etc was because there was supposed to be an animation
+	that happened when you clicked on a symposium but it all depending on view size and its just another 
+	hassle that i dont want to deal with when creating the mvp so i'll just implement it later
+*/
+
+
 class ExplorePage extends Component{
 
 	constructor(props){
@@ -164,6 +171,7 @@ class ExplorePage extends Component{
 			}))
 		*/
 		debugger;
+		console.log(this.props);
 		const{userInformation}=this.props;
 		const {id,isPersonalPage}=userInformation;
 		var symposiums;
@@ -195,7 +203,7 @@ class ExplorePage extends Component{
 			}
 		);
 
-	   this.displayAnimation(props);
+	   //this.displayAnimation(props);
 	}
 
 	displayAnimation=(props)=>{
@@ -220,9 +228,7 @@ class ExplorePage extends Component{
 				displayPersonalPage:true
 
 			})
-		 }
-			 .bind(this), 
-			 2000);
+		 }.bind(this));
 	}
 
 	changeColorForPopularButton=()=>{
@@ -272,27 +278,6 @@ class ExplorePage extends Component{
 		return this.state.displayInitialPage==true?
 				<Container>
 					<ul style={{listStyle:"none"}}>	
-						<li style={{listStyle:"none"}}>
- 							<ul onClick={()=>this.setState({displayCreatePostComponent:!this.state.displayCreatePostComponent})}style={{padding:"0px",marginLeft:"30%"}}>
- 								<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%",color:"#C8B0F4"}}>
-													<b>Create a post</b>
-												</li>
-
-												<li style={{listStyle:"none",display:"inline-block",width:"45%",boxShadow:"1px 1px 5px #848484",borderRadius:"5px"}}>
-													<ul style={{padding:"10px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-															<ProfilePicture>
-															</ProfilePicture>
-														</li>
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<CommentTextArea placeholder="Start typing here to create a post"/>
-														</li>
-
-
-													</ul>
-								</li>
- 							</ul>
-						</li>
 						{this.state.displayCreatePostComponent==true?
 							<li style={{listStyle:"none",width:"70%",marginLeft:"20%",marginTop:"3%"}}>
 								<CreatePostComponent/>
@@ -346,27 +331,20 @@ class ExplorePage extends Component{
 
 		return this.state.displayPersonalPage==true ? 
 			<PersonalHomeFeed
-				selectedCommunity={this.state.triggerModalProps}
-				communities={this.state.symposiums}
+				selectedSymposium={this.state.triggerModalProps}
+				symposiums={this.state.symposiums}
 			/>
 		:<React.Fragment></React.Fragment>;
 	}
 
 	displayCommunityAnimation=(data)=>{
 		console.log(data);
-
-		if(this.state.triggerAnimation==true){
-			const backgroundColor=this.state.backgroundColor;
-			return <CommunityContainerAnimation style={{background:this.state.backgroundColor}}><p> </p></CommunityContainerAnimation>;
-		}
-		else{
 			return <ExplorePageCommunities
 							communityData={data}
 							id={data.key}
 							backgroundColor={data.backgroundColor}
-							onClick={()=>this.handleDisplayPersonalizedPage(data)}
+							displayPersonalizedPage={this.handleDisplayPersonalizedPage}
 						/>;
-			}
 		}
 
 	render(){

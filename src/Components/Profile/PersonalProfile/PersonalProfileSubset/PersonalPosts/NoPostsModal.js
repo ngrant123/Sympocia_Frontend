@@ -4,6 +4,11 @@ import {PostContext} from "./PostsContext.js";
 import {CompanyPostsContext} from "../../../CompanyProfile/CompanyPostsContext.js";
 import SympociaIcon from "../../../../../designs/img/SympociaIcon.jpg";
 import {useSelector} from "react-redux";
+import {
+		getImagesPosts,
+		getVideosPosts,
+		getBlogPosts
+} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 
 const SympociaStampIconContainer=styled.div`
 	position:relative;
@@ -75,19 +80,43 @@ const IndustryButtonCSS={
 	padding:"5px"
 }
 
+const RecommendedImageCSS={
+	 position:"relative",
+	 width:"150px",
+	 height:"120px",
+	 borderRadius:"5px",
+	 backgroundColor:"red"
+}
+
 
 const NoPostsModal=(props)=>{
-	console.log("No posts modal testing");
+	const [recommendedPosts,changeRecommendedPosts]=useState([]); 
 	var postContext;
 	if(props.profilePageType=="Company"){
 		postContext=useContext(CompanyPostsContext);
 	}else{
 		 postContext=useContext(PostContext);
 	}
-	console.log(postContext);
-	console.log(props);
-	useEffect(()=>{
 
+	useEffect(()=>{
+		const getData=async()=>{
+			if(props.postType=="image"){
+				const imageData=await getImagesPosts("General",1);
+				changeRecommendedPosts(imageData);
+				console.log(imageData);
+			}else if(props.postType=="video"){
+				const videoData=await getVideosPosts("General",1);
+				changeRecommendedPosts(videoData);
+				console.log(videoData);
+			}else if(props.postType=="blog"){
+				const blogData=await getBlogPosts("General",1);
+				changeRecommendedPosts(blogData);
+				console.log(blogData);
+			}else{
+
+			}
+		}
+		getData();
 	},[]);
 
 	const createPostModal=()=>{
@@ -110,15 +139,12 @@ const NoPostsModal=(props)=>{
 								</li>
 								</ul>
 						</CreatePostContainer>
-				</li>
-		}
-	}
+					</li>
+				}
+			}
 	 
 	const postTypeNoModal=()=>{
-		console.log("Testing");
-
 		if(props.postType=="image"&&props.postType!=null){
-			const [recommendedImage,changeRecommendedImages]=useState([{},{},{},{},{}]);
 			return <ul style={{padding:"0px"}}>
 					{createPostModal()}
 
@@ -132,13 +158,11 @@ const NoPostsModal=(props)=>{
 										a list of recommended images that we could find 
 									</p>
 
-									<li style={{listStyle:"none",height:"340px",overflowY:"auto"}}>
+									<li style={{listStyle:"none",height:"270px",overflowY:"auto"}}>
 										<ul style={{padding:"0px"}}>
-											{recommendedImage.map(data=>
+											{recommendedPosts.map(data=>
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",marginBottom:"2%",marginBottom:"10%"}}>
-													<RecommendedImage>
-
-													</RecommendedImage>
+													<img src={data.imgUrl} style={RecommendedImageCSS}/>
 												</li>
 											)}
 										</ul>
@@ -150,7 +174,6 @@ const NoPostsModal=(props)=>{
 				</ul>
 
 			}else if(props.postType=="video"&&props.postType!=null){	
-				const [recommendedVideo,changeRecommendedVideos]=useState([{},{},{}]);
 				return <ul style={{padding:"0px"}}>
 							{createPostModal()}
 
@@ -166,7 +189,7 @@ const NoPostsModal=(props)=>{
 
 											<li style={{listStyle:"none",height:"400px",overflowY:"auto"}}>
 												<ul style={{padding:"0px"}}>
-													{recommendedVideo.map(data=>
+													{recommendedPosts.map(data=>
 														<React.Fragment>
 															<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",marginBottom:"2%"}}>
 																<RecommnededVideo>
@@ -191,7 +214,6 @@ const NoPostsModal=(props)=>{
 						</ul>
 
 			}else if(props.postType=="blog"&&props.postType!=null){
-				const [recommendedBlogs,changeRecommendedBlogs]=useState([{},{},{}]);
 				return <ul style={{padding:"0px"}}>
 							{createPostModal()}
 
@@ -207,7 +229,7 @@ const NoPostsModal=(props)=>{
 
 												<li style={{listStyle:"none"}}>
 													<ul style={{padding:"0px"}}>
-														{recommendedBlogs.map(data=>
+														{recommendedPosts.map(data=>
 															<React.Fragment>
 																<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",marginBottom:"2%"}}>
 																	<RecommnededBlogImage>
@@ -232,7 +254,6 @@ const NoPostsModal=(props)=>{
 						</ul>
 						
 			}else{
-				const [recommendedRegularPosts,changeRecommendedRegularPosts]=useState([{},{},{}]);
 				return <ul style={{padding:"0px"}}>
 
 							<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
@@ -247,7 +268,7 @@ const NoPostsModal=(props)=>{
 
 											<li style={{listStyle:"none"}}>
 												<ul style={{padding:"0px"}}>
-													{recommendedRegularPosts.map(data=>
+													{recommendedPosts.map(data=>
 														<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",marginBottom:"2%"}}>
 															<ul style={{padding:"0px"}}>
 																<li style={{listStyle:"none",display:"inline-block"}}>

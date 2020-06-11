@@ -710,7 +710,7 @@ class LProfile extends Component{
 				if(id==this.props.companyPersonalId){
 
 					const profile=await getCompanyInformation(this.props.companyPersonalId);
-					var containsChampion=profile.championData!=""?true:false;
+					var containsChampion=profile.championData.name!=""?true:false;
 					debugger;
 					this.setState({
 						isLoading:false,
@@ -724,7 +724,7 @@ class LProfile extends Component{
 				}
 				else{
 					const profile=await getCompanyInformation(id);
-					var containsChampion=profile.championData!=""?true:false;
+					var containsChampion=profile.championData.name!=""?true:false;
 
 					debugger;
 					this.setState(prevState=>({

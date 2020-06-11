@@ -201,10 +201,11 @@ class HomePageContainer extends Component{
 		if(this.props.personalInformation.loggedIn==true){
 			var symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
 			profile=await getProfileForHomePage(this.props.personalInformation.id)
-
+			console.log(profile);
 			this.setState({
 				recruitsPost:profile.recruits,
 				isPersonalProfile:true,
+				profile:profile,
 				profileId:profile._id,
 				symposiumsMap:symposiumsMap
 			})
@@ -215,6 +216,7 @@ class HomePageContainer extends Component{
 			this.setState({
 				recruitsPost:profile.recruits,
 				isPersonalProfile:false,
+				profile:profile,
 				profileId:profile._id,
 				symposiumsMap:symposiumsMap
 			})
@@ -321,7 +323,6 @@ class HomePageContainer extends Component{
 	}
 
 	displaySelectedScreen=()=>{
-
 		if(this.state.displayPersonalFeed==true){
 			return <PersonalFeed/>
 		}else if(this.state.displayExplorerFeed==true){
@@ -352,6 +353,8 @@ class HomePageContainer extends Component{
 		return(
 			<HomeProvider
 				value={{
+					personalInformationState:this.state.profile,
+					isPersonalProfile:this.state.isPersonalProfile,
 					displaySymposium:(data)=>{
 						this.setState(prevState=>({
 							...prevState,
@@ -454,7 +457,6 @@ class HomePageContainer extends Component{
 									</ul>
 								</ForYouIconContainer>
 							</li>
-
 						</ul>
 					</PageIndicator>
 					{this.displaySelectedScreen()}

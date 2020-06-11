@@ -27,8 +27,8 @@ const PopularVideos=styled.div`
 
 const CommunityContainer=styled.div`
 	position:relative;
-	width:450px;
-	height:50%;
+	width:500px;
+	height:60%;
 	paddding-left:5px;
 	transition: transform 300ms ease-in-out;
 	box-shadow: 10px 20px 20px  #BDBDBD;
@@ -66,9 +66,10 @@ const ExplorePageCommunities=(props)=>{
 
 
 	return(
-		<CommunityContainer>
+		<CommunityContainer onClick={()=>props.displayPersonalizedPage(props.communityData)}>
+			<a style={{textDecoration:"none",color:"none"}}>
 			{popularVideos==null?null:
-					<ul style={{padding:"0px"}}>
+					<ul style={{padding:"0px"}}> 
 						<li style={{position:"relative",listStyle:"none",background:props.communityData.backgroundColor}}>
 							<ul style={{padding:"20px"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
@@ -82,12 +83,13 @@ const ExplorePageCommunities=(props)=>{
 						</li>
 						<li style={{listStyle:"none"}}>
 							{props.communityData.popularPosts.length==0?
-								<ul>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<img src={StampIcon} style={{position:"relative",width:"40%",height:"50%"}}/>
+								<ul style={{padding:"20px"}}>
+									<li style={{position:"relative",top:"-70px",listStyle:"none",display:"inline-block",marginRight:"15%",width:"30%"}}>
+										<img src={StampIcon} style={{borderRadius:"50%",position:"relative",width:"100%",height:"40%"}}/>
 									</li>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-
+									<li style={{listStyle:"none",display:"inline-block",width:"30%"}}>
+										<p style={{fontSize:"20px",color:"black"}}><b>Unfortunately there are no popular posts here></b></p>
+										<p style={{color:"#5298F8"}}> Create your own and be the first one? </p>
 									</li>
 
 								</ul>:
@@ -103,7 +105,8 @@ const ExplorePageCommunities=(props)=>{
 							}
 						</li>
 					</ul>
-				}		
+				}	
+			</a>	
 		</CommunityContainer>
 	)
 }

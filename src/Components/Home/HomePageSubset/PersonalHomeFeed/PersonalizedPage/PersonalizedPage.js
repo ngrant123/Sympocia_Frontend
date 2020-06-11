@@ -15,6 +15,9 @@ import ChevronLeftRoundedIcon from '@material-ui/icons/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded';
 import PostCreation from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 
+import {connectToRoom,sendChatRoomMessage} from "../../../../../Actions/Requests/SocketIORequests";
+import io from 'socket.io-client';
+
  const keyFrameExampleTwo= keyframes`
   0% {
     width:100%;
@@ -206,6 +209,7 @@ const ChatAndIndustryInfoContainer=styled.div`
 	overflow:visible;
 	transition:.8s;
 	z-index:4;
+	background-color:red;
 `;
 
 const SubSymposiumsContainer=styled.div`
@@ -366,31 +370,24 @@ const PostOptions=styled.div`
 
 const ChatContainer=styled.div`
 	position:relative;
-	border-style:solid;
-	border-width:1px;
-	border-color:#5298F8;
-	border-radius:5px;
 	overflow:hidden;
-
 `;
 
 const ChatAndIndustryInformationContainer=styled.div`
-	border-color:#5298F8;
 	border-style:solid;
 	border-width:1px;
 	color:white;
 	background-color:#5298F8;
 	border-radius:5px;
 	padding:5px;
-
 `;
 
 
 const PostContainerTEst=styled.div`
 	z-index:7;
-
-
 `;
+
+const socket = io('http://localhost:4000');
 
  const testdata = {
 
@@ -418,20 +415,20 @@ class PersonalizedPage extends Component{
 			displayPopularVideos:false,
 			displayModalPeopleActive:false,
 			displayModalSubSymposiums:false,
-			displayPostCreation:false
-	}
-}
+			displayPostCreation:false,
+			handleScroll:true,
+			chatRoom:[]
+		}
 
+		connectToRoom(socket,this.props.selectedSymposium._id);
+	}
 	  componentDidMount(){
-	  		
 	  		/*
 				Could be done in a better way
 	  		*/
-
 		  		debugger;
 		  		const postContainerElement=document.getElementById("postChatInformation");
 		  		const headerContentsContainerElement=document.getElementById("headerContents");
-
 				console.log(this.props);
 				/*
 					Make api call here
@@ -446,7 +443,7 @@ class PersonalizedPage extends Component{
 		  		for(var i=0;i<symposiums.length;i++){
 		  			const symposium=symposiums[i];
 
-		  			if(symposium.symposiumName==this.props.selectedSymposium.symposiumName){
+		  			if(symposium.industry==this.props.selectedSymposium.industry){
 		  				symposiumCounter=i;
 		  				break;
 		  			}
@@ -454,29 +451,40 @@ class PersonalizedPage extends Component{
 
 			  	this.setState(prevState=>({
 				  		...prevState,
-				  		selectedSymposiumTitle:this.props.selectedSymposium.symposiumName,
+				  		selectedSymposiumTitle:this.props.selectedSymposium.industry,
 				  		symposiums:this.props.symposiums,
 				  		symposiumCounter:symposiumCounter,
 				  		backgroundColor:this.props.selectedSymposium.backgroundColor
-			  		})
-		  	)
+			  		}));
 
 			  	setTimeout(function(){
 					postContainerElement.style.opacity="1";
 					headerContentsContainerElement.style.opacity="1";
-
 			  	},500);
+
+			 socket.on('symposiumChatMessage',this.handleChatData);
+	  }
+
+	  handleChatData=(data)=>{
+	  		console.log("Socket response");
+	  		console.log(data);
+
+	  		const currentChatRoomState=this.state.chatRoom;
+	  		currentChatRoomState.splice(0,0,data);
+	  		this.setState({
+	  			chatRoom:currentChatRoomState
+	  		})
 	  }
 
 	  handleScroll=()=>{
 
-	  	document.getElementById("postChatInformation").style.overflow="visible";
+	  	if(this.state.handleScroll!=false){
+	  		document.getElementById("postChatInformation").style.overflow="visible";
 	  	document.getElementById("postChatInformation").style.top="0%";
 
 	  	document.getElementById("postsContainer").style.opacity="0";
 	  	if(this.state.headerAnimation==false){
 	  		document.getElementById("chatContainer").style.height="10%";
-
 	  		this.setState(prevState=>({
 	  			...prevState,
 	  			headerAnimation:true
@@ -484,7 +492,8 @@ class PersonalizedPage extends Component{
 	  	  }
 	  	   	setTimeout(function(){
 				document.getElementById("postsContainer").style.opacity="1";
-		  	 },1000);	
+		  	 },1000);
+	  	}
 	  }
 
 
@@ -505,7 +514,7 @@ class PersonalizedPage extends Component{
 	  		*/
 	  		this.setState(prevState=>({
 	  			...prevState,
-	  			selectedSymposiumTitle:newSymposium.symposiumName,
+	  			selectedSymposiumTitle:newSymposium.industry,
 	  			backgroundColor:newSymposium.backgroundColor,
 	  			symposiumCounter:newCounter
 	  		}))
@@ -543,7 +552,6 @@ class PersonalizedPage extends Component{
 
 	  		const newCounter=this.state.symposiumCounter+1;
 	  		const newSymposium=this.state.symposiums[newCounter];
-
 	  		/*
 				make an api call here
 				const newCommunityData=getCommunityData(newCommunity.id);
@@ -551,7 +559,7 @@ class PersonalizedPage extends Component{
 	  		*/
 	  		this.setState(prevState=>({
 	  			...prevState,
-	  			selectedSymposiumTitle:newSymposium.symposiumName,
+	  			selectedSymposiumTitle:newSymposium.industry,
 	  			backgroundColor:newSymposium.backgroundColor,
 	  			symposiumCounter:newCounter
 	  		}))
@@ -565,23 +573,23 @@ class PersonalizedPage extends Component{
 	  		</React.Fragment>:
 	  		<React.Fragment>
 	  		</React.Fragment>
-	  }
+	  } 
 
 	  //Method below is not working completely correct but is doing half it correctly moving on 
 	   replayVideo=(startTime,endTime,key)=>{
-	   		/*
 	   		if(this.state.headerAnimation==false){
 		   		const video=document.getElementById("video"+key);
-		   		video.play();
-		   		video.currentTime=startTime;
-		   		const videoDuration=endTime-startTime;
+		   		if(video!=null){
+		   			video.play();
+			   		video.currentTime=startTime;
+			   		const videoDuration=endTime-startTime;
 
-		   		setTimeout(()=>{
-		   			video.currentTime=startTime;
-		   			this.replayVideo(startTime,endTime,key);
-		   		},videoDuration*1000);
+			   		setTimeout(()=>{
+			   			video.currentTime=startTime;
+			   			this.replayVideo(startTime,endTime,key);
+			   		},videoDuration*1000);
+		   		}
 	   		}
-	   		*/
 	   }
 
 	 timerFunction=(seconds)=>{
@@ -597,8 +605,8 @@ class PersonalizedPage extends Component{
 	  		previousSymposiumTitle="";	
 	  		nextSymposiumTitle="";
 	  	}else{
-	  		previousSymposiumTitle=counter>0?<p onClick={()=>this.handlePreviousSymposiumButton()}>{this.state.symposiums[counter-1].symposiumName}</p>:<React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</React.Fragment>;
-	  		nextSymposiumTitle=counter==this.props.symposiums.length-1?<React.Fragment></React.Fragment>:<p onClick={()=>this.handleNextSymposiumButton()}>{this.props.symposiums[counter+1].symposiumName}</p>;
+	  		previousSymposiumTitle=counter>0?<p onClick={()=>this.handlePreviousSymposiumButton()}>{this.state.symposiums[counter-1].industry}</p>:<React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</React.Fragment>;
+	  		nextSymposiumTitle=counter==this.props.symposiums.length-1?<React.Fragment></React.Fragment>:<p onClick={()=>this.handleNextSymposiumButton()}>{this.props.symposiums[counter+1].industry}</p>;
 	  	}
 	 
 
@@ -608,9 +616,15 @@ class PersonalizedPage extends Component{
 		  			<div id="symposiumContainer" style={{position:"absolute",left:"30%",top:"35%",fontSize:"60px",color:"white"}}>
 		  				<b> 
 			  				<ul>
-			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>{previousSymposiumTitle}</li>
+			  					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+			  						<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>{previousSymposiumTitle}</li>
+			  					</a>
+			  					
 			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px"}}>&nbsp;&nbsp;&nbsp;&nbsp; {this.state.selectedSymposiumTitle} &nbsp;&nbsp;&nbsp;&nbsp;</li>
-			  					<li style={{listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>{nextSymposiumTitle}</li>
+
+			  					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+			  						<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>{nextSymposiumTitle}</li>
+			  					</a>
 
 			  				</ul>
 		  				</b>
@@ -643,7 +657,6 @@ class PersonalizedPage extends Component{
 			 		<p style={{position:"absolute",top:"25%",left:"80%",color:"white",fontSize:"20px"}}> <b>Active People</b> </p>
 			 		<p style={{position:"absolute",top:"25%",left:"95%",color:"white",fontSize:"15px"}} onClick={()=>this.setState(prevState=>({...prevState,displayModalPeopleActive:true}))}> <b>See all</b> </p>
 			 		<ActiveContainer>
-
 			 			<ul>
 			 				{this.state.activePeople.map(data=>
 
@@ -664,13 +677,10 @@ class PersonalizedPage extends Component{
 	  	return this.state.displayModalPeopleActive==true?
 	  		<React.Fragment>
 	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayModalPeopleActive:false}))}/>
-
 	  			<ActivePeopleContainer>
 	  				<ActivePeopleModal
 	  					peopleActive={this.state.activePeople}
 	  				/>
-
-
 	  			</ActivePeopleContainer>
 	  		</React.Fragment>:
 	  		<React.Fragment>
@@ -743,34 +753,44 @@ class PersonalizedPage extends Component{
 	  	}
 	  }
 
+	  pushMessageToSocketHandle=(message)=>{
+	  		sendChatRoomMessage(socket,message);
+	  		const currentChatRoomState=this.state.chatRoom;
+	  		currentChatRoomState.splice(0,0,message);
+	  		this.setState({
+	  			chatRoom:currentChatRoomState
+	  		})
+	  }
+
 	  handleChatContainer=()=>{
 	  	return this.state.headerAnimation==false? 
-			<ChatContainer>
-			  	<Chat/>
-			  </ChatContainer>
-			  	:
-	  		<ul style={{padding:"0px",position:"relative",top:"-240px"}}>
-	  			<li style={{listStyle:"none"}}>
+			<ChatContainer id="chatContainer" onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
+			  	<Chat
+			  		pushMessageToSocket={this.pushMessageToSocketHandle}
+			  		roomId={this.props.selectedSymposium._id}
+			  		chat={this.state.chatRoom}
+			  	/>
+			</ChatContainer>:
+	  		<ul style={{padding:"0px",position:"relative",top:"-130px",left:"70%"}}>
+	  			<li style={{listStyle:"none",marginBottom:"-2%"}}>
 	  				<ul style={{padding:"0px",fontSize:"20px"}}>
-	  					<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"4%"}}>
+	  					<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
 	  						<ChevronLeftRoundedIcon
 	  							style={{fontSize:40,marginTop:"10px"}}
-	  							onClick={()=>this.handlePreviousCommunityButton()}
-
+	  							onClick={()=>this.handlePreviousSymposiumButton()}
 	  						/>
 	  					</li>
 
-	  					<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"4%"}}>
-	  						{this.state.selectedCommunityTitle}
+	  					<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+	  						{this.state.selectedSymposiumTitle}
 	  					</li>
 	  					
 	  					<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"4%"}}>
 	  						<ChevronRightRoundedIcon
 			  					style={{fontSize:40}}
-			  					onClick={()=>this.handleNextCommunityButton()}
+			  					onClick={()=>this.handleNextSymposiumButton()}
 			  				/>
 	  					</li>
-	  				
 	  				</ul>
 	  			</li>
 
@@ -832,15 +852,15 @@ class PersonalizedPage extends Component{
 
 		return(
 			<PersonalizedPageContainer onScroll={()=>this.handleScroll()}>
-				
+
 				{this.handleDisplayPostCreation()}
 				{this.handleSeeAllSubSymposiums()}
 				{this.handleSeeAllPeopleActiveModal()}
 				{this.handleSeeAllPopularVideos()}
 				{this.handleHeaderAnimation()}
 
-				<PostsChatInformation  id="postChatInformation" onScroll={()=>this.handleScroll()}>
-					<ul>
+				<PostsChatInformation  id="postChatInformation">
+					<ul style={{paddingTop:"2%"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginLeft:"3%"}}>
 
 							<li style={{listStyle:"none",marginBottom:"2%"}}>
@@ -862,23 +882,6 @@ class PersonalizedPage extends Component{
 									</li>
 								</ul>
 							</li>
-
-							<li style={{listStyle:"none",marginLeft:"14%"}}>
-								<CreatePostContainer onClick={()=>this.setState({displayPostCreation:true})}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-													<ProfilePicture>
-													</ProfilePicture>
-												</li>
-
-												<li style={{listStyle:"none",display:"inline-block"}}>
-														<CommentTextArea
-															placeholder="Click here to create a post"
-														/>
-												</li>
-											</ul>
-								</CreatePostContainer>  
-							</li>
 						</li>
 
 						<li style={{listStyle:"none",display:"inline-block"}}>
@@ -894,10 +897,7 @@ class PersonalizedPage extends Component{
 											<SearchTextArea
 												placeholder="Type here to search"
 											/>
-
-
 										</ul>
-
 									</SearchContainer>
 								</li>
 
@@ -935,9 +935,7 @@ class PersonalizedPage extends Component{
 							</ul>
 						</li>
 					</ul>
-					<ChatAndIndustryInfoContainer id="chatContainer">
-						{this.handleChatContainer()}
-					</ChatAndIndustryInfoContainer>
+					{this.handleChatContainer()}
 
 					<PostContainer id="postsContainer">
 						<PostsContainer/>

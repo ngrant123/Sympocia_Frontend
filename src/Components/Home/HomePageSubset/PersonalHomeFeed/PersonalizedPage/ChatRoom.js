@@ -1,11 +1,14 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-
+import SendIcon from '@material-ui/icons/Send';
+import {HomeConsumer} from "../../../HomeContext.js";
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 
 const Chat=styled.div`
 	background-color:white;
 	width:100%;
 	height:75%;
+	overflow-y:auto;
 
 `;
 
@@ -29,13 +32,14 @@ const MessageContainer=styled.div`
 
 const MessageBox=styled.textarea`
 	position:relative;
-	width:100%;
+	width:160%;
 	height:12%;
 	padding:10px;
 	text-align:center;
 	resize:none;
 	border-style:none;
 	overflow:hidden;
+	background-color:white;
 `;
 
 const SubmitButton=styled.div`
@@ -65,13 +69,12 @@ const EmojiButton=styled.div`
 	}
 `;
 
+
 const ExtendedMessageBox=styled.div`
-	position:absolute;
-	z-index:5;
-	width:85%;
+	position:relative;
+	z-index:12;
+	width:300px;
 	height:60%;
-	left:-90%;
-	top:40%;
 	border-radius:5px;
 	border-style:solid;
 	border-width:1px;
@@ -79,8 +82,23 @@ const ExtendedMessageBox=styled.div`
 	padding:10px;
 	word-break:break-all;
 	overflow-y:scroll;
-	background-color:white;
 `;
+
+const ChatAndIndustryInfoContainer=styled.div`
+	position:fixed;
+	width:22%;
+	height:45%;
+	top:45%;
+	left:75%;
+	border-radius:5px;
+	overflow-y:auto;
+	transition:.8s;
+	z-index:4;
+	border-style:solid;
+	border-width:1px;
+	border-color:#5298F8;
+`;
+
 
 const MessageListCSS={
 	listStyle:"none"
@@ -94,8 +112,8 @@ const MessageListNestedCSS={
 }
 
 class ChatRoom extends Component{
-	constructor(props){
 
+	constructor(props){
 		super(props);
 		this.state={
 			songPlaying:"",
@@ -124,37 +142,103 @@ class ChatRoom extends Component{
 		})
 	}
 
+	sendMessageToGroupChat=(profile)=>{
+		const {personalInformationState}=profile;
+		console.log(profile);
+		const messageValue=document.getElementById("messageContainer").value;
+		const messageObject={
+	  			room:this.props.roomId,
+	  			message:messageValue,
+	  			senderName:personalInformationState.firstName,
+	  			senderProfilePicture:personalInformationState.profilePicture
+	  	}
+		this.props.pushMessageToSocket(messageObject);
+	}
+
+	constructChat=(chatRoom)=>{
+		console.log(chatRoom);
+		return <React.Fragment>
+					{chatRoom==null?null:
+						<ul style={{marginTop:"15%"}}>
+							{chatRoom.map(data=>
+									<li style={{listStyle:"none",marginBottom:"2%"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",width:"20%"}}>
+												{data.senderProfilePicture==null?
+													<img src={NoProfilePicture} style={{borderRadius:"50%",width:"60%",height:"30"}}/>:
+													<img src={data.senderProfilePicture} style={{borderRadius:"50%",width:"20%",height:"20"}}/>
+												}
+											</li>
+
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+												<b>{data.senderName}</b>
+											</li>
+
+											<li style={{listStyle:"none",display:"inline-block",color:"#848484"}}>
+												{data.message}
+											</li>
+										</ul>
+									</li>
+								)
+							}
+						</ul>
+					}
+			</React.Fragment>
+	}
 
 
 	render(){
 
 		return(
-
-			<React.Fragment>
-				{this.handleDisplayTextBox()}
-
-				<SongPlaying>
-					<p style={{position:"absolute",color:"#848484",left:"80px"}}>Testing song playing</p>
-				</SongPlaying>
-
-				<Chat>
-
-				</Chat>
-				<MessageBox placeholder="Submit something stoopid" onChange={event=>this.handleTextChange(event)}/>
-				<ul style={{position:"relative",padding:"5px",backgroundColor:"white"}}>
-									<li style={MessageListNestedCSS}>
-										<EmojiButton>
-										</EmojiButton>
+			<HomeConsumer>
+				{personalInformation=>{
+					return <React.Fragment>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",display:"inline-block",marginLeft:"55%"}}>
+										{this.handleDisplayTextBox()}
 									</li>
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<ChatAndIndustryInfoContainer>
+											<SongPlaying>
+												<p style={{position:"absolute",color:"#848484",left:"80px"}}>Testing song playing</p>
+											</SongPlaying>
 
-									<li style={MessageListNestedCSS}>
-										<SubmitButton>
-										</SubmitButton>
+											<Chat>
+												{this.constructChat(this.props.chat)}
+											</Chat>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
+													<MessageBox id="messageContainer" placeholder="Submit something stoopid" onChange={event=>this.handleTextChange(event)}/>
 
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<SendIcon
+															style={{color:"#BDBDBD",fontSize:"30",paddingLeft:"5%"}}
+															onClick={()=>this.sendMessageToGroupChat(personalInformation)}
+														/>
+													</a>
+												</li>
+											</ul>
+										</ChatAndIndustryInfoContainer>
 									</li>
-					</ul>
+								</ul>
 
-			</React.Fragment>
+							{/*
+								<ul style={{position:"relative",padding:"5px",backgroundColor:"white"}}>
+													<li style={MessageListNestedCSS}>
+														<EmojiButton>
+														</EmojiButton>
+													</li>
+
+													<li style={MessageListNestedCSS}>
+														<SubmitButton>
+														</SubmitButton>
+
+													</li>
+								</ul>
+							*/}
+							</React.Fragment>
+				}}
+			</HomeConsumer>
 		)
 	}
 }

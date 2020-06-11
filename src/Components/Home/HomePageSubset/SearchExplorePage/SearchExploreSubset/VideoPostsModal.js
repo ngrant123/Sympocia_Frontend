@@ -4,7 +4,11 @@ import VideoPostDisplayPortal from "../../../HomePageSet/VideoHomeDisplayPortal.
 import PersonalIndustry from "../../../../../Constants/personalIndustryConstants.js";
 import CompanyIndustry from "../../../../../Constants/industryConstants.js";
 import {useSelector} from "react-redux";
-import {displayPersonalIndustryFeed} from "./ImagePostsModal.js";
+import {
+		displayPersonalIndustryFeed,
+		displayPersonalIndustryFeedSuggested,
+		constructSuggestedSymposium
+	} from "./ImagePostsModal.js";
 import {HomeConsumer} from "../../../HomeContext.js";
 
 const HeaderVideo=styled.div`
@@ -52,7 +56,7 @@ const ImageLabelCSS={
 }
 
 const VideoPostModal=(props)=>{
-
+	console.log(props);
 	const headerVideo=props.posts[0];
 	const videos=props.posts.slice(1,props.posts.length);
 	debugger;
@@ -79,6 +83,11 @@ const VideoPostModal=(props)=>{
 		changeSelectedVideo(data);
 		changeRecommendedVideos(videos);
 		changeVideoDisplay(true);
+	}
+
+	const handleDisplayToExtendedSymposium=(homePageInformation,selectedSymposium,symposiums)=>{
+		//personalInformationRedux
+		displayPersonalIndustryFeedSuggested(personalInformationRedux,homePageInformation,selectedSymposium,symposiums);
 	}
 
 	return(
@@ -109,7 +118,7 @@ const VideoPostModal=(props)=>{
 																	<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
 																		Nathan
 																	</li>
-																	<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,videos,homePageInformation,headerVideo)} style={ImageLabelCSS}>
+																	<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,headerVideo.industriesUploaded)} style={ImageLabelCSS}>
 																		{headerVideo.industriesUploaded[0].industry}
 																	</li>
 
@@ -129,34 +138,41 @@ const VideoPostModal=(props)=>{
 											<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
 												<ul style={{padding:"0px"}}>
 													{videos.map(data=>
-														<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
-															<ul style={{padding:"0px"}}>
-																<li onClick={()=>displayVideoModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
-																	<ShadowContainer/>
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<video id="smallVideo" key={data.videoUrl} position="relative" height="290px" width="580px" controls autoplay>
-																			<source src={data.videoUrl} type="video/mp4"/>
-																		</video>
-																	</a>
+														<React.Fragment>
+															{data=="suggestedSymposium"?
+																<li style={{backgroundColor:"red",listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
+																	{constructSuggestedSymposium(personalInformationRedux,homePageInformation)}
 																</li>
-																<li style={{listStyle:"none",marginBottom:"1%"}}>
-																	<ul style={{padding:"0px"}}>
-																		<li style={{listStyle:"none",width:"150%"}}>
-																			<b> 
-																				{data.title}
-																			</b>
-																		</li>
-																		<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																			<b>{data.firstName}</b>
-																		</li>
+															:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
+																<ul style={{padding:"0px"}}>
+																	<li onClick={()=>displayVideoModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
+																		<ShadowContainer/>
+																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																			<video id="smallVideo" key={data.videoUrl} position="relative" height="290px" width="580px" controls autoplay>
+																				<source src={data.videoUrl} type="video/mp4"/>
+																			</video>
+																		</a>
+																	</li>
+																	<li style={{listStyle:"none",marginBottom:"1%"}}>
+																		<ul style={{padding:"0px"}}>
+																			<li style={{listStyle:"none",width:"150%"}}>
+																				<b> 
+																					{data.title}
+																				</b>
+																			</li>
+																			<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+																				<b>{data.firstName}</b>
+																			</li>
 
-																		<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,videos,homePageInformation,headerVideo)} style={ImageLabelCSS}>
-																			{data.industriesUploaded[0].industry}
-																		</li>
-																	</ul>
-																</li>
-															</ul>
-														</li>
+																			<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,headerVideo.industriesUploaded)} style={ImageLabelCSS}>
+																				{data.industriesUploaded[0].industry}
+																			</li>
+																		</ul>
+																	</li>
+																</ul>
+															</li>
+														}	
+														</React.Fragment>
 													)}
 												</ul>
 											</li>
