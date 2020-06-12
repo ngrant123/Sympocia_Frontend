@@ -1,7 +1,9 @@
 import React,{useState,useEffect,useContext} from "react";
 import styled from "styled-components";
 import {PostContext} from "./PostsContext.js";
+import {UserContext} from "../../UserContext.js";
 import {CompanyPostsContext} from "../../../CompanyProfile/CompanyPostsContext.js";
+import {CompanyContext} from "../../../CompanyProfile/CompanyContext.js";
 import SympociaIcon from "../../../../../designs/img/SympociaIcon.jpg";
 import {useSelector} from "react-redux";
 import {
@@ -88,14 +90,31 @@ const RecommendedImageCSS={
 	 backgroundColor:"red"
 }
 
+const RecommendedVideoCSS={
+	 position:"relative",
+	 width:"350px",
+	 height:"200px",
+	 borderRadius:"5px"
+}
+
+const RecommendedBlogCSS={
+	position:"relative",
+	width:"350px",
+	height:"250px",
+	borderRadius:"5px",
+	backgroundColor:"red"
+}
 
 const NoPostsModal=(props)=>{
-	const [recommendedPosts,changeRecommendedPosts]=useState([]); 
+	const [recommendedPosts,changeRecommendedPosts]=useState([]);
+	var profileContext;
 	var postContext;
 	if(props.profilePageType=="Company"){
 		postContext=useContext(CompanyPostsContext);
+		profileContext=useContext(CompanyContext);
 	}else{
 		 postContext=useContext(PostContext);
+		 profileContext=useContext(UserContext);
 	}
 
 	useEffect(()=>{
@@ -121,25 +140,35 @@ const NoPostsModal=(props)=>{
 
 	const createPostModal=()=>{
 		if(props!=null){
-			return <li style={{marginRight:"5%",listStyle:"none",display:"inline-block"}}>
-						<CreatePostContainer>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginLeft:"20%",marginBottom:"2%"}}>
-									<SympociaStampIconContainer>
-										<img position="relative" src={SympociaIcon} width="100%" height="100%"/>
-									</SympociaStampIconContainer>
-								</li>
-								<p style={{fontSize:"20px",marginLeft:"10%"}}><b>Upload a {props.postType} of your own to get started</b></p>
-								<p>Show people your story through {props.postType}s and start sharing your story to others </p>
-								<li onClick={()=>postContext.updatePostComponent(props.postType)}style={{marginLeft:"33%",listStyle:"none",display:"inline-block",padding:"5px",color:"white",backgroundColor:"#C8B0F4",borderRadius:"5px",padding:"10px",fontSize:"15px"}}>
-									{props.postType=="blog"?
-										<p><a style={{textDecoration:"none",color:"white"}} href="/blog">Upload a {props.postType}</a></p>:
-										<p>Upload a {props.postType}</p>
-									}
-								</li>
-								</ul>
-						</CreatePostContainer>
-					</li>
+			var displayCreatePostIndicator;
+			if(props.profilePageType=="Company"){
+				displayCreatePostIndicator=profileContext.state.isOwnProfile;
+			}else{
+				displayCreatePostIndicator=profileContext.isOwnProfile
+			}
+			return	<React.Fragment>
+						{displayCreatePostIndicator==true?
+							 <li style={{marginRight:"5%",listStyle:"none",display:"inline-block"}}>
+									<CreatePostContainer>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",marginLeft:"20%",marginBottom:"2%"}}>
+												<SympociaStampIconContainer>
+													<img position="relative" src={SympociaIcon} width="100%" height="100%"/>
+												</SympociaStampIconContainer>
+											</li>
+											<p style={{fontSize:"20px",marginLeft:"10%"}}><b>Upload a {props.postType} of your own to get started</b></p>
+											<p>Show people your story through {props.postType}s and start sharing your story to others </p>
+											<li onClick={()=>postContext.updatePostComponent(props.postType)}style={{marginLeft:"33%",listStyle:"none",display:"inline-block",padding:"5px",color:"white",backgroundColor:"#C8B0F4",borderRadius:"5px",padding:"10px",fontSize:"15px"}}>
+												{props.postType=="blog"?
+													<p><a style={{textDecoration:"none",color:"white"}} href="/blog">Upload a {props.postType}</a></p>:
+													<p>Upload a {props.postType}</p>
+												}
+											</li>
+											</ul>
+									</CreatePostContainer>
+								</li>:null
+						}
+					</React.Fragment>
 				}
 			}
 	 
@@ -192,15 +221,17 @@ const NoPostsModal=(props)=>{
 													{recommendedPosts.map(data=>
 														<React.Fragment>
 															<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",marginBottom:"2%"}}>
-																<RecommnededVideo>
-
-																</RecommnededVideo>
+																<video style={RecommendedVideoCSS} controls>
+																	<source src={data.videoUrl} type="video/mp4"/>
+																</video>
 															</li>
 															<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block"}}>
-																<p style={{fontSize:"20px"}}><b> Video title is this titel you feel me  Video title is this titel you feel me  Video title is this titel you feel me </b></p>
-																<p> Nathan Grant </p>
-																<p>	June 34 2019</p>
-																<p style={IndustryButtonCSS}> Testing </p>
+																<p style={{fontSize:"20px"}}><b>{data.title}</b></p>
+																{/*
+																	<p> Nathan Grant </p>
+																	<p>	June 34 2019</p>
+																*/}
+																<p style={IndustryButtonCSS}>{data.industriesUploaded[0].industry} </p>
 															</li>
 														</React.Fragment>
 													)}
@@ -214,16 +245,16 @@ const NoPostsModal=(props)=>{
 						</ul>
 
 			}else if(props.postType=="blog"&&props.postType!=null){
-				return <ul style={{padding:"0px"}}>
+				return <ul style={{padding:"0px",height:"650px",width:"100%",overflow:"scroll"}}>
 							{createPostModal()}
 
-							<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
+							<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>	
 								<RecommendedContainer>
 										<ul style={{position:"relative",padding:"0px"}}>
 												<p style={{fontSize:"20px"}}>
 													<b>Recommended {props.postType}</b>
 											    </p>
-												<p style={{color:"#999999"}}>Since we noticed that this profile doesnt have any blogd here are 
+												<p style={{color:"#999999"}}>Since we noticed that this profile doesnt have any blogs here are 
 													a list of recommended blogs that we could find 
 												</p>
 
@@ -232,15 +263,15 @@ const NoPostsModal=(props)=>{
 														{recommendedPosts.map(data=>
 															<React.Fragment>
 																<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",marginBottom:"2%"}}>
-																	<RecommnededBlogImage>
-
-																	</RecommnededBlogImage>
+																	<img src={data.blogImageUrl} style={RecommendedBlogCSS}/>
 																</li>
 																<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block"}}>
-																	<p style={{fontSize:"20px"}}><b> Blog title is this titel you feel me  Video title is this titel you feel me  Video title is this titel you feel me </b></p>
-																	<p> Nathan Grant </p>
-																	<p>	June 34 2019</p>
-																	<p style={IndustryButtonCSS}> Testing </p>
+																	<p style={{fontSize:"20px"}}><b>{data.title}</b></p>
+																	{/*
+																	 	<p> Nathan Grant </p>
+																		<p>	June 34 2019</p>
+																	*/}
+																	<p style={IndustryButtonCSS}>{data.industriesUploaded[0].industry}</p>
 																</li>
 															</React.Fragment>
 														)}

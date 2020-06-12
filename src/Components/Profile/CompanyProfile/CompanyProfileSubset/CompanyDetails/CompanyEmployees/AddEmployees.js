@@ -27,12 +27,6 @@ const AddEmployeeIcon = styled.div`
 
 `;
 
-const Container= styled.div`
-	position:absolute;
-	width:100%;
-	height:100%;
-
-`;
 
 const EmployeeTitle = styled.div`
 	position:absolute;
@@ -506,63 +500,26 @@ class AddEmployees extends Component{
 		return(
 			<CompanyConsumer>
 				{companyInformation=>{
-					return <Container>
-								<EmployeeTitle>
-										<AccountCircleIcon
-											style={{fontSize:20}}
-										/>
-										<b style={{marginLeft:"2%"}}>Employees</b>
-
-									{companyInformation.state.isOwnProfile==true?
-										<AddEmployeeIcon data-toggle="modal" data-target="#myModal" onClick={()=>this.handleChildAddClick()}>
-											+
-										</AddEmployeeIcon>:
-										<React.Fragment>
-										</React.Fragment>
-									}
-
-								</EmployeeTitle>
-
-								<EmployeeDescription>
-									Add new or current employees to show everyone the team that you guys have
-								</EmployeeDescription>
-
-								
-								 <div class="modal fade" id="myModal" role="dialog">
-									 <div class="modal-dialog">
-												    
-										<div class="modal-content">
-										   <div class="modal-header">
-										      <button type="button" class="close" data-dismiss="modal">&times;</button>
+					return <React.Fragment>
+									 <button type="button" class="close" data-dismiss="modal">&times;</button>
 												   <h4 class="modal-title">Add Information</h4>
 												   <MaxEmployee id="MaxEmployessContainer"> 
 												   		<p>Maximum Employees. Remove somebody to add a new person </p>
 												   </MaxEmployee>
-												 </div>
-												 <div class="modal-body" style={{height:"270px"}}>
 												 <ImageContainer id="image" onClick={()=>this.handleEmployeeImage()}> + 
 												 	<img src="" id="employeeimagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"0"}}/>
 												 </ImageContainer>
 												 <input type="file" name="img" id="employeeimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleUploadEmployeeImage()}></input>
 													 &nbsp;
-
 												 {this.handleDisplaySecondPage()}
 											
-													
-												  </div>
 												  <div class="modal-body"> &nbsp; </div>
-												  <div class="modal-footer">
 												  	<ul>
 												  		<li key="1" style={ButtonListCSS}>{this.handleBackButton()}</li>
 												  		<li key="2" style={ButtonListCSS}>{this.handleNextPageButton(companyInformation.state.userProfile._id)}</li>
 												  		<li key="3" style={ButtonListCSS}><button type="button" class="btn btn-default" data-dismiss="modal" onClick={()=>this.handleClick()}>Close</button></li>
 												  	</ul>
-												    	
-												  </div>
-											</div>	      
-									 </div>
-							    </div>
-							</Container>
+							</React.Fragment>
 				}}
 			</CompanyConsumer>
 		)

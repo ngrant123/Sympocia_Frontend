@@ -39,15 +39,38 @@ const UpdateCoverPhoto = styled.div`
 	overflow:hidden;
 	z-index:3;
 	transition: all ease 0.8s;
-
-
 	 &:hover{
 
       background-color:#5298F8;
 
 	   color:white;
 	   border-style:solid;
+   }
 
+`;
+
+const CompanyName = styled.div`
+
+	position:absolute;
+	left:5%;
+	width:15%;
+	top:30%;
+	padding:20px;
+	border-radius:10px;
+	text-align:center;
+	font-size:155%;
+	border-style:solid;
+	border-width:2px;
+	color:#d6d6d6;
+	overflow:hidden;
+	z-index:3;
+	transition: all ease 0.8s;
+	 &:hover{
+
+      background-color:#5298F8;
+
+	   color:white;
+	   border-style:solid;
    }
 
 `;
@@ -64,7 +87,10 @@ const SocialMediaContainer = styled.div`
 
 `;
 
-
+/*
+	Realized i dont really need to use context in this class but leaving it in
+	here anyways
+*/
 
 class CoverPhoto extends Component{
 
@@ -79,6 +105,9 @@ class CoverPhoto extends Component{
 
 	componentDidMount(){
 		console.log("Testing cover photo component");
+		this.setState({
+			coverPhotoUrl:this.props.coverPhotoData  
+		})
 	}
 
 	handleChangeCover(companyId){
@@ -96,9 +125,10 @@ class CoverPhoto extends Component{
 			document.getElementById("coverphotoimage").style.opacity=1;
 
 			const coverPhotoUrl=reader.result;
-			this.props.addCompanyCoverPhoto(coverPhotoUrl);
-			debugger;
 			sendCoverPhotoToDB(companyId,coverPhotoUrl);
+			this.setState({
+				coverPhotoUrl:coverPhotoUrl
+			})
 
 		}
 
@@ -115,10 +145,10 @@ class CoverPhoto extends Component{
 		document.getElementById("coverphotoimagefile").click();
 	}
 	handleDisplayCoverPhoto=(companyInformation)=>{
-		if(companyInformation.state.userProfile.companyCoverPhoto==null || companyInformation.state.userProfile.companyCoverPhoto==""){
-			return <img src={companyInformation.state.userProfile.companyCoverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"relative",height:"100%", width:"100%",top:"0%",opacity:"1"}}/>;
+		if(this.state.coverPhotoUrl==null || this.state.coverPhotoUrl==""){
+			return null;
 		}else{
-			return <img src={companyInformation.state.userProfile.companyCoverPhoto} name="coverphotoimage" id="coverphotoimage" style={{position:"absolute",top:"0%",opacity:"1"}}/>;
+			return <img src={this.state.coverPhotoUrl} name="coverphotoimage" id="coverphotoimage" style={{position:"absolute",top:"0%",opacity:"1"}}/>;
 
 		}
 	}
@@ -132,13 +162,18 @@ class CoverPhoto extends Component{
 
 									<NaveBarContainer>
 										{companyInformation.state.isOwnProfile==true?
-											<UpdateCoverPhoto onClick={()=>this.handleClickButton()}>
-												+ Cover Photo
-												 <input type="file" name="img" id="coverphotoimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleChangeCover(companyInformation.state.userProfile._id)}></input>
-											</UpdateCoverPhoto>:
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<UpdateCoverPhoto onClick={()=>this.handleClickButton()}>
+													+ Cover Photo
+													 <input type="file" name="img" id="coverphotoimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleChangeCover(companyInformation.state.userProfile._id)}></input>
+												</UpdateCoverPhoto>
+											</a>:
 											<React.Fragment>
 											</React.Fragment>
 										}
+										<CompanyName>
+											<b>Nike</b>
+										</CompanyName>
 										<SocialMediaContainer>
 											<SocialMedia/>
 										</SocialMediaContainer>

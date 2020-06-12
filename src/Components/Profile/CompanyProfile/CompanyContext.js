@@ -7,6 +7,7 @@ const CompanyConsumer=CompanyContext.Consumer;
 
 
 export{
+	CompanyContext,
 	CompanyProvider,
 	CompanyConsumer
 }

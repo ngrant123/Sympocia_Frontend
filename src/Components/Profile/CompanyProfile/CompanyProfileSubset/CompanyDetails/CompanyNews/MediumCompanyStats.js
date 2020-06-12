@@ -15,6 +15,7 @@ const Container = styled.div`
 	height:100%;
 	background-color:#f9f9f9;
 	overflow:hidden;
+	z-index:9;
 `;
 
 const AddNotificationsContainer = styled.div`

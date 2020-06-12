@@ -12,6 +12,9 @@ import CompanyPostsContainer from "../CompanyProfileSubset/CompanyPosts/index.js
 import { CompanyConsumer } from "../CompanyContext.js";
 import { connect } from "react-redux";
 import ChampionModalPrompt from "../../PersonalProfile/PersonalProfileSet/ChampionModalPortal/index.js";
+import AddEmployeesPortal from "./AddEmployeesPortal.js";
+import AddNewsPortal from "./AddNewsPortal.js";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const ProfileContainer = styled.div`
 
@@ -28,8 +31,8 @@ const PostContainer = styled.div`
 	height:140%;
 	top:20%;
 	left:28%;
-	border-radius:5px;
 	background-color:white;
+	border-top: 5px solid #F2F2F2;
 	z-index:4;
 `;
 
@@ -48,7 +51,7 @@ const CompanyDetails = styled.div`
  	overflow-y:auto;
  	overflow-x:hidden;
  	transition:.8s;
- 	z-index:7;
+ 	z-index:15;
 
 `;
 
@@ -211,6 +214,15 @@ const Options = styled.div`
 	border-style:solid;
 	border-width: 1px;
 	overflow:hidden;
+
+`;
+
+const AddEmployeeTitleContainer = styled.div`
+	position:absolute;
+	width:100%;
+	heigth:30%;
+	overflow:hidden;
+
 
 `;
 
@@ -429,8 +441,39 @@ const DesignatedLocation = styled.div`
 	&:hover{
 		background-color:#325f99;
 	}
-
 `; 
+
+
+const AddEmployeeIcon = styled.div`
+
+	position:absolute;
+	background-color:#C8B0F4;
+	left:80%;
+	width:18%;
+	height:90%;
+	top:7%; 
+	border-radius:50%;
+	text-align:center;
+	color:white;
+	transition:.8s;
+	text-align:center;
+
+	&:hover{
+
+		background-color:#6941E5;
+	}
+
+`;
+
+const EmployeeDescription = styled.div`
+	position:absolute;
+	height:30%;
+	width:100%;
+	top:57%;
+	font-size:40%;
+
+`;
+
 
 
 const PlusCssObject = {
@@ -464,7 +507,8 @@ class ProfileComp extends Component{
 			postdecider:1,
 			industryType:"Engineering",
 			location:"Location",
-			displayChampionPortal:false
+			displayChampionPortal:false,
+			displayAddEmployeePortal:false
 		}
 		this.displayEmployee=this.displayEmployee.bind(this);
 		this.displayNotification=this.displayNotification.bind(this);
@@ -528,6 +572,14 @@ class ProfileComp extends Component{
 		})
 	}
 
+	displayAddEmployeeModal=()=>{
+		debugger;
+		const indicator=!this.state.displayAddEmployeePortal;
+		this.setState({
+			displayAddEmployeePortal:indicator
+		})
+	}
+
 
 	render(){
 		//Condidtional rendering for post/image/location section 
@@ -562,8 +614,10 @@ class ProfileComp extends Component{
 							    </ul>
 			  				</div>
 
-			  				<RecruitButton>Recruit</RecruitButton>
-			  				<ChampionButton onClick={()=>this.displayChampionPortalHandle()}>Champion</ChampionButton>
+			  				{this.props.isOwnProfile==true?
+			  					<ChampionButton onClick={()=>this.displayChampionPortalHandle()}>Champion</ChampionButton>:
+			  					<RecruitButton>Recruit</RecruitButton>
+			  				}
 
 			  				{this.state.displayChampionPortal==true?
 			  					<ChampionModalPrompt
@@ -572,34 +626,45 @@ class ProfileComp extends Component{
 			  					/>
 			  				:null}
 
+			  				{this.state.displayAddEmployeePortal==true?
+			  					<AddEmployeesPortal
+			  						closeModal={this.displayAddEmployeeModal}
+			  					/>:null
+			  				}
+
 
 							<PostContainer>
 
-								<CompanyPostsContainer/>
+								<CompanyPostsContainer
+									isOwnProfile={this.props.isOwnProfile}
+								/>
 
 							</PostContainer>
 
 							<CompanyDetails>
 
 								<EmployeeTitle>
+									<AddEmployeeTitleContainer>
+										<AccountCircleIcon
+												style={{fontSize:20}}
+											/>
+											<b style={{marginLeft:"2%"}}>Employees</b>
 
-									<AddEmployeesAction
-										
-										handleAddEmployee={this.handleAddEmployee}
-										numberofEmployeeCompany={this.state.Employees}
-										addEmployeeToContext={companyInformation.updateEmployees}
-										key={1}
-
-									/>
-
+										{companyInformation.state.isOwnProfile==true?
+											<AddEmployeeIcon onClick={()=>this.displayAddEmployeeModal()}>
+												+
+											</AddEmployeeIcon>:null
+										}
+									</AddEmployeeTitleContainer>
+									<EmployeeDescription>
+										Add new or current employees to show everyone the team that you guys have
+									</EmployeeDescription>
 								</EmployeeTitle>
 
 								<EmployeeContainer> 
 
 									<ul style={EmployeeCSS}>
-
 										{companyInformation.state.userProfile.employees.map(data =>
-
 											<li style={{ display:"inline-block", marginLeft:"19px", marginBottom:"10px"}}>
 												<SmallProfile 
 													employeeData={data}

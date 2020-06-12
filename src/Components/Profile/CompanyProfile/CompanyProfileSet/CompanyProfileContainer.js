@@ -710,7 +710,13 @@ class LProfile extends Component{
 				if(id==this.props.companyPersonalId){
 
 					const profile=await getCompanyInformation(this.props.companyPersonalId);
-					var containsChampion=profile.championData.name!=""?true:false;
+					console.log(profile);
+					var containsChampion;
+					if(profile.championData!=null){
+						containsChampion=profile.championData.name!=""?true:false;
+					}else{
+						containsChampion=false;
+					}
 					debugger;
 					this.setState({
 						isLoading:false,
@@ -724,7 +730,13 @@ class LProfile extends Component{
 				}
 				else{
 					const profile=await getCompanyInformation(id);
-					var containsChampion=profile.championData.name!=""?true:false;
+					console.log(profile);
+
+					if(profile.championData!=null){
+						containsChampion=profile.championData.name!=""?true:false;
+					}else{
+						containsChampion=false;
+					}
 
 					debugger;
 					this.setState(prevState=>({
@@ -830,7 +842,6 @@ class LProfile extends Component{
 	render(){
 
 		return(
-
 			<CompanyProvider value={{
 				state:this.state,
 				updateEmployees:(employeeInformation)=>{
@@ -913,7 +924,9 @@ class LProfile extends Component{
 									<StatueContainer/>
 
 									<CoverPhotoContainer> 
-										<CoverPhoto /> 
+										<CoverPhoto 
+											coverPhotoData={this.state.userProfile.companyCoverPhoto}
+										/> 
 									</CoverPhotoContainer>
 
 									<Profile id="CompanyAndPostInfoContainer">
@@ -921,6 +934,7 @@ class LProfile extends Component{
 											displaytoplevelemployeeprofile={this.displaytoplevelemployeeprofile}
 											displaytoplevelnewsprofile={this.displaytoplevelnewsprofile}
 											id={this.state.id}
+											isOwnProfile={this.state.isOwnProfile}
 										 />
 									</Profile>
 

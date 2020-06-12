@@ -283,8 +283,9 @@ class ExplorePage extends Component{
 								<CreatePostComponent/>
 							</li>:
 							<React.Fragment>
-							</React.Fragment>}
-
+							</React.Fragment>
+						}
+						
 						<li style={{marginBottom:"10px"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",fontSize:"40px",marginLeft:"30%",marginRight:"20%"}}>
@@ -297,7 +298,6 @@ class ExplorePage extends Component{
 									/>
 									Click here to view a more recommeneded feed that will grow to your tastes
 								</li>
-
 							</ul>
 						</li>
 						<li style={{marginLeft:"20%",marginBottom:"20px",color:	"#6e6e6e",fontSize:"20px"}}> Browse Sympocias top growing communities that everyone seems to enjoy </li>
@@ -310,17 +310,16 @@ class ExplorePage extends Component{
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<ListCommunities>
 										{data.communityName}
-									</ListCommunities>
-									 
+									</ListCommunities> 
 								</li>
 							)}
 						</ul>
 						<ul>
-						{this.state.symposiums.map(data=>
-							<li style={CommunitiesListCSS} key={data.key}> 
-								{this.displayCommunityAnimation(data)}
-							 </li>
-						)}
+							{this.state.symposiums.map(data=>
+								<li style={CommunitiesListCSS} key={data.key}> 
+									{this.displayCommunityAnimation(data)}
+								 </li>
+							)}
 						</ul>
 					</ul>
 				</Container>:<React.Fragment></React.Fragment>

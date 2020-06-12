@@ -309,36 +309,38 @@ const PersonalPostsIndex=(props)=>{
 							{displayCreatePostAndShadowOverlay(personalInformation)}
 							
 								
-								<ul>
-									<li style={{listStyle:"none",marginBottom:"5%"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"5%",color:"#C8B0F4"}}>
-												<b>Create a post</b>
-											</li>
+								<ul style={{padding:"0px"}}>
+									{props.isOwnProfile==true?
+										<li style={{listStyle:"none",marginBottom:"5%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"5%",color:"#C8B0F4"}}>
+													<b>Create a post</b>
+												</li>
 
-											<li style={{listStyle:"none",display:"inline-block"}}>
-													<CommentCreationContainer onClick={()=>displayOrHideCreationPost()}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%",marginTop:"-20px"}}>
-																<ProfilePicture>
-																	{personalInformation.state.profilePicture!=null?
-																		<img src={personalInformation.state.profilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%",borderRadius:"50%"}}/>:
-																		<img src={NoProfilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%"}}/>
-																	}
-																</ProfilePicture>
-															</li>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+														<CommentCreationContainer onClick={()=>displayOrHideCreationPost()}>
+															<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%",marginTop:"-20px"}}>
+																	<ProfilePicture>
+																		{personalInformation.state.profilePicture!=null?
+																			<img src={personalInformation.state.profilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%",borderRadius:"50%"}}/>:
+																			<img src={NoProfilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%"}}/>
+																		}
+																	</ProfilePicture>
+																</li>
 
-															<li style={{listStyle:"none",display:"inline-block"}}>
-																<CommentTextArea placeholder="Enter a comment">
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<CommentTextArea placeholder="Click here to create a post">
 
-																</CommentTextArea>
+																	</CommentTextArea>
 
-															</li>
-														</ul>
-												</CommentCreationContainer>
-											</li>
-										</ul>
-									</li>
+																</li>
+															</ul>
+													</CommentCreationContainer>
+												</li>
+											</ul>
+										</li>:null
+									}
 									<li style={{listStyle:"none",marginBottom:"5%"}}>
 										{personalInformation.state.isOwnProfile==true?
 											<React.Fragment>
