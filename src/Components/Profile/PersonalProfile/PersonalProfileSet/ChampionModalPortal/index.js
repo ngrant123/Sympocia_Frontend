@@ -8,7 +8,7 @@ const SponsorModal=styled.div`
 	width:40%;
 	height:60%;
 	background-color:white;
-	z-index:12;
+	z-index:15;
 	top:10%;
 	border-radius:5px;
 	left:30%;
@@ -117,9 +117,13 @@ const SponsorPortal=(props)=>{
 						<hr/>
 						<p style={{marginLeft:"45%",marginBottom:"7%"}}>Or</p>
 						<p style={{marginLeft:"15%",color:"#6E6E6E"}}><b>Upload a picture of someone and describe why they're great</b></p>
-						<UploadPicture onClick={()=>handleDisplayImagePrompt()}>
-							Upload picture
-						</UploadPicture>
+						
+						<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+							<UploadPicture onClick={()=>handleDisplayImagePrompt()}>
+								Upload picture
+							</UploadPicture>
+						</a>
+						
 						<input type="file" name="img" id="imageFile" style={{opacity:"0"}} onChange={()=>displayImage()} accept="image/x-png,image/gif,image/jpeg"></input>					
 					</ul>:
 					<DescriptionModal

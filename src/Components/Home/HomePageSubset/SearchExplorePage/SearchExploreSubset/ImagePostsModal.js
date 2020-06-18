@@ -70,14 +70,14 @@ const constructSuggestedSymposium=(personalInformation,homePageInformation)=>{
 			var counter=0;
 			while(counter<3){   
 				if(homePageInformation.isPersonalProfile==true){
-					const randomNum=Math.floor(Math.random() * (PERSONAL_INDUSTRIES.INDUSTRIES.length - 0 + 1)) + 0;
+					const randomNum=Math.floor(Math.random() * ((PERSONAL_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
 					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
 					if(!symposiumContainer.has(randomlySelected.industry)){
 						symposiumContainer.set(randomlySelected.industry,1);
 						selectedSymposiums.push(randomlySelected);
 					}
 				}else{
-					const randomNum=Math.floor(Math.random() * (COMPANY_INDUSTRIES.INDUSTRIES.length - 0 + 1)) + 0;
+					const randomNum=Math.floor(Math.random() * ((COMPANY_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
 					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
 					if(!symposiumContainer.has(randomlySelected.industry)){
 						symposiumContainer.set(randomlySelected.industry,1);
@@ -90,100 +90,67 @@ const constructSuggestedSymposium=(personalInformation,homePageInformation)=>{
 			return <ul style={{padding:"0px",position:"relative",top:"-170px"}}>
 						{selectedSymposiums.map(data=>
 							<a href="javascript:void(0);">
-								<li onClick={()=>this.handleDisplayToExtendedSymposium(homePageInformation,data,selectedSymposiums)}style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
+								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,homePageInformation,data,selectedSymposiums)} style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
 									<b>{data.industry}</b>
 								</li>
 							</a>
 						)}
-					</ul>
+				   </ul>
 }
 
-const displayPersonalIndustryFeed=async(personalInformationRedux,homePageInformation,selectedIndustries)=>{
-		debugger;
+const displayPersonalIndustryFeed=async(personalInformationRedux,homePageInformation,selectedSymposium,selectedIndustries)=>{
 		console.log(homePageInformation);
 
 		//have to format selected industries in and add additional information so that the personalPage can 
 		//accept props
-		var isPersonalProfile;
-		var personalIndustries=PersonalIndustry.INDUSTRIES;
-		var companyIndustries=CompanyIndustry.INDUSTRIES;
 		var industryColorMap=new Map();
-		if(personalInformationRedux.loggedIn==true){
-			for(var i=0;i<personalIndustries.length;i++){
-				const industry=personalIndustries[i];
-				industryColorMap.set(industry.industry,industry.backgroundColor);
-			}
-		}else{
-			for(var i=0;i<companyIndustries.length;i++){
-				const industry=personalIndustries[i];
-				industryColorMap.set(industry.industry,industry.backgroundColor);
+
+		if(selectedSymposium!=null)
+			selectedIndustries.slice(0,selectedSymposium);
+		else{
+			var personalIndustries=PersonalIndustry.INDUSTRIES;
+			var companyIndustries=CompanyIndustry.INDUSTRIES;
+
+			if(personalInformationRedux.loggedIn==true){
+				for(var i=0;i<personalIndustries.length;i++){
+					const industry=personalIndustries[i];
+					industryColorMap.set(industry.industry,industry.backgroundColor);
+				}
+			}else{
+				for(var i=0;i<companyIndustries.length;i++){
+					const industry=personalIndustries[i];
+					industryColorMap.set(industry.industry,industry.backgroundColor);
+				}
 			}
 		}
 
+		var isPersonalProfile;
 		const industryArray=[];
-
-		var industryMap=new Map();
+		
 		for(var i=0;i<selectedIndustries.length;i++){
 			const currentPostIndustry=selectedIndustries[i];
-				if(industryColorMap.has(currentPostIndustry.industry)){
 					const {data}=await getSymposiumId(currentPostIndustry.industry);
+					var color;
+					if(currentPostIndustry.backgroundColor==null)
+						var color=industryColorMap.get(currentPostIndustry.industry);
+					else
+						color=currentPostIndustry.backgroundColor
 
 					const industryObject={
 						_id:data,
-						backgroundColor:industryColorMap.get(currentPostIndustry.industry),
+						backgroundColor:color,
 						industry:currentPostIndustry.industry,
 						popularVideos:[]
 					}
 					industryArray.push(industryObject);
-				}
 		}
+		
 		const symposiumsAfterFirstOne=industryArray.splice(1,industryArray.length);
 		const selectedSymposiumsObject={
-			selectedSymposiums:industryArray[0],
+			selectedSymposiums:industryArray[industryArray.length-1],
 			symposiums:symposiumsAfterFirstOne
 		}
 
-		homePageInformation.displaySymposium(selectedSymposiumsObject);
-	}
-
-const displayPersonalIndustryFeedSuggested=async(personalInformationRedux,homePageInformation,selectedSymposium,symposiums)=>{
-		debugger;
-		var isPersonalProfile;
-		var personalIndustries=PersonalIndustry.INDUSTRIES;
-		var companyIndustries=CompanyIndustry.INDUSTRIES;
-		var industryColorMap=new Map();
-		if(personalInformationRedux.loggedIn==true){
-			for(var i=0;i<personalIndustries.length;i++){
-				const industry=personalIndustries[i];
-				industryColorMap.set(industry.industry,industry.backgroundColor);
-			}
-		}else{
-			for(var i=0;i<companyIndustries.length;i++){
-				const industry=personalIndustries[i];
-				industryColorMap.set(industry.industry,industry.backgroundColor);
-			}
-		}
-		var selectedIndustry={};
-		var industries=[];
-		for(var i=0;i<symposiums.length;i++){
-			const currentSymposium=symposiums[i];
-			const {data}=await getSymposiumId(currentSymposium.industry);
-			const industryObject={
-						_id:data,
-						backgroundColor:industryColorMap.get(currentSymposium.industry),
-						industry:currentSymposium.industry,
-						popularVideos:[]
-					}
-			if(currentSymposium.industry==selectedSymposium.industry)
-				selectedIndustry=industryObject;
-			else
-				industries.push(currentSymposium)
-		}
-
-		const selectedSymposiumsObject={
-			selectedSymposiums:selectedIndustry,
-			symposiums:industries
-		}
 		homePageInformation.displaySymposium(selectedSymposiumsObject);
 }
 
@@ -219,9 +186,27 @@ const ImagePostsModal=(props)=>{
 		changeImageDisplay(true);
 	}
 
-	const handleDisplayToExtendedSymposium=(homePageInformation,selectedSymposium,symposiums)=>{
-		//personalInformationRedux
-		displayPersonalIndustryFeedSuggested(personalInformationRedux,homePageInformation,selectedSymposium,symposiums);
+	const displaySpecialPost=(postResult,personalInformationRedux,homePageInformation)=>{
+
+		if(postResult=="suggestedSymposium"){
+			return <li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
+						{constructSuggestedSymposium(personalInformationRedux,homePageInformation)}
+					</li>
+		}else{
+			const {data}=postResult;
+			var posts=data;
+			return <li style={{listStyle:"none",display:"inline-block",top:"-150px",position:"relative",marginBottom:"3%",width:"45%",marginRight:"4%"}}>
+						<ul style={{padding:"0px"}}>
+							{posts.map(data=>
+								<li  onClick={()=>displayImageModal(data)}  style={{listStyle:"none",display:"inline-block",borderRadius:"5px",width:"50%",height:"30%"}}>
+									<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+										<img src={data.imgUrl} style={{width:"80%",height:"80%",borderRadius:"5px"}}/>
+									</a>
+								</li>
+							)}
+						</ul>
+				   </li>
+		}
 	}
 
 	return(
@@ -243,7 +228,7 @@ const ImagePostsModal=(props)=>{
 															<b>{headerImage.firstName}</b>
 														</li>
 
-														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,headerImage.industriesUploaded)} style={ImageLabelCSS}>
+														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerImage.industriesUploaded)} style={ImageLabelCSS}>
 															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																{headerImage.industriesUploaded[0].industry}
 															</a>
@@ -264,10 +249,10 @@ const ImagePostsModal=(props)=>{
 											<ul style={{padding:"0px"}}>
 												{images.map(data=>
 													<React.Fragment>
-														{data=="suggestedSymposium"?
-															<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
-																{constructSuggestedSymposium(personalInformationRedux,homePageInformation)}
-															</li>
+														{data.firstName==null?
+															<React.Fragment>
+																{displaySpecialPost(data,personalInformationRedux,homePageInformation)}
+															</React.Fragment>
 														:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
 															<ul style={{padding:"0px"}}>
 																<li onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
@@ -282,7 +267,7 @@ const ImagePostsModal=(props)=>{
 																			<b>{data.firstName}</b>
 																		</li>
 
-																		<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,headerImage.industriesUploaded)} style={ImageLabelCSS}>
+																		<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,data.industriesUploaded)} style={ImageLabelCSS}>
 																			{data.industriesUploaded[0].industry}
 																		</li>
 																	</ul>
@@ -292,8 +277,7 @@ const ImagePostsModal=(props)=>{
 																</li>
 												 			</ul>
 														</li>
-													}
-														
+													}	
 													</React.Fragment>
 												)}
 											</ul>
@@ -319,7 +303,6 @@ const ImagePostsModal=(props)=>{
 export{
 	ImagePostsModal,
 	displayPersonalIndustryFeed,
-	displayPersonalIndustryFeedSuggested,
 	constructSuggestedSymposium
 };
 

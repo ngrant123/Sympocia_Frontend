@@ -1,5 +1,7 @@
 import React,{Component} from "react";
 import styled from "styled-components";
+import NoProfileIcon from "../../../../../designs/img/NoProfilePicture.png";
+import {InvestorConsumer} from "../../../InvestorContext.js";
 
 const Container = styled.div`
 
@@ -156,7 +158,17 @@ const ExitIcon = styled.div`
 `;
 
 
+const InvestorProfilePictureCSS={
+	position:"relative",
+	backgroundColor:"black",
+	width:"19%",
+	height:"45px",
+	marginLeft:"3%",
+	top:"10%",
+	borderRadius:"50%"
+}
 
+//could be turned into a functional component
 class SmallInvestorProfileTab extends Component{
 
 	constructor(props){
@@ -175,38 +187,45 @@ class SmallInvestorProfileTab extends Component{
 	}
 
 	handledisplayInvestorPage =()=>{
-		this.props.bubbleUpInvestorData(this.state);
+		this.props.bubbleUpInvestorData(this.props);
 	}
 	render(){
 
 		return(
+			<InvestorConsumer>
+				{investorInformation=>{
+					return <Container onClick={()=>investorInformation.displayInvestorProfile(this.props)}>
+								{this.props.profilePicture==null?
+									<img src={NoProfileIcon} style={InvestorProfilePictureCSS}/>:
+									<img src={this.props.profilePicture} style={InvestorProfilePictureCSS}/>
+								}
+								<NameIconContainer>
+									<Name>{this.state.name}</Name>
+									<NameshortDescription>{this.state.bio}</NameshortDescription>
 
-			<Container onClick={()=>this.handledisplayInvestorPage()}>
-				<InvestorIcon></InvestorIcon>
-				<NameIconContainer>
-					<Name>{this.state.name}</Name>
-					<NameshortDescription>{this.state.bio}</NameshortDescription>
+								</NameIconContainer>
+								<ActiveInvestmentContainer>
+									<ActiveContainer>
+										<ActiveDescription>Active:</ActiveDescription>
+										<ActiveNumber>2 days ago</ActiveNumber>
+									</ActiveContainer>
 
-				</NameIconContainer>
-				<ActiveInvestmentContainer>
-					<ActiveContainer>
-						<ActiveDescription>Active:</ActiveDescription>
-						<ActiveNumber>2 days ago</ActiveNumber>
-					</ActiveContainer>
-
-					<InvestmentsContainer>
-						<InvestmentDescription>Investments:</InvestmentDescription>
-						<InvestmentNumber>{this.state.investmentnumber}</InvestmentNumber>
+									<InvestmentsContainer>
+										<InvestmentDescription>Investments:</InvestmentDescription>
+										<InvestmentNumber>
+											{this.state.investments==null?0:<React.Fragment>{this.state.investments.length}</React.Fragment>}
+										</InvestmentNumber>
 
 
-					</InvestmentsContainer>
+									</InvestmentsContainer>
 
-				</ActiveInvestmentContainer>
+								</ActiveInvestmentContainer>
 
-				<ActiveIcon/>
-				<ExitIcon>x</ExitIcon>
-
-			</Container>
+								<ActiveIcon/>
+								<ExitIcon>x</ExitIcon>
+							</Container>
+				}}
+			</InvestorConsumer>
 		)
 	}
 }

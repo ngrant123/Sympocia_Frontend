@@ -6,6 +6,8 @@ import {Link} from "react-router-dom";
 import ExploreIcon from '@material-ui/icons/Explore';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import MapIcon from '@material-ui/icons/Map';
+import HowToRegIcon from '@material-ui/icons/HowToReg';
 
 import {useSelector,useDispatch} from "react-redux";
 import {loginPersonalPage} from "../../../../Actions/Redux/Actions/PersonalProfile.js";
@@ -187,8 +189,22 @@ const NavBar=(pageProps)=>{
 				</React.Fragment>:
 				<React.Fragment></React.Fragment>
 			}
+			<ul style={{position:"fixed",left:"33%",top:"7%"}}>
+				{personalProfileState.loggedIn!=true?
+							<li style={ButtonsListCSS}>
+								<NavBarButton  to={`/investor/${companyProfileState.id}`}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<HowToRegIcon/>
+										</li>
 
-			<ul style={{position:"fixed",left:"39%",top:"7%"}}>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											Investor
+										</li>
+									</ul>
+								</NavBarButton>
+							</li>:null
+				}
 				<li style={ButtonsListCSS}>
 					{personalProfileState.loggedIn==true?
 							<NavBarButton to={`/profile/${personalProfileState.id}`}>
@@ -200,7 +216,6 @@ const NavBar=(pageProps)=>{
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									Me
 								</li>
-
 							</ul>
 						</NavBarButton>:
 						<NavBarButton to={`/companyProfile/${companyProfileState.id}`}>
@@ -212,13 +227,10 @@ const NavBar=(pageProps)=>{
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Me
 							</li>
-
 						</ul>
 					</NavBarButton>
 					}
 				</li>
-
-
 				{
 					/*
 						Do something special with the creation Button	
@@ -252,6 +264,22 @@ const NavBar=(pageProps)=>{
 						</ul>
 					</NavBarButton>
 				</li>
+				{personalProfileState.loggedIn!=true?
+						<li style={ButtonsListCSS}>
+							<NavBarButton  to={`/map/${companyProfileState.id}`}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<MapIcon/>
+									</li>
+
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										Map
+									</li>
+								</ul>
+							</NavBarButton>
+						</li>
+					:null
+				}
 			</ul>
 
 		

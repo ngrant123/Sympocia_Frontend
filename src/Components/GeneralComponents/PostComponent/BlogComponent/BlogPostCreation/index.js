@@ -38,19 +38,28 @@ class BlogPostCreation extends Component{
 		super(props);
 		console.log(props);
 		console.log("Teste");
+		var isPersonalProfile;
+		if(this.props.location.state.profileType=="Company")
+			isPersonalProfile=false;
+		else
+			isPersonalProfile=true;
 		this.state={
 			userInformation:{},
 			displayEditButtonSubmitModal:false,
-			blog:""
+			blog:"",
+			isPersonalProfile:isPersonalProfile
 		}
+
 	}
 
 	componentDidMount=()=>{
 		debugger;
 		var isOwner=false;
-		if(this.props.personalInformation.id==this.props.match.params.id){
-			isOwner=true;
-		}
+		if(this.state.isPersonalProfile)
+			isOwner=(this.props.personalInformation.id==this.props.match.params.id)?true:false;
+		else
+			isOwner=(this.props.companyInformation.id==this.props.match.params.id)?true:false;
+
 		var blogContentState;
 		if(this.props.location.state.postType=="Creation"){
 			blogContentState="";
@@ -100,8 +109,8 @@ class BlogPostCreation extends Component{
 					<TextOptions
 						displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
 				/>
-				<Blog/>
-				{this.editBlogSubmitModal()}
+					<Blog/>
+					{this.editBlogSubmitModal()}
 				</Container>
 			</BlogProvider>
 		)
@@ -111,7 +120,8 @@ class BlogPostCreation extends Component{
 const mapStateToProps=(state)=>{
 
 	return{
-		personalInformation:state.personalInformation
+		personalInformation:state.personalInformation,
+		companyInformation:state.companyInformation
 	}
 }
 

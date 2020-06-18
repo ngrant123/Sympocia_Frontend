@@ -15,11 +15,15 @@ const ShadowContainer= styled.div`
 
 const Container=styled.div`
 	position:fixed;
-	width:70%;
+	width:35%;
 	height:60%;
 	background-color:red;
 	top:0px;
 	z-index:15;
+	border-radius:5px;
+	background-color:white;
+	left:30%;
+	top:5%;
 `;
 
 

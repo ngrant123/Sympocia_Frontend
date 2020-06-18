@@ -9,6 +9,8 @@ import {
 		} from "../../../Actions/Tasks/userTasks.js";
 import ReactMapGL ,{Marker,Popup } from 'react-map-gl';
 import {MapProvider} from "../MapContext.js";
+import NoProfileIcon from "../../../designs/img/NoProfilePicture.png";
+import CloseIcon from '@material-ui/icons/Close';
 
 
 const Container = styled.div`
@@ -26,7 +28,6 @@ const ShadowBackground = styled.div`
 	height:100%;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	z-index:2;
-
 `;
 
 const SearchContainer = styled.div`
@@ -68,27 +69,21 @@ const MarkerContainer=styled.div`
 
 `;
 
-const CompanyLogo=styled.div`
-	position:relative;
-	background-color:red;
-	border-radius:50%;
-	width:70%;
-	height:65%;
-`;
 
 const ViewCompanyButton=styled(Link)`
-	position:relative;
+	position:absolute;
 	text-align:center;
-	background-color:#5298F8;
-	width:40px;
+	background-color:white;
 	height:10%;
 	border-radius:5px;
 	padding:5px;
-	color:white;
+	color:#5298F8;
 	margin-top:20%;
-
+	transition:.8s;
+	border-style:solid;
+	border-width:1px;
+	border-color:#5298F8
 `;
-
 const EmployeePicture=styled.div`
 	position:relative;
 	background-color:red;
@@ -116,8 +111,36 @@ const InformationalModal=styled.div`
 	background-color:white;
 	border-radius:5px;
 	padding:5px;
+`;
+
+const CompanyLogoCSS={
+	position:"relative",
+	backgroundColor:"red",
+	borderRadius:"50%",
+	width:"70%",
+	height:"65%"
+}
 
 
+const SmallCompanyLogoCSS={
+	position:"relative",
+	backgroundColor:"red",
+	borderRadius:"50%",
+	width:"80%",
+	height:"25%"
+}
+
+const SmallCompanyProfileContainer = styled.div`
+      position:absolute;
+      width:25%;
+      height:30%;
+      top:15%;
+      left:40%;
+      background-color:white;
+      z-index:5;
+      border-radius:5px;
+      overflow:hidden;
+      border-radius:5px;
 `;
 
 
@@ -130,7 +153,6 @@ const testerdata= [
 		72,
 		-43
 	]
-
 ]
 
 const testtest= {
@@ -182,7 +204,8 @@ class MapContainer extends Component {
 			popupLat:0,
 			popupLong:0,
 			displayInformationalModal:true,
-			selectedCompany:{}
+			selectedCompany:{},
+			displaySmallCompanyProfile:false
 		  };
 
 	}
@@ -248,27 +271,33 @@ class MapContainer extends Component {
 	}
 
 	displayShadowBackground =()=>{
-
 		return this.state.showShadowBackground ? <ShadowBackground /> : <p style={{display:"none"}}></p> ;
 	}
 
 	dispayPopupModal=(props)=>{
+		console.log(props);
 		this.setState({
-			displayPopup:true,
-			popupLat:props.latitude,
-			popupLong:props.longitude,
+			displaySmallCompanyProfile:true,
 			selectedCompany:{
 				name:props.name,
 				id:props._id,
 				activeTime:props.activeTime,
-				employees:props.employees
+				employees:props.employees,
+				profilePicture:props.profilePicture,
+				_id:props._id
 			}
 		})
 	}
 	closePopModal=()=>{
 		this.setState({
-			displayPopup:false
+			displaySmallCompanyProfile:false
 		})
+	}
+
+	visitCompanyPage=()=>{
+		debugger;
+		document.getElementById("viewCompanyButon").click();
+		//console.log("Testing click button")
 	}
 
 	popup=()=>{
@@ -276,32 +305,22 @@ class MapContainer extends Component {
 		if(this.state.displayPopup==true){
 			return <Popup 
 						latitude={this.state.popupLat} longitude={this.state.popupLong}
-						style={{boxShadow:"2px 2px 5px #707070"}}
+						style={{boxShadow:"2px 2px 5px #707070",padding:"10px"}}
 						onClose={()=>this.closePopModal()}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								<h1>{this.state.selectedCompany.name}</h1>
 							</li>
 							<li style={{listStyle:"none",marginBottom:"2%"}}>
-								Active:{this.state.selectedCompany.activeTime} days ago	
+								Industry: {this.state.selectedCompany.industry}
 							</li>
 							<li style={{listStyle:"none",marginBottom:"2%"}}>
-									Employees:
+									Employees: {this.state.selectedCompany.employees.length}
 							</li>
 						</ul>
-
-						<EmployeesContainer>
-							{this.state.selectedCompany.employees.map(data=>
-												<li style={{display:"inline-block",listStyle:"none",marginRight:"2%",marginBottom:"1%"}}>
-													<EmployeePicture>
-													</EmployeePicture>
-												</li>
-											)}
-						</EmployeesContainer>
-						<ViewCompanyButton to="/profile">
+						<ViewCompanyButton onClick={()=>this.visitCompanyPage()}>
 							View Company
 						</ViewCompanyButton>
-						
 					</Popup>
 		}
 	}
@@ -312,7 +331,6 @@ class MapContainer extends Component {
 	}
 
 	render(){
-
 		const position=[this.state.lat,this.state.lng];
 		const position2=[this.state.testlat,this.state.lng];
 
@@ -326,17 +344,16 @@ class MapContainer extends Component {
 					},
 					updateCompaniesLocation:(companiesArray)=>{
 						this.setState({
-							companiesLocation:companiesArray
+								companiesLocation:companiesArray
 							})
 						}
 					}}
 				>
 				<Container>
 					{this.displayShadowBackground()}
-
-						<GeneralNavBar
-							page={"Map"}
-						/>
+					<GeneralNavBar
+						page={"Map"}
+					/>
 					<ReactMapGL
 						{...this.state.viewport}
 						mapboxApiAccessToken={MAPBOX_TOKEN}
@@ -351,8 +368,10 @@ class MapContainer extends Component {
 					          <MarkerContainer onClick={()=>this.dispayPopupModal(data)}>
 					          		<ul style={{padding:"0px"}}>
 					          			<li style={{listStyle:"none",marginLeft:"20%"}}>
-					          				<CompanyLogo>
-					          				</CompanyLogo>
+					          				{data.profilePicture==null?
+												<img src={NoProfileIcon} style={CompanyLogoCSS}/>:
+												<img src={data.profilePicture} style={CompanyLogoCSS}/>
+											}
 					          			</li>
 
 					          			<li style={{listStyle:"none",fontSize:"10px",textAlign:"center"}}>
@@ -364,7 +383,6 @@ class MapContainer extends Component {
 					        </Marker>
 				        )}
 						{this.state.displayInformationalModal && (
-							
 							<InformationalModal>
 								<p style={{color:"#5298F8"}}> Search for companies who are nearby and connect with them. Heres how the map works:</p>
 								<ul>
@@ -376,17 +394,51 @@ class MapContainer extends Component {
 										When all your information is done press submit and let us handle the rest
 
 									</li>
-
 								</ul>
-
 							</InformationalModal>
-
 						)}
 				       {this.popup()}
 
 					</ReactMapGL>
 
-	      			<SearchComponent/>
+	      			<SearchComponent
+	      				_id={this.props.match.params.id}
+	      			/>
+	      			{this.state.displaySmallCompanyProfile==false?null:
+	      				<SmallCompanyProfileContainer>
+	      					<ul style={{padding:"20px"}}>
+	      						<li style={{listStyle:"none"}}>
+	      							<CloseIcon
+		      							onClick={()=>this.closePopModal()}
+		      						/>
+	      						</li>
+	      						
+	      						<li style={{marginTop:"1%",width:"30%",listStyle:"none",display:"inline-block"}}>
+	      							{this.state.selectedCompany.profilePicture==null?
+												<img src={NoProfileIcon} style={SmallCompanyLogoCSS}/>:
+												<img src={this.state.selectedCompany.profilePicture} style={SmallCompanyLogoCSS}/>
+									}	
+	      						</li>
+
+	      						<li style={{listStyle:"none",display:"inline-block"}}>
+	      							<ul style={{padding:"0px"}}>
+	      								<li style={{listStyle:"none"}}>
+											<h1>{this.state.selectedCompany.name}</h1>
+										</li>
+										<li style={{listStyle:"none",marginBottom:"2%"}}>
+											Industry: {this.state.selectedCompany.industry}
+										</li>
+										<li style={{listStyle:"none",marginBottom:"1%"}}>
+												Employees: {this.state.selectedCompany.employees.length}
+										</li>
+										<ViewCompanyButton id="viewCompanyButon" to={{pathname:`/companyProfile/${this.state.selectedCompany._id}`}}>
+												View Company
+										</ViewCompanyButton>
+	      							</ul>
+	      						</li>
+	      					</ul>
+	      				</SmallCompanyProfileContainer>
+	      			}
 
 				</Container>
 			</MapProvider>

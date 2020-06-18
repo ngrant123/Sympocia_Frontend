@@ -87,7 +87,9 @@ class BlogsPostsContainer extends Component{
 			this.setState({
 				headerBlog:headerBlog,
 				blogs:blogs,
-				isLoading:false
+				isLoading:false,
+				blogUrl:`/blog/${this.props.id}`,
+				profileType:"Personal"
 			})
 		}else{				
 		
@@ -96,7 +98,9 @@ class BlogsPostsContainer extends Component{
 			this.setState({
 				headerBlog:headerBlog,
 				blogs:blogPosts,
-				isLoading:false
+				isLoading:false,
+				blogUrl:`/blog/${this.props.id}`,
+				profileType:"Company"
 			})
 		}
 	}
@@ -204,7 +208,7 @@ class BlogsPostsContainer extends Component{
 													<li style={{listStyle:"none",marginTop:"5%"}}>	
 														<ul style={{padding:"0px"}}>
 															{this.state.blogs.map(data=>
-																<BlogContainer to={{pathname:`/blog/${personalInformation.userProfile._id}`,state:{...data,profileType:this.state.profileType}}}>
+																<BlogContainer to={{pathname:`${this.state.blogUrl}`,state:{...data,profileType:this.state.profileType}}}>
 																	<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"-7%"}}>
 																		<SmallBlogComponent>
 																			<ul style={{padding:"0px"}}>

@@ -139,6 +139,7 @@ const NoPostsModal=(props)=>{
 	},[]);
 
 	const createPostModal=()=>{
+		console.log(props);
 		if(props!=null){
 			var displayCreatePostIndicator;
 			if(props.profilePageType=="Company"){
@@ -240,7 +241,6 @@ const NoPostsModal=(props)=>{
 											</li>
 									</ul>
 								</RecommendedContainer>
-								
 							</li>
 						</ul>
 

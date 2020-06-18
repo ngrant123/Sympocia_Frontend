@@ -30,7 +30,7 @@ const BlogDescription=styled.textarea`
 	height:30%;
 	resize:none;
 	border-style:none;
-	color:#e4e9eb;
+	color:#1C1C1C;
 	border-style:solid;
 	border-radius:5px;
 	border-width:1px;
@@ -43,7 +43,7 @@ const BlogTitle=styled.textarea`
 	height:10%;
 	resize:none;
 	border-style:none;
-	color:#e4e9eb;
+	color:#1C1C1C;
 	border-style:solid;
 	border-radius:5px;
 	border-width:1px;
@@ -178,7 +178,7 @@ class BlogEditSubmitModal extends Component{
 													<li style={{listStyle:"none",display:"inline-block",boxShadow:"1px 1px 5px #8c8c8c",borderStyle:"dotted",borderRadius:"5px",marginLeft:"4%",marginTop:"10%"}}>
 														{this.state.displayImage==false?
 															<React.Fragment>
-																<a href="javascript:;" style={{textDecoration:"none"}}>
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																	<ul onClick={()=>this.clickInputFileButton()}style={{padding:"110px"}}>
 																		<li style={{listStyle:"none",marginLeft:"25%"}}>
 																			<CameraIcon
@@ -190,12 +190,11 @@ class BlogEditSubmitModal extends Component{
 																		</li>
 																	</ul>
 																</a>
-																<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()}></input>
+																<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} accept="image/x-png,image/gif,image/jpeg"></input>
 															</React.Fragment>:
 															<ImageContainer>
 																<img src={this.state.pictureUrl} width="100%" height="100%"/>
 															</ImageContainer>
-
 														}
 													</li>
 
@@ -233,6 +232,7 @@ class BlogEditSubmitModal extends Component{
 																		/>
 																	</li>
 																	<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																				<ul onClick={()=>this.sendBlogDataToDB(blogPostInformation,profilePostInformation)}>
 																					<li style={{listStyle:"none",display:"inline-block"}}>
 																						<SendIcon
@@ -243,8 +243,8 @@ class BlogEditSubmitModal extends Component{
 																					<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
 																						Send
 																					</li>
-
 																				</ul>
+																		</a>
 																	 </li>
 																</React.Fragment>
 															}

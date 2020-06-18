@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import NewsDisplayPortal from "../../../CompanyProfileSet/NewsDisplayPortal.js";
 
 const Container = styled.div`
 
@@ -23,8 +24,6 @@ const Icon = styled.div`
 	height:60%;
 	left:5%;
 	top:10%;
-	background-color:black;
-	border-radius:50%;
 `;
 
 const NotificationCaption = styled.div`
@@ -60,7 +59,6 @@ const Caption = styled.div`
 `;
 
 //Could be a functional component
-
 class Notification extends Component{
 
 
@@ -68,50 +66,54 @@ class Notification extends Component{
 
 	constructor(props){
 		super(props);
+		console.log(props);
 
 		this.state={
 			description:props.caption,
 			date:props.date,
-			key:props.id
+			key:props.id,
+			displayTopLevelNewsModal:false
 		};
 
 		console.log("TEs 2");
-
 	//	handleClick=handleClick.bind(this);
-
 	}
 
-	handleDivEnter(){
-
-		document.getElementById(this.state.key).style.borderStyle="solid";
-		document.getElementById(this.state.key).style.borderWidth="1px";
-		document.getElementById(this.state.key).style.borderColor="#5298F8";
-
+	closeModal=()=>{
+		this.setState({
+			displayTopLevelNewsModal:false
+		})
 	}
-
-	handleDivOut(){
-
-		document.getElementById(this.state.key).style.borderStyle="none";
-
-	}
-
 	handleClick(){
-		this.props.displayData(this.state);
-		this.props.addNewsToContext(this.state);
-
+		this.setState({
+			displayTopLevelNewsModal:true
+		})
 	}
 
 			render(){
 
 				return(
-					<Container onMouseOver={()=>this.handleDivEnter()} onMouseOut={()=>this.handleDivOut()} id={this.state.key} onClick={()=>this.handleClick()}>
-						<Icon></Icon>	
-						<NotificationCaption>
-							<DateContainer>{this.state.date}</DateContainer>
-							<Caption>{this.state.description}</Caption>
-						</NotificationCaption>
-					</Container>
-
+					<React.Fragment>
+						<Container id={this.state.key} onClick={()=>this.handleClick()}>
+							<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+								<Icon>
+									<AssessmentIcon
+										style={{fontSize:"20"}}
+									/>
+								</Icon>	
+								<NotificationCaption>
+									<DateContainer>{this.props.newsData.date}</DateContainer>
+									<Caption>{this.props.newsData.newsDescription}</Caption>
+								</NotificationCaption>
+							</a>
+						</Container>
+						{this.state.displayTopLevelNewsModal==true?
+							<NewsDisplayPortal
+								data={this.props.newsData}
+								closeModal={this.closeModal}
+							/>:null
+						}
+					</React.Fragment>
 				)
 			}
 }

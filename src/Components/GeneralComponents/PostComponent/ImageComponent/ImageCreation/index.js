@@ -111,7 +111,7 @@ class ImageCreation extends Component{
 											</li>
 										</ul>																			
 									</button>
-									<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()}></input>
+									<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} accept="image/x-png,image/gif,image/jpeg"></input>
 								</li>
 
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>

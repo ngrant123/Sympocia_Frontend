@@ -16,6 +16,7 @@ import {CompanyPostDisplayProvider} from "../CompanyProfilePostsDisplayContext.j
 import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
 import ChampionModal from "../../PersonalProfile/PersonalProfileSet/ChampionModalPortal/ChampionDisplayModal.js";
+import EmployeeDisplayModal from "./EmployeeDisplayModal.js";
 
 
 
@@ -693,7 +694,11 @@ class LProfile extends Component{
 			},
 			displayShadowBackground:false,
 			displayChampionModal:false,
-			championModalData:{}
+			championModalData:{},
+			displayEmployeeModal:false,
+			displayNewsModal:false,
+			topLevelEmployeeData:{},
+			topLevelNewsData:{}
 		}
 	}
 
@@ -747,19 +752,25 @@ class LProfile extends Component{
 						displayChampionModal:containsChampion,
 						championModalData:profile.championData
 					}));
-			}	
+				}	
+			}
 		}
 
+
+
+	displaytoplevelnewsprofile=(data)=>{
+		this.setState({
+			displayNewsModal:true,
+			topLevelNewsData:data
+		})
 	}
 
-
-
-	displaytoplevelnewsprofile=()=>{
-
-	}
-
-	displaytoplevelemployeeprofile=()=>{
-
+	displaytoplevelemployeeprofile=(data)=>{
+		console.log(data);
+		this.setState({
+			displayEmployeeModal:true,
+			topLevelEmployeeData:data
+		})
 	}
 
 	ScrollFunction=()=>{
@@ -831,7 +842,13 @@ class LProfile extends Component{
 				/>
 			</PostPopupContainer>:
 			<React.Fragment></React.Fragment>
+	}
 
+	closeModal=()=>{
+		this.setState({
+			displayEmployeeModal:false,
+			displayNewsModal:false
+		})
 	}
 
 	BlogModal=()=>{
@@ -843,29 +860,32 @@ class LProfile extends Component{
 
 		return(
 			<CompanyProvider value={{
-				state:this.state,
-				updateEmployees:(employeeInformation)=>{
-					const employees=this.state.companyEmployees;
-					employees.push(employeeInformation);
-					this.setState({
-						companyEmployees:employees
-					})
+					state:this.state,
+					updateEmployees:(employeeInformation)=>{
+						const employees=this.state.userProfile.companyEmployees;
+						employees.push(employeeInformation);
+						this.setState({
+							companyEmployees:employees
+						})
 
-				},
-				updateNews:(newsInformation)=>{
-					const news=this.state.news;
-					news.push(newsInformation);
-					this.setState({
-		  				news:news
-					})
-				},
-				displayChampionModal:(championModalData)=>{
-					this.setState({
-						displayChampionModal:true,
-						championModalData:championModalData
-					})
-				}
-
+					},
+					updateNews:(newsInformation)=>{
+						debugger;
+						const news=this.state.userProfile.news;
+						news.push(newsInformation);
+						this.setState({
+			  				userProfile:{
+			  					...this.state.userProfile,
+			  					news:news
+			  				}
+						})
+					},
+					displayChampionModal:(championModalData)=>{
+						this.setState({
+							displayChampionModal:true,
+							championModalData:championModalData
+						})
+					}
 				}}>
 					<CompanyPostDisplayProvider
 						value={{
@@ -914,6 +934,12 @@ class LProfile extends Component{
 							{this.ImageModal()}
 							{this.VideoModal()}
 							{this.BlogModal()}
+
+							{this.state.displayEmployeeModal==true?
+								<EmployeeDisplayModal 
+									data={this.state.topLevelEmployeeData}
+									closeModal={this.closeModal}
+								/>:null}
 
 							<FirstProfileContainer>
 									<CompanyIcon>

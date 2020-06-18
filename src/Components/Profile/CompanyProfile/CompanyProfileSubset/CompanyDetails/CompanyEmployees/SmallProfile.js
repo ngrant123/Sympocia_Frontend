@@ -154,16 +154,12 @@ class SmallProfile extends Component {
 
 	}
 
-	handleOnClick(){
-			this.props.displayEmployee(this.state);
-	}
-
 	render(){
 
 
 		return(
 
-				<Profile onClick={()=>this.handleOnClick()}> 
+				<Profile> 
 							<Image>
 								<img src={this.props.employeeData.imgUrl} style={{position:"relative",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"1"}}/>
 							</Image>

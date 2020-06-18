@@ -47,10 +47,7 @@ const TwitterContainer = styled.div`
 	background-color:black;
 	border-radius:50%;
 
-
 `;
-
-
 
 class SmallInvestorMediaContainer extends Component{
 

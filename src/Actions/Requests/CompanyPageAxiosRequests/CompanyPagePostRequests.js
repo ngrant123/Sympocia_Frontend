@@ -84,14 +84,13 @@ export async function addNewsToDB(newsObject,companyId){
 	const CreateUrl='http://localhost:4000/api/company/alter';
 
 	try{
-		const {	newsDate,
-				news }=newsObject
+		const {	date,newsDescription}=newsObject
 
 		const newsConfirmation=await axios.post(`${CreateUrl}/addNews`,{
 			id:companyId,
 			news:{
-				date:newsDate,
-				newsDescription:news
+				date:date,
+				newsDescription:newsDescription
 			}
 		})
 

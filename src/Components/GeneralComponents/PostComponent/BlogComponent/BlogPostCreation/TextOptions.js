@@ -180,11 +180,12 @@ const TextOptions=(props)=>{
 
 										</ul>
 									</li>
-
 									<li style={{listStyle:"none"}}>
-										<SubmitButton onClick={()=>props.displayEditBlogSubmitModal()}>
-											Submit
-										</SubmitButton>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<SubmitButton onClick={()=>props.displayEditBlogSubmitModal()}>
+												Submit
+											</SubmitButton>
+										</a>
 									</li>
 								</ul>
 							</Container>

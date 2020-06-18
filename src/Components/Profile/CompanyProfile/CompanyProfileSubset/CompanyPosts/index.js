@@ -137,7 +137,7 @@ const PersonalPostsIndex=(props)=>{
 	const [postOption,changePostOption]=useState();
 	const [personalInformation,changePersonalInformation]=useState([]);
 
-	const [videoPost,changeVideoPosts]=useState({});
+	const [videoPost,changeVideoPosts]=useState([]);
 	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
 	console.log("Teste");
 
@@ -443,6 +443,7 @@ const PersonalPostsIndex=(props)=>{
 												videos={videoPost}
 												isLoadingIndicatorVideos={isLoadingIndicatorVideos}
 												id={personalInformation.state.userProfile._id}
+												profile="Company"
 											/>:<React.Fragment></React.Fragment>
 										}
 

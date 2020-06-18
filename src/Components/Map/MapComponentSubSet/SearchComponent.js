@@ -1,10 +1,7 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import {connect} from "react-redux";
-import {
-            quickSearchIndustry,
-            searchForCompanies
-      } from "../../../Actions/Requests/MapPageAxiosRequests/MapPageGetRequests.js";
+import {quickSearchIndustry,searchForCompanies} from "../../../Actions/Requests/MapPageAxiosRequests/MapPageGetRequests.js";
 import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 import LOCATIONS from "../../../Constants/locationConstants.js";
 import {MapConsumer} from "../MapContext.js";
@@ -138,7 +135,7 @@ class SearchComponent extends Component{
 
       componentDidMount=()=>{
 
-            const locationArray=LOCATIONS.worldcities;
+            const locationArray=LOCATIONS.WORLDCITIES;
             const newLocationArray=[];
             const deciderMap=new Map();
 
@@ -207,7 +204,8 @@ class SearchComponent extends Component{
             mapContext.displayInformationalModal(false);
             let quickSearchData=this.state.industries;
             quickSearchData.push(data.trim());
-            const companies=await quickSearchIndustry("5e73bd457ad9932ff75c40bf",this.state.industries);
+            const companies=await quickSearchIndustry(this.props._id,this.state.industries);
+            console.log(companies);
             mapContext.updateCompaniesLocation(companies);
             console.log(companies);
 
@@ -222,7 +220,7 @@ class SearchComponent extends Component{
             const industry=document.getElementById("industryId").value.trim();
             const name=document.getElementById("nameId").value;
             const addedOptions={state:location,industry:industry,name:name};
-            const companies=await searchForCompanies("5e73bd457ad9932ff75c40bf",addedOptions);
+            const companies=await searchForCompanies(this.props._id,addedOptions);
             mapContext.updateCompaniesLocation(companies);
       }
 
@@ -295,16 +293,11 @@ class SearchComponent extends Component{
                                                                         <AddOptionButton onClick={()=>this.addOption(mapContext)}>
                                                                               Add
                                                                         </AddOptionButton>
-
                                                                   </li>
-
-
                                                             </ul>
-
                                                       </li>
 
                                                       <li>
-
                                                             <ul style={{padding:"0px"}}>
                                                                   <li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
                                                                         <MapTextBox

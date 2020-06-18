@@ -4,10 +4,9 @@ import Notification from "./Notification.js";
 import {connect } from "react-redux";
 import {addNews} from "../../../../../../Actions/Redux/Actions/CompanyNewsActions.js";
 import {CompanyConsumer} from "../../../CompanyContext.js";
-import {
-	addNewsToDB
-} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
+import {addNewsToDB} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
 import StorageIcon from '@material-ui/icons/Storage';
+import NewPortal from "../../../CompanyProfileSet/AddNewsPortal.js";
 
 const Container = styled.div`
 	position:absolute;
@@ -209,7 +208,8 @@ class MediumCompanyStats extends Component{
 
 		this.state={
 
-			Notifications:[]
+			Notifications:[],
+			displayNewsCreationModal:false
 		}
 		this.displayData=this.displayData.bind(this);
 		console.log("Test");
@@ -231,17 +231,16 @@ class MediumCompanyStats extends Component{
 	}
 
 
-	AddNotificationsAndCheckLimit(){
+	displayAddNewsModal=()=>{
+		this.setState({
+			displayNewsCreationModal:true
+		})
+	}
 
-		var numEmployees=this.state.Notifications;
-		var num=numEmployees.length+1;
-		if(num==7){
-			document.getElementById("AddNotification").style.pointerEvents="none";
-			document.getElementById("MaxNotifications").style.opacity="1";
-		}
-		else{
-			document.getElementById("MaxNotifications").style.opacity="0";
-		}
+	closeModal=()=>{
+		this.setState({
+			displayNewsCreationModal:false
+		})
 	}
 
 	handleAddNews=(companyId,addNewsToContext)=>{
@@ -288,9 +287,11 @@ class MediumCompanyStats extends Component{
 								<b style={{maringLeft:"2%"}}>News</b>
 							</Caption>
 							{companyInformation.state.isOwnProfile==true?
-								<AddButton data-toggle="modal" data-target="#mymodal" onClick={()=>this.AddNotificationsAndCheckLimit()}>
-									<b>+</b>
-								</AddButton>:
+								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+									<AddButton data-toggle="modal" data-target="#mymodal" onClick={()=>this.displayAddNewsModal()}>
+										<b>+</b>
+									</AddButton>
+								</a>:
 								<React.Fragment>
 								</React.Fragment>
 
@@ -302,34 +303,44 @@ class MediumCompanyStats extends Component{
 						</NotificationDescription>
 						
 
-
+							{this.state.displayNewsCreationModal==true?
+								<NewPortal
+									closeModal={this.closeModal}
+									companyInformation={companyInformation}
+								/>:null
+							}
+						{/*
 							<div class="modal fade" id="mymodal" role="dialog">
-							 <div class="modal-dialog">
-										    
-								<div class="modal-content">
-								   <div class="modal-header">
-								      <button type="button" class="close" data-dismiss="modal">&times;</button>
-										   <h4 class="modal-title">Add Information</h4>
-										   <MaxEmployee id="MaxNotifications"> 
-										   		<p>Maximum Employees. Remove somebody to add a new person </p>
-										   </MaxEmployee>
-										 </div>
-										 <div class="modal-body" style={{height:"270px"}}>
-											 &nbsp;
-											
-											 	<TitleContainer placeholder="e.x. June 23 1996" id="DateCaptionValue"></TitleContainer>
-											 	<TitleCaption> Please list the Date </TitleCaption>
-											 	<NotificaiontCaption>Explain the news</NotificaiontCaption>
-											 	<NotificationInput id="NotificationValue" placeholder="Whats the big news?"></NotificationInput>
-										  </div>
-										  <div class="modal-body"> &nbsp; </div>
-										  <div class="modal-footer">
-										    <button type="button" class="btn btn-default" data-dismiss="modal" id="AddNotification" onClick={()=>this.handleAddNews(companyInformation.state.id,companyInformation.updateNews)}>Add News</button>
-										    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-										  </div>
-									</div>	      
-							 </div>
-					    </div>
+								 <div class="modal-dialog">
+											    
+									<div class="modal-content">
+									   <div class="modal-header">
+									      <button type="button" class="close" data-dismiss="modal">&times;</button>
+											   <h4 class="modal-title">Add Information</h4>
+											   <MaxEmployee id="MaxNotifications"> 
+											   		<p>Maximum Employees. Remove somebody to add a new person </p>
+											   </MaxEmployee>
+											 </div>
+											 <div class="modal-body" style={{height:"270px"}}>
+												 &nbsp;
+												
+												 	<TitleContainer placeholder="e.x. June 23 1996" id="DateCaptionValue"></TitleContainer>
+												 	<TitleCaption> Please list the Date </TitleCaption>
+												 	<NotificaiontCaption>Explain the news</NotificaiontCaption>
+												 	<NotificationInput id="NotificationValue" placeholder="Whats the big news?"></NotificationInput>
+											  </div>
+											  <div class="modal-body"> &nbsp; </div>
+											  <div class="modal-footer">
+											    <button type="button" class="btn btn-default" data-dismiss="modal" id="AddNotification" onClick={()=>this.handleAddNews(companyInformation.state.id,companyInformation.updateNews)}>Add News</button>
+											    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											  </div>
+										</div>	      
+								 </div>
+						    </div>
+
+
+						*/}
+							
 						</AddNotificationsContainer>
 
 						<NewsContainer>
@@ -339,11 +350,8 @@ class MediumCompanyStats extends Component{
 									{companyInformation.state.userProfile.news.map(data =>
 										<li style={{display:"inline-block",marginBottom:"10px",marginLeft:"1px"}}>
 												<Notification 
-													date={data.date}
-													caption={data.newsDescription}
+													newsData={data}
 													id={data.key}
-													displayData={this.displayData}
-													addNewsToContext={companyInformation.updateNews}
 												/>	
 											</li>
 									)}

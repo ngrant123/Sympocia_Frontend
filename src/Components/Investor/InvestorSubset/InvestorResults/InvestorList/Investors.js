@@ -236,8 +236,8 @@ var investorpagetracker=1;
 class Investors extends Component{
 
 	constructor(props){
-		super(props);
-
+		super(props);	
+		console.log(props);
 		this.state={
 			name:"",
 			bio:"",
@@ -256,6 +256,8 @@ class Investors extends Component{
 	componentDidMount(){
 
 		var length=this.state.totalinvestors.length;
+		console.log("Total investors");
+		console.log(this.state.totalinvestors);
 		var stoppingpoint;
 		var startingpoint;
 
@@ -300,7 +302,6 @@ class Investors extends Component{
 
 		while(counter<data.length){
 			investorobject=data[counter];
-
 			if(counter>3){
 				rightinvestorcontainer.push(investorobject);
 
@@ -317,7 +318,6 @@ class Investors extends Component{
 			firstinvestors:[],
 			secondinvestors:[]
 		},function(){
-
 			this.setState({
 					firstinvestors:leftinvestorcontainer,
 					secondinvestors:rightinvestorcontainer
@@ -362,12 +362,6 @@ class Investors extends Component{
 	}
 
 
-	bubbleUpInvestorData=(data)=>{
-
-		this.props.displayInvestorProfile(data);
-	}
-
-
 
 	render(){
 
@@ -376,7 +370,6 @@ class Investors extends Component{
 					<PreviousNextIconContainer>
 						<NextIcon id="nextButton" onClick={()=>this.handleNextButton()}>Next</NextIcon>
 						<PreviousIcon id="previousbutton" onClick={()=>this.handlePreviousButton()}>Previous</PreviousIcon>
-
 					</PreviousNextIconContainer>
 
 					<FirstSectionInvestorBody>
@@ -388,10 +381,10 @@ class Investors extends Component{
 												name={data.firstName}
 												bio={data.bio}
 												activenumber={data.activenumber}
-												investmentnumber={data.investments.length}
 												investments={data.investments}
 												amount={data.amount}
-												bubbleUpInvestorData={this.bubbleUpInvestorData}
+												profilePicture={data.profilePicture}
+												_id={data._id}
 											/>
 									</li>
 								)}
@@ -400,20 +393,18 @@ class Investors extends Component{
 
 					</FirstSectionInvestorBody>
 					<SecondSectionInvestorBody>
-
 						<ul style={{listStyle:"none",marginBottom:"20px",position:"relative"}}>
 							<SecondInvestorProfileContainer>
 								{this.state.secondinvestors.map(data=>
 									<li style={{ position:"relative",marginBottom:"17px"}}>
-
 											<SmallInvestorProfileTab 
 												name={data.firstName}
 												bio={data.bio}
 												activenumber={data.activenumber}
-												investmentnumber={data.investments.length}
 												investments={data.investments}
 												amount={data.amount}
-												bubbleUpInvestorData={this.bubbleUpInvestorData}
+												profilePicture={data.profilePicture}
+												_id={data._id}
 											/>
 									</li>
 								)}
@@ -421,7 +412,6 @@ class Investors extends Component{
 						</ul>
 
 					</SecondSectionInvestorBody>
-
 					<PageContainer></PageContainer>
 
 		</React.Fragment>

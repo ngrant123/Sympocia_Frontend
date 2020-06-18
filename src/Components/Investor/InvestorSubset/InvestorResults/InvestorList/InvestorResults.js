@@ -12,13 +12,12 @@ import {
 		searchforfirstName,
 		searchforLastName
 	} from "../../../../../Actions/Tasks/userTasks.js";
+import {InvestorConsumer} from "../../../InvestorContext.js";
 
 const Container = styled.div`
-
 	position:absolute;
 	width:100%;
 	height:100%;
-
 `;
 
 const SearchBox = styled.div`
@@ -31,7 +30,7 @@ const SearchBox = styled.div`
 	border-radius:5px;
 	box-shadow: 1px 1px 5px 5px #d8d9df;
 	overflow:hidden;
-
+	filter: blur(5px);
 `;
 
 
@@ -548,11 +547,9 @@ const TestContainer=styled.div`
 var investorpagetracker=1;
 
 class InvestorComp extends Component{
-
-	
 	constructor(props){
 		super(props);
-
+		console.log(props);
 		this.state = {
 			name:"",
 			bio:"",
@@ -566,17 +563,13 @@ class InvestorComp extends Component{
 			displayInvestorContainer:false,
 			displayInvestmentContainer:false,
 			investorData:{}
-		
 		};
-
-		console.log(props);
+		console.log(this.props);
 	}
 
 
 
-
 	handleDisappearInvestorModal=(data)=>{
-
 		this.setState(prevState=>({
 			...prevState,
 			displayInvestorContainer:!this.state.displayInvestorContainer,
@@ -588,11 +581,10 @@ class InvestorComp extends Component{
 		console.log(this.state.displayInvestmentContainer)
 		this.setState({
 			displayInvestmentContainer:false
-
 		});
 	}
 
-	handleSearch = ()=>{
+	handleSearch=()=>{
 		var investorname=document.getElementById("searchcontainer").value;
 		var investorfirstlastname=investorname.split(" ");
 		var firstName=investorfirstlastname[0];
@@ -601,9 +593,7 @@ class InvestorComp extends Component{
 		var lastnameindicator;
 
 		if(investorfirstlastname.length>1){
-
 			lastName=investorfirstlastname[1];
-
 		}
 		firstnameindicator=searchforfirstName(firstName,this.state.totalinvestors);
 		lastnameindicator=[];
@@ -616,25 +606,20 @@ class InvestorComp extends Component{
 			this.storefirsteightinvestors(lastnameindicator,8,0);
 	}
 
-	DisplayInvestmentContainer = () =>{
-
+	DisplayInvestmentContainer=()=>{
 		var investmentdisplay= (this.state.displayInvestmentContainer) ? (
 					<div>
 							<ShadowContainerInvestment id="shadowinvesmentcontainer" onClick={()=>this.handleDisappearInvestmentModal()}/>
 							<SmallInvesmentContainer id="invesmentcontainer">
-								
 								<CompanyDescription>Company: </CompanyDescription>
 								<CompanyName>{this.state.companyname}</CompanyName>
 								<AmountDescription>Amount:</AmountDescription>
 								<AmountNumber>{this.state.amount}</AmountNumber>
-
 								<InvestmentBioDescription>{this.state.bio}</InvestmentBioDescription>
-
 							</SmallInvesmentContainer>
 					</div>
 
 					): (<p></p>);
-
 		return investmentdisplay;
 	}
 
@@ -644,77 +629,50 @@ class InvestorComp extends Component{
 		})
 	}
 
-
-	DisplayInvestorsContainer=()=>{
-		console.log(this.state.investorData);
-		return this.state.displayInvestorContainer==true ? 
-			<React.Fragment>
-				<ShadowContainerInvestor onClick={()=>this.display()}/>
-				<InvestorProfile
-					investorData={this.state.investorData}
-				/>
-				
-			</React.Fragment>
-			:<React.Fragment></React.Fragment>;
-	}
-
 	render(){
 		return(
+			<InvestorConsumer>
+				{investorInformation=>{
+					return <Container>
+								{/*SEARCH BOX BELOW IS NOT IMPLEMENTED YET. WILL DO AT A LATER TIME*/}
+								<SearchBox>
+									<InvestorSearchContainer>
+										<SearchIcon/>
+										<InvestorSearchBox placeholder="Enter the Investors name" id="searchcontainer"></InvestorSearchBox>
+										<InvestorSearchBoxButton onClick={()=>this.handleSearch()}>Search</InvestorSearchBoxButton>
+										<InvestorSearchMatchButton>Match</InvestorSearchMatchButton>
+									</InvestorSearchContainer>
 
-			<Container>
-				{this.DisplayInvestorsContainer()}
+									<InvestorOptionsContainer>
+										<ul style={{padding:"10px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
+												<InvestOptionsAlphabetize>Alphabetize</InvestOptionsAlphabetize>
+											</li>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
+												<InvestOptionsActiveButton>Active</InvestOptionsActiveButton>
+											</li>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
+												<InvestOptionsActiveButton>Active</InvestOptionsActiveButton>
+											</li>
+										</ul>
+									</InvestorOptionsContainer>
+								</SearchBox>
+										<SearchInformationContainer>
+											<SearchInformation
+												investors={investorInformation.state.investorResults}
+											/>
+										</SearchInformationContainer>
 
-						
-				<SearchBox>
-					<InvestorSearchContainer>
-						<SearchIcon/>
-
-						<InvestorSearchBox placeholder="Enter the Investors name" id="searchcontainer"></InvestorSearchBox>
-						<InvestorSearchBoxButton onClick={()=>this.handleSearch()}>Search</InvestorSearchBoxButton>
-						<InvestorSearchMatchButton>Match</InvestorSearchMatchButton>
-
-					</InvestorSearchContainer>
-
-			
-
-					<InvestorOptionsContainer>
-						<ul style={{padding:"10px"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
-								<InvestOptionsAlphabetize>Alphabetize</InvestOptionsAlphabetize>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
-								<InvestOptionsActiveButton>Active</InvestOptionsActiveButton>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
-								<InvestOptionsActiveButton>Active</InvestOptionsActiveButton>
-							</li>
-						</ul>
-					
-					</InvestorOptionsContainer>
-				</SearchBox>
-				
-						<SearchInformationContainer>
-							<SearchInformation/>
-
-
-						</SearchInformationContainer>
-				
-
-						 <InvestorsContainer>
-						 	<Investors
-								firstinvestors={this.state.firstinvestors}
-								secondinvestors={this.state.secondinvestors}
-								totalinvestors={this.state.totalinvestors}
-								displayInvestorProfile={this.handleDisappearInvestorModal}
-							/>
-
-
-						 </InvestorsContainer>
-						
-				
-
-			</Container>
-
+										 <InvestorsContainer>
+										 	<Investors
+												firstinvestors={this.state.firstinvestors}
+												secondinvestors={this.state.secondinvestors}
+												totalinvestors={investorInformation.state.investorResults}
+											/>
+										 </InvestorsContainer>
+							</Container>
+				}}
+			</InvestorConsumer>
 		)
 	}
 }

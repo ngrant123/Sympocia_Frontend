@@ -100,6 +100,7 @@ class PersonalSignUp extends Component{
 
 	handleSignUpButton=async(props)=>{
 		debugger;
+		console.log(this.props);
 		const firstName=document.getElementById("firstName").value;
 		const lastName=document.getElementById("lastName").value;
 		const email=document.getElementById("email").value;
@@ -112,18 +113,38 @@ class PersonalSignUp extends Component{
 			props.preventDefault();
 			alert('The email that you have typed is already used unfortunately by someone else. Please enter another one or sign in if its yours');
 		}else{
-				this.props.addFirstName(this.props.firstName);
-				this.props.addLastName(this.props.lastName);
-				this.props.addEmail(this.props.email);
+				this.props.addFirstName(firstName);
+				this.props.addLastName(lastName);
+				this.props.addEmail(email);
 
-				const profileCreationId=await createProfile({
-					firstName:firstName,
-					lastName:lastName,
-					email:email,
-					isInvestor:false,
-					password:password
-				});
+				var profileCreationId;
+				debugger;
+				if(this.props.investorInformation!=null){
+					const {investorInformation}=this.props;
+					const {industries,location}=investorInformation;
+					const {long,lat}=location;
 
+					profileCreationId=await createProfile({
+						firstName:firstName,
+						lastName:lastName,
+						email:email,
+						isInvestor:true,
+						industries:industries,
+						location:{
+							long:long,
+							lat:lat
+						},
+						password:password
+					});
+				}else{
+					profileCreationId=await createProfile({
+						firstName:firstName,
+						lastName:lastName,
+						email:email,
+						isInvestor:false,
+						password:password
+					});
+				}
 				this.props.addPersonalIdentificationId(profileCreationId);
 				this.props.loginPersonalPage(true);
 				this.props.loginCompanyPage(false);

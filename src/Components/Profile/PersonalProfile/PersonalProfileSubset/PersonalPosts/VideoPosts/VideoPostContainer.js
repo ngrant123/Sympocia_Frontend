@@ -109,7 +109,7 @@ class VideoPostsContainer extends Component{
 							
 																				<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block"}}>
 																					<ul style={{paddging:"0px"}}>
-																						<li style={{marginBottom:"5px",listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
+																						<li style={{marginBottom:"5%",listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
 																							{this.state.headerVideo.industry}
 																						</li>
 																						<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px"}}>
@@ -145,7 +145,7 @@ class VideoPostsContainer extends Component{
 																<li style={{listStyle:"none",marginTop:"1%"}}>	
 																	<ul style={{padding:"0px"}}>
 																		{this.props.videos.videos.map(data=>
-																			<li onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,data)} style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"9%"}}>
+																			<li onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,data)} style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"-10%"}}>
 																				<a href="javscript:;" style={{textDecoration:"none"}}>
 																					<SmallVideoContainer
 																						video={data}

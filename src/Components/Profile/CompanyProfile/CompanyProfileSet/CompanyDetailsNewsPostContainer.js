@@ -51,7 +51,7 @@ const CompanyDetails = styled.div`
  	overflow-y:auto;
  	overflow-x:hidden;
  	transition:.8s;
- 	z-index:15;
+ 	z-index:1;
 
 `;
 
@@ -499,6 +499,7 @@ class ProfileComp extends Component{
 
 	constructor(props){
 		console.log("Testing");
+		console.log(props);
 		super(props);
 
 		this.state={
@@ -615,8 +616,12 @@ class ProfileComp extends Component{
 			  				</div>
 
 			  				{this.props.isOwnProfile==true?
-			  					<ChampionButton onClick={()=>this.displayChampionPortalHandle()}>Champion</ChampionButton>:
-			  					<RecruitButton>Recruit</RecruitButton>
+			  					<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+			  						<ChampionButton onClick={()=>this.displayChampionPortalHandle()}>Champion</ChampionButton>
+			  					</a>:
+			  					<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+			  						<RecruitButton>Recruit</RecruitButton>
+			  					</a>
 			  				}
 
 			  				{this.state.displayChampionPortal==true?
@@ -651,9 +656,11 @@ class ProfileComp extends Component{
 											<b style={{marginLeft:"2%"}}>Employees</b>
 
 										{companyInformation.state.isOwnProfile==true?
-											<AddEmployeeIcon onClick={()=>this.displayAddEmployeeModal()}>
-												+
-											</AddEmployeeIcon>:null
+											<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+												<AddEmployeeIcon onClick={()=>this.displayAddEmployeeModal()}>
+													+
+												</AddEmployeeIcon>
+											</a>:null
 										}
 									</AddEmployeeTitleContainer>
 									<EmployeeDescription>
@@ -665,10 +672,12 @@ class ProfileComp extends Component{
 
 									<ul style={EmployeeCSS}>
 										{companyInformation.state.userProfile.employees.map(data =>
-											<li style={{ display:"inline-block", marginLeft:"19px", marginBottom:"10px"}}>
-												<SmallProfile 
-													employeeData={data}
-												/>
+											<li onClick={()=>this.props.displaytoplevelemployeeprofile(data)} style={{ display:"inline-block", marginLeft:"19px", marginBottom:"10px"}}>
+												<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+													<SmallProfile 
+														employeeData={data}
+													/>
+												</a>
 											</li> 
 											)
 										}

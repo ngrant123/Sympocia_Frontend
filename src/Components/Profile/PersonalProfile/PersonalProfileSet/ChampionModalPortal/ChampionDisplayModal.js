@@ -108,7 +108,6 @@ class SponsorDisplayModal extends Component{
 															</a>
 															:<React.Fragment></React.Fragment>
 														}
-														
 													</li>
 													<li style={{listStyle:"none",display:"inline-block",marginLeft:"20%"}}>
 
@@ -119,7 +118,7 @@ class SponsorDisplayModal extends Component{
 																/>
 															</a> 
 															:<React.Fragment></React.Fragment>
-														}
+													 }
 													</li>
 
 												</ul>
@@ -151,7 +150,7 @@ class SponsorDisplayModal extends Component{
 									</li>
 								</ul>
 							</li>
- 
+							
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									<KeyboardArrowUpIcon
@@ -162,7 +161,6 @@ class SponsorDisplayModal extends Component{
 										onClick={()=>this.setState({displayExtendedSponsorModal:true})}
 									/>
 								</a>
-
 							</li>
 						</ul>
 					</SponsorSimpliedModal>

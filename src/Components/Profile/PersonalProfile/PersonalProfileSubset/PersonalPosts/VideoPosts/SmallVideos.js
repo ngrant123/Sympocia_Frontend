@@ -17,6 +17,7 @@ const SmallVideo=styled.div`
 	width:100%;
 	background-color:white;
 	border-radius:5px;
+	overflow:hidden;
 `;
 
 const IndustryButtonCSS={
@@ -93,10 +94,6 @@ const SmallVideoContainer=(videoData)=>{
 
 												<li style={{listStyle:"none"}}>
 													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-															{videoData.video.views} views
-														</li>
-
 														<li style={{listStyle:"none",display:"inline-block"}}>
 															{constructDate()}
 														</li>

@@ -261,6 +261,7 @@ class EditImageCreation extends Component{
 													</li>
 
 													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+														<a style={{textDecoration:"none"}} href="javascript:void(0);">
 																		<ul onClick={()=>this.sendImageDateToDB(profilePostInformation,companyPostInformation)}>
 																			<li style={{listStyle:"none",display:"inline-block"}}>
 																				<SendIcon
@@ -273,6 +274,7 @@ class EditImageCreation extends Component{
 																			</li>
 
 																		</ul>
+														</a>
 											 		</li>
 												</ul>
 											</li>:

@@ -13,8 +13,8 @@ const Container=styled.div`
 
 const ImageContainer=styled.div`
 	position:relative;
-	width:230px;
-	height:35%;
+	width:190px;
+	height:30%;
 `;
 
 const Image=styled.div`
@@ -56,6 +56,7 @@ class ImagePostsContainer extends Component{
 	}
 
 	componentDidMount(){
+		console.log(this.props);
 		const profileImages=this.props.personalInformation.userProfile.imagePost;
 		this.setState({
 			images:profileImages
@@ -96,10 +97,9 @@ class ImagePostsContainer extends Component{
 																			  />:
 												<ul style={{padding:"0px"}}>	
 													{this.props.personalInformation.userProfile.imagePost.map(data=>
-														<li onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,data)} style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"9%"}}>
+														<li onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,data)} style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
 															<a href="javascript:;" style={{textDecoration:"none"}}>
 																<ImageContainer>
-								
 																	<ul style={{padding:"0px"}}>	
 																		<li style={{listStyle:"none"}}>
 																			<Image>

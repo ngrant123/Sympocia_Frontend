@@ -46,7 +46,7 @@ import {
 	MarkerContainer,
 	BottomNotificationContainer,
 	Button,
-	SubmitButton,
+	NextButton,
 	AsisgnEveryIndustryButton,
 	IndustryButton,
 	SignUpButton,
@@ -115,7 +115,8 @@ class LSignupPage extends Component {
 			long:0,
 			lat:0,
 			displayMarker:false,
-			displayPersonalSignupModal:false
+			displayPersonalSignupModal:false,
+			displayInvestorPersonalSignUpFinalModal:false
 		};
 	}
 
@@ -157,7 +158,6 @@ class LSignupPage extends Component {
 			</React.Fragment>: 
 			<React.Fragment>
 				{this.TitleDisplayNameHeader()}
-
 				<PersonalSectionContainer>
 						<PersonalSectionCard>
 							<p style={HeaderCSS}><b>Entertainment</b></p>
@@ -171,14 +171,11 @@ class LSignupPage extends Component {
 									    <label class="custom-control-label" for="investorCheckbox">Check this checkbox if you plan on investing now or the future (dont worry if you dont know how we'll try our best to teach you)</label>
 									    <div class="invalid-feedback"></div>
 									  </div>
-
 								</li>
 							</ul>
-
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<SignUpButton onClick={()=>this.handleDisplayPersonalSetupPage()}>Click here</SignUpButton>
 							</a>
-
 						</PersonalSectionCard>
 				</PersonalSectionContainer>
 
@@ -191,18 +188,16 @@ class LSignupPage extends Component {
 									who you think would want to see it? Click on the button below to get started
 								</p>
 								<SignUpButton onClick={()=>this.handleDisplayCompanySetupPage()}>Click here</SignUpButton>
-
 							</CompanySectionCard>
+
 					</CompanySectionContainer>
 
 					:<PersonalSignUpCard>
 						<PersonalSignUp/>
-					</PersonalSignUpCard>
+					 </PersonalSignUpCard>
 				}	
 			</React.Fragment>
-
 	}
-
 
 
 	handleDisplayPersonalSetupPage=async(e)=>{
@@ -256,31 +251,25 @@ class LSignupPage extends Component {
 
 
 
-handleCreateInvestorProfileClick=async(e)=>{
+setInvestorInformation=async(e)=>{
+//NOT USED
 
-			this.props.addFirstName(this.props.firstName);
-			this.props.addLastName(this.props.lastName);
-			this.props.addEmail(this.props.email);
 
-			const locationObject={long:this.state.long,lat:this.state.lat};
-			const industries=this.state.selectedIndustries;
-			const isInvestor=true;
-			debugger;
-			const profileId=await createProfile({
-				firstName:this.props.firstName,
-				lastName:this.props.lastName,
-				email:this.props.email,
-				isInvestor:true,
-				industries:industries,
-				location:locationObject
-			});
-			this.props.addPersonalIdentificationId(profileId);
-			this.props.loginPersonalPage(true);
-			this.props.loginCompanyPage(false);
+		const locationObject={long:this.state.long,lat:this.state.lat};
+		const industries=this.state.selectedIndustries;
+		const isInvestor=true;
+
+			this.setState({
+				investorInformation:{
+					isInvestor:true,
+					industries:industries,
+					location:locationObject
+				},
+				displayInvestorPersonalSignUpFinalModal:true
+			})
 }
 
 handleNextPageClick=(e)=>{
-
 	e.preventDefault();
 	if(this.state.lat==0&&this.state.long==0){
 		alert('Please tell us your location to continue the process');
@@ -349,8 +338,6 @@ addIndustry=(props)=>{
 						<Button to="/home" onClick={e=>this.handleNextPageClick(e)}>
 							Next
 						</Button>
-
-
 			</ul>:
 			<ul style={{listStyle:"none"}}>
 				<TitleHeader style={{fontSize:"60px"}}>
@@ -415,17 +402,13 @@ addIndustry=(props)=>{
 					</li>
 
 					<li style={{listStyle:"none"}}>
-
-						<SubmitButton to="/home" onClick={e=>this.handleCreateInvestorProfileClick(e)}>
-							Submit
-						</SubmitButton> 
+						<NextButton onClick={()=>this.setInvestorInformation()}>
+							Next
+						</NextButton> 
 					</li>
 				</ul>
-
 			</ul>
-
 	}
-
 
 
 	render(){
@@ -465,10 +448,15 @@ addIndustry=(props)=>{
 
 				{this.DisplayPersonalOrCompanyChoices()}
 				{this.displayPersonalInvestorSection()}
-
+				{this.state.displayInvestorPersonalSignUpFinalModal==true?
+					<PersonalSignUpCard>
+						<PersonalSignUp
+							investorInformation={this.state.investorInformation}
+						/>
+					 </PersonalSignUpCard>:
+					 null
+				}
 			</React.Fragment>
-
-
 		)
 	}
 }
@@ -483,7 +471,6 @@ const mapStateToProps=(state)=>{
 }
 
 const mapDispatchToProps=dispatch=>{
-
 	return{
 		addFirstName:(firstName)=>dispatch(addName(firstName)),
 		addLastName:(lastName)=>dispatch(addLastName(lastName)),

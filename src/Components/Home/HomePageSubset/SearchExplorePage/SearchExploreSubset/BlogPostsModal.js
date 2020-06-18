@@ -2,13 +2,11 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import BlogHomeDisplayPortal from "../../../HomePageSet/BlogHomeDisplayPortal.js";
-import {
-	displayPersonalIndustryFeed,
-	displayPersonalIndustryFeedSuggested,
-	constructSuggestedSymposium
-} from "./ImagePostsModal.js";
+import {displayPersonalIndustryFeed} from "./ImagePostsModal.js";
 import {useSelector} from "react-redux";
 import {HomeConsumer} from "../../../HomeContext.js";
+import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
+import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 
 const HeaderBlog=styled.div`
 	width:400px;
@@ -117,11 +115,42 @@ const BlogPostModal=(props)=>{
 		console.log("Testing");
 	}
 
-	const handleDisplayToExtendedSymposium=(homePageInformation,selectedSymposium,symposiums)=>{
-		//personalInformationRedux
-		displayPersonalIndustryFeedSuggested(personalInformationRedux,homePageInformation,selectedSymposium,symposiums);
-	}
+	const constructSuggestedSymposium=(personalInformation,homePageInformation)=>{
+		debugger;
+		console.log(personalInformation);
+		const {personalInformationState}=personalInformation;
+		var symposiumContainer=new Map();
+		var selectedSymposiums=[];
+			var counter=0;
+			while(counter<3){   
+				if(homePageInformation.isPersonalProfile==true){
+					const randomNum=Math.floor(Math.random() * ((PERSONAL_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
+					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
+					if(!symposiumContainer.has(randomlySelected.industry)){
+						symposiumContainer.set(randomlySelected.industry,1);
+						selectedSymposiums.push(randomlySelected);
+					}
+				}else{
+					const randomNum=Math.floor(Math.random() * ((COMPANY_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
+					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
+					if(!symposiumContainer.has(randomlySelected.industry)){
+						symposiumContainer.set(randomlySelected.industry,1);
+						selectedSymposiums.push(randomlySelected);
+					}
+				}
+				counter++;
+			}
 
+			return <ul style={{padding:"0px",position:"relative"}}>
+						{selectedSymposiums.map(data=>
+							<a href="javascript:void(0);">
+								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,homePageInformation,data,selectedSymposiums)} style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
+									<b>{data.industry}</b>
+								</li>
+							</a>
+						)}
+				   </ul>
+	}
 	return(
 		<HomeConsumer>
 				{homePageInformation=>{
@@ -148,7 +177,7 @@ const BlogPostModal=(props)=>{
 																<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
 																	{headerBlog.firstName}
 																</li>
-																<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,headerBlog.industriesUploaded)} style={ImageLabelCSS}>
+																<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerBlog.industriesUploaded)} style={ImageLabelCSS}>
 																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																		{headerBlog.industriesUploaded[0].industry}
 																	</a>
@@ -170,7 +199,7 @@ const BlogPostModal=(props)=>{
 												{blogs.map(data=>
 													<React.Fragment>
 															{data=="suggestedSymposium"?
-																<li style={{backgroundColor:"red",listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
+																<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
 																	{constructSuggestedSymposium(personalInformationRedux,homePageInformation)}
 																</li>
 															:<li style={{list0Style:"none",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
@@ -203,7 +232,7 @@ const BlogPostModal=(props)=>{
 																										{data.firstName}
 																									</li>
 
-																									<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,headerBlog.industriesUploaded)} style={ImageLabelCSS}>
+																									<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,data.industriesUploaded)} style={ImageLabelCSS}>
 																										{data.industriesUploaded[0].industry}
 																									</li>
 																								</ul>

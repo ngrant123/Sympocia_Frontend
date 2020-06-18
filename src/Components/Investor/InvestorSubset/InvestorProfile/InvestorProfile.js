@@ -1,15 +1,18 @@
 import React,{useState,useEffect,Component} from "react";
+import {Link} from "react-router-dom";
 import styled from "styled-components";
 import SmallInvestorMediaContainer from "./InvestorMediaContainer.js";
 import SmallInvestmentsContainer from "./Investments.js";
 import Investments from "./Investments.js";
+import NoProfileIcon from "../../../../designs/img/NoProfilePicture.png";
+
 
 const InvestorModalContainer = styled.div`
 
 	position:absolute;
-	width:50%;
-	height:65%;
-	margin-left:20%;
+	width:40%;
+	height:50%;
+	margin-left:35%;
 	margin-top:10%;
 	background-color:white; 
 	z-index:5;
@@ -39,9 +42,22 @@ const InvestorRating =styled.div`
 	margin-left:30%;
 	box-shadow: 1px 1px 5px 5px #d8d9df;
 	margin-bottom:20px;
+	padding:10px;
 `;
 
 const InvestorAdditionalInformationButton=styled.div`
+	position:relative;
+	width:100px;
+	height:10%;
+	background-color:#5298F8;
+	text-align:center;
+	padding:10px;
+	border-radius:5px;
+	color:white;
+	margin-right:20px;
+`;
+
+const ViewProfileButton=styled(Link)`
 	position:relative;
 	width:100px;
 	height:10%;
@@ -66,6 +82,18 @@ const SocialMediaContainer=styled.div`
 
 `;
 
+const InvestorProfileCSS={
+	postition:"absolute",
+	width:"30%",
+	height:"35%",
+	borderRadius:"50%",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#5298F8",
+	marginLeft:"35%",
+	marginTop:"5%"
+}
+
 
 const InvestorProfile=(props)=>{
 	console.log(props);
@@ -75,19 +103,27 @@ const InvestorProfile=(props)=>{
 	const investments=[{},{},{}];
 
 	const displayAdditionalInformation=()=>{
-
 		if(additionalInformation=="bio"){
-			return <p style={{marginLeft:"10%",marginRight:"7%",marginBottom:"10%"}}>{props.investorData.bio}</p>;
+			return <React.Fragment>
+						{props.investorData.bio!=""?<p style={{marginLeft:"10%",marginRight:"7%",marginBottom:"10%"}}>{props.investorData.bio}</p>:
+							<p style={{marginLeft:"10%",marginRight:"7%",marginBottom:"10%"}}>This user has no bio. Message them instead to learn more</p>
+						}
+				   </React.Fragment>;
 		}else if(additionalInformation=="investments"){
-			return <ul style={{position:"relative",top:"-7%"}}>
-					{investments.map(data=>
-						<li style={{listStyle:"none",marginBottom:"10%"}}>
-							<Investments
-								data={props.investorData.investments}
-							/>
-						</li>
-					)}
-				</ul>
+			return <React.Fragment>
+						{props.investorData.investments.length==0?
+							<p style={{marginLeft:"10%",marginRight:"7%",marginBottom:"10%"}}>This user has no investments. Message them instead to learn more</p>:
+							<ul style={{position:"relative",top:"-7%"}}>
+								{props.investorData.investments.map(data=>
+									<li style={{listStyle:"none",marginBottom:"10%"}}>
+										<Investments
+											investorData={data}
+										/>
+									</li>
+								)}
+							</ul>
+						}
+					</React.Fragment>
 			;
 		}else
 			return <React.Fragment></React.Fragment>;
@@ -96,32 +132,42 @@ const InvestorProfile=(props)=>{
 
 	return(
 		<InvestorModalContainer id="modalcontainer">
-			<SocialMediaContainer>
-				<ul style={{padding:"0px"}}>
-					<li style={{listStyle:"none"}}>
-						Tester
+			{/*
+				<SocialMediaContainer>
+					<ul style={{padding:"0px"}}>
+						<li style={{listStyle:"none"}}>
+							Tester
 
-					</li>
-					<li style={{listStyle:"none"}}>
-						Tester
+						</li>
+						<li style={{listStyle:"none"}}>
+							Tester
 
-					</li>
+						</li>
 
-					<li style={{listStyle:"none"}}>
-						Tester
+						<li style={{listStyle:"none"}}>
+							Tester
 
-					</li>
-				</ul>
-			</SocialMediaContainer>
-			<InvestorProfilePicture>
+						</li>
+					</ul>
+				</SocialMediaContainer>
+			*/}
+			
+			{props.investorData.profilePicture==null?
+				<img src={NoProfileIcon} style={InvestorProfileCSS}/>:
+				<img src={props.investorData.profilePicture} style={InvestorProfileCSS}/>
+			}
 
-			</InvestorProfilePicture>
-
-			<p style={{marginLeft:"37%",fontSize:"20px"}}>{props.investorData.name}</p>
+			<p style={{marginLeft:"37%",fontSize:"20px"}}>
+				{props.investorData.name}
+				{props.investorData.firstName}
+			</p>
 			<p style={{marginLeft:"39%"}}>Sympocia Rating</p>
 			<InvestorRating>
+				<p> No rating so far :(</p>
 			</InvestorRating>
-			<p style={{marginLeft:"20px"}}>{props.investorData.bio}</p>
+			<p style={{marginLeft:"20px"}}>
+				{props.investorData.bio}
+			</p>
 
 			<ul style={{marginLeft:"10%"}}>
 				<li style={{listStyle:"none",display:"inline-block"}}>
@@ -135,9 +181,9 @@ const InvestorProfile=(props)=>{
 					</InvestorAdditionalInformationButton>
 				</li>
 				<li style={{listStyle:"none",display:"inline-block"}}>
-					<InvestorAdditionalInformationButton>
-						Message 
-					</InvestorAdditionalInformationButton>
+					<ViewProfileButton to={{pathname:`/profile/${props.investorData._id}`}}>
+						View Profile
+					</ViewProfileButton>
 				</li>
 			</ul>
 			{displayAdditionalInformation()}

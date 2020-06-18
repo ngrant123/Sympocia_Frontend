@@ -5,11 +5,11 @@ import PersonalIndustry from "../../../../../Constants/personalIndustryConstants
 import CompanyIndustry from "../../../../../Constants/industryConstants.js";
 import {useSelector} from "react-redux";
 import {
-		displayPersonalIndustryFeed,
-		displayPersonalIndustryFeedSuggested,
-		constructSuggestedSymposium
+		displayPersonalIndustryFeed
 	} from "./ImagePostsModal.js";
 import {HomeConsumer} from "../../../HomeContext.js";
+import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
+import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 
 const HeaderVideo=styled.div`
 	width:120%;
@@ -85,9 +85,41 @@ const VideoPostModal=(props)=>{
 		changeVideoDisplay(true);
 	}
 
-	const handleDisplayToExtendedSymposium=(homePageInformation,selectedSymposium,symposiums)=>{
-		//personalInformationRedux
-		displayPersonalIndustryFeedSuggested(personalInformationRedux,homePageInformation,selectedSymposium,symposiums);
+	const constructSuggestedSymposium=(personalInformation,homePageInformation)=>{
+		debugger;
+		console.log(personalInformation);
+		const {personalInformationState}=personalInformation;
+		var symposiumContainer=new Map();
+		var selectedSymposiums=[];
+			var counter=0;
+			while(counter<3){   
+				if(homePageInformation.isPersonalProfile==true){
+					const randomNum=Math.floor(Math.random() * ((PERSONAL_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
+					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
+					if(!symposiumContainer.has(randomlySelected.industry)){
+						symposiumContainer.set(randomlySelected.industry,1);
+						selectedSymposiums.push(randomlySelected);
+					}
+				}else{
+					const randomNum=Math.floor(Math.random() * ((COMPANY_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
+					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
+					if(!symposiumContainer.has(randomlySelected.industry)){
+						symposiumContainer.set(randomlySelected.industry,1);
+						selectedSymposiums.push(randomlySelected);
+					}
+				}
+				counter++;
+			}
+
+			return <ul style={{padding:"0px",position:"relative"}}>
+						{selectedSymposiums.map(data=>
+							<a href="javascript:void(0);">
+								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,homePageInformation,data,selectedSymposiums)} style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
+									<b>{data.industry}</b>
+								</li>
+							</a>
+						)}
+				   </ul>
 	}
 
 	return(
@@ -117,8 +149,8 @@ const VideoPostModal=(props)=>{
 																<ul style={{padding:"0px"}}>
 																	<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
 																		Nathan
-																	</li>
-																	<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,headerVideo.industriesUploaded)} style={ImageLabelCSS}>
+																	</li>										
+																	<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerVideo.industriesUploaded)} style={ImageLabelCSS}>
 																		{headerVideo.industriesUploaded[0].industry}
 																	</li>
 
@@ -140,7 +172,7 @@ const VideoPostModal=(props)=>{
 													{videos.map(data=>
 														<React.Fragment>
 															{data=="suggestedSymposium"?
-																<li style={{backgroundColor:"red",listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
+																<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"0px",marginBottom:"8%",width:"70%",marginRight:"4%"}}>
 																	{constructSuggestedSymposium(personalInformationRedux,homePageInformation)}
 																</li>
 															:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
@@ -164,7 +196,7 @@ const VideoPostModal=(props)=>{
 																				<b>{data.firstName}</b>
 																			</li>
 
-																			<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,headerVideo.industriesUploaded)} style={ImageLabelCSS}>
+																			<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,data.industriesUploaded)} style={ImageLabelCSS}>
 																				{data.industriesUploaded[0].industry}
 																			</li>
 																		</ul>

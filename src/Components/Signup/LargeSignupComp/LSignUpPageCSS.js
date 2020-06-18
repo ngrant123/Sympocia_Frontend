@@ -432,7 +432,7 @@ export const Button=styled(Link)`
 	}
 `;
 
-export const SubmitButton=styled(Link)`
+export const NextButton=styled.div`
 	position:relative;
 	border-radius:5px;
 	width:30%;

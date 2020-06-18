@@ -51,8 +51,8 @@ const application  = (
 						<Route exact path="/playList" component={PlayList}/>
 						<Route exact path="/signup" component={Signup}/>
 						<Route exact path="/home" component= {HomeScreen}/>
-						<Route exact path="/investor" component= {InvestorScreen} />
-						<Route exact path="/map" component= {MapScreen} />
+						<Route exact path="/investor/:id" component= {InvestorScreen} />
+						<Route exact path="/map/:id" component= {MapScreen} />
 						//TEST
 						<Route exact path="/demo" component={Demo}/>
 						<Route exact path="/blog/:id" component={BlogPostCreation}/>

@@ -5,6 +5,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {
 		addEmployeeToCompanyDB
 	} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
+import CloseIcon from '@material-ui/icons/Close';
 
 const AddEmployeeIcon = styled.div`
 
@@ -47,18 +48,16 @@ const EmployeeDescription = styled.div`
 `;
 
 const ImageContainer = styled.div`
-     position:absolute;
-	 height:45%;
-	 width:20%;
+     position:relative;
+	 height:25%;
+	 width:40%;
 	 border-radius:50%;
 	 border-width:5px;
 	border-style:solid;
 	border-color:#D5D5D5;
 	text-align:center;
 	color:#D5D5D5;
-	font-size:260%;
-	left:40%;
-	top:10%;
+	font-size:80px;
 
 `;
 
@@ -289,6 +288,40 @@ const ShortDescriptionTextarea = styled.textarea`
 
 `;
 
+const InputContainer=styled.textarea`
+	position:relative;
+	border-radius:5px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#D8D8D8;
+	resize:none;
+	padding:10px;
+`;
+
+const InputBioContainer=styled.textarea`
+	position:relative;
+	border-radius:5px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#D8D8D8;
+	resize:none;
+	padding:10px;
+	height:20%;
+`;
+
+const InputShortDescriptionContainer=styled.textarea`
+	position:relative;
+	border-radius:5px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#D8D8D8;
+	resize:none;
+	padding:10px;
+	height:20%;
+	width:90%;
+`;
+
+
 const ButtonListCSS={
 	display:"inline-block",
 	listStyle:"none",
@@ -326,14 +359,12 @@ class AddEmployees extends Component{
 			...prevState,
 			justMounted:true
 		}))
-
-			document.getElementById("TitleCaptionValue").value="";
-			document.getElementById("BioValue").value="";
-			document.getElementById("employeeimagefile").src="";
-			document.getElementById("EmployeeName").value="";
-			document.getElementById("EmployeeEmail").value="";
-			document.getElementById("Location").value="";
-
+				document.getElementById("TitleCaptionValue").value="";
+				document.getElementById("BioValue").value="";
+				document.getElementById("employeeimagefile").src="";
+				document.getElementById("EmployeeName").value="";
+				document.getElementById("EmployeeEmail").value="";
+				document.getElementById("Location").value="";
 	}
 
 
@@ -371,34 +402,44 @@ class AddEmployees extends Component{
 		})
 	}
 
-	handleDisplaySecondPage=(compnyI)=>{
+	handleDisplaySecondPage=(compnyId)=>{
 
 		return this.state.displaySecondPage==false?
 			<React.Fragment>
+				<ul style={{padding:"0px",marginLeft:"10%"}}>
+					<li style={{listStyle:"none",display:"inline-block",borderRight:"1px solid black",paddingRight:"20px"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",width:"170%"}}>
+								<InputContainer id="EmployeeName" placeholder="First Name"/>
+							</li>
 
-					<FirstSectionContainer id="firstcontainer">
-						<NameEmployee>Full Name</NameEmployee>
-						<NameEmployeeTextarea placeholder="First Name" id="EmployeeName"></NameEmployeeTextarea>
-						<EmployeeEmailContainer>Email</EmployeeEmailContainer>
-						<EmployeeEmailTextarea placeholder="Email Addresses" id="EmployeeEmail"></EmployeeEmailTextarea>
-						<EmployeeLocationContainer>Location</EmployeeLocationContainer>
-						<EmployeeLocationTextarea placeholder="Location" id="Location"></EmployeeLocationTextarea>
-					</FirstSectionContainer>
+							<li style={{listStyle:"none",width:"170%"}}>
+								<InputContainer id="EmployeeEmail" placeholder="Email Address"/>
+							</li>
 
-					<SecondSectionContainer id="secondcontainer">
+							<li style={{listStyle:"none",width:"170%"}}>
+								<InputContainer id="Location" placeholder="Location"/>
+							</li>
+						</ul>
+					</li>
 
-						<TitleContainer placeholder="e.x. CEO,CTO" id="TitleCaptionValue"></TitleContainer>
-						<TitleCaption> Title </TitleCaption>
-						<EmployeeBioCaption>Bio</EmployeeBioCaption>
-						<EmployeeBio id="BioValue" placeholder="Write something nice :)"></EmployeeBio>
-
-					</SecondSectionContainer>
-
+					<li style={{marginLeft:"5%",position:"relative",top:"0px",listStyle:"none",display:"inline-block"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none"}}>
+								<InputContainer id="TitleCaptionValue" placeholder="e.x CEO CTO"/>
+							</li>
+							
+							<li style={{listStyle:"none"}}>
+								<InputBioContainer id="BioValue" placeholder="Write something nice :)"/>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</React.Fragment>:
 			<React.Fragment>
-				<ShortDescriptionTitle id="ShortDescriptionTitle">Add a short description about yourself</ShortDescriptionTitle>
-				<ShortDescriptionTextarea id="ShortDescriptionTextarea"></ShortDescriptionTextarea>
-
+				<ul>
+					<InputShortDescriptionContainer id="ShortDescriptionTextarea" placeholder="Add a short description about yourself"/>
+				</ul>
 			</React.Fragment>
 	}
 
@@ -436,7 +477,7 @@ class AddEmployees extends Component{
 			document.getElementById("EmployeeEmail").value="";
 			document.getElementById("Location").value="";
 
-			const Employee ={
+			const Employee={
 				employeeName:this.state.name,
 				employeeShortDescription:this.state.shortbio,
 				employeeEmail:this.state.email,
@@ -446,8 +487,10 @@ class AddEmployees extends Component{
 				employeeImg:this.state.imgUrl
 			};
 			addEmployeeToCompanyDB(companyId,Employee);
-
+			this.props.closeModal();
 		}.bind(this));
+
+
 	}
 
 
@@ -501,24 +544,48 @@ class AddEmployees extends Component{
 			<CompanyConsumer>
 				{companyInformation=>{
 					return <React.Fragment>
-									 <button type="button" class="close" data-dismiss="modal">&times;</button>
-												   <h4 class="modal-title">Add Information</h4>
-												   <MaxEmployee id="MaxEmployessContainer"> 
-												   		<p>Maximum Employees. Remove somebody to add a new person </p>
-												   </MaxEmployee>
-												 <ImageContainer id="image" onClick={()=>this.handleEmployeeImage()}> + 
-												 	<img src="" id="employeeimagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"0"}}/>
-												 </ImageContainer>
-												 <input type="file" name="img" id="employeeimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleUploadEmployeeImage()}></input>
-													 &nbsp;
-												 {this.handleDisplaySecondPage()}
-											
-												  <div class="modal-body"> &nbsp; </div>
-												  	<ul>
-												  		<li key="1" style={ButtonListCSS}>{this.handleBackButton()}</li>
-												  		<li key="2" style={ButtonListCSS}>{this.handleNextPageButton(companyInformation.state.userProfile._id)}</li>
-												  		<li key="3" style={ButtonListCSS}><button type="button" class="btn btn-default" data-dismiss="modal" onClick={()=>this.handleClick()}>Close</button></li>
-												  	</ul>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none"}}>
+										<ul style={{padding:"10px"}}>
+											<li style={{fontSize:"20px",listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+												Add Information
+											</li>
+											<li style={{listStyle:"none",display:"inline-block",marginLeft:"60%"}}>
+												<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+													<CloseIcon
+														onClick={()=>this.props.closeModal()}
+													/>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<hr/>
+
+									<li style={{listStyle:"none"}}>
+										<ul>
+											<li style={{listStyle:"none",marginLeft:"30%"}}>
+												<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+													<ImageContainer id="image" onClick={()=>this.handleEmployeeImage()}> + 
+													 	<img src="" id="employeeimagecontainer" style={{position:"absolute",height:"100%", width:"100%",left:"0%",top:"0%",borderRadius:"50%",opacity:"0"}}/>
+													 </ImageContainer>
+													 <input accept="image/x-png,image/gif,image/jpeg" type="file" name="img" id="employeeimagefile" style={{opacity:"0", zIndex:"-3"}} onChange={()=>this.handleUploadEmployeeImage()}></input>
+														 &nbsp;
+												</a>
+											</li>
+											{this.handleDisplaySecondPage()}
+										</ul>
+									</li>
+
+									<li style={{listStyle:"none",marginLeft:"40%",marginTop:"2%"}}>
+										<ul>
+											<li key="1" style={ButtonListCSS}>{this.handleBackButton()}</li>
+											<li key="2" style={ButtonListCSS}>{this.handleNextPageButton(companyInformation.state.userProfile._id)}</li>
+											<li key="3" style={ButtonListCSS}><button type="button" class="btn btn-default" data-dismiss="modal" onClick={()=>this.handleClick()}>Close</button></li>
+										</ul>
+									</li>
+								</ul>
+									 
+									
 							</React.Fragment>
 				}}
 			</CompanyConsumer>

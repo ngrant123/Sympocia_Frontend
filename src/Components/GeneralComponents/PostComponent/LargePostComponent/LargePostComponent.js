@@ -392,32 +392,40 @@ class LargePostComponent extends Component{
 
 						<ul style={{padding:"0px",marginLeft:"10%",marginTop:"5px"}}>
 							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
-								<PostOptionButton onClick={()=>this.setState({displayElement:<RegularPostCreation
-																								displayProps={this.displayPostOptions}
-																							  />})}>
-									Post
-								</PostOptionButton>
-							</li>
-
-							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
-								<PostOptionButton  onClick={()=>this.setState({displayElement:<ImagePostCreation
-																								displayProps={this.displayPostOptions}
-																								/>})}>
-									Image
-								</PostOptionButton>
-							</li>
-
-							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
-								<PostOptionButton onClick={()=>this.setState({displayElement:<VideoPostCreation
+								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+									<PostOptionButton onClick={()=>this.setState({displayElement:<RegularPostCreation
 																									displayProps={this.displayPostOptions}
-																								/>})}>
-									Video
-								</PostOptionButton>
+																								  />})}>
+										Post
+									</PostOptionButton>
+								</a>
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+									<PostOptionButton  onClick={()=>this.setState({displayElement:<ImagePostCreation
+																									displayProps={this.displayPostOptions}
+																									/>})}>
+										Image
+									</PostOptionButton>
+								</a>
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+									<PostOptionButton onClick={()=>this.setState({displayElement:<VideoPostCreation
+																										displayProps={this.displayPostOptions}
+																									/>})}>
+										Video
+									</PostOptionButton>
+								</a>
 							</li>
 							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"5px"}}>
-								<BlogOptionButton id="blogCreationButton" to={{pathname:`/blog/${this.props._id}`,state:{postType:"Creation"}}}>
-									Blog
-								</BlogOptionButton>
+								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+									<BlogOptionButton id="blogCreationButton" to={{pathname:`/blog/${this.props._id}`,state:{postType:"Creation"}}}>
+										Blog
+									</BlogOptionButton>
+								</a>
 							</li>
 						</ul>
 					</PostOptionsContainer>

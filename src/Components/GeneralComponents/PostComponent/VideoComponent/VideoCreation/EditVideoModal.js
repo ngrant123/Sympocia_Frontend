@@ -13,7 +13,7 @@ const TextContainerDescription=styled.textarea`
 	height:30%;
 	resize:none;
 	border-style:none;
-	color:#e4e9eb;
+	color:#1C1C1C;
 	border-style:solid;
 	border-radius:5px;
 	border-width:1px;
@@ -25,7 +25,7 @@ const TextContainerTitle=styled.textarea`
 	height:20%;
 	resize:none;
 	border-style:none;
-	color:#e4e9eb;
+	color:#1C1C1C;
 	border-style:solid;
 	border-radius:5px;
 	border-width:1px;

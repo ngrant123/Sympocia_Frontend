@@ -14,13 +14,10 @@ export async function quickSearchIndustry(id,industryArray){
 
 			const {data}=companies;
 			const companyData=data.data;
-			const {CompaniesInIndustry}=companyData[0];
-			return CompaniesInIndustry;
+			return companyData;
 	}catch(err){
 		console.log(err.message);
 	}
-
-
 }
 /*
 

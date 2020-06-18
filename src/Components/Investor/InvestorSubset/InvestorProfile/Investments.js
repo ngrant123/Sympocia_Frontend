@@ -1,4 +1,4 @@
-import React,{Component} from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 
 
@@ -75,58 +75,51 @@ const InvestmentLabels=styled.div`
 `;
 
 
-//Could be a functional component
-class SmallInvestments extends Component{
+const SmallInvestments=(props)=>{
+	const [displayDescription,changeDisplayDescription]=useState(false);
+	return(
+		<Container>
+				<p style={{fontSize:"40px"}}><b>{props.data.company}</b></p>
+				<p>{props.data.location}</p>
+				<p>{props.data.date}</p>
 
-	constructor(props){
-		super(props);
-		this.state ={
-			investmentType:props.investmentType,
-			date:props.date,
-			description:props.description,
-			companyName:props.companyName,
-			amount:props.amount
+				<ul style={{padding:"0px",height:"30%",overflowY:"autp"}}>
+					{displayDescription==true?
+						<React.Fragment>
+							<li style={{listStye:"none"}}>
+									{props.data.investmentDescription}
+							</li>
+							<li onClick={()=>changeDisplayDescription(!displayDescription)} style={{listStye:"none"}}>
+								<InvestmentLabels>
+									Back
+								</InvestmentLabels>
+							</li>
+						</React.Fragment>:
+						<React.Fragment>
+							<li style={{listStye:"none",display:"inline-block"}}>
+								<InvestmentLabels>
+									{props.data.amount}
+								</InvestmentLabels>
+							</li>
 
-		};
-		console.log(props);
-		console.log(this.state);
-	}
-
-
-	handleDisplaySmallInvestment=()=>{
-
-
-		this.props.handleDisplaySmallInvestment(this.state);
-	}
-
-	render(){
-		return(
-			<Container>
-				<p style={{fontSize:"40px"}}><b>Sympocia</b></p>
-				<p>New York, New York </p>
-				<p>June 23 1995 </p>
-
-				<ul style={{padding:"0px"}}>
-					<li style={{listStye:"none",display:"inline-block"}}>
-						<InvestmentLabels>
-							Money
-						</InvestmentLabels>
-
-					</li>
-
-					<li style={{listStye:"none",display:"inline-block"}}> 
-						<InvestmentLabels>
-							Investment Money
-						</InvestmentLabels>
-
-					</li>
+							<li style={{listStye:"none",display:"inline-block"}}> 
+								<InvestmentLabels>
+									{props.data.typeOfInvestment}
+								</InvestmentLabels>
+							</li>
+							<li onClick={()=>changeDisplayDescription(!displayDescription)} style={{listStye:"none",display:"inline-block"}}> 
+								<InvestmentLabels>
+									Description
+								</InvestmentLabels>
+							</li>
+						</React.Fragment>
+					}
+					
 				</ul>
 				
  
-			</Container>
-		)
-		
-	}
+		</Container>
+	)
 }
 
 export default SmallInvestments;

@@ -171,7 +171,7 @@ const DescriptionModal=(props)=>{
 				<CompanyConsumer>
 					{companyInformation=>(
 						<React.Fragment>
-									<ul style={{padding:"15px"}}>
+									<ul style={{padding:"10px",paddingTop:"2px"}}>
 										<li style={BackButtonCSS} onClick={()=>props.backButton()}>
 											<a style={{textDecoration:"none"}} href="javascript:void(0);">
 												<ArrowBackIcon
