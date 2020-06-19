@@ -173,9 +173,12 @@ class ExplorePage extends Component{
 		debugger;
 		console.log(this.props);
 		const{userInformation}=this.props;
-		const {id,isPersonalPage}=userInformation;
+		var {id,isPersonalPage}=userInformation;
 		var symposiums;
 		if(isPersonalPage==true){
+			if(id==""){
+				id=this.props._id;
+			}
 			symposiums=await getSymposiumsExplore(id,PERSONAL_INDUSTRIES.INDUSTRIES);
 		}else{
 

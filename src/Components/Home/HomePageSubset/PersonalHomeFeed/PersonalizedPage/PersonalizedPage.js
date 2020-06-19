@@ -6,7 +6,12 @@ import SubSymposiums from "./SubSymposiums";
 import ActivePeopleModal from "./ActivePeopleModal";
 import PostsContainer from "./PostsContainer";
 import {
-		getCommunityById
+		getCommunityById,
+		getImagesInIndustry,
+		getVideoInIndustry,
+		getBlogsInIndustry,
+		getRegularPostsInIndustry,
+		getIndustryInformation
 	} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -17,6 +22,11 @@ import PostCreation from "../../../../GeneralComponents/PostComponent/LargePostC
 
 import {connectToRoom,sendChatRoomMessage} from "../../../../../Actions/Requests/SocketIORequests";
 import io from 'socket.io-client';
+import {ImagePostsModal} from "../../SearchExplorePage/SearchExploreSubset/ImagePostsModal.js";
+import VideoPostModal from "../../SearchExplorePage/SearchExploreSubset/VideoPostsModal.js";
+import RegularPostModal from "../../SearchExplorePage/SearchExploreSubset/RegularPostsModal.js";
+import BlogPostModal from "../../SearchExplorePage/SearchExploreSubset/BlogPostsModal.js";
+import NoPostModal from "../../../../../designs/img/NoProfilePicture.png";
 
  const keyFrameExampleTwo= keyframes`
   0% {
@@ -50,8 +60,7 @@ const PersonalizedPageContainer=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	overflow-y:scroll;
-
+	overflow:hidden;
 `;
 
 const Container=styled.div`
@@ -125,7 +134,7 @@ const PostsChatInformation=styled.div`
 	overflow-x:visible;
   	transition:opacity 1s linear;
   	padding-top:20px;
-  `;
+`;
 
 
 const SymposiumChoicesContainer=styled.div`
@@ -139,8 +148,6 @@ const SymposiumChoicesContainer=styled.div`
 	padding:10px;
 	overflow:hidden;
 	background-color:white;
-
-
 `;
 
 const SymposiumChoicesDiv=styled.div`
@@ -241,12 +248,11 @@ const PostContainer=styled.div`
 	left:0%;
 	top:45%;
 	width:100%;
-	height:140%;
+	height:200%;
 	z-index:3;
-	overflow:visible;
+	overflow-y:scroll;
 	transition:1s;
-	box-shadow: 1px 5px 50px #d5d5d5;
-	padding-top:2%;
+	padding-top:8%;
 `;
 
 const ExamplePosts=styled.div`
@@ -403,10 +409,8 @@ class PersonalizedPage extends Component{
 		console.log(props);
 		this.state={ 
 			headerAnimation:false,
-			popularVideos:[
-				{key:1,startTime:0,endTime:12}
-			],
-			activePeople:[{}],
+			popularVideos:[],
+			activePeople:[],
 			selectedSymposiumTitle:"",
 			symposiumCounter:0,
 			symposiums:[],
@@ -417,16 +421,17 @@ class PersonalizedPage extends Component{
 			displayModalSubSymposiums:false,
 			displayPostCreation:false,
 			handleScroll:true,
-			chatRoom:[]
+			chatRoom:[],
+			postCount:0,
+			posts:[]
 		}
 
 		connectToRoom(socket,this.props.selectedSymposium._id);
 	}
-	  componentDidMount(){
+	 async componentDidMount(){
 	  		/*
 				Could be done in a better way
 	  		*/
-		  		debugger;
 		  		const postContainerElement=document.getElementById("postChatInformation");
 		  		const headerContentsContainerElement=document.getElementById("headerContents");
 				console.log(this.props);
@@ -438,8 +443,6 @@ class PersonalizedPage extends Component{
 		  		const symposiums=propSymposiums.reverse();
 		  		let symposiumCounter=0;
 
-		  		//Keep track of where you are at in the array of subcommuities
-
 		  		for(var i=0;i<symposiums.length;i++){
 		  			const symposium=symposiums[i];
 
@@ -449,12 +452,18 @@ class PersonalizedPage extends Component{
 		  			}
 		  		}
 
+		  		var {posts,popularPosts,activeUsers}=await getIndustryInformation(this.props.selectedSymposium.industry,this.state.postCount);
+		  		debugger;
 			  	this.setState(prevState=>({
 				  		...prevState,
 				  		selectedSymposiumTitle:this.props.selectedSymposium.industry,
 				  		symposiums:this.props.symposiums,
 				  		symposiumCounter:symposiumCounter,
-				  		backgroundColor:this.props.selectedSymposium.backgroundColor
+				  		backgroundColor:this.props.selectedSymposium.backgroundColor,
+				  		postType:"Image",
+				  		posts:posts,
+				  		popularVideos:popularPosts,
+				  		activePeople:activeUsers
 			  		}));
 
 			  	setTimeout(function(){
@@ -487,7 +496,8 @@ class PersonalizedPage extends Component{
 	  		document.getElementById("chatContainer").style.height="10%";
 	  		this.setState(prevState=>({
 	  			...prevState,
-	  			headerAnimation:true
+	  			headerAnimation:true,
+	  			handleScroll:false
 	  		}))
 	  	  }
 	  	   	setTimeout(function(){
@@ -497,29 +507,23 @@ class PersonalizedPage extends Component{
 	  }
 
 
-	  handlePreviousSymposiumButton=()=>{
-
+	  handlePreviousSymposiumButton=async()=>{
 	  	this.fadeOutInEffect();
-
-
 	  	if(this.state.symposiumCounter!=0){
 
 	  		const newCounter=this.state.symposiumCounter-1;
 	  		const newSymposium=this.state.symposiums[newCounter];
 
-	  		/*
-				make an api call here
-				const newCommunityData=getCommunityData(newCommunity.id);
-
-	  		*/
+	  		var imagePosts=await getImagesInIndustry(newSymposium.industry,0);
 	  		this.setState(prevState=>({
 	  			...prevState,
 	  			selectedSymposiumTitle:newSymposium.industry,
 	  			backgroundColor:newSymposium.backgroundColor,
-	  			symposiumCounter:newCounter
+	  			symposiumCounter:newCounter,
+	  			posts:imagePosts,
+				postType:"Image"
 	  		}))
 	  	}
-
 	  }
 
 
@@ -545,23 +549,21 @@ class PersonalizedPage extends Component{
 	  		}  	
 	  }
 
-	  handleNextSymposiumButton=()=>{
-
+	  handleNextSymposiumButton=async()=>{
 	  		this.fadeOutInEffect();
 	  		if((this.state.symposiumCounter+1)<this.state.symposiums.length){
 
 	  		const newCounter=this.state.symposiumCounter+1;
 	  		const newSymposium=this.state.symposiums[newCounter];
-	  		/*
-				make an api call here
-				const newCommunityData=getCommunityData(newCommunity.id);
- 
-	  		*/
+
+			var imagePosts=await getImagesInIndustry(newSymposium.industry,0);
 	  		this.setState(prevState=>({
 	  			...prevState,
 	  			selectedSymposiumTitle:newSymposium.industry,
 	  			backgroundColor:newSymposium.backgroundColor,
-	  			symposiumCounter:newCounter
+	  			symposiumCounter:newCounter,
+	  			posts:imagePosts,
+				postType:"Image"
 	  		}))
 	  	}
 	  }
@@ -576,7 +578,19 @@ class PersonalizedPage extends Component{
 	  } 
 
 	  //Method below is not working completely correct but is doing half it correctly moving on 
-	   replayVideo=(startTime,endTime,key)=>{
+	   replayVideo=(key)=>{
+	   		debugger;
+	   		const video=document.getElementById("video"+key);
+	   		var startTime=0;
+	   		
+	   		const videoDuration=video.duration;
+
+			var endTime;
+				if(videoDuration>10)
+					endTime=10;
+				else
+					endTime=videoDuration;
+
 	   		if(this.state.headerAnimation==false){
 		   		const video=document.getElementById("video"+key);
 		   		if(video!=null){
@@ -593,11 +607,25 @@ class PersonalizedPage extends Component{
 	   }
 
 	 timerFunction=(seconds)=>{
-		return new Promise(resolve => setTimeout(resolve, seconds));
+			return new Promise(resolve => setTimeout(resolve, seconds));
+		}
+
+	popularVideosHandle=(video)=>{
+		const {videoUrl,key}=video;
+		var lengthOfReplay=0;
+		const videoElement=<video id={"video"+key} onLoadStart={()=>this.replayVideo(key)} onEnded={()=>this.replayVideo(key)} position="relative" height="100%" width="100%" autoplay="autoplay" muted>
+			 					<source src={videoUrl} type="video/mp4"/>
+			 				</video>;
+		
+		return <li style={{listStyle:"none",display:"inline-block",marginRight:"30px"}}> 
+			 			<PopularVideos>
+			 				{videoElement}
+			 			</PopularVideos>
+			 	</li>
 	}
 
 
-	  handleHeaderContents=()=>{
+	handleHeaderContents=()=>{
 	  	const counter=this.state.symposiumCounter;
 	  	var nextSymposiumTitle;
 	  	var previousSymposiumTitle;
@@ -635,20 +663,8 @@ class PersonalizedPage extends Component{
 			 		<PopularContainer>
 			 			<ul>
 			 				{this.state.popularVideos.map(data=>
-			 					<li style={{listStyle:"none",display:"inline-block",marginRight:"30px"}}> 
-			 						{/*
-
-										Idea is to have backend return a time period depending on length of video and 
-										display it here.... it izz what it izz
-			 						*/}
-
-
-			 						<PopularVideos>
-			 							<video id={"video"+data.key} onLoadStart={()=>this.replayVideo(data.startTime,data.endTime,data.key)} onEnded={()=>this.replayVideo(data)} position="relative" height="100%" width="100%" autoplay="autoplay" muted>
-			 								<source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4"/>
-			 							</video>
-			 						</PopularVideos>
-			 					</li>
+			 					{this.popularVideosHandle(data)}
+			 					
 			 				)}
 			 			</ul>
 
@@ -662,7 +678,10 @@ class PersonalizedPage extends Component{
 
 			 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
 			 							<ActiveProfilePictures>
-			 								<img src={testdata.profileimage} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>
+			 								{data.profilePicture==null?
+			 									<img src={NoPostModal} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>:
+			 									<img src={data.profilePicture} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>
+			 								}
 			 							</ActiveProfilePictures>
 			 						</li>
 			 					)}
@@ -727,7 +746,7 @@ class PersonalizedPage extends Component{
 	  handleHeaderAnimation=()=>{
 	  	const backgroundColor=this.state.backgroundColor;
 	  	return this.state.headerAnimation==false ? 
-	  		<Container id="headerContainer" style={{background:backgroundColor}} onScroll={()=>this.handleScroll()}>
+	  		<Container id="headerContainer" style={{background:backgroundColor}}>
 	  			{this.handleHeaderContents()}
 	  		</Container>:
 	  		<SymposiumHeaderAnimation id="animatedHeaderAnimatedContainer" style={{background:backgroundColor}}>
@@ -847,6 +866,64 @@ class PersonalizedPage extends Component{
 	  			</PostContainerTEst>
 	  		</React.Fragment>
 	  }
+
+	 //Could be implemented in a better way it just looks awkward to me 
+	changePostOption=async(postOption)=>{
+		document.getElementById("regular").style.backgroundColor="white";
+		document.getElementById("regular").style.color="#5298F8";
+
+		document.getElementById("image").style.backgroundColor="white";
+		document.getElementById("image").style.color="#5298F8";
+
+		document.getElementById("video").style.backgroundColor="white";
+		document.getElementById("video").style.color="#5298F8";
+
+		document.getElementById("blog").style.backgroundColor="white";
+		document.getElementById("blog").style.color="#5298F8";
+
+		if(postOption=="Image"){
+			document.getElementById("image").style.backgroundColor="#5298F8";
+			document.getElementById("image").style.color="white";
+
+			var imagePosts=await getImagesInIndustry(this.state.selectedSymposiumTitle,this.state.postCount);
+			this.setState({
+				posts:imagePosts,
+				postType:"Image"
+			})
+
+		}else if(postOption=="Video"){
+			document.getElementById("video").style.backgroundColor="#5298F8";
+			document.getElementById("video").style.color="white";
+			var videoPosts=await getVideoInIndustry(this.state.selectedSymposiumTitle,this.state.postCount);
+
+			this.setState({
+				posts:videoPosts,
+				postType:"Video"
+			})
+
+		}else if(postOption=="Blog"){
+			document.getElementById("blog").style.backgroundColor="#5298F8";
+			document.getElementById("blog").style.color="white";
+
+			var blogPosts=await getBlogsInIndustry(this.state.selectedSymposiumTitle,this.state.postCount);
+
+			this.setState({
+				posts:blogPosts,
+				postType:"Blog"
+			})
+		}else{
+			document.getElementById("regular").style.backgroundColor="#5298F8";
+			document.getElementById("regular").style.color="white";
+
+			var regularPosts=await getRegularPostsInIndustry(this.state.selectedSymposiumTitle,this.state.postCount);
+
+			this.setState({
+				posts:regularPosts,
+				postType:"Regular"
+			})
+		}
+	}
+
 	render(){
 
 
@@ -907,28 +984,36 @@ class PersonalizedPage extends Component{
 											Display:
 										</li>
 
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<PostOptions>	
-												Regular posts
-											</PostOptions>
+										<li onClick={()=>this.changePostOption("Regular")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<PostOptions id="regular">	
+													Regular posts
+												</PostOptions>
+											</a>
 										</li>
 
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<PostOptions>	
-												Images
-											</PostOptions>
+										<li  onClick={()=>this.changePostOption("Image")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<PostOptions id="image">	
+													Images
+												</PostOptions>
+											</a>
 										</li>
 
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<PostOptions>	
-												Videos
-											</PostOptions>
+										<li onClick={()=>this.changePostOption("Video")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<PostOptions id="video">	
+													Videos
+												</PostOptions>
+											</a>
 										</li>
 
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<PostOptions>	
-												Blogs
-											</PostOptions>
+										<li onClick={()=>this.changePostOption("Blog")} style={{listStyle:"none",display:"inline-block"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<PostOptions id="blog">	
+													Blogs
+												</PostOptions>
+											</a>
 										</li>
 									</ul>
 								</li>
@@ -938,7 +1023,30 @@ class PersonalizedPage extends Component{
 					{this.handleChatContainer()}
 
 					<PostContainer id="postsContainer">
-						<PostsContainer/>
+						{this.state.postType=="Image"?
+							<ImagePostsModal
+								posts={this.state.posts}
+							/>:null
+						}
+
+						{this.state.postType=="Video"?
+							<VideoPostModal
+								posts={this.state.posts}
+							/>:null
+						}
+
+						{this.state.postType=="Blog"?
+							<BlogPostModal
+								posts={this.state.posts}
+							/>:null
+						}
+
+						{this.state.postType=="Regular"?
+							<RegularPostModal
+								posts={this.state.posts}
+							/>:null
+						}
+
 					</PostContainer>
 				
 				</PostsChatInformation>

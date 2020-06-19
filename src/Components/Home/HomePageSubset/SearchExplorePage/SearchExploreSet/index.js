@@ -6,8 +6,15 @@ import SearchExplorePosts from "../SearchExploreSubset/index.js";
 import CreatePostComponent from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 import IndustryOptions from "../../../../GeneralComponents/PostComponent/IndustryPostOptions.js"
 import {connect} from "react-redux";
-import {getPostsForHomePage} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 import PersonalHomeFeed from "../../PersonalHomeFeed/PersonalizedPage/PersonalizedPage.js";
+
+import {
+		getPostsForHomePage,
+		exploreImagePosts,
+		exploreVideoPosts,
+		exploreBlogPosts,
+		exploreRegularPosts
+	} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 const CommentCreationContainer=styled.div`
 	position:relative;
@@ -17,7 +24,6 @@ const CommentCreationContainer=styled.div`
 	border-radius:10px;
 	border-style:noe;
 	box-shadow: 1px 1px 5px 	#9395a0;
-
 `;
 
 
@@ -52,7 +58,8 @@ class SearchExploreContainer extends Component{
 			displayCreatePostComponent:false,
 			displayPersonalPage:false,
 			postOption:"Images",
-			postsInformation:[]
+			postsInformation:[],
+			postCount:0
 		}
 	}
 
@@ -83,6 +90,27 @@ class SearchExploreContainer extends Component{
 		})
 	}
 
+	changeHomePagePosts=async(postOption)=>{
+		var homePagePosts;
+		var profileId=(this.props.personalInformation.loggedIn==true)?this.props.personalInformation.id:this.props.companyInformation.id;
+
+		if(postOption=="Images"){
+			homePagePosts=await exploreImagePosts(profileId,this.state.postCount);
+		}else if(postOption=="Blogs"){
+			homePagePosts=await exploreBlogPosts(profileId,this.state.postCount);
+		}else if(postOption=="Videos"){
+			homePagePosts=await exploreVideoPosts(profileId,this.state.postCount);
+		}else{
+			homePagePosts=await exploreImagePosts(profileId,this.state.postCount);
+		}
+		var newHomePagePosts=this.addSuggestedSymposiums(homePagePosts);
+			this.setState({
+				postsInformation:newHomePagePosts
+			})
+	}
+
+
+	/*
 	changeHomePagePosts=async(postOption)=>{
 		debugger;
 		const industries=this.state.selectedIndustries;
@@ -117,19 +145,18 @@ class SearchExploreContainer extends Component{
 		var homePagePosts;
 		if(this.props.personalInformation.loggedIn==true){
 				homePagePosts=await getPostsForHomePage(this.props.personalInformation.id,searchCriteriaIndustryArray,postOption);
-				
 			}else{
-
 				homePagePosts=await getPostsForHomePage(this.props.companyInformation.id,searchCriteriaIndustryArray,postOption);
-				
 			}
 
 			var newHomePagePosts=this.addSuggestedSymposiums(homePagePosts);
-
 			this.setState({
 					postsInformation:newHomePagePosts
 				})
 		}
+	*/
+
+
 	addSuggestedSymposiums=(posts)=>{
 		return this.suggestedSymposiumsRecursive(posts);
 	}

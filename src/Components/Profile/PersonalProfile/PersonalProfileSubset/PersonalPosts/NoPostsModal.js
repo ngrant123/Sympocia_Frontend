@@ -190,11 +190,16 @@ const NoPostsModal=(props)=>{
 
 									<li style={{listStyle:"none",height:"270px",overflowY:"auto"}}>
 										<ul style={{padding:"0px"}}>
-											{recommendedPosts.map(data=>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",marginBottom:"2%",marginBottom:"10%"}}>
-													<img src={data.imgUrl} style={RecommendedImageCSS}/>
-												</li>
-											)}
+											{recommendedPosts!=null?
+												<React.Fragment>
+													{recommendedPosts.map(data=>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",marginBottom:"2%",marginBottom:"10%"}}>
+															<img src={data.imgUrl} style={RecommendedImageCSS}/>
+														</li>
+													)}
+												</React.Fragment>:null
+										}
+											
 										</ul>
 									</li>
 							</ul>

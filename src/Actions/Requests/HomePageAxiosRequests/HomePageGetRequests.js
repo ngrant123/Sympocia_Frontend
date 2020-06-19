@@ -161,6 +161,154 @@ export const getSymposiumId=async(name)=>{
 
 }
 
+export const exploreImagePosts=async(id,postCount)=>{
+	try{
+		const imageResults=await axios.get(`${GetUrl}/getExploreImagePosts`,{
+			params:{
+				_id:id,
+				postCount:postCount
+			}
+		});
+
+		const {data}=imageResults;
+		const imageData=data.data;
+		return imageData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const exploreVideoPosts=async(id,postCount)=>{
+	try{
+		const videoResults=await axios.get(`${GetUrl}/getExploreVideoPosts`,{
+			params:{
+				_id:id,
+				postCount:postCount
+			}
+		});
+
+		const {data}=videoResults;
+		const videoData=data.data;
+		return videoData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const exploreBlogPosts=async(id,postCount)=>{
+	try{
+		const blogResults=await axios.get(`${GetUrl}/getExploreBlogsPosts`,{
+			params:{
+				_id:id,
+				postCount:postCount
+			}
+		});
+
+		const {data}=blogResults;
+		const blogData=data.data;
+		return blogData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const getImagesInIndustry=async(industry,postCount)=>{
+	try{
+		const imageResults=await axios.get(`${GetUrl}/getImagesInIndustry`,{
+			params:{
+				industry:industry,
+				postCount:postCount
+			}
+		});
+
+		const {data}=imageResults;
+		const imageData=data.data;
+		return imageData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const getVideoInIndustry=async(industry,postCount)=>{
+	try{
+		const videoResults=await axios.get(`${GetUrl}/getVideosInIndustry`,{
+			params:{
+				industry:industry,
+				postCount:postCount
+			}
+		});
+
+		const {data}=videoResults;
+		const videoData=data.data;
+		return videoData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const getBlogsInIndustry=async(industry,postCount)=>{
+	try{
+		const blogResults=await axios.get(`${GetUrl}/getBlogsInIndustry`,{
+			params:{
+				industry:industry,
+				postCount:postCount
+			}
+		});
+
+		const {data}=blogResults;
+		const blogData=data.data;
+		return blogData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const getRegularPostsInIndustry=async(industry,postCount)=>{
+	try{
+		const imageResults=await axios.get(`${GetUrl}/getRegularPostInIndustry`,{
+			params:{
+				industry:industry,
+				postCount:postCount
+			}
+		});
+
+		const {data}=imageResults;
+		const imageData=data.data;
+		return imageData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const getIndustryInformation=async(industry,postCount)=>{
+	try{
+		const industryInformation=await axios.get(`${GetUrl}/getIndustryInformation`,{
+			params:{
+				industry:industry,
+				postCount:postCount
+			}
+		})
+
+		const {data}=industryInformation;
+		const industryInformationData=data.data;
+		return industryInformationData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+
+
+}
+
 
 
 

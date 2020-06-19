@@ -161,7 +161,7 @@ const ImagePostsModal=(props)=>{
 	console.log(props);
 	const headerImage=props.posts[0];
 	const images=props.posts.slice(1,props.posts.length);
-
+	console.log(images);
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
 
@@ -187,7 +187,7 @@ const ImagePostsModal=(props)=>{
 	}
 
 	const displaySpecialPost=(postResult,personalInformationRedux,homePageInformation)=>{
-
+		console.log(postResult);
 		if(postResult=="suggestedSymposium"){
 			return <li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
 						{constructSuggestedSymposium(personalInformationRedux,homePageInformation)}
@@ -249,7 +249,7 @@ const ImagePostsModal=(props)=>{
 											<ul style={{padding:"0px"}}>
 												{images.map(data=>
 													<React.Fragment>
-														{data.firstName==null?
+														{data.owner==null?
 															<React.Fragment>
 																{displaySpecialPost(data,personalInformationRedux,homePageInformation)}
 															</React.Fragment>
