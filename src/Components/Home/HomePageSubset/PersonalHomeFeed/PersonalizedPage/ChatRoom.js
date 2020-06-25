@@ -4,6 +4,11 @@ import SendIcon from '@material-ui/icons/Send';
 import {HomeConsumer} from "../../../HomeContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 
+
+const ChatContainer=styled.div`
+	positiion:absolute;
+`;
+
 const Chat=styled.div`
 	background-color:white;
 	width:100%;
@@ -73,7 +78,7 @@ const EmojiButton=styled.div`
 const ExtendedMessageBox=styled.div`
 	position:relative;
 	z-index:12;
-	width:300px;
+	width:100%;
 	height:60%;
 	border-radius:5px;
 	border-style:solid;
@@ -93,10 +98,11 @@ const ChatAndIndustryInfoContainer=styled.div`
 	border-radius:5px;
 	overflow-y:auto;
 	transition:.8s;
-	z-index:4;
+	z-index:17;
 	border-style:solid;
 	border-width:1px;
 	border-color:#5298F8;
+	background-color:white;
 `;
 
 
@@ -206,6 +212,7 @@ class ChatRoom extends Component{
 											<Chat>
 												{this.constructChat(this.props.chat)}
 											</Chat>
+
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
 													<MessageBox id="messageContainer" placeholder="Submit something stoopid" onChange={event=>this.handleTextChange(event)}/>

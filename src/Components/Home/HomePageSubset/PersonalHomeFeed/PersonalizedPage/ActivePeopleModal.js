@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
-
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import {Link} from "react-router-dom";
 
 const SearchContainer=styled.textarea`
 	position:absolute;
@@ -25,8 +26,9 @@ const ActivePeopleContainer=styled.div`
 	left:10%;
 	width:80%;
 	height:73%;
-	padding:10px;
+	padding:15px;
 	overflow-y:scroll;
+	z-index:17;
 	box-shadow: 1px 5px 5px 1px #d5d5d5;
 `;
 
@@ -59,7 +61,7 @@ const ProfilePicture=styled.div`
 
 `;
 
-const MessageButton=styled.div`
+const ViewProfileButton=styled(Link)`
 	position:relative;
 	width:60px;
 	height:20%;
@@ -72,8 +74,6 @@ const MessageButton=styled.div`
 	border-style:solid;
 	border-width:1px;
 	border-color:#0750b3;
-
-
 `;
 
 
@@ -81,54 +81,50 @@ const ProfileContainerContentsCSS={
 	listStyle:"none"
 }
 
+const ProfilePictureCSS={
+	position:"relative",
+	width:"60px",
+	height:"40%",
+	backgroundColor:"red",
+	borderRadius:"50%",
+	marginBottom:"10px",
+	textAlign:"center",
+
+}
 
 
 const ActivePeopleModal=(props)=>{
-
-	const [friendsArray,changeFriends]=useState([]);
-	console.log("Test");
-	useEffect(()=>{
-
-		changeFriends(props.peopleActive);
-	})
-
 	return(
+			<ActivePeopleContainer>
+					{props.peopleActive.length==0?
+						<p>Unfortunately there are no people here at the moment. Why dont you follow the symposium instead? </p>:
+						<ul>
+							{props.peopleActive.map(data=>
+									<li style={ActivePeopleListCSS}>
+										<PeopleContainer>
+											<ul style={{position:"relative",left:"-20%",top:"5%"}}>
 
-		<React.Fragment>
-			<SearchContainer placeholder="Search here nigga"> 
-				</SearchContainer>
-
-				<ActivePeopleContainer>
-
-					<ul>
-						{friendsArray.map(data=>
-								<li style={ActivePeopleListCSS}>
-									<PeopleContainer>
-										<ul style={{position:"relative",left:"-20%",top:"5%"}}>
-
-											<li style={ProfileContainerContentsCSS}>
-												<ProfilePicture>
-
-												</ProfilePicture>
-											</li>
-											<li style={ProfileContainerContentsCSS}>
-												<p style={{overflowX:"scroll",color:"#a2a2a2"}}><b>Nathan</b></p>
-											</li>
-											<li style={ProfileContainerContentsCSS}>
-												<MessageButton>
-													Message
-												</MessageButton>
-											</li>
-										</ul>
-									</PeopleContainer>
-								</li>
-							)}
-					</ul>
-
-				</ActivePeopleContainer>
-
-
-		</React.Fragment>
+												<li style={ProfileContainerContentsCSS}>
+													{data.ProfilePicture==null?
+														<img src={NoProfilePicture} style={ProfilePictureCSS}/>:
+														<img src={data.ProfilePicture} style={ProfilePictureCSS}/>
+													}
+												</li>
+												<li style={ProfileContainerContentsCSS}>
+													<p style={{overflowX:"scroll",color:"#a2a2a2"}}><b>{data.firstName}</b></p>
+												</li>
+												<li style={ProfileContainerContentsCSS}>
+													<ViewProfileButton to={{pathname:`/profile/${data._id}`}}>
+														View Profile
+													</ViewProfileButton>
+												</li>
+											</ul>
+										</PeopleContainer>
+									</li>
+								)}
+						</ul>
+					}
+			</ActivePeopleContainer>
 
 	)
 }

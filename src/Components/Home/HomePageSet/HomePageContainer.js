@@ -186,7 +186,8 @@ class HomePageContainer extends Component{
 			displayPlayListPage:false,
 			displayExpandedSymposium:false,
 			isPersonalProfile:true,
-			profileId:""
+			profileId:"",
+			isLoading:true
 		}
 	}
 
@@ -194,34 +195,55 @@ class HomePageContainer extends Component{
 		/*
 		*/
 		var profile;
+		var symposiumsMap;
+		var isPersonalProfile;
 		debugger;
-		
-		
+		if(this.props.location.query!=null){
+			const profileData=this.props.location.query.createProfile;
+			if(this.props.location.query.createProfile.isPersonalProfile==true){
+				const {
+						createProfile,
+						previousProps,
+				 		reduxFunctions
+				 	}=profileData;
+				 	const personalProfile=profileData.profile;
 
-		if(this.props.personalInformation.loggedIn==true){
-			var symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
-			profile=await getProfileForHomePage(this.props.personalInformation.id)
-			console.log(profile);
-			this.setState({
-				recruitsPost:profile.recruits,
-				isPersonalProfile:true,
-				profile:profile,
-				profileId:profile._id,
-				symposiumsMap:symposiumsMap
-			})
+				profile=await createProfile(previousProps,personalProfile,reduxFunctions);
+				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
+				isPersonalProfile=true;
+			}else{
+				const {
+					handleSendDataToDatabase,
+					companyInformation,
+					reduxFunctions
+				}=profileData
+
+				profile=await handleSendDataToDatabase(companyInformation,reduxFunctions)
+				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
+				isPersonalProfile=true;
+			}
 		}else{
-			var symposiumsMap=this.constructSymposiumsMap(COMPANY_INDUSTRIES.INDUSTRIES);
-			profile=await getCompanyProfileForHomePage(this.props.companyInformation.id);
+			debugger;
+			if(this.props.personalInformation.loggedIn==true){
+				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
+				profile=await getProfileForHomePage(this.props.personalInformation.id)
+				isPersonalProfile=true;
 
-			this.setState({
-				recruitsPost:profile.recruits,
-				isPersonalProfile:false,
-				profile:profile,
-				profileId:profile._id,
-				symposiumsMap:symposiumsMap
-			})
+			}else{
+				var symposiumsMap=this.constructSymposiumsMap(COMPANY_INDUSTRIES.INDUSTRIES);
+				profile=await getCompanyProfileForHomePage(this.props.companyInformation.id);
+				isPersonalProfile=false
+			}
 		}
 
+		this.setState({
+					recruitsPost:profile.recruits,
+					isPersonalProfile:isPersonalProfile,
+					profile:profile,
+					profileId:profile._id,
+					symposiumsMap:symposiumsMap,
+					isLoading:false
+				})
 		debugger;
 	}
 
@@ -369,98 +391,103 @@ class HomePageContainer extends Component{
 					}
 				}}
 			>
-				<Container id="homePageContainer">
-					<GeneralNavBar
-						displayChatPage={this.displayChatPage}
-						page={"Home"}
-					/>
+				{this.state.isLoading==true?
+					<p>Its loading </p>:
+					<Container id="homePageContainer">
+						<GeneralNavBar
+							displayChatPage={this.displayChatPage}
+							page={"Home"}
+						/>
 
-					{this.chatPage()}
-					{this.state.displayRecruitsPosts==true?
-							<React.Fragment>
-								<ShadowContainer
-									onClick={()=>this.setState({displayRecruitsPosts:!this.state.displayRecruitsPosts})}
-								/>
-								<RecruitsPosts
-									recruits={this.state.recruitsPost}
-									id={this.state.profileId}
-									isPersonalProfile={this.state.isPersonalProfile}
-								/>
-							</React.Fragment>
-							:<React.Fragment></React.Fragment>}
+						{this.chatPage()}
+						{this.state.displayRecruitsPosts==true?
+								<React.Fragment>
+									<ShadowContainer
+										onClick={()=>this.setState({displayRecruitsPosts:!this.state.displayRecruitsPosts})}
+									/>
+									<RecruitsPosts
+										recruits={this.state.recruitsPost}
+										id={this.state.profileId}
+										isPersonalProfile={this.state.isPersonalProfile}
+									/>
+								</React.Fragment>
+								:<React.Fragment></React.Fragment>}
 
-							{/*
-								Home for you like for what you subscribed
-								and something like a mix between what you already like and what you may like
-					*/}
-					<PageIndicator>
-						<ul>
-							<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
-								<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-									<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+								{/*
+									Home for you like for what you subscribed
+									and something like a mix between what you already like and what you may like
+						*/}
+						<PageIndicator>
+							<ul>
+								<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
+									<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+										<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none"}}>
+													<ExploreIcon
+														style={{fontSize:50}}
+													/>
+												</li>
+
+												<li style={{listStyle:"none"}}>
+													Explore
+												</li>
+											</ul>
+										</ExploreIconContainer>
+									</a>
+								</li>
+								<li style={{listStyle:"none"}}>
+									<ForYouIconContainer>
 										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none"}}>
-												<ExploreIcon
-													style={{fontSize:50}}
-												/>
+											<li onClick={()=>this.handleDisplayFollowedCommunitiesPage()} style={{listStyle:"none",marginBottom:"20%"}}>
+												<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+													<AppsIcon
+														style={{fontSize:40}}
+													/>
+												</a>
 											</li>
 
-											<li style={{listStyle:"none"}}>
-												Explore
+											<li style={{listStyle:"none",marginBottom:"20%"}}>
+												<a onClick={()=>this.handleDisplayPlayListPage()}style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+													<PlaylistAddIcon
+														style={{fontSize:40}}
+													/>
+												</a>
+											</li>
+											<li style={{listStyle:"none",marginBottom:"10%"}}>
+												<PersonPinIcon
+													style={{fontSize:40}}
+												/>
+											</li>
+											<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
+												<ul style={{padding:"0px"}}>
+													{this.state.recruitsPost!=null?
+														<React.Fragment>
+															{this.state.recruitsPost.map(data=>
+																<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
+																	<a style={{textDecoration:"none"}} href="javascript:void(0);">
+																			{data.profilePicture==null||data.profilePicture==""?
+																				<img src={NoProfileIcon} style={RecruitImageCSS}/>:
+																				<img src={data.profilePicture} style={RecruitImageCSS}/>
+																			}
+																	</a>
+																</li>
+															)}
+														</React.Fragment>:null
+													}
+													
+												</ul>
 											</li>
 										</ul>
-									</ExploreIconContainer>
-								</a>
-							</li>
-							<li style={{listStyle:"none"}}>
-								<ForYouIconContainer>
-									<ul style={{padding:"0px"}}>
-										<li onClick={()=>this.handleDisplayFollowedCommunitiesPage()} style={{listStyle:"none",marginBottom:"20%"}}>
-											<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-												<AppsIcon
-													style={{fontSize:40}}
-												/>
-											</a>
-										</li>
+									</ForYouIconContainer>
+								</li>
+							</ul>
+						</PageIndicator>
+						{this.displaySelectedScreen()}
+					</Container>
 
-										<li style={{listStyle:"none",marginBottom:"20%"}}>
-											<a onClick={()=>this.handleDisplayPlayListPage()}style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-												<PlaylistAddIcon
-													style={{fontSize:40}}
-												/>
-											</a>
-										</li>
-										<li style={{listStyle:"none",marginBottom:"10%"}}>
-											<PersonPinIcon
-												style={{fontSize:40}}
-											/>
-										</li>
-										<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
-											<ul style={{padding:"0px"}}>
-												{this.state.recruitsPost!=null?
-													<React.Fragment>
-														{this.state.recruitsPost.map(data=>
-															<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
-																<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																		{data.profilePicture==null||data.profilePicture==""?
-																			<img src={NoProfileIcon} style={RecruitImageCSS}/>:
-																			<img src={data.profilePicture} style={RecruitImageCSS}/>
-																		}
-																</a>
-															</li>
-														)}
-													</React.Fragment>:null
-												}
-												
-											</ul>
-										</li>
-									</ul>
-								</ForYouIconContainer>
-							</li>
-						</ul>
-					</PageIndicator>
-					{this.displaySelectedScreen()}
-				</Container>
+				}
+					
 			</HomeProvider>
 		)
 	}

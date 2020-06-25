@@ -94,33 +94,36 @@ class PersonalSignUp extends Component{
 	constructor(props){
 		super(props);
 		this.state={
-			isEmailValid:false
+			isEmailValid:false,
+			createProfile:this.handleSignUpButton,
+			password:""
 		}
 	}
 
-	handleSignUpButton=async(props)=>{
+	handleSignUpButton=async(previousProps,profileObject,reduxFunctions)=>{
 		debugger;
-		console.log(this.props);
-		const firstName=document.getElementById("firstName").value;
-		const lastName=document.getElementById("lastName").value;
-		const email=document.getElementById("email").value;
-		const password=document.getElementById("password").value;
+		const props=previousProps;
+		const {firstName,lastName,email,password}=profileObject;
+		const {
+				addName,
+			 	addLastName,
+			 	addEmail,
+			 	addPersonalIdentificationId,
+			 	loginPersonalPage,
+			 	loginCompanyPage
+			 }=reduxFunctions
 
-		if(firstName==""||password==""){
-			props.preventDefault();
-			alert('One of the required fields are left blank. Please fill it in');
-		}else if(this.state.isEmailValid==false){
-			props.preventDefault();
-			alert('The email that you have typed is already used unfortunately by someone else. Please enter another one or sign in if its yours');
-		}else{
-				this.props.addFirstName(firstName);
-				this.props.addLastName(lastName);
-				this.props.addEmail(email);
+
+			 	loginPersonalPage(true);
+				loginCompanyPage(false);
+				addName(firstName);
+				addLastName(lastName);
+				addEmail(email);
 
 				var profileCreationId;
 				debugger;
-				if(this.props.investorInformation!=null){
-					const {investorInformation}=this.props;
+				if(props.investorInformation!=null){
+					const {investorInformation}=props;
 					const {industries,location}=investorInformation;
 					const {long,lat}=location;
 
@@ -144,11 +147,14 @@ class PersonalSignUp extends Component{
 						isInvestor:false,
 						password:password
 					});
+
+					addPersonalIdentificationId(profileCreationId._id);
+					
+
+					return profileCreationId;
 				}
-				this.props.addPersonalIdentificationId(profileCreationId);
-				this.props.loginPersonalPage(true);
-				this.props.loginCompanyPage(false);
-		}
+
+				
 	}
 
 	checkIfEmailIsValid=async()=>{
@@ -159,11 +165,38 @@ class PersonalSignUp extends Component{
 			 if(emailIndicator==true){
 			 	alert('The email that you have typed is already used unfortunately by someone else. Please enter another one or sign in if its yours');
 			 }else{
+			 	const ProfileObject={
+			 		firstName:document.getElementById("firstName").value,
+			 		lastName:document.getElementById("lastName").value,
+					email:document.getElementById("email").value,
+					password:document.getElementById("password").value
+			 	}
+
+			 	const ReduxObjectFunctions={
+			 		addName:this.props.addFirstName,
+			 		addLastName:this.props.addLastName,
+			 		addEmail:this.props.addEmail,
+			 		addPersonalIdentificationId:this.props.addPersonalIdentificationId,
+			 		loginPersonalPage:this.props.loginPersonalPage,
+			 		loginCompanyPage:this.props.loginCompanyPage
+			 	}
 			 	this.setState({
-			 		isEmailValid:true
+			 		isEmailValid:true,
+			 		previousProps:this.props,
+			 		profile:ProfileObject,
+			 		reduxFunctions:ReduxObjectFunctions
 			 	})
 			 }
 		}
+	}
+
+	handlePasswordEnter=(character)=>{
+		debugger;
+		const currentPassword=this.state.password;
+		var newPassWord=currentPassword+character;
+		this.setState({
+			password:newPassWord
+		})
 	}
 
 	render(){
@@ -193,9 +226,17 @@ class PersonalSignUp extends Component{
 						</li>
 
 						<li style={{listStyle:"none"}}>
-							<InputContainer onClick={()=>this.checkIfEmailIsValid()} id="password" style={{width:"85%"}} placeholder="Password"/>
+							<InputContainer onKeyPress={e=>this.handlePasswordEnter(e.key)} onClick={()=>this.checkIfEmailIsValid()} id="password" style={{width:"85%"}} placeholder="Password"/>
 						</li>
-						<SubmitButton to="/home" onClick={e=>this.handleSignUpButton(e)}>
+
+						<SubmitButton to={{pathname:`/home`,query:{createProfile:{
+													...this.state,
+													profile:{
+														...this.state.profile,
+														password:this.state.password
+													},
+													isPersonalProfile:true
+												}}}}>
 							Submit
 						</SubmitButton>
 

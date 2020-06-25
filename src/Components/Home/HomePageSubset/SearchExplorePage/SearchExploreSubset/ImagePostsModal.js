@@ -18,11 +18,12 @@ const Container=styled.div`
 `;
 
 const HeaderImageCSS={
-	width:"100%",
+	width:"110%",
 	height:"80%",
 	borderRadius:"5px",
 	backgroundColor:"red",
-	borderRadius:"5px"
+	borderRadius:"5px",
+	boxShadow:"1px 1px 10px #707070"
 }
 
 const ImageCSS={
@@ -253,7 +254,7 @@ const ImagePostsModal=(props)=>{
 															<React.Fragment>
 																{displaySpecialPost(data,personalInformationRedux,homePageInformation)}
 															</React.Fragment>
-														:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
+														:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"2%"}}>
 															<ul style={{padding:"0px"}}>
 																<li onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
 																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>

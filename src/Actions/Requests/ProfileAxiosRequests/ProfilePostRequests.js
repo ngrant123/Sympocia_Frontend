@@ -119,8 +119,8 @@ export async function createProfile(personalData){
 
 	const profileCreationResults=await axios.post(`${CreateUrl}/createProfile`,personalInformation);
 	const {data}=profileCreationResults;
-	const {_id}=data.data;
-	return _id;
+	var profileData=data.data;
+	return profileData;
 }
 
 export function setBio(personalId,bio){

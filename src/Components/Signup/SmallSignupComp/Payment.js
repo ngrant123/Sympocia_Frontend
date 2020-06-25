@@ -292,34 +292,70 @@ class Payment extends Component {
 			accountNumber:0,
 			accountDate:"",
 			displayFirstCardPage:true,
-			counter:1
+			counter:1,
+			cvv:""
 		}
 	}
 
+	componentDidMount(){
+		const CompanyInformation={
+			companyName:this.props.companyName,
+			companyIndustry:this.props.companyIndustry,
+			companyLocation:this.props.companyLocation,
+			paymentPlan:this.props.paymentPlan,
+		}
 
-		handleSendDataToDatabase=async()=>{
-			const accountCvv=document.getElementById('accountCvv').value;
+		const ReduxFunctions={
+			addCompanyId:this.props.addCompanyId,
+			updatefirstTimeUsage:this.props.updatefirstTimeUsage,
+			loginCompanyPage:this.props.loginCompanyPage,
+			loginPersonalPage:this.props.loginPersonalPage
+		}
+
+		this.setState({
+			...this.state,
+			companyInformation:CompanyInformation,
+			reduxFunctions:ReduxFunctions
+		})
+	}
+
+
+	handleSendDataToDatabase=async(companyInformation,reduxFunctions)=>{
+			const {
+				addCompanyId,
+				updatefirstTimeUsage,
+				loginCompanyPage,
+				loginPersonalPage
+			}=reduxFunctions;
+
+			const {
+				companyName,
+				companyIndustry,
+				companyLocation,
+				paymentPlan
+			}=companyInformation;
 
 			const personalData={
-				companyName:this.props.companyName,
-				companyIndustry:this.props.companyIndustry,
-				companyLocation:this.props.companyLocation,
-				paymentPlan:this.props.paymentPlan,
+				companyName:companyName,
+				companyIndustry:companyIndustry,
+				companyLocation:companyLocation,
+				paymentPlan:paymentPlan,
 				firstTime:true
 			}
 			
 			console.log("Testing request");
-			const {_id}=await createCompanyProfile(personalData);
-			this.props.addCompanyId(_id);
-			this.props.updatefirstTimeUsage(true);
-			this.props.loginCompanyPage(true);
-			this.props.loginPersonalPage(false);
+			const profile=await createCompanyProfile(personalData);
+			addCompanyId(profile._id);
+			updatefirstTimeUsage(true);
+			loginCompanyPage(true);
+			loginPersonalPage(false);
+			return profile;
 
 			///Implement strip api on frontend
 			//console.log(createProfile(personalData));
 		}
 
-		handleFirstPageContinueClick=()=>{
+	handleFirstPageContinueClick=()=>{
 
 			const accountNumber=document.getElementById("accountNumber").value;
 			const accountDate=document.getElementById("accountDate").value;
@@ -329,13 +365,27 @@ class Payment extends Component {
 				accountDate:accountDate,
 				displayFirstCardPage:false
 			})
-		}
+	}
 
-		handleSecondPageBackButton=()=>{
-			this.setState({
-				displayFirstCardPage:true
-			})
-		}
+	handleSecondPageBackButton=()=>{
+		this.setState({
+			displayFirstCardPage:true
+		})
+	}
+
+	handleCVVEnter=(character)=>{
+		debugger;
+		const currentCVV=this.state.cvv;
+		var newCVV=currentCVV+character;
+
+		this.setState({
+			cvv:newCVV
+		})
+	}
+
+	sendBankInformation=()=>{
+		
+	}
 
 		handleDisplayFirstOrSecondCardPage=()=>{
 
@@ -370,10 +420,16 @@ class Payment extends Component {
 
 					<BackBankcontainer>
 						<BackLine> </BackLine>
-						<CVVBackBar id="accountCvv" placeholder="CVV"></CVVBackBar>
+						<CVVBackBar onKeyPress={e=>this.handleCVVEnter(e.key)} id="accountCvv" placeholder="CVV"></CVVBackBar>
 					</BackBankcontainer>
 
-					<NextPageLink to='/home' onClick={()=>this.handleSendDataToDatabase()}>
+					<NextPageLink to={{pathname:`/home`,query:{createProfile:{
+								handleSendDataToDatabase:this.handleSendDataToDatabase,
+								companyInformation:this.state.companyInformation,
+								reduxFunctions:this.state.reduxFunctions,
+								isPersonalProfile:false
+							}
+					}}}  onClick={()=>this.sendBankInformation()}>
 								Submit
 					</NextPageLink>
 

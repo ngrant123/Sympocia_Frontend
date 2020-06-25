@@ -187,6 +187,28 @@ class PaymentOption extends Component {
 		};
 	}
 
+	componentDidMount(){
+		const CompanyInformation={
+			companyName:this.props.companyName,
+			companyIndustry:this.props.companyIndustry,
+			companyLocation:this.props.companyLocation,
+			paymentPlan:"Free",
+		}
+
+		const ReduxFunctions={
+			addCompanyId:this.props.addCompanyId,
+			updatefirstTimeUsage:this.props.updatefirstTimeUsage,
+			loginCompanyPage:this.props.loginCompanyPage,
+			loginPersonalPage:this.props.loginPersonalPage
+		}
+
+		this.setState({
+			...this.state,
+			companyInformation:CompanyInformation,
+			reduxFunctions:ReduxFunctions
+		})
+	}
+
 
 	handleHoverIn(){
 
@@ -201,55 +223,45 @@ class PaymentOption extends Component {
 
 	}
 
-	handleOnClick=async(e)=>{
-		//Fix later 
-		debugger;
-		document.getElementById(this.state.id+"container").style.borderStyle="solid";
-		document.getElementById(this.state.id+"container").style.borderRadius="5px";
-		document.getElementById(this.state.id+"container").style.borderColor=" #C8B0F4";
 
-		this.props.addPaymentPlan(this.state.pricedescription);
+	handleSendDataToDatabase=async(companyInformation,reduxFunctions)=>{
+			const {
+				addCompanyId,
+				updatefirstTimeUsage,
+				loginCompanyPage,
+				loginPersonalPage
+			}=reduxFunctions;
 
-		if(this.state.pricedescription=='Free'){
-			//send  data to db and move to profile page
+			const {
+				companyName,
+				companyIndustry,
+				companyLocation,
+				paymentPlan
+			}=companyInformation;
 
-			const CompanyProfile={
-				companyName:this.props.companyName,
-				companyLocation:this.props.companyLocation,
-				companyIndustry:this.props.companyIndustry,
-				paymentPlan:"Free"
+			const personalData={
+				companyName:companyName,
+				companyIndustry:companyIndustry,
+				companyLocation:companyLocation,
+				paymentPlan:paymentPlan,
+				firstTime:true
 			}
+			
+			console.log("Testing request");
+			const profile=await createCompanyProfile(personalData);
+			addCompanyId(profile._id);
+			updatefirstTimeUsage(true);
+			loginCompanyPage(true);
+			loginPersonalPage(false);
+			return profile;
 
-			//createProfile(PersonalProfile);
-			debugger;
-			const {_id}=await createCompanyProfile(CompanyProfile);
-			this.props.addCompanyId(_id);
-			this.props.updatefirstTimeUsage(true);
-			this.props.loginCompanyPage(true);
-			this.props.loginPersonalPage(false);
+			///Implement strip api on frontend
+			//console.log(createProfile(personalData));
 		}
-		else{
-			debugger;
-			e.preventDefault();
-			this.props.handleDisplayPaymentScreen();
-		}
-		
-	}
-
-	handleDisplayOrDontDisplayHomePage=()=>{
-
-		return this.state.pricedescription!="Free"?
-			<P1Submit onMouseOver= {()=> this.handleHoverIn()} onMouseOut={()=> this.handleHoverOut()} onClick={()=> this.handleOnClick()}> Choose Free </P1Submit>:
-			<RedirectToHomePageButton to="/home">Choose Free</RedirectToHomePageButton>
-	}
-
 
 	render(){
-
-
 		return (
 					<Payment1 id={this.state.id+"container"} onload= {()=> this.onLoad()}>
-
 						<P1PriceDescript id={this.state.id+''}> {this.state.pricedescription} </P1PriceDescript> 
 						<P1Number> {this.state.number} </P1Number>
 						<P1Description> {this.state.description} </P1Description>
@@ -263,7 +275,23 @@ class PaymentOption extends Component {
 
 							</ul>
 						 </P1SecondDescription>
-						<RedirectToHomePageButton to="/home" onMouseOver= {()=> this.handleHoverIn()} onMouseOut={()=> this.handleHoverOut()} onClick={e=> this.handleOnClick(e)}> Choose Free </RedirectToHomePageButton>
+						{this.props.pricedescription!="Free"?
+								<P1Submit 
+									onMouseOver= {()=> this.handleHoverIn()}
+									onMouseOut={()=> this.handleHoverOut()} 
+									onClick={()=>this.props.handleDisplayPaymentScreen()}> 
+										Choose Free 
+								</P1Submit>:
+								<RedirectToHomePageButton to={{pathname:`/home`,query:{createProfile:{
+													handleSendDataToDatabase:this.handleSendDataToDatabase,
+													companyInformation:this.state.companyInformation,
+													reduxFunctions:this.state.reduxFunctions,
+													isPersonalProfile:false
+												}
+										}}}>
+											Choose Free
+								</RedirectToHomePageButton>
+						}
 					</Payment1>	
 		)
 	}
@@ -285,7 +313,6 @@ const mapDispatchToProps=dispatch=>{
 
 	return{
 		addCompanyId:(companyId)=>dispatch(addCompanyId(companyId)),
-		addPaymentPlan:(pricedescription)=>dispatch(addPaymentPlan(pricedescription)),
 		updatefirstTimeUsage:(indicator)=>dispatch(updatefirstTimeUsage(indicator)),
 		loginCompanyPage:(loginIndicator)=>dispatch(loginCompanyPage(loginIndicator)),
 		loginPersonalPage:(loginIndicator)=>dispatch(loginPersonalPage(loginIndicator))
