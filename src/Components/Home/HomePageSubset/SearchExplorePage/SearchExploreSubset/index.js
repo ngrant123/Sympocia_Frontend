@@ -74,7 +74,6 @@ class SearchExplorePosts extends Component{
 			displayRegularPosts:false,
 			postOptionHeader:"Images"
 		})
-
 		this.props.changePostOption("Images");
 	}
 

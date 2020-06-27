@@ -92,7 +92,9 @@ class PostContainer extends Component{
 
 		return(
 			<React.Fragment>
-
+				<ul style={{padding:"0px"}}>
+					
+				</ul>
 		{/*
 			<ReactSnapScroll 
 					transition="move-top-bottom"

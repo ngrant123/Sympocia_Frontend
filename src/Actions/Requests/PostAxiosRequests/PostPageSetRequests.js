@@ -128,7 +128,35 @@ export const unStampPost=async(userId,postId,profileType,postType)=>{
 	}catch(err){
 		console.log(err);
 	}
+}
 
+export const addCommentToPopularQuestions=async(commentObject)=>{
+	try{
+		const {
+			userId,
+			profileIndicator,
+			questionId,
+			questionType,
+			comment,
+			industry
+		}=commentObject;
+
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const commentResponse=await axios.post(`${CreateUrl}/addCommentToPopularPost`,{
+			userId:userId,
+			profileIndicator:profileIndicator,
+			questionId:questionId,
+			questionType:questionType,
+			comment:comment,
+			industry:industry
+		});
+		const {data}=commentResponse;
+		const commentData=data.data;
+		return commentData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
 }
 
 

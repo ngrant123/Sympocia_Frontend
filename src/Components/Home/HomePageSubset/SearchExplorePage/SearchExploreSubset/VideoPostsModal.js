@@ -4,9 +4,7 @@ import VideoPostDisplayPortal from "../../../HomePageSet/VideoHomeDisplayPortal.
 import PersonalIndustry from "../../../../../Constants/personalIndustryConstants.js";
 import CompanyIndustry from "../../../../../Constants/industryConstants.js";
 import {useSelector} from "react-redux";
-import {
-		displayPersonalIndustryFeed
-	} from "./ImagePostsModal.js";
+import {displayPersonalIndustryFeed} from "./ImagePostsModal.js";
 import {HomeConsumer} from "../../../HomeContext.js";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";

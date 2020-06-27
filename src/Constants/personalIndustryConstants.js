@@ -3,7 +3,19 @@ export default{
 		{	
 			industry:"General",
 			backgroundColor:"linear-gradient(to left, #9933ff 0%, #ff99ff 100%)",
-			id:1
+			id:1,
+			popularQuestions:[
+				{
+					question:"How are you feeling today honestly? Whats on your mind?",
+					type:"RegularPost"
+				},{
+					question:"Goals for this week",
+					type:"Video"
+				},{
+					question:"Upload the most recent photo you have in your camera roll so everyone can see",
+					type:"Image"
+				}
+			]
 		},
 		{ industry:"Photography",
 			backgroundColor:"linear-gradient(to right, #ff9933 0%, #ffff00 100%)",

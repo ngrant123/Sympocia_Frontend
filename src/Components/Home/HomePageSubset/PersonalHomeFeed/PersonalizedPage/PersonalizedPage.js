@@ -30,7 +30,7 @@ import BlogPostModal from "../../SearchExplorePage/SearchExploreSubset/BlogPosts
 import NoPostModal from "../../../../../designs/img/NoProfilePicture.png";
 import PopularVideosModal from "../PopularVideosModal.js";
 import {HeaderContainer,SimpliedHeaderContainer} from "./HeaderContainer.js";
-
+import HightLightedQuestions from "./HighLightedQuestions.js";
 
  const keyFrameExampleTwo= keyframes`
   0% {
@@ -480,7 +480,8 @@ class PersonalizedPage extends Component{
 			displayChatRoom:false,
 			chatRoom:[],
 			postCount:0,
-			posts:[]
+			posts:[],
+			popularQuestions:[]
 		}
 
 		connectToRoom(socket,this.props.selectedSymposium._id);
@@ -510,8 +511,15 @@ class PersonalizedPage extends Component{
 		  		}
 
 
-		  		var {posts,popularPosts,activeUsers}=await getIndustryInformation(this.props.selectedSymposium.industry,this.state.postCount);
+		  		var {
+		  			posts,
+		  			popularPosts,
+		  			activeUsers,
+		  			popularQuestions
+		  		}=await getIndustryInformation(this.props.selectedSymposium.industry,this.state.postCount);
+
 		  		debugger;
+
 			  	this.setState(prevState=>({
 				  		...prevState,
 				  		selectedSymposiumTitle:this.props.selectedSymposium.industry,
@@ -521,7 +529,8 @@ class PersonalizedPage extends Component{
 				  		postType:"Image",
 				  		posts:posts,
 				  		popularVideos:popularPosts,
-				  		activePeople:activeUsers
+				  		activePeople:activeUsers,
+				  		popularQuestions:popularQuestions
 			  		}));
 
 			  	setTimeout(function(){
@@ -861,7 +870,6 @@ class PersonalizedPage extends Component{
 
 
 	  handleActivateScrollPostsContainer=()=>{
-
 	  	return this.state.headerAnimation==true?<PostsContainer/>:
 	  		<React.Fragment>
 		  		<PreventScrollScreen/>
@@ -945,8 +953,7 @@ class PersonalizedPage extends Component{
 
 
 		return(
-			<PersonalizedPageContainer onScroll={()=>this.handleScroll()}>
-
+			<PersonalizedPageContainer id="extendedSymposiumContainer" onScroll={()=>this.handleScroll()}>
 				{this.handleDisplayPostCreation()}
 				{this.handleSeeAllSubSymposiums()}
 				{this.handleSeeAllPeopleActiveModal()}
@@ -954,10 +961,11 @@ class PersonalizedPage extends Component{
 				{this.handleHeaderAnimation()}
 
 				<PostsChatInformation  id="postChatInformation">
-					{this.state.headerAnimation==true?
-						<SmallSpecificQuestionsContainer/>:
-						<SpecificQuestionsContainer/>
-					}
+					<HightLightedQuestions
+						questionInformation={this.state.popularQuestions}
+						isSimplied={this.state.headerAnimation}
+						selectedSymposium={this.state.selectedSymposiumTitle}
+					/>
 					<ul style={{marginLeft:"30%",paddingTop:"2%"}}>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<ul style={{padding:"0px"}}>
