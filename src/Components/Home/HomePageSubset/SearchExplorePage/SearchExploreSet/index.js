@@ -91,6 +91,7 @@ class SearchExploreContainer extends Component{
 	}
 
 	changeHomePagePosts=async(postOption)=>{
+		debugger;
 		var homePagePosts;
 		var profileId=(this.props.personalInformation.loggedIn==true)?this.props.personalInformation.id:this.props.companyInformation.id;
 

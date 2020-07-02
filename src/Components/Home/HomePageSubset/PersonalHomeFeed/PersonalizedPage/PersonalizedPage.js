@@ -481,7 +481,9 @@ class PersonalizedPage extends Component{
 			chatRoom:[],
 			postCount:0,
 			posts:[],
-			popularQuestions:[]
+			popularQuestions:[],
+			displayInitialChatRoom:true,
+			isProfileFollowingSymposium:false
 		}
 
 		connectToRoom(socket,this.props.selectedSymposium._id);
@@ -503,22 +505,20 @@ class PersonalizedPage extends Component{
 
 		  		for(var i=0;i<symposiums.length;i++){
 		  			const symposium=symposiums[i];
-
 		  			if(symposium.industry==this.props.selectedSymposium.industry){
 		  				symposiumCounter=i;
 		  				break;
 		  			}
 		  		}
-
+				debugger;
 
 		  		var {
 		  			posts,
 		  			popularPosts,
 		  			activeUsers,
-		  			popularQuestions
-		  		}=await getIndustryInformation(this.props.selectedSymposium.industry,this.state.postCount);
-
-		  		debugger;
+		  			popularQuestions,
+		  			isProfileFollowedSymposium
+		  		}=await getIndustryInformation(this.props.selectedSymposium.industry,this.state.postCount,this.props.profileId);
 
 			  	this.setState(prevState=>({
 				  		...prevState,
@@ -530,7 +530,9 @@ class PersonalizedPage extends Component{
 				  		posts:posts,
 				  		popularVideos:popularPosts,
 				  		activePeople:activeUsers,
-				  		popularQuestions:popularQuestions
+				  		popularQuestions:popularQuestions,
+				  		isProfileFollowingSymposium:isProfileFollowedSymposium,
+				  		profileId:this.props.profileId
 			  		}));
 
 			  	setTimeout(function(){
@@ -677,7 +679,7 @@ class PersonalizedPage extends Component{
 
 	 timerFunction=(seconds)=>{
 			return new Promise(resolve => setTimeout(resolve, seconds));
-		}
+	}
 
 	popularVideosHandle=(video)=>{
 		const {videoUrl,key}=video;
@@ -743,6 +745,18 @@ class PersonalizedPage extends Component{
 	  		<React.Fragment>
 	  		</React.Fragment>
 	  }
+	  hideChatRoom=()=>{
+	  	debugger;
+	  	this.setState({
+	  		displayInitialChatRoom:!this.state.displayInitialChatRoom
+	  	})
+	  }
+
+	  changeFollowIndicator=(followIndicator)=>{
+	  	this.setState({
+	  		isProfileFollowingSymposium:followIndicator
+	  	})
+	  }
 
 	  handleHeaderAnimation=()=>{
 	  	const backgroundColor=this.state.backgroundColor;
@@ -756,6 +770,10 @@ class PersonalizedPage extends Component{
 	  				symposiumCounter={this.state.symposiumCounter}
 	  				previousButton={this.handlePreviousSymposiumButton}
 	  				nextButton={this.handleNextSymposiumButton}
+	  				hideChat={this.hideChatRoom}
+	  				isProfileFollowingSymposium={this.state.isProfileFollowingSymposium}
+	  				profileId={this.state.profileId}
+	  				changeFollowIndicator={this.changeFollowIndicator}
 	  			/>
 	  		</Container>:
 	  		<SymposiumHeaderAnimation id="animatedHeaderAnimatedContainer" style={{background:backgroundColor}}>
@@ -793,13 +811,17 @@ class PersonalizedPage extends Component{
 
 	  handleChatContainer=()=>{
 	  	return this.state.headerAnimation==false? 
-			<ChatContainer id="chatContainer" onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
-					<Chat
-				  		pushMessageToSocket={this.pushMessageToSocketHandle}
-				  		roomId={this.props.selectedSymposium._id}
-				  		chat={this.state.chatRoom}
-				  	/>
-			</ChatContainer>:
+	  		<React.Fragment>
+		  		{this.state.displayInitialChatRoom==true?
+					<ChatContainer id="chatContainer" onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
+							<Chat
+						  		pushMessageToSocket={this.pushMessageToSocketHandle}
+						  		roomId={this.props.selectedSymposium._id}
+						  		chat={this.state.chatRoom}
+						  	/>
+					</ChatContainer>
+				:null}
+			</React.Fragment>:
 	  		<ul style={{padding:"0px",position:"relative",top:"-130px",left:"71%"}}>
 	  			<li style={{listStyle:"none"}}>
 	  				<ul style={{padding:"0px"}}>
@@ -961,11 +983,14 @@ class PersonalizedPage extends Component{
 				{this.handleHeaderAnimation()}
 
 				<PostsChatInformation  id="postChatInformation">
-					<HightLightedQuestions
-						questionInformation={this.state.popularQuestions}
-						isSimplied={this.state.headerAnimation}
-						selectedSymposium={this.state.selectedSymposiumTitle}
-					/>
+					{this.state.popularQuestions.length==0?
+						null:
+						<HightLightedQuestions
+							questionInformation={this.state.popularQuestions}
+							isSimplified={this.state.headerAnimation}
+							selectedSymposium={this.state.selectedSymposiumTitle}
+						/>
+					}
 					<ul style={{marginLeft:"30%",paddingTop:"2%"}}>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<ul style={{padding:"0px"}}>

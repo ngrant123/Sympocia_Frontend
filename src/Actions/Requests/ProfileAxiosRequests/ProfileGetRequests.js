@@ -446,7 +446,23 @@ export const getSymposiumsFollowed=async(id,symposiumsMap)=>{
 	}
 }
 
+export const isUserFollwingProfile=async(userId,targetProfileId)=>{
+	try{
+		const friendIndicator=await axios.get(`${SearchUrl}/isProfileFollowing`,{
+			params:{
+				userId:userId,
+				targetProfile:targetProfileId
+			}
+		});
+		const {data}=friendIndicator;
+		const indicatorResonse=data.data;
+		return indicatorResonse;
 
+	}catch(err){
+		console.log(err);
+		return err
+	}
+}
 
 
 

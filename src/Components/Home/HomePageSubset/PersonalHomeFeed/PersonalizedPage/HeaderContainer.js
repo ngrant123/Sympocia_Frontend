@@ -1,8 +1,12 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import {
+		addSymposium,
+		removeSymposium
+} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const ActiveContainer =styled.div`
 	position:relative;
@@ -76,9 +80,20 @@ const HeaderContainer=(props)=>{
 			popularVideos,
 			selectedSymposiumTitle,
 			symposiums,
-			symposiumCounter
+			symposiumCounter,
+			isProfileFollowingSymposium,
+			profileId,
+			changeFollowIndicator
 		}=props;
+	console.log(props);
+	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
+	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 
+	useEffect(()=>{
+		changeSymposiumFollow(isProfileFollowingSymposium);
+	});
+
+	debugger;
 	const counter=symposiumCounter;
 	  	var nextSymposiumTitle;
 	  	var previousSymposiumTitle;
@@ -132,8 +147,19 @@ const HeaderContainer=(props)=>{
 	   		}
 	   }
 
-	return(
+	const handleFollowSymposium=async()=>{
+		debugger;
+		if(followSymposiumButtonClick==false){
+			await addSymposium(profileId,selectedSymposiumTitle,null);
+		}else{
+			await removeSymposium(profileId,selectedSymposiumTitle,null);
+		}
+		
+		var newFollowIndicator=followSymposiumButtonClick==true?false:true;
+		changeFollowIndicator(newFollowIndicator);
+	}
 
+	return(
 			<div style={{position:"absolute",width:"100%",height:"100%",opacity:"0",transition:"opacity 2s linear"}} id="headerContents">
 				<ul style={{paddingTop:"110px",paddingLeft:"150px"}}>
 					<li style={{listStyle:"none",display:"inline-block"}}>
@@ -196,17 +222,25 @@ const HeaderContainer=(props)=>{
 					<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%",top:"-20px",position:"relative"}}>
 						<ul style={{padding:"0px"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li style={ButtonCSS}>
+									<li onClick={()=>handleFollowSymposium()} style={ButtonCSS}>
 										<b>
-											<AddCircleOutlineIcon style={{font:20}}/> Follow Symposium
+											<AddCircleOutlineIcon style={{font:20}}/>
+											 	{followSymposiumButtonClick==false?
+											 		<p>Follow Symposium</p>:
+											 		<p>Unfollow Symposium</p>
+											 	}
 										</b>
 									</li>
 								</a>
 
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li style={ButtonCSS}>
+									<li onClick={()=>props.hideChat()} style={ButtonCSS}>
 										<b>
-											<ExpandLessIcon style={{font:20}}/> Hide chat
+											<ExpandLessIcon style={{font:20}}/> 
+												{hideChatButtonClicked==false?
+													<p>Hide chat </p>:
+													<p> Unhide Chat </p>
+												}
 										</b>
 									</li>
 								</a>

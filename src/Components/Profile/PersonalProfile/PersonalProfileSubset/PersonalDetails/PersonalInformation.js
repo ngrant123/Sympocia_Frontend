@@ -122,7 +122,6 @@ const PersonalInformation=(props)=>{
 		debugger;
 		const profileId=personalInformation.userProfile._id;
 		addRecruit(personalRedux.id,profileId);
-
 	}
 
 	const handleDonateButton=()=>{

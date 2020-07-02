@@ -25,6 +25,7 @@ import {getCompanyProfileForHomePage} from "../../../Actions/Requests/CompanyPag
 import NoProfileIcon from "../../../designs/img/NoProfilePicture.png";
 import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
+import Confetti from 'react-confetti';
 
 const Container=styled.div`
 	position:absolute;
@@ -187,7 +188,7 @@ class HomePageContainer extends Component{
 			displayExpandedSymposium:false,
 			isPersonalProfile:true,
 			profileId:"",
-			isLoading:true
+			displayConfetti:false
 		}
 	}
 
@@ -241,8 +242,7 @@ class HomePageContainer extends Component{
 					isPersonalProfile:isPersonalProfile,
 					profile:profile,
 					profileId:profile._id,
-					symposiumsMap:symposiumsMap,
-					isLoading:false
+					symposiumsMap:symposiumsMap
 				})
 		debugger;
 	}
@@ -367,6 +367,7 @@ class HomePageContainer extends Component{
 			return <Symposium
 						selectedSymposium={this.state.selectedSymposiumPersonalFeed}
 						symposiums={this.state.symposiums}
+						profileId={this.state.profileId}
 					/>
 		}
 	}
@@ -388,16 +389,33 @@ class HomePageContainer extends Component{
 							selectedSymposiumPersonalFeed:data.selectedSymposiums,
 							symposiums:data.symposiums
 						}))	
+					},
+					displayRecruitConfetti:(displayIndicator)=>{
+						this.setState({
+							displayConfetti:true
+						})
+
+						setTimeout(()=>{
+							this.setState({
+								displayConfetti:false
+							})
+						},5000);
 					}
 				}}
 			>
-				{this.state.isLoading==true?
-					<p>Its loading </p>:
 					<Container id="homePageContainer">
 						<GeneralNavBar
 							displayChatPage={this.displayChatPage}
 							page={"Home"}
 						/>
+						
+						{this.state.displayConfetti==true?
+								<Confetti
+									style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
+									 run={true}
+								/>
+							:<React.Fragment></React.Fragment>
+						}
 
 						{this.chatPage()}
 						{this.state.displayRecruitsPosts==true?
@@ -485,8 +503,6 @@ class HomePageContainer extends Component{
 						</PageIndicator>
 						{this.displaySelectedScreen()}
 					</Container>
-
-				}
 					
 			</HomeProvider>
 		)

@@ -181,6 +181,7 @@ export const exploreImagePosts=async(id,postCount)=>{
 
 export const exploreVideoPosts=async(id,postCount)=>{
 	try{
+		debugger;
 		const videoResults=await axios.get(`${GetUrl}/getExploreVideoPosts`,{
 			params:{
 				_id:id,
@@ -289,12 +290,13 @@ export const getRegularPostsInIndustry=async(industry,postCount)=>{
 	}
 }
 
-export const getIndustryInformation=async(industry,postCount)=>{
+export const getIndustryInformation=async(industry,postCount,userId)=>{
 	try{
 		const industryInformation=await axios.get(`${GetUrl}/getIndustryInformation`,{
 			params:{
 				industry:industry,
-				postCount:postCount
+				postCount:postCount,
+				userId:userId
 			}
 		})
 
@@ -305,8 +307,25 @@ export const getIndustryInformation=async(industry,postCount)=>{
 		console.log(err);
 		return err;
 	}
+}
 
+export const getPopularQuestionReplies=async(industry,counter)=>{
+	try{
+		const popularQuestionResponse=await axios.get(`${GetUrl}/getPopularQuestion`,{
+			params:{
+				industry:industry,
+				counter:counter
+			}
+		})
 
+		const {data}=popularQuestionResponse;
+		const popularQuestionsData=data.data;
+		return popularQuestionsData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
 }
 
 

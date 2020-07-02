@@ -9,6 +9,7 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import MicIcon from '@material-ui/icons/Mic';
 import {addCommentToPopularQuestions} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {HomeConsumer} from "../../../HomeContext.js";
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 
 const Container=styled.div`
 	position:absolute;
@@ -68,6 +69,14 @@ const SendButtonCSS={
     marginRight:"2%"
 }
 
+const RegularPostContainer=styled.div`
+	transition:.8s;
+	border-radius:5px;
+	&:hover{
+		box-shadow: 1px 1px 1px 1px #d5d5d5;
+	}
+`;
+
 
 
 const QuestionsPortal=(props)=>{
@@ -75,11 +84,13 @@ const QuestionsPortal=(props)=>{
 	console.log(props);
 
 	const {	questionType,
-			component,
 			closeModal,
 			counter,
 			questions,
-			selectedSymposium
+			selectedSymposium,
+			triggerImagePortal,
+			triggerVideoPortal,
+			triggerRegularPostPortal
 		}=props;
 
 	const [displayCreatePost,changeDisplayPost]=useState(false);
@@ -90,6 +101,18 @@ const QuestionsPortal=(props)=>{
 	const sendData=async(data,personalInformation)=>{
 		debugger;
 		const profileIndicator=personalInformation.industry==null?"Profile":"Company";
+		if(questionType=="Video"){
+			data={
+				videoUrl:data,
+				description:document.getElementById("videoDescription").value
+			}
+		}else if(questionType=="Image"){
+			data={
+				imgUrl:data,
+				description:document.getElementById("imageDescription").value
+			}
+		}
+
 		const postInformation={
 			userId:personalInformation._id,
 			profileIndicator:profileIndicator,
@@ -107,7 +130,6 @@ const QuestionsPortal=(props)=>{
 		const uploadedFile=document.getElementById("uploadFile").files[0];
 
 		reader.onload=()=>{
-			console.log(reader.result);
 			changeSelectedPost(reader.result);
 			changeDisplayUploadScreen(false);
 		}
@@ -132,7 +154,7 @@ const QuestionsPortal=(props)=>{
 																														borderWidth:"1px",
 																														color:"white",
 																														backgroundColor:"#5298F8"}}>
-									<ul style={{padding:"0px"}}>
+									<ul style={{padding:"0px",marginTop:"20%",marginLeft:"10%"}}>
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 											<CameraIcon/>
 										</li>
@@ -145,12 +167,12 @@ const QuestionsPortal=(props)=>{
 								<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="image/x-png,image/gif,image/jpeg"></input>
 							</li>:
 							<li style={{listStyle:"none"}}>
-								<ul>
-									<li>
-										<img src={selectedPost} style={{borderRadius:"5px",width:"40%",height:"50%"}}/>
+								<ul style={{paddingTop:"10px"}}>
+									<li style={{listStyle:"none"}}>
+										<img src={selectedPost} style={{borderRadius:"5px",width:"60%",height:"50%"}}/>
 									</li>
-									<InputContainer placeholder="Describe your picture here"/>
-									<li onClick={()=>sendData()} style={SendButtonCSS}>
+									<InputContainer  id="imageDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your picture here"/>
+									<li onClick={()=>sendData(selectedPost,personalInformationState)} style={SendButtonCSS}>
 										Send
 									</li>
 								</ul>
@@ -177,17 +199,17 @@ const QuestionsPortal=(props)=>{
 										</li>
 									</ul>																			
 								</button>
-								<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="image/x-png,image/gif,image/jpeg"></input>
+								<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="video/*"></input>
 							</li>:
 							<li style={{listStyle:"none"}}>
 								<ul>
-									<li>
-										<source style={{borderRadius:"5px",width:"45%",height:"30%"}}>
-											<video src={selectedPost} type="video/mp4"/>
-										</source>
+									<li style={{listStyle:"none"}}>
+										<video width="45%" height="50%" controls autoplay>
+											<source src={selectedPost} type="video/mp4"/>
+										</video>
 									</li>
-									<InputContainer placeholder="Describe your picture here"/>
-									<li onClick={()=>sendData()} style={SendButtonCSS}>
+									<InputContainer id="videoDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your picture here"/>
+									<li onClick={()=>sendData(selectedPost,personalInformationState)} style={SendButtonCSS}>
 										Send
 									</li>
 								</ul>
@@ -221,10 +243,10 @@ const QuestionsPortal=(props)=>{
 												</a>
 											</ul>
 										</li>
-										<li style={{marginRight:"2%",position:"relative",top:"-50px",listStyle:"none",display:"inline-block"}}>
+										<li style={{marginRight:"2%",position:"relative",top:"-100px",listStyle:"none",display:"inline-block"}}>
 											Or
 										</li>
-										<li style={{position:"relative",top:"-50px",listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+										<li style={{width:"25%",position:"relative",top:"-100px",listStyle:"none",display:"inline-block",marginRight:"1%"}}>
 											<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																																	borderColor:"#5298F8",
 																																	borderStyle:"solid",
@@ -263,6 +285,63 @@ const QuestionsPortal=(props)=>{
 		}
 	}
 
+	const constructResponses=(replies)=>{
+			var element;
+			if(replies.length==0){
+				return <p> No replies yet :(. Click on the question and click the pencil icon to make a post </p>
+			}else{
+				if(questionType=="Image"){
+					return <React.Fragment>
+										{replies.map(data=>
+											<li onClick={()=>triggerImagePortal(data)} style={{listStyle:"none",display:"inline-block"}}>
+												<img src={data.imgUrl} style={{borderRadius:"5px",width:"30%",height:"20%"}}/>
+											</li>
+										)}
+									</React.Fragment>;
+				}else if(questionType=="Video"){
+					return <React.Fragment>
+								{replies.map(data=>
+									<li onClick={()=>triggerVideoPortal(data)} style={{listStyle:"none",display:"inline-block"}}>
+										<video style={{borderRadius:"5px",width:"45%",height:"30%"}}>
+											<source src={data.imgUrl} type="video/mp4"/>
+										</video>
+									</li>
+								)}
+							</React.Fragment>;
+				}else{
+					return <React.Fragment>
+								{replies.map(data=>
+									<RegularPostContainer>
+										<a href="javascript:void(0);"  style={{textDecoration:"none"}}>
+											<li onClick={()=>triggerRegularPostPortal(data)} style={{listStyle:"none",display:"inline-block"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",width:"20%"}}>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none"}}>
+																{data.owner.profilePicture==null?
+																	<img src={NoProfilePicture} style={{width:"80%",height:"15%",borderRadius:"50%"}}/>:
+																	<img src={data.owner.profilePicture} style={{width:"60%",height:"15%",borderRadius:"50%"}}/>
+																}
+															</li>
+															<li style={{listStyle:"none"}}>
+																<b>{data.owner.firstName}</b>
+															</li>
+														</ul>
+													</li>
+													<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"-60px"}}>
+														{data.post}			
+													</li>
+												</ul>
+											</li>
+										</a>
+									</RegularPostContainer>
+								)}
+							</React.Fragment>;
+				}
+			}
+		}
+
+
 	return createPortal(
 		<HomeConsumer>
 			{personalInformation=>{
@@ -299,10 +378,10 @@ const QuestionsPortal=(props)=>{
 														<hr/>
 														<li style={{listStyle:"none"}}>
 															<ul style={{padding:"0px"}}>
-																{component==null?
+																{questions[currentCounter].responsesId.length==0?
 																	<p>No replies yet :( </p>:
 																	<React.Fragment>
-																		{component}
+																		{constructResponses(questions[counter].responsesId)}
 																	</React.Fragment>
 																}
 															</ul>
@@ -332,11 +411,8 @@ const QuestionsPortal=(props)=>{
 							</React.Fragment>
 				}
 			}
-
-
-
 		</HomeConsumer>
 	,document.getElementById("extendedSymposiumContainer"))
-}
+};
 
 export default QuestionsPortal;

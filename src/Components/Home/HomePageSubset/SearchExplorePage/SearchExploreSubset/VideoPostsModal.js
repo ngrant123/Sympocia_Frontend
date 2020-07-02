@@ -9,6 +9,9 @@ import {HomeConsumer} from "../../../HomeContext.js";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
 const HeaderVideo=styled.div`
 	width:120%;
 	height:80%;
@@ -59,7 +62,7 @@ const VideoPostModal=(props)=>{
 	const videos=props.posts.slice(1,props.posts.length);
 	debugger;
 
-		const personalInformationRedux=useSelector(state=>state.personalInformation);
+	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
 
 	const [displayVideoDisplayPortal,changeVideoDisplay]=useState(false);
@@ -137,30 +140,57 @@ const VideoPostModal=(props)=>{
 														</a>
 													</li>
 													<li style={{listStyle:"none",width:"80%"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",fontSize:"15px",marginRight:"2%",width:"130%"}}>
-																<b> 
-																	{headerVideo.title}
-																</b>
-															</li>
-															<li style={{listStyle:"none"}}>
+														<ul style={{padding:"0px"}}>	
+															<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"25%",top:"-20px"}}>
 																<ul style={{padding:"0px"}}>
-																	<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
-																		Nathan
-																	</li>										
-																	<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerVideo.industriesUploaded)} style={ImageLabelCSS}>
-																		{headerVideo.industriesUploaded[0].industry}
+																	<li style={{position:"relative",listStyle:"none",width:"25%"}}> 
+																		{headerVideo.owner.profilePicture!=null?
+																			<img src={headerVideo.owner.profilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>:
+																			<img src={NoProfilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>
+																		}
 																	</li>
+																</ul>
+															</li>
+															<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
+																<ul style={{padding:"0px"}}>
+																	<li style={{listStyle:"none"}}>
+																		<ul style={{padding:"0px"}}>
+																			<li style={{listStyle:"none"}}>
+																				<ul style={{padding:"0px"}}>
+																					<li style={{listStyle:"none",fontSize:"15px",marginRight:"2%"}}>
+																						<b> 
+																							{headerVideo.title}
+																						</b>
+																					</li>
+																					<li style={{listStyle:"none",width:"90%",height:"5%",overflow:"hidden",color:"#A4A4A4"}}>
+																								{headerVideo.description}
+																					</li>
+																				</ul>
+																			</li>
+																			
+																			<li style={{listStyle:"none"}}>
+																				<ul style={{padding:"0px"}}>
+																							<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%"}}>
+																								{headerVideo.owner.firstName}
+																							</li>
+																							<li style={ImageLabelCSS}>
+																								<AddCircleOutlineIcon/>
+																							</li>
 
-																	<li style={ImageLabelCSS}>
-																		Follow
+																							<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerVideo.industriesUploaded)} style={ImageLabelCSS}>
+																								{headerVideo.industriesUploaded[0].industry}
+																							</li>
+																							<li style={ImageLabelCSS}>
+																								<AddCircleOutlineIcon/>
+																							</li>	
+																							
+																				</ul>
+																			</li>
+																		</ul>
 																	</li>
 																</ul>
 															</li>
 														</ul>
-													</li>
-													<li style={{listStyle:"none",width:"90%",height:"10%",overflow:"hidden",color:"#A4A4A4"}}>
-																{headerVideo.description}
 													</li>
 												</ul>
 											</li>
@@ -183,19 +213,36 @@ const VideoPostModal=(props)=>{
 																			</video>
 																		</a>
 																	</li>
-																	<li style={{listStyle:"none",marginBottom:"1%"}}>
+																	<li style={{listStyle:"none",marginBottom:"1%",width:"170%"}}>
 																		<ul style={{padding:"0px"}}>
-																			<li style={{listStyle:"none",width:"150%"}}>
-																				<b> 
-																					{data.title}
-																				</b>
-																			</li>
-																			<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																				<b>{data.firstName}</b>
+																			<li style={{marginRight:"3%",listStyle:"none",display:"inline-block",width:"25%"}}>
+																				<ul style={{padding:"0px"}}>
+																					<li style={{listStyle:"none",marginBottom:"2%"}}>
+																						{headerVideo.owner.profilePicture!=null?
+																							<img src={data.owner.profilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>:
+																							<img src={NoProfilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>
+																						}
+																					</li>
+																					<li style={{listStyle:"none"}}>
+																						<b>
+																							{data.owner.firstName}
+																						</b>
+																						<AddCircleOutlineIcon/>
+																					</li>
+																				</ul>
 																			</li>
 
-																			<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,data.industriesUploaded)} style={ImageLabelCSS}>
-																				{data.industriesUploaded[0].industry}
+																			<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"50%",top:"-10px"}}>
+																				<ul style={{padding:"0px"}}>
+																					<li style={{listStyle:"none",width:"150%"}}>
+																						<b> 
+																							{data.title}
+																						</b>
+																					</li>
+																					<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,data.industriesUploaded)} style={ImageLabelCSS}>
+																						{data.industriesUploaded[0].industry}
+																					</li>
+																				</ul>
 																			</li>
 																		</ul>
 																	</li>

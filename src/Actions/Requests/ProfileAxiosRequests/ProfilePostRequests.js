@@ -263,6 +263,41 @@ export const getSymposiumsFollowed=async(id,symposiumsMap)=>{
 	}
 }
 
+export const addSymposium=async(profileId,symposium,subSymposium)=>{
+	try{
+		var symposiumResponse=await axios.post(`${CreateUrl}/addSymposium`,{
+			profileId:profileId,
+			symposium:symposium,
+			subSymposium:subSymposium
+		});
+		const {data}=symposiumResponse;
+		const symposiumData=data.data;
+		return symposiumData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const removeSymposium=async(profileId,symposium,subSymposium)=>{
+	try{
+
+		var symposiumResponse=await axios.post(`${CreateUrl}/removeSymposium`,{
+			profileId:profileId,
+			symposium:symposium,
+			subSymposium:subSymposium
+		});
+		const {data}=symposiumResponse;
+		const symposiumData=data.data;
+		return symposiumData;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
 
 
 

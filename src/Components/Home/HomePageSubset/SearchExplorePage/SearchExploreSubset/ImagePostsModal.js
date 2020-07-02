@@ -9,6 +9,10 @@ import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConsta
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 import {getSymposiumId} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import {addRecruit} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {isUserFollwingProfile} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+
 
 const Container=styled.div`
 	position:absolute;
@@ -210,6 +214,32 @@ const ImagePostsModal=(props)=>{
 		}
 	}
 
+	const handleRecruitButton=async(homePageInformation,image)=>{
+		debugger;
+		const postOwnerId=image.owner._id;
+		const personalId=homePageInformation.personalInformationState.profileId;
+		const indicator=await isUserFollwingProfile(personalId,postOwnerId);
+
+		if(indicator==true){
+				alert('You are already following this profile :)'); 
+		}else{
+			homePageInformation.displayRecruitConfetti();
+			//addRecruit(image.owner._id,homePageInformation.personalInformationState.profileId);
+		}
+	} 
+
+	const displayRecruitButton=(homePageInformation,image)=>{
+		const postOwnerId=image.owner._id;
+		const personalId=homePageInformation.personalInformationState.profileId;
+		if(personalId==postOwnerId){
+			return null
+		}else{
+			return <li onClick={()=>handleRecruitButton(homePageInformation,headerImage)} style={ImageLabelCSS}>
+						+ Recruit
+					</li>
+		}
+	}
+
 	return(
 			<HomeConsumer>
 				{homePageInformation=>{
@@ -225,8 +255,14 @@ const ImagePostsModal=(props)=>{
 												</li>
 												<li style={{listStyle:"none",width:"80%",position:"relative",top:"-70px"}}>
 													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",width:"20%"}}>
+															{headerImage.owner.profilePicture!=null?
+																<img src={headerImage.owner.profilePicture} style={{height:"10%",width:"35%",borderRadius:"50%"}}/>:
+																<img src={NoProfilePicture} style={{height:"10%",width:"60%",borderRadius:"50%"}}/>
+															}
+														</li>
 														<li style={{listStyle:"none",display:"inline-block",fontSize:"30px",marginRight:"2%"}}>
-															<b>{headerImage.firstName}</b>
+															<b>{headerImage.owner.firstName}</b>
 														</li>
 
 														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerImage.industriesUploaded)} style={ImageLabelCSS}>
@@ -234,11 +270,9 @@ const ImagePostsModal=(props)=>{
 																{headerImage.industriesUploaded[0].industry}
 															</a>
 														</li>
-
-														<li style={ImageLabelCSS}>
-															Recruit
-														</li>
-														<li style={{listStyle:"none",width:"90%"}}>
+														{displayRecruitButton(homePageInformation,headerImage)}
+														
+														<li style={{listStyle:"none",width:"90%",marginLeft:"20%"}}>
 															{headerImage.description}
 														</li>
 													</ul>
@@ -264,8 +298,18 @@ const ImagePostsModal=(props)=>{
 																</li>
 																<li style={{listStyle:"none",marginBottom:"1%"}}>
 																	<ul style={{padding:"0px"}}>
+																		<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",width:"20%"}}>
+																			{data.owner.profilePicture!=null?
+																				<img src={data.owner.profilePicture} style={{height:"10%",width:"35%",borderRadius:"50%"}}/>:
+																				<img src={NoProfilePicture} style={{height:"10%",width:"60%",borderRadius:"50%"}}/>
+																			}
+																		</li>
+
 																		<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																			<b>{data.firstName}</b>
+																			<b>{data.owner.firstName}</b>
+																		</li>
+																		<li onClick={()=>handleRecruitButton(homePageInformation,data)} style={ImageLabelCSS}>
+																			+ Recruit
 																		</li>
 
 																		<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,data.industriesUploaded)} style={ImageLabelCSS}>
@@ -273,8 +317,9 @@ const ImagePostsModal=(props)=>{
 																		</li>
 																	</ul>
 																</li>
-																<li style={{listStyle:"none",width:"100%",height:"20%",overflow:"hidden"}}>
-																	  <p>{data.description}</p>
+																<li style={{marginLeft:"30%",listStyle:"none",width:"70%",height:"20%",overflow:"hidden"}}>
+																	  <p>
+																	  	{data.description}</p>
 																</li>
 												 			</ul>
 														</li>

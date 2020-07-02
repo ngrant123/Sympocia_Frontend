@@ -167,15 +167,25 @@ const BlogPostModal=(props)=>{
 															</a>
 														</li>
 														<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",width:"40%",fontSize:"25px",height:"55%",overflow:"hidden"}}>
-															<b>{headerBlog.title}
-															</b>
+															<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none"}}>
+																	<b>
+																		{headerBlog.title}
+																	</b>
+																</li>
+
+																<li style={{fontSize:"15px",color:"#8c8c8c",listStyle:"none"}}>
+																	{headerBlog.description}
+																</li>
+															</ul>
+															
 														</li>
 													</ul>
 												</li>
 												<li style={{listStyle:"none",width:"80%"}}>
 													<ul style={{padding:"0px"}}>
 																<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
-																	{headerBlog.firstName}
+																	{headerBlog.owner.firstName}
 																</li>
 																<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerBlog.industriesUploaded)} style={ImageLabelCSS}>
 																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -187,9 +197,6 @@ const BlogPostModal=(props)=>{
 																	Follow
 																</li>
 													</ul>
-												</li>
-												<li style={{listStyle:"none",width:"90%",height:"10%",overflow:"hidden",color:"#A4A4A4"}}>
-															{headerBlog.description}
 												</li>
 											</ul>
 										</li>
@@ -213,23 +220,34 @@ const BlogPostModal=(props)=>{
 																	<li style={{position:"relative",top:"0%",listStyle:"none",display:"inline-block"}}>
 																			<ul style={{padding:"0px",position:"absolute",top:"-100px"}}>
 																					<li style={{listStyle:"none",height:"170px",width:"280px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
-																						<b>
-																							{data.description}
-																						</b>
+																						<ul style={{padding:"0px"}}>
+																							<li style={{listStyle:"none"}}>
+																								<b>
+																									{data.title}
+																								</b>
+																							</li>
+
+																							<li style={{color:"#8c8c8c",fontSize:"12px",listStyle:"none"}}>
+																								{data.description}
+																							</li>
+																						</ul>
 
 																					</li>
 																					<li style={{listStyle:"none"}}>
 																						<ul style={{padding:"0px"}}>
 																							<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
-																								{data.ownerImgUrl==null?
+																								{data.owner.profilePicture==null?
 																									<img id="profilePicture" src={NoProfilePicture} style={ProfileImageCSS}/>:
-																									<img id="profilePicture" src={data.ownerImgUrl} style={ProfileImageCSS}/>
+																									<img id="profilePicture" src={data.owner.profilePicture} style={ProfileImageCSS}/>
 																								}
 																							</li>
 																							<li style={{listStyle:"none",display:"inline-block"}}>
 																								<ul style={{padding:"0px"}}>
 																									<li style={{listStyle:"none"}}>
-																										{data.firstName}
+																										{data.owner.firstName}
+																									</li>
+																									<li style={ImageLabelCSS}>
+																										Follow
 																									</li>
 
 																									<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,data.industriesUploaded)} style={ImageLabelCSS}>

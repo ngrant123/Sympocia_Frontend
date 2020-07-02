@@ -81,34 +81,38 @@ const RecommendedVideos=(props)=>{
 						<li style={{listStyle:"none",position:"relative"}}>
 							<ul style={{padding:"0px"}}>
 								{props.videos.map(data=>
-									<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
-														<ShadowContainer/>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<video id="smallVideo" key={data.videoUrl} position="relative" height="290px" width="370px" controls autoplay>
-																<source src={data.videoUrl} type="video/mp4"/>
-															</video>
-														</a>
-													</li>
-													<li style={{listStyle:"none",marginBottom:"1%"}}>
+									<React.Fragment>
+										{data.videoUrl !=null?
+											<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
 														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",width:"150%"}}>
-																<b> 
-																	{data.title}
-																</b>
+															<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
+																<ShadowContainer/>
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<video id="smallVideo" key={data.videoUrl} position="relative" height="290px" width="370px" controls autoplay>
+																		<source src={data.videoUrl} type="video/mp4"/>
+																	</video>
+																</a>
 															</li>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																<b>{data.firstName}</b>
-															</li>
+															<li style={{listStyle:"none",marginBottom:"1%"}}>
+																<ul style={{padding:"0px"}}>
+																	<li style={{listStyle:"none",width:"150%"}}>
+																		<b> 
+																			{data.title}
+																		</b>
+																	</li>
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+																		<b>{data.firstName}</b>
+																	</li>
 
-															<li style={ImageLabelCSS}>
-																{data.industriesUploaded[0].industry}
+																	<li style={ImageLabelCSS}>
+																		{data.industriesUploaded[0].industry}
+																	</li>
+																</ul>
 															</li>
 														</ul>
-													</li>
-												</ul>
-									</li>
+											</li>:null
+										}
+									</React.Fragment>
 								)}
 							</ul>
 						</li>
