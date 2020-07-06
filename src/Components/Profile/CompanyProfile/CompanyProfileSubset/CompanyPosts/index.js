@@ -58,9 +58,11 @@ const CommentTextArea=styled.textarea`
 	resize:none;
 	border-style:none;
 	height:90%;
+	width:120%;
 	text-align:center;
 	padding-top:10px;
 `;
+
 const SearchPostsTextArea=styled.textarea`
 	position:relative;
 	width:120%;

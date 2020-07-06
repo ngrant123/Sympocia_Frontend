@@ -7,6 +7,9 @@ import {useSelector} from "react-redux";
 import {HomeConsumer} from "../../../HomeContext.js";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
+import {displayRecruitButton} from "./ImagePostsModal.js";
+
+import {Link} from "react-router-dom";
 
 const HeaderBlog=styled.div`
 	width:400px;
@@ -81,6 +84,12 @@ const ImageLabelCSS={
 	borderRadius:"5px",
 	marginRight:"2%"
 }
+
+
+const ProfilePictureLink=styled(Link)`
+	position:relative;
+`;
+
 
 const BlogPostModal=(props)=>{
 	const headerBlog=props.posts[0];
@@ -184,6 +193,14 @@ const BlogPostModal=(props)=>{
 												</li>
 												<li style={{listStyle:"none",width:"80%"}}>
 													<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<ProfilePictureLink to={{pathname:`/profile/${headerBlog.owner._id}`}}>
+																			{headerBlog.owner.profilePicture!=null?
+																				<img src={headerBlog.owner.profilePicture} style={ProfileImageCSS}/>:
+																				<img src={NoProfilePicture} style={ProfileImageCSS}/>
+																			}
+																	</ProfilePictureLink>
+																</li>
 																<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
 																	{headerBlog.owner.firstName}
 																</li>
@@ -192,10 +209,7 @@ const BlogPostModal=(props)=>{
 																		{headerBlog.industriesUploaded[0].industry}
 																	</a>
 																</li>
-
-																<li style={ImageLabelCSS}>
-																	Follow
-																</li>
+																{displayRecruitButton(homePageInformation,headerBlog)}
 													</ul>
 												</li>
 											</ul>

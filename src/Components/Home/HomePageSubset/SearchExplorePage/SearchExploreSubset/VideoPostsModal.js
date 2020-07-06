@@ -11,6 +11,8 @@ import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import {displayRecruitButton} from "./ImagePostsModal.js";
+import {Link} from "react-router-dom";
 
 const HeaderVideo=styled.div`
 	width:120%;
@@ -42,6 +44,13 @@ const ShadowContainer= styled.div`
 		background-color:transparent
 	}
 `;
+
+
+
+const ProfilePictureLink=styled(Link)`
+	position:relative;
+`;
+
 
 const ImageLabelCSS={
 	listStyle:"none",
@@ -143,11 +152,14 @@ const VideoPostModal=(props)=>{
 														<ul style={{padding:"0px"}}>	
 															<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"25%",top:"-20px"}}>
 																<ul style={{padding:"0px"}}>
-																	<li style={{position:"relative",listStyle:"none",width:"25%"}}> 
-																		{headerVideo.owner.profilePicture!=null?
-																			<img src={headerVideo.owner.profilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>:
-																			<img src={NoProfilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>
-																		}
+																	<li style={{position:"relative",listStyle:"none",width:"25%"}}>
+																		<ProfilePictureLink to={{pathname:`/profile/${headerVideo.owner._id}`}}>
+																			{headerVideo.owner.profilePicture!=null?
+																				<img src={headerVideo.owner.profilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>:
+																				<img src={NoProfilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>
+																			}
+																		</ProfilePictureLink>
+																		
 																	</li>
 																</ul>
 															</li>
@@ -173,16 +185,11 @@ const VideoPostModal=(props)=>{
 																							<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%"}}>
 																								{headerVideo.owner.firstName}
 																							</li>
-																							<li style={ImageLabelCSS}>
-																								<AddCircleOutlineIcon/>
-																							</li>
+																							{displayRecruitButton(homePageInformation,headerVideo)}
 
 																							<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerVideo.industriesUploaded)} style={ImageLabelCSS}>
 																								{headerVideo.industriesUploaded[0].industry}
 																							</li>
-																							<li style={ImageLabelCSS}>
-																								<AddCircleOutlineIcon/>
-																							</li>	
 																							
 																				</ul>
 																			</li>
@@ -218,10 +225,12 @@ const VideoPostModal=(props)=>{
 																			<li style={{marginRight:"3%",listStyle:"none",display:"inline-block",width:"25%"}}>
 																				<ul style={{padding:"0px"}}>
 																					<li style={{listStyle:"none",marginBottom:"2%"}}>
-																						{headerVideo.owner.profilePicture!=null?
-																							<img src={data.owner.profilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>:
-																							<img src={NoProfilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>
-																						}
+																						<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+																							{headerVideo.owner.profilePicture!=null?
+																								<img src={data.owner.profilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>:
+																								<img src={NoProfilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>
+																							}
+																						</ProfilePictureLink>
 																					</li>
 																					<li style={{listStyle:"none"}}>
 																						<b>

@@ -406,46 +406,6 @@ export const getProfiles=async()=>{
 	}
 }
 
-export const getSymposiumsExplore=async(id,symposiums)=>{
-	try{
-		debugger;
-		const jsonObject=JSON.stringify(symposiums);
-		const symposiumResponse=await axios.get(`${SearchUrl}/getSymposiumsExplore`,{
-			params:{
-				_id:id,
-				symposiums:symposiums.toString()
-			}
-		});
-
-		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
-
-	}catch(err){
-		console.log(err);
-		return err;
-	}
-}
-
-export const getSymposiumsFollowed=async(id,symposiumsMap)=>{
-	try{
-		const jsonObject=JSON.stringify(symposiumsMap);
-		const symposiumResponse=await axios.get(`${SearchUrl}/getSymposiumsFollowed`,{
-			params:{
-				_id:id,
-				symposiumsMap:jsonObject
-			}
-		});
-
-		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
-	}catch(err){
-		console.log(err);
-		return err;
-	}
-}
-
 export const isUserFollwingProfile=async(userId,targetProfileId)=>{
 	try{
 		const friendIndicator=await axios.get(`${SearchUrl}/isProfileFollowing`,{
@@ -464,6 +424,39 @@ export const isUserFollwingProfile=async(userId,targetProfileId)=>{
 	}
 }
 
+export const getSymposiumsFollowedPersonal=async(id)=>{
+	try{
+		const symposiumResponse=await axios.get(`${SearchUrl}/getSymposiumsFollowedPersonal`,{
+			params:{
+				_id:id
+			}
+		});
+
+		const {data}=symposiumResponse;
+		const symposiumData=data.data;
+		return symposiumData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const getSymposiumsFollowedHome=async(id)=>{
+	try{
+		const symposiumResponse=await axios.get(`${SearchUrl}/getFollowedSymposiumsHomePage`,{
+			params:{
+				_id:id
+			}
+		});
+
+		const {data}=symposiumResponse;
+		const symposiumData=data.data;
+		return symposiumData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
 
 
 

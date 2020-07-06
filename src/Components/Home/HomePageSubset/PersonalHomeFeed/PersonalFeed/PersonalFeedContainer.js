@@ -2,7 +2,8 @@ import React,{Component} from "react";
 import styled,{keyframes} from "styled-components";
 import CommunityContainer from "./CommunityContainer";
 import PersonalizedPage from "../PersonalizedPage/PersonalizedPage"
-
+import {getSymposiumsFollowedHome} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {getFollowedSymposiumsCompanyHome} from "../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 
 
  const keyFrameExampleThree= keyframes`
@@ -73,38 +74,7 @@ class PersonalFeedContainer extends Component{
 		super(props);
 
 		this.state={
-				communities:[
-					{
-						communityName:"Anime",
-						backgroundColor:"linear-gradient(to left, #9933ff 0%, #ff99ff 100%)",
-						popularVideos:[
-							{
-								videoUrl:""
-							},
-							{
-								videoUrl:""
-							}
-						],
-						color:"#9933ff",
-						key:1
-					},
-			{
-
-				communityName:"Dogs",
-						backgroundColor:"linear-gradient(to left, #8E2DE2 0%, #4A00E0 100%)",
-						popularVideos:[
-							{
-								videoUrl:""
-							},
-							{
-								videoUrl:""
-							}
-						],
-						color:"#8E2DE2",
-						key:2
-
-			}],
-			communityArray:[],
+			symposiumArray:[],
 			triggerAnimation:false,
 			selectedCommunity:{},
 			displayPersonalizedPage:false
@@ -124,21 +94,32 @@ class PersonalFeedContainer extends Component{
 					communities:communities
 				}))
 			*/
+			const {isPersonalProfile,profileId}=this.props;
+			var symposiumsResponse;
+			if(isPersonalProfile==true){
+				symposiumsResponse=await getSymposiumsFollowedHome(profileId);
+			}else{
+				symposiumsResponse=await getFollowedSymposiumsCompanyHome(profileId);
+			}
 
-			for(var i=0;i<this.state.communities.length;i++){
-
-				const community=this.state.communityArray;
-				const specificCommunity=this.state.communities[i];
+			var symposiums=[];
+			for(var i=0;i<symposiumsResponse.length;i++){
+				const specificCommunity=symposiumsResponse[i];
 				const newTimer=100*i;
 				await this.timerFunction(newTimer);
 
-				community.push(specificCommunity);
+				symposiums.push(specificCommunity);
 
 				this.setState(prevState=>({
 					...prevState,
-					communityArray:community
-				}))
+					symposiumArray:symposiums,
+					isPersonalProfile:isPersonalProfile
+				}));
 			}
+			this.setState(prevState=>({
+					...prevState,
+					symposiumArray:symposiums
+				}))
 		}catch(err){
 			console.log(err.message);
 		}
@@ -178,6 +159,8 @@ class PersonalFeedContainer extends Component{
 		}))
 	}
 
+	
+
 
 	 TransitionAnimationTrigger=()=>{
 	 	console.log("Tester");
@@ -189,7 +172,7 @@ class PersonalFeedContainer extends Component{
 	 			<ul style={{position:"relative",left:"20%",marginBottom:"30px"}}>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
-							<li style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"25%"}}><b>My communities</b></li>
+							<li style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"25%"}}><b>My symposiums</b></li>
 							<li onClick={()=>this.changeColorForPopularButton()} id="mostPopularButton" style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"#5298F8",color:"white",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"10px",borderRadius:"5px"}}>Most Popular</li>
 							<li onClick={()=>this.changeColorForFastestGrowingButton()} id="fastestGrowingButton" style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"white",color:"#6e6e6e",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"5px",borderRadius:"5px"}}>Fastest Growing</li>
 						</ul>
@@ -197,7 +180,7 @@ class PersonalFeedContainer extends Component{
 					<li style={{listStyle:"none",width:"30%"}}>Go back and check out the newest posts in the communities you follow. </li>
 
 				</ul>
-					{this.state.communityArray.map(data=>
+					{this.state.symposiumArray.map(data=>
 						<li style={{paddingBottom:"40px",listStyle:"none"}}>
 							<CommunityContainerAnimation onClick={()=>this.setState(prevState=>({
 																					...prevState,
@@ -206,6 +189,7 @@ class PersonalFeedContainer extends Component{
 																		}))}>
 								<CommunityContainer
 									data={data}
+									isPersonalProfile={this.state.isPersonalProfile}
 								/>
 							</CommunityContainerAnimation>
 						</li>

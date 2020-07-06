@@ -247,21 +247,7 @@ export const getSymposiumsExplore=async(id,symposiums)=>{
 }
 
 
-export const getSymposiumsFollowed=async(id,symposiumsMap)=>{
-	try{
-		const symposiumResponse=await axios.get(`${CreateUrl}/getSymposiumsFollowed`,{
-				_id:id,
-				symposiumsMap:symposiumsMap
-		});
 
-		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
-	}catch(err){
-		console.log(err);
-		return err;
-	}
-}
 
 export const addSymposium=async(profileId,symposium,subSymposium)=>{
 	try{

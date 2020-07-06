@@ -188,7 +188,8 @@ class HomePageContainer extends Component{
 			displayExpandedSymposium:false,
 			isPersonalProfile:true,
 			profileId:"",
-			displayConfetti:false
+			displayConfetti:false,
+			isLoading:true
 		}
 	}
 
@@ -221,7 +222,7 @@ class HomePageContainer extends Component{
 
 				profile=await handleSendDataToDatabase(companyInformation,reduxFunctions)
 				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
-				isPersonalProfile=true;
+				isPersonalProfile=false;
 			}
 		}else{
 			debugger;
@@ -242,7 +243,8 @@ class HomePageContainer extends Component{
 					isPersonalProfile:isPersonalProfile,
 					profile:profile,
 					profileId:profile._id,
-					symposiumsMap:symposiumsMap
+					symposiumsMap:symposiumsMap,
+					isLoading:false
 				})
 		debugger;
 	}
@@ -346,7 +348,10 @@ class HomePageContainer extends Component{
 
 	displaySelectedScreen=()=>{
 		if(this.state.displayPersonalFeed==true){
-			return <PersonalFeed/>
+			return <PersonalFeed
+						isPersonalProfile={this.state.isPersonalProfile}
+						profileId={this.state.profile._id}
+					/>
 		}else if(this.state.displayExplorerFeed==true){
 			const userObject={
 				id:this.state.profileId,
@@ -501,7 +506,12 @@ class HomePageContainer extends Component{
 								</li>
 							</ul>
 						</PageIndicator>
-						{this.displaySelectedScreen()}
+						{this.state.isLoading==true?null:
+							<React.Fragment>
+								{this.displaySelectedScreen()}
+							</React.Fragment>
+						}
+						
 					</Container>
 					
 			</HomeProvider>

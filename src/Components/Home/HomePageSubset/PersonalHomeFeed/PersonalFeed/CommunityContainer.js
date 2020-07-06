@@ -1,5 +1,8 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
+import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -41,13 +44,6 @@ const ActivePeople=styled.div`
 	border-color:#5298F8;
 `;
 
-const PopularVideos=styled.div`
-	position:"relative";
-	width:60px;
-	height:90%;
-	background-color:red;
-	border-radius:5px;
-`;
 
 const CommunityDetailsListCSS={
 	listStyle:"none",
@@ -68,64 +64,87 @@ const PopularVideosListCSS={
 	marginBottom:"10px"
 }
 
+const ProfilePictureCSS={
+	position:"relative",
+	width:"45px",
+	height:"40%",
+	backgroundColor:"white",
+	borderRadius:"50%",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#5298F8"
+}
+
 const CommunityContainer=(props)=>{
 	console.log(props);
-	console.log(props.backgroundColor);
-
-	//Dont need state
-	const [popularVideos,changePopularVideos]=useState([{},{},{},{},{}]);
-	const [activePeople,changeActivePeople]=useState([{},{},{},{},{},{},{},{},{},{}]);
+	const {
+		activePeople,
+		popularPosts,
+		industry
+	}=props.data;
+	const [backgroundColor,changeBackGroundColor]=useState();
 	
-
 	useEffect(()=>{
 		/*
 			changePopularVideos(props.data.popularVideos);
 			changeActivePeople(props.data.activePeople);
 		*/
+		debugger;
+		var symposiums=props.isPersonalProfile==true?PERSONAL_INDUSTRIES.INDUSTRIES:COMPANY_INDUSTRIES.INDUSTRIES;
+		for(var i=0;i<symposiums.length;i++){
+			const currentSymposium=symposiums[i].industry;
+			if(currentSymposium==industry){
+				changeBackGroundColor(symposiums[i].backgroundColor);
+				break;
+			}
+		}
 	});
 
 	return(
 
 		<React.Fragment>
-			<Container style={{background:props.data.backgroundColor}}>
-				<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.communityName}</p>
-				<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"20%",padding:"10px",borderRadius:"5px"}}>Active People</p>
-				<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"50%",padding:"10px",borderRadius:"5px"}}>Popular Videos</p>
-				<ul style={{position:"relative",top:"-30%",left:"50%"}}>
-					<li style={CommunityDetailsListCSS}>
-						<ActivePeopleContainer>
-							<ul>
-								{activePeople.map(data=>
-									<li style={ActivePeopleListCSS}>
-										<ActivePeople>
+			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+				<Container style={{background:backgroundColor}}>
+					<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.industry}</p>
+					<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"20%",padding:"10px",borderRadius:"5px"}}>Active People</p>
+					<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"50%",padding:"10px",borderRadius:"5px"}}>Popular Videos</p>
+					<ul style={{position:"relative",top:"-30%",left:"50%"}}>
+						<li style={CommunityDetailsListCSS}>
+							<ActivePeopleContainer>
+								<ul>
+									{activePeople.length!=0?
+										<React.Fragment>
+											{activePeople.map(data=>
+												<li style={ActivePeopleListCSS}>
+													{data.profilePicture!=null?
+														<img src={data.profilePicture} style={ProfilePictureCSS}/>:
+														<img src={NoProfilePicture} style={ProfilePictureCSS}/>
+													}
+												</li>
+											)}
+										</React.Fragment>:<p> No active users right now :( </p>
+									}
+								</ul>
 
-										</ActivePeople>
+							</ActivePeopleContainer>
+						</li>
+						<li style={CommunityDetailsListCSS}>
+							<PopularVideosContainer>
+								<ul>
+									{popularPosts.map(data=>
+										<li style={PopularVideosListCSS}>
+											<video id="smallVideo" key={data.videoUrl} borderRadius="5px" position="relative" height="90%" width="60px">
+												<source src={data.videoUrl} type="video/mp4"/>
+											</video>
+										</li>
+									)}
+								</ul>
 
-									</li>
-								)}
-
-							</ul>
-
-						</ActivePeopleContainer>
-					</li>
-					<li style={CommunityDetailsListCSS}>
-						<PopularVideosContainer>
-							<ul>
-
-								{popularVideos.map(data=>
-									<li style={PopularVideosListCSS}>
-										<PopularVideos>
-
-										</PopularVideos>
-
-									</li>
-								)}
-							</ul>
-
-						</PopularVideosContainer>
-					</li>
-				</ul>
-			</Container>
+							</PopularVideosContainer>
+						</li>
+					</ul>
+				</Container>
+			</a>
 
 		</React.Fragment>
 	)

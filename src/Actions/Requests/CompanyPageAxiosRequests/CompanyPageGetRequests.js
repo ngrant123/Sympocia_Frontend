@@ -134,6 +134,24 @@ export const getCompanies=async()=>{
 	}
 }
 
+export const getFollowedSymposiumsCompanyHome=async(id)=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/company/search';
+		const symposiumResponse=await axios.get(`${CreateUrl}/getFollowedSymposiumsHomePage`,{
+			params:{
+				_id:id
+			}
+		});
+
+		const {data}=symposiumResponse;
+		const symposiumData=data.data;
+		return symposiumData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
 
 
 

@@ -203,17 +203,18 @@ class SearchExploreContainer extends Component{
 					<li style={{listStyle:"none",marginBottom:"1%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",marginBottom:"2%"}}>
+							
 												<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
 													<ul style={{padding:"0px"}}>
 														<li style={{listStyle:"none",fontSize:"40px"}}>
-															<b>Explore Communities</b>
+															<b>Explore Symposiums</b>
 														</li>
 														<li style={{listStyle:"none"}}>
 															Check out the posts that we think you might like here. 
 														</li>
 													</ul>
-													
 												</li>
+
 												<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
 													Checkout a more generalized view of the communities you arent following by clicking here
 													<Checkbox
