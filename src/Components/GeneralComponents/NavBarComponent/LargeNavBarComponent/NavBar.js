@@ -19,7 +19,7 @@ const Container=styled.div`
 	width:100%;
 	height:14%;
 	border-radius:0px 0px 5px 5px;
-	z-index:6;
+	z-index:11;
 	background-color:white;
 `;
 

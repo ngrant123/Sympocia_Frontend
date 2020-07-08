@@ -458,6 +458,24 @@ export const getSymposiumsFollowedHome=async(id)=>{
 	}
 }
 
+export const getSymposiumsNotFollowed=async(_id)=>{
+	try{
+		const symposiumResponse=await axios.get(`${SearchUrl}/getSymposiumsNotFollowed`,{
+			params:{
+				_id:_id
+			}
+		});
+
+		const {data}=symposiumResponse;
+		const symposiumData=data.data;
+		return symposiumData;
+	}catch(err){
+		console.log(err.message);
+		return err;
+	}
+
+}
+
 
 
 

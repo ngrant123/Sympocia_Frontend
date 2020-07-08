@@ -5,12 +5,15 @@ import CameraIcon from '@material-ui/icons/Camera';
 import EditImageCreation from "./EditImageCreation.js";
 import CreateImageModal from "./CreateImageModal.js";
 
-const Container = styled.div`
-	position:relative;
-	width:100%;
+const Container=styled.div`
+	position:fixed;
+	z-index:21;
 	background-color:white;
 	border-radius:5px;
-	overflow-y:scroll;
+	top:20%;
+	left:30%;
+	height:40%;
+	overflow:scroll;
 `;
 
 
@@ -48,14 +51,12 @@ class ImageCreation extends Component{
 	}
 
 	createImage=()=>{
-		document.getElementById("container").style.height="180%";
 		this.setState({
 			displayCreateImageScreen:true	
 		})
 	}
 
 	handleNewlyCreatedImage=(imgData)=>{
-		document.getElementById("container").style.height="100%";
 		localStorage.removeItem('placeholder');
 		this.setState({
 				pictureUrl:imgData,
@@ -66,9 +67,9 @@ class ImageCreation extends Component{
 	render(){
 
 		return(
-			<Container id="container">
+			<React.Fragment>
 				{this.state.displayEditImagesScreen==false?
-					<React.Fragment>
+					<Container id="container">
 						{this.state.displayCreateImageScreen==false?
 							<ul style={{position:"relative",left:"20%",top:"10%",padding:"1px"}}>
 								<li style={{listStyle:"none",marginLeft:"15%",marginTop:"5%"}}>	
@@ -91,7 +92,7 @@ class ImageCreation extends Component{
 																</ul>
 										 </div>
 								</li>
-								<li style={{fontSize:"25px",marginBottom:"1%",listStyle:"none",marginLeft:"15%"}}>	
+								<li style={{fontSize:"25px",marginBottom:"1%",listStyle:"none"}}>	
 									Image Creation
 								</li>
 								<li onClick={()=>this.clickUploadPhotoButton()} style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
@@ -142,12 +143,12 @@ class ImageCreation extends Component{
 								handleNewlyCreatedImage={this.handleNewlyCreatedImage}
 							  />
 						}
-					</React.Fragment>:
+					</Container>:
 					<EditImageCreation
 						imageSrcUrl={this.state.pictureUrl}
 					/>
 				}
-			</Container>
+			</React.Fragment>
 
 		)
 	}

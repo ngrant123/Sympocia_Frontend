@@ -27,7 +27,7 @@ import VideoPostModal from "../../SearchExplorePage/SearchExploreSubset/VideoPos
 import RegularPostModal from "../../SearchExplorePage/SearchExploreSubset/RegularPostsModal.js";
 import BlogPostModal from "../../SearchExplorePage/SearchExploreSubset/BlogPostsModal.js";
 
-import NoPostModal from "../../../../../designs/img/NoProfilePicture.png";
+
 import PopularVideosModal from "../PopularVideosModal.js";
 import {HeaderContainer,SimpliedHeaderContainer} from "./HeaderContainer.js";
 import HightLightedQuestions from "./HighLightedQuestions.js";

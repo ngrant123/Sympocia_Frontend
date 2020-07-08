@@ -12,11 +12,9 @@ import COMPANY_INDUSTRIES from "../../../../Constants/industryConstants.js";
 import {PostProvider} from "../PostContext.js";
 
 const Container = styled.div`
-	position:relative;
-	width:100%;
-	height:50%;
-	background-color:white;
-	z-index:6;
+	position:fixed;
+	top:0px;
+	z-index:21;
 	border-radius:5px;
 `;
 

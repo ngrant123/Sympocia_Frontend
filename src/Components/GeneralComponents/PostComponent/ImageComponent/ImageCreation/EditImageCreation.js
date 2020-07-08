@@ -13,6 +13,23 @@ import FilterImageSelection from "./FilterImageSelection.js";
 import ProcessImage from 'react-imgpro';
 import {CompanyPostConsumer} from "../../../../Profile/CompanyProfile/CompanyPostsContext.js";
 
+import MicIcon from '@material-ui/icons/Mic';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import VideoDescriptionPortal from "../VideoDescriptionPortal.js";
+import VoiceDescriptionPortal from "../VoiceDescriptionPortal.js";
+
+const Container=styled.div`
+	position:fixed;
+	z-index:21;
+	background-color:white;
+	border-radius:5px;
+	top:20%;
+	left:25%;
+	width:65%;
+	overflow-y:scroll;
+	height:60%;
+`;
+
 
 const Image=styled.div`
 	position:relative;
@@ -54,7 +71,9 @@ class EditImageCreation extends Component{
 			industriesSelected:[],
 			subIndustriesSelectedDropDown:[],
 			subIndustriesSelected:[],
-			displayFilterPictureModal:false
+			displayFilterPictureModal:false,
+			displayVideoDescriptionPortal:false,
+			displayVoiceDescriptionPortal:false
 		}
 	}
 
@@ -62,7 +81,7 @@ class EditImageCreation extends Component{
 		console.log("Testing component");
 		const imageElement= <ProcessImage
 									image={this.props.imageSrcUrl}
-									resize={{width:450,height:400}}
+									resize={{width:450,height:450}}
 									quality={100}
 									processedImage={(src, err) => this.setState({ src, err })}
 							/>;
@@ -193,7 +212,6 @@ class EditImageCreation extends Component{
 									processedImage={(src, err) => this.setState({ src, err })}
 									{...{[type]:value}}
 							/>;
-
 		this.setState({
 			imgElement:imageElement
 		},function(){
@@ -206,17 +224,53 @@ class EditImageCreation extends Component{
 			displayFilterPictureModal:false
 		})
 	}
+
+	setUpVideoDescriptionCreation=()=>{
+		this.setState({
+			displayVideoDescriptionPortal:true,
+			displayVoiceDescriptionPortal:false
+		})
+	}
+
+	setUpVoiceDescriptionCreation=()=>{
+		this.setState({
+			displayVideoDescriptionPortal:false,
+			displayVoiceDescriptionPortal:true
+		})
+	}
+
+	closeModal=()=>{
+		this.setState({
+			displayVideoDescriptionPortal:false,
+			displayVoiceDescriptionPortal:false
+		})
+	}
+
 	render(){
 		return(
 			<PostConsumer>
 				{profilePostInformation=>(
 						<CompanyPostConsumer>
 							{companyPostInformation=>(
-								<React.Fragment>
+								<Container id="editImageContainer">
+
+									{this.state.displayVideoDescriptionPortal==false?
+										null:
+										<VideoDescriptionPortal
+											closeModal={this.closeModal}
+										/>
+									}
+									{this.state.displayVoiceDescriptionPortal==false?
+										null:
+										<VoiceDescriptionPortal
+											closeModal={this.closeModal}
+										/>
+									}
+
 									<ul style={{padding:"10px"}}>
 										<li style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
 											<Image>
-											<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"60%",padding:"15px"}}>
+												<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px"}}>
 													<li style={{listStyle:"none"}}>
 														<a href="javascript:;">
 															<HighlightOffIcon
@@ -238,7 +292,7 @@ class EditImageCreation extends Component{
 										</li>
 
 										{this.state.displayFilterPictureModal==false?
-											<li style={{position:"absolute",listStyle:"none",display:"inline-block"}}>
+											<li style={{position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 												<ul style={{padding:"0px",width:"300px"}}>
 													<IndustryPostOptions
 														alterSelectedIndustry={this.alterSelectedIndustry}
@@ -259,8 +313,36 @@ class EditImageCreation extends Component{
 																			</ImageTextArea>
 
 													</li>
+													<p style={{marginLeft:"50%",fontSize:"20px",color:"#5298F8"}}> Or </p>
+													<li style={{listStyle:"none"}}>
+														<ul style={{padding:"0px"}}>
+															<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
+																Create either a video or voice description for your image. Much more interesting than regular text imo ;)
+															</li>
+															<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px",marginLeft:"10%"}}>
+																<ul style={{padding:"10px"}}>
+																	<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
+																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																			<MicIcon
+																				style={{fontSize:40}}
+																			/>
+																		</a>
+																	</li>
 
-													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+																	<li onClick={()=>this.setUpVideoDescriptionCreation()} style={{listStyle:"none",display:"inline-block"}}>
+																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																			<CameraAltIcon
+																				style={{fontSize:40}}
+																			/>
+																		</a>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+													
+
+													<li style={{listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
 														<a style={{textDecoration:"none"}} href="javascript:void(0);">
 																		<ul onClick={()=>this.sendImageDateToDB(profilePostInformation,companyPostInformation)}>
 																			<li style={{listStyle:"none",display:"inline-block"}}>
@@ -286,7 +368,7 @@ class EditImageCreation extends Component{
 										}
 										
 									</ul>
-								</React.Fragment>
+								</Container>
 							) 
 						}
 						</CompanyPostConsumer>

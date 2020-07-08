@@ -159,12 +159,15 @@ const NoPostsModal=(props)=>{
 											</li>
 											<p style={{fontSize:"20px",marginLeft:"10%"}}><b>Upload a {props.postType} of your own to get started</b></p>
 											<p>Show people your story through {props.postType}s and start sharing your story to others </p>
-											<li onClick={()=>postContext.updatePostComponent(props.postType)}style={{marginLeft:"33%",listStyle:"none",display:"inline-block",padding:"5px",color:"white",backgroundColor:"#C8B0F4",borderRadius:"5px",padding:"10px",fontSize:"15px"}}>
-												{props.postType=="blog"?
-													<p><a style={{textDecoration:"none",color:"white"}} href="/blog">Upload a {props.postType}</a></p>:
-													<p>Upload a {props.postType}</p>
-												}
-											</li>
+
+											<a href="javascript:void(0);" style={{textDecoration:"none",color:"white"}}>
+												<li onClick={()=>postContext.updatePostComponent(props.postType)}style={{marginLeft:"33%",listStyle:"none",display:"inline-block",padding:"5px",color:"white",backgroundColor:"#C8B0F4",borderRadius:"5px",padding:"10px",fontSize:"15px"}}>
+													{props.postType=="blog"?
+														<p><a href="javascript:void(0);" style={{textDecoration:"none",color:"white"}} href="/blog">Upload a {props.postType}</a></p>:
+														<p> Upload a {props.postType} </p>
+													}
+												</li>
+											</a>
 											</ul>
 									</CreatePostContainer>
 								</li>:null

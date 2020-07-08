@@ -29,7 +29,12 @@ import {PostDisplayProvider} from "../PostDisplayModalContext.js";
 import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
 import ChampionModal from "./ChampionModalPortal/ChampionDisplayModal.js";
-import Confetti from 'react-confetti'
+import Confetti from 'react-confetti';
+
+
+
+import VideoDescriptionPortal from "../../../GeneralComponents/PostComponent/ImageComponent/VideoDescriptionPortal.js";
+//import VoiceDescriptionPortal from "../VoiceDescriptionPortal.js";
 
 const Container=styled.div`
 
@@ -294,6 +299,8 @@ class LProfile extends Component{
 		    blogModalData:{},
 		    displayRegularPostModal:false,
 		    regularModalData:{},
+		    //TESTING 
+		    isLoading:true,
 		    displayChampionModal:false,
 		    champion:{},
 		    displayChampionModal:(championData)=>{
@@ -330,7 +337,8 @@ class LProfile extends Component{
 						userProfile:profile,
 						isOwnProfile:true,
 						displayChampion:containsChampion,
-						champion:profile.championData
+						champion:profile.championData,
+						isLoading:false
 					}));
 				}
 				else{
@@ -344,7 +352,8 @@ class LProfile extends Component{
 						isLoading:false,
 						userProfile:profile,
 						displayChampion:containsChampion,
-						championModalData:profile.championData
+						championModalData:profile.championData,
+						isLoading:false
 					}));
 			}	
 		}
@@ -611,7 +620,11 @@ class LProfile extends Component{
 								 run={true}
 							/>
 						:<React.Fragment></React.Fragment>}
-	
+				
+
+						{this.state.isLoading==true?null:<VideoDescriptionPortal/>}
+
+
 
 						{this.state.displayShadowBackground==true?
 								<ShadowContainer

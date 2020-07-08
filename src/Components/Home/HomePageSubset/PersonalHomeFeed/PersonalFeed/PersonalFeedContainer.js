@@ -2,7 +2,7 @@ import React,{Component} from "react";
 import styled,{keyframes} from "styled-components";
 import CommunityContainer from "./CommunityContainer";
 import PersonalizedPage from "../PersonalizedPage/PersonalizedPage"
-import {getSymposiumsFollowedHome} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {getSymposiumsFollowedHome,getSymposiumsNotFollowed} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getFollowedSymposiumsCompanyHome} from "../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 
 
@@ -55,7 +55,8 @@ const CommunityTransitionAnimation=styled.div`
 	z-index:1;
 	animation:${keyFrameExampleThree} 1s ease-in-out 0s forwards;
 `;
-const CommunityContainerAnimation=styled.div`
+
+const CommunityContainerAnimationFollowed=styled.div`
 
 	position:relative;
 	width:70%;
@@ -64,6 +65,17 @@ const CommunityContainerAnimation=styled.div`
 	border-radius:5px;
 	animation:${keyFrame} 1s ease-in-out 0s forwards;
 `;
+
+const CommunityContainerAnimationExplore=styled.div`
+
+	position:relative;
+	width:70%;
+	height:30%;
+	transition: transform 300ms ease-in-out;
+	border-radius:5px;
+	animation:${keyFrame} 1s ease-in-out 0s forwards;
+`;
+
 
 
 class PersonalFeedContainer extends Component{
@@ -76,8 +88,10 @@ class PersonalFeedContainer extends Component{
 		this.state={
 			symposiumArray:[],
 			triggerAnimation:false,
-			selectedCommunity:{},
-			displayPersonalizedPage:false
+			selectedSymposium:{},
+			displayPersonalizedPage:false,
+			triggerExploreAnimation:false,
+			triggerFollowAnimation:true
 		}
 	}
 
@@ -85,23 +99,16 @@ class PersonalFeedContainer extends Component{
 	async componentDidMount(){
 
 		try{
-			/*
-				Make api call 
-				const communities=getCommunitiesFollowed(this.props.profileId);
-
-				this.setState(...prevState,({
-					...prevState,
-					communities:communities
-				}))
-			*/
 			const {isPersonalProfile,profileId}=this.props;
 			var symposiumsResponse;
+
 			if(isPersonalProfile==true){
 				symposiumsResponse=await getSymposiumsFollowedHome(profileId);
 			}else{
 				symposiumsResponse=await getFollowedSymposiumsCompanyHome(profileId);
 			}
-
+			console.log(symposiumsResponse);
+			debugger;
 			var symposiums=[];
 			for(var i=0;i<symposiumsResponse.length;i++){
 				const specificCommunity=symposiumsResponse[i];
@@ -116,10 +123,6 @@ class PersonalFeedContainer extends Component{
 					isPersonalProfile:isPersonalProfile
 				}));
 			}
-			this.setState(prevState=>({
-					...prevState,
-					symposiumArray:symposiums
-				}))
 		}catch(err){
 			console.log(err.message);
 		}
@@ -159,7 +162,49 @@ class PersonalFeedContainer extends Component{
 		}))
 	}
 
-	
+	handleSymposiumClick=(data)=>{
+		var symposiums=[];
+
+		debugger;
+		for(var i=0;i<this.state.symposiumArray.length;i++){
+			const currentSymposium=this.state.symposiumArray[i];
+			if(currentSymposium.industry!=data.industry){
+				symposiums.push(currentSymposium);
+			}
+		}
+
+		this.setState(prevState=>({
+			...prevState,
+			triggerAnimation:true,
+			selectedSymposium:data,
+			symposiums:symposiums
+		}))
+	}
+
+	displayFollowOrExploreAnimation=async()=>{
+
+		const followingSymposiumButton=document.getElementById("followedSymposiumsButton");
+		const exploreSymposiumsButton=document.getElementById("exploreSymposiumsButton");
+
+		var explorePosts=[];
+		if(this.state.triggerFollowAnimation==true){
+			followingSymposiumButton.style.color="#999999";
+			exploreSymposiumsButton.style.color="#151518";
+			if(this.props.isPersonalProfile==true){
+				explorePosts=await getSymposiumsNotFollowed(this.props.profileId);
+			}
+
+		}else{
+			followingSymposiumButton.style.color="#151518";
+			exploreSymposiumsButton.style.color="#999999";
+			explorePosts=await getSymposiumsFollowedHome(this.props.profileId);
+		}
+		debugger;
+		this.setState({
+			triggerFollowAnimation:!this.state.triggerFollowAnimation,
+			symposiumArray:(explorePosts.length==0?this.state.symposiumArray:explorePosts)
+		})
+	}
 
 
 	 TransitionAnimationTrigger=()=>{
@@ -170,32 +215,56 @@ class PersonalFeedContainer extends Component{
 	 	return this.state.triggerAnimation==false?
 	 		<ul style={{position:"relative",paddingTop:"10%"}}>
 	 			<ul style={{position:"relative",left:"20%",marginBottom:"30px"}}>
-					<li style={{listStyle:"none"}}>
+					<li style={{listStyle:"none",marginBottom:"2%"}}>
 						<ul style={{padding:"0px"}}>
-							<li style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"25%"}}><b>My symposiums</b></li>
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px"}}>
+									<li onClick={()=>this.displayFollowOrExploreAnimation()} id="followedSymposiumsButton" style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"5%"}}>
+										<b>My symposiums</b>
+									</li>
+									<li onClick={()=>this.displayFollowOrExploreAnimation()} id="exploreSymposiumsButton" style={{color:"#999999",display:"inline-block",listStyle:"none",fontSize:"40px",marginLeft:"5%"}}>
+										<b>Explore Symposiums</b>
+									</li>
+								</ul>
+							</li>
+							<hr/>
 							<li onClick={()=>this.changeColorForPopularButton()} id="mostPopularButton" style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"#5298F8",color:"white",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"10px",borderRadius:"5px"}}>Most Popular</li>
 							<li onClick={()=>this.changeColorForFastestGrowingButton()} id="fastestGrowingButton" style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"white",color:"#6e6e6e",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"5px",borderRadius:"5px"}}>Fastest Growing</li>
 						</ul>
 					</li>
-					<li style={{listStyle:"none",width:"30%"}}>Go back and check out the newest posts in the communities you follow. </li>
-
+					<li style={{listStyle:"none",width:"30%"}}>
+						Go back and check out the newest posts in the symposiums you follow. 
+					</li>
 				</ul>
-					{this.state.symposiumArray.map(data=>
-						<li style={{paddingBottom:"40px",listStyle:"none"}}>
-							<CommunityContainerAnimation onClick={()=>this.setState(prevState=>({
-																					...prevState,
-																					triggerAnimation:true,
-																					selectedCommunity:data
-																		}))}>
-								<CommunityContainer
-									data={data}
-									isPersonalProfile={this.state.isPersonalProfile}
-								/>
-							</CommunityContainerAnimation>
-						</li>
-					)}
+				{this.state.triggerFollowAnimation==true?
+					<React.Fragment>
+						{this.state.symposiumArray.map(data=>
+							<li style={{paddingBottom:"40px",listStyle:"none"}}>
+								<CommunityContainerAnimationFollowed onClick={()=>this.handleSymposiumClick(data)}>
+									<CommunityContainer
+										data={data}
+										isPersonalProfile={this.state.isPersonalProfile}
+									/>
+								</CommunityContainerAnimationFollowed>
+							</li>
+						)}
+					</React.Fragment>:
+					<React.Fragment>
+								{this.state.symposiumArray.map(data=>
+									<li style={{paddingBottom:"40px",listStyle:"none"}}>
+										<CommunityContainerAnimationExplore onClick={()=>this.handleSymposiumClick(data)}>
+											<CommunityContainer
+												data={data}
+												isPersonalProfile={this.state.isPersonalProfile}
+											/>
+										</CommunityContainerAnimationExplore>
+									</li>
+								)}
+					</React.Fragment>
+				}
+					
 			</ul>:
-				<CommunityTransitionAnimation style={{background:this.state.selectedCommunity.backgroundColor}}>
+				<CommunityTransitionAnimation style={{background:this.state.selectedSymposium.backgroundColor}}>
 				</CommunityTransitionAnimation>
 	}
 
@@ -210,12 +279,12 @@ class PersonalFeedContainer extends Component{
 	}
 
 	displayPersonalizedPage=()=>{
-		console.log(this.state.selectedCommunity);
+		console.log(this.state.selectedSymposium);
 
 		return this.state.displayPersonalizedPage==true?
 			<PersonalizedPage
-				selectedCommunity={this.state.selectedCommunity}
-				communities={this.state.communities}
+				selectedSymposium={this.state.selectedSymposium}
+				symposiums={this.state.symposiums}
 			/>:
 			<React.Fragment></React.Fragment>
 	}

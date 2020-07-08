@@ -171,7 +171,7 @@ class IndustryPostOptions extends Component{
 		return(
 			<React.Fragment>
 				<li style={{listStyle:"none",display:"inline-block"}}>
-										Choose an industry:
+										<p style={{color:"#8c8c8c"}}>Choose an industry:</p>
 										<div class="dropdown">
 															<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																																					borderColor:"#5298F8",

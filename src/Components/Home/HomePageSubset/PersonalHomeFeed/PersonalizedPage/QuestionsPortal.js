@@ -20,6 +20,7 @@ const Container=styled.div`
 	z-index:17;
 	left:30%;
 	top:20%;
+	overflow-y:scroll;
 `;
 
 const ShadowContainer=styled.div`

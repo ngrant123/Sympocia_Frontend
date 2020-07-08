@@ -80,7 +80,7 @@ const CommunityContainer=(props)=>{
 	const {
 		activePeople,
 		popularPosts,
-		industry
+		symposium
 	}=props.data;
 	const [backgroundColor,changeBackGroundColor]=useState();
 	
@@ -93,7 +93,7 @@ const CommunityContainer=(props)=>{
 		var symposiums=props.isPersonalProfile==true?PERSONAL_INDUSTRIES.INDUSTRIES:COMPANY_INDUSTRIES.INDUSTRIES;
 		for(var i=0;i<symposiums.length;i++){
 			const currentSymposium=symposiums[i].industry;
-			if(currentSymposium==industry){
+			if(currentSymposium==symposium){
 				changeBackGroundColor(symposiums[i].backgroundColor);
 				break;
 			}
@@ -105,7 +105,7 @@ const CommunityContainer=(props)=>{
 		<React.Fragment>
 			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 				<Container style={{background:backgroundColor}}>
-					<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.industry}</p>
+					<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.symposium}</p>
 					<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"20%",padding:"10px",borderRadius:"5px"}}>Active People</p>
 					<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"50%",padding:"10px",borderRadius:"5px"}}>Popular Videos</p>
 					<ul style={{position:"relative",top:"-30%",left:"50%"}}>
@@ -125,7 +125,6 @@ const CommunityContainer=(props)=>{
 										</React.Fragment>:<p> No active users right now :( </p>
 									}
 								</ul>
-
 							</ActivePeopleContainer>
 						</li>
 						<li style={CommunityDetailsListCSS}>
@@ -133,7 +132,7 @@ const CommunityContainer=(props)=>{
 								<ul>
 									{popularPosts.map(data=>
 										<li style={PopularVideosListCSS}>
-											<video id="smallVideo" key={data.videoUrl} borderRadius="5px" position="relative" height="90%" width="60px">
+											<video id="smallVideo" key={data.videoUrl} borderRadius="5px" position="relative" height="95%" width="60px">
 												<source src={data.videoUrl} type="video/mp4"/>
 											</video>
 										</li>

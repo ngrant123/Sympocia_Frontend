@@ -1,6 +1,5 @@
 import React,{useState,useEffect,Component} from "react";
 import styled from "styled-components";
-import CreateAPostComponent from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 import SearchIcon from '@material-ui/icons/Search';
 import ImagePosts from "./ImagePosts/ImagePostContainer.js";
 import VideoPosts from "./VideoPosts/VideoPostContainer.js";
@@ -13,6 +12,7 @@ import {PostProvider} from "./PostsContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {getVideosFromUser} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import FriendsGauge from "./FriendsGauge.js";
+import PostCreationPortal from "../../PersonalProfileSet/PostCreationPortal.js";
 
 const PostCreationContainer=styled.div`
 	position:relative;
@@ -128,6 +128,7 @@ const listCSSButton={
 
 
 const PersonalPostsIndex=(props)=>{
+	debugger;
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -230,17 +231,16 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 
+	const closeModal=()=>{
+		changeDisplayCreationPost(false);
+	}
+
 	const displayCreationPostContainer=()=>{
-		if(displayCreationPost==true){
-			return <React.Fragment>
-						<PostCreation>
-							<CreateAPostComponent
-								postOption={postOption}
-							/>
-						</PostCreation>
-					</React.Fragment>;
-		}else
-			return <React.Fragment></React.Fragment>
+		return displayCreationPost==true?
+			<PostCreationPortal
+				postOption={postOption}
+				closeModal={closeModal}
+			/>:null;
 	}
 
 	const displayOrHideCreationPost=()=>{
@@ -253,10 +253,6 @@ const PersonalPostsIndex=(props)=>{
 		changeDisplayCreationPost(true);
 	}
 
-	const getAndDisplayVideos=()=>{
-
-	}
-
 	const disappearShadowOverlay=()=>{
 		props.disappearShadow();
 		changeDisplayCreationPost(!displayCreationPost);
@@ -267,6 +263,7 @@ const PersonalPostsIndex=(props)=>{
 				changeDisplayCreationPost(false);
 		}
 	}
+
 	const initializePersonalInformationToState=(personalInformationData)=>{
 		debugger;
 		changePersonalInformation(personalInformation);
@@ -281,7 +278,6 @@ const PersonalPostsIndex=(props)=>{
 									updatePostComponent:(postOption)=>{
 										changePostOption(postOption);
 										changeDisplayCreationPost(true);
-										props.displayShadowOverlay();
 									},
 									hideCreationPost:()=>{
 										props.disappearShadow();
@@ -316,14 +312,9 @@ const PersonalPostsIndex=(props)=>{
 								}}
 							>
 							{initializePersonalInformationToState(personalInformation)}
+						{/*
 							{displayCreatePostAndShadowOverlay(personalInformation)}
-								{
-									displayCreationPost==true?
-									<ShadowContainer
-										onClick={()=>disappearShadowOverlay()}
-									/>:
-									<React.Fragment></React.Fragment>
-								}
+						*/}
 								<ul>
 									<li style={{listStyle:"none",marginBottom:"10%"}}>
 											{personalInformation.isLoading==true?
@@ -333,6 +324,9 @@ const PersonalPostsIndex=(props)=>{
 													/>
 												}
 									</li>
+									<hr/>
+								{displayCreationPostContainer()}
+								{/*
 									{personalInformation.isOwnProfile==true?
 										<React.Fragment>
 											<li style={{listStyle:"none",marginBottom:"5%"}}>
@@ -373,7 +367,9 @@ const PersonalPostsIndex=(props)=>{
 													}
 												</li> 
 											</React.Fragment>
-										:<React.Fragment></React.Fragment>}
+										:null}
+								*/}
+
 
 									<li style={{listStyle:"none",marginBottom:"20px"}}>
 										<ul style={{padding:"0px"}}>
