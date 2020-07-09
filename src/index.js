@@ -21,6 +21,7 @@ import ErrorBoundary from "./ErrorBoundary.js";
 //TEST
 import Demo from "./Components/Demo/index.js";
 import throttle from 'lodash.throttle';
+import LoadingScreen from "./LoadingAnimation.js";
 
 //Starting point for the web application
 const enhancers = compose(
@@ -55,6 +56,7 @@ const application  = (
 						<Route exact path="/map/:id" component= {MapScreen} />
 						//TEST
 						<Route exact path="/demo" component={Demo}/>
+						<Route exact path="/loading" component={LoadingScreen}/>
 						<Route exact path="/blog/:id" component={BlogPostCreation}/>
 
 					</Switch>

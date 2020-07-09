@@ -27,6 +27,8 @@ import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js
 import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 import Confetti from 'react-confetti';
 
+import LoadingScreen from "../../../LoadingAnimation.js";
+
 const Container=styled.div`
 	position:absolute;
 	width:100%;
@@ -506,7 +508,7 @@ class HomePageContainer extends Component{
 								</li>
 							</ul>
 						</PageIndicator>
-						{this.state.isLoading==true?null:
+						{this.state.isLoading==true?<LoadingScreen/>:
 							<React.Fragment>
 								{this.displaySelectedScreen()}
 							</React.Fragment>

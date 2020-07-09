@@ -4,6 +4,9 @@ import {createPortal} from "react-dom";
 import ReplyIcon from '@material-ui/icons/Reply';
 import BuildSharpIcon from '@material-ui/icons/BuildSharp';
 
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
+
 //<Icon icon={scissorsCutting} />
 
 const ShadowContainer= styled.div`
@@ -29,90 +32,228 @@ const Container=styled.div`
 
 const RecordButton=styled.div`
 	position:relative;
-	z-index:3;
-	width:40px;
+	width:55px;
 	height:50px;
 	border-radius:50%;
-	background-color:red;
+	background-color:white;
+	padding:7px;
+`;
+
+const ClipVideoContainer=styled.div`
+	position:relative;
+`;
+
+const SubmitVideoDescriptionContainer=styled.div`
+	position:relative;
+	transform:rotateY(180deg)
 `;
 
 const VideoResultContainer=styled.div`
-
+	position:relative;
+	width:140px;
+	height:90px;
+	border-radius:5px;
+	background-color:red;
 `;
 
+const VideoResultContainerCSS={
+	position:"absolute",
+	left:"70%",
+	top:"5%",
+	padding:"5px",
+	backgroundColor:"white",
+	height:"50%",
+	borderRadius:"5px",
+	overflowY:"scroll"
+}
 
-const VideoElement=styled.div`
-`;
+
 
 const VideoDescriptionPortal=(props)=>{
-	const {closeModal}=props;
+	console.log("Testing video description");
+
 	const [maxTime,changeMaxTime]=useState(10000);
 	const [currentTime,changeCurrentTime]=useState(0);
+	const [isRecording,changeRecordingState]=useState(false);
+	const [videoElements,changeVideoElements]=useState([]);
+	const [reInitilize,changeReInitliazed]=useState(false);
+	const [mediaDevice,changeMediaDevice]=useState();
+
+	const [firstDone,chnagFirstFone]=useState(false);
 
 	useEffect(()=>{
 		var video=document.getElementById("video");
-				if (navigator.mediaDevices.getUserMedia) {
+				if (navigator.mediaDevices.getUserMedia){
 					  navigator.mediaDevices.getUserMedia({ 
 					  		video: true,
-					  		audio:true 
+					  		audio:false 
 					  	}).then(function (stream) {
 					      video.srcObject = stream;
 					      video.captureStream = video.captureStream || video.mozCaptureStream;
 					    })
-				    .catch(function (error) {
+				    .then(()=>handleRecording(video.captureStream()))
+				    .then(recordedChunks=>{
+					  	 debugger;
+					  	 if(recordedChunks!=null){
+					  	 	console.log("Recorded chunks");
+						  	 let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
+						  	 var videoSrc=URL.createObjectURL(recordedBlob);
+						  	 var currentVideoElements=videoElements;
+						  	 currentVideoElements.push(videoSrc);
+						  	 changeVideoElements(currentVideoElements);
+
+						  	 changeRecordingState(false);
+						  	 changeReInitliazed(true);
+						  	 console.log("Array added");
+						  	 chnagFirstFone(true)
+					  	 }
+					  }).catch(function (error) {
 				      console.log("Something went wrong!");
+				      console.log(error);
 				    });
 			}	
-	});
+	},[]);
 
 	const stopRecording=(stream)=>{
-		stream.getTracks().forEach(track => track.stop());
+		mediaDevice.stop();
+		//stream.getTracks().forEach(track => track.stop());
+		changeRecordingState(false);
 	}
 
-	const startRecording=(stream)=>{
-		  let recorder = new MediaRecorder(stream);
-		  let data = [];
+	const handleRecording=(stream)=>{
+		var stoppedVideo;
+		var data;
+		 if(firstDone==true){
+		 	debugger;
+			  data=[];
 
-		  recorder.ondataavailable = event => data.push(event.data);
-		  recorder.start();
+			  mediaDevice.ondataavailable = event => data.push(event.data);
+			  mediaDevice.start();
 
-		  var stoppedVideo=new Promise((resolve, reject) => {
-		    recorder.onstop = resolve;
-		    recorder.onerror = event => reject(event.name);
-		  }).then(recordedChunks=>{
-		  	 let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
-		    // recording.src = URL.createObjectURL(recordedBlob);
-		  });
+			  stoppedVideo=new Promise((resolve, reject) => {
+			    mediaDevice.onstop = resolve;
+			    mediaDevice.onerror = event => reject(event.name);
+			  });
+			  //changeRecordingState(true);
+		 }else{
+		 	debugger;
+			  let recorder = new MediaRecorder(stream);
+			  data=[];
+
+			  recorder.ondataavailable = event => data.push(event.data);
+			  recorder.start();
+
+			  stoppedVideo=new Promise((resolve, reject) => {
+			    recorder.onstop = resolve;
+			    recorder.onerror = event => reject(event.name);
+			  });
+			  changeMediaDevice(recorder);
+			  //changeRecordingState(true);
+		 }
+		  return Promise.all([stoppedVideo]).then(()=>data);
 	}
 
+	const closeModal=()=>{
+		var videoElement=document.getElementById("video");
+		stopRecording(videoElement);
+		props.closeModal()
+	}
+	const test=()=>{
+		if(reInitilize==true && videoElements.length>0){
+			var newElements=videoElements;
+			changeVideoElements(newElements);
+			changeReInitliazed(false);
+		}
+	}
+
+	const startRecording=()=>{
+		if(firstDone==true){
+			handleRecording().then(recordedChunks=>{
+				debugger;
+				 let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
+				 var videoSrc=URL.createObjectURL(recordedBlob);
+						  	 var currentVideoElements=videoElements;
+						  	 currentVideoElements.push(videoSrc);
+						  	 changeVideoElements(currentVideoElements);
+
+						  	 changeRecordingState(false);
+						  	 changeReInitliazed(true);
+						  	 console.log("Array added");
+						  	 chnagFirstFone(true)
+			});
+		}
+		changeRecordingState(true)
+	}
+
+	const displayEditVideoScreen=()=>{
+		console.log(videoElements);
+	}
 
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer
-				onClick={()=>props.closeModal()}
+				onClick={()=>closeModal()}
 			/>
 			<Container>
-				<VideoElement>
-					<video id="video" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true">
+				{test()}
+						{videoElements.length>0?
+							<ul style={VideoResultContainerCSS}>
+								{videoElements.map(data=>
+									<li style={{listStyle:"none",marginBottom:"4%"}}>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<VideoResultContainer>
+													<video id="result" width="100%" height="100%" autoplay="true">
+														<source src={data} type="video/mp4"/>
+													</video>
+											</VideoResultContainer>
+										</a>
+									</li>
+								)}
+							</ul>:null
+						}
+					
+
+					<video id="video" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true" zIndex="2">
 					</video>
-					<ul style={{marginTop:"-20%",padding:"0px",zIndex:"3"}}>
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<BuildSharpIcon
-								style={{fontSize:40}}
-							/>
+
+					<ul style={{marginLeft:"40%",marginTop:"-10%",padding:"0px"}}>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<ClipVideoContainer onClick={()=>displayEditVideoScreen()}>
+									<BuildSharpIcon
+										style={{fontSize:40,color:"white"}}
+									/>
+								</ClipVideoContainer>
+							</a>
+						</li>
+
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<RecordButton>
+									{isRecording==false?
+										<PlayArrowIcon
+											onClick={()=>startRecording()}
+											style={{fontSize:40,color:"#C8B0F4"}}
+										/>:<PauseIcon
+												onClick={()=>stopRecording(document.getElementById("video").captureStream())}
+												style={{fontSize:40,color:"#C8B0F4"}}
+										/>
+									}
+
+								</RecordButton>
+							</a>
 						</li>
 
 						<li style={{listStyle:"none",display:"inline-block"}}>
-							<RecordButton/>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<ReplyIcon
-								style={{fontSize:40}}
-							/>
+							<SubmitVideoDescriptionContainer>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<ReplyIcon
+										style={{fontSize:40,color:"white",zIndex:"4"}}
+									/>
+								</a>
+							</SubmitVideoDescriptionContainer>
 						</li>
 					</ul>
-				</VideoElement>
 			</Container>
 		</React.Fragment>
 	,document.getElementById("personalContainer"))
