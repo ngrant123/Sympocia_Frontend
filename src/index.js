@@ -54,10 +54,10 @@ const application  = (
 						<Route exact path="/home" component= {HomeScreen}/>
 						<Route exact path="/investor/:id" component= {InvestorScreen} />
 						<Route exact path="/map/:id" component= {MapScreen} />
+						<Route exact path="/blog/:id" component={BlogPostCreation}/>
 						//TEST
 						<Route exact path="/demo" component={Demo}/>
 						<Route exact path="/loading" component={LoadingScreen}/>
-						<Route exact path="/blog/:id" component={BlogPostCreation}/>
 
 					</Switch>
 				</Router>

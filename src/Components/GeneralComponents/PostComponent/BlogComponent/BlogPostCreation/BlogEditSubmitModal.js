@@ -9,6 +9,11 @@ import {BlogConsumer} from "./BlogContext.js";
 import {PostConsumer} from "../../PostContext.js";
 import { convertToRaw } from 'draft-js';
 
+import VideoDescriptionPortal from "../../VideoDescriptionPortal.js";
+import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
+import MicIcon from '@material-ui/icons/Mic';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+
 const Container=styled.div`
 	position:absolute;
 	width:50%;
@@ -53,6 +58,14 @@ const BlogTitle=styled.textarea`
 	padding:5px;
 `;
 
+const VideoDescriptionContainer=styled.div`
+	position:relative;
+	width:60px;
+	height:50px;
+	border-radius:50%;
+`;
+
+
 
 class BlogEditSubmitModal extends Component{
 
@@ -66,7 +79,11 @@ class BlogEditSubmitModal extends Component{
 			subIndustriesSelected:[],
 			title:"",
 			description:"",
-			blog:""
+			blog:"",
+			displayVideoDescriptionPortal:false,
+			displayVoiceDescriptionPortal:false,
+			videoDescription:null,
+			audioDescription:null	
 		}
 	}
 
@@ -111,6 +128,9 @@ class BlogEditSubmitModal extends Component{
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const industries=this.state.industriesSelected;
 		const selectedSubCommunities=this.state.subIndustriesSelected;
+		const videoDescription=this.state.videoDescription;
+		const audioDescription=this.state.audioDescription;
+
 		const searchCriteriaIndustryArray=[];
 		var counter=0;
 		for(var i=0;i<industries.length;i++){
@@ -144,7 +164,9 @@ class BlogEditSubmitModal extends Component{
 			description:description,
 			industryArray:searchCriteriaIndustryArray,
 			blog:rawDraftContentState,
-			imgUrl:this.state.pictureUrl
+			imgUrl:this.state.pictureUrl,
+			videoDescription:videoDescription,
+			audioDescription:audioDescription
 		}
 			//Quick fix but this could be implemented in a better way
 
@@ -156,6 +178,42 @@ class BlogEditSubmitModal extends Component{
 			}
 	}
 
+	setUpVideoDescriptionCreation=()=>{
+		this.setState({
+			displayVideoDescriptionPortal:true,
+			displayVoiceDescriptionPortal:false
+		})
+	}
+
+	setUpVoiceDescriptionCreation=()=>{
+		this.setState({
+			displayVideoDescriptionPortal:false,
+			displayVoiceDescriptionPortal:true
+		})
+	}
+
+	closeModal=()=>{
+		this.setState({
+			displayVideoDescriptionPortal:false,
+			displayVoiceDescriptionPortal:false
+		})
+	}
+
+	createVideoDescription=(videoDescriptionSrc)=>{
+		this.setState({
+			videoDescription:videoDescriptionSrc,
+			displayVideoDescriptionPortal:false
+		})
+	}
+
+	createAudioDescription=(audioDescriptionSrc)=>{
+		this.setState({
+			audioDescription:audioDescriptionSrc,
+			displayVoiceDescriptionPortal:false
+		})
+	}
+
+
 	render(){
 		return(
 			<BlogConsumer>
@@ -163,6 +221,24 @@ class BlogEditSubmitModal extends Component{
 					 <PostConsumer>
 								{profilePostInformation=>(
 									  <Container>	
+
+											{this.state.displayVideoDescriptionPortal==false?
+												null:
+												<VideoDescriptionPortal
+													closeModal={this.closeModal}
+													createVideoDescription={this.createVideoDescription}
+													isBlog={true}
+												/>
+											}
+											{this.state.displayVoiceDescriptionPortal==false?
+												null:
+												<VoiceDescriptionPortal
+													closeModal={this.closeModal}
+													createAudioDescription={this.createAudioDescription}
+													isBlog={true}
+												/>
+											}
+
 												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:'none',marginLeft:"5%",marginTop:"5%"}}>
 														<ul style={{padding:"0px"}}>
@@ -223,6 +299,54 @@ class BlogEditSubmitModal extends Component{
 
 																						</ul>
 																	 </li>
+																	 <li style={{listStyle:"none"}}>
+																		<ul style={{padding:"0px"}}>
+																			<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
+																				Create either a video or voice description for your image. Much more interesting than regular text imo ;)
+																			</li>
+																			<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px",marginLeft:"10%"}}>
+																				<ul style={{padding:"10px"}}>
+																					<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
+																						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																							<MicIcon
+																								style={{fontSize:40}}
+																							/>
+																						</a>
+																					</li>
+
+																					<li onClick={()=>this.setUpVideoDescriptionCreation()} style={{listStyle:"none",display:"inline-block"}}>
+																						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																							<CameraAltIcon
+																								style={{fontSize:40}}
+																							/>
+																						</a>
+																					</li>
+																				</ul>
+																			</li>
+																		</ul>
+																	</li>
+
+																	 
+																	 		<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
+																				{this.state.videoDescription==null?null:
+																					<li style={{listStyle:"none"}}>
+																						<VideoDescriptionContainer>
+																							<video width="100%" height="100%" borderRadius="50%" autoplay="true">
+																								<source src={this.state.videoDescription} type="video/mp4"/>
+																							</video>
+																						</VideoDescriptionContainer>
+																					</li>
+																				}
+																				{this.state.audioDescription==null?null:
+																					<li style={{listStyle:"none"}}>
+																						<audio controls>
+																						  <source src={this.state.audioDescription} type="audio/ogg"/>
+																						  <source src={this.state.audioDescription} type="audio/mpeg"/>
+																						Your browser does not support the audio element.
+																						</audio>
+																					</li>
+																				}
+																			</ul>
 																</ul>:
 																<React.Fragment>
 																	<li style={{top:"-280px",listStyle:"none"}}>

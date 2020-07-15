@@ -44,6 +44,12 @@ const SubmitButton=styled.div`
 	border-radius:5px;
 
 `;
+const VideoDescriptionContainer=styled.div`
+	position:relative;
+	width:50px;
+	height:60px;
+	border-radius:50%;
+`;
 
 const TextOptionsCSS={
 	listStyle:"none",
@@ -54,7 +60,7 @@ const TextOptionsCSS={
 }
 
 const TextOptions=(props)=>{
-
+	console.log(props);
 	const changeBold=()=>{
 
 	}
@@ -180,12 +186,31 @@ const TextOptions=(props)=>{
 
 										</ul>
 									</li>
-									<li style={{listStyle:"none"}}>
+									<li style={{listStyle:"none",marginBottom:"3%"}}>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 											<SubmitButton onClick={()=>props.displayEditBlogSubmitModal()}>
 												Submit
 											</SubmitButton>
 										</a>
+									</li>
+									<li style={{listStyle:"none"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<VideoDescriptionContainer>
+													<video width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
+																	<source src={props.blogState.videoDescription} type="video/mp4"/>
+													</video>
+												</VideoDescriptionContainer>
+											</li>
+
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<audio controls>
+															  <source src={props.blogState.audioDescription} type="audio/ogg"/>
+															  <source src={props.blogState.audioDescription} type="audio/mpeg"/>
+															Your browser does not support the audio element.
+												</audio>
+											</li>
+										</ul>
 									</li>
 								</ul>
 							</Container>

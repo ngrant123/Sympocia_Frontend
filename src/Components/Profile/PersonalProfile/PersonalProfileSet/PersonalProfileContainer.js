@@ -28,13 +28,12 @@ import { withRouter } from "react-router-dom";
 import {PostDisplayProvider} from "../PostDisplayModalContext.js";
 import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
+import RegularPostContainer from "../../../GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
 import ChampionModal from "./ChampionModalPortal/ChampionDisplayModal.js";
 import Confetti from 'react-confetti';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+import CreationPortal from "./PostCreationPortal.js";
 
-
-
-import VideoDescriptionPortal from "../../../GeneralComponents/PostComponent/ImageComponent/VideoDescriptionPortal.js";
-//import VoiceDescriptionPortal from "../VoiceDescriptionPortal.js";
 
 const Container=styled.div`
 
@@ -252,7 +251,7 @@ const ShadowContainer= styled.div`
 const ImagePopupContainer=styled.div`
 	margin-left:20%;
 	margin-top:10%;
-	position:relative;
+	position:fixed;
 	width:70%;
 	height:60%;
 	background-color:white;
@@ -262,11 +261,40 @@ const ImagePopupContainer=styled.div`
 `;
 
 const PostPopupContainer=styled.div`
-	margin-left:20%;
+	position:fixed;
+	margin-left:10%;
+	z-index:12;
 	margin-top:5%;
 
 `;
 
+const CreatePostButton=styled.div`
+	width:70px;
+	height:70px;
+	border-radius:50%;
+	background-color:white;
+	border-color:white;
+	border-style:solid;
+	padding:15px;
+	border-width:5px;
+	animation: glowing 1300ms infinite;
+
+
+	@keyframes glowing {
+      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+  }
+`;
+
+
+const ChampionAndCreateButtonCSS={
+	position:"fixed",
+	padding:"0px",
+	left:"68%",
+	zIndex:"12",
+	top:"75%"
+}
 
 class LProfile extends Component{
 
@@ -283,7 +311,6 @@ class LProfile extends Component{
 			displayImages:false,
 			displayImageModal:false,
 		    displayVideos:false,
-		    displayVideoModal:false,
 		    videoData:{},
 		    displayBlogs:false,
 		    isOwnProfile:false,
@@ -299,10 +326,9 @@ class LProfile extends Component{
 		    blogModalData:{},
 		    displayRegularPostModal:false,
 		    regularModalData:{},
-		    //TESTING 
-		    isLoading:true,
 		    displayChampionModal:false,
 		    champion:{},
+		    displayCreationPortal:false,
 		    displayChampionModal:(championData)=>{
 		    	debugger;
 		    	this.setState({
@@ -324,9 +350,9 @@ class LProfile extends Component{
 
 		 }else{
 				if(id==this.props.personalId){
-					
 					const profile=await getProfile(this.props.personalId);
 					debugger;
+					console.log(profile);
 					var containsChampion=false;
 					if(profile.championData!=null)
 						containsChampion=profile.championData.name!=""?true:false;
@@ -558,6 +584,27 @@ class LProfile extends Component{
 			<React.Fragment></React.Fragment>
 	}
 
+	RegularPostModal=()=>{
+		debugger;
+		var newRegularPostObject={};
+		if(this.state.isLoading!=true){
+			newRegularPostObject={
+				...this.state.regularModalData,
+				firstName:this.state.userProfile.firstName,
+				profilePicture:this.state.userProfile.profilePicture,
+				lastName:this.state.userProfile.lastName
+			}
+		}
+		return this.state.displayRegularPostModal?
+			<PostPopupContainer>
+				<RegularPostContainer
+					postData={newRegularPostObject}
+					profileType="personalProfile"
+				/>
+			</PostPopupContainer>:
+			<React.Fragment></React.Fragment>
+	}
+
 	BlogModal=()=>{
 
 	}
@@ -572,6 +619,12 @@ class LProfile extends Component{
 				displayConfetti:false
 			})
 		},5000);
+	}
+
+	closeCreationPortal=()=>{
+		this.setState({
+			displayCreationPortal:false
+		})
 	}
 
 
@@ -620,11 +673,6 @@ class LProfile extends Component{
 								 run={true}
 							/>
 						:<React.Fragment></React.Fragment>}
-				
-
-						{this.state.isLoading==true?null:<VideoDescriptionPortal/>}
-
-
 
 						{this.state.displayShadowBackground==true?
 								<ShadowContainer
@@ -641,6 +689,7 @@ class LProfile extends Component{
 						{this.ImageModal()}
 						{this.VideoModal()}
 						{this.BlogModal()}
+						{this.RegularPostModal()}
 
 						<HeaderContainer>
 							<GeneralNavBar/>
@@ -692,16 +741,34 @@ class LProfile extends Component{
 							<PersonalPostsIndex
 								displayShadowOverlay={this.displayShadow}
 								disappearShadow={this.disappearShadow}
+								displayCreationPortal={this.state.displayCreationPortal}
+								closeModal={this.closeCreationPortal}
 							/>
 						</PostInformationContainer>
 
-						{this.state.displayChampion==false?
-							<React.Fragment>
-							</React.Fragment>:
-							<ChampionModal
-								championData={this.state.champion}
-							/>
-						}
+						<ul style={ChampionAndCreateButtonCSS}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>this.setState({displayCreationPortal:true})} style={{listStyle:"none",marginLeft:"400px",marginBottom:"5%"}}>
+									<CreatePostButton>
+										<BorderColorIcon
+											style={{fontSize:"30",color:"#C8B0F4"}}
+										/>
+									</CreatePostButton>
+								</li>
+							</a>
+
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li style={{listStyle:"none"}}>
+									{this.state.displayChampion==false?
+										<React.Fragment>
+										</React.Fragment>:
+										<ChampionModal
+											championData={this.state.champion}
+										/>
+									}
+								</li>
+							</a>
+						</ul>
 					</Container>
 			</PostDisplayProvider>
 		</UserProvider>

@@ -6,7 +6,7 @@ import BuildSharpIcon from '@material-ui/icons/BuildSharp';
 
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
-import {concatVideoTogether} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+//import {concatVideoTogether} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 //<Icon icon={scissorsCutting} />
@@ -72,6 +72,14 @@ const VideoResultContainerCSS={
 
 const VideoDescriptionPortal=(props)=>{
 	console.log("Testing video description");
+	var targetContainer;
+	if(props.isBlog==true){
+		targetContainer=document.getElementById("blogPostContainer")
+	}else{
+		targetContainer=document.getElementById("personalContainer");
+	}
+
+
 
 	const [maxTime,changeMaxTime]=useState(10000);
 	const [currentTime,changeCurrentTime]=useState(0);
@@ -122,8 +130,9 @@ const VideoDescriptionPortal=(props)=>{
 							  	 chnagFirstFone(true)
 							}
 						  	 reader.readAsDataURL(recordedFile);
+
+
 					  	 }
-					  	 
 					  }).catch(function (error) {
 				      console.log("Something went wrong!");
 				      console.log(error);
@@ -333,7 +342,7 @@ const VideoDescriptionPortal=(props)=>{
 					</ul>
 			</Container>
 		</React.Fragment>
-	,document.getElementById("personalContainer"))
+	,targetContainer)
 };
 
 export default VideoDescriptionPortal;

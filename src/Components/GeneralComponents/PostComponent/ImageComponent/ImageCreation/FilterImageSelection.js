@@ -27,7 +27,6 @@ const DisplayImagesCSS={
 	marginBottom:"2%"
 }
 class FilterImageSelection extends Component{
-
 /*
 conditional expression in processed image component
 

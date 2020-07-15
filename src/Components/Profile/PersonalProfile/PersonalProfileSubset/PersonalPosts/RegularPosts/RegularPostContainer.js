@@ -3,9 +3,13 @@ import styled from "styled-components";
 import {getRegularPostFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getCompanyRegularPosts} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import NoPostsModal from "../NoPostsModal.js";
-import {UserConsumer} from "../../../UserContext.js";
 import { convertFromRaw,EditorState } from 'draft-js';
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
+
+import SmallRegularPost from "./SmallRegularPostsContainer.js";
+import HeaderPost from "./HeaderRegularPost.js";
+import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
+import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -21,7 +25,6 @@ const RegularPostContainer=styled.div`
 	width:102%;
 	height:30%;
 	border-radius:5px;
-	box-shadow: 10px 10px 20px 	#dbdddf;
 `;
 
 const ProfilePicture=styled.div`
@@ -84,42 +87,31 @@ class RegularPostsContainer extends Component{
 		super(props);
 		console.log("Regular  Post component");
 		this.state={
-			regularPosts:[{
-				commenterImages:[{},{},{},{},{},{},{},{},{},{},{},{}]
-			},
-			{commenterImages:[{},{},{},{},{},{},{},{},{},{},{},{}]},
-			{commenterImages:[{},{}]},
-			{commenterImages:[{}]}],
-			isLoading:true
+			regularPosts:[],
+			headerPost:null,
+			isLoading:false
 		}
 	}
 
 	async componentDidMount(){
 		debugger;
-
+		var regularPosts;
 		if(this.props.profile=="Personal"){
-			const regularPosts=await getRegularPostFromUser(this.props.id);
-			const newRegularPosts=await this.constructRegularPosts(regularPosts);
+			regularPosts=await getRegularPostFromUser(this.props.id,"Personal");
+			//const newRegularPosts=await this.constructRegularPosts(regularPosts);
 				debugger;
-				console.log(regularPosts);
-				console.log(newRegularPosts);
-				this.setState({
-					regularPosts:newRegularPosts,
-					isLoading:false
-				})
+				//console.log(regularPosts);
 		}else{									
-			const regularPosts=await getCompanyRegularPosts(this.props.id);
-			const newRegularPosts=await this.constructRegularPosts(regularPosts);
+			regularPosts=await getCompanyRegularPosts(this.props.id,"Company");
+		//	const newRegularPosts=await this.constructRegularPosts(regularPosts);
 			debugger;
+			//console.log(regularPosts);
+		}
 
-			console.log(newRegularPosts);
-			console.log(regularPosts);
-
-				this.setState({
-					regularPosts:newRegularPosts,
-					isLoading:false
-				})
-			}
+			this.setState({
+				regularPosts:regularPosts,
+				isLoading:false
+			})
 	}
 
 	constructRegularPosts=(regularPosts)=>{
@@ -139,95 +131,63 @@ class RegularPostsContainer extends Component{
 		return regularPosts;
 	}
 
+	displayPostModal=(profileAction,companyAction,data)=>{
+		debugger;
+		if(profileAction==null)
+			companyAction.handleRegularPostModal(data);
+		else
+			profileAction.handleRegularPostModal(data);
+	}
+
+
 	render(){
 		return(
-			<UserConsumer>
-				{personalInformation=>{
-					return <Container>
-							{this.state.isLoading==true?<p>We are currently getting posts</p>:
-								<React.Fragment>
-									{this.state.regularPosts.length==0 ||this.state.regularPosts==undefined?<NoPostsModal
-																		postType={"post"}
-																		profilePageType={this.props.profile}
-																	/>:
-												<ul style={{padding:"0px"}}>
-													{this.state.regularPosts.map(data=>
-														<li style={{listStyle:"none",marginBottom:"10%",marginRight:"2%"}}>
-															<RegularPostContainer>
-																<ul>
-																	<li style={{listStyle:"none",width:"30%",display:"inline-block",marginTop:"0%"}}>
-																		<ul style={{padding:"0px"}}>
-																			<li style={{listStyle:"none",marginBottom:"2%"}}>
-																				<ProfilePicture>
-																					{personalInformation.userProfile.profilePicture==null?
-																					 	<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-																					 	<img id="profilePicture" src={personalInformation.userProfile.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
-																					}
-																				</ProfilePicture>
-																			</li>
-																			<li style={{listStyle:"none",marginBottom:"2%",marginLeft:"30%"}}>
-																				<b> {personalInformation.userProfile.firstName}</b>
-
-																			</li>
-																			<li style={{textAlign:"center",listStyle:"none",padding:"5px",marginLeft:"12%",width:"60%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"white",backgroundColor:"#5298F8",borderRadius:"5px"}}>
-																				{data.industriesUploaded[0].industry}
-																			</li>
-																			<li style={{listStyle:"none",marginBottom:"2%",marginTop:"5%"}}>
-																				<ul style={{padding:"0px"}}>
-																					<li style={{textAlign:"center",listStyle:"none",width:"30%",display:"inline-block",marginRight:"9%",marginLeft:"5%"}}>
-																						<PostCommentsAndLikesButtons>
-																							24 likes
-																						</PostCommentsAndLikesButtons>
-
-																					</li>
-
-																					<li style={{textAlign:"center",listStyle:"none",width:"40%",display:"inline-block"}}>
-																						<PostCommentsAndLikesButtons>
-																							{data.comments.length} comments
-																						</PostCommentsAndLikesButtons>
-																					</li>
-																				</ul>
-																			</li>
-
-																		</ul>
+			<PostDisplayConsumer>
+				{postDisplayModal=>(
+						<CompanyPostDisplayConsumer>
+							{companyPostDisplayModal=>(
+								<Container>
+									{this.state.isLoading==true?<p>We are currently getting posts</p>:
+										<React.Fragment>
+											{this.state.regularPosts.length==0 ||this.state.regularPosts==undefined?<NoPostsModal
+																				postType={"post"}
+																				profilePageType={this.props.profile}
+																			/>:
+														<ul style={{padding:"0px"}}>
+															{this.state.headerPost==null?null:
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<li onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,this.state.headerPost)} style={{listStyle:"none",marginBottom:"2%"}}>
+																		<HeaderPost
+																			post={this.state.headerPost}
+																			profilePicture={this.props.profilePicture}
+																		/>	
 																	</li>
-
-																	<li style={{listStyle:"none",display:"inline-block"}}>
-																		<ul style={{padding:"0px"}}>
-																			<li style={{listStyle:"none"}}>
-																				<Post>
-																					{data.post}
-
-																				</Post>
-																			</li>
-																			{data.comments.length>0?
-																				<li style={{listStyle:"none",marginTop:"2%",height:"30%"}}>
-																					<CommentsProfile>
-																						{data.commenterImages.map(commentData=>
-																							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																								<SmallProfileCommentPicture/>
-																							</li>
-																						)}
-																					</CommentsProfile>
-																				</li>:
-																				<React.Fragment></React.Fragment>}
-																			
-
-																		</ul>
-																	</li>
-																</ul>
-															</RegularPostContainer>
-														</li>
-
-													)}
-												</ul>
-
+																</a>
+															}
+															<hr/>
+															<li style={{listStyle:"none"}}>
+																	<ul style={{padding:"0px"}}>
+																		{this.state.regularPosts.map(data=>
+																			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																				<li  onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,data)} style={{width:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
+																					<SmallRegularPost
+																						post={data}
+																						profilePicture={this.props.profilePicture}
+																					/>
+																				</li>
+																			</a>
+																		)}
+																	</ul>
+																</li>
+														</ul>
+												}
+											</React.Fragment>
 										}
-									</React.Fragment>
-								}
-							</Container>
-				}}
-			</UserConsumer>
+									</Container>
+							)}
+						</CompanyPostDisplayConsumer>
+					)}
+			</PostDisplayConsumer>
 		)
 	}
 }

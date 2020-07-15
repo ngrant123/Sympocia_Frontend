@@ -61,7 +61,7 @@ const RecruitButton=styled.div`
 	position:relative;
 	color:white;
 	padding:10px;
-	background-color:white;
+	background-color:#C8B0F4;
 	border-radius:5px;
 
 

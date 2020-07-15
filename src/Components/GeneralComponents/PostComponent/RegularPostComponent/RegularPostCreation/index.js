@@ -23,10 +23,19 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertToRaw} from 'draft-js';
 
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+import MicIcon from '@material-ui/icons/Mic';
+import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+
 const Container = styled.div`
-	position:relative;
-	width:100%;
+	position:fixed;
+	padding:40px;
+	width:70%;
 	background-color:white;
+	border-radius:5px;
+	top:20%;
+	left:20%;
 
 `;
 
@@ -89,6 +98,50 @@ const Photo=styled.div`
 	visibility:hidden;
 `;
 
+const InputContainer=styled.textarea`
+	position:relative;
+	border-radius:5px;
+	width:60%;
+	height:150px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#D8D8D8;
+	resize:none;
+	padding:5px;
+`;
+
+const ButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginRight:"5%"
+}
+
+const RegularPostBackButton={
+  listStyle:"none",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginRight:"5%",
+  width:"30%",
+  marginBottom:"3%"
+}
+
+/*
+	 Right now the plan for the future is to incorporate the blog post options into the text field 
+	 but right now a simple textfield will have to do
+*/
+
  const RegularPostCreation=(props)=>{
 	const [displayCameraModal,changeDisplayCameraModal]=useState(false);
 	const [postContents,changePostContents]=useState("");
@@ -118,6 +171,13 @@ const Photo=styled.div`
 
 	const {personalInformation}=useSelector(state=>state);
 	const [editorState,changeEditorState]=useState();
+
+
+	const [displayAudioORTextScreen,changeAudioOrTextScreenChoice]=useState(true);
+	const [displayAudioPostOption,changeDisplayAudioPostOption]=useState(false);
+	const [audioDescription,changeAudioDescription]=useState();
+	const [createRegularPostDescription,changeRegularPostDescription]=useState();
+
 	console.log(props);
 
 	/*
@@ -566,9 +626,9 @@ const sendRegularPost=async(profilePostType)=>{
 		debugger;
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const searchCriteriaIndustryArray=[];
-		const content=editorState;
-		const rawDraftContentState = JSON.stringify(convertToRaw(content.getCurrentContent()));
-
+		//const content=editorState;
+		//const rawDraftContentState = JSON.stringify(convertToRaw(content.getCurrentContent()));
+		const post=audioDescription!=null?audioDescription:document.getElementById("textContainer").value
 		const industries=industriesSelected;
 		const selectedSubCommunities=subIndustriesSelected; 
 
@@ -598,8 +658,9 @@ const sendRegularPost=async(profilePostType)=>{
 				searchCriteriaIndustryArray.push(searchObject);
 		}
 		const searchCriteriaObject={
-			post:rawDraftContentState,
-			industryArray:searchCriteriaIndustryArray
+			post:post,
+			industryArray:searchCriteriaIndustryArray,
+			isAudioPost:(audioDescription==null)?null:true
 		}
 
 		const {id}=personalInformation;
@@ -612,6 +673,26 @@ const sendRegularPost=async(profilePostType)=>{
 	}
 	const onEditorStateChange=(editorState)=>{
 		changeEditorState(editorState);
+	}
+
+	const closeModal=()=>{
+		changeAudioOrTextScreenChoice(true);
+	}
+
+	const handleCreateAudioDescription=(audioDescriptionSrc)=>{
+		changeAudioDescription(audioDescriptionSrc);
+		changeAudioOrTextScreenChoice(true);
+	}
+
+	const diplayRegularPostCreation=()=>{
+		changeAudioOrTextScreenChoice(false);
+		changeRegularPostDescription(true);
+
+	}
+
+	const displayAudioPostCreation=()=>{
+		changeAudioOrTextScreenChoice(false);
+		changeDisplayAudioPostOption(true);
 	}
 
 
@@ -630,15 +711,77 @@ const sendRegularPost=async(profilePostType)=>{
 										</li>
 									</ul>
 								</li>
-								<li style={{listStyle:"none"}}>
-									<Editor
-									  editorState={editorState}
-									  toolbarClassName="toolbarClassName"
-									  wrapperClassName="wrapperClassName"
-									  editorClassName="editorClassName"
-									  onEditorStateChange={onEditorStateChange}
-									/>
+
+								<li style={{listStyle:"none",marginTop:"5%"}}>
+									{displayAudioORTextScreen==true?
+										<ul style={{padding:"0px"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li style={ButtonCSS} onClick={()=>diplayRegularPostCreation()}>
+													<BorderColorIcon/> Write Post
+												</li>
+											</a>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+												Or
+											</li>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li onClick={()=>displayAudioPostCreation()} style={ButtonCSS}>
+													<MicIcon/> Say Post
+												</li>
+											</a>
+
+											<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+												{audioDescription!=null?
+														<audio controls>
+															<source src={audioDescription} type="audio/ogg"/>
+															<source src={audioDescription} type="audio/mpeg"/>
+															Your browser does not support the audio element.
+														</audio>:null
+												}
+											</li>
+										</ul>:
+										<React.Fragment>
+											{displayAudioPostOption==true?
+												<VoiceDescriptionPortal
+													closeModal={closeModal}
+													createAudioDescription={handleCreateAudioDescription}
+												/>
+												:<React.Fragment>
+													<ul style={{padding:"0px"}}>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<li style={RegularPostBackButton} onClick={()=>changeAudioOrTextScreenChoice(true)}>	
+																<ul>
+																	<li style={{listStyle:"none",display:"inline-block"}}>
+																		<ArrowBackIosIcon
+																			style={{fontSize:"20"}}
+																		/>
+																	</li>
+																	<li style={{listStyle:"none",display:"inline-block"}}>
+																		Back
+																	</li>
+																</ul>
+															</li>
+														</a>
+														<li style={{listStyle:"none"}}>
+															<InputContainer id="textContainer" placeholder="Create your post here"/>
+														</li>
+													</ul>
+
+												</React.Fragment>
+											}
+										</React.Fragment>
+									}
+									
+									{/*
+										<Editor
+										  editorState={editorState}
+										  toolbarClassName="toolbarClassName"
+										  wrapperClassName="wrapperClassName"
+										  editorClassName="editorClassName"
+										  onEditorStateChange={onEditorStateChange}
+										/>
+									*/}
 								</li>
+							{/*
 								<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",marginRight:"-1%"}}>
 											<div class="dropdown">
 													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
@@ -659,8 +802,10 @@ const sendRegularPost=async(profilePostType)=>{
 													</ul>
 							  				 </div>
 								</li>
-								<li style={{listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px",marginLeft:"80%"}}>
-										<a href="javascript:void(0);">
+							*/}
+								
+								<li style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 											<ul onClick={()=>sendRegularPost(userInformation.profileType)} style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 													<SendIcon

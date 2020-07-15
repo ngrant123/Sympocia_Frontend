@@ -4,10 +4,10 @@ import Video from "./Video.js";
 import RecommendedVideos from "./RecommendedVideos.js";
 
 const Container=styled.div`
-	position:relative;
+	position:fixed;
 	width:100%;
-	height:100%;
-	z-index:9;
+	height:70%;
+	z-index:12;
 	border-radius:5px;
 	background-color:white;
 	border-radius:5px;

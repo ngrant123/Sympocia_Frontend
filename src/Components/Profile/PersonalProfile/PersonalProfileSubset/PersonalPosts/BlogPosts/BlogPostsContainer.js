@@ -59,6 +59,17 @@ const BlogContainer=styled(Link)`
 
 `;
 
+const VideoDesriptionContainer=styled.div`
+	position:absolute;
+	width:30%;
+	height:30%;
+	border-radius:50%;
+	top:70%;
+	left:2%;
+	z-index:8;
+`;
+
+
 
 
 
@@ -213,8 +224,20 @@ class BlogsPostsContainer extends Component{
 																		<SmallBlogComponent>
 																			<ul style={{padding:"0px"}}>
 																				<li style={{listStyle:"none"}}>
+																					<audio controls>
+																					  <source src={data.audioDescription} type="audio/ogg"/>
+																					  <source src={data.audioDescription} type="audio/mpeg"/>
+																					  Your browser does not support the audio element.
+																					</audio>
+																				</li>
+																				<li style={{listStyle:"none"}}>
 																					<SmallBlog>
 																						<img src={data.blogImageUrl} width="100%" height="100%"/>
+																						<VideoDesriptionContainer>
+																							   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																									<source src={data.videoDescription} type="video/mp4"/>
+																								</video>
+																						</VideoDesriptionContainer>
 																					</SmallBlog>
 																				</li>
 

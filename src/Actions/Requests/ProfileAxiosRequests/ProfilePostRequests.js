@@ -284,6 +284,37 @@ export const removeSymposium=async(profileId,symposium,subSymposium)=>{
 	}
 }
 
+export const concatVideoTogether=async(videos)=>{
+	try{
+		const concatedVideos=await axios.post(`${CreateUrl}/concatVideos`,{
+			videosArray:videos
+		});
+		const {data}=concatedVideos;
+		return data.data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+
+}
+
+export const updateCrownedImage=async(_id,updatedStatus,imageId)=>{
+	try{
+		const updatedImage=await axios.post(`${CreateUrl}/updateCrownedImage`,{
+			_id:_id,
+			updateStatus:updatedStatus,
+			imageId:imageId
+		});
+
+		const {confirmation}=updatedImage;
+		return confirmation;
+		
+	}catch(err){
+		console.log(err.message);
+		return err;
+	}
+}
+
 
 
 

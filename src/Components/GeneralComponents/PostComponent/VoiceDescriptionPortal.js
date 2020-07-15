@@ -6,8 +6,9 @@ import BuildSharpIcon from '@material-ui/icons/BuildSharp';
 
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
-import {concatVideoTogether} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import RefreshIcon from '@material-ui/icons/Refresh';
+
+import MicIcon from '@material-ui/icons/Mic';
 
 //<Icon icon={scissorsCutting} />
 
@@ -23,12 +24,12 @@ const ShadowContainer= styled.div`
 const Container=styled.div`
 	position:fixed;
 	background-color:white;
-	width:70%;
+	width:50%;
 	top:20%;
-	left:20%;
+	left:30%;
 	z-index:23;
-	height:70%;
-	top:10%;
+	height:60%;
+	top:20%;
 	border-radius:5px;
 `;
 
@@ -68,10 +69,54 @@ const VideoResultContainerCSS={
 	overflowY:"scroll"
 }
 
+const StartButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec"
+}
+
+const StopButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#C8B0F4",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#C8B0F4"
+}
+
+const ContinueButtonCSS={
+  listStyle:"none",
+  backgroundColor:"#C8B0F4",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"white",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#C8B0F4",
+  marginTop:"2%",
+  width:"30%"
+}
+
 //"blob:http://localhost:3000/9b5bb4e0-de5b-4e15-b127-1f05aeaaeb36"
 
-const VideoDescriptionPortal=(props)=>{
+const VoiceDescriptionPortal=(props)=>{
 	console.log("Testing video description");
+		var targetContainer;
+	if(props.isBlog==true){
+		targetContainer=document.getElementById("blogPostContainer")
+	}else{
+		targetContainer=document.getElementById("personalContainer");
+	}
+	
 
 	const [maxTime,changeMaxTime]=useState(10000);
 	const [currentTime,changeCurrentTime]=useState(0);
@@ -85,15 +130,10 @@ const VideoDescriptionPortal=(props)=>{
 	useEffect(()=>{
 		var video=document.getElementById("video");
 				if (navigator.mediaDevices.getUserMedia){
-					  navigator.mediaDevices.getUserMedia({ 
-					  		video: true,
+					  navigator.mediaDevices.getUserMedia({
 					  		audio:true 
-					  	}).then(function(stream) {
-					      video.srcObject = stream;
-					      video.captureStream = video.captureStream || video.mozCaptureStream;
-					    })
-				    .then(()=>handleRecording(video.captureStream()))
-				    .then(recordedChunks=>{
+					  	}).then(stream=>handleRecording(stream))
+				   		.then(recordedChunks=>{
 					  	 debugger;
 					  	 if(recordedChunks!=null){
 					  	 	console.log("Recorded chunks");
@@ -108,7 +148,7 @@ const VideoDescriptionPortal=(props)=>{
 								var currentVideoElements=videoElements;
 
 								const videoObject={
-									videoSrc:reader.result,
+									audioSrc:reader.result,
 									videoFile:recordedFile,
 									videoCounter:currentVideoElements.length
 								}
@@ -189,8 +229,8 @@ const VideoDescriptionPortal=(props)=>{
 						debugger;
 					  	 if(recordedChunks!=null){
 					  	 	console.log("Recorded chunks");
-						  	let recordedFile = new File(recordedChunks, { type: "video/webm" });
-						  	var videoSrc=URL.createObjectURL(recordedFile);
+						  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
+						  	var audioSrc=URL.createObjectURL(recordedFile);
 
 						  
 						  	var reader=new FileReader();
@@ -200,7 +240,7 @@ const VideoDescriptionPortal=(props)=>{
 								console.log(reader.result);
 
 								const videoObject={
-									videoSrc:reader.result,
+									audioSrc:reader.result,
 									videoFile:recordedFile,
 									videoCounter:currentVideoElements.length
 								}
@@ -218,7 +258,7 @@ const VideoDescriptionPortal=(props)=>{
 						  	 /*
 						  	 	 const newVideoElement=document.createElement('video');
 						  	 		const newVideoElementSource=document.createElement('source');
-						  	 newVideoElementSource.src=videoSrc;
+						  	 newVideoElementSource.src=audioSrc;
 						  	 newVideoElement.append(newVideoElementSource);
 						  	 */
 					  	 }
@@ -230,7 +270,7 @@ const VideoDescriptionPortal=(props)=>{
 	const submitVideoDescription=()=>{
 		debugger;
 		if(videoElements.length>0){
-			props.createVideoDescription(videoElements[0].videoSrc);
+			props.createAudioDescription(videoElements[0].audioSrc);
 		}else{
 			alert('Create a video to continue or press the exit button on the top left');
 		}
@@ -272,68 +312,59 @@ const VideoDescriptionPortal=(props)=>{
 			/>
 			<Container>
 				{test()}
-						{videoElements.length>0?
-							<ul style={VideoResultContainerCSS}>
-								{videoElements.map(data=>
-									<li style={{listStyle:"none",marginBottom:"4%"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<VideoResultContainer>
-													<video id={'video'+data.videoCounter} width="100%" height="100%" autoplay="true" muted>
-														<source src={data.videoSrc} type="video/mp4"/>
-													</video>
-											</VideoResultContainer>
-										</a>
-									</li>
-								)}
-							</ul>:null
-						}
-					
+				<ul style={{marginLeft:"20%",marginTop:"10%"}}>
+					<li style={{listStyle:"none",marginBottom:"5%"}}>
+						<p>Click start recording to get started and then when you're all done click the continue buttonp</p>
+						<p> 
+							<b>If audio is messed up click redo button and just do it again sorry :(</b>
+						</p>
+					</li>
+					<li style={{listStyle:"none",marginBottom:"5%",marginTop:"10%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+								<MicIcon
+									style={{fontSize:50}}
+								/>
+							</li>
 
-					<video id="video" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true" zIndex="2">
-					</video>
-
-					<ul style={{marginLeft:"40%",marginTop:"-10%",padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<ClipVideoContainer onClick={()=>reDoVideo()}>
-									<RefreshIcon
-										style={{fontSize:40,color:"white"}}
-									/>
-								</ClipVideoContainer>
-							</a>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<RecordButton>
-									{isRecording==false?
-										<PlayArrowIcon
-											onClick={()=>startRecording()}
-											style={{fontSize:40,color:"#C8B0F4"}}
-										/>:<PauseIcon
-												onClick={()=>stopRecording(document.getElementById("video").captureStream())}
-												style={{fontSize:40,color:"#C8B0F4"}}
-										/>
-									}
-
-								</RecordButton>
-							</a>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<SubmitVideoDescriptionContainer>
+							{isRecording==false?
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ReplyIcon
-										onClick={()=>submitVideoDescription()}
-										style={{fontSize:40,color:"white",zIndex:"4"}}
-									/>
+									<li onClick={()=>startRecording()} style={StartButtonCSS}>
+										Start Recording
+									</li>
+								</a>:
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>stopRecording()} style={StopButtonCSS}>
+										Stop Recording
+									</li>
 								</a>
-							</SubmitVideoDescriptionContainer>
-						</li>
-					</ul>
+							}
+							<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+								<RefreshIcon
+									onClick={()=>reDoVideo()}
+									style={{fontSize:20}}
+								/>
+							</li>
+						</ul>
+					</li>
+					{videoElements.length>0?
+						<li style={{listStyle:"none"}}>
+							<audio controls>
+							  <source src={videoElements[0].audioSrc} type="audio/ogg"/>
+							  <source src={videoElements[0].audioSrc} type="audio/mpeg"/>
+							Your browser does not support the audio element.
+							</audio>
+						</li>:null
+					}
+					
+					<li onClick={()=>submitVideoDescription()} style={ContinueButtonCSS}>
+						Continue
+					</li>
+
+				</ul>
 			</Container>
 		</React.Fragment>
-	,document.getElementById("personalContainer"))
+	,targetContainer)
 };
 
-export default VideoDescriptionPortal;
+export default VoiceDescriptionPortal;

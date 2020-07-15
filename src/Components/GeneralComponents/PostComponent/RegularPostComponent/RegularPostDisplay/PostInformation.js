@@ -1,5 +1,6 @@
 import React,{useState,Component} from "react";
 import styled from "styled-components";
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 
 
 const PostContentAndCommentsButtons=styled.div`
@@ -11,8 +12,8 @@ const PostContentAndCommentsButtons=styled.div`
 
 const PostContent=styled.div`
 	position:relative;
-	width:130%;
-	max-height:250px;
+	width:90%;
+	height:140px;
 	overflow-y:auto;
 	font-size:20px;
 `;
@@ -40,9 +41,9 @@ const PeopleWhoLikedPostContainer=styled.div`
 	position:relative;
 	top:0%;
 	height:60px;
-	width:500px;
+	width:400px;
 	display:flex;
-	overflow-x:auto;
+	overflow:hidden;
 
 `;
 
@@ -54,9 +55,21 @@ const SmallProfilePicture=styled.div`
 	border-radius:50%;
 `;
 
-const PostInformation=(props)=>{
+const ButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec"
+}
 
-	const [pplWhoLiked,changePplWhoLiked]=useState([{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]);
+const PostInformation=(props)=>{
+	console.log(props);
+	const {post,isAudioPost,comments}=props.userData;
 	const [commentsDisplayed,changeCommentsDisplayStatus]=useState(false);
 
 	const displayComments=()=>{
@@ -73,41 +86,42 @@ const PostInformation=(props)=>{
 	return(
 		<React.Fragment>
 			<ul style={{padding:"0px",position:"absolute"}}>
-		
-				<li style={{listStyle:"none",maxHeight:"80%",marginBottom:"2%"}}>
-					<PostContent id="postContent">
-						Lorem ipsum dolor sit amet, enim aenean integer vitae,
-						nibh eleifend voluptatem fringilla, amet fermentum platea,
-						fusce at scelerisque. Pellentesque id velit tortor maecenas
-						donec, viverra vulputate suspendisse vivamus vel. Commodo elit
-						nunc. In massa vehicula amet eu aliquam, neque magna amet enim,
-						massa dolor, mollis mauris neque, a amet ipsum lectus mus vestibulum.
-					</PostContent>
+				<li style={{marginTop:"-180px",listStyle:"none",maxHeight:"80%",marginBottom:"2%"}}>
+					{isAudioPost==false?
+						<PostContent id="postContent">
+							{post}
+						</PostContent>:
+						<audio style={{width:"90%"}} controls>
+							<source src={post} type="audio/ogg"/>
+							<source src={post} type="audio/mpeg"/>
+							Your browser does not support the audio element.
+						</audio>
+					}
 				</li>
 
 				<li style={{listStyle:"none"}}>
 					<ul style={{padding:"0px"}}>
-				
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"2%"}}>
-							<CommentsAndLikeButtonsContainer>
-								Share
-							</CommentsAndLikeButtonsContainer>	
+						{/*
+							<li style={ButtonCSS}>
+									Share
+							</li>
+						*/}
+
+						<li onClick={()=>displayComments()} style={ButtonCSS}>
+								{commentsDisplayed==false?<p>Comments</p>:<p>Hide Comments</p>}
 						</li>
 
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"2%"}}>
-							<CommentsAndLikeButtonsContainer onClick={()=>displayComments()}>
-								{commentsDisplayed==false?<p>Comments </p>:<p>Hide Comments</p>}
-							</CommentsAndLikeButtonsContainer>	
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block"}}>
+						<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
 							<PeopleWhoLikedPostContainer>
-
-								{pplWhoLiked.map(data=>
+								{comments.map(data=>
 									<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-										<SmallProfilePicture/>
+										<SmallProfilePicture>
+											{data.profilePicture==null?
+												<img src={NoProfilePicture} style={{width:"100%",height:"100%"}}/>:
+												<img src={data.profilePicture} style={{width:"100%",height:"100%"}}/>
+											}
+										</SmallProfilePicture>
 									</li>
-
 								)}
 								
 							</PeopleWhoLikedPostContainer>

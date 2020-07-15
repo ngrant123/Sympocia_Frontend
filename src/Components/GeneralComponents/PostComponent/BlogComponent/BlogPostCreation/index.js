@@ -47,7 +47,8 @@ class BlogPostCreation extends Component{
 			userInformation:{},
 			displayEditButtonSubmitModal:false,
 			blog:"",
-			isPersonalProfile:isPersonalProfile
+			isPersonalProfile:isPersonalProfile,
+			blogState:""
 		}
 
 	}
@@ -70,7 +71,8 @@ class BlogPostCreation extends Component{
 		this.setState({
 			userInformation:this.props.personalInformation,
 			isOwner:isOwner,
-			blogContent:blogContentState
+			blogContent:blogContentState,
+			blogState:this.props.location.state
 		})
 	}
 
@@ -101,13 +103,14 @@ class BlogPostCreation extends Component{
 					})
 				}
 			}}>
-				<Container>
+				<Container id="blogPostContainer">
 					<GeneralNavBar/>
 					<AdditionalInformation
 						blogData={this.props.location.state}
 					/>
 					<TextOptions
 						displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
+						blogState={this.state.blogState}
 				/>
 					<Blog/>
 					{this.editBlogSubmitModal()}

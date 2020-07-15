@@ -6,14 +6,18 @@ import PostContent from "./PostInformation.js";
 
 
 const Container=styled.div`
-	position:relative;
-	width:50%;
-	height:10%;
+	position:fixed;
+	width:60%;
+	height:40%;
+	z-index:9;
+	left:30%;
+	top:40%;
+	border-radius:5px;
 	background-color:white;
-	z-index:3;
 	border-radius:5px;
 	padding:5px;
-
+	box-shadow: 1px 1px 50px #d5d5d5;
+	overflow-y:auto;
 `;
 
 const PostInformationContainer=styled.div`
@@ -28,7 +32,6 @@ const PostContentAndCommentsButtons=styled.div`
 	height:80%;
 	width:800;
 	background-color:blue;
-
 `;
 
 
@@ -99,20 +102,21 @@ const DateContainer=styled.div`
 
 
 const SocialMedaIcon=styled.div`
-
 `;
 
 
 
 
 
-const RegularPostContainer=()=>{
-
+const RegularPostContainer=(props)=>{
+	console.log("Regular Post Display");
+	console.log(props);
 	const [displayCommentsAndResponses,changeDisplayCommentsAndResponses]=useState(false);
 
 	const DisplayCommentsState=()=>{
 		changeDisplayCommentsAndResponses(true);
 	}
+
 	const HideComments=()=>{
 		changeDisplayCommentsAndResponses(false);
 	}
@@ -121,8 +125,9 @@ const RegularPostContainer=()=>{
 		<Container>
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-					<PosterInformation/>
-
+					<PosterInformation
+						userData={props.postData}
+					/>
 				</li>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",height:"20%",overflow:"hidden"}}>
 					{displayCommentsAndResponses==true?
@@ -132,16 +137,12 @@ const RegularPostContainer=()=>{
 					  <PostContent
 							displayComments={DisplayCommentsState}	
 							hideComments={HideComments}
+							userData={props.postData}
 						/>
 
 					}
 				</li>
 			</ul>
-
-
-
-
-
 		</Container>
 
 

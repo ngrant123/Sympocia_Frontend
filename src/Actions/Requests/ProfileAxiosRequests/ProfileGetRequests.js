@@ -233,8 +233,7 @@ export async function getRegularPostFromUser(userId){
 		debugger;
 
 		const {data}=regularPostsResults;
-		const {regularPosts}=data.data;
-		return regularPosts;
+		return data.data;
 
 	}catch(err){
 		console.log(err);

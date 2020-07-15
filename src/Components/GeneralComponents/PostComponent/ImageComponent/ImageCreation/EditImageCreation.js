@@ -15,8 +15,12 @@ import {CompanyPostConsumer} from "../../../../Profile/CompanyProfile/CompanyPos
 
 import MicIcon from '@material-ui/icons/Mic';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
-import VideoDescriptionPortal from "../VideoDescriptionPortal.js";
-import VoiceDescriptionPortal from "../VoiceDescriptionPortal.js";
+import VideoDescriptionPortal from "../../VideoDescriptionPortal.js";
+import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
+
+import { Icon, InlineIcon } from '@iconify/react';
+import crownIcon from '@iconify/icons-mdi/crown';
+
 
 const Container=styled.div`
 	position:fixed;
@@ -35,7 +39,7 @@ const Image=styled.div`
 	position:relative;
 	width:100%;
 	height:100%;
-	overflow:hidden;
+	overflow-y:auto;
 	border-radius:5px;
 `;
 
@@ -60,6 +64,32 @@ const SelectedIndustryButton=styled.div`
 	background-color:#5298F8;
 `;
 
+const VideoDescriptionContainer=styled.div`
+	position:relative;
+	width:90px;
+	height:80px;
+	border-radius:50%;
+`;
+
+const CrownIconContainer=styled.div`
+	position:absolute;
+	border-style:solid;
+	border-width:2px;
+	border-color:red;
+	background-color:red;
+	animation: glowing 1300ms infinite;
+	top:1%;
+	left:75%;
+	border-radius:50%;
+
+
+	@keyframes glowing {
+      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+  }
+`;
+
 class EditImageCreation extends Component{
 
 	constructor(props){
@@ -73,7 +103,10 @@ class EditImageCreation extends Component{
 			subIndustriesSelected:[],
 			displayFilterPictureModal:false,
 			displayVideoDescriptionPortal:false,
-			displayVoiceDescriptionPortal:false
+			displayVoiceDescriptionPortal:false,
+			videoDescription:null,
+			audioDescription:null,
+			isPostCrowned:false
 		}
 	}
 
@@ -116,13 +149,16 @@ class EditImageCreation extends Component{
 
 	sendImageDateToDB=(profilePostInformation,companyPostContextConsumer)=>{
 		debugger;
-		
 
 		console.log("Submit button clicked");
 		const industries=this.state.industriesSelected;
 		const imgUrl=this.state.src;
+		const videoDescription=this.state.videoDescription;
+		const audioDescription=this.state.audioDescription;
 		const selectedSubCommunities=this.state.subIndustriesSelected;
 		const searchCriteriaIndustryArray=[];
+		const isPostCrowned=this.state.isPostCrowned;
+
 		var descriptionTextArea=(this.state.isImageDescriptionCleared==false)?"":document.getElementById("descriptionTextArea").value;
 		var captionTextArea=(this.state.isCaptionCleared==false)?"":document.getElementById("captionTextArea").value;
 
@@ -154,9 +190,12 @@ class EditImageCreation extends Component{
 		debugger;
 		const searchCriteriaObject={
 			imgUrl:imgUrl,
+			videoDescription:videoDescription,
+			audioDescription:audioDescription,
 			industryArray:searchCriteriaIndustryArray,
 			description:descriptionTextArea,
-			caption:captionTextArea
+			caption:captionTextArea,
+			isCrownedPost:isPostCrowned
 		}
 
 		if(profilePostInformation==null){
@@ -246,6 +285,40 @@ class EditImageCreation extends Component{
 		})
 	}
 
+	createVideoDescription=(videoDescriptionSrc)=>{
+		this.setState({
+			videoDescription:videoDescriptionSrc,
+			displayVideoDescriptionPortal:false
+		})
+	}
+
+	createAudioDescription=(audioDescriptionSrc)=>{
+		this.setState({
+			audioDescription:audioDescriptionSrc,
+			displayVoiceDescriptionPortal:false
+		})
+	}
+
+	displayImageIsCrowned=()=>{
+		const crownStatus=this.state.isPostCrowned;
+		const crownElement=document.getElementById("crownIcon");
+
+		if(crownStatus==false){
+			crownElement.style.backgroundColor="#D6C5F4";
+			crownElement.style.color="white";
+			this.setState({
+				isPostCrowned:true
+			})
+			alert('Your post is now crowned');
+		}else{
+			crownElement.style.backgroundColor="white";
+			crownElement.style.color="#C8B0F4";
+			this.setState({
+				isPostCrowned:false
+			})
+		}
+	}
+
 	render(){
 		return(
 			<PostConsumer>
@@ -257,13 +330,15 @@ class EditImageCreation extends Component{
 									{this.state.displayVideoDescriptionPortal==false?
 										null:
 										<VideoDescriptionPortal
-											closeModal={this.closeModal}
+										 	closeModal={this.closeModal}
+											createVideoDescription={this.createVideoDescription}
 										/>
 									}
 									{this.state.displayVoiceDescriptionPortal==false?
 										null:
 										<VoiceDescriptionPortal
 											closeModal={this.closeModal}
+											createAudioDescription={this.createAudioDescription}
 										/>
 									}
 
@@ -272,21 +347,51 @@ class EditImageCreation extends Component{
 											<Image>
 												<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px"}}>
 													<li style={{listStyle:"none"}}>
-														<a href="javascript:;">
+														<a href="javascript:void(0);">
 															<HighlightOffIcon
 																style={{fontSize:30}}
 															/>
 														</a>
 													</li>
 													<li onClick={()=>this.setState({displayFilterPictureModal:true})} style={{listStyle:"none"}}>
-														<a href="javascript:;">
+														<a href="javascript:void(0);">
 															<FormatColorFillIcon
 																style={{fontSize:30}}
 															/>
 														</a>
 													</li>
-
 												</ul>
+												<a href="javascript:void(0);">
+													<CrownIconContainer onClick={()=>this.displayImageIsCrowned()}>
+														<Icon 
+															id="crownIcon"
+															icon={crownIcon}
+															style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
+														/>
+													</CrownIconContainer>
+												</a>
+
+												<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
+													{this.state.videoDescription==null?null:
+														<li style={{listStyle:"none"}}>
+															<VideoDescriptionContainer>
+																<video width="100%" height="100%" borderRadius="50%" autoplay="true">
+																	<source src={this.state.videoDescription} type="video/mp4"/>
+																</video>
+															</VideoDescriptionContainer>
+														</li>
+													}
+													{this.state.audioDescription==null?null:
+														<li style={{listStyle:"none"}}>
+															<audio controls>
+															  <source src={this.state.audioDescription} type="audio/ogg"/>
+															  <source src={this.state.audioDescription} type="audio/mpeg"/>
+															Your browser does not support the audio element.
+															</audio>
+														</li>
+													}
+												</ul>
+
 												{this.state.imgElement}
 											</Image>
 										</li>

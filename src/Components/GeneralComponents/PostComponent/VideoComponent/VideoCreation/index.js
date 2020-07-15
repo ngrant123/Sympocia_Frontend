@@ -4,16 +4,15 @@ import CameraIcon from '@material-ui/icons/Camera';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import EditOrUploadVideoOption from "./EditOrUploadVideoOption.js";
 
-
-const Container = styled.div`
-	position:absolute;
-	width:100%;
-	height:140%;
-	border-radius:5px;
+const Container=styled.div`
+	position:fixed;
+	z-index:21;
 	background-color:white;
-	padding:20px;
-	overflow-y:auto;
-
+	border-radius:5px;
+	top:20%;
+	left:30%;
+	height:40%;
+	overflow:scroll;
 `;
 
 
@@ -42,7 +41,8 @@ const Container = styled.div`
  	}
 
  	const createEditVideoContainer=()=>{
- 		document.getElementById("container").style.height="180%";
+ 		document.getElementById("container").style.height="60%";
+ 		document.getElementById("container").style.width="60%";
  		return <EditOrUploadVideoOption
  					videoSrc={videoUploaded}
  				/>;

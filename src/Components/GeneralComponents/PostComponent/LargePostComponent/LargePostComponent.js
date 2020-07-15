@@ -10,12 +10,19 @@ import PERSONAL_INDUSTRIES from "../../../../Constants/personalIndustryConstants
 import COMPANY_INDUSTRIES from "../../../../Constants/industryConstants.js";
 
 import {PostProvider} from "../PostContext.js";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 
-const Container = styled.div`
+const Container=styled.div`
 	position:fixed;
-	top:0px;
 	z-index:21;
+	background-color:white;
 	border-radius:5px;
+	top:20%;
+	width:50%;
+	left:30%;
+	height:40%;
+	overflow:hidden;
+	padding:30px;
 `;
 
 const IndustryTypeContainer = styled.div`
@@ -54,8 +61,8 @@ const PostOptionsContainer = styled.div`
  	position:absolute;
  	height:100%;
  	width:70%;
- 	left:200px;
- 	overflow:scroll;
+ 	left:10px;
+ 	overflow:hidden;
  	resize:none;
  	padding:20px;
  	font-size:120%;
@@ -253,6 +260,7 @@ class LargePostComponent extends Component{
 
 	constructor(props){
 		super(props);
+		console.log(props);
 		this.state={
 			companyTitle:"CEO",
 			companyName:"Razu",
@@ -271,7 +279,7 @@ class LargePostComponent extends Component{
 		*/
 		console.log(this.props);
 
-		if(this.props.postOption=="regularPost"){
+		if(this.props.postOption=="post"){
 			this.setState({
 				displayElement:<RegularPostCreation 
 										displayProps={this.displayPostOptions}
@@ -291,8 +299,8 @@ class LargePostComponent extends Component{
 
 			this.setState({
 				displayElement:<VideoPostCreation 
-										displayProps={this.displayPostOptions}
-									/>,
+									displayProps={this.displayPostOptions}
+								/>,
 				id:this.props._id
 			})
 		}else{
@@ -317,7 +325,6 @@ class LargePostComponent extends Component{
 	}
 
 	displayPostOptions=(props)=>{
-
 		console.log("Testing");
 		console.log(props);
 
@@ -354,33 +361,7 @@ class LargePostComponent extends Component{
 	originalScreen=()=>{
 		return (
 				<React.Fragment>
-					<div class="dropdown" style={{position:"absolute", height:"13%",width:"20%",left:"70%",top:"5%", zIndex:"2"}}>
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#5298F8",width:"100%",left:"2%",top:"2%",height:"100%",color:"white"}}>Industry
-							   	<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
-								{this.state.industries.map(data=>
-									<li onClick={()=>this.handleChange(data.id)} id={data.id}>
-										<a href="#">{data.industry}</a>
-									</li>
-								)}
-							</ul>
-	  				 </div>
-
-					<IndustryTypeContainer/>
-
 					<PostContainer>
-
-						<ProfileContainer>
-
-							<ProfileImageContainer>
-								<img src={testdata.profileimage} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>
-							</ProfileImageContainer>
-							<EmployeeTitleContainer><b>{this.props.companyName}</b></EmployeeTitleContainer>
-							<CompanyTitleContainer>{this.props.companyPosition}</CompanyTitleContainer>
-							
-						</ProfileContainer>
-
 						<PostTextarea id="posttextarea" onClick={()=>this.handleTextareaClick()}>
 							Order the post in according to recent, popular?
 						</PostTextarea>
@@ -418,7 +399,7 @@ class LargePostComponent extends Component{
 									</PostOptionButton>
 								</a>
 							</li>
-							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"5px"}}>
+							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"-10px"}}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
 									<BlogOptionButton id="blogCreationButton" to={{pathname:`/blog/${this.props._id}`,state:{postType:"Creation"}}}>
 										Blog
@@ -456,7 +437,7 @@ const mapStateToProps=(state)=>{
 	return{
 		firstName:state.personalInformation.firstName,
 		lastName:state.personalInformation.lastName,
-		companyName:state.companyInformation.companyName,
+		name:state.companyInformation.companyName,
 		companyPosition:state.companyInformation.companyPosition,
 		_id:state.personalInformation.id
 	}

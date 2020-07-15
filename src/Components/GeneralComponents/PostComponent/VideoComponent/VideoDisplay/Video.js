@@ -21,6 +21,7 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {connect} from "react-redux";
 import {addStampPost,unStampPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 
 
 const Container=styled.div`
@@ -96,10 +97,10 @@ const DescriptionModal=styled.div`
 
 const SmallProfileDescriptionPicture=styled.div`
 	postion:relative;
-	width:60px;
-	height:28%;
+	width:80px;
+	height:30%;
 	border-radius:50%;
-	background-color:red;
+	background-color:white;
 
 `;
 
@@ -201,13 +202,31 @@ displayDescription=(postInformation)=>{
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 							<SmallProfileDescriptionPicture>
-
+								{this.props.video.videoDescription==null?
+									<React.Fragment>
+										{postInformation.profilePicture==null?
+											<img src={NoProfilePicture} style={{borderRadius:"50%",width:"100%",height:"100%"}}/>:
+											<img src={postInformation.profilePicture} style={{borderRadius:"50%",width:"100%",height:"100%"}}/>
+										}
+									</React.Fragment>:
+									<video style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" controls>
+										<source src={this.props.video.videoDescription} type="video/mp4"/>
+									</video>
+								}
 							</SmallProfileDescriptionPicture>
 						</li>
 
 						<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"white",marginRight:"35%"}}>
 							<b>{postInformation.firstName}</b>
 						</li>
+						<li style={{listStyle:"none"}}>
+							<audio controls>
+								<source src={this.props.video.audioDescription} type="audio/ogg"/>
+								<source src={this.props.video.audioDescription} type="audio/mpeg"/>
+								Your browser does not support the audio element.
+							</audio>
+						</li>
+
 						<li onClick={()=>this.setState({displayDescription:false})} style={{position:"relative",listStyle:"none",display:"inline-block",color:"white"}}>
 							<b>Close</b>
 						</li>
@@ -350,7 +369,7 @@ createOrRemoveStampEffect=()=>{
 							</ul>
 						</li>
 
-						{/*
+						{/*	
 							<li style={{listStyle:"none",marginBottom:"20px"}}>
 								Promote
 							</li>

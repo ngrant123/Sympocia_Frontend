@@ -10,6 +10,7 @@ const Container=styled.div`
 	z-index:3;
 	background-color:white;
 	top:30px;
+	overflow-y:scroll;
 `;
 
 const IndustryButton=styled.div`
@@ -52,6 +53,9 @@ const ImagePostsButtons=styled.div`
 
 `; 
 
+
+
+
 //Could be turned into a functional component im a bot
 const ImageInformation=(props)=>{
 	debugger;
@@ -60,7 +64,20 @@ const ImageInformation=(props)=>{
 				{information=>{
 					return <Container>
 								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginTop:"23%"}}>
+									<li style={{listStyle:"none"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<audio style={{width:"200px"}} controls>
+													<source src={props.imageInformation.audioDescription} type="audio/ogg"/>
+													<source src={props.imageInformation.audioDescription} type="audio/mpeg"/>
+													Your browser does not support the audio element.
+												</audio>
+											</li>
+
+										</ul>
+									</li>
+									<hr/>
+									<li style={{listStyle:"none",display:"inline-block",marginTop:"5%"}}>
 										<p style={{fontSize:"20px"}}>{props.imageInformation.firstName}</p>
 									</li>
 

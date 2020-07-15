@@ -233,10 +233,11 @@ const PersonalPostsIndex=(props)=>{
 
 	const closeModal=()=>{
 		changeDisplayCreationPost(false);
+		props.closeModal();
 	}
 
 	const displayCreationPostContainer=()=>{
-		return displayCreationPost==true?
+		return displayCreationPost==true ||props.displayCreationPortal==true?
 			<PostCreationPortal
 				postOption={postOption}
 				closeModal={closeModal}
@@ -295,6 +296,8 @@ const PersonalPostsIndex=(props)=>{
 											}
 										}
 										changePersonalInformation(newPersonalInfoObject);
+										changeDisplayCreationPost(false);
+										props.closeModal();
 									},
 									updateVideoPost:(videoObject)=>{
 										debugger;
@@ -308,6 +311,8 @@ const PersonalPostsIndex=(props)=>{
 												videos:videos
 											}
 											changeVideoPosts(newVideoObject);
+											changeDisplayCreationPost(false);
+											props.closeModal();
 										}
 								}}
 							>
@@ -488,6 +493,7 @@ const PersonalPostsIndex=(props)=>{
 											displayRegularPosts==true?
 											<RegularPost
 												id={personalInformation.userProfile._id}
+												profilePicture={personalInformation.userProfile.profilePicture}
 												profile="Personal"
 											/>:<React.Fragment></React.Fragment>
 										}

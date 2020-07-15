@@ -25,12 +25,8 @@ const SponsorSimpliedModal=styled.div`
 	width:30%;
 	height:10%;
 	background-color:white;
-	top:0px;
-	z-index:12;
 	border-radius:5px;
 	box-shadow: 10px 10px 20px 	#9395a0;
-	left:65%;
-	top:85%;
 `;
 
 const ExtendedProfilePicture=styled.div`

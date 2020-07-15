@@ -1,5 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 
 const PostInformationContainer=styled.div`
 	position:relative;
@@ -19,6 +20,7 @@ const PostProfilePicture=styled.div`
 	border-style:solid;
 	border-width:5px;
 	border-color:#5298F8;
+	overflow:hidden;
 
 `;
 
@@ -94,53 +96,43 @@ const CommentsAndLikeButtonsContainer=styled.div`
 
 
 
-const PosterInformation=()=>{
-
+const PosterInformation=(props)=>{
+	const {firstName,profilePicture,industriesUploaded}=props.userData;
 	return(
 
 		<PostInformationContainer>
 						<ul style={{position:"absolute",listStyle:"none"}}>
 							<li style={{listStyle:"none"}}>
-
 								<PostProfilePicture>
-
+									{profilePicture==null?
+										<img src={NoProfilePicture} style={{width:"100%",height:"100"}}/>:
+										<img src={profilePicture} style={{width:"100%",height:"100"}}/>
+									}
 								</PostProfilePicture>
 							</li>
 
 							<li style={{listStyle:"none"}}>
-
 								<NameContainer>
-									
-									Nathan
+									{firstName}
 								</NameContainer>
 							</li>
 
-							<li style={{listStyle:"none",marginBottom:"10%"}}>
-								<ul style={{position:"relative",padding:"0px",left:"20%"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginLeft:"20%"}}>
-										<SocialMedaIcon/> 
-									</li>
-
-									<li style={{listStyle:"none",display:"inline-block",marginLeft:"20%"}}>
-										<SocialMedaIcon/>
-									</li>
+							<li style={{listStyle:"none",left:"15%",marginBottom:"2%",height:"20%",overflowY:"auto"}}>
+								<ul style={{padding:"0px"}}>
+									{industriesUploaded.map(data=>
+										<li style={{listStyle:"none"}}>
+											<IndustryButton>
+												{industriesUploaded[0].industry}
+											</IndustryButton>
+										</li>
+									)}
 								</ul>
-
-							</li>
-
-							<li style={{listStyle:"none",left:"15%",marginBottom:"2%"}}>
-
-								<IndustryButton>
-									Engineering
-
-								</IndustryButton>
 							</li>
 
 							<li style={{listStyle:"none",left:"20%"}}>
 
 								<DateContainer>
 									Posted 2 days ago
-
 								</DateContainer>
 							</li>
 
@@ -158,12 +150,8 @@ const PosterInformation=()=>{
 										</CommentsAndLikeButtonsContainer>	
 									</li>
 								</ul>
-
 							</li>
-
-
 						</ul>
-
 					</PostInformationContainer>
 
 	)

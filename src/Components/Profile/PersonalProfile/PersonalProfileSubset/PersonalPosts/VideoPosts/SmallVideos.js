@@ -20,6 +20,13 @@ const SmallVideo=styled.div`
 	overflow:hidden;
 `;
 
+const VideoDescriptionContainer=styled.div`
+	position:relative;
+	width:70px;
+	height:60px;
+	border-radius:50%;
+`;
+
 const IndustryButtonCSS={
 	listStyle:"none",
 	padding:"5px",
@@ -75,6 +82,25 @@ const SmallVideoContainer=(videoData)=>{
 			{personalInformation=>{
 				return <SmallVideoComponent>
 											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+															<VideoDescriptionContainer>
+																<video style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true">
+																	<source src={videoData.video.videoDescription} type="video/mp4"/>
+																</video>
+															</VideoDescriptionContainer>
+														</li>
+
+														<li style={{listStyle:"none",display:"inline-block"}}>
+															<audio style={{width:"150px"}} controls>
+																<source src={videoData.video.audioDescription} type="audio/ogg"/>
+																<source src={videoData.video.audioDescription} type="audio/mpeg"/>
+																Your browser does not support the audio element.
+															</audio>
+														</li>
+													</ul>
+												</li>
 												<li style={{listStyle:"none"}}>
 													<SmallVideo>
 														<video width="100%" height="100%" controls autoplay muted>
