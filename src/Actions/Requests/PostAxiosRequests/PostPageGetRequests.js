@@ -56,3 +56,48 @@ export const getBlogPosts=async(industry,postCounter)=>{
 		return err;
 	}
 }
+
+export const getFakeNewsComments=async(postId,postOption)=>{
+	try{
+		const postComments=await axios.get(`${SearchUrl}/getFakeNewsComments`,{
+			params:{
+				postId:postId,
+				postOption:postOption
+			}
+		});
+
+		const {data}=postComments;
+		return data.data;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+export const getAuthenticPostComments=async(postId,postOption)=>{
+	try{
+		const postComments=await axios.get(`${SearchUrl}/getAuthenticPostComments`,{
+			params:{
+				postId:postId,
+				postOption:postOption
+			}
+		});
+
+		const {data}=postComments;
+		return data.data;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+
+
+
+
+
+

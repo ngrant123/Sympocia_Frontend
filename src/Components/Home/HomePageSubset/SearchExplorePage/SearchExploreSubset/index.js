@@ -167,29 +167,30 @@ class SearchExplorePosts extends Component{
 								{this.handleDisplayVideos()}
 								{this.handleDisplayBlogs()}
 								{this.handleDisplayRegularPosts()}
-								<li style={{position:"relative",listStyle:"none",display:"inline-block",marginTop:"-15px",top:"-80px",marginLeft:"15%",paddingTop:"10px",marginTop:"40%"}}>
-									<li style={{listStyle:"none",display:"inline-block"}}> 
-										Industry:
-									</li>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<ul style={{padding:"5px"}}>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<NavigateBeforeIcon
-													style={{ fontSize: 40 }}
-												/>
-											</li>
-											<li style={{position:"relative",listStyle:"none",display:"inline-block",fontSize:"40px",top:"-10px"}}>	
-												Testing
-											</li>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<NavigateNextIcon
-													style={{ fontSize: 40 }}
-												/>
-											</li>
+									<li style={{position:"relative",listStyle:"none",display:"inline-block",marginTop:"-15px",top:"-80px",marginLeft:"15%",paddingTop:"10px",marginTop:"40%"}}>
+										<li style={{listStyle:"none",display:"inline-block"}}> 
+											Industry:
+										</li>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<ul style={{padding:"5px"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<NavigateBeforeIcon
+														style={{ fontSize: 40 }}
+													/>
+												</li>
+												<li style={{position:"relative",listStyle:"none",display:"inline-block",fontSize:"40px",top:"-10px"}}>	
+													Testing
+												</li>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<NavigateNextIcon
+														style={{ fontSize: 40 }}
+													/>
+												</li>
 
-										</ul>
+											</ul>
+										</li>
 									</li>
-								</li>
+								
 							</ul>
 						</PostsContainer>
 				</ul>

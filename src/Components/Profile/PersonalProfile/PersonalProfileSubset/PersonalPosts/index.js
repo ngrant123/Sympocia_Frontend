@@ -126,6 +126,12 @@ const listCSSButton={
 	marginLeft:"2%"
 }
 
+/*
+Later down the road this whole post section has to be refactored completely 
+because at this point it getting too crazy and sphagetti like 
+
+Naw i need to redo this now like this shit awful lol
+*/
 
 const PersonalPostsIndex=(props)=>{
 	debugger;
@@ -286,16 +292,31 @@ const PersonalPostsIndex=(props)=>{
 									},
 									updateImagePost:(imagePost)=>{
 										debugger;
-										const currentImages=personalInformation.userProfile.imagePost
-										currentImages.push(imagePost);
-										const newPersonalInfoObject={
-											...personalInformation,
-											userProfile:{
-												...personalInformation.userProfile,
-												imagePost:currentImages
+										const {isCrownedImage,image}=imagePost;
+										if(isCrownedImage==true){
+
+											const newPersonalInfoObject={
+												...personalInformation,
+												userProfile:{
+													...personalInformation.userProfile,
+													crownedImage:image
+												}
 											}
+											changePersonalInformation(newPersonalInfoObject);
+										}else{
+											const currentImages=personalInformation.userProfile.imagePost
+											currentImages.push(imagePost);
+											const newPersonalInfoObject={
+												...personalInformation,
+												userProfile:{
+													...personalInformation.userProfile,
+													imagePost:currentImages
+												}
+											}
+											changePersonalInformation(newPersonalInfoObject);
 										}
-										changePersonalInformation(newPersonalInfoObject);
+
+										
 										changeDisplayCreationPost(false);
 										props.closeModal();
 									},
@@ -303,14 +324,15 @@ const PersonalPostsIndex=(props)=>{
 										debugger;
 											const currentVideoObject=videoPost;
 											const videos=currentVideoObject.videos;
-
-											videos.push(videoObject);
-
-											const newVideoObject={
-												...currentVideoObject,
-												videos:videos
+											if(videos!=null){
+												videos.push(videoObject);
+												const newVideoObject={
+													...currentVideoObject,
+													videos:videos
+												}
+												changeVideoPosts(newVideoObject);
 											}
-											changeVideoPosts(newVideoObject);
+
 											changeDisplayCreationPost(false);
 											props.closeModal();
 										}
@@ -374,7 +396,6 @@ const PersonalPostsIndex=(props)=>{
 											</React.Fragment>
 										:null}
 								*/}
-
 
 									<li style={{listStyle:"none",marginBottom:"20px"}}>
 										<ul style={{padding:"0px"}}>

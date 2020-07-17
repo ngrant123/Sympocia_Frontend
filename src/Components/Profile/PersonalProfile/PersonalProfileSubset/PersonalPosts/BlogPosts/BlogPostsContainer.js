@@ -220,7 +220,7 @@ class BlogsPostsContainer extends Component{
 														<ul style={{padding:"0px"}}>
 															{this.state.blogs.map(data=>
 																<BlogContainer to={{pathname:`${this.state.blogUrl}`,state:{...data,profileType:this.state.profileType}}}>
-																	<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"-7%"}}>
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"8%",marginBottom:"-7%"}}>
 																		<SmallBlogComponent>
 																			<ul style={{padding:"0px"}}>
 																				<li style={{listStyle:"none"}}>

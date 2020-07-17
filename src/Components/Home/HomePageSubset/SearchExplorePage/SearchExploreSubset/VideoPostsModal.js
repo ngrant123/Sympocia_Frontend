@@ -52,6 +52,16 @@ const ProfilePictureLink=styled(Link)`
 `;
 
 
+const VideoDesriptionContainer=styled.div`
+	position:relative;
+	width:60px;
+	height:60px;
+	border-radius:50%;
+	top:70%;
+	left:2%;
+	z-index:8;
+`;
+
 const ImageLabelCSS={
 	listStyle:"none",
 	display:"inline-block",
@@ -68,6 +78,7 @@ const ImageLabelCSS={
 const VideoPostModal=(props)=>{
 	console.log(props);
 	const headerVideo=props.posts[0];
+	console.log(headerVideo);
 	const videos=props.posts.slice(1,props.posts.length);
 	debugger;
 
@@ -141,6 +152,29 @@ const VideoPostModal=(props)=>{
 										<React.Fragment>
 											<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
 												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none"}}>
+														<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
+															{headerVideo.videoDescription!=null?
+																<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
+																	<VideoDesriptionContainer>
+																		   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																				<source src={headerVideo.videoDescription} type="video/mp4"/>
+																			</video>
+																	</VideoDesriptionContainer>
+																</li>:null
+															}
+															
+															{headerVideo.audioDescription!=null?
+																<li style={{llistStyle:"none",display:"inline-block"}}>
+																	<audio style={{width:"200px"}} controls>
+																	  	<source src={headerVideo.audioDescription} type="audio/ogg"/>
+																	  	<source src={headerVideo.audioDescription} type="audio/mpeg"/>
+																		Your browser does not support the audio element.
+																	</audio>
+																</li>:null
+															}
+														</ul>
+													</li>
 													<li  onClick={()=>handleDisplayHeaderVideo()} style={{listStyle:"none",width:"90%",borderRadius:"5px"}}>
 														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 															<video id="smallVideo" key={headerVideo.videoUrl} position="relative" height="80%" width="120%" controls autoplay>
@@ -175,7 +209,7 @@ const VideoPostModal=(props)=>{
 																						</b>
 																					</li>
 																					<li style={{listStyle:"none",width:"90%",height:"5%",overflow:"hidden",color:"#A4A4A4"}}>
-																								{headerVideo.description}
+																							{headerVideo.description}
 																					</li>
 																				</ul>
 																			</li>
@@ -212,6 +246,29 @@ const VideoPostModal=(props)=>{
 																</li>
 															:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
 																<ul style={{padding:"0px"}}>
+																	<li style={{listStyle:"none"}}>
+																		<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
+																			{data.videoDescription!=null?
+																				<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
+																					<VideoDesriptionContainer>
+																						   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																								<source src={data.videoDescription} type="video/mp4"/>
+																							</video>
+																					</VideoDesriptionContainer>
+																				</li>:null
+																			}
+																			
+																			{data.audioDescription!=null?
+																				<li style={{llistStyle:"none",display:"inline-block"}}>
+																					<audio style={{width:"200px"}} controls>
+																					  	<source src={data.audioDescription} type="audio/ogg"/>
+																					  	<source src={data.audioDescription} type="audio/mpeg"/>
+																						Your browser does not support the audio element.
+																					</audio>
+																				</li>:null
+																			}
+																		</ul>
+																	</li>
 																	<li onClick={()=>displayVideoModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
 																		<ShadowContainer/>
 																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>

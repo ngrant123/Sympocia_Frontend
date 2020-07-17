@@ -6,18 +6,24 @@ import {ImageProvider} from "./ImageContext.js";
 import EditImageCreation from "../ImageCreation/EditImageCreation.js";
 import EditIcon from '@material-ui/icons/Edit';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import {addStampPost,unStampPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {
+		addStampPost,
+		unStampPost,
+		fakeNewsPostResponse,
+		markPostAsAuthentic 
+	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+
 import StampIcon from "../../../../../designs/img/StampIcon.png";
 
 import { Icon, InlineIcon } from '@iconify/react';
 import crownIcon from '@iconify/icons-mdi/crown';
-import {updateCrownedImage} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js"
+
 
 const Container=styled.div`
 	position:relative;
 	width:90%;
 	height:50%;
-	z-index:9;
+	z-index:11;
 	border-radius:5px;
 	background-color:white;
 	border-radius:5px;
@@ -122,8 +128,6 @@ const CrownPostModal=styled.div`
 	box-shadow: 1px 1px 50px #d5d5d5;
 `;
 
-
-
 const ButtonCSS={
   listStyle:"none",
   display:"inline-block",
@@ -138,16 +142,22 @@ const ButtonCSS={
 }
 
 
+/*
+	For some reason when you click the edit button it switches to the edit screen 
+	but the old screen for the display image is still underneath it. Can reproduce 
+	if you just change the height for editImageCreation 
+
+*/
+
 const ImageContainer=(props)=>{
 	console.log("Image Modal data");
 	console.log(props);
 	debugger;
+
 	const [commentImageIndicator,changeIndicator]=useState(true);
 	const [displayImageModal,changeDisplayImage]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
-
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
-
 	const handleRemoveImagePost=()=>{
 
 	}
@@ -173,30 +183,6 @@ const ImageContainer=(props)=>{
 		}
 	}
 
-	const displayImageIsCrowned=()=>{
-		const crownStatus=displayCrownModalIndicator;
-		const crownElement=document.getElementById("crownIcon");
-
-		if(crownStatus==false){
-			crownElement.style.backgroundColor="#D6C5F4";
-			crownElement.style.color="white";
-			changeDisplayCrownModalIndicator(true);
-
-		}else{
-			crownElement.style.backgroundColor="white";
-			crownElement.style.color="#C8B0F4";
-			changeDisplayCrownModalIndicator(false);
-
-		}
-	}
-
-	const crownedImagePost=async()=>{
-		//_id,updatedStatus,imageId
-		const {imageData}=props;
-		const crownedImageResponse=await updateCrownedImage(imageData.owner,displayCrownModalIndicator,imageData._id);
-		
-	}
-
 
 	return(
 	
@@ -210,60 +196,28 @@ const ImageContainer=(props)=>{
 				{displayImageModal==true?
 					<EditImageCreation
 						imageSrcUrl={props.imageData.imgUrl}
-
+						previousData={props.imageData}
 					/>:
 					<React.Fragment>
-						{displayCrownModalIndicator==false?null:
-							<React.Fragment>
-								<ShadowContainer onClick={()=>changeDisplayCrownModalIndicator(false)}/>
-								<CrownPostModal>
-									<ul style={{padding:"20px"}}>
-										<a href="javascript:void(0);">
-											<li onClick={()=>changeDisplayCrownModalIndicator(false)} style={{listStyle:"none",marginLeft:"90%"}}>
-												<HighlightOffIcon
-													style={{fontSize:"20"}}
-												/>
-											</li>
-										</a>
-										<p> 
-											Are you sure you want to crown this posts? You're current crowned 
-											post will be replace.
-										</p>
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"0px"}}>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>crownedImagePost()} style={ButtonCSS}>
-														Yes
-													</li>
-												</a>
-
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li style={ButtonCSS} onClick={()=>changeDisplayCrownModalIndicator(false)}>
-														No
-													</li>
-												</a>
-											</ul>
-										</li>
-									</ul>
-								</CrownPostModal>
-							</React.Fragment>
-						}
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block",marginRight:"70px"}}>
 								<ul>
 									<li style={{listStyle:"none",marginBottom:"2%"}}>
 										<ul style={{padding:"0px"}}>
-											<a style={{textDecoration:"none"}}href="javascript:void(0);">
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-													<CrownIconContainer onClick={()=>displayImageIsCrowned()}>
-														<Icon 
-															id="crownIcon"
-															icon={crownIcon}
-															style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
-														/>
-													</CrownIconContainer>
-												</li>
-											</a>
+											{props.imageData.isCrownedPost==true?
+												<a style={{textDecoration:"none"}}href="javascript:void(0);">
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+														<CrownIconContainer>
+															<Icon 
+																id="crownIcon"
+																icon={crownIcon}
+																style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
+															/>
+														</CrownIconContainer>
+													</li>
+												</a>:null
+											}
+											
 
 											<a style={{textDecoration:"none"}}href="javascript:void(0);">
 												<li style={ButtonCSS}>
@@ -301,15 +255,15 @@ const ImageContainer=(props)=>{
 															<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
 														</StampIconEffect>
 													</React.Fragment>:
-													null}
+											null}
 											<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
-													<VideoDesriptionContainer>
-														 <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
+											{props.imageData.videoDescription==null?null:
+												<VideoDesriptionContainer>
+													<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
 															<source src={props.imageData.videoDescription} type="video/mp4"/>
-														 </video>
-													</VideoDesriptionContainer>
-
-
+													 </video>
+												</VideoDesriptionContainer>
+											}
 										</Image>
 									</li>
 

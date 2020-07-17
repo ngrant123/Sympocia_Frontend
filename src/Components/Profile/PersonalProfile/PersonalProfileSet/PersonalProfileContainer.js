@@ -244,7 +244,7 @@ const ShadowContainer= styled.div`
 	height:100%;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
-	z-index:7;
+	z-index:9;
 
 `;
 
@@ -292,7 +292,7 @@ const ChampionAndCreateButtonCSS={
 	position:"fixed",
 	padding:"0px",
 	left:"68%",
-	zIndex:"12",
+	zIndex:"7",
 	top:"75%"
 }
 
@@ -333,7 +333,8 @@ class LProfile extends Component{
 		    	debugger;
 		    	this.setState({
 		    		...this.state,
-		    		champion:championData
+		    		champion:championData,
+		    		displayChampionModal:true
 		    	})
 		    },
 		    displayConfetti:false
@@ -551,7 +552,8 @@ class LProfile extends Component{
 			newImageObject={
 				...this.state.imageModalData,
 				firstName:this.state.userProfile.firstName,
-				lastName:this.state.userProfile.lastName
+				lastName:this.state.userProfile.lastName,
+				contextLocation:this.state.contextLocation
 			}
 		}
 		return this.state.displayImagePostModal?
@@ -559,6 +561,7 @@ class LProfile extends Component{
 				<ImageContainer
 					imageData={newImageObject}
 					profileType="personalProfile"
+					closeModal={this.closeModal}
 				/>
 			</ImagePopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -635,10 +638,12 @@ class LProfile extends Component{
 			<UserProvider value={this.state}>
 				<PostDisplayProvider
 					value={{
-						handleImagePostModal:(imagePostData)=>{
+						handleImagePostModal:(imagePostData,contextLocation)=>{
 							console.log(imagePostData);
+							debugger;
 							this.setState({
 								imageModalData:imagePostData,
+								contextLocation:contextLocation,
 								displayImagePostModal:true,
 								displayShadowBackground:true
 							})
@@ -723,20 +728,23 @@ class LProfile extends Component{
 							</PersonalProfileInformationContainer>
 						</ProfileContainer>
 
-						{
-							this.state.displayVideoPostModal==true||this.state.displayImagePostModal==true ||
-							this.state.displayBlogPostModal==true || this.state.displayRegularPostModal==true?
-							<PostInformationContainerShadowOverlay
-								onClick={()=>this.setState({
-										displayShadowBackground:false,
-										displayRegularPostModal:false,
-										displayBlogPostModal:false,
-										displayVideoPostModal:false,
-										displayImagePostModal:false
-									})}
-							/>:
-							<React.Fragment></React.Fragment>
-						}
+						{/*
+							{
+								this.state.displayVideoPostModal==true||this.state.displayImagePostModal==true ||
+								this.state.displayBlogPostModal==true || this.state.displayRegularPostModal==true?
+								<PostInformationContainerShadowOverlay
+									onClick={()=>this.setState({
+											displayShadowBackground:false,
+											displayRegularPostModal:false,
+											displayBlogPostModal:false,
+											displayVideoPostModal:false,
+											displayImagePostModal:false
+										})}
+								/>:
+								<React.Fragment></React.Fragment>
+							}
+						*/}
+						
 						<PostInformationContainer>
 							<PersonalPostsIndex
 								displayShadowOverlay={this.displayShadow}

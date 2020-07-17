@@ -161,6 +161,65 @@ export const addCommentToPopularQuestions=async(commentObject)=>{
 
 
 
+export const updateCrownedImage=async(_id,updatedStatus,imageId)=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const updatedImage=await axios.post(`${CreateUrl}/updateCrownedImage`,{
+			_id:_id,
+			updateStatus:updatedStatus,
+			imageId:imageId
+		});
+
+		const {confirmation}=updatedImage;
+		return confirmation;
+		
+	}catch(err){
+		console.log(err.message);
+		return err;
+	}
+}
+
+export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment})=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const approvePostResponse=await axios.post(`${CreateUrl}/markPostAsAuthentic`,{
+			_id:_id,
+			firstName:firstName,
+			postOption:postOption,
+			postId:postId,
+			comment:comment
+		});
+		const {data}=approvePostResponse;
+		return data.data;
+		
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment})=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const fakeNewsPostResponse=await axios.post(`${CreateUrl}/markPostAsFakeNews`,{
+			_id:_id,
+			firstName:firstName,
+			postOption:postOption,
+			postId:postId,
+			comment:comment
+		});
+		const {data}=fakeNewsPostResponse;
+		return data.data;
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+
+
 
 
 

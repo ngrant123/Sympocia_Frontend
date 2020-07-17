@@ -298,22 +298,7 @@ export const concatVideoTogether=async(videos)=>{
 
 }
 
-export const updateCrownedImage=async(_id,updatedStatus,imageId)=>{
-	try{
-		const updatedImage=await axios.post(`${CreateUrl}/updateCrownedImage`,{
-			_id:_id,
-			updateStatus:updatedStatus,
-			imageId:imageId
-		});
 
-		const {confirmation}=updatedImage;
-		return confirmation;
-		
-	}catch(err){
-		console.log(err.message);
-		return err;
-	}
-}
 
 
 

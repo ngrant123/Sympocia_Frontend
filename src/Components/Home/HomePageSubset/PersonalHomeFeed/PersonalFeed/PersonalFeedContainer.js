@@ -97,8 +97,8 @@ class PersonalFeedContainer extends Component{
 
 	//Find a better way of doing this
 	async componentDidMount(){
-
 		try{
+			console.log(this.props);
 			const {isPersonalProfile,profileId}=this.props;
 			var symposiumsResponse;
 
@@ -219,12 +219,17 @@ class PersonalFeedContainer extends Component{
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"0px"}}>
-									<li onClick={()=>this.displayFollowOrExploreAnimation()} id="followedSymposiumsButton" style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"5%"}}>
-										<b>My symposiums</b>
-									</li>
-									<li onClick={()=>this.displayFollowOrExploreAnimation()} id="exploreSymposiumsButton" style={{color:"#999999",display:"inline-block",listStyle:"none",fontSize:"40px",marginLeft:"5%"}}>
-										<b>Explore Symposiums</b>
-									</li>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>this.displayFollowOrExploreAnimation()} id="followedSymposiumsButton" style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"5%"}}>
+											<b>My symposiums</b>
+										</li>
+									</a>
+
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>this.displayFollowOrExploreAnimation()} id="exploreSymposiumsButton" style={{color:"#999999",display:"inline-block",listStyle:"none",fontSize:"40px",marginLeft:"5%"}}>
+											<b>Explore Symposiums</b>
+										</li>
+									</a>
 								</ul>
 							</li>
 							<hr/>
@@ -236,6 +241,20 @@ class PersonalFeedContainer extends Component{
 						Go back and check out the newest posts in the symposiums you follow. 
 					</li>
 				</ul>
+
+				{this.state.symposiumArray.map(data=>
+					<li style={{paddingBottom:"40px",listStyle:"none"}}>
+						<CommunityContainerAnimationFollowed onClick={()=>this.handleSymposiumClick(data)}>
+							<CommunityContainer
+								data={data}
+								isPersonalProfile={this.props.isPersonalProfile}
+							/>
+						</CommunityContainerAnimationFollowed>
+					</li>
+				)}
+
+
+			{/*
 				{this.state.triggerFollowAnimation==true?
 					<React.Fragment>
 						{this.state.symposiumArray.map(data=>
@@ -243,7 +262,7 @@ class PersonalFeedContainer extends Component{
 								<CommunityContainerAnimationFollowed onClick={()=>this.handleSymposiumClick(data)}>
 									<CommunityContainer
 										data={data}
-										isPersonalProfile={this.state.isPersonalProfile}
+										isPersonalProfile={this.props.isPersonalProfile}
 									/>
 								</CommunityContainerAnimationFollowed>
 							</li>
@@ -255,14 +274,14 @@ class PersonalFeedContainer extends Component{
 										<CommunityContainerAnimationExplore onClick={()=>this.handleSymposiumClick(data)}>
 											<CommunityContainer
 												data={data}
-												isPersonalProfile={this.state.isPersonalProfile}
+												isPersonalProfile={this.props.isPersonalProfile}
 											/>
 										</CommunityContainerAnimationExplore>
 									</li>
 								)}
 					</React.Fragment>
 				}
-					
+			*/}		
 			</ul>:
 				<CommunityTransitionAnimation style={{background:this.state.selectedSymposium.backgroundColor}}>
 				</CommunityTransitionAnimation>

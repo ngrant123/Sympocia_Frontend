@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import SendIcon from '@material-ui/icons/Send';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import {createImagePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {createImagePost,updateCrownedImage} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {connect} from "react-redux";
 import IndustryPostOptions from "../../IndustryPostOptions.js";
 import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
@@ -31,7 +31,7 @@ const Container=styled.div`
 	left:25%;
 	width:65%;
 	overflow-y:scroll;
-	height:60%;
+	height:55%;
 `;
 
 
@@ -76,7 +76,6 @@ const CrownIconContainer=styled.div`
 	border-style:solid;
 	border-width:2px;
 	border-color:red;
-	background-color:red;
 	animation: glowing 1300ms infinite;
 	top:1%;
 	left:75%;
@@ -89,6 +88,39 @@ const CrownIconContainer=styled.div`
       100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
   }
 `;
+
+const ShadowContainer= styled.div`
+	position:fixed;
+	width:100%;
+	height:100%;
+	z-index:11;
+	top:0px;
+`;
+
+const CrownPostModal=styled.div`
+	position:fixed;
+	width:30%;
+	height:20%;
+	background-color:white;
+	z-index:11;
+	left:40%;
+	top:40%;
+	border-radius:5px;
+	box-shadow: 1px 1px 50px #d5d5d5;
+`;
+
+const ButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginRight:"4%"
+}
 
 class EditImageCreation extends Component{
 
@@ -106,12 +138,37 @@ class EditImageCreation extends Component{
 			displayVoiceDescriptionPortal:false,
 			videoDescription:null,
 			audioDescription:null,
-			isPostCrowned:false
+			isPostCrowned:false,
+			isPreviousLoaded:false,
+			displayCrownModalIndicator:false
 		}
 	}
+	//If information is coming from image display edit button then populate information with previous data
 
 	componentDidMount(){
 		console.log("Testing component");
+		console.log(this.props);
+
+		const {previousData}=this.props;
+		if(previousData!=null){
+			var {
+				description,
+				caption,
+				audioDescription,
+				videoDescription,
+				isCrownedPost
+			}=previousData;
+
+			document.getElementById("descriptionTextArea").value=description;
+			document.getElementById("captionTextArea").value=caption;
+
+			if(isCrownedPost==true){
+				const crownElement=document.getElementById("crownIcon");
+				crownElement.style.backgroundColor="#D6C5F4";
+				crownElement.style.color="white";
+			}
+		}
+
 		const imageElement= <ProcessImage
 									image={this.props.imageSrcUrl}
 									resize={{width:450,height:450}}
@@ -120,7 +177,15 @@ class EditImageCreation extends Component{
 							/>;
 
 		this.setState({
-			imgElement:imageElement
+			imgElement:imageElement,
+			displayVideoDescriptionPortal:audioDescription==null?false:true,
+			displayVoiceDescriptionPortal:videoDescription==null?false:true,
+			isCaptionCleared:caption==null?false:true,
+			isImageDescriptionCleared:description==null?false:true,
+			videoDescription:videoDescription,
+			audioDescription:audioDescription,
+			isPostCrowned:isCrownedPost,
+			isPreviousLoaded:previousData!=null?true:false
 		},()=>{
 			localStorage.removeItem('placeholder');
 		});
@@ -162,37 +227,40 @@ class EditImageCreation extends Component{
 		var descriptionTextArea=(this.state.isImageDescriptionCleared==false)?"":document.getElementById("descriptionTextArea").value;
 		var captionTextArea=(this.state.isCaptionCleared==false)?"":document.getElementById("captionTextArea").value;
 
-		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
-		var counter=0;
-		for(var i=0;i<industries.length;i++){
-			var {subCommunity}=industries[i];
-			var addIndustryOrIndustryObject=false;
-			var subCommunitiyArray=[];
-			var subCommunityCounter=0;
-			if(subCommunity!=null){
-				while(subCommunityCounter<subCommunity.length){
-					const targetedSubCommunity=subCommunity[subCommunityCounter];
-					if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
-						subCommunitiyArray.push(selectedSubCommunities[counter]);
-						counter++;
-						subCommunityCounter=0;
-					}else{
-						subCommunityCounter++;
+		if(this.state.isPreviousLoaded==false){
+			//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
+			var counter=0;
+			for(var i=0;i<industries.length;i++){
+				var {subCommunity}=industries[i];
+				var addIndustryOrIndustryObject=false;
+				var subCommunitiyArray=[];
+				var subCommunityCounter=0;
+				if(subCommunity!=null){
+					while(subCommunityCounter<subCommunity.length){
+						const targetedSubCommunity=subCommunity[subCommunityCounter];
+						if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
+							subCommunitiyArray.push(selectedSubCommunities[counter]);
+							counter++;
+							subCommunityCounter=0;
+						}else{
+							subCommunityCounter++;
+						}
 					}
 				}
+				const searchObject={
+							industry:industries[i].industry,
+							subIndustry:subCommunitiyArray
+				}
+					searchCriteriaIndustryArray.push(searchObject);
 			}
-			const searchObject={
-						industry:industries[i].industry,
-						subIndustry:subCommunitiyArray
-			}
-				searchCriteriaIndustryArray.push(searchObject);
 		}
 		debugger;
 		const searchCriteriaObject={
 			imgUrl:imgUrl,
 			videoDescription:videoDescription,
 			audioDescription:audioDescription,
-			industryArray:searchCriteriaIndustryArray,
+			industryArray:this.state.isPreviousLoaded==true?this.props.previousData.industriesUploaded:
+															searchCriteriaIndustryArray,
 			description:descriptionTextArea,
 			caption:captionTextArea,
 			isCrownedPost:isPostCrowned
@@ -207,10 +275,10 @@ class EditImageCreation extends Component{
 		}
 
 			if(this.props.personalProfile.loggedIn==true){
-					createImagePost(this.props.personalProfile.id,searchCriteriaObject,"Personal");
+		//			createImagePost(this.props.personalProfile.id,searchCriteriaObject,"Personal");
 			}
 			else{
-					createImagePost(this.props.companyProfile.id,searchCriteriaObject,"Company");
+		//			createImagePost(this.props.companyProfile.id,searchCriteriaObject,"Company");
 			}
 	}
 
@@ -257,6 +325,8 @@ class EditImageCreation extends Component{
 			localStorage.removeItem('placeholder');
 		})
 	}
+
+	//
 
 	handleDisplaySubmitModal=()=>{
 		this.setState({
@@ -307,7 +377,7 @@ class EditImageCreation extends Component{
 			crownElement.style.backgroundColor="#D6C5F4";
 			crownElement.style.color="white";
 			this.setState({
-				isPostCrowned:true
+				displayCrownModalIndicator:true
 			})
 			alert('Your post is now crowned');
 		}else{
@@ -317,6 +387,53 @@ class EditImageCreation extends Component{
 				isPostCrowned:false
 			})
 		}
+	}
+
+	unCrownPost=async(profilePostInformation)=>{
+		debugger;
+		console.log(profilePostInformation);
+
+		const crownElement=document.getElementById("crownIcon");
+		crownElement.style.backgroundColor="white";
+		crownElement.style.color="#C8B0F4";
+		const {previousData}=this.props;
+
+		const headerObject={
+			isCrownedImage:true,
+			image:null
+		}
+		previousData.contextLocation.updateImagePost(headerObject);
+		const crownedImageResponse= await updateCrownedImage(previousData.owner,false,previousData._id);
+
+		this.setState({
+			isPostCrowned:false,
+			displayCrownModalIndicator:false
+		})
+	}
+
+
+	crownPost=async(profilePostInformation)=>{
+		console.log(profilePostInformation);
+		debugger;
+		const crownElement=document.getElementById("crownIcon");
+		crownElement.style.backgroundColor="#D6C5F4";
+		crownElement.style.color="white";
+		const {previousData}=this.props;
+
+		const headerObject={
+			isCrownedImage:true,
+			image:this.props.previousData
+		}
+		previousData.contextLocation.updateImagePost(headerObject);
+		const crownedImageResponse= await updateCrownedImage(previousData.owner,true,previousData._id);
+
+		this.setState({
+			isPostCrowned:true,
+			displayCrownModalIndicator:false
+		})
+
+		alert('Your post is now crowned');
+
 	}
 
 	render(){
@@ -341,7 +458,66 @@ class EditImageCreation extends Component{
 											createAudioDescription={this.createAudioDescription}
 										/>
 									}
+									{this.state.displayCrownModalIndicator==false?null:
+										<React.Fragment>
+											<ShadowContainer onClick={()=>this.setState({displayCrownModalIndicator:false})} />
+											<CrownPostModal>
+												<ul style={{padding:"20px"}}>
+													<a href="javascript:void(0);">
+														<li onClick={()=>this.setState({displayCrownModalIndicator:false})} style={{listStyle:"none",marginLeft:"90%"}}>
+															<HighlightOffIcon
+																style={{fontSize:"20"}}
+															/>
+														</li>
+													</a>
+													{this.state.isPostCrowned==true?
+														<React.Fragment>
+															<p> 
+																Are you sure you want to uncrown this post?
+															</p>
+															<li style={{listStyle:"none"}}>
+																<ul style={{padding:"0px"}}>
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<li onClick={()=>this.unCrownPost(profilePostInformation)} style={ButtonCSS}>
+																			Yes
+																		</li>
+																	</a>
 
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<li style={ButtonCSS} onClick={()=>this.setState({displayCrownModalIndicator:false})}>
+																			No
+																		</li>
+																	</a>
+																</ul>
+															</li>
+														</React.Fragment>:
+														<React.Fragment>
+															<p> 
+																Are you sure you want to crown this post? You're current crowned 
+																post will be replace.
+															</p>
+															<li style={{listStyle:"none"}}>
+																<ul style={{padding:"0px"}}>
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<li onClick={()=>this.crownPost(profilePostInformation)} style={ButtonCSS}>
+																			Yes
+																		</li>
+																	</a>
+
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<li style={ButtonCSS} onClick={()=>this.setState({displayCrownModalIndicator:false})}>
+																			No
+																		</li>
+																	</a>
+																</ul>
+															</li>
+														</React.Fragment>
+													}
+												</ul>
+			
+											</CrownPostModal>
+										</React.Fragment>
+									}
 									<ul style={{padding:"10px"}}>
 										<li style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
 											<Image>
@@ -362,7 +538,7 @@ class EditImageCreation extends Component{
 													</li>
 												</ul>
 												<a href="javascript:void(0);">
-													<CrownIconContainer onClick={()=>this.displayImageIsCrowned()}>
+													<CrownIconContainer onClick={()=>this.setState({displayCrownModalIndicator:true})}>
 														<Icon 
 															id="crownIcon"
 															icon={crownIcon}

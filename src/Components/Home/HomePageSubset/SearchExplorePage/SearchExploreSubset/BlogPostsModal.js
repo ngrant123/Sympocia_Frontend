@@ -64,6 +64,17 @@ const ProfileImage=styled.div`
 	border-radius:50%;
 `;
 
+const VideoDesriptionContainer=styled.div`
+	position:relative;
+	width:60px;
+	height:60px;
+	border-radius:50%;
+	top:70%;
+	left:2%;
+	z-index:8;
+`;
+
+
 const ProfileImageCSS={
 	position:"relative",
 	width:"50px",
@@ -168,6 +179,29 @@ const BlogPostModal=(props)=>{
 									<React.Fragment>
 									<li style={{position:"relative",top:"-170px",listStyle:"none",display:"inline-block",width:"50%"}}>
 											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none"}}>
+													<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
+														{headerBlog.videoDescription!=null?
+															<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
+																<VideoDesriptionContainer>
+																	   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																			<source src={headerBlog.videoDescription} type="video/mp4"/>
+																		</video>
+																</VideoDesriptionContainer>
+															</li>:null
+														}
+														
+														{headerBlog.audioDescription!=null?
+															<li style={{llistStyle:"none",display:"inline-block"}}>
+																<audio style={{width:"200px"}} controls>
+																  	<source src={headerBlog.audioDescription} type="audio/ogg"/>
+																  	<source src={headerBlog.audioDescription} type="audio/mpeg"/>
+																	Your browser does not support the audio element.
+																</audio>
+															</li>:null
+														}
+													</ul>
+												</li>
 												<li style={{listStyle:"none",width:"120%",borderRadius:"5px",marginBottom:"2%"}}>
 													<ul style={{padding:"0px",height:"55%",width:"100%"}}>
 														<li onClick={()=>handleDisplayHeaderBlog()} style={{listStyle:"none",display:"inline-block",marginRight:"2%",backgroundColor:"red"}}>
@@ -225,6 +259,29 @@ const BlogPostModal=(props)=>{
 																</li>
 															:<li style={{list0Style:"none",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
 																<ul style={{padding:"0px"}}>
+																	<li style={{listStyle:"none"}}>
+																		<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
+																			{data.videoDescription!=null?
+																				<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
+																					<VideoDesriptionContainer>
+																						   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																								<source src={data.videoDescription} type="video/mp4"/>
+																							</video>
+																					</VideoDesriptionContainer>
+																				</li>:null
+																			}
+																			
+																			{data.audioDescription!=null?
+																				<li style={{llistStyle:"none",display:"inline-block"}}>
+																					<audio style={{width:"200px"}} controls>
+																					  	<source src={data.audioDescription} type="audio/ogg"/>
+																					  	<source src={data.audioDescription} type="audio/mpeg"/>
+																						Your browser does not support the audio element.
+																					</audio>
+																				</li>:null
+																			}
+																		</ul>
+																	</li>
 																	<li onClick={()=>displayBlogModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",marginRight:"2%"}}>
 																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																			<ShadowContainer/>

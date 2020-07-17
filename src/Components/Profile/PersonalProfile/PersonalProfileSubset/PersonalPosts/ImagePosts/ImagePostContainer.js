@@ -6,7 +6,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 import CrownedImageContainer from "./CrownedImageContainer.js";
 import SmallImageContainer from "./SmallImageContainer.js";
-
+import {PostConsumer} from "../PostsContext.js";
 const Container=styled.div`
 	position:absolute;
 	width:95%;
@@ -86,70 +86,76 @@ class ImagePostsContainer extends Component{
 
 		//work on this a little more
 		return dateToString;
-
 	}
-
-	displayPostModal=(profileAction,companyAction,data)=>{
+	displayPostModal=(profileAction,companyAction,postsConsumer,data)=>{
 		if(profileAction==null)
-			companyAction.handleImagePostModal(data);
+			companyAction.handleImagePostModal(data,postsConsumer);
 		else
-			profileAction.handleImagePostModal(data);
+			profileAction.handleImagePostModal(data,postsConsumer);
 	}
 
 	render(){
 		return(
-			<PostDisplayConsumer>
-				{postDisplayModal=>(
-					<CompanyPostDisplayConsumer>
-						{companyPostDisplayModal=>(
-							<Container>
-								{this.props.personalInformation.isLoading==true?
-										<p>Give us a second we're getting your information</p>:
-										<React.Fragment>
-										{(this.props.personalInformation.userProfile.imagePost.length==0 &&
-											this.props.personalInformation.userProfile.crownedImage==null) ||
-											this.props.personalInformation.userProfile.imagePost.length==null?<NoPostsModal
-																				postType={"image"}
-																				profilePageType={this.props.profile}
-																			  />:
-												<ul style={{padding:"0px"}}>
-													{this.props.personalInformation.userProfile.crownedImage==null?
-														null:
-														<React.Fragment>
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<li onClick={()=>this.displayPostModal(postDisplayModal,
-																										companyPostDisplayModal,
-																										this.props.personalInformation.userProfile.crownedImage)}  
-																										style={{listStyle:"none",marginBottom:"-5%"}}>
-																	<CrownedImageContainer
-																		imageData={this.props.personalInformation.userProfile.crownedImage}
-																	/>
-																</li>
-															</a>
-															<hr/>
-														</React.Fragment>
-													}	
-													<li style={{listStyle:"none"}}>
-														{this.props.personalInformation.userProfile.imagePost.map(data=>
-															<li onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,data)} style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
-																<a href="javascript:;" style={{textDecoration:"none"}}>
-																	<SmallImageContainer
-																		data={data}
-																	/>
-																</a>
+			<PostConsumer>
+				{postsConsumer=>(
+					<PostDisplayConsumer>
+						{postDisplayModal=>(
+							<CompanyPostDisplayConsumer>
+								{companyPostDisplayModal=>(
+									<Container>
+										{this.props.personalInformation.isLoading==true?
+												<p>Give us a second we're getting your information</p>:
+												<React.Fragment>
+												{(this.props.personalInformation.userProfile.imagePost.length==0 &&
+													this.props.personalInformation.userProfile.crownedImage==null) ||
+													this.props.personalInformation.userProfile.imagePost.length==null?<NoPostsModal
+																						postType={"image"}
+																						profilePageType={this.props.profile}
+																					  />:
+														<ul style={{padding:"0px"}}>
+															{this.props.personalInformation.userProfile.crownedImage==null?
+																null:
+																<React.Fragment>
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<li onClick={()=>this.displayPostModal(	postDisplayModal,
+																												companyPostDisplayModal,
+																												postsConsumer,
+																												this.props.personalInformation.userProfile.crownedImage)}  
+																												style={{listStyle:"none",marginBottom:"-5%"}}>
+																			<CrownedImageContainer
+																				imageData={this.props.personalInformation.userProfile.crownedImage}
+																			/>
+																		</li>
+																	</a>
+																	<hr/>
+																</React.Fragment>
+															}	
+															<li style={{listStyle:"none"}}>
+																{this.props.personalInformation.userProfile.imagePost.map(data=>
+																	<li onClick={()=>this.displayPostModal(	postDisplayModal,
+																											companyPostDisplayModal,
+																											postsConsumer,
+																											data)} style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
+																		<a href="javascript:;" style={{textDecoration:"none"}}>
+																			<SmallImageContainer
+																				data={data}
+																			/>
+																		</a>
+																	</li>
+																)}
 															</li>
-														)}
-													</li>
-												</ul>
-										}
-										</React.Fragment>
-									}
-							</Container>
-							)
-						}
-					</CompanyPostDisplayConsumer>
-				)}
-				</PostDisplayConsumer>
+														</ul>
+												}
+												</React.Fragment>
+											}
+									</Container>
+									)
+								}
+							</CompanyPostDisplayConsumer>
+						)}
+						</PostDisplayConsumer>
+					)}
+			</PostConsumer>
 		)
 	}
 }

@@ -140,9 +140,15 @@ const VideoDescriptionPortal=(props)=>{
 			}	
 	},[]);
 
-	const stopRecording=(stream)=>{
+	const pauseRecording=(stream)=>{
 		mediaDevice.stop();
-		//stream.getTracks().forEach(track => track.stop());
+		changeRecordingState(false);
+	}
+	const stopRecording=(stream)=>{
+		if(isRecording!=false){
+			mediaDevice.stop();
+		}
+		stream.getTracks().forEach(track => track.stop());
 		changeRecordingState(false);
 	}
 
@@ -180,10 +186,10 @@ const VideoDescriptionPortal=(props)=>{
 	}
 
 	const closeModal=()=>{
-		var videoElement=document.getElementById("video");
-		stopRecording(videoElement);
+		stopRecording(document.getElementById("video").captureStream());
 		props.closeModal()
 	}
+
 	const test=()=>{
 		if(reInitilize==true && videoElements.length>0){
 			var newElements=videoElements;
@@ -239,6 +245,7 @@ const VideoDescriptionPortal=(props)=>{
 	const submitVideoDescription=()=>{
 		debugger;
 		if(videoElements.length>0){
+			stopRecording(document.getElementById("video").captureStream());
 			props.createVideoDescription(videoElements[0].videoSrc);
 		}else{
 			alert('Create a video to continue or press the exit button on the top left');
@@ -320,7 +327,7 @@ const VideoDescriptionPortal=(props)=>{
 											onClick={()=>startRecording()}
 											style={{fontSize:40,color:"#C8B0F4"}}
 										/>:<PauseIcon
-												onClick={()=>stopRecording(document.getElementById("video").captureStream())}
+												onClick={()=>pauseRecording(document.getElementById("video").captureStream())}
 												style={{fontSize:40,color:"#C8B0F4"}}
 										/>
 									}

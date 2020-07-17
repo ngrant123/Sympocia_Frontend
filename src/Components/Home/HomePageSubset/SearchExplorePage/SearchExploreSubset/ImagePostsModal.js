@@ -57,6 +57,18 @@ const ProfilePictureLink=styled(Link)`
 	position:relative;
 `;
 
+
+const VideoDesriptionContainer=styled.div`
+	position:relative;
+	width:60px;
+	height:60px;
+	border-radius:50%;
+	top:70%;
+	left:2%;
+	z-index:8;
+`;
+
+
 const ImageLabelCSS={
 	listStyle:"none",
 	display:"inline-block",
@@ -126,6 +138,9 @@ const constructSuggestedSymposium=(personalInformation,homePageInformation)=>{
 			}
 
 			return <ul style={{padding:"0px",position:"relative",top:"-170px"}}>
+						<li style={{listStyle:"none",marginBottom:"5%"}}>
+							<b> Suggested syposiums </b>
+						</li>
 						{selectedSymposiums.map(data=>
 							<a href="javascript:void(0);">
 								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,homePageInformation,data,selectedSymposiums)} style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
@@ -198,6 +213,8 @@ const ImagePostsModal=(props)=>{
 	debugger;
 	console.log(props);
 	const headerImage=props.posts[0];
+	console.log("Header image");
+	console.log(headerImage);
 	const images=props.posts.slice(1,props.posts.length);
 	console.log(images);
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
@@ -258,6 +275,27 @@ const ImagePostsModal=(props)=>{
 												<li onClick={()=>handleDisplayHeaderImage()} style={{listStyle:"none",backgroundColor:"red",width:"90%",borderRadius:"5px",position:"relative",top:"-80px"}}>
 													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 														<img src={headerImage.imgUrl} style={HeaderImageCSS}/>
+														<ul style={{padding:"0px",zIndex:"8",position:"absolute",top:"10px"}}>
+															{headerImage.videoDescription!=null?
+																<li style={{listStyle:"none"}}>
+																	<VideoDesriptionContainer>
+																		   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																				<source src={headerImage.videoDescription} type="video/mp4"/>
+																			</video>
+																	</VideoDesriptionContainer>
+																</li>:null
+															}
+															
+															{headerImage.audioDescription!=null?
+																<li style={{listStyle:"none"}}>
+																	<audio style={{width:"200px"}} controls>
+																	  	<source src={headerImage.audioDescription} type="audio/ogg"/>
+																	  	<source src={headerImage.audioDescription} type="audio/mpeg"/>
+																		Your browser does not support the audio element.
+																	</audio>
+																</li>:null
+															}
+														</ul>
 													</a>
 												</li>
 												<li style={{listStyle:"none",width:"80%",position:"relative",top:"-70px"}}>
@@ -303,6 +341,27 @@ const ImagePostsModal=(props)=>{
 																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																		<ShadowContainer/>
 																		<img src={data.imgUrl} style={ImageCSS}/>
+																		<ul style={{padding:"0px",zIndex:"8",position:"absolute",top:"25%"}}>
+																			{data.videoDescription!=null?
+																				<li style={{listStyle:"none"}}>
+																					<VideoDesriptionContainer>
+																						   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																								<source src={data.videoDescription} type="video/mp4"/>
+																							</video>
+																					</VideoDesriptionContainer>
+																				</li>:null
+																			}
+																			
+																			{data.audioDescription!=null?
+																				<li style={{listStyle:"none"}}>
+																					<audio style={{width:"200px"}} controls>
+																					  	<source src={data.audioDescription} type="audio/ogg"/>
+																					  	<source src={data.audioDescription} type="audio/mpeg"/>
+																						Your browser does not support the audio element.
+																					</audio>
+																				</li>:null
+																			}
+																		</ul>
 																	</a>
 																</li>
 																<li style={{listStyle:"none",marginBottom:"1%"}}>
