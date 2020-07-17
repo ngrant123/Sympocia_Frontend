@@ -4,6 +4,7 @@ import CommunityContainer from "./CommunityContainer";
 import PersonalizedPage from "../PersonalizedPage/PersonalizedPage"
 import {getSymposiumsFollowedHome,getSymposiumsNotFollowed} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getFollowedSymposiumsCompanyHome} from "../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
+import StampIcon from "../../../../../designs/img/StampIcon.png";
 
 
  const keyFrameExampleThree= keyframes`
@@ -31,19 +32,6 @@ import {getFollowedSymposiumsCompanyHome} from "../../../../../Actions/Requests/
 
   }
 `;
-
- const keyFrameOnClick= keyframes`
-  0% {
-	left:110%;
-  }
-  100% {
-  	top:0%;
-  	width:100%;
-    left:0%;
-
-  }
-`;
-
 
 const CommunityTransitionAnimation=styled.div`
 	position:relative;
@@ -76,7 +64,24 @@ const CommunityContainerAnimationExplore=styled.div`
 	animation:${keyFrame} 1s ease-in-out 0s forwards;
 `;
 
+const ExploreButton={
+  listStyle:"none",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  width:"30%"
+}
 
+
+/*
+	For some reason the delayed animation that I have set up
+	isnt triggering properly will have to fix that later but
+	thats a minor issue at the moment
+*/ 
 
 class PersonalFeedContainer extends Component{
 
@@ -91,7 +96,7 @@ class PersonalFeedContainer extends Component{
 			selectedSymposium:{},
 			displayPersonalizedPage:false,
 			triggerExploreAnimation:false,
-			triggerFollowAnimation:true
+			isLoading:true
 		}
 	}
 
@@ -110,19 +115,30 @@ class PersonalFeedContainer extends Component{
 			console.log(symposiumsResponse);
 			debugger;
 			var symposiums=[];
-			for(var i=0;i<symposiumsResponse.length;i++){
-				const specificCommunity=symposiumsResponse[i];
-				const newTimer=100*i;
-				await this.timerFunction(newTimer);
+			if(symposiumsResponse.length>0){
+				for(var i=0;i<symposiumsResponse.length;i++){
+					const specificCommunity=symposiumsResponse[i];
+					const newTimer=100*i;
+					await this.timerFunction(newTimer);
 
-				symposiums.push(specificCommunity);
+					symposiums.push(specificCommunity);
 
+					this.setState(prevState=>({
+						...prevState,
+						symposiumArray:symposiums,
+						isPersonalProfile:isPersonalProfile,
+						isLoading:false
+					}));
+				}
+			}else{
 				this.setState(prevState=>({
 					...prevState,
 					symposiumArray:symposiums,
-					isPersonalProfile:isPersonalProfile
-				}));
+					isPersonalProfile:isPersonalProfile,
+					isLoading:false
+				}));	
 			}
+			
 		}catch(err){
 			console.log(err.message);
 		}
@@ -133,7 +149,6 @@ class PersonalFeedContainer extends Component{
 	}
 
 	changeColorForFastestGrowingButton=()=>{
-
 		document.getElementById("fastestGrowingButton").style.color="white";
 		document.getElementById("fastestGrowingButton").style.backgroundColor="#5298F8";
 
@@ -181,28 +196,40 @@ class PersonalFeedContainer extends Component{
 		}))
 	}
 
-	displayFollowOrExploreAnimation=async()=>{
+	displayFollowSymposiums=async()=>{
 
 		const followingSymposiumButton=document.getElementById("followedSymposiumsButton");
 		const exploreSymposiumsButton=document.getElementById("exploreSymposiumsButton");
 
 		var explorePosts=[];
-		if(this.state.triggerFollowAnimation==true){
-			followingSymposiumButton.style.color="#999999";
-			exploreSymposiumsButton.style.color="#151518";
-			if(this.props.isPersonalProfile==true){
-				explorePosts=await getSymposiumsNotFollowed(this.props.profileId);
-			}
+	
+		followingSymposiumButton.style.color="#151518";
+		exploreSymposiumsButton.style.color="#999999";
 
-		}else{
-			followingSymposiumButton.style.color="#151518";
-			exploreSymposiumsButton.style.color="#999999";
-			explorePosts=await getSymposiumsFollowedHome(this.props.profileId);
-		}
+		explorePosts=await getSymposiumsFollowedHome(this.props.profileId);
 		debugger;
 		this.setState({
-			triggerFollowAnimation:!this.state.triggerFollowAnimation,
-			symposiumArray:(explorePosts.length==0?this.state.symposiumArray:explorePosts)
+			symposiumArray:(explorePosts.length==0?[]:explorePosts),
+			isLoading:false
+		})
+	}
+
+	displayExploreSymposiums=async()=>{
+		const followingSymposiumButton=document.getElementById("followedSymposiumsButton");
+		const exploreSymposiumsButton=document.getElementById("exploreSymposiumsButton");
+		var explorePosts=[];
+
+
+		followingSymposiumButton.style.color="#999999";
+		exploreSymposiumsButton.style.color="#151518";
+
+		if(this.props.isPersonalProfile==true){
+			explorePosts=await getSymposiumsNotFollowed(this.props.profileId);
+			debugger;
+		}
+		this.setState({
+			symposiumArray:(explorePosts.length==0?[]:explorePosts),
+			isLoading:false
 		})
 	}
 
@@ -220,13 +247,13 @@ class PersonalFeedContainer extends Component{
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"0px"}}>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>this.displayFollowOrExploreAnimation()} id="followedSymposiumsButton" style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"5%"}}>
+										<li onClick={()=>this.displayFollowSymposiums()} id="followedSymposiumsButton" style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"5%"}}>
 											<b>My symposiums</b>
 										</li>
 									</a>
 
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>this.displayFollowOrExploreAnimation()} id="exploreSymposiumsButton" style={{color:"#999999",display:"inline-block",listStyle:"none",fontSize:"40px",marginLeft:"5%"}}>
+										<li onClick={()=>this.displayExploreSymposiums()} id="exploreSymposiumsButton" style={{color:"#999999",display:"inline-block",listStyle:"none",fontSize:"40px",marginLeft:"5%"}}>
 											<b>Explore Symposiums</b>
 										</li>
 									</a>
@@ -241,19 +268,40 @@ class PersonalFeedContainer extends Component{
 						Go back and check out the newest posts in the symposiums you follow. 
 					</li>
 				</ul>
-
-				{this.state.symposiumArray.map(data=>
-					<li style={{paddingBottom:"40px",listStyle:"none"}}>
-						<CommunityContainerAnimationFollowed onClick={()=>this.handleSymposiumClick(data)}>
-							<CommunityContainer
-								data={data}
-								isPersonalProfile={this.props.isPersonalProfile}
-							/>
-						</CommunityContainerAnimationFollowed>
-					</li>
-				)}
-
-
+				{this.state.isLoading==false && this.state.symposiumArray.length==0?
+						<li style={{listStyle:"none",marginLeft:"30%"}}>
+							<ul>
+								<li style={{listStyle:"none",display:"inline-block",width:"20%"}}>
+									<img src={StampIcon} style={{borderRadius:"50%",width:"95%",height:"20%"}}/>
+								</li>
+								<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none"}}>
+											<p> Unfortunately, we noticed that you arent following any symposiums  </p>
+											<p> Click the explore button below to search and find news ones  </p>
+										</li>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>this.displayExploreSymposiums()} style={ExploreButton}>
+												Explore
+											</li>
+										</a>
+									</ul>
+								</li>
+							</ul>
+						</li>:
+					<React.Fragment>
+						{this.state.symposiumArray.map(data=>
+							<li style={{paddingBottom:"40px",listStyle:"none"}}>
+								<CommunityContainerAnimationFollowed onClick={()=>this.handleSymposiumClick(data)}>
+									<CommunityContainer
+										data={data}
+										isPersonalProfile={this.props.isPersonalProfile}
+									/>
+								</CommunityContainerAnimationFollowed>
+							</li>
+						)}
+					</React.Fragment>
+				}
 			{/*
 				{this.state.triggerFollowAnimation==true?
 					<React.Fragment>

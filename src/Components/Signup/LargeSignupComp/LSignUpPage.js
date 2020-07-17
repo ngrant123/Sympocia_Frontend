@@ -53,6 +53,14 @@ import {
 	PersonalSignUpCard
 } from "./LSignUpPageCSS.js";
 
+//Entertainment Modal Icon
+import PortraitIcon from '@material-ui/icons/Portrait';
+//Company Modal Icon
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+//Investor Icon
+import HowToRegIcon from '@material-ui/icons/HowToReg';
+//Company/Business Icno
+import BusinessIcon from '@material-ui/icons/Business';
 
 const divStyle = {
   	position:'absolute',
@@ -71,7 +79,7 @@ const divStyle = {
 
 const HeaderCSS={
 	position:"relative",
-	left:"18%",
+	left:"15%",
 	fontSize:"40px",
 	color:"#5298F8"
 }
@@ -80,8 +88,9 @@ const HeaderDescriptionCSS={
 	position:"relative",
 	left:"5%",
 	fontSize:"15px",
-	color:"	#383838"
-
+	color:"	#383838",
+	marginTop:"10%",
+	marginBottom:"5%"
 }
 
 const StartuptypeStyle ={
@@ -91,7 +100,12 @@ const StartuptypeStyle ={
 	borderRadius:'5px'
 }
 
-const MAPBOX_TOKEN ="pk.eyJ1IjoibmdyYW50MTIzIiwiYSI6ImNrNzZzcjV3NTAwaGYza3BqbHZjNXJhZDkifQ.DsFpgYjX7ZUtOe7cFmylhQ"
+const MAPBOX_TOKEN ="pk.eyJ1IjoibmdyYW50MTIzIiwiYSI6ImNrNzZzcjV3NTAwaGYza3BqbHZjNXJhZDkifQ.DsFpgYjX7ZUtOe7cFmylhQ";
+
+/*
+	Right now its set up where if the user is an investor then the creation is done 
+	in this class. Should later be made into a module and then seperately done
+*/
 
 class LSignupPage extends Component {
 
@@ -160,21 +174,16 @@ class LSignupPage extends Component {
 				{this.TitleDisplayNameHeader()}
 				<PersonalSectionContainer>
 						<PersonalSectionCard>
-							<p style={HeaderCSS}><b>Entertainment</b></p>
-							<p style={HeaderDescriptionCSS}>Interested in viewing videos, posts, and images
+							<p style={HeaderCSS}>
+								<b>
+									<PortraitIcon style={{fontSize:"40"}}/> Entertainment
+								</b>
+							</p>
+							<p style={HeaderDescriptionCSS}> Interested in viewing videos, posts, and images
 							from your friends and people you are interested in? Click on the button below</p>
 
-							<ul>
-								<li style={{listStyle:"none"}}>
-									 <div class="custom-control custom-checkbox mb-3">
-									    <input type="checkbox" class="custom-control-input" id="investorCheckbox" required/>
-									    <label class="custom-control-label" for="investorCheckbox">Check this checkbox if you plan on investing now or the future (dont worry if you dont know how we'll try our best to teach you)</label>
-									    <div class="invalid-feedback"></div>
-									  </div>
-								</li>
-							</ul>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<SignUpButton onClick={()=>this.handleDisplayPersonalSetupPage()}>Click here</SignUpButton>
+								<SignUpButton style={{width:"80%",marginLeft:"5%"}} onClick={()=>this.handleDisplayPersonalSetupPage()}>Click here</SignUpButton>
 							</a>
 						</PersonalSectionCard>
 				</PersonalSectionContainer>
@@ -182,12 +191,62 @@ class LSignupPage extends Component {
 				{this.state.displayPersonalSignupModal==false?
 					<CompanySectionContainer>
 							<CompanySectionCard>
-								<p style={HeaderCSS}><b>Business</b></p>
-								<p style={HeaderDescriptionCSS}> Ready to show the world your hobby that you're 
-									proud of? Or maybe you have a startup or business and you want to connect with people
-									who you think would want to see it? Click on the button below to get started
+								<p style={HeaderCSS}>
+									<b>
+										<AccountBalanceIcon style={{fontSize:"40",marginRight:"10%"}}/>Business
+									</b>
 								</p>
-								<SignUpButton onClick={()=>this.handleDisplayCompanySetupPage()}>Click here</SignUpButton>
+
+								<ul style={{padding:"0px",marginTop:"10%"}}>
+									<li style={{listStyle:"none"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+												<BusinessIcon 
+													style={{fontSize:"40",color:"#5298F8"}}
+												/>
+											</li>
+
+											<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
+												Ready to show the world your hobby that you're 
+												building?Or maybe you have a startup or business and you want
+												to connect with people who you think would want to see it? Click 
+												on the button below to get started
+											</li>
+
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li style={{position:"relative",marginTop:"-70%",marginLeft:"5%",listStyle:"none",display:"inline-block"}}>
+													<SignUpButton onClick={()=>this.handleDisplayCompanySetupPage()}>
+														Click here
+													</SignUpButton>
+												</li>
+											</a>
+										</ul>
+									</li>
+
+									<li style={{listStyle:"none",marginTop:"10%"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+												<HowToRegIcon 
+													style={{fontSize:"40",color:"#5298F8"}}
+												/>
+											</li>
+
+											<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
+												Click here if you plan on investing now or the future 
+										    	(dont worry if you dont know how we'll try our best to teach you)
+											</li>
+
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li style={{marginLeft:"5%",listStyle:"none",display:"inline-block"}}>
+													<SignUpButton onClick={()=>this.handleDisplayInvestorSetUpPage()}>
+														Click here
+													</SignUpButton>
+												</li>
+											</a>
+										</ul>
+									</li>
+								</ul>
+
 							</CompanySectionCard>
 
 					</CompanySectionContainer>
@@ -199,27 +258,21 @@ class LSignupPage extends Component {
 			</React.Fragment>
 	}
 
+	handleDisplayInvestorSetUpPage=()=>{
+		this.setState({
+			hideInitialScreen:true,
+			displayCompanySetupPage:false,
+			displayPersonalSetupPage:false,
+			displayPersonalInvestorPage:true
+		})
+	}
 
-	handleDisplayPersonalSetupPage=async(e)=>{
-
-		const checkbox=document.getElementById("investorCheckbox");
-		const valueOfCheckbox=checkbox.checked;
-		if(valueOfCheckbox==true){
-			this.setState({
-				hideInitialScreen:true,
-				displayCompanySetupPage:false,
-				displayPersonalSetupPage:false,
-				displayPersonalInvestorPage:true
-			})
-
-		}else{
-			this.setState({displayPersonalSignupModal:true})
-		}
+	handleDisplayPersonalSetupPage=()=>{
+		this.setState({displayPersonalSignupModal:true})
 	} 
 
 
 	handleDisplayCompanySetupPage=()=>{
-
 		this.setState({
 			displayCompanySetupPage:true,
 			hideInitialScreen:true

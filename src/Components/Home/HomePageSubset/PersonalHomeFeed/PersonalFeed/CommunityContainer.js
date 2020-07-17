@@ -77,6 +77,7 @@ const ProfilePictureCSS={
 
 const CommunityContainer=(props)=>{
 	console.log(props);
+	console.log("Community Container");
 	const {
 		activePeople,
 		popularPosts,

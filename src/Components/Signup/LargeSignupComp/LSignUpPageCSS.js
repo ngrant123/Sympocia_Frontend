@@ -305,9 +305,9 @@ export const PersonalSectionCard=styled.div`
 export const CompanySectionContainer=styled.div`
 	position:absolute;
 	background-color:white;
-	width:30%;
+	width:40%;
 	height:50%;
-	left:55%;
+	left:53%;
 	top:35%;
 	border-radius:5px;
 	border-style:solid;
@@ -362,13 +362,11 @@ export const PersonalPageButton=styled(Link)`
 `;
 
 export const SignUpButton=styled.div`
-	position:absolute;
+	position:relative;
 	background-color:#5298F8;
 	color:white;
-	width:50%;
+	width:80px;
 	height:15%;
-	top:80%;
-	left:20%;
 	transition:.8s;
 	border-radius:5px;
 	text-align:center;
