@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react';
-import styled from 'styled-components';
+import styled,{keyframes} from 'styled-components';
 import { Redirect } from "react-router-dom";
 import LandingPageScrollDiv from '../../GeneralComponents/LandingPageComponent/LandingScrollPageIndicator';
 import { useDispatch,useSelector } from 'react-redux';
@@ -38,16 +38,16 @@ import  {
         CreateAccountTitle,
         JoinFamily,
         TermsOfAgreement,
-        ArrowDownContainer,
         InputTextArea
      } from "./LandingFirstSectionCSS";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import LandingImage from '../../../designs/img/FirstSectionLandingPAgeImage.png'
+import LandingImage from '../../../designs/img/CompanyFirstSection.png';
 
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import NavBarLogin from "../NavBarImplementation.js";
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 
 const LoginBox=styled.textarea`
@@ -95,6 +95,21 @@ const Submit=styled.div`
    text-decoration:none;
 
    }
+`;
+
+const ArrowDownContainer=styled.div`
+  animation: bounce 2s infinite;
+  @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-30px);
+        }
+        60% {
+          transform: translateY(-15px);
+        }
+  }
 `;
 
 
@@ -162,7 +177,17 @@ const FirstSection=(props)=>{
     }
 	}
 
+  /*
+    Starting a business is hard. But now you don’t have to do it all alone
+    Introducing Sympocia Business
+
+    So you’re starting out your business huh? Or maybe you have an idea
+    and you need a little help with it. Don’t worry, we built this platform just for you :)
+  */
+
 	return(
+
+
 
 		     <FirstContainer id="firstContainer">
               <ul style={{padding:"0px"}}>
@@ -178,7 +203,7 @@ const FirstSection=(props)=>{
                           /> 
                       </ul>
                   </li>
-                  <li style={{listStyle:"none"}}>
+                  <li style={{listStyle:"none",marginTop:"7%"}}>
                     <ul style={{padding:"0px"}}>
                         <li style={{listStyle:"none",display:"inline-block",width:"90%",height:"60%"}}>
                             <ul style={{padding:"0px"}}>
@@ -186,18 +211,16 @@ const FirstSection=(props)=>{
                                 <ul style={{padding:"0px"}}>
                                   <li style={{listStyle:"none",display:"inline-block"}}>
                                       <p style={{fontSize:"40px",marginBottom:"10%"}}>
-                                          <b>Finally.... a platform where you can just be yourself</b>
+                                          <b>Introducing Sympocia Business</b>
                                       </p>
                                       <p>
-                                          We've all been there. You've asked yourself "I really like this photo but will 
-                                          it get likes?" or "Will anyone care about my hobbies". You've also asked yourself,
-                                          "Why do I feel so alone after using social media". We've asked these question also. 
-                                          Which is why we built <b>Sympocia</b>
+                                          So you’re starting out your business huh? Or maybe you have an idea
+                                          and you need a little help with it. 
+                                          Don’t worry, we built <b>Sympocia</b> just for you :)
                                       </p>
 
                                       <p>
-                                         Introducing the first social entertainment platform focused on you expressing yourself
-                                         regardless of whether people like it or not
+                                         Starting a business is hard. But now you don’t have to do it all alone
                                       </p>
                                   </li>
                                   <li style={{listStyle:"none"}}>
@@ -222,14 +245,9 @@ const FirstSection=(props)=>{
                               </li>
                             </ul>
                         </li>
-                        <li onClick={()=>props.increaseCounter()} style={{listStyle:"none",display:"inline-block"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <ArrowForwardIosIcon/>
-                          </a>
-                        </li>
                     </ul>
                   </li>
-                  <li style={{listStyle:"none"}}>
+                  <li style={{listStyle:"none",marginTop:"-10%"}}>
                     <ul style={{padding:"0px"}}>
                         <li style={{listStyle:"none",display:"inline-block"}}>
                             <FiberManualRecordIcon/>
@@ -247,6 +265,13 @@ const FirstSection=(props)=>{
                           </a>
                         </li>
                     </ul>
+                  </li>
+                  <li style={{listStyle:"none",marginTop:"7%"}}>
+                    <ArrowDownContainer>
+                      <ArrowDownwardIcon
+                        style={{fontSize:'20'}}
+                      />
+                    </ArrowDownContainer>
                   </li>
                </ul>
 

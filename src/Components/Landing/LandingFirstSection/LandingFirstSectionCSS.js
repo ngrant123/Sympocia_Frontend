@@ -4,7 +4,6 @@ import firststatue from '../../../designs/img/test3.png';
 import {BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 
 
-
 export const SignInformation = styled.div`
   position:absolute;
   background-color:white;
@@ -53,7 +52,32 @@ export const FirstContainer = styled.div`
     textarea::-webkit-input-placeholder {  color:#DBDADC;}
     opacity:0;
     transition:.8s;
-
+    @media screen and (max-width:950px){
+      #imageContainer{
+          top:-160px;
+      }
+    }
+    @media screen and (max-width:600px){
+      p1{
+        font-size:60px;
+      }
+      #footerIcons{
+        display:none;
+      }
+      #navBarLogin{
+        display:none;
+      }    
+      #imageListContainer{
+         display:none;
+         top:0px;
+      }
+      #openingTextContainer{
+        width:150%;
+      }
+      #listOpeningTextContainer{
+        display:block;
+      }
+    }
 `;
 
 export const FirstStatue = styled.div`

@@ -95,25 +95,25 @@ const NavBar=(props)=>{
 	      dispatch(updatefirstTimeUsage(true));
 	      dispatch(loginCompanyPage(true));
 	      dispatch(loginPersonalPage(false));
-
 	    }
+
 	    props.history.push('/home');
 	  }
 	}
 
 
 	return (
-		<React.Fragment>
-		 <li style={{listStyle:"none",display:"inline-block",marginLeft:"10%"}}>
-                              <LoginBox id="LoginEmail" placeholder="Email"></LoginBox>
-                          </li>
-                          <li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-                              <LoginBox id="LoginPassword" placeholder="Password"></LoginBox>
-                          </li>
-                          <li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-                              <Submit onClick = {e =>  handleLoginClick(e,props,dispatch)} to="/profile">Login </Submit>
-         </li>
-        </React.Fragment>
+      <ul style={{padding:"0px"}}>
+        <li style={{listStyle:"none",display:"inline-block"}}>
+            <LoginBox id="LoginEmail" placeholder="Email"></LoginBox>
+        </li>
+        <li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+            <LoginBox id="LoginPassword" placeholder="Password"></LoginBox>
+        </li>
+        <li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+            <Submit onClick = {e =>  handleLoginClick(e,props,dispatch)} to="/profile">Login </Submit>
+        </li>
+      </ul>
 	)
 }
 export default NavBar;
