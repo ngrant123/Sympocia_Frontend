@@ -9,6 +9,8 @@ import CompanySecondSection from "./LandingSecondSection/companyIndex.js";
 import CompanyThirdSection from "./LandingThirdSection/companyIndex.js";
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import LandingImage from '../../designs/img/CompanySecondSection.png';
+
 
 const Container=styled.div`
 	position:absolute;
@@ -20,7 +22,6 @@ const ArrowPersonalContainer=styled.div`
 	position:fixed;
 	border-style:solid;
 	border-width:2px;
-	width:3%;
 	top:40%;
 	padding:10px;
 	animation: glowing 1300ms infinite;
@@ -42,7 +43,6 @@ const ArrowCompanyContainer=styled.div`
 	position:fixed;
 	border-style:solid;
 	border-width:2px;
-	width:3%;
 	top:40%;
 	padding:10px;
 	animation: glowing 1300ms infinite;
@@ -59,10 +59,18 @@ const ArrowCompanyContainer=styled.div`
       100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
   }
 `;
+
+/*
+	We know that social media sucks. Thats why we’re building  Sympocia (highlight the word sympcia and make it redirect to official landing page) because we believe that it’’ change the way we connect forever. But that’s besides the point. We want to know how you (highlight) feel about social media platforms, any new innovations that you’ve always wanted to see come to fruition, or any fixes that you have for the current state of social media. We are giving out a total of $50 dollars right now. The rules are simple: 
+	1.)Enter your email address when prompted
+	2.) Leave a comment
+	3.) Enjoy
+	If your comment is selected you win $1. Keep on submitting comments before everyone else and you can potentially walk with an easy $20 or $30. Its simple :)   Lets get it started then 
+*/
 const LandingPage=(props)=>{
 
 	const [currentPageCounter,changePageCounter]=useState(0);
-	const [displayPersonalLanding,changeDisplayForPersonal]=useState(true);
+	const [displayPersonalLanding,changeDisplayForPersonal]=useState(false);
 
 	const increasePageCounter=()=>{
 		debugger;
@@ -163,7 +171,9 @@ const LandingPage=(props)=>{
 								props={props}
 							/>
 						</li>
-
+						<li style={{listStyle:"none"}}>
+							<img id="imageListContainer" src={LandingImage} style={{width:"40%",height:"50%"}} />
+						</li>
 						<li style={{listStyle:"none"}}>
 							<CompanySecondSection
 								increaseCounter={increasePageCounter}

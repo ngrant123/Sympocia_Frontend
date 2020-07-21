@@ -16,6 +16,99 @@ export const SecondContainer = styled.div`
   opacity:0;
   transition:.8s;
 
+   @media screen and (max-width:950px){
+      margin-top:20%;
+    }
+    @media screen and (max-width:900px){
+          #footerIcons{
+              display:none;
+          }
+          #floatingArrowFunction{
+            display:none;
+          }
+        }
+
+    @media screen and (max-width:860px){
+      #bulletsContainer{
+        width:80%;
+        font-size:15px;
+      }
+      #firstListContainer{
+        font-size:15px;
+      }
+    }
+
+    @media screen and (max-width:680px){
+      margin-top:25%;
+    }
+
+    @media screen and (max-width:650px){
+      margin-top:-10%;
+        #imageListContainer{
+         display:none;
+         top:0px;
+      }
+
+      #ulContainer{
+        width:90%;
+        background-color:red;
+      }
+      #bulletsContainer{
+        width:300%;
+        margin-left:-150%;
+        font-size:15px;
+      }
+    }
+
+    @media screen and (max-height:750px){
+        #floatingArrowFunction{
+          display:none;
+        }
+         #footerIcons{
+            display:none;
+        }
+    }
+
+
+
+ 
+
+    @media screen and (max-height:530px){
+      margin-top:15%;
+    }
+     @media screen and (max-height:440px){
+        margin-top:15%;
+         #imageListContainer{
+           top:-60px;
+           height:250%;
+           
+        }
+    }
+
+    @media screen and (max-height:400px){
+        margin-top:20%;
+    }
+    @media screen and (max-height:360px){
+        margin-top:30%;
+    }
+
+    @media screen and (max-width:820px), screen and (max-height:590px){
+      margin-top:35%;
+    }
+     @media screen and (max-width:685px), screen and (max-height:565px){
+      margin-top:40%;
+    }
+
+    @media screen and (max-width:380px), screen and (max-height:465px){
+      margin-top:55%;
+    }
+
+    @media screen and (max-width:380px), screen and (max-height:380px){
+      margin-top:75%;
+    }
+   @media screen and (max-width:420px), screen and (max-height:300px){
+      margin-top:120%;
+    }
 `;
 
  export const SecondPageHead = styled.div`

@@ -83,7 +83,7 @@ const ThirdSection=(props)=>{
 	  },[]);
 	return(
 			<ThirdContainer id="thirdContainer">
-			    <img src={LandingImage} style={{zIndex:"-5",left:"65%",position:"absolute",top:"-10%",width:"40%",height:"60%"}} />
+			    <img id="imageListContainer" src={LandingImage} style={{zIndex:"-5",left:"65%",position:"absolute",top:"-10%",width:"40%",height:"60%"}} />
 				<ul style={{padding:"50px"}}>
 		            <li style={{listStyle:"none"}}>
 		            	<ul style={{padding:"0px"}}>
@@ -111,7 +111,7 @@ const ThirdSection=(props)=>{
 								</li>
 		            	</ul>
 		            </li>
-					<li style={{listStyle:"none",marginLeft:"50%",marginTop:"15%"}}>
+					<li id="footerIcons" style={{listStyle:"none",marginLeft:"50%",marginTop:"15%"}}>
 	                    <ul style={{padding:"0px"}}>
 	                        <li onClick={()=>props.displaySelectedPage(0)} style={{listStyle:"none",display:"inline-block"}}>
 	                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>

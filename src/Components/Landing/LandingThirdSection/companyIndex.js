@@ -75,8 +75,8 @@ const ThirdSection=(props)=>{
 					</InformationCard> 
 				</li>
 
-				<li style={{position:"relative",marginLeft:"-5%",listStyle:"none",display:"inline-block",width:"45%",top:"-110px"}}>
-					<img src={LandingImage} style={{width:"80%",height:"65%"}}/>
+				<li id="imageListContainer" style={{listStyle:"none",display:"inline-block"}}>
+					<img src={LandingImage} style={{backgroundColor:"red",width:"45%",top:"-110px",height:"65%",marginLeft:"-5%"}}/>
 				</li>
 
 				<li style={{listStyle:"none",display:"inline-block",marginLeft:"-5%"}}>

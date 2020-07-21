@@ -36,7 +36,6 @@ export const Container = styled.div`
    display:block;
 
    textarea::-webkit-input-placeholder {  color:#DBDADC;}
-
 `;
 
 
@@ -46,23 +45,49 @@ export const FirstContainer = styled.div`
    left: 0; 
    height: 100%; 
    width: 100%;
-  text-align:center;
+   text-align:center;
     margin:auto;
     padding:0;
     textarea::-webkit-input-placeholder {  color:#DBDADC;}
     opacity:0;
     transition:.8s;
+
+    @media screen and (max-width:1030px){
+       #imageContainer{
+          top:-160px;
+      }
+    }
     @media screen and (max-width:950px){
       #imageContainer{
           top:-160px;
       }
-    }
-    @media screen and (max-width:600px){
-      p1{
-        font-size:60px;
-      }
-      #footerIcons{
+      #floatingArrowFunction:{
         display:none;
+      }
+    }
+
+    @media screen and (max-width:900px){
+      #footerIcons{
+          display:none;
+      }
+      #floatingArrowFunction{
+        display:none;
+      }
+    }
+
+    @media screen and (max-width:650px){
+      #mobileLogin{
+         list-style:none;
+          display:inline-block;
+          background-color:red;
+          border-radius:5px;
+          padding:30px;
+          color:white;
+      }
+      #header{
+        font-size:60px;
+        margin-top:5%;
+        margin-left:-10%;
       }
       #navBarLogin{
         display:none;
@@ -71,12 +96,55 @@ export const FirstContainer = styled.div`
          display:none;
          top:0px;
       }
+      #imageContainer{
+          display:none;
+      }
       #openingTextContainer{
         width:150%;
       }
       #listOpeningTextContainer{
         display:block;
       }
+      #floatingArrowFunction{
+        display:none;
+      }
+    }
+
+    @media screen and (max-width:490px){
+      #header1{
+          font-size:20px;
+      }
+    }
+
+     @media screen and (max-height:750px){
+        #navBarLogin{
+          display:none;
+          background-color:red;
+        }
+        #floatingArrowFunction{
+          display:none;
+        }
+         #footerIcons{
+            display:none;
+        }
+    }
+
+       @media screen and (max-height:570px){
+
+         #imageContainer{
+            top:-80px;
+           height:100%;
+        }
+    }
+
+
+       @media screen and (max-height:440px){
+
+         #imageListContainer{
+           top:-80px;
+           height:200%;
+           
+        }
     }
 `;
 

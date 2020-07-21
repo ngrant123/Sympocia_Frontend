@@ -110,8 +110,8 @@ const NumberBulletsIcon={
     borderWidth:"2px",
     borderColor:"#3898ec",
     marginBottom:"5%",
-    width:"5%",
-    borderRadius:"50%"
+    borderRadius:"50%",
+    padding:"10px"
 }
 
 const DisplayTextButton={
@@ -125,11 +125,7 @@ const DisplayTextButton={
 */
 const SecondSection=(props)=>{
 
-  /*
-    const [displayText,changeDisplay]=useState(false);
-    const [displayFirstText,changeDisplayFirstText]=useState(false);
-    const [displaySecondText,changeDisplaySecondText]=useState(false);
-  */
+
 
   const [displayFirstBulletModal,changeFirstBulletDisplay]=useState(false);
   const [displaySecondBulletModal,changeSecondBulletDisplay]=useState(false);
@@ -191,17 +187,9 @@ const closeModal=()=>{
 }
 
 
-/*
-      const closeTextModal=()=>{
-      changeDisplay(false);
-      changeDisplayFirstText(false);
-      changeDisplaySecondText(false);
-    }
-*/
-
 	return (
 		     <SecondContainer id="secondContainer"> 
-            <img src={LandingImage} style={{zIndex:"-5",position:"absolute",top:"-5%",width:"40%",height:"50%",left:"5%"}} />
+            <img id="imageListContainer" src={LandingImage} style={{zIndex:"-5",position:"absolute",top:"-5%",width:"40%",height:"50%",left:"5%"}} />
               {displayText==true?
                    <InformationCard>
                       <ul>
@@ -254,8 +242,8 @@ const closeModal=()=>{
             <ul style={{zIndex:"2",padding:"0px",marginTop:"5%"}}>
               <li style={{listStyle:"none",height:"70%"}}>
 
-                  <ul style={{padding:"0px"}}>
-                     <li style={{listStyle:"none",display:"inline-block",width:"35%",height:"50%",marginRight:"5%",marginLeft:"40%"}}>
+                  <ul style={{width:"35%",height:"50%",marginRight:"5%",marginLeft:"40%",padding:"0px"}}>
+                     <li id="bulletsContainer" style={{listStyle:"none",display:"inline-block"}}>
                               <p style={{fontSize:"50px",width:"60%",borderTop:"5px solid #494949",marginLeft:"20%"}}> 
                                   <b>How are we different?</b>
                               </p>
@@ -264,7 +252,7 @@ const closeModal=()=>{
                               </p>
                               <ul style={{padding:"0px",marginTop:"5%"}}> 
                                 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                                  <li onClick={()=>displayFirstBulletHandle()} style={{listStyle:"none"}}>
+                                  <li id="firstListContainer" onClick={()=>displayFirstBulletHandle()} style={{listStyle:"none"}}>
                                       <ul style={{padding:"0px"}}>
                                           <li id="firstNumberModal" style={NumberBulletsIcon}>
                                             1
@@ -309,82 +297,10 @@ const closeModal=()=>{
                                 </a>
                               </ul>
                       </li>
-                  {/*
-                    <li style={{listStyle:"none",display:"inline-block",width:"35%",height:"50%",marginRight:"5%",marginLeft:"40%"}}>
-                            <p style={{fontSize:"50px"}}> 
-                                <b>Where did the name Sympocia come from?</b>
-                            </p>
-                            <p>
-                              In ancient greece, a symposium was part of a banquet that took place
-                              after a meal where people would celebrate play music and have a great time. Symposia's 
-                              on the other hand where used to celebrate special activities and victories which
-                              is what I want this platform to represent. A group of people celebrating together 
-                              over crushing their goals and having a goad time.
-                            </p>
-                    </li>
-                  
-                      <li style={{width:"40%",height:"80%",listStyle:"none",display:"inline-block",position:"relative",top:"-80px",marginLeft:"7%"}}> 
-                        <ul style={{padding:"0px"}}>
-                            <p>Here are some question we hope describe the platform better</p>
-                            <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                              <li onClick={()=>displayFirstTextHandle()} style={MoreDetailsButton}>
-                                  What is this platform?
-                              
-                              </li>
-                            </a>
-
-                            <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                              <li onClick={()=>displaySecondTextHandle()} style={MoreDetailsButton}>
-                                  What from the surface level are we doing different?
-                              </li>
-                            </a>
-                            
-                            {displayText==true?
-                              <li style={DisplayTextButton}>
-                                  <li  onClick={()=>closeTextModal()} style={{listStyle:"none"}}>
-                                    <HighlightOffIcon
-                                      style={{marginLeft:"70%"}}
-                                    />
-                                  </li>
-                                    {displayFirstText==true?
-                                      <p>
-                                        Our main goal for this platform is to make you feel like you're the priority.
-                                        A place where authenticity is the main goal not the amount of likes or views. Connect
-                                        with people who you are actually interested in being friends with and finally have a place
-                                        where you're comfortable to be you.
-                                      </p>:
-                                      <React.Fragment>
-                                      <p>How are we different? You've asked and here are the answeres:</p>
-                                          <ul>
-                                            <li>
-                                              No like count
-                                            </li>
-                                            <li>
-                                              No followers count
-                                            </li>
-                                            <li>
-                                              A better algorithm for videos that we believe always you're videos to get the views
-                                              and attention is deserves (plus we let you know what it is)
-                                            </li>
-                                            <li>
-                                              Improved home algorithm that actually shows you what you're interested in instead of showing you 
-                                              ads and random stuff
-                                            </li>
-                                            <li>
-                                              More control over your posts and where its going and whos seeing it
-                                            </li>
-                                          </ul>
-                                      </React.Fragment>
-                                    }
-                              </li>:<React.Fragment></React.Fragment>
-                            }
-                        </ul>
-                    </li>
-                  */}
                     
                     </ul>
                 </li>
-                <li style={{listStyle:"none"}}>
+                <li id="footerIcons" style={{listStyle:"none"}}>
                     <ul style={{padding:"0px"}}>
                         <li onClick={()=>props.displaySelectedPage(0)} style={{listStyle:"none",display:"inline-block"}}>
                           <a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -405,7 +321,7 @@ const closeModal=()=>{
                         </li>
                     </ul>
                 </li>
-                <li style={{listStyle:"none",marginTop:"5%"}}>
+                <li id="floatingArrowFunction" style={{listStyle:"none",marginTop:"5%"}}>
                     <ArrowDownContainer>
                       <ArrowDownwardIcon
                         style={{fontSize:'20'}}

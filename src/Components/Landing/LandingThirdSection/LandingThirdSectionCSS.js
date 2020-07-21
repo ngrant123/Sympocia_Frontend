@@ -7,6 +7,41 @@ export const ThirdContainer=styled.div`
   height:100%;
   opacity:0;
   transition:.8s;
+
+   @media screen and (max-width:650px){
+        #imageListContainer{
+	         display:none;
+	         top:0px;
+	     }
+
+	     #imageListContainerCompany{
+	     	display:none;
+	     	background-color:red;
+	     }
+	     #footerIcons{
+	          display:none;
+	      }
+    }
+
+    @media screen and (max-height:750px){
+        #floatingArrowFunction{
+          display:none;
+        }
+         #footerIcons{
+            display:none;
+        }
+    }
+
+    @media screen and (max-height:480px){
+        margin-top:20%;
+    }
+    @media screen and (max-width:820px), screen and (max-height:590px){
+      margin-top:35%;
+    }
+
+     @media screen and (max-width:380px), screen and (max-height:380px){
+      margin-top:75%;
+    }
 `;
 
 

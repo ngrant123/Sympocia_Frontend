@@ -132,6 +132,15 @@ const ExploreButton={
   borderColor:"#3898ec"
 }
 
+const MobileLoginButton={
+  listStyle:"none",
+  display:"none",
+  backgroundColor:"#C8B0F4",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"white"
+}
+
 const handleClearTextAreaClick=(divId)=>{
 	document.getElementById(divId).placeholder="";
 }
@@ -180,10 +189,10 @@ const FirstSection=(props)=>{
               <ul style={{padding:"0px"}}>
                    <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
                       <ul style={{padding:"0px"}}>
-                          <li style={{marginTop:"5%",listStyle:"none",display:"inline-block",fontSize:"100px",color:"#C8B0F4",marginLeft:"-20%"}}>
-                            <p1>
+                          <li style={{listStyle:"none",display:"inline-block",fontSize:"100px",color:"#C8B0F4"}}>
+                            <p id="header">
                                 <b>Sympocia</b>
-                            </p1>
+                            </p>
                           </li>
                           <li style={{listStyle:"none"}} id="navBarLogin">
                             <NavBarLogin
@@ -197,20 +206,29 @@ const FirstSection=(props)=>{
                         <li id="listOpeningTextContainer" style={{listStyle:"none",display:"inline-block",width:"50%",height:"50%"}}>
                           <ul id="openingTextContainer" style={{padding:"0px"}}>
                             <li style={{listStyle:"none",display:"inline-block"}}>
-                                <p style={{fontSize:"40px",marginBottom:"10%"}}>
-                                    <b>Finally.... a platform where you can just be yourself</b>
-                                </p>
-                                <p>
-                                    We've all been there. You've asked yourself "I really like this photo but will 
-                                    it get likes?" or "Will anyone care about my hobbies". You've also asked yourself,
-                                    "Why do I feel so alone after using social media". We've asked these question also. 
-                                    Which is why we built <b>Sympocia</b>
-                                </p>
+                                <ul style={{padding:"0px"}}>
+                                    <li style={{listStyle:"none",fontSize:"40px",marginBottom:"10%"}}>
+                                         <p id="header1">
+                                            <b>Finally.... a platform where you can just be yourself</b>
+                                        </p>
+                                    </li>
 
-                                <p>
-                                   Introducing the first social entertainment platform focused on you expressing yourself
-                                   regardless of whether people like it or not
-                                </p>
+                                    <li style={{listStyle:"none"}}>
+                                        <p>
+                                            We've all been there. You've asked yourself "I really like this photo but will 
+                                            it get likes?" or "Will anyone care about my hobbies". You've also asked yourself,
+                                            "Why do I feel so alone after using social media". We've asked these question also. 
+                                            Which is why we built <b>Sympocia</b>
+                                        </p>
+                                    </li>
+
+                                    <li style={{listStyle:"none"}}>
+                                        <p>
+                                           Introducing the first social entertainment platform focused on you expressing yourself
+                                           regardless of whether people like it or not
+                                        </p>
+                                    </li>
+                                </ul>
                             </li>
                             <li style={{listStyle:"none"}}>
                                 <ul style={{padding:"0px"}}>
@@ -222,6 +240,11 @@ const FirstSection=(props)=>{
                                   <a href="javascript:void(0);" style={{textDecoration:"none"}}>
                                     <li style={ExploreButton}>
                                         Explore
+                                    </li>
+                                  </a>
+                                  <a  href="javascript:void(0);" style={{textDecoration:"none"}}>
+                                    <li style={{listStyle:"none"}}>
+                                        Login In
                                     </li>
                                   </a>
                                 </ul>
@@ -253,7 +276,7 @@ const FirstSection=(props)=>{
                         </li>
                       </ul>
                   </li>
-                  <li style={{listStyle:"none",marginTop:"5%"}}>
+                  <li id="floatingArrowFunction" style={{listStyle:"none",marginTop:"5%"}}>
                     <ArrowDownContainer>
                       <ArrowDownwardIcon
                         style={{fontSize:'20'}}
@@ -261,9 +284,6 @@ const FirstSection=(props)=>{
                     </ArrowDownContainer>
                   </li>
                </ul>
-
-
-
         </FirstContainer>
 	)
 }

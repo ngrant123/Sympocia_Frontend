@@ -27,7 +27,6 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 
-
 const LandingPageScrollBar= styled.div`
 	position:relative;
 	width:20%;
@@ -143,13 +142,13 @@ const SecondSection=(props)=>{
 
 	return (
 		     <SecondContainer id="secondContainer"> 
-            <img src={LandingImage} style={{zIndex:"-5",position:"absolute",top:"-5%",width:"40%",height:"50%",left:"5%"}} />
+            <img id="imageListContainer" src={LandingImage} style={{zIndex:"-5",position:"absolute",top:"-5%",width:"40%",height:"50%",left:"5%"}} />
             
             <ul style={{zIndex:"2",padding:"0px",marginTop:"5%"}}>
               <li style={{listStyle:"none",height:"70%"}}>
 
-                  <ul style={{padding:"0px"}}>
-                     <li style={{listStyle:"none",display:"inline-block",width:"35%",height:"50%",marginRight:"5%",marginLeft:"40%"}}>
+                  <ul style={{width:"35%",height:"50%",marginRight:"5%",marginLeft:"40%",padding:"20px"}}>
+                     <li id="bulletsContainer" style={{listStyle:"none",display:"inline-block"}}>
                               <p style={{fontSize:"50px",borderTop:"5px solid #494949"}}> 
                                   <b>How can this help you? </b>
                               </p>
@@ -157,7 +156,7 @@ const SecondSection=(props)=>{
                                  We offer two things one this platform that you can’t get anywhere else:
                               </p>
                               <ul style={{padding:"0px",marginTop:"5%"}}> 
-                                  <li style={{listStyle:"none"}}>
+                                  <li id="firstListContainer" style={{listStyle:"none"}}>
                                       <ul style={{padding:"0px"}}>
                                           <li id="firstNumberModal" style={NumberBulletsIcon}>
                                             1
@@ -187,10 +186,9 @@ const SecondSection=(props)=>{
                                   </li>
                               </ul>
                       </li>
-                    
                     </ul>
                 </li>
-                <li style={{listStyle:"none",marginTop:"-5%"}}>
+                <li id="footerIcons" style={{listStyle:"none",marginTop:"-5%"}}>
                     <ul style={{padding:"0px"}}>
                         <li onClick={()=>props.displaySelectedPage(0)} style={{listStyle:"none",display:"inline-block"}}>
                           <a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -211,7 +209,7 @@ const SecondSection=(props)=>{
                         </li>
                     </ul>
                 </li>
-                <li style={{listStyle:"none",marginTop:"5%"}}>
+                <li id="floatingArrowFunction" style={{listStyle:"none",marginTop:"5%"}}>
                     <ArrowDownContainer>
                       <ArrowDownwardIcon
                         style={{fontSize:'20'}}

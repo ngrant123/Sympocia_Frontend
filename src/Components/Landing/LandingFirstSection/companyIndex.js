@@ -191,16 +191,18 @@ const FirstSection=(props)=>{
 
 		     <FirstContainer id="firstContainer">
               <ul style={{padding:"0px"}}>
-                   <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
+                  <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
                       <ul style={{padding:"0px"}}>
                           <li style={{listStyle:"none",display:"inline-block"}}>
                             <p style={{fontSize:"100px",color:"#C8B0F4",marginLeft:"-20%"}}>
                                 <b>Sympocia</b>
                             </p>
                           </li>
-                          <NavBarLogin
-                            props={props}
-                          /> 
+                          <li id="navBarLogin" style={{listStyle:"none"}}>
+                            <NavBarLogin
+                              props={props}
+                            /> 
+                          </li>
                       </ul>
                   </li>
                   <li style={{listStyle:"none",marginTop:"7%"}}>
@@ -210,18 +212,27 @@ const FirstSection=(props)=>{
                               <li style={{listStyle:"none",display:"inline-block",width:"50%",height:"50%"}}>
                                 <ul style={{padding:"0px"}}>
                                   <li style={{listStyle:"none",display:"inline-block"}}>
-                                      <p style={{fontSize:"40px",marginBottom:"10%"}}>
-                                          <b>Introducing Sympocia Business</b>
-                                      </p>
-                                      <p>
-                                          So you’re starting out your business huh? Or maybe you have an idea
-                                          and you need a little help with it. 
-                                          Don’t worry, we built <b>Sympocia</b> just for you :)
-                                      </p>
+                                      <ul style={{padding:"0px"}}>
+                                        <li style={{listStyle:"none",fontSize:"40px",marginBottom:"10%"}}>
+                                            <p>
+                                              <b>Introducing Sympocia Business</b>
+                                           </p>
+                                        </li>
 
-                                      <p>
-                                         Starting a business is hard. But now you don’t have to do it all alone
-                                      </p>
+                                        <li style={{listStyle:"none"}}>
+                                            <p>
+                                                So you’re starting out your business huh? Or maybe you have an idea
+                                                and you need a little help with it. 
+                                                Don’t worry, we built <b>Sympocia</b> just for you :)
+                                            </p>
+                                        </li>
+
+                                        <li style={{listStyle:"none"}}>
+                                            <p>
+                                               Starting a business is hard. But now you don’t have to do it all alone
+                                            </p>
+                                        </li>
+                                      </ul>
                                   </li>
                                   <li style={{listStyle:"none"}}>
                                       <ul style={{padding:"0px"}}>
@@ -240,14 +251,14 @@ const FirstSection=(props)=>{
                                 </ul>
                               </li>
 
-                              <li style={{position:"relative",top:"-100px",listStyle:"none",display:"inline-block",width:"40%"}}>
-                                  <img src={LandingImage} style={{width:"95%",height:"80%"}}/>
+                              <li id="imageListContainer" style={{position:"relative",top:"-100px",listStyle:"none",display:"inline-block",width:"40%"}}>
+                                  <img id="imageContainer" src={LandingImage} style={{width:"95%",height:"80%"}}/>
                               </li>
                             </ul>
                         </li>
                     </ul>
                   </li>
-                  <li style={{listStyle:"none",marginTop:"-10%"}}>
+                  <li id="footerIcons" style={{listStyle:"none",marginTop:"-10%"}}>
                     <ul style={{padding:"0px"}}>
                         <li style={{listStyle:"none",display:"inline-block"}}>
                             <FiberManualRecordIcon/>
@@ -266,7 +277,7 @@ const FirstSection=(props)=>{
                         </li>
                     </ul>
                   </li>
-                  <li style={{listStyle:"none",marginTop:"7%"}}>
+                  <li id="floatingArrowFunction" style={{listStyle:"none",marginTop:"7%"}}>
                     <ArrowDownContainer>
                       <ArrowDownwardIcon
                         style={{fontSize:'20'}}
