@@ -65,7 +65,6 @@ class ImageCreation extends Component{
 	}
 
 	render(){
-
 		return(
 			<React.Fragment>
 				{this.state.displayEditImagesScreen==false?

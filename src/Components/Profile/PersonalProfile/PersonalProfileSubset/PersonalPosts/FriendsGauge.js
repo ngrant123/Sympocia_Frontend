@@ -4,7 +4,8 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import {connect} from "react-redux";
-import FriendsGaugeEditModal from "../../PersonalProfileSet/FriendsGaugeEditPortal.js";
+import FriendsGaugeEditModal from "../../PersonalProfileSet/FriendsGaugeEditPortal/index.js";
+import RecruitsNodeInformationPortal from "../../PersonalProfileSet/RecruitsNodeInformationPortal.js";
 
 const LocksCSS={
   marginLeft:"45%",
@@ -25,6 +26,12 @@ const AddRemoveLevelButtonCSS={
   padding:"10px",
   marginRight:"3%"
 }
+
+/*
+  Need to change friendsGaugeNodes
+  Right now the current code is saying that friendsGaugeNode
+  is a number. Its an array rn with object in it so it should be changed 
+*/
 class FriendsGauge extends React.Component {
 
   constructor(props){
@@ -35,7 +42,9 @@ class FriendsGauge extends React.Component {
     var numberNodes;
     var progressBarCounter;
     var {friendsGauge,friendsGaugeNodes}=this.props.personalInformation.userProfile;
-    numberNodes=friendsGaugeNodes+1;
+    console.log("Friend nodes");
+    console.log(friendsGaugeNodes);
+    numberNodes=friendsGaugeNodes.length+1;
     debugger;
     if(this.props.personalInformation.isOwnProfile==true){
       progressBarCounter=100;
@@ -56,7 +65,10 @@ class FriendsGauge extends React.Component {
       progressBarCounter:progressBarCounter,
       currentNodeCounter:1,
       displayFriendsGaugeEditModal:false,
-      friendsGaugeActionType:""
+      friendsGaugeActionType:"",
+      nodes:friendsGaugeNodes,
+      displayNodeInformationModule:false,
+      nodeInformation:{}
     }
   }
 
@@ -77,12 +89,13 @@ class FriendsGauge extends React.Component {
 
   constructNodeElements=()=>{
     const ProgressBarSteps=[];
-      for(var i=0;i<this.state.numberOfNodes;i++){
+      for(var i=0;i<this.state.nodes.length;i++){
+        const currentNode=this.state.nodes[i];
         const StepElement= <Step  transition="scale"
                                   index={i}>
                               {({ accomplished,index }) => (
                                 <React.Fragment>
-                                   {this.constructProgessBarStep(accomplished,index)}
+                                   {this.constructProgessBarStep(accomplished,index,currentNode)}
                                 </React.Fragment>
                               )}
                             </Step>;
@@ -104,30 +117,40 @@ class FriendsGauge extends React.Component {
       />
   }
 
-  constructProgessBarStep=(accomplished,index)=>{
+  displayNodeInformation=(node)=>{  
+      this.setState({
+          displayNodeInformationModule:true,
+          nodeInformation:node
+      })
+  }
+
+  constructProgessBarStep=(accomplished,index,node)=>{
       const currentNodeCounter=this.state.currentNodeCounter;
+      const {name,description,nodeCounter}=node;
   
-      return <ul style={{padding:"0px"}}>
-                <li style={{listStyle:"none"}}>
-                   {this.handleLockIconChange(index)}
-                </li>
+      return <ul onClick={()=>this.displayNodeInformation(node)} style={{padding:"0px"}}>
+                <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                  <li style={{listStyle:"none"}}>
+                     {this.handleLockIconChange(index)}
+                  </li>
 
-                                        <li style={{listStyle:"none"}}>
-                                          <img
-                                            style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
-                                            width="30"
-                                            src="https://vignette.wikia.nocookie.net/pkmnshuffle/images/9/9d/Pichu.png/revision/latest?cb=20170407222851"
-                                          />
-                                        </li>
-                                        <li style={{listStyle:"none"}}>
-                                          <ul style={{padding:"0px"}}>
-                                            <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}> Unlock </p>
-                                            <p style={{color:"#5298F8"}}> <b>Level {index}</b></p>
-                                            <p> Friends </p>
+                                          <li style={{listStyle:"none"}}>
+                                            <img
+                                              style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
+                                              width="30"
+                                              src="https://vignette.wikia.nocookie.net/pkmnshuffle/images/9/9d/Pichu.png/revision/latest?cb=20170407222851"
+                                            />
+                                          </li>
+                                          <li style={{listStyle:"none"}}>
+                                            <ul style={{padding:"0px"}}>
+                                              <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}> Unlock </p>
+                                              <p style={{color:"#5298F8"}}> <b>Level {nodeCounter}</b></p>
+                                              <p> {name} </p>
 
-                                          </ul>
+                                            </ul>
 
-                </li>
+                  </li>
+                </a>
               </ul>;
 
   }
@@ -136,6 +159,32 @@ class FriendsGauge extends React.Component {
     this.setState({
       displayFriendsGaugeEditModal:false
     })
+  }
+
+  createLevel=({name,description})=>{
+
+  }
+
+  closeModal=()=>{
+    this.setState({
+        displayNodeInformationModule:false
+    })
+  }
+//
+  updateNode=({name,description,nodeNumber})=>{
+    debugger;
+      var currentNodes=this.state.nodes;
+      nodeNumber=nodeNumber!=0?nodeNumber-1:nodeNumber;
+
+      currentNodes[nodeNumber]={
+        ...currentNodes[nodeNumber],
+        name:name,
+        description:description
+      }
+
+      this.setState({
+        nodes:currentNodes
+      })
   }
 
 
@@ -175,8 +224,20 @@ class FriendsGauge extends React.Component {
                       hideModal={this.hideModal}
                       actionType={this.state.friendsGaugeActionType}
                       userInformation={this.props.personalId}
+                      nodeNumber={this.state.numberOfNodes}
+                      nodes={this.state.nodes}
+                      createLevel={this.state.createLevel}
                   />
                 :<React.Fragment></React.Fragment>
+              }
+
+              {this.state.displayNodeInformationModule==true?
+                  <RecruitsNodeInformationPortal
+                      nodeInformation={this.state.nodeInformation}
+                      closeModal={this.closeModal}
+                      userId={this.props.personalInformation.userProfile._id}
+                      updateNode={this.updateNode}
+                  />:<React.Fragment></React.Fragment>
               }
               
 

@@ -110,9 +110,11 @@ const NavBar=(props)=>{
         <li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
             <LoginBox id="LoginPassword" placeholder="Password"></LoginBox>
         </li>
-        <li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-            <Submit onClick = {e =>  handleLoginClick(e,props,dispatch)} to="/profile">Login </Submit>
-        </li>
+        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+          <li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+              <Submit onClick = {e =>  handleLoginClick(e,props,dispatch)} to="/profile">Login </Submit>
+          </li>
+        </a>
       </ul>
 	)
 }

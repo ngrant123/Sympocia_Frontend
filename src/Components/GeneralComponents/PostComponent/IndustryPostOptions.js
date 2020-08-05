@@ -254,7 +254,6 @@ class IndustryPostOptions extends Component{
 														)}
 													</ul>
 											</li>
-											
 										</React.Fragment>:
 										<React.Fragment></React.Fragment>
 									}

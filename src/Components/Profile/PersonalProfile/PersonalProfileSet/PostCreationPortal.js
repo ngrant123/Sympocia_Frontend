@@ -30,7 +30,6 @@ const PostCreationPortal=(props)=>{
 			/>
 			<CreateAPostComponent
 				postOption={postOption}
-				closeModal={closeModal}
 			/>
 
 		</React.Fragment>

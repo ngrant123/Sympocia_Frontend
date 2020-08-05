@@ -295,9 +295,73 @@ export const concatVideoTogether=async(videos)=>{
 		console.log(err);
 		return err;
 	}
-
 }
 
+
+
+export const createLevel=async({name,description,recruits,_id,nodeCounter})=>{
+	try{
+		const levelResponse=await axios.post(`${CreateUrl}/createLevel`,{
+			name:name,
+			description:description,
+			recruits:recruits,
+			_id:_id,
+			nodeCounter:nodeCounter
+		});
+		const {data}=levelResponse;
+		return data;
+
+	}catch(err){
+		return err;
+	}
+}
+
+
+export const removeLevel=async({_id,levelId,levelCounter})=>{
+	try{
+		const levelResponse=await axios.post(`${CreateUrl}/removeLevel`,{
+			_id:_id,
+			levelId:levelId,
+			levelCounter:levelCounter
+		});
+		const {data}=levelResponse;
+		return data;
+
+	}catch(err){
+		return err;
+	}
+}
+
+export const changeRecruitLevelStatus=async({recruitId,_id,levelCounter})=>{
+	try{
+
+		const levelResponse=await axios.post(`${CreateUrl}/changeRecruitLevelStatus`,{
+			recruitId:recruitId,
+			_id:_id,
+			levelCounter:levelCounter
+		});
+		const {data}=levelResponse;
+		return data;
+
+	}catch(err){
+		return err;
+	}
+}
+export const editNodeInformation=async({_id,name,levelId,description})=>{
+	try{
+		const levelResponse=await axios.post(`${CreateUrl}/editNodeInformation`,{
+			_id:_id,
+			name:name,
+			description:description,
+			levelId:levelId
+		});
+		const {data}=levelResponse;
+		return data;
+
+	}catch(err){
+		return err;
+	}
+}
 
 
 
