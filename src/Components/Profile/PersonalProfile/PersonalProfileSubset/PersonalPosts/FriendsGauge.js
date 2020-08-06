@@ -223,7 +223,7 @@ class FriendsGauge extends React.Component {
                   <FriendsGaugeEditModal
                       hideModal={this.hideModal}
                       actionType={this.state.friendsGaugeActionType}
-                      userInformation={this.props.personalId}
+                      userId={this.props.personalInformation.userProfile._id}
                       nodeNumber={this.state.numberOfNodes}
                       nodes={this.state.nodes}
                       createLevel={this.state.createLevel}

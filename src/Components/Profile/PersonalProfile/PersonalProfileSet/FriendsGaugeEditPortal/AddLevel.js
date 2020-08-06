@@ -45,17 +45,15 @@ const ImageCSS={
 }
 
 
-const AddLevel=({userInformation,nodeNumber,actionType,recruitsInformationProp})=>{
+const AddLevel=({userId,nodeNumber,actionType,recruitsInformation,closeModal})=>{
 	const [displayAddNodeScreen,changeDisplayAddScreen]=useState(false);
 	const [selectedRecruits,changeSelectedRecruits]=useState([]);
 
 	const [currentSearchNames,changeCurrentSearchedNames]=useState([]);
 	const [currentSearchName,changeSearchName]=useState([]);
-	const [recruitsInformation,changeRecruitsInformation]=useState(recruitsInformationProp);
 
 	const [levelName,changeLevelName]=useState();
 	const [levelDescription,changeLevelDescription]=useState();
-
 
 	const addNodeToProfile=()=>{
 		changeLevelName(document.getElementById("levelName").value);
@@ -92,17 +90,16 @@ const AddLevel=({userInformation,nodeNumber,actionType,recruitsInformationProp})
 			name:levelName,
 			description:levelDescription,
 			recruits:selectedRecruits,
-			_id:userInformation,
+			_id:userId,
 			nodeCounter:nodeNumber
 		}
 
 		const {confirmation,data}=await createLevel(levelObject);
 		if(confirmation=="Success"){
-			
+			closeModal();
 		}else{
 			alert('Something went wrong Unfortunately. Please try again');
 		}
-
 	}
 	/*
 		Right now the big o is O(n^2) its fine when a user has a short 

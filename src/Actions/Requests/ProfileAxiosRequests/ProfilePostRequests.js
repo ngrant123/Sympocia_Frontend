@@ -317,16 +317,14 @@ export const createLevel=async({name,description,recruits,_id,nodeCounter})=>{
 }
 
 
-export const removeLevel=async({_id,levelId,levelCounter})=>{
+export const removeLevel=async({_id,levelId})=>{
 	try{
 		const levelResponse=await axios.post(`${CreateUrl}/removeLevel`,{
 			_id:_id,
-			levelId:levelId,
-			levelCounter:levelCounter
+			levelId:levelId
 		});
 		const {data}=levelResponse;
 		return data;
-
 	}catch(err){
 		return err;
 	}
