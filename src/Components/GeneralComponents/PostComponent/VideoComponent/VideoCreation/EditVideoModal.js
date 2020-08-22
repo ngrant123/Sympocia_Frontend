@@ -220,6 +220,7 @@ class EditVideoModal extends Component{
 										<VideoDescriptionPortal
 											closeModal={this.closeModal}
 											createVideoDescription={this.createVideoDescription}
+											parentContainer="personalContainer"
 										/>
 									}
 									{this.state.displayVoiceDescriptionPortal==false?

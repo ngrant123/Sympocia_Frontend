@@ -45,7 +45,7 @@ const ImageCSS={
 }
 
 
-const AddLevel=({userId,nodeNumber,actionType,recruitsInformation,closeModal})=>{
+const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 	const [displayAddNodeScreen,changeDisplayAddScreen]=useState(false);
 	const [selectedRecruits,changeSelectedRecruits]=useState([]);
 
@@ -66,7 +66,7 @@ const AddLevel=({userId,nodeNumber,actionType,recruitsInformation,closeModal})=>
 		const newSelectedRecruitsArray=selectedRecruits;
 		changeSelectedRecruits([...newSelectedRecruitsArray]);
 		console.log(selectedRecruits);
-	} 
+	}
 
 	const removeSelectedPerson=(data)=>{
 		debugger;
@@ -91,14 +91,24 @@ const AddLevel=({userId,nodeNumber,actionType,recruitsInformation,closeModal})=>
 			description:levelDescription,
 			recruits:selectedRecruits,
 			_id:userId,
-			nodeCounter:nodeNumber
+			nodeCounter:nodeNumber 
 		}
 
 		const {confirmation,data}=await createLevel(levelObject);
 		if(confirmation=="Success"){
-			closeModal();
+			const newNode={
+				name:levelName,
+				description:levelDescription,
+				nodeCounter:nodeNumber,
+				_id:data
+			}
+			const addNodeAction={
+				actionType:"Add",
+				node:newNode
+			}
+			closeModal(addNodeAction);
 		}else{
-			alert('Something went wrong Unfortunately. Please try again');
+			alert('Something went wrong unfortunately. Please try again');
 		}
 	}
 	/*
@@ -173,6 +183,7 @@ const AddLevel=({userId,nodeNumber,actionType,recruitsInformation,closeModal})=>
 			console.log(searchedNames);
 		}
 	}
+
 	return(
 		<>
 			{displayAddNodeScreen==true?
@@ -221,7 +232,7 @@ const AddLevel=({userId,nodeNumber,actionType,recruitsInformation,closeModal})=>
 																</li>
 																 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																		<li onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
-																			{actionType}
+																			Add 
 																		</li>
 																</a>
 
@@ -244,7 +255,7 @@ const AddLevel=({userId,nodeNumber,actionType,recruitsInformation,closeModal})=>
 																</li>
 																 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																		<li onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
-																			{actionType}
+																			Add
 																		</li>
 																</a>
 

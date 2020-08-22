@@ -18,9 +18,9 @@ const RemoveLevelVerificationContainer=styled.div`
 	height:30%;
 	background-color:white;
 	z-index:13;
-	top:20%;
+	top:25%;
 	border-radius:5px;
-	left:40%;
+	left:30%;
 	overflow-y:auto;
 `;
 
@@ -55,12 +55,19 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 			_id:id,
 			levelId:nodeId
 		}
-		const {confirmation}=await removeLevel(levelObject);
-		if(confirmation=="Success"){
 
-		}else{
-			alert('Unfortunately there has been an error. Please try again');
-		}
+		const {confirmation}=await removeLevel(levelObject);
+			if(confirmation=="Success"){
+				const removeNodeAction={
+						actionType:"Remove",
+						node:{
+							_id:nodeId
+						}
+				}
+				closeModal(removeNodeAction);
+			}else{
+				alert('Unfortunately there has been an error. Please try again');
+			}
 	}
 
 	const removeNodeVerification=()=>{
@@ -112,7 +119,7 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 				removeNodeVerification()
 			}
 			<ul style={{padding:"10px"}}>
-					<p>Click the ones that you would like to remove </p>
+					<p>Click the recruits you would like to remove </p>
 				{/*
 
 					<li style={{listStyle:"none"}}>

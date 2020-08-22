@@ -345,6 +345,7 @@ export const changeRecruitLevelStatus=async({recruitId,_id,levelCounter})=>{
 		return err;
 	}
 }
+
 export const editNodeInformation=async({_id,name,levelId,description})=>{
 	try{
 		const levelResponse=await axios.post(`${CreateUrl}/editNodeInformation`,{
@@ -361,6 +362,20 @@ export const editNodeInformation=async({_id,name,levelId,description})=>{
 	}
 }
 
+
+export const promoteRecruitRequest=async({node,selectedRecruits,_id})=>{
+	try{
+		const promoteRecruitResponse=await axios.post(`${CreateUrl}/promoteRecruit`,{
+													node:node,
+													recruits:selectedRecruits,
+													_id:_id
+												});
+		const {data}=promoteRecruitResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
 
 
 

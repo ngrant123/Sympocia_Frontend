@@ -216,6 +216,15 @@ export const exploreBlogPosts=async(id,postCount)=>{
 	}
 }
 
+export const exploreRegularPosts=async()=>{
+	try{
+
+
+	}catch(err){
+		return err;
+	}
+}
+
 export const getImagesInIndustry=async(industry,postCount)=>{
 	try{
 		const imageResults=await axios.get(`${GetUrl}/getImagesInIndustry`,{

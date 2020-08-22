@@ -1,7 +1,7 @@
 import React,{useState,useEffect,Component} from "react";
 import styled,{keyframes} from "styled-components";
 import ImageInformation from "./ImageInformation.js";
-import Comments from "./Comments.js";
+import Comments from "../../../CommentsComponent/index.js";
 import {ImageProvider} from "./ImageContext.js";
 import EditImageCreation from "../ImageCreation/EditImageCreation.js";
 import EditIcon from '@material-ui/icons/Edit';
@@ -183,16 +183,18 @@ const ImageContainer=(props)=>{
 		}
 	}
 
+	const hideComments=()=>{
+		changeIndicator(true);
+	}
+
 
 	return(
-	
-		
 		<ImageProvider value={{
 			updateIndicator:(indicator)=>{
 				changeIndicator(indicator);
 			}
 		}}>
-			<React.Fragment>>
+			<React.Fragment>
 				{displayImageModal==true?
 					<EditImageCreation
 						imageSrcUrl={props.imageData.imgUrl}
@@ -219,7 +221,7 @@ const ImageContainer=(props)=>{
 											}
 											
 
-											<a style={{textDecoration:"none"}}href="javascript:void(0);">
+											<a style={{textDecoration:"none"}} href="javascript:void(0);">
 												<li style={ButtonCSS}>
 														Promote
 												</li>
@@ -266,7 +268,6 @@ const ImageContainer=(props)=>{
 											}
 										</Image>
 									</li>
-
 								</ul>
 							</li>
 
@@ -277,7 +278,9 @@ const ImageContainer=(props)=>{
 											imageInformation={props.imageData}
 										/>
 										:<Comments
-											imageComments={props.imageData}
+											postId={props.imageData._id}
+											postType={"Image"}
+											hideComments={hideComments}
 										/>
 								}
 

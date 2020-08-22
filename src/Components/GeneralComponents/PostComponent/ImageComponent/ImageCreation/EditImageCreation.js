@@ -229,29 +229,36 @@ class EditImageCreation extends Component{
 
 		if(this.state.isPreviousLoaded==false){
 			//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
-			var counter=0;
-			for(var i=0;i<industries.length;i++){
-				var {subCommunity}=industries[i];
-				var addIndustryOrIndustryObject=false;
-				var subCommunitiyArray=[];
-				var subCommunityCounter=0;
-				if(subCommunity!=null){
-					while(subCommunityCounter<subCommunity.length){
-						const targetedSubCommunity=subCommunity[subCommunityCounter];
-						if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
-							subCommunitiyArray.push(selectedSubCommunities[counter]);
-							counter++;
-							subCommunityCounter=0;
-						}else{
-							subCommunityCounter++;
+			if(industries.length==0){
+				searchCriteriaIndustryArray.push({
+						industry:"General",
+						subIndustry:[]
+					});
+			}else{
+				var counter=0;
+				for(var i=0;i<industries.length;i++){
+					var {subCommunity}=industries[i];
+					var addIndustryOrIndustryObject=false;
+					var subCommunitiyArray=[];
+					var subCommunityCounter=0;
+					if(subCommunity!=null){
+						while(subCommunityCounter<subCommunity.length){
+							const targetedSubCommunity=subCommunity[subCommunityCounter];
+							if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
+								subCommunitiyArray.push(selectedSubCommunities[counter]);
+								counter++;
+								subCommunityCounter=0;
+							}else{
+								subCommunityCounter++;
+							}
 						}
 					}
+					const searchObject={
+						industry:industries[i].industry,
+						subIndustry:subCommunitiyArray
+					}
+						searchCriteriaIndustryArray.push(searchObject);
 				}
-				const searchObject={
-							industry:industries[i].industry,
-							subIndustry:subCommunitiyArray
-				}
-					searchCriteriaIndustryArray.push(searchObject);
 			}
 		}
 		debugger;
@@ -275,10 +282,10 @@ class EditImageCreation extends Component{
 		}
 
 			if(this.props.personalProfile.loggedIn==true){
-		//			createImagePost(this.props.personalProfile.id,searchCriteriaObject,"Personal");
+					createImagePost(this.props.personalProfile.id,searchCriteriaObject,"Personal");
 			}
 			else{
-		//			createImagePost(this.props.companyProfile.id,searchCriteriaObject,"Company");
+					createImagePost(this.props.companyProfile.id,searchCriteriaObject,"Company");
 			}
 	}
 
@@ -449,6 +456,7 @@ class EditImageCreation extends Component{
 										<VideoDescriptionPortal
 										 	closeModal={this.closeModal}
 											createVideoDescription={this.createVideoDescription}
+											parentContainer="personalContainer"
 										/>
 									}
 									{this.state.displayVoiceDescriptionPortal==false?

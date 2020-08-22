@@ -67,6 +67,7 @@ const NavBar=(props)=>{
 	const dispatch=useDispatch();
   console.log(props);
 	var {props}=props.props;
+
 	const handleLoginClick=async(event,props,dispatch)=>{
 		debugger;
 	  event.preventDefault();

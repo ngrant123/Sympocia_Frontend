@@ -227,7 +227,7 @@ class BlogEditSubmitModal extends Component{
 												<VideoDescriptionPortal
 													closeModal={this.closeModal}
 													createVideoDescription={this.createVideoDescription}
-													isBlog={true}
+													parentContainer="blogPostContainer"
 												/>
 											}
 											{this.state.displayVoiceDescriptionPortal==false?

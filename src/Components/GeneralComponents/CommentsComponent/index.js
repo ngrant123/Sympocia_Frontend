@@ -3,6 +3,16 @@ import styled from "styled-components";
 import CommentContainer from "./CommentContainer.js";
 import VideoResponseContainer from "./VideosResponseContainer.js";
 
+
+const Container=styled.div`
+	position:absolute;
+	width:40%;
+	height:82%;
+	margin-top:13px;
+	overflow-y:scroll;
+	top:30px;
+`;
+
 const CommentsTitleContainer=styled.div`
 	padding:5px;
 	color:#C8B0F4;
@@ -28,75 +38,52 @@ const VideoResponesTitleContainer=styled.div`
 	}
 `;
 
+const BackButtonCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px"
+}
+
 
 class CommentsContainer extends Component{
 
 	constructor(props){
-
+		console.log(props);
 		super(props);
 		this.state={
-			comments:[
-			{
-				originalComment:"Testing out comment system",
-				response:[
-						{
-							owner:"Nathan",
-							response:"This is just a tester response"
-						},
-						{
-							owner:"Nathan",
-							response:"This is just a tester response"
-						}
-					]
-			},
-			{
-				originalComment:"Testing out comment system",
-				response:[
-						{
-							owner:"Nathan",
-							response:"This is just a tester response"
-						}
-					]
-			},
-			{
-				originalComment:"Testing out comment system",
-				response:[
-						{
-							owner:"Nathan",
-							response:"This is just a tester response"
-						},
-						{
-							owner:"Nathan",
-							response:"This is just a tester response"
-						},
-						{
-							owner:"Nathan",
-							response:"This is just a tester response"
-						},
-						{
-							owner:"Nathan",
-							response:"This is just a tester response"
-						}
-					]
-			},
-			{
-				originalComment:"Testing out comment system",
-				response:[]
-			}
-			],
 			displayResponses:false,
-			displayCommentsOrVideoResponses:true
+			displayCommentsOrVideoResponses:true,
+			createVideoResponses:false
 		}
 	}
+	
 	componentDidMount(){
 
 
 	}
+
+	closeModal=()=>{
+		this.setState({
+			createVideoResponses:!this.state.createVideoResponses
+		})
+	}
 	displayCommentsOrVideoResponses=()=>{
 
 		return this.state.displayCommentsOrVideoResponses==true?
-			<CommentContainer/>:
-			<VideoResponseContainer/>
+			<CommentContainer
+				postType={this.props.postType}
+				postId={this.props.postId}
+			/>:
+			<VideoResponseContainer
+				postType={this.props.postType}
+				postId={this.props.postId}
+				displayCreationPrompt={this.state.createVideoResponses}
+				closeVideoCreationModal={this.closeModal}
+			/>
 	}
 
 	handleDisplayComments=()=>{
@@ -117,7 +104,6 @@ class CommentsContainer extends Component{
 		this.setState({
 			displayCommentsOrVideoResponses:true	
 		})
-
 	}
 
 	handleDisplayVideoResponses=()=>{
@@ -143,32 +129,55 @@ class CommentsContainer extends Component{
 
 
 	render(){
-
 		return(
-			<React.Fragment>
-				<ul style={{padding:"0px",backgroundColor:"white"}}>
-					<li style={{marginBottom:"5%"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"10%",marginRight:"10%"}}>
-								<CommentsTitleContainer id="commentsTitleContainer" onClick={()=>this.handleDisplayComments()}>
-									Comments
-								</CommentsTitleContainer>
-							</li>
+				<Container>
+					<ul style={{padding:"0px",backgroundColor:"white"}}>
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<p style={BackButtonCSS} onClick={()=>this.props.hideComments()}>
+											Back
+										</p>
+									</a>
+								</li>
 
-							<li  style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
-								<VideoResponesTitleContainer id="videoResponsesTitleContainer" onClick={()=>this.handleDisplayVideoResponses()}>
-									Video Responses
-								</VideoResponesTitleContainer>
+								<li onClick={()=>this.setState({createVideoResponses:!this.state.createVideoResponses})}
+																		 style={{listStyle:"none",display:"inline-block"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										{this.state.displayCommentsOrVideoResponses==false?
+											<p style={BackButtonCSS}>
+												Create Video Response
+											</p>:null	
+										}
+									</a>
+								</li>
+							</ul>
+						</li>
 
-							</li>
-						</ul>
-					</li>
-					{this.displayCommentsOrVideoResponses()}
-					
-				</ul>
+						<li style={{marginBottom:"5%"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"10%",marginRight:"10%"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<CommentsTitleContainer id="commentsTitleContainer" onClick={()=>this.handleDisplayComments()}>
+											Comments
+										</CommentsTitleContainer>
+									</a>
+								</li>
 
-			</React.Fragment>
+								<li  style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<VideoResponesTitleContainer id="videoResponsesTitleContainer" onClick={()=>this.handleDisplayVideoResponses()}>
+											Video Responses
+										</VideoResponesTitleContainer>
+									</a>
+								</li>
+							</ul>
+						</li>
+						{this.displayCommentsOrVideoResponses()}
+					</ul>
 
+				</Container>
 		)
 	}
 }

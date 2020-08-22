@@ -88,8 +88,73 @@ export const getAuthenticPostComments=async(postId,postOption)=>{
 		const {data}=postComments;
 		return data.data;
 
-	}catch(err){
+	}catch(err){https://www.youtube.com/watch?v=hmk1aHU0768
 		console.log(err);
+		return err;
+	}
+}
+
+export const getRegularComments=async(postType,postId)=>{
+	try{
+		console.log(postType);
+		const commentsResponse=await axios.get(`${SearchUrl}/getComments`,{
+			params:{
+				postId:postId,
+				postType:postType
+			}
+		});
+		const {data}=commentsResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+export const getVideoComments=async(postType,postId)=>{
+	try{
+		const videoCommentsResponse=await axios.get(`${SearchUrl}/getVideoComments`,{
+			params:{
+				postId:postId,
+				postType:postType
+			}
+		});
+		const {data}=videoCommentsResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+export const getVideoCommentsReplies=async(postId,positionIndicator,postType)=>{
+	try{
+		debugger;
+		const videoCommentReplies=await axios.get(`${SearchUrl}/videoCommentReplies`,{
+			params:{
+				postId:postId,
+				positionIndicator:positionIndicator,
+				postType:postType
+			}
+		});
+
+		const {data}=videoCommentReplies;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+export const getRepliesFromComment=async({postType,postId,commentIndex})=>{
+	try{
+		const replyResponse=await axios.get(`${SearchUrl}/getReplies`,{
+			params:{
+				postType:postType,
+				postId:postId,
+				commentIndex:commentIndex
+			}
+		});
+		const {data}=replyResponse;
+		console.log(data);
+		return data;
+	}catch(err){
 		return err;
 	}
 }

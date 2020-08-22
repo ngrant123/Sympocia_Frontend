@@ -72,13 +72,7 @@ const VideoResultContainerCSS={
 
 const VideoDescriptionPortal=(props)=>{
 	console.log("Testing video description");
-	var targetContainer;
-	if(props.isBlog==true){
-		targetContainer=document.getElementById("blogPostContainer")
-	}else{
-		targetContainer=document.getElementById("personalContainer");
-	}
-
+	var targetContainer=document.getElementById(props.parentContainer);
 
 
 	const [maxTime,changeMaxTime]=useState(10000);

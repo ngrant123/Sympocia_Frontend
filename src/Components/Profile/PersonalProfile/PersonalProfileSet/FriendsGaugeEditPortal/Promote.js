@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-
+import {promoteRecruitRequest} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const InputContainer=styled.textarea`
 	position:relative;
@@ -25,6 +25,15 @@ const NextButton=styled.div`
 	border-radius:5px;
 `;
 
+const SubmitButton=styled.div`
+	position:relative;
+	text-align:center;
+	color:white;
+	padding:10px;
+	background-color:#C8B0F4;
+	border-radius:5px;
+`;
+
 const ImageCSS={
 	width:"80%",
 	height:"30%",
@@ -34,10 +43,11 @@ const ImageCSS={
 	borderWidth:"1px"
 }
 
-const PromoteSomeone=({actionType,recruitsInformationProp})=>{
+const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	const [recruitsInformation,changeRecruitsInformation]=useState(recruitsInformationProp);
 	const [displayPromoteSomeoneScreen,changeDisplayPromotionScreen]=useState(false);
 	const [selectedRecruits,changeSelectedRecruits]=useState([]);
+	const [selectedNode,changeSelectedNode]=useState();
 
 	const removeSelectedPerson=(data)=>{
 		debugger;
@@ -52,7 +62,6 @@ const PromoteSomeone=({actionType,recruitsInformationProp})=>{
 		}
 
 		changeSelectedRecruits([...newArray]);
-
 	}
 
 	const pushSelectedPersonToArray=(data)=>{
@@ -62,16 +71,33 @@ const PromoteSomeone=({actionType,recruitsInformationProp})=>{
 		console.log(selectedRecruits);
 	} 
 
+	const promoteRecruits=async()=>{
+		const promoteRecruit={
+			selectedRecruits:selectedRecruits,
+			node:selectedNode._id,
+			_id:id
+		}
+
+		const {confirmation}=await promoteRecruitRequest(promoteRecruit);
+		if(confirmation=='Success'){
+			closeModal();
+		}else{
+			alert('Unfortunately there has been an error. Please try again');
+		}
+	}
+
 
 	return(
 		<>
-			displayPromoteSomeoneScreen==false?
+			{displayPromoteSomeoneScreen==false?
 				 <ul style={{padding:"10px"}}>
-						<li style={{listStyle:"none",marginTop:"5%",marginLeft:"10%"}}>
-							<InputContainer placeholder="Search for some here"/>
-						</li>
-
-						<hr/>
+				 		{/*
+							<li style={{listStyle:"none",marginTop:"5%",marginLeft:"10%"}}>
+								<InputContainer placeholder="Search for some here"/>
+							</li>
+							<hr/>
+				 		*/}
+				 		<p>Click the recruits that you would like to promote </p>
 						{selectedRecruits.map(data=>
 										<li style={{listStyle:"none",display:"inline-block",width:"20%",marginBottom:"5%"}}>
 											<ul style={{padding:"0px",width:"150%"}}>
@@ -88,41 +114,71 @@ const PromoteSomeone=({actionType,recruitsInformationProp})=>{
 							)}
 						<li style={{listStyle:"none",height:"45%",overflowY:"auto",marginBottom:"1%"}}>
 							<ul style={{padding:"0px"}}>
-								{recruitsInformation.length==0?
-									<p> Broke ass </p>:
+								{recruitsInformationProp.length==0?
+									<p> Unfortunately you dont have any recruits. Add some then come back here later </p>:
 									<>
-										{recruitsInformation.map(data=>
-											<li style={{listStyle:"none",display:"inline-block",width:"25%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
-												<ul style={{padding:"10px"}}>
-													<li style={{listStyle:"none"}}>
-														{data.profilePicture==null?
-															<img src={NoProfilePicture} style={ImageCSS}/>:
-															<img src={data.profilePicture} style={ImageCSS}/>
-														}
-													</li>
-													<li style={{listStyle:"none"}}>
-														{data.firstName}
-													</li>
-													 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<li onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
-																{actionType}
-															</li>
-													</a>
+										{recruitsInformationProp.map(data=>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li  onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",display:"inline-block",width:"25%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
+													<ul style={{padding:"10px"}}>
+														<li style={{listStyle:"none"}}>
+															{data.profilePicture==null?
+																<img src={NoProfilePicture} style={ImageCSS}/>:
+																<img src={data.profilePicture} style={ImageCSS}/>
+															}
+														</li>
+														<li style={{listStyle:"none"}}>
+															{data.firstName}
+														</li>
+														<li style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
+															Promote
+														</li>
+														
 
-												</ul>
-											</li>
+													</ul>
+												</li>
+											</a>
 										)}
 									</>
 								}
 							</ul>
 						</li>
-						<NextButton>
-							Next
-						</NextButton>
-					</ul>:null
-				{/*
-					Screen that allows person to pick which node level to place a person
-				*/}
+						{selectedRecruits.length>0?
+							<NextButton onClick={()=>changeDisplayPromotionScreen(true)}>
+								Next
+							</NextButton>
+						:null}
+					</ul>:
+					<>
+						<ul>
+							{selectedNode!=null?
+								<li style={{listStyle:"none"}}>
+									<SubmitButton onClick={()=>promoteRecruits()}>
+										Submit
+									</SubmitButton>
+								</li>
+								:null
+							}
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px"}}>
+									{nodes.map(data=>
+											<>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>changeSelectedNode(data)} style={{listStyle:"none"}}>
+														<p style={{fontSize:"25px"}}>
+															<b> {data.name} </b>
+														</p>
+														<p>{data.description}</p>
+													</li>
+												</a>
+												<hr/>
+											</>
+										)}
+								</ul>
+							</li>
+						</ul>
+					</>
+				}
 		</>
 
 	)

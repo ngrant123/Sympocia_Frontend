@@ -198,6 +198,7 @@ class HomePageContainer extends Component{
 	async componentDidMount(){
 		/*
 		*/
+		console.log(this.props);
 		var profile;
 		var symposiumsMap;
 		var isPersonalProfile;
@@ -296,8 +297,6 @@ class HomePageContainer extends Component{
 						displayExpandedSymposium:false
 
 					}))
-
-
 	}
 	handleDisplayPlayListPage=()=>{
 		this.setState(prevState=>({
@@ -414,6 +413,7 @@ class HomePageContainer extends Component{
 						<GeneralNavBar
 							displayChatPage={this.displayChatPage}
 							page={"Home"}
+							routerHistory={this.props.history}
 						/>
 						
 						{this.state.displayConfetti==true?

@@ -112,7 +112,13 @@ const CompanyProfileNotificationsContainer=styled.div`
 
 		box-shadow: 5px 5px 10px 	#9395a0;
 	}
+`;
 
+const SearchIcon=styled(Link)`
+	position:absolute;
+	maring-top:5%;
+	left:30%;
+	z-index:7;
 `;
 
 const NavBarButton=styled(Link)`
@@ -128,6 +134,18 @@ const NavBarButton=styled(Link)`
 	}
 `;
 
+const SearchContainer=styled.div`
+	position:relative;
+	width:45%;
+	height:250%;
+	background-color:white;
+	border-radius:5px;
+	left:28%;
+	top:39%;
+	box-shadow: 1px 1px 10px #d5d5d5;
+	z-index:7;
+	overflow-y:auto;
+`;
 
 
 const BackgroundContainer=styled.div`
@@ -136,6 +154,21 @@ const BackgroundContainer=styled.div`
 	height:100%;
 	z-index:7;
 `;
+
+
+const PostSearchOptions={  
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginRight:"5%"
+}
+
 
 const NavBar=(pageProps)=>{
 	console.log(pageProps);
@@ -146,6 +179,7 @@ const NavBar=(pageProps)=>{
 	const companyProfileState=useSelector(state=>state.companyInformation);
 	const [displayPersonalProfileIcon,changeDisplayPersonalProfileIcon]=useState(false);
 	const [displayCompanyProfileIcon,changeDisplayCompanyProfileIcon]=useState(false);
+	const [searchType,changeSearchType]=useState();
 
 	const [displaySearchModal,changeDisplaySearchModal]=useState(false);
 
@@ -161,11 +195,11 @@ const NavBar=(pageProps)=>{
 
 
 	const displayChatContainerForPersonalPage=(pageProps)=>{
-			pageProps.pageProps.displayChatPage("personal");
+		pageProps.pageProps.displayChatPage("personal");
 	}
 
 	const displayChatContainerForCompanyPage=(pageProps)=>{
-			pageProps.pageProps.displayChatPage("company");
+		pageProps.pageProps.displayChatPage("company");
 	}
 
 	const logInToCompanyProfile=()=>{
@@ -178,14 +212,66 @@ const NavBar=(pageProps)=>{
 		dispatch(loginPersonalPage(true));
 	}
 
+	const handleSearch=(searchType)=>{
+		debugger;
+		console.log(pageProps.pageProps.routerHistory);
+
+		const searchValue=document.getElementById("searchCriteria").value;
+		if(searchValue!=""){
+			var history=pageProps.pageProps.routerHistory;
+			history.push(`/search/${searchValue}/${searchType}`);
+		}
+	}
+
 	return(
 		<Container style={{backgroundColor:color}}>
-
-			<SearchButton onClick={()=>changeDisplaySearchModal(!displaySearchModal)} placeholder="Search for a community or a person"/>
+			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+				<SearchIcon to={{pathname:'/search',state:{
+						searchType:searchType,
+						searchCriteria:document.getElementById("searchCriteria")==null?"":document.getElementById("searchCriteria").value
+					}
+				}}>
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-compass" 
+										  width="35" height="35" viewBox="0 0 24 24" stroke-width="2"
+										  stroke="#08fd00" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z"/>
+						  <polyline points="8 16 10 10 16 8 14 14 8 16" />
+						  <circle cx="12" cy="12" r="9" />
+					</svg>
+				</SearchIcon>
+			</a>
+			<SearchButton id="searchCriteria" onClick={()=>changeDisplaySearchModal(!displaySearchModal)} placeholder="Search for a community or a person"/>
 			{displaySearchModal==true?
 				<React.Fragment>
 					<BackgroundContainer onClick={()=>changeDisplaySearchModal(!displaySearchModal)}/>
-					<SearchBarModal/>
+					<SearchContainer>	
+						<ul style={{padding:"20px"}}>
+							<li style={{listStyle:"none"}}>
+								If you want you could help us narrow down you're search by choosing one of the following 
+								below. Or you can just finish typing and hit the compass icon to search
+
+								<ul style={{padding:"0px",marginTop:"5%"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>handleSearch("People")} style={PostSearchOptions}>
+											People
+										</li>
+									</a>
+
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>handleSearch("Posts")} style={PostSearchOptions}>
+											Posts
+										</li>
+									</a>
+
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>handleSearch("Symposiums")} style={PostSearchOptions}>
+											Symposiums
+										</li>
+									</a>
+								</ul>
+							</li>
+						</ul>
+					</SearchContainer>
 				</React.Fragment>:
 				<React.Fragment></React.Fragment>
 			}

@@ -91,15 +91,17 @@ class FriendsGauge extends React.Component {
     const ProgressBarSteps=[];
       for(var i=0;i<this.state.nodes.length;i++){
         const currentNode=this.state.nodes[i];
-        const StepElement= <Step  transition="scale"
-                                  index={i}>
-                              {({ accomplished,index }) => (
-                                <React.Fragment>
-                                   {this.constructProgessBarStep(accomplished,index,currentNode)}
-                                </React.Fragment>
-                              )}
-                            </Step>;
-        ProgressBarSteps.push(StepElement);
+        if(currentNode!=null){
+             const StepElement= <Step  transition="scale"
+                                        index={i}>
+                                    {({ accomplished,index }) => (
+                                      <React.Fragment>
+                                         {this.constructProgessBarStep(accomplished,index,currentNode)}
+                                      </React.Fragment>
+                                    )}
+                                  </Step>;
+              ProgressBarSteps.push(StepElement);
+        }
       }
       return ProgressBarSteps;
   }
@@ -134,21 +136,20 @@ class FriendsGauge extends React.Component {
                      {this.handleLockIconChange(index)}
                   </li>
 
-                                          <li style={{listStyle:"none"}}>
-                                            <img
-                                              style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
-                                              width="30"
-                                              src="https://vignette.wikia.nocookie.net/pkmnshuffle/images/9/9d/Pichu.png/revision/latest?cb=20170407222851"
-                                            />
-                                          </li>
-                                          <li style={{listStyle:"none"}}>
-                                            <ul style={{padding:"0px"}}>
-                                              <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}> Unlock </p>
-                                              <p style={{color:"#5298F8"}}> <b>Level {nodeCounter}</b></p>
-                                              <p> {name} </p>
+                  <li style={{listStyle:"none"}}>
+                    <img
+                      style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
+                      width="30"
+                      src="https://vignette.wikia.nocookie.net/pkmnshuffle/images/9/9d/Pichu.png/revision/latest?cb=20170407222851"
+                    />
+                  </li>
+                  <li style={{listStyle:"none"}}>
+                    <ul style={{padding:"0px"}}>
+                      <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}> Unlock </p>
+                      <p style={{color:"#5298F8"}}> <b>Level {nodeCounter}</b></p>
+                      <p> {name} </p>
 
-                                            </ul>
-
+                    </ul>
                   </li>
                 </a>
               </ul>;
@@ -187,6 +188,48 @@ class FriendsGauge extends React.Component {
       })
   }
 
+  addNode=(data)=>{
+    if(this.state.nodes.length==4){
+      alert('Maximum nodes is 4 :( Please delete one');
+    }else{
+      var currentNodes=this.state.nodes;
+      currentNodes.push(data);
+      this.setState({
+          displayFriendsGaugeEditModal:false,
+          nodes:currentNodes
+      })
+    }
+  }
+
+  removeNode=(data)=>{
+      console.log(data);
+      var currentNodes=this.state.nodes;
+      const {_id}=data;
+      for(var i=0;i<currentNodes.length;i++){
+          var selectedNode=currentNodes[i]._id;
+          if(selectedNode==_id){
+            currentNodes.splice(i,1);
+            break;
+          }
+      }
+      debugger;
+      console.log(currentNodes);
+      this.setState({
+          displayFriendsGaugeEditModal:false,
+          nodes:currentNodes
+      });
+  }
+
+  implementAction=(action)=>{
+    const {actionType,node}=action;
+    if(actionType=="Add"){  
+        this.addNode(node);
+    }else{
+        this.removeNode(node);
+    }
+
+  }
+
 
   render() {
 
@@ -223,10 +266,11 @@ class FriendsGauge extends React.Component {
                   <FriendsGaugeEditModal
                       hideModal={this.hideModal}
                       actionType={this.state.friendsGaugeActionType}
-                      userId={this.props.personalInformation.userProfile._id}
+                      userInformation={this.props.personalId}
                       nodeNumber={this.state.numberOfNodes}
                       nodes={this.state.nodes}
                       createLevel={this.state.createLevel}
+                      implementAction={this.implementAction}
                   />
                 :<React.Fragment></React.Fragment>
               }

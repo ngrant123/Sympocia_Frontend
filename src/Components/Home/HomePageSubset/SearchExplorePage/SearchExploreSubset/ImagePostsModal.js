@@ -12,6 +12,8 @@ import {getSymposiumId} from "../../../../../Actions/Requests/HomePageAxiosReque
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {addRecruit} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {isUserFollwingProfile} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {SearchConsumer} from "../../../../SearchPage/SearchContext.js";
+
 import {Link} from "react-router-dom";
 
 const Container=styled.div`
@@ -82,8 +84,9 @@ const ImageLabelCSS={
 	marginRight:"2%"
 }
 
-const handleRecruitButton=async(homePageInformation,post)=>{
+const handleRecruitButton=async(homePageInformation,post,searchPageInformation)=>{
 		debugger;
+		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
 		const postOwnerId=post.owner._id;
 		const personalId=homePageInformation.personalInformationState._id;
 		const indicator=await isUserFollwingProfile(personalId,postOwnerId);
@@ -96,7 +99,8 @@ const handleRecruitButton=async(homePageInformation,post)=>{
 		}	
 	} 
 
-const displayRecruitButton=(homePageInformation,post)=>{
+const displayRecruitButton=(homePageInformation,post,searchPageInformation)=>{
+		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
 		console.log(homePageInformation);
 		const postOwnerId=post.owner._id;
 		const personalId=homePageInformation.personalInformationState._id;
@@ -111,8 +115,10 @@ const displayRecruitButton=(homePageInformation,post)=>{
 		}
 }
 
-const constructSuggestedSymposium=(personalInformation,homePageInformation)=>{
+const constructSuggestedSymposium=(personalInformation,homePageInformation,searchPageInformation)=>{
 		debugger;
+		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
+
 		console.log(personalInformation);
 		const {personalInformationState}=personalInformation;
 		var symposiumContainer=new Map();
@@ -151,12 +157,11 @@ const constructSuggestedSymposium=(personalInformation,homePageInformation)=>{
 				   </ul>
 }
 
-const displayPersonalIndustryFeed=async(personalInformationRedux,homePageInformation,selectedSymposium,selectedIndustries)=>{
-		console.log(homePageInformation);
-
+const displayPersonalIndustryFeed=async(personalInformationRedux,homePageInformation,selectedSymposium,selectedIndustries,searchPageInformation)=>{
 		//have to format selected industries in and add additional information so that the personalPage can 
 		//accept props
 		var industryColorMap=new Map();
+		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
 
 		if(selectedSymposium!=null)
 			selectedIndustries.slice(0,selectedSymposium);
@@ -241,7 +246,8 @@ const ImagePostsModal=(props)=>{
 		changeImageDisplay(true);
 	}
 
-	const displaySpecialPost=(postResult,personalInformationRedux,homePageInformation)=>{
+	const displaySpecialPost=(postResult,personalInformationRedux,homePageInformation,searchPageInformation)=>{
+		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
 		console.log(postResult);
 		if(postResult=="suggestedSymposium"){
 			return <li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
@@ -266,8 +272,10 @@ const ImagePostsModal=(props)=>{
 
 	return(
 			<HomeConsumer>
-				{homePageInformation=>{
-					return <React.Fragment>
+				{homePageInformation=>(
+					<SearchConsumer>
+						{searchPageInformation=>(
+								<React.Fragment>
 								{props.posts.length>=1?
 									<React.Fragment>
 										<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
@@ -312,12 +320,12 @@ const ImagePostsModal=(props)=>{
 															<b>{headerImage.owner.firstName}</b>
 														</li>
 
-														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerImage.industriesUploaded)} style={ImageLabelCSS}>
+														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerImage.industriesUploaded,searchPageInformation)} style={ImageLabelCSS}>
 															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																{headerImage.industriesUploaded[0].industry}
 															</a>
 														</li>
-														{displayRecruitButton(homePageInformation,headerImage)}
+														{displayRecruitButton(homePageInformation,headerImage,searchPageInformation)}
 														
 														<li style={{listStyle:"none",width:"90%",marginLeft:"20%"}}>
 															{headerImage.description}
@@ -333,7 +341,7 @@ const ImagePostsModal=(props)=>{
 													<React.Fragment>
 														{data.owner==null?
 															<React.Fragment>
-																{displaySpecialPost(data,personalInformationRedux,homePageInformation)}
+																{displaySpecialPost(data,personalInformationRedux,homePageInformation,searchPageInformation)}
 															</React.Fragment>
 														:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"2%"}}>
 															<ul style={{padding:"0px"}}>
@@ -378,11 +386,11 @@ const ImagePostsModal=(props)=>{
 																		<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 																			<b>{data.owner.firstName}</b>
 																		</li>
-																		<li onClick={()=>handleRecruitButton(homePageInformation,data)} style={ImageLabelCSS}>
+																		<li onClick={()=>handleRecruitButton(homePageInformation,data,searchPageInformation)} style={ImageLabelCSS}>
 																			+ Recruit
 																		</li>
 
-																		<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,data.industriesUploaded)} style={ImageLabelCSS}>
+																		<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,data.industriesUploaded,searchPageInformation)} style={ImageLabelCSS}>
 																			{data.industriesUploaded[0].industry}
 																		</li>
 																	</ul>
@@ -411,10 +419,15 @@ const ImagePostsModal=(props)=>{
 									:<p>No posts </p>
 								}
 							</React.Fragment>
-						}}
-						</HomeConsumer>
+
+							)
+						}
+						</SearchConsumer>
 					)
-			}
+				}
+			</HomeConsumer>
+		)
+	}
 
 export{
 	ImagePostsModal,

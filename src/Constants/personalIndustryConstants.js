@@ -2,6 +2,14 @@ export default{
 	INDUSTRIES:[
 		{	
 			industry:"General",
+			subCommunity:[
+				{industry:"Sympocia Announcements"},
+				{industry:"Today I learned"},
+				{industry:"Ask Sympocia"},
+				{industry:"Boring Concepts Explained Fun"},
+				{industry:"Unreal"},
+				{industry:"Plot Twist"}
+			],
 			backgroundColor:"linear-gradient(to left, #9933ff 0%, #ff99ff 100%)",
 			id:1,
 			popularQuestions:[
@@ -196,6 +204,12 @@ export default{
 				}
 			],id:3},
 		{	industry:"Memes",
+			subCommunity:[
+				{industry:"Dark Humor"},
+				{industry:"Political Satire"},
+				{industry:"Witty Humor"},
+				{industry:"Troll Humor"}
+			],
 			backgroundColor:"linear-gradient(to right,#000046 0%,#1CB5E0 100%)",
 			popularQuestions:[
 				{
@@ -208,6 +222,11 @@ export default{
 			]
 		},
 		{ 	industry:"Finance",
+			subCommunity:[
+				{industry:"Corporate Finance"},
+				{industry:"Valuation"},
+				{industry:"Portfolio Management"}
+			],
 			backgroundColor:"linear-gradient(to right,#654ea3 0%, #eaafc8 100%)",
 			id:2,
 			popularQuestions:[
@@ -224,6 +243,24 @@ export default{
 			]
 		},
 		{ 	industry:"Law",
+			subCommunity:[
+				{industry:"Admiralty (Maritime) Law"},
+				{industry:"Bankruptcy"},
+				{industry:"Civil Rights"},
+				{industry:"Criminal"},
+				{industry:"Entertainment"},
+				{industry:"Environmental"},
+				{industry:"Family"},
+				{industry:"Health"},
+				{industry:"Immigration"},
+				{industry:"Intellectual Property"},
+				{industry:"International"},
+				{industry:"Labor (Employment)"},
+				{industry:"Military"},
+				{industry:"Personal Injury"},
+				{industry:"Real Estate"},
+				{industry:"Tax"}
+			],
 			backgroundColor:"linear-gradient(to right, #8a2387, #a21e81, #b71d7a, #ca2170, #d92c66, #e2355d, #e93f54, #ef4b4b, #f25442, #f35d38, #f3672d, #f27121",
 			id:1,
 			popularQuestions:[
@@ -243,6 +280,18 @@ export default{
 			]
 		},
 		{ 	industry:"Medicine",
+			subCommunity:[
+				{industry:"Family Medicine"},
+				{industry:"Pediatrics"},
+				{industry:"Emergency Medicine"},
+				{industry:"Anesthesiology"},
+				{industry:"Obstetrics"},
+				{industry:"Gynecology"},
+				{industry:"General Surgery"},
+				{industry:"Psychiatry"},
+				{industry:"Radiology"},
+				{industry:"Dermatology"}
+			],
 			backgroundColor:"linear-gradient(to right,#a8ff78 0%, #78ffd6 100%)",
 			id:2,
 			popularQuestions:[
@@ -362,19 +411,19 @@ export default{
 		{ industry:"Computer Science",
 				backgroundColor:"linear-gradient(to right,#11998e 0%,#38ef7d 100%)",
 				subCommunity:[
-				{industry:"Artificial Intelligence"},
-				{industry:"Computer Architecture and Engineering"},
-				{industry:"Computer Graphics and Visualization"},
-				{industry:"Computer Networks"},
-				{industry:"Databases"},
-				{industry:"Information Science"},
-				{industry:"Software Engineering"},
-				{industry:"Concurrent, Parallel and Distributed Systems"},
-				{industry:"Theory of Computation"},
-				{industry:"Algorithms and Data Structures"},
-				{industry:"Cloud Computing"},
-				{industry:"Machine Learning"}
-			],id:1,
+					{industry:"Artificial Intelligence"},
+					{industry:"Computer Architecture and Engineering"},
+					{industry:"Computer Graphics and Visualization"},
+					{industry:"Computer Networks"},
+					{industry:"Databases"},
+					{industry:"Information Science"},
+					{industry:"Software Engineering"},
+					{industry:"Concurrent, Parallel and Distributed Systems"},
+					{industry:"Theory of Computation"},
+					{industry:"Algorithms and Data Structures"},
+					{industry:"Cloud Computing"},
+					{industry:"Machine Learning"}
+				],id:1,
 			popularQuestions:[
 				{
 					question:"Milestones",
@@ -405,6 +454,19 @@ export default{
 			]
 		},
 		{ industry:"Cooking",
+			subCommunity:[
+				{industry:"Baking"},
+				{industry:"Frying"},
+				{industry:"Roasting"},
+				{industry:"Grilling"},
+				{industry:"Steaming"},
+				{industry:"Poaching"},
+				{industry:"Simmering"},
+				{industry:"Broiling"},
+				{industry:"Blanching"},
+				{industry:"Braising"},
+				{industry:"Stewing"}
+			],
 			backgroundColor:"linear-gradient(to right,#11998e 0%,#38ef7d 100%)",
 			id:2,
 			popularQuestions:[
@@ -490,6 +552,15 @@ export default{
 			]
 		},
 		{ industry:"Books",backgroundColor:"linear-gradient(to right,#fc4a1a 0%,#f7b733 100%)",id:2,
+			subCommunity:[
+				{industry:"Science Fiction"},
+				{industry:"Satire"},
+				{industry:"Drama"},
+				{industry:"Action and Adventure"},
+				{industry:"Romance"},
+				{industry:"Mystery"},
+				{industry:"Horror"}
+			],
 			popularQuestions:[
 				{
 					question:"Favorite book of all time",
@@ -616,6 +687,12 @@ export default{
 				]
 			},
 		{ industry:"Economics",backgroundColor:"linear-gradient(to right,#0575E6 0%,#021B79 100%)",id:3,
+			subCommunity:[
+					{industry:"Macroeconomics"},
+					{industry:"Microeconomics"},
+					{industry:"Growth Theory"},
+					{industry:"Information Economics"}
+				],
 				popularQuestions:[
 					{
 						question:"Where do you see the economy going in the up and coming months or years",
@@ -680,6 +757,12 @@ export default{
 				] 
 			},
 		{ industry:"ASMR",backgroundColor:"linear-gradient(to right,#c0c0aa 0%,#1cefff 100%)",id:3,
+			subCommunity:[
+					{industry:"Physical touch"},
+					{industry:"Food"},
+					{industry:"Tapping"},
+					{industry:"Whispering"}
+			],
 				popularQuestions:[
 					{
 						question:"Show us an asmr video that you've made recently",
@@ -696,6 +779,11 @@ export default{
 				]
 		},
 		{ industry:"Beauty",backgroundColor:"linear-gradient(to right,#E44D26 0%,#F16529 100%)",id:1,
+			subCommunity:[
+						{industry:"Hair Care"},
+						{industry:"Nail Care"},
+						{industry:"Salon Management"}
+				],
 				popularQuestions:[
 					{
 						question:"Show us your best look that you've done on yourself or someone else  ",
@@ -759,6 +847,11 @@ export default{
 				]
 		 },
 		{ industry:"Health",backgroundColor:"linear-gradient(to right,#56ab2f 0%,#a8e063 100%)",id:1,
+			subCommunity:[
+						{industry:"Food and Nutrition"},
+						{industry:"Personal Health Issues"},
+						{industry:"Mental Health"}
+				],
 			popularQuestions:[
 					{
 						question:"How are you feeling today?",
@@ -864,6 +957,19 @@ export default{
 				]
 		},
 		{ industry:"Technology",backgroundColor:"linear-gradient(to right,#FF5F6D 0%,#FFC371 100%)",id:3,
+			subCommunity:[
+					{industry:"Gadgets and Devices"},
+					{industry:"App Reviews and App Comparisons"},
+					{industry:"New in Industry"},
+					{industry:"Blockchain technology"},
+					{industry:"Cloud computing"},
+					{industry:"Artificial intelligence"},
+					{industry:"Virtual Reality"},
+					{industry:"Automation"},
+					{industry:"Digital Marketing"},
+					{industry:"E-commerce"},
+					{industry:"Internet of things"}
+			],
 			popularQuestions:[
 					{
 						question:"Where do you see technology going in the next couple years?",
@@ -879,7 +985,17 @@ export default{
 					}
 				]
 			},
-			{ industry:"Travel",backgroundColor:"linear-gradient(to right,#1e3c72 0%,#2a5298 100%)",id:1,
+		{ industry:"Travel",backgroundColor:"linear-gradient(to right,#1e3c72 0%,#2a5298 100%)",id:1,
+			subCommunity:[
+					{industry:"Accommodation"},
+					{industry:"Concerns"},
+					{industry:"Events"},
+					{industry:"Work"},
+					{industry:"Activities"},
+					{industry:"Health"},
+					{industry:"Transportation"},
+					{industry:"Natural wonders"}
+			],
 				popularQuestions:[
 						{
 							question:"Show us the most beautiful location you've been to",
@@ -900,6 +1016,12 @@ export default{
 					]
 		},{
 			industry:"Comedy",backgroundColor:"linear-gradient(to right,#f4c4f3 0%,#fc67fa 100%)",id:1,
+			subCommunity:[
+					{industry:"Anti-humor"},
+					{industry:"Observational comedy"},
+					{industry:"Dark Humor"},
+					{industry:"Political Satire"}
+			],
 				popularQuestions:[
 						{
 							question:"Tell us the best joke youve heard",
@@ -932,6 +1054,128 @@ export default{
 						{industry:"Science and technology"},
 						{industry:"Space Agencies"},
 						{industry:"Sports"}
+				],
+				popularQuestions:[
+						{
+							question:"Best conspiracy theory you’ve heard",
+							type:"RegularPost"
+						},
+						{
+							question:"Most ridiculous theory you’ve heard",
+							type:"RegularPost"
+						},
+						{
+							question:"What conspiracy are you currently thinking about?",
+							type:"RegularPost"
+						}
+					]
+		},{
+
+			industry:"Religion",backgroundColor:"linear-gradient(to right, #0052d4, #4364f7, #6fb1fc)",id:1,
+				subCommunity:[
+						{industry:"Christianity"},
+						{industry:"Mormonism"},
+						{industry:"Buddhism"},
+						{industry:"Judaism"},
+						{industry:"Hinduism"}
+				],
+				popularQuestions:[
+						{
+							question:"Best conspiracy theory you’ve heard",
+							type:"RegularPost"
+						},
+						{
+							question:"Most ridiculous theory you’ve heard",
+							type:"RegularPost"
+						},
+						{
+							question:"What conspiracy are you currently thinking about?",
+							type:"RegularPost"
+						}
+					]
+		},{
+			industry:"Philosophy",backgroundColor:"linear-gradient(to right, #093028, #237a57)",id:1,
+				subCommunity:[
+						{industry:"Metaphysics"},
+						{industry:"Epistemology"},
+						{industry:"Ethics"},
+						{industry:"Politics"},
+						{industry:"Aesthetics"}
+				],
+				popularQuestions:[
+						{
+							question:"Best conspiracy theory you’ve heard",
+							type:"RegularPost"
+						},
+						{
+							question:"Most ridiculous theory you’ve heard",
+							type:"RegularPost"
+						},
+						{
+							question:"What conspiracy are you currently thinking about?",
+							type:"RegularPost"
+						}
+					]
+		},{
+			industry:"Entrepreneurship",backgroundColor:"linear-gradient(to right, #0f2027, #203a43, #2c5364)",id:1,
+				subCommunity:[
+						{industry:"Marketing"},
+						{industry:"Growth"},
+						{industry:"Feedback"},
+						{industry:"Ideas And Validation"},
+						{industry:"Development"}
+				],
+				popularQuestions:[
+						{
+							question:"Best conspiracy theory you’ve heard",
+							type:"RegularPost"
+						},
+						{
+							question:"Most ridiculous theory you’ve heard",
+							type:"RegularPost"
+						},
+						{
+							question:"What conspiracy are you currently thinking about?",
+							type:"RegularPost"
+						}
+					]
+		},{
+			industry:"Cars",backgroundColor:"linear-gradient(to right, #3e5151, #decba4)",id:1,
+				subCommunity:[
+						{industry:"Models"},
+						{industry:"Car Technologies and Innovation"},
+						{industry:"Car Shows and Expos"},
+						{industry:"Collectibles"},
+						{industry:"Gear and Accessories"},
+						{industry:"Buyer’s Guide"}
+				],
+				popularQuestions:[
+						{
+							question:"Best conspiracy theory you’ve heard",
+							type:"RegularPost"
+						},
+						{
+							question:"Most ridiculous theory you’ve heard",
+							type:"RegularPost"
+						},
+						{
+							question:"What conspiracy are you currently thinking about?",
+							type:"RegularPost"
+						}
+					]
+		},{
+			industry:"Animals",backgroundColor:"linear-gradient(to right, #00b09b, #96c93d)",id:1,
+				subCommunity:[
+						{industry:"Dogs"},
+						{industry:"Cats"},
+						{industry:"Wolves"},
+						{industry:"Dolphins"},
+						{industry:"Tiger"},
+						{industry:"Penguins"},
+						{industry:"Lions"},
+						{industry:"Horse"},
+						{industry:"Fox"},
+						{industry:"Panda"}
 				],
 				popularQuestions:[
 						{

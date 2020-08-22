@@ -217,8 +217,77 @@ export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment})
 	}
 }
 
+export const createComment=async(postType,postId,comment,profileObject)=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const commentResponse=await axios.post(`${CreateUrl}/createComment`,{
+			postType:postType,
+			postId:postId,
+			comment:comment,
+			profileObject:profileObject
+		})
+		const {data}=commentResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
 
 
+export const createReply=async({postType,postId,commentId,reply,profileObject})=>{
+	try{		
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const commentResponse=await axios.post(`${CreateUrl}/createReply`,{
+			postType:postType,
+			postId:postId,
+			commentId:commentId,
+			reply:reply,
+			profileObject:profileObject
+		})
+		const {data}=commentResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+
+export const createVideoResponse=async({postType,commentId,videoSrc,currentProfile,postId})=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const videoResponse=await axios.post(`${CreateUrl}/createVideoResponse`,{
+			postType:postType,
+			videoSrc:videoSrc,
+			currentProfile:currentProfile,
+			postId:postId
+		});
+
+		const {data}=videoResponse;
+		return data;
+
+	}catch(err){
+		return err;
+	}
+}
+
+export const createVideoCommentReply=async({postType,postId,commentId,reply,profileObject})=>{
+	try{
+		debugger;
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const videoCommentResponse=await axios.post(`${CreateUrl}/createVideoReply`,{
+			postType:postType,
+			postId:postId,
+			commentId:commentId,
+			reply:reply,
+			profileObject:profileObject
+		})
+		const {data}=videoCommentResponse;
+		return data;
+
+	}catch(err){
+		return err;
+	}
+}
 
 
 

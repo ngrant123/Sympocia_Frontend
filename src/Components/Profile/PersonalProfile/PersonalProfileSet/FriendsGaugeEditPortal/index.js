@@ -106,6 +106,7 @@ const NewNodeImageCSS={
 */
 
 const FriendsGaugeEditPortal=(props)=>{
+	console.log(props);
 	const [recruitsInformation,changeRecruitsInformation]=useState([]);
 	const [selectedRecruits,changeSelectedRecruits]=useState([]);
 
@@ -119,36 +120,75 @@ const FriendsGaugeEditPortal=(props)=>{
 
 	const [removedNodes,changeRemovedNodes]=useState([]);
 	const [displayRemoveNodeVerification,changeRemoveNodeVerificationModal]=useState(false);
+	const [displayClosingScreen,changeDisplayClosingScreen]=useState(false);
 
 
 	useEffect(()=>{
 		const getRecruitData=async()=>{
-				const recruitsData=await getProfileForHomePage(props.userId);
-				console.log(recruitsData.recruits);
-				changeRecruitsInformation(recruitsData.recruits);
+				const recruitsData=await getProfileForHomePage(props.userInformation);
+				var recruits=recruitsData.recruits==null?[]:recruitsData.recruits;
+				changeRecruitsInformation(recruits);
 		};
 		getRecruitData();
 	},[]);
 
+	const closingScreen=(data)=>{
+		console.log(data);
+		props.implementAction(data);
+		changeDisplayClosingScreen(true);
+	}
+	const closingConfirmationScreen=()=>{
+		return	 <ul>
+						<li onClick={()=>props.closeModal()} style={{listStyle:"none",marginLeft:"75%"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								  <path stroke="none" d="M0 0h24v24H0z"/>
+								  <circle cx="12" cy="12" r="9" />
+								  <path d="M10 10l4 4m0 -4l-4 4" />
+								</svg>
+							</a>
+						</li>
+
+						<li style={{listStyle:"none",marginLeft:"20%"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginLeft:"25%"}}>
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checkbox" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#01ff08" fill="none" stroke-linecap="round" stroke-linejoin="round">
+									  <path stroke="none" d="M0 0h24v24H0z"/>
+									  <polyline points="9 11 12 14 20 6" />
+									  <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
+									</svg>
+								</li>
+								<li style={{listStyle:"none"}}>
+									<b>Action Completed</b>
+								</li>
+								<li style={{listStyle:"none"}}>
+									Everything looks all good. 
+								</li>
+							</ul>
+						</li>
+					</ul>
+	}
 
 	const constructFriendsGaugeEditPortal=(actionType)=>{
 		if(actionType=="Add"){
 			return <AddLevel
-						userId={props.userId}
+						userId={props.userInformation}
 						nodeNumber={props.nodeNumber}
-						actionType={props.actionType}
 						recruitsInformation={recruitsInformation}
-						closeModal={props.hideModal}
+						closeModal={closingScreen}
 					/>;
 		}else if(actionType=="Promote"){
 			return <Promote
-						actionType={props.actionType}
 						recruitsInformationProp={recruitsInformation}
+						nodes={props.nodes}
+						closeModal={closingScreen}
+						id={props.userId}
 					/>;
 		}else{
 			return <RemoveLevel
 						nodes={props.nodes}
 						id={props.userId}
+						closeModal={closingScreen}
 					/>;
 		}
 	}
@@ -159,7 +199,14 @@ const FriendsGaugeEditPortal=(props)=>{
 				onClick={props.hideModal}
 			/>
 			<Container>
-				{constructFriendsGaugeEditPortal(props.actionType)}
+				{displayClosingScreen==false?
+					<>
+						{constructFriendsGaugeEditPortal(props.actionType)}
+					</>:
+					<>
+						{closingConfirmationScreen()}
+					</>
+				}
 			</Container>
 
 		</React.Fragment>

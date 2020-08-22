@@ -161,13 +161,13 @@ const ImageInformation=(props)=>{
 								 </p>
 
 								 <ul style={{padding:"0px",marginTop:"5px"}}>
-								 	<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-								 		 <ImagePostsButtons onClick={()=>information.updateIndicator(false)}>
-								 			Comments
-										 </ImagePostsButtons>
-								 	</li>
-
-
+								 	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									 	<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
+									 		 <ImagePostsButtons onClick={()=>information.updateIndicator(false)}>
+									 			Comments
+											 </ImagePostsButtons>
+									 	</li>
+									 </a>
 								 </ul>
 							</Container>
 
