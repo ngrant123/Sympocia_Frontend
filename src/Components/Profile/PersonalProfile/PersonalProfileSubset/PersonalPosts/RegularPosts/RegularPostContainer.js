@@ -139,7 +139,6 @@ class RegularPostsContainer extends Component{
 			profileAction.handleRegularPostModal(data);
 	}
 
-
 	render(){
 		return(
 			<PostDisplayConsumer>
@@ -154,11 +153,11 @@ class RegularPostsContainer extends Component{
 																				profilePageType={this.props.profile}
 																			/>:
 														<ul style={{padding:"0px"}}>
-															{this.state.headerPost==null?null:
+															{this.props.posts.headerPost==null?null:
 																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																	<li onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,this.state.headerPost)} style={{listStyle:"none",marginBottom:"2%"}}>
 																		<HeaderPost
-																			post={this.state.headerPost}
+																			post={this.props.posts.headerPost}
 																			profilePicture={this.props.profilePicture}
 																		/>	
 																	</li>
@@ -167,7 +166,7 @@ class RegularPostsContainer extends Component{
 															<hr/>
 															<li style={{listStyle:"none"}}>
 																	<ul style={{padding:"0px"}}>
-																		{this.state.regularPosts.map(data=>
+																		{this.props.posts.posts.map(data=>
 																			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																				<li  onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,data)} style={{width:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
 																					<SmallRegularPost

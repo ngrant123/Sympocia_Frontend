@@ -189,12 +189,8 @@ export async function getVideosFromUser(userId){
 		});
 
 		const {data}=videos;
-		const {headerVideo,videoPosts}=data.data;
-		const videoObject={
-							headerVideo:headerVideo,
-							videos:videoPosts
-						  };
-		return videoObject;
+		debugger;
+		return data.data;
 
 	}catch(err){
 		console.log(err);
@@ -209,12 +205,7 @@ export async function getBlogFromUser(userId){
 		})
 
 		const {data}=blogsPostsData;
-		const {headerBlog,blogPosts}=data.data;
-		const blogObject={
-							headerBlog:headerBlog,
-							blogs:blogPosts
-						  };
-		return blogObject;
+		return data.data;
 
 	}catch(err){
 		console.log(err);
@@ -229,7 +220,7 @@ export async function getRegularPostFromUser(userId){
 			params:{
 				id:userId
 			}
-		})
+		});
 		debugger;
 
 		const {data}=regularPostsResults;

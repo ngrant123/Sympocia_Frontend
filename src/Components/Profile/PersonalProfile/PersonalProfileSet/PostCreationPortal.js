@@ -23,6 +23,10 @@ const PostCreationPortal=(props)=>{
 	const {postOption,closeModal}=props;
 	console.log(props);
 
+	const closeModalHandle=()=>{
+		closeModal();
+	}
+
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer
@@ -30,6 +34,7 @@ const PostCreationPortal=(props)=>{
 			/>
 			<CreateAPostComponent
 				postOption={postOption}
+				closeModal={closeModalHandle}
 			/>
 
 		</React.Fragment>

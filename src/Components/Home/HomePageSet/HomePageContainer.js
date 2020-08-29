@@ -370,6 +370,7 @@ class HomePageContainer extends Component{
 		}else if(this.state.displayPlayListPage==true){
 			return <PlayListComponent/>
 		}else if(this.state.displayExpandedSymposium==true){
+			debugger;
 			return <Symposium
 						selectedSymposium={this.state.selectedSymposiumPersonalFeed}
 						symposiums={this.state.symposiums}

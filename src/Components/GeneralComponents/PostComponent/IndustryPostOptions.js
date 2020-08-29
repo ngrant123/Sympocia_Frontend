@@ -171,7 +171,7 @@ class IndustryPostOptions extends Component{
 		return(
 			<React.Fragment>
 				<li style={{listStyle:"none",display:"inline-block"}}>
-										<p style={{color:"#8c8c8c"}}>Choose an industry:</p>
+										<p style={{color:"#8c8c8c"}}>Choose an symposium:</p>
 										<div class="dropdown">
 															<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																																					borderColor:"#5298F8",
@@ -179,7 +179,7 @@ class IndustryPostOptions extends Component{
 																																					borderWidth:"1px",
 																																					color:"#5298F8",
 																																					backgroundColor:"white"}}>
-																Industries
+																Symposiums
 															   	<span class="caret"></span>
 															</button>
 															<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
@@ -214,7 +214,7 @@ class IndustryPostOptions extends Component{
 												</ul>
 											</li>
 											<li style={{listStyle:"none",display:"inline-block"}}>
-												<p>Choose an sub-industry (optional):</p>
+												<p>Choose an sub-symposium (optional):</p>
 												<div class="dropdown">
 																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																																							borderColor:"#5298F8",

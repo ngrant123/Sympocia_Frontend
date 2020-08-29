@@ -93,29 +93,29 @@ const TextOptions=(props)=>{
 				{ personInformation=>{
 					return <Container>
 								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",marginBottom:"20%"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-												<ProfilePicture/>
-											</li>
+									{/*
+										<li style={{listStyle:"none",marginBottom:"20%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+													<ProfilePicture/>
+												</li>
 
-											<li  style={{listStyle:"none",display:"inline-block"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",fontSize:"30px"}}>
-														<b>Nathan</b>
-													</li>
+												<li  style={{listStyle:"none",display:"inline-block"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",fontSize:"30px"}}>
+															<b>Nathan</b>
+														</li>
 
-													<li style={{listStyle:"none"}}>
-														Started 2 days ago
-													</li>
+														<li style={{listStyle:"none"}}>
+															Started 2 days ago
+														</li>
 
 
-												</ul>
-											</li>
-
-										</ul>
-
-									</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+									*/}
 
 									<li style={{listStyle:"none",filter:" blur(8px)"}}>
 										<ul style={{padding:"10px",minHeight:"50%",borderRadius:"5px"}}>
@@ -193,25 +193,28 @@ const TextOptions=(props)=>{
 											</SubmitButton>
 										</a>
 									</li>
-									<li style={{listStyle:"none"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<VideoDescriptionContainer>
-													<video width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
-																	<source src={props.blogState.videoDescription} type="video/mp4"/>
-													</video>
-												</VideoDescriptionContainer>
-											</li>
+									{/*
+										<li style={{listStyle:"none"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<VideoDescriptionContainer>
+														<video width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
+																		<source src={props.blogState.videoDescription} type="video/mp4"/>
+														</video>
+													</VideoDescriptionContainer>
+												</li>
 
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<audio controls>
-															  <source src={props.blogState.audioDescription} type="audio/ogg"/>
-															  <source src={props.blogState.audioDescription} type="audio/mpeg"/>
-															Your browser does not support the audio element.
-												</audio>
-											</li>
-										</ul>
-									</li>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<audio controls>
+																  <source src={props.blogState.audioDescription} type="audio/ogg"/>
+																  <source src={props.blogState.audioDescription} type="audio/mpeg"/>
+																Your browser does not support the audio element.
+													</audio>
+												</li>
+											</ul>
+										</li>
+									*/}
+									
 								</ul>
 							</Container>
 						}}

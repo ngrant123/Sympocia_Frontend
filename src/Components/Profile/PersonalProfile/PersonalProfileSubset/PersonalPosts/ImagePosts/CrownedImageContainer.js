@@ -50,6 +50,7 @@ const IndustryButtonCSS={
 
 const CrownedImageContainer=(props)=>{
 	const {imageData}=props;
+	console.log(imageData);
 	return(
 		<ul style={{padding:"0px",height:"45%"}}>
 			<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>

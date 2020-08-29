@@ -1,0 +1,130 @@
+import React,{useState,useEffect} from "react";
+import styled from "styled-components";
+import ArtRelatedFeatures from "./ArtRelatedFeatures.js";
+import GamingFeatures from "./GamingFeatures.js";
+import MiscellaneousFeatures from "./MiscellaneousFeatures.js";
+import MusicFeatures from "./MusicFeatures.js";
+import NewsAndTravelFeatures from "./NewsAndTravelFeatures.js";
+import STEMRelatedFeatures from "./STEMRelatedFeatures.js";
+import SYMPOSIUM_FEATURES from "../../../../../../Constants/featureSymposiumConstants.js";
+
+
+const ChatOption={
+  listStyle:"none",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec"
+}
+const SpecificFeatureSymposium=({symposium})=>{
+	/*
+		const [isArtSymposium,changeArtStatus]=useState(false);
+		const [isSTEMSymposium,changeSTEMStatus]=useState(false);
+		const [isMusicSymposium,changeMusicStatus]=useState(false)
+		const [isNewsAndTravelSymposium,changeNewsTravelStatus]=useState(false);
+		const [isMiscellaneousSymposium,changeMiscellaneousSTatus]=useState(false);
+	*/
+	const [artMap,changeArtMap]=useState(new Map);
+	const [stemMap,changeStemMap]=useState(new Map);
+	const [musicMap,changeMusicMap]=useState(new Map);
+	const [newstravelMap,changeNewsTravelMap]=useState(new Map);
+	const [gamingMap,changeGamingMap]=useState(new Map);
+	const [isLoadingFeatureSymposiums,changeLoadStatus]=useState(true);
+
+
+
+
+	useEffect(()=>{
+		debugger;
+		const {
+			ART_SYMPOSIUMS,
+			STEM_SYMPOSIUM,
+			GAMING_SYMPOSIUM,
+			MUSIC_SYMPOSIUM,
+			NEWS_TRAVEL_SYMPOSIUM
+		}=SYMPOSIUM_FEATURES;
+
+		for(var i=0;i<ART_SYMPOSIUMS.length;i++){
+			artMap.set(ART_SYMPOSIUMS[i],1);
+		}
+
+		for(var i=0;i<STEM_SYMPOSIUM.length;i++){
+			stemMap.set(STEM_SYMPOSIUM[i],1);
+		}
+
+		for(var i=0;i<MUSIC_SYMPOSIUM.length;i++){
+			musicMap.set(MUSIC_SYMPOSIUM[i],1);
+		}
+
+		for(var i=0;i<NEWS_TRAVEL_SYMPOSIUM.length;i++){
+			newstravelMap.set(NEWS_TRAVEL_SYMPOSIUM[i],1);
+		}
+
+		for(var i=0;i<GAMING_SYMPOSIUM.length;i++){
+			gamingMap.set(GAMING_SYMPOSIUM[i],1);
+		}
+		changeLoadStatus(false);
+	},[]);
+
+	const featureDecider=()=>{
+		debugger;
+		if(artMap.has(symposium)){
+
+			return <ArtRelatedFeatures
+						symposium={symposium}
+					/>;
+
+		}else if(stemMap.has(symposium)){
+
+			return <STEMRelatedFeatures
+						symposium={symposium}
+					/>
+
+		}else if(musicMap.has(symposium)){
+
+			return <MusicFeatures
+						symposium={symposium}
+					/>
+
+		}else if(newstravelMap.has(symposium)){
+
+			return <NewsAndTravelFeatures
+						symposium={symposium}
+					/>
+
+		}else if(gamingMap.has(symposium)){
+
+			return <GamingFeatures
+						symposium={symposium}
+					/>;
+
+		}else{
+			return <MiscellaneousFeatures
+						symposium={symposium}
+					/>
+		}
+	}
+	return(
+		<>
+			{isLoadingFeatureSymposiums==false?
+				<ul style={{padding:"0px"}}>
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li style={ChatOption}>
+							Show chat 
+						</li>
+					</a>
+					<hr/>
+
+					<li style={{listStyle:"none"}}>
+						{featureDecider()}
+					</li>
+				</ul>:null
+			}
+		</>
+	)
+}
+
+export default SpecificFeatureSymposium;

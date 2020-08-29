@@ -50,7 +50,6 @@ class BlogPostCreation extends Component{
 			isPersonalProfile:isPersonalProfile,
 			blogState:""
 		}
-
 	}
 
 	componentDidMount=()=>{
@@ -80,7 +79,9 @@ class BlogPostCreation extends Component{
 		return this.state.displayEditButtonSubmitModal==false?<React.Fragment></React.Fragment>:
 		<React.Fragment>
 			<ShadowContainer onClick={()=>this.setState({displayEditButtonSubmitModal:false})}/>
-			<BlogEditSubmitModal/>
+			<BlogEditSubmitModal
+				routerHistory={this.props.history}
+			/>
 		</React.Fragment>
 	}
 

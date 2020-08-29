@@ -101,11 +101,19 @@ const CommunityContainer=(props)=>{
 		}
 	});
 
+	const triggerDisplaySymposium=()=>{
+		var symposium={
+			...props.data,
+			backgroundColor:backgroundColor
+		}
+		props.handleSymposiumClickHandler(symposium);
+	}
+
 	return(
 
 		<React.Fragment>
 			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				<Container style={{background:backgroundColor}}>
+				<Container onClick={()=>triggerDisplaySymposium()} style={{background:backgroundColor}}>
 					<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.symposium}</p>
 					<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"20%",padding:"10px",borderRadius:"5px"}}>Active People</p>
 					<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"50%",padding:"10px",borderRadius:"5px"}}>Popular Videos</p>

@@ -146,7 +146,7 @@ const SmallRegularPosts=(props)=>{
 							</li>
 							<li style={{listStyle:"none"}}>
 								<ul>
-									{post.comments.length==0?
+									{post.comments.regularComments.length==0?
 										<li style={{listStyle:"none"}}>
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>

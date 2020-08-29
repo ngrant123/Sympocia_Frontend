@@ -13,10 +13,10 @@ import GifIcon from '@material-ui/icons/Gif';
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
 import {createRegularPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
+
 import SendIcon from '@material-ui/icons/Send';
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
-import {PostConsumer} from "../../PostContext.js";
 import IndustryPostOptions from "../../IndustryPostOptions.js";
 import {connect} from "react-redux";
 import { Editor } from 'react-draft-wysiwyg';
@@ -27,6 +27,12 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import MicIcon from '@material-ui/icons/Mic';
 import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+
+import { Icon, InlineIcon } from '@iconify/react';
+import crownIcon from '@iconify/icons-mdi/crown';
+import CrownPostModal from "../../CrownPost.js";
+
+import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
 
 const Container = styled.div`
 	position:fixed;
@@ -110,6 +116,21 @@ const InputContainer=styled.textarea`
 	padding:5px;
 `;
 
+const CrownIconContainer=styled.div`
+	border-style:solid;
+	border-width:2px;
+	border-color:red;
+	animation: glowing 1300ms infinite;
+	border-radius:50%;
+
+	@keyframes glowing {
+      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+  }
+`;
+
+
 const ButtonCSS={
   listStyle:"none",
   display:"inline-block",
@@ -136,6 +157,8 @@ const RegularPostBackButton={
   width:"30%",
   marginBottom:"3%"
 }
+
+
 
 /*
 	 Right now the plan for the future is to incorporate the blog post options into the text field 
@@ -176,7 +199,11 @@ const RegularPostBackButton={
 	const [displayAudioORTextScreen,changeAudioOrTextScreenChoice]=useState(true);
 	const [displayAudioPostOption,changeDisplayAudioPostOption]=useState(false);
 	const [audioDescription,changeAudioDescription]=useState();
+
 	const [createRegularPostDescription,changeRegularPostDescription]=useState();
+	const [isCrownedPost,changeIsPostCrowned]=useState(false);
+	const [displayCrownModalIndicator,changeCrownIndicatorModal]=useState(false);
+
 
 	console.log(props);
 
@@ -621,7 +648,7 @@ const RegularPostBackButton={
 		changeSubIndustriesSelected(selectedSubCommunities);
 	}
 
-const sendRegularPost=async(profilePostType)=>{
+const sendRegularPost=async(profilePostInformation)=>{
 		console.log("REgular Post test");
 		debugger;
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
@@ -660,17 +687,49 @@ const sendRegularPost=async(profilePostType)=>{
 		const searchCriteriaObject={
 			post:post,
 			industryArray:searchCriteriaIndustryArray,
-			isAudioPost:(audioDescription==null)?null:true
+			isAudioPost:(audioDescription==null)?null:true,
+			isCrownedPost:isCrownedPost
 		}
 
 		const {id}=personalInformation;
+		createRegularPost(props.personalProfileId,searchCriteriaObject,"Personal");
+
+		pushDummyRegularPostObjectToProfile(profilePostInformation,searchCriteriaObject)
 		debugger;
-		if(profilePostType=="Company"){
-			createRegularPost(props.companyProfileId,searchCriteriaObject,profilePostType);
-		}else{
-			createRegularPost(props.personalProfileId,searchCriteriaObject,profilePostType);
-		}
+		/*
+			if(profilePostType=="Company"){
+				createRegularPost(props.companyProfileId,searchCriteriaObject,profilePostType);
+			}else{
+				createRegularPost(props.personalProfileId,searchCriteriaObject,profilePostType);
+			}
+		*/
 	}
+
+	const pushDummyRegularPostObjectToProfile=(profilePostInformation,searchCriteriaObject)=>{
+		debugger;
+		const date=new Date();
+		const dateInMill=date.getTime();
+		var newRegularObject={
+			...searchCriteriaObject,
+			industriesUploaded:searchCriteriaObject.industryArray,
+			comments:{
+				regularComments:[],
+				videoComments:[]
+			},
+			datePosted:dateInMill
+		}
+		const {isCrownedPost}=searchCriteriaObject;
+		if(isCrownedPost==true){
+			var regularPost=newRegularObject;
+			newRegularObject={
+				post:regularPost,
+				isCrownedPost:true
+			}
+		}
+		profilePostInformation.updateRegularPost(newRegularObject);
+	}
+
+
 	const onEditorStateChange=(editorState)=>{
 		changeEditorState(editorState);
 	}
@@ -695,11 +754,36 @@ const sendRegularPost=async(profilePostType)=>{
 		changeDisplayAudioPostOption(true);
 	}
 
+	const closeCrownModal=()=>{
+		changeIsPostCrowned(false);
+		changeCrownIndicatorModal(false);
+	}
+
+	const crownPost=()=>{
+		changeIsPostCrowned(true);
+		changeCrownIndicatorModal(false);
+	}
+
+	const unCrownPost=()=>{
+		changeIsPostCrowned(false);
+		changeCrownIndicatorModal(false);
+	}
+
 
 	return(
 		<PostConsumer>
-			{userInformation=>{
+			{userPostsInformation=>{
 				return <Container>
+							{displayCrownModalIndicator==true?
+								<CrownPostModal
+									closeModal={closeCrownModal}
+									parentCrownPost={crownPost}
+									parentUnCrownPost={unCrownPost}
+									previousData={props.previousData}
+									isPostCrowned={isCrownedPost}
+								/>
+								:null
+							}
 							<ul style={{padding:"10px"}}>			
 								<li style={{listStyle:"none"}}>	
 									<ul style={{padding:"0px"}}>
@@ -747,20 +831,39 @@ const sendRegularPost=async(profilePostType)=>{
 												/>
 												:<React.Fragment>
 													<ul style={{padding:"0px"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<li style={RegularPostBackButton} onClick={()=>changeAudioOrTextScreenChoice(true)}>	
-																<ul>
-																	<li style={{listStyle:"none",display:"inline-block"}}>
-																		<ArrowBackIosIcon
-																			style={{fontSize:"20"}}
-																		/>
+														<li style={{listStyle:"none"}}>
+															<ul style={{padding:"0px"}}>
+
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<li style={RegularPostBackButton} onClick={()=>changeAudioOrTextScreenChoice(true)}>	
+																		<ul>
+																			<li style={{listStyle:"none",display:"inline-block"}}>
+																				<ArrowBackIosIcon
+																					style={{fontSize:"20"}}
+																				/>
+																			</li>
+																			<li style={{listStyle:"none",display:"inline-block"}}>
+																				Back
+																			</li>
+																		</ul>
 																	</li>
+																</a>
+
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																	<li style={{listStyle:"none",display:"inline-block"}}>
-																		Back
+																		<CrownIconContainer onClick={()=>changeCrownIndicatorModal(true)}>
+																			<Icon 
+																				id="crownIcon"
+																				icon={crownIcon}
+																				style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",
+																				fontSize:"40px",color:"#C8B0F4"}}
+																			/>
+																		</CrownIconContainer>
 																	</li>
-																</ul>
-															</li>
-														</a>
+																</a>
+															</ul>
+														</li>
+													
 														<li style={{listStyle:"none"}}>
 															<InputContainer id="textContainer" placeholder="Create your post here"/>
 														</li>
@@ -806,7 +909,7 @@ const sendRegularPost=async(profilePostType)=>{
 								
 								<li style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<ul onClick={()=>sendRegularPost(userInformation.profileType)} style={{padding:"0px"}}>
+											<ul onClick={()=>sendRegularPost(userPostsInformation)} style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 													<SendIcon
 														style={{fontSize:20,color:"white"}}

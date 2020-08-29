@@ -142,7 +142,7 @@ class EditImageCreation extends Component{
 			isPreviousLoaded:false,
 			displayCrownModalIndicator:false
 		}
-	}
+	}    
 	//If information is coming from image display edit button then populate information with previous data
 
 	componentDidMount(){
@@ -293,11 +293,19 @@ class EditImageCreation extends Component{
 		debugger;
 		const date=new Date();
 		const dateInMill=date.getTime();
-		const newImageObject={
+		var newImageObject={
 			...searchCriteriaObject,
 			industriesUploaded:searchCriteriaObject.industryArray,
 			comments:[],
 			datePosted:dateInMill
+		}
+		const {isCrownedPost}=searchCriteriaObject;
+		if(isCrownedPost==true){
+			var image=newImageObject;
+			newImageObject={
+				image:image,
+				isCrownedImage:true
+			}
 		}
 		profilePostInformation.updateImagePost(newImageObject);
 	}
@@ -404,13 +412,14 @@ class EditImageCreation extends Component{
 		crownElement.style.backgroundColor="white";
 		crownElement.style.color="#C8B0F4";
 		const {previousData}=this.props;
-
-		const headerObject={
-			isCrownedImage:true,
-			image:null
+		if(previousData!=null){
+			const headerObject={
+				isCrownedImage:true,
+				image:null
+			}
+			previousData.contextLocation.updateImagePost(headerObject);
+			const crownedImageResponse= await updateCrownedImage(previousData.owner,false,previousData._id);
 		}
-		previousData.contextLocation.updateImagePost(headerObject);
-		const crownedImageResponse= await updateCrownedImage(previousData.owner,false,previousData._id);
 
 		this.setState({
 			isPostCrowned:false,
@@ -426,13 +435,14 @@ class EditImageCreation extends Component{
 		crownElement.style.backgroundColor="#D6C5F4";
 		crownElement.style.color="white";
 		const {previousData}=this.props;
-
-		const headerObject={
+		if(previousData!=null){
+			const headerObject={
 			isCrownedImage:true,
-			image:this.props.previousData
+				image:this.props.previousData
+			}
+			previousData.contextLocation.updateImagePost(headerObject);
+			const crownedImageResponse= await updateCrownedImage(previousData.owner,true,previousData._id);
 		}
-		previousData.contextLocation.updateImagePost(headerObject);
-		const crownedImageResponse= await updateCrownedImage(previousData.owner,true,previousData._id);
 
 		this.setState({
 			isPostCrowned:true,

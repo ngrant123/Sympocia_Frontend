@@ -12,12 +12,9 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {getPopularQuestionReplies} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 const Container=styled.div`
-	position:absolute;
 	overflow:hidden;
-	width:20%;
+	width:60%;
 	height:60%;
-	top:5%;
-	left:10%;
 	border-radius:5px;
 	background-color:white;
 	border-style:solid;
@@ -190,7 +187,6 @@ class HighLightedQuestions extends Component{
 			counter:currentCounter,
 			questionData:questionData
 		})
-		
 	}
 
 	render(){
@@ -284,7 +280,7 @@ class HighLightedQuestions extends Component{
 							
 							
 													</SimplifiedContainer>
-												}]
+												}
 					</React.Fragment>:null
 				}
 			</React.Fragment>

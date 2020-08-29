@@ -179,7 +179,7 @@ class PersonalFeedContainer extends Component{
 
 	handleSymposiumClick=(data)=>{
 		var symposiums=[];
-
+		console.log(data);
 		debugger;
 		for(var i=0;i<this.state.symposiumArray.length;i++){
 			const currentSymposium=this.state.symposiumArray[i];
@@ -193,7 +193,7 @@ class PersonalFeedContainer extends Component{
 			triggerAnimation:true,
 			selectedSymposium:data,
 			symposiums:symposiums
-		}))
+		}));
 	}
 
 	displayFollowSymposiums=async()=>{
@@ -292,10 +292,11 @@ class PersonalFeedContainer extends Component{
 					<React.Fragment>
 						{this.state.symposiumArray.map(data=>
 							<li style={{paddingBottom:"40px",listStyle:"none"}}>
-								<CommunityContainerAnimationFollowed onClick={()=>this.handleSymposiumClick(data)}>
+								<CommunityContainerAnimationFollowed>
 									<CommunityContainer
 										data={data}
 										isPersonalProfile={this.props.isPersonalProfile}
+										handleSymposiumClickHandler={this.handleSymposiumClick}
 									/>
 								</CommunityContainerAnimationFollowed>
 							</li>

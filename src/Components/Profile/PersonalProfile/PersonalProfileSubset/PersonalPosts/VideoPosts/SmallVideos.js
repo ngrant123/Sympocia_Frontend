@@ -71,66 +71,65 @@ const SmallVideoContainer=(videoData)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
 		var current=new Date();
-
-		//work on this a little more
 		return dateToString;
-
 	}
 
 	return(
 		<UserConsumer>
 			{personalInformation=>{
 				return <SmallVideoComponent>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none"}}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-															<VideoDescriptionContainer>
-																<video style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true">
-																	<source src={videoData.video.videoDescription} type="video/mp4"/>
-																</video>
-															</VideoDescriptionContainer>
-														</li>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"0px"}}>
+										{videoData.video.videoDescription==null?null:
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+												<VideoDescriptionContainer>
+													<video style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true">
+														<source src={videoData.video.videoDescription} type="video/mp4"/>
+													</video>
+												</VideoDescriptionContainer>
+											</li>
+										}
+										
 
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<audio style={{width:"150px"}} controls>
-																<source src={videoData.video.audioDescription} type="audio/ogg"/>
-																<source src={videoData.video.audioDescription} type="audio/mpeg"/>
-																Your browser does not support the audio element.
-															</audio>
-														</li>
-													</ul>
-												</li>
-												<li style={{listStyle:"none"}}>
-													<SmallVideo>
-														<video width="100%" height="100%" controls autoplay muted>
-																<source src={videoData.video.videoUrl} type="video/mp4"/>
-														</video>
-													</SmallVideo>
-												</li>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<audio style={{width:"150px"}} controls>
+												<source src={videoData.video.audioDescription} type="audio/ogg"/>
+												<source src={videoData.video.audioDescription} type="audio/mpeg"/>
+												Your browser does not support the audio element.
+											</audio>
+										</li>
+									</ul>
+								</li>
+								<li style={{listStyle:"none"}}>
+									<SmallVideo>
+										<video key={videoData.video.key} width="100%" height="100%" controls autoplay muted>
+												<source src={videoData.video.videoUrl} type="video/mp4"/>
+										</video>
+									</SmallVideo>
+								</li>
 
-												<li style={{listStyle:"none",fontSize:"15px"}}>
-													<b>{videoData.video.title} </b>
-												</li>
+								<li style={{listStyle:"none",fontSize:"15px"}}>
+									<b>{videoData.video.title} </b>
+								</li>
 
-												<li style={{listStyle:"none"}}>
-												
-													{/*{personalInformation.userProfile.firstName}*/}
-												</li>
+								<li style={{listStyle:"none"}}>
+								
+									{/*{personalInformation.userProfile.firstName}*/}
+								</li>
 
-												<li style={{listStyle:"none"}}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															{constructDate()}
-														</li>
-													</ul>
-												</li>
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											{constructDate()}
+										</li>
+									</ul>
+								</li>
 
-												<li style={{listStyle:"none"}}>
-													{displayIndustries()}
-												</li>
-											</ul>
-
+								<li style={{listStyle:"none"}}>
+									{displayIndustries()}
+								</li>
+							</ul>
 						</SmallVideoComponent>
 			}}
 		</UserConsumer>

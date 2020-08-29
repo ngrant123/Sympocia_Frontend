@@ -73,7 +73,7 @@ class ImagePostsContainer extends Component{
 
 	componentDidMount(){
 		console.log(this.props);
-		const profileImages=this.props.personalInformation.userProfile.imagePost;
+		const profileImages=this.props.imageData;
 		this.setState({
 			images:profileImages
 		})
@@ -87,7 +87,9 @@ class ImagePostsContainer extends Component{
 		//work on this a little more
 		return dateToString;
 	}
+
 	displayPostModal=(profileAction,companyAction,postsConsumer,data)=>{
+		console.log(data);
 		if(profileAction==null)
 			companyAction.handleImagePostModal(data,postsConsumer);
 		else
@@ -103,27 +105,27 @@ class ImagePostsContainer extends Component{
 							<CompanyPostDisplayConsumer>
 								{companyPostDisplayModal=>(
 									<Container>
-										{this.props.personalInformation.isLoading==true?
+										{this.props.isLoading==true?
 												<p>Give us a second we're getting your information</p>:
 												<React.Fragment>
-												{(this.props.personalInformation.userProfile.imagePost.length==0 &&
-													this.props.personalInformation.userProfile.crownedImage==null) ||
-													this.props.personalInformation.userProfile.imagePost.length==null?<NoPostsModal
+												{(this.props.imageData.images.length==0 &&
+													this.props.imageData.crownedImage==null) ||
+													this.props.imageData.images.length==null?<NoPostsModal
 																						postType={"image"}
 																						profilePageType={this.props.profile}
 																					  />:
 														<ul style={{padding:"0px"}}>
-															{this.props.personalInformation.userProfile.crownedImage==null?
+															{this.props.imageData.crownImage==null?
 																null:
 																<React.Fragment>
 																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																		<li onClick={()=>this.displayPostModal(	postDisplayModal,
 																												companyPostDisplayModal,
 																												postsConsumer,
-																												this.props.personalInformation.userProfile.crownedImage)}  
+																												this.props.imageData.crownImage)}  
 																												style={{listStyle:"none",marginBottom:"-5%"}}>
 																			<CrownedImageContainer
-																				imageData={this.props.personalInformation.userProfile.crownedImage}
+																				imageData={this.props.imageData.crownImage}
 																			/>
 																		</li>
 																	</a>
@@ -131,7 +133,7 @@ class ImagePostsContainer extends Component{
 																</React.Fragment>
 															}	
 															<li style={{listStyle:"none"}}>
-																{this.props.personalInformation.userProfile.imagePost.map(data=>
+																{this.props.imageData.images.map(data=>
 																	<li onClick={()=>this.displayPostModal(	postDisplayModal,
 																											companyPostDisplayModal,
 																											postsConsumer,

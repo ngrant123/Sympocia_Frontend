@@ -49,17 +49,13 @@ export const createVideoPost=async(_id,searchCriteria,profileIndicator)=>{
 		console.log(_id);
 		console.log(searchCriteria);
 		const CreateURl='http://localhost:4000/api/posts/alter';
-		const videoPost=await axios.post(`${CreateURl}/createVideoPost`,{
+		const {data}=await axios.post(`${CreateURl}/createVideoPost`,{
 			_id:_id,
 			searchCriteria:searchCriteria,
 			profileIndicator:profileIndicator
-		})
-
-		console.log(videoPost);
-		const {data}=videoPost;
-		const videoCreationResponse=data.data;
-		return videoCreationResponse;
-
+		});
+		debugger;
+		return data;
 	}catch(err){
 		console.log(err.message);
 		return err.message;
@@ -285,6 +281,62 @@ export const createVideoCommentReply=async({postType,postId,commentId,reply,prof
 		return data;
 
 	}catch(err){
+		return err;
+	}
+}
+
+export const updateCrownedVideo=async(_id,updatedStatus,videoId)=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const updatedVideo=await axios.post(`${CreateUrl}/updateCrownedVideo`,{
+			_id:_id,
+			updateStatus:updatedStatus,
+			videoId:videoId
+		});
+
+		const {confirmation}=updatedVideo;
+		return confirmation;
+		
+	}catch(err){
+		console.log(err.message);
+		return err;
+	}
+}
+
+
+export const updateCrownedBlog=async(_id,updatedStatus,blogId)=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const updatedBlog=await axios.post(`${CreateUrl}/updateCrownedBlog`,{
+			_id:_id,
+			updateStatus:updatedStatus,
+			blogId:blogId
+		});
+
+		const {confirmation}=updatedBlog;
+		return confirmation;
+		
+	}catch(err){
+		console.log(err.message);
+		return err;
+	}
+}
+
+
+export const updateCrownedRegularPost=async(_id,updatedStatus,regularPostId)=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const updatedRegularPost=await axios.post(`${CreateUrl}/updateCrownedRegularPost`,{
+			_id:_id,
+			updateStatus:updatedStatus,
+			regularPostId:regularPostId
+		});
+
+		const {confirmation}=updatedRegularPost;
+		return confirmation;
+		
+	}catch(err){
+		console.log(err.message);
 		return err;
 	}
 }

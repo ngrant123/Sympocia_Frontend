@@ -230,6 +230,7 @@ class LSignupPage extends Component {
 													style={{fontSize:"40",color:"#5298F8"}}
 												/>
 											</li>
+											
 
 											<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
 												Click here if you plan on investing now or the future 

@@ -744,15 +744,18 @@ class LProfile extends Component{
 								<React.Fragment></React.Fragment>
 							}
 						*/}
-						
-						<PostInformationContainer>
+						{this.state.isLoading==true?null:
+							<PostInformationContainer>
 							<PersonalPostsIndex
 								displayShadowOverlay={this.displayShadow}
 								disappearShadow={this.disappearShadow}
 								displayCreationPortal={this.state.displayCreationPortal}
 								closeModal={this.closeCreationPortal}
+								personalInformation={this.state}
 							/>
 						</PostInformationContainer>
+						}
+						
 
 						<ul style={ChampionAndCreateButtonCSS}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>

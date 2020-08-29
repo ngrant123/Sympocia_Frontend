@@ -14,6 +14,10 @@ import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
 import MicIcon from '@material-ui/icons/Mic';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 
+import { Icon, InlineIcon } from '@iconify/react';
+import crownIcon from '@iconify/icons-mdi/crown';
+import CrownPostModal from "../../CrownPost.js";
+
 const Container=styled.div`
 	position:absolute;
 	width:50%;
@@ -40,7 +44,7 @@ const BlogDescription=styled.textarea`
 	border-radius:5px;
 	border-width:1px;
 	border-color:#d7dadb;
-	width:170%;
+	width:90%;
 	padding:5px;
 `;
 
@@ -53,7 +57,7 @@ const BlogTitle=styled.textarea`
 	border-radius:5px;
 	border-width:1px;
 	border-color:#d7dadb;
-	width:170%;
+	width:90%;
 	marginBottom:5%;
 	padding:5px;
 `;
@@ -64,6 +68,26 @@ const VideoDescriptionContainer=styled.div`
 	height:50px;
 	border-radius:50%;
 `;
+
+const CrownIconContainer=styled.div`
+	position:absolute;
+	border-style:solid;
+	border-width:2px;
+	border-color:red;
+	animation: glowing 1300ms infinite;
+	top:1%;
+	left:85%;
+	border-radius:50%;
+	z-index:20;
+
+
+	@keyframes glowing {
+      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+  }
+`;
+
 
 
 
@@ -83,7 +107,8 @@ class BlogEditSubmitModal extends Component{
 			displayVideoDescriptionPortal:false,
 			displayVoiceDescriptionPortal:false,
 			videoDescription:null,
-			audioDescription:null	
+			audioDescription:null,
+			isPostCrowned:false
 		}
 	}
 
@@ -166,16 +191,17 @@ class BlogEditSubmitModal extends Component{
 			blog:rawDraftContentState,
 			imgUrl:this.state.pictureUrl,
 			videoDescription:videoDescription,
-			audioDescription:audioDescription
+			audioDescription:audioDescription,
+			isPostCrowned:this.state.isPostCrowned
 		}
 			//Quick fix but this could be implemented in a better way
-
 			if(this.props.personalProfile.loggedIn==true){
 				createBlogPost(this.props.personalProfile.id,blogPostSendObject,"Personal");
 			}
 			else{
 				createBlogPost(this.props.companyProfile.id,blogPostSendObject,"Company");
 			}
+			this.props.routerHistory.push('/profile/'+this.props.personalProfile.id);
 	}
 
 	setUpVideoDescriptionCreation=()=>{
@@ -213,170 +239,216 @@ class BlogEditSubmitModal extends Component{
 		})
 	}
 
+	crownPost=()=>{
+		this.setState({
+			isPostCrowned:true,
+			displayCrownModalIndicator:false
+		})
+	}
+
+	unCrownPost=()=>{
+		this.setState({
+			isPostCrowned:false,
+			displayCrownModalIndicator:false
+		})
+	}
+
+	closeCrownModal=()=>{
+		this.setState({
+			isPostCrowned:false,
+			displayCrownModalIndicator:false
+		})
+	}
+
 
 	render(){
 		return(
 			<BlogConsumer>
 				{blogPostInformation=>(
 					 <PostConsumer>
-								{profilePostInformation=>(
-									  <Container>	
+			{profilePostInformation=>(
+				  <Container>	
 
-											{this.state.displayVideoDescriptionPortal==false?
-												null:
-												<VideoDescriptionPortal
-													closeModal={this.closeModal}
-													createVideoDescription={this.createVideoDescription}
-													parentContainer="blogPostContainer"
-												/>
-											}
-											{this.state.displayVoiceDescriptionPortal==false?
-												null:
-												<VoiceDescriptionPortal
-													closeModal={this.closeModal}
-													createAudioDescription={this.createAudioDescription}
-													isBlog={true}
-												/>
-											}
+						{this.state.displayVideoDescriptionPortal==false?
+							null:
+							<VideoDescriptionPortal
+								closeModal={this.closeModal}
+								createVideoDescription={this.createVideoDescription}
+								parentContainer="blogPostContainer"
+							/>
+						}
+						{this.state.displayVoiceDescriptionPortal==false?
+							null:
+							<VoiceDescriptionPortal
+								closeModal={this.closeModal}
+								createAudioDescription={this.createAudioDescription}
+								isBlog={true}
+							/>
+						}
 
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:'none',marginLeft:"5%",marginTop:"5%"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",fontSize:"25px"}}>
-																<b>Final touches</b>    (optional)
-															</li>
-															<li style={{listStyle:"none"}}>
-																Before you finally submit your blog you can add some additional information. This would allow people to 
-																learn about your article more and even locate it easier 
-															</li>
-														</ul>
+						{this.state.displayCrownModalIndicator==true?
+							<CrownPostModal
+								closeModal={this.closeCrownModal}
+								parentCrownPost={this.crownPost}
+								parentUnCrownPost={this.unCrownPost}
+								previousData={this.props.previousData}
+								isPostCrowned={this.state.isPostCrowned}
+							/>
+							:null
+						}
+
+
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:'none',marginLeft:"5%",marginTop:"5%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",fontSize:"25px"}}>
+											<b>Final touches</b>    (optional)
+										</li>
+										<li style={{listStyle:"none"}}>
+											Before you finally submit your blog you can add some additional information. This would allow people to 
+											learn about your article more and even locate it easier 
+										</li>
+									</ul>
+								</li>
+
+								<li style={{listStyle:"none",display:"inline-block",
+											boxShadow:"1px 1px 5px #8c8c8c",borderStyle:"dotted",borderRadius:"5px",marginLeft:"4%",marginTop:"10%"}}>
+									<a href="javascript:void(0);">
+										<CrownIconContainer onClick={()=>this.setState({displayCrownModalIndicator:true})}>
+											<Icon 
+												id="crownIcon"
+												icon={crownIcon}
+												style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
+											/>
+										</CrownIconContainer>
+									</a>
+									{this.state.displayImage==false?
+										<React.Fragment>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<ul onClick={()=>this.clickInputFileButton()}style={{padding:"110px"}}>
+													<li style={{listStyle:"none",marginLeft:"25%"}}>
+														<CameraIcon
+															style={{fontSize:35,color:"#5298F8"}}
+														/>
 													</li>
-													<li style={{listStyle:"none",display:"inline-block",boxShadow:"1px 1px 5px #8c8c8c",borderStyle:"dotted",borderRadius:"5px",marginLeft:"4%",marginTop:"10%"}}>
-														{this.state.displayImage==false?
-															<React.Fragment>
-																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																	<ul onClick={()=>this.clickInputFileButton()}style={{padding:"110px"}}>
-																		<li style={{listStyle:"none",marginLeft:"25%"}}>
-																			<CameraIcon
-																				style={{fontSize:35,color:"#5298F8"}}
-																			/>
-																		</li>
-																		<li style={{listStyle:"none",color:"#5298F8"}}>
-																			Upload photo
-																		</li>
-																	</ul>
-																</a>
-																<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} accept="image/x-png,image/gif,image/jpeg"></input>
-															</React.Fragment>:
-															<ImageContainer>
-																<img src={this.state.pictureUrl} width="100%" height="100%"/>
-															</ImageContainer>
-														}
-													</li>
-
-													<li style={{position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",marginTop:"15%"}}>
-														{this.state.displayIndustrySelectModal==false?
-																<ul style={{padding:"0px"}}>
-																	<p> Title (optinal)</p>
-																	<BlogTitle
-																		placeholder="Write down a title so it will immediately grab users attention"
-																		id="blogTitle"
-																	/>
-																	<p> Description (optinal)</p>
-																	<BlogDescription
-																		placeholder="Write down a description so readers can get a quick summary of you masterpiece"
-																		id="blogDescription"
-																	/>
-																	<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-																						<ul onClick={()=>this.setState({
-																									displayIndustrySelectModal:true,
-																									title:document.getElementById("blogTitle").value,
-																									description:document.getElementById("blogDescription").value
-																								})}>
-																							<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																								Next
-																							</li>
-
-																						</ul>
-																	 </li>
-																	 <li style={{listStyle:"none"}}>
-																		<ul style={{padding:"0px"}}>
-																			<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
-																				Create either a video or voice description for your image. Much more interesting than regular text imo ;)
-																			</li>
-																			<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px",marginLeft:"10%"}}>
-																				<ul style={{padding:"10px"}}>
-																					<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
-																						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																							<MicIcon
-																								style={{fontSize:40}}
-																							/>
-																						</a>
-																					</li>
-
-																					<li onClick={()=>this.setUpVideoDescriptionCreation()} style={{listStyle:"none",display:"inline-block"}}>
-																						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																							<CameraAltIcon
-																								style={{fontSize:40}}
-																							/>
-																						</a>
-																					</li>
-																				</ul>
-																			</li>
-																		</ul>
-																	</li>
-
-																	 
-																	 		<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
-																				{this.state.videoDescription==null?null:
-																					<li style={{listStyle:"none"}}>
-																						<VideoDescriptionContainer>
-																							<video width="100%" height="100%" borderRadius="50%" autoplay="true">
-																								<source src={this.state.videoDescription} type="video/mp4"/>
-																							</video>
-																						</VideoDescriptionContainer>
-																					</li>
-																				}
-																				{this.state.audioDescription==null?null:
-																					<li style={{listStyle:"none"}}>
-																						<audio controls>
-																						  <source src={this.state.audioDescription} type="audio/ogg"/>
-																						  <source src={this.state.audioDescription} type="audio/mpeg"/>
-																						Your browser does not support the audio element.
-																						</audio>
-																					</li>
-																				}
-																			</ul>
-																</ul>:
-																<React.Fragment>
-																	<li style={{top:"-280px",listStyle:"none"}}>
-																		<IndustryPostOptions
-																			alterSelectedIndustry={this.alterSelectedIndustry}
-																			alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-																		/>
-																	</li>
-																	<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																				<ul onClick={()=>this.sendBlogDataToDB(blogPostInformation,profilePostInformation)}>
-																					<li style={{listStyle:"none",display:"inline-block"}}>
-																						<SendIcon
-																							style={{fontSize:20,color:"white"}}
-																						/>
-																					</li>
-
-																					<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																						Send
-																					</li>
-																				</ul>
-																		</a>
-																	 </li>
-																</React.Fragment>
-															}
+													<li style={{listStyle:"none",color:"#5298F8"}}>
+														Upload photo
 													</li>
 												</ul>
-											</Container>
-								)}
-						</PostConsumer>
+											</a>
+											<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} accept="image/x-png,image/gif,image/jpeg"></input>
+										</React.Fragment>:
+										<ImageContainer>
+											<img src={this.state.pictureUrl} width="100%" height="100%"/>
+										</ImageContainer>
+									}
+								</li>
+
+								<li style={{position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",marginTop:"15%"}}>
+									{this.state.displayIndustrySelectModal==false?
+											<ul style={{padding:"0px"}}>
+												<p> Title (optinal)</p>
+												<BlogTitle
+													placeholder="Write down a title so it will immediately grab users attention"
+													id="blogTitle"
+												/>
+												<p> Description (optinal)</p>
+												<BlogDescription
+													placeholder="Write down a description so readers can get a quick summary of you masterpiece"
+													id="blogDescription"
+												/>
+												<hr/>
+												 <li style={{listStyle:"none"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
+															Create either a video or voice description for your image. Much more interesting than regular text imo ;)
+														</li>
+														<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>
+															<ul style={{padding:"10px"}}>
+																<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<MicIcon
+																			style={{fontSize:40}}
+																		/>
+																	</a>
+																</li>
+
+																<li onClick={()=>this.setUpVideoDescriptionCreation()} style={{listStyle:"none",display:"inline-block"}}>
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<CameraAltIcon
+																			style={{fontSize:40}}
+																		/>
+																	</a>
+																</li>
+															</ul>
+														</li>
+													</ul>
+												</li>
+
+												 
+										 		<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
+													{this.state.videoDescription==null?null:
+														<li style={{listStyle:"none"}}>
+															<VideoDescriptionContainer>
+																<video width="100%" height="100%" borderRadius="50%" autoplay="true">
+																	<source src={this.state.videoDescription} type="video/mp4"/>
+																</video>
+															</VideoDescriptionContainer>
+														</li>
+													}
+													{this.state.audioDescription==null?null:
+														<li style={{listStyle:"none"}}>
+															<audio controls>
+															  <source src={this.state.audioDescription} type="audio/ogg"/>
+															  <source src={this.state.audioDescription} type="audio/mpeg"/>
+															Your browser does not support the audio element.
+															</audio>
+														</li>
+													}
+												</ul>
+
+												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+													<ul onClick={()=>this.setState({
+																displayIndustrySelectModal:true,
+																title:document.getElementById("blogTitle").value,
+																description:document.getElementById("blogDescription").value
+															})}>
+														<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+															Next
+														</li>
+
+													</ul>
+												 </li>
+											</ul>:
+											<React.Fragment>
+												<li style={{top:"-280px",listStyle:"none"}}>
+													<IndustryPostOptions
+														alterSelectedIndustry={this.alterSelectedIndustry}
+														alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+													/>
+												</li>
+												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<ul onClick={()=>this.sendBlogDataToDB(blogPostInformation,profilePostInformation)}>
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<SendIcon
+																		style={{fontSize:20,color:"white"}}
+																	/>
+																</li>
+
+																<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																	Send
+																</li>
+															</ul>
+													</a>
+												 </li>
+											</React.Fragment>
+										}
+								</li>
+							</ul>
+						</Container>
+						)}
+				</PostConsumer>
 				)}
 			</BlogConsumer>
 		)

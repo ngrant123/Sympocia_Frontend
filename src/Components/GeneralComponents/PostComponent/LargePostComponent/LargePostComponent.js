@@ -421,7 +421,10 @@ class LargePostComponent extends Component{
 			<PostProvider
 				value={{
 					userProfileId:this.state.id,
-					profileType:this.props.profileType
+					profileType:this.props.profileType,
+					closeModal:()=>{
+						this.props.closeModal();
+					}
 				}}
 			>
 				<Container>

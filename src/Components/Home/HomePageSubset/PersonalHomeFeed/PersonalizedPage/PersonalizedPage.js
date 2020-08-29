@@ -31,6 +31,7 @@ import BlogPostModal from "../../SearchExplorePage/SearchExploreSubset/BlogPosts
 import PopularVideosModal from "../PopularVideosModal.js";
 import {HeaderContainer,SimpliedHeaderContainer} from "./HeaderContainer.js";
 import HightLightedQuestions from "./HighLightedQuestions.js";
+import SpecificFeatureSymposium from "./SpecificSympsoiumFeatures/index.js";
 
  const keyFrameExampleTwo= keyframes`
   0% {
@@ -404,6 +405,18 @@ const ChatContainer=styled.div`
 	border-radius:5px;
 `;
 
+const SymposiumFeatureContainer=styled.div`
+	position:relative;
+	overflow:hidden;
+	width:20%;
+	height:85%;
+	top:-30%;
+	left:75%;
+	border-radius:5px;
+	overflow-y:auto;
+	z-index:25;
+`;
+
 const ChatAndIndustryInformationContainer=styled.div`
 	border-style:solid;
 	border-width:1px;
@@ -483,9 +496,9 @@ class PersonalizedPage extends Component{
 			posts:[],
 			popularQuestions:[],
 			displayInitialChatRoom:true,
-			isProfileFollowingSymposium:false
+			isProfileFollowingSymposium:false,
+			isLoading:true
 		}
-
 		connectToRoom(socket,this.props.selectedSymposium._id);
 	}
 	 async componentDidMount(){
@@ -505,7 +518,7 @@ class PersonalizedPage extends Component{
 
 		  		for(var i=0;i<symposiums.length;i++){
 		  			const symposium=symposiums[i];
-		  			if(symposium.industry==this.props.selectedSymposium.industry){
+		  			if(symposium.industry==this.props.selectedSymposium.symposium){
 		  				symposiumCounter=i;
 		  				break;
 		  			}
@@ -518,11 +531,11 @@ class PersonalizedPage extends Component{
 		  			activeUsers,
 		  			popularQuestions,
 		  			isProfileFollowedSymposium
-		  		}=await getIndustryInformation(this.props.selectedSymposium.industry,this.state.postCount,this.props.profileId);
-
+		  		}=await getIndustryInformation(this.props.selectedSymposium.symposium,this.state.postCount,this.props.profileId);
+		  		console.log(popularQuestions);
 			  	this.setState(prevState=>({
 				  		...prevState,
-				  		selectedSymposiumTitle:this.props.selectedSymposium.industry,
+				  		selectedSymposiumTitle:this.props.selectedSymposium.symposium,
 				  		symposiums:this.props.symposiums,
 				  		symposiumCounter:symposiumCounter,
 				  		backgroundColor:this.props.selectedSymposium.backgroundColor,
@@ -532,7 +545,8 @@ class PersonalizedPage extends Component{
 				  		activePeople:activeUsers,
 				  		popularQuestions:popularQuestions,
 				  		isProfileFollowingSymposium:isProfileFollowedSymposium,
-				  		profileId:this.props.profileId
+				  		profileId:this.props.profileId,
+				  		isLoading:false
 			  		}));
 
 			  	setTimeout(function(){
@@ -774,6 +788,11 @@ class PersonalizedPage extends Component{
 	  				isProfileFollowingSymposium={this.state.isProfileFollowingSymposium}
 	  				profileId={this.state.profileId}
 	  				changeFollowIndicator={this.changeFollowIndicator}
+	  				popularQuestionObject={{
+	  					questionInformation:this.state.popularQuestions,
+	  					isSimplified:this.state.headerAnimation,
+						selectedSymposium:this.state.selectedSymposiumTitle
+	  				}}
 	  			/>
 	  		</Container>:
 	  		<SymposiumHeaderAnimation id="animatedHeaderAnimatedContainer" style={{background:backgroundColor}}>
@@ -809,19 +828,21 @@ class PersonalizedPage extends Component{
 	  		})
 	  }
 
-	  handleChatContainer=()=>{
-	  	return this.state.headerAnimation==false? 
-	  		<React.Fragment>
-		  		{this.state.displayInitialChatRoom==true?
-					<ChatContainer id="chatContainer" onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
-							<Chat
-						  		pushMessageToSocket={this.pushMessageToSocketHandle}
-						  		roomId={this.props.selectedSymposium._id}
-						  		chat={this.state.chatRoom}
-						  	/>
-					</ChatContainer>
-				:null}
-			</React.Fragment>:
+	  specificSymposiumFeatures=()=>{
+	  	return this.state.headerAnimation==false?
+			<SymposiumFeatureContainer onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
+				{this.props.selectedSymposium.symposium=="General"||
+					this.props.selectedSymposium.symposium=="Religion"||
+					this.props.selectedSymposium.symposium=="Gaming"?
+		  			<Chat
+				  		pushMessageToSocket={this.pushMessageToSocketHandle}
+				  		roomId={this.props.selectedSymposium._id}
+				  		chat={this.state.chatRoom}
+				  	/>:<SpecificFeatureSymposium
+				  			symposium={this.props.selectedSymposium.symposium}
+				  		/>
+		  		} 
+			</SymposiumFeatureContainer>:
 	  		<ul style={{padding:"0px",position:"relative",top:"-130px",left:"71%"}}>
 	  			<li style={{listStyle:"none"}}>
 	  				<ul style={{padding:"0px"}}>
@@ -976,111 +997,103 @@ class PersonalizedPage extends Component{
 
 		return(
 			<PersonalizedPageContainer id="extendedSymposiumContainer" onScroll={()=>this.handleScroll()}>
-				{this.handleDisplayPostCreation()}
-				{this.handleSeeAllSubSymposiums()}
-				{this.handleSeeAllPeopleActiveModal()}
-				{this.handleSeeAllPopularVideos()}
-				{this.handleHeaderAnimation()}
+						{this.handleDisplayPostCreation()}
+						{this.handleSeeAllSubSymposiums()}
+						{this.handleSeeAllPeopleActiveModal()}
+						{this.handleSeeAllPopularVideos()}
+						{this.handleHeaderAnimation()}
 
-				<PostsChatInformation  id="postChatInformation">
-					{this.state.popularQuestions.length==0?
-						null:
-						<HightLightedQuestions
-							questionInformation={this.state.popularQuestions}
-							isSimplified={this.state.headerAnimation}
-							selectedSymposium={this.state.selectedSymposiumTitle}
-						/>
-					}
-					<ul style={{marginLeft:"30%",paddingTop:"2%"}}>
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{position:"relative",top:"-25px",listStyle:"none",marginRight:"5%"}}>
-									<SearchContainer>
-										<ul style={{paddingTop:"5px"}}>
-											<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
-												<SearchIcon
-													style={{fontSize:30}}
-												/>
-											</li>
-											<SearchTextArea
-												placeholder="Type here to search"
-											/>
-										</ul>
-									</SearchContainer>
-								</li>
-
-								<li style={{listStyle:"none"}}>
-									<ul>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											Display:
+						<PostsChatInformation  id="postChatInformation">
+							<ul style={{marginLeft:"30%",paddingTop:"2%"}}>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{position:"relative",top:"-25px",listStyle:"none",marginRight:"5%"}}>
+											<SearchContainer>
+												<ul style={{paddingTop:"5px"}}>
+													<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
+														<SearchIcon
+															style={{fontSize:30}}
+														/>
+													</li>
+													<SearchTextArea
+														placeholder="Type here to search"
+													/>
+												</ul>
+											</SearchContainer>
 										</li>
 
-										<li onClick={()=>this.changePostOption("Regular")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<PostOptions id="regular">	
-													Regular posts
-												</PostOptions>
-											</a>
-										</li>
+										<li style={{listStyle:"none"}}>
+											<ul>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+													Display:
+												</li>
 
-										<li  onClick={()=>this.changePostOption("Image")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<PostOptions id="image">	
-													Images
-												</PostOptions>
-											</a>
-										</li>
+												<li onClick={()=>this.changePostOption("Regular")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<PostOptions id="regular">	
+															Regular posts
+														</PostOptions>
+													</a>
+												</li>
 
-										<li onClick={()=>this.changePostOption("Video")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<PostOptions id="video">	
-													Videos
-												</PostOptions>
-											</a>
-										</li>
+												<li  onClick={()=>this.changePostOption("Image")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<PostOptions id="image">	
+															Images
+														</PostOptions>
+													</a>
+												</li>
 
-										<li onClick={()=>this.changePostOption("Blog")} style={{listStyle:"none",display:"inline-block"}}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<PostOptions id="blog">	
-													Blogs
-												</PostOptions>
-											</a>
+												<li onClick={()=>this.changePostOption("Video")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<PostOptions id="video">	
+															Videos
+														</PostOptions>
+													</a>
+												</li>
+
+												<li onClick={()=>this.changePostOption("Blog")} style={{listStyle:"none",display:"inline-block"}}>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<PostOptions id="blog">	
+															Blogs
+														</PostOptions>
+													</a>
+												</li>
+											</ul>
 										</li>
 									</ul>
 								</li>
 							</ul>
-						</li>
-					</ul>
-					{this.handleChatContainer()}
+							{this.specificSymposiumFeatures()}
 
-					<PostContainer id="postsContainer">
-						{this.state.postType=="Image"?
-							<ImagePostsModal
-								posts={this.state.posts}
-							/>:null
-						}
+							<PostContainer id="postsContainer">
+								{this.state.postType=="Image"?
+									<ImagePostsModal
+										posts={this.state.posts}
+									/>:null
+								}
 
-						{this.state.postType=="Video"?
-							<VideoPostModal
-								posts={this.state.posts}
-							/>:null
-						}
+								{this.state.postType=="Video"?
+									<VideoPostModal
+										posts={this.state.posts}
+									/>:null
+								}
 
-						{this.state.postType=="Blog"?
-							<BlogPostModal
-								posts={this.state.posts}
-							/>:null
-						}
+								{this.state.postType=="Blog"?
+									<BlogPostModal
+										posts={this.state.posts}
+									/>:null
+								}
 
-						{this.state.postType=="Regular"?
-							<RegularPostModal
-								posts={this.state.posts}
-							/>:null
-						}
+								{this.state.postType=="Regular"?
+									<RegularPostModal
+										posts={this.state.posts}
+									/>:null
+								}
 
-					</PostContainer>
-				
-				</PostsChatInformation>
+							</PostContainer>
+						
+						</PostsChatInformation>
 			</PersonalizedPageContainer>
 		)
 	}

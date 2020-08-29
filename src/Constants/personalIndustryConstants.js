@@ -203,24 +203,26 @@ export default{
 					type:"RegularPost"
 				}
 			],id:3},
-		{	industry:"Memes",
-			subCommunity:[
-				{industry:"Dark Humor"},
-				{industry:"Political Satire"},
-				{industry:"Witty Humor"},
-				{industry:"Troll Humor"}
-			],
-			backgroundColor:"linear-gradient(to right,#000046 0%,#1CB5E0 100%)",
-			popularQuestions:[
-				{
-					question:"Upload the memes you have created :)",
-					type:"Image"
-				},{
-					question:"Most offensive/funny memes you can find",
-					type:"Image"
-				}
-			]
-		},
+			/*
+				{	industry:"Memes",
+					subCommunity:[
+						{industry:"Dark Humor"},
+						{industry:"Political Satire"},
+						{industry:"Witty Humor"},
+						{industry:"Troll Humor"}
+					],
+					backgroundColor:"linear-gradient(to right,#000046 0%,#1CB5E0 100%)",
+					popularQuestions:[
+						{
+							question:"Upload the memes you have created :)",
+							type:"Image"
+						},{
+							question:"Most offensive/funny memes you can find",
+							type:"Image"
+						}
+					]
+				},
+		*/
 		{ 	industry:"Finance",
 			subCommunity:[
 				{industry:"Corporate Finance"},
@@ -389,6 +391,7 @@ export default{
 				}
 			] 
 		},
+		/*
 		{ industry:"Anthropology",
 				backgroundColor:"linear-gradient(to right,#bc4e9c 0%,#f80759 100%)",
 				subCommunity:[
@@ -407,7 +410,7 @@ export default{
 					type:"RegularPost"
 				}
 			]
-		},
+		},*/
 		{ industry:"Computer Science",
 				backgroundColor:"linear-gradient(to right,#11998e 0%,#38ef7d 100%)",
 				subCommunity:[
@@ -756,28 +759,30 @@ export default{
 					}
 				] 
 			},
-		{ industry:"ASMR",backgroundColor:"linear-gradient(to right,#c0c0aa 0%,#1cefff 100%)",id:3,
-			subCommunity:[
-					{industry:"Physical touch"},
-					{industry:"Food"},
-					{industry:"Tapping"},
-					{industry:"Whispering"}
-			],
-				popularQuestions:[
-					{
-						question:"Show us an asmr video that you've made recently",
-						type:"Video"
-					},
-					{
-						question:"Best asmr video you’ve watched",
-						type:"Video"
-					},
-					{
-						question:"Favorite asmr sounds/ New asmr sounds",
-						type:"RegularPost"	
-					}
-				]
-		},
+			/*
+			{ industry:"ASMR",backgroundColor:"linear-gradient(to right,#c0c0aa 0%,#1cefff 100%)",id:3,
+				subCommunity:[
+						{industry:"Physical touch"},
+						{industry:"Food"},
+						{industry:"Tapping"},
+						{industry:"Whispering"}
+				],
+					popularQuestions:[
+						{
+							question:"Show us an asmr video that you've made recently",
+							type:"Video"
+						},
+						{
+							question:"Best asmr video you’ve watched",
+							type:"Video"
+						},
+						{
+							question:"Favorite asmr sounds/ New asmr sounds",
+							type:"RegularPost"	
+						}
+					]
+			},
+		*/
 		{ industry:"Beauty",backgroundColor:"linear-gradient(to right,#E44D26 0%,#F16529 100%)",id:1,
 			subCommunity:[
 						{industry:"Hair Care"},

@@ -14,6 +14,8 @@ import {getVideosFromUser} from "../../../../../Actions/Requests/ProfileAxiosReq
 import FriendsGauge from "./FriendsGauge.js";
 import PostCreationPortal from "../../PersonalProfileSet/PostCreationPortal.js";
 
+import {getRegularPostFromUser} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+
 const PostCreationContainer=styled.div`
 	position:relative;
 	background-color:blue;
@@ -139,21 +141,30 @@ const PersonalPostsIndex=(props)=>{
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
 	const [displayRegularPosts,changeDisplayForRegularPosts]=useState(false);
+	const [regularPost,changeRegularPost]=useState({
+		headerPost:null,
+		posts:[]
+	})
 
 	const [displayCreationPost,changeDisplayCreationPost]=useState(false);
 	const [postOption,changePostOption]=useState();
-	const [personalInformation,changePersonalInformation]=useState([]);
+	const [personalInformation,changePersonalInformation]=useState(props.personalInformation);
+	console.log(personalInformation);
 
-	const [videoPost,changeVideoPosts]=useState({});
+	const [videoPost,changeVideoPosts]=useState({
+		headerVideo:null,
+		videos:[]
+	});
 	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
 	console.log("Teste");
 
 	useEffect(()=>{
-
-		const image=document.getElementById("images");
+		if(props.personalInformation.isLoading!=true){
+			const image=document.getElementById("images");
 			image.style.color="#C8B0F4";
 			image.style.borderBottom="solid";
 			image.style.borderColor="#C8B0F4";
+		}
 	},[]);
 
 	/*
@@ -161,7 +172,6 @@ const PersonalPostsIndex=(props)=>{
 	*/
 
 	const handlePostsClick=async(kindOfPost,id)=>{
-
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
@@ -201,15 +211,13 @@ const PersonalPostsIndex=(props)=>{
 			videos.style.color="#C8B0F4";
 			videos.style.borderBottom="solid";
 			videos.style.borderColor="#C8B0F4";
-			changeDisplayForVideos(true);
+			changeDisplayForVideos(true); 
 
 			console.log("Testing video api call");
-			const videoPostResponse=await getVideosFromUser(id);
-			const header=videoPostResponse.headerVideo;
-			const videoPosts=videoPostResponse.videos;
-
+			const {crownedVideo,videoPosts}=await getVideosFromUser(id);
+			debugger;
 			const videoObject={
-				headerVideo:header,
+				headerVideo:crownedVideo,
 				videos:videoPosts
 			}
 			changeVideoPosts(videoObject);
@@ -227,12 +235,20 @@ const PersonalPostsIndex=(props)=>{
 
 
 		}else{
+			const {crownedRegularPost,regularPosts}=await getRegularPostFromUser(id);
 
 			const regularPost=document.getElementById("regularPosts");
 			regularPost.style.color="#C8B0F4";
 			regularPost.style.borderBottom="solid";
 			regularPost.style.borderColor="#C8B0F4";
 
+			const regularPostObject={
+				headerPost:crownedRegularPost,
+				posts:regularPosts
+			}
+			console.log(regularPostObject);
+
+			changeRegularPost(regularPostObject);
 			changeDisplayForRegularPosts(true);
 		}
 	}
@@ -276,254 +292,320 @@ const PersonalPostsIndex=(props)=>{
 		changePersonalInformation(personalInformation);
 	}
 
-	return (
-		<UserConsumer>
-			{personalInformation=>{
-				return <React.Fragment>
-							<PostProvider
-								value={{
-									updatePostComponent:(postOption)=>{
-										changePostOption(postOption);
-										changeDisplayCreationPost(true);
-									},
-									hideCreationPost:()=>{
-										props.disappearShadow();
-										changeDisplayCreationPost(false)
-									},
-									updateImagePost:(imagePost)=>{
-										debugger;
-										const {isCrownedImage,image}=imagePost;
-										if(isCrownedImage==true){
+	return (<PostProvider
+				value={{
+					updatePostComponent:(postOption)=>{
+						changePostOption(postOption);
+						changeDisplayCreationPost(true);
+					},
+					hideCreationPost:()=>{
+						props.disappearShadow();
+						changeDisplayCreationPost(false)
+					},
+					updateImagePost:(imagePost)=>{
+						debugger;
+						const {isCrownedImage,image}=imagePost;
+						if(isCrownedImage==true){
+							//Set 
+							debugger;
+							var currentCrownedImage=props.personalInformation.userProfile.crownedImage;
+							var currentImages=props.personalInformation.userProfile.imagePost;
 
-											const newPersonalInfoObject={
-												...personalInformation,
-												userProfile:{
-													...personalInformation.userProfile,
-													crownedImage:image
-												}
-											}
-											changePersonalInformation(newPersonalInfoObject);
-										}else{
-											const currentImages=personalInformation.userProfile.imagePost
-											currentImages.push(imagePost);
-											const newPersonalInfoObject={
-												...personalInformation,
-												userProfile:{
-													...personalInformation.userProfile,
-													imagePost:currentImages
-												}
-											}
-											changePersonalInformation(newPersonalInfoObject);
-										}
+							if(currentCrownedImage!=null)
+								currentImages.push(currentCrownedImage);
 
-										
-										changeDisplayCreationPost(false);
-										props.closeModal();
-									},
-									updateVideoPost:(videoObject)=>{
-										debugger;
-											const currentVideoObject=videoPost;
-											const videos=currentVideoObject.videos;
-											if(videos!=null){
-												videos.push(videoObject);
-												const newVideoObject={
-													...currentVideoObject,
-													videos:videos
-												}
-												changeVideoPosts(newVideoObject);
-											}
+							currentImages.sort(function(a,b){
+								const aCreationDate=a.datePosted;
+								const bCreationDate=b.datePosted;
+								return bCreationDate>aCreationDate?1:-1;
+							});
+							var newPersonalInfoObject={
+								...props.personalInformation,
+								userProfile:{
+									...props.personalInformation.userProfile,
+									crownedImage:image,
+									imagePost:currentImages
+								}
+							}
+							changePersonalInformation(newPersonalInfoObject);
+						}else{
+							var currentImages=props.personalInformation.userProfile.imagePost
+							currentImages.splice(0,0,imagePost);
+							var newPersonalInfoObject={
+								...props.personalInformation,
+								userProfile:{
+									...props.personalInformation.userProfile,
+									imagePost:currentImages
+								}
+							}
+							changePersonalInformation(newPersonalInfoObject);
+						}
 
-											changeDisplayCreationPost(false);
-											props.closeModal();
-										}
-								}}
-							>
-							{initializePersonalInformationToState(personalInformation)}
-						{/*
-							{displayCreatePostAndShadowOverlay(personalInformation)}
-						*/}
-								<ul>
-									<li style={{listStyle:"none",marginBottom:"10%"}}>
-											{personalInformation.isLoading==true?
-													<p>Give us a second </p>:
-													<FriendsGauge
-														personalInformation={personalInformation}
-													/>
-												}
-									</li>
-									<hr/>
-								{displayCreationPostContainer()}
-								{/*
-									{personalInformation.isOwnProfile==true?
-										<React.Fragment>
-											<li style={{listStyle:"none",marginBottom:"5%"}}>
+						changeDisplayCreationPost(false);
+						props.closeModal();
+					},
+					updateVideoPost:(videoObject)=>{
+						const {isCrownedVideo,video}=videoObject;
+						if(isCrownedVideo==true){
+							//Set 
+							debugger;
+							var currentVideos=videoPost.videos;
+							var currentCrownedVideo=videoPost.headerVideo;
+							if(currentCrownedVideo!=null){
+								currentVideos.push(currentCrownedVideo);
+							}
+							currentVideos.sort(function(a,b){
+								const aCreationDate=a.datePosted;
+								const bCreationDate=b.datePosted;
+								return bCreationDate>aCreationDate?1:-1;
+							});
+
+							var newVideoObject={
+								headerVideo:video,
+								videos:currentVideos==null?[]:currentVideos
+							}
+							changeVideoPosts(newVideoObject);
+						}else{
+							var currentVideos=videoPost.videos;
+							currentVideos.splice(0,0,videoObject);
+							var newVideoObject={
+									...videoPost,
+									videos:currentVideos
+							}
+							changeVideoPosts(newVideoObject);
+						}
+
+						changeDisplayCreationPost(false);
+						props.closeModal();
+					},
+					updateRegularPost:(regularPostProp)=>{
+						const {isCrownedPost,post}=regularPostProp;
+						if(isCrownedPost==true){
+							//Set 
+							debugger;
+							var currentPosts=regularPost.posts;
+							var currentCrownedRegularPost=regularPost.headerPost;
+							if(currentCrownedRegularPost!=null){
+								currentPosts.push(currentCrownedRegularPost);
+							}
+							currentPosts.sort(function(a,b){
+								const aCreationDate=a.datePosted;
+								const bCreationDate=b.datePosted;
+								return bCreationDate>aCreationDate?1:-1;
+							});
+
+							var newPostObject={
+								headerPost:post,
+								posts:currentPosts==null?[]:currentPosts
+							}
+							changeRegularPost(newPostObject);
+						}else{
+							var currentPosts=regularPost.posts;
+							currentPosts.splice(0,0,regularPostProp);
+							var newPostObject={
+									...regularPost,
+									posts:currentPosts
+							}
+							changeRegularPost(newPostObject);
+						}
+
+						changeDisplayCreationPost(false);
+						props.closeModal();
+					}
+				}}
+			>
+			{props.personalInformation.isLoading==true?null:
+				<>
+			{/*
+				{initializePersonalInformationToState(props.personalInformation)}
+
+				{displayCreatePostAndShadowOverlay(props.personalInformation)}
+			*/}
+				<ul>
+					<li style={{listStyle:"none",marginBottom:"10%"}}>
+							{props.personalInformation.isLoading==true?
+									<p>Give us a second </p>:
+									<FriendsGauge
+										personalInformation={props.personalInformation}
+									/>
+								}
+					</li>
+					<hr/>
+				{displayCreationPostContainer()}
+				{/*
+					{props.personalInformation.isOwnProfile==true?
+						<React.Fragment>
+							<li style={{listStyle:"none",marginBottom:"5%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"5%",color:"#C8B0F4"}}>
+											<b>Create a post</b>
+										</li>
+
+										<li style={{listStyle:"none",display:"inline-block"}}>
+												<CommentCreationContainer onClick={()=>displayOrHideCreationPost()}>
 													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"5%",color:"#C8B0F4"}}>
-															<b>Create a post</b>
+														<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%",marginTop:"-20px"}}>
+															<ProfilePicture>
+																{props.personalInformation.profilePicture!=null?
+																	<img src={props.personalInformation.profilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%",borderRadius:"50%"}}/>:
+																	<img src={NoProfilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%"}}/>
+																}
+															</ProfilePicture>
 														</li>
 
 														<li style={{listStyle:"none",display:"inline-block"}}>
-																<CommentCreationContainer onClick={()=>displayOrHideCreationPost()}>
-																	<ul style={{padding:"0px"}}>
-																		<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%",marginTop:"-20px"}}>
-																			<ProfilePicture>
-																				{personalInformation.profilePicture!=null?
-																					<img src={personalInformation.profilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%",borderRadius:"50%"}}/>:
-																					<img src={NoProfilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%"}}/>
-																				}
-																			</ProfilePicture>
-																		</li>
+															<CommentTextArea placeholder="Enter a comment">
 
-																		<li style={{listStyle:"none",display:"inline-block"}}>
-																			<CommentTextArea placeholder="Enter a comment">
+															</CommentTextArea>
 
-																			</CommentTextArea>
-
-																		</li>
-																	</ul>
-															</CommentCreationContainer>
 														</li>
 													</ul>
-												</li>
-												<li style={{listStyle:"none",marginBottom:"5%"}}>
-													{personalInformation.isOwnProfile==true?
-														<React.Fragment>
-															{displayCreationPostContainer()}
-														</React.Fragment>:
-														<React.Fragment></React.Fragment>
-													}
-												</li> 
-											</React.Fragment>
-										:null}
-								*/}
+											</CommentCreationContainer>
+										</li>
+									</ul>
+								</li>
+								<li style={{listStyle:"none",marginBottom:"5%"}}>
+									{props.personalInformation.isOwnProfile==true?
+										<React.Fragment>
+											{displayCreationPostContainer()}
+										</React.Fragment>:
+										<React.Fragment></React.Fragment>
+									}
+								</li> 
+							</React.Fragment>
+						:null}
+				*/}
 
-									<li style={{listStyle:"none",marginBottom:"20px"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<SearchIcon
-															style={{fontSize:40}}
-														/>
-													</li>
-
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<SearchPostsTextArea
-															placeholder="Search for any posts here"
-														/>
-													</li>
-
-												</ul>
-											</li>
-
-											<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
-												<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
-													Images
-												</a>
-											</li>
-
-											<li onClick={()=>handlePostsClick("video",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
-												<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-													Videos
-												</a>
-											</li>
-
-											<li onClick={()=>handlePostsClick("regularPost",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-												<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-													Regular Posts
-												</a>
-											</li>
-
-											<li onClick={()=>handlePostsClick("blog",personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-												<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-													Blogs
-												</a>
-											</li>
-
-											<li style={listCSSButton}>	
-
-												<div class="dropdown">
-														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																				borderColor:"#5298F8",
-																																				borderStyle:"solid",
-																																				borderWidth:"1px",
-																																				color:"#5298F8",
-																																				backgroundColor:"white"}}>
-															Sort By
-														   	<span class="caret"></span>
-														</button>
-														<ul class="dropdown-menu">
-															<li><a href="">Most Popular</a></li>
-															<li><a href="">Most Recent</a></li>
-															
-														</ul>
-								  				 </div>
-
-
-											</li>
-
-											<li style={listCSSButton}>
-												<div class="dropdown">
-														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																				borderColor:"#5298F8",
-																																				borderStyle:"solid",
-																																				borderWidth:"1px",
-																																				color:"#5298F8",
-																																				backgroundColor:"white"}}>
-															Industries
-														   	<span class="caret"></span>
-														</button>
-														<ul class="dropdown-menu">
-															<li><a href="">Most Popular</a></li>
-															<li><a href="">Most Recent</a></li>
-															
-														</ul>
-								  				 </div>
-											</li>
-
-										</ul>
+					<li style={{listStyle:"none",marginBottom:"20px"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<SearchIcon
+											style={{fontSize:40}}
+										/>
 									</li>
-						
-										{
-											displayImages==true?
-											<ImagePosts
-												personalInformation={personalInformation}
-												profile="Personal"
-											/>:<React.Fragment></React.Fragment>
-										}
 
-										{
-											displayVideos==true?
-											<VideoPosts
-												videos={videoPost}
-												isLoadingIndicatorVideos={isLoadingIndicatorVideos}
-												id={personalInformation.userProfile._id}
-											/>:<React.Fragment></React.Fragment>
-										}
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<SearchPostsTextArea
+											placeholder="Search for any posts here"
+										/>
+									</li>
 
-
-										{
-											displayBlogs==true?
-											<BlogsPosts
-												id={personalInformation.userProfile._id}
-												profileType="Personal"
-											/>:<React.Fragment></React.Fragment>
-										}
-
-										{
-											displayRegularPosts==true?
-											<RegularPost
-												id={personalInformation.userProfile._id}
-												profilePicture={personalInformation.userProfile.profilePicture}
-												profile="Personal"
-											/>:<React.Fragment></React.Fragment>
-										}
 								</ul>
-							</PostProvider>
-						</React.Fragment>
-				}}
-			
-		</UserConsumer>
+							</li>
+
+							<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+								<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
+									Images
+								</a>
+							</li>
+
+							<li onClick={()=>handlePostsClick("video",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+								<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+									Videos
+								</a>
+							</li>
+
+							<li onClick={()=>handlePostsClick("regularPost",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+								<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+									Regular Posts
+								</a>
+							</li>
+
+							<li onClick={()=>handlePostsClick("blog",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+								<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+									Blogs
+								</a>
+							</li>
+
+							<li style={listCSSButton}>	
+
+								<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																borderColor:"#5298F8",
+																																borderStyle:"solid",
+																																borderWidth:"1px",
+																																color:"#5298F8",
+																																backgroundColor:"white"}}>
+											Sort By
+										   	<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu">
+											<li><a href="">Most Popular</a></li>
+											<li><a href="">Most Recent</a></li>
+											
+										</ul>
+				  				 </div>
+
+
+							</li>
+
+							<li style={listCSSButton}>
+								<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																borderColor:"#5298F8",
+																																borderStyle:"solid",
+																																borderWidth:"1px",
+																																color:"#5298F8",
+																																backgroundColor:"white"}}>
+											Industries
+										   	<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu">
+											<li><a href="">Most Popular</a></li>
+											<li><a href="">Most Recent</a></li>
+											
+										</ul>
+				  				 </div>
+							</li>
+
+						</ul>
+					</li>
+		
+						{
+							displayImages==true?
+							<ImagePosts
+								imageData={{
+									crownImage:personalInformation.userProfile.crownedImage,
+									images:personalInformation.userProfile.imagePost
+								}}
+								isLoading={props.personalInformation.isLoading}
+								profile="Personal"
+							/>:<React.Fragment></React.Fragment>
+						}
+
+						{
+							displayVideos==true?
+							<VideoPosts
+								videos={videoPost}
+								isLoadingIndicatorVideos={isLoadingIndicatorVideos}
+								id={personalInformation.userProfile._id}
+							/>:<React.Fragment></React.Fragment>
+						}
+
+
+						{
+							displayBlogs==true?
+							<BlogsPosts
+								id={props.personalInformation.userProfile._id}
+								profileType="Personal"
+							/>:<React.Fragment></React.Fragment>
+						}
+
+						{
+							displayRegularPosts==true?
+							<RegularPost
+								id={props.personalInformation.userProfile._id}
+								posts={regularPost}
+								profilePicture={props.personalInformation.userProfile.profilePicture}
+								profile="Personal"
+							/>:<React.Fragment></React.Fragment>
+						}
+				</ul>
+				</>
+			}
+			</PostProvider>
 	)
 }
 

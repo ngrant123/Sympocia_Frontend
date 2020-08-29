@@ -7,11 +7,12 @@ import {
 		addSymposium,
 		removeSymposium
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import HightLightedQuestions from "./HighLightedQuestions.js";
 
 const ActiveContainer =styled.div`
 	position:relative;
 	width:210%;
-	height:50%;
+	height:20%;
 	background-color:white;
 	padding:5px;
 	padding-top:10px;
@@ -85,7 +86,7 @@ const HeaderContainer=(props)=>{
 			profileId,
 			changeFollowIndicator
 		}=props;
-	console.log(props);
+	console.log(props.popularQuestionObject);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 
@@ -162,32 +163,17 @@ const HeaderContainer=(props)=>{
 	return(
 			<div style={{position:"absolute",width:"100%",height:"100%",opacity:"0",transition:"opacity 2s linear"}} id="headerContents">
 				<ul style={{paddingTop:"110px",paddingLeft:"150px"}}>
-					<li style={{listStyle:"none",display:"inline-block"}}>
-						<ul style={{padding:"0px"}}>
-								<p style={{color:"white",fontSize:"20px"}}>
-									Active People
-								</p>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ActiveContainer>
-										<ul>
-							 				{activePeople.map(data=>
-
-							 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
-							 							<ActiveProfilePictures>
-							 								{data.profilePicture==null?
-							 									<img src={NoProfilePicture} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>:
-							 									<img src={data.profilePicture} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>
-							 								}
-							 							</ActiveProfilePictures>
-							 						</li>
-							 					)}
-							 			</ul>
-									</ActiveContainer>
-								</a>
-						</ul>
-					</li>
-
-					<li style={{listStyle:"none",display:"inline-block",marginLeft:"15%",position:"relative",top:"-120px",width:"50%"}}>
+					{props.popularQuestionObject.questionInformation.length==0?
+							null
+						:<li style={{listStyle:"none",display:"inline-block"}}>
+							<HightLightedQuestions
+								questionInformation={props.popularQuestionObject.questionInformation}
+								isSimplified={props.popularQuestionObject.isSimplified}
+								selectedSymposium={props.popularQuestionObject.selectedSymposium}
+							/>
+						</li>
+					}
+					<li style={{listStyle:"none",display:"inline-block",marginLeft:"-10%",position:"relative",top:"-120px",width:"50%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -221,6 +207,31 @@ const HeaderContainer=(props)=>{
 
 					<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%",top:"-20px",position:"relative"}}>
 						<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
+									<ul style={{padding:"0px"}}>
+											<p style={{color:"white",fontSize:"20px"}}>
+												Active People
+											</p>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<ActiveContainer>
+													<ul>
+										 				{activePeople.map(data=>
+
+										 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
+										 							<ActiveProfilePictures>
+										 								{data.profilePicture==null?
+										 									<img src={NoProfilePicture} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>:
+										 									<img src={data.profilePicture} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>
+										 								}
+										 							</ActiveProfilePictures>
+										 						</li>
+										 					)}
+										 			</ul>
+												</ActiveContainer>
+											</a>
+									</ul>
+								</li>
+
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									<li onClick={()=>handleFollowSymposium()} style={ButtonCSS}>
 										<b>
@@ -233,17 +244,20 @@ const HeaderContainer=(props)=>{
 									</li>
 								</a>
 
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>props.hideChat()} style={ButtonCSS}>
-										<b>
-											<ExpandLessIcon style={{font:20}}/> 
-												{hideChatButtonClicked==false?
-													<p>Hide chat </p>:
-													<p> Unhide Chat </p>
-												}
-										</b>
-									</li>
-								</a>
+								{/*
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>props.hideChat()} style={ButtonCSS}>
+											<b>
+												<ExpandLessIcon style={{font:20}}/> 
+													{hideChatButtonClicked==false?
+														<p>Hide chat </p>:
+														<p> Unhide Chat </p>
+													}
+											</b>
+										</li>
+									</a>
+								*/}
+							
 						</ul>
 					</li>
 

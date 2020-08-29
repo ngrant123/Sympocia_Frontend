@@ -76,6 +76,13 @@ const StampButtonCSS={
 	marginBottom:"5%"
 }
 
+/*
+	The point for this section is to doing multiple things in the future:
+		Offer a tips section,
+		Display all contributors working on this document 
+
+*/
+
 const AdditionalInformation=(props)=>{
 
 	const [profilePictureContributors,changeContributors]=useState([{},{},{},{},{}]);
@@ -105,55 +112,54 @@ const AdditionalInformation=(props)=>{
 
 	return(
 		<Container>
-			<ul style={{padding:"0px"}}>
-				<li onClick={()=>createOrRemoveStampEffect()} style={StampButtonCSS}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}> 
-							<Icon 
-								icon={stampIcon}
-								style={{fontSize:30,color:"#5298F8"}}
-							/>
-						</li>
-						<li style={{listStyle:"none",display:"inline-block",color:"#5298F8"}}> 
-							Stamp
-						</li>
-					</ul>
-				</li>
-				{displayStampEffect==false?
-					null:
-					<li style={{listStyle:"none"}}>
-						<StampIconEffect>
-							<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-						</StampIconEffect>
-					</li>
-				}
-
-				<li style={{listStyle:"none",fontSize:"30px",marginBottom:"3%"}}>
-					<b>Contributors</b>
-				</li>
-
-
-				<li style={{listStyle:"none",marginBottom:"10%"}}>
-					<ul style={{padding:"0px"}}>
-						{profilePictureContributors.map(data=>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>
-								<ProfilePicture/>
+			{/*
+				<ul style={{padding:"0px"}}>
+					<li onClick={()=>createOrRemoveStampEffect()} style={StampButtonCSS}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}> 
+								<Icon 
+									icon={stampIcon}
+									style={{fontSize:30,color:"#5298F8"}}
+								/>
 							</li>
-						)}
+							<li style={{listStyle:"none",display:"inline-block",color:"#5298F8"}}> 
+								Stamp
+							</li>
+						</ul>
+					</li>
+					{displayStampEffect==false?
+						null:
+						<li style={{listStyle:"none"}}>
+							<StampIconEffect>
+								<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+							</StampIconEffect>
+						</li>
+					}
 
-					</ul>
-
-				</li>
-
-				<li style={{listStyle:"none"}}>
-					<ViewTipsButton>
-						View Tips
-					</ViewTipsButton>
-
-				</li>
+					<li style={{listStyle:"none",fontSize:"30px",marginBottom:"3%"}}>
+						<b>Contributors</b>
+					</li>
 
 
-			</ul>
+					<li style={{listStyle:"none",marginBottom:"10%"}}>
+						<ul style={{padding:"0px"}}>
+							{profilePictureContributors.map(data=>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>
+									<ProfilePicture/>
+								</li>
+							)}
+
+						</ul>
+
+					</li>
+
+					<li style={{listStyle:"none"}}>
+						<ViewTipsButton>
+							View Tips
+						</ViewTipsButton>
+					</li>
+				</ul>
+			*/}
 
 		</Container>
 	)

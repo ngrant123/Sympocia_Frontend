@@ -102,7 +102,7 @@ class SearchExploreContainer extends Component{
 		}else if(postOption=="Videos"){
 			homePagePosts=await exploreVideoPosts(profileId,this.state.postCount);
 		}else{
-			homePagePosts=await exploreImagePosts(profileId,this.state.postCount);
+			homePagePosts=await exploreRegularPosts(profileId,this.state.postCount);
 		}
 		var newHomePagePosts=this.addSuggestedSymposiums(homePagePosts);
 			this.setState({

@@ -197,7 +197,7 @@ const displayPersonalIndustryFeed=async(personalInformationRedux,homePageInforma
 					const industryObject={
 						_id:data,
 						backgroundColor:color,
-						industry:currentPostIndustry.industry,
+						symposium:currentPostIndustry.industry,
 						popularVideos:[]
 					}
 					industryArray.push(industryObject);

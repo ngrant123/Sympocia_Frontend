@@ -81,7 +81,7 @@ const SmallRegularPosts=(props)=>{
 								</audio>:<React.Fragment>{post.post}</React.Fragment>
 							}
 						</li>
-						{post.comments.length==0?
+						{post.comments.regularComments.length==0?
 							<React.Fragment>
 								<p> No comments here :(<ExpandMoreIcon/> </p>
 								<p style={CommentButtonCSS}> Create a comment </p>
@@ -90,7 +90,7 @@ const SmallRegularPosts=(props)=>{
 								<p> Show comments <ExpandMoreIcon/> </p>
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
-										{post.comments.map(data=>
+										{post.comments.regularComments.map(data=>
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 												<SmallProfileCommentPicture>
 													<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
