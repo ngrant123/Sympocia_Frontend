@@ -33,6 +33,7 @@ import ChampionModal from "./ChampionModalPortal/ChampionDisplayModal.js";
 import Confetti from 'react-confetti';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CreationPortal from "./PostCreationPortal.js";
+import OnboardingPersonalPage from "../../../OnBoarding/PersonalProfileOnboarding.js";
 
 
 const Container=styled.div`
@@ -337,7 +338,8 @@ class LProfile extends Component{
 		    		displayChampionModal:true
 		    	})
 		    },
-		    displayConfetti:false
+		    displayConfetti:false,
+		    hideOnboarding:false
 		};
 	}
 
@@ -365,7 +367,8 @@ class LProfile extends Component{
 						isOwnProfile:true,
 						displayChampion:containsChampion,
 						champion:profile.championData,
-						isLoading:false
+						isLoading:false,
+						hideOnboarding:profile.firstTimeLoggedIn.personalPage
 					}));
 				}
 				else{
@@ -630,6 +633,11 @@ class LProfile extends Component{
 		})
 	}
 
+	closeOnboardingModal=()=>{
+		this.setState({
+			hideOnboarding:true
+		})
+	}
 
 
 	render(){
@@ -672,6 +680,26 @@ class LProfile extends Component{
 					}}
 				>
 					<Container id="personalContainer">
+						{this.state.isLoading==true?null:
+							<>
+								{this.state.hideOnboarding==false && (
+									<OnboardingPersonalPage
+										closeModal={this.closeOnboardingModal}
+									/>
+								)}
+								
+								<PostInformationContainer>
+								<PersonalPostsIndex
+									displayShadowOverlay={this.displayShadow}
+									disappearShadow={this.disappearShadow}
+									displayCreationPortal={this.state.displayCreationPortal}
+									closeModal={this.closeCreationPortal}
+									personalInformation={this.state}
+								/>
+								</PostInformationContainer>
+							</>
+						}
+
 						{this.state.displayConfetti==true?
 							<Confetti
 								style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
@@ -744,17 +772,6 @@ class LProfile extends Component{
 								<React.Fragment></React.Fragment>
 							}
 						*/}
-						{this.state.isLoading==true?null:
-							<PostInformationContainer>
-							<PersonalPostsIndex
-								displayShadowOverlay={this.displayShadow}
-								disappearShadow={this.disappearShadow}
-								displayCreationPortal={this.state.displayCreationPortal}
-								closeModal={this.closeCreationPortal}
-								personalInformation={this.state}
-							/>
-						</PostInformationContainer>
-						}
 						
 
 						<ul style={ChampionAndCreateButtonCSS}>

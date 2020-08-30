@@ -289,6 +289,7 @@ class EditImageCreation extends Component{
 			}
 	}
 
+
 	pushDummyImageObjectToProfile=(profilePostInformation,searchCriteriaObject)=>{
 		debugger;
 		const date=new Date();

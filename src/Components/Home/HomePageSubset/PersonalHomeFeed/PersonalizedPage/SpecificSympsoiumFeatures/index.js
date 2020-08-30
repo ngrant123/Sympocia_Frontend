@@ -19,6 +19,18 @@ const ChatOption={
   borderWidth:"2px",
   borderColor:"#3898ec"
 }
+
+/*
+	Right now because of time constraints Im not doing anything special
+	for Gaming,Religion, and General but will do something in the future
+
+	So the structure of this is that it decides which category 
+	the symposium is in then sends it the featuresIndex where it decides which 
+	feature the user clicked on  and then sends it to the features section.
+	Waste of time, should just refactor the features into a portal and then just delete
+	featuresindex
+*/
+
 const SpecificFeatureSymposium=({symposium})=>{
 	/*
 		const [isArtSymposium,changeArtStatus]=useState(false);

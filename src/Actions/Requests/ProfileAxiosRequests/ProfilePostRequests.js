@@ -377,6 +377,19 @@ export const promoteRecruitRequest=async({node,selectedRecruits,_id})=>{
 	}
 }
 
+export const completeOnboardingPersonalPage=async(id)=>{
+	try{
+		const onBoardingPersonalPageResponse=await axios.post(`${CreateUrl}/onBoardingCompletePersonalPage`,{
+			_id:id
+		});
+		const {data}=onBoardingPersonalPageResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
 
 
 
