@@ -84,40 +84,37 @@ const ImageLabelCSS={
 	marginRight:"2%"
 }
 
-const handleRecruitButton=async(homePageInformation,post,searchPageInformation)=>{
+const handleRecruitButton=async(previousProps,post)=>{
 		debugger;
-		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
+		const {_id,confettiAnimation}=previousProps;
 		const postOwnerId=post.owner._id;
-		const personalId=homePageInformation.personalInformationState._id;
+		const personalId=_id;
 		const indicator=await isUserFollwingProfile(personalId,postOwnerId);
 
 		if(indicator==true){
 				alert("You already recruited this profile :) If you want to unrecruit them then head over to their profile"); 
 		}else{
-			homePageInformation.displayRecruitConfetti();
-			addRecruit(homePageInformation.personalInformationState._id,post.owner._id);
+			confettiAnimation();
+			addRecruit(_id,post.owner._id);
 		}	
 	} 
 
-const displayRecruitButton=(homePageInformation,post,searchPageInformation)=>{
-		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
-		console.log(homePageInformation);
+const displayRecruitButton=(post,previousProps)=>{
 		const postOwnerId=post.owner._id;
-		const personalId=homePageInformation.personalInformationState._id;
+		const personalId=previousProps._id;
 		if(personalId==postOwnerId){
 			return null
 		}else{
 			return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li onClick={()=>handleRecruitButton(homePageInformation,post)} style={ImageLabelCSS}>
+						<li onClick={()=>handleRecruitButton(previousProps,post)} style={ImageLabelCSS}>
 							+ Recruit
 						</li>
 					</a>
 		}
 }
 
-const constructSuggestedSymposium=(personalInformation,homePageInformation,searchPageInformation)=>{
+const constructSuggestedSymposium=(personalInformation,previousProps)=>{
 		debugger;
-		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
 
 		console.log(personalInformation);
 		const {personalInformationState}=personalInformation;
@@ -125,7 +122,7 @@ const constructSuggestedSymposium=(personalInformation,homePageInformation,searc
 		var selectedSymposiums=[];
 			var counter=0;
 			while(counter<3){   
-				if(homePageInformation.isPersonalProfile==true){
+				if(previousProps.isPersonalProfile==true){
 					const randomNum=Math.floor(Math.random() * ((PERSONAL_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
 					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
 					if(!symposiumContainer.has(randomlySelected.industry)){
@@ -149,7 +146,7 @@ const constructSuggestedSymposium=(personalInformation,homePageInformation,searc
 						</li>
 						{selectedSymposiums.map(data=>
 							<a href="javascript:void(0);">
-								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,homePageInformation,data,selectedSymposiums)} style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
+								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)} style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
 									<b>{data.industry}</b>
 								</li>
 							</a>
@@ -157,59 +154,60 @@ const constructSuggestedSymposium=(personalInformation,homePageInformation,searc
 				   </ul>
 }
 
-const displayPersonalIndustryFeed=async(personalInformationRedux,homePageInformation,selectedSymposium,selectedIndustries,searchPageInformation)=>{
+const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposium,selectedIndustries,previousProps)=>{
 		//have to format selected industries in and add additional information so that the personalPage can 
 		//accept props
 		var industryColorMap=new Map();
-		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
 
-		if(selectedSymposium!=null)
-			selectedIndustries.slice(0,selectedSymposium);
-		else{
-			var personalIndustries=PersonalIndustry.INDUSTRIES;
-			var companyIndustries=CompanyIndustry.INDUSTRIES;
+		if(previousProps.displaySymposium!=null){
+			 if(selectedSymposium!=null)
+				selectedIndustries.slice(0,selectedSymposium);
+			else{
+				var personalIndustries=PersonalIndustry.INDUSTRIES;
+				var companyIndustries=CompanyIndustry.INDUSTRIES;
 
-			if(personalInformationRedux.loggedIn==true){
-				for(var i=0;i<personalIndustries.length;i++){
-					const industry=personalIndustries[i];
-					industryColorMap.set(industry.industry,industry.backgroundColor);
-				}
-			}else{
-				for(var i=0;i<companyIndustries.length;i++){
-					const industry=personalIndustries[i];
-					industryColorMap.set(industry.industry,industry.backgroundColor);
+				if(personalInformationRedux.loggedIn==true){
+					for(var i=0;i<personalIndustries.length;i++){
+						const industry=personalIndustries[i];
+						industryColorMap.set(industry.industry,industry.backgroundColor);
+					}
+				}else{
+					for(var i=0;i<companyIndustries.length;i++){
+						const industry=personalIndustries[i];
+						industryColorMap.set(industry.industry,industry.backgroundColor);
+					}
 				}
 			}
-		}
 
-		var isPersonalProfile;
-		const industryArray=[];
-		
-		for(var i=0;i<selectedIndustries.length;i++){
-			const currentPostIndustry=selectedIndustries[i];
-					const {data}=await getSymposiumId(currentPostIndustry.industry);
-					var color;
-					if(currentPostIndustry.backgroundColor==null)
-						var color=industryColorMap.get(currentPostIndustry.industry);
-					else
-						color=currentPostIndustry.backgroundColor
+			var isPersonalProfile;
+			const industryArray=[];
+			
+			for(var i=0;i<selectedIndustries.length;i++){
+				const currentPostIndustry=selectedIndustries[i];
+						const {data}=await getSymposiumId(currentPostIndustry.industry);
+						var color;
+						if(currentPostIndustry.backgroundColor==null)
+							var color=industryColorMap.get(currentPostIndustry.industry);
+						else
+							color=currentPostIndustry.backgroundColor
 
-					const industryObject={
-						_id:data,
-						backgroundColor:color,
-						symposium:currentPostIndustry.industry,
-						popularVideos:[]
-					}
-					industryArray.push(industryObject);
-		}
-		
-		const symposiumsAfterFirstOne=industryArray.splice(1,industryArray.length);
-		const selectedSymposiumsObject={
-			selectedSymposiums:industryArray[industryArray.length-1],
-			symposiums:symposiumsAfterFirstOne
-		}
+						const industryObject={
+							_id:data,
+							backgroundColor:color,
+							symposium:currentPostIndustry.industry,
+							popularVideos:[]
+						}
+						industryArray.push(industryObject);
+			}
+			
+			const symposiumsAfterFirstOne=industryArray.splice(1,industryArray.length);
+			const selectedSymposiumsObject={
+				selectedSymposiums:industryArray[industryArray.length-1],
+				symposiums:symposiumsAfterFirstOne
+			}
 
-		homePageInformation.displaySymposium(selectedSymposiumsObject);
+			previousProps.displaySymposium(selectedSymposiumsObject);
+		}
 }
 
 
@@ -246,12 +244,11 @@ const ImagePostsModal=(props)=>{
 		changeImageDisplay(true);
 	}
 
-	const displaySpecialPost=(postResult,personalInformationRedux,homePageInformation,searchPageInformation)=>{
-		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
+	const displaySpecialPost=(postResult,personalInformationRedux,previousProps)=>{
 		console.log(postResult);
 		if(postResult=="suggestedSymposium"){
 			return <li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
-						{constructSuggestedSymposium(personalInformationRedux,homePageInformation)}
+						{constructSuggestedSymposium(personalInformationRedux,previousProps)}
 					</li>
 		}else{
 			const {data}=postResult;
@@ -271,161 +268,150 @@ const ImagePostsModal=(props)=>{
 	}
 
 	return(
-			<HomeConsumer>
-				{homePageInformation=>(
-					<SearchConsumer>
-						{searchPageInformation=>(
-								<React.Fragment>
-								{props.posts.length>=1?
-									<React.Fragment>
-										<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
-											<ul style={{padding:"0px"}}>
-												<li onClick={()=>handleDisplayHeaderImage()} style={{listStyle:"none",backgroundColor:"red",width:"90%",borderRadius:"5px",position:"relative",top:"-80px"}}>
-													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-														<img src={headerImage.imgUrl} style={HeaderImageCSS}/>
-														<ul style={{padding:"0px",zIndex:"8",position:"absolute",top:"10px"}}>
-															{headerImage.videoDescription!=null?
-																<li style={{listStyle:"none"}}>
-																	<VideoDesriptionContainer>
-																		   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
-																				<source src={headerImage.videoDescription} type="video/mp4"/>
-																			</video>
-																	</VideoDesriptionContainer>
-																</li>:null
-															}
-															
-															{headerImage.audioDescription!=null?
-																<li style={{listStyle:"none"}}>
-																	<audio style={{width:"200px"}} controls>
-																	  	<source src={headerImage.audioDescription} type="audio/ogg"/>
-																	  	<source src={headerImage.audioDescription} type="audio/mpeg"/>
-																		Your browser does not support the audio element.
-																	</audio>
-																</li>:null
-															}
-														</ul>
-													</a>
-												</li>
-												<li style={{listStyle:"none",width:"80%",position:"relative",top:"-70px"}}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",width:"20%"}}>
-															<ProfilePictureLink to={{pathname:`/profile/${headerImage.owner._id}`}}>
-																{headerImage.owner.profilePicture!=null?
-																	<img src={headerImage.owner.profilePicture} style={{height:"10%",width:"35%",borderRadius:"50%"}}/>:
-																	<img src={NoProfilePicture} style={{height:"10%",width:"60%",borderRadius:"50%"}}/>
-																}
-															</ProfilePictureLink>
-														</li>
-														<li style={{listStyle:"none",display:"inline-block",fontSize:"30px",marginRight:"2%"}}>
-															<b>{headerImage.owner.firstName}</b>
-														</li>
-
-														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerImage.industriesUploaded,searchPageInformation)} style={ImageLabelCSS}>
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																{headerImage.industriesUploaded[0].industry}
-															</a>
-														</li>
-														{displayRecruitButton(homePageInformation,headerImage,searchPageInformation)}
-														
-														<li style={{listStyle:"none",width:"90%",marginLeft:"20%"}}>
-															{headerImage.description}
-														</li>
-													</ul>
-												</li>
-											</ul>
-										</li>
-
-										<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"2%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
-											<ul style={{padding:"0px"}}>
-												{images.map(data=>
-													<React.Fragment>
-														{data.owner==null?
-															<React.Fragment>
-																{displaySpecialPost(data,personalInformationRedux,homePageInformation,searchPageInformation)}
-															</React.Fragment>
-														:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"2%"}}>
-															<ul style={{padding:"0px"}}>
-																<li onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<ShadowContainer/>
-																		<img src={data.imgUrl} style={ImageCSS}/>
-																		<ul style={{padding:"0px",zIndex:"8",position:"absolute",top:"25%"}}>
-																			{data.videoDescription!=null?
-																				<li style={{listStyle:"none"}}>
-																					<VideoDesriptionContainer>
-																						   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
-																								<source src={data.videoDescription} type="video/mp4"/>
-																							</video>
-																					</VideoDesriptionContainer>
-																				</li>:null
-																			}
-																			
-																			{data.audioDescription!=null?
-																				<li style={{listStyle:"none"}}>
-																					<audio style={{width:"200px"}} controls>
-																					  	<source src={data.audioDescription} type="audio/ogg"/>
-																					  	<source src={data.audioDescription} type="audio/mpeg"/>
-																						Your browser does not support the audio element.
-																					</audio>
-																				</li>:null
-																			}
-																		</ul>
-																	</a>
-																</li>
-																<li style={{listStyle:"none",marginBottom:"1%"}}>
-																	<ul style={{padding:"0px"}}>
-																		<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",width:"20%"}}>
-																			<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-																				{data.owner.profilePicture!=null?
-																					<img src={data.owner.profilePicture} style={{height:"10%",width:"35%",borderRadius:"50%"}}/>:
-																					<img src={NoProfilePicture} style={{height:"10%",width:"60%",borderRadius:"50%"}}/>
-																				}
-																			</ProfilePictureLink>
-																		</li>
-
-																		<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																			<b>{data.owner.firstName}</b>
-																		</li>
-																		<li onClick={()=>handleRecruitButton(homePageInformation,data,searchPageInformation)} style={ImageLabelCSS}>
-																			+ Recruit
-																		</li>
-
-																		<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,data.industriesUploaded,searchPageInformation)} style={ImageLabelCSS}>
-																			{data.industriesUploaded[0].industry}
-																		</li>
-																	</ul>
-																</li>
-																<li style={{marginLeft:"30%",listStyle:"none",width:"70%",height:"20%",overflow:"hidden"}}>
-																	  <p>
-																	  	{data.description}</p>
-																</li>
-												 			</ul>
-														</li>
-													}	
-													</React.Fragment>
-												)}
-											</ul>
-										</li>
-
-										{displayImageDisplayPortal==false?
-											null:
-											<ImagePostDisplayPortal
-												closeModal={closeModal}
-												selectedImage={selectedImage}
-												recommendedImages={displayRecommendedImages}
-											/>
+	<React.Fragment>
+		{props.posts.length>=1?
+			<React.Fragment>
+				<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
+					<ul style={{padding:"0px"}}>
+						<li onClick={()=>handleDisplayHeaderImage()} style={{listStyle:"none",backgroundColor:"red",width:"90%",borderRadius:"5px",position:"relative",top:"-80px"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<img src={headerImage.imgUrl} style={HeaderImageCSS}/>
+								<ul style={{padding:"0px",zIndex:"8",position:"absolute",top:"10px"}}>
+									{headerImage.videoDescription!=null?
+										<li style={{listStyle:"none"}}>
+											<VideoDesriptionContainer>
+												   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+														<source src={headerImage.videoDescription} type="video/mp4"/>
+													</video>
+											</VideoDesriptionContainer>
+										</li>:null
+									}
+									
+									{headerImage.audioDescription!=null?
+										<li style={{listStyle:"none"}}>
+											<audio style={{width:"200px"}} controls>
+											  	<source src={headerImage.audioDescription} type="audio/ogg"/>
+											  	<source src={headerImage.audioDescription} type="audio/mpeg"/>
+												Your browser does not support the audio element.
+											</audio>
+										</li>:null
+									}
+								</ul>
+							</a>
+						</li>
+						<li style={{listStyle:"none",width:"80%",position:"relative",top:"-70px"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",width:"20%"}}>
+									<ProfilePictureLink to={{pathname:`/profile/${headerImage.owner._id}`}}>
+										{headerImage.owner.profilePicture!=null?
+											<img src={headerImage.owner.profilePicture} style={{height:"10%",width:"35%",borderRadius:"50%"}}/>:
+											<img src={NoProfilePicture} style={{height:"10%",width:"60%",borderRadius:"50%"}}/>
 										}
-									</React.Fragment>
-									:<p>No posts </p>
-								}
-							</React.Fragment>
+									</ProfilePictureLink>
+								</li>
+								<li style={{listStyle:"none",display:"inline-block",fontSize:"30px",marginRight:"2%"}}>
+									<b>{headerImage.owner.firstName}</b>
+								</li>
 
-							)
-						}
-						</SearchConsumer>
-					)
+								<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerImage.industriesUploaded,props)} style={ImageLabelCSS}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										{headerImage.industriesUploaded[0].industry}
+									</a>
+								</li>
+								{displayRecruitButton(headerImage,props)}
+								
+								<li style={{listStyle:"none",width:"90%",marginLeft:"20%"}}>
+									{headerImage.description}
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+
+				<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"2%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
+					<ul style={{padding:"0px"}}>
+						{images.map(data=>
+							<React.Fragment>
+								{data.owner==null?
+									<React.Fragment>
+										{displaySpecialPost(data,personalInformationRedux,props)}
+									</React.Fragment>
+								:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"2%"}}>
+									<ul style={{padding:"0px"}}>
+										<li onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<ShadowContainer/>
+												<img src={data.imgUrl} style={ImageCSS}/>
+												<ul style={{padding:"0px",zIndex:"8",position:"absolute",top:"25%"}}>
+													{data.videoDescription!=null?
+														<li style={{listStyle:"none"}}>
+															<VideoDesriptionContainer>
+																   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																		<source src={data.videoDescription} type="video/mp4"/>
+																	</video>
+															</VideoDesriptionContainer>
+														</li>:null
+													}
+													
+													{data.audioDescription!=null?
+														<li style={{listStyle:"none"}}>
+															<audio style={{width:"200px"}} controls>
+															  	<source src={data.audioDescription} type="audio/ogg"/>
+															  	<source src={data.audioDescription} type="audio/mpeg"/>
+																Your browser does not support the audio element.
+															</audio>
+														</li>:null
+													}
+												</ul>
+											</a>
+										</li>
+										<li style={{listStyle:"none",marginBottom:"1%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",width:"20%"}}>
+													<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+														{data.owner.profilePicture!=null?
+															<img src={data.owner.profilePicture} style={{height:"10%",width:"35%",borderRadius:"50%"}}/>:
+															<img src={NoProfilePicture} style={{height:"10%",width:"60%",borderRadius:"50%"}}/>
+														}
+													</ProfilePictureLink>
+												</li>
+
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+													<b>{data.owner.firstName}</b>
+												</li>
+												<li onClick={()=>handleRecruitButton(props,data)} style={ImageLabelCSS}>
+													+ Recruit
+												</li>
+
+												<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
+													{data.industriesUploaded[0].industry}
+												</li>
+											</ul>
+										</li>
+										<li style={{marginLeft:"30%",listStyle:"none",width:"70%",height:"20%",overflow:"hidden"}}>
+											  <p>
+											  	{data.description}</p>
+										</li>
+						 			</ul>
+								</li>
+							}	
+							</React.Fragment>
+						)}
+					</ul>
+				</li>
+
+				{displayImageDisplayPortal==false?
+					null:
+					<ImagePostDisplayPortal
+						closeModal={closeModal}
+						selectedImage={selectedImage}
+						recommendedImages={displayRecommendedImages}
+					/>
 				}
-			</HomeConsumer>
+			</React.Fragment>
+		:<p>No posts </p>
+	}
+</React.Fragment>
 		)
 	}
 

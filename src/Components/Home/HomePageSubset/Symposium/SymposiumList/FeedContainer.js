@@ -1,7 +1,7 @@
 import React,{Component} from "react";
 import styled,{keyframes} from "styled-components";
 import CommunityContainer from "./CommunityContainer";
-import PersonalizedPage from "../PersonalizedPage/PersonalizedPage"
+import Symposium from "../ExtendedSymposium/index.js"
 import {getSymposiumsFollowedHome,getSymposiumsNotFollowed} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getFollowedSymposiumsCompanyHome} from "../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
@@ -94,7 +94,7 @@ class PersonalFeedContainer extends Component{
 			symposiumArray:[],
 			triggerAnimation:false,
 			selectedSymposium:{},
-			displayPersonalizedPage:false,
+			displaySymposiumPage:false,
 			triggerExploreAnimation:false,
 			isLoading:true
 		}
@@ -341,16 +341,16 @@ class PersonalFeedContainer extends Component{
 		setTimeout(()=>{
 			this.setState(prevState=>({
 				...prevState,
-				displayPersonalizedPage:true
+				displaySymposiumPage:true
 			}))
 		},1300);
 	}
 
-	displayPersonalizedPage=()=>{
+	displaySymposiumPage=()=>{
 		console.log(this.state.selectedSymposium);
 
-		return this.state.displayPersonalizedPage==true?
-			<PersonalizedPage
+		return this.state.displaySymposiumPage==true?
+			<Symposium
 				selectedSymposium={this.state.selectedSymposium}
 				symposiums={this.state.symposiums}
 			/>:
@@ -360,7 +360,7 @@ class PersonalFeedContainer extends Component{
 	render(){
 		return(
 			<React.Fragment>
-				{this.displayPersonalizedPage()}
+				{this.displaySymposiumPage()}
 				{this.TransitionAnimationTrigger()}
 			</React.Fragment>
 		)

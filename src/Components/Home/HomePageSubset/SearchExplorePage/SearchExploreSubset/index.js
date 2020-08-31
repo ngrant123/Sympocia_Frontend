@@ -7,6 +7,9 @@ import RegularPostsModal from './RegularPostsModal.js';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
+import {HomeConsumer} from "../../../HomeContext.js";
+import {SearchConsumer} from "../../../../SearchPage/SearchContext.js";
+
 const Container=styled.div`
 	position:absolute;
 	width:85%;
@@ -35,32 +38,50 @@ class SearchExplorePosts extends Component{
 		}
 	}
 
-	handleDisplayImages=()=>{
+	handleDisplayImages=(homePageInformation,searchPageInformation)=>{
+		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
+		
 		return this.state.displayImagePosts==true?
 			<ImagePostsModal
 				posts={this.props.posts}
+				_id={homePageInformation.personalInformationState._id}
+				confettiAnimation={homePageInformation.displayRecruitConfetti}
+				isPersonalProfile={homePageInformation.isPersonalProfile}
+				displaySymposium={homePageInformation.displaySymposium}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
 
-	handleDisplayVideos=()=>{
+	handleDisplayVideos=(homePageInformation,searchPageInformation)=>{
 		return this.state.displayVideoPosts==true?
 			<VideosPostsModal
 				posts={this.props.posts}
+				_id={homePageInformation.personalInformationState._id}
+				confettiAnimation={homePageInformation.displayRecruitConfetti}
+				isPersonalProfile={homePageInformation.isPersonalProfile}
+				displaySymposium={homePageInformation.displaySymposium}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
-	handleDisplayBlogs=()=>{
+	handleDisplayBlogs=(homePageInformation,searchPageInformation)=>{
 		return this.state.displayBlogPosts==true?
 			<BlogsPostsModal
 				posts={this.props.posts}
+				_id={homePageInformation.personalInformationState._id}
+				confettiAnimation={homePageInformation.displayRecruitConfetti}
+				isPersonalProfile={homePageInformation.isPersonalProfile}
+				displaySymposium={homePageInformation.displaySymposium}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
-	handleDisplayRegularPosts=()=>{
+	handleDisplayRegularPosts=(homePageInformation,searchPageInformation)=>{
 		return this.state.displayRegularPosts==true?
 			<RegularPostsModal
 				posts={this.props.posts}
+				_id={homePageInformation.personalInformationState._id}
+				confettiAnimation={homePageInformation.displayRecruitConfetti}
+				isPersonalProfile={homePageInformation.isPersonalProfile}
+				displaySymposium={homePageInformation.displaySymposium}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -114,86 +135,96 @@ class SearchExplorePosts extends Component{
 	}
 	render(){
 		return(
-			<Container>
-				<ul style={{padding:"0px"}}>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"50px"}}>
-								<b>{this.state.postOptionHeader}</b>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-								<div class="btn-group">
-										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																					borderColor:"#5298F8",
-																																					borderStyle:"solid",
-																																					borderWidth:"1px",
-																																					color:"#5298F8",
-																																					backgroundColor:"white"}}>
-											Post Options
-											<span class="caret"></span>
-										</button>
-											<ul class="dropdown-menu">
-													<li onClick={()=>this.displayImages()}><a href="javascript:;">Images</a></li>	
-													<li onClick={()=>this.displayVideos()}><a href="javascript:;">Videos</a></li>	
-													<li onClick={()=>this.displayBlogs()}><a href="javascript:;">Blogs</a></li>	
-													<li onClick={()=>this.displayRegularPosts()}><a href="javascript:;">Posts</a></li>		
-											</ul>
-								</div>
-							</li>
-
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																				borderColor:"#5298F8",
-																																				borderStyle:"solid",
-																																				borderWidth:"1px",
-																																				color:"#5298F8",
-																																				backgroundColor:"white"}}>
-										Options
-										<span class="caret"></span>
-									</button>
-										<ul class="dropdown-menu">
-											<li><a href="javascript:;">Most Popular</a></li>
-											<li><a href="javascript:;">Newest</a></li>
-											<li><a href="javascript:;">Popular</a></li>						
-										</ul>
-								</div>
-							</li>
-						</ul>
-					</li>
-						<PostsContainer>
-							<ul style={{padding:"0px"}}>
-								{this.handleDisplayImages()}
-								{this.handleDisplayVideos()}
-								{this.handleDisplayBlogs()}
-								{this.handleDisplayRegularPosts()}
-								<li style={{position:"relative",listStyle:"none",display:"inline-block",marginTop:"-15px",top:"-80px",marginLeft:"15%",paddingTop:"10px",marginTop:"40%"}}>
-									<li style={{listStyle:"none",display:"inline-block"}}> 
-										Industry:
-									</li>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<ul style={{padding:"5px"}}>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<NavigateBeforeIcon
-													style={{ fontSize: 40 }}
-												/>
+			<HomeConsumer>
+				{homePageInformation=>(
+					<SearchConsumer>
+						{searchPageInformation=>(
+							<Container>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"50px"}}>
+												<b>{this.state.postOptionHeader}</b>
 											</li>
-											<li style={{position:"relative",listStyle:"none",display:"inline-block",fontSize:"40px",top:"-10px"}}>	
-												Testing
-											</li>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<NavigateNextIcon
-													style={{ fontSize: 40 }}
-												/>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+												<div class="btn-group">
+													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																								borderColor:"#5298F8",
+																																								borderStyle:"solid",
+																																								borderWidth:"1px",
+																																								color:"#5298F8",
+																																								backgroundColor:"white"}}>
+														Post Options
+														<span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu">
+														<li onClick={()=>this.displayImages()}><a href="javascript:;">Images</a></li>	
+														<li onClick={()=>this.displayVideos()}><a href="javascript:;">Videos</a></li>	
+														<li onClick={()=>this.displayBlogs()}><a href="javascript:;">Blogs</a></li>	
+														<li onClick={()=>this.displayRegularPosts()}><a href="javascript:;">Posts</a></li>		
+													</ul>
+												</div>
 											</li>
 
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<div class="dropdown">
+													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																								borderColor:"#5298F8",
+																																								borderStyle:"solid",
+																																								borderWidth:"1px",
+																																								color:"#5298F8",
+																																								backgroundColor:"white"}}>
+														Options
+														<span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu">
+														<li><a href="javascript:;">Most Popular</a></li>
+														<li><a href="javascript:;">Newest</a></li>
+														<li><a href="javascript:;">Popular</a></li>						
+													</ul>
+												</div>
+											</li>
 										</ul>
 									</li>
-								</li>
-							</ul>
-						</PostsContainer>
-				</ul>
-			</Container>
+									<PostsContainer>
+										<ul style={{padding:"0px"}}>
+
+											{this.handleDisplayImages(homePageInformation,searchPageInformation)}
+											{this.handleDisplayVideos(homePageInformation,searchPageInformation)}
+											{this.handleDisplayBlogs(homePageInformation,searchPageInformation)}
+											{this.handleDisplayRegularPosts(homePageInformation,searchPageInformation)}
+
+											<li style={{position:"relative",listStyle:"none",display:"inline-block",marginTop:"-15px",top:"-80px",marginLeft:"15%",paddingTop:"10px",marginTop:"40%"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}> 
+													Industry:
+												</li>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<ul style={{padding:"5px"}}>
+														<li style={{listStyle:"none",display:"inline-block"}}>
+															<NavigateBeforeIcon
+																style={{ fontSize: 40 }}
+															/>
+														</li>
+														<li style={{position:"relative",listStyle:"none",display:"inline-block",fontSize:"40px",top:"-10px"}}>	
+															Testing
+														</li>
+														<li style={{listStyle:"none",display:"inline-block"}}>
+															<NavigateNextIcon
+																style={{ fontSize: 40 }}
+															/>
+														</li>
+
+													</ul>
+												</li>
+											</li>
+										</ul>
+									</PostsContainer>
+								</ul>
+							</Container>
+						)}
+					</SearchConsumer>
+				)}
+			</HomeConsumer>
 		)
 	}
 }

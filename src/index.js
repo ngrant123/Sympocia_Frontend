@@ -13,12 +13,18 @@ import MapScreen from "./Components/Map/MapComponentSet/MapContainer.js";
 import PlayList from "./Components/PlayList/PlayListSet/PlayListContainer.js";
 import SearchPage from "./Components/SearchPage/index.js";
 import Arena  from "./Components/Home/HomePageSubset/Arena/index.js";
+import Symposium from "./Components/Home/HomePageSubset/Symposium/ExtendedSymposium/index.js";
+
+import ImageDisplay from "./Components/GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js"
+import VideoDisplay from "./Components/GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js"
+import BlogDisplay from "./Components/GeneralComponents/PostComponent/BlogComponent/BlogPostDisplay/BlogPostContainer.js"
+import RegularPostDisplay from "./Components/GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js"
+
 
 import allReducers from './Actions/Redux/Reducers';
 import { Provider } from 'react-redux';
 import { createStore,compose } from 'redux';
 import {loadState,saveState} from './reduxState';
-
 import ErrorBoundary from "./ErrorBoundary.js";
 
 //TEST
@@ -63,6 +69,7 @@ const application  = (
 						<Route exact path="/loading" component={LoadingScreen}/>
 						<Route exact path="/search/:string/:searchType" component={SearchPage}/>
 						<Route exact path="/arena" component={Arena}/>
+						<Route exact path="/symposium/:symposiumName" component={Symposium}/>
 					</Switch>
 				</Router>
 			</Provider>

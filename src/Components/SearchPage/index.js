@@ -49,6 +49,9 @@ const SearchPage=(props)=>{
 			return <PostSearch
 						searchQuery={params.string}
 						userId={profileId}
+						displayRecruitConfetti={displayRecruitConfetti}
+						displaySymposium={displaySymposium}
+						isPersonalProfile={isPersonalProfile}
 					/>
 		}else if(params.searchType=="Symposiums"){
 			return <SymposiumSearch
@@ -62,6 +65,26 @@ const SearchPage=(props)=>{
 					/>
 		}
 	}
+
+	const displayRecruitConfetti=(displayIndicator)=>{
+		changeDisplayConfetti(true);
+
+		setTimeout(()=>{
+			changeDisplayConfetti(false);
+		},5000);
+	}
+
+	const displaySymposium=(data)=>{
+		props.history.push({
+		  pathname:`/symposium/${data.selectedSymposiums}`,
+		  state: {
+		  	selectedSymposium:data.selectedSymposiums,
+			symposiums:data.symposiums,
+			profileId:profileId
+		  }
+		});
+	}
+
 	return(
 		<SearchProvider
 			value={{
@@ -69,17 +92,6 @@ const SearchPage=(props)=>{
 						_id:profileId
 					},
 					isPersonalProfile:isPersonalProfile,
-					displaySymposium:(data)=>{
-
-					},
-					displayRecruitConfetti:(displayIndicator)=>{
-						changeDisplayConfetti(true);
-
-						setTimeout(()=>{
-							changeDisplayConfetti(false);
-						},5000);
-					}
-
 			}}
 		>
 			<Container>

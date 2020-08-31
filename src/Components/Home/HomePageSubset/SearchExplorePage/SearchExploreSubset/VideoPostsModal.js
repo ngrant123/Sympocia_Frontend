@@ -4,15 +4,15 @@ import VideoPostDisplayPortal from "../../../HomePageSet/VideoHomeDisplayPortal.
 import PersonalIndustry from "../../../../../Constants/personalIndustryConstants.js";
 import CompanyIndustry from "../../../../../Constants/industryConstants.js";
 import {useSelector} from "react-redux";
-import {displayPersonalIndustryFeed} from "./ImagePostsModal.js";
-import {HomeConsumer} from "../../../HomeContext.js";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import {displayRecruitButton} from "./ImagePostsModal.js";
-import {SearchConsumer} from "../../../../SearchPage/SearchContext.js";
+import {
+		displayRecruitButton,
+		displayPersonalIndustryFeed
+} from "./ImagePostsModal.js";
 
 import {Link} from "react-router-dom";
 
@@ -108,8 +108,7 @@ const VideoPostModal=(props)=>{
 		changeVideoDisplay(true);
 	}
 
-	const constructSuggestedSymposium=(personalInformation,homePageInformation,searchPageInformation)=>{
-		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
+	const constructSuggestedSymposium=(personalInformation,previousProps)=>{
 		debugger;
 		console.log(personalInformation);
 		const {personalInformationState}=personalInformation;
@@ -117,7 +116,7 @@ const VideoPostModal=(props)=>{
 		var selectedSymposiums=[];
 			var counter=0;
 			while(counter<3){   
-				if(homePageInformation.isPersonalProfile==true){
+				if(previousProps.isPersonalProfile==true){
 					const randomNum=Math.floor(Math.random() * ((PERSONAL_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
 					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
 					if(!symposiumContainer.has(randomlySelected.industry)){
@@ -138,7 +137,7 @@ const VideoPostModal=(props)=>{
 			return <ul style={{padding:"0px",position:"relative"}}>
 						{selectedSymposiums.map(data=>
 							<a href="javascript:void(0);">
-								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,homePageInformation,data,selectedSymposiums,searchPageInformation)} 
+								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)} 
 									style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
 									<b>{data.industry}</b>
 								</li>
@@ -148,200 +147,192 @@ const VideoPostModal=(props)=>{
 	}
 
 	return(
-		<HomeConsumer>
-			{homePageInformation=>(
-				<SearchConsumer>
-					{searchPageInformation=>(
-						<React.Fragment>
-							{headerVideo==null?
-								<p> No video posts yet </p>:
-									<React.Fragment>
-									<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none"}}>
-												<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
-													{headerVideo.videoDescription!=null?
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
-															<VideoDesriptionContainer>
-																   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
-																		<source src={headerVideo.videoDescription} type="video/mp4"/>
-																	</video>
-															</VideoDesriptionContainer>
-														</li>:null
-													}
-													
-													{headerVideo.audioDescription!=null?
-														<li style={{llistStyle:"none",display:"inline-block"}}>
-															<audio style={{width:"200px"}} controls>
-															  	<source src={headerVideo.audioDescription} type="audio/ogg"/>
-															  	<source src={headerVideo.audioDescription} type="audio/mpeg"/>
-																Your browser does not support the audio element.
-															</audio>
-														</li>:null
-													}
-												</ul>
-											</li>
-											<li  onClick={()=>handleDisplayHeaderVideo()} style={{listStyle:"none",width:"90%",borderRadius:"5px"}}>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<video id="smallVideo" key={headerVideo.videoUrl} position="relative" height="80%" width="120%" controls autoplay>
-														<source src={headerVideo.videoUrl} type="video/mp4"/>
-													</video>
-												</a>
-											</li>
-											<li style={{listStyle:"none",width:"80%"}}>
-												<ul style={{padding:"0px"}}>	
-													<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"25%",top:"-20px"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{position:"relative",listStyle:"none",width:"25%"}}>
-																<ProfilePictureLink to={{pathname:`/profile/${headerVideo.owner._id}`}}>
-																	{headerVideo.owner.profilePicture!=null?
-																		<img src={headerVideo.owner.profilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>:
-																		<img src={NoProfilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>
-																	}
-																</ProfilePictureLink>
-																
-															</li>
-														</ul>
-													</li>
-													<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none"}}>
-																<ul style={{padding:"0px"}}>
-																	<li style={{listStyle:"none"}}>
-																		<ul style={{padding:"0px"}}>
-																			<li style={{listStyle:"none",fontSize:"15px",marginRight:"2%"}}>
-																				<b> 
-																					{headerVideo.title}
-																				</b>
-																			</li>
-																			<li style={{listStyle:"none",width:"90%",height:"5%",overflow:"hidden",color:"#A4A4A4"}}>
-																					{headerVideo.description}
-																			</li>
-																		</ul>
-																	</li>
-																	
-																	<li style={{listStyle:"none"}}>
-																		<ul style={{padding:"0px"}}>
-																					<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%"}}>
-																						{headerVideo.owner.firstName}
-																					</li>
-																					{displayRecruitButton(homePageInformation,headerVideo,searchPageInformation)}
-
-																					<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,headerVideo.industriesUploaded,searchPageInformation)} style={ImageLabelCSS}>
-																						{headerVideo.industriesUploaded[0].industry}
-																					</li>
-																					
-																		</ul>
-																	</li>
-																</ul>
-															</li>
-														</ul>
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-
-									<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
-										<ul style={{padding:"0px"}}>
-											{videos.map(data=>
-												<React.Fragment>
-													{data=="suggestedSymposium"?
-														<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"0px",marginBottom:"8%",width:"70%",marginRight:"4%"}}>
-															{constructSuggestedSymposium(personalInformationRedux,homePageInformation,searchPageInformation)}
-														</li>
-													:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none"}}>
-																<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
-																	{data.videoDescription!=null?
-																		<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
-																			<VideoDesriptionContainer>
-																				   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
-																						<source src={data.videoDescription} type="video/mp4"/>
-																					</video>
-																			</VideoDesriptionContainer>
-																		</li>:null
-																	}
-																	
-																	{data.audioDescription!=null?
-																		<li style={{llistStyle:"none",display:"inline-block"}}>
-																			<audio style={{width:"200px"}} controls>
-																			  	<source src={data.audioDescription} type="audio/ogg"/>
-																			  	<source src={data.audioDescription} type="audio/mpeg"/>
-																				Your browser does not support the audio element.
-																			</audio>
-																		</li>:null
-																	}
-																</ul>
-															</li>
-															<li onClick={()=>displayVideoModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
-																<ShadowContainer/>
-																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																	<video id="smallVideo" key={data.videoUrl} position="relative" height="290px" width="580px" controls autoplay>
-																		<source src={data.videoUrl} type="video/mp4"/>
-																	</video>
-																</a>
-															</li>
-															<li style={{listStyle:"none",marginBottom:"1%",width:"170%"}}>
-																<ul style={{padding:"0px"}}>
-																	<li style={{marginRight:"3%",listStyle:"none",display:"inline-block",width:"25%"}}>
-																		<ul style={{padding:"0px"}}>
-																			<li style={{listStyle:"none",marginBottom:"2%"}}>
-																				<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-																					{headerVideo.owner.profilePicture!=null?
-																						<img src={data.owner.profilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>:
-																						<img src={NoProfilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>
-																					}
-																				</ProfilePictureLink>
-																			</li>
-																			<li style={{listStyle:"none"}}>
-																				<b>
-																					{data.owner.firstName}
-																				</b>
-																				<AddCircleOutlineIcon/>
-																			</li>
-																		</ul>
-																	</li>
-
-																	<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"50%",top:"-10px"}}>
-																		<ul style={{padding:"0px"}}>
-																			<li style={{listStyle:"none",width:"150%"}}>
-																				<b> 
-																					{data.title}
-																				</b>
-																			</li>
-																			<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,homePageInformation,null,data.industriesUploaded,searchPageInformation)} style={ImageLabelCSS}>
-																				{data.industriesUploaded[0].industry}
-																			</li>
-																		</ul>
-																	</li>
-																</ul>
-															</li>
-														</ul>
-													</li>
-												}	
-												</React.Fragment>
-											)}
-										</ul>
-									</li>
-
-									{displayVideoDisplayPortal==false?
-										null:
-										<VideoPostDisplayPortal
-											closeModal={closeModal}
-											selectedVideo={selectedVideo}
-											recommendedVideos={displayRecommendedVideos}
-										/>
-									}
-								</React.Fragment>
+	<React.Fragment>
+		{headerVideo==null?
+			<p> No video posts yet </p>:
+				<React.Fragment>
+				<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
+					<ul style={{padding:"0px"}}>
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
+								{headerVideo.videoDescription!=null?
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
+										<VideoDesriptionContainer>
+											   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+													<source src={headerVideo.videoDescription} type="video/mp4"/>
+												</video>
+										</VideoDesriptionContainer>
+									</li>:null
 								}
-							}
+								
+								{headerVideo.audioDescription!=null?
+									<li style={{llistStyle:"none",display:"inline-block"}}>
+										<audio style={{width:"200px"}} controls>
+										  	<source src={headerVideo.audioDescription} type="audio/ogg"/>
+										  	<source src={headerVideo.audioDescription} type="audio/mpeg"/>
+											Your browser does not support the audio element.
+										</audio>
+									</li>:null
+								}
+							</ul>
+						</li>
+						<li  onClick={()=>handleDisplayHeaderVideo()} style={{listStyle:"none",width:"90%",borderRadius:"5px"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<video id="smallVideo" key={headerVideo.videoUrl} position="relative" height="80%" width="120%" controls autoplay>
+									<source src={headerVideo.videoUrl} type="video/mp4"/>
+								</video>
+							</a>
+						</li>
+						<li style={{listStyle:"none",width:"80%"}}>
+							<ul style={{padding:"0px"}}>	
+								<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"25%",top:"-20px"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{position:"relative",listStyle:"none",width:"25%"}}>
+											<ProfilePictureLink to={{pathname:`/profile/${headerVideo.owner._id}`}}>
+												{headerVideo.owner.profilePicture!=null?
+													<img src={headerVideo.owner.profilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>:
+													<img src={NoProfilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>
+												}
+											</ProfilePictureLink>
+											
+										</li>
+									</ul>
+								</li>
+								<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",fontSize:"15px",marginRight:"2%"}}>
+															<b> 
+																{headerVideo.title}
+															</b>
+														</li>
+														<li style={{listStyle:"none",width:"90%",height:"5%",overflow:"hidden",color:"#A4A4A4"}}>
+																{headerVideo.description}
+														</li>
+													</ul>
+												</li>
+												
+												<li style={{listStyle:"none"}}>
+													<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%"}}>
+																	{headerVideo.owner.firstName}
+																</li>
+																{displayRecruitButton(headerVideo,props)}
+
+																<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerVideo.industriesUploaded,props)} style={ImageLabelCSS}>
+																	{headerVideo.industriesUploaded[0].industry}
+																</li>
+																
+													</ul>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+
+				<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
+					<ul style={{padding:"0px"}}>
+						{videos.map(data=>
+							<React.Fragment>
+								{data=="suggestedSymposium"?
+									<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"0px",marginBottom:"8%",width:"70%",marginRight:"4%"}}>
+										{constructSuggestedSymposium(personalInformationRedux,props)}
+									</li>
+								:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none"}}>
+											<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
+												{data.videoDescription!=null?
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
+														<VideoDesriptionContainer>
+															   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																	<source src={data.videoDescription} type="video/mp4"/>
+																</video>
+														</VideoDesriptionContainer>
+													</li>:null
+												}
+												
+												{data.audioDescription!=null?
+													<li style={{llistStyle:"none",display:"inline-block"}}>
+														<audio style={{width:"200px"}} controls>
+														  	<source src={data.audioDescription} type="audio/ogg"/>
+														  	<source src={data.audioDescription} type="audio/mpeg"/>
+															Your browser does not support the audio element.
+														</audio>
+													</li>:null
+												}
+											</ul>
+										</li>
+										<li onClick={()=>displayVideoModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
+											<ShadowContainer/>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<video id="smallVideo" key={data.videoUrl} position="relative" height="290px" width="580px" controls autoplay>
+													<source src={data.videoUrl} type="video/mp4"/>
+												</video>
+											</a>
+										</li>
+										<li style={{listStyle:"none",marginBottom:"1%",width:"170%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{marginRight:"3%",listStyle:"none",display:"inline-block",width:"25%"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",marginBottom:"2%"}}>
+															<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+																{headerVideo.owner.profilePicture!=null?
+																	<img src={data.owner.profilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>:
+																	<img src={NoProfilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>
+																}
+															</ProfilePictureLink>
+														</li>
+														<li style={{listStyle:"none"}}>
+															<b>
+																{data.owner.firstName}
+															</b>
+															<AddCircleOutlineIcon/>
+														</li>
+													</ul>
+												</li>
+
+												<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"50%",top:"-10px"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",width:"150%"}}>
+															<b> 
+																{data.title}
+															</b>
+														</li>
+														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
+															{data.industriesUploaded[0].industry}
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							}	
 							</React.Fragment>
-					)}
-				</SearchConsumer>
-			)}
-		</HomeConsumer>
+						)}
+					</ul>
+				</li>
+
+				{displayVideoDisplayPortal==false?
+					null:
+					<VideoPostDisplayPortal
+						closeModal={closeModal}
+						selectedVideo={selectedVideo}
+						recommendedVideos={displayRecommendedVideos}
+					/>
+				}
+			</React.Fragment>
+			}
+		}
+		</React.Fragment>
 	)
 }
 

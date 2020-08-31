@@ -1,7 +1,7 @@
 import React,{Component} from "react";
 import styled, {keyframes} from "styled-components";
 import { keyFrameExampleOne } from './KeyFrames';
-import PersonalHomeFeed from "../../PersonalHomeFeed/PersonalizedPage/PersonalizedPage.js";
+import Symposium from "../../Symposium/ExtendedSymposium/index.js";
 import ExplorePageCommunities from "./ExplorePageCommunities";
 import {connect} from "react-redux";
 import {
@@ -332,7 +332,7 @@ class ExplorePage extends Component{
 	displayPersonalizedPage=()=>{
 
 		return this.state.displayPersonalPage==true ? 
-			<PersonalHomeFeed
+			<Symposium
 				selectedSymposium={this.state.triggerModalProps}
 				symposiums={this.state.symposiums}
 			/>

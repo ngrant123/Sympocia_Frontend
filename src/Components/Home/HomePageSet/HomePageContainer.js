@@ -3,8 +3,7 @@ import styled from "styled-components";
 import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import { connect } from "react-redux";
 import ExplorePage from "../HomePageSubset/ExploreHomeFeed/ExplorePage/ExplorePage";
-import PersonalFeed from "../HomePageSubset/PersonalHomeFeed/PersonalFeed/PersonalFeedContainer";
-import CustomizedFeed from "../HomePageSubset/PersonalHomeFeed/CustomizedPersonalFeed/CustomizedFeedContainer";
+import SymposiumList from "../HomePageSubset/Symposium/SymposiumList/FeedContainer";
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
 import SearchExploreScreen from "../HomePageSubset/SearchExplorePage/SearchExploreSet/index.js";
 
@@ -18,7 +17,7 @@ import AppsIcon from '@material-ui/icons/Apps';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PlayListComponent from "../../PlayList/PlayListSet/PlayListContainer.js";
 import {HomeProvider} from "../HomeContext.js";
-import Symposium from "../HomePageSubset/PersonalHomeFeed/PersonalizedPage/PersonalizedPage.js";
+import Symposium from "../HomePageSubset/Symposium/ExtendedSymposium/index.js";
 
 import {getProfileForHomePage} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getCompanyProfileForHomePage} from "../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
@@ -176,7 +175,7 @@ class HomePageContainer extends Component{
 		super(props);
 
 		this.state={
-			displayPersonalFeed:false,
+			displaySymposiumList:false,
 			displayExplorerFeed:false,
 			displayCustomizedFeed:false,
 			displayForYourChoices:false,
@@ -274,7 +273,7 @@ class HomePageContainer extends Component{
 
 		this.setState(prevState=>({
 					 ...prevState,
-					 displayPersonalFeed:true,
+					 displaySymposiumList:true,
 					 displayExplorerFeed:false,
 					 displayCustomizedFeed:false,
 					 displaySearchExplorePage:false,
@@ -289,7 +288,7 @@ class HomePageContainer extends Component{
 
 		this.setState(prevState=>({
 						...prevState,
-						displayPersonalFeed:false,
+						displaySymposiumList:false,
 						displayExplorerFeed:false,
 						displaySearchExplorePage:true,
 						displayForYourChoices:false,
@@ -301,7 +300,7 @@ class HomePageContainer extends Component{
 	handleDisplayPlayListPage=()=>{
 		this.setState(prevState=>({
 						...prevState,
-						displayPersonalFeed:false,
+						displaySymposiumList:false,
 						displayExplorerFeed:false,
 						displaySearchExplorePage:false,
 						displayPlayListPage:true,
@@ -311,7 +310,6 @@ class HomePageContainer extends Component{
 
 
 	displayChatPage=(pageIndicator)=>{
-
 		this.setState(prevState=>({
 
 			...prevState,
@@ -348,8 +346,9 @@ class HomePageContainer extends Component{
 	}
 
 	displaySelectedScreen=()=>{
-		if(this.state.displayPersonalFeed==true){
-			return <PersonalFeed
+		console.log(this.props)
+		if(this.state.displaySymposiumList==true){
+			return <SymposiumList
 						isPersonalProfile={this.state.isPersonalProfile}
 						profileId={this.state.profile._id}
 					/>
@@ -371,11 +370,21 @@ class HomePageContainer extends Component{
 			return <PlayListComponent/>
 		}else if(this.state.displayExpandedSymposium==true){
 			debugger;
+			this.props.history.push({
+			  pathname:`/symposium/${this.state.selectedSymposiumPersonalFeed.symposium}`,
+			  state: {
+			  	selectedSymposium:this.state.selectedSymposiumPersonalFeed,
+				symposiums:this.state.symposiums,
+				profileId:this.state.profileId
+			  }
+			});
+			/*
 			return <Symposium
 						selectedSymposium={this.state.selectedSymposiumPersonalFeed}
 						symposiums={this.state.symposiums}
 						profileId={this.state.profileId}
 					/>
+			*/
 		}
 	}
 
@@ -388,7 +397,7 @@ class HomePageContainer extends Component{
 					displaySymposium:(data)=>{
 						this.setState(prevState=>({
 							...prevState,
-							displayPersonalFeed:false,
+							displaySymposiumList:false,
 							displayExplorerFeed:false,
 							displaySearchExplorePage:false,
 							displayPlayListPage:false,

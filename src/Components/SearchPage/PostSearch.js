@@ -130,22 +130,42 @@ const PostSearch=(props)=>{
 		}
 	}
 
+	const displaySymposium=()=>{
+
+	}
+
 	const constructPostsResponse=()=>{
 		 if(displayImages==true){
 		 	return <ImagePostsModal
 						posts={posts}
+						_id={props.userId}
+						confettiAnimation={props.displayRecruitConfetti}
+						isPersonalProfile={props.isPersonalProfile}
+						displaySymposium={props.displaySymposium}
 					/>
 		 }else if(displayVideos==true){
 		 	return <VideoPostModal
-		 				posts={posts}
+						posts={posts}
+						_id={props.userId}
+						confettiAnimation={props.displayRecruitConfetti}
+						isPersonalProfile={props.isPersonalProfile}
+						displaySymposium={props.displaySymposium}
 		 		   />
 		 }else if(displayBlogs==true){
 		 	return <BlogPostModal
-		 				posts={posts}
+						posts={posts}
+						_id={props.userId}
+						confettiAnimation={props.displayRecruitConfetti}
+						isPersonalProfile={props.isPersonalProfile}
+						displaySymposium={props.displaySymposium}
 		 			/>
 		 }else{
 		 	return <RegularPostModal
-		 				posts={posts}
+						posts={posts}
+						_id={props.userId}
+						confettiAnimation={props.displayRecruitConfetti}
+						isPersonalProfile={props.isPersonalProfile}
+						displaySymposium={props.displaySymposium}
 		 			/>
 		 }
 	}

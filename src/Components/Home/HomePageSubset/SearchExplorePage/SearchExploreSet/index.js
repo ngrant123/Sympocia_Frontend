@@ -6,7 +6,6 @@ import SearchExplorePosts from "../SearchExploreSubset/index.js";
 import CreatePostComponent from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 import IndustryOptions from "../../../../GeneralComponents/PostComponent/IndustryPostOptions.js"
 import {connect} from "react-redux";
-import PersonalHomeFeed from "../../PersonalHomeFeed/PersonalizedPage/PersonalizedPage.js";
 
 import {
 		getPostsForHomePage,
