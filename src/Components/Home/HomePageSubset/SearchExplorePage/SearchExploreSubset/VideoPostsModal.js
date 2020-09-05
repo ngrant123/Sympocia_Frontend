@@ -151,7 +151,7 @@ const VideoPostModal=(props)=>{
 		{headerVideo==null?
 			<p> No video posts yet </p>:
 				<React.Fragment>
-				<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
+				<li style={{position:"relative",top:"-70px",listStyle:"none",display:"inline-block",width:"50%"}}>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
@@ -217,14 +217,14 @@ const VideoPostModal=(props)=>{
 												
 												<li style={{listStyle:"none"}}>
 													<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%"}}>
-																	{headerVideo.owner.firstName}
-																</li>
-																{displayRecruitButton(headerVideo,props)}
+														<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%"}}>
+															{headerVideo.owner.firstName}
+														</li>
+														{displayRecruitButton(headerVideo,props)}
 
-																<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerVideo.industriesUploaded,props)} style={ImageLabelCSS}>
-																	{headerVideo.industriesUploaded[0].industry}
-																</li>
+														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerVideo.industriesUploaded,props)} style={ImageLabelCSS}>
+															{headerVideo.industriesUploaded[0].industry}
+														</li>
 																
 													</ul>
 												</li>
@@ -309,6 +309,7 @@ const VideoPostModal=(props)=>{
 														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
 															{data.industriesUploaded[0].industry}
 														</li>
+														{displayRecruitButton(data,props)}
 													</ul>
 												</li>
 											</ul>

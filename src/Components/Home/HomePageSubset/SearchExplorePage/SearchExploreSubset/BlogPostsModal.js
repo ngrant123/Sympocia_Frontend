@@ -316,9 +316,7 @@ const BlogPostModal=(props)=>{
 																		<li style={{listStyle:"none"}}>
 																			{data.owner.firstName}
 																		</li>
-																		<li style={ImageLabelCSS}>
-																			Follow
-																		</li>
+																		{displayRecruitButton(data,props)}
 
 																		<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
 																			{data.industriesUploaded[0].industry}

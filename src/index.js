@@ -19,6 +19,7 @@ import ImageDisplay from "./Components/GeneralComponents/PostComponent/ImageComp
 import VideoDisplay from "./Components/GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js"
 import BlogDisplay from "./Components/GeneralComponents/PostComponent/BlogComponent/BlogPostDisplay/BlogPostContainer.js"
 import RegularPostDisplay from "./Components/GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js"
+import GroupVideoCall from "./Components/Home/HomePageSubset/Symposium/ExtendedSymposium/Modals/VideoCall/GroupVideoCall.js";
 
 
 import allReducers from './Actions/Redux/Reducers';
@@ -70,6 +71,7 @@ const application  = (
 						<Route exact path="/search/:string/:searchType" component={SearchPage}/>
 						<Route exact path="/arena" component={Arena}/>
 						<Route exact path="/symposium/:symposiumName" component={Symposium}/>
+						<Route exact path="/groupVideoCall/:symposiumId/:groupCallId" component={GroupVideoCall}/>
 					</Switch>
 				</Router>
 			</Provider>

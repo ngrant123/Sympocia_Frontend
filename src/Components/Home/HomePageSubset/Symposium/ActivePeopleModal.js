@@ -33,7 +33,6 @@ const ActivePeopleContainer=styled.div`
 `;
 
 const ActivePeopleListCSS={
-
 	display:"inline-block",
 	listStyle:"none",
 	marginRight:"30px",

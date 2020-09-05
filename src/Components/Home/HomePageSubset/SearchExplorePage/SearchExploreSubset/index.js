@@ -27,7 +27,6 @@ const PostsContainer=styled.div`
 class SearchExplorePosts extends Component{
 
 	constructor(props){
-
 		super(props);
 		this.state={
 			displayImagePosts:true,
@@ -99,6 +98,7 @@ class SearchExplorePosts extends Component{
 	}
 
 	displayVideos=()=>{
+		
 		this.setState({
 			displayImagePosts:false,
 			displayVideoPosts:true,

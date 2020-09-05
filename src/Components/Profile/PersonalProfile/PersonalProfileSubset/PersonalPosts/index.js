@@ -244,7 +244,7 @@ const PersonalPostsIndex=(props)=>{
 
 			const regularPostObject={
 				headerPost:crownedRegularPost,
-				posts:regularPosts
+				posts:regularPosts.reverse()
 			}
 			console.log(regularPostObject);
 

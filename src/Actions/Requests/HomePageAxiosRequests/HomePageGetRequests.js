@@ -110,8 +110,8 @@ export function getCommunityById(communityId){
 	axios.get(`${GetUrl}/getCommunityById`,{
 		_id:communityId
 	}).then(communityData=>{
-
-		return communityData;
+		const {data}=communityData;
+		return data;
 	}).catch(err=>{
 		console.log(err.message);
 	})
@@ -170,8 +170,7 @@ export const exploreImagePosts=async(id,postCount)=>{
 		});
 
 		const {data}=imageResults;
-		const imageData=data.data;
-		return imageData;
+		return data;
 	}catch(err){
 		console.log(err);
 		return err;
@@ -189,8 +188,7 @@ export const exploreVideoPosts=async(id,postCount)=>{
 		});
 
 		const {data}=videoResults;
-		const videoData=data.data;
-		return videoData;
+		return data;
 
 	}catch(err){
 		console.log(err);
@@ -208,18 +206,24 @@ export const exploreBlogPosts=async(id,postCount)=>{
 		});
 
 		const {data}=blogResults;
-		const blogData=data.data;
-		return blogData;
+		return data;
 	}catch(err){
 		console.log(err);
 		return err;
 	}
 }
 
-export const exploreRegularPosts=async()=>{
+export const exploreRegularPosts=async(id,postCount)=>{
 	try{
+		const regularPostResults=await axios.get(`${GetUrl}/getExploreRegularPosts`,{
+			params:{
+				_id:id,
+				postCount:postCount
+			}
+		});
 
-
+		const {data}=regularPostResults;
+		return data; 
 	}catch(err){
 		return err;
 	}
@@ -235,8 +239,7 @@ export const getImagesInIndustry=async(industry,postCount)=>{
 		});
 
 		const {data}=imageResults;
-		const imageData=data.data;
-		return imageData;
+		return data;
 	}catch(err){
 		console.log(err);
 		return err;
@@ -253,8 +256,7 @@ export const getVideoInIndustry=async(industry,postCount)=>{
 		});
 
 		const {data}=videoResults;
-		const videoData=data.data;
-		return videoData;
+		return data;
 
 	}catch(err){
 		console.log(err);
@@ -272,8 +274,7 @@ export const getBlogsInIndustry=async(industry,postCount)=>{
 		});
 
 		const {data}=blogResults;
-		const blogData=data.data;
-		return blogData;
+		return data;
 	}catch(err){
 		console.log(err);
 		return err;
@@ -290,8 +291,7 @@ export const getRegularPostsInIndustry=async(industry,postCount)=>{
 		});
 
 		const {data}=imageResults;
-		const imageData=data.data;
-		return imageData;
+		return data;
 	}catch(err){
 		console.log(err);
 		return err;
@@ -309,8 +309,7 @@ export const getIndustryInformation=async(industry,postCount,userId)=>{
 		})
 
 		const {data}=industryInformation;
-		const industryInformationData=data.data;
-		return industryInformationData;
+		return data;
 	}catch(err){
 		console.log(err);
 		return err;
@@ -330,6 +329,22 @@ export const getPopularQuestionReplies=async(industry,counter)=>{
 		const popularQuestionsData=data.data;
 		return popularQuestionsData;
 
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const getGroupVideoCallOwner=async({symposiumId,groupCallId})=>{
+	try{
+		const groupVideoCallResponse=await axios.get(`${GetUrl}/getGroupVideoCall`,{
+			params:{
+				symposiumId:symposiumId,
+				groupCallId:groupCallId
+			}
+		});
+		const {data}=groupVideoCallResponse;
+		return data;
 	}catch(err){
 		console.log(err);
 		return err;

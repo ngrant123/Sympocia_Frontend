@@ -13,13 +13,13 @@ const ShadowContainerVideos=styled.div`
 `;
 
 const Container=styled.div`
-	position:absolute;
+	position:fixed;
 	z-index:13;
 	height:85%;
 	width:95%;
 	border-radius:5px;
 	top:5%;
-	left:10%;
+	left:5%;
 	overflow-y:auto;
 	background-color:white;
 `;

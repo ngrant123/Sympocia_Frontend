@@ -30,3 +30,32 @@ export const sendChatRoomMessage=(socket,data)=>{
 		return err;
 	}
 }
+
+
+export const sendGroupGeneralMessage=(socket,data)=>{
+	try{
+		socket.emit('groupChatMessage',data);
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const sendPrivateGroupMessage=(socket,data)=>{
+	try{
+		socket.emit('privateMessage',data);
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const sendNewAddition=(socket,data)=>{
+	try{
+		debugger;
+		socket.emit('newGroupCallAttendee',{stream:data.user.videoUrl});
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}

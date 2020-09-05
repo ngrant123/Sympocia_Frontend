@@ -86,6 +86,7 @@ const HeaderContainer=(props)=>{
 			profileId,
 			changeFollowIndicator
 		}=props;
+
 	console.log(props.popularQuestionObject);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
@@ -96,15 +97,15 @@ const HeaderContainer=(props)=>{
 
 	debugger;
 	const counter=symposiumCounter;
-	  	var nextSymposiumTitle;
-	  	var previousSymposiumTitle;
-	  	if(symposiums.length==0){
-	  		previousSymposiumTitle="";	
-	  		nextSymposiumTitle="";
-	  	}else{
-	  		previousSymposiumTitle=counter>0?<p onClick={()=>props.previousButton()}>{symposiums[counter-1].industry}</p>:<React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</React.Fragment>;
-	  		nextSymposiumTitle=counter==symposiums.length-1?<React.Fragment></React.Fragment>:<p onClick={()=>props.nextButton()}>{symposiums[counter+1].industry}</p>;
-	  	}
+  	var nextSymposiumTitle;
+  	var previousSymposiumTitle;
+  	if(symposiums.length==0){
+  		previousSymposiumTitle="";	
+  		nextSymposiumTitle="";
+  	}else{
+  		previousSymposiumTitle=counter>0?<p onClick={()=>props.previousButton()}><b>{symposiums[counter-1].symposium}</b></p>:<React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</React.Fragment>;
+  		nextSymposiumTitle=counter==symposiums.length-1?<React.Fragment></React.Fragment>:<p onClick={()=>props.nextButton()}><b>{symposiums[counter+1].symposium}</b></p>;
+  	}
 	 
 
 	const popularVideosHandle=(video)=>{
@@ -177,15 +178,20 @@ const HeaderContainer=(props)=>{
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-			  						<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}><b>{previousSymposiumTitle}</b></li>
+			  						<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
+			  							{previousSymposiumTitle}
+			  						</li>
 			  					</a>
 			  					
-			  					<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px"}}>&nbsp;&nbsp;&nbsp;&nbsp;<b> {selectedSymposiumTitle} </b> &nbsp;&nbsp;&nbsp;&nbsp;</li>
+			  					<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px"}}>
+			  						&nbsp;&nbsp;&nbsp;&nbsp;<b> {selectedSymposiumTitle} </b> &nbsp;&nbsp;&nbsp;&nbsp;
+			  					</li>
 
 			  					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-			  						<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}><b>{nextSymposiumTitle}</b></li>
+			  						<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
+			  							{nextSymposiumTitle}
+			  						</li>
 			  					</a>
-
 							</li>
 
 							<li style={{listStyle:"none"}}>

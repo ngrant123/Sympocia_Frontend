@@ -113,7 +113,7 @@ const displayRecruitButton=(post,previousProps)=>{
 		}
 }
 
-const constructSuggestedSymposium=(personalInformation,previousProps)=>{
+const constructSuggestedSymposium=(personalInformation,previousProps,images)=>{
 		debugger;
 
 		console.log(personalInformation);
@@ -139,8 +139,14 @@ const constructSuggestedSymposium=(personalInformation,previousProps)=>{
 				}
 				counter++;
 			}
-
-			return <ul style={{padding:"0px",position:"relative",top:"-170px"}}>
+			var topCSS;
+			console.log(images.length);
+			if(images.length>=1)
+				topCSS="-140px"
+			else
+				topCSS="10px"
+//10px 
+			return <ul style={{padding:"0px",position:"relative",top:"-140px"}}>
 						<li style={{listStyle:"none",marginBottom:"5%"}}>
 							<b> Suggested syposiums </b>
 						</li>
@@ -157,11 +163,20 @@ const constructSuggestedSymposium=(personalInformation,previousProps)=>{
 const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposium,selectedIndustries,previousProps)=>{
 		//have to format selected industries in and add additional information so that the personalPage can 
 		//accept props
+		console.log(selectedSymposium);
 		var industryColorMap=new Map();
-
+		debugger;
 		if(previousProps.displaySymposium!=null){
-			 if(selectedSymposium!=null)
-				selectedIndustries.slice(0,selectedSymposium);
+			if(selectedSymposium!=null){
+				for(var i=0;i<selectedIndustries.length;i++){
+					const currentSymposium=selectedIndustries[i].industry;
+					if(currentSymposium==selectedSymposium.industry){
+						selectedIndustries.splice(i,1);
+						selectedIndustries.splice(0,0,selectedSymposium);
+						break;
+					}
+				}
+			}
 			else{
 				var personalIndustries=PersonalIndustry.INDUSTRIES;
 				var companyIndustries=CompanyIndustry.INDUSTRIES;
@@ -248,7 +263,7 @@ const ImagePostsModal=(props)=>{
 		console.log(postResult);
 		if(postResult=="suggestedSymposium"){
 			return <li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
-						{constructSuggestedSymposium(personalInformationRedux,previousProps)}
+						{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}
 					</li>
 		}else{
 			const {data}=postResult;

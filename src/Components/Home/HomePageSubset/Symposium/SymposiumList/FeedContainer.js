@@ -81,6 +81,14 @@ const ExploreButton={
 	For some reason the delayed animation that I have set up
 	isnt triggering properly will have to fix that later but
 	thats a minor issue at the moment
+
+
+
+
+
+	Right now im passing in this.props.history so that it can push 
+	directly to extended symposium but later on I should make this 
+	page its standalone page 
 */ 
 
 class PersonalFeedContainer extends Component{
@@ -183,17 +191,19 @@ class PersonalFeedContainer extends Component{
 		debugger;
 		for(var i=0;i<this.state.symposiumArray.length;i++){
 			const currentSymposium=this.state.symposiumArray[i];
-			if(currentSymposium.industry!=data.industry){
+			if(currentSymposium.symposium!=data.symposium){
 				symposiums.push(currentSymposium);
 			}
 		}
 
-		this.setState(prevState=>({
-			...prevState,
-			triggerAnimation:true,
-			selectedSymposium:data,
-			symposiums:symposiums
-		}));
+		this.props.routerHistory.push({
+		  pathname:`/symposium/${data.symposium}`,
+		  state: {
+		  	selectedSymposium:data,
+			symposiums:symposiums,
+			profileId:this.props.profileId
+		  }
+		});
 	}
 
 	displayFollowSymposiums=async()=>{

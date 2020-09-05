@@ -1,23 +1,18 @@
-import BASE_URL from "../Constants.js";
+//import BASE_URL from "../Constants.js";
 import axios from "axios";
 
-const baseurl=BASE_URL.BASE_URL;
+//const baseurl=BASE_URL.BASE_URL;
+const SetUrl="http://localhost:4000/api/posts/alter";
 
+/*
 export function sendUserCommentAddition(comment,userId,postId,industryId){
 
-	/*
 
-	comment:Object
-	userId:Integer
-	postId:integer
-	industryId:integer
-
-	*/
 
 	axios.post(`${baseurl}/InsertComment`,{
 
 			params:{
-				commment:comment
+				commment:comment,
 				userid:userId,
 				postid:postId,
 				industryid:industryId
@@ -34,16 +29,9 @@ export function sendUserCommentAddition(comment,userId,postId,industryId){
 
 }
 
-export function sendUserReplyAdditino(reply,userId,postId,industryid){
+export function sendUserReplyAdditino(reply,userId,postId,industryId){
 
-	/*
 
-	reply:Object
-	userId:integer
-	postId:integer
-	industryid:integer
-
-	*/
 
 	axios.post(`${baseurl}/InsertReplyUnderComment`,{
 
@@ -65,11 +53,7 @@ export function sendUserReplyAdditino(reply,userId,postId,industryid){
 }
 
 export function changeShortCompanyBio(userId,companyShortBio){
-	/*
-	userId:integer
-	companyShort:String
 
-	*/
 
 	axios.post(`${baseurl}/changeShortBio`,{
 		params:{
@@ -91,10 +75,6 @@ export function changeShortCompanyBio(userId,companyShortBio){
 
 export function changeCompanyIndustry(userId,industryChange){
 
-	/*
-		userid:integer
-		industrychange:integer
-	*/
 
 	axios.post(`${baseurl}/changeIndustry`,{
 
@@ -116,10 +96,6 @@ export function changeCompanyIndustry(userId,industryChange){
 
 export function changeCompanyName(userId,companyName){
 
-	/*
-		userId:integer
-		companyname:integer
-	*/
 
 	axios.post(`${baseurl}/changeCompanyName`,{
 
@@ -139,11 +115,7 @@ export function changeCompanyName(userId,companyName){
 }
 
 export function changeEmployeesData(userId,employeeData){
-		/*
-			userId:integer
-			employeeData:object
 
-		*/
 
 		axios.post(`${baseurl}/changeEmployeeData`,{
 
@@ -165,10 +137,6 @@ export function changeEmployeesData(userId,employeeData){
 
 export function Upgrade(userId,upgradeId){	
 
-	/*
-		userId:integer
-		upgradeId:integer
-	*/
 
 	axios.post(`${baseurl}/Upgrade`,{
 
@@ -188,11 +156,7 @@ export function Upgrade(userId,upgradeId){
 }
 
 export function sendUsersNewsFeedAddition(newsfeed,userId,industId){
-	/*
-	userId:integer
-	newsfeed:object
 
-	*/
 	axios.post(`${baseurl}/InsertIntoNewsFeed`, { params: 
 			{ 
 				newsFeed: newsfeed,
@@ -209,3 +173,48 @@ export function sendUsersNewsFeedAddition(newsfeed,userId,industId){
 			console.log(err.message);
 		})
 }
+
+*/
+
+export const createGroupVideoCall=async({title,owner,description,_id})=>{
+	try{
+		const groupVideoCallResponse=await axios.post(`${SetUrl}/createGroupVideoCall`,{
+			title:title,
+			ownerId:owner,
+			description:description,
+			_id:_id
+		});
+		const {data}=groupVideoCallResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const testGroupCAll=async(socket,data)=>{
+	try{
+		const testGroupCAll=await axios.post(`${SetUrl}/testGroupCAll`,{
+			data:data
+		});
+
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

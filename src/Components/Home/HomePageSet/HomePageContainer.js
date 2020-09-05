@@ -241,13 +241,13 @@ class HomePageContainer extends Component{
 		}
 
 		this.setState({
-					recruitsPost:profile.recruits,
-					isPersonalProfile:isPersonalProfile,
-					profile:profile,
-					profileId:profile._id,
-					symposiumsMap:symposiumsMap,
-					isLoading:false
-				})
+			recruitsPost:profile.recruits,
+			isPersonalProfile:isPersonalProfile,
+			profile:profile,
+			profileId:profile._id,
+			symposiumsMap:symposiumsMap,
+			isLoading:false
+		})
 		debugger;
 	}
 
@@ -351,6 +351,7 @@ class HomePageContainer extends Component{
 			return <SymposiumList
 						isPersonalProfile={this.state.isPersonalProfile}
 						profileId={this.state.profile._id}
+						routerHistory={this.props.history}
 					/>
 		}else if(this.state.displayExplorerFeed==true){
 			const userObject={

@@ -13,6 +13,7 @@ const Container=styled.div`
 	left:20%;
 	overflow-y:auto;
 	background-color:white;
+	padding:20px;
 `;
 
 const ShadowContainer= styled.div`
@@ -77,10 +78,10 @@ const ImageHomeDisplayPortal=(props)=>{
 
 				<ImageContainer>
 					<ImageDisplayContainer
-							imageData={props.selectedImage}
-						/>
+						imageData={props.selectedImage}
+					/>
 				</ImageContainer>
-
+				<hr/>
 				<ul style={{padding:"10px",marginTop:"2%"}}>
 					<li style={{fontSize:"20px",listStyle:"none",marginBottom:"5%"}}>
 						<p> 

@@ -91,22 +91,27 @@ class SearchExploreContainer extends Component{
 
 	changeHomePagePosts=async(postOption)=>{
 		debugger;
-		var homePagePosts;
+		var homePagePostsResponse;
 		var profileId=(this.props.personalInformation.loggedIn==true)?this.props.personalInformation.id:this.props.companyInformation.id;
 
 		if(postOption=="Images"){
-			homePagePosts=await exploreImagePosts(profileId,this.state.postCount);
+			homePagePostsResponse=await exploreImagePosts(profileId,this.state.postCount);
 		}else if(postOption=="Blogs"){
-			homePagePosts=await exploreBlogPosts(profileId,this.state.postCount);
+			homePagePostsResponse=await exploreBlogPosts(profileId,this.state.postCount);
 		}else if(postOption=="Videos"){
-			homePagePosts=await exploreVideoPosts(profileId,this.state.postCount);
+			homePagePostsResponse=await exploreVideoPosts(profileId,this.state.postCount);
 		}else{
-			homePagePosts=await exploreRegularPosts(profileId,this.state.postCount);
+			homePagePostsResponse=await exploreRegularPosts(profileId,this.state.postCount);
 		}
-		var newHomePagePosts=this.addSuggestedSymposiums(homePagePosts);
+		var {confirmation,data}=homePagePostsResponse;
+		if(confirmation=="Success"){
+			var newHomePagePosts=this.addSuggestedSymposiums(data);
 			this.setState({
 				postsInformation:newHomePagePosts
 			})
+		}else{
+			alert('Unfortunately there has been an error in retrieving you data. Please try again');
+		}
 	}
 
 
@@ -175,6 +180,7 @@ class SearchExploreContainer extends Component{
 			}else{
 				randomNumber=Math.floor(Math.random() * (4 - 1 + 1)) + 1;
 			}
+
 			posts.splice(randomNumber,0,"suggestedSymposium");
 			const currentPosts=posts.slice(0,6);
 			const newPost=posts.slice(6,posts.length);
@@ -202,25 +208,25 @@ class SearchExploreContainer extends Component{
 					<li style={{listStyle:"none",marginBottom:"1%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",marginBottom:"2%"}}>
-							
-												<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",fontSize:"40px"}}>
-															<b>Explore Symposiums</b>
-														</li>
-														<li style={{listStyle:"none"}}>
-															Check out the posts that we think you might like here. 
-														</li>
-													</ul>
-												</li>
+							 
+								<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",fontSize:"40px"}}>
+											<b>Explore Symposiums</b>
+										</li>
+										<li style={{listStyle:"none"}}>
+											Check out the posts that we think you might like here. 
+										</li>
+									</ul>
+								</li>
 
-												<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
-													Checkout a more generalized view of the communities you arent following by clicking here
-													<Checkbox
-														style={{fontSize:20,color:"#5298F8"}}
-														onChange={()=>this.handleCheckBoxCheck()}
-													/>
-												</li>
+								<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
+									Checkout a more generalized view of the communities you arent following by clicking here
+									<Checkbox
+										style={{fontSize:20,color:"#5298F8"}}
+										onChange={()=>this.handleCheckBoxCheck()}
+									/>
+								</li>
 							</li>
 						{/*
 								<li style={{listStyle:"none",display:"inline-block"}}>
