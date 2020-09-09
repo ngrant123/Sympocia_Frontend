@@ -565,6 +565,7 @@ class LProfile extends Component{
 					imageData={newImageObject}
 					profileType="personalProfile"
 					closeModal={this.closeModal}
+					targetDom={"personalContainer"}
 				/>
 			</ImagePopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -585,6 +586,7 @@ class LProfile extends Component{
 				<VideoContainer
 					videoData={newVideoObject}
 					profileType="personalProfile"
+					targetDom={"personalContainer"}
 				/>
 			</PostPopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -606,6 +608,7 @@ class LProfile extends Component{
 				<RegularPostContainer
 					postData={newRegularPostObject}
 					profileType="personalProfile"
+					targetDom={"personalContainer"}
 				/>
 			</PostPopupContainer>:
 			<React.Fragment></React.Fragment>

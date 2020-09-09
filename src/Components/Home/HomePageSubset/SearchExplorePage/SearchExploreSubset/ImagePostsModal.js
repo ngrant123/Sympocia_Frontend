@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import ImagePostDisplayPortal from "../../../HomePageSet/ImageHomeDisplayPortal.js";
-import {HomeConsumer} from "../../../HomeContext.js";
 import PersonalIndustry from "../../../../../Constants/personalIndustryConstants.js";
 import CompanyIndustry from "../../../../../Constants/industryConstants.js";
 import {useSelector} from "react-redux";

@@ -72,6 +72,7 @@ const VideoResultContainerCSS={
 
 const VideoDescriptionPortal=(props)=>{
 	console.log("Testing video description");
+	console.log(props);
 	var targetContainer=document.getElementById(props.parentContainer);
 
 
@@ -85,7 +86,8 @@ const VideoDescriptionPortal=(props)=>{
 	const [firstDone,chnagFirstFone]=useState(false);
 
 	useEffect(()=>{
-		var video=document.getElementById("video");
+		debugger;
+		let video=document.getElementById("videoDescriptionVideo");
 				if (navigator.mediaDevices.getUserMedia){
 					  navigator.mediaDevices.getUserMedia({ 
 					  		video: true,
@@ -180,7 +182,7 @@ const VideoDescriptionPortal=(props)=>{
 	}
 
 	const closeModal=()=>{
-		stopRecording(document.getElementById("video").captureStream());
+		stopRecording(document.getElementById("videoDescriptionVideo").captureStream());
 		props.closeModal()
 	}
 
@@ -239,7 +241,7 @@ const VideoDescriptionPortal=(props)=>{
 	const submitVideoDescription=()=>{
 		debugger;
 		if(videoElements.length>0){
-			stopRecording(document.getElementById("video").captureStream());
+			stopRecording(document.getElementById("videoDescriptionVideo").captureStream());
 			props.createVideoDescription(videoElements[0].videoSrc);
 		}else{
 			alert('Create a video to continue or press the exit button on the top left');
@@ -299,7 +301,7 @@ const VideoDescriptionPortal=(props)=>{
 						}
 					
 
-					<video id="video" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true" zIndex="2">
+					<video id="videoDescriptionVideo" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true" zIndex="2">
 					</video>
 
 					<ul style={{marginLeft:"40%",marginTop:"-10%",padding:"0px"}}>
@@ -321,11 +323,11 @@ const VideoDescriptionPortal=(props)=>{
 											onClick={()=>startRecording()}
 											style={{fontSize:40,color:"#C8B0F4"}}
 										/>:<PauseIcon
-												onClick={()=>pauseRecording(document.getElementById("video").captureStream())}
+												onClick={()=>pauseRecording(document.getElementById("videoDescriptionVideo").
+												captureStream())}
 												style={{fontSize:40,color:"#C8B0F4"}}
 										/>
 									}
-
 								</RecordButton>
 							</a>
 						</li>

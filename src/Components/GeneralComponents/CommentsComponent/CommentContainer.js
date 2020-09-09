@@ -159,6 +159,7 @@ class CommentsContainer extends Component{
 		}
 
 		const {confirmation,data}=await getRepliesFromComment(replyObject);
+		console.log(data);
 		debugger;
 		if(confirmation=="Success"){
 			this.setState({
@@ -319,6 +320,25 @@ class CommentsContainer extends Component{
 		}
 	}
 //
+
+/*
+
+Sample reply
+
+
+	date: "1599313696007"
+ownerObject:
+isPersonalProfile: true
+owner:
+firstName: "Doggo"
+_id: "5f50fc195459bcf522a64fb0"
+__proto__: Object
+__proto__: Object
+reply: "Testing doggo again lol"
+_id: "5f5397209c484c08c99c389d"
+*/
+
+
 	handleCreateReply=async()=>{
 		const reply=document.getElementById("reply").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
@@ -350,11 +370,24 @@ class CommentsContainer extends Component{
 				}
 
 				currentReplies.splice(0,0,newReply);
+
+				//Add this temporarily to the appropriate comment so user can see 
+				debugger;
+				console.log(this.state);
+				var newComments=this.state.comments
+				for(var i=0;i<newComments.length;i++){
+					const iterationCommentId=newComments[i]._id;
+					if(iterationCommentId==this.state.keyToDisplayReplyCreation){
+						newComments[i].replies=currentReplies;
+						break;
+					}
+				}
+
 				this.setState({
 					selectedReplies:currentReplies,
-					displayReplyCreation:false
+					displayReplyCreation:false,
+					comments:newComments
 				})
-
 			}else{
 				alert('Unfortunately an error has occured please submit your comment again');
 			}

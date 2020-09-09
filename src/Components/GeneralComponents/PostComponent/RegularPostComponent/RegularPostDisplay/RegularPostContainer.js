@@ -38,9 +38,9 @@ const PostContentAndCommentsButtons=styled.div`
 const CommentsContainerDiv=styled.div`
 
 	position:absolute;
-	width:80%;
+	top:-15%;
+	width:60%;
 	height:300px;
-	margin-top:13px;
 `;
 
 const PostProfilePicture=styled.div`
@@ -104,6 +104,16 @@ const DateContainer=styled.div`
 const SocialMedaIcon=styled.div`
 `;
 
+const BackButtonCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px"
+}
+
 
 
 
@@ -117,7 +127,7 @@ const RegularPostContainer=(props)=>{
 		changeDisplayCommentsAndResponses(true);
 	}
 
-	const HideComments=()=>{
+	const hideComments=()=>{
 		changeDisplayCommentsAndResponses(false);
 	}
 
@@ -132,11 +142,23 @@ const RegularPostContainer=(props)=>{
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",height:"20%",overflow:"hidden"}}>
 					{displayCommentsAndResponses==true?
 						<CommentsContainerDiv>
-							<CommentsContainer/>
-					  </CommentsContainerDiv>:
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<p style={BackButtonCSS} onClick={()=>hideComments()}>
+										Back
+									</p>
+								</a>
+							</li>
+							<CommentsContainer
+								postId={props.postData._id}
+								postType={"RegularPost"}
+								hideComments={hideComments}
+								targetDom={props.targetDom}
+							/>
+					 	</CommentsContainerDiv>:
 					  <PostContent
 							displayComments={DisplayCommentsState}	
-							hideComments={HideComments}
+							hideComments={hideComments}
 							userData={props.postData}
 						/>
 

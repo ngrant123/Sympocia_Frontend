@@ -97,7 +97,11 @@ const CommentsAndLikeButtonsContainer=styled.div`
 
 
 const PosterInformation=(props)=>{
-	const {firstName,profilePicture,industriesUploaded}=props.userData;
+	const {firstName,profilePicture,industriesUploaded,datePosted}=props.userData;
+	const constructDate=(dateMilliseconds)=>{
+		const newDate=new Date(dateMilliseconds).toLocaleDateString();
+		return newDate;
+	}
 	return(
 
 		<PostInformationContainer>
@@ -132,7 +136,7 @@ const PosterInformation=(props)=>{
 							<li style={{listStyle:"none",left:"20%"}}>
 
 								<DateContainer>
-									Posted 2 days ago
+									Posted {constructDate(datePosted)}
 								</DateContainer>
 							</li>
 

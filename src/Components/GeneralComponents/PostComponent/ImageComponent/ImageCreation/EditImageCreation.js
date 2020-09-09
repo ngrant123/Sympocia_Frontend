@@ -150,6 +150,7 @@ class EditImageCreation extends Component{
 		console.log(this.props);
 
 		const {previousData}=this.props;
+		debugger;
 		if(previousData!=null){
 			var {
 				description,
@@ -178,8 +179,6 @@ class EditImageCreation extends Component{
 
 		this.setState({
 			imgElement:imageElement,
-			displayVideoDescriptionPortal:audioDescription==null?false:true,
-			displayVoiceDescriptionPortal:videoDescription==null?false:true,
 			isCaptionCleared:caption==null?false:true,
 			isImageDescriptionCleared:description==null?false:true,
 			videoDescription:videoDescription,
@@ -192,7 +191,6 @@ class EditImageCreation extends Component{
 	}
 
 	clearImageCaptionTextArea=()=>{
-
 		if(this.state.isCaptionCleared==false){
 			document.getElementById("captionTextArea").value="";
 			document.getElementById("captionTextArea").style.color="black";

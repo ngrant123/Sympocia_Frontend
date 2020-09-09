@@ -26,6 +26,7 @@ import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js
 import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 import Confetti from 'react-confetti';
 
+import ExplorePageOnboarding from "../../OnBoarding/ExplorePageOnboarding.js";
 import LoadingScreen from "../../../LoadingAnimation.js";
 
 const Container=styled.div`
@@ -190,7 +191,8 @@ class HomePageContainer extends Component{
 			isPersonalProfile:true,
 			profileId:"",
 			displayConfetti:false,
-			isLoading:true
+			isLoading:true,
+			hideOnboarding:true
 		}
 	}
 
@@ -246,7 +248,8 @@ class HomePageContainer extends Component{
 			profile:profile,
 			profileId:profile._id,
 			symposiumsMap:symposiumsMap,
-			isLoading:false
+			isLoading:false,
+			hideOnboarding:profile.firstTimeLoggedIn.explorePage
 		})
 		debugger;
 	}
@@ -366,6 +369,8 @@ class HomePageContainer extends Component{
 		}else if(this.state.displaySearchExplorePage==true){
 				return <SearchExploreScreen
 								displayGrids={this.handleDisplayGridLayout}
+								history={this.props.history}
+								hideOnboarding={this.state.profile.firstTimeLoggedIn.personalPage}
 							/>;
 		}else if(this.state.displayPlayListPage==true){
 			return <PlayListComponent/>
@@ -388,6 +393,12 @@ class HomePageContainer extends Component{
 			*/
 		}
 	}
+
+	closeOnboardingModal=()=>{
+		this.setState({
+			hideOnboarding:true
+		})
+	} 
 
 	render(){
 		return(
@@ -426,7 +437,13 @@ class HomePageContainer extends Component{
 							page={"Home"}
 							routerHistory={this.props.history}
 						/>
-						
+
+						{this.state.hideOnboarding==false &&(
+							<ExplorePageOnboarding
+								closeModal={this.closeOnboardingModal}
+							/>
+						)}
+
 						{this.state.displayConfetti==true?
 								<Confetti
 									style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
@@ -502,10 +519,10 @@ class HomePageContainer extends Component{
 															{this.state.recruitsPost.map(data=>
 																<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
 																	<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																			{data.profilePicture==null||data.profilePicture==""?
-																				<img src={NoProfileIcon} style={RecruitImageCSS}/>:
-																				<img src={data.profilePicture} style={RecruitImageCSS}/>
-																			}
+																		{data.profilePicture==null||data.profilePicture==""?
+																			<img src={NoProfileIcon} style={RecruitImageCSS}/>:
+																			<img src={data.profilePicture} style={RecruitImageCSS}/>
+																		}
 																	</a>
 																</li>
 															)}

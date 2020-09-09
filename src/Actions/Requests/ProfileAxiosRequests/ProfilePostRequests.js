@@ -391,6 +391,34 @@ export const completeOnboardingPersonalPage=async(id)=>{
 }
 
 
+export const completeOnboardingExplorePage=async(id)=>{
+	try{
+		const onBoardingExplorePageResponse=await axios.post(`${CreateUrl}/onBoardingCompleteExplorePage`,{
+			_id:id
+		});
+		const {data}=onBoardingExplorePageResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const completeOnboardingSymposiumPage=async(id)=>{
+	try{
+		const onBoardingSymposiumPageResponse=await axios.post(`${CreateUrl}/onBoardingCompleteSymposiumPage`,{
+			_id:id
+		});
+		const {data}=onBoardingSymposiumPageResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+
 
 
 

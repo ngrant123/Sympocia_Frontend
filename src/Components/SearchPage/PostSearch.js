@@ -44,10 +44,15 @@ const PostSearch=(props)=>{
 
 	useEffect(()=>{
 		const getPosts=async()=>{
-			const posts=await exploreImagePosts(props.userId,postsCount);
-			const finalPosts=addSuggestedSymposiums(posts);
-			changePosts(finalPosts);
-			changeLoadState(true);
+			const {confirmation,data}=await exploreImagePosts(props.userId,postsCount);
+			console.log(posts);
+			if(confirmation=="Success"){
+				const finalPosts=addSuggestedSymposiums(data);
+				changePosts(finalPosts);
+				changeLoadState(true);
+			}else{
+				alert('Unfortunately there has been an error getting this search result. Please try again');
+			}
 		}
 		getPosts();
 	},[]);

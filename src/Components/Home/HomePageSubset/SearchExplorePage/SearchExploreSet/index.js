@@ -44,6 +44,29 @@ const CommentTextArea=styled.textarea`
 	width:180%;
 `;
 
+const ArenaContainer=styled.div`
+	border-color:white;
+	border-style:solid;
+	border-width:5px;
+	animation: glowing 1300ms infinite;
+	padding:5px;
+	border-radius:50%;
+
+	@keyframes glowing {
+      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+  }
+`;
+
+const ArenaButtonCSS={
+	listStyle:"none",
+	display:"inline-block",
+	borderRadius:"50%",
+	padding:"10px",
+	boxShadow: "1px 1px 30px #d5d5d5"
+}
+
 class SearchExploreContainer extends Component{
 
 	constructor(props){
@@ -109,6 +132,7 @@ class SearchExploreContainer extends Component{
 			this.setState({
 				postsInformation:newHomePagePosts
 			})
+
 		}else{
 			alert('Unfortunately there has been an error in retrieving you data. Please try again');
 		}
@@ -201,6 +225,10 @@ class SearchExploreContainer extends Component{
 		})
 	}
 
+	displayArenaPage=()=>{
+		this.props.history.push('/arena');
+	}
+
 	render(){
 		return(
 			<React.Fragment>
@@ -219,14 +247,30 @@ class SearchExploreContainer extends Component{
 										</li>
 									</ul>
 								</li>
-
-								<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>this.displayArenaPage()} style={ArenaButtonCSS}>
+										<ArenaContainer>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trophy" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z"/>
+											  <line x1="8" y1="21" x2="16" y2="21" />
+											  <line x1="12" y1="17" x2="12" y2="21" />
+											  <line x1="7" y1="4" x2="17" y2="4" />
+											  <path d="M17 4v8a5 5 0 0 1 -10 0v-8" />
+											  <circle cx="5" cy="9" r="2" />
+											  <circle cx="19" cy="9" r="2" />
+											</svg>
+										</ArenaContainer>
+									</li>
+								</a>
+								{/*
+										<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
 									Checkout a more generalized view of the communities you arent following by clicking here
 									<Checkbox
 										style={{fontSize:20,color:"#5298F8"}}
 										onChange={()=>this.handleCheckBoxCheck()}
 									/>
 								</li>
+								*/}
 							</li>
 						{/*
 								<li style={{listStyle:"none",display:"inline-block"}}>

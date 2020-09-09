@@ -128,6 +128,15 @@ const CrownPostModal=styled.div`
 	box-shadow: 1px 1px 50px #d5d5d5;
 `;
 
+const CommentContainer=styled.div`
+	position:absolute;
+	width:40%;
+	height:82%;
+	margin-top:13px;
+	overflow-y:scroll;
+	top:30px;
+`;
+
 const ButtonCSS={
   listStyle:"none",
   display:"inline-block",
@@ -158,6 +167,7 @@ const ImageContainer=(props)=>{
 	const [displayImageModal,changeDisplayImage]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
+
 	const handleRemoveImagePost=()=>{
 
 	}
@@ -277,11 +287,15 @@ const ImageContainer=(props)=>{
 										<ImageInformation
 											imageInformation={props.imageData}
 										/>
-										:<Comments
-											postId={props.imageData._id}
-											postType={"Image"}
-											hideComments={hideComments}
-										/>
+										:
+										<CommentContainer>
+											<Comments
+												postId={props.imageData._id}
+												postType={"Image"}
+												hideComments={hideComments}
+												targetDom={props.targetDom}
+											/>
+										</CommentContainer>
 								}
 
 							</li>

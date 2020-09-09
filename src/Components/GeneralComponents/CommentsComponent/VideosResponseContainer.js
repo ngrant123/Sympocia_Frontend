@@ -22,9 +22,10 @@ const Video=styled.div`
 	position:absolute;
 	width:100%;
 	height:80%;
-	overflow:hidden;
+	overflow-y:scroll;
 	border-radius:5px
-	z-index:-1;
+	z-index:5;
+	background-color:#1C1C1C;
 `;
 
 const InputContainer=styled.textarea`
@@ -99,6 +100,20 @@ const ProfilePicture={
 	width:"53px",
 	height:"13%",
 	borderRadius:"50%"
+}
+
+const ButtonCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px",
+	listStyle:"none",
+	display:"inline-block",
+	marginRight:"2%",
+	marginBottom:"1%"
 }
 
 /*
@@ -188,7 +203,6 @@ class VideoResponseContainer extends Component{
 					replies:currentComments,
 					creationCommentExtended:false
 				})
-
 			}else{
 				alert('Unfortunately an error has occured please submit your comment again');
 			}
@@ -276,61 +290,70 @@ class VideoResponseContainer extends Component{
 	VideoComponent=()=>{ 
 		debugger;
 		console.log(this.state.indicatorPosition);
+		console.log(this.state.videoResponses);
 		const videoData=this.state.videoResponses[this.state.indicatorPosition];
 
 		return <>
-					{this.state.isVideoResponsesReady==false?
+					{this.state.videoResponses.length==0 || videoData==null?
 						null:
-						<>
-							<Video>
-								<video key={videoData._id} position="absolute" width="100%" top="0px" height="110%" borderRadius="50%" autoplay="true" controls>
-									<source src={videoData.videoSrc} type="video/mp4"/>
-								</video>
-							</Video>
-							<ul style={{position:"absolute",top:"190px"}}>
-								<li style={{listStyle:"none",width:"400px"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<img src={videoData.profilePicture==null?NoProfilePicture:videoData.profilePicture}
-												style={{borderRadius:"50%",width:"50px",height:"45px"}}
-											/>
-										</li>
+						<>	
+							<ul style={{padding:"0px"}}>
+								{this.state.indicatorPosition==0?null:
+									<li onClick={()=>this.handlePreviousResponse()} style={ButtonCSS}>
+										Previous
+									</li>
+								}
 
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<p style={{color:"white",fontSize:"25px",marginLeft:"5%"}}>
-												<b>{videoData.ownerObject.owner.firstName}</b>
-											</p>
-										</li>
-									</ul>
-								</li>
-
-								<li style={{listStyle:"none"}}>
-									<ul style={{zIndex:"2",padding:"0px",width:"15%"}}>
-
-										<li style={{listStyle:"none",marginBottom:"40%"}} onClick={()=>this.getReplies()}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
-													 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
-													 fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z"/>
-												  <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
-												  <line x1="8" y1="9" x2="16" y2="9" />
-												  <line x1="8" y1="13" x2="14" y2="13" />
-												</svg>
-											</a>
-										</li>
-									</ul>
-								</li>
-
-								{
-									this.state.displayComments==true?
-										<CommentsContainerDiv>
-											{this.commentUI()}
-										</CommentsContainerDiv>:
-										<React.Fragment>
-										</React.Fragment>
+								{this.state.indicatorPosition==this.state.videoResponses.length-1?null:
+									<li onClick={()=>this.handleNextResponse()} style={ButtonCSS}> 
+										Next
+									</li>
 								}
 							</ul>
+							<Video>
+								<video key={videoData._id} objectFit="cover" position="absolute" width="100%" top="0px" height="110%" borderRadius="50%" autoplay="true" controls>
+									<source src={videoData.videoSrc} type="video/mp4"/>
+								</video>
+								<ul style={{position:"absolute",top:"50px"}}>
+									<li style={{listStyle:"none",width:"400px"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+												<img src={videoData.profilePicture==null?NoProfilePicture:videoData.profilePicture}
+													style={{borderRadius:"50%",width:"50px",height:"45px"}}
+												/>
+											</li>
+
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<p style={{color:"white",fontSize:"25px",marginLeft:"5%"}}>
+													<b>{videoData.ownerObject.owner.firstName}</b>
+												</p>
+											</li>
+										</ul>
+									</li>
+
+									<li style={{listStyle:"none"}}>
+										<ul style={{zIndex:"2",padding:"0px",width:"15%"}}>
+											<li style={{listStyle:"none",marginBottom:"40%"}} onClick={()=>this.getReplies()}>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
+														 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
+														 fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z"/>
+													  <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
+													  <line x1="8" y1="9" x2="16" y2="9" />
+													  <line x1="8" y1="13" x2="14" y2="13" />
+													</svg>
+												</a>
+											</li>
+										</ul>
+									</li>
+									{this.state.displayComments==true?
+											<CommentsContainerDiv>
+												{this.commentUI()}
+											</CommentsContainerDiv>:null
+									}
+								</ul>
+							</Video>
 							
 						</>
 					}
@@ -419,29 +442,36 @@ class VideoResponseContainer extends Component{
 			alert('Unfortunately there was an error creating your video response. Please try again');
 		}
 	}
+	/*
+		<{this.state.indicatorPosition==this.state.videoResponses.length-1?
+		<React.Fragment>
+		</React.Fragment>:
+		<KeyboardArrowRightIcon onClick={()=>this.handleNextResponse()} style={{fontSize: 40,position:"absolute",top:"70%",right:"5%"}}/>
+
+
+						{this.state.isVideoResponsesReady && (
+							<>
+								{this.VideoComponent()}
+							</>
+						)}
+	*/
 	render(){
 		return(
 			<React.Fragment>
 				{this.props.displayCreationPrompt==false?
 					<>
-						{this.VideoComponent()}
-						{this.state.indicatorPosition==0?
-							<React.Fragment>
-							</React.Fragment>:
-							<KeyboardArrowLeftIcon onClick={()=>this.handlePreviousResponse()} style={{fontSize: 40,position:"absolute",top:"70%",left:"5%"}}/>
-						}
-						{this.state.indicatorPosition==this.state.videoResponses.length-1?
-							<React.Fragment>
-							</React.Fragment>:
-							<KeyboardArrowRightIcon onClick={()=>this.handleNextResponse()} style={{fontSize: 40,position:"absolute",top:"70%",right:"5%"}}/>
-						}
+						{this.state.isVideoResponsesReady && (
+							<>
+								{this.VideoComponent()}
+							</>
+						)}
 					</>:
 					<>
 						{this.state.displayFinalResultVideoResponseScreen==false?
 							<VideoDescriptionPortal
 								closeModal={this.closeModal}
 								createVideoDescription={this.createVideoDescription}
-								parentContainer="personalContainer"
+								parentContainer={this.props.targetContainer}
 							/>:
 							<>
 								<ul style={{padding:"0px"}}>

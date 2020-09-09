@@ -30,7 +30,6 @@ const Container=styled.div`
 	height:100%;
 	background-color:black;
 	border-radius:5px;
-
 `;
 
 const OptionsContainer=styled.div`
@@ -43,21 +42,18 @@ const OptionsContainer=styled.div`
 `;
 
 const SmallVideoModal=styled.div`
-
 	position:relative;
 	width:350px;
 	height:300px;
-	background-color:yellow;
 	border-radius:5px;
 
 `;
 
 const CommentsContainer=styled.div`
 	position:relative;
-	width:380px;
-	height:350px;
-	background-color:blue;
-	overflow-y:auto;
+	width:450px;
+	height:250px;
+	overflow-y:scroll;
 	border-radius:5px;
 `;
 
@@ -274,6 +270,23 @@ createOrRemoveStampEffect=()=>{
 			})
 		}
 }
+
+	hideComments=()=>{
+		const smallVideoCurrentTime=document.getElementById("smallVideo").currentTime;
+		const largeVideo=document.getElementById("video");
+		const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
+
+		largeVideo.currentTime=smallVideoCurrentTime;
+		largeVideo.play();
+
+		const videoElement=document.getElementById("video");
+		commentsAndVideoContainer.style.visibility="hidden";
+
+		this.setState({
+			displayComments:false
+		})
+
+	}
 //Like,Dislike,Comment,Share,Promote
 
 	render(){
@@ -284,6 +297,19 @@ createOrRemoveStampEffect=()=>{
 				{this.displayShadow()}
 				<VideoCommentsAndModalContainer id="commentsAndVideoContainer">
 					<ul style={{padding:"0px",position:"relative",zIndex:"5px"}}>
+						{this.state.displayComments==true?
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<CommentsContainer>
+									<Comments
+										postId={this.props.video._id}
+										postType={"Video"}
+										hideComments={this.hideComments}
+										targetDom={this.props.targetDom}
+									/> 
+
+								</CommentsContainer>
+							</li>:null
+						}
 
 						<li style={{listStyle:"none",display:"inline-block",color:"yellow",marginRight:"2%"}}>
 							<SmallVideoModal key={this.props.video.videoUrl} id="smallVideoMaodl">
@@ -292,14 +318,6 @@ createOrRemoveStampEffect=()=>{
 								</video>
 
 							</SmallVideoModal>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<CommentsContainer>
-								<Comments
-								/>  
-
-							</CommentsContainer>
 						</li>
 					</ul>
 				</VideoCommentsAndModalContainer>
@@ -322,19 +340,21 @@ createOrRemoveStampEffect=()=>{
 
 				<OptionsContainer>
 					<ul style={{paddingTop:"10px"}}>
-						<li onClick={()=>this.createOrRemoveStampEffect()} style={{listStyle:"none",marginBottom:"20px"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginLeft:"5%"}}>
-									<Icon 
-										icon={stampIcon}
-										style={{fontSize:30,color:"white"}}
-									/>
-								</li>
-								<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-									Stamp
-								</li>
-							</ul>
-						</li>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>this.createOrRemoveStampEffect()} style={{listStyle:"none",marginBottom:"20px"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginLeft:"5%"}}>
+										<Icon 
+											icon={stampIcon}
+											style={{fontSize:30,color:"white"}}
+										/>
+									</li>
+									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+										Stamp
+									</li>
+								</ul>
+							</li>
+						</a>
 
 						{/*
 							<li style={{listStyle:"none",marginBottom:"20px"}}>
@@ -342,58 +362,57 @@ createOrRemoveStampEffect=()=>{
 							</li>
 
 						*/}
-						<li onClick={()=>this.setState({displayComments:!this.state.displayComments})} style={{listStyle:"none",marginBottom:"20px"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginLeft:"5%"}}>
-									<ChatIcon
-										style={{fontSize:30,color:"white"}}
-									/>
-								</li>
-								<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-									Comments
-								</li>
-							</ul>
-						</li>
-
-						<li style={{listStyle:"none",marginBottom:"20px"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginLeft:"5%"}}>
-									<Icon 
-										icon={shareIcon}
-										style={{fontSize:30,color:"white"}}
-									/>
-								</li>
-								<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-									Stamp
-								</li>
-							</ul>
-						</li>
-
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>this.setState({displayComments:!this.state.displayComments})} style={{listStyle:"none",marginBottom:"20px"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginLeft:"5%"}}>
+										<ChatIcon
+											style={{fontSize:30,color:"white"}}
+										/>
+									</li>
+									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+										Comments
+									</li>
+								</ul>
+							</li>
+						</a>
 						{/*	
+							<li style={{listStyle:"none",marginBottom:"20px"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginLeft:"5%"}}>
+										<Icon 
+											icon={shareIcon}
+											style={{fontSize:30,color:"white"}}
+										/>
+									</li>
+									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+										Stamp
+									</li>
+								</ul>
+							</li>
+
 							<li style={{listStyle:"none",marginBottom:"20px"}}>
 								Promote
 							</li>
 						*/}
 
-						<li onClick={()=>this.setState({displayDescription:!this.state.displayDescription})} style={{listStyle:"none",marginBottom:"20px"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginLeft:"5%"}}>
-									<DescriptionIcon
-										style={{fontSize:30,color:"white"}}
-									/>
-								</li>
-								<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-									Description
-								</li>
-							</ul>
-						</li>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>this.setState({displayDescription:!this.state.displayDescription})} style={{listStyle:"none",marginBottom:"20px"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginLeft:"5%"}}>
+										<DescriptionIcon
+											style={{fontSize:30,color:"white"}}
+										/>
+									</li>
+									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+										Description
+									</li>
+								</ul>
+							</li>
+						</a>
 					</ul>
-
 				</OptionsContainer>
-
 			</Container>
-
-
 		)
 	}
 }

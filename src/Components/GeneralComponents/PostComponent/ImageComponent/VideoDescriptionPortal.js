@@ -84,51 +84,51 @@ const VideoDescriptionPortal=(props)=>{
 
 	useEffect(()=>{
 		var video=document.getElementById("video");
-				if (navigator.mediaDevices.getUserMedia){
-					  navigator.mediaDevices.getUserMedia({ 
-					  		video: true,
-					  		audio:true 
-					  	}).then(function(stream) {
-					      video.srcObject = stream;
-					      video.captureStream = video.captureStream || video.mozCaptureStream;
-					    })
-				    .then(()=>handleRecording(video.captureStream()))
-				    .then(recordedChunks=>{
-					  	 debugger;
-					  	 if(recordedChunks!=null){
-					  	 	console.log("Recorded chunks");
-						  	 let recordedFile = new File(recordedChunks, { type: "video/webm" });
-						  	 var videoSrc=URL.createObjectURL(recordedFile);
+		if (navigator.mediaDevices.getUserMedia){
+			  navigator.mediaDevices.getUserMedia({ 
+			  		video: true,
+			  		audio:true 
+			  	}).then(function(stream) {
+			      video.srcObject = stream;
+			      video.captureStream = video.captureStream || video.mozCaptureStream;
+			    })
+		    .then(()=>handleRecording(video.captureStream()))
+		    .then(recordedChunks=>{
+			  	 debugger;
+			  	 if(recordedChunks!=null){
+			  	 	console.log("Recorded chunks");
+				  	 let recordedFile = new File(recordedChunks, { type: "video/webm" });
+				  	 var videoSrc=URL.createObjectURL(recordedFile);
 
-						  	 var reader=new FileReader();
+				  	 var reader=new FileReader();
 
-							reader.onloadend=()=>{
-								debugger;
-								console.log(reader.result);
-								var currentVideoElements=videoElements;
+					reader.onloadend=()=>{
+						debugger;
+						console.log(reader.result);
+						var currentVideoElements=videoElements;
 
-								const videoObject={
-									videoSrc:reader.result,
-									videoFile:recordedFile,
-									videoCounter:currentVideoElements.length
-								}
-							  	 currentVideoElements.push(videoObject);
+						const videoObject={
+							videoSrc:reader.result,
+							videoFile:recordedFile,
+							videoCounter:currentVideoElements.length
+						}
+					  	 currentVideoElements.push(videoObject);
 
-							  	 changeVideoElements(currentVideoElements);
-							  	 changeRecordingState(false);
-							  	 changeReInitliazed(true);
+					  	 changeVideoElements(currentVideoElements);
+					  	 changeRecordingState(false);
+					  	 changeReInitliazed(true);
 
-							  	 console.log("Array added");
-							  	 chnagFirstFone(true)
-							}
-						  	 reader.readAsDataURL(recordedFile);
-					  	 }
-					  	 
-					  }).catch(function (error) {
-				      console.log("Something went wrong!");
-				      console.log(error);
-				    });
-			}	
+					  	 console.log("Array added");
+					  	 chnagFirstFone(true)
+					}
+				  	 reader.readAsDataURL(recordedFile);
+			  	 }
+			  	 
+			  }).catch(function (error) {
+		      console.log("Something went wrong!");
+		      console.log(error);
+		    });
+		}	
 	},[]);
 
 	const stopRecording=(stream)=>{

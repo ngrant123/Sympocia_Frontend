@@ -98,7 +98,6 @@ class SearchExplorePosts extends Component{
 	}
 
 	displayVideos=()=>{
-		
 		this.setState({
 			displayImagePosts:false,
 			displayVideoPosts:true,

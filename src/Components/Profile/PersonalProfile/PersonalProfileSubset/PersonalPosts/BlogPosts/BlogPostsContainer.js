@@ -54,9 +54,6 @@ const SmallBlog=styled.div`
 `;
 
 const BlogContainer=styled(Link)`
-	
-
-
 `;
 
 const VideoDesriptionContainer=styled.div`
@@ -68,10 +65,6 @@ const VideoDesriptionContainer=styled.div`
 	left:2%;
 	z-index:8;
 `;
-
-
-
-
 
 class BlogsPostsContainer extends Component{
 

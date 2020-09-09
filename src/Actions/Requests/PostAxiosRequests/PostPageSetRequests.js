@@ -131,7 +131,7 @@ export const addCommentToPopularQuestions=async(commentObject)=>{
 		const {
 			userId,
 			profileIndicator,
-			questionId,
+			questionId={},
 			questionType,
 			comment,
 			industry

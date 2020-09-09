@@ -26,13 +26,16 @@ const VideoContainer=(data)=>{
 					<Video
 						video={data.videoData}
 						profileType={data.profileType}
+						targetDom={data.targetDom}
 					/>  
 				</li>
-				<li style={{listStyle:"none",display:"inline-block"}}>
-					<RecommendedVideos
-						videos={data.recommendedVideos}
-					/>
-				</li> 
+				{data.recommendedVideos!=null?
+					<li style={{listStyle:"none",display:"inline-block"}}>
+						<RecommendedVideos
+							videos={data.recommendedVideos}
+						/>
+					</li>:null
+				}
 			</ul>
 		</Container>
 	)

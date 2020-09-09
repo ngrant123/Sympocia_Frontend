@@ -11,6 +11,7 @@ import TextOptions from "./TextOptions.js";
 import Blog from "./Blog.js";
 import BlogEditSubmitModal from "./BlogEditSubmitModal.js";
 import { convertFromRaw,EditorState } from 'draft-js';
+import Comments from "../../../CommentsComponent/index.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -27,7 +28,21 @@ const ShadowContainer = styled.div`
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
 	z-index:4;
+`;
 
+const CommentContainer=styled.div`
+	position:absolute;
+	width:40%;
+	height:40%;
+	overflow-y:scroll;
+	background-color:white;
+	top:54%;
+	left:55%;
+	padding:20px;
+	border-radius:5px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#D8D8D8;
 `;
 
 
@@ -48,7 +63,8 @@ class BlogPostCreation extends Component{
 			displayEditButtonSubmitModal:false,
 			blog:"",
 			isPersonalProfile:isPersonalProfile,
-			blogState:""
+			blogState:"",
+			displayComments:false
 		}
 	}
 
@@ -91,6 +107,18 @@ class BlogPostCreation extends Component{
 		})
 	}
 
+	displayCommentSection=()=>{
+		this.setState({
+			displayComments:true
+		})
+	}
+
+	hideComments=()=>{
+		this.setState({
+			displayComments:false
+		})
+	}
+
 	render(){
 		return(
 			<BlogProvider value={{
@@ -112,9 +140,24 @@ class BlogPostCreation extends Component{
 					<TextOptions
 						displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
 						blogState={this.state.blogState}
+						postType={this.props.location.state.postType}
+						displayCommentSection={this.displayCommentSection}
 				/>
-					<Blog/>
-					{this.editBlogSubmitModal()}
+				<Blog/>
+				{this.editBlogSubmitModal()}
+
+				{this.state.displayComments && (
+					<CommentContainer>
+						<Comments
+							postId={this.props.location.state._id}
+							postType={"Blog"}
+							hideComments={this.hideComments}
+							targetDom={"blogPostContainer"}
+						/>
+
+					</CommentContainer>
+				)}
+
 				</Container>
 			</BlogProvider>
 		)

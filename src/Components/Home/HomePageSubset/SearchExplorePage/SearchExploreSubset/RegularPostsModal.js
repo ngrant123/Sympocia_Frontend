@@ -7,7 +7,6 @@ import {
 		displayPersonalIndustryFeed,
 		displayRecruitButton
 	} from "./ImagePostsModal.js";
-import {HomeConsumer} from "../../../HomeContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";

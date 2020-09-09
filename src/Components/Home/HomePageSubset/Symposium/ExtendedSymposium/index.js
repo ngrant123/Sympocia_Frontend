@@ -37,6 +37,7 @@ import ChatPageContainer from "../../../../GeneralComponents/ChatComponent/ChatC
 import {GeneralNavBar} from "../../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import ExploreIcon from '@material-ui/icons/Explore';
 import GroupSharingVideoCall from "./Modals/VideoCall/index.js";
+import SymposiumOnboarding from "../../../../OnBoarding/SymposiumPageOnboarding.js";
 
  const keyFrameExampleTwo= keyframes`
   0% {
@@ -540,7 +541,8 @@ class Symposium extends Component{
 			displayConfetti:false,
 			chatPageIndicator:"",
 			displayChatPage:false,
-			displayGroupSharingVideoCallPortal:false
+			displayGroupSharingVideoCallPortal:false,
+			hideOnboarding:true
 		}
 
 		connectToRoom(socket,this.props.location.state.selectedSymposium._id);
@@ -581,7 +583,8 @@ class Symposium extends Component{
 			  			popularPosts,
 			  			activeUsers,
 			  			popularQuestions,
-			  			isProfileFollowedSymposium
+			  			isProfileFollowedSymposium,
+			  			isOnboardingCompleted
 		  			}=data;
 
 		  			var newHomePagePosts=this.addSuggestedSymposiums(posts);
@@ -601,7 +604,8 @@ class Symposium extends Component{
 				  		popularQuestions:popularQuestions,
 				  		isProfileFollowingSymposium:isProfileFollowedSymposium,
 				  		profileId:this.props.location.state.profileId,
-				  		isLoading:false
+				  		isLoading:false,
+				  		hideOnboarding:isOnboardingCompleted
 			  		}));
 
 				  	setTimeout(function(){
@@ -1179,6 +1183,12 @@ class Symposium extends Component{
 		});
 	}
 
+	closeOnboardingModal=()=>{
+		this.setState({
+			hideOnboarding:true
+		})
+	}
+
 
 	render(){
 
@@ -1190,6 +1200,14 @@ class Symposium extends Component{
 					page={"Home"}
 					routerHistory={this.props.history}
 				/>
+
+				{this.state.hideOnboarding==false &&(
+					<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
+						<SymposiumOnboarding
+							closeModal={this.closeOnboardingModal}
+						/>
+					</div>
+				)}
 
 				<PageIndicator>
 						<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">

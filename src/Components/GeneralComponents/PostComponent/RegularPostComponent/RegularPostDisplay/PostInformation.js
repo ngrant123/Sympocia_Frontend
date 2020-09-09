@@ -87,7 +87,7 @@ const PostInformation=(props)=>{
 		<React.Fragment>
 			<ul style={{padding:"0px",position:"absolute"}}>
 				<li style={{marginTop:"-180px",listStyle:"none",maxHeight:"80%",marginBottom:"2%"}}>
-					{isAudioPost==false?
+					{isAudioPost==null?
 						<PostContent id="postContent">
 							{post}
 						</PostContent>:
@@ -107,23 +107,27 @@ const PostInformation=(props)=>{
 							</li>
 						*/}
 
-						<li onClick={()=>displayComments()} style={ButtonCSS}>
-								{commentsDisplayed==false?<p>Comments</p>:<p>Hide Comments</p>}
-						</li>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>displayComments()} style={ButtonCSS}>
+									{commentsDisplayed==false?<p>Comments</p>:<p>Hide Comments</p>}
+							</li>
+						</a>
 
 						<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
 							<PeopleWhoLikedPostContainer>
-								{comments.map(data=>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-										<SmallProfilePicture>
-											{data.profilePicture==null?
-												<img src={NoProfilePicture} style={{width:"100%",height:"100%"}}/>:
-												<img src={data.profilePicture} style={{width:"100%",height:"100%"}}/>
-											}
-										</SmallProfilePicture>
-									</li>
-								)}
-								
+								{/*
+									{comments.map(data=>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<SmallProfilePicture>
+												{data.profilePicture==null?
+													<img src={NoProfilePicture} style={{width:"100%",height:"100%"}}/>:
+													<img src={data.profilePicture} style={{width:"100%",height:"100%"}}/>
+												}
+											</SmallProfilePicture>
+										</li>
+									)}
+
+								*/}		
 							</PeopleWhoLikedPostContainer>
 						</li>
 
