@@ -105,6 +105,7 @@ const ImageInformation=(props)=>{
 										postId={props.imageInformation._id}
 										postType="Images"
 										ownerId={props.imageInformation.owner}
+										targetDom={props.targetDom}
 									/>:null
 								}
 								<ul style={{padding:"0px",width:"140%"}}>

@@ -286,6 +286,7 @@ const ImageContainer=(props)=>{
 									commentImageIndicator==true?
 										<ImageInformation
 											imageInformation={props.imageData}
+											targetDom={props.targetDom}
 										/>
 										:
 										<CommentContainer>

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import SendIcon from '@material-ui/icons/Send';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import {createImagePost,updateCrownedImage} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {connect} from "react-redux";
 import IndustryPostOptions from "../../IndustryPostOptions.js";
 import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
@@ -20,6 +19,13 @@ import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
 
 import { Icon, InlineIcon } from '@iconify/react';
 import crownIcon from '@iconify/icons-mdi/crown';
+
+import {
+	createImagePost,
+	updateCrownedImage,
+	editPost
+} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import CreateNewImageModal from "./index.js";
 
 
 const Container=styled.div`
@@ -109,6 +115,27 @@ const CrownPostModal=styled.div`
 	box-shadow: 1px 1px 50px #d5d5d5;
 `;
 
+const ChangeImageVerificationModal=styled.div`
+	position:fixed;
+	width:30%;
+	height:20%;
+	background-color:white;
+	z-index:11;
+	left:40%;
+	top:40%;
+	border-radius:5px;
+	box-shadow: 1px 1px 50px #d5d5d5;
+`;
+const ShadowContainerNewImageCreation= styled.div`
+	position:fixed;
+	width:500%;
+	height:500%;
+	left:-50%;
+	background-color: rgba(0,0,0,0.4);
+	z-index:15;
+	top:0px;
+`;
+
 const ButtonCSS={
   listStyle:"none",
   display:"inline-block",
@@ -140,7 +167,9 @@ class EditImageCreation extends Component{
 			audioDescription:null,
 			isPostCrowned:false,
 			isPreviousLoaded:false,
-			displayCrownModalIndicator:false
+			displayCrownModalIndicator:false,
+			changeImageVerification:false,
+			displayReplaceImageModal:false
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
@@ -210,28 +239,145 @@ class EditImageCreation extends Component{
 		}
 	}
 
-	sendImageDateToDB=(profilePostInformation,companyPostContextConsumer)=>{
+	sendImageDateToDB=async(profilePostInformation,companyPostContextConsumer)=>{
 		debugger;
 
 		console.log("Submit button clicked");
 		const industries=this.state.industriesSelected;
 		const imgUrl=this.state.src;
-		const videoDescription=this.state.videoDescription;
-		const audioDescription=this.state.audioDescription;
+		const currentVideoDescription=this.state.videoDescription;
+		const currentAudioDescription=this.state.audioDescription;
 		const selectedSubCommunities=this.state.subIndustriesSelected;
-		const searchCriteriaIndustryArray=[];
+		let searchCriteriaIndustryArray=[];
 		const isPostCrowned=this.state.isPostCrowned;
 
 		var descriptionTextArea=(this.state.isImageDescriptionCleared==false)?"":document.getElementById("descriptionTextArea").value;
 		var captionTextArea=(this.state.isCaptionCleared==false)?"":document.getElementById("captionTextArea").value;
 
+		searchCriteriaIndustryArray=this.constructSelectedIndustries(searchCriteriaIndustryArray,industries,selectedSubCommunities);
+
+		debugger;
+		const searchCriteria={
+			imgUrl:imgUrl,
+			videoDescription:currentVideoDescription,
+			audioDescription:currentAudioDescription,
+			industryArray:searchCriteriaIndustryArray,
+			description:descriptionTextArea,
+			caption:captionTextArea,
+			isCrownedPost:isPostCrowned
+		}
+
+
 		if(this.state.isPreviousLoaded==false){
-			//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
+			if(profilePostInformation==null){
+				companyPostContextConsumer.hideCreationPost();
+				this.pushDummyImageObjectToProfile(companyPostContextConsumer,searchCriteria);
+				createImagePost(this.props.companyProfile.id,searchCriteria,"Company");
+			}else{
+				profilePostInformation.hideCreationPost();
+				this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria);
+				createImagePost(this.props.personalProfile.id,searchCriteria,"Personal");
+			}
+		}else{
+			const {previousData}=this.props;
+			let {
+				description,
+				caption,
+				audioDescription,
+				videoDescription,
+				isCrownedPost,
+				industriesUploaded,
+				_id
+			}=previousData;
+
+			const editedImage={
+				postType:"Image",
+				postId:_id,
+				post:{
+					industryArray:this.isArrayEqual(industriesUploaded,searchCriteriaIndustryArray)==false
+						?searchCriteriaIndustryArray:null,
+					description:descriptionTextArea!=description?descriptionTextArea:null,
+					caption:captionTextArea!=caption?captionTextArea:null,
+					isCrownedPost:isPostCrowned!=isCrownedPost?isPostCrowned:null
+				},
+				postS3:[
+					{
+						optionType:'postUrl',
+						newUrl:this.isImagesSrcEqual(imgUrl,this.props.imageSrcUrl)==false?imgUrl:null
+					},
+					{
+						optionType:'audioDescription',
+						newUrl:currentAudioDescription!=audioDescription?currentAudioDescription:null
+					},
+					{
+						optionType:'videoDescription',
+						newUrl:videoDescription!=currentVideoDescription?currentVideoDescription:null
+					}
+				],
+				ownerId:this.props.personalProfile.id
+			}
+
+			const {confirmation,data}=await editPost(editedImage);
+
+			if(confirmation=="Success"){
+
+			}else{
+				alert('Unfortunately there has been an error editing this post. Please try again');
+			}
+		}
+	}
+
+	isImagesSrcEqual=(img1,img2)=>{
+		if(String(img1)===String(img2))
+			return true;
+		else 
+			return false;
+	}
+
+	isArrayEqual=(arr1,arr2)=>{
+		debugger;
+		if(arr1.length!=arr2.length)
+			return false;
+		else{
+			let arr1Map=new Map();
+
+			arr1.forEach((industry,i)=>{
+				const {subIndustry}=industry;
+				let subArr1Map=new Map();
+
+				subIndustry.forEach((selectedSubIndustry,j)=>{
+					subArr1Map.set(selectedSubIndustry,1);
+				})
+				arr1.set(industry,subArr1Map);
+			});
+
+			arr2.forEach((selectedIndustry,index)=>{
+				if(arr1Map.get(selectedIndustry.industry)=="" || arr1Map.get(selectedIndustry.industry)==null)
+					return false
+				else{
+					const {subIndustry}=selectedIndustry;
+
+					selectedIndustry.forEach((selectedSubIndustry,i)=>{
+						const selectedIndustryArr1=arr1Map.get(selectedSubIndustry.industry);
+						if(selectedIndustryArr1.get(selectedSubIndustry.industry)=="" ||
+						 selectedIndustryArr1.get(selectedSubIndustry.industry)==null)
+							return false
+					})
+				}
+			})
+
+		}
+		return true;
+	}
+
+	constructSelectedIndustries=(searchCriteriaIndustryArray,industries,selectedSubCommunities)=>{
+		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 			if(industries.length==0){
 				searchCriteriaIndustryArray.push({
-						industry:"General",
-						subIndustry:[]
-					});
+					industry:"General",
+					subIndustry:[]
+				});
+
 			}else{
 				var counter=0;
 				for(var i=0;i<industries.length;i++){
@@ -255,36 +401,11 @@ class EditImageCreation extends Component{
 						industry:industries[i].industry,
 						subIndustry:subCommunitiyArray
 					}
-						searchCriteriaIndustryArray.push(searchObject);
+					searchCriteriaIndustryArray.push(searchObject);
 				}
 			}
-		}
-		debugger;
-		const searchCriteriaObject={
-			imgUrl:imgUrl,
-			videoDescription:videoDescription,
-			audioDescription:audioDescription,
-			industryArray:this.state.isPreviousLoaded==true?this.props.previousData.industriesUploaded:
-															searchCriteriaIndustryArray,
-			description:descriptionTextArea,
-			caption:captionTextArea,
-			isCrownedPost:isPostCrowned
-		}
 
-		if(profilePostInformation==null){
-			companyPostContextConsumer.hideCreationPost();
-			this.pushDummyImageObjectToProfile(companyPostContextConsumer,searchCriteriaObject);
-		}else{
-			profilePostInformation.hideCreationPost();
-			this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteriaObject);
-		}
-
-			if(this.props.personalProfile.loggedIn==true){
-					createImagePost(this.props.personalProfile.id,searchCriteriaObject,"Personal");
-			}
-			else{
-					createImagePost(this.props.companyProfile.id,searchCriteriaObject,"Company");
-			}
+			return searchCriteriaIndustryArray;
 	}
 
 
@@ -334,7 +455,8 @@ class EditImageCreation extends Component{
 									{...{[type]:value}}
 							/>;
 		this.setState({
-			imgElement:imageElement
+			imgElement:imageElement,
+			displayReplaceImageModal:false
 		},function(){
 			localStorage.removeItem('placeholder');
 		})
@@ -452,6 +574,23 @@ class EditImageCreation extends Component{
 
 	}
 
+	displayNewCreateImage=(imgUrl)=>{
+		console.log("Testing image filtering");
+		debugger;
+
+		const imageElement= <ProcessImage
+									image={imgUrl}
+									resize={{width:450,height:450}}
+									quality={100}
+									processedImage={(src, err) => this.setState({ src, err })}
+							/>;
+		this.setState({
+			imgElement:imageElement,
+			displayReplaceImageModal:false
+		},function(){
+			localStorage.removeItem('placeholder');
+		})
+	}
 	render(){
 		return(
 			<PostConsumer>
@@ -459,6 +598,57 @@ class EditImageCreation extends Component{
 						<CompanyPostConsumer>
 							{companyPostInformation=>(
 								<Container id="editImageContainer">
+									{this.state.displayReplaceImageModal==true &&(
+										<>
+											<ShadowContainerNewImageCreation 
+												onClick={()=>this.setState({displayReplaceImageModal:false})} 
+											/>
+											<CreateNewImageModal
+												handleNewlyCreatedImage={this.displayNewCreateImage}
+												isPreviousLoaded={true}
+											/>
+										</>
+									)}
+									{this.state.changeImageVerification==true?
+										<>
+											<ShadowContainer onClick={()=>this.setState({changeImageVerification:false})} />
+											<ChangeImageVerificationModal>
+												<ul style={{padding:"20px"}}>
+													<a href="javascript:void(0);">
+														<li onClick={()=>this.setState({changeImageVerification:false})} style={{listStyle:"none",marginLeft:"90%"}}>
+															<HighlightOffIcon
+																style={{fontSize:"20"}}
+															/>
+														</li>
+													</a>
+													<p> 
+														Are you sure you want to change the image for this post?
+													</p>
+													<li style={{listStyle:"none"}}>
+														<ul style={{padding:"0px"}}>
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<li onClick={()=>this.setState({
+																						displayReplaceImageModal:true,
+																						changeImageVerification:false
+																					})} 
+																style={ButtonCSS}>
+																	Yes
+																</li>
+															</a>
+
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<li onClick={()=>this.setState({changeImageVerification:false})}
+																style={ButtonCSS}>
+																	No
+																</li>
+															</a>
+														</ul>
+													</li>
+												</ul>
+											</ChangeImageVerificationModal>
+										</>
+										:null
+									}
 
 									{this.state.displayVideoDescriptionPortal==false?
 										null:
@@ -531,7 +721,6 @@ class EditImageCreation extends Component{
 														</React.Fragment>
 													}
 												</ul>
-			
 											</CrownPostModal>
 										</React.Fragment>
 									}
@@ -539,7 +728,7 @@ class EditImageCreation extends Component{
 										<li style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
 											<Image>
 												<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px"}}>
-													<li style={{listStyle:"none"}}>
+													<li onClick={()=>this.setState({changeImageVerification:true})} style={{listStyle:"none"}}>
 														<a href="javascript:void(0);">
 															<HighlightOffIcon
 																style={{fontSize:30}}
@@ -638,22 +827,21 @@ class EditImageCreation extends Component{
 															</li>
 														</ul>
 													</li>
-													
 
 													<li style={{listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
 														<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																		<ul onClick={()=>this.sendImageDateToDB(profilePostInformation,companyPostInformation)}>
-																			<li style={{listStyle:"none",display:"inline-block"}}>
-																				<SendIcon
-																					style={{fontSize:20,color:"white"}}
-																				/>
-																			</li>
+															<ul onClick={()=>this.sendImageDateToDB(profilePostInformation,companyPostInformation)}>
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<SendIcon
+																		style={{fontSize:20,color:"white"}}
+																	/>
+																</li>
 
-																			<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																				Send
-																			</li>
+																<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																	Send
+																</li>
 
-																		</ul>
+															</ul>
 														</a>
 											 		</li>
 												</ul>

@@ -20,7 +20,7 @@ import VideoDisplay from "./Components/GeneralComponents/PostComponent/VideoComp
 import BlogDisplay from "./Components/GeneralComponents/PostComponent/BlogComponent/BlogPostDisplay/BlogPostContainer.js"
 import RegularPostDisplay from "./Components/GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js"
 import GroupVideoCall from "./Components/Home/HomePageSubset/Symposium/ExtendedSymposium/Modals/VideoCall/GroupVideoCall.js";
-
+import CreatePostScreen from "./Components/GeneralComponents/PostComponent/LargePostComponent/CreatePostScreen.js";
 
 import allReducers from './Actions/Redux/Reducers';
 import { Provider } from 'react-redux';
@@ -72,6 +72,7 @@ const application  = (
 						<Route exact path="/arena" component={Arena}/>
 						<Route exact path="/symposium/:symposiumName" component={Symposium}/>
 						<Route exact path="/groupVideoCall/:symposiumId/:groupCallId" component={GroupVideoCall}/>
+						<Route exact path="/createPost" component={CreatePostScreen}/>
 					</Switch>
 				</Router>
 			</Provider>

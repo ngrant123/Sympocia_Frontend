@@ -7,6 +7,7 @@ import CreatePostComponent from "../../../../GeneralComponents/PostComponent/Lar
 import IndustryOptions from "../../../../GeneralComponents/PostComponent/IndustryPostOptions.js"
 import {connect} from "react-redux";
 
+
 import {
 		getPostsForHomePage,
 		exploreImagePosts,
@@ -232,6 +233,7 @@ class SearchExploreContainer extends Component{
 	render(){
 		return(
 			<React.Fragment>
+
 				<ul style={{padding:"0px",marginLeft:"10%",marginTop:"8%"}}>
 					<li style={{listStyle:"none",marginBottom:"1%"}}>
 						<ul style={{padding:"0px"}}>

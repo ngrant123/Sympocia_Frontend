@@ -346,46 +346,55 @@ class LProfile extends Component{
 
 	async componentDidMount(){
 		const {id}=this.props.match.params;
-		const firstTimeIndicator=this.props.firstTimeIndicator;
+		if(id==this.props.personalId){
+			const profileIds={
+				userId:this.props.personalId
+			}
+			const {confirmation,data}=await getProfile(profileIds);
+			debugger;
+			if(confirmation=="Success"){
+				console.log(data);
+				var containsChampion=false;
+				if(data.championData!=null)
+					containsChampion=data.championData.name!=""?true:false;
 
-		if(firstTimeIndicator==true){
-			//Start tutorial mode
+				this.setState(prevState=>({
+					...prevState,
+					isLoading:false,
+					userProfile:data,
+					isOwnProfile:true,
+					displayChampion:containsChampion,
+					champion:data.championData,
+					isLoading:false,
+					hideOnboarding:data.firstTimeLoggedIn.personalPage
+				}));
+			}else{
+				alert('Unfortunately there has been an error getting this page. Please try again');
+			}
+		}
+		else{
+			const profileIds={
+				userId:id,
+				visitorId:this.props.personalId
+			}
+			const {confirmation,data}=await getProfile(profileIds);
 
-		 }else{
-				if(id==this.props.personalId){
-					const profile=await getProfile(this.props.personalId);
-					debugger;
-					console.log(profile);
-					var containsChampion=false;
-					if(profile.championData!=null)
-						containsChampion=profile.championData.name!=""?true:false;
+			if(confirmation=="Success"){
+				var containsChampion=false;
+				if(data.championData!=null)
+					containsChampion=data.championData.name!=""?true:false;
 
-					this.setState(prevState=>({
-						...prevState,
-						isLoading:false,
-						userProfile:profile,
-						isOwnProfile:true,
-						displayChampion:containsChampion,
-						champion:profile.championData,
-						isLoading:false,
-						hideOnboarding:profile.firstTimeLoggedIn.personalPage
-					}));
-				}
-				else{
-					const profile=await getProfile(id);
-					var containsChampion=false;
-					if(profile.championData!=null)
-						containsChampion=profile.championData.name!=""?true:false;
-
-					this.setState(prevState=>({
-						...prevState,
-						isLoading:false,
-						userProfile:profile,
-						displayChampion:containsChampion,
-						championModalData:profile.championData,
-						isLoading:false
-					}));
-			}	
+				this.setState(prevState=>({
+					...prevState,
+					isLoading:false,
+					userProfile:data,
+					displayChampion:containsChampion,
+					championModalData:data.championData,
+					isLoading:false
+				}));
+			}else{
+				alert('Unfortunately there has been an error getting this page. Please try again');
+			}
 		}
 	}
 
@@ -685,7 +694,7 @@ class LProfile extends Component{
 					<Container id="personalContainer">
 						{this.state.isLoading==true?null:
 							<>
-								{this.state.hideOnboarding==false && (
+								{(this.state.hideOnboarding==false && this.state.isOwnProfile==true) &&(
 									<OnboardingPersonalPage
 										closeModal={this.closeOnboardingModal}
 									/>

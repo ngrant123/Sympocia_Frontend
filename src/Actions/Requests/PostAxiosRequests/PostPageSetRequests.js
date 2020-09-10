@@ -341,6 +341,24 @@ export const updateCrownedRegularPost=async(_id,updatedStatus,regularPostId)=>{
 	}
 }
 
+export const editPost=async({postType,postId,post})=>{
+	try{
+
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const editedPostResponse=await axios.post(`${CreateUrl}/editPost`,{
+			postType,
+			postId,
+			post
+		});
+		const {data}=editedPostResponse;
+		return data;
+
+	}catch(err){
+		console.log(err.message);
+		return err;
+	}
+}
+
 
 
 

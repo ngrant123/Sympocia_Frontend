@@ -5,8 +5,10 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png"; 
 import ReplyIcon from '@material-ui/icons/Reply';
+
 import {markPostAsAuthentic,markPostAsFakeNews} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js"
 import {getFakeNewsComments,getAuthenticPostComments} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {useSelector} from "react-redux";
 
 
 const ShadowContainer= styled.div`
@@ -88,8 +90,18 @@ if(displayApproveModal==true){
 
 */
 
-const PollOptionPortal=({postId,firstName,profilePicture,closeModal,displayApproveModal,postType,ownerId})=>{
-	console.log("Poll portal option");
+const PollOptionPortal=(props)=>{
+	const {
+		postId,
+		firstName,
+		profilePicture,
+		closeModal,
+		displayApproveModal,
+		postType,
+		targetDom
+	}=props;
+
+	const personalInformation=useSelector(state=>state.personalInformation);
 	const [displayCreateComment,changeDisplayCreateComment]=useState(false);
 	const [comments,changeComments]=useState([]);
 
@@ -110,8 +122,8 @@ const PollOptionPortal=({postId,firstName,profilePicture,closeModal,displayAppro
 		const comment=document.getElementById("extendedInputContainer").value;
 		const commentObject={
 			comment:comment,
-			firstName:firstName,
-			_id:ownerId,
+			firstName:personalInformation.firstName,
+			_id:personalInformation.id,
 			postOption:postType,
 			postId:postId,
 		}
@@ -241,7 +253,7 @@ const PollOptionPortal=({postId,firstName,profilePicture,closeModal,displayAppro
 				</ul>
 			</Container>
 		</React.Fragment>
-	,document.getElementById("personalContainer"));
+	,document.getElementById(targetDom));
 }
 
 export default PollOptionPortal;

@@ -25,18 +25,18 @@ export function getActivityLog(userId){
 }
 
 
-export async function getProfile(userId){
+export async function getProfile({userId,visitorId}){
 
 	try{
 		console.log("Connected with profile route");
 		const profile=await axios.get(`${SearchUrl}/getProfile`,{
 			params:{
-				id:userId
+				id:userId,
+				visitorId
 			}
 		});
 		const {data}=profile;
-		const profileData=data.data;
-		return profileData;
+		return data;
 	}catch(err){
 		console.log(err.message);
 	}
