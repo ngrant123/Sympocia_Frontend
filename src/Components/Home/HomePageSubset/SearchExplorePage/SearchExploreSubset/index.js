@@ -70,6 +70,7 @@ class SearchExplorePosts extends Component{
 				confettiAnimation={homePageInformation.displayRecruitConfetti}
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
+				targetDom={"homePageContainer"}
 			/>:
 			<React.Fragment></React.Fragment>
 	}

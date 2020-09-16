@@ -1,11 +1,12 @@
-import React,{Component} from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import Video from "./Video.js";
 import RecommendedVideos from "./RecommendedVideos.js";
+import EditVideoModal from "../VideoCreation/EditVideoModal.js";
 
 const Container=styled.div`
 	position:fixed;
-	width:100%;
+	width:85%;
 	height:70%;
 	z-index:12;
 	border-radius:5px;
@@ -17,26 +18,45 @@ const Container=styled.div`
 `;
 
 const VideoContainer=(data)=>{
+	const [displayVideoEditModal,changeVideoEditModal]=useState(false);
+
 	console.log("Popup video modal");
 	console.log(data);
+
+	const editPost=()=>{
+		data.videoData.contextLocation.editPost(data);
+	}
+
+	const triggerVideoEditModal=()=>{
+		changeVideoEditModal(true);
+	}
 	return(
 		<Container>
-			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-					<Video
-						video={data.videoData}
-						profileType={data.profileType}
-						targetDom={data.targetDom}
-					/>  
-				</li>
-				{data.recommendedVideos!=null?
-					<li style={{listStyle:"none",display:"inline-block"}}>
-						<RecommendedVideos
-							videos={data.recommendedVideos}
-						/>
-					</li>:null
-				}
-			</ul>
+			{displayVideoEditModal==false?
+				<ul style={{padding:"0px"}}>
+					<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+						<Video
+							video={data.videoData}
+							profileType={data.profileType}
+							targetDom={data.targetDom}
+							triggerPromoteModal={data.triggerPromoteModal}
+							displayEditModal={triggerVideoEditModal}
+						/>  
+					</li>
+					{data.recommendedVideos!=null?
+						<li style={{listStyle:"none",display:"inline-block"}}>
+							<RecommendedVideos
+								videos={data.recommendedVideos}
+							/>
+						</li>:null
+					}
+				</ul>:
+				<EditVideoModal
+					videoSrc={data.videoData.videoUrl}
+					previousData={data.videoData}
+					editPost={editPost}
+				/>
+			}
 		</Container>
 	)
 }

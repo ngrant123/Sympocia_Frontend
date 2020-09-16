@@ -32,10 +32,8 @@ export const createImagePost=async(_id,searchCriteria,profileIndicator)=>{
 			profileIndicator:profileIndicator
 		})
 
-		console.log(imagePost);
 		const {data}=imagePost;
-		const imageCreationResponse=data.data;
-		return imageCreationResponse;
+		return data;
 
 	}catch(err){
 		console.log(err.message);
@@ -186,7 +184,7 @@ export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment}
 			comment:comment
 		});
 		const {data}=approvePostResponse;
-		return data.data;
+		return data;
 		
 	}catch(err){
 		console.log(err);
@@ -205,7 +203,7 @@ export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment})
 			comment:comment
 		});
 		const {data}=fakeNewsPostResponse;
-		return data.data;
+		return data;
 
 	}catch(err){
 		console.log(err);
@@ -341,20 +339,56 @@ export const updateCrownedRegularPost=async(_id,updatedStatus,regularPostId)=>{
 	}
 }
 
-export const editPost=async({postType,postId,post})=>{
+export const editPost=async({postType,postId,post,postS3,ownerId})=>{
 	try{
 
 		const CreateUrl='http://localhost:4000/api/posts/alter';
 		const editedPostResponse=await axios.post(`${CreateUrl}/editPost`,{
 			postType,
 			postId,
-			post
+			post,
+			postS3,
+			ownerId
 		});
 		const {data}=editedPostResponse;
 		return data;
 
 	}catch(err){
 		console.log(err.message);
+		return err;
+	}
+}
+
+
+export const promotePost=async({postId,nodeId,postType})=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const promotionResponse=await axios.post(`${CreateUrl}/promotePost`,{
+			postId,
+			nodeId,
+			postType
+		});
+		const {data}=promotionResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+
+}
+
+export const deletePost=async(postId,postType)=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const promotionResponse=await axios.post(`${CreateUrl}/deletePost`,{
+			postId,
+			postType
+		});
+		const {data}=promotionResponse;
+		return data;
+
+	}catch(err){
+		console.log(err);
 		return err;
 	}
 }

@@ -1,6 +1,7 @@
 import React,{useState,Component} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import PollOptionPortal from "../../PollOptionPortal.js";
 
 
 const PostContentAndCommentsButtons=styled.div`
@@ -64,13 +65,29 @@ const ButtonCSS={
   color:"#3898ec",
   borderStyle:"solid",
   borderWidth:"2px",
-  borderColor:"#3898ec"
+  borderColor:"#3898ec",
+  marginRight:"2%"
 }
 
 const PostInformation=(props)=>{
 	console.log(props);
-	const {post,isAudioPost,comments}=props.userData;
-	const [commentsDisplayed,changeCommentsDisplayStatus]=useState(false);
+	const {
+			post,
+			isAudioPost,
+			comments,
+			isPostAuthentic,
+			_id
+		}=props.userData;
+	debugger;
+
+	const [commentsDisplayed,changeCommentsDisplayStatus]=useState(false);	
+	const approvesPostNumber=isPostAuthentic.numOfApprove!=null?
+					   isPostAuthentic.numOfApprove.length:0;
+	const disapprovesPostNumber=isPostAuthentic.numOfDisapprove!=null?
+						  isPostAuthentic.numOfDisapprove.length:0;
+	const [displayPollModal,changeDisplayPollModal]=useState(false);
+	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
+
 
 	const displayComments=()=>{
 		if(commentsDisplayed==false){
@@ -80,12 +97,41 @@ const PostInformation=(props)=>{
 			props.hideComments();
 			changeCommentsDisplayStatus(false);
 		}
-		
-
 	}
+
+	const closeModal=()=>{
+		changeDisplayPollModal(false);
+	}
+
+	const pollModal=()=>{
+		return <React.Fragment>
+					{displayPollModal && (
+						<PollOptionPortal
+							closeModal={closeModal}
+							displayApproveModal={displayApproveModal}
+							postId={_id}
+							postType="RegularPost"
+							targetDom={props.targetDom}
+						/>
+					)}
+				</React.Fragment>
+	}
+
+	const displayApprovePollModal=()=>{
+		changeDisplayPollModal(true);
+		changeDisplayApproveModal(true);
+	}
+
+	const displayDisapproveModal=()=>{
+		changeDisplayPollModal(true);
+		changeDisplayApproveModal(false);
+	}
+
 	return(
 		<React.Fragment>
+			{pollModal()}
 			<ul style={{padding:"0px",position:"absolute"}}>
+			
 				<li style={{marginTop:"-180px",listStyle:"none",maxHeight:"80%",marginBottom:"2%"}}>
 					{isAudioPost==null?
 						<PostContent id="postContent">
@@ -99,7 +145,7 @@ const PostInformation=(props)=>{
 					}
 				</li>
 
-				<li style={{listStyle:"none"}}>
+				<li style={{listStyle:"none",width:"500px"}}>
 					<ul style={{padding:"0px"}}>
 						{/*
 							<li style={ButtonCSS}>
@@ -113,25 +159,39 @@ const PostInformation=(props)=>{
 							</li>
 						</a>
 
-						<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
-							<PeopleWhoLikedPostContainer>
-								{/*
-									{comments.map(data=>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<SmallProfilePicture>
-												{data.profilePicture==null?
-													<img src={NoProfilePicture} style={{width:"100%",height:"100%"}}/>:
-													<img src={data.profilePicture} style={{width:"100%",height:"100%"}}/>
-												}
-											</SmallProfilePicture>
-										</li>
-									)}
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>displayApprovePollModal()} style={ButtonCSS}>
+									<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> 
+												approves post
+							</li>
+						</a>
 
-								*/}		
-							</PeopleWhoLikedPostContainer>
-						</li>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>displayDisapproveModal()} style={ButtonCSS}>
+									<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> 
+												disapproves post
+							</li>
+						</a>
 
+						{/*
+							<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
+								<PeopleWhoLikedPostContainer>
+									
+										{comments.map(data=>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+												<SmallProfilePicture>
+													{data.profilePicture==null?
+														<img src={NoProfilePicture} style={{width:"100%",height:"100%"}}/>:
+														<img src={data.profilePicture} style={{width:"100%",height:"100%"}}/>
+													}
+												</SmallProfilePicture>
+											</li>
+										)}
 
+										
+								</PeopleWhoLikedPostContainer>
+							</li>
+						*/}	
 
 					</ul>
 

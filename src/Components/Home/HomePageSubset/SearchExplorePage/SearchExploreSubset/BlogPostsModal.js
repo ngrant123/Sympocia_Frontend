@@ -340,6 +340,7 @@ const BlogPostModal=(props)=>{
 						closeModal={closeModal}
 						selectedBlog={selectedBlog}
 						recommendedBlogs={displayRecommendedBlogs}
+						targetDom={props.targetDom}
 					/>
 			}
 	</React.Fragment>

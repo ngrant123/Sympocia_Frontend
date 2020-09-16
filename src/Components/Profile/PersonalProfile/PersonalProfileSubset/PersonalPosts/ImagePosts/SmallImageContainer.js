@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styled from "styled-components";
 import EditIcon from '@material-ui/icons/Edit';
 
@@ -53,7 +53,10 @@ const IndustryButtonCSS={
 const SmallImageContainer=(props)=>{
 	const {data}=props;
 	console.log(props);
-
+	let videoDescriptionId=1;
+	useEffect(()=>{
+		videoDescriptionId=uuidv4;
+	})
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
@@ -61,6 +64,13 @@ const SmallImageContainer=(props)=>{
 
 		//work on this a little more
 		return dateToString;
+	}
+
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
 	}
 
 	return(
@@ -83,7 +93,7 @@ const SmallImageContainer=(props)=>{
 						/>
 						<img src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
 						<VideoDesriptionContainer>
-							   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+							   <video key={videoDescriptionId} style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="false">
 									<source src={data.videoDescription} type="video/mp4"/>
 								</video>
 						</VideoDesriptionContainer>

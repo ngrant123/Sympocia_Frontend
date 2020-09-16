@@ -10,7 +10,8 @@ import {
 		addStampPost,
 		unStampPost,
 		fakeNewsPostResponse,
-		markPostAsAuthentic 
+		markPostAsAuthentic,
+		deletePost
 	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 import StampIcon from "../../../../../designs/img/StampIcon.png";
@@ -168,8 +169,21 @@ const ImageContainer=(props)=>{
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
 
-	const handleRemoveImagePost=()=>{
-
+	/*
+		Right now the project structure makes this a lil annoying to do in real time. For example
+		in order for me to actually manipulate the posts that are already then that could mean 
+		a decent amount of refactoring. Dont have that time now. So just gonna reload page
+	*/
+	
+	const handleRemoveImagePost=async()=>{
+		//const {confirmation,data}=await deletePost(props.imageData._id,"Images");
+		debugger;
+		var confirmation="Success";
+		if(confirmation=="Success"){
+			props.imageData.contextLocation.removePost(props.imageData._id);
+		}else{
+			alert('Unfortunately there has been an error deleting this post. Please try again');
+		}
 	}
 
 	const createOrRemoveStampEffect=()=>{
@@ -197,6 +211,15 @@ const ImageContainer=(props)=>{
 		changeIndicator(true);
 	}
 
+	const triggerPromoteModal=()=>{
+		props.triggerPromoteModal(props.imageData._id,"Images");
+	}
+
+	const editPost=(data)=>{
+		changeDisplayImage(false);
+		props.imageData.contextLocation.editPost(data);
+	}
+
 
 	return(
 		<ImageProvider value={{
@@ -209,6 +232,7 @@ const ImageContainer=(props)=>{
 					<EditImageCreation
 						imageSrcUrl={props.imageData.imgUrl}
 						previousData={props.imageData}
+						editPost={editPost}
 					/>:
 					<React.Fragment>
 						<ul style={{padding:"0px"}}>
@@ -232,7 +256,7 @@ const ImageContainer=(props)=>{
 											
 
 											<a style={{textDecoration:"none"}} href="javascript:void(0);">
-												<li style={ButtonCSS}>
+												<li onClick={()=>triggerPromoteModal()} style={ButtonCSS}>
 														Promote
 												</li>
 											</a>

@@ -93,7 +93,6 @@ if(displayApproveModal==true){
 const PollOptionPortal=(props)=>{
 	const {
 		postId,
-		firstName,
 		profilePicture,
 		closeModal,
 		displayApproveModal,
@@ -113,37 +112,49 @@ const PollOptionPortal=(props)=>{
 			}else{
 				comments=await getFakeNewsComments(postId,postType);
 			}
-			changeComments(comments);
+			changeComments(comments.reverse());
 		}
 		getData();
 	},[]);
 
-	const submitComment=()=>{
+	const submitComment=async()=>{
 		const comment=document.getElementById("extendedInputContainer").value;
 		const commentObject={
 			comment:comment,
 			firstName:personalInformation.firstName,
 			_id:personalInformation.id,
 			postOption:postType,
-			postId:postId,
+			postId:postId
 		}
+		debugger;
+		let confirmationResponse,dataResponse;
 		if(displayApproveModal==true){
-			markPostAsAuthentic(commentObject);
+			const {confirmation,data}=await markPostAsAuthentic(commentObject);
+			debugger
+			confirmationResponse=confirmation;
+			dataResponse=data;
+
 		}else{
-			markPostAsFakeNews(commentObject);
+			const {confirmation,data}=await markPostAsFakeNews(commentObject);
+			confirmationResponse=confirmation;
+			dataResponse=data;
 		}
-		changeDisplayCreateComment(false);
+		console.log(confirmationResponse);
 
+		if(confirmationResponse=="Success"){
+			changeDisplayCreateComment(false);
+			var dummyCommentObject={
+				profilePicture:dataResponse,
+				comment:comment,
+				firstName:personalInformation.firstName
+			};
 
-		var dummyCommentObject={
-			profilePicture:profilePicture,
-			comment:comment,
-			firstName:firstName
-		};
-
-		var currentComments=comments;
-		currentComments.splice(0,0,dummyCommentObject);
-		changeComments(currentComments);
+			var currentComments=comments;
+			currentComments.splice(0,0,dummyCommentObject);
+			changeComments([...currentComments]);
+		}else{
+			alert('An error has unfortunately occured. Please try again');
+		}
 	}
 
 
@@ -190,7 +201,7 @@ const PollOptionPortal=(props)=>{
 							<li style={{color:"#FE2E2E",listStyle:"none",marginLeft:"10%",marginBottom:"2%"}}>	
 								<HighlightOffIcon
 									style={{fontSize:"30",color:"#FE2E2E"}}
-								/> Approves																																																																																								
+								/> Disapproves																																																																																								
 							</li>
 						</React.Fragment>
 					}

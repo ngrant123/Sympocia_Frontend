@@ -13,6 +13,7 @@ import ViewAll from "./Modals/ViewAll.js";
 import {ArenaProvider} from "./ArenaContext.js";
 import Reaction from "./Modals/Reactions.js";
 import StampIcon from "../../../../designs/img/StampIcon.png";
+import OnboardingModal from "../../../OnBoarding/ArenaPageOnboarding.js";
 
 
 
@@ -125,6 +126,7 @@ const Arena=()=>{
 	const [postData,changePostData]=useState();
 	const [displayViewAll,changeDisplayViewAll]=useState(false);
 	const [modalPostType,changePostType]=useState();
+	const [displayOnboardingModal,changeDisplayOnboardingModal]=useState(false);
 
 	useEffect(()=>{
 		setTimeout(()=>{
@@ -148,6 +150,20 @@ const Arena=()=>{
 				chatPageIndicator:pageIndicator
 			}))
 		*/
+	}
+
+	const closeOnboardingModal=()=>{
+		changeDisplayOnboardingModal(false);
+	}
+
+	const onboardingModal=()=>{
+		return <>
+					{displayOnboardingModal &&(
+						<OnboardingModal
+							closeModal={closeOnboardingModal}
+						/>
+					)}
+			   </>
 	}
 	return(
 		<ArenaProvider
@@ -199,6 +215,7 @@ const Arena=()=>{
 									displayChatPage={displayChatPageHandle}
 									page={"Home"}
 								/>
+								{onboardingModal()}
 								{displayConfetti==true?
 									<Confetti
 										style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}

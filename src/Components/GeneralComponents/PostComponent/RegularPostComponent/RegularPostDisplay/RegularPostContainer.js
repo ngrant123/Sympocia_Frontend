@@ -136,7 +136,8 @@ const RegularPostContainer=(props)=>{
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
 					<PosterInformation
-						userData={props.postData}
+						postData={props.postData}
+						triggerPromoteModal={props.triggerPromoteModal}
 					/>
 				</li>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",height:"20%",overflow:"hidden"}}>
@@ -160,6 +161,7 @@ const RegularPostContainer=(props)=>{
 							displayComments={DisplayCommentsState}	
 							hideComments={hideComments}
 							userData={props.postData}
+							targetDom={props.targetDom}
 						/>
 
 					}

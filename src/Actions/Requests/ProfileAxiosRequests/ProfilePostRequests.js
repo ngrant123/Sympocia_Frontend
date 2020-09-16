@@ -418,6 +418,19 @@ export const completeOnboardingSymposiumPage=async(id)=>{
 }
 
 
+export const completeOnboardingArenaPage=async(id)=>{
+	try{
+		const onBoardingArenaPageResponse=await axios.post(`${CreateUrl}/onBoardingCompleteArena`,{
+			_id:id
+		});
+		const {data}=onBoardingArenaPageResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
 
 
 

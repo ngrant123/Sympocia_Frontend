@@ -19,9 +19,17 @@ import shareIcon from '@iconify/icons-fa-solid/share';
 import ChatIcon from '@material-ui/icons/Chat';
 import DescriptionIcon from '@material-ui/icons/Description';
 import StampIcon from "../../../../../designs/img/StampIcon.png";
+import PollIcon from '@material-ui/icons/Poll';
+
 import {connect} from "react-redux";
-import {addStampPost,unStampPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {
+		addStampPost,
+		unStampPost,
+		deletePost
+	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import PollOptionPortal from "../../PollOptionPortal.js";
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 
 
 const Container=styled.div`
@@ -142,6 +150,32 @@ const StampIconEffect=styled.div`
 	  animation:${keyFrame} 1s ease-in-out 0s forwards;
 `;
 
+const ApproveDisapproveContainer=styled.div`
+	position:fixed;
+	background-color:white;
+	width:30%;
+	height:10%;
+	border-radius:5px;
+	left:15%;
+	top:20%;
+	height:25%;
+	z-index:4;
+`;
+
+const authenticPostButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginRight:"2%"
+}
+
+
 
 
 
@@ -155,7 +189,14 @@ class Video extends Component{
 			displayComments:false,
 			displayDescription:false,
 			seconds:0,
-			displayStampEffect:false
+			displayStampEffect:false,
+			displayPollModal:false,
+			pollModal:false,
+			displayApproveDisapproveIndicator:false,
+			approvesPostNumber:props.video.isPostAuthentic.numOfApprove!=null?
+								   props.video.isPostAuthentic.numOfApprove.length:0,
+			disapprovesPostNumber:props.video.isPostAuthentic.numOfDisapprove!=null?
+									  props.video.isPostAuthentic.numOfDisapprove.length:0
 		}
 	}
 
@@ -287,14 +328,84 @@ createOrRemoveStampEffect=()=>{
 		})
 
 	}
+	closeModal=()=>{
+		this.setState({
+			displayPollModal:false
+		})
+	}
+
+	displayApproveDisapproveModal=()=>{
+		return <React.Fragment>
+					{this.state.displayApproveDisapproveIndicator && (
+						<>
+							<ShadowContainer
+								onClick={()=>this.setState({displayApproveDisapproveIndicator:false})}
+							/>
+							<ApproveDisapproveContainer>
+								<ul style={{padding:"20px"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>this.setState({
+															displayApproveModal:true,
+															displayPollModal:true
+														})} style={authenticPostButtonCSS}>
+
+											<p style={{color:"#01DF01"}}>{this.state.approvesPostNumber}</p> 
+												approves post
+
+										</li>
+									</a>
+
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>this.setState({
+															displayApproveModal:false,
+															displayPollModal:true
+														})} style={authenticPostButtonCSS}>
+
+												<p style={{color:"#FE2E2E"}}>{this.state.disapprovesPostNumber}</p> 
+												disapproves post
+										</li>
+									</a>
+								</ul>
+							</ApproveDisapproveContainer>
+						</>
+					)}
+			   </React.Fragment>
+	}
+
+	pollModal=()=>{
+		return <React.Fragment>
+					{this.state.displayPollModal && (
+						<PollOptionPortal
+							closeModal={this.closeModal}
+							displayApproveModal={this.state.displayApproveModal}
+							postId={this.props.video._id}
+							postType="Videos"
+							targetDom={this.props.targetDom}
+						/>
+					)}
+				</React.Fragment>
+		
+	}
+
+	removeVideoPost=async()=>{
+		const {confirmation,data}=await deletePost(this.props.video._id,"Videos");
+		debugger;
+		if(confirmation=="Success"){
+			alert('Post has been deleted. Please reload page to view updated post section');
+		}else{
+			alert('Unfortunately there has been an error deleting this post. Please try again');
+		}
+	}
+
 //Like,Dislike,Comment,Share,Promote
 
 	render(){
 		return(
 			<Container>
-
-				
+				{this.displayApproveDisapproveModal()}
+				{this.pollModal()}
 				{this.displayShadow()}
+
 				<VideoCommentsAndModalContainer id="commentsAndVideoContainer">
 					<ul style={{padding:"0px",position:"relative",zIndex:"5px"}}>
 						{this.state.displayComments==true?
@@ -306,7 +417,6 @@ createOrRemoveStampEffect=()=>{
 										hideComments={this.hideComments}
 										targetDom={this.props.targetDom}
 									/> 
-
 								</CommentsContainer>
 							</li>:null
 						}
@@ -363,7 +473,8 @@ createOrRemoveStampEffect=()=>{
 
 						*/}
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.setState({displayComments:!this.state.displayComments})} style={{listStyle:"none",marginBottom:"20px"}}>
+							<li onClick={()=>this.setState({displayComments:!this.state.displayComments})} 
+								style={{listStyle:"none",marginBottom:"20px"}}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",marginLeft:"5%"}}>
 										<ChatIcon
@@ -376,28 +487,10 @@ createOrRemoveStampEffect=()=>{
 								</ul>
 							</li>
 						</a>
-						{/*	
-							<li style={{listStyle:"none",marginBottom:"20px"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",marginLeft:"5%"}}>
-										<Icon 
-											icon={shareIcon}
-											style={{fontSize:30,color:"white"}}
-										/>
-									</li>
-									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-										Stamp
-									</li>
-								</ul>
-							</li>
-
-							<li style={{listStyle:"none",marginBottom:"20px"}}>
-								Promote
-							</li>
-						*/}
 
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.setState({displayDescription:!this.state.displayDescription})} style={{listStyle:"none",marginBottom:"20px"}}>
+							<li onClick={()=>this.setState({displayDescription:!this.state.displayDescription})} 
+								style={{listStyle:"none",marginBottom:"20px"}}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",marginLeft:"5%"}}>
 										<DescriptionIcon
@@ -406,6 +499,85 @@ createOrRemoveStampEffect=()=>{
 									</li>
 									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
 										Description
+									</li>
+								</ul>
+							</li>
+						</a>
+
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>this.setState({
+												displayApproveDisapproveIndicator:!this.state.displayApproveDisapproveIndicator
+											})}
+								 style={{listStyle:"none",marginBottom:"20px"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginLeft:"5%"}}>
+										<PollIcon
+											style={{fontSize:30,color:"white"}}
+										/>
+									</li>
+									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+										Poll
+									</li>
+								</ul>
+							</li>
+						</a>
+
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>this.props.triggerPromoteModal(this.props.video._id,"Videos")}
+								 style={{listStyle:"none",marginBottom:"20px"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginLeft:"5%"}}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award"
+											 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
+											 fill="none" stroke-linecap="round" stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z"/>
+											  <circle cx="12" cy="9" r="6" />
+											  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+											  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+										</svg>
+									</li>
+									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+										Promote
+									</li>
+								</ul>
+							</li>
+						</a>
+
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>this.removeVideoPost()}
+								 style={{listStyle:"none",marginBottom:"20px"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginLeft:"5%"}}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
+											icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" 
+											stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round"
+											 stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z"/>
+											  <line x1="4" y1="7" x2="20" y2="7" />
+											  <line x1="10" y1="11" x2="10" y2="17" />
+											  <line x1="14" y1="11" x2="14" y2="17" />
+											  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+											  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+										</svg>
+									</li>
+									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+										Delete
+									</li>
+								</ul>
+							</li>
+						</a>
+
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>this.props.displayEditModal()}
+								 style={{listStyle:"none",marginBottom:"20px"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginLeft:"5%"}}>
+										<BorderColorIcon
+											style={{color:"#FFFFFF"}}
+										/>
+									</li>
+									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+										Edit
 									</li>
 								</ul>
 							</li>

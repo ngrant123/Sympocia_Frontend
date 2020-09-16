@@ -73,6 +73,7 @@ const application  = (
 						<Route exact path="/symposium/:symposiumName" component={Symposium}/>
 						<Route exact path="/groupVideoCall/:symposiumId/:groupCallId" component={GroupVideoCall}/>
 						<Route exact path="/createPost" component={CreatePostScreen}/>
+						
 					</Switch>
 				</Router>
 			</Provider>

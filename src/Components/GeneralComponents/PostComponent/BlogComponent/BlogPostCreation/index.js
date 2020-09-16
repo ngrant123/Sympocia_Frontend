@@ -12,6 +12,8 @@ import Blog from "./Blog.js";
 import BlogEditSubmitModal from "./BlogEditSubmitModal.js";
 import { convertFromRaw,EditorState } from 'draft-js';
 import Comments from "../../../CommentsComponent/index.js";
+import PollOptionPortal from "../../PollOptionPortal.js";
+import PromotePortal from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PromotePortal.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -45,6 +47,31 @@ const CommentContainer=styled.div`
 	border-color:#D8D8D8;
 `;
 
+const ApproveDisapproveContainer=styled.div`
+	position:fixed;
+	background-color:white;
+	width:30%;
+	height:10%;
+	border-radius:5px;
+	left:15%;
+	top:20%;
+	height:25%;
+	z-index:4;
+`;
+
+const authenticPostButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginRight:"2%"
+}
+
 
 class BlogPostCreation extends Component{
 
@@ -64,7 +91,16 @@ class BlogPostCreation extends Component{
 			blog:"",
 			isPersonalProfile:isPersonalProfile,
 			blogState:"",
-			displayComments:false
+			displayComments:false,
+			displayPollModal:false,
+			pollModal:false,
+			displayApproveDisapproveIndicator:false,
+			approvesPostNumber:this.props.location.state.isPostAuthentic!=null?
+								   this.props.location.state.isPostAuthentic.numOfApprove.length:0,
+			disapprovesPostNumber:this.props.location.state.isPostAuthentic!=null?
+									  this.props.location.state.isPostAuthentic.numOfDisapprove.length:0,
+			displayApproveModal:false,
+			displayPromotePortal:false
 		}
 	}
 
@@ -113,11 +149,100 @@ class BlogPostCreation extends Component{
 		})
 	}
 
+	displayApproveDisapproveModalHandle=()=>{
+		this.setState({
+			displayApproveDisapproveIndicator:true
+		})
+	}
+
 	hideComments=()=>{
 		this.setState({
 			displayComments:false
 		})
 	}
+
+	closeModal=()=>{
+		this.setState({
+			displayPollModal:false
+		})
+	}
+
+	displayApproveDisapproveModal=()=>{
+		return <React.Fragment>
+					{this.state.displayApproveDisapproveIndicator && (
+						<>
+							<ShadowContainer
+								onClick={()=>this.setState({displayApproveDisapproveIndicator:false})}
+							/>
+							<ApproveDisapproveContainer>
+								<ul style={{padding:"20px"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>this.setState({
+															displayApproveModal:true,
+															displayPollModal:true
+														})} style={authenticPostButtonCSS}>
+
+											<p style={{color:"#01DF01"}}>{this.state.approvesPostNumber}</p> 
+												approves post
+
+										</li>
+									</a>
+
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>this.setState({
+															displayApproveModal:false,
+															displayPollModal:true
+														})} style={authenticPostButtonCSS}>
+
+												<p style={{color:"#FE2E2E"}}>{this.state.disapprovesPostNumber}</p> 
+												disapproves post
+										</li>
+									</a>
+								</ul>
+							</ApproveDisapproveContainer>
+						</>
+					)}
+			   </React.Fragment>
+	}
+
+	pollModal=()=>{
+		return <React.Fragment>
+					{this.state.displayPollModal && (
+						<PollOptionPortal
+							closeModal={this.closeModal}
+							displayApproveModal={this.state.displayApproveModal}
+							postId={this.props.location.state._id}
+							postType="Blogs"
+							targetDom={"blogPostContainer"}
+						/>
+					)}
+				</React.Fragment>
+		
+	}
+	closePromotePortal=()=>{
+		this.setState({
+			displayPromotePortal:false
+		})
+	}
+	promotePortal=()=>{
+		return <>
+					{this.state.displayPromotePortal && (
+						<PromotePortal
+							closePromotePortal={this.closePromotePortal}
+							nodes={this.props.location.state.friendsNodes}
+							postId={this.props.location.state._id}
+							postType={"Blogs"}
+							targetDom={"blogPostContainer"}
+						/>
+					)}
+			    </>
+	}
+	triggerPromoteModal=()=>{
+		this.setState({
+			displayPromotePortal:true
+		})
+	}
+
 
 	render(){
 		return(
@@ -133,6 +258,8 @@ class BlogPostCreation extends Component{
 				}
 			}}>
 				<Container id="blogPostContainer">
+					{this.pollModal()}
+					{this.displayApproveDisapproveModal()}
 					<GeneralNavBar/>
 					<AdditionalInformation
 						blogData={this.props.location.state}
@@ -142,10 +269,15 @@ class BlogPostCreation extends Component{
 						blogState={this.state.blogState}
 						postType={this.props.location.state.postType}
 						displayCommentSection={this.displayCommentSection}
+						displayApproveDisapproveModalHandle={this.displayApproveDisapproveModalHandle}
+						triggerPromoteModal={this.triggerPromoteModal}
+						postId={this.props.location.state._id}
+						history={this.props.history}
 				/>
 				<Blog/>
-				{this.editBlogSubmitModal()}
 
+				{this.editBlogSubmitModal()}
+				{this.promotePortal()}
 				{this.state.displayComments && (
 					<CommentContainer>
 						<Comments

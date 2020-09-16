@@ -1,6 +1,8 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import {deletePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+
 
 const PostInformationContainer=styled.div`
 	position:relative;
@@ -75,11 +77,10 @@ const SocialMedaIcon=styled.div`
 	border-radius:50%;
 
 `;
-const CommentsAndLikeButtonsContainer=styled.div`
+const LabelContainer=styled.div`
 	position:relative;
 	background-color:white;
 	text-align:center;
-	width:60px;
 	padding:10px;
 	color:#5298F8;
 	border-style:solid;
@@ -87,20 +88,38 @@ const CommentsAndLikeButtonsContainer=styled.div`
 	border-color:#0857c2;
 	border-radius:5px;
 	transition:.8s;
-
+	width:60px;
+	overflow:scroll;
 	&:hover{
 		background-color:#0857c2;
 	}
 `;
 
-
-
+	
+	
 
 const PosterInformation=(props)=>{
-	const {firstName,profilePicture,industriesUploaded,datePosted}=props.userData;
+
+	const {	
+			firstName,
+			profilePicture,
+			industriesUploaded,
+			datePosted,
+			_id
+		}=props.postData;
+
 	const constructDate=(dateMilliseconds)=>{
 		const newDate=new Date(dateMilliseconds).toLocaleDateString();
 		return newDate;
+	}
+	const handleRemovePost=async()=>{
+		const {confirmation,data}=await deletePost(_id,"RegularPosts");
+		debugger;
+		if(confirmation=="Success"){
+			alert('Post has been deleted. Please reload page to view updated post section');
+		}else{
+			alert('Unfortunately there has been an error deleting this post. Please try again');
+		}
 	}
 	return(
 
@@ -142,19 +161,37 @@ const PosterInformation=(props)=>{
 
 							<li style={{listStyle:"none",position:"relative",left:"25%"}}>
 								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
-										<CommentsAndLikeButtonsContainer>
-											Stamp
-										</CommentsAndLikeButtonsContainer>	
-									</li>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
+											<LabelContainer>
+												Stamp
+											</LabelContainer>	
+										</li>
+									</a>
 
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<CommentsAndLikeButtonsContainer>
-											Dislike
-										</CommentsAndLikeButtonsContainer>	
-									</li>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>props.triggerPromoteModal(_id,"RegularPosts")}
+											style={{listStyle:"none",display:"inline-block"}}>
+											<LabelContainer>
+												Promote
+											</LabelContainer>	
+										</li>
+									</a>
 								</ul>
 							</li>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>handleRemovePost()} style={{listStyle:"none",marginBottom:"2%",marginLeft:"60%"}}>
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
+										icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515" fill="none" stroke-linecap="round" stroke-linejoin="round">
+									  <path stroke="none" d="M0 0h24v24H0z"/>
+									  <line x1="4" y1="7" x2="20" y2="7" />
+									  <line x1="10" y1="11" x2="10" y2="17" />
+									  <line x1="14" y1="11" x2="14" y2="17" />
+									  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+									  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+									</svg>
+								</li>
+							</a>
 						</ul>
 					</PostInformationContainer>
 

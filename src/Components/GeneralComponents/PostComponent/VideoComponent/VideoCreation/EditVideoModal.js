@@ -88,6 +88,12 @@ class EditVideoModal extends Component{
 		}
 	}
 
+	componentDidMount(){
+		console.log(this.props);
+		const {previousData}=this.props;
+		
+	}
+
 	clearImageCaptionTextArea=()=>{
 
 		if(this.state.isVideoDescriptionCleared==false){
@@ -466,20 +472,22 @@ class EditVideoModal extends Component{
 										<hr/>
 										<li style={{top:"-560px",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
 											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-													<ul onClick={()=>this.sendVideoDataToDB(videoPostInformation,companyPostInformation)}>
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<SendIcon
-																style={{fontSize:20,color:"white"}}
-															/>
-														</li>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+														<ul onClick={()=>this.sendVideoDataToDB(videoPostInformation,companyPostInformation)}>
+															<li style={{listStyle:"none",display:"inline-block"}}>
+																<SendIcon
+																	style={{fontSize:20,color:"white"}}
+																/>
+															</li>
 
-														<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-															Send
-														</li>
+															<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																Send
+															</li>
 
-													</ul>
-												 </li>
+														</ul>
+													 </li>
+												 </a>
 											</ul>
 										</li>
 									</ul>

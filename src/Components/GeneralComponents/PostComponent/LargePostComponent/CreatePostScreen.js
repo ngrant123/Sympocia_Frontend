@@ -19,19 +19,6 @@ const InformationContainer=styled.div`
 	top:15%;
 	left:10%;
 `;
-/*
-	<ul style={{backgroundColor:"red"}}>
-		<li style={{listStyle:"none"}}>
-			<GeneralNavBar
-				page={"Home"}
-				routerHistory={props.history}
-			/>
-		</li>
-		<li style={{listStyle:"none"}}>
-		</li>
-	</ul>
-*/
-
 const CreatePostScreen=(props)=>{
 
 	return(

@@ -101,10 +101,8 @@ const ImageInformation=(props)=>{
 									<PollOptionPortal
 										closeModal={closeModal}
 										displayApproveModal={displayApproveModal}
-										firstName={props.imageInformation.firstName}
 										postId={props.imageInformation._id}
 										postType="Images"
-										ownerId={props.imageInformation.owner}
 										targetDom={props.targetDom}
 									/>:null
 								}

@@ -34,7 +34,7 @@ import Confetti from 'react-confetti';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CreationPortal from "./PostCreationPortal.js";
 import OnboardingPersonalPage from "../../../OnBoarding/PersonalProfileOnboarding.js";
-
+import PromotePortal from "../PersonalProfileSubset/PersonalPosts/PromotePortal.js";
 
 const Container=styled.div`
 
@@ -302,7 +302,7 @@ class LProfile extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(props.location.state);
+		console.log(props);
 
 		this.state={
 			images:[],
@@ -330,6 +330,7 @@ class LProfile extends Component{
 		    displayChampionModal:false,
 		    champion:{},
 		    displayCreationPortal:false,
+		    displayPromotePortal:false,
 		    displayChampionModal:(championData)=>{
 		    	debugger;
 		    	this.setState({
@@ -575,6 +576,8 @@ class LProfile extends Component{
 					profileType="personalProfile"
 					closeModal={this.closeModal}
 					targetDom={"personalContainer"}
+					triggerPromoteModal={this.triggerPromoteModal}
+					history={this.props.history}
 				/>
 			</ImagePopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -596,6 +599,8 @@ class LProfile extends Component{
 					videoData={newVideoObject}
 					profileType="personalProfile"
 					targetDom={"personalContainer"}
+					history={this.props.history}
+					triggerPromoteModal={this.triggerPromoteModal}
 				/>
 			</PostPopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -618,6 +623,8 @@ class LProfile extends Component{
 					postData={newRegularPostObject}
 					profileType="personalProfile"
 					targetDom={"personalContainer"}
+					triggerPromoteModal={this.triggerPromoteModal}
+					history={this.props.history}
 				/>
 			</PostPopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -639,9 +646,14 @@ class LProfile extends Component{
 		},5000);
 	}
 
-	closeCreationPortal=()=>{
+	closeModal=()=>{
 		this.setState({
-			displayCreationPortal:false
+			displayCreationPortal:false,
+			displayShadowBackground:false,
+			displayRegularPostModal:false,
+			displayBlogPostModal:false,
+			displayVideoPostModal:false,
+			displayImagePostModal:false
 		})
 	}
 
@@ -649,6 +661,35 @@ class LProfile extends Component{
 		this.setState({
 			hideOnboarding:true
 		})
+	}
+
+	closePromotePortal=()=>{
+		this.setState({
+			displayPromotePortal:false
+		})
+	}
+
+	triggerPromoteModal=(postId,postType)=>{
+		debugger;
+		this.setState({
+			promotePostId:postId,
+			promotePostType:postType,
+			displayPromotePortal:true
+		})
+	}
+
+	promotePortal=()=>{
+		return <>
+					{this.state.displayPromotePortal && (
+						<PromotePortal
+							closePromotePortal={this.closePromotePortal}
+							nodes={this.state.userProfile.friendsGaugeNodes}
+							postId={this.state.promotePostId}
+							postType={this.state.promotePostType}
+							targetDom={"personalContainer"}
+						/>
+					)}
+			    </>
 	}
 
 
@@ -692,8 +733,10 @@ class LProfile extends Component{
 					}}
 				>
 					<Container id="personalContainer">
+						
 						{this.state.isLoading==true?null:
 							<>
+								{this.promotePortal()}
 								{(this.state.hideOnboarding==false && this.state.isOwnProfile==true) &&(
 									<OnboardingPersonalPage
 										closeModal={this.closeOnboardingModal}
@@ -705,7 +748,7 @@ class LProfile extends Component{
 									displayShadowOverlay={this.displayShadow}
 									disappearShadow={this.disappearShadow}
 									displayCreationPortal={this.state.displayCreationPortal}
-									closeModal={this.closeCreationPortal}
+									closeModal={this.closeModal}
 									personalInformation={this.state}
 								/>
 								</PostInformationContainer>

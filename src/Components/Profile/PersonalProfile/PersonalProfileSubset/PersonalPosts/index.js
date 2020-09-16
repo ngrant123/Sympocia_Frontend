@@ -16,6 +16,15 @@ import PostCreationPortal from "../../PersonalProfileSet/PostCreationPortal.js";
 
 import {getRegularPostFromUser} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
+import {
+	editPostIndexContext,
+	removePostIndexContext,
+	updateImagePostIndexContext,
+	updateVideoPostIndexContext,
+	updateRegularPostIndexContext
+} from "./ContextActions.js";
+
+
 const PostCreationContainer=styled.div`
 	position:relative;
 	background-color:blue;
@@ -63,6 +72,7 @@ const CommentTextArea=styled.textarea`
 	text-align:center;
 	padding-top:10px;
 `;
+
 const SearchPostsTextArea=styled.textarea`
 	position:relative;
 	width:120%;
@@ -72,14 +82,14 @@ const SearchPostsTextArea=styled.textarea`
 	border-style:none;
 `;
 
+
 const Container1=styled.div`
 	position:absolute;
 	width:95%;
 	height:80%;
 	background-color:red;
-	
-
 `;
+
 
 const Container2=styled.div`
 	position:relative;
@@ -150,6 +160,11 @@ const PersonalPostsIndex=(props)=>{
 	const [postOption,changePostOption]=useState();
 	const [personalInformation,changePersonalInformation]=useState(props.personalInformation);
 	console.log(personalInformation);
+
+	const [imagePost,changeImagePost]=useState({
+			crownedImage:props.personalInformation.userProfile.crownedImage,
+			images:props.personalInformation.userProfile.imagePost
+	});
 
 	const [videoPost,changeVideoPosts]=useState({
 		headerVideo:null,
@@ -287,10 +302,12 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 
+/*
 	const initializePersonalInformationToState=(personalInformationData)=>{
 		debugger;
 		changePersonalInformation(personalInformation);
 	}
+*/
 
 	return (<PostProvider
 				value={{
@@ -302,114 +319,56 @@ const PersonalPostsIndex=(props)=>{
 						props.disappearShadow();
 						changeDisplayCreationPost(false)
 					},
-					updateImagePost:(imagePost)=>{
+					updateImagePost:(imageData)=>{
 						debugger;
-						const {isCrownedImage,image}=imagePost;
-						if(isCrownedImage==true){
-							//Set 
-							debugger;
-							var currentCrownedImage=props.personalInformation.userProfile.crownedImage;
-							var currentImages=props.personalInformation.userProfile.imagePost;
-
-							if(currentCrownedImage!=null)
-								currentImages.push(currentCrownedImage);
-
-							currentImages.sort(function(a,b){
-								const aCreationDate=a.datePosted;
-								const bCreationDate=b.datePosted;
-								return bCreationDate>aCreationDate?1:-1;
-							});
-							var newPersonalInfoObject={
-								...props.personalInformation,
-								userProfile:{
-									...props.personalInformation.userProfile,
-									crownedImage:image,
-									imagePost:currentImages
-								}
-							}
-							changePersonalInformation(newPersonalInfoObject);
-						}else{
-							var currentImages=props.personalInformation.userProfile.imagePost
-							currentImages.splice(0,0,imagePost);
-							var newPersonalInfoObject={
-								...props.personalInformation,
-								userProfile:{
-									...props.personalInformation.userProfile,
-									imagePost:currentImages
-								}
-							}
-							changePersonalInformation(newPersonalInfoObject);
-						}
-
+						let newImageObject=updateImagePostIndexContext(imageData,imagePost);
+						changeImagePost(newImageObject);
 						changeDisplayCreationPost(false);
 						props.closeModal();
 					},
 					updateVideoPost:(videoObject)=>{
-						const {isCrownedVideo,video}=videoObject;
-						if(isCrownedVideo==true){
-							//Set 
-							debugger;
-							var currentVideos=videoPost.videos;
-							var currentCrownedVideo=videoPost.headerVideo;
-							if(currentCrownedVideo!=null){
-								currentVideos.push(currentCrownedVideo);
-							}
-							currentVideos.sort(function(a,b){
-								const aCreationDate=a.datePosted;
-								const bCreationDate=b.datePosted;
-								return bCreationDate>aCreationDate?1:-1;
-							});
-
-							var newVideoObject={
-								headerVideo:video,
-								videos:currentVideos==null?[]:currentVideos
-							}
-							changeVideoPosts(newVideoObject);
-						}else{
-							var currentVideos=videoPost.videos;
-							currentVideos.splice(0,0,videoObject);
-							var newVideoObject={
-									...videoPost,
-									videos:currentVideos
-							}
-							changeVideoPosts(newVideoObject);
-						}
-
+						let newVideoObject=updateVideoPostIndexContext(videoObject,videoPost);
+						changeVideoPosts(newVideoObject);
 						changeDisplayCreationPost(false);
 						props.closeModal();
 					},
 					updateRegularPost:(regularPostProp)=>{
-						const {isCrownedPost,post}=regularPostProp;
-						if(isCrownedPost==true){
-							//Set 
-							debugger;
-							var currentPosts=regularPost.posts;
-							var currentCrownedRegularPost=regularPost.headerPost;
-							if(currentCrownedRegularPost!=null){
-								currentPosts.push(currentCrownedRegularPost);
+						let newPostObject=updateRegularPostIndexContext(regularPostProp,regularPost);
+						changeRegularPost(newPostObject);
+						changeDisplayCreationPost(false);
+						props.closeModal();
+					},
+					editPost:(postData)=>{
+						const {postType}=postData;
+						let propData;
+						let stateCallBackFunction;
+						switch(postType){
+							case 'Images':{
+								propData=imagePost;
+								stateCallBackFunction=changeImagePost;
+								break;
 							}
-							currentPosts.sort(function(a,b){
-								const aCreationDate=a.datePosted;
-								const bCreationDate=b.datePosted;
-								return bCreationDate>aCreationDate?1:-1;
-							});
 
-							var newPostObject={
-								headerPost:post,
-								posts:currentPosts==null?[]:currentPosts
+							case 'Videos':{
+								propData=videoPost;
+								stateCallBackFunction=changeVideoPosts;
+								break;
 							}
-							changeRegularPost(newPostObject);
-						}else{
-							var currentPosts=regularPost.posts;
-							currentPosts.splice(0,0,regularPostProp);
-							var newPostObject={
-									...regularPost,
-									posts:currentPosts
+
+							case 'RegularPosts':{
+								propData=regularPost;
+								stateCallBackFunction=changeRegularPost;
+								break;
 							}
-							changeRegularPost(newPostObject);
 						}
 
-						changeDisplayCreationPost(false);
+						let result =editPostIndexContext(postData,propData);
+						stateCallBackFunction(result);
+						props.closeModal();
+					},
+					removePost:(postId)=>{
+						let newPersonalInfoObject=removePostIndexContext(postId,props);
+						changePersonalInformation(newPersonalInfoObject);
 						props.closeModal();
 					}
 				}}
@@ -566,10 +525,7 @@ const PersonalPostsIndex=(props)=>{
 						{
 							displayImages==true?
 							<ImagePosts
-								imageData={{
-									crownImage:personalInformation.userProfile.crownedImage,
-									images:personalInformation.userProfile.imagePost
-								}}
+								imageData={imagePost}
 								isLoading={props.personalInformation.isLoading}
 								profile="Personal"
 							/>:<React.Fragment></React.Fragment>
@@ -590,6 +546,7 @@ const PersonalPostsIndex=(props)=>{
 							<BlogsPosts
 								id={props.personalInformation.userProfile._id}
 								profileType="Personal"
+								friendsNodes={props.personalInformation.userProfile.friendsGaugeNodes}
 							/>:<React.Fragment></React.Fragment>
 						}
 

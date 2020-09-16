@@ -207,7 +207,13 @@ class BlogsPostsContainer extends Component{
 													<li style={{listStyle:"none",marginTop:"5%"}}>	
 														<ul style={{padding:"0px"}}>
 															{this.state.blogs.map(data=>
-																<BlogContainer to={{pathname:`${this.state.blogUrl}`,state:{...data,profileType:this.state.profileType}}}>
+																<BlogContainer to={{pathname:`${this.state.blogUrl}`,
+																								state:{
+																										...data,
+																										profileType:this.state.profileType,
+																										friendsNodes:this.props.friendsNodes
+																								}}}>
+																								
 																	<li style={{listStyle:"none",display:"inline-block",marginRight:"8%",marginBottom:"-7%"}}>
 																		<SmallBlogComponent>
 																			<ul style={{padding:"0px"}}>

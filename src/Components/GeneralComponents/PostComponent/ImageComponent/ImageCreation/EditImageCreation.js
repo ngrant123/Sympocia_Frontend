@@ -169,7 +169,8 @@ class EditImageCreation extends Component{
 			isPreviousLoaded:false,
 			displayCrownModalIndicator:false,
 			changeImageVerification:false,
-			displayReplaceImageModal:false
+			displayReplaceImageModal:false,
+			videoDescriptionId:1
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
@@ -240,7 +241,6 @@ class EditImageCreation extends Component{
 	}
 
 	sendImageDateToDB=async(profilePostInformation,companyPostContextConsumer)=>{
-		debugger;
 
 		console.log("Submit button clicked");
 		const industries=this.state.industriesSelected;
@@ -249,7 +249,7 @@ class EditImageCreation extends Component{
 		const currentAudioDescription=this.state.audioDescription;
 		const selectedSubCommunities=this.state.subIndustriesSelected;
 		let searchCriteriaIndustryArray=[];
-		const isPostCrowned=this.state.isPostCrowned;
+		const isPostCrowned=this.state.isPostCrowned==undefined?false:this.state.isPostCrowned;
 
 		var descriptionTextArea=(this.state.isImageDescriptionCleared==false)?"":document.getElementById("descriptionTextArea").value;
 		var captionTextArea=(this.state.isCaptionCleared==false)?"":document.getElementById("captionTextArea").value;
@@ -270,13 +270,18 @@ class EditImageCreation extends Component{
 
 		if(this.state.isPreviousLoaded==false){
 			if(profilePostInformation==null){
-				companyPostContextConsumer.hideCreationPost();
-				this.pushDummyImageObjectToProfile(companyPostContextConsumer,searchCriteria);
-				createImagePost(this.props.companyProfile.id,searchCriteria,"Company");
+				//const {confirmation,data}=await createImagePost(this.props.companyProfile.id,searchCriteria,"Company");
+				//companyPostContextConsumer.hideCreationPost();
+				//this.pushDummyImageObjectToProfile(companyPostContextConsumer,searchCriteria);
 			}else{
-				profilePostInformation.hideCreationPost();
-				this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria);
-				createImagePost(this.props.personalProfile.id,searchCriteria,"Personal");
+				const {confirmation,data}=await createImagePost(this.props.personalProfile.id,searchCriteria,"Personal");
+				debugger;
+				if(confirmation=="Success"){
+					profilePostInformation.hideCreationPost();
+					this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria,data);
+				}else{
+					alert('Unfortunately there was an error uploading your image. Please try again');
+				}
 			}
 		}else{
 			const {previousData}=this.props;
@@ -291,10 +296,10 @@ class EditImageCreation extends Component{
 			}=previousData;
 
 			const editedImage={
-				postType:"Image",
+				postType:"Images",
 				postId:_id,
 				post:{
-					industryArray:this.isArrayEqual(industriesUploaded,searchCriteriaIndustryArray)==false
+					industriesUploaded:this.isArrayEqual(industriesUploaded,searchCriteriaIndustryArray)==false
 						?searchCriteriaIndustryArray:null,
 					description:descriptionTextArea!=description?descriptionTextArea:null,
 					caption:captionTextArea!=caption?captionTextArea:null,
@@ -311,16 +316,16 @@ class EditImageCreation extends Component{
 					},
 					{
 						optionType:'videoDescription',
-						newUrl:videoDescription!=currentVideoDescription?currentVideoDescription:null
+						newUrl:currentVideoDescription!=videoDescription?currentVideoDescription:null
 					}
 				],
 				ownerId:this.props.personalProfile.id
 			}
 
-			const {confirmation,data}=await editPost(editedImage);
-
+ 		//	const {confirmation,data}=await editPost(editedImage);
+ 			const confirmation="Success";
 			if(confirmation=="Success"){
-
+				this.props.editPost(editedImage);
 			}else{
 				alert('Unfortunately there has been an error editing this post. Please try again');
 			}
@@ -336,6 +341,8 @@ class EditImageCreation extends Component{
 
 	isArrayEqual=(arr1,arr2)=>{
 		debugger;
+		let isArrayEqualIndicator;
+
 		if(arr1.length!=arr2.length)
 			return false;
 		else{
@@ -348,12 +355,14 @@ class EditImageCreation extends Component{
 				subIndustry.forEach((selectedSubIndustry,j)=>{
 					subArr1Map.set(selectedSubIndustry,1);
 				})
-				arr1.set(industry,subArr1Map);
+				arr1Map.set(industry,subArr1Map);
 			});
 
 			arr2.forEach((selectedIndustry,index)=>{
-				if(arr1Map.get(selectedIndustry.industry)=="" || arr1Map.get(selectedIndustry.industry)==null)
-					return false
+				debugger;
+				var testing=arr1Map.get(selectedIndustry.industry);
+				if(arr1Map.get(selectedIndustry.industry)==undefined)
+					isArrayEqualIndicator=false
 				else{
 					const {subIndustry}=selectedIndustry;
 
@@ -361,13 +370,12 @@ class EditImageCreation extends Component{
 						const selectedIndustryArr1=arr1Map.get(selectedSubIndustry.industry);
 						if(selectedIndustryArr1.get(selectedSubIndustry.industry)=="" ||
 						 selectedIndustryArr1.get(selectedSubIndustry.industry)==null)
-							return false
+							isArrayEqualIndicator=false
 					})
 				}
 			})
-
 		}
-		return true;
+		return isArrayEqualIndicator;
 	}
 
 	constructSelectedIndustries=(searchCriteriaIndustryArray,industries,selectedSubCommunities)=>{
@@ -409,7 +417,7 @@ class EditImageCreation extends Component{
 	}
 
 
-	pushDummyImageObjectToProfile=(profilePostInformation,searchCriteriaObject)=>{
+	pushDummyImageObjectToProfile=(profilePostInformation,searchCriteriaObject,_id)=>{
 		debugger;
 		const date=new Date();
 		const dateInMill=date.getTime();
@@ -417,7 +425,8 @@ class EditImageCreation extends Component{
 			...searchCriteriaObject,
 			industriesUploaded:searchCriteriaObject.industryArray,
 			comments:[],
-			datePosted:dateInMill
+			datePosted:dateInMill,
+			_id
 		}
 		const {isCrownedPost}=searchCriteriaObject;
 		if(isCrownedPost==true){
@@ -494,7 +503,8 @@ class EditImageCreation extends Component{
 	createVideoDescription=(videoDescriptionSrc)=>{
 		this.setState({
 			videoDescription:videoDescriptionSrc,
-			displayVideoDescriptionPortal:false
+			displayVideoDescriptionPortal:false,
+			videoDescriptionId:this.uuidv4
 		})
 	}
 
@@ -532,6 +542,13 @@ class EditImageCreation extends Component{
 		const crownElement=document.getElementById("crownIcon");
 		crownElement.style.backgroundColor="white";
 		crownElement.style.color="#C8B0F4";
+
+		this.setState({
+			isPostCrowned:false,
+			displayCrownModalIndicator:false
+		})
+
+/*
 		const {previousData}=this.props;
 		if(previousData!=null){
 			const headerObject={
@@ -541,11 +558,8 @@ class EditImageCreation extends Component{
 			previousData.contextLocation.updateImagePost(headerObject);
 			const crownedImageResponse= await updateCrownedImage(previousData.owner,false,previousData._id);
 		}
+*/
 
-		this.setState({
-			isPostCrowned:false,
-			displayCrownModalIndicator:false
-		})
 	}
 
 
@@ -555,15 +569,6 @@ class EditImageCreation extends Component{
 		const crownElement=document.getElementById("crownIcon");
 		crownElement.style.backgroundColor="#D6C5F4";
 		crownElement.style.color="white";
-		const {previousData}=this.props;
-		if(previousData!=null){
-			const headerObject={
-			isCrownedImage:true,
-				image:this.props.previousData
-			}
-			previousData.contextLocation.updateImagePost(headerObject);
-			const crownedImageResponse= await updateCrownedImage(previousData.owner,true,previousData._id);
-		}
 
 		this.setState({
 			isPostCrowned:true,
@@ -571,6 +576,19 @@ class EditImageCreation extends Component{
 		})
 
 		alert('Your post is now crowned');
+
+
+		/*
+			const {previousData}=this.props;
+			if(previousData!=null){
+				const headerObject={
+				isCrownedImage:true,
+					image:this.props.previousData
+				}
+				previousData.contextLocation.updateImagePost(headerObject);
+				const crownedImageResponse= await updateCrownedImage(previousData.owner,true,previousData._id);
+			}
+		*/
 
 	}
 
@@ -590,6 +608,12 @@ class EditImageCreation extends Component{
 		},function(){
 			localStorage.removeItem('placeholder');
 		})
+	}
+	uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
 	}
 	render(){
 		return(
@@ -757,7 +781,7 @@ class EditImageCreation extends Component{
 													{this.state.videoDescription==null?null:
 														<li style={{listStyle:"none"}}>
 															<VideoDescriptionContainer>
-																<video width="100%" height="100%" borderRadius="50%" autoplay="true">
+																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
 																	<source src={this.state.videoDescription} type="video/mp4"/>
 																</video>
 															</VideoDescriptionContainer>

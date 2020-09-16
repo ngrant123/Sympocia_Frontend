@@ -67,7 +67,7 @@ class VideoPostsContainer extends Component{
 							<Container>
 								{this.props.isLoadingIndicatorVideos==true ? <p>We are currently getting the videos please wait </p>:
 									<React.Fragment>
-										{this.props.videos.videos==0 && this.props.videos.headerVideo==null? <NoPostsModal
+										{this.props.videos.length==0 && this.props.videos.headerVideo==null? <NoPostsModal
 																			postType={"video"}
 																			profilePageType={this.props.profile}
 																		/>:

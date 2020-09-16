@@ -1348,6 +1348,7 @@ class Symposium extends Component{
 									confettiAnimation={this.displayRecruitConfetti}
 									isPersonalProfile={true}
 									displaySymposium={this.displaySymposium}
+									targetDom={"extendedSymposiumContainer"}
 								/>
 							</li>:null
 						}

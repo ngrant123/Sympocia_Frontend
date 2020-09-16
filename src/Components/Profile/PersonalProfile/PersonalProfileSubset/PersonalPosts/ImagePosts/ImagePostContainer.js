@@ -108,24 +108,24 @@ class ImagePostsContainer extends Component{
 										{this.props.isLoading==true?
 												<p>Give us a second we're getting your information</p>:
 												<React.Fragment>
-												{(this.props.imageData.images.length==0 &&
-													this.props.imageData.crownedImage==null) ||
-													this.props.imageData.images.length==null?<NoPostsModal
-																						postType={"image"}
-																						profilePageType={this.props.profile}
-																					  />:
+												{this.props.imageData.images.length==0 &&
+													this.props.imageData.crownedImage==null?
+													<NoPostsModal
+														postType={"image"}
+														profilePageType={this.props.profile}
+													  />:
 														<ul style={{padding:"0px"}}>
-															{this.props.imageData.crownImage==null?
+															{this.props.imageData.crownedImage==null?
 																null:
 																<React.Fragment>
 																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																		<li onClick={()=>this.displayPostModal(	postDisplayModal,
 																												companyPostDisplayModal,
 																												postsConsumer,
-																												this.props.imageData.crownImage)}  
+																												this.props.imageData.crownedImage)}  
 																												style={{listStyle:"none",marginBottom:"-5%"}}>
 																			<CrownedImageContainer
-																				imageData={this.props.imageData.crownImage}
+																				imageData={this.props.imageData.crownedImage}
 																			/>
 																		</li>
 																	</a>
