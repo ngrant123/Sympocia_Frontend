@@ -23,8 +23,11 @@ const VideoContainer=(data)=>{
 	console.log("Popup video modal");
 	console.log(data);
 
-	const editPost=()=>{
-		data.videoData.contextLocation.editPost(data);
+	const editPost=(editedVideoData)=>{
+		data.videoData.contextLocation.editPost(editedVideoData);
+	}
+	const deletePost=()=>{
+		data.videoData.contextLocation.removePost(data.videoData._id,"Videos");
 	}
 
 	const triggerVideoEditModal=()=>{
@@ -41,6 +44,7 @@ const VideoContainer=(data)=>{
 							targetDom={data.targetDom}
 							triggerPromoteModal={data.triggerPromoteModal}
 							displayEditModal={triggerVideoEditModal}
+							deletePost={deletePost}
 						/>  
 					</li>
 					{data.recommendedVideos!=null?
@@ -55,6 +59,7 @@ const VideoContainer=(data)=>{
 					videoSrc={data.videoData.videoUrl}
 					previousData={data.videoData}
 					editPost={editPost}
+
 				/>
 			}
 		</Container>

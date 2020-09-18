@@ -26,6 +26,28 @@ const MarkerContainer=styled.div`
 	overflow:hidden;
 	box-shadow:2px 2px 5px #707070;
 `;
+const CreatePostButton=styled.div`
+	position:absolute;
+	left:90%;
+	top:5%;
+	z-index:15;
+	width:50px;
+	height:50px;
+	border-radius:50%;
+	background-color:white;
+	border-color:white;
+	border-style:solid;
+	padding:15px;
+	border-width:5px;
+	animation: glowing 1300ms infinite;
+	text-align:center;
+
+	@keyframes glowing {
+      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+  }
+`;
 
 const UploadChoicesButton={
   listStyle:"none",
@@ -85,7 +107,8 @@ class MapPostModal extends Component{
 			displayMapPage:false,
 			displayPostDecider:false,
 			description:"",
-			imgUrl:null
+			imgUrl:null,
+			createPostModal:false
 		}
 	}
 
@@ -131,115 +154,134 @@ class MapPostModal extends Component{
 		});
 	}
 
+	mapComponent=()=>{
+		return <ReactMapGL
+				{...this.state.viewport}
+				mapboxApiAccessToken={MAPBOX_TOKEN}
+				mapStyle="mapbox://styles/ngrant123/ck78412jk0v5s1io79mvz3etw"
+				onClick={(e)=>this.updateLatLongMarker(e)}
+				onViewportChange={(viewport) => this.setState({viewport})}
+				style={{height:"100%",width:"100%"}}>
+
+				{this.state.displayMarker && (
+					<Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
+			          <MarkerContainer>
+			          </MarkerContainer>
+			        </Marker>
+				)}
+			</ReactMapGL>
+	}
+
 
 
 	render(){
 		return(
-			<ul style={{padding:"20px"}}>
-			{this.state.displayMapPage==false?
-				<>
-					<p style={{fontSize:"20px"}}>
-						<b>Step 1: Upload an Image or Write a description</b>
-					</p>
-					<hr/>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							{this.state.displayPostDecider==false?
-								<>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li style={UploadChoicesButton} onClick={()=>this.clickFileUpload()}>
-												<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-															<CameraIcon/>
-														</li>
-
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-															Upload Photo
-														</li>
-													</ul>
-												<input type="file" name="img" id="uploadPictureFile" 
-													style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} 
-													accept="image/x-png,image/gif,image/jpeg">
-												</input>
-										</li>
-									</a>
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li style={UploadChoicesButton}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-													<BorderColorIcon/>
-												</li>
-
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													Write a post
-												</li>
-												<input type="file" name="img" id="uploadPictureFile2" 
-														style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} 
-														accept="image/x-png,image/gif,image/jpeg">
-												</input>
-											</ul>
-										</li>
-									</a>
-								</>
-								:
-								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<li onClick={()=>this.setState({displayPostDecider:false})} style={BackButtonCSS}>
-											Back
-										</li>
-										<li style={{listStyle:"none",marginBottom:"2%",width:"40%",marginTop:"2%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",width:"40%",}}>
-													<img src={this.state.imgUrl} style={{height:"40%",width:"90%",borderRadius:"5px"}}/>
-												</li>
-												<li style={{width:"45%",listStyle:"none",display:"inline-block"}}>
-													<DescriptionInputContainer id="description" placeholder="Write down a description here"/>
-												</li>
-											</ul>
-										</li>
-										<li onClick={()=>this.displayMapPageHandle()} style={ButtonCSS}>
-											Next
-										</li>
-									</ul>
-								</li>
-							}
-						</ul>
-					</li> 
-				</>
-				:
-				<>
-					<p style={{fontSize:"20px"}}>
-						<b>Step 2: Click the country you want to place your post in </b>
-					</p>
-					{this.state.displayMarker==true?
-						<li style={ButtonCSS}>
-							Submit
-						</li>:
-						null
-					}
-					<hr/>
-					<li style={{listStyle:"none"}}>
-						<ReactMapGL
-							{...this.state.viewport}
-							mapboxApiAccessToken={MAPBOX_TOKEN}
-							mapStyle="mapbox://styles/ngrant123/ck78412jk0v5s1io79mvz3etw"
-							onClick={(e)=>this.updateLatLongMarker(e)}
-							onViewportChange={(viewport) => this.setState({viewport})}
-							style={{height:"100%",width:"100%"}}>
-
-							{this.state.displayMarker && (
-								<Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
-						          <MarkerContainer>
-						          </MarkerContainer>
-						        </Marker>
-							)}
-						</ReactMapGL>
+			<ul style={{padding:"0px"}}>	
+				{this.state.createPostModal==false?
+					<li stlye={{listStyle:"none"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<CreatePostButton>
+								<BorderColorIcon
+									style={{fontSize:"20",color:"#C8B0F4"}}
+									onClick={()=>this.setState({createPostModal:true})} 
+								/>
+							</CreatePostButton>
+						</a>
+						{this.mapComponent()}
 					</li>
 
-				</>
-			}
+					:<li stlye={{listStyle:"none"}}>
+						{this.state.displayMapPage==false?
+							<>
+								<p style={{fontSize:"20px"}}>
+									<b>Step 1: Upload an Image or Write a description</b>
+								</p>
+								<hr/>
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"0px"}}>
+										{this.state.displayPostDecider==false?
+											<>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li style={UploadChoicesButton} onClick={()=>this.clickFileUpload()}>
+															<ul style={{padding:"0px"}}>
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+																		<CameraIcon/>
+																	</li>
 
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+																		Upload Photo
+																	</li>
+																</ul>
+															<input type="file" name="img" id="uploadPictureFile" 
+																style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} 
+																accept="image/x-png,image/gif,image/jpeg">
+															</input>
+													</li>
+												</a>
+
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li style={UploadChoicesButton}>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+																<BorderColorIcon/>
+															</li>
+
+															<li style={{listStyle:"none",display:"inline-block"}}>
+																Write a post
+															</li>
+															<input type="file" name="img" id="uploadPictureFile2" 
+																	style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} 
+																	accept="image/x-png,image/gif,image/jpeg">
+															</input>
+														</ul>
+													</li>
+												</a>
+											</>
+											:
+											<li style={{listStyle:"none"}}>
+												<ul style={{padding:"0px"}}>
+													<li onClick={()=>this.setState({displayPostDecider:false})} style={BackButtonCSS}>
+														Back
+													</li>
+													<li style={{listStyle:"none",marginBottom:"2%",width:"40%",marginTop:"2%"}}>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none",display:"inline-block",width:"40%",}}>
+																<img src={this.state.imgUrl} style={{height:"40%",width:"90%",borderRadius:"5px"}}/>
+															</li>
+															<li style={{width:"45%",listStyle:"none",display:"inline-block"}}>
+																<DescriptionInputContainer id="description" placeholder="Write down a description here"/>
+															</li>
+														</ul>
+													</li>
+													<li onClick={()=>this.displayMapPageHandle()} style={ButtonCSS}>
+														Next
+													</li>
+												</ul>
+											</li>
+										}
+									</ul>
+								</li> 
+							</>
+							:
+							<>
+								<p style={{fontSize:"20px"}}>
+									<b>Step 2: Click the country you want to place your post in </b>
+								</p>
+								{this.state.displayMarker==true?
+									<li style={ButtonCSS}>
+										Submit
+									</li>:
+									null
+								}
+								<hr/>
+								<li style={{listStyle:"none"}}>
+									{this.mapComponent()}
+								</li>
+
+							</>
+						}
+					</li>
+				}
 		</ul>
 		)
 	}

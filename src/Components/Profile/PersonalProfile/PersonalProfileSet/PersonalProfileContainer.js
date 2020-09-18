@@ -590,7 +590,8 @@ class LProfile extends Component{
 			newVideoObject={
 				...this.state.videoModalData,
 				firstName:this.state.userProfile.firstName,
-				lastName:this.state.userProfile.lastName
+				lastName:this.state.userProfile.lastName,
+				contextLocation:this.state.contextLocation
 			}
 		}
 		return this.state.displayVideoPostModal?
@@ -614,7 +615,8 @@ class LProfile extends Component{
 				...this.state.regularModalData,
 				firstName:this.state.userProfile.firstName,
 				profilePicture:this.state.userProfile.profilePicture,
-				lastName:this.state.userProfile.lastName
+				lastName:this.state.userProfile.lastName,
+				contextLocation:this.state.contextLocation
 			}
 		}
 		return this.state.displayRegularPostModal?
@@ -709,25 +711,27 @@ class LProfile extends Component{
 								displayShadowBackground:true
 							})
 						},
-						handleVideoPostModal:(videoPostData)=>{
+						handleVideoPostModal:(videoPostData,contextLocation)=>{
 							this.setState({
 								videoModalData:videoPostData,
+								contextLocation:contextLocation,
 								displayVideoPostModal:true,
 								displayShadowBackground:true
 							})
 						},
-						handleBlogPostModal:(blogPostData)=>{
+						handleBlogPostModal:(blogPostData,contextLocation)=>{
 							this.setState({
 								blogModalData:blogPostData,
 								displayBlogPostModal:true,
 								displayShadowBackground:true
 							})
 						},
-						handleRegularPostModal:(regularPostData)=>{
+						handleRegularPostModal:(regularPostData,contextLocation)=>{
 							this.setState({
 								regularModalData:regularPostData,
 								displayRegularPostModal:true,
-								displayShadowBackground:true
+								displayShadowBackground:true,
+								contextLocation:contextLocation
 							})
 						}
 					}}

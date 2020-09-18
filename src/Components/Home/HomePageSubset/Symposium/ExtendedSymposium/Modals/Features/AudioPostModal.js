@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import MicIcon from '@material-ui/icons/Mic';
-
+import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.png";
 
 const Container=styled.div`
 	position:absolute;
@@ -68,6 +68,14 @@ const DescriptionInputContainer=styled.textarea`
 	padding:5px;
 `;
 
+const ProfilePictureCSS={
+	position:"relative",
+	width:"10%",
+	marginRight:"6%",
+	top:"-75px",
+	listStyle:"none",
+	display:"inline-block"
+}
 
 const AudioCSS={
 	listStyle:"none",
@@ -173,7 +181,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType})=>{
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<p style={{fontSize:"20px"}}>
-									<b>{modalType} my {symposium}</b>
+									<b>{symposium} {modalType}</b>
 								</p>
 							</li>
 							<li style={{listStyle:"none",display:"inline-block"}}>
@@ -199,23 +207,23 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType})=>{
 								<ul style={{padding:"0px"}}>
 									{posts.map(data=>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayImage(data)} style={AudioCSS}>
+											<li style={AudioCSS}>
 												<ul style={{padding:"0px"}}>
-													<li style={{top:"-50px",position:"relative",width:"10%",listStyle:"none",display:"inline-block"}}>
-														<img src={data.profilePicture} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
+													<li style={ProfilePictureCSS}>
+														<img src={NoProfilePicture} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
 													</li>
 
 													<li style={{listStyle:"none",display:"inline-block"}}>
 														<p> 
-															<b>Nathan</b>
+															<b>{data.firstName}</b>
 														</p>
 														<audio controls>
-														  <source src={posts.audioSrc} type="audio/ogg"/>
-														  <source src={posts.audioSrc} type="audio/mpeg"/>
+														  <source src={data.audioUrl} type="audio/ogg"/>
+														  <source src={data.audioUrl} type="audio/mpeg"/>
 															Your browser does not support the audio element.
 														</audio>
 														<p style={{overflowY:"auto",height:"10%"}}>
-															Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+															{data.description}
 														</p>
 													</li>
 												</ul>

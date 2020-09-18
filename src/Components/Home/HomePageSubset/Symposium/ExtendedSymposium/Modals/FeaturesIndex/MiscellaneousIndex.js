@@ -3,7 +3,11 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import AudioPostModal from "../Features/AudioPostModal.js";
 import RegularPostModal from "../Features/RegularPostModal.js";
+import VideoPostModal from "../Features/VideoPostModal.js";
+import ImagePostModal from "../Features/ImagePostModal.js";
+
 import ImageDisplayContainer from "../../../../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
+import VideoDisplayContainer from "../../../../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 
 
 const Container=styled.div`
@@ -40,27 +44,53 @@ const ShadowContainer=styled.div`
 	top:0px;
 `;
 
+const PostPopupContainer=styled.div`
+	position:absolute;
+	background-color:white;
+	width:70%;
+	height:65%;
+	border-radius:5px; 
+	z-index:17;
+	left:15%;
+	top:20%;
+	overflow-y:scroll;
+`;
 
 
 const MusicIndex=({closeModal,modalType,symposium})=>{
+
 	const [displayImageExpand,changeImageExpandDisplay]=useState(false);
+	const [displayVideoExpand,changeVideoExpandDisplay]=useState(false);
+
 	const [imageData,changeImageData]=useState();
+	const [videoData,changeVideoData]=useState();
+
 
 	const modalDecider=()=>{
 		console.log(modalType);
-		if(modalType=="Advisory" || modalType=="Beats"){
-			return <AudioPostModal
-						symposium={symposium}
-						displayImage={displayImageHandler}
-						modalType={modalType.toLowerCase()}
-					/>
-		}else{
+		if(modalType=="Advisory" || modalType=="Regular"){
 			return <RegularPostModal
 						symposium={symposium}
 						displayImage={displayImageHandler}
 						modalType={modalType.toLowerCase()}
 					/>
+		}else if(modalType=="Video"){
+			return <VideoPostModal
+						symposium={symposium}
+						displayVideo={displayVideoHandler}
+						modalType={modalType.toLowerCase()}
+					/>
+		}else{
+			return <ImagePostModal
+				symposium={symposium}
+				displayImage={displayImageHandler}
+				modalType={modalType.toLowerCase()}
+			/>
 		}
+	}
+	const displayVideoHandler=(videoData)=>{
+		changeVideoData(videoData);
+		changeVideoExpandDisplay(true);
 	}
 
 	const displayImageHandler=(imgData)=>{
@@ -82,18 +112,36 @@ const MusicIndex=({closeModal,modalType,symposium})=>{
 
 	return createPortal(
 		<>
-			{displayImageExpand==true?
-				<ImageDisplayContainer
-					imageData={imageData}
-				/>
-				:null
-			}
 			<ShadowContainer
 				onClick={()=>closeModal()}
 			/>
 			<Container>
 				{modalDecider()}
 			</Container>
+			{displayImageExpand==true?
+				<div>
+					<ShadowContainer
+						onClick={()=>closeImageModal()}
+					/>
+					<PostPopupContainer>
+						<ImageDisplayContainer
+							imageData={imageData}
+						/>
+					</PostPopupContainer>
+				</div>:null
+			}
+			{displayVideoExpand==true?
+				<div>
+					<ShadowContainer
+						onClick={()=>closeImageModal()}
+					/>
+					<PostPopupContainer>
+						<ImageDisplayContainer
+							imageData={imageData}
+						/>
+					</PostPopupContainer>
+				</div>:null
+			}
 		</>
 
 	,document.getElementById("extendedSymposiumContainer"));

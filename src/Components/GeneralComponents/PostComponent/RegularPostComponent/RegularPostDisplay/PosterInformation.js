@@ -95,6 +95,18 @@ const LabelContainer=styled.div`
 	}
 `;
 
+const EditPostButtonCSS={
+	  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginBottom:"2%"
+}
 	
 	
 
@@ -105,7 +117,8 @@ const PosterInformation=(props)=>{
 			profilePicture,
 			industriesUploaded,
 			datePosted,
-			_id
+			_id,
+			contextLocation
 		}=props.postData;
 
 	const constructDate=(dateMilliseconds)=>{
@@ -113,10 +126,11 @@ const PosterInformation=(props)=>{
 		return newDate;
 	}
 	const handleRemovePost=async()=>{
-		const {confirmation,data}=await deletePost(_id,"RegularPosts");
+	//	const {confirmation,data}=await deletePost(_id,"RegularPosts");
 		debugger;
+		const confirmation="Success";
 		if(confirmation=="Success"){
-			alert('Post has been deleted. Please reload page to view updated post section');
+			contextLocation.removePost(_id,"RegularPosts");
 		}else{
 			alert('Unfortunately there has been an error deleting this post. Please try again');
 		}
@@ -125,6 +139,9 @@ const PosterInformation=(props)=>{
 
 		<PostInformationContainer>
 						<ul style={{position:"absolute",listStyle:"none"}}>
+							<li onClick={()=>props.triggerEditPostModal()} style={EditPostButtonCSS}>
+								Edit Post
+							</li>
 							<li style={{listStyle:"none"}}>
 								<PostProfilePicture>
 									{profilePicture==null?

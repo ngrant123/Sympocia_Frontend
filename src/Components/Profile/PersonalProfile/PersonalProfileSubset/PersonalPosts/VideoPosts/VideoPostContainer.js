@@ -10,6 +10,7 @@ import {VideoPostProvider} from "./VideoPostContext.js";
 import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 import CrownedVideo from "./CrownedVideoContainer.js";
+import {PostConsumer} from "../PostsContext.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -49,60 +50,74 @@ class VideoPostsContainer extends Component{
 		}
 	}
 	
-	displayPostModal=(profileAction,companyAction,data)=>{
+	displayPostModal=(profileAction,companyAction,data,postsConsumer)=>{
 		debugger;
 		if(profileAction==null)
-			companyAction.handleVideoPostModal(data);
+			companyAction.handleVideoPostModal(data,postsConsumer);
 		else
-			profileAction.handleVideoPostModal(data);
+			profileAction.handleVideoPostModal(data,postsConsumer);
 	}
 
 	
 	render(){
 		return(
-			<PostDisplayConsumer>
-				{postDisplayModal=>(
-					<CompanyPostDisplayConsumer>
-						{companyPostDisplayModal=>(
-							<Container>
-								{this.props.isLoadingIndicatorVideos==true ? <p>We are currently getting the videos please wait </p>:
-									<React.Fragment>
-										{this.props.videos.length==0 && this.props.videos.headerVideo==null? <NoPostsModal
-																			postType={"video"}
-																			profilePageType={this.props.profile}
-																		/>:
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none"}}>
-													{this.props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
-														<CrownedVideo
-															headerVideo={this.props.videos.headerVideo}
-														/>
-													}
-												</li>
-			
-												<li style={{listStyle:"none",marginTop:"1%"}}>	
-													<ul style={{padding:"0px"}}>
-														{this.props.videos.videos.map(data=>
-															<li onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,data)} style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"-10%"}}>
-																<a href="javscript:;" style={{textDecoration:"none"}}>
-																	<SmallVideoContainer
-																		video={data}
+			<PostConsumer>
+				{postsConsumer=>(
+						<PostDisplayConsumer>
+							{postDisplayModal=>(
+								<CompanyPostDisplayConsumer>
+									{companyPostDisplayModal=>(
+										<Container>
+											{this.props.isLoadingIndicatorVideos==true ? <p>We are currently getting the videos please wait </p>:
+												<React.Fragment>
+													{this.props.videos.length==0 && this.props.videos.headerVideo==null? <NoPostsModal
+																						postType={"video"}
+																						profilePageType={this.props.profile}
+																					/>:
+														<ul style={{padding:"0px"}}>
+															<li onClick={()=>this.displayPostModal(
+																								postDisplayModal,
+																								companyPostDisplayModal,
+																								this.props.videos.headerVideo,
+																								postsConsumer)} 
+															style={{listStyle:"none"}}>
+																{this.props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
+																	<CrownedVideo
+																		headerVideo={this.props.videos.headerVideo}
 																	/>
-																</a>
+																}
 															</li>
-														)}
-													</ul>
-												</li>
-											</ul>
-										}
-									</React.Fragment>
+						
+															<li style={{listStyle:"none",marginTop:"1%"}}>	
+																<ul style={{padding:"0px"}}>
+																	{this.props.videos.videos.map(data=>
+																		<li onClick={()=>this.displayPostModal(
+																								postDisplayModal,
+																								companyPostDisplayModal,
+																								data,
+																								postsConsumer)} 
+																		style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"5%"}}>
+																			<a href="javscript:;" style={{textDecoration:"none"}}>
+																				<SmallVideoContainer
+																					video={data}
+																				/>
+																			</a>
+																		</li>
+																	)}
+																</ul>
+															</li>
+														</ul>
+													}
+												</React.Fragment>
+											}
+										</Container>
+									)
 								}
-							</Container>
-						)
-					}
-				</CompanyPostDisplayConsumer>
-			)}
-		</PostDisplayConsumer>
+							</CompanyPostDisplayConsumer>
+						)}
+					</PostDisplayConsumer>
+				)}
+			</PostConsumer>
 		)
 	}
 }

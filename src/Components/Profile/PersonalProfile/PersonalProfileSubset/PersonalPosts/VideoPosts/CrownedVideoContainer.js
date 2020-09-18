@@ -17,21 +17,41 @@ const ThumbnailVideo=styled.div`
 `;
 
 const Description=styled.div`
-	position:absolute;
 	width:85%;
 	height:240%;
 	overflow:hidden;
 	color:#767677;
 `;
 
+const VideoDescriptionContainer=styled.div`
+	position:relative;
+	width:70px;
+	height:60px;
+	border-radius:50%;
+`;
+
 const CrownedVideoContainer=({headerVideo})=>{
 	console.log(headerVideo);
+
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
+
+	const constructDate=(date)=>{
+		var convertedDate=new Date(parseInt(date));
+		var dateToString=convertedDate.toString();
+		var current=new Date();
+		return dateToString;
+	}
 	return(
 		<ThumbnailVideoComponent>
 			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginTop:"-10%"}}>
 					<ThumbnailVideo>
-						<video key={headerVideo.key} width="100%" height="100%" controls autoplay>
+						<video key={headerVideo._id} width="100%" height="100%" controls autoplay>
 							<source src={headerVideo.videoUrl} type="video/mp4"/>
 						</video>
 					</ThumbnailVideo>
@@ -48,15 +68,40 @@ const CrownedVideoContainer=({headerVideo})=>{
 
 						<li style={{listStyle:"none",marginBottom:"5px"}}>
 							<ul style={{padding:"0px",color:"#a6a6a7"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-									{headerVideo.views} views
-								</li>
+								{/*
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+										{headerVideo.views} views
+									</li>
+								*/}
 
 								<li style={{listStyle:"none",display:"inline-block"}}>
-									{headerVideo.datePosted} days ago
+									{constructDate(headerVideo.datePosted)}
 								</li>
 							</ul>
 
+						</li>
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px"}}>
+								{headerVideo.videoDescription==null?null:
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+										<VideoDescriptionContainer>
+											<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true">
+												<source src={headerVideo.videoDescription} type="video/mp4"/>
+											</video>
+										</VideoDescriptionContainer>
+									</li>
+								}
+								
+								{headerVideo.audioDescription==null?null:
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<audio key={uuidv4()} style={{width:"150px"}} controls>
+											<source src={headerVideo.audioDescription} type="audio/ogg"/>
+											<source src={headerVideo.audioDescription} type="audio/mpeg"/>
+											Your browser does not support the audio element.
+										</audio>
+									</li>
+								}
+							</ul>
 						</li>
 
 						<li style={{listStyle:"none"}}>

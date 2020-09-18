@@ -117,25 +117,25 @@ const SkillLevelButton={
   marginRight:"2%"
 }
 
-const VideoPostModal=({closeModal,symposium,displayImage,modalType})=>{
+const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType})=>{
 	
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [finalImageEditDisplay,changeDisplayForFinalImage]=useState(false);
-	const [imgUrl,changeImageUrl]=useState();
+	const [videoUrl,changeVideoUrl]=useState();
 	const [posts,changePosts]=useState([{},{},{},{},{}]);	
 
 	const handleUploadVideo=()=>{
 		var fileReader=new FileReader();
-		var currentImgUrl=document.getElementById("uploadVideoFile").files[0];
+		var currentVideoUrl=document.getElementById("uploadVideoFile").files[0];
 
 		fileReader.onloadend=()=>{
-			const imgResult=fileReader.result;
-			changeImageUrl(imgResult);
+			const videoResult=fileReader.result;
+			changeVideoUrl(videoResult);
 			changeDisplayForFinalImage(true);
 		}
 
-		if(currentImgUrl!=null){
-			fileReader.readAsDataURL(currentImgUrl);
+		if(currentVideoUrl!=null){
+			fileReader.readAsDataURL(currentVideoUrl);
 		}else{
 			alert('Sorry, this image type is not allowed. Please try again');
 		}
@@ -148,7 +148,7 @@ const VideoPostModal=({closeModal,symposium,displayImage,modalType})=>{
 	const submitImage=async()=>{
 		debugger;
 		var image={
-			imgUrl:imgUrl,
+			videoUrl:videoUrl,
 			description:document.getElementById("imageDescription").value
 		}
 
@@ -165,6 +165,13 @@ const VideoPostModal=({closeModal,symposium,displayImage,modalType})=>{
 		changePosts([...posts]);
 		changeDisplayCreationModal(false);
 	}
+
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
 	return(
 		<ul style={{padding:"20px"}}>
 			{displayCreationModal==false?
@@ -173,7 +180,7 @@ const VideoPostModal=({closeModal,symposium,displayImage,modalType})=>{
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<p style={{fontSize:"20px"}}>
-									<b>{modalType} my {symposium}</b>
+									<b>Review my {symposium}</b>
 								</p>
 							</li>
 							<li style={{listStyle:"none",display:"inline-block"}}>
@@ -199,9 +206,9 @@ const VideoPostModal=({closeModal,symposium,displayImage,modalType})=>{
 								<ul style={{padding:"0px"}}>
 									{posts.map(data=>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayImage(data)} style={ImageCSS}>
-												<video width="100%" height="40%" borderRadius:"5px" controls autoplay>
-													<source src={this.props.videoSrc} type="video/mp4"/>
+											<li onClick={()=>displayVideoHandler(data)} style={ImageCSS}>
+												<video key={data._id} width="100%" height="40%" borderRadius="5px" controls autoplay>
+													<source src={data.videoSrc} type="video/mp4"/>
 												</video>
 											</li>
 										</a>
@@ -237,7 +244,7 @@ const VideoPostModal=({closeModal,symposium,displayImage,modalType})=>{
 												</li>
 
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-													Upload Photo
+													Upload Video
 												</li>
 											</ul>
 										<input type="file" name="img" id="uploadVideoFile" 
@@ -251,9 +258,11 @@ const VideoPostModal=({closeModal,symposium,displayImage,modalType})=>{
 								<li style={{listStyle:"none",marginBottom:"2%"}}>
 									<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",width:"40%",}}>
-											<img src={imgUrl} style={{height:"40%",width:"90%",borderRadius:"5px"}}/>
+											<video key={uuidv4()} width="100%" height="40%" borderRadius="5px" controls autoplay>
+												<source src={videoUrl} type="video/mp4"/>
+											</video>
 										</li>
-										<li style={{width:"45%",listStyle:"none",display:"inline-block"}}>
+										<li style={{marginLeft:"3%",width:"45%",listStyle:"none",display:"inline-block"}}>
 											<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
 										</li>
 									</ul>

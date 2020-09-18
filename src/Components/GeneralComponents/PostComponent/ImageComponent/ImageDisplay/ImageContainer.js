@@ -168,19 +168,13 @@ const ImageContainer=(props)=>{
 	const [displayImageModal,changeDisplayImage]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
-
-	/*
-		Right now the project structure makes this a lil annoying to do in real time. For example
-		in order for me to actually manipulate the posts that are already then that could mean 
-		a decent amount of refactoring. Dont have that time now. So just gonna reload page
-	*/
 	
 	const handleRemoveImagePost=async()=>{
 		//const {confirmation,data}=await deletePost(props.imageData._id,"Images");
 		debugger;
 		var confirmation="Success";
 		if(confirmation=="Success"){
-			props.imageData.contextLocation.removePost(props.imageData._id);
+			props.imageData.contextLocation.removePost(props.imageData._id,"Images");
 		}else{
 			alert('Unfortunately there has been an error deleting this post. Please try again');
 		}

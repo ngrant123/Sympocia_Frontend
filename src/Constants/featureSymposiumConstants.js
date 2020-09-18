@@ -33,7 +33,7 @@ export default{
 		"Music"
 	],
 	MISCELLANEOUS_SYMPOSIUM:{
-		ENTREPENEUR:["Entrepeneur"],
+		ENTREPENEUR:["Entrepreneurship"],
 		RELIGION:["Religion"],
 		ENTERTAINMENT:[
 			"Tv Shows",

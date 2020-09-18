@@ -335,7 +335,7 @@
 		return params;
 	}
 
-	const finalReturnPosts=(props,postType,isCrownedPost,posts,crownedPost)=>{
+	const finalReturnPosts=(props,postType,posts,crownedPost)=>{
 		let finalPost;
 		switch(postType){
 			case 'Images':{
@@ -375,6 +375,7 @@
 		}=postData;
 		let newEditedPost;
 		let newEditedPostS3;
+		debugger;
 		const {isCrownedPost}=post;
 
 		//remove null keys from post and postS3
@@ -419,7 +420,7 @@
 					...newEditedPostS3
 				}
 
-				if(currentCrownedPost!=null || Object.keys(currentCrownedPost).length != 0)
+				if((Object.keys(currentCrownedPost).length === 0)==false)
 					currentPosts.push(currentCrownedPost);
 
 				currentPosts.sort(function(a,b){
@@ -440,8 +441,19 @@
 						break;
 					}
 				}
+
 				if((Object.keys(currentCrownedPost).length === 0)==false)
-					currentPosts.push(currentCrownedPost);
+
+				currentPosts.push({
+				...currentCrownedPost,
+					isCrownedPost:false
+				});
+
+				currentPosts.sort(function(a,b){
+					const aCreationDate=a.datePosted;
+					const bCreationDate=b.datePosted;
+					return bCreationDate>aCreationDate?1:-1;
+				});
 
 				currentCrownedPost={
 					...selectedPost,
@@ -472,44 +484,48 @@
 				}
 			}
 		}
-		finalPosts=finalReturnPosts(props,postType,isCrownedPost,currentPosts,currentCrownedPost);
+		if(currentCrownedPost!=null){
+			if((Object.keys(currentCrownedPost).length === 0)==true)
+					currentCrownedPost=null
+		}
+
+		finalPosts=finalReturnPosts(props,postType,currentPosts,currentCrownedPost);
 		return finalPosts;
 	}
 
 
-	export const removePostIndexContext=(postId,props)=>{
+	export const removePostIndexContext=(postId,props,postType)=>{
 		debugger;
-		let currentCrownedImage=props.crownedImage==null?{}:
-								props.crownedImage;
-		let currentImages=props.imagePost;
-		let newPersonalInfoObject;
-		if(postId==currentCrownedImage._id){
-			newPersonalInfoObject={
-				...props.personalInformation,
-				userProfile:{
-					...props,
-					crownedImage:null,
-					imagePost:currentImages
-				}
-			}
-		}else{
-			for(var i=0;i<currentImages.length;i++){
-				let image=currentImages[i];
+		const {
+			optionTypeParam,
+			crownedPost,
+			posts
+		}=postParams(postType,props);
 
-				if(image._id==postId){
-					currentImages.splice(i,1);
+		let currentCrownedPost=crownedPost;
+		let currentPosts=posts;
+
+		let newPersonalInfoObject;
+		if(postId==currentCrownedPost._id){
+			currentCrownedPost=null;
+		}else{
+			for(var i=0;i<currentPosts.length;i++){
+				let post=currentPosts[i];
+
+				if(post._id==postId){
+					currentPosts.splice(i,1);
 					break;
 				}
 			}
-			newPersonalInfoObject={
-				...props.personalInformation,
-				userProfile:{
-					...props,
-					imagePost:currentImages
-				}
-			}
 		}
-		return newPersonalInfoObject;
+
+		if(currentCrownedPost!=null){
+			if((Object.keys(currentCrownedPost).length === 0)==true)
+					currentCrownedPost=null
+		}
+
+		let finalPosts=finalReturnPosts(props,postType,currentPosts,currentCrownedPost);
+		return finalPosts;
 	}
 
 	export const updateImagePostIndexContext=(image,props)=>{

@@ -44,20 +44,22 @@ const NewsAndTravelFeatures=({symposium})=>{
 				:null
 			}
 			<ul>
-				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMapModal()} style={OptionsCSS}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								Upload to the {symposium} map
-							</li>
+				{/*
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li onClick={()=>displayMapModal()} style={OptionsCSS}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									Upload to the {symposium} map
+								</li>
 
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<ArrowDropDownCircleOutlinedIcon/>
-							</li>
-						</ul>
-					</li>
-				</a>
-				<hr/>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<ArrowDropDownCircleOutlinedIcon/>
+								</li>
+							</ul>
+						</li>
+					</a>
+					<hr/>
+				*/}
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 					<li onClick={()=>displayAdvisoryModal()} style={OptionsCSS}>

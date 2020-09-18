@@ -110,6 +110,15 @@ const SmallRegularPosts=(props)=>{
 
 	const {post,profilePicture}=props;
 	console.log(post);
+
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
+	
+
 	return(
 		<Container>
 			<ul style={{padding:"0px"}}>
@@ -136,7 +145,7 @@ const SmallRegularPosts=(props)=>{
 							<li style={{listStyle:"none"}}>
 								<Post>
 									{post.isAudioPost==true?
-										<audio style={{width:"90%"}} controls>
+										<audio key={uuidv4()} style={{width:"90%"}} controls>
 											<source src={post.post} type="audio/ogg"/>
 											<source src={post.post} type="audio/mpeg"/>
 											Your browser does not support the audio element.

@@ -43,13 +43,14 @@ const ButtonCSS={
 }
 
 const CrownPost=({closeModal,parentCrownPost,parentUnCrownPost,previousData,isPostCrowned})=>{
-
+	console.log(isPostCrowned);
 	const unCrownPost=async()=>{
 		debugger;
 
 		const crownElement=document.getElementById("crownIcon");
 		crownElement.style.backgroundColor="white";
 		crownElement.style.color="#C8B0F4";
+		/*
 		if(previousData!=null){
 			const headerObject={
 				isCrownedImage:true,
@@ -58,6 +59,7 @@ const CrownPost=({closeModal,parentCrownPost,parentUnCrownPost,previousData,isPo
 			previousData.contextLocation.updateImagePost(headerObject);
 			const crownedImageResponse= await updateCrownedImage(previousData.owner,false,previousData._id);
 		}
+		*/
 		parentUnCrownPost();
 	}
 
@@ -66,6 +68,7 @@ const CrownPost=({closeModal,parentCrownPost,parentUnCrownPost,previousData,isPo
 		const crownElement=document.getElementById("crownIcon");
 		crownElement.style.backgroundColor="#D6C5F4";
 		crownElement.style.color="white";
+		/*
 		if(previousData!=null){
 			const headerObject={
 				isCrownedImage:true,
@@ -74,6 +77,7 @@ const CrownPost=({closeModal,parentCrownPost,parentUnCrownPost,previousData,isPo
 			previousData.contextLocation.updateImagePost(headerObject);
 			const crownedImageResponse= await updateCrownedImage(previousData.owner,true,previousData._id);
 		}
+		*/
 		alert('Your post is now crowned');
 		parentCrownPost();
 	}

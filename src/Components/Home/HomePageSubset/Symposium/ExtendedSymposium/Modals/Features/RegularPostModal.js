@@ -2,6 +2,7 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
+import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.png";
 
 const Container=styled.div`
 	position:absolute;
@@ -258,10 +259,10 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType})=>{
 								<ul style={{padding:"0px"}}>
 									{posts.map(data=>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
+											<li style={{listStyle:"none",marginBottom:"2%"}}>
 												<ul style={{padding:"0px"}}>
 													<li style={{top:"-50px",position:"relative",width:"10%",listStyle:"none",display:"inline-block"}}>
-														<img src={data.profilePicture} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
+														<img src={NoProfilePicture} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
 													</li>
 
 													<li style={{width:"70%",listStyle:"none",display:"inline-block"}}>

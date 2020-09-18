@@ -10,6 +10,7 @@ import SmallRegularPost from "./SmallRegularPostsContainer.js";
 import HeaderPost from "./HeaderRegularPost.js";
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
+import {PostConsumer} from "../PostsContext.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -131,62 +132,74 @@ class RegularPostsContainer extends Component{
 		return regularPosts;
 	}
 
-	displayPostModal=(profileAction,companyAction,data)=>{
+	displayPostModal=(profileAction,companyAction,data,postsConsumer)=>{
 		debugger;
 		if(profileAction==null)
-			companyAction.handleRegularPostModal(data);
+			companyAction.handleRegularPostModal(data,postsConsumer);
 		else
-			profileAction.handleRegularPostModal(data);
+			profileAction.handleRegularPostModal(data,postsConsumer);
 	}
 
 	render(){
 		return(
-			<PostDisplayConsumer>
-				{postDisplayModal=>(
-						<CompanyPostDisplayConsumer>
-							{companyPostDisplayModal=>(
-								<Container>
-									{this.state.isLoading==true?<p>We are currently getting posts</p>:
-										<React.Fragment>
-											{this.state.regularPosts.length==0 ||this.state.regularPosts==undefined?<NoPostsModal
-																				postType={"post"}
-																				profilePageType={this.props.profile}
-																			/>:
-														<ul style={{padding:"0px"}}>
-															{this.props.posts.headerPost==null?null:
-																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																	<li onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,this.state.headerPost)} style={{listStyle:"none",marginBottom:"2%"}}>
-																		<HeaderPost
-																			post={this.props.posts.headerPost}
-																			profilePicture={this.props.profilePicture}
-																		/>	
-																	</li>
-																</a>
-															}
-															<hr/>
-															<li style={{listStyle:"none"}}>
-																	<ul style={{padding:"0px"}}>
-																		{this.props.posts.posts.map(data=>
-																			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																				<li  onClick={()=>this.displayPostModal(postDisplayModal,companyPostDisplayModal,data)} style={{width:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
-																					<SmallRegularPost
-																						post={data}
-																						profilePicture={this.props.profilePicture}
-																					/>
-																				</li>
-																			</a>
-																		)}
-																	</ul>
-																</li>
-														</ul>
+			<PostConsumer>
+				{postsConsumer=>(
+					<PostDisplayConsumer>
+						{postDisplayModal=>(
+								<CompanyPostDisplayConsumer>
+									{companyPostDisplayModal=>(
+										<Container>
+											{this.state.isLoading==true?<p>We are currently getting posts</p>:
+												<React.Fragment>
+													{this.state.regularPosts.length==0 ||this.state.regularPosts==undefined?<NoPostsModal
+																						postType={"post"}
+																						profilePageType={this.props.profile}
+																					/>:
+																<ul style={{padding:"0px"}}>
+																	{this.props.posts.headerPost==null?null:
+																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																			<li onClick={()=>this.displayPostModal(
+																								postDisplayModal,
+																								companyPostDisplayModal,
+																								this.state.headerPost,
+																								postsConsumer)} style={{listStyle:"none",marginBottom:"2%"}}>
+																				<HeaderPost
+																					post={this.props.posts.headerPost}
+																					profilePicture={this.props.profilePicture}
+																				/>	
+																			</li>
+																		</a>
+																	}
+																	<hr/>
+																	<li style={{listStyle:"none"}}>
+																			<ul style={{padding:"0px"}}>
+																				{this.props.posts.posts.map(data=>
+																					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																						<li  onClick={()=>this.displayPostModal(
+																											postDisplayModal,
+																											companyPostDisplayModal,
+																											data,
+																											postsConsumer)} style={{width:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
+																							<SmallRegularPost
+																								post={data}
+																								profilePicture={this.props.profilePicture}
+																							/>
+																						</li>
+																					</a>
+																				)}
+																			</ul>
+																		</li>
+																</ul>
+														}
+													</React.Fragment>
 												}
-											</React.Fragment>
-										}
-									</Container>
+											</Container>
+									)}
+								</CompanyPostDisplayConsumer>
 							)}
-						</CompanyPostDisplayConsumer>
-					)}
-			</PostDisplayConsumer>
+					</PostDisplayConsumer>
+				)}
+			</PostConsumer>
 		)
 	}
 }

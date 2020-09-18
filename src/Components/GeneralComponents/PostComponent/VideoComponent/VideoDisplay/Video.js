@@ -247,6 +247,7 @@ displayDescription=(postInformation)=>{
 										}
 									</React.Fragment>:
 									<video style={{borderRadius:"5px"}} width="100%" height="100%" autoplay="true" controls>
+								
 										<source src={this.props.video.videoDescription} type="video/mp4"/>
 									</video>
 								}
@@ -388,10 +389,11 @@ createOrRemoveStampEffect=()=>{
 	}
 
 	removeVideoPost=async()=>{
-		const {confirmation,data}=await deletePost(this.props.video._id,"Videos");
+		//const {confirmation,data}=await deletePost(this.props.video._id,"Videos");
 		debugger;
+		let confirmation="Success";
 		if(confirmation=="Success"){
-			alert('Post has been deleted. Please reload page to view updated post section');
+			this.props.deletePost();
 		}else{
 			alert('Unfortunately there has been an error deleting this post. Please try again');
 		}

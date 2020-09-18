@@ -170,7 +170,8 @@ class EditImageCreation extends Component{
 			displayCrownModalIndicator:false,
 			changeImageVerification:false,
 			displayReplaceImageModal:false,
-			videoDescriptionId:1
+			videoDescriptionId:this.uuidv4(),
+			audioDescriptionId:this.uuidv4()
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
@@ -504,14 +505,15 @@ class EditImageCreation extends Component{
 		this.setState({
 			videoDescription:videoDescriptionSrc,
 			displayVideoDescriptionPortal:false,
-			videoDescriptionId:this.uuidv4
+			videoDescriptionId:this.uuidv4()
 		})
 	}
 
 	createAudioDescription=(audioDescriptionSrc)=>{
 		this.setState({
 			audioDescription:audioDescriptionSrc,
-			displayVoiceDescriptionPortal:false
+			displayVoiceDescriptionPortal:false,
+			audioDescriptionId:this.uuidv4()
 		})
 	}
 

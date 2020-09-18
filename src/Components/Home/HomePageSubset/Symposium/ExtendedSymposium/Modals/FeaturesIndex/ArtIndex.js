@@ -39,6 +39,18 @@ const ShadowContainer=styled.div`
 	top:0px;
 `;
 
+const ImagePopupContainer=styled.div`
+	position:absolute;
+	background-color:white;
+	width:70%;
+	height:65%;
+	border-radius:5px; 
+	z-index:17;
+	left:15%;
+	top:20%;
+	overflow-y:scroll;
+`;
+
 
 
 const ArtIndex=({closeModal,modalType,symposium})=>{
@@ -50,13 +62,13 @@ const ArtIndex=({closeModal,modalType,symposium})=>{
 			return <ImagePostModal
 						symposium={symposium}
 						displayImage={displayImageHandler}
-						modalType={modalType.toLowercase()}
+						modalType={modalType.toLowerCase()}
 					/>
 		}else{
 			return <RegularPostModal
 						symposium={symposium}
 						displayImage={displayImageHandler}
-						modalType={modalType.toLowercase()}
+						modalType={modalType.toLowerCase()}
 					/>
 		}
 	}
@@ -70,6 +82,7 @@ const ArtIndex=({closeModal,modalType,symposium})=>{
 		changeImageExpandDisplay(false);
 	}
 
+
 	/*
 		<Comments
 			postId={props.imageData._id}
@@ -80,18 +93,24 @@ const ArtIndex=({closeModal,modalType,symposium})=>{
 
 	return createPortal(
 		<>
-			{displayImageExpand==true?
-				<ImageDisplayContainer
-					imageData={imageData}
-				/>
-				:null
-			}
 			<ShadowContainer
 				onClick={()=>closeModal()}
 			/>
 			<Container>
 				{modalDecider()}
 			</Container>
+			{displayImageExpand==true?
+				<div>
+					<ShadowContainer
+						onClick={()=>closeImageModal()}
+					/>
+					<ImagePopupContainer>
+						<ImageDisplayContainer
+							imageData={imageData}
+						/>
+					</ImagePopupContainer>
+				</div>:null
+			}
 		</>
 
 	,document.getElementById("extendedSymposiumContainer"));

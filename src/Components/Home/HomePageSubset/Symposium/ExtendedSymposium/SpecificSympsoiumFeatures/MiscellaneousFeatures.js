@@ -73,6 +73,11 @@ const MiscellaneousFeatures=({symposium})=>{
 		changeLoadStatus(false);
 	},[]);
 
+	const displayMiscellaneousFeatures=(featureType)=>{
+		changeModalType(featureType);
+		changeMiscellaneousFeaturesDisplay(true);
+	}
+
 	const displayVideoMiscellaneousModal=()=>{
 		changeModalType("Video");
 		changeMiscellaneousFeaturesDisplay(true);
@@ -96,7 +101,7 @@ const MiscellaneousFeatures=({symposium})=>{
 		return(
 			<ul>
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayVideoMiscellaneousModal()} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Video")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Featured Sets
@@ -111,7 +116,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayRegularPostMiscellaneousModal("Advisory")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Advisory")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								{symposium} Advisory
@@ -126,7 +131,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayVideoMiscellaneousModal()} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Video")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Review my set
@@ -147,7 +152,7 @@ const MiscellaneousFeatures=({symposium})=>{
 		return(
 			<ul>
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayRegularPostMiscellaneousModal("Regular")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Images")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Selling {symposium}
@@ -162,7 +167,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayRegularPostMiscellaneousModal("Regular")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Regular")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								{symposium} Meetups
@@ -177,7 +182,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayRegularPostMiscellaneousModal("Regular")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Regular")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								{symposium} job section offers
@@ -192,7 +197,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayRegularPostMiscellaneousModal("Advisory")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Advisory")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								{symposium} Advisory
@@ -213,7 +218,7 @@ const MiscellaneousFeatures=({symposium})=>{
 		return(
 			<ul>
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayVideoMiscellaneousModal()} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Advisory")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Critique my {symposium}
@@ -228,7 +233,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayRegularPostMiscellaneousModal("Regular")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Regular")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								{symposium} jobs 
@@ -243,7 +248,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayRegularPostMiscellaneousModal("Regular")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Regular")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Critique my script {symposium} script 
@@ -268,7 +273,7 @@ const MiscellaneousFeatures=({symposium})=>{
 		return(
 			<ul>
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayRegularPostMiscellaneousModal("Advisory")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Advisory")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Marketing tips
@@ -283,7 +288,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayRegularPostMiscellaneousModal("Regular")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Regular")} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Showcase your startup
@@ -304,23 +309,23 @@ const MiscellaneousFeatures=({symposium})=>{
 		debugger;
 		if(entrepeneurMap.has(symposium)){
 
-			entrepeneurFeatures();
+			return entrepeneurFeatures();
 
 		}else if(religionMap.has(symposium)){
 
-			religionFeatures();
+			return religionFeatures();
 
 		}else if(entertainmentMap.has(symposium)){
 
-			entertainmenetFeatures();
+			return entertainmenetFeatures();
 
 		}else if(comedyMap.has(symposium)){
 
-			comedyFeatures();
+			return comedyFeatures();
 
 		}else if(carsCookingDiyMap.has(symposium)){
 
-			carsCookingDiyFeatures();
+			return carsCookingDiyFeatures();
 		}
 	}
 	return(

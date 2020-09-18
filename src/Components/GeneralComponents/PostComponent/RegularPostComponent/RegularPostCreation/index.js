@@ -1,4 +1,4 @@
-import React,{useState,Component} from "react";
+import React,{useState,useEffect} from "react";
 import {useSelector} from "react-redux";
 import styled from "styled-components";
 import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
@@ -203,9 +203,47 @@ const RegularPostBackButton={
 	const [createRegularPostDescription,changeRegularPostDescription]=useState();
 	const [isCrownedPost,changeIsPostCrowned]=useState(false);
 	const [displayCrownModalIndicator,changeCrownIndicatorModal]=useState(false);
-
+	const [isPreviousDataLoaded,changeIsPreviousDataLoaded]=useState(false);
 
 	console.log(props);
+
+	useEffect(()=>{
+		debugger;
+		const {previousData}=props;
+		if(previousData!=null){
+			var {
+				post,
+				isAudioPost,
+				isCrownedPost
+			}=previousData;
+			changeAudioOrTextScreenChoice(false);
+			const postElement=document.getElementById("textContainer");
+
+			if(isPreviousDataLoaded==true && audioDescription!=null){
+				changeAudioOrTextScreenChoice(true);
+			}else{
+				if(isAudioPost!=null){
+					changeDisplayAudioPostOption(true);
+				}else{
+					changeDisplayAudioPostOption(false);
+				}
+
+				if(postElement!=null)
+					postElement.value=post;
+
+				if(displayAudioPostOption==true)
+					changeAudioDescription(previousData.audioDescription);
+			}
+
+			if(isCrownedPost==true){
+				const crownElement=document.getElementById("crownIcon");
+				crownElement.style.backgroundColor="#D6C5F4";
+				crownElement.style.color="white";
+			}
+			changeIsPreviousDataLoaded(true);
+		}
+
+	})
 
 	/*
 
@@ -655,8 +693,9 @@ const sendRegularPost=async(profilePostInformation)=>{
 		const searchCriteriaIndustryArray=[];
 		//const content=editorState;
 		//const rawDraftContentState = JSON.stringify(convertToRaw(content.getCurrentContent()));
-		const post=audioDescription!=null?audioDescription:document.getElementById("textContainer").value
+		let currentPost=audioDescription!=null?audioDescription:document.getElementById("textContainer").value
 		const industries=industriesSelected;
+		const isPostCrowned=isCrownedPost==undefined?false:isCrownedPost;
 		const selectedSubCommunities=subIndustriesSelected; 
 
 		var counter=0;
@@ -684,17 +723,78 @@ const sendRegularPost=async(profilePostInformation)=>{
 			}
 				searchCriteriaIndustryArray.push(searchObject);
 		}
-		const searchCriteriaObject={
-			post:post,
+		let searchCriteriaObject={
+			post:currentPost,
 			industryArray:searchCriteriaIndustryArray,
 			isAudioPost:(audioDescription==null)?null:true,
-			isCrownedPost:isCrownedPost
+			isCrownedPost:isCrownedPost,
+			isPostAuthentic:{
+				numOfApprove:[],
+				numOfDisapprove:[]
+			},
+			key:uuidv4()
 		}
 
-		const {id}=personalInformation;
-		createRegularPost(props.personalProfileId,searchCriteriaObject,"Personal");
+		if(props.previousData==null){
+			const {id}=personalInformation;
+			const {confirmation,data}=await createRegularPost(props.personalProfileId,searchCriteriaObject,"Personal");
+			debugger;
+			if(confirmation=="Success"){
+				searchCriteriaObject={
+					...searchCriteriaObject,
+					_id:data
+				}
+				pushDummyRegularPostObjectToProfile(profilePostInformation,searchCriteriaObject)
+			}else{
+				alert('Unfortunately there has been an error creating this post. Please try again');
+			}
 
-		pushDummyRegularPostObjectToProfile(profilePostInformation,searchCriteriaObject)
+			
+		}else{
+			const {previousData}=props;
+			let currentAudioDescription;
+			let {
+				post,
+				isAudioPost,
+				audioDescription,
+				isCrownedPost,
+				industriesUploaded,
+				_id
+			}=previousData;
+			if(isAudioPost==true){
+				currentPost=post;
+				currentAudioDescription=currentPost
+			}else{
+				currentAudioDescription=audioDescription;
+			}
+
+			const editedRegularPost={
+				postType:"RegularPosts",
+				postId:_id,
+				post:{
+					industriesUploaded:isArrayEqual(industriesUploaded,searchCriteriaIndustryArray)==false
+						?searchCriteriaIndustryArray:null,
+					isCrownedPost:isPostCrowned!=isCrownedPost?isPostCrowned:null,
+					post:currentPost!=post?currentPost:null
+				},
+				postS3:[
+					{
+						optionType:'audioDescription',
+						newUrl:currentAudioDescription!=audioDescription?currentAudioDescription:null
+					}
+				],
+				ownerId:props.personalProfileId
+			}
+
+ 		//	const {confirmation,data}=await editPost(editedRegularPost);
+ 			debugger;
+ 			const confirmation="Success";
+			if(confirmation=="Success"){
+				props.previousData.contextLocation.editPost(editedRegularPost);
+			}else{
+				alert('Unfortunately there has been an error editing this post. Please try again');
+			}
+		}
 		debugger;
 		/*
 			if(profilePostType=="Company"){
@@ -703,6 +803,45 @@ const sendRegularPost=async(profilePostInformation)=>{
 				createRegularPost(props.personalProfileId,searchCriteriaObject,profilePostType);
 			}
 		*/
+	}
+
+	const isArrayEqual=(arr1,arr2)=>{
+		debugger;
+		let isArrayEqualIndicator;
+
+		if(arr1.length!=arr2.length)
+			return false;
+		else{
+			let arr1Map=new Map();
+
+			arr1.forEach((industry,i)=>{
+				const {subIndustry}=industry;
+				let subArr1Map=new Map();
+
+				subIndustry.forEach((selectedSubIndustry,j)=>{
+					subArr1Map.set(selectedSubIndustry,1);
+				})
+				arr1Map.set(industry,subArr1Map);
+			});
+
+			arr2.forEach((selectedIndustry,index)=>{
+				debugger;
+				var testing=arr1Map.get(selectedIndustry.industry);
+				if(arr1Map.get(selectedIndustry.industry)==undefined)
+					isArrayEqualIndicator=false
+				else{
+					const {subIndustry}=selectedIndustry;
+
+					selectedIndustry.forEach((selectedSubIndustry,i)=>{
+						const selectedIndustryArr1=arr1Map.get(selectedSubIndustry.industry);
+						if(selectedIndustryArr1.get(selectedSubIndustry.industry)=="" ||
+						 selectedIndustryArr1.get(selectedSubIndustry.industry)==null)
+							isArrayEqualIndicator=false
+					})
+				}
+			})
+		}
+		return isArrayEqualIndicator;
 	}
 
 	const pushDummyRegularPostObjectToProfile=(profilePostInformation,searchCriteriaObject)=>{
@@ -769,6 +908,12 @@ const sendRegularPost=async(profilePostInformation)=>{
 		changeCrownIndicatorModal(false);
 	}
 
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
 
 	return(
 		<PostConsumer>
@@ -815,7 +960,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 
 											<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 												{audioDescription!=null?
-														<audio controls>
+														<audio key={uuidv4()} controls>
 															<source src={audioDescription} type="audio/ogg"/>
 															<source src={audioDescription} type="audio/mpeg"/>
 															Your browser does not support the audio element.

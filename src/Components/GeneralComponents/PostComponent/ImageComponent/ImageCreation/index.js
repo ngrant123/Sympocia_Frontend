@@ -142,9 +142,9 @@ class ImageCreation extends Component{
 									<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()}></input>
 
 								</li>
-						</ul>:<CreateImageModal
-								handleNewlyCreatedImage={this.handleNewlyCreatedImage}
-							  />
+							</ul>:<CreateImageModal
+									handleNewlyCreatedImage={this.handleNewlyCreatedImage}
+								  />
 						}
 					</Container>:
 					<EditImageCreation

@@ -158,7 +158,8 @@ const ImagePostModal=({closeModal,symposium,displayImage,modalType})=>{
 			...image,
 			_id:4290532423,
 			comments:[],
-			isCrownedPost:false
+			isCrownedPost:false,
+			industriesUploaded:[{industry:"Mathematics"}]
 		}
 
 		posts.splice(0,0,image);

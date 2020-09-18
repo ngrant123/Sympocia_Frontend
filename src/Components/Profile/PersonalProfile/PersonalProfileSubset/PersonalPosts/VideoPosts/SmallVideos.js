@@ -1,4 +1,4 @@
-import React,{Component} from "react";
+import React,{useEffect} from "react";
 import styled from "styled-components";
 import {UserConsumer} from "../../../UserContext.js";
 
@@ -74,6 +74,15 @@ const SmallVideoContainer=(videoData)=>{
 		return dateToString;
 	}
 
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
+
+	let audioId=uuidv4();
+	let videoDescriptionId=uuidv4();
 	return(
 		<UserConsumer>
 			{personalInformation=>{
@@ -84,26 +93,27 @@ const SmallVideoContainer=(videoData)=>{
 										{videoData.video.videoDescription==null?null:
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 												<VideoDescriptionContainer>
-													<video style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true">
+													<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true">
 														<source src={videoData.video.videoDescription} type="video/mp4"/>
 													</video>
 												</VideoDescriptionContainer>
 											</li>
 										}
 										
-
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<audio style={{width:"150px"}} controls>
-												<source src={videoData.video.audioDescription} type="audio/ogg"/>
-												<source src={videoData.video.audioDescription} type="audio/mpeg"/>
-												Your browser does not support the audio element.
-											</audio>
-										</li>
+										{videoData.video.audioDescription==null?null:
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<audio key={uuidv4()} style={{width:"150px"}} controls>
+													<source src={videoData.video.audioDescription} type="audio/ogg"/>
+													<source src={videoData.video.audioDescription} type="audio/mpeg"/>
+													Your browser does not support the audio element.
+												</audio>
+											</li>
+										}
 									</ul>
 								</li>
 								<li style={{listStyle:"none"}}>
 									<SmallVideo>
-										<video key={videoData.video.key} width="100%" height="100%" controls autoplay muted>
+										<video key={videoData.video._id} width="100%" height="100%" controls autoplay muted>
 												<source src={videoData.video.videoUrl} type="video/mp4"/>
 										</video>
 									</SmallVideo>
@@ -114,7 +124,6 @@ const SmallVideoContainer=(videoData)=>{
 								</li>
 
 								<li style={{listStyle:"none"}}>
-								
 									{/*{personalInformation.userProfile.firstName}*/}
 								</li>
 

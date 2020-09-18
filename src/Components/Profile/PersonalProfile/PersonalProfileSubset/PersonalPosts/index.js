@@ -366,9 +366,30 @@ const PersonalPostsIndex=(props)=>{
 						stateCallBackFunction(result);
 						props.closeModal();
 					},
-					removePost:(postId)=>{
-						let newPersonalInfoObject=removePostIndexContext(postId,props);
-						changePersonalInformation(newPersonalInfoObject);
+					removePost:(postId,postType)=>{
+							let propData;
+						let stateCallBackFunction;
+						switch(postType){
+							case 'Images':{
+								propData=imagePost;
+								stateCallBackFunction=changeImagePost;
+								break;
+							}
+
+							case 'Videos':{
+								propData=videoPost;
+								stateCallBackFunction=changeVideoPosts;
+								break;
+							}
+
+							case 'RegularPosts':{
+								propData=regularPost;
+								stateCallBackFunction=changeRegularPost;
+								break;
+							}
+						}
+						let result=removePostIndexContext(postId,propData,postType);
+						stateCallBackFunction(result);
 						props.closeModal();
 					}
 				}}

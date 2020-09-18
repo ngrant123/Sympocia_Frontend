@@ -48,7 +48,7 @@ const MusicIndex=({closeModal,modalType,symposium})=>{
 
 	const modalDecider=()=>{
 		console.log(modalType);
-		if(modalType=="Advisory" || modalType=="Beats"){
+		if(modalType=="Beats" || modalType=="Review"){
 			return <AudioPostModal
 						symposium={symposium}
 						displayImage={displayImageHandler}

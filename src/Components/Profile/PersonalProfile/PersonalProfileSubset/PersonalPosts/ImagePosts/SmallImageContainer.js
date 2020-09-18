@@ -53,10 +53,7 @@ const IndustryButtonCSS={
 const SmallImageContainer=(props)=>{
 	const {data}=props;
 	console.log(props);
-	let videoDescriptionId=1;
-	useEffect(()=>{
-		videoDescriptionId=uuidv4;
-	})
+
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
@@ -73,12 +70,14 @@ const SmallImageContainer=(props)=>{
 	  });
 	}
 
+	let audioId=uuidv4();
+	let videoDescriptionId=uuidv4();
 	return(
 		<ImageContainer>
 			<ul style={{padding:"0px"}}>
 				{data.audioDescription!=null?
 					<li style={{listStyle:"none"}}>
-							<audio style={{width:"200px"}} controls>
+							<audio key={audioId} style={{width:"200px"}} controls>
 							  <source src={data.audioDescription} type="audio/ogg"/>
 							  <source src={data.audioDescription} type="audio/mpeg"/>
 							Your browser does not support the audio element.
