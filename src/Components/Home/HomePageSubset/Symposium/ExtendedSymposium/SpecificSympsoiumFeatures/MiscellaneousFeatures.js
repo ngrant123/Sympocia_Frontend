@@ -4,6 +4,7 @@ import SYMPOSIUM_FEATURES from "../../../../../../Constants/featureSymposiumCons
 import MiscellaneousIndexPortal from "../Modals/FeaturesIndex/MiscellaneousIndex.js";
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
+import {FeatureConsumer} from "./FeatureContext.js";
 /*
 		MISCELLANEOUS_SYMPOSIUM:{
 		ENTREPENEUR:["Entrepeneur"],
@@ -30,7 +31,7 @@ const OptionsCSS={
   borderWidth:"2px",
   borderColor:"#3898ec"
 }
-const MiscellaneousFeatures=({symposium})=>{
+const MiscellaneousFeatures=({symposium,questions})=>{
 	const [displayMiscellaneousFeaturesPortal,changeMiscellaneousFeaturesDisplay]=useState(false);
 	const [displayModalType,changeModalType]=useState();
 	const [entrepeneurMap,changeEntrepeneurMap]=useState(new Map());
@@ -38,8 +39,19 @@ const MiscellaneousFeatures=({symposium})=>{
 	const [entertainmentMap,changeEntertainmentMap]=useState(new Map());
 	const [comedyMap,changeComedyMap]=useState(new Map());
 	const [carsCookingDiyMap,changeCarsCookingDIYMap]=useState(new Map());
+	const [questionIndex,changeQuestionIndex]=useState();
+	const [selectedPostId,changeSelectedPostId]=useState();
+	const [selectedQuestion,changeSelectedQuestion]=useState();
 
 	const [isLoadingFeatureSymposiums,changeLoadStatus]=useState(true);
+	if(questions!=null){
+		var {
+			audioQuestion,
+			imageQuestion,
+			regularPostQuestion,
+			videoQuestion
+		}=questions;
+	}
 
 	useEffect(()=>{
 		const {MISCELLANEOUS_SYMPOSIUM}=SYMPOSIUM_FEATURES;
@@ -73,9 +85,10 @@ const MiscellaneousFeatures=({symposium})=>{
 		changeLoadStatus(false);
 	},[]);
 
-	const displayMiscellaneousFeatures=(featureType)=>{
+	const displayMiscellaneousFeatures=(featureType,index)=>{
 		changeModalType(featureType);
 		changeMiscellaneousFeaturesDisplay(true);
+		changeQuestionIndex(index);
 	}
 
 	const displayVideoMiscellaneousModal=()=>{
@@ -101,7 +114,7 @@ const MiscellaneousFeatures=({symposium})=>{
 		return(
 			<ul>
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Video")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Video",0)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Featured Sets
@@ -116,7 +129,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Advisory")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Advisory",1)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								{symposium} Advisory
@@ -131,7 +144,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Video")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Video",2)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Review my set
@@ -152,7 +165,7 @@ const MiscellaneousFeatures=({symposium})=>{
 		return(
 			<ul>
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Images")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Images",0)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Selling {symposium}
@@ -167,7 +180,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Regular")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Regular",1)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								{symposium} Meetups
@@ -182,7 +195,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Regular")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Regular",2)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								{symposium} job section offers
@@ -197,7 +210,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Advisory")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Advisory",3)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								{symposium} Advisory
@@ -218,7 +231,7 @@ const MiscellaneousFeatures=({symposium})=>{
 		return(
 			<ul>
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Advisory")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Advisory",0)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Critique my {symposium}
@@ -233,7 +246,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Regular")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Regular",1)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								{symposium} jobs 
@@ -248,7 +261,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Regular")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Regular",2)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Critique my script {symposium} script 
@@ -273,7 +286,7 @@ const MiscellaneousFeatures=({symposium})=>{
 		return(
 			<ul>
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Advisory")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Advisory",0)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Marketing tips
@@ -288,7 +301,7 @@ const MiscellaneousFeatures=({symposium})=>{
 				<hr/>
 
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayMiscellaneousFeatures("Regular")} style={OptionsCSS}>
+					<li onClick={()=>displayMiscellaneousFeatures("Regular",1)} style={OptionsCSS}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								Showcase your startup
@@ -328,18 +341,114 @@ const MiscellaneousFeatures=({symposium})=>{
 			return carsCookingDiyFeatures();
 		}
 	}
+
+	const displayPostModal=(posts,postType,selectedPost)=>{
+		debugger;
+		var indexOfStevie = posts.findIndex(i => i._id === selectedPost._id);
+		changeModalType(postType);
+		changeMiscellaneousFeaturesDisplay(true);
+		changeQuestionIndex(indexOfStevie);
+		changeSelectedQuestion(selectedPost.question);
+		changeSelectedPostId(selectedPost._id);
+	}
 	return(
-		<>
-			{displayMiscellaneousFeaturesPortal==true?
-					<MiscellaneousIndexPortal
-						modalType={displayModalType}
-						closeModal={handleCloseModal}
-						symposium={symposium}
-					/>
-					:null
-			}
-			{modalDecider()}
-		</>
+		<FeatureConsumer>
+			{symposiumInformation=>{
+				return <>
+						{questions!=null && (
+							<>
+								{displayMiscellaneousFeaturesPortal==true?
+									<MiscellaneousIndexPortal
+										modalType={displayModalType}
+										closeModal={handleCloseModal}
+										symposium={symposium}
+										questionIndex={questionIndex}
+										symposiumId={symposiumInformation.symposiumId}
+										selectedPostId={selectedPostId}
+										question={selectedQuestion}
+									/>
+									:null
+								}
+								<ul>
+									{audioQuestion.map(data=>
+										<>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>displayPostModal(audioQuestion,"Audio",data)} style={OptionsCSS}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														{data.question}
+													</li>
+
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														<ArrowDropDownCircleOutlinedIcon/>
+													</li>
+												</ul>
+											</li>
+										</a>
+										<hr/>
+										</>
+									)}
+									{imageQuestion.map(data=>
+										<>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>displayPostModal(imageQuestion,"Image",data)} style={OptionsCSS}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														{data.question}
+													</li>
+
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														<ArrowDropDownCircleOutlinedIcon/>
+													</li>
+												</ul>
+											</li>
+										</a>
+										<hr/>
+										</>
+									)}
+
+									{regularPostQuestion.map(data=>
+										<>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>displayPostModal(regularPostQuestion,"RegularPost",data)} style={OptionsCSS}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														{data.question}
+													</li>
+
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														<ArrowDropDownCircleOutlinedIcon/>
+													</li>
+												</ul>
+											</li>
+										</a>
+										<hr/>
+										</>
+									)}
+									{videoQuestion.map(data=>
+										<>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>displayPostModal(videoQuestion,"Video",data)} style={OptionsCSS}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														{data.question}
+													</li>
+
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														<ArrowDropDownCircleOutlinedIcon/>
+													</li>
+												</ul>
+											</li>
+										</a>
+										<hr/>
+										</>
+									)}
+								</ul>
+							</>
+						)}
+					   </>
+			}}
+		</FeatureConsumer>
 	)
 }
 

@@ -300,7 +300,7 @@ class EditImageCreation extends Component{
 				postType:"Images",
 				postId:_id,
 				post:{
-					industriesUploaded:this.isArrayEqual(industriesUploaded,searchCriteriaIndustryArray)==false
+					industriesUploaded:this.isArrayEqual(industriesUploaded,(searchCriteriaIndustryArray.length==0?industriesUploaded:searchCriteriaIndustryArray))==false
 						?searchCriteriaIndustryArray:null,
 					description:descriptionTextArea!=description?descriptionTextArea:null,
 					caption:captionTextArea!=caption?captionTextArea:null,
@@ -323,8 +323,7 @@ class EditImageCreation extends Component{
 				ownerId:this.props.personalProfile.id
 			}
 
- 		//	const {confirmation,data}=await editPost(editedImage);
- 			const confirmation="Success";
+ 			const {confirmation,data}=await editPost(editedImage);
 			if(confirmation=="Success"){
 				this.props.editPost(editedImage);
 			}else{
@@ -342,15 +341,15 @@ class EditImageCreation extends Component{
 
 	isArrayEqual=(arr1,arr2)=>{
 		debugger;
-		let isArrayEqualIndicator;
+		let isArrayEqualIndicator=true;
 
 		if(arr1.length!=arr2.length)
 			return false;
 		else{
 			let arr1Map=new Map();
 
-			arr1.forEach((industry,i)=>{
-				const {subIndustry}=industry;
+			arr1.forEach((iteratedIndustry,i)=>{
+				const {industry,subIndustry}=iteratedIndustry;
 				let subArr1Map=new Map();
 
 				subIndustry.forEach((selectedSubIndustry,j)=>{
@@ -361,16 +360,16 @@ class EditImageCreation extends Component{
 
 			arr2.forEach((selectedIndustry,index)=>{
 				debugger;
-				var testing=arr1Map.get(selectedIndustry.industry);
-				if(arr1Map.get(selectedIndustry.industry)==undefined)
+				var testing=arr1Map.has(selectedIndustry.industry);
+				if(arr1Map.has(selectedIndustry.industry)==undefined)
 					isArrayEqualIndicator=false
 				else{
+					debugger;
 					const {subIndustry}=selectedIndustry;
 
-					selectedIndustry.forEach((selectedSubIndustry,i)=>{
+					subIndustry.forEach((selectedSubIndustry,i)=>{
 						const selectedIndustryArr1=arr1Map.get(selectedSubIndustry.industry);
-						if(selectedIndustryArr1.get(selectedSubIndustry.industry)=="" ||
-						 selectedIndustryArr1.get(selectedSubIndustry.industry)==null)
+						if(selectedIndustryArr1.get(selectedSubIndustry.industry)==undefined)
 							isArrayEqualIndicator=false
 					})
 				}

@@ -23,6 +23,7 @@ const Container=styled.div`
 	left:2%;
 	background-color:white;
 	border-radius:5px;
+	padding-right:20px;
 `;
 
 const ProfilePicture=styled.div`
@@ -70,32 +71,30 @@ const TextOptions=(props)=>{
 		postId,
 		history
 	}=props;
-	const changeBold=()=>{
 
-	}
+	const {location:{
+		state:{
+			videoDescription,
+			audioDescription,
+			blog
+		}
+	}}=history;
+	debugger;
 
-	const changeItalics=()=>{
+	console.log(props);
 
-	}
+	const changeBold=()=>{}
 
-	const enableCodingBlock=()=>{
+	const changeItalics=()=>{}
 
+	const enableCodingBlock=()=>{}
 
-	}
+	const enableBulletList=()=>{}
 
-	const enableBulletList=()=>{
+	const enableNumberedLst=()=>{}
 
+	const handleSubmitBlogData=()=>{}
 
-	}
-
-	const enableNumberedLst=()=>{
-
-
-	}
-
-	const handleSubmitBlogData=()=>{
-
-	}
 
 	const handleRemoveBlogPost=async()=>{
 		const {confirmation,data}=await deletePost(postId,"Blogs");
@@ -106,7 +105,7 @@ const TextOptions=(props)=>{
 		}else{
 			alert('Unfortunately there has been an error deleting this post. Please try again');
 		}
-	}
+	} 
 
 	return(
 		<BlogConsumer>
@@ -268,32 +267,46 @@ const TextOptions=(props)=>{
 													</svg>
 												</li>
 											</a>
-
+											{blog!=null &&(
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>displayEditBlogSubmitModal()} style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+														<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil"
+															 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515" 
+															 fill="none" stroke-linecap="round" stroke-linejoin="round">
+														  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+														  	<path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+														  	<line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+														</svg>
+													</li>
+												</a>	
+											)}
 										</ul>
 									</li>
-									
-
-									{/*
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"0px"}}>
+									<hr/>
+									<li style={{listStyle:"none",marginTop:"15%"}}>
+										<ul style={{padding:"0px"}}>
+											{videoDescription!=null &&(
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													<VideoDescriptionContainer>
 														<video width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
-																		<source src={props.blogState.videoDescription} type="video/mp4"/>
+																		<source src={videoDescription} type="video/mp4"/>
 														</video>
 													</VideoDescriptionContainer>
 												</li>
+											)}
 
+											{audioDescription && (
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													<audio controls>
-																  <source src={props.blogState.audioDescription} type="audio/ogg"/>
+																  <source src={audioDescription} type="audio/ogg"/>
 																  <source src={props.blogState.audioDescription} type="audio/mpeg"/>
 																Your browser does not support the audio element.
 													</audio>
 												</li>
-											</ul>
-										</li>
-									*/}
+											)}
+											
+										</ul>
+									</li>
 									
 								</ul>
 							</Container>

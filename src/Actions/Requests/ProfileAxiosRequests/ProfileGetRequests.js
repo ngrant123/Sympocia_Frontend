@@ -10,16 +10,11 @@ export function getActivityLog(userId){
 	axios.get(`${baseurl}/ActivityLog`,{
 
 		param:{
-
 			userid:userId
 		}
 	}).then(res=>{
-
 		console.log(res.data);
-
-
 	}).catch(err=>{
-
 		console.log(err.message);
 	})
 }
@@ -190,7 +185,7 @@ export async function getVideosFromUser(userId){
 
 		const {data}=videos;
 		debugger;
-		return data.data;
+		return data;
 
 	}catch(err){
 		console.log(err);
@@ -205,7 +200,7 @@ export async function getBlogFromUser(userId){
 		})
 
 		const {data}=blogsPostsData;
-		return data.data;
+		return data;
 
 	}catch(err){
 		console.log(err);
@@ -224,7 +219,7 @@ export async function getRegularPostFromUser(userId){
 		debugger;
 
 		const {data}=regularPostsResults;
-		return data.data;
+		return data;;
 
 	}catch(err){
 		console.log(err);

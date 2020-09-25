@@ -374,7 +374,7 @@ const NoPostsModal=(props)=>{
 
 	return(
 			<React.Fragment>
-				<p>Currently there are no videos available here</p>
+				<p>Currently there are no posts available here</p>
 					{postTypeNoModal()}
 			</React.Fragment>
 	)

@@ -10,11 +10,13 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {UserConsumer} from "../../UserContext.js";
 import {PostProvider} from "./PostsContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import {getVideosFromUser} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import FriendsGauge from "./FriendsGauge.js";
 import PostCreationPortal from "../../PersonalProfileSet/PostCreationPortal.js";
 
-import {getRegularPostFromUser} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {
+		getRegularPostFromUser,
+		getVideosFromUser
+	} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 import {
 	editPostIndexContext,
@@ -229,15 +231,20 @@ const PersonalPostsIndex=(props)=>{
 			changeDisplayForVideos(true); 
 
 			console.log("Testing video api call");
-			const {crownedVideo,videoPosts}=await getVideosFromUser(id);
-			debugger;
-			const videoObject={
-				headerVideo:crownedVideo,
-				videos:videoPosts
+			const {confirmation,data}=await getVideosFromUser(id);
+
+			if(confirmation=="Success"){
+				const {crownedVideo,videoPosts}=data;
+				debugger;
+				const videoObject={
+					headerVideo:crownedVideo,
+					videos:videoPosts
+				}
+				changeVideoPosts(videoObject);
+				changeVideosLoadingIndicator(false);
+			}else{
+				alert('Unfortunately there has been an error getting your pictures. Please try again');
 			}
-			changeVideoPosts(videoObject);
-			changeVideosLoadingIndicator(false);
-			
 
 		}else if(kindOfPost=="blog"){
 
@@ -250,21 +257,27 @@ const PersonalPostsIndex=(props)=>{
 
 
 		}else{
-			const {crownedRegularPost,regularPosts}=await getRegularPostFromUser(id);
 
-			const regularPost=document.getElementById("regularPosts");
-			regularPost.style.color="#C8B0F4";
-			regularPost.style.borderBottom="solid";
-			regularPost.style.borderColor="#C8B0F4";
+			const {confirmation,data}=await getRegularPostFromUser(id);
 
-			const regularPostObject={
-				headerPost:crownedRegularPost,
-				posts:regularPosts.reverse()
-			}
-			console.log(regularPostObject);
-
-			changeRegularPost(regularPostObject);
-			changeDisplayForRegularPosts(true);
+				if(confirmation=="Success"){	
+					const {crownedRegularPost,regularPosts}=data;
+					const regularPost=document.getElementById("regularPosts");
+					regularPost.style.color="#C8B0F4";
+					regularPost.style.borderBottom="solid";
+					regularPost.style.borderColor="#C8B0F4";
+		
+					const regularPostObject={
+						headerPost:crownedRegularPost,
+						posts:regularPosts.reverse()
+					}
+					console.log(regularPostObject);
+		
+					changeRegularPost(regularPostObject);
+					changeDisplayForRegularPosts(true);
+				}else{
+					alert('Unfortunately there has been an error getting your regular posts. Please try again');
+				}
 		}
 	}
 

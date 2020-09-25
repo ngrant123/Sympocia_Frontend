@@ -2,6 +2,9 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
+import {createIndustryFeatureImageResponse} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {getIndustryImageFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {useSelector} from "react-redux";
 
 
 const Container=styled.div`
@@ -117,12 +120,41 @@ const SkillLevelButton={
   marginRight:"2%"
 }
 
-const ImagePostModal=({closeModal,symposium,displayImage,modalType})=>{
+const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposiumId,question,selectedPostId})=>{
 	
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [finalImageEditDisplay,changeDisplayForFinalImage]=useState(false);
 	const [imgUrl,changeImageUrl]=useState();
-	const [posts,changePosts]=useState([{},{},{},{},{}]);	
+	const [posts,changePosts]=useState([]);
+	const [questionId,changeQuestionId]=useState();	
+	const [symposiumIdState,changeSymposiumIdState]=useState();
+
+	const userId=useSelector(state=>state.personalInformation.id);
+
+	useEffect(()=>{
+		const fetchData=async()=>{
+			debugger;
+			console.log(symposiumId);
+			const {confirmation,data}=await getIndustryImageFeatureAnswers({
+				industryId:symposiumId,
+				questionIndex,
+				questionId:selectedPostId
+			})
+
+			if(confirmation=="Success"){
+				const {
+					questionId,
+					posts
+				}=data;
+				changePosts(posts);
+				changeQuestionId(questionId);
+			}else{
+				alert('Unfortunately there has been an error trying to get this images data. Please try again');
+			}
+		}
+
+		fetchData();
+	},[])
 
 	const handleUploadPicture=()=>{
 		var fileReader=new FileReader();
@@ -151,21 +183,41 @@ const ImagePostModal=({closeModal,symposium,displayImage,modalType})=>{
 			imgUrl:imgUrl,
 			description:document.getElementById("imageDescription").value
 		}
-
-		//Connect image date to api 
-
-		image={
-			...image,
-			_id:4290532423,
-			comments:[],
-			isCrownedPost:false,
-			industriesUploaded:[{industry:"Mathematics"}]
+		const submitedImage={
+			image,
+			industryId:symposiumId,
+			questionId:selectedPostId,
+			questionIndex:questionIndex,
+			userId:userId
 		}
 
-		posts.splice(0,0,image);
-		changePosts([...posts]);
-		changeDisplayCreationModal(false);
+		const {confirmation,data}=await createIndustryFeatureImageResponse(submitedImage);
+		if(confirmation=="Success"){
+			const {
+				questionId,
+				postId
+			}=data;
+			image={
+				...image,
+				_id:postId,
+				comments:[],
+				isCrownedPost:false,
+				industriesUploaded:[{industry:symposium}]
+			}
+
+			posts.splice(0,0,image);
+			changeQuestionId(questionId);
+			changePosts([...posts]);
+			changeDisplayCreationModal(false);
+		}else{
+			alert('Unfortunately there has been an error with adding this image. Please try again');
+		}
 	}
+
+	const initializeSymposiumId=(id)=>{
+		changeSymposiumIdState(id);
+	}
+
 	return(
 		<ul style={{padding:"20px"}}>
 			{displayCreationModal==false?
@@ -174,7 +226,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,modalType})=>{
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<p style={{fontSize:"20px"}}>
-									<b>{modalType} my {symposium}</b>
+									<b>{question}</b>
 								</p>
 							</li>
 							<li style={{listStyle:"none",display:"inline-block"}}>
@@ -220,7 +272,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,modalType})=>{
 							</a>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<p style={{fontSize:"20px"}}>
-									<b>Upload an image for others to {modalType}</b>
+									<b>Upload an image for others to see</b>
 								</p>
 							</li>
 						</ul>

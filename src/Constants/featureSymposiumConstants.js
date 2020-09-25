@@ -24,7 +24,8 @@ export default{
 		"Technology",
 		"Accounting",
 		"Law",
-		"Medicine"
+		"Medicine",
+		"Philosophy"
 	],
 	GAMING_SYMPOSIUM:[
 		"Gaming"

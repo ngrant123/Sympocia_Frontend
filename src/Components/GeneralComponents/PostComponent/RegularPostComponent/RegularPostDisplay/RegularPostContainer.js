@@ -4,6 +4,7 @@ import CommentsContainer from "../../../../GeneralComponents/CommentsComponent/i
 import PosterInformation from "./PosterInformation.js";
 import PostContent from "./PostInformation.js";
 import RegularPostCreation from "../RegularPostCreation/index.js";
+import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
 
 
 const Container=styled.div`
@@ -138,51 +139,54 @@ const RegularPostContainer=(props)=>{
 	}
 
 	return(
-		<Container>
-			{displayEditPostModal==true?
-				<RegularPostCreation 
-					previousData={props.postData}
-				/>
-				:
-				<ul style={{padding:"0px"}}>
-					<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-						<PosterInformation
-							postData={props.postData}
-							triggerPromoteModal={props.triggerPromoteModal}
-							triggerEditPostModal={displayEditPostHandle}
+	<PostConsumer>
+		{userPostsInformation=>{
+			return <Container>
+					{displayEditPostModal==true?
+						<RegularPostCreation 
+							previousData={props.postData}
+							contextLocation={userPostsInformation}
 						/>
-					</li>
-					<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",height:"20%",overflow:"hidden"}}>
-						{displayCommentsAndResponses==true?
-							<CommentsContainerDiv>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<p style={BackButtonCSS} onClick={()=>hideComments()}>
-											Back
-										</p>
-									</a>
-								</li>
-								<CommentsContainer
-									postId={props.postData._id}
-									postType={"RegularPost"}
-									hideComments={hideComments}
-									targetDom={props.targetDom}
+						:
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+								<PosterInformation
+									postData={props.postData}
+									triggerPromoteModal={props.triggerPromoteModal}
+									triggerEditPostModal={displayEditPostHandle}
 								/>
-						 	</CommentsContainerDiv>:
-						  <PostContent
-								displayComments={DisplayCommentsState}	
-								hideComments={hideComments}
-								userData={props.postData}
-								targetDom={props.targetDom}
-							/>
+							</li>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",height:"20%",overflow:"hidden"}}>
+								{displayCommentsAndResponses==true?
+									<CommentsContainerDiv>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<p style={BackButtonCSS} onClick={()=>hideComments()}>
+													Back
+												</p>
+											</a>
+										</li>
+										<CommentsContainer
+											postId={props.postData._id}
+											postType={"RegularPost"}
+											hideComments={hideComments}
+											targetDom={props.targetDom}
+										/>
+								 	</CommentsContainerDiv>:
+								  <PostContent
+										displayComments={DisplayCommentsState}	
+										hideComments={hideComments}
+										userData={props.postData}
+										targetDom={props.targetDom}
+									/>
 
-						}
-					</li>
-				</ul>
-			}
-		</Container>
-
-
+								}
+							</li>
+						</ul>
+					}
+				</Container>
+		}}
+	</PostConsumer>
 	)
 }
 

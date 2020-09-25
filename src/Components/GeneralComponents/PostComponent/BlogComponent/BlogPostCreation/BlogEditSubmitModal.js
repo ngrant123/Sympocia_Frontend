@@ -3,7 +3,10 @@ import styled from "styled-components";
 import CameraIcon from '@material-ui/icons/Camera';
 import SendIcon from '@material-ui/icons/Send';
 import IndustryPostOptions from "../../IndustryPostOptions.js";
-import {createBlogPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {
+		createBlogPost,
+		editPost
+	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {connect} from "react-redux";
 import {BlogConsumer} from "./BlogContext.js";
 import {PostConsumer} from "../../PostContext.js";
@@ -18,15 +21,19 @@ import { Icon, InlineIcon } from '@iconify/react';
 import crownIcon from '@iconify/icons-mdi/crown';
 import CrownPostModal from "../../CrownPost.js";
 
+import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+
 const Container=styled.div`
-	position:absolute;
-	width:50%;
+	position:fixed;
+	width:55%;
 	height:70%;
 	background-color:white;
 	border-radius:5px;
 	z-index:5;
 	top:25%;
-	left:30%;
+	left:25%;
+	overflow:scroll;
 `;
 
 const ImageContainer=styled.div`
@@ -112,6 +119,29 @@ class BlogEditSubmitModal extends Component{
 		}
 	}
 
+	componentDidMount(){
+		debugger;
+		if(this.props.previousState!=null){
+			const {
+				blogImageUrl,
+				title,
+				description,
+				audioDescription,
+				videoDescription
+			}=this.props.previousState;
+
+			document.getElementById("blogTitle").value=title;
+			document.getElementById("blogDescription").value=description;
+
+			this.setState({
+				pictureUrl:blogImageUrl,
+				displayImage:true,
+				audioDescription:audioDescription,
+				videoDescription:videoDescription
+			})
+		}
+	}
+
 	clickInputFileButton=()=>{
 		document.getElementById("uploadPictureFile").click();
 	}
@@ -148,13 +178,15 @@ class BlogEditSubmitModal extends Component{
 		})
 	}
 
-	sendBlogDataToDB=(blogPostInformation,profilePostType)=>{
-		const {title,description}=this.state;
+	sendBlogDataToDB=async(blogPostInformation,profilePostType)=>{
+		const currentTitle=this.state.title;
+		const currentDescription=this.state.description;
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const industries=this.state.industriesSelected;
 		const selectedSubCommunities=this.state.subIndustriesSelected;
-		const videoDescription=this.state.videoDescription;
-		const audioDescription=this.state.audioDescription;
+		const currentVideoDescription=this.state.videoDescription;
+		const currentAudioDescription=this.state.audioDescription;
+		let isEditSuccess=true;
 
 		const searchCriteriaIndustryArray=[];
 		var counter=0;
@@ -177,31 +209,127 @@ class BlogEditSubmitModal extends Component{
 				}
 			}
 			const searchObject={
-						industry:industries[i].industry,
-						subIndustry:subCommunitiyArray
+				industry:industries[i].industry,
+				subIndustry:subCommunitiyArray
 			}
-				searchCriteriaIndustryArray.push(searchObject);
+			searchCriteriaIndustryArray.push(searchObject);
 		}
 		debugger;
-		const rawDraftContentState = JSON.stringify(convertToRaw(blogPostInformation.blogPostState.getCurrentContent()));
-		const blogPostSendObject={
-			title:title,
-			description:description,
-			industryArray:searchCriteriaIndustryArray,
-			blog:rawDraftContentState,
-			imgUrl:this.state.pictureUrl,
-			videoDescription:videoDescription,
-			audioDescription:audioDescription,
-			isPostCrowned:this.state.isPostCrowned
-		}
 			//Quick fix but this could be implemented in a better way
+		if(this.props.previousState==null){
+			const rawDraftContentState = JSON.stringify(convertToRaw(blogPostInformation.blogPostState.getCurrentContent()));
+			const blogPostSendObject={
+				title:currentTitle,
+				description:currentDescription,
+				industryArray:searchCriteriaIndustryArray,
+				blog:rawDraftContentState,
+				imgUrl:this.state.pictureUrl,
+				videoDescription:currentVideoDescription,
+				audioDescription:currentAudioDescription,
+				isPostCrowned:this.state.isPostCrowned
+			}
+
 			if(this.props.personalProfile.loggedIn==true){
 				createBlogPost(this.props.personalProfile.id,blogPostSendObject,"Personal");
 			}
 			else{
 				createBlogPost(this.props.companyProfile.id,blogPostSendObject,"Company");
 			}
+		}else{
+			const {previousData}=this.props;
+			const {
+				blogImageUrl,
+				title,
+				description,
+				audioDescription,
+				videoDescription,
+				isCrownedPost,
+				_id,
+				industriesUploaded
+			}=this.props.previousState;
+
+			const editedImage={
+				postType:"Blogs",
+				postId:_id,
+				post:{
+					industriesUploaded:this.isArrayEqual(industriesUploaded,(searchCriteriaIndustryArray.length==0?industriesUploaded:searchCriteriaIndustryArray))==false
+						?searchCriteriaIndustryArray:null,
+					description:currentDescription!=description?currentDescription:null,
+					title:currentTitle!=title?currentTitle:null,
+					isCrownedPost:this.state.isPostCrowned!=isCrownedPost?this.state.isPostCrowned:null
+				},
+				postS3:[
+					{
+						optionType:'postUrl',
+						newUrl:this.isImagesSrcEqual(this.state.pictureUrl,blogImageUrl)==false?this.state.pictureUrl:null
+					},
+					{
+						optionType:'audioDescription',
+						newUrl:currentAudioDescription!=audioDescription?currentAudioDescription:null
+					},
+					{
+						optionType:'videoDescription',
+						newUrl:currentVideoDescription!=videoDescription?currentVideoDescription:null
+					}
+				],
+				ownerId:this.props.previousState.owner
+			}
+			debugger;
+ 			const {confirmation,data}=await editPost(editedImage);
+			if(confirmation=="Failure"){
+				isEditSuccess=false;
+				alert('Unfortunately there has been an error editing this post. Please try again');
+			}
+		}
+		if(isEditSuccess!=false){
 			this.props.routerHistory.push('/profile/'+this.props.personalProfile.id);
+		}
+	}
+
+	isImagesSrcEqual=(img1,img2)=>{
+		if(String(img1)===String(img2))
+			return true;
+		else 
+			return false;
+	}
+
+isArrayEqual=(arr1,arr2)=>{
+		debugger;
+		let isArrayEqualIndicator=true;
+
+		if(arr1.length!=arr2.length)
+			return false;
+		else{
+			let arr1Map=new Map();
+
+			arr1.forEach((iteratedIndustry,i)=>{
+				const {industry,subIndustry}=iteratedIndustry;
+				let subArr1Map=new Map();
+
+				subIndustry.forEach((selectedSubIndustry,j)=>{
+					subArr1Map.set(selectedSubIndustry,1);
+				})
+				arr1Map.set(industry,subArr1Map);
+			});
+
+			arr2.forEach((selectedIndustry,index)=>{
+				debugger;
+				var testing=arr1Map.has(selectedIndustry.industry);
+				if(arr1Map.has(selectedIndustry.industry)==undefined)
+					isArrayEqualIndicator=false
+				else{
+					debugger;
+					const {subIndustry}=selectedIndustry;
+
+					subIndustry.forEach((selectedSubIndustry,i)=>{
+						const selectedIndustryArr1=arr1Map.get(selectedSubIndustry.industry);
+						if(selectedIndustryArr1.get(selectedSubIndustry.industry)==undefined)
+							isArrayEqualIndicator=false
+					})
+				}
+			})
+		}
+		return isArrayEqualIndicator;
 	}
 
 	setUpVideoDescriptionCreation=()=>{
@@ -259,6 +387,14 @@ class BlogEditSubmitModal extends Component{
 			displayCrownModalIndicator:false
 		})
 	}
+
+	uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
+
 
 
 	render(){
@@ -322,10 +458,11 @@ class BlogEditSubmitModal extends Component{
 											/>
 										</CrownIconContainer>
 									</a>
+									<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} accept="image/x-png,image/gif,image/jpeg"></input>
 									{this.state.displayImage==false?
 										<React.Fragment>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<ul onClick={()=>this.clickInputFileButton()}style={{padding:"110px"}}>
+												<ul onClick={()=>this.clickInputFileButton()} style={{padding:"110px"}}>
 													<li style={{listStyle:"none",marginLeft:"25%"}}>
 														<CameraIcon
 															style={{fontSize:35,color:"#5298F8"}}
@@ -336,61 +473,40 @@ class BlogEditSubmitModal extends Component{
 													</li>
 												</ul>
 											</a>
-											<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} accept="image/x-png,image/gif,image/jpeg"></input>
 										</React.Fragment>:
 										<ImageContainer>
+											<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px"}}>
+												<li onClick={()=>this.clickInputFileButton()} style={{listStyle:"none"}}>
+													<a href="javascript:void(0);">
+														<HighlightOffIcon
+															style={{fontSize:30}}
+														/>
+													</a>
+												</li>
+												{/*	
+													<li style={{listStyle:"none"}}>
+														<a href="javascript:void(0);">
+															<FormatColorFillIcon
+																style={{fontSize:30}}
+															/>
+														</a>
+													</li>
+												*/}
+											</ul>
 											<img src={this.state.pictureUrl} width="100%" height="100%"/>
 										</ImageContainer>
 									}
 								</li>
 
-								<li style={{position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",marginTop:"15%"}}>
+								<li style={{position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%"}}>
 									{this.state.displayIndustrySelectModal==false?
-											<ul style={{padding:"0px"}}>
-												<p> Title (optinal)</p>
-												<BlogTitle
-													placeholder="Write down a title so it will immediately grab users attention"
-													id="blogTitle"
-												/>
-												<p> Description (optinal)</p>
-												<BlogDescription
-													placeholder="Write down a description so readers can get a quick summary of you masterpiece"
-													id="blogDescription"
-												/>
-												<hr/>
-												 <li style={{listStyle:"none"}}>
-													<ul style={{padding:"0px"}}>
-														<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
-															Create either a video or voice description for your image. Much more interesting than regular text imo ;)
-														</li>
-														<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>
-															<ul style={{padding:"10px"}}>
-																<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<MicIcon
-																			style={{fontSize:40}}
-																		/>
-																	</a>
-																</li>
-
-																<li onClick={()=>this.setUpVideoDescriptionCreation()} style={{listStyle:"none",display:"inline-block"}}>
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<CameraAltIcon
-																			style={{fontSize:40}}
-																		/>
-																	</a>
-																</li>
-															</ul>
-														</li>
-													</ul>
-												</li>
-
-												 
-										 		<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none"}}>
+												<ul style={{zIndex:"8",marginRight:"5%",padding:"15px"}}>
 													{this.state.videoDescription==null?null:
-														<li style={{listStyle:"none"}}>
+														<li style={{listStyle:"none",marginBottom:"2%"}}>
 															<VideoDescriptionContainer>
-																<video width="100%" height="100%" borderRadius="50%" autoplay="true">
+																<video key={this.uuidv4()} width="100%" height="100%" borderRadius="50%" autoplay="true">
 																	<source src={this.state.videoDescription} type="video/mp4"/>
 																</video>
 															</VideoDescriptionContainer>
@@ -398,7 +514,7 @@ class BlogEditSubmitModal extends Component{
 													}
 													{this.state.audioDescription==null?null:
 														<li style={{listStyle:"none"}}>
-															<audio controls>
+															<audio key={this.uuidv4()} controls>
 															  <source src={this.state.audioDescription} type="audio/ogg"/>
 															  <source src={this.state.audioDescription} type="audio/mpeg"/>
 															Your browser does not support the audio element.
@@ -406,44 +522,83 @@ class BlogEditSubmitModal extends Component{
 														</li>
 													}
 												</ul>
+											</li>
 
-												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-													<ul onClick={()=>this.setState({
-																displayIndustrySelectModal:true,
-																title:document.getElementById("blogTitle").value,
-																description:document.getElementById("blogDescription").value
-															})}>
-														<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-															Next
-														</li>
-
-													</ul>
-												 </li>
-											</ul>:
-											<React.Fragment>
-												<li style={{top:"-280px",listStyle:"none"}}>
-													<IndustryPostOptions
-														alterSelectedIndustry={this.alterSelectedIndustry}
-														alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-													/>
-												</li>
-												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<ul onClick={()=>this.sendBlogDataToDB(blogPostInformation,profilePostInformation)}>
-																<li style={{listStyle:"none",display:"inline-block"}}>
-																	<SendIcon
-																		style={{fontSize:20,color:"white"}}
+											<p> Title (optinal)</p>
+											<BlogTitle
+												placeholder="Write down a title so it will immediately grab users attention"
+												id="blogTitle"
+											/>
+											<p> Description (optinal)</p>
+											<BlogDescription
+												placeholder="Write down a description so readers can get a quick summary of you masterpiece"
+												id="blogDescription"
+											/>
+											<hr/>
+											 <li style={{listStyle:"none"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
+														Create either a video or voice description for your image. Much more interesting than regular text imo ;)
+													</li>
+													<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>
+														<ul style={{padding:"10px"}}>
+															<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<MicIcon
+																		style={{fontSize:40}}
 																	/>
-																</li>
+																</a>
+															</li>
 
-																<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																	Send
-																</li>
-															</ul>
-													</a>
-												 </li>
-											</React.Fragment>
-										}
+															<li onClick={()=>this.setUpVideoDescriptionCreation()} style={{listStyle:"none",display:"inline-block"}}>
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<CameraAltIcon
+																		style={{fontSize:40}}
+																	/>
+																</a>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+
+
+											<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+												<ul onClick={()=>this.setState({
+															displayIndustrySelectModal:true,
+															title:document.getElementById("blogTitle").value,
+															description:document.getElementById("blogDescription").value
+														})}>
+													<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+														Next
+													</li>
+												</ul>
+											 </li>
+										</ul>:
+										<React.Fragment>
+											<li style={{top:"-280px",listStyle:"none"}}>
+												<IndustryPostOptions
+													alterSelectedIndustry={this.alterSelectedIndustry}
+													alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+												/>
+											</li>
+											<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<ul onClick={()=>this.sendBlogDataToDB(blogPostInformation,profilePostInformation)}>
+															<li style={{listStyle:"none",display:"inline-block"}}>
+																<SendIcon
+																	style={{fontSize:20,color:"white"}}
+																/>
+															</li>
+
+															<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																Send
+															</li>
+														</ul>
+												</a>
+											 </li>
+										</React.Fragment>
+									}
 								</li>
 							</ul>
 						</Container>

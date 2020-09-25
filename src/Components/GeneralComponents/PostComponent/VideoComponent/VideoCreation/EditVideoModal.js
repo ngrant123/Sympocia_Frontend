@@ -5,7 +5,11 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import IndustryPostOptions from "../../IndustryPostOptions.js";
 import SendIcon from '@material-ui/icons/Send';
 import {connect} from "react-redux";
-import {createVideoPost,updateCrownedVideo} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {
+		createVideoPost,
+		updateCrownedVideo,
+		editPost
+	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
 import {CompanyPostConsumer} from "../../../../Profile/CompanyProfile/CompanyPostsContext.js";
 
@@ -18,6 +22,7 @@ import { Icon, InlineIcon } from '@iconify/react';
 import crownIcon from '@iconify/icons-mdi/crown';
 import CrownPostModal from "../../CrownPost.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import RedoVideoCreationModal from "./index.js";
 
 const TextContainerDescription=styled.textarea`
 	height:30%;
@@ -98,7 +103,8 @@ const ButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  marginRight:"4%"
+  marginRight:"4%",
+  marginTop:"10%"
 }
 
 class EditVideoModal extends Component{
@@ -121,7 +127,8 @@ class EditVideoModal extends Component{
 			videoSrc:this.props.videoSrc,
 			audioId:this.uuidv4(),
 			videoDescriptionId:this.uuidv4(),
-			changeVideoVerification:false
+			changeVideoVerification:false,
+			displayRedoPage:false
 		}
 	}
 
@@ -262,9 +269,8 @@ class EditVideoModal extends Component{
 					alert('Unfortunately an error has occured please try again ');
 				}
 			}else{
-				//const {confirmation,data}=await createVideoPost(this.props.personalProfile.id,searchVideoResult,"Personal");
+				const {confirmation,data}=await createVideoPost(this.props.personalProfile.id,searchVideoResult,"Personal");
 				debugger;
-				const confirmation="Success";
 				if(confirmation=="Success"){
 					searchVideoResult={
 						...searchVideoResult,
@@ -272,6 +278,7 @@ class EditVideoModal extends Component{
 							numOfApprove:[],
 							numOfDisapprove:[]
 						},
+						id:data,
 						key:this.uuidv4()
 					}
 					videoPostInformation.hideCreationPost();
@@ -298,7 +305,7 @@ class EditVideoModal extends Component{
 				postType:"Videos",
 				postId:_id,
 				post:{
-					industriesUploaded:this.isArrayEqual(industriesUploaded,searchCriteriaIndustryArray)==false
+					industriesUploaded:this.isArrayEqual(industriesUploaded,(searchCriteriaIndustryArray.length==0?industriesUploaded:searchCriteriaIndustryArray))==false
 						?searchCriteriaIndustryArray:null,
 					videoDescription:currentVideoDescription!=videoDescription?currentVideoDescription:null,
 					title:currentVideoTitle!=title?currentVideoTitle:null,
@@ -321,8 +328,7 @@ class EditVideoModal extends Component{
 				ownerId:this.props.personalProfile.id
 			}
 
- 		//	const {confirmation,data}=await editPost(editedVideo);
- 			const confirmation="Success";
+ 			const {confirmation,data}=await editPost(editedVideo);
 			if(confirmation=="Success"){
 				this.props.editPost(editedVideo);
 			}else{
@@ -331,7 +337,7 @@ class EditVideoModal extends Component{
 		}
 	}
 
-	isArrayEqual=(arr1,arr2)=>{
+isArrayEqual=(arr1,arr2)=>{
 		debugger;
 		let isArrayEqualIndicator=true;
 
@@ -340,8 +346,8 @@ class EditVideoModal extends Component{
 		else{
 			let arr1Map=new Map();
 
-			arr1.forEach((industry,i)=>{
-				const {subIndustry}=industry;
+			arr1.forEach((iteratedIndustry,i)=>{
+				const {industry,subIndustry}=iteratedIndustry;
 				let subArr1Map=new Map();
 
 				subIndustry.forEach((selectedSubIndustry,j)=>{
@@ -352,16 +358,16 @@ class EditVideoModal extends Component{
 
 			arr2.forEach((selectedIndustry,index)=>{
 				debugger;
-				var testing=arr1Map.get(selectedIndustry.industry);
-				if(arr1Map.get(selectedIndustry.industry)==undefined)
+				var testing=arr1Map.has(selectedIndustry.industry);
+				if(arr1Map.has(selectedIndustry.industry)==undefined)
 					isArrayEqualIndicator=false
 				else{
+					debugger;
 					const {subIndustry}=selectedIndustry;
 
-					selectedIndustry.forEach((selectedSubIndustry,i)=>{
+					subIndustry.forEach((selectedSubIndustry,i)=>{
 						const selectedIndustryArr1=arr1Map.get(selectedSubIndustry.industry);
-						if(selectedIndustryArr1.get(selectedSubIndustry.industry)=="" ||
-						 selectedIndustryArr1.get(selectedSubIndustry.industry)==null)
+						if(selectedIndustryArr1.get(selectedSubIndustry.industry)==undefined)
 							isArrayEqualIndicator=false
 					})
 				}
@@ -466,6 +472,24 @@ class EditVideoModal extends Component{
 	  });
 	}
 
+	redoVideo=()=>{
+		if(this.props.redoVideo==null){
+			this.setState({
+				displayRedoPage:true
+			})
+		}else{
+			this.props.redoVideo();
+		}
+	}
+
+	uploadedRedoVideo=(videoData)=>{
+		this.setState({
+			videoSrc:videoData,
+			displayRedoPage:false
+		})
+	}
+
+
 	render(){
 
 		return(
@@ -474,221 +498,231 @@ class EditVideoModal extends Component{
 						<CompanyPostConsumer>
 							{companyPostInformation=>(
 								 <React.Fragment>
-								 	{this.state.displayVideoDescriptionPortal==false?
-										null:
-										<VideoDescriptionPortal
-											closeModal={this.closeModal}
-											createVideoDescription={this.createVideoDescription}
-											parentContainer="personalContainer"
-										/>
-									}
-									{this.state.displayVoiceDescriptionPortal==false?
-										null:
-										<VoiceDescriptionPortal
-											closeModal={this.closeModal}
-											createAudioDescription={this.createAudioDescription}
-										/>
-									}
+								 	{this.state.displayRedoPage==true?
+								 		<RedoVideoCreationModal
+								 			uploadedRedoVideo={this.uploadedRedoVideo}
+								 		/>
+								 		:<>
+								 			{this.state.displayVideoDescriptionPortal==false?
+												null:
+												<VideoDescriptionPortal
+													closeModal={this.closeModal}
+													createVideoDescription={this.createVideoDescription}
+													parentContainer="personalContainer"
+												/>
+											}
+											{this.state.displayVoiceDescriptionPortal==false?
+												null:
+												<VoiceDescriptionPortal
+													closeModal={this.closeModal}
+													createAudioDescription={this.createAudioDescription}
+												/>
+											}
 
-									{this.state.changeVideoVerification==true?
-										<CrownPostModal
-											closeModal={this.closeCrownModal}
-											parentCrownPost={this.crownPost}
-											parentUnCrownPost={this.unCrownPost}
-											previousData={this.props.previousData}
-											isPostCrowned={this.state.isPostCrowned}
-										/>
-										:null
-									}
+											{this.state.changeVideoVerification==true?
+												<CrownPostModal
+													closeModal={this.closeCrownModal}
+													parentCrownPost={this.crownPost}
+													parentUnCrownPost={this.unCrownPost}
+													previousData={this.props.previousData}
+													isPostCrowned={this.state.isPostCrowned}
+												/>
+												:null
+											}
 
 
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<CrownIconContainer onClick={()=>this.setState({changeVideoVerification:true})}>
-											<Icon 
-												id="crownIcon"
-												icon={crownIcon}
-												style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
-											/>
-										</CrownIconContainer>
-									</a>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<CrownIconContainer onClick={()=>this.setState({changeVideoVerification:true})}>
+													<Icon 
+														id="crownIcon"
+														icon={crownIcon}
+														style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
+													/>
+												</CrownIconContainer>
+											</a>
 
-									{/*
-										{this.state.displayCrownModalIndicator==true?
-											<CrownPostModal
-												closeModal={this.closeCrownModal}
-												parentCrownPost={this.crownPost}
-												parentUnCrownPost={this.unCrownPost}
-												previousData={this.props.previousData}
-												isPostCrowned={this.state.isPostCrowned}
-											/>
-											:null
-										}
-									*/}
+											{/*
+												{this.state.displayCrownModalIndicator==true?
+													<CrownPostModal
+														closeModal={this.closeCrownModal}
+														parentCrownPost={this.crownPost}
+														parentUnCrownPost={this.unCrownPost}
+														previousData={this.props.previousData}
+														isPostCrowned={this.state.isPostCrowned}
+													/>
+													:null
+												}
+											*/}
 
-									<ul style={{padding:"20px"}}>
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e"}}>
-													<b>Edit Video Description </b>
-												</li>
-
-												{/*
-													<li onClick={()=>videoPostInformation.closeModal()} style={{listStyle:"none",display:"inline-block",marginLeft:"55%"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
-																width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3" fill="none" 
-																stroke-linecap="round" stroke-linejoin="round">
-															  <path stroke="none" d="M0 0h24v24H0z"/>
-															  <circle cx="12" cy="12" r="9" />
-															  <path d="M10 10l4 4m0 -4l-4 4" />
-															</svg>
-														</a>
-													</li>
-												*/}
-											</ul>				
-										</li>
-										<hr/>
-										<li style={{position:"relative",listStyle:"none",top:"-50px",display:"inline-block",marginLeft:"5%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
+											<ul style={{padding:"20px"}}>
+												<li style={{listStyle:"none"}}>
 													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",paddingTop:"3%"}}>
+														<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e"}}>
+															<b>Edit Video Description </b>
+														</li>
+														{/*
+															<li onClick={()=>videoPostInformation.closeModal()} style={{listStyle:"none",display:"inline-block",marginLeft:"55%"}}>
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
+																		width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3" fill="none" 
+																		stroke-linecap="round" stroke-linejoin="round">
+																	  <path stroke="none" d="M0 0h24v24H0z"/>
+																	  <circle cx="12" cy="12" r="9" />
+																	  <path d="M10 10l4 4m0 -4l-4 4" />
+																	</svg>
+																</a>
+															</li>
+														*/}
+													</ul>				
+												</li>
+												<hr/>
+												<li style={{position:"relative",listStyle:"none",top:"-50px",display:"inline-block",marginLeft:"5%"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block"}}>
 															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none",}}>
-																	<b>Title for video (optional)</b>
+																<li onClick={()=>this.redoVideo()} style={ButtonCSS}>
+																	Redo
+																</li>
+																<li style={{listStyle:"none",paddingTop:"3%"}}>
+																	<ul style={{padding:"0px"}}>
+																		<li style={{listStyle:"none",}}>
+																			<b>Title for video (optional)</b>
+																		</li>
+
+																		<li style={{color:"#5298F8",listStyle:"none"}}>
+																			You will be able to edit this title at any point later
+																		</li>
+																	</ul>
 																</li>
 
-																<li style={{color:"#5298F8",listStyle:"none"}}>
-																	You will be able to edit this title at any point later
-																</li>
-															</ul>
-														</li>
-
-														<li style={{listStyle:"none"}}>
-															<TextContainerTitle
-																placeholder="Write a title for your video"
-																id="videoTitle"
-															/>
-
-														</li>
-
-														<li style={{listStyle:"none",paddingTop:"3%",marginTop:"3%"}}>
-															<ul style={{padding:"0px"}}>
-																<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
-																	<b>Enter a description for your video (optional)</b>
-																</li>
-
-																<li style={{listStyle:"none",color:"#5298F8"}}>
-																	You will be able to edit this description at any point later
-																</li>
-															</ul>
-														</li>
-
-														<li style={{listStyle:"none",fontSize:"15px"}}>
-																	<TextContainerDescription
-																		placeholder="Write a description about your video"
-																		id="videoDescription"
+																<li style={{listStyle:"none"}}>
+																	<TextContainerTitle
+																		placeholder="Write a title for your video"
+																		id="videoTitle"
 																	/>
+																</li>
+
+																<li style={{listStyle:"none",paddingTop:"3%",marginTop:"3%"}}>
+																	<ul style={{padding:"0px"}}>
+																		<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
+																			<b>Enter a description for your video (optional)</b>
+																		</li>
+
+																		<li style={{listStyle:"none",color:"#5298F8"}}>
+																			You will be able to edit this description at any point later
+																		</li>
+																	</ul>
+																</li>
+
+																<li style={{listStyle:"none",fontSize:"15px"}}>
+																			<TextContainerDescription
+																				placeholder="Write a description about your video"
+																				id="videoDescription"
+																			/>
+																</li>
+															</ul>
+														</li>
+														<li style={{position:"relative",listStyle:"none",width:"45%",display:"inline-block",marginLeft:"3%"}}>
+															<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none",borderRadius:"5px",overflow:"hidden"}}>
+																	<video key={this.uuidv4()} width="100%" height="80%" controls autoplay>
+																			<source src={this.state.videoSrc} type="video/mp4"/>
+																	</video>
+																</li>
+															</ul>
 														</li>
 													</ul>
 												</li>
-												<li style={{position:"relative",listStyle:"none",width:"45%",display:"inline-block",marginLeft:"3%"}}>
+												<hr/>
+												<li style={{listStyle:"none"}}>
 													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",borderRadius:"5px",overflow:"hidden"}}>
-															<video width="100%" height="80%" controls autoplay>
-																	<source src={this.state.videoSrc} type="video/mp4"/>
-															</video>
+														<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e",marginBottom:"4%"}}>
+															<b>Audio/Video Description</b>
+
+														</li>
+														<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
+															Create either a video or voice description for your image. Much more interesting than regular text imo ;)
+														</li>
+														<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px",marginLeft:"1%",width:"50%"}}>
+															<ul style={{padding:"10px"}}>
+																<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<MicIcon
+																			style={{fontSize:40}}
+																		/>
+																	</a>
+																</li>
+
+																<li onClick={()=>this.setUpVideoDescriptionCreation()} style={{listStyle:"none",display:"inline-block"}}>
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<CameraAltIcon
+																			style={{fontSize:40}}
+																		/>
+																	</a>
+																</li>
+															</ul>
 														</li>
 													</ul>
 												</li>
-											</ul>
-										</li>
-										<hr/>
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e",marginBottom:"4%"}}>
-													<b>Audio/Video Description</b>
-
-												</li>
-												<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
-													Create either a video or voice description for your image. Much more interesting than regular text imo ;)
-												</li>
-												<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px",marginLeft:"1%",width:"50%"}}>
-													<ul style={{padding:"10px"}}>
-														<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<MicIcon
-																	style={{fontSize:40}}
-																/>
-															</a>
-														</li>
-
-														<li onClick={()=>this.setUpVideoDescriptionCreation()} style={{listStyle:"none",display:"inline-block"}}>
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<CameraAltIcon
-																	style={{fontSize:40}}
-																/>
-															</a>
-														</li>
-													</ul>
-												</li>
-											</ul>
-										</li>
-										<li style={{listStyle:"none"}}>
-											<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
-													{this.state.videoDescription==null?null:
-														<li style={{listStyle:"none"}}>
-															<VideoDescriptionContainer>
-																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
-																	<source src={this.state.videoDescription} type="video/mp4"/>
-																</video>
-															</VideoDescriptionContainer>
-														</li>
-													}
-													{this.state.audioDescription==null?null:
-														<li style={{listStyle:"none"}}>
-															<audio key={this.state.audioId} controls>
-															  <source src={this.state.audioDescription} type="audio/ogg"/>
-															  <source src={this.state.audioDescription} type="audio/mpeg"/>
-															Your browser does not support the audio element.
-															</audio>
-														</li>
-													}
-												</ul>
-										</li>
-										<hr/>
-										<li style={{listStyle:"none",fontSize:"25px",color:"#5e5e5e"}}>
-											<b>Symposiums </b>
-										</li>
-										<li  style={{listStyle:"none",display:"inline-block"}}>
-											<IndustryPostOptions
-												alterSelectedIndustry={this.alterSelectedIndustry}
-												alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-											/>
-
-										</li>
-										<hr/>
-										<li style={{top:"-560px",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
-											<ul style={{padding:"0px"}}>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-														<ul onClick={()=>this.sendVideoDataToDB(videoPostInformation,companyPostInformation)}>
-															<li style={{listStyle:"none",display:"inline-block"}}>
-																<SendIcon
-																	style={{fontSize:20,color:"white"}}
-																/>
-															</li>
-
-															<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																Send
-															</li>
-
+												<li style={{listStyle:"none"}}>
+													<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
+															{this.state.videoDescription==null?null:
+																<li style={{listStyle:"none"}}>
+																	<VideoDescriptionContainer>
+																		<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																			<source src={this.state.videoDescription} type="video/mp4"/>
+																		</video>
+																	</VideoDescriptionContainer>
+																</li>
+															}
+															{this.state.audioDescription==null?null:
+																<li style={{listStyle:"none"}}>
+																	<audio key={this.state.audioId} controls>
+																	  <source src={this.state.audioDescription} type="audio/ogg"/>
+																	  <source src={this.state.audioDescription} type="audio/mpeg"/>
+																	Your browser does not support the audio element.
+																	</audio>
+																</li>
+															}
 														</ul>
-													 </li>
-												 </a>
+												</li>
+												<hr/>
+												<li style={{listStyle:"none",fontSize:"25px",color:"#5e5e5e"}}>
+													<b>Symposiums </b>
+												</li>
+												<li  style={{listStyle:"none",display:"inline-block"}}>
+													<IndustryPostOptions
+														alterSelectedIndustry={this.alterSelectedIndustry}
+														alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+													/>
+
+												</li>
+												<hr/>
+												<li style={{top:"-560px",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
+													<ul style={{padding:"0px"}}>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+																<ul onClick={()=>this.sendVideoDataToDB(videoPostInformation,companyPostInformation)}>
+																	<li style={{listStyle:"none",display:"inline-block"}}>
+																		<SendIcon
+																			style={{fontSize:20,color:"white"}}
+																		/>
+																	</li>
+
+																	<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																		Send
+																	</li>
+
+																</ul>
+															 </li>
+														 </a>
+													</ul>
+												</li>
 											</ul>
-										</li>
-									</ul>
+								 		</>
+
+								 	}
+					
 									</React.Fragment>
 								) 
 							}

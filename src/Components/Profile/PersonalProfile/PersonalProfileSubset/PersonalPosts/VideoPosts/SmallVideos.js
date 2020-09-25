@@ -113,7 +113,7 @@ const SmallVideoContainer=(videoData)=>{
 								</li>
 								<li style={{listStyle:"none"}}>
 									<SmallVideo>
-										<video key={videoData.video._id} width="100%" height="100%" controls autoplay muted>
+										<video key={uuidv4()} width="100%" height="100%" controls autoplay muted>
 												<source src={videoData.video.videoUrl} type="video/mp4"/>
 										</video>
 									</SmallVideo>

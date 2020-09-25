@@ -16,7 +16,7 @@ const Container=styled.div`
 `;
 
 
- const VideoPostCreation=()=>{
+ const VideoPostCreation=(props)=>{
  	console.log("Testing video creation");
  	const [videoUploaded,changeVideo]=useState();
 
@@ -30,7 +30,12 @@ const Container=styled.div`
 		const video=document.getElementById("uploadVideoFile").files[0];
 		reader.onloadend=()=>{
 			console.log(reader.result);
-			changeVideo(reader.result);
+			debugger;
+			if(props.uploadedRedoVideo!=null){
+				props.uploadedRedoVideo(reader.result);
+			}else{
+				changeVideo(reader.result);
+			}
 		}
 		if(video!=null){
 				reader.readAsDataURL(video);
@@ -45,7 +50,12 @@ const Container=styled.div`
  		document.getElementById("container").style.width="60%";
  		return <EditOrUploadVideoOption
  					videoSrc={videoUploaded}
+ 					parentRedoVideo={parentRedoVideo}
  				/>;
+ 	}
+
+ 	const parentRedoVideo=()=>{
+ 		changeVideo(null);
  	}
 
 	return(

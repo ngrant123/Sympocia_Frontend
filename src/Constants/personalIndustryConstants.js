@@ -35,6 +35,21 @@ export default{
 				{industry:"Portrait"},
 				{industry:"Fashion"}
 			],
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my photography"
+						},
+						{
+							question:"Photography supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Photography resources"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"Best shot you’ve taken ",
@@ -110,6 +125,21 @@ export default{
 				{industry:"Riverdale"},
 				{industry:"Orange is the new black"}
 			],
+			specificIndustryQuestions:{
+					videoQuestion:[
+						{
+							question:"Critique my tv show"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Critique my script"
+						},
+						{
+							question:"TV Show Jobs"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"What are you binging right now?",
@@ -138,6 +168,21 @@ export default{
 				{industry:"Horror"},
 				{industry:"Science Fiction"}
 			],
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my script"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Critique my movie"
+						},
+						{
+							question:"Movie jobs"
+						}
+					]
+			},
 			popularQuestions:[
 				{
 					question:"Give your own idea for a movie",
@@ -167,6 +212,21 @@ export default{
 				{industry:"Instrumental"},
 				{industry:"Pop Music"}
 			],
+			specificIndustryQuestions:{
+					audioQuestion:[
+						{
+							question:"Free beats"
+						},
+						{
+							question:"Review my work"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Photography resources"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"Provide a link your beats so that we could hear what you've worked on",
@@ -191,6 +251,13 @@ export default{
 				{industry:"Environmental"},
 				{industry:"World Wide"}
 			],
+			specificIndustryQuestions:{
+					regularPostQuestion:[
+						{
+							question:"News Advisory"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"Conspiracy theories",
@@ -231,6 +298,21 @@ export default{
 			],
 			backgroundColor:"linear-gradient(to right,#654ea3 0%, #eaafc8 100%)",
 			id:2,
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Finance Achievments"
+						},
+						{
+							question:"Recommended Books"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Finance tutoring services"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"Long term goals",
@@ -265,6 +347,21 @@ export default{
 			],
 			backgroundColor:"linear-gradient(to right, #8a2387, #a21e81, #b71d7a, #ca2170, #d92c66, #e2355d, #e93f54, #ef4b4b, #f25442, #f35d38, #f3672d, #f27121",
 			id:1,
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Law Achievments"
+						},
+						{
+							question:"Recommended Books"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Law tutoring services"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"Most interesting case you’ve come against today",
@@ -296,6 +393,21 @@ export default{
 			],
 			backgroundColor:"linear-gradient(to right,#a8ff78 0%, #78ffd6 100%)",
 			id:2,
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Medicine Achievments"
+						},
+						{
+							question:"Recommended Books"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Medical tutoring services"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"MCAT preparation quick tips and advices",
@@ -324,6 +436,21 @@ export default{
 				{industry:"Digital Art"},
 				{industry:"Contemporary Art"}
 			],id:3,
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my art"
+						},
+						{
+							question:"Art supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Art resources"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"What was something you created this week",
@@ -349,6 +476,21 @@ export default{
 				{industry:"Environmental Graphics"},
 				{industry:"Illustration And posters"}
 			],id:1,
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my graphic design"
+						},
+						{
+							question:"Graphic design supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Graphic Design resources"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"What was something you created this week",
@@ -374,6 +516,21 @@ export default{
 				{industry:"Product Design"},
 				{industry:"Furniture Design"}
 			],id:2,
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my design"
+						},
+						{
+							question:"Design supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Design resources"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"Where do you see architecture going in the futute?",
@@ -427,6 +584,21 @@ export default{
 					{industry:"Cloud Computing"},
 					{industry:"Machine Learning"}
 				],id:1,
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Computer Science Achievments"
+						},
+						{
+							question:"Recommended Books"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Computer Science tutoring services"
+						}
+					]	
+				},
 			popularQuestions:[
 				{
 					question:"Milestones",
@@ -472,6 +644,21 @@ export default{
 			],
 			backgroundColor:"linear-gradient(to right,#11998e 0%,#38ef7d 100%)",
 			id:2,
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Selling cooking items"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Cooking tips"
+						},
+						{
+							question:"Cooking jobs"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"Favorite recipe (with your spin on it)",
@@ -508,6 +695,21 @@ export default{
 				{industry:"Bleach"},
 				{industry:"Cowboy Bebop"}
 			],id:3,
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my anime/manga"
+						},
+						{
+							question:"Anime/Manga supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Anime/Mange resources"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"Give your own idea for an anime show",
@@ -539,6 +741,21 @@ export default{
 				{industry:"Acrostic"},
 				{industry:"Sonnets"}
 			],
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my poetry"
+						},
+						{
+							question:"Poetry supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Poetry resources"
+						}
+					]	
+			},
 			id:1,
 			popularQuestions:[
 				{
@@ -564,6 +781,21 @@ export default{
 				{industry:"Mystery"},
 				{industry:"Horror"}
 			],
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my book"
+						},
+						{
+							question:"Book supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Creating book resources"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"Favorite book of all time",
@@ -587,6 +819,21 @@ export default{
 					{industry:"Action"},
 					{industry:"Horror"}
 				],id:3,
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my comic book"
+						},
+						{
+							question:"Comic book supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Comic book resources"
+						}
+					]	
+			},
 			popularQuestions:[
 				{
 					question:"Who is the best comic book hero and why",
@@ -616,6 +863,21 @@ export default{
 					{industry:"Behavorial Sciences"},
 					{industry:"Health Sciences"}
 				],id:1,
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Science Achievments"
+						},
+						{
+							question:"Recommended Books"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Science tutoring services"
+						}
+					]	
+				},
 			popularQuestions:[
 				{
 					question:"What is the most beautiful thing about science that you love",
@@ -636,6 +898,21 @@ export default{
 					{industry:"Civil Engineering"},
 					{industry:"Chemical Engineering"},
 				],id:2,
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Engineering Achievments"
+						},
+						{
+							question:"Recommended Books"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Engineering tutoring services"
+						}
+					]	
+				},
 			popularQuestions:[
 				{
 					question:"List one thing school didn't teach you that you had to learn the hard way on the job :)",
@@ -670,6 +947,21 @@ export default{
 					{industry:"Probability and statistics"},
 					{industry:"Game Theory"}
 				],id:3,
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Mathematics Achievments"
+						},
+						{
+							question:"Recommended Books"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Mathematics tutoring services"
+						}
+					]	
+				},
 				popularQuestions:[
 					{
 						question:"Most elegant equation you’ve seen",
@@ -696,6 +988,21 @@ export default{
 					{industry:"Growth Theory"},
 					{industry:"Information Economics"}
 				],
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Economics Achievments"
+						},
+						{
+							question:"Recommended Books"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Economics tutoring services"
+						}
+					]	
+				},
 				popularQuestions:[
 					{
 						question:"Where do you see the economy going in the up and coming months or years",
@@ -717,6 +1024,13 @@ export default{
 					{industry:"Economic History"},
 					{industry:"Intellectual History"}
 				],id:1,
+				specificIndustryQuestions:{
+					regularPostQuestion:[
+						{
+							question:"History Advisory"
+						}
+					]	
+				},
 				popularQuestions:[
 					{
 						question:"In your opinion, will history ever repeat itself?",
@@ -737,6 +1051,21 @@ export default{
 					{industry:"Motion Capture"},
 					{industry:"Stop motion"}
 				],id:2,
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my animation"
+						},
+						{
+							question:"Animation supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Animation resources"
+						}
+					]	
+				},
 				popularQuestions:[
 					{
 						question:"Whats the future of animation",
@@ -789,6 +1118,21 @@ export default{
 						{industry:"Nail Care"},
 						{industry:"Salon Management"}
 				],
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my makeup"
+						},
+						{
+							question:"Beauty supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Beauty resources"
+						}
+					]	
+				},
 				popularQuestions:[
 					{
 						question:"Show us your best look that you've done on yourself or someone else  ",
@@ -824,6 +1168,21 @@ export default{
 					{industry:"Sophisticated Fashion Style"},
 					{industry:"Tomboy Fashion Style"}
 				],id:2,
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my fashion designs"
+						},
+						{
+							question:"Fashion supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Fashion resources"
+						}
+					]	
+				},
 				popularQuestions:[
 					{
 						question:"Best fashion piece you’ve created or thought about",
@@ -849,7 +1208,22 @@ export default{
 						question:"Quick DIY hacks and tricks",
 						type:"RegularPost"
 					}
-				]
+				],
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Selling DIY items"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"DIY tips"
+						},
+						{
+							question:"DIY jobs"
+						}
+					]	
+				}
 		 },
 		{ industry:"Health",backgroundColor:"linear-gradient(to right,#56ab2f 0%,#a8e063 100%)",id:1,
 			subCommunity:[
@@ -870,7 +1244,23 @@ export default{
 						question:"Whats one thing that you feel has helped you mentally and physically this week",
 						type:"RegularPost"
 					}
-				] 
+				],
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Health Achievments"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Health tips"
+						},
+						{
+							question:"Nutrition tips"
+						}
+					]	
+			}
+
 		},
 		{ industry:"Fitness",
 		  backgroundColor:"linear-gradient(to right,#000428 0%,#004e92 100%)",
@@ -904,7 +1294,22 @@ export default{
 						question:"What is your goal",
 						type:"RegularPost"
 					}
-				]
+				],
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Fitness Achievments"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Fitness tips"
+						},
+						{
+							question:"Nutrition tips"
+						}
+					]	
+			}
 		},
 		{ industry:"Dance",
 			backgroundColor:"linear-gradient(to right,#F00000 0%,#DC281E 100%)",
@@ -916,6 +1321,21 @@ export default{
 					{industry:"Hip Hop"},
 					{industry:"Ballroom"}
 				],id:3,
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Critique my dance"
+						},
+						{
+							question:"Dance supplies"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Dance tips"
+						}
+					]	
+				},
 			popularQuestions:[
 					{
 						question:"Whats your goal as a dancer?",
@@ -946,6 +1366,18 @@ export default{
 					{industry:"Golf"},
 					{industry:"Rugby"}
 				],id:2,
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Sport supplies"
+						}
+					],
+					videoQuestion:[
+						{
+							question:"Showcase your highlight reel"
+						}
+					]
+				},
 			popularQuestions:[
 					{
 						question:"Show us your best tricks shots you've done",
@@ -975,6 +1407,21 @@ export default{
 					{industry:"E-commerce"},
 					{industry:"Internet of things"}
 			],
+			specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Technological Achievments"
+						},
+						{
+							question:"Recommended Books"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Technology tutoring services"
+						}
+					]	
+				},
 			popularQuestions:[
 					{
 						question:"Where do you see technology going in the next couple years?",
@@ -1001,6 +1448,13 @@ export default{
 					{industry:"Transportation"},
 					{industry:"Natural wonders"}
 			],
+			specificIndustryQuestions:{
+					regularPostQuestion:[
+						{
+							question:"Travel Advisory"
+						}
+					]	
+			},
 				popularQuestions:[
 						{
 							question:"Show us the most beautiful location you've been to",
@@ -1027,6 +1481,21 @@ export default{
 					{industry:"Dark Humor"},
 					{industry:"Political Satire"}
 			],
+			specificIndustryQuestions:{
+					videoQuestion:[
+						{
+							question:'Review my set'
+						},
+						{
+							question:'Featured sets'
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Comedy Advisory"
+						}
+					]	
+			},
 				popularQuestions:[
 						{
 							question:"Tell us the best joke youve heard",
@@ -1060,6 +1529,13 @@ export default{
 						{industry:"Space Agencies"},
 						{industry:"Sports"}
 				],
+				specificIndustryQuestions:{
+					regularPostQuestion:[
+						{
+							question:"Conspiracy Advisory"
+						}
+					]	
+				},
 				popularQuestions:[
 						{
 							question:"Best conspiracy theory you’ve heard",
@@ -1086,15 +1562,15 @@ export default{
 				],
 				popularQuestions:[
 						{
-							question:"Best conspiracy theory you’ve heard",
+							question:"How do you feel about the current state of religion?",
 							type:"RegularPost"
 						},
 						{
-							question:"Most ridiculous theory you’ve heard",
-							type:"RegularPost"
+							question:"Most beautiful religious centers in the world",
+							type:"Image"
 						},
 						{
-							question:"What conspiracy are you currently thinking about?",
+							question:"What religion do you admire the most?",
 							type:"RegularPost"
 						}
 					]
@@ -1109,15 +1585,15 @@ export default{
 				],
 				popularQuestions:[
 						{
-							question:"Best conspiracy theory you’ve heard",
+							question:" What does it mean to live a good life?",
 							type:"RegularPost"
 						},
 						{
-							question:"Most ridiculous theory you’ve heard",
+							question:"Where do you find meaning in your life?",
 							type:"RegularPost"
 						},
 						{
-							question:"What conspiracy are you currently thinking about?",
+							question:"Is suffering a necessary part of the human condition?",
 							type:"RegularPost"
 						}
 					]
@@ -1130,17 +1606,29 @@ export default{
 						{industry:"Ideas And Validation"},
 						{industry:"Development"}
 				],
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Showcase your startup"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Marketing tips"
+						}
+					]
+				},
 				popularQuestions:[
 						{
-							question:"Best conspiracy theory you’ve heard",
+							question:"Milestones",
 							type:"RegularPost"
 						},
 						{
-							question:"Most ridiculous theory you’ve heard",
-							type:"RegularPost"
+							question:"Show a picture of your companies team/workspace. Best one wins",
+							type:"Image"
 						},
 						{
-							question:"What conspiracy are you currently thinking about?",
+							question:"Does hustle=success or does luck play a part?",
 							type:"RegularPost"
 						}
 					]
@@ -1154,21 +1642,36 @@ export default{
 						{industry:"Gear and Accessories"},
 						{industry:"Buyer’s Guide"}
 				],
+				specificIndustryQuestions:{
+					imageQuestion:[
+						{
+							question:"Selling cars/car items"
+						}
+					],
+					regularPostQuestion:[
+						{
+							question:"Cars tips"
+						},
+						{
+							question:"Car jobs"
+						}
+					]	
+				},
 				popularQuestions:[
 						{
-							question:"Best conspiracy theory you’ve heard",
+							question:"Best car you've seen",
+							type:"Image"
+						},
+						{
+							question:"What made you start loving cars?",
 							type:"RegularPost"
 						},
 						{
-							question:"Most ridiculous theory you’ve heard",
-							type:"RegularPost"
-						},
-						{
-							question:"What conspiracy are you currently thinking about?",
+							question:"If you could only drive in one car for the rest of your life, what would you pick?",
 							type:"RegularPost"
 						}
 					]
-		},{
+		}/*,{
 			industry:"Animals",backgroundColor:"linear-gradient(to right, #00b09b, #96c93d)",id:1,
 				subCommunity:[
 						{industry:"Dogs"},
@@ -1197,5 +1700,6 @@ export default{
 						}
 					]
 		}
+		*/
 	]
 };

@@ -57,7 +57,7 @@ const PostPopupContainer=styled.div`
 `;
 
 
-const MusicIndex=({closeModal,modalType,symposium})=>{
+const MusicIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
 
 	const [displayImageExpand,changeImageExpandDisplay]=useState(false);
 	const [displayVideoExpand,changeVideoExpandDisplay]=useState(false);
@@ -67,25 +67,46 @@ const MusicIndex=({closeModal,modalType,symposium})=>{
 
 
 	const modalDecider=()=>{
-		console.log(modalType);
-		if(modalType=="Advisory" || modalType=="Regular"){
-			return <RegularPostModal
+		if(modalType=="Image"){
+			return <ImagePostModal
 						symposium={symposium}
 						displayImage={displayImageHandler}
-						modalType={modalType.toLowerCase()}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						question={question}
+						symposiumId={symposiumId}
+						selectedPostId={selectedPostId}
 					/>
 		}else if(modalType=="Video"){
 			return <VideoPostModal
 						symposium={symposium}
-						displayVideo={displayVideoHandler}
-						modalType={modalType.toLowerCase()}
+						displayImage={displayImageHandler}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						question={question}
+						symposiumId={symposiumId}
+						selectedPostId={selectedPostId}
+					/>
+		}else if(modalType=="RegularPost"){
+			return <RegularPostModal
+						symposium={symposium}
+						displayImage={displayImageHandler}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						question={question}
+						symposiumId={symposiumId}
+						selectedPostId={selectedPostId}
 					/>
 		}else{
-			return <ImagePostModal
-				symposium={symposium}
-				displayImage={displayImageHandler}
-				modalType={modalType.toLowerCase()}
-			/>
+			return <AudioPostModal
+						symposium={symposium}
+						displayImage={displayImageHandler}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						symposiumId={symposiumId}
+						question={question}
+						selectedPostId={selectedPostId}
+					/>
 		}
 	}
 	const displayVideoHandler=(videoData)=>{

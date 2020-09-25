@@ -227,7 +227,6 @@ const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposi
 
 
 const ImagePostsModal=(props)=>{
-	debugger;
 	console.log(props);
 	const headerImage=props.posts[0];
 	console.log("Header image");

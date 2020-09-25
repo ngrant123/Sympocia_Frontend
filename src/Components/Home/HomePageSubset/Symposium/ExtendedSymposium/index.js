@@ -542,7 +542,8 @@ class Symposium extends Component{
 			chatPageIndicator:"",
 			displayChatPage:false,
 			displayGroupSharingVideoCallPortal:false,
-			hideOnboarding:true
+			hideOnboarding:true,
+			featureQuestions:[]
 		}
 
 		connectToRoom(socket,this.props.location.state.selectedSymposium._id);
@@ -557,6 +558,7 @@ class Symposium extends Component{
 		  		const headerContentsContainerElement=document.getElementById("headerContents");
 				console.log(this.props);
 				debugger;
+				console.log(this.props.location.state.selectedSymposium);
 				console.log(this.props.location.state.selectedSymposium._id);
 
 				/*
@@ -584,11 +586,13 @@ class Symposium extends Component{
 			  			activeUsers,
 			  			popularQuestions,
 			  			isProfileFollowedSymposium,
-			  			isOnboardingCompleted
+			  			isOnboardingCompleted,
+			  			featureQuestions
 		  			}=data;
 
 		  			var newHomePagePosts=this.addSuggestedSymposiums(posts);
 		  			debugger;
+		  			console.log(data);
 		  			console.log(popularQuestions);
 			  			
 			  		this.setState(prevState=>({
@@ -605,7 +609,8 @@ class Symposium extends Component{
 				  		isProfileFollowingSymposium:isProfileFollowedSymposium,
 				  		profileId:this.props.location.state.profileId,
 				  		isLoading:false,
-				  		hideOnboarding:isOnboardingCompleted
+				  		hideOnboarding:isOnboardingCompleted,
+				  		symposiumFeatureQuestions:featureQuestions
 			  		}));
 
 				  	setTimeout(function(){
@@ -877,7 +882,6 @@ class Symposium extends Component{
 	  }
 
 	  handleHeaderAnimation=()=>{
-	  	debugger;
 	  	console.log("Testing Header connection");
 	  	const backgroundColor=this.state.backgroundColor;
 	  	return this.state.headerAnimation==false ? 
@@ -939,13 +943,16 @@ class Symposium extends Component{
 			<SymposiumFeatureContainer onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
 				{this.props.location.state.selectedSymposium.symposium=="General"||
 					this.props.location.state.selectedSymposium.symposium=="Religion"||
-					this.props.location.state.selectedSymposium.symposium=="Gaming"?
+					this.props.location.state.selectedSymposium.symposium=="Gaming"||
+					this.props.location.state.selectedSymposium.symposium=="Philosophy"?
 		  			<Chat
 				  		pushMessageToSocket={this.pushMessageToSocketHandle}
 				  		roomId={this.props.location.state.selectedSymposium._id}
 				  		chat={this.state.chatRoom}
 				  	/>:<SpecificFeatureSymposium
 				  			symposium={this.props.location.state.selectedSymposium.symposium}
+				  			symposiumId={this.props.location.state.selectedSymposium._id}
+				  			questions={this.state.symposiumFeatureQuestions}
 				  		/>
 		  		} 
 			</SymposiumFeatureContainer>:

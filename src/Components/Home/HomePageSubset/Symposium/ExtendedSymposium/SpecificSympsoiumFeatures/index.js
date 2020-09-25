@@ -7,6 +7,7 @@ import MusicFeatures from "./MusicFeatures.js";
 import NewsAndTravelFeatures from "./NewsAndTravelFeatures.js";
 import STEMRelatedFeatures from "./STEMRelatedFeatures.js";
 import SYMPOSIUM_FEATURES from "../../../../../../Constants/featureSymposiumConstants.js";
+import {FeatureProvider} from "./FeatureContext.js";
 
 
 const ChatOption={
@@ -31,7 +32,8 @@ const ChatOption={
 	featuresindex
 */
 
-const SpecificFeatureSymposium=({symposium})=>{
+const SpecificFeatureSymposium=({symposium,symposiumId,questions})=>{
+	console.log(questions);
 	/*
 		const [isArtSymposium,changeArtStatus]=useState(false);
 		const [isSTEMSymposium,changeSTEMStatus]=useState(false);
@@ -82,45 +84,54 @@ const SpecificFeatureSymposium=({symposium})=>{
 	},[]);
 
 	const featureDecider=()=>{
-		debugger;
 		if(artMap.has(symposium)){
 
 			return <ArtRelatedFeatures
 						symposium={symposium}
+						questions={questions}
 					/>;
 
 		}else if(stemMap.has(symposium)){
 
 			return <STEMRelatedFeatures
 						symposium={symposium}
+						questions={questions}
 					/>
 
 		}else if(musicMap.has(symposium)){
 
 			return <MusicFeatures
 						symposium={symposium}
+						questions={questions}
 					/>
 
 		}else if(newstravelMap.has(symposium)){
 
 			return <NewsAndTravelFeatures
 						symposium={symposium}
+						questions={questions}
 					/>
 
 		}else if(gamingMap.has(symposium)){
 
 			return <GamingFeatures
 						symposium={symposium}
+						questions={questions}
 					/>;
 
 		}else{
 			return <MiscellaneousFeatures
 						symposium={symposium}
+						questions={questions}
 					/>
 		}
 	}
 	return(
-		<>
+		<FeatureProvider
+			value={{
+				symposiumId:symposiumId
+			}}
+		>
 			{isLoadingFeatureSymposiums==false?
 				<ul style={{padding:"0px"}}>
 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -135,7 +146,7 @@ const SpecificFeatureSymposium=({symposium})=>{
 					</li>
 				</ul>:null
 			}
-		</>
+		</FeatureProvider>
 	)
 }
 

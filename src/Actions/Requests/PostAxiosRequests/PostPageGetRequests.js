@@ -160,6 +160,94 @@ export const getRepliesFromComment=async({postType,postId,commentIndex})=>{
 }
 
 
+export const getIndustryImageFeatureAnswers=async({industryId,question,questionIndex,questionId})=>{
+	try{
+		const imageResponse=await axios.get(`${SearchUrl}/getIndustryImageFeatureAnswers`,{
+			params:{
+				industryId,
+				question,
+				questionIndex,
+				questionId
+			}
+		})
+		const {data}=imageResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+export const getIndustryVideoFeatureAnswers=async({industryId,question,questionIndex,questionId})=>{
+	try{
+		const videoResponse=await axios.get(`${SearchUrl}/getIndustryVideoFeatureAnswers`,{
+			params:{
+				industryId,
+				question,
+				questionIndex,
+				questionId
+			}
+		})
+		const {data}=videoResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+export const getIndustryRegularPostFeatureAnswers=async({industryId,question,questionIndex,questionLevel,questionId})=>{
+	try{
+		const regularPostResponse=await axios.get(`${SearchUrl}/getIndustryRegularPostFeatureAnswers`,{
+			params:{
+				industryId,
+				question,
+				questionLevel,
+				questionIndex,
+				questionId
+			}
+		})
+		const {data}=regularPostResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+export const getIndustryAudioFeatureAnswers=async({industryId,question,questionIndex,questionId})=>{
+	try{
+		const audioResponse=await axios.get(`${SearchUrl}/getIndustryAudioFeatureAnswers`,{
+			params:{
+				industryId,
+				question,
+				questionIndex,
+				questionId
+			}
+		})
+		const {data}=audioResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

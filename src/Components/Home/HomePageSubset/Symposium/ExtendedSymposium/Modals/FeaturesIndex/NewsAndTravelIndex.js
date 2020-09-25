@@ -4,6 +4,9 @@ import {createPortal} from "react-dom";
 import MapPostModal from "../Features/MapPostModal.js";
 import RegularPostModal from "../Features/RegularPostModal.js";
 import ImageDisplayContainer from "../../../../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
+import ImagePostModal from "../Features/ImagePostModal.js";
+import VideoPostModal from "../Features/VideoPostModal.js";
+import AudioPostModal from "../Features/AudioPostModal.js";
 
 
 const Container=styled.div`
@@ -43,22 +46,50 @@ const ShadowContainer=styled.div`
 
 
 
-const NewsAndTravelIndex=({closeModal,modalType,symposium})=>{
+const NewsAndTravelIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
 	const [displayImageExpand,changeImageExpandDisplay]=useState(false);
 	const [imageData,changeImageData]=useState();
 
 	const modalDecider=()=>{
-		if(modalType=="Map"){
-			return <MapPostModal
+		if(modalType=="Image"){
+			return <ImagePostModal
 						symposium={symposium}
 						displayImage={displayImageHandler}
-						modalType={modalType.toLowerCase()}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						question={question}
+						symposiumId={symposiumId}
+						selectedPostId={selectedPostId}
 					/>
-		}else{
+		}else if(modalType=="Video"){
+			return <VideoPostModal
+						symposium={symposium}
+						displayImage={displayImageHandler}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						question={question}
+						symposiumId={symposiumId}
+						selectedPostId={selectedPostId}
+					/>
+		}else if(modalType=="RegularPost"){
 			return <RegularPostModal
 						symposium={symposium}
 						displayImage={displayImageHandler}
-						modalType={modalType.toLowerCase()}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						question={question}
+						symposiumId={symposiumId}
+						selectedPostId={selectedPostId}
+					/>
+		}else{
+			return <AudioPostModal
+						symposium={symposium}
+						displayImage={displayImageHandler}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						symposiumId={symposiumId}
+						question={question}
+						selectedPostId={selectedPostId}
 					/>
 		}
 	}

@@ -20,6 +20,10 @@ class EditOrUploadVideoOption extends Component{
 		}
 	}
 
+	redoVideo=()=>{
+		this.props.parentRedoVideo()
+	}
+
 
 	render(){
 		return(
@@ -94,6 +98,7 @@ class EditOrUploadVideoOption extends Component{
 						</ul>:
 						<EditVideoModal
 							videoSrc={this.props.videoSrc}
+							redoVideo={this.redoVideo}
 						/>
 				}
 

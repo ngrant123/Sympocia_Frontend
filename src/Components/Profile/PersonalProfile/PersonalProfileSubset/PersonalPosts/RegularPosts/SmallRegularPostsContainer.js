@@ -65,6 +65,7 @@ const SmallRegularPosts=(props)=>{
 	    return v.toString(16);
 	  });
 	}
+	
 	return(
 
 		<Container>

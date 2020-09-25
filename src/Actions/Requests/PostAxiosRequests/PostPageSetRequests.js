@@ -394,6 +394,94 @@ export const deletePost=async(postId,postType)=>{
 }
 
 
+export const createIndustryFeatureImageResponse=async({image,industryId,questionId,questionIndex,question,userId})=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const imageFeatureResponse=await axios.post(`${CreateUrl}/createIndustryFeatureImageResponse`,{
+			image,
+			industryId,
+			questionId,
+			question,
+			userId,
+			questionIndex
+		});
+
+		const {data}=imageFeatureResponse
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer)=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const {
+			post,
+			industryId,
+			question,
+			postLevel,
+			userId,
+			questionId
+		}=regularPostAnswer;
+
+		const regularPostFeatureResponse=await axios.post(`${CreateUrl}/createIndustryFeatureRegularPostResponse`,{
+			post,
+			industryId,
+			question,
+			postLevel,
+			userId,
+			questionId
+		});
+
+		const {data}=regularPostFeatureResponse
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const createSpecificIndustryVideoAnswer=async({video,industryId,questionId,question,userId})=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const videoFeatureResponse=await axios.post(`${CreateUrl}/createIndustryFeatureVideoResponse`,{
+			video,
+			industryId,
+			question,
+			userId,
+			questionId
+		});
+
+		const {data}=videoFeatureResponse
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const createSpecificIndustryAudioAnswer=async({audio,industryId,questionId,question,userId})=>{
+	try{
+		const CreateUrl='http://localhost:4000/api/posts/alter';
+		const audioFeatureResponse=await axios.post(`${CreateUrl}/createIndustryFeatureAudioResponse`,{
+			audio,
+			industryId,
+			question,
+			userId,
+			questionId
+		});
+
+		const {data}=audioFeatureResponse
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
 
 
 

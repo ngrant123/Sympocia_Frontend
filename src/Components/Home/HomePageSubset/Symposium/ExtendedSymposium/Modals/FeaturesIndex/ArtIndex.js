@@ -3,6 +3,8 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import ImagePostModal from "../Features/ImagePostModal.js";
 import RegularPostModal from "../Features/RegularPostModal.js";
+import VideoPostModal from "../Features/VideoPostModal.js";
+import AudioPostModal from "../Features/AudioPostModal.js";
 import ImageDisplayContainer from "../../../../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 
 
@@ -53,22 +55,53 @@ const ImagePopupContainer=styled.div`
 
 
 
-const ArtIndex=({closeModal,modalType,symposium})=>{
+const ArtIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
 	const [displayImageExpand,changeImageExpandDisplay]=useState(false);
 	const [imageData,changeImageData]=useState();
-
+	const [videoData,changeVideoData]=useState();
+	const [regularPostData,changeRegularPostData]=useState();
+	const [audioPostData,changeAudioPostData]=useState();
+	
 	const modalDecider=()=>{
-		if(modalType=="Critique" || modalType=="Supplies"){
+		if(modalType=="Image"){
 			return <ImagePostModal
 						symposium={symposium}
 						displayImage={displayImageHandler}
-						modalType={modalType.toLowerCase()}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						question={question}
+						symposiumId={symposiumId}
+						selectedPostId={selectedPostId}
 					/>
-		}else{
+		}else if(modalType=="Video"){
+			return <VideoPostModal
+						symposium={symposium}
+						displayImage={displayImageHandler}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						question={question}
+						symposiumId={symposiumId}
+						selectedPostId={selectedPostId}
+					/>
+		}else if(modalType=="RegularPost"){
 			return <RegularPostModal
 						symposium={symposium}
 						displayImage={displayImageHandler}
-						modalType={modalType.toLowerCase()}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						question={question}
+						symposiumId={symposiumId}
+						selectedPostId={selectedPostId}
+					/>
+		}else{
+			return <AudioPostModal
+						symposium={symposium}
+						displayImage={displayImageHandler}
+						modalType={modalType}
+						questionIndex={questionIndex}
+						symposiumId={symposiumId}
+						question={question}
+						selectedPostId={selectedPostId}
 					/>
 		}
 	}
@@ -82,14 +115,6 @@ const ArtIndex=({closeModal,modalType,symposium})=>{
 		changeImageExpandDisplay(false);
 	}
 
-
-	/*
-		<Comments
-			postId={props.imageData._id}
-			postType={"Image"}
-			hideComments={hideComments}
-		/>
-	*/
 
 	return createPortal(
 		<>

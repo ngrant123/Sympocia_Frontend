@@ -24,7 +24,7 @@ const Container=styled.div`
 
 const ShadowContainer = styled.div`
 
-	position:absolute;
+	position:fixed;
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
@@ -112,9 +112,10 @@ class BlogPostCreation extends Component{
 		else
 			isOwner=(this.props.companyInformation.id==this.props.match.params.id)?true:false;
 
-		var blogContentState;
+		let blogContentState;
 		if(this.props.location.state.postType=="Creation"){
 			blogContentState="";
+
 		}else{
 			var DBEditorState = convertFromRaw(JSON.parse(this.props.location.state.blog));
 			blogContentState=EditorState.createWithContent(DBEditorState);
@@ -123,7 +124,8 @@ class BlogPostCreation extends Component{
 			userInformation:this.props.personalInformation,
 			isOwner:isOwner,
 			blogContent:blogContentState,
-			blogState:this.props.location.state
+			blogState:this.props.location.state,
+			isInEditMode:this.props.location.state.postType=="Creation"?false:true
 		})
 	}
 
@@ -133,6 +135,7 @@ class BlogPostCreation extends Component{
 			<ShadowContainer onClick={()=>this.setState({displayEditButtonSubmitModal:false})}/>
 			<BlogEditSubmitModal
 				routerHistory={this.props.history}
+				previousState={this.state.isInEditMode==true?this.props.location.state:null}
 			/>
 		</React.Fragment>
 	}

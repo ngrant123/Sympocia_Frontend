@@ -2,6 +2,9 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
+import {createSpecificIndustryVideoAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {getIndustryVideoFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {useSelector} from "react-redux";
 
 
 const Container=styled.div`
@@ -117,12 +120,40 @@ const SkillLevelButton={
   marginRight:"2%"
 }
 
-const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType})=>{
+const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questionIndex,symposiumId,question,selectedPostId})=>{
 	
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [finalImageEditDisplay,changeDisplayForFinalImage]=useState(false);
 	const [videoUrl,changeVideoUrl]=useState();
-	const [posts,changePosts]=useState([{},{},{},{},{}]);	
+	const [questionId,changeQuestionId]=useState();
+	const [posts,changePosts]=useState([]);	
+
+	const userId=useSelector(state=>state.personalInformation.id);
+
+	useEffect(()=>{
+		const fetchData=async()=>{
+			debugger;
+			console.log(symposiumId);
+			const {confirmation,data}=await getIndustryVideoFeatureAnswers({
+				industryId:symposiumId,
+				questionIndex,
+				questionId:selectedPostId
+			})
+
+			if(confirmation=="Success"){
+				const {
+					questionId,
+					posts
+				}=data;
+				changePosts(posts);
+				changeQuestionId(questionId);
+			}else{
+				alert('Unfortunately there has been an error trying to get this images data. Please try again');
+			}
+		}
+
+		fetchData();
+	},[])
 
 	const handleUploadVideo=()=>{
 		var fileReader=new FileReader();
@@ -145,25 +176,42 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType})=>{
 		document.getElementById("uploadVideoFile").click();
 	}
 
-	const submitImage=async()=>{
+	const submitVideo=async()=>{
 		debugger;
-		var image={
+			debugger;
+		var video={
 			videoUrl:videoUrl,
-			description:document.getElementById("imageDescription").value
+			description:document.getElementById("videoDescription").value
+		}
+		const submitedVideo={
+			video,
+			industryId:symposiumId,
+			questionId:selectedPostId,
+			questionIndex:questionIndex,
+			userId:userId
 		}
 
-		//Connect image date to api 
+		const {confirmation,data}=await createSpecificIndustryVideoAnswer(submitedVideo);
+		if(confirmation=="Success"){
+			const {
+				questionId,
+				postId
+			}=data;
+			video={
+				...video,
+				_id:postId,
+				comments:[],
+				isCrownedPost:false,
+				industriesUploaded:[{industry:symposium}]
+			}
 
-		image={
-			...image,
-			_id:4290532423,
-			comments:[],
-			isCrownedPost:false
+			posts.splice(0,0,video);
+			changeQuestionId(questionId);
+			changePosts([...posts]);
+			changeDisplayCreationModal(false);
+		}else{
+			alert('Unfortunately there has been an error with adding this image. Please try again');
 		}
-
-		posts.splice(0,0,image);
-		changePosts([...posts]);
-		changeDisplayCreationModal(false);
 	}
 
 	const uuidv4=()=>{
@@ -208,7 +256,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType})=>{
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 											<li onClick={()=>displayVideoHandler(data)} style={ImageCSS}>
 												<video key={data._id} width="100%" height="40%" borderRadius="5px" controls autoplay>
-													<source src={data.videoSrc} type="video/mp4"/>
+													<source src={data.videoUrl} type="video/mp4"/>
 												</video>
 											</li>
 										</a>
@@ -263,11 +311,11 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType})=>{
 											</video>
 										</li>
 										<li style={{marginLeft:"3%",width:"45%",listStyle:"none",display:"inline-block"}}>
-											<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
+											<DescriptionInputContainer id="videoDescription" placeholder="Write down a description here"/>
 										</li>
 									</ul>
 								</li>
-								<li onClick={()=>submitImage()} style={SubmitButtonCSS}>
+								<li onClick={()=>submitVideo()} style={SubmitButtonCSS}>
 									Submit
 								</li>
 							</ul>

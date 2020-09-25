@@ -156,7 +156,6 @@ const ButtonCSS={
 	For some reason when you click the edit button it switches to the edit screen 
 	but the old screen for the display image is still underneath it. Can reproduce 
 	if you just change the height for editImageCreation 
-
 */
 
 const ImageContainer=(props)=>{

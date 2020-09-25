@@ -95,7 +95,6 @@ const HeaderContainer=(props)=>{
 		changeSymposiumFollow(isProfileFollowingSymposium);
 	});
 
-	debugger;
 	const counter=symposiumCounter;
   	var nextSymposiumTitle;
   	var previousSymposiumTitle;

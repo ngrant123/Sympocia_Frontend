@@ -42,9 +42,7 @@ class VideoPostsContainer extends Component{
 		super(props);
 		console.log(props);
 		this.state={
-			videos:[
-				{},{},{},{},{},{}
-			],
+			videos:[],
 			firstVideo:{},
 			isLoading:true
 		}
@@ -70,7 +68,7 @@ class VideoPostsContainer extends Component{
 										<Container>
 											{this.props.isLoadingIndicatorVideos==true ? <p>We are currently getting the videos please wait </p>:
 												<React.Fragment>
-													{this.props.videos.length==0 && this.props.videos.headerVideo==null? <NoPostsModal
+													{this.props.videos.videos.length==0 && this.props.videos.headerVideo==null? <NoPostsModal
 																						postType={"video"}
 																						profilePageType={this.props.profile}
 																					/>:
@@ -96,7 +94,7 @@ class VideoPostsContainer extends Component{
 																								companyPostDisplayModal,
 																								data,
 																								postsConsumer)} 
-																		style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"5%"}}>
+																		style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginBottom:"-5%"}}>
 																			<a href="javscript:;" style={{textDecoration:"none"}}>
 																				<SmallVideoContainer
 																					video={data}

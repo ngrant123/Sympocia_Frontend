@@ -1,8 +1,13 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import MicIcon from '@material-ui/icons/Mic';
 import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.png";
+import {createSpecificIndustryAudioAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {getIndustryAudioFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {useSelector} from "react-redux";
+
+
 
 const Container=styled.div`
 	position:absolute;
@@ -125,12 +130,41 @@ const SkillLevelButton={
 }
 
 ///<input type="file" accept=".mp3,audio/*">
-const AudioPostModal=({closeModal,symposium,displayImage,modalType})=>{
+const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,question,selectedPostId,questionIndex})=>{
 
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [finalAudioEditDisplay,changeDisplayForFinalAudio]=useState(false);
 	const [audioUrl,changeAudioUrl]=useState();
-	const [posts,changePosts]=useState([{},{},{},{},{}]);	
+	const [posts,changePosts]=useState([]);
+	const [questionId,changeQuestionId]=useState();	
+	const [symposiumIdState,changeSymposiumIdState]=useState();	
+
+	const userId=useSelector(state=>state.personalInformation.id);
+
+	useEffect(()=>{
+		const fetchData=async()=>{
+			debugger;
+			console.log(symposiumId);
+			const {confirmation,data}=await getIndustryAudioFeatureAnswers({
+				industryId:symposiumId,
+				questionIndex,
+				questionId:selectedPostId
+			})
+
+			if(confirmation=="Success"){
+				const {
+					questionId,
+					posts
+				}=data;
+				changePosts(posts);
+				changeQuestionId(questionId);
+			}else{
+				alert('Unfortunately there has been an error trying to get this images data. Please try again');
+			}
+		}
+
+		fetchData();
+	},[])
 
 	const handleUploadAudio=()=>{
 		var fileReader=new FileReader();
@@ -154,24 +188,40 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType})=>{
 	}
 
 	const submitImage=async()=>{
-		debugger;
+			debugger;
 		var audio={
 			audioUrl:audioUrl,
 			description:document.getElementById("imageDescription").value
 		}
-
-		//Connect image date to api 
-
-		audio={
-			...audio,
-			_id:4290532423,
-			comments:[],
-			isCrownedPost:false
+		const submitedAudio={
+			audio,
+			industryId:symposiumId,
+			questionId:selectedPostId,
+			questionIndex:questionIndex,
+			userId:userId
 		}
 
-		posts.splice(0,0,audio);
-		changePosts([...posts]);
-		changeDisplayCreationModal(false);
+		const {confirmation,data}=await createSpecificIndustryAudioAnswer(submitedAudio);
+		if(confirmation=="Success"){
+			const {
+				questionId,
+				postId
+			}=data;
+			audio={
+				...audio,
+				_id:postId,
+				comments:[],
+				isCrownedPost:false,
+				industriesUploaded:[{industry:symposium}]
+			}
+
+			posts.splice(0,0,audio);
+			changeQuestionId(questionId);
+			changePosts([...posts]);
+			changeDisplayCreationModal(false);
+		}else{
+			alert('Unfortunately there has been an error with adding this image. Please try again');
+		}
 	}
 	return(
 		<ul style={{padding:"20px"}}>

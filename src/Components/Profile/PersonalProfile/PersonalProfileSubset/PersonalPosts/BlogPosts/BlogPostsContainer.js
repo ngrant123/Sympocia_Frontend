@@ -71,13 +71,8 @@ class BlogsPostsContainer extends Component{
 	constructor(props){
 		super(props);
 		this.state={
-			videos:[
-				{},{},{},{},{},{}
-			],
-			firstVideo:{},
 			isLoading:true,
-			blogs:[{},{},{}],
-			headerBlog:{},
+			blogs:[],
 			profileType:this.props.profileType
 		}
 	}
@@ -85,17 +80,26 @@ class BlogsPostsContainer extends Component{
 	async componentDidMount(){
 		if(this.props.profileType=="Personal"){
 			
-			const {	crownedBlog,blogArray}=await getBlogFromUser(this.props.id);
+			const {	confirmation,data}=await getBlogFromUser(this.props.id);
 			debugger;
-			console.log(crownedBlog);
-			console.log(blogArray);
-			this.setState({
-				headerBlog:crownedBlog,
-				blogs:blogArray,
-				isLoading:false,
-				blogUrl:`/blog/${this.props.id}`,
-				profileType:"Personal"
-			})
+			if(confirmation=="Success"){
+				const {
+					crownedBlog,
+					blogArray
+				}=data;
+
+				console.log(crownedBlog);
+				console.log(blogArray);
+				this.setState({
+					headerBlog:crownedBlog=={}?null:crownedBlog,
+					blogs:blogArray,
+					isLoading:false,
+					blogUrl:`/blog/${this.props.id}`,
+					profileType:"Personal"
+				})
+			}else{
+				alert('Unfortunately there has been an error getting these blog posts. Please try again');
+			}
 		}else{				
 		
 			const {	headerBlog,blogPosts}=await getCompanyBlogs(this.props.id);

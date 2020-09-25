@@ -327,7 +327,6 @@ createOrRemoveStampEffect=()=>{
 		this.setState({
 			displayComments:false
 		})
-
 	}
 	closeModal=()=>{
 		this.setState({

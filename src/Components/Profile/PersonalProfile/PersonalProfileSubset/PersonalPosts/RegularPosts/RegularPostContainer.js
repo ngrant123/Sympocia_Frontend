@@ -86,6 +86,7 @@ class RegularPostsContainer extends Component{
 
 	constructor(props){
 		super(props);
+		console.log(props);
 		console.log("Regular  Post component");
 		this.state={
 			regularPosts:[],
@@ -151,7 +152,7 @@ class RegularPostsContainer extends Component{
 										<Container>
 											{this.state.isLoading==true?<p>We are currently getting posts</p>:
 												<React.Fragment>
-													{this.state.regularPosts.length==0 ||this.state.regularPosts==undefined?<NoPostsModal
+													{this.props.posts.posts.length==0 && this.props.posts.headerPost==null?<NoPostsModal
 																						postType={"post"}
 																						profilePageType={this.props.profile}
 																					/>:
@@ -161,7 +162,7 @@ class RegularPostsContainer extends Component{
 																			<li onClick={()=>this.displayPostModal(
 																								postDisplayModal,
 																								companyPostDisplayModal,
-																								this.state.headerPost,
+																								this.props.posts.headerPost,
 																								postsConsumer)} style={{listStyle:"none",marginBottom:"2%"}}>
 																				<HeaderPost
 																					post={this.props.posts.headerPost}

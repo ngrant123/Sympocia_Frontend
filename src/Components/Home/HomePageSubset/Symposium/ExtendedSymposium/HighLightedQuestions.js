@@ -82,7 +82,6 @@ class HighLightedQuestions extends Component{
 
 
 	constructResponses=(question)=>{
-		debugger;
 		const {questionType}=question;
 		var replies=question.responsesId;
 		var element;

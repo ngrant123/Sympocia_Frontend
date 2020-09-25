@@ -3,6 +3,8 @@ import styled from "styled-components";
 import STEMIndexModal from "../Modals/FeaturesIndex/STEMIndex.js";
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
+import {FeatureConsumer} from "./FeatureContext.js";
+
 
 const OptionsCSS={
   listStyle:"none",
@@ -15,87 +17,155 @@ const OptionsCSS={
   borderColor:"#3898ec"
 }
 
-const STEMRelatedFeatures=({symposium})=>{
+const STEMRelatedFeatures=({symposium,questions})=>{
+	if(questions!=null){
+		var {
+			audioQuestion,
+			imageQuestion,
+			regularPostQuestion,
+			videoQuestion
+		}=questions;
+	}
 	const [displaySTEMFeaturesPortal,changeDisplaySTEMModal]=useState(false);
 	const [displayModalType,changeModalType]=useState();
+	const [questionIndex,changeQuestionIndex]=useState();
+	const [selectedQuestion,changeSelectedQuestion]=useState();
+	const [selectedPostId,changeSelectedPostId]=useState();
 
-	const displayTutoringModal=()=>{
+	const displayTutoringModal=(index)=>{
 		changeModalType("Tutoring");
 		changeDisplaySTEMModal(true);
+		changeQuestionIndex(index);
 	}
 
-	const displayRecommendedBooksModal=()=>{
+	const displayRecommendedBooksModal=(index)=>{
 		console.log("Supplies");
 		changeModalType("Books");
 		changeDisplaySTEMModal(true);
+		changeQuestionIndex(index);
 	}
 
-	const displayAchievementsModal=()=>{
+	const displayAchievementsModal=(index)=>{
 		changeModalType("Achievement");
 		changeDisplaySTEMModal(true);
+		changeQuestionIndex(index);
 	}
 
 	const handleCloseModal=()=>{
 		changeDisplaySTEMModal(false);
 	}
 
+	const displayPostModal=(posts,postType,selectedPost)=>{
+		debugger;
+		var indexOfStevie = posts.findIndex(i => i._id === selectedPost._id);
+		changeModalType(postType);
+		changeDisplaySTEMModal(true);
+		changeQuestionIndex(indexOfStevie);
+		changeSelectedQuestion(selectedPost.question);
+		changeSelectedPostId(selectedPost._id);
+	}
+
 	return(
-		<>
-			{displaySTEMFeaturesPortal==true?
-				<STEMIndexModal
-					modalType={displayModalType}
-					closeModal={handleCloseModal}
-					symposium={symposium}
-				/>
-				:null
-			}
-			<ul>
-				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayTutoringModal()} style={OptionsCSS}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								{symposium} tutoring services
-							</li>
 
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<ArrowDropDownCircleOutlinedIcon/>
-							</li>
-						</ul>
-					</li>
-				</a>
-				<hr/>
+		<FeatureConsumer>
+			{symposiumInformation=>{
+				return <>
+					{questions!=null && (
+						<>
+						{displaySTEMFeaturesPortal==true?
+								<STEMIndexModal
+									modalType={displayModalType}
+									closeModal={handleCloseModal}
+									symposium={symposium}
+									questionIndex={questionIndex}
+									symposiumId={symposiumInformation.symposiumId}
+									question={selectedQuestion}
+									selectedPostId={selectedPostId}
+								/>
+								:null
+							}
+							<ul>
+								{audioQuestion.map(data=>
+									<>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>displayPostModal(audioQuestion,"Audio",data)} style={OptionsCSS}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													{data.question}
+												</li>
 
-				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayRecommendedBooksModal()} style={OptionsCSS}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								Recommeneded books
-							</li>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<ArrowDropDownCircleOutlinedIcon/>
+												</li>
+											</ul>
+										</li>
+									</a>
+									<hr/>
+									</>
+								)}
+								{imageQuestion.map(data=>
+									<>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>displayPostModal(imageQuestion,"Image",data)} style={OptionsCSS}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													{data.question}
+												</li>
 
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<ArrowDropDownCircleOutlinedIcon/>
-							</li>
-						</ul>
-					</li>
-				</a>
-				<hr/>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<ArrowDropDownCircleOutlinedIcon/>
+												</li>
+											</ul>
+										</li>
+									</a>
+									<hr/>
+									</>
+								)}
 
-				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li onClick={()=>displayAchievementsModal()} style={OptionsCSS}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								{symposium} achievement 
-							</li>
+								{regularPostQuestion.map(data=>
+									<>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>displayPostModal(regularPostQuestion,"RegularPost",data)} style={OptionsCSS}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													{data.question}
+												</li>
 
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<ArrowDropDownCircleOutlinedIcon/>
-							</li>
-						</ul>
-					</li>
-				</a>
-				<hr/>
-			</ul>
-		</>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<ArrowDropDownCircleOutlinedIcon/>
+												</li>
+											</ul>
+										</li>
+									</a>
+									<hr/>
+									</>
+								)}
+								{videoQuestion.map(data=>
+									<>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>displayPostModal(videoQuestion,"Video",data)} style={OptionsCSS}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													{data.question}
+												</li>
+
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<ArrowDropDownCircleOutlinedIcon/>
+												</li>
+											</ul>
+										</li>
+									</a>
+									<hr/>
+									</>
+								)}
+
+							</ul>
+						</>
+
+					)}
+				</>		
+			}}
+		</FeatureConsumer>
 	)
 }
 

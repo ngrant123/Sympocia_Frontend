@@ -3,6 +3,9 @@ import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
 import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.png";
+import {createSpecificIndustryRegularPostAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {getIndustryRegularPostFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {useSelector} from "react-redux";
 
 const Container=styled.div`
 	position:absolute;
@@ -117,57 +120,152 @@ const SubmitButtonCSS={
   width:"30%"
 }
 
-const RegularPostModal=({closeModal,symposium,displayImage,modalType})=>{
+const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,questionIndex,question,selectedPostId})=>{
+
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
-	const [posts,changePosts]=useState([{},{},{}]);
+	const [posts,changePosts]=useState([]);
 	const [knowledgeLevel,changeKnowledge]=useState();
+	const [questionId,changeQuestionId]=useState();	
+
+	const userId=useSelector(state=>state.personalInformation.id);
+
+	const [displayCurrentLevel,changeCurrentLevel]=useState(false);
 
 	useEffect(()=>{
-		displayBeginnerPosts();
+		const fetchData=async()=>{
+			debugger;
+			console.log(symposiumId);
+			retrievePosts('Beginner');
+		}
+
+		fetchData();
 	},[]);
 
+	const retrievePosts=async(levelType)=>{
+		const response=await getIndustryRegularPostFeatureAnswers({
+			industryId:symposiumId,
+			questionIndex,
+			questionId:selectedPostId,
+			questionLevel:'Beginner'
+		});
+
+		return response;
+	}
+
 	const displayIntermediatePosts=async()=>{
-		document.getElementById("beginner").style.backgroundColor="white";
-		document.getElementById("beginner").style.color="#3898ec";
+		const {confirmation,data}=await retrievePosts('Intermediate');
 
-		document.getElementById("intermediate").style.backgroundColor="#3898ec";
-		document.getElementById("intermediate").style.color="white";
+		if(confirmation=="Success"){
+			const {
+				questionId,
+				posts
+			}=data;
+			document.getElementById("beginner").style.backgroundColor="white";
+			document.getElementById("beginner").style.color="#3898ec";
 
-		document.getElementById("advanced").style.backgroundColor="white";
-		document.getElementById("advanced").style.color="#3898ec";
+			document.getElementById("intermediate").style.backgroundColor="#3898ec";
+			document.getElementById("intermediate").style.color="white";
+
+			document.getElementById("advanced").style.backgroundColor="white";
+			document.getElementById("advanced").style.color="#3898ec";
+
+			changeCurrentLevel("intermediate");
+			changePosts(posts);
+			changeQuestionId(questionId);
+			displayBeginnerPosts();
+
+		}else{
+			alert('Unfortunately there has been an error trying to get this images data. Please try again');
+		}
 	}
 
 	const displayBeginnerPosts=async()=>{
-		document.getElementById("intermediate").style.backgroundColor="white";
-		document.getElementById("intermediate").style.color="#3898ec";
+		const {confirmation,data}=await retrievePosts('Beginner');
+		if(confirmation=="Success"){
+			const {
+				questionId,
+				posts
+			}=data;
+			document.getElementById("intermediate").style.backgroundColor="white";
+			document.getElementById("intermediate").style.color="#3898ec";
 
-		document.getElementById("beginner").style.backgroundColor="#3898ec";
-		document.getElementById("beginner").style.color="white";
+			document.getElementById("beginner").style.backgroundColor="#3898ec";
+			document.getElementById("beginner").style.color="white";
 
-		document.getElementById("advanced").style.backgroundColor="white";
-		document.getElementById("advanced").style.color="#3898ec";
+			document.getElementById("advanced").style.backgroundColor="white";
+			document.getElementById("advanced").style.color="#3898ec";
+
+			changeCurrentLevel("beginner");
+			changePosts(posts);
+			changeQuestionId(questionId);
+			displayBeginnerPosts();
+
+		}else{
+			alert('Unfortunately there has been an error trying to get this images data. Please try again');
+		}
 	}
 
 	const displayAdvancedPosts=async()=>{
-		document.getElementById("beginner").style.backgroundColor="white";
-		document.getElementById("beginner").style.color="#3898ec";
+		const {confirmation,data}=await retrievePosts('Advanced');
+		if(confirmation=="Success"){
+			const {
+				questionId,
+				posts
+			}=data;
+			document.getElementById("beginner").style.backgroundColor="white";
+			document.getElementById("beginner").style.color="#3898ec";
 
-		document.getElementById("advanced").style.backgroundColor="#3898ec";
-		document.getElementById("advanced").style.color="white";
+			document.getElementById("advanced").style.backgroundColor="#3898ec";
+			document.getElementById("advanced").style.color="white";
 
-		document.getElementById("intermediate").style.backgroundColor="white";
-		document.getElementById("intermediate").style.color="#3898ec";
+			document.getElementById("intermediate").style.backgroundColor="white";
+			document.getElementById("intermediate").style.color="#3898ec";
+
+			changeCurrentLevel("advanced");
+			changePosts(posts);
+			changeQuestionId(questionId);
+			displayBeginnerPosts();
+
+		}else{
+			alert('Unfortunately there has been an error trying to get this images data. Please try again');
+		}
 	}
 
-	const submitPost=()=>{
+	const submitPost=async()=>{
 		const post={
+			industryId:symposiumId,
+			questionId:selectedPostId,
+			question,
+			userId:userId,
 			post:document.getElementById("post").value,
-			knowledgeLevel:knowledgeLevel
+			postLevel:knowledgeLevel
 		}
+		const {confirmation,data}=await createSpecificIndustryRegularPostAnswer(post);
+		if(confirmation=="Success"){
+			debugger;
+			if(displayCurrentLevel==knowledgeLevel.toLowerCase()){	
+				const {
+					questionId,
+					postId
+				}=data;
+				var submittedPost={
+					post:document.getElementById("post").value,
+					_id:postId,
+					comments:[],
+					isCrownedPost:false,
+					industriesUploaded:[{industry:symposium}]
+				}
 
-		posts.splice(0,0,post);
-		changePosts([...posts]);
-		changeDisplayCreationModal(false);
+				posts.splice(0,0,submittedPost);
+				changePosts([...posts]);
+			}
+
+			changeDisplayCreationModal(false);
+			changeQuestionId(questionId);
+
+		}else{
+			alert('Unfortunately there has been an error with adding this image. Please try again');
+		}
 	}
 
 	return(
@@ -197,7 +295,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType})=>{
 							</ul>
 	  				 </div>
 
-					<InputContainer id="post" placeholder='Enter your tip here'/>
+					<InputContainer id="post" placeholder='Enter your text here'/>
 
 					<li onClick={()=>submitPost()} style={SubmitButtonCSS}>
 						Submit
