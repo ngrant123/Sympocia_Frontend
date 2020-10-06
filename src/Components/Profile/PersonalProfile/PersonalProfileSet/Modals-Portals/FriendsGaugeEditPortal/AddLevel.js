@@ -1,9 +1,9 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
-import {createLevel} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-import {getProfileForHomePage} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {createLevel} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {getProfileForHomePage} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 
 const InputContainer=styled.textarea`
 	position:relative;

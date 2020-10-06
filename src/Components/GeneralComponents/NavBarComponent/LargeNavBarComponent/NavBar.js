@@ -13,6 +13,7 @@ import {useSelector,useDispatch} from "react-redux";
 import {loginPersonalPage} from "../../../../Actions/Redux/Actions/PersonalProfile.js";
 import {loginCompanyPage} from "../../../../Actions/Redux/Actions/CompanyActions.js";
 import SearchBarModal from "./SearchBarModal.js";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 
 const Container=styled.div`
 	position:fixed;
@@ -151,6 +152,23 @@ const BackgroundContainer=styled.div`
 	z-index:7;
 `;
 
+const ViewMessagesCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec"
+}
+
+/*
+So right now the nav bar is just explore, home page, and view messages
+in the future I want to add the option of profile picture, notifications and other pages 
+to it 
+*/
 const NavBar=(pageProps)=>{
 	console.log(pageProps);
 	const dispatch=useDispatch();
@@ -301,8 +319,10 @@ const NavBar=(pageProps)=>{
 				{personalProfileState.loggedIn==true || displayPersonalProfileIcon==true?
 					<li style={ProfileDropDownListCSS} onClick={()=>loginToPersonalProfile()}>
 						<Dropdown>
-							  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
-					 		  
+							  <Dropdown.Toggle variant="success" id="dropdown-basic" style={ViewMessagesCSS}
+							  	onClick={()=>displayChatContainerForPersonalPage(pageProps)}
+							  >
+					 				View messages
 							  </Dropdown.Toggle>
 
 							  <Dropdown.Menu>
@@ -318,30 +338,33 @@ const NavBar=(pageProps)=>{
 						</Dropdown>
 					</li>:<React.Fragment></React.Fragment>
 				}
+	{/*
+		GOING TO IMPLEMENT WHEN COMPANY SECTION IS READY
+
+					{companyProfileState.loggedIn==true || displayCompanyProfileIcon==true?
+						<li style={ProfileDropDownListCSS} onClick={()=>logInToCompanyProfile()}>
+							<Dropdown>
+								  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
+								   
+								  </Dropdown.Toggle>
 	
-				{companyProfileState.loggenIn==true || displayCompanyProfileIcon==true?
-					<li style={ProfileDropDownListCSS} onClick={()=>logInToCompanyProfile()}>
-						<Dropdown>
-							  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{borderRadius:"50%",width:"60px",height:"55px"}}>
-							   
-							  </Dropdown.Toggle>
-
-							  <Dropdown.Menu>
-
-							  	<Dropdown.Item>
-									<CompanyProfileChatContainer onClick={()=>displayChatContainerForCompanyPage(pageProps)}/>
-								</Dropdown.Item>
-
-								<Dropdown.Item>
-									<CompanyProfileNotificationsContainer/>
-								</Dropdown.Item>
-							    
-							  </Dropdown.Menu>
-
-						</Dropdown>
-
-					</li>:<React.Fragment></React.Fragment>
-				}
+								  <Dropdown.Menu>
+	
+								  	<Dropdown.Item>
+										<CompanyProfileChatContainer onClick={()=>displayChatContainerForCompanyPage(pageProps)}/>
+									</Dropdown.Item>
+	
+									<Dropdown.Item>
+										<CompanyProfileNotificationsContainer/>
+									</Dropdown.Item>
+								    
+								  </Dropdown.Menu>
+	
+							</Dropdown>
+	
+						</li>:<React.Fragment></React.Fragment>
+					}
+	*/}
 
 			</ul>
 

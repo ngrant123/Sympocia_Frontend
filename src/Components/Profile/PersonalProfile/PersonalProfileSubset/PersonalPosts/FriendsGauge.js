@@ -4,8 +4,8 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import {connect} from "react-redux";
-import FriendsGaugeEditModal from "../../PersonalProfileSet/FriendsGaugeEditPortal/index.js";
-import RecruitsNodeInformationPortal from "../../PersonalProfileSet/RecruitsNodeInformationPortal.js";
+import FriendsGaugeEditModal from "../../PersonalProfileSet/Modals-Portals/FriendsGaugeEditPortal/index.js";
+import RecruitsNodeInformationPortal from "../../PersonalProfileSet/Modals-Portals/RecruitsNodeInformationPortal.js";
 
 const LocksCSS={
   marginLeft:"45%",
@@ -38,7 +38,7 @@ class FriendsGauge extends React.Component {
     console.log(props);
     super(props);
 
-    
+    debugger;
     var numberNodes;
     var progressBarCounter;
     var {friendsGauge,friendsGaugeNodes}=this.props.personalInformation.userProfile;
@@ -46,17 +46,21 @@ class FriendsGauge extends React.Component {
     console.log(friendsGaugeNodes);
     numberNodes=friendsGaugeNodes.length+1;
     debugger;
+    let refromattedNodes;
     if(this.props.personalInformation.isOwnProfile==true){
       progressBarCounter=100;
     }else{
       var friendProgress=friendsGauge[this.props.personalId];
+      refromattedNodes=this.reformatNodeOrder(friendProgress,friendsGaugeNodes);
       if(friendProgress!=null){
-        var totalGaugeTickValue=100/friendsGaugeNodes;
-        progressBarCounter=(friendProgress*totalGaugeTickValue)+2;
+
+        var totalGaugeTickValue=100/(friendsGaugeNodes.length-1);
+        progressBarCounter=((friendProgress.length)*totalGaugeTickValue)+2;
       }else{
         progressBarCounter=0;
       }
     }
+
 
     this.state={
       currentPercentage:0,
@@ -66,10 +70,29 @@ class FriendsGauge extends React.Component {
       currentNodeCounter:1,
       displayFriendsGaugeEditModal:false,
       friendsGaugeActionType:"",
-      nodes:friendsGaugeNodes,
+      nodes:refromattedNodes==null?friendsGaugeNodes:refromattedNodes,
       displayNodeInformationModule:false,
       nodeInformation:{}
     }
+  }
+
+  reformatNodeOrder=(userFollowedNodes,totalNodes)=>{
+      let userFollowedNodesMap=new Map();
+      if(userFollowedNodes!=null){
+        for(var i=0;i<userFollowedNodes.length;i++){
+          userFollowedNodesMap.set(userFollowedNodes[i],1);
+        }
+
+        for(var j=0;j<totalNodes.length;j++){
+            const currentNodeId=totalNodes[j]._id;
+            if(userFollowedNodesMap.has(currentNodeId)){
+              const tempNode=totalNodes[j];
+              totalNodes.splice(j,j);
+              totalNodes.splice(1,0,tempNode);
+            }
+        }
+      }
+      return totalNodes;
   }
 
   componentDidMount(){
@@ -106,11 +129,9 @@ class FriendsGauge extends React.Component {
       return ProgressBarSteps;
   }
 
-  handleLockIconChange=(currentNode)=>{
-    const intervalValue=100/(this.state.numberOfNodes-1);
-    const currentIntervalValue=currentNode*intervalValue;
+  handleLockIconChange=(isUnlocked)=>{
 
-    return this.state.progressBarCounter>=currentIntervalValue?
+    return isUnlocked==true?
       <LockOpenIcon
         style={{fontSize:30}}
       />:
@@ -129,11 +150,16 @@ class FriendsGauge extends React.Component {
   constructProgessBarStep=(accomplished,index,node)=>{
       const currentNodeCounter=this.state.currentNodeCounter;
       const {name,description,nodeCounter}=node;
-  
-      return <ul onClick={()=>this.displayNodeInformation(node)} style={{padding:"0px"}}>
+
+      const intervalValue=100/(this.state.numberOfNodes-1);
+
+      const currentIntervalValue=index*intervalValue;
+      const isUnlocked=this.state.progressBarCounter>=currentIntervalValue;
+      
+      return <ul onClick={()=>this.displayNodeInformation(node)} style={{marginTop:"5%",padding:"0px"}}>
                 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
                   <li style={{listStyle:"none"}}>
-                     {this.handleLockIconChange(index)}
+                     {this.handleLockIconChange(isUnlocked)}
                   </li>
 
                   <li style={{listStyle:"none"}}>
@@ -145,10 +171,14 @@ class FriendsGauge extends React.Component {
                   </li>
                   <li style={{listStyle:"none"}}>
                     <ul style={{padding:"0px"}}>
-                      <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}> Unlock </p>
-                      <p style={{color:"#5298F8"}}> <b>Level {nodeCounter}</b></p>
-                      <p> {name} </p>
-
+                      <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
+                         {isUnlocked==true?
+                            <p>Unlock</p>:
+                            <p>Locked</p>
+                          } 
+                      </p>
+                      <p style={{color:"#5298F8",width:"85%",height:"20px",overflow:"hidden"}}> <b>{name}</b></p>
+                      <p style={{width:"85%",height:"30px",overflow:"hidden"}}> {description} </p>
                     </ul>
                   </li>
                 </a>

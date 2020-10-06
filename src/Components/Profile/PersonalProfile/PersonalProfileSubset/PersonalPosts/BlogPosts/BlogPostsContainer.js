@@ -80,7 +80,7 @@ class BlogsPostsContainer extends Component{
 	async componentDidMount(){
 		if(this.props.profileType=="Personal"){
 			
-			const {	confirmation,data}=await getBlogFromUser(this.props.id);
+			const {	confirmation,data}=await getBlogFromUser({userId:this.props.id,visitorId:this.props.visitorId});
 			debugger;
 			if(confirmation=="Success"){
 				const {
@@ -91,7 +91,7 @@ class BlogsPostsContainer extends Component{
 				console.log(crownedBlog);
 				console.log(blogArray);
 				this.setState({
-					headerBlog:crownedBlog=={}?null:crownedBlog,
+					headerBlog:crownedBlog==={}?null:crownedBlog,
 					blogs:blogArray,
 					isLoading:false,
 					blogUrl:`/blog/${this.props.id}`,

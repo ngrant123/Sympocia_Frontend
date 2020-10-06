@@ -275,6 +275,7 @@ class BlogPostCreation extends Component{
 						displayApproveDisapproveModalHandle={this.displayApproveDisapproveModalHandle}
 						triggerPromoteModal={this.triggerPromoteModal}
 						postId={this.props.location.state._id}
+						industriesUploaded={this.props.location.state.industriesUploaded}
 						history={this.props.history}
 				/>
 				<Blog/>

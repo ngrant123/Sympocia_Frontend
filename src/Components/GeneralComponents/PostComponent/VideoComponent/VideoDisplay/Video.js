@@ -388,9 +388,13 @@ createOrRemoveStampEffect=()=>{
 	}
 
 	removeVideoPost=async()=>{
-		//const {confirmation,data}=await deletePost(this.props.video._id,"Videos");
+		const removeVideos={
+			postType:"Videos",
+			postId:this.props.video._id,
+			industriesUploaded:this.props.video.industriesUploaded
+		}
+		const {confirmation,data}=await deletePost(removeVideos);
 		debugger;
-		let confirmation="Success";
 		if(confirmation=="Success"){
 			this.props.deletePost();
 		}else{

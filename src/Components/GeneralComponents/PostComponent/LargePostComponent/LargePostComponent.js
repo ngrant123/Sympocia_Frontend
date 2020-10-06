@@ -277,6 +277,7 @@ class LargePostComponent extends Component{
 		/*
 			Find out if the poster is from a company or personal profile
 		*/
+		debugger;
 		console.log(this.props);
 
 		if(this.props.postOption=="post"){

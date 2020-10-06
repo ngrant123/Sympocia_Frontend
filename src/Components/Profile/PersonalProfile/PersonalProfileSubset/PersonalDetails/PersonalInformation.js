@@ -3,10 +3,15 @@ import styled from "styled-components";
 import {UserConsumer} from "../../UserContext.js";
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import FriendsAndIndustryInformation from "./FriendsAndIndustryInformation.js";
-import DonatePortal from "../../PersonalProfileSet/DonatePortal.js";
-import ChampionPortal from "../../PersonalProfileSet/ChampionModalPortal/index.js";
+import DonatePortal from "../../PersonalProfileSet/Modals-Portals/DonatePortal.js";
+import ChampionPortal from "../../PersonalProfileSet/Modals-Portals/ChampionModalPortal/index.js";
 import {useSelector} from "react-redux";
 import {addRecruit} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import FriendsPortal from "../../PersonalProfileSet/Modals-Portals/FriendsPortal.js";
+import SymposiumPortal from "../../PersonalProfileSet/Modals-Portals/FollowedSymposiumsPortal.js";
+
+import { Icon, InlineIcon } from '@iconify/react';
+import tiktokIcon from '@iconify/icons-simple-icons/tiktok';
 
 
 
@@ -105,11 +110,43 @@ const SponsorButton=styled.div`
 	}
 `;
 
+let TikTokCSS={
+	position:"relative",
+	borderStyle:"solid",
+	padding:"5px",
+	borderColor:"black",
+	borderWidth:"3px",
+	borderRadius:"5px",
+	listStyle:"none",
+	display:"inline-block",
+	marginBottom:"15px",
+	top:"-15px",
+	textAlign:"center"
+}
+
+const EditSocialMediaUrlsCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginBottom:"5%"
+}
+
 const PersonalInformation=(props)=>{
+	console.log(props);
 
 	const [displayFriendsAndIndustryContainer,changeIndicator]=useState(false);
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
+
+	const [displayFriendsPortal,changeDisplayFriendsPortal]=useState(false);
+	const [displaySymposiumsPortal,changeDisplaySymposiumsPortal]=useState(false);
+
 	const personalRedux=useSelector(state=>state.personalInformation);
 
 	const handleUnRecruitButton=()=>{
@@ -136,12 +173,84 @@ const PersonalInformation=(props)=>{
 
 	}
 
+	const socialMediaIcons=(socialMediaUrls)=>{
+		debugger;
+		let {
+			instagramUrl,
+			tikTokUrl
+		}=socialMediaUrls
+
+		let instagramIconColor;
+		let tikTokIconColor;
+
+		if(instagramUrl==null || instagramUrl==""){
+			instagramIconColor="#A4A4A4";
+			instagramUrl="javascript:void(0);";
+		}else{
+			instagramIconColor="#03A9F4";
+		}
+
+		if(tikTokUrl==null || tikTokUrl==""){
+			tikTokIconColor="#A4A4A4";
+			tikTokUrl="javascript:void(0);";
+		}else{
+			tikTokIconColor="#03A9F4";
+		}
+
+		TikTokCSS={
+			...TikTokCSS,
+			borderColor:tikTokIconColor
+		}
+
+		return <>
+					<a style={{textDecoration:"none"}} href={instagramUrl}>
+						<li style={{listStyle:"none",display:"inline-block",marginLeft:"30%",marginRight:"10%"}}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" 
+								width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke={instagramIconColor} fill="none" 
+								stroke-linecap="round" stroke-linejoin="round">
+								  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+								  <rect x="4" y="4" width="16" height="16" rx="4" />
+								  <circle cx="12" cy="12" r="3" />
+								  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+							</svg>
+						</li>
+					</a>
+					<a style={{textDecoration:"none"}} href={tikTokUrl}>
+						<li style={TikTokCSS}>
+							<Icon icon={tiktokIcon} 
+								style={{fontSize:15,color:tikTokIconColor}}
+							/>
+						</li>
+					</a>
+				</>
+	}
+
+	const closeFriendsPortal=()=>{
+		changeDisplayFriendsPortal(false);
+	}
+
+	const closeFollowedSymposiumsPortal=()=>{
+		changeDisplaySymposiumsPortal(false);
+	}
+
 	return(
 		<UserConsumer>
 			{personalInformation=>{
 				return <React.Fragment>
 						{personalInformation.isLoading==true?<p>Loading please wait</p>:
 								<React.Fragment>
+									{displayFriendsPortal==true &&(
+										<FriendsPortal
+											userId={props.personalInformation.userProfile._id}
+											closeModal={closeFriendsPortal}
+										/>
+									)}
+									{displaySymposiumsPortal==true &&(
+										<SymposiumPortal
+											userId={props.personalInformation.userProfile._id}
+											closeModal={closeFollowedSymposiumsPortal}
+										/>
+									)}
 									{displayFriendsAndIndustryContainer==false?
 									<React.Fragment>
 										<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4"}}><b>{personalInformation.userProfile.firstName}</b></p>
@@ -152,32 +261,41 @@ const PersonalInformation=(props)=>{
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
 												Social Media
-
 											</li>
-											<li style={{listStyle:"none",display:"inline-block",marginLeft:"30%",marginRight:"10%"}}>
-												<ControlPointIcon
-													style={{fontSize:40,color:"#5298F8"}}
-												 />
+											<li style={{listStyle:"none",marginTop:"5%"}}>
+												{props.personalInformation.isOwnProfile==true?
+													<ul style={{padding:"0px"}}>
+														<a style={{textDecoration:"none"}} href="javascript:void(0);">	
+															<li onClick={()=>props.displaySocialMediaModal()}
+															style={EditSocialMediaUrlsCSS}>
+																Edit Social Media
+															</li>
+														</a>
+														{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
+														
+													</ul>
+													:
+													<ul style={{padding:"0px"}}>
+														{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
+													</ul>
+												}
 											</li>
-
-											<li style={{listStyle:"none",display:"inline-block",marginBottom:"15px"}}>
-												<ControlPointIcon
-													style={{fontSize:40,color:"#5298F8"}}
-												/>
-											</li>
+											
 
 											<li style={{listStyle:"none",marginBottom:"20px"}}>
-												<FriendsAndIndustryDisplayButton onClick={()=>changeIndicator(true)}>
-													Views Friends
-												</FriendsAndIndustryDisplayButton>
-
+												<a style={{textDecoration:"none"}} href="javascript:void(0);">
+													<FriendsAndIndustryDisplayButton onClick={()=>changeDisplayFriendsPortal(true)}>
+														View Recruits
+													</FriendsAndIndustryDisplayButton>
+												</a>
 											</li>
 
 											<li style={{listStyle:"none",marginBottom:"2%"}}>
-												<FriendsAndIndustryDisplayButton onClick={()=>changeIndicator(true)}>
-													View Interested Industries
-												</FriendsAndIndustryDisplayButton>
-
+												<a style={{textDecoration:"none"}} href="javascript:void(0);">
+													<FriendsAndIndustryDisplayButton onClick={()=>changeDisplaySymposiumsPortal(true)}>
+														View Interested Symposiums
+													</FriendsAndIndustryDisplayButton>
+												</a>
 											</li>
 											{personalInformation.isOwnProfile==true?
 													<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>

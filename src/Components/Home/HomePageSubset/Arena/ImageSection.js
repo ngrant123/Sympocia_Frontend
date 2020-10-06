@@ -4,6 +4,7 @@ import TestProfilePicture from "../../../../designs/img/FirstSectionLandingPAgeI
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import {ArenaConsumer} from "./ArenaContext.js";
+import {addBoost} from "../../../../Actions/Requests/ArenaPageAxiosRequests/ArenaPageSetRequests.js";  
 
 
 const Container=styled.div`
@@ -47,17 +48,74 @@ const BoostButton={
   borderColor:"#3898ec"
 }
 
+/*
+
+	setterMethods:{
+		addTextReaction,
+		addVideoReaction,
+		addBoost,
+		addStampToTextReaction,
+		addStampToVideoReaction,
+		removeVideoReaction,
+		removeTextReaction
+	}
+
+	
+	getterMethods:{
+		fetchArenaInformation,
+		getVideoReactions,
+		getTextComments,
+		getPreviousWinners
+	}
+*/
 class ImageSection extends Component{
 
 	constructor(props){
 		super(props);
 		this.state={
 			searchName:"",
-			headerImage:{rank:24,firstName:"Nathan"},
+			headerImage:{score:45,rank:1,firstName:"Nathan"},
 			posts:[{caption:"Caption title",description:"test1",rank:1},{rank:2},{rank:3},{rank:4},{rank:5}]
-		};
+		}
 	}
 	
+	boostPost=async(postSelected,arenaContext)=>{
+		const {
+			_id,
+			score
+		}=postSelected
+		const {arenaId}=arenaContext;
+
+		const {confirmation,data}=await addBoost({
+											_id,
+											score,
+											postType:"Images",
+											arenaId:arenaId
+										});
+		if(confirmation=="Success"){
+			const newCurrentPosts=this.state.posts.splice(0,0,this.state.headerImage);
+			for(var i=0;i<newCurrentPosts.length;i++){
+				if(newCurrentPosts[i]._id==_id){
+					newCurrentPosts[i]={
+						...newCurrentPosts[i],
+						score:score+1
+					}
+				}
+			}
+
+			newCurrentPosts.sort((a,b)=>{
+				return a.score<b.score
+			})
+			this.setState({
+				headerImage:newCurrentPosts[0],
+				posts:newCurrentPosts.splice(0,0)
+			},()=>{
+				arenaContext.handleBoost();
+			})
+		}else{
+			alert('Unfortunately there has been an error with boosting this post. Please try again');
+		}
+	}
 	render(){
 		return(
 			<ArenaConsumer>
@@ -126,7 +184,7 @@ class ImageSection extends Component{
 										</li>
 
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={BoostButton} onClick={()=>arenaContext.handleBoost(this.state.headerImage)}>
+											<li style={BoostButton} onClick={()=>this.boostPost(this.state.headerImage,arenaContext)}>
 												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
 												  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
 												  <path stroke="none" d="M0 0h24v24H0z"/>
@@ -172,7 +230,7 @@ class ImageSection extends Component{
 														</ul>
 													</li>
 													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-														<li style={BoostButton} onClick={()=>arenaContext.handleBoost(data)}>
+														<li style={BoostButton} onClick={()=>this.boostPost(data,arenaContext)}>
 															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
 															  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
 															  <path stroke="none" d="M0 0h24v24H0z"/>

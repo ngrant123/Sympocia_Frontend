@@ -29,12 +29,13 @@ import {PostDisplayProvider} from "../PostDisplayModalContext.js";
 import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
 import RegularPostContainer from "../../../GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
-import ChampionModal from "./ChampionModalPortal/ChampionDisplayModal.js";
+import ChampionModal from "./Modals-Portals/ChampionModalPortal/ChampionDisplayModal.js";
 import Confetti from 'react-confetti';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
-import CreationPortal from "./PostCreationPortal.js";
+import CreationPortal from "./Modals-Portals/PostCreationPortal.js";
 import OnboardingPersonalPage from "../../../OnBoarding/PersonalProfileOnboarding.js";
 import PromotePortal from "../PersonalProfileSubset/PersonalPosts/PromotePortal.js";
+import SocialMediaUrlContainer from "./Modals-Portals/SocialMediaUrlModal.js";
 
 const Container=styled.div`
 
@@ -327,7 +328,7 @@ class LProfile extends Component{
 		    blogModalData:{},
 		    displayRegularPostModal:false,
 		    regularModalData:{},
-		    displayChampionModal:false,
+		    displayChampion:false,
 		    champion:{},
 		    displayCreationPortal:false,
 		    displayPromotePortal:false,
@@ -336,11 +337,12 @@ class LProfile extends Component{
 		    	this.setState({
 		    		...this.state,
 		    		champion:championData,
-		    		displayChampionModal:true
+		    		displayChampion:true
 		    	})
 		    },
 		    displayConfetti:false,
-		    hideOnboarding:false
+		    hideOnboarding:false,
+		    displaySocialMediaUrlContainer:false
 		};
 	}
 
@@ -374,9 +376,10 @@ class LProfile extends Component{
 			}
 		}
 		else{
+			let visitorId=this.props.personalId
 			const profileIds={
 				userId:id,
-				visitorId:this.props.personalId
+				visitorId
 			}
 			const {confirmation,data}=await getProfile(profileIds);
 
@@ -391,7 +394,8 @@ class LProfile extends Component{
 					userProfile:data,
 					displayChampion:containsChampion,
 					championModalData:data.championData,
-					isLoading:false
+					isLoading:false,
+					visitorId
 				}));
 			}else{
 				alert('Unfortunately there has been an error getting this page. Please try again');
@@ -406,25 +410,29 @@ class LProfile extends Component{
 	}
 
 
-	changeProfilePicture=()=>{
+	changeProfilePicture=async()=>{
 
 		console.log("Change picture button clicked");
 		let profileContainer=document.getElementById("profilePicture");
 		let image=document.getElementById("profilePicutreImageFile").files[0];
 		let reader= new FileReader();
-		reader.onloadend=()=>{
+		reader.onloadend=async()=>{
 			profileContainer.src=reader.result;
 			const profileUrl=profileContainer.src;
-			this.setState({
-				userProfile:{
-					...this.state.userProfile,
-					profilePicture:profileUrl
-				}
-			});
 
-			//send profile picture to database
 			console.log(reader.result);
-			setProfilePicture(this.state.userProfile._id,profileUrl);
+			const {confirmation,data}=await setProfilePicture(this.state.userProfile._id,profileUrl);
+			debugger;
+			if(confirmation=="Success"){
+				this.setState({
+					userProfile:{
+						...this.state.userProfile,
+						profilePicture:profileUrl
+					}
+				});
+			}else{
+				alert('Unfortunately there has been an error with changing your profile picture. Please try again');
+			}
 		}
 
 		if(image!=null){
@@ -658,6 +666,54 @@ class LProfile extends Component{
 			displayImagePostModal:false
 		})
 	}
+	updateProfileSocialUrls=(data)=>{
+		const{
+			tikTokUrl,
+			instagramUrl
+		}=data;
+		this.setState(prevState=>{
+			return{
+				...prevState,
+				displaySocialMediaUrlContainer:false,
+				userProfile:{
+					...prevState.userProfile,
+					socialMediaUrls:{
+						instagramUrl,
+						tikTokUrl
+					}
+				}
+			}
+		})
+	}
+	socialMediaModal=(socialMediaURLS)=>{
+		if(socialMediaURLS!=null){
+			console.log(socialMediaURLS);
+			return <>
+					{this.state.displaySocialMediaUrlContainer==true?
+						<SocialMediaUrlContainer
+							closeModal={this.closeSocialMediaModal}
+							socialMediaUrls={socialMediaURLS}
+							profileId={this.state.userProfile._id}
+							updateProfileSocialUrls={this.updateProfileSocialUrls}
+						/>:
+						null
+					}
+				</>
+		}
+	}
+
+	displaySocialMediaModal=()=>{
+		this.setState({
+			displaySocialMediaUrlContainer:true
+		})
+	}
+
+	closeSocialMediaModal=()=>{
+		this.setState({
+			displaySocialMediaUrlContainer:false
+		})
+	}
+
 
 	closeOnboardingModal=()=>{
 		this.setState({
@@ -748,13 +804,14 @@ class LProfile extends Component{
 								)}
 								
 								<PostInformationContainer>
-								<PersonalPostsIndex
-									displayShadowOverlay={this.displayShadow}
-									disappearShadow={this.disappearShadow}
-									displayCreationPortal={this.state.displayCreationPortal}
-									closeModal={this.closeModal}
-									personalInformation={this.state}
-								/>
+									<PersonalPostsIndex
+										displayShadowOverlay={this.displayShadow}
+										disappearShadow={this.disappearShadow}
+										displayCreationPortal={this.state.displayCreationPortal}
+										closeModal={this.closeModal}
+										personalInformation={this.state}
+										visitorId={this.state.visitorId}
+									/>
 								</PostInformationContainer>
 							</>
 						}
@@ -776,12 +833,14 @@ class LProfile extends Component{
 										displayImagePostModal:false
 									})}
 								/>:
-								<React.Fragment></React.Fragment>}
+								<React.Fragment></React.Fragment>
+							}
 
 						{this.ImageModal()}
 						{this.VideoModal()}
 						{this.BlogModal()}
 						{this.RegularPostModal()}
+						{this.socialMediaModal(this.state.userProfile.socialMediaUrls)}
 
 						<HeaderContainer>
 							<GeneralNavBar/>
@@ -797,10 +856,15 @@ class LProfile extends Component{
 
 								{this.state.isOwnProfile==true?
 									<React.Fragment>
-										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} onChange={()=>this.changeProfilePicture()}></input>
-										<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
-											Change Profile Picture
-										</ChangePictureButton>
+										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} 
+											accept="image/x-png,image/gif,image/jpeg" 
+											onChange={()=>this.changeProfilePicture()}>
+										</input>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
+												Change Profile Picture
+											</ChangePictureButton>
+										</a>
 									</React.Fragment>:
 									<React.Fragment></React.Fragment>
 								}
@@ -810,6 +874,8 @@ class LProfile extends Component{
 							<PersonalProfileInformationContainer>
 								<PersonalInformation
 									displayConfetti={this.displayConfetti}
+									personalInformation={this.state}
+									displaySocialMediaModal={this.displaySocialMediaModal}
 								/>
 
 							</PersonalProfileInformationContainer>

@@ -562,18 +562,19 @@ isArrayEqual=(arr1,arr2)=>{
 												</ul>
 											</li>
 
-
-											<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-												<ul onClick={()=>this.setState({
-															displayIndustrySelectModal:true,
-															title:document.getElementById("blogTitle").value,
-															description:document.getElementById("blogDescription").value
-														})}>
-													<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-														Next
-													</li>
-												</ul>
-											 </li>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+													<ul onClick={()=>this.setState({
+																displayIndustrySelectModal:true,
+																title:document.getElementById("blogTitle").value,
+																description:document.getElementById("blogDescription").value
+															})}>
+														<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+															Next
+														</li>
+													</ul>
+												 </li>
+											 </a>
 										</ul>:
 										<React.Fragment>
 											<li style={{top:"-280px",listStyle:"none"}}>

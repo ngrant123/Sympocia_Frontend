@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import CreateAPostComponent from "../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
+import CreateAPostComponent from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;

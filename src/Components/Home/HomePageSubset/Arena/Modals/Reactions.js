@@ -5,6 +5,11 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import TestProfilePicture from "../../../../../designs/img/FirstSectionLandingPAgeImage.png";
 import MicIcon from '@material-ui/icons/Mic';
 
+ import {
+	getVideoReactions,
+	getTextComments
+} from "../../../../../Actions/Requests/ArenaPageAxiosRequests/ArenaPageGetRequests.js";  
+
 const ShadowContainer= styled.div`
 	position:fixed;
 	width:100%;
@@ -116,17 +121,29 @@ class Reaction extends Component{
 			confirmationVideoReactionCreation:false,
 			videoCreationSrc:null,
 			createTextReaction:false,
-			videoReactions:[{owner:{firstName:"Bib"}},{owner:{firstName:"Derrik"}},{owner:{firstName:"B"}}],
-			textReactions:[{owner:{firstName:"Bib"}},{owner:{firstName:"Derrik"}},{owner:{firstName:"B"}},{owner:{firstName:"P"}}],
+			videoReactions:[],
+			textReactions:[],
 			displayCreationPrompt:false,
 			isLoading:true
 		}
 	}
 
-	componentDidMount(){
-		this.setState({
-			isLoading:false
-		})
+	async componentDidMount(){
+		const {
+			arenaId,
+			postType
+		}=this.props
+		const {confirmation,data}=await getVideoReactions({arenaId,postType,textCounter:1})
+		if(confirmation=="Success"){
+			this.setState({
+				videoReactions:data,
+				isLoading:false
+			})
+		}else{	
+			alert('Unfortunately there has been an issue with get the video reaections. Please try again');
+
+		}
+		
 	}
 
 	creationPrompt=()=>{
@@ -243,6 +260,26 @@ class Reaction extends Component{
 		*/
 	}
 
+	fetchTextReactions=async()=>{
+		const {
+			arenaId,
+			postType
+		}=this.props
+
+		const {confirmation,data}=await getTextComments({arenaId,postType,textCounter:1})
+
+		if(confirmation=="Success"){
+			this.setState({
+				textReactions:data,
+				displayVideoReactions:false,
+				displayTextReactions:true
+			})
+		}else{	
+			alert('Unfortunately there has been an issue with get the video reaections. Please try again');
+
+		}
+	}
+
 	closeModal=()=>{
 		this.setState({
 			createVideoReaction:false,
@@ -278,10 +315,7 @@ class Reaction extends Component{
 											</li>
 										</a>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>this.setState({
-																	displayVideoReactions:false,
-																	displayTextReactions:true
-																})} 
+											<li onClick={()=>this.fetchTextReactions()} 
 											style={ReactionOptionButton}>
 												Text Reactions 
 											</li>

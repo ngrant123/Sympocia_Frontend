@@ -7,9 +7,9 @@ import {
 		changeRecruitLevelStatus,
 		editLevelName,
 		editLevelDescription
-} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-import {getProfileForHomePage} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
-import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {getRecruits} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddLevel from "./AddLevel.js";
 import RemoveLevel from "./RemoveLevel.js";
@@ -125,16 +125,28 @@ const FriendsGaugeEditPortal=(props)=>{
 
 	useEffect(()=>{
 		const getRecruitData=async()=>{
-				const recruitsData=await getProfileForHomePage(props.userInformation);
-				var recruits=recruitsData.recruits==null?[]:recruitsData.recruits;
-				changeRecruitsInformation(recruits);
+			const {confirmation,data}=await getRecruits(props.userInformation);
+			console.log(data);
+			if(confirmation=="Success"){
+				const {
+					recruits,
+					recruitsFollowing
+				}=data;
+				changeRecruitsInformation(recruitsFollowing);
+				//recruitsProfileFollows(recruits);
+
+			}else{
+				alert('Unfortunately there has been an error trying to get your recruits. Please try again');
+			}
 		};
 		getRecruitData();
 	},[]);
 
 	const closingScreen=(data)=>{
 		console.log(data);
-		props.implementAction(data);
+		if(data!=null){
+			props.implementAction(data);
+		}
 		changeDisplayClosingScreen(true);
 	}
 	const closingConfirmationScreen=()=>{
@@ -182,12 +194,12 @@ const FriendsGaugeEditPortal=(props)=>{
 						recruitsInformationProp={recruitsInformation}
 						nodes={props.nodes}
 						closeModal={closingScreen}
-						id={props.userId}
+						id={props.userInformation}
 					/>;
 		}else{
 			return <RemoveLevel
 						nodes={props.nodes}
-						id={props.userId}
+						id={props.userInformation}
 						closeModal={closingScreen}
 					/>;
 		}

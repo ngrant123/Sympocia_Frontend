@@ -232,8 +232,15 @@ class HomePageContainer extends Component{
 			debugger;
 			if(this.props.personalInformation.loggedIn==true){
 				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
-				profile=await getProfileForHomePage(this.props.personalInformation.id)
-				isPersonalProfile=true;
+				const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
+				
+				if(confirmation=="Success"){
+					profile=data;
+					isPersonalProfile=true;
+				}else{
+					alert('Unfortunately there has been an error with getting the posts/profile for the home page. Please try again');
+				}
+				
 
 			}else{
 				var symposiumsMap=this.constructSymposiumsMap(COMPANY_INDUSTRIES.INDUSTRIES);
@@ -290,25 +297,24 @@ class HomePageContainer extends Component{
 		document.getElementById('homePageContainer').style.backgroundColor="white";
 
 		this.setState(prevState=>({
-						...prevState,
-						displaySymposiumList:false,
-						displayExplorerFeed:false,
-						displaySearchExplorePage:true,
-						displayForYourChoices:false,
-						displayCustomizedFeed:false,
-						displayExpandedSymposium:false
-
-					}))
+			...prevState,
+			displaySymposiumList:false,
+			displayExplorerFeed:false,
+			displaySearchExplorePage:true,
+			displayForYourChoices:false,
+			displayCustomizedFeed:false,
+			displayExpandedSymposium:false
+		}))
 	}
 	handleDisplayPlayListPage=()=>{
 		this.setState(prevState=>({
-						...prevState,
-						displaySymposiumList:false,
-						displayExplorerFeed:false,
-						displaySearchExplorePage:false,
-						displayPlayListPage:true,
-						displayExpandedSymposium:false
-					}))
+			...prevState,
+			displaySymposiumList:false,
+			displayExplorerFeed:false,
+			displaySearchExplorePage:false,
+			displayPlayListPage:true,
+			displayExpandedSymposium:false
+		}))
 	}
 
 

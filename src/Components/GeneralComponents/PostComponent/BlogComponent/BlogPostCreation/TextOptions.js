@@ -15,6 +15,7 @@ import PollOutlinedIcon from '@material-ui/icons/PollOutlined';
 
 import {BlogConsumer} from "./BlogContext.js";
 import {deletePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+
 const Container=styled.div`
 	position:fixed;
 	width:15%;
@@ -69,6 +70,7 @@ const TextOptions=(props)=>{
 		displayCommentSection,
 		displayApproveDisapproveModalHandle,
 		postId,
+		industriesUploaded,
 		history
 	}=props;
 
@@ -97,7 +99,13 @@ const TextOptions=(props)=>{
 
 
 	const handleRemoveBlogPost=async()=>{
-		const {confirmation,data}=await deletePost(postId,"Blogs");
+		const removeBlog={
+			postType:"Blogs",
+			postId,
+			industriesUploaded
+		}
+
+		const {confirmation,data}=await deletePost(removeBlog);
 		debugger;
 		if(confirmation=="Success"){
 			alert('Post has been deleted. Please reload page to view updated post section');

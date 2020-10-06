@@ -76,49 +76,8 @@ Sample api call
 Could later on add a search bar
 */
 
-const PreviousWinnersModal=({closeModal,postType})=>{
+const PreviousWinnersModal=({closeModal,postType,posts})=>{
 	console.log(postType);
-	const [posts,changePosts]=useState([{
-		regularPostData:{
-			owner:{
-				firstName:"Nathan"
-			}
-		},
-		arenaScore:45,
-		winnerDate:1597939586403
-	},{
-		regularPostData:{
-			owner:{
-				firstName:"Bob"
-			}
-		},
-		arenaScore:20,
-		winnerDate:1597939577235
-	},{
-		regularPostData:{
-			owner:{
-				firstName:"Derrick"
-			}
-		},
-		arenaScore:60,
-		winnerDate:1597939570595
-	},{
-		regularPostData:{
-			owner:{
-				firstName:"Roger"
-			}
-		},
-		arenaScore:70,
-		winnerDate:1597939561476
-	},{
-		regularPostData:{
-			owner:{
-				firstName:"Noca"
-			}
-		},
-		arenaScore:90,
-		winnerDate:1597938956529
-	}]);
 
 	const constructDate=(dateMilliseconds)=>{
 		const newDate=new Date(dateMilliseconds).toLocaleDateString();
@@ -273,7 +232,7 @@ const PreviousWinnersModal=({closeModal,postType})=>{
 			const bScore=b.winnerScore;
 			return aScore<bScore?1:-1;
 		});
-		changePosts([...currentPosts]);
+		posts=[...currentPosts];
 	}
 
 	const filterByNewest=()=>{
@@ -284,7 +243,7 @@ const PreviousWinnersModal=({closeModal,postType})=>{
 			const bDate=b.winnerDate;
 			return aDate<bDate?1:-1;
 		});
-		changePosts([...currentPosts]);
+		posts=[...currentPosts];
 	}
 
 	const renderPost=()=>{

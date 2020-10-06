@@ -143,9 +143,8 @@ export async function setProfilePicture(profileId,pictureUrl){
 				profilePicture:pictureUrl
 			});
 
-		const profileChangeResults=profilePictureVerification.data;
-		const results=profileChangeResults.data;
-		return results;
+		const {data}=profilePictureVerification;
+		return data;
 	}catch(err){
 		console.log(err);
 	}
@@ -266,17 +265,16 @@ export const addSymposium=async(profileId,symposium,subSymposium)=>{
 	}
 }
 
-export const removeSymposium=async(profileId,symposium,subSymposium)=>{
+export const removeSymposium=async({profileId,symposium,subSymposium})=>{
 	try{
 
 		var symposiumResponse=await axios.post(`${CreateUrl}/removeSymposium`,{
-			profileId:profileId,
-			symposium:symposium,
-			subSymposium:subSymposium
+			profileId,
+			symposium,
+			subSymposium
 		});
 		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
+		return data;
 
 	}catch(err){
 		console.log(err);
@@ -424,6 +422,50 @@ export const completeOnboardingArenaPage=async(id)=>{
 			_id:id
 		});
 		const {data}=onBoardingArenaPageResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const editSocialMediaUrls=async({instagramUrl,tikTokUrl,profileId})=>{
+	try{
+		const socialMediaResponse=await axios.post(`${CreateUrl}/editSocialMediaUrls`,{
+			instagramUrl,
+			tikTokUrl,
+			profileId
+		})
+		const {data}=socialMediaResponse;
+		return data;
+
+	}catch(err){
+		console.log(err.message);	
+		return err;
+	}
+}
+
+export const removeRecruitProfileIsFollowing=async({personalProfileId,targetProfile})=>{
+	try{
+		const removedRecruitResponse=await axios.post(`${CreateUrl}/removeRecruitThatProfileFollows`,{
+			personalProfileId,
+			targetProfile
+		})
+		const {data}=removedRecruitResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+export const removeRecruitProfileIsntFollowing=async({personalProfileId,targetProfile})=>{
+	try{
+		const removedRecruitResponse=await axios.post(`${CreateUrl}/removeRecruitThatProfileDoesntFollow`,{
+			personalProfileId,
+			targetProfile
+		})
+		const {data}=removedRecruitResponse;
 		return data;
 	}catch(err){
 		console.log(err);

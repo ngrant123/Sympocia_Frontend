@@ -89,6 +89,9 @@ Sample api call
 		winnerDate:1597939577235
 
 Could later on add a search bar
+
+Was going to allow the user the option of boosting a post from here 
+but its just a hassle right now. Will implement later
 */
 
 const PostModal=({closeModal,postType,postData})=>{
@@ -99,6 +102,8 @@ const PostModal=({closeModal,postType,postData})=>{
 		const newDate=new Date(dateMilliseconds).toLocaleDateString();
 		return newDate;
 	}
+
+
 
 	const image=()=>{
 		return(
@@ -112,15 +117,19 @@ const PostModal=({closeModal,postType,postData})=>{
 					<b>{postData.caption}</b>
 				</p>
 				<p>{postData.description}</p>
-				<li style={BoostButton}>
-					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
-					  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
-					  <path stroke="none" d="M0 0h24v24H0z"/>
-					  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
-					</svg>
+				{/*
+					<li style={BoostButton}>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
+						  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z"/>
+						  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
+						</svg>
 
-					Boost
-				</li>
+						Boost
+					</li>
+
+				*/}
+				
 			</ul>
 		);
 	}
@@ -138,15 +147,18 @@ const PostModal=({closeModal,postType,postData})=>{
 					<b>{postData.caption}</b>
 				</p>
 				<p>{postData.description}</p>
-				<li style={BoostButton}>
-					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
-					  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
-					  <path stroke="none" d="M0 0h24v24H0z"/>
-					  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
-					</svg>
+				{/*
+					<li style={BoostButton}>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
+						  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z"/>
+						  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
+						</svg>
 
-					Boost
-				</li>
+						Boost
+					</li>
+
+				*/}
 			</ul>
 		);
 	}
@@ -160,17 +172,18 @@ const PostModal=({closeModal,postType,postData})=>{
 		//var blogContentState=EditorState.createWithContent(DBEditorState);
 
 		return <ul>
-					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li style={BoostButton}>
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
-							  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
-							  <path stroke="none" d="M0 0h24v24H0z"/>
-							  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
-							</svg>
+					{/*
+					<li style={BoostButton}>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
+						  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z"/>
+						  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
+						</svg>
 
-							Boost
-						</li>
-					</a>
+						Boost
+					</li>
+
+				*/}
 
 					<li style={{listStyle:"none"}}>
 						<Editor

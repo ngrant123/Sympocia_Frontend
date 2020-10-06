@@ -433,7 +433,7 @@ class EditImageCreation extends Component{
 			var image=newImageObject;
 			newImageObject={
 				image:image,
-				isCrownedImage:true
+				isCrownedPost:true
 			}
 		}
 		profilePostInformation.updateImagePost(newImageObject);

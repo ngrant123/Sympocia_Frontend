@@ -377,12 +377,13 @@ export const promotePost=async({postId,nodeId,postType})=>{
 
 }
 
-export const deletePost=async(postId,postType)=>{
+export const deletePost=async({postId,postType,industriesUploaded})=>{
 	try{
 		const CreateUrl='http://localhost:4000/api/posts/alter';
 		const promotionResponse=await axios.post(`${CreateUrl}/deletePost`,{
 			postId,
-			postType
+			postType,
+			industriesUploaded
 		});
 		const {data}=promotionResponse;
 		return data;
@@ -480,6 +481,7 @@ export const createSpecificIndustryAudioAnswer=async({audio,industryId,questionI
 		return err;
 	}
 }
+
 
 
 

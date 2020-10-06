@@ -132,7 +132,7 @@ class ImagePostsContainer extends Component{
 																	<hr/>
 																</React.Fragment>
 															}	
-															<li style={{listStyle:"none"}}>
+															<li style={{listStyle:"none",marginTop:"3%"}}>
 																{this.props.imageData.images.map(data=>
 																	<li onClick={()=>this.displayPostModal(	postDisplayModal,
 																											companyPostDisplayModal,

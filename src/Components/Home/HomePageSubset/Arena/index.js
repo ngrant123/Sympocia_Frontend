@@ -15,7 +15,23 @@ import Reaction from "./Modals/Reactions.js";
 import StampIcon from "../../../../designs/img/StampIcon.png";
 import OnboardingModal from "../../../OnBoarding/ArenaPageOnboarding.js";
 
+import {
+	addTextReaction,
+	addVideoReaction,
+	addBoost,
+	addStampToTextReaction,
+	addStampToVideoReaction,
+	removeVideoReaction,
+	removeTextReaction
+} from "../../../../Actions/Requests/ArenaPageAxiosRequests/ArenaPageSetRequests.js";  
 
+
+ import {
+	fetchArenaInformation,
+	getVideoReactions,
+	getTextComments,
+	getPreviousWinners
+} from "../../../../Actions/Requests/ArenaPageAxiosRequests/ArenaPageGetRequests.js";   
 
 const keyFrameLeft=keyframes`
 0% {
@@ -128,6 +144,12 @@ const Arena=()=>{
 	const [modalPostType,changePostType]=useState();
 	const [displayOnboardingModal,changeDisplayOnboardingModal]=useState(false);
 
+
+	const [secondaryModalPosts,changeSecondaryModalPosts]=useState([]);
+	const [arenaId,changeArenaId]=useState();
+	const [boostedPost,changeBoostedPost]=useState();
+
+
 	useEffect(()=>{
 		setTimeout(()=>{
 			changeDisplayTransisitionContainer(true);
@@ -168,22 +190,34 @@ const Arena=()=>{
 	return(
 		<ArenaProvider
 			value={{
-				displayPreviousWinners:(postType)=>{
-					changePostType(postType);
-					changeDisplayPreviousWinners(true);
+				arenaId:arenaId,
+				displayPreviousWinners:async(postType)=>{
+					const {confirmation,data}=await getPreviousWinners({
+						previousWinnerPageCounter:2,
+						postType
+					});
+					if(confirmation=="Success"){
+						changeSecondaryModalPosts(data);
+						changePostType(postType);
+						changeDisplayPreviousWinners(true);
+					}else{
+						alert('Unfortunately there has been an error with getting the previous winners. Please try again');
+					}
 				},
-				handleBoost:()=>{
-					changeDisplayConfetti(true)
-					setTimeout(()=>{
-						changeDisplayConfetti(false);
-					},5000);
+				handleBoost:(postId,currentBoostCount,postType,arenaId)=>{
+						changeDisplayConfetti(true)
+						setTimeout(()=>{
+							changeDisplayConfetti(false);
+						},5000);
 				},
 				displayPostModal:(postType,postData)=>{
 					changePostType(postType);
 					changePostData(postData);
 					changeDisplayPost(true);
 				},
-				displayViewAllModal:(postType)=>{
+				displayViewAllModal:async(postPageCounter,postType)=>{
+ 
+					//const {confirmation,data}=await getCurre
 					changePostType(postType);
 					changeDisplayViewAll(true);
 				},
@@ -224,6 +258,7 @@ const Arena=()=>{
 								}
 								{displayPreviousWinners==true?
 										<PreviousWinnersModal
+											posts={secondaryModalPosts}
 											closeModal={()=>changeDisplayPreviousWinners(false)}
 											postType={modalPostType}
 										/>:null
@@ -236,13 +271,15 @@ const Arena=()=>{
 									/>:null
 								}
 								{displayViewAll==true?
-									<ViewAll	
+									<ViewAll
+										posts={secondaryModalPosts}
 										closeModal={()=>changeDisplayViewAll(false)}
 										postType={modalPostType}
 									/>:null
 								}
 								{displayReactions==true?
 									<Reaction
+										posts={secondaryModalPosts}
 										closeModal={()=>changeDisplayReactions(false)}
 										postType={modalPostType}
 									/>

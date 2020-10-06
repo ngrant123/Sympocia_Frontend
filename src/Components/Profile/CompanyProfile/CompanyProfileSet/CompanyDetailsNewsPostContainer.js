@@ -11,7 +11,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import CompanyPostsContainer from "../CompanyProfileSubset/CompanyPosts/index.js";
 import { CompanyConsumer } from "../CompanyContext.js";
 import { connect } from "react-redux";
-import ChampionModalPrompt from "../../PersonalProfile/PersonalProfileSet/ChampionModalPortal/index.js";
+import ChampionModalPrompt from "../../PersonalProfile/PersonalProfileSet/Modals-Portals/ChampionModalPortal/index.js";
 import AddEmployeesPortal from "./AddEmployeesPortal.js";
 import AddNewsPortal from "./AddNewsPortal.js";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';

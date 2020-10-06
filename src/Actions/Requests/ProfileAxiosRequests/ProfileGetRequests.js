@@ -174,12 +174,13 @@ export async function getMostPopular(investors){
 	}
 }
 
-export async function getVideosFromUser(userId){
+export async function getVideosFromUser({userId,visitorId}){
 	try{
 		console.log("Video Route for requests");
 		const videos=await axios.get(`${SearchUrl}/getUserVideos`,{
 			params:{
-				id:userId
+				id:userId,
+				visitorId
 			}
 		});
 
@@ -191,11 +192,12 @@ export async function getVideosFromUser(userId){
 		console.log(err);
 	}
 }
-export async function getBlogFromUser(userId){
+export async function getBlogFromUser({userId,visitorId}){
 	try{
 		const blogsPostsData=await axios.get(`${SearchUrl}/getUserBlogs`,{
 			params:{
-				id:userId
+				id:userId,
+				visitorId
 			}
 		})
 
@@ -208,12 +210,13 @@ export async function getBlogFromUser(userId){
 }
 
 
-export async function getRegularPostFromUser(userId){
+export async function getRegularPostFromUser({userId,visitorId}){
 	try{
 		console.log("Testing regular posts api call");
 		const regularPostsResults=await axios.get(`${SearchUrl}/getUserRegularPosts`,{
 			params:{
-				id:userId
+				id:userId,
+				visitorId
 			}
 		});
 		debugger;
@@ -235,8 +238,7 @@ export const getProfileForHomePage=async(id)=>{
 			}
 		});
 		const {data}=profileResult;
-		const profileData=data.data;
-		return profileData;
+		return data;
 
 	}catch(err){
 		console.log(err);
@@ -418,8 +420,7 @@ export const getSymposiumsFollowedPersonal=async(id)=>{
 		});
 
 		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
+		return data;
 	}catch(err){
 		console.log(err);
 		return err;
@@ -461,6 +462,20 @@ export const getSymposiumsNotFollowed=async(_id)=>{
 
 }
 
+export const getRecruits=async(profileId)=>{
+	try{
+		const recruitsResponse=await axios.get(`${SearchUrl}/getRecruits`,{
+			params:{
+				profileId
+			}
+		})
+		const {data}=recruitsResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
 
 
 

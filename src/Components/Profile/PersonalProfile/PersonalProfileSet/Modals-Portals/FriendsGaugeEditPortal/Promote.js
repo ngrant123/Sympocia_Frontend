@@ -1,8 +1,8 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import {promoteRecruitRequest} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
+import {promoteRecruitRequest} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const InputContainer=styled.textarea`
 	position:relative;
@@ -72,6 +72,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	} 
 
 	const promoteRecruits=async()=>{
+		debugger;
 		const promoteRecruit={
 			selectedRecruits:selectedRecruits,
 			node:selectedNode._id,
@@ -90,14 +91,17 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	return(
 		<>
 			{displayPromoteSomeoneScreen==false?
-				 <ul style={{padding:"10px"}}>
+				 <ul style={{padding:"25px"}}>
 				 		{/*
 							<li style={{listStyle:"none",marginTop:"5%",marginLeft:"10%"}}>
 								<InputContainer placeholder="Search for some here"/>
 							</li>
 							<hr/>
 				 		*/}
-				 		<p>Click the recruits that you would like to promote </p>
+				 		<p style={{fontSize:"20px"}}>
+				 			<b>Click the recruits that you would like to promote </b>
+				 		</p>
+				 		<hr/>
 						{selectedRecruits.map(data=>
 										<li style={{listStyle:"none",display:"inline-block",width:"20%",marginBottom:"5%"}}>
 											<ul style={{padding:"0px",width:"150%"}}>
@@ -144,23 +148,32 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 							</ul>
 						</li>
 						{selectedRecruits.length>0?
-							<NextButton onClick={()=>changeDisplayPromotionScreen(true)}>
-								Next
-							</NextButton>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<NextButton onClick={()=>changeDisplayPromotionScreen(true)}>
+									Next
+								</NextButton>
+							</a>
+
 						:null}
 					</ul>:
 					<>
-						<ul>
+						<ul style={{padding:"25px"}}>
 							{selectedNode!=null?
-								<li style={{listStyle:"none"}}>
-									<SubmitButton onClick={()=>promoteRecruits()}>
-										Submit
-									</SubmitButton>
-								</li>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li style={{listStyle:"none",marginBottom:"5%"}}>
+										<SubmitButton onClick={()=>promoteRecruits()}>
+											Submit
+										</SubmitButton>
+									</li>
+								</a>
 								:null
 							}
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"0px"}}>
+									<p style={{fontSize:"20px"}}>
+							 			<b>Click the recruits that you would like to promote </b>
+							 		</p>
+							 		<hr/>
 									{nodes.map(data=>
 											<>
 												<a href="javascript:void(0);" style={{textDecoration:"none"}}>

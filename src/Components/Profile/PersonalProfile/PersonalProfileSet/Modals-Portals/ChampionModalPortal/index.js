@@ -104,18 +104,21 @@ const SponsorPortal=(props)=>{
 		<React.Fragment>
 			<SponsorModal>	
 				{displayDescriptionScreen==false?
-					<ul style={{padding:"20px"}}>
+					<ul style={{paddingTop:"90px"}}>
+						{/*
+							<p style={{marginLeft:"30%",color:"#6E6E6E"}}><b>Search for someone through here</b></p>
+							<input id="locations" list="locationcategories" style={LocationStyle} placeholder="Search for someone"/>
+										<datalist id="locationcategories" style={{height:"40px"}}>
+												<option value="Testing1"/>
+												<option value="Testing2"/>
+												<option value="Testin3"/>
+										</datalist>	
+							<hr/>
+							<p style={{marginLeft:"45%",marginBottom:"7%"}}>Or</p>
+						*/}
 						<p style={{marginLeft:"20%",fontSize:"40px"}}><b>Sponsor someone</b></p>
-						<p style={{color:"#A4A4A4",marginLeft:"13%",marginBottom:"5%"}}>Text about sponsor someone about everything about someone yessir</p>
-						<p style={{marginLeft:"30%",color:"#6E6E6E"}}><b>Search for someone through here</b></p>
-						<input id="locations" list="locationcategories" style={LocationStyle} placeholder="Search for someone"/>
-									<datalist id="locationcategories" style={{height:"40px"}}>
-											<option value="Testing1"/>
-											<option value="Testing2"/>
-											<option value="Testin3"/>
-									</datalist>	
-						<hr/>
-						<p style={{marginLeft:"45%",marginBottom:"7%"}}>Or</p>
+						<p style={{color:"#A4A4A4",marginLeft:"13%",marginBottom:"5%"}}>Nows your chance to show your appreciation for someone</p>
+						
 						<p style={{marginLeft:"15%",color:"#6E6E6E"}}><b>Upload a picture of someone and describe why they're great</b></p>
 						
 						<a href="javascript:void(0)" style={{textDecoration:"none"}}>

@@ -528,6 +528,11 @@
 		return finalPosts;
 	}
 
+	/*
+		From what im looking at right now updateImagePostIndexContext,updateVideoPostIndexContext,updateRegularPostIndexContext
+		look like they basically have the same code so it should be refactored later sometime
+	*/
+
 	export const updateImagePostIndexContext=(image,props)=>{
 		debugger;
 		const {isCrownedPost}=image;
@@ -544,11 +549,11 @@
 				return bCreationDate>aCreationDate?1:-1;
 			});
 			newImageObject={
-				crownedImage:image,
+				crownedImage:image.image,
 				images:currentImages
 			}
 		}else{
-			currentImages.push(image)
+			currentImages.splice(0,0,image)
 			newImageObject={
 				...props,
 				images:[...currentImages]

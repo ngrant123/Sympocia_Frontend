@@ -11,7 +11,7 @@ import {UserConsumer} from "../../UserContext.js";
 import {PostProvider} from "./PostsContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import FriendsGauge from "./FriendsGauge.js";
-import PostCreationPortal from "../../PersonalProfileSet/PostCreationPortal.js";
+import PostCreationPortal from "../../PersonalProfileSet/Modals-Portals/PostCreationPortal.js";
 
 import {
 		getRegularPostFromUser,
@@ -231,7 +231,7 @@ const PersonalPostsIndex=(props)=>{
 			changeDisplayForVideos(true); 
 
 			console.log("Testing video api call");
-			const {confirmation,data}=await getVideosFromUser(id);
+			const {confirmation,data}=await getVideosFromUser({userId:id,visitorId:props.visitorId});
 
 			if(confirmation=="Success"){
 				const {crownedVideo,videoPosts}=data;
@@ -252,13 +252,13 @@ const PersonalPostsIndex=(props)=>{
 			blogs.style.color="#C8B0F4";
 			blogs.style.borderBottom="solid";
 			blogs.style.borderColor="#C8B0F4";
-
 			changeDisplayForBlogs(true);
-
-
+			
 		}else{
 
-			const {confirmation,data}=await getRegularPostFromUser(id);
+			const {confirmation,data}=await getRegularPostFromUser({userId:id,
+																	visitorId:props.visitorId
+																});
 
 				if(confirmation=="Success"){	
 					const {crownedRegularPost,regularPosts}=data;
@@ -283,6 +283,7 @@ const PersonalPostsIndex=(props)=>{
 
 	const closeModal=()=>{
 		changeDisplayCreationPost(false);
+		changePostOption("General");
 		props.closeModal();
 	}
 
@@ -581,6 +582,7 @@ const PersonalPostsIndex=(props)=>{
 								id={props.personalInformation.userProfile._id}
 								profileType="Personal"
 								friendsNodes={props.personalInformation.userProfile.friendsGaugeNodes}
+								visitorId={props.visitorId}
 							/>:<React.Fragment></React.Fragment>
 						}
 

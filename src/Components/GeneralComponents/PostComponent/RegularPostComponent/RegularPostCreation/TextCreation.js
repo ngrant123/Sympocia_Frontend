@@ -94,9 +94,10 @@ const TextCreation=({isPostCrowned,displayTextOrAudioScreen,sendDataToParent,dis
 				</ul>
 			</li>
 		
-			<li style={{listStyle:"none"}}>
+			<li style={{marginTop:"3%",listStyle:"none"}}>
 				<InputContainer id="textContainer" placeholder="Create your post here"/>
 			</li>
+
 			<li  onClick={()=>sendDataToParent(document.getElementById("textContainer").value)} style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
 				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 					<ul style={{padding:"0px"}}>

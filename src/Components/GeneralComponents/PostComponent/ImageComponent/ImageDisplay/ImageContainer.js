@@ -169,9 +169,15 @@ const ImageContainer=(props)=>{
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
 	
 	const handleRemoveImagePost=async()=>{
-		//const {confirmation,data}=await deletePost(props.imageData._id,"Images");
 		debugger;
-		var confirmation="Success";
+		const removeImage={
+			postType:"Images",
+			postId:props.imageData._id,
+			industriesUploaded:props.imageData.industriesUploaded
+		}
+
+		const {confirmation,data}=await deletePost(removeImage);
+		debugger;
 		if(confirmation=="Success"){
 			props.imageData.contextLocation.removePost(props.imageData._id,"Images");
 		}else{

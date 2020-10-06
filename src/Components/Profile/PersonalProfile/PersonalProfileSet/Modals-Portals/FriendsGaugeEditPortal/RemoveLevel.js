@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import styled from "styled-components";
-import {removeLevel} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {removeLevel} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -14,13 +14,13 @@ const ShadowContainer= styled.div`
 
 const RemoveLevelVerificationContainer=styled.div`
 	position:fixed;
-	width:30%;
+	width:35%;
 	height:30%;
 	background-color:white;
 	z-index:13;
 	top:25%;
 	border-radius:5px;
-	left:30%;
+	left:35%;
 	overflow-y:auto;
 `;
 

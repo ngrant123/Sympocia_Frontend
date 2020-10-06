@@ -47,7 +47,8 @@ const Container = styled.div`
 	border-radius:5px;
 	top:20%;
 	left:20%;
-
+	height:60%;
+	overflow:scroll;
 `;
 
 const TextArea=styled.div`

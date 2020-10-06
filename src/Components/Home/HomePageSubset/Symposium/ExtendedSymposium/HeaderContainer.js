@@ -153,7 +153,10 @@ const HeaderContainer=(props)=>{
 		if(followSymposiumButtonClick==false){
 			await addSymposium(profileId,selectedSymposiumTitle,null);
 		}else{
-			await removeSymposium(profileId,selectedSymposiumTitle,null);
+			const {confirmation,data}=await removeSymposium(profileId,selectedSymposiumTitle,null);
+			if(confirmation=="Failure"){
+				alert('Unfortunately there has been an error with unfollowing this symposium. Please try again');
+			}
 		}
 		
 		var newFollowIndicator=followSymposiumButtonClick==true?false:true;

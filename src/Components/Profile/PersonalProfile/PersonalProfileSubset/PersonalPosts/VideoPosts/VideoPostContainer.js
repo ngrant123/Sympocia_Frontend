@@ -73,18 +73,21 @@ class VideoPostsContainer extends Component{
 																						profilePageType={this.props.profile}
 																					/>:
 														<ul style={{padding:"0px"}}>
-															<li onClick={()=>this.displayPostModal(
-																								postDisplayModal,
-																								companyPostDisplayModal,
-																								this.props.videos.headerVideo,
-																								postsConsumer)} 
-															style={{listStyle:"none"}}>
-																{this.props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
-																	<CrownedVideo
-																		headerVideo={this.props.videos.headerVideo}
-																	/>
-																}
-															</li>
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<li onClick={()=>this.displayPostModal(
+																									postDisplayModal,
+																									companyPostDisplayModal,
+																									this.props.videos.headerVideo,
+																									postsConsumer)} 
+																style={{listStyle:"none"}}>
+																	{this.props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
+																		<CrownedVideo
+																			headerVideo={this.props.videos.headerVideo}
+																		/>
+																	}
+																</li>
+															</a>
+															<hr/>
 						
 															<li style={{listStyle:"none",marginTop:"1%"}}>	
 																<ul style={{padding:"0px"}}>

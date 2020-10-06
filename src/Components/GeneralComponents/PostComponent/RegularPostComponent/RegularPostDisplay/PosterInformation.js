@@ -126,9 +126,13 @@ const PosterInformation=(props)=>{
 		return newDate;
 	}
 	const handleRemovePost=async()=>{
-	//	const {confirmation,data}=await deletePost(_id,"RegularPosts");
+		const removeRegularPost={
+			postType:"RegularPosts",
+			postId:_id,
+			industriesUploaded
+		}
+		const {confirmation,data}=await deletePost(removeRegularPost);
 		debugger;
-		const confirmation="Success";
 		if(confirmation=="Success"){
 			contextLocation.removePost(_id,"RegularPosts");
 		}else{

@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import {editNodeInformation} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {editNodeInformation} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const Container=styled.div`
 	position:fixed;

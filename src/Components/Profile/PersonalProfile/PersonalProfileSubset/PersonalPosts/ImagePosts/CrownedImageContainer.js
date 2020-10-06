@@ -34,6 +34,16 @@ const Description=styled.div`
 	color:#767677;
 `;
 
+const VideoDesriptionContainer=styled.div`
+	position:absolute;
+	width:30%;
+	height:30%;
+	border-radius:50%;
+	top:70%;
+	left:2%;
+	z-index:8;
+`;
+
 
 const IndustryButtonCSS={
 	borderColor:"#5298F8",
@@ -51,11 +61,28 @@ const IndustryButtonCSS={
 const CrownedImageContainer=(props)=>{
 	const {imageData}=props;
 	console.log(imageData);
+
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
+
+	let audioId=uuidv4();
+	let videoDescriptionId=uuidv4();
+
 	return(
-		<ul style={{padding:"0px",height:"45%"}}>
+		<ul style={{padding:"0px",height:"45%",overflow:"hidden"}}>
 			<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
 				<Image>
 					<img src={imageData.imgUrl} style={{width:"100%",height:"100%"}}/>
+					<VideoDesriptionContainer>
+					   <video key={videoDescriptionId} style={{borderRadius:"50%"}}
+					   		width="100%" height="100%" borderRadius="50%" autoplay="false">
+							<source src={imageData.videoDescription} type="video/mp4"/>
+						</video>
+					</VideoDesriptionContainer>
 				</Image>
 			</li>
 
@@ -81,17 +108,28 @@ const CrownedImageContainer=(props)=>{
 					</li>
 					<li style={{listStyle:"none",marginTop:"2%"}}>
 						<ul style={{padding:"0px"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li style={IndustryButtonCSS}>
-									Stamp
-								</li>
-							</a>
+							{/*	
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li style={IndustryButtonCSS}>
+										Stamp
+									</li>
+								</a>
 
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li style={IndustryButtonCSS}>
-									Comment
-								</li>
-							</a>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li style={IndustryButtonCSS}>
+										Comment
+									</li>
+								</a>
+							*/}
+							{imageData.audioDescription!=null?
+								<li style={{listStyle:"none"}}>
+										<audio key={audioId} style={{width:"200px"}} controls>
+										  <source src={imageData.audioDescription} type="audio/ogg"/>
+										  <source src={imageData.audioDescription} type="audio/mpeg"/>
+										Your browser does not support the audio element.
+										</audio>
+								</li>:null
+							}	
 						</ul>
 					</li>
 				</ul>
