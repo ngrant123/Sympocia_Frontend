@@ -22,6 +22,11 @@ const SearchResults=styled.div`
 	top:15%;
 `;
 
+/*
+	The plan down the road is to maybe have a cool game that the user can play when there are no
+	search results. Something similar to maybe google chromes dino game
+*/
+
 const SearchPage=(props)=>{
 	const [displayChatPage,changeDisplayChatPage]=useState(false);
 	const [displayConfetti,changeDisplayConfetti]=useState(false);
@@ -44,26 +49,35 @@ const SearchPage=(props)=>{
 	}
 
 	const searchPostsResults=()=>{
+		debugger;
 		const {params}=props.match;
 		if(params.searchType=="Posts"){
 			return <PostSearch
 						searchQuery={params.string}
 						userId={profileId}
 						displayRecruitConfetti={displayRecruitConfetti}
-						displaySymposium={displaySymposium}
 						isPersonalProfile={isPersonalProfile}
 					/>
 		}else if(params.searchType=="Symposiums"){
 			return <SymposiumSearch
 						searchQuery={params.string}
 						userId={profileId}
+						history={props.history}
+
 					/>
 		}else{
 			return <PeopleSearch
 						searchQuery={params.string}
 						userId={profileId}
+						displayProfile={displayProfile}
 					/>
 		}
+	}
+
+	const displayProfile=(userId)=>{
+		props.history.push({
+			pathname:`/profile/${userId}`
+		})
 	}
 
 	const displayRecruitConfetti=(displayIndicator)=>{
@@ -72,17 +86,6 @@ const SearchPage=(props)=>{
 		setTimeout(()=>{
 			changeDisplayConfetti(false);
 		},5000);
-	}
-
-	const displaySymposium=(data)=>{
-		props.history.push({
-		  pathname:`/symposium/${data.selectedSymposiums}`,
-		  state: {
-		  	selectedSymposium:data.selectedSymposiums,
-			symposiums:data.symposiums,
-			profileId:profileId
-		  }
-		});
 	}
 
 	return(

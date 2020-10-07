@@ -1,8 +1,30 @@
 import React,{useState,useEffect} from "react";
-import styled from "styled-components";
+import styled,{keyframes} from "styled-components";
 
+import SymposiumContainer from "../Home/HomePageSubset/Symposium/SymposiumList/CommunityContainer.js";
 import TestProfilePicture from "../../designs/img/FirstSectionLandingPAgeImage.png";
 import NoProfilePicture from "../../designs/img/NoProfilePicture.png";
+import {getSymposiumsFromSearch} from "../../Actions/Requests/SearchPageAxiosRequests/index.js";
+import LoadingScreen from "../../LoadingAnimation.js";
+import NoSearchResultDisplay from "../../designs/img/FirstSectionLandingPAgeImage.png";
+
+const CommunityContainerAnimationFollowed=styled.div`
+
+	position:relative;
+	width:80%;
+	height:300px;
+	transition: transform 300ms ease-in-out;
+	border-radius:5px;
+`;
+ const keyFrame= keyframes`
+  0% {
+	left:110%;
+  }
+  100% {
+    left:20%;
+
+  }
+`;
 
 const SymposiumOptionButton={
   listStyle:"none",
@@ -29,84 +51,94 @@ const FollowSymposiumButton={
   width:"10%",
   marginRight:"2%"
 }
-const SymposiumSearch=(props)=>{
-	const [symposiums,changeSymposiums]=useState([{symposiumTitle:"Engineering",posts:[{},{},{},{},{},{},{}],profiles:[{},{},{},{},{},{},{}]},
-		{symposiumTitle:"Engineering",posts:[{},{},{},{},{},{},{}],profiles:[{},{},{},{},{},{},{}]},
-		{symposiumTitle:"Accounting",posts:[{},{},{},{},{},{},{}],profiles:[{},{},{},{},{},{},{}]},
-		{symposiumTitle:"Testein",posts:[{},{},{},{},{},{},{}],profiles:[{},{},{},{},{},{},{}]},
-		{symposiumTitle:"Math",posts:[{},{},{},{},{},{},{}],profiles:[{},{},{},{},{},{},{}]},
-		{symposiumTitle:"Gaming",posts:[{},{},{},{},{},{},{}],profiles:[{},{},{},{},{},{},{}]}]);
+
+const SymposiumSearch=({searchQuery,userId,history})=>{
+	const [symposiums,changeSymposiums]=useState([]);
+	const [selectedSymposium,changeSelectedSymposium]=useState();
+	const [isLoading,changeIsLoading]=useState(true);
 
 	useEffect(()=>{
 		const getSymposiums=async()=>{
-
+			const {confirmation,data}=await getSymposiumsFromSearch(searchQuery);
+			if(confirmation=="Success"){
+				changeSymposiums(data);
+				changeIsLoading(false);
+			}else{
+				alert('Unfortunately there has been an error trying to get the profiles. Please try again');
+			}
 		}
 		getSymposiums();
 	});
 
+	const handleSymposiumClick=(data)=>{
+		var symposiums=[];
+
+		for(var i=0;i<symposiums.length;i++){
+			const currentSymposium=symposiums[i];
+			if(currentSymposium.symposium!=data.symposium){
+				symposiums.push(currentSymposium);
+			}
+		}
+
+		history.push({
+		  pathname:`/symposium/${data.symposium}`,
+		  state: {
+		  	selectedSymposium:data,
+			symposiums:symposiums,
+			profileId:userId
+		  }
+		});
+	}
+
 	return(
 		<>
-		<ul style={{padding:"0px"}}>
-			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				<li style={SymposiumOptionButton}>
-					Most Popular
-				</li>
-			</a>
-			<hr/>
-			{symposiums.map(data=>
-				<>
-					<li style={{listStyle:"none",marginBottom:"5%"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",marginLeft:"5%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",fontSize:"45px",marginRight:"2%"}}>
-										<b>{data.symposiumTitle}</b>
-									</li>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li style={FollowSymposiumButton}>
-											Follow
-										</li>
-									</a>
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li style={FollowSymposiumButton}>
-											View Symposium
-										</li>
-									</a>
-								</ul>
+			{isLoading==true?
+				<LoadingScreen/>
+				:
+				<ul style={{padding:"0px"}}>
+					{/*
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li style={SymposiumOptionButton}>
+								Most Popular
 							</li>
-
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",width:"40%",height:"210px",overflowY:"auto",marginRight:"2%"}}>
-										<ul style={{padding:"0px"}}>
-											{data.posts.map(posts=>
-												<li style={{marginRight:"5%",listStyle:"none",display:"inline-block",width:"30%",marginRight:"2%",marginTop:"2%"}}>
-													<img src={TestProfilePicture} style={{width:"120%",height:"140px",borderRadius:"5px"}}/>
-												</li>
-											)}
-										</ul>
-									</li>
-
-									<li style={{listStyle:"none",display:"inline-block",width:"40%",height:"150px",overflowY:"auto"}}>
-										<ul style={{padding:"0px"}}>
-											{data.profiles.map(profiles=>
-												<li style={{listStyle:"none",display:"inline-block",width:"20%",marginBottom:"2%"}}>
-													<img src={profiles.imgSrc==null?NoProfilePicture:profiles.imgSrc}
-														style={{borderRadius:"50%",width:"80%",height:"80px"}}
-													/>
-												</li>
-											)}
-										</ul>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</li>
+						</a>
+					*/}
 					<hr/>
-				</>
-			)}
-		</ul>
+					{symposiums.length==0?
+						<li style={{listStyle:"none",marginLeft:"5%"}}>	
+							<ul style={{padding:"20px"}}>
+								<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
+									<img src={NoSearchResultDisplay} style={{borderRadius:"50%",width:"80%",height:"400px"}}/>
+								</li>
+								<li style={{width:"30%",fontSize:"30px",listStyle:"none",display:"inline-block"}}>
+									<b>
+										No results unfortunately :( Maybe search something else?
+									</b>
+								</li>
+							</ul>
+						</li>
+						:
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px"}}>
+								{symposiums.map(data=>
+									<>
+										<li style={{listStyle:"none",marginBottom:"5%"}}>
+											<CommunityContainerAnimationFollowed>
+												<SymposiumContainer
+													data={data}
+													isPersonalProfile={true}
+													handleSymposiumClickHandler={handleSymposiumClick}
+												/>
+											</CommunityContainerAnimationFollowed>
+										</li>
+										<hr/>
+									</>
+								)}
+							</ul>
+						</li>
+					}
+				</ul>
+			}
 		</>
 	)
 }

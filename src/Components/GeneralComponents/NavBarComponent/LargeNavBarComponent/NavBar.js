@@ -150,6 +150,7 @@ const BackgroundContainer=styled.div`
 	width:100%;
 	height:100%;
 	z-index:7;
+	background-color: rgba(0,0,0,0.4);
 `;
 
 const ViewMessagesCSS={
@@ -213,11 +214,13 @@ const NavBar=(pageProps)=>{
 	return(
 		<Container style={{backgroundColor:color}}>
 
-			<SearchButton onClick={()=>changeDisplaySearchModal(!displaySearchModal)} placeholder="Search for a community or a person"/>
+			<SearchButton onClick={()=>changeDisplaySearchModal(!displaySearchModal)} placeholder="Click here to search for something"/>
 			{displaySearchModal==true?
 				<React.Fragment>
 					<BackgroundContainer onClick={()=>changeDisplaySearchModal(!displaySearchModal)}/>
-					<SearchBarModal/>
+					<SearchBarModal
+						history={pageProps.pageProps.routerHistory}
+					/>
 				</React.Fragment>:
 				<React.Fragment></React.Fragment>
 			}

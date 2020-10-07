@@ -9,7 +9,7 @@ const Container=styled.div`
 	background-color:white;
 	border-radius:5px;
 	left:28%;
-	top:39%;
+	top:41%;
 	box-shadow: 1px 1px 10px #d5d5d5;
 	z-index:7;
 	overflow-y:auto;
@@ -31,55 +31,43 @@ const SymposiumsContainer=styled.div`
 	}
 `;
 
+const SearchButton=styled.textarea`
+
+	height:15%;
+	width:90%;
+	resize:none;
+	border-radius:5px;
+	border-style:none;
+	text-align:center;
+	z-index:6;
+
+	border-style:solid;
+	border-width:2px;
+	border-color:#BDBDBD;
+`;
+const SearchButtonCSS={ 
+ listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginTop:"5%"
+}
 
 class SearchBarModal extends Component{
 	constructor(props){
 		super(props);
 		this.state={
-			recentSearchesTest:[
-				{
-					search:"Testing1",
-					industry:"Engineering"
-				},
-				{
-					search:"Testing2",
-					industry:"Engineering2"
-				},
-				{
-					search:"Testing3",
-					industry:"Engineering3"
-				},
-				{
-					search:"Testing4",
-					industry:"Engineerin4"
-				},
-				{
-					search:"Testing5",
-					industry:"Engineering5"
-				}
-			],
-			suggestedCommunitiesTest:[
-				{
-					industry:"Engineering"
-				},
-				{
-					industry:"Fashion"
-				},
-				{
-					industry:"Sports"
-				},
-				{
-					industry:"Math"
-				},
-				{
-					industry:"Drawing"
-				}
-			]
+			searchType:null
 		}
 	}
 
 	componentDidMount(){
-		this.changeHeaderOptionCSS("Recent");
+		//this.changeHeaderOptionCSS("Recent");
 	}
 
 	changeHeaderOptionCSS=(option)=>{
@@ -111,70 +99,132 @@ class SearchBarModal extends Component{
 		}
 	}
 
+	search=()=>{
+		const searchQuery=document.getElementById("searchTextArea").value;
+		if(this.state.searchType!=null || searchQuery!=""){
+			this.props.history.push({
+				pathname:`/search/${searchQuery}/${this.state.searchType}`
+			});
+		}else{
+			alert("Please enter what you want to search and the type of option");
+		}
+	}
+
 	render(){
 		return(
 			<Container>
-				<ul style={{padding:"0px"}}>
-					<li style={{listStyle:"none",borderBottom:"solid",borderColor:"#F2F2F2",borderWidth:"2px",marginBottom:"1%"}}>
-						<ul style={{paddingLeft:"10px",paddingTop:"20px"}}>
-							<li id="recentOption" onClick={()=>this.changeHeaderOptionCSS("Recent")} style={{listStyle:"none",display:"inline-block",fontSize:"15px",marginRight:"10%"}}>
-								<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
-									Recent Searches
-								</a>
-							</li>
-							<li id="peopleOption" onClick={()=>this.changeHeaderOptionCSS("People")} style={{listStyle:"none",display:"inline-block",fontSize:"15px",marginRight:"10%"}}>
-								<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
-									People
-								</a>
-							</li>
-							<li id="symposiumsOption" onClick={()=>this.changeHeaderOptionCSS("Symposiums")} style={{listStyle:"none",display:"inline-block",fontSize:"15px"}}>
-								<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
-									Symposiums
-								</a>
-							</li>
-						</ul>
-					</li>
+				{/*
+					<ul style={{padding:"0px"}}>
+						<li style={{listStyle:"none",borderBottom:"solid",borderColor:"#F2F2F2",borderWidth:"2px",marginBottom:"1%"}}>
+							<ul style={{paddingLeft:"10px",paddingTop:"20px"}}>
+								<li id="recentOption" onClick={()=>this.changeHeaderOptionCSS("Recent")} style={{listStyle:"none",display:"inline-block",fontSize:"15px",marginRight:"10%"}}>
+									<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
+										Recent Searches
+									</a>
+								</li>
+								<li id="peopleOption" onClick={()=>this.changeHeaderOptionCSS("People")} style={{listStyle:"none",display:"inline-block",fontSize:"15px",marginRight:"10%"}}>
+									<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
+										People
+									</a>
+								</li>
+								<li id="symposiumsOption" onClick={()=>this.changeHeaderOptionCSS("Symposiums")} style={{listStyle:"none",display:"inline-block",fontSize:"15px"}}>
+									<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
+										Symposiums
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
+									<p style={{color:"#A4A4A4",paddingLeft:"5px"}}><b>Recent Searches</b></p>
+									<ul style={{padding:"10px",overflowY:"auto"}}>
+										{this.state.recentSearchesTest.map(data=>
+												<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
+													<li style={{listStyle:"none",marginBottom:"2%"}}>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none",display:"inline-block",fontSize:"15px",marginRight:"15%"}}>
+																<b>{data.search}</b>
+															</li>
+															<li style={{listStyle:"none",display:"inline-block",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",padding:"10px",borderRadius:"5px"}}>
+																{data.industry}
+															</li>
+														</ul>
+													</li>
+											 	</a>
+
+										)}
+									</ul>
+								</li>
+								<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"-140px"}}>
+									<p style={{color:"#A4A4A4",paddingLeft:"5px"}}><b>Recommneded Symposiums</b></p>
+									<ul style={{padding:"10px"}}>
+										{this.state.suggestedCommunitiesTest.map(data=>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>
+												<a style={{textDecoration:"none"}} href="javascript:void(0);">
+													<SymposiumsContainer>
+														<b>{data.industry}</b>
+													</SymposiumsContainer>
+												</a>
+											</li>
+										)}
+									</ul>
+
+								</li>
+							</ul>
+						</li>
+					</ul>
+				*/}
+				<ul style={{padding:"20px"}}>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
-								<p style={{color:"#A4A4A4",paddingLeft:"5px"}}><b>Recent Searches</b></p>
-								<ul style={{padding:"10px",overflowY:"auto"}}>
-									{this.state.recentSearchesTest.map(data=>
-											<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
-												<li style={{listStyle:"none",marginBottom:"2%"}}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",fontSize:"15px",marginRight:"15%"}}>
-															<b>{data.search}</b>
-														</li>
-														<li style={{listStyle:"none",display:"inline-block",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",padding:"10px",borderRadius:"5px"}}>
-															{data.industry}
-														</li>
-													</ul>
-												</li>
-										 	</a>
-
-									)}
-								</ul>
+							<li style={{listStyle:"none",display:"inline-block",width:"75%"}}>
+								<SearchButton id="searchTextArea" placeholder="Search for a community or a person"/>
 							</li>
-							<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"-140px"}}>
-								<p style={{color:"#A4A4A4",paddingLeft:"5px"}}><b>Recommneded Symposiums</b></p>
-								<ul style={{padding:"10px"}}>
-									{this.state.suggestedCommunitiesTest.map(data=>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>
-											<a style={{textDecoration:"none"}} href="javascript:void(0);">
-												<SymposiumsContainer>
-													<b>{data.industry}</b>
-												</SymposiumsContainer>
-											</a>
+							<li style={{position:"absolute",top:"25px",listStyle:"none",display:"inline-block"}}>
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle" 
+											type="button" data-toggle="dropdown" style={{	
+																					borderColor:"#5298F8",
+																					borderStyle:"solid",
+																					borderWidth:"1px",
+																					color:"#5298F8",
+																					backgroundColor:"white"}}>
+										Options
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li onClick={()=>this.setState({searchType:"People"})}>
+											<a href="javascript:;">People</a>
 										</li>
-									)}
-								</ul>
-
+										<li onClick={()=>this.setState({searchType:"Posts"})}>
+											<a href="javascript:;">Posts</a>
+										</li>
+										<li onClick={()=>this.setState({searchType:"Symposiums"})}>
+											<a href="javascript:;">Symposiums</a>
+										</li>						
+									</ul>
+								</div>
 							</li>
 						</ul>
 					</li>
-				</ul>
 
+					{this.state.searchType!=null?
+						<>
+							<hr/>
+								<li style={{listStyle:"none"}}>
+									Search Type: <b>{this.state.searchType}</b>
+								</li>
+							<hr/>
+						</>
+						:null
+					}
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li onClick={()=>this.search()}style={SearchButtonCSS}>
+							Search
+						</li>
+					</a>
+				</ul>
 			</Container>
 		)
 	}
