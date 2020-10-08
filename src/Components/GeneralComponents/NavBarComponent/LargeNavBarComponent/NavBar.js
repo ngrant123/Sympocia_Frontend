@@ -211,6 +211,10 @@ const NavBar=(pageProps)=>{
 		dispatch(loginPersonalPage(true));
 	}
 
+	const closeSearchModal=()=>{
+		changeDisplaySearchModal(false);
+	}
+
 	return(
 		<Container style={{backgroundColor:color}}>
 
@@ -220,6 +224,7 @@ const NavBar=(pageProps)=>{
 					<BackgroundContainer onClick={()=>changeDisplaySearchModal(!displaySearchModal)}/>
 					<SearchBarModal
 						history={pageProps.pageProps.routerHistory}
+						closeSearchModal={closeSearchModal}
 					/>
 				</React.Fragment>:
 				<React.Fragment></React.Fragment>

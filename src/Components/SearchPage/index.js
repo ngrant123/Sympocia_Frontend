@@ -57,6 +57,7 @@ const SearchPage=(props)=>{
 						userId={profileId}
 						displayRecruitConfetti={displayRecruitConfetti}
 						isPersonalProfile={isPersonalProfile}
+						postType={props.location.state.postType}
 					/>
 		}else if(params.searchType=="Symposiums"){
 			return <SymposiumSearch
@@ -97,7 +98,7 @@ const SearchPage=(props)=>{
 					isPersonalProfile:isPersonalProfile,
 			}}
 		>
-			<Container>
+			<Container id="searchContainer">
 				<GeneralNavBar
 					displayChatPage={displayChatPageHandle}
 					page={"Home"}

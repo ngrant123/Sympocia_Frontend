@@ -226,14 +226,16 @@ const BlogPostModal=(props)=>{
 					</li>
 					<li style={{listStyle:"none",width:"80%"}}>
 						<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<ProfilePictureLink to={{pathname:`/profile/${headerBlog.owner._id}`}}>
-												{headerBlog.owner.profilePicture!=null?
-													<img src={headerBlog.owner.profilePicture} style={ProfileImageCSS}/>:
-													<img src={NoProfilePicture} style={ProfileImageCSS}/>
-												}
-										</ProfilePictureLink>
-									</li>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<ProfilePictureLink to={{pathname:`/profile/${headerBlog.owner._id}`}}>
+													{headerBlog.owner.profilePicture!=null?
+														<img src={headerBlog.owner.profilePicture} style={ProfileImageCSS}/>:
+														<img src={NoProfilePicture} style={ProfileImageCSS}/>
+													}
+											</ProfilePictureLink>
+										</li>
+									</a>
 									<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
 										{headerBlog.owner.firstName}
 									</li>
@@ -305,12 +307,15 @@ const BlogPostModal=(props)=>{
 														</li>
 														<li style={{listStyle:"none"}}>
 															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
-																	{data.owner.profilePicture==null?
-																		<img id="profilePicture" src={NoProfilePicture} style={ProfileImageCSS}/>:
-																		<img id="profilePicture" src={data.owner.profilePicture} style={ProfileImageCSS}/>
-																	}
-																</li>
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
+																			<img id="profilePicture" src={data.owner.profilePicture==null?
+																											NoProfilePicture:
+																											data.owner.profilePicture
+																										} style={ProfileImageCSS}
+																			/>
+																	</li>
+																</a>
 																<li style={{listStyle:"none",display:"inline-block"}}>
 																	<ul style={{padding:"0px"}}>
 																		<li style={{listStyle:"none"}}>
@@ -318,9 +323,11 @@ const BlogPostModal=(props)=>{
 																		</li>
 																		{displayRecruitButton(data,props)}
 
-																		<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
-																			{data.industriesUploaded[0].industry}
-																		</li>
+																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																			<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
+																				{data.industriesUploaded[0].industry}
+																			</li>
+																		</a>
 																	</ul>
 																</li>
 															</ul>

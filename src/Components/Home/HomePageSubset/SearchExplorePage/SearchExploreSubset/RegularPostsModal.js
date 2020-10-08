@@ -10,7 +10,7 @@ import {
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
-
+import {Link} from "react-router-dom";
 
 
 const Container=styled.div`
@@ -61,6 +61,11 @@ const ShadowContainer= styled.div`
 	}
 `;
 
+const ProfilePictureLink=styled(Link)`
+	position:relative;
+`;
+
+
 const RegularPostLabelCSS={
 	listStyle:"none",
 	display:"inline-block",
@@ -108,7 +113,7 @@ const RegularPostModal=(props)=>{
 
 			return <ul style={{padding:"0px",position:"relative"}}>
 						{selectedSymposiums.map(data=>
-							<a href="javascript:void(0);">
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)} 
 									style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
 									<b>{data.industry}</b>
@@ -124,28 +129,47 @@ const RegularPostModal=(props)=>{
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
-								<li style={{dispaly:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px",overflow:"hidden"}}>
-									 {headerRegularPost.owner.profilePicture!=null?
-										<img src={headerRegularPost.owner.profilePicture} style={{height:"20%",width:"90%",borderRadius:"50%"}}/>:
-										<img src={NoProfilePicture} style={{height:"20%",width:"90%",borderRadius:"50%"}}/>
-									 }
-								</li>
-								<li style={{listStyle:"none",display:"inline-block",width:"90%",overflow:"hidden"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",fontSize:"30px",marginRight:"2%"}}>
-											<b>{headerRegularPost.owner.firstName}</b>
-										</li>
 
-										<li  onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerRegularPost.industriesUploaded,props)} style={RegularPostLabelCSS}>
-											{headerRegularPost.industriesUploaded[0].industry}
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li style={{position:"relative",top:"-150px",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px",overflow:"hidden"}}>
+										<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}>
+											<img src={headerRegularPost.owner.profilePicture!=null?
+													  headerRegularPost.owner.profilePicture:
+													  NoProfilePicture} 
+											style={{height:"20%",width:"90%",borderRadius:"50%"}}/>
+										</ProfilePictureLink>
+									</li>
+								</a>
+
+								<li style={{position:"relative",top:"-50px",listStyle:"none",display:"inline-block",width:"70%",overflow:"hidden",marginLeft:"5%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",marginBottom:"2%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{display:"inline-block",listStyle:"none",fontSize:"30px",marginRight:"2%"}}>
+													<b>{headerRegularPost.owner.firstName}</b>
+												</li>
+
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li  onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerRegularPost.industriesUploaded,props)} style={RegularPostLabelCSS}>
+														{headerRegularPost.industriesUploaded[0].industry}
+													</li>
+												</a>
+
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li style={{display:"inline-block",listStyle:"none"}}>
+														{displayRecruitButton(headerRegularPost,props)}
+													</li>
+												</a>
+											</ul>
 										</li>
-										{displayRecruitButton(headerRegularPost,props)}
+										
+										
+										<li style={{listStyle:"none",height:"30%",overflowY:"scroll",display:"inline-block",width:"80%",fontSize:"20px"}}>
+											{headerRegularPost.post}
+										</li>
 									</ul>
 								</li>
 							</ul>
-						</li>
-						<li style={{listStyle:"none",height:"30%",overflowY:"scroll",display:"inline-block",width:"80%",fontSize:"15px"}}>
-							{headerRegularPost.post}
 						</li>
 					</ul>
 				</li>
@@ -164,10 +188,12 @@ const RegularPostModal=(props)=>{
 											<li style={{listStyle:"none"}}>
 												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:"none",display:"inline-block"}}>
-														{data.owner.profilePicture!=null?
-															<img src={data.owner.profilePicture} style={{height:"15%",width:"50px",borderRadius:"50%"}}/>:
-															<img src={NoProfilePicture} style={{height:"15%",width:"50px",borderRadius:"50%"}}/>
-														}
+														<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+															<img src={data.owner.profilePicture!=null?
+																	data.owner.profilePicture:
+																	NoProfilePicture} 
+															style={{height:"15%",width:"50px",borderRadius:"50%"}}/>
+														</ProfilePictureLink>
 													</li>
 													<li style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
 														<b>{data.owner.firstName} </b>
@@ -191,10 +217,11 @@ const RegularPostModal=(props)=>{
 															
 														 </b>
 													</li>
-
-													<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={RegularPostLabelCSS}>
-														{data.industriesUploaded[0].industry}
-													</li>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={RegularPostLabelCSS}>
+															{data.industriesUploaded[0].industry}
+														</li>
+													</a>
 													{displayRecruitButton(data,props)}
 
 												</ul>

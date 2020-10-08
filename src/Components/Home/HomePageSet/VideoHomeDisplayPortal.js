@@ -36,7 +36,7 @@ const VideoHomeDisplayPortal=(props)=>{
 				/>
 			</Container>
 		</React.Fragment>
-	,document.getElementById("homePageContainer"));
+	,document.getElementById(props.targetDom));
 }
 
 export default VideoHomeDisplayPortal;

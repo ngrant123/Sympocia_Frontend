@@ -58,11 +58,25 @@ const SearchButtonCSS={
   marginTop:"5%"
 }
 
+const PostOptionsCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginRight:"3%"
+}
+
 class SearchBarModal extends Component{
 	constructor(props){
 		super(props);
 		this.state={
-			searchType:null
+			searchType:null,
+			selectedPostType:null
 		}
 	}
 
@@ -103,11 +117,19 @@ class SearchBarModal extends Component{
 		const searchQuery=document.getElementById("searchTextArea").value;
 		if(this.state.searchType!=null || searchQuery!=""){
 			this.props.history.push({
-				pathname:`/search/${searchQuery}/${this.state.searchType}`
+				pathname:`/search/${searchQuery}/${this.state.searchType}`,
+				state:{
+					postType:this.state.selectedPostType
+				}
 			});
+			this.props.closeSearchModal();
 		}else{
 			alert("Please enter what you want to search and the type of option");
 		}
+	}
+
+	highlightSelectedPostType=(postType)=>{
+
 	}
 
 	render(){
@@ -216,6 +238,46 @@ class SearchBarModal extends Component{
 									Search Type: <b>{this.state.searchType}</b>
 								</li>
 							<hr/>
+							{this.state.searchType=="Posts" &&(
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"0px"}}>
+
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<div class="dropdown">
+												<button class="btn btn-primary dropdown-toggle" 
+														type="button" data-toggle="dropdown" style={{	
+																								borderColor:"#5298F8",
+																								borderStyle:"solid",
+																								borderWidth:"1px",
+																								color:"#5298F8",
+																								backgroundColor:"white"}}>
+													Options
+													<span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu">
+													<li onClick={()=>this.setState({selectedPostType:"Images"})}>
+														<a href="javascript:;">Images</a>
+													</li>
+													<li onClick={()=>this.setState({selectedPostType:"Videos"})}>
+														<a href="javascript:;">Videos</a>
+													</li>
+													<li onClick={()=>this.setState({selectedPostType:"Blogs"})}>
+														<a href="javascript:;">Blogs</a>
+													</li>	
+													<li onClick={()=>this.setState({selectedPostType:"RegularPosts"})}>
+														<a href="javascript:;">Regular Posts</a>
+													</li>						
+												</ul>
+											</div>
+										</li>
+
+										<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
+											{this.state.selectedPostType}
+										</li>
+
+									</ul>
+								</li>
+							)}
 						</>
 						:null
 					}

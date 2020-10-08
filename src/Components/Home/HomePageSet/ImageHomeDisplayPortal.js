@@ -119,7 +119,6 @@ const ImageHomeDisplayPortal=(props)=>{
 										</li>
 									}
 								</React.Fragment>
-								
 							)}
 						</ul>
 					</li>
@@ -128,7 +127,7 @@ const ImageHomeDisplayPortal=(props)=>{
 
 			</Container>
 		</React.Fragment>,
-	document.getElementById("homePageContainer")
+	document.getElementById(props.targetDom)
 	);
 }
 export default ImageHomeDisplayPortal;

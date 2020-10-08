@@ -32,3 +32,22 @@ export const getSymposiumsFromSearch=async(searchUrl)=>{
 		return err;
 	}
 }
+
+
+export const getPostsFromSearch=async({searchUrl,postType})=>{
+	try{
+		const postsSearch=await axios.get(`${SearchUrl}/getPosts`,{
+			params:{
+				searchUrl,
+            	postType 
+			}
+		})
+
+		const {data}=postsSearch;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+
+}

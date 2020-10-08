@@ -1250,6 +1250,7 @@ class Symposium extends Component{
 						 run={true}
 					/>
 				)}
+
 				{this.handleDisplayPostCreation()}
 				{this.handleSeeAllSubSymposiums()}
 				{this.handleSeeAllPeopleActiveModal()}
@@ -1334,6 +1335,7 @@ class Symposium extends Component{
 								_id={this.props.location.state.profileId}
 								confettiAnimation={this.displayRecruitConfetti}
 								isPersonalProfile={true}
+								targetDom={"extendedSymposiumContainer"}
 							/>:null
 						}
 
@@ -1344,6 +1346,7 @@ class Symposium extends Component{
 								confettiAnimation={this.displayRecruitConfetti}
 								isPersonalProfile={true}
 								displaySymposium={this.displaySymposium}
+								targetDom={"extendedSymposiumContainer"}
 							/>:null
 						}
 
@@ -1368,6 +1371,7 @@ class Symposium extends Component{
 									confettiAnimation={this.displayRecruitConfetti}
 									isPersonalProfile={true}
 									displaySymposium={this.displaySymposium}
+									targetDom={"extendedSymposiumContainer"}
 								/>
 							</li>:null
 						}

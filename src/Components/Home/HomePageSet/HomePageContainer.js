@@ -233,7 +233,7 @@ class HomePageContainer extends Component{
 			if(this.props.personalInformation.loggedIn==true){
 				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
 				const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
-				
+
 				if(confirmation=="Success"){
 					profile=data;
 					isPersonalProfile=true;
@@ -250,7 +250,7 @@ class HomePageContainer extends Component{
 		}
 
 		this.setState({
-			recruitsPost:profile.recruits,
+			recruitsPost:profile.recruitsFollowing,
 			isPersonalProfile:isPersonalProfile,
 			profile:profile,
 			profileId:profile._id,
@@ -525,16 +525,15 @@ class HomePageContainer extends Component{
 															{this.state.recruitsPost.map(data=>
 																<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
 																	<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																		{data.profilePicture==null||data.profilePicture==""?
-																			<img src={NoProfileIcon} style={RecruitImageCSS}/>:
-																			<img src={data.profilePicture} style={RecruitImageCSS}/>
-																		}
+																		<img src={data.profilePicture==null?
+																				  NoProfileIcon:
+																				  data.profilePicture} 
+																		style={RecruitImageCSS}/>
 																	</a>
 																</li>
 															)}
 														</React.Fragment>:null
 													}
-													
 												</ul>
 											</li>
 										</ul>

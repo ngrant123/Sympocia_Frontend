@@ -1,22 +1,19 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
+
 import {ImagePostsModal} from "../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/ImagePostsModal.js";
 import VideoPostModal from "../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/VideoPostsModal.js";
 import BlogPostModal from "../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/BlogPostsModal.js";
 import RegularPostModal from "../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/RegularPostsModal.js";
-
-import {
-		exploreImagePosts,
-		exploreVideoPosts,
-		exploreBlogPosts,
-		exploreRegularPosts
-} from "../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+import {getPostsFromSearch} from "../../Actions/Requests/SearchPageAxiosRequests/index.js";
+import LoadingScreen from "../../LoadingAnimation.js";
 
 const PostContainer=styled.div`
 	position:absolute;
 	width:95%;
 	height:600px;
 	margin-top:7%;
+	padding:20px;
 `;
 
 const PostButton={
@@ -44,8 +41,13 @@ const PostSearch=(props)=>{
 
 	useEffect(()=>{
 		const getPosts=async()=>{
-			const {confirmation,data}=await exploreImagePosts(props.userId,postsCount);
-			console.log(posts);
+			debugger;
+			const searchCriteria={
+				searchUrl:props.searchQuery,
+				postType:props.postType
+			}
+
+			const {confirmation,data}=await getPostsFromSearch(searchCriteria);
 			if(confirmation=="Success"){
 				const finalPosts=addSuggestedSymposiums(data);
 				changePosts(finalPosts);
@@ -62,7 +64,13 @@ const PostSearch=(props)=>{
 	}
 
 	const fetchBlogPosts=async()=>{
-		const posts=await exploreBlogPosts(props.userId,postsCount);
+
+		const searchCriteria={
+			searchUrl:props.searchQuery,
+			postType:"Blogs"
+		}
+
+		const posts=await getPostsFromSearch(props.userId,postsCount);
 		const finalPosts=addSuggestedSymposiums(posts);
 		changePosts(finalPosts);
 		changeLoadState(true);
@@ -74,7 +82,13 @@ const PostSearch=(props)=>{
 	}
 
 	const fetchImagePosts=async()=>{
-		const posts=await exploreImagePosts(props.userId,postsCount);
+
+		const searchCriteria={
+			searchUrl:props.searchQuery,
+			postType:"Images"
+		}
+
+		const posts=await getPostsFromSearch(searchCriteria);
 		const finalPosts=addSuggestedSymposiums(posts);
 		changePosts(finalPosts);
 		changeLoadState(true);
@@ -86,7 +100,13 @@ const PostSearch=(props)=>{
 	}
 
 	const fetchVideoPosts=async()=>{
-		const posts=await exploreVideoPosts(props.userId,postsCount);
+
+		const searchCriteria={
+			searchUrl:props.searchQuery,
+			postType:"Videos"
+		}
+
+		const posts=await getPostsFromSearch(searchCriteria);
 		const finalPosts=addSuggestedSymposiums(posts);
 		changePosts(finalPosts);
 		changeLoadState(true);
@@ -98,7 +118,13 @@ const PostSearch=(props)=>{
 	}
 
 	const fetchRegularPosts=async()=>{
-		const posts=await exploreRegularPosts(props.userId,postsCount);
+
+		const searchCriteria={
+			searchUrl:props.searchQuery,
+			postType:"RegularPosts"
+		}
+
+		const posts=await getPostsFromSearch(searchCriteria);
 		const finalPosts=addSuggestedSymposiums(posts);
 		changePosts(finalPosts);
 		changeLoadState(true);
@@ -147,6 +173,7 @@ const PostSearch=(props)=>{
 						confettiAnimation={props.displayRecruitConfetti}
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
+						targetDom={"searchContainer"}
 					/>
 		 }else if(displayVideos==true){
 		 	return <VideoPostModal
@@ -155,6 +182,7 @@ const PostSearch=(props)=>{
 						confettiAnimation={props.displayRecruitConfetti}
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
+						targetDom={"searchContainer"}
 		 		   />
 		 }else if(displayBlogs==true){
 		 	return <BlogPostModal
@@ -163,6 +191,7 @@ const PostSearch=(props)=>{
 						confettiAnimation={props.displayRecruitConfetti}
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
+						targetDom={"searchContainer"}
 		 			/>
 		 }else{
 		 	return <RegularPostModal
@@ -171,6 +200,7 @@ const PostSearch=(props)=>{
 						confettiAnimation={props.displayRecruitConfetti}
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
+						targetDom={"searchContainer"}
 		 			/>
 		 }
 	}
@@ -213,7 +243,7 @@ const PostSearch=(props)=>{
 						{isFinishedLoading==true?
 							<>
 								{constructPostsResponse()}
-							</>:null
+							</>:<LoadingScreen/>
 						}
 					</PostContainer>
 				</li>

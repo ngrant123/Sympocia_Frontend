@@ -316,10 +316,10 @@ const ImagePostsModal=(props)=>{
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",width:"20%"}}>
 									<ProfilePictureLink to={{pathname:`/profile/${headerImage.owner._id}`}}>
-										{headerImage.owner.profilePicture!=null?
-											<img src={headerImage.owner.profilePicture} style={{height:"10%",width:"35%",borderRadius:"50%"}}/>:
-											<img src={NoProfilePicture} style={{height:"10%",width:"60%",borderRadius:"50%"}}/>
-										}
+											<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
+												headerImage.owner.profilePicture}
+												style={{height:"10%",width:"60%",borderRadius:"50%"}}
+											/>
 									</ProfilePictureLink>
 								</li>
 								<li style={{listStyle:"none",display:"inline-block",fontSize:"30px",marginRight:"2%"}}>
@@ -380,25 +380,27 @@ const ImagePostsModal=(props)=>{
 										</li>
 										<li style={{listStyle:"none",marginBottom:"1%"}}>
 											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",width:"20%"}}>
-													<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-														{data.owner.profilePicture!=null?
-															<img src={data.owner.profilePicture} style={{height:"10%",width:"35%",borderRadius:"50%"}}/>:
-															<img src={NoProfilePicture} style={{height:"10%",width:"60%",borderRadius:"50%"}}/>
-														}
-													</ProfilePictureLink>
-												</li>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",width:"20%"}}>
+														<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+																<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
+																 style={{height:"10%",width:"60%",borderRadius:"50%"}}
+																/>
+														</ProfilePictureLink>
+													</li>
+												</a>
 
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 													<b>{data.owner.firstName}</b>
 												</li>
-												<li onClick={()=>handleRecruitButton(props,data)} style={ImageLabelCSS}>
-													+ Recruit
-												</li>
 
-												<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
-													{data.industriesUploaded[0].industry}
-												</li>
+												{displayRecruitButton(data,props)}
+
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
+														{data.industriesUploaded[0].industry}
+													</li>
+												</a>
 											</ul>
 										</li>
 										<li style={{marginLeft:"30%",listStyle:"none",width:"70%",height:"20%",overflow:"hidden"}}>
@@ -419,6 +421,7 @@ const ImagePostsModal=(props)=>{
 						closeModal={closeModal}
 						selectedImage={selectedImage}
 						recommendedImages={displayRecommendedImages}
+						targetDom={props.targetDom}
 					/>
 				}
 			</React.Fragment>

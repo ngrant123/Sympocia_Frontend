@@ -187,15 +187,16 @@ const VideoPostModal=(props)=>{
 							<ul style={{padding:"0px"}}>	
 								<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"25%",top:"-20px"}}>
 									<ul style={{padding:"0px"}}>
-										<li style={{position:"relative",listStyle:"none",width:"25%"}}>
-											<ProfilePictureLink to={{pathname:`/profile/${headerVideo.owner._id}`}}>
-												{headerVideo.owner.profilePicture!=null?
-													<img src={headerVideo.owner.profilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>:
-													<img src={NoProfilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>
-												}
-											</ProfilePictureLink>
-											
-										</li>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li style={{position:"relative",listStyle:"none",width:"25%"}}>
+												<ProfilePictureLink to={{pathname:`/profile/${headerVideo.owner._id}`}}>
+													{headerVideo.owner.profilePicture!=null?
+														<img src={headerVideo.owner.profilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>:
+														<img src={NoProfilePicture} style={{height:"10%",width:"200%",borderRadius:"50%"}}/>
+													}
+												</ProfilePictureLink>
+											</li>
+										</a>
 									</ul>
 								</li>
 								<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
@@ -222,10 +223,11 @@ const VideoPostModal=(props)=>{
 														</li>
 														{displayRecruitButton(headerVideo,props)}
 
-														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerVideo.industriesUploaded,props)} style={ImageLabelCSS}>
-															{headerVideo.industriesUploaded[0].industry}
-														</li>
-																
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerVideo.industriesUploaded,props)} style={ImageLabelCSS}>
+																{headerVideo.industriesUploaded[0].industry}
+															</li>
+														</a>	
 													</ul>
 												</li>
 											</ul>
@@ -282,19 +284,20 @@ const VideoPostModal=(props)=>{
 											<ul style={{padding:"0px"}}>
 												<li style={{marginRight:"3%",listStyle:"none",display:"inline-block",width:"25%"}}>
 													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",marginBottom:"2%"}}>
-															<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-																{headerVideo.owner.profilePicture!=null?
-																	<img src={data.owner.profilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>:
-																	<img src={NoProfilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>
-																}
-															</ProfilePictureLink>
-														</li>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<li style={{listStyle:"none",marginBottom:"2%"}}>
+																<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+																	{headerVideo.owner.profilePicture!=null?
+																		<img src={data.owner.profilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>:
+																		<img src={NoProfilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>
+																	}
+																</ProfilePictureLink>
+															</li>
+														</a>
 														<li style={{listStyle:"none"}}>
 															<b>
 																{data.owner.firstName}
 															</b>
-															<AddCircleOutlineIcon/>
 														</li>
 													</ul>
 												</li>
@@ -306,9 +309,11 @@ const VideoPostModal=(props)=>{
 																{data.title}
 															</b>
 														</li>
-														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
-															{data.industriesUploaded[0].industry}
-														</li>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
+																{data.industriesUploaded[0].industry}
+															</li>
+														</a>
 														{displayRecruitButton(data,props)}
 													</ul>
 												</li>
@@ -328,6 +333,7 @@ const VideoPostModal=(props)=>{
 						closeModal={closeModal}
 						selectedVideo={selectedVideo}
 						recommendedVideos={displayRecommendedVideos}
+						targetDom={props.targetDom}
 					/>
 				}
 			</React.Fragment>
