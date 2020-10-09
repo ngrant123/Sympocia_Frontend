@@ -290,7 +290,7 @@ const BlogHomeDisplayPortal=(props)=>{
 											<ProfilePicture>
 												{props.selectedBlog.owner.ownerImgUrl==null?
 													<img src={NoProfilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>:
-													<img src={props.selectedBlog.owner.ownerImgUrl} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+													<img src={props.selectedBlog.owner.profilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
 												}
 											</ProfilePicture>
 										</li>

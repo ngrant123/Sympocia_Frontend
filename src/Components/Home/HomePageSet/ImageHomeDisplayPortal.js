@@ -75,7 +75,6 @@ const ImageHomeDisplayPortal=(props)=>{
 		<React.Fragment>
 			<ShadowContainer onClick={()=>props.closeModal()}/>
 			<Container>
-
 				<ImageContainer>
 					<ImageDisplayContainer
 						imageData={props.selectedImage}
@@ -122,9 +121,7 @@ const ImageHomeDisplayPortal=(props)=>{
 							)}
 						</ul>
 					</li>
-
 				</ul>
-
 			</Container>
 		</React.Fragment>,
 	document.getElementById(props.targetDom)

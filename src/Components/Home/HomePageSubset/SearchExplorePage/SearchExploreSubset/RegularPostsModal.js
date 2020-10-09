@@ -10,6 +10,7 @@ import {
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
+import RegularPostDisplayPortal from "../../../HomePageSet/RegularPostHomeDisplayPortal.js";
 import {Link} from "react-router-dom";
 
 
@@ -85,6 +86,26 @@ const RegularPostModal=(props)=>{
 	const regularPosts=props.posts.slice(1,props.posts.length);
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 
+	const [displayRegualrPostDisplayPortal,changeRegularPostDisplay]=useState(false);
+	const [selectedRegularPost,changeSelectedRegularPost]=useState();
+	const [displayRecommendedPosts,changeRecommendedPosts]=useState();
+
+	const closeModal=()=>{
+		changeRegularPostDisplay(false)
+	}
+
+	const handleDisplayHeaderPost=()=>{
+		changeSelectedRegularPost(headerRegularPost);
+		changeRecommendedPosts(regularPosts);
+		changeRegularPostDisplay(true);
+	}
+
+	const displayPostModal=(data)=>{
+		changeSelectedRegularPost(data);
+		changeRecommendedPosts(regularPosts);
+		changeRegularPostDisplay(true);
+	}
+
 	const constructSuggestedSymposium=(personalInformation,previousProps)=>{
 		debugger;
 		console.log(personalInformation);
@@ -125,49 +146,44 @@ const RegularPostModal=(props)=>{
 
 	return(
 		<React.Fragment>
-			<li style={{position:"relative",top:"-220px",listStyle:"none",display:"inline-block",width:"50%"}}>
+				<li style={{position:"relative",top:"-220px",listStyle:"none",display:"inline-block",width:"50%"}}>
 					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none"}}>
+
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li style={{position:"relative",top:"-150px",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px",overflow:"hidden"}}>
+								<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}>
+									<img src={headerRegularPost.owner.profilePicture!=null?
+											  headerRegularPost.owner.profilePicture:
+											  NoProfilePicture} 
+									style={{height:"20%",width:"90%",borderRadius:"50%"}}/>
+								</ProfilePictureLink>
+							</li>
+						</a>
+
+						<li style={{position:"relative",top:"-50px",listStyle:"none",display:"inline-block",width:"70%",overflow:"hidden",marginLeft:"5%"}}>
 							<ul style={{padding:"0px"}}>
-
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li style={{position:"relative",top:"-150px",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px",overflow:"hidden"}}>
-										<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}>
-											<img src={headerRegularPost.owner.profilePicture!=null?
-													  headerRegularPost.owner.profilePicture:
-													  NoProfilePicture} 
-											style={{height:"20%",width:"90%",borderRadius:"50%"}}/>
-										</ProfilePictureLink>
-									</li>
-								</a>
-
-								<li style={{position:"relative",top:"-50px",listStyle:"none",display:"inline-block",width:"70%",overflow:"hidden",marginLeft:"5%"}}>
+								<li style={{listStyle:"none",marginBottom:"2%"}}>
 									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",marginBottom:"2%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{display:"inline-block",listStyle:"none",fontSize:"30px",marginRight:"2%"}}>
-													<b>{headerRegularPost.owner.firstName}</b>
-												</li>
-
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li  onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerRegularPost.industriesUploaded,props)} style={RegularPostLabelCSS}>
-														{headerRegularPost.industriesUploaded[0].industry}
-													</li>
-												</a>
-
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li style={{display:"inline-block",listStyle:"none"}}>
-														{displayRecruitButton(headerRegularPost,props)}
-													</li>
-												</a>
-											</ul>
+										<li style={{display:"inline-block",listStyle:"none",fontSize:"30px",marginRight:"2%"}}>
+											<b>{headerRegularPost.owner.firstName}</b>
 										</li>
-										
-										
-										<li style={{listStyle:"none",height:"30%",overflowY:"scroll",display:"inline-block",width:"80%",fontSize:"20px"}}>
-											{headerRegularPost.post}
-										</li>
+
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li  onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerRegularPost.industriesUploaded,props)} style={RegularPostLabelCSS}>
+												{headerRegularPost.industriesUploaded[0].industry}
+											</li>
+										</a>
+
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li style={{display:"inline-block",listStyle:"none"}}>
+												{displayRecruitButton(headerRegularPost,props)}
+											</li>
+										</a>
 									</ul>
+								</li>
+							
+								<li onClick={()=>handleDisplayHeaderPost()} style={{listStyle:"none",height:"30%",overflowY:"scroll",display:"inline-block",width:"80%",fontSize:"20px"}}>
+									{headerRegularPost.post}
 								</li>
 							</ul>
 						</li>
@@ -203,7 +219,7 @@ const RegularPostModal=(props)=>{
 
 											<li style={{listStyle:"none"}}>
 												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",marginBottom:"1%",height:"20%",overflowY:"scroll",color:"#BDBDBD"}}>
+													<li onClick={()=>displayPostModal(data)} style={{listStyle:"none",marginBottom:"1%",height:"20%",overflowY:"scroll",color:"#BDBDBD"}}>
 														<b> 
 															{data.isAudioPost==true?
 																<audio controls>
@@ -233,6 +249,15 @@ const RegularPostModal=(props)=>{
 						)}
 					</ul>
 				</li>
+				{displayRegualrPostDisplayPortal==false?
+					null:
+					<RegularPostDisplayPortal
+						closeModal={closeModal}
+						selectedPost={selectedRegularPost}
+						recommendedPosts={displayRecommendedPosts}
+						targetDom={props.targetDom}
+					/>
+				}
 		</React.Fragment>
 	)
 }

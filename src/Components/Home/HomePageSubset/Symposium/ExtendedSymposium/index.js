@@ -38,6 +38,9 @@ import {GeneralNavBar} from "../../../../GeneralComponents/NavBarComponent/Large
 import ExploreIcon from '@material-ui/icons/Explore';
 import GroupSharingVideoCall from "./Modals/VideoCall/index.js";
 import SymposiumOnboarding from "../../../../OnBoarding/SymposiumPageOnboarding.js";
+import LoadingScreen from "../../../../../LoadingAnimation.js";
+
+import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 
  const keyFrameExampleTwo= keyframes`
   0% {
@@ -545,8 +548,6 @@ class Symposium extends Component{
 			hideOnboarding:true,
 			featureQuestions:[]
 		}
-
-		connectToRoom(socket,this.props.location.state.selectedSymposium._id);
 	}
 
 	//Imo its too 
@@ -554,12 +555,10 @@ class Symposium extends Component{
 	  		/*
 				Could be done in a better way
 	  		*/
+	  			debugger;
 		  		const postContainerElement=document.getElementById("postChatInformation");
 		  		const headerContentsContainerElement=document.getElementById("headerContents");
 				console.log(this.props);
-				debugger;
-				console.log(this.props.location.state.selectedSymposium);
-				console.log(this.props.location.state.selectedSymposium._id);
 
 				/*
 					const propSymposiums=this.props.location.state;
@@ -576,9 +575,13 @@ class Symposium extends Component{
 			  		}
 					debugger;
 				*/
-
-		  		var {confirmation,data}=await getIndustryInformation(this.props.location.state.selectedSymposium.symposium,
-		  									   this.state.postCount,this.props.location.state.profileId);
+				debugger;
+				const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state;
+		  		var {confirmation,data}=await getIndustryInformation(
+			  										this.props.match.params.symposiumName,
+			  									   	this.state.postCount,
+			  									   	profileId
+		  									   	);
 		  		if(confirmation=="Success"){
 		  			const {
 		  				posts,
@@ -587,7 +590,8 @@ class Symposium extends Component{
 			  			popularQuestions,
 			  			isProfileFollowedSymposium,
 			  			isOnboardingCompleted,
-			  			featureQuestions
+			  			featureQuestions,
+			  			_id
 		  			}=data;
 
 		  			var newHomePagePosts=this.addSuggestedSymposiums(posts);
@@ -597,20 +601,22 @@ class Symposium extends Component{
 			  			
 			  		this.setState(prevState=>({
 				  		...prevState,
-				  		selectedSymposiumTitle:this.props.location.state.selectedSymposium.symposium,
-				  		symposiums:this.props.location.state.symposiums,
+				  		selectedSymposiumTitle:this.props.match.params.symposiumName,
+				  		symposiums:this.props.location.state==null?[]:this.props.location.state.symposiums,
 				  		symposiumCounter:0,
-				  		backgroundColor:this.props.location.state.selectedSymposium.backgroundColor,
+				  		backgroundColor:this.props.location.state==null?this.symposiumBackgroundColor(this.props.match.params.symposiumName):
+				  		this.props.location.state.selectedSymposium.backgroundColor,
 				  		postType:"Image",
 				  		posts:newHomePagePosts,
 				  		popularVideos:popularPosts,
 				  		activePeople:activeUsers,
 				  		popularQuestions:popularQuestions,
 				  		isProfileFollowingSymposium:isProfileFollowedSymposium,
-				  		profileId:this.props.location.state.profileId,
+				  		profileId:profileId,
 				  		isLoading:false,
 				  		hideOnboarding:isOnboardingCompleted,
-				  		symposiumFeatureQuestions:featureQuestions
+				  		symposiumFeatureQuestions:featureQuestions,
+				  		symposiumId:_id
 			  		}));
 
 				  	setTimeout(function(){
@@ -618,6 +624,7 @@ class Symposium extends Component{
 						headerContentsContainerElement.style.opacity="1";
 				  	},500);
 
+				  	connectToRoom(socket,_id);
 			 		socket.on('symposiumChatMessage',this.handleChatData);
 
 		  		}else{
@@ -627,6 +634,18 @@ class Symposium extends Component{
 
 	addSuggestedSymposiums=(posts)=>{
 		return this.suggestedSymposiumsRecursive(posts);
+	}
+
+
+	symposiumBackgroundColor=(symposiumName)=>{
+		//var symposiums=props.isPersonalProfile==true?PERSONAL_INDUSTRIES.INDUSTRIES:COMPANY_INDUSTRIES.INDUSTRIES;
+		var symposiums=PERSONAL_INDUSTRIES.INDUSTRIES;
+		for(var i=0;i<symposiums.length;i++){
+			const currentSymposium=symposiums[i].industry;
+			if(currentSymposium==symposiumName){
+				return symposiums[i].backgroundColor;
+			}
+		}
 	}
 
 	suggestedSymposiumsRecursive=(posts)=>{
@@ -675,7 +694,8 @@ class Symposium extends Component{
 
 	  	document.getElementById("postsContainer").style.opacity="0";
 	  	if(this.state.headerAnimation==false){
-	  		document.getElementById("chatContainer").style.height="10%";
+	  		//document.getElementById("chatContainer").style.height="10%";
+	  		
 	  		this.setState(prevState=>({
 	  			...prevState,
 	  			headerAnimation:true,
@@ -889,8 +909,8 @@ class Symposium extends Component{
 	  			<HeaderContainer
 	  				activePeople={this.state.activePeople}
 	  				popularVideos={this.state.popularVideos}
-	  				selectedSymposiumTitle={this.props.location.state.selectedSymposium.symposium}
-	  				symposiums={this.props.location.state.symposiums}
+	  				selectedSymposiumTitle={this.props.match.params.symposiumName}
+	  				symposiums={this.props.location.state==null?[]:this.props.location.state.symposiums}
 	  				symposiumCounter={this.state.symposiumCounter}
 	  				previousButton={this.handlePreviousSymposiumButton}
 	  				nextButton={this.handleNextSymposiumButton}
@@ -941,17 +961,17 @@ class Symposium extends Component{
 	  specificSymposiumFeatures=()=>{
 	  	return this.state.headerAnimation==false?
 			<SymposiumFeatureContainer onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
-				{this.props.location.state.selectedSymposium.symposium=="General"||
-					this.props.location.state.selectedSymposium.symposium=="Religion"||
-					this.props.location.state.selectedSymposium.symposium=="Gaming"||
-					this.props.location.state.selectedSymposium.symposium=="Philosophy"?
+				{this.state.selectedSymposiumTitle=="General"||
+					this.state.selectedSymposiumTitle=="Religion"||
+					this.state.selectedSymposiumTitle=="Gaming"||
+					this.state.selectedSymposiumTitle=="Philosophy"?
 		  			<Chat
 				  		pushMessageToSocket={this.pushMessageToSocketHandle}
-				  		roomId={this.props.location.state.selectedSymposium._id}
+				  		roomId={this.state.symposiumId}
 				  		chat={this.state.chatRoom}
 				  	/>:<SpecificFeatureSymposium
-				  			symposium={this.props.location.state.selectedSymposium.symposium}
-				  			symposiumId={this.props.location.state.selectedSymposium._id}
+				  			symposium={this.props.match.params.symposiumName}
+				  			symposiumId={this.state.symposiumId}
 				  			questions={this.state.symposiumFeatureQuestions}
 				  		/>
 		  		} 
@@ -1015,7 +1035,7 @@ class Symposium extends Component{
 		  				<ChatContainer id="chatContainer" onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
 						  	<Chat
 						  		pushMessageToSocket={this.pushMessageToSocketHandle}
-						  		roomId={this.props.location.state.selectedSymposium._id}
+						  		roomId={this.state.symposiumId}
 						  		chat={this.state.chatRoom}
 						  	/>
 						</ChatContainer>
@@ -1185,7 +1205,7 @@ class Symposium extends Component{
 		  state: {
 		  	selectedSymposium:data.selectedSymposiums,
 			symposiums:data.symposiums,
-			profileId:this.props.location.state.profileId
+			profileId:this.props.location.state==null?this.props.profileId:this.props.location.state
 		  }
 		});
 	}
@@ -1207,8 +1227,7 @@ class Symposium extends Component{
 					page={"Home"}
 					routerHistory={this.props.history}
 				/>
-
-				{this.state.hideOnboarding==false &&(
+					{this.state.hideOnboarding==false &&(
 					<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
 						<SymposiumOnboarding
 							closeModal={this.closeOnboardingModal}
@@ -1238,7 +1257,7 @@ class Symposium extends Component{
 					<div onMouseEnter={()=>this.setState({handleScroll:false})}>
 						<GroupSharingVideoCall
 							closeModal={this.closeGroupVideoCallPortal}
-							symposiumId={this.props.location.state.selectedSymposium._id}
+							symposiumId={this.state.symposiumId}
 							routerHistory={this.props.history}
 						/>
 					</div>:null
@@ -1332,7 +1351,7 @@ class Symposium extends Component{
 						{this.state.postType=="Image"?
 							<ImagePostsModal
 								posts={this.state.posts}
-								_id={this.props.location.state.profileId}
+								_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
 								confettiAnimation={this.displayRecruitConfetti}
 								isPersonalProfile={true}
 								targetDom={"extendedSymposiumContainer"}
@@ -1342,7 +1361,7 @@ class Symposium extends Component{
 						{this.state.postType=="Video"?
 							<VideoPostModal
 								posts={this.state.posts}
-								_id={this.props.location.state.profileId}
+								_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
 								confettiAnimation={this.displayRecruitConfetti}
 								isPersonalProfile={true}
 								displaySymposium={this.displaySymposium}
@@ -1354,7 +1373,7 @@ class Symposium extends Component{
 							<li style={{listStyle:"none",marginTop:"3%",marginLeft:"5%"}}>
 								<BlogPostModal
 									posts={this.state.posts}
-									_id={this.props.location.state.profileId}
+									_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
 									confettiAnimation={this.displayRecruitConfetti}
 									isPersonalProfile={true}
 									displaySymposium={this.displaySymposium}
@@ -1367,7 +1386,7 @@ class Symposium extends Component{
 							<li style={{listStyle:"none",marginTop:"5%",marginLeft:"5%",width:"90%"}}>
 								<RegularPostModal
 									posts={this.state.posts}
-									_id={this.props.location.state.profileId}
+									_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
 									confettiAnimation={this.displayRecruitConfetti}
 									isPersonalProfile={true}
 									displaySymposium={this.displaySymposium}
@@ -1386,9 +1405,8 @@ class Symposium extends Component{
 
 
 const mapStateToProps=(state)=>{
-
 	return{
-
+		profileId:state.personalInformation.id
 	}
 }
 

@@ -289,6 +289,20 @@ const CreatePostButton=styled.div`
   }
 `;
 
+const RegularPostContainerParent=styled.div`
+	position:fixed;
+	width:60%;
+	height:40%;
+	z-index:9;
+	left:30%;
+	top:40%;
+	border-radius:5px;
+	background-color:white;
+	border-radius:5px;
+	padding:5px;
+	box-shadow: 1px 1px 50px #d5d5d5;
+	overflow-y:auto;
+`;
 
 const ChampionAndCreateButtonCSS={
 	position:"fixed",
@@ -628,7 +642,7 @@ class LProfile extends Component{
 			}
 		}
 		return this.state.displayRegularPostModal?
-			<PostPopupContainer>
+			<RegularPostContainerParent>
 				<RegularPostContainer
 					postData={newRegularPostObject}
 					profileType="personalProfile"
@@ -636,7 +650,7 @@ class LProfile extends Component{
 					triggerPromoteModal={this.triggerPromoteModal}
 					history={this.props.history}
 				/>
-			</PostPopupContainer>:
+			</RegularPostContainerParent>:
 			<React.Fragment></React.Fragment>
 	}
 

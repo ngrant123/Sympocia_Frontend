@@ -8,18 +8,6 @@ import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileS
 
 
 const Container=styled.div`
-	position:fixed;
-	width:60%;
-	height:40%;
-	z-index:9;
-	left:30%;
-	top:40%;
-	border-radius:5px;
-	background-color:white;
-	border-radius:5px;
-	padding:5px;
-	box-shadow: 1px 1px 50px #d5d5d5;
-	overflow-y:auto;
 `;
 
 const PostInformationContainer=styled.div`

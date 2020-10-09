@@ -406,6 +406,19 @@ class HomePageContainer extends Component{
 		})
 	} 
 
+	displaySymposiumHandle=(data)=>{
+		this.setState(prevState=>({
+			...prevState,
+			displaySymposiumList:false,
+			displayExplorerFeed:false,
+			displaySearchExplorePage:false,
+			displayPlayListPage:false,
+			displayExpandedSymposium:true,
+			selectedSymposiumPersonalFeed:data.selectedSymposiums,
+			symposiums:data.symposiums
+		}))	
+	}
+
 	render(){
 		return(
 			<HomeProvider
@@ -413,16 +426,7 @@ class HomePageContainer extends Component{
 					personalInformationState:this.state.profile,
 					isPersonalProfile:this.state.isPersonalProfile,
 					displaySymposium:(data)=>{
-						this.setState(prevState=>({
-							...prevState,
-							displaySymposiumList:false,
-							displayExplorerFeed:false,
-							displaySearchExplorePage:false,
-							displayPlayListPage:false,
-							displayExpandedSymposium:true,
-							selectedSymposiumPersonalFeed:data.selectedSymposiums,
-							symposiums:data.symposiums
-						}))	
+						this.displaySymposiumHandle(data);
 					},
 					displayRecruitConfetti:(displayIndicator)=>{
 						this.setState({
@@ -468,6 +472,7 @@ class HomePageContainer extends Component{
 										recruits={this.state.recruitsPost}
 										id={this.state.profileId}
 										isPersonalProfile={this.state.isPersonalProfile}
+										displaySymposium={this.displaySymposiumHandle}
 									/>
 								</React.Fragment>
 								:<React.Fragment></React.Fragment>}
@@ -505,14 +510,17 @@ class HomePageContainer extends Component{
 													/>
 												</a>
 											</li>
-
-											<li style={{listStyle:"none",marginBottom:"20%"}}>
-												<a onClick={()=>this.handleDisplayPlayListPage()}style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-													<PlaylistAddIcon
-														style={{fontSize:40}}
-													/>
-												</a>
-											</li>
+											<hr/>
+											{/*
+												<li style={{listStyle:"none",marginBottom:"20%"}}>
+													<a onClick={()=>this.handleDisplayPlayListPage()}style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+														<PlaylistAddIcon
+															style={{fontSize:40}}
+														/>
+													</a>
+												</li>
+											*/}
+											
 											<li style={{listStyle:"none",marginBottom:"10%"}}>
 												<PersonPinIcon
 													style={{fontSize:40}}

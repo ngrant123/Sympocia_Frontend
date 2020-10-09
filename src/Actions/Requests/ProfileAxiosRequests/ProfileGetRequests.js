@@ -246,18 +246,19 @@ export const getProfileForHomePage=async(id)=>{
 	}
 }
 
-
-export const getRecruitsPostsHomePage=async(id,currentTime)=>{
+export const getRecruitsPostsHomePage=async({id,currentTime,postType,recruits})=>{
 	try{
-		const {data}=await axios.get(`${SearchUrl}/getRecruitsPostsHomePage`,{
+		const recruitPostResponse=await axios.get(`${SearchUrl}/getRecruitsPostsHomePage`,{
 			params:{
-				id:id,
-				currentTime:currentTime
+				id,
+				currentTime,
+				postType,
+				recruits
 			}
 		});
 
-		const recruitPostResponse=data.data;
-		return recruitPostResponse;
+		const {data}=recruitPostResponse;
+		return data;
 	}catch(err){
 		console.log(err);
 		return err;

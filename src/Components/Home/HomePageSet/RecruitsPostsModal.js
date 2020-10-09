@@ -6,10 +6,18 @@ import BlogPost from "../../GeneralComponents/PostComponent/BlogComponent/BlogPo
 import VideoPost from "../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
 import ReactSnapScroll from 'react-snap-scroll';
 import NoProfileIcon from "../../../designs/img/NoProfilePicture.png";
+
 import {getRecruitsPostsHomePage} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import SelectedRecruitPosts from "./SelectedRecruitPost.js";
+import LoadingScreen from "../../../LoadingAnimation.js";
+import {Link} from "react-router-dom";
+import {displayPersonalIndustryFeed} from "../HomePageSubset/SearchExplorePage/SearchExploreSubset/ImagePostsModal.js";
+import {useSelector} from "react-redux";
 
-
+import ImagePostDisplayPortal from "./ImageHomeDisplayPortal.js";
+import VideoPostDisplayPortal from "./VideoHomeDisplayPortal.js";
+import BlogPostPostDisplayPortal from "./ImageHomeDisplayPortal.js";
+//import ImagePostDisplayPortal from "./ImageHomeDisplayPortal.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -112,9 +120,28 @@ const BlogPostContainer=styled.div`
 	}
 `;
 
+const RegularPostContainer=styled.div`
+	position:relative;
+	height:300px;
+	width:350px;
+	margin-bottom:10%;
+	margin-right:5%;
+	border-radius:5px;
+	box-shadow: 1px 1px 5px #707070; 
+	transition:.8s;
+	padding:25px;
+	overflow:hidden;
+	&:hover{
+		box-shadow: 5px 10px 10px #707070;
+	}
+`;
+
+const ProfilePictureLink=styled(Link)`
+	position:relative;
+`;
 
 
-const IndustryCSSButton={
+const ButtonCSS={
 	borderColor:"#5298F8",
 	borderStyle:"solid",
 	borderWidth:"1px",
@@ -122,37 +149,29 @@ const IndustryCSSButton={
 	backgroundColor:"white",
 	listStyle:"none",
 	borderRadius:"5px",
-	padding:"20px",
-	display:"inline-block"
+	padding:"10px",
+	display:"inline-block",
+	marginRight:"3%"
 }
 
 const RecruitsPosts=(props)=>{
 	console.log(props);
 	const [recruitsPosts,changeRecruitsPosts]=useState([]);
 	const [originalPosts,changeOriginalPosts]=useState([]);
+	const [displayPostPortal,changeDisplayPostPortal]=useState(false);
+	const [postType,changePostType]=useState();
 
 	const [profileType,changeProfileType]=useState();
 	const [isLoading,changeLoadingState]=useState(true);
 	const [selectedPost,changeSelectedPost]=useState();
 
 	var postMap=new Map();
-
+	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const [displaySelectedPostPopup,changeSelectedPostPopup]=useState(false);
 
 	useEffect(()=>{
 	 	const getData=async()=>{
-	 		const time=new Date();
-			const currentTime=time.getTime();
-
-			if(props.isPersonalProfile==true){
-				const recruitPosts=await getRecruitsPostsHomePage(props.id,currentTime);
-				changeRecruitsPosts(recruitPosts);
-				changeProfileType("personalProfile");
-				changeLoadingState(false);
-				console.log(recruitPosts);
-			}else{
-
-			}
+		 	retrieveRecruitsPosts("Images");
 	 	}
 	 	getData();
 	},[])
@@ -163,9 +182,8 @@ const RecruitsPosts=(props)=>{
 	}
 
 	const selectPost=(data)=>{
-
-		changeSelectedPostPopup(true);
 		changeSelectedPost(data);
+		changeSelectedPostPopup(true);
 	}
 
 	const createNewArrayWithoutPost=(selectedPostId,postArray)=>{
@@ -210,102 +228,197 @@ const RecruitsPosts=(props)=>{
 		}
 	}
 
+	const closePostDisplayPortal=()=>{
+		changeDisplayPostPortal(false);
+	}
+
+	const postDisplayPortal=(postType)=>{
+		/*
+			if(postType=="Images"){
+				return <ImagePostDisplayPortal
+							closeModal={closeModal}
+							selectedImage={selectedImage}
+							recommendedImages={[]}
+							targetDom="homePageContainer"
+						/>
+			}else if(postType=="Videos"){
+
+			}else if(postType=="Blogs"){
+
+			}else{
+
+			}
+		*/
+	}
+
+	const retrieveRecruitsPosts=async(postType)=>{
+		debugger;
+		const time=new Date();
+		const currentTime=time.getTime();
+		changeLoadingState(true);
+		const recruitsParams={
+			id:props.id,
+			currentTime,
+			postType, 
+			recruits:props.recruits
+		}
+		if(props.isPersonalProfile==true){
+			const {confirmation,data}=await getRecruitsPostsHomePage(recruitsParams);
+			if(confirmation=="Success"){
+				changeRecruitsPosts(data);
+				changeProfileType("personalProfile");
+				changeLoadingState(false);
+			}else{
+				alert('Unfortunately there has been an error trying to get your recruits information. Please try again');
+			}
+		}else{
+
+		}
+	}
+
 	 const constructPosts=(data)=>{
+	 	if(data.postType=="Images"){
+	 		constructPostMap(data.post.owner._id,data);
+	 		return <a href="javascript:void(0);" style={{textDecoration:"none",color:"black"}}>
+						<ImagePostContainer onClick={()=>selectPost(data)}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none"}}>
+										<img src={data.post.imgUrl} style={{width:"100%",height:"80%"}}/>
+								</li>
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"10px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<ProfilePictureLink to={{pathname:`/profile/${data.post.owner._id}`}}>
+												<img src={data.post.owner.profilePicture==null?
+														  NoProfileIcon:
+														  data.profilePicture
+														} style={{height:"50px",width:"50px",borderRadius:"50%"}}/>
+											</ProfilePictureLink>
+										</li>
 
-	 	if(data.postType=="Image"){
-	 		constructPostMap(data.image.owner._id,data);
-	 		return <a href="javascript:void(0)" style={{textDecoration:"none",color:"black"}}>
-												<ImagePostContainer onClick={()=>selectPost(data)}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none"}}>
-															<img src={data.image.imgUrl} style={{width:"100%",height:"80%"}}/>
-														</li>
-														<li style={{listStyle:"none"}}>
-															<ul style={{padding:"10px"}}>
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																	{data.profilePicture==null?
-																		<img src={NoProfileIcon} style={{height:"50px",width:"50px",borderRadius:"50%"}}/>:
-																		<img src={data.profilePicture} style={{height:"50px",width:"50px",borderRadius:"50%"}}/>
-																	}
-																</li>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<b>{data.post.owner.firstName}</b>
+										</li>
 
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																	<b>{data.image.owner.firstName}</b>
-																</li>
-
-																<li style={IndustryCSSButton}>
-																	{data.image.industriesUploaded[0].industry}
-																</li>
-															</ul>
-														</li>
-													</ul>
-												</ImagePostContainer>
-											</a>
-	 	}else if(data.postType=="Video"){
-	 		constructPostMap(data.video.owner._id,data);
+										<li  onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.post.industriesUploaded,props)} style={ButtonCSS}>
+											{data.post.industriesUploaded[0].industry}
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</ImagePostContainer>
+					</a>
+	 	}else if(data.postType=="Videos"){
+	 		constructPostMap(data.post.owner._id,data);
 	 		return <a href="javascript:void(0)" style={{textDecoration:"none",color:"black"}}>
 	 					<VideoPostContainer onClick={()=>selectPost(data)}>
-	 						<video  key={data.video.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay>
-							    <source src={data.video.videoUrl} type="video/mp4"/>
+	 						<video  key={data.post.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay>
+							    <source src={data.post.videoUrl} type="video/mp4"/>
 							</video>
 	 						<ul style={{position:"absolute",padding:"0px"}}>
 	 							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-									{data.profilePicture==null?
-										<img src={NoProfileIcon} style={{height:"50px",width:"50px",borderRadius:"50%"}}/>:
-										<img src={data.profilePicture} style={{height:"50px",width:"50px",borderRadius:"50%"}}/>
-									}
+	 								<ProfilePictureLink to={{pathname:`/profile/${data.post.owner._id}`}}>
+										<img src={data.post.owner.profilePicture==null?
+														  NoProfileIcon:
+														  data.profilePicture
+														} style={{height:"50px",width:"50px",borderRadius:"50%"}}/>
+									</ProfilePictureLink>
 								</li>
 
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-									<b>{data.video.owner.firstName}</b>
+									<b>{data.post.owner.firstName}</b>
 								</li>
 
-								<li style={IndustryCSSButton}>
-									{data.video.industriesUploaded[0].industry}
+								<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.post.industriesUploaded,props)} style={ButtonCSS}>
+									{data.post.industriesUploaded[0].industry}
 								</li>
 	 						</ul>
 	 					</VideoPostContainer>
 	 			   </a>;   
 
-	 	}else if(data.postType=="Blog"){
-	 		constructPostMap(data.blog.owner._id,data);
+	 	}else if(data.postType=="Blogs"){
+	 		constructPostMap(data.post.owner._id,data);
 	 		return <a href="javascript:void(0)" style={{textDecoration:"none",color:"black"}}>
 	 					<BlogPostContainer onClick={()=>selectPost(data)}>
 	 						<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none"}}>
-															<img src={data.blog.blogImageUrl} style={{width:"100%",height:"80%"}}/>
-														</li>
-														<li style={{listStyle:"none"}}>
-															<ul style={{padding:"10px"}}>
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																	{data.profilePicture==null?
-																		<img src={NoProfileIcon} style={{height:"50px",width:"50px",borderRadius:"50%"}}/>:
-																		<img src={data.profilePicture} style={{height:"50px",width:"50px",borderRadius:"50%"}}/>
-																	}
-																</li>
+								<li style={{listStyle:"none"}}>
+									<img src={data.post.blogImageUrl} style={{width:"100%",height:"80%"}}/>
+								</li>
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"10px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<ProfilePictureLink to={{pathname:`/profile/${data.post.owner._id}`}}>
+												<img src={data.post.owner.profilePicture==null?
+														  NoProfileIcon:
+														  data.profilePicture
+														} style={{height:"50px",width:"50px",borderRadius:"50%"}}/>
+											</ProfilePictureLink>
+										</li>
 
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																	<b>{data.blog.owner.firstName}</b>
-																</li>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<b>{data.post.owner.firstName}</b>
+										</li>
 
-																<li style={IndustryCSSButton}>
-																	{data.blog.industriesUploaded[0].industry}
-																</li>
-																<li style={{listStyle:"none"}}>
-																	{data.blog.title}
-																</li>
-															</ul>
-														</li>
+										<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.post.industriesUploaded,props)} style={ButtonCSS}>
+											{data.post.industriesUploaded[0].industry}
+										</li>
+										<li style={{listStyle:"none"}}>
+											{data.post.title}
+										</li>
+									</ul>
+								</li>
 							</ul>
-
-
 	 					</BlogPostContainer>
 	 			   </a>;
 
-
-	 	}else if(data.postType=="RegularPost"){
+	 	}else if(data.postType=="RegularPosts"){
 	 		return <a href="javascript:void(0)" style={{textDecoration:"none"}}>
+	 					<RegularPostContainer onClick={()=>selectPost(data)}>
+	 						<ul style={{padding:"0px"}}>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li style={{position:"relative",top:"-70px",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px",overflow:"hidden"}}>
+										<ProfilePictureLink to={{pathname:`/profile/${data.post.owner._id}`}}>
+											<img src={data.post.owner.profilePicture!=null?
+													  data.post.owner.profilePicture:
+													  NoProfileIcon} 
+											style={{height:"20%",width:"90%",borderRadius:"50%"}}/>
+										</ProfilePictureLink>
+									</li>
+								</a>
 
+								<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"70%",overflow:"hidden",marginLeft:"5%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",marginBottom:"2%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{display:"inline-block",listStyle:"none",fontSize:"30px",marginRight:"2%"}}>
+													<b>{data.post.owner.firstName}</b>
+												</li>
+
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li  onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.post.industriesUploaded,props)} style={ButtonCSS}>
+														{data.post.industriesUploaded[0].industry}
+													</li>
+												</a>
+											</ul>
+										</li>
+										
+										
+										<li style={{listStyle:"none",height:"30%",overflowY:"scroll",display:"inline-block",width:"80%",fontSize:"15px"}}>
+											{data.post.audioDescription==null?
+												<p>
+													{data.post.post}
+												</p>:
+												<audio controls>
+												 	<source src={data.post.audioDescription} type="audio/ogg"/>
+												  	<source src={data.post.audioDescription} type="audio/mpeg"/>
+													Your browser does not support the audio element.
+												</audio>
+											}
+										</li>
+									</ul>
+								</li>
+							</ul>
+	 					</RegularPostContainer>
 	 			   </a>;
 	 	}
 	 }
@@ -325,62 +438,64 @@ const RecruitsPosts=(props)=>{
 						<li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"3%"}}>
 							<div class="dropdown">
 
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																			borderColor:"#5298F8",
-																																			borderStyle:"solid",
-																																			borderWidth:"1px",
-																																			color:"#5298F8",
-																																			backgroundColor:"white"}}>
-														
-														Filter By Users
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																															borderColor:"#5298F8",
+																															borderStyle:"solid",
+																															borderWidth:"1px",
+																															color:"#5298F8",
+																															backgroundColor:"white"}}>
+										
+										Filter By Users
 
-													   	<span class="caret"></span>
-													</button>
+									   	<span class="caret"></span>
+									</button>
 
-													<ul class="dropdown-menu" style={{height:"170px",overflow:"auto"}}>
-														{props.recruits.map(data=>
-															<li onClick={()=>displaySelectedUserPosts(data)}>
-																<a>
-																	<ul style={{padding:"0px"}}>
-																		<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
-																			<ProfilePictures>
-																				{data.profilePicture==null||data.profilePicture==""?
-																					<img src={NoProfileIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>:
-																					<img src={data.profilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-																				}
-																			</ProfilePictures>
-																		</li>
+									<ul class="dropdown-menu" style={{height:"170px",overflow:"auto"}}>
+										{props.recruits.map(data=>
+											<li onClick={()=>displaySelectedUserPosts(data)}>
+												<a>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
+															<ProfilePictures>
+																{data.profilePicture==null||data.profilePicture==""?
+																	<img src={NoProfileIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>:
+																	<img src={data.profilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+																}
+															</ProfilePictures>
+														</li>
 
-																		<li style={{listStyle:"none",display:"inline-block",marginLeft:"10%"}}>
-																			{data.firstName}
-																		</li>
-																	</ul>
-																</a>
-															</li>
-														)} 
+														<li style={{listStyle:"none",display:"inline-block",marginLeft:"10%"}}>
+															{data.firstName}
+														</li>
 													</ul>
+												</a>
+											</li>
+										)} 
+									</ul>
 							  	</div>
 						</li>
 
 						<li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
 							<div class="dropdown">
 
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																			borderColor:"#5298F8",
-																																			borderStyle:"solid",
-																																			borderWidth:"1px",
-																																			color:"#5298F8",
-																																			backgroundColor:"white"}}>
+													<button class="btn btn-primary dropdown-toggle" 
+														type="button" data-toggle="dropdown" 
+																					style={{borderColor:"#5298F8",
+																							borderStyle:"solid",
+																							borderWidth:"1px",
+																							color:"#5298F8",
+																							backgroundColor:"white"}}>
 														
-														More Options
+														PostType
 
 													   	<span class="caret"></span>
 													</button>
 
 													<ul class="dropdown-menu">
-														<li ><a>Most popular</a></li>
-														<li ><a>Most Commented</a></li>
-														<li ><a>Recent</a></li>
+														<li onClick={()=>retrieveRecruitsPosts("Images")}><a>Images</a></li>
+														<li onClick={()=>retrieveRecruitsPosts("Videos")}><a>Videos</a></li>
+														<li onClick={()=>retrieveRecruitsPosts("Blogs")}><a>Blogs</a></li>
+														<li onClick={()=>retrieveRecruitsPosts("RegularPosts")}><a>Regular Posts</a></li>
 													</ul>
 							  	</div>
 						</li>
@@ -390,14 +505,15 @@ const RecruitsPosts=(props)=>{
 						</li>
 					</ul>
 				</li>
+				<hr/>
 				<li style={{listStyle:"none",fontSize:"30px",marginLeft:"2%"}}>
-					<b>Most Recent Posts </b>
+					<b> Most Recent Posts </b>
 				</li>
-
+				<hr/>
 				<li style={{listStyle:"none",marginBottom:"10%"}}>
 					<ul style={{padding:"20px"}}>
 						{isLoading==true?
-							<p>Is loading </p>:
+							<LoadingScreen/>:
 								<React.Fragment>
 									{recruitsPosts.map(data=>
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>

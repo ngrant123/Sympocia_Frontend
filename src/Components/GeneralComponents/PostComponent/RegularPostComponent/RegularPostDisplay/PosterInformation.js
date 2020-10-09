@@ -113,8 +113,7 @@ const EditPostButtonCSS={
 const PosterInformation=(props)=>{
 
 	const {	
-			firstName,
-			profilePicture,
+			owner,
 			industriesUploaded,
 			datePosted,
 			_id,
@@ -148,16 +147,16 @@ const PosterInformation=(props)=>{
 							</li>
 							<li style={{listStyle:"none"}}>
 								<PostProfilePicture>
-									{profilePicture==null?
-										<img src={NoProfilePicture} style={{width:"100%",height:"100"}}/>:
-										<img src={profilePicture} style={{width:"100%",height:"100"}}/>
-									}
+									<img src={owner.profilePicture==null?
+										NoProfilePicture:
+										owner.profilePicture
+									} style={{width:"100%",height:"100"}}/>
 								</PostProfilePicture>
 							</li>
 
 							<li style={{listStyle:"none"}}>
 								<NameContainer>
-									{firstName}
+									{owner.firstName}
 								</NameContainer>
 							</li>
 

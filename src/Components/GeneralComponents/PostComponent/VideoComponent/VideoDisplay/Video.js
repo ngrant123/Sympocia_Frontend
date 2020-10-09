@@ -243,7 +243,7 @@ displayDescription=(postInformation)=>{
 									<React.Fragment>
 										{postInformation.profilePicture==null?
 											<img src={NoProfilePicture} style={{borderRadius:"50%",width:"100%",height:"100%"}}/>:
-											<img src={postInformation.profilePicture} style={{borderRadius:"50%",width:"100%",height:"100%"}}/>
+											<img src={postInformation.owner.profilePicture} style={{borderRadius:"50%",width:"100%",height:"100%"}}/>
 										}
 									</React.Fragment>:
 									<video style={{borderRadius:"5px"}} width="100%" height="100%" autoplay="true" controls>
@@ -255,7 +255,7 @@ displayDescription=(postInformation)=>{
 						</li>
 
 						<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"white",marginRight:"35%"}}>
-							<b>{postInformation.firstName}</b>
+							<b>{postInformation.owner.firstName}</b>
 						</li>
 						<li style={{listStyle:"none"}}>
 							<audio controls>
