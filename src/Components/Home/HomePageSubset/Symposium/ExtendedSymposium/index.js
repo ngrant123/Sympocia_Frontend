@@ -231,7 +231,6 @@ const BackgroundModalContainer= styled.div`
 	height:100%;
 	background: rgba(0, 0, 0, 0.5);
 	z-index:15;
-
 `;
 
 
@@ -695,7 +694,6 @@ class Symposium extends Component{
 	  	document.getElementById("postsContainer").style.opacity="0";
 	  	if(this.state.headerAnimation==false){
 	  		//document.getElementById("chatContainer").style.height="10%";
-	  		
 	  		this.setState(prevState=>({
 	  			...prevState,
 	  			headerAnimation:true,
@@ -901,11 +899,22 @@ class Symposium extends Component{
 	  	})
 	  }
 
+	  triggerDisplayPopularVideosModal=()=>{
+	  	this.setState({
+	  		displayPopularVideos:true
+	  	})
+	  }
+
+	  triggerSeeAllPeopleActiveModal=()=>{
+	  	this.setState({
+	  		displayModalPeopleActive:true
+	  	})
+	  }
 	  handleHeaderAnimation=()=>{
 	  	console.log("Testing Header connection");
 	  	const backgroundColor=this.state.backgroundColor;
 	  	return this.state.headerAnimation==false ? 
-	  		<Container id="headerContainer" style={{background:backgroundColor}}>
+	  		<Container id="headerContainer" style={{background:backgroundColor}} onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
 	  			<HeaderContainer
 	  				activePeople={this.state.activePeople}
 	  				popularVideos={this.state.popularVideos}
@@ -914,6 +923,8 @@ class Symposium extends Component{
 	  				symposiumCounter={this.state.symposiumCounter}
 	  				previousButton={this.handlePreviousSymposiumButton}
 	  				nextButton={this.handleNextSymposiumButton}
+	  				displayPopularVideos={this.triggerDisplayPopularVideosModal}
+	  				handleSeeAllPeopleActiveModal={this.triggerSeeAllPeopleActiveModal}
 	  				hideChat={this.hideChatRoom}
 	  				isProfileFollowingSymposium={this.state.isProfileFollowingSymposium}
 	  				profileId={this.state.profileId}

@@ -211,6 +211,7 @@ class HighLightedQuestions extends Component{
 														closeModal={this.closeModal}
 														selectedImage={this.state.selectedPost}
 														recommendedImages={[]}
+														targetDom="extendedSymposiumContainer"
 													/>:
 													<React.Fragment></React.Fragment>
 												}
@@ -220,6 +221,7 @@ class HighLightedQuestions extends Component{
 														closeModal={this.closeModal}
 														videoData={this.state.selectedPost}
 														recommendedVideos={[]}
+														targetDom="extendedSymposiumContainer"
 													/>
 													:<React.Fragment></React.Fragment>
 												}
@@ -229,6 +231,7 @@ class HighLightedQuestions extends Component{
 														closeModal={this.closeModal}
 														regularPostData={this.state.selectedPost}
 														recommendedRegularPosts={[]}
+														targetDom="extendedSymposiumContainer"
 													/>
 													:<React.Fragment></React.Fragment>
 												}

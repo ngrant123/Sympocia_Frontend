@@ -251,9 +251,9 @@ export const getSymposiumsExplore=async(id,symposiums)=>{
 export const addSymposium=async(profileId,symposium,subSymposium)=>{
 	try{
 		var symposiumResponse=await axios.post(`${CreateUrl}/addSymposium`,{
-			profileId:profileId,
-			symposium:symposium,
-			subSymposium:subSymposium
+			profileId,
+			symposium,
+			subSymposium
 		});
 		const {data}=symposiumResponse;
 		const symposiumData=data.data;
@@ -265,7 +265,7 @@ export const addSymposium=async(profileId,symposium,subSymposium)=>{
 	}
 }
 
-export const removeSymposium=async({profileId,symposium,subSymposium})=>{
+export const removeSymposium=async(profileId,symposium,subSymposium)=>{
 	try{
 
 		var symposiumResponse=await axios.post(`${CreateUrl}/removeSymposium`,{

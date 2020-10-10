@@ -10,6 +10,7 @@ import MicIcon from '@material-ui/icons/Mic';
 import {addCommentToPopularQuestions} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {HomeConsumer} from "../../../HomeContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import {useSelector} from "react-redux";
 
 const Container=styled.div`
 	position:absolute;
@@ -62,12 +63,24 @@ const CreatePostContainer=styled.div`
 
 const SendButtonCSS={
     listStyle:"none",
-    display:"inline-block",
     backgroundColor:"#3898ec",
     borderRadius:"5px",
     padding:"10px",
     color:"white",
-    marginRight:"2%"
+    marginRight:"2%",
+    marginTop:"2%"
+}
+
+const UploadButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec"
 }
 
 const RegularPostContainer=styled.div`
@@ -83,6 +96,7 @@ const RegularPostContainer=styled.div`
 const QuestionsPortal=(props)=>{
 	console.log("QuestionsPortal rendering");
 	console.log(props);
+	const _id=useSelector(state=>state.personalInformation.id);
 
 	const {	questionType,
 			closeModal,
@@ -99,9 +113,9 @@ const QuestionsPortal=(props)=>{
 	const [displayUploadScreen,changeDisplayUploadScreen]=useState(true);
 	const [currentCounter,changeCurrentCounter]=useState(counter);
 
-	const sendData=async(data,personalInformation)=>{
+	const sendData=async(data)=>{
 		debugger;
-		const profileIndicator=personalInformation.industry==null?"Profile":"Company";
+		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
 		if(questionType=="Video"){
 			data={
 				videoUrl:data,
@@ -115,8 +129,8 @@ const QuestionsPortal=(props)=>{
 		}
 
 		const postInformation={
-			userId:personalInformation._id,
-			profileIndicator:profileIndicator,
+			userId:_id,
+			profileIndicator:"Profile",
 			questionId:questions[counter]._id,
 			questionType:questionType,
 			comment:data,
@@ -143,38 +157,42 @@ const QuestionsPortal=(props)=>{
 	}
 
 
-	const createPost=(personalContext)=>{
-		const {personalInformationState}=personalContext;
+	const createPost=()=>{
 		if(questionType=="Image"){
-			return <ul>
+			return <ul style={{padding:"50px"}}>
 						{displayUploadScreen==true?
-							<li onClick={()=>document.getElementById("uploadFile").click()} style={{listStyle:"none",marginRight:"1%"}}>
-								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																														borderColor:"#5298F8",
-																														borderStyle:"solid",
-																														borderWidth:"1px",
-																														color:"white",
-																														backgroundColor:"#5298F8"}}>
-									<ul style={{padding:"0px",marginTop:"20%",marginLeft:"10%"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-											<CameraIcon/>
-										</li>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>document.getElementById("uploadFile").click()} style={UploadButtonCSS}>
+										<ul style={{padding:"0px",marginTop:"20%",marginLeft:"10%"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+												<CameraIcon/>
+											</li>
 
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-											Upload Photo   
-										</li>
-									</ul>																			
-								</button>
-								<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="image/x-png,image/gif,image/jpeg"></input>
-							</li>:
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+												Upload Photo   
+											</li>
+										</ul>	
+									<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="image/x-png,image/gif,image/jpeg"></input>
+								</li>
+							</a>:
 							<li style={{listStyle:"none"}}>
 								<ul style={{paddingTop:"10px"}}>
-									<li style={{listStyle:"none"}}>
-										<img src={selectedPost} style={{borderRadius:"5px",width:"60%",height:"50%"}}/>
+									<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"40%",marinRight:"2%"}}>
+										<img src={selectedPost} style={{borderRadius:"5px",width:"90%",height:"30%"}}/>
 									</li>
-									<InputContainer  id="imageDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your picture here"/>
-									<li onClick={()=>sendData(selectedPost,personalInformationState)} style={SendButtonCSS}>
-										Send
+									<hr/>
+									<li style={{listStyle:"none",display:"inline-block",width:"85%",marginTop:"2%"}}>
+										<ul style={{padding:"0px"}}>
+											<InputContainer  id="imageDescription" style={{width:"100%",marginRight:"2%"}}
+												 placeholder="Describe your picture here"
+											/>
+											<hr/>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
+													Send
+												</li>
+											</a>
+										</ul>
 									</li>
 								</ul>
 							</li>
@@ -210,7 +228,7 @@ const QuestionsPortal=(props)=>{
 										</video>
 									</li>
 									<InputContainer id="videoDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your picture here"/>
-									<li onClick={()=>sendData(selectedPost,personalInformationState)} style={SendButtonCSS}>
+									<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
 										Send
 									</li>
 								</ul>
@@ -238,7 +256,7 @@ const QuestionsPortal=(props)=>{
 													/>
 												</li>
 												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>sendData(document.getElementById("regularPostText").value,personalInformationState)} style={SendButtonCSS}>
+													<li onClick={()=>sendData(document.getElementById("regularPostText").value)} style={SendButtonCSS}>
 														Send
 													</li>
 												</a>
@@ -344,75 +362,70 @@ const QuestionsPortal=(props)=>{
 
 
 	return createPortal(
-		<HomeConsumer>
-			{personalInformation=>{
-					return <React.Fragment>
-								<ShadowContainer
-									onClick={()=>props.closeModal()}
-								/>
-								<Container>
-									{displayCreatePost==true?
-										<React.Fragment>
-											{createPost(personalInformation)}
-										</React.Fragment>:
-										<React.Fragment>
-											<ul style={{padding:"10px"}}>
-												<li style={{marginRight:"10%",listStyle:"none",display:"inline-block"}}>
-													{currentCounter!=0?
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<NavigateBeforeIcon
-																	style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-																	onClick={()=>changeCurrentCounter(currentCounter--)}
-																/>
-															</a>:<React.Fragment></React.Fragment>
-													}
-												</li>
-
-												<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
-													<ul style={{padding:"0px"}}>
-
-														<li style={{width:"130%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"30px"}}>
-																	<b>
-																		{questions[currentCounter].question}
-																	</b>
-														</li>
-														<hr/>
-														<li style={{listStyle:"none"}}>
-															<ul style={{padding:"0px"}}>
-																{questions[currentCounter].responsesId.length==0?
-																	<p>No replies yet :( </p>:
-																	<React.Fragment>
-																		{constructResponses(questions[counter].responsesId)}
-																	</React.Fragment>
-																}
-															</ul>
-														</li>
-													</ul>
-												</li>
-						  
-												<li style={{marginLeft:"10%",listStyle:"none",display:"inline-block"}}>
-													{currentCounter!=(questions.length-1)?
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<NavigateNextIcon
-																	style={{fontSize:"25",borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-																	onClick={()=>changeCurrentCounter(currentCounter++)}
-																/>
-															</a>:<React.Fragment></React.Fragment>
-													}
-												</li>
-											</ul>
+			<React.Fragment>
+				<ShadowContainer
+					onClick={()=>props.closeModal()}
+				/>
+				<Container>
+					{displayCreatePost==true?
+						<React.Fragment>
+							{createPost()}
+						</React.Fragment>:
+						<React.Fragment>
+							<ul style={{padding:"10px"}}>
+								<li style={{marginRight:"10%",listStyle:"none",display:"inline-block"}}>
+									{currentCounter!=0?
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<CreatePostContainer onClick={()=>changeDisplayPost(true)} >
-													Create a post
-												</CreatePostContainer>
-											</a>
-										</React.Fragment>
+												<NavigateBeforeIcon
+													style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
+													onClick={()=>changeCurrentCounter(currentCounter--)}
+												/>
+											</a>:<React.Fragment></React.Fragment>
 									}
-								</Container>
-							</React.Fragment>
-				}
-			}
-		</HomeConsumer>
+								</li>
+
+								<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
+									<ul style={{padding:"0px"}}>
+
+										<li style={{width:"130%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"30px"}}>
+													<b>
+														{questions[currentCounter].question}
+													</b>
+										</li>
+										<hr/>
+										<li style={{listStyle:"none"}}>
+											<ul style={{padding:"0px"}}>
+												{questions[currentCounter].responsesId.length==0?
+													<p>No replies yet :( </p>:
+													<React.Fragment>
+														{constructResponses(questions[counter].responsesId)}
+													</React.Fragment>
+												}
+											</ul>
+										</li>
+									</ul>
+								</li>
+		  
+								<li style={{marginLeft:"10%",listStyle:"none",display:"inline-block"}}>
+									{currentCounter!=(questions.length-1)?
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<NavigateNextIcon
+													style={{fontSize:"25",borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
+													onClick={()=>changeCurrentCounter(currentCounter++)}
+												/>
+											</a>:<React.Fragment></React.Fragment>
+									}
+								</li>
+							</ul>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<CreatePostContainer onClick={()=>changeDisplayPost(true)} >
+									Create a post
+								</CreatePostContainer>
+							</a>
+						</React.Fragment>
+					}
+				</Container>
+			</React.Fragment>
 	,document.getElementById("extendedSymposiumContainer"))
 };
 

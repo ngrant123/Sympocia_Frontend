@@ -8,6 +8,9 @@ import {
 		removeSymposium
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import HightLightedQuestions from "./HighLightedQuestions.js";
+import {Link} from "react-router-dom";
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 const ActiveContainer =styled.div`
 	position:relative;
@@ -22,7 +25,7 @@ const ActiveContainer =styled.div`
     border-radius:5px;
 `;
 
-const ActiveProfilePictures=styled.div`
+const ActiveProfilePictures=styled(Link)`
 	position:relative;
 	width:50px;
 	height:25%;
@@ -74,6 +77,17 @@ const ButtonCSS={
 	color:"white"
 }
 
+const PopularVideosListCSS={
+	listStyle:"none",
+	display:"inline-block",
+	marginRight:"20px",
+	marginBottom:"10px"
+}
+
+/*
+	Idea down the road is to have it so that the videos automatically display and play and repeat 
+	but that will be done later in a to do list
+*/
 
 const HeaderContainer=(props)=>{
 	const {
@@ -84,9 +98,10 @@ const HeaderContainer=(props)=>{
 			symposiumCounter,
 			isProfileFollowingSymposium,
 			profileId,
-			changeFollowIndicator
+			changeFollowIndicator,
+			displayPopularVideos
 		}=props;
-
+	console.log(props);
 	console.log(props.popularQuestionObject);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
@@ -102,15 +117,37 @@ const HeaderContainer=(props)=>{
   		previousSymposiumTitle="";	
   		nextSymposiumTitle="";
   	}else{
-  		previousSymposiumTitle=counter>0?<p onClick={()=>props.previousButton()}><b>{symposiums[counter-1].symposium}</b></p>:<React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</React.Fragment>;
-  		nextSymposiumTitle=counter==symposiums.length-1?<React.Fragment></React.Fragment>:<p onClick={()=>props.nextButton()}><b>{symposiums[counter+1].symposium}</b></p>;
+  		previousSymposiumTitle=counter>0?
+  			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+				<NavigateBeforeIcon
+					style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
+					onClick={()=>props.previousButton()}
+				/>
+			</a>:
+  			<React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</React.Fragment>;
+
+  		nextSymposiumTitle=counter==symposiums.length-1?
+  			<React.Fragment></React.Fragment>:
+  			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+				<NavigateNextIcon
+					style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
+					onClick={()=>props.nextButton()}
+				/>
+			</a>;
   	}
+
+  	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
 	 
 
 	const popularVideosHandle=(video)=>{
 		const {videoUrl,key}=video;
 		var lengthOfReplay=0;
-		const videoElement=<video id={"video"+key} onLoadStart={()=>replayVideo(key)} onEnded={()=>replayVideo(key)} position="relative" height="100%" width="100%" autoplay="autoplay" muted>
+		const videoElement=<video id={"video"+key} onLoadStart={()=>replayVideo(this)} onEnded={()=>replayVideo(this)} position="relative" height="100%" width="100%" autoplay="autoplay" muted>
 			 					<source src={videoUrl} type="video/mp4"/>
 			 				</video>;
 		
@@ -121,11 +158,10 @@ const HeaderContainer=(props)=>{
 			 	</li>
 	}
 
-	const replayVideo=(key)=>{
+	const replayVideo=(startTime,endTime)=>{
 	   		debugger;
-	   		const video=document.getElementById("video"+key);
 	   		var startTime=0;
-	   		
+	   		const video=this
 	   		const videoDuration=video.duration;
 			var endTime;
 			if(videoDuration>10)
@@ -134,7 +170,6 @@ const HeaderContainer=(props)=>{
 				endTime=videoDuration;
 
 	   		if(this.state.headerAnimation==false){
-		   		const video=document.getElementById("video"+key);
 		   		if(video!=null){
 		   			video.play();
 			   		video.currentTime=startTime;
@@ -142,7 +177,7 @@ const HeaderContainer=(props)=>{
 
 			   		setTimeout(()=>{
 			   			video.currentTime=startTime;
-			   			replayVideo(startTime,endTime,key);
+			   			replayVideo(startTime,endTime,video);
 			   		},videoDuration*1000);
 		   		}
 	   		}
@@ -176,7 +211,7 @@ const HeaderContainer=(props)=>{
 							/>
 						</li>
 					}
-					<li style={{listStyle:"none",display:"inline-block",marginLeft:"-10%",position:"relative",top:"-120px",width:"50%"}}>
+					<li style={{listStyle:"none",display:"inline-block",marginLeft:"-10%",position:"relative",top:"10px",width:"50%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -201,14 +236,30 @@ const HeaderContainer=(props)=>{
 									<li style={{listStyle:"none",display:"inline-block",marginRight:"60%",color:"white",fontSize:"20px"}}>
 										Popular Videos
 									</li>
-									<li style={{listStyle:"none",display:"inline-block",color:"white",fontSize:"20px"}}>
-										See All
-									</li>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>displayPopularVideos()} style={{listStyle:"none",display:"inline-block",color:"white",fontSize:"20px"}}>
+											See All
+										</li>
+									</a>
 								</ul>							
 
-								<PopularVideos>
-
-								</PopularVideos>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<PopularVideos onClick={()=>displayPopularVideos()}>
+										<ul style={{padding:"5px"}}>
+											{popularVideos.map(data=>
+												<>
+													{data!=null &&(
+														<li style={PopularVideosListCSS}>
+															<video id="smallVideo" key={uuidv4()} borderRadius="5px" position="relative" height="95%" width="60px">
+																<source src={data.videoUrl} type="video/mp4"/>
+															</video>
+														</li>
+													)}
+												</>
+											)}
+										</ul>
+									</PopularVideos>
+								</a>
 							</li>
 						</ul>
 					</li>
@@ -224,13 +275,12 @@ const HeaderContainer=(props)=>{
 												<ActiveContainer>
 													<ul>
 										 				{activePeople.map(data=>
-
 										 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
-										 							<ActiveProfilePictures>
-										 								{data.profilePicture==null?
-										 									<img src={NoProfilePicture} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>:
-										 									<img src={data.profilePicture} style={{backgroundColor:"red", width:"100%",height:"100%",borderRadius:"50%"}}/>
-										 								}
+										 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
+										 								<img src={data.profilePicture!=null?
+										 											data.profilePicture:
+										 											NoProfilePicture} 
+										 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
 										 							</ActiveProfilePictures>
 										 						</li>
 										 					)}

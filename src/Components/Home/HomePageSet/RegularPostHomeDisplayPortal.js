@@ -29,7 +29,7 @@ const RegularPostDisplayContainer=styled.div`
 	position:relative;
 	z-index:13;
 	height:40%;
-	top:5%;
+	top:5%; 
 	width:60%;
 	border-radius:5px;
 	left:20%;

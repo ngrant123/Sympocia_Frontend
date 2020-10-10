@@ -67,7 +67,6 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 		}else{
 			alert('Unfortunately there has been an error promoting this post. Please try again');
 		}
-
 	}
 
 	return createPortal(

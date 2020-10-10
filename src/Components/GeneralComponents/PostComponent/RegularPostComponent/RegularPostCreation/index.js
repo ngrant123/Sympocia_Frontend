@@ -110,8 +110,6 @@ const Photo=styled.div`
 	visibility:hidden;
 `;
 
-
-
 const ButtonCSS={
   listStyle:"none",
   display:"inline-block",
@@ -124,9 +122,6 @@ const ButtonCSS={
   borderColor:"#3898ec",
   marginRight:"5%"
 }
-
-
-
 
 /*
 	 Right now the plan for the future is to incorporate the blog post options into the text field 
@@ -259,7 +254,6 @@ const sendRegularPost=async(profilePostInformation)=>{
 			}else{
 				alert('Unfortunately there has been an error creating this post. Please try again');
 			}
-
 			
 		}else{
 			const {previousData}=props;
