@@ -161,6 +161,7 @@ const PosterInformation=(props)=>{
 							</li>
 
 							<li style={{listStyle:"none",left:"15%",marginBottom:"2%",height:"20%",overflowY:"auto"}}>
+					
 								<ul style={{padding:"0px"}}>
 									{industriesUploaded.map(data=>
 										<li style={{listStyle:"none"}}>

@@ -14,7 +14,7 @@ import {ArenaProvider} from "./ArenaContext.js";
 import Reaction from "./Modals/Reactions.js";
 import StampIcon from "../../../../designs/img/StampIcon.png";
 import OnboardingModal from "../../../OnBoarding/ArenaPageOnboarding.js";
-
+import {useSelector} from "react-redux";
 import {
 	addTextReaction,
 	addVideoReaction,
@@ -27,11 +27,14 @@ import {
 
 
  import {
+ 	getCurrentArenaPosts,
 	fetchArenaInformation,
 	getVideoReactions,
 	getTextComments,
 	getPreviousWinners
 } from "../../../../Actions/Requests/ArenaPageAxiosRequests/ArenaPageGetRequests.js";   
+import WinnersDisplay from "./Modals/WinnersDisplay.js";
+import {changeHasViewedArenaWinnersIndicator} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const keyFrameLeft=keyframes`
 0% {
@@ -149,15 +152,54 @@ const Arena=()=>{
 	const [arenaId,changeArenaId]=useState();
 	const [boostedPost,changeBoostedPost]=useState();
 
+	const [arenaImages,changeArenaImages]=useState([]);
+	const [arenaVideos,changeArenaVideos]=useState([]);
+	const [arenaBlogs,changeArenaBlogs]=useState([]);
+	const [postArenaId,changePostArenaId]=useState();
+
+	const [arenaRegularPosts,changeArenaRegularPosts]=useState();
+	const personalId=useSelector(state=>state.personalInformation.id);
+
+	const [displayWinnersModal,changeDisplayWinnersModal]=useState(false);
+	const [winnersInformation,changeWinnersInformation]=useState();
 
 	useEffect(()=>{
-		setTimeout(()=>{
-			changeDisplayTransisitionContainer(true);
+		const fetchInformation=async()=>{
+				const {confirmation,data}=await fetchArenaInformation(personalId);
+				debugger;
+				console.log(data);
+				if(confirmation=="Success"){
+					const {
+						Images,
+						Blogs,
+						RegularPosts,
+						Videos,
+						isCompetitionWinnersAvailable,
+						displayWinnerModal
+					}=data;
 
-			setTimeout(()=>{
-				changeDisplayArenaPage(true);
-			},2000);
-		},2000);
+					debugger;
+					if(isCompetitionWinnersAvailable==true && displayWinnerModal==true){
+						changeWinnersInformation(data);
+						changeDisplayWinnersModal(true);
+					}
+
+					changeArenaImages(Images);
+					changeArenaVideos(Videos);
+					changeArenaBlogs(Blogs);
+					changeArenaRegularPosts(RegularPosts);
+
+					setTimeout(()=>{
+						changeDisplayTransisitionContainer(true);
+						setTimeout(()=>{
+							changeDisplayArenaPage(true);
+						},2000);
+					},2000);
+				}else{
+					alert('Unfortunately there has been an error when getting the arena information. Please try again')
+				}
+		}
+		fetchInformation();
 	},[]);
 
 
@@ -187,46 +229,154 @@ const Arena=()=>{
 					)}
 			   </>
 	}
+//
+	const handleBoost=async(boostInformation)=>{
+		debugger;
+		const{
+			postType,
+			postId
+		}=boostInformation;
+
+		const {confirmation,data}=await addBoost({
+			...boostInformation,
+			userId:personalId
+		});
+
+		let arenaPosts;
+		let postParameter;
+		let stateUpdate;
+
+		switch(postType){
+			case 'Images':{
+				arenaPosts=arenaImages;
+				postParameter='image';
+				stateUpdate=changeArenaImages;
+				break;
+			}
+			case 'Videos':{
+				arenaPosts=arenaVideos;
+				postParameter='video';
+				stateUpdate=changeArenaVideos;
+				break;
+			}
+			case 'Blogs':{
+				arenaPosts=arenaBlogs;
+				postParameter='blog';
+				stateUpdate=changeArenaBlogs;
+				break;
+			}
+			case 'RegularPosts':{
+				arenaPosts=arenaRegularPosts;
+				postParameter='regularPost';
+				stateUpdate=changeArenaRegularPosts;
+				break;
+			}
+		}
+
+		const {posts}=arenaPosts;
+		if(confirmation=="Success"){
+			for(var i=0;i<posts.length;i++){
+				const {_id}=posts[i];
+				const {score}=posts[i];
+				if(_id==postId){
+					posts[i]={
+						...posts[i],
+						score:score+1,
+						[postParameter]:{
+							...posts[i][postParameter],
+							hasProfileVoted:true
+						}
+					}
+				}
+			}
+			posts.sort((a,b)=>(a.score<b.score)?1:-1)
+			stateUpdate({
+				...arenaPosts,
+				posts
+			});
+			changeDisplayConfetti(true)
+			setTimeout(()=>{
+				changeDisplayConfetti(false);
+			},5000);
+
+		}else{
+			alert('Unfortunately there has been an error with boosting this post. Please try again');
+		}
+	}
+
+	const closeWinnersModal=()=>{
+		changeHasViewedArenaWinnersIndicator(personalId);
+		changeDisplayWinnersModal(false);
+	}
+
+	const displayConfettiHandle=()=>{
+		changeDisplayConfetti(true)
+		setTimeout(()=>{
+			changeDisplayConfetti(false);
+		},5000);
+	}
+
+	const handleDisplayWinnersModal=()=>{
+		return <>
+					{displayWinnersModal==true &&(
+						<WinnersDisplay
+							closeModal={closeWinnersModal}
+							displayConfetti={displayConfettiHandle}
+							winnersData={winnersInformation}
+						/>
+					)}
+			   </>
+	}
 	return(
 		<ArenaProvider
 			value={{
-				arenaId:arenaId,
-				displayPreviousWinners:async(postType)=>{
-					const {confirmation,data}=await getPreviousWinners({
-						previousWinnerPageCounter:2,
-						postType
-					});
-					if(confirmation=="Success"){
-						changeSecondaryModalPosts(data);
+					arenaId:arenaId,
+					displayPreviousWinners:async(postType)=>{
+						const {confirmation,data}=await getPreviousWinners({
+							previousWinnerPageCounter:2,
+							postType
+						});
+						if(confirmation=="Success"){
+							changeSecondaryModalPosts(data);
+							changePostType(postType);
+							changeDisplayPreviousWinners(true);
+						}else{
+							alert('Unfortunately there has been an error with getting the previous winners. Please try again');
+						}
+					},
+					triggerBoostCall:(boostInformation)=>{
+						handleBoost(boostInformation);
+					},
+					displayPostModal:(postType,postData)=>{
 						changePostType(postType);
-						changeDisplayPreviousWinners(true);
-					}else{
-						alert('Unfortunately there has been an error with getting the previous winners. Please try again');
+						changePostData(postData);
+						changeDisplayPost(true);
+					},
+					displayViewAllModal:async(postPageCounter,postType)=>{
+	 					
+						const {confirmation,data}=await getCurrentArenaPosts({
+															postPageCounter,
+															postType
+														});
+						debugger;
+						if(confirmation=="Success"){
+							const {
+								currentContestants
+							}=data;
+							changeSecondaryModalPosts(currentContestants);
+							changePostType(postType);
+							changeDisplayViewAll(true);
+						}else{
+							alert('Unfortunately there has been an error trying to get the arena posts. Please try again');
+						}
+					},
+					displayReactionModal:(postType,postArenaId)=>{
+						changePostArenaId(postArenaId);
+						changePostType(postType);
+						changeDisplayReactions(true);
 					}
-				},
-				handleBoost:(postId,currentBoostCount,postType,arenaId)=>{
-						changeDisplayConfetti(true)
-						setTimeout(()=>{
-							changeDisplayConfetti(false);
-						},5000);
-				},
-				displayPostModal:(postType,postData)=>{
-					changePostType(postType);
-					changePostData(postData);
-					changeDisplayPost(true);
-				},
-				displayViewAllModal:async(postPageCounter,postType)=>{
- 
-					//const {confirmation,data}=await getCurre
-					changePostType(postType);
-					changeDisplayViewAll(true);
-				},
-				displayReactionModal:(postType)=>{
-					changePostType(postType);
-					changeDisplayReactions(true);
-				}
-			}}
-		>
+				}}
+			>
 					{displayTransitionContainer==false?
 						<CurtainContainer>
 								<StampIconContainer>
@@ -258,7 +408,7 @@ const Arena=()=>{
 								}
 								{displayPreviousWinners==true?
 										<PreviousWinnersModal
-											posts={secondaryModalPosts}
+											currentPosts={secondaryModalPosts}
 											closeModal={()=>changeDisplayPreviousWinners(false)}
 											postType={modalPostType}
 										/>:null
@@ -272,35 +422,45 @@ const Arena=()=>{
 								}
 								{displayViewAll==true?
 									<ViewAll
-										posts={secondaryModalPosts}
+										currentPosts={secondaryModalPosts}
 										closeModal={()=>changeDisplayViewAll(false)}
 										postType={modalPostType}
 									/>:null
 								}
 								{displayReactions==true?
 									<Reaction
-										posts={secondaryModalPosts}
+										currentPosts={secondaryModalPosts}
 										closeModal={()=>changeDisplayReactions(false)}
 										postType={modalPostType}
+										arenaId={postArenaId}
 									/>
 									:null
 								}
+								{handleDisplayWinnersModal()}
 								<PostContainer>
-									<p style={{fontSize:"20px"}}>
-										<b>Welcome to the Arena</b>
-									</p>
-									<p> Here only the best content wins. No clout. Only talent. Let the games begins </p>
-									<hr/>
-									<ImageSection/>
+										<p style={{fontSize:"20px"}}>
+											<b>Welcome to the Arena</b>
+										</p>
+										<p> Here only the best content wins. No clout. Only talent. Let the games begins </p>
+										<hr/>
+										<ImageSection
+											posts={arenaImages}
+										/>
 
-									<hr/>
-									<VideoSection/>
+										<hr/>
+										<VideoSection
+											posts={arenaVideos}
+										/>
 
-									<hr/>
-									<BlogSection/>
+										<hr/>
+										<BlogSection
+											posts={arenaBlogs}
+										/>
 
-									<hr/>
-									<RegularPostSection/>
+										<hr/>
+										<RegularPostSection
+											posts={arenaRegularPosts}
+										/>
 								</PostContainer>
 						</Container>
 					}

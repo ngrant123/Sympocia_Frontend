@@ -83,8 +83,7 @@ const ImageLabelCSS={
 	marginRight:"2%"
 }
 
-const handleRecruitButton=async(previousProps,post)=>{
-		debugger;
+const handleRecruitButton=async(previousProps,post)=>{;
 		const {_id,confettiAnimation}=previousProps;
 		const postOwnerId=post.owner._id;
 		const personalId=_id;
@@ -113,8 +112,6 @@ const displayRecruitButton=(post,previousProps)=>{
 }
 
 const constructSuggestedSymposium=(personalInformation,previousProps,images)=>{
-		debugger;
-
 		console.log(personalInformation);
 		const {personalInformationState}=personalInformation;
 		var symposiumContainer=new Map();
@@ -145,7 +142,7 @@ const constructSuggestedSymposium=(personalInformation,previousProps,images)=>{
 			else
 				topCSS="10px"
 //10px 
-			return <ul style={{padding:"0px",position:"relative",top:"-140px"}}>
+			return <ul style={{padding:"0px",position:"relative",top:"5px"}}>
 						<li style={{listStyle:"none",marginBottom:"5%"}}>
 							<b> Suggested syposiums </b>
 						</li>
@@ -195,29 +192,35 @@ const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposi
 
 			var isPersonalProfile;
 			const industryArray=[];
-			
+			let selectedSymposiums;
 			for(var i=0;i<selectedIndustries.length;i++){
 				const currentPostIndustry=selectedIndustries[i];
-						const {data}=await getSymposiumId(currentPostIndustry.industry);
-						var color;
-						if(currentPostIndustry.backgroundColor==null)
-							var color=industryColorMap.get(currentPostIndustry.industry);
-						else
-							color=currentPostIndustry.backgroundColor
+				const {data}=await getSymposiumId(currentPostIndustry.industry);
+				var color;
+				if(currentPostIndustry.backgroundColor==null)
+					var color=industryColorMap.get(currentPostIndustry.industry);
+				else
+					color=currentPostIndustry.backgroundColor
 
-						const industryObject={
-							_id:data,
-							backgroundColor:color,
-							symposium:currentPostIndustry.industry,
-							popularVideos:[]
-						}
-						industryArray.push(industryObject);
+				const industryObject={
+					_id:data,
+					backgroundColor:color,
+					symposium:currentPostIndustry.industry,
+					popularVideos:[]
+				}
+				if(i!=0){
+					
+					industryArray.push(industryObject);
+				}else{
+					selectedSymposiums=industryObject;
+				}
 			}
-			
-			const symposiumsAfterFirstOne=industryArray.splice(1,industryArray.length);
+			industryArray.reverse();
+
+		//	const symposiumsAfterFirstOne=industryArray.splice(1,industryArray.length);
 			const selectedSymposiumsObject={
-				selectedSymposiums:industryArray[industryArray.length-1],
-				symposiums:symposiumsAfterFirstOne
+				selectedSymposiums,
+				symposiums:industryArray
 			}
 
 			previousProps.displaySymposium(selectedSymposiumsObject);
@@ -260,7 +263,7 @@ const ImagePostsModal=(props)=>{
 	const displaySpecialPost=(postResult,personalInformationRedux,previousProps)=>{
 		console.log(postResult);
 		if(postResult=="suggestedSymposium"){
-			return <li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
+			return <li style={{listStyle:"none",display:"inline-block",top:"-150px",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
 						{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}
 					</li>
 		}else{

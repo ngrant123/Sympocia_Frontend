@@ -300,6 +300,7 @@ export const getRegularPostsInIndustry=async(industry,postCount)=>{
 
 export const getIndustryInformation=async(industry,postCount,userId)=>{
 	try{
+		debugger;
 		const industryInformation=await axios.get(`${GetUrl}/getIndustryInformation`,{
 			params:{
 				industry:industry,

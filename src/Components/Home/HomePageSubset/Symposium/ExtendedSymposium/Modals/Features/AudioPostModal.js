@@ -6,6 +6,7 @@ import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.
 import {createSpecificIndustryAudioAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryAudioFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import {useSelector} from "react-redux";
+import RegularPostDisplayPortal from "../../../../../HomePageSet/RegularPostHomeDisplayPortal.js";
 
 
 
@@ -139,6 +140,8 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 	const [questionId,changeQuestionId]=useState();	
 	const [symposiumIdState,changeSymposiumIdState]=useState();	
 
+	const [displayPostExpand,changePostExpand]=useState(false);
+	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
 
 	useEffect(()=>{
@@ -150,6 +153,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 				questionIndex,
 				questionId:selectedPostId
 			})
+			console.log(data);
 
 			if(confirmation=="Success"){
 				const {
@@ -201,30 +205,43 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 			userId:userId
 		}
 
-		const {confirmation,data}=await createSpecificIndustryAudioAnswer(submitedAudio);
+		let {confirmation,data}=await createSpecificIndustryAudioAnswer(submitedAudio);
 		if(confirmation=="Success"){
-			const {
-				questionId,
-				postId
-			}=data;
-			audio={
-				...audio,
-				_id:postId,
-				comments:[],
-				isCrownedPost:false,
-				industriesUploaded:[{industry:symposium}]
+			data={
+				...data,
+				post:audioUrl
 			}
 
-			posts.splice(0,0,audio);
+			posts.splice(0,0,data);
 			changeQuestionId(questionId);
 			changePosts([...posts]);
+			changeDisplayForFinalAudio(false);
 			changeDisplayCreationModal(false);
 		}else{
 			alert('Unfortunately there has been an error with adding this image. Please try again');
 		}
 	}
+
+	const displaySelectedPost=(data)=>{
+		changeSelectedPost(data);
+		changePostExpand(true);
+	}
+
+	const closePostModal=()=>{
+		changePostExpand(false);
+	}
 	return(
 		<ul style={{padding:"20px"}}>
+			{displayPostExpand==false?
+				null:
+				<RegularPostDisplayPortal
+					closeModal={closePostModal}
+					selectedPost={selectedPost}
+					recommendedPosts={[]}
+					targetDom={"extendedSymposiumContainer"}
+				/>
+			}
+
 			{displayCreationModal==false?
 				<>
 					<li style={{listStyle:"none"}}>
@@ -257,19 +274,22 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 								<ul style={{padding:"0px"}}>
 									{posts.map(data=>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={AudioCSS}>
+											<li onClick={()=>displaySelectedPost(data)} style={AudioCSS}>
 												<ul style={{padding:"0px"}}>
 													<li style={ProfilePictureCSS}>
-														<img src={NoProfilePicture} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
+														<img src={data.owner.profilePicture==null?
+															NoProfilePicture:
+															data.owner.profilePicture
+														} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
 													</li>
 
 													<li style={{listStyle:"none",display:"inline-block"}}>
 														<p> 
-															<b>{data.firstName}</b>
+															<b>{data.owner.firstName}</b>
 														</p>
 														<audio controls>
-														  <source src={data.audioUrl} type="audio/ogg"/>
-														  <source src={data.audioUrl} type="audio/mpeg"/>
+														  <source src={data.post} type="audio/ogg"/>
+														  <source src={data.post} type="audio/mpeg"/>
 															Your browser does not support the audio element.
 														</audio>
 														<p style={{overflowY:"auto",height:"10%"}}>

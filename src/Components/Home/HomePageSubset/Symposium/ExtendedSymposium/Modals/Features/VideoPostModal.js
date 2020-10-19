@@ -5,6 +5,7 @@ import CameraIcon from '@material-ui/icons/Camera';
 import {createSpecificIndustryVideoAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryVideoFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import {useSelector} from "react-redux";
+import VideoPostDisplayPortal from "../../../../../HomePageSet/VideoHomeDisplayPortal.js";
 
 
 const Container=styled.div`
@@ -128,7 +129,10 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	const [questionId,changeQuestionId]=useState();
 	const [posts,changePosts]=useState([]);	
 
+	const [displayPostExpand,changePostExpand]=useState(false);
+	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
+
 
 	useEffect(()=>{
 		const fetchData=async()=>{
@@ -180,7 +184,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 		debugger;
 			debugger;
 		var video={
-			videoUrl:videoUrl,
+			videoUrl,
 			description:document.getElementById("videoDescription").value
 		}
 		const submitedVideo={
@@ -191,21 +195,14 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 			userId:userId
 		}
 
-		const {confirmation,data}=await createSpecificIndustryVideoAnswer(submitedVideo);
+		let {confirmation,data}=await createSpecificIndustryVideoAnswer(submitedVideo);
 		if(confirmation=="Success"){
-			const {
-				questionId,
-				postId
-			}=data;
-			video={
-				...video,
-				_id:postId,
-				comments:[],
-				isCrownedPost:false,
-				industriesUploaded:[{industry:symposium}]
+			data={
+				...data,
+				videoUrl
 			}
 
-			posts.splice(0,0,video);
+			posts.splice(0,0,data);
 			changeQuestionId(questionId);
 			changePosts([...posts]);
 			changeDisplayCreationModal(false);
@@ -220,8 +217,26 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	    return v.toString(16);
 	  });
 	}
+
+	const displaySelectedPost=(data)=>{
+		changeSelectedPost(data);
+		changePostExpand(true);
+	}
+
+	const closePostModal=()=>{
+		changePostExpand(false);
+	}
 	return(
 		<ul style={{padding:"20px"}}>
+			{displayPostExpand==false?
+				null:
+				<VideoPostDisplayPortal
+					closeModal={closePostModal}
+					selectedVideo={selectedPost}
+					recommendedVideos={[]}
+					targetDom={"extendedSymposiumContainer"}
+				/>
+			}
 			{displayCreationModal==false?
 				<>
 					<li style={{listStyle:"none"}}>
@@ -254,7 +269,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 								<ul style={{padding:"0px"}}>
 									{posts.map(data=>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayVideoHandler(data)} style={ImageCSS}>
+											<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
 												<video key={data._id} width="100%" height="40%" borderRadius="5px" controls autoplay>
 													<source src={data.videoUrl} type="video/mp4"/>
 												</video>

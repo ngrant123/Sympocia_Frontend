@@ -133,7 +133,7 @@ const PostInformation=(props)=>{
 			<ul style={{padding:"0px",position:"absolute"}}>
 			
 				<li style={{marginTop:"-180px",listStyle:"none",maxHeight:"80%",marginBottom:"2%"}}>
-					{isAudioPost==null?
+					{isAudioPost==null || isAudioPost==false?
 						<PostContent id="postContent">
 							{post}
 						</PostContent>:

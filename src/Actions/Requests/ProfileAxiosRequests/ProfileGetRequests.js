@@ -478,6 +478,21 @@ export const getRecruits=async(profileId)=>{
 	}
 }
 
+export const getProfilePicture=async(_id)=>{
+	try{
+		const profilePictureResponse=await axios.get(`${SearchUrl}/getProfilePicture`,{
+			params:{
+				_id
+			}
+		})
+		const {data}=profilePictureResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
 
 
 

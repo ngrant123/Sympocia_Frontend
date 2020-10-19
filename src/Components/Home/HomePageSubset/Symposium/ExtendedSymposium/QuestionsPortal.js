@@ -102,6 +102,7 @@ const QuestionsPortal=(props)=>{
 			closeModal,
 			counter,
 			questions,
+			closeModalAndDisplayData,
 			selectedSymposium,
 			triggerImagePortal,
 			triggerVideoPortal,
@@ -111,34 +112,57 @@ const QuestionsPortal=(props)=>{
 	const [displayCreatePost,changeDisplayPost]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState();
 	const [displayUploadScreen,changeDisplayUploadScreen]=useState(true);
-	const [currentCounter,changeCurrentCounter]=useState(counter);
+	let [currentCounter,changeCurrentCounter]=useState(counter);
+	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[currentCounter].questionType);
 
-	const sendData=async(data)=>{
+	const sendData=async(postData)=>{
 		debugger;
 		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
-		if(questionType=="Video"){
-			data={
-				videoUrl:data,
+		if(currentQuestionType=="Video"){
+			postData={
+				videoUrl:postData,
 				description:document.getElementById("videoDescription").value
 			}
-		}else if(questionType=="Image"){
-			data={
-				imgUrl:data,
-				description:document.getElementById("imageDescription").value
+		}else if(currentQuestionType=="Image"){
+			postData={
+				imgUrl:postData,
+				description:document.getElementById("imageDescription").value,
+				comment:[]
+			}
+		}else{
+			postData={
+				post:postData,
+				comment:[]
 			}
 		}
 
 		const postInformation={
 			userId:_id,
 			profileIndicator:"Profile",
-			questionId:questions[counter]._id,
-			questionType:questionType,
-			comment:data,
+			questionId:questions[currentCounter]._id,
+			questionType:currentQuestionType,
+			comment:postData,
 			industry:selectedSymposium
 		}
-		const response=await addCommentToPopularQuestions(postInformation);
-		props.closeModal();
+
+		const {confirmation,data}=await addCommentToPopularQuestions(postInformation);
+		if(confirmation=="Success"){
+			props.closeModalAndDisplayData({
+				data,
+				currentQuestionType
+			});
+		}else{
+			alert('Unfortunately there has been an error when trying to add your post. Please try again');
+		}
 	}
+
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
+
 
 	const uploadFile=()=>{
 		const reader=new FileReader();
@@ -158,7 +182,7 @@ const QuestionsPortal=(props)=>{
 
 
 	const createPost=()=>{
-		if(questionType=="Image"){
+		if(currentQuestionType=="Image"){
 			return <ul style={{padding:"50px"}}>
 						{displayUploadScreen==true?
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -198,7 +222,7 @@ const QuestionsPortal=(props)=>{
 							</li>
 						}
 				   </ul>;
-		}else if(questionType=="Video"){
+		}else if(currentQuestionType=="Video"){
 			return <ul>
 						{displayUploadScreen==true?
 							<li onClick={()=>document.getElementById("uploadFile").click()} style={{listStyle:"none",marginRight:"1%"}}>
@@ -228,9 +252,12 @@ const QuestionsPortal=(props)=>{
 										</video>
 									</li>
 									<InputContainer id="videoDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your picture here"/>
-									<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
-										Send
-									</li>
+									<hr/>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
+											Send
+										</li>
+									</a>
 								</ul>
 							</li>
 						}
@@ -244,9 +271,10 @@ const QuestionsPortal=(props)=>{
 											{questions[currentCounter].question}
 										</b>
 								</li>
+								<hr/>
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
-										<li style={{marginRight:"2%",width:"50%",listStyle:"none",display:"inline-block"}}>
+										<li style={{marginRight:"2%",width:"90%",listStyle:"none",display:"inline-block"}}>
 											<ul style={{padding:"0px"}}> 
 												<li style={{listStyle:"none"}}>
 													<InputContainer
@@ -262,28 +290,30 @@ const QuestionsPortal=(props)=>{
 												</a>
 											</ul>
 										</li>
-										<li style={{marginRight:"2%",position:"relative",top:"-100px",listStyle:"none",display:"inline-block"}}>
-											Or
-										</li>
-										<li style={{width:"25%",position:"relative",top:"-100px",listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-											<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																	borderColor:"#5298F8",
-																																	borderStyle:"solid",
-																																	borderWidth:"1px",
-																																	color:"white",
-																																	backgroundColor:"#5298F8"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-														<MicIcon/>
-													</li>
+										{/*	
+											<li style={{marginRight:"2%",position:"relative",top:"-100px",listStyle:"none",display:"inline-block"}}>
+												Or
+											</li>
+											<li style={{width:"25%",position:"relative",top:"-100px",listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+												<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																		borderColor:"#5298F8",
+																																		borderStyle:"solid",
+																																		borderWidth:"1px",
+																																		color:"white",
+																																		backgroundColor:"#5298F8"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+															<MicIcon/>
+														</li>
 
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-														Say it instead
-													</li>
-												</ul>																			
-											</button>
-											<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="image/x-png,image/gif,image/jpeg"></input>
-										</li>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+															Say it instead
+														</li>
+													</ul>																			
+												</button>
+												<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="image/x-png,image/gif,image/jpeg"></input>
+											</li>
+										*/}
 									</ul>
 								</li>
 							</React.Fragment>
@@ -306,10 +336,11 @@ const QuestionsPortal=(props)=>{
 
 	const constructResponses=(replies)=>{
 			var element;
+			console.log(replies);
 			if(replies.length==0){
 				return <p> No replies yet :(. Click on the question and click the pencil icon to make a post </p>
 			}else{
-				if(questionType=="Image"){
+				if(currentQuestionType=="Image"){
 					return <React.Fragment>
 										{replies.map(data=>
 											<li onClick={()=>triggerImagePortal(data)} style={{listStyle:"none",display:"inline-block"}}>
@@ -317,12 +348,12 @@ const QuestionsPortal=(props)=>{
 											</li>
 										)}
 									</React.Fragment>;
-				}else if(questionType=="Video"){
+				}else if(currentQuestionType=="Video"){
 					return <React.Fragment>
 								{replies.map(data=>
 									<li onClick={()=>triggerVideoPortal(data)} style={{listStyle:"none",display:"inline-block"}}>
-										<video style={{borderRadius:"5px",width:"45%",height:"30%"}}>
-											<source src={data.imgUrl} type="video/mp4"/>
+										<video key={uuidv4()} style={{borderRadius:"5px",width:"45%",height:"30%"}}>
+											<source src={data.videoUrl} type="video/mp4"/>
 										</video>
 									</li>
 								)}
@@ -339,7 +370,7 @@ const QuestionsPortal=(props)=>{
 															<li style={{listStyle:"none"}}>
 																{data.owner.profilePicture==null?
 																	<img src={NoProfilePicture} style={{width:"80%",height:"15%",borderRadius:"50%"}}/>:
-																	<img src={data.owner.profilePicture} style={{width:"60%",height:"15%",borderRadius:"50%"}}/>
+																	<img src={data.owner.profilePicture} style={{width:"80%",height:"15%",borderRadius:"50%"}}/>
 																}
 															</li>
 															<li style={{listStyle:"none"}}>
@@ -352,13 +383,32 @@ const QuestionsPortal=(props)=>{
 													</li>
 												</ul>
 											</li>
+											<hr/>
 										</a>
 									</RegularPostContainer>
 								)}
 							</React.Fragment>;
-				}
 			}
 		}
+	}
+
+	const increaseCounter=()=>{
+		debugger;
+		const nextCounter=currentCounter+1;
+		const previousType=questions[nextCounter].questionType
+
+		changeCurrentCounter(nextCounter);
+		changeCurrentQuestionType(previousType);
+	}
+
+	const decreaseCounter=()=>{
+		debugger;
+		const previousCounter=currentCounter-1;
+		const previousType=questions[previousCounter].questionType
+
+		changeCurrentCounter(previousCounter);
+		changeCurrentQuestionType(previousType);
+	}
 
 
 	return createPortal(
@@ -377,8 +427,8 @@ const QuestionsPortal=(props)=>{
 									{currentCounter!=0?
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 												<NavigateBeforeIcon
-													style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-													onClick={()=>changeCurrentCounter(currentCounter--)}
+													style={{fontSize:"25",borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
+													onClick={()=>decreaseCounter()}
 												/>
 											</a>:<React.Fragment></React.Fragment>
 									}
@@ -411,7 +461,7 @@ const QuestionsPortal=(props)=>{
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 												<NavigateNextIcon
 													style={{fontSize:"25",borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-													onClick={()=>changeCurrentCounter(currentCounter++)}
+													onClick={()=>increaseCounter()}
 												/>
 											</a>:<React.Fragment></React.Fragment>
 									}

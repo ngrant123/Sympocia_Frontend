@@ -6,7 +6,7 @@ import { Editor } from 'react-draft-wysiwyg';
 
 const Container=styled.div`
 	position:fixed;
-	z-index:13;
+	z-index:14;
 	height:90%;
 	width:60%;
 	border-radius:5px;
@@ -36,7 +36,7 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:11;
+	z-index:14;
 	top:0px;
 `;
 
@@ -108,9 +108,8 @@ const PostModal=({closeModal,postType,postData})=>{
 	const image=()=>{
 		return(
 			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",display:"inline-block"}}>
-					<img src={postData.imgSrc==null?TestProfilePicture:postData.imgSrc}
-						style={{borderRadius:"50%",width:"80%",height:"90%"}}/>
+				<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
+					<img src={postData.imgUrl} style={{width:"90%",height:"90%"}}/>
 				</li>
 				<hr/>
 				<p style={{fontSize:"30px"}}>
@@ -127,9 +126,7 @@ const PostModal=({closeModal,postType,postData})=>{
 
 						Boost
 					</li>
-
 				*/}
-				
 			</ul>
 		);
 	}
@@ -138,8 +135,8 @@ const PostModal=({closeModal,postType,postData})=>{
 		return(
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none",display:"inline-block"}}>
-					<video style={{borderRadius:"5px"}} width="250%" height="80%" autoplay="true" controls>
-						<source src={postData.videoSrc} type="video/mp4"/>
+					<video style={{borderRadius:"5px"}} width="100%" height="80%" autoplay="true" controls>
+						<source src={postData.videoUrl} type="video/mp4"/>
 					</video>
 				</li>
 				<hr/>
@@ -164,12 +161,8 @@ const PostModal=({closeModal,postType,postData})=>{
 	}
 
 	const blog=()=>{
-		const plainText = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.';
-	    const content = ContentState.createFromText(plainText);
-		var blogContentState=EditorState.createWithContent(content);
-
-		//var DBEditorState = convertFromRaw(JSON.parse(postData.blog));
-		//var blogContentState=EditorState.createWithContent(DBEditorState);
+		var DBEditorState = convertFromRaw(JSON.parse(postData.blog));
+		var blogContentState=EditorState.createWithContent(DBEditorState);
 
 		return <ul>
 					{/*
@@ -207,19 +200,19 @@ const PostModal=({closeModal,postType,postData})=>{
 	const renderPost=()=>{
 		debugger;
 		switch(postType){
-			case 'Image':
+			case 'Images':
 				return image();
 				break;
 
-			case 'Blog':
+			case 'Blogs':
 				return blog();
 				break;
 
-			case 'Video':
+			case 'Videos':
 				return video();
 				break;
 
-			case 'RegularPost':
+			case 'RegularPosts':
 				return regularPost();
 				break;
 

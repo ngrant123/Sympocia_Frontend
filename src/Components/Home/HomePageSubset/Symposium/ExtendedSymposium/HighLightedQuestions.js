@@ -12,15 +12,14 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {getPopularQuestionReplies} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 const Container=styled.div`
-	overflow:hidden;
-	width:60%;
-	height:60%;
+	position:relative;
+	width:100%;
+	height:100%;
 	border-radius:5px;
 	background-color:white;
 	border-style:solid;
 	border-width:1px;
 	border-color:#5298F8;
-	z-index:17;
 	overflow-y:scroll;
 `;
 
@@ -54,6 +53,7 @@ class HighLightedQuestions extends Component{
 			counter:0
 		}
 	}
+
 	headerQuestion=()=>{
 
 	}
@@ -66,6 +66,8 @@ class HighLightedQuestions extends Component{
 	}
 
 	setVideoPost=(data)=>{
+		debugger;
+		console.log(data);
 		this.setState({
 			selectedPost:data,
 			displayVideoPortal:!this.state.displayVideoPortal
@@ -106,38 +108,46 @@ class HighLightedQuestions extends Component{
 							{replies.map(data=>
 								<React.Fragment>
 									{data._id==null?null:
-													<li onClick={()=>this.setVideoPost(data)} style={{width:"30%",listStyle:"none",display:"inline-block"}}>
-														<video width="90%" height="40%" borderRadius="5px" controls autoplay>
-															<source src={data.videoUrl} type="video/mp4"/>
-														</video>
-													</li>
+										<li onClick={()=>this.setVideoPost(data)} style={{width:"30%",listStyle:"none",display:"inline-block"}}>
+											<video width="90%" height="40%" borderRadius="5px" controls autoplay>
+												<source src={data.videoUrl} type="video/mp4"/>
+											</video>
+										</li>
 									}
 								</React.Fragment>
 							)}
 						</React.Fragment>;
 			}else{
+
 				return <React.Fragment>
 							{replies.map(data=>
 								<React.Fragment>
 									{data._id==null?null:
-										<li onClick={()=>this.setRegularPost(data)} style={{listStyle:"none",display:"inline-block"}}>
-											<ul>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-													{data.owner.profilePicture==null?
-														<img src={NoProfilePicture} style={{width:"15%",height:"10%",borderRadius:"50%"}}/>:
-														<img src={data.owner.profilePicture} style={{width:"15%",height:"10%",borderRadius:"50%"}}/>
-													}
-												</li>
+										<>
+											<li onClick={()=>this.setRegularPost(data)} style={{listStyle:"none",marginBottom:"5%"}}>
+												{data.post}	
+												{/*
+													<ul>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+															{data.owner.profilePicture==null?
+																<img src={NoProfilePicture} style={{width:"15%",height:"10%",borderRadius:"50%"}}/>:
+																<img src={data.owner.profilePicture} style={{width:"15%",height:"10%",borderRadius:"50%"}}/>
+															}
+														</li>
 
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-													<b>{data.owner.firstName}</b>
-												</li>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+															<b>{data.owner.firstName}</b>
+														</li>
 
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													{data.post}			
-												</li>
-											</ul>
-										</li>
+														<li style={{listStyle:"none"}}>
+															{data.post}			
+														</li>
+
+													</ul>
+												*/}
+											</li>
+											<hr/>
+										</>
 									}
 								</React.Fragment>
 							)}
@@ -151,6 +161,7 @@ class HighLightedQuestions extends Component{
 			displayExpandedQuestionModal:true
 		});
 	}
+
 	addComment=(data)=>{
 
 	}
@@ -163,6 +174,35 @@ class HighLightedQuestions extends Component{
 			displayRegularPortal:false,
 			displayExpandedQuestionModal:false
 		})
+	}
+
+	closeModalAndDisplayData=({data,currentQuestionType})=>{
+		debugger;
+		const {
+				question,
+				questionType,
+				responsesId
+			}=this.state.questionData[this.state.counter];
+
+		if(currentQuestionType==questionType){
+			data=data._doc;
+			/*
+				if(question.questionType=="RegularPost"){
+					data=data._doc;
+				}
+			*/
+			var replies=responsesId;
+
+			replies.splice(0,0,data);
+			this.setState(prevState=>({
+				...prevState,
+				displayExpandedQuestionModal:false,
+				[question]:{
+					...[question],
+					responsesId:replies
+				}
+			}))
+		}
 	}
 
 	increaseCounter=async()=>{
@@ -196,6 +236,7 @@ class HighLightedQuestions extends Component{
 												{this.state.displayExpandedQuestionModal==true?
 													<QuestionsPortal
 														questionType={this.state.questionData[this.state.counter].questionType}													
+														closeModalAndDisplayData={this.closeModalAndDisplayData}
 														closeModal={this.closeModal}
 														counter={this.state.counter}
 														questions={this.state.questionData}
@@ -219,7 +260,7 @@ class HighLightedQuestions extends Component{
 												{this.state.displayVideoPortal==true?
 													<VideoPostDisplayPortal
 														closeModal={this.closeModal}
-														videoData={this.state.selectedPost}
+														selectedVideo={this.state.selectedPost}
 														recommendedVideos={[]}
 														targetDom="extendedSymposiumContainer"
 													/>
@@ -229,7 +270,7 @@ class HighLightedQuestions extends Component{
 												{this.state.displayRegularPortal==true?
 													<RegularPostDisplayPortal
 														closeModal={this.closeModal}
-														regularPostData={this.state.selectedPost}
+														selectedPost={this.state.selectedPost}
 														recommendedRegularPosts={[]}
 														targetDom="extendedSymposiumContainer"
 													/>
@@ -270,7 +311,7 @@ class HighLightedQuestions extends Component{
 																</li>
 																<hr/>
 																<li style={{listStyle:"none"}}>
-																	<ul style={{padding:"0px"}}>
+																	<ul style={{padding:"10px"}}>
 																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																			{this.constructResponses(this.state.questionData[this.state.counter])}
 																		</a>

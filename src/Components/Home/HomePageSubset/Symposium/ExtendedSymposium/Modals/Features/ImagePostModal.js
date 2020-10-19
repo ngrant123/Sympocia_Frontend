@@ -5,6 +5,7 @@ import CameraIcon from '@material-ui/icons/Camera';
 import {createIndustryFeatureImageResponse} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryImageFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import {useSelector} from "react-redux";
+import ImagePostDisplayPortal from "../../../../../HomePageSet/ImageHomeDisplayPortal.js";
 
 
 const Container=styled.div`
@@ -72,6 +73,18 @@ const DescriptionInputContainer=styled.textarea`
 `;
 
 
+const ImagePopupContainer=styled.div`
+	position:absolute;
+	background-color:white;
+	width:70%;
+	height:65%;
+	border-radius:5px; 
+	z-index:36;
+	left:15%;
+	top:20%;
+	overflow-y:scroll;
+`;
+
 const ImageCSS={
 	listStyle:"none",
 	display:"inline-block",
@@ -128,6 +141,10 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 	const [posts,changePosts]=useState([]);
 	const [questionId,changeQuestionId]=useState();	
 	const [symposiumIdState,changeSymposiumIdState]=useState();
+
+	const [displayPostExpand,changePostExpand]=useState(false);
+	const [selectedPost,changeSelectedPost]=useState(false);
+
 
 	const userId=useSelector(state=>state.personalInformation.id);
 
@@ -191,21 +208,14 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 			userId:userId
 		}
 
-		const {confirmation,data}=await createIndustryFeatureImageResponse(submitedImage);
+		let {confirmation,data}=await createIndustryFeatureImageResponse(submitedImage);
+		debugger;
 		if(confirmation=="Success"){
-			const {
-				questionId,
-				postId
-			}=data;
-			image={
-				...image,
-				_id:postId,
-				comments:[],
-				isCrownedPost:false,
-				industriesUploaded:[{industry:symposium}]
+			data={
+				...data,
+				imgUrl
 			}
-
-			posts.splice(0,0,image);
+			posts.splice(0,0,data);
 			changeQuestionId(questionId);
 			changePosts([...posts]);
 			changeDisplayCreationModal(false);
@@ -218,8 +228,29 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 		changeSymposiumIdState(id);
 	}
 
+	const displaySelectedPost=(data)=>{
+		changeSelectedPost(data);
+		changePostExpand(true);
+	}
+	const closePostModal=()=>{
+		changePostExpand(false);
+	}
+
 	return(
 		<ul style={{padding:"20px"}}>
+			
+			{displayPostExpand==false?
+					null:
+					<div style={{zIndex:"36"}}>
+						<ImagePostDisplayPortal
+							closeModal={closePostModal}
+							selectedImage={selectedPost}
+							recommendedImages={[]}
+							targetDom={"extendedSymposiumContainer"}
+						/>
+					</div>
+				}
+
 			{displayCreationModal==false?
 				<>
 					<li style={{listStyle:"none"}}>
@@ -252,7 +283,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 								<ul style={{padding:"0px"}}>
 									{posts.map(data=>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayImage(data)} style={ImageCSS}>
+											<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
 												<img src={data.imgUrl} style={{height:"40%",width:"100%",borderRadius:"5px"}}/>
 											</li>
 										</a>
@@ -308,9 +339,11 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 										</li>
 									</ul>
 								</li>
-								<li onClick={()=>submitImage()} style={SubmitButtonCSS}>
-									Submit
-								</li>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>submitImage()} style={SubmitButtonCSS}>
+										Submit
+									</li>
+								</a>
 							</ul>
 						}
 					</li>

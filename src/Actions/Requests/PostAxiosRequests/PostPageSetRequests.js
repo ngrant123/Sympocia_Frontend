@@ -145,8 +145,7 @@ export const addCommentToPopularQuestions=async(commentObject)=>{
 			industry:industry
 		});
 		const {data}=commentResponse;
-		const commentData=data.data;
-		return commentData;
+		return data;
 	}catch(err){
 		console.log(err);
 		return err;

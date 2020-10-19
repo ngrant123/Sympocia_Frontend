@@ -14,8 +14,8 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 const ActiveContainer =styled.div`
 	position:relative;
-	width:210%;
-	height:20%;
+	width:300%;
+	height:50%;
 	background-color:white;
 	padding:5px;
 	padding-top:10px;
@@ -55,7 +55,7 @@ const PopularVideos=styled.div`
 
 const ChatContainer =styled.div`
 	position:relative;
-	width:560%;
+	width:100%;
 	height:50%;
 	background-color:white;
 	padding:5px;
@@ -65,16 +65,47 @@ const ChatContainer =styled.div`
     scrollbar-width: none;
 `;
 
+
+const HighlightedQuestionsContainer=styled.div`
+	position:absolute;
+	height:55%;
+	width:20%;
+	left:10%;
+	top:35%;
+	border-radius:5px;
+	background-color:white;
+`;
+
+const PopularVideosContainer=styled.div`
+	position:absolute;
+	left:32%;
+	width:40%;
+	height:40%;
+	border-radius:5px;
+	top:40%;
+`;
+
+const ActivePeopleAndFollowContainer=styled.div`
+	position:absolute;
+	height:55%;
+	width:20%;
+	left:75%;
+	top:30%;
+	border-radius:5px;
+`;
+
+
 const ButtonCSS={
 	listStyle:"none",
 	borderRadius:"5px",
 	padding:"20px",
-	width:"140%",
+	width:"100%",
 	marginBottom:"30%",
 	borderStyle:"solid",
 	borderColor:"white",
 	borderWidth:"1px",
-	color:"white"
+	color:"white",
+	marginTop:"-25%"
 }
 
 const PopularVideosListCSS={
@@ -117,22 +148,32 @@ const HeaderContainer=(props)=>{
   		previousSymposiumTitle="";	
   		nextSymposiumTitle="";
   	}else{
-  		previousSymposiumTitle=counter>0?
-  			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				<NavigateBeforeIcon
-					style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-					onClick={()=>props.previousButton()}
-				/>
+  		previousSymposiumTitle=counter>-1?
+  			<a onClick={()=>props.previousButton()} href="javascript:void(0);" style={{textDecoration:"none"}}>
+  				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left-circle" 
+  					width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#FFFFFF" fill="none" 
+  					stroke-linecap="round" stroke-linejoin="round">
+				  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+				  <circle cx="12" cy="12" r="9" />
+				  <line x1="8" y1="12" x2="16" y2="12" />
+				  <line x1="8" y1="12" x2="12" y2="16" />
+				  <line x1="8" y1="12" x2="12" y2="8" />
+				</svg>
 			</a>:
   			<React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</React.Fragment>;
 
   		nextSymposiumTitle=counter==symposiums.length-1?
   			<React.Fragment></React.Fragment>:
-  			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				<NavigateNextIcon
-					style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-					onClick={()=>props.nextButton()}
-				/>
+  			<a href="javascript:void(0);" onClick={()=>props.nextButton()} style={{textDecoration:"none"}}>
+  				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right-circle"
+  					 width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#FFFFFF" fill="none" 
+  					 stroke-linecap="round" stroke-linejoin="round">
+				  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+				  <circle cx="12" cy="12" r="9" />
+				  <line x1="16" y1="12" x2="8" y2="12" />
+				  <line x1="16" y1="12" x2="12" y2="16" />
+				  <line x1="16" y1="12" x2="12" y2="8" />
+				</svg>
 			</a>;
   	}
 
@@ -200,10 +241,129 @@ const HeaderContainer=(props)=>{
 
 	return(
 			<div style={{position:"absolute",width:"100%",height:"100%",opacity:"0",transition:"opacity 2s linear"}} id="headerContents">
-				<ul style={{paddingTop:"110px",paddingLeft:"150px"}}>
+				<HighlightedQuestionsContainer>
 					{props.popularQuestionObject.questionInformation.length==0?
 							null
-						:<li style={{listStyle:"none",display:"inline-block"}}>
+						:<HightLightedQuestions
+							questionInformation={props.popularQuestionObject.questionInformation}
+							isSimplified={props.popularQuestionObject.isSimplified}
+							selectedSymposium={props.popularQuestionObject.selectedSymposium}
+						/>
+					}
+				</HighlightedQuestionsContainer>
+
+				<PopularVideosContainer>
+					<ul style={{padding:"0px"}}>
+						<li style={{listStyle:"none",position:"relative"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+		  						<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
+		  							{previousSymposiumTitle}
+		  						</li>
+		  					</a>
+		  					
+		  					<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px"}}>
+		  						&nbsp;&nbsp;&nbsp;&nbsp;<b> {selectedSymposiumTitle} </b> &nbsp;&nbsp;&nbsp;&nbsp;
+		  					</li>
+
+		  					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+		  						<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
+		  							{nextSymposiumTitle}
+		  						</li>
+		  					</a>
+						</li>
+
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px",position:"relative"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"60%",color:"white",fontSize:"20px"}}>
+									Popular Videos
+								</li>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>displayPopularVideos()} style={{listStyle:"none",display:"inline-block",color:"white",fontSize:"20px"}}>
+										See All
+									</li>
+								</a>
+							</ul>							
+
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<ul style={{padding:"5px",backgroundColor:"white",height:"65%",borderRadius:"5px"}}>
+										{popularVideos.map(data=>
+											<>
+												{data!=null &&(
+													<li style={PopularVideosListCSS}>
+														<video id="smallVideo" key={uuidv4()} borderRadius="5px" position="relative" height="95%" width="60px">
+															<source src={data.videoUrl} type="video/mp4"/>
+														</video>
+													</li>
+												)}
+											</>
+										)}
+									</ul>
+							</a>
+						</li>
+					</ul>
+				</PopularVideosContainer>
+
+				<ActivePeopleAndFollowContainer>
+					<ul style={{padding:"0px"}}>
+						<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
+							<ul style={{padding:"0px"}}>
+									<p style={{color:"white",fontSize:"20px"}}>
+										Active People
+									</p>
+									<li style={{listStyle:"none",width:"90%"}}>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<ActiveContainer>
+												<ul>
+									 				{activePeople.map(data=>
+								 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
+								 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
+								 								<img src={data.profilePicture!=null?
+								 											data.profilePicture:
+								 											NoProfilePicture} 
+								 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
+								 							</ActiveProfilePictures>
+								 						</li>
+								 					)}
+									 			</ul>
+											</ActiveContainer>
+										</a>
+									</li>
+							</ul>
+						</li>
+
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>handleFollowSymposium()} style={ButtonCSS}>
+								<b>
+									<AddCircleOutlineIcon style={{font:20}}/>
+									 	{followSymposiumButtonClick==false?
+									 		<p>Follow Symposium</p>:
+									 		<p>Unfollow Symposium</p>
+									 	}
+								</b>
+							</li>
+						</a>
+							{/*
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>props.hideChat()} style={ButtonCSS}>
+										<b>
+											<ExpandLessIcon style={{font:20}}/> 
+												{hideChatButtonClicked==false?
+													<p>Hide chat </p>:
+													<p> Unhide Chat </p>
+												}
+										</b>
+									</li>
+								</a>
+							*/}
+					</ul>
+				</ActivePeopleAndFollowContainer>
+
+				{/*
+
+									<ul style={{paddingTop:"110px",paddingLeft:"150px"}}>
+					{props.popularQuestionObject.questionInformation.length==0?
+							null
+						:<li style={{listStyle:"none",display:"inline-block",width:"20%"}}>
 							<HightLightedQuestions
 								questionInformation={props.popularQuestionObject.questionInformation}
 								isSimplified={props.popularQuestionObject.isSimplified}
@@ -211,9 +371,9 @@ const HeaderContainer=(props)=>{
 							/>
 						</li>
 					}
-					<li style={{listStyle:"none",display:"inline-block",marginLeft:"-10%",position:"relative",top:"10px",width:"50%"}}>
+					<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%",width:"50%"}}>
 						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none"}}>
+							<li style={{listStyle:"none",position:"relative",top:"-150px"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 			  						<li style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
 			  							{previousSymposiumTitle}
@@ -232,7 +392,7 @@ const HeaderContainer=(props)=>{
 							</li>
 
 							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
+								<ul style={{padding:"0px",position:"relative",top:"-150px"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginRight:"60%",color:"white",fontSize:"20px"}}>
 										Popular Videos
 									</li>
@@ -244,7 +404,6 @@ const HeaderContainer=(props)=>{
 								</ul>							
 
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<PopularVideos onClick={()=>displayPopularVideos()}>
 										<ul style={{padding:"5px"}}>
 											{popularVideos.map(data=>
 												<>
@@ -258,7 +417,6 @@ const HeaderContainer=(props)=>{
 												</>
 											)}
 										</ul>
-									</PopularVideos>
 								</a>
 							</li>
 						</ul>
@@ -266,60 +424,56 @@ const HeaderContainer=(props)=>{
 
 					<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%",top:"-20px",position:"relative"}}>
 						<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
-									<ul style={{padding:"0px"}}>
-											<p style={{color:"white",fontSize:"20px"}}>
-												Active People
-											</p>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<ActiveContainer>
-													<ul>
-										 				{activePeople.map(data=>
-										 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
-										 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
-										 								<img src={data.profilePicture!=null?
-										 											data.profilePicture:
-										 											NoProfilePicture} 
-										 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
-										 							</ActiveProfilePictures>
-										 						</li>
-										 					)}
-										 			</ul>
-												</ActiveContainer>
-											</a>
-									</ul>
-								</li>
+							<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
+								<ul style={{padding:"0px"}}>
+										<p style={{color:"white",fontSize:"20px"}}>
+											Active People
+										</p>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<ActiveContainer>
+												<ul>
+									 				{activePeople.map(data=>
+									 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
+									 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
+									 								<img src={data.profilePicture!=null?
+									 											data.profilePicture:
+									 											NoProfilePicture} 
+									 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
+									 							</ActiveProfilePictures>
+									 						</li>
+									 					)}
+									 			</ul>
+											</ActiveContainer>
+										</a>
+								</ul>
+							</li>
 
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>handleFollowSymposium()} style={ButtonCSS}>
+									<b>
+										<AddCircleOutlineIcon style={{font:20}}/>
+										 	{followSymposiumButtonClick==false?
+										 		<p>Follow Symposium</p>:
+										 		<p>Unfollow Symposium</p>
+										 	}
+									</b>
+								</li>
+							</a>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>handleFollowSymposium()} style={ButtonCSS}>
+									<li onClick={()=>props.hideChat()} style={ButtonCSS}>
 										<b>
-											<AddCircleOutlineIcon style={{font:20}}/>
-											 	{followSymposiumButtonClick==false?
-											 		<p>Follow Symposium</p>:
-											 		<p>Unfollow Symposium</p>
-											 	}
+											<ExpandLessIcon style={{font:20}}/> 
+												{hideChatButtonClicked==false?
+													<p>Hide chat </p>:
+													<p> Unhide Chat </p>
+												}
 										</b>
 									</li>
 								</a>
-
-								{/*
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>props.hideChat()} style={ButtonCSS}>
-											<b>
-												<ExpandLessIcon style={{font:20}}/> 
-													{hideChatButtonClicked==false?
-														<p>Hide chat </p>:
-														<p> Unhide Chat </p>
-													}
-											</b>
-										</li>
-									</a>
-								*/}
-							
 						</ul>
 					</li>
-
 				</ul>
+				*/}
 			</div>
 			)
 		}

@@ -5,7 +5,7 @@ import ImageDisplayContainer from "../../GeneralComponents/PostComponent/ImageCo
 
 const Container=styled.div`
 	position:absolute;
-	z-index:13;
+	z-index:36;
 	height:90%;
 	width:60%;
 	border-radius:5px;
@@ -21,7 +21,7 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:11;
+	z-index:35;
 	top:0px;
 `;
 

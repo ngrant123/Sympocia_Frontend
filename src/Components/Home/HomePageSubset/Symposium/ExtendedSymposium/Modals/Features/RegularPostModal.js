@@ -6,6 +6,7 @@ import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.
 import {createSpecificIndustryRegularPostAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryRegularPostFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import {useSelector} from "react-redux";
+import RegularPostDisplayPortal from "../../../../../HomePageSet/RegularPostHomeDisplayPortal.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -39,7 +40,10 @@ const InputContainer=styled.textarea`
 	border-color:#D8D8D8;
 	resize:none;
 	padding:5px;
+	margin-top:2%;
+	margin-bottom:2%;
 `;
+
 
 const CreatePostButton=styled.div`
 	width:50px;
@@ -120,6 +124,19 @@ const SubmitButtonCSS={
   width:"30%"
 }
 
+const KnowledgeLevelIndicatorCSS={
+  listStyle:"none",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  width:"30%",
+  marginTop:"1%"
+}
+
 const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,questionIndex,question,selectedPostId})=>{
 
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
@@ -127,6 +144,8 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	const [knowledgeLevel,changeKnowledge]=useState();
 	const [questionId,changeQuestionId]=useState();	
 
+	const [displayPostExpand,changePostExpand]=useState(false);
+	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
 
 	const [displayCurrentLevel,changeCurrentLevel]=useState(false);
@@ -135,24 +154,24 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 		const fetchData=async()=>{
 			debugger;
 			console.log(symposiumId);
-			retrievePosts('Beginner');
+			displayBeginnerPosts()
 		}
 
 		fetchData();
 	},[]);
 
-	const retrievePosts=async(levelType)=>{
+	const retrievePosts=async(questionLevel)=>{
 		const response=await getIndustryRegularPostFeatureAnswers({
 			industryId:symposiumId,
 			questionIndex,
 			questionId:selectedPostId,
-			questionLevel:'Beginner'
+			questionLevel
 		});
-
 		return response;
 	}
 
 	const displayIntermediatePosts=async()=>{
+		debugger;
 		const {confirmation,data}=await retrievePosts('Intermediate');
 
 		if(confirmation=="Success"){
@@ -160,20 +179,20 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 				questionId,
 				posts
 			}=data;
-			document.getElementById("beginner").style.backgroundColor="white";
-			document.getElementById("beginner").style.color="#3898ec";
+			if(displayCreationModal==false){
+				document.getElementById("beginner").style.backgroundColor="white";
+				document.getElementById("beginner").style.color="#3898ec";
 
-			document.getElementById("intermediate").style.backgroundColor="#3898ec";
-			document.getElementById("intermediate").style.color="white";
+				document.getElementById("intermediate").style.backgroundColor="#3898ec";
+				document.getElementById("intermediate").style.color="white";
 
-			document.getElementById("advanced").style.backgroundColor="white";
-			document.getElementById("advanced").style.color="#3898ec";
+				document.getElementById("advanced").style.backgroundColor="white";
+				document.getElementById("advanced").style.color="#3898ec";
 
-			changeCurrentLevel("intermediate");
-			changePosts(posts);
-			changeQuestionId(questionId);
-			displayBeginnerPosts();
-
+				changeCurrentLevel("intermediate");
+				changePosts(posts);
+				changeQuestionId(questionId);
+			}
 		}else{
 			alert('Unfortunately there has been an error trying to get this images data. Please try again');
 		}
@@ -186,19 +205,21 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 				questionId,
 				posts
 			}=data;
-			document.getElementById("intermediate").style.backgroundColor="white";
-			document.getElementById("intermediate").style.color="#3898ec";
 
-			document.getElementById("beginner").style.backgroundColor="#3898ec";
-			document.getElementById("beginner").style.color="white";
+			if(displayCreationModal==false){
+				document.getElementById("intermediate").style.backgroundColor="white";
+				document.getElementById("intermediate").style.color="#3898ec";
 
-			document.getElementById("advanced").style.backgroundColor="white";
-			document.getElementById("advanced").style.color="#3898ec";
+				document.getElementById("beginner").style.backgroundColor="#3898ec";
+				document.getElementById("beginner").style.color="white";
 
-			changeCurrentLevel("beginner");
-			changePosts(posts);
-			changeQuestionId(questionId);
-			displayBeginnerPosts();
+				document.getElementById("advanced").style.backgroundColor="white";
+				document.getElementById("advanced").style.color="#3898ec";
+
+				changeCurrentLevel("beginner");
+				changePosts(posts);
+				changeQuestionId(questionId);
+			}
 
 		}else{
 			alert('Unfortunately there has been an error trying to get this images data. Please try again');
@@ -212,19 +233,22 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 				questionId,
 				posts
 			}=data;
-			document.getElementById("beginner").style.backgroundColor="white";
-			document.getElementById("beginner").style.color="#3898ec";
 
-			document.getElementById("advanced").style.backgroundColor="#3898ec";
-			document.getElementById("advanced").style.color="white";
+			if(displayCreationModal==false){
+				document.getElementById("beginner").style.backgroundColor="white";
+				document.getElementById("beginner").style.color="#3898ec";
 
-			document.getElementById("intermediate").style.backgroundColor="white";
-			document.getElementById("intermediate").style.color="#3898ec";
+				document.getElementById("advanced").style.backgroundColor="#3898ec";
+				document.getElementById("advanced").style.color="white";
 
-			changeCurrentLevel("advanced");
-			changePosts(posts);
-			changeQuestionId(questionId);
-			displayBeginnerPosts();
+				document.getElementById("intermediate").style.backgroundColor="white";
+				document.getElementById("intermediate").style.color="#3898ec";
+
+				changeCurrentLevel("advanced");
+				changePosts(posts);
+				changeQuestionId(questionId);				
+			}
+
 
 		}else{
 			alert('Unfortunately there has been an error trying to get this images data. Please try again');
@@ -268,8 +292,27 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 		}
 	}
 
+	const displaySelectedPost=(data)=>{
+		changeSelectedPost(data);
+		changePostExpand(true);
+	}
+
+	const closePostModal=()=>{
+		changePostExpand(false);
+	}
+
 	return(
 		<ul style={{padding:"20px"}}>
+			{displayPostExpand==false?
+				null:
+				<RegularPostDisplayPortal
+					closeModal={closePostModal}
+					selectedPost={selectedPost}
+					recommendedPosts={[]}
+					targetDom={"extendedSymposiumContainer"}
+				/>
+			}
+
 			{displayCreationModal==true?
 				<>
 					<div class="dropdown">
@@ -294,6 +337,12 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 								</li>
 							</ul>
 	  				 </div>
+	  				 {knowledgeLevel!=null && (
+	  				 	<li style={KnowledgeLevelIndicatorCSS}>
+	  				 		{knowledgeLevel}
+	  				 	</li>
+
+	  				 )}
 
 					<InputContainer id="post" placeholder='Enter your text here'/>
 
@@ -357,7 +406,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 								<ul style={{padding:"0px"}}>
 									{posts.map(data=>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={{listStyle:"none",marginBottom:"2%"}}>
+											<li onClick={()=>displaySelectedPost(data)} style={{listStyle:"none",marginBottom:"2%"}}>
 												<ul style={{padding:"0px"}}>
 													<li style={{top:"-50px",position:"relative",width:"10%",listStyle:"none",display:"inline-block"}}>
 														<img src={NoProfilePicture} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>

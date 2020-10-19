@@ -14,7 +14,7 @@ const Container=styled.div`
 	width:45%;
 	height:60%;
 	border-radius:5px; 
-	z-index:17;
+	z-index:35;
 	left:30%;
 	top:20%;
 	overflow-y:scroll;
@@ -37,21 +37,10 @@ const ShadowContainer=styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:17;
+	z-index:35;
 	top:0px;
 `;
 
-const ImagePopupContainer=styled.div`
-	position:absolute;
-	background-color:white;
-	width:70%;
-	height:65%;
-	border-radius:5px; 
-	z-index:17;
-	left:15%;
-	top:20%;
-	overflow-y:scroll;
-`;
 
 
 
@@ -124,18 +113,6 @@ const ArtIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,questi
 			<Container>
 				{modalDecider()}
 			</Container>
-			{displayImageExpand==true?
-				<div>
-					<ShadowContainer
-						onClick={()=>closeImageModal()}
-					/>
-					<ImagePopupContainer>
-						<ImageDisplayContainer
-							imageData={imageData}
-						/>
-					</ImagePopupContainer>
-				</div>:null
-			}
 		</>
 
 	,document.getElementById("extendedSymposiumContainer"));

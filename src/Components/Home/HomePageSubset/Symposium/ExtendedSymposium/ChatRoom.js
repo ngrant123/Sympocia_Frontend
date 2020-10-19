@@ -3,6 +3,9 @@ import styled from "styled-components";
 import SendIcon from '@material-ui/icons/Send';
 import {HomeConsumer} from "../../../HomeContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import {getProfilePicture} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {connect} from "react-redux";
+import {sendChatRoomMessage} from "../../../../../Actions/Requests/SocketIORequests";
 
 
 const ChatContainer=styled.div`
@@ -124,9 +127,22 @@ class ChatRoom extends Component{
 		this.state={
 			songPlaying:"",
 			characterLimit:20,
+			chatMessages:this.props.chat,
 			text:""
 		};
+		this.props.socket.on('symposiumChatMessage',this.handleChatData);
 	}
+
+	 handleChatData=(data)=>{
+  		console.log("Socket response");
+  		console.log(data);
+
+  		const currentChatRoomState=this.state.chatMessages;
+  		currentChatRoomState.splice(0,0,data);
+  		this.setState({
+  			chatMessages:currentChatRoomState
+  		})
+	  }
 
 	handleDisplayTextBox=()=>{
 
@@ -137,6 +153,9 @@ class ChatRoom extends Component{
 			<React.Fragment>
 			</React.Fragment>
 	}
+	 pushMessageToSocketHandle=(message)=>{
+  		sendChatRoomMessage(this.props.socket,message);
+  	}
 
 	handleTextChange=(event)=>{
 		console.log(event);
@@ -148,21 +167,30 @@ class ChatRoom extends Component{
 		})
 	}
 
-	sendMessageToGroupChat=(profile)=>{
-		const {personalInformationState}=profile;
-		console.log(profile);
+	sendMessageToGroupChat=async()=>{
+		debugger;
 		const messageValue=document.getElementById("messageContainer").value;
-		const messageObject={
-	  			room:this.props.roomId,
-	  			message:messageValue,
-	  			senderName:personalInformationState.firstName,
-	  			senderProfilePicture:personalInformationState.profilePicture
+		const {data}=await getProfilePicture(this.props.profileId);
+
+		const message={
+  			room:this.props.roomId,
+  			message:messageValue,
+  			senderName:this.props.personalName,
+  			senderProfilePicture:data
 	  	}
-		this.props.pushMessageToSocket(messageObject);
+	  	const updatedChatMessages=this.state.chatMessages;
+	  	updatedChatMessages.splice(0,0,message);
+	  	this.setState({
+	  		chatMessages:updatedChatMessages
+	  	},function(){
+	  		document.getElementById("messageContainer").value="";
+	  		this.pushMessageToSocketHandle(message);
+	  	})
 	}
 
 	constructChat=(chatRoom)=>{
 		console.log(chatRoom);
+		debugger;
 		return <React.Fragment>
 					{chatRoom==null?null:
 						<ul style={{marginTop:"15%"}}>
@@ -193,61 +221,72 @@ class ChatRoom extends Component{
 	}
 
 
+
+
 	render(){
 
 		return(
-			<HomeConsumer>
-				{personalInformation=>{
-					return <React.Fragment>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginLeft:"55%"}}>
-										{this.handleDisplayTextBox()}
-									</li>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<ChatAndIndustryInfoContainer>
-											<SongPlaying>
-												<p style={{position:"absolute",color:"#848484",left:"80px"}}>Testing song playing</p>
-											</SongPlaying>
-
-											<Chat>
-												{this.constructChat(this.props.chat)}
-											</Chat>
-
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
-													<MessageBox id="messageContainer" placeholder="Submit something stoopid" onChange={event=>this.handleTextChange(event)}/>
-
-													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-														<SendIcon
-															style={{color:"#BDBDBD",fontSize:"30",paddingLeft:"5%"}}
-															onClick={()=>this.sendMessageToGroupChat(personalInformation)}
-														/>
-													</a>
-												</li>
-											</ul>
-										</ChatAndIndustryInfoContainer>
-									</li>
-								</ul>
-
-							{/*
-								<ul style={{position:"relative",padding:"5px",backgroundColor:"white"}}>
-													<li style={MessageListNestedCSS}>
-														<EmojiButton>
-														</EmojiButton>
-													</li>
-
-													<li style={MessageListNestedCSS}>
-														<SubmitButton>
-														</SubmitButton>
-
-													</li>
-								</ul>
+			<React.Fragment>
+				<ul style={{padding:"0px"}}>
+					<li style={{listStyle:"none",display:"inline-block",marginLeft:"55%"}}>
+						{this.handleDisplayTextBox()}
+					</li>
+					<li style={{listStyle:"none",display:"inline-block"}}>
+						<ChatAndIndustryInfoContainer>
+							{/*	
+								<SongPlaying>
+									<p style={{position:"absolute",color:"#848484",left:"80px"}}>Testing song playing</p>
+								</SongPlaying>
 							*/}
-							</React.Fragment>
-				}}
-			</HomeConsumer>
+
+							<Chat>
+								{this.constructChat(this.state.chatMessages)}
+							</Chat>
+
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
+									<MessageBox id="messageContainer" placeholder="Send something...." 
+									/>
+
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<SendIcon
+											style={{color:"#5298F8",fontSize:"30",paddingLeft:"5%"}}
+											onClick={()=>this.sendMessageToGroupChat()}
+										/>
+									</a>
+								</li>
+							</ul>
+						</ChatAndIndustryInfoContainer>
+					</li>
+				</ul>
+
+			{/*
+				<ul style={{position:"relative",padding:"5px",backgroundColor:"white"}}>
+									<li style={MessageListNestedCSS}>
+										<EmojiButton>
+										</EmojiButton>
+									</li>
+
+									<li style={MessageListNestedCSS}>
+										<SubmitButton>
+										</SubmitButton>
+
+									</li>
+				</ul>
+			*/}
+			</React.Fragment>
 		)
 	}
 }
 
-export default ChatRoom;
+const mapStateToProps=(state)=>{
+	return{
+		personalName:state.personalInformation.firstName
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	null
+)(ChatRoom);
+

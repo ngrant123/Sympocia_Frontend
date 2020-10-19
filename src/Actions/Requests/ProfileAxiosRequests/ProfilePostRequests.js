@@ -474,6 +474,21 @@ export const removeRecruitProfileIsntFollowing=async({personalProfileId,targetPr
 }
 
 
+export const changeHasViewedArenaWinnersIndicator=async(_id)=>{
+	try{
+		const indicatorResponse=await axios.post(`${CreateUrl}/changeHasViewedArenaWinnersIndicator`,{
+			_id
+		});
+
+		const {data}=indicatorResponse;
+		return data;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
+
 
 
 

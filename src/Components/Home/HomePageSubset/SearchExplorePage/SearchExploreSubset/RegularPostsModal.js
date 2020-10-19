@@ -81,6 +81,7 @@ const RegularPostLabelCSS={
 }
 
 const RegularPostModal=(props)=>{
+	debugger;
 	console.log(props);
 	const headerRegularPost=props.posts[0];
 	const regularPosts=props.posts.slice(1,props.posts.length);
@@ -146,118 +147,134 @@ const RegularPostModal=(props)=>{
 
 	return(
 		<React.Fragment>
-				<li style={{position:"relative",top:"-220px",listStyle:"none",display:"inline-block",width:"50%"}}>
-					<ul style={{padding:"0px"}}>
+			{headerRegularPost!=null?
+				<ul>
+					<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"50%"}}>
+						<ul style={{padding:"0px"}}>
 
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li style={{position:"relative",top:"-150px",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px",overflow:"hidden"}}>
-								<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}>
-									<img src={headerRegularPost.owner.profilePicture!=null?
-											  headerRegularPost.owner.profilePicture:
-											  NoProfilePicture} 
-									style={{height:"20%",width:"90%",borderRadius:"50%"}}/>
-								</ProfilePictureLink>
-							</li>
-						</a>
-
-						<li style={{position:"relative",top:"-50px",listStyle:"none",display:"inline-block",width:"70%",overflow:"hidden",marginLeft:"5%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginBottom:"2%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{display:"inline-block",listStyle:"none",fontSize:"30px",marginRight:"2%"}}>
-											<b>{headerRegularPost.owner.firstName}</b>
-										</li>
-
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li  onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerRegularPost.industriesUploaded,props)} style={RegularPostLabelCSS}>
-												{headerRegularPost.industriesUploaded[0].industry}
-											</li>
-										</a>
-
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={{display:"inline-block",listStyle:"none"}}>
-												{displayRecruitButton(headerRegularPost,props)}
-											</li>
-										</a>
-									</ul>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px",overflow:"hidden"}}>
+									<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}>
+										<img src={headerRegularPost.owner.profilePicture!=null?
+												  headerRegularPost.owner.profilePicture:
+												  NoProfilePicture} 
+										style={{height:"20%",width:"90%",borderRadius:"50%"}}/>
+									</ProfilePictureLink>
 								</li>
-							
-								<li onClick={()=>handleDisplayHeaderPost()} style={{listStyle:"none",height:"30%",overflowY:"scroll",display:"inline-block",width:"80%",fontSize:"20px"}}>
-									{headerRegularPost.post}
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
+							</a>
 
-				<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"2%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
-					<ul style={{padding:"0px"}}>
-						{regularPosts.map(data=>
-							<React.Fragment>
-								{data=="suggestedSymposium"?
-									<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"0px",marginBottom:"8%",width:"70%",marginRight:"4%"}}>
-										{constructSuggestedSymposium(personalInformationRedux,props)}
-									</li>
-									:
-									<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"90%",marginRight:"2%"}}>
+							<li style={{position:"relative",top:"70px",listStyle:"none",display:"inline-block",width:"70%",overflow:"hidden",marginLeft:"5%"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginBottom:"2%"}}>
 										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-															<img src={data.owner.profilePicture!=null?
-																	data.owner.profilePicture:
-																	NoProfilePicture} 
-															style={{height:"15%",width:"50px",borderRadius:"50%"}}/>
-														</ProfilePictureLink>
-													</li>
-													<li style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
-														<b>{data.owner.firstName} </b>
-													</li>
-												</ul>
+											<li style={{display:"inline-block",listStyle:"none",fontSize:"30px",marginRight:"2%"}}>
+												<b>{headerRegularPost.owner.firstName}</b>
 											</li>
 
-											<li style={{listStyle:"none"}}>
-												<ul style={{padding:"0px"}}>
-													<li onClick={()=>displayPostModal(data)} style={{listStyle:"none",marginBottom:"1%",height:"20%",overflowY:"scroll",color:"#BDBDBD"}}>
-														<b> 
-															{data.isAudioPost==true?
-																<audio controls>
-																 	<source src={data.audioDescription} type="audio/ogg"/>
-																  	<source src={data.audioDescription} type="audio/mpeg"/>
-																	Your browser does not support the audio element.
-																</audio>
-																:
-																<>{data.post}</>
-															}
-															
-														 </b>
-													</li>
-													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-														<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={RegularPostLabelCSS}>
-															{data.industriesUploaded[0].industry}
-														</li>
-													</a>
-													{displayRecruitButton(data,props)}
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li  onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerRegularPost.industriesUploaded,props)} style={RegularPostLabelCSS}>
+													{headerRegularPost.industriesUploaded[0].industry}
+												</li>
+											</a>
 
-												</ul>
-											</li>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li style={{display:"inline-block",listStyle:"none"}}>
+													{displayRecruitButton(headerRegularPost,props)}
+												</li>
+											</a>
 										</ul>
 									</li>
-								}
-							</React.Fragment>
-						)}
-					</ul>
-				</li>
-				{displayRegualrPostDisplayPortal==false?
-					null:
-					<RegularPostDisplayPortal
-						closeModal={closeModal}
-						selectedPost={selectedRegularPost}
-						recommendedPosts={displayRecommendedPosts}
-						targetDom={props.targetDom}
-					/>
-				}
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>handleDisplayHeaderPost()} style={{listStyle:"none",height:"30%",overflowY:"scroll",display:"inline-block",width:"80%",fontSize:"20px"}}>
+												{headerRegularPost.isAudioPost==true?
+													<audio controls>
+													 	<source src={headerRegularPost.post} type="audio/ogg"/>
+													  	<source src={headerRegularPost.post} type="audio/mpeg"/>
+														Your browser does not support the audio element.
+													</audio>
+													:
+													<>{headerRegularPost.post}</>
+												}
+										</li>
+									</a>
+								</ul>
+							</li>
+						</ul>
+					</li>
+
+					<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"2%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
+						<ul style={{padding:"0px"}}>
+							{regularPosts.map(data=>
+								<React.Fragment>
+									{data=="suggestedSymposium"?
+										<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"0px",marginBottom:"8%",width:"70%",marginRight:"4%"}}>
+											{constructSuggestedSymposium(personalInformationRedux,props)}
+										</li>
+										:
+										<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"90%",marginRight:"2%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block"}}>
+															<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+																<img src={data.owner.profilePicture!=null?
+																		data.owner.profilePicture:
+																		NoProfilePicture} 
+																style={{height:"15%",width:"50px",borderRadius:"50%"}}/>
+															</ProfilePictureLink>
+														</li>
+														<li style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
+															<b>{data.owner.firstName} </b>
+														</li>
+													</ul>
+												</li>
+
+												<li style={{listStyle:"none"}}>
+													<ul style={{padding:"0px"}}>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<li onClick={()=>displayPostModal(data)}
+																 style={{listStyle:"none",marginBottom:"1%",height:"20%",overflowY:"scroll",color:"#BDBDBD"}}>
+																<b> 
+																	{data.isAudioPost==true?
+																		<audio controls>
+																		 	<source src={data.post} type="audio/ogg"/>
+																		  	<source src={data.post} type="audio/mpeg"/>
+																			Your browser does not support the audio element.
+																		</audio>
+																		:
+																		<>{data.post}</>
+																	}
+																	
+																 </b>
+															</li>
+														</a>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={RegularPostLabelCSS}>
+																{data.industriesUploaded[0].industry}
+															</li>
+														</a>
+														{displayRecruitButton(data,props)}
+													</ul>
+												</li>
+											</ul>
+										</li>
+									}
+								</React.Fragment>
+							)}
+						</ul>
+					</li>
+				</ul>:
+				<p> No posts yet </p>
+			}
+			{displayRegualrPostDisplayPortal==false?
+				null:
+				<RegularPostDisplayPortal
+					closeModal={closeModal}
+					selectedPost={selectedRegularPost}
+					recommendedPosts={displayRecommendedPosts}
+					targetDom={props.targetDom}
+				/>
+			}
 		</React.Fragment>
 	)
 }

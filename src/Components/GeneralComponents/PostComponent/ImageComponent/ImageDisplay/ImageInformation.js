@@ -128,12 +128,13 @@ const ImageInformation=(props)=>{
 											<li style={{listStyle:"none"}}>
 												<p style={{fontSize:"20px"}}>{props.imageInformation.firstName}</p>
 											</li>
-
-											<li style={{listStyle:"none"}}>	
-												<IndustryButton>
-													{props.imageInformation.industriesUploaded[0].industry}
-												</IndustryButton>
-											</li>
+											{props.imageInformation.industriesUploaded.length>0 &&(
+												<li style={{listStyle:"none"}}>	
+													<IndustryButton>
+														{props.imageInformation.industriesUploaded[0].industry}
+													</IndustryButton>
+												</li>
+											)}
 										</ul>
 									</li>
 

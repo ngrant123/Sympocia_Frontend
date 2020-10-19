@@ -1,11 +1,11 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import TestProfilePicture from "../../../../designs/img/FirstSectionLandingPAgeImage.png";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import {ArenaConsumer} from "./ArenaContext.js";
 import {addBoost} from "../../../../Actions/Requests/ArenaPageAxiosRequests/ArenaPageSetRequests.js";  
-
+import CompetitionEndDate from "./CompetitionEndsDecider.js";
 
 const Container=styled.div`
 	width:90%;
@@ -33,7 +33,8 @@ const CompetitionButton={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  marginLeft:"3%"
+  marginLeft:"3%",
+  width:"25%"
 }
 
 const BoostButton={
@@ -46,6 +47,18 @@ const BoostButton={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec"
+}
+
+const BoostedButtonCSS={
+ listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"5px",
+  color:"#FFC107",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#FFC107"
 }
 
 /*
@@ -72,50 +85,181 @@ class ImageSection extends Component{
 
 	constructor(props){
 		super(props);
+		console.log(props);
+		debugger;
+		let{
+			endDate,
+			posts,
+			arenaId
+		}=props.posts;
+
+		let headerPost;
+
+		if(posts!=null){
+			headerPost=posts[0];
+			posts=posts.slice(1,posts.length);
+		}
+
 		this.state={
 			searchName:"",
-			headerImage:{score:45,rank:1,firstName:"Nathan"},
-			posts:[{caption:"Caption title",description:"test1",rank:1},{rank:2},{rank:3},{rank:4},{rank:5}]
+			headerPost,
+			posts,
+			arenaId
 		}
 	}
 	
 	boostPost=async(postSelected,arenaContext)=>{
-		const {
-			_id,
-			score
-		}=postSelected
-		const {arenaId}=arenaContext;
-
-		const {confirmation,data}=await addBoost({
-											_id,
-											score,
-											postType:"Images",
-											arenaId:arenaId
-										});
-		if(confirmation=="Success"){
-			const newCurrentPosts=this.state.posts.splice(0,0,this.state.headerImage);
-			for(var i=0;i<newCurrentPosts.length;i++){
-				if(newCurrentPosts[i]._id==_id){
-					newCurrentPosts[i]={
-						...newCurrentPosts[i],
-						score:score+1
-					}
-				}
-			}
-
-			newCurrentPosts.sort((a,b)=>{
-				return a.score<b.score
-			})
-			this.setState({
-				headerImage:newCurrentPosts[0],
-				posts:newCurrentPosts.splice(0,0)
-			},()=>{
-				arenaContext.handleBoost();
-			})
-		}else{
-			alert('Unfortunately there has been an error with boosting this post. Please try again');
+		debugger;
+		const {_id,image}=postSelected;
+		const {score}=image
+		const {arenaId}=this.props.posts;
+		const boostInformation={
+			postId:_id,
+			score,
+			postType:"Images",
+			arenaId
 		}
+		arenaContext.triggerBoostCall(boostInformation);
 	}
+	
+	headerPost=(arenaContext)=>{
+		debugger;
+		console.log(this.props.posts);
+		let{posts}=this.props.posts;
+		let headerPost=posts[0];
+		console.log(headerPost);
+		return 	<ul style={{padding:"0px"}}>
+					<li style={{listStyle:"none"}}>
+						<ul style={{padding:""}}>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<p> Ranking: <ArrowDropUpIcon style={{color:"#01ff30"}}/> 1 </p>
+							</li>
+						</ul>
+					</li>
+					<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+						<li onClick={()=>arenaContext.displayPostModal("Images",headerPost.image)} style={{listStyle:"none"}}>
+							<img src={headerPost.image.imgUrl} style={{width:"100%",height:"55%",borderRadius:"5px"}}/>
+						</li>
+					</a>
+
+					<li style={{listStyle:"none",marginTop:"1%",marginBottom:"1%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block",width:"15%"}}>	
+								<a href={`/profile/${headerPost.image.owner._id}`} style={{textDecoration:"none"}}>
+									<img src={headerPost.image.owner.profilePicture==null?
+												NoProfilePicture:
+												headerPost.image.owner.profilePicture
+											}
+									style={{borderRadius:"50%",width:"100%",height:"10%"}}/>
+								</a>
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"2%"}}>
+								<b>{headerPost.image.owner.firstName}</b>
+							</li>
+						</ul>
+					</li>
+
+					{headerPost.image.hasProfileVoted==false?
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li style={BoostButton} onClick={()=>this.boostPost(headerPost,arenaContext)}>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
+								  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								  <path stroke="none" d="M0 0h24v24H0z"/>
+								  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
+								</svg>
+
+								Boost
+							</li>
+						</a>:
+						<li style={BoostedButtonCSS}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
+							  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							  <path stroke="none" d="M0 0h24v24H0z"/>
+							  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
+							</svg>
+
+							Boosted
+						</li>
+					}
+				</ul>
+	}
+
+	posts=(arenaContext)=>{
+		let{posts}=this.props.posts;
+		posts=posts.slice(1,posts.length);
+
+		return <ul style={{padding:"0px"}}>
+				{posts.map((data,index)=>
+					<li style={{listStyle:"none",display:"inline-block",width:"30%",marginLeft:"2%",marginBottom:"5%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:""}}>
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<p> Ranking: <ArrowDropUpIcon style={{color:"#01ff30"}}/>{index+2} </p>
+									</li>
+								</ul>
+							</li>
+
+							<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+								<li onClick={()=>arenaContext.displayPostModal("Images",data.image)} style={{listStyle:"none"}}>
+									<img src={data.image.imgUrl}
+									style={{width:"90%",height:"30%",borderRadius:"5px"}}/>
+								</li>
+							</a>
+
+							<li style={{listStyle:"none",marginTop:"1%",marginBottom:"1%"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",display:"inline-block",width:"20%"}}>
+										<a href={`/profile/${data.image.owner._id}`} style={{textDecoration:"none"}}>	
+											<img src={data.image.owner.profilePicture==null?
+														NoProfilePicture:
+														data.image.owner.profilePicture
+													} style={{borderRadius:"50%",width:"100%",height:"10%"}}
+											/>
+										</a>
+									</li>
+
+									<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"2%"}}>
+										<b>{data.image.owner.firstName}</b>
+									</li>
+								</ul>
+							</li>	
+							{data.image.hasProfileVoted==false?
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li style={BoostButton} onClick={()=>this.boostPost(data,arenaContext)}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
+										  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										  <path stroke="none" d="M0 0h24v24H0z"/>
+										  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
+										</svg>
+
+										Boost
+									</li>
+								</a>:
+								<li style={BoostedButtonCSS}>
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
+									  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
+									  <path stroke="none" d="M0 0h24v24H0z"/>
+									  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
+									</svg>
+
+									Boosted
+								</li>
+							}
+						</ul>
+					</li>
+				)}
+				{this.state.posts.length>5?
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li style={{listStyle:"none"}}>
+							See more... 
+						</li>
+					</a>:null
+				}
+			</ul>
+	}
+
 	render(){
 		return(
 			<ArenaConsumer>
@@ -129,129 +273,48 @@ class ImageSection extends Component{
 								</li>
 
 								<a href="javascript:void(0)">
-									<li onClick={()=>arenaContext.displayViewAllModal("Image")} style={{marginLeft:"3%",listStyle:"none",display:"inline-block",color:"#03A9F4"}}>
+									<li onClick={()=>arenaContext.displayViewAllModal(2,"Images")} style={{marginLeft:"3%",listStyle:"none",display:"inline-block",color:"#03A9F4"}}>
 										View all
 									</li>
 								</a>
 
 								<a href="javascript:void(0)">
-									<li onClick={()=>arenaContext.displayPreviousWinners("Image")} style={{marginLeft:"3%",listStyle:"none",display:"inline-block",color:"black"}}>
+									<li onClick={()=>arenaContext.displayPreviousWinners("Images")} style={{marginLeft:"3%",listStyle:"none",display:"inline-block",color:"black"}}>
 										View Previous Winners
 									</li>
 								</a>
 
 								<a href="javascript:void(0)">
-									<li onClick={()=>arenaContext.displayReactionModal("Image")} style={{marginLeft:"3%",listStyle:"none",display:"inline-block",color:"black"}}>
+									<li onClick={()=>arenaContext.displayReactionModal("Images",this.state.arenaId)}
+										 style={{marginLeft:"3%",listStyle:"none",display:"inline-block",color:"black"}}>
 										See What people are saying
 									</li>
 								</a>
 								<li style={CompetitionButton}>
-									Competition Ends: Friday 13
+									{this.props.posts.endDate==null ?
+											<p> No competition end date </p>:
+											<CompetitionEndDate
+												days={this.props.posts.endDate.competitionEndDate}
+											/>
+										}
 								</li>
 							</ul>
-
 						</li>
 						<InputContainer placeholder="Search for someone here"/>
 						<li style={{listStyle:"none",marginTop:"2%"}}>
 							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:""}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<p> Ranking: <ArrowDropUpIcon style={{color:"#01ff30"}}/> {this.state.headerImage.rank} </p>
-												</li>
-											</ul>
-										</li>
-										<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-											<li onClick={()=>arenaContext.displayPostModal("Image",this.state.headerImage)} style={{listStyle:"none"}}>
-												<img src={this.state.headerImage.imgSrc==null?TestProfilePicture:this.state.headerImage.imgSrc}
-												style={{width:"100%",height:"55%",borderRadius:"5px"}}/>
-											</li>
-										</a>
+								{this.state.headerPost!=null ?
+									<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
+										{this.headerPost(arenaContext)}
+									</li>
+									:<p> No posts :(</p>
+								}
 
-										<li style={{listStyle:"none",marginTop:"1%",marginBottom:"1%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",width:"15%"}}>	
-													<img src={this.state.headerImage.imgSrc==null?TestProfilePicture:this.state.headerImage.imgSrc}
-													style={{borderRadius:"50%",width:"100%",height:"10%"}}/>
-												</li>
-
-												<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"2%"}}>
-													<b>{this.state.headerImage.firstName}</b>
-												</li>
-											</ul>
-										</li>
-
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={BoostButton} onClick={()=>this.boostPost(this.state.headerImage,arenaContext)}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
-												  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z"/>
-												  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
-												</svg>
-
-												Boost
-											</li>
-										</a>
-									</ul>
-								</li>
-
-								<li style={{position:"relative",listStyle:"none",display:"inline-block",marginLeft:"5%",height:"75%",top:"0px",width:"55%",overflowX:"scroll"}}>
-									<ul style={{padding:"0px"}}>
-										{this.state.posts.map(data=>
-											<li style={{listStyle:"none",display:"inline-block",width:"30%",marginLeft:"2%",marginBottom:"5%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none"}}>
-														<ul style={{padding:""}}>
-															<li style={{listStyle:"none",display:"inline-block"}}>
-																<p> Ranking: <ArrowDropUpIcon style={{color:"#01ff30"}}/> {this.state.headerImage.rank} </p>
-															</li>
-														</ul>
-													</li>
-
-													<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-														<li onClick={()=>arenaContext.displayPostModal("Image",data)} style={{listStyle:"none"}}>
-															<img src={this.state.headerImage.imgSrc==null?TestProfilePicture:this.state.headerImage.imgSrc}
-															style={{width:"90%",height:"30%",borderRadius:"5px"}}/>
-														</li>
-													</a>
-
-													<li style={{listStyle:"none",marginTop:"1%",marginBottom:"1%"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",width:"20%"}}>	
-																<img src={this.state.headerImage.imgSrc==null?TestProfilePicture:this.state.headerImage.imgSrc}
-																style={{borderRadius:"50%",width:"100%",height:"10%"}}/>
-															</li>
-
-															<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"2%"}}>
-																<b>{this.state.headerImage.firstName}</b>
-															</li>
-														</ul>
-													</li>
-													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-														<li style={BoostButton} onClick={()=>this.boostPost(data,arenaContext)}>
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="25" height="25" viewBox="0 0 24 24"
-															  stroke-width="1" stroke="#FFC107" fill="none" stroke-linecap="round" stroke-linejoin="round">
-															  <path stroke="none" d="M0 0h24v24H0z"/>
-															  <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
-															</svg>
-
-															Boost
-														</li>
-													</a>
-												</ul>
-											</li>
-										)}
-										{this.state.posts.length>5?
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li style={{listStyle:"none"}}>
-													See more... 
-												</li>
-											</a>:null
-										}
-									</ul>
-								</li>
+								{this.state.posts!=null &&(
+									<li style={{position:"relative",listStyle:"none",display:"inline-block",marginLeft:"5%",height:"75%",top:"0px",width:"55%",overflowX:"scroll"}}>
+										{this.posts(arenaContext)}
+									</li>
+								)}
 							</ul>
 						</li>
 					</ul>

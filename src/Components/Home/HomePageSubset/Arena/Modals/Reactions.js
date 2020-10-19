@@ -2,13 +2,18 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import VideoDescriptionPortal from "../../../../GeneralComponents/PostComponent/VideoDescriptionPortal.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
-import TestProfilePicture from "../../../../../designs/img/FirstSectionLandingPAgeImage.png";
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import MicIcon from '@material-ui/icons/Mic';
-
- import {
+import {connect} from "react-redux";
+import {
 	getVideoReactions,
 	getTextComments
 } from "../../../../../Actions/Requests/ArenaPageAxiosRequests/ArenaPageGetRequests.js";  
+
+import {
+	addTextReaction,
+	addVideoReaction
+} from "../../../../../Actions/Requests/ArenaPageAxiosRequests/ArenaPageSetRequests.js";  
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -95,7 +100,8 @@ const BackButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  width:"10%"
+  width:"10%",
+  marginBottom:"2%"
 }
 
 const ButtonCSS={
@@ -133,24 +139,22 @@ class Reaction extends Component{
 			arenaId,
 			postType
 		}=this.props
-		const {confirmation,data}=await getVideoReactions({arenaId,postType,textCounter:1})
-		if(confirmation=="Success"){
-			this.setState({
-				videoReactions:data,
-				isLoading:false
-			})
-		}else{	
-			alert('Unfortunately there has been an issue with get the video reaections. Please try again');
+		if(this.props.arenaId!=null){
+			const {confirmation,data}=await getVideoReactions({arenaId,postType,textCounter:1})
+			console.log(data);
+			if(confirmation=="Success"){
+				this.setState({
+					videoReactions:data,
+					isLoading:false
+				})
+			}else{	
+				alert('Unfortunately there has been an issue with get the video reaections. Please try again');
 
+			}
 		}
-		
 	}
 
-	creationPrompt=()=>{
-	}
 	videoReactions=()=>{
-		if(this.state.isLoading==false)
-			document.getElementById("container").style.backgroundColor="#1d1d1d";
 
 		return <>
 		{this.state.displayVideoReactions==true?
@@ -162,11 +166,15 @@ class Reaction extends Component{
 									<li style={{listStyle:"none",marginTop:"1%",marginBottom:"1%"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",display:"inline-block",width:"10%"}}>	
-												<img src={data.profilePicture==null?TestProfilePicture:data.profilePicture}
-												style={{borderRadius:"50%",width:"100%",height:"15%"}}/>
+												<a href={`/profile/${data.owner._id}`} style={{textDecoration:"none"}}>
+													<img src={data.owner.profilePicture==null
+																?NoProfilePicture
+																:data.owner.profilePicture}
+													style={{borderRadius:"50%",width:"100%",height:"15%"}}/>
+												</a>
 											</li>
 
-											<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"2%"}}>
+											<li style={{color:"#FFFFFF",listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"2%"}}>
 												<b>{data.owner.firstName}</b>
 											</li>
 										</ul>
@@ -174,7 +182,7 @@ class Reaction extends Component{
 								</VideoOwnerInformationContainer>
 
 								<video style={{borderRadius:"5px"}} width="80%" height="80%" autoplay="true" controls>
-									<source src={data.videoSrc} type="video/mp4"/>
+									<source src={data.videoUrl} type="video/mp4"/>
 								</video>
 							</li>
 							<hr/>
@@ -182,12 +190,10 @@ class Reaction extends Component{
 					)}
 				</ul>:null
 		}
-				</>
+	  </>
 	}
-
+//
 	textReaction=()=>{
-		if(this.state.isLoading==false)
-			document.getElementById("container").style.backgroundColor="white";
 		return <>
 				{this.state.displayTextReactions==true?
 					<ul>
@@ -195,25 +201,24 @@ class Reaction extends Component{
 							<>
 								<li style={{listStyle:"none",marginTop:"1%",marginBottom:"1%"}}>
 									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",width:"15%"}}>	
-											<img src={data.profilePicture==null?TestProfilePicture:data.profilePicture}
-											style={{borderRadius:"50%",width:"100%",height:"20%"}}/>
+										<li style={{listStyle:"none",display:"inline-block",width:"15%"}}>
+											<a href={`/profile/${data.owner._id}`} style={{textDecoration:"none"}}>
+												<img src={data.owner.profilePicture==null?
+														NoProfilePicture:
+														data.owner.profilePicture}
+												style={{borderRadius:"50%",width:"100%",height:"20%"}}/>
+											</a>
 										</li>
 
-										<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"2%"}}>
+										<li style={{color:"#FFFFFF",listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"2%"}}>
 											<b>{data.owner.firstName}</b>
 										</li>
 									</ul>
 								</li>
-								<li style={{listStyle:"none",height:"40%",overflowY:"auto",marginBottom:"1%"}}>
-									  Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-									  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-									  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-									  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-									  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-									  qui officia deserunt mollit anim id est laborum.
+								<li style={{color:"#FFFFFF",listStyle:"none",height:"40%",overflowY:"auto",marginBottom:"1%"}}>
+									 {data.post}
 								</li>
+								<hr/>
 							</>
 						)}
 					</ul>
@@ -227,37 +232,85 @@ class Reaction extends Component{
 			videoCreationSrc:videoSrc
 		})
 	}
-	submitTextReaction=()=>{
+	submitTextReaction=async()=>{
+		const {
+			personalState,
+            postType,
+            arenaId
+		}=this.props;
+		const post=document.getElementById("textReaction").value;
 
+		const textReaction={
+            post,
+            ownerId:personalState.id,
+            postType,
+            arenaId
+        }
+        let {confirmation,data}=await addTextReaction(textReaction);
+        debugger;
+		if(confirmation=="Success"){
+			data={
+				...data,
+				owner:{
+					...data.owner,
+					firstName:this.props.personalState.firstName
+				}
+			}
+			const currentTextReactions=this.state.textReactions;
+			currentTextReactions.splice(0,0,data);
+
+			this.setState(prevState=>({
+				...prevState,
+				textReactions:currentTextReactions,
+				displayCreationPrompt:false,
+				createVideoReaction:false,
+				createTextReaction:false
+			}))
+
+		}else{
+			alert('Unfortunately there was an error creating your video response. Please try again');
+		}
 	}
 
-	submitVideoReaction=()=>{
-		/*
-			const {confirmation,data}=await createVideoResponse(videoResponse);
-			if(confirmation=="Success"){
-				const newComment={
-						videoSrc:this.state.createdVideoSrc,
-						profilePicture:data.profilePicture,
-						ownerObject:{
-							owner:{
-								firstName:isPersonalProfileIndicator==true?this.props.personalState.firstName:
-								this.props.companyState.companyName
-							}
-						},
-						_id:data.comments.videoComments[data.comments.videoComments.length-1]._id.toString()
-					}
+	submitVideoReaction=async()=>{
+		const {
+			personalState,
+            postType,
+            arenaId
+		}=this.props;
 
-				const currentVideos=this.state.videoResponses;
-				currentVideos.splice(0,0,newComment);
-				this.setState({
-					videoResponses:currentVideos
-				},function(){
-					this.props.closeVideoCreationModal()
-				})
-			}else{
-				alert('Unfortunately there was an error creating your video response. Please try again');
+		const videoReaction={
+            videoUrl:this.state.videoCreationSrc,
+            ownerId:personalState.id,
+            postType,
+            arenaId
+        }
+
+		let {confirmation,data}=await addVideoReaction(videoReaction);
+		debugger;
+		if(confirmation=="Success"){
+			console.log(data);
+			data={
+				...data,
+				owner:{
+					...data.owner,
+					firstName:this.props.personalState.firstName
+				}
 			}
-		*/
+			const currentVideoReactions=this.state.videoReactions;
+			currentVideoReactions.splice(0,0,data);
+
+			this.setState(prevState=>({
+				...prevState,
+				videoReactions:currentVideoReactions,
+				displayCreationPrompt:false,
+				createVideoReaction:false,
+				createTextReaction:false,
+				confirmationVideoReactionCreation:false
+			}))
+		}else{
+			alert('Unfortunately there was an error creating your video response. Please try again');
+		}
 	}
 
 	fetchTextReactions=async()=>{
@@ -276,7 +329,6 @@ class Reaction extends Component{
 			})
 		}else{	
 			alert('Unfortunately there has been an issue with get the video reaections. Please try again');
-
 		}
 	}
 
@@ -330,12 +382,16 @@ class Reaction extends Component{
 							{this.state.createVideoReaction==true || this.state.createTextReaction==true?
 								<li style={{listStyle:"none",marginTop:"2%"}}>
 									<ul style={{padding:"0px"}}>
-										<li onClick={()=>this.setState({
-													createVideoReaction:false,
-													createTextReaction:false
-												 })} style={BackButtonCSS}>
-											Back
-										</li>
+
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>this.setState({
+														createVideoReaction:false,
+														createTextReaction:false
+													 })} style={BackButtonCSS}>
+												Back
+											</li>
+										</a>
+
 										{this.state.createVideoReaction==true?
 											<li style={{listStyle:"none"}}>
 												{this.state.confirmationVideoReactionCreation==false?
@@ -350,18 +406,22 @@ class Reaction extends Component{
 																<source src={this.state.videoCreationSrc} type="video/mp4"/>
 															</video>
 														</li>
-														<li onClick={()=>this.submitVideoReaction()} style={ButtonCSS}>
-															Submit
-														</li>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<li onClick={()=>this.submitVideoReaction()} style={ButtonCSS}>
+																Submit
+															</li>
+														</a>
 													</ul>
 												}
 											</li>:
 											<li style={{listStyle:"none"}}>
 												<ul style={{padding:"0px"}}>
 													<InputContainer id="textReaction" placeholder="Enter a reaction here"/>
-													<li onClick={()=>this.submitTextReaction()}style={ButtonCSS}>
-														Submit
-													</li>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<li onClick={()=>this.submitTextReaction()}style={ButtonCSS}>
+															Submit
+														</li>
+													</a>
 												</ul>
 											</li>
 										}
@@ -402,4 +462,15 @@ class Reaction extends Component{
 
 }
 
-export default Reaction;
+const mapStateToProps=(state)=>{
+	return{
+		personalState:state.personalInformation
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	null
+)(Reaction);
+
+

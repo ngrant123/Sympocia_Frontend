@@ -200,8 +200,8 @@ class PersonalFeedContainer extends Component{
 		  pathname:`/symposium/${data.symposium}`,
 		  state: {
 		  	selectedSymposium:data,
-			symposiums:symposiums,
-			profileId:this.props.profileId
+			profileId:this.props.profileId,
+			symposiums
 		  }
 		});
 	}

@@ -1,4 +1,4 @@
-import {axios} from "axios";
+import axios from "axios";
 
 
 /*
@@ -13,7 +13,7 @@ import {axios} from "axios";
     removeTextReactionComment,
     removePostArena
 */
-const arenaUrl='localhost:4000/api/arena/alter'
+const arenaUrl='http://localhost:4000/api/arena/alter'
 export const addTextReaction=async(textReaction)=>{
 	try{
 		const {
@@ -65,16 +65,18 @@ export const addVideoReaction=async(videoReaction)=>{
 	try{
 		const {
          	postId,
-            currentBoostCount,
+            score,
             postType,
-            arenaId
+            arenaId,
+            userId
 		}=boostInformation;
 
 		const boostResponse=await axios.post(`${arenaUrl}/addBoostToPost`,{
          	postId,
-            currentBoostCount,
+            score,
             postType,
-            arenaId
+            arenaId,
+            userId
 		});
 		const {data}=boostResponse;
 		return data;

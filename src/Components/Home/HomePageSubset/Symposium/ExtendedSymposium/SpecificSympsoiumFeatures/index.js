@@ -133,18 +133,21 @@ const SpecificFeatureSymposium=({symposium,symposiumId,questions})=>{
 			}}
 		>
 			{isLoadingFeatureSymposiums==false?
-				<ul style={{padding:"0px"}}>
-					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li style={ChatOption}>
-							Show chat 
-						</li>
-					</a>
-					<hr/>
+				<div>
+					<ul style={{padding:"0px",position:"fixed",top:"45%"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li style={ChatOption}>
+								Show chat 
+							</li>
+						</a>
+						<hr/>
 
-					<li style={{listStyle:"none"}}>
-						{featureDecider()}
-					</li>
-				</ul>:null
+						<li style={{listStyle:"none"}}>
+							{featureDecider()}
+						</li>
+					</ul>
+				</div>:
+				null
 			}
 		</FeatureProvider>
 	)
