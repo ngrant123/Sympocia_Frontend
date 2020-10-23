@@ -176,11 +176,11 @@ const PreviousWinnersModal=({closeModal,postType,currentPosts})=>{
 						<li style={{listStyle:"none",display:"inline-block",width:"30%",marginLeft:"2%",marginBottom:"5%"}}>
 							<ul style={{padding:"0px"}}>
 								{/*
-
+									<li style={DateCaption}>
+										Winner on: {constructDate(data.winnerDate)}
+									</li>
 								*/}
-								<li style={DateCaption}>
-									Winner on: {constructDate(data.winnerDate)}
-								</li>
+					
 								<p style={{fontSize:"15px",height:"5%",overflow:"hidden"}}>
 									<b>{data.winner.title}</b>
 								</p>
