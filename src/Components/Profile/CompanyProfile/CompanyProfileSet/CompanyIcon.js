@@ -1,6 +1,5 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import domtoimage from 'dom-to-image';
 import { connect } from "react-redux";
 import { addCompanyIcon } from "../../../../Actions/Redux/Actions/CompanyActions";
 import {CompanyConsumer} from "../CompanyContext.js";

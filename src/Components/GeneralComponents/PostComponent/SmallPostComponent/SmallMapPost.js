@@ -1,11 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import {
-  Map, 
-  TileLayer, 
-  Marker, 
-  Popup
-} from 'react-leaflet';
 
 
 const Container = styled.div`
@@ -115,12 +109,12 @@ class SmallMapPost extends Component{
 	}
 
 	handleMouseEnter(){
-		document.getElementById("mapDescriptionContainer").style.opacity=1;
+		//document.getElementById("mapDescriptionContainer").style.opacity=1;
 	}
 
 	handleMouseOut(){
 
-		document.getElementById("mapDescriptionContainer").style.opacity=.3;
+		//document.getElementById("mapDescriptionContainer").style.opacity=.3;
 
 	}
 
@@ -129,36 +123,7 @@ class SmallMapPost extends Component{
 
 		return(
 
-			<Container onMouseEnter={()=>this.handleMouseEnter()} onMouseOut={()=>this.handleMouseOut()}>
-
-				<Map center={position} zoom={this.state.zoom} style={{position:"relative",height:"300px",width:"107%",zIndex:"1"}}>
-			        <TileLayer
-			          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-			          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-			        />
-			        <Marker position={position}>
-			          <Popup>
-			            A pretty CSS3 popup. <br /> Easily customizable.
-			          </Popup>
-			        </Marker>
-      			</Map>
-
-      			<MapDescriptionContainer id="mapDescriptionContainer">
-
-      				<MapPersonProfilePictureContainer>
-      					<MapPersonProfilePicture>
-
-      					</MapPersonProfilePicture>
-
-      				</MapPersonProfilePictureContainer>
-
-      				<MapDescription>Hello this is a picture description Hello this is a picture description Hello this is a picture description</MapDescription>
-      				<MapJoiningPeopleContainer></MapJoiningPeopleContainer>
-      				<MapExpandDescriptionContainer>Expand Description</MapExpandDescriptionContainer>
-
-
-      			</MapDescriptionContainer>
-
+			<Container>
 			</Container>
 		);
 	}

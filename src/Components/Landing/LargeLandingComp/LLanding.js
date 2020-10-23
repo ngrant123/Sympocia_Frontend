@@ -4,7 +4,6 @@ import {BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import  FirstSection from '../LandingFirstSection';
 import  SecondSection  from '../LandingSecondSection';
 import ThirdSection from '../LandingThirdSection';
-import ReactPageScroller from "react-page-scroller";
 
 const Container = styled.div`
    position: absolute;
@@ -17,6 +16,7 @@ const Container = styled.div`
 
    textarea::-webkit-input-placeholder {  color:#DBDADC;}
 `;
+//Not used delete later
 
 const LLanding=()=>{
 
@@ -53,19 +53,12 @@ const LLanding=()=>{
     //Could use context but theres not really any point for this its too heavy
 
     return(
-
-        <ReactPageScroller
-          {...options}
-        >
-                <FirstSection/>
-                <SecondSection
-                  preventScroll={preventScrollAnimation}
-                  enableScroll={enableScrollAnimation}
-                />
-                <ThirdSection/>
-
-
-      </ReactPageScroller>
+            <FirstSection/>
+            <SecondSection
+              preventScroll={preventScrollAnimation}
+              enableScroll={enableScrollAnimation}
+            />
+            <ThirdSection/>
       )
 
 }

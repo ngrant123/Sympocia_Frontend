@@ -1,12 +1,10 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import { ScrollPage} from 'react-scrollpage';
 import HotCategoriesContainer from "./HotCategoriesContainer";
 import ImageContainer from "../../../../../Components/GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 import RegularPostContainer from "../../../../../Components/GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
 import BlogPostContainer from "../../../../../Components/GeneralComponents/PostComponent/BlogComponent/BlogPostDisplay/BlogPostContainer.js";
 import VideoPostContainer from "../../../../../Components/GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
-import ReactSnapScroll from 'react-snap-scroll';
 
 
 const ExamplePosts=styled.div`
@@ -95,17 +93,6 @@ class PostContainer extends Component{
 				<ul style={{padding:"0px"}}>
 					
 				</ul>
-		{/*
-			<ReactSnapScroll 
-					transition="move-top-bottom"
-					customDuration={"50000","50000"}
-					>
-			 			
-		
-
-			</ReactSnapScroll>
-		*/}
-			
 
 			</React.Fragment>
 		)

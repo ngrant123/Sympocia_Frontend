@@ -425,50 +425,50 @@ const PersonalPostsIndex=(props)=>{
 								}
 					</li>
 					<hr/>
-				{displayCreationPostContainer()}
-				{/*
-					{props.personalInformation.isOwnProfile==true?
-						<React.Fragment>
-							<li style={{listStyle:"none",marginBottom:"5%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"5%",color:"#C8B0F4"}}>
-											<b>Create a post</b>
-										</li>
-
-										<li style={{listStyle:"none",display:"inline-block"}}>
-												<CommentCreationContainer onClick={()=>displayOrHideCreationPost()}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%",marginTop:"-20px"}}>
-															<ProfilePicture>
-																{props.personalInformation.profilePicture!=null?
-																	<img src={props.personalInformation.profilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%",borderRadius:"50%"}}/>:
-																	<img src={NoProfilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%"}}/>
-																}
-															</ProfilePicture>
-														</li>
-
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<CommentTextArea placeholder="Enter a comment">
-
-															</CommentTextArea>
-
-														</li>
-													</ul>
-											</CommentCreationContainer>
-										</li>
-									</ul>
-								</li>
+					{displayCreationPostContainer()}
+					{/*
+						{props.personalInformation.isOwnProfile==true?
+							<React.Fragment>
 								<li style={{listStyle:"none",marginBottom:"5%"}}>
-									{props.personalInformation.isOwnProfile==true?
-										<React.Fragment>
-											{displayCreationPostContainer()}
-										</React.Fragment>:
-										<React.Fragment></React.Fragment>
-									}
-								</li> 
-							</React.Fragment>
-						:null}
-				*/}
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"5%",color:"#C8B0F4"}}>
+												<b>Create a post</b>
+											</li>
+
+											<li style={{listStyle:"none",display:"inline-block"}}>
+													<CommentCreationContainer onClick={()=>displayOrHideCreationPost()}>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%",marginTop:"-20px"}}>
+																<ProfilePicture>
+																	{props.personalInformation.profilePicture!=null?
+																		<img src={props.personalInformation.profilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%",borderRadius:"50%"}}/>:
+																		<img src={NoProfilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%"}}/>
+																	}
+																</ProfilePicture>
+															</li>
+
+															<li style={{listStyle:"none",display:"inline-block"}}>
+																<CommentTextArea placeholder="Enter a comment">
+
+																</CommentTextArea>
+
+															</li>
+														</ul>
+												</CommentCreationContainer>
+											</li>
+										</ul>
+									</li>
+									<li style={{listStyle:"none",marginBottom:"5%"}}>
+										{props.personalInformation.isOwnProfile==true?
+											<React.Fragment>
+												{displayCreationPostContainer()}
+											</React.Fragment>:
+											<React.Fragment></React.Fragment>
+										}
+									</li> 
+								</React.Fragment>
+							:null}
+					*/}
 
 					<li style={{listStyle:"none",marginBottom:"20px"}}>
 						<ul style={{padding:"0px"}}>

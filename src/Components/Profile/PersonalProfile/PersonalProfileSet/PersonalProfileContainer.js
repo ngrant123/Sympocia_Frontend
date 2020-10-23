@@ -20,7 +20,6 @@ import {
 
 import { UserProvider } from "../UserContext.js";
 import Button from 'react-bootstrap/Button';
-import { Player } from 'video-react';
 import PersonalPostsIndex from "../PersonalProfileSubset/PersonalPosts/index.js";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'

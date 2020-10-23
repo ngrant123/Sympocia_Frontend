@@ -1,6 +1,5 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import AwesomeSlider from 'react-awesome-slider';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import CommentsContainer from "./CommentContainer.js";

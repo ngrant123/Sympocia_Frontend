@@ -1,16 +1,6 @@
 import React,{Component} from "react";
 import ReactDom from "react-dom";
 import styled , {keyframes}from "styled-components";
-import {  Player,
-  ControlBar,
-  ReplayControl,
-  ForwardControl,
-  CurrentTimeDisplay,
-  TimeDivider,
-  PlaybackRateMenuButton,
-  VolumeMenuButton } from 'video-react';
-import QierPlayer from 'qier-player';
-
 import Comments from "../../../../GeneralComponents/CommentsComponent/index.js";
 import { Icon, InlineIcon } from '@iconify/react';
 import stampIcon from '@iconify/icons-fa-solid/stamp';

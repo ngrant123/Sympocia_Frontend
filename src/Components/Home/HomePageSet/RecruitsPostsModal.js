@@ -4,7 +4,6 @@ import ImageContainer from "../../GeneralComponents/PostComponent/ImageComponent
 import RegularPost from "../../GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
 import BlogPost from "../../GeneralComponents/PostComponent/BlogComponent/BlogPostDisplay/BlogPostContainer.js";
 import VideoPost from "../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
-import ReactSnapScroll from 'react-snap-scroll';
 import NoProfileIcon from "../../../designs/img/NoProfilePicture.png";
 
 import {getRecruitsPostsHomePage} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
