@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+
+
 export const PersonalSignUpCard=styled.div`
-	position:absolute;
+	position:relative;
 	background-color:white;
 	width:30%;
 	height:60%;
-	left:55%;
-	top:25%;
 	border-radius:5px;
 	border-style:solid;
     border-color:#5298F8;
@@ -21,6 +21,9 @@ export const BodyContainer= styled.div`
 	top:0%;
 	left:0%;
 	background-color:white;
+	#mobileDivider{
+		display:none;
+	}
 
 	#particles-js {
 	  position: absolute;
@@ -32,7 +35,128 @@ export const BodyContainer= styled.div`
 	  background-position: 50% 50%;
 	  z-index: -1
 	} 
-	`;
+
+	@media screen and (max-width:1340px) {
+		#personalCardContainer{
+			top:-170px !important;
+			width:40% !important;
+		}
+	}
+
+	@media screen and (max-width:1250px) {
+		#titleHeader{
+			font-size:50px;
+		}
+		#personalCardContainer{
+			top:-140px !important;
+		}
+		#personalSignInCard{
+			width:90% !important;
+		}
+		#signUpContainer{
+			top:-10px !important;
+		}
+	}
+	@media screen and (max-width:1030px) {
+		#personalCardContainer{
+			width:40% !important;
+		}
+		#companyCardContainer{
+			width:50% !important;
+		}
+		#personalCardTitle{
+			font-size:20px !important;
+		}
+		#companyCardTitle{
+			font-size:20px !important;
+		}
+	}
+	@media screen and (max-width:840px) {
+		#personalCardContainer{
+			top:-200px !important;
+		}
+		#companyCardContainer{
+			
+		}
+	}
+
+
+	@media screen and (max-width:760px) {
+		#mobileDivider{
+			display:block;
+		}
+		#particlesJS{
+			display:none;
+		}
+		#personalCardContainer{
+			border-style:none !important;
+			display:block;
+			top:20px !important;
+			width:80% !important;
+		}
+		#companyCardContainer{
+			border-style:none !important;
+			display:block !important;
+			width:90% !important;
+			;
+		}
+	}
+
+	@media screen and (max-width:690px){
+		#personalCardContainer{
+			border-style:none !important;
+			display:block;
+			width:90% !important;
+			
+		}
+		#companyCardContainer{
+			border-style:none !important;
+			display:block !important;
+			width:95% !important;
+		}
+	}
+
+	@media screen and (max-width:690px){
+		#personalCardContainer{
+			border-style:none !important;
+			display:block;
+			width:90% !important;
+			
+		}
+		#companyCardContainer{
+			border-style:none !important;
+			display:block !important;
+			width:95% !important;
+		}
+	}
+	@media screen and (max-width:690px){
+		#titleHeader{
+			font-size:30px !important;
+		}
+	}
+
+	@media screen and (max-width:600px){
+		#personalSignInCard{
+			width:120% !important;
+			left:-25%;
+		}
+	}
+
+
+	@media screen and (max-width:420px){
+		#personalCardContainer{
+			width:120% !important;
+			margin-left:-25%;
+		}
+		#companyCardContainer{
+			border-style:none !important;
+			display:block !important;
+			width:140% !important;
+			margin-left:-25% !important;
+			background-color:red;
+		}
+	}
+`;
 
 export const SignUp = styled.div`
 
@@ -278,8 +402,6 @@ export const PersonalSectionContainer=styled.div`
 	background-color:white;
 	width:30%;
 	height:50%;
-	left:15%;
-	top:35%;
 	border-radius:5px;
 	border-style:solid;
     border-color: #5298F8;
@@ -287,19 +409,19 @@ export const PersonalSectionContainer=styled.div`
 `;
 
 export const PersonalSectionCard=styled.div`
-	position:absolute;
+	position:relative;
 	background-color:white;
 	width:90%;
 	height:90%;
-	left:5%;
 	transition:.8s;
-	top:5%;
 	border-radius:5px;
 	padding:5px;
 
-    &:hover{
-    	box-shadow: 5px 5px 5px 5px #c4c4c4;
-    }
+    @media screen and (max-width:1550px) {
+		#personalCardTitle{
+			font-size:30px !important;
+		}
+	}
 `;
 
 export const CompanySectionContainer=styled.div`
@@ -315,18 +437,18 @@ export const CompanySectionContainer=styled.div`
 `;
 
 export const CompanySectionCard=styled.div`
-	position:absolute;
+	position:relative;
 	background-color:white;
 	width:90%;
 	height:90%;
-	left:5%;
 	transition:.8s;
-	top:5%;
 	border-radius:5px;
 
-    &:hover{
-    	box-shadow: 5px 5px 5px 5px #c4c4c4;
-    }
+    @media screen and (max-width:1550px) {
+		#companyCardTitle{
+			font-size:30px !important;
+		}
+	}
 `;
 
 export const TitleHeader=styled.div`
@@ -336,6 +458,13 @@ export const TitleHeader=styled.div`
 	top:3%;
 	left:17%;
 	font-size:80px;
+
+	@media screen and (max-width:1250px) {
+		font-size:50px;
+	}
+	@media screen and (max-width:690px){
+		font-size:30px !important;
+	}
 
 `;
 

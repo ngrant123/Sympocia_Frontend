@@ -1,7 +1,6 @@
 import React,{useEffect} from 'react';
 import styled,{keyframes} from 'styled-components';
 import img2 from '../../../designs/background/ThirdSectionBackground.png';
-import LandingPageScrollDiv from '../../GeneralComponents/LandingPageComponent/LandingScrollPageIndicator';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Typed from "react-typed";
 import {
@@ -14,7 +13,7 @@ import {
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import LandingImage from "../../../designs/img/ThirdSectionImage.png";
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 
 
@@ -40,7 +39,7 @@ const InformationCard=styled.div`
 
 `;
 
-const ArrowUpContainer=styled.div`
+const ArrowDownContainer=styled.div`
   animation: bounce 2s infinite;
   @keyframes bounce {
         0%, 20%, 50%, 80%, 100% {
@@ -84,22 +83,22 @@ const ThirdSection=(props)=>{
 	return(
 			<ThirdContainer id="thirdContainer">
 			    <img id="imageListContainer" src={LandingImage} style={{zIndex:"-5",left:"65%",position:"absolute",top:"-10%",width:"40%",height:"60%"}} />
-				<ul style={{padding:"50px"}}>
-		            <li style={{listStyle:"none"}}>
+				<ul id="textULContainer" style={{padding:"50px"}}>
+		            <li id="textContainer" style={{listStyle:"none"}}>
 		            	<ul style={{padding:"0px"}}>
 		            			<li style={{listStyle:"none"}}>
-									<p style={{fontSize:"40px",marginLeft:"10%",width:"30%",marginBottom:"2%",borderTop:"5px solid #494949"}}> 
+									<p id="textHeader" style={{fontSize:"40px",marginLeft:"10%",width:"30%",marginBottom:"2%",borderTop:"5px solid #494949"}}> 
 										<b>Why should you care?</b> 
 									</p>
 								</li>
 								<p style={{marginLeft:"10%",fontSize:"20px",marginBottom:"2%",color:"#b3b3b3"}}> 
-									Thats the million dollar question right?
+									That's the million dollar question right?
 							    </p>
-								<li style={{listStyle:"none",width:"50%",marginLeft:"10%",lineheight:"200%"}}>
+								<li id="thirdSectionText" style={{listStyle:"none",width:"50%",marginLeft:"10%",lineheight:"200%"}}>
 									<p>
 										Whether we like it or not, we’re all addicted to social media. We love connecting 
 										with people, learning, and growing from each other. But currently we live 
-										In a era where misinformation is the new normal. Where being fake is the new
+										In an era where misinformation is the new normal. Where being fake is the new
 										normal. Where getting clout is the main goal not authenticity. 
 										Sympocia allows you to truly be authentic and doesn’t force you to fit into this 
 										mold that other platforms have. 
@@ -133,11 +132,11 @@ const ThirdSection=(props)=>{
 	                    </ul>
 	                </li>
 	                <li style={{listStyle:"none",marginTop:"5%",marginLeft:"50%"}}>
-	                    <ArrowUpContainer>
-	                      <ArrowUpwardIcon
+	                    <ArrowDownContainer>
+	                      <ArrowDownwardIcon
 	                        style={{fontSize:'20'}}
 	                      />
-	                    </ArrowUpContainer>
+	                    </ArrowDownContainer>
 	                </li>
 				</ul>	
 			</ThirdContainer>

@@ -18,7 +18,6 @@ export const SignInformation = styled.div`
   border-radius:10px;
   box-shadow: 5px 5px 5px 5px #888888;
 
-
   @media screen and (max-width:1024px) {background-color:white;width:60%;left:20%;top:40%;height:50%}
   @media screen and (max-width:400px) {background-color:white;width:80%;left:10%;top:40%;height:40%}
   @media screen and (max-width:400px) {background-color:white;width:80%;left:10%;top:40%;height:50%}
@@ -47,31 +46,32 @@ export const FirstContainer = styled.div`
    width: 100%;
    text-align:center;
     margin:auto;
-    padding:0;
+    padding:0px;
     textarea::-webkit-input-placeholder {  color:#DBDADC;}
     opacity:0;
     transition:.8s;
 
     @media screen and (max-width:1030px){
        #imageContainer{
-          top:-160px;
+          top:10px;
       }
     }
     @media screen and (max-width:950px){
       #imageContainer{
-          top:-160px;
+          top:10px;
       }
       #floatingArrowFunction:{
         display:none;
+      }
+       #listOpeningTextContainer:{
+        top:50px !important;
+        background-color:red !important;
       }
     }
 
     @media screen and (max-width:900px){
       #footerIcons{
           display:none;
-      }
-      #floatingArrowFunction{
-        display:none;
       }
     }
 
@@ -93,7 +93,7 @@ export const FirstContainer = styled.div`
         display:none;
       }    
       #imageListContainer{
-         display:none;
+         display:none !important;
          top:0px;
       }
       #imageContainer{
@@ -104,15 +104,50 @@ export const FirstContainer = styled.div`
       }
       #listOpeningTextContainer{
         display:block;
+        top:10% !important;
+        left:-10% !important;
       }
       #floatingArrowFunction{
         display:none;
+      }
+      #mobileProfilePictures{
+        display:block !important;
+        height:170%;
+      }
+    }
+
+    @media screen and (max-width:560px){
+       #headerCompany{
+        font-size:80px !important;
       }
     }
 
     @media screen and (max-width:490px){
       #header1{
           font-size:20px;
+      }
+    }
+
+    @media screen and (max-width:400px){
+       #headerCompany{
+        font-size:60px !important;
+        margin-top:5%;
+      }
+
+      #textFirstSectionCompany{
+        margin-left:-35% !important;
+        width:160% !important;
+      }
+    }
+
+
+
+    @media screen and (max-width:350px){
+      #listOpeningTextContainer{
+          width:50% !important;
+      }
+      #email{
+        width:120% !important;
       }
     }
 
@@ -127,6 +162,13 @@ export const FirstContainer = styled.div`
          #footerIcons{
             display:none;
         }
+    }
+
+    @media screen and (max-height:670px){
+      #interestedProfilePictures{
+        height:25% !important;
+        z-index:10;
+      }
     }
 
        @media screen and (max-height:570px){
@@ -145,6 +187,17 @@ export const FirstContainer = styled.div`
            height:200%;
            
         }
+
+         #interestedProfilePictures{
+          height:50% !important;
+      }
+
+        @media screen and (max-width:800px), screen and (max-height:420px){
+            #imageContainer{
+                top:5px;
+            }
+        }
+
     }
 `;
 

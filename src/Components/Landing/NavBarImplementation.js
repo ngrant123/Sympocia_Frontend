@@ -13,7 +13,7 @@ import {
   addPersonalIdentificationId,
   loginPersonalPage
 } from '../../Actions/Redux/Actions/PersonalProfile';
-import {loginProfile} from "../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {loginProfile} from "../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 
 const LoginBox=styled.textarea`
@@ -65,45 +65,34 @@ const Submit=styled.div`
 
 const NavBar=(props)=>{
 	const dispatch=useDispatch();
-  console.log(props);
 	var {props}=props.props;
 
-	const handleLoginClick=async(event,props,dispatch)=>{
-		debugger;
-	  event.preventDefault();
-	  const email=document.getElementById("LoginEmail").value;
-	  const password=document.getElementById("LoginPassword").value;
-	  const loginResults=await loginProfile(email,password);
-	
-	  if(typeof loginResults!='object'){
-	    alert(loginResults);
-	  }else{
-	     const {passWordIndicator,profileType,profile}=loginResults;
-	    if(profileType=="Personal"){
-	      const {_id,firstName,lastName,email}=profile;
+  const handleLoginClick=async(event,props,dispatch)=>{
+    debugger;
+    event.preventDefault();
+    const email=document.getElementById("LoginEmail").value;
+    const password=document.getElementById("LoginPassword").value;
+    const loginResults=await loginProfile(email,password);
+  
+    if(typeof loginResults!='object'){ 
+    //  alert(loginResults);
+    }else{
+      const {passWordIndicator,profileType,profile}=loginResults;
+      const {_id,firstName,lastName,email}=profile;
 
-	      dispatch(addName(firstName));
-	      dispatch(addLastName(lastName));
-	      dispatch(addEmail(email));
+      dispatch(addName(firstName));
+      dispatch(addLastName(lastName));
+      dispatch(addEmail(email));
 
-	      dispatch(addPersonalIdentificationId(_id));
-	      dispatch(loginPersonalPage(true));
-	      dispatch(loginCompanyPage(false));
-
-	    }else{
-	      const {_id}=profile;
-	      dispatch(addCompanyId(_id));
-	      dispatch(updatefirstTimeUsage(true));
-	      dispatch(loginCompanyPage(true));
-	      dispatch(loginPersonalPage(false));
-	    }
-
-	    props.history.push('/home');
-	  }
-	}
+      dispatch(addPersonalIdentificationId(_id));
+      dispatch(loginPersonalPage(true));
+      dispatch(loginCompanyPage(false));
+      props.history.push('/home');
+    }
+  }
 
 
-	return (
+  return (
       <ul style={{padding:"0px"}}>
         <li style={{listStyle:"none",display:"inline-block"}}>
             <LoginBox id="LoginEmail" placeholder="Email"></LoginBox>
@@ -117,7 +106,7 @@ const NavBar=(props)=>{
           </li>
         </a>
       </ul>
-	)
+  )
 }
 export default NavBar;
 

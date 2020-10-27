@@ -1,7 +1,6 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import styled from 'styled-components';
 import { Redirect } from "react-router-dom";
-import LandingPageScrollDiv from '../../GeneralComponents/LandingPageComponent/LandingScrollPageIndicator';
 import { useDispatch,useSelector } from 'react-redux';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { 
@@ -16,7 +15,6 @@ import {
   addPersonalIdentificationId,
   loginPersonalPage
 } from '../../../Actions/Redux/Actions/PersonalProfile';
-import {loginProfile} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import  {
         Container,
         SignInformation,
@@ -39,13 +37,23 @@ import  {
         JoinFamily,
         TermsOfAgreement,
         InputTextArea
-     } from "./LandingFirstSectionCSS";
+  } from "./LandingFirstSectionCSS";
+
 import LandingImage from '../../../designs/img/FirstSectionLandingPAgeImage.png'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import NavBarLogin from "../NavBarImplementation.js";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
+import EmailInformationModal from "../EmailInformationModal.js";
+import {
+        recordEmail,
+        getInterestedProfiles,
+        verifyCode
+      } from "../../../Actions/Requests/MarketingRequests.js";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const LoginBox=styled.textarea`
     position:relative;
@@ -110,6 +118,27 @@ const ArrowDownContainer=styled.div`
   }
 `;
 
+const JoinMovementTextContainer=styled.input`
+    border: none;
+    overflow: auto;
+    outline: none;
+    resize:none;
+    border-radius:5px;
+    width:100%;
+    top:5%;
+    border-style:solid;
+    border-width:2px;
+    border-color:#d9d9d9;
+`;
+
+const UserImagePicture=styled.div`
+    position:relative;
+    width:80px;
+    height:95%;
+    background-color:black;
+    border-radius:50%;
+`;
+
 const SignUpButton={
     listStyle:"none",
     display:"inline-block",
@@ -132,13 +161,38 @@ const ExploreButton={
   borderColor:"#3898ec"
 }
 
+const JoinMovementContainer={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  width:"90%",
+  marginTop:"5%"
+}
+
 const MobileLoginButton={
   listStyle:"none",
   display:"none",
   backgroundColor:"#C8B0F4",
   borderRadius:"5px",
   padding:"10px",
-  color:"white"
+  color:"blue"
+}
+
+const BackButtonCSS={
+  borderStyle:"solid",
+  borderWidth:"2px",
+  padding:"10px",
+  borderRadius:"50%",
+  color:"#C8B0F4",
+  backgroundColor:"white",
+  textAlign:"center",
+  boxShadow: "0 0 5px #C8B0F4",
+  listStyle:"none",
+  display:"inline-block",
+  marginRight:"2%"
 }
 
 const handleClearTextAreaClick=(divId)=>{
@@ -157,16 +211,33 @@ const inspectLetterTyedName=(character)=>{
 
 
 const FirstSection=(props)=>{
-	
+
+  const [displayEmailInformation,changeDisplayState]=useState(false);
+  const [usersInterested,changeUsersInterested]=useState([]);
+  const [userId,changeUserId]=useState();
+  const [displaySignUpPrompt,changeDisplaySignUpPrompt]=useState(false);
+  const [displayEnterCodePrompt,changeDisplayEnterCodePrompt]=useState(false);
+  debugger;
 	const dispatch=useDispatch();
 	const state=useSelector(state=>state);
-	console.log(props);
 
   useEffect(()=>{
     setTimeout(()=>{
         const container=document.getElementById("firstContainer");
         container.style.opacity="1";
     },200);
+
+    const getInterestedApi=async()=>{
+        const {confirmation,data}=await getInterestedProfiles(1);
+        if(confirmation=="Success"){
+          debugger;
+          changeUsersInterested([...data]);
+        }else{
+          alert('There has been an error with our database. Please try again later');
+        }
+    }
+
+    getInterestedApi();
   },[]);
 
 	const handleSignupClick=(props)=>{
@@ -183,9 +254,133 @@ const FirstSection=(props)=>{
     }
 	}
 
+  const closeModal=()=>{
+    changeDisplayState(false);
+  }
+
+  const pushProfileObject=(userObject)=>{
+    const currentProfilePictures=usersInterested;
+    currentProfilePictures.splice(0,0,userObject);
+    changeUsersInterested([...currentProfilePictures]);
+    changeDisplayState(false);
+  }
+
+  const triggerConfirmation=async()=>{
+    debugger;
+    const email=document.getElementById("email").value;
+      if(email!=""){
+        const {confirmation,data}=await recordEmail(email);
+        if(confirmation=="Success"){
+          changeUserId(data._id);
+          changeDisplayState(true)
+        }else{
+          alert('Unfortunately we experienced an error. Please submit your information again');
+        }
+      }else{
+        alert('Please enter your email :)')
+      }
+  }
+
+  const verifyCodeCall=async()=>{
+      const code=document.getElementById("code").value;
+      if(code!=''){
+        const {confirmation,data}=await verifyCode(code);
+        if(confirmation=="Success"){
+          const {history}=props;
+          dispatch(loginPersonalPage(true));
+          history.push({
+            pathname:'/signup'
+          })
+        }else{
+          alert('Wrong code :(. You would have thought you was getting early access LMAO Email nathan@sympocia.com to get the code though :)');
+        }
+      }else{
+        alert('Please enter a code');
+      }
+  }
+
+  const closeSignUpOrCodePrompt=()=>{
+    changeDisplaySignUpPrompt(false);
+    changeDisplayEnterCodePrompt(false);
+  }
+
+  const codeOrEmailModalPrompt=()=>{
+      if(displaySignUpPrompt==false && displayEnterCodePrompt==false){
+          return <li style={{listStyle:"none"}}>
+                   <ul style={{padding:"0px"}}>
+                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                        <li onClick={()=>changeDisplaySignUpPrompt(true)} style={SignUpButton}>
+                            Join
+                        </li>
+                      </a>
+                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                        <li onClick={()=>changeDisplayEnterCodePrompt(true)} style={ExploreButton}>
+                            Enter Code
+                        </li>
+                      </a>
+                      {/*
+                        <a  href="javascript:void(0);" style={{textDecoration:"none"}}>
+                          <li style={{listStyle:"none"}}>
+                              Login In
+                          </li>
+                        </a>
+                      */}
+                    </ul>
+                </li>
+      }else{
+          if(displaySignUpPrompt==true){
+              return <li style={JoinMovementContainer}>
+                       <ul style={{padding:"0px"}}>
+                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <li onClick={()=>closeSignUpOrCodePrompt()} style={BackButtonCSS}>
+                              <ArrowBackIosIcon/>
+                            </li>
+                          </a>
+
+                          <li style={{width:"60%",listStyle:"none",display:"inline-block",marginRight:"5%"}}> 
+                              <JoinMovementTextContainer id="email" placeholder="Enter your email" placeholderTextColor='red'/>
+                          </li>
+                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <li onClick={()=>triggerConfirmation()} style={{listStyle:"none",display:"inline-block"}}>
+                                Join the movement 
+                            </li>
+                          </a>
+                       </ul>
+                    </li>
+          }else{
+              return <li style={JoinMovementContainer}>
+                       <ul style={{padding:"0px"}}>
+                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <li onClick={()=>closeSignUpOrCodePrompt()} style={BackButtonCSS}>
+                              <ArrowBackIosIcon/>
+                            </li>
+                          </a>
+
+                          <li style={{width:"60%",listStyle:"none",display:"inline-block",marginRight:"5%"}}> 
+                              <JoinMovementTextContainer id="code" placeholder="Enter the code here" placeholderTextColor='red'/>
+                          </li>
+                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <li onClick={()=>verifyCodeCall()} style={{listStyle:"none",display:"inline-block"}}>
+                                Enter :) 
+                            </li>
+                          </a>
+                       </ul>
+                    </li>
+          }
+      }
+  }
+
 	return(
 
 		     <FirstContainer id="firstContainer">
+              {displayEmailInformation==false?null:
+                <EmailInformationModal
+                  id={userId}
+                  closeModal={closeModal}
+                  pushProfileObject={pushProfileObject}
+                  profileType={null}
+                />
+              }
               <ul style={{padding:"0px"}}>
                    <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
                       <ul style={{padding:"0px"}}>
@@ -194,7 +389,7 @@ const FirstSection=(props)=>{
                                 <b>Sympocia</b>
                             </p>
                           </li>
-                          <li style={{listStyle:"none"}} id="navBarLogin">
+                           <li style={{listStyle:"none"}} id="navBarLogin">
                             <NavBarLogin
                               props={props}
                             /> 
@@ -202,8 +397,8 @@ const FirstSection=(props)=>{
                       </ul>
                   </li>
                   <li style={{listStyle:"none",display:"inline-block",width:"90%",height:"60%"}}>
-                      <ul style={{padding:"0px"}}>
-                        <li id="listOpeningTextContainer" style={{listStyle:"none",display:"inline-block",width:"50%",height:"50%"}}>
+                      <ul style={{padding:"0px",marginLeft:"-5%"}}>
+                        <li id="listOpeningTextContainer" style={{position:"relative",top:"-80px",listStyle:"none",display:"inline-block",width:"50%",height:"50%"}}>
                           <ul id="openingTextContainer" style={{padding:"0px"}}>
                             <li style={{listStyle:"none",display:"inline-block"}}>
                                 <ul style={{padding:"0px"}}>
@@ -216,8 +411,8 @@ const FirstSection=(props)=>{
                                     <li style={{listStyle:"none"}}>
                                         <p>
                                             We've all been there. You've asked yourself "I really like this photo but will 
-                                            it get likes?" or "Will anyone care about my hobbies". You've also asked yourself,
-                                            "Why do I feel so alone after using social media". We've asked these question also. 
+                                            it get likes?" or "Will anyone care about my hobbies?". You've also asked yourself,
+                                            "Why do I feel so alone after using social media?". We've asked ourselves these question also. 
                                             Which is why we built <b>Sympocia</b>
                                         </p>
                                     </li>
@@ -230,30 +425,48 @@ const FirstSection=(props)=>{
                                     </li>
                                 </ul>
                             </li>
-                            <li style={{listStyle:"none"}}>
-                                <ul style={{padding:"0px"}}>
-                                  <a href="/signup" style={{textDecoration:"none"}}>
-                                    <li style={SignUpButton}>
-                                        Sign Up
-                                    </li>
-                                  </a>
-                                  <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                                    <li style={ExploreButton}>
-                                        Explore
-                                    </li>
-                                  </a>
-                                  <a  href="javascript:void(0);" style={{textDecoration:"none"}}>
-                                    <li style={{listStyle:"none"}}>
-                                        Login In
-                                    </li>
-                                  </a>
-                                </ul>
+                            {codeOrEmailModalPrompt()}
+
+                            <li id="mobileProfilePictures" style={{listStyle:"none",marginTop:"5%",display:"none"}}>
+                                <p> So far <b>{usersInterested.length}</b> users have signed up. What are you waiting for? :) </p>
                             </li>
                           </ul>
                         </li>
 
-                        <li id="imageListContainer" style={{position:"relative",top:"-100px",listStyle:"none",display:"inline-block",width:"40%"}}>
-                            <img id="imageContainer" src={LandingImage} style={{position:"relative",width:"95%",height:"80%"}}/>
+                        <li id="imageListContainer" style={{position:"relative",top:"-80px",listStyle:"none",display:"inline-block",width:"40%",marginLeft:"5%"}}>
+                            <ul style={{padding:"0px"}}>
+                                <li style={{listStyle:"none",marginBottom:"10"}}>
+                                    <img id="imageContainer" src={LandingImage} style={{position:"relative",width:"95%",height:"80%"}}/>
+                                </li>
+                                <p> So far <b>{usersInterested.length}</b> users have signed up. What are you waiting for? :) </p>
+
+                                <li style={{listStyle:"none"}}>
+                                    <ul style={{padding:"5px",width:"110%",height:"15%",borderRadius:"5px",overflowX:"auto",boxShadow:"1px 5px 5px 5px #d5d5d5"}}>
+                                      {usersInterested.map(data=>
+                                          <>
+                                            {data.profilePicture==null?
+                                                <a href={data.link} style={{textDecoration:"none"}}>
+                                                  <li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+                                                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"  width="80px" height="95%" viewBox="0 0 24 24" stroke-width="1.5" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                          <path stroke="none" d="M0 0h24v24H0z"/>
+                                                          <circle cx="12" cy="7" r="4" />
+                                                          <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                                      </svg>
+                                                  </li>
+                                                </a>
+                                              :
+                                              <a href={data.link} style={{textDecoration:"none"}}>
+                                                <li style={{position:"relative",top:"-30%",listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+                                                  <img src={data.profilePicture} style={{width:"80px",height:"95%",borderRadius:"50%"}}/>
+                                                </li>
+                                              </a>
+                                            }
+                                            </>
+                                      )}
+                                    </ul>
+                                </li>
+                            </ul>
+                          
                         </li>
                       </ul>
                   </li>

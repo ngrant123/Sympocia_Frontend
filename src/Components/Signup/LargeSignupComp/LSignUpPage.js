@@ -76,10 +76,23 @@ const divStyle = {
   
 };
 
+const BackButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginBottom:"2%"
+}
+
 
 const HeaderCSS={
 	position:"relative",
-	left:"15%",
+	left:"5%",
 	fontSize:"40px",
 	color:"#5298F8"
 }
@@ -100,6 +113,33 @@ const StartuptypeStyle ={
 	borderRadius:'5px'
 }
 
+const PersonalCardContainerCSS={
+	position:"relative",
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
+	width:"30%",
+	height:"400px",
+	borderRadius:"5px",
+	borderStyle:"solid",
+    borderColor:"#5298F8",
+    padding:"20px",
+    top:"-150px"
+}
+
+const CompanyCardContainerCSS={
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
+	width:"40%",
+	height:"60%",
+	borderRadius:"5px",
+	borderStyle:"solid",
+    borderColor:"#5298F8",
+    padding:"20px",
+    marginLeft:"5%"
+}
+
 const MAPBOX_TOKEN ="pk.eyJ1IjoibmdyYW50MTIzIiwiYSI6ImNrNzZzcjV3NTAwaGYza3BqbHZjNXJhZDkifQ.DsFpgYjX7ZUtOe7cFmylhQ";
 
 /*
@@ -111,7 +151,10 @@ class LSignupPage extends Component {
 
 	constructor(props){
 		super(props);
-
+		//Below code is mainly used when we have the "code" authentication thing for certain users
+		debugger;
+		console.log(props);
+		const verification=props.isLoggedIn;
 		this.state= {
 			viewport: {
 		      width: "100%",
@@ -129,9 +172,19 @@ class LSignupPage extends Component {
 			long:0,
 			lat:0,
 			displayMarker:false,
-			displayPersonalSignupModal:false,
+			displayPersonalSignupModal:true,
 			displayInvestorPersonalSignUpFinalModal:false
 		};
+	}
+
+
+	componentDidMount(){
+		const verification=this.props.isLoggedIn;
+		if(verification==false){
+			this.props.history.push({
+				pathname:'/'
+			})
+		}
 	}
 
 
@@ -159,6 +212,7 @@ class LSignupPage extends Component {
 					<b>
 						What are you looking for on here?
 					</b>
+					<hr id="mobileDivider" />
 			   </TitleHeader>
 	}
 
@@ -171,91 +225,94 @@ class LSignupPage extends Component {
 				{this.DisplayCompanySetupPage()}
 			</React.Fragment>: 
 			<React.Fragment>
-				{this.TitleDisplayNameHeader()}
-				<PersonalSectionContainer>
-						<PersonalSectionCard>
-							<p style={HeaderCSS}>
-								<b>
-									<PortraitIcon style={{fontSize:"40"}}/> Entertainment
-								</b>
-							</p>
-							<p style={HeaderDescriptionCSS}> Interested in viewing videos, posts, and images
-							from your friends and people you are interested in? Click on the button below</p>
-
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<SignUpButton style={{width:"80%",marginLeft:"5%"}} onClick={()=>this.handleDisplayPersonalSetupPage()}>Click here</SignUpButton>
-							</a>
-						</PersonalSectionCard>
-				</PersonalSectionContainer>
-
-				{this.state.displayPersonalSignupModal==false?
-					<CompanySectionContainer>
-							<CompanySectionCard>
-								<p style={HeaderCSS}>
-									<b>
-										<AccountBalanceIcon style={{fontSize:"40",marginRight:"10%"}}/>Business
-									</b>
-								</p>
-
-								<ul style={{padding:"0px",marginTop:"10%"}}>
-									<li style={{listStyle:"none"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
-												<BusinessIcon 
-													style={{fontSize:"40",color:"#5298F8"}}
-												/>
-											</li>
-
-											<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
-												Ready to show the world your hobby that you're 
-												building?Or maybe you have a startup or business and you want
-												to connect with people who you think would want to see it? Click 
-												on the button below to get started
-											</li>
+				<ul id="CardContainer" style={{position:"absolute",left:"15%",top:"10%"}}>
+					<p style={{fontSize:"80px"}}>
+						<b id="titleHeader">
+							What are you looking for on here?
+						</b>
+					</p>
+					<hr id="mobileDivider" />
+					<li style={{listStyle:"none",marginTop:"5%"}}>
+						<ul style={{padding:"0px"}}>
+							{this.state.displayPersonalSignupModal==true?
+								<li id="signUpContainer" style={{position:"relative",listStyle:"none",top:"-70px"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>this.setState({displayPersonalSignupModal:false})} style={BackButtonCSS}>
+											Back
+										</li>
+									</a>
+									<PersonalSignUpCard id="personalSignInCard">
+										<PersonalSignUp/>
+									 </PersonalSignUpCard>
+								</li>:
+								 <>
+								 	<li id="personalCardContainer" style={PersonalCardContainerCSS}>
+											<p id="personalCardTitle" style={HeaderCSS}>
+												<b>
+													<PortraitIcon style={{fontSize:"40"}}/> Entertainment
+												</b>
+											</p>
+											<p style={HeaderDescriptionCSS}> Interested in viewing videos, posts, and images
+											from your friends and people you are interested in? Click on the button below</p>
 
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li style={{position:"relative",marginTop:"-70%",marginLeft:"5%",listStyle:"none",display:"inline-block"}}>
-													<SignUpButton onClick={()=>this.handleDisplayCompanySetupPage()}>
-														Click here
-													</SignUpButton>
-												</li>
+												<SignUpButton style={{width:"80%",marginLeft:"5%"}} onClick={()=>this.handleDisplayPersonalSetupPage()}>Click here</SignUpButton>
 											</a>
+									</li>
+									<hr id="mobileDivider" />
+
+									<li id="companyCardContainer" style={CompanyCardContainerCSS}>
+										<p id="companyCardTitle" style={HeaderCSS}>
+											<b>
+												<AccountBalanceIcon style={{fontSize:"40",marginRight:"10%"}}/>Business
+											</b>
+										</p>
+
+										<ul style={{padding:"0px",marginTop:"10%"}}>
+											<li style={{listStyle:"none"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+														<BusinessIcon 
+															style={{fontSize:"40",color:"#5298F8"}}
+														/>
+													</li>
+
+													<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
+														Ready to show the world your hobby that you're 
+														building?Or maybe you have a startup or business and you want
+														to connect with people who you think would want to see it? Click 
+														on the button below to get started
+													</li>
+												</ul>
+											</li>
+
+											<li style={{listStyle:"none",marginTop:"10%"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+														<HowToRegIcon 
+															style={{fontSize:"40",color:"#5298F8"}}
+														/>
+													</li>
+													
+
+													<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
+														Click here if you plan on investing now or the future 
+												    	(dont worry if you dont know how we'll try our best to teach you)
+													</li>
+													<li style={{marginLeft:"5%",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
+														<SignUpButton>
+															Coming Soon
+														</SignUpButton>
+													</li>
+												</ul>
+											</li>
 										</ul>
 									</li>
-
-									<li style={{listStyle:"none",marginTop:"10%"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
-												<HowToRegIcon 
-													style={{fontSize:"40",color:"#5298F8"}}
-												/>
-											</li>
-											
-
-											<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
-												Click here if you plan on investing now or the future 
-										    	(dont worry if you dont know how we'll try our best to teach you)
-											</li>
-
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li style={{marginLeft:"5%",listStyle:"none",display:"inline-block"}}>
-													<SignUpButton onClick={()=>this.handleDisplayInvestorSetUpPage()}>
-														Click here
-													</SignUpButton>
-												</li>
-											</a>
-										</ul>
-									</li>
-								</ul>
-
-							</CompanySectionCard>
-
-					</CompanySectionContainer>
-
-					:<PersonalSignUpCard>
-						<PersonalSignUp/>
-					 </PersonalSignUpCard>
-				}	
+								 </>
+							}
+						</ul>
+					</li>
+				</ul>
 			</React.Fragment>
 	}
 
@@ -468,8 +525,8 @@ addIndustry=(props)=>{
 	render(){
 
 		return (
-			<React.Fragment>
-				<BodyContainer id="particles-js"> 
+				<BodyContainer > 
+					<div id="particlesJS">
 						<Particles
 						    params={{
 							    "particles": {
@@ -498,7 +555,7 @@ addIndustry=(props)=>{
 							    },
 							}}
 						/>
-				</BodyContainer>
+					</div>
 
 				{this.DisplayPersonalOrCompanyChoices()}
 				{this.displayPersonalInvestorSection()}
@@ -510,7 +567,7 @@ addIndustry=(props)=>{
 					 </PersonalSignUpCard>:
 					 null
 				}
-			</React.Fragment>
+			</BodyContainer>
 		)
 	}
 }
@@ -520,7 +577,8 @@ const mapStateToProps=(state)=>{
 	return{
 		firstName:state.personalInformation.firstName,
 		lastName:state.personalInformation.lastName,
-		email:state.personalInformation.email
+		email:state.personalInformation.email,
+		isLoggedIn:state.personalInformation.loggedIn
 	}
 }
 

@@ -18,6 +18,7 @@ import LoadingScreen from "./LoadingAnimation.js";
 import Loadable from "react-loadable";
 
 
+
 //Starting point for the web application
 const enhancers = compose(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -47,6 +48,7 @@ const LoadableOptions={
 	delay: 1000, 
 	loading:LoadingScreenProp
 }
+
 
 const PersonalProfileScreen=Loadable({
 	loader:()=>import("./Components/Profile/PersonalProfile/PersonalProfileSet/PersonalProfileContainer"),
@@ -104,6 +106,7 @@ const CreatePostScreen=Loadable({
 	loader:()=>import("./Components/GeneralComponents/PostComponent/LargePostComponent/CreatePostScreen.js"),
 	...LoadableOptions
 })
+
 
 const application  = (
 		<ErrorBoundary>

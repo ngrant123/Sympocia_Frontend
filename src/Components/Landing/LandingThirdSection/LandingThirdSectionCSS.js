@@ -15,13 +15,42 @@ export const ThirdContainer=styled.div`
 	     }
 
 	     #imageListContainerCompany{
-	     	display:none;
 	     	background-color:red;
+	     	opacity:.3;
 	     }
 	     #footerIcons{
 	          display:none;
 	      }
     }
+    @media screen and (max-width:820px), screen and (max-height:590px){
+      margin-top:20%;
+    }
+
+    @media screen and (max-width:640px){
+    	#thirdSectionText{
+    		width:90% !important;
+    	}
+    	#textHeader{
+			width:90% !important;
+		}
+    }
+
+
+
+    @media screen and (max-width:420px){
+		#textContainer{
+			width:90% !important;
+			margin-left:-50% !important;
+		}
+	}
+
+	@media screen and (max-width:415px){
+		#textULContainer{
+			margin-left:30% !important;
+			width:130%;
+		}
+	}
+
 
     @media screen and (max-height:750px){
         #floatingArrowFunction{
@@ -32,17 +61,22 @@ export const ThirdContainer=styled.div`
         }
     }
 
+
+    @media screen and (max-width:380px), screen and (max-height:380px){
+      margin-top:75%;
+    }
+
+    @media screen and (max-width:480px){
+       #thirdContainerCompany{
+       	margin-top:400%;
+       }
+    }
+
     @media screen and (max-height:480px){
         margin-top:20%;
     }
-    @media screen and (max-width:820px), screen and (max-height:590px){
-      margin-top:35%;
-    }
+  `;
 
-     @media screen and (max-width:380px), screen and (max-height:380px){
-      margin-top:75%;
-    }
-`;
 
 
 export const LandingPageScrollBar= styled.div`

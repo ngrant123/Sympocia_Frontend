@@ -3,19 +3,165 @@ import styled,{keyframes} from "styled-components";
 import FirstSection from "./LandingFirstSection/personalIndex.js";
 import SecondSection from "./LandingSecondSection/personalIndex.js";
 import ThirdSection from "./LandingThirdSection/personalIndex.js";
+import FourthSection from "./LandingFourthSection/index.js";
 
 import CompanyFirstSection from "./LandingFirstSection/companyIndex.js";
 import CompanySecondSection from "./LandingSecondSection/companyIndex.js";
 import CompanyThirdSection from "./LandingThirdSection/companyIndex.js";
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import LandingImage from '../../designs/img/CompanySecondSection.png';
+import LandingImageFirstCompany from '../../designs/img/CompanyFirstSection.png';
+import LandingImageSecondCompany from '../../designs/img/CompanySecondSection.png';
+
+import LandingImageFirstPersonal from '../../designs/img/FirstSectionLandingPAgeImage.png';
+import LandingImageSecondPersonal from '../../designs/img/SecondSectionImage.png';
+import LandingImageThirdPersonal from '../../designs/img/ThirdSectionImage.png';
 
 
 const Container=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
+	overflow-x:hidden;
+
+	@media screen and (max-width:650px){
+		#mobileImageContainer1{
+			visibility:visible;
+			display:block;
+		}
+
+		#mobileImage1{
+			width:80%;
+			height:50%;
+		}
+		#mobileImageSecondCompany{
+				width:80%;
+				height:50%;
+			}
+
+		#mobileImageFirst{
+			width:80%;
+			height:50%;
+		}
+		
+		#mobileImage2{
+			width:80%;
+			height:50%;
+			margin-top:-40%;
+		}
+		#companyFourthSection{
+			margin-top:90% !important;
+		}
+
+	}
+
+	@media screen and (max-width:580px){
+		#companyFourthSection{
+			margin-top:190% !important;
+		}
+	}
+
+
+
+	@media screen and (max-width:550px){
+		#mobileImageFirst{
+			margin-top:50% !important;
+		}	
+		#companyFourthSection{
+			margin-top:210% !important;
+		}
+	}
+
+	@media screen and (max-width:490px){
+		#mobilePersonal1{
+			margin-top:200% !important;
+		}	
+	}
+
+	@media screen and (max-width:420px){
+		#mobilePersonal1{
+			margin-top:230% !important;
+		}	
+	}
+
+	@media screen and (max-width:380px){
+		#mobilePersonal1{
+			margin-top:370% !important;
+		}	
+		#mobileImageFirst{
+				margin-top:80% !important;
+		}
+
+		#mobileImageSecondCompany{
+				margin-top:80% !important;
+			}
+
+		#mobileImageContainer2{
+			margin-top:30% !important;
+			margin-bottom:-40% !important;
+		}
+		#companyFourthSection{
+			margin-top:270% !important;
+		}
+	}
+
+	@media screen and (max-width:330px){
+		#mobilePersonal1{
+			margin-top:350% !important;
+		}	
+	}
+
+	@media screen and (max-height:700px){
+			#mobileImageFirst{
+				margin-top:20%;
+			}
+	}
+	@media screen and (max-height:640px){
+			#mobileImageFirst{
+				margin-top:40%;
+			}
+			#mobileImageSecondCompany{
+				margin-top:40%;
+				margin-bottom:20%;
+			}
+	}
+
+	@media screen and (max-height:520px){
+			#mobileImageFirst{
+				margin-top:60%;
+			}
+	}
+	@media screen and (max-height:430px){
+			#mobileImageFirst{
+				margin-top:90%;
+				height:90%;
+			}
+
+			#secondSection{
+				margin-top:-20%;
+			}
+	}
+
+	@media screen and (max-height:430px){
+			#mobileImageContainer2{
+				margin-top:20%;
+			}
+			#mobileImage1{
+				height:80%;
+			}
+
+	}
+
+	@media screen and (max-height:400px){
+			#mobileImageFirst{
+				margin-top:90%;
+				height:90%;
+			}
+
+			#secondSection{
+				margin-top:-20%;
+			}
+	}
 `;
 
 const ArrowPersonalContainer=styled.div`
@@ -60,12 +206,25 @@ const ArrowCompanyContainer=styled.div`
   }
 `;
 
+const ImageContainer=styled.div`
+	display:none;
+`;
+
+const ImageOverlay=styled.div`
+	position:absolute;
+	z-index:5;
+	width:80%;
+	height:50%;
+	border-radius:50%;
+`;
+
 /*
-	We know that social media sucks. Thats why we’re building  Sympocia (highlight the word sympcia and make it redirect to official landing page) because we believe that it’’ change the way we connect forever. But that’s besides the point. We want to know how you (highlight) feel about social media platforms, any new innovations that you’ve always wanted to see come to fruition, or any fixes that you have for the current state of social media. We are giving out a total of $50 dollars right now. The rules are simple: 
-	1.)Enter your email address when prompted
-	2.) Leave a comment
-	3.) Enjoy
-	If your comment is selected you win $1. Keep on submitting comments before everyone else and you can potentially walk with an easy $20 or $30. Its simple :)   Lets get it started then 
+
+	Right now im setting it up so that when the breakpoints are reached then I add the 
+	mobileImageContainer, which are images from the previous sections. I should figure out 
+	how to make it so that when the breakpoints come then the image turns into a block style
+	instead of the inline-block style that it is right now
+
 */
 const LandingPage=(props)=>{
 
@@ -132,15 +291,21 @@ const LandingPage=(props)=>{
 							</ArrowPersonalContainer>
 						</a>
 
-						<li style={{listStyle:"none"}}>
+						<li id="firstSection" style={{listStyle:"none"}}>
 							<FirstSection
+								
 								increaseCounter={increasePageCounter}
 								displaySelectedPage={displaySelectedPage}
-								props={props}
+								history={props.history}
 							/>
 						</li>
+						<li  style={{zIndex:"-5",listStyle:"none"}}>
+							<ImageContainer id="mobileImageContainer1">
+								<img id="mobileImageFirst" src={LandingImageFirstPersonal}/>	
+							</ImageContainer>
+						</li>
 
-						<li style={{listStyle:"none"}}>
+						<li id="secondSection" style={{listStyle:"none"}}>
 							<SecondSection
 								increaseCounter={increasePageCounter}
 								decreaseCounter={decreasePageCounter}
@@ -148,6 +313,11 @@ const LandingPage=(props)=>{
 								props={props}
 							/>
 						</li>
+						<ImageContainer id="mobileImageContainer1">
+							<li  id="mobileImageContainer2" style={{listStyle:"none"}}>
+								<img id="mobileImage1" src={LandingImageSecondPersonal}/>
+							</li>
+						</ImageContainer>
 
 						<li style={{listStyle:"none"}}>
 							<ThirdSection
@@ -155,6 +325,16 @@ const LandingPage=(props)=>{
 								displaySelectedPage={displaySelectedPage}
 								props={props}
 							/>
+						</li>
+						<li style={{zIndex:"-5",listStyle:"none"}}>
+							<ImageContainer id="mobileImageContainer1">
+								<li id="mobilePersonal1" style={{listStyle:"none",marginTop:"150%"}}>
+									<img id="mobileImage1" src={LandingImageThirdPersonal}/>
+								</li>
+							</ImageContainer>
+						</li>
+						<li style={{marginTop:"50%",listStyle:"none"}}>
+							<FourthSection/>
 						</li>
 					</React.Fragment>:
 					<React.Fragment>
@@ -171,9 +351,13 @@ const LandingPage=(props)=>{
 								props={props}
 							/>
 						</li>
-						<li style={{listStyle:"none"}}>
-							<img id="imageListContainer" src={LandingImage} style={{width:"40%",height:"50%"}} />
-						</li>
+
+						<ImageContainer id="mobileImageContainer1">
+							<li  style={{listStyle:"none"}}>
+								<img id="mobileImageFirst" src={LandingImageFirstCompany}/>
+							</li>
+						</ImageContainer>
+
 						<li style={{listStyle:"none"}}>
 							<CompanySecondSection
 								increaseCounter={increasePageCounter}
@@ -183,16 +367,23 @@ const LandingPage=(props)=>{
 							/>
 						</li>
 
-						<li style={{listStyle:"none"}}>
+						<ImageContainer id="mobileImageContainer1">
+							<li  style={{marginTop:"-230px",listStyle:"none"}}>
+								<img id="mobileImageSecondCompany" src={LandingImageSecondCompany}/>
+							</li>
+						</ImageContainer>
+
+						<li style={{listStyle:"none",padding:"20px",marginTop:"20%"}}>
 							<CompanyThirdSection
 								decreaseCounter={decreasePageCounter}
 								displaySelectedPage={displaySelectedPage}
 								props={props}
 							/>
 						</li>
+						<li id="companyFourthSection" style={{marginTop:"10%",listStyle:"none"}}>
+							<FourthSection/>
+						</li>
 					</React.Fragment>
-
-
 				}
 			</ul>
 		</Container>

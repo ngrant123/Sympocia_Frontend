@@ -304,26 +304,6 @@ export const checkIfEmailIsUsed=async(email)=>{
 
 }
 
-export const loginProfile=async(email,password)=>{
-	try{
-
-		const loginResponse=await axios.get(`${SearchUrl}/loginProfile`,{
-									params:{
-										email:email,
-										password:password
-									}
-								});
-
-		const {data}=loginResponse;
-		const loginData=data.data;
-		return loginData;
-	}catch(err){
-		console.log(err);
-		return err;
-	}
-
-}
-
 
 export const getRecruitsInformation=async(userId)=>{
 	try{

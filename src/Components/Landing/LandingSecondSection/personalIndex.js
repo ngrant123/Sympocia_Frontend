@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react';
 import styled,{keyframes} from 'styled-components';
-import LandingPageScrollDiv from '../../GeneralComponents/LandingPageComponent/LandingScrollPageIndicator';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
   import {
@@ -207,7 +206,7 @@ const closeModal=()=>{
                                <p style={{color:"#C8B0F4",fontSize:"15px"}}>
                                   Each post has a specific 
                                   algorithm that is tailored to the kind of post that you are watching.
-                                  We believe each posts are different and requires different ways to be consumed and made.
+                                  We believe each post is different and requires different ways to be consumed and made.
                                   Interested in learning more about it? We give you a more detailed 
                                   rundown when you sign up :)
                                 </p>:null
@@ -220,17 +219,17 @@ const closeModal=()=>{
                                   and are voted by the people in their symposiums (communities). 
 
                                   <br/><br/>Copyright system is also different. No personal information is 
-                                  swapped between two people. If the issue isn’t resolved with a couple 
+                                  swapped between two people. If the issue isn’t resolved within a couple 
                                   days we come in and judge using fair eyes
                                 </p>:null
                             }
 
                             {displayThirdBulletModal==true?
                                <p style={{color:"#C8B0F4",fontSize:"15px"}}>
-                                      We offer the ability for you to specifically decided where your post appear 
+                                      We offer the ability for you to specifically decide where your posts appear 
                                       and more importantly how they appeared there. Analytics is a very important
-                                      part of uploading videos to us. Don’t like a post that you posted? Edit it
-                                      after you uploaded it and change the filter or anything
+                                      part of uploading videos to us. Don’t like a post that you posted? You can edit it
+                                      after you upload it, change the filter, along with many other options.
                                 </p>:null
                             }
                         </li>
@@ -240,9 +239,9 @@ const closeModal=()=>{
               }
             
             <ul style={{zIndex:"2",padding:"0px",marginTop:"5%"}}>
-              <li style={{listStyle:"none",height:"70%"}}>
+              <li id="secondSectionLIParent" style={{listStyle:"none",height:"70%"}}>
 
-                  <ul style={{width:"35%",height:"50%",marginRight:"5%",marginLeft:"40%",padding:"0px"}}>
+                  <ul id="secondSectionText" style={{width:"50%",height:"50%",marginRight:"5%",marginLeft:"50%",padding:"0px"}}>
                      <li id="bulletsContainer" style={{listStyle:"none",display:"inline-block"}}>
                               <p style={{fontSize:"50px",width:"60%",borderTop:"5px solid #494949",marginLeft:"20%"}}> 
                                   <b>How are we different?</b>

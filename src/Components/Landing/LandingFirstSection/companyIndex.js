@@ -1,7 +1,6 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import styled,{keyframes} from 'styled-components';
 import { Redirect } from "react-router-dom";
-import LandingPageScrollDiv from '../../GeneralComponents/LandingPageComponent/LandingScrollPageIndicator';
 import { useDispatch,useSelector } from 'react-redux';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { 
@@ -16,7 +15,6 @@ import {
   addPersonalIdentificationId,
   loginPersonalPage
 } from '../../../Actions/Redux/Actions/PersonalProfile';
-import {loginProfile} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import  {
         Container,
         SignInformation,
@@ -48,6 +46,9 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import NavBarLogin from "../NavBarImplementation.js";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+
+import EmailInformationModal from "../EmailInformationModal.js";
+//import {recordEmailCompany} from "../../../Actions/Requests/MarketingRequests.js";
 
 
 const LoginBox=styled.textarea`
@@ -112,6 +113,19 @@ const ArrowDownContainer=styled.div`
   }
 `;
 
+const JoinMovementTextContainer=styled.input`
+    border: none;
+    overflow: auto;
+    outline: none;
+    resize:none;
+    border-radius:5px;
+    width:150%;
+    top:5%;
+    border-style:solid;
+    border-width:2px;
+    border-color:#d9d9d9;
+`;
+
 
 const SignUpButton={
     listStyle:"none",
@@ -123,7 +137,7 @@ const SignUpButton={
     marginRight:"2%"
 }
 
-const ExploreButton={
+const JoinMovementButton={
   listStyle:"none",
   display:"inline-block",
   backgroundColor:"white",
@@ -134,6 +148,29 @@ const ExploreButton={
   borderWidth:"2px",
   borderColor:"#3898ec"
 }
+
+const JoinMovementContainer={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  marginTop:"5%"
+}
+
+const ComingSoonButton={
+  listStyle:"none",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginTop:"2%"
+}
+
 
 const handleClearTextAreaClick=(divId)=>{
 	document.getElementById(divId).placeholder="";
@@ -148,13 +185,12 @@ const inspectLetterTyedName=(character)=>{
 }
 
 
-
-
 const FirstSection=(props)=>{
 	
+   const [displayEmailInformation,changeDisplayState]=useState(false);
+
 	const dispatch=useDispatch();
 	const state=useSelector(state=>state);
-	console.log(props);
 
   useEffect(()=>{
     setTimeout(()=>{
@@ -177,37 +213,50 @@ const FirstSection=(props)=>{
     }
 	}
 
-  /*
-    Starting a business is hard. But now you don’t have to do it all alone
-    Introducing Sympocia Business
+  const closeModal=()=>{
+    changeDisplayState(false);
+  }
 
-    So you’re starting out your business huh? Or maybe you have an idea
-    and you need a little help with it. Don’t worry, we built this platform just for you :)
-  */
+  const triggerConfirmation=async()=>{
+    debugger;
+    /*
+     const email=document.getElementById("email").value;
+      if(email!=""){
+        const {confirmation,data}=await recordEmailCompany(email);
+        if(confirmation=="Success"){ 
+          changeDisplayState(true)
+        }else{
+          alert('Unfortunately we experienced an error. Please submit your information again');
+        }
+      }else{
+        alert('Please enter your email :)')
+      }
+    */
+  }
 
 	return(
 
-
-
 		     <FirstContainer id="firstContainer">
+              {displayEmailInformation==false?null:
+                <EmailInformationModal
+                  closeModal={closeModal}
+                  profileType="Company"
+                />
+              }
+
               <ul style={{padding:"0px"}}>
                   <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
                       <ul style={{padding:"0px"}}>
                           <li style={{listStyle:"none",display:"inline-block"}}>
-                            <p style={{fontSize:"100px",color:"#C8B0F4",marginLeft:"-20%"}}>
+                            <p id="headerCompany" style={{fontSize:"100px",color:"#C8B0F4",marginLeft:"-20%"}}>
                                 <b>Sympocia</b>
                             </p>
-                          </li>
-                          <li id="navBarLogin" style={{listStyle:"none"}}>
-                            <NavBarLogin
-                              props={props}
-                            /> 
                           </li>
                       </ul>
                   </li>
                   <li style={{listStyle:"none",marginTop:"7%"}}>
                     <ul style={{padding:"0px"}}>
-                        <li style={{listStyle:"none",display:"inline-block",width:"90%",height:"60%"}}>
+                        <li id="textFirstSectionCompany" style={{listStyle:"none",display:"inline-block",width:"90%",height:"60%"}}>
                             <ul style={{padding:"0px"}}>
                               <li style={{listStyle:"none",display:"inline-block",width:"50%",height:"50%"}}>
                                 <ul style={{padding:"0px"}}>
@@ -229,24 +278,13 @@ const FirstSection=(props)=>{
 
                                         <li style={{listStyle:"none"}}>
                                             <p>
-                                               Starting a business is hard. But now you don’t have to do it all alone
+                                               Starting a business is hard. But now you don’t have to do it all alone!
                                             </p>
                                         </li>
                                       </ul>
                                   </li>
-                                  <li style={{listStyle:"none"}}>
-                                      <ul style={{padding:"0px"}}>
-                                        <a href="/signup" style={{textDecoration:"none"}}>
-                                          <li style={SignUpButton}>
-                                              Sign Up
-                                          </li>
-                                        </a>
-                                        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                                          <li style={ExploreButton}>
-                                              Explore
-                                          </li>
-                                        </a>
-                                      </ul>
+                                  <li style={ComingSoonButton}>
+                                    Coming soon
                                   </li>
                                 </ul>
                               </li>

@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react';
 import styled,{keyframes} from 'styled-components';
-import LandingPageScrollDiv from '../../GeneralComponents/LandingPageComponent/LandingScrollPageIndicator';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
   import {
@@ -148,10 +147,13 @@ const SecondSection=(props)=>{
               <li style={{listStyle:"none",height:"70%"}}>
 
                   <ul style={{width:"35%",height:"50%",marginRight:"5%",marginLeft:"40%",padding:"20px"}}>
-                     <li id="bulletsContainer" style={{listStyle:"none",display:"inline-block"}}>
-                              <p style={{fontSize:"50px",borderTop:"5px solid #494949"}}> 
+                     <li id="bulletsContainerCompany" style={{listStyle:"none",display:"inline-block"}}>
+                            <li style={{listStyle:"none",fontSize:"50px"}}>
+                               <p id="companyHeader" style={{borderTop:"5px solid #494949"}}> 
                                   <b>How can this help you? </b>
                               </p>
+                            </li>
+                             
                               <p style={{fontSize:"20px"}}> 
                                  We offer two things one this platform that you can’t get anywhere else:
                               </p>

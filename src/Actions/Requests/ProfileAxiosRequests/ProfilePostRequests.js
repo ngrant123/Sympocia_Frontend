@@ -488,6 +488,23 @@ export const changeHasViewedArenaWinnersIndicator=async(_id)=>{
 	}
 }
 
+export const loginProfile=async(email,password)=>{
+	try{
+		debugger;
+		const loginResponse=await axios.post(`${CreateUrl}/loginProfile`,{
+									email,
+									password
+							});
+
+		const {data}=loginResponse;
+		const loginData=data.data;
+		return loginData;
+	}catch(err){
+		console.log(err);
+		return err;
+	}
+}
+
 
 
 

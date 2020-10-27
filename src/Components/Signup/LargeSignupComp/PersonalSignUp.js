@@ -203,7 +203,7 @@ class PersonalSignUp extends Component{
 		return (
 			<React.Fragment>
 				<ul style={{padding:"0px"}}>
-					<img src={SympociaIcon} style={{position:"relative",marginLeft:"35%",width:"20%",height:"15%"}}/>
+					<img src={SympociaIcon} style={{position:"relative",marginLeft:"35%",width:"80px",height:"60px"}}/>
 					<p style={{fontSize:"30px",marginLeft:"17%",color:"#424242"}}>
 						<b>Welcome to Sympocia</b>
 					</p>

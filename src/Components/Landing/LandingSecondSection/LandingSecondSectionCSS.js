@@ -26,16 +26,29 @@ export const SecondContainer = styled.div`
           #floatingArrowFunction{
             display:none;
           }
+        #secondSectionText{
+          width:70% !important;
         }
+    }
 
     @media screen and (max-width:860px){
       #bulletsContainer{
-        width:80%;
+        width:90% !important;
+        font-size:15px;
+      }
+      #bulletsContainerCompany{
+         width:180%;
         font-size:15px;
       }
       #firstListContainer{
         font-size:15px;
       }
+    }
+
+    @media screen and (max-width:840px){
+        #secondSectionText{
+          width:70% !important;
+        }
     }
 
     @media screen and (max-width:680px){
@@ -47,6 +60,17 @@ export const SecondContainer = styled.div`
         #imageListContainer{
          display:none;
          top:0px;
+      }
+        #secondSectionText{
+          width:90% !important;
+          margin-left:70% !important;
+        }
+
+      #bulletsContainerCompany{
+         width:220%;
+        font-size:15px;
+        z-index:10;
+        margin-left:-50%;
       }
 
       #ulContainer{
@@ -69,6 +93,15 @@ export const SecondContainer = styled.div`
         }
     }
 
+    @media screen and (max-width:570px){
+       #bulletsContainerCompany{
+           width:290%;
+          font-size:15px;
+          z-index:10;
+          margin-left:-100%;
+        }
+    }
+
 
 
  
@@ -87,18 +120,23 @@ export const SecondContainer = styled.div`
 
     @media screen and (max-height:400px){
         margin-top:20%;
+
     }
     @media screen and (max-height:360px){
         margin-top:30%;
     }
 
+
     @media screen and (max-width:820px), screen and (max-height:590px){
       margin-top:35%;
     }
      @media screen and (max-width:685px), screen and (max-height:565px){
-      margin-top:40%;
+      margin-top:70% !important;
     }
 
+    @media screen and (max-width:420px), screen and (max-height:300px){
+      margin-top:120%;
+    }
     @media screen and (max-width:380px), screen and (max-height:465px){
       margin-top:55%;
     }
@@ -106,9 +144,40 @@ export const SecondContainer = styled.div`
     @media screen and (max-width:380px), screen and (max-height:380px){
       margin-top:75%;
     }
-   @media screen and (max-width:420px), screen and (max-height:300px){
-      margin-top:120%;
+
+    @media screen and (max-width:380px){
+       #bulletsContainerCompany{
+           width:400%;
+           height:70%;
+          z-index:10;
+          margin-left:-250%;
+        }
     }
+
+     @media screen and (max-width:350px){
+       #bulletsContainerCompany{
+          height:50%;
+          font-size:15px;
+          z-index:10;
+          margin-left:-250%;
+        }
+
+      #companyHeader{
+        font-size:30px;
+      }
+       #secondSectionText{
+          width:150% !important;
+          font-size:20px !important;
+          margin-left:-20% !important;
+        }
+        #secondSectionLIParent{
+          margin-left:95% !important;
+          width:90% !important;
+        }
+    }
+
+
+  
 `;
 
  export const SecondPageHead = styled.div`
