@@ -2,7 +2,6 @@ import React , {Component} from "react";
 import styled from "styled-components";
 import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import { connect } from "react-redux";
-import ExplorePage from "../HomePageSubset/ExploreHomeFeed/ExplorePage/ExplorePage";
 import SymposiumList from "../HomePageSubset/Symposium/SymposiumList/FeedContainer";
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
 import SearchExploreScreen from "../HomePageSubset/SearchExplorePage/SearchExploreSet/index.js";
@@ -204,51 +203,22 @@ class HomePageContainer extends Component{
 		var symposiumsMap;
 		var isPersonalProfile;
 		debugger;
-		if(this.props.location.query!=null){
-			const profileData=this.props.location.query.createProfile;
-			if(this.props.location.query.createProfile.isPersonalProfile==true){
-				const {
-						createProfile,
-						previousProps,
-				 		reduxFunctions
-				 	}=profileData;
-				 	const personalProfile=profileData.profile;
+			debugger;
+		if(this.props.personalInformation.loggedIn==true){
+			symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
+			const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
 
-				profile=await createProfile(previousProps,personalProfile,reduxFunctions);
-				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
+			if(confirmation=="Success"){
+				profile=data;
 				isPersonalProfile=true;
 			}else{
-				const {
-					handleSendDataToDatabase,
-					companyInformation,
-					reduxFunctions
-				}=profileData
-
-				profile=await handleSendDataToDatabase(companyInformation,reduxFunctions)
-				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
-				isPersonalProfile=false;
+				alert('Unfortunately there has been an error with getting the posts/profile for the home page. Please try again');
 			}
 		}else{
-			debugger;
-			if(this.props.personalInformation.loggedIn==true){
-				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
-				const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
-
-				if(confirmation=="Success"){
-					profile=data;
-					isPersonalProfile=true;
-				}else{
-					alert('Unfortunately there has been an error with getting the posts/profile for the home page. Please try again');
-				}
-				
-
-			}else{
-				var symposiumsMap=this.constructSymposiumsMap(COMPANY_INDUSTRIES.INDUSTRIES);
-				profile=await getCompanyProfileForHomePage(this.props.companyInformation.id);
-				isPersonalProfile=false
-			}
+			var symposiumsMap=this.constructSymposiumsMap(COMPANY_INDUSTRIES.INDUSTRIES);
+			profile=await getCompanyProfileForHomePage(this.props.companyInformation.id);
+			isPersonalProfile=false
 		}
-
 		this.setState({
 			recruitsPost:profile.recruitsFollowing,
 			isPersonalProfile:isPersonalProfile,
@@ -362,16 +332,6 @@ class HomePageContainer extends Component{
 						profileId={this.state.profile._id}
 						routerHistory={this.props.history}
 					/>
-		}else if(this.state.displayExplorerFeed==true){
-			const userObject={
-				id:this.state.profileId,
-				isPersonalPage:this.state.isPersonalProfile
-			}
-			return <ExplorePage
-						displayGrids={this.handleDisplayGridLayout}
-						userInformation={userObject}
-						symposiumMap={this.state.symposiumsMap}
-					/>;
 		}else if(this.state.displaySearchExplorePage==true){
 				return <SearchExploreScreen
 								displayGrids={this.handleDisplayGridLayout}
@@ -503,12 +463,14 @@ class HomePageContainer extends Component{
 								<li style={{listStyle:"none"}}>
 									<ForYouIconContainer>
 										<ul style={{padding:"0px"}}>
-											<li onClick={()=>this.handleDisplayFollowedCommunitiesPage()} style={{listStyle:"none",marginBottom:"20%"}}>
-												<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-													<AppsIcon
-														style={{fontSize:40}}
-													/>
-												</a>
+											<li onClick={()=>this.props.history.push({
+													pathname:'/symposiumList'
+												})} style={{listStyle:"none",marginBottom:"20%"}}>
+													<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+														<AppsIcon
+															style={{fontSize:40}}
+														/>
+													</a>
 											</li>
 											<hr/>
 											{/*

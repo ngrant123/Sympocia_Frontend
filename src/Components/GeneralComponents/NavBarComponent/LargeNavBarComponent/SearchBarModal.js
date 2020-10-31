@@ -13,6 +13,16 @@ const Container=styled.div`
 	box-shadow: 1px 1px 10px #d5d5d5;
 	z-index:7;
 	overflow-y:auto;
+
+	@media screen and (max-width:960px) {
+		width:65%;
+		left:20%;
+	}
+	@media screen and (max-width:595px) {
+		width:95%;
+		left:2%;
+		height:400%;
+	}
 `;
 
 const SymposiumsContainer=styled.div`

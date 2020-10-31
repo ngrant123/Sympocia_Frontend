@@ -75,7 +75,7 @@ const NavBar=(props)=>{
     const loginResults=await loginProfile(email,password);
   
     if(typeof loginResults!='object'){ 
-    //  alert(loginResults);
+      alert(loginResults);
     }else{
       const {passWordIndicator,profileType,profile}=loginResults;
       const {_id,firstName,lastName,email}=profile;

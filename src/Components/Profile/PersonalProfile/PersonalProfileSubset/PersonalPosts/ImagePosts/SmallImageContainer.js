@@ -101,7 +101,6 @@ const SmallImageContainer=(props)=>{
 
 				{data.caption!=""?
 					<li style={{listStyle:"none",marginBottom:"5%"}}>
-					
 						<ImageCaption>
 							{data.caption}
 						</ImageCaption>

@@ -34,7 +34,6 @@ export function addNewsData(userId,newsData){
 		userId:number
 		newsdata:object
 	*/
-
 	axios.put(`${baseurl}/addNews`,{
 
 		params:{
@@ -119,8 +118,7 @@ export async function createProfile(personalData){
 
 	const profileCreationResults=await axios.post(`${CreateUrl}/createProfile`,personalInformation);
 	const {data}=profileCreationResults;
-	var profileData=data.data;
-	return profileData;
+	return data;
 }
 
 export function setBio(personalId,bio){
@@ -391,7 +389,7 @@ export const completeOnboardingPersonalPage=async(id)=>{
 
 export const completeOnboardingExplorePage=async(id)=>{
 	try{
-		const onBoardingExplorePageResponse=await axios.post(`${CreateUrl}/onBoardingCompleteExplorePage`,{
+		const onBoardingExplorePageResponse=await axios.put(`${CreateUrl}/onBoardingCompleteExplorePage`,{
 			_id:id
 		});
 		const {data}=onBoardingExplorePageResponse;

@@ -100,61 +100,84 @@ class PersonalSignUp extends Component{
 		}
 	}
 
-	handleSignUpButton=async(previousProps,profileObject,reduxFunctions)=>{
+	handleSignUpButton=async()=>{
 		debugger;
-		const props=previousProps;
-		const {firstName,lastName,email,password}=profileObject;
+
+		const firstName=document.getElementById("firstName").value;
+		const lastName=document.getElementById("lastName").value;
+		const email=document.getElementById("email").value;
+		const password=document.getElementById("password").value;
+
+
 		const {
-				addName,
+				addFirstName,
 			 	addLastName,
 			 	addEmail,
 			 	addPersonalIdentificationId,
 			 	loginPersonalPage,
 			 	loginCompanyPage
-			 }=reduxFunctions
+			 }=this.props;
 
 
 			 	loginPersonalPage(true);
 				loginCompanyPage(false);
-				addName(firstName);
+				addFirstName(firstName);
 				addLastName(lastName);
 				addEmail(email);
 
-				var profileCreationId;
-				debugger;
-				if(props.investorInformation!=null){
-					const {investorInformation}=props;
-					const {industries,location}=investorInformation;
-					const {long,lat}=location;
+				const {confirmation,data}=await createProfile({
+					firstName:firstName,
+					lastName:lastName,
+					email:email,
+					isInvestor:false,
+					password:password
+				});
 
-					profileCreationId=await createProfile({
-						firstName:firstName,
-						lastName:lastName,
-						email:email,
-						isInvestor:true,
-						industries:industries,
-						location:{
-							long:long,
-							lat:lat
-						},
-						password:password
-					});
+				if(confirmation=="Success"){
+					debugger;
+					addPersonalIdentificationId(data._id);
+					this.props.history.push({
+						pathname:'/home'
+					})
 				}else{
-					profileCreationId=await createProfile({
-						firstName:firstName,
-						lastName:lastName,
-						email:email,
-						isInvestor:false,
-						password:password
-					});
-
-					addPersonalIdentificationId(profileCreationId._id);
-					
-
-					return profileCreationId;
+					alert('unfortunately there was an error trying to create your profile. Please try again');
 				}
 
-				
+
+				/*
+					debugger;
+					if(props.investorInformation!=null){
+						const {investorInformation}=props;
+						const {industries,location}=investorInformation;
+						const {long,lat}=location;
+
+						profileCreationId=await createProfile({
+							firstName:firstName,
+							lastName:lastName,
+							email:email,
+							isInvestor:true,
+							industries:industries,
+							location:{
+								long:long,
+								lat:lat
+							},
+							password:password
+						});
+					}else{
+						profileCreationId=await createProfile({
+							firstName:firstName,
+							lastName:lastName,
+							email:email,
+							isInvestor:false,
+							password:password
+						});
+
+						addPersonalIdentificationId(profileCreationId._id);
+						
+
+						return profileCreationId;
+					}
+				*/	
 	}
 
 	checkIfEmailIsValid=async()=>{
@@ -229,14 +252,7 @@ class PersonalSignUp extends Component{
 							<InputContainer onKeyPress={e=>this.handlePasswordEnter(e.key)} onClick={()=>this.checkIfEmailIsValid()} id="password" style={{width:"85%"}} placeholder="Password"/>
 						</li>
 
-						<SubmitButton to={{pathname:`/home`,query:{createProfile:{
-													...this.state,
-													profile:{
-														...this.state.profile,
-														password:this.state.password
-													},
-													isPersonalProfile:true
-												}}}}>
+						<SubmitButton onClick={()=>this.handleSignUpButton()}>
 							Submit
 						</SubmitButton>
 

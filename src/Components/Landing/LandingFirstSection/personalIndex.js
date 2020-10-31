@@ -283,6 +283,7 @@ const FirstSection=(props)=>{
 
   const verifyCodeCall=async()=>{
       const code=document.getElementById("code").value;
+      debugger;
       if(code!=''){
         const {confirmation,data}=await verifyCode(code);
         if(confirmation=="Success"){

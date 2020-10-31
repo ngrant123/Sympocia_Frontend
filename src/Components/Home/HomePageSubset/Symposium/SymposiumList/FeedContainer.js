@@ -5,6 +5,9 @@ import Symposium from "../ExtendedSymposium/index.js"
 import {getSymposiumsFollowedHome,getSymposiumsNotFollowed} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getFollowedSymposiumsCompanyHome} from "../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
+import {connect} from "react-redux";
+import ChatPageContainer from "../../../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
+import {GeneralNavBar} from "../../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 
 
  const keyFrameExampleThree= keyframes`
@@ -29,8 +32,90 @@ import StampIcon from "../../../../../designs/img/StampIcon.png";
   }
   100% {
     left:20%;
-
   }
+`;
+
+const keyFramMobile=keyframes`
+	 0% {
+		left:110%;
+	  }
+	  100% {
+	    left:-15%;
+	  }
+`;
+
+
+
+const Container=styled.div`
+	position:absolute;
+	width:100%;
+	padding:10px;
+	height:100%;
+	background-color:white;
+	overflow-y:scroll;
+	transition:.8s;
+	overflow-x:hidden;
+	overflow-y:scroll;
+	padding-top:0px;
+
+	@media screen and (max-width:1150px) {
+		#followedSymposiumsButton{
+			font-size:20px !important;
+		}
+		#exploreSymposiumsButton{
+			font-size:20px !important;
+		}
+	}
+
+	@media screen and (max-width:1050px) {
+		#SymposiumListContainer{
+			margin-top:5% !important;
+		}
+	}
+
+
+	@media screen and (max-width:960px) {
+		#popularButton{
+			margin-left:-25% !important;
+		}
+	}
+
+	@media screen and (max-width:960px) {
+		#stampIcon{
+			width:30% !important;
+		}
+	}
+
+	@media screen and (max-width:620px) {
+		#stampIcon{
+			width:40% !important;
+		}
+	}
+
+
+	@media screen and (max-width:580px) {
+		#SymposiumListContainer{
+			margin-top:15% !important;
+		}
+	}
+
+	@media screen and (max-width:420px) {
+		#SymposiumListContainer{
+			margin-top:25% !important;
+			margin-left:-20% !important;
+		}
+		#stampIcon{
+			width:50% !important;
+		}
+	}
+
+	@media screen and (max-width:350px) {
+		#SymposiumListContainer{
+			margin-left:-25% !important;
+		}
+	}
+
+
 `;
 
 const CommunityTransitionAnimation=styled.div`
@@ -52,6 +137,12 @@ const CommunityContainerAnimationFollowed=styled.div`
 	transition: transform 300ms ease-in-out;
 	border-radius:5px;
 	animation:${keyFrame} 1s ease-in-out 0s forwards;
+
+	@media screen and (max-width:960px) {
+		animation:${keyFramMobile} 1s ease-in-out 0s forwards;
+		width:100%;
+		height:70%;
+	}
 `;
 
 const CommunityContainerAnimationExplore=styled.div`
@@ -62,6 +153,10 @@ const CommunityContainerAnimationExplore=styled.div`
 	transition: transform 300ms ease-in-out;
 	border-radius:5px;
 	animation:${keyFrame} 1s ease-in-out 0s forwards;
+
+	@media screen and (max-width:960px) {
+		animation:${keyFramMobile} 1s ease-in-out 0s forwards;
+	}
 `;
 
 const ExploreButton={
@@ -74,6 +169,27 @@ const ExploreButton={
   borderWidth:"2px",
   borderColor:"#3898ec",
   width:"30%"
+}
+
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"5px",
+	borderStyle:"none"
+}
+
+
+const RouteOptionsDropDown={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white"
 }
 
 
@@ -97,20 +213,26 @@ class PersonalFeedContainer extends Component{
 	constructor(props){
 
 		super(props);
-
+		console.log(props);
 		this.state={
 			symposiumArray:[],
 			triggerAnimation:false,
 			selectedSymposium:{},
 			displaySymposiumPage:false,
 			triggerExploreAnimation:false,
-			isLoading:true
+			isLoading:true,
+			displayMobileUI:false,
+			displayChatPage:false,
+			chatPageIndicator:"",
+			displayDesktopUI:false
 		}
 	}
 
 	//Find a better way of doing this
 	async componentDidMount(){
 		try{
+			window.addEventListener('resize',this.triggerUIChange)
+
 			console.log(this.props);
 			const {isPersonalProfile,profileId}=this.props;
 			var symposiumsResponse;
@@ -146,11 +268,29 @@ class PersonalFeedContainer extends Component{
 					isLoading:false
 				}));	
 			}
-			
+			this.triggerUIChange();
 		}catch(err){
 			console.log(err.message);
 		}
 	}
+
+	triggerUIChange=()=>{
+		debugger;
+		console.log(window.innerWidth)
+		if(window.innerWidth<960){
+			this.setState({
+				displayMobileUI:true,
+				displayDesktopUI:false
+			})
+
+		}else{
+			this.setState({
+				displayMobileUI:false,
+				displayDesktopUI:true
+			})
+		}
+	}
+
 
 	timerFunction=(seconds)=>{
 		return new Promise(resolve => setTimeout(resolve, seconds));
@@ -196,7 +336,7 @@ class PersonalFeedContainer extends Component{
 			}
 		}
 
-		this.props.routerHistory.push({
+		this.props.history.push({
 		  pathname:`/symposium/${data.symposium}`,
 		  state: {
 		  	selectedSymposium:data,
@@ -243,6 +383,32 @@ class PersonalFeedContainer extends Component{
 		})
 	}
 
+	displayChatPage=(pageIndicator)=>{
+		this.setState(prevState=>({
+
+			...prevState,
+			displayChatPage:true,
+			chatPageIndicator:pageIndicator
+		}))
+	}
+
+	hideChatPage=()=>{
+		this.setState(prevState=>({
+
+			...prevState,
+			displayChatPage:false
+		}))
+	}
+
+	chatPage=()=>{
+		console.log(this.state.displayChatPage);
+		return this.state.displayChatPage==true?
+			<ChatPageContainer
+				pageIndicator={this.state.chatPageIndicator}
+				hideChatContainer={this.hideChatPage}
+			/>:<React.Fragment></React.Fragment>
+	}
+
 
 	 TransitionAnimationTrigger=()=>{
 	 	console.log("Tester");
@@ -250,38 +416,55 @@ class PersonalFeedContainer extends Component{
 			this.triggerAnimation();
 
 	 	return this.state.triggerAnimation==false?
-	 		<ul style={{position:"relative",paddingTop:"10%"}}>
-	 			<ul style={{position:"relative",left:"20%",marginBottom:"30px"}}>
-					<li style={{listStyle:"none",marginBottom:"2%"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>this.displayFollowSymposiums()} id="followedSymposiumsButton" style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"5%"}}>
-											<b>My symposiums</b>
-										</li>
-									</a>
+	 		<ul id="SymposiumListContainer" style={{position:"relative",paddingTop:"10%"}}>
+	 			<ul style={{position:"relative",marginBottom:"30px"}}>
+	 				{this.state.displayDesktopUI==false?
+	 	 				<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+								style={ShadowButtonCSS}>
+									Change Post Option
+							   		<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li id="followedSymposiumsButton" onClick={()=>this.displayFollowSymposiums()}><a>My Symposiums</a></li>
+								<li id="exploreSymposiumsButton"  onClick={()=>this.displayExploreSymposiums()}><a>Explore Symposiums</a></li>
+							</ul>
+						</div>:
+						<li id="symposiumFilterLI" style={{listStyle:"none",marginBottom:"2%"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none"}}>
+									<ul id="titlesContainer" style={{padding:"0px"}}>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>this.displayFollowSymposiums()} id="followedSymposiumsButton" style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"5%"}}>
+												<b>My symposiums</b>
+											</li>
+										</a>
 
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>this.displayExploreSymposiums()} id="exploreSymposiumsButton" style={{color:"#999999",display:"inline-block",listStyle:"none",fontSize:"40px",marginLeft:"5%"}}>
-											<b>Explore Symposiums</b>
-										</li>
-									</a>
-								</ul>
-							</li>
-							<hr/>
-							<li onClick={()=>this.changeColorForPopularButton()} id="mostPopularButton" style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"#5298F8",color:"white",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"10px",borderRadius:"5px"}}>Most Popular</li>
-							<li onClick={()=>this.changeColorForFastestGrowingButton()} id="fastestGrowingButton" style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"white",color:"#6e6e6e",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"5px",borderRadius:"5px"}}>Fastest Growing</li>
-						</ul>
-					</li>
-					<li style={{listStyle:"none",width:"30%"}}>
-						Go back and check out the newest posts in the symposiums you follow. 
-					</li>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>this.displayExploreSymposiums()} id="exploreSymposiumsButton" style={{color:"#999999",display:"inline-block",listStyle:"none",fontSize:"40px",marginLeft:"5%"}}>
+												<b>Explore Symposiums</b>
+											</li>
+										</a>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					}
+					<hr/>
+					<li id="popularButton" onClick={()=>this.changeColorForPopularButton()} id="mostPopularButton"
+						 style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"#5298F8",color:"white",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"10px",borderRadius:"5px"}}>Most Popular</li>
+					<li id="fastestGrowinButton" onClick={()=>this.changeColorForFastestGrowingButton()} id="fastestGrowingButton" style={ShadowButtonCSS}>Fastest Growing</li>
+						
+					{this.state.displayDesktopUI==true &&(
+						<li style={{listStyle:"none",width:"30%"}}>
+							Go back and check out the newest posts in the symposiums you follow. 
+						</li>
+					)}
 				</ul>
 				{this.state.isLoading==false && this.state.symposiumArray.length==0?
 						<li style={{listStyle:"none",marginLeft:"30%"}}>
 							<ul>
-								<li style={{listStyle:"none",display:"inline-block",width:"20%"}}>
+								<li id="stampIcon" style={{listStyle:"none",display:"inline-block",width:"20%"}}>
 									<img src={StampIcon} style={{borderRadius:"50%",width:"95%",height:"20%"}}/>
 								</li>
 								<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
@@ -307,40 +490,13 @@ class PersonalFeedContainer extends Component{
 										data={data}
 										isPersonalProfile={this.props.isPersonalProfile}
 										handleSymposiumClickHandler={this.handleSymposiumClick}
+										isMobileView={this.state.displayMobileUI}
 									/>
 								</CommunityContainerAnimationFollowed>
 							</li>
 						)}
 					</React.Fragment>
-				}
-			{/*
-				{this.state.triggerFollowAnimation==true?
-					<React.Fragment>
-						{this.state.symposiumArray.map(data=>
-							<li style={{paddingBottom:"40px",listStyle:"none"}}>
-								<CommunityContainerAnimationFollowed onClick={()=>this.handleSymposiumClick(data)}>
-									<CommunityContainer
-										data={data}
-										isPersonalProfile={this.props.isPersonalProfile}
-									/>
-								</CommunityContainerAnimationFollowed>
-							</li>
-						)}
-					</React.Fragment>:
-					<React.Fragment>
-								{this.state.symposiumArray.map(data=>
-									<li style={{paddingBottom:"40px",listStyle:"none"}}>
-										<CommunityContainerAnimationExplore onClick={()=>this.handleSymposiumClick(data)}>
-											<CommunityContainer
-												data={data}
-												isPersonalProfile={this.props.isPersonalProfile}
-											/>
-										</CommunityContainerAnimationExplore>
-									</li>
-								)}
-					</React.Fragment>
-				}
-			*/}		
+				}	
 			</ul>:
 				<CommunityTransitionAnimation style={{background:this.state.selectedSymposium.backgroundColor}}>
 				</CommunityTransitionAnimation>
@@ -369,13 +525,30 @@ class PersonalFeedContainer extends Component{
 
 	render(){
 		return(
-			<React.Fragment>
+			<Container>
+				<GeneralNavBar
+					displayChatPage={this.displayChatPage}
+					page={"Home"}
+					routerHistory={this.props.history}
+				/>
+
 				{this.displaySymposiumPage()}
 				{this.TransitionAnimationTrigger()}
-			</React.Fragment>
+			</Container>
 		)
 	}
 
 }
 
-export default PersonalFeedContainer;
+const mapStateToProps=(state)=>{
+	return{
+		profileId:state.personalInformation.id,
+		isPersonalProfile:state.personalInformation.loggedIn
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	null
+)(PersonalFeedContainer)
+

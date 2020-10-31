@@ -172,7 +172,7 @@ class LSignupPage extends Component {
 			long:0,
 			lat:0,
 			displayMarker:false,
-			displayPersonalSignupModal:true,
+			displayPersonalSignupModal:false,
 			displayInvestorPersonalSignUpFinalModal:false
 		};
 	}
@@ -242,7 +242,9 @@ class LSignupPage extends Component {
 										</li>
 									</a>
 									<PersonalSignUpCard id="personalSignInCard">
-										<PersonalSignUp/>
+										<PersonalSignUp
+											history={this.props.history}
+										/>
 									 </PersonalSignUpCard>
 								</li>:
 								 <>

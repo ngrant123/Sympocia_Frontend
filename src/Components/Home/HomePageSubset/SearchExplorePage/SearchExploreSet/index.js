@@ -264,13 +264,6 @@ class SearchExploreContainer extends Component{
 										</ArenaContainer>
 									</li>
 								</a>
-									<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
-										Checkout a more generalized view of the communities you arent following by clicking here
-										<Checkbox
-											style={{fontSize:20,color:"#5298F8"}}
-											onChange={()=>this.handleCheckBoxCheck()}
-										/>
-									</li>
 							</li>
 						{/*
 								<li style={{listStyle:"none",display:"inline-block"}}>

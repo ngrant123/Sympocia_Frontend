@@ -22,7 +22,7 @@ import Loadable from "react-loadable";
 //Starting point for the web application
 const enhancers = compose(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  );
+);
 
 //load previous data into store
 const previousState=loadState();
@@ -107,6 +107,10 @@ const CreatePostScreen=Loadable({
 	...LoadableOptions
 })
 
+const SymposiumList=Loadable({
+	loader:()=>import("./Components/Home/HomePageSubset/Symposium/SymposiumList/FeedContainer.js"),
+	...LoadableOptions
+})
 
 const application  = (
 		<ErrorBoundary>
@@ -131,7 +135,8 @@ const application  = (
 						<Route exact path="/arena" component={Arena}/>
 						<Route exact path="/symposium/:symposiumName" component={Symposium}/>
 						<Route exact path="/groupVideoCall/:symposiumId/:groupCallId" component={GroupVideoCall}/>
-						<Route exact path="/createPost" component={CreatePostScreen}/>	
+						<Route exact path="/createPost" component={CreatePostScreen}/>
+						<Route exact path="/symposiumList" component={SymposiumList}/>		
 					</Switch>
 				</Router>
 			</Provider>

@@ -508,7 +508,7 @@ const displayChatContainerForCompanyPage=(pageProps)=>{
 const displayPersonalProfileOptions=(pageProps)=>{
 	return(
  			<React.Fragment>
- 				<ul style={{listStyle:"none"}}>	
+ 				<ul style={{padding:"0px",listStyle:"none"}}>	
  					<li style={{marginBottom:"10px"}}>
  						<PersonalProfileChatContainer onClick={()=>displayChatContainerForPersonalPage(pageProps)}>
  						</PersonalProfileChatContainer>
@@ -529,7 +529,7 @@ const displayPersonalProfileOptions=(pageProps)=>{
 
 	return(
  			<React.Fragment>
-	 			<ul style={{listStyle:"none"}}>	
+	 			<ul style={{padding:"0px",listStyle:"none"}}>	
 	 					<li style={{marginBottom:"10px"}}>
 	 						<CompanyProfileChatContainer onClick={()=>displayChatContainerForCompanyPage(pageProps)}>
 	 						</CompanyProfileChatContainer>

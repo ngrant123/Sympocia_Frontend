@@ -13,6 +13,36 @@ const Container=styled.div`
 	box-shadow: 10px 10px 10px 1px #d5d5d5;
 `;
 
+const MobileContainer=styled.div`
+	position:absolute;
+	width:90%;
+	height:100%;
+	left:10%;
+	border-radius:5px;
+
+	@media screen and (max-width:500px) {
+		#popularVideosLI{
+			margin-left:10% !important;
+		}
+		#activePeopleLI{
+			margin-left:10% !important;
+		}
+		#symposiumNameLI{
+			margin-left:20% !important;
+		}
+	}
+`;
+
+const SymposiumStyleDivider=styled.div`
+	position:relative;
+	width:40%;
+	height:7%;
+	background-color:red;
+	top:12%;
+	z-index:1;
+`;
+
+
 const ActivePeopleContainer=styled.div`
 	width:40%;
 	height:50%;
@@ -20,16 +50,27 @@ const ActivePeopleContainer=styled.div`
 	background-color:white;
 	overflow:auto;
 	padding-top:10px;
+
+	@media screen and (max-width:960px) {
+		width:100%;
+		height:25%;
+	}
 `;
 
 
 const PopularVideosContainer=styled.div`
+	position:relative;
 	width:40%;
 	height:25%;
 	border-radius:5px;
 	background-color:white;
 	overflow:hidden;
 	padding-top:5px;
+
+	@media screen and (max-width:960px) {
+		width:100%;
+		height:30%;
+	}
 `;
 
 
@@ -78,11 +119,13 @@ const ProfilePictureCSS={
 const CommunityContainer=(props)=>{
 	console.log(props);
 	console.log("Community Container");
-	const {
+	const  {
 		activePeople,
 		popularPosts,
-		symposium
+		symposium,
 	}=props.data;
+	const {isMobileView}=props;
+	console.log(isMobileView);
 	const [backgroundColor,changeBackGroundColor]=useState();
 	
 	useEffect(()=>{
@@ -113,14 +156,45 @@ const CommunityContainer=(props)=>{
 
 		<React.Fragment>
 			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				<Container onClick={()=>triggerDisplaySymposium()} style={{background:backgroundColor}}>
-					<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.symposium}</p>
-					<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"20%",padding:"10px",borderRadius:"5px"}}>Active People</p>
-					<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"50%",padding:"10px",borderRadius:"5px"}}>Popular Videos</p>
-					<ul style={{position:"relative",top:"-30%",left:"50%"}}>
-						<li style={CommunityDetailsListCSS}>
-							<ActivePeopleContainer>
-								<ul>
+				{isMobileView==true?
+					<MobileContainer onClick={()=>triggerDisplaySymposium()}>
+						<SymposiumStyleDivider 
+							style={{background:backgroundColor}}
+						/>
+						<p id="symposiumNameLI"style={{marginBottom:"10%",position:"relative",fontSize:"40px",color:"black",fontFamily:"'Fredoka One', cursive",zIndex:5}}>
+							{props.data.symposium}
+						</p>
+						<li id="popularVideosLI" style={{
+							...CommunityDetailsListCSS,
+							width:"150%",
+							marginLeft:"-10%"
+						}}>
+							
+							<p style={{marginLeft:"10%",color:"black",position:"relative"}}>
+								<b>Popular Videos</b>
+							</p>
+							<PopularVideosContainer style={{background:backgroundColor}}>
+								<ul  style={{marginLeft:"7%",width:"80%"}}>
+									{popularPosts.map(data=>
+										<li style={PopularVideosListCSS}>
+											<video id="smallVideo" key={data.videoUrl} borderRadius="5px" position="relative" height="95%" width="60px">
+												<source src={data.videoUrl} type="video/mp4"/>
+											</video>
+										</li>
+									)}
+								</ul>
+							</PopularVideosContainer>
+						</li>
+						<li id="activePeopleLI" style={{
+							...CommunityDetailsListCSS,
+							width:"150%",
+							marginLeft:"-10%"
+						}}>
+							<p style={{marginLeft:"10%",color:"black",position:"relative"}}>
+								<b>Active People</b>
+							</p>
+							<ActivePeopleContainer style={{background:backgroundColor}}>
+								<ul style={{marginLeft:"7%",width:"80%"}}>
 									{activePeople.length!=0?
 										<React.Fragment>
 											{activePeople.map(data=>
@@ -136,22 +210,48 @@ const CommunityContainer=(props)=>{
 								</ul>
 							</ActivePeopleContainer>
 						</li>
-						<li style={CommunityDetailsListCSS}>
-							<PopularVideosContainer>
-								<ul>
-									{popularPosts.map(data=>
-										<li style={PopularVideosListCSS}>
-											<video id="smallVideo" key={data.videoUrl} borderRadius="5px" position="relative" height="95%" width="60px">
-												<source src={data.videoUrl} type="video/mp4"/>
-											</video>
-										</li>
-									)}
-								</ul>
+					</MobileContainer>
+					:
+					<Container onClick={()=>triggerDisplaySymposium()} style={{background:backgroundColor}}>
+						<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.symposium}</p>
+						<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"20%",padding:"10px",borderRadius:"5px"}}>Active People</p>
+						<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"50%",padding:"10px",borderRadius:"5px"}}>Popular Videos</p>
+						<ul style={{position:"relative",top:"-30%",left:"50%"}}>
+							<li style={CommunityDetailsListCSS}>
+								<ActivePeopleContainer>
+									<ul>
+										{activePeople.length!=0?
+											<React.Fragment>
+												{activePeople.map(data=>
+													<li style={ActivePeopleListCSS}>
+														{data.profilePicture!=null?
+															<img src={data.profilePicture} style={ProfilePictureCSS}/>:
+															<img src={NoProfilePicture} style={ProfilePictureCSS}/>
+														}
+													</li>
+												)}
+											</React.Fragment>:<p> No active users right now :( </p>
+										}
+									</ul>
+								</ActivePeopleContainer>
+							</li>
+							<li style={CommunityDetailsListCSS}>
+								<PopularVideosContainer>
+									<ul>
+										{popularPosts.map(data=>
+											<li style={PopularVideosListCSS}>
+												<video id="smallVideo" key={data.videoUrl} borderRadius="5px" position="relative" height="95%" width="60px">
+													<source src={data.videoUrl} type="video/mp4"/>
+												</video>
+											</li>
+										)}
+									</ul>
 
-							</PopularVideosContainer>
-						</li>
-					</ul>
-				</Container>
+								</PopularVideosContainer>
+							</li>
+						</ul>
+					</Container>
+				}
 			</a>
 
 		</React.Fragment>
