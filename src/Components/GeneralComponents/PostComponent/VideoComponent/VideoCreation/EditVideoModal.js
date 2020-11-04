@@ -23,6 +23,23 @@ import crownIcon from '@iconify/icons-mdi/crown';
 import CrownPostModal from "../../CrownPost.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import RedoVideoCreationModal from "./index.js";
+import {UserConsumer} from "../../../../Profile/PersonalProfile/UserContext.js";
+
+const Container=styled.div`
+	@media screen and (max-width:420px){
+		#videoElement{
+			display:block !important;
+			width:120% !important;
+			height:40% !important;
+		}
+		#sendButtonLIContainer{
+			margin-bottom:50% !important;
+		}
+		#audioOptionsLI{
+			width:70% !important;
+		}
+	}
+`;
 
 const TextContainerDescription=styled.textarea`
 	height:30%;
@@ -71,6 +88,14 @@ const CrownIconContainer=styled.div`
 	    50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
 	    100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
 	 }
+
+	 @media screen and (max-width:420px){
+	 	top:40% !important;
+	}
+
+	@media screen and (max-width:740px) and (max-height:420px){
+	 	top:40% !important;
+    }
 `;
 
 const ShadowContainer= styled.div`
@@ -204,7 +229,7 @@ class EditVideoModal extends Component{
 	    return v.toString(16);
 	  });
 	}
-	sendVideoDataToDB=async(videoPostInformation,companyPostContextConsumer)=>{
+	sendVideoDataToDB=async(videoPostInformation)=>{
 
 		const currentVideoTitle=document.getElementById("videoTitle").value;
 		const currentVideoDescription=document.getElementById("videoDescription").value;
@@ -255,38 +280,23 @@ class EditVideoModal extends Component{
 		}
 
 		if(this.props.previousData==null){
-				if(this.props.personalProfile.loggedIn!=true){
-				const {confirmation,data}=await createVideoPost(this.props.companyProfile.id,searchVideoResult,"Company");
-				if(confirmation=="Success"){
-				debugger;
+			const {confirmation,data}=await createVideoPost(this.props.personalProfile.id,searchVideoResult,"Personal");
+			debugger;
+			if(confirmation=="Success"){
 				searchVideoResult={
 					...searchVideoResult,
-					key:data
+					isPostAuthentic:{
+						numOfApprove:[],
+						numOfDisapprove:[]
+					},
+					id:data,
+					key:this.uuidv4()
 				}
-				companyPostContextConsumer.hideCreationPost();
-				this.pushDummyVideoObjectToProfile(companyPostContextConsumer,searchVideoResult);
-				}else{
-					alert('Unfortunately an error has occured please try again ');
-				}
-			}else{
-				const {confirmation,data}=await createVideoPost(this.props.personalProfile.id,searchVideoResult,"Personal");
-				debugger;
-				if(confirmation=="Success"){
-					searchVideoResult={
-						...searchVideoResult,
-						isPostAuthentic:{
-							numOfApprove:[],
-							numOfDisapprove:[]
-						},
-						id:data,
-						key:this.uuidv4()
-					}
-					videoPostInformation.hideCreationPost();
-					this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
+				videoPostInformation.hideCreationPost();
+				this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
 
-				}else{
-					alert('Unfortunately an error has occured please try again ');
-				}
+			}else{
+				alert('Unfortunately an error has occured please try again ');
 			}
 		}else{
 			const {previousData}=this.props;
@@ -489,20 +499,35 @@ isArrayEqual=(arr1,arr2)=>{
 		})
 	}
 
+	displayVideoElement=()=>{
+		return(
+			<li style={{position:"relative",listStyle:"none",width:"45%",display:"inline-block",marginLeft:"3%"}}>
+				<ul style={{padding:"0px"}}>
+					<li id="videoElement" style={{listStyle:"none",borderRadius:"5px",overflow:"hidden"}}>
+						<video key={this.uuidv4()} width="100%" height="80%" controls autoplay>
+								<source src={this.state.videoSrc} type="video/mp4"/>
+						</video>
+					</li>
+				</ul>
+			</li>
+		)
+	}
+
 
 	render(){
 
 		return(
 			<PostConsumer>
 				{videoPostInformation=>(
-						<CompanyPostConsumer>
-							{companyPostInformation=>(
+						<UserConsumer>
+							{userSessionInformation=>(
 								 <React.Fragment>
 								 	{this.state.displayRedoPage==true?
 								 		<RedoVideoCreationModal
 								 			uploadedRedoVideo={this.uploadedRedoVideo}
 								 		/>
-								 		:<>
+								 		:
+								 		<Container>
 								 			{this.state.displayVideoDescriptionPortal==false?
 												null:
 												<VideoDescriptionPortal
@@ -583,6 +608,7 @@ isArrayEqual=(arr1,arr2)=>{
 																<li onClick={()=>this.redoVideo()} style={ButtonCSS}>
 																	Redo
 																</li>
+
 																<li style={{listStyle:"none",paddingTop:"3%"}}>
 																	<ul style={{padding:"0px"}}>
 																		<li style={{listStyle:"none",}}>
@@ -594,6 +620,11 @@ isArrayEqual=(arr1,arr2)=>{
 																		</li>
 																	</ul>
 																</li>
+																{userSessionInformation.displayDesktopUI==false &&(
+																	<>
+																		{this.displayVideoElement()}
+																	</>
+																)}
 
 																<li style={{listStyle:"none"}}>
 																	<TextContainerTitle
@@ -622,15 +653,12 @@ isArrayEqual=(arr1,arr2)=>{
 																</li>
 															</ul>
 														</li>
-														<li style={{position:"relative",listStyle:"none",width:"45%",display:"inline-block",marginLeft:"3%"}}>
-															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none",borderRadius:"5px",overflow:"hidden"}}>
-																	<video key={this.uuidv4()} width="100%" height="80%" controls autoplay>
-																			<source src={this.state.videoSrc} type="video/mp4"/>
-																	</video>
-																</li>
-															</ul>
-														</li>
+														{userSessionInformation.displayDesktopUI==true &&(
+															<>
+																{this.displayVideoElement()}
+															</>
+														)}
+														
 													</ul>
 												</li>
 												<hr/>
@@ -643,7 +671,7 @@ isArrayEqual=(arr1,arr2)=>{
 														<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
 															Create either a video or voice description for your image. Much more interesting than regular text imo ;)
 														</li>
-														<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px",marginLeft:"1%",width:"50%"}}>
+														<li id="audioOptionsLI" style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px",marginLeft:"1%",width:"50%"}}>
 															<ul style={{padding:"10px"}}>
 																<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
 																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -698,11 +726,11 @@ isArrayEqual=(arr1,arr2)=>{
 
 												</li>
 												<hr/>
-												<li style={{top:"-560px",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
+												<li id="sendButtonLIContainer" style={{top:"-560px",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
 													<ul style={{padding:"0px"}}>
 														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 															<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-																<ul onClick={()=>this.sendVideoDataToDB(videoPostInformation,companyPostInformation)}>
+																<ul onClick={()=>this.sendVideoDataToDB(videoPostInformation)}>
 																	<li style={{listStyle:"none",display:"inline-block"}}>
 																		<SendIcon
 																			style={{fontSize:20,color:"white"}}
@@ -719,14 +747,12 @@ isArrayEqual=(arr1,arr2)=>{
 													</ul>
 												</li>
 											</ul>
-								 		</>
-
+								 		</Container>
 								 	}
-					
 									</React.Fragment>
 								) 
 							}
-						</CompanyPostConsumer>
+						</UserConsumer>
 						)
 				}
 			</PostConsumer>

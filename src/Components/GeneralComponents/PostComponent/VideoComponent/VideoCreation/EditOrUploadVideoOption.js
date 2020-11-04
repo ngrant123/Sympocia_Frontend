@@ -6,8 +6,37 @@ import EditVideoModal from "./EditVideoModal.js";
 
 
 const VideoContainer=styled.div`
-	
+	overflow:scroll;
+	@media screen and (max-width:1030px){
+		#videoElement{
+			margin-left:10% !important;
+			height:50% !important;
+		}
+		#videoUploadOption{
+			margin-left:20% !important;
+		}
+	}
+	@media screen and (max-width:420px){
+		#videoElement{
+			margin-left:0% !important;
+			height:50% !important;
+		}
+		#videoUploadOption{
+			display:block !important;
+			margin-bottom:10% !important;
+		}
+		#sideInformation{
+			display:none !important;
+		}
+	}
+
+	@media screen and (max-width:740px) and (max-height:420px){
+	 	#sideInformation{
+			display:none !important;
+		}
+    }
 `;
+
 
 class EditOrUploadVideoOption extends Component{
 
@@ -27,17 +56,17 @@ class EditOrUploadVideoOption extends Component{
 
 	render(){
 		return(
-			<React.Fragment>
+			<VideoContainer>
 				{this.state.displayEditVideoModal==false?
 					<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
-								<video width="100%" height="90%" controls autoplay>
+								<video id="videoElement" width="100%" height="90%" controls autoplay>
 									<source src={this.props.videoSrc} type="video/mp4"/>
 								</video>
 							</li>
-							<li style={{listStyle:"none",marginTop:"-5%",marginBottom:"2%"}}>
+							<li id="videoOptionsContainer" style={{listStyle:"none",marginTop:"-5%",marginBottom:"2%"}}>
 									<ul style={{padding:"0px",marginTop:"5%"}}>
-										<li style={{position:"relative",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"25%"}}>
+										<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"25%"}}>
 							
 													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																																		borderColor:"#5298F8",
@@ -58,8 +87,8 @@ class EditOrUploadVideoOption extends Component{
 													</button>
 										</li>
 
-										<li style={{position:"relative",listStyle:"none",display:"inline-block"}} onClick={()=>this.setState({displayEditVideoModal:true})}>
-										
+										<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block"}} onClick={()=>this.setState({displayEditVideoModal:true})}>
+
 														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																																		borderColor:"#5298F8",
 																																		borderStyle:"solid",
@@ -67,20 +96,20 @@ class EditOrUploadVideoOption extends Component{
 																																		color:"white",
 																																		backgroundColor:"#5298F8",
 																																		boxShadow:"2px 10px 10px #b9d6ff"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-																<CameraFrontIcon/>
-															</li>
+															<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+																	<CameraFrontIcon/>
+																</li>
 
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-																Edit video
-																		</li>
-																	</ul>	
+																<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+																	Edit video
+																</li>
+															</ul>	
 														</button>
 										</li>
 									</ul>
 							</li>
-							<li style={{listStyle:"none",marginLeft:"20%"}}>
+							<li id="sideInformation" style={{listStyle:"none",marginLeft:"20%"}}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",display:"inline-block",width:"30%",marginRight:"10%",color:"#a6a6a6"}}>
 										Already finished with your video? Thats great. 
@@ -102,7 +131,7 @@ class EditOrUploadVideoOption extends Component{
 						/>
 				}
 
-			</React.Fragment>
+			</VideoContainer>
 		)
 	}
 }

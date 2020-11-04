@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef,Component } from 'react'
 import styled from "styled-components";
 import { GeneralNavBar } from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import PostsContainer from "../PersonalProfileSubset/PostSection/PostContainer.js";
-import PersonalInformation from "../PersonalProfileSubset/PersonalDetails/PersonalInformation.js";
+import {PersonalInformation} from "../PersonalProfileSubset/PersonalDetails/PersonalInformation.js";
 import ProfileStatue from "../../../../designs/background/ProfileStatue.png";
 import Typed from "react-typed";
 import {useSelector,useDispatch, connect} from 'react-redux';
@@ -28,182 +28,45 @@ import {PostDisplayProvider} from "../PostDisplayModalContext.js";
 import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
 import RegularPostContainer from "../../../GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
-import ChampionModal from "./Modals-Portals/ChampionModalPortal/ChampionDisplayModal.js";
+import {SponsorDisplayModal} from "./Modals-Portals/ChampionModalPortal/ChampionDisplayModal.js";
 import Confetti from 'react-confetti';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CreationPortal from "./Modals-Portals/PostCreationPortal.js";
 import OnboardingPersonalPage from "../../../OnBoarding/PersonalProfileOnboarding.js";
 import PromotePortal from "../PersonalProfileSubset/PersonalPosts/PromotePortal.js";
 import SocialMediaUrlContainer from "./Modals-Portals/SocialMediaUrlModal.js";
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import HowToRegIcon from '@material-ui/icons/HowToReg';
 
-const Container=styled.div`
-
-	position:absolute;
-	width:100%;
-	height:100%;
-	overflow-x:hidden;
-
-`;
-
-const ProfilePictureContainer=styled.div`
-	position:absolute;
-	width:25%;
-	height:35%;
-	top:15%;
-	left:2%;
-	background-color:white;
-	border-style:solid;
-	border-color:white;
-	border-width:7px;
-	border-radius:5px;
-	z-index:3;
-	box-shadow: 1px 1px 10px #d5d5d5;
-`;
-
-const HeaderContainer=styled.div`
-
-	width:100%;
-	height:30%;
-	background-color:white;
-
-`;
-
-const ProfileContainer=styled.div`
-	width:30%;
-	height:70%;
-	background-color:white;
-`;
-
-const PersonalProfileInformationContainer= styled.div`
-	position:absolute;
-	top:52%;
-	width:25%;
-	left:3%;
-	background-color:#fbfdff;
-	border-radius:5px;
-	transition:.8s;
-	padding:10px;
-
-	&:hover{
-		box-shadow: 5px 5px 5px 5px #d5d5d5;
-	}
-`;
-
-const PersonalProfileContentContainer= styled.div`
-
-	position:relative;
-	top:0%;
-	width:64%;
-	height:80%;
-	left:30%;
-	background-color:white;
-	border-radius:5px;
-`;
+import {
+	MobilePersonalInformation,
+	MobileProfileOptionsIpad
+} from "./MobileUI.js";
 
 
+import {
+	Container,
+	ProfilePictureContainer,
+	HeaderContainer,
+	ProfileContainer,
+	PersonalProfileInformationContainer,
+	PersonalProfileContentContainer,
+	ChangePictureButton,
+	BackgroundModalContainer,
+	ImageModal,
+	SelectedImage,
+	ImagePortfolioContainer,
+	VideoModal,
+	Video,
+	PostInformationContainer,
+	PostInformationContainerShadowOverlay,
+	ShadowContainer,
+	ImagePopupContainer,
+	PostPopupContainer,
+	CreatePostButton,
+	RegularPostContainerParent
+} from "./PersonalProfileContainerCSS.js";
 
-const ChangePictureButton=styled.div`	
-	position:absolute;
-	top:85%;
-	background-color:#5298F8;
-	padding:5px;
-	border-radius:5px;
-	color:white;
-	left:5%;
-
-
-
-`;
-
-const BackgroundModalContainer= styled.div`
-	position:absolute;
-	width:100%;
-	height:100%;
-	background: rgba(0, 0, 0, 0.5);
-	z-index:3;
-	display: block;
-
-`;
-
-
-const ImageModal=styled.div`
-	position:absolute;
-	width:65%;
-	height:60%;
-	top:20%;
-	background-color:white;
-	z-index:4;
-	left:20%;
-	border-radius:5px;
-
-`;
-
-const SelectedImage=styled.div`
-	position:absolute;
-	top:10%;
-	width:40%;
-	height:70%;
-
-	left:5%;
-	border-radius:5px;
-	box-shadow: 5px 5px 5px 5px #d5d5d5;
-
-`;
-
-
-const ImagePortfolioContainer=styled.div`
-	position:relative;
-	top:10%;
-	width:50%;
-	height:70%;
-	left:50%;
-	border-radius:5px;
-	padding:5px;
-	overflow-y:scroll;
-`;
-
-const VideoModal=styled.div`
-	position:absolute;
-	width:80%;
-	height:90%;
-	top:5%;
-	background-color:white;
-	z-index:4;
-	left:10%;
-	border-radius:5px;
-`;
-
-const Video=styled.div`
-	position:relative;
-	height:70%;
-	left:5%;
-	top:5%;
-	width:90%;
-	border-radius:5px;
-	margin-bottom:50px;
-`;
-
-const PostInformationContainer=styled.div`
-	position:absolute;
-	background-color:white;
-	width:60%;
-	height:83%;
-	left:33%;
-	z-index:7;
-	top:15%;
-`;
-
-const PostInformationContainerShadowOverlay=styled.div`
-	position:absolute;
-	background-color:white;
-	width:60%;
-	height:83%;
-	left:33%;
-	z-index:8;
-	top:15%;
-	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-
-`;
 
 const ImageListCSS={
 	display:"inline-block",
@@ -238,77 +101,24 @@ const VideoThumbNailCSS={
 
 }
 
-const ShadowContainer= styled.div`
-
-	position:fixed;
-	width:100%;
-	height:100%;
-	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-	display:block;
-	z-index:9;
-
-`;
-
-const ImagePopupContainer=styled.div`
-	margin-left:20%;
-	margin-top:10%;
-	position:fixed;
-	width:70%;
-	height:60%;
-	background-color:white;
-	padding:20px;
-	z-index:9;
-	border-radius:5px;
-`;
-
-const PostPopupContainer=styled.div`
-	position:fixed;
-	margin-left:10%;
-	z-index:12;
-	margin-top:5%;
-
-`;
-
-const CreatePostButton=styled.div`
-	width:70px;
-	height:70px;
-	border-radius:50%;
-	background-color:white;
-	border-color:white;
-	border-style:solid;
-	padding:15px;
-	border-width:5px;
-	animation: glowing 1300ms infinite;
-
-
-	@keyframes glowing {
-      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
-      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
-      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
-  }
-`;
-
-const RegularPostContainerParent=styled.div`
-	position:fixed;
-	width:60%;
-	height:40%;
-	z-index:9;
-	left:30%;
-	top:40%;
-	border-radius:5px;
-	background-color:white;
-	border-radius:5px;
-	padding:5px;
-	box-shadow: 1px 1px 50px #d5d5d5;
-	overflow-y:auto;
-`;
-
 const ChampionAndCreateButtonCSS={
 	position:"fixed",
 	padding:"0px",
 	left:"68%",
 	zIndex:"7",
 	top:"75%"
+}
+
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"5px",
+	borderStyle:"none"
 }
 
 class LProfile extends Component{
@@ -355,19 +165,51 @@ class LProfile extends Component{
 		    },
 		    displayConfetti:false,
 		    hideOnboarding:false,
-		    displaySocialMediaUrlContainer:false
+		    displaySocialMediaUrlContainer:false,
+		    displayPhoneUI:false,
+			displayIpadUI:false,
+			displayDesktopUI:false,
+			displayMobileUIPersonalInformation:false,
+			displayMobileUIProfileOptions:false,
+			displayConfettiHandle:()=>{
+				this.displayConfetti()
+			}
 		};
+	}
+
+	triggerUIChange=()=>{
+		if(window.innerWidth<700){
+
+			this.setState({
+				displayPhoneUI:true,
+				displayIpadUI:false,
+				displayDesktopUI:false
+			})
+		}else if(window.innerWidth<1300){
+			this.setState({
+				displayPhoneUI:false,
+				displayIpadUI:true,
+				displayDesktopUI:false
+			})
+
+		}else{
+			this.setState({
+				displayPhoneUI:false,
+				displayIpadUI:false,
+				displayDesktopUI:true
+			})
+		}
 	}
 
 
 	async componentDidMount(){
+		window.addEventListener('resize',this.triggerUIChange)
 		const {id}=this.props.match.params;
 		if(id==this.props.personalId){
 			const profileIds={
 				userId:this.props.personalId
 			}
 			const {confirmation,data}=await getProfile(profileIds);
-			debugger;
 			if(confirmation=="Success"){
 				console.log(data);
 				var containsChampion=false;
@@ -414,6 +256,7 @@ class LProfile extends Component{
 				alert('Unfortunately there has been an error getting this page. Please try again');
 			}
 		}
+		this.triggerUIChange();
 	}
 
 	 handleChangeProfilePicture=()=>{
@@ -530,9 +373,7 @@ class LProfile extends Component{
 
 
 	displayBlogs=()=>{
-
 		this.changeButtonsColor("blog");
-
 		this.setState(prevState=>({
 			...prevState,
 			displayImages:false,
@@ -763,11 +604,100 @@ class LProfile extends Component{
 			    </>
 	}
 
+	displayIpadUserInformationModal=()=>{
+		return <ul style={{position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
+					<li style={{fontSize:"20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+						{this.state.userProfile.firstName}
+					</li>
+					<li style={{zIndex:20,position:"relative",top:"-10px",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"40%"}}>
+							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+								style={ShadowButtonCSS}
+								onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
+								>
+							   		<span class="caret"></span>
+							</button>
+					</li>
+			   </ul>
+	}
+	displayMobilePersonalInformation=()=>{
+		return  <>
+					{this.state.displayMobileUIPersonalInformation==true &&(
+							<MobilePersonalInformation
+								displayConfetti={this.displayConfetti}
+								personalInformation={this.state}
+								displaySocialMediaModal={this.displaySocialMediaModal}	
+								closeModal={this.closeMobilePersonalInformation}
+							/>
+					)}
+				</>
+	}
+
+	displayMobileProfileOptions=()=>{
+		return <>
+					{this.state.displayMobileUIProfileOptions==true &&(
+						<MobileProfileOptionsIpad
+							closeModal={this.closeMobileProfileOptions}
+							displayPersonalInformation={this.displayPersonalInformationMobile}
+							displayChampionsModal={this.displayChampionModalTrigger}
+							championData={this.state.champion}
+						/>
+					)}
+				</>
+	}
+	displayPersonalInformationMobile=()=>{
+		this.setState({
+			displayMobileUIPersonalInformation:true
+		})
+	}
+	closeMobileProfileOptions=()=>{
+		this.setState({
+			displayMobileUIProfileOptions:false
+		})
+	}
+	closeMobilePersonalInformation=()=>{
+		this.setState({
+			displayMobileUIPersonalInformation:false
+		})
+	}
+
+	displayCreatePostOptionTrigger=()=>{
+		return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					<li id="createPostIcon" onClick={()=>this.setState({displayCreationPortal:true})} style={{listStyle:"none",marginLeft:"400px",marginBottom:"5%"}}>
+						<CreatePostButton>
+							<BorderColorIcon
+								style={{fontSize:"30",color:"#C8B0F4"}}
+							/>
+						</CreatePostButton>
+					</li>
+				</a>
+
+	}
+
+	displayChampionModalTrigger=()=>{
+		return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					<li style={{listStyle:"none"}}>
+						{this.state.displayChampion==false?
+							<React.Fragment>
+							</React.Fragment>:
+							<SponsorDisplayModal
+								championData={this.state.champion}
+							/>
+						}
+					</li>
+				</a>
+	}
 
 	render(){
 		return(
 
-			<UserProvider value={this.state}>
+			<UserProvider value={{
+								...this.state,
+								mobilePhoneUIParameters:{
+									displayPersonalInformation:this.displayPersonalInformationMobile,
+									displayChampionsModal:this.displayChampionModalTrigger,
+									championData:this.state.champion
+								}
+							}}>
 				<PostDisplayProvider
 					value={{
 						handleImagePostModal:(imagePostData,contextLocation)=>{
@@ -806,29 +736,6 @@ class LProfile extends Component{
 					}}
 				>
 					<Container id="personalContainer">
-						
-						{this.state.isLoading==true?null:
-							<>
-								{this.promotePortal()}
-								{(this.state.hideOnboarding==false && this.state.isOwnProfile==true) &&(
-									<OnboardingPersonalPage
-										closeModal={this.closeOnboardingModal}
-									/>
-								)}
-								
-								<PostInformationContainer>
-									<PersonalPostsIndex
-										displayShadowOverlay={this.displayShadow}
-										disappearShadow={this.disappearShadow}
-										displayCreationPortal={this.state.displayCreationPortal}
-										closeModal={this.closeModal}
-										personalInformation={this.state}
-										visitorId={this.state.visitorId}
-									/>
-								</PostInformationContainer>
-							</>
-						}
-
 						{this.state.displayConfetti==true?
 							<Confetti
 								style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
@@ -847,8 +754,9 @@ class LProfile extends Component{
 									})}
 								/>:
 								<React.Fragment></React.Fragment>
-							}
-
+						}
+						{this.displayMobilePersonalInformation()}
+						{this.displayMobileProfileOptions()}
 						{this.ImageModal()}
 						{this.VideoModal()}
 						{this.BlogModal()}
@@ -862,79 +770,91 @@ class LProfile extends Component{
 						<ProfileContainer>
 
 							<ProfilePictureContainer>
+								{this.state.displayDesktopUI==false && (
+									<>{this.displayCreatePostOptionTrigger()}</>
+								)}
+								
 								{this.state.userProfile.profilePicture==null?
 									<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
 									<img id="profilePicture" src={this.state.userProfile.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
 								}
 
-								{this.state.isOwnProfile==true?
-									<React.Fragment>
-										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} 
-											accept="image/x-png,image/gif,image/jpeg" 
-											onChange={()=>this.changeProfilePicture()}>
-										</input>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
-												Change Profile Picture
-											</ChangePictureButton>
-										</a>
-									</React.Fragment>:
-									<React.Fragment></React.Fragment>
-								}
-
+								{this.state.displayPhoneUI==false &&(
+									<>
+										{this.state.displayIpadUI==true?
+											<>{this.displayIpadUserInformationModal()}</>:
+											<>
+												{this.state.isOwnProfile==true?
+													<React.Fragment>
+														<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} 
+															accept="image/x-png,image/gif,image/jpeg" 
+															onChange={()=>this.changeProfilePicture()}>
+														</input>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
+																Change Profile Picture
+															</ChangePictureButton>
+														</a>
+													</React.Fragment>:
+													<React.Fragment></React.Fragment>
+												}
+											</>
+										}
+									</>
+								)}
+								
 							</ProfilePictureContainer>
 
-							<PersonalProfileInformationContainer>
-								<PersonalInformation
-									displayConfetti={this.displayConfetti}
-									personalInformation={this.state}
-									displaySocialMediaModal={this.displaySocialMediaModal}
-								/>
+							{this.state.displayDesktopUI==true &&(
+								<>
+									<PersonalProfileInformationContainer>
+										<PersonalInformation
+											displayConfetti={this.displayConfetti}
+											personalInformation={this.state}
+											displaySocialMediaModal={this.displaySocialMediaModal}
+										/>
 
-							</PersonalProfileInformationContainer>
+									</PersonalProfileInformationContainer>
+								</>
+							)}
+							
 						</ProfileContainer>
-
-						{/*
-							{
-								this.state.displayVideoPostModal==true||this.state.displayImagePostModal==true ||
-								this.state.displayBlogPostModal==true || this.state.displayRegularPostModal==true?
-								<PostInformationContainerShadowOverlay
-									onClick={()=>this.setState({
-											displayShadowBackground:false,
-											displayRegularPostModal:false,
-											displayBlogPostModal:false,
-											displayVideoPostModal:false,
-											displayImagePostModal:false
-										})}
-								/>:
-								<React.Fragment></React.Fragment>
-							}
-						*/}
 						
+						{this.state.isLoading==true?null:
+							<>
+								{this.promotePortal()}
+								{(this.state.hideOnboarding==false && this.state.isOwnProfile==true) &&(
+									<OnboardingPersonalPage
+										closeModal={this.closeOnboardingModal}
+									/>
+								)}
+								
+								<PostInformationContainer>
+									<PersonalPostsIndex
+										displayShadowOverlay={this.displayShadow}
+										disappearShadow={this.disappearShadow}
+										displayCreationPortal={this.state.displayCreationPortal}
+										closeModal={this.closeModal}
+										personalInformation={this.state}
+										uiStatus={{
+										    displayPhoneUI:this.state.displayPhoneUI,
+											displayIpadUI:this.state.displayIpadUI,
+											displayDesktopUI:this.state.displayDesktopUI,
+										}}
+										visitorId={this.state.visitorId}
+										displayConfetti={this.displayConfetti}
+									/>
+								</PostInformationContainer>
+							</>
+						}
 
-						<ul style={ChampionAndCreateButtonCSS}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>this.setState({displayCreationPortal:true})} style={{listStyle:"none",marginLeft:"400px",marginBottom:"5%"}}>
-									<CreatePostButton>
-										<BorderColorIcon
-											style={{fontSize:"30",color:"#C8B0F4"}}
-										/>
-									</CreatePostButton>
-								</li>
-							</a>
-
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li style={{listStyle:"none"}}>
-									{this.state.displayChampion==false?
-										<React.Fragment>
-										</React.Fragment>:
-										<ChampionModal
-											championData={this.state.champion}
-										/>
-									}
-								</li>
-							</a>
-						</ul>
+						{this.state.displayDesktopUI==true &&(
+							<ul style={ChampionAndCreateButtonCSS}>
+								{this.displayCreatePostOptionTrigger()}
+								{this.displayChampionModalTrigger()}
+							</ul>
+						)}
+					
 					</Container>
 			</PostDisplayProvider>
 		</UserProvider>

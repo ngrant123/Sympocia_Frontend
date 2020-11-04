@@ -14,8 +14,9 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:20;
+	z-index:25;
 	top:0px;
+
 `;
 
 const Container=styled.div`
@@ -23,11 +24,15 @@ const Container=styled.div`
 	width:25%;
 	height:50%;
 	background-color:white;
-	z-index:21;
+	z-index:25;
 	top:20%;
 	border-radius:5px;
 	left:40%;
 	overflow-y:auto;
+	@media screen and (max-width:1030px){
+		width:40% !important;
+		left:30% !important;
+    }
 `;
 
 const InputContainer=styled.textarea`

@@ -2,16 +2,86 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import {ImageConsumer} from "./ImageContext.js";
 import PollOptionPortal from "../../PollOptionPortal.js";
+import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 
 
 const Container=styled.div`
 	position:absolute;
-		width:40%;
+	width:40%;
 	height:82%;
 	z-index:3;
 	background-color:white;
 	top:30px;
 	overflow-y:scroll;
+
+	@media screen and (max-width:1030px){
+		width:80% !important;
+		height:100% !important;
+		margin-left:8% !important;
+		padding:10px;
+		border-radius:5px;
+		#postLIContainer{
+			width:60% !important;
+		}
+	}
+
+	@media screen and (max-width:800px){
+		width:100% !important;
+		height:100% !important;
+		padding:10px;
+		border-radius:5px;
+
+		#postOwnerAndSymposium{
+			display:block !important;
+			margin-bottom:3% !important;
+		}
+		#disapprovePostLI{
+			display:block !important;
+			margin-bottom:3% !important;
+		}
+		#approvesPostLI{
+			display:block !important;
+			margin-bottom:3% !important;
+		}
+	}
+
+	@media screen and (max-width:420px){
+		width:100% !important;
+		height:100% !important;
+		margin-left:8% !important;
+		padding:10px;
+		border-radius:5px;
+
+		#postOwnerAndSymposium{
+			display:block !important;
+			margin-bottom:3% !important;
+		}
+		#disapprovePostLI{
+			display:block !important;
+			margin-bottom:3% !important;
+		}
+		#approvesPostLI{
+			display:block !important;
+			margin-bottom:3% !important;
+		}
+		#postLIContainer{
+			width:80% !important;
+		}
+	}
+	@media screen and (max-width:1370px) and (max-height:1030px){
+	 	width:80%;
+	 	#postLIContainer{
+	 		width:100% !important;
+	 		margin-left:2%
+	 	}
+    }
+
+	@media screen and (max-width:1370px) and (max-height:1030px){
+	 	width:100%;
+	 	#postLIContainer{
+	 		width:100% !important;
+	 	}
+    }
 `;
 
 const IndustryButton=styled.div`
@@ -30,6 +100,10 @@ const IndustryButton=styled.div`
 	&:hover{
 		background-color:#0857c2;
 	}
+`;
+
+const PostInformationContainer=styled.div`
+	position:absolute
 `;
 
 
@@ -51,6 +125,7 @@ const ImagePostsButtons=styled.div`
 		background-color:#0857c2;
 	}
 `; 
+
 
 const ButtonCSS={
   listStyle:"none",
@@ -106,8 +181,10 @@ const ImageInformation=(props)=>{
 										targetDom={props.targetDom}
 									/>:null
 								}
-								<ul style={{padding:"0px",width:"140%"}}>
-									{props.imageInformation.audioDescription==null?null:
+								<ul id="postLIContainer" style={{padding:"0px",width:"140%"}}>
+									{(props.imageInformation.audioDescription==null && 
+									  testIfUserIsUsingChrome()==true && 
+									  props.isMobileTrue==true)==false?null:
 										<React.Fragment>
 											<li style={{listStyle:"none"}}>
 												<ul style={{padding:"0px"}}>
@@ -123,7 +200,7 @@ const ImageInformation=(props)=>{
 											<hr/>
 										</React.Fragment>
 									}
-									<li style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
+									<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none"}}>
 												<p style={{fontSize:"20px"}}>{props.imageInformation.firstName}</p>
@@ -139,19 +216,19 @@ const ImageInformation=(props)=>{
 									</li>
 
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>displayApproved()} style={ButtonCSS}>
+										<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
 											<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
 										</li>
 									</a>
 
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>displayUnApprove()} style={ButtonCSS}>
+										<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
 											<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
 										</li>
 									</a>
 								</ul>
 
-								<p style={{height:"30%",width:"90%",fontSize:"40px",overflow:"hidden"}}>
+								<p style={{height:"30%",width:"90%",fontSize:"40px"}}>
 									<b>
 										{props.imageInformation.caption}
 									</b>
@@ -160,15 +237,18 @@ const ImageInformation=(props)=>{
 									 {props.imageInformation.description}
 								 </p>
 
-								 <ul style={{padding:"0px",marginTop:"5px"}}>
-								 	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									 	<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-									 		 <ImagePostsButtons onClick={()=>information.updateIndicator(false)}>
-									 			Comments
-											 </ImagePostsButtons>
-									 	</li>
-									 </a>
-								 </ul>
+								 {props.isMobileTrue!=true &&(
+								 	 <ul style={{padding:"0px",marginTop:"5px"}}>
+									 	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										 	<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
+										 		 <ImagePostsButtons onClick={()=>information.updateIndicator(false)}>
+										 			Comments
+												 </ImagePostsButtons>
+										 	</li>
+										 </a>
+									 </ul>
+								 )}
+								
 							</Container>
 
 				}

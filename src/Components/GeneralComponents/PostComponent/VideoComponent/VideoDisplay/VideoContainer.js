@@ -59,7 +59,6 @@ const VideoContainer=(data)=>{
 					videoSrc={data.videoData.videoUrl}
 					previousData={data.videoData}
 					editPost={editPost}
-
 				/>
 			}
 		</Container>

@@ -1,12 +1,32 @@
-import React,{useEffect} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import EditIcon from '@material-ui/icons/Edit';
-
+import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
 
 const ImageContainer=styled.div`
 	position:relative;
-	width:190px;
+	width:100%;
 	height:30%;
+
+	@media screen and (max-width:420px){
+		#imageAudio{
+			display:none
+		}
+		#postInformation{
+			display:none;
+		}
+	}
+
+	@media screen and (max-width:740px) and (max-height:420px){
+		height:100% !important;
+		width:100%;
+	 	#imageAudio{
+			display:none
+		}
+		#postInformation{
+			display:none;
+		}
+    }
 `;
 
 const Image=styled.div`
@@ -22,9 +42,15 @@ const VideoDesriptionContainer=styled.div`
 	width:30%;
 	height:30%;
 	border-radius:50%;
-	top:70%;
+	top:50%;
 	left:2%;
 	z-index:8;
+	background-color:white;
+
+	@media screen and (max-width:340px){
+		height:30% !important;
+    	width:20% !important;
+    }
 `;
 
 const AudioDescriptionContainer=styled.div`
@@ -36,6 +62,9 @@ const ImageCaption=styled.div`
 	height:15%;
 	overflow:hidden;
 	color:#767677;
+	@media screen and (max-width:420px){
+		display:none;
+    }
 `;
 
 const IndustryButtonCSS={
@@ -48,7 +77,6 @@ const IndustryButtonCSS={
 	padding:"5px",
 	borderRadius:"5px"
 }
-
 
 const SmallImageContainer=(props)=>{
 	const {data}=props;
@@ -75,29 +103,37 @@ const SmallImageContainer=(props)=>{
 	return(
 		<ImageContainer>
 			<ul style={{padding:"0px"}}>
-				{data.audioDescription!=null?
-					<li style={{listStyle:"none"}}>
-							<audio key={audioId} style={{width:"200px"}} controls>
-							  <source src={data.audioDescription} type="audio/ogg"/>
-							  <source src={data.audioDescription} type="audio/mpeg"/>
-							Your browser does not support the audio element.
-							</audio>
-					</li>:null
-				}	
-				
-				<li style={{listStyle:"none"}}>
-					<Image>
-						<EditIcon
-							style={{position:"absolute",fontSize:35,color:"white"}}
-						/>
-						<img src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
-						<VideoDesriptionContainer>
-							   <video key={videoDescriptionId} style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="false">
-									<source src={data.videoDescription} type="video/mp4"/>
-								</video>
-						</VideoDesriptionContainer>
-					</Image>
-				</li>
+				{testIfUserIsUsingChrome()==true &&(
+					<>
+						{data.audioDescription!=null?
+							<li style={{listStyle:"none"}}>
+								<audio key={audioId} style={{width:"200px"}} controls>
+								    <source src={data.audioDescription} type="audio/ogg"/>
+								    <source src={data.audioDescription} type="audio/mpeg"/>
+									Your browser does not support the audio element.
+								</audio>
+							</li>:null
+						}	
+					</>
+				)}
+				<Image>
+					<EditIcon
+						id="editIcon"
+						style={{position:"absolute",fontSize:35,color:"white"}}
+					/>
+					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
+						{testIfUserIsUsingChrome()==true &&(
+							<>
+								{data.videoDescription!=null &&(
+									<VideoDesriptionContainer>
+									   <video key={videoDescriptionId} style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="false" muted>
+											<source src={data.videoDescription} type="video/mp4"/>
+										</video>
+									</VideoDesriptionContainer>
+								)}
+							</>
+						)}
+				</Image>
 
 				{data.caption!=""?
 					<li style={{listStyle:"none",marginBottom:"5%"}}>
@@ -107,7 +143,7 @@ const SmallImageContainer=(props)=>{
 					</li>:<React.Fragment></React.Fragment>
 				}
 
-				<li style={{listStyle:"none"}}>
+				<li id="postInformation" style={{listStyle:"none"}}>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 							Likes 

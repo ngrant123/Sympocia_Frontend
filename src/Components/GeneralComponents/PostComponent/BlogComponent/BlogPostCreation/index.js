@@ -23,7 +23,6 @@ const Container=styled.div`
 `;
 
 const ShadowContainer = styled.div`
-
 	position:fixed;
 	width:100%;
 	height:100%;

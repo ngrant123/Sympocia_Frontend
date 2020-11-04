@@ -13,6 +13,23 @@ const Container=styled.div`
 	left:30%;
 	height:40%;
 	overflow:scroll;
+
+	@media screen and (max-width:1030px){
+    	top:20% !important;
+    	width:100% !important;
+		left:1% !important; 
+		height:100% !important;
+		
+		#uploadOptionTypeLI{
+			margin-bottom:15% !important;
+		}
+    }
+   	@media screen and (max-width:740px) and (max-height:420px){
+    	top:20% !important;
+    	width:100% !important;
+		left:1% !important; 
+		height:100% !important;
+    }
 `;
 
 
@@ -71,7 +88,7 @@ const Container=styled.div`
 
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+								<li id="uploadOptionTypeLI" style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																															borderColor:"#5298F8",
 																															borderStyle:"solid",

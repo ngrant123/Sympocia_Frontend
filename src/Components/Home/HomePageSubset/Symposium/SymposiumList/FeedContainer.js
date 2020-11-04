@@ -232,7 +232,7 @@ class PersonalFeedContainer extends Component{
 	async componentDidMount(){
 		try{
 			window.addEventListener('resize',this.triggerUIChange)
-
+			
 			console.log(this.props);
 			const {isPersonalProfile,profileId}=this.props;
 			var symposiumsResponse;

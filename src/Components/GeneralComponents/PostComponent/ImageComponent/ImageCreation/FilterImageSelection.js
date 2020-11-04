@@ -29,7 +29,6 @@ const DisplayImagesCSS={
 class FilterImageSelection extends Component{
 /*
 conditional expression in processed image component
-
 */
 	constructor(props){
 		console.log(props);

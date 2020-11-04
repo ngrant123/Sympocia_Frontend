@@ -126,8 +126,10 @@ const NoPostsModal=(props)=>{
 
 	useEffect(()=>{
 		const getData=async()=>{
+
 			if(props.postType=="image"){
 				const imageData=await getImagesPosts("General",1);
+				debugger;
 				changeRecommendedPosts(imageData);
 				console.log(imageData);
 			}else if(props.postType=="video"){
@@ -157,7 +159,7 @@ const NoPostsModal=(props)=>{
 			return	<React.Fragment>
 						{displayCreatePostIndicator==true?
 							 <li style={{marginRight:"5%",listStyle:"none",display:"inline-block"}}>
-									<CreatePostContainer>
+									<CreatePostContainer id="createPostContainer">
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",marginLeft:"20%",marginBottom:"2%"}}>
 												<SympociaStampIconContainer>
@@ -182,6 +184,7 @@ const NoPostsModal=(props)=>{
 											</a>
 											</ul>
 									</CreatePostContainer>
+									<hr/>
 								</li>:null
 						}
 					</React.Fragment>
@@ -193,7 +196,7 @@ const NoPostsModal=(props)=>{
 			return <ul style={{padding:"0px"}}>
 					{createPostModal()}
 
-					<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"1%"}}>	
+					<li id="recommendedPostsLI" style={{position:"relative",top:"0%",listStyle:"none",display:"inline-block",marginTop:"1%"}}>	
 						<RecommendedContainer>
 							<ul style={{position:"relative",padding:"0px"}}>
 									<p style={{fontSize:"20px"}}>
@@ -227,7 +230,7 @@ const NoPostsModal=(props)=>{
 				return <ul style={{padding:"0px"}}>
 							{createPostModal()}
 
-							<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
+							<li id="recommendedPostsLI" style={{position:"relative",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
 								<RecommendedContainer>
 									<ul style={{position:"relative",padding:"0px"}}>
 											<p style={{fontSize:"20px"}}>
@@ -268,7 +271,7 @@ const NoPostsModal=(props)=>{
 				return <ul style={{padding:"0px",height:"650px",width:"100%",overflow:"scroll"}}>
 							{createPostModal()}
 
-							<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>	
+							<li id="recommendedPostsLI" style={{position:"relative",listStyle:"none",display:"inline-block"}}>	
 								<RecommendedContainer>
 										<ul style={{position:"relative",padding:"0px"}}>
 												<p style={{fontSize:"20px"}}>
@@ -307,7 +310,7 @@ const NoPostsModal=(props)=>{
 			}else{
 				return <ul style={{padding:"0px"}}>
 
-							<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
+							<li id="recommendedPostsLI" style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",marginTop:"10%"}}>	
 								<ul style={{padding:"0px"}}>
 									{createPostModal()}
 									<li style={{listStyle:"none"}}>

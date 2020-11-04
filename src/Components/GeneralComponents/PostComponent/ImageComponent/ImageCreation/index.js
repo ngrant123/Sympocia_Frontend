@@ -14,6 +14,23 @@ const Container=styled.div`
 	left:30%;
 	height:40%;
 	overflow:scroll;
+
+	@media screen and (max-width:330px){
+		left:1% !important; 
+		height:100% !important;
+    }
+    @media screen and (max-width:414px){
+    	top:20% !important;
+    	width:100% !important;
+		left:1% !important; 
+		height:100% !important;
+    }
+   	@media screen and (max-width:740px) and (max-height:420px){
+    	top:20% !important;
+    	width:100% !important;
+		left:1% !important; 
+		height:100% !important;
+    }
 `;
 
 
@@ -75,7 +92,7 @@ class ImageCreation extends Component{
 					<Container id="container">
 						{this.state.displayCreateImageScreen==false?
 							<ul style={{position:"relative",left:"20%",top:"10%",padding:"1px"}}>
-								<li style={{listStyle:"none",marginLeft:"15%",marginTop:"5%"}}>	
+								<li style={{listStyle:"none",marginTop:"5%"}}>	
 									<div class="dropdown">
 										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																																borderColor:"#5298F8",
@@ -115,7 +132,10 @@ class ImageCreation extends Component{
 											</li>
 										</ul>																			
 									</button>
-									<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} accept="image/x-png,image/gif,image/jpeg"></input>
+									<input type="file" name="img" id="imageFile" style={{opacity:"0"}}  onChange={()=>this.handleUploadPicture()} 
+								        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
+								        name="attachments">
+								    </input>
 								</li>
 
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
@@ -139,7 +159,10 @@ class ImageCreation extends Component{
 										This is not used but its here because for some reason if its not css would be messed up 
 										sooooooo 
 									*/}
-									<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()}></input>
+									<input type="file" name="img" id="uploadPictureFile" style={{opacity:"0"}}  onChange={()=>this.handleUploadPicture()} 
+								        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
+								        name="attachments">
+								    </input>
 
 								</li>
 							</ul>:<CreateImageModal

@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
+
 
 
 const ThumbnailVideoComponent=styled.div`
@@ -7,6 +9,26 @@ const ThumbnailVideoComponent=styled.div`
 	width:100%;
 	height:45%;
 	overflow:hidden;
+
+	@media screen and (max-width:420px){
+		#description{
+			display:none !important;
+		}
+		#postInformation{
+			display:none !important;
+		}
+	}
+	@media screen and (max-width:740px) and (max-height:420px){
+		width:150% !important;
+		height:100% !important;
+		#description{
+			display:none !important;
+		}
+		#postInformation{
+			display:none !important;
+		}
+    }
+
 `;
 
 const ThumbnailVideo=styled.div`
@@ -14,6 +36,11 @@ const ThumbnailVideo=styled.div`
 	width:450px;
 	height:100%;
 	border-radius:5px;
+	@media screen and (max-width:420px){
+		width:110% !important;
+		height:120% !important;
+		margin-right:-5% !important;
+	}
 `;
 
 const Description=styled.div`
@@ -59,30 +86,31 @@ const CrownedVideoContainer=({headerVideo})=>{
 
 				<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block"}}>
 					<ul style={{paddging:"0px"}}>
-						<li style={{marginBottom:"5%",listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
-							{headerVideo.industriesUploaded[0].industry}
-						</li>
-						<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px"}}>
-							<b>{headerVideo.title}</b>
-						</li>
+						<div id="postInformation">
+							<li style={{marginBottom:"5%",listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
+								{headerVideo.industriesUploaded[0].industry}
+							</li>
+							<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px"}}>
+								<b>{headerVideo.title}</b>
+							</li>
 
-						<li style={{listStyle:"none",marginBottom:"5px"}}>
-							<ul style={{padding:"0px",color:"#a6a6a7"}}>
-								{/*
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-										{headerVideo.views} views
+							<li style={{listStyle:"none",marginBottom:"5px"}}>
+								<ul style={{padding:"0px",color:"#a6a6a7"}}>
+									{/*
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+											{headerVideo.views} views
+										</li>
+									*/}
+
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										{constructDate(headerVideo.datePosted)}
 									</li>
-								*/}
-
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{constructDate(headerVideo.datePosted)}
-								</li>
-							</ul>
-
-						</li>
+								</ul>
+							</li>
+						</div>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
-								{headerVideo.videoDescription==null?null:
+								{(headerVideo.videoDescription==null && testIfUserIsUsingChrome()==true)?null:
 									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 										<VideoDescriptionContainer>
 											<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true">
@@ -92,7 +120,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 									</li>
 								}
 								
-								{headerVideo.audioDescription==null?null:
+								{(headerVideo.audioDescription==null && testIfUserIsUsingChrome()==true)?null:
 									<li style={{listStyle:"none",display:"inline-block"}}>
 										<audio key={uuidv4()} style={{width:"150px"}} controls>
 											<source src={headerVideo.audioDescription} type="audio/ogg"/>
@@ -104,7 +132,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 							</ul>
 						</li>
 
-						<li style={{listStyle:"none"}}>
+						<li id="description" style={{listStyle:"none"}}>
 							<Description>
 								{headerVideo.description}
 							</Description>

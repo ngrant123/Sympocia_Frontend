@@ -139,6 +139,7 @@ class BlogsPostsContainer extends Component{
 									<React.Fragment>
 										{this.state.blogs.length==0&&this.state.headerBlog==null?
 											<NoPostsModal
+												id="noPostsModalContainer"
 												postType={"blog"}
 												profilePageType={this.props.profile}
 											/>:

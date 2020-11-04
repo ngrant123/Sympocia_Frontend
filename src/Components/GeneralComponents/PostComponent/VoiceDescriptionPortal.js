@@ -9,7 +9,7 @@ import PauseIcon from '@material-ui/icons/Pause';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 import MicIcon from '@material-ui/icons/Mic';
-
+import {testIfUserIsUsingChrome} from "../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 //<Icon icon={scissorsCutting} />
 
 const ShadowContainer= styled.div`
@@ -31,6 +31,27 @@ const Container=styled.div`
 	height:60%;
 	top:20%;
 	border-radius:5px;
+
+
+	@media screen and (max-width:1030px) and (max-height:1370px){
+			height:100% !important;
+			width:100%;
+    }
+
+    @media screen and (max-width:770px){
+			left:1% !important; 
+			height:100% !important;
+			width:100%;
+    }
+
+	@media screen and (max-width:420px){
+			left:1% !important; 
+			height:100% !important;
+			width:100%;
+			#voiceOptionsLI{
+				margin-left:-5% !important;
+			}
+    }
 `;
 
 const RecordButton=styled.div`
@@ -102,8 +123,7 @@ const ContinueButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#C8B0F4",
-  marginTop:"2%",
-  width:"30%"
+  marginTop:"2%"
 }
 
 //"blob:http://localhost:3000/9b5bb4e0-de5b-4e15-b127-1f05aeaaeb36"
@@ -128,7 +148,11 @@ const VoiceDescriptionPortal=(props)=>{
 	const [firstDone,chnagFirstFone]=useState(false);
 
 	useEffect(()=>{
-		var video=document.getElementById("video");
+		if(!testIfUserIsUsingChrome()){
+			alert('Unfortunately your browser does not allow this option. Please switch to any other browser');
+			props.closeModal();
+		}else{
+				var video=document.getElementById("video");
 				if (navigator.mediaDevices.getUserMedia){
 					  navigator.mediaDevices.getUserMedia({
 					  		audio:true 
@@ -169,6 +193,7 @@ const VoiceDescriptionPortal=(props)=>{
 				      console.log(error);
 				    });
 			}	
+		}
 	},[]);
 
 	const stopRecording=(stream)=>{
@@ -312,7 +337,7 @@ const VoiceDescriptionPortal=(props)=>{
 			/>
 			<Container>
 				{test()}
-				<ul style={{marginLeft:"20%",marginTop:"10%"}}>
+				<ul id="voiceOptionsLI"style={{marginLeft:"20%",marginTop:"10%"}}>
 					<li style={{listStyle:"none",marginBottom:"5%"}}>
 						<p>Click start recording to get started and then when you're all done click the continue buttonp</p>
 						<p> 

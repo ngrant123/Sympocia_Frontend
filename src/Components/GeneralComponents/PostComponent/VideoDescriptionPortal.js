@@ -8,8 +8,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 //import {concatVideoTogether} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import RefreshIcon from '@material-ui/icons/Refresh';
-
-//<Icon icon={scissorsCutting} />
+import {testIfUserIsUsingChrome} from "../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -30,6 +29,27 @@ const Container=styled.div`
 	height:70%;
 	top:10%;
 	border-radius:5px;
+
+	@media screen and (max-width:1030px) and (max-height:1370px){
+			height:100% !important;
+			width:100%;
+    }
+
+    @media screen and (max-width:770px){
+			left:1% !important; 
+			height:100% !important;
+			width:100%;
+    }
+
+	@media screen and (max-width:420px){
+			left:1% !important; 
+			height:100% !important;
+			width:100%;
+			#videoControllerLI{
+				margin-top:-80% !important;
+			}
+
+    }
 `;
 
 const RecordButton=styled.div`
@@ -87,9 +107,13 @@ const VideoDescriptionPortal=(props)=>{
 
 	useEffect(()=>{
 		debugger;
-		let video=document.getElementById("videoDescriptionVideo");
+		if(!testIfUserIsUsingChrome()){
+			alert('Unfortunately your browser does not allow this option. Please switch to any other browser');
+			props.closeModal();
+		}else{
+				let video=document.getElementById("videoDescriptionVideo");
 				if (navigator.mediaDevices.getUserMedia){
-					  navigator.mediaDevices.getUserMedia({ 
+					navigator.mediaDevices.getUserMedia({ 
 					  		video: true,
 					  		audio:true 
 					  	}).then(function(stream) {
@@ -101,7 +125,7 @@ const VideoDescriptionPortal=(props)=>{
 					  	 debugger;
 					  	 if(recordedChunks!=null){
 					  	 	console.log("Recorded chunks");
-						  	 let recordedFile = new File(recordedChunks, { type: "video/webm" });
+						  	 let recordedFile = new File(recordedChunks, { type: "video/mp4" });
 						  	 var videoSrc=URL.createObjectURL(recordedFile);
 
 						  	 var reader=new FileReader();
@@ -133,7 +157,8 @@ const VideoDescriptionPortal=(props)=>{
 				      console.log("Something went wrong!");
 				      console.log(error);
 				    });
-			}	
+				}	
+		}
 	},[]);
 
 	const pauseRecording=(stream)=>{
@@ -304,12 +329,12 @@ const VideoDescriptionPortal=(props)=>{
 					<video id="videoDescriptionVideo" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true" zIndex="2">
 					</video>
 
-					<ul style={{marginLeft:"40%",marginTop:"-10%",padding:"0px"}}>
+					<ul id="videoControllerLI" style={{marginLeft:"40%",marginTop:"-10%",padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<ClipVideoContainer onClick={()=>reDoVideo()}>
 									<RefreshIcon
-										style={{fontSize:40,color:"white"}}
+										style={{fontSize:40,color:"red"}}
 									/>
 								</ClipVideoContainer>
 							</a>
@@ -323,8 +348,7 @@ const VideoDescriptionPortal=(props)=>{
 											onClick={()=>startRecording()}
 											style={{fontSize:40,color:"#C8B0F4"}}
 										/>:<PauseIcon
-												onClick={()=>pauseRecording(document.getElementById("videoDescriptionVideo").
-												captureStream())}
+												onClick={()=>pauseRecording(document.getElementById("videoDescriptionVideo").captureStream())}
 												style={{fontSize:40,color:"#C8B0F4"}}
 										/>
 									}

@@ -29,7 +29,28 @@ const Container=styled.div`
 	top:20%;
 	border-radius:5px;
 	left:35%;
-	overflow-y:auto;
+	overflow-y:scroll;
+
+	@media screen and (max-width:1930px){
+		#profilePictureLI{
+			top:0px !important;
+		}
+    }
+
+    @media screen and (max-width:1030px){
+		width:80% !important;
+		left:10%
+    }
+
+	@media screen and (max-width:840px){
+		width:100% !important;
+		left:2% !important;
+		height:90% !important;
+
+		#profilePictureLI{
+			top:0px !important;
+		}
+    }
 `;
 
 const InputContainer=styled.textarea`
@@ -208,7 +229,7 @@ const PollOptionPortal=(props)=>{
 
 					
 					{displayCreateComment==true?
-							<ul style={{padding:"0px"}}>
+							<ul style={{overflow:"scroll",padding:"0px"}}>
 								<ExtendedInputContainer
 									placeholder="Write down what you want to say :)"
 									id="extendedInputContainer"
@@ -236,7 +257,7 @@ const PollOptionPortal=(props)=>{
 									{comments.map(data=>
 											<li style={{listStyle:"none",marginBottom:"4%"}}>
 												<ul style={{pading:"0px"}}>
-													<li style={{position:"relative",top:"-80px",listStyle:"none",display:"inline-block"}}>
+													<li id="profilePictureLI" style={{position:"relative",top:"-80px",listStyle:"none",display:"inline-block"}}>
 														<ul style={{padding:"0px"}}>
 															<li style={{listStyle:"none"}}>
 																{data.profilePicture==null?

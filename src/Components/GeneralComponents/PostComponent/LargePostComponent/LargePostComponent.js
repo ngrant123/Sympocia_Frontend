@@ -21,8 +21,37 @@ const Container=styled.div`
 	width:50%;
 	left:30%;
 	height:40%;
-	overflow:hidden;
 	padding:30px;
+
+
+   @media screen and (max-width:1030px) and (max-height:1370px){
+    	top:20% !important;
+    	width:90% !important;
+    	height:50% !important;
+    	left:5% !important; 
+    }
+
+     @media screen and (max-width:740px) and (max-height:420px){
+	 	#postOptionLI{
+    		margin-bottom:5% !important;
+    	}
+    }
+
+    @media screen and (max-width:770px){
+    	top:20% !important;
+    	width:100% !important;
+		left:1% !important; 
+		height:100% !important;
+		overflow:scroll;
+    }
+
+    @media screen and (max-width:420px){
+    	#postOptionLI{
+    		display:block !important;
+    		margin-bottom:5% !important;
+    		height:20% !important;
+    	}
+    }
 `;
 
 const IndustryTypeContainer = styled.div`
@@ -38,7 +67,24 @@ const PostOptionsContainer = styled.div`
 	width:100%;
 	height:15%;
 	top:85%;
-	overflow:hidden;
+	overflow:scroll;
+
+	@media screen and (max-width:1030px){
+ 		top:65% !important;
+ 	}
+
+	 @media screen and (max-width:420px){
+    	top:10% !important;
+    	height:90%;
+    }
+
+	@media screen and (max-width:740px) and (max-height:420px){
+	 	margin-left:-10% !important;
+	 	margin-bottom:10% !important;
+	 	height:40% !important;
+	 	top:20% !important;
+    }
+
 
 `;
 
@@ -54,6 +100,19 @@ const PostOptionsContainer = styled.div`
  	border-width:2px 0px 2px 0px;
  	border-color:#e0e0e0;
  	z-index:6;
+
+ 	@media screen and (max-width:740px) and (max-height:420px){
+	 	display:none !important;
+    }
+
+ 	@media screen and (max-width:1030px){
+ 		height:40% !important;
+ 	}
+
+ 	@media screen and (max-width:420px){
+    	display:none !important;
+    	height:10% !important;
+    }
  `;
 
  const PostTextarea = styled.textarea`
@@ -69,6 +128,10 @@ const PostOptionsContainer = styled.div`
  	background-color:#f7f8ff;
  	border-style:none;
  	color:	#55557a;
+
+ 	@media screen and (max-width:1030){
+ 		height:60% !important;
+ 	}
 
  `;
 
@@ -119,6 +182,9 @@ const PostOptionsContainer = styled.div`
  	color:	#f7f4f8;
  	text-align:center;
 
+ 	@media screen and (max-width:1030px){
+ 		height:30% !important;
+ 	}
  `;
 
 
@@ -138,7 +204,7 @@ const BlogOptionButton=styled(Link)`
  	&:hover{
  		color:white;
  		border-style:none;
- 	text-decoration:none;
+ 		text-decoration:none;
  	}
 
 `;
@@ -279,8 +345,8 @@ class LargePostComponent extends Component{
 		*/
 		debugger;
 		console.log(this.props);
-
 		if(this.props.postOption=="post"){
+			document.getElementById("originalPostContainer").style.background="transparent";
 			this.setState({
 				displayElement:<RegularPostCreation 
 										displayProps={this.displayPostOptions}
@@ -288,7 +354,7 @@ class LargePostComponent extends Component{
 				id:this.props._id
 			})
 		}else if(this.props.postOption=="image"){
-
+			document.getElementById("originalPostContainer").style.background="transparent";
 			this.setState({
 				displayElement:<ImagePostCreation
 										displayProps={this.displayPostOptions}
@@ -297,7 +363,7 @@ class LargePostComponent extends Component{
 			})
 
 		}else if(this.props.postOption=="video"){
-
+			document.getElementById("originalPostContainer").style.background="transparent";
 			this.setState({
 				displayElement:<VideoPostCreation 
 									displayProps={this.displayPostOptions}
@@ -330,11 +396,13 @@ class LargePostComponent extends Component{
 		console.log(props);
 
 		if(props=="RegularPost"){
+			document.getElementById("originalPostContainer").style.background="transparent";
 			this.setState({
 					displayElement:<RegularPostCreation 
 										displayProps={this.displayPostOptions}
 									/>})
 		}else if(props=="ImagePosts"){
+			document.getElementById("originalPostContainer").style.backgroundColor="transparent";
 			this.setState({
 					displayElement:<ImagePostCreation
 										displayProps={this.displayPostOptions}
@@ -342,13 +410,13 @@ class LargePostComponent extends Component{
 
 
 		}else if(props=="VideoPosts"){
+			document.getElementById("originalPostContainer").style.backgroundColor="transparent";
 			this.setState({
 					displayElement:<VideoPostCreation 
 										displayProps={this.displayPostOptions}
 									/>})
 
 		}else{
-
 			this.setState({
 					displayElement:<RegularPostCreation 
 										displayProps={this.displayPostOptions}
@@ -369,9 +437,8 @@ class LargePostComponent extends Component{
 					</PostContainer>
 
 					<PostOptionsContainer>
-
 						<ul style={{padding:"0px",marginLeft:"10%",marginTop:"5px"}}>
-							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
 									<PostOptionButton onClick={()=>this.setState({displayElement:<RegularPostCreation
 																									displayProps={this.displayPostOptions}
@@ -381,7 +448,7 @@ class LargePostComponent extends Component{
 								</a>
 							</li>
 
-							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
 									<PostOptionButton  onClick={()=>this.setState({displayElement:<ImagePostCreation
 																									displayProps={this.displayPostOptions}
@@ -391,7 +458,7 @@ class LargePostComponent extends Component{
 								</a>
 							</li>
 
-							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
 									<PostOptionButton onClick={()=>this.setState({displayElement:<VideoPostCreation
 																										displayProps={this.displayPostOptions}
@@ -400,7 +467,7 @@ class LargePostComponent extends Component{
 									</PostOptionButton>
 								</a>
 							</li>
-							<li style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"-10px"}}>
+							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"-10px"}}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
 									<BlogOptionButton id="blogCreationButton" to={{pathname:`/blog/${this.props._id}`,state:{postType:"Creation"}}}>
 										Blog
@@ -428,7 +495,7 @@ class LargePostComponent extends Component{
 					}
 				}}
 			>
-				<Container>
+				<Container id="originalPostContainer">
 					{this.state.displayElement}
 				</Container>
 			</PostProvider>

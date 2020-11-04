@@ -19,12 +19,7 @@ const TakePicutreButton=styled.div`
 	border-color:#5298F8;
 `;
 
-
-
-
-
 class CreateImageMdoal extends Component{
-
 	constructor(props){
 		super(props);
 		this.state={

@@ -63,11 +63,10 @@ const Submit=styled.div`
    }
 `;
 
-const NavBar=(props)=>{
+const NavBar=({history})=>{
 	const dispatch=useDispatch();
-	var {props}=props.props;
 
-  const handleLoginClick=async(event,props,dispatch)=>{
+  const handleLoginClick=async(event,history,dispatch)=>{
     debugger;
     event.preventDefault();
     const email=document.getElementById("LoginEmail").value;
@@ -87,7 +86,7 @@ const NavBar=(props)=>{
       dispatch(addPersonalIdentificationId(_id));
       dispatch(loginPersonalPage(true));
       dispatch(loginCompanyPage(false));
-      props.history.push('/home');
+      history.push('/home');
     }
   }
 
@@ -102,7 +101,7 @@ const NavBar=(props)=>{
         </li>
         <a href="javascript:void(0);" style={{textDecoration:"none"}}>
           <li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-              <Submit onClick = {e =>  handleLoginClick(e,props,dispatch)} to="/profile">Login </Submit>
+              <Submit onClick = {e =>  handleLoginClick(e,history,dispatch)} to="/profile">Login </Submit>
           </li>
         </a>
       </ul>

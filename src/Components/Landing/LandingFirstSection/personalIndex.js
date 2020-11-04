@@ -207,9 +207,6 @@ const inspectLetterTyedName=(character)=>{
 	}
 }
 
-
-
-
 const FirstSection=(props)=>{
 
   const [displayEmailInformation,changeDisplayState]=useState(false);
@@ -392,7 +389,7 @@ const FirstSection=(props)=>{
                           </li>
                            <li style={{listStyle:"none"}} id="navBarLogin">
                             <NavBarLogin
-                              props={props}
+                              history={props.history}
                             /> 
                           </li>
                       </ul>

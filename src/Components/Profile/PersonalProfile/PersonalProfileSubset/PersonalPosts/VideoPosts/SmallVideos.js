@@ -1,13 +1,36 @@
 import React,{useEffect} from "react";
 import styled from "styled-components";
 import {UserConsumer} from "../../../UserContext.js";
-
+import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
 
 const SmallVideoComponent=styled.div`
 	position:relative;
 	width:250px;
 	height:50%;
+
+	@media screen and (max-width:420px){
+		width:220% !important;
+		height:50%;
+		#videoAudio{
+			display:none
+		}
+		#postInformation{
+			display:none;
+		}
+	}
+
+	@media screen and (max-width:740px) and (max-height:420px){
+		height:200% !important;
+		width:200%;
+	 	#videoAudio{
+			display:none
+		}
+		#postInformation{
+			display:none;
+		}
+    }
 `;
+
 
 
 const SmallVideo=styled.div`
@@ -88,9 +111,9 @@ const SmallVideoContainer=(videoData)=>{
 			{personalInformation=>{
 				return <SmallVideoComponent>
 							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none"}}>
+								<li id="videoAudio" style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
-										{videoData.video.videoDescription==null?null:
+										{(videoData.video.videoDescription==null  && testIfUserIsUsingChrome()==true)?null:
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 												<VideoDescriptionContainer>
 													<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true">
@@ -100,7 +123,7 @@ const SmallVideoContainer=(videoData)=>{
 											</li>
 										}
 										
-										{videoData.video.audioDescription==null?null:
+										{(videoData.video.audioDescription==null && testIfUserIsUsingChrome()==true)?null:
 											<li style={{listStyle:"none",display:"inline-block"}}>
 												<audio key={uuidv4()} style={{width:"150px"}} controls>
 													<source src={videoData.video.audioDescription} type="audio/ogg"/>
@@ -119,25 +142,27 @@ const SmallVideoContainer=(videoData)=>{
 									</SmallVideo>
 								</li>
 
-								<li style={{listStyle:"none",fontSize:"15px"}}>
-									<b>{videoData.video.title} </b>
-								</li>
+								<div id="postInformation">
+									<li style={{listStyle:"none",fontSize:"15px"}}>
+										<b>{videoData.video.title} </b>
+									</li>
 
-								<li style={{listStyle:"none"}}>
-									{/*{personalInformation.userProfile.firstName}*/}
-								</li>
+									<li style={{listStyle:"none"}}>
+										{/*{personalInformation.userProfile.firstName}*/}
+									</li>
 
-								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											{constructDate()}
-										</li>
-									</ul>
-								</li>
+									<li style={{listStyle:"none"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												{constructDate()}
+											</li>
+										</ul>
+									</li>
 
-								<li style={{listStyle:"none"}}>
-									{displayIndustries()}
-								</li>
+									<li style={{listStyle:"none"}}>
+										{displayIndustries()}
+									</li>
+								</div>
 							</ul>
 						</SmallVideoComponent>
 			}}

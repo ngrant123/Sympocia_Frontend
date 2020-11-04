@@ -25,6 +25,9 @@ import {
 	updateVideoPostIndexContext,
 	updateRegularPostIndexContext
 } from "./ContextActions.js";
+import {recruitButton} from "../PersonalDetails/PersonalInformation.js";
+import {PhonePersonalInformationHeader} from "../../PersonalProfileSet/MobileUI.js";
+import {useSelector} from "react-redux";
 
 
 const PostCreationContainer=styled.div`
@@ -140,6 +143,19 @@ const listCSSButton={
 	marginLeft:"2%"
 }
 
+
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"5px",
+	borderStyle:"none"
+}
+
 /*
 Later down the road this whole post section has to be refactored completely 
 because at this point it getting too crazy and sphagetti like 
@@ -153,6 +169,8 @@ const PersonalPostsIndex=(props)=>{
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
 	const [displayRegularPosts,changeDisplayForRegularPosts]=useState(false);
+	const personalRedux=useSelector(state=>state.personalInformation);
+
 	const [regularPost,changeRegularPost]=useState({
 		headerPost:null,
 		posts:[]
@@ -315,6 +333,52 @@ const PersonalPostsIndex=(props)=>{
 				changeDisplayCreationPost(false);
 		}
 	}
+	const mobilePostSelectionAndRecruitUI=(personalInformation)=>{
+		return (
+			<li  style={{listStyle:"none"}}>
+				<ul style={{padding:"0px"}}>
+					<li id="mobilePhonePostOption"style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+								style={ShadowButtonCSS}>
+									Post Type
+							   		<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+									<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
+										Images
+									</a>
+								</li>
+
+								<li onClick={()=>handlePostsClick("video",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+									<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+										Videos
+									</a>
+								</li>
+
+								<li onClick={()=>handlePostsClick("regularPost",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+									<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+										Regular Posts
+									</a>
+								</li>
+
+								<li onClick={()=>handlePostsClick("blog",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+									<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+										Blogs
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li style={{listStyle:"none",display:"inline-block"}}>
+						{recruitButton(personalInformation,personalInformation.displayConfettiHandle,personalRedux.id)}
+					</li>
+				</ul>
+				<hr/>
+			</li>
+		)
+	}
 
 /*
 	const initializePersonalInformationToState=(personalInformationData)=>{
@@ -410,191 +474,160 @@ const PersonalPostsIndex=(props)=>{
 			>
 			{props.personalInformation.isLoading==true?null:
 				<>
-			{/*
-				{initializePersonalInformationToState(props.personalInformation)}
-
-				{displayCreatePostAndShadowOverlay(props.personalInformation)}
-			*/}
+				{/*
+					{initializePersonalInformationToState(props.personalInformation)}
+					{displayCreatePostAndShadowOverlay(props.personalInformation)}
+				*/}
 				<ul>
-					<li style={{listStyle:"none",marginBottom:"10%"}}>
+					{props.uiStatus.displayPhoneUI==true &&(
+						<PhonePersonalInformationHeader/>
+					)}
+					<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
 							{props.personalInformation.isLoading==true?
 									<p>Give us a second </p>:
 									<FriendsGauge
 										personalInformation={props.personalInformation}
+										mobileUIStatus={props.uiStatus}
 									/>
 								}
 					</li>
 					<hr/>
 					{displayCreationPostContainer()}
-					{/*
-						{props.personalInformation.isOwnProfile==true?
-							<React.Fragment>
-								<li style={{listStyle:"none",marginBottom:"5%"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"5%",color:"#C8B0F4"}}>
-												<b>Create a post</b>
-											</li>
 
-											<li style={{listStyle:"none",display:"inline-block"}}>
-													<CommentCreationContainer onClick={()=>displayOrHideCreationPost()}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%",marginTop:"-20px"}}>
-																<ProfilePicture>
-																	{props.personalInformation.profilePicture!=null?
-																		<img src={props.personalInformation.profilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%",borderRadius:"50%"}}/>:
-																		<img src={NoProfilePicture} style={{position:"absolute",top:"0px",height:"100%",width:"100%"}}/>
-																	}
-																</ProfilePicture>
-															</li>
-
-															<li style={{listStyle:"none",display:"inline-block"}}>
-																<CommentTextArea placeholder="Enter a comment">
-
-																</CommentTextArea>
-
-															</li>
-														</ul>
-												</CommentCreationContainer>
-											</li>
-										</ul>
-									</li>
-									<li style={{listStyle:"none",marginBottom:"5%"}}>
-										{props.personalInformation.isOwnProfile==true?
-											<React.Fragment>
-												{displayCreationPostContainer()}
-											</React.Fragment>:
-											<React.Fragment></React.Fragment>
-										}
-									</li> 
-								</React.Fragment>
-							:null}
-					*/}
-
-					<li style={{listStyle:"none",marginBottom:"20px"}}>
+					<li id="postsContainer" style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<SearchIcon
-											style={{fontSize:40}}
-										/>
-									</li>
+							{props.uiStatus.displayPhoneUI==true? 
+								<>{mobilePostSelectionAndRecruitUI(props.personalInformation)}</>:
+								<li style={{listStyle:"none",marginBottom:"20px"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<SearchIcon
+														style={{fontSize:40}}
+													/>
+												</li>
 
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<SearchPostsTextArea
-											placeholder="Search for any posts here"
-										/>
-									</li>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<SearchPostsTextArea
+														placeholder="Search for any posts here"
+													/>
+												</li>
 
-								</ul>
-							</li>
+											</ul>
+										</li>
 
-							<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
-								<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
-									Images
-								</a>
-							</li>
+										<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+											<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
+												Images
+											</a>
+										</li>
 
-							<li onClick={()=>handlePostsClick("video",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
-								<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-									Videos
-								</a>
-							</li>
+										<li onClick={()=>handlePostsClick("video",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+											<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+												Videos
+											</a>
+										</li>
 
-							<li onClick={()=>handlePostsClick("regularPost",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-								<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-									Regular Posts
-								</a>
-							</li>
+										<li onClick={()=>handlePostsClick("regularPost",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+											<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+												Regular Posts
+											</a>
+										</li>
 
-							<li onClick={()=>handlePostsClick("blog",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-								<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-									Blogs
-								</a>
-							</li>
+										<li onClick={()=>handlePostsClick("blog",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+											<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+												Blogs
+											</a>
+										</li>
 
-							<li style={listCSSButton}>	
+										<li style={listCSSButton}>	
 
-								<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																borderColor:"#5298F8",
-																																borderStyle:"solid",
-																																borderWidth:"1px",
-																																color:"#5298F8",
-																																backgroundColor:"white"}}>
-											Sort By
-										   	<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu">
-											<li><a href="">Most Popular</a></li>
-											<li><a href="">Most Recent</a></li>
-											
-										</ul>
-				  				 </div>
+											<div class="dropdown">
+													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																			borderColor:"#5298F8",
+																																			borderStyle:"solid",
+																																			borderWidth:"1px",
+																																			color:"#5298F8",
+																																			backgroundColor:"white"}}>
+														Sort By
+													   	<span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu">
+														<li><a href="">Most Popular</a></li>
+														<li><a href="">Most Recent</a></li>
+														
+													</ul>
+							  				 </div>
 
 
-							</li>
+										</li>
 
-							<li style={listCSSButton}>
-								<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																borderColor:"#5298F8",
-																																borderStyle:"solid",
-																																borderWidth:"1px",
-																																color:"#5298F8",
-																																backgroundColor:"white"}}>
-											Industries
-										   	<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu">
-											<li><a href="">Most Popular</a></li>
-											<li><a href="">Most Recent</a></li>
-											
-										</ul>
-				  				 </div>
-							</li>
+										<li style={listCSSButton}>
+											<div class="dropdown">
+													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																			borderColor:"#5298F8",
+																																			borderStyle:"solid",
+																																			borderWidth:"1px",
+																																			color:"#5298F8",
+																																			backgroundColor:"white"}}>
+														Industries
+													   	<span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu">
+														<li><a href="">Most Popular</a></li>
+														<li><a href="">Most Recent</a></li>
+														
+													</ul>
+							  				 </div>
+										</li>
 
+									</ul>
+								</li>
+							}
+							<div id="postCollectionContainer">
+								{
+									displayImages==true?
+									<ImagePosts
+										imageData={imagePost}
+										isLoading={props.personalInformation.isLoading}
+										profile="Personal"
+									/>:<React.Fragment></React.Fragment>
+								}
+
+								{
+									displayVideos==true?
+									<VideoPosts
+										videos={videoPost}
+										isLoadingIndicatorVideos={isLoadingIndicatorVideos}
+										id={personalInformation.userProfile._id}
+									/>:<React.Fragment></React.Fragment>
+								}
+
+
+								{
+									displayBlogs==true?
+									<BlogsPosts
+										id={props.personalInformation.userProfile._id}
+										profileType="Personal"
+										friendsNodes={props.personalInformation.userProfile.friendsGaugeNodes}
+										visitorId={props.visitorId}
+									/>:<React.Fragment></React.Fragment>
+								}
+
+								{
+									displayRegularPosts==true?
+									<RegularPost
+										id={props.personalInformation.userProfile._id}
+										posts={regularPost}
+										profilePicture={props.personalInformation.userProfile.profilePicture}
+										profile="Personal"
+									/>:<React.Fragment></React.Fragment>
+								}
+							</div>
+								
 						</ul>
 					</li>
-		
-						{
-							displayImages==true?
-							<ImagePosts
-								imageData={imagePost}
-								isLoading={props.personalInformation.isLoading}
-								profile="Personal"
-							/>:<React.Fragment></React.Fragment>
-						}
-
-						{
-							displayVideos==true?
-							<VideoPosts
-								videos={videoPost}
-								isLoadingIndicatorVideos={isLoadingIndicatorVideos}
-								id={personalInformation.userProfile._id}
-							/>:<React.Fragment></React.Fragment>
-						}
-
-
-						{
-							displayBlogs==true?
-							<BlogsPosts
-								id={props.personalInformation.userProfile._id}
-								profileType="Personal"
-								friendsNodes={props.personalInformation.userProfile.friendsGaugeNodes}
-								visitorId={props.visitorId}
-							/>:<React.Fragment></React.Fragment>
-						}
-
-						{
-							displayRegularPosts==true?
-							<RegularPost
-								id={props.personalInformation.userProfile._id}
-								posts={regularPost}
-								profilePicture={props.personalInformation.userProfile.profilePicture}
-								profile="Personal"
-							/>:<React.Fragment></React.Fragment>
-						}
 				</ul>
 				</>
 			}

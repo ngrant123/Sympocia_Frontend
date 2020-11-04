@@ -105,7 +105,6 @@ const NavBar=(pageProps)=>{
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
 
 	const triggerUIChange=()=>{
-		debugger;
 		console.log(window.innerWidth)
 		if(window.innerWidth<595){
 

@@ -13,7 +13,7 @@ const SponsorExtendedModal=styled.div`
 	height:35%;
 	background-color:white;
 	top:0px;
-	z-index:12;
+	z-index:25;
 	border-radius:5px;
 	box-shadow: 10px 10px 20px 	#9395a0;
 	left:65%;
@@ -51,6 +51,52 @@ const SimpliedProfilePicture=styled.div`
 	border-width:5px;
 `;
 
+const ExtendedChampionModal=(championData)=>{
+	return <ul>
+				<li style={{width:"40%",listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+					<ul style={{padding:"0px"}}>
+						<li style={{listStyle:"none",marginBottom:"3%",width:"40%"}}>
+								<img src={championData.imgUrl} style={{width:"170%",height:"35%",borderRadius:"50%"}}/>
+						</li>
+
+						<li style={{listStyle:"none",fontSize:"30px",color:"#5298F8"}}>
+							<b>{championData.name}</b>
+						</li>
+
+						<li style={{listStyle:"none",marginTop:"10%"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									{championData.instagramUrl!=null?
+										<a style={{textDecoration:"none"}}href={championData.instagramUrl}>
+											<InstagramIcon
+												style={{fontSize:20}}
+											/>
+										</a>
+										:<React.Fragment></React.Fragment>
+									}
+								</li>
+								<li style={{listStyle:"none",display:"inline-block",marginLeft:"20%"}}>
+
+								{championData.tikTokUrl!=null?
+										<a style={{textDecoration:"none"}}href={championData.instagramUrl}>
+											<Icon icon={tiktokIcon} 
+												style={{fontSize:20}}
+											/>
+										</a> 
+										:<React.Fragment></React.Fragment>
+								 }
+								</li>
+
+							</ul>
+						</li>
+					</ul>
+				</li>
+
+				<li style={{height:"40%",overflowY:"auto",position:"relative",top:"-50px",listStyle:"none",display:"inline-block",width:"50%"}}>
+					{championData.description}
+				</li>
+			</ul>
+}
 
 
 class SponsorDisplayModal extends Component{
@@ -82,50 +128,7 @@ class SponsorDisplayModal extends Component{
 							</li>
 
 							<li style={{listStyle:"none"}}>
-								<ul>
-									<li style={{width:"40%",listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",marginBottom:"3%",width:"40%"}}>
-													<img src={this.props.championData.imgUrl} style={{width:"170%",height:"35%",borderRadius:"50%"}}/>
-											</li>
-
-											<li style={{listStyle:"none",fontSize:"30px",color:"#5298F8"}}>
-												<b>{this.props.championData.name}</b>
-											</li>
-
-											<li style={{listStyle:"none",marginTop:"10%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														{this.props.championData.instagramUrl!=null?
-															<a style={{textDecoration:"none"}}href={this.props.championData.instagramUrl}>
-																<InstagramIcon
-																	style={{fontSize:20}}
-																/>
-															</a>
-															:<React.Fragment></React.Fragment>
-														}
-													</li>
-													<li style={{listStyle:"none",display:"inline-block",marginLeft:"20%"}}>
-
-													{this.props.championData.tikTokUrl!=null?
-															<a style={{textDecoration:"none"}}href={this.props.championData.instagramUrl}>
-																<Icon icon={tiktokIcon} 
-																	style={{fontSize:20}}
-																/>
-															</a> 
-															:<React.Fragment></React.Fragment>
-													 }
-													</li>
-
-												</ul>
-											</li>
-										</ul>
-									</li>
-
-									<li style={{height:"40%",overflowY:"auto",position:"relative",top:"-50px",listStyle:"none",display:"inline-block",width:"50%"}}>
-										{this.props.championData.description}
-									</li>
-								</ul>
+								{ExtendedChampionModal(this.props.championData)}
 							</li>
 						</ul>
 					</SponsorExtendedModal>:
@@ -167,4 +170,7 @@ class SponsorDisplayModal extends Component{
 	}
 }
 
-export default SponsorDisplayModal;
+export{
+	ExtendedChampionModal,
+	SponsorDisplayModal
+}

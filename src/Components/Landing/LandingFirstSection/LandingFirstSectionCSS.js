@@ -56,6 +56,7 @@ export const FirstContainer = styled.div`
           top:10px;
       }
     }
+    
     @media screen and (max-width:950px){
       #imageContainer{
           top:10px;

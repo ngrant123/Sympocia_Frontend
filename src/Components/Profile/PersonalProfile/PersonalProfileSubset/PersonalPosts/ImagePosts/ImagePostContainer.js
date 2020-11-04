@@ -11,6 +11,54 @@ const Container=styled.div`
 	position:absolute;
 	width:95%;
 	height:95%;
+
+	@media screen and (max-width:1020px), screen and (max-height:1370px){
+        #smallPostLI{
+			width:200px !important;
+			margin-right:10% !important;
+		}
+    }
+
+	@media screen and (max-width:770px){
+		#smallPostLI{
+			width:200px !important;
+			margin-right:10% !important;
+		}
+		#parentLISmallPostContainer{
+				width:150% !important;
+		}
+    }
+
+	@media screen and (max-width:420px){
+		#smallPostLI{
+			width:300px !important;
+		}
+	}
+
+	@media screen and (max-width:380px){
+		#smallPostLI{
+			width:40% !important;
+		}
+	}
+
+	@media screen and (max-width:340px){
+		#smallPostLI{
+			width:37% !important;
+			margin-right:5% !important;
+		}
+		#parentLISmallPostContainer{
+			width:190% !important;
+
+		}
+    }
+
+    @media screen and (max-width:740px) and (max-height:420px){
+		#smallPostLI{
+			width:35% !important;
+			margin-left:3% !important;
+		}
+    }
+
 `;
 
 const ImageContainer=styled.div`
@@ -111,6 +159,7 @@ class ImagePostsContainer extends Component{
 												{this.props.imageData.images.length==0 &&
 													this.props.imageData.crownedImage==null?
 													<NoPostsModal
+														id="noPostsModalContainer"
 														postType={"image"}
 														profilePageType={this.props.profile}
 													  />:
@@ -119,11 +168,12 @@ class ImagePostsContainer extends Component{
 																null:
 																<React.Fragment>
 																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li onClick={()=>this.displayPostModal(	postDisplayModal,
-																												companyPostDisplayModal,
-																												postsConsumer,
-																												this.props.imageData.crownedImage)}  
-																												style={{listStyle:"none",marginBottom:"-5%"}}>
+																		<li style={{listStyle:"none",marginBottom:"-5%"}}
+																				 onClick={()=>this.displayPostModal(	
+																				 			postDisplayModal,
+																							companyPostDisplayModal,
+																							postsConsumer,
+																							this.props.imageData.crownedImage)}>
 																			<CrownedImageContainer
 																				imageData={this.props.imageData.crownedImage}
 																			/>
@@ -132,12 +182,14 @@ class ImagePostsContainer extends Component{
 																	<hr/>
 																</React.Fragment>
 															}	
-															<li style={{listStyle:"none",marginTop:"3%"}}>
+															<li id="parentLISmallPostContainer" style={{listStyle:"none",marginTop:"3%"}}>
 																{this.props.imageData.images.map(data=>
-																	<li onClick={()=>this.displayPostModal(	postDisplayModal,
+																	<li id="smallPostLI" onClick={()=>this.displayPostModal(	
+																											postDisplayModal,
 																											companyPostDisplayModal,
 																											postsConsumer,
-																											data)} style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
+																											data)} 
+																		style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
 																		<a href="javascript:;" style={{textDecoration:"none"}}>
 																			<SmallImageContainer
 																				data={data}

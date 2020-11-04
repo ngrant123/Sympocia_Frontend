@@ -31,6 +31,31 @@ const Container=styled.div`
 	height:60%;
 	top:20%;
 	border-radius:5px;
+
+
+	@media screen and (max-width:1030px) and (max-height:1370px){
+		#recordingContainer{
+			height:100% !important;
+			width:100%;
+			left:5% !important; 
+		}
+    }
+
+    @media screen and (max-width:770px){
+    	#recordingContainer{
+			left:1% !important; 
+			height:100% !important;
+			width:100%;
+		}
+    }
+
+	@media screen and (max-width:420px){
+		#recordingContainer{
+			left:1% !important; 
+			height:100% !important;
+			width:100%;
+		}
+    }
 `;
 
 const RecordButton=styled.div`
@@ -130,7 +155,7 @@ const VoiceDescriptionPortal=(props)=>{
 					  	 debugger;
 					  	 if(recordedChunks!=null){
 					  	 	console.log("Recorded chunks");
-						  	 let recordedFile = new File(recordedChunks, { type: "video/webm" });
+						  	 let recordedFile = new File(recordedChunks, { type: "video/mp4" });
 						  	 var videoSrc=URL.createObjectURL(recordedFile);
 
 						  	 var reader=new FileReader();
@@ -305,7 +330,7 @@ const VoiceDescriptionPortal=(props)=>{
 			/>
 			<Container>
 				{test()}
-				<ul style={{marginLeft:"20%",marginTop:"10%"}}>
+				<ul id="recordingContainer" style={{marginLeft:"20%",marginTop:"10%"}}>
 					<li style={{listStyle:"none",marginBottom:"5%"}}>
 						<p>Click start recording to get started and then when you're all done click the continue buttonp</p>
 						<p> 

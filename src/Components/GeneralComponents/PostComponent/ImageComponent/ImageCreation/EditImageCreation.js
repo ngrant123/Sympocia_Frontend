@@ -10,7 +10,7 @@ import {ImageConsumer} from "../../../../Profile/PersonalProfile/PersonalProfile
 import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
 import FilterImageSelection from "./FilterImageSelection.js";
 import ProcessImage from 'react-imgpro';
-import {CompanyPostConsumer} from "../../../../Profile/CompanyProfile/CompanyPostsContext.js";
+import {UserConsumer} from "../../../../Profile/PersonalProfile/UserContext.js";
 
 import MicIcon from '@material-ui/icons/Mic';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
@@ -38,6 +38,55 @@ const Container=styled.div`
 	width:65%;
 	overflow-y:scroll;
 	height:55%;
+
+	@media screen and (max-width:1030px) and (max-height:1370px){
+    	height:100% !important;
+		width:100%;
+		left:5% !important; 
+    }
+
+    @media screen and (max-width:770px){
+		left:1% !important; 
+		height:100% !important;
+		width:100%;
+		#imageListContainer{
+			display:block !important;
+			width:100% !important;
+			height:40% !important;
+		}
+		#processedImage{
+			height:200px !important;
+			width:200px !important;
+		}
+		#imageInformationSelection{
+			width:400px !important;
+		}
+    }
+
+	@media screen and (max-width:420px){
+		left:1% !important; 
+		height:100% !important;
+		width:100%;
+		#imageListContainer{
+			display:block !important;
+			width:100% !important;
+			height:50% !important;
+		}
+		#processedImage{
+			height:50px !important;
+			width:50px !important;
+		}
+		#imageInformationSelection{
+			width:250px !important;
+		}
+    }
+    @media screen and (max-width:740px) and (max-height:420px){
+    	#imageListContainer{
+			display:block !important;
+			width:100% !important;
+			height:90% !important;
+		}
+    }
 `;
 
 
@@ -47,6 +96,7 @@ const Image=styled.div`
 	height:100%;
 	overflow-y:auto;
 	border-radius:5px;
+
 `;
 
 const ImageTextArea=styled.textarea`
@@ -58,6 +108,11 @@ const ImageTextArea=styled.textarea`
 	border-radius:5px;
 	background-color:#f1f1f1;
 	padding:5px;
+
+	@media screen and (max-width:330px){
+		width:250px;
+		
+    }
 `;
 
 const SelectedIndustryButton=styled.div`
@@ -72,11 +127,21 @@ const SelectedIndustryButton=styled.div`
 
 const VideoDescriptionContainer=styled.div`
 	position:relative;
-	width:90px;
-	height:80px;
+	width:60px;
+	height:60px;
 	border-radius:50%;
+	background-color:white;
+	overflow:hidden;
 `;
 
+
+const MobileVideoDescriptionContainer=styled.div`
+	width:90px;
+	height:80px;
+	position:relative;
+	border-radius:50%;
+	background-color:white;
+`;
 const CrownIconContainer=styled.div`
 	position:absolute;
 	border-style:solid;
@@ -202,10 +267,10 @@ class EditImageCreation extends Component{
 		}
 
 		const imageElement= <ProcessImage
-									image={this.props.imageSrcUrl}
-									resize={{width:450,height:450}}
-									quality={100}
-									processedImage={(src, err) => this.setState({ src, err })}
+								image={this.props.imageSrcUrl}
+								resize={{width:450,height:450}}
+								quality={100}
+								processedImage={(src, err) => this.setState({ src, err })}
 							/>;
 
 		this.setState({
@@ -241,7 +306,7 @@ class EditImageCreation extends Component{
 		}
 	}
 
-	sendImageDateToDB=async(profilePostInformation,companyPostContextConsumer)=>{
+	sendImageDateToDB=async(profilePostInformation)=>{
 
 		console.log("Submit button clicked");
 		const industries=this.state.industriesSelected;
@@ -347,7 +412,6 @@ class EditImageCreation extends Component{
 			return false;
 		else{
 			let arr1Map=new Map();
-
 			arr1.forEach((iteratedIndustry,i)=>{
 				const {industry,subIndustry}=iteratedIndustry;
 				let subArr1Map=new Map();
@@ -457,6 +521,7 @@ class EditImageCreation extends Component{
 		const value=imageFilter.value;
 		debugger;
 		const imageElement= <ProcessImage
+		 							id="processedImage"
 									image={this.props.imageSrcUrl}
 									resize={{width:450,height:450}}
 									quality={100}
@@ -598,6 +663,7 @@ class EditImageCreation extends Component{
 		debugger;
 
 		const imageElement= <ProcessImage
+									id="processedImage"
 									image={imgUrl}
 									resize={{width:450,height:450}}
 									quality={100}
@@ -620,8 +686,8 @@ class EditImageCreation extends Component{
 		return(
 			<PostConsumer>
 				{profilePostInformation=>(
-						<CompanyPostConsumer>
-							{companyPostInformation=>(
+						<UserConsumer>
+							{userSessionInformation=>(
 								<Container id="editImageContainer">
 									{this.state.displayReplaceImageModal==true &&(
 										<>
@@ -750,7 +816,32 @@ class EditImageCreation extends Component{
 										</React.Fragment>
 									}
 									<ul style={{padding:"10px"}}>
-										<li style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
+										{userSessionInformation.displayDesktopUI==false &&(
+											<li style={{listStyle:"none",marginBottom:"2%"}}>
+												<ul style={{padding:"0px"}}>
+													{this.state.videoDescription!=null && (
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+															<MobileVideoDescriptionContainer>
+																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																	<source src={this.state.videoDescription} type="video/mp4"/>
+																</video>
+															</MobileVideoDescriptionContainer>
+														</li>
+													)}
+													{this.state.audioDescription!=null &&(
+														<li style={{listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
+															<audio controls>
+															  <source src={this.state.audioDescription} typ e="audio/ogg"/>
+															  <source src={this.state.audioDescription} type="audio/mpeg"/>
+															Your browser does not support the audio element.
+															</audio>
+														</li>
+													)}
+												</ul>
+											</li>
+										)}
+
+										<li id="imageListContainer" style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
 											<Image>
 												<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px"}}>
 													<li onClick={()=>this.setState({changeImageVerification:true})} style={{listStyle:"none"}}>
@@ -778,34 +869,37 @@ class EditImageCreation extends Component{
 													</CrownIconContainer>
 												</a>
 
-												<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
-													{this.state.videoDescription==null?null:
-														<li style={{listStyle:"none"}}>
-															<VideoDescriptionContainer>
-																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
-																	<source src={this.state.videoDescription} type="video/mp4"/>
-																</video>
-															</VideoDescriptionContainer>
-														</li>
-													}
-													{this.state.audioDescription==null?null:
-														<li style={{listStyle:"none"}}>
-															<audio controls>
-															  <source src={this.state.audioDescription} type="audio/ogg"/>
-															  <source src={this.state.audioDescription} type="audio/mpeg"/>
-															Your browser does not support the audio element.
-															</audio>
-														</li>
-													}
-												</ul>
+												{userSessionInformation.displayDesktopUI==true &&(
+													<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
 
+														{this.state.videoDescription==null?null:
+															<li style={{listStyle:"none"}}>
+																<VideoDescriptionContainer>
+																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																		<source src={this.state.videoDescription} type="video/mp4"/>
+																	</video>
+																</VideoDescriptionContainer>
+															</li>
+														}
+														{this.state.audioDescription==null?null:
+															<li style={{listStyle:"none"}}>
+																<audio controls>
+																  <source src={this.state.audioDescription} type="audio/ogg"/>
+																  <source src={this.state.audioDescription} type="audio/mpeg"/>
+																Your browser does not support the audio element.
+																</audio>
+															</li>
+														}
+													</ul>
+												)}
+											
 												{this.state.imgElement}
 											</Image>
 										</li>
 
 										{this.state.displayFilterPictureModal==false?
-											<li style={{position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-												<ul style={{padding:"0px",width:"300px"}}>
+											<li style={{overflowY:"scroll",height:"150%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+												<ul id="imageInformationSelection" style={{padding:"0px",width:"300px"}}>
 													<IndustryPostOptions
 														alterSelectedIndustry={this.alterSelectedIndustry}
 														alterSelectedSubCommunities={this.alterSelectedSubCommunities}
@@ -855,7 +949,7 @@ class EditImageCreation extends Component{
 
 													<li style={{listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
 														<a style={{textDecoration:"none"}} href="javascript:void(0);">
-															<ul onClick={()=>this.sendImageDateToDB(profilePostInformation,companyPostInformation)}>
+															<ul onClick={()=>this.sendImageDateToDB(profilePostInformation)}>
 																<li style={{listStyle:"none",display:"inline-block"}}>
 																	<SendIcon
 																		style={{fontSize:20,color:"white"}}
@@ -882,7 +976,7 @@ class EditImageCreation extends Component{
 								</Container>
 							) 
 						}
-						</CompanyPostConsumer>
+						</UserConsumer>
 					)
 			}
 			</PostConsumer>

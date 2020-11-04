@@ -8,7 +8,7 @@ const SponsorModal=styled.div`
 	width:40%;
 	height:60%;
 	background-color:white;
-	z-index:15;
+	z-index:25;
 	top:10%;
 	border-radius:5px;
 	left:30%;
@@ -21,7 +21,7 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:11;
+	z-index:24;
 	top:0px;
 `;
 
@@ -116,7 +116,7 @@ const SponsorPortal=(props)=>{
 							<hr/>
 							<p style={{marginLeft:"45%",marginBottom:"7%"}}>Or</p>
 						*/}
-						<p style={{marginLeft:"20%",fontSize:"40px"}}><b>Sponsor someone</b></p>
+						<p style={{marginLeft:"20%",fontSize:"40px"}}><b>Champion someone</b></p>
 						<p style={{color:"#A4A4A4",marginLeft:"13%",marginBottom:"5%"}}>Nows your chance to show your appreciation for someone</p>
 						
 						<p style={{marginLeft:"15%",color:"#6E6E6E"}}><b>Upload a picture of someone and describe why they're great</b></p>
@@ -127,7 +127,10 @@ const SponsorPortal=(props)=>{
 							</UploadPicture>
 						</a>
 						
-						<input type="file" name="img" id="imageFile" style={{opacity:"0"}} onChange={()=>displayImage()} accept="image/x-png,image/gif,image/jpeg"></input>					
+						<input type="file" name="img" id="imageFile" style={{opacity:"0"}} onChange={()=>displayImage()}  
+					        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
+					        name="attachments">
+					    </input>					
 					</ul>:
 					<DescriptionModal
 						imgData={imageData}
@@ -139,7 +142,7 @@ const SponsorPortal=(props)=>{
 			</SponsorModal>
 			<ShadowContainer onClick={()=>props.closeModal()}/>
 		</React.Fragment>
-	,parentDiv);
+	,document.getElementById("personalContainer"));
 }
 
 export default SponsorPortal;

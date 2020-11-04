@@ -68,6 +68,7 @@ const RecruitButton=styled.div`
 	padding:10px;
 	background-color:#C8B0F4;
 	border-radius:5px;
+	width:80px;
 
 
 	@keyframes glowing {
@@ -137,6 +138,54 @@ const EditSocialMediaUrlsCSS={
   marginBottom:"5%"
 }
 
+const recruitButton=(personalInformation,confettiTrigger,userId)=>{
+	return <>
+			{personalInformation.isOwnProfile==true?
+				<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
+					<ul style={{padding:"0px"}}>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+							<a style={{textDecoration:"none"}} href="javascript:void(0);">
+								<RecruitButton>
+									- Recruit
+								</RecruitButton>
+							</a>
+						</li>
+					</ul>
+				</li>
+				:<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
+					<ul style={{padding:"0px"}}>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+							<a style={{textDecoration:"none"}} href="javascript:void(0);">
+								<RecruitButton onClick={()=>handleRecruitButton(personalInformation,confettiTrigger,userId)}>
+									+ Recruit
+								</RecruitButton>
+							</a>
+						</li>
+						{/*
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<a style={{textDecoration:"none"}} href="javascript:void(0);">
+									<DonateButton onClick={()=>handleDonateButton()}>
+										Donate
+									</DonateButton>
+									
+								</a>
+							</li>
+						*/}
+					</ul>
+				</li>
+			}
+		   </>
+}
+
+//
+const handleRecruitButton=(personalInformation,displayConfetti,userId)=>{
+	displayConfetti();
+	console.log(personalInformation);
+	debugger;
+	const profileId=personalInformation.userProfile._id;
+	addRecruit(userId,profileId);
+}
+
 const PersonalInformation=(props)=>{
 	console.log(props);
 
@@ -153,23 +202,17 @@ const PersonalInformation=(props)=>{
 
 	}
 
-	const handleRecruitButton=(personalInformation)=>{
-		props.displayConfetti();
-		console.log(personalInformation);
-		debugger;
-		const profileId=personalInformation.userProfile._id;
-		addRecruit(personalRedux.id,profileId);
-	}
+	
 
 	const handleDonateButton=()=>{
 		console.log("Download modal");
-			changeDisplayForDonationModal(!displayDonationModal);
+		changeDisplayForDonationModal(!displayDonationModal);
 
 	}
 
 	const handleChampionButton=()=>{
 		console.log("Download modal");
-			changeDisplayChampionModal(!displayChampionModal);
+		changeDisplayChampionModal(!displayChampionModal);
 
 	}
 
@@ -297,39 +340,7 @@ const PersonalInformation=(props)=>{
 													</FriendsAndIndustryDisplayButton>
 												</a>
 											</li>
-											{personalInformation.isOwnProfile==true?
-													<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																	<RecruitButton onClick={()=>handleUnRecruitButton()}>
-																		- Recruit
-																	</RecruitButton>
-																</a>
-															</li>
-														</ul>
-													</li>
-													:<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																	<RecruitButton onClick={()=>handleRecruitButton(personalInformation)}>
-																		+ Recruit
-																	</RecruitButton>
-																</a>
-															</li>
-															<li style={{listStyle:"none",display:"inline-block"}}>
-																<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																	<DonateButton onClick={()=>handleDonateButton()}>
-																		Donate
-																	</DonateButton>
-																	
-																</a>
-															</li>
-														</ul>
-											</li> }
-								
-											
+											{recruitButton(personalInformation,props.displayConfetti,personalRedux.id)}
 
 											{personalInformation.isOwnProfile==true?
 												<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
@@ -370,5 +381,9 @@ const PersonalInformation=(props)=>{
 		</UserConsumer>
 	)
 }
+export{
+	PersonalInformation,
+	recruitButton
+};
 
-export default PersonalInformation;
+

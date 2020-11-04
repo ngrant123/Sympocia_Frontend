@@ -293,7 +293,6 @@ const LandingPage=(props)=>{
 
 						<li id="firstSection" style={{listStyle:"none"}}>
 							<FirstSection
-								
 								increaseCounter={increasePageCounter}
 								displaySelectedPage={displaySelectedPage}
 								history={props.history}

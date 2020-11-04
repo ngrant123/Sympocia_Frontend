@@ -126,9 +126,7 @@ const NodeInformationPortal=({userId,nodeInformation,closeModal,updateNode})=>{
 									</li>
 								</a>
 							</>
-
 						}
-
 					</li>
 				</ul>
 

@@ -38,7 +38,6 @@ const FriendsContainer=(props)=>{
 
 
 	return(
-
 		<React.Fragment>
 			<Container>
 				<FriendsProfilePicture>

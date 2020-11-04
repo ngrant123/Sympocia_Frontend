@@ -1,4 +1,4 @@
-import React from "react";
+import React,{Component} from "react";
 import "react-step-progress-bar/styles.css";
 import { ProgressBar, Step } from "react-step-progress-bar";
 import LockIcon from '@material-ui/icons/Lock';
@@ -6,6 +6,11 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import {connect} from "react-redux";
 import FriendsGaugeEditModal from "../../PersonalProfileSet/Modals-Portals/FriendsGaugeEditPortal/index.js";
 import RecruitsNodeInformationPortal from "../../PersonalProfileSet/Modals-Portals/RecruitsNodeInformationPortal.js";
+
+import {
+  MobileRecruitAndFriendsGaugeOptions,
+  EditNodeModal
+} from "../../PersonalProfileSet/MobileUI.js";
 
 const LocksCSS={
   marginLeft:"45%",
@@ -32,7 +37,7 @@ const AddRemoveLevelButtonCSS={
   Right now the current code is saying that friendsGaugeNode
   is a number. Its an array rn with object in it so it should be changed 
 */
-class FriendsGauge extends React.Component {
+class FriendsGauge extends Component {
 
   constructor(props){
     console.log(props);
@@ -72,7 +77,8 @@ class FriendsGauge extends React.Component {
       friendsGaugeActionType:"",
       nodes:refromattedNodes==null?friendsGaugeNodes:refromattedNodes,
       displayNodeInformationModule:false,
-      nodeInformation:{}
+      nodeInformation:{},
+      displayPhoneEditNodesModal:false
     }
   }
 
@@ -157,31 +163,64 @@ class FriendsGauge extends React.Component {
       const isUnlocked=this.state.progressBarCounter>=currentIntervalValue;
       
       return <ul onClick={()=>this.displayNodeInformation(node)} style={{marginTop:"5%",padding:"0px"}}>
-                <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                  <li style={{listStyle:"none"}}>
-                     {this.handleLockIconChange(isUnlocked)}
-                  </li>
+                {this.props.mobileUIStatus.displayDesktopUI==false?
+                    <>
+                      {this.props.mobileUIStatus.displayIpadUI==true?
+                           <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <li style={{listStyle:"none"}}>
+                              <ul style={{padding:"0px"}}>
+                                 <img
+                                    style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
+                                    width="30"
+                                    src="https://vignette.wikia.nocookie.net/pkmnshuffle/images/9/9d/Pichu.png/revision/latest?cb=20170407222851"
+                                  />
+                                <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}> <b>{name}</b></p>
+                                <p style={{width:"85%",height:"30px",overflow:"hidden"}}> {description} </p>
+                              </ul>
+                            </li>
+                          </a>:
+                           <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                              <li style={{listStyle:"none"}}>
+                                <ul style={{padding:"0px"}}>
+                                  <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
+                                     <img
+                                        style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
+                                        width="30"
+                                        src="https://vignette.wikia.nocookie.net/pkmnshuffle/images/9/9d/Pichu.png/revision/latest?cb=20170407222851"
+                                      />
+                                  </p>
+                                </ul>
+                              </li>
+                            </a>
+                      }
+                    </>
+                  :
+                  <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                    <li style={{listStyle:"none"}}>
+                       {this.handleLockIconChange(isUnlocked)}
+                    </li>
 
-                  <li style={{listStyle:"none"}}>
-                    <img
-                      style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
-                      width="30"
-                      src="https://vignette.wikia.nocookie.net/pkmnshuffle/images/9/9d/Pichu.png/revision/latest?cb=20170407222851"
-                    />
-                  </li>
-                  <li style={{listStyle:"none"}}>
-                    <ul style={{padding:"0px"}}>
-                      <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
-                         {isUnlocked==true?
-                            <p>Unlock</p>:
-                            <p>Locked</p>
-                          } 
-                      </p>
-                      <p style={{color:"#5298F8",width:"85%",height:"20px",overflow:"hidden"}}> <b>{name}</b></p>
-                      <p style={{width:"85%",height:"30px",overflow:"hidden"}}> {description} </p>
-                    </ul>
-                  </li>
-                </a>
+                    <li style={{listStyle:"none"}}>
+                      <img
+                        style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
+                        width="30"
+                        src="https://vignette.wikia.nocookie.net/pkmnshuffle/images/9/9d/Pichu.png/revision/latest?cb=20170407222851"
+                      />
+                    </li>
+                    <li style={{listStyle:"none"}}>
+                      <ul style={{padding:"0px"}}>
+                        <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
+                           {isUnlocked==true?
+                              <p>Unlock</p>:
+                              <p>Locked</p>
+                            } 
+                        </p>
+                        <p style={{color:"#5298F8",width:"85%",height:"20px",overflow:"hidden"}}> <b>{name}</b></p>
+                        <p style={{width:"85%",height:"30px",overflow:"hidden"}}> {description} </p>
+                      </ul>
+                    </li>
+                  </a>
+                }
               </ul>;
 
   }
@@ -259,6 +298,18 @@ class FriendsGauge extends React.Component {
     }
 
   }
+  closePhoneEditNodesModal=()=>{
+      this.setState({
+        displayPhoneEditNodesModal:false
+      })
+  }
+
+  editFriendNodeActionTypeHandle=(actionType)=>{
+      this.setState({
+        displayFriendsGaugeEditModal:true,
+        friendsGaugeActionType:actionType
+      });
+  }
 
 
   render() {
@@ -267,30 +318,37 @@ class FriendsGauge extends React.Component {
         <ul style={{padding:"0px"}}>
           <li style={{listStyle:"none",marginBottom:"7%"}}>
             <ul style={{padding:"0px"}}>
-              <li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-                  <p style={{fontSize:"30px"}}><b>Friends Gauge</b></p>
-              </li>
-              {this.props.personalInformation.isOwnProfile==true?
-                <React.Fragment>
-                    <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                  <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({displayFriendsGaugeEditModal:true,friendsGaugeActionType:"Add"})}>
-                      Add level
-                  </li>
-                </a>
-                <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                  <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({displayFriendsGaugeEditModal:true,friendsGaugeActionType:"Remove"})}>
-                      Remove level
+              {this.props.mobileUIStatus.displayPhoneUI==false &&(
+                <li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"-5%"}}>
+                    <p style={{fontSize:"30px"}}><b>Friends Gauge</b></p>
                 </li>
-                </a>
+              )}
+              
+              {this.props.mobileUIStatus.displayDesktopUI==true &&(
+                  <>
+                    {this.props.personalInformation.isOwnProfile==true?
+                      <React.Fragment>
+                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({displayFriendsGaugeEditModal:true,friendsGaugeActionType:"Add"})}>
+                                Add level
+                            </li>
+                          </a>
+                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({displayFriendsGaugeEditModal:true,friendsGaugeActionType:"Remove"})}>
+                                Remove level
+                          </li>
+                          </a>
 
-                <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                  <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({displayFriendsGaugeEditModal:true,friendsGaugeActionType:"Promote"})}>
-                      Promote Someone
-                  </li>
-                </a>
-                </React.Fragment>:
-                <React.Fragment></React.Fragment>
-              }
+                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({displayFriendsGaugeEditModal:true,friendsGaugeActionType:"Promote"})}>
+                                Promote Someone
+                            </li>
+                          </a>
+                      </React.Fragment>:
+                      <React.Fragment></React.Fragment>
+                    }
+                  </>
+              )}
 
               {this.state.displayFriendsGaugeEditModal==true?
                   <FriendsGaugeEditModal
@@ -313,20 +371,33 @@ class FriendsGauge extends React.Component {
                       updateNode={this.updateNode}
                   />:<React.Fragment></React.Fragment>
               }
-              
-
             </ul>
-            <p> Random text to see how everything fits in place and stuff </p>
           </li>
 
-          <li style={{listStyle:"none"}}>
-              <ProgressBar
-                percent={this.state.currentPercentage}
-                filledBackground="linear-gradient(to right, #F6F4FA, #C8B0F4)"
-              >
-              {this.constructNodeElements()}
-              </ProgressBar>
-            </li>
+          <li  onClick={()=>this.setState({displayPhoneEditNodesModal:true})} style={{listStyle:"none"}}>
+            <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                <ProgressBar
+                  percent={this.state.currentPercentage}
+                  filledBackground="linear-gradient(to right, #F6F4FA, #C8B0F4)"
+                  height={20}
+                >
+                  {this.constructNodeElements()}
+                </ProgressBar>
+            </a>
+          </li>
+
+          {this.state.displayPhoneEditNodesModal==true &&(
+            <EditNodeModal
+              closeModal={this.closePhoneEditNodesModal}
+              triggerActionTypeChange={this.editFriendNodeActionTypeHandle}
+            />
+          )}
+          {(this.props.mobileUIStatus.displayDesktopUI==false &&
+            this.props.mobileUIStatus.displayPhoneUI==false) &&(
+              <MobileRecruitAndFriendsGaugeOptions
+                  editFriendNodeActionType={this.editFriendNodeActionTypeHandle}
+              />
+          )}
         </ul>
       )
   }

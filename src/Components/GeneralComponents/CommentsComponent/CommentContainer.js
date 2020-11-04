@@ -7,9 +7,18 @@ import {createComment,createReply} from "../../../Actions/Requests/PostAxiosRequ
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import {connect} from "react-redux";
 
+const Container=styled.div`
+	@media screen and (max-width:420px){
+		#profilePictureLI{
+			height:40% !important;
+			display:none;
+		}
+    }
+`;
 const CommentContainerDiv=styled.div`
 	position:relative;
 	width:50%;
+	
 `;
 
 const CommentCreationContainer=styled.div`
@@ -133,7 +142,7 @@ class CommentsContainer extends Component{
 		return <ul style={{color:"#03A9F4",marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
+						<li id="profilePictureLI" style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
 							<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture} style={ProfilePicture}/>
 						</li>
 						<li style={{listStyle:"none",display:"inline-block"}}>
@@ -400,7 +409,7 @@ _id: "5f5397209c484c08c99c389d"
 		console.log(key);
 		console.log(this.state.keyToDisplayReplyCreation)
 		if(key==this.state.keyToDisplayReplyCreation && this.state.displayReplyCreation==true){
-			return <ul style={{padding:"0px"}}>
+			return <ul style={{padding:"0px",backgroundColor:"white"}}>
 						<li style={{listStyle:"none"}}>
 							<ExtendedTextArea id="reply"/>
 						</li>
@@ -429,7 +438,7 @@ _id: "5f5397209c484c08c99c389d"
 
 	render(){
 		return(
-			<React.Fragment>
+			<Container>
 				<ul style={{padding:"0px",backgroundColor:"white"}}>
 					{this.createCommentUI()}
 					{this.state.comments.map(data=>
@@ -440,7 +449,7 @@ _id: "5f5397209c484c08c99c389d"
 						</li>
 					)}
 				</ul>
-			</React.Fragment>
+			</Container>
 		)
 	}
 }
