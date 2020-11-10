@@ -7,9 +7,31 @@ const Container=styled.div`
 	position:relative;
 	width:80%;
 	height:25%;
-	background-color:white;
 	padding:10px;
 	border-radius:5px;
+
+	@media screen and (max-width:1030px){
+		width:200%;
+		#postCommentsLI{
+			display:none !important;
+		}
+		#profilePictureInformation{
+			display:none !important;
+		}
+	}
+
+
+	@media screen and (max-width:450px){
+		width:40%;
+		display:flex;
+	}
+
+	@media screen and (max-width:740px) and (max-height:420px){
+	 	height:70% !important;
+    }
+
+
+
 `;
 
 const ProfilePicture=styled.div`
@@ -26,6 +48,10 @@ const ProfilePicture=styled.div`
 	border-style:solid;
 	border-width:2px;
 	border-color:#5298F8;
+	@media screen and (max-width:450px){
+		width:80% !important;
+		height:50% !important;
+	}
 `;
 
 const PostCommentsAndLikesButtons=styled.div`
@@ -41,11 +67,17 @@ const PostCommentsAndLikesButtons=styled.div`
 
 const Post=styled.div`
 	position:relative;
-	width:450px;
 	height:50%;
+	width:90%;
 	overflow-y:scroll;
 	font-size:15px;
 	padding-top:30px;
+
+	@media screen and (max-width:450px){
+		display:flex;
+		height: 80% !important;
+		width:130% !important;
+	}
 `;
 
 const CommentsProfile=styled.div`
@@ -84,13 +116,13 @@ const IndustryButtonCSS={
 	listStyle:"none",
 	padding:"5px",
 	marginLeft:"12%",
-	width:"60%",
 	borderColor:"#5298F8",
 	borderStyle:"solid",
 	borderWidth:"1px",
 	color:"#5298F8",
 	backgroundColor:"white",
-	borderRadius:"5px"					
+	borderRadius:"5px",
+	display:"inline-block"					
 }
 
 const CommentButtonCSS={
@@ -122,16 +154,8 @@ const SmallRegularPosts=(props)=>{
 	return(
 		<Container>
 			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",width:"30%",display:"inline-block",marginTop:"0%"}}>
+				<li id="profilePictureInformation" style={{listStyle:"none",width:"30%",display:"inline-block",marginTop:"0%"}}>
 						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",marginBottom:"5%"}}>
-								<ProfilePicture>
-									{profilePicture==null?
-									 	<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-									 	<img id="profilePicture" src={profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
-									}													    
-								</ProfilePicture>
-							</li>
 							{post.industriesUploaded[0]!=null?
 								<li style={IndustryButtonCSS}>
 										<p>{post.industriesUploaded[0].industry}</p>
@@ -140,7 +164,7 @@ const SmallRegularPosts=(props)=>{
 						</ul>
 					</li>
 
-					<li style={{listStyle:"none",display:"inline-block"}}>
+					<li id="postContainer" style={{listStyle:"none",display:"inline-block"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								<Post>
@@ -150,10 +174,11 @@ const SmallRegularPosts=(props)=>{
 											<source src={post.post} type="audio/mpeg"/>
 											Your browser does not support the audio element.
 										</audio>:<React.Fragment>{post.post}</React.Fragment>
+										
 									}
 								</Post>
 							</li>
-							<li style={{listStyle:"none"}}>
+							<li id="postCommentsLI" style={{listStyle:"none"}}>
 								<ul>
 									{post.comments.regularComments.length==0?
 										<li style={{listStyle:"none"}}>

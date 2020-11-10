@@ -8,6 +8,14 @@ import {connect} from "react-redux";
 import {sendChatRoomMessage} from "../../../../../Actions/Requests/SocketIORequests";
 
 
+const Container=styled.div`
+	@media screen and (max-width:1370px){
+    	#chatContainerUL{
+    		margin-left:-20% !important;
+    	}
+    }
+`;
+
 const ChatContainer=styled.div`
 	positiion:absolute;
 `;
@@ -94,10 +102,9 @@ const ExtendedMessageBox=styled.div`
 
 const ChatAndIndustryInfoContainer=styled.div`
 	position:fixed;
-	width:22%;
-	height:45%;
-	top:45%;
-	left:75%;
+	width:100%;
+	height:100%;
+	left:0%;
 	border-radius:5px;
 	overflow-y:auto;
 	transition:.8s;
@@ -227,7 +234,7 @@ class ChatRoom extends Component{
 
 		return(
 			<React.Fragment>
-				<ul style={{padding:"0px"}}>
+				<ul id="chatContainerUL" style={{padding:"0px"}}>
 					<li style={{listStyle:"none",display:"inline-block",marginLeft:"55%"}}>
 						{this.handleDisplayTextBox()}
 					</li>

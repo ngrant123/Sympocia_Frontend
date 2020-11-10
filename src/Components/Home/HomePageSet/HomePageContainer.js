@@ -191,13 +191,28 @@ class HomePageContainer extends Component{
 			profileId:"",
 			displayConfetti:false,
 			isLoading:true,
-			hideOnboarding:true
+			hideOnboarding:true,
+			displayDesktopUI:false
 		}
 	}
 
+
+	triggerUIChange=()=>{
+		if(window.innerWidth<1370){
+			this.setState({
+				displayDesktopUI:false
+			})
+
+		}else{
+			this.setState({
+				displayDesktopUI:true
+			})
+		}
+	}
 	async componentDidMount(){
 		/*
 		*/
+		window.addEventListener('resize',this.triggerUIChange)
 		console.log(this.props);
 		var profile;
 		var symposiumsMap;
@@ -228,6 +243,7 @@ class HomePageContainer extends Component{
 			isLoading:false,
 			hideOnboarding:profile.firstTimeLoggedIn.explorePage
 		})
+		this.triggerUIChange();
 		debugger;
 	}
 
@@ -383,6 +399,7 @@ class HomePageContainer extends Component{
 		return(
 			<HomeProvider
 				value={{
+					isDesktop:this.state.displayDesktopUI,
 					personalInformationState:this.state.profile,
 					isPersonalProfile:this.state.isPersonalProfile,
 					displaySymposium:(data)=>{
@@ -441,76 +458,70 @@ class HomePageContainer extends Component{
 									Home for you like for what you subscribed
 									and something like a mix between what you already like and what you may like
 						*/}
-						<PageIndicator>
-							<ul>
-								<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
-									<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-										<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+						{this.state.displayDesktopUI==true &&(
+							<PageIndicator>
+								<ul>
+									<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
+										<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+											<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none"}}>
+														<ExploreIcon
+															style={{fontSize:50}}
+														/>
+													</li>
+
+													<li style={{listStyle:"none"}}>
+														Explore
+													</li>
+												</ul>
+											</ExploreIconContainer>
+										</a>
+									</li>
+									<li style={{listStyle:"none"}}>
+										<ForYouIconContainer>
 											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none"}}>
-													<ExploreIcon
-														style={{fontSize:50}}
+												<li onClick={()=>this.props.history.push({
+														pathname:'/symposiumList'
+													})} style={{listStyle:"none",marginBottom:"20%"}}>
+														<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+															<AppsIcon
+																style={{fontSize:40}}
+															/>
+														</a>
+												</li>
+												<hr/>
+												
+												<li style={{listStyle:"none",marginBottom:"10%"}}>
+													<PersonPinIcon
+														style={{fontSize:40}}
 													/>
 												</li>
-
-												<li style={{listStyle:"none"}}>
-													Explore
+												<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
+													<ul style={{padding:"0px"}}>
+														{this.state.recruitsPost!=null?
+															<React.Fragment>
+																{this.state.recruitsPost.map(data=>
+																	<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
+																		<a style={{textDecoration:"none"}} href="javascript:void(0);">
+																			<img src={data.profilePicture==null?
+																					  NoProfileIcon:
+																					  data.profilePicture} 
+																			style={RecruitImageCSS}/>
+																		</a>
+																	</li>
+																)}
+															</React.Fragment>:null
+														}
+													</ul>
 												</li>
 											</ul>
-										</ExploreIconContainer>
-									</a>
-								</li>
-								<li style={{listStyle:"none"}}>
-									<ForYouIconContainer>
-										<ul style={{padding:"0px"}}>
-											<li onClick={()=>this.props.history.push({
-													pathname:'/symposiumList'
-												})} style={{listStyle:"none",marginBottom:"20%"}}>
-													<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-														<AppsIcon
-															style={{fontSize:40}}
-														/>
-													</a>
-											</li>
-											<hr/>
-											{/*
-												<li style={{listStyle:"none",marginBottom:"20%"}}>
-													<a onClick={()=>this.handleDisplayPlayListPage()}style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-														<PlaylistAddIcon
-															style={{fontSize:40}}
-														/>
-													</a>
-												</li>
-											*/}
-											
-											<li style={{listStyle:"none",marginBottom:"10%"}}>
-												<PersonPinIcon
-													style={{fontSize:40}}
-												/>
-											</li>
-											<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
-												<ul style={{padding:"0px"}}>
-													{this.state.recruitsPost!=null?
-														<React.Fragment>
-															{this.state.recruitsPost.map(data=>
-																<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
-																	<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																		<img src={data.profilePicture==null?
-																				  NoProfileIcon:
-																				  data.profilePicture} 
-																		style={RecruitImageCSS}/>
-																	</a>
-																</li>
-															)}
-														</React.Fragment>:null
-													}
-												</ul>
-											</li>
-										</ul>
-									</ForYouIconContainer>
-								</li>
-							</ul>
-						</PageIndicator>
+										</ForYouIconContainer>
+									</li>
+								</ul>
+							</PageIndicator>
+						)}
+
 						{this.state.isLoading==true?<LoadingScreen/>:
 							<React.Fragment>
 								{this.displaySelectedScreen()}

@@ -18,7 +18,27 @@ const Container=styled.div`
 	height:125%;
 	overflow-y:scroll;
 	padding:10px;
-	padding-right:20px;
+
+	@media screen and (max-width:1030px){
+		width:130%;
+		#postContainer{
+			width:90%;
+		}
+		#smallContainerLI{
+			display:block !important;
+		}
+	}
+
+	@media screen and (max-width:450px){
+		width:150% !important;
+		#headerContainerLI{
+			margin-bottom:5% !important;
+			width:350px !important;
+		}
+		#postContainer{
+			width:150% !important;
+		}
+	}
 `;
 
 const RegularPostContainer=styled.div`
@@ -158,14 +178,14 @@ class RegularPostsContainer extends Component{
 																						postType={"post"}
 																						profilePageType={this.props.profile}
 																					/>:
-																<ul style={{padding:"0px"}}>
+																<ul id="postContainer" style={{padding:"0px"}}>
 																	{this.props.posts.headerPost==null?null:
 																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																			<li onClick={()=>this.displayPostModal(
+																			<li id="headerContainerLI" onClick={()=>this.displayPostModal(
 																								postDisplayModal,
 																								companyPostDisplayModal,
 																								this.props.posts.headerPost,
-																								postsConsumer)} style={{listStyle:"none",marginBottom:"2%"}}>
+																								postsConsumer)} style={{listStyle:"none",marginBottom:"2%",marginBottom:"2%"}}>
 																				<HeaderPost
 																					post={this.props.posts.headerPost}
 																					profilePicture={this.props.profilePicture}
@@ -178,7 +198,7 @@ class RegularPostsContainer extends Component{
 																			<ul style={{padding:"0px"}}>
 																				{this.props.posts.posts.map(data=>
 																					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																						<li  onClick={()=>this.displayPostModal(
+																						<li id="smallContainerLI"  onClick={()=>this.displayPostModal(
 																											postDisplayModal,
 																											companyPostDisplayModal,
 																											data,

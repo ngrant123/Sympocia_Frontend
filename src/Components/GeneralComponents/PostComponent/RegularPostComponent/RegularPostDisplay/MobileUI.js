@@ -6,7 +6,7 @@ import Comments from "../../../CommentsComponent/index.js";
 import PollOptionPortal from "../../PollOptionPortal.js";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import EditVideoModal from "../VideoCreation/EditVideoModal.js";
+import RegularPostCreation from "../RegularPostCreation/index.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";
 
@@ -18,25 +18,54 @@ import {
 
 const Container=styled.div`
 	position:relative;
-	width:100%;
+	background-color:white;
+	width:150%;
 	height:100%;
 	overflow:scroll;
-	background-color:white;
-	border-radius:5px;
 
-
-	@media screen and (max-width:420px){
-		width:110% !important;
-		height:80% !important;
-		margin-left:0% !important;
-		#video{
-			height:100% !important;
+	@media screen and (max-width:1370px) and (max-height:1030px){
+    	#postDiv{
+			margin-left:5% !important;
 		}
     }
+
+	@media screen and (max-width:1030px){
+		#postDiv{
+			margin-left:5% !important;
+		}
+	}
+	@media screen and (max-width:830px){
+		width:80%;
+		left:10% !important;
+		#postInformationLI{
+			display:none !important;
+		}
+		#postOptionsLI{
+			display:none !important;
+		}
+		#postDiv{
+			margin-left:10% !important;
+		}
+    }
+
+
+    @media screen and (max-width:500px){
+    	width:100% !important;
+    	padding:20px !important;
+    	margin-left:-7% !important;
+    	height:80% !important;
+    }
+
+    @media screen  and (max-width:730px) and (max-height:420px) 
+	  and (orientation: landscape) 
+	  and (-webkit-min-device-pixel-ratio: 1){
+ 		height:800px !important;
+    }
+ 
 `;
 
 
-const VideoInformationContainer=styled.div`
+const PostInformationContainer=styled.div`
 	position:absolute;
 	width:40%;
 	height:82%;
@@ -45,7 +74,7 @@ const VideoInformationContainer=styled.div`
 	top:30px;
 	overflow-y:scroll;
 
-	@media screen and (max-width:1370px){
+	@media screen and (max-width:1030px){
 		width:80% !important;
 		height:100% !important;
 		margin-left:8% !important;
@@ -79,7 +108,7 @@ const VideoInformationContainer=styled.div`
 	@media screen and (max-width:420px){
 		width:100% !important;
 		height:100% !important;
-		margin-left:8% !important;
+		margin-left:-8% !important;
 		padding:10px;
 		border-radius:5px;
 		margin-top:20% !important;
@@ -143,7 +172,6 @@ const TogglePostInformationButton=styled.div`
 	top:10%;
 	text-align:center;
 	z-index:10;
-	backface-visibility: hidden;
 	@media screen and (max-width:1370px) and (max-height:1030px){
 	 	top:15%; !important;
 		height:10%;
@@ -157,7 +185,7 @@ const TogglePostInformationButton=styled.div`
 
 `;
 
-const PostInformationContainer=styled.div`
+const InformationContainer=styled.div`
 	position:absolute;
 	width:120%;
 	left:-10%;
@@ -171,6 +199,15 @@ const PostInformationContainer=styled.div`
     }
 	@media screen and (max-width:740px) and (max-height:420px){
 		height:90% !important;
+		width:80% !important;
+    }
+    @media screen and (max-width:1030px){
+    	margin-left:10% !important;
+		width:70% !important;
+    }
+    @media screen and (max-width:420px){
+    	margin-left:20% !important;
+		width:50% !important;
     }
 `;
 const VideoDesriptionContainer=styled.div`
@@ -199,6 +236,15 @@ const IndustryButton=styled.div`
 	}
 `;
 
+const PostContent=styled.div`
+	position:relative;
+	width:90%;
+	height:140px;
+	overflow-y:auto;
+	font-size:20px;
+`;
+
+
 const ButtonCSS={
   listStyle:"none",
   display:"inline-block",
@@ -212,16 +258,6 @@ const ButtonCSS={
   marginRight:"4%"
 }
 
-const BackButtonCSS={
-	borderColor:"#5298F8",
-	borderStyle:"solid",
-	borderWidth:"1px",
-	color:"#5298F8",
-	backgroundColor:"white",
-	borderRadius:"5px",
-	padding:"10px",
-	listStyle:"none"
-}
 
 const ShadowButtonCSS={
 	display:"inline-block",
@@ -237,27 +273,26 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
-	console.log(videoData);
+const MobileUI=({postData,isChromeBrowser,targetDom,deletePost,userPostsInformation})=>{
+	console.log(postData);
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
 	const [displayInformation,changeDisplayInformation]=useState(false);
 	const [displayPollOption,changeDisplayPollOption]=useState(false);
-	const [displayVideoImageModal,changeDisplayVideoImageModal]=useState(false);
+	const [displayRegularPostModal,changeDisplayRegularPostModal]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
-
-
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 
-		if(videoData.isPostAuthentic!=null){
-			var approvesPostNumber=videoData.isPostAuthentic.numOfApprove!=null?
-								   videoData.isPostAuthentic.numOfApprove.length:null;
+		if(postData.isPostAuthentic!=null){
+			var approvesPostNumber=postData.isPostAuthentic.numOfApprove!=null?
+								   postData.isPostAuthentic.numOfApprove.length:null;
 
-			var disapprovesPostNumber=videoData.isPostAuthentic.numOfDisapprove!=null?
-									  videoData.isPostAuthentic.numOfDisapprove.length:null;
+			var disapprovesPostNumber=postData.isPostAuthentic.numOfDisapprove!=null?
+									  postData.isPostAuthentic.numOfDisapprove.length:null;
 		}
+
 
 	const closeModal=()=>{
 		changeDisplayPollingModal(false);
@@ -301,8 +336,8 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
 		changeDisplayPollOption(false);
 	}
 	const editPost=(data)=>{
-		changeDisplayVideoImageModal(false);
-		videoData.contextLocation.editPost(data);
+		changeDisplayRegularPostModal(false);
+		postData.contextLocation.editPost(data);
 	}
 
 	const postInformation=()=>{
@@ -312,43 +347,35 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
 					<PostInformationContainer>
 						{displayComments==true &&(
 							<CommentContainer>
-								<li style={{listStyle:"none",marginTop:"30%"}}>
-									<Comments
-										postId={videoData._id}
-										postType={"Video"}
-										hideComments={hidePostDisplayInformationContainer}
-										targetDom={targetDom}
-									/>
-								</li>
-						 		
+						 		<Comments
+									postId={postData._id}
+									postType={"RegularPost"}
+									hideComments={hidePostDisplayInformationContainer}
+									targetDom={targetDom}
+								/>
 							</CommentContainer>
 						)}
 						{displayInformation==true &&(
-							<VideoInformationContainer>
+							<InformationContainer>
 								{displayPollingModal==true?
 									<PollOptionPortal
 										closeModal={closeModal}
 										displayApproveModal={displayApproveModal}
-										postId={videoData._id}
+										postId={postData._id}
 										postType="Videos"
 										targetDom={targetDom}
 									/>:null
 								}
-								<ul id="postLIContainer" style={{marginTop:"30%",padding:"0px",width:"140%"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>hidePostDisplayInformationContainer()} style={BackButtonCSS}>
-											Back
-										</li>
-									</a>
+								<ul id="postLIContainer" style={{padding:"0px",width:"140%"}}>
 									<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none"}}>
-												<p style={{fontSize:"20px"}}>{videoData.firstName}</p>
+												<p style={{fontSize:"20px"}}>{postData.firstName}</p>
 											</li>
-											{videoData.industriesUploaded.length>0 &&(
+											{postData.industriesUploaded.length>0 &&(
 												<li style={{listStyle:"none"}}>	
 													<IndustryButton>
-														{videoData.industriesUploaded[0].industry}
+														{postData.industriesUploaded[0].industry}
 													</IndustryButton>
 												</li>
 											)}
@@ -367,16 +394,7 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
 										</li>
 									</a>
 								</ul>
-
-								<p style={{height:"30%",width:"90%",fontSize:"40px"}}>
-									<b>
-										{videoData.title}
-									</b>
-								</p>
-								<p style={{height:"35%",overflow:"hidden"}}> 
-									 {videoData.description}
-								 </p>
-							</VideoInformationContainer>
+							</InformationContainer>
 						)}
 					</PostInformationContainer>
 				)}
@@ -386,46 +404,50 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
 
 	const createOrRemoveStampEffect=()=>{
 		if(displayStampEffect==false){
-			addStampPost(videoData.owner,videoData._id,"personal","ImagePost");
+			addStampPost(postData.owner,postData._id,"personal","ImagePost");
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(videoData.owner,videoData._id,"personal","ImagePost");
+			unStampPost(postData.owner,postData._id,"personal","ImagePost");
 			changeDisplayStampEffect(false);
 		}
 	}
+
+	const handleRemovePost=async()=>{
+		const removeRegularPost={
+			postType:"RegularPosts",
+			postId:postData._id,
+			industriesUploaded:postData.industriesUploaded
+		}
+		const {confirmation,data}=await deletePost(removeRegularPost);
+		debugger;
+		if(confirmation=="Success"){
+			postData.contextLocation.removePost(postData._id,"RegularPosts");
+		}else{
+			alert('Unfortunately there has been an error deleting this post. Please try again');
+		}
+	}
+
 	return (
 		<React.Fragment>
-			{displayVideoImageModal==false?
+			{displayRegularPostModal==false?
 				<Container>
 					<ul style={{padding:"10px"}}>
-						<li style={{listStyle:"none",marginBottom:"5%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-									{(videoData.videoDescription==null && isChromeBrowser==true)==false?null:
-										<VideoDesriptionContainer>
-											<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls muted>
-												<source src={videoData.videoDescription} type="video/mp4"/>
-											</video>
-										</VideoDesriptionContainer>
+						<div id="postDiv" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"120%"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<TogglePostInformationButton
+									onClick={()=>displayPostInformationTrigger()}
+								>
+									{displayInformation==false?
+										<ExpandMoreIcon
+											style={{fontSize:30}}
+										/>
+										:<ExpandLessIcon
+											style={{fontSize:30}}
+										/>
 									}
-								</li>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{(videoData.audioDescription==null && isChromeBrowser==true)==false?null:
-										<audio style={{width:"150px"}} controls>
-											<source src={videoData.audioDescription} type="audio/ogg"/>
-											<source src={videoData.audioDescription} type="audio/mpeg"/>
-											Your browser does not support the audio element.
-										</audio>
-									}
-								</li>
-							</ul>
-						</li>
-						<div id="video" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"120%"}}>
-		
-							<video  key={videoData.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay>
-							    <source src={videoData.videoUrl} type="video/mp4"/>
-							</video>
-							
+									
+								</TogglePostInformationButton>
+							</a>
 							{displayStampEffect==true &&(
 								<StampIconEffect
 									id="stampEffect"
@@ -433,6 +455,16 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
 									<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
 								</StampIconEffect>
 							)}
+							{postData.isAudioPost==null || postData.isAudioPost==false?
+								<PostContent id="postContent">
+									{postData.post}
+								</PostContent>:
+								<audio style={{width:"90%"}} controls>
+									<source src={postData.post} type="audio/ogg"/>
+									<source src={postData.post} type="audio/mpeg"/>
+									Your browser does not support the audio element.
+								</audio>
+							}
 							{postInformation()}
 						</div>
 						<hr/>
@@ -456,7 +488,7 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
 									</li>
 								</a>
 								<a href="javascript:void(0);">
-									<li onClick={()=>changeDisplayVideoImageModal(true)} style={ShadowButtonCSS}>
+									<li onClick={()=>changeDisplayRegularPostModal(true)} style={ShadowButtonCSS}>
 										<BorderColorIcon
 											style={{fontSize:30}}
 										/>
@@ -464,7 +496,7 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
 								</a>
 
 								<a href="javascript:void(0);">
-									<li onClick={()=>deletePost()} style={ShadowButtonCSS}>
+									<li onClick={()=>handleRemovePost()} style={ShadowButtonCSS}>
 										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
 										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 										  <line x1="4" y1="7" x2="20" y2="7" />
@@ -475,27 +507,14 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
 										</svg>
 									</li>
 								</a>
-
-								<a href="javascript:void(0);">
-									<li onClick={()=>displayPostInformationTrigger()} style={ShadowButtonCSS}>
-										{displayInformation==false?
-											<ExpandLessIcon
-												style={{fontSize:30}}
-											/>:
-											<ExpandMoreIcon
-												style={{fontSize:30}}
-											/>
-										}
-									</li>
-								</a>
 							</ul>
 						</li>
 					</ul>
 				</Container>
-				:<EditVideoModal
-					videoSrc={videoData.videoUrl}
-					previousData={videoData}
-					editPost={editPost}
+				:
+				<RegularPostCreation 
+					previousData={postData}
+					contextLocation={userPostsInformation}
 				/>
 			}
 		</React.Fragment>
@@ -503,3 +522,7 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
 }
 
 export default MobileUI;
+
+
+
+

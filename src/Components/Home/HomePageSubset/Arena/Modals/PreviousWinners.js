@@ -14,6 +14,16 @@ const Container=styled.div`
 	overflow-y:auto;
 	background-color:white;
 	padding:20px;
+
+	@media screen and (max-width:1370px){
+		width:90% !important;
+		left:5% !important;
+		#postLI{
+			width:80% !important;
+			margin-left:-5% !important;
+			height:80% !important;
+		}
+	}
 `;
 
 
@@ -78,7 +88,7 @@ Could later on add a search bar
 */
 
 const PreviousWinnersModal=({closeModal,postType,currentPosts})=>{
-	debugger;
+
 	const [posts,changePosts]=useState([...currentPosts]);
 	const constructDate=(dateMilliseconds)=>{
 		const newDate=new Date(dateMilliseconds).toLocaleDateString();
@@ -89,7 +99,7 @@ const PreviousWinnersModal=({closeModal,postType,currentPosts})=>{
 		return(
 			<>
 				{posts.map(data=>
-					<li style={{listStyle:"none",display:"inline-block",width:"30%",marginLeft:"2%",marginBottom:"5%"}}>
+					<li id="postLI" style={{listStyle:"none",display:"inline-block",width:"30%",marginLeft:"2%",marginBottom:"5%"}}>
 						<ul style={{padding:"0px"}}>
 							{/*
 								<li style={DateCaption}>
@@ -130,7 +140,7 @@ const PreviousWinnersModal=({closeModal,postType,currentPosts})=>{
 		return(
 			<>
 				{posts.map(data=>
-					<li style={{listStyle:"none",display:"inline-block",width:"45%",marginLeft:"2%",marginBottom:"5%"}}>
+					<li id="postLI" style={{listStyle:"none",display:"inline-block",width:"45%",marginLeft:"2%",marginBottom:"5%"}}>
 						<ul style={{padding:"0px"}}>
 							{/*
 								<li style={DateCaption}>
@@ -173,7 +183,7 @@ const PreviousWinnersModal=({closeModal,postType,currentPosts})=>{
 	const blogWinners=(arenaContext)=>{
 		return <>
 					{posts.map(data=>
-						<li style={{listStyle:"none",display:"inline-block",width:"30%",marginLeft:"2%",marginBottom:"5%"}}>
+						<li id="postLI" style={{listStyle:"none",display:"inline-block",width:"30%",marginLeft:"2%",marginBottom:"5%"}}>
 							<ul style={{padding:"0px"}}>
 								{/*
 									<li style={DateCaption}>
@@ -220,7 +230,7 @@ const PreviousWinnersModal=({closeModal,postType,currentPosts})=>{
 	const regularPostWinners=(arenaContext)=>{
 		return  <>
 					{posts.map(data=>
-						<li style={{listStyle:"none",display:"inline-block",width:"45%",marginLeft:"2%",marginBottom:"5%"}}>
+						<li id="postLI" style={{listStyle:"none",display:"inline-block",width:"45%",marginLeft:"2%",marginBottom:"5%"}}>
 							<ul style={{padding:"0px"}}>
 								{/*
 									<li style={DateCaption}>

@@ -32,21 +32,26 @@ const Container=styled.div`
 			display:none !important;
 		}
     }
-
-	@media screen and (max-width:500px){
-		width:100%;
-		left:0% !important;
-    }
-    @media screen and (max-width:1370px) and (max-height:1030px){
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	#image{
 			height:140% !important;
 		}
     }
-    @media screen and (max-width:740px) and (max-height:420px){
+    @media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
 	 	#image{
-			height:150% !important;
+			height:70% !important;
 		}
     }
+
+    @media screen and (max-width:500px){
+		width:100%;
+		left:0% !important;
+		 #image{
+			height:60% !important;
+		}
+    }
+ 
+
 `;
 
 const CommentContainer=styled.div`
@@ -67,22 +72,30 @@ const CommentContainer=styled.div`
 `;
 const TogglePostInformationButton=styled.div`
 	position:absolute;
-	width:10%;
+	width:20%;
 	height:5%;
 	border-radius:50%;
 	left:85%;
 	background-color:white;
-	top:10%;
+	top:7%;
 	text-align:center;
-	@media screen and (max-width:1370px) and (max-height:1030px){
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	top:15%; !important;
 		height:10%;
 		width:7%;
     }
-	@media screen and (max-width:740px) and (max-height:420px){
-			top:15%; !important;
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+			top:10%; !important;
 			height:10%;
 			width:7%;
+    }
+    @media screen and (max-width:1370px){
+		width:7%;
+    }
+
+	@media screen and (max-width:420px){
+		height:10%;
+		width:15%;
     }
 
 `;
@@ -96,7 +109,7 @@ const PostInformationContainer=styled.div`
 	height:40%;
 
 	@media screen and (max-width:1370px) and (max-height:1030px){
-	 	height:100% !important;
+	 	height:10% !important;
     }
 	@media screen and (max-width:740px) and (max-height:420px){
 		height:90% !important;
@@ -261,7 +274,7 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost})=>{
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"20px"}}>
 								<a href="javascript:void(0);">
-									<li onClick={()=>changeDisplayStampEffect(true)} style={ShadowButtonCSS}>
+									<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
 										<LoyaltyIcon
 											style={{fontSize:30}}
 										/>

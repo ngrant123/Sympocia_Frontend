@@ -9,6 +9,15 @@ import STEMRelatedFeatures from "./STEMRelatedFeatures.js";
 import SYMPOSIUM_FEATURES from "../../../../../../Constants/featureSymposiumConstants.js";
 import {FeatureProvider} from "./FeatureContext.js";
 
+const Container=styled.div`
+	@media screen and (max-width:1370px){
+    	height:90% !important;
+    	#symposiumFeatureContainerUL{
+    		top:20% !important;
+    		height:90% !important;
+    	}
+    }
+`;
 
 const ChatOption={
   listStyle:"none",
@@ -133,8 +142,8 @@ const SpecificFeatureSymposium=({symposium,symposiumId,questions})=>{
 			}}
 		>
 			{isLoadingFeatureSymposiums==false?
-				<div>
-					<ul style={{padding:"0px",position:"fixed",top:"45%"}}>
+				<Container>
+					<ul id="symposiumFeatureContainerUL" style={{padding:"0px",position:"fixed",top:"45%"}}>
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 							<li style={ChatOption}>
 								Show chat 
@@ -146,7 +155,7 @@ const SpecificFeatureSymposium=({symposium,symposiumId,questions})=>{
 							{featureDecider()}
 						</li>
 					</ul>
-				</div>:
+				</Container>:
 				null
 			}
 		</FeatureProvider>

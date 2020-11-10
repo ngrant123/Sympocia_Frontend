@@ -16,6 +16,42 @@ import {
 		exploreRegularPosts
 	} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
+const Container=styled.div`
+
+	@media screen and (max-width:1370px) and (max-height:1030px){
+    	#mobileArenaLI{
+    		width:10% !important;
+			margin-left:40% !important;
+    	}
+    }
+	
+   
+	@media screen and (max-width:1030px){
+		#exploreDescriptionLI{
+			display:none !important;
+		}
+		#mobileArenaLI{
+    		width:15% !important;
+			margin-left:35% !important;
+    	}
+	}
+
+	@media screen and (max-width:460px){
+		#exploreDescriptionLI{
+			display:none !important;
+		}
+		#mobileArenaLI{
+    		width:35% !important;
+			margin-left:27% !important;
+    	}
+	}
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	#mobileArenaLI{
+    		width:20% !important;
+			margin-left:35% !important;
+  		}
+    }
+`;
 const CommentCreationContainer=styled.div`
 	position:relative;
 	width:80px;
@@ -60,6 +96,23 @@ const ArenaContainer=styled.div`
   }
 `;
 
+const MobileArenaContainer=styled.div`
+	border-color:white;
+	border-style:solid;
+	border-width:5px;
+	animation: glowing 1300ms infinite;
+	padding:5px;
+	border-radius:50%;
+	text-align:center;
+
+	@keyframes glowing {
+      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+  }
+
+`;
+
 const ArenaButtonCSS={
 	listStyle:"none",
 	display:"inline-block",
@@ -67,6 +120,16 @@ const ArenaButtonCSS={
 	padding:"10px",
 	boxShadow: "1px 1px 30px #d5d5d5"
 }
+
+const MobileArenaButtonCSS={
+	listStyle:"none",
+	borderRadius:"50%",
+	padding:"10px",
+	boxShadow: "1px 1px 30px #d5d5d5",
+	width:"30%",
+	marginLeft:"25%"
+}
+
 
 class SearchExploreContainer extends Component{
 
@@ -82,14 +145,31 @@ class SearchExploreContainer extends Component{
 			displayPersonalPage:false,
 			postOption:"Images",
 			postsInformation:[],
-			postCount:0
+			postCount:0,
+			displayDesktopUI:false
+		}
+	}
+
+
+	triggerUIChange=()=>{
+		if(window.innerWidth<1370){
+			this.setState({
+				displayDesktopUI:false
+			})
+
+		}else{
+			this.setState({
+				displayDesktopUI:true
+			})
 		}
 	}
 
 	componentDidMount(){
 		//If user just gets to the page set industry to general and postType to images
+		window.addEventListener('resize',this.triggerUIChange)
 		debugger;
 		this.changeHomePagePosts(this.state.postOption);
+		this.triggerUIChange();
 	}
 
 	handleCheckBoxCheck=()=>{
@@ -230,41 +310,77 @@ class SearchExploreContainer extends Component{
 		this.props.history.push('/arena');
 	}
 
+	mobileHeaderUI=()=>{
+		return  <li style={{listStyle:"none",marginBottom:"2%",marginTop:"30%"}}>
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li id="mobileArenaLI" onClick={()=>this.displayArenaPage()} style={MobileArenaButtonCSS}>
+							<MobileArenaContainer>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trophy" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								  <path stroke="none" d="M0 0h24v24H0z"/>
+								  <line x1="8" y1="21" x2="16" y2="21" />
+								  <line x1="12" y1="17" x2="12" y2="21" />
+								  <line x1="7" y1="4" x2="17" y2="4" />
+								  <path d="M17 4v8a5 5 0 0 1 -10 0v-8" />
+								  <circle cx="5" cy="9" r="2" />
+								  <circle cx="19" cy="9" r="2" />
+								</svg>
+							</MobileArenaContainer>
+						</li>
+					</a>
+					<li style={{listStyle:"none",width:"100%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",fontSize:"20px"}}>
+								<b>Explore Symposiums</b>
+							</li>
+							<li style={{listStyle:"none"}}>
+								Check out the posts that we think you might like here. 
+							</li>
+						</ul>
+					</li>
+				</li>
+	}
+
+	headerUI=()=>{
+		return <li style={{listStyle:"none",marginBottom:"2%"}}>
+					<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",fontSize:"40px"}}>
+								<b>Explore Symposiums</b>
+							</li>
+							<li id="exploreDescriptionLI" style={{listStyle:"none"}}>
+								Check out the posts that we think you might like here. 
+							</li>
+						</ul>
+					</li>
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li onClick={()=>this.displayArenaPage()} style={ArenaButtonCSS}>
+							<ArenaContainer>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trophy" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								  <path stroke="none" d="M0 0h24v24H0z"/>
+								  <line x1="8" y1="21" x2="16" y2="21" />
+								  <line x1="12" y1="17" x2="12" y2="21" />
+								  <line x1="7" y1="4" x2="17" y2="4" />
+								  <path d="M17 4v8a5 5 0 0 1 -10 0v-8" />
+								  <circle cx="5" cy="9" r="2" />
+								  <circle cx="19" cy="9" r="2" />
+								</svg>
+							</ArenaContainer>
+						</li>
+					</a>
+				</li>
+	}
+
 	render(){
 		return(
-			<React.Fragment>
+			<Container>
 
 				<ul style={{padding:"0px",marginLeft:"10%",marginTop:"8%"}}>
 					<li style={{listStyle:"none",marginBottom:"1%"}}>
 						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",marginBottom:"2%"}}>
-							 
-								<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",fontSize:"40px"}}>
-											<b>Explore Symposiums</b>
-										</li>
-										<li style={{listStyle:"none"}}>
-											Check out the posts that we think you might like here. 
-										</li>
-									</ul>
-								</li>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>this.displayArenaPage()} style={ArenaButtonCSS}>
-										<ArenaContainer>
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trophy" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z"/>
-											  <line x1="8" y1="21" x2="16" y2="21" />
-											  <line x1="12" y1="17" x2="12" y2="21" />
-											  <line x1="7" y1="4" x2="17" y2="4" />
-											  <path d="M17 4v8a5 5 0 0 1 -10 0v-8" />
-											  <circle cx="5" cy="9" r="2" />
-											  <circle cx="19" cy="9" r="2" />
-											</svg>
-										</ArenaContainer>
-									</li>
-								</a>
-							</li>
+							{this.state.displayDesktopUI==true?
+								<>{this.headerUI()}</>
+								:
+								<>{this.mobileHeaderUI()}</>}
 						{/*
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<IndustryOptions
@@ -283,7 +399,7 @@ class SearchExploreContainer extends Component{
 						/>
 					</li>
 				</ul>
-			</React.Fragment>
+			</Container>
 		)
 	}
 }

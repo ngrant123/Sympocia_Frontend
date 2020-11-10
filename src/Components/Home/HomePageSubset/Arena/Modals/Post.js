@@ -15,6 +15,17 @@ const Container=styled.div`
 	overflow-y:auto;
 	background-color:white;
 	padding:20px;
+
+	@media screen and (max-width:1370px){
+		width:90% !important;
+		left:5% !important;
+
+		#postLI{
+			height:70% !important;
+			width:150% !important;
+			margin-left:-25% !important;
+		}
+	}
 `;
 
 
@@ -108,7 +119,7 @@ const PostModal=({closeModal,postType,postData})=>{
 	const image=()=>{
 		return(
 			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
+				<li id="postLI" style={{listStyle:"none",display:"inline-block",width:"70%"}}>
 					<img src={postData.imgUrl} style={{width:"90%",height:"90%"}}/>
 				</li>
 				<hr/>
@@ -134,7 +145,7 @@ const PostModal=({closeModal,postType,postData})=>{
 	const video=()=>{
 		return(
 			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",display:"inline-block"}}>
+				<li id="postLI" style={{listStyle:"none",display:"inline-block"}}>
 					<video style={{borderRadius:"5px"}} width="100%" height="80%" autoplay="true" controls>
 						<source src={postData.videoUrl} type="video/mp4"/>
 					</video>
@@ -178,7 +189,7 @@ const PostModal=({closeModal,postType,postData})=>{
 
 				*/}
 
-					<li style={{listStyle:"none"}}>
+					<li id="postLI" style={{listStyle:"none"}}>
 						<Editor
 							editorState={blogContentState}
 							toolbarClassName="toolbarClassName"
@@ -186,6 +197,7 @@ const PostModal=({closeModal,postType,postData})=>{
 							editorClassName="editorClassName"
 							placeholder="Start typing to create your masterpiece"
 							readOnly={false}
+							toolbarHidden={true}
 						/>
 					</li>
 			   </ul>;

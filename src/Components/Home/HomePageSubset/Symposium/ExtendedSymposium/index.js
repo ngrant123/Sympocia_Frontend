@@ -41,304 +41,39 @@ import SymposiumOnboarding from "../../../../OnBoarding/SymposiumPageOnboarding.
 import LoadingScreen from "../../../../../LoadingAnimation.js";
 
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
+import {
+	SymposiumHeaderAnimation,
+	SymposiumContainer,
+	Container,
+	PopularContainer,
+	PopularVideos,
+	PostsChatInformation,
+	BackgroundModalContainer,
+	ActivePeopleContainer,
+	PostContainer,
+	ShadowContainer,
+	ExamplePosts,
+	PreventScrollScreen,
+	ExploreIconContainer,
+	PageIndicator,
+	SearchContainer,
+	SearchTextArea,
+	PostOptions,
+	VideoCallOption,
+	ChatContainer,
+	SymposiumFeatureContainer,
+	ChatAndIndustryInformationContainer,
+	ArrowDownContainer,
+	PostContainerTEst,
+	SymposiumChatContainer
+} from "./indexCSS.js";
 
- const keyFrameExampleTwo= keyframes`
-  0% {
-    width:100%;
-	height:42%;
-	left:0%;
-	top:0px;
-  }
-  100% {
-  	height:15%;
-    width:100%;
-  }
-`;
-
-
-const SymposiumHeaderAnimation=styled.div`
-	position:sticky;
-	top:0%;
-	background-color:red;
-	width:400px;
-	height:40%;
-	paddding-left:5px;
-	transition: transform 300ms ease-in-out;
-	boxShadow: "1px 1px 1px 1px #d5d5d5";
-	border-radius:5px;
-	z-index:3;
-	animation:${keyFrameExampleTwo} 1s ease-in-out 0s forwards;
-`;
-
-const SymposiumContainer=styled.div`
+const TEstContainer=styled.div`
 	position:absolute;
-	width:100%;
-	height:100%;
-	overflow:hidden;
+	width:95%;
+	height:97%;
 `;
 
-const Container=styled.div`
-	position:relative;
-	background: linear-gradient(to left, #9933ff 0%, #ff99ff 100%);
-	width:100%;
-	height:42%;
-	paddding-left:5px;
-	transition: transform 300ms ease-in-out;
-	boxShadow: "1px 1px 1px 1px #d5d5d5";
-	borderRadius:5px;
-	z-index:2;
-`;
-
-const PopularContainer=styled.div`
-
-	position:relative;
-	width:40%;
-	background-color:white;
-	height:25%;
-	top:70%;
-	left:30%;
-	border-radius:5px;
-	padding:10px;
-
-`;
-
-const PopularVideos=styled.div`
-	position:relative;
-	width:80px;
-	height:90%;
-	background-color:red;
-	border-radius:5px;
-`;
-
-const ActiveContainer =styled.div`
-	position:relative;
-	width:17%;
-	height:50%;
-	background-color:white;
-	top:15%;
-	left:10%;
-	padding:5px;
-	padding-top:10px;
-	overflow:auto;
-
-	-ms-overflow-style: none;  /* IE 10+ */
-    scrollbar-width: none;
-`;
-
-const ChatRoomContainer=styled.div`
-	position:fixed;
-	width:17%;
-	height:50%;
-	background-color:white;
-	top:15%;
-	left:80%;
-	padding:5px;
-	padding-top:10px;
-	overflow:auto;
-
-	-ms-overflow-style: none;  /* IE 10+ */
-    scrollbar-width: none;
-`;
-
-
-const ActiveProfilePictures=styled.div`
-	position:relative;
-	width:50px;
-	height:25%;
-	border-radius:50%;
-	background-color:red;
-
-`;
-
-
-const PostsChatInformation=styled.div`
-	position:relative;
-	top:0%;
-	width:100%;
-	height:45%;
-	left:0%;
-	z-index:2;
-	background-color:white;
-	opacity:0;
-	overflow-x:visible;
-  	transition:opacity 1s linear;
-  	padding-top:20px;
-  	filter: blur(4px);
-`;
-
-const SymposiumChoicesContainer=styled.div`
-	position:fixed;
-	width:50%;
-	height:10%;
-	left:23%;
-	box-shadow: 1px 5px 5px 1px #d5d5d5;
-	background-color:white;
-	border-radius:5px;
-	padding:10px;
-	overflow:hidden;
-	background-color:white;
-`;
-
-const SymposiumChoicesDiv=styled.div`
-	position:relative;
-	width:100%;
-	height:70%;
-	padding:10px;
-	border-radius:5px;
-	transition:.8s;
-	overflow:hidden;
-
-	&:hover{
-		box-shadow: 1px 5px 5px 1px #d5d5d5;
-	}
-`;
-
-const PostOptionsContainer=styled.div`
-	position:fixed;
-	width:15%;
-	height:20%;
-	border-radius:5px;
-	left:7%;
-	z-index:4;
-`;
-
-const Option=styled.div`
-	position:relative;
-	background-color:white;
-	border-radius:5px;
-	width:60%;
-	height:20%;
-	border-style:solid;
-	border-color:#5298F8;
-	border-width:1px;
-	text-align:center;
-	margin-bottom:10px;
-	transition:.8s;
-
-
-	&:hover{
-		background-color:#5298F8;
-		color:white;
-
-	}
-
-`;
-
-
-const BackgroundModalContainer= styled.div`
-	position:absolute;
-	width:100%;
-	height:100%;
-	background: rgba(0, 0, 0, 0.5);
-	z-index:15;
-`;
-
-
-const ChatAndIndustryInfoContainer=styled.div`
-	position:fixed;
-	width:22%;
-	height:45%;
-	top:45%;
-	left:75%;
-	border-radius:5px;
-	overflow:visible;
-	transition:.8s;
-	z-index:4;
-	background-color:red;
-`;
-
-const SubSymposiumsContainer=styled.div`
-	position:absolute;
-	background-color:white;
-	border-radius:5px;
-	width:40%;
-	height:50%;
-	z-index:3;
-	left:30%;
-	top:15%;
-`;
-
-const ActivePeopleContainer=styled.div`
-
-	position:absolute;
-	background-color:white;
-	border-radius:5px;
-	width:40%;
-	height:50%;
-	z-index:17;
-	left:30%;
-	top:15%;
-`;
-
-const PostContainer=styled.div`
-	position:absolute;
-	padding-left:40px;
-	left:0%;
-	top:40%;
-	width:100%;
-	height:170%;
-	z-index:3;
-	overflow-y:scroll;
-	transition:1s;
-	padding-top:8%;
-`;
-
-const ShadowContainer=styled.div`
-	position:fixed;
-	top:0%;
-	width:100%;
-	height:200%;
-	left:0%;
-	z-index:17;
-	overflow-y:scroll;
-  	transition:opacity 1s linear;
-  	padding-top:20px;
-  	background-color: rgba(0,0,0,0.4);
-`;
-
-const ExamplePosts=styled.div`
-	position:relative;
-	width:80%;
-	height:70%;
-	background-color:red;
-	z-index:3;
-`;
-
-
-const PreventScrollScreen=styled.div`
-	position:absolute;
-	width:80%;
-	height:100%;
-	z-index:4;
-	background-color:blue;
-	opacity:0;
-	overflow:visible;
-`;
-
-const ExploreIconContainer=styled.div`
-	position:relative;
-	width:70px;
-	left:10%;
-	border-radius:5px;
-	background-color:white;
-	padding:10px;
-	box-shadow: 1px 1px 1px 1px #d5d5d5;
-	transition:.8s;
-
-	&:hover{
-		box-shadow: 1px 1px 10px #707070;	
-	}
-`;
-
-const PageIndicator=styled.div`
-	position:absolute;
-	width:5%;
-	height:20%;
-	top:7%;
-	left:2%;
-	border-radius:5%;
-	z-index:4;
-`;
 
 
 const SymposiumChoicesListCSS={
@@ -371,168 +106,6 @@ const PostOptionCSS={
 
 }
 
-const CreatePostContainer=styled.div`
-	position:relative;
-	width:250px;
-	height:15%;
-	border-radius:5px;
-	box-shadow: 1px 1px 5px #dbdddf;
-`;
-
-
-
-const ProfilePicture=styled.div`
-	position:relative;
-	width:45px;
-	height:70%;
-	background-color:red;
-	border-radius:50%;
-	border-style:solid;
-	border-width:2px;
-	border-color:#5298F8;
-
-`;
-
-const CommentTextArea=styled.textarea`
-	position:relative;
-	resize:none;
-	border-style:none;
-	height:70%;
-	width:200px;
-	text-align:center;
-	padding-top:5px;
-`;
-
-
-const DisplaySubSymposiums=styled.div`
-	position:relative;
-	width:250px;
-	height:15%;
-	border-radius:5px;
-	box-shadow: 1px 1px 5px 	#dbdddf;
-`;
-
-const SearchContainer=styled.div`
-	position:relative;
-	width:630px;
-	height:15%;
-	border-radius:5px;
-	box-shadow: 1px 1px 5px 	#dbdddf;
-`;
-
-const SearchTextArea=styled.textarea`
-	position:relative;
-	resize:none;
-	width:500px;
-	height:90%;
-	padding-top:10px;
-	border-style:none;
-
-`;
-
-const PostOptions=styled.div`
-	border-color:#5298F8;
-	border-style:solid;
-	border-width:1px;
-	color:#5298F8;
-	background-color:white;
-	border-radius:5px;
-	padding:5px;
-`;
-
-const VideoCallOption=styled.div`
-	border-color:#C8B0F4;
-	border-style:solid;
-	border-width:1px;
-	color:#C8B0F4;
-	background-color:white;
-	border-radius:5px;
-	padding:5px;
-`;
-
-const ChatContainer=styled.div`
-	position:relative;
-	overflow:hidden;
-	width:20%;
-	height:85%;
-	top:-30%;
-	left:75%;
-	background-color:red;
-	border-radius:5px;
-`;
-
-const SymposiumFeatureContainer=styled.div`
-	position:absolute;
-	overflow:hidden;
-	width:20%;
-	height:85%;
-	top:-30%;
-	left:75%;
-	border-radius:5px;
-	overflow-y:auto;
-	z-index:35;
-`;
-
-const ChatAndIndustryInformationContainer=styled.div`
-	border-style:solid;
-	border-width:1px;
-	color:white;
-	background-color:#5298F8;
-	border-radius:5px;
-	padding:5px;
-
-`;
-
-
-const SpecificQuestionsContainer=styled.div`
-	position:absolute;
-	overflow:hidden;
-	width:20%;
-	height:60%;
-	top:5%;
-	left:10%;
-	border-radius:5px;
-	background-color:white;
-	border-style:solid;
-	border-width:1px;
-	border-color:#5298F8;
-	z-index:17;
-`;
-
-
-const SmallSpecificQuestionsContainer=styled.div`
-	position:absolute;
-	overflow:hidden;
-	width:20%;
-	height:20%;
-	top:5%;
-	left:10%;
-	border-radius:5px;
-
-	border-style:solid;
-	border-width:1px;
-	border-color:#5298F8;
-`;
-
-const ArrowDownContainer=styled.div`
-	position:absolute;
-	left:45%;
-	top:80%;
-	z-index:34;
-
-  animation: bounce 2s infinite;
-  @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {
-          transform: translateY(0);
-        }
-        40% {
-          transform: translateY(-30px);
-        }
-        60% {
-          transform: translateY(-15px);
-        }
-  }
-`;
 
 const CloseButtonCSS={
 	listStyle:"none",
@@ -549,9 +122,18 @@ const CloseButtonCSS={
 }
 
 
-const PostContainerTEst=styled.div`
-	z-index:7;
-`;
+const MobilePostOptionsButton={
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginLeft:"-10%",
+	borderRadius:"5px",
+	borderStyle:"none",
+}
+
+
 
 const socket = io('http://localhost:4000');
 
@@ -593,36 +175,40 @@ class Symposium extends Component{
 			displayGroupSharingVideoCallPortal:false,
 			hideOnboarding:true,
 			featureQuestions:[],
-			isLoading:true
+			isLoading:true,
+			displayDesktopUI:false
 		}
 	}
 
-	//Imo its too 
+	triggerUIChange=()=>{
+		if(window.innerWidth<800){
+			this.setState({
+				displayIpadUI:false
+			})
+		}
+		else if(window.innerWidth<1370){
+			alert('Unfortunately this isnt supported on desktop at the moment.Switch to desktop or phone to continue :)');
+			this.setState({
+				displayDesktopUI:false,
+				displayIpadUI:true
+			})
+		}else{
+			this.setState({
+				displayDesktopUI:true
+			})
+		}
+	}
+
 	 async componentDidMount(){
 	  		/*
 				Could be done in a better way
 	  		*/
 	  			debugger;
+	  			window.addEventListener('resize',this.triggerUIChange)
 		  		const postContainerElement=document.getElementById("postChatInformation");
 		  		const headerContentsContainerElement=document.getElementById("headerContents");
 				console.log(this.props);
 
-				/*
-					const propSymposiums=this.props.location.state;
-					propSymposiums.push(this.props.location.state.selectedSymposium);
-			  		const symposiums=propSymposiums.reverse();
-			  		let symposiumCounter=0;
-
-			  		for(var i=0;i<symposiums.length;i++){
-			  			const symposium=symposiums[i];
-			  			if(symposium.industry==this.props.location.state.selectedSymposium.symposium){
-			  				symposiumCounter=i;
-			  				break;
-			  			}
-			  		}
-					debugger;
-				*/
-				debugger;
 				const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
 		  		var {confirmation,data}=await getIndustryInformation(
 			  										this.props.match.params.symposiumName,
@@ -678,6 +264,7 @@ class Symposium extends Component{
 		  		}else{
 		  			alert('Unfortunately there has been a problem with getting the symposium information. Please try again');
 		  		}
+		  		this.triggerUIChange();
 	  }
 
 	addSuggestedSymposiums=(posts)=>{
@@ -955,6 +542,9 @@ class Symposium extends Component{
 	  		displayModalPeopleActive:true
 	  	})
 	  }
+
+	  //Props is huge will have to prob be refactored later
+
 	  handleHeaderAnimation=()=>{
 	  	console.log("Testing Header connection");
 	  	const backgroundColor=this.state.backgroundColor;
@@ -979,6 +569,12 @@ class Symposium extends Component{
 	  					isSimplified:this.state.headerAnimation,
 						selectedSymposium:this.state.selectedSymposiumTitle
 	  				}}
+	  				displayDesktopUI={this.state.displayDesktopUI}
+	  				roomId={this.state.symposiumId}
+					chat={this.state.chatRoom}
+					socket={socket}
+				  	symposium={this.state.selectedSymposiumTitle}
+				  	questions={this.state.symposiumFeatureQuestions}
 	  			/>
 	  		</Container>:
 	  		<SymposiumHeaderAnimation id="animatedHeaderAnimatedContainer" style={{background:backgroundColor}}>
@@ -1006,57 +602,60 @@ class Symposium extends Component{
 
 	  symposiumFeaturesAndChat=()=>{
 	  	return (
-	  		<SymposiumFeatureContainer>
-		  		{this.state.selectedSymposiumTitle=="General"||
+	  		<>
+		  		{(this.state.selectedSymposiumTitle=="General"||
 					this.state.selectedSymposiumTitle=="Religion"||
 					this.state.selectedSymposiumTitle=="Gaming"||
-					this.state.selectedSymposiumTitle=="Philosophy"?
-					<>
-						<ShadowContainer onClick={()=>this.setState({displayChatRoom:false})}/>
+					this.state.selectedSymposiumTitle=="Philosophy")?
+		  			<SymposiumChatContainer>
 			  			<Chat
 					  		roomId={this.state.symposiumId}
 					  		chat={this.state.chatRoom}
 					  		profileId={this.state.profileId}
 					  		socket={socket}
-					/>
-				  	</>
-				  	:<>
-				  		<ShadowContainer onClick={()=>this.setState({displayChatRoom:false})}/>
+						/>
+					</SymposiumChatContainer>
+				  	:<SymposiumFeatureContainer>
 					  	<SpecificFeatureSymposium
-					  			symposium={this.state.selectedSymposiumTitle}
-					  			symposiumId={this.state.symposiumId}
-					  			questions={this.state.symposiumFeatureQuestions}
-					  		/>
-				  	</>
+				  			symposium={this.state.selectedSymposiumTitle}
+				  			symposiumId={this.state.symposiumId}
+				  			questions={this.state.symposiumFeatureQuestions}
+				  		/>
+				  	</SymposiumFeatureContainer>
 		  		} 
-	  		</SymposiumFeatureContainer>
+	  		</>
 	  	)
 	  }
 
 	  specificSymposiumFeatures=()=>{
 	  	return this.state.headerAnimation==false?
-			<SymposiumFeatureContainer onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
+			<>
 				{this.state.selectedSymposiumTitle=="General"||
 					this.state.selectedSymposiumTitle=="Religion"||
 					this.state.selectedSymposiumTitle=="Gaming"||
 					this.state.selectedSymposiumTitle=="Philosophy"?
-		  			<Chat
-				  		roomId={this.state.symposiumId}
-				  		chat={this.state.chatRoom}
-				  		profileId={this.state.profileId}
-				  		socket={socket}
-				  	/>:<SpecificFeatureSymposium
-				  			symposium={this.state.selectedSymposiumTitle}
-				  			symposiumId={this.state.symposiumId}
-				  			questions={this.state.symposiumFeatureQuestions}
-				  		/>
+					<SymposiumChatContainer>
+			  			<Chat
+					  		roomId={this.state.symposiumId}
+					  		chat={this.state.chatRoom}
+					  		profileId={this.state.profileId}
+					  		socket={socket}
+					  	/>
+				  	</SymposiumChatContainer>:
+				  	<SymposiumFeatureContainer onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
+					  	<SpecificFeatureSymposium
+					  			symposium={this.state.selectedSymposiumTitle}
+					  			symposiumId={this.state.symposiumId}
+					  			questions={this.state.symposiumFeatureQuestions}
+					  		/>
+					</SymposiumFeatureContainer>
 		  		} 
-			</SymposiumFeatureContainer>:
+			</>:
 	  		<ul style={{padding:"0px",position:"relative",top:"-10px",left:"71%"}}>
 	  			<li style={{listStyle:"none"}}>
 	  				<ul style={{padding:"0px"}}>
 	  					<li style={{listStyle:"none",marginBottom:"-2%"}}>
-			  				<ul style={{padding:"0px",fontSize:"20px"}}>
+			  				<ul id="symposiumIndicatorUL" style={{padding:"0px",fontSize:"20px"}}>
 			  					<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
 			  						<ChevronLeftRoundedIcon
 			  							style={{fontSize:40,marginTop:"10px"}}
@@ -1098,7 +697,13 @@ class Symposium extends Component{
 			  					<li style={{listStyle:"none",display:"inline-block"}}>
 			  						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 				  						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayChatRoom:!this.state.displayChatRoom})}>
-				  							View Chat
+				  							{this.state.selectedSymposiumTitle=="General"||
+												this.state.selectedSymposiumTitle=="Religion"||
+												this.state.selectedSymposiumTitle=="Gaming"||
+												this.state.selectedSymposiumTitle=="Philosophy"?
+												<p>View Chat </p>:
+												<p> View Features </p>
+											}
 				  						</ChatAndIndustryInformationContainer>
 			  						</a>
 			  					</li>
@@ -1305,11 +910,93 @@ class Symposium extends Component{
 					</svg>
 				</ArrowDownContainer>
 	}
+	postOptions=()=>{
+		return <>
+					<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+						Display:
+					</li>
+
+					<li onClick={()=>this.changePostOption("Regular")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<PostOptions id="regular">	
+								Regular posts
+							</PostOptions>
+						</a>
+					</li>
+
+					<li  onClick={()=>this.changePostOption("Image")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<PostOptions id="image">	
+								Images
+							</PostOptions>
+						</a>
+					</li>
+
+					<li onClick={()=>this.changePostOption("Video")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<PostOptions id="video">	
+								Videos
+							</PostOptions>
+						</a>
+					</li>
+
+					<li onClick={()=>this.allowBlogsIfUserIsOnDesktop()} style={{listStyle:"none",display:"inline-block"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<PostOptions id="blog">	
+								Blogs
+							</PostOptions>
+						</a>
+					</li>
+
+					{/*
+						<li onClick={()=>this.displayVideoCallModal()} style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<VideoCallOption id="blog">	
+									+ 234 Video calls
+								</VideoCallOption>
+							</a>
+						</li>
+					*/}
+				</>
+	}
+
+	allowBlogsIfUserIsOnDesktop=()=>{
+		if(this.state.displayIpadUI==false){
+			this.changePostOption("Blog")
+		}else{
+			alert('Unfortunately this isnt supported on desktop at the moment.Switch to desktop or phone to continue :)');
+		}
+	}
+
+	postOptionsMobileOrDesktop=()=>{
+		let mobilePostCSS={...MobilePostOptionsButton};
+		if(this.state.headerAnimation==true){
+			mobilePostCSS={
+				...mobilePostCSS,
+				marginTop:"25%"
+			}
+		}
+		return <>
+					{this.state.displayDesktopUI==false?
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={mobilePostCSS}>
+								Post Options
+							</button>
+							
+
+							<ul class="dropdown-menu">
+								{this.postOptions()}
+							</ul>
+						</div>
+						:<ul>
+							{this.postOptions()}
+						</ul> 
+					}
+			   </>
+	}
 
 
 	render(){
-
-
 		return(
 			<SymposiumContainer id="extendedSymposiumContainer">
 				<GeneralNavBar
@@ -1365,7 +1052,7 @@ class Symposium extends Component{
 				{this.handleSeeAllPeopleActiveModal()}
 				{this.handleSeeAllPopularVideos()}
 				{this.handleHeaderAnimation()}
-				 {this.specificSymposiumFeatures()}
+				{this.specificSymposiumFeatures()}
 
 				<PostsChatInformation  id="postChatInformation" onScroll={()=>this.handleScroll()}>
 					{this.state.isLoading!=true?
@@ -1390,7 +1077,7 @@ class Symposium extends Component{
 														</SearchContainer>
 													</li>
 													{this.state.headerAnimation==true && (
-														<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+														<li id="simplifiedHeaderUL" style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 															<ul style={{padding:"0px",position:"relative",}}>
 												  			<li style={{listStyle:"none"}}>
 												  				<ul style={{padding:"0px"}}>
@@ -1437,7 +1124,13 @@ class Symposium extends Component{
 														  					<li style={{listStyle:"none",display:"inline-block"}}>
 														  						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 															  						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayChatRoom:!this.state.displayChatRoom})}>
-															  							View Chat
+															  							{this.state.selectedSymposiumTitle=="General"||
+																							this.state.selectedSymposiumTitle=="Religion"||
+																							this.state.selectedSymposiumTitle=="Gaming"||
+																							this.state.selectedSymposiumTitle=="Philosophy"?
+																							<p>View Chat </p>:
+																							<p> View Features </p>
+																						}
 															  						</ChatAndIndustryInformationContainer>
 														  						</a>
 														  					</li>
@@ -1452,110 +1145,65 @@ class Symposium extends Component{
 											</li>
 											
 
-											<li style={{listStyle:"none",width:"70%"}}>
-												<ul>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-														Display:
-													</li>
-
-													<li onClick={()=>this.changePostOption("Regular")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<PostOptions id="regular">	
-																Regular posts
-															</PostOptions>
-														</a>
-													</li>
-
-													<li  onClick={()=>this.changePostOption("Image")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<PostOptions id="image">	
-																Images
-															</PostOptions>
-														</a>
-													</li>
-
-													<li onClick={()=>this.changePostOption("Video")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<PostOptions id="video">	
-																Videos
-															</PostOptions>
-														</a>
-													</li>
-
-													<li onClick={()=>this.changePostOption("Blog")} style={{listStyle:"none",display:"inline-block"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<PostOptions id="blog">	
-																Blogs
-															</PostOptions>
-														</a>
-													</li>
-
-													<li onClick={()=>this.displayVideoCallModal()} style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<VideoCallOption id="blog">	
-																+ 234 Video calls
-															</VideoCallOption>
-														</a>
-													</li>
-													
-
-												</ul>
+											<li id="postOptionsLI" style={{listStyle:"none",width:"70%",zIndex:"30"}}>
+												{this.postOptionsMobileOrDesktop()}
 											</li>
-											
 										</ul>
 									</li>
 								</ul>
 						
-
 								<PostContainer id="postsContainer">
-									{this.state.postType=="Image"?
-										<ImagePostsModal
-											posts={this.state.posts}
-											_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
-											confettiAnimation={this.displayRecruitConfetti}
-											isPersonalProfile={true}
-											displaySymposium={this.displaySymposium}
-											targetDom={"extendedSymposiumContainer"}
-										/>:null
-									}
+									{this.state.displayIpadUI==false &&(
+										<>
+											{this.state.postType=="Image"?
+												<ImagePostsModal
+													posts={this.state.posts}
+													_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
+													confettiAnimation={this.displayRecruitConfetti}
+													isPersonalProfile={true}
+													displaySymposium={this.displaySymposium}
+													targetDom={"extendedSymposiumContainer"}
+												/>:null
+											}
 
-									{this.state.postType=="Video"?
-										<VideoPostModal
-											posts={this.state.posts}
-											_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
-											confettiAnimation={this.displayRecruitConfetti}
-											isPersonalProfile={true}
-											displaySymposium={this.displaySymposium}
-											targetDom={"extendedSymposiumContainer"}
-										/>:null
-									}
+											{this.state.postType=="Video"?
+												<VideoPostModal
+													posts={this.state.posts}
+													_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
+													confettiAnimation={this.displayRecruitConfetti}
+													isPersonalProfile={true}
+													displaySymposium={this.displaySymposium}
+													targetDom={"extendedSymposiumContainer"}
+												/>:null
+											}
 
-									{this.state.postType=="Blog"?
-										<li style={{listStyle:"none",marginTop:"3%",marginLeft:"5%"}}>
-											<BlogPostModal
-												posts={this.state.posts}
-												_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
-												confettiAnimation={this.displayRecruitConfetti}
-												isPersonalProfile={true}
-												displaySymposium={this.displaySymposium}
-												targetDom={"extendedSymposiumContainer"}
-											/>
-										</li>:null
-									}
+											{this.state.postType=="Blog"?
+												<li style={{listStyle:"none",marginTop:"3%",marginLeft:"5%"}}>
+													<BlogPostModal
+														posts={this.state.posts}
+														_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
+														confettiAnimation={this.displayRecruitConfetti}
+														isPersonalProfile={true}
+														displaySymposium={this.displaySymposium}
+														targetDom={"extendedSymposiumContainer"}
+													/>
+												</li>:null
+											}
 
-									{this.state.postType=="Regular"?
-										<li style={{listStyle:"none",marginTop:"5%",marginLeft:"5%",width:"90%"}}>
-											<RegularPostModal
-												posts={this.state.posts}
-												_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
-												confettiAnimation={this.displayRecruitConfetti}
-												isPersonalProfile={true}
-												displaySymposium={this.displaySymposium}
-												targetDom={"extendedSymposiumContainer"}
-											/>
-										</li>:null
-									}
-
+											{this.state.postType=="Regular"?
+												<li style={{listStyle:"none",marginTop:"5%",marginLeft:"5%",width:"90%"}}>
+													<RegularPostModal
+														posts={this.state.posts}
+														_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
+														confettiAnimation={this.displayRecruitConfetti}
+														isPersonalProfile={true}
+														displaySymposium={this.displaySymposium}
+														targetDom={"extendedSymposiumContainer"}
+													/>
+												</li>:null
+											}
+										</>
+									)}
 								</PostContainer>
 							
 							</>

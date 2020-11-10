@@ -59,17 +59,26 @@ const keyFrameRight=keyframes`
 
 const Container=styled.div`
 	position:absolute;
-	width:100%;
 	transition:opacity 1s linear;
 	opacity:1;
+	min-width:100%;
+	min-height:100%;
+	width:100%;
 	height:100%;
+	@media screen and (max-width:1370px) and (max-height:1030px){
+		top:10% !important;
+    }
+    @media screen and (max-width:1365px){
+    	top:0% !important;
+    }
+
 `;
 
 
 const CurtainContainer=styled.div`
 	position:absolute;
-	width:100%;
-	height:100%;
+	min-width:100%;
+	min-height:100%;
 `;
 
 const CurtainContainerTransition=styled.div`
@@ -81,6 +90,13 @@ const StampIconContainer=styled.div`
 	position:absolute;
 	left:45%;
 	top:30%;
+	@media screen and (max-width:1370px){
+		left:10% !important;
+		#stampIcon{
+			width:10px !important;
+			height:10px !important
+		}
+	}
 `;
 
 const LeftStampIcon=styled.div`
@@ -124,15 +140,22 @@ const RightContainer=styled.div`
 const PostContainer=styled.div`
 	position:absolute;
 	top:12%; 
-	width:85%;
-	height:85%;
+	width:100%%;
+	height:100%;
 	left:10%;
 	padding:20px;
+
+	@media screen and (max-width:1365px){
+    	top:12% !important;
+    }
+
+	@media screen and (max-width:1370px) and (max-height:1030px){
+		top:20% !important;
+    }
 `;
 
 
 const Arena=()=>{
-
 	const [displayTransitionContainer,changeDisplayTransisitionContainer]=useState(false);
 	const [displayArena,changeDisplayArenaPage]=useState(false)
 
@@ -162,6 +185,8 @@ const Arena=()=>{
 
 	const [displayWinnersModal,changeDisplayWinnersModal]=useState(false);
 	const [winnersInformation,changeWinnersInformation]=useState();
+	const [displayDesktopUI,changeDesktopUI]=useState(false);
+
 
 	useEffect(()=>{
 		const fetchInformation=async()=>{
@@ -193,6 +218,8 @@ const Arena=()=>{
 						changeDisplayTransisitionContainer(true);
 						setTimeout(()=>{
 							changeDisplayArenaPage(true);
+							document.getElementById("leftStampContainer").style.display="none";
+							document.getElementById("rightStampContainer").style.display="none";
 						},2000);
 					},2000);
 				}else{
@@ -200,7 +227,18 @@ const Arena=()=>{
 				}
 		}
 		fetchInformation();
+		triggerUIChange();
 	},[]);
+
+	window.addEventListener('resize',triggerUIChange)
+
+	const triggerUIChange=()=>{
+		if(window.innerWidth<1370){
+			changeDesktopUI(false);
+		}else{
+			changeDesktopUI(true);
+		}
+	}
 
 
 	const displayChatPageHandle=(pageIndicator)=>{
@@ -327,6 +365,22 @@ const Arena=()=>{
 					)}
 			   </>
 	}
+
+	const ArenaCurtain=()=>{
+		return <>
+					<LeftContainer id="leftStampContainer">
+						<LeftStampIcon>
+							<img src={StampIcon} style={{borderRadius:"50%",width:"200px",height:"200px"}}/>
+						</LeftStampIcon>
+					</LeftContainer>
+
+					<RightContainer id="rightStampContainer">
+						<RightStampIcon>
+							<img src={StampIcon} style={{borderRadius:"50%",width:"200px",height:"200px"}}/>
+						</RightStampIcon>
+					</RightContainer>
+			   </>
+	}
 	return(
 		<ArenaProvider
 			value={{
@@ -384,13 +438,13 @@ const Arena=()=>{
 								</StampIconContainer>
 						</CurtainContainer>:
 						<Container id="arenaContainer">
-							<LeftContainer>
+							<LeftContainer id="leftStampContainer">
 								<LeftStampIcon>
 									<img src={StampIcon} style={{borderRadius:"50%",width:"200px",height:"200px"}}/>
 								</LeftStampIcon>
 							</LeftContainer>
 
-							<RightContainer>
+							<RightContainer id="rightStampContainer">
 								<RightStampIcon>
 									<img src={StampIcon} style={{borderRadius:"50%",width:"200px",height:"200px"}}/>
 								</RightStampIcon>
@@ -445,21 +499,25 @@ const Arena=()=>{
 										<hr/>
 										<ImageSection
 											posts={arenaImages}
+											isDesktop={displayDesktopUI}
 										/>
 
 										<hr/>
 										<VideoSection
 											posts={arenaVideos}
+											isDesktop={displayDesktopUI}
 										/>
 
 										<hr/>
 										<BlogSection
 											posts={arenaBlogs}
+											isDesktop={displayDesktopUI}
 										/>
 
 										<hr/>
 										<RegularPostSection
 											posts={arenaRegularPosts}
+											isDesktop={displayDesktopUI}
 										/>
 								</PostContainer>
 						</Container>

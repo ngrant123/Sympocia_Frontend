@@ -56,6 +56,7 @@ const SymposiumSearch=({searchQuery,userId,history})=>{
 	const [symposiums,changeSymposiums]=useState([]);
 	const [selectedSymposium,changeSelectedSymposium]=useState();
 	const [isLoading,changeIsLoading]=useState(true);
+	const [displayMobileUI,changeUIStatus]=useState(false);
 
 	useEffect(()=>{
 		const getSymposiums=async()=>{
@@ -68,7 +69,20 @@ const SymposiumSearch=({searchQuery,userId,history})=>{
 			}
 		}
 		getSymposiums();
-	});
+	},[]);
+
+	useEffect(()=>{
+		triggerUIChange();
+	},[]);
+	window.addEventListener('resize',triggerUIChange)
+
+	const triggerUIChange=()=>{
+		if(window.innerWidth<1340){
+			changeUIStatus(true);
+		}else{
+			changeUIStatus(false);
+		}
+	}
 
 	const handleSymposiumClick=(data)=>{
 		var symposiums=[];
@@ -128,6 +142,7 @@ const SymposiumSearch=({searchQuery,userId,history})=>{
 													data={data}
 													isPersonalProfile={true}
 													handleSymposiumClickHandler={handleSymposiumClick}
+													isMobileView={displayMobileUI}
 												/>
 											</CommunityContainerAnimationFollowed>
 										</li>

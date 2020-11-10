@@ -8,9 +8,11 @@ import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import {connect} from "react-redux";
 
 const Container=styled.div`
+	padding:10px;
 	@media screen and (max-width:420px){
+		height:80% !important;
 		#profilePictureLI{
-			height:40% !important;
+			height:60% !important;
 			display:none;
 		}
     }

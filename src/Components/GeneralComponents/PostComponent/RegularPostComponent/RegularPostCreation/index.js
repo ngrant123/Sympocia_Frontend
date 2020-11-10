@@ -43,12 +43,23 @@ const Container = styled.div`
 	position:fixed;
 	padding:40px;
 	width:70%;
-	background-color:white;
 	border-radius:5px;
 	top:20%;
 	left:20%;
 	height:60%;
+	background-color:white;
 	overflow:scroll;
+	z-index:21;
+
+	@media screen and (max-width:450px){
+		left:5%;
+		width:150% !important;
+		height:90%;
+		#postOptions{
+			width:100% !important;
+			margin-left:-15% !important;
+		}
+	}
 `;
 
 const TextArea=styled.div`
@@ -120,7 +131,8 @@ const ButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  marginRight:"5%"
+  marginRight:"5%",
+  marginBottom:"5%"
 }
 
 /*
@@ -453,7 +465,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 								/>
 								:null
 							}
-							<ul style={{padding:"10px"}}>			
+							<ul id="postOptions" style={{padding:"10px"}}>			
 								<li style={{listStyle:"none"}}>	
 									<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block"}}>

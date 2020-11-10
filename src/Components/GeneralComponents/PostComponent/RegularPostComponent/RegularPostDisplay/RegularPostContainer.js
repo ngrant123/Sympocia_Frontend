@@ -5,6 +5,8 @@ import PosterInformation from "./PosterInformation.js";
 import PostContent from "./PostInformation.js";
 import RegularPostCreation from "../RegularPostCreation/index.js";
 import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
+import MobileUI from "./MobileUI.js";
+import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 
 
 const Container=styled.div`
@@ -113,6 +115,20 @@ const RegularPostContainer=(props)=>{
 	console.log(props);
 	const [displayCommentsAndResponses,changeDisplayCommentsAndResponses]=useState(false);
 	const [displayEditPostModal,changeDisplayEditPostModal]=useState(false);
+	const [displayMobileUI,changeUIStatus]=useState(false);
+
+	useEffect(()=>{
+		triggerUIChange();
+	},[]);
+	window.addEventListener('resize',triggerUIChange)
+
+	const triggerUIChange=()=>{
+		if(window.innerWidth<1340){
+			changeUIStatus(true);
+		}else{
+			changeUIStatus(false);
+		}
+	}
 
 	const DisplayCommentsState=()=>{
 		changeDisplayCommentsAndResponses(true);
@@ -126,53 +142,64 @@ const RegularPostContainer=(props)=>{
 		changeDisplayEditPostModal(true);
 	}
 
+
 	return(
 	<PostConsumer>
 		{userPostsInformation=>{
-			return <Container>
-					{displayEditPostModal==true?
-						<RegularPostCreation 
-							previousData={props.postData}
-							contextLocation={userPostsInformation}
-						/>
-						:
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-								<PosterInformation
-									postData={props.postData}
-									triggerPromoteModal={props.triggerPromoteModal}
-									triggerEditPostModal={displayEditPostHandle}
-								/>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",height:"20%",overflow:"hidden"}}>
-								{displayCommentsAndResponses==true?
-									<CommentsContainerDiv>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<p style={BackButtonCSS} onClick={()=>hideComments()}>
-													Back
-												</p>
-											</a>
-										</li>
-										<CommentsContainer
-											postId={props.postData._id}
-											postType={"RegularPost"}
-											hideComments={hideComments}
-											targetDom={props.targetDom}
-										/>
-								 	</CommentsContainerDiv>:
-								  <PostContent
-										displayComments={DisplayCommentsState}	
-										hideComments={hideComments}
-										userData={props.postData}
-										targetDom={props.targetDom}
+			return <React.Fragment>
+						{displayMobileUI==true?
+							<MobileUI
+								postData={props.postData}
+								isChromeBrowser={testIfUserIsUsingChrome()}
+								targetDom={props.targetDom}
+								userPostsInformation={userPostsInformation}
+							/>:
+							<Container>
+								{displayEditPostModal==true?
+									<RegularPostCreation 
+										previousData={props.postData}
+										contextLocation={userPostsInformation}
 									/>
+									:
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+											<PosterInformation
+												postData={props.postData}
+												triggerPromoteModal={props.triggerPromoteModal}
+												triggerEditPostModal={displayEditPostHandle}
+											/>
+										</li>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",height:"20%",overflow:"hidden"}}>
+											{displayCommentsAndResponses==true?
+												<CommentsContainerDiv>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<p style={BackButtonCSS} onClick={()=>hideComments()}>
+																Back
+															</p>
+														</a>
+													</li>
+													<CommentsContainer
+														postId={props.postData._id}
+														postType={"RegularPost"}
+														hideComments={hideComments}
+														targetDom={props.targetDom}
+													/>
+											 	</CommentsContainerDiv>:
+											  <PostContent
+													displayComments={DisplayCommentsState}	
+													hideComments={hideComments}
+													userData={props.postData}
+													targetDom={props.targetDom}
+												/>
 
+											}
+										</li>
+									</ul>
 								}
-							</li>
-						</ul>
-					}
-				</Container>
+							</Container>
+						}
+					</React.Fragment>
 		}}
 	</PostConsumer>
 	)

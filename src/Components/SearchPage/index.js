@@ -14,6 +14,7 @@ const Container=styled.div`
 	width:100%;
 	height:100%;
 	background-color:white;
+
 `;
 
 const SearchResults=styled.div`

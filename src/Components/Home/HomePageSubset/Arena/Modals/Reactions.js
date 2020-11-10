@@ -36,6 +36,17 @@ const Container=styled.div`
 	background-color:white;
 	padding:20px;
 	background-color:#1d1d1d;
+
+	@media screen and (max-width:1370px){
+		width:90% !important;
+		left:5% !important;
+		top:15% !important;
+		height:80% !important;
+
+		#reactionOptionsLI{
+			margin-top:20% !important;
+		}
+	}
 `;
 
 
@@ -192,7 +203,7 @@ class Reaction extends Component{
 		}
 	  </>
 	}
-//
+
 	textReaction=()=>{
 		return <>
 				{this.state.displayTextReactions==true?
@@ -354,7 +365,7 @@ class Reaction extends Component{
 								</CreatePostButton>
 							</a>
 
-							<ul style={{padding:"0px"}}>
+							<ul id="reactionOptionsLI" style={{padding:"0px"}}>
 								<li style={{listStyle:"none",marginBottom:"2%"}}>
 									<ul style={{padding:"0px"}}>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>

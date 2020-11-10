@@ -14,13 +14,24 @@ const Container=styled.div`
 	position:absolute;
 	width:85%;
 	height:60%;
+
+	@media screen and (max-width:1300px){
+		#headerTitleLI{
+			display:none !important;
+		}
+	}
 `;
 
 const PostsContainer=styled.div`
 	position:absolute;
-	width:95%;
-	height:97%;
-	margin-top:1%;
+	width:90%;
+	height:90%;
+	margin-top:10%;
+
+
+	@media screen and (max-width:450px){
+		margin-top:60% !important;
+	}
 `;
 
 
@@ -146,7 +157,7 @@ class SearchExplorePosts extends Component{
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none"}}>
 										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"50px"}}>
+											<li id="headerTitleLI" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"50px"}}>
 												<b>{this.state.postOptionHeader}</b>
 											</li>
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
@@ -196,30 +207,6 @@ class SearchExplorePosts extends Component{
 											{this.handleDisplayVideos(homePageInformation,searchPageInformation)}
 											{this.handleDisplayBlogs(homePageInformation,searchPageInformation)}
 											{this.handleDisplayRegularPosts(homePageInformation,searchPageInformation)}
-
-											<li style={{position:"relative",listStyle:"none",display:"inline-block",marginTop:"-15px",top:"-80px",marginLeft:"15%",paddingTop:"10px",marginTop:"40%"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}> 
-													Industry:
-												</li>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<ul style={{padding:"5px"}}>
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<NavigateBeforeIcon
-																style={{ fontSize: 40 }}
-															/>
-														</li>
-														<li style={{position:"relative",listStyle:"none",display:"inline-block",fontSize:"40px",top:"-10px"}}>	
-															Testing
-														</li>
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<NavigateNextIcon
-																style={{ fontSize: 40 }}
-															/>
-														</li>
-
-													</ul>
-												</li>
-											</li>
 										</ul>
 									</PostsContainer>
 								</ul>

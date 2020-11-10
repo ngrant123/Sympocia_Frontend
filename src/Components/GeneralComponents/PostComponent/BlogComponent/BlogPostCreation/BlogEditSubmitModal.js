@@ -493,7 +493,7 @@ isArrayEqual=(arr1,arr2)=>{
 													</li>
 												*/}
 											</ul>
-											<img src={this.state.pictureUrl} width="100%" height="100%"/>
+											<img src={this.state.pictureUrl} width="100%" height="80%"/>
 										</ImageContainer>
 									}
 								</li>

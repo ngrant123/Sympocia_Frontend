@@ -14,9 +14,9 @@ const Container=styled.div`
 	top:30px;
 	overflow-y:scroll;
 
-	@media screen and (max-width:1030px){
+	@media screen and (max-width:1370px){
 		width:80% !important;
-		height:100% !important;
+		height:600% !important;
 		margin-left:8% !important;
 		padding:10px;
 		border-radius:5px;
@@ -27,7 +27,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:800px){
 		width:100% !important;
-		height:100% !important;
+		height:600% !important;
 		padding:10px;
 		border-radius:5px;
 
@@ -47,10 +47,11 @@ const Container=styled.div`
 
 	@media screen and (max-width:420px){
 		width:100% !important;
-		height:100% !important;
+		height:600% !important;
 		margin-left:8% !important;
 		padding:10px;
 		border-radius:5px;
+		background-color:red;
 
 		#postOwnerAndSymposium{
 			display:block !important;
@@ -68,6 +69,7 @@ const Container=styled.div`
 			width:80% !important;
 		}
 	}
+
 	@media screen and (max-width:1370px) and (max-height:1030px){
 	 	width:80%;
 	 	#postLIContainer{

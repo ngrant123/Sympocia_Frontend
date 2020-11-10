@@ -16,6 +16,16 @@ const Container=styled.div`
 	overflow-y:auto;
 	background-color:white;
 	padding:20px;
+
+	@media screen and (max-width:1370px){
+		width:90% !important;
+		left:5% !important;
+		#postLI{
+			width:80% !important;
+			margin-left:-5% !important;
+			height:80% !important;
+		}
+	}
 `;
 
 
@@ -94,7 +104,7 @@ const ViewAll=({closeModal,postType,currentPosts})=>{
 		return(
 			<ul style={{padding:"0px"}}>
 				{posts.map((data,index)=>
-					<li style={{listStyle:"none",display:"inline-block",width:"30%",marginLeft:"2%",marginBottom:"5%"}}>
+					<li id="postLI" style={{listStyle:"none",display:"inline-block",width:"30%",marginLeft:"2%",marginBottom:"5%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:""}}>
@@ -106,7 +116,7 @@ const ViewAll=({closeModal,postType,currentPosts})=>{
 
 							<a href="javascript:void(0)" style={{textDecoration:"none"}}>
 								<li onClick={()=>arenaContext.displayPostModal("Images",data.image)} style={{listStyle:"none"}}>
-									<img src={data.image.imgUrl} style={{width:"90%",height:"30%",borderRadius:"5px"}}/>
+									<img  src={data.image.imgUrl} style={{width:"90%",height:"30%",borderRadius:"5px"}}/>
 								</li>
 							</a>
 
@@ -149,7 +159,7 @@ const ViewAll=({closeModal,postType,currentPosts})=>{
 		return(
 			<ul style={{padding:"0px"}}>
 				{posts.map((data,index)=>
-					<li style={{listStyle:"none",display:"inline-block",width:"45%",marginLeft:"2%",marginBottom:"5%"}}>
+					<li id="postLI" style={{listStyle:"none",display:"inline-block",width:"45%",marginLeft:"2%",marginBottom:"5%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:""}}>
@@ -205,7 +215,7 @@ const ViewAll=({closeModal,postType,currentPosts})=>{
 	const blogs=(arenaContext)=>{
 		return <ul style={{padding:"0px"}}>
 				{posts.map((data,index)=>
-					<li style={{listStyle:"none",display:"inline-block",width:"30%",marginLeft:"2%",marginBottom:"5%"}}>
+					<li id="postLI" style={{listStyle:"none",display:"inline-block",width:"30%",marginLeft:"2%",marginBottom:"5%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:""}}>
@@ -259,7 +269,7 @@ const ViewAll=({closeModal,postType,currentPosts})=>{
 	const regularPosts=(arenaContext)=>{
 		return  <ul style={{padding:"0px"}}>
 				 {posts.map((data,index)=>
-					<li style={{listStyle:"none",display:"inline-block",width:"45%",marginLeft:"2%",marginBottom:"5%"}}>
+					<li id="postLI" style={{listStyle:"none",display:"inline-block",width:"45%",marginLeft:"2%",marginBottom:"5%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:""}}>

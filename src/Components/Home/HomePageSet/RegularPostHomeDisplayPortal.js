@@ -37,6 +37,18 @@ const RegularPostDisplayContainer=styled.div`
 	background-color:white;
 	padding:20px;
 	box-shadow: 1px 1px 5px #707070; 
+
+	@media screen and (max-width:1360px){
+		position:fixed;
+		z-index:36;
+		height:90%;
+		width:95%;
+		border-radius:5px;
+		top:15%;
+		left:5%;
+		overflow-y:auto;
+		background-color:white;
+	}
 `;
 
 const RegularPostHomeDisplayPortal=(props)=>{
@@ -51,30 +63,6 @@ const RegularPostHomeDisplayPortal=(props)=>{
 					/>
 				</RegularPostDisplayContainer>
 				<hr/>
-				<ul style={{padding:"10px",marginTop:"2%"}}>
-					<li style={{fontSize:"20px",listStyle:"none",marginBottom:"5%"}}>
-						<p> 
-							<b>Recommended Posts</b>
-						</p>
-					</li>
-					{/*
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								{props.recommendedPosts.map(data=>
-									<React.Fragment>
-										{data=="suggestedSymposium"?null:
-											<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"-10%"}}>
-												<SmallRegularPost
-
-												/>
-											</li>
-										}
-									</React.Fragment>
-								)}
-							</ul>
-						</li>
-					*/}
-				</ul>
 			</Container>
 		</React.Fragment>
 	,document.getElementById(props.targetDom));

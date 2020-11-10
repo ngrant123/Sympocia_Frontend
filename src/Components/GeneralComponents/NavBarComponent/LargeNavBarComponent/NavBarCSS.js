@@ -7,8 +7,6 @@ export const Container=styled.div`
 	height:14%;
 	border-radius:0px 0px 5px 5px;
 	z-index:10;
-	background-color:white;
-
 	@media screen and (max-width:960px) {
 		#searchLIContainer{
 			width:40% !important;

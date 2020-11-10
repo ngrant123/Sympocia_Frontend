@@ -764,7 +764,10 @@ class LProfile extends Component{
 						{this.socialMediaModal(this.state.userProfile.socialMediaUrls)}
 
 						<HeaderContainer>
-							<GeneralNavBar/>
+							<GeneralNavBar
+								page={"PersonalProfile"}
+								routerHistory={this.props.history}
+							/>
 						</HeaderContainer>
 
 						<ProfileContainer>

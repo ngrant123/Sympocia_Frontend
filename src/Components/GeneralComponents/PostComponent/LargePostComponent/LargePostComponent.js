@@ -20,14 +20,14 @@ const Container=styled.div`
 	top:20%;
 	width:50%;
 	left:30%;
-	height:40%;
+	height:60%;
 	padding:30px;
 
 
    @media screen and (max-width:1030px) and (max-height:1370px){
     	top:20% !important;
     	width:90% !important;
-    	height:50% !important;
+    	height:60% !important;
     	left:5% !important; 
     }
 
@@ -339,31 +339,27 @@ class LargePostComponent extends Component{
 	}
 	
 	componentDidMount(){
-
-		/*
-			Find out if the poster is from a company or personal profile
-		*/
 		debugger;
 		console.log(this.props);
 		if(this.props.postOption=="post"){
-			document.getElementById("originalPostContainer").style.background="transparent";
+			
 			this.setState({
 				displayElement:<RegularPostCreation 
-										displayProps={this.displayPostOptions}
-									/>,
+									displayProps={this.displayPostOptions}
+								/>,
 				id:this.props._id
 			})
 		}else if(this.props.postOption=="image"){
-			document.getElementById("originalPostContainer").style.background="transparent";
+			
 			this.setState({
 				displayElement:<ImagePostCreation
-										displayProps={this.displayPostOptions}
-									/>,
+									displayProps={this.displayPostOptions}
+								/>,
 				id:this.props._id
 			})
 
 		}else if(this.props.postOption=="video"){
-			document.getElementById("originalPostContainer").style.background="transparent";
+			
 			this.setState({
 				displayElement:<VideoPostCreation 
 									displayProps={this.displayPostOptions}
@@ -396,33 +392,27 @@ class LargePostComponent extends Component{
 		console.log(props);
 
 		if(props=="RegularPost"){
-			document.getElementById("originalPostContainer").style.background="transparent";
+			
 			this.setState({
 					displayElement:<RegularPostCreation 
 										displayProps={this.displayPostOptions}
-									/>})
+									/>
+			})
 		}else if(props=="ImagePosts"){
-			document.getElementById("originalPostContainer").style.backgroundColor="transparent";
+			
 			this.setState({
 					displayElement:<ImagePostCreation
 										displayProps={this.displayPostOptions}
-									/>})
-
-
+									/>
+			})
 		}else if(props=="VideoPosts"){
-			document.getElementById("originalPostContainer").style.backgroundColor="transparent";
+			
 			this.setState({
 					displayElement:<VideoPostCreation 
 										displayProps={this.displayPostOptions}
 									/>})
 
-		}else{
-			this.setState({
-					displayElement:<RegularPostCreation 
-										displayProps={this.displayPostOptions}
-									/>})
 		}
-
 	}
 
 
@@ -495,9 +485,14 @@ class LargePostComponent extends Component{
 					}
 				}}
 			>
-				<Container id="originalPostContainer">
-					{this.state.displayElement}
-				</Container>
+				<React.Fragment>
+					{this.props.postOption==null ||this.props.postOption=="General"?
+						<Container>
+							{this.state.displayElement}
+						</Container>:
+						<>{this.state.displayElement}</>
+					}
+				</React.Fragment>
 			</PostProvider>
 		)
 	}

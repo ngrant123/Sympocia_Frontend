@@ -19,7 +19,51 @@ const Container=styled.div`
 	width:95%;
 	height:97%;
 	margin-top:1%;
+
+
+	@media screen and (max-width:740px) and (max-height:420px){
+    	#headerLI{
+			height:180% !important;
+		}
+		#headerPostLI{
+			height:95% !important;
+		}
+    }
+
+
+	@media screen and (max-width:1300px){
+		width:120%;
+		margin-left:-5% !important;
+		#headerLI{
+			display:block !important;
+			margin-top:10% !important;
+			width:95% !important;
+			margin-left:-10% !important;
+		}
+		#smallPostLI{
+			width:95% !important;
+		}
+		#post{
+			width:120px !important;
+			height:120px !important;
+			margin-right:2%;
+		}
+		#suggestedSymposiumLI{
+			top:-15% !important;
+		}
+		#postLI{
+			margin-right:2% !important;
+		}
+	}
+	@media screen and (max-width:450px){
+		margin-left:-5% !important;
+		#headerLI{
+			margin-top:-50% !important;
+			margin-bottom:20% !important;
+		}
+	}
 `;
+
 
 
 const ProfileHeaderImage=styled.div`
@@ -47,20 +91,6 @@ const ProfilePicture=styled.div`
 	border-radius:50%;
 `;
 
-const ShadowContainer= styled.div`
-	position:absolute;
-	width:320px;
-	height:230px;
-	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-	display:block;
-	z-index:1;
-	transition:.8s;
-	border-radius:5px;
-
-	&:hover{
-		background-color:transparent
-	}
-`;
 
 const ProfilePictureLink=styled(Link)`
 	position:relative;
@@ -80,6 +110,12 @@ const RegularPostLabelCSS={
 	marginRight:"2%"
 }
 
+const BorderCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#D8D8D8",
+	padding:"10px"
+}
 const RegularPostModal=(props)=>{
 	debugger;
 	console.log(props);
@@ -146,10 +182,10 @@ const RegularPostModal=(props)=>{
 	}
 
 	return(
-		<React.Fragment>
+		<Container>
 			{headerRegularPost!=null?
 				<ul>
-					<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"50%"}}>
+					<li id="headerLI" style={{overflow:"scroll",position:"relative",listStyle:"none",display:"inline-block",width:"50%",...BorderCSS}}>
 						<ul style={{padding:"0px"}}>
 
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -185,7 +221,7 @@ const RegularPostModal=(props)=>{
 										</ul>
 									</li>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>handleDisplayHeaderPost()} style={{listStyle:"none",height:"30%",overflowY:"scroll",display:"inline-block",width:"80%",fontSize:"20px"}}>
+										<li id="headerPostLI" onClick={()=>handleDisplayHeaderPost()} style={{listStyle:"none",height:"30%",overflowY:"scroll",display:"inline-block",width:"80%",fontSize:"20px"}}>
 												{headerRegularPost.isAudioPost==true?
 													<audio controls>
 													 	<source src={headerRegularPost.post} type="audio/ogg"/>
@@ -201,13 +237,12 @@ const RegularPostModal=(props)=>{
 							</li>
 						</ul>
 					</li>
-
-					<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"2%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
+					<li id="smallPostLI" style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"2%",height:"80%",overflowY:"auto",marginBottom:"5%",...BorderCSS}}>
 						<ul style={{padding:"0px"}}>
 							{regularPosts.map(data=>
 								<React.Fragment>
 									{data=="suggestedSymposium"?
-										<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"0px",marginBottom:"8%",width:"70%",marginRight:"4%"}}>
+										<li id="suggestedSymposiumLI" style={{listStyle:"none",display:"inline-block",position:"relative",top:"0px",marginBottom:"8%",width:"70%",marginRight:"4%"}}>
 											{constructSuggestedSymposium(personalInformationRedux,props)}
 										</li>
 										:
@@ -229,10 +264,10 @@ const RegularPostModal=(props)=>{
 													</ul>
 												</li>
 
-												<li style={{listStyle:"none"}}>
+												<li iid="postLI" style={{listStyle:"none"}}>
 													<ul style={{padding:"0px"}}>
 														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<li onClick={()=>displayPostModal(data)}
+															<li  id="post" onClick={()=>displayPostModal(data)}
 																 style={{listStyle:"none",marginBottom:"1%",height:"20%",overflowY:"scroll",color:"#BDBDBD"}}>
 																<b> 
 																	{data.isAudioPost==true?
@@ -259,6 +294,7 @@ const RegularPostModal=(props)=>{
 											</ul>
 										</li>
 									}
+									<hr/>
 								</React.Fragment>
 							)}
 						</ul>
@@ -275,7 +311,7 @@ const RegularPostModal=(props)=>{
 					targetDom={props.targetDom}
 				/>
 			}
-		</React.Fragment>
+		</Container>
 	)
 }
 

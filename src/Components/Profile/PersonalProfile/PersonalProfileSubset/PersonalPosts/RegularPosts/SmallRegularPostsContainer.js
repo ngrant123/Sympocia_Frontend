@@ -17,6 +17,41 @@ const Container=styled.div`
 	border-color:#D8D8D8;
 	padding:10px;
 	overflow:hidden;
+
+	@media screen and (max-width:1030px){
+		width:200% !important;
+		height:20%;
+		#postOwnerInformation{
+			display:none !important;
+		}
+		#commentLI{
+			display:none !important;
+		}
+	}
+
+	@media screen and (max-width:600px){
+		width:150% !important;
+		#postOwnerInformation{
+			display:none !important;
+		}
+		#postLI{
+			height:60% !important;
+		}
+
+		#commentLI{
+			display:none !important;
+		}
+	}
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	
+    }
+
+    @media screen  and (max-width:730px) and (max-height:420px) 
+	  and (orientation: landscape) 
+	  and (-webkit-min-device-pixel-ratio: 1){
+    	width:350% !important;
+		height:60% !important;
+    }
 `;
 
 const ProfilePicture=styled.div`
@@ -24,7 +59,6 @@ const ProfilePicture=styled.div`
 	border-radius:50%;
 	height:20%;
 	width:60px;
-	background-color:red;
 	margin-top:2%;
 	overflow:hidden;
 	border-radius:50%;
@@ -72,7 +106,7 @@ const SmallRegularPosts=(props)=>{
 			<ul>
 				<li style={{listStyle:"none"}}>
 					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginLeft:"25%",marginBottom:"2%"}}>
+						<li id="postOwnerInformation" style={{listStyle:"none",display:"inline-block",marginLeft:"25%",marginBottom:"2%"}}>
 							<ProfilePicture>
 								{profilePicture==null?
 									 <img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
@@ -80,7 +114,7 @@ const SmallRegularPosts=(props)=>{
 								}													    
 							</ProfilePicture>
 						</li>
-						<li style={{listStyle:"none",display:"inline-block",height:"40%",overflowY:"auto",color:"#A4A4A4",marginBottom:"4%"}}>
+						<li id="postLI" style={{listStyle:"none",display:"inline-block",height:"40%",overflowY:"auto",color:"#A4A4A4",marginBottom:"4%"}}>
 							{post.isAudioPost==true?
 								<audio key={uuidv4()} style={{width:"150px"}} controls>
 											<source src={post.post} type="audio/ogg"/>
@@ -89,27 +123,29 @@ const SmallRegularPosts=(props)=>{
 								</audio>:<React.Fragment>{post.post}</React.Fragment>
 							}
 						</li>
-						{post.comments.regularComments.length==0?
-							<React.Fragment>
-								<p> No comments here :(<ExpandMoreIcon/> </p>
-								<p style={CommentButtonCSS}> Create a comment </p>
-							</React.Fragment>:
-							<React.Fragment>
-								<p> Show comments <ExpandMoreIcon/> </p>
-								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										{post.comments.regularComments.map(data=>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-												<SmallProfileCommentPicture>
-													<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-													<img id="profilePicture" src={data.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
-												</SmallProfileCommentPicture>
-											</li>
-											)}
-										</ul>
-									</li>
-								</React.Fragment>
-							}
+						<div id="commentLI">	
+							{post.comments.regularComments.length==0?
+								<React.Fragment>
+									<p> No comments here :(<ExpandMoreIcon/> </p>
+									<p style={CommentButtonCSS}> Create a comment </p>
+								</React.Fragment>:
+								<React.Fragment>
+									<p> Show comments <ExpandMoreIcon/> </p>
+									<li style={{listStyle:"none"}}>
+										<ul style={{padding:"0px"}}>
+											{post.comments.regularComments.map(data=>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+													<SmallProfileCommentPicture>
+														<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
+														<img id="profilePicture" src={data.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
+													</SmallProfileCommentPicture>
+												</li>
+												)}
+											</ul>
+										</li>
+									</React.Fragment>
+								}
+						</div>
 					</ul>
 				</li>
 			</ul>

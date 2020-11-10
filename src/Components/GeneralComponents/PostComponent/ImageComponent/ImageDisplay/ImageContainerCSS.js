@@ -23,11 +23,14 @@ export const Image=styled.div`
 	border-radius:20px;
 	margin-bottom:5px;
 
+	@media screen and (max-width:1370px){
+		height:40% !important;
+    }
+
 	@media screen and (max-width:350px){
 		height:40%;
 		width:200px;
     }
-
 `;
 
 export const ImageButtons=styled.div`
@@ -68,7 +71,7 @@ export const StampIconEffect=styled.div`
 	  border-radius:5px;
 	  position:absolute;
 	  animation:${keyFrame} 1s ease-in-out 0s forwards;
-	  
+
     @media screen and (max-width:1030px){
 		height:70px !important;
 		width:70px !important;

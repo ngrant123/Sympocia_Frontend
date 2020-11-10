@@ -5,6 +5,7 @@ import ImageDisplayContainer from "../../GeneralComponents/PostComponent/ImageCo
 
 const Container=styled.div`
 	position:absolute;
+	background-color:red;
 	z-index:36;
 	height:90%;
 	width:60%;
@@ -14,6 +15,19 @@ const Container=styled.div`
 	overflow-y:auto;
 	background-color:white;
 	padding:20px;
+
+	@media screen and (max-width:740px) and (max-height:420px){
+    	margin-left:10% !important;
+    	top:30% !important;
+    }
+
+	@media screen and (max-width:450px){
+		width:100% !important;
+		height:100% !important;
+		margin-right:-10% !important;
+		top:15% !important;
+		margin-left:-20% !important;
+	}
 `;
 
 const ShadowContainer= styled.div`
@@ -44,6 +58,10 @@ const ShadowContainerRecommenedImages=styled.div`
 const ImageContainer=styled.div`
 	position:relative;
 	height:60%;
+
+	@media screen and (max-width:450px){
+		height:90% !important;
+	}
 `;
 
 const ImageLabelCSS={
@@ -80,48 +98,51 @@ const ImageHomeDisplayPortal=(props)=>{
 						imageData={props.selectedImage}
 					/>
 				</ImageContainer>
-				<hr/>
-				<ul style={{padding:"10px",marginTop:"2%"}}>
-					<li style={{fontSize:"20px",listStyle:"none",marginBottom:"5%"}}>
-						<p> 
-							<b>Recommended Posts</b>
-						</p>
-					</li>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							{props.recommendedImages.map(data=>
-								<React.Fragment>
-									{data=="suggestedSymposium"?null:
-										<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"-10%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<ShadowContainerRecommenedImages/>
-															<img src={data.imgUrl} style={ImageCSS}/>
-														</a>
-													</li>
-													<li style={{listStyle:"none",marginBottom:"1%"}}>
+				{/*
+						<ul style={{padding:"10px",marginTop:"2%"}}>
+							<li style={{fontSize:"20px",listStyle:"none",marginBottom:"5%"}}>
+								<p> 
+									<b>Recommended Posts</b>
+								</p>
+							</li>
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px"}}>
+									{props.recommendedImages.map(data=>
+										<React.Fragment>
+											{data=="suggestedSymposium"?null:
+												<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"-10%"}}>
 														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>	
-																<b>{data.firstName}</b>
+															<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<ShadowContainerRecommenedImages/>
+																	<img src={data.imgUrl} style={ImageCSS}/>
+																</a>
 															</li>
+															<li style={{listStyle:"none",marginBottom:"1%"}}>
+																<ul style={{padding:"0px"}}>
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>	
+																		<b>{data.firstName}</b>
+																	</li>
 
-															<li style={ImageLabelCSS}>
-																{data.industriesUploaded[0].industry}
+																	<li style={ImageLabelCSS}>
+																		{data.industriesUploaded[0].industry}
+																	</li>
+																</ul>
 															</li>
-														</ul>
-													</li>
-													<li style={{listStyle:"none",width:"100%",height:"20%",overflow:"hidden"}}>
-														  <p>{data.description}</p>
-													</li>
-									 			</ul>
-										</li>
-									}
-								</React.Fragment>
-							)}
+															<li style={{listStyle:"none",width:"100%",height:"20%",overflow:"hidden"}}>
+																  <p>{data.description}</p>
+															</li>
+											 			</ul>
+												</li>
+											}
+										</React.Fragment>
+									)}
+								</ul>
+							</li>
 						</ul>
-					</li>
-				</ul>
+						<hr/>
+				*/}
+
 			</Container>
 		</React.Fragment>,
 	document.getElementById(props.targetDom)

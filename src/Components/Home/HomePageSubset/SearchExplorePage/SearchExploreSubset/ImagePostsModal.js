@@ -12,14 +12,56 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {addRecruit} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {isUserFollwingProfile} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {SearchConsumer} from "../../../../SearchPage/SearchContext.js";
-
 import {Link} from "react-router-dom";
+
 
 const Container=styled.div`
 	position:absolute;
 	width:95%;
 	height:97%;
 	margin-top:1%;
+
+
+	@media screen and (max-width:740px) and (max-height:420px){
+    	#headerLI{
+			height:180% !important;
+		}
+		#headerImageLI{
+			height:95% !important;
+		}
+    }
+
+
+	@media screen and (max-width:1300px){
+		width:120%;
+		margin-left:-5% !important;
+		#headerLI{
+			display:block !important;
+			margin-top:10% !important;
+			width:95% !important;
+		}
+		#smallPostLI{
+			width:95% !important;
+		}
+		#image{
+			width:120px !important;
+			height:120px !important;
+			margin-right:2%;
+		}
+		#suggestedSymposiumLI{
+			top:-15% !important;
+		}
+		#postLI{
+			margin-right:2% !important;
+		}
+	}
+	
+	@media screen and (max-width:450px){
+		margin-left:-5% !important;
+		#headerLI{
+			margin-top:-25% !important;
+		}
+	}
 `;
 
 const HeaderImageCSS={
@@ -51,6 +93,15 @@ const ShadowContainer= styled.div`
 
 	&:hover{
 		background-color:transparent
+	}
+	@media screen and (max-width:740px) and (max-height:420px){
+    	width:120px !important;
+    	height:120px !important;
+    }
+
+	@media screen and (max-width:450px){
+		display:none !important;
+		position:relative;
 	}
 `;
 
@@ -263,7 +314,7 @@ const ImagePostsModal=(props)=>{
 	const displaySpecialPost=(postResult,personalInformationRedux,previousProps)=>{
 		console.log(postResult);
 		if(postResult=="suggestedSymposium"){
-			return <li style={{listStyle:"none",display:"inline-block",top:"-150px",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
+			return <li id="suggestedSymposiumLI" style={{listStyle:"none",display:"inline-block",top:"-130px",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
 						{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}
 					</li>
 		}else{
@@ -284,19 +335,19 @@ const ImagePostsModal=(props)=>{
 	}
 
 	return(
-	<React.Fragment>
+	<Container>
 		{props.posts.length>=1?
 			<React.Fragment>
-				<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
+				<li id="headerLI" style={{listStyle:"none",display:"inline-block",width:"50%"}}>
 					<ul style={{padding:"0px"}}>
 						<li onClick={()=>handleDisplayHeaderImage()} style={{listStyle:"none",backgroundColor:"red",width:"90%",borderRadius:"5px",position:"relative",top:"-80px"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<img src={headerImage.imgUrl} style={HeaderImageCSS}/>
+								<img id="headerImageLI"src={headerImage.imgUrl} style={HeaderImageCSS}/>
 								<ul style={{padding:"0px",zIndex:"8",position:"absolute",top:"10px"}}>
 									{headerImage.videoDescription!=null?
 										<li style={{listStyle:"none"}}>
 											<VideoDesriptionContainer>
-												   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+												   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
 														<source src={headerImage.videoDescription} type="video/mp4"/>
 													</video>
 											</VideoDesriptionContainer>
@@ -305,7 +356,7 @@ const ImagePostsModal=(props)=>{
 									
 									{headerImage.audioDescription!=null?
 										<li style={{listStyle:"none"}}>
-											<audio style={{width:"200px"}} controls>
+											<audio style={{width:"200px"}} controls muted>
 											  	<source src={headerImage.audioDescription} type="audio/ogg"/>
 											  	<source src={headerImage.audioDescription} type="audio/mpeg"/>
 												Your browser does not support the audio element.
@@ -344,7 +395,7 @@ const ImagePostsModal=(props)=>{
 					</ul>
 				</li>
 
-				<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"2%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
+				<li id="smallPostLI" style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
 					<ul style={{padding:"0px"}}>
 						{images.map(data=>
 							<React.Fragment>
@@ -352,17 +403,17 @@ const ImagePostsModal=(props)=>{
 									<React.Fragment>
 										{displaySpecialPost(data,personalInformationRedux,props)}
 									</React.Fragment>
-								:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"2%"}}>
+								:<li id="postLI" style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"2%"}}>
 									<ul style={{padding:"0px"}}>
 										<li onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 												<ShadowContainer/>
-												<img src={data.imgUrl} style={ImageCSS}/>
-												<ul style={{padding:"0px",zIndex:"8",position:"absolute",top:"25%"}}>
+												<img id="image" src={data.imgUrl} style={ImageCSS}/>
+												<ul id="smallAudioDescription"style={{padding:"0px",zIndex:"8",position:"absolute",top:"25%"}}>
 													{data.videoDescription!=null?
 														<li style={{listStyle:"none"}}>
 															<VideoDesriptionContainer>
-																   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
 																		<source src={data.videoDescription} type="video/mp4"/>
 																	</video>
 															</VideoDesriptionContainer>
@@ -371,7 +422,7 @@ const ImagePostsModal=(props)=>{
 													
 													{data.audioDescription!=null?
 														<li style={{listStyle:"none"}}>
-															<audio style={{width:"200px"}} controls>
+															<audio style={{width:"200px"}} controls muted>
 															  	<source src={data.audioDescription} type="audio/ogg"/>
 															  	<source src={data.audioDescription} type="audio/mpeg"/>
 																Your browser does not support the audio element.
@@ -381,7 +432,7 @@ const ImagePostsModal=(props)=>{
 												</ul>
 											</a>
 										</li>
-										<li style={{listStyle:"none",marginBottom:"1%"}}>
+										<li id="smallPersonalInformation" style={{listStyle:"none",marginBottom:"1%"}}>
 											<ul style={{padding:"0px"}}>
 												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",width:"20%"}}>
@@ -430,7 +481,7 @@ const ImagePostsModal=(props)=>{
 			</React.Fragment>
 		:<p>No posts </p>
 	}
-</React.Fragment>
+</Container>
 		)
 	}
 

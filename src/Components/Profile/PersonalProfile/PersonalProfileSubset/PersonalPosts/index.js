@@ -16,7 +16,7 @@ import PostCreationPortal from "../../PersonalProfileSet/Modals-Portals/PostCrea
 import {
 		getRegularPostFromUser,
 		getVideosFromUser
-	} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 import {
 	editPostIndexContext,

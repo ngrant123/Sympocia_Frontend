@@ -16,6 +16,63 @@ import {
 
 import {Link} from "react-router-dom";
 
+const Container=styled.div`
+	position:absolute;
+	width:95%;
+	height:97%;
+	margin-top:1%;
+
+
+	@media screen and (max-width:740/px) and (max-height:420px){
+    	#headerLI{
+			height:180% !important;
+
+		}
+		#headerVideoLI{
+			height:95% !important;
+			width:
+		}
+    }
+
+
+	@media screen and (max-width:1300px){
+		width:120%;
+		margin-left:-5% !important;
+		#headerLI{
+			display:block !important;
+			margin-top:10% !important;
+			width:95% !important;
+		}
+		#smallPostLI{
+			width:95% !important;
+			margin-left:-5% !important;
+		}
+		#video{
+			width:330px !important;
+			height:370px !important;
+	
+			margin-right:2%;
+		}
+		#suggestedSymposiumLI{
+			top:-15% !important;
+			width:120% !important;
+		}
+		#postLI{
+			margin-right:2% !important;
+		}
+	}
+	@media screen and (max-width:450px){
+		margin-left:-5% !important;
+		#headerLI{
+			margin-top:-25% !important;
+		}
+		#video{
+			width:230px !important;
+			height:160px !important;
+		}
+	}
+`;
+
 const HeaderVideo=styled.div`
 	width:120%;
 	height:80%;
@@ -45,6 +102,15 @@ const ShadowContainer= styled.div`
 	&:hover{
 		background-color:transparent
 	}
+	@media screen and (max-width:1300px){
+		width:330px !important;
+			height:370px !important;
+	}
+	@media screen and (max-width:450px){
+					width:230px !important;
+			height:160px !important;
+	}
+
 `;
 
 
@@ -147,11 +213,11 @@ const VideoPostModal=(props)=>{
 	}
 
 	return(
-	<React.Fragment>
+	<Container>
 		{headerVideo==null?
 			<p> No video posts yet </p>:
 				<React.Fragment>
-				<li style={{position:"relative",top:"-70px",listStyle:"none",display:"inline-block",width:"50%"}}>
+				<li id="headerLI" style={{position:"relative",top:"-70px",listStyle:"none",display:"inline-block",width:"50%"}}>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
@@ -178,12 +244,12 @@ const VideoPostModal=(props)=>{
 						</li>
 						<li  onClick={()=>handleDisplayHeaderVideo()} style={{listStyle:"none",width:"90%",borderRadius:"5px"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<video id="smallVideo" key={headerVideo.videoUrl} position="relative" height="80%" width="120%" controls autoplay>
+								<video id="headerVideoLI" key={headerVideo.videoUrl} position="relative" height="80%" width="120%" controls autoplay>
 									<source src={headerVideo.videoUrl} type="video/mp4"/>
 								</video>
 							</a>
 						</li>
-						<li style={{listStyle:"none",width:"80%"}}>
+						<li style={{marginLeft:"20%",listStyle:"none",width:"80%"}}>
 							<ul style={{padding:"0px"}}>	
 								<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"25%",top:"-20px"}}>
 									<ul style={{padding:"0px"}}>
@@ -239,15 +305,15 @@ const VideoPostModal=(props)=>{
 					</ul>
 				</li>
 
-				<li style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
+				<li  id="smallPostLI" style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
 					<ul style={{padding:"0px"}}>
 						{videos.map(data=>
 							<React.Fragment>
 								{data=="suggestedSymposium"?
-									<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"0px",marginBottom:"8%",width:"70%",marginRight:"4%"}}>
+									<li id="suggestedSymposiumLI" style={{listStyle:"none",display:"inline-block",position:"relative",top:"0px",marginBottom:"8%",width:"70%",marginRight:"4%"}}>
 										{constructSuggestedSymposium(personalInformationRedux,props)}
 									</li>
-								:<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
+								:<li id="postLI" style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
 									<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none"}}>
 											<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
@@ -275,19 +341,19 @@ const VideoPostModal=(props)=>{
 										<li onClick={()=>displayVideoModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
 											<ShadowContainer/>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<video id="smallVideo" key={data.videoUrl} position="relative" height="290px" width="580px" controls autoplay>
+												<video id="video" key={data.videoUrl} position="relative" height="290px" width="580px" controls autoplay>
 													<source src={data.videoUrl} type="video/mp4"/>
 												</video>
 											</a>
 										</li>
 										<li style={{listStyle:"none",marginBottom:"1%",width:"170%"}}>
 											<ul style={{padding:"0px"}}>
-												<li style={{marginRight:"3%",listStyle:"none",display:"inline-block",width:"25%"}}>
+												<li style={{marginLeft:"20%",marginRight:"3%",listStyle:"none",display:"inline-block",width:"25%"}}>
 													<ul style={{padding:"0px"}}>
 														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 															<li style={{listStyle:"none",marginBottom:"2%"}}>
 																<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-																	{headerVideo.owner.profilePicture!=null?
+																	{data.owner.profilePicture!=null?
 																		<img src={data.owner.profilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>:
 																		<img src={NoProfilePicture} style={{height:"10%",width:"40%",borderRadius:"50%"}}/>
 																	}
@@ -337,9 +403,8 @@ const VideoPostModal=(props)=>{
 					/>
 				}
 			</React.Fragment>
-			}
 		}
-		</React.Fragment>
+		</Container>
 	)
 }
 

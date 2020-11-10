@@ -8,12 +8,41 @@ import RegularPostModal from "../Home/HomePageSubset/SearchExplorePage/SearchExp
 import {getPostsFromSearch} from "../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import LoadingScreen from "../../LoadingAnimation.js";
 
+
+const Container=styled.div`
+	@media screen and (max-width:1370px){
+		#postLI{
+			margin-top:-5% !important;
+		}
+	}
+
+	@media screen and (max-width:600px){
+		#postLI{
+			margin-top:50% !important;
+		}
+	}
+
+
+
+    @media screen  and (max-width:730px) and (max-height:420px) 
+	  and (orientation: landscape) 
+	  and (-webkit-min-device-pixel-ratio: 1){
+    	#postLI{
+			margin-top:5% !important;
+		}
+    }
+`;
 const PostContainer=styled.div`
 	position:absolute;
 	width:95%;
 	height:600px;
 	margin-top:7%;
-	padding:20px;
+	padding:40px;
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	margin-left:10% !important;
+    	width:70% !important;
+    }
 `;
 
 const PostButton={
@@ -46,14 +75,23 @@ const PostSearch=(props)=>{
 				searchUrl:props.searchQuery,
 				postType:props.postType
 			}
-
-			const {confirmation,data}=await getPostsFromSearch(searchCriteria);
-			if(confirmation=="Success"){
-				const finalPosts=addSuggestedSymposiums(data);
-				changePosts(finalPosts);
-				changeLoadState(true);
-			}else{
-				alert('Unfortunately there has been an error getting this search result. Please try again');
+			switch(props.postType){
+				case "Images":{
+					fetchImagePosts();
+					break;
+				}
+				case "Blogs":{
+					fetchBlogPosts();
+					break;
+				}
+				case "Videos":{
+					fetchVideoPosts();
+					break;
+				}
+				case "RegularPosts":{
+					fetchRegularPosts();
+					break;
+				}
 			}
 		}
 		getPosts();
@@ -70,15 +108,19 @@ const PostSearch=(props)=>{
 			postType:"Blogs"
 		}
 
-		const posts=await getPostsFromSearch(props.userId,postsCount);
-		const finalPosts=addSuggestedSymposiums(posts);
-		changePosts(finalPosts);
-		changeLoadState(true);
+		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
+		if(confirmation=="Success"){
+			const finalPosts=addSuggestedSymposiums(data);
+			changePosts(finalPosts);
+			changeLoadState(true);
 
-		changeDisplayImages(false);
-		changeDisplayVideos(false);
-		changeDisplayBlogs(true);
-		changeDisplayRegularPosts(false);
+			changeDisplayImages(false);
+			changeDisplayVideos(false);
+			changeDisplayBlogs(true);
+			changeDisplayRegularPosts(false);
+		}else{
+			alert('Unfortunately there has been an error getting this search result. Please try again');
+		}
 	}
 
 	const fetchImagePosts=async()=>{
@@ -88,15 +130,19 @@ const PostSearch=(props)=>{
 			postType:"Images"
 		}
 
-		const posts=await getPostsFromSearch(searchCriteria);
-		const finalPosts=addSuggestedSymposiums(posts);
-		changePosts(finalPosts);
-		changeLoadState(true);
+		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
+		if(confirmation=="Success"){
+			const finalPosts=addSuggestedSymposiums(data);
+			changePosts(finalPosts);
+			changeLoadState(true);
 
-		changeDisplayImages(true);
-		changeDisplayVideos(false);
-		changeDisplayBlogs(false);
-		changeDisplayRegularPosts(false);
+			changeDisplayImages(true);
+			changeDisplayVideos(false);
+			changeDisplayBlogs(false);
+			changeDisplayRegularPosts(false);
+		}else{
+			alert('Unfortunately there has been an error getting this search result. Please try again');
+		}
 	}
 
 	const fetchVideoPosts=async()=>{
@@ -105,16 +151,19 @@ const PostSearch=(props)=>{
 			searchUrl:props.searchQuery,
 			postType:"Videos"
 		}
+		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
+		if(confirmation=="Success"){
+			const finalPosts=addSuggestedSymposiums(data);
+			changePosts(finalPosts);
+			changeLoadState(true);
 
-		const posts=await getPostsFromSearch(searchCriteria);
-		const finalPosts=addSuggestedSymposiums(posts);
-		changePosts(finalPosts);
-		changeLoadState(true);
-
-		changeDisplayImages(false);
-		changeDisplayVideos(true);
-		changeDisplayBlogs(false);
-		changeDisplayRegularPosts(false);
+			changeDisplayImages(false);
+			changeDisplayVideos(true);
+			changeDisplayBlogs(false);
+			changeDisplayRegularPosts(false);
+		}else{
+			alert('Unfortunately there has been an error getting this search result. Please try again');
+		}
 	}
 
 	const fetchRegularPosts=async()=>{
@@ -124,15 +173,19 @@ const PostSearch=(props)=>{
 			postType:"RegularPosts"
 		}
 
-		const posts=await getPostsFromSearch(searchCriteria);
-		const finalPosts=addSuggestedSymposiums(posts);
-		changePosts(finalPosts);
-		changeLoadState(true);
+		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
+		if(confirmation=="Success"){
+			const finalPosts=addSuggestedSymposiums(data);
+			changePosts(finalPosts);
+			changeLoadState(true);
 
-		changeDisplayImages(false);
-		changeDisplayVideos(false);
-		changeDisplayBlogs(false);
-		changeDisplayRegularPosts(true);
+			changeDisplayImages(false);
+			changeDisplayVideos(false);
+			changeDisplayBlogs(false);
+			changeDisplayRegularPosts(true);
+		}else{
+			alert('Unfortunately there has been an error getting this search result. Please try again');
+		}
 	}
 
 	const suggestedSymposiumsRecursive=(posts)=>{
@@ -206,7 +259,7 @@ const PostSearch=(props)=>{
 	}
 
 	return(
-		<>
+		<Container>
 			<ul>
 				<li style={{listStyle:"none"}}>
 					<ul style={{padding:"0px"}}>
@@ -238,7 +291,7 @@ const PostSearch=(props)=>{
 				</li>
 				<hr/>
 
-				<li style={{listStyle:"none"}}>
+				<li id="postLI"  style={{listStyle:"none"}}>
 					<PostContainer>
 						{isFinishedLoading==true?
 							<>
@@ -248,7 +301,7 @@ const PostSearch=(props)=>{
 					</PostContainer>
 				</li>
 			</ul>
-		</>
+		</Container>
 	)
 }
 

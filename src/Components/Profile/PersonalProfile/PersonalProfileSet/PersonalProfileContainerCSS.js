@@ -405,10 +405,23 @@ export const ImagePopupContainer=styled.div`
 `;
 
 export const PostPopupContainer=styled.div`
+	margin-left:20%;
+	margin-top:10%;
 	position:fixed;
-	margin-left:10%;
-	z-index:12;
-	margin-top:5%;
+	width:70%;
+	height:60%;
+	background-color:white;
+	padding:20px;
+	z-index:11;
+	border-radius:5px;
+
+	@media screen and (max-width:800px){
+		margin-left:1% !important;
+		top:10% !important;
+    	width:100% !important;
+    	height:90% !important;
+    	border-radius:5px !important;
+    }
 
 `;
 
@@ -448,13 +461,35 @@ export const RegularPostContainerParent=styled.div`
 	position:fixed;
 	width:60%;
 	height:40%;
-	z-index:9;
-	left:30%;
-	top:40%;
+	z-index:11;
+	left:0%;
+	top:20%;
 	border-radius:5px;
 	background-color:white;
 	border-radius:5px;
 	padding:5px;
 	box-shadow: 1px 1px 50px #d5d5d5;
 	overflow-y:auto;
+
+	@media screen and (max-width:1370px) and (max-height:1030px){
+    	left:10% !important;
+    }
+
+
+	@media screen and (max-width:1030px){
+		left:10% !important;
+		width:80% !important;
+	}
+
+	@media screen and (max-width:450px){
+		left:0% !important;
+		height:100% !important;
+		width:100% !important;
+
+	}
 `;
+
+
+
+
+

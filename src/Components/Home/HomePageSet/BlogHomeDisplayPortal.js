@@ -14,6 +14,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PollOptionPortal from "../../GeneralComponents/PostComponent/PollOptionPortal.js";
 
 import PollIcon from '@material-ui/icons/Poll';
+import {HomeConsumer} from "../HomeContext.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -26,6 +27,12 @@ const Container=styled.div`
 	overflow-y:auto;
 	background-color:white;
 	padding:20px;
+
+	@media screen and (max-width:1370px){
+		top:10% !important;
+		width:95% !important;
+		margin-left:-10%;
+	}
 `;
 
 const ShadowContainerBlog=styled.div`
@@ -47,6 +54,11 @@ const PosterInformationModal=styled.div`
 	left:55%;
 	padding:10px;
 	z-index:9;
+
+	@media screen and (max-width:1370px){
+		left:20% !important;
+		width:70% !important;
+	}
 
 `;
 
@@ -94,14 +106,19 @@ const SmallPostInformationModal=styled.div`
 
 const ApproveDisapproveContainer=styled.div`
 	position:fixed;
-	background-color:white;
+	background-color:#1C1C1C;
 	width:30%;
 	height:10%;
 	border-radius:5px;
 	left:15%;
 	top:20%;
 	height:25%;
+	overflow:scroll;
 	z-index:16;
+
+	@media screen and (max-width:1370px){
+		width:60% !important;
+	}
 `;
 
 
@@ -110,7 +127,6 @@ const ShadowContainer = styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	background-color:rgba(0,0,0,0.4); /* Black w/ opacity */
 	z-index:15;
 
 `;
@@ -249,115 +265,128 @@ const BlogHomeDisplayPortal=(props)=>{
 	}
 
 	return createPortal(
-		<React.Fragment>
-			<ShadowContainerBlog onClick={()=>props.closeModal()}/>
-	
-				<Container>	
-					{pollModal()}
-					{displayApproveDisapproveModal()}
-					<Editor
-						editorState={blogContentState}
-						toolbarClassName="toolbarClassName"
-						wrapperClassName="wrapperClassName"
-						editorClassName="editorClassName"
-						placeholder="Start typing to create your masterpiece"
-						readOnly={false}
-					/>
-					{displayLargeModal==true?
-						<PosterInformationModal>
-							<ul style={{padding:"0px"}}>
-
-								<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<ExpandMoreIcon
-											style={{fontSize:25}}
-										/>
-									</a>
-								</li>
-								{displayStampEffect==true?
-										<li style={{listStyle:"none"}}>
-											<StampIconEffect
-												id="stampEffect"
-											>
-												<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-											</StampIconEffect>
-										</li>
-								:null}
+		<HomeConsumer>
+			{userInformation=>{
+				return <React.Fragment>
+					<ShadowContainerBlog onClick={()=>props.closeModal()}/>
 			
-								<li style={{listStyle:"none",marginBottom:"5%"}}>
+						<Container>	
+							{pollModal()}
+							{displayApproveDisapproveModal()}
+							<Editor
+								editorState={blogContentState}
+								toolbarClassName="toolbarClassName"
+								wrapperClassName="wrapperClassName"
+								editorClassName="editorClassName"
+								placeholder="Start typing to create your masterpiece"
+								readOnly={false}
+								toolbarHidden={true}
+							/>
+							{displayLargeModal==true?
+								<PosterInformationModal>
 									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-											<ProfilePicture>
-												{props.selectedBlog.owner.ownerImgUrl==null?
-													<img src={NoProfilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>:
-													<img src={props.selectedBlog.owner.profilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-												}
-											</ProfilePicture>
-										</li>
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<b>{props.selectedBlog.owner.firstName}</b>
-										</li>
 
-										<li style={{height:"90px",overflowY:"auto",listStyle:"none",display:"inline-block"}}>
-											{props.selectedBlog.title}
+										<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<ExpandMoreIcon
+													style={{fontSize:25}}
+												/>
+											</a>
 										</li>
-									</ul>
-								</li>
-
-								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={StampButtonCSS}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}> 
-													<Icon 
-														icon={stampIcon}
-														style={{fontSize:30,color:"#5298F8"}}
-													/>
+										{displayStampEffect==true?
+												<li style={{listStyle:"none"}}>
+													<StampIconEffect
+														id="stampEffect"
+													>
+														<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+													</StampIconEffect>
 												</li>
-												<li style={{listStyle:"none",display:"inline-block",color:"#5298F8"}}> 
-													Stamp
+										:null}
+					
+										<li style={{listStyle:"none",marginBottom:"5%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+													<ProfilePicture>
+														{props.selectedBlog.owner.ownerImgUrl==null?
+															<img src={NoProfilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>:
+															<img src={props.selectedBlog.owner.profilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+														}
+													</ProfilePicture>
+												</li>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<b>{props.selectedBlog.owner.firstName}</b>
+												</li>
+
+												<li style={{height:"90px",overflowY:"auto",listStyle:"none",display:"inline-block"}}>
+													{props.selectedBlog.title}
 												</li>
 											</ul>
 										</li>
 
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} 
-												style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
-												<PollIcon
-													style={{fontSize:"30"}}
+										<li style={{listStyle:"none"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={StampButtonCSS}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}> 
+															<Icon 
+																icon={stampIcon}
+																style={{fontSize:30,color:"#5298F8"}}
+															/>
+														</li>
+														<li style={{listStyle:"none",display:"inline-block",color:"#5298F8"}}> 
+															Stamp
+														</li>
+													</ul>
+												</li>
+
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} 
+														style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
+														<PollIcon
+															style={{fontSize:"30"}}
+														/>
+													</li>
+												</a>
+											</ul>
+										</li>
+									</ul>
+								</PosterInformationModal>:
+								<SmallPostInformationModal>
+									{userInformation.isDesktop==false?
+										<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
+											<ExpandLessIcon
+												style={{fontSize:25}}
+											/>
+										</li>:
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<ProfilePicture>
+													{props.ownerImgUrl==null?
+														<img src={NoProfilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>:
+														<img src={props.ownerImgUrl} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+													}
+												</ProfilePicture>
+											</li>
+
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
+												<b> Nathan </b>
+											</li>
+
+											<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
+												<ExpandLessIcon
+													style={{fontSize:25}}
 												/>
 											</li>
-										</a>
-									</ul>
-								</li>
-							</ul>
-						</PosterInformationModal>:
-						<SmallPostInformationModal>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<ProfilePicture>
-									{props.ownerImgUrl==null?
-										<img src={NoProfilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>:
-										<img src={props.ownerImgUrl} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+										</ul>
 									}
-								</ProfilePicture>
-							</li>
+								
+							</SmallPostInformationModal>
+						}
 
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
-								<b> Nathan </b>
-							</li>
-
-							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
-								<ExpandLessIcon
-									style={{fontSize:25}}
-								/>
-							</li>
-						</ul>
-					</SmallPostInformationModal>
-				}
-
-				</Container>
-		</React.Fragment>
+						</Container>
+				</React.Fragment>
+			}}
+		</HomeConsumer>
 	,document.getElementById(props.targetDom));
 
 }
