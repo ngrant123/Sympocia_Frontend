@@ -16,8 +16,6 @@ const displayCamera=(divElement)=>{
 					     
 					    })
 				    .catch(function (error) {
-				    	console.log(error);
-				      console.log("Something went wrong!");
 				    });
 				}	
 	}

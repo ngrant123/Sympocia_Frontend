@@ -48,7 +48,6 @@ const BackButtonCSS={
 class CommentsContainer extends Component{
 
 	constructor(props){
-		console.log(props);
 		super(props);
 		this.state={
 			displayResponses:false,

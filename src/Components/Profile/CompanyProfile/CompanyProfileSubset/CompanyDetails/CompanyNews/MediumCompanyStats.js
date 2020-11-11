@@ -212,7 +212,6 @@ class MediumCompanyStats extends Component{
 			displayNewsCreationModal:false
 		}
 		this.displayData=this.displayData.bind(this);
-		console.log("Test");
 
 	}
 

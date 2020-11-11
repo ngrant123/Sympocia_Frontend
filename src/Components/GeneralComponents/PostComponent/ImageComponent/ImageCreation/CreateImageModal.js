@@ -50,8 +50,6 @@ class CreateImageMdoal extends Component{
 					      video.srcObject = stream;
 					    })
 				    .catch(function (error) {
-				      console.log("Something went wrong!");
-				      console.log(error);
 				    });
 				}	
 	}
@@ -78,7 +76,6 @@ class CreateImageMdoal extends Component{
 		debugger;
 		const canvasElement=document.getElementById("canvas");
 		const canvasData=canvasElement.toDataURL("image/png");
-		console.log(canvasData);
 		this.props.handleNewlyCreatedImage(canvasData);
 	}
 

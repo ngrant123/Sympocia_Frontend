@@ -13,9 +13,7 @@ export function getActivityLog(userId){
 			userid:userId
 		}
 	}).then(res=>{
-		console.log(res.data);
 	}).catch(err=>{
-		console.log(err.message);
 	})
 }
 
@@ -23,7 +21,6 @@ export function getActivityLog(userId){
 export async function getProfile({userId,visitorId}){
 
 	try{
-		console.log("Connected with profile route");
 		const profile=await axios.get(`${SearchUrl}/getProfile`,{
 			params:{
 				id:userId,
@@ -33,7 +30,6 @@ export async function getProfile({userId,visitorId}){
 		const {data}=profile;
 		return data;
 	}catch(err){
-		console.log(err.message);
 	}
 }
 
@@ -44,7 +40,6 @@ export function getVideos(profileId){
 	}).then(videos=>{
 		return videos;
 	}).catch(err=>{
-		console.log(err.message);
 	})
 } 
 
@@ -55,7 +50,6 @@ export function getImages(profileId){
 	}).then(images=>{
 		return images;
 	}).catch(err=>{
-		console.log(err.message);
 	})
 }
 
@@ -67,7 +61,6 @@ export function getBlogs(profileId){
 		}).then(blogs=>{
 			return blogs;
 		}).catch(err=>{
-			console.log(err.message);
 		})
 }
 
@@ -86,7 +79,6 @@ export async function getProfileByName(profileName){
 		return profile;
 
 	}catch(err){
-		console.log(err.message);
 		return err.message;
 	}
 }
@@ -94,9 +86,7 @@ export async function getProfileByName(profileName){
 export async function getInvestorsInIndustryAndArea(investorsSearchCriteria){
 
 	try{
-		console.log("Test api calls");
 		const {industry,location}=investorsSearchCriteria;
-		console.log(investorsSearchCriteria);
 		const industryArray=[];
 		industryArray.push(industry);
 		const investorProfiles=await axios.get(`${SearchUrl}/getInvestorProfiles`,{
@@ -111,7 +101,6 @@ export async function getInvestorsInIndustryAndArea(investorsSearchCriteria){
 		return investorResults;
 
 	}catch(err){
-		console.log(err.message);
 		return err.message;
 	}
 }
@@ -132,7 +121,6 @@ export async function getNewestInvestors(investors){
 		return data;
 
 	}catch(err){
-		console.log(err.message);
 	}
 }
 
@@ -151,7 +139,6 @@ export async function getActiveInvestors(investors){
 
 
 	}catch(err){
-		console.log(err.message);
 	}
 }
 
@@ -170,13 +157,11 @@ export async function getMostPopular(investors){
 
 
 	}catch(err){
-		console.log(err.message);
 	}
 }
 
 export async function getVideosFromUser({userId,visitorId}){
 	try{
-		console.log("Video Route for requests");
 		const videos=await axios.get(`${SearchUrl}/getUserVideos`,{
 			params:{
 				id:userId,
@@ -189,7 +174,7 @@ export async function getVideosFromUser({userId,visitorId}){
 		return data;
 
 	}catch(err){
-		console.log(err);
+		
 	}
 }
 export async function getBlogFromUser({userId,visitorId}){
@@ -205,14 +190,13 @@ export async function getBlogFromUser({userId,visitorId}){
 		return data;
 
 	}catch(err){
-		console.log(err);
+		
 	}
 }
 
 
 export async function getRegularPostFromUser({userId,visitorId}){
 	try{
-		console.log("Testing regular posts api call");
 		const regularPostsResults=await axios.get(`${SearchUrl}/getUserRegularPosts`,{
 			params:{
 				id:userId,
@@ -225,7 +209,7 @@ export async function getRegularPostFromUser({userId,visitorId}){
 		return data;;
 
 	}catch(err){
-		console.log(err);
+		
 	}
 }
 
@@ -241,7 +225,7 @@ export const getProfileForHomePage=async(id)=>{
 		return data;
 
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -260,26 +244,24 @@ export const getRecruitsPostsHomePage=async({id,currentTime,postType,recruits})=
 		const {data}=recruitPostResponse;
 		return data;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
 
 export const getUserImages=async(userId)=>{
 	try{
-		console.log("User imaegs");
 		const userImageResponse=await axios.get(`${SearchUrl}/getUserImages`,{
 			params:{
 				_id:userId
 			}
 		});
-		console.log(userImageResponse);
 		const {data}=userImageResponse;
 		const userImageData=data.data;
 		return userImageData;
 
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -298,7 +280,7 @@ export const checkIfEmailIsUsed=async(email)=>{
 		const emailData=data.data;
 		return emailData;
 	}catch(err){
-		console.log(err);
+		
 		return err.message;
 	}
 
@@ -317,7 +299,7 @@ export const getRecruitsInformation=async(userId)=>{
 		const recruitsData=data.data;
 		return recruitsData;
 	}catch(err){
-		console.log(err);
+		
 	}
 }
 
@@ -330,12 +312,11 @@ export const getPersonalProfileGeneralMessages=async(personalId)=>{
 			}
 		});
 
-		console.log(chatsResponse);
 		const {data}=chatsResponse;
 		const chatMessage=data.data;
 		return chatMessage;
 	}catch(err){
-		console.log(err);
+		
 		return err.message;
 	}
 }
@@ -355,7 +336,7 @@ export const getPersonalProfileChat=async(personalId,chatId)=>{
 		return chatData;
 
 	}catch(err){
-		console.log(err);
+		
 		return err.message;
 	}
 }
@@ -369,7 +350,7 @@ export const getProfiles=async()=>{
 		return profilesData
 
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -387,7 +368,7 @@ export const isUserFollwingProfile=async(userId,targetProfileId)=>{
 		return indicatorResonse;
 
 	}catch(err){
-		console.log(err);
+		
 		return err
 	}
 }
@@ -403,7 +384,7 @@ export const getSymposiumsFollowedPersonal=async(id)=>{
 		const {data}=symposiumResponse;
 		return data;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -420,7 +401,7 @@ export const getSymposiumsFollowedHome=async(id)=>{
 		const symposiumData=data.data;
 		return symposiumData;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -437,7 +418,6 @@ export const getSymposiumsNotFollowed=async(_id)=>{
 		const symposiumData=data.data;
 		return symposiumData;
 	}catch(err){
-		console.log(err.message);
 		return err;
 	}
 
@@ -453,7 +433,7 @@ export const getRecruits=async(profileId)=>{
 		const {data}=recruitsResponse;
 		return data;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -468,7 +448,7 @@ export const getProfilePicture=async(_id)=>{
 		const {data}=profilePictureResponse;
 		return data;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }

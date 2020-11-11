@@ -167,7 +167,6 @@ const ButtonCSS={
 	const [crownPostBackgroundColor,changeCrownPostBackgroundColor]=useState("white");
 	const [contextInformation,changeContextInformation]=useState();
 
-	console.log(props);
 	useEffect(()=>{
 		debugger;
 		if(isPreviousDataLoaded==true)
@@ -205,8 +204,6 @@ const ButtonCSS={
 	}
 
 const sendRegularPost=async(profilePostInformation)=>{
-		console.log("REgular Post test");
-		debugger;
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const searchCriteriaIndustryArray=[];
 		//const content=editorState;

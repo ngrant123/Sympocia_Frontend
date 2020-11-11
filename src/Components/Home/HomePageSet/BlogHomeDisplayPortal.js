@@ -161,7 +161,6 @@ const authenticPostButtonCSS={
 }
 
 const BlogHomeDisplayPortal=(props)=>{
-	console.log(props);
 	const blog=props.selectedBlog.blog;
 	var DBEditorState = convertFromRaw(JSON.parse(blog));
 	var blogContentState=EditorState.createWithContent(DBEditorState);

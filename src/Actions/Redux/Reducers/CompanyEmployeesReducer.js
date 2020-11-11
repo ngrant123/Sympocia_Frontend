@@ -10,7 +10,6 @@ const initialState =[
 const EmployeesReducer=(state = initialState, action)=>{
 
 		const { type, payload }=action;
-		console.log("Testing");
 		switch(type){
 
 			case 'UPDATE_EMPLOYEE_NAME':

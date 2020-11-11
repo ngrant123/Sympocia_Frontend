@@ -43,9 +43,6 @@ const ProfilePicture=styled.div`
 `;
 
 const RecentChatContainer=(props)=>{
-
-	console.log(props);
-
 	return(
 
 		<Container>

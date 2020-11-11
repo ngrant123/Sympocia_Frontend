@@ -67,8 +67,6 @@ const updateEmployeeBio=(employeeInformation)=>{
 
 
 const addEmployee=(employeeInformation)=>{
-
-	console.log("Testing");
 	return{
 		type:'ADD_EMPLOYEE',
 		payload:employeeInformation

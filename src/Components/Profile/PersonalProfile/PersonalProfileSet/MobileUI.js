@@ -55,8 +55,8 @@ const EditNodeContainer=styled.div`
 	padding:20px;
 
 	 @media screen and (max-width:1030px){
-		width:40% !important;
-		left:30% !important;
+		width:90% !important;
+		left:5% !important;
     }
 `;
 

@@ -242,8 +242,6 @@ class EditImageCreation extends Component{
 	//If information is coming from image display edit button then populate information with previous data
 
 	componentDidMount(){
-		console.log("Testing component");
-		console.log(this.props);
 
 		const {previousData}=this.props;
 		debugger;
@@ -307,8 +305,6 @@ class EditImageCreation extends Component{
 	}
 
 	sendImageDateToDB=async(profilePostInformation)=>{
-
-		console.log("Submit button clicked");
 		const industries=this.state.industriesSelected;
 		const imgUrl=this.state.src;
 		const currentVideoDescription=this.state.videoDescription;
@@ -516,10 +512,8 @@ class EditImageCreation extends Component{
 	}
 
 	displayFilteredImageHandle=(imageFilter)=>{
-		console.log("Testing image filtering");
 		const type=""+imageFilter.type+"";
 		const value=imageFilter.value;
-		debugger;
 		const imageElement= <ProcessImage
 		 							id="processedImage"
 									image={this.props.imageSrcUrl}
@@ -602,8 +596,6 @@ class EditImageCreation extends Component{
 	}
 
 	unCrownPost=async(profilePostInformation)=>{
-		debugger;
-		console.log(profilePostInformation);
 
 		const crownElement=document.getElementById("crownIcon");
 		crownElement.style.backgroundColor="white";
@@ -630,8 +622,6 @@ class EditImageCreation extends Component{
 
 
 	crownPost=async(profilePostInformation)=>{
-		console.log(profilePostInformation);
-		debugger;
 		const crownElement=document.getElementById("crownIcon");
 		crownElement.style.backgroundColor="#D6C5F4";
 		crownElement.style.color="white";
@@ -659,8 +649,6 @@ class EditImageCreation extends Component{
 	}
 
 	displayNewCreateImage=(imgUrl)=>{
-		console.log("Testing image filtering");
-		debugger;
 
 		const imageElement= <ProcessImage
 									id="processedImage"

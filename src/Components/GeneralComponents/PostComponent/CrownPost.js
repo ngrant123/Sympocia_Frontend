@@ -43,7 +43,6 @@ const ButtonCSS={
 }
 
 const CrownPost=({closeModal,parentCrownPost,parentUnCrownPost,previousData,isPostCrowned})=>{
-	console.log(isPostCrowned);
 	const unCrownPost=async()=>{
 		debugger;
 

@@ -16,7 +16,6 @@ export async function quickSearchIndustry(id,industryArray){
 			const companyData=data.data;
 			return companyData;
 	}catch(err){
-		console.log(err.message);
 	}
 }
 /*
@@ -42,7 +41,6 @@ export async function searchForCompanies(id,searchCriteria){
 		const companiesData=data.data;
 		return companiesData;
 	}catch(err){
-		console.log(err.message);
 	}
 } 
 

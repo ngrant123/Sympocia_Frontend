@@ -71,7 +71,6 @@ const VideoResultContainerCSS={
 //"blob:http://localhost:3000/9b5bb4e0-de5b-4e15-b127-1f05aeaaeb36"
 
 const VideoDescriptionPortal=(props)=>{
-	console.log("Testing video description");
 
 	const [maxTime,changeMaxTime]=useState(10000);
 	const [currentTime,changeCurrentTime]=useState(0);
@@ -94,17 +93,13 @@ const VideoDescriptionPortal=(props)=>{
 			    })
 		    .then(()=>handleRecording(video.captureStream()))
 		    .then(recordedChunks=>{
-			  	 debugger;
 			  	 if(recordedChunks!=null){
-			  	 	console.log("Recorded chunks");
 				  	 let recordedFile = new File(recordedChunks, { type: "video/webm" });
 				  	 var videoSrc=URL.createObjectURL(recordedFile);
 
 				  	 var reader=new FileReader();
 
 					reader.onloadend=()=>{
-						debugger;
-						console.log(reader.result);
 						var currentVideoElements=videoElements;
 
 						const videoObject={
@@ -118,15 +113,12 @@ const VideoDescriptionPortal=(props)=>{
 					  	 changeRecordingState(false);
 					  	 changeReInitliazed(true);
 
-					  	 console.log("Array added");
 					  	 chnagFirstFone(true)
 					}
 				  	 reader.readAsDataURL(recordedFile);
 			  	 }
 			  	 
 			  }).catch(function (error) {
-		      console.log("Something went wrong!");
-		      console.log(error);
 		    });
 		}	
 	},[]);
@@ -188,7 +180,6 @@ const VideoDescriptionPortal=(props)=>{
 			handleRecording().then(recordedChunks=>{
 						debugger;
 					  	 if(recordedChunks!=null){
-					  	 	console.log("Recorded chunks");
 						  	let recordedFile = new File(recordedChunks, { type: "video/webm" });
 						  	var videoSrc=URL.createObjectURL(recordedFile);
 
@@ -197,7 +188,6 @@ const VideoDescriptionPortal=(props)=>{
 							reader.onloadend=()=>{
 								debugger;
 								var currentVideoElements=videoElements;
-								console.log(reader.result);
 
 								const videoObject={
 									videoSrc:reader.result,
@@ -210,7 +200,6 @@ const VideoDescriptionPortal=(props)=>{
 
 							  	 changeRecordingState(false);
 							  	 changeReInitliazed(true);
-							  	 console.log("Array added");
 							  	 chnagFirstFone(true)
 							}
 
@@ -240,7 +229,6 @@ const VideoDescriptionPortal=(props)=>{
 
 	const displayEditVideoScreen=async()=>{
 		debugger;
-		console.log(videoElements);
 		const fileArray=[];
 		for(var i=0;i<videoElements.length;i++){
 

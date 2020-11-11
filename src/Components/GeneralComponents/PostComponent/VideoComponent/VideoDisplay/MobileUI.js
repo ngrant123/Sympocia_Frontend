@@ -238,7 +238,6 @@ const ShadowButtonCSS={
 }
 
 const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
-	console.log(videoData);
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);

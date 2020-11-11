@@ -87,7 +87,6 @@ const ImageCSS={
 
 
 const ImageHomeDisplayPortal=(props)=>{
-	console.log(props);
 	debugger;
 	return createPortal(
 		<React.Fragment>

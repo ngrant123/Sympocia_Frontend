@@ -117,26 +117,25 @@ const application  = (
 			<Provider store={store}>
 				<Router>
 					<Switch>
-						{/*
-							<Route exact path="/demo" component={Demo}/>
-							<Route exact path="/loading" component={LoadingScreen}/>
-						*/}
-						//Use exact path when you have similar paths because the computer actually connects to the first path
 						<Route exact path="/profile/:id" component={PersonalProfileScreen}/>
-						<Route exact path="/companyProfile/:id" component={CompanyProfileScreen} />
 						<Route exact path="/" component= {Landing}/>
-						<Route exact path="/playList" component={PlayList}/>
 						<Route exact path="/signup" component={Signup}/>
 						<Route exact path="/home" component= {HomeScreen}/>
-						<Route exact path="/investor/:id" component= {InvestorScreen} />
-						<Route exact path="/map/:id" component= {MapScreen} />
 						<Route exact path="/blog/:id" component={BlogPostCreation}/>
 						<Route exact path="/search/:string/:searchType" component={SearchPage}/>
-						<Route exact path="/arena" component={Arena}/>
 						<Route exact path="/symposium/:symposiumName" component={Symposium}/>
-						<Route exact path="/groupVideoCall/:symposiumId/:groupCallId" component={GroupVideoCall}/>
-						<Route exact path="/createPost" component={CreatePostScreen}/>
-						<Route exact path="/symposiumList" component={SymposiumList}/>		
+						<Route exact path="/symposiumList" component={SymposiumList}/>	
+
+						{/*
+							<Route exact path="/investor/:id" component= {InvestorScreen} />
+							<Route exact path="/createPost" component={CreatePostScreen}/>	
+							<Route exact path="/playList" component={PlayList}/>
+							<Route exact path="/companyProfile/:id" component={CompanyProfileScreen} />
+							<Route exact path="/arena" component={Arena}/>
+							<Route exact path="/map/:id" component= {MapScreen} />
+							<Route exact path="/groupVideoCall/:symposiumId/:groupCallId" component={GroupVideoCall}/>	
+						*/}
+
 					</Switch>
 				</Router>
 			</Provider>

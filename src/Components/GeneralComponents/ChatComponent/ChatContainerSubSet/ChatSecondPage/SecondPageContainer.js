@@ -101,7 +101,6 @@ class SecondPageContainer extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(props);
 
 		this.state={
 			displayAdditionalInformation:false,
@@ -125,7 +124,6 @@ class SecondPageContainer extends Component{
 		if(this.props.selectedConversation==null){
 			if(this.props.profileType==true){
 				profiles=await getProfiles();
-				console.log(profiles);
 			}else{
 				profiles=await getCompanies();
 			}
@@ -149,9 +147,6 @@ class SecondPageContainer extends Component{
 
 	handleChatData=(chat)=>{
 		debugger;
-		console.log("Socket response");
-			console.log(chat);
-			console.log("Socket response");
 			const messageObject={
 				room:chat.room,
 				chatMessage:chat.chatMessage,
@@ -192,7 +187,6 @@ class SecondPageContainer extends Component{
 	}
 
 	sendMessageHandler=async(data)=>{
-		console.log(data);
 		debugger;
 		var currentTimeStamp=new Date();
 		currentTimeStamp=currentTimeStamp.getTime();
@@ -212,7 +206,7 @@ class SecondPageContainer extends Component{
 		debugger;
 		//Reason behind this is that later down the wrong it would make have multiple people in conversation easier
 		var participantsArray=[];
-		console.log(this.state);
+
 		var roomId=null;
 
 		if(this.state.selectedConversation.participants==null){

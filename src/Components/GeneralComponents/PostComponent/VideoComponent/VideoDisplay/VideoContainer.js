@@ -37,13 +37,10 @@ const VideoContainer=(data)=>{
 		}
 	}
 
-	console.log("Popup video modal");
-	console.log(data);
-
 	const editPost=(editedVideoData)=>{
 		data.videoData.contextLocation.editPost(editedVideoData);
 	}
-	
+
 	const deletePost=()=>{
 		data.videoData.contextLocation.removePost(data.videoData._id,"Videos");
 	}

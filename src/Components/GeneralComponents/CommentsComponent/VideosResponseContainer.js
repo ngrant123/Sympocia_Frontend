@@ -140,7 +140,6 @@ class VideoResponseContainer extends Component{
 	async componentDidMount(){
 		const {confirmation,data}=await getVideoComments(this.props.postType,this.props.postId);
 		if(confirmation=="Success"){
-			console.log(data);
 			this.setState({
 				videoResponses:data,
 				isVideoResponsesReady:true
@@ -185,7 +184,6 @@ class VideoResponseContainer extends Component{
 			if(confirmation=="Success"){
 				debugger;
 				var currentComments=this.state.replies;
-				console.log(data);
 				const newComment={
 					reply:comment,
 					profilePicture:data.profilePicture,
@@ -287,9 +285,6 @@ class VideoResponseContainer extends Component{
 
 
 	VideoComponent=()=>{ 
-		debugger;
-		console.log(this.state.indicatorPosition);
-		console.log(this.state.videoResponses);
 		const videoData=this.state.videoResponses[this.state.indicatorPosition];
 
 		return <>
@@ -360,7 +355,6 @@ class VideoResponseContainer extends Component{
 	}
 
 	handleNextResponse=()=>{
-		console.log("Testing video Component");
 		let currentIndicator=this.state.indicatorPosition;
 
 		if(currentIndicator<this.state.videoResponses.length-1){

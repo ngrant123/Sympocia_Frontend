@@ -58,7 +58,6 @@ const FriendMessageCSS={
 }
 
 const Chat=(props)=>{
-	console.log(props);
 	const {chat,owner,ownerShortInfo,participantInformation}=props;
 	const constructChat=()=>{
 		if(props.firstTimeEnteringChat==true)

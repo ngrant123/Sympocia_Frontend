@@ -154,7 +154,6 @@ class LSignupPage extends Component {
 		//Below code is mainly used when we have the "code" authentication thing for certain users
 		debugger;
 		console.log(props);
-		const verification=props.isLoggedIn;
 		this.state= {
 			viewport: {
 		      width: "100%",

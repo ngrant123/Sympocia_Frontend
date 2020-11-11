@@ -122,7 +122,6 @@ const ChatOptions={
 
 
 const ChatContainer=(props)=>{
-	console.log(props);
 	const state= useSelector(state=>state);
 	const [recruits,changeRecruits]=useState([]);
 	const [selectedRecruit,changeSelectedRecruit]=useState();
@@ -143,12 +142,10 @@ const ChatContainer=(props)=>{
 
 				const ownerName=chats.firstName;
 				const ownerProfilePicture=chats.profilePicture;
-				console.log(chats);
 				const ownerObject={
 					firstName:ownerName,
 					profilePicture:ownerProfilePicture
 				}
-				console.log(chatMessage);
 				changeOwnerProfileInformation(ownerObject);
 				changeRecruits(chatMessage);
 			}else{
@@ -171,11 +168,10 @@ const ChatContainer=(props)=>{
 
 	const test=(data)=>{
 		debugger;
-		console.log(data);
 		return <ProfileChatInformation>
-														<p style={{fontSize:"20px"}}><b>{data.participants[0].firstName}</b></p>
-														<p style={{color:"#b9b9b9"}}>{data.chat[data.chat.length-1].message}</p>
-													</ProfileChatInformation>;
+					<p style={{fontSize:"20px"}}><b>{data.participants[0].firstName}</b></p>
+					<p style={{color:"#b9b9b9"}}>{data.chat[data.chat.length-1].message}</p>
+				</ProfileChatInformation>;
 	}
 
 	return(

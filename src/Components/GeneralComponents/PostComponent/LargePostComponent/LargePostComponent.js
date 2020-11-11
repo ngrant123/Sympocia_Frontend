@@ -326,7 +326,6 @@ class LargePostComponent extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(props);
 		this.state={
 			companyTitle:"CEO",
 			companyName:"Razu",
@@ -334,13 +333,9 @@ class LargePostComponent extends Component{
 			indicatorForPersonalOrCompanyPost:"profile",
 			id:""
 		};
-
-		console.log("Teste");
 	}
 	
 	componentDidMount(){
-		debugger;
-		console.log(this.props);
 		if(this.props.postOption=="post"){
 			
 			this.setState({
@@ -380,16 +375,12 @@ class LargePostComponent extends Component{
 
 	handleChange(props){
 		var industryValue=document.getElementById(props).innerHTML;
-		console.log(industryValue);
 	}
 
 	testerClick(){
-		console.log(this.state.industries);
 	}
 
 	displayPostOptions=(props)=>{
-		console.log("Testing");
-		console.log(props);
 
 		if(props=="RegularPost"){
 			

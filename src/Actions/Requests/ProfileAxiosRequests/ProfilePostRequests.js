@@ -20,10 +20,7 @@ export function addEmployeeData(userId,employeeData){
 		}
 	}).then(res=>{
 
-		console.log(res.data);
-
 	}).catch(err=>{
-		console.log(err.message);
 	})
 }
 
@@ -41,13 +38,7 @@ export function addNewsData(userId,newsData){
 			newsdata:newsData
 		}
 	}).then(res=>{
-
-		console.log(res.data);
-
-
 	}).catch(err=>{
-
-		console.log(err.message);
 
 	})
 }
@@ -67,11 +58,8 @@ export function addPostData(userId,postData){
 		}
 	}).then(res=>{
 
-		console.log(res.data);
-
 	}).catch(err=>{
 
-		console.log(err.message);
 	})
 }
 
@@ -89,16 +77,13 @@ export function updateEmployee(userId,updatedEmployeeData){
 		}
 	}).then(res=>{
 
-		console.log(res.data);
 
 	}).catch(err=>{
-		console.log(err.message);
 	})
 }
 
 export async function createProfile(personalData){
 	debugger;
-	console.log("Profile create profile route");
 	const {firstName,lastName,email,paymentPlan,isInvestor,location,stripToken}=personalData;
 	let personalInformation;
 	if(isInvestor==true){
@@ -114,7 +99,6 @@ export async function createProfile(personalData){
 		firstTimeLoggedIn:true
 		}
 	}
-	console.log(personalData);
 
 	const profileCreationResults=await axios.post(`${CreateUrl}/createProfile`,personalInformation);
 	const {data}=profileCreationResults;
@@ -129,13 +113,11 @@ export function setBio(personalId,bio){
 	}).then(profile=>{
 		return profile;
 	}).catch(err=>{
-		console.log(err.message);
 	})
 }
 
 export async function setProfilePicture(profileId,pictureUrl){
 	try{
-		console.log("Profile picture api reached");
 		const profilePictureVerification=await axios.post(`${CreateUrl}/setProfilePicture`,{
 				_id:profileId,
 				profilePicture:pictureUrl
@@ -144,7 +126,6 @@ export async function setProfilePicture(profileId,pictureUrl){
 		const {data}=profilePictureVerification;
 		return data;
 	}catch(err){
-		console.log(err);
 	}
 }
 
@@ -160,7 +141,6 @@ export const createChampion=async(profileId,championData)=>{
 		const championResponse=data.data;
 		return championResponse;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 
@@ -169,7 +149,6 @@ export const createChampion=async(profileId,championData)=>{
 
 export const addRecruit=async(personalProfile,targetedProfile)=>{
 	try{
-		console.log("Add recruit");
 		debugger;
 		const recruitResponse=await axios.post(`${CreateUrl}/addRecruit`,{
 			personalProfileId:personalProfile,
@@ -180,7 +159,6 @@ export const addRecruit=async(personalProfile,targetedProfile)=>{
 		return recruitData;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 
@@ -199,7 +177,6 @@ export const sendMessagePersonal=async(owner,message,participants)=>{
 		return messageData;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -218,7 +195,6 @@ export const createChat=async(owner,message,participants)=>{
 		return messageData;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -238,7 +214,6 @@ export const getSymposiumsExplore=async(id,symposiums)=>{
 		return symposiumData;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -258,7 +233,6 @@ export const addSymposium=async(profileId,symposium,subSymposium)=>{
 		return symposiumData;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -275,7 +249,6 @@ export const removeSymposium=async(profileId,symposium,subSymposium)=>{
 		return data;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -288,7 +261,6 @@ export const concatVideoTogether=async(videos)=>{
 		const {data}=concatedVideos;
 		return data.data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -381,7 +353,6 @@ export const completeOnboardingPersonalPage=async(id)=>{
 		const {data}=onBoardingPersonalPageResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -395,7 +366,6 @@ export const completeOnboardingExplorePage=async(id)=>{
 		const {data}=onBoardingExplorePageResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -408,7 +378,6 @@ export const completeOnboardingSymposiumPage=async(id)=>{
 		const {data}=onBoardingSymposiumPageResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -422,7 +391,6 @@ export const completeOnboardingArenaPage=async(id)=>{
 		const {data}=onBoardingArenaPageResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -438,7 +406,6 @@ export const editSocialMediaUrls=async({instagramUrl,tikTokUrl,profileId})=>{
 		return data;
 
 	}catch(err){
-		console.log(err.message);	
 		return err;
 	}
 }
@@ -452,7 +419,6 @@ export const removeRecruitProfileIsFollowing=async({personalProfileId,targetProf
 		const {data}=removedRecruitResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -466,7 +432,6 @@ export const removeRecruitProfileIsntFollowing=async({personalProfileId,targetPr
 		const {data}=removedRecruitResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -481,7 +446,6 @@ export const changeHasViewedArenaWinnersIndicator=async(_id)=>{
 		const {data}=indicatorResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -498,12 +462,9 @@ export const loginProfile=async(email,password)=>{
 		const loginData=data.data;
 		return loginData;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
-
-
 
 
 

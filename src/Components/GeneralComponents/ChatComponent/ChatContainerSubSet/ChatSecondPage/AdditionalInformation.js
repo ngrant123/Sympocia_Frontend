@@ -23,7 +23,6 @@ const AdditionalInformationContainer=styled.div`
 
 
 const AdditionalInformation=(props)=>{
-	console.log("Additional Info");
 	return(
 		<React.Fragment>
 			<BackgroundContainer onClick={()=>props.hideDisplayPage()}>

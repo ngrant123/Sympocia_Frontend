@@ -77,8 +77,6 @@ class BlogPostCreation extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(props);
-		console.log("Teste");
 		var isPersonalProfile;
 		if(this.props.location.state.profileType=="Company")
 			isPersonalProfile=false;
@@ -119,29 +117,36 @@ class BlogPostCreation extends Component{
 
 	componentDidMount=()=>{
 		debugger;
-		window.addEventListener('resize',this.triggerUIChange)
-		var isOwner=false;
-		if(this.state.isPersonalProfile)
-			isOwner=(this.props.personalInformation.id==this.props.match.params.id)?true:false;
-		else
-			isOwner=(this.props.companyInformation.id==this.props.match.params.id)?true:false;
-
-		let blogContentState;
-		if(this.props.location.state.postType=="Creation"){
-			blogContentState="";
-
+		const verification=this.props.isLoggedIn;
+		if(verification==false){
+			this.props.history.push({
+				pathname:'/'
+			})
 		}else{
-			var DBEditorState = convertFromRaw(JSON.parse(this.props.location.state.blog));
-			blogContentState=EditorState.createWithContent(DBEditorState);
+			window.addEventListener('resize',this.triggerUIChange)
+			var isOwner=false;
+			if(this.state.isPersonalProfile)
+				isOwner=(this.props.personalInformation.id==this.props.match.params.id)?true:false;
+			else
+				isOwner=(this.props.companyInformation.id==this.props.match.params.id)?true:false;
+
+			let blogContentState;
+			if(this.props.location.state.postType=="Creation"){
+				blogContentState="";
+
+			}else{
+				var DBEditorState = convertFromRaw(JSON.parse(this.props.location.state.blog));
+				blogContentState=EditorState.createWithContent(DBEditorState);
+			}
+			this.setState({
+				userInformation:this.props.personalInformation,
+				isOwner:isOwner,
+				blogContent:blogContentState,
+				blogState:this.props.location.state,
+				isInEditMode:this.props.location.state.postType=="Creation"?false:true
+			})
+			this.triggerUIChange();
 		}
-		this.setState({
-			userInformation:this.props.personalInformation,
-			isOwner:isOwner,
-			blogContent:blogContentState,
-			blogState:this.props.location.state,
-			isInEditMode:this.props.location.state.postType=="Creation"?false:true
-		})
-		this.triggerUIChange();
 	}
 
 	editBlogSubmitModal=()=>{
@@ -325,7 +330,8 @@ const mapStateToProps=(state)=>{
 
 	return{
 		personalInformation:state.personalInformation,
-		companyInformation:state.companyInformation
+		companyInformation:state.companyInformation,
+		isLoggedIn:state.personalInformation.loggedIn
 	}
 }
 

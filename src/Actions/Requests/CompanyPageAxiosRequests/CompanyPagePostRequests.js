@@ -13,8 +13,6 @@ export async function createCompanyProfile (companyObject){
 		stripeToken 
 	} = companyObject;
 
-	console.log("Company Posts");
-
 	const {data}=await axios.post(`${CreateUrl}/createCompanyProfile`,{
 			companyName:companyName,
 			location:companyLocation,
@@ -23,7 +21,6 @@ export async function createCompanyProfile (companyObject){
 			stripeToken:stripeToken
 		});/*.
 		then(companyProfile=>{
-			console.log(companyProfile);
 			const data=companyProfile.data.data;
 			return data;
 		}).catch(err=>{
@@ -34,7 +31,6 @@ export async function createCompanyProfile (companyObject){
 		*/
 	return data.data;
 	}catch(err){
-		console.log(err.message);
 	}
 };
 
@@ -67,13 +63,10 @@ export async function addEmployeeToCompanyDB(companyId,employeeInformation){
 				},
 				id:companyId
 		})
-
-		console.log(employee);
 		return employee;
 
 
 	}catch(err){
-		console.log(err);
 
 	}
 }
@@ -97,15 +90,12 @@ export async function addNewsToDB(newsObject,companyId){
 		return newsConfirmation;
 
 	}catch(err){
-
-		console.log(err.message);
 	}
 }
 
 
 export function sendCoverPhotoToDB(companyId,coverPhotoData){
 
-	console.log("Testing cover photo api");
 	const CreateUrl='http://localhost:4000/api/company/alter';
 	try{
 
@@ -117,16 +107,13 @@ export function sendCoverPhotoToDB(companyId,coverPhotoData){
 			return confirmation;
 
 		}).catch(err=>{
-			console.log(err);
 		})
 
 	}catch(err){
-		console.log(err);
 	}
 }
 
 export function sendCompanyIconToDB(companyId,imgData){
-	console.log("Testing Company icon function");
 	const CreateUrl='http://localhost:4000/api/company/alter';
 
 	try{
@@ -136,13 +123,11 @@ export function sendCompanyIconToDB(companyId,imgData){
 		}).then(confirmation=>{
 			return confirmation;
 		}).catch(err=>{
-			console.log(err);
 		})
 
 
 
 	}catch(err){
-		console.log(err);
 	}
 
 }
@@ -162,7 +147,6 @@ export const createCompanyChampion=async(companyId,championData)=>{
 		return championResponse;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 
@@ -182,7 +166,6 @@ export const addRecruit=async(personalProfile,targetedProfile)=>{
 		return recruitData;
 		
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 

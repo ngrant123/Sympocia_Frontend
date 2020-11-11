@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function getCompanyInformation(companyId){
 	const CreateUrl='http://localhost:4000/api/company/search';
-	console.log(companyId)
+
 	try{
 		const companyData=await axios.get(`${CreateUrl}/getCompaniesById`,{
 			params:{
@@ -11,10 +11,10 @@ export async function getCompanyInformation(companyId){
 			}
 		})
 		const {data}=companyData;
-		console.log(data.data)
+	
 		return data.data;
 	}catch(err){
-		console.log(err.message);
+		return err.message;
 	}
 }
 
@@ -53,7 +53,7 @@ export async function getCompanyBlogs(companyId){
 		debugger;
 
 		const {data}=companyBlogs;
-		console.log(data.data)
+	
 		return data.data;
 
 	}catch(err){
@@ -95,7 +95,6 @@ export const getCompanyProfileForHomePage=async(id)=>{
 		const companyProfileData=data.data;
 		return companyProfileData;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -115,7 +114,6 @@ export const getCompanyProfileGeneralMessages=async(companyId)=>{
 		return chatData;
 
 	}catch(err){
-		console.log(err);
 		return err.message;
 	}
 }
@@ -129,7 +127,6 @@ export const getCompanies=async()=>{
 		return companiesData;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -147,7 +144,6 @@ export const getFollowedSymposiumsCompanyHome=async(id)=>{
 		const symposiumData=data.data;
 		return symposiumData;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }

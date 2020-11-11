@@ -203,60 +203,68 @@ class LProfile extends Component{
 
 
 	async componentDidMount(){
-		window.addEventListener('resize',this.triggerUIChange)
-		const {id}=this.props.match.params;
-		if(id==this.props.personalId){
-			const profileIds={
-				userId:this.props.personalId
-			}
-			const {confirmation,data}=await getProfile(profileIds);
-			if(confirmation=="Success"){
-				console.log(data);
-				var containsChampion=false;
-				if(data.championData!=null)
-					containsChampion=data.championData.name!=""?true:false;
 
-				this.setState(prevState=>({
-					...prevState,
-					isLoading:false,
-					userProfile:data,
-					isOwnProfile:true,
-					displayChampion:containsChampion,
-					champion:data.championData,
-					isLoading:false,
-					hideOnboarding:data.firstTimeLoggedIn.personalPage
-				}));
-			}else{
-				alert('Unfortunately there has been an error getting this page. Please try again');
-			}
-		}
-		else{
-			let visitorId=this.props.personalId
-			const profileIds={
-				userId:id,
-				visitorId
-			}
-			const {confirmation,data}=await getProfile(profileIds);
+		const verification=this.props.isLoggedIn;
+		if(verification==false){
+			this.props.history.push({
+				pathname:'/'
+			})
+		}else{
+			window.addEventListener('resize',this.triggerUIChange)
+			const {id}=this.props.match.params;
+			if(id==this.props.personalId){
+				const profileIds={
+					userId:this.props.personalId
+				}
+				const {confirmation,data}=await getProfile(profileIds);
+				if(confirmation=="Success"){
+					console.log(data);
+					var containsChampion=false;
+					if(data.championData!=null)
+						containsChampion=data.championData.name!=""?true:false;
 
-			if(confirmation=="Success"){
-				var containsChampion=false;
-				if(data.championData!=null)
-					containsChampion=data.championData.name!=""?true:false;
-
-				this.setState(prevState=>({
-					...prevState,
-					isLoading:false,
-					userProfile:data,
-					displayChampion:containsChampion,
-					championModalData:data.championData,
-					isLoading:false,
+					this.setState(prevState=>({
+						...prevState,
+						isLoading:false,
+						userProfile:data,
+						isOwnProfile:true,
+						displayChampion:containsChampion,
+						champion:data.championData,
+						isLoading:false,
+						hideOnboarding:data.firstTimeLoggedIn.personalPage
+					}));
+				}else{
+					alert('Unfortunately there has been an error getting this page. Please try again');
+				}
+			}
+			else{
+				let visitorId=this.props.personalId
+				const profileIds={
+					userId:id,
 					visitorId
-				}));
-			}else{
-				alert('Unfortunately there has been an error getting this page. Please try again');
+				}
+				const {confirmation,data}=await getProfile(profileIds);
+
+				if(confirmation=="Success"){
+					var containsChampion=false;
+					if(data.championData!=null)
+						containsChampion=data.championData.name!=""?true:false;
+
+					this.setState(prevState=>({
+						...prevState,
+						isLoading:false,
+						userProfile:data,
+						displayChampion:containsChampion,
+						championModalData:data.championData,
+						isLoading:false,
+						visitorId
+					}));
+				}else{
+					alert('Unfortunately there has been an error getting this page. Please try again');
+				}
 			}
+			this.triggerUIChange();
 		}
-		this.triggerUIChange();
 	}
 
 	 handleChangeProfilePicture=()=>{
@@ -773,14 +781,30 @@ class LProfile extends Component{
 						<ProfileContainer>
 
 							<ProfilePictureContainer>
-								{this.state.displayDesktopUI==false && (
-									<>{this.displayCreatePostOptionTrigger()}</>
-								)}
-								
-								{this.state.userProfile.profilePicture==null?
-									<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-									<img id="profilePicture" src={this.state.userProfile.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
+								{(this.state.displayDesktopUI==false && this.state.isOwnProfile==true)? 
+									<>
+										{this.displayCreatePostOptionTrigger()}
+										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} 
+											accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
+								        	name="attachments"
+											onChange={()=>this.changeProfilePicture()}>
+										</input>
+										<img id="profilePicture" 
+											onClick={()=>this.handleChangeProfilePicture()}
+											src={this.state.userProfile.profilePicture==null?
+													NoProfilePicture:
+													this.state.userProfile.profilePicture
+												} style={{position:"absolute",width:"100%",height:"100%"}}
+										/>
+									</>:
+									<img id="profilePicture" 
+										src={this.state.userProfile.profilePicture==null?
+												NoProfilePicture:
+												this.state.userProfile.profilePicture
+											} style={{position:"absolute",width:"100%",height:"100%"}}
+									/>
 								}
+								
 
 								{this.state.displayPhoneUI==false &&(
 									<>
@@ -867,7 +891,8 @@ class LProfile extends Component{
 
 const mapStateToProps=(state)=>{
 	return{
-		personalId:state.personalInformation.id
+		personalId:state.personalInformation.id,
+		isLoggedIn:state.personalInformation.loggedIn
 	}
 }
 

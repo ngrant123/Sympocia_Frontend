@@ -19,7 +19,7 @@ const Container=styled.div`
     	width:100% !important;
 		left:1% !important; 
 		height:100% !important;
-		
+
 		#uploadOptionTypeLI{
 			margin-bottom:15% !important;
 		}
@@ -34,7 +34,6 @@ const Container=styled.div`
 
 
  const VideoPostCreation=(props)=>{
- 	console.log("Testing video creation");
  	const [videoUploaded,changeVideo]=useState();
 
  	const clickUploadVideoButton=()=>{
@@ -42,11 +41,9 @@ const Container=styled.div`
  	}
 
  	const uploadVideo=()=>{
- 		console.log("Upload video is being accessed");
  		let reader= new FileReader();
 		const video=document.getElementById("uploadVideoFile").files[0];
 		reader.onloadend=()=>{
-			console.log(reader.result);
 			debugger;
 			if(props.uploadedRedoVideo!=null){
 				props.uploadedRedoVideo(reader.result);

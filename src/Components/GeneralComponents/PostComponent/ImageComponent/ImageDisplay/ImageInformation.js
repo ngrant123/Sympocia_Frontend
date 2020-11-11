@@ -144,8 +144,6 @@ const ButtonCSS={
 
 //Could be turned into a functional component im a bot
 const ImageInformation=(props)=>{
-	debugger;
-	console.log(props);
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 

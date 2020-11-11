@@ -89,7 +89,6 @@ export const verifyCode=async(code)=>{
 		return data;
 		
 	}catch(err){
-		console.log(err);
 		return false;
 	}
 }

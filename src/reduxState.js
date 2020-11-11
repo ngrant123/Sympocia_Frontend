@@ -5,14 +5,12 @@ const loadState=()=>{
 		//localStorage.removeItem('state');
 		
 	 	const serializedState = localStorage.getItem('state');
-	 	console.log(serializedState);
 	    if (serializedState === null) {
 	      return undefined;
 	    }
 	    return JSON.parse(serializedState);
 
 	}catch(err){
-		console.log(err);
 	}
 }
 
@@ -22,7 +20,6 @@ const saveState=(state)=>{
 		const serializedState = JSON.stringify(state);
 	    localStorage.setItem('state', serializedState);
 	}catch(err){
-		console.log(err);
 	}
 }
 

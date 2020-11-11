@@ -247,7 +247,6 @@ class PaymentOption extends Component {
 				firstTime:true
 			}
 			
-			console.log("Testing request");
 			const profile=await createCompanyProfile(personalData);
 			addCompanyId(profile._id);
 			updatefirstTimeUsage(true);
@@ -256,7 +255,6 @@ class PaymentOption extends Component {
 			return profile;
 
 			///Implement strip api on frontend
-			//console.log(createProfile(personalData));
 		}
 
 	render(){

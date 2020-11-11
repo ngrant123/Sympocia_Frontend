@@ -212,39 +212,46 @@ class HomePageContainer extends Component{
 	async componentDidMount(){
 		/*
 		*/
-		window.addEventListener('resize',this.triggerUIChange)
-		console.log(this.props);
-		var profile;
-		var symposiumsMap;
-		var isPersonalProfile;
-		debugger;
-			debugger;
-		if(this.props.personalInformation.loggedIn==true){
-			symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
-			const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
-
-			if(confirmation=="Success"){
-				profile=data;
-				isPersonalProfile=true;
-			}else{
-				alert('Unfortunately there has been an error with getting the posts/profile for the home page. Please try again');
-			}
+		const verification=this.props.isLoggedIn;
+		if(verification==false){
+			this.props.history.push({
+				pathname:'/'
+			})
 		}else{
-			var symposiumsMap=this.constructSymposiumsMap(COMPANY_INDUSTRIES.INDUSTRIES);
-			profile=await getCompanyProfileForHomePage(this.props.companyInformation.id);
-			isPersonalProfile=false
+
+			window.addEventListener('resize',this.triggerUIChange)
+			var profile;
+			var symposiumsMap;
+			var isPersonalProfile;
+			debugger;
+				debugger;
+			if(this.props.personalInformation.loggedIn==true){
+				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
+				const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
+
+				if(confirmation=="Success"){
+					profile=data;
+					isPersonalProfile=true;
+				}else{
+					alert('Unfortunately there has been an error with getting the posts/profile for the home page. Please try again');
+				}
+			}else{
+				var symposiumsMap=this.constructSymposiumsMap(COMPANY_INDUSTRIES.INDUSTRIES);
+				profile=await getCompanyProfileForHomePage(this.props.companyInformation.id);
+				isPersonalProfile=false
+			}
+			this.setState({
+				recruitsPost:profile.recruitsFollowing,
+				isPersonalProfile:isPersonalProfile,
+				profile:profile,
+				profileId:profile._id,
+				symposiumsMap:symposiumsMap,
+				isLoading:false,
+				hideOnboarding:profile.firstTimeLoggedIn.explorePage
+			})
+			this.triggerUIChange();
+			debugger;
 		}
-		this.setState({
-			recruitsPost:profile.recruitsFollowing,
-			isPersonalProfile:isPersonalProfile,
-			profile:profile,
-			profileId:profile._id,
-			symposiumsMap:symposiumsMap,
-			isLoading:false,
-			hideOnboarding:profile.firstTimeLoggedIn.explorePage
-		})
-		this.triggerUIChange();
-		debugger;
 	}
 
 	constructSymposiumsMap=(symposiums)=>{
@@ -322,7 +329,6 @@ class HomePageContainer extends Component{
 	}
 
 	chatPage=()=>{
-		console.log(this.state.displayChatPage);
 		return this.state.displayChatPage==true?
 			<ChatPageContainer
 				pageIndicator={this.state.chatPageIndicator}
@@ -331,8 +337,6 @@ class HomePageContainer extends Component{
 	}
 
 	handleDisplayGridLayout=(indicator)=>{
-		console.log("Testing grid layout");
-		console.log(indicator);
 		this.setState(prevState=>({
 			...prevState,
 			displaySearchExplorePage:indicator,
@@ -341,7 +345,6 @@ class HomePageContainer extends Component{
 	}
 
 	displaySelectedScreen=()=>{
-		console.log(this.props)
 		if(this.state.displaySymposiumList==true){
 			return <SymposiumList
 						isPersonalProfile={this.state.isPersonalProfile}
@@ -538,7 +541,8 @@ class HomePageContainer extends Component{
 const mapStateToProps=(state)=>{
 	return{
 		personalInformation:state.personalInformation,
-		companyInformation:state.companyInformation
+		companyInformation:state.companyInformation,
+		isLoggedIn:state.personalInformation.loggedIn
 	}
 }
 

@@ -47,7 +47,6 @@ class Blog extends Component{
 
 	handleBlogTextAreaChange=(savePostInformationFunction)=>{
 		if(!this.state.firstEdit){
-			console.log(this.state.editorState.getCurrentContent().getPlainText('\u0001'));
 			savePostInformationFunction.updateBlogPost(this.state.editorState);
 			this.setState({
 				firstEdit:true
@@ -56,7 +55,6 @@ class Blog extends Component{
 	}
 
 	onEditorStateChange=(editorState)=>{
-		console.log(editorState);
 		this.setState({
 			editorState:editorState,
 			firstEdit:false

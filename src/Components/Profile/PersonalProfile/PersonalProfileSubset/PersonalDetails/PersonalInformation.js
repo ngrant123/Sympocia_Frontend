@@ -309,7 +309,7 @@ const PersonalInformation=(props)=>{
 												{props.personalInformation.isOwnProfile==true?
 													<ul style={{padding:"0px"}}>
 														<a style={{textDecoration:"none"}} href="javascript:void(0);">	
-															<li onClick={()=>props.displaySocialMediaModal()}
+															<li onClick={()=>alert('Option to add social media profiles coming soon')}
 															style={EditSocialMediaUrlsCSS}>
 																Edit Social Media
 															</li>

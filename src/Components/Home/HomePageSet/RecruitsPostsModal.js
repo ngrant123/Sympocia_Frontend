@@ -154,7 +154,6 @@ const ButtonCSS={
 }
 
 const RecruitsPosts=(props)=>{
-	console.log(props);
 	const [recruitsPosts,changeRecruitsPosts]=useState([]);
 	const [originalPosts,changeOriginalPosts]=useState([]);
 	const [displayPostPortal,changeDisplayPostPortal]=useState(false);

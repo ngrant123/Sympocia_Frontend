@@ -260,7 +260,7 @@ const Arena=()=>{
 
 	const onboardingModal=()=>{
 		return <>
-					{displayOnboardingModal &&(
+					{displayOnboardingModal==true &&(
 						<OnboardingModal
 							closeModal={closeOnboardingModal}
 						/>

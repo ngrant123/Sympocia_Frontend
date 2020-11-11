@@ -126,7 +126,6 @@ class BlogSection extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(props);
 		debugger;
 		let{
 			endDate,

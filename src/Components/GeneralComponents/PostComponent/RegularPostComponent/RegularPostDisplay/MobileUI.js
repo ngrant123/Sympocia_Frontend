@@ -274,7 +274,6 @@ const ShadowButtonCSS={
 }
 
 const MobileUI=({postData,isChromeBrowser,targetDom,deletePost,userPostsInformation})=>{
-	console.log(postData);
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);

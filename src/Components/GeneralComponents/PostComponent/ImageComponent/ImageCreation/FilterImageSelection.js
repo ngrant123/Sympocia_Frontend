@@ -31,7 +31,6 @@ class FilterImageSelection extends Component{
 conditional expression in processed image component
 */
 	constructor(props){
-		console.log(props);
 		super(props);
 		this.state={
 			imgUrl:this.props.imgUrl,

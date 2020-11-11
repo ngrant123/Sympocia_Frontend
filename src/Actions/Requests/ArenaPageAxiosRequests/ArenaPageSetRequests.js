@@ -32,7 +32,6 @@ export const addTextReaction=async(textReaction)=>{
 		return data;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -56,7 +55,6 @@ export const addVideoReaction=async(videoReaction)=>{
 		return data;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -81,7 +79,6 @@ export const addVideoReaction=async(videoReaction)=>{
 		const {data}=boostResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -106,7 +103,6 @@ export const addVideoReaction=async(videoReaction)=>{
 		return data;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -131,7 +127,6 @@ export const addStampToVideoReaction=async(videoStampInformation)=>{
 
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -146,7 +141,6 @@ export const removeVideoReaction=async({_id,arenaId,postType})=>{
 		const {data}=removedVideoReactionResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -161,7 +155,6 @@ export const removeTextReaction=async({_id,arenaId,postType})=>{
 		const {data}=removedTextReactionResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }

@@ -134,7 +134,6 @@ const ContinueButtonCSS={
 //"blob:http://localhost:3000/9b5bb4e0-de5b-4e15-b127-1f05aeaaeb36"
 
 const VoiceDescriptionPortal=(props)=>{
-	console.log("Testing video description");
 
 	const [maxTime,changeMaxTime]=useState(10000);
 	const [currentTime,changeCurrentTime]=useState(0);
@@ -152,17 +151,13 @@ const VoiceDescriptionPortal=(props)=>{
 					  		audio:true 
 					  	}).then(stream=>handleRecording(stream))
 				   		.then(recordedChunks=>{
-					  	 debugger;
 					  	 if(recordedChunks!=null){
-					  	 	console.log("Recorded chunks");
 						  	 let recordedFile = new File(recordedChunks, { type: "video/mp4" });
 						  	 var videoSrc=URL.createObjectURL(recordedFile);
 
 						  	 var reader=new FileReader();
 
 							reader.onloadend=()=>{
-								debugger;
-								console.log(reader.result);
 								var currentVideoElements=videoElements;
 
 								const videoObject={
@@ -175,16 +170,12 @@ const VoiceDescriptionPortal=(props)=>{
 							  	 changeVideoElements(currentVideoElements);
 							  	 changeRecordingState(false);
 							  	 changeReInitliazed(true);
-
-							  	 console.log("Array added");
 							  	 chnagFirstFone(true)
 							}
 						  	 reader.readAsDataURL(recordedFile);
 					  	 }
 					  	 
 					  }).catch(function (error) {
-				      console.log("Something went wrong!");
-				      console.log(error);
 				    });
 			}	
 	},[]);
@@ -246,7 +237,6 @@ const VoiceDescriptionPortal=(props)=>{
 			handleRecording().then(recordedChunks=>{
 						debugger;
 					  	 if(recordedChunks!=null){
-					  	 	console.log("Recorded chunks");
 						  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
 						  	var audioSrc=URL.createObjectURL(recordedFile);
 
@@ -255,7 +245,6 @@ const VoiceDescriptionPortal=(props)=>{
 							reader.onloadend=()=>{
 								debugger;
 								var currentVideoElements=videoElements;
-								console.log(reader.result);
 
 								const videoObject={
 									audioSrc:reader.result,
@@ -268,7 +257,6 @@ const VoiceDescriptionPortal=(props)=>{
 
 							  	 changeRecordingState(false);
 							  	 changeReInitliazed(true);
-							  	 console.log("Array added");
 							  	 chnagFirstFone(true)
 							}
 
@@ -298,7 +286,6 @@ const VoiceDescriptionPortal=(props)=>{
 
 	const displayEditVideoScreen=async()=>{
 		debugger;
-		console.log(videoElements);
 		const fileArray=[];
 		for(var i=0;i<videoElements.length;i++){
 

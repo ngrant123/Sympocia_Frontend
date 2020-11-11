@@ -151,7 +151,6 @@ class BlogEditSubmitModal extends Component{
 		const picture=document.getElementById("uploadPictureFile").files[0];
 
 		fileReader.onloadend=()=>{
-			console.log(fileReader.result);
 			const picUrl=fileReader.result;
 			this.setState({
 				pictureUrl:picUrl,

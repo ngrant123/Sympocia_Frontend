@@ -60,8 +60,6 @@ class IndustryPostOptions extends Component{
 	}
 
 	addSelectedIndustry=(industry)=>{
-		debugger;
-		console.log(industry);
 		const currentSelectedIndustries=this.state.industriesSelected;
 
 		var subIndustries=this.state.subIndustriesSelectedDropDown;

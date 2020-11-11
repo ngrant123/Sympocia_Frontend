@@ -322,20 +322,12 @@ class SmallPostCommentContainer extends Component{
 		let numberOfComments=0;
 
 		while(numberOfComments<testerData.length){
-
-		//	let testerData[numberOfComments].comments.length;
 			numberOfComments++;
 
 		}
 
 		let newCommentContainerHeight=numberOfComments*10;
 		let commentsContainer=document.getElementById("testcontainer");
-		//let newtest=commentsContainer.offsetHeight+30;
-		//commentsContainer.style.height=newtest+"px";
-
-		//console.log(commentsContainer.offsetHeight);
-		console.log(document.getElementById("commentDiv2"));
-		console.log(numberOfComments);
 	
 	}
 
@@ -355,17 +347,13 @@ class SmallPostCommentContainer extends Component{
 	handleDisplayReplies = (key,replies)=>{
 
 		let divCommentKeyContainer=this.state.commentDivClicked;
-		console.log(divCommentKeyContainer.length);
 
 		let tester=divCommentKeyContainer.push(key);
-		console.log(divCommentKeyContainer.length);
 
 		this.setState({
 
 			commentDivClicked:divCommentKeyContainer
 		},function(){
-
-			console.log(this.state.commentDivClicked);
 		});
 
 
@@ -410,7 +398,6 @@ class SmallPostCommentContainer extends Component{
 	containsCommentKey=(key)=>{
 
 		let commentsKeyContainer=this.state.commentDivClicked;
-		console.log(commentsKeyContainer.length);
 		for(let i=0;i<commentsKeyContainer.length;i++){
 
 			let keyvalue=commentsKeyContainer[i];

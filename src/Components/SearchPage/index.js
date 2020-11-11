@@ -34,6 +34,16 @@ const SearchPage=(props)=>{
 
 	const state=useSelector(state=>state);
 	console.log(state);
+
+	useEffect(()=>{
+		const verification=state.personalInformation.isLoggedIn;
+		if(verification==false){
+			props.history.push({
+				pathname:'/'
+			})
+		}
+	},[]);
+
 	var profileId=(state.personalInformation.loggedIn==true)?state.personalInformation.id:state.companyInformation.id;
 	var isPersonalProfile=(state.personalInformation.loggedIn==true)?true:false;
 	const displayChatPageHandle=(pageIndicator)=>{

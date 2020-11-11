@@ -155,8 +155,6 @@ class ImageSection extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(props);
-		debugger;
 		let{
 			endDate,
 			posts,
@@ -192,11 +190,8 @@ class ImageSection extends Component{
 	}
 	
 	headerPost=(arenaContext)=>{
-		debugger;
-		console.log(this.props.posts);
 		let{posts}=this.props.posts;
 		let headerPost=posts[0];
-		console.log(headerPost);
 		return 	<ul style={{padding:"0px"}}>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:""}}>

@@ -226,7 +226,6 @@ const OptionsContainer = styled.div`
 
 
 export function MediumPosts(props){
-	console.log(props);
 	var postresult="";
 	if(props.postdata=="regularpost"){
 		postresult=RegularPostFunction();

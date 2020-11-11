@@ -23,7 +23,6 @@ const Container=styled.div`
 const  SelectedRecruitPost=(props)=>{
 
 	const [recommendedPostsArray,changeRecommendedPosts]=useState([]);
-	console.log(props);
 	useEffect(()=>{
 		const getData=async()=>{
 			/*

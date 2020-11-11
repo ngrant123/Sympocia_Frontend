@@ -15,7 +15,6 @@ export const getImagesPosts=async(industry,postCounter)=>{
 		return imageData;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -33,7 +32,6 @@ export const getVideosPosts=async(industry,postCounter)=>{
 		const videoData=data.data;
 		return videoData;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -52,7 +50,6 @@ export const getBlogPosts=async(industry,postCounter)=>{
 		return blogData;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -70,7 +67,6 @@ export const getFakeNewsComments=async(postId,postOption)=>{
 		return data.data;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -89,14 +85,13 @@ export const getAuthenticPostComments=async(postId,postOption)=>{
 		return data.data;
 
 	}catch(err){https://www.youtube.com/watch?v=hmk1aHU0768
-		console.log(err);
 		return err;
 	}
 }
 
 export const getRegularComments=async(postType,postId)=>{
 	try{
-		console.log(postType);
+		
 		const commentsResponse=await axios.get(`${SearchUrl}/getComments`,{
 			params:{
 				postId:postId,
@@ -152,7 +147,6 @@ export const getRepliesFromComment=async({postType,postId,commentIndex})=>{
 			}
 		});
 		const {data}=replyResponse;
-		console.log(data);
 		return data;
 	}catch(err){
 		return err;
@@ -173,7 +167,6 @@ export const getIndustryImageFeatureAnswers=async({industryId,question,questionI
 		const {data}=imageResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -192,7 +185,6 @@ export const getIndustryVideoFeatureAnswers=async({industryId,question,questionI
 		const {data}=videoResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -212,7 +204,6 @@ export const getIndustryRegularPostFeatureAnswers=async({industryId,question,que
 		const {data}=regularPostResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -231,7 +222,6 @@ export const getIndustryAudioFeatureAnswers=async({industryId,question,questionI
 		const {data}=audioResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }

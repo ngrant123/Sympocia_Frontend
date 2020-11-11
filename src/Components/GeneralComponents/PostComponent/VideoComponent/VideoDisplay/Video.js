@@ -174,7 +174,6 @@ class Video extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(this.props.video.videoUrl);
 		this.state={
 			displayComments:false,
 			displayDescription:false,

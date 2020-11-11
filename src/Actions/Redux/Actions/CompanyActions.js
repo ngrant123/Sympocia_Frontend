@@ -1,7 +1,5 @@
 
 const addCompanyName=(companyName)=>{
-	console.log('Company Name accessed');
-	console.log(companyName);
 	return{
 
 		type:'UPDATE_COMPANY_NAME',

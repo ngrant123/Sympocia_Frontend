@@ -160,7 +160,6 @@ const PollOptionPortal=(props)=>{
 			confirmationResponse=confirmation;
 			dataResponse=data;
 		}
-		console.log(confirmationResponse);
 
 		if(confirmationResponse=="Success"){
 			changeDisplayCreateComment(false);

@@ -5,7 +5,6 @@ export const createRegularPost=async(userId,searchCriteria,profileIndicator)=>{
 	const CreateURl='http://localhost:4000/api/posts/alter';
 	try{
 		debugger;
-			console.log("Regular post creation api working");
 			const regularPostCreationVerification=await axios.post(`${CreateURl}/createRegularPost`,{
 														id:userId,
 														searchCriteria:searchCriteria,
@@ -15,7 +14,7 @@ export const createRegularPost=async(userId,searchCriteria,profileIndicator)=>{
 			const results=regularPostCreationVerification.data;
 			return results; 
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -23,8 +22,6 @@ export const createRegularPost=async(userId,searchCriteria,profileIndicator)=>{
 export const createImagePost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
 		debugger;
-		console.log(_id);
-		console.log(searchCriteria);
 		const CreateURl='http://localhost:4000/api/posts/alter';
 		const imagePost=await axios.post(`${CreateURl}/createImagePost`,{
 			_id:_id,
@@ -36,7 +33,6 @@ export const createImagePost=async(_id,searchCriteria,profileIndicator)=>{
 		return data;
 
 	}catch(err){
-		console.log(err.message);
 		return err.message;
 	}
 }
@@ -44,8 +40,6 @@ export const createImagePost=async(_id,searchCriteria,profileIndicator)=>{
 export const createVideoPost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
 		debugger;
-		console.log(_id);
-		console.log(searchCriteria);
 		const CreateURl='http://localhost:4000/api/posts/alter';
 		const {data}=await axios.post(`${CreateURl}/createVideoPost`,{
 			_id:_id,
@@ -55,7 +49,6 @@ export const createVideoPost=async(_id,searchCriteria,profileIndicator)=>{
 		debugger;
 		return data;
 	}catch(err){
-		console.log(err.message);
 		return err.message;
 	}
 }
@@ -64,8 +57,6 @@ export const createVideoPost=async(_id,searchCriteria,profileIndicator)=>{
 export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
 		debugger;
-		console.log(_id);
-		console.log(searchCriteria);
 		const CreateURl='http://localhost:4000/api/posts/alter';
 		const blogPost=await axios.post(`${CreateURl}/createBlogPost`,{
 			_id:_id,
@@ -73,13 +64,11 @@ export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 			profileIndicator:profileIndicator
 		})
 
-		console.log(blogPost);
 		const {data}=blogPost;
 		const blogCreationResponse=data.data;
 		return blogCreationResponse;
 
 	}catch(err){
-		console.log(err.message);
 		return err.message;
 	}
 }
@@ -100,7 +89,7 @@ export const addStampPost =async(userId,postId,profileType,postType)=>{
 		const postStampData=data.data;
 		return postStampData;
 	}catch(err){
-		console.log(err);
+		
 	}
 
 }
@@ -120,7 +109,7 @@ export const unStampPost=async(userId,postId,profileType,postType)=>{
 		const unStampPostData=data.data;
 		return unStampPostData;
 	}catch(err){
-		console.log(err);
+		
 	}
 }
 
@@ -147,7 +136,7 @@ export const addCommentToPopularQuestions=async(commentObject)=>{
 		const {data}=commentResponse;
 		return data;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -167,7 +156,6 @@ export const updateCrownedImage=async(_id,updatedStatus,imageId)=>{
 		return confirmation;
 		
 	}catch(err){
-		console.log(err.message);
 		return err;
 	}
 }
@@ -186,7 +174,7 @@ export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment}
 		return data;
 		
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -205,7 +193,7 @@ export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment})
 		return data;
 
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -295,7 +283,6 @@ export const updateCrownedVideo=async(_id,updatedStatus,videoId)=>{
 		return confirmation;
 		
 	}catch(err){
-		console.log(err.message);
 		return err;
 	}
 }
@@ -314,7 +301,6 @@ export const updateCrownedBlog=async(_id,updatedStatus,blogId)=>{
 		return confirmation;
 		
 	}catch(err){
-		console.log(err.message);
 		return err;
 	}
 }
@@ -333,7 +319,6 @@ export const updateCrownedRegularPost=async(_id,updatedStatus,regularPostId)=>{
 		return confirmation;
 		
 	}catch(err){
-		console.log(err.message);
 		return err;
 	}
 }
@@ -353,7 +338,6 @@ export const editPost=async({postType,postId,post,postS3,ownerId})=>{
 		return data;
 
 	}catch(err){
-		console.log(err.message);
 		return err;
 	}
 }
@@ -370,7 +354,7 @@ export const promotePost=async({postId,nodeId,postType})=>{
 		const {data}=promotionResponse;
 		return data;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 
@@ -388,7 +372,7 @@ export const deletePost=async({postId,postType,industriesUploaded})=>{
 		return data;
 
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -409,7 +393,7 @@ export const createIndustryFeatureImageResponse=async({image,industryId,question
 		const {data}=imageFeatureResponse
 		return data;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -438,7 +422,7 @@ export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer)=>{
 		const {data}=regularPostFeatureResponse
 		return data;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -457,7 +441,7 @@ export const createSpecificIndustryVideoAnswer=async({video,industryId,questionI
 		const {data}=videoFeatureResponse
 		return data;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }
@@ -476,7 +460,7 @@ export const createSpecificIndustryAudioAnswer=async({audio,industryId,questionI
 		const {data}=audioFeatureResponse
 		return data;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 }

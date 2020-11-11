@@ -22,8 +22,17 @@ const Container=styled.div`
 
 		#postLI{
 			height:70% !important;
-			width:150% !important;
-			margin-left:-25% !important;
+			width:90% !important;
+		}
+	}
+
+	@media screen and (max-width:780px){
+		width:110% !important;
+		left:-10% !important;
+
+		#postLI{
+			height:70% !important;
+			width:120% !important;
 		}
 	}
 `;
@@ -45,7 +54,7 @@ const InputContainer=styled.textarea`
 const ShadowContainer= styled.div`
 	position:fixed;
 	width:100%;
-	height:100%;
+	height:300%;
 	background-color: rgba(0,0,0,0.4);
 	z-index:14;
 	top:0px;

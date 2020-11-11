@@ -42,7 +42,6 @@ const ShadowContainer= styled.div`
 
 const RecommendedVideos=(props)=>{
 	debugger;
-	console.log(props);
 	const [videos,changeVideos]=useState([{},{},{},{},{}]);
 
 	return(

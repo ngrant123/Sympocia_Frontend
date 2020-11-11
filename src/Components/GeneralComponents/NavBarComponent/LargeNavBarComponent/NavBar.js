@@ -90,7 +90,6 @@ to it
 */
 
 const NavBar=(pageProps)=>{
-	console.log(pageProps);
 	const dispatch=useDispatch();
 
 	const {color}=pageProps;
@@ -105,7 +104,6 @@ const NavBar=(pageProps)=>{
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
 
 	const triggerUIChange=()=>{
-		console.log(window.innerWidth)
 		if(window.innerWidth<595){
 
 			changeDisplayIpadUI(false);

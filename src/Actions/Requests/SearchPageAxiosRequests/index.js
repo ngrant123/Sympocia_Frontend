@@ -12,7 +12,6 @@ export const getProfilesFromSearch=async(searchUrl)=>{
 		const {data}=profileSearch;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -28,7 +27,6 @@ export const getSymposiumsFromSearch=async(searchUrl)=>{
 		const {data}=symposiumSearch;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -46,7 +44,6 @@ export const getPostsFromSearch=async({searchUrl,postType})=>{
 		const {data}=postsSearch;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 

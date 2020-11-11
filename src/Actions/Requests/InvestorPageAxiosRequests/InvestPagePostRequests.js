@@ -15,9 +15,6 @@ export function markInvestorContacted(investorId){
 		}
 	}).then(res=>{
 
-		console.log(res.data);
-
 	}).catch(err=>{
-		console.log(err.message);
 	})
 }

@@ -6,7 +6,6 @@ const GetUrl="http://localhost:4000/api/posts/search";
 
 export function getNewFeedUpdates(userId){
 	//userId:number
-	console.log(BASE_URL.BASE_URL);
 
 
 	axios.get(`${baseurl}/Posts`,{
@@ -16,11 +15,8 @@ export function getNewFeedUpdates(userId){
 			} 
 		}).
 		then(response=>{
-
-			console.log(response.data);
 		}).
 		catch(err=>{
-			console.log(err.message);
 		})
 
 }
@@ -35,12 +31,8 @@ export function getNotificationsUpdate(userId){
 			}
 		}).
 		then(response=>{
-
-			console.log(response.data);
 		}).
 		catch(err=>{
-
-			console.log(err.message);
 		})
 }
 
@@ -55,10 +47,8 @@ export function getPosts(industryid){
 			}
 		}).
 		then(response=>{
-			console.log(response.data);
 		}).
 		catch(err=>{
-			console.log("An Error has occured");
 		})
 }
 
@@ -69,10 +59,7 @@ export function getUserCompanyInformation(userId){
 			userid:userId
 		}
 	}).then(res=>{
-
-		console.log(res.data);
 	}).catch(err=>{
-		console.log(err.message);
 	})
 }
 
@@ -85,10 +72,7 @@ export function getUserDataInfo(userId){
 		}
 	}).then(res=>{
 
-		console.log(res.data);
-
 	}).catch(err=>{
-		console.log(err.message);
 	})
 }
 
@@ -100,8 +84,6 @@ export function getCommunitiesNotFollowed(userId){
 	}).then(posts=>{
 		return posts;
 	}).catch(err=>{
-
-		console.log(err.message);
 	})
 }
 
@@ -113,7 +95,6 @@ export function getCommunityById(communityId){
 		const {data}=communityData;
 		return data;
 	}).catch(err=>{
-		console.log(err.message);
 	})
 }
 
@@ -121,8 +102,6 @@ export function getCommunityById(communityId){
 export async function getPostsForHomePage(userId,industrySelected,postTypes){
 	try{
 		debugger;
-		console.log(industrySelected);
-		console.log(JSON.stringify(industrySelected));
 		const postResponse=await axios.get(`${GetUrl}/getPostsForHomePage`,{
 			params:{
 				id:userId,
@@ -130,13 +109,11 @@ export async function getPostsForHomePage(userId,industrySelected,postTypes){
 				postTypes:postTypes
 			}
 		});
-		console.log(postResponse);
 		const {data}=postResponse;
 		const posts=data.data;
 		return posts;
 
 	}catch(err){
-		console.log(err);
 		const {data}=err;
 		return data;
 	}
@@ -154,7 +131,6 @@ export const getSymposiumId=async(name)=>{
 		return data;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 
@@ -173,7 +149,6 @@ export const exploreImagePosts=async(id,postCount)=>{
 		const {data}=imageResults;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -192,7 +167,6 @@ export const exploreVideoPosts=async(id,postCount)=>{
 		return data;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -209,7 +183,6 @@ export const exploreBlogPosts=async(id,postCount)=>{
 		const {data}=blogResults;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -242,7 +215,6 @@ export const getImagesInIndustry=async(industry,postCount)=>{
 		const {data}=imageResults;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -260,7 +232,6 @@ export const getVideoInIndustry=async(industry,postCount)=>{
 		return data;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -277,7 +248,6 @@ export const getBlogsInIndustry=async(industry,postCount)=>{
 		const {data}=blogResults;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -294,7 +264,6 @@ export const getRegularPostsInIndustry=async(industry,postCount)=>{
 		const {data}=imageResults;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -313,7 +282,6 @@ export const getIndustryInformation=async(industry,postCount,userId)=>{
 		const {data}=industryInformation;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -332,7 +300,6 @@ export const getPopularQuestionReplies=async(industry,counter)=>{
 		return popularQuestionsData;
 
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -348,7 +315,6 @@ export const getGroupVideoCallOwner=async({symposiumId,groupCallId})=>{
 		const {data}=groupVideoCallResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }

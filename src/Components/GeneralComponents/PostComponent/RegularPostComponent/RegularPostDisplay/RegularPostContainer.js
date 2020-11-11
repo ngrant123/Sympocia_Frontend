@@ -111,8 +111,6 @@ const BackButtonCSS={
 
 
 const RegularPostContainer=(props)=>{
-	console.log("Regular Post Display");
-	console.log(props);
 	const [displayCommentsAndResponses,changeDisplayCommentsAndResponses]=useState(false);
 	const [displayEditPostModal,changeDisplayEditPostModal]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);

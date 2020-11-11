@@ -70,7 +70,6 @@ const ButtonCSS={
 }
 
 const PostInformation=(props)=>{
-	console.log(props);
 	const {
 			post,
 			isAudioPost,

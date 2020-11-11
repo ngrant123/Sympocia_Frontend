@@ -259,8 +259,6 @@ class SmallRegularPost extends Component{
 			})
 
 		}
-
-		console.log(this.state);
 	}
 
 	displayCommentSection =()=>{

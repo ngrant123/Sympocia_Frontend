@@ -11,7 +11,6 @@ export const fetchArenaInformation=async(userId)=>{
 		const {data}=arenaResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -28,7 +27,6 @@ export const getVideoReactions=async({arenaId,textCounter,postType})=>{
 		const {data}=videoReactionResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -44,7 +42,6 @@ export const getTextComments=async({textCounter,postType})=>{
 		const {data}=textReactionResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -60,7 +57,6 @@ export const getPreviousWinners=async({previousWinnerPageCounter,postType})=>{
 		const {data}=previousWinnersResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }
@@ -76,7 +72,6 @@ export const getCurrentArenaPosts=async({postPageCounter,postType})=>{
 		const {data}=postsResponse;
 		return data;
 	}catch(err){
-		console.log(err);
 		return err;
 	}
 }

@@ -83,7 +83,6 @@ const TextOptions=(props)=>{
 	}}=history;
 	debugger;
 
-	console.log(props);
 
 	const changeBold=()=>{}
 

@@ -158,7 +158,6 @@ class EditVideoModal extends Component{
 	}
 
 	componentDidMount(){
-		console.log(this.props);
 		const {previousData}=this.props;
 		if(previousData!=null){
 			const {

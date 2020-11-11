@@ -18,6 +18,16 @@ const Container=styled.div`
 	left:30%;
 	top:20%;
 	overflow-y:scroll;
+
+
+	@media screen  and (max-width:1370px){
+		width:90% !important;
+		left:5% !important;
+		height:70% !important;
+		#closeOptionIconLI{
+			display:none !important;
+		}
+    }
 `;
 
 const ShadowContainer=styled.div`
@@ -93,7 +103,7 @@ const PersonalProfileOnboarding=({closeModal})=>{
 									</p>
 								</li>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li style={{listStyle:"none",display:"inline-block"}}>
+									<li id="closeOptionIconLI" style={{listStyle:"none",display:"inline-block"}}>
 										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
 											width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
 											fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -144,7 +154,7 @@ const PersonalProfileOnboarding=({closeModal})=>{
 
 				{displaySecondPage && (
 					<ul style={{padding:"30px"}}>
-						<li style={{listStyle:"none",marginLeft:"85%"}}>
+						<li id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
 								width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
 								fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -190,7 +200,7 @@ const PersonalProfileOnboarding=({closeModal})=>{
 
 				{displayThirdPage && (
 					<ul style={{padding:"30px"}}>
-						<li style={{listStyle:"none",marginLeft:"85%"}}>
+						<li id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
 								width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
 								fill="none" stroke-linecap="round" stroke-linejoin="round">

@@ -129,7 +129,6 @@ class CommentsContainer extends Component{
 	async componentDidMount(){
 		const {confirmation,data}=await getRegularComments(this.props.postType,this.props.postId);
 		if(confirmation=="Success"){
-			console.log(data);
 			this.setState({
 				comments:data
 			})
@@ -161,7 +160,6 @@ class CommentsContainer extends Component{
 //
 	handleReplyFetch=async(commentId)=>{
 		debugger;
-		console.log(this.state.comments);
 		var indexOfComment=this.state.comments.findIndex(comment=>comment._id === commentId);
 		const replyObject={
 			postType:this.props.postType,
@@ -170,7 +168,6 @@ class CommentsContainer extends Component{
 		}
 
 		const {confirmation,data}=await getRepliesFromComment(replyObject);
-		console.log(data);
 		debugger;
 		if(confirmation=="Success"){
 			this.setState({
@@ -239,7 +236,6 @@ class CommentsContainer extends Component{
 			if(confirmation=="Success"){
 				debugger;
 				var currentComments=this.state.comments;
-				console.log(data);
 				const newComment={
 					comment:comment,
 					profilePicture:data.profilePicture,
@@ -300,7 +296,6 @@ class CommentsContainer extends Component{
 	}
 
 	handleDisplayResponses=(key)=>{
-		console.log(this.state.keyToDisplayRespones); 
 		if(key==this.state.keyToDisplayRespones){
 			return <ul style={{borderStyle:"solid",borderWidth:"1px",borderColor:"#D8D8D8",borderRadius:"5px"}}>
 						<li onClick={()=>this.setState({keyToDisplayRespones:null})} style={{marginRight:"80%",listStyle:"none"}}>
@@ -384,7 +379,6 @@ _id: "5f5397209c484c08c99c389d"
 
 				//Add this temporarily to the appropriate comment so user can see 
 				debugger;
-				console.log(this.state);
 				var newComments=this.state.comments
 				for(var i=0;i<newComments.length;i++){
 					const iterationCommentId=newComments[i]._id;
@@ -408,8 +402,6 @@ _id: "5f5397209c484c08c99c389d"
 	}
 
 	createReplyComment=(key)=>{
-		console.log(key);
-		console.log(this.state.keyToDisplayReplyCreation)
 		if(key==this.state.keyToDisplayReplyCreation && this.state.displayReplyCreation==true){
 			return <ul style={{padding:"0px",backgroundColor:"white"}}>
 						<li style={{listStyle:"none"}}>

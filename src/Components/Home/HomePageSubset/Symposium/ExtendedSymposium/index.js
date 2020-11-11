@@ -203,68 +203,76 @@ class Symposium extends Component{
 	  		/*
 				Could be done in a better way
 	  		*/
+
+		const verification=this.props.isLoggedIn;
+		if(verification==false){
+			this.props.history.push({
+				pathname:'/'
+			})
+		}else{
+			debugger;
+			window.addEventListener('resize',this.triggerUIChange)
+	  		const postContainerElement=document.getElementById("postChatInformation");
+	  		const headerContentsContainerElement=document.getElementById("headerContents");
+			console.log(this.props);
+
+			const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
+	  		var {confirmation,data}=await getIndustryInformation(
+		  										this.props.match.params.symposiumName,
+		  									   	this.state.postCount,
+		  									   	profileId
+	  									   	);
+
+	  		debugger;
+	  		if(confirmation=="Success"){
+	  			const {
+	  				posts,
+		  			popularPosts,
+		  			activeUsers,
+		  			popularQuestions,
+		  			isProfileFollowedSymposium,
+		  			isOnboardingCompleted,
+		  			featureQuestions,
+		  			_id
+	  			}=data;
+
+	  			var newHomePagePosts=this.addSuggestedSymposiums(posts);
 	  			debugger;
-	  			window.addEventListener('resize',this.triggerUIChange)
-		  		const postContainerElement=document.getElementById("postChatInformation");
-		  		const headerContentsContainerElement=document.getElementById("headerContents");
-				console.log(this.props);
+	  			console.log(data);
+	  			console.log(popularQuestions);
+		  			
+		  		this.setState(prevState=>({
+			  		...prevState,
+			  		selectedSymposiumTitle:this.props.match.params.symposiumName,
+			  		symposiums:this.props.location.state==null?[]:this.props.location.state.symposiums,
+			  		symposiumCounter:-1,
+			  		backgroundColor:this.props.location.state==null?this.symposiumBackgroundColor(this.props.match.params.symposiumName):
+			  		this.props.location.state.selectedSymposium.backgroundColor,
+			  		postType:"Image",
+			  		posts:newHomePagePosts,
+			  		popularVideos:popularPosts,
+			  		activePeople:activeUsers,
+			  		popularQuestions:popularQuestions,
+			  		isProfileFollowingSymposium:isProfileFollowedSymposium,
+			  		profileId,
+			  		isLoading:false,
+			  		hideOnboarding:isOnboardingCompleted,
+			  		symposiumFeatureQuestions:featureQuestions,
+			  		symposiumId:_id
+		  		}));
 
-				const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
-		  		var {confirmation,data}=await getIndustryInformation(
-			  										this.props.match.params.symposiumName,
-			  									   	this.state.postCount,
-			  									   	profileId
-		  									   	);
+			  	setTimeout(function(){
+					postContainerElement.style.opacity="1";
+					headerContentsContainerElement.style.opacity="1";
+			  	},500);
 
-		  		debugger;
-		  		if(confirmation=="Success"){
-		  			const {
-		  				posts,
-			  			popularPosts,
-			  			activeUsers,
-			  			popularQuestions,
-			  			isProfileFollowedSymposium,
-			  			isOnboardingCompleted,
-			  			featureQuestions,
-			  			_id
-		  			}=data;
+			  	connectToRoom(socket,_id);
 
-		  			var newHomePagePosts=this.addSuggestedSymposiums(posts);
-		  			debugger;
-		  			console.log(data);
-		  			console.log(popularQuestions);
-			  			
-			  		this.setState(prevState=>({
-				  		...prevState,
-				  		selectedSymposiumTitle:this.props.match.params.symposiumName,
-				  		symposiums:this.props.location.state==null?[]:this.props.location.state.symposiums,
-				  		symposiumCounter:-1,
-				  		backgroundColor:this.props.location.state==null?this.symposiumBackgroundColor(this.props.match.params.symposiumName):
-				  		this.props.location.state.selectedSymposium.backgroundColor,
-				  		postType:"Image",
-				  		posts:newHomePagePosts,
-				  		popularVideos:popularPosts,
-				  		activePeople:activeUsers,
-				  		popularQuestions:popularQuestions,
-				  		isProfileFollowingSymposium:isProfileFollowedSymposium,
-				  		profileId,
-				  		isLoading:false,
-				  		hideOnboarding:isOnboardingCompleted,
-				  		symposiumFeatureQuestions:featureQuestions,
-				  		symposiumId:_id
-			  		}));
-
-				  	setTimeout(function(){
-						postContainerElement.style.opacity="1";
-						headerContentsContainerElement.style.opacity="1";
-				  	},500);
-
-				  	connectToRoom(socket,_id);
-
-		  		}else{
-		  			alert('Unfortunately there has been a problem with getting the symposium information. Please try again');
-		  		}
-		  		this.triggerUIChange();
+	  		}else{
+	  			alert('Unfortunately there has been a problem with getting the symposium information. Please try again');
+	  		}
+	  		this.triggerUIChange();
+		}
 	  }
 
 	addSuggestedSymposiums=(posts)=>{
@@ -1219,7 +1227,8 @@ class Symposium extends Component{
 
 const mapStateToProps=(state)=>{
 	return{
-		profileId:state.personalInformation.id
+		profileId:state.personalInformation.id,
+		isLoggedIn:state.personalInformation.loggedIn
 	}
 }
 

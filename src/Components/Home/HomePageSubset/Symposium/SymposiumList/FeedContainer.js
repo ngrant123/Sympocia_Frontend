@@ -231,44 +231,51 @@ class PersonalFeedContainer extends Component{
 	//Find a better way of doing this
 	async componentDidMount(){
 		try{
-			window.addEventListener('resize',this.triggerUIChange)
 
-			console.log(this.props);
-			const {isPersonalProfile,profileId}=this.props;
-			var symposiumsResponse;
-
-			if(isPersonalProfile==true){
-				symposiumsResponse=await getSymposiumsFollowedHome(profileId);
+			const verification=this.props.isLoggedIn;
+			if(verification==false){
+				this.props.history.push({
+					pathname:'/'
+				})
 			}else{
-				symposiumsResponse=await getFollowedSymposiumsCompanyHome(profileId);
-			}
-			console.log(symposiumsResponse);
-			debugger;
-			var symposiums=[];
-			if(symposiumsResponse.length>0){
-				for(var i=0;i<symposiumsResponse.length;i++){
-					const specificCommunity=symposiumsResponse[i];
-					const newTimer=100*i;
-					await this.timerFunction(newTimer);
+				window.addEventListener('resize',this.triggerUIChange)
+				console.log(this.props);
+				const {isPersonalProfile,profileId}=this.props;
+				var symposiumsResponse;
 
-					symposiums.push(specificCommunity);
+				if(isPersonalProfile==true){
+					symposiumsResponse=await getSymposiumsFollowedHome(profileId);
+				}else{
+					symposiumsResponse=await getFollowedSymposiumsCompanyHome(profileId);
+				}
+				console.log(symposiumsResponse);
+				debugger;
+				var symposiums=[];
+				if(symposiumsResponse.length>0){
+					for(var i=0;i<symposiumsResponse.length;i++){
+						const specificCommunity=symposiumsResponse[i];
+						const newTimer=100*i;
+						await this.timerFunction(newTimer);
 
+						symposiums.push(specificCommunity);
+
+						this.setState(prevState=>({
+							...prevState,
+							symposiumArray:symposiums,
+							isPersonalProfile:isPersonalProfile,
+							isLoading:false
+						}));
+					}
+				}else{
 					this.setState(prevState=>({
 						...prevState,
 						symposiumArray:symposiums,
 						isPersonalProfile:isPersonalProfile,
 						isLoading:false
-					}));
+					}));	
 				}
-			}else{
-				this.setState(prevState=>({
-					...prevState,
-					symposiumArray:symposiums,
-					isPersonalProfile:isPersonalProfile,
-					isLoading:false
-				}));	
+				this.triggerUIChange();
 			}
-			this.triggerUIChange();
 		}catch(err){
 			console.log(err.message);
 		}
@@ -543,7 +550,8 @@ class PersonalFeedContainer extends Component{
 const mapStateToProps=(state)=>{
 	return{
 		profileId:state.personalInformation.id,
-		isPersonalProfile:state.personalInformation.loggedIn
+		isPersonalProfile:state.personalInformation.loggedIn,
+		isLoggedIn:state.personalInformation.loggedIn
 	}
 }
 

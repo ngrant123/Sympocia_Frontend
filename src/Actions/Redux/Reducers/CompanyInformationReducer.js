@@ -17,13 +17,9 @@ const CompanyInformationReducer=(state=initialState, action)=>{
 
 	const { type,payload }=action;
 
-	console.log(payload);
-	console.log(type);
-
 	switch(type){
 
 		case 'UPDATE_COMPANY_NAME':
-			console.log('Company Name accessed');
 			return {
 					...state,
 					companyName:payload

@@ -51,7 +51,6 @@ class ImageCreation extends Component{
 		const picture=document.getElementById("uploadPictureFile").files[0];
 
 		reader.onloadend=()=>{
-			console.log(reader.result);
 			const picUrl=reader.result;
 			if(this.props.isPreviousLoaded==true){
 				this.props.handleNewlyCreatedImage(picUrl);
