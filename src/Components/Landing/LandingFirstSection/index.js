@@ -47,7 +47,6 @@ import LandingImage from '../../../designs/img/FirstSectionLandingPAgeImage.png'
 
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import NavBarLogin from "../NavBarImplementation.js";
 
 
 const LoginBox=styled.textarea`

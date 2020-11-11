@@ -1,10 +1,6 @@
 
 
 const addName=(firstName)=>{
-
-console.log('Action :'+firstName);
-
-
 	return{
 		type:'ADD_FIRST_NAME',
 		payload:firstName

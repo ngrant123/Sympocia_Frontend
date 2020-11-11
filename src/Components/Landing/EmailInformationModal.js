@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import Confetti from 'react-confetti';
-import {uploadProfilePicture} from "../../Actions/Requests/MarketingRequests.js";
 
 const ShadowContainer=styled.div`
 	position:fixed;
@@ -95,9 +94,7 @@ const RegisterButton={
 */
 
 const EmailInformationModal=({closeModal,pushProfileObject,id,profileType})=>{
-	const [displayProfileUploadPage,changeDisplayProfileUploadPage]=useState(false);
 	const [displayConfetti,changeDisplayConfetti]=useState(true);
-	const [profileUrl,changeProfilePictureUrl]=useState();
 
 	useEffect(()=>{
 		confettiAnimation();
@@ -109,44 +106,7 @@ const EmailInformationModal=({closeModal,pushProfileObject,id,profileType})=>{
 			changeDisplayConfetti(false);
 		},5000);
 	}
-
-	const changeImageUrl=()=>{
-		var fileReader=new FileReader();
-		var image=document.getElementById("imageFile").files[0];
-		fileReader.onloadend=()=>{	
-			const imageUrl=fileReader.result;
-			changeProfilePictureUrl(imageUrl);
-		};
-		if(image!=null){
-			fileReader.readAsDataURL(image);
-		}else{
-			alert('Sorry but this image type is not allowed');
-		}
-
-	}
-
-	const submitPictureAndLink=async()=>{
-		
-
-		if(profileUrl==null){
-			alert('Please submit a picture');
-		}else{
-			const userObject={
-				id:id,
-				profilePicture:profileUrl
-			}
-			const {confirmation}=await uploadProfilePicture(userObject);
-			if(confirmation=="Success"){
-				pushProfileObject(userObject);
-			}else{
-				alert('Sorry there has been an error. Please upload again');
-			}
-		}
-	}
-
-	const triggerPictureUpload=()=>{
-		document.getElementById("imageFile").click();
-	}
+	
 	return(
 		<>
 			{displayConfetti==false?null:
@@ -159,84 +119,23 @@ const EmailInformationModal=({closeModal,pushProfileObject,id,profileType})=>{
 				onClick={()=>closeModal()}
 			/>
 			<Container>
-				{displayProfileUploadPage==false?
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none"}}>
-									 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checkbox" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-									  <path stroke="none" d="M0 0h24v24H0z"/>
-									  <polyline points="9 11 12 14 20 6" />
-									  <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
-									</svg>
-								</li>
-								<li style={{listStyle:"none",marginBottom:"5%"}}>
-									Thanks for submitting your email :) I really appreciate it. 
-									In the meantime, I'll send you a confirmation email later on today and we can go from there
-								</li>
-								<hr/>
-								{profileType==null?
-									<>
-										<p>Since your apart of the team now, would you like to upload
-											 a picture and tell everyone what you're working on or promote your stuff?
-											 Your picture will be displayed on the right for everyone to see. Its the least we can do for you 
-											 signing up. Come get your free advertising:)
-										</p>
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"0px"}}>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>changeDisplayProfileUploadPage(true)} style={{listStyle:"none",display:"inline-block"}}>
-														<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-check" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7cfc00" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														  <path stroke="none" d="M0 0h24v24H0z"/>
-														  <circle cx="12" cy="12" r="9" />
-														  <path d="M9 12l2 2l4 -4" />
-														</svg> Yes
-													</li>
-												</a>
-												<a href="javascript:void(0);" style={{textDecoration:"none",marginTop:"3%"}}>
-													<li onClick={()=>closeModal()} style={{listStyle:"none"}}>
-														<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#E91E63" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														  <path stroke="none" d="M0 0h24v24H0z"/>
-														  <rect x="4" y="4" width="16" height="16" rx="2" />
-														  <path d="M10 10l4 4m0 -4l-4 4" />
-														</svg> No
-													</li>
-												</a>
-											</ul>
-										</li>
-									</>:
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>closeModal()}style={CloseModalButton}>
-											Close
-										</li>
-									</a>
-								}
-							</ul>
-						</li>
-					</ul>:
-					<ul style={{padding:"0px"}}>
-						<p> The user will be redirected to the link that you provide below when they click on your picture</p>
-						<li onClick={()=>triggerPictureUpload()} style={{listStyle:"none"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								{profileUrl!=null?
-									<img src={profileUrl} style={{width:"40%",height:"110px",borderRadius:"50%"}}/>
-									:<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus" width="80" height="80" viewBox="0 0 24 24" stroke-width="1.5" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										  <path stroke="none" d="M0 0h24v24H0z"/>
-										  <circle cx="12" cy="12" r="9" />
-										  <line x1="9" y1="12" x2="15" y2="12" />
-										  <line x1="12" y1="9" x2="12" y2="15" />
-										</svg>
-								}
-							</a>
-							<input id="imageFile" onChange={()=>changeImageUrl()} type="file" style={{zIndex:"-1",opacity:"0"}} accept="image/x-png,image/gif,image/jpeg"/>
-						</li>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>submitPictureAndLink()} style={RegisterButton}>
-								Submit
+				<ul style={{padding:"0px"}}>
+					<li style={{listStyle:"none"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none"}}>
+								 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checkbox" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								  <path stroke="none" d="M0 0h24v24H0z"/>
+								  <polyline points="9 11 12 14 20 6" />
+								  <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
+								</svg>
 							</li>
-						</a>
-					</ul>
-				}
+							<li style={{listStyle:"none",marginBottom:"5%"}}>
+								Thanks for submitting your email :) I really appreciate it. 
+								In the meantime, I'll send you a confirmation email later on today and we can go from there
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</Container>
 		</>
 

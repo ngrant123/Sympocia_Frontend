@@ -44,7 +44,6 @@ import LandingImage from '../../../designs/img/CompanyFirstSection.png';
 
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import NavBarLogin from "../NavBarImplementation.js";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import EmailInformationModal from "../EmailInformationModal.js";

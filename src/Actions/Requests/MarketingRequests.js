@@ -63,21 +63,6 @@ export const recordEmailCompany=async(email)=>{
 		}
 }
 
-export const uploadProfilePicture=async({id,profilePicture})=>{
-		try{
-			const recordedEmailResponse=await axios.post(`${CreateUrl}/uploadProfilePicture`,{
-				_id:id,
-				profilePicture:profilePicture
-			});
-
-			const {data}=recordedEmailResponse;
-			return data;
-
-		}catch(err){
-			return err;
-		}
-}
-
 export const verifyCode=async(code)=>{
 	try{
 		const verificationResponse=await axios.get(`${SearchUrl}/verifyCode`,{

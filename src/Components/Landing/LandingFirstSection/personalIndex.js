@@ -42,7 +42,10 @@ import  {
 import LandingImage from '../../../designs/img/FirstSectionLandingPAgeImage.png'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import NavBarLogin from "../NavBarImplementation.js";
+import {
+        LoginUI,
+        MobileLoginUI
+} from "../LoginImplementation.js";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import EmailInformationModal from "../EmailInformationModal.js";
@@ -139,6 +142,28 @@ const UserImagePicture=styled.div`
     border-radius:50%;
 `;
 
+
+const ShadowContainer = styled.div`
+  position:fixed;
+  width:200%;
+  height:100%;
+  left:-10%;
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  display:block;
+  z-index:8;
+`;
+
+const MobileLoginContainer=styled.div`
+  padding:20px;
+  position:fixed;
+  width:100%;
+  left:1%;
+  height:60%;
+  background-color:white;
+  border-radius:5px;
+  top:20%;
+ z-index:8;
+`;
 const SignUpButton={
     listStyle:"none",
     display:"inline-block",
@@ -214,6 +239,7 @@ const FirstSection=(props)=>{
   const [userId,changeUserId]=useState();
   const [displaySignUpPrompt,changeDisplaySignUpPrompt]=useState(false);
   const [displayEnterCodePrompt,changeDisplayEnterCodePrompt]=useState(false);
+  const [displayMobileLogin,changeDisplayMobileLogin]=useState(false);
   
 	const dispatch=useDispatch();
 	const state=useSelector(state=>state);
@@ -368,8 +394,33 @@ const FirstSection=(props)=>{
       }
   }
 
-	return(
+  const displayMobileLoginTrigger=()=>{
+      changeDisplayMobileLogin(true);
+  }
 
+  const closeMobileLogin=()=>{
+    changeDisplayMobileLogin(false);
+  }
+
+  const mobileLoginUI=()=>{
+    return <>
+            {displayMobileLogin==true &&(
+              <>
+                <ShadowContainer
+                  onClick={()=>changeDisplayMobileLogin()}
+                />
+                <MobileLoginContainer>
+                     <MobileLoginUI
+                        history={props.history}
+                        displayMobileLoginTrigger={changeDisplayMobileLogin}
+                      /> 
+                </MobileLoginContainer>
+              </>
+            )}
+          </>
+  }
+
+	return(
 		     <FirstContainer id="firstContainer">
               {displayEmailInformation==false?null:
                 <EmailInformationModal
@@ -379,17 +430,19 @@ const FirstSection=(props)=>{
                   profileType={null}
                 />
               }
+              {mobileLoginUI()}
               <ul style={{padding:"0px"}}>
                    <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
                       <ul style={{padding:"0px"}}>
-                          <li style={{listStyle:"none",display:"inline-block",fontSize:"100px",color:"#C8B0F4"}}>
-                            <p id="header">
+                          <li id="header" style={{listStyle:"none",display:"inline-block",fontSize:"100px",color:"#C8B0F4"}}>
+                            <p>
                                 <b>Sympocia</b>
                             </p>
                           </li>
                            <li style={{listStyle:"none"}} id="navBarLogin">
-                            <NavBarLogin
+                            <LoginUI
                               history={props.history}
+                              displayMobileLoginTrigger={displayMobileLoginTrigger}
                             /> 
                           </li>
                       </ul>
@@ -433,7 +486,7 @@ const FirstSection=(props)=>{
 
                         <li id="imageListContainer" style={{position:"relative",top:"-80px",listStyle:"none",display:"inline-block",width:"40%",marginLeft:"5%"}}>
                             <ul style={{padding:"0px"}}>
-                                <li style={{listStyle:"none",marginBottom:"10"}}>
+                                <li style={{listStyle:"none",marginBottom:"20px"}}>
                                     <img id="imageContainer" src={LandingImage} style={{position:"relative",width:"95%",height:"80%"}}/>
                                 </li>
                                 <p> So far <b>{usersInterested.length}</b> users have signed up. What are you waiting for? :) </p>

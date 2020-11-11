@@ -66,6 +66,11 @@ const InformationCard=styled.div`
   border-width:2px;
   border-clor:#3898ec;
   left:15%;
+    @media screen and (max-width:700px){
+    left:5% !important;
+    width:200px !important;
+    top:20% !important;
+  }
 `;
 
 const ArrowDownContainer=styled.div`

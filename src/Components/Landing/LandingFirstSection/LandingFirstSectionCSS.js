@@ -56,10 +56,10 @@ export const FirstContainer = styled.div`
           top:10px;
       }
     }
-    
+
     @media screen and (max-width:950px){
       #imageContainer{
-          top:10px;
+          top:20px;
       }
       #floatingArrowFunction:{
         display:none;
@@ -90,9 +90,7 @@ export const FirstContainer = styled.div`
         margin-top:5%;
         margin-left:-10%;
       }
-      #navBarLogin{
-        display:none;
-      }    
+
       #imageListContainer{
          display:none !important;
          top:0px;
@@ -121,6 +119,10 @@ export const FirstContainer = styled.div`
        #headerCompany{
         font-size:80px !important;
       }
+      #header{
+        font-size:40px !important;
+        margin-top:20%;
+      }
     }
 
     @media screen and (max-width:490px){
@@ -131,7 +133,7 @@ export const FirstContainer = styled.div`
 
     @media screen and (max-width:400px){
        #headerCompany{
-        font-size:60px !important;
+        font-size:40px !important;
         margin-top:5%;
       }
 
@@ -145,7 +147,8 @@ export const FirstContainer = styled.div`
 
     @media screen and (max-width:350px){
       #listOpeningTextContainer{
-          width:50% !important;
+          width:60% !important;
+          margin-left:-10% !important;
       }
       #email{
         width:120% !important;
@@ -153,10 +156,6 @@ export const FirstContainer = styled.div`
     }
 
      @media screen and (max-height:750px){
-        #navBarLogin{
-          display:none;
-          background-color:red;
-        }
         #floatingArrowFunction{
           display:none;
         }
@@ -182,16 +181,14 @@ export const FirstContainer = styled.div`
 
 
        @media screen and (max-height:440px){
-
          #imageListContainer{
            top:-80px;
-           height:200%;
-           
+           height:200%; 
         }
 
          #interestedProfilePictures{
           height:50% !important;
-      }
+        }
 
         @media screen and (max-width:800px), screen and (max-height:420px){
             #imageContainer{
