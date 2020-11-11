@@ -181,7 +181,7 @@ const recruitButton=(personalInformation,confettiTrigger,userId)=>{
 const handleRecruitButton=(personalInformation,displayConfetti,userId)=>{
 	displayConfetti();
 	console.log(personalInformation);
-	debugger;
+	
 	const profileId=personalInformation.userProfile._id;
 	addRecruit(userId,profileId);
 }
@@ -217,7 +217,7 @@ const PersonalInformation=(props)=>{
 	}
 
 	const socialMediaIcons=(socialMediaUrls)=>{
-		debugger;
+		
 		let {
 			instagramUrl,
 			tikTokUrl

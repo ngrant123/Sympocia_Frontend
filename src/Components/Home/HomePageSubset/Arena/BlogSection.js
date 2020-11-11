@@ -126,7 +126,7 @@ class BlogSection extends Component{
 
 	constructor(props){
 		super(props);
-		debugger;
+		
 		let{
 			endDate,
 			posts,
@@ -146,7 +146,7 @@ class BlogSection extends Component{
 		};
 	}
 	boostPost=async(postSelected,arenaContext)=>{
-		debugger;
+		
 		const {_id,blog}=postSelected;
 		const {score}=blog
 		const {arenaId}=this.props.posts;

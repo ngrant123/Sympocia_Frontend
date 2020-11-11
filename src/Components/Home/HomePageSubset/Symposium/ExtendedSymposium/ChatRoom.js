@@ -175,7 +175,7 @@ class ChatRoom extends Component{
 	}
 
 	sendMessageToGroupChat=async()=>{
-		debugger;
+		
 		const messageValue=document.getElementById("messageContainer").value;
 		const {data}=await getProfilePicture(this.props.profileId);
 
@@ -197,7 +197,7 @@ class ChatRoom extends Component{
 
 	constructChat=(chatRoom)=>{
 		console.log(chatRoom);
-		debugger;
+		
 		return <React.Fragment>
 					{chatRoom==null?null:
 						<ul style={{marginTop:"15%"}}>

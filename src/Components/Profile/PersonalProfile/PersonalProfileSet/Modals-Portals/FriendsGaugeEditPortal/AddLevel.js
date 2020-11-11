@@ -69,7 +69,7 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 	}
 
 	const removeSelectedPerson=(data)=>{
-		debugger;
+		
 		const selectedId=data._id;
 		var newArray=[];
 		for(var i=0;i<selectedRecruits.length;i++){
@@ -85,7 +85,7 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 	}
 
 	const submitNode=async()=>{
-		debugger;
+		
 		const levelObject={
 			name:levelName,
 			description:levelDescription,
@@ -132,7 +132,7 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 		saying no results. Its trivial at this stage though
 	*/
 	const searchForPerson=(key)=>{
-		debugger;
+		
 		var searchedNames=[];
 		if(key=="Backspace"){
 			var currentName=constructWordFromArray(currentSearchName);

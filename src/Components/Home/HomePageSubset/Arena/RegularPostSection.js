@@ -153,7 +153,7 @@ class RegularPostSection extends Component{
 	}
 
 	boostPost=async(postSelected,arenaContext)=>{
-		debugger;
+		
 		const {_id,regularPost}=postSelected;
 		const {score}=regularPost
 		const {arenaId}=this.props.posts;

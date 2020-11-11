@@ -150,7 +150,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			debugger;
+			
 			console.log(symposiumId);
 			const {confirmation,data}=await getIndustryImageFeatureAnswers({
 				industryId:symposiumId,
@@ -195,7 +195,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 	}
 
 	const submitImage=async()=>{
-		debugger;
+		
 		var image={
 			imgUrl:imgUrl,
 			description:document.getElementById("imageDescription").value
@@ -209,7 +209,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 		}
 
 		let {confirmation,data}=await createIndustryFeatureImageResponse(submitedImage);
-		debugger;
+		
 		if(confirmation=="Success"){
 			data={
 				...data,

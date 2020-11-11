@@ -249,7 +249,7 @@ class PersonalFeedContainer extends Component{
 					symposiumsResponse=await getFollowedSymposiumsCompanyHome(profileId);
 				}
 				console.log(symposiumsResponse);
-				debugger;
+				
 				var symposiums=[];
 				if(symposiumsResponse.length>0){
 					for(var i=0;i<symposiumsResponse.length;i++){
@@ -282,7 +282,7 @@ class PersonalFeedContainer extends Component{
 	}
 
 	triggerUIChange=()=>{
-		debugger;
+		
 		console.log(window.innerWidth)
 		if(window.innerWidth<960){
 			this.setState({
@@ -335,7 +335,7 @@ class PersonalFeedContainer extends Component{
 	handleSymposiumClick=(data)=>{
 		var symposiums=[];
 		console.log(data);
-		debugger;
+		
 		for(var i=0;i<this.state.symposiumArray.length;i++){
 			const currentSymposium=this.state.symposiumArray[i];
 			if(currentSymposium.symposium!=data.symposium){
@@ -364,7 +364,7 @@ class PersonalFeedContainer extends Component{
 		exploreSymposiumsButton.style.color="#999999";
 
 		explorePosts=await getSymposiumsFollowedHome(this.props.profileId);
-		debugger;
+		
 		this.setState({
 			symposiumArray:(explorePosts.length==0?[]:explorePosts),
 			isLoading:false
@@ -382,7 +382,7 @@ class PersonalFeedContainer extends Component{
 
 		if(this.props.isPersonalProfile==true){
 			explorePosts=await getSymposiumsNotFollowed(this.props.profileId);
-			debugger;
+			
 		}
 		this.setState({
 			symposiumArray:(explorePosts.length==0?[]:explorePosts),

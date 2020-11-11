@@ -20,14 +20,14 @@ export async function getCompanyInformation(companyId){
 
 export async function getCompanyVideos(userId){
 	try{
-	debugger;
+	
 	const CreateUrl='http://localhost:4000/api/company/search';
 	const companyVideos=await axios.get(`${CreateUrl}/getCompanyVideos`,{
 		params:{
 			_id:userId
 		}
 	})
-	debugger;
+	
 
 	const {data}=companyVideos;
 	const {headerVideo,videoPosts}=data.data;
@@ -43,14 +43,14 @@ export async function getCompanyVideos(userId){
 
 export async function getCompanyBlogs(companyId){
 	try{
-		debugger;
+		
 		const CreateUrl='http://localhost:4000/api/company/search';
 		const companyBlogs=await axios.get(`${CreateUrl}/getCompanyBlogs`,{
 			params:{
 				_id:companyId
 			}
 		})
-		debugger;
+		
 
 		const {data}=companyBlogs;
 	
@@ -64,14 +64,14 @@ export async function getCompanyBlogs(companyId){
 
 export async function getCompanyRegularPosts(companyId){
 	try{
-		debugger;
+		
 		const CreateUrl='http://localhost:4000/api/company/search';
 		const companyRegularPosts=await axios.get(`${CreateUrl}/getCompanyRegularPosts`,{
 			params:{
 				_id:companyId
 			}
 		})
-		debugger;
+		
 
 		const {data}=companyRegularPosts;
 		const {regularPosts}=data.data;

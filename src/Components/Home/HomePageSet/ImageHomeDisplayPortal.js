@@ -87,7 +87,7 @@ const ImageCSS={
 
 
 const ImageHomeDisplayPortal=(props)=>{
-	debugger;
+
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer onClick={()=>props.closeModal()}/>

@@ -156,7 +156,7 @@ class LProfile extends Component{
 		    displayCreationPortal:false,
 		    displayPromotePortal:false,
 		    displayChampionModal:(championData)=>{
-		    	debugger;
+		    	
 		    	this.setState({
 		    		...this.state,
 		    		champion:championData,
@@ -286,7 +286,7 @@ class LProfile extends Component{
 
 			console.log(reader.result);
 			const {confirmation,data}=await setProfilePicture(this.state.userProfile._id,profileUrl);
-			debugger;
+			
 			if(confirmation=="Success"){
 				this.setState({
 					userProfile:{
@@ -454,7 +454,7 @@ class LProfile extends Component{
 	}
 
 	VideoModal=()=>{
-		debugger;
+		
 		var newVideoObject={};
 		if(this.state.isLoading!=true){
 			newVideoObject={
@@ -478,7 +478,7 @@ class LProfile extends Component{
 	}
 
 	RegularPostModal=()=>{
-		debugger;
+		
 		var newRegularPostObject={};
 		if(this.state.isLoading!=true){
 			newRegularPostObject={
@@ -590,7 +590,7 @@ class LProfile extends Component{
 	}
 
 	triggerPromoteModal=(postId,postType)=>{
-		debugger;
+		
 		this.setState({
 			promotePostId:postId,
 			promotePostType:postType,
@@ -710,7 +710,7 @@ class LProfile extends Component{
 					value={{
 						handleImagePostModal:(imagePostData,contextLocation)=>{
 							console.log(imagePostData);
-							debugger;
+							
 							this.setState({
 								imageModalData:imagePostData,
 								contextLocation:contextLocation,

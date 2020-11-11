@@ -37,7 +37,6 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 
 	const addRemovedNodeToQueue=(node)=>{
 		/*
-			debugger;
 			var currentRemovedNodes=removedNodes;
 			currentRemovedNodes.push(node);
 			changeRemovedNodes([...currentRemovedNodes]);

@@ -60,7 +60,6 @@ const SearchPage=(props)=>{
 	}
 
 	const searchPostsResults=()=>{
-		debugger;
 		const {params}=props.match;
 		if(params.searchType=="Posts"){
 			return <PostSearch

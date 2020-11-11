@@ -210,7 +210,7 @@ class Symposium extends Component{
 				pathname:'/'
 			})
 		}else{
-			debugger;
+			
 			window.addEventListener('resize',this.triggerUIChange)
 	  		const postContainerElement=document.getElementById("postChatInformation");
 	  		const headerContentsContainerElement=document.getElementById("headerContents");
@@ -223,7 +223,7 @@ class Symposium extends Component{
 		  									   	profileId
 	  									   	);
 
-	  		debugger;
+	  		
 	  		if(confirmation=="Success"){
 	  			const {
 	  				posts,
@@ -237,7 +237,7 @@ class Symposium extends Component{
 	  			}=data;
 
 	  			var newHomePagePosts=this.addSuggestedSymposiums(posts);
-	  			debugger;
+	  			
 	  			console.log(data);
 	  			console.log(popularQuestions);
 		  			
@@ -292,7 +292,7 @@ class Symposium extends Component{
 	}
 
 	suggestedSymposiumsRecursive=(posts)=>{
-		debugger;
+		
 		if(posts==null||posts.length==0){
 			return posts;
 		}else if(posts.length==1){
@@ -432,7 +432,7 @@ class Symposium extends Component{
 
 	  //Method below is not working completely correct but is doing half it correctly moving on 
 	   replayVideo=(key)=>{
-	   		debugger;
+	   		
 	   		const video=document.getElementById("video"+key);
 	   		var startTime=0;
 	   		
@@ -527,7 +527,7 @@ class Symposium extends Component{
 	  		</React.Fragment>
 	  }
 	  hideChatRoom=()=>{
-	  	debugger;
+	  	
 	  	this.setState({
 	  		displayInitialChatRoom:!this.state.displayInitialChatRoom
 	  	})
@@ -886,7 +886,7 @@ class Symposium extends Component{
 	window.location.reload(false); 
 */
 	displaySymposium=(data)=>{
-		debugger;
+		
 		this.props.history.push({
 		  pathname:`/symposium/${data.selectedSymposiums.symposium}`,
 		  state: {

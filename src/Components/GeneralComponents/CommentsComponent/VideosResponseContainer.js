@@ -150,7 +150,7 @@ class VideoResponseContainer extends Component{
 	}
 
 	getReplies=async()=>{
-		debugger;
+		
 		const {confirmation,data}=await getVideoCommentsReplies(this.props.postId,this.state.indicatorPosition,this.props.postType);
 		if(confirmation=="Success"){
 			this.setState({
@@ -163,7 +163,7 @@ class VideoResponseContainer extends Component{
 	}
 
 	handleCreateComment=async()=>{
-		debugger;
+		
 		const comment=document.getElementById("comment").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -180,9 +180,9 @@ class VideoResponseContainer extends Component{
 				postId:this.props.postId
 			}
 			const {confirmation,data}=await createVideoCommentReply(replyObject);
-			debugger;
+			
 			if(confirmation=="Success"){
-				debugger;
+				
 				var currentComments=this.state.replies;
 				const newComment={
 					reply:comment,

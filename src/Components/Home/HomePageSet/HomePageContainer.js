@@ -223,8 +223,8 @@ class HomePageContainer extends Component{
 			var profile;
 			var symposiumsMap;
 			var isPersonalProfile;
-			debugger;
-				debugger;
+			
+				
 			if(this.props.personalInformation.loggedIn==true){
 				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
 				const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
@@ -250,12 +250,12 @@ class HomePageContainer extends Component{
 				hideOnboarding:profile.firstTimeLoggedIn.explorePage
 			})
 			this.triggerUIChange();
-			debugger;
+			
 		}
 	}
 
 	constructSymposiumsMap=(symposiums)=>{
-		debugger;
+		
 		var symposiumsHashMap=new Map();
 		for(var i=0;i<symposiums.length;i++){
 			const {industry,backgroundColor,subCommunity}=symposiums[i];
@@ -360,7 +360,7 @@ class HomePageContainer extends Component{
 		}else if(this.state.displayPlayListPage==true){
 			return <PlayListComponent/>
 		}else if(this.state.displayExpandedSymposium==true){
-			debugger;
+			
 			this.props.history.push({
 			  pathname:`/symposium/${this.state.selectedSymposiumPersonalFeed.symposium}`,
 			  state: {

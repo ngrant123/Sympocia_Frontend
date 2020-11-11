@@ -704,7 +704,7 @@ class LProfile extends Component{
 
 	async componentDidMount(){
 
-		debugger;
+		
 		const {id}=this.props.match.params;
 		const firstTimeIndicator=this.props.firstTimeIndicator;
 
@@ -722,7 +722,7 @@ class LProfile extends Component{
 					}else{
 						containsChampion=false;
 					}
-					debugger;
+					
 					this.setState({
 						isLoading:false,
 						userProfile:profile,
@@ -743,7 +743,7 @@ class LProfile extends Component{
 						containsChampion=false;
 					}
 
-					debugger;
+					
 					this.setState(prevState=>({
 						...prevState,
 						isLoading:false,
@@ -826,7 +826,7 @@ class LProfile extends Component{
 	}
 
 	VideoModal=()=>{
-		debugger;
+		
 		var newVideoObject={};
 		if(this.state.videoModalData!=null){
 			newVideoObject={
@@ -870,7 +870,7 @@ class LProfile extends Component{
 
 					},
 					updateNews:(newsInformation)=>{
-						debugger;
+						
 						const news=this.state.userProfile.news;
 						news.push(newsInformation);
 						this.setState({

@@ -58,7 +58,6 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 			postId,
 			postType
 		}
-		debugger;
 
 		const {confirmation,data}=await promotePost(promotion);
 		if(confirmation=="Success"){

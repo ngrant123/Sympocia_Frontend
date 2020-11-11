@@ -157,7 +157,7 @@ const VoiceDescriptionPortal=(props)=>{
 					  		audio:true 
 					  	}).then(stream=>handleRecording(stream))
 				   		.then(recordedChunks=>{
-					  	 debugger;
+					  	 
 					  	 if(recordedChunks!=null){
 						  	 let recordedFile = new File(recordedChunks, { type: "video/webm" });
 						  	 var videoSrc=URL.createObjectURL(recordedFile);
@@ -198,7 +198,7 @@ const VoiceDescriptionPortal=(props)=>{
 		var stoppedVideo;
 		var data;
 		 if(firstDone==true){
-		 	debugger;
+		 	
 			  data=[];
 
 			  mediaDevice.ondataavailable = event => data.push(event.data);
@@ -210,7 +210,7 @@ const VoiceDescriptionPortal=(props)=>{
 			  });
 			  //changeRecordingState(true);
 		 }else{
-		 	debugger;
+		 	
 			  let recorder = new MediaRecorder(stream);
 			  data=[];
 
@@ -243,7 +243,7 @@ const VoiceDescriptionPortal=(props)=>{
 	const startRecording=()=>{
 		if(firstDone==true){
 			handleRecording().then(recordedChunks=>{
-						debugger;
+						
 					  	 if(recordedChunks!=null){
 						  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
 						  	var audioSrc=URL.createObjectURL(recordedFile);
@@ -251,7 +251,7 @@ const VoiceDescriptionPortal=(props)=>{
 						  
 						  	var reader=new FileReader();
 							reader.onloadend=()=>{
-								debugger;
+								
 								var currentVideoElements=videoElements;
 
 								const videoObject={
@@ -282,7 +282,7 @@ const VoiceDescriptionPortal=(props)=>{
 	}
 
 	const submitVideoDescription=()=>{
-		debugger;
+		
 		if(videoElements.length>0){
 			props.createAudioDescription(videoElements[0].audioSrc);
 		}else{
@@ -293,7 +293,7 @@ const VoiceDescriptionPortal=(props)=>{
 	/*
 
 	const displayEditVideoScreen=async()=>{
-		debugger;
+		
 		const fileArray=[];
 		for(var i=0;i<videoElements.length;i++){
 
@@ -311,7 +311,7 @@ const VoiceDescriptionPortal=(props)=>{
 	}
 	*/
 	const reDoVideo=()=>{
-		debugger;
+		
 		videoElements.splice(0,videoElements.length);
 		var newVideoElements=videoElements;
 		changeVideoElements(newVideoElements);

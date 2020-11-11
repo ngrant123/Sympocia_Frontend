@@ -267,7 +267,7 @@ class EditVideoModal extends Component{
 			}
 				searchCriteriaIndustryArray.push(searchObject);
 		}
-		debugger;
+		
 		var searchVideoResult={
 			title:currentVideoTitle,
 			description:currentVideoDescription,
@@ -280,7 +280,7 @@ class EditVideoModal extends Component{
 
 		if(this.props.previousData==null){
 			const {confirmation,data}=await createVideoPost(this.props.personalProfile.id,searchVideoResult,"Personal");
-			debugger;
+			
 			if(confirmation=="Success"){
 				searchVideoResult={
 					...searchVideoResult,
@@ -347,7 +347,7 @@ class EditVideoModal extends Component{
 	}
 
 isArrayEqual=(arr1,arr2)=>{
-		debugger;
+		
 		let isArrayEqualIndicator=true;
 
 		if(arr1.length!=arr2.length)
@@ -366,12 +366,12 @@ isArrayEqual=(arr1,arr2)=>{
 			});
 
 			arr2.forEach((selectedIndustry,index)=>{
-				debugger;
+				
 				var testing=arr1Map.has(selectedIndustry.industry);
 				if(arr1Map.has(selectedIndustry.industry)==undefined)
 					isArrayEqualIndicator=false
 				else{
-					debugger;
+					
 					const {subIndustry}=selectedIndustry;
 
 					subIndustry.forEach((selectedSubIndustry,i)=>{
@@ -394,7 +394,7 @@ isArrayEqual=(arr1,arr2)=>{
 	
 
 	pushDummyVideoObjectToProfile=(profilePostInformation,searchCriteriaObject)=>{
-		debugger;
+		
 		const date=new Date();
 		const dateInMill=date.getTime();
 		var newVideoObject={

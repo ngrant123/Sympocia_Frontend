@@ -232,7 +232,7 @@ const LandingPage=(props)=>{
 	const [displayPersonalLanding,changeDisplayForPersonal]=useState(true);
 
 	const increasePageCounter=()=>{
-		debugger;
+		
 		var currentCounter=currentPageCounter;
 		if(currentCounter==2){
 			currentCounter=0;
@@ -257,7 +257,7 @@ const LandingPage=(props)=>{
 	}
 
 	const handleDisplayPages=()=>{
-		debugger;
+		
 		if(currentPageCounter==0){
 			return <FirstSection
 						increaseCounter={increasePageCounter}

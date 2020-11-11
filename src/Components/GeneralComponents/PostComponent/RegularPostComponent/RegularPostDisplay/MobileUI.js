@@ -418,7 +418,7 @@ const MobileUI=({postData,isChromeBrowser,targetDom,deletePost,userPostsInformat
 			industriesUploaded:postData.industriesUploaded
 		}
 		const {confirmation,data}=await deletePost(removeRegularPost);
-		debugger;
+		
 		if(confirmation=="Success"){
 			postData.contextLocation.removePost(postData._id,"RegularPosts");
 		}else{

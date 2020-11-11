@@ -58,7 +58,7 @@ const WinnersDisplay=({closeModal,winnersData,displayConfetti})=>{
 	const [isLoading,changeIsLoadingStatus]=useState(true);
 
 	useEffect(()=>{
-		debugger;
+		
 		displayConfetti();
 		const {
 			Images,

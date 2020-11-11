@@ -28,7 +28,6 @@ const Container=styled.div`
 
 
 const AddEmployeesPortal=(props)=>{
-	debugger;
 	console.log(props);
 	console.log("Add employee portal");
 	return createPortal(

@@ -122,7 +122,7 @@ class BlogsPostsContainer extends Component{
 		if(this.props.profileType=="Personal"){
 			
 			const {	confirmation,data}=await getBlogFromUser({userId:this.props.id,visitorId:this.props.visitorId});
-			debugger;
+			
 			if(confirmation=="Success"){
 				const {
 					crownedBlog,
@@ -144,7 +144,7 @@ class BlogsPostsContainer extends Component{
 		}else{				
 		
 			const {	headerBlog,blogPosts}=await getCompanyBlogs(this.props.id);
-			debugger;
+			
 			this.setState({
 				headerBlog:headerBlog,
 				blogs:blogPosts,
@@ -156,7 +156,7 @@ class BlogsPostsContainer extends Component{
 	}
 
 	constructName=(personalInformation)=>{
-		debugger;
+		
 		const firstName=personalInformation.userProfile.firstName;
 		const lastName=personalInformation.userProfile.lastName;
 		const fullName=firstName+" "+lastName

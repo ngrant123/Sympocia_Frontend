@@ -156,7 +156,7 @@
 	}
 
 	export const editPostIndexContext=(postData,props)=>{
-		debugger;
+		
 		console.log("Post Edited");
 		const {
 			postId,
@@ -365,7 +365,7 @@
 	}
 
 	export const editPostIndexContext=(postData,props)=>{
-		debugger;
+		
 		console.log("Post Edited");
 		const {
 			postId,
@@ -375,7 +375,7 @@
 		}=postData;
 		let newEditedPost;
 		let newEditedPostS3;
-		debugger;
+		
 		const {isCrownedPost}=post;
 
 		//remove null keys from post and postS3
@@ -495,7 +495,7 @@
 
 
 	export const removePostIndexContext=(postId,props,postType)=>{
-		debugger;
+		
 		const {
 			optionTypeParam,
 			crownedPost,
@@ -534,7 +534,7 @@
 	*/
 
 	export const updateImagePostIndexContext=(image,props)=>{
-		debugger;
+		
 		const {isCrownedPost}=image;
 		let currentCrownedImage=props.crownedImage;
 		let currentImages=props.images;
@@ -563,12 +563,12 @@
 	}
 
 	export const updateVideoPostIndexContext=(videoObject,videoPost)=>{
-		debugger;
+		
 		const {isCrownedVideo,video}=videoObject;
 		let newVideoObject;
 		if(isCrownedVideo==true){
 			//Set 
-			debugger;
+			
 			var currentVideos=videoPost.videos;
 			var currentCrownedVideo=videoPost.headerVideo;
 			if(currentCrownedVideo!=null){
@@ -598,11 +598,11 @@
 
 
 	export const updateRegularPostIndexContext=(regularPostProp,regularPost)=>{
-		debugger;
+		
 		const {isCrownedPost,post}=regularPostProp;
 		if(isCrownedPost==true){
 			//Set 
-			debugger;
+			
 			var currentPosts=regularPost.posts;
 			var currentCrownedRegularPost=regularPost.headerPost;
 			if(currentCrownedRegularPost!=null){

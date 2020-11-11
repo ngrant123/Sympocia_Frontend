@@ -258,7 +258,7 @@ class Reaction extends Component{
             arenaId
         }
         let {confirmation,data}=await addTextReaction(textReaction);
-        debugger;
+        
 		if(confirmation=="Success"){
 			data={
 				...data,
@@ -298,7 +298,7 @@ class Reaction extends Component{
         }
 
 		let {confirmation,data}=await addVideoReaction(videoReaction);
-		debugger;
+		
 		if(confirmation=="Success"){
 			console.log(data);
 			data={

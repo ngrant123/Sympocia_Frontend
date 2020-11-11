@@ -120,7 +120,7 @@ class BlogEditSubmitModal extends Component{
 	}
 
 	componentDidMount(){
-		debugger;
+		
 		if(this.props.previousState!=null){
 			const {
 				blogImageUrl,
@@ -213,7 +213,7 @@ class BlogEditSubmitModal extends Component{
 			}
 			searchCriteriaIndustryArray.push(searchObject);
 		}
-		debugger;
+		
 			//Quick fix but this could be implemented in a better way
 		if(this.props.previousState==null){
 			const rawDraftContentState = JSON.stringify(convertToRaw(blogPostInformation.blogPostState.getCurrentContent()));
@@ -273,7 +273,7 @@ class BlogEditSubmitModal extends Component{
 				],
 				ownerId:this.props.previousState.owner
 			}
-			debugger;
+			
  			const {confirmation,data}=await editPost(editedImage);
 			if(confirmation=="Failure"){
 				isEditSuccess=false;
@@ -293,7 +293,7 @@ class BlogEditSubmitModal extends Component{
 	}
 
 isArrayEqual=(arr1,arr2)=>{
-		debugger;
+		
 		let isArrayEqualIndicator=true;
 
 		if(arr1.length!=arr2.length)
@@ -312,12 +312,12 @@ isArrayEqual=(arr1,arr2)=>{
 			});
 
 			arr2.forEach((selectedIndustry,index)=>{
-				debugger;
+				
 				var testing=arr1Map.has(selectedIndustry.industry);
 				if(arr1Map.has(selectedIndustry.industry)==undefined)
 					isArrayEqualIndicator=false
 				else{
-					debugger;
+					
 					const {subIndustry}=selectedIndustry;
 
 					subIndustry.forEach((selectedSubIndustry,i)=>{

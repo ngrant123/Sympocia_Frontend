@@ -76,7 +76,7 @@ const ImageContainer=(props)=>{
 
 	
 	const handleRemoveImagePost=async()=>{
-		debugger;
+		
 		const removeImage={
 			postType:"Images",
 			postId:props.imageData._id,
@@ -84,7 +84,7 @@ const ImageContainer=(props)=>{
 		}
 
 		const {confirmation,data}=await deletePost(removeImage);
-		debugger;
+		
 		if(confirmation=="Success"){
 			props.imageData.contextLocation.removePost(props.imageData._id,"Images");
 		}else{
@@ -94,7 +94,7 @@ const ImageContainer=(props)=>{
 
 	const createOrRemoveStampEffect=()=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
-		debugger;
+		
 		//(userId,postId,profileType,postType)
 		if(displayStampEffect==false){
 			if(isPersonalProfile==true){

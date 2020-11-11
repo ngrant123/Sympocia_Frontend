@@ -39,7 +39,7 @@ const  SelectedRecruitPost=(props)=>{
 				 }else if(postType=="Video"){
 				 	var recommendedVideosArray;
 				 	if(props.selectedPost.video.owner.companyName==null){
-				 		debugger;
+				 		
 				 		var {videos,headerVideo}= await getVideosFromUser(props.selectedPost.video.owner._id);
 				 		if(headerVideo!=null){
 				 			videos.push(headerVideo);
@@ -53,12 +53,12 @@ const  SelectedRecruitPost=(props)=>{
 				 }else if(postType=="Blog"){
 				 	var recommendedBlogsArray;
 				 	if(props.selectedPost.blog.owner.companyName==null){
-				 		debugger;
+				 		
 				 		var {headerBlog,blogs}= await getBlogFromUser(props.selectedPost.blog.owner._id);
 				 		if(headerBlog!=null){
 				 			blogs.push(headerBlog);
 				 		}
-				 		debugger;
+				 		
 				 		recommendedBlogsArray=createNewArrayWithoutPost(props.selectedPost.blog._id,blogs);
 				 		changeRecommendedPosts(recommendedBlogsArray);
 				 	}else{

@@ -146,7 +146,7 @@ class SecondPageContainer extends Component{
 	}
 
 	handleChatData=(chat)=>{
-		debugger;
+		
 			const messageObject={
 				room:chat.room,
 				chatMessage:chat.chatMessage,
@@ -187,7 +187,7 @@ class SecondPageContainer extends Component{
 	}
 
 	sendMessageHandler=async(data)=>{
-		debugger;
+		
 		var currentTimeStamp=new Date();
 		currentTimeStamp=currentTimeStamp.getTime();
 		var roomId=this.props.selectedConversation==null?null:this.props.selectedConversation.chatId;
@@ -203,7 +203,7 @@ class SecondPageContainer extends Component{
 
 		sendMessage(socket,messageObject);
 
-		debugger;
+		
 		//Reason behind this is that later down the wrong it would make have multiple people in conversation easier
 		var participantsArray=[];
 

@@ -104,7 +104,7 @@ const VideoDescriptionPortal=(props)=>{
 	const [firstDone,chnagFirstFone]=useState(false);
 
 	useEffect(()=>{
-		debugger;
+		
 		if(!testIfUserIsUsingChrome()){
 			alert('Unfortunately your browser does not allow this option. Please switch to any other browser');
 			props.closeModal();
@@ -120,7 +120,7 @@ const VideoDescriptionPortal=(props)=>{
 					    })
 				    .then(()=>handleRecording(video.captureStream()))
 				    .then(recordedChunks=>{
-					  	 debugger;
+					  	 
 					  	 if(recordedChunks!=null){
 						  	 let recordedFile = new File(recordedChunks, { type: "video/mp4" });
 						  	 var videoSrc=URL.createObjectURL(recordedFile);
@@ -168,7 +168,7 @@ const VideoDescriptionPortal=(props)=>{
 		var stoppedVideo;
 		var data;
 		 if(firstDone==true){
-		 	debugger;
+		 	
 			  data=[];
 
 			  mediaDevice.ondataavailable = event => data.push(event.data);
@@ -180,7 +180,7 @@ const VideoDescriptionPortal=(props)=>{
 			  });
 			  //changeRecordingState(true);
 		 }else{
-		 	debugger;
+		 	
 			  let recorder = new MediaRecorder(stream);
 			  data=[];
 
@@ -213,7 +213,7 @@ const VideoDescriptionPortal=(props)=>{
 	const startRecording=()=>{
 		if(firstDone==true){
 			handleRecording().then(recordedChunks=>{
-						debugger;
+						
 					  	 if(recordedChunks!=null){
 						  	let recordedFile = new File(recordedChunks, { type: "video/webm" });
 						  	var videoSrc=URL.createObjectURL(recordedFile);
@@ -221,7 +221,7 @@ const VideoDescriptionPortal=(props)=>{
 						  
 						  	var reader=new FileReader();
 							reader.onloadend=()=>{
-								debugger;
+								
 								var currentVideoElements=videoElements;
 
 								const videoObject={
@@ -252,7 +252,7 @@ const VideoDescriptionPortal=(props)=>{
 	}
 
 	const submitVideoDescription=()=>{
-		debugger;
+		
 		if(videoElements.length>0){
 			stopRecording(document.getElementById("videoDescriptionVideo").captureStream());
 			props.createVideoDescription(videoElements[0].videoSrc);
@@ -264,7 +264,7 @@ const VideoDescriptionPortal=(props)=>{
 	/*
 
 	const displayEditVideoScreen=async()=>{
-		debugger;
+		
 		const fileArray=[];
 		for(var i=0;i<videoElements.length;i++){
 
@@ -282,7 +282,7 @@ const VideoDescriptionPortal=(props)=>{
 	}
 	*/
 	const reDoVideo=()=>{
-		debugger;
+		
 		videoElements.splice(0,videoElements.length);
 		var newVideoElements=videoElements;
 		changeVideoElements(newVideoElements);

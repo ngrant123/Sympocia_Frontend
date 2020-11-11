@@ -232,7 +232,7 @@ const BlogPostModal=(props)=>{
 	}
 
 	const constructSuggestedSymposium=(personalInformation,previousProps)=>{
-		debugger;
+		
 		console.log(personalInformation);
 		const {personalInformationState}=personalInformation;
 		var symposiumContainer=new Map();

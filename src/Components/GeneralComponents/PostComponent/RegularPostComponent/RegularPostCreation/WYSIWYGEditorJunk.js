@@ -54,7 +54,7 @@
 		video.srcObject=null;
 	}
 	const photo=()=>{
-		debugger;
+		
 		document.getElementById("cameraModal").style.visibility="hidden";
 
 		var canvas = document.getElementById('canvas');
@@ -102,7 +102,7 @@
 	}
 
 	const addBold=(props)=>{
-		debugger;
+		
 		var textArea=document.getElementById("textAreaContainer");
         var boldTextHolder= document.createElement("strong");
         var textContainer;
@@ -125,7 +125,7 @@
 	}
 
 	const insertTextAtCaretPosition=(textNode)=>{
-		debugger;
+		
 		const selection=window.getSelection();
 		var range;
 		if (selection.getRangeAt && selection.rangeCount){
@@ -136,7 +136,7 @@
 	}
 
 	const setCursorLocation=(textArea,position,newLineIndicator)=>{
-		debugger;
+		
 		textArea.focus();
 		var range = document.createRange();
 	    var sel = window.getSelection();
@@ -382,7 +382,7 @@
 				if(textArea.firstChild!=null){
 
 				}
-				debugger;
+				
 
 				//removeFontVariations(props);
 				changeFirstTimeClickBullet(false);
@@ -485,7 +485,7 @@
 		video.srcObject=null;
 	}
 	const photo=()=>{
-		debugger;
+		
 		document.getElementById("cameraModal").style.visibility="hidden";
 
 		var canvas = document.getElementById('canvas');
@@ -533,7 +533,7 @@
 	}
 
 	const addBold=(props)=>{
-		debugger;
+		
 		var textArea=document.getElementById("textAreaContainer");
         var boldTextHolder= document.createElement("strong");
         var textContainer;
@@ -556,7 +556,7 @@
 	}
 
 	const insertTextAtCaretPosition=(textNode)=>{
-		debugger;
+		
 		const selection=window.getSelection();
 		var range;
 		if (selection.getRangeAt && selection.rangeCount){
@@ -567,7 +567,7 @@
 	}
 
 	const setCursorLocation=(textArea,position,newLineIndicator)=>{
-		debugger;
+		
 		textArea.focus();
 		var range = document.createRange();
 	    var sel = window.getSelection();
@@ -813,7 +813,7 @@
 				if(textArea.firstChild!=null){
 
 				}
-				debugger;
+				
 
 				//removeFontVariations(props);
 				changeFirstTimeClickBullet(false);

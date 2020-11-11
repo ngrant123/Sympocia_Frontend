@@ -170,7 +170,7 @@ export async function getVideosFromUser({userId,visitorId}){
 		});
 
 		const {data}=videos;
-		debugger;
+		
 		return data;
 
 	}catch(err){
@@ -203,7 +203,7 @@ export async function getRegularPostFromUser({userId,visitorId}){
 				visitorId
 			}
 		});
-		debugger;
+		
 
 		const {data}=regularPostsResults;
 		return data;;
@@ -215,7 +215,7 @@ export async function getRegularPostFromUser({userId,visitorId}){
 
 export const getProfileForHomePage=async(id)=>{
 	try{
-		debugger;
+		
 		const profileResult=await axios.get(`${SearchUrl}/getProfileForHomePage`,{
 			params:{
 				_id:id
@@ -275,7 +275,7 @@ export const checkIfEmailIsUsed=async(email)=>{
 				email:email
 			}
 		});
-		debugger;
+		
 		const {data}=emailResponse;
 		const emailData=data.data;
 		return emailData;
@@ -305,7 +305,7 @@ export const getRecruitsInformation=async(userId)=>{
 
 export const getPersonalProfileGeneralMessages=async(personalId)=>{
 	try{
-		debugger;
+		
 		const chatsResponse=await axios.get(`${SearchUrl}/chatMessages`,{
 			params:{
 				_id:personalId

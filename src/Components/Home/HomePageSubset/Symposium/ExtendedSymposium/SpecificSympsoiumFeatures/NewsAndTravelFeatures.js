@@ -46,7 +46,7 @@ const NewsAndTravelFeatures=({symposium,questions})=>{
 	}
 
 	const displayPostModal=(posts,postType,selectedPost)=>{
-		debugger;
+		
 		var indexOfStevie = posts.findIndex(i => i._id === selectedPost._id);
 		changeModalType(postType);
 		changeDisplayNewsAndTravelModal(true);

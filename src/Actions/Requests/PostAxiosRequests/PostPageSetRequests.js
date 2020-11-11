@@ -4,7 +4,7 @@ import axios from "axios";
 export const createRegularPost=async(userId,searchCriteria,profileIndicator)=>{
 	const CreateURl='http://localhost:4000/api/posts/alter';
 	try{
-		debugger;
+		
 			const regularPostCreationVerification=await axios.post(`${CreateURl}/createRegularPost`,{
 														id:userId,
 														searchCriteria:searchCriteria,
@@ -21,7 +21,7 @@ export const createRegularPost=async(userId,searchCriteria,profileIndicator)=>{
 
 export const createImagePost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
-		debugger;
+		
 		const CreateURl='http://localhost:4000/api/posts/alter';
 		const imagePost=await axios.post(`${CreateURl}/createImagePost`,{
 			_id:_id,
@@ -39,14 +39,14 @@ export const createImagePost=async(_id,searchCriteria,profileIndicator)=>{
 
 export const createVideoPost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
-		debugger;
+		
 		const CreateURl='http://localhost:4000/api/posts/alter';
 		const {data}=await axios.post(`${CreateURl}/createVideoPost`,{
 			_id:_id,
 			searchCriteria:searchCriteria,
 			profileIndicator:profileIndicator
 		});
-		debugger;
+		
 		return data;
 	}catch(err){
 		return err.message;
@@ -56,7 +56,7 @@ export const createVideoPost=async(_id,searchCriteria,profileIndicator)=>{
 
 export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
-		debugger;
+		
 		const CreateURl='http://localhost:4000/api/posts/alter';
 		const blogPost=await axios.post(`${CreateURl}/createBlogPost`,{
 			_id:_id,
@@ -76,7 +76,7 @@ export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 
 export const addStampPost =async(userId,postId,profileType,postType)=>{
 	try{
-		debugger;
+		
 		const CreateUrl='http://localhost:4000/api/posts/alter';
 		const postStampResponse= await axios.post(`${CreateUrl}/addStamp`,{
 			_id:userId,
@@ -96,7 +96,7 @@ export const addStampPost =async(userId,postId,profileType,postType)=>{
 
 export const unStampPost=async(userId,postId,profileType,postType)=>{
 	try{
-		debugger;
+		
 		const CreateUrl='http://localhost:4000/api/posts/alter';
 		const unStampPostResponse=await axios.post(`${CreateUrl}/unStamp`,{
 			_id:userId,
@@ -253,7 +253,7 @@ export const createVideoResponse=async({postType,commentId,videoSrc,currentProfi
 
 export const createVideoCommentReply=async({postType,postId,commentId,reply,profileObject})=>{
 	try{
-		debugger;
+		
 		const CreateUrl='http://localhost:4000/api/posts/alter';
 		const videoCommentResponse=await axios.post(`${CreateUrl}/createVideoReply`,{
 			postType:postType,

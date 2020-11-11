@@ -77,7 +77,7 @@ const PostInformation=(props)=>{
 			isPostAuthentic,
 			_id
 		}=props.userData;
-	debugger;
+	
 
 	const [commentsDisplayed,changeCommentsDisplayStatus]=useState(false);	
 	const approvesPostNumber=isPostAuthentic.numOfApprove!=null?

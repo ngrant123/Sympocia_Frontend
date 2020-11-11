@@ -116,17 +116,17 @@ class RegularPostsContainer extends Component{
 	}
 
 	async componentDidMount(){
-		debugger;
+		
 		var regularPosts;
 		if(this.props.profile=="Personal"){
 			regularPosts=await getRegularPostFromUser(this.props.id,"Personal");
 			//const newRegularPosts=await this.constructRegularPosts(regularPosts);
-				debugger;
+				
 				//console.log(regularPosts);
 		}else{									
 			regularPosts=await getCompanyRegularPosts(this.props.id,"Company");
 		//	const newRegularPosts=await this.constructRegularPosts(regularPosts);
-			debugger;
+			
 			//console.log(regularPosts);
 		}
 
@@ -137,7 +137,7 @@ class RegularPostsContainer extends Component{
 	}
 
 	constructRegularPosts=(regularPosts)=>{
-		debugger;
+		
 		for(var i=0;i<regularPosts.length;i++){
 			const {post}=regularPosts[i];
 			var DBEditorState = convertFromRaw(JSON.parse(post));
@@ -154,7 +154,7 @@ class RegularPostsContainer extends Component{
 	}
 
 	displayPostModal=(profileAction,companyAction,data,postsConsumer)=>{
-		debugger;
+		
 		if(profileAction==null)
 			companyAction.handleRegularPostModal(data,postsConsumer);
 		else

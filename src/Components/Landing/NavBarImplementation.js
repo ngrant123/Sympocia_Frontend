@@ -67,7 +67,6 @@ const NavBar=({history})=>{
 	const dispatch=useDispatch();
 
   const handleLoginClick=async(event,history,dispatch)=>{
-    debugger;
     event.preventDefault();
     const email=document.getElementById("LoginEmail").value;
     const password=document.getElementById("LoginPassword").value;

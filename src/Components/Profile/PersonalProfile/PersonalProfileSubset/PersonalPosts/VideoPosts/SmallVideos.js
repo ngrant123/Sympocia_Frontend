@@ -65,7 +65,7 @@ const IndustryButtonCSS={
 const SmallVideoContainer=(videoData)=>{
 	console.log(videoData);
 	const displayIndustries=()=>{
-		debugger;
+		
 		const {industriesUploaded}=videoData.video;
 		if(industriesUploaded.length>=1){
 			const industry=industriesUploaded[0].industry;

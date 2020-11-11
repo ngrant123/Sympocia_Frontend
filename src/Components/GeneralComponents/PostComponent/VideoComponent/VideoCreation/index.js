@@ -44,7 +44,7 @@ const Container=styled.div`
  		let reader= new FileReader();
 		const video=document.getElementById("uploadVideoFile").files[0];
 		reader.onloadend=()=>{
-			debugger;
+			
 			if(props.uploadedRedoVideo!=null){
 				props.uploadedRedoVideo(reader.result);
 			}else{

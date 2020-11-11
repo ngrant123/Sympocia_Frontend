@@ -563,7 +563,7 @@ class ProfileComp extends Component{
 	}
 
 	displayChampionPortalHandle=()=>{
-		debugger;
+		
 		console.log("test")
 		this.setState({
 			displayChampionPortal:true
@@ -571,7 +571,7 @@ class ProfileComp extends Component{
 	}
 
 	displayAddEmployeeModal=()=>{
-		debugger;
+		
 		const indicator=!this.state.displayAddEmployeePortal;
 		this.setState({
 			displayAddEmployeePortal:indicator

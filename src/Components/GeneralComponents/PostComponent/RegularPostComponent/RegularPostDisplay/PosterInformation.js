@@ -131,7 +131,7 @@ const PosterInformation=(props)=>{
 			industriesUploaded
 		}
 		const {confirmation,data}=await deletePost(removeRegularPost);
-		debugger;
+		
 		if(confirmation=="Success"){
 			contextLocation.removePost(_id,"RegularPosts");
 		}else{

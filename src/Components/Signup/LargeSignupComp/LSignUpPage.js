@@ -152,7 +152,7 @@ class LSignupPage extends Component {
 	constructor(props){
 		super(props);
 		//Below code is mainly used when we have the "code" authentication thing for certain users
-		debugger;
+		
 		console.log(props);
 		this.state= {
 			viewport: {

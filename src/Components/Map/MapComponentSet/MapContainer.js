@@ -295,7 +295,6 @@ class MapContainer extends Component {
 	}
 
 	visitCompanyPage=()=>{
-		debugger;
 		document.getElementById("viewCompanyButon").click();
 		//console.log("Testing click button")
 	}

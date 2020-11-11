@@ -104,7 +104,6 @@ const RecruitsPortal=({closeModal,userId})=>{
 
 	const removeRecruit=async()=>{
 		const {_id}=selectedRecruit;
-		debugger;
 		const {confirmation,data}=await removeRecruitProfileIsFollowing({
 				personalProfileId:userId,
 				targetProfile:_id

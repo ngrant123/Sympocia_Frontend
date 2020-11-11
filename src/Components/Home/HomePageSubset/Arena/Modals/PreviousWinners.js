@@ -286,7 +286,6 @@ const PreviousWinnersModal=({closeModal,postType,currentPosts})=>{
 	}
 
 	const renderPost=(arenaContext)=>{
-		debugger;
 		switch(postType){
 			case 'Images':
 				return imageWinners(arenaContext);

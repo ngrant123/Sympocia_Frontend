@@ -144,7 +144,6 @@ const DescriptionModal=(props)=>{
 		const name=document.getElementById("name").value;
 		const description=document.getElementById("description").value;
 
-		debugger;
 		const ChampionModalObject={
 			name:name,
 			imgUrl:props.imgData,

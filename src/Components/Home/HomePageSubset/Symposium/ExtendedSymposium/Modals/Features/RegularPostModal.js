@@ -152,7 +152,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			debugger;
+			
 			console.log(symposiumId);
 			displayBeginnerPosts()
 		}
@@ -171,7 +171,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	}
 
 	const displayIntermediatePosts=async()=>{
-		debugger;
+		
 		const {confirmation,data}=await retrievePosts('Intermediate');
 
 		if(confirmation=="Success"){
@@ -266,7 +266,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 		}
 		const {confirmation,data}=await createSpecificIndustryRegularPostAnswer(post);
 		if(confirmation=="Success"){
-			debugger;
+			
 			if(displayCurrentLevel==knowledgeLevel.toLowerCase()){	
 				const {
 					questionId,

@@ -55,7 +55,7 @@ const SubmitButton={
 }
 const CreationModal=({closeModal,symposiumId,routerHistory})=>{
 	const personalId=useSelector(state=>state.personalInformation.id);
-	debugger;
+	
 	const submitModal=async()=>{
 		const videoCall={
 			title:document.getElementById("title").value,

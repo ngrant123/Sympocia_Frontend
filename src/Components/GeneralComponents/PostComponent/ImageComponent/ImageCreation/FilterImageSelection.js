@@ -121,7 +121,7 @@ conditional expression in processed image component
 		this.props.displayFilteredImage(data);
 	}
 	hightlightImageIcon=(selectedDivKey)=>{
-		debugger;
+		
 
 		for(var i=0;i<this.state.filteredImageArrays.length;i++){
 			const key=this.state.filteredImageArrays[i].key;

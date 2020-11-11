@@ -91,7 +91,7 @@ export const getAuthenticPostComments=async(postId,postOption)=>{
 
 export const getRegularComments=async(postType,postId)=>{
 	try{
-		
+
 		const commentsResponse=await axios.get(`${SearchUrl}/getComments`,{
 			params:{
 				postId:postId,
@@ -122,7 +122,7 @@ export const getVideoComments=async(postType,postId)=>{
 
 export const getVideoCommentsReplies=async(postId,positionIndicator,postType)=>{
 	try{
-		debugger;
+		
 		const videoCommentReplies=await axios.get(`${SearchUrl}/videoCommentReplies`,{
 			params:{
 				postId:postId,

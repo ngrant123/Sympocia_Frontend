@@ -176,7 +176,7 @@ class ImageSection extends Component{
 	}
 	
 	boostPost=async(postSelected,arenaContext)=>{
-		debugger;
+		
 		const {_id,image}=postSelected;
 		const {score}=image
 		const {arenaId}=this.props.posts;

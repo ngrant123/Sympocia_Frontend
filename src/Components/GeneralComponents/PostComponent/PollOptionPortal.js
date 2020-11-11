@@ -147,11 +147,10 @@ const PollOptionPortal=(props)=>{
 			postOption:postType,
 			postId:postId
 		}
-		debugger;
+		
 		let confirmationResponse,dataResponse;
 		if(displayApproveModal==true){
 			const {confirmation,data}=await markPostAsAuthentic(commentObject);
-			debugger
 			confirmationResponse=confirmation;
 			dataResponse=data;
 

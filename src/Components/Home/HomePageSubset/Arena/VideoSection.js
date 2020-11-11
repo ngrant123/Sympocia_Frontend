@@ -127,7 +127,7 @@ class VideoSection extends Component{
 			posts,
 			arenaId
 		}=props.posts;
-		debugger;
+		
 		let headerPost;
 		if(posts!=null){
 			headerPost=posts[0];
@@ -143,7 +143,7 @@ class VideoSection extends Component{
 	}
 
 	boostPost=async(postSelected,arenaContext)=>{
-		debugger;
+		
 		const {_id,video}=postSelected;
 		const {score}=video
 		const {arenaId}=this.props.posts;

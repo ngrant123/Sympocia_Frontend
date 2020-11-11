@@ -167,7 +167,7 @@ class SearchExploreContainer extends Component{
 	componentDidMount(){
 		//If user just gets to the page set industry to general and postType to images
 		window.addEventListener('resize',this.triggerUIChange)
-		debugger;
+		
 		this.changeHomePagePosts(this.state.postOption);
 		this.triggerUIChange();
 	}
@@ -194,7 +194,7 @@ class SearchExploreContainer extends Component{
 	}
 
 	changeHomePagePosts=async(postOption)=>{
-		debugger;
+		
 		var homePagePostsResponse;
 		var profileId=(this.props.personalInformation.loggedIn==true)?this.props.personalInformation.id:this.props.companyInformation.id;
 
@@ -222,7 +222,7 @@ class SearchExploreContainer extends Component{
 
 	/*
 	changeHomePagePosts=async(postOption)=>{
-		debugger;
+		
 		const industries=this.state.selectedIndustries;
 		const selectedSubCommunities=this.state.selectedSubCommunities;
 		const searchCriteriaIndustryArray=[];
@@ -251,7 +251,7 @@ class SearchExploreContainer extends Component{
 			}
 				searchCriteriaIndustryArray.push(searchObject);
 		}
-		debugger;
+		
 		var homePagePosts;
 		if(this.props.personalInformation.loggedIn==true){
 				homePagePosts=await getPostsForHomePage(this.props.personalInformation.id,searchCriteriaIndustryArray,postOption);
@@ -272,7 +272,7 @@ class SearchExploreContainer extends Component{
 	}
 
 	suggestedSymposiumsRecursive=(posts)=>{
-		debugger;
+		
 		if(posts==null||posts.length==0){
 			return posts;
 		}else if(posts.length==1){
@@ -298,7 +298,7 @@ class SearchExploreContainer extends Component{
 	}
 
 	handleChangePostOption=(props)=>{
-		debugger;
+		
 		this.setState({
 			postOption:props
 		},function(){

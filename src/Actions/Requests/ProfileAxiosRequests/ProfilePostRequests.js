@@ -83,7 +83,7 @@ export function updateEmployee(userId,updatedEmployeeData){
 }
 
 export async function createProfile(personalData){
-	debugger;
+	
 	const {firstName,lastName,email,paymentPlan,isInvestor,location,stripToken}=personalData;
 	let personalInformation;
 	if(isInvestor==true){
@@ -149,7 +149,7 @@ export const createChampion=async(profileId,championData)=>{
 
 export const addRecruit=async(personalProfile,targetedProfile)=>{
 	try{
-		debugger;
+		
 		const recruitResponse=await axios.post(`${CreateUrl}/addRecruit`,{
 			personalProfileId:personalProfile,
 			targetProfile:targetedProfile
@@ -203,7 +203,7 @@ export const createChat=async(owner,message,participants)=>{
 
 export const getSymposiumsExplore=async(id,symposiums)=>{
 	try{
-		debugger;
+		
 		const symposiumResponse=await axios.post(`${CreateUrl}/getSymposiumsExplore`,{
 				_id:id,
 				symposiums:symposiums
@@ -452,7 +452,7 @@ export const changeHasViewedArenaWinnersIndicator=async(_id)=>{
 
 export const loginProfile=async(email,password)=>{
 	try{
-		debugger;
+		
 		const loginResponse=await axios.post(`${CreateUrl}/loginProfile`,{
 									email,
 									password

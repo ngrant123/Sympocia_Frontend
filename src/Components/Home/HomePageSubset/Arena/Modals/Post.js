@@ -219,7 +219,6 @@ const PostModal=({closeModal,postType,postData})=>{
 	}
 
 	const renderPost=()=>{
-		debugger;
 		switch(postType){
 			case 'Images':
 				return image();

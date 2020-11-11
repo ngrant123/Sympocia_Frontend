@@ -81,7 +81,7 @@ const TextOptions=(props)=>{
 			blog
 		}
 	}}=history;
-	debugger;
+	
 
 
 	const changeBold=()=>{}
@@ -105,7 +105,7 @@ const TextOptions=(props)=>{
 		}
 
 		const {confirmation,data}=await deletePost(removeBlog);
-		debugger;
+		
 		if(confirmation=="Success"){
 			alert('Post has been deleted. Please reload page to view updated post section');
 			history.push(`/profile/${blogState.owner}`);

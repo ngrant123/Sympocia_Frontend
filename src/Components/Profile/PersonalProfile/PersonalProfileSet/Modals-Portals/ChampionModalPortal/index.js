@@ -60,7 +60,7 @@ const LocationStyle = {
 
 
 const SponsorPortal=(props)=>{
-	debugger;
+	
 	var parentDiv;
 	if(props.profileType=="Company"){
 		parentDiv=document.getElementById("companyProfileContainer");
@@ -79,7 +79,7 @@ const SponsorPortal=(props)=>{
 	}
 
 	const displayImage=()=>{
-		debugger;
+		
 		var reader=new FileReader();
 		var image=document.getElementById("imageFile").files[0];
 

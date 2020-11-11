@@ -319,7 +319,7 @@ const MiscellaneousFeatures=({symposium,questions})=>{
 	}
 
 	const modalDecider=()=>{
-		debugger;
+
 		if(entrepeneurMap.has(symposium)){
 
 			return entrepeneurFeatures();
@@ -343,7 +343,7 @@ const MiscellaneousFeatures=({symposium,questions})=>{
 	}
 
 	const displayPostModal=(posts,postType,selectedPost)=>{
-		debugger;
+
 		var indexOfStevie = posts.findIndex(i => i._id === selectedPost._id);
 		changeModalType(postType);
 		changeMiscellaneousFeaturesDisplay(true);

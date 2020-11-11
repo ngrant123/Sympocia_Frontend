@@ -52,7 +52,7 @@ const RegularPostDisplayContainer=styled.div`
 `;
 
 const RegularPostHomeDisplayPortal=(props)=>{
-	debugger;
+	
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainerVideos onClick={()=>props.closeModal()}/>

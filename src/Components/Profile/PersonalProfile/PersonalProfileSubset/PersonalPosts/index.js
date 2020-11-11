@@ -164,7 +164,7 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
-	debugger;
+	
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -253,7 +253,7 @@ const PersonalPostsIndex=(props)=>{
 
 			if(confirmation=="Success"){
 				const {crownedVideo,videoPosts}=data;
-				debugger;
+				
 				const videoObject={
 					headerVideo:crownedVideo,
 					videos:videoPosts
@@ -382,7 +382,7 @@ const PersonalPostsIndex=(props)=>{
 
 /*
 	const initializePersonalInformationToState=(personalInformationData)=>{
-		debugger;
+		
 		changePersonalInformation(personalInformation);
 	}
 */
@@ -398,7 +398,7 @@ const PersonalPostsIndex=(props)=>{
 						changeDisplayCreationPost(false)
 					},
 					updateImagePost:(imageData)=>{
-						debugger;
+						
 						let newImageObject=updateImagePostIndexContext(imageData,imagePost);
 						changeImagePost(newImageObject);
 						changeDisplayCreationPost(false);

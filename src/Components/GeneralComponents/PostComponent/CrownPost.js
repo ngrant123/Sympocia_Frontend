@@ -44,7 +44,7 @@ const ButtonCSS={
 
 const CrownPost=({closeModal,parentCrownPost,parentUnCrownPost,previousData,isPostCrowned})=>{
 	const unCrownPost=async()=>{
-		debugger;
+		
 
 		const crownElement=document.getElementById("crownIcon");
 		crownElement.style.backgroundColor="white";
@@ -63,7 +63,7 @@ const CrownPost=({closeModal,parentCrownPost,parentUnCrownPost,previousData,isPo
 	}
 
 	const crownPost=async()=>{
-		debugger;
+		
 		const crownElement=document.getElementById("crownIcon");
 		crownElement.style.backgroundColor="#D6C5F4";
 		crownElement.style.color="white";

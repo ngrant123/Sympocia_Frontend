@@ -117,7 +117,7 @@ const BorderCSS={
 	padding:"10px"
 }
 const RegularPostModal=(props)=>{
-	debugger;
+	
 	console.log(props);
 	const headerRegularPost=props.posts[0];
 	const regularPosts=props.posts.slice(1,props.posts.length);
@@ -144,7 +144,7 @@ const RegularPostModal=(props)=>{
 	}
 
 	const constructSuggestedSymposium=(personalInformation,previousProps)=>{
-		debugger;
+		
 		console.log(personalInformation);
 		const {personalInformationState}=personalInformation;
 		var symposiumContainer=new Map();

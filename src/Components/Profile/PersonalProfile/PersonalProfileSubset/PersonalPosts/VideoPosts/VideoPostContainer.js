@@ -65,7 +65,6 @@ class VideoPostsContainer extends Component{
 	}
 	
 	displayPostModal=(profileAction,companyAction,data,postsConsumer)=>{
-		debugger;
 		if(profileAction==null)
 			companyAction.handleVideoPostModal(data,postsConsumer);
 		else

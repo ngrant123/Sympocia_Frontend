@@ -41,7 +41,7 @@ const SimplifiedContainer=styled.div`
 
 class HighLightedQuestions extends Component{
 	constructor(props){
-		debugger;
+		
 		console.log(props);
 		super(props);
 		this.state={
@@ -67,7 +67,7 @@ class HighLightedQuestions extends Component{
 	}
 
 	setVideoPost=(data)=>{
-		debugger;
+		
 		console.log(data);
 		this.setState({
 			selectedPost:data,
@@ -159,7 +159,7 @@ class HighLightedQuestions extends Component{
 	}
 
 	closeModalAndDisplayData=({data,currentQuestionType})=>{
-		debugger;
+		
 		const {
 				question,
 				questionType,
@@ -188,7 +188,7 @@ class HighLightedQuestions extends Component{
 	}
 
 	increaseCounter=async()=>{
-		debugger;
+		
 		var currentCounter=this.state.counter;
 		currentCounter=this.state.counter+1;
 

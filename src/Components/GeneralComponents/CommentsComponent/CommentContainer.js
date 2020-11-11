@@ -159,7 +159,7 @@ class CommentsContainer extends Component{
 	}
 //
 	handleReplyFetch=async(commentId)=>{
-		debugger;
+		
 		var indexOfComment=this.state.comments.findIndex(comment=>comment._id === commentId);
 		const replyObject={
 			postType:this.props.postType,
@@ -168,7 +168,7 @@ class CommentsContainer extends Component{
 		}
 
 		const {confirmation,data}=await getRepliesFromComment(replyObject);
-		debugger;
+		
 		if(confirmation=="Success"){
 			this.setState({
 				keyToDisplayRespones:commentId,
@@ -232,9 +232,9 @@ class CommentsContainer extends Component{
 													 comment,
 													 profileObject
 													);
-			debugger;
+			
 			if(confirmation=="Success"){
-				debugger;
+				
 				var currentComments=this.state.comments;
 				const newComment={
 					comment:comment,
@@ -378,7 +378,7 @@ _id: "5f5397209c484c08c99c389d"
 				currentReplies.splice(0,0,newReply);
 
 				//Add this temporarily to the appropriate comment so user can see 
-				debugger;
+				
 				var newComments=this.state.comments
 				for(var i=0;i<newComments.length;i++){
 					const iterationCommentId=newComments[i]._id;

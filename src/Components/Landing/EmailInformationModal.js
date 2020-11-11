@@ -126,7 +126,7 @@ const EmailInformationModal=({closeModal,pushProfileObject,id,profileType})=>{
 	}
 
 	const submitPictureAndLink=async()=>{
-		debugger;
+		
 
 		if(profileUrl==null){
 			alert('Please submit a picture');

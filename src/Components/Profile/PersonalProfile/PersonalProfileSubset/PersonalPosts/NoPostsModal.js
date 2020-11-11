@@ -129,7 +129,7 @@ const NoPostsModal=(props)=>{
 
 			if(props.postType=="image"){
 				const imageData=await getImagesPosts("General",1);
-				debugger;
+				
 				changeRecommendedPosts(imageData);
 				console.log(imageData);
 			}else if(props.postType=="video"){

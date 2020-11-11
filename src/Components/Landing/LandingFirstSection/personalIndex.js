@@ -214,7 +214,7 @@ const FirstSection=(props)=>{
   const [userId,changeUserId]=useState();
   const [displaySignUpPrompt,changeDisplaySignUpPrompt]=useState(false);
   const [displayEnterCodePrompt,changeDisplayEnterCodePrompt]=useState(false);
-  debugger;
+  
 	const dispatch=useDispatch();
 	const state=useSelector(state=>state);
 
@@ -227,7 +227,7 @@ const FirstSection=(props)=>{
     const getInterestedApi=async()=>{
         const {confirmation,data}=await getInterestedProfiles(1);
         if(confirmation=="Success"){
-          debugger;
+          
           changeUsersInterested([...data]);
         }else{
           alert('There has been an error with our database. Please try again later');
@@ -263,7 +263,7 @@ const FirstSection=(props)=>{
   }
 
   const triggerConfirmation=async()=>{
-    debugger;
+    
     const email=document.getElementById("email").value;
       if(email!=""){
         const {confirmation,data}=await recordEmail(email);
@@ -280,7 +280,7 @@ const FirstSection=(props)=>{
 
   const verifyCodeCall=async()=>{
       const code=document.getElementById("code").value;
-      debugger;
+      
       if(code!=''){
         const {confirmation,data}=await verifyCode(code);
         if(confirmation=="Success"){

@@ -230,14 +230,14 @@ class GroupVideoCall extends Component{
 	}
 
 	async componentDidMount(){
-		debugger;
+		
 		console.log(this.props);
 		if(this.props.location.state!=null){
 			var isGroupCallOwner;
 			if(this.props.location.state.ownerId==this.props.personalInformation.id)
 				isGroupCallOwner=true;
 		}else{
-			debugger;
+			
 			const {confirmation,data}=await getGroupVideoCallOwner({
 				symposiumId:this.props.match.params.symposiumId,
 				groupCallId:this.props.match.params.groupCallId
@@ -277,7 +277,7 @@ class GroupVideoCall extends Component{
 		var videoContainer=document.getElementById("videoContainer");
 		console.log(videoContainer);
 		if(videoContainer!=null && this.state.displayChatContainer!=true){
-			debugger;
+			
 			for(var i=0;i<this.state.currentParticipants.length;i++){
 				this.test(this.state.currentParticipants[i]);
 			}
@@ -305,7 +305,7 @@ class GroupVideoCall extends Component{
 		var stoppedVideo;
 		var data;
 		 if(this.state.firstDone==true){
-		 	debugger;
+		 	
 			  data=[];
 
 			  this.state.oldMediaDevice.ondataavailable = event => data.push(event.data);
@@ -317,7 +317,7 @@ class GroupVideoCall extends Component{
 			  });
 			  //changeRecordingState(true);
 		 }else{
-		 	debugger;
+		 	
 			  let recorder = new MediaRecorder(stream);
 			  data=[];
 
@@ -339,7 +339,7 @@ class GroupVideoCall extends Component{
 	}
 
 	test=async({videoUrl,isVideoCall,imgUrl})=>{
-		debugger;
+		
 		if(isVideoCall!=false){
 			var video = document.createElement('video');
 			var videoContainer=document.getElementById("videoContainer");
@@ -367,7 +367,7 @@ class GroupVideoCall extends Component{
 				videoContainer.appendChild(image);
 			}
 		}
-		debugger;
+		
 		/*
 		let recorder = new RecordRTCPromisesHandler(videoUrl, {
 					    type: 'video'
@@ -483,7 +483,7 @@ class GroupVideoCall extends Component{
 			  		video: true,
 			  		audio:false 
 			  	}).then((stream)=> {
-			  		debugger;
+			  		
 			      video.srcObject = stream;
 			      video.captureStream = video.captureStream || video.mozCaptureStream;
 
@@ -494,7 +494,7 @@ class GroupVideoCall extends Component{
 			      }
 			      const currentParticipants=this.state.currentParticipants;
 	  			  currentParticipants.splice(0,0,newVideo);
-	  			  debugger;
+	  			  
 	  			  this.setState({
 	  			  	currentParticipants:currentParticipants,
 	  			  	displayInitialSetupScreen:false
@@ -519,7 +519,7 @@ class GroupVideoCall extends Component{
 			  		video: false,
 			  		audio:true 
 			  	}).then((stream)=> {
-			  		debugger;
+			  		
 			      video.srcObject = stream;
 			      video.captureStream = video.captureStream || video.mozCaptureStream;
 
@@ -530,7 +530,7 @@ class GroupVideoCall extends Component{
 			      }
 			      const currentParticipants=this.state.currentParticipants;
 	  			  currentParticipants.splice(0,0,newVideo);
-	  			  debugger;
+	  			  
 	  			  this.setState({
 	  			  	currentParticipants:currentParticipants,
 	  			  	displayInitialSetupScreen:false,

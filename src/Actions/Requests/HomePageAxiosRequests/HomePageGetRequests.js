@@ -101,7 +101,7 @@ export function getCommunityById(communityId){
 
 export async function getPostsForHomePage(userId,industrySelected,postTypes){
 	try{
-		debugger;
+		
 		const postResponse=await axios.get(`${GetUrl}/getPostsForHomePage`,{
 			params:{
 				id:userId,
@@ -138,7 +138,7 @@ export const getSymposiumId=async(name)=>{
 
 export const exploreImagePosts=async(id,postCount)=>{
 	try{
-		debugger;
+		
 		const imageResults=await axios.get(`${GetUrl}/getExploreImagePosts`,{
 			params:{
 				_id:id,
@@ -155,7 +155,7 @@ export const exploreImagePosts=async(id,postCount)=>{
 
 export const exploreVideoPosts=async(id,postCount)=>{
 	try{
-		debugger;
+		
 		const videoResults=await axios.get(`${GetUrl}/getExploreVideoPosts`,{
 			params:{
 				_id:id,
@@ -270,7 +270,7 @@ export const getRegularPostsInIndustry=async(industry,postCount)=>{
 
 export const getIndustryInformation=async(industry,postCount,userId)=>{
 	try{
-		debugger;
+		
 		const industryInformation=await axios.get(`${GetUrl}/getIndustryInformation`,{
 			params:{
 				industry:industry,

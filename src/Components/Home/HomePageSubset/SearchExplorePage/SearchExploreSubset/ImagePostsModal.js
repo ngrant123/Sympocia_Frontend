@@ -55,7 +55,7 @@ const Container=styled.div`
 			margin-right:2% !important;
 		}
 	}
-	
+
 	@media screen and (max-width:450px){
 		margin-left:-5% !important;
 		#headerLI{
@@ -212,7 +212,7 @@ const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposi
 		//accept props
 		console.log(selectedSymposium);
 		var industryColorMap=new Map();
-		debugger;
+
 		if(previousProps.displaySymposium!=null){
 			if(selectedSymposium!=null){
 				for(var i=0;i<selectedIndustries.length;i++){

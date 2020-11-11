@@ -265,7 +265,7 @@ class LInvestor extends Component{
 
 	 async componentDidMount(){
 		await this.timerFunction(1500);
-		debugger;
+		
 		const profileId=this.props.match.params.id;
 		document.getElementById("container").style.opacity=1;
 		document.getElementById("locationid").style.opacity=1;

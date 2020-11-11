@@ -259,7 +259,7 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 	const initializePersonalInformationToState=(personalInformationData)=>{
-		debugger;
+		
 		changePersonalInformation(personalInformation);
 	}
 
@@ -275,11 +275,11 @@ const PersonalPostsIndex=(props)=>{
 										props.displayShadowOverlay();
 									},
 									hideCreationPost:()=>{
-										debugger;
+										
 										changeDisplayCreationPost(false)
 									},
 									updateImagePost:(imagePost)=>{
-										debugger;
+										
 										const currentImages=personalInformation.state.userProfile.imagePost
 										currentImages.push(imagePost);
 										const newPersonalInfoObject={
@@ -292,7 +292,7 @@ const PersonalPostsIndex=(props)=>{
 										changePersonalInformation(newPersonalInfoObject);
 									},
 									updateVideoPost:(videoObject)=>{
-										debugger;
+										
 											const currentVideoObject=videoPost;
 											const videos=currentVideoObject.videos;
 

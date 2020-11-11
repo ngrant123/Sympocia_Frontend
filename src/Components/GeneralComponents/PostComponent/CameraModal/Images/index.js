@@ -1,6 +1,6 @@
 
 const displayCamera=(divElement)=>{
-	debugger;
+	
 				var constraints = {
 
 				    audio: false,
@@ -26,7 +26,7 @@ const stopRecording=(divElement)=>{
 }
 
 const photo=(canvas,imageElement,height,width)=>{
-		debugger;
+		
         canvas.width  = width;
         canvas.height = height;
 

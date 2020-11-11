@@ -116,7 +116,7 @@ const QuestionsPortal=(props)=>{
 	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[currentCounter].questionType);
 
 	const sendData=async(postData)=>{
-		debugger;
+
 		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
 		if(currentQuestionType=="Video"){
 			postData={
@@ -393,7 +393,7 @@ const QuestionsPortal=(props)=>{
 	}
 
 	const increaseCounter=()=>{
-		debugger;
+
 		const nextCounter=currentCounter+1;
 		const previousType=questions[nextCounter].questionType
 
@@ -402,7 +402,7 @@ const QuestionsPortal=(props)=>{
 	}
 
 	const decreaseCounter=()=>{
-		debugger;
+
 		const previousCounter=currentCounter-1;
 		const previousType=questions[previousCounter].questionType
 

@@ -374,7 +374,6 @@ class Payment extends Component {
 	}
 
 	handleCVVEnter=(character)=>{
-		debugger;
 		const currentCVV=this.state.cvv;
 		var newCVV=currentCVV+character;
 

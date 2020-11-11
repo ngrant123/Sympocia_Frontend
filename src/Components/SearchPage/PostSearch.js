@@ -70,7 +70,7 @@ const PostSearch=(props)=>{
 
 	useEffect(()=>{
 		const getPosts=async()=>{
-			debugger;
+			
 			const searchCriteria={
 				searchUrl:props.searchQuery,
 				postType:props.postType
@@ -189,7 +189,7 @@ const PostSearch=(props)=>{
 	}
 
 	const suggestedSymposiumsRecursive=(posts)=>{
-		debugger;
+		
 		if(posts==null||posts.length==0){
 			return posts;
 		}else if(posts.length==1){

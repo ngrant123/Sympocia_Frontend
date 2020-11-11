@@ -89,7 +89,7 @@ const BoostButton={
 }
 
 const ViewAll=({closeModal,postType,currentPosts})=>{
-	debugger;
+	
 	const [posts,changePosts]=useState(currentPosts==null?[]:currentPosts);
 	useEffect(()=>{
 
@@ -314,7 +314,7 @@ const ViewAll=({closeModal,postType,currentPosts})=>{
 	}
 
 	const renderPost=(arenaContext)=>{
-		debugger;
+		
 		switch(postType){
 			case 'Images':
 				return images(arenaContext);

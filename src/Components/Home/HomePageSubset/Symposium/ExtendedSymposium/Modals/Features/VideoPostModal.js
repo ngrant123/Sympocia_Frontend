@@ -136,7 +136,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			debugger;
+			
 			console.log(symposiumId);
 			const {confirmation,data}=await getIndustryVideoFeatureAnswers({
 				industryId:symposiumId,
@@ -181,8 +181,8 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	}
 
 	const submitVideo=async()=>{
-		debugger;
-			debugger;
+		
+			
 		var video={
 			videoUrl,
 			description:document.getElementById("videoDescription").value

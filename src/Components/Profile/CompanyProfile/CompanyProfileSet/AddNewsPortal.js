@@ -69,7 +69,6 @@ const AddNewsPortal=(props)=>{
 
 	console.log(props.companyInformation)
 	const handleAddNews=(companyId,addNewsToContext)=>{
-		debugger;
 		var datevalue=document.getElementById("DateCaptionValue").value;
 		var notificationvalue=document.getElementById("NotificationValue").value;
 

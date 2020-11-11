@@ -54,7 +54,7 @@ const CreateGroupVideoCallButtonCSS={
 class GroupVideoCall extends Component{
 
 	constructor(props){
-		debugger;
+		
 		console.log(props);
 		super(props);
 		this.state={

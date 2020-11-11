@@ -148,7 +148,7 @@ const VideoPostModal=(props)=>{
 	const headerVideo=props.posts[0];
 	console.log(headerVideo);
 	const videos=props.posts.slice(1,props.posts.length);
-	debugger;
+	
 
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
@@ -175,7 +175,7 @@ const VideoPostModal=(props)=>{
 	}
 
 	const constructSuggestedSymposium=(personalInformation,previousProps)=>{
-		debugger;
+		
 		console.log(personalInformation);
 		const {personalInformationState}=personalInformation;
 		var symposiumContainer=new Map();

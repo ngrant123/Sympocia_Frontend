@@ -218,7 +218,7 @@ const FirstSection=(props)=>{
   }
 
   const triggerConfirmation=async()=>{
-    debugger;
+   
     /*
      const email=document.getElementById("email").value;
       if(email!=""){

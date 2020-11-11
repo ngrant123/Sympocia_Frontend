@@ -101,7 +101,7 @@ class PersonalSignUp extends Component{
 	}
 
 	handleSignUpButton=async()=>{
-		debugger;
+		
 
 		const firstName=document.getElementById("firstName").value;
 		const lastName=document.getElementById("lastName").value;
@@ -134,7 +134,7 @@ class PersonalSignUp extends Component{
 				});
 
 				if(confirmation=="Success"){
-					debugger;
+					
 					addPersonalIdentificationId(data._id);
 					this.props.history.push({
 						pathname:'/home'
@@ -145,7 +145,7 @@ class PersonalSignUp extends Component{
 
 
 				/*
-					debugger;
+					
 					if(props.investorInformation!=null){
 						const {investorInformation}=props;
 						const {industries,location}=investorInformation;
@@ -181,7 +181,7 @@ class PersonalSignUp extends Component{
 	}
 
 	checkIfEmailIsValid=async()=>{
-		debugger;
+		
 		const email=document.getElementById("email").value;
 		if(email!=''){
 			 var {emailIndicator}=await checkIfEmailIsUsed(email);
@@ -214,7 +214,7 @@ class PersonalSignUp extends Component{
 	}
 
 	handlePasswordEnter=(character)=>{
-		debugger;
+		
 		const currentPassword=this.state.password;
 		var newPassWord=currentPassword+character;
 		this.setState({

@@ -50,7 +50,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	const [selectedNode,changeSelectedNode]=useState();
 
 	const removeSelectedPerson=(data)=>{
-		debugger;
+		
 		const selectedId=data._id;
 		var newArray=[];
 		for(var i=0;i<selectedRecruits.length;i++){
@@ -72,7 +72,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	} 
 
 	const promoteRecruits=async()=>{
-		debugger;
+		
 		const promoteRecruit={
 			selectedRecruits:selectedRecruits,
 			node:selectedNode._id,

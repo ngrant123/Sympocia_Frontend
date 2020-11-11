@@ -179,7 +179,7 @@ const BlogHomeDisplayPortal=(props)=>{
 
 	const createOrRemoveStampEffect=()=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
-		debugger;
+		
 		//(userId,postId,profileType,postType)
 		if(displayStampEffect==false){
 			if(isPersonalProfile==true){

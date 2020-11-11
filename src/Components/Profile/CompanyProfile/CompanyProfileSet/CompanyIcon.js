@@ -33,7 +33,7 @@ class CompanyIcon extends Component{
 	}
 
 	handleCompanyClick=(companyInformation)=>{
-			debugger;
+
 			if(companyInformation.state.isOwnProfile==true){
 				document.getElementById("imagefile").click();
 				console.log("This is getting clicked");
@@ -45,7 +45,6 @@ class CompanyIcon extends Component{
 	}
 
 	handleSubmit=(companyInformation)=>{
-		debugger;
 		const companyId=this.state.companyInformation.state.userProfile._id;
 		console.log(this.state.companyInformation);
 		console.log(this.props);

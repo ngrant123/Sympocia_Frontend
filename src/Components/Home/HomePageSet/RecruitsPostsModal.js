@@ -196,7 +196,7 @@ const RecruitsPosts=(props)=>{
 	}
 
 	const displaySelectedUserPosts=(userProfile)=>{
-		debugger;
+		
 		const {_id}=userProfile;
 
 		const userPosts=postMap.get(_id);
@@ -250,7 +250,7 @@ const RecruitsPosts=(props)=>{
 	}
 
 	const retrieveRecruitsPosts=async(postType)=>{
-		debugger;
+		
 		const time=new Date();
 		const currentTime=time.getTime();
 		changeLoadingState(true);

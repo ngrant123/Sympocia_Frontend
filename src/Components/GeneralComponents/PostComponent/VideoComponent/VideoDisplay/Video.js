@@ -278,7 +278,7 @@ displayShadow=()=>{
 
 createOrRemoveStampEffect=()=>{
 		var isPersonalProfile=this.props.profileType=="personalProfile"?true:false;
-		debugger;
+		
 		//(userId,postId,profileType,postType)
 		if(this.state.displayStampEffect==false){
 			if(isPersonalProfile==true){
@@ -383,7 +383,7 @@ createOrRemoveStampEffect=()=>{
 			industriesUploaded:this.props.video.industriesUploaded
 		}
 		const {confirmation,data}=await deletePost(removeVideos);
-		debugger;
+		
 		if(confirmation=="Success"){
 			this.props.deletePost();
 		}else{

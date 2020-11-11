@@ -61,7 +61,6 @@ const FollowedSymposiumsModal=({closeModal,userId})=>{
 	useEffect(()=>{
 		const getSymposiums=async()=>{
 			const {confirmation,data}=await getSymposiumsFollowedPersonal(userId);
-			debugger;
 			if(confirmation=="Success"){
 				changeSymposiums(data);
 			}else{

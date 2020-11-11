@@ -191,7 +191,7 @@ const Arena=()=>{
 	useEffect(()=>{
 		const fetchInformation=async()=>{
 				const {confirmation,data}=await fetchArenaInformation(personalId);
-				debugger;
+				
 				console.log(data);
 				if(confirmation=="Success"){
 					const {
@@ -203,7 +203,7 @@ const Arena=()=>{
 						displayWinnerModal
 					}=data;
 
-					debugger;
+					
 					if(isCompetitionWinnersAvailable==true && displayWinnerModal==true){
 						changeWinnersInformation(data);
 						changeDisplayWinnersModal(true);
@@ -269,7 +269,7 @@ const Arena=()=>{
 	}
 //
 	const handleBoost=async(boostInformation)=>{
-		debugger;
+		
 		const{
 			postType,
 			postId
@@ -412,7 +412,7 @@ const Arena=()=>{
 															postPageCounter,
 															postType
 														});
-						debugger;
+						
 						if(confirmation=="Success"){
 							const {
 								currentContestants

@@ -168,13 +168,13 @@ const ButtonCSS={
 	const [contextInformation,changeContextInformation]=useState();
 
 	useEffect(()=>{
-		debugger;
+		
 		if(isPreviousDataLoaded==true)
 			sendRegularPost(contextInformation);
 	},[audioDescription,textDescription]);
 
 	useEffect(()=>{
-		debugger;
+		
 		const {previousData}=props;
 		if(previousData!=null){
 			var {
@@ -253,7 +253,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 		if(props.previousData==null){
 			const {id}=personalInformation;
 			const {confirmation,data}=await createRegularPost(props.personalProfileId,searchCriteriaObject,"Personal");
-			debugger;
+			
 			if(confirmation=="Success"){
 				searchCriteriaObject={
 					...searchCriteriaObject,
@@ -295,14 +295,14 @@ const sendRegularPost=async(profilePostInformation)=>{
 			}
 
  			const {confirmation,data}=await editPost(editedRegularPost);
- 			debugger;
+ 			
 			if(confirmation=="Success"){
 				props.previousData.contextLocation.editPost(editedRegularPost);
 			}else{
 				alert('Unfortunately there has been an error editing this post. Please try again');
 			}
 		}
-		debugger;
+		
 		/*
 
 			if(profilePostType=="Company"){
@@ -314,7 +314,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 	}
 
 	const isArrayEqual=(arr1,arr2)=>{
-		debugger;
+		
 		let isArrayEqualIndicator=true;
 
 		if(arr1.length!=arr2.length)
@@ -333,12 +333,12 @@ const sendRegularPost=async(profilePostInformation)=>{
 			});
 
 			arr2.forEach((selectedIndustry,index)=>{
-				debugger;
+				
 				var testing=arr1Map.has(selectedIndustry.industry);
 				if(arr1Map.has(selectedIndustry.industry)==undefined)
 					isArrayEqualIndicator=false
 				else{
-					debugger;
+					
 					const {subIndustry}=selectedIndustry;
 
 					subIndustry.forEach((selectedSubIndustry,i)=>{
@@ -353,7 +353,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 	}
 
 	const pushDummyRegularPostObjectToProfile=(profilePostInformation,searchCriteriaObject)=>{
-		debugger;
+		
 		const date=new Date();
 		const dateInMill=date.getTime();
 		var newRegularObject={
@@ -407,13 +407,13 @@ const sendRegularPost=async(profilePostInformation)=>{
 	}
 
 	const crownPost=()=>{
-		debugger;
+		
 		changeIsPostCrowned(true);
 		changeCrownIndicatorModal(false);
 	}
 
 	const unCrownPost=()=>{
-		debugger;
+		
 
 		changeIsPostCrowned(false);
 		changeCrownIndicatorModal(false);

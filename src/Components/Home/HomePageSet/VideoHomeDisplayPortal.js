@@ -25,7 +25,6 @@ const Container=styled.div`
 `;
 
 const VideoHomeDisplayPortal=(props)=>{
-	debugger;
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainerVideos onClick={()=>props.closeModal()}/>

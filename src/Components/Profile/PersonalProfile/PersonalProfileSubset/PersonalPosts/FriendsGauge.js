@@ -43,14 +43,14 @@ class FriendsGauge extends Component {
     console.log(props);
     super(props);
 
-    debugger;
+    
     var numberNodes;
     var progressBarCounter;
     var {friendsGauge,friendsGaugeNodes}=this.props.personalInformation.userProfile;
     console.log("Friend nodes");
     console.log(friendsGaugeNodes);
     numberNodes=friendsGaugeNodes.length+1;
-    debugger;
+    
     let refromattedNodes;
     if(this.props.personalInformation.isOwnProfile==true){
       progressBarCounter=100;
@@ -103,7 +103,7 @@ class FriendsGauge extends Component {
 
   componentDidMount(){
     console.log(this.props)
-    debugger;
+    
   
     var currentCounter=0;
       setTimeout(()=>{
@@ -242,7 +242,7 @@ class FriendsGauge extends Component {
   }
 //
   updateNode=({name,description,nodeNumber})=>{
-    debugger;
+    
       var currentNodes=this.state.nodes;
       nodeNumber=nodeNumber!=0?nodeNumber-1:nodeNumber;
 
@@ -281,7 +281,7 @@ class FriendsGauge extends Component {
             break;
           }
       }
-      debugger;
+      
       console.log(currentNodes);
       this.setState({
           displayFriendsGaugeEditModal:false,

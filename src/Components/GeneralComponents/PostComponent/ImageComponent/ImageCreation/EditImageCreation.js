@@ -244,7 +244,7 @@ class EditImageCreation extends Component{
 	componentDidMount(){
 
 		const {previousData}=this.props;
-		debugger;
+		
 		if(previousData!=null){
 			var {
 				description,
@@ -318,7 +318,7 @@ class EditImageCreation extends Component{
 
 		searchCriteriaIndustryArray=this.constructSelectedIndustries(searchCriteriaIndustryArray,industries,selectedSubCommunities);
 
-		debugger;
+		
 		const searchCriteria={
 			imgUrl:imgUrl,
 			videoDescription:currentVideoDescription,
@@ -337,7 +337,7 @@ class EditImageCreation extends Component{
 				//this.pushDummyImageObjectToProfile(companyPostContextConsumer,searchCriteria);
 			}else{
 				const {confirmation,data}=await createImagePost(this.props.personalProfile.id,searchCriteria,"Personal");
-				debugger;
+				
 				if(confirmation=="Success"){
 					profilePostInformation.hideCreationPost();
 					this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria,data);
@@ -401,7 +401,7 @@ class EditImageCreation extends Component{
 	}
 
 	isArrayEqual=(arr1,arr2)=>{
-		debugger;
+		
 		let isArrayEqualIndicator=true;
 
 		if(arr1.length!=arr2.length)
@@ -419,12 +419,12 @@ class EditImageCreation extends Component{
 			});
 
 			arr2.forEach((selectedIndustry,index)=>{
-				debugger;
+				
 				var testing=arr1Map.has(selectedIndustry.industry);
 				if(arr1Map.has(selectedIndustry.industry)==undefined)
 					isArrayEqualIndicator=false
 				else{
-					debugger;
+					
 					const {subIndustry}=selectedIndustry;
 
 					subIndustry.forEach((selectedSubIndustry,i)=>{
@@ -478,7 +478,7 @@ class EditImageCreation extends Component{
 
 
 	pushDummyImageObjectToProfile=(profilePostInformation,searchCriteriaObject,_id)=>{
-		debugger;
+		
 		const date=new Date();
 		const dateInMill=date.getTime();
 		var newImageObject={

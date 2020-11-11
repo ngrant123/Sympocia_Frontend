@@ -134,7 +134,7 @@ const ChatContainer=(props)=>{
 		const getData=async()=>{
 			var isPersonalProfile=state.personalInformation.loggedIn;
 			if(isPersonalProfile==true){
-				debugger;
+				
 				const chats=await getPersonalProfileGeneralMessages(state.personalInformation.id);
 				const {chatMessage}=chats;
 				changePersonalProfileIndicator(true);
@@ -167,7 +167,7 @@ const ChatContainer=(props)=>{
 	}
 
 	const test=(data)=>{
-		debugger;
+		
 		return <ProfileChatInformation>
 					<p style={{fontSize:"20px"}}><b>{data.participants[0].firstName}</b></p>
 					<p style={{color:"#b9b9b9"}}>{data.chat[data.chat.length-1].message}</p>

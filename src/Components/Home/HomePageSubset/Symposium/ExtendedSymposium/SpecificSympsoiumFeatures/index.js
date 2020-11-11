@@ -61,7 +61,6 @@ const SpecificFeatureSymposium=({symposium,symposiumId,questions})=>{
 
 
 	useEffect(()=>{
-		debugger;
 		const {
 			ART_SYMPOSIUMS,
 			STEM_SYMPOSIUM,

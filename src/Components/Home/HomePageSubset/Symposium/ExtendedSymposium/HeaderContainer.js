@@ -281,7 +281,7 @@ const HeaderContainer=(props)=>{
 	}
 
 	const replayVideo=(startTime,endTime)=>{
-	   		debugger;
+
 	   		var startTime=0;
 	   		const video=this
 	   		const videoDuration=video.duration;
@@ -306,7 +306,7 @@ const HeaderContainer=(props)=>{
 	   }
 
 	const handleFollowSymposium=async()=>{
-		debugger;
+
 		if(followSymposiumButtonClick==false){
 			await addSymposium(profileId,selectedSymposiumTitle,null);
 		}else{

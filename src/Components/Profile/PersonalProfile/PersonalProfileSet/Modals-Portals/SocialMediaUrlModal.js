@@ -66,7 +66,6 @@ const SocialMediaUrlContainer=({closeModal,socialMediaUrls,profileId,updateProfi
 	})
 
 	const submitSocialMediaUrls=async()=>{
-		debugger;
 		const tikTokUrl=document.getElementById("tiktokId").value;
 		const instagramUrl=document.getElementById("instagramId").value;
 		const socialMedia={

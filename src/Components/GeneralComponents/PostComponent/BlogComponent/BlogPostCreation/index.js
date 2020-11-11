@@ -116,7 +116,7 @@ class BlogPostCreation extends Component{
 	}
 
 	componentDidMount=()=>{
-		debugger;
+		
 		const verification=this.props.isLoggedIn;
 		if(verification==false){
 			this.props.history.push({

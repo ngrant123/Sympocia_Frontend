@@ -1,5 +1,5 @@
 export const connectToRoom=(socket,roomId)=>{
-	debugger;
+	
 	try{
 		socket.emit('room',roomId);
 		return socket;
@@ -10,7 +10,7 @@ export const connectToRoom=(socket,roomId)=>{
 
 export const sendMessage=(socket,data)=>{
 	try{
-		debugger;
+		
 		socket.emit('roomMessage',data);
 
 	}catch(err){
@@ -20,7 +20,7 @@ export const sendMessage=(socket,data)=>{
 
 export const sendChatRoomMessage=(socket,data)=>{
 	try{
-		debugger;
+		
 		socket.emit('chatRoomMessage',data);
 
 	}catch(err){
@@ -47,7 +47,7 @@ export const sendPrivateGroupMessage=(socket,data)=>{
 
 export const sendNewAddition=(socket,data)=>{
 	try{
-		debugger;
+		
 		socket.emit('newGroupCallAttendee',{stream:data.user.videoUrl});
 	}catch(err){
 		return err;

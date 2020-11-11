@@ -146,7 +146,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			debugger;
+			
 			console.log(symposiumId);
 			const {confirmation,data}=await getIndustryAudioFeatureAnswers({
 				industryId:symposiumId,
@@ -192,7 +192,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 	}
 
 	const submitImage=async()=>{
-			debugger;
+			
 		var audio={
 			audioUrl:audioUrl,
 			description:document.getElementById("imageDescription").value

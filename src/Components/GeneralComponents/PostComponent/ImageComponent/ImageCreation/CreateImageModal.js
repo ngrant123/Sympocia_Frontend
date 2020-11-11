@@ -42,7 +42,7 @@ class CreateImageMdoal extends Component{
 	}
 
 	displayCamera=(divElement)=>{
-		debugger;
+		
 				const video=document.getElementById("camera");
 				if (navigator.mediaDevices.getUserMedia) {
 					  navigator.mediaDevices.getUserMedia({ video: true })
@@ -55,7 +55,7 @@ class CreateImageMdoal extends Component{
 	}
 
 	handleTakeAPhoto=()=>{
-		debugger;
+		
 		const videoCamera=document.getElementById("camera");
 		const height=videoCamera.offsetHeight;
 		const width=videoCamera.offsetWidth;
@@ -65,7 +65,7 @@ class CreateImageMdoal extends Component{
 			videoWidth:width,
 			firstTimeCameraUsage:false
 		},function(){
-			debugger;
+			
 			const canvas=document.getElementById("canvas");
 			photo(canvas,videoCamera,height,width);
 			videoCamera.srcObject=null;
@@ -73,7 +73,7 @@ class CreateImageMdoal extends Component{
 	}
 
 	handleContinueButton=()=>{
-		debugger;
+		
 		const canvasElement=document.getElementById("canvas");
 		const canvasData=canvasElement.toDataURL("image/png");
 		this.props.handleNewlyCreatedImage(canvasData);
