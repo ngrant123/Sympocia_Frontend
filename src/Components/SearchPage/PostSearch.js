@@ -60,7 +60,7 @@ const PostButton={
 const PostSearch=(props)=>{
 	const [posts,changePosts]=useState([]);
 	const [postsCount,changePostsCount]=useState(0);
-	const [isFinishedLoading,changeLoadState]=useState(false);
+	const [isFinishedLoading,changeFinisheLoadingState]=useState(false);
 
 	const [displayImages,changeDisplayImages]=useState(true);
 	const [displayVideos,changeDisplayVideos]=useState(false);
@@ -107,12 +107,13 @@ const PostSearch=(props)=>{
 			searchUrl:props.searchQuery,
 			postType:"Blogs"
 		}
+		changeFinisheLoadingState(false);
 
 		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
 		if(confirmation=="Success"){
 			const finalPosts=addSuggestedSymposiums(data);
 			changePosts(finalPosts);
-			changeLoadState(true);
+			changeFinisheLoadingState(true);
 
 			changeDisplayImages(false);
 			changeDisplayVideos(false);
@@ -129,12 +130,13 @@ const PostSearch=(props)=>{
 			searchUrl:props.searchQuery,
 			postType:"Images"
 		}
+		changeFinisheLoadingState(false);
 
 		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
 		if(confirmation=="Success"){
 			const finalPosts=addSuggestedSymposiums(data);
 			changePosts(finalPosts);
-			changeLoadState(true);
+			changeFinisheLoadingState(true);
 
 			changeDisplayImages(true);
 			changeDisplayVideos(false);
@@ -151,11 +153,13 @@ const PostSearch=(props)=>{
 			searchUrl:props.searchQuery,
 			postType:"Videos"
 		}
+		changeFinisheLoadingState(false);
+
 		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
 		if(confirmation=="Success"){
 			const finalPosts=addSuggestedSymposiums(data);
 			changePosts(finalPosts);
-			changeLoadState(true);
+			changeFinisheLoadingState(true);
 
 			changeDisplayImages(false);
 			changeDisplayVideos(true);
@@ -172,12 +176,13 @@ const PostSearch=(props)=>{
 			searchUrl:props.searchQuery,
 			postType:"RegularPosts"
 		}
+		changeFinisheLoadingState(false);
 
 		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
 		if(confirmation=="Success"){
 			const finalPosts=addSuggestedSymposiums(data);
 			changePosts(finalPosts);
-			changeLoadState(true);
+			changeFinisheLoadingState(true);
 
 			changeDisplayImages(false);
 			changeDisplayVideos(false);

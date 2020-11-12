@@ -31,6 +31,13 @@ const AnimationContainer=styled.div`
 	height:30%;
 	filter: blur(4px);
 	animation:${keyFrameAnimation} 3s ease-in-out 0s forwards infinite;
+
+	@media screen and (max-width:1370px){
+		width:60% !important;
+	}
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	width:20% !important;
+    }
 `;
 const LoadingAnimation=()=>{
 

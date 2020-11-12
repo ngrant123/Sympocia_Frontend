@@ -54,6 +54,7 @@ export const FirstContainer = styled.div`
     @media screen and (max-width:1030px){
        #imageContainer{
           top:10px;
+          height:80% !important;
       }
     }
 
@@ -122,6 +123,9 @@ export const FirstContainer = styled.div`
       #header{
         font-size:40px !important;
         margin-top:20%;
+      }
+      #textFirstSectionCompany{
+        margin-left:-20% !important;
       }
     }
 

@@ -7,35 +7,38 @@ export const Container=styled.div`
 	height:14%;
 	border-radius:0px 0px 5px 5px;
 	z-index:10;
-	@media screen and (max-width:960px) {
+
+	@media screen and (max-width:1370px) {
+		#mobileRoutesButton{
+			margin-left:5% !important;
+		}
 		#searchLIContainer{
-			width:40% !important;
+			margin-left:0% !important;
+			with:110% !important;
 		}
 	}
-	@media screen and (max-width:620px) {
+
+	@media screen and (max-width:960px) {
 		#mobileRoutesButton{
 			margin-left:10% !important;
 		}
-	}
-
-	@media screen and (max-width:595){
 		#searchLIContainer{
-			margin-left:40% !important;
-			margin-right:-30% !important;
+			margin-left:65% !important;
+			width:10% !important;
 		}
-
 	}
+
 	@media screen and (max-width:480px) {
 		#mobileRoutesButton{
-			margin-left:5% !important;
+			margin-left:2% !important;
+		}
+		#searchLIContainer{
+			margin-left:50% !important;
 		}
 	}
 
 
 	@media screen and (max-width:400px) {
-		#searchLIContainer{
-			width:20% !important;
-		}
 	}
 
 `;
@@ -59,7 +62,7 @@ export const SearchButton=styled.textarea`
 	@media screen and (max-width:960px) {
 		margin-left:2%;
 		width:80%;
-		height:40%;
+		height:90%;
 	}
 
 	@media screen and (max-width:595px) {
@@ -169,8 +172,9 @@ export const CreateButton=styled.div`
 
 export const BackgroundContainer=styled.div`
 	position:fixed;
-	width:100%;
+	width:110%;
 	height:100%;
-	z-index:7;
+	left:-5%;
+	z-index:10;
 	background-color: rgba(0,0,0,0.4);
 `;

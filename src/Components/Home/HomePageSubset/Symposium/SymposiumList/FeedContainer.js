@@ -115,7 +115,13 @@ const Container=styled.div`
 		}
 	}
 
-
+	@media screen  and (max-width:730px) and (max-height:420px) 
+	  and (orientation: landscape) 
+	  and (-webkit-min-device-pixel-ratio: 1){
+ 		#symposiumsLI{
+ 			margin-bottom:15% !important;
+ 		}
+    }
 `;
 
 const CommunityTransitionAnimation=styled.div`
@@ -213,7 +219,6 @@ class PersonalFeedContainer extends Component{
 	constructor(props){
 
 		super(props);
-		console.log(props);
 		this.state={
 			symposiumArray:[],
 			triggerAnimation:false,
@@ -239,7 +244,6 @@ class PersonalFeedContainer extends Component{
 				})
 			}else{
 				window.addEventListener('resize',this.triggerUIChange)
-				console.log(this.props);
 				const {isPersonalProfile,profileId}=this.props;
 				var symposiumsResponse;
 
@@ -248,7 +252,6 @@ class PersonalFeedContainer extends Component{
 				}else{
 					symposiumsResponse=await getFollowedSymposiumsCompanyHome(profileId);
 				}
-				console.log(symposiumsResponse);
 				
 				var symposiums=[];
 				if(symposiumsResponse.length>0){
@@ -277,13 +280,11 @@ class PersonalFeedContainer extends Component{
 				this.triggerUIChange();
 			}
 		}catch(err){
-			console.log(err.message);
 		}
 	}
 
 	triggerUIChange=()=>{
 		
-		console.log(window.innerWidth)
 		if(window.innerWidth<960){
 			this.setState({
 				displayMobileUI:true,
@@ -318,7 +319,6 @@ class PersonalFeedContainer extends Component{
 
 	changeColorForPopularButton=()=>{
 
-		console.log("Change button");
 
 		document.getElementById("mostPopularButton").style.color="white";
 		document.getElementById("mostPopularButton").style.backgroundColor="#5298F8";
@@ -334,7 +334,6 @@ class PersonalFeedContainer extends Component{
 
 	handleSymposiumClick=(data)=>{
 		var symposiums=[];
-		console.log(data);
 		
 		for(var i=0;i<this.state.symposiumArray.length;i++){
 			const currentSymposium=this.state.symposiumArray[i];
@@ -408,7 +407,6 @@ class PersonalFeedContainer extends Component{
 	}
 
 	chatPage=()=>{
-		console.log(this.state.displayChatPage);
 		return this.state.displayChatPage==true?
 			<ChatPageContainer
 				pageIndicator={this.state.chatPageIndicator}
@@ -418,7 +416,6 @@ class PersonalFeedContainer extends Component{
 
 
 	 TransitionAnimationTrigger=()=>{
-	 	console.log("Tester");
 	 	if(this.state.triggerAnimation==true)
 			this.triggerAnimation();
 
@@ -426,17 +423,19 @@ class PersonalFeedContainer extends Component{
 	 		<ul id="SymposiumListContainer" style={{position:"relative",paddingTop:"10%"}}>
 	 			<ul style={{position:"relative",marginBottom:"30px"}}>
 	 				{this.state.displayDesktopUI==false?
-	 	 				<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-								style={ShadowButtonCSS}>
-									Change Post Option
-							   		<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu">
-								<li id="followedSymposiumsButton" onClick={()=>this.displayFollowSymposiums()}><a>My Symposiums</a></li>
-								<li id="exploreSymposiumsButton"  onClick={()=>this.displayExploreSymposiums()}><a>Explore Symposiums</a></li>
-							</ul>
-						</div>:
+	 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+		 	 				<div class="dropdown">
+								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+									style={ShadowButtonCSS}>
+										Change Post Option
+								   		<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li id="followedSymposiumsButton" onClick={()=>this.displayFollowSymposiums()}><a>My Symposiums</a></li>
+									<li id="exploreSymposiumsButton"  onClick={()=>this.displayExploreSymposiums()}><a>Explore Symposiums</a></li>
+								</ul>
+							</div>
+						</a>:
 						<li id="symposiumFilterLI" style={{listStyle:"none",marginBottom:"2%"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none"}}>
@@ -491,7 +490,7 @@ class PersonalFeedContainer extends Component{
 						</li>:
 					<React.Fragment>
 						{this.state.symposiumArray.map(data=>
-							<li style={{paddingBottom:"40px",listStyle:"none"}}>
+							<li id="symposiumsLI" style={{paddingBottom:"40px",listStyle:"none"}}>
 								<CommunityContainerAnimationFollowed>
 									<CommunityContainer
 										data={data}
@@ -520,7 +519,6 @@ class PersonalFeedContainer extends Component{
 	}
 
 	displaySymposiumPage=()=>{
-		console.log(this.state.selectedSymposium);
 
 		return this.state.displaySymposiumPage==true?
 			<Symposium

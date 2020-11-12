@@ -67,7 +67,14 @@ const InformationCard=styled.div`
   border-clor:#3898ec;
   left:15%;
 
-  @media screen and (max-width:700px){
+  @media screen and (max-width:1370px){
+    left:15% !important;
+    width:400px !important;
+    top:20% !important;
+  }
+
+
+  @media screen and (max-width:630px){
     left:5% !important;
     width:200px !important;
     top:20% !important;

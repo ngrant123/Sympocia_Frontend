@@ -11,18 +11,45 @@ const Container=styled.div`
 	left:28%;
 	top:41%;
 	box-shadow: 1px 1px 10px #d5d5d5;
-	z-index:7;
+	z-index:10;
 	overflow-y:auto;
 
-	@media screen and (max-width:960px) {
+	@media screen and (max-width:1370px) {
+		#searchContainerLI{
+			display:block !important;
+			width:110% !important;
+		}
+		#optionLI{
+			position:relative !important;
+			display:block !important;
+			top:0px !important;
+			margin-top:2% !important;
+		}
 		width:65%;
 		left:20%;
+		height:900% !important;
 	}
+
 	@media screen and (max-width:595px) {
-		width:95%;
+		#searchContainerLI{
+			display:block !important;
+			width:110% !important;
+		}
+		#optionLI{
+			position:relative !important;
+			display:block !important;
+			top:0px !important;
+			margin-top:2% !important;
+		}
+		width:85%;
 		left:2%;
-		height:400%;
+		height:400% !important;
 	}
+
+    @media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
+	 	height:100% !important;
+	 	background-color:red !important;
+    }
 `;
 
 const SymposiumsContainer=styled.div`
@@ -145,75 +172,13 @@ class SearchBarModal extends Component{
 	render(){
 		return(
 			<Container>
-				{/*
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",borderBottom:"solid",borderColor:"#F2F2F2",borderWidth:"2px",marginBottom:"1%"}}>
-							<ul style={{paddingLeft:"10px",paddingTop:"20px"}}>
-								<li id="recentOption" onClick={()=>this.changeHeaderOptionCSS("Recent")} style={{listStyle:"none",display:"inline-block",fontSize:"15px",marginRight:"10%"}}>
-									<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
-										Recent Searches
-									</a>
-								</li>
-								<li id="peopleOption" onClick={()=>this.changeHeaderOptionCSS("People")} style={{listStyle:"none",display:"inline-block",fontSize:"15px",marginRight:"10%"}}>
-									<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
-										People
-									</a>
-								</li>
-								<li id="symposiumsOption" onClick={()=>this.changeHeaderOptionCSS("Symposiums")} style={{listStyle:"none",display:"inline-block",fontSize:"15px"}}>
-									<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
-										Symposiums
-									</a>
-								</li>
-							</ul>
-						</li>
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
-									<p style={{color:"#A4A4A4",paddingLeft:"5px"}}><b>Recent Searches</b></p>
-									<ul style={{padding:"10px",overflowY:"auto"}}>
-										{this.state.recentSearchesTest.map(data=>
-												<a style={{textDecoration:"none",color: "inherit"}} href="javascript:void(0);">
-													<li style={{listStyle:"none",marginBottom:"2%"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",fontSize:"15px",marginRight:"15%"}}>
-																<b>{data.search}</b>
-															</li>
-															<li style={{listStyle:"none",display:"inline-block",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",padding:"10px",borderRadius:"5px"}}>
-																{data.industry}
-															</li>
-														</ul>
-													</li>
-											 	</a>
-
-										)}
-									</ul>
-								</li>
-								<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"-140px"}}>
-									<p style={{color:"#A4A4A4",paddingLeft:"5px"}}><b>Recommneded Symposiums</b></p>
-									<ul style={{padding:"10px"}}>
-										{this.state.suggestedCommunitiesTest.map(data=>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>
-												<a style={{textDecoration:"none"}} href="javascript:void(0);">
-													<SymposiumsContainer>
-														<b>{data.industry}</b>
-													</SymposiumsContainer>
-												</a>
-											</li>
-										)}
-									</ul>
-
-								</li>
-							</ul>
-						</li>
-					</ul>
-				*/}
 				<ul style={{padding:"20px"}}>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",width:"75%"}}>
-								<SearchButton id="searchTextArea" placeholder="Search for a community or a person"/>
+							<li id="searchContainerLI" style={{listStyle:"none",display:"inline-block",width:"75%"}}>
+								<SearchButton id="searchTextArea" placeholder="Search here..."/>
 							</li>
-							<li style={{position:"absolute",top:"25px",listStyle:"none",display:"inline-block"}}>
+							<li id="optionLI" style={{position:"absolute",top:"25px",listStyle:"none"}}>
 								<div class="dropdown">
 									<button class="btn btn-primary dropdown-toggle" 
 											type="button" data-toggle="dropdown" style={{	
@@ -261,7 +226,7 @@ class SearchBarModal extends Component{
 																								borderWidth:"1px",
 																								color:"#5298F8",
 																								backgroundColor:"white"}}>
-													Options
+													Post Options
 													<span class="caret"></span>
 												</button>
 												<ul class="dropdown-menu">

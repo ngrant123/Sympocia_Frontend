@@ -19,8 +19,7 @@ export const BodyContainer= styled.div`
 	height:100%;
 	width:100%;
 	top:0%;
-	left:0%;
-	background-color:white;
+
 	#mobileDivider{
 		display:none;
 	}
@@ -37,9 +36,9 @@ export const BodyContainer= styled.div`
 	} 
 
 	@media screen and (max-width:1340px) {
+		width:80% !important;
 		#personalCardContainer{
 			top:-170px !important;
-			width:40% !important;
 		}
 	}
 
@@ -57,6 +56,7 @@ export const BodyContainer= styled.div`
 			top:-10px !important;
 		}
 	}
+
 	@media screen and (max-width:1030px) {
 		#personalCardContainer{
 			width:40% !important;
@@ -102,40 +102,25 @@ export const BodyContainer= styled.div`
 		}
 	}
 
-	@media screen and (max-width:690px){
-		#personalCardContainer{
-			border-style:none !important;
-			display:block;
-			width:90% !important;
-			
-		}
-		#companyCardContainer{
-			border-style:none !important;
-			display:block !important;
-			width:95% !important;
-		}
-	}
-
-	@media screen and (max-width:690px){
-		#personalCardContainer{
-			border-style:none !important;
-			display:block;
-			width:90% !important;
-			
-		}
-		#companyCardContainer{
-			border-style:none !important;
-			display:block !important;
-			width:95% !important;
-		}
-	}
-	@media screen and (max-width:690px){
-		#titleHeader{
-			font-size:30px !important;
-		}
-	}
 
 	@media screen and (max-width:600px){
+		#personalCardContainer{
+			border-style:none !important;
+			display:block;
+			width:90% !important;
+			left:0% !important;
+			
+		}
+		#companyCardContainer{
+			border-style:none !important;
+			display:block !important;
+			width:95% !important;
+		}
+		#titleHeader{
+			font-size:20px !important;
+			margin-left:-30% !important;
+			width:40% !important;
+		}
 		#personalSignInCard{
 			width:120% !important;
 			left:-25%;

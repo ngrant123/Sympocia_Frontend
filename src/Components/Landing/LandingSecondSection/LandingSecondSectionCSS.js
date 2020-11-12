@@ -16,19 +16,21 @@ export const SecondContainer = styled.div`
   opacity:0;
   transition:.8s;
 
-   @media screen and (max-width:950px){
+   @media screen and (max-width:1370px){
       margin-top:20%;
-    }
-    @media screen and (max-width:900px){
-          #footerIcons{
+        #footerIcons{
               display:none;
           }
-          #floatingArrowFunction{
+        #floatingArrowFunction{
             display:none;
-          }
+        }
         #secondSectionText{
           width:70% !important;
+          margin-left:15% !important;
         }
+      #imageListContainer{
+        margin-left:-20% !important;
+      }
     }
 
     @media screen and (max-width:860px){

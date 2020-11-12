@@ -15,6 +15,13 @@ const ThirdContainer = styled.div`
   opacity:0;
   transition:.8s;
 
+  @media screen and (max-width:600px){
+  	#companyThirdText{
+  		margin-left:-40% !important;
+  		background-color:red !important;
+  	}
+  }
+
 `;
 
 

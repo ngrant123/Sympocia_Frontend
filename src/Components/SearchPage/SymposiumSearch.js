@@ -8,6 +8,13 @@ import {getSymposiumsFromSearch} from "../../Actions/Requests/SearchPageAxiosReq
 import LoadingScreen from "../../LoadingAnimation.js";
 import NoSearchResultDisplay from "../../designs/img/FirstSectionLandingPAgeImage.png";
 
+const Container=styled.div`
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+		#symposiumsLI{
+			margin-bottom:30% !important;
+		}
+    }
+`;
 const CommunityContainerAnimationFollowed=styled.div`
 
 	position:relative;
@@ -15,6 +22,7 @@ const CommunityContainerAnimationFollowed=styled.div`
 	height:300px;
 	transition: transform 300ms ease-in-out;
 	border-radius:5px;
+
 `;
  const keyFrame= keyframes`
   0% {
@@ -108,51 +116,51 @@ const SymposiumSearch=({searchQuery,userId,history})=>{
 		<>
 			{isLoading==true?
 				<LoadingScreen/>
-				:
-				<ul style={{padding:"0px"}}>
-					{/*
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li style={SymposiumOptionButton}>
-								Most Popular
+				:<Container>
+					<ul style={{padding:"0px"}}>
+						{/*
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li style={SymposiumOptionButton}>
+									Most Popular
+								</li>
+							</a>
+						*/}
+						<hr/>
+						{symposiums.length==0?
+							<li style={{listStyle:"none",marginLeft:"5%"}}>	
+								<ul style={{padding:"20px"}}>
+									<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
+										<img src={NoSearchResultDisplay} style={{borderRadius:"50%",width:"80%",height:"400px"}}/>
+									</li>
+									<li style={{width:"30%",fontSize:"30px",listStyle:"none",display:"inline-block"}}>
+										<b>
+											No results unfortunately :( Maybe search something else?
+										</b>
+									</li>
+								</ul>
+							</li>:
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px"}}>
+									{symposiums.map(data=>
+										<>
+											<li id="symposiumsLI" style={{listStyle:"none",marginBottom:"5%"}}>
+												<CommunityContainerAnimationFollowed>
+													<SymposiumContainer
+														data={data}
+														isPersonalProfile={true}
+														handleSymposiumClickHandler={handleSymposiumClick}
+														isMobileView={displayMobileUI}
+													/>
+												</CommunityContainerAnimationFollowed>
+											</li>
+											<hr/>
+										</>
+									)}
+								</ul>
 							</li>
-						</a>
-					*/}
-					<hr/>
-					{symposiums.length==0?
-						<li style={{listStyle:"none",marginLeft:"5%"}}>	
-							<ul style={{padding:"20px"}}>
-								<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
-									<img src={NoSearchResultDisplay} style={{borderRadius:"50%",width:"80%",height:"400px"}}/>
-								</li>
-								<li style={{width:"30%",fontSize:"30px",listStyle:"none",display:"inline-block"}}>
-									<b>
-										No results unfortunately :( Maybe search something else?
-									</b>
-								</li>
-							</ul>
-						</li>
-						:
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								{symposiums.map(data=>
-									<>
-										<li style={{listStyle:"none",marginBottom:"5%"}}>
-											<CommunityContainerAnimationFollowed>
-												<SymposiumContainer
-													data={data}
-													isPersonalProfile={true}
-													handleSymposiumClickHandler={handleSymposiumClick}
-													isMobileView={displayMobileUI}
-												/>
-											</CommunityContainerAnimationFollowed>
-										</li>
-										<hr/>
-									</>
-								)}
-							</ul>
-						</li>
-					}
-				</ul>
+						}
+					</ul>
+				</Container>
 			}
 		</>
 	)

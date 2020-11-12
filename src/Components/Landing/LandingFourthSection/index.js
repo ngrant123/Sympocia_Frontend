@@ -13,19 +13,16 @@ const Container = styled.div`
 
 	  @media screen and (max-width:1340px){
 	  		#fourthSection{
-	  			margin-top:65%;
+	  			margin-top:70% !important;
 	  		}
 	  }
 
 	   @media screen and (max-width:960px){
 	  		#fourthSection{
-	  			margin-top:80%;
+	  			margin-top:150% !important;
 	  		}
 	  }
 	   @media screen and (max-width:820px){
-	   		#fourthSection{
-	   			 margin-top:110% !important;
-	   		}
 	   		#previewImage{
 	   			width:75% !important;
 	   		}

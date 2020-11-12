@@ -115,7 +115,7 @@ const SymposiumList=Loadable({
 const application  = (
 		<ErrorBoundary>
 			<Provider store={store}>
-				<Router>
+				<Router forceRefresh={true}>
 					<Switch>
 						<Route exact path="/profile/:id" component={PersonalProfileScreen}/>
 						<Route exact path="/" component= {Landing}/>

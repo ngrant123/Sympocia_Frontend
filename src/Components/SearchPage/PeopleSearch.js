@@ -11,15 +11,22 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		#profileCardsLI{
 			display:block !important;
-			width:120% !important;
-			margin-left:-10% !important;
+			width:110% !important;
+			margin-left:0% !important;
 		}
 	}
 
 	@media screen and (max-width:800px){
 		#profileCardsLI{
 			display:block !important;
-			width:90% !important;
+			width:60% !important;
+			margin-left:-5% !important;
+		}
+	}
+
+	@media screen and (max-width:600px){
+		#profileCardsLI{
+			width:120% !important;
 			margin-left:-10% !important;
 		}
 	}
@@ -27,7 +34,7 @@ const Container=styled.div`
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#profileCardsLI{
 			display:block !important;
-			width:70% !important;
+			width:50% !important;
 			margin-left:5% !important;
 		}
     }
@@ -36,8 +43,6 @@ const Container=styled.div`
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
     	#profileCardsLI{
-			display:block !important;
-			width:70% !important;
 			margin-left:-10% !important;
 		}
     }
