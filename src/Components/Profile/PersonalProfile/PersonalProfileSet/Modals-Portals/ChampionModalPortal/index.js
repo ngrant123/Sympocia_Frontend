@@ -14,6 +14,17 @@ const SponsorModal=styled.div`
 	left:30%;
 	overflow:auto;
 
+	@media screen and (max-width:1370px){
+		width:90% !important;
+		left:5% !important;
+
+    }
+
+    @media screen and (max-width:600px){
+	    #sponsoreModalUL{
+	    	margin-left:-20% !important;
+	    }
+    }
 `;
 
 const ShadowContainer= styled.div`
@@ -104,7 +115,7 @@ const SponsorPortal=(props)=>{
 		<React.Fragment>
 			<SponsorModal>	
 				{displayDescriptionScreen==false?
-					<ul style={{paddingTop:"90px"}}>
+					<ul id="sponsoreModalUL" style={{paddingTop:"90px"}}>
 						{/*
 							<p style={{marginLeft:"30%",color:"#6E6E6E"}}><b>Search for someone through here</b></p>
 							<input id="locations" list="locationcategories" style={LocationStyle} placeholder="Search for someone"/>

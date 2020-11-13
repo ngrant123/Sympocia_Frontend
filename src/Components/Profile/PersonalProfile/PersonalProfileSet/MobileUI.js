@@ -41,6 +41,12 @@ const PersonalInformationContainer=styled.div`
 	left:20%;
 	top:20%;
 	overflow-y:scroll;
+
+	@media screen and (max-width:600px){
+		width:90% !important;
+		left:5% !important;
+    }
+
 `;
 const EditNodeContainer=styled.div`
 	position:fixed;
@@ -297,7 +303,6 @@ const PhonePersonalInformationHeader=()=>{
 											isIphoneDisplay={true}
 										/>
 									)}
-									
 								</div>
 							</li>
 						</ul>

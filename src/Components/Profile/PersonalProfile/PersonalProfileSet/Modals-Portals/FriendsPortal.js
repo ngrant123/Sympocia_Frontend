@@ -33,6 +33,11 @@ const Container=styled.div`
 		width:40% !important;
 		left:30% !important;
     }
+
+    @media screen and (max-width:600px){
+		width:90% !important;
+		left:5% !important;
+    }
 `;
 
 const InputContainer=styled.textarea`

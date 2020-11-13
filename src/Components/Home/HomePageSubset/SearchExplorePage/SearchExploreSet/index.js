@@ -2,11 +2,16 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import Checkbox from '@material-ui/core/Checkbox';
-import SearchExplorePosts from "../SearchExploreSubset/index.js";
 import CreatePostComponent from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 import IndustryOptions from "../../../../GeneralComponents/PostComponent/IndustryPostOptions.js"
 import {connect} from "react-redux";
+import {HomeConsumer} from "../../../HomeContext.js";
+import {SearchConsumer} from "../../../../SearchPage/SearchContext.js";
 
+import {ImagePostsModal} from '../SearchExploreSubset/ImagePostsModal.js';
+import VideosPostsModal from '../SearchExploreSubset/VideoPostsModal.js';
+import BlogsPostsModal from '../SearchExploreSubset/BlogPostsModal.js';
+import RegularPostsModal from '../SearchExploreSubset/RegularPostsModal.js';
 
 import {
 		getPostsForHomePage,
@@ -17,7 +22,6 @@ import {
 	} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 const Container=styled.div`
-
 	@media screen and (max-width:1370px) and (max-height:1030px){
     	#mobileArenaLI{
     		width:10% !important;
@@ -110,7 +114,30 @@ const MobileArenaContainer=styled.div`
       50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
       100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
   }
+`;
 
+const PostsContainer=styled.div`
+	position:absolute;
+	width:85%;
+	height:60%;
+
+	@media screen and (max-width:1300px){
+		#headerTitleLI{
+			display:none !important;
+		}
+	}
+`;
+
+const Posts=styled.div`
+	position:absolute;
+	width:90%;
+	height:90%;
+	margin-top:10%;
+
+
+	@media screen and (max-width:450px){
+		margin-top:60% !important;
+	}
 `;
 
 const ArenaButtonCSS={
@@ -326,30 +353,149 @@ class SearchExploreContainer extends Component{
 					</a>
 				</li>
 	}
+	handleDisplayImages=(homePageInformation,searchPageInformation)=>{
+		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
+		return this.state.postOption=="Images"?
+			<ImagePostsModal
+				posts={this.state.postsInformation}
+				_id={homePageInformation.personalInformationState._id}
+				confettiAnimation={homePageInformation.displayRecruitConfetti}
+				isPersonalProfile={homePageInformation.isPersonalProfile}
+				displaySymposium={homePageInformation.displaySymposium}
+				targetDom={"homePageContainer"}
+			/>:
+			<React.Fragment></React.Fragment>
+	}
+
+	handleDisplayVideos=(homePageInformation,searchPageInformation)=>{
+		return this.state.postOption=="Videos"?
+			<VideosPostsModal
+				posts={this.state.postsInformation}
+				_id={homePageInformation.personalInformationState._id}
+				confettiAnimation={homePageInformation.displayRecruitConfetti}
+				isPersonalProfile={homePageInformation.isPersonalProfile}
+				displaySymposium={homePageInformation.displaySymposium}
+				targetDom={"homePageContainer"}
+			/>:
+			<React.Fragment></React.Fragment>
+	}
+	handleDisplayBlogs=(homePageInformation,searchPageInformation)=>{
+		return this.state.postOption=="Blogs"?
+			<BlogsPostsModal
+				posts={this.state.postsInformation}
+				_id={homePageInformation.personalInformationState._id}
+				confettiAnimation={homePageInformation.displayRecruitConfetti}
+				isPersonalProfile={homePageInformation.isPersonalProfile}
+				displaySymposium={homePageInformation.displaySymposium}
+				targetDom={"homePageContainer"}
+			/>:
+			<React.Fragment></React.Fragment>
+	}
+	handleDisplayRegularPosts=(homePageInformation,searchPageInformation)=>{
+		return this.state.postOption=="RegularPosts"?
+			<RegularPostsModal
+				posts={this.state.postsInformation}
+				_id={homePageInformation.personalInformationState._id}
+				confettiAnimation={homePageInformation.displayRecruitConfetti}
+				isPersonalProfile={homePageInformation.isPersonalProfile}
+				displaySymposium={homePageInformation.displaySymposium}
+				targetDom={"homePageContainer"}
+			/>:
+			<React.Fragment></React.Fragment>
+	}
 
 	render(){
 		return(
-			<Container>
+			<HomeConsumer>
+				{homePageInformation=>(
+					<SearchConsumer>
+						{searchPageInformation=>(
+							<Container>
+								<ul style={{padding:"0px",marginLeft:"10%",marginTop:"8%"}}>
+									<li style={{listStyle:"none",marginBottom:"1%"}}>
+										<ul style={{padding:"0px"}}>
+											{this.state.displayDesktopUI==true?
+												<>{this.headerUI()}</>:
+												<>{this.mobileHeaderUI()}</>
+											}
+										</ul> 
+									</li>
+									{this.state.isLoading==true?
+										<p>Loading...</p>:
+										<li style={{listStyle:"none"}}>
+											<PostsContainer>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none"}}>
+														<ul style={{padding:"0px"}}>
+															<li id="headerTitleLI" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"50px"}}>
+																<b>{this.state.postOption}</b>
+															</li>
+															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+																<div class="btn-group">
+																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																								borderColor:"#5298F8",
+																																								borderStyle:"solid",
+																																								borderWidth:"1px",
+																																								color:"#5298F8",
+																																								backgroundColor:"white"}}>
+																		Post Options
+																		<span class="caret"></span>
+																	</button>
+																	<ul class="dropdown-menu">
+																		<li onClick={()=>this.handleChangePostOption("Images")}>
+																			<a href="javascript:;">Images</a>
+																		</li>	
+																		<li onClick={()=>this.handleChangePostOption("Videos")}>
+																			<a href="javascript:;">Videos</a>
+																		</li>	
+																		<li onClick={()=>this.handleChangePostOption("Blogs")}>
+																			<a href="javascript:;">Blogs</a>
+																		</li>	
+																		<li onClick={()=>this.handleChangePostOption("RegularPosts")}>
+																			<a href="javascript:;">Posts</a>
+																		</li>		
+																	</ul>
+																</div>
+															</li>
 
-				<ul style={{padding:"0px",marginLeft:"10%",marginTop:"8%"}}>
-					<li style={{listStyle:"none",marginBottom:"1%"}}>
-						<ul style={{padding:"0px"}}>
-							{this.state.displayDesktopUI==true?
-								<>{this.headerUI()}</>:
-								<>{this.mobileHeaderUI()}</>}
-						</ul> 
-					</li>
-					{this.state.isLoading==true?
-						<p>Loading...</p>:
-						<li style={{listStyle:"none"}}>
-							<SearchExplorePosts
-								changePostOption={this.handleChangePostOption}
-								posts={this.state.postsInformation}
-							/>
-						</li>
-					}
-				</ul>
-			</Container>
+															<li style={{listStyle:"none",display:"inline-block"}}>
+																<div class="dropdown">
+																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																												borderColor:"#5298F8",
+																																												borderStyle:"solid",
+																																												borderWidth:"1px",
+																																												color:"#5298F8",
+																																												backgroundColor:"white"}}>
+																		Options
+																		<span class="caret"></span>
+																	</button>
+																	<ul class="dropdown-menu">
+																		<li><a href="javascript:;">Most Popular</a></li>
+																		<li><a href="javascript:;">Newest</a></li>
+																		<li><a href="javascript:;">Popular</a></li>						
+																	</ul>
+																</div>
+															</li>
+														</ul>
+													</li>
+													<Posts>
+														<ul style={{padding:"0px"}}>
+															{this.handleDisplayImages(homePageInformation,searchPageInformation)}
+															{this.handleDisplayVideos(homePageInformation,searchPageInformation)}
+															{this.handleDisplayBlogs(homePageInformation,searchPageInformation)}
+															{this.handleDisplayRegularPosts(homePageInformation,searchPageInformation)}
+														</ul>
+													</Posts>
+												</ul>
+											</PostsContainer>
+										</li>
+									}
+								</ul>
+							</Container>
+						)}
+					</SearchConsumer>
+				)}
+			</HomeConsumer>
 		)
 	}
 }

@@ -432,7 +432,7 @@ const FirstSection=(props)=>{
               }
               {mobileLoginUI()}
               <ul style={{padding:"0px"}}>
-                   <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
+                  <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
                       <ul style={{padding:"0px"}}>
                           <li id="header" style={{listStyle:"none",display:"inline-block",fontSize:"100px",color:"#C8B0F4"}}>
                             <p>
@@ -496,28 +496,26 @@ const FirstSection=(props)=>{
                                       {usersInterested.map(data=>
                                           <>
                                             {data.profilePicture==null?
-                                                <a href={data.link} style={{textDecoration:"none"}}>
-                                                  <li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
-                                                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"  width="80px" height="95%" viewBox="0 0 24 24" stroke-width="1.5" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                          <path stroke="none" d="M0 0h24v24H0z"/>
-                                                          <circle cx="12" cy="7" r="4" />
-                                                          <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                                                      </svg>
-                                                  </li>
-                                                </a>
-                                              :
+                                              <a href={data.link} style={{textDecoration:"none"}}>
+                                                <li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"  width="80px" height="95%" viewBox="0 0 24 24" stroke-width="1.5" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z"/>
+                                                        <circle cx="12" cy="7" r="4" />
+                                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                                    </svg>
+                                                </li>
+                                              </a>:
                                               <a href={data.link} style={{textDecoration:"none"}}>
                                                 <li style={{position:"relative",top:"-30%",listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
                                                   <img src={data.profilePicture} style={{width:"80px",height:"95%",borderRadius:"50%"}}/>
                                                 </li>
                                               </a>
                                             }
-                                            </>
+                                          </>
                                       )}
                                     </ul>
                                 </li>
                             </ul>
-                          
                         </li>
                       </ul>
                   </li>

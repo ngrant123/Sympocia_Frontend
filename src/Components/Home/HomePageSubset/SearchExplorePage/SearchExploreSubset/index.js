@@ -4,8 +4,6 @@ import {ImagePostsModal} from './ImagePostsModal.js';
 import VideosPostsModal from './VideoPostsModal.js';
 import BlogsPostsModal from './BlogPostsModal.js';
 import RegularPostsModal from './RegularPostsModal.js';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 import {HomeConsumer} from "../../../HomeContext.js";
 import {SearchConsumer} from "../../../../SearchPage/SearchContext.js";
@@ -202,7 +200,6 @@ class SearchExplorePosts extends Component{
 									</li>
 									<PostsContainer>
 										<ul style={{padding:"0px"}}>
-
 											{this.handleDisplayImages(homePageInformation,searchPageInformation)}
 											{this.handleDisplayVideos(homePageInformation,searchPageInformation)}
 											{this.handleDisplayBlogs(homePageInformation,searchPageInformation)}

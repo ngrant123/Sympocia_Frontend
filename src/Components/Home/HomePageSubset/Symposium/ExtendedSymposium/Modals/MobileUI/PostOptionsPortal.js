@@ -89,18 +89,22 @@ const MobilePostOptionsPortal=(props)=>{
 	const activeUsers=()=>{
 		return <>
 					{displayActiveUsers==true &&(
-						<ul>
-							{props.activePeople.map(data=>
-								<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
-									<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
-										<img src={data.profilePicture!=null?
-													data.profilePicture:
-													NoProfilePicture} 
-										style={{backgroundColor:"red", width:"70px",height:"70px",borderRadius:"50%"}}/>
-									</ActiveProfilePictures>
-								</li>
-							)}
-						</ul>
+						<>
+							<p>Active Users:</p>
+							<ul>
+								{props.activePeople.map(data=>
+									<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
+										<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
+											<img src={data.profilePicture!=null?
+														data.profilePicture:
+														NoProfilePicture} 
+											style={{backgroundColor:"red", width:"70px",height:"70px",borderRadius:"50%"}}/>
+										</ActiveProfilePictures>
+									</li>
+								)}
+							</ul>
+							<hr/>
+						</>
 					)}
 				</>
 	}
@@ -127,7 +131,7 @@ const MobilePostOptionsPortal=(props)=>{
 				  		} 
 					</>
 				)}
-			   </>
+			</>
 	}
 
 	return createPortal(

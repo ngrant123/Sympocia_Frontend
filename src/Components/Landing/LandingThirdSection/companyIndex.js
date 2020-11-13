@@ -21,7 +21,6 @@ const ThirdContainer = styled.div`
   		background-color:red !important;
   	}
   }
-
 `;
 
 
@@ -37,6 +36,7 @@ const InformationCard=styled.div`
   left:15%;
   z-index:5;
 `;
+
 
 const ArrowDownContainer=styled.div`
   animation: bounce 2s infinite;

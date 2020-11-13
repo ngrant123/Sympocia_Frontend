@@ -91,26 +91,6 @@ class ImageCreation extends Component{
 					<Container id="container">
 						{this.state.displayCreateImageScreen==false?
 							<ul style={{position:"relative",left:"20%",top:"10%",padding:"1px"}}>
-								<li style={{listStyle:"none",marginTop:"5%"}}>	
-									<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																borderColor:"#5298F8",
-																																borderStyle:"solid",
-																																borderWidth:"1px",
-																																color:"#5298F8",
-																																backgroundColor:"white"}}>
-											Change Post Option
-										   	<span class="caret"></span>
-										</button>
-
-										<ul class="dropdown-menu">
-											<li onClick={()=>this.props.displayProps("ImagePosts")}><a>Image</a></li>
-											<li onClick={()=>this.props.displayProps("VideoPosts")}><a>Video</a></li>
-											<li onClick={()=>this.props.displayProps("RegularPost")}><a>Post</a></li>
-											<li onClick={()=>this.props.displayProps("RegularPost")}><a href={"/blog"}>Blog</a></li>
-										</ul>
-									</div>
-								</li>
 								<li style={{fontSize:"25px",marginBottom:"1%",listStyle:"none"}}>	
 									Image Creation
 								</li>

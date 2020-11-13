@@ -22,6 +22,39 @@ const BackButtonCSS={
 	marginBottom:"5%"
 }
 
+const Container=styled.div`
+	@media screen and (max-width:600px){
+		width:180% !important;
+		#userPictureAndNameLI{
+			width:90% !important;
+		}
+		#pictureLI{
+			width:30% !important;
+		}
+		#nameLI{
+			width:90% !important;
+		}
+		#descriptionAndSubmitLI{
+			margin-left:-5% !important;
+			border-style:none !important;
+			border-left:none !important;
+		}
+	}
+
+    @media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
+	 	#descriptionAndSubmitLI{
+			margin-left:10% !important;
+			border-style:none !important;
+			border-left:none !important;
+		}
+		#pictureLI{
+			width:5% !important;
+			height:50% !important;
+		}
+    }
+
+`;
+
 const ProfilePicture=styled.div`
 	position:relative;
 	width:115%;
@@ -40,6 +73,9 @@ const NameTextArea=styled.textarea`
 	border-style:solid;
 	border-color:#BDBDBD;
 	width:130%;
+	@media screen and (max-width:600px){
+		width:60% !important;
+	}
 `;
 
 const DescriptionTextArea=styled.textarea`
@@ -50,6 +86,10 @@ const DescriptionTextArea=styled.textarea`
 	border-color:#BDBDBD;
 	height:50%;
 	width:165%;
+
+	@media screen and (max-width:600px){
+		width:120% !important;
+	}
 `;
 
 const SubmitButton=styled.div`
@@ -168,52 +208,32 @@ const DescriptionModal=(props)=>{
 			{personalInformation=>(
 				<CompanyConsumer>
 					{companyInformation=>(
-						<React.Fragment>
+						<Container>
 							<ul style={{padding:"10px",paddingTop:"2px"}}>
 								<li style={BackButtonCSS} onClick={()=>props.backButton()}>
 									<a style={{textDecoration:"none"}} href="javascript:void(0);">
-										<ArrowBackIcon
-											style={{color:"#5298F8"}}
-										/> Back
+										Back
 									</a>
 								</li>
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"10px"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"15%",width:"30%"}}>
+										<li id="userPictureAndNameLI" style={{listStyle:"none",display:"inline-block",marginRight:"15%",width:"30%"}}>
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none",marginBottom:"30px"}}>
-														<img src={props.imgData} style={{position:"relative",width:"110%",height:"35%",borderRadius:"50%"}}/>
+														<img id="pictureLI" src={props.imgData} style={{position:"relative",width:"110%",height:"35%",borderRadius:"50%"}}/>
 												</li>
 												<p><b>Name</b></p>
-												<li style={{listStyle:"none",marginBottom:"2%"}}>
+												<li id="nameLI" style={{listStyle:"none",marginBottom:"2%"}}>
 													<NameTextArea id="name" placeholder="Enter a name here"/>
 												</li>
-												<p><b>Social Media</b></p>
-												<li style={{listStyle:"none"}}>
-													<ul>
-														<li onClick={()=>changeDisplayIGUrlPrompt(!displayIGUrlPrompt)} style={{listStyle:"none",display:"inline-block",marginRight:"35%"}}>
-															<InstagramIcon
-																style={{fontSize:45,
-																	color:(instagramUrl!=null?"#5298F8":"black")}}
-															/>
-														</li>
-
-														<li onClick={()=>changeDisplayTikTokUrlPrompt(!displayTikTokUrlPrompt)} style={{listStyle:"none",display:"inline-block"}}>
-															<Icon icon={tiktokIcon} 
-																style={{fontSize:40,
-																	color:(tikTokUlr!=null?"#5298F8":"black")}}
-															/>
-														</li>
-
-													</ul>
-												</li>
-
 											</ul> 
 										</li>
 
-										<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",borderLeft:"solid",borderColor:"#D8D8D8"}}>
+										<li id="descriptionAndSubmitLI" style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",borderLeft:"solid",borderColor:"#D8D8D8"}}>
 											<ul style={{paddingLeft:"25px"}}>
-												<p><b>Description</b></p>
+												<p>
+													<b>Description</b>
+												</p>
 												<li style={{listStyle:"none",marginBottom:"5%"}}>
 													<DescriptionTextArea id="description" placeholder="Start writing"/>
 												</li>
@@ -228,53 +248,7 @@ const DescriptionModal=(props)=>{
 									</ul>
 								</li>
 							</ul>
-						{/*Could below could be refactored in a better way later on as its just the same could 
-						but switched based on which social media indicator is true*/}
-
-							{
-								displayIGUrlPrompt==false?
-								<React.Fragment></React.Fragment>:
-								<React.Fragment>
-									<ShadowContainer
-										onClick={()=>changeDisplayIGUrlPrompt(!displayIGUrlPrompt)}
-									/>
-									<SocialMediaUrlContainer>
-										<InstagramUrlTextArea
-											placeholder="Enter the instagram url here"
-											id="igUrl"
-										/>
-										<SocialMediaSubmitButton onClick={()=>handleSubmitIGUrl()}>
-											Submit
-										</SocialMediaSubmitButton>
-
-
-									</SocialMediaUrlContainer>
-
-								</React.Fragment>
-							}
-
-							{
-								displayTikTokUrlPrompt==false?
-								<React.Fragment></React.Fragment>:
-								<React.Fragment>
-									<ShadowContainer
-										onClick={()=>changeDisplayTikTokUrlPrompt(!displayTikTokUrlPrompt)}
-									/>
-									<SocialMediaUrlContainer>
-										<TikTokUrlTextArea
-											placeholder="Enter the tik tok url here"
-											id="tikTokUrl"
-										/>
-										<SocialMediaSubmitButton onClick={()=>handleSubmitTikTokUrl()}>
-											Submit
-										</SocialMediaSubmitButton>
-
-
-									</SocialMediaUrlContainer>
-
-								</React.Fragment>
-							}
-						</React.Fragment>
+						</Container>
 							)
 						}
 					</CompanyConsumer>

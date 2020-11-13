@@ -332,7 +332,7 @@ const LandingPage=(props)=>{
 								</li>
 							</ImageContainer>
 						</li>
-						<li style={{marginTop:"50%",listStyle:"none"}}>
+						<li id="fourthSectionLI" style={{marginTop:"50%",listStyle:"none"}}>
 							<FourthSection/>
 						</li>
 					</React.Fragment>:

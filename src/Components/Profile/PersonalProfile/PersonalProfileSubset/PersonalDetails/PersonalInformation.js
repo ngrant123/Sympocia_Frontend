@@ -75,7 +75,7 @@ const RecruitButton=styled.div`
       0% { background-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
       50% { background-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
       100% { background-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
-  }
+	}
 `;
 
 const DonateButton=styled.div`
