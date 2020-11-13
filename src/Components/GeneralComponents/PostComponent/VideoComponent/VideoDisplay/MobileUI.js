@@ -237,7 +237,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
+const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPostViewing,triggerPromoteModal})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -421,7 +421,7 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
 						</li>
 						<div id="video" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"120%"}}>
 		
-							<video  key={videoData.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay>
+							<video  key={videoData.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay muted>
 							    <source src={videoData.videoUrl} type="video/mp4"/>
 							</video>
 							
@@ -454,26 +454,43 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost})=>{
 										</svg>
 									</li>
 								</a>
-								<a href="javascript:void(0);">
-									<li onClick={()=>changeDisplayVideoImageModal(true)} style={ShadowButtonCSS}>
-										<BorderColorIcon
-											style={{fontSize:30}}
-										/>
-									</li>
-								</a>
 
-								<a href="javascript:void(0);">
-									<li onClick={()=>deletePost()} style={ShadowButtonCSS}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-										  <line x1="4" y1="7" x2="20" y2="7" />
-										  <line x1="10" y1="11" x2="10" y2="17" />
-										  <line x1="14" y1="11" x2="14" y2="17" />
-										  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-										  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-										</svg>
-									</li>
-								</a>
+								{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
+									<>
+										<a href="javascript:void(0);">
+											<li onClick={()=>changeDisplayVideoImageModal(true)} style={ShadowButtonCSS}>
+												<BorderColorIcon
+													style={{fontSize:30}}
+												/>
+											</li>
+										</a>
+
+										<a href="javascript:void(0);">
+											<li onClick={()=>deletePost()} style={ShadowButtonCSS}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												  <line x1="4" y1="7" x2="20" y2="7" />
+												  <line x1="10" y1="11" x2="10" y2="17" />
+												  <line x1="14" y1="11" x2="14" y2="17" />
+												  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+												  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+												</svg>
+											</li>
+										</a>
+										<a href="javascript:void(0);">
+											<li onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+													  width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+													  fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z"/>
+													  <circle cx="12" cy="9" r="6" />
+													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+												</svg>
+											</li>
+										</a>
+									</>
+								)}
 
 								<a href="javascript:void(0);">
 									<li onClick={()=>displayPostInformationTrigger()} style={ShadowButtonCSS}>

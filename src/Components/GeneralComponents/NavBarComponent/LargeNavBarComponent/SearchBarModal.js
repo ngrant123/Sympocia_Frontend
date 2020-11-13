@@ -48,7 +48,6 @@ const Container=styled.div`
 
     @media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
 	 	height:100% !important;
-	 	background-color:red !important;
     }
 `;
 

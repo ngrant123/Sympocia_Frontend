@@ -19,14 +19,6 @@ const Container=styled.div`
 	margin-top:1%;
 
 
-	@media screen and (max-width:740px) and (max-height:420px) and(orientation:landscape){
-    	#headerLI{
-			height:180% !important;
-		}
-		#headerImageLI{
-			height:95% !important;
-		}
-    }
 
 
 	@media screen and (max-width:1370px){
@@ -99,6 +91,12 @@ const Container=styled.div`
 			margin-right:2%;
 		}
 	}
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		#headerLI{
+			margin-top:25% !important;
+		}
+    }
 `;
 
 const HeaderBlog=styled.div`

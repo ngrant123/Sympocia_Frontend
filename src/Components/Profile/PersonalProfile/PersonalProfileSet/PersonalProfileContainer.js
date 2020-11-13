@@ -12,7 +12,6 @@ import {
 			getImages,
 			getBlogs
 		 } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
-
 import {
 	setBio,
 	setProfilePicture
@@ -448,6 +447,7 @@ class LProfile extends Component{
 					targetDom={"personalContainer"}
 					triggerPromoteModal={this.triggerPromoteModal}
 					history={this.props.history}
+					isOwnProfile={this.state.isOwnProfile}
 				/>
 			</ImagePopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -472,6 +472,7 @@ class LProfile extends Component{
 					targetDom={"personalContainer"}
 					history={this.props.history}
 					triggerPromoteModal={this.triggerPromoteModal}
+					isOwnProfile={this.state.isOwnProfile}
 				/>
 			</PostPopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -487,6 +488,7 @@ class LProfile extends Component{
 				profilePicture:this.state.userProfile.profilePicture,
 				lastName:this.state.userProfile.lastName,
 				contextLocation:this.state.contextLocation
+
 			}
 		}
 		return this.state.displayRegularPostModal?
@@ -497,6 +499,7 @@ class LProfile extends Component{
 					targetDom={"personalContainer"}
 					triggerPromoteModal={this.triggerPromoteModal}
 					history={this.props.history}
+					isOwnProfile={this.state.isOwnProfile}
 				/>
 			</RegularPostContainerParent>:
 			<React.Fragment></React.Fragment>

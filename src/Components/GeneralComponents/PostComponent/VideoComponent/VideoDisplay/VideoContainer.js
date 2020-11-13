@@ -56,6 +56,9 @@ const VideoContainer=(data)=>{
 					isChromeBrowser={testIfUserIsUsingChrome()}
 					targetDom={data.targetDom}
 					deletePost={deletePost}
+					pageType={data.profileType}
+					isOwnPostViewing={data.isOwnProfile}
+					triggerPromoteModal={data.triggerPromoteModal}
 				/>:
 				<Container>
 				{displayVideoEditModal==false?
@@ -68,6 +71,8 @@ const VideoContainer=(data)=>{
 								triggerPromoteModal={data.triggerPromoteModal}
 								displayEditModal={triggerVideoEditModal}
 								deletePost={deletePost}
+								pageType={data.profileType}
+								isOwnPostViewing={data.isOwnProfile}
 							/>
 						</li>
 						{data.recommendedVideos!=null?

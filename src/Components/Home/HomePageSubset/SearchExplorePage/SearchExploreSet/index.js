@@ -146,7 +146,8 @@ class SearchExploreContainer extends Component{
 			postOption:"Images",
 			postsInformation:[],
 			postCount:0,
-			displayDesktopUI:false
+			displayDesktopUI:false,
+			isLoading:true
 		}
 	}
 
@@ -194,7 +195,8 @@ class SearchExploreContainer extends Component{
 	}
 
 	changeHomePagePosts=async(postOption)=>{
-		
+		debugger;
+		console.log(postOption);
 		var homePagePostsResponse;
 		var profileId=(this.props.personalInformation.loggedIn==true)?this.props.personalInformation.id:this.props.companyInformation.id;
 
@@ -211,60 +213,14 @@ class SearchExploreContainer extends Component{
 		if(confirmation=="Success"){
 			var newHomePagePosts=this.addSuggestedSymposiums(data);
 			this.setState({
-				postsInformation:newHomePagePosts
+				postsInformation:newHomePagePosts,
+				isLoading:false
 			})
 
 		}else{
 			alert('Unfortunately there has been an error in retrieving you data. Please try again');
 		}
 	}
-
-
-	/*
-	changeHomePagePosts=async(postOption)=>{
-		
-		const industries=this.state.selectedIndustries;
-		const selectedSubCommunities=this.state.selectedSubCommunities;
-		const searchCriteriaIndustryArray=[];
-		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
-		var counter=0;
-		for(var i=0;i<industries.length;i++){
-			var {subCommunity}=industries[i];
-			var addIndustryOrIndustryObject=false;
-			var subCommunitiyArray=[];
-			var subCommunityCounter=0;
-			if(subCommunity!=null){
-				while(subCommunityCounter<subCommunity.length){
-					const targetedSubCommunity=subCommunity[subCommunityCounter];
-					if(targetedSubCommunity.industry==selectedSubCommunities[counter]){
-						subCommunitiyArray.push(selectedSubCommunities[counter]);
-						counter++;
-						subCommunityCounter=0;
-					}else{
-						subCommunityCounter++;
-					}
-				}
-			}
-			const searchObject={
-						industry:industries[i].industry,
-						subIndustry:subCommunitiyArray
-			}
-				searchCriteriaIndustryArray.push(searchObject);
-		}
-		
-		var homePagePosts;
-		if(this.props.personalInformation.loggedIn==true){
-				homePagePosts=await getPostsForHomePage(this.props.personalInformation.id,searchCriteriaIndustryArray,postOption);
-			}else{
-				homePagePosts=await getPostsForHomePage(this.props.companyInformation.id,searchCriteriaIndustryArray,postOption);
-			}
-
-			var newHomePagePosts=this.addSuggestedSymposiums(homePagePosts);
-			this.setState({
-					postsInformation:newHomePagePosts
-				})
-		}
-	*/
 
 
 	addSuggestedSymposiums=(posts)=>{
@@ -298,11 +254,12 @@ class SearchExploreContainer extends Component{
 	}
 
 	handleChangePostOption=(props)=>{
-		
+		console.log(props);
 		this.setState({
-			postOption:props
+			postOption:props,	
+			isLoading:true
 		},function(){
-			this.changeHomePagePosts(this.state.postOption);
+			this.changeHomePagePosts(props);
 		})
 	}
 
@@ -313,7 +270,7 @@ class SearchExploreContainer extends Component{
 	mobileHeaderUI=()=>{
 		return  <li style={{listStyle:"none",marginBottom:"2%",marginTop:"30%"}}>
 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li id="mobileArenaLI" onClick={()=>this.displayArenaPage()} style={MobileArenaButtonCSS}>
+						<li id="mobileArenaLI" onClick={()=>alert('Arena coming soon... :)')} style={MobileArenaButtonCSS}>
 							<MobileArenaContainer>
 								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trophy" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
 								  <path stroke="none" d="M0 0h24v24H0z"/>
@@ -353,7 +310,7 @@ class SearchExploreContainer extends Component{
 						</ul>
 					</li>
 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li onClick={()=>this.displayArenaPage()} style={ArenaButtonCSS}>
+						<li onClick={()=>alert('Arena coming soon... :)')} style={ArenaButtonCSS}>
 							<ArenaContainer>
 								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trophy" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
 								  <path stroke="none" d="M0 0h24v24H0z"/>
@@ -378,26 +335,19 @@ class SearchExploreContainer extends Component{
 					<li style={{listStyle:"none",marginBottom:"1%"}}>
 						<ul style={{padding:"0px"}}>
 							{this.state.displayDesktopUI==true?
-								<>{this.headerUI()}</>
-								:
+								<>{this.headerUI()}</>:
 								<>{this.mobileHeaderUI()}</>}
-						{/*
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<IndustryOptions
-										alterSelectedIndustry={this.alterSelectedIndustry}
-										alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-									/>
-								</li>
-						*/}
 						</ul> 
 					</li>
-
-					<li style={{listStyle:"none"}}>
-						<SearchExplorePosts
-							changePostOption={this.handleChangePostOption}
-							posts={this.state.postsInformation}
-						/>
-					</li>
+					{this.state.isLoading==true?
+						<p>Loading...</p>:
+						<li style={{listStyle:"none"}}>
+							<SearchExplorePosts
+								changePostOption={this.handleChangePostOption}
+								posts={this.state.postsInformation}
+							/>
+						</li>
+					}
 				</ul>
 			</Container>
 		)

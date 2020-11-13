@@ -112,8 +112,9 @@ export const CrownIconContainer=styled.div`
 
 export const ShadowContainer= styled.div`
 	position:fixed;
-	width:100%;
+	width:110%;
 	height:100%;
+	left:-5%;
 	z-index:11;
 	top:0px;
 `;

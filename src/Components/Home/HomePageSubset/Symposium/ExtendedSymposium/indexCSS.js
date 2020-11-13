@@ -141,8 +141,6 @@ export const PostContainer=styled.div`
 	top:40%;
 	width:90%;
 	height:170%;
-
-	z-index:3;
 	overflow-y:scroll;
 	transition:1s;
 	padding-top:8%;

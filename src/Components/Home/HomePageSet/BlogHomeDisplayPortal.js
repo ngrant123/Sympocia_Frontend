@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled,{keyframes} from "styled-components";
 import {createPortal} from "react-dom";
 import { Editor } from 'react-draft-wysiwyg';
@@ -15,11 +15,13 @@ import PollOptionPortal from "../../GeneralComponents/PostComponent/PollOptionPo
 
 import PollIcon from '@material-ui/icons/Poll';
 import {HomeConsumer} from "../HomeContext.js";
+import {Link} from "react-router-dom";
+import LoyaltyIcon from '@material-ui/icons/Loyalty';
 
 const Container=styled.div`
 	position:absolute;
 	z-index:13;
-	height:95%;
+	height:100%;
 	width:80%;
 	border-radius:5px;
 	top:2%;
@@ -32,7 +34,18 @@ const Container=styled.div`
 		top:10% !important;
 		width:95% !important;
 		margin-left:-10%;
+
+		#smallImagePicture{
+			height:30% !important;
+			width:40% !important;
+		}
 	}
+
+	@media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
+	 	#smallImagePicture{
+			width:20% !important;
+		}
+    }
 `;
 
 const ShadowContainerBlog=styled.div`
@@ -53,16 +66,17 @@ const PosterInformationModal=styled.div`
 	top:10%;
 	left:55%;
 	padding:10px;
+	height:60%;
 	z-index:9;
+	overflow:scroll;
 
 	@media screen and (max-width:1370px){
 		left:20% !important;
 		width:70% !important;
 	}
-
 `;
 
-const ProfilePicture=styled.div`
+const ProfilePicture=styled(Link)`
 	position:relative;
 	width:80px;
 	height:80px;
@@ -143,7 +157,6 @@ const StampButtonCSS={
 	display:"inline-block",
 	width:"30%",
 	padding:"10px"
-
 }
 
 
@@ -160,14 +173,30 @@ const authenticPostButtonCSS={
   marginRight:"2%"
 }
 
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"50%",
+	borderStyle:"none",
+	marginRight:"10%",
+	marginBottom:"2%"
+}
+
+
 const BlogHomeDisplayPortal=(props)=>{
+	console.log(props);
 	const blog=props.selectedBlog.blog;
 	var DBEditorState = convertFromRaw(JSON.parse(blog));
 	var blogContentState=EditorState.createWithContent(DBEditorState);
 
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const [displayLargeModal,changeDisplayModal]=useState(true);
-
+	const [displayDesktopUI,changeDisplayDesktopUI]=useState(false);
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 	const [displayApproveDisapproveIndicator,changeDisplayApproveDisapproveIndicator]=useState(false);
@@ -177,23 +206,37 @@ const BlogHomeDisplayPortal=(props)=>{
 	const disapprovesPostNumber=props.selectedBlog.isPostAuthentic.numOfDisapprove!=null?
 						  props.selectedBlog.isPostAuthentic.numOfDisapprove.length:0;
 
+
+	const triggerUIChange=()=>{
+		if(window.innerWidth<1370){
+			changeDisplayDesktopUI(false);
+
+		}else{
+			changeDisplayDesktopUI(true);
+		}
+	}
+
+	useEffect(()=>{
+		triggerUIChange();
+	},[]);
+
+	window.addEventListener('resize',triggerUIChange)
+
 	const createOrRemoveStampEffect=()=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
-		
-		//(userId,postId,profileType,postType)
 		if(displayStampEffect==false){
 			if(isPersonalProfile==true){
-				addStampPost(props.selectedBlog.owner,props.selectedBlog._id,"personal","BlogPost");
+				//addStampPost(props.selectedBlog.owner,props.selectedBlog._id,"personal","BlogPost");
 			}else{
-				addStampPost(props.selectedBlog.owner,props.selectedBlog._id,"company","BlogPost");
+				//addStampPost(props.selectedBlog.owner,props.selectedBlog._id,"company","BlogPost");
 			}
 			changeDisplayStampEffect(true);
 
 		}else{
 			if(isPersonalProfile==true){
-				unStampPost(props.selectedBlog.owner,props.selectedBlog._id,"personal","BlogPost");
+				//unStampPost(props.selectedBlog.owner,props.selectedBlog._id,"personal","BlogPost");
 			}else{
-				unStampPost(props.selectedBlog.owner,props.selectedBlog._id,"company","BlogPost");
+				//unStampPost(props.selectedBlog.owner,props.selectedBlog._id,"company","BlogPost");
 			}
 			changeDisplayStampEffect(false);
 		}
@@ -260,132 +303,118 @@ const BlogHomeDisplayPortal=(props)=>{
 						/>
 					)}
 				</React.Fragment>
-		
 	}
 
 	return createPortal(
-		<HomeConsumer>
-			{userInformation=>{
-				return <React.Fragment>
-					<ShadowContainerBlog onClick={()=>props.closeModal()}/>
-			
-						<Container>	
-							{pollModal()}
-							{displayApproveDisapproveModal()}
-							<Editor
-								editorState={blogContentState}
-								toolbarClassName="toolbarClassName"
-								wrapperClassName="wrapperClassName"
-								editorClassName="editorClassName"
-								placeholder="Start typing to create your masterpiece"
-								readOnly={false}
-								toolbarHidden={true}
-							/>
-							{displayLargeModal==true?
-								<PosterInformationModal>
-									<ul style={{padding:"0px"}}>
+		<React.Fragment>
+			<ShadowContainerBlog onClick={()=>props.closeModal()}/>
+			<Container>	
+				{pollModal()}
+				{displayApproveDisapproveModal()}
+				<Editor
+					editorState={blogContentState}
+					toolbarClassName="toolbarClassName"
+					wrapperClassName="wrapperClassName"
+					editorClassName="editorClassName"
+					placeholder="Start typing to create your masterpiece"
+					readOnly={false}
+					toolbarHidden={true}
+				/>
+				{displayLargeModal==true?
+					<PosterInformationModal>
+						<ul style={{padding:"0px"}}>
 
-										<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<ExpandMoreIcon
-													style={{fontSize:25}}
-												/>
-											</a>
-										</li>
-										{displayStampEffect==true?
-												<li style={{listStyle:"none"}}>
-													<StampIconEffect
-														id="stampEffect"
-													>
-														<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-													</StampIconEffect>
-												</li>
-										:null}
-					
-										<li style={{listStyle:"none",marginBottom:"5%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-													<ProfilePicture>
-														{props.selectedBlog.owner.ownerImgUrl==null?
-															<img src={NoProfilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>:
-															<img src={props.selectedBlog.owner.profilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-														}
-													</ProfilePicture>
-												</li>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<b>{props.selectedBlog.owner.firstName}</b>
-												</li>
+							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<ExpandMoreIcon
+										style={{fontSize:25}}
+									/>
+								</a>
+							</li>
+							{displayStampEffect==true?
+									<li style={{listStyle:"none"}}>
+										<StampIconEffect
+											id="stampEffect"
+										>
+											<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+										</StampIconEffect>
+									</li>
+							:null}
+		
+							<li style={{listStyle:"none",marginBottom:"5%"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+										<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
+											<img id="smallImagePicture" src={props.selectedBlog.owner.ownerImgUrl==null?
+													NoProfilePicture:
+													props.selectedBlog.owner.profilePicture
+												} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+										</ProfilePicture>
+									</li>
+									<li style={{listStyle:"none"}}>
+										<b>{props.selectedBlog.owner.firstName}</b>
+									</li>
 
-												<li style={{height:"90px",overflowY:"auto",listStyle:"none",display:"inline-block"}}>
-													{props.selectedBlog.title}
-												</li>
-											</ul>
-										</li>
+									<li style={{height:"90px",overflowY:"auto",listStyle:"none"}}>
+										{props.selectedBlog.title}
+									</li>
+								</ul>
+							</li>
 
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={StampButtonCSS}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}> 
-															<Icon 
-																icon={stampIcon}
-																style={{fontSize:30,color:"#5298F8"}}
-															/>
-														</li>
-														<li style={{listStyle:"none",display:"inline-block",color:"#5298F8"}}> 
-															Stamp
-														</li>
-													</ul>
-												</li>
-
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} 
-														style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
-														<PollIcon
-															style={{fontSize:"30"}}
-														/>
-													</li>
-												</a>
-											</ul>
-										</li>
-									</ul>
-								</PosterInformationModal>:
-								<SmallPostInformationModal>
-									{userInformation.isDesktop==false?
-										<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
-											<ExpandLessIcon
-												style={{fontSize:25}}
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px"}}>
+									<a href="javascript:void(0);">
+										<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
+											<LoyaltyIcon
+												style={{fontSize:30}}
 											/>
-										</li>:
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<ProfilePicture>
-													{props.ownerImgUrl==null?
-														<img src={NoProfilePicture} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>:
-														<img src={props.ownerImgUrl} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-													}
-												</ProfilePicture>
-											</li>
+										</li>
+									</a>
 
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
-												<b> Nathan </b>
-											</li>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} 
+											style={ShadowButtonCSS}>
+											<PollIcon
+												style={{fontSize:"30"}}
+											/>
+										</li>
+									</a>
+								</ul>
+							</li>
+						</ul>
+					</PosterInformationModal>:
+					<SmallPostInformationModal>
+						{displayDesktopUI==false?
+							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
+								<ExpandLessIcon
+									style={{fontSize:25}}
+								/>
+							</li>:
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
+										<img id="smallImagePicture" src={props.ownerImgUrl==null?
+													NoProfilePicture:
+													props.ownerImgUrl
+												} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+									</ProfilePicture>
+								</li>
 
-											<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
-												<ExpandLessIcon
-													style={{fontSize:25}}
-												/>
-											</li>
-										</ul>
-									}
-								
-							</SmallPostInformationModal>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
+									<b>{props.selectedBlog.owner.firstName}</b>
+								</li>
+
+								<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
+									<ExpandLessIcon
+										style={{fontSize:25}}
+									/>
+								</li>
+							</ul>
 						}
-
-						</Container>
-				</React.Fragment>
-			}}
-		</HomeConsumer>
+					</SmallPostInformationModal>
+					}
+				</Container>
+			</React.Fragment>
 	,document.getElementById(props.targetDom));
 
 }

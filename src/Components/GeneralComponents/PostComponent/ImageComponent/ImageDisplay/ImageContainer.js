@@ -72,11 +72,8 @@ const ImageContainer=(props)=>{
 			changeUIStatus(false);
 		}
 	}
-
-
 	
 	const handleRemoveImagePost=async()=>{
-		
 		const removeImage={
 			postType:"Images",
 			postId:props.imageData._id,
@@ -140,6 +137,9 @@ const ImageContainer=(props)=>{
 						isChromeBrowser={testIfUserIsUsingChrome()}
 						targetDom={props.targetDom}
 						deletePost={handleRemoveImagePost}
+						pageType={props.profileType}
+						promote={()=>triggerPromoteModal}
+						isOwnPostViewing={props.isOwnProfile}
 					/>
 					:<Container>
 						{displayImageModal==true?
@@ -167,32 +167,35 @@ const ImageContainer=(props)=>{
 															</li>
 														</a>:null
 													}
-													
-
-													<a style={{textDecoration:"none"}} href="javascript:void(0);">
-														<li onClick={()=>triggerPromoteModal()} style={ButtonCSS}>
-																Promote
-														</li>
-													</a>
-
 													<a style={{textDecoration:"none"}}href="javascript:void(0);">
 														<li onClick={()=>createOrRemoveStampEffect()} style={ButtonCSS}>
 																Stamp
 														</li>
 													</a>
-													<li onClick={()=>changeDisplayImage(!displayImageModal)} style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
-														<a style={{textDecoration:"none"}}href="javascript:void(0);">
-															<EditIcon/> 
-															Edit image
-														</a>
-													</li>
 
-													<li onClick={()=>handleRemoveImagePost()} style={{listStyle:"none",display:"inline-block"}}>
-														<a style={{textDecoration:"none"}}href="javascript:;">
-															<HighlightOffIcon/> 
-															Remove image
-														</a>
-													</li>
+													{(props.profileType=="personalProfile" && props.isOwnProfile==true) &&(
+														<>
+															<a style={{textDecoration:"none"}} href="javascript:void(0);">
+																<li onClick={()=>triggerPromoteModal()} style={ButtonCSS}>
+																		Promote
+																</li>
+															</a>
+
+															<li onClick={()=>changeDisplayImage(!displayImageModal)} style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+																<a style={{textDecoration:"none"}}href="javascript:void(0);">
+																	<EditIcon/> 
+																	Edit image
+																</a>
+															</li>
+
+															<li onClick={()=>handleRemoveImagePost()} style={{listStyle:"none",display:"inline-block"}}>
+																<a style={{textDecoration:"none"}}href="javascript:;">
+																	<HighlightOffIcon/> 
+																	Remove image
+																</a>
+															</li>
+														</>
+													)}
 												</ul>
 											</li>
 											<li style={{listStyle:"none"}}>

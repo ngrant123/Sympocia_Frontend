@@ -154,7 +154,8 @@ const MobilePostOptionsPortal=(props)=>{
 					<hr/>
 
 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li onClick={()=>triggerSymposiumFeatures()} style={{listStyle:"none"}}>
+						<li onClick={()=>alert("Unfortunately this isn't available on mobile please try on desktop")} 
+							style={{listStyle:"none"}}>
 							Symposium Features
 						</li>
 					</a>

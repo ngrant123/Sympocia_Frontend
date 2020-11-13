@@ -48,7 +48,7 @@ const LoadingAnimation=()=>{
 			</AnimationContainer>
 			<p style={{fontSize:"30px",position:"fixed",top:"70%",left:"30%"}}> 
 				<b><Typed 
-			           strings={['Give us a second were getting all your information']} 
+			           strings={["Give us a second we're getting all your information"]} 
 			           typeSpeed={60} 
 			           backSpeed={30} 
 	               />

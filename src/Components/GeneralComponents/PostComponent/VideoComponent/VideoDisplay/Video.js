@@ -436,7 +436,7 @@ createOrRemoveStampEffect=()=>{
 						null
 				}
 
-    			<video  key={this.props.video.videoUrl} id="video" position="relative" height="100%" width="100%" controls autoplay>
+    			<video  key={this.props.video.videoUrl} id="video" position="relative" height="100%" width="100%" controls autoplay muted>
 				    <source src={this.props.video.videoUrl} type="video/mp4"/>
 				</video>
 
@@ -516,66 +516,70 @@ createOrRemoveStampEffect=()=>{
 							</li>
 						</a>
 
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.props.triggerPromoteModal(this.props.video._id,"Videos")}
-								 style={{listStyle:"none",marginBottom:"20px"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",marginLeft:"5%"}}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award"
-											 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
-											 fill="none" stroke-linecap="round" stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z"/>
-											  <circle cx="12" cy="9" r="6" />
-											  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
-											  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
-										</svg>
+						{(this.props.pageType=="personalProfile" && this.props.isOwnPostViewing==true) &&(
+							<>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>this.props.triggerPromoteModal(this.props.video._id,"Videos")}
+										 style={{listStyle:"none",marginBottom:"20px"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",marginLeft:"5%"}}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award"
+													 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
+													 fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z"/>
+													  <circle cx="12" cy="9" r="6" />
+													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+												</svg>
+											</li>
+											<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+												Promote
+											</li>
+										</ul>
 									</li>
-									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-										Promote
-									</li>
-								</ul>
-							</li>
-						</a>
+								</a>
 
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.removeVideoPost()}
-								 style={{listStyle:"none",marginBottom:"20px"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",marginLeft:"5%"}}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
-											icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" 
-											stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round"
-											 stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z"/>
-											  <line x1="4" y1="7" x2="20" y2="7" />
-											  <line x1="10" y1="11" x2="10" y2="17" />
-											  <line x1="14" y1="11" x2="14" y2="17" />
-											  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-											  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-										</svg>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>this.removeVideoPost()}
+										 style={{listStyle:"none",marginBottom:"20px"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",marginLeft:"5%"}}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
+													icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" 
+													stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round"
+													 stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z"/>
+													  <line x1="4" y1="7" x2="20" y2="7" />
+													  <line x1="10" y1="11" x2="10" y2="17" />
+													  <line x1="14" y1="11" x2="14" y2="17" />
+													  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+													  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+												</svg>
+											</li>
+											<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+												Delete
+											</li>
+										</ul>
 									</li>
-									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-										Delete
-									</li>
-								</ul>
-							</li>
-						</a>
+								</a>
 
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.props.displayEditModal()}
-								 style={{listStyle:"none",marginBottom:"20px"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",marginLeft:"5%"}}>
-										<BorderColorIcon
-											style={{color:"#FFFFFF"}}
-										/>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>this.props.displayEditModal()}
+										 style={{listStyle:"none",marginBottom:"20px"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",marginLeft:"5%"}}>
+												<BorderColorIcon
+													style={{color:"#FFFFFF"}}
+												/>
+											</li>
+											<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+												Edit
+											</li>
+										</ul>
 									</li>
-									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-										Edit
-									</li>
-								</ul>
-							</li>
-						</a>
+								</a>
+							</>
+						)}
 					</ul>
 				</OptionsContainer>
 			</Container>

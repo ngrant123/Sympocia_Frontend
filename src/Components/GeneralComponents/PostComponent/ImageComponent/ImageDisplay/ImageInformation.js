@@ -51,7 +51,6 @@ const Container=styled.div`
 		margin-left:8% !important;
 		padding:10px;
 		border-radius:5px;
-		background-color:red;
 
 		#postOwnerAndSymposium{
 			display:block !important;
