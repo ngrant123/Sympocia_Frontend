@@ -52,7 +52,6 @@ const Container=styled.div`
 			height:50% !important;
 		}
     }
-
 `;
 
 const ProfilePicture=styled.div`
@@ -194,11 +193,11 @@ const DescriptionModal=(props)=>{
 		console.log("Testig")
 		if(props.profileType=="Company"){
 			companyInformation.displayChampionModal(ChampionModalObject);
-			//createCompanyChampion(reduxInformation.companyInformation.id,ChampionModalObject);
+			createCompanyChampion(reduxInformation.companyInformation.id,ChampionModalObject);
 		}
 		else{
 			personalInformation.displayChampionModal(ChampionModalObject);
-			//createChampion(reduxInformation.personalInformation.id,ChampionModalObject);
+			createChampion(reduxInformation.personalInformation.id,ChampionModalObject);
 		}
 		props.closeModal();
 	}

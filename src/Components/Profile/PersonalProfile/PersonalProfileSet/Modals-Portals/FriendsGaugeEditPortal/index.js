@@ -25,11 +25,15 @@ const Container=styled.div`
 	border-radius:5px;
 	left:40%;
 	overflow-y:auto;
-	
+
 	@media screen and (max-width:1030px){
 		width:40% !important;
 		left:30% !important;
     }
+    @media screen and (max-width:600px){
+		width:90% !important;
+		left:5% !important;
+	}
 `;
 const InputContainer=styled.textarea`
 	position:relative;

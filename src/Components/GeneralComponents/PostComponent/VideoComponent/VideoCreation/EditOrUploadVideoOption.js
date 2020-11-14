@@ -65,26 +65,27 @@ class EditOrUploadVideoOption extends Component{
 							</li>
 							<li id="videoOptionsContainer" style={{listStyle:"none",marginTop:"-5%",marginBottom:"2%"}}>
 									<ul style={{padding:"0px",marginTop:"5%"}}>
-										<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"25%"}}>
-							
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																		borderColor:"#5298F8",
-																																		borderStyle:"solid",
-																																		borderWidth:"1px",
-																																		color:"white",
-																																		backgroundColor:"#5298F8",
-																																		boxShadow:"2px 10px 10px #b9d6ff"}}>
-															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-																	<PublishIcon/>
-																</li>
+										{/*
+											<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"25%"}}>
+														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																			borderColor:"#5298F8",
+																																			borderStyle:"solid",
+																																			borderWidth:"1px",
+																																			color:"white",
+																																			backgroundColor:"#5298F8",
+																																			boxShadow:"2px 10px 10px #b9d6ff"}}>
+																<ul style={{padding:"0px"}}>
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+																		<PublishIcon/>
+																	</li>
 
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-																	Upload video
-																</li>
-															</ul>	
-													</button>
-										</li>
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+																		Upload video
+																	</li>
+																</ul>	
+														</button>
+											</li>
+										*/}
 
 										<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block"}} onClick={()=>this.setState({displayEditVideoModal:true})}>
 

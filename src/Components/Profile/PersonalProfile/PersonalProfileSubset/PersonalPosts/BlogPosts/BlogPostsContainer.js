@@ -266,11 +266,13 @@ class BlogsPostsContainer extends Component{
 																			<ul style={{padding:"0px"}}>
 																				{testIfUserIsUsingChrome()==true &&(
 																					<li style={{listStyle:"none"}}>
-																						<audio controls>
-																						  <source src={data.audioDescription} type="audio/ogg"/>
-																						  <source src={data.audioDescription} type="audio/mpeg"/>
-																						  Your browser does not support the audio element.
-																						</audio>
+																						{data.audioDescription!=null &&(
+																							<audio controls>
+																							  <source src={data.audioDescription} type="audio/ogg"/>
+																							  <source src={data.audioDescription} type="audio/mpeg"/>
+																							  Your browser does not support the audio element.
+																							</audio>
+																						)}
 																					</li>
 																				)}
 
@@ -279,9 +281,11 @@ class BlogsPostsContainer extends Component{
 																						<img src={data.blogImageUrl} width="100%" height="100%"/>
 																						{testIfUserIsUsingChrome()==true &&(
 																							<VideoDesriptionContainer>
-																							   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
-																									<source src={data.videoDescription} type="video/mp4"/>
-																								</video>
+																								{data.videoDescription!=null &&(
+																									<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																										<source src={data.videoDescription} type="video/mp4"/>
+																									</video>
+																								)}
 																							</VideoDesriptionContainer>
 																						)}
 									

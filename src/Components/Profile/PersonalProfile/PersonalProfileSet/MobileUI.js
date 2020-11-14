@@ -95,6 +95,10 @@ const SponsorExtendedModal=styled.div`
 	box-shadow: 10px 10px 20px 	#9395a0;
 	left:65%;
 	top:60%;
+	@media screen and (max-width:1370px){
+		left:5% !important;
+		width:90% !important;
+	}
 `;
 
 
@@ -150,7 +154,7 @@ const MobileChampionData=(championData)=>{
 const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayChampionsModal,championData,isIphoneDisplay})=>{
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [editChampionModal,changeEditChampionModal]=useState(false);
-	const [displayChampion,changeDisplayChampion]=useState(false);
+	const [displayChampion,changeDisplayChampion]=useState(false); 
 
 	const closeChampionEditModal=()=>{
 		changeEditChampionModal(false);
@@ -164,7 +168,7 @@ const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayCh
 					/>
 				)}
 				{displayChampion==true &&(
-					<>{MobileChampionData()}</>
+					<>{MobileChampionData(championData)}</>
 				)}
 				<OriginalShadowContainer
 					onClick={()=>closeModal()}
@@ -199,11 +203,13 @@ const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayCh
 				                </li>
 				            </a>
 				            <hr/>
-				            <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				                <li onClick={()=>changeDisplayChampion(true)}style={{listStyle:"none"}}>
-				                    View Champion
-				                </li>
-				            </a>
+				            {championData!=null && (
+				            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+				            		<li onClick={()=>changeDisplayChampion(true)}style={{listStyle:"none"}}>
+					                    View Champion
+					                </li>
+					            </a>
+				            )}
 			            </>
 					}
 				</EditNodeContainer>

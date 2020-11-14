@@ -17,6 +17,12 @@ const ImageContainer=styled.div`
 		}
 	}
 
+	@media screen and (max-width:740px){
+		#audio{
+			width:150px !important;
+		}
+	}
+
 	@media screen and (max-width:740px) and (max-height:420px){
 		height:100% !important;
 		width:100%;
@@ -107,7 +113,7 @@ const SmallImageContainer=(props)=>{
 					<>
 						{data.audioDescription!=null?
 							<li style={{listStyle:"none"}}>
-								<audio key={audioId} style={{width:"200px"}} controls>
+								<audio id="audio" key={audioId} style={{width:"200px"}} controls>
 								    <source src={data.audioDescription} type="audio/ogg"/>
 								    <source src={data.audioDescription} type="audio/mpeg"/>
 									Your browser does not support the audio element.

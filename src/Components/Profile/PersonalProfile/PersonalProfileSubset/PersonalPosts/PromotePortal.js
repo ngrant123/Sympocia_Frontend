@@ -24,6 +24,11 @@ const Container=styled.div`
 	left:40%;
 	overflow-y:auto;
 	padding:20px;
+
+	@media screen and (max-width:600px){
+		width:90% !important;
+		left:5% !important;
+	}
 `;
 
 const ButtonCSS={

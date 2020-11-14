@@ -223,7 +223,7 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 						<li style={{listStyle:"none",marginBottom:"5%"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-									{(imgData.videoDescription==null && isChromeBrowser==true)==false?null:
+									{(imgData.videoDescription==null && isChromeBrowser==false)==true?null:
 										<VideoDesriptionContainer>
 											<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls muted>
 												<source src={imgData.videoDescription} type="video/mp4"/>
@@ -232,7 +232,7 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 									}
 								</li>
 								<li style={{listStyle:"none",display:"inline-block"}}>
-									{(imgData.audioDescription==null && isChromeBrowser==true)==false?null:
+									{(imgData.audioDescription==null && isChromeBrowser==false)==true?null:
 										<audio style={{width:"150px"}} controls>
 											<source src={imgData.audioDescription} type="audio/ogg"/>
 											<source src={imgData.audioDescription} type="audio/mpeg"/>

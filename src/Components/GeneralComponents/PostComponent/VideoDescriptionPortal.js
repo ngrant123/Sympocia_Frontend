@@ -112,9 +112,10 @@ const VideoDescriptionPortal=(props)=>{
 				let video=document.getElementById("videoDescriptionVideo");
 				if (navigator.mediaDevices.getUserMedia){
 					navigator.mediaDevices.getUserMedia({ 
-					  		video: true,
-					  		audio:true 
+							audio:true,
+					  		video: true
 					  	}).then(function(stream) {
+					  	  video.muted='true'
 					      video.srcObject = stream;
 					      video.captureStream = video.captureStream || video.mozCaptureStream;
 					    })
@@ -142,9 +143,7 @@ const VideoDescriptionPortal=(props)=>{
 							  	 changeReInitliazed(true);
 							  	 chnagFirstFone(true)
 							}
-						  	 reader.readAsDataURL(recordedFile);
-
-
+						  	reader.readAsDataURL(recordedFile);
 					  	 }
 					  }).catch(function (error) {
 				    });
@@ -302,7 +301,7 @@ const VideoDescriptionPortal=(props)=>{
 									<li style={{listStyle:"none",marginBottom:"4%"}}>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 											<VideoResultContainer>
-													<video id={'video'+data.videoCounter} width="100%" height="100%" autoplay="true" muted>
+													<video id={'video'+data.videoCounter} width="100%" height="100%" autoplay="true" muted="muted">
 														<source src={data.videoSrc} type="video/mp4"/>
 													</video>
 											</VideoResultContainer>
@@ -321,7 +320,7 @@ const VideoDescriptionPortal=(props)=>{
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<ClipVideoContainer onClick={()=>reDoVideo()}>
 									<RefreshIcon
-										style={{fontSize:40,color:"red"}}
+										style={{fontSize:40,color:"white"}}
 									/>
 								</ClipVideoContainer>
 							</a>

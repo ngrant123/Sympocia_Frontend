@@ -118,34 +118,24 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 				removeNodeVerification()
 			}
 			<ul style={{padding:"10px"}}>
-					<p>Click the recruits you would like to remove </p>
-				{/*
-
-					<li style={{listStyle:"none"}}>
-							{removedNodes.length!=0?
-								<>
-									{removedNodes.map(data=>
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											{data.name}
-										</li>
-									)}
-								</>:null
-							}
-						</li>
-				*/}
-					{nodes.map(data=>
-						<>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>addRemovedNodeToQueue(data)} style={{listStyle:"none"}}>
-									<p style={{fontSize:"25px"}}>
-										<b> {data.name} </b>
-									</p>
-									<p>{data.description}</p>
-								</li>
-							</a>
-							<hr/>
-						</>
-					)}
+				<p>Click on the level you would like to remove </p>
+				{nodes.length>1 &&(
+					<>
+						{nodes.map(data=>
+							<>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>addRemovedNodeToQueue(data)} style={{listStyle:"none"}}>
+										<p style={{fontSize:"25px"}}>
+											<b> {data.name} </b>
+										</p>
+										<p>{data.description}</p>
+									</li>
+								</a>
+								<hr/>
+							</>
+						)}
+					</>
+				)}
 				</ul>
 		</>
 

@@ -88,6 +88,7 @@ const VideoDescriptionPortal=(props)=>{
 			  		video: true,
 			  		audio:true 
 			  	}).then(function(stream) {
+			  	  video.muted='true'
 			      video.srcObject = stream;
 			      video.captureStream = video.captureStream || video.mozCaptureStream;
 			    })

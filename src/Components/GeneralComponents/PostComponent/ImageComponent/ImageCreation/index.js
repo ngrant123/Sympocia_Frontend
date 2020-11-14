@@ -34,6 +34,15 @@ const Container=styled.div`
 `;
 
 
+const ImageOptionsCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"white",
+	backgroundColor:"#5298F8"
+}
+
+
 class ImageCreation extends Component{
 	constructor(props){
 		super(props);
@@ -95,12 +104,7 @@ class ImageCreation extends Component{
 									Image Creation
 								</li>
 								<li onClick={()=>this.clickUploadPhotoButton()} style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																														borderColor:"#5298F8",
-																														borderStyle:"solid",
-																														borderWidth:"1px",
-																														color:"white",
-																														backgroundColor:"#5298F8"}}>
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={ImageOptionsCSS}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 												<CameraIcon/>
@@ -118,12 +122,8 @@ class ImageCreation extends Component{
 								</li>
 
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-									<button onClick={()=>this.createImage()} class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																														borderColor:"#5298F8",
-																														borderStyle:"solid",
-																														borderWidth:"1px",
-																														color:"white",
-																														backgroundColor:"#5298F8"}}>
+									<button onClick={()=>alert('Option coming soon')} class="btn btn-primary dropdown-toggle"
+										 type="button" data-toggle="dropdown" style={ImageOptionsCSS}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 												<AddAPhotoIcon/>

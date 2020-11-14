@@ -13,6 +13,11 @@ const Container=styled.div`
 	border-radius:5px;
 	left:40%;
 	overflow:auto;
+
+	@media screen and (max-width:600px){
+		width:90% !important;
+		left:5% !important;
+	}
 `;
 
 const ShadowContainer= styled.div`

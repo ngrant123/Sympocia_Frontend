@@ -12,7 +12,6 @@ const Container=styled.div`
 	top:17%;
 	border-radius:5px;
 	margin-bottom:5%;
-
 `;
 
 class Blog extends Component{
@@ -90,6 +89,7 @@ class Blog extends Component{
 									  onEditorStateChange={this.onEditorStateChange}
 									  placeholder="Start typing to create your masterpiece"
 									  readOnly={!postInformation.isOwner}
+									  toolbarHidden={this.props.isDesktop==true?false:true}
 								/>
 								{this.handleBlogTextAreaChange(postInformation)}
 							</Container>

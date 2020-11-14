@@ -164,7 +164,6 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
-	
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -263,15 +262,12 @@ const PersonalPostsIndex=(props)=>{
 			}else{
 				alert('Unfortunately there has been an error getting your pictures. Please try again');
 			}
-
 		}else if(kindOfPost=="blog"){
-
 			const blogs=document.getElementById("blogs");
 			blogs.style.color="#C8B0F4";
 			blogs.style.borderBottom="solid";
 			blogs.style.borderColor="#C8B0F4";
 			changeDisplayForBlogs(true);
-			
 		}else{
 
 			const {confirmation,data}=await getRegularPostFromUser({userId:id,
@@ -399,20 +395,26 @@ const PersonalPostsIndex=(props)=>{
 					},
 					updateImagePost:(imageData)=>{
 						
-						let newImageObject=updateImagePostIndexContext(imageData,imagePost);
-						changeImagePost(newImageObject);
+						if(displayImages==true){
+							let newImageObject=updateImagePostIndexContext(imageData,imagePost);
+							changeImagePost(newImageObject);
+						}
 						changeDisplayCreationPost(false);
 						props.closeModal();
 					},
 					updateVideoPost:(videoObject)=>{
-						let newVideoObject=updateVideoPostIndexContext(videoObject,videoPost);
-						changeVideoPosts(newVideoObject);
+						if(displayVideos==true){
+							let newVideoObject=updateVideoPostIndexContext(videoObject,videoPost);
+							changeVideoPosts(newVideoObject);							
+						}
 						changeDisplayCreationPost(false);
 						props.closeModal();
 					},
 					updateRegularPost:(regularPostProp)=>{
-						let newPostObject=updateRegularPostIndexContext(regularPostProp,regularPost);
-						changeRegularPost(newPostObject);
+						if(displayRegularPosts){
+							let newPostObject=updateRegularPostIndexContext(regularPostProp,regularPost);
+							changeRegularPost(newPostObject);
+						}
 						changeDisplayCreationPost(false);
 						props.closeModal();
 					},
@@ -445,7 +447,7 @@ const PersonalPostsIndex=(props)=>{
 						props.closeModal();
 					},
 					removePost:(postId,postType)=>{
-							let propData;
+						let propData;
 						let stateCallBackFunction;
 						switch(postType){
 							case 'Images':{

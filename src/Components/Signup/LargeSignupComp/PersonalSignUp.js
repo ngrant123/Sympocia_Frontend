@@ -26,7 +26,7 @@ const InputContainer=styled.textarea`
 	padding:5px;
 `;
 
-const SubmitButton=styled(Link)`
+const SubmitButton=styled.div`
 
 	   width:30%;
 	   height:10%;
@@ -107,8 +107,6 @@ class PersonalSignUp extends Component{
 		const lastName=document.getElementById("lastName").value;
 		const email=document.getElementById("email").value;
 		const password=document.getElementById("password").value;
-
-
 		const {
 				addFirstName,
 			 	addLastName,
@@ -118,13 +116,7 @@ class PersonalSignUp extends Component{
 			 	loginCompanyPage
 			 }=this.props;
 
-
-			 	loginPersonalPage(true);
-				loginCompanyPage(false);
-				addFirstName(firstName);
-				addLastName(lastName);
-				addEmail(email);
-
+				debugger;
 				const {confirmation,data}=await createProfile({
 					firstName:firstName,
 					lastName:lastName,
@@ -134,50 +126,18 @@ class PersonalSignUp extends Component{
 				});
 
 				if(confirmation=="Success"){
-					
 					addPersonalIdentificationId(data._id);
+					loginPersonalPage(true);
+					loginCompanyPage(false);
+					addFirstName(firstName);
+					addLastName(lastName);
+					addEmail(email);
 					this.props.history.push({
 						pathname:'/home'
 					})
 				}else{
-					alert('unfortunately there was an error trying to create your profile. Please try again');
+					alert('Unfortunately there was an error trying to create your profile. Please try again');
 				}
-
-
-				/*
-					
-					if(props.investorInformation!=null){
-						const {investorInformation}=props;
-						const {industries,location}=investorInformation;
-						const {long,lat}=location;
-
-						profileCreationId=await createProfile({
-							firstName:firstName,
-							lastName:lastName,
-							email:email,
-							isInvestor:true,
-							industries:industries,
-							location:{
-								long:long,
-								lat:lat
-							},
-							password:password
-						});
-					}else{
-						profileCreationId=await createProfile({
-							firstName:firstName,
-							lastName:lastName,
-							email:email,
-							isInvestor:false,
-							password:password
-						});
-
-						addPersonalIdentificationId(profileCreationId._id);
-						
-
-						return profileCreationId;
-					}
-				*/	
 	}
 
 	checkIfEmailIsValid=async()=>{

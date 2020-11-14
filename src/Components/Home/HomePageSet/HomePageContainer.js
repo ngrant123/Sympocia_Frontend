@@ -210,20 +210,16 @@ class HomePageContainer extends Component{
 		}
 	}
 	async componentDidMount(){
-		/*
-		*/
 		const verification=this.props.isLoggedIn;
 		if(verification==false){
 			this.props.history.push({
 				pathname:'/'
 			})
 		}else{
-
 			window.addEventListener('resize',this.triggerUIChange)
 			var profile;
 			var symposiumsMap;
 			var isPersonalProfile;
-			
 				
 			if(this.props.personalInformation.loggedIn==true){
 				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);

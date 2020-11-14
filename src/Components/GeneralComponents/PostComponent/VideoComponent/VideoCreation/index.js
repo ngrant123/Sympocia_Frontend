@@ -33,6 +33,15 @@ const Container=styled.div`
 `;
 
 
+const VideoOptionCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"white",
+	backgroundColor:"#5298F8",
+	boxShadow:"2px 10px 10px #b9d6ff"
+}
+
  const VideoPostCreation=(props)=>{
  	const [videoUploaded,changeVideo]=useState();
 
@@ -86,13 +95,7 @@ const Container=styled.div`
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<li id="uploadOptionTypeLI" style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																															borderColor:"#5298F8",
-																															borderStyle:"solid",
-																															borderWidth:"1px",
-																															color:"white",
-																															backgroundColor:"#5298F8",
-																															boxShadow:"2px 10px 10px #b9d6ff"}}>
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
 											<ul style={{padding:"0px"}} onClick={()=>clickUploadVideoButton()}>
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 													<CameraIcon/>
@@ -105,25 +108,21 @@ const Container=styled.div`
 									</button>
 								</li>
 
-								<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																															borderColor:"#5298F8",
-																															borderStyle:"solid",
-																															borderWidth:"1px",
-																															color:"white",
-																															backgroundColor:"#5298F8",
-																															boxShadow:"2px 10px 10px #b9d6ff"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-													<AddAPhotoIcon/>
-												</li>
+								{/*	
+									<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
+										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+														<AddAPhotoIcon/>
+													</li>
 
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-													Take a video
-												</li>
-											</ul>	
-									</button>
-								</li>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+														Take a video
+													</li>
+												</ul>	
+										</button>
+									</li>
+								*/}
 
 							</ul>
 						</li>
