@@ -178,7 +178,6 @@ const PersonalPostsIndex=(props)=>{
 	const [displayCreationPost,changeDisplayCreationPost]=useState(false);
 	const [postOption,changePostOption]=useState();
 	const [personalInformation,changePersonalInformation]=useState(props.personalInformation);
-	console.log(personalInformation);
 
 	const [imagePost,changeImagePost]=useState({
 			crownedImage:props.personalInformation.userProfile.crownedImage,
@@ -190,7 +189,6 @@ const PersonalPostsIndex=(props)=>{
 		videos:[]
 	});
 	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
-	console.log("Teste");
 
 	useEffect(()=>{
 		if(props.personalInformation.isLoading!=true){
@@ -239,15 +237,12 @@ const PersonalPostsIndex=(props)=>{
 			changeDisplayForImages(true);
 
 		}else if(kindOfPost=="video"){
-
-			debugger
 			const videos=document.getElementById("videos");
 			videos.style.color="#C8B0F4";
 			videos.style.borderBottom="solid";
 			videos.style.borderColor="#C8B0F4";
 			changeDisplayForVideos(true); 
 
-			console.log("Testing video api call");
 			const {confirmation,data}=await getVideosFromUser({userId:id,visitorId:props.visitorId});
 
 			if(confirmation=="Success"){
@@ -285,7 +280,6 @@ const PersonalPostsIndex=(props)=>{
 						headerPost:crownedRegularPost,
 						posts:regularPosts.reverse()
 					}
-					console.log(regularPostObject);
 		
 					changeRegularPost(regularPostObject);
 					changeDisplayForRegularPosts(true);
@@ -310,10 +304,8 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const displayOrHideCreationPost=()=>{
-		console.log("Test");
 
 		if(displayCreationPost==false){
-			console.log("Tur");
 			props.displayShadowOverlay();
 		}
 		changeDisplayCreationPost(true);
@@ -411,8 +403,31 @@ const PersonalPostsIndex=(props)=>{
 						props.closeModal();
 					},
 					updateRegularPost:(regularPostProp)=>{
+						debugger;
+						const {isCrowned,post}=regularPostProp;
+						let updatedNewRegularPostProp;
+						if(isCrowned==true){
+							updatedNewRegularPostProp={
+								...post,
+								owner:{
+									firstName:props.personalInformation.userProfile.firstName,
+									profilePicture:props.personalInformation.userProfile.profilePicture
+								}
+							}
+						}else{
+							updatedNewRegularPostProp={
+								...regularPostProp,
+								owner:{
+									firstName:props.personalInformation.userProfile.firstName,
+									profilePicture:props.personalInformation.userProfile.profilePicture
+								}
+							}
+						}
 						if(displayRegularPosts){
-							let newPostObject=updateRegularPostIndexContext(regularPostProp,regularPost);
+							let newPostObject=updateRegularPostIndexContext(
+								updatedNewRegularPostProp,
+								regularPost
+							);
 							changeRegularPost(newPostObject);
 						}
 						changeDisplayCreationPost(false);
@@ -558,12 +573,9 @@ const PersonalPostsIndex=(props)=>{
 													<ul class="dropdown-menu">
 														<li><a href="">Most Popular</a></li>
 														<li><a href="">Most Recent</a></li>
-														
 													</ul>
 							  				 </div>
-
-
-										</li>
+							  			</li>
 
 										<li style={listCSSButton}>
 											<div class="dropdown">
@@ -596,7 +608,6 @@ const PersonalPostsIndex=(props)=>{
 										profile="Personal"
 									/>:<React.Fragment></React.Fragment>
 								}
-
 								{
 									displayVideos==true?
 									<VideoPosts
@@ -605,8 +616,6 @@ const PersonalPostsIndex=(props)=>{
 										id={personalInformation.userProfile._id}
 									/>:<React.Fragment></React.Fragment>
 								}
-
-
 								{
 									displayBlogs==true?
 									<BlogsPosts
@@ -616,7 +625,6 @@ const PersonalPostsIndex=(props)=>{
 										visitorId={props.visitorId}
 									/>:<React.Fragment></React.Fragment>
 								}
-
 								{
 									displayRegularPosts==true?
 									<RegularPost

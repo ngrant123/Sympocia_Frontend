@@ -22,6 +22,13 @@ const Container=styled.div`
 	border-width:1px;
 	border-color:#5298F8;
 	overflow-y:scroll;
+
+	@media screen and (max-width:1370px){
+		#postLI{
+			width:80% !important;
+		}
+	}
+
 `;
 
 const SimplifiedContainer=styled.div`
@@ -96,7 +103,7 @@ class HighLightedQuestions extends Component{
 									{replies.map(data=>
 										<React.Fragment>
 											{data._id==null?null:
-												<li onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block"}}>
+												<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block"}}>
 													<img src={data.imgUrl} style={{borderRadius:"5px",width:"90px",height:"30%"}}/>
 												</li>
 											}
@@ -109,8 +116,8 @@ class HighLightedQuestions extends Component{
 							{replies.map(data=>
 								<React.Fragment>
 									{data._id==null?null:
-										<li onClick={()=>this.setVideoPost(data)} style={{width:"30%",listStyle:"none",display:"inline-block"}}>
-											<video width="90%" height="40%" borderRadius="5px" controls autoplay>
+										<li id="postLI" onClick={()=>this.setVideoPost(data)} style={{width:"30%",listStyle:"none",display:"inline-block"}}>
+											<video width="90%" height="40%" borderRadius="5px" muted autoplay>
 												<source src={data.videoUrl} type="video/mp4"/>
 											</video>
 										</li>
@@ -119,7 +126,6 @@ class HighLightedQuestions extends Component{
 							)}
 						</React.Fragment>;
 			}else{
-
 				return <React.Fragment>
 							{replies.map(data=>
 								<React.Fragment>
@@ -168,11 +174,6 @@ class HighLightedQuestions extends Component{
 
 		if(currentQuestionType==questionType){
 			data=data._doc;
-			/*
-				if(question.questionType=="RegularPost"){
-					data=data._doc;
-				}
-			*/
 			var replies=responsesId;
 
 			replies.splice(0,0,data);

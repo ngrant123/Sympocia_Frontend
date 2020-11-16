@@ -121,6 +121,7 @@ const handleLoginClick=async(email,password,dispatch,history)=>{
   if(typeof loginResults!='object'){ 
     alert(loginResults);
   }else{
+    debugger;
     const {passWordIndicator,profileType,profile}=loginResults;
     const {_id,firstName,lastName,email}=profile;
 

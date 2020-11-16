@@ -27,6 +27,12 @@ const CrownPostModal=styled.div`
 	top:40%;
 	border-radius:5px;
 	box-shadow: 1px 1px 50px #d5d5d5;
+
+	@media screen and (max-width:740px){
+		left:5% !important;
+		width:90% !important;
+		height:35% !important;
+	}
 `;
 
 const ButtonCSS={

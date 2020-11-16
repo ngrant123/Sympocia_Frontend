@@ -22,6 +22,16 @@ const Container=styled.div`
 	left:30%;
 	top:20%;
 	overflow-y:scroll;
+
+	@media screen and (max-width:1370px){
+		left:5% !important;
+		width:90% !important;
+		height:80% !important;
+
+		#videoLI{
+			width:80% !important;
+		}
+	}
 `;
 
 const ShadowContainer=styled.div`
@@ -43,6 +53,10 @@ const InputContainer=styled.textarea`
 	border-color:#D8D8D8;
 	resize:none;
 	padding:5px;
+
+	@media screen and (max-width:1370px){
+		width:80% !important;
+	}
 `;
 
 const CreatePostContainer=styled.div`
@@ -247,11 +261,11 @@ const QuestionsPortal=(props)=>{
 							<li style={{listStyle:"none"}}>
 								<ul>
 									<li style={{listStyle:"none"}}>
-										<video width="45%" height="50%" controls autoplay>
+										<video id="videoLI" width="45%" height="50%" controls autoplay>
 											<source src={selectedPost} type="video/mp4"/>
 										</video>
 									</li>
-									<InputContainer id="videoDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your picture here"/>
+									<InputContainer id="videoDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your video here"/>
 									<hr/>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 										<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
@@ -469,7 +483,7 @@ const QuestionsPortal=(props)=>{
 							</ul>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<CreatePostContainer onClick={()=>changeDisplayPost(true)} >
-									Create a post
+									Create
 								</CreatePostContainer>
 							</a>
 						</React.Fragment>

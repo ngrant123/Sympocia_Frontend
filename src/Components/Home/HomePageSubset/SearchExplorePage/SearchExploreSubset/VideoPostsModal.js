@@ -242,9 +242,9 @@ const VideoPostModal=(props)=>{
 								}
 							</ul>
 						</li>
-						<li  onClick={()=>handleDisplayHeaderVideo()} style={{listStyle:"none",width:"90%",borderRadius:"5px"}}>
+						<li onClick={()=>handleDisplayHeaderVideo()} style={{listStyle:"none",width:"90%",borderRadius:"5px"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<video id="headerVideoLI" key={headerVideo.videoUrl} position="relative" height="80%" width="120%" controls autoplay>
+								<video id="headerVideoLI" key={headerVideo.videoUrl} position="relative" height="80%" width="120%" autoplay>
 									<source src={headerVideo.videoUrl} type="video/mp4"/>
 								</video>
 							</a>
@@ -341,7 +341,7 @@ const VideoPostModal=(props)=>{
 										<li onClick={()=>displayVideoModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
 											<ShadowContainer/>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<video id="video" key={data.videoUrl} position="relative" height="290px" width="580px" controls autoplay>
+												<video id="video" key={data.videoUrl} position="relative" height="290px" width="580px" autoplay>
 													<source src={data.videoUrl} type="video/mp4"/>
 												</video>
 											</a>

@@ -143,6 +143,7 @@ const ButtonCSS={
 
 //Could be turned into a functional component im a bot
 const ImageInformation=(props)=>{
+	debugger;
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 
@@ -181,10 +182,10 @@ const ImageInformation=(props)=>{
 									/>:null
 								}
 								<ul id="postLIContainer" style={{padding:"0px",width:"140%"}}>
-									{(props.imageInformation.audioDescription==null && 
+									{( props.imageInformation.audioDescription!=null && 
 									  testIfUserIsUsingChrome()==true && 
-									  props.isMobileTrue==true)==false?null:
-										<React.Fragment>
+									 	 props.isMobileTrue==false)==true && (
+									 	 <React.Fragment>
 											<li style={{listStyle:"none"}}>
 												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:"none",display:"inline-block"}}>
@@ -198,7 +199,8 @@ const ImageInformation=(props)=>{
 											</li>
 											<hr/>
 										</React.Fragment>
-									}
+									)}
+
 									<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none"}}>

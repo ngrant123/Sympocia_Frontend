@@ -228,6 +228,7 @@ const ImageContainer=(props)=>{
 												<ImageInformation
 													imageInformation={props.imageData}
 													targetDom={props.targetDom}
+													isMobileTrue={displayMobileUI}
 												/>
 												:
 												<CommentContainer>

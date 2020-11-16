@@ -225,7 +225,7 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 									{(imgData.videoDescription==null && isChromeBrowser==false)==true?null:
 										<VideoDesriptionContainer>
-											<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls muted>
+											<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
 												<source src={imgData.videoDescription} type="video/mp4"/>
 											</video>
 										</VideoDesriptionContainer>

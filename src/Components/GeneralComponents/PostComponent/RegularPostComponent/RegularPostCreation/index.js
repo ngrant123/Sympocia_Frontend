@@ -54,10 +54,10 @@ const Container = styled.div`
 	@media screen and (max-width:450px){
 		left:5%;
 		width:150% !important;
-		height:90%;
+		height:80%;
 		#postOptions{
 			width:100% !important;
-			margin-left:-15% !important;
+			margin-left:-5% !important;
 		}
 	}
 `;

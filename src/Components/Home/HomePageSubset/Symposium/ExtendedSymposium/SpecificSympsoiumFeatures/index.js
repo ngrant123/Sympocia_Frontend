@@ -100,21 +100,18 @@ const SpecificFeatureSymposium=({symposium,symposiumId,questions})=>{
 					/>;
 
 		}else if(stemMap.has(symposium)){
-
 			return <STEMRelatedFeatures
 						symposium={symposium}
 						questions={questions}
 					/>
 
 		}else if(musicMap.has(symposium)){
-
 			return <MusicFeatures
 						symposium={symposium}
 						questions={questions}
 					/>
 
 		}else if(newstravelMap.has(symposium)){
-
 			return <NewsAndTravelFeatures
 						symposium={symposium}
 						questions={questions}

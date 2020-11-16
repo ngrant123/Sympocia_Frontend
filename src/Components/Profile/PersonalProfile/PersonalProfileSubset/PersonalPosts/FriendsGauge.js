@@ -6,7 +6,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import {connect} from "react-redux";
 import FriendsGaugeEditModal from "../../PersonalProfileSet/Modals-Portals/FriendsGaugeEditPortal/index.js";
 import RecruitsNodeInformationPortal from "../../PersonalProfileSet/Modals-Portals/RecruitsNodeInformationPortal.js";
-
+import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {
   MobileRecruitAndFriendsGaugeOptions,
   EditNodeModal
@@ -172,7 +172,8 @@ class FriendsGauge extends Component {
                                  <img
                                     style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
                                     width="30"
-                                    src="https://vignette.wikia.nocookie.net/pkmnshuffle/images/9/9d/Pichu.png/revision/latest?cb=20170407222851"
+                                    src={StampIcon}
+                                    style={{borderRadius:"50%"}}
                                   />
                                 <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}> <b>{name}</b></p>
                                 <p style={{width:"85%",height:"30px",overflow:"hidden"}}> {description} </p>
@@ -186,7 +187,8 @@ class FriendsGauge extends Component {
                                      <img
                                         style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
                                         width="30"
-                                        src="https://vignette.wikia.nocookie.net/pkmnshuffle/images/9/9d/Pichu.png/revision/latest?cb=20170407222851"
+                                        src={StampIcon}
+                                        style={{borderRadius:"50%"}}
                                       />
                                   </p>
                                 </ul>
@@ -204,7 +206,8 @@ class FriendsGauge extends Component {
                       <img
                         style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
                         width="30"
-                        src="https://vignette.wikia.nocookie.net/pkmnshuffle/images/9/9d/Pichu.png/revision/latest?cb=20170407222851"
+                        src={StampIcon}
+                        style={{borderRadius:"50%"}}
                       />
                     </li>
                     <li style={{listStyle:"none"}}>
@@ -215,7 +218,7 @@ class FriendsGauge extends Component {
                               <p>Locked</p>
                             } 
                         </p>
-                        <p style={{color:"#5298F8",width:"85%",height:"20px",overflow:"hidden"}}> <b>{name}</b></p>
+                        <p style={{color:"#5298F8",width:"95%",height:"20px",overflow:"hidden"}}> <b>{name}</b></p>
                         <p style={{width:"85%",height:"30px",overflow:"hidden"}}> {description} </p>
                       </ul>
                     </li>

@@ -78,7 +78,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginTop:"-10%"}}>
 					<ThumbnailVideo>
-						<video key={headerVideo._id} width="100%" height="100%" controls autoplay muted>
+						<video key={headerVideo._id} width="100%" height="100%" autoplay muted>
 							<source src={headerVideo.videoUrl} type="video/mp4"/>
 						</video>
 					</ThumbnailVideo>

@@ -15,6 +15,10 @@ const Container=styled.div`
 	padding:10px;
 	padding-right:10px;
 
+	@media screen and (max-width:1370px){
+		width:120% !important;
+	}
+
 	@media screen and (max-width:420px){
 		#searchSymposiumPostLI{
 			display:none;

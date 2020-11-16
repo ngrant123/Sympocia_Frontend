@@ -92,10 +92,7 @@ const CrownIconContainer=styled.div`
 	 @media screen and (max-width:420px){
 	 	top:40% !important;
 	}
-
-	@media screen and (max-width:740px) and (max-height:420px){
-	 	top:40% !important;
-    }
+    
 `;
 
 const ShadowContainer= styled.div`
@@ -599,6 +596,7 @@ isArrayEqual=(arr1,arr2)=>{
 														*/}
 													</ul>				
 												</li>
+								
 												<hr/>
 												<li style={{position:"relative",listStyle:"none",top:"-50px",display:"inline-block",marginLeft:"5%"}}>
 													<ul style={{padding:"0px"}}>
@@ -692,26 +690,26 @@ isArrayEqual=(arr1,arr2)=>{
 													</ul>
 												</li>
 												<li style={{listStyle:"none"}}>
-													<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
-															{this.state.videoDescription==null?null:
-																<li style={{listStyle:"none"}}>
-																	<VideoDescriptionContainer>
-																		<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
-																			<source src={this.state.videoDescription} type="video/mp4"/>
-																		</video>
-																	</VideoDescriptionContainer>
-																</li>
-															}
-															{this.state.audioDescription==null?null:
-																<li style={{listStyle:"none"}}>
-																	<audio key={this.state.audioId} controls>
-																	  <source src={this.state.audioDescription} type="audio/ogg"/>
-																	  <source src={this.state.audioDescription} type="audio/mpeg"/>
-																	Your browser does not support the audio element.
-																	</audio>
-																</li>
-															}
-														</ul>
+													<ul style={{zIndex:"8",marginRight:"5%",padding:"15px"}}>
+														{this.state.videoDescription==null?null:
+															<li style={{listStyle:"none"}}>
+																<VideoDescriptionContainer>
+																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																		<source src={this.state.videoDescription} type="video/mp4"/>
+																	</video>
+																</VideoDescriptionContainer>
+															</li>
+														}
+														{this.state.audioDescription==null?null:
+															<li style={{listStyle:"none"}}>
+																<audio key={this.state.audioId} controls>
+																  <source src={this.state.audioDescription} type="audio/ogg"/>
+																  <source src={this.state.audioDescription} type="audio/mpeg"/>
+																Your browser does not support the audio element.
+																</audio>
+															</li>
+														}
+													</ul>
 												</li>
 												<hr/>
 												<li style={{listStyle:"none",fontSize:"25px",color:"#5e5e5e"}}>

@@ -462,7 +462,7 @@ export const RegularPostContainerParent=styled.div`
 	width:60%;
 	height:40%;
 	z-index:11;
-	left:0%;
+	left:20%;
 	top:20%;
 	border-radius:5px;
 	background-color:white;

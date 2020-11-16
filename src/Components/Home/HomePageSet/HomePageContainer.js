@@ -246,7 +246,6 @@ class HomePageContainer extends Component{
 				hideOnboarding:profile.firstTimeLoggedIn.explorePage
 			})
 			this.triggerUIChange();
-			
 		}
 	}
 

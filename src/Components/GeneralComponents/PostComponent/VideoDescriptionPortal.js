@@ -101,55 +101,53 @@ const VideoDescriptionPortal=(props)=>{
 	const [reInitilize,changeReInitliazed]=useState(false);
 
 	const [mediaDevice,changeMediaDevice]=useState();
-	const [firstDone,chnagFirstFone]=useState(false);
+	const [firstDone,chnagFirstDone]=useState(false);
 
 	useEffect(()=>{
-		
 		if(!testIfUserIsUsingChrome()){
 			alert('Unfortunately your browser does not allow this option. Please switch to any other browser');
 			props.closeModal();
-		}else{
-				let video=document.getElementById("videoDescriptionVideo");
-				if (navigator.mediaDevices.getUserMedia){
-					navigator.mediaDevices.getUserMedia({ 
-							audio:true,
-					  		video: true
-					  	}).then(function(stream) {
-					  	  video.muted='true'
-					      video.srcObject = stream;
-					      video.captureStream = video.captureStream || video.mozCaptureStream;
-					    })
-				    .then(()=>handleRecording(video.captureStream()))
-				    .then(recordedChunks=>{
-					  	 
-					  	 if(recordedChunks!=null){
-						  	 let recordedFile = new File(recordedChunks, { type: "video/mp4" });
-						  	 var videoSrc=URL.createObjectURL(recordedFile);
-
-						  	 var reader=new FileReader();
-
-							reader.onloadend=()=>{
-								var currentVideoElements=videoElements;
-
-								const videoObject={
-									videoSrc:reader.result,
-									videoFile:recordedFile,
-									videoCounter:currentVideoElements.length
-								}
-							  	 currentVideoElements.push(videoObject);
-
-							  	 changeVideoElements(currentVideoElements);
-							  	 changeRecordingState(false);
-							  	 changeReInitliazed(true);
-							  	 chnagFirstFone(true)
-							}
-						  	reader.readAsDataURL(recordedFile);
-					  	 }
-					  }).catch(function (error) {
-				    });
-				}	
 		}
 	},[]);
+
+	const recording=()=>{
+		debugger;
+		changeRecordingState(true);
+		let video=document.getElementById("videoDescriptionVideo");
+		if (navigator.mediaDevices.getUserMedia){
+			navigator.mediaDevices.getUserMedia({ 
+			  		video: true,
+			  		audio:true
+			  	}).then(function(stream) {
+			  	  video.muted='true'
+			      video.srcObject = stream;
+			      video.captureStream = video.captureStream || video.mozCaptureStream;
+			      return new Promise(resolve => video.onplaying = resolve);
+			    })
+		    .then(()=>handleRecording(video.captureStream()))
+		    .then(recordedChunks=>{
+		    	debugger;
+			  	 if(recordedChunks!=null){
+					  	let recordedFile = new File(recordedChunks, { type: "video/webm" });
+					  	var videoSrc=URL.createObjectURL(recordedFile);
+						var currentVideoElements=videoElements;
+
+						const videoObject={
+							videoSrc,
+							videoFile:recordedFile,
+							videoCounter:currentVideoElements.length
+						}
+
+					  	 currentVideoElements.push(videoObject);
+					  	 changeVideoElements(currentVideoElements);
+					  	 changeRecordingState(false);
+					  	 changeReInitliazed(true);
+					  	 chnagFirstDone(true)
+					}
+			  }).catch(function (error) {
+		    });
+		}
+	}
 
 	const pauseRecording=(stream)=>{
 		mediaDevice.stop();
@@ -197,7 +195,7 @@ const VideoDescriptionPortal=(props)=>{
 	}
 
 	const closeModal=()=>{
-		stopRecording(document.getElementById("videoDescriptionVideo").captureStream());
+		stopRecording(document.getElementById("videoDescriptionVideo").srcObject);
 		props.closeModal()
 	}
 
@@ -210,43 +208,6 @@ const VideoDescriptionPortal=(props)=>{
 	}
 
 	const startRecording=()=>{
-		if(firstDone==true){
-			handleRecording().then(recordedChunks=>{
-						
-					  	 if(recordedChunks!=null){
-						  	let recordedFile = new File(recordedChunks, { type: "video/webm" });
-						  	var videoSrc=URL.createObjectURL(recordedFile);
-
-						  
-						  	var reader=new FileReader();
-							reader.onloadend=()=>{
-								
-								var currentVideoElements=videoElements;
-
-								const videoObject={
-									videoSrc:reader.result,
-									videoFile:recordedFile,
-									videoCounter:currentVideoElements.length
-								}
-
-							  	 currentVideoElements.push(videoObject);
-							  	 changeVideoElements(currentVideoElements);
-
-							  	 changeRecordingState(false);
-							  	 changeReInitliazed(true);
-							  	 chnagFirstFone(true)
-							}
-
-						  	 reader.readAsDataURL(recordedFile);
-						  	 /*
-						  	 	 const newVideoElement=document.createElement('video');
-						  	 		const newVideoElementSource=document.createElement('source');
-						  	 newVideoElementSource.src=videoSrc;
-						  	 newVideoElement.append(newVideoElementSource);
-						  	 */
-					  	 }
-			});
-		}
 		changeRecordingState(true)
 	}
 
@@ -254,7 +215,11 @@ const VideoDescriptionPortal=(props)=>{
 		
 		if(videoElements.length>0){
 			stopRecording(document.getElementById("videoDescriptionVideo").captureStream());
-			props.createVideoDescription(videoElements[0].videoSrc);
+			let reader=new FileReader();
+			reader.onloadend=()=>{
+				props.createVideoDescription(reader.result);
+			}
+		  	reader.readAsDataURL(videoElements[0].videoFile);
 		}else{
 			alert('Create a video to continue or press the exit button on the top left');
 		}
@@ -331,10 +296,10 @@ const VideoDescriptionPortal=(props)=>{
 								<RecordButton>
 									{isRecording==false?
 										<PlayArrowIcon
-											onClick={()=>startRecording()}
+											onClick={()=>recording()}
 											style={{fontSize:40,color:"#C8B0F4"}}
 										/>:<PauseIcon
-												onClick={()=>pauseRecording(document.getElementById("videoDescriptionVideo").captureStream())}
+												onClick={()=>pauseRecording(document.getElementById("videoDescriptionVideo").srcObject)}
 												style={{fontSize:40,color:"#C8B0F4"}}
 										/>
 									}
@@ -353,6 +318,7 @@ const VideoDescriptionPortal=(props)=>{
 							</SubmitVideoDescriptionContainer>
 						</li>
 					</ul>
+				}
 			</Container>
 		</React.Fragment>
 	,targetContainer)
