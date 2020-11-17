@@ -14,8 +14,7 @@ import PollIcon from '@material-ui/icons/Poll';
 import {connect} from "react-redux";
 import {
 		addStampPost,
-		unStampPost,
-		deletePost
+		unStampPost
 	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import PollOptionPortal from "../../PollOptionPortal.js";
@@ -278,8 +277,6 @@ displayShadow=()=>{
 
 createOrRemoveStampEffect=()=>{
 		var isPersonalProfile=this.props.profileType=="personalProfile"?true:false;
-		
-		//(userId,postId,profileType,postType)
 		if(this.state.displayStampEffect==false){
 			if(isPersonalProfile==true){
 				addStampPost(this.props.video.owner,this.props.video._id,"personal","VideoPost");
@@ -377,18 +374,7 @@ createOrRemoveStampEffect=()=>{
 	}
 
 	removeVideoPost=async()=>{
-		const removeVideos={
-			postType:"Videos",
-			postId:this.props.video._id,
-			industriesUploaded:this.props.video.industriesUploaded
-		}
-		const {confirmation,data}=await deletePost(removeVideos);
-		
-		if(confirmation=="Success"){
-			this.props.deletePost();
-		}else{
-			alert('Unfortunately there has been an error deleting this post. Please try again');
-		}
+		this.props.deletePost();
 	}
 
 //Like,Dislike,Comment,Share,Promote

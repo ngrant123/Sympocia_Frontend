@@ -51,15 +51,13 @@ const Container = styled.div`
 	overflow:scroll;
 	z-index:21;
 
-	@media screen and (max-width:450px){
+
+	@media screen and (max-width:600px){
 		left:5%;
-		width:150% !important;
-		height:80%;
-		#postOptions{
-			width:100% !important;
-			margin-left:-5% !important;
-		}
+		width:90% !important;
 	}
+
+
 `;
 
 const TextArea=styled.div`

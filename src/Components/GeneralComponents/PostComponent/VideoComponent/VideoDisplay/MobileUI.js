@@ -12,8 +12,7 @@ import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerC
 
 import {
 	addStampPost,
-	unStampPost,
-	deletePost
+	unStampPost
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 const Container=styled.div`
@@ -237,7 +236,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPostViewing,triggerPromoteModal})=>{
+const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPostViewing,triggerPromoteModal})=>{
 	console.log(videoData.videoDescription);
 	console.log(isChromeBrowser);
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
@@ -386,10 +385,10 @@ const MobileUI=({videoData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPo
 
 	const createOrRemoveStampEffect=()=>{
 		if(displayStampEffect==false){
-			addStampPost(videoData.owner,videoData._id,"personal","ImagePost");
+			addStampPost(videoData.owner._id,videoData._id,"personal","VideoPost");
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(videoData.owner,videoData._id,"personal","ImagePost");
+			unStampPost(videoData.owner._id,videoData._id,"personal","VideoPost");
 			changeDisplayStampEffect(false);
 		}
 	}

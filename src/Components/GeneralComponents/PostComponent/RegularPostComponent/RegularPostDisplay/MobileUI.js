@@ -273,7 +273,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({postData,isChromeBrowser,targetDom,deletePost,userPostsInformation,triggerPromoteModal,pageType,isOwnPostViewing})=>{
+const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,triggerPromoteModal,pageType,isOwnPostViewing})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -403,10 +403,10 @@ const MobileUI=({postData,isChromeBrowser,targetDom,deletePost,userPostsInformat
 
 	const createOrRemoveStampEffect=()=>{
 		if(displayStampEffect==false){
-			addStampPost(postData.owner,postData._id,"personal","ImagePost");
+			addStampPost(postData.owner,postData._id,"personal","RegularPost");
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(postData.owner,postData._id,"personal","ImagePost");
+			unStampPost(postData.owner,postData._id,"personal","RegularPost");
 			changeDisplayStampEffect(false);
 		}
 	}
@@ -415,7 +415,8 @@ const MobileUI=({postData,isChromeBrowser,targetDom,deletePost,userPostsInformat
 		const removeRegularPost={
 			postType:"RegularPosts",
 			postId:postData._id,
-			industriesUploaded:postData.industriesUploaded
+			industriesUploaded:postData.industriesUploaded,
+			profileId:postData.owner._id
 		}
 		const {confirmation,data}=await deletePost(removeRegularPost);
 		

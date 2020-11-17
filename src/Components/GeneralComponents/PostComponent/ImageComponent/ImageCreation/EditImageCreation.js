@@ -328,13 +328,13 @@ class EditImageCreation extends Component{
 
 		
 		const searchCriteria={
-			imgUrl:imgUrl,
 			videoDescription:currentVideoDescription,
 			audioDescription:currentAudioDescription,
 			industryArray:searchCriteriaIndustryArray,
 			description:descriptionTextArea,
 			caption:captionTextArea,
-			isCrownedPost:isPostCrowned
+			isCrownedPost:isPostCrowned,
+			imgUrl
 		}
 
 
@@ -348,7 +348,7 @@ class EditImageCreation extends Component{
 				
 				if(confirmation=="Success"){
 					profilePostInformation.hideCreationPost();
-					this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria,data);
+					this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria,data,this.props.personalProfile.id);
 				}else{
 					alert('Unfortunately there was an error uploading your image. Please try again');
 				}
@@ -485,7 +485,7 @@ class EditImageCreation extends Component{
 	}
 
 
-	pushDummyImageObjectToProfile=(profilePostInformation,searchCriteriaObject,_id)=>{
+	pushDummyImageObjectToProfile=(profilePostInformation,searchCriteriaObject,_id,profileId)=>{
 		
 		const date=new Date();
 		const dateInMill=date.getTime();
@@ -494,6 +494,7 @@ class EditImageCreation extends Component{
 			industriesUploaded:searchCriteriaObject.industryArray,
 			comments:[],
 			datePosted:dateInMill,
+			owner:profileId,
 			_id
 		}
 		const {isCrownedPost}=searchCriteriaObject;

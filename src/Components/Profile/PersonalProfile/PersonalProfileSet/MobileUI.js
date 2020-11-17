@@ -282,7 +282,7 @@ const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType})=>{
 		   </UserConsumer>
 }
 
-const PhonePersonalInformationHeader=()=>{
+const PhonePersonalInformationHeader=({ownerName})=>{
 	const [displayPhoneProfileOptions,changePhoneProfileOptions]=useState(false);
 	const closeModal=()=>{
 		changePhoneProfileOptions(false);
@@ -292,7 +292,7 @@ const PhonePersonalInformationHeader=()=>{
 					return <li style={{listStyle:"none",marginLeft:"-60%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"15%"}}>
-								<b>Nathan</b>
+								<b>{ownerName}</b>
 							</li>
 							<li id="mobilePersonalOptionCaret" style={{listStyle:"none",display:"inline-block",marginLeft:"40%"}}>
 								<div class="dropdown">

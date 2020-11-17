@@ -11,7 +11,7 @@ const Container=styled.div`
 	left:28%;
 	top:41%;
 	box-shadow: 1px 1px 10px #d5d5d5;
-	z-index:10;
+	z-index:30;
 	overflow-y:auto;
 
 	@media screen and (max-width:1370px) {
@@ -46,7 +46,7 @@ const Container=styled.div`
 		height:400% !important;
 	}
 
-    @media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
 	 	height:100% !important;
     }
 `;
@@ -91,7 +91,7 @@ const SearchButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  marginTop:"5%"
+  marginTop:"10%"
 }
 
 const PostOptionsCSS={
@@ -177,7 +177,7 @@ class SearchBarModal extends Component{
 							<li id="searchContainerLI" style={{listStyle:"none",display:"inline-block",width:"75%"}}>
 								<SearchButton id="searchTextArea" placeholder="Search here..."/>
 							</li>
-							<li id="optionLI" style={{position:"absolute",top:"25px",listStyle:"none"}}>
+							<li id="optionLI" style={{position:"absolute",listStyle:"none",marginTop:"2%"}}>
 								<div class="dropdown">
 									<button class="btn btn-primary dropdown-toggle" 
 											type="button" data-toggle="dropdown" style={{	

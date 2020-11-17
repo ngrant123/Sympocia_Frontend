@@ -376,7 +376,7 @@ const HeaderContainer=(props)=>{
 		  					</a>
 		  					
 		  					<li id="selectedSymposiumTitle" style={{width:"40%",overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px"}}>
-		  						{displayDesktopUI==true?<><b>oindepwif;oewifoinfoin </b></>:<>{selectedSymposiumTitle}</>}
+		  						{displayDesktopUI==true?<><b>{selectedSymposiumTitle}</b></>:<>{selectedSymposiumTitle}</>}
 		  					</li>
 
 		  					<a href="javascript:void(0);" style={{textDecoration:"none",marginRight:"5%"}}>

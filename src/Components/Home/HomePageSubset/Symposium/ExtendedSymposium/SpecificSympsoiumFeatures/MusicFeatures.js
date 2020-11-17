@@ -81,8 +81,7 @@ const MusicFeatures=({symposium,questions})=>{
 									symposiumId={symposiumInformation.symposiumId}
 									question={selectedQuestion}
 									selectedPostId={selectedPostId}
-								/>
-								:null
+								/>:null
 							}
 							<ul>
 								{audioQuestion.map(data=>

@@ -41,8 +41,23 @@ const VideoContainer=(data)=>{
 		data.videoData.contextLocation.editPost(editedVideoData);
 	}
 
-	const deletePost=()=>{
-		data.videoData.contextLocation.removePost(data.videoData._id,"Videos");
+	const deletePost=async()=>{
+		const removeVideos={
+			postType:"Videos",
+			postId:data.videoData._id,
+			industriesUploaded:data.videoData.industriesUploaded,
+			profileId:data.videoData.owner._id
+		}
+		const {confirmation,data}=await deletePost(removeVideos);
+		
+		if(confirmation=="Success"){
+			data.videoData.contextLocation.removePost(data.videoData._id,"Videos");
+		}else{
+			alert('Unfortunately there has been an error deleting this post. Please try again');
+		}
+	}
+	const triggerPromoteModal=()=>{
+		data.triggerPromoteModal(data.videoData._id,"Videos");
 	}
 
 	const triggerVideoEditModal=()=>{
@@ -58,7 +73,7 @@ const VideoContainer=(data)=>{
 					deletePost={deletePost}
 					pageType={data.profileType}
 					isOwnPostViewing={data.isOwnProfile}
-					triggerPromoteModal={data.triggerPromoteModal}
+					triggerPromoteModal={triggerPromoteModal}
 				/>:
 				<Container>
 				{displayVideoEditModal==false?
@@ -68,7 +83,7 @@ const VideoContainer=(data)=>{
 								video={data.videoData}
 								profileType={data.profileType}
 								targetDom={data.targetDom}
-								triggerPromoteModal={data.triggerPromoteModal}
+								triggerPromoteModal={triggerPromoteModal}
 								displayEditModal={triggerVideoEditModal}
 								deletePost={deletePost}
 								pageType={data.profileType}

@@ -13,8 +13,7 @@ import {StampIconEffect} from "./ImageContainerCSS.js";
 
 import {
 	addStampPost,
-	unStampPost,
-	deletePost
+	unStampPost
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 const Container=styled.div`
@@ -223,22 +222,23 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 						<li style={{listStyle:"none",marginBottom:"5%"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-									{(imgData.videoDescription==null && isChromeBrowser==false)==true?null:
+									{(imgData.videoDescription!=null && isChromeBrowser==true)==true &&(
 										<VideoDesriptionContainer>
 											<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
 												<source src={imgData.videoDescription} type="video/mp4"/>
 											</video>
 										</VideoDesriptionContainer>
-									}
+									)}
 								</li>
 								<li style={{listStyle:"none",display:"inline-block"}}>
-									{(imgData.audioDescription==null && isChromeBrowser==false)==true?null:
+									{(imgData.audioDescription!=null && 
+									  isChromeBrowser==true)==true &&(
 										<audio style={{width:"150px"}} controls>
 											<source src={imgData.audioDescription} type="audio/ogg"/>
 											<source src={imgData.audioDescription} type="audio/mpeg"/>
 											Your browser does not support the audio element.
 										</audio>
-									}
+									)}
 								</li>
 							</ul>
 						</li>

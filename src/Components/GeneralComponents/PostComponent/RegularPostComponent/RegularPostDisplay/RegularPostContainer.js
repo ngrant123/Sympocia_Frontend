@@ -140,6 +140,10 @@ const RegularPostContainer=(props)=>{
 		changeDisplayEditPostModal(true);
 	}
 
+	const triggerPromoteModal=()=>{
+		props.triggerPromoteModal(props.postData._id,"RegularPosts");
+	}
+
 
 	return(
 	<PostConsumer>
@@ -151,7 +155,7 @@ const RegularPostContainer=(props)=>{
 								isChromeBrowser={testIfUserIsUsingChrome()}
 								targetDom={props.targetDom}
 								userPostsInformation={userPostsInformation}
-								triggerPromoteModal={props.triggerPromoteModal}
+								triggerPromoteModal={triggerPromoteModal}
 								triggerEditPostModal={displayEditPostHandle}
 								pageType={props.profileType}
 								isOwnPostViewing={props.isOwnProfile}
@@ -167,7 +171,7 @@ const RegularPostContainer=(props)=>{
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
 											<PosterInformation
 												postData={props.postData}
-												triggerPromoteModal={props.triggerPromoteModal}
+												triggerPromoteModal={triggerPromoteModal}
 												triggerEditPostModal={displayEditPostHandle}
 												pageType={props.profileType}
 												isOwnPostViewing={props.isOwnProfile}

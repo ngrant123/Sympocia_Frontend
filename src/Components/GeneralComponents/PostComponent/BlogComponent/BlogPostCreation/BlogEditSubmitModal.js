@@ -213,6 +213,7 @@ class BlogEditSubmitModal extends Component{
 			}
 			searchCriteriaIndustryArray.push(searchObject);
 		}
+		debugger;
 		
 			//Quick fix but this could be implemented in a better way
 		if(this.props.previousState==null){

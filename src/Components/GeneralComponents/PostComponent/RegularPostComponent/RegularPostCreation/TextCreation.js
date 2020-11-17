@@ -7,9 +7,9 @@ import crownIcon from '@iconify/icons-mdi/crown';
 
 
 const Container=styled.div`
-	overflow:scroll;	
-	@media screen and (max-width:450px){
-		width:140% !important;
+	overflow:scroll;
+	@media screen and (max-width:600px){
+		width:120% !important;
 	}
 	@media screen and (max-width:740px) and (max-height:420px){
 	 	width:160% !important;

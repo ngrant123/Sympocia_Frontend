@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import { createStore,compose } from 'redux';
 import {loadState,saveState} from './reduxState';
 import ErrorBoundary from "./ErrorBoundary.js";
+import { Redirect } from 'react-router-dom';
 //TEST
 import Demo from "./Components/Demo/index.js";
 import throttle from 'lodash.throttle';
@@ -125,8 +126,7 @@ const application  = (
 						<Route exact path="/search/:string/:searchType" component={SearchPage}/>
 						<Route exact path="/symposium/:symposiumName" component={Symposium}/>
 						<Route exact path="/symposiumList" component={SymposiumList}/>	
-
-						{/*
+						{/*	  
 							<Route exact path="/investor/:id" component= {InvestorScreen} />
 							<Route exact path="/createPost" component={CreatePostScreen}/>	
 							<Route exact path="/playList" component={PlayList}/>
@@ -134,8 +134,8 @@ const application  = (
 							<Route exact path="/arena" component={Arena}/>
 							<Route exact path="/map/:id" component= {MapScreen} />
 							<Route exact path="/groupVideoCall/:symposiumId/:groupCallId" component={GroupVideoCall}/>	
-						*/}
-
+						*/}   
+						<Route render={() => <Redirect to={{pathname: "/"}} />} />
 					</Switch>
 				</Router>
 			</Provider>

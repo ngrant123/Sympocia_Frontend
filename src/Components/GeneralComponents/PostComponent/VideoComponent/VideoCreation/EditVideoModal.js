@@ -226,7 +226,6 @@ class EditVideoModal extends Component{
 	  });
 	}
 	sendVideoDataToDB=async(videoPostInformation)=>{
-
 		const currentVideoTitle=document.getElementById("videoTitle").value;
 		const currentVideoDescription=document.getElementById("videoDescription").value;
 
@@ -290,7 +289,6 @@ class EditVideoModal extends Component{
 				}
 				videoPostInformation.hideCreationPost();
 				this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
-
 			}else{
 				alert('Unfortunately an error has occured please try again ');
 			}

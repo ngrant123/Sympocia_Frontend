@@ -182,7 +182,7 @@ const ImageInformation=(props)=>{
 									/>:null
 								}
 								<ul id="postLIContainer" style={{padding:"0px",width:"140%"}}>
-									{( props.imageInformation.audioDescription!=null && 
+									{(props.imageInformation.audioDescription!=null && 
 									  testIfUserIsUsingChrome()==true && 
 									 	 props.isMobileTrue==false)==true && (
 									 	 <React.Fragment>

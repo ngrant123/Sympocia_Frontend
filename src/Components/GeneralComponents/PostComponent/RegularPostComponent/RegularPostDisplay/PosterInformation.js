@@ -127,7 +127,8 @@ const PosterInformation=(props)=>{
 		const removeRegularPost={
 			postType:"RegularPosts",
 			postId:_id,
-			industriesUploaded
+			industriesUploaded,
+			profileId:owner._id
 		}
 		const {confirmation,data}=await deletePost(removeRegularPost);
 		

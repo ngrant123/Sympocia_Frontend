@@ -375,7 +375,8 @@ const PersonalPostsIndex=(props)=>{
 	}
 */
 
-	return (<PostProvider
+	return (
+			<PostProvider
 				value={{
 					updatePostComponent:(postOption)=>{
 						changePostOption(postOption);
@@ -497,7 +498,9 @@ const PersonalPostsIndex=(props)=>{
 				*/}
 				<ul>
 					{props.uiStatus.displayPhoneUI==true &&(
-						<PhonePersonalInformationHeader/>
+						<PhonePersonalInformationHeader
+							ownerName={props.personalInformation.userProfile.firstName}
+						/>
 					)}
 					<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
 							{props.personalInformation.isLoading==true?

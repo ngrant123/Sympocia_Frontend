@@ -108,7 +108,8 @@ const TextOptions=(props)=>{
 		postId,
 		industriesUploaded,
 		history,
-		isOwner
+		isOwner,
+		profileId
 	}=props;
 
 	const {location:{
@@ -135,7 +136,8 @@ const TextOptions=(props)=>{
 		const removeBlog={
 			postType:"Blogs",
 			postId,
-			industriesUploaded
+			industriesUploaded,
+			profileId
 		}
 
 		const {confirmation,data}=await deletePost(removeBlog);
@@ -153,76 +155,79 @@ const TextOptions=(props)=>{
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
 							{postType!="Creation" && (
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>displayCommentSection()} style={{listStyle:"none",display:"inline-block",
-																					  marginBottom:"3%"}}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
-												 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" 
-												 fill="none" stroke-linecap="round" stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z"/>
-											  <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
-											  <line x1="8" y1="9" x2="16" y2="9" />
-											  <line x1="8" y1="13" x2="14" y2="13" />
-											</svg>
-									</li>
-								</a>
-							)}
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>displayApproveDisapproveModalHandle()}
-								    style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-									<PollOutlinedIcon
-										style={{fontSize:"40",color:"black"}}
-									/>
-								</li>
-							</a>
-							{isOwner==true && (
 								<>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>props.triggerPromoteModal()}
-										    style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-												  width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
-												  fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z"/>
-												  <circle cx="12" cy="9" r="6" />
-												  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
-												  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
-											</svg>
-										</li>
-									</a>
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>handleRemoveBlogPost()}
-										    style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
-												icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515" fill="none" stroke-linecap="round" stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z"/>
-											  <line x1="4" y1="7" x2="20" y2="7" />
-											  <line x1="10" y1="11" x2="10" y2="17" />
-											  <line x1="14" y1="11" x2="14" y2="17" />
-											  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-											  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-											</svg>
-										</li>
-									</a>
-									{blog!=null  &&(
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayEditBlogSubmitModal()} style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil"
-													 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515" 
+										<li onClick={()=>displayCommentSection()} style={{listStyle:"none",display:"inline-block",
+																						  marginBottom:"3%"}}>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
+													 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" 
 													 fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												  	<path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
-												  	<line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
-												</svg>
-											</li>
-										</a>	
+												  <path stroke="none" d="M0 0h24v24H0z"/>
+												  <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
+												  <line x1="8" y1="9" x2="16" y2="9" />
+												  <line x1="8" y1="13" x2="14" y2="13" />
+											</svg>
+										</li>
+									</a>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>displayApproveDisapproveModalHandle()}
+										    style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+											<PollOutlinedIcon
+												style={{fontSize:"40",color:"black"}}
+											/>
+										</li>
+									</a>
+									{isOwner==true && (
+										<>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li onClick={()=>props.triggerPromoteModal()}
+												    style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+														  width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+														  fill="none" stroke-linecap="round" stroke-linejoin="round">
+														  <path stroke="none" d="M0 0h24v24H0z"/>
+														  <circle cx="12" cy="9" r="6" />
+														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+													</svg>
+												</li>
+											</a>
+
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li onClick={()=>handleRemoveBlogPost()}
+												    style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
+														icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515" fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z"/>
+													  <line x1="4" y1="7" x2="20" y2="7" />
+													  <line x1="10" y1="11" x2="10" y2="17" />
+													  <line x1="14" y1="11" x2="14" y2="17" />
+													  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+													  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+													</svg>
+												</li>
+											</a>
+											{blog!=null  &&(
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>displayEditBlogSubmitModal()} style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+														<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil"
+															 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515" 
+															 fill="none" stroke-linecap="round" stroke-linejoin="round">
+														  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+														  	<path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+														  	<line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+														</svg>
+													</li>
+												</a>	
+											)}
+										</>
 									)}
+									<hr/>
 								</>
 							)}
 						</ul>
 					</li>
-					<hr/>
+					
 					<li style={{listStyle:"none",marginTop:"15%"}}>
 						<ul style={{padding:"0px"}}>
 							{videoDescription!=null &&(

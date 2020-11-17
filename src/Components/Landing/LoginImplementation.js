@@ -31,7 +31,7 @@ const LoginBox=styled.textarea`
     font-size:15px;
     background-color:white;
 
-    color:#DBDADC;
+    color:#848484;
     resize:none;
     border-radius:10px;
     outline:none;
@@ -90,15 +90,15 @@ const MobileButtonCSS={
 }
 
 
-const MobileLoginUI=(history)=>{
+const MobileLoginUI=({history})=>{
   const dispatch=useDispatch();
   return(
      <ul style={{padding:"0px"}}>
         <li id="loginBoxLI" style={{marginBottom:"5%",listStyle:"none",width:"90%"}}>
-            <LoginBox placeholder="Email"/>
+            <LoginBox id="LoginEmail" placeholder="Email"/>
         </li>
         <li id="loginBoxLI" style={{listStyle:"none",width:"90%"}}>
-            <LoginBox placeholder="Password"/>
+            <LoginBox  id="LoginPassword" placeholder="Password"/>
         </li>
 
         <a href="javascript:void(0);" style={{textDecoration:"none"}}>

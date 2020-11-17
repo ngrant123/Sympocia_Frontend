@@ -222,17 +222,18 @@ export const ProfilePictureContainer=styled.div`
 `;
 
 export const HeaderContainer=styled.div`
-
+	position:relative;
 	width:100%;
-	height:30%;
-	background-color:white;
-
+	background-color:red;
+	height:10%;
+	z-index:30;
 `;
 
 export const ProfileContainer=styled.div`
 	width:30%;
 	height:70%;
 	background-color:white;
+	z-index:10;
 `;
 
 export const PersonalProfileInformationContainer= styled.div`

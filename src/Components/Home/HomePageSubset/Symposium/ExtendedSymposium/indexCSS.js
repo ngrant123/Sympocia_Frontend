@@ -340,6 +340,7 @@ export const SymposiumFeatureContainer=styled.div`
 	z-index: 1000;
 
 	@media screen and (max-width:1370px){
+		
     }
 `;
 
