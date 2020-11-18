@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const CreateUrl='http://localhost:4000/api/marketing/alter';
-const SearchUrl='http://localhost:4000/api/marketing/search';
+const CreateUrl='/api/marketing/alter';
+const SearchUrl='/api/marketing/search';
 
 export const createResponse=async({text,name,profilePicture,email})=>{
 	try{

@@ -1,8 +1,9 @@
 import axios from "axios";
+const CreateUrl='/api/company/alter';
 
 export async function createCompanyProfile (companyObject){
 
-	const CreateUrl='http://localhost:4000/api/company/alter';
+	
 	try{
 
 
@@ -37,7 +38,7 @@ export async function createCompanyProfile (companyObject){
 
 export async function addEmployeeToCompanyDB(companyId,employeeInformation){
 
-	const CreateUrl='http://localhost:4000/api/company/alter';
+	
 	try{
 		const {
 			  employeeBio,
@@ -73,7 +74,7 @@ export async function addEmployeeToCompanyDB(companyId,employeeInformation){
 
 export async function addNewsToDB(newsObject,companyId){
 
-	const CreateUrl='http://localhost:4000/api/company/alter';
+	
 
 	try{
 		const {	date,newsDescription}=newsObject
@@ -95,7 +96,7 @@ export async function addNewsToDB(newsObject,companyId){
 
 export function sendCoverPhotoToDB(companyId,coverPhotoData){
 
-	const CreateUrl='http://localhost:4000/api/company/alter';
+	
 	try{
 
 		axios.post(`${CreateUrl}/addCoverPhoto`,{
@@ -113,7 +114,7 @@ export function sendCoverPhotoToDB(companyId,coverPhotoData){
 }
 
 export function sendCompanyIconToDB(companyId,imgData){
-	const CreateUrl='http://localhost:4000/api/company/alter';
+	
 
 	try{
 		axios.post(`${CreateUrl}/addCompanyProfilePicture`,{
@@ -135,7 +136,7 @@ export function sendCompanyIconToDB(companyId,imgData){
 
 export const createCompanyChampion=async(companyId,championData)=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/company/alter';
+		
 		const championCreationResponse=await axios.post(`${CreateUrl}/createChampion`,{
 			_id:companyId,
 			championData:championData
@@ -155,7 +156,7 @@ export const createCompanyChampion=async(companyId,championData)=>{
 export const addRecruit=async(personalProfile,targetedProfile)=>{
 	try{
 		
-		const CreateUrl='http://localhost:4000/api/company/alter';
+		
 		const recruitResponse=await axios.post(`${CreateUrl}/addRecruit`,{
 			personalProfileId:personalProfile,
 			targetProfile:targetedProfile

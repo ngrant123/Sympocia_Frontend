@@ -1,9 +1,7 @@
 import axios from "axios";
 
-
+const CreateUrl='/api/company/search';
 export async function getCompanyInformation(companyId){
-	const CreateUrl='http://localhost:4000/api/company/search';
-
 	try{
 		const companyData=await axios.get(`${CreateUrl}/getCompaniesById`,{
 			params:{
@@ -21,7 +19,7 @@ export async function getCompanyInformation(companyId){
 export async function getCompanyVideos(userId){
 	try{
 	
-	const CreateUrl='http://localhost:4000/api/company/search';
+	
 	const companyVideos=await axios.get(`${CreateUrl}/getCompanyVideos`,{
 		params:{
 			_id:userId
@@ -44,7 +42,7 @@ export async function getCompanyVideos(userId){
 export async function getCompanyBlogs(companyId){
 	try{
 		
-		const CreateUrl='http://localhost:4000/api/company/search';
+		
 		const companyBlogs=await axios.get(`${CreateUrl}/getCompanyBlogs`,{
 			params:{
 				_id:companyId
@@ -65,7 +63,7 @@ export async function getCompanyBlogs(companyId){
 export async function getCompanyRegularPosts(companyId){
 	try{
 		
-		const CreateUrl='http://localhost:4000/api/company/search';
+		
 		const companyRegularPosts=await axios.get(`${CreateUrl}/getCompanyRegularPosts`,{
 			params:{
 				_id:companyId
@@ -85,7 +83,7 @@ export async function getCompanyRegularPosts(companyId){
 
 export const getCompanyProfileForHomePage=async(id)=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/company/search';
+		
 		const companyProfileResult=await axios.get(`${CreateUrl}/getCompanyProfileForHomePage`,{
 			params:{
 				_id:id
@@ -102,7 +100,7 @@ export const getCompanyProfileForHomePage=async(id)=>{
 
 export const getCompanyProfileGeneralMessages=async(companyId)=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/company/search';
+		
 		const chatsResponse=await axios.post(`${CreateUrl}/chatMesasge`,{
 			params:{
 				_id:companyId
@@ -120,7 +118,7 @@ export const getCompanyProfileGeneralMessages=async(companyId)=>{
 
 export const getCompanies=async()=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/company/search';
+		
 		const companiesResponse=await axios.get(`${CreateUrl}/getCompanies`);
 		const {data}=companiesResponse;
 		const companiesData=data.data;
@@ -133,7 +131,7 @@ export const getCompanies=async()=>{
 
 export const getFollowedSymposiumsCompanyHome=async(id)=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/company/search';
+		
 		const symposiumResponse=await axios.get(`${CreateUrl}/getFollowedSymposiumsHomePage`,{
 			params:{
 				_id:id

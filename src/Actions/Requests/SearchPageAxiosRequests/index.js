@@ -1,5 +1,5 @@
 import axios from "axios";
-const SearchUrl='http://localhost:4000/api/search';
+const SearchUrl='/api/search';
 
 export const getProfilesFromSearch=async(searchUrl)=>{
 	try{

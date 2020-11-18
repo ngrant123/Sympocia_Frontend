@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SearchUrl='http://localhost:4000/api/posts/search';
+const SearchUrl='/api/posts/search';
 
 export const getImagesPosts=async(industry,postCounter)=>{
 	try{

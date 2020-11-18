@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const arenaUrl='http://localhost:4000/api/arena/search'
+const arenaUrl='/api/arena/search'
 export const fetchArenaInformation=async(userId)=>{
 	try{
 		const arenaResponse=await axios.get(`${arenaUrl}/fetchPostArenaInformation`,{

@@ -1,8 +1,8 @@
 import axios from "axios";
 
-
+const CreateURl='/api/posts/alter';
 export const createRegularPost=async(userId,searchCriteria,profileIndicator)=>{
-	const CreateURl='http://localhost:4000/api/posts/alter';
+	
 	try{
 		
 			const regularPostCreationVerification=await axios.post(`${CreateURl}/createRegularPost`,{
@@ -22,7 +22,7 @@ export const createRegularPost=async(userId,searchCriteria,profileIndicator)=>{
 export const createImagePost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
 		
-		const CreateURl='http://localhost:4000/api/posts/alter';
+		
 		const imagePost=await axios.post(`${CreateURl}/createImagePost`,{
 			_id:_id,
 			searchCriteria:searchCriteria,
@@ -40,7 +40,7 @@ export const createImagePost=async(_id,searchCriteria,profileIndicator)=>{
 export const createVideoPost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
 		
-		const CreateURl='http://localhost:4000/api/posts/alter';
+		
 		const {data}=await axios.post(`${CreateURl}/createVideoPost`,{
 			_id:_id,
 			searchCriteria:searchCriteria,
@@ -56,8 +56,6 @@ export const createVideoPost=async(_id,searchCriteria,profileIndicator)=>{
 
 export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 	try{
-		
-		const CreateURl='http://localhost:4000/api/posts/alter';
 		const blogPost=await axios.post(`${CreateURl}/createBlogPost`,{
 			_id:_id,
 			searchCriteria:searchCriteria,
@@ -77,8 +75,8 @@ export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 export const addStampPost =async(userId,postId,profileType,postType)=>{
 	try{
 		
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const postStampResponse= await axios.post(`${CreateUrl}/addStamp`,{
+		
+		const postStampResponse= await axios.post(`${CreateURl}/addStamp`,{
 			_id:userId,
 			postId:postId,
 			profileType:profileType,
@@ -97,8 +95,8 @@ export const addStampPost =async(userId,postId,profileType,postType)=>{
 export const unStampPost=async(userId,postId,profileType,postType)=>{
 	try{
 		
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const unStampPostResponse=await axios.post(`${CreateUrl}/unStamp`,{
+		
+		const unStampPostResponse=await axios.post(`${CreateURl}/unStamp`,{
 			_id:userId,
 			postId:postId,
 			profileType:profileType,
@@ -124,8 +122,8 @@ export const addCommentToPopularQuestions=async(commentObject)=>{
 			industry
 		}=commentObject;
 
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const commentResponse=await axios.post(`${CreateUrl}/addCommentToPopularPost`,{
+		
+		const commentResponse=await axios.post(`${CreateURl}/addCommentToPopularPost`,{
 			userId:userId,
 			profileIndicator:profileIndicator,
 			questionId:questionId,
@@ -145,8 +143,8 @@ export const addCommentToPopularQuestions=async(commentObject)=>{
 
 export const updateCrownedImage=async(_id,updatedStatus,imageId)=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const updatedImage=await axios.post(`${CreateUrl}/updateCrownedImage`,{
+		
+		const updatedImage=await axios.post(`${CreateURl}/updateCrownedImage`,{
 			_id:_id,
 			updateStatus:updatedStatus,
 			imageId:imageId
@@ -162,8 +160,8 @@ export const updateCrownedImage=async(_id,updatedStatus,imageId)=>{
 
 export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment})=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const approvePostResponse=await axios.post(`${CreateUrl}/markPostAsAuthentic`,{
+		
+		const approvePostResponse=await axios.post(`${CreateURl}/markPostAsAuthentic`,{
 			_id:_id,
 			firstName:firstName,
 			postOption:postOption,
@@ -181,8 +179,8 @@ export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment}
 
 export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment})=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const fakeNewsPostResponse=await axios.post(`${CreateUrl}/markPostAsFakeNews`,{
+		
+		const fakeNewsPostResponse=await axios.post(`${CreateURl}/markPostAsFakeNews`,{
 			_id:_id,
 			firstName:firstName,
 			postOption:postOption,
@@ -200,8 +198,8 @@ export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment})
 
 export const createComment=async(postType,postId,comment,profileObject)=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const commentResponse=await axios.post(`${CreateUrl}/createComment`,{
+		
+		const commentResponse=await axios.post(`${CreateURl}/createComment`,{
 			postType:postType,
 			postId:postId,
 			comment:comment,
@@ -217,8 +215,8 @@ export const createComment=async(postType,postId,comment,profileObject)=>{
 
 export const createReply=async({postType,postId,commentId,reply,profileObject})=>{
 	try{		
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const commentResponse=await axios.post(`${CreateUrl}/createReply`,{
+		
+		const commentResponse=await axios.post(`${CreateURl}/createReply`,{
 			postType:postType,
 			postId:postId,
 			commentId:commentId,
@@ -235,8 +233,8 @@ export const createReply=async({postType,postId,commentId,reply,profileObject})=
 
 export const createVideoResponse=async({postType,commentId,videoSrc,currentProfile,postId})=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const videoResponse=await axios.post(`${CreateUrl}/createVideoResponse`,{
+		
+		const videoResponse=await axios.post(`${CreateURl}/createVideoResponse`,{
 			postType:postType,
 			videoSrc:videoSrc,
 			currentProfile:currentProfile,
@@ -254,8 +252,8 @@ export const createVideoResponse=async({postType,commentId,videoSrc,currentProfi
 export const createVideoCommentReply=async({postType,postId,commentId,reply,profileObject})=>{
 	try{
 		
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const videoCommentResponse=await axios.post(`${CreateUrl}/createVideoReply`,{
+		
+		const videoCommentResponse=await axios.post(`${CreateURl}/createVideoReply`,{
 			postType:postType,
 			postId:postId,
 			commentId:commentId,
@@ -272,8 +270,8 @@ export const createVideoCommentReply=async({postType,postId,commentId,reply,prof
 
 export const updateCrownedVideo=async(_id,updatedStatus,videoId)=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const updatedVideo=await axios.post(`${CreateUrl}/updateCrownedVideo`,{
+		
+		const updatedVideo=await axios.post(`${CreateURl}/updateCrownedVideo`,{
 			_id:_id,
 			updateStatus:updatedStatus,
 			videoId:videoId
@@ -290,8 +288,8 @@ export const updateCrownedVideo=async(_id,updatedStatus,videoId)=>{
 
 export const updateCrownedBlog=async(_id,updatedStatus,blogId)=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const updatedBlog=await axios.post(`${CreateUrl}/updateCrownedBlog`,{
+		
+		const updatedBlog=await axios.post(`${CreateURl}/updateCrownedBlog`,{
 			_id:_id,
 			updateStatus:updatedStatus,
 			blogId:blogId
@@ -308,8 +306,8 @@ export const updateCrownedBlog=async(_id,updatedStatus,blogId)=>{
 
 export const updateCrownedRegularPost=async(_id,updatedStatus,regularPostId)=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const updatedRegularPost=await axios.post(`${CreateUrl}/updateCrownedRegularPost`,{
+		
+		const updatedRegularPost=await axios.post(`${CreateURl}/updateCrownedRegularPost`,{
 			_id:_id,
 			updateStatus:updatedStatus,
 			regularPostId:regularPostId
@@ -326,8 +324,8 @@ export const updateCrownedRegularPost=async(_id,updatedStatus,regularPostId)=>{
 export const editPost=async({postType,postId,post,postS3,ownerId})=>{
 	try{
 
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const editedPostResponse=await axios.post(`${CreateUrl}/editPost`,{
+		
+		const editedPostResponse=await axios.post(`${CreateURl}/editPost`,{
 			postType,
 			postId,
 			post,
@@ -345,8 +343,8 @@ export const editPost=async({postType,postId,post,postS3,ownerId})=>{
 
 export const promotePost=async({postId,nodeId,postType})=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const promotionResponse=await axios.post(`${CreateUrl}/promotePost`,{
+		
+		const promotionResponse=await axios.post(`${CreateURl}/promotePost`,{
 			postId,
 			nodeId,
 			postType
@@ -362,8 +360,8 @@ export const promotePost=async({postId,nodeId,postType})=>{
 
 export const deletePost=async({postId,postType,industriesUploaded,profileId})=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const deleteResponse=await axios.post(`${CreateUrl}/deletePost`,{
+		
+		const deleteResponse=await axios.post(`${CreateURl}/deletePost`,{
 			postId,
 			postType,
 			industriesUploaded,
@@ -381,8 +379,8 @@ export const deletePost=async({postId,postType,industriesUploaded,profileId})=>{
 
 export const createIndustryFeatureImageResponse=async({image,industryId,questionId,questionIndex,question,userId})=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const imageFeatureResponse=await axios.post(`${CreateUrl}/createIndustryFeatureImageResponse`,{
+		
+		const imageFeatureResponse=await axios.post(`${CreateURl}/createIndustryFeatureImageResponse`,{
 			image,
 			industryId,
 			questionId,
@@ -401,7 +399,7 @@ export const createIndustryFeatureImageResponse=async({image,industryId,question
 
 export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer)=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
+		
 		const {
 			post,
 			industryId,
@@ -411,7 +409,7 @@ export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer)=>{
 			questionId
 		}=regularPostAnswer;
 
-		const regularPostFeatureResponse=await axios.post(`${CreateUrl}/createIndustryFeatureRegularPostResponse`,{
+		const regularPostFeatureResponse=await axios.post(`${CreateURl}/createIndustryFeatureRegularPostResponse`,{
 			post,
 			industryId,
 			question,
@@ -430,8 +428,8 @@ export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer)=>{
 
 export const createSpecificIndustryVideoAnswer=async({video,industryId,questionId,question,userId})=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const videoFeatureResponse=await axios.post(`${CreateUrl}/createIndustryFeatureVideoResponse`,{
+		
+		const videoFeatureResponse=await axios.post(`${CreateURl}/createIndustryFeatureVideoResponse`,{
 			video,
 			industryId,
 			question,
@@ -449,8 +447,8 @@ export const createSpecificIndustryVideoAnswer=async({video,industryId,questionI
 
 export const createSpecificIndustryAudioAnswer=async({audio,industryId,questionId,question,userId})=>{
 	try{
-		const CreateUrl='http://localhost:4000/api/posts/alter';
-		const audioFeatureResponse=await axios.post(`${CreateUrl}/createIndustryFeatureAudioResponse`,{
+		
+		const audioFeatureResponse=await axios.post(`${CreateURl}/createIndustryFeatureAudioResponse`,{
 			audio,
 			industryId,
 			question,

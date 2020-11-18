@@ -1,8 +1,7 @@
 import axios from "axios";
 
+const Url="/api/map/search";
 export async function quickSearchIndustry(id,industryArray){
-
-	const Url="http://localhost:4000/api/map/search";
 
 	try{
 		   const companies= await axios.get(`${Url}/getQuickSearch`,{
@@ -26,7 +25,6 @@ export async function quickSearchIndustry(id,industryArray){
 export async function searchForCompanies(id,searchCriteria){
 
 	try{
-		const Url="http://localhost:4000/api/map/search";
 		const {state,industry,name}=searchCriteria;
 		const companies=await axios.get(`${Url}/searchForCompanies`,{
 			params:{

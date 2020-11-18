@@ -2,7 +2,7 @@
 import axios from "axios";
 
 //const baseurl=BASE_URL.BASE_URL;
-const SetUrl="http://localhost:4000/api/posts/alter";
+const SetUrl="/api/posts/alter";
 
 export const createGroupVideoCall=async({title,owner,description,_id})=>{
 	try{

@@ -13,7 +13,7 @@ import axios from "axios";
     removeTextReactionComment,
     removePostArena
 */
-const arenaUrl='http://localhost:4000/api/arena/alter'
+const arenaUrl='/api/arena/alter'
 export const addTextReaction=async(textReaction)=>{
 	try{
 		const {

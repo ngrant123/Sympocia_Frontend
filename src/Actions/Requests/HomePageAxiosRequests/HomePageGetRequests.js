@@ -2,7 +2,7 @@ import axios from "axios";
 import BASE_URL from "../../../Constants/constants.js";
 
 const baseurl=""+BASE_URL.BASE_URL;
-const GetUrl="http://localhost:4000/api/posts/search";
+const GetUrl="/api/posts/search";
 
 export function getNewFeedUpdates(userId){
 	//userId:number

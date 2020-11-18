@@ -3,8 +3,7 @@ import BASE_URL from "../../../Constants/constants.js";
 
 
 const baseurl=BASE_URL.BASE_URL;
-const CreateUrl='http://localhost:4000/api/profile/alter';
-const CreatePostUrl='http://localhost:4000/api/posts/alter';
+const CreateUrl='/api/profile/alter';
 
 export function addEmployeeData(userId,employeeData){
 	/*
