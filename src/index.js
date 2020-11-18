@@ -1,5 +1,5 @@
 //Beginning stages of the website.... the website architecture will almost definetly change and everything lol
-import React from "react";
+import React,{Suspense} from "react";
 import ReactDom from "react-dom";
 import {BrowserRouter as Router, Route , Switch} from 'react-router-dom';
 import ImageDisplay from "./Components/GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js"
@@ -11,12 +11,10 @@ import { Provider } from 'react-redux';
 import { createStore,compose } from 'redux';
 import {loadState,saveState} from './reduxState';
 import ErrorBoundary from "./ErrorBoundary.js";
-import { Redirect } from 'react-router-dom';
 //TEST
 import Demo from "./Components/Demo/index.js";
 import throttle from 'lodash.throttle';
 import LoadingScreen from "./LoadingAnimation.js";
-import Loadable from "react-loadable";
 
 
 
@@ -50,92 +48,42 @@ const LoadableOptions={
 	loading:LoadingScreenProp
 }
 
+const PersonalProfileScreen=React.lazy(()=>import("./Components/Profile/PersonalProfile/PersonalProfileSet/PersonalProfileContainer"))
+const Landing=React.lazy(()=>import("./Components/Landing/index.js"))
+const Signup=React.lazy(()=>import("./Components/Signup/LargeSignupComp/LSignUpPage"))
+const HomeScreen=React.lazy(()=>import("./Components/Home/HomePageSet/HomePageContainer.js"))
+const BlogPostCreation=React.lazy(()=>import("./Components/GeneralComponents/PostComponent/BlogComponent/BlogPostCreation/index.js"))
+const SearchPage=React.lazy(()=>import("./Components/SearchPage/index.js"))
+const Symposium=React.lazy(()=>import("./Components/Home/HomePageSubset/Symposium/ExtendedSymposium/index.js"))
+const SymposiumList=React.lazy(()=>import("./Components/Home/HomePageSubset/Symposium/SymposiumList/FeedContainer.js"))
 
-const PersonalProfileScreen=Loadable({
-	loader:()=>import("./Components/Profile/PersonalProfile/PersonalProfileSet/PersonalProfileContainer"),
-	...LoadableOptions
-})
-const CompanyProfileScreen=Loadable({
-	loader:()=>import("./Components/Profile/CompanyProfile/CompanyProfileSet/CompanyProfileContainer"),
-	...LoadableOptions
-})
-const Landing=Loadable({
-	loader:()=>import("./Components/Landing/index.js"),
-	...LoadableOptions
-})
-const PlayList=Loadable({
-	loader:()=>import("./Components/PlayList/PlayListSet/PlayListContainer.js"),
-	...LoadableOptions
-})
-const Signup=Loadable({
-	loader:()=>import("./Components/Signup/LargeSignupComp/LSignUpPage"),
-	...LoadableOptions
-})
-const HomeScreen=Loadable({
-	loader:()=>import("./Components/Home/HomePageSet/HomePageContainer.js"),
-	...LoadableOptions
-})
-const InvestorScreen=Loadable({
-	loader:()=>import("./Components/Investor/InvestorSet/InvestorContainer.js"),
-	...LoadableOptions
-})
-const MapScreen=Loadable({
-	loader:()=>import("./Components/Map/MapComponentSet/MapContainer.js"),
-	...LoadableOptions
-})
-const BlogPostCreation=Loadable({
-	loader:()=>import("./Components/GeneralComponents/PostComponent/BlogComponent/BlogPostCreation/index.js"),
-	...LoadableOptions
-})
-const SearchPage=Loadable({
-	loader:()=>import("./Components/SearchPage/index.js"),
-	...LoadableOptions
-})
-const Arena=Loadable({
-	loader:()=>import("./Components/Home/HomePageSubset/Arena/index.js"),
-	...LoadableOptions
-})
-const Symposium=Loadable({
-	loader:()=>import("./Components/Home/HomePageSubset/Symposium/ExtendedSymposium/index.js"),
-	...LoadableOptions
-})
-const GroupVideoCall=Loadable({
-	loader:()=>import("./Components/Home/HomePageSubset/Symposium/ExtendedSymposium/Modals/VideoCall/GroupVideoCall.js"),
-	...LoadableOptions
-})
-const CreatePostScreen=Loadable({
-	loader:()=>import("./Components/GeneralComponents/PostComponent/LargePostComponent/CreatePostScreen.js"),
-	...LoadableOptions
-})
-
-const SymposiumList=Loadable({
-	loader:()=>import("./Components/Home/HomePageSubset/Symposium/SymposiumList/FeedContainer.js"),
-	...LoadableOptions
-})
 
 const application  = (
 		<ErrorBoundary>
 			<Provider store={store}>
 				<Router forceRefresh={true}>
 					<Switch>
-						<Route exact path="/profile/:id" component={PersonalProfileScreen}/>
-						<Route exact path="/" component= {Landing}/>
-						<Route exact path="/signup" component={Signup}/>
-						<Route exact path="/home" component= {HomeScreen}/>
-						<Route exact path="/blog/:id" component={BlogPostCreation}/>
-						<Route exact path="/search/:string/:searchType" component={SearchPage}/>
-						<Route exact path="/symposium/:symposiumName" component={Symposium}/>
-						<Route exact path="/symposiumList" component={SymposiumList}/>	
-						{/*	  
-							<Route exact path="/investor/:id" component= {InvestorScreen} />
-							<Route exact path="/createPost" component={CreatePostScreen}/>	
-							<Route exact path="/playList" component={PlayList}/>
-							<Route exact path="/companyProfile/:id" component={CompanyProfileScreen} />
-							<Route exact path="/arena" component={Arena}/>
-							<Route exact path="/map/:id" component= {MapScreen} />
-							<Route exact path="/groupVideoCall/:symposiumId/:groupCallId" component={GroupVideoCall}/>	
-						*/}   
-						<Route render={() => <Redirect to={{pathname: "/"}} />} />
+						<Suspense fallback={<LoadingScreen/>}>
+							<Route exact path="/profile/:id" component={PersonalProfileScreen}/>
+							<Route exact path="/" component= {Landing}/>
+							<Route exact path="/signup" component={Signup}/>
+							<Route exact path="/home" component= {HomeScreen}/>
+							<Route exact path="/blog/:id" component={BlogPostCreation}/>
+							<Route exact path="/search/:string/:searchType" component={SearchPage}/>
+							<Route exact path="/symposium/:symposiumName" component={Symposium}/>
+							<Route exact path="/symposiumList" component={SymposiumList}/>	
+
+							{/*
+								<Route exact path="/investor/:id" component= {InvestorScreen} />
+								<Route exact path="/createPost" component={CreatePostScreen}/>	
+								<Route exact path="/playList" component={PlayList}/>
+								<Route exact path="/companyProfile/:id" component={CompanyProfileScreen} />
+								<Route exact path="/arena" component={Arena}/>
+								<Route exact path="/map/:id" component= {MapScreen} />
+								<Route exact path="/groupVideoCall/:symposiumId/:groupCallId" component={GroupVideoCall}/>	
+							*/}
+
+						</Suspense>
 					</Switch>
 				</Router>
 			</Provider>
