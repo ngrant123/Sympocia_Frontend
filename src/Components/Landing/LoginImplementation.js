@@ -7,11 +7,7 @@ import {
          loginCompanyPage
   } from "../../Actions/Redux/Actions/CompanyActions.js";
 import {
-	addName,
-	addLastName,
-	addEmail,
-  addPersonalIdentificationId,
-  loginPersonalPage
+  signInPersonalUser
 } from '../../Actions/Redux/Actions/PersonalProfile';
 import {loginProfile} from "../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
@@ -123,16 +119,14 @@ const handleLoginClick=async(email,password,dispatch,history)=>{
   }else{
     debugger;
     const {passWordIndicator,profileType,profile}=loginResults;
-    const {_id,firstName,lastName,email}=profile;
+    const promises=[]
 
-    dispatch(addName(firstName));
-    dispatch(addLastName(lastName));
-    dispatch(addEmail(email));
+    promises.push(dispatch(signInPersonalUser(profile)));
+    promises.push(dispatch(loginCompanyPage(false)));
 
-    dispatch(addPersonalIdentificationId(_id));
-    dispatch(loginPersonalPage(true));
-    dispatch(loginCompanyPage(false));
-    history.push('/home');
+    Promise.all(promises).then(result=>{
+      history.push('/home');
+    })
   }
 }
 

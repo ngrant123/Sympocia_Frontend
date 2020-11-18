@@ -4,6 +4,7 @@ import StampIcon from "../../../../../designs/img/StampIcon.png";
 import { Icon, InlineIcon } from '@iconify/react';
 import stampIcon from '@iconify/icons-fa-solid/stamp';
 import {addStampPost,unStampPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import LoyaltyIcon from '@material-ui/icons/Loyalty';
 
 const Container=styled.div`
 	position:fixed;
@@ -62,6 +63,11 @@ const StampIconEffect=styled.div`
 	  border-radius:5px;
 	  position:relative;
 	  animation:${keyFrame} 1s ease-in-out 0s forwards;
+
+	  @media screen and (max-width:760px){
+	  	height:60px !important;
+	  	width:60px !important;
+	  }
 `;
 
 const StampButtonCSS={
@@ -112,20 +118,15 @@ const AdditionalInformation=(props)=>{
 
 	return(
 		<Container>
-			{/*
 				<ul style={{padding:"0px"}}>
-					<li onClick={()=>createOrRemoveStampEffect()} style={StampButtonCSS}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}> 
-								<Icon 
-									icon={stampIcon}
-									style={{fontSize:30,color:"#5298F8"}}
+					<li onClick={()=>createOrRemoveStampEffect()} style={{listStyle:"none"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+								<LoyaltyIcon
+									style={{fontSize:"40",color:"black"}}
 								/>
 							</li>
-							<li style={{listStyle:"none",display:"inline-block",color:"#5298F8"}}> 
-								Stamp
-							</li>
-						</ul>
+						</a>
 					</li>
 					{displayStampEffect==false?
 						null:
@@ -135,31 +136,31 @@ const AdditionalInformation=(props)=>{
 							</StampIconEffect>
 						</li>
 					}
+					{/*
+						<li style={{listStyle:"none",fontSize:"30px",marginBottom:"3%"}}>
+							<b>Contributors</b>
+						</li>
 
-					<li style={{listStyle:"none",fontSize:"30px",marginBottom:"3%"}}>
-						<b>Contributors</b>
-					</li>
 
+						<li style={{listStyle:"none",marginBottom:"10%"}}>
+							<ul style={{padding:"0px"}}>
+								{profilePictureContributors.map(data=>
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>
+										<ProfilePicture/>
+									</li>
+								)}
 
-					<li style={{listStyle:"none",marginBottom:"10%"}}>
-						<ul style={{padding:"0px"}}>
-							{profilePictureContributors.map(data=>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5%"}}>
-									<ProfilePicture/>
-								</li>
-							)}
+							</ul>
 
-						</ul>
+						</li>
 
-					</li>
-
-					<li style={{listStyle:"none"}}>
-						<ViewTipsButton>
-							View Tips
-						</ViewTipsButton>
-					</li>
+						<li style={{listStyle:"none"}}>
+							<ViewTipsButton>
+								View Tips
+							</ViewTipsButton>
+						</li>
+					*/}
 				</ul>
-			*/}
 
 		</Container>
 	)

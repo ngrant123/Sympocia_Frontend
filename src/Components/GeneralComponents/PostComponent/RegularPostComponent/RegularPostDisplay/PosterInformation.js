@@ -1,8 +1,13 @@
-import React,{Component} from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import {deletePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-
+import {
+	addStampPost,
+	unStampPost,
+	deletePost
+} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import StampIcon from "../../../../../designs/img/StampIcon.png";
+import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";
 
 const PostInformationContainer=styled.div`
 	position:relative;
@@ -95,7 +100,7 @@ const LabelContainer=styled.div`
 `;
 
 const EditPostButtonCSS={
-	  listStyle:"none",
+	listStyle:"none",
   display:"inline-block",
   backgroundColor:"white",
   borderRadius:"5px",
@@ -112,13 +117,14 @@ const EditPostButtonCSS={
 const PosterInformation=(props)=>{
 
 	const {	
-			owner,
-			industriesUploaded,
-			datePosted,
-			_id,
-			contextLocation
-		}=props.postData;
+		owner,
+		industriesUploaded,
+		datePosted,
+		_id,
+		contextLocation
+	}=props.postData;
 
+	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const constructDate=(dateMilliseconds)=>{
 		const newDate=new Date(dateMilliseconds).toLocaleDateString();
 		return newDate;
@@ -138,15 +144,48 @@ const PosterInformation=(props)=>{
 			alert('Unfortunately there has been an error deleting this post. Please try again');
 		}
 	}
+
+	const createOrRemoveStampEffect=()=>{
+		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
+		if(displayStampEffect==false){
+			if(isPersonalProfile==true){
+				addStampPost(owner._id,_id,"personal","RegularPost");
+			}else{
+				addStampPost(owner._id,_id,"company","RegularPost");
+			}
+			changeDisplayStampEffect(true);
+		}else{
+			if(isPersonalProfile==true){
+				unStampPost(owner._id,_id,"personal","RegularPost");
+			}else{
+				unStampPost(owner._id,_id,"company","RegularPost");
+			}
+			changeDisplayStampEffect(false);
+		}
+	}
 	return(
 
 		<PostInformationContainer>
 						<ul style={{position:"absolute",listStyle:"none"}}>
-							{(props.profileType=="personalProfile" && props.isOwnProfile==true) &&(
-								<li onClick={()=>props.triggerEditPostModal()} style={EditPostButtonCSS}>
-									Edit Post
-								</li>
-							)}
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px"}}>
+									{(props.pageType=="personalProfile" && props.isOwnPostViewing==true) &&(
+										<li onClick={()=>props.triggerEditPostModal()} style={EditPostButtonCSS}>
+											Edit Post
+										</li>
+									)}
+									{displayStampEffect==true &&(
+										<li style={{position:"relative",listStyle:"none",zIndex:"20"}}>
+											<StampIconEffect
+												id="stampEffect"
+											>
+												<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+											</StampIconEffect>
+										</li>
+									)}
+								</ul>
+							</li>
+				
 							<li style={{listStyle:"none"}}>
 								<PostProfilePicture>
 									<img src={owner.profilePicture==null?
@@ -185,13 +224,13 @@ const PosterInformation=(props)=>{
 							<li style={{listStyle:"none",position:"relative",left:"25%"}}>
 								<ul style={{padding:"0px"}}>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
+										<li onClick={()=>createOrRemoveStampEffect()} style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
 											<LabelContainer>
 												Stamp
 											</LabelContainer>	
 										</li>
 									</a>
-									{(props.profileType=="personalProfile" && props.isOwnProfile==true) &&(
+									{(props.pageType=="personalProfile" && props.isOwnPostViewing==true) &&(
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 											<li onClick={()=>props.triggerPromoteModal(_id,"RegularPosts")}
 												style={{listStyle:"none",display:"inline-block"}}>
@@ -204,7 +243,7 @@ const PosterInformation=(props)=>{
 								</ul>
 							</li>
 
-							{(props.profileType=="personalProfile" && props.isOwnProfile==true) &&(
+							{(props.pageType=="personalProfile" && props.isOwnPostViewing==true) &&(
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									<li onClick={()=>handleRemovePost()} style={{listStyle:"none",marginBottom:"2%",marginLeft:"60%"}}>
 										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 

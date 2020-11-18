@@ -88,7 +88,7 @@ to it
 
 const NavBar=(pageProps)=>{
 	const dispatch=useDispatch();
-
+	debugger;
 	const {color}=pageProps;
 	const personalProfileState=useSelector(state=>state.personalInformation);
 	const companyProfileState=useSelector(state=>state.companyInformation);

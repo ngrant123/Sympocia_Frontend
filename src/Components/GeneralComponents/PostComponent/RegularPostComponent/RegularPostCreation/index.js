@@ -56,8 +56,6 @@ const Container = styled.div`
 		left:5%;
 		width:90% !important;
 	}
-
-
 `;
 
 const TextArea=styled.div`

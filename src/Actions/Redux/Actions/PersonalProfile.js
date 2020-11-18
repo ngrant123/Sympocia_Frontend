@@ -25,8 +25,6 @@ const addEmail=(email)=>{
 }
 
 const addPersonalIdentificationId=(userId)=>{
-
-
 	return{
 		type:'ADD_USER_ID',
 		payload:userId
@@ -64,6 +62,14 @@ const loginPersonalPage=(loginIndicator)=>{
 	}
 }
 
+const signInPersonalUser=(userInformation)=>{
+	debugger;
+	return{
+		type:'SIGN_IN_PERSONAL_USER',
+		payload:userInformation
+	}
+}
+
 module.exports={
 	addName,
 	addLastName,
@@ -72,5 +78,6 @@ module.exports={
 	addSignInStatus,
 	addPaymentPlan,
 	firstTimeUsage,
-	loginPersonalPage
+	loginPersonalPage,
+	signInPersonalUser
 }

@@ -177,6 +177,7 @@ const TextOptions=(props)=>{
 											/>
 										</li>
 									</a>
+
 									{isOwner==true && (
 										<>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>

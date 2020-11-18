@@ -224,7 +224,7 @@ export const ProfilePictureContainer=styled.div`
 export const HeaderContainer=styled.div`
 	position:relative;
 	width:100%;
-	background-color:red;
+	background-color:white;
 	height:10%;
 	z-index:30;
 `;

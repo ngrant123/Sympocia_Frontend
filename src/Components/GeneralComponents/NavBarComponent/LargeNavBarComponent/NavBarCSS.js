@@ -74,7 +74,7 @@ export const SearchButton=styled.textarea`
 
 export const PersonalProfileChatContainer=styled.div`
 	position:relative;
-	background-color:red;
+	background-color:white;
 	width:50%;
 	height:60px;
 	border-radius:5px;
@@ -90,7 +90,7 @@ export const PersonalProfileChatContainer=styled.div`
 export const PersonalProfileNotificationsContainer=styled.div`
 
 	position:relative;
-	background-color:red;
+	background-color:white;
 	width:50%;
 	height:60px;
 	border-radius:5px;
@@ -104,7 +104,7 @@ export const PersonalProfileNotificationsContainer=styled.div`
 
 export const CompanyProfileChatContainer=styled.div`
 	position:relative;
-	background-color:red;
+	background-color:white;
 	width:50%;
 	height:60px;
 	border-radius:5px;
@@ -119,7 +119,7 @@ export const CompanyProfileChatContainer=styled.div`
 
 export const CompanyProfileNotificationsContainer=styled.div`
 	position:relative;
-	background-color:red;
+	background-color:white;
 	width:50%;
 	height:60px;
 	border-radius:5px;
