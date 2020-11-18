@@ -18,12 +18,7 @@ export function getInvestor(name){
 			name:name
 		}
 	}).then(res=>{
-
-		console.log(res.data);
-
-
 	}).catch(err=>{
-		console.log(err.message);
 	})
 };
 
@@ -35,9 +30,7 @@ export function getInvestorsByName(name){
 			name:name
 		}
 	}).then(res=>{
-		console.log(res.data);
 	}).catch(err=>{
-		console.log(err.message);
 	})
 }
 
@@ -49,11 +42,7 @@ export function getInvestorsByIndustry (industryId){
 		}
 	}).then(res=>{
 
-		console.log(res.data);
-
 	}).catch(err=>{
-
-		console.log(err.message);
 
 	})
 }
@@ -62,13 +51,7 @@ export getAllInvestors(){
 
 		axios.get(`${baseUrl}/getInvestors`).
 			then(res=>{
-
-				console.log(res.data);
-
 			}).catch(err=>{
-
-				console.log(err.message);
-
 			})
 	}
 

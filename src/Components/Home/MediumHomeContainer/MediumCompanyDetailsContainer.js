@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import SmallProfile from "../../Profile/SmallProfilePostOptionComp/SmallProfile.js";
+import SmallProfile from "../../Profile/CompanyProfile/CompanyProfileSubset/CompanyDetails/CompanyEmployees/SmallProfile.js";
 import bannerimage from "../../../designs/background/banner.png";
 import FriendsProfile from "../SmallHomeContainer/SmallHomeFriendsProfile.js";
 import { PropTypes } from "prop-types";
@@ -500,7 +500,6 @@ class MediumCompanyDetailsContainer extends Component{
 		return(
 			<Container>
 				<PaymentOptionContainer/>
-
 				<BackgroundImageContainer>
 
 

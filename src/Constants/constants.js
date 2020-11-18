@@ -1,5 +1,4 @@
-export default {
-
+ export default {
 	BASE_URL:"localhost:8080/",
 	NOT_BASEULR:"Yupe",
 	INDUSTRIES:[
@@ -8,3 +7,9 @@ export default {
 		{ industry:"Consulting",id:3}
 	]
 };
+
+/*
+	purple:#C8B0F4
+	blue:#5298F8
+
+*/

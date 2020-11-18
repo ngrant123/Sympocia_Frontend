@@ -4,93 +4,109 @@ Structure for the redux state for the
 
 */
 const initialState =[
+		
+	]
 
-	companyEmployee:[ 
-		companyName:"",
-		employeeId:[]
-	],
-	employees:{
-		0:{
-			employeeName:"",
-			employeeShortDescription:"",
-			employeeEmail:"",
-			employeeLocation:"",
-			employeeTitle:"",
-			employeeBio:""
-		}
-	}
-]
+const EmployeesReducer=(state = initialState, action)=>{
 
-
-export function EmployeesReducer(state = initialState, action){
-
-	const { type, payload }= action;
-	const { employeeeId , employeeData } = payload
-
-	//const employeeArray=state[employeeId];
-
+		const { type, payload }=action;
 		switch(type){
 
 			case 'UPDATE_EMPLOYEE_NAME':
-				return {...state,
-						employees:{
-							...state.employees,
-							employeeId:{
-								...state.employees.employeeId,
-								employeeName:employeeData.name
+
+				return (state.map(employee=>{
+					if(employee.employeeId==payload.employeeId){
+						return {
+									...employee,
+									employeeName:payload.changeEmployeeInfo
 								}
-							}
 						}
-				break;
-
-			case 'ADD_EMPLOYEE':
-				let employeeObject=employeeData;
-
-				let newstate={companyEmployee:[
-							...state.companyEmployee,
-							employeeId.push(employeeId)
-						],
-						employees:{
-							...state,
-							[employeeId]:employeeObject
-						}
-					}
+					else
+						return employee;
+					})
+				);				
 				break;
 
 
-			case 'UPDATE_EMPLOYEE_SHORT_DESCRIPTION':
-				return{...state,
-					employees:{
-						...state,
-						employeeShortDescription:employeedata.employeeShortDescription
-					}
-				};
+			case 'UPDATE_EMPLOYYE_SHORT_DESCRIPTION':
+
+				return(state.map(employee=>{
+
+					if(employee.employeeId==payload.employeeId)
+						return {
+								...employee, 
+								employeeShortDescription:payload.changeEmployeeInfo
+								}
+					else
+						return employee
+				}));
+
 				break;
 
 			case 'UPDATE_EMPLOYEE_EMAIL':
-				return{...state,
-					employees:{
-						...state,
-						employeeShortDescription:employeedata.employeeEmail
-					}
-				};
+
+				return(state.map(employee=>{
+
+					if(employee.employeeId==payload.employeeId)
+						return {
+								...employee, 
+								employeeEmail:payload.changeEmployeeInfo
+								}
+					else
+						return employee
+				}));
+
 				break;
 
-			case 'UPDATE_EMPLOYEE_LOCATION':
-				return{};
-				break;
 
 			case 'UPDATE_EMPLOYEE_TITLE':
-				return{};
+
+				return(state.map(employee=>{
+
+					if(employee.employeeId==payload.employeeId)
+						return {
+								...employee, 
+								employeeTitle:payload.changeEmployeeInfo
+								}
+					else
+						return employee
+					})
+				);
+
 				break;
 
 			case 'UPDATE_EMPLOYEE_BIO':
-				return{};
+				return(state.map(employee=>{
+
+						if(employee.employeeId==payload.employeeId)
+							return {
+									...employee, 
+									employeeBio:payload.changeEmployeeInfo
+									}
+						else
+							return employee
+						})
+					);
+
 				break;
+
+			case 'ADD_EMPLOYEE':
+				let employees=state;
+				employees.push(payload);
+				return employees;
+				break;
+
 
 			default:
 				return state;
 				break;
 
+
+
+
 		}
+		
 }
+
+
+export default EmployeesReducer;

@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
+
 import { 
 		credientialMapSearch,
 		UserLocation
 
 		} from "../../../Actions/Tasks/userTasks.js";
-import {
-		  Map, 
-		  TileLayer, 
-		  Marker, 
-		  Popup
 
-	} from 'react-leaflet';
+import ReactMapGL ,{Marker} from 'react-map-gl';
 
 
 const Container = styled.div`
@@ -47,6 +44,19 @@ const SearchContainer = styled.div`
 
 `;
 
+const NavBar = styled.div`
+	position:absolute;
+	left:10%;
+	height:7%;
+	background-color:white;
+	width:85%;
+	z-index:5;
+	border-radius:5px;
+
+
+
+`;
+
 const testerdata= [
 	[
 		72,
@@ -72,8 +82,7 @@ const testtest= {
 	}
 }
 
-
-
+const MAPBOX_TOKEN ="pk.eyJ1IjoibmdyYW50MTIzIiwiYSI6ImNrNzZzcjV3NTAwaGYza3BqbHZjNXJhZDkifQ.DsFpgYjX7ZUtOe7cFmylhQ"
 
 
 class LargeMapContainer extends Component {
@@ -82,6 +91,7 @@ class LargeMapContainer extends Component {
 
 		super(props);
 
+		/*
 		  this.state = {
 		    lat: -73.97732549999999,
 		    lng:40.7527743,
@@ -90,6 +100,24 @@ class LargeMapContainer extends Component {
 			showShadowBackground:false,
 			companiesLocation:[]
   		  }
+  		  */
+  		  this.state = {
+		    viewport: {
+		      width: "100%",
+		      height:"100%",
+		      latitude: 37.7577,
+		      longitude: -122.4376,
+		      zoom: 8
+		    },
+		    industries:[{},{},{},{},{}],
+		    addedOption:[{},{}],
+		    lat: -73.97732549999999,
+		    lng:40.7527743,
+		    testlat:0,
+		    zoom: 16,
+			showShadowBackground:false,
+			companiesLocation:[]
+		  };
 
 	}
 
@@ -163,6 +191,11 @@ class LargeMapContainer extends Component {
 		return this.state.showShadowBackground ? <ShadowBackground /> : <p style={{display:"none"}}></p> ;
 	}
 
+	handleClickOnMap=(e)=>{
+		console.log(e);
+		console.log("Clicked on map");
+	}
+
 	render(){
 
 		const position=[this.state.lat,this.state.lng];
@@ -173,58 +206,92 @@ class LargeMapContainer extends Component {
 			<Container>
 				{this.displayShadowBackground()}
 
-				<Map center={position} zoom={this.state.zoom} style={{position:"absolute",height:"900px",width:"107%",zIndex:"1"}}>
-			        <TileLayer
-			          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-			          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-			        />
-			        <Marker position={position} id="userMarker">
-			          <Popup>
-			            A pretty CSS3 popup. <br /> Easily customizable.
-			          </Popup>
-			        </Marker>
+					<GeneralNavBar
+						pageType={"Map"}
+					/>
+				<ReactMapGL
+					{...this.state.viewport}
+					mapboxApiAccessToken={MAPBOX_TOKEN}
+					mapStyle="mapbox://styles/ngrant123/ck77anbmh01mg1ipu8893ou54"
+					onViewportChange={(viewport) => this.setState({viewport})}
+					onClick={(e)=>this.handleClickOnMap(e)}
+				/>
 
-			        <ul>
-			        	{testerdata.map(data=>
-			        		<li>
-						         <Marker position={data}>
-						          <Popup>
-						            A pretty CSS3 popup. <br /> Easily customizable.
-						          </Popup>
-						        </Marker>
-				       		</li>
 
-			        	)}
+				<SearchContainer>
+      				<ul style={{padding:"0px"}}>
+      					<li style={{listStyle:"none"}}> 
+      						Meet new people
+      					</li>
+      					<li style={{listStyle:"none"}}>
+      						Industries
+      					</li>
 
-			        </ul>
-      			</Map>
+      					{this.state.industries.map(data=>
+      						<li style={{listStyle:"none",display:"inline-block"}}>
+      							Testing
+      						</li>
 
-      			<SearchContainer>
-      				<form style={{position:"absolute",top:"10%",left:"15%",width:"90%",height:"80%"}}>
+      					)}
 
-      					<label style={{fontSize:"150%",marginRight:"10px",color:"#5298F8"}}> Enter the industry you want to search:  <span style={{fontSize:"60%"}}> ( Optional ) </span></label>
-      					<input type="text" id="IndustrySearchValue" placeholder="Text1" style={{marginBottom:"10px",width:"70%",height:"12%"}} />
+      					{this.state.addedOption.map(data=>
+      						<li style={{listStyle:"none",display:"inline-block"}}>
+      							Testing
+      						</li>
+      					)}
 
-      					<br/>
-      					<hr style={{position:"fixed",left:"0%",width:"40%"}}/>
-      					<br/>
-      					<label style={{fontSize:"150%",marginRight:"10px",color:"#5298F8"}}>Enter the area: <span style={{fontSize:"60%"}}> ( Optional ) </span></label>
-      					<br/>
-      					<input type="text" id="AreaSearchValue" placeholder="" style={{marginBottom:"10px",width:"70%",height:"12%"}}/>
-      					<br/>
-      					<hr style={{position:"fixed",left:"0%",width:"40%"}}/>
-      					<br/>
-      					<label style={{fontSize:"150%",marginRight:"10px",color:"#5298F8"}}> Search by Name: <span style={{fontSize:"60%"}}> ( Optional ) </span></label>
-      					<br/>
-      					<input type="text" id="NameSearchValue" placeholder="Text1" style={{marginBottom:"10px",width:"70%",height:"12%"}}/>
-      					<br/>
+      					<li>
+      						<ul style={{padding:"0px"}}>
+      							<li>
+      								Testing
 
-      					<input type="submit" placeholder="Submit"
-      						 style={{position:"absolute",left:"5%",width:"60%",height:"12%",borderRadius:"5px",
-      								backgroundColor:"#5298F8",color:"white"}} 
-      						onClick={()=>this.handleSumbit()}
-      					/>
-      				</form>
+      							</li>
+
+      							<li>
+      								Testing 
+
+      							</li>
+
+
+      						</ul>
+      					</li>
+
+      					<li>
+	      					<ul style={{padding:"0px"}}>
+	      							<li>
+	      								Testing
+
+	      							</li>
+
+	      							<li>
+	      								Testing 
+
+	      							</li>
+      						</ul>
+
+      					</li>
+
+      					<li>
+
+      						<ul style={{padding:"0px"}}>
+      							<li>
+      								Testing
+
+      							</li>
+
+      							<li>
+      								Testing 
+
+      							</li>
+
+
+      						</ul>
+
+      					</li>
+
+
+
+      				</ul>
 
       			</SearchContainer>
 

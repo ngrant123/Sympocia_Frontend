@@ -1,6 +1,16 @@
 import React, {Component} from "react"
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import {
+		createCompanyProfile
+	}  from "../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
+import {connect} from 'react-redux';
+import {
+	addCompanyId,
+	updatefirstTimeUsage,
+	loginCompanyPage
+} from "../../../Actions/Redux/Actions/CompanyActions.js";
+import {loginPersonalPage} from "../../../Actions/Redux/Actions/PersonalProfile.js";
 
 
 const Container= styled.div`
@@ -16,19 +26,20 @@ const Container= styled.div`
 
 const AccountNumber = styled.textarea`
 	position:absolute;
-	background-color:#8849FA;
+	background-color:white;
 	top:50%;
 	height:15%;
 	width:60%;
 	left:5%;
 	resize:none;
 	border-radius:5px;
-	color:black;
+	color:#cfb2fb;
 	font-size:20px;
 	font-family:Helvetica;
+	border-style:none;
 
 	::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-	  color: #5337A9;
+	  color:#e1d0fd;
 	  opacity: 1; /* Firefox */
 	}
 `;
@@ -36,19 +47,21 @@ const AccountNumber = styled.textarea`
 
 const AccountDate = styled.textarea`
 	position:absolute;
-	background-color:#8849FA;
+	background-color:white;
 	top:75%;
 	height:15%;
 	left:30%;
 	resize:none;
 	border-radius:5px;
 	width:20%;
-	color:black;
+	color:	#cfb2fb;
 	font-family:Helvetica;
+	border-style:none;
+
 
 	font-size:20px;
 	::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-	  color: #5337A9;
+	  color: #e1d0fd;
 	  opacity: 1; /* Firefox */
 	  font-family:Helvetica;
 	}
@@ -60,11 +73,12 @@ const PaymentDetails = styled.div`
 	position:absolute;
 	left:2%;
 	height:12%;
-	width:60%;
+	width:90%;
 	top:5%;
 	border-radius:5px;
 	text-align:center;
-	font-size:22px;
+	font-size:30px;
+	color:	#4c415b;
 	font-family:Helvetica;
 
 
@@ -73,13 +87,12 @@ const PaymentDetails = styled.div`
 
 const Bankcontainer = styled.div`
 	position:absolute;
-	background-color:#C8B0F4;
+	background:linear-gradient(to bottom, #c8b0f4 0%, #ff99ff 100%);
 	top:25%;
 	width:60%;
 	height:55%;
 	left:25%;
 	border-radius:5px;
-	border-style:solid;
 	z-index:0;
 
    transition: all ease .8s;
@@ -164,6 +177,7 @@ const BankDebit = styled.div`
 	height:10%;
 	width:10%;
 	left:85%;
+	color:white;
 	font-size:15px;
 	font-family:Helvetica;
 
@@ -176,6 +190,7 @@ const BankVisa = styled.div`
 	width:15%;
 	left:83%;
 	font-size:25px;
+	color:white;
 	font-family:Helvetica;
 
 `;
@@ -184,6 +199,7 @@ const GoodThru = styled.div`
 	height:15%;
 	width:10%;
 	top:75%;
+	color:white;
 	left:17%;
 	font-family:Helvetica;
 
@@ -193,16 +209,12 @@ const GoodThru = styled.div`
 
 const BackBankcontainer = styled.div`
 	position:absolute;
-	background-color:#C8B0F4;
+	background:linear-gradient(to bottom, #c8b0f4 0%, #ff99ff 100%);
 	top:25%;
 	width:60%;
 	height:55%;
 	left:25%;
 	border-radius:5px;
-	border-style:solid;
-	z-index:-1;
-	opacity:0;
-
    transition: all ease 2s;
 
 
@@ -210,31 +222,28 @@ const BackBankcontainer = styled.div`
 
 const BackLine = styled.div`
 	position:absolute;
-	background-color:black;
+	background-color:#a26af6;
 	width:100%;
 	height:20%;
 	top:7%;
-
-
 `;
 
 const CVVBackBar= styled.textarea`
 
 	position:absolute;
-	background-color:#8849FA;
 	top:35%;
 	width:40%;
 	height:17%;
 	left:5%;
 	border-radius:5px;
 	resize:none;
-
-	color:black;
+	border-style:none;
+	color:#cfb2fb;
 	font-family:Helvetica;
 
 	font-size:20px;
 	::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-	  color: #5337A9;
+	  color: #cfb2fb;
 	  opacity: 1; /* Firefox */
 	  font-family:Helvetica;
 	}
@@ -243,6 +252,33 @@ const CVVBackBar= styled.textarea`
 
 `;
 
+const BackButton=styled.div`
+		position:absolute;
+		background-color:#C8B0F4;
+		color:white;
+  		text-align:center;
+		font-family:Myriad Pro;
+		font-size:25px;
+		top:85%;
+		width:20%;
+		left:15%;
+		border-radius:5px;
+		height:10%;
+		z-index:4;
+
+		  &:hover{
+
+	      background-color:white;
+
+	    color:#C8B0F4;
+	   border-style:solid;
+	   border-color: #C8B0F4;
+	   transition: all ease 0.8s;
+	   overflow:hidden;
+
+	   }
+	`;
+//Could be a functional Component in the future
 
 
 class Payment extends Component {
@@ -253,98 +289,187 @@ class Payment extends Component {
 		this.state = {
 
 			paymentdetails1:'Step 1: Enter you Account Number and Account Date',
-			counter:1
+			accountNumber:0,
+			accountDate:"",
+			displayFirstCardPage:true,
+			counter:1,
+			cvv:""
 		}
 	}
 
-	handleOnClick(){
-			var counter=this.state.counter;
-
-			if(counter==1){
-
-				this.setState({
-
-					paymentdetails1:'Step 2: Please enter you CVV',
-					counter:2
-
-				})
-				document.getElementById("backbank").style.zIndex=1;
-				document.getElementById("backbank").style.opacity=1;
-
-
-			}
-			else{
-
-				console.log("Next page will be accessed here");
-
-
-
-			}
+	componentDidMount(){
+		const CompanyInformation={
+			companyName:this.props.companyName,
+			companyIndustry:this.props.companyIndustry,
+			companyLocation:this.props.companyLocation,
+			paymentPlan:this.props.paymentPlan,
 		}
 
+		const ReduxFunctions={
+			addCompanyId:this.props.addCompanyId,
+			updatefirstTimeUsage:this.props.updatefirstTimeUsage,
+			loginCompanyPage:this.props.loginCompanyPage,
+			loginPersonalPage:this.props.loginPersonalPage
+		}
+
+		this.setState({
+			...this.state,
+			companyInformation:CompanyInformation,
+			reduxFunctions:ReduxFunctions
+		})
+	}
 
 
-	render(){
+	handleSendDataToDatabase=async(companyInformation,reduxFunctions)=>{
+			const {
+				addCompanyId,
+				updatefirstTimeUsage,
+				loginCompanyPage,
+				loginPersonalPage
+			}=reduxFunctions;
 
-		var ButtonLink;
-		console.log(typeof this.state.paymentdetails1);
+			const {
+				companyName,
+				companyIndustry,
+				companyLocation,
+				paymentPlan
+			}=companyInformation;
 
-		if(this.state.paymentdetails1 === 'Step 1: Enter you Account Number and Account Date'){
-			ButtonLink = <NextPage onClick= {()=> this.handleOnClick()}>
+			const personalData={
+				companyName:companyName,
+				companyIndustry:companyIndustry,
+				companyLocation:companyLocation,
+				paymentPlan:paymentPlan,
+				firstTime:true
+			}
+			
+			console.log("Testing request");
+			const profile=await createCompanyProfile(personalData);
+			addCompanyId(profile._id);
+			updatefirstTimeUsage(true);
+			loginCompanyPage(true);
+			loginPersonalPage(false);
+			return profile;
+
+			///Implement strip api on frontend
+			//console.log(createProfile(personalData));
+		}
+
+	handleFirstPageContinueClick=()=>{
+
+			const accountNumber=document.getElementById("accountNumber").value;
+			const accountDate=document.getElementById("accountDate").value;
+
+			this.setState({
+				accountNumber:accountNumber,
+				accountDate:accountDate,
+				displayFirstCardPage:false
+			})
+	}
+
+	handleSecondPageBackButton=()=>{
+		this.setState({
+			displayFirstCardPage:true
+		})
+	}
+
+	handleCVVEnter=(character)=>{
+		const currentCVV=this.state.cvv;
+		var newCVV=currentCVV+character;
+
+		this.setState({
+			cvv:newCVV
+		})
+	}
+
+	sendBankInformation=()=>{
+		
+	}
+
+		handleDisplayFirstOrSecondCardPage=()=>{
+
+			return this.state.displayFirstCardPage==true?
+				<React.Fragment>
+					<PaymentDetails>
+						<p><b>Step 1: Enter you Account Number and Account Date</b></p>
+					</PaymentDetails>
+						
+					<Bankcontainer>
+
+						<GoodThru> 
+							<b> Good Thru </b>
+						</GoodThru>
+						<AccountNumber id="accountNumber" placeholder="Account Number"></AccountNumber>
+						<AccountDate id="accountDate" placeholder="Date"></AccountDate>
+						<BankDebit> DEBIT</BankDebit>
+
+						<BankVisa>
+							 <b> VISA </b>
+						</BankVisa>
+					</Bankcontainer>
+
+					<NextPage onClick= {()=> this.handleFirstPageContinueClick()}>
 							Continue 
-					 	 </NextPage>;
+					</NextPage>
+				</React.Fragment>:
+				<React.Fragment>
+					<PaymentDetails>
+						<p>Step 2: Please enter you CVV</p>
+					</PaymentDetails>
 
-			}
-			else{
-				ButtonLink = <NextPageLink to="/profile">
+					<BackBankcontainer>
+						<BackLine> </BackLine>
+						<CVVBackBar onKeyPress={e=>this.handleCVVEnter(e.key)} id="accountCvv" placeholder="CVV"></CVVBackBar>
+					</BackBankcontainer>
+
+					<NextPageLink to={{pathname:`/home`,query:{createProfile:{
+								handleSendDataToDatabase:this.handleSendDataToDatabase,
+								companyInformation:this.state.companyInformation,
+								reduxFunctions:this.state.reduxFunctions,
+								isPersonalProfile:false
+							}
+					}}}  onClick={()=>this.sendBankInformation()}>
 								Submit
-					 		 </NextPageLink>;
+					</NextPageLink>
 
-			}
+					<BackButton onClick={()=>this.handleSecondPageBackButton()}>
+						Back
+					</BackButton>
+				</React.Fragment>
+		}
+	render(){
 		return(
 
 			<Container>
-
-				<PaymentDetails>
-					{this.state.paymentdetails1} 
-				</PaymentDetails>
-
-
-				<Bankcontainer>
-
-					<GoodThru> 
-						<b> Good Thru </b>
-					</GoodThru>
-					<BankSymbol> </BankSymbol>
-					<AccountNumber placeholder="Account Number"></AccountNumber>
-					<AccountDate placeholder="Date"></AccountDate>
-					<BankDebit onClick= {()=> this.handleOnClick()}> DEBIT</BankDebit>
-
-					<BankVisa>
-						 <b> VISA </b>
-					</BankVisa>
-
-
-				</Bankcontainer>
-
-				<BackBankcontainer id="backbank">
-					<BackLine> </BackLine>
-					<CVVBackBar placeholder="CVV"></CVVBackBar>
-					
-
-				</BackBankcontainer>
-
-				{ButtonLink}
-
-
-
+				{this.handleDisplayFirstOrSecondCardPage()}
 			</Container>
-
-
-
 			)
-	}
-
+		}
 }
 
-export default Payment;
+
+const mapStateToProps=(state)=>{
+	return {
+		companyName:state.companyInformation.companyName,
+		companyLocation:state.companyInformation.companyLocation,
+		companyIndustry:state.companyInformation.companyIndustry,
+		paymentPlan:state.companyInformation.paymentPlan
+	}
+}
+
+const mapDispatchToProps =(dispatch)=>{
+
+	return{
+			addCompanyId:(companyId)=>dispatch(addCompanyId(companyId)),
+			updatefirstTimeUsage:(indicator)=>dispatch(updatefirstTimeUsage(indicator)),
+			loginCompanyPage:(loginIndicator)=>dispatch(loginCompanyPage(loginIndicator)),
+			loginPersonalPage:(loginIndicator)=>dispatch(loginPersonalPage(loginIndicator))
+
+	}
+}
+
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Payment);

@@ -1,5 +1,19 @@
 import React, {Component} from "react";
 import styled from "styled-components";
+import { addPaymentPlan } from '../../../Actions/Redux/Actions/CompanyActions.js';
+import { connect } from 'react-redux';
+import {createProfile} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {createCompanyProfile} from "../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests";
+import { Link } from "react-router-dom";
+
+import {
+	addCompanyId,
+	updatefirstTimeUsage,
+	loginCompanyPage
+} from "../../../Actions/Redux/Actions/CompanyActions.js";
+
+
+import {loginPersonalPage} from "../../../Actions/Redux/Actions/PersonalProfile.js";
 
 const Payment1 = styled.div`
 
@@ -82,6 +96,12 @@ const P1SecondDescription = styled.div`
 	font-size:14px;
 	text-align:center;
 	font-family:Helvetica;
+	overflow-y:scroll;
+	transition:.8s;
+
+	&:hover{
+		background-color:white;
+	}
 
 `;
 
@@ -119,10 +139,35 @@ const P1Submit = styled.div`
 
 `;
 
+const RedirectToHomePageButton = styled(Link)`
+	position:absolute;
+	background-color:#C8B0F4;
+	color:white;
+	width:50%;
+	height:10%;
+	left:20%;
+	top:80%;
+	border-radius:5px;
+	font-size:20px;
+
+	text-align:center;
+	font-family:Myriad Pro;
+	padding:10px;
+	   transition: all ease 0.8s;
 
 
 
+	&:hover{
 
+    background-color:white;
+
+    color:#C8B0F4;
+   border-style:solid;
+   border-color: #C8B0F4;
+   transition: all ease 0.8s;
+
+   }
+`;
 
 class PaymentOption extends Component {
 
@@ -139,10 +184,29 @@ class PaymentOption extends Component {
 			number: props.number,
 			description: props.description,
 			id:props.id
-
-		
-
 		};
+	}
+
+	componentDidMount(){
+		const CompanyInformation={
+			companyName:this.props.companyName,
+			companyIndustry:this.props.companyIndustry,
+			companyLocation:this.props.companyLocation,
+			paymentPlan:"Free",
+		}
+
+		const ReduxFunctions={
+			addCompanyId:this.props.addCompanyId,
+			updatefirstTimeUsage:this.props.updatefirstTimeUsage,
+			loginCompanyPage:this.props.loginCompanyPage,
+			loginPersonalPage:this.props.loginPersonalPage
+		}
+
+		this.setState({
+			...this.state,
+			companyInformation:CompanyInformation,
+			reduxFunctions:ReduxFunctions
+		})
 	}
 
 
@@ -159,25 +223,43 @@ class PaymentOption extends Component {
 
 	}
 
-	handleOnClick(){
 
+	handleSendDataToDatabase=async(companyInformation,reduxFunctions)=>{
+			const {
+				addCompanyId,
+				updatefirstTimeUsage,
+				loginCompanyPage,
+				loginPersonalPage
+			}=reduxFunctions;
 
-		//Fix later 
-		document.getElementById(this.state.id+"container").style.borderStyle="solid";
-		document.getElementById(this.state.id+"container").style.borderRadius="5px";
-		document.getElementById(this.state.id+"container").style.borderColor=" #C8B0F4";
+			const {
+				companyName,
+				companyIndustry,
+				companyLocation,
+				paymentPlan
+			}=companyInformation;
 
-		this.props.handleClick();
+			const personalData={
+				companyName:companyName,
+				companyIndustry:companyIndustry,
+				companyLocation:companyLocation,
+				paymentPlan:paymentPlan,
+				firstTime:true
+			}
+			
+			const profile=await createCompanyProfile(personalData);
+			addCompanyId(profile._id);
+			updatefirstTimeUsage(true);
+			loginCompanyPage(true);
+			loginPersonalPage(false);
+			return profile;
 
-	}
-
+			///Implement strip api on frontend
+		}
 
 	render(){
-
-
 		return (
 					<Payment1 id={this.state.id+"container"} onload= {()=> this.onLoad()}>
-
 						<P1PriceDescript id={this.state.id+''}> {this.state.pricedescription} </P1PriceDescript> 
 						<P1Number> {this.state.number} </P1Number>
 						<P1Description> {this.state.description} </P1Description>
@@ -191,14 +273,53 @@ class PaymentOption extends Component {
 
 							</ul>
 						 </P1SecondDescription>
-						<P1Submit onMouseOver= {()=> this.handleHoverIn()} onMouseOut={()=> this.handleHoverOut()} onClick={()=> this.handleOnClick()}> Choose Free </P1Submit>
-
-
+						{this.props.pricedescription!="Free"?
+								<P1Submit 
+									onMouseOver= {()=> this.handleHoverIn()}
+									onMouseOut={()=> this.handleHoverOut()} 
+									onClick={()=>this.props.handleDisplayPaymentScreen()}> 
+										Choose Free 
+								</P1Submit>:
+								<RedirectToHomePageButton to={{pathname:`/home`,query:{createProfile:{
+													handleSendDataToDatabase:this.handleSendDataToDatabase,
+													companyInformation:this.state.companyInformation,
+													reduxFunctions:this.state.reduxFunctions,
+													isPersonalProfile:false
+												}
+										}}}>
+											Choose Free
+								</RedirectToHomePageButton>
+						}
 					</Payment1>	
-			
 		)
 	}
 }
 
+const mapStateToProps=(state)=>{
+	return{
+		firstName:state.personalInformation.firstName,
+		lastName:state.personalInformation.lastName,
+		email:state.personalInformation.email,
+		companyName:state.companyInformation.companyName,
+		companyLocation:state.companyInformation.companyLocation,
+		companyIndustry:state.companyInformation.companyIndustry
+	}
+}
 
-export default PaymentOption;
+
+const mapDispatchToProps=dispatch=>{
+
+	return{
+		addCompanyId:(companyId)=>dispatch(addCompanyId(companyId)),
+		updatefirstTimeUsage:(indicator)=>dispatch(updatefirstTimeUsage(indicator)),
+		loginCompanyPage:(loginIndicator)=>dispatch(loginCompanyPage(loginIndicator)),
+		loginPersonalPage:(loginIndicator)=>dispatch(loginPersonalPage(loginIndicator))
+	}
+}
+
+
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(PaymentOption);
