@@ -91,7 +91,6 @@
 	}
 
 	function decrypt(userId){
-		console.log("Tester method");
 
 	}
 

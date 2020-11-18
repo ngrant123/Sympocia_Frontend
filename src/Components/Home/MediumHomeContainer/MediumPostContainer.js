@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Tester } from "../SmallHomeContainer/SmallPosts.js";
+import { MediumPosts } from "../../GeneralComponents/PostComponent/MediumPostComponent/MediumPosts.js";
 
 
 
@@ -49,7 +49,7 @@ class MediumPostContainer extends Component{
 				<ul>
 					{data.map(data =>
 						<li style={{position:"relative",listStyle:"none",marginBottom:"20px",marginTop:"20px",left:"-65px"}}>
-							<Tester
+							<MediumPosts
 								postdata={data.posttype}
 							/>
 

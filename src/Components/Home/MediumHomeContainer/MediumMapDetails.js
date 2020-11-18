@@ -2,7 +2,7 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import Plot from 'react-plotly.js';
 import {Doughnut} from 'react-chartjs-2';
-import Industries from "../../../Actions/Requests/Constants.js";
+import Industries  from "../../../Constants/constants.js";
 
 
 const Container = styled.div`

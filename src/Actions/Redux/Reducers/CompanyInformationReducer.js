@@ -1,55 +1,88 @@
 
 
 const initialState ={
-	companyName:"",
-	companyIndustry:"",
-	companyLocation:"",
-	companyIcon:"",
-	companyBio:"",
-	companyCoverPhoto:""
+	companyName:'',
+	companyIndustry:'',
+	companyLocation:'',
+	companyIcon:'',
+	companyBio:'',
+	companyCoverPhoto:'',
+	id:0,
+	firstTimeIndicator:true,
+	loggedIn:false
 }
 
 
-export function CompanyInformationReducer(state=initialState, action){
+const CompanyInformationReducer=(state=initialState, action)=>{
 
 	const { type,payload }=action;
 
 	switch(type){
 
 		case 'UPDATE_COMPANY_NAME':
-			return {...,
-					companyName:payload.companyName
+			return {
+					...state,
+					companyName:payload
 					}
 			break;
 
+		case 'UPDATE_COMPANY_ID':
+
+			return{
+				...state,
+				id:payload
+			}
+			break;
+
+		case 'UPDATE_FIRST_TIME_USAGE':
+			return{
+				...state,
+				firstTimeIndicator:payload
+			}
+			break;
+
 		case 'UPDATE_COMPANY_INDUSTRY':
-			return {...,
-					companyIndustry:payload.companyIndustry
+			return {...state,
+					companyIndustry:payload
 					}
 				break;
 
 		case 'UPDATE_COMPANY_LOCATION':
-			return {...,
-					companyLocation:payload.companyLocation
+			return {...state,
+					companyLocation:payload
 					}
 			break;
 
 		case 'UPDATE_COMPANY_ICON':
-			return {...,
-					companyIcon:payload.companyIcon
+			return {...state,
+					companyIcon:payload
 					}
 			break;
 
 		case 'UPDATE_COMPANY_BIO':
-			return {...,
-					companyBio:payload.companyBio
+			return {...state,
+					companyBio:payload
 					}
 			break;
 
 		case 'UPDATE_COMPANY_COVER_PHOTO':
-			return {...,
-					companyCoverPhoto:payload.companyCoverPhoto
+			return {...state,
+					companyCoverPhoto:payload
 					}
+			break;
+
+		case 'UPDATE_PAYMENT_PLAN':
+			return{
+				...state,
+				paymentPlan:payload
+			}
+		break;
+
+		case 'LOGIN_COMPANY_PAGE':
+			return{
+				...state,
+				loggedIn:payload
+			}
 			break;
 
 		default:
@@ -57,3 +90,6 @@ export function CompanyInformationReducer(state=initialState, action){
 			break;
 	}
 }
+
+
+export default CompanyInformationReducer;
