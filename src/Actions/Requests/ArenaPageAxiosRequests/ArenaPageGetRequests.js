@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const arenaUrl='/api/arena/search'
+const arenaUrl=process.env.NODE_ENV=='production'?
+				process.env.REACT_APP_ARENA_GET_URL:
+				process.env.REACT_APP_TEST_ARENA_GET_URL;
 export const fetchArenaInformation=async(userId)=>{
 	try{
 		const arenaResponse=await axios.get(`${arenaUrl}/fetchPostArenaInformation`,{

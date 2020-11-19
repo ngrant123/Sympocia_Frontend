@@ -2,7 +2,9 @@
 import axios from "axios";
 
 //const baseurl=BASE_URL.BASE_URL;
-const SetUrl="/api/posts/alter";
+const SetUrl=process.env.NODE_ENV=='production'?
+			 process.env.REACT_APP_HOME_SET_URL:
+			 process.env.REACT_APP_TEST_HOME_SET_URL;
 
 export const createGroupVideoCall=async({title,owner,description,_id})=>{
 	try{

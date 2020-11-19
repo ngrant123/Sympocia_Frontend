@@ -3,7 +3,7 @@ import BASE_URL from "../../../Constants/constants.js";
 
 
 const baseurl=BASE_URL.BASE_URL;
-const CreateUrl='/api/profile/alter';
+const CreateUrl=process.env.NODE_ENV=='production'?process.env.PROFILE_SET_URL:process.env.TEST_PROFILE_SET_URL;
 
 export function addEmployeeData(userId,employeeData){
 	/*
