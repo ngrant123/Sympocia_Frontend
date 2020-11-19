@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import styled from "styled-components";
 import CompanySetupPage from "../MediumSignupComp/CompanySetupPage.js";
 import PersonalSetupDisplayPage from "../MediumSignupComp/PersonalSetupDisplayPage.js";
-import Particles from 'react-particles-js';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import Typed from "react-typed";
@@ -526,38 +525,7 @@ addIndustry=(props)=>{
 	render(){
 
 		return (
-				<BodyContainer > 
-					<div id="particlesJS">
-						<Particles
-						    params={{
-							    "particles": {
-							        "number": {
-							            "value": 100
-							        },
-							        "size": {
-							            "value": 3
-							        },
-							        "color": {
-								      "value": "#000000"
-								    },
-								    "line_linked": {
-     
-							      "color": "#000000",
-							   
-							    	}
-							    },
-							    "interactivity": {
-							        "events": {
-							            "onhover": {
-							                "enable": true,
-							                "mode": "repulse"
-							            }
-							        }
-							    },
-							}}
-						/>
-					</div>
-
+				<BodyContainer> 
 				{this.DisplayPersonalOrCompanyChoices()}
 				{this.displayPersonalInvestorSection()}
 				{this.state.displayInvestorPersonalSignUpFinalModal==true?
