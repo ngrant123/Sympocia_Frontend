@@ -214,6 +214,13 @@ class LSignupPage extends Component {
 			   </TitleHeader>
 	}
 
+	handleDisplayGeneralSetupPage=()=>{
+		document.getElementById("titleHeader").style.visibility="visible";
+		this.setState({
+			displayPersonalSignupModal:false
+		})
+	}
+
 
 	DisplayPersonalOrCompanyChoices=()=>{
 
@@ -233,9 +240,9 @@ class LSignupPage extends Component {
 					<li style={{listStyle:"none",marginTop:"5%"}}>
 						<ul style={{padding:"0px"}}>
 							{this.state.displayPersonalSignupModal==true?
-								<li id="signUpContainer" style={{position:"relative",listStyle:"none",top:"-70px"}}>
+								<li id="signUpContainer" style={{position:"relative",listStyle:"none",top:"-140px"}}>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>this.setState({displayPersonalSignupModal:false})} style={BackButtonCSS}>
+										<li onClick={()=>this.handleDisplayGeneralSetupPage()} style={BackButtonCSS}>
 											Back
 										</li>
 									</a>
@@ -326,6 +333,7 @@ class LSignupPage extends Component {
 	}
 
 	handleDisplayPersonalSetupPage=()=>{
+		document.getElementById("titleHeader").style.visibility="hidden";
 		this.setState({displayPersonalSignupModal:true})
 	} 
 

@@ -34,8 +34,7 @@
     "socket.io-client": "^2.3.0",
     "source-map-explorer": "^2.5.0",
     "styled-components": "^5.0.1",
-    "typed.js": "^2.0.10",
-    "webpack": "^4.28.3"
+    "typed.js": "^2.0.10"
   },
   "scripts": {
     "start": "react-scripts start",

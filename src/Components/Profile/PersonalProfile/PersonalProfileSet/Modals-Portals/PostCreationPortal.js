@@ -8,13 +8,13 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:20;
+	z-index:35;
 	top:0px;
 `;
 
 const PostCreationContainer=styled.div`
 	position:absolute;
-	z-index:21;
+	z-index:35;
 	top:0px;
 	background-color:white;
 `;

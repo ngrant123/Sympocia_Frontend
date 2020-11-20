@@ -14,7 +14,7 @@ import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 
 const Container=styled.div`
 	position:fixed;
-	z-index:21;
+	z-index:35;
 	background-color:white;
 	border-radius:5px;
 	top:20%;
@@ -331,7 +331,8 @@ class LargePostComponent extends Component{
 			companyName:"Razu",
 			industries:PERSONAL_INDUSTRIES.INDUSTRIES,
 			indicatorForPersonalOrCompanyPost:"profile",
-			id:""
+			id:"",
+			displayGeneralCreationModal:true
 		};
 	}
 	
@@ -421,9 +422,12 @@ class LargePostComponent extends Component{
 						<ul style={{padding:"0px",marginLeft:"10%",marginTop:"5px"}}>
 							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<PostOptionButton onClick={()=>this.setState({displayElement:<RegularPostCreation
-																									displayProps={this.displayPostOptions}
-																								  />})}>
+									<PostOptionButton onClick={()=>this.setState({
+																			displayElement:<RegularPostCreation
+																								displayProps={this.displayPostOptions}
+																							  />,
+																			displayGeneralCreationModal:false
+																		 })}>
 										Post
 									</PostOptionButton>
 								</a>
@@ -431,9 +435,12 @@ class LargePostComponent extends Component{
 
 							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<PostOptionButton  onClick={()=>this.setState({displayElement:<ImagePostCreation
+									<PostOptionButton  onClick={()=>this.setState({
+																					displayElement:<ImagePostCreation
 																									displayProps={this.displayPostOptions}
-																									/>})}>
+																									/>,
+																					displayGeneralCreationModal:false
+																				})}>
 										Image
 									</PostOptionButton>
 								</a>
@@ -441,9 +448,12 @@ class LargePostComponent extends Component{
 
 							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<PostOptionButton onClick={()=>this.setState({displayElement:<VideoPostCreation
+									<PostOptionButton onClick={()=>this.setState({
+																					displayElement:<VideoPostCreation
 																										displayProps={this.displayPostOptions}
-																									/>})}>
+																									/>,
+																					displayGeneralCreationModal:false
+																				})}>
 										Video
 									</PostOptionButton>
 								</a>
@@ -477,7 +487,7 @@ class LargePostComponent extends Component{
 				}}
 			>
 				<React.Fragment>
-					{this.props.postOption==null ||this.props.postOption=="General"?
+					{this.state.displayGeneralCreationModal==true?
 						<Container>
 							{this.state.displayElement}
 						</Container>:

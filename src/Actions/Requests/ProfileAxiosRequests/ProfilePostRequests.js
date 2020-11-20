@@ -3,7 +3,10 @@ import BASE_URL from "../../../Constants/constants.js";
 
 
 const baseurl=BASE_URL.BASE_URL;
-const CreateUrl=process.env.NODE_ENV=='production'?process.env.PROFILE_SET_URL:process.env.TEST_PROFILE_SET_URL;
+debugger;
+const CreateUrl=process.env.NODE_ENV=='production'?
+				process.env.REACT_APP_PROFILE_SET_URL:
+				process.env.REACT_APP_TEST_PROFILE_SET_URL;
 
 export function addEmployeeData(userId,employeeData){
 	/*
@@ -82,7 +85,7 @@ export function updateEmployee(userId,updatedEmployeeData){
 }
 
 export async function createProfile(personalData){
-	
+	debugger;
 	const {firstName,lastName,email,paymentPlan,isInvestor,location,stripToken}=personalData;
 	let personalInformation;
 	if(isInvestor==true){

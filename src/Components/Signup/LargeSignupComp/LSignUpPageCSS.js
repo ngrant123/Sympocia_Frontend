@@ -6,11 +6,15 @@ import { Link } from "react-router-dom";
 export const PersonalSignUpCard=styled.div`
 	position:relative;
 	background-color:white;
-	width:30%;
-	height:60%;
+	width:35%;
 	border-radius:5px;
 	border-style:solid;
     border-color:#5298F8;
+
+    @media screen and (max-width:1370px) {
+		width:80% !important;
+	}
+
 `;
 
 export const BodyContainer= styled.div`
@@ -35,38 +39,23 @@ export const BodyContainer= styled.div`
 	  z-index: -1
 	} 
 
-	@media screen and (max-width:1340px) {
-		width:80% !important;
-		#personalCardContainer{
-			top:-170px !important;
-		}
-	}
-
-	@media screen and (max-width:1250px) {
-		#titleHeader{
-			font-size:50px;
-		}
-		#personalCardContainer{
-			top:-140px !important;
-		}
-		#personalSignInCard{
-			width:90% !important;
-		}
+	@media screen and (max-width:1370px) {
 		#signUpContainer{
-			top:-10px !important;
+			top:-300px !important;
 		}
-	}
 
-	@media screen and (max-width:1030px) {
 		#personalCardContainer{
 			width:40% !important;
 		}
+
 		#companyCardContainer{
 			width:50% !important;
 		}
+
 		#personalCardTitle{
 			font-size:20px !important;
 		}
+
 		#companyCardTitle{
 			font-size:20px !important;
 		}
@@ -82,6 +71,10 @@ export const BodyContainer= styled.div`
 
 
 	@media screen and (max-width:760px) {
+		#signUpContainer{
+			top:-100px !important;
+		}
+
 		#mobileDivider{
 			display:block;
 		}

@@ -145,11 +145,22 @@ class FriendsGauge extends Component {
            style={{fontSize:30}}
       />
   }
+  /*
+    Reason for the code below is because the way its set up for mobile is that 
+    when user clicks the friends node progress bar it displays the options. But when
+    you click the node itself both the node information and the options show up 
+     but it overlaps cause the indexes are different. Callback solves this 
+     but there probably is a better solution
+  */
 
-  displayNodeInformation=(node)=>{  
+  displayNodeInformation=(node,isDesktop)=>{  
       this.setState({
-          displayNodeInformationModule:true,
-          nodeInformation:node
+        displayNodeInformationModule:true,
+        nodeInformation:node
+      },function(){
+        this.setState({
+          displayPhoneEditNodesModal:false
+        })
       })
   }
 
@@ -162,7 +173,7 @@ class FriendsGauge extends Component {
       const currentIntervalValue=index*intervalValue;
       const isUnlocked=this.state.progressBarCounter>=currentIntervalValue;
       
-      return <ul onClick={()=>this.displayNodeInformation(node)} style={{marginTop:"5%",padding:"0px"}}>
+      return <ul onClick={()=>this.displayNodeInformation(node,this.props.mobileUIStatus.displayDesktopUI)} style={{marginTop:"5%",padding:"0px"}}>
                 {this.props.mobileUIStatus.displayDesktopUI==false?
                     <>
                       {this.props.mobileUIStatus.displayIpadUI==true?
@@ -284,8 +295,6 @@ class FriendsGauge extends Component {
             break;
           }
       }
-      
-      console.log(currentNodes);
       this.setState({
           displayFriendsGaugeEditModal:false,
           nodes:currentNodes
@@ -315,6 +324,8 @@ class FriendsGauge extends Component {
   }
 
 
+
+
   render() {
 
     return (
@@ -329,7 +340,7 @@ class FriendsGauge extends Component {
               
               {this.props.mobileUIStatus.displayDesktopUI==true &&(
                   <>
-                    {this.props.personalInformation.isOwnProfile==true?
+                    {this.props.personalInformation.isOwnProfile==true &&(
                       <React.Fragment>
                           <a href="javascript:void(0);" style={{textDecoration:"none"}}>
                             <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({displayFriendsGaugeEditModal:true,friendsGaugeActionType:"Add"})}>
@@ -347,9 +358,8 @@ class FriendsGauge extends Component {
                                 Promote Someone
                             </li>
                           </a>
-                      </React.Fragment>:
-                      <React.Fragment></React.Fragment>
-                    }
+                      </React.Fragment>
+                    )}
                   </>
               )}
 
