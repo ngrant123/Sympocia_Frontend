@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled,{keyframes} from "styled-components";
 import FirstSection from "./LandingFirstSection/personalIndex.js";
 import SecondSection from "./LandingSecondSection/personalIndex.js";
@@ -16,6 +16,8 @@ import LandingImageSecondCompany from '../../designs/img/CompanySecondSection.pn
 import LandingImageFirstPersonal from '../../designs/img/FirstSectionLandingPAgeImage.png';
 import LandingImageSecondPersonal from '../../designs/img/SecondSectionImage.png';
 import LandingImageThirdPersonal from '../../designs/img/ThirdSectionImage.png';
+import {logOutUser} from "../../Actions/Redux/Actions/PersonalProfile.js";
+import {useDispatch,useSelector} from "react-redux";
 
 
 const Container=styled.div`
@@ -230,6 +232,19 @@ const LandingPage=(props)=>{
 
 	const [currentPageCounter,changePageCounter]=useState(0);
 	const [displayPersonalLanding,changeDisplayForPersonal]=useState(true);
+	const dispatch=useDispatch();
+	debugger;
+	const isLoggedIn=useSelector(state=>state.personalInformation.loggedIn);
+	useEffect(()=>{
+		const {history}=props;
+		console.log(history);
+		
+		if(history.location.pathname=='/logout'){
+			dispatch(logOutUser());
+		}else if(isLoggedIn==true){
+			history.push('/home');
+		}
+	})
 
 	const increasePageCounter=()=>{
 		

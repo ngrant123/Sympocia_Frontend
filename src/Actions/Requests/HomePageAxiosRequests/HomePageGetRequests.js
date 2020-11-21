@@ -2,7 +2,9 @@ import axios from "axios";
 import BASE_URL from "../../../Constants/constants.js";
 
 const baseurl=""+BASE_URL.BASE_URL;
-const GetUrl="/api/posts/search";
+const GetUrl=process.env.NODE_ENV=='production'?
+			process.env.REACT_APP_HOME_GET_URL:
+			process.env.REACT_APP_TEST_HOME_GET_URL;
 
 export function getNewFeedUpdates(userId){
 	//userId:number

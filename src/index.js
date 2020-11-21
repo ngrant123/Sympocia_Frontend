@@ -66,6 +66,7 @@ const application  = (
 						<Suspense fallback={<LoadingScreen/>}>
 							<Route exact path="/profile/:id" component={PersonalProfileScreen}/>
 							<Route exact path="/" component= {Landing}/>
+							<Route exact path="/logout" component= {Landing}/>
 							<Route exact path="/signup" component={Signup}/>
 							<Route exact path="/home" component= {HomeScreen}/>
 							<Route exact path="/blog/:id" component={BlogPostCreation}/>

@@ -19,7 +19,7 @@ import {
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import PollOptionPortal from "../../PollOptionPortal.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
-
+import {Link} from "react-router-dom";
 
 const Container=styled.div`
 	position:relative;
@@ -219,7 +219,7 @@ displayOrHideVideoAndComments=()=>{
 }
 
 displayDescription=(postInformation)=>{
-
+	console.log(postInformation);
 	return this.state.displayDescription==false? <React.Fragment></React.Fragment>:
 		<DescriptionModal>
 			<ul style={{padding:"0px"}}>
@@ -228,12 +228,15 @@ displayDescription=(postInformation)=>{
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 							<SmallProfileDescriptionPicture>
 								{this.props.video.videoDescription==null?
-									<React.Fragment>
-										{postInformation.profilePicture==null?
-											<img src={NoProfilePicture} style={{borderRadius:"50%",width:"100%",height:"100%"}}/>:
-											<img src={postInformation.owner.profilePicture} style={{borderRadius:"50%",width:"100%",height:"100%"}}/>
-										}
-									</React.Fragment>:
+									<>
+										{postInformation.owner.profilePicture!=null &&(
+											<Link to={{pathname:`/profile/${postInformation.owner._id}`}}>
+												<img src={postInformation.owner.profilePicture} 
+													style={{borderRadius:"50%",width:"100%",height:"100%"}}
+												/>
+											</Link>
+										)}
+									</>:
 									<video style={{borderRadius:"5px"}} width="100%" height="100%" autoplay="true" controls>
 								
 										<source src={this.props.video.videoDescription} type="video/mp4"/>
@@ -245,22 +248,23 @@ displayDescription=(postInformation)=>{
 						<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"white",marginRight:"35%"}}>
 							<b>{postInformation.owner.firstName}</b>
 						</li>
-						<li style={{listStyle:"none"}}>
-							<audio controls>
-								<source src={this.props.video.audioDescription} type="audio/ogg"/>
-								<source src={this.props.video.audioDescription} type="audio/mpeg"/>
-								Your browser does not support the audio element.
-							</audio>
-						</li>
-
-						<li onClick={()=>this.setState({displayDescription:false})} style={{position:"relative",listStyle:"none",display:"inline-block",color:"white"}}>
-							<b>Close</b>
-						</li>
+						{postInformation.audioDescription!=null &&(
+							<li style={{listStyle:"none"}}>
+								<audio controls>
+									<source src={this.props.video.audioDescription} type="audio/ogg"/>
+									<source src={this.props.video.audioDescription} type="audio/mpeg"/>
+									Your browser does not support the audio element.
+								</audio>
+							</li>
+						)}
 					</ul>
 				</li>
 
 				<li style={{listStyle:"none",marginBottom:"2%",padding:"5px",fontSize:"15px",color:"white"}}>
 					{postInformation.description}
+				</li>
+				<li onClick={()=>this.setState({displayDescription:false})} style={{position:"relative",listStyle:"none",color:"white"}}>
+					<b>Close</b>
 				</li>
 			</ul>
 

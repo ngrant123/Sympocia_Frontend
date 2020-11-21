@@ -23,6 +23,7 @@ const BackButtonCSS={
 }
 
 const Container=styled.div`
+	padding:20px;
 	@media screen and (max-width:600px){
 		width:180% !important;
 		#userPictureAndNameLI{
@@ -41,7 +42,7 @@ const Container=styled.div`
 		}
 	}
 
-    @media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
 	 	#descriptionAndSubmitLI{
 			margin-left:10% !important;
 			border-style:none !important;

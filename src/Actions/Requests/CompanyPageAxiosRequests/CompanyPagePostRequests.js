@@ -1,5 +1,7 @@
 import axios from "axios";
-const CreateUrl='/api/company/alter';
+const CreateUrl=process.env.NODE_ENV=='production'?
+				process.env.REACT_APP_COMPANY_SET_URL:
+				process.env.REACT_APP_TEST_COMPANY_SET_URL;
 
 export async function createCompanyProfile (companyObject){
 

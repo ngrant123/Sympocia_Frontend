@@ -381,7 +381,7 @@ export const ShadowContainer= styled.div`
 	height:100%;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
-	z-index:11;
+	z-index:35;
 
 `;
 
@@ -393,7 +393,7 @@ export const ImagePopupContainer=styled.div`
 	height:60%;
 	background-color:white;
 	padding:20px;
-	z-index:11;
+	z-index:35;
 	border-radius:5px;
 
 	@media screen and (max-width:800px){
@@ -411,9 +411,8 @@ export const PostPopupContainer=styled.div`
 	position:fixed;
 	width:70%;
 	height:60%;
-	background-color:white;
 	padding:20px;
-	z-index:11;
+	z-index:35;
 	border-radius:5px;
 
 	@media screen and (max-width:800px){
@@ -462,7 +461,7 @@ export const RegularPostContainerParent=styled.div`
 	position:fixed;
 	width:60%;
 	height:40%;
-	z-index:11;
+	z-index:35;
 	left:20%;
 	top:20%;
 	border-radius:5px;

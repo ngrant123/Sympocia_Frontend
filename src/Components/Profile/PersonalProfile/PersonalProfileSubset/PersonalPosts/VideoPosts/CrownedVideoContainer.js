@@ -7,7 +7,7 @@ import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
 const ThumbnailVideoComponent=styled.div`
 	position:relative;
 	width:100%;
-	height:45%;
+	height:35%;
 	overflow:hidden;
 
 	@media screen and (max-width:420px){
@@ -34,7 +34,7 @@ const ThumbnailVideoComponent=styled.div`
 const ThumbnailVideo=styled.div`
 	position:relative;
 	width:450px;
-	height:100%;
+	height:140%;
 	border-radius:5px;
 	@media screen and (max-width:420px){
 		width:110% !important;

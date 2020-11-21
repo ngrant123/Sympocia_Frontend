@@ -70,6 +70,14 @@ const signInPersonalUser=(userInformation)=>{
 	}
 }
 
+const logOutUser=()=>{
+	debugger;
+	return{
+		type:'LOGOUT_USER',
+		payload:""
+	}
+}
+
 module.exports={
 	addName,
 	addLastName,
@@ -79,5 +87,6 @@ module.exports={
 	addPaymentPlan,
 	firstTimeUsage,
 	loginPersonalPage,
-	signInPersonalUser
+	signInPersonalUser,
+	logOutUser
 }

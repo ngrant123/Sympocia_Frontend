@@ -1,7 +1,14 @@
 import axios from "axios";
 
-const CreateUrl='/api/marketing/alter';
-const SearchUrl='/api/marketing/search';
+debugger;
+console.log(process.env);
+const CreateUrl=process.env.NODE_ENV=='production'?
+				process.env.REACT_APP_MARKET_POST_URL:
+				process.env.REACT_APP_TEST_MARKET_POST_URL;
+
+const SearchUrl=process.env.NODE_ENV=='production'?
+				process.env.REACT_APP_MARKET_GET_URL:
+				process.env.REACT_APP_TEST_MARKET_GET_URL;
 
 export const createResponse=async({text,name,profilePicture,email})=>{
 	try{

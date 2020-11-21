@@ -114,15 +114,8 @@ const BlogCreationButton=styled(Link)`
 
 const NoPostsModal=(props)=>{
 	const [recommendedPosts,changeRecommendedPosts]=useState([]);
-	var profileContext;
-	var postContext;
-	if(props.profilePageType=="Company"){
-		postContext=useContext(CompanyPostsContext);
-		profileContext=useContext(CompanyContext);
-	}else{
-		 postContext=useContext(PostContext);
-		 profileContext=useContext(UserContext);
-	}
+	const postContext=useContext(PostContext);
+	const profileContext=useContext(UserContext);
 
 	useEffect(()=>{
 		const getData=async()=>{

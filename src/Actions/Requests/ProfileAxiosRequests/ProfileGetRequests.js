@@ -2,7 +2,9 @@ import axios from "axios";
 import BASE_URL from "../../../Constants/constants.js";
 
 const baseurl=BASE_URL.BASE_URL;
-const SearchUrl='/api/profile/search';
+const SearchUrl=process.env.NODE_ENV=='production'?
+				process.env.REACT_APP_PROFILE_GET_URL:
+				process.env.REACT_APP_TEST_PROFILE_GET_URL;
 
 export function getActivityLog(userId){
 	//userId:number

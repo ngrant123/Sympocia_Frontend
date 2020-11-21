@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const Url="/api/map/search";
+const Url=process.env.NODE_ENV=='production'?
+		  process.env.REACT_APP_MAP_GET_URL:
+		  process.env.REACT_APP_TEST_MAP_GET_URL;
+
 export async function quickSearchIndustry(id,industryArray){
 
 	try{
