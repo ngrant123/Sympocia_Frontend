@@ -9,7 +9,7 @@ import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/Perso
 
 const Container=styled.div`
 	position:fixed;
-	width:85%;
+	width:65%;
 	height:70%;
 	z-index:12;
 	border-radius:5px;
@@ -90,13 +90,6 @@ const VideoContainer=(data)=>{
 								isOwnPostViewing={data.isOwnProfile}
 							/>
 						</li>
-						{data.recommendedVideos!=null?
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<RecommendedVideos
-									videos={data.recommendedVideos}
-								/>
-							</li>:null
-						}
 					</ul>:
 					<EditVideoModal
 						videoSrc={data.videoData.videoUrl}

@@ -91,7 +91,7 @@ const SearchButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  marginTop:"10%"
+  marginTop:"5%"
 }
 
 const PostOptionsCSS={
@@ -177,7 +177,7 @@ class SearchBarModal extends Component{
 							<li id="searchContainerLI" style={{listStyle:"none",display:"inline-block",width:"75%"}}>
 								<SearchButton id="searchTextArea" placeholder="Search here..."/>
 							</li>
-							<li id="optionLI" style={{position:"absolute",listStyle:"none",marginTop:"2%"}}>
+							<li id="optionLI" style={{listStyle:"none",marginTop:"2%"}}>
 								<div class="dropdown">
 									<button class="btn btn-primary dropdown-toggle" 
 											type="button" data-toggle="dropdown" style={{	

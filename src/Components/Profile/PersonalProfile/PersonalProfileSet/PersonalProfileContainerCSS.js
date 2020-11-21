@@ -411,7 +411,6 @@ export const PostPopupContainer=styled.div`
 	position:fixed;
 	width:70%;
 	height:60%;
-	background-color:white;
 	padding:20px;
 	z-index:35;
 	border-radius:5px;

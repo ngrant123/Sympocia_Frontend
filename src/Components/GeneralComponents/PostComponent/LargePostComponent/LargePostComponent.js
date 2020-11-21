@@ -332,7 +332,7 @@ class LargePostComponent extends Component{
 			industries:PERSONAL_INDUSTRIES.INDUSTRIES,
 			indicatorForPersonalOrCompanyPost:"profile",
 			id:"",
-			displayGeneralCreationModal:true
+			displayGeneralCreationModal:false
 		};
 	}
 	
@@ -378,9 +378,6 @@ class LargePostComponent extends Component{
 		var industryValue=document.getElementById(props).innerHTML;
 	}
 
-	testerClick(){
-	}
-
 	displayPostOptions=(props)=>{
 
 		if(props=="RegularPost"){
@@ -410,6 +407,9 @@ class LargePostComponent extends Component{
 
 
 	originalScreen=()=>{
+		this.setState({
+			displayGeneralCreationModal:true	
+		})
 		return (
 				<React.Fragment>
 					<PostContainer>
