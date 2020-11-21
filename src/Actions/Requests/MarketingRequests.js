@@ -1,7 +1,5 @@
 import axios from "axios";
 
-debugger;
-console.log(process.env);
 const CreateUrl=process.env.NODE_ENV=='production'?
 				process.env.REACT_APP_MARKET_POST_URL:
 				process.env.REACT_APP_TEST_MARKET_POST_URL;
