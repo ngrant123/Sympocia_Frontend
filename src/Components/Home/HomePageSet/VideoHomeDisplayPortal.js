@@ -15,8 +15,6 @@ const ShadowContainerVideos=styled.div`
 const Container=styled.div`
 	position:fixed;
 	z-index:36;
-	height:85%;
-	width:95%;
 	border-radius:5px;
 	top:5%;
 	left:5%;

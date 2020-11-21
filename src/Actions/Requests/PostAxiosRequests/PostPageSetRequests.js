@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const CreateURl='/api/posts/alter';
+const CreateURl=process.env.NODE_ENV=='production'?
+				process.env.REACT_APP_POST_SET_URL:
+				process.env.REACT_APP_TEST_POST_SET_URL;
+
 export const createRegularPost=async(userId,searchCriteria,profileIndicator)=>{
 	
 	try{

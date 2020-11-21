@@ -18,12 +18,14 @@ import {loginCompanyPage} from "../../../Actions/Redux/Actions/CompanyActions.js
 const InputContainer=styled.textarea`
 	position:relative;
 	border-radius:5px;
-
+	width:85%;
 	border-style:solid;
 	border-width:1px;
 	border-color:#D8D8D8;
 	resize:none;
 	padding:5px;
+	margin-bottom:2%;
+	margin-right:2%;
 `;
 
 const SubmitButton=styled.div`
@@ -70,7 +72,8 @@ const TermsOfAgreement=styled.div`
   position:relative;
   height:30%;
   font-size:10px;
-
+  padding:20px;
+  margin-left:-10%;
 
   @media screen and (max-width:1375px) {font-size:10px}
   @media screen and (max-width:1024px) {left:10%;width:75%;font-size:10px}
@@ -88,6 +91,11 @@ const TermsOfAgreement=styled.div`
 
 `;
 
+/*
+	Currently trying to convert password into * so that to increase security
+	but it taking a little bit longer than i had hoped so I'm going to go 
+	back to it later
+*/
 
 
 class PersonalSignUp extends Component{
@@ -96,7 +104,8 @@ class PersonalSignUp extends Component{
 		this.state={
 			isEmailValid:false,
 			createProfile:this.handleSignUpButton,
-			password:""
+			password:[],
+			reformatedPassword:""
 		}
 	}
 
@@ -107,6 +116,9 @@ class PersonalSignUp extends Component{
 		const lastName=document.getElementById("lastName").value;
 		const email=document.getElementById("email").value;
 		const password=document.getElementById("password").value;
+
+		console.log(password);
+
 		const {
 				addFirstName,
 			 	addLastName,
@@ -115,29 +127,28 @@ class PersonalSignUp extends Component{
 			 	loginPersonalPage,
 			 	loginCompanyPage
 			 }=this.props;
-
 				debugger;
-				const {confirmation,data}=await createProfile({
-					firstName:firstName,
-					lastName:lastName,
-					email:email,
-					isInvestor:false,
-					password:password
-				});
+		const {confirmation,data}=await createProfile({
+			firstName:firstName,
+			lastName:lastName,
+			email:email,
+			isInvestor:false,
+			password:password
+		});
 
-				if(confirmation=="Success"){
-					addPersonalIdentificationId(data._id);
-					loginPersonalPage(true);
-					loginCompanyPage(false);
-					addFirstName(firstName);
-					addLastName(lastName);
-					addEmail(email);
-					this.props.history.push({
-						pathname:'/home'
-					})
-				}else{
-					alert('Unfortunately there was an error trying to create your profile. Please try again');
-				}
+		if(confirmation=="Success"){
+			addPersonalIdentificationId(data._id);
+			loginPersonalPage(true);
+			loginCompanyPage(false);
+			addFirstName(firstName);
+			addLastName(lastName);
+			addEmail(email);
+			this.props.history.push({
+				pathname:'/home'
+			})
+		}else{
+			alert('Unfortunately there was an error trying to create your profile. Please try again');
+		}
 	}
 
 	checkIfEmailIsValid=async()=>{
@@ -173,48 +184,126 @@ class PersonalSignUp extends Component{
 		}
 	}
 
-	handlePasswordEnter=(character)=>{
-		
-		const currentPassword=this.state.password;
-		var newPassWord=currentPassword+character;
-		this.setState({
-			password:newPassWord
-		})
+	doGetCaretPosition=(oField)=>{
+
+	  // Initialize
+		  var iCaretPos = 0;
+
+		  // IE Support
+		  if (document.selection) {
+
+		    // Set focus on the element
+		    oField.focus();
+
+		    // To get cursor position, get empty selection range
+		    var oSel = document.selection.createRange();
+
+		    // Move selection start to 0 position
+		    oSel.moveStart('character', -oField.value.length);
+
+		    // The caret position is selection length
+		    iCaretPos = oSel.text.length;
+		  }
+
+		  // Firefox support
+		  else if (oField.selectionStart || oField.selectionStart == '0')
+		    iCaretPos = oField.selectionDirection=='backward' ? oField.selectionStart : oField.selectionEnd;
+
+		  // Return results
+		  return iCaretPos;
+	}
+
+	handlePasswordEnter=(event)=>{
+		debugger;
+		if(event.key=="Shift" || event.key=="Backspace" ||
+		  (event.keyCode >= 48 && event.keyCode <= 57)==true ||
+		  (event.keyCode >= 65 && event.keyCode <= 90)==true){
+			const password=document.getElementById("password").value;
+			const currentCursorLocation=event.target.selectionStart
+			let reformatedPassword=password;
+			let currentPassword=this.state.password;
+			let recentlyAddedCharacter=event.key;
+
+			if(currentCursorLocation==this.state.password.length){
+				currentPassword.push(recentlyAddedCharacter);
+				this.setState({
+					password:currentPassword
+				})
+			}else{
+				if(event.key=="Backspace"){		
+					currentPassword.splice(currentCursorLocation+1,1);
+					this.setState({
+						password:currentPassword
+					})
+				}else{
+					if(event.key=="Shift"){
+						recentlyAddedCharacter=recentlyAddedCharacter.toUpperCase();
+					}
+					currentPassword.splice(currentCursorLocation,0,recentlyAddedCharacter);
+					this.setState({
+						password:currentPassword
+					})
+				}
+			}
+			let finalWord="";
+			for(var j=0;j<currentPassword.length;j++){
+				let newFinalWord=currentPassword[j].toString();
+				finalWord=finalWord+newFinalWord;
+			}
+
+			for(var i=0;i<finalWord.toString().length;i++){
+				const character=finalWord.charAt(i);
+				const newFormat=finalWord.replace(character,'*');
+				finalWord=newFormat;
+			}
+			document.getElementById("password").value=finalWord;
+		}
+	}
+
+	test=(event)=>{
+		/*
+			if(event.key=="ENTER"){
+				event.preventDefault();
+			}else{
+				if((event.keyCode >= 48 && event.keyCode <= 57)==true ||
+			  		(event.keyCode >= 65 && event.keyCode <= 90)==true){
+					event.preventDefault();
+				}
+				this.handlePasswordEnter(event);
+			} 
+		*/
 	}
 
 	render(){
 		return (
 			<React.Fragment>
 				<ul style={{padding:"0px"}}>
-					<img src={SympociaIcon} style={{position:"relative",marginLeft:"35%",width:"80px",height:"60px"}}/>
-					<p style={{fontSize:"30px",marginLeft:"17%",color:"#424242"}}>
+					<img src={SympociaIcon} style={{position:"relative",marginLeft:"40%",width:"80px",height:"60px"}}/>
+					<p style={{fontSize:"30px",marginLeft:"10%",color:"#424242"}}>
 						<b>Welcome to Sympocia</b>
 					</p>
 					<p style={{marginLeft:"35%"}}> Sign up is quick and easy </p>
 
 					<ul style={{paddingLeft:"70px"}}>
-						<li style={{listStyle:"none"}}>
-							<InputContainer id="email" style={{width:"85%"}} placeholder="Email"/>
-						</li>
-						<li style={{listStyle:"none",marginBottom:"5%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-									<InputContainer onClick={()=>this.checkIfEmailIsValid()} id="firstName" placeholder="First Name"/>
-								</li>
+						<InputContainer id="email" placeholder="Email"/>
+						<InputContainer onClick={()=>this.checkIfEmailIsValid()}
+							 id="firstName" placeholder="First Name"
+						/>
 
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<InputContainer onClick={()=>this.checkIfEmailIsValid()} id="lastName" placeholder="Last Name (optional)"/>
-								</li>
-							</ul>
-						</li>
+						<InputContainer onClick={()=>this.checkIfEmailIsValid()}
+							 id="lastName" placeholder="Last Name (optional)"
+						/>
 
-						<li style={{listStyle:"none"}}>
-							<InputContainer onKeyPress={e=>this.handlePasswordEnter(e.key)} onClick={()=>this.checkIfEmailIsValid()} id="password" style={{width:"85%"}} placeholder="Password"/>
-						</li>
+						<InputContainer onKeyDown={e=>this.test(e)} 
+							onClick={()=>this.checkIfEmailIsValid()} id="password"
+							 style={{width:"85%"}} placeholder="Password"
+						/>
 
-						<SubmitButton onClick={()=>this.handleSignUpButton()}>
-							Submit
-						</SubmitButton>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<SubmitButton onClick={()=>this.handleSignUpButton()}>
+								Submit
+							</SubmitButton>
+						</a>
 
 						 <TermsOfAgreement>
                            By clicking Submit, you agree to our Terms, Data Policy and Cookies Policy.

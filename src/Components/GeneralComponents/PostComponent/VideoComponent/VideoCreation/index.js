@@ -6,7 +6,7 @@ import EditOrUploadVideoOption from "./EditOrUploadVideoOption.js";
 
 const Container=styled.div`
 	position:fixed;
-	z-index:21;
+	z-index:35;
 	background-color:white;
 	border-radius:5px;
 	top:20%;

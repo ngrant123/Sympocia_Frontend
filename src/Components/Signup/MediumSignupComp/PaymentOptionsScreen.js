@@ -15,9 +15,7 @@ const PaymentOptionContainer = styled.div`
 	border-color:black;
 	display:inline;
 	transition: all ease .2s;
-
 	opacity:1;
-
 `;
 
 const Payment1 = styled.div`

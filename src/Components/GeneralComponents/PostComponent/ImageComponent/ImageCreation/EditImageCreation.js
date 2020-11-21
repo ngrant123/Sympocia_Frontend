@@ -30,7 +30,7 @@ import CreateNewImageModal from "./index.js";
 
 const Container=styled.div`
 	position:fixed;
-	z-index:21;
+	z-index:35;
 	background-color:white;
 	border-radius:5px;
 	top:20%;
@@ -896,24 +896,21 @@ class EditImageCreation extends Component{
 
 										{this.state.displayFilterPictureModal==false?
 											<li style={{overflowY:"scroll",height:"150%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-												<ul id="imageInformationSelection" style={{padding:"0px",width:"300px"}}>
+												<ul id="imageInformationSelection" style={{padding:"0px",width:"350px"}}>
 													<IndustryPostOptions
 														alterSelectedIndustry={this.alterSelectedIndustry}
 														alterSelectedSubCommunities={this.alterSelectedSubCommunities}
 													/>
-															
-
 													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
-																<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
-																				Writing a caption...
-																</ImageTextArea>
-
+														<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
+																		Writing a caption...
+														</ImageTextArea>
 													</li>
 
 													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
-																			<ImageTextArea id="descriptionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
-																				Write a title description...
-																			</ImageTextArea>
+														<ImageTextArea id="descriptionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
+															Write a title description...
+														</ImageTextArea>
 
 													</li>
 													<p style={{marginLeft:"50%",fontSize:"20px",color:"#5298F8"}}> Or </p>
@@ -922,7 +919,7 @@ class EditImageCreation extends Component{
 															<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
 																Create either a video or voice description for your image. Much more interesting than regular text imo ;)
 															</li>
-															<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px",marginLeft:"10%"}}>
+															<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>
 																<ul style={{padding:"10px"}}>
 																	<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
 																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>

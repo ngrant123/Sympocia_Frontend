@@ -236,6 +236,7 @@ const FirstSection=(props)=>{
 
   const [displayEmailInformation,changeDisplayState]=useState(false);
   const [usersInterested,changeUsersInterested]=useState([]);
+  const [numberOfUserInTotalInterested,changeTotalAmountInterested]=useState(0);
   const [userId,changeUserId]=useState();
   const [displaySignUpPrompt,changeDisplaySignUpPrompt]=useState(false);
   const [displayEnterCodePrompt,changeDisplayEnterCodePrompt]=useState(false);
@@ -253,8 +254,13 @@ const FirstSection=(props)=>{
     const getInterestedApi=async()=>{
         const {confirmation,data}=await getInterestedProfiles(1);
         if(confirmation=="Success"){
-          
-          changeUsersInterested([...data]);
+          const {
+            numberOfPeopleInterested,
+            responses
+          }=data;
+
+          changeTotalAmountInterested(numberOfPeopleInterested);
+          changeUsersInterested([...responses]);
         }else{
           alert('There has been an error with our database. Please try again later');
         }
@@ -489,7 +495,7 @@ const FirstSection=(props)=>{
                                 <li style={{listStyle:"none",marginBottom:"20px"}}>
                                     <img id="imageContainer" src={LandingImage} style={{position:"relative",width:"95%",height:"80%"}}/>
                                 </li>
-                                <p> So far <b>{usersInterested.length}</b> users have signed up. What are you waiting for? :) </p>
+                                <p> So far <b>{numberOfUserInTotalInterested}</b> users have signed up. What are you waiting for? :) </p>
 
                                 <li style={{listStyle:"none"}}>
                                     <ul style={{padding:"5px",width:"110%",height:"15%",borderRadius:"5px",overflowX:"auto",boxShadow:"1px 5px 5px 5px #d5d5d5"}}>

@@ -49,7 +49,7 @@ const Container = styled.div`
 	height:60%;
 	background-color:white;
 	overflow:scroll;
-	z-index:21;
+	z-index:35;
 
 
 	@media screen and (max-width:600px){

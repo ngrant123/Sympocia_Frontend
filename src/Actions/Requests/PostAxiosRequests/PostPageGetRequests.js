@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const SearchUrl='/api/posts/search';
+const SearchUrl=process.env.NODE_ENV=='production'?
+				process.env.REACT_APP_POST_GET_URL:
+				process.env.REACT_APP_TEST_POST_GET_URL;
 
 export const getImagesPosts=async(industry,postCounter)=>{
 	try{

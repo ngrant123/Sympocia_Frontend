@@ -8,7 +8,7 @@ const Container=styled.div`
 	width:25%;
 	height:50%;
 	background-color:white;
-	z-index:12;
+	z-index:36;
 	top:20%;
 	border-radius:5px;
 	left:40%;
@@ -25,7 +25,7 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:11;
+	z-index:36;
 	top:0px;
 `;
 
@@ -53,7 +53,7 @@ const ExploreButton={
   borderColor:"#3898ec"
 }
 
-const NodeInformationPortal=({userId,nodeInformation,closeModal,updateNode})=>{
+const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNode})=>{
 	console.log(nodeInformation);
 	const [displayEditArea,changeDisplayEditArea]=useState(false);
 
@@ -85,31 +85,33 @@ const NodeInformationPortal=({userId,nodeInformation,closeModal,updateNode})=>{
 			/>
 			<Container>
 				<ul style={{padding:"15px"}}>
-					<li style={{listStyle:"none",marginBottom:"10%"}}>
-						<ul style={{padding:"0px"}}>
+					{isOwner==true &&(
+						<li style={{listStyle:"none",marginBottom:"10%"}}>
+							<ul style={{padding:"0px"}}>
 
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>changeDisplayEditArea(true)} style={{listStyle:"none",display:"inline-block",marginRight:"80%"}}>
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#2196F3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-									  <path stroke="none" d="M0 0h24v24H0z"/>
-									  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-									  <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-									  <line x1="16" y1="5" x2="19" y2="8" />
-									</svg>
-								</li>
-							</a>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>changeDisplayEditArea(true)} style={{listStyle:"none",display:"inline-block",marginRight:"80%"}}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#2196F3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										  <path stroke="none" d="M0 0h24v24H0z"/>
+										  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+										  <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+										  <line x1="16" y1="5" x2="19" y2="8" />
+										</svg>
+									</li>
+								</a>
 
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>closeModal()} style={{listStyle:"none",display:"inline-block"}}>
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#2196F3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-									  <path stroke="none" d="M0 0h24v24H0z"/>
-									  <rect x="4" y="4" width="16" height="16" rx="2" />
-									  <path d="M10 10l4 4m0 -4l-4 4" />
-									</svg>
-								</li>
-							</a>
-						</ul>
-					</li>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>closeModal()} style={{listStyle:"none",display:"inline-block"}}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#2196F3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										  <path stroke="none" d="M0 0h24v24H0z"/>
+										  <rect x="4" y="4" width="16" height="16" rx="2" />
+										  <path d="M10 10l4 4m0 -4l-4 4" />
+										</svg>
+									</li>
+								</a>
+							</ul>
+						</li>
+					)}
 					<li style={{listStyle:"none"}}>
 						{displayEditArea==false?
 							<>

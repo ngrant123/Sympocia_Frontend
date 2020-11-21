@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const CreateUrl='/api/company/search';
+const CreateUrl=process.env.NODE_ENV=='production'?
+				process.env.REACT_APP_COMPANY_GET_URL:
+				process.env.REACT_APP_TEST_COMPANY_GET_URL;
+
 export async function getCompanyInformation(companyId){
 	try{
 		const companyData=await axios.get(`${CreateUrl}/getCompaniesById`,{
