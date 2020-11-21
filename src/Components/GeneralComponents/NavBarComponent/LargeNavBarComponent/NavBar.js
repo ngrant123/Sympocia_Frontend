@@ -154,23 +154,42 @@ const NavBar=(pageProps)=>{
 	const closeSearchModal=()=>{
 		changeDisplaySearchModal(false);
 	}
+	const logoutUser=()=>{
+		console.log("Testing");
+	}
 
 	const personalProfileIpadPages=()=>{
 		return(
 			<>
 				<li style={ButtonsListCSS}>
 					{personalProfileState.loggedIn==true?
-						<NavBarButton to={`/profile/${personalProfileState.id}`}>
 							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<AccountCircleIcon/>
-								</li>
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileRouteOptionCSS}>
+										<NavBarButton>
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<AccountCircleIcon/>
+											</li>
 
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									Me
-								</li>
-							</ul>
-						</NavBarButton>:
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												Me
+											</li>
+										</NavBarButton>
+									</button>
+									
+
+									<ul class="dropdown-menu">
+										<li>
+											<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
+										</li>
+										<li>
+											<Link onClick={()=>logoutUser()} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
+												Logout
+											</Link>
+										</li>
+									</ul>
+								</div>
+							</ul>:
 						<NavBarButton to={`/companyProfile/${companyProfileState.id}`}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>

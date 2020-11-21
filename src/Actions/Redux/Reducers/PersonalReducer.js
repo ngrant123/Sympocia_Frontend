@@ -104,6 +104,11 @@ const PersonalProfile=(state={initialState},action)=>{
 			}
 			break;
 		}
+		case 'LOGOUT_USER':{
+			debugger;
+			return initialState
+			break;
+		}
 
 		default:{
 			return state;

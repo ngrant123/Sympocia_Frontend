@@ -8,8 +8,8 @@ const SponsorModal=styled.div`
 	width:40%;
 	height:60%;
 	background-color:white;
-	z-index:25;
-	top:10%;
+	z-index:36;
+	top:20%;
 	border-radius:5px;
 	left:30%;
 	overflow:auto;
@@ -32,7 +32,7 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:24;
+	z-index:35;
 	top:0px;
 `;
 

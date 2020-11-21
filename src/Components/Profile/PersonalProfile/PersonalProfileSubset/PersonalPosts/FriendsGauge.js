@@ -223,12 +223,7 @@ class FriendsGauge extends Component {
                     </li>
                     <li style={{listStyle:"none"}}>
                       <ul style={{padding:"0px"}}>
-                        <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
-                           {isUnlocked==true?
-                              <p>Unlock</p>:
-                              <p>Locked</p>
-                            } 
-                        </p>
+                        {this.unlockedOrLockedPrompt(index,isUnlocked)}
                         <p style={{color:"#5298F8",width:"95%",height:"20px",overflow:"hidden"}}> <b>{name}</b></p>
                         <p style={{width:"85%",height:"30px",overflow:"hidden"}}> {description} </p>
                       </ul>
@@ -237,6 +232,25 @@ class FriendsGauge extends Component {
                 }
               </ul>;
 
+  }
+
+  unlockedOrLockedPrompt=(index,isUnlocked)=>{
+    debugger;
+    if(index>0 && index<(this.state.numberOfNodes-2)){
+      return <p style={{width:"60%",color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
+                 {isUnlocked==true?
+                    <p>Unlock</p>:
+                    <p>Locked</p>
+                  } 
+              </p>
+    }else{
+      return <p style={{width:"90%",color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
+         {isUnlocked==true?
+            <p>Unlock</p>:
+            <p>Locked</p>
+          } 
+      </p>
+    }
   }
 
   hideModal=()=>{
@@ -382,6 +396,7 @@ class FriendsGauge extends Component {
                       closeModal={this.closeModal}
                       userId={this.props.personalInformation.userProfile._id}
                       updateNode={this.updateNode}
+                      isOwner={this.props.personalInformation.isOwnProfile}
                   />:<React.Fragment></React.Fragment>
               }
             </ul>
