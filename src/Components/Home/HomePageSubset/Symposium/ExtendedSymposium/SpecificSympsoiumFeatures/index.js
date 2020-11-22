@@ -10,6 +10,7 @@ import SYMPOSIUM_FEATURES from "../../../../../../Constants/featureSymposiumCons
 import {FeatureProvider} from "./FeatureContext.js";
 
 const Container=styled.div`
+	z-index:10;
 	@media screen and (max-width:1370px){
     	height:90% !important;
     	#symposiumFeatureContainerUL{
