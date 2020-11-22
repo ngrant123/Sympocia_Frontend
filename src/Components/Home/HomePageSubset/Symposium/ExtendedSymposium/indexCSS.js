@@ -334,13 +334,12 @@ export const SymposiumFeatureContainer=styled.div`
 	left:75%;
 	border-radius:5px;
 	overflow-y:auto;
-	z-index:40;
 	-webkit-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0);
-	z-index: 1000;
+	z-index: 40;
 
 	@media screen and (max-width:1370px){
-		
+		display:none !important;
     }
 `;
 
