@@ -117,37 +117,41 @@ class PersonalSignUp extends Component{
 		const email=document.getElementById("email").value;
 		const password=document.getElementById("password").value;
 
-		console.log(password);
-
-		const {
-				addFirstName,
-			 	addLastName,
-			 	addEmail,
-			 	addPersonalIdentificationId,
-			 	loginPersonalPage,
-			 	loginCompanyPage
-			 }=this.props;
-				debugger;
-		const {confirmation,data}=await createProfile({
-			firstName:firstName,
-			lastName:lastName,
-			email:email,
-			isInvestor:false,
-			password:password
-		});
-
-		if(confirmation=="Success"){
-			addPersonalIdentificationId(data._id);
-			loginPersonalPage(true);
-			loginCompanyPage(false);
-			addFirstName(firstName);
-			addLastName(lastName);
-			addEmail(email);
-			this.props.history.push({
-				pathname:'/home'
-			})
+		if(firstName==""||email==""||password==""){
+			alert('Your are missing a required field. Please enter a value');
 		}else{
-			alert('Unfortunately there was an error trying to create your profile. Please try again');
+			console.log(password);
+
+			const {
+					addFirstName,
+				 	addLastName,
+				 	addEmail,
+				 	addPersonalIdentificationId,
+				 	loginPersonalPage,
+				 	loginCompanyPage
+				 }=this.props;
+					debugger;
+			const {confirmation,data}=await createProfile({
+				firstName:firstName,
+				lastName:lastName,
+				email:email,
+				isInvestor:false,
+				password:password
+			});
+
+			if(confirmation=="Success"){
+				addPersonalIdentificationId(data._id);
+				loginPersonalPage(true);
+				loginCompanyPage(false);
+				addFirstName(firstName);
+				addLastName(lastName);
+				addEmail(email);
+				this.props.history.push({
+					pathname:'/home'
+				})
+			}else{
+				alert('Unfortunately there was an error trying to create your profile. Please try again');
+			}
 		}
 	}
 
