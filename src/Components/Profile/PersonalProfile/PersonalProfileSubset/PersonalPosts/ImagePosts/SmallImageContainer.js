@@ -92,7 +92,6 @@ const SmallImageContainer=(props)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
 		var current=new Date();
-
 		//work on this a little more
 		return dateToString;
 	}

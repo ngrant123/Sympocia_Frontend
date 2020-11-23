@@ -1,7 +1,7 @@
 import axios from "axios";
 const SearchUrl=process.env.NODE_ENV=='production'?
-				process.env.REACT_APP_REACT_APP_SEARCH_URL:
-				process.env.REACT_APP_REACT_APP_TEST_SEARCH_URL;
+				process.env.REACT_APP_SEARCH_URL:
+				process.env.REACT_APP_TEST_SEARCH_URL;
 
 export const getProfilesFromSearch=async(searchUrl)=>{
 	try{
