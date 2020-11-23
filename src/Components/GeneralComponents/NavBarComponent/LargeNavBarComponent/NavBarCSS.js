@@ -6,9 +6,12 @@ export const Container=styled.div`
 	width:100%;
 	height:14%;
 	border-radius:0px 0px 5px 5px;
-	z-index:10;
+	z-index:31;
 
 	@media screen and (max-width:1370px) {
+		#ULContainer{
+			background-color:white !important;
+		}
 		#mobileRoutesButton{
 			margin-left:5% !important;
 		}

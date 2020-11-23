@@ -96,7 +96,7 @@ const FourthSection=()=>{
 					<p>
 						<b>What information do we store about the user? </b>
 					</p>
-					<p> We store the general information about the user like name, email,posts and etc. Thats the
+					<p> We store the general information about the user like name, email, posts and etc. Thats the
 					 only thing we store. Dont worry we're not like our other competitors who track
 					your every move on the internet </p>
 

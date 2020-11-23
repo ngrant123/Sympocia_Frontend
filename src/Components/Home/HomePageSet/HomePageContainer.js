@@ -32,6 +32,7 @@ const Container=styled.div`
 	position:absolute;
 	width:100%;
 	padding:10px;
+	padding-top:0px;
 	height:100%;
 	background-color:white;
 	overflow-y:scroll;

@@ -241,7 +241,7 @@ const NavBar=(pageProps)=>{
 		<Container>
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none",width:"100%",}}>
-					<ul style={{backgroundColor:"white",padding:"0px"}}>
+					<ul id="ULContainer" style={{padding:"0px"}}>
 						{(displayPhoneUI==true || displayIpadUI==true)?
 							<>
 								<li id="mobileRoutesButton" style={{position:"relative",top:"-15px",marginLeft:"200px",marginRight:"1%",listStyle:"none",display:"inline-block"}}>
@@ -262,7 +262,6 @@ const NavBar=(pageProps)=>{
 											<li>
 												<Link  to="/home">Home</Link>
 											</li>
-											<li><a>Create</a></li>
 
 											<li>
 												<Link to="/symposiumList">Symposiums</Link>
@@ -272,7 +271,7 @@ const NavBar=(pageProps)=>{
 								</li>
 								<li id="searchLIContainer" 
 									onClick={()=>changeDisplaySearchModal(!displaySearchModal)} 
-									style={{backkgroundColor:"blue",marginLeft:"50%",width:"70%",listStyle:"none",display:"inline-block"}}
+									style={{marginLeft:"50%",width:"70%",listStyle:"none",display:"inline-block"}}
 								>
 									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
 										width="44" height="44" viewBox="0 0 24 24" stroke-width="2.5" stroke="#1C1C1C" 
@@ -307,7 +306,7 @@ const NavBar=(pageProps)=>{
 				<React.Fragment></React.Fragment>
 			}
 			{displayDesktopUI==true && (
-				<ul style={{position:"fixed",left:"33%",top:"7%"}}>
+				<ul style={{marginLeft:"35%",top:"7%"}}>
 					{personalProfileIpadPages()}
 				</ul>
 			)}

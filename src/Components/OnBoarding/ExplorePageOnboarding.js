@@ -119,7 +119,8 @@ const ExplorePageOnboarding=({closeModal})=>{
 							<b>Arena Entrance:</b>
 						</p>
 						<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
-							The entrance to the arena. Where the best content wins. Interested in learning more about it? 
+							This is what the entrance to the arena looks like. It's a concept that we came up 
+							with where the best content wins. Interested in learning more about it? 
 							Click on the button on the screen and find out :) But before you do that thats one more thing 
 							we want to show you about the explore page. Click next to continue.
 						</p>

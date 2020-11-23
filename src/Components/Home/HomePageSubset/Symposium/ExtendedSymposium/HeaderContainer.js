@@ -20,7 +20,6 @@ const Container=styled.div`
 	height:100%;
 	opacity:0;
 	transition:opacity 2s linear
-
 	@media screen and (max-width:1370px){
     	#nextButtonIcon{
     		height:5px !important;
@@ -375,7 +374,7 @@ const HeaderContainer=(props)=>{
 		  						</li>
 		  					</a>
 		  					
-		  					<li id="selectedSymposiumTitle" style={{width:"40%",overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px"}}>
+		  					<li id="selectedSymposiumTitle" style={{width:displayDesktopUI==true?"40%":"60%",overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px"}}>
 		  						{displayDesktopUI==true?<><b>{selectedSymposiumTitle}</b></>:<>{selectedSymposiumTitle}</>}
 		  					</li>
 

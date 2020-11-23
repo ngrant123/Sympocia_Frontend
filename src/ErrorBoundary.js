@@ -15,7 +15,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:600px){
 		#descriptionLI{
-			width:80% !important;
+			width:120% !important;
 			height:40% !important;
 		}
 		#explanationLI{

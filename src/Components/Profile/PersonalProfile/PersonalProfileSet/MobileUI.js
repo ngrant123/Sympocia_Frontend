@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import {
 		PersonalInformation,
-		recruitButton
+		RecruitButton
 	} from "../PersonalProfileSubset/PersonalDetails/PersonalInformation.js";
 import {useSelector} from "react-redux";
 import {UserConsumer} from "../UserContext.js";
@@ -64,24 +64,6 @@ const EditNodeContainer=styled.div`
 		width:90% !important;
 		left:5% !important;
     }
-`;
-
-
-const RecruitButton=styled.div`
-	position:relative;
-	animation: glowing 1300ms infinite;
-	position:relative;
-	color:white;
-	padding:10px;
-	background-color:#C8B0F4;
-	border-radius:5px;
-
-
-	@keyframes glowing {
-      0% { background-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
-      50% { background-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
-      100% { background-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
-  }
 `;
 
 const SponsorExtendedModal=styled.div`
@@ -258,6 +240,7 @@ const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType})=>{
 	const closeNodeOptions=()=>{
 		changeDisplayEditNodeOptions(false);
 	}
+	debugger;
 	return <UserConsumer>
 				{personalInformation=>{
 					return <>
@@ -267,7 +250,11 @@ const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType})=>{
 							<li style={{listStyle:"none",marginTop:"5%"}}>
 				              <a href="javascript:void(0);" style={{textDecoration:"none"}}>
 				                <li style={{listStyle:"none",display:"inline-block",marginLeft:"-5%"}}>
-									{recruitButton(personalInformation,personalInformation.displayConfettiHandle,personalRedux.id)}
+									<RecruitButton
+										personalInformation={personalInformation}
+										displayConfettiHandle={personalInformation.displayConfettiHandle}
+										userId={personalRedux.id}
+									/>
 				                </li>
 				              </a>
 

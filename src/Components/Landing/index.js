@@ -229,7 +229,6 @@ const ImageOverlay=styled.div`
 
 */
 const LandingPage=(props)=>{
-
 	const [currentPageCounter,changePageCounter]=useState(0);
 	const [displayPersonalLanding,changeDisplayForPersonal]=useState(true);
 	const dispatch=useDispatch();

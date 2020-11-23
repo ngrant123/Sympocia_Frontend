@@ -25,7 +25,7 @@ import {
 	updateVideoPostIndexContext,
 	updateRegularPostIndexContext
 } from "./ContextActions.js";
-import {recruitButton} from "../PersonalDetails/PersonalInformation.js";
+import {RecruitButton} from "../PersonalDetails/PersonalInformation.js";
 import {PhonePersonalInformationHeader} from "../../PersonalProfileSet/MobileUI.js";
 import {useSelector} from "react-redux";
 
@@ -322,6 +322,7 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 	const mobilePostSelectionAndRecruitUI=(personalInformation)=>{
+		debugger;
 		return (
 			<li  style={{listStyle:"none"}}>
 				<ul style={{padding:"0px"}}>
@@ -360,7 +361,11 @@ const PersonalPostsIndex=(props)=>{
 						</div>
 					</li>
 					<li style={{listStyle:"none",display:"inline-block"}}>
-						{recruitButton(personalInformation,personalInformation.displayConfettiHandle,personalRedux.id)}
+						<RecruitButton
+							personalInformation={personalInformation}
+							displayConfettiHandle={personalInformation.displayConfettiHandle}
+							userId={personalRedux.id}
+						/>
 					</li>
 				</ul>
 				<hr/>
