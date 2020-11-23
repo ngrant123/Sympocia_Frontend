@@ -36,7 +36,6 @@ const InformationCard=styled.div`
   border-style:solid;
   border-width:2px;
   border-clor:#3898ec;
-
 `;
 
 const ArrowDownContainer=styled.div`
@@ -103,9 +102,9 @@ const ThirdSection=(props)=>{
 										Sympocia allows you to truly be authentic and doesn’t force you to fit into this 
 										mold that other platforms have. 
 										<br/>
-										<span style={{padding:"5px",borderRadius:"5px",color:"white",backgroundColor:"#3898ec"}}>
+										<b>
 											Just be yourself :)
-										</span>
+										</b>
 									</p>
 								</li>
 		            	</ul>

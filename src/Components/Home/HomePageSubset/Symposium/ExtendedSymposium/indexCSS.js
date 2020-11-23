@@ -64,7 +64,7 @@ export const Container=styled.div`
 	transition: transform 300ms ease-in-out;
 	boxShadow: "1px 1px 1px 1px #d5d5d5";
 	borderRadius:5px;
-	z-index:2;
+	z-index:30;
 
 
 	@media screen and (max-width:730px) and (max-height:420px){
@@ -240,7 +240,7 @@ export const PageIndicator=styled.div`
 	top:7%;
 	left:2%;
 	border-radius:5%;
-	z-index:4;
+	z-index:31;
 
 	@media screen and (max-width:1370px){
     	display:none !important;
@@ -336,7 +336,7 @@ export const SymposiumFeatureContainer=styled.div`
 	overflow-y:auto;
 	-webkit-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0);
-	z-index: 40;
+	z-index: 20;
 
 	@media screen and (max-width:1370px){
 		display:none !important;

@@ -124,46 +124,6 @@ const RecruitsPortal=({closeModal,userId})=>{
 		}else{
 			alert('Unfortunately an error has occurred when tryin to delete this recruit. Please try again');
 		}
-
-		/*
-		let isInFollowedRecruits=false;
-		let index;
-		for(var i=0;i<recruitsProfileFollows.length;i++){
-			if(_id==recruitsProfileFollows[i]._id){
-				isInFollowedRecruits=true;
-				index=i;
-				break;
-			}
-		}
-
-		let removeRecruitResponse;
-		if(isInFollowedRecruits==true){
-			removeRecruitResponse=await removeRecruitProfileIsFollowing({
-				personalProfileId:userId,
-				targetProfile:_id
-			});
-		}else{
-			removeRecruitResponse=await removeRecruitProfileIsntFollowing({
-				personalProfileId:userId,
-				targetProfile:_id
-			});
-		}
-		const {confirmation,data}=removeRecruitResponse;
-		if(confirmation=="Success"){
-			if(isInFollowedRecruits==true){
-				recruits.splice(index,0);
-			}else{
-				for(var i=recruitsProfileFollows.length-1;i<recruits.length;i++){
-					if(recruits[i]._id==_id){
-						recruits.splice(index,0);
-					}
-				}
-			}
-			changeRecruits([...recruits]);
-		}else{
-			alert('Unfortunately an error has occurred when tryin to delete this recruit. Please try again');
-		}
-		*/
 	}
 
 	return createPortal(

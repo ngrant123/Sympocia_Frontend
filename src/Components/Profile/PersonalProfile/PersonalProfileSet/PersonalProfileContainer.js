@@ -842,6 +842,7 @@ class LProfile extends Component{
 											displayConfetti={this.displayConfetti}
 											personalInformation={this.state}
 											displaySocialMediaModal={this.displaySocialMediaModal}
+											userId={this.props.personalId}
 										/>
 
 									</PersonalProfileInformationContainer>
