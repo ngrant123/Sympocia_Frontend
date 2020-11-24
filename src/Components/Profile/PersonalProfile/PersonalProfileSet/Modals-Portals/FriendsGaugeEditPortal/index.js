@@ -130,6 +130,7 @@ const FriendsGaugeEditPortal=(props)=>{
 	const [removedNodes,changeRemovedNodes]=useState([]);
 	const [displayRemoveNodeVerification,changeRemoveNodeVerificationModal]=useState(false);
 	const [displayClosingScreen,changeDisplayClosingScreen]=useState(false);
+	const [node,changeCurrentNodes]=useState([]);
 
 
 	useEffect(()=>{
@@ -142,52 +143,46 @@ const FriendsGaugeEditPortal=(props)=>{
 					recruitsFollowing
 				}=data;
 				changeRecruitsInformation(recruitsFollowing);
-				//recruitsProfileFollows(recruits);
-
 			}else{
 				alert('Unfortunately there has been an error trying to get your recruits. Please try again');
 			}
+
+			//this is so stupdi like honestly like this shit be so fucking stupid...like why when i create  a number varibale its reference the array still in a new variable like thats are mentally challenged made me waste my whole fuckitng day on theia sa stufu ass asghist
+			let currentNodes=[...props.nodes];
+			currentNodes.splice(0,1);
+			changeCurrentNodes(currentNodes);
 		};
 		getRecruitData();
 	},[]);
 
 	const closingScreen=(data)=>{
-		console.log(data);
+		console.log(data)
 		if(data!=null){
 			props.implementAction(data);
 		}
 		changeDisplayClosingScreen(true);
 	}
-	const closingConfirmationScreen=()=>{
-		return	 <ul>
-						<li onClick={()=>props.closeModal()} style={{listStyle:"none",marginLeft:"75%"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-								  <path stroke="none" d="M0 0h24v24H0z"/>
-								  <circle cx="12" cy="12" r="9" />
-								  <path d="M10 10l4 4m0 -4l-4 4" />
-								</svg>
-							</a>
-						</li>
 
-						<li style={{listStyle:"none",marginLeft:"20%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginLeft:"25%"}}>
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checkbox" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#01ff08" fill="none" stroke-linecap="round" stroke-linejoin="round">
-									  <path stroke="none" d="M0 0h24v24H0z"/>
-									  <polyline points="9 11 12 14 20 6" />
-									  <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
-									</svg>
-								</li>
-								<li style={{listStyle:"none"}}>
-									<b>Action Completed</b>
-								</li>
-								<li style={{listStyle:"none"}}>
-									Everything looks all good. 
-								</li>
-							</ul>
-						</li>
-					</ul>
+	const closingConfirmationScreen=()=>{
+		return	 <ul style={{padding:"20px"}}>
+					<li style={{listStyle:"none",marginLeft:"20%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",marginLeft:"25%"}}>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checkbox" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#01ff08" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								  <path stroke="none" d="M0 0h24v24H0z"/>
+								  <polyline points="9 11 12 14 20 6" />
+								  <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
+								</svg>
+							</li>
+							<li style={{listStyle:"none"}}>
+								<b>Action Completed</b>
+							</li>
+							<li style={{listStyle:"none"}}>
+								Everything looks all good. 
+							</li>
+						</ul>
+					</li>
+				</ul>
 	}
 
 	const constructFriendsGaugeEditPortal=(actionType)=>{
@@ -201,13 +196,13 @@ const FriendsGaugeEditPortal=(props)=>{
 		}else if(actionType=="Promote"){
 			return <Promote
 						recruitsInformationProp={recruitsInformation}
-						nodes={props.nodes}
+						nodes={node}
 						closeModal={closingScreen}
 						id={props.userInformation}
 					/>;
 		}else{
 			return <RemoveLevel
-						nodes={props.nodes}
+						nodes={node}
 						id={props.userInformation}
 						closeModal={closingScreen}
 					/>;

@@ -115,7 +115,8 @@ class BlogEditSubmitModal extends Component{
 			displayVoiceDescriptionPortal:false,
 			videoDescription:null,
 			audioDescription:null,
-			isPostCrowned:false
+			isPostCrowned:false,
+			isSubmittedAndProcessing:false
 		}
 	}
 
@@ -178,6 +179,9 @@ class BlogEditSubmitModal extends Component{
 	}
 
 	sendBlogDataToDB=async(blogPostInformation,profilePostType)=>{
+		this.setState({
+			isSubmittedAndProcessing:true
+		})
 		const currentTitle=this.state.title;
 		const currentDescription=this.state.description;
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
@@ -229,11 +233,13 @@ class BlogEditSubmitModal extends Component{
 				isPostCrowned:this.state.isPostCrowned
 			}
 
-			if(this.props.personalProfile.loggedIn==true){
-				createBlogPost(this.props.personalProfile.id,blogPostSendObject,"Personal");
-			}
-			else{
-				createBlogPost(this.props.companyProfile.id,blogPostSendObject,"Company");
+			const{confirmation,data}=await createBlogPost(this.props.personalProfile.id,blogPostSendObject,"Personal");
+			if(confirmation=="Failure"){
+				isEditSuccess=false;
+				alert('Unfortunately there has been an error editing this post. Please try again');
+				this.setState({
+					isSubmittedAndProcessing:false
+				})
 			}
 		}else{
 			const {previousData}=this.props;
@@ -279,6 +285,9 @@ class BlogEditSubmitModal extends Component{
 			if(confirmation=="Failure"){
 				isEditSuccess=false;
 				alert('Unfortunately there has been an error editing this post. Please try again');
+				this.setState({
+					isSubmittedAndProcessing:false
+				})
 			}
 		}
 		if(isEditSuccess!=false){
@@ -313,9 +322,8 @@ isArrayEqual=(arr1,arr2)=>{
 			});
 
 			arr2.forEach((selectedIndustry,index)=>{
-				
 				var testing=arr1Map.has(selectedIndustry.industry);
-				if(arr1Map.has(selectedIndustry.industry)==undefined)
+				if(arr1Map.has(selectedIndustry.industry)==undefined || arr1Map.has(selectedIndustry.industry)==false)
 					isArrayEqualIndicator=false
 				else{
 					
@@ -583,21 +591,23 @@ isArrayEqual=(arr1,arr2)=>{
 													alterSelectedSubCommunities={this.alterSelectedSubCommunities}
 												/>
 											</li>
-											<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-														<ul onClick={()=>this.sendBlogDataToDB(blogPostInformation,profilePostInformation)}>
-															<li style={{listStyle:"none",display:"inline-block"}}>
-																<SendIcon
-																	style={{fontSize:20,color:"white"}}
-																/>
-															</li>
+											{this.state.isSubmittedAndProcessing==false &&(
+												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<ul onClick={()=>this.sendBlogDataToDB(blogPostInformation,profilePostInformation)}>
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<SendIcon
+																		style={{fontSize:20,color:"white"}}
+																	/>
+																</li>
 
-															<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																Send
-															</li>
-														</ul>
-												</a>
-											 </li>
+																<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																	Send
+																</li>
+															</ul>
+													</a>
+												 </li>
+											)}
 										</React.Fragment>
 									}
 								</li>

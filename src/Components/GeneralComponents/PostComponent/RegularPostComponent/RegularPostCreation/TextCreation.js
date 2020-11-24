@@ -59,7 +59,7 @@ const RegularPostBackButtonCSS={
   marginRight:"5%"
 }
 
-const TextCreation=({isPostCrowned,displayTextOrAudioScreen,sendDataToParent,displayCrownPostModal,previousPost})=>{
+const TextCreation=({isSubmittedAndProcessing,isPostCrowned,displayTextOrAudioScreen,sendDataToParent,displayCrownPostModal,previousPost})=>{
 	const [crownPostColor,changeCrownPostColor]=useState("#D6C5F4");
 	const [crownPostBackgroundColor,changeCrownPostBackgroundColor]=useState("white");
 
@@ -114,21 +114,23 @@ const TextCreation=({isPostCrowned,displayTextOrAudioScreen,sendDataToParent,dis
 					<InputContainer id="textContainer" placeholder="Create your post here"/>
 				</li>
 
-				<li  onClick={()=>sendDataToParent(document.getElementById("textContainer").value)} style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
-					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-								<SendIcon
-									style={{fontSize:20,color:"white"}}
-								/>
-							</li>
+				{isSubmittedAndProcessing==false &&(
+					<li  onClick={()=>sendDataToParent(document.getElementById("textContainer").value)} style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+									<SendIcon
+										style={{fontSize:20,color:"white"}}
+									/>
+								</li>
 
-							<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
-								Send
-							</li>
-						</ul>
-					</a>
-				</li>
+								<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
+									Send
+								</li>
+							</ul>
+						</a>
+					</li>
+				)}
 			</ul>
 		</Container>
 	)

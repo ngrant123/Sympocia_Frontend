@@ -57,7 +57,7 @@ const SymposiumsOptionsCSS={
   marginRight:"3%"
 }
 
-const FollowedSymposiumsModal=({closeModal,userId})=>{
+const FollowedSymposiumsModal=({isOwner,closeModal,userId})=>{
 	const [symposiums,changeSymposiums]=useState([]);
 	const [displayRemoveSymposiumVerification,changeDisplayRemoveSymposiumModal]=useState(false);
 	const [selectedSymposium,changeSelectedSymposium]=useState();
@@ -137,18 +137,21 @@ const FollowedSymposiumsModal=({closeModal,userId})=>{
 															{data.symposium}
 														</li>
 
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<li onClick={()=>displayRemoveSymposiumModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
-																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
-																	 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
-																	 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
-																	 stroke-linejoin="round">
-																  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-																  <circle cx="12" cy="12" r="9" />
-																  <path d="M10 10l4 4m0 -4l-4 4" />
-																</svg>
-															</li>
-														</a>
+
+														{isOwner==true &&(
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<li onClick={()=>displayRemoveSymposiumModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
+																	<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
+																		 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
+																		 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
+																		 stroke-linejoin="round">
+																	  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+																	  <circle cx="12" cy="12" r="9" />
+																	  <path d="M10 10l4 4m0 -4l-4 4" />
+																	</svg>
+																</li>
+															</a>
+														)}
 													</ul>
 												</li>
 												<hr/>

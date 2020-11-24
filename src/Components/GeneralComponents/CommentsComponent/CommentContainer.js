@@ -12,11 +12,20 @@ const Container=styled.div`
 	@media screen and (max-width:420px){
 		height:80% !important;
 		#profilePictureLI{
-			height:60% !important;
+			height:120% !important;
 			display:none;
+
+		}
+		#replyLI{
+			height:60% !important;
+			overflow:scroll;
+		}
+		#replyCommentLI{
+			margin-top:-80% !important;
 		}
     }
 `;
+
 const CommentContainerDiv=styled.div`
 	position:relative;
 	width:50%;
@@ -102,6 +111,7 @@ const CommentText=styled.div`
 	margin-top:2%;
 `;
 
+
 class CommentsContainer extends Component{
 
 /*
@@ -151,9 +161,11 @@ class CommentsContainer extends Component{
 						</li>
 					</ul>
 				</li>
-				<CommentText>
-					{data.reply}
-				</CommentText>
+				<li id="replyCommentLI" style={{listStyle:"none"}}>
+					<CommentText>
+						{data.reply}
+					</CommentText>
+				</li>
 				<hr/>
 			</ul>
 	}
@@ -168,7 +180,7 @@ class CommentsContainer extends Component{
 		}
 
 		const {confirmation,data}=await getRepliesFromComment(replyObject);
-		
+		debugger;
 		if(confirmation=="Success"){
 			this.setState({
 				keyToDisplayRespones:commentId,
@@ -313,7 +325,7 @@ class CommentsContainer extends Component{
 						<li style={{listStyle:"none",marginTop:"5%"}}>
 							<ul style={{padding:"0px"}}>
 								{this.state.selectedReplies.map(data=>
-									<li style={{listStyle:"none"}}>
+									<li id="replyLI" style={{listStyle:"none"}}>
 										{this.replyComment(data)}
 									</li>
 								)}

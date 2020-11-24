@@ -57,7 +57,7 @@ const SimpliedProfilePicture=styled.div`
 
 
 const ExtendedChampionModal=(championData)=>{
-	return <ul>
+	return <ul id="extendedChampionModalUL">
 				<li style={{width:"40%",listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",marginBottom:"3%",width:"40%"}}>
@@ -69,7 +69,7 @@ const ExtendedChampionModal=(championData)=>{
 						</li>
 					</ul>
 				</li>
-				<li style={{height:"40%",overflowY:"auto",position:"relative",top:"-50px",listStyle:"none",display:"inline-block",width:"50%"}}>
+				<li id="extendChampionDescriptionUL" style={{height:"40%",overflowY:"auto",position:"relative",top:"-60px",listStyle:"none",display:"inline-block",width:"50%"}}>
 					{championData.description}
 				</li>
 			</ul>

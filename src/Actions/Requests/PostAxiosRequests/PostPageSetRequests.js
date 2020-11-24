@@ -66,8 +66,7 @@ export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 		})
 
 		const {data}=blogPost;
-		const blogCreationResponse=data.data;
-		return blogCreationResponse;
+		return data;
 
 	}catch(err){
 		return err.message;

@@ -16,7 +16,7 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:20;
+	z-index:35;
 	top:0px;
 `;
 
@@ -25,15 +25,18 @@ const Container=styled.div`
 	width:40%;
 	height:50%;
 	background-color:white;
-	z-index:20;
+	z-index:35;
 	top:20%;
 	border-radius:5px;
 	left:35%;
 	overflow-y:scroll;
 
-	@media screen and (max-width:1930px){
+	@media screen and (max-width:1370px){
+		width:100% !important;
+		left:2% !important;
+		height:90% !important;
 		#profilePictureLI{
-			top:0px !important;
+			top:-200px !important;
 		}
     }
 
@@ -42,13 +45,10 @@ const Container=styled.div`
 		left:10%
     }
 
-	@media screen and (max-width:840px){
-		width:100% !important;
-		left:2% !important;
-		height:90% !important;
-
+	@media screen and (max-width:600px){
+		width:90% !important;
 		#profilePictureLI{
-			top:0px !important;
+			top:-80px !important;
 		}
     }
 `;
@@ -85,7 +85,7 @@ const ProfilePictureContainer=styled.div`
 `;
 
 const ProfilePictureCSS={
-	width:"6 0px",
+	width:"60px",
 	height:"50px",
 	borderRadius:"50%",
 	backgroundColor:"blue"
@@ -255,7 +255,7 @@ const PollOptionPortal=(props)=>{
 									{comments.map(data=>
 											<li style={{listStyle:"none",marginBottom:"4%"}}>
 												<ul style={{pading:"0px"}}>
-													<li id="profilePictureLI" style={{position:"relative",top:"-80px",listStyle:"none",display:"inline-block"}}>
+													<li id="profilePictureLI" style={{position:"relative",top:"-50px",listStyle:"none",display:"inline-block"}}>
 														<ul style={{padding:"0px"}}>
 															<li style={{listStyle:"none"}}>
 																{data.profilePicture==null?
@@ -270,7 +270,7 @@ const PollOptionPortal=(props)=>{
 														</ul>
 													</li>
 
-													<li style={{height:"30%",width:"60%",listStyle:"none",display:"inline-block",overflowY:"auto"}}>
+													<li style={{height:"30%",width:"60%",listStyle:"none",display:"inline-block",overflowY:"auto",marginRight:"2%"}}>
 														{data.comment}
 													</li>
 												</ul>

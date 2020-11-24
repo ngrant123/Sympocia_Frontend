@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {removeLevel} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
@@ -22,6 +22,12 @@ const RemoveLevelVerificationContainer=styled.div`
 	border-radius:5px;
 	left:35%;
 	overflow-y:auto;
+
+	@media screen and (max-width:600px){
+		left:15% !important;
+		width:65% !important;
+		height:50%;
+	}
 `;
 
 {/*
@@ -30,8 +36,8 @@ const RemoveLevelVerificationContainer=styled.div`
 	a new level from the users in the previously deleted one. Since time 
 	doesn't really permit that I'll just adapt but it should be implemeted later
 */}
-const RemoveLevel=({nodes,closeModal,id})=>{
 
+const RemoveLevel=({nodes,closeModal,id})=>{
 	const [displayRemoveNodeVerification,changeRemoveNodeVerificationModal]=useState(false);
 	const [nodeId,changeNodeId]=useState();
 
@@ -54,7 +60,7 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 			_id:id,
 			levelId:nodeId
 		}
-
+		debugger;
 		const {confirmation}=await removeLevel(levelObject);
 			if(confirmation=="Success"){
 				const removeNodeAction={
@@ -119,7 +125,7 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 			}
 			<ul style={{padding:"10px"}}>
 				<p>Click on the level you would like to remove </p>
-				{nodes.length>1 &&(
+				{nodes.length>=1 &&(
 					<>
 						{nodes.map(data=>
 							<>

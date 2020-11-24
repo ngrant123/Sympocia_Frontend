@@ -34,7 +34,7 @@ const CrownIconContainer=styled.div`
 `;
 
 
-const AudioCreation=({sendDataToParent,isPostCrowned,displayCrownPostModal,displayTextOrAudioScreen})=>{
+const AudioCreation=({isSubmittedAndProcessing,sendDataToParent,isPostCrowned,displayCrownPostModal,displayTextOrAudioScreen})=>{
 	const [displayAudioCreation,changeDisplayAudioCreation]=useState(false);
 	const [audioDescription,changeAudioDescription]=useState();
 	const [crownPostColor,changeCrownPostColor]=useState("#D6C5F4");
@@ -103,21 +103,23 @@ const AudioCreation=({sendDataToParent,isPostCrowned,displayCrownPostModal,displ
 							</audio>
 						</li>
 			
-						<li style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<ul onClick={()=>sendDataToParent(audioDescription)} style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-										<SendIcon
-											style={{fontSize:20,color:"white"}}
-										/>
-									</li>
+						{isSubmittedAndProcessing==false &&(
+							<li style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<ul onClick={()=>sendDataToParent(audioDescription)} style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+											<SendIcon
+												style={{fontSize:20,color:"white"}}
+											/>
+										</li>
 
-									<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
-										Send
-									</li>
-								</ul>
-							</a>
-						</li>
+										<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
+											Send
+										</li>
+									</ul>
+								</a>
+							</li>
+						)}
 					</ul>
 				</React.Fragment>
 			}
