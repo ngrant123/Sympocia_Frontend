@@ -232,6 +232,7 @@ const VoiceDescriptionPortal=(props)=>{
 		stopRecording(videoElement);
 		props.closeModal()
 	}
+
 	const test=()=>{
 		if(reInitilize==true && videoElements.length>0){
 			var newElements=videoElements;
@@ -243,46 +244,34 @@ const VoiceDescriptionPortal=(props)=>{
 	const startRecording=()=>{
 		if(firstDone==true){
 			handleRecording().then(recordedChunks=>{
-						
-					  	 if(recordedChunks!=null){
-						  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
-						  	var audioSrc=URL.createObjectURL(recordedFile);
+		  	 if(recordedChunks!=null){
+			  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
+			  	var audioSrc=URL.createObjectURL(recordedFile);
+			  	var reader=new FileReader();
+				reader.onloadend=()=>{
+					var currentVideoElements=videoElements;
+					const videoObject={
+						audioSrc:reader.result,
+						videoFile:recordedFile,
+						videoCounter:currentVideoElements.length
+					}
 
-						  
-						  	var reader=new FileReader();
-							reader.onloadend=()=>{
-								
-								var currentVideoElements=videoElements;
+				  	 currentVideoElements.push(videoObject);
+				  	 changeVideoElements(currentVideoElements);
 
-								const videoObject={
-									audioSrc:reader.result,
-									videoFile:recordedFile,
-									videoCounter:currentVideoElements.length
-								}
+				  	 changeRecordingState(false);
+				  	 changeReInitliazed(true);
+				  	 chnagFirstFone(true)
+				}
 
-							  	 currentVideoElements.push(videoObject);
-							  	 changeVideoElements(currentVideoElements);
-
-							  	 changeRecordingState(false);
-							  	 changeReInitliazed(true);
-							  	 chnagFirstFone(true)
-							}
-
-						  	 reader.readAsDataURL(recordedFile);
-						  	 /*
-						  	 	 const newVideoElement=document.createElement('video');
-						  	 		const newVideoElementSource=document.createElement('source');
-						  	 newVideoElementSource.src=audioSrc;
-						  	 newVideoElement.append(newVideoElementSource);
-						  	 */
-					  	 }
+			  	 reader.readAsDataURL(recordedFile);
+		  	 }
 			});
 		}
 		changeRecordingState(true)
 	}
 
 	const submitVideoDescription=()=>{
-		
 		if(videoElements.length>0){
 			props.createAudioDescription(videoElements[0].audioSrc);
 		}else{

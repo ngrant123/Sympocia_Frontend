@@ -18,6 +18,14 @@ const ButtonCSS={
   marginRight:"5%"
 }
 
+const Container=styled.div`
+	@media screen and (max-width:600px){
+		#sendButtonLI{
+			width:35% !important;
+		}
+	}
+`;
+
 
 const CrownIconContainer=styled.div`
 	border-style:solid;
@@ -49,7 +57,7 @@ const AudioCreation=({isSubmittedAndProcessing,sendDataToParent,isPostCrowned,di
 
 	const handleCreateAudioDescription=(audioDescriptionSrc)=>{
 		changeAudioDescription(audioDescriptionSrc);
-		changeDisplayAudioCreation(false);
+		changeDisplayAudioCreation(true);
 	}
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -63,6 +71,14 @@ const AudioCreation=({isSubmittedAndProcessing,sendDataToParent,isPostCrowned,di
 		displayTextOrAudioScreen();
 	}
 
+	const sendData=()=>{
+		if(audioDescription==null){
+			alert('Please enter an audio description');
+		}else{
+			sendDataToParent(audioDescription);
+		}
+	}
+
 	return(
 		<>
 			{displayAudioCreation==false?
@@ -70,7 +86,7 @@ const AudioCreation=({isSubmittedAndProcessing,sendDataToParent,isPostCrowned,di
 					closeModal={closeModal}
 					createAudioDescription={handleCreateAudioDescription}
 				/>:
-				<React.Fragment>
+				<Container>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
@@ -95,7 +111,7 @@ const AudioCreation=({isSubmittedAndProcessing,sendDataToParent,isPostCrowned,di
 								</a>
 							</ul>
 						</li>
-						<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+						<li style={{listStyle:"none",display:"inline-block"}}>
 							<audio key={uuidv4()} controls>
 								<source src={audioDescription} type="audio/ogg"/>
 								<source src={audioDescription} type="audio/mpeg"/>
@@ -104,9 +120,9 @@ const AudioCreation=({isSubmittedAndProcessing,sendDataToParent,isPostCrowned,di
 						</li>
 			
 						{isSubmittedAndProcessing==false &&(
-							<li style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
+							<li id="sendButtonLI" style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ul onClick={()=>sendDataToParent(audioDescription)} style={{padding:"0px"}}>
+									<ul onClick={()=>sendData()} style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 											<SendIcon
 												style={{fontSize:20,color:"white"}}
@@ -121,7 +137,7 @@ const AudioCreation=({isSubmittedAndProcessing,sendDataToParent,isPostCrowned,di
 							</li>
 						)}
 					</ul>
-				</React.Fragment>
+				</Container>
 			}
 		</>
 	)

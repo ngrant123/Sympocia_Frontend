@@ -95,16 +95,16 @@ const ImageContainer=(props)=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
 		if(displayStampEffect==false){
 			if(isPersonalProfile==true){
-				addStampPost(props.imageData.owner,props.imageData._id,"personal","ImagePost");
+				addStampPost(props.imageData._id,"personal","ImagePost");
 			}else{
-				addStampPost(props.imageData.owner,props.imageData._id,"company","ImagePost");
+				addStampPost(props.imageData._id,"company","ImagePost");
 			}
 			changeDisplayStampEffect(true);
 		}else{
 			if(isPersonalProfile==true){
-				unStampPost(props.imageData.owner,props.imageData._id,"personal","ImagePost");
+				unStampPost(props.imageData._id,"personal","ImagePost");
 			}else{
-				unStampPost(props.imageData.owner,props.imageData._id,"company","ImagePost");
+				unStampPost(props.imageData._id,"company","ImagePost");
 			}
 			changeDisplayStampEffect(false);
 		}

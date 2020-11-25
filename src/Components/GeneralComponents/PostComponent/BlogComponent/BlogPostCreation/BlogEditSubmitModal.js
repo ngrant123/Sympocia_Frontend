@@ -30,7 +30,7 @@ const Container=styled.div`
 	height:70%;
 	background-color:white;
 	border-radius:5px;
-	z-index:6;
+	z-index:35;
 	top:25%;
 	left:25%;
 	overflow:scroll;

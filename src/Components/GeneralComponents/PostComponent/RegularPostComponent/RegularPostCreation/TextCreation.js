@@ -73,6 +73,14 @@ const TextCreation=({isSubmittedAndProcessing,isPostCrowned,displayTextOrAudioSc
 		}
 	})
 
+	const sendData=()=>{
+		if(document.getElementById("textContainer").value!=""){
+			sendDataToParent(document.getElementById("textContainer").value);
+		}else{
+			alert('Please enter a post')
+		}	
+	}
+
 	return(
 		<Container>
 			<ul style={{padding:"0px"}}>
@@ -115,7 +123,7 @@ const TextCreation=({isSubmittedAndProcessing,isPostCrowned,displayTextOrAudioSc
 				</li>
 
 				{isSubmittedAndProcessing==false &&(
-					<li  onClick={()=>sendDataToParent(document.getElementById("textContainer").value)} style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
+					<li  onClick={()=>sendData()} style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>

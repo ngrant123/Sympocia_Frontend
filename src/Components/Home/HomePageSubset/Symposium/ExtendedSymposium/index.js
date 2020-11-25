@@ -185,7 +185,7 @@ class Symposium extends Component{
 			})
 		}
 		else if(window.innerWidth<1370){
-			alert('Unfortunately this isnt supported on desktop at the moment.Switch to desktop or phone to continue :)');
+			alert('Unfortunately this isnt supported on ipad at the moment.Switch to desktop or phone to continue :)');
 			this.setState({
 				displayDesktopUI:false,
 				displayIpadUI:true

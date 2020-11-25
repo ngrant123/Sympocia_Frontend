@@ -146,20 +146,12 @@ const PosterInformation=(props)=>{
 	}
 
 	const createOrRemoveStampEffect=()=>{
-		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
+		debugger;
 		if(displayStampEffect==false){
-			if(isPersonalProfile==true){
-				addStampPost(owner._id,_id,"personal","RegularPost");
-			}else{
-				addStampPost(owner._id,_id,"company","RegularPost");
-			}
+			addStampPost(_id,"personal","RegularPost");
 			changeDisplayStampEffect(true);
 		}else{
-			if(isPersonalProfile==true){
-				unStampPost(owner._id,_id,"personal","RegularPost");
-			}else{
-				unStampPost(owner._id,_id,"company","RegularPost");
-			}
+			unStampPost(_id,"personal","RegularPost");
 			changeDisplayStampEffect(false);
 		}
 	}
@@ -186,20 +178,24 @@ const PosterInformation=(props)=>{
 								</ul>
 							</li>
 				
-							<li style={{listStyle:"none"}}>
-								<PostProfilePicture>
-									<img src={owner.profilePicture==null?
-										NoProfilePicture:
-										owner.profilePicture
-									} style={{width:"100%",height:"100"}}/>
-								</PostProfilePicture>
-							</li>
+							{owner!=null &&(
+								<>
+									<li style={{listStyle:"none"}}>
+										<PostProfilePicture>
+											<img src={owner.profilePicture==null?
+												NoProfilePicture:
+												owner.profilePicture
+											} style={{width:"100%",height:"100"}}/>
+										</PostProfilePicture>
+									</li>
 
-							<li style={{listStyle:"none"}}>
-								<NameContainer>
-									{owner.firstName}
-								</NameContainer>
-							</li>
+									<li style={{listStyle:"none"}}>
+										<NameContainer>
+											{owner.firstName}
+										</NameContainer>
+									</li>
+								</>
+							)}
 
 							<li style={{listStyle:"none",left:"15%",marginBottom:"2%",height:"20%",overflowY:"auto"}}>
 					

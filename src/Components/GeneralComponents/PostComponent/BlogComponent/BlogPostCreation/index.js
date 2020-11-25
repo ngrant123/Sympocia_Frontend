@@ -28,7 +28,7 @@ const ShadowContainer = styled.div`
 	height:100%;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
-	z-index:6;
+	z-index:35;
 `;
 
 const CommentContainer=styled.div`
@@ -191,9 +191,14 @@ class BlogPostCreation extends Component{
 		if(this.state.displayDesktopUI==false){
 			alert('Unfortunately this isnt supported for you mobile device. Please switch to desktop to continue');
 		}else{
-			this.setState({
-				displayEditButtonSubmitModal:!this.state.displayEditButtonSubmitModal
-			})
+			console.log(this.state.blog);
+			if(this.state.blog!="" || this.props.location.state.postType!="Creation"){
+				this.setState({
+					displayEditButtonSubmitModal:!this.state.displayEditButtonSubmitModal
+				})
+			}else{
+				alert('Please enter a blog first')
+			}
 		}
 	}
 
@@ -319,6 +324,7 @@ class BlogPostCreation extends Component{
 						{this.displayApproveDisapproveModal()}
 						<AdditionalInformation
 							blogData={this.props.location.state}
+							postType={this.props.location.state.postType}
 						/>
 						<TextOptions
 							displayEditBlogSubmitModal={this.displayOrHideSubmitModal}

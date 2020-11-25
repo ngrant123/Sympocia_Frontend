@@ -147,6 +147,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	const [displayPostExpand,changePostExpand]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
+	const name=useSelector(state=>state.personalInformation.firstName);
 
 	const [displayCurrentLevel,changeCurrentLevel]=useState(false);
 
@@ -173,7 +174,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	const displayIntermediatePosts=async()=>{
 		
 		const {confirmation,data}=await retrievePosts('Intermediate');
-
+		console.log(data);
 		if(confirmation=="Success"){
 			const {
 				questionId,
@@ -256,39 +257,47 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	}
 
 	const submitPost=async()=>{
-		const post={
-			industryId:symposiumId,
-			questionId:selectedPostId,
-			question,
-			userId:userId,
-			post:document.getElementById("post").value,
-			postLevel:knowledgeLevel
-		}
-		const {confirmation,data}=await createSpecificIndustryRegularPostAnswer(post);
-		if(confirmation=="Success"){
-			
-			if(displayCurrentLevel==knowledgeLevel.toLowerCase()){	
-				const {
-					questionId,
-					postId
-				}=data;
-				var submittedPost={
-					post:document.getElementById("post").value,
-					_id:postId,
-					comments:[],
-					isCrownedPost:false,
-					industriesUploaded:[{industry:symposium}]
+		if(knowledgeLevel==null){
+			alert('Please enter a level to continue');
+		}else{
+			const post={
+				industryId:symposiumId,
+				questionId:selectedPostId,
+				question,
+				userId:userId,
+				post:document.getElementById("post").value,
+				postLevel:knowledgeLevel
+			}
+			const {confirmation,data}=await createSpecificIndustryRegularPostAnswer(post);
+			if(confirmation=="Success"){
+				
+				if(displayCurrentLevel==knowledgeLevel.toLowerCase()){	
+					const {
+						questionId,
+						postId
+					}=data;
+					var submittedPost={
+						post:document.getElementById("post").value,
+						_id:postId,
+						comments:[],
+						isCrownedPost:false,
+						industriesUploaded:[{industry:symposium}],
+						owner:{
+							firstName:name,
+							profilePicture:null
+						}
+					}
+
+					posts.splice(0,0,submittedPost);
+					changePosts([...posts]);
 				}
 
-				posts.splice(0,0,submittedPost);
-				changePosts([...posts]);
+				changeDisplayCreationModal(false);
+				changeQuestionId(questionId);
+
+			}else{
+				alert('Unfortunately there has been an error with adding this image. Please try again');
 			}
-
-			changeDisplayCreationModal(false);
-			changeQuestionId(questionId);
-
-		}else{
-			alert('Unfortunately there has been an error with adding this image. Please try again');
 		}
 	}
 
@@ -350,8 +359,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 						Submit
 					</li>
 				</>
-				:
-				<>
+				:<>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
@@ -409,12 +417,16 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 											<li onClick={()=>displaySelectedPost(data)} style={{listStyle:"none",marginBottom:"2%"}}>
 												<ul style={{padding:"0px"}}>
 													<li style={{top:"-50px",position:"relative",width:"10%",listStyle:"none",display:"inline-block"}}>
-														<img src={NoProfilePicture} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
+														<img src={data.owner.profilePicture==null?
+																	NoProfilePicture:
+																	data.owner.profilePicture
+																} style={{width:"60px",height:"10%",borderRadius:"50%"}}
+														/>
 													</li>
 
 													<li style={{width:"70%",listStyle:"none",display:"inline-block"}}>
 														<p> 
-															<b>{data.firstName}</b>
+															<b>{data.owner.firstName}</b>
 														</p>
 														<p style={{height:"10%",overflowY:"auto",}}>
 															{data.post}

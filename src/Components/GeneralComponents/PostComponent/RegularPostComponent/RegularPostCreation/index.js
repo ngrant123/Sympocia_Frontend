@@ -183,9 +183,9 @@ const ButtonCSS={
 			changeIsPostCrowned(isCrownedPost);
 
 			if(isAudioPost==false){
-				changeRegularPostDescription(false);
-			}else{
 				changeRegularPostDescription(true);
+			}else{
+				changeRegularPostDescription(false);
 			}
 		}
 		changeIsPreviousDataLoaded(true);
@@ -264,6 +264,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 				changeIsSubmittedAndProcessing(false);
 			}
 		}else{
+			debugger;
 			const {previousData}=props;
 			let currentAudioDescription;
 			let {
@@ -287,7 +288,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 				postS3:[
 					{
 						optionType:'audioDescription',
-						newUrl:currentPost!=audioDescription?currentPost:null
+						newUrl:isAudioPost==true?(currentPost!=audioDescription?currentPost:null):null
 					}
 				],
 				ownerId:props.personalProfileId

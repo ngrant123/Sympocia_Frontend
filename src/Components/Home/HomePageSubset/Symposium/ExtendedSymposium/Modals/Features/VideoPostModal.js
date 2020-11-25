@@ -105,7 +105,8 @@ const SubmitButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  width:"30%"
+  width:"30%",
+  cursor:"pointer"
 }
 
 const SkillLevelButton={
