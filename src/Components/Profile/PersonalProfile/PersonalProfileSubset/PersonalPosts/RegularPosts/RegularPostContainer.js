@@ -115,29 +115,13 @@ class RegularPostsContainer extends Component{
 		}
 	}
 
-	async componentDidMount(){
-		
-		var regularPosts;
-		if(this.props.profile=="Personal"){
-			regularPosts=await getRegularPostFromUser(this.props.id,"Personal");
-			//const newRegularPosts=await this.constructRegularPosts(regularPosts);
-				
-				//console.log(regularPosts);
-		}else{									
-			regularPosts=await getCompanyRegularPosts(this.props.id,"Company");
-		//	const newRegularPosts=await this.constructRegularPosts(regularPosts);
-			
-			//console.log(regularPosts);
-		}
-
-			this.setState({
-				regularPosts:regularPosts,
-				isLoading:false
-			})
+	alterLoadingState=(loadingIndicator)=>{
+		this.setState({
+			isLoading:loadingIndicator
+		})
 	}
 
 	constructRegularPosts=(regularPosts)=>{
-		
 		for(var i=0;i<regularPosts.length;i++){
 			const {post}=regularPosts[i];
 			var DBEditorState = convertFromRaw(JSON.parse(post));
@@ -170,7 +154,8 @@ class RegularPostsContainer extends Component{
 								<CompanyPostDisplayConsumer>
 									{companyPostDisplayModal=>(
 										<Container>
-											{this.state.isLoading==true?<p>We are currently getting posts</p>:
+											{this.props.isLoadingIndicatorRegularPost==true?
+												<p>We are currently getting posts</p>:
 												<React.Fragment>
 													{this.props.posts.posts.length==0 && this.props.posts.headerPost==null?
 																					<NoPostsModal

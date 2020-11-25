@@ -4,7 +4,7 @@ import {createPortal} from "react-dom";
 import ImageDisplayContainer from "../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 
 const Container=styled.div`
-	position:absolute;
+	position:fixed;
 	background-color:red;
 	z-index:40;
 	height:90%;
