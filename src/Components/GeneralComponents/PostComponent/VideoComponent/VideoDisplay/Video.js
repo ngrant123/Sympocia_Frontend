@@ -145,7 +145,7 @@ const ApproveDisapproveContainer=styled.div`
 	width:30%;
 	height:10%;
 	border-radius:5px;
-	left:15%;
+	left:30%;
 	top:20%;
 	height:25%;
 	z-index:4;
@@ -283,9 +283,9 @@ createOrRemoveStampEffect=()=>{
 		var isPersonalProfile=this.props.profileType=="personalProfile"?true:false;
 		if(this.state.displayStampEffect==false){
 			if(isPersonalProfile==true){
-				addStampPost(this.props.video.owner,this.props.video._id,"personal","VideoPost");
+				addStampPost(this.props.video._id,"personal","VideoPost");
 			}else{
-				addStampPost(this.props.video.owner,this.props.video._id,"company","VideoPost");
+				addStampPost(this.props.video._id,"company","VideoPost");
 			}
 			this.setState({
 				displayStampEffect:true
@@ -293,9 +293,9 @@ createOrRemoveStampEffect=()=>{
 
 		}else{
 			if(isPersonalProfile==true){
-				unStampPost(this.props.video.owner,this.props.video._id,"personal","VideoPost");
+				unStampPost(this.props.video._id,"personal","VideoPost");
 			}else{
-				unStampPost(this.props.video.owner,this.props.video._id,"company","VideoPost");
+				unStampPost(this.props.video._id,"company","VideoPost");
 			}
 			this.setState({
 				displayStampEffect:false
@@ -559,7 +559,7 @@ createOrRemoveStampEffect=()=>{
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",marginLeft:"5%"}}>
 												<BorderColorIcon
-													style={{color:"#FFFFFF"}}
+													style={{fontSize:30,color:"#FFFFFF"}}
 												/>
 											</li>
 											<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>

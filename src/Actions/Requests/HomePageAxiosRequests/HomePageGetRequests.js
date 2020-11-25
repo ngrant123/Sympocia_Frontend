@@ -296,10 +296,9 @@ export const getPopularQuestionReplies=async(industry,counter)=>{
 				counter:counter
 			}
 		})
-
+		debugger;
 		const {data}=popularQuestionResponse;
-		const popularQuestionsData=data.data;
-		return popularQuestionsData;
+		return data;
 
 	}catch(err){
 		return err;

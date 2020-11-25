@@ -100,7 +100,7 @@ const SubmitButton=styled.div`
 	height:10%;
 	background-color:#C8B0F4;
 	border-radius:5px;
-
+	cursor:pointer;
 `;
 
 const ShadowContainer= styled.div`

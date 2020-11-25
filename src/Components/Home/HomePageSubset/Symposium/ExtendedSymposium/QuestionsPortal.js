@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import CameraIcon from '@material-ui/icons/Camera';
@@ -18,7 +18,7 @@ const Container=styled.div`
 	width:45%;
 	height:60%;
 	border-radius:5px; 
-	z-index:35;
+	z-index:40;
 	left:30%;
 	top:20%;
 	overflow-y:scroll;
@@ -32,6 +32,30 @@ const Container=styled.div`
 			width:80% !important;
 		}
 	}
+
+	@media screen and (max-width:600px){
+		#postLI{
+			margin-left:30% !important;
+		}
+		#imagePicture{
+			width:120% !important;
+			height:10% !important;
+		}
+		#questionHeader{
+			margin-top:10% !important;
+			font-size:15px !important;
+		}
+		#creationImageLI{
+			width:90% !important;
+		}
+		#imageDescriptionLI{
+			width:130% !important;
+			margin-left:-20% !important;
+		}
+		#imgUrl{
+			width:60% !important;
+		}
+	}
 `;
 
 const ShadowContainer=styled.div`
@@ -39,7 +63,7 @@ const ShadowContainer=styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:35;
+	z-index:40;
 	top:0px;
 `;
 
@@ -105,12 +129,37 @@ const RegularPostContainer=styled.div`
 	}
 `;
 
+const MobileCreationButtonCSS={
+	backgroundColor:"white",
+	borderRadius:"5px",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#3898ec",
+	color:"#3898ec",
+	padding:"20px",
+	fontSize:"15px",
+	listStyle:"none"
+}
+
 
 
 const QuestionsPortal=(props)=>{
-	console.log("QuestionsPortal rendering");
-	console.log(props);
 	const _id=useSelector(state=>state.personalInformation.id);
+	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
+
+	const triggerUIChange=()=>{
+		if(window.innerWidth<595){
+			changeDisplayPhoneUI(true);
+
+		}else{
+			changeDisplayPhoneUI(false);
+		}
+	}
+	useEffect(()=>{
+		triggerUIChange();
+	},[]);
+
+	window.addEventListener('resize',triggerUIChange)
 
 	const {	questionType,
 			closeModal,
@@ -215,11 +264,11 @@ const QuestionsPortal=(props)=>{
 							</a>:
 							<li style={{listStyle:"none"}}>
 								<ul style={{paddingTop:"10px"}}>
-									<li style={{position:"relative",listStyle:"none",display:"inline-block",width:"40%",marinRight:"2%"}}>
+									<li id="creationImageLI" style={{position:"relative",listStyle:"none",display:"inline-block",width:"40%",marinRight:"2%"}}>
 										<img src={selectedPost} style={{borderRadius:"5px",width:"90%",height:"30%"}}/>
 									</li>
 									<hr/>
-									<li style={{listStyle:"none",display:"inline-block",width:"85%",marginTop:"2%"}}>
+									<li id="imageDescriptionLI" style={{listStyle:"none",display:"inline-block",width:"85%",marginTop:"2%"}}>
 										<ul style={{padding:"0px"}}>
 											<InputContainer  id="imageDescription" style={{width:"100%",marginRight:"2%"}}
 												 placeholder="Describe your picture here"
@@ -351,6 +400,7 @@ const QuestionsPortal=(props)=>{
 	const constructResponses=(replies)=>{
 			var element;
 			console.log(replies);
+			console.log(currentQuestionType);
 			if(replies.length==0){
 				return <p> No replies yet :(. Click on the question and click the pencil icon to make a post </p>
 			}else{
@@ -358,15 +408,16 @@ const QuestionsPortal=(props)=>{
 					return <React.Fragment>
 										{replies.map(data=>
 											<li onClick={()=>triggerImagePortal(data)} style={{listStyle:"none",display:"inline-block"}}>
-												<img src={data.imgUrl} style={{borderRadius:"5px",width:"30%",height:"20%"}}/>
+												<img id="imgUrl" src={data.imgUrl} style={{borderRadius:"5px",width:"30%",height:"20%"}}/>
 											</li>
 										)}
 									</React.Fragment>;
 				}else if(currentQuestionType=="Video"){
+					debugger;
 					return <React.Fragment>
 								{replies.map(data=>
-									<li onClick={()=>triggerVideoPortal(data)} style={{listStyle:"none",display:"inline-block"}}>
-										<video key={uuidv4()} style={{borderRadius:"5px",width:"45%",height:"30%"}}>
+									<li onClick={()=>triggerVideoPortal(data)}style={{width:"90%",listStyle:"none",display:"inline-block"}}>
+										<video key={uuidv4()} width="200" height="200" borderRadius="5px" muted autoplay>
 											<source src={data.videoUrl} type="video/mp4"/>
 										</video>
 									</li>
@@ -382,17 +433,17 @@ const QuestionsPortal=(props)=>{
 													<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",width:"20%"}}>
 														<ul style={{padding:"0px"}}>
 															<li style={{listStyle:"none"}}>
-																{data.owner.profilePicture==null?
-																	<img src={NoProfilePicture} style={{width:"80%",height:"15%",borderRadius:"50%"}}/>:
-																	<img src={data.owner.profilePicture} style={{width:"80%",height:"15%",borderRadius:"50%"}}/>
-																}
+																<img id="imagePicture" src={data.owner.profilePicture==null?
+																			NoProfilePicture:
+																			data.owner.profilePicture} 
+																	style={{width:"80%",height:"15%",borderRadius:"50%"}}/>
 															</li>
 															<li style={{listStyle:"none"}}>
 																<b>{data.owner.firstName}</b>
 															</li>
 														</ul>
 													</li>
-													<li style={{listStyle:"none",display:"inline-block",position:"relative",top:"-60px"}}>
+													<li id="postLI" style={{listStyle:"none",display:"inline-block",position:"relative",top:"-60px"}}>
 														{data.post}			
 													</li>
 												</ul>
@@ -450,8 +501,13 @@ const QuestionsPortal=(props)=>{
 
 								<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
 									<ul style={{padding:"0px"}}>
+										{displayPhoneUI &&(
+											<li onClick={()=>changeDisplayPost(true)} style={MobileCreationButtonCSS}>
+												Create
+											</li>
+										)}
 
-										<li style={{width:"130%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"30px"}}>
+										<li id="questionHeader" style={{width:"130%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"30px"}}>
 													<b>
 														{questions[currentCounter].question}
 													</b>
@@ -481,11 +537,13 @@ const QuestionsPortal=(props)=>{
 									}
 								</li>
 							</ul>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<CreatePostContainer onClick={()=>changeDisplayPost(true)} >
-									Create
-								</CreatePostContainer>
-							</a>
+							{displayPhoneUI==false &&(
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<CreatePostContainer onClick={()=>changeDisplayPost(true)} >
+										Create
+									</CreatePostContainer>
+								</a>
+							)}
 						</React.Fragment>
 					}
 				</Container>

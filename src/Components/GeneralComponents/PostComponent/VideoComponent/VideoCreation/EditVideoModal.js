@@ -150,7 +150,8 @@ class EditVideoModal extends Component{
 			audioId:this.uuidv4(),
 			videoDescriptionId:this.uuidv4(),
 			changeVideoVerification:false,
-			displayRedoPage:false
+			displayRedoPage:false,
+			isSubmittedAndProcessing:false
 		}
 	}
 
@@ -226,6 +227,10 @@ class EditVideoModal extends Component{
 	  });
 	}
 	sendVideoDataToDB=async(videoPostInformation)=>{
+
+		this.setState({
+			isSubmittedAndProcessing:true
+		})
 		const currentVideoTitle=document.getElementById("videoTitle").value;
 		const currentVideoDescription=document.getElementById("videoDescription").value;
 
@@ -291,6 +296,9 @@ class EditVideoModal extends Component{
 				this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
 			}else{
 				alert('Unfortunately an error has occured please try again ');
+				this.setState({
+					isSubmittedAndProcessing:false
+				})
 			}
 		}else{
 			const {previousData}=this.props;
@@ -337,6 +345,9 @@ class EditVideoModal extends Component{
 				this.props.editPost(editedVideo);
 			}else{
 				alert('Unfortunately there has been an error editing this post. Please try again');
+				this.setState({
+					isSubmittedAndProcessing:false
+				})
 			}
 		}
 	}
@@ -363,7 +374,7 @@ isArrayEqual=(arr1,arr2)=>{
 			arr2.forEach((selectedIndustry,index)=>{
 				
 				var testing=arr1Map.has(selectedIndustry.industry);
-				if(arr1Map.has(selectedIndustry.industry)==undefined)
+				if(arr1Map.has(selectedIndustry.industry)==undefined || arr1Map.has(selectedIndustry.industry)==false)
 					isArrayEqualIndicator=false
 				else{
 					
@@ -721,26 +732,29 @@ isArrayEqual=(arr1,arr2)=>{
 
 												</li>
 												<hr/>
-												<li id="sendButtonLIContainer" style={{top:"-560px",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
-													<ul style={{padding:"0px"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-																<ul onClick={()=>this.sendVideoDataToDB(videoPostInformation)}>
-																	<li style={{listStyle:"none",display:"inline-block"}}>
-																		<SendIcon
-																			style={{fontSize:20,color:"white"}}
-																		/>
-																	</li>
+												{this.state.isSubmittedAndProcessing==false &&(
+													<li id="sendButtonLIContainer" style={{top:"-560px",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
+														<ul style={{padding:"0px"}}>
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+																	<ul onClick={()=>this.sendVideoDataToDB(videoPostInformation)}>
+																		<li style={{listStyle:"none",display:"inline-block"}}>
+																			<SendIcon
+																				style={{fontSize:20,color:"white"}}
+																			/>
+																		</li>
 
-																	<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																		Send
-																	</li>
+																		<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																			Send
+																		</li>
 
-																</ul>
-															 </li>
-														 </a>
-													</ul>
-												</li>
+																	</ul>
+																 </li>
+															 </a>
+														</ul>
+													</li>
+
+												)}
 											</ul>
 								 		</Container>
 								 	}

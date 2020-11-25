@@ -189,6 +189,7 @@ const PersonalPostsIndex=(props)=>{
 		videos:[]
 	});
 	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
+	const [isLoadingIndicatorRegularPost,changeRegularPostsLoadingIndicator]=useState(true);
 
 	useEffect(()=>{
 		if(props.personalInformation.isLoading!=true){
@@ -203,29 +204,33 @@ const PersonalPostsIndex=(props)=>{
 		Could be implemented in a better way
 	*/
 
+	const unSelectButtonsCSS=()=>{
+		const image=document.getElementById("images");
+		image.style.color="#bebebf";
+		image.style.borderStyle="none";
+
+		const blogs=document.getElementById("blogs");
+		blogs.style.color="#bebebf";
+		blogs.style.borderStyle="none";
+
+
+		const videos=document.getElementById("videos");
+		videos.style.color="#bebebf";
+		videos.style.borderStyle="none";
+
+
+		const regularPost=document.getElementById("regularPosts");
+		regularPost.style.color="#bebebf";
+		regularPost.style.borderStyle="none";
+	}
+
 	const handlePostsClick=async(kindOfPost,id)=>{
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
 			changeDisplayForRegularPosts(false);
 
-			const image=document.getElementById("images");
-			image.style.color="#bebebf";
-			image.style.borderStyle="none";
-
-			const blogs=document.getElementById("blogs");
-			blogs.style.color="#bebebf";
-			blogs.style.borderStyle="none";
-
-
-			const videos=document.getElementById("videos");
-			videos.style.color="#bebebf";
-			videos.style.borderStyle="none";
-
-
-			const regularPost=document.getElementById("regularPosts");
-			regularPost.style.color="#bebebf";
-			regularPost.style.borderStyle="none";
+			unSelectButtonsCSS();
 
 		if(kindOfPost=="image"){
 
@@ -264,11 +269,10 @@ const PersonalPostsIndex=(props)=>{
 			blogs.style.borderColor="#C8B0F4";
 			changeDisplayForBlogs(true);
 		}else{
-
+			changeDisplayForRegularPosts(true);
 			const {confirmation,data}=await getRegularPostFromUser({userId:id,
 																	visitorId:props.visitorId
 																});
-
 				if(confirmation=="Success"){	
 					const {crownedRegularPost,regularPosts}=data;
 					const regularPost=document.getElementById("regularPosts");
@@ -283,6 +287,7 @@ const PersonalPostsIndex=(props)=>{
 		
 					changeRegularPost(regularPostObject);
 					changeDisplayForRegularPosts(true);
+					changeRegularPostsLoadingIndicator(false);
 				}else{
 					alert('Unfortunately there has been an error getting your regular posts. Please try again');
 				}
@@ -638,6 +643,7 @@ const PersonalPostsIndex=(props)=>{
 									<RegularPost
 										id={props.personalInformation.userProfile._id}
 										posts={regularPost}
+										isLoadingIndicatorRegularPost={isLoadingIndicatorRegularPost}
 										profilePicture={props.personalInformation.userProfile.profilePicture}
 										profile="Personal"
 									/>:<React.Fragment></React.Fragment>

@@ -114,7 +114,8 @@ const SubmitButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  width:"30%"
+  width:"30%",
+  cursor:"pointer"
 }
 
 const SkillLevelButton={
@@ -143,6 +144,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 	const [displayPostExpand,changePostExpand]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
+	const name=useSelector(state=>state.personalInformation.firstName);
 
 	useEffect(()=>{
 		const fetchData=async()=>{
@@ -209,7 +211,10 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 		if(confirmation=="Success"){
 			data={
 				...data,
-				post:audioUrl
+				post:audioUrl,
+				owner:{
+					firstName:name
+				}
 			}
 
 			posts.splice(0,0,data);
@@ -218,7 +223,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 			changeDisplayForFinalAudio(false);
 			changeDisplayCreationModal(false);
 		}else{
-			alert('Unfortunately there has been an error with adding this image. Please try again');
+			alert('Unfortunately there has been an error with adding this audio post. Please try again');
 		}
 	}
 

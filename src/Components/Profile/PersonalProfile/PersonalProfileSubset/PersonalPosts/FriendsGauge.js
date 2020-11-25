@@ -47,6 +47,7 @@ class FriendsGauge extends Component {
     var numberNodes;
     var progressBarCounter;
     var {friendsGauge,friendsGaugeNodes}=this.props.personalInformation.userProfile;
+    debugger;
     console.log("Friend nodes");
     console.log(friendsGaugeNodes);
     numberNodes=friendsGaugeNodes.length+1;
@@ -102,9 +103,6 @@ class FriendsGauge extends Component {
   }
 
   componentDidMount(){
-    console.log(this.props)
-    
-  
     var currentCounter=0;
       setTimeout(()=>{
         while(currentCounter<this.state.progressBarCounter){
@@ -128,7 +126,7 @@ class FriendsGauge extends Component {
                                          {this.constructProgessBarStep(accomplished,index,currentNode)}
                                       </React.Fragment>
                                     )}
-                                  </Step>;
+                                </Step>;
               ProgressBarSteps.push(StepElement);
         }
       }
@@ -254,6 +252,7 @@ class FriendsGauge extends Component {
   }
 
   hideModal=()=>{
+    debugger;
     this.setState({
       displayFriendsGaugeEditModal:false
     })
@@ -286,6 +285,7 @@ class FriendsGauge extends Component {
   }
 
   addNode=(data)=>{
+    debugger;
     if(this.state.nodes.length==3){
       alert('Maximum nodes is 3 :( Please delete one');
     }else{
@@ -299,7 +299,7 @@ class FriendsGauge extends Component {
   }
 
   removeNode=(data)=>{
-      console.log(data);
+    debugger;
       var currentNodes=this.state.nodes;
       const {_id}=data;
       for(var i=0;i<currentNodes.length;i++){
@@ -322,7 +322,6 @@ class FriendsGauge extends Component {
     }else{
         this.removeNode(node);
     }
-
   }
   closePhoneEditNodesModal=()=>{
       this.setState({

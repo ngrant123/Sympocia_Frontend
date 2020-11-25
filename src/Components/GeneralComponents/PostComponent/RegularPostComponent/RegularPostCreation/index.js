@@ -162,6 +162,7 @@ const ButtonCSS={
 	const [crownPostColor,changeCrownPostColor]=useState("#D6C5F4");
 	const [crownPostBackgroundColor,changeCrownPostBackgroundColor]=useState("white");
 	const [contextInformation,changeContextInformation]=useState();
+	const [isSubmittedAndProcessing,changeIsSubmittedAndProcessing]=useState(false);
 
 	useEffect(()=>{
 		
@@ -182,9 +183,9 @@ const ButtonCSS={
 			changeIsPostCrowned(isCrownedPost);
 
 			if(isAudioPost==false){
-				changeRegularPostDescription(false);
-			}else{
 				changeRegularPostDescription(true);
+			}else{
+				changeRegularPostDescription(false);
 			}
 		}
 		changeIsPreviousDataLoaded(true);
@@ -200,6 +201,7 @@ const ButtonCSS={
 	}
 
 const sendRegularPost=async(profilePostInformation)=>{
+		changeIsSubmittedAndProcessing(true);
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const searchCriteriaIndustryArray=[];
 		//const content=editorState;
@@ -256,11 +258,13 @@ const sendRegularPost=async(profilePostInformation)=>{
 					_id:data
 				}
 				pushDummyRegularPostObjectToProfile(contextInformation,searchCriteriaObject)
+				
 			}else{
 				alert('Unfortunately there has been an error creating this post. Please try again');
+				changeIsSubmittedAndProcessing(false);
 			}
-			
 		}else{
+			debugger;
 			const {previousData}=props;
 			let currentAudioDescription;
 			let {
@@ -284,7 +288,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 				postS3:[
 					{
 						optionType:'audioDescription',
-						newUrl:currentPost!=audioDescription?currentPost:null
+						newUrl:isAudioPost==true?(currentPost!=audioDescription?currentPost:null):null
 					}
 				],
 				ownerId:props.personalProfileId
@@ -296,6 +300,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 				props.previousData.contextLocation.editPost(editedRegularPost);
 			}else{
 				alert('Unfortunately there has been an error editing this post. Please try again');
+				changeIsSubmittedAndProcessing(false);
 			}
 		}
 		
@@ -331,7 +336,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 			arr2.forEach((selectedIndustry,index)=>{
 				
 				var testing=arr1Map.has(selectedIndustry.industry);
-				if(arr1Map.has(selectedIndustry.industry)==undefined)
+				if(arr1Map.has(selectedIndustry.industry)==undefined || arr1Map.has(selectedIndustry.industry)==false)
 					isArrayEqualIndicator=false
 				else{
 					
@@ -495,12 +500,14 @@ const sendRegularPost=async(profilePostInformation)=>{
 													sendDataToParent={sendTextDataToParent}
 													displayCrownPostModal={displayCrownModal}
 													previousPost={props.previousData!=null?props.previousData.post:null}
+													isSubmittedAndProcessing={isSubmittedAndProcessing}
 												/>:
 												<AudioCreation
 													sendDataToParent={sendAudioDataToParent}
 													isPostCrowned={isCrownedPost}
 													displayCrownPostModal={displayCrownModal}
 													displayTextOrAudioScreen={displayAudioORTextScreenHandle}
+													isSubmittedAndProcessing={isSubmittedAndProcessing}
 												/>
 											}
 										</React.Fragment>

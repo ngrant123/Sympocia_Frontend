@@ -187,8 +187,6 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 		}
 	}
 
-
-
 	return <>
 			{isProfileARecruitOrOwner==true?
 				<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
@@ -328,12 +326,14 @@ const PersonalInformation=(props)=>{
 										<FriendsPortal
 											userId={props.personalInformation.userProfile._id}
 											closeModal={closeFriendsPortal}
+											isOwner={personalInformation.isOwnProfile}
 										/>
 									)}
 									{displaySymposiumsPortal==true &&(
 										<SymposiumPortal
 											userId={props.personalInformation.userProfile._id}
 											closeModal={closeFollowedSymposiumsPortal}
+											isOwner={personalInformation.isOwnProfile}
 										/>
 									)}
 									{displayFriendsAndIndustryContainer==false?

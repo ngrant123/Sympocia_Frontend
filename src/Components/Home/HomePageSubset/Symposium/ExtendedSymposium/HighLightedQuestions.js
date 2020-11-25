@@ -25,7 +25,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		#postLI{
-			width:80% !important;
+			width:110% !important;
 		}
 	}
 
@@ -58,7 +58,8 @@ class HighLightedQuestions extends Component{
 			displayRegularPortal:false,
 			selectedPost:{},
 			displayExpandedQuestionModal:false,
-			counter:0
+			counter:0,
+			isLoading:false
 		}
 	}
 
@@ -89,12 +90,20 @@ class HighLightedQuestions extends Component{
 		})
 	}
 
+	uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
+
 
 
 	constructResponses=(question)=>{
 		const {questionType}=question;
 		var replies=question.responsesId;
 		var element;
+		console.log(replies);
 		if(replies.length==0){
 			return <p> No replies yet :(. Click on the question and click the pencil icon to make a post </p>
 		}else{
@@ -115,13 +124,13 @@ class HighLightedQuestions extends Component{
 				return <React.Fragment>
 							{replies.map(data=>
 								<React.Fragment>
-									{data._id==null?null:
-										<li id="postLI" onClick={()=>this.setVideoPost(data)} style={{width:"30%",listStyle:"none",display:"inline-block"}}>
-											<video width="90%" height="40%" borderRadius="5px" muted autoplay>
+									{data!=null &&(
+										<li id="postLI" onClick={()=>this.setVideoPost(data)} style={{marginBottom:"5%",width:"30%",listStyle:"none",display:"inline-block"}}>
+											<video key={this.uuidv4()} width="90" height="40" borderRadius="5px" muted autoplay>
 												<source src={data.videoUrl} type="video/mp4"/>
 											</video>
 										</li>
-									}
+									)}
 								</React.Fragment>
 							)}
 						</React.Fragment>;
@@ -165,7 +174,6 @@ class HighLightedQuestions extends Component{
 	}
 
 	closeModalAndDisplayData=({data,currentQuestionType})=>{
-		
 		const {
 				question,
 				questionType,
@@ -173,6 +181,7 @@ class HighLightedQuestions extends Component{
 			}=this.state.questionData[this.state.counter];
 
 		if(currentQuestionType==questionType){
+			debugger;
 			data=data._doc;
 			var replies=responsesId;
 
@@ -188,27 +197,46 @@ class HighLightedQuestions extends Component{
 		}
 	}
 
-	increaseCounter=async()=>{
-		
-		var currentCounter=this.state.counter;
-		currentCounter=this.state.counter+1;
-
-		const questionData=await getPopularQuestionReplies(this.props.selectedSymposium,currentCounter);
+	alterIsLoading=(loadingIndicator)=>{
 		this.setState({
-			counter:currentCounter,
-			questionData:questionData
+			isLoading:loadingIndicator
 		})
 	}
 
+
+	increaseCounter=async()=>{
+		this.alterIsLoading(true);
+		var currentCounter=this.state.counter;
+		currentCounter=this.state.counter+1;
+
+		const {confirmation,data}=await getPopularQuestionReplies(this.props.selectedSymposium,currentCounter);
+		debugger;
+		if(confirmation=="Success"){
+			this.setState({
+				counter:currentCounter,
+				questionData:data
+			})
+		}else{
+			alert('Unfortunately an error has occured when trying to get the next question. Please try again');
+		}
+		this.alterIsLoading(false);
+	}
+
 	decreaseCounter=async()=>{
+		this.alterIsLoading(true);
 		var currentCounter=this.state.counter;
 		currentCounter=this.state.counter-1;
 
-		const questionData=await getPopularQuestionReplies(this.props.selectedSymposium,currentCounter);
-		this.setState({
-			counter:currentCounter,
-			questionData:questionData
-		})
+		const {confirmation,data}=await getPopularQuestionReplies(this.props.selectedSymposium,currentCounter);
+		if(confirmation=="Success"){
+			this.setState({
+				counter:currentCounter,
+				questionData:data
+			})
+		}else{
+			alert('Unfortunately an error has occured when trying to get the next question. Please try again');
+		}
+		this.alterIsLoading(false);
 	}
 
 	render(){
@@ -216,97 +244,102 @@ class HighLightedQuestions extends Component{
 			<React.Fragment>
 				{this.state.questionData.length>0?
 					<React.Fragment>
-												{this.state.displayExpandedQuestionModal==true?
-													<QuestionsPortal
-														questionType={this.state.questionData[this.state.counter].questionType}													
-														closeModalAndDisplayData={this.closeModalAndDisplayData}
-														closeModal={this.closeModal}
-														counter={this.state.counter}
-														questions={this.state.questionData}
-														selectedSymposium={this.props.selectedSymposium}
-														triggerImagePortal={this.setImagePost}
-														triggerVideoPortal={this.setVideoPost}
-														triggerRegularPostPortal={this.setRegularPost}
-														addComment={this.addComment}
-													/>:<React.Fragment></React.Fragment>
+						{this.state.displayExpandedQuestionModal==true?
+							<QuestionsPortal
+								questionType={this.state.questionData[this.state.counter].questionType}													
+								closeModalAndDisplayData={this.closeModalAndDisplayData}
+								closeModal={this.closeModal}
+								counter={this.state.counter}
+								questions={this.state.questionData}
+								selectedSymposium={this.props.selectedSymposium}
+								triggerImagePortal={this.setImagePost}
+								triggerVideoPortal={this.setVideoPost}
+								triggerRegularPostPortal={this.setRegularPost}
+								addComment={this.addComment}
+							/>:<React.Fragment></React.Fragment>
+						}
+						{this.state.displayImagePortal==true?
+							<ImagePostDisplayPortal
+								closeModal={this.closeModal}
+								selectedImage={this.state.selectedPost}
+								recommendedImages={[]}
+								targetDom="extendedSymposiumContainer"
+							/>:
+							<React.Fragment></React.Fragment>
+						}
+	
+						{this.state.displayVideoPortal==true?
+							<VideoPostDisplayPortal
+								closeModal={this.closeModal}
+								selectedVideo={this.state.selectedPost}
+								recommendedVideos={[]}
+								targetDom="extendedSymposiumContainer"
+							/>
+							:<React.Fragment></React.Fragment>
+						}
+	
+						{this.state.displayRegularPortal==true?
+							<RegularPostDisplayPortal
+								closeModal={this.closeModal}
+								selectedPost={this.state.selectedPost}
+								recommendedRegularPosts={[]}
+								targetDom="extendedSymposiumContainer"
+							/>
+							:<React.Fragment></React.Fragment>
+						}
+						{this.props.isSimplified==false?
+							<Container>
+								{this.state.isLoading==true?
+									<p> Loading...</p>:
+									<>
+										<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none"}}>
+											<ul style={{padding:"10px"}}>
+												{this.state.counter!=0?
+													<li style={{listStyle:"none",display:"inline-block",marginLeft:"1%"}}>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<NavigateBeforeIcon
+																style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
+																onClick={()=>this.decreaseCounter()}
+															/>
+														</a>
+													</li>:<React.Fragment></React.Fragment>
 												}
-												{this.state.displayImagePortal==true?
-													<ImagePostDisplayPortal
-														closeModal={this.closeModal}
-														selectedImage={this.state.selectedPost}
-														recommendedImages={[]}
-														targetDom="extendedSymposiumContainer"
-													/>:
-													<React.Fragment></React.Fragment>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>this.expandQuestion()} style={{fontSize:"15px",color:"#3898ec",listStyle:"none",display:"inline-block",width:"70%"}}>
+														
+															{this.state.questionData[this.state.counter].question}
+													</li>
+												</a>
+												{this.state.counter!=(this.state.questionData.length-1)?
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<NavigateNextIcon
+																style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
+																onClick={()=>this.increaseCounter()}
+															/>
+														</a>
+													</li>:<React.Fragment></React.Fragment>
 												}
-							
-												{this.state.displayVideoPortal==true?
-													<VideoPostDisplayPortal
-														closeModal={this.closeModal}
-														selectedVideo={this.state.selectedPost}
-														recommendedVideos={[]}
-														targetDom="extendedSymposiumContainer"
-													/>
-													:<React.Fragment></React.Fragment>
-												}
-							
-												{this.state.displayRegularPortal==true?
-													<RegularPostDisplayPortal
-														closeModal={this.closeModal}
-														selectedPost={this.state.selectedPost}
-														recommendedRegularPosts={[]}
-														targetDom="extendedSymposiumContainer"
-													/>
-													:<React.Fragment></React.Fragment>
-												}
-												{this.props.isSimplified==false?
-													<Container>
-															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none"}}>
-																	<ul style={{padding:"10px"}}>
-																		{this.state.counter!=0?
-																			<li style={{listStyle:"none",display:"inline-block",marginLeft:"1%"}}>
-																				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																					<NavigateBeforeIcon
-																						style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-																						onClick={()=>this.decreaseCounter()}
-																					/>
-																				</a>
-																			</li>:<React.Fragment></React.Fragment>
-																		}
-																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																			<li onClick={()=>this.expandQuestion()} style={{fontSize:"15px",color:"#3898ec",listStyle:"none",display:"inline-block",width:"70%"}}>
-																				
-																					{this.state.questionData[this.state.counter].question}
-																			</li>
-																		</a>
-																		{this.state.counter!=(this.state.questionData.length-1)?
-																			<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-																				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																					<NavigateNextIcon
-																						style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-																						onClick={()=>this.increaseCounter()}
-																					/>
-																				</a>
-																			</li>:<React.Fragment></React.Fragment>
-																		}
-																	</ul>
-																</li>
-																<hr/>
-																<li style={{listStyle:"none"}}>
-																	<ul style={{padding:"10px"}}>
-																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																			{this.constructResponses(this.state.questionData[this.state.counter])}
-																		</a>
-																	</ul>
-																</li>
-															</ul>
-													</Container>:
-													<SimplifiedContainer>
-							
-							
-													</SimplifiedContainer>
-												}
+											</ul>
+										</li>
+										<hr/>
+										<li style={{listStyle:"none"}}>
+											<ul style={{padding:"10px"}}>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													{this.constructResponses(this.state.questionData[this.state.counter])}
+												</a>
+											</ul>
+										</li>
+									</ul>
+									</>
+								}
+							</Container>:
+							<SimplifiedContainer>
+	
+	
+							</SimplifiedContainer>
+						}
 					</React.Fragment>:null
 				}
 			</React.Fragment>

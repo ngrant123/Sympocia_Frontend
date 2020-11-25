@@ -239,7 +239,7 @@ export const addSymposium=async(profileId,symposium,subSymposium)=>{
 	}
 }
 
-export const removeSymposium=async(profileId,symposium,subSymposium)=>{
+export const removeSymposium=async({profileId,symposium,subSymposium})=>{
 	try{
 
 		var symposiumResponse=await axios.post(`${CreateUrl}/removeSymposium`,{

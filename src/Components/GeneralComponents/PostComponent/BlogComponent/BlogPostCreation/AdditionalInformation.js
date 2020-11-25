@@ -91,6 +91,8 @@ const StampButtonCSS={
 
 const AdditionalInformation=(props)=>{
 
+	const {postType}=props;
+	console.log(props);
 	const [profilePictureContributors,changeContributors]=useState([{},{},{},{},{}]);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 
@@ -100,17 +102,17 @@ const AdditionalInformation=(props)=>{
 		//(userId,postId,profileType,postType)
 		if(displayStampEffect==false){
 			if(isPersonalProfile==true){
-				addStampPost(props.blogData.owner,props.blogData._id,"personal","BlogPost");
+				addStampPost(props.blogData._id,"personal","BlogPost");
 			}else{
-				addStampPost(props.blogData.owner,props.blogData._id,"company","BlogPost");
+				addStampPost(props.blogData._id,"company","BlogPost");
 			}
 			changeDisplayStampEffect(true);
 
 		}else{
 			if(isPersonalProfile==true){
-				unStampPost(props.blogData.owner,props.blogData._id,"personal","BlogPost");
+				unStampPost(props.blogData._id,"personal","BlogPost");
 			}else{
-				unStampPost(props.blogData.owner,props.blogData._id,"company","BlogPost");
+				unStampPost(props.blogData._id,"company","BlogPost");
 			}
 			changeDisplayStampEffect(false);
 		}
@@ -119,15 +121,17 @@ const AdditionalInformation=(props)=>{
 	return(
 		<Container>
 				<ul style={{padding:"0px"}}>
-					<li onClick={()=>createOrRemoveStampEffect()} style={{listStyle:"none"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-								<LoyaltyIcon
-									style={{fontSize:"40",color:"black"}}
-								/>
-							</li>
-						</a>
-					</li>
+					{postType!="Creation" &&(
+						<li onClick={()=>createOrRemoveStampEffect()} style={{listStyle:"none"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+									<LoyaltyIcon
+										style={{fontSize:"40",color:"black"}}
+									/>
+								</li>
+							</a>
+						</li>
+					)}
 					{displayStampEffect==false?
 						null:
 						<li style={{listStyle:"none"}}>

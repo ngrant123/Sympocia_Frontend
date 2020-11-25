@@ -8,16 +8,16 @@ const ShadowContainerVideos=styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:35;
+	z-index:40;
 	top:0px;
 `;
 
 const Container=styled.div`
 	position:fixed;
-	z-index:36;
+	z-index:40;
 	border-radius:5px;
 	top:5%;
-	left:5%;
+	left:15%;
 	overflow-y:auto;
 	background-color:white;
 `;
