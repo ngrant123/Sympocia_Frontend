@@ -26,7 +26,7 @@ const Container=styled.div`
 
 const RegularPostDisplayContainer=styled.div`
 	position:fixed;
-	z-index:40;
+	z-index:45;
 	height:40%;
 	top:20%; 
 	width:60%;
@@ -39,7 +39,7 @@ const RegularPostDisplayContainer=styled.div`
 
 	@media screen and (max-width:1360px){
 		position:fixed;
-		z-index:36;
+		z-index:45;
 		height:90%;
 		width:95%;
 		border-radius:5px;

@@ -409,27 +409,29 @@ const ImagePostsModal=(props)=>{
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 												<ShadowContainer/>
 												<img id="image" src={data.imgUrl} style={ImageCSS}/>
-												<ul id="smallAudioDescription"style={{padding:"0px",zIndex:"8",position:"absolute",top:"25%"}}>
-													{data.videoDescription!=null?
-														<li style={{listStyle:"none"}}>
-															<VideoDesriptionContainer>
-																   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																		<source src={data.videoDescription} type="video/mp4"/>
-																	</video>
-															</VideoDesriptionContainer>
-														</li>:null
-													}
-													
-													{data.audioDescription!=null?
-														<li style={{listStyle:"none"}}>
-															<audio style={{width:"200px"}} controls muted>
-															  	<source src={data.audioDescription} type="audio/ogg"/>
-															  	<source src={data.audioDescription} type="audio/mpeg"/>
-																Your browser does not support the audio element.
-															</audio>
-														</li>:null
-													}
-												</ul>
+												{/*
+													<ul id="smallAudioDescription"style={{padding:"0px",zIndex:"8",position:"absolute",top:"25%"}}>
+														{data.videoDescription!=null?
+															<li style={{listStyle:"none"}}>
+																<VideoDesriptionContainer>
+																	   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																			<source src={data.videoDescription} type="video/mp4"/>
+																		</video>
+																</VideoDesriptionContainer>
+															</li>:null
+														}
+														
+														{data.audioDescription!=null?
+															<li style={{listStyle:"none"}}>
+																<audio style={{width:"200px"}} controls muted>
+																  	<source src={data.audioDescription} type="audio/ogg"/>
+																  	<source src={data.audioDescription} type="audio/mpeg"/>
+																	Your browser does not support the audio element.
+																</audio>
+															</li>:null
+														}
+													</ul>
+												*/}
 											</a>
 										</li>
 										<li id="smallPersonalInformation" style={{listStyle:"none",marginBottom:"1%"}}>

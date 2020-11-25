@@ -60,6 +60,7 @@ import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 //Company/Business Icno
 import BusinessIcon from '@material-ui/icons/Business';
+import Particles from 'react-particles-js';
 
 const divStyle = {
   	position:'absolute',
@@ -534,6 +535,36 @@ addIndustry=(props)=>{
 
 		return (
 				<BodyContainer> 
+				<div id="particlesJS">	
+						<Particles	
+						    params={{	
+							    "particles": {	
+							        "number": {	
+							            "value": 100	
+							        },	
+							        "size": {	
+							            "value": 3	
+							        },	
+							        "color": {	
+								      "value": "#000000"	
+								    },	
+								    "line_linked": {	
+
+							      "color": "#000000",	
+
+							    	}	
+							    },	
+							    "interactivity": {	
+							        "events": {	
+							            "onhover": {	
+							                "enable": true,	
+							                "mode": "repulse"	
+							            }	
+							        }	
+							    },	
+							}}	
+						/>	
+					</div>
 				{this.DisplayPersonalOrCompanyChoices()}
 				{this.displayPersonalInvestorSection()}
 				{this.state.displayInvestorPersonalSignUpFinalModal==true?

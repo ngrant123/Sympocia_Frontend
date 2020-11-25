@@ -273,16 +273,6 @@ const BlogPostModal=(props)=>{
 				<ul style={{padding:"0px"}}>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
-							{headerBlog.videoDescription!=null?
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
-									<VideoDesriptionContainer>
-										   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
-												<source src={headerBlog.videoDescription} type="video/mp4"/>
-											</video>
-									</VideoDesriptionContainer>
-								</li>:null
-							}
-							
 							{headerBlog.audioDescription!=null?
 								<li style={{llistStyle:"none",display:"inline-block"}}>
 									<audio style={{width:"200px"}} controls>
@@ -298,12 +288,21 @@ const BlogPostModal=(props)=>{
 						<ul style={{padding:"0px"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<li style={{listStyle:"none",display:"inline-block"}}>
-									<ProfilePictureLink to={{pathname:`/profile/${headerBlog.owner._id}`}}>
-											{headerBlog.owner.profilePicture!=null?
-												<img src={headerBlog.owner.profilePicture} style={ProfileImageCSS}/>:
-												<img src={NoProfilePicture} style={ProfileImageCSS}/>
-											}
-									</ProfilePictureLink>
+									{headerBlog.videoDescription!=null?
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
+											<VideoDesriptionContainer>
+												   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+														<source src={headerBlog.videoDescription} type="video/mp4"/>
+													</video>
+											</VideoDesriptionContainer>
+										</li>:
+										<ProfilePictureLink to={{pathname:`/profile/${headerBlog.owner._id}`}}>
+												{headerBlog.owner.profilePicture!=null?
+													<img src={headerBlog.owner.profilePicture} style={ProfileImageCSS}/>:
+													<img src={NoProfilePicture} style={ProfileImageCSS}/>
+												}
+										</ProfilePictureLink>
+									}
 								</li>
 							</a>
 							<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
@@ -354,18 +353,8 @@ const BlogPostModal=(props)=>{
 									</li>
 								:<li id="postLI" style={{list0Style:"none",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
 									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none"}}>
+										<li style={{listStyle:"none",marginBottom:"2%"}}>
 											<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
-												{data.videoDescription!=null?
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
-														<VideoDesriptionContainer>
-															   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
-																	<source src={data.videoDescription} type="video/mp4"/>
-																</video>
-														</VideoDesriptionContainer>
-													</li>:null
-												}
-												
 												{data.audioDescription!=null?
 													<li style={{llistStyle:"none",display:"inline-block"}}>
 														<audio style={{width:"200px"}} controls>
@@ -403,14 +392,24 @@ const BlogPostModal=(props)=>{
 													<ul style={{padding:"0px"}}>
 														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 															<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
-																	<img id="profilePicture" src={data.owner.profilePicture==null?
-																									NoProfilePicture:
-																									data.owner.profilePicture
-																								} style={ProfileImageCSS}
+																{data.videoDescription!=null?
+																	<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
+																		<VideoDesriptionContainer>
+																			   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																					<source src={data.videoDescription} type="video/mp4"/>
+																				</video>
+																		</VideoDesriptionContainer>
+																	</li>:
+																	<img id="profilePicture" 
+																		src={data.owner.profilePicture==null?
+																				NoProfilePicture:
+																				data.owner.profilePicture
+																			} style={ProfileImageCSS}
 																	/>
+																}
 															</li>
 														</a>
-														<li style={{listStyle:"none",display:"inline-block"}}>
+														<li style={{position:"relative",listStyle:"none",display:"inline-block",top:"-20px"}}>
 															<ul style={{padding:"0px"}}>
 																<li style={{listStyle:"none"}}>
 																	{data.owner.firstName}
