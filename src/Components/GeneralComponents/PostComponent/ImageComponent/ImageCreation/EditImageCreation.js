@@ -244,15 +244,14 @@ class EditImageCreation extends Component{
 			changeImageVerification:false,
 			displayReplaceImageModal:false,
 			videoDescriptionId:this.uuidv4(),
-			audioDescriptionId:this.uuidv4()
+			audioDescriptionId:this.uuidv4(),
+			isSubmittedAndProcessing:false
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
 
 	componentDidMount(){
-
 		const {previousData}=this.props;
-		
 		if(previousData!=null){
 			var {
 				description,
@@ -313,6 +312,9 @@ class EditImageCreation extends Component{
 	}
 
 	sendImageDateToDB=async(profilePostInformation)=>{
+		this.setState({
+			isSubmittedAndProcessing:true
+		})
 		const industries=this.state.industriesSelected;
 		const imgUrl=this.state.src;
 		const currentVideoDescription=this.state.videoDescription;
@@ -351,6 +353,9 @@ class EditImageCreation extends Component{
 					this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria,data,this.props.personalProfile.id);
 				}else{
 					alert('Unfortunately there was an error uploading your image. Please try again');
+					this.setState({
+						isSubmittedAndProcessing:false
+					})
 				}
 			}
 		}else{
@@ -397,6 +402,9 @@ class EditImageCreation extends Component{
 				this.props.editPost(editedImage);
 			}else{
 				alert('Unfortunately there has been an error editing this post. Please try again');
+				this.setState({
+					isSubmittedAndProcessing:false
+				})
 			}
 		}
 	}
@@ -409,7 +417,7 @@ class EditImageCreation extends Component{
 	}
 
 	isArrayEqual=(arr1,arr2)=>{
-		
+		debugger;
 		let isArrayEqualIndicator=true;
 
 		if(arr1.length!=arr2.length)
@@ -429,7 +437,7 @@ class EditImageCreation extends Component{
 			arr2.forEach((selectedIndustry,index)=>{
 				
 				var testing=arr1Map.has(selectedIndustry.industry);
-				if(arr1Map.has(selectedIndustry.industry)==undefined)
+				if(arr1Map.has(selectedIndustry.industry)==undefined || arr1Map.has(selectedIndustry.industry)==false)
 					isArrayEqualIndicator=false
 				else{
 					
@@ -940,23 +948,25 @@ class EditImageCreation extends Component{
 															</li>
 														</ul>
 													</li>
+													{this.state.isSubmittedAndProcessing==false &&(
+														<li style={{listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+															<a style={{textDecoration:"none"}} href="javascript:void(0);">
+																<ul onClick={()=>this.sendImageDateToDB(profilePostInformation)}>
+																	<li style={{listStyle:"none",display:"inline-block"}}>
+																		<SendIcon
+																			style={{fontSize:20,color:"white"}}
+																		/>
+																	</li>
 
-													<li style={{listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-														<a style={{textDecoration:"none"}} href="javascript:void(0);">
-															<ul onClick={()=>this.sendImageDateToDB(profilePostInformation)}>
-																<li style={{listStyle:"none",display:"inline-block"}}>
-																	<SendIcon
-																		style={{fontSize:20,color:"white"}}
-																	/>
-																</li>
+																	<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																		Send
+																	</li>
 
-																<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																	Send
-																</li>
+																</ul>
+															</a>
+												 		</li>
 
-															</ul>
-														</a>
-											 		</li>
+													)}
 												</ul>
 											</li>:
 											<FilterImageSelection

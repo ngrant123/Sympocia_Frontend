@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {promotePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
@@ -9,7 +9,7 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:25;
+	z-index:35;
 	top:0px;
 `;
 
@@ -18,7 +18,7 @@ const Container=styled.div`
 	width:25%;
 	height:50%;
 	background-color:white;
-	z-index:25;
+	z-index:35;
 	top:20%;
 	border-radius:5px;
 	left:40%;
@@ -49,8 +49,13 @@ const ButtonCSS={
 const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 	const [displayConfirmationPage,changeDisplayConfirmationPage]=useState(false);
 	const [nodeSelected,changeNodeSelected]=useState();
-
-	console.log(nodes);
+	const [node,changeCurrentNodes]=useState([]);
+	useEffect(()=>{
+		debugger;
+		let currentNodes=[...nodes];
+		currentNodes.splice(0,1);
+		changeCurrentNodes(currentNodes)
+	},[])
 
 	const confirmSelectedNode=(data)=>{
 		changeNodeSelected(data);
@@ -88,7 +93,7 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 						<p>Please selected the level that you want your post to be promoted to </p>
 						<hr/>
 						<ul style={{padding:"0px"}}>
-							{nodes.map(data=>
+							{node.map(data=>
 								<li style={{listStyle:"none",marginBottom:"5%"}}>
 									<ul style={{padding:"0px"}}>
 										<p style={{fontSize:"15px"}}>

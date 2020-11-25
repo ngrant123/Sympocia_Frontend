@@ -50,7 +50,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	const [selectedNode,changeSelectedNode]=useState();
 
 	const removeSelectedPerson=(data)=>{
-		debugger;
+		
 		const selectedId=data._id;
 		var newArray=[];
 		for(var i=0;i<selectedRecruits.length;i++){
@@ -72,14 +72,18 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	} 
 
 	const promoteRecruits=async()=>{
-		debugger;
-		const promoteRecruit={
-			selectedRecruits:selectedRecruits,
-			node:selectedNode._id,
-			_id:id
-		}
+		
+		/*
+			const promoteRecruit={
+				selectedRecruits:selectedRecruits,
+				node:selectedNode._id,
+				_id:id
+			}
 
-		const {confirmation}=await promoteRecruitRequest(promoteRecruit);
+			const {confirmation}=await promoteRecruitRequest(promoteRecruit);
+		*/
+
+		const confirmation="Success";
 		if(confirmation=='Success'){
 			closeModal();
 		}else{
@@ -123,7 +127,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 									<>
 										{recruitsInformationProp.map(data=>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li  onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",display:"inline-block",width:"25%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
+												<li  onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",display:"inline-block",width:"35%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
 													<ul style={{padding:"10px"}}>
 														<li style={{listStyle:"none"}}>
 															{data.profilePicture==null?
@@ -171,7 +175,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"0px"}}>
 									<p style={{fontSize:"20px"}}>
-							 			<b>Click the recruits that you would like to promote </b>
+							 			<b>Click the level that you want to promote the recruit to</b>
 							 		</p>
 							 		<hr/>
 									{nodes.map(data=>

@@ -66,8 +66,7 @@ export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 		})
 
 		const {data}=blogPost;
-		const blogCreationResponse=data.data;
-		return blogCreationResponse;
+		return data;
 
 	}catch(err){
 		return err.message;
@@ -75,12 +74,11 @@ export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 }
 
 
-export const addStampPost =async(userId,postId,profileType,postType)=>{
+export const addStampPost =async(postId,profileType,postType)=>{
 	try{
 		
 		
 		const postStampResponse= await axios.post(`${CreateURl}/addStamp`,{
-			_id:userId,
 			postId:postId,
 			profileType:profileType,
 			postType:postType
@@ -95,12 +93,9 @@ export const addStampPost =async(userId,postId,profileType,postType)=>{
 
 }
 
-export const unStampPost=async(userId,postId,profileType,postType)=>{
+export const unStampPost=async(postId,profileType,postType)=>{
 	try{
-		
-		
 		const unStampPostResponse=await axios.post(`${CreateURl}/unStamp`,{
-			_id:userId,
 			postId:postId,
 			profileType:profileType,
 			postType:postType

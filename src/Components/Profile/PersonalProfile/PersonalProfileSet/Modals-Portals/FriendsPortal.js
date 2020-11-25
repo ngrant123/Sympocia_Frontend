@@ -14,7 +14,7 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:35;
+	z-index:40;
 	top:0px;
 
 `;
@@ -24,7 +24,7 @@ const Container=styled.div`
 	width:25%;
 	height:50%;
 	background-color:white;
-	z-index:35;
+	z-index:40;
 	top:20%;
 	border-radius:5px;
 	left:40%;
@@ -76,7 +76,7 @@ const RecruitsOptionsCSS={
 	Then the user can either remove people who recruited you or you recruited but right now 
 	ill just focus on the people who you recruited yourself
 */
-const RecruitsPortal=({closeModal,userId})=>{
+const RecruitsPortal=({isOwner,closeModal,userId})=>{
 	const [recruits,changeRecruits]=useState([]);
 	const [recruitsProfileFollows,changeRecruitsFollowing]=useState([]);
 	const [recruitsThatFollowProfile,changeRecruitsNotFollowing]=useState([]);
@@ -173,18 +173,20 @@ const RecruitsPortal=({closeModal,userId})=>{
 												<li style={{fontSize:"20px",listStyle:"none",display:"inline-block",width:"40%"}}>
 													{data.firstName}
 												</li>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>displayRemoveRecruitModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
-														<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
-															 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
-															 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
-															 stroke-linejoin="round">
-														  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-														  <circle cx="12" cy="12" r="9" />
-														  <path d="M10 10l4 4m0 -4l-4 4" />
-														</svg>
-													</li>
-												</a>
+												{isOwner==true &&(
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<li onClick={()=>displayRemoveRecruitModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
+															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
+																 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
+																 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
+																 stroke-linejoin="round">
+															  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+															  <circle cx="12" cy="12" r="9" />
+															  <path d="M10 10l4 4m0 -4l-4 4" />
+															</svg>
+														</li>
+													</a>
+												)}
 											</ul>
 										</li>
 										<hr/>

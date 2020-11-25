@@ -226,17 +226,17 @@ const BlogHomeDisplayPortal=(props)=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
 		if(displayStampEffect==false){
 			if(isPersonalProfile==true){
-				//addStampPost(props.selectedBlog.owner,props.selectedBlog._id,"personal","BlogPost");
+				addStampPost(props.selectedBlog._id,"personal","BlogPost");
 			}else{
-				//addStampPost(props.selectedBlog.owner,props.selectedBlog._id,"company","BlogPost");
+				addStampPost(props.selectedBlog._id,"company","BlogPost");
 			}
 			changeDisplayStampEffect(true);
 
 		}else{
 			if(isPersonalProfile==true){
-				//unStampPost(props.selectedBlog.owner,props.selectedBlog._id,"personal","BlogPost");
+				unStampPost(props.selectedBlog._id,"personal","BlogPost");
 			}else{
-				//unStampPost(props.selectedBlog.owner,props.selectedBlog._id,"company","BlogPost");
+				unStampPost(props.selectedBlog._id,"company","BlogPost");
 			}
 			changeDisplayStampEffect(false);
 		}

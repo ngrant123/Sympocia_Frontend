@@ -27,7 +27,7 @@ const ShadowContainer=styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:35;
+	z-index:40;
 	top:0px;
 `;
 const PersonalInformationContainer=styled.div`
@@ -37,7 +37,7 @@ const PersonalInformationContainer=styled.div`
 	height:60%;
 	border-radius:5px; 
 	padding:20px;
-	z-index:25;
+	z-index:40;
 	left:20%;
 	top:20%;
 	overflow-y:scroll;
@@ -71,15 +71,19 @@ const SponsorExtendedModal=styled.div`
 	width:30%;
 	height:35%;
 	background-color:white;
-	top:0px;
-	z-index:25;
+	z-index:36;
 	border-radius:5px;
 	box-shadow: 10px 10px 20px 	#9395a0;
 	left:65%;
 	top:60%;
 	@media screen and (max-width:1370px){
 		left:5% !important;
+		top:40%;
 		width:90% !important;
+
+		#extendChampionDescriptionUL{
+			top:10px !important;
+		}
 	}
 `;
 
@@ -169,14 +173,16 @@ const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayCh
 				                    Champion
 				                </li>
 				            </a>
+				            {/*
+					            {isIphoneDisplay!=null &&(
+					            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						                <li onClick={()=>changeDisplayChampionModal(true)} style={{listStyle:"none"}}>
+						                    Friends Gauge
+						                </li>
+						            </a>
+					            )}
+				            */}
 				            <hr/>
-				            {isIphoneDisplay!=null &&(
-				            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					                <li onClick={()=>changeDisplayChampionModal(true)} style={{listStyle:"none"}}>
-					                    Friends Gauge
-					                </li>
-					            </a>
-				            )}
 			            </>
 						:<>
 			            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
