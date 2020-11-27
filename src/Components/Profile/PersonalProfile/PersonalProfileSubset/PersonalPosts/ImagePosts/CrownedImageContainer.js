@@ -140,7 +140,7 @@ const CrownedImageContainer=(props)=>{
 						{testIfUserIsUsingChrome()==true &&(
 							<VideoDesriptionContainer>
 							   <video key={videoDescriptionId} style={{borderRadius:"50%"}}
-							   		width="100%" height="100%" borderRadius="50%" autoplay="false">
+							   		width="100%" height="100%" borderRadius="50%" autoplay="false" muted>
 									<source src={imageData.videoDescription} type="video/mp4"/>
 								</video>
 							</VideoDesriptionContainer>

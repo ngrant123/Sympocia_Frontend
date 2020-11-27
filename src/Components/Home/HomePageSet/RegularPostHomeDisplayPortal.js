@@ -58,6 +58,7 @@ const RegularPostHomeDisplayPortal=(props)=>{
 			<RegularPostDisplayContainer>
 				<RegularPostDisplay
 					postData={props.selectedPost}
+					targetDom={props.targetDom}
 				/>
 			</RegularPostDisplayContainer>
 		</React.Fragment>

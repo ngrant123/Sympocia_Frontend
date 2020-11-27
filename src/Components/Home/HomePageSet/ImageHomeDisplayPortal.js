@@ -96,6 +96,7 @@ const ImageHomeDisplayPortal=(props)=>{
 				<ImageContainer>
 					<ImageDisplayContainer
 						imageData={props.selectedImage}
+						targetDom={props.targetDom}
 					/>
 				</ImageContainer>
 				{/*
