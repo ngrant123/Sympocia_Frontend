@@ -16,7 +16,7 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:35;
+	z-index:40;
 	top:0px;
 `;
 
@@ -25,7 +25,7 @@ const Container=styled.div`
 	width:40%;
 	height:50%;
 	background-color:white;
-	z-index:35;
+	z-index:40;
 	top:20%;
 	border-radius:5px;
 	left:35%;
@@ -140,39 +140,43 @@ const PollOptionPortal=(props)=>{
 
 	const submitComment=async()=>{
 		const comment=document.getElementById("extendedInputContainer").value;
-		const commentObject={
-			comment:comment,
-			firstName:personalInformation.firstName,
-			_id:personalInformation.id,
-			postOption:postType,
-			postId:postId
-		}
-		
-		let confirmationResponse,dataResponse;
-		if(displayApproveModal==true){
-			const {confirmation,data}=await markPostAsAuthentic(commentObject);
-			confirmationResponse=confirmation;
-			dataResponse=data;
-
-		}else{
-			const {confirmation,data}=await markPostAsFakeNews(commentObject);
-			confirmationResponse=confirmation;
-			dataResponse=data;
-		}
-
-		if(confirmationResponse=="Success"){
-			changeDisplayCreateComment(false);
-			var dummyCommentObject={
-				profilePicture:dataResponse,
+		if(comment!=""){
+			const commentObject={
 				comment:comment,
-				firstName:personalInformation.firstName
-			};
+				firstName:personalInformation.firstName,
+				_id:personalInformation.id,
+				postOption:postType,
+				postId:postId
+			}
+			
+			let confirmationResponse,dataResponse;
+			if(displayApproveModal==true){
+				const {confirmation,data}=await markPostAsAuthentic(commentObject);
+				confirmationResponse=confirmation;
+				dataResponse=data;
 
-			var currentComments=comments;
-			currentComments.splice(0,0,dummyCommentObject);
-			changeComments([...currentComments]);
+			}else{
+				const {confirmation,data}=await markPostAsFakeNews(commentObject);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+			}
+
+			if(confirmationResponse=="Success"){
+				changeDisplayCreateComment(false);
+				var dummyCommentObject={
+					profilePicture:dataResponse,
+					comment:comment,
+					firstName:personalInformation.firstName
+				};
+
+				var currentComments=comments;
+				currentComments.splice(0,0,dummyCommentObject);
+				changeComments([...currentComments]);
+			}else{
+				alert('An error has unfortunately occured. Please try again');
+			}
 		}else{
-			alert('An error has unfortunately occured. Please try again');
+			alert('Please enter a value your comment');
 		}
 	}
 
