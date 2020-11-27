@@ -30,6 +30,7 @@ const VideoHomeDisplayPortal=(props)=>{
 				<VideoDisplayContainer
 					videoData={props.selectedVideo}
 					recommendedVideos={props.recommendedVideos}
+					targetDom={props.targetDom}
 				/>
 			</Container>
 		</React.Fragment>

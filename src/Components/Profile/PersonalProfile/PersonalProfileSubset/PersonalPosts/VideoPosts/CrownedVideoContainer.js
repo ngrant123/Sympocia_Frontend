@@ -113,7 +113,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 								{(headerVideo.videoDescription==null && testIfUserIsUsingChrome()==true)?null:
 									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 										<VideoDescriptionContainer>
-											<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true">
+											<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" muted>
 												<source src={headerVideo.videoDescription} type="video/mp4"/>
 											</video>
 										</VideoDescriptionContainer>
