@@ -468,6 +468,18 @@ export const loginProfile=async(email,password)=>{
 	}
 }
 
+export const deleteChampion=async({userId})=>{
+	try{
+		const deletedChampionResponse=await axios.post(`${CreateUrl}/deleteChampion`,{
+			userId
+		})
+
+		const {data}=deletedChampionResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
 
 
 

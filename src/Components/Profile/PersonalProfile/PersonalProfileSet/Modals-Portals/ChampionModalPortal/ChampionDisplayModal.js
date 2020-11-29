@@ -1,11 +1,11 @@
-import React,{Component} from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import { Icon, InlineIcon } from '@iconify/react';
 import tiktokIcon from '@iconify/icons-simple-icons/tiktok';
-
+import DeletePostPortal from "../DeletePostConfirmationPortal.js";
 
 const SponsorExtendedModal=styled.div`
 	position:fixed;
@@ -18,7 +18,6 @@ const SponsorExtendedModal=styled.div`
 	box-shadow: 10px 10px 20px 	#9395a0;
 	left:65%;
 	top:60%;
-
 `;
 
 const SponsorSimpliedModal=styled.div`
@@ -28,8 +27,6 @@ const SponsorSimpliedModal=styled.div`
 	background-color:white;
 	border-radius:5px;
 	box-shadow: 10px 10px 20px 	#9395a0;
-
-
 `;
 
 const ExtendedProfilePicture=styled.div`
@@ -54,6 +51,19 @@ const SimpliedProfilePicture=styled.div`
 	border-width:5px;
 `;
 
+const DeleteChampionCSS={
+	listStyle:"none",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px",
+	color:"#3898ec",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	marginBottom:"2%",
+	cursor:"pointer"
+}
+
 
 
 const ExtendedChampionModal=(championData)=>{
@@ -75,76 +85,81 @@ const ExtendedChampionModal=(championData)=>{
 			</ul>
 }
 
+const SponsorDisplayModal=(props)=>{
+	console.log(props);
+	const [displayExtendedSponsorModal,changeExtendedSponsorModal]=useState(false);
+	const [displayDeletePortal,changeDisplayDeletePortal]=useState(false);
 
-class SponsorDisplayModal extends Component{
-
-	constructor(props){
-		console.log(props);
-		super(props);
-		this.state={
-			displayExtendedSponsorModal:false
-		}
+	const closeDeletePortal=()=>{
+		changeDisplayDeletePortal(false);
 	}
+	return (
+		<React.Fragment>
+			{displayDeletePortal &&(
+				<DeletePostPortal
+					postType="Champion"
+					closeModal={closeDeletePortal}
+				/>
+			)}
+			{displayExtendedSponsorModal==true?
+				<SponsorExtendedModal>
+					<ul style={{padding:"15px"}}>
+						{props.isOwnProfile==true &&(
+							<li onClick={()=>changeDisplayDeletePortal(true)} style={DeleteChampionCSS}>
+								Delete Champion
+							</li>
 
+						)}
+						<li style={{listStyle:"none",marginBottom:"5%",marginLeft:"85%"}}>
+							<KeyboardArrowDownIcon
+								style={{borderStyle:"solid",
+										borderRadius:"50%",
+										color:"#BDBDBD",
+										fontSize:30}}
+								onClick={()=>changeExtendedSponsorModal(false)}
+							/>
+						</li>
 
-	render(){
+						<li style={{listStyle:"none"}}>
+							{ExtendedChampionModal(props.championData)}
+						</li>
+					</ul>
+				</SponsorExtendedModal>:
+				<SponsorSimpliedModal>
+					<ul style={{padding:"10px"}}>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
+							<img src={props.championData.imgUrl} style={{position:"relative",top:"-30px",width:"80px",height:"80%",borderRadius:"50%"}}/>
+						</li>
 
-		return(
-			<React.Fragment>
-				{this.state.displayExtendedSponsorModal==true?
-					<SponsorExtendedModal>
-						<ul style={{padding:"15px"}}>
-							<li style={{listStyle:"none",marginBottom:"5%",marginLeft:"85%"}}>
-								<KeyboardArrowDownIcon
+						<li style={{position:"relative",top:"-5px",overflow:"hidden",listStyle:"none",display:"inline-block",width:"50%"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",fontSize:"20px"}}>
+									<b>{props.championData.name}</b> 
+								</li>
+								<li style={{listStyle:"none",width:"70%",height:"45%",color:"#BDBDBD"}}>
+									{props.championData.description}
+								</li>
+							</ul>
+						</li>
+						
+						<li style={{listStyle:"none",display:"inline-block"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<KeyboardArrowUpIcon
 									style={{borderStyle:"solid",
 											borderRadius:"50%",
 											color:"#BDBDBD",
 											fontSize:30}}
-									onClick={()=>this.setState({displayExtendedSponsorModal:false})}
+									onClick={()=>changeExtendedSponsorModal(true)}
 								/>
-							</li>
+							</a>
+						</li>
+					</ul>
+				</SponsorSimpliedModal>
+			}
 
-							<li style={{listStyle:"none"}}>
-								{ExtendedChampionModal(this.props.championData)}
-							</li>
-						</ul>
-					</SponsorExtendedModal>:
-					<SponsorSimpliedModal>
-						<ul style={{padding:"10px"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
-							
-									<img src={this.props.championData.imgUrl} style={{position:"relative",top:"-30px",width:"80px",height:"80%",borderRadius:"50%"}}/>
-							</li>
+		</React.Fragment>
 
-							<li style={{position:"relative",top:"-5px",overflow:"hidden",listStyle:"none",display:"inline-block",width:"50%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",fontSize:"20px"}}>
-										<b>{this.props.championData.name}</b> 
-									</li>
-									<li style={{listStyle:"none",width:"70%",height:"45%",color:"#BDBDBD"}}>
-										{this.props.championData.description}
-									</li>
-								</ul>
-							</li>
-							
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<KeyboardArrowUpIcon
-										style={{borderStyle:"solid",
-												borderRadius:"50%",
-												color:"#BDBDBD",
-												fontSize:30}}
-										onClick={()=>this.setState({displayExtendedSponsorModal:true})}
-									/>
-								</a>
-							</li>
-						</ul>
-					</SponsorSimpliedModal>
-				}
-
-			</React.Fragment>
-		)
-	}
+	)
 }
 
 export{

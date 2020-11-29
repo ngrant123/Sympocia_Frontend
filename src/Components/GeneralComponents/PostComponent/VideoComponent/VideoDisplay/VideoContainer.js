@@ -5,6 +5,9 @@ import RecommendedVideos from "./RecommendedVideos.js";
 import EditVideoModal from "../VideoCreation/EditVideoModal.js";
 import MobileUI from "./MobileUI.js";
 import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
+import {
+		deletePost
+	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 
 const Container=styled.div`
@@ -41,7 +44,7 @@ const VideoContainer=(data)=>{
 		data.videoData.contextLocation.editPost(editedVideoData);
 	}
 
-	const deletePost=async()=>{
+	const handleDeletePost=async()=>{
 		const removeVideos={
 			postType:"Videos",
 			postId:data.videoData._id,
@@ -70,7 +73,7 @@ const VideoContainer=(data)=>{
 					videoData={data.videoData}
 					isChromeBrowser={testIfUserIsUsingChrome()}
 					targetDom={data.targetDom}
-					deletePost={deletePost}
+					deletePost={handleDeletePost}
 					pageType={data.profileType}
 					isOwnPostViewing={data.isOwnProfile}
 					triggerPromoteModal={triggerPromoteModal}
@@ -85,7 +88,7 @@ const VideoContainer=(data)=>{
 								targetDom={data.targetDom}
 								triggerPromoteModal={triggerPromoteModal}
 								displayEditModal={triggerVideoEditModal}
-								deletePost={deletePost}
+								deletePost={handleDeletePost}
 								pageType={data.profileType}
 								isOwnPostViewing={data.isOwnProfile}
 							/>
