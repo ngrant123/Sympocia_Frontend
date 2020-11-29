@@ -378,7 +378,7 @@ createOrRemoveStampEffect=()=>{
 	}
 
 	removeVideoPost=async()=>{
-		this.props.deletePost();
+		this.props.handleDeletePost();
 	}
 
 //Like,Dislike,Comment,Share,Promote
