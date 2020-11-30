@@ -226,15 +226,18 @@ class SearchExploreContainer extends Component{
 		console.log(postOption);
 		var homePagePostsResponse;
 		var profileId=(this.props.personalInformation.loggedIn==true)?this.props.personalInformation.id:this.props.companyInformation.id;
-
+		const searchParameters={
+			id:profileId,
+			postCount:this.state.postCount
+		}
 		if(postOption=="Images"){
-			homePagePostsResponse=await exploreImagePosts(profileId,this.state.postCount);
+			homePagePostsResponse=await exploreImagePosts(searchParameters);
 		}else if(postOption=="Blogs"){
-			homePagePostsResponse=await exploreBlogPosts(profileId,this.state.postCount);
+			homePagePostsResponse=await exploreBlogPosts(searchParameters);
 		}else if(postOption=="Videos"){
-			homePagePostsResponse=await exploreVideoPosts(profileId,this.state.postCount);
+			homePagePostsResponse=await exploreVideoPosts(searchParameters);
 		}else{
-			homePagePostsResponse=await exploreRegularPosts(profileId,this.state.postCount);
+			homePagePostsResponse=await exploreRegularPosts(searchParameters);
 		}
 		var {confirmation,data}=homePagePostsResponse;
 		if(confirmation=="Success"){

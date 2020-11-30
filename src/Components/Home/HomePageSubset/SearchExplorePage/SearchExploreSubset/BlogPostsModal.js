@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 import {
-	displayRecruitButton,
+	DisplayRecruitButton,
 	displayPersonalIndustryFeed
 } from "./ImagePostsModal.js";
 
@@ -313,7 +313,10 @@ const BlogPostModal=(props)=>{
 									{headerBlog.industriesUploaded[0].industry}
 								</a>
 							</li>
-							{displayRecruitButton(headerBlog,props)}
+							<DisplayRecruitButton
+								post={headerBlog}
+								previousProps={props}
+							/>
 						</ul>
 					</li>
 					<li style={{listStyle:"none",width:"120%",borderRadius:"5px",marginBottom:"2%"}}>
@@ -414,7 +417,10 @@ const BlogPostModal=(props)=>{
 																<li style={{listStyle:"none"}}>
 																	{data.owner.firstName}
 																</li>
-																{displayRecruitButton(data,props)}
+																<DisplayRecruitButton
+																	post={data}
+																	previousProps={props}
+																/>
 
 																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																	<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
