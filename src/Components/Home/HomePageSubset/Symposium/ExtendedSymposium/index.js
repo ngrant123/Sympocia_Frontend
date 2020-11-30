@@ -26,7 +26,6 @@ import VideoPostModal from "../../SearchExplorePage/SearchExploreSubset/VideoPos
 import RegularPostModal from "../../SearchExplorePage/SearchExploreSubset/RegularPostsModal.js";
 import BlogPostModal from "../../SearchExplorePage/SearchExploreSubset/BlogPostsModal.js";
 
-
 import PopularVideosModal from "../PopularVideosModal.js";
 import {HeaderContainer,SimpliedHeaderContainer} from "./HeaderContainer.js";
 import HightLightedQuestions from "./HighLightedQuestions.js";
@@ -343,8 +342,12 @@ class Symposium extends Component{
 	  	if(this.state.symposiumCounter!=-1){
 	  		const newCounter=this.state.symposiumCounter-1;
 	  		const newSymposium=newCounter==-1?this.props.match.params.symposiumName:this.state.symposiums[newCounter].symposium;
-
-	  		var {confirmation,data}=await getImagesInIndustry(newSymposium,0);
+	  		const postParameters={
+				industry:newSymposium,
+				postCount:0,
+				userId:this.props.profileId
+			}
+	  		var {confirmation,data}=await getImagesInIndustry(postParameters);
 	  		if(confirmation=="Success"){
 	  			let newHomePagePosts=this.addSuggestedSymposiums(data);
 	  			this.setState(prevState=>({
@@ -393,8 +396,13 @@ class Symposium extends Component{
 
 	  		const newCounter=this.state.symposiumCounter+1;
 	  		const newSymposium=this.state.symposiums[newCounter];
+	  		const postParameters={
+				industry:newSymposium.symposium,
+				postCount:0,
+				userId:this.props.profileId
+			}
 
-			var {confirmation,data}=await getImagesInIndustry(newSymposium.symposium,0);
+			var {confirmation,data}=await getImagesInIndustry(postParameters);
 
 			if(confirmation=="Success"){
 				let newHomePagePosts=this.addSuggestedSymposiums(data);
@@ -790,12 +798,17 @@ class Symposium extends Component{
 
 	 //Could be implemented in a better way it just looks awkward to me 
 	changePostOption=async(postOption)=>{
-
+		const postParameters={
+			industry:this.state.selectedSymposiumTitle,
+			postCount:this.state.postCount,
+			userId:this.props.profileId
+		}
 		if(postOption=="Image"){
-			var {confirmation,data}=await getImagesInIndustry(this.state.selectedSymposiumTitle,this.state.postCount);
-			var newHomePagePosts=this.addSuggestedSymposiums(data);
+			var {confirmation,data}=await getImagesInIndustry(postParameters);
+			
 
 			if(confirmation=="Success"){
+				var newHomePagePosts=this.addSuggestedSymposiums(data);
 				this.setState({
 					posts:newHomePagePosts,
 					postType:"Image",
@@ -808,9 +821,10 @@ class Symposium extends Component{
 			}
 
 		}else if(postOption=="Video"){
-			var {confirmation,data}=await getVideoInIndustry(this.state.selectedSymposiumTitle,this.state.postCount);
-			var newHomePagePosts=this.addSuggestedSymposiums(data);
+			var {confirmation,data}=await getVideoInIndustry(postParameters);
+			
 			if(confirmation=="Success"){
+				var newHomePagePosts=this.addSuggestedSymposiums(data);
 				this.setState({
 					posts:newHomePagePosts,
 					postType:"Video",
@@ -823,9 +837,10 @@ class Symposium extends Component{
 			}
 
 		}else if(postOption=="Blog"){
-			var {confirmation,data}=await getBlogsInIndustry(this.state.selectedSymposiumTitle,this.state.postCount);
-			var newHomePagePosts=this.addSuggestedSymposiums(data);
+			var {confirmation,data}=await getBlogsInIndustry(postParameters);
+			
 			if(confirmation=="Success"){
+				var newHomePagePosts=this.addSuggestedSymposiums(data);
 				this.setState({
 					posts:newHomePagePosts,
 					postType:"Blog",
@@ -837,9 +852,10 @@ class Symposium extends Component{
 				alert('Unfortunately there has been an error getting this blog data. Please try again');
 			}
 		}else{
-			var {confirmation,data}=await getRegularPostsInIndustry(this.state.selectedSymposiumTitle,this.state.postCount);
-			var newHomePagePosts=this.addSuggestedSymposiums(data);
+			var {confirmation,data}=await getRegularPostsInIndustry(postParameters);
+			
 			if(confirmation=="Success"){
+				var newHomePagePosts=this.addSuggestedSymposiums(data);
 				this.setState({
 					posts:newHomePagePosts,
 					postType:"Regular",
@@ -1192,7 +1208,7 @@ class Symposium extends Component{
 										{this.state.postType=="Image"?
 											<ImagePostsModal
 												posts={this.state.posts}
-												_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
+												_id={this.props.profileId}
 												confettiAnimation={this.displayRecruitConfetti}
 												isPersonalProfile={true}
 												displaySymposium={this.displaySymposium}
@@ -1203,7 +1219,7 @@ class Symposium extends Component{
 										{this.state.postType=="Video"?
 											<VideoPostModal
 												posts={this.state.posts}
-												_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
+												_id={this.props.profileId}
 												confettiAnimation={this.displayRecruitConfetti}
 												isPersonalProfile={true}
 												displaySymposium={this.displaySymposium}
@@ -1215,7 +1231,7 @@ class Symposium extends Component{
 											<li style={{listStyle:"none",marginTop:"3%",marginLeft:"5%"}}>
 												<BlogPostModal
 													posts={this.state.posts}
-													_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
+													_id={this.props.profileId}
 													confettiAnimation={this.displayRecruitConfetti}
 													isPersonalProfile={true}
 													displaySymposium={this.displaySymposium}
@@ -1228,7 +1244,7 @@ class Symposium extends Component{
 											<li style={{listStyle:"none",marginTop:"5%",marginLeft:"5%",width:"90%"}}>
 												<RegularPostModal
 													posts={this.state.posts}
-													_id={this.props.location.state==null?this.props.profileId:this.props.location.state}
+													_id={this.props.profileId}
 													confettiAnimation={this.displayRecruitConfetti}
 													isPersonalProfile={true}
 													displaySymposium={this.displaySymposium}

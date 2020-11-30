@@ -7,6 +7,7 @@ import BlogPostModal from "../Home/HomePageSubset/SearchExplorePage/SearchExplor
 import RegularPostModal from "../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/RegularPostsModal.js";
 import {getPostsFromSearch} from "../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import LoadingScreen from "../../LoadingAnimation.js";
+import {useSelector} from "react-redux";
 
 
 const Container=styled.div`
@@ -66,6 +67,8 @@ const PostSearch=(props)=>{
 	const [displayVideos,changeDisplayVideos]=useState(false);
 	const [displayBlogs,changeDisplayBlogs]=useState(false);
 	const [displayRegularPosts,changeDisplayRegularPosts]=useState(false);
+	
+	const userId=useSelector(state=>state.personalInformation.id);
 
 
 	useEffect(()=>{
@@ -105,7 +108,8 @@ const PostSearch=(props)=>{
 
 		const searchCriteria={
 			searchUrl:props.searchQuery,
-			postType:"Blogs"
+			postType:"Blogs",
+			userId
 		}
 		changeFinisheLoadingState(false);
 
@@ -128,7 +132,8 @@ const PostSearch=(props)=>{
 
 		const searchCriteria={
 			searchUrl:props.searchQuery,
-			postType:"Images"
+			postType:"Images",
+			userId
 		}
 		changeFinisheLoadingState(false);
 
@@ -151,7 +156,8 @@ const PostSearch=(props)=>{
 
 		const searchCriteria={
 			searchUrl:props.searchQuery,
-			postType:"Videos"
+			postType:"Videos",
+			userId
 		}
 		changeFinisheLoadingState(false);
 
@@ -174,7 +180,8 @@ const PostSearch=(props)=>{
 
 		const searchCriteria={
 			searchUrl:props.searchQuery,
-			postType:"RegularPosts"
+			postType:"RegularPosts",
+			userId
 		}
 		changeFinisheLoadingState(false);
 

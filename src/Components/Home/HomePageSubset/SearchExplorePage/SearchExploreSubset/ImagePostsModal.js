@@ -14,6 +14,7 @@ import {isUserFollwingProfile} from "../../../../../Actions/Requests/ProfileAxio
 import {SearchConsumer} from "../../../../SearchPage/SearchContext.js";
 import {Link} from "react-router-dom";
 
+import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -134,32 +135,51 @@ const ImageLabelCSS={
 	marginRight:"2%"
 }
 
-const handleRecruitButton=async(previousProps,post)=>{;
-		const {_id,confettiAnimation}=previousProps;
-		const postOwnerId=post.owner._id;
-		const personalId=_id;
-		const indicator=await isUserFollwingProfile(personalId,postOwnerId);
+const handleRecruitButton=async(previousProps,post,changeDisplayRecruitButton)=>{
+	const {_id,confettiAnimation}=previousProps;
+	confettiAnimation();
+	addRecruit(_id,post.owner._id);
+	changeDisplayRecruitButton(true);
+} 
 
-		if(indicator==true){
-				alert("You already recruited this profile :) If you want to unrecruit them then head over to their profile"); 
-		}else{
-			confettiAnimation();
-			addRecruit(_id,post.owner._id);
-		}	
-	} 
+const unRecruitButton=async(previousProps,post,changeDisplayRecruitButton)=>{
+	const {_id}=previousProps;
 
-const displayRecruitButton=(post,previousProps)=>{
-		const postOwnerId=post.owner._id;
-		const personalId=previousProps._id;
-		if(personalId==postOwnerId){
-			return null
-		}else{
-			return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li onClick={()=>handleRecruitButton(previousProps,post)} style={ImageLabelCSS}>
-							+ Recruit
-						</li>
+	const {confirmation,data}=await removeRecruitProfileIsFollowing({
+		personalProfileId:_id,
+		targetProfile:post.owner._id
+	})
+	if(confirmation=="Success"){
+		changeDisplayRecruitButton(false);
+	}else{
+		alert('Unfortunately something has gone wrong when unrecruiting this person. Please try again');
+	}
+}
+
+
+const DisplayRecruitButton=({post,previousProps})=>{
+	const {isUserFollowing}=post;
+	const postOwnerId=post.owner._id;
+	const personalId=previousProps._id;
+
+	const [displayRecruitButton,changeDisplayRecruitButton]=useState(isUserFollowing);
+
+	return <>
+				{(personalId!=postOwnerId) &&(
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						{displayRecruitButton==true?
+							<li onClick={()=>unRecruitButton(previousProps,post,changeDisplayRecruitButton)} 
+								style={ImageLabelCSS}>
+								- Recruit
+							</li>:
+							<li onClick={()=>handleRecruitButton(previousProps,post,changeDisplayRecruitButton)} 
+								style={ImageLabelCSS}>
+								+ Recruit
+							</li>
+						}
 					</a>
-		}
+				)}
+			</>
 }
 
 const constructSuggestedSymposium=(personalInformation,previousProps,images)=>{
@@ -385,7 +405,10 @@ const ImagePostsModal=(props)=>{
 										{headerImage.industriesUploaded[0].industry}
 									</a>
 								</li>
-								{displayRecruitButton(headerImage,props)}
+								<DisplayRecruitButton
+									post={headerImage}
+									previousProps={props}
+								/>
 								
 								<li style={{listStyle:"none",width:"90%",marginLeft:"20%"}}>
 									{headerImage.description}
@@ -449,8 +472,10 @@ const ImagePostsModal=(props)=>{
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 													<b>{data.owner.firstName}</b>
 												</li>
-
-												{displayRecruitButton(data,props)}
+												<DisplayRecruitButton
+													post={data}
+													previousProps={props}
+												/>
 
 												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 													<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
@@ -491,7 +516,7 @@ export{
 	ImagePostsModal,
 	displayPersonalIndustryFeed,
 	constructSuggestedSymposium,
-	displayRecruitButton
+	DisplayRecruitButton
 };
 
 

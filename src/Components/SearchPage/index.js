@@ -6,7 +6,7 @@ import PostSearch from "./PostSearch.js";
 import SymposiumSearch from "./SymposiumSearch.js";
 import {useSelector} from "react-redux";
 import {SearchProvider} from "./SearchContext.js";
-
+import Confetti from 'react-confetti';
 
 
 const Container=styled.div`
@@ -114,6 +114,12 @@ const SearchPage=(props)=>{
 					page={"Home"}
 					routerHistory={props.history}
 				/>
+				{displayConfetti==true &&(
+					<Confetti
+						style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
+						 run={true}
+					/>
+				)}
 				<SearchResults>
 					{searchPostsResults()}
 				</SearchResults>
