@@ -266,6 +266,12 @@ const NavBar=(pageProps)=>{
 											<li>
 												<Link to="/symposiumList">Symposiums</Link>
 											</li>
+											
+											<li>
+												<Link onClick={()=>logoutUser()} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
+													Logout
+												</Link>
+											</li>
 										</ul>
 									</div>
 								</li>
