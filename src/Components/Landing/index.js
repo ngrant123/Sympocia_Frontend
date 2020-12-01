@@ -234,13 +234,15 @@ const LandingPage=(props)=>{
 	const dispatch=useDispatch();
 	debugger;
 	const isLoggedIn=useSelector(state=>state.personalInformation.loggedIn);
+	const ownerId=useSelector(state=>state.personalInformation.id);
+
 	useEffect(()=>{
 		const {history}=props;
 		console.log(history);
 		
 		if(history.location.pathname=='/logout'){
 			dispatch(logOutUser());
-		}else if(isLoggedIn==true){
+		}else if(isLoggedIn==true && ownerId!=""){
 			history.push('/home');
 		}
 	})
