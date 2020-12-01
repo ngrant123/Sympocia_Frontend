@@ -12,6 +12,7 @@ const Container=styled.div`
 	position:absolute;
 	width:85%;
 	height:60%;
+	background-color:blue;
 
 	@media screen and (max-width:1300px){
 		#headerTitleLI{
