@@ -312,6 +312,7 @@ class EditImageCreation extends Component{
 	}
 
 	sendImageDateToDB=async(profilePostInformation)=>{
+		debugger;
 		this.setState({
 			isSubmittedAndProcessing:true
 		})
