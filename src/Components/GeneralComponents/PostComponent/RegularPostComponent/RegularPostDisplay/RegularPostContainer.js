@@ -7,7 +7,7 @@ import RegularPostCreation from "../RegularPostCreation/index.js";
 import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
 import MobileUI from "./MobileUI.js";
 import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
-
+import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 
 const Container=styled.div`
 `;
@@ -114,6 +114,7 @@ const RegularPostContainer=(props)=>{
 	const [displayCommentsAndResponses,changeDisplayCommentsAndResponses]=useState(false);
 	const [displayEditPostModal,changeDisplayEditPostModal]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
+	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
 
 	useEffect(()=>{
 		triggerUIChange();
@@ -144,11 +145,28 @@ const RegularPostContainer=(props)=>{
 		props.triggerPromoteModal(props.postData._id,"RegularPosts");
 	}
 
+	const closeDeleteConfirmationModal=()=>{
+		changeDisplayDeleteConfirmation(false);
+	}
+
+	const handleRemoveRegularPost=()=>{
+		changeDisplayDeleteConfirmation(true);
+	}
 
 	return(
 	<PostConsumer>
 		{userPostsInformation=>{
 			return <React.Fragment>
+						{displayDeleteConfirmation==true &&(
+							<DeletePostConfirmationPortal
+								postType={"Posts"}
+								selectedPostType={"RegularPosts"}
+								content={props.postData}
+								closeModal={closeDeleteConfirmationModal}
+								removeContextLocation={props.postData.contextLocation.removePost}
+								targetDom={"personalContainer"}
+							/>
+						)}
 						{displayMobileUI==true?
 							<MobileUI
 								postData={props.postData}
@@ -159,8 +177,10 @@ const RegularPostContainer=(props)=>{
 								triggerEditPostModal={displayEditPostHandle}
 								pageType={props.profileType}
 								isOwnPostViewing={props.isOwnProfile}
+								deletePost={handleRemoveRegularPost}
 							/>:
 							<Container>
+
 								{displayEditPostModal==true?
 									<RegularPostCreation 
 										previousData={props.postData}
@@ -175,6 +195,7 @@ const RegularPostContainer=(props)=>{
 												triggerEditPostModal={displayEditPostHandle}
 												pageType={props.profileType}
 												isOwnPostViewing={props.isOwnProfile}
+												deletePost={handleRemoveRegularPost}
 											/>
 										</li>
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",height:"20%",overflow:"hidden"}}>

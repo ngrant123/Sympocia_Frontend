@@ -17,6 +17,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import {BlogConsumer} from "./BlogContext.js";
 import {deletePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import TextOptionsHOC from "./TextOptionPortalHOC.js";
+import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -120,6 +121,8 @@ const TextOptions=(props)=>{
 		}
 	}}=history;
 	const [displayInformation,changeDisplayInformation]=useState(false);
+	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
+
 	const changeBold=()=>{}
 
 	const changeItalics=()=>{}
@@ -133,22 +136,13 @@ const TextOptions=(props)=>{
 	const handleSubmitBlogData=()=>{}
 
 	const handleRemoveBlogPost=async()=>{
-		const removeBlog={
-			postType:"Blogs",
-			postId,
-			industriesUploaded,
-			profileId
-		}
+		debugger;
+		changeDisplayDeleteConfirmation(true);
+	}
 
-		const {confirmation,data}=await deletePost(removeBlog);
-		
-		if(confirmation=="Success"){
-			alert('Post has been deleted. Please reload page to view updated post section');
-			history.push(`/profile/${blogState.owner}`);
-		}else{
-			alert('Unfortunately there has been an error deleting this post. Please try again');
-		}
-	} 
+	const closeDeleteConfirmationModal=()=>{
+		changeDisplayDeleteConfirmation(false);
+	}
 
 	const userOptions=()=>{
 		return	<>
@@ -235,7 +229,7 @@ const TextOptions=(props)=>{
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<VideoDescriptionContainer>
 										<video width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
-														<source src={videoDescription} type="video/mp4"/>
+											<source src={videoDescription} type="video/mp4"/>
 										</video>
 									</VideoDescriptionContainer>
 								</li>
@@ -243,9 +237,9 @@ const TextOptions=(props)=>{
 							{audioDescription && (
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<audio controls>
-												  <source src={audioDescription} type="audio/ogg"/>
-												  <source src={props.blogState.audioDescription} type="audio/mpeg"/>
-												Your browser does not support the audio element.
+										<source src={audioDescription} type="audio/ogg"/>
+										<source src={props.blogState.audioDescription} type="audio/mpeg"/>
+										Your browser does not support the audio element.
 									</audio>
 								</li>
 							)}
@@ -261,6 +255,17 @@ const TextOptions=(props)=>{
 		<BlogConsumer>
 				{ personInformation=>{
 					return <Container>
+								{displayDeleteConfirmation==true &&(
+									<DeletePostConfirmationPortal
+										postType={"Posts"}
+										selectedPostType={"Blogs"}
+										content={props.blogState}
+										closeModal={closeDeleteConfirmationModal}
+										targetDom={"blogPostContainer"}
+										history={history}
+									/>
+								)}
+
 								{displayInformation==true &&(
 									<TextOptionsHOC
 										optionsElement={userOptions}
@@ -296,69 +301,69 @@ const TextOptions=(props)=>{
 										<li style={{listStyle:"none",filter:" blur(8px)"}}>
 											<ul style={{padding:"10px",minHeight:"50%",borderRadius:"5px"}}>
 												<li style={TextOptionsCSS}>
-															<ImageOutlinedIcon
-																style={{fontSize:40}}
-															/>
-														</li>
+													<ImageOutlinedIcon
+														style={{fontSize:40}}
+													/>
+												</li>
 
-														<li style={TextOptionsCSS}>
-															<FormatBoldOutlinedIcon
-																style={{fontSize:40}}
-																onClick={()=>changeBold()}
-															/>
-														</li>
+												<li style={TextOptionsCSS}>
+													<FormatBoldOutlinedIcon
+														style={{fontSize:40}}
+														onClick={()=>changeBold()}
+													/>
+												</li>
 
-														<li style={TextOptionsCSS}>
-															<TextFormatIcon
-																style={{fontSize:40}}
-																onClick={()=>changeBold()}
-															/>
-														</li>
+												<li style={TextOptionsCSS}>
+													<TextFormatIcon
+														style={{fontSize:40}}
+														onClick={()=>changeBold()}
+													/>
+												</li>
 
-														<li style={TextOptionsCSS}>
-															<FormatItalicOutlinedIcon
-																style={{fontSize:40}}
-																onClick={()=>changeItalics()}
-															/>
-														</li>
-														<li style={TextOptionsCSS}>
-															<CodeOutlinedIcon
-																style={{fontSize:40}}
-																onClick={()=>enableCodingBlock()}
-															/>
-														</li>
-														<li style={TextOptionsCSS}>
-															<FormatListBulletedOutlinedIcon
-																style={{fontSize:40}}
-																onClick={()=>enableBulletList()}
-															/>
-														</li>
-														<li style={TextOptionsCSS}>
-															<FormatListNumberedOutlinedIcon
-																style={{fontSize:40}}
-																onClick={()=>enableNumberedLst()}
-															/>
-														</li>
-														<li style={TextOptionsCSS}>
-															<FormatQuoteRoundedIcon
-																style={{fontSize:40}}
-															/>
-														</li>
-														<li style={TextOptionsCSS}>
-															<FunctionsRoundedIcon
-																style={{fontSize:40}}
-															/>
-														</li>
-														<li style={TextOptionsCSS}>
-															<EmojiEmotionsOutlinedIcon
-																style={{fontSize:40}}
-																/>
-														</li>
-														<li style={TextOptionsCSS}>
-															<GifIcon	
-																style={{fontSize:40}}
-															/>
-														</li>
+												<li style={TextOptionsCSS}>
+													<FormatItalicOutlinedIcon
+														style={{fontSize:40}}
+														onClick={()=>changeItalics()}
+													/>
+												</li>
+												<li style={TextOptionsCSS}>
+													<CodeOutlinedIcon
+														style={{fontSize:40}}
+														onClick={()=>enableCodingBlock()}
+													/>
+												</li>
+												<li style={TextOptionsCSS}>
+													<FormatListBulletedOutlinedIcon
+														style={{fontSize:40}}
+														onClick={()=>enableBulletList()}
+													/>
+												</li>
+												<li style={TextOptionsCSS}>
+													<FormatListNumberedOutlinedIcon
+														style={{fontSize:40}}
+														onClick={()=>enableNumberedLst()}
+													/>
+												</li>
+												<li style={TextOptionsCSS}>
+													<FormatQuoteRoundedIcon
+														style={{fontSize:40}}
+													/>
+												</li>
+												<li style={TextOptionsCSS}>
+													<FunctionsRoundedIcon
+														style={{fontSize:40}}
+													/>
+												</li>
+												<li style={TextOptionsCSS}>
+													<EmojiEmotionsOutlinedIcon
+														style={{fontSize:40}}
+														/>
+												</li>
+												<li style={TextOptionsCSS}>
+													<GifIcon	
+														style={{fontSize:40}}
+													/>
+												</li>
 											</ul>
 										</li>
 										<li style={{listStyle:"none",marginBottom:"3%"}}>

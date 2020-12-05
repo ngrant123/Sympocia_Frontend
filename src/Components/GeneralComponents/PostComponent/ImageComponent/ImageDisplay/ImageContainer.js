@@ -29,8 +29,10 @@ import {
 	CrownPostModal,
 	CommentContainer
 } from "./ImageContainerCSS.js";
+
 import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 import MobileUI from "./MobileUI.js";
+import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 
 const ButtonCSS={
   listStyle:"none",
@@ -59,6 +61,9 @@ const ImageContainer=(props)=>{
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
+	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
+
+
 	console.log(testIfUserIsUsingChrome());
 	useEffect(()=>{
 		triggerUIChange();
@@ -75,20 +80,7 @@ const ImageContainer=(props)=>{
 	
 	const handleRemoveImagePost=async()=>{
 		debugger;
-		const removeImage={
-			postType:"Images",
-			postId:props.imageData._id,
-			industriesUploaded:props.imageData.industriesUploaded,
-			profileId:props.imageData.owner
-		}
-
-		const {confirmation,data}=await deletePost(removeImage);
-		
-		if(confirmation=="Success"){
-			props.imageData.contextLocation.removePost(props.imageData._id,"Images");
-		}else{
-			alert('Unfortunately there has been an error deleting this post. Please try again');
-		}
+		changeDisplayDeleteConfirmation(true);
 	}
 
 	const createOrRemoveStampEffect=()=>{
@@ -123,6 +115,10 @@ const ImageContainer=(props)=>{
 		props.imageData.contextLocation.editPost(data);
 	}
 
+	const closeDeleteConfirmationModal=()=>{
+		changeDisplayDeleteConfirmation(false);
+	}
+
 
 	return(
 		<ImageProvider value={{
@@ -131,6 +127,16 @@ const ImageContainer=(props)=>{
 			}
 		}}>
 			<React.Fragment>
+				{displayDeleteConfirmation==true &&(
+					<DeletePostConfirmationPortal
+						postType={"Posts"}
+						selectedPostType={"Images"}
+						content={props.imageData}
+						closeModal={closeDeleteConfirmationModal}
+						removeContextLocation={props.imageData.contextLocation.removePost}
+						targetDom={"personalContainer"}
+					/>
+				)}
 				{displayMobileUI==true?
 					<MobileUI
 						imgData={props.imageData}
