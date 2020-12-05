@@ -416,7 +416,7 @@ export const PostPopupContainer=styled.div`
 	border-radius:5px;
 
 	@media screen and (max-width:800px){
-		margin-left:1% !important;
+		margin-left:-5% !important;
 		top:10% !important;
     	width:100% !important;
     	height:90% !important;

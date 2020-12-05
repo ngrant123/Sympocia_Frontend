@@ -456,6 +456,7 @@ class LProfile extends Component{
 	VideoModal=()=>{
 		
 		var newVideoObject={};
+		debugger;
 		if(this.state.isLoading!=true){
 			newVideoObject={
 				...this.state.videoModalData,

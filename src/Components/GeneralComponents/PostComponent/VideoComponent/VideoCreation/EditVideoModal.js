@@ -281,7 +281,11 @@ class EditVideoModal extends Component{
 
 		if(this.props.previousData==null){
 			const {confirmation,data}=await createVideoPost(this.props.personalProfile.id,searchVideoResult,"Personal");
-			
+			const {
+				firstName,
+				id
+			}=this.props.personalProfile;
+
 			if(confirmation=="Success"){
 				searchVideoResult={
 					...searchVideoResult,
@@ -289,7 +293,8 @@ class EditVideoModal extends Component{
 						numOfApprove:[],
 						numOfDisapprove:[]
 					},
-					id:data,
+					owner:id,
+					_id:data,
 					key:this.uuidv4()
 				}
 				videoPostInformation.hideCreationPost();
