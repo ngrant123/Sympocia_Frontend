@@ -12,8 +12,7 @@ import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerC
 
 import {
 	addStampPost,
-	unStampPost,
-	deletePost
+	unStampPost
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 const Container=styled.div`
@@ -273,7 +272,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,triggerPromoteModal,pageType,isOwnPostViewing})=>{
+const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,triggerPromoteModal,pageType,isOwnPostViewing,deletePost})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -411,22 +410,6 @@ const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,trigger
 		}
 	}
 
-	const handleRemovePost=async()=>{
-		const removeRegularPost={
-			postType:"RegularPosts",
-			postId:postData._id,
-			industriesUploaded:postData.industriesUploaded,
-			profileId:postData.owner._id
-		}
-		const {confirmation,data}=await deletePost(removeRegularPost);
-		
-		if(confirmation=="Success"){
-			postData.contextLocation.removePost(postData._id,"RegularPosts");
-		}else{
-			alert('Unfortunately there has been an error deleting this post. Please try again');
-		}
-	}
-
 	return (
 		<React.Fragment>
 			{displayRegularPostModal==false?
@@ -499,7 +482,7 @@ const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,trigger
 										</a>
 
 										<a href="javascript:void(0);">
-											<li onClick={()=>handleRemovePost()} style={ShadowButtonCSS}>
+											<li onClick={()=>deletePost()} style={ShadowButtonCSS}>
 												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
 												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 												  <line x1="4" y1="7" x2="20" y2="7" />
