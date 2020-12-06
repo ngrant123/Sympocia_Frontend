@@ -187,6 +187,12 @@ const NavBar=(pageProps)=>{
 												Logout
 											</Link>
 										</li>
+										<hr/>
+										<li>
+											<Link onClick={()=>logoutUser()} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
+												Send opinion
+											</Link>
+										</li>
 									</ul>
 								</div>
 							</ul>:
