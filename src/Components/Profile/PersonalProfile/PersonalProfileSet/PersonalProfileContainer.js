@@ -463,6 +463,7 @@ class LProfile extends Component{
 	VideoModal=()=>{
 		
 		var newVideoObject={};
+		debugger;
 		if(this.state.isLoading!=true){
 			newVideoObject={
 				...this.state.videoModalData,
@@ -784,6 +785,7 @@ class LProfile extends Component{
 							<GeneralNavBar
 								page={"PersonalProfile"}
 								routerHistory={this.props.history}
+								targetDom={"personalContainer"}
 							/>
 						</HeaderContainer>
 

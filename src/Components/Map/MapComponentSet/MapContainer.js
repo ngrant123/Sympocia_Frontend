@@ -348,10 +348,11 @@ class MapContainer extends Component {
 						}
 					}}
 				>
-				<Container>
+				<Container id="mapContainer">
 					{this.displayShadowBackground()}
 					<GeneralNavBar
 						page={"Map"}
+						targetDom={"mapContainer"}
 					/>
 					<ReactMapGL
 						{...this.state.viewport}

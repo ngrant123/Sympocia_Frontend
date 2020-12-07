@@ -129,21 +129,6 @@ const PosterInformation=(props)=>{
 		const newDate=new Date(dateMilliseconds).toLocaleDateString();
 		return newDate;
 	}
-	const handleRemovePost=async()=>{
-		const removeRegularPost={
-			postType:"RegularPosts",
-			postId:_id,
-			industriesUploaded,
-			profileId:owner._id
-		}
-		const {confirmation,data}=await deletePost(removeRegularPost);
-		
-		if(confirmation=="Success"){
-			contextLocation.removePost(_id,"RegularPosts");
-		}else{
-			alert('Unfortunately there has been an error deleting this post. Please try again');
-		}
-	}
 
 	const createOrRemoveStampEffect=()=>{
 		debugger;
@@ -241,7 +226,7 @@ const PosterInformation=(props)=>{
 
 							{(props.pageType=="personalProfile" && props.isOwnPostViewing==true) &&(
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>handleRemovePost()} style={{listStyle:"none",marginBottom:"2%",marginLeft:"60%"}}>
+									<li onClick={()=>props.deletePost()} style={{listStyle:"none",marginBottom:"2%",marginLeft:"60%"}}>
 										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
 											icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515" fill="none" stroke-linecap="round" stroke-linejoin="round">
 										  <path stroke="none" d="M0 0h24v24H0z"/>

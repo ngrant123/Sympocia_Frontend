@@ -18,7 +18,6 @@ const ThirdContainer = styled.div`
   @media screen and (max-width:600px){
   	#companyThirdText{
   		margin-left:-40% !important;
-  		background-color:red !important;
   	}
   }
 `;

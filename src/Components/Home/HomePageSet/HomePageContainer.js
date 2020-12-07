@@ -422,6 +422,7 @@ class HomePageContainer extends Component{
 							displayChatPage={this.displayChatPage}
 							page={"Home"}
 							routerHistory={this.props.history}
+							targetDom={"homePageContainer"}
 						/>
 
 						{this.state.hideOnboarding==false &&(

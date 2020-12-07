@@ -420,18 +420,12 @@ const PersonalPostsIndex=(props)=>{
 						if(isCrowned==true){
 							updatedNewRegularPostProp={
 								...post,
-								owner:{
-									firstName:props.personalInformation.userProfile.firstName,
-									profilePicture:props.personalInformation.userProfile.profilePicture
-								}
+								owner:props.personalInformation.userProfile._id
 							}
 						}else{
 							updatedNewRegularPostProp={
 								...regularPostProp,
-								owner:{
-									firstName:props.personalInformation.userProfile.firstName,
-									profilePicture:props.personalInformation.userProfile.profilePicture
-								}
+								owner:props.personalInformation.userProfile._id
 							}
 						}
 						if(displayRegularPosts){

@@ -317,7 +317,9 @@ class BlogPostCreation extends Component{
 				}
 			}}>
 			<Container id="blogPostContainer">
-				<GeneralNavBar/>
+				<GeneralNavBar
+					targetDom={"blogPostContainer"}
+				/>
 				{this.state.displayBlogCreationScreen==true?
 					<>
 						{this.pollModal()}

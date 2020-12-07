@@ -5,7 +5,7 @@ import CompanyIndustry from "../../../../../Constants/industryConstants.js";
 import {useSelector} from "react-redux";
 import {
 		displayPersonalIndustryFeed,
-		displayRecruitButton
+		DisplayRecruitButton
 	} from "./ImagePostsModal.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
@@ -215,7 +215,10 @@ const RegularPostModal=(props)=>{
 
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 												<li style={{display:"inline-block",listStyle:"none"}}>
-													{displayRecruitButton(headerRegularPost,props)}
+													<DisplayRecruitButton
+														post={headerRegularPost}
+														previousProps={props}
+													/>
 												</li>
 											</a>
 										</ul>
@@ -288,7 +291,10 @@ const RegularPostModal=(props)=>{
 																{data.industriesUploaded[0].industry}
 															</li>
 														</a>
-														{displayRecruitButton(data,props)}
+														<DisplayRecruitButton
+															post={data}
+															previousProps={props}
+														/>
 													</ul>
 												</li>
 											</ul>
