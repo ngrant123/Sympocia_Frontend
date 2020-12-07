@@ -452,6 +452,7 @@ const Arena=()=>{
 								<GeneralNavBar
 									displayChatPage={displayChatPageHandle}
 									page={"Home"}
+									targetDom={"arenaContainer"}
 								/>
 								{onboardingModal()}
 								{displayConfetti==true?

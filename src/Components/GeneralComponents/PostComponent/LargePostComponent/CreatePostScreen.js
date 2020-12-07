@@ -19,6 +19,7 @@ const InformationContainer=styled.div`
 	top:15%;
 	left:10%;
 `;
+
 const CreatePostScreen=(props)=>{
 
 	return(

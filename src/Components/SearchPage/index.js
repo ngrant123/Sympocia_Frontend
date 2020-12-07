@@ -113,6 +113,7 @@ const SearchPage=(props)=>{
 					displayChatPage={displayChatPageHandle}
 					page={"Home"}
 					routerHistory={props.history}
+					targetDom={"searchContainer"}
 				/>
 				{displayConfetti==true &&(
 					<Confetti

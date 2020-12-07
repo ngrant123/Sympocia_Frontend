@@ -1053,6 +1053,7 @@ class Symposium extends Component{
 					displayChatPage={this.displayChatPage}
 					page={"Home"}
 					routerHistory={this.props.history}
+					targetDom={"extendedSymposiumContainer"}
 				/>
 					{this.state.hideOnboarding==false &&(
 						<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
