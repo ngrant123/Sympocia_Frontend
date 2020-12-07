@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import {createPortal} from "react-dom";
 import {deleteChampion} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {UserConsumer} from "../../UserContext.js";
+import {deletePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 
 const Container=styled.div`
@@ -18,6 +19,12 @@ const Container=styled.div`
 	display:flex;
 	flex-direction: column;
 	padding:30px;
+
+	@media screen and (max-width:1370px){
+		width:90% !important;
+		left:5% !important;
+		overflow:scroll !important;
+	}
 `;
 
 const ConfirmationContainer=styled.div`
@@ -46,8 +53,7 @@ const ConfirmationButtonCSS={
 	cursor:"pointer",
 	marginRight:"2%"
 }
-
-const DeletePostConfirmationPortal=({postType,content,closeModal})=>{
+const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostType,removeContextLocation,targetDom,history})=>{
 	const userId=useSelector(state=>state.personalInformation.id);
 	const handleDelete=(personalInformation)=>{
 		if(postType=="Champion")
@@ -56,22 +62,48 @@ const DeletePostConfirmationPortal=({postType,content,closeModal})=>{
 			handleDeletePost(personalInformation);
 	}
 
-	const handleDeleteChampion=async(personalInformation)=>{
-		const {confirmation,data}=await deleteChampion({userId});
-		if(confirmation=="Success"){
-			personalInformation.deleteChampionModal({
-				name:"",
-				description:""
-			})
-			closeModal();
-		}else{
-			alert('There was an error deleting your champion. Please try again');
+const handleDeletePost=async()=>{
+		debugger;
+		const {
+			_id,
+			industriesUploaded,
+			owner
+		}=content;
+		const postId=(_id==null)?content.id:_id;
+		const removedPost={
+			postType:selectedPostType,
+			postId,
+			industriesUploaded,
+			profileId:owner
 		}
-	}
 
-	const handleDeletePost=async()=>{
+		const {confirmation,data}=await deletePost(removedPost);
 
-	}
+		if(confirmation=="Success"){
+			if(selectedPostType=="Blogs"){
+				alert('Post has been deleted. Please reload page to view updated post section');
+				history.push(`/profile/${owner}`);
+			}else{
+				removeContextLocation(postId,selectedPostType);
+				closeModal();
+			}
+		}else{
+			alert('Unfortunately there has been an error deleting this post. Please try again');
+		}
+ }
+const handleDeleteChampion=async(personalInformation)=>{
+      const {confirmation,data}=await deleteChampion({userId});
+      if(confirmation=="Success"){
+        personalInformation.deleteChampionModal({
+          name:"",
+          description:""
+        })
+        closeModal();
+      }else{
+        alert('There was an error deleting your champion. Please try again');
+      }
+    }
+}
 
 	return createPortal(
 		<UserConsumer>
@@ -93,7 +125,7 @@ const DeletePostConfirmationPortal=({postType,content,closeModal})=>{
 					</>
 			}}
 		</UserConsumer>
-		,document.getElementById("personalContainer"))
+		,document.getElementById(targetDom))
 }
 
 export default DeletePostConfirmationPortal;

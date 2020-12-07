@@ -291,6 +291,7 @@ class BlogEditSubmitModal extends Component{
 			}
 		}
 		if(isEditSuccess!=false){
+			alert('Your blog has been published. If you do not see it on your profile please wait a little bit');
 			this.props.routerHistory.push('/profile/'+this.props.personalProfile.id);
 		}
 	}

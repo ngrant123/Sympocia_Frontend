@@ -5,6 +5,7 @@ import RecommendedVideos from "./RecommendedVideos.js";
 import EditVideoModal from "../VideoCreation/EditVideoModal.js";
 import MobileUI from "./MobileUI.js";
 import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
+import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {
 		deletePost
 	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
@@ -26,6 +27,7 @@ const Container=styled.div`
 const VideoContainer=(data)=>{
 	const [displayVideoEditModal,changeVideoEditModal]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
+	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
 
 	useEffect(()=>{
 		triggerUIChange();
@@ -44,21 +46,11 @@ const VideoContainer=(data)=>{
 		data.videoData.contextLocation.editPost(editedVideoData);
 	}
 
-	const handleDeletePost=async()=>{
-		const removeVideos={
-			postType:"Videos",
-			postId:data.videoData._id,
-			industriesUploaded:data.videoData.industriesUploaded,
-			profileId:data.videoData.owner._id
-		}
-		const {confirmation,data}=await deletePost(removeVideos);
-		
-		if(confirmation=="Success"){
-			data.videoData.contextLocation.removePost(data.videoData._id,"Videos");
-		}else{
-			alert('Unfortunately there has been an error deleting this post. Please try again');
-		}
+	const deletePost=async()=>{
+		debugger;
+		changeDisplayDeleteConfirmation(true);
 	}
+  
 	const triggerPromoteModal=()=>{
 		data.triggerPromoteModal(data.videoData._id,"Videos");
 	}
@@ -66,8 +58,22 @@ const VideoContainer=(data)=>{
 	const triggerVideoEditModal=()=>{
 		changeVideoEditModal(true);
 	}
+
+	const closeDeleteConfirmationModal=()=>{
+		changeDisplayDeleteConfirmation(false);
+	}
 	return(
 		<React.Fragment>
+			{displayDeleteConfirmation==true &&(
+				<DeletePostConfirmationPortal
+					postType={"Posts"}
+					selectedPostType={"Videos"}
+					content={data.videoData}
+					closeModal={closeDeleteConfirmationModal}
+					removeContextLocation={data.videoData.contextLocation.removePost}
+					targetDom={"personalContainer"}
+				/>
+			)}
 			{displayMobileUI==true?
 				<MobileUI
 					videoData={data.videoData}
@@ -79,27 +85,27 @@ const VideoContainer=(data)=>{
 					triggerPromoteModal={triggerPromoteModal}
 				/>:
 				<Container>
-				{displayVideoEditModal==false?
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-							<Video
-								video={data.videoData}
-								profileType={data.profileType}
-								targetDom={data.targetDom}
-								triggerPromoteModal={triggerPromoteModal}
-								displayEditModal={triggerVideoEditModal}
-								deletePost={handleDeletePost}
-								pageType={data.profileType}
-								isOwnPostViewing={data.isOwnProfile}
-							/>
-						</li>
-					</ul>:
-					<EditVideoModal
-						videoSrc={data.videoData.videoUrl}
-						previousData={data.videoData}
-						editPost={editPost}
-					/>
-				}
+					{displayVideoEditModal==false?
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+								<Video
+									video={data.videoData}
+									profileType={data.profileType}
+									targetDom={data.targetDom}
+									triggerPromoteModal={triggerPromoteModal}
+									displayEditModal={triggerVideoEditModal}
+									deletePost={deletePost}
+									pageType={data.profileType}
+									isOwnPostViewing={data.isOwnProfile}
+								/>
+							</li>
+						</ul>:
+						<EditVideoModal
+							videoSrc={data.videoData.videoUrl}
+							previousData={data.videoData}
+							editPost={editPost}
+						/>
+					}
 				</Container>
 			}
 		</React.Fragment>

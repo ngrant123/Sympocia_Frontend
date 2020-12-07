@@ -14,6 +14,8 @@ import {loginPersonalPage} from "../../../../Actions/Redux/Actions/PersonalProfi
 import {loginCompanyPage} from "../../../../Actions/Redux/Actions/CompanyActions.js";
 import SearchBarModal from "./SearchBarModal.js";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
+import AnonymousSuggestionPortal from "./AnonymousSuggestionPortal.js";
+
 import {
 	Container,
 	SearchButton,
@@ -60,6 +62,7 @@ const RouteOptionsDropDown={
 	color:"#5298F8",
 	backgroundColor:"white"
 }
+
 const MobileChatOptionCSS={
 	borderStyle:"none",
 	backgroundColor:"white"
@@ -88,8 +91,13 @@ to it
 
 const NavBar=(pageProps)=>{
 	const dispatch=useDispatch();
-	debugger;
-	const {color}=pageProps;
+	console.log(pageProps);
+	const {
+			pageProps:{
+				targetDom
+			}
+		}=pageProps;
+
 	const personalProfileState=useSelector(state=>state.personalInformation);
 	const companyProfileState=useSelector(state=>state.companyInformation);
 	const [displayPersonalProfileIcon,changeDisplayPersonalProfileIcon]=useState(false);
@@ -99,6 +107,8 @@ const NavBar=(pageProps)=>{
 	const [displayIpadUI,changeDisplayIpadUI]=useState(false);
 	const [displayDesktopUI,changeDisplayDesktopUI]=useState(false);
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
+	const [displayAnonymousTipsPortal,changeDispalyAnonymousTipsPortal]=useState(false);
+
 
 	const triggerUIChange=()=>{
 		if(window.innerWidth<595){
@@ -187,6 +197,10 @@ const NavBar=(pageProps)=>{
 												Logout
 											</Link>
 										</li>
+										<hr/>
+										<li style={{cursor:"pointer",paddingLeft:"10px"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
+											Send opinion
+										</li>
 									</ul>
 								</div>
 							</ul>:
@@ -235,10 +249,20 @@ const NavBar=(pageProps)=>{
 		)
 	}
 
+	const closeAnonymousTipPortals=()=>{
+		changeDispalyAnonymousTipsPortal(false);
+	}
+
 
 
 	return(
 		<Container>
+			{displayAnonymousTipsPortal==true &&(
+				<AnonymousSuggestionPortal
+					closeModal={closeAnonymousTipPortals}
+					targetDom={targetDom}
+				/>
+			)}
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none",width:"100%",}}>
 					<ul id="ULContainer" style={{padding:"0px"}}>
@@ -266,6 +290,18 @@ const NavBar=(pageProps)=>{
 											<li>
 												<Link to="/symposiumList">Symposiums</Link>
 											</li>
+											
+											<li>
+												<Link onClick={()=>logoutUser()} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
+													Logout
+												</Link>
+											</li>
+
+											<hr/>
+											<li style={{cursor:"pointer",paddingLeft:"10px"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
+												Send opinion
+											</li>
+
 										</ul>
 									</div>
 								</li>
@@ -274,11 +310,11 @@ const NavBar=(pageProps)=>{
 									style={{marginLeft:"50%",width:"70%",listStyle:"none",display:"inline-block"}}
 								>
 									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-										width="44" height="44" viewBox="0 0 24 24" stroke-width="2.5" stroke="#1C1C1C" 
-										fill="none" stroke-linecap="round" stroke-linejoin="round">
-										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-										  <circle cx="10" cy="10" r="7" />
-										  <line x1="21" y1="21" x2="15" y2="15" />
+									  width="44" height="44" viewBox="0 0 24 24" stroke-width="2.5" stroke="#1C1C1C" 
+									  fill="none" stroke-linecap="round" stroke-linejoin="round">
+									  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+									  <circle cx="10" cy="10" r="7" />
+									  <line x1="21" y1="21" x2="15" y2="15" />
 									</svg>
 								</li>
 							</>:

@@ -257,8 +257,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 					...searchCriteriaObject,
 					_id:data
 				}
-				pushDummyRegularPostObjectToProfile(contextInformation,searchCriteriaObject)
-				
+				pushDummyRegularPostObjectToProfile(contextInformation,searchCriteriaObject);
 			}else{
 				alert('Unfortunately there has been an error creating this post. Please try again');
 				changeIsSubmittedAndProcessing(false);
@@ -354,7 +353,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 	}
 
 	const pushDummyRegularPostObjectToProfile=(profilePostInformation,searchCriteriaObject)=>{
-		
+		debugger;
 		const date=new Date();
 		const dateInMill=date.getTime();
 		var newRegularObject={

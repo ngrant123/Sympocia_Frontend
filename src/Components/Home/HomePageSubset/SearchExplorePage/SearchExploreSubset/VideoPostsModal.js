@@ -10,7 +10,7 @@ import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import {
-		displayRecruitButton,
+		DisplayRecruitButton,
 		displayPersonalIndustryFeed
 } from "./ImagePostsModal.js";
 
@@ -287,7 +287,10 @@ const VideoPostModal=(props)=>{
 														<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"2%"}}>
 															{headerVideo.owner.firstName}
 														</li>
-														{displayRecruitButton(headerVideo,props)}
+														<DisplayRecruitButton
+															post={headerVideo}
+															previousProps={props}
+														/>
 
 														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 															<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerVideo.industriesUploaded,props)} style={ImageLabelCSS}>
@@ -380,7 +383,10 @@ const VideoPostModal=(props)=>{
 																{data.industriesUploaded[0].industry}
 															</li>
 														</a>
-														{displayRecruitButton(data,props)}
+														<DisplayRecruitButton
+															post={data}
+															previousProps={props}
+														/>
 													</ul>
 												</li>
 											</ul>

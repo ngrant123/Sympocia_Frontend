@@ -248,7 +248,6 @@ class SearchBarModal extends Component{
 										<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
 											{this.state.selectedPostType}
 										</li>
-
 									</ul>
 								</li>
 							)}

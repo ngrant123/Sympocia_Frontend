@@ -138,7 +138,7 @@ export const getSymposiumId=async(name)=>{
 
 }
 
-export const exploreImagePosts=async(id,postCount)=>{
+export const exploreImagePosts=async({id,postCount})=>{
 	try{
 		
 		const imageResults=await axios.get(`${GetUrl}/getExploreImagePosts`,{
@@ -155,7 +155,7 @@ export const exploreImagePosts=async(id,postCount)=>{
 	}
 }
 
-export const exploreVideoPosts=async(id,postCount)=>{
+export const exploreVideoPosts=async({id,postCount})=>{
 	try{
 		
 		const videoResults=await axios.get(`${GetUrl}/getExploreVideoPosts`,{
@@ -173,7 +173,7 @@ export const exploreVideoPosts=async(id,postCount)=>{
 	}
 }
 
-export const exploreBlogPosts=async(id,postCount)=>{
+export const exploreBlogPosts=async({id,postCount})=>{
 	try{
 		const blogResults=await axios.get(`${GetUrl}/getExploreBlogsPosts`,{
 			params:{
@@ -189,7 +189,7 @@ export const exploreBlogPosts=async(id,postCount)=>{
 	}
 }
 
-export const exploreRegularPosts=async(id,postCount)=>{
+export const exploreRegularPosts=async({id,postCount})=>{
 	try{
 		const regularPostResults=await axios.get(`${GetUrl}/getExploreRegularPosts`,{
 			params:{
@@ -205,12 +205,13 @@ export const exploreRegularPosts=async(id,postCount)=>{
 	}
 }
 
-export const getImagesInIndustry=async(industry,postCount)=>{
+export const getImagesInIndustry=async({industry,postCount,userId})=>{
 	try{
 		const imageResults=await axios.get(`${GetUrl}/getImagesInIndustry`,{
 			params:{
-				industry:industry,
-				postCount:postCount
+				industry,
+				postCount,
+				userId
 			}
 		});
 
@@ -221,12 +222,13 @@ export const getImagesInIndustry=async(industry,postCount)=>{
 	}
 }
 
-export const getVideoInIndustry=async(industry,postCount)=>{
+export const getVideoInIndustry=async({industry,postCount,userId})=>{
 	try{
 		const videoResults=await axios.get(`${GetUrl}/getVideosInIndustry`,{
 			params:{
-				industry:industry,
-				postCount:postCount
+				industry,
+				postCount,
+				userId
 			}
 		});
 
@@ -238,12 +240,13 @@ export const getVideoInIndustry=async(industry,postCount)=>{
 	}
 }
 
-export const getBlogsInIndustry=async(industry,postCount)=>{
+export const getBlogsInIndustry=async({industry,postCount,userId})=>{
 	try{
 		const blogResults=await axios.get(`${GetUrl}/getBlogsInIndustry`,{
 			params:{
-				industry:industry,
-				postCount:postCount
+				industry,
+				postCount,
+				userId
 			}
 		});
 
@@ -254,12 +257,13 @@ export const getBlogsInIndustry=async(industry,postCount)=>{
 	}
 }
 
-export const getRegularPostsInIndustry=async(industry,postCount)=>{
+export const getRegularPostsInIndustry=async({industry,postCount,userId})=>{
 	try{
 		const imageResults=await axios.get(`${GetUrl}/getRegularPostInIndustry`,{
 			params:{
-				industry:industry,
-				postCount:postCount
+				industry,
+				postCount,
+				userId
 			}
 		});
 
@@ -319,7 +323,6 @@ export const getGroupVideoCallOwner=async({symposiumId,groupCallId})=>{
 		return err;
 	}
 }
-
 
 
 
