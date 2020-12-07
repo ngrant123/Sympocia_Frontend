@@ -6,6 +6,9 @@ import EditVideoModal from "../VideoCreation/EditVideoModal.js";
 import MobileUI from "./MobileUI.js";
 import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
+import {
+		deletePost
+	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 
 const Container=styled.div`
@@ -47,6 +50,7 @@ const VideoContainer=(data)=>{
 		debugger;
 		changeDisplayDeleteConfirmation(true);
 	}
+  
 	const triggerPromoteModal=()=>{
 		data.triggerPromoteModal(data.videoData._id,"Videos");
 	}
@@ -75,7 +79,7 @@ const VideoContainer=(data)=>{
 					videoData={data.videoData}
 					isChromeBrowser={testIfUserIsUsingChrome()}
 					targetDom={data.targetDom}
-					deletePost={deletePost}
+					deletePost={handleDeletePost}
 					pageType={data.profileType}
 					isOwnPostViewing={data.isOwnProfile}
 					triggerPromoteModal={triggerPromoteModal}

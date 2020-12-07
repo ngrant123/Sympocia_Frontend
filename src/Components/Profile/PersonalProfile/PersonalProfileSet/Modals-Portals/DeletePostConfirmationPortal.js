@@ -53,11 +53,6 @@ const ConfirmationButtonCSS={
 	cursor:"pointer",
 	marginRight:"2%"
 }
-
-
-
-
-
 const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostType,removeContextLocation,targetDom,history})=>{
 	const userId=useSelector(state=>state.personalInformation.id);
 	const handleDelete=(personalInformation)=>{
@@ -67,11 +62,7 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 			handleDeletePost(personalInformation);
 	}
 
-	const handleDeleteChampion=async(personalInformation)=>{
-		
-	}
-
-	const handleDeletePost=async()=>{
+const handleDeletePost=async()=>{
 		debugger;
 		const {
 			_id,
@@ -99,7 +90,20 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 		}else{
 			alert('Unfortunately there has been an error deleting this post. Please try again');
 		}
-	}
+ }
+const handleDeleteChampion=async(personalInformation)=>{
+      const {confirmation,data}=await deleteChampion({userId});
+      if(confirmation=="Success"){
+        personalInformation.deleteChampionModal({
+          name:"",
+          description:""
+        })
+        closeModal();
+      }else{
+        alert('There was an error deleting your champion. Please try again');
+      }
+    }
+}
 
 	return createPortal(
 		<UserConsumer>

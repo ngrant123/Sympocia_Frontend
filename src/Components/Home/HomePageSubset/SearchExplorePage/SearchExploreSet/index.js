@@ -54,6 +54,9 @@ const Container=styled.div`
     		width:20% !important;
 			margin-left:35% !important;
   		}
+  		#mobileHeaderLI{
+  			margin-top:15% !important;
+  		}
     }
 `;
 const CommentCreationContainer=styled.div`
@@ -298,7 +301,7 @@ class SearchExploreContainer extends Component{
 	}
 
 	mobileHeaderUI=()=>{
-		return  <li style={{listStyle:"none",marginBottom:"2%",marginTop:"30%"}}>
+		return  <li id="mobileHeaderLI" style={{listStyle:"none",marginBottom:"2%",marginTop:"30%"}}>
 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 						<li id="mobileArenaLI" onClick={()=>alert('Arena coming soon... :)')} style={MobileArenaButtonCSS}>
 							<MobileArenaContainer>

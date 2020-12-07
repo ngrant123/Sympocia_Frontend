@@ -16,76 +16,131 @@ import {Link} from "react-router-dom";
 
 import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
+
+/*
+	const Container=styled.div`
+		position:absolute;
+		width:95%;
+		height:97%;
+		margin-top:1%;
+
+
+		@media screen and (max-width:740px) and (max-height:420px){
+	    	#headerLI{
+				height:180% !important;
+			}
+			#headerImageLI{
+				height:95% !important;
+			}
+	    }
+
+
+		@media screen and (max-width:1300px){
+			width:120%;
+			margin-left:-5% !important;
+			#headerLI{
+				display:block !important;
+				margin-top:10% !important;
+				width:95% !important;
+			}
+			#smallPostLI{
+				width:95% !important;
+			}
+			#image{
+				width:120px !important;
+				height:120px !important;
+				margin-right:2%;
+			}
+			#suggestedSymposiumLI{
+				top:-15% !important;
+			}
+			#postLI{
+				margin-right:2% !important;
+			}
+		}
+
+		@media screen and (max-width:450px){
+			margin-left:-5% !important;
+			#headerLI{
+				margin-top:-25% !important;
+			}
+		}
+	`;
+*/
+
 const Container=styled.div`
-	position:absolute;
-	width:95%;
-	height:97%;
-	margin-top:1%;
+	display:flex;
+	flex-direction:row;
 
-
-	@media screen and (max-width:740px) and (max-height:420px){
-    	#headerLI{
-			height:180% !important;
-		}
+	@media screen and (max-width:600px){
+		flex-direction:column !important;
 		#headerImageLI{
-			height:95% !important;
+			width:250px !important;
+			height:200px !important;
 		}
-    }
-
-
-	@media screen and (max-width:1300px){
-		width:120%;
-		margin-left:-5% !important;
-		#headerLI{
-			display:block !important;
-			margin-top:10% !important;
-			width:95% !important;
+		#headerAudioLI{
+			width:100px !important;
 		}
-		#smallPostLI{
-			width:95% !important;
+		#suggestedSymposiumLI{
+			padding:10px !important;
+			top:0px !important;
+			margin-bottom:10%;
 		}
 		#image{
 			width:120px !important;
 			height:120px !important;
-			margin-right:2%;
+			margin-bottom:10%;
 		}
-		#suggestedSymposiumLI{
-			top:-15% !important;
+		#smallPersonalInformation{
+			display:none !important;
+		}
+		#descriptionLI{
+			display:none !important;
 		}
 		#postLI{
-			margin-right:2% !important;
-		}
-	}
-
-	@media screen and (max-width:450px){
-		margin-left:-5% !important;
-		#headerLI{
-			margin-top:-25% !important;
+			top:-80px;
+			margin-bottom:20% !important;
 		}
 	}
 `;
 
-const HeaderImageCSS={
-	width:"110%",
-	height:"80%",
-	borderRadius:"5px",
-	backgroundColor:"red",
-	borderRadius:"5px",
-	boxShadow:"1px 1px 10px #707070"
-}
+const HeaderContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	width:50%;
 
-const ImageCSS={
-	position:"relative",
-	width:"280px",
-	height:"230px",
-	borderRadius:"5px",
-	backgroundColor:"red"
-}
+	@media screen and (max-width:600px){
+		margin-top:-70px !important;
+	}
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	margin-top:45px !important;
+    }
+`;
+
+const PostsContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	width:55%;
+	margin-top:-70px;
+	height:290px;
+	margin-left:5%;
+	overflow:scroll;
+	@media screen and (max-width:600px){
+		margin-left:-5% !important;
+		width:115% !important;
+		margin-top:-40px;
+
+		#smallAudioDescription{
+			display:none !important;
+		}
+	}
+`;
+
 
 const ShadowContainer= styled.div`
 	position:absolute;
-	width:280px;
-	height:230px;
+	width:220px;
+	height:200px;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
 	z-index:1;
@@ -120,6 +175,21 @@ const VideoDesriptionContainer=styled.div`
 	left:2%;
 	z-index:8;
 `;
+const HeaderImageCSS={
+	width:"110%",
+	height:"400%",
+	borderRadius:"5px",
+	backgroundColor:"red",
+	borderRadius:"5px",
+	boxShadow:"1px 1px 10px #707070"
+}
+
+const ImageCSS={
+	position:"relative",
+	width:"220px",
+	height:"200px",
+	borderRadius:"5px"
+}
 
 
 const ImageLabelCSS={
@@ -219,7 +289,7 @@ const constructSuggestedSymposium=(personalInformation,previousProps,images)=>{
 						</li>
 						{selectedSymposiums.map(data=>
 							<a href="javascript:void(0);">
-								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)} style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
+								<li id="suggestedSymposiumLI" onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)} style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
 									<b>{data.industry}</b>
 								</li>
 							</a>
@@ -334,7 +404,7 @@ const ImagePostsModal=(props)=>{
 	const displaySpecialPost=(postResult,personalInformationRedux,previousProps)=>{
 		console.log(postResult);
 		if(postResult=="suggestedSymposium"){
-			return <li id="suggestedSymposiumLI" style={{listStyle:"none",display:"inline-block",top:"-130px",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
+			return <li id="suggestedSymposiumLI" style={{listStyle:"none",display:"inline-block",top:"-210px",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
 						{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}
 					</li>
 		}else{
@@ -355,14 +425,14 @@ const ImagePostsModal=(props)=>{
 	}
 
 	return(
-	<Container>
+	<>
 		{props.posts.length>=1?
-			<React.Fragment>
-				<li id="headerLI" style={{listStyle:"none",display:"inline-block",width:"50%"}}>
+			<Container>
+				<HeaderContainer>
 					<ul style={{padding:"0px"}}>
-						<li onClick={()=>handleDisplayHeaderImage()} style={{listStyle:"none",backgroundColor:"red",width:"90%",borderRadius:"5px",position:"relative",top:"-80px"}}>
+						<li onClick={()=>handleDisplayHeaderImage()} style={{listStyle:"none",width:"90%",borderRadius:"5px",position:"relative",top:"-80px"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<img id="headerImageLI"src={headerImage.imgUrl} style={HeaderImageCSS}/>
+								<img id="headerImageLI" src={headerImage.imgUrl} style={HeaderImageCSS}/>
 								<ul style={{padding:"0px",zIndex:"8",position:"absolute",top:"10px"}}>
 									{headerImage.videoDescription!=null?
 										<li style={{listStyle:"none"}}>
@@ -376,7 +446,7 @@ const ImagePostsModal=(props)=>{
 									
 									{headerImage.audioDescription!=null?
 										<li style={{listStyle:"none"}}>
-											<audio style={{width:"200px"}} controls muted>
+											<audio id="headerAudioLI" style={{width:"200px"}} controls muted>
 											  	<source src={headerImage.audioDescription} type="audio/ogg"/>
 											  	<source src={headerImage.audioDescription} type="audio/mpeg"/>
 												Your browser does not support the audio element.
@@ -392,7 +462,7 @@ const ImagePostsModal=(props)=>{
 									<ProfilePictureLink to={{pathname:`/profile/${headerImage.owner._id}`}}>
 											<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
 												headerImage.owner.profilePicture}
-												style={{height:"10%",width:"60%",borderRadius:"50%"}}
+												style={{height:"50%",width:"60%",borderRadius:"50%"}}
 											/>
 									</ProfilePictureLink>
 								</li>
@@ -416,9 +486,8 @@ const ImagePostsModal=(props)=>{
 							</ul>
 						</li>
 					</ul>
-				</li>
-
-				<li id="smallPostLI" style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%",height:"80%",overflowY:"auto",marginBottom:"5%"}}>
+				</HeaderContainer>
+				<PostsContainer>
 					<ul style={{padding:"0px"}}>
 						{images.map(data=>
 							<React.Fragment>
@@ -426,35 +495,33 @@ const ImagePostsModal=(props)=>{
 									<React.Fragment>
 										{displaySpecialPost(data,personalInformationRedux,props)}
 									</React.Fragment>
-								:<li id="postLI" style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"2%"}}>
+								:<li id="postLI" style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"35%",marginRight:"8%"}}>
 									<ul style={{padding:"0px"}}>
 										<li onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 												<ShadowContainer/>
 												<img id="image" src={data.imgUrl} style={ImageCSS}/>
-												{/*
-													<ul id="smallAudioDescription"style={{padding:"0px",zIndex:"8",position:"absolute",top:"25%"}}>
-														{data.videoDescription!=null?
-															<li style={{listStyle:"none"}}>
-																<VideoDesriptionContainer>
-																	   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																			<source src={data.videoDescription} type="video/mp4"/>
-																		</video>
-																</VideoDesriptionContainer>
-															</li>:null
-														}
-														
-														{data.audioDescription!=null?
-															<li style={{listStyle:"none"}}>
-																<audio style={{width:"200px"}} controls muted>
-																  	<source src={data.audioDescription} type="audio/ogg"/>
-																  	<source src={data.audioDescription} type="audio/mpeg"/>
-																	Your browser does not support the audio element.
-																</audio>
-															</li>:null
-														}
-													</ul>
-												*/}
+												<ul style={{padding:"0px",zIndex:"8",position:"absolute",top:"25%"}}>
+													{data.videoDescription!=null?
+														<li id="smallVideoDescription" style={{listStyle:"none"}}>
+															<VideoDesriptionContainer>
+																   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																		<source src={data.videoDescription} type="video/mp4"/>
+																	</video>
+															</VideoDesriptionContainer>
+														</li>:null
+													}
+													
+													{data.audioDescription!=null?
+														<li id="smallAudioDescription" style={{listStyle:"none"}}>
+															<audio style={{width:"150px",height:"25px"}} controls muted>
+															  	<source src={data.audioDescription} type="audio/ogg"/>
+															  	<source src={data.audioDescription} type="audio/mpeg"/>
+																Your browser does not support the audio element.
+															</audio>
+														</li>:null
+													}
+												</ul>
 											</a>
 										</li>
 										<li id="smallPersonalInformation" style={{listStyle:"none",marginBottom:"1%"}}>
@@ -462,9 +529,9 @@ const ImagePostsModal=(props)=>{
 												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",width:"20%"}}>
 														<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-																<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-																 style={{height:"10%",width:"60%",borderRadius:"50%"}}
-																/>
+															<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
+																 style={{height:"50px",width:"60px",borderRadius:"50%"}}
+															/>
 														</ProfilePictureLink>
 													</li>
 												</a>
@@ -484,9 +551,10 @@ const ImagePostsModal=(props)=>{
 												</a>
 											</ul>
 										</li>
-										<li style={{marginLeft:"30%",listStyle:"none",width:"70%",height:"20%",overflow:"hidden"}}>
+										<li id="descriptionLI" style={{marginLeft:"30%",listStyle:"none",width:"70%",height:"20%",overflow:"hidden"}}>
 											  <p>
-											  	{data.description}</p>
+											  	{data.description}
+											  </p>
 										</li>
 						 			</ul>
 								</li>
@@ -494,7 +562,7 @@ const ImagePostsModal=(props)=>{
 							</React.Fragment>
 						)}
 					</ul>
-				</li>
+				</PostsContainer>
 
 				{displayImageDisplayPortal==false?
 					null:
@@ -505,10 +573,10 @@ const ImagePostsModal=(props)=>{
 						targetDom={props.targetDom}
 					/>
 				}
-			</React.Fragment>
+			</Container>
 		:<p>No posts </p>
 	}
-</Container>
+</>
 		)
 	}
 

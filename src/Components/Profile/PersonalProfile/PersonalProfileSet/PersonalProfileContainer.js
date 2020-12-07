@@ -162,6 +162,13 @@ class LProfile extends Component{
 		    		displayChampion:true
 		    	})
 		    },
+		    deleteChampionModal:(championData)=>{
+		    	this.setState({
+		    		...this.state,
+		    		champion:championData,
+		    		displayChampion:false
+		    	})
+		    },
 		    displayConfetti:false,
 		    hideOnboarding:false,
 		    displaySocialMediaUrlContainer:false,
@@ -688,13 +695,12 @@ class LProfile extends Component{
 	displayChampionModalTrigger=()=>{
 		return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
 					<li style={{listStyle:"none"}}>
-						{this.state.displayChampion==false?
-							<React.Fragment>
-							</React.Fragment>:
+						{this.state.displayChampion==true &&(
 							<SponsorDisplayModal
 								championData={this.state.champion}
+								isOwnProfile={this.state.isOwnProfile}
 							/>
-						}
+						)}
 					</li>
 				</a>
 	}
