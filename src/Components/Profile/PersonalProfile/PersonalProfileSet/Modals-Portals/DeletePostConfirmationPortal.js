@@ -103,7 +103,6 @@ const handleDeleteChampion=async(personalInformation)=>{
         alert('There was an error deleting your champion. Please try again');
       }
     }
-}
 
 	return createPortal(
 		<UserConsumer>
@@ -125,7 +124,8 @@ const handleDeleteChampion=async(personalInformation)=>{
 					</>
 			}}
 		</UserConsumer>
-		,document.getElementById(targetDom))
+		,document.getElementById(targetDom)
+	)
 }
 
 export default DeletePostConfirmationPortal;

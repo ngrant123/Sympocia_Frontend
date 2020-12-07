@@ -263,6 +263,16 @@ const NavBar=(pageProps)=>{
 					targetDom={targetDom}
 				/>
 			)}
+			{displaySearchModal==true?
+				<React.Fragment>
+					<BackgroundContainer onClick={()=>changeDisplaySearchModal(!displaySearchModal)}/>
+					<SearchBarModal
+						history={pageProps.pageProps.routerHistory}
+						closeSearchModal={closeSearchModal}
+					/>
+				</React.Fragment>:
+				<React.Fragment></React.Fragment>
+			}
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none",width:"100%",}}>
 					<ul id="ULContainer" style={{padding:"0px"}}>
@@ -331,16 +341,6 @@ const NavBar=(pageProps)=>{
 				</li>
 			</ul>
 
-			{displaySearchModal==true?
-				<React.Fragment>
-					<BackgroundContainer onClick={()=>changeDisplaySearchModal(!displaySearchModal)}/>
-					<SearchBarModal
-						history={pageProps.pageProps.routerHistory}
-						closeSearchModal={closeSearchModal}
-					/>
-				</React.Fragment>:
-				<React.Fragment></React.Fragment>
-			}
 			{displayDesktopUI==true && (
 				<ul style={{marginLeft:"35%",top:"7%"}}>
 					{personalProfileIpadPages()}

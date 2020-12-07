@@ -318,6 +318,8 @@ class BlogPostCreation extends Component{
 			}}>
 			<Container id="blogPostContainer">
 				<GeneralNavBar
+					page={"Blog"}
+					routerHistory={this.props.history}
 					targetDom={"blogPostContainer"}
 				/>
 				{this.state.displayBlogCreationScreen==true?

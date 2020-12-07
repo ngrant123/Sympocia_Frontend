@@ -130,9 +130,7 @@ const MobilePostOptionsButton={
 	borderStyle:"none",
 }
 
-
-
-const socket = io('/socket');
+const socket = io('http://localhost:4000');
 
  const testdata = {
 

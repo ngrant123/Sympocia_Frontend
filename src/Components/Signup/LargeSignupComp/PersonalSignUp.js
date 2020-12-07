@@ -5,13 +5,7 @@ import SympociaIcon from "../../../designs/img/SympociaIcon.jpg";
 import {createProfile} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {checkIfEmailIsUsed} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {connect} from "react-redux";
-import {
-	addName,
-	addLastName,
-	addEmail,
-	addPersonalIdentificationId,
-	loginPersonalPage
-} from "../../../Actions/Redux/Actions/PersonalProfile.js";
+import {signInPersonalUser} from "../../../Actions/Redux/Actions/PersonalProfile.js";
 import {loginCompanyPage} from "../../../Actions/Redux/Actions/CompanyActions.js";
 
 
@@ -120,35 +114,36 @@ class PersonalSignUp extends Component{
 		if(firstName==""||email==""||password==""){
 			alert('Your are missing a required field. Please enter a value');
 		}else{
-			console.log(password);
-
-			const {
-					addFirstName,
-				 	addLastName,
-				 	addEmail,
-				 	addPersonalIdentificationId,
-				 	loginPersonalPage,
-				 	loginCompanyPage
-				 }=this.props;
-					debugger;
-			const {confirmation,data}=await createProfile({
+			const profile={
 				firstName:firstName,
 				lastName:lastName,
 				email:email,
 				isInvestor:false,
 				password:password
-			});
+			}
+			const {confirmation,data}=await createProfile(profile);
 
-			if(confirmation=="Success"){
-				addPersonalIdentificationId(data._id);
-				loginPersonalPage(true);
-				loginCompanyPage(false);
-				addFirstName(firstName);
-				addLastName(lastName);
-				addEmail(email);
-				this.props.history.push({
-					pathname:'/home'
-				})
+			if(confirmation=="Success"){ 
+				const promises=[];  
+				const {
+					signInPersonalUser,
+					loginCompanyPage
+				}=this.props;
+
+
+
+				promises.push(signInPersonalUser({
+					...profile,
+					_id:data._id
+				}));
+			    promises.push(loginCompanyPage(false));
+
+			    Promise.all(promises).then(result=>{
+			    	debugger;
+			     	this.props.history.push({
+					  pathname:'/home'
+					})
+			    })
 			}else{
 				alert('Unfortunately there was an error trying to create your profile. Please try again');
 			}
@@ -325,11 +320,7 @@ class PersonalSignUp extends Component{
 const mapDispatchToProps=dispatch=>{
 
 	return{
-		addFirstName:(firstName)=>dispatch(addName(firstName)),
-		addLastName:(lastName)=>dispatch(addLastName(lastName)),
-		addEmail:(email)=>dispatch(addEmail(email)),
-		addPersonalIdentificationId:(id)=>dispatch(addPersonalIdentificationId(id)),
-		loginPersonalPage:(loginIndicator)=>dispatch(loginPersonalPage(loginIndicator)),
+		signInPersonalUser:(profile)=>dispatch(signInPersonalUser(profile)),
 		loginCompanyPage:(loginIndicator)=>dispatch(loginCompanyPage(loginIndicator))
 	}
 }

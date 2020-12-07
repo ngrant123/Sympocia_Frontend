@@ -225,7 +225,7 @@ class HomePageContainer extends Component{
 			if(this.props.personalInformation.loggedIn==true){
 				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
 				const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
-
+				debugger;
 				if(confirmation=="Success"){
 					profile=data;
 					isPersonalProfile=true;
