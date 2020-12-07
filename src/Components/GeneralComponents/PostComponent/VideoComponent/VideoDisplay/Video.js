@@ -238,7 +238,6 @@ displayDescription=(postInformation)=>{
 										)}
 									</>:
 									<video style={{borderRadius:"5px"}} width="100%" height="100%" autoplay="true" controls>
-								
 										<source src={this.props.video.videoDescription} type="video/mp4"/>
 									</video>
 								}

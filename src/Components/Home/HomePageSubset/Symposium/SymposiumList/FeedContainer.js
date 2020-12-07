@@ -530,11 +530,12 @@ class PersonalFeedContainer extends Component{
 
 	render(){
 		return(
-			<Container>
+			<Container id="symposiumListContainer">
 				<GeneralNavBar
 					displayChatPage={this.displayChatPage}
 					page={"Home"}
 					routerHistory={this.props.history}
+					targetDom={"symposiumListContainer"}
 				/>
 
 				{this.displaySymposiumPage()}

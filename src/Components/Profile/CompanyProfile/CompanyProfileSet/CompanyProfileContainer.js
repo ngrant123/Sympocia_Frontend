@@ -927,6 +927,7 @@ class LProfile extends Component{
 								<NavContainer>  
 									<GeneralNavBar
 										pageType="Profile"
+										targetDom={"companyProfileContainer"}
 									/>
 								</NavContainer>
 

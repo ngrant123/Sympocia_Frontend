@@ -779,6 +779,7 @@ class LProfile extends Component{
 							<GeneralNavBar
 								page={"PersonalProfile"}
 								routerHistory={this.props.history}
+								targetDom={"personalContainer"}
 							/>
 						</HeaderContainer>
 
