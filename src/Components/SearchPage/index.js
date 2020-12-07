@@ -68,6 +68,7 @@ const SearchPage=(props)=>{
 						displayRecruitConfetti={displayRecruitConfetti}
 						isPersonalProfile={isPersonalProfile}
 						postType={props.location.state.postType}
+						displaySymposium={displaySymposiumHandle}
 					/>
 		}else if(params.searchType=="Symposiums"){
 			return <SymposiumSearch
@@ -99,13 +100,24 @@ const SearchPage=(props)=>{
 		},5000);
 	}
 
+	const displaySymposiumHandle=(data)=>{
+		props.history.push({
+		  pathname:`/symposium/${data.selectedSymposiums.symposium}`,
+		  state: {
+		  	selectedSymposium:data.selectedSymposiums,
+			symposiums:data.symposiums,
+			profileId:state.personalInformation.id
+		  }
+		});
+	}
+
 	return(
 		<SearchProvider
 			value={{
 					personalInformationState:{
 						_id:profileId
 					},
-					isPersonalProfile:isPersonalProfile,
+					isPersonalProfile:isPersonalProfile
 			}}
 		>
 			<Container id="searchContainer">

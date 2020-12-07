@@ -3,13 +3,13 @@ import styled from "styled-components";
 
 
 const Container=styled.div`
-	position:relative;
+	position:fixed;
 	width:45%;
-	height:250%;
+	height:40%;
 	background-color:white;
 	border-radius:5px;
 	left:28%;
-	top:41%;
+	top:10%;
 	box-shadow: 1px 1px 10px #d5d5d5;
 	z-index:30;
 	overflow-y:auto;
@@ -25,9 +25,9 @@ const Container=styled.div`
 			top:0px !important;
 			margin-top:2% !important;
 		}
-		width:65%;
-		left:20%;
-		height:900% !important;
+		width:80%;
+		left:10%;
+		height:50% !important;
 	}
 
 	@media screen and (max-width:595px) {
@@ -41,13 +41,13 @@ const Container=styled.div`
 			top:0px !important;
 			margin-top:2% !important;
 		}
-		width:85%;
+		width:95%;
 		left:2%;
-		height:400% !important;
+		height:50% !important;
 	}
 
     @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
-	 	height:100% !important;
+	 	height:80% !important;
     }
 `;
 
@@ -81,6 +81,7 @@ const SearchButton=styled.textarea`
 	border-width:2px;
 	border-color:#BDBDBD;
 `;
+
 const SearchButtonCSS={ 
  listStyle:"none",
   display:"inline-block",
