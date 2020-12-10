@@ -282,9 +282,9 @@ createOrRemoveStampEffect=()=>{
 		var isPersonalProfile=this.props.profileType=="personalProfile"?true:false;
 		if(this.state.displayStampEffect==false){
 			if(isPersonalProfile==true){
-				addStampPost(this.props.video._id,"personal","VideoPost");
+				addStampPost(this.props.video._id,"personal","Videos");
 			}else{
-				addStampPost(this.props.video._id,"company","VideoPost");
+				addStampPost(this.props.video._id,"company","Videos");
 			}
 			this.setState({
 				displayStampEffect:true
@@ -292,9 +292,9 @@ createOrRemoveStampEffect=()=>{
 
 		}else{
 			if(isPersonalProfile==true){
-				unStampPost(this.props.video._id,"personal","VideoPost");
+				unStampPost(this.props.video._id,"personal","Videos");
 			}else{
-				unStampPost(this.props.video._id,"company","VideoPost");
+				unStampPost(this.props.video._id,"company","Videos");
 			}
 			this.setState({
 				displayStampEffect:false
