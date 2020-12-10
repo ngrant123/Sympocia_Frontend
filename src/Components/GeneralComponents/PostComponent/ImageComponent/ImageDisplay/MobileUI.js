@@ -186,7 +186,7 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 							<CommentContainer>
 						 		<Comments
 									postId={imgData._id}
-									postType={"Image"}
+									postType={"Images"}
 									hideComments={hidePostDisplayInformationContainer}
 									targetDom={targetDom}
 								/>

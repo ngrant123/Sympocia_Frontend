@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react';
 import styled,{keyframes} from 'styled-components';
-import img2 from '../../../designs/background/ThirdSectionBackground.png';
+import img2 from '../../../../designs/background/ThirdSectionBackground.png';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Typed from "react-typed";
 import {
@@ -12,7 +12,7 @@ import {
 } from "./LandingThirdSectionCSS.js";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import LandingImage from "../../../designs/img/ThirdSectionImage.png";
+import LandingImage from "../../../../designs/img/ThirdSectionImage.png";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 

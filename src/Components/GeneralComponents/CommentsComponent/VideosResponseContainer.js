@@ -177,7 +177,8 @@ class VideoResponseContainer extends Component{
 				commentId:this.state.videoResponses[this.state.indicatorPosition]._id,
 				reply:comment,
 				profileObject:profileObject,
-				postId:this.props.postId
+				postId:this.props.postId,
+				commentIndex:this.state.indicatorPosition
 			}
 			const {confirmation,data}=await createVideoCommentReply(replyObject);
 			

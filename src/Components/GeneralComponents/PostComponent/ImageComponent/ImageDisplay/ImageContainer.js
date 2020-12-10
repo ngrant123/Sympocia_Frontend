@@ -240,7 +240,7 @@ const ImageContainer=(props)=>{
 												<CommentContainer>
 													<Comments
 														postId={props.imageData._id}
-														postType={"Image"}
+														postType={"Images"}
 														hideComments={hideComments}
 														targetDom={props.targetDom}
 													/>

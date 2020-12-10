@@ -1,13 +1,13 @@
 import React,{useState,useEffect} from "react";
 import styled,{keyframes} from "styled-components";
-import FirstSection from "./LandingFirstSection/personalIndex.js";
-import SecondSection from "./LandingSecondSection/personalIndex.js";
-import ThirdSection from "./LandingThirdSection/personalIndex.js";
-import FourthSection from "./LandingFourthSection/index.js";
+import FirstSection from "./Mission/LandingFirstSection/personalIndex.js";
+import SecondSection from "./Mission/LandingSecondSection/personalIndex.js";
+import ThirdSection from "./Mission/LandingThirdSection/personalIndex.js";
+import FourthSection from "./Mission/LandingFourthSection/index.js";
 
-import CompanyFirstSection from "./LandingFirstSection/companyIndex.js";
-import CompanySecondSection from "./LandingSecondSection/companyIndex.js";
-import CompanyThirdSection from "./LandingThirdSection/companyIndex.js";
+import CompanyFirstSection from "./Mission/LandingFirstSection/companyIndex.js";
+import CompanySecondSection from "./Mission/LandingSecondSection/companyIndex.js";
+import CompanyThirdSection from "./Mission/LandingThirdSection/companyIndex.js";
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import LandingImageFirstCompany from '../../designs/img/CompanyFirstSection.png';
@@ -18,6 +18,7 @@ import LandingImageSecondPersonal from '../../designs/img/SecondSectionImage.png
 import LandingImageThirdPersonal from '../../designs/img/ThirdSectionImage.png';
 import {logOutUser} from "../../Actions/Redux/Actions/PersonalProfile.js";
 import {useDispatch,useSelector} from "react-redux";
+import Community from "./Community/index.js";
 
 
 const Container=styled.div`
@@ -220,6 +221,69 @@ const ImageOverlay=styled.div`
 	border-radius:50%;
 `;
 
+const MissionCommunityChoiceContainer=styled.div`
+	position:fixed;
+	top:10%;
+	left:2%;
+	height:30%;
+	width:10%;
+	background-color:white;
+	border-radius:5px;
+	z-index:30;
+	display:flex;
+	flex-direction:column;
+	padding:20px;
+	box-shadow: 1px 1px 1px #d5d5d5;
+	align-items: center;
+ 	justify-content: center;
+
+ 	@media screen and (max-width:1370px){
+ 		top:2% !important;
+		height:10%;
+ 	}
+`;
+
+
+const MissionButtonContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	align-items: center;
+ 	justify-content: center;
+ 	cursor:pointer;
+`;
+
+const CommunityButtonContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	align-items: center;
+ 	justify-content: center;
+ 	cursor:pointer;
+`;
+
+const MobileChoicesContainer=styled.div`
+	position:fixed;
+	height:50%;
+	background-color:white;
+	z-index:12;
+	top:20%;
+	border-radius:5px;
+	width:90%;
+	left:5%;
+	padding:40px;
+
+`;
+
+const ShadowContainer= styled.div`
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color: rgba(0,0,0,0.4);
+	z-index:11;
+	top:0px;
+`;
+
+
+
 /*
 
 	Right now im setting it up so that when the breakpoints are reached then I add the 
@@ -231,21 +295,36 @@ const ImageOverlay=styled.div`
 const LandingPage=(props)=>{
 	const [currentPageCounter,changePageCounter]=useState(0);
 	const [displayPersonalLanding,changeDisplayForPersonal]=useState(true);
+	const [displayMissionPage,changeDisplayMissionPage]=useState(true);
+	const [displayMobileUI,changeDisplayMobileUI]=useState(false);
+	const [displayMobilePageChoicesModal,changeMobilePageChoicesModal]=useState(false);
+
 	const dispatch=useDispatch();
 	debugger;
 	const isLoggedIn=useSelector(state=>state.personalInformation.loggedIn);
 	const ownerId=useSelector(state=>state.personalInformation.id);
 
+	const triggerUIChange=()=>{
+		if(window.innerWidth<1370){
+			changeDisplayMobileUI(true); 
+		}else{
+			changeDisplayMobileUI(false);
+		}
+	}
+
 	useEffect(()=>{
+		debugger;
 		const {history}=props;
 		console.log(history);
 		
 		if(history.location.pathname=='/logout'){
 			dispatch(logOutUser());
+			history.push('/');
 		}else if(isLoggedIn==true && ownerId!=""){
 			history.push('/home');
 		}
-	})
+		triggerUIChange()
+	},[])
 
 	const increasePageCounter=()=>{
 		
@@ -273,7 +352,6 @@ const LandingPage=(props)=>{
 	}
 
 	const handleDisplayPages=()=>{
-		
 		if(currentPageCounter==0){
 			return <FirstSection
 						increaseCounter={increasePageCounter}
@@ -295,112 +373,220 @@ const LandingPage=(props)=>{
 					/>;
 		}
 	}
+	const handleDisplayMissionPage=()=>{
+		changeDisplayMissionPage(true);
+	}
+
+	const displaySympociaCommunity=()=>{
+		changeDisplayMissionPage(false);
+	}
+	const missionButton=()=>{
+		return <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rocket" width="44" 
+					height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke={displayMissionPage==true?"#5298F8":"#A4A4A4"}
+					 fill="none" stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+					  <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+					  <circle cx="15" cy="9" r="1" />
+				</svg>
+	}
+
+	const communityButton=()=>{
+		return <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-yin-yang" width="44" height="44" 
+					viewBox="0 0 24 24" stroke-width="1.5" stroke={displayMissionPage==false?"#5298F8":"#A4A4A4"}
+					 fill="none" stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <circle cx="12" cy="12" r="9" />
+					  <path d="M12 3a4.5 4.5 0 0 0 0 9a4.5 4.5 0 0 1 0 9" />
+					  <circle cx="12" cy="7.5" r=".5" fill="currentColor" />
+					  <circle cx="12" cy="16.5" r=".5" fill="currentColor" />
+				</svg>
+	}
+
+	const handleDisplayCommunityButton=()=>{
+		if(displayMobileUI==true){
+			return <div onClick={()=>changeMobilePageChoicesModal(true)}>
+						{displayMissionPage==false &&(
+							<>
+								{communityButton()}
+							</>
+						)}
+				   </div>
+		}else{
+			return <MissionButtonContainer onClick={()=>displaySympociaCommunity()}>
+						{communityButton()}
+						<p style={{color:displayMissionPage==false?"#5298F8":"#A4A4A4"}}> Sympocia </p>
+						<p style={{color:displayMissionPage==false?"#5298F8":"#A4A4A4"}}> Community </p>
+					</MissionButtonContainer>
+		}
+	}
+
+	const handleDisplayMissionButton=()=>{
+		if(displayMobileUI==true){
+			return <div onClick={()=>changeMobilePageChoicesModal(true)}>
+						{displayMissionPage==true &&(
+							<>
+								{missionButton()}
+							</>
+						)}
+				   </div>
+		}else{
+			return <MissionButtonContainer onClick={()=>handleDisplayMissionPage()}>
+						{missionButton()}
+						<p style={{color:displayMissionPage==true?"#5298F8":"#A4A4A4"}}>Our Mission</p>
+					</MissionButtonContainer>
+		}
+	}
+	const displayMissionPageFromMobile=()=>{
+		changeDisplayMissionPage(true)
+		changeMobilePageChoicesModal(false)
+	}
+
+	const displaySympociaCommunityFromMobile=()=>{
+		changeDisplayMissionPage(false)
+		changeMobilePageChoicesModal(false)
+	}
+
+	const MobileMissionAndCommunityChoiceContainer=()=>{
+		return <>
+					{displayMobilePageChoicesModal==true &&(
+						<>
+							<MobileChoicesContainer>
+								<p onClick={()=>displayMissionPageFromMobile()}>
+									<b>Our Mission</b>
+								</p>
+								<hr/>
+								<p onClick={()=>displaySympociaCommunityFromMobile()}>	
+									<b> Sympocia Community</b>
+							    </p>
+							</MobileChoicesContainer>
+							<ShadowContainer 
+								onClick={()=>changeMobilePageChoicesModal(false)}
+							/>
+						</>
+					)}
+				</>
+	}
+
 
 	return(
 		<Container>
-			<ul>
-				{displayPersonalLanding==true?
-					<React.Fragment>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<ArrowPersonalContainer onClick={()=>changeDisplayForPersonal(false)}>
-								<ArrowForwardIosIcon/>
-							</ArrowPersonalContainer>
-						</a>
+			{MobileMissionAndCommunityChoiceContainer()}
+			<MissionCommunityChoiceContainer>
+				{handleDisplayMissionButton()}
+				{displayMobileUI==false &&(
+					<hr/>
+				)}
+				{handleDisplayCommunityButton()}
+			</MissionCommunityChoiceContainer>
 
-						<li id="firstSection" style={{listStyle:"none"}}>
-							<FirstSection
-								increaseCounter={increasePageCounter}
-								displaySelectedPage={displaySelectedPage}
-								history={props.history}
-							/>
-						</li>
-						<li  style={{zIndex:"-5",listStyle:"none"}}>
-							<ImageContainer id="mobileImageContainer1">
-								<img id="mobileImageFirst" src={LandingImageFirstPersonal}/>	
-							</ImageContainer>
-						</li>
+			{displayMissionPage==true?
+				<ul>
+					{displayPersonalLanding==true?
+						<React.Fragment>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<ArrowPersonalContainer onClick={()=>changeDisplayForPersonal(false)}>
+									<ArrowForwardIosIcon/>
+								</ArrowPersonalContainer>
+							</a>
 
-						<li id="secondSection" style={{listStyle:"none"}}>
-							<SecondSection
-								increaseCounter={increasePageCounter}
-								decreaseCounter={decreasePageCounter}
-								displaySelectedPage={displaySelectedPage}
-								props={props}
-							/>
-						</li>
-						<ImageContainer id="mobileImageContainer1">
-							<li  id="mobileImageContainer2" style={{listStyle:"none"}}>
-								<img id="mobileImage1" src={LandingImageSecondPersonal}/>
+							<li id="firstSection" style={{listStyle:"none"}}>
+								<FirstSection
+									increaseCounter={increasePageCounter}
+									displaySelectedPage={displaySelectedPage}
+									history={props.history}
+								/>
 							</li>
-						</ImageContainer>
+							<li  style={{zIndex:"-5",listStyle:"none"}}>
+								<ImageContainer id="mobileImageContainer1">
+									<img id="mobileImageFirst" src={LandingImageFirstPersonal}/>	
+								</ImageContainer>
+							</li>
 
-						<li style={{listStyle:"none"}}>
-							<ThirdSection
-								decreaseCounter={decreasePageCounter}
-								displaySelectedPage={displaySelectedPage}
-								props={props}
-							/>
-						</li>
-						<li style={{zIndex:"-5",listStyle:"none"}}>
+							<li id="secondSection" style={{listStyle:"none"}}>
+								<SecondSection
+									increaseCounter={increasePageCounter}
+									decreaseCounter={decreasePageCounter}
+									displaySelectedPage={displaySelectedPage}
+									props={props}
+								/>
+							</li>
 							<ImageContainer id="mobileImageContainer1">
-								<li id="mobilePersonal1" style={{listStyle:"none",marginTop:"150%"}}>
-									<img id="mobileImage1" src={LandingImageThirdPersonal}/>
+								<li  id="mobileImageContainer2" style={{listStyle:"none"}}>
+									<img id="mobileImage1" src={LandingImageSecondPersonal}/>
 								</li>
 							</ImageContainer>
-						</li>
-						<li id="fourthSectionLI" style={{marginTop:"50%",listStyle:"none"}}>
-							<FourthSection/>
-						</li>
-					</React.Fragment>:
-					<React.Fragment>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<ArrowCompanyContainer onClick={()=>changeDisplayForPersonal(true)}>
-								<ArrowBackIosIcon/>
-							</ArrowCompanyContainer>
-						</a>
 
-						<li style={{listStyle:"none"}}>
-							<CompanyFirstSection
-								increaseCounter={increasePageCounter}
-								displaySelectedPage={displaySelectedPage}
-								props={props}
-							/>
-						</li>
-
-						<ImageContainer id="mobileImageContainer1">
-							<li  style={{listStyle:"none"}}>
-								<img id="mobileImageFirst" src={LandingImageFirstCompany}/>
+							<li style={{listStyle:"none"}}>
+								<ThirdSection
+									decreaseCounter={decreasePageCounter}
+									displaySelectedPage={displaySelectedPage}
+									props={props}
+								/>
 							</li>
-						</ImageContainer>
-
-						<li style={{listStyle:"none"}}>
-							<CompanySecondSection
-								increaseCounter={increasePageCounter}
-								decreaseCounter={decreasePageCounter}
-								displaySelectedPage={displaySelectedPage}
-								props={props}
-							/>
-						</li>
-
-						<ImageContainer id="mobileImageContainer1">
-							<li  style={{marginTop:"-230px",listStyle:"none"}}>
-								<img id="mobileImageSecondCompany" src={LandingImageSecondCompany}/>
+							<li style={{zIndex:"-5",listStyle:"none"}}>
+								<ImageContainer id="mobileImageContainer1">
+									<li id="mobilePersonal1" style={{listStyle:"none",marginTop:"150%"}}>
+										<img id="mobileImage1" src={LandingImageThirdPersonal}/>
+									</li>
+								</ImageContainer>
 							</li>
-						</ImageContainer>
+							<li id="fourthSectionLI" style={{marginTop:"50%",listStyle:"none"}}>
+								<FourthSection/>
+							</li>
+						</React.Fragment>:
+						<React.Fragment>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<ArrowCompanyContainer onClick={()=>changeDisplayForPersonal(true)}>
+									<ArrowBackIosIcon/>
+								</ArrowCompanyContainer>
+							</a>
 
-						<li style={{listStyle:"none",padding:"20px",marginTop:"20%"}}>
-							<CompanyThirdSection
-								decreaseCounter={decreasePageCounter}
-								displaySelectedPage={displaySelectedPage}
-								props={props}
-							/>
-						</li>
-						<li id="companyFourthSection" style={{marginTop:"10%",listStyle:"none"}}>
-							<FourthSection/>
-						</li>
-					</React.Fragment>
-				}
-			</ul>
+							<li style={{listStyle:"none"}}>
+								<CompanyFirstSection
+									increaseCounter={increasePageCounter}
+									displaySelectedPage={displaySelectedPage}
+									props={props}
+								/>
+							</li>
+
+							<ImageContainer id="mobileImageContainer1">
+								<li  style={{listStyle:"none"}}>
+									<img id="mobileImageFirst" src={LandingImageFirstCompany}/>
+								</li>
+							</ImageContainer>
+
+							<li style={{listStyle:"none"}}>
+								<CompanySecondSection
+									increaseCounter={increasePageCounter}
+									decreaseCounter={decreasePageCounter}
+									displaySelectedPage={displaySelectedPage}
+									props={props}
+								/>
+							</li>
+
+							<ImageContainer id="mobileImageContainer1">
+								<li  style={{marginTop:"-230px",listStyle:"none"}}>
+									<img id="mobileImageSecondCompany" src={LandingImageSecondCompany}/>
+								</li>
+							</ImageContainer>
+
+							<li style={{listStyle:"none",padding:"20px",marginTop:"20%"}}>
+								<CompanyThirdSection
+									decreaseCounter={decreasePageCounter}
+									displaySelectedPage={displaySelectedPage}
+									props={props}
+								/>
+							</li>
+							<li id="companyFourthSection" style={{marginTop:"10%",listStyle:"none"}}>
+								<FourthSection/>
+							</li>
+						</React.Fragment>
+					}
+				</ul>:
+				<Community
+				/>
+			}
 		</Container>
 	)
 }

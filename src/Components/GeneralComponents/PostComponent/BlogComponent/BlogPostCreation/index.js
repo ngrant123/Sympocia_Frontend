@@ -353,7 +353,7 @@ class BlogPostCreation extends Component{
 							<CommentContainer>
 								<Comments
 									postId={this.props.location.state._id}
-									postType={"Blog"}
+									postType={"Blogs"}
 									hideComments={this.hideComments}
 									targetDom={"blogPostContainer"}
 								/>

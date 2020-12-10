@@ -133,7 +133,8 @@ class CommentsContainer extends Component{
 			extendCreationAreaa:false,
 			creationCommentExtended:false,
 			displayReplyCreation:false,
-			selectedReplies:[]
+			selectedReplies:[],
+			commentIndex:0
 		}
 	}
 	async componentDidMount(){
@@ -192,7 +193,7 @@ class CommentsContainer extends Component{
 		}
 	}
 
-	commentComponent=(data)=>{
+	commentComponent=(data,index)=>{
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
@@ -220,7 +221,7 @@ class CommentsContainer extends Component{
 							null
 						}
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.setState({displayReplyCreation:true,keyToDisplayReplyCreation:data._id})} 
+							<li onClick={()=>this.setState({displayReplyCreation:true,keyToDisplayReplyCreation:data._id,commentIndex:index})} 
 																		style={{listStyle:"none",display:"inline-block"}}>
 								Reply
 							</li>
@@ -339,22 +340,6 @@ class CommentsContainer extends Component{
 	}
 //
 
-/*
-
-Sample reply
-
-
-	date: "1599313696007"
-ownerObject:
-isPersonalProfile: true
-owner:
-firstName: "Doggo"
-_id: "5f50fc195459bcf522a64fb0"
-__proto__: Object
-__proto__: Object
-reply: "Testing doggo again lol"
-_id: "5f5397209c484c08c99c389d"
-*/
 
 
 	handleCreateReply=async()=>{
@@ -371,7 +356,8 @@ _id: "5f5397209c484c08c99c389d"
 				commentId:this.state.keyToDisplayReplyCreation,
 				reply:reply,
 				profileObject:profileObject,
-				postId:this.props.postId
+				postId:this.props.postId,
+				commentIndex:this.state.commentIndex
 			}
 			const {confirmation,data}=await createReply(replyObject);
 			if(confirmation=="Success"){
@@ -447,9 +433,9 @@ _id: "5f5397209c484c08c99c389d"
 			<Container>
 				<ul style={{padding:"0px",backgroundColor:"white"}}>
 					{this.createCommentUI()}
-					{this.state.comments.map(data=>
+					{this.state.comments.map((data,index)=>
 						<li style={{padding:"0px",listStyle:"none",marginBottom:"10px"}} key={data._id}>
-							{this.commentComponent(data)}
+							{this.commentComponent(data,index)}
 							{this.createReplyComment(data._id)}
 							{this.handleDisplayResponses(data._id)}
 						</li>

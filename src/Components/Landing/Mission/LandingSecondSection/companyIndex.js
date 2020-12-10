@@ -17,8 +17,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
           IndustriesCaption,
           IndustryDivContainer
         } from "./LandingSecondSectionCSS";
-import INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
-import LandingImage from '../../../designs/img/CompanySecondSection.png';
+import INDUSTRIES from "../../../../Constants/personalIndustryConstants.js";
+import LandingImage from '../../../../designs/img/CompanySecondSection.png';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';

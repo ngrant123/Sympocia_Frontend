@@ -1,20 +1,22 @@
-import React,{useEffect,useState} from 'react';
-import styled,{keyframes} from 'styled-components';
+import React,{useEffect} from 'react';
+import styled from 'styled-components';
 import { Redirect } from "react-router-dom";
+import LandingPageScrollDiv from '../../../GeneralComponents/LandingPageComponent/LandingScrollPageIndicator';
 import { useDispatch,useSelector } from 'react-redux';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { 
          addCompanyId,
          updatefirstTimeUsage,
          loginCompanyPage
-  } from "../../../Actions/Redux/Actions/CompanyActions.js";
+  } from "../../../../Actions/Redux/Actions/CompanyActions.js";
 import {
 	addName,
 	addLastName,
 	addEmail,
   addPersonalIdentificationId,
   loginPersonalPage
-} from '../../../Actions/Redux/Actions/PersonalProfile';
+} from '../../../../Actions/Redux/Actions/PersonalProfile';
+import {loginProfile} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import  {
         Container,
         SignInformation,
@@ -36,18 +38,15 @@ import  {
         CreateAccountTitle,
         JoinFamily,
         TermsOfAgreement,
+        ArrowDownContainer,
         InputTextArea
      } from "./LandingFirstSectionCSS";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import LandingImage from '../../../designs/img/CompanyFirstSection.png';
+import LandingImage from '../../../../designs/img/FirstSectionLandingPAgeImage.png'
 
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-
-import EmailInformationModal from "../EmailInformationModal.js";
-//import {recordEmailCompany} from "../../../Actions/Requests/MarketingRequests.js";
 
 
 const LoginBox=styled.textarea`
@@ -97,34 +96,6 @@ const Submit=styled.div`
    }
 `;
 
-const ArrowDownContainer=styled.div`
-  animation: bounce 2s infinite;
-  @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {
-          transform: translateY(0);
-        }
-        40% {
-          transform: translateY(-30px);
-        }
-        60% {
-          transform: translateY(-15px);
-        }
-  }
-`;
-
-const JoinMovementTextContainer=styled.input`
-    border: none;
-    overflow: auto;
-    outline: none;
-    resize:none;
-    border-radius:5px;
-    width:150%;
-    top:5%;
-    border-style:solid;
-    border-width:2px;
-    border-color:#d9d9d9;
-`;
-
 
 const SignUpButton={
     listStyle:"none",
@@ -136,7 +107,7 @@ const SignUpButton={
     marginRight:"2%"
 }
 
-const JoinMovementButton={
+const ExploreButton={
   listStyle:"none",
   display:"inline-block",
   backgroundColor:"white",
@@ -147,29 +118,6 @@ const JoinMovementButton={
   borderWidth:"2px",
   borderColor:"#3898ec"
 }
-
-const JoinMovementContainer={
-  listStyle:"none",
-  display:"inline-block",
-  backgroundColor:"white",
-  borderRadius:"5px",
-  padding:"10px",
-  color:"#3898ec",
-  marginTop:"5%"
-}
-
-const ComingSoonButton={
-  listStyle:"none",
-  backgroundColor:"white",
-  borderRadius:"5px",
-  padding:"10px",
-  color:"#3898ec",
-  borderStyle:"solid",
-  borderWidth:"2px",
-  borderColor:"#3898ec",
-  marginTop:"2%"
-}
-
 
 const handleClearTextAreaClick=(divId)=>{
 	document.getElementById(divId).placeholder="";
@@ -184,12 +132,13 @@ const inspectLetterTyedName=(character)=>{
 }
 
 
+
+
 const FirstSection=(props)=>{
 	
-   const [displayEmailInformation,changeDisplayState]=useState(false);
-
 	const dispatch=useDispatch();
 	const state=useSelector(state=>state);
+	console.log(props);
 
   useEffect(()=>{
     setTimeout(()=>{
@@ -212,90 +161,74 @@ const FirstSection=(props)=>{
     }
 	}
 
-  const closeModal=()=>{
-    changeDisplayState(false);
-  }
-
-  const triggerConfirmation=async()=>{
-   
-    /*
-     const email=document.getElementById("email").value;
-      if(email!=""){
-        const {confirmation,data}=await recordEmailCompany(email);
-        if(confirmation=="Success"){ 
-          changeDisplayState(true)
-        }else{
-          alert('Unfortunately we experienced an error. Please submit your information again');
-        }
-      }else{
-        alert('Please enter your email :)')
-      }
-    */
-  }
-
 	return(
 
 		     <FirstContainer id="firstContainer">
-              {displayEmailInformation==false?null:
-                <EmailInformationModal
-                  closeModal={closeModal}
-                  profileType="Company"
-                />
-              }
-
               <ul style={{padding:"0px"}}>
-                  <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
+                   <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
                       <ul style={{padding:"0px"}}>
                           <li style={{listStyle:"none",display:"inline-block"}}>
-                            <p id="headerCompany" style={{fontSize:"100px",color:"#C8B0F4",marginLeft:"-20%"}}>
+                            <p style={{fontSize:"100px",color:"#C8B0F4",marginLeft:"-20%"}}>
                                 <b>Sympocia</b>
                             </p>
                           </li>
+                          <NavBarLogin
+                            props={props}
+                          /> 
                       </ul>
                   </li>
-                  <li style={{listStyle:"none",marginTop:"7%"}}>
+                  <li style={{listStyle:"none"}}>
                     <ul style={{padding:"0px"}}>
-                        <li id="textFirstSectionCompany" style={{listStyle:"none",display:"inline-block",width:"90%",height:"60%"}}>
+                        <li style={{listStyle:"none",display:"inline-block",width:"90%",height:"60%"}}>
                             <ul style={{padding:"0px"}}>
                               <li style={{listStyle:"none",display:"inline-block",width:"50%",height:"50%"}}>
                                 <ul style={{padding:"0px"}}>
                                   <li style={{listStyle:"none",display:"inline-block"}}>
-                                      <ul style={{padding:"0px"}}>
-                                        <li style={{listStyle:"none",fontSize:"40px",marginBottom:"10%"}}>
-                                            <p>
-                                              <b>Introducing Sympocia Business</b>
-                                           </p>
-                                        </li>
+                                      <p style={{fontSize:"40px",marginBottom:"10%"}}>
+                                          <b>Finally.... a platform where you can just be yourself</b>
+                                      </p>
+                                      <p>
+                                          We've all been there. You've asked yourself "I really like this photo but will 
+                                          it get likes?" or "Will anyone care about my hobbies". You've also asked yourself,
+                                          "Why do I feel so alone after using social media". We've asked these question also. 
+                                          Which is why we built <b>Sympocia</b>
+                                      </p>
 
-                                        <li style={{listStyle:"none"}}>
-                                            <p>
-                                                So you’re starting out your business huh? Or maybe you have an idea
-                                                and you need a little help with it. 
-                                                Don’t worry, we built <b>Sympocia</b> just for you :)
-                                            </p>
-                                        </li>
-
-                                        <li style={{listStyle:"none"}}>
-                                            <p>
-                                               Starting a business is hard. But now you don’t have to do it all alone!
-                                            </p>
-                                        </li>
-                                      </ul>
+                                      <p>
+                                         Introducing the first social entertainment platform focused on you expressing yourself
+                                         regardless of whether people like it or not
+                                      </p>
                                   </li>
-                                  <li style={ComingSoonButton}>
-                                    Coming soon
+                                  <li style={{listStyle:"none"}}>
+                                      <ul style={{padding:"0px"}}>
+                                        <a href="/signup" style={{textDecoration:"none"}}>
+                                          <li style={SignUpButton}>
+                                              Sign Up
+                                          </li>
+                                        </a>
+                                        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                                          <li style={ExploreButton}>
+                                              Explore
+                                          </li>
+                                        </a>
+                                      </ul>
                                   </li>
                                 </ul>
                               </li>
 
-                              <li id="imageListContainer" style={{position:"relative",top:"-100px",listStyle:"none",display:"inline-block",width:"40%"}}>
-                                  <img id="imageContainer" src={LandingImage} style={{width:"95%",height:"80%"}}/>
+                              <li style={{position:"relative",top:"-100px",listStyle:"none",display:"inline-block",width:"40%"}}>
+                                  <img src={LandingImage} style={{width:"95%",height:"80%"}}/>
                               </li>
                             </ul>
                         </li>
+                        <li onClick={()=>props.increaseCounter()} style={{listStyle:"none",display:"inline-block"}}>
+                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                            <ArrowForwardIosIcon/>
+                          </a>
+                        </li>
                     </ul>
                   </li>
-                  <li id="footerIcons" style={{listStyle:"none",marginTop:"-10%"}}>
+                  <li style={{listStyle:"none"}}>
                     <ul style={{padding:"0px"}}>
                         <li style={{listStyle:"none",display:"inline-block"}}>
                             <FiberManualRecordIcon/>
@@ -313,13 +246,6 @@ const FirstSection=(props)=>{
                           </a>
                         </li>
                     </ul>
-                  </li>
-                  <li id="floatingArrowFunction" style={{listStyle:"none",marginTop:"7%"}}>
-                    <ArrowDownContainer>
-                      <ArrowDownwardIcon
-                        style={{fontSize:'20'}}
-                      />
-                    </ArrowDownContainer>
                   </li>
                </ul>
 

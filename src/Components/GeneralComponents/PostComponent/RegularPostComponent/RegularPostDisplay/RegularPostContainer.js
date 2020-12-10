@@ -210,7 +210,7 @@ const RegularPostContainer=(props)=>{
 													</li>
 													<CommentsContainer
 														postId={props.postData._id}
-														postType={"RegularPost"}
+														postType={"RegularPosts"}
 														hideComments={hideComments}
 														targetDom={props.targetDom}
 													/>
