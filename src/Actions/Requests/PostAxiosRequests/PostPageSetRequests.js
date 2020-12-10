@@ -211,15 +211,15 @@ export const createComment=async(postType,postId,comment,profileObject)=>{
 }
 
 
-export const createReply=async({postType,postId,commentId,reply,profileObject})=>{
-	try{		
-		
+export const createReply=async({postType,postId,commentId,reply,profileObject,commentIndex})=>{	
+	try{	
 		const commentResponse=await axios.post(`${CreateURl}/createReply`,{
 			postType:postType,
 			postId:postId,
 			commentId:commentId,
 			reply:reply,
-			profileObject:profileObject
+			profileObject:profileObject,
+			commentIndex
 		})
 		const {data}=commentResponse;
 		return data;
@@ -247,16 +247,15 @@ export const createVideoResponse=async({postType,commentId,videoSrc,currentProfi
 	}
 }
 
-export const createVideoCommentReply=async({postType,postId,commentId,reply,profileObject})=>{
+export const createVideoCommentReply=async({postType,postId,commentId,reply,profileObject,commentIndex})=>{
 	try{
-		
-		
 		const videoCommentResponse=await axios.post(`${CreateURl}/createVideoReply`,{
 			postType:postType,
 			postId:postId,
 			commentId:commentId,
 			reply:reply,
-			profileObject:profileObject
+			profileObject:profileObject,
+			commentIndex
 		})
 		const {data}=videoCommentResponse;
 		return data;

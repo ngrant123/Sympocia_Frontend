@@ -7,14 +7,14 @@ import {
          addCompanyId,
          updatefirstTimeUsage,
          loginCompanyPage
-  } from "../../../Actions/Redux/Actions/CompanyActions.js";
+  } from "../../../../Actions/Redux/Actions/CompanyActions.js";
 import {
 	addName,
 	addLastName,
 	addEmail,
   addPersonalIdentificationId,
   loginPersonalPage
-} from '../../../Actions/Redux/Actions/PersonalProfile';
+} from '../../../../Actions/Redux/Actions/PersonalProfile';
 import  {
         Container,
         SignInformation,
@@ -39,23 +39,23 @@ import  {
         InputTextArea
   } from "./LandingFirstSectionCSS";
 
-import LandingImage from '../../../designs/img/FirstSectionLandingPAgeImage.png'
+import LandingImage from '../../../../designs/img/FirstSectionLandingPAgeImage.png'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import {
         LoginUI,
         MobileLoginUI
-} from "../LoginImplementation.js";
+} from "../../LoginImplementation.js";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
-import EmailInformationModal from "../EmailInformationModal.js";
+import EmailInformationModal from "../../EmailInformationModal.js";
 import {
         recordEmail,
         getInterestedProfiles,
         verifyCode
-      } from "../../../Actions/Requests/MarketingRequests.js";
+      } from "../../../../Actions/Requests/MarketingRequests.js";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const LoginBox=styled.textarea`

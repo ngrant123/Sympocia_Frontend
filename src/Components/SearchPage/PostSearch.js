@@ -225,11 +225,6 @@ const PostSearch=(props)=>{
 			return currentPosts;
 		}
 	}
-
-	const displaySymposium=()=>{
-
-	}
-
 	const constructPostsResponse=()=>{
 		 if(displayImages==true){
 		 	return <ImagePostsModal

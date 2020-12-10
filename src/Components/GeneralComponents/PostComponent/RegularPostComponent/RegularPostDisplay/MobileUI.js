@@ -347,7 +347,7 @@ const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,trigger
 							<CommentContainer>
 						 		<Comments
 									postId={postData._id}
-									postType={"RegularPost"}
+									postType={"RegularPosts"}
 									hideComments={hidePostDisplayInformationContainer}
 									targetDom={targetDom}
 								/>

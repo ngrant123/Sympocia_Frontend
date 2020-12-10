@@ -314,7 +314,7 @@ const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPo
 								<li style={{listStyle:"none",marginTop:"30%"}}>
 									<Comments
 										postId={videoData._id}
-										postType={"Video"}
+										postType={"Videos"}
 										hideComments={hidePostDisplayInformationContainer}
 										targetDom={targetDom}
 									/>

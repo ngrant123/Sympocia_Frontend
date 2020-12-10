@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import img2 from '../../../designs/background/SecondPageBackground.png';
-import secondstatue from '../../../designs/img/test.png';
+import img2 from '../../../../designs/background/SecondPageBackground.png';
+import secondstatue from '../../../../designs/img/test.png';
 import { Link } from "react-router-dom";
 
 

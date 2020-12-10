@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import img from '../../../designs/background/Landingbackground.png';
-import firststatue from '../../../designs/img/test3.png';
+import img from '../../../../designs/background/Landingbackground.png';
+import firststatue from '../../../../designs/img/test3.png';
 import {BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 
 

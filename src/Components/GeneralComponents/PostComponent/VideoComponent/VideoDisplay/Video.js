@@ -396,7 +396,7 @@ createOrRemoveStampEffect=()=>{
 								<CommentsContainer>
 									<Comments
 										postId={this.props.video._id}
-										postType={"Video"}
+										postType={"Videos"}
 										hideComments={this.hideComments}
 										targetDom={this.props.targetDom}
 									/> 

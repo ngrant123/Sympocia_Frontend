@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import styled,{keyframes} from "styled-components";
-import LandingImage from '../../../designs/img/CompanyThirdSection.png';
+import LandingImage from '../../../../designs/img/CompanyThirdSection.png';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 const ThirdContainer = styled.div`

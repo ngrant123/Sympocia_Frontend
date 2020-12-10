@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import previewImage from '../../../designs/img/PreviewPlatform.png';
+import previewImage from '../../../../designs/img/PreviewPlatform.png';
 
 
 const Container = styled.div`

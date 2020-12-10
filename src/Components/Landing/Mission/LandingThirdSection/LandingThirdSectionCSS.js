@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import img2 from '../../../designs/background/ThirdSectionBackground.png';
+import img2 from '../../../../designs/background/ThirdSectionBackground.png';
 
 export const ThirdContainer=styled.div`
  position:absolute;
