@@ -385,10 +385,10 @@ const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPo
 
 	const createOrRemoveStampEffect=()=>{
 		if(displayStampEffect==false){
-			addStampPost(videoData._id,"personal","VideoPost");
+			addStampPost(videoData._id,"personal","Videos");
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(videoData._id,"personal","VideoPost");
+			unStampPost(videoData._id,"personal","Videos");
 			changeDisplayStampEffect(false);
 		}
 	}

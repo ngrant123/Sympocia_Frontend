@@ -6,6 +6,7 @@ import {BlogsData} from "./Blogs/BlogData/index.js";
 
 import IntereviewDisplay from "./Interviews/InterviewDisplay.js";
 import BlogDisplay from "./Blogs/BlogDisplay.js";
+import {getSympociaInterviews} from "../../../Actions/Requests/SympociaInterviewRequests.js";
 
 
 const Container=styled.div`
@@ -19,7 +20,6 @@ const Container=styled.div`
 `;
 
 const BlogsVideosContainer=styled.div`
-
 	display:flex;
 	flex-direction:row;
 	width:100%;
@@ -154,16 +154,23 @@ const CommunityContainer=()=>{
 	const [selectedPost,changeSelectedPosts]=useState();
 
 	useEffect(()=>{
+		debugger;
+		const fetchData=async()=>{
+			let {confirmation,data}=await getSympociaInterviews({interviewMetaData:InterviewMetadata.interviews});
+			if(confirmation=="Success"){
+				changeVideoFiles([...data]);
+				const blogData=BlogsData();
+				changeBlogFiles([...blogData]);
 
-		let {videoFiles}=fileManager();
-		videoFiles=videoFiles.reverse();
-		changeVideoFiles([...videoFiles]);
-		const blogData=BlogsData();
-		changeBlogFiles([...blogData]);
+				setTimeout(()=>{
+					document.getElementById("parentContainer").style.opacity=1;
+				},200);
+			}else{
+				alert('Unfortunately there has been an error when trying to get the interviews. Please try again');
+			}
+		}
 
-		setTimeout(()=>{
-			document.getElementById("parentContainer").style.opacity=1;
-		},200);
+		fetchData();
 	},[]);
 
 	const selectInterview=(data,index)=>{

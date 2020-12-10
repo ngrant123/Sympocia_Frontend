@@ -133,10 +133,10 @@ const PosterInformation=(props)=>{
 	const createOrRemoveStampEffect=()=>{
 		debugger;
 		if(displayStampEffect==false){
-			addStampPost(_id,"personal","RegularPost");
+			addStampPost(_id,"personal","RegularPosts");
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(_id,"personal","RegularPost");
+			unStampPost(_id,"personal","RegularPosts");
 			changeDisplayStampEffect(false);
 		}
 	}

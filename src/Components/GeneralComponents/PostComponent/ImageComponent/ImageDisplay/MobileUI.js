@@ -207,10 +207,10 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 
 	const createOrRemoveStampEffect=()=>{
 		if(displayStampEffect==false){
-			addStampPost(imgData._id,"personal","ImagePost");
+			addStampPost(imgData._id,"personal","Images");
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(imgData._id,"personal","ImagePost");
+			unStampPost(imgData._id,"personal","Images");
 			changeDisplayStampEffect(false);
 		}
 	}

@@ -402,10 +402,10 @@ const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,trigger
 
 	const createOrRemoveStampEffect=()=>{
 		if(displayStampEffect==false){
-			addStampPost(postData._id,"personal","RegularPost");
+			addStampPost(postData._id,"personal","RegularPosts");
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(postData._id,"personal","RegularPost");
+			unStampPost(postData._id,"personal","RegularPosts");
 			changeDisplayStampEffect(false);
 		}
 	}

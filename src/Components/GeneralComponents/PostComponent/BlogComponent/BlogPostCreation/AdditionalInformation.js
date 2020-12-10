@@ -102,17 +102,17 @@ const AdditionalInformation=(props)=>{
 		//(userId,postId,profileType,postType)
 		if(displayStampEffect==false){
 			if(isPersonalProfile==true){
-				addStampPost(props.blogData._id,"personal","BlogPost");
+				addStampPost(props.blogData._id,"personal","Blogs");
 			}else{
-				addStampPost(props.blogData._id,"company","BlogPost");
+				addStampPost(props.blogData._id,"company","Blogs");
 			}
 			changeDisplayStampEffect(true);
 
 		}else{
 			if(isPersonalProfile==true){
-				unStampPost(props.blogData._id,"personal","BlogPost");
+				unStampPost(props.blogData._id,"personal","Blogs");
 			}else{
-				unStampPost(props.blogData._id,"company","BlogPost");
+				unStampPost(props.blogData._id,"company","Blogs");
 			}
 			changeDisplayStampEffect(false);
 		}

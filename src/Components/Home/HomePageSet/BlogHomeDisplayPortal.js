@@ -226,17 +226,17 @@ const BlogHomeDisplayPortal=(props)=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
 		if(displayStampEffect==false){
 			if(isPersonalProfile==true){
-				addStampPost(props.selectedBlog._id,"personal","BlogPost");
+				addStampPost(props.selectedBlog._id,"personal","Blogs");
 			}else{
-				addStampPost(props.selectedBlog._id,"company","BlogPost");
+				addStampPost(props.selectedBlog._id,"company","Blogs");
 			}
 			changeDisplayStampEffect(true);
 
 		}else{
 			if(isPersonalProfile==true){
-				unStampPost(props.selectedBlog._id,"personal","BlogPost");
+				unStampPost(props.selectedBlog._id,"personal","Blogs");
 			}else{
-				unStampPost(props.selectedBlog._id,"company","BlogPost");
+				unStampPost(props.selectedBlog._id,"company","Blogs");
 			}
 			changeDisplayStampEffect(false);
 		}
