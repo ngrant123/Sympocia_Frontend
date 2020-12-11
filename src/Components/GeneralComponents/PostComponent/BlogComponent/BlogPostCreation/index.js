@@ -110,7 +110,8 @@ class BlogPostCreation extends Component{
 			displayPromotePortal:false,
 			displayDesktopUI:false,
 			displayBlogCreationScreen:true,
-			isLoading:true
+			isLoading:true,
+			blogContent:""
 		}
 	}
 
@@ -351,6 +352,7 @@ class BlogPostCreation extends Component{
 								/>
 								<Blog
 									isDesktop={this.state.displayDesktopUI}
+									blog={this.state.blogContent}
 								/>
 								{this.editBlogSubmitModal()}
 								{this.promotePortal()}
