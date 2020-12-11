@@ -61,15 +61,13 @@ const ApproveDisapproveContainer=styled.div`
 	left:15%;
 	top:20%;
 	height:25%;
-	z-index:4;
-	z-index:6;
+	z-index:40;
 	overflow:scroll;
 
 	@media screen and (max-width:600px){
 		width:90% !important;
 		left:5% !important;
 	}
-
 `;
 
 const authenticPostButtonCSS={
@@ -135,6 +133,7 @@ class BlogPostCreation extends Component{
 */
 
 	componentDidMount=()=>{
+		debugger;
 		window.addEventListener('resize',this.triggerUIChange);
 		const verification=this.props.isLoggedIn;
 		if(verification==false){

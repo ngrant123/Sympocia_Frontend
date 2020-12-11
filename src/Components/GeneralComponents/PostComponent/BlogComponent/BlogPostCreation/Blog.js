@@ -29,6 +29,10 @@ class Blog extends Component{
 		}
 	}
 
+	componentDidMount(){
+
+	}
+
 
 	emptyTextArea=()=>{
 		if(this.state.firstTimeClick==true){
@@ -60,19 +64,6 @@ class Blog extends Component{
 		})
 	}
 
-	handleSetInitialBlogContent=(postInformation)=>{
-		if(postInformation.isOwner==true && this.state.initialValue==true){
-			this.setState({
-				editorState:postInformation.blog,
-				initialValue:false
-			},function(){
-				return this.state.editorState;	
-			})
-		}
-		return this.state.editorState;
-	}
-
-
 
 	render(){
 		return(
@@ -82,7 +73,7 @@ class Blog extends Component{
 				{postInformation=>{
 					return <Container>
 								<Editor
-									  editorState={this.handleSetInitialBlogContent(postInformation)}
+									  editorState={postInformation.blog}
 									  toolbarClassName="toolbarClassName"
 									  wrapperClassName="wrapperClassName"
 									  editorClassName="editorClassName"
