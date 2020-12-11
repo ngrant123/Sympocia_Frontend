@@ -272,7 +272,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,triggerPromoteModal,pageType,isOwnPostViewing,deletePost})=>{
+const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,triggerPromoteModal,pageType,isOwnPostViewing,deletePost,personalId})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -402,10 +402,10 @@ const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,trigger
 
 	const createOrRemoveStampEffect=()=>{
 		if(displayStampEffect==false){
-			addStampPost(postData._id,"personal","RegularPosts");
+			addStampPost(postData._id,"personal","RegularPosts",personalId);
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(postData._id,"personal","RegularPosts");
+			unStampPost(postData._id,"personal","RegularPosts",personalId);
 			changeDisplayStampEffect(false);
 		}
 	}

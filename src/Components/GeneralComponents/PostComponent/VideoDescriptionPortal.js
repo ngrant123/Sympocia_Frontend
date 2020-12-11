@@ -15,7 +15,7 @@ const ShadowContainer= styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:35;
+	z-index:45;
 	top:0px;
 `;
 
@@ -25,7 +25,7 @@ const Container=styled.div`
 	width:70%;
 	top:20%;
 	left:20%;
-	z-index:35;
+	z-index:45;
 	height:70%;
 	top:10%;
 	border-radius:5px;
@@ -195,7 +195,8 @@ const VideoDescriptionPortal=(props)=>{
 	}
 
 	const closeModal=()=>{
-		stopRecording(document.getElementById("videoDescriptionVideo").srcObject);
+		if(isRecording!=false)
+			stopRecording(document.getElementById("videoDescriptionVideo").srcObject);
 		props.closeModal()
 	}
 

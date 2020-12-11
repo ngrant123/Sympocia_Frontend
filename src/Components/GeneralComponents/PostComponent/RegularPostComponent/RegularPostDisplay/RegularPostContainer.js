@@ -8,7 +8,7 @@ import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileS
 import MobileUI from "./MobileUI.js";
 import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
-
+import {useSelector} from "react-redux";
 const Container=styled.div`
 `;
 
@@ -116,6 +116,8 @@ const RegularPostContainer=(props)=>{
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
 
+	const personalId=useSelector(state=>state.personalInformation.id);
+
 	useEffect(()=>{
 		triggerUIChange();
 	},[]);
@@ -178,6 +180,7 @@ const RegularPostContainer=(props)=>{
 								pageType={props.profileType}
 								isOwnPostViewing={props.isOwnProfile}
 								deletePost={handleRemoveRegularPost}
+								personalId={personalId}
 							/>:
 							<Container>
 
@@ -196,6 +199,7 @@ const RegularPostContainer=(props)=>{
 												pageType={props.profileType}
 												isOwnPostViewing={props.isOwnProfile}
 												deletePost={handleRemoveRegularPost}
+												personalId={personalId}
 											/>
 										</li>
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",height:"20%",overflow:"hidden"}}>

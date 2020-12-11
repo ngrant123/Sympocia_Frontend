@@ -6,6 +6,7 @@ import EditVideoModal from "../VideoCreation/EditVideoModal.js";
 import MobileUI from "./MobileUI.js";
 import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
+import {useSelector} from "react-redux";
 
 
 
@@ -26,6 +27,7 @@ const VideoContainer=(data)=>{
 	const [displayVideoEditModal,changeVideoEditModal]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
+	const personalId=useSelector(state=>state.personalInformation.id);
 
 	useEffect(()=>{
 		triggerUIChange();
@@ -81,6 +83,7 @@ const VideoContainer=(data)=>{
 					pageType={data.profileType}
 					isOwnPostViewing={data.isOwnProfile}
 					triggerPromoteModal={triggerPromoteModal}
+					personalId={personalId}
 				/>:
 				<Container>
 					{displayVideoEditModal==false?
@@ -95,6 +98,7 @@ const VideoContainer=(data)=>{
 									deletePost={deletePost}
 									pageType={data.profileType}
 									isOwnPostViewing={data.isOwnProfile}
+									personalId={personalId}
 								/>
 							</li>
 						</ul>:

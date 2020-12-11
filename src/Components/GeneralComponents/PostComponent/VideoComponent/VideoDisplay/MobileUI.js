@@ -236,9 +236,8 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPostViewing,triggerPromoteModal})=>{
-	console.log(videoData.videoDescription);
-	console.log(isChromeBrowser);
+const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPostViewing,triggerPromoteModal,personalId})=>{
+
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
 	const [displayInformation,changeDisplayInformation]=useState(false);
@@ -250,13 +249,13 @@ const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPo
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 
-		if(videoData.isPostAuthentic!=null){
-			var approvesPostNumber=videoData.isPostAuthentic.numOfApprove!=null?
-								   videoData.isPostAuthentic.numOfApprove.length:null;
+	if(videoData.isPostAuthentic!=null){
+		var approvesPostNumber=videoData.isPostAuthentic.numOfApprove!=null?
+							   videoData.isPostAuthentic.numOfApprove.length:null;
 
-			var disapprovesPostNumber=videoData.isPostAuthentic.numOfDisapprove!=null?
-									  videoData.isPostAuthentic.numOfDisapprove.length:null;
-		}
+		var disapprovesPostNumber=videoData.isPostAuthentic.numOfDisapprove!=null?
+								  videoData.isPostAuthentic.numOfDisapprove.length:null;
+	}
 
 	const closeModal=()=>{
 		changeDisplayPollingModal(false);
@@ -385,10 +384,10 @@ const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPo
 
 	const createOrRemoveStampEffect=()=>{
 		if(displayStampEffect==false){
-			addStampPost(videoData._id,"personal","Videos");
+			addStampPost(videoData._id,"personal","Videos",personalId);
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(videoData._id,"personal","Videos");
+			unStampPost(videoData._id,"personal","Videos",personalId);
 			changeDisplayStampEffect(false);
 		}
 	}
