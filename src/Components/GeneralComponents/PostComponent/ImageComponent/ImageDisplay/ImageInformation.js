@@ -147,13 +147,13 @@ const ImageInformation=(props)=>{
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 
-		if(props.imageInformation.isPostAuthentic!=null){
-			var approvesPostNumber=props.imageInformation.isPostAuthentic.numOfApprove!=null?
-								   props.imageInformation.isPostAuthentic.numOfApprove.length:null;
+	if(props.imageInformation.isPostAuthentic!=null){
+		var approvesPostNumber=props.imageInformation.isPostAuthentic.numOfApprove!=null?
+							   props.imageInformation.isPostAuthentic.numOfApprove.length:null;
 
-			var disapprovesPostNumber=props.imageInformation.isPostAuthentic.numOfDisapprove!=null?
-									  props.imageInformation.isPostAuthentic.numOfDisapprove.length:null;
-		}
+		var disapprovesPostNumber=props.imageInformation.isPostAuthentic.numOfDisapprove!=null?
+								  props.imageInformation.isPostAuthentic.numOfDisapprove.length:null;
+	}
 
 	const closeModal=()=>{
 		changeDisplayPollingModal(false);

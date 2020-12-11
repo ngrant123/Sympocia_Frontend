@@ -291,6 +291,8 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 										</svg>
 									</li>
 								</a>
+
+								
 								
 								{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
 									<>

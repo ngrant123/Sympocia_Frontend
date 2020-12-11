@@ -183,7 +183,6 @@ const RegularPostContainer=(props)=>{
 								personalId={personalId}
 							/>:
 							<Container>
-
 								{displayEditPostModal==true?
 									<RegularPostCreation 
 										previousData={props.postData}
@@ -225,7 +224,6 @@ const RegularPostContainer=(props)=>{
 													userData={props.postData}
 													targetDom={props.targetDom}
 												/>
-
 											}
 										</li>
 									</ul>

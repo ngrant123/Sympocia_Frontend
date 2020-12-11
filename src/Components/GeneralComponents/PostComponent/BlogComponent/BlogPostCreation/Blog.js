@@ -19,7 +19,7 @@ class Blog extends Component{
 
 	constructor(props){
 		super(props);
-
+		console.log("Testing blog createion");
 		this.state={
 			firstTimeClick:true,
 			blogPostContents:"Testing blog contents",
@@ -64,16 +64,29 @@ class Blog extends Component{
 		})
 	}
 
+	handleSetInitialBlogContent=(postInformation)=>{
+		debugger;
+		if(postInformation.blog!="" || postInformation.blog!=undefined){
+			this.setState({
+				editorState:postInformation.blog,
+				initialValue:false
+			},function(){
+				return this.state.editorState;	
+			})
+		}else{
+			return this.state.editorState;
+		}
+	}
+
+
 
 	render(){
 		return(
-			//Needs to be fixed later but now this will work
-
 			<BlogConsumer>
 				{postInformation=>{
 					return <Container>
 								<Editor
-									  editorState={postInformation.blog}
+									  editorState={this.handleSetInitialBlogContent(postInformation)}
 									  toolbarClassName="toolbarClassName"
 									  wrapperClassName="wrapperClassName"
 									  editorClassName="editorClassName"

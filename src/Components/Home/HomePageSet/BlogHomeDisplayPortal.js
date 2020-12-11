@@ -12,6 +12,7 @@ import {addStampPost,unStampPost} from "../../../Actions/Requests/PostAxiosReque
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PollOptionPortal from "../../GeneralComponents/PostComponent/PollOptionPortal.js";
+import Comments from "../../GeneralComponents/CommentsComponent/index.js";
 
 import PollIcon from '@material-ui/icons/Poll';
 import {HomeConsumer} from "../HomeContext.js";
@@ -21,19 +22,22 @@ import LoyaltyIcon from '@material-ui/icons/Loyalty';
 const Container=styled.div`
 	position:absolute;
 	z-index:13;
-	height:100%;
+	height:80%;
 	width:80%;
 	border-radius:5px;
-	top:2%;
+	top:12%;
 	left:10%;
 	overflow-y:auto;
 	background-color:white;
 	padding:20px;
+	padding-top:40px;
 
 	@media screen and (max-width:1370px){
 		top:10% !important;
 		width:95% !important;
 		margin-left:-10%;
+		height:100%;
+		padding-top:0px;
 
 		#smallImagePicture{
 			height:30% !important;
@@ -63,7 +67,7 @@ const PosterInformationModal=styled.div`
 	border-radius:5px;
 	background-color:white;
 	box-shadow: 1px 1px 10px #707070;
-	top:10%;
+	top:20%;
 	left:55%;
 	padding:10px;
 	height:60%;
@@ -73,6 +77,7 @@ const PosterInformationModal=styled.div`
 	@media screen and (max-width:1370px){
 		left:20% !important;
 		width:70% !important;
+		top:10% !important;
 	}
 `;
 
@@ -112,15 +117,19 @@ const SmallPostInformationModal=styled.div`
 	border-radius:5px;
 	background-color:white;
 	box-shadow: 1px 1px 10px #707070;
-	top:10%;
+	top:12%;
 	left:65%;
 	padding:10px;
 	z-index:9;
+
+	@media screen and (max-width:1370px){
+		top:10% !important;
+	}
 `;
 
 const ApproveDisapproveContainer=styled.div`
 	position:fixed;
-	background-color:#1C1C1C;
+	background-color:white;
 	width:30%;
 	height:10%;
 	border-radius:5px;
@@ -129,6 +138,7 @@ const ApproveDisapproveContainer=styled.div`
 	height:25%;
 	overflow:scroll;
 	z-index:16;
+	box-shadow: 1px 1px 10px #707070;
 
 	@media screen and (max-width:1370px){
 		width:60% !important;
@@ -184,12 +194,27 @@ const ShadowButtonCSS={
 	borderRadius:"50%",
 	borderStyle:"none",
 	marginRight:"10%",
-	marginBottom:"2%"
+	marginBottom:"2%",
+	cursor:"pointer"
 }
+
+const BackButtonCSS={
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginLeft:"10%"
+}
+
+
 
 
 const BlogHomeDisplayPortal=(props)=>{
 	console.log(props);
+
 	const blog=props.selectedBlog.blog;
 	var DBEditorState = convertFromRaw(JSON.parse(blog));
 	var blogContentState=EditorState.createWithContent(DBEditorState);
@@ -200,6 +225,7 @@ const BlogHomeDisplayPortal=(props)=>{
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 	const [displayApproveDisapproveIndicator,changeDisplayApproveDisapproveIndicator]=useState(false);
+	const [displayCommentsContainer,changeDisplayCommentsContainer]=useState(false);
 
 	const approvesPostNumber=props.selectedBlog.isPostAuthentic.numOfApprove!=null?
 					   props.selectedBlog.isPostAuthentic.numOfApprove.length:0;
@@ -226,17 +252,17 @@ const BlogHomeDisplayPortal=(props)=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
 		if(displayStampEffect==false){
 			if(isPersonalProfile==true){
-				addStampPost(props.selectedBlog._id,"personal","Blogs");
+				addStampPost(props.selectedBlog._id,"personal","Blogs",props.personalId);
 			}else{
-				addStampPost(props.selectedBlog._id,"company","Blogs");
+				addStampPost(props.selectedBlog._id,"company","Blogs",props.personalId);
 			}
 			changeDisplayStampEffect(true);
 
 		}else{
 			if(isPersonalProfile==true){
-				unStampPost(props.selectedBlog._id,"personal","Blogs");
+				unStampPost(props.selectedBlog._id,"personal","Blogs",props.personalId);
 			}else{
-				unStampPost(props.selectedBlog._id,"company","Blogs");
+				unStampPost(props.selectedBlog._id,"company","Blogs",props.personalId);
 			}
 			changeDisplayStampEffect(false);
 		}
@@ -305,6 +331,21 @@ const BlogHomeDisplayPortal=(props)=>{
 				</React.Fragment>
 	}
 
+	const hideComments=()=>{
+		changeDisplayCommentsContainer(false);
+	}
+
+	const commentModal=()=>{
+		return (
+			<Comments
+				postId={props.selectedBlog._id}
+				postType={"Blogs"}
+				hideComments={hideComments}
+				targetDom={props.targetDom}
+			/>
+		)
+	}
+
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainerBlog onClick={()=>props.closeModal()}/>
@@ -322,8 +363,9 @@ const BlogHomeDisplayPortal=(props)=>{
 				/>
 				{displayLargeModal==true?
 					<PosterInformationModal>
-						<ul style={{padding:"0px"}}>
-
+						{displayCommentsContainer==true?
+							<>{commentModal()}</>
+						:<ul style={{padding:"0px"}}>
 							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									<ExpandMoreIcon
@@ -348,7 +390,7 @@ const BlogHomeDisplayPortal=(props)=>{
 											<img id="smallImagePicture" src={props.selectedBlog.owner.ownerImgUrl==null?
 													NoProfilePicture:
 													props.selectedBlog.owner.profilePicture
-												} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+												} style={{width:"100%",height:"20%",borderRadius:"50%"}}/>
 										</ProfilePicture>
 									</li>
 									<li style={{listStyle:"none"}}>
@@ -363,25 +405,30 @@ const BlogHomeDisplayPortal=(props)=>{
 
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"0px"}}>
-									<a href="javascript:void(0);">
-										<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
-											<LoyaltyIcon
-												style={{fontSize:30}}
-											/>
-										</li>
-									</a>
+									<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
+										<LoyaltyIcon
+											style={{fontSize:30}}
+										/>
+									</li>
 
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} 
-											style={ShadowButtonCSS}>
-											<PollIcon
-												style={{fontSize:"30"}}
-											/>
-										</li>
-									</a>
+									<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} style={ShadowButtonCSS}>
+										<PollIcon
+											style={{fontSize:"30"}}
+										/>
+									</li>
+
+									<li onClick={()=>changeDisplayCommentsContainer(true)} style={ShadowButtonCSS}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#585858" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+										  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+										  <line x1="8" y1="9" x2="16" y2="9" />
+										  <line x1="8" y1="13" x2="14" y2="13" />
+										</svg>
+									</li>
 								</ul>
 							</li>
 						</ul>
+						}
 					</PosterInformationModal>:
 					<SmallPostInformationModal>
 						{displayDesktopUI==false?

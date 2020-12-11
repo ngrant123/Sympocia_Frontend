@@ -261,65 +261,64 @@ const VideoDescriptionPortal=(props)=>{
 			/>
 			<Container>
 				{test()}
-						{videoElements.length>0?
-							<ul style={VideoResultContainerCSS}>
-								{videoElements.map(data=>
-									<li style={{listStyle:"none",marginBottom:"4%"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<VideoResultContainer>
-													<video id={'video'+data.videoCounter} width="100%" height="100%" autoplay="true" muted="muted">
-														<source src={data.videoSrc} type="video/mp4"/>
-													</video>
-											</VideoResultContainer>
-										</a>
-									</li>
-								)}
-							</ul>:null
-						}
-					
-
-					<video id="videoDescriptionVideo" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true" zIndex="2">
-					</video>
-
-					<ul id="videoControllerLI" style={{marginLeft:"40%",marginTop:"-10%",padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<ClipVideoContainer onClick={()=>reDoVideo()}>
-									<RefreshIcon
-										style={{fontSize:40,color:"white"}}
-									/>
-								</ClipVideoContainer>
-							</a>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<RecordButton>
-									{isRecording==false?
-										<PlayArrowIcon
-											onClick={()=>recording()}
-											style={{fontSize:40,color:"#C8B0F4"}}
-										/>:<PauseIcon
-												onClick={()=>pauseRecording(document.getElementById("videoDescriptionVideo").srcObject)}
-												style={{fontSize:40,color:"#C8B0F4"}}
-										/>
-									}
-								</RecordButton>
-							</a>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<SubmitVideoDescriptionContainer>
+				{videoElements.length>0?
+					<ul style={VideoResultContainerCSS}>
+						{videoElements.map(data=>
+							<li style={{listStyle:"none",marginBottom:"4%"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ReplyIcon
-										onClick={()=>submitVideoDescription()}
-										style={{fontSize:40,color:"white",zIndex:"4"}}
-									/>
+									<VideoResultContainer>
+											<video id={'video'+data.videoCounter} width="100%" height="100%" autoplay="true" muted="muted">
+												<source src={data.videoSrc} type="video/mp4"/>
+											</video>
+									</VideoResultContainer>
 								</a>
-							</SubmitVideoDescriptionContainer>
-						</li>
-					</ul>
+							</li>
+						)}
+					</ul>:null
 				}
+				
+
+				<video id="videoDescriptionVideo" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true" zIndex="2">
+				</video>
+
+				<ul id="videoControllerLI" style={{marginLeft:"40%",marginTop:"-10%",padding:"0px"}}>
+					<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<ClipVideoContainer onClick={()=>reDoVideo()}>
+								<RefreshIcon
+									style={{fontSize:40,color:"white"}}
+								/>
+							</ClipVideoContainer>
+						</a>
+					</li>
+
+					<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<RecordButton>
+								{isRecording==false?
+									<PlayArrowIcon
+										onClick={()=>recording()}
+										style={{fontSize:40,color:"#C8B0F4"}}
+									/>:<PauseIcon
+											onClick={()=>pauseRecording(document.getElementById("videoDescriptionVideo").srcObject)}
+											style={{fontSize:40,color:"#C8B0F4"}}
+									/>
+								}
+							</RecordButton>
+						</a>
+					</li>
+
+					<li style={{listStyle:"none",display:"inline-block"}}>
+						<SubmitVideoDescriptionContainer>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<ReplyIcon
+									onClick={()=>submitVideoDescription()}
+									style={{fontSize:40,color:"white",zIndex:"4"}}
+								/>
+							</a>
+						</SubmitVideoDescriptionContainer>
+					</li>
+				</ul>
 			</Container>
 		</React.Fragment>
 	,targetContainer)
