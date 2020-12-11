@@ -91,7 +91,7 @@ const StampButtonCSS={
 
 const AdditionalInformation=(props)=>{
 
-	const {postType}=props;
+	const {postType,profileId}=props;
 	console.log(props);
 	const [profilePictureContributors,changeContributors]=useState([{},{},{},{},{}]);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
@@ -102,17 +102,17 @@ const AdditionalInformation=(props)=>{
 		//(userId,postId,profileType,postType)
 		if(displayStampEffect==false){
 			if(isPersonalProfile==true){
-				addStampPost(props.blogData._id,"personal","Blogs");
+				addStampPost(props.blogData._id,"personal","Blogs",profileId);
 			}else{
-				addStampPost(props.blogData._id,"company","Blogs");
+				addStampPost(props.blogData._id,"company","Blogs",profileId);
 			}
 			changeDisplayStampEffect(true);
 
 		}else{
 			if(isPersonalProfile==true){
-				unStampPost(props.blogData._id,"personal","Blogs");
+				unStampPost(props.blogData._id,"personal","Blogs",profileId);
 			}else{
-				unStampPost(props.blogData._id,"company","Blogs");
+				unStampPost(props.blogData._id,"company","Blogs",profileId);
 			}
 			changeDisplayStampEffect(false);
 		}

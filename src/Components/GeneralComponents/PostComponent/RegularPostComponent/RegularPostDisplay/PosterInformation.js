@@ -121,7 +121,8 @@ const PosterInformation=(props)=>{
 		industriesUploaded,
 		datePosted,
 		_id,
-		contextLocation
+		contextLocation,
+		personalId
 	}=props.postData;
 
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
@@ -133,10 +134,10 @@ const PosterInformation=(props)=>{
 	const createOrRemoveStampEffect=()=>{
 		debugger;
 		if(displayStampEffect==false){
-			addStampPost(_id,"personal","RegularPosts");
+			addStampPost(_id,"personal","RegularPosts",personalId);
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(_id,"personal","RegularPosts");
+			unStampPost(_id,"personal","RegularPosts",personalId);
 			changeDisplayStampEffect(false);
 		}
 	}

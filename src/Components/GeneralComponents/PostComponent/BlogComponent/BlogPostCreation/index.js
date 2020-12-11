@@ -329,6 +329,7 @@ class BlogPostCreation extends Component{
 						<AdditionalInformation
 							blogData={this.props.location.state}
 							postType={this.props.location.state.postType}
+							profileId={this.props.personalInformation.id}
 						/>
 						<TextOptions
 							displayEditBlogSubmitModal={this.displayOrHideSubmitModal}

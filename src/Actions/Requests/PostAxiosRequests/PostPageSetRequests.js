@@ -74,14 +74,15 @@ export const createBlogPost=async(_id,searchCriteria,profileIndicator)=>{
 }
 
 
-export const addStampPost =async(postId,profileType,postType)=>{
+export const addStampPost =async(postId,profileType,postType,userId)=>{
 	try{
 		
 		
 		const postStampResponse= await axios.post(`${CreateURl}/addStamp`,{
 			postId:postId,
 			profileType:profileType,
-			postType:postType
+			postType:postType,
+			userId
 		});
 
 		const {data}=postStampResponse;
@@ -156,7 +157,7 @@ export const updateCrownedImage=async(_id,updatedStatus,imageId)=>{
 	}
 }
 
-export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment})=>{
+export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment,isOwnPost})=>{
 	try{
 		
 		const approvePostResponse=await axios.post(`${CreateURl}/markPostAsAuthentic`,{
@@ -164,7 +165,8 @@ export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment}
 			firstName:firstName,
 			postOption:postOption,
 			postId:postId,
-			comment:comment
+			comment:comment,
+			isOwnPost
 		});
 		const {data}=approvePostResponse;
 		return data;
@@ -175,7 +177,7 @@ export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment}
 	}
 }
 
-export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment})=>{
+export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment,isOwnPost})=>{
 	try{
 		
 		const fakeNewsPostResponse=await axios.post(`${CreateURl}/markPostAsFakeNews`,{
@@ -183,7 +185,8 @@ export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment})
 			firstName:firstName,
 			postOption:postOption,
 			postId:postId,
-			comment:comment
+			comment:comment,
+			isOwnPost
 		});
 		const {data}=fakeNewsPostResponse;
 		return data;
@@ -194,14 +197,15 @@ export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment})
 	}
 }
 
-export const createComment=async(postType,postId,comment,profileObject)=>{
+export const createComment=async(postType,postId,comment,profileObject,userId)=>{
 	try{
 		
 		const commentResponse=await axios.post(`${CreateURl}/createComment`,{
 			postType:postType,
 			postId:postId,
 			comment:comment,
-			profileObject:profileObject
+			profileObject:profileObject,
+			userId
 		})
 		const {data}=commentResponse;
 		return data;
@@ -247,7 +251,7 @@ export const createVideoResponse=async({postType,commentId,videoSrc,currentProfi
 	}
 }
 
-export const createVideoCommentReply=async({postType,postId,commentId,reply,profileObject,commentIndex})=>{
+export const createVideoCommentReply=async({postType,postId,commentId,reply,profileObject,commentIndex,userId})=>{
 	try{
 		const videoCommentResponse=await axios.post(`${CreateURl}/createVideoReply`,{
 			postType:postType,
@@ -255,7 +259,8 @@ export const createVideoCommentReply=async({postType,postId,commentId,reply,prof
 			commentId:commentId,
 			reply:reply,
 			profileObject:profileObject,
-			commentIndex
+			commentIndex,
+			userId
 		})
 		const {data}=videoCommentResponse;
 		return data;

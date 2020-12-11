@@ -172,7 +172,6 @@ class CommentsContainer extends Component{
 	}
 //
 	handleReplyFetch=async(commentId)=>{
-		
 		var indexOfComment=this.state.comments.findIndex(comment=>comment._id === commentId);
 		const replyObject={
 			postType:this.props.postType,
@@ -243,7 +242,8 @@ class CommentsContainer extends Component{
 			const {confirmation,data}=await createComment(this.props.postType,
 													 this.props.postId,
 													 comment,
-													 profileObject
+													 profileObject,
+													 this.props.personalState.id
 													);
 			
 			if(confirmation=="Success"){
@@ -357,7 +357,7 @@ class CommentsContainer extends Component{
 				reply:reply,
 				profileObject:profileObject,
 				postId:this.props.postId,
-				commentIndex:this.state.commentIndex
+				commentIndex:(this.state.comments.length-1)-this.state.commentIndex
 			}
 			const {confirmation,data}=await createReply(replyObject);
 			if(confirmation=="Success"){

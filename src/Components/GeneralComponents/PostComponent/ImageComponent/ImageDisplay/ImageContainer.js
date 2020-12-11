@@ -33,6 +33,7 @@ import {
 import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 import MobileUI from "./MobileUI.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
+import {useSelector} from  "react-redux";
 
 const ButtonCSS={
   listStyle:"none",
@@ -62,9 +63,8 @@ const ImageContainer=(props)=>{
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
+	const userId=useSelector(state=>state.personalInformation.id);
 
-
-	console.log(testIfUserIsUsingChrome());
 	useEffect(()=>{
 		triggerUIChange();
 	},[]);
@@ -87,16 +87,16 @@ const ImageContainer=(props)=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
 		if(displayStampEffect==false){
 			if(isPersonalProfile==true){
-				addStampPost(props.imageData._id,"personal","Images");
+				addStampPost(props.imageData._id,"personal","Images",userId);
 			}else{
-				addStampPost(props.imageData._id,"company","Images");
+				addStampPost(props.imageData._id,"company","Images",userId);
 			}
 			changeDisplayStampEffect(true);
 		}else{
 			if(isPersonalProfile==true){
-				unStampPost(props.imageData._id,"personal","Images");
+				unStampPost(props.imageData._id,"personal","Images",userId);
 			}else{
-				unStampPost(props.imageData._id,"company","Images");
+				unStampPost(props.imageData._id,"company","Images",userId);
 			}
 			changeDisplayStampEffect(false);
 		}
@@ -229,8 +229,7 @@ const ImageContainer=(props)=>{
 									</li>
 
 									<li id="postInformationLI" style={{listStyle:"none",display:"inline-block",padding:"0px"}}>
-										{
-											commentImageIndicator==true?
+										{commentImageIndicator==true?
 												<ImageInformation
 													imageInformation={props.imageData}
 													targetDom={props.targetDom}

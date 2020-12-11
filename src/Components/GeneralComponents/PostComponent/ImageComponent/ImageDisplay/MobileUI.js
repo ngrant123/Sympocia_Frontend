@@ -10,7 +10,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import EditImageCreation from "../ImageCreation/EditImageCreation.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {StampIconEffect} from "./ImageContainerCSS.js";
-
+import {useSelector} from "react-redux";
 import {
 	addStampPost,
 	unStampPost
@@ -144,6 +144,8 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 	const [displayEditImageModal,changeDisplayEditImageModal]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 
+	const userId=useSelector(state=>state.personalInformation.id);
+
 
 	const displayCommentsTrigger=()=>{
 		changePostInfoContainerDisplay(true);
@@ -207,10 +209,10 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 
 	const createOrRemoveStampEffect=()=>{
 		if(displayStampEffect==false){
-			addStampPost(imgData._id,"personal","Images");
+			addStampPost(imgData._id,"personal","Images",userId);
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(imgData._id,"personal","Images");
+			unStampPost(imgData._id,"personal","Images",userId);
 			changeDisplayStampEffect(false);
 		}
 	}
