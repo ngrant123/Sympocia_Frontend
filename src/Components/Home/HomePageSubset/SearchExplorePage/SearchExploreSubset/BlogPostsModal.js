@@ -448,6 +448,7 @@ const BlogPostModal=(props)=>{
 						selectedBlog={selectedBlog}
 						recommendedBlogs={displayRecommendedBlogs}
 						targetDom={props.targetDom}
+						personalId={personalInformationRedux.id}
 					/>
 			}
 	</React.Fragment>

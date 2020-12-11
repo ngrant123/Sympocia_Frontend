@@ -109,7 +109,8 @@ class BlogPostCreation extends Component{
 			displayApproveModal:false,
 			displayPromotePortal:false,
 			displayDesktopUI:false,
-			displayBlogCreationScreen:true
+			displayBlogCreationScreen:true,
+			isLoading:true
 		}
 	}
 
@@ -166,7 +167,8 @@ class BlogPostCreation extends Component{
 					isOwner:isOwner,
 					blogContent:blogContentState,
 					blogState:this.props.location.state,
-					isInEditMode:this.props.location.state.postType=="Creation"?false:true
+					isInEditMode:this.props.location.state.postType=="Creation"?false:true,
+					isLoading:false
 				})
 				this.triggerUIChange();
 			}
@@ -323,43 +325,48 @@ class BlogPostCreation extends Component{
 				/>
 				{this.state.displayBlogCreationScreen==true?
 					<>
-						{this.pollModal()}
-						{this.displayApproveDisapproveModal()}
-						<AdditionalInformation
-							blogData={this.props.location.state}
-							postType={this.props.location.state.postType}
-							profileId={this.props.personalInformation.id}
-						/>
-						<TextOptions
-							displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
-							blogState={this.state.blogState}
-							postType={this.props.location.state.postType}
-							displayCommentSection={this.displayCommentSection}
-							displayApproveDisapproveModalHandle={this.displayApproveDisapproveModalHandle}
-							triggerPromoteModal={this.triggerPromoteModal}
-							postId={this.props.location.state._id}
-							industriesUploaded={this.props.location.state.industriesUploaded}
-							history={this.props.history}
-							isOwner={this.state.isOwner}
-							isDesktop={this.state.displayDesktopUI}
-							profileId={this.props.personalInformation.id}
-						/>
-						<Blog
-							isDesktop={this.state.displayDesktopUI}
-						/>
-						{this.editBlogSubmitModal()}
-						{this.promotePortal()}
-						{this.state.displayComments && (
-							<CommentContainer>
-								<Comments
-									postId={this.props.location.state._id}
-									postType={"Blogs"}
-									hideComments={this.hideComments}
-									targetDom={"blogPostContainer"}
+						{this.state.isLoading==true?
+							<p>Please wait </p>:
+							<>
+								{this.pollModal()}
+								{this.displayApproveDisapproveModal()}
+								<AdditionalInformation
+									blogData={this.props.location.state}
+									postType={this.props.location.state.postType}
+									profileId={this.props.personalInformation.id}
 								/>
+								<TextOptions
+									displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
+									blogState={this.state.blogState}
+									postType={this.props.location.state.postType}
+									displayCommentSection={this.displayCommentSection}
+									displayApproveDisapproveModalHandle={this.displayApproveDisapproveModalHandle}
+									triggerPromoteModal={this.triggerPromoteModal}
+									postId={this.props.location.state._id}
+									industriesUploaded={this.props.location.state.industriesUploaded}
+									history={this.props.history}
+									isOwner={this.state.isOwner}
+									isDesktop={this.state.displayDesktopUI}
+									profileId={this.props.personalInformation.id}
+								/>
+								<Blog
+									isDesktop={this.state.displayDesktopUI}
+								/>
+								{this.editBlogSubmitModal()}
+								{this.promotePortal()}
+								{this.state.displayComments && (
+									<CommentContainer>
+										<Comments
+											postId={this.props.location.state._id}
+											postType={"Blogs"}
+											hideComments={this.hideComments}
+											targetDom={"blogPostContainer"}
+										/>
 
-							</CommentContainer>
-						)}
+									</CommentContainer>
+								)}
+							</>
+						}
 					</>
 					:<p style={{marginTop:"40%"}}> Unfortunately this isnt supported for you mobile device. Please switch to desktop to continue</p>
 				}

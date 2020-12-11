@@ -130,16 +130,16 @@ class CommentsContainer extends Component{
 				<ul style={{padding:"0px",backgroundColor:"white"}}>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<p style={BackButtonCSS} onClick={()=>this.props.hideComments()}>
-										Back
-									</p>
-								</a>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",cursor:"pointer"}}
+								 onClick={()=>this.props.hideComments()}>
+								<p style={BackButtonCSS} onClick={()=>this.props.hideComments()}>
+									Back
+								</p>
 							</li>
 
+
 							<li onClick={()=>this.setState({createVideoResponses:!this.state.createVideoResponses})}
-																	 style={{listStyle:"none",display:"inline-block"}}>
+																 style={{listStyle:"none",display:"inline-block"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									{this.state.displayCommentsOrVideoResponses==false?
 										<p style={BackButtonCSS}>
@@ -161,14 +161,15 @@ class CommentsContainer extends Component{
 									</CommentsTitleContainer>
 								</a>
 							</li>
-
-							<li  style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<VideoResponesTitleContainer id="videoResponsesTitleContainer" onClick={()=>this.handleDisplayVideoResponses()}>
-										Video Responses
-									</VideoResponesTitleContainer>
-								</a>
-							</li>
+							{this.props.postType!="RegularPosts" &&(
+								<li  style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<VideoResponesTitleContainer id="videoResponsesTitleContainer" onClick={()=>this.handleDisplayVideoResponses()}>
+											Video Responses
+										</VideoResponesTitleContainer>
+									</a>
+								</li>
+							)}
 						</ul>
 					</li>
 					{this.displayCommentsOrVideoResponses()}

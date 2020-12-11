@@ -63,6 +63,7 @@ const ImageContainer=(props)=>{
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
+	
 	const userId=useSelector(state=>state.personalInformation.id);
 
 	useEffect(()=>{
