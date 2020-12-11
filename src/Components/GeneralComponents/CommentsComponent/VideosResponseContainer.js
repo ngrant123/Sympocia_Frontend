@@ -163,7 +163,6 @@ class VideoResponseContainer extends Component{
 	}
 
 	handleCreateComment=async()=>{
-		
 		const comment=document.getElementById("comment").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={

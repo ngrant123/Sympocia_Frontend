@@ -24,7 +24,7 @@ class Blog extends Component{
 			firstTimeClick:true,
 			blogPostContents:"Testing blog contents",
 			firstEdit:true,
-			editorState:"",
+			editorState:this.props.blog,
 			initialValue:true
 		}
 	}
@@ -65,20 +65,11 @@ class Blog extends Component{
 	}
 
 	handleSetInitialBlogContent=(postInformation)=>{
-		debugger;
-		if(postInformation.blog!="" || postInformation.blog!=undefined){
-			this.setState({
-				editorState:postInformation.blog,
-				initialValue:false
-			},function(){
-				return this.state.editorState;	
-			})
-		}else{
-			return this.state.editorState;
-		}
+		this.setState({
+			editorState:postInformation.blog,
+			initialValue:false
+		})
 	}
-
-
 
 	render(){
 		return(
@@ -86,14 +77,14 @@ class Blog extends Component{
 				{postInformation=>{
 					return <Container>
 								<Editor
-									  editorState={this.handleSetInitialBlogContent(postInformation)}
-									  toolbarClassName="toolbarClassName"
-									  wrapperClassName="wrapperClassName"
-									  editorClassName="editorClassName"
-									  onEditorStateChange={this.onEditorStateChange}
-									  placeholder="Start typing to create your masterpiece"
-									  readOnly={!postInformation.isOwner}
-									  toolbarHidden={this.props.isDesktop==true?false:true}
+								  editorState={this.state.editorState}
+								  toolbarClassName="toolbarClassName"
+								  wrapperClassName="wrapperClassName"
+								  editorClassName="editorClassName"
+								  onEditorStateChange={this.onEditorStateChange}
+								  placeholder="Start typing to create your masterpiece"
+								  readOnly={!postInformation.isOwner}
+								  toolbarHidden={this.props.isDesktop==true?false:true}
 								/>
 								{this.handleBlogTextAreaChange(postInformation)}
 							</Container>

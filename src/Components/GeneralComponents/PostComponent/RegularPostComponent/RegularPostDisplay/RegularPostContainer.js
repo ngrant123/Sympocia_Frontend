@@ -188,8 +188,7 @@ const RegularPostContainer=(props)=>{
 										previousData={props.postData}
 										contextLocation={userPostsInformation}
 									/>
-									:
-									<ul style={{padding:"0px"}}>
+									:<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
 											<PosterInformation
 												postData={props.postData}
