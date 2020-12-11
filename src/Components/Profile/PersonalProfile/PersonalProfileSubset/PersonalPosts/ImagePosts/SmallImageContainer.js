@@ -122,10 +122,6 @@ const SmallImageContainer=(props)=>{
 					</>
 				)}
 				<Image>
-					<EditIcon
-						id="editIcon"
-						style={{position:"absolute",fontSize:35,color:"white"}}
-					/>
 					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
 						{testIfUserIsUsingChrome()==true &&(
 							<>
