@@ -56,6 +56,7 @@ const BlogPostCreation=React.lazy(()=>import("./Components/GeneralComponents/Pos
 const SearchPage=React.lazy(()=>import("./Components/SearchPage/index.js"))
 const Symposium=React.lazy(()=>import("./Components/Home/HomePageSubset/Symposium/ExtendedSymposium/index.js"))
 const SymposiumList=React.lazy(()=>import("./Components/Home/HomePageSubset/Symposium/SymposiumList/FeedContainer.js"))
+const Admin=React.lazy(()=>import("./Components/Admin/index.js"));
 
 
 const application  = (
@@ -73,6 +74,7 @@ const application  = (
 							<Route exact path="/search/:string/:searchType" component={SearchPage}/>
 							<Route exact path="/symposium/:symposiumName" component={Symposium}/>
 							<Route exact path="/symposiumList" component={SymposiumList}/>	
+							<Route exact path="/admin" component={Admin}/>
 
 							{/*
 								<Route exact path="/investor/:id" component= {InvestorScreen} />
