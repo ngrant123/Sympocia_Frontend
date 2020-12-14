@@ -31,15 +31,16 @@ const BlogsVideosContainer=styled.div`
 	}
 `;
 
-const VideoContainer=styled.div`
+const BlogContainer=styled.div`
 	position:absolute
 	display:flex;
 	flex-direction:column;
 	margin-left:15%;
-	width:40%;
 	height:95%;
 	background-color:white;
 	overflow:scroll;
+	padding:30px;
+	width:60%;
 
 	@media screen and (max-width:1370px){
 		width:90%;
@@ -73,11 +74,20 @@ const BlogThumbnail=styled.div`
 	border-color:#E6E6E6;
 	border-radius:5px;
 	margin-bottom:3%;
+	padding:10px;
 
 	@media screen and (max-width:1370px){
 		flex-direction:column;
 		width:120% !important;
 	}
+
+	@media screen and (max-width:600px){
+		margin-left:-10%;
+	}
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		margin-left:0%;
+    }
 `;
 
 const BlogDescriptions=styled.div`
@@ -92,6 +102,7 @@ const HeaderTitle=styled.div`
 `;
 
 
+/*
 const BlogContainer=styled.div`
 	width:35%;
 	height:95%;
@@ -110,6 +121,7 @@ const BlogContainer=styled.div`
 		height:20% !important;
     }
 `;
+*/
 
 const BackButton=styled.div`
   list-style:none;
@@ -156,9 +168,10 @@ const CommunityContainer=()=>{
 	useEffect(()=>{
 		debugger;
 		const fetchData=async()=>{
-			let {confirmation,data}=await getSympociaInterviews({interviewMetaData:InterviewMetadata.interviews});
+			//let {confirmation,data}=await getSympociaInterviews({interviewMetaData:InterviewMetadata.interviews});
+			const confirmation="Success";
 			if(confirmation=="Success"){
-				changeVideoFiles([...data]);
+				//changeVideoFiles([...data]);
 				const blogData=BlogsData();
 				changeBlogFiles([...blogData]);
 
@@ -240,41 +253,29 @@ const CommunityContainer=()=>{
 						}
 					</DisplayContainer>
 					:<>
-						<VideoContainer>
-							<p style={{fontSize:"20px"}}>
-								<b>Sympocia Interviews</b>
-							</p>
-							<p style={{color:"#848484"}}>Here are any sympocia interviews that we have completed. Feel free to comment on any that you want </p>
-							<hr/>
-							{videoFiles.map((data,index)=>
-								<VideoThumbnail onClick={()=>selectInterview(data,index)}>
-									{videoThumbnail(data,index)}
-								</VideoThumbnail>
-							)}
-						</VideoContainer>
-						<BlogContainer>
-							<p style={{fontSize:"20px"}}>
+							<BlogContainer>
+								<p style={{fontSize:"20px"}}>
 								<b>Blogs</b>
-							</p>
-							<p style={{color:"#848484"}}>
-								Here are any blogs that have written. I hope this gives you some insight into what Sympocia is and what we 
-								represent. If you would like to be feature here please email us at nathan@sympocia.com 
-							</p>
-							<hr/>
-							{blogFiles.map((data,index)=>
-								<BlogThumbnail onClick={()=>selectBlog(data,index)}>
-									<img src={data.headerImage.default} style={{marginRight:"2%",position:"relative",width:"200px",height:"200px",borderRadius:"50%"}}/>
-									<BlogDescriptions>
-										<p style={{fontSize:"20px"}}>
-											<b>{data.title}</b>
-										</p>
-										<p style={{color:"#A4A4A4"}}>
-											{data.description}
-										</p>
-									</BlogDescriptions>
-								</BlogThumbnail>
-							)}
-						</BlogContainer>
+								</p>
+								<p style={{color:"#848484"}}>
+									Here are any blogs that have written. I hope this gives you some insight into what Sympocia is and what we 
+									represent. If you would like to be feature here please email us at nathan@sympocia.com 
+								</p>
+								<hr/>
+								{blogFiles.map((data,index)=>
+									<BlogThumbnail onClick={()=>selectBlog(data,index)}>
+										<img src={data.headerImage.default} style={{marginRight:"2%",position:"relative",width:"200px",height:"200px",borderRadius:"50%"}}/>
+										<BlogDescriptions>
+											<p style={{fontSize:"20px"}}>
+												<b>{data.title}</b>
+											</p>
+											<p style={{color:"#A4A4A4"}}>
+												{data.description}
+											</p>
+										</BlogDescriptions>
+									</BlogThumbnail>
+								)}
+							</BlogContainer>
 					</>
 				}
 			</BlogsVideosContainer>
