@@ -27,8 +27,41 @@ import {
 	CreateButton,
 	BackgroundContainer
 } from "./NavBarCSS.js";
+import {
+	getNotifications,
+	notificationStatusCheck
+} from "../../../../Actions/Requests/NotificationsRequests.js";
+import Notifications from "../../NotificationComponent/index.js";
 
 
+const NotificationIconContainer=styled.div`
+	border-radius:50%;
+	background-color:#C8B0F4;
+	border-color:white;
+	border-style:solid;
+	border-width:5px;
+	animation: glowing 1300ms infinite;
+	margin-right:2%;
+	cursor:pointer;
+
+	@keyframes glowing {
+      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+  }
+  	@media screen and (max-width:1200px){
+			width:60px !important;
+			height:60px !important;
+    }
+    @media screen and (max-width:1080px){
+			width:50px !important;
+			height:50px !important;
+    }
+     @media screen and (max-width:1080px){
+			width:70px !important;
+			height:70px !important;
+    }
+`;
 
 const ButtonsListCSS={
 	display:"inline-block",
@@ -71,7 +104,8 @@ const MobileChatOptionCSS={
 const MobileRouteOptionCSS={
 	color:"#5298F8",
 	borderStyle:"none",
-	backgroundColor:"white"
+	backgroundColor:"#5298F8",
+	padding:"10px"
 }
 
 const MobileSearchButtonCSS={
@@ -83,10 +117,16 @@ const MobileSearchButtonCSS={
 	display:"inline-block"
 }
 
+const TestContainaer=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
 /*
-So right now the nav bar is just explore, home page, and view messages
-in the future I want to add the option of profile picture, notifications and other pages 
-to it 
+	So right now the nav bar is just explore, home page, and view messages
+	in the future I want to add the option of profile picture, notifications and other pages 
+	to it 
+
+	Component will have to be refactored later cause it lowkey dont make sense 
 */
 
 const NavBar=(pageProps)=>{
@@ -109,6 +149,10 @@ const NavBar=(pageProps)=>{
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
 	const [displayAnonymousTipsPortal,changeDispalyAnonymousTipsPortal]=useState(false);
 
+	const [displayNotificationIndicator,changeDisplayNotificationIndicator]=useState(false);
+	const [displayNotifications,changeDisplayNotifications]=useState(false);
+	const [notifications,changeNotifications]=useState();
+
 
 	const triggerUIChange=()=>{
 		if(window.innerWidth<595){
@@ -129,16 +173,32 @@ const NavBar=(pageProps)=>{
 			changeDisplayPhoneUI(false);
 		}
 	}
+	const triggerSetTimeout=(seconds)=>{
+		return new Promise(resolve => setTimeout(resolve, seconds));
+	}
 
 	useEffect(()=>{
-		if(personalProfileState.id!=null){
+		const initialSetUp=async()=>{
+			debugger;
 			changeDisplayPersonalProfileIcon(true);
+			triggerUIChange();
+			const notificationTriggerCheck=true;
+			/*
+				while(notificationTriggerCheck){
+					await triggerSetTimeout(10000);
+					const {confirmation,data}=await notificationStatusCheck(personalProfileState.id);
+					if(confirmation=="Success"){
+						if(data==true){
+							alert('You got mail nigga');
+						}
+					}
+				}
+
+			*/
 		}
-		if(companyProfileState.id!=null){
-			changeDisplayCompanyProfileIcon(true);
-		}
-		triggerUIChange();
-	},[])
+
+		initialSetUp();
+	})
 
 	window.addEventListener('resize',triggerUIChange)
 
@@ -164,75 +224,74 @@ const NavBar=(pageProps)=>{
 	const closeSearchModal=()=>{
 		changeDisplaySearchModal(false);
 	}
+
 	const logoutUser=()=>{
 		console.log("Testing");
+	}
+
+	const fetchNotificationData=async()=>{
+		changeDisplayNotifications(true)
 	}
 
 	const personalProfileIpadPages=()=>{
 		return(
 			<>
-				<li style={ButtonsListCSS}>
-					{personalProfileState.loggedIn==true?
-							<ul style={{padding:"0px"}}>
-								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileRouteOptionCSS}>
-										<NavBarButton>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<AccountCircleIcon/>
-											</li>
-
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												Me
-											</li>
-										</NavBarButton>
-									</button>
-									
-
-									<ul class="dropdown-menu">
-										<li>
-											<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
-										</li>
-										<li>
-											<Link onClick={()=>logoutUser()} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
-												Logout
-											</Link>
-										</li>
-										<hr/>
-										<li style={{cursor:"pointer",paddingLeft:"10px"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
-											Send opinion
-										</li>
-									</ul>
-								</div>
-							</ul>:
-						<NavBarButton to={`/companyProfile/${companyProfileState.id}`}>
+				<TestContainaer> 
+					<NotificationIconContainer onClick={()=>fetchNotificationData()}>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-urgent" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <path d="M8 16v-4a4 4 0 0 1 8 0v4" />
+						  <path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7" />
+						  <rect x="6" y="16" width="12" height="4" rx="1" />
+						</svg>
+					</NotificationIconContainer>
+					<div>
 						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<AccountCircleIcon/>
-							</li>
+							<div class="dropdown">
+								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileRouteOptionCSS}>
+									<NavBarButton>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<AccountCircleIcon/>
+										</li>
 
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								Me
-							</li>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											Me
+										</li>
+									</NavBarButton>
+								</button>
+								
+
+								<ul class="dropdown-menu">
+									<li>
+										<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
+									</li>
+									<li>
+										<Link onClick={()=>logoutUser()} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
+											Logout
+										</Link>
+									</li>
+									<hr/>
+									<li style={{cursor:"pointer",paddingLeft:"10px"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
+										Send opinion
+									</li>
+								</ul>
+							</div>
 						</ul>
-						</NavBarButton>
-					}
-				</li>
-				<li style={ButtonsListCSS}>
-						<CreateButton>
-							<ul style={{padding:"0px"}}>
+					</div>
+					<CreateButton>
+						<ul style={{padding:"0px"}}>
 
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<AddCircleIcon
-										/>
-									</li>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<AddCircleIcon
+									/>
+								</li>
 
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										Create
-									</li>
-							</ul>
-						</CreateButton>
-					</li>
-				<li style={ButtonsListCSS}>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									Create
+								</li>
+						</ul>
+					</CreateButton>
+
 					<NavBarButton  to="/home">
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>
@@ -244,7 +303,10 @@ const NavBar=(pageProps)=>{
 							</li>
 						</ul>
 					</NavBarButton>
-				</li>
+
+					<div>
+					</div>
+				</TestContainaer>
 			</>
 		)
 	}
@@ -253,10 +315,22 @@ const NavBar=(pageProps)=>{
 		changeDispalyAnonymousTipsPortal(false);
 	}
 
+	const closeNotificatoinsPortal=()=>{
+		changeDisplayNotifications(false);
+	}
+
 
 
 	return(
 		<Container>
+			{displayNotifications==true &&(
+				<Notifications
+					targetDom={targetDom}
+					closeModal={closeNotificatoinsPortal}
+					userId={personalProfileState.id}
+				/>
+			)}
+
 			{displayAnonymousTipsPortal==true &&(
 				<AnonymousSuggestionPortal
 					closeModal={closeAnonymousTipPortals}
@@ -342,7 +416,7 @@ const NavBar=(pageProps)=>{
 			</ul>
 
 			{displayDesktopUI==true && (
-				<ul style={{marginLeft:"35%",top:"7%"}}>
+				<ul style={{marginLeft:"32%",top:"7%"}}>
 					{personalProfileIpadPages()}
 				</ul>
 			)}

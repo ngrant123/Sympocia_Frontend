@@ -83,7 +83,7 @@ const ExploreIconContainer=styled.div`
 	padding:10px;
 	box-shadow: 1px 1px 1px 1px #d5d5d5;
 	transition:.8s;
-
+	z-index:50;
 	&:hover{
 		box-shadow: 1px 1px 10px #707070;	
 	}
