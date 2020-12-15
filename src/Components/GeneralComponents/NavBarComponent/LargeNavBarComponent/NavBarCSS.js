@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 
 export const Container=styled.div`
+	background-color:white;
 	position:fixed;
 	width:100%;
 	height:14%;
@@ -135,7 +136,6 @@ export const CompanyProfileNotificationsContainer=styled.div`
 `;
 
 export const NavBarButton=styled(Link)`
-	position:absolute;
 	background-color:#5298F8;
 	padding:10px;
 	color:white;
@@ -153,12 +153,13 @@ export const NavBarButton=styled(Link)`
 
 
 export const CreateButton=styled.div`
-	position:absolute;
 	background-color:#C8B0F4;
 	padding:10px;
 	color:white;
 	border-radius:5px;
 	filter: blur(4px);
+	margin-right:5%;
+	margin-left:5%;
 	
 	@media screen and (max-width:960px) {
 		margin-top:-25px;
