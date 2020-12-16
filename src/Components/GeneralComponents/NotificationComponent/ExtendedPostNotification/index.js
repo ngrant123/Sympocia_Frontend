@@ -85,6 +85,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 			}else{
 
 			}
+			
 			changeIsLoading(false);
 		}
 

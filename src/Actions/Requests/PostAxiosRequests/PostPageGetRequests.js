@@ -317,6 +317,23 @@ export const getRegularCommentReplyById=async({postId,postType,replyId,commentID
 	}
 }
 
+export const getPostById=async({postId,userId,postType})=>{
+	try{
+		const postResponse=await axios.get(`${SearchUrl}/getPostById`,{
+			params:{
+				postId,
+				userId,
+				postType
+			}
+		})
+		debugger;
+		const {data}=postResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
 
 
 
