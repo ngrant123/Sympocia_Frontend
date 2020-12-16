@@ -231,6 +231,94 @@ export const getIndustryAudioFeatureAnswers=async({industryId,question,questionI
 
 
 
+export const getCommentByID=async({postType,commentId,postId})=>{
+	try{
+		const commentResponse=await axios.get(`${SearchUrl}/getCommentByID`,{
+			params:{
+				postType,
+				commentId,
+				postId
+			}
+		})
+		const {data}=commentResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+
+export const getVideoCommentById=async({postType,commentId,postId})=>{
+	try{
+		const videoCommentResponse=await axios.get(`${SearchUrl}/getVideoCommentById`,{
+			params:{
+				postType,
+				commentId,
+				postId
+			}
+		})
+		const {data}=videoCommentResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+
+export const getAuthenticPostById=async({postType,commentId,postId})=>{
+	try{
+		const authenticPostResponse=await axios.get(`${SearchUrl}/getAuthenticPostById`,{
+			params:{
+				postType,
+				commentId,
+				postId
+			}
+		})
+		const {data}=authenticPostResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+
+export const getVideoCommentReplyById=async({postId,postType,replyId,commentID})=>{
+	try{
+		const videoCommentReplyResponse=await axios.get(`${SearchUrl}/getVideoCommentReplyById`,{
+			params:{
+				postId,
+				postType,
+				replyId,
+				commentID
+			}
+		})
+		const {data}=videoCommentReplyResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+
+export const getRegularCommentReplyById=async({postId,postType,replyId,commentID})=>{
+	try{
+		const regularPostResponse=await axios.get(`${SearchUrl}/getRegularCommentReplyById`,{
+			params:{
+				postId,
+				postType,
+				replyId,
+				commentID
+			}
+		})
+		const {data}=regularPostResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+
+
 
 
 
