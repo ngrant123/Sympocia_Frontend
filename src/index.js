@@ -56,7 +56,10 @@ const BlogPostCreation=React.lazy(()=>import("./Components/GeneralComponents/Pos
 const SearchPage=React.lazy(()=>import("./Components/SearchPage/index.js"))
 const Symposium=React.lazy(()=>import("./Components/Home/HomePageSubset/Symposium/ExtendedSymposium/index.js"))
 const SymposiumList=React.lazy(()=>import("./Components/Home/HomePageSubset/Symposium/SymposiumList/FeedContainer.js"))
-
+const UrlEnteredImageDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/ImageDisplay.js"));
+const UrlEnteredVideoDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/VideoDisplay.js"));
+const UrlEnteredRegularPostDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/RegularPostDisplay.js"));
+const UrlEnteredBlogDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/BlogDisplay.js"));
 
 const application  = (
 		<ErrorBoundary>
@@ -72,7 +75,11 @@ const application  = (
 							<Route exact path="/blog/:id" component={BlogPostCreation}/>
 							<Route exact path="/search/:string/:searchType" component={SearchPage}/>
 							<Route exact path="/symposium/:symposiumName" component={Symposium}/>
-							<Route exact path="/symposiumList" component={SymposiumList}/>	
+							<Route exact path="/symposiumList" component={SymposiumList}/>
+							<Route exact path="/image/:id" component={UrlEnteredImageDisplay}/>
+							<Route exact path="/video/:id" component={UrlEnteredVideoDisplay}/>
+							<Route exact path="/blog/:id" component={UrlEnteredBlogDisplay}/>
+							<Route exact path="/regularPost/:id" component={UrlEnteredRegularPostDisplay}/>
 
 							{/*
 								<Route exact path="/investor/:id" component= {InvestorScreen} />

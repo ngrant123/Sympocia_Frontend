@@ -8,8 +8,6 @@ import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/Perso
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector} from "react-redux";
 
-
-
 const Container=styled.div`
 	position:fixed;
 	width:65%;
