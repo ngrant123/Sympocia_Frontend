@@ -88,11 +88,14 @@ const Notification=({targetDom,closeModal,userId})=>{
 	const [displayExtendedPostNotification,changeDisplayExtendedPostNotification]=useState(false);
 	const [extendedNotificationData,changeExtendedNotificationData]=useState();
 
+	const [postIdUrl,changePostIdUrl]=useState();
+	const [postId,changePostId]=useState();
+
 	useEffect(()=>{
 		const fetchData=async()=>{
 			const {confirmation,data}=await getNotifications(userId);
 			if(confirmation=="Success"){
-
+				debugger;
 				changeCurrentFilterNotifications([...data]);
 				changeNotifications([...data]);
 				changeIsLoading(false);
@@ -125,19 +128,19 @@ const Notification=({targetDom,closeModal,userId})=>{
 		changePostSpecificNotifications({...data});
 	}
 
-	const createPostUrl=(postType,postUrl,postSubmitted)=>{
+	const createPostUrl=(postType,postUrl,isAudioPost)=>{
 		return(
 			<div>
 				{(postType=="Images" || postType=="Videos" || postType=="Blogs")==true?
 					<p>{postUrlContruct(postType,postUrl)}</p>:
 					<>
-						{postUrl!=null?
+						{isAudioPost==true?
 							<audio style={{width:"50px"}} key={this.uuidv4()} controls>
 							  <source src={postUrl} type="audio/ogg"/>
 							  <source src={postUrl} type="audio/mpeg"/>
 							Your browser does not support the audio element.
 							</audio>:
-							<p style={{color:"#A4A4A4",width:"70px",overflow:"hidden"}}>{postSubmitted}</p>
+							<p style={{color:"#A4A4A4",width:"70px",overflow:"hidden"}}>{postUrl}</p>
 						}
 					</>
 				}
@@ -146,10 +149,10 @@ const Notification=({targetDom,closeModal,userId})=>{
 	}
 
 	const constructPost=(data)=>{
-		const {postType,post,postUrl,postSubmitted}=data;
+		const {postType,post,postUrl,isAudioPost}=data;
 		return(
 			<PostContainer onClick={()=>displayPostSpecificNotifications(data)}>
-				{createPostUrl(postType,postUrl,postSubmitted)}
+				{createPostUrl(postType,postUrl,isAudioPost)}
 				<p style={{marginLeft:"2%"}}>
 					<b>{post.length}</b> new notifications for this post
 				</p>
@@ -159,18 +162,26 @@ const Notification=({targetDom,closeModal,userId})=>{
 
 	const filterNotifications=(filterSelection)=>{}
 
+	const triggerDisplayExtendedNotification=(data,postUrl,postId)=>{
+		debugger;
+		changePostId(postId);
+		changePostIdUrl(postUrl);
+		changeExtendedNotificationData({...data});
+		changeDisplayExtendedPostNotification(true);
+	}
+
 	const constructSelectedPostNotifications=()=>{
-		const {postType,post,postUrl,postSubmitted}=postSpecificNotifications;
+		debugger;
+		const {postType,post,postUrl,isAudioPost,_id}=postSpecificNotifications;
 		const stampCounter=0;
 		const authenticationCounter=0;
-		console.log(post);
 		return(
 			<>
-				{createPostUrl(postType,postUrl,postSubmitted)}
+				{createPostUrl(postType,postUrl,isAudioPost)}
 				<hr style={HorizontalLineCSS}/>
 				{post.map(data=>
 					<>
-						<NotificationContainer onClick={()=>changeExtendedNotificationData({...data})}>
+						<NotificationContainer onClick={()=>triggerDisplayExtendedNotification(data,postUrl,_id)}>
 							{data.notificationType=="Stamp" &&(
 								<>
 									<img src={StampIcon} style={{height:"20px",width:"20px"}}/>
@@ -221,7 +232,7 @@ const Notification=({targetDom,closeModal,userId})=>{
 	}
 
 	const closeExtendedPostNotificationPortal=()=>{
-		changeDisplayExtendedPostNotification(true);
+		changeDisplayExtendedPostNotification(false);
 	}
 
 	return createPortal(
@@ -231,7 +242,8 @@ const Notification=({targetDom,closeModal,userId})=>{
 					targetDom={targetDom}
 					closeModal={closeExtendedPostNotificationPortal}
 					data={extendedNotificationData}
-					headerPostUrl={postUrl}
+					headerUrl={postIdUrl}
+					postId={postId}
 				/>
 			)}
 			<Container>
