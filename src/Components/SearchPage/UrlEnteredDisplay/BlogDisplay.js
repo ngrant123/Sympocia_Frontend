@@ -120,13 +120,16 @@ class BlogDisplay extends Component{
 								</li>
 							</ul>
 						</ExploreIconContainer>
-						<BlogDisplayContainer
-							closeModal={this.closeModal}
-							selectedBlog={this.state.postData}
-							recommendedBlogs={[]}
-							targetDom={"urlEnteredBlogContainer"}
-							personalId={this.props.personalState.id}
-						/>
+						<div style={{marginTop:"40px"}}>
+							<BlogDisplayContainer
+								closeModal={this.closeModal}
+								selectedBlog={this.state.postData}
+								recommendedBlogs={[]}
+								targetDom={"urlEnteredBlogContainer"}
+								displayShadowContainer={false}
+								personalId={this.props.personalState.id}
+							/>
+						</div>
 					</PostContainer>
 					:<LoadingAnimation/>
 				}
