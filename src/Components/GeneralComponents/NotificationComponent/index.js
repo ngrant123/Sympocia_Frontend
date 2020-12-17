@@ -11,7 +11,7 @@ const Container=styled.div`
 	width:25%;
 	height:50%;
 	background-color:white;
-	z-index:45;
+	z-index:50;
 	overflow:scroll;
 	top:20%;
 	border-radius:5px;
@@ -52,7 +52,7 @@ const ShadowContainer= styled.div`
 	width:150%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:40;
+	z-index:45;
 	top:0px;
 	left:-2%;
 `;
@@ -78,7 +78,7 @@ const HorizontalLineCSS={
 	marginRight:"0"
 }
 
-const Notification=({targetDom,closeModal,userId})=>{
+const Notification=({targetDom,closeModal,userId,history})=>{
 	const [isLoading,changeIsLoading]=useState(true);
 	const [notifications,changeNotifications]=useState();
 	const [currentFilterdNotifications,changeCurrentFilterNotifications]=useState();
@@ -87,6 +87,7 @@ const Notification=({targetDom,closeModal,userId})=>{
 	const [postSpecificNotifications,changePostSpecificNotifications]=useState();
 	const [displayExtendedPostNotification,changeDisplayExtendedPostNotification]=useState(false);
 	const [extendedNotificationData,changeExtendedNotificationData]=useState();
+	const [isPostAudio,changeIsPostAudio]=useState();
 
 	const [postIdUrl,changePostIdUrl]=useState();
 	const [postId,changePostId]=useState();
@@ -162,10 +163,11 @@ const Notification=({targetDom,closeModal,userId})=>{
 
 	const filterNotifications=(filterSelection)=>{}
 
-	const triggerDisplayExtendedNotification=(data,postUrl,postId)=>{
+	const triggerDisplayExtendedNotification=(data,postUrl,postId,isAudioPost)=>{
 		debugger;
 		changePostId(postId);
 		changePostIdUrl(postUrl);
+		changeIsPostAudio(isAudioPost);
 		changeExtendedNotificationData({...data});
 		changeDisplayExtendedPostNotification(true);
 	}
@@ -181,7 +183,7 @@ const Notification=({targetDom,closeModal,userId})=>{
 				<hr style={HorizontalLineCSS}/>
 				{post.map(data=>
 					<>
-						<NotificationContainer onClick={()=>triggerDisplayExtendedNotification(data,postUrl,_id)}>
+						<NotificationContainer onClick={()=>triggerDisplayExtendedNotification(data,postUrl,_id,isAudioPost)}>
 							{data.notificationType=="Stamp" &&(
 								<>
 									<img src={StampIcon} style={{height:"20px",width:"20px"}}/>
@@ -206,7 +208,7 @@ const Notification=({targetDom,closeModal,userId})=>{
 								<>
 									<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
 									 style={{borderRadius:"50%",height:"30px",width:"30px"}}/>
-									<p>{data.owner.firstName} has commented on your video reply</p>
+									<p>{data.owner.firstName} has commented on your reply</p>
 								</>
 							)}
 
@@ -235,6 +237,18 @@ const Notification=({targetDom,closeModal,userId})=>{
 		changeDisplayExtendedPostNotification(false);
 	}
 
+	const displayPostElementPage=(postType,postId)=>{
+		if(postType=="Images"){
+			history.push(`/image/${postId}`);
+		}else if(postType=="Videos"){
+			history.push(`/video/${postId}`);
+		}else if(postType=="Blogs"){
+			history.push(`/blog/${postId}`);
+		}else{
+			history.push(`/regularPost/${postId}`);
+		}
+	}
+
 	return createPortal(
 		<>
 			{displayExtendedPostNotification==true &&(
@@ -244,6 +258,8 @@ const Notification=({targetDom,closeModal,userId})=>{
 					data={extendedNotificationData}
 					headerUrl={postIdUrl}
 					postId={postId}
+					displayPostElementPage={displayPostElementPage}
+					isPostAudio={isPostAudio}
 				/>
 			)}
 			<Container>

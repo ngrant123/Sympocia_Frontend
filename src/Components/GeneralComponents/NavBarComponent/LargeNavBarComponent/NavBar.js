@@ -328,6 +328,7 @@ const NavBar=(pageProps)=>{
 					targetDom={targetDom}
 					closeModal={closeNotificatoinsPortal}
 					userId={personalProfileState.id}
+					history={pageProps.pageProps.routerHistory}
 				/>
 			)}
 

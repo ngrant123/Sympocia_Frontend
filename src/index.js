@@ -72,7 +72,7 @@ const application  = (
 							<Route exact path="/logout" component= {Landing}/>
 							<Route exact path="/signup" component={Signup}/>
 							<Route exact path="/home" component= {HomeScreen}/>
-							<Route exact path="/blog/:id" component={BlogPostCreation}/>
+							<Route exact path="/createBlog" component={BlogPostCreation}/>
 							<Route exact path="/search/:string/:searchType" component={SearchPage}/>
 							<Route exact path="/symposium/:symposiumName" component={Symposium}/>
 							<Route exact path="/symposiumList" component={SymposiumList}/>

@@ -348,7 +348,9 @@ const BlogHomeDisplayPortal=(props)=>{
 
 	return createPortal(
 		<React.Fragment>
-			<ShadowContainerBlog onClick={()=>props.closeModal()}/>
+			{(props.displayShadowContainer!=null && props.displayShadowContainer!=false) &&(
+				<ShadowContainerBlog onClick={()=>props.closeModal()}/>
+			)}
 			<Container>	
 				{pollModal()}
 				{displayApproveDisapproveModal()}
