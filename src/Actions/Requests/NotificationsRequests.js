@@ -20,15 +20,28 @@ export const notificationStatusCheck=async(userId)=>{
 	}
 }
 
-export const getNotifications=async(ownerId)=>{
+export const getNotifications=async(ownerId,notificationsType)=>{
 	try{
 		const notificationsResponse=await axios.get(`${NotificationUrl}/getNotifications`,{
 			params:{
-				ownerId
+				ownerId,
+				notificationsType
 			}
 		})
 
 		const {data}=notificationsResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+export const clearNewNotifications=async(ownerId)=>{
+	try{
+		const clearedNewNotificationsResponse=await axios.post(`${NotificationUrl}/clearNewNotifications`,{
+			ownerId
+		});
+		const {data}=clearedNewNotificationsResponse;
 		return data;
 	}catch(err){
 		return err;
