@@ -460,7 +460,7 @@ class LargePostComponent extends Component{
 							</li>
 							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"-10px"}}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<BlogOptionButton id="blogCreationButton" to={{pathname:`/blog/${this.props._id}`,state:{postType:"Creation"}}}>
+									<BlogOptionButton id="blogCreationButton" to={{pathname:`/createBlog`,state:{postType:"Creation"}}}>
 										Blog
 									</BlogOptionButton>
 								</a>

@@ -142,7 +142,7 @@ const NoPostsModal=(props)=>{
 											<a href="javascript:void(0);" style={{textDecoration:"none",color:"white"}}>
 												<li onClick={()=>postContext.updatePostComponent(props.postType)}style={{marginLeft:"33%",listStyle:"none",display:"inline-block",padding:"5px",color:"white",backgroundColor:"#C8B0F4",borderRadius:"5px",padding:"10px",fontSize:"15px"}}>
 													{props.postType=="blog"?
-														<BlogCreationButton style={{textDecoration:"none",color:"white"}} to={{pathname:`/blog/${props._id}`,state:{postType:"Creation"}}}>
+														<BlogCreationButton style={{textDecoration:"none",color:"white"}} to={{pathname:`/createBlog`,state:{postType:"Creation"}}}>
 															<p>
 																Upload a {props.postType}
 															</p>

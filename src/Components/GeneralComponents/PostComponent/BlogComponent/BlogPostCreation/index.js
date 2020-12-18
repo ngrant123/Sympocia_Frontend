@@ -309,7 +309,6 @@ class BlogPostCreation extends Component{
 		return(
 			<BlogProvider value={{
 				blog:this.state.blogContent,
-				isOwner:this.state.isOwner,
 				personInformation:this.state.userInformation,
 				blogPostState:this.state.blog,
 				updateBlogPost:(blogPost)=>{
@@ -346,7 +345,6 @@ class BlogPostCreation extends Component{
 									postId={this.props.location.state._id}
 									industriesUploaded={this.props.location.state.industriesUploaded}
 									history={this.props.history}
-									isOwner={this.state.isOwner}
 									isDesktop={this.state.displayDesktopUI}
 									profileId={this.props.personalInformation.id}
 								/>
