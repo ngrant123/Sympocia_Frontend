@@ -1,7 +1,10 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import {getNotifications} from "../../../Actions/Requests/NotificationsRequests.js";
+import {
+		getNotifications,
+		clearNewNotifications
+	} from "../../../Actions/Requests/NotificationsRequests.js";
 import StampIcon from "../../../designs/img/StampIcon.png";
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import ExtendedPostNotificationPortal from "./ExtendedPostNotification/index.js";
@@ -62,6 +65,12 @@ const SelectedFilterContainer=styled.div`
 	flex-direction:row;
 `;
 
+const TitleContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+`;
+
 const ButtonCSS={
 	borderColor:"#5298F8",
 	borderStyle:"solid",
@@ -94,16 +103,7 @@ const Notification=({targetDom,closeModal,userId,history})=>{
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			const {confirmation,data}=await getNotifications(userId);
-			if(confirmation=="Success"){
-				debugger;
-				changeCurrentFilterNotifications([...data]);
-				changeNotifications([...data]);
-				changeIsLoading(false);
-			}else{
-				alert('Unfortunately there has been an error getting your notifications. Please try again');
-				closeModal();
-			}
+			triggerGetNotifications("New")
 		}
 		fetchData();
 	},[]);
@@ -249,6 +249,22 @@ const Notification=({targetDom,closeModal,userId,history})=>{
 		}
 	}
 
+
+	const triggerGetNotifications=async(notificationsStatus)=>{
+		changeIsLoading(true);
+
+		const {confirmation,data}=await getNotifications(userId,notificationsStatus);
+		if(confirmation=="Success"){
+			debugger;
+			changeCurrentFilterNotifications([...data]);
+			changeNotifications([...data]);
+			changeIsLoading(false);
+		}else{
+			alert('Unfortunately there has been an error getting your notifications. Please try again');
+			closeModal();
+		}
+	}
+
 	return createPortal(
 		<>
 			{displayExtendedPostNotification==true &&(
@@ -277,9 +293,17 @@ const Notification=({targetDom,closeModal,userId,history})=>{
 							</>
 							:
 							<>
-								<p style={{fontSize:"20px"}}>
-								<b>Notifications</b>
-								</p>
+								<TitleContainer>
+									<p onClick={()=>triggerGetNotifications("New")}
+										style={{fontSize:"20px",marginRight:"5%"}}>
+										<b>Notifications</b>
+									</p>
+									<p onClick={()=>triggerGetNotifications("Previous")}
+										style={{cursor:"pointer",color:"#C8B0F4"}}>
+										Previous Notifications
+									</p>
+								</TitleContainer>
+
 								<hr style={HorizontalLineCSS}/>
 								<SelectedFilterContainer>
 									<div class="dropdown">

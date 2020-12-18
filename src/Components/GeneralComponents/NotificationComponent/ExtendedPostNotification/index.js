@@ -217,7 +217,13 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 						</div>
 					)
 				}else if(notificationType=="RegularReply"){
-					return <p>{notification.reply}</p>
+					return <div>
+								<p>Your comment:</p>
+								<p>{notification.parentComment}</p>
+								<hr/>
+								<p>{data.owner.firstName}'s comment:</p>
+								<p>{notification.reply}</p>
+							</div>
 				}else{
 			   		return <video key={uuidv4()} width="60%" height="100%" autoplay="true" muted controls>
 								<source src={notification.videoSrc} type="video/mp4"/>

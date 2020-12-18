@@ -29,26 +29,38 @@ import {
 } from "./NavBarCSS.js";
 import {
 	getNotifications,
-	notificationStatusCheck
+	notificationStatusCheck,
+	clearNewNotifications
 } from "../../../../Actions/Requests/NotificationsRequests.js";
 import Notifications from "../../NotificationComponent/index.js";
 
 
 const NotificationIconContainer=styled.div`
 	border-radius:50%;
-	background-color:#C8B0F4;
+	background-color:${({displayNotificationIndicator})=>(displayNotificationIndicator ?"red":"#C8B0F4")}
 	border-color:white;
 	border-style:solid;
 	border-width:5px;
-	animation: glowing 1300ms infinite;
 	margin-right:2%;
 	cursor:pointer;
 
-	@keyframes glowing {
-      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
-      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
-      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
-  }
+	${({ displayNotificationIndicator }) =>
+    displayNotificationIndicator ?
+    `
+    animation: glowing 1300ms infinite;
+     background: #C8B0F4;
+     @keyframes glowing {
+	      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+	      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+	      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+	  }
+    `:
+	`
+	border-color:#A4A4A4;
+	background:#BDBDBD;
+	`}
+
+
   	@media screen and (max-width:1200px){
 			width:60px !important;
 			height:60px !important;
@@ -62,6 +74,8 @@ const NotificationIconContainer=styled.div`
 			height:70px !important;
     }
 `;
+
+
 
 const ButtonsListCSS={
 	display:"inline-block",
@@ -173,7 +187,7 @@ const NavBar=(pageProps)=>{
 			changeDisplayPhoneUI(false);
 		}
 	}
-	const triggerSetTimeout=(seconds)=>{
+	const triggerSetTimeout=(seconds)=>{    
 		return new Promise(resolve => setTimeout(resolve, seconds));
 	}
 
@@ -183,18 +197,15 @@ const NavBar=(pageProps)=>{
 			changeDisplayPersonalProfileIcon(true);
 			triggerUIChange();
 			const notificationTriggerCheck=true;
-			/*
-				while(notificationTriggerCheck){
-					await triggerSetTimeout(10000);
-					const {confirmation,data}=await notificationStatusCheck(personalProfileState.id);
-					if(confirmation=="Success"){
-						if(data==true){
-							alert('You got mail nigga');
-						}
+			while(notificationTriggerCheck){
+				await triggerSetTimeout(10000);
+				const {confirmation,data}=await notificationStatusCheck(personalProfileState.id);
+				if(confirmation=="Success"){
+					if(data==true){
+						changeDisplayNotificationIndicator(true);
 					}
 				}
-
-			*/
+			}
 		}
 
 		initialSetUp();
@@ -237,7 +248,7 @@ const NavBar=(pageProps)=>{
 		return(
 			<>
 				<TestContainaer> 
-					<NotificationIconContainer onClick={()=>fetchNotificationData()}>
+					<NotificationIconContainer displayNotificationIndicator={displayNotificationIndicator} onClick={()=>fetchNotificationData()}>
 						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-urgent" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
 						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 						  <path d="M8 16v-4a4 4 0 0 1 8 0v4" />
@@ -245,7 +256,7 @@ const NavBar=(pageProps)=>{
 						  <rect x="6" y="16" width="12" height="4" rx="1" />
 						</svg>
 					</NotificationIconContainer>
-					<div>
+					<div style={{marginLeft:"5%"}}>
 						<ul style={{padding:"0px"}}>
 							<div class="dropdown">
 								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileRouteOptionCSS}>
@@ -315,18 +326,18 @@ const NavBar=(pageProps)=>{
 		changeDispalyAnonymousTipsPortal(false);
 	}
 
-	const closeNotificatoinsPortal=()=>{
+	const closeNotificationsPortal=()=>{
+		clearNewNotifications(personalProfileState.id);
 		changeDisplayNotifications(false);
+		changeDisplayNotificationIndicator(false);
 	}
-
-
 
 	return(
 		<Container>
 			{displayNotifications==true &&(
 				<Notifications
 					targetDom={targetDom}
-					closeModal={closeNotificatoinsPortal}
+					closeModal={closeNotificationsPortal}
 					userId={personalProfileState.id}
 					history={pageProps.pageProps.routerHistory}
 				/>
