@@ -163,9 +163,7 @@ class BlogsPostsContainer extends Component{
 
 	async componentDidMount(){
 		if(this.props.profileType=="Personal"){
-			
 			const {	confirmation,data}=await getBlogFromUser({userId:this.props.id,visitorId:this.props.visitorId});
-			
 			if(confirmation=="Success"){
 				const {
 					crownedBlog,
@@ -178,7 +176,7 @@ class BlogsPostsContainer extends Component{
 					headerBlog:crownedBlog==={}?null:crownedBlog,
 					blogs:blogArray,
 					isLoading:false,
-					blogUrl:`/blog/${this.props.id}`,
+					blogUrl:`/createBlog`,
 					profileType:"Personal"
 				})
 			}else{
@@ -218,6 +216,7 @@ class BlogsPostsContainer extends Component{
 		return(
 			<UserConsumer>
 				{personalInformation=>{
+
 					return <Container>
 						{this.state.isLoading==true?<p>Currently loading blog posts</p>:
 							<React.Fragment>
@@ -230,7 +229,7 @@ class BlogsPostsContainer extends Component{
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none"}}>
 												{this.state.headerBlog==null?<React.Fragment></React.Fragment>:
-													<ThumbnailBlogComponent to={{pathname:`${this.state.blogUrl}`,
+													<ThumbnailBlogComponent to={{pathname:`${personalInformation.isOwnProfile==true?'/createBlog':'/blog/this.state.headerBlog._id'}`,
 																						state:{
 																								...this.state.headerBlog,
 																								profileType:this.state.profileType,
@@ -328,7 +327,7 @@ class BlogsPostsContainer extends Component{
 											<li style={{listStyle:"none",marginTop:"5%"}}>	
 												<ul style={{padding:"0px"}}>
 													{this.state.blogs.map(data=>
-														<BlogContainer to={{pathname:`${this.state.blogUrl}`,
+														<BlogContainer to={{pathname:`${personalInformation.isOwnProfile==true?'/createBlog':'/blog/data._id'}`,
 																						state:{
 																								...data,
 																								profileType:this.state.profileType,

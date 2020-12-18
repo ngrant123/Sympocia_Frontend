@@ -83,7 +83,7 @@ class Blog extends Component{
 								  editorClassName="editorClassName"
 								  onEditorStateChange={this.onEditorStateChange}
 								  placeholder="Start typing to create your masterpiece"
-								  readOnly={!postInformation.isOwner}
+								  readOnly={false}
 								  toolbarHidden={this.props.isDesktop==true?false:true}
 								/>
 								{this.handleBlogTextAreaChange(postInformation)}
