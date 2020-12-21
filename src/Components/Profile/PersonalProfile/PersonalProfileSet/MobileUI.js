@@ -46,8 +46,8 @@ const PersonalInformationContainer=styled.div`
 		width:90% !important;
 		left:5% !important;
     }
-
 `;
+
 const EditNodeContainer=styled.div`
 	position:fixed;
 	width:25%;

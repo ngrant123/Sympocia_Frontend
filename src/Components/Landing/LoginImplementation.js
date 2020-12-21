@@ -6,9 +6,13 @@ import {
          updatefirstTimeUsage,
          loginCompanyPage
   } from "../../Actions/Redux/Actions/CompanyActions.js";
+
 import {
-  signInPersonalUser
+  signInPersonalUser,
+  setPersonalProfileAccessToken,
+  setPersonalProfileRefreshToken
 } from '../../Actions/Redux/Actions/PersonalProfile';
+
 import {loginProfile} from "../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const Container=styled.div`
@@ -93,12 +97,13 @@ const MobileLoginUI=({history})=>{
         <li id="loginBoxLI" style={{marginBottom:"5%",listStyle:"none",width:"90%"}}>
             <LoginBox id="LoginEmail" placeholder="Email"/>
         </li>
+
         <li id="loginBoxLI" style={{listStyle:"none",width:"90%"}}>
             <LoginBox  id="LoginPassword" placeholder="Password"/>
         </li>
 
         <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-          <li style={MobileButtonCSS} onClick ={() =>  handleLoginClick(
+          <li style={MobileButtonCSS} onClick={() =>  handleLoginClick(
                                           document.getElementById("LoginEmail").value,
                                           document.getElementById("LoginPassword").value,
                                           dispatch,
@@ -118,11 +123,20 @@ const handleLoginClick=async(email,password,dispatch,history)=>{
     alert(loginResults);
   }else{
     debugger;
-    const {passWordIndicator,profileType,profile}=loginResults;
+    const {
+      passWordIndicator,
+      profileType,
+      profile,
+      accessToken,
+      refreshToken
+    }=loginResults;
+
     const promises=[]
 
     promises.push(dispatch(signInPersonalUser(profile)));
     promises.push(dispatch(loginCompanyPage(false)));
+    promises.push(dispatch(setPersonalProfileAccessToken(accessToken)));
+    promises.push(dispatch(setPersonalProfileRefreshToken(refreshToken)));
 
     Promise.all(promises).then(result=>{
       history.push('/home');

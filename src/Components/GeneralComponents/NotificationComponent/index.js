@@ -8,6 +8,8 @@ import {
 import StampIcon from "../../../designs/img/StampIcon.png";
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import ExtendedPostNotificationPortal from "./ExtendedPostNotification/index.js";
+import {refreshToken} from "../../../Actions/Requests/JWTRequests.js"; 
+import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -87,7 +89,7 @@ const HorizontalLineCSS={
 	marginRight:"0"
 }
 
-const Notification=({targetDom,closeModal,userId,history})=>{
+const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	const [isLoading,changeIsLoading]=useState(true);
 	const [notifications,changeNotifications]=useState();
 	const [currentFilterdNotifications,changeCurrentFilterNotifications]=useState();
@@ -260,8 +262,14 @@ const Notification=({targetDom,closeModal,userId,history})=>{
 			changeNotifications([...data]);
 			changeIsLoading(false);
 		}else{
-			alert('Unfortunately there has been an error getting your notifications. Please try again');
-			closeModal();
+			const {statusCode}=data;
+			if(statusCode==401){
+				const {refreshToken}=tokens;
+				await refreshTokenApiCallHandle(refreshToken,userId,triggerGetNotifications);
+			}else{
+				alert('Unfortunately there has been an error getting your notifications. Please try again');
+				closeModal();
+			}
 		}
 	}
 

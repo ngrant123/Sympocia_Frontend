@@ -9,7 +9,9 @@ const initialState={
 	signInStatus:false,
 	paymentPlan:'',
 	firstTimeIndicator:false,
-	loggedIn:false
+	loggedIn:false,
+	accessToken:"",
+	refreshToken:""
 }
 
 const PersonalProfile=(state={initialState},action)=>{
@@ -89,7 +91,9 @@ const PersonalProfile=(state={initialState},action)=>{
 				firstName,
 				lastName,
 				email,
-				_id
+				_id,
+				accessToken,
+				refreshToken
 			}=payload;
 
 			return {
@@ -100,14 +104,31 @@ const PersonalProfile=(state={initialState},action)=>{
 				email,
 				signInStatus:true,
 				paymentPlan:'',
-				loggedIn:true
+				loggedIn:true,
+				accessToken,
+				refreshToken
 			}
 			break;
 		}
+		
 		case 'LOGOUT_USER':{
 			debugger;
 			return initialState
 			break;
+		}
+
+		case 'ACCESS_TOKEN':{
+			return{
+				...state,
+				accessToken:payload
+			}
+		}
+
+		case 'REFRESH_TOKEN':{
+			return{
+				...state,
+				refreshToken:payload
+			}
 		}
 
 		default:{

@@ -340,6 +340,10 @@ const NavBar=(pageProps)=>{
 					closeModal={closeNotificationsPortal}
 					userId={personalProfileState.id}
 					history={pageProps.pageProps.routerHistory}
+					tokens={{
+						accessToken:personalProfileState.accessToken,
+						refreshToken:personalProfileState.refreshToken
+					}}
 				/>
 			)}
 

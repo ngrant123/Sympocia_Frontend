@@ -120,7 +120,7 @@ class PersonalSignUp extends Component{
 				email:email,
 				isInvestor:false,
 				password:password
-			}
+ 			}
 			const {confirmation,data}=await createProfile(profile);
 
 			if(confirmation=="Success"){ 
@@ -130,11 +130,9 @@ class PersonalSignUp extends Component{
 					loginCompanyPage
 				}=this.props;
 
-
-
 				promises.push(signInPersonalUser({
 					...profile,
-					_id:data._id
+					...data
 				}));
 			    promises.push(loginCompanyPage(false));
 

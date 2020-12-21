@@ -456,8 +456,8 @@ export const loginProfile=async(email,password)=>{
 	try{
 		
 		const loginResponse=await axios.post(`${CreateUrl}/loginProfile`,{
-									email,
-									password
+								email,
+								password
 							});
 
 		const {data}=loginResponse;
