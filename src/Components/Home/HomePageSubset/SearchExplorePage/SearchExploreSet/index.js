@@ -14,12 +14,13 @@ import BlogsPostsModal from '../SearchExploreSubset/BlogPostsModal.js';
 import RegularPostsModal from '../SearchExploreSubset/RegularPostsModal.js';
 
 import {
-		getPostsForHomePage,
 		exploreImagePosts,
 		exploreVideoPosts,
 		exploreBlogPosts,
 		exploreRegularPosts
 	} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+import {refreshTokenApiCallHandle} from "./../../../../../Actions/Tasks/index.js";
+import {setPersonalProfileAccessToken} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
 	@media screen and (max-width:1370px) and (max-height:1030px){
@@ -199,7 +200,7 @@ class SearchExploreContainer extends Component{
 		//If user just gets to the page set industry to general and postType to images
 		window.addEventListener('resize',this.triggerUIChange)
 		
-		this.changeHomePagePosts(this.state.postOption);
+		this.changeHomePagePosts({postOption:this.state.postOption});
 		this.triggerUIChange();
 	}
 
@@ -212,7 +213,7 @@ class SearchExploreContainer extends Component{
 		this.setState({
 			selectedIndustries:selectedIndustries
 		},function(){
-			this.changeHomePagePosts(this.state.postOption);
+			this.changeHomePagePosts({postOption:this.state.postOption});
 		})
 	}
 
@@ -220,18 +221,19 @@ class SearchExploreContainer extends Component{
 		this.setState({
 			selectedSubCommunities:selectedSubCommunities
 		},function(){
-			this.changeHomePagePosts(this.state.postOption);
+			this.changeHomePagePosts({postOption:this.state.postOption});
 		})
 	}
 
-	changeHomePagePosts=async(postOption)=>{
+	changeHomePagePosts=async({postOption})=>{
 		debugger;
 		console.log(postOption);
 		var homePagePostsResponse;
 		var profileId=(this.props.personalInformation.loggedIn==true)?this.props.personalInformation.id:this.props.companyInformation.id;
 		const searchParameters={
 			id:profileId,
-			postCount:this.state.postCount
+			postCount:this.state.postCount,
+			accessToken:this.props.personalInformation.accessToken
 		}
 		if(postOption=="Images"){
 			homePagePostsResponse=await exploreImagePosts(searchParameters);
@@ -244,14 +246,31 @@ class SearchExploreContainer extends Component{
 		}
 		var {confirmation,data}=homePagePostsResponse;
 		if(confirmation=="Success"){
-			var newHomePagePosts=this.addSuggestedSymposiums(data);
+			debugger;
+			const {message}=data;
+			var newHomePagePosts=this.addSuggestedSymposiums(message);
 			this.setState({
 				postsInformation:newHomePagePosts,
 				isLoading:false
 			})
-
 		}else{
-			alert('Unfortunately there has been an error in retrieving you data. Please try again');
+			debugger;
+			const {statusCode}=data;
+			if(statusCode==401){
+
+				await refreshTokenApiCallHandle(
+						this.props.personalInformation.refreshToken,
+						this.props.personalInformation.id,
+						this.changeHomePagePosts,
+						this.props.setPersonalProfileAccessToken,
+						{
+							postOption
+						},
+						true
+					);
+			}else{
+				alert('Unfortunately there has been an error in retrieving you data. Please try again');
+			}
 		}
 	}
 
@@ -292,7 +311,7 @@ class SearchExploreContainer extends Component{
 			postOption:props,	
 			isLoading:true
 		},function(){
-			this.changeHomePagePosts(props);
+			this.changeHomePagePosts({postOption:props});
 		})
 	}
 
@@ -513,9 +532,16 @@ const mapStateToProps=(state)=>{
 	}
 }
 
+
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken))
+	}
+}
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(SearchExploreContainer);
 
 

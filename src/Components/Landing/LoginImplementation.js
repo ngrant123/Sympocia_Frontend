@@ -117,19 +117,18 @@ const MobileLoginUI=({history})=>{
 }
 
 const handleLoginClick=async(email,password,dispatch,history)=>{
-  const loginResults=await loginProfile(email,password);
+  const {confirmation,data}=await loginProfile(email,password);
 
-  if(typeof loginResults!='object'){ 
-    alert(loginResults);
-  }else{
+  if(confirmation=="Success"){
     debugger;
+    const {message}=data;
     const {
       passWordIndicator,
       profileType,
       profile,
       accessToken,
       refreshToken
-    }=loginResults;
+    }=message;
 
     const promises=[]
 
@@ -141,6 +140,14 @@ const handleLoginClick=async(email,password,dispatch,history)=>{
     Promise.all(promises).then(result=>{
       history.push('/home');
     })
+
+  }else{
+    const {statusCode}=data;
+    if(statusCode==400){
+      alert('Incorrect password. Please try again');
+    }else{
+      alert('Unfortunately there has been an error trying to login. Please try again');
+    }
   }
 }
 

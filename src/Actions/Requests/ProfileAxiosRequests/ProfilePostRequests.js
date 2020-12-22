@@ -8,81 +8,7 @@ const CreateUrl=process.env.NODE_ENV=='production'?
 				process.env.REACT_APP_PROFILE_SET_URL:
 				process.env.REACT_APP_TEST_PROFILE_SET_URL;
 
-export function addEmployeeData(userId,employeeData){
-	/*
-		userId:number
-		employeeData:object
-	*/
 
-	axios.put(`${baseurl}/addEmployee`,{
-
-		params:{
-			userid:userId,
-			employeedata:employeeData
-		}
-	}).then(res=>{
-
-	}).catch(err=>{
-	})
-}
-
-
-export function addNewsData(userId,newsData){
-
-	/*
-		userId:number
-		newsdata:object
-	*/
-	axios.put(`${baseurl}/addNews`,{
-
-		params:{
-			userid:userId,
-			newsdata:newsData
-		}
-	}).then(res=>{
-	}).catch(err=>{
-
-	})
-}
-
-export function addPostData(userId,postData){
-
-	/*
-		userId:number
-		postdata:object
-	*/
-
-	axios.post(`${baseurl}/addPost`,{
-
-		params:{
-			userid:userId,
-			postdata:postData
-		}
-	}).then(res=>{
-
-	}).catch(err=>{
-
-	})
-}
-
-export function updateEmployee(userId,updatedEmployeeData){
-
-	/*
-		userId:number
-		updateemployeedata:object
-	*/
-
-	axios.put(`${baseurl}/updateEmployee`,{
-		params:{
-			userid:userId,
-			updatedemployeedata:updatedEmployeeData
-		}
-	}).then(res=>{
-
-
-	}).catch(err=>{
-	})
-}
 
 export async function createProfile(personalData){
 	debugger;
@@ -461,8 +387,7 @@ export const loginProfile=async(email,password)=>{
 							});
 
 		const {data}=loginResponse;
-		const loginData=data.data;
-		return loginData;
+		return data;
 	}catch(err){
 		return err;
 	}
