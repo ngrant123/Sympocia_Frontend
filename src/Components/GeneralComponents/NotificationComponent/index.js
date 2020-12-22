@@ -10,6 +10,7 @@ import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import ExtendedPostNotificationPortal from "./ExtendedPostNotification/index.js";
 import {refreshToken} from "../../../Actions/Requests/JWTRequests.js"; 
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
+import {useDispatch} from "react-redux";
 
 const Container=styled.div`
 	position:fixed;
@@ -102,10 +103,13 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 
 	const [postIdUrl,changePostIdUrl]=useState();
 	const [postId,changePostId]=useState();
+	const dispatch=useDispatch();
+	const {accessToken}=tokens;
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			triggerGetNotifications("New")
+			debugger;
+			triggerGetNotifications({notificationsStatus:"New",accessToken})
 		}
 		fetchData();
 	},[]);
@@ -252,20 +256,28 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	}
 
 
-	const triggerGetNotifications=async(notificationsStatus)=>{
+	const triggerGetNotifications=async({notificationsStatus,accessToken})=>{
 		changeIsLoading(true);
-
-		const {confirmation,data}=await getNotifications(userId,notificationsStatus);
+		const {confirmation,data}=await getNotifications(userId,notificationsStatus,accessToken);
 		if(confirmation=="Success"){
 			debugger;
-			changeCurrentFilterNotifications([...data]);
-			changeNotifications([...data]);
+			const {message}=data;
+			changeCurrentFilterNotifications([...message]);
+			changeNotifications([...message]);
 			changeIsLoading(false);
 		}else{
 			const {statusCode}=data;
 			if(statusCode==401){
 				const {refreshToken}=tokens;
-				await refreshTokenApiCallHandle(refreshToken,userId,triggerGetNotifications);
+				await refreshTokenApiCallHandle(
+						refreshToken,
+						userId,
+						triggerGetNotifications,
+						dispatch,
+						{
+							notificationsStatus
+						}
+					);
 			}else{
 				alert('Unfortunately there has been an error getting your notifications. Please try again');
 				closeModal();
@@ -302,11 +314,11 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 							:
 							<>
 								<TitleContainer>
-									<p onClick={()=>triggerGetNotifications("New")}
+									<p onClick={()=>triggerGetNotifications({notificationsStatus:"New",accessToken})}
 										style={{fontSize:"20px",marginRight:"5%"}}>
 										<b>Notifications</b>
 									</p>
-									<p onClick={()=>triggerGetNotifications("Previous")}
+									<p onClick={()=>triggerGetNotifications({notificationsStatus:"Previous",accessToken})}
 										style={{cursor:"pointer",color:"#C8B0F4"}}>
 										Previous Notifications
 									</p>

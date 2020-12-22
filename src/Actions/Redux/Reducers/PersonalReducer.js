@@ -15,7 +15,7 @@ const initialState={
 }
 
 const PersonalProfile=(state={initialState},action)=>{
-
+	debugger;
 	const { type, payload }=action;
 	switch(type){
 

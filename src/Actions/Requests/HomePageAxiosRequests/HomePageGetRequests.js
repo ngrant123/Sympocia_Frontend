@@ -1,125 +1,10 @@
 import axios from "axios";
 import BASE_URL from "../../../Constants/constants.js";
 
-const baseurl=""+BASE_URL.BASE_URL;
 const GetUrl=process.env.NODE_ENV=='production'?
 			process.env.REACT_APP_HOME_GET_URL:
 			process.env.REACT_APP_TEST_HOME_GET_URL;
 
-export function getNewFeedUpdates(userId){
-	//userId:number
-
-
-	axios.get(`${baseurl}/Posts`,{
-
-		params:{
-			userId
-			} 
-		}).
-		then(response=>{
-		}).
-		catch(err=>{
-		})
-
-}
-
-export function getNotificationsUpdate(userId){
-	//userId:number
-
-	axios.get(`${baseurl}/Notifications`, { 
-
-		params: { 
-			id:userId 
-			}
-		}).
-		then(response=>{
-		}).
-		catch(err=>{
-		})
-}
-
-
-export function getPosts(industryid){
-	//industryId:number
-
-
-	axios.get(`${baseurl}/getPosts`, {
-		params:{ 
-				industryid: industryid 
-			}
-		}).
-		then(response=>{
-		}).
-		catch(err=>{
-		})
-}
-
-export function getUserCompanyInformation(userId){
-
-	axios.get(`${baseurl}/getUserCompanyInfo`,{
-		params:{
-			userid:userId
-		}
-	}).then(res=>{
-	}).catch(err=>{
-	})
-}
-
-export function getUserDataInfo(userId){
-
-
-	axios.get(`${baseurl}/getUserData`,{
-		params:{
-			userid:userId
-		}
-	}).then(res=>{
-
-	}).catch(err=>{
-	})
-}
-
-
-export function getCommunitiesNotFollowed(userId){
-
-	axios.get(`${GetUrl}/getCommunitiesNotFollowed`,{
-		_id:userId
-	}).then(posts=>{
-		return posts;
-	}).catch(err=>{
-	})
-}
-
-export function getCommunityById(communityId){
-
-	axios.get(`${GetUrl}/getCommunityById`,{
-		_id:communityId
-	}).then(communityData=>{
-		const {data}=communityData;
-		return data;
-	}).catch(err=>{
-	})
-}
-
-
-export async function getPostsForHomePage(userId,industrySelected,postTypes){
-	try{
-		
-		const postResponse=await axios.get(`${GetUrl}/getPostsForHomePage`,{
-			params:{
-				id:userId,
-				industry:JSON.stringify(industrySelected),
-				postTypes:postTypes
-			}
-		});
-		const {data}=postResponse;
-		const posts=data.data;
-		return posts;
-
-	}catch(err){
-		const {data}=err;
-		return data;
-	}
-}
 
 export const getSymposiumId=async(name)=>{
 	try{
@@ -138,13 +23,16 @@ export const getSymposiumId=async(name)=>{
 
 }
 
-export const exploreImagePosts=async({id,postCount})=>{
+export const exploreImagePosts=async({id,postCount,accessToken})=>{
 	try{
 		
 		const imageResults=await axios.get(`${GetUrl}/getExploreImagePosts`,{
 			params:{
 				_id:id,
 				postCount:postCount
+			},
+			headers:{
+				authorization:accessToken
 			}
 		});
 
@@ -155,13 +43,16 @@ export const exploreImagePosts=async({id,postCount})=>{
 	}
 }
 
-export const exploreVideoPosts=async({id,postCount})=>{
+export const exploreVideoPosts=async({id,postCount,accessToken})=>{
 	try{
 		
 		const videoResults=await axios.get(`${GetUrl}/getExploreVideoPosts`,{
 			params:{
 				_id:id,
 				postCount:postCount
+			},
+			headers:{
+				authorization:accessToken
 			}
 		});
 
@@ -173,12 +64,15 @@ export const exploreVideoPosts=async({id,postCount})=>{
 	}
 }
 
-export const exploreBlogPosts=async({id,postCount})=>{
+export const exploreBlogPosts=async({id,postCount,accessToken})=>{
 	try{
 		const blogResults=await axios.get(`${GetUrl}/getExploreBlogsPosts`,{
 			params:{
 				_id:id,
 				postCount:postCount
+			},
+			headers:{
+				authorization:accessToken
 			}
 		});
 
@@ -189,12 +83,15 @@ export const exploreBlogPosts=async({id,postCount})=>{
 	}
 }
 
-export const exploreRegularPosts=async({id,postCount})=>{
+export const exploreRegularPosts=async({id,postCount,accessToken})=>{
 	try{
 		const regularPostResults=await axios.get(`${GetUrl}/getExploreRegularPosts`,{
 			params:{
 				_id:id,
 				postCount:postCount
+			},
+			headers:{
+				authorization:accessToken
 			}
 		});
 

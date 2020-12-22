@@ -33,7 +33,7 @@ import {
 	clearNewNotifications
 } from "../../../../Actions/Requests/NotificationsRequests.js";
 import Notifications from "../../NotificationComponent/index.js";
-
+import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 
 const NotificationIconContainer=styled.div`
 	border-radius:50%;
@@ -166,7 +166,11 @@ const NavBar=(pageProps)=>{
 	const [displayNotificationIndicator,changeDisplayNotificationIndicator]=useState(false);
 	const [displayNotifications,changeDisplayNotifications]=useState(false);
 	const [notifications,changeNotifications]=useState();
-
+	const {
+			refreshToken,
+			accessToken,
+			id
+		}=personalProfileState;
 
 	const triggerUIChange=()=>{
 		if(window.innerWidth<595){
@@ -187,6 +191,7 @@ const NavBar=(pageProps)=>{
 			changeDisplayPhoneUI(false);
 		}
 	}
+
 	const triggerSetTimeout=(seconds)=>{    
 		return new Promise(resolve => setTimeout(resolve, seconds));
 	}
@@ -198,20 +203,43 @@ const NavBar=(pageProps)=>{
 			triggerUIChange();
 			const notificationTriggerCheck=true;
 			while(notificationTriggerCheck){
-				await triggerSetTimeout(10000);
-				const {confirmation,data}=await notificationStatusCheck(personalProfileState.id);
-				if(confirmation=="Success"){
-					if(data==true){
-						changeDisplayNotificationIndicator(true);
-					}
-				}
+				await triggerSetTimeout(40000);
+				await statusCheckTrigger({id,accessToken,refreshToken});
 			}
 		}
-
 		initialSetUp();
-	})
+	},[])
 
 	window.addEventListener('resize',triggerUIChange)
+	const statusCheckTrigger=async({id,accessToken,refreshToken})=>{
+	/*
+		const {confirmation,data}=await notificationStatusCheck(id,accessToken);
+		if(confirmation=="Success"){
+			const {message}=data;
+			if(message==true){
+				changeDisplayNotificationIndicator(true);
+			}else{
+				changeDisplayNotificationIndicator(false);
+			}
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						refreshToken,
+						id,
+						statusCheckTrigger,
+						dispatch,
+						{
+							id,
+							accessToken,
+							refreshToken
+						}
+					);
+			}
+		}
+	*/
+	} 
+
 
 
 	const displayChatContainerForPersonalPage=(pageProps)=>{
@@ -327,7 +355,7 @@ const NavBar=(pageProps)=>{
 	}
 
 	const closeNotificationsPortal=()=>{
-		clearNewNotifications(personalProfileState.id);
+		clearNewNotifications(personalProfileState.id,accessToken);
 		changeDisplayNotifications(false);
 		changeDisplayNotificationIndicator(false);
 	}
