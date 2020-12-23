@@ -20,7 +20,10 @@ import {
 		exploreRegularPosts
 	} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 import {refreshTokenApiCallHandle} from "./../../../../../Actions/Tasks/index.js";
-import {setPersonalProfileAccessToken} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
 	@media screen and (max-width:1370px) and (max-height:1030px){
@@ -178,7 +181,8 @@ class SearchExploreContainer extends Component{
 			postsInformation:[],
 			postCount:0,
 			displayDesktopUI:false,
-			isLoading:true
+			isLoading:true,
+			accessToken:this.props.personalInformation.accessToken
 		}
 	}
 
@@ -233,7 +237,7 @@ class SearchExploreContainer extends Component{
 		const searchParameters={
 			id:profileId,
 			postCount:this.state.postCount,
-			accessToken:this.props.personalInformation.accessToken
+			accessToken:this.state.accessToken
 		}
 		if(postOption=="Images"){
 			homePagePostsResponse=await exploreImagePosts(searchParameters);
@@ -257,16 +261,16 @@ class SearchExploreContainer extends Component{
 			debugger;
 			const {statusCode}=data;
 			if(statusCode==401){
-
 				await refreshTokenApiCallHandle(
 						this.props.personalInformation.refreshToken,
 						this.props.personalInformation.id,
 						this.changeHomePagePosts,
-						this.props.setPersonalProfileAccessToken,
+						this.props,
 						{
 							postOption
 						},
-						true
+						true,
+						this
 					);
 			}else{
 				alert('Unfortunately there has been an error in retrieving you data. Please try again');
@@ -280,7 +284,6 @@ class SearchExploreContainer extends Component{
 	}
 
 	suggestedSymposiumsRecursive=(posts)=>{
-		
 		if(posts==null||posts.length==0){
 			return posts;
 		}else if(posts.length==1){
@@ -535,7 +538,8 @@ const mapStateToProps=(state)=>{
 
 const mapDispatchToProps=dispatch=>{
 	return{
-		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken))
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
 	}
 }
 

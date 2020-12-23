@@ -6,12 +6,7 @@ import {PersonalInformation} from "../PersonalProfileSubset/PersonalDetails/Pers
 import ProfileStatue from "../../../../designs/background/ProfileStatue.png";
 import Typed from "react-typed";
 import {useSelector,useDispatch, connect} from 'react-redux';
-import { 
-			getProfile,
-			getVideos,
-			getImages,
-			getBlogs
-		 } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import { getProfile } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {
 	setBio,
 	setProfilePicture
@@ -36,6 +31,12 @@ import PromotePortal from "../PersonalProfileSubset/PersonalPosts/PromotePortal.
 import SocialMediaUrlContainer from "./Modals-Portals/SocialMediaUrlModal.js";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
+import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
+
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 import {
 	MobilePersonalInformation,
@@ -281,17 +282,21 @@ class LProfile extends Component{
 
 
 	changeProfilePicture=async()=>{
-
-		console.log("Change picture button clicked");
+		debugger;
 		let profileContainer=document.getElementById("profilePicture");
 		let image=document.getElementById("profilePicutreImageFile").files[0];
 		let reader= new FileReader();
+
 		reader.onloadend=async()=>{
 			profileContainer.src=reader.result;
 			const profileUrl=profileContainer.src;
 
 			console.log(reader.result);
-			const {confirmation,data}=await setProfilePicture(this.state.userProfile._id,profileUrl);
+			const {confirmation,data}=await setProfilePicture(
+												this.state.userProfile._id,
+												profileUrl,
+												this.props.personalInformation.accessToken
+											);
 			
 			if(confirmation=="Success"){
 				this.setState({
@@ -301,7 +306,19 @@ class LProfile extends Component{
 					}
 				});
 			}else{
-				alert('Unfortunately there has been an error with changing your profile picture. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+						this.props.personalInformation.refreshToken,
+						this.props.personalInformation.id,
+						this.changeProfilePicture,
+						this.props,
+						{},
+						true
+					);
+				}else{
+					alert('Unfortunately there has been an error with changing your profile picture. Please try again');
+				}
 			}
 		}
 
@@ -903,11 +920,20 @@ class LProfile extends Component{
 
 const mapStateToProps=(state)=>{
 	return{
+		personalInformation:state.personalInformation,
 		personalId:state.personalInformation.id,
 		isLoggedIn:state.personalInformation.loggedIn
 	}
 }
 
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
 export default withRouter(connect(
 	mapStateToProps,
-	null)(LProfile));
+	mapDispatchToProps
+)(LProfile));

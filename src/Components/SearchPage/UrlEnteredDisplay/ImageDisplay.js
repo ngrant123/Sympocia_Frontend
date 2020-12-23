@@ -14,8 +14,6 @@ const Container=styled.div`
 	flex-direction:column;
 `;
 
-
-
 const PostContainer=styled.div`
 	display:flex;
 	flex-direction:row;
@@ -76,9 +74,10 @@ class ImageDisplay extends Component{
 		console.log(confirmation);
 
 		if(confirmation=="Success"){
+			const {message}=data;
 			this.setState({
 				isLoading:false,
-				imageData:data
+				imageData:message
 			})
 		}else{
 			alert('Unfortunately an error has occured when trying to retried this post information. Please try again');

@@ -8,7 +8,14 @@ import {UserConsumer} from "../../../UserContext.js";
 import {CompanyConsumer} from "../../../../CompanyProfile/CompanyContext.js";
 import {createCompanyChampion} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
 import {createChampion} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
+import {refreshTokenApi} from "../../../../../../Actions/Requests/JWTRequests.js";
+import {
+	setPersonalProfileAccessToken,
+	setPersonalProfileRefreshToken,
+	addName
+} from "../../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const BackButtonCSS={
 	listStyle:"none",
@@ -163,7 +170,10 @@ const DescriptionModal=(props)=>{
 	console.log("Testing sponsor modal");
 	const [instagramUrl,changeInstagramUrl]=useState();
 	const [tikTokUlr,changeTikTokUrl]=useState();
-	const reduxInformation=useSelector(state=>state);
+	const personalReduxInformation=useSelector(state=>state.personalInformation);
+	const [currentAccessToken,changeCurrentAccessToken]=useState(personalReduxInformation.accessToken);
+
+	const dispatch=useDispatch();
 
 	const [displayIGUrlPrompt,changeDisplayIGUrlPrompt]=useState(false);
 	const [displayTikTokUrlPrompt,changeDisplayTikTokUrlPrompt]=useState(false);
@@ -180,7 +190,8 @@ const DescriptionModal=(props)=>{
 		changeDisplayTikTokUrlPrompt(false);
 	}
 
-	const handleSubmitButton=(personalInformation,companyInformation)=>{
+	const handleSubmitButton=async({personalInformation,companyInformation})=>{
+		debugger;
 		const name=document.getElementById("name").value;
 		const description=document.getElementById("description").value;
 
@@ -191,16 +202,38 @@ const DescriptionModal=(props)=>{
 			tikTokUrl:tikTokUlr,
 			instagramUrl:instagramUrl
 		}
-		console.log("Testig")
-		if(props.profileType=="Company"){
-			companyInformation.displayChampionModal(ChampionModalObject);
-			createCompanyChampion(reduxInformation.companyInformation.id,ChampionModalObject);
+		personalInformation.displayChampionModal(ChampionModalObject);
+		const {confirmation,data}=await createChampion(
+											personalReduxInformation.id,
+											ChampionModalObject,
+											currentAccessToken
+										);
+		if(confirmation=="Success"){
+			props.closeModal();
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				const {confirmation,data}=await refreshTokenApi({
+					userId:personalReduxInformation.id,
+					refreshToken:personalReduxInformation.refreshToken
+				})
+
+				if(confirmation=="Success"){
+					const {message:{
+						accessToken,
+						refreshToken
+					}}=data;
+					dispatch(setPersonalProfileAccessToken(accessToken));
+					dispatch(setPersonalProfileRefreshToken(refreshToken));
+					changeCurrentAccessToken(accessToken);
+					handleSubmitButton({personalInformation,companyInformation});
+				}else{
+					alert('Unfortunately something has gone wrong. Please log out and sign back in again');
+				}
+			}else{
+				alert('Unfortunately an error has occured when trying to update your champion. Please try again');
+			}
 		}
-		else{
-			personalInformation.displayChampionModal(ChampionModalObject);
-			createChampion(reduxInformation.personalInformation.id,ChampionModalObject);
-		}
-		props.closeModal();
 	}
 	
 	return(
@@ -239,7 +272,7 @@ const DescriptionModal=(props)=>{
 												</li>
 
 												<li style={{listStyle:"none"}}>
-													<SubmitButton onClick={()=>handleSubmitButton(personalInformation,companyInformation)}>
+													<SubmitButton onClick={()=>handleSubmitButton({personalInformation,companyInformation})}>
 														Submit
 													</SubmitButton>
 												</li>
