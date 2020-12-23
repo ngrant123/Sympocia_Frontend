@@ -130,7 +130,7 @@ const handleLoginClick=async(email,password,dispatch,history)=>{
       refreshToken
     }=message;
 
-    const promises=[]
+    const promises=[];
 
     promises.push(dispatch(signInPersonalUser(profile)));
     promises.push(dispatch(loginCompanyPage(false)));

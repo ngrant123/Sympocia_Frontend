@@ -35,38 +35,6 @@ export async function getProfile({userId,visitorId}){
 	}
 }
 
-export function getVideos(profileId){
-
-	axios.get(`${SearchUrl}/getVideos`,{
-		_id:profileId
-	}).then(videos=>{
-		return videos;
-	}).catch(err=>{
-	})
-} 
-
-export function getImages(profileId){
-
-	axios.get(`${SearchUrl}/getImages`,{
-		_id:profileId
-	}).then(images=>{
-		return images;
-	}).catch(err=>{
-	})
-}
-
-export function getBlogs(profileId){
-
-
-	axios.get(`${SearchUrl}/getBlogs`,{
-			_id:profileId
-		}).then(blogs=>{
-			return blogs;
-		}).catch(err=>{
-		})
-}
-
-
 export async function getProfileByName(profileName){	
 
 	try{
@@ -286,23 +254,6 @@ export const checkIfEmailIsUsed=async(email)=>{
 		return err.message;
 	}
 
-}
-
-
-export const getRecruitsInformation=async(userId)=>{
-	try{
-		const recruitsInformationResponse=await axios.get(`${SearchUrl}/getRecruitsInformation`,{
-			params:{
-				_id:userId
-			}
-		});
-
-		const {data}=recruitsInformationResponse;
-		const recruitsData=data.data;
-		return recruitsData;
-	}catch(err){
-		
-	}
 }
 
 export const getPersonalProfileGeneralMessages=async(personalId)=>{

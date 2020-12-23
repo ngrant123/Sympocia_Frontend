@@ -44,11 +44,15 @@ export function setBio(personalId,bio){
 	})
 }
 
-export async function setProfilePicture(profileId,pictureUrl){
+export async function setProfilePicture(profileId,pictureUrl,accessToken){
 	try{
 		const profilePictureVerification=await axios.post(`${CreateUrl}/setProfilePicture`,{
 				_id:profileId,
 				profilePicture:pictureUrl
+			},{
+				headers:{
+					authorization:accessToken
+				}
 			});
 
 		const {data}=profilePictureVerification;
@@ -58,16 +62,19 @@ export async function setProfilePicture(profileId,pictureUrl){
 }
 
 
-export const createChampion=async(profileId,championData)=>{
+export const createChampion=async(profileId,championData,accessToken)=>{
 	try{
 		const championCreationResponse=await axios.post(`${CreateUrl}/createChampion`,{
 			_id:profileId,
 			championData:championData
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 
-		const {data}=championCreationResponse.data;
-		const championResponse=data.data;
-		return championResponse;
+		const {data}=championCreationResponse;
+		return data;
 	}catch(err){
 		return err;
 	}
@@ -83,8 +90,7 @@ export const addRecruit=async(personalProfile,targetedProfile)=>{
 			targetProfile:targetedProfile
 		});
 		const {data}=recruitResponse;
-		const recruitData=data.data;
-		return recruitData;
+		return data;
 
 	}catch(err){
 		return err;
@@ -127,25 +133,6 @@ export const createChat=async(owner,message,participants)=>{
 	}
 }
 
-//get axios request not allowing me to pass in array values which is why this is here
-
-export const getSymposiumsExplore=async(id,symposiums)=>{
-	try{
-		
-		const symposiumResponse=await axios.post(`${CreateUrl}/getSymposiumsExplore`,{
-				_id:id,
-				symposiums:symposiums
-		});
-
-		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
-
-	}catch(err){
-		return err;
-	}
-}
-
 
 
 
@@ -157,8 +144,7 @@ export const addSymposium=async(profileId,symposium,subSymposium)=>{
 			subSymposium
 		});
 		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
+		return data;
 
 	}catch(err){
 		return err;
