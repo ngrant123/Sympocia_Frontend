@@ -3,6 +3,8 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {removeSymposium} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {getSymposiumsFollowedPersonal} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -61,6 +63,8 @@ const FollowedSymposiumsModal=({isOwner,closeModal,userId})=>{
 	const [symposiums,changeSymposiums]=useState([]);
 	const [displayRemoveSymposiumVerification,changeDisplayRemoveSymposiumModal]=useState(false);
 	const [selectedSymposium,changeSelectedSymposium]=useState();
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	useEffect(()=>{
 		const getSymposiums=async()=>{
@@ -78,10 +82,12 @@ const FollowedSymposiumsModal=({isOwner,closeModal,userId})=>{
 		changeDisplayRemoveSymposiumModal(true);
 	}
 
-	const removeSymposiumTrigger=async()=>{
+	const removeSymposiumTrigger=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const {confirmation,data}=await removeSymposium({
 			profileId:userId,
-			symposium:selectedSymposium.symposium
+			symposium:selectedSymposium.symposium,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		});
 
 		if(confirmation=="Success"){
@@ -94,7 +100,20 @@ const FollowedSymposiumsModal=({isOwner,closeModal,userId})=>{
 			changeSymposiums([...symposiums]);
 			changeDisplayRemoveSymposiumModal(false);
 		}else{
-			alert('Unfortunately there has been an error with removing this symposium. Please try again');
+			debugger;
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						removeSymposiumTrigger,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with removing this symposium. Please try again');
+			}
 		}
 	}
 
@@ -170,7 +189,7 @@ const FollowedSymposiumsModal=({isOwner,closeModal,userId})=>{
 								<p style={{marginTop:"15%"}}> Are you sure you want to remove {selectedSymposium.symposium}? </p>
 
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>removeSymposiumTrigger()} style={SymposiumsOptionsCSS}>
+									<li onClick={()=>removeSymposiumTrigger({isAccessTokenUpdated:false})} style={SymposiumsOptionsCSS}>
 										Yes
 									</li>
 								</a>

@@ -20,15 +20,18 @@ export function getActivityLog(userId){
 }
 
 
-export async function getProfile({userId,visitorId}){
+export async function getProfile({userId,visitorId,accessToken}){
 
 	try{
 		const profile=await axios.get(`${SearchUrl}/getProfile`,{
 			params:{
 				id:userId,
 				visitorId
+			},
+			headers:{
+				authorization:accessToken
 			}
-		});
+		}); 
 		const {data}=profile;
 		return data;
 	}catch(err){
@@ -130,12 +133,15 @@ export async function getMostPopular(investors){
 	}
 }
 
-export async function getVideosFromUser({userId,visitorId}){
+export async function getVideosFromUser({userId,visitorId,accessToken}){
 	try{
 		const videos=await axios.get(`${SearchUrl}/getUserVideos`,{
 			params:{
 				id:userId,
 				visitorId
+			},
+			headers:{
+				authorization:accessToken
 			}
 		});
 
@@ -147,12 +153,15 @@ export async function getVideosFromUser({userId,visitorId}){
 		
 	}
 }
-export async function getBlogFromUser({userId,visitorId}){
+export async function getBlogFromUser({userId,visitorId,accessToken}){
 	try{
 		const blogsPostsData=await axios.get(`${SearchUrl}/getUserBlogs`,{
 			params:{
 				id:userId,
 				visitorId
+			},
+			headers:{
+				authorization:accessToken
 			}
 		})
 
@@ -165,12 +174,15 @@ export async function getBlogFromUser({userId,visitorId}){
 }
 
 
-export async function getRegularPostFromUser({userId,visitorId}){
+export async function getRegularPostFromUser({userId,visitorId,accessToken}){
 	try{
 		const regularPostsResults=await axios.get(`${SearchUrl}/getUserRegularPosts`,{
 			params:{
 				id:userId,
 				visitorId
+			},
+			headers:{
+				authorization:accessToken
 			}
 		});
 		

@@ -10,7 +10,7 @@ import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import ExtendedPostNotificationPortal from "./ExtendedPostNotification/index.js";
 import {refreshToken} from "../../../Actions/Requests/JWTRequests.js"; 
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
-import {useDispatch} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 
 const Container=styled.div`
 	position:fixed;
@@ -100,6 +100,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	const [displayExtendedPostNotification,changeDisplayExtendedPostNotification]=useState(false);
 	const [extendedNotificationData,changeExtendedNotificationData]=useState();
 	const [isPostAudio,changeIsPostAudio]=useState();
+	const personalInformation=useSelector(state=>state.personalInformation);
 
 	const [postIdUrl,changePostIdUrl]=useState();
 	const [postId,changePostId]=useState();
@@ -109,7 +110,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	useEffect(()=>{
 		const fetchData=async()=>{
 			debugger;
-			triggerGetNotifications({notificationsStatus:"New",accessToken})
+			triggerGetNotifications({notificationsStatus:"New",isAccessTokenUpdated:false})
 		}
 		fetchData();
 	},[]);
@@ -256,9 +257,13 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	}
 
 
-	const triggerGetNotifications=async({notificationsStatus,accessToken})=>{
+	const triggerGetNotifications=async({notificationsStatus,isAccessTokenUpdated,updatedAccessToken})=>{
 		changeIsLoading(true);
-		const {confirmation,data}=await getNotifications(userId,notificationsStatus,accessToken);
+		const {confirmation,data}=await getNotifications(
+											userId,
+											notificationsStatus,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken);
 		if(confirmation=="Success"){
 			debugger;
 			const {message}=data;
@@ -276,7 +281,8 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 						dispatch,
 						{
 							notificationsStatus
-						}
+						},
+						false
 					);
 			}else{
 				alert('Unfortunately there has been an error getting your notifications. Please try again');
@@ -314,11 +320,11 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 							:
 							<>
 								<TitleContainer>
-									<p onClick={()=>triggerGetNotifications({notificationsStatus:"New",accessToken})}
+									<p onClick={()=>triggerGetNotifications({notificationsStatus:"New",isAccessTokenUpdated:false})}
 										style={{fontSize:"20px",marginRight:"5%"}}>
 										<b>Notifications</b>
 									</p>
-									<p onClick={()=>triggerGetNotifications({notificationsStatus:"Previous",accessToken})}
+									<p onClick={()=>triggerGetNotifications({notificationsStatus:"Previous",isAccessTokenUpdated:false})}
 										style={{cursor:"pointer",color:"#C8B0F4"}}>
 										Previous Notifications
 									</p>

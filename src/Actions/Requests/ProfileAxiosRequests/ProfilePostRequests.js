@@ -82,12 +82,16 @@ export const createChampion=async(profileId,championData,accessToken)=>{
 }
 
 
-export const addRecruit=async(personalProfile,targetedProfile)=>{
+export const addRecruit=async(personalProfile,targetedProfile,accessToken)=>{
 	try{
 		
 		const recruitResponse=await axios.post(`${CreateUrl}/addRecruit`,{
 			personalProfileId:personalProfile,
 			targetProfile:targetedProfile
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=recruitResponse;
 		return data;
@@ -136,12 +140,16 @@ export const createChat=async(owner,message,participants)=>{
 
 
 
-export const addSymposium=async(profileId,symposium,subSymposium)=>{
+export const addSymposium=async(profileId,symposium,subSymposium,accessToken)=>{
 	try{
 		var symposiumResponse=await axios.post(`${CreateUrl}/addSymposium`,{
 			profileId,
 			symposium,
 			subSymposium
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=symposiumResponse;
 		return data;
@@ -151,13 +159,17 @@ export const addSymposium=async(profileId,symposium,subSymposium)=>{
 	}
 }
 
-export const removeSymposium=async({profileId,symposium,subSymposium})=>{
+export const removeSymposium=async({profileId,symposium,subSymposium,accessToken})=>{
 	try{
 
 		var symposiumResponse=await axios.post(`${CreateUrl}/removeSymposium`,{
 			profileId,
 			symposium,
 			subSymposium
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=symposiumResponse;
 		return data;
@@ -181,7 +193,7 @@ export const concatVideoTogether=async(videos)=>{
 
 
 
-export const createLevel=async({name,description,recruits,_id,nodeCounter})=>{
+export const createLevel=async({name,description,recruits,_id,nodeCounter,accessToken})=>{
 	try{
 		const levelResponse=await axios.post(`${CreateUrl}/createLevel`,{
 			name:name,
@@ -189,6 +201,10 @@ export const createLevel=async({name,description,recruits,_id,nodeCounter})=>{
 			recruits:recruits,
 			_id:_id,
 			nodeCounter:nodeCounter
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=levelResponse;
 		return data;
@@ -199,11 +215,15 @@ export const createLevel=async({name,description,recruits,_id,nodeCounter})=>{
 }
 
 
-export const removeLevel=async({_id,levelId})=>{
+export const removeLevel=async({_id,levelId,accessToken})=>{
 	try{
 		const levelResponse=await axios.post(`${CreateUrl}/removeLevel`,{
 			_id:_id,
 			levelId:levelId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=levelResponse;
 		return data;
@@ -212,29 +232,17 @@ export const removeLevel=async({_id,levelId})=>{
 	}
 }
 
-export const changeRecruitLevelStatus=async({recruitId,_id,levelCounter})=>{
-	try{
-
-		const levelResponse=await axios.post(`${CreateUrl}/changeRecruitLevelStatus`,{
-			recruitId:recruitId,
-			_id:_id,
-			levelCounter:levelCounter
-		});
-		const {data}=levelResponse;
-		return data;
-
-	}catch(err){
-		return err;
-	}
-}
-
-export const editNodeInformation=async({_id,name,levelId,description})=>{
+export const editNodeInformation=async({_id,name,levelId,description,accessToken})=>{
 	try{
 		const levelResponse=await axios.post(`${CreateUrl}/editNodeInformation`,{
 			_id:_id,
 			name:name,
 			description:description,
 			levelId:levelId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=levelResponse;
 		return data;
@@ -245,13 +253,17 @@ export const editNodeInformation=async({_id,name,levelId,description})=>{
 }
 
 
-export const promoteRecruitRequest=async({node,selectedRecruits,_id})=>{
+export const promoteRecruitRequest=async({node,selectedRecruits,_id,accessToken})=>{
 	try{
 		const promoteRecruitResponse=await axios.post(`${CreateUrl}/promoteRecruit`,{
-													node:node,
-													recruits:selectedRecruits,
-													_id:_id
-												});
+				node:node,
+				recruits:selectedRecruits,
+				_id:_id
+			},{
+				headers:{
+					authorization:accessToken
+				}
+			});
 		const {data}=promoteRecruitResponse;
 		return data;
 	}catch(err){

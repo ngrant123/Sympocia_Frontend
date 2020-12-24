@@ -1,13 +1,6 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import {
-		createLevel,
-		removeLevel,
-		changeRecruitLevelStatus,
-		editLevelName,
-		editLevelDescription
-} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {getRecruits} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';

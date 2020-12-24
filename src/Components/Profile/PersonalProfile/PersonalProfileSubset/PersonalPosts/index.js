@@ -27,7 +27,8 @@ import {
 } from "./ContextActions.js";
 import {RecruitButton} from "../PersonalDetails/PersonalInformation.js";
 import {PhonePersonalInformationHeader} from "../../PersonalProfileSet/MobileUI.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 
 const PostCreationContainer=styled.div`
@@ -169,6 +170,7 @@ const PersonalPostsIndex=(props)=>{
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
 	const [displayRegularPosts,changeDisplayForRegularPosts]=useState(false);
 	const personalRedux=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	const [regularPost,changeRegularPost]=useState({
 		headerPost:null,
@@ -224,7 +226,7 @@ const PersonalPostsIndex=(props)=>{
 		regularPost.style.borderStyle="none";
 	}
 
-	const handlePostsClick=async(kindOfPost,id)=>{
+	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken})=>{
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
@@ -248,10 +250,16 @@ const PersonalPostsIndex=(props)=>{
 			videos.style.borderColor="#C8B0F4";
 			changeDisplayForVideos(true); 
 
-			const {confirmation,data}=await getVideosFromUser({userId:id,visitorId:props.visitorId});
+			const {confirmation,data}=await getVideosFromUser({
+											userId:id,
+											visitorId:props.visitorId,
+											accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+											personalRedux.accessToken
+										});
 
 			if(confirmation=="Success"){
-				const {crownedVideo,videoPosts}=data;
+				const {message}=data;
+				const {crownedVideo,videoPosts}=message;
 				
 				const videoObject={
 					headerVideo:crownedVideo,
@@ -260,7 +268,23 @@ const PersonalPostsIndex=(props)=>{
 				changeVideoPosts(videoObject);
 				changeVideosLoadingIndicator(false);
 			}else{
-				alert('Unfortunately there has been an error getting your pictures. Please try again');
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalRedux.refreshToken,
+							personalRedux.id,
+							handlePostsClick,
+							dispatch,
+							{
+								kindOfPost,
+								id
+							},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error getting your videos. Please try again');
+				}
 			}
 		}else if(kindOfPost=="blog"){
 			const blogs=document.getElementById("blogs");
@@ -274,7 +298,8 @@ const PersonalPostsIndex=(props)=>{
 																	visitorId:props.visitorId
 																});
 				if(confirmation=="Success"){	
-					const {crownedRegularPost,regularPosts}=data;
+					const {message}=data;
+					const {crownedRegularPost,regularPosts}=message;
 					const regularPost=document.getElementById("regularPosts");
 					regularPost.style.color="#C8B0F4";
 					regularPost.style.borderBottom="solid";
@@ -289,7 +314,23 @@ const PersonalPostsIndex=(props)=>{
 					changeDisplayForRegularPosts(true);
 					changeRegularPostsLoadingIndicator(false);
 				}else{
-					alert('Unfortunately there has been an error getting your regular posts. Please try again');
+					debugger;
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								personalRedux.refreshToken,
+								personalRedux.id,
+								handlePostsClick,
+								dispatch,
+								{
+									kindOfPost,
+									id
+								},
+								false
+							);
+					}else{
+						alert('Unfortunately there has been an error getting your regular posts. Please try again');
+					}
 				}
 		}
 	}
@@ -339,19 +380,31 @@ const PersonalPostsIndex=(props)=>{
 							   		<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
-								<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+								<li onClick={()=>handlePostsClick({
+													kindOfPost:"image",
+													id:props.personalInformation.userProfile._id,
+													isAccessTokenUpdated:false
+												})} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
 									<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
 										Images
 									</a>
 								</li>
 
-								<li onClick={()=>handlePostsClick("video",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+								<li onClick={()=>handlePostsClick({
+													kindOfPost:"video",
+													id:props.personalInformation.userProfile._id,
+													isAccessTokenUpdated:false
+												})} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
 									<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 										Videos
 									</a>
 								</li>
 
-								<li onClick={()=>handlePostsClick("regularPost",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+								<li onClick={()=>handlePostsClick({
+													kindOfPost:"regularPost",
+													id:props.personalInformation.userProfile._id,
+													isAccessTokenUpdated:false
+												})} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 									<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 										Regular Posts
 									</a>
@@ -541,19 +594,31 @@ const PersonalPostsIndex=(props)=>{
 											</ul>
 										</li>
 
-										<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+										<li onClick={()=>handlePostsClick({
+													kindOfPost:"image",
+													id:props.personalInformation.userProfile._id,
+													isAccessTokenUpdated:false
+												})} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 											<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
 												Images
 											</a>
 										</li>
 
-										<li onClick={()=>handlePostsClick("video",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+										<li onClick={()=>handlePostsClick({
+													kindOfPost:"video",
+													id:props.personalInformation.userProfile._id,
+													isAccessTokenUpdated:false
+												})} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 											<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Videos
 											</a>
 										</li>
 
-										<li onClick={()=>handlePostsClick("regularPost",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+										<li onClick={()=>handlePostsClick({
+													kindOfPost:"regularPost",
+													id:props.personalInformation.userProfile._id,
+													isAccessTokenUpdated:false
+												})} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 											<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Regular Posts
 											</a>

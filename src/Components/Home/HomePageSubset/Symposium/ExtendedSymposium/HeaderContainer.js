@@ -13,6 +13,8 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MobilePostOptionsPortal from "./Modals/MobileUI/PostOptionsPortal.js";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -217,6 +219,9 @@ const HeaderContainer=(props)=>{
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 	const [displayMobilePostOptions,changeMobileDisplayPostOptions]=useState(false);
 
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
+
 	useEffect(()=>{
 		changeSymposiumFollow(isProfileFollowingSymposium);
 	});
@@ -304,14 +309,53 @@ const HeaderContainer=(props)=>{
 	   		}
 	   }
 
-	const handleFollowSymposium=async()=>{
+	const handleFollowSymposium=async({isAccessTokenUpdated,updatedAccessToken})=>{
 
 		if(followSymposiumButtonClick==false){
-			await addSymposium(profileId,selectedSymposiumTitle,null);
-		}else{
-			const {confirmation,data}=await removeSymposium(profileId,selectedSymposiumTitle,null);
+			const {confirmation,data}=await addSymposium(
+												profileId,
+												selectedSymposiumTitle,
+												null,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
 			if(confirmation=="Failure"){
-				alert('Unfortunately there has been an error with unfollowing this symposium. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							handleFollowSymposium,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error in retrieving you data. Please try again');
+				}
+			}
+		}else{
+			const {confirmation,data}=await removeSymposium({
+												profileId,
+												symposium:selectedSymposiumTitle,
+												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											});
+			if(confirmation=="Failure"){
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							handleFollowSymposium,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error with unfollowing this symposium. Please try again');
+				}
 			}
 		}
 		
@@ -445,7 +489,7 @@ const HeaderContainer=(props)=>{
 						</li>
 
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>handleFollowSymposium()} style={ButtonCSS}>
+							<li onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})} style={ButtonCSS}>
 								<b>
 									<AddCircleOutlineIcon style={{font:20}}/>
 									 	{followSymposiumButtonClick==false?

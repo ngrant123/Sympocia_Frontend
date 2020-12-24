@@ -162,37 +162,38 @@ class BlogsPostsContainer extends Component{
 	}
 
 	async componentDidMount(){
-		if(this.props.profileType=="Personal"){
-			const {	confirmation,data}=await getBlogFromUser({userId:this.props.id,visitorId:this.props.visitorId});
-			if(confirmation=="Success"){
-				const {
-					crownedBlog,
-					blogArray
-				}=data;
-
-				console.log(crownedBlog);
-				console.log(blogArray);
-				this.setState({
-					headerBlog:crownedBlog==={}?null:crownedBlog,
-					blogs:blogArray,
-					isLoading:false,
-					blogUrl:`/createBlog`,
-					profileType:"Personal"
-				})
+		const {	confirmation,data}=await getBlogFromUser({userId:this.props.id,visitorId:this.props.visitorId});
+		if(confirmation=="Success"){
+			const {message}=data;
+			const {
+				crownedBlog,
+				blogArray
+			}=message;
+			this.setState({
+				headerBlog:crownedBlog==={}?null:crownedBlog,
+				blogs:blogArray,
+				isLoading:false,
+				blogUrl:`/createBlog`,
+				profileType:"Personal"
+			})
+		}else{
+			debugger;
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalRedux.refreshToken,
+						personalRedux.id,
+						handlePostsClick,
+						dispatch,
+						{
+							kindOfPost,
+							id
+						},
+						false
+					);
 			}else{
 				alert('Unfortunately there has been an error getting these blog posts. Please try again');
 			}
-		}else{				
-		
-			const {	headerBlog,blogPosts}=await getCompanyBlogs(this.props.id);
-			
-			this.setState({
-				headerBlog:headerBlog,
-				blogs:blogPosts,
-				isLoading:false,
-				blogUrl:`/blog/${this.props.id}`,
-				profileType:"Company"
-			})
 		}
 	}
 
