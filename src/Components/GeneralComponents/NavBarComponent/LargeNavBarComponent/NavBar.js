@@ -204,16 +204,20 @@ const NavBar=(pageProps)=>{
 			const notificationTriggerCheck=true;
 			while(notificationTriggerCheck){
 				await triggerSetTimeout(40000);
-				await statusCheckTrigger({id,accessToken,refreshToken});
+				await statusCheckTrigger({id,accessToken,refreshToken,isAccessTokenUpdated:false});
 			}
 		}
 		initialSetUp();
 	},[])
 
 	window.addEventListener('resize',triggerUIChange)
-	const statusCheckTrigger=async({id,accessToken,refreshToken})=>{
+	const statusCheckTrigger=async({id,accessToken,refreshToken,isAccessTokenUpdated,updatedAccessToken})=>{
 	/*
-		const {confirmation,data}=await notificationStatusCheck(id,accessToken);
+		const {confirmation,data}=await notificationStatusCheck(
+											id,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											accessToken
+										);
 		if(confirmation=="Success"){
 			const {message}=data;
 			if(message==true){
@@ -224,16 +228,18 @@ const NavBar=(pageProps)=>{
 		}else{
 			const {statusCode}=data;
 			if(statusCode==401){
+				const {refreshToken}=tokens;
 				await refreshTokenApiCallHandle(
 						refreshToken,
-						id,
+						userId,
 						statusCheckTrigger,
 						dispatch,
 						{
 							id,
 							accessToken,
 							refreshToken
-						}
+						},
+						false
 					);
 			}
 		}

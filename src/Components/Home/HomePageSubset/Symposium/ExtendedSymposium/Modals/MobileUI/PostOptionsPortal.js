@@ -146,7 +146,7 @@ const MobilePostOptionsPortal=(props)=>{
 
 				<ul>	
 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li onClick={()=>followUnfollowSymposium()}
+						<li onClick={()=>followUnfollowSymposium({isAccessTokenUpdated:false})}
 							style={{listStyle:"none"}}>
 							{isSymposiumFollowed==false?
 						 		<p>Follow Symposium</p>:

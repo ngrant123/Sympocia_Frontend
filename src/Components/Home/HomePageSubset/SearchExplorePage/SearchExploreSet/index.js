@@ -204,7 +204,7 @@ class SearchExploreContainer extends Component{
 		//If user just gets to the page set industry to general and postType to images
 		window.addEventListener('resize',this.triggerUIChange)
 		
-		this.changeHomePagePosts({postOption:this.state.postOption});
+		this.changeHomePagePosts({postOption:this.state.postOption,isAccessTokenUpdated:false});
 		this.triggerUIChange();
 	}
 
@@ -217,7 +217,7 @@ class SearchExploreContainer extends Component{
 		this.setState({
 			selectedIndustries:selectedIndustries
 		},function(){
-			this.changeHomePagePosts({postOption:this.state.postOption});
+			this.changeHomePagePosts({postOption:this.state.postOption,isAccessTokenUpdated:false});
 		})
 	}
 
@@ -225,11 +225,11 @@ class SearchExploreContainer extends Component{
 		this.setState({
 			selectedSubCommunities:selectedSubCommunities
 		},function(){
-			this.changeHomePagePosts({postOption:this.state.postOption});
+			this.changeHomePagePosts({postOption:this.state.postOption,isAccessTokenUpdated:false});
 		})
 	}
 
-	changeHomePagePosts=async({postOption})=>{
+	changeHomePagePosts=async({postOption,isAccessTokenUpdated,updatedAccessToken})=>{
 		debugger;
 		console.log(postOption);
 		var homePagePostsResponse;
@@ -237,7 +237,8 @@ class SearchExploreContainer extends Component{
 		const searchParameters={
 			id:profileId,
 			postCount:this.state.postCount,
-			accessToken:this.state.accessToken
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						this.state.accessToken
 		}
 		if(postOption=="Images"){
 			homePagePostsResponse=await exploreImagePosts(searchParameters);
@@ -269,8 +270,7 @@ class SearchExploreContainer extends Component{
 						{
 							postOption
 						},
-						true,
-						this
+						true
 					);
 			}else{
 				alert('Unfortunately there has been an error in retrieving you data. Please try again');
@@ -314,7 +314,7 @@ class SearchExploreContainer extends Component{
 			postOption:props,	
 			isLoading:true
 		},function(){
-			this.changeHomePagePosts({postOption:props});
+			this.changeHomePagePosts({postOption:props,isAccessTokenUpdated:false});
 		})
 	}
 

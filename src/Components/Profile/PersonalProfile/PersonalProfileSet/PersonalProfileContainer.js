@@ -208,7 +208,9 @@ class LProfile extends Component{
 		}
 	}
 
-
+/*
+	The code below could be structured in a better way in the future
+*/
 	async componentDidMount(){
 
 		const verification=this.props.isLoggedIn;
@@ -217,65 +219,74 @@ class LProfile extends Component{
 				pathname:'/'
 			})
 		}else{
-			window.addEventListener('resize',this.triggerUIChange)
-			const {id}=this.props.match.params;
-			if(id==this.props.personalId){
-				const profileIds={
-					userId:this.props.personalId
-				}
-				const {confirmation,data}=await getProfile(profileIds);
-				if(confirmation=="Success"){
-					console.log(data);
-					var containsChampion=false;
-					if(data.championData!=null)
-						containsChampion=data.championData.name!=""?true:false;
-
-					this.setState(prevState=>({
-						...prevState,
-						isLoading:false,
-						userProfile:data,
-						isOwnProfile:true,
-						displayChampion:containsChampion,
-						champion:data.championData,
-						isLoading:false,
-						hideOnboarding:data.firstTimeLoggedIn.personalPage
-					}));
-				}else{
-					alert('Unfortunately there has been an error getting this page. Please try again');
-				}
-			}
-			else{
-				let visitorId=this.props.personalId
-				const profileIds={
-					userId:id,
-					visitorId
-				}
-				const {confirmation,data}=await getProfile(profileIds);
-
-				if(confirmation=="Success"){
-					var containsChampion=false;
-					if(data.championData!=null)
-						containsChampion=data.championData.name!=""?true:false;
-
-					this.setState(prevState=>({
-						...prevState,
-						isLoading:false,
-						userProfile:data,
-						displayChampion:containsChampion,
-						championModalData:data.championData,
-						isLoading:false,
-						visitorId
-					}));
-				}else{
-					alert('Unfortunately there has been an error getting this page. Please try again');
-				}
-			}
-			this.triggerUIChange();
+			this.getProfileApiTriggerCall({isAccessTokenUpdated:false});
 		}
 	}
 
-	 handleChangeProfilePicture=()=>{
+	getProfileApiTriggerCall=async({isAccessTokenUpdated})=>{
+		window.addEventListener('resize',this.triggerUIChange)
+			const {id}=this.props.match.params;
+			let confirmationResponse;
+			let dataResponse;
+			let visitorId=this.props.personalId
 
+			if(id==this.props.personalId){
+				const profileIds={
+					userId:this.props.personalId,
+					accessToken:this.props.personalInformation.accessToken
+				}
+				const {confirmation,data}=await getProfile(profileIds);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+			}
+			else{
+				const profileIds={
+					userId:id,
+					visitorId,
+					accessToken:this.props.personalInformation.accessToken
+				}
+				const {confirmation,data}=await getProfile(profileIds);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+			}
+
+			if(confirmationResponse=="Success"){
+				var containsChampion=false;
+				const {message}=dataResponse;
+				if(message.championData!=null)
+					containsChampion=message.championData.name!=""?true:false;
+
+				this.setState(prevState=>({
+					...prevState,
+					userProfile:message,
+					isOwnProfile:false,
+					displayChampion:containsChampion,
+					championModalData:message.championData,
+					isLoading:false,
+					hideOnboarding:true,
+					visitorId
+				}));
+			}else{
+				debugger;
+				const {statusCode}=dataResponse;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalInformation.refreshToken,
+							this.props.personalInformation.id,
+							this.getProfileApiTriggerCall,
+							this.props,
+							{},
+							true
+						);
+				}else{
+					alert('Unfortunately there has been an error getting this page. Please try again');
+				}
+			}
+
+			this.triggerUIChange();
+	}
+
+	 handleChangeProfilePicture=()=>{
 	 	document.getElementById("profilePicutreImageFile").click();
 		console.log('Change pic button clicked');
 	}

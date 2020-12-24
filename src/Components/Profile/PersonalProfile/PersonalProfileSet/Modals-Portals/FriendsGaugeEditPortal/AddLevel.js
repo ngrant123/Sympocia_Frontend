@@ -4,6 +4,8 @@ import {createLevel} from "../../../../../../Actions/Requests/ProfileAxiosReques
 import {getProfileForHomePage} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const InputContainer=styled.textarea`
 	position:relative;
@@ -54,6 +56,8 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 
 	const [levelName,changeLevelName]=useState();
 	const [levelDescription,changeLevelDescription]=useState();
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
 
 	const addNodeToProfile=()=>{
 		changeLevelName(document.getElementById("levelName").value);
@@ -85,7 +89,7 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 
 	}
 
-	const submitNode=async()=>{
+	const submitNode=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		
 		
 		const levelObject={
@@ -93,16 +97,19 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 			description:levelDescription,
 			recruits:selectedRecruits,
 			_id:userId,
-			nodeCounter:nodeNumber 
+			nodeCounter:nodeNumber,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 
 		const {confirmation,data}=await createLevel(levelObject);
 		if(confirmation=="Success"){
+			const {message}=data;
 			const newNode={
 				name:levelName,
 				description:levelDescription,
 				nodeCounter:nodeNumber,
-				_id:data
+				_id:message
 			}
 			const addNodeAction={
 				actionType:"Add",
@@ -110,7 +117,20 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 			}
 			closeModal(addNodeAction);
 		}else{
-			alert('Something went wrong unfortunately. Please try again');
+			debugger;
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitNode,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error creating this level. Please try again');
+			}
 		}
 	}
 	/*
@@ -189,112 +209,112 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 
 	return(
 		<>
-			{displayAddNodeScreen==true?
-					 <ul style={{padding:"10px"}}>
-							<p style={{color:"#292929"}}>
-								<b>{levelName}</b>
-							</p>
-							<p style={{color:"#292929"}}>{levelDescription}</p>
-							<hr/>
-							<p style={{color:"#A4A4A4"}}> List the people who you want to add to your new level (optional) </p>
-							{recruitsInformation.length==0?
-								<p>Unfortunately, you dont have any recruits right now</p>:
-								<>
-									<li style={{listStyle:"none",marginTop:"5%"}}>
-										<InputContainer id="firstNameContainer" onKeyDown={(e)=>searchForPerson(e.key)} placeholder="Search for someone here"/>
+		{displayAddNodeScreen==true?
+		 <ul style={{padding:"10px"}}>
+				<p style={{color:"#292929"}}>
+					<b>{levelName}</b>
+				</p>
+				<p style={{color:"#292929"}}>{levelDescription}</p>
+				<hr/>
+				<p style={{color:"#A4A4A4"}}> List the people who you want to add to your new level (optional) </p>
+				{recruitsInformation.length==0?
+					<p>Unfortunately, you dont have any recruits right now</p>:
+					<>
+						<li style={{listStyle:"none",marginTop:"5%"}}>
+							<InputContainer id="firstNameContainer" onKeyDown={(e)=>searchForPerson(e.key)} placeholder="Search for someone here"/>
+						</li>
+						{selectedRecruits.map(data=>
+							<li style={{listStyle:"none",display:"inline-block",width:"20%",marginBottom:"5%"}}>
+								<ul style={{padding:"0px",width:"150%"}}>
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										{data.firstName}
 									</li>
-									{selectedRecruits.map(data=>
-										<li style={{listStyle:"none",display:"inline-block",width:"20%",marginBottom:"5%"}}>
-											<ul style={{padding:"0px",width:"150%"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													{data.firstName}
-												</li>
-												<li onClick={()=>removeSelectedPerson(data)} style={{listStyle:"none",display:"inline-block",width:"20%"}}>
-														<HighlightOffIcon
-															onClick={()=>removeSelectedPerson(data)}
-														/>
-												</li>
-											</ul>
-										</li>
-									)}
-									<li style={{listStyle:"none",height:"45%",overflowY:"auto",marginBottom:"1%"}}>
-										<ul style={{padding:"0px"}}>
-											{currentSearchNames.length!=0?
-												<>
-													{currentSearchNames.map(data=>
-														<li style={{listStyle:"none",display:"inline-block",width:"25%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
-															<ul style={{padding:"10px"}}>
-																<li style={{listStyle:"none"}}>
-																	{data.profilePicture==null?
-																		<img src={NoProfilePicture} style={ImageCSS}/>:
-																		<img src={data.profilePicture} style={ImageCSS}/>
-																	}
-																</li>
-																<li style={{listStyle:"none"}}>
-																	{data.firstName}
-																</li>
-																 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
-																			Add 
-																		</li>
-																</a>
-
-															</ul>
-														</li>
-													)}
-												</>:
-												<>
-													{recruitsInformation.map(data=>
-														<li style={{listStyle:"none",display:"inline-block",width:"25%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
-															<ul style={{padding:"10px"}}>
-																<li style={{listStyle:"none"}}>
-																	{data.profilePicture==null?
-																		<img src={NoProfilePicture} style={ImageCSS}/>:
-																		<img src={data.profilePicture} style={ImageCSS}/>
-																	}
-																</li>
-																<li style={{listStyle:"none"}}>
-																	{data.firstName}
-																</li>
-																 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
-																			Add
-																		</li>
-																</a>
-
-															</ul>
-														</li>
-													)}
-												</>
-
-											}
-										</ul>
+									<li onClick={()=>removeSelectedPerson(data)} style={{listStyle:"none",display:"inline-block",width:"20%"}}>
+											<HighlightOffIcon
+												onClick={()=>removeSelectedPerson(data)}
+											/>
 									</li>
-								</>
-							}
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<SubmitButton onClick={()=>submitNode()}>
-									Submit
-								</SubmitButton>
-							</a>
-						</ul>
-			: <ul style={{padding:"20px"}}>
-							<p style={{color:"#A4A4A4"}}> Give us more details about what you want to call this level </p>
-							<li style={{listStyle:"none",marginBottom:"5%"}}>
-								<InputContainer id="levelName" placeholder="What do you want to call this level?"/>
-
+								</ul>
 							</li>
+						)}
+						<li style={{listStyle:"none",height:"45%",overflowY:"auto",marginBottom:"1%"}}>
+							<ul style={{padding:"0px"}}>
+								{currentSearchNames.length!=0?
+									<>
+										{currentSearchNames.map(data=>
+											<li style={{listStyle:"none",display:"inline-block",width:"25%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
+												<ul style={{padding:"10px"}}>
+													<li style={{listStyle:"none"}}>
+														{data.profilePicture==null?
+															<img src={NoProfilePicture} style={ImageCSS}/>:
+															<img src={data.profilePicture} style={ImageCSS}/>
+														}
+													</li>
+													<li style={{listStyle:"none"}}>
+														{data.firstName}
+													</li>
+													 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<li onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
+																Add 
+															</li>
+													</a>
 
-							<li style={{listStyle:"none",marginBottom:"5%"}}>
-								<InputContainer id="levelDescription" style={{height:"40%"}}placeholder="Enter a description (optional)"/>
-							</li>
+												</ul>
+											</li>
+										)}
+									</>:
+									<>
+										{recruitsInformation.map(data=>
+											<li style={{listStyle:"none",display:"inline-block",width:"25%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
+												<ul style={{padding:"10px"}}>
+													<li style={{listStyle:"none"}}>
+														{data.profilePicture==null?
+															<img src={NoProfilePicture} style={ImageCSS}/>:
+															<img src={data.profilePicture} style={ImageCSS}/>
+														}
+													</li>
+													<li style={{listStyle:"none"}}>
+														{data.firstName}
+													</li>
+													 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<li onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
+																Add
+															</li>
+													</a>
 
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<NextButton onClick={()=>addNodeToProfile()}>
-									Next
-								</NextButton>
-							</a>
-						</ul>
+												</ul>
+											</li>
+										)}
+									</>
+
+								}
+							</ul>
+						</li>
+					</>
+				}
+				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					<SubmitButton onClick={()=>submitNode({isAccessTokenUpdated:false})}>
+						Submit
+					</SubmitButton>
+				</a>
+			</ul>
+			:<ul style={{padding:"20px"}}>
+				<p style={{color:"#A4A4A4"}}> Give us more details about what you want to call this level </p>
+				<li style={{listStyle:"none",marginBottom:"5%"}}>
+					<InputContainer id="levelName" placeholder="What do you want to call this level?"/>
+
+				</li>
+
+				<li style={{listStyle:"none",marginBottom:"5%"}}>
+					<InputContainer id="levelDescription" style={{height:"40%"}}placeholder="Enter a description (optional)"/>
+				</li>
+
+				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					<NextButton onClick={()=>addNodeToProfile()}>
+						Next
+					</NextButton>
+				</a>
+			</ul>
 			}
 		</>
 

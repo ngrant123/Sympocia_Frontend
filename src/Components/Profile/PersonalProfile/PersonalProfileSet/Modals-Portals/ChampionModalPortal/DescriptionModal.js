@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import InstagramIcon from '@material-ui/icons/Instagram';
@@ -172,11 +172,22 @@ const DescriptionModal=(props)=>{
 	const [tikTokUlr,changeTikTokUrl]=useState();
 	const personalReduxInformation=useSelector(state=>state.personalInformation);
 	const [currentAccessToken,changeCurrentAccessToken]=useState(personalReduxInformation.accessToken);
+	const [isAccessTokenRefreshTriggered,changeIsAccessTokenTriggered]=useState(false);
 
+	const [contextPersonalInformation,changeContextPersonalInformation]=useState();
+	const [contextCompanyInformation,changeContextCompanyInformation]=useState();
 	const dispatch=useDispatch();
-
 	const [displayIGUrlPrompt,changeDisplayIGUrlPrompt]=useState(false);
 	const [displayTikTokUrlPrompt,changeDisplayTikTokUrlPrompt]=useState(false);
+
+	useEffect(()=>{
+		debugger;
+		if(isAccessTokenRefreshTriggered==true){
+			dispatch(setPersonalProfileAccessToken(currentAccessToken));
+			dispatch(setPersonalProfileRefreshToken(personalReduxInformation.refreshToken));
+			handleSubmitButton(contextPersonalInformation,contextCompanyInformation);
+		}
+	},[currentAccessToken]);
 
 	const handleSubmitIGUrl=()=>{
 		const instagramUrl=document.getElementById("igUrl").value;
@@ -190,7 +201,7 @@ const DescriptionModal=(props)=>{
 		changeDisplayTikTokUrlPrompt(false);
 	}
 
-	const handleSubmitButton=async({personalInformation,companyInformation})=>{
+	const handleSubmitButton=async(personalInformation,companyInformation)=>{
 		debugger;
 		const name=document.getElementById("name").value;
 		const description=document.getElementById("description").value;
@@ -213,20 +224,23 @@ const DescriptionModal=(props)=>{
 		}else{
 			const {statusCode}=data;
 			if(statusCode==401){
-				const {confirmation,data}=await refreshTokenApi({
+				const refreshTokenResponse=await refreshTokenApi({
 					userId:personalReduxInformation.id,
 					refreshToken:personalReduxInformation.refreshToken
 				})
 
-				if(confirmation=="Success"){
+				const refreshTokenConfirmation=refreshTokenResponse.confirmation;
+				const refreshTokenData=refreshTokenResponse.data;
+
+
+				if(refreshTokenConfirmation=="Success"){
 					const {message:{
 						accessToken,
 						refreshToken
-					}}=data;
-					dispatch(setPersonalProfileAccessToken(accessToken));
-					dispatch(setPersonalProfileRefreshToken(refreshToken));
+					}}=refreshTokenData;
+					changeContextPersonalInformation(personalInformation)
+					changeIsAccessTokenTriggered(true);
 					changeCurrentAccessToken(accessToken);
-					handleSubmitButton({personalInformation,companyInformation});
 				}else{
 					alert('Unfortunately something has gone wrong. Please log out and sign back in again');
 				}
@@ -272,7 +286,7 @@ const DescriptionModal=(props)=>{
 												</li>
 
 												<li style={{listStyle:"none"}}>
-													<SubmitButton onClick={()=>handleSubmitButton({personalInformation,companyInformation})}>
+													<SubmitButton onClick={()=>handleSubmitButton(personalInformation,companyInformation)}>
 														Submit
 													</SubmitButton>
 												</li>
