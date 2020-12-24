@@ -294,9 +294,12 @@ const PersonalPostsIndex=(props)=>{
 			changeDisplayForBlogs(true);
 		}else{
 			changeDisplayForRegularPosts(true);
-			const {confirmation,data}=await getRegularPostFromUser({userId:id,
-																	visitorId:props.visitorId
-																});
+			const {confirmation,data}=await getRegularPostFromUser({
+												userId:id,
+												visitorId:props.visitorId,
+												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+												personalRedux.accessToken
+											});
 				if(confirmation=="Success"){	
 					const {message}=data;
 					const {crownedRegularPost,regularPosts}=message;
@@ -410,7 +413,11 @@ const PersonalPostsIndex=(props)=>{
 									</a>
 								</li>
 
-								<li onClick={()=>handlePostsClick("blog",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+								<li onClick={()=>handlePostsClick({
+													kindOfPost:"blog",
+													id:props.personalInformation.userProfile._id,
+													isAccessTokenUpdated:false
+												})} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 									<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 										Blogs
 									</a>
@@ -624,7 +631,11 @@ const PersonalPostsIndex=(props)=>{
 											</a>
 										</li>
 
-										<li onClick={()=>handlePostsClick("blog",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+										<li onClick={()=>handlePostsClick({
+													kindOfPost:"blog",
+													id:props.personalInformation.userProfile._id,
+													isAccessTokenUpdated:false
+												})} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 											<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Blogs
 											</a>

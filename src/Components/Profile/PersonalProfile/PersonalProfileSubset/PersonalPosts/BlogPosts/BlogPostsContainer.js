@@ -6,7 +6,12 @@ import NoPostsModal from "../NoPostsModal.js";
 import {UserConsumer} from "../../../UserContext.js";
 import {Link} from "react-router-dom";
 import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
-
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "../../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
+import {connect} from "react-redux";
 
 const Container=styled.div`
 	position:absolute;
@@ -162,7 +167,17 @@ class BlogsPostsContainer extends Component{
 	}
 
 	async componentDidMount(){
-		const {	confirmation,data}=await getBlogFromUser({userId:this.props.id,visitorId:this.props.visitorId});
+		this.blogApiTriggerCall({isAccessTokenUpdated:false});
+	}
+
+	blogApiTriggerCall=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		const {	confirmation,data}=await getBlogFromUser({
+				userId:this.props.id,
+				visitorId:this.props.visitorId,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						this.props.personalInformation.accessToken
+
+			});
 		if(confirmation=="Success"){
 			const {message}=data;
 			const {
@@ -181,21 +196,20 @@ class BlogsPostsContainer extends Component{
 			const {statusCode}=data;
 			if(statusCode==401){
 				await refreshTokenApiCallHandle(
-						personalRedux.refreshToken,
-						personalRedux.id,
-						handlePostsClick,
-						dispatch,
-						{
-							kindOfPost,
-							id
-						},
-						false
+						this.props.personalInformation.refreshToken,
+						this.props.personalInformation.id,
+						this.blogApiTriggerCall,
+						this.props,
+						{},
+						true
 					);
 			}else{
 				alert('Unfortunately there has been an error getting these blog posts. Please try again');
 			}
 		}
 	}
+
+
 
 	constructName=(personalInformation)=>{
 		
@@ -413,4 +427,26 @@ class BlogsPostsContainer extends Component{
 	}
 }
 
-export default BlogsPostsContainer;
+const mapStateToProps=(state)=>{
+	return{
+		personalInformation:state.personalInformation,
+		companyInformation:state.companyInformation
+	}
+}
+
+
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(BlogsPostsContainer);
+
+
+
