@@ -676,6 +676,7 @@ const mapStateToProps=state=>{
 		companyProfile:state.companyInformation
 	}
 }
+
 const mapDispatchToProps=dispatch=>{
 	return{
 		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),

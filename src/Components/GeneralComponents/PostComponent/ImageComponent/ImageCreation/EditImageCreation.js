@@ -355,7 +355,7 @@ class EditImageCreation extends Component{
 													searchCriteria,
 													"Personal",
 													isAccessTokenUpdated==true?updatedAccessToken:
-													this.props.personalInformation.accessToken);
+													this.props.personalProfile.accessToken);
 				
 				if(confirmation=="Success"){
 					profilePostInformation.hideCreationPost();
@@ -441,10 +441,25 @@ class EditImageCreation extends Component{
 							true
 						);
 				}else{
-					alert('Unfortunately there has been an error editing this post. Please try again');
-					this.setState({
-						isSubmittedAndProcessing:false
-					})
+					debugger;
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								this.props.personalProfile.refreshToken,
+								this.props.personalProfile.id,
+								this.sendImageDateToDB,
+								this.props,
+								{
+									profilePostInformation
+								},
+								true
+							);
+					}else{
+						alert('Unfortunately there has been an error editing this post. Please try again');
+						this.setState({
+							isSubmittedAndProcessing:false
+						})
+					}
 				}
 			}
 		}

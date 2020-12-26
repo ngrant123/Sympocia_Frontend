@@ -100,10 +100,10 @@ export const addStampPost =async(postId,profileType,postType,userId,accessToken)
 			postType:postType,
 			userId
 		},{
-				headers:{
-					authorization:accessToken
-				}
-			});
+			headers:{
+				authorization:accessToken
+			}
+		});
 
 		const {data}=postStampResponse;
 		const postStampData=data.data;
@@ -393,8 +393,6 @@ export const updateCrownedRegularPost=async(_id,updatedStatus,regularPostId,acce
 
 export const editPost=async({postType,postId,post,postS3,ownerId,accessToken})=>{
 	try{
-
-		
 		const editedPostResponse=await axios.post(`${CreateURl}/editPost`,{
 			postType,
 			postId,
@@ -402,13 +400,12 @@ export const editPost=async({postType,postId,post,postS3,ownerId,accessToken})=>
 			postS3,
 			ownerId
 		},{
-				headers:{
-					authorization:accessToken
-				}
-			});
+			headers:{
+				authorization:accessToken
+			}
+		});
 		const {data}=editedPostResponse;
 		return data;
-
 	}catch(err){
 		return err;
 	}
