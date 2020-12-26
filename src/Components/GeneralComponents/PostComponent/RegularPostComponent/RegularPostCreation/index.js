@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import styled from "styled-components";
 import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 import FormatItalicOutlinedIcon from '@material-ui/icons/FormatItalicOutlined';
@@ -21,7 +21,6 @@ import SendIcon from '@material-ui/icons/Send';
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 import IndustryPostOptions from "../../IndustryPostOptions.js";
-import {connect} from "react-redux";
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertToRaw} from 'draft-js';
@@ -38,6 +37,7 @@ import CrownPostModal from "../../CrownPost.js";
 import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
 import AudioCreation from "./AudioCreation.js";
 import TextCreation from "./TextCreation.js";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const Container = styled.div`
 	position:fixed;
@@ -144,7 +144,7 @@ const ButtonCSS={
 
 	const [industriesSelected,changeIndustriesSelected]=useState([]);
 	const [subIndustriesSelected,changeSubIndustriesSelected]=useState([]);
-
+	const dispatch=useDispatch();
 	const {personalInformation}=useSelector(state=>state);
 
 
@@ -167,7 +167,7 @@ const ButtonCSS={
 	useEffect(()=>{
 		
 		if(isPreviousDataLoaded==true)
-			sendRegularPost(contextInformation);
+			sendRegularPost({contextInformation,isAccessTokenUpdated:false});
 	},[audioDescription,textDescription]);
 
 	useEffect(()=>{
@@ -200,7 +200,7 @@ const ButtonCSS={
 		changeSubIndustriesSelected(selectedSubCommunities);
 	}
 
-const sendRegularPost=async(profilePostInformation)=>{
+const sendRegularPost=async({profilePostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
 		changeIsSubmittedAndProcessing(true);
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const searchCriteriaIndustryArray=[];
@@ -250,7 +250,13 @@ const sendRegularPost=async(profilePostInformation)=>{
 
 		if(props.previousData==null){
 			const {id}=personalInformation;
-			const {confirmation,data}=await createRegularPost(props.personalProfileId,searchCriteriaObject,"Personal");
+			const {confirmation,data}=await createRegularPost(
+												personalInformation.id,
+												searchCriteriaObject,
+												"Personal",
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
 			
 			if(confirmation=="Success"){
 				searchCriteriaObject={
@@ -259,8 +265,20 @@ const sendRegularPost=async(profilePostInformation)=>{
 				}
 				pushDummyRegularPostObjectToProfile(contextInformation,searchCriteriaObject);
 			}else{
-				alert('Unfortunately there has been an error creating this post. Please try again');
-				changeIsSubmittedAndProcessing(false);
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							sendRegularPost,
+							dispatch,
+							{profilePostInformation},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error creating this post. Please try again');
+					changeIsSubmittedAndProcessing(false);
+				}
 			}
 		}else{
 			debugger;
@@ -290,7 +308,7 @@ const sendRegularPost=async(profilePostInformation)=>{
 						newUrl:isAudioPost==true?(currentPost!=audioDescription?currentPost:null):null
 					}
 				],
-				ownerId:props.personalProfileId
+				ownerId:personalInformation.id
 			}
 
  			const {confirmation,data}=await editPost(editedRegularPost);
@@ -298,19 +316,22 @@ const sendRegularPost=async(profilePostInformation)=>{
 			if(confirmation=="Success"){
 				props.previousData.contextLocation.editPost(editedRegularPost);
 			}else{
-				alert('Unfortunately there has been an error editing this post. Please try again');
-				changeIsSubmittedAndProcessing(false);
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							sendRegularPost,
+							dispatch,
+							{profilePostInformation},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error editing this post. Please try again');
+					changeIsSubmittedAndProcessing(false);
+				}
 			}
 		}
-		
-		/*
-
-			if(profilePostType=="Company"){
-				createRegularPost(props.companyProfileId,searchCriteriaObject,profilePostType);
-			}else{
-				createRegularPost(props.personalProfileId,searchCriteriaObject,profilePostType);
-			}
-		*/
 	}
 
 	const isArrayEqual=(arr1,arr2)=>{
@@ -559,22 +580,4 @@ const sendRegularPost=async(profilePostInformation)=>{
 			)
 		}
 
-const mapStateToProps=state=>{
-	return{
-		personalProfileId:state.personalInformation.id,
-		companyProfileId:state.companyInformation.id
-	}
-}
-
-export default connect(
-	mapStateToProps,
-	null
-)(RegularPostCreation);
-
-
-
-
-
-
-
-
+export default RegularPostCreation;

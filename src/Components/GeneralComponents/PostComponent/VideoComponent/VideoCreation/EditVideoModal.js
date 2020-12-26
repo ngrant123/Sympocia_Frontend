@@ -24,6 +24,11 @@ import CrownPostModal from "../../CrownPost.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import RedoVideoCreationModal from "./index.js";
 import {UserConsumer} from "../../../../Profile/PersonalProfile/UserContext.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	@media screen and (max-width:420px){
@@ -226,7 +231,7 @@ class EditVideoModal extends Component{
 	    return v.toString(16);
 	  });
 	}
-	sendVideoDataToDB=async(videoPostInformation)=>{
+	sendVideoDataToDB=async({videoPostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
 
 		this.setState({
 			isSubmittedAndProcessing:true
@@ -280,7 +285,13 @@ class EditVideoModal extends Component{
 		}
 
 		if(this.props.previousData==null){
-			const {confirmation,data}=await createVideoPost(this.props.personalProfile.id,searchVideoResult,"Personal");
+			const {confirmation,data}=await createVideoPost(
+												this.props.personalProfile.id,
+												searchVideoResult,
+												"Personal",
+												isAccessTokenUpdated==true?updatedAccessToken:
+												this.props.personalProfile.accessToken
+											);
 			const {
 				firstName,
 				id
@@ -300,10 +311,23 @@ class EditVideoModal extends Component{
 				videoPostInformation.hideCreationPost();
 				this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
 			}else{
-				alert('Unfortunately an error has occured please try again ');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalProfile.refreshToken,
+							this.props.personalProfile.id,
+							this.sendVideoDataToDB,
+							this.props,
+							{videoPostInformation},
+							true
+						);
+				}else{
+					alert('Unfortunately an error has occured please try again ');
+					this.setState({
+						isSubmittedAndProcessing:false
+					})
+				}
 			}
 		}else{
 			const {previousData}=this.props;
@@ -349,10 +373,23 @@ class EditVideoModal extends Component{
 			if(confirmation=="Success"){
 				this.props.editPost(editedVideo);
 			}else{
-				alert('Unfortunately there has been an error editing this post. Please try again');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalProfile.refreshToken,
+							this.props.personalProfile.id,
+							this.sendVideoDataToDB,
+							this.props,
+							{videoPostInformation},
+							true
+						);
+				}else{
+					alert('Unfortunately there has been an error editing this post. Please try again');
+					this.setState({
+						isSubmittedAndProcessing:false
+					})
+				}
 			}
 		}
 	}
@@ -742,7 +779,7 @@ isArrayEqual=(arr1,arr2)=>{
 														<ul style={{padding:"0px"}}>
 															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-																	<ul onClick={()=>this.sendVideoDataToDB(videoPostInformation)}>
+																	<ul onClick={()=>this.sendVideoDataToDB({videoPostInformation,isAccessTokenUpdated:false})}>
 																		<li style={{listStyle:"none",display:"inline-block"}}>
 																			<SendIcon
 																				style={{fontSize:20,color:"white"}}
@@ -782,7 +819,15 @@ const mapStateToProps=state=>{
 	}
 }
 
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(EditVideoModal);

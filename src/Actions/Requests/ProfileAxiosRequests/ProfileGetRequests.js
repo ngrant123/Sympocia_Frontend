@@ -32,6 +32,7 @@ export async function getProfile({userId,visitorId,accessToken}){
 				authorization:accessToken
 			}
 		}); 
+		debugger;
 		const {data}=profile;
 		return data;
 	}catch(err){
