@@ -23,7 +23,7 @@ import {refreshTokenApiCallHandle} from "./../../../../../Actions/Tasks/index.js
 import {
 		setPersonalProfileAccessToken,
 		setPersonalProfileRefreshToken
-	} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
+		} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
 	@media screen and (max-width:1370px) and (max-height:1030px){

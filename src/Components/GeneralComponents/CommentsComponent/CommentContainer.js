@@ -6,6 +6,11 @@ import {getRegularComments,
 import {createComment,createReply} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js"
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import {connect} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
 	padding:10px;
@@ -140,8 +145,9 @@ class CommentsContainer extends Component{
 	async componentDidMount(){
 		const {confirmation,data}=await getRegularComments(this.props.postType,this.props.postId);
 		if(confirmation=="Success"){
+			const {message}=data;
 			this.setState({
-				comments:data
+				comments:message
 			})
 		}else{
 			alert('Unfortunately, there has been an error. Please try again');
@@ -182,10 +188,11 @@ class CommentsContainer extends Component{
 		const {confirmation,data}=await getRepliesFromComment(replyObject);
 		debugger;
 		if(confirmation=="Success"){
+			const {message}=data;
 			this.setState({
 				keyToDisplayRespones:commentId,
 				displayResponses:true,
-				selectedReplies:data
+				selectedReplies:message
 			});
 		}else{
 			alert('Unfortunately there has been an error getting the replies. Please try again');
@@ -230,7 +237,7 @@ class CommentsContainer extends Component{
 			</ul>
 	}
 
-	handleCreateComment=async()=>{
+	handleCreateComment=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const comment=document.getElementById("comment").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -239,15 +246,17 @@ class CommentsContainer extends Component{
 														this.props.companyState.id
 		}
 		if(comment!=""){
-			const {confirmation,data}=await createComment(this.props.postType,
-													 this.props.postId,
-													 comment,
-													 profileObject,
-													 this.props.personalState.id
-													);
+			let {confirmation,data}=await createComment(
+												this.props.postType,
+												this.props.postId,
+												comment,
+												profileObject,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												this.props.personalState.accessToken
+											);
 			
 			if(confirmation=="Success"){
-				
+				data=data.message;
 				var currentComments=this.state.comments;
 				const newComment={
 					comment:comment,
@@ -269,7 +278,20 @@ class CommentsContainer extends Component{
 				})
 
 			}else{
-				alert('Unfortunately an error has occured please submit your comment again');
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalState.refreshToken,
+							this.props.personalState.id,
+							this.handleCreateComment,
+							this.props,
+							{},
+							true
+						);
+				}else{
+					alert('Unfortunately an error has occured please submit your comment again');
+				}
 			}
 		}else{
 			alert('Please enter a comment');
@@ -290,7 +312,7 @@ class CommentsContainer extends Component{
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li  onClick={()=>this.handleCreateComment()} style={ExtendedCommentAreaButton}>
+											<li  onClick={()=>this.handleCreateComment({isAccessTokenUpdated:false})} style={ExtendedCommentAreaButton}>
 												Create
 											</li>
 										</a>
@@ -342,7 +364,7 @@ class CommentsContainer extends Component{
 
 
 
-	handleCreateReply=async()=>{
+	handleCreateReply=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const reply=document.getElementById("reply").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -357,7 +379,9 @@ class CommentsContainer extends Component{
 				reply:reply,
 				profileObject:profileObject,
 				postId:this.props.postId,
-				commentIndex:(this.state.comments.length-1)-this.state.commentIndex
+				commentIndex:(this.state.comments.length-1)-this.state.commentIndex,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							this.props.personalState.accessToken
 			}
 			const {confirmation,data}=await createReply(replyObject);
 			if(confirmation=="Success"){
@@ -392,7 +416,20 @@ class CommentsContainer extends Component{
 					comments:newComments
 				})
 			}else{
-				alert('Unfortunately an error has occured please submit your comment again');
+						debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalState.refreshToken,
+							this.props.personalState.id,
+							this.handleCreateReply,
+							this.props,
+							{},
+							true
+						);
+				}else{
+					alert('Unfortunately an error has occured please submit your comment again');
+				}
 			}
 		}else{
 			alert('Please enter a comment');
@@ -408,7 +445,7 @@ class CommentsContainer extends Component{
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li  onClick={()=>this.handleCreateReply()} style={ExtendedCommentAreaButton}>
+									<li  onClick={()=>this.handleCreateReply({isAccessTokenUpdated:false})} style={ExtendedCommentAreaButton}>
 										Create
 									</li>
 								</a>
@@ -452,6 +489,15 @@ const mapStateToProps=(state)=>{
 	}
 }
 
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
+
 export default connect(
-	mapStateToProps
+	mapStateToProps,
+	mapDispatchToProps
 )(CommentsContainer);

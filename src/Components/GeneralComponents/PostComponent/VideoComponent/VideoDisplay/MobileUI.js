@@ -14,6 +14,8 @@ import {
 	addStampPost,
 	unStampPost
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:relative;
@@ -244,7 +246,8 @@ const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPo
 	const [displayPollOption,changeDisplayPollOption]=useState(false);
 	const [displayVideoImageModal,changeDisplayVideoImageModal]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
-
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
@@ -382,13 +385,54 @@ const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPo
 		)
 	}
 
-	const createOrRemoveStampEffect=()=>{
+	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		let confirmationResponse;
+		let dataResponse;
+
 		if(displayStampEffect==false){
-			addStampPost(videoData._id,"personal","Videos",personalId);
-			changeDisplayStampEffect(true);
+			const {confirmation,data}=await addStampPost(
+												videoData._id,
+												"personal",
+												"Videos",
+												personalInformation.id,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+
 		}else{
-			unStampPost(videoData._id,"personal","Videos",personalId);
-			changeDisplayStampEffect(false);
+			const {confirmation,data}=await unStampPost(
+												videoData._id,
+												"personal",
+												"Videos",
+												personalInformation.id,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+		}
+
+		if(confirmationResponse=="Success"){
+			if(displayStampEffect==false)
+				changeDisplayStampEffect(true);
+			else
+				changeDisplayStampEffect(false);
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createOrRemoveStampEffect,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+			}
 		}
 	}
 	return (
@@ -437,7 +481,7 @@ const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPo
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"20px"}}>
 								<a href="javascript:void(0);">
-									<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
+									<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
 										<LoyaltyIcon
 											style={{fontSize:30}}
 										/>

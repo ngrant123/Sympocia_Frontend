@@ -259,7 +259,7 @@ class LProfile extends Component{
 				this.setState(prevState=>({
 					...prevState,
 					userProfile:message,
-					isOwnProfile:false,
+					isOwnProfile:id==this.props.personalId?true:false,
 					displayChampion:containsChampion,
 					championModalData:message.championData,
 					isLoading:false,

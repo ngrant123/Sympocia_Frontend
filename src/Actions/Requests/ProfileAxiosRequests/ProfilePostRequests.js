@@ -391,10 +391,14 @@ export const loginProfile=async(email,password)=>{
 	}
 }
 
-export const deleteChampion=async({userId})=>{
+export const deleteChampion=async({userId,accessToken})=>{
 	try{
 		const deletedChampionResponse=await axios.post(`${CreateUrl}/deleteChampion`,{
 			userId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		})
 
 		const {data}=deletedChampionResponse;

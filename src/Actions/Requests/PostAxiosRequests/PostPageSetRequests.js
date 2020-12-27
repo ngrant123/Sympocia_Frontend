@@ -106,29 +106,28 @@ export const addStampPost =async(postId,profileType,postType,userId,accessToken)
 		});
 
 		const {data}=postStampResponse;
-		const postStampData=data.data;
-		return postStampData;
+		return data;
 	}catch(err){
 		
 	}
 
 }
 
-export const unStampPost=async(postId,profileType,postType,accessToken)=>{
+export const unStampPost=async(postId,profileType,postType,userId,accessToken)=>{
 	try{
 		const unStampPostResponse=await axios.post(`${CreateURl}/unStamp`,{
 			postId:postId,
 			profileType:profileType,
-			postType:postType
+			postType:postType,
+			userId
 		},{
 				headers:{
 					authorization:accessToken
 				}
 			}) ;
 
-		const {data}=unStampPostResponse.data;
-		const unStampPostData=data.data;
-		return unStampPostData;
+		const {data}=unStampPostResponse;
+		return data;
 	}catch(err){
 		
 	}
@@ -237,15 +236,14 @@ export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment,i
 	}
 }
 
-export const createComment=async(postType,postId,comment,profileObject,userId,accessToken)=>{
+export const createComment=async(postType,postId,comment,profileObject,accessToken)=>{
 	try{
 		
 		const commentResponse=await axios.post(`${CreateURl}/createComment`,{
 			postType:postType,
 			postId:postId,
 			comment:comment,
-			profileObject:profileObject,
-			userId
+			profileObject:profileObject
 		},{
 				headers:{
 					authorization:accessToken
@@ -412,13 +410,14 @@ export const editPost=async({postType,postId,post,postS3,ownerId,accessToken})=>
 }
 
 
-export const promotePost=async({postId,nodeId,postType,accessToken})=>{
+export const promotePost=async({postId,nodeId,postType,accessToken,userId})=>{
 	try{
 		
 		const promotionResponse=await axios.post(`${CreateURl}/promotePost`,{
 			postId,
 			nodeId,
-			postType
+			postType,
+			userId
 		},{
 				headers:{
 					authorization:accessToken
@@ -433,14 +432,15 @@ export const promotePost=async({postId,nodeId,postType,accessToken})=>{
 
 }
 
-export const deletePost=async({postId,postType,industriesUploaded,profileId,accessToken})=>{
+export const deletePost=async({postId,postType,industriesUploaded,profileId,accessToken,userId})=>{
 	try{
 		
 		const deleteResponse=await axios.post(`${CreateURl}/deletePost`,{
 			postId,
 			postType,
 			industriesUploaded,
-			profileId
+			profileId,
+			userId
 		},{
 				headers:{
 					authorization:accessToken
@@ -467,10 +467,10 @@ export const createIndustryFeatureImageResponse=async({image,industryId,question
 			userId,
 			questionIndex
 		},{
-				headers:{
-					authorization:accessToken
-				}
-			});
+			headers:{
+				authorization:accessToken
+			}
+		});
 
 		const {data}=imageFeatureResponse
 		return data;

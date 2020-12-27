@@ -4,9 +4,9 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
 import {createSpecificIndustryVideoAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryVideoFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import VideoPostDisplayPortal from "../../../../../HomePageSet/VideoHomeDisplayPortal.js";
-
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -133,6 +133,8 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	const [displayPostExpand,changePostExpand]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
+	const dispatch=useDispatch();
+	const {personalInformation}=useSelector(state=>state);
 
 
 	useEffect(()=>{
@@ -181,7 +183,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 		document.getElementById("uploadVideoFile").click();
 	}
 
-	const submitVideo=async()=>{
+	const submitVideo=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		
 			
 		var video={
@@ -193,7 +195,9 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 			industryId:symposiumId,
 			questionId:selectedPostId,
 			questionIndex:questionIndex,
-			userId:userId
+			userId:userId,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 
 		let {confirmation,data}=await createSpecificIndustryVideoAnswer(submitedVideo);
@@ -208,7 +212,19 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 			changePosts([...posts]);
 			changeDisplayCreationModal(false);
 		}else{
-			alert('Unfortunately there has been an error with adding this image. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitVideo,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with adding this image. Please try again');
+			}
 		}
 	}
 
@@ -331,7 +347,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 										</li>
 									</ul>
 								</li>
-								<li onClick={()=>submitVideo()} style={SubmitButtonCSS}>
+								<li onClick={()=>submitVideo({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
 									Submit
 								</li>
 							</ul>

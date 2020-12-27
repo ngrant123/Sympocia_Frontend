@@ -91,6 +91,7 @@ const HorizontalLineCSS={
 }
 
 const Notification=({targetDom,closeModal,userId,history,tokens})=>{
+	
 	const [isLoading,changeIsLoading]=useState(true);
 	const [notifications,changeNotifications]=useState();
 	const [currentFilterdNotifications,changeCurrentFilterNotifications]=useState();
@@ -101,10 +102,10 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	const [extendedNotificationData,changeExtendedNotificationData]=useState();
 	const [isPostAudio,changeIsPostAudio]=useState();
 	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	const [postIdUrl,changePostIdUrl]=useState();
 	const [postId,changePostId]=useState();
-	const dispatch=useDispatch();
 	const {accessToken}=tokens;
 
 	useEffect(()=>{
@@ -317,8 +318,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 								<hr style={HorizontalLineCSS}/>
 								{constructSelectedPostNotifications()}
 							</>
-							:
-							<>
+							:<>
 								<TitleContainer>
 									<p onClick={()=>triggerGetNotifications({notificationsStatus:"New",isAccessTokenUpdated:false})}
 										style={{fontSize:"20px",marginRight:"5%"}}>

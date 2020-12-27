@@ -8,6 +8,8 @@ import {
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const PostInformationContainer=styled.div`
 	position:relative;
@@ -126,19 +128,61 @@ const PosterInformation=(props)=>{
 	}=props.postData;
 
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 	const constructDate=(dateMilliseconds)=>{
 		const newDate=new Date(dateMilliseconds).toLocaleDateString();
 		return newDate;
 	}
 
-	const createOrRemoveStampEffect=()=>{
-		debugger;
+	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		let confirmationResponse;
+		let dataResponse;
+
 		if(displayStampEffect==false){
-			addStampPost(_id,"personal","RegularPosts",personalId);
-			changeDisplayStampEffect(true);
+			const {confirmation,data}=await addStampPost(
+												_id,
+												"personal",
+												"RegularPosts",
+												personalInformation.id,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+
 		}else{
-			unStampPost(_id,"personal","RegularPosts",personalId);
-			changeDisplayStampEffect(false);
+			const {confirmation,data}=await unStampPost(
+												_id,
+												"personal",
+												"RegularPosts",
+												personalInformation.id,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+		}
+		debugger;
+		if(confirmationResponse=="Success"){
+			if(displayStampEffect==false)
+				changeDisplayStampEffect(true);
+			else
+				changeDisplayStampEffect(false);
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createOrRemoveStampEffect,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+			}
 		}
 	}
 	return(
@@ -206,7 +250,7 @@ const PosterInformation=(props)=>{
 							<li style={{listStyle:"none",position:"relative",left:"25%"}}>
 								<ul style={{padding:"0px"}}>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>createOrRemoveStampEffect()} style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
+										<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
 											<LabelContainer>
 												Stamp
 											</LabelContainer>	

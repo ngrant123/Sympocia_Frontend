@@ -99,6 +99,7 @@ const SponsorDisplayModal=(props)=>{
 				<DeletePostPortal
 					postType="Champion"
 					closeModal={closeDeletePortal}
+					targetDom={"personalContainer"}
 				/>
 			)}
 			{displayExtendedSponsorModal==true?
