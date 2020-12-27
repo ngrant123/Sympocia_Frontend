@@ -20,6 +20,11 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import PollOptionPortal from "../../PollOptionPortal.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import {Link} from "react-router-dom";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+} from "../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
 	position:relative;
@@ -189,110 +194,151 @@ class Video extends Component{
 	}
 
 
-displayOrHideVideoAndComments=()=>{
+	displayOrHideVideoAndComments=()=>{
 
 
-	if(this.state.displayComments==true){
-		const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
-		commentsAndVideoContainer.style.visibility="visible";
+		if(this.state.displayComments==true){
+			const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
+			commentsAndVideoContainer.style.visibility="visible";
 
-		const videoElement=document.getElementById("video");
-		const videoSeconds=videoElement.currentTime;
-		videoElement.muted=true;
-		const smallVideo=document.getElementById("smallVideo");
-		smallVideo.currentTime=videoSeconds;
-		smallVideo.play();
-
-		//make api call to get comments
-	}
-	else{
-		const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
-		if(commentsAndVideoContainer!=null){
 			const videoElement=document.getElementById("video");
-			commentsAndVideoContainer.style.visibility="hidden";
+			const videoSeconds=videoElement.currentTime;
+			videoElement.muted=true;
 			const smallVideo=document.getElementById("smallVideo");
-			smallVideo.pause();
-			videoElement.muted=false;
+			smallVideo.currentTime=videoSeconds;
+			smallVideo.play();
+
+			//make api call to get comments
 		}
+		else{
+			const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
+			if(commentsAndVideoContainer!=null){
+				const videoElement=document.getElementById("video");
+				commentsAndVideoContainer.style.visibility="hidden";
+				const smallVideo=document.getElementById("smallVideo");
+				smallVideo.pause();
+				videoElement.muted=false;
+			}
+		}
+		
 	}
-	
-}
 
-displayDescription=(postInformation)=>{
-	console.log(postInformation);
-	return this.state.displayDescription==false? <React.Fragment></React.Fragment>:
-		<DescriptionModal>
-			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",marginBottom:"2%"}}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-							<SmallProfileDescriptionPicture>
-								{this.props.video.videoDescription==null?
-									<>
-										{postInformation.owner.profilePicture!=null &&(
-											<Link to={{pathname:`/profile/${postInformation.owner._id}`}}>
-												<img src={postInformation.owner.profilePicture} 
-													style={{borderRadius:"50%",width:"100%",height:"100%"}}
-												/>
-											</Link>
-										)}
-									</>:
-									<video style={{borderRadius:"5px"}} width="100%" height="100%" autoplay="true" controls>
-										<source src={this.props.video.videoDescription} type="video/mp4"/>
-									</video>
-								}
-							</SmallProfileDescriptionPicture>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"white",marginRight:"35%"}}>
-							<b>{postInformation.owner.firstName}</b>
-						</li>
-						{postInformation.audioDescription!=null &&(
-							<li style={{listStyle:"none"}}>
-								<audio controls>
-									<source src={this.props.video.audioDescription} type="audio/ogg"/>
-									<source src={this.props.video.audioDescription} type="audio/mpeg"/>
-									Your browser does not support the audio element.
-								</audio>
+	displayDescription=(postInformation)=>{
+		console.log(postInformation);
+		return this.state.displayDescription==false? <React.Fragment></React.Fragment>:
+			<DescriptionModal>
+				<ul style={{padding:"0px"}}>
+					<li style={{listStyle:"none",marginBottom:"2%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+								<SmallProfileDescriptionPicture>
+									{this.props.video.videoDescription==null?
+										<>
+											{postInformation.owner.profilePicture!=null &&(
+												<Link to={{pathname:`/profile/${postInformation.owner._id}`}}>
+													<img src={postInformation.owner.profilePicture} 
+														style={{borderRadius:"50%",width:"100%",height:"100%"}}
+													/>
+												</Link>
+											)}
+										</>:
+										<video style={{borderRadius:"5px"}} width="100%" height="100%" autoplay="true" controls>
+											<source src={this.props.video.videoDescription} type="video/mp4"/>
+										</video>
+									}
+								</SmallProfileDescriptionPicture>
 							</li>
-						)}
-					</ul>
-				</li>
 
-				<li style={{listStyle:"none",marginBottom:"2%",padding:"5px",fontSize:"15px",color:"white"}}>
-					{postInformation.description}
-				</li>
-				<li onClick={()=>this.setState({displayDescription:false})} style={{position:"relative",listStyle:"none",color:"white"}}>
-					<b>Close</b>
-				</li>
-			</ul>
+							<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"white",marginRight:"35%"}}>
+								<b>{postInformation.owner.firstName}</b>
+							</li>
+							{postInformation.audioDescription!=null &&(
+								<li style={{listStyle:"none"}}>
+									<audio controls>
+										<source src={this.props.video.audioDescription} type="audio/ogg"/>
+										<source src={this.props.video.audioDescription} type="audio/mpeg"/>
+										Your browser does not support the audio element.
+									</audio>
+								</li>
+							)}
+						</ul>
+					</li>
 
-		</DescriptionModal>
+					<li style={{listStyle:"none",marginBottom:"2%",padding:"5px",fontSize:"15px",color:"white"}}>
+						{postInformation.description}
+					</li>
+					<li onClick={()=>this.setState({displayDescription:false})} style={{position:"relative",listStyle:"none",color:"white"}}>
+						<b>Close</b>
+					</li>
+				</ul>
+
+			</DescriptionModal>
 
 
-}
+	}
 
 
-displayShadow=()=>{
-	return this.state.displayComments==true?<ShadowContainer onClick={()=>this.setState({displayComments:false})}/>:
-		<React.Fragment></React.Fragment>
-}
+	displayShadow=()=>{
+		return this.state.displayComments==true?<ShadowContainer onClick={()=>this.setState({displayComments:false})}/>:
+			<React.Fragment></React.Fragment>
+	}
 
-createOrRemoveStampEffect=()=>{
-		var isPersonalProfile=this.props.profileType=="personalProfile"?true:false;
+	createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		let confirmationResponse;
+		let dataResponse;
+
 		if(this.state.displayStampEffect==false){
-			addStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
-			this.setState({
-				displayStampEffect:true
-			})
+			const {confirmation,data}=await addStampPost(
+												this.props.video._id,
+												"personal",
+												"Videos",
+												this.props.personalId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												this.props.personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
 
 		}else{
-			unStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
-			this.setState({
-				displayStampEffect:false
-			})
+			const {confirmation,data}=await unStampPost(
+												this.props.video._id,
+												"personal",
+												"Videos",
+												this.props.personalId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												this.props.personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
 		}
-}
+
+		if(confirmationResponse=="Success"){
+			if(this.state.displayStampEffect==false){
+				this.setState({
+					displayStampEffect:true
+				})
+			}
+			else{
+				this.setState({
+					displayStampEffect:false
+				})
+			}
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						this.props.personalInformation.refreshToken,
+						this.props.personalInformation.id,
+						this.state.createOrRemoveStampEffect,
+						this.props,
+						{},
+						true
+					);
+			}else{
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+			}
+		}
+	}
 
 	hideComments=()=>{
 		const smallVideoCurrentTime=document.getElementById("smallVideo").currentTime;
@@ -426,7 +472,7 @@ createOrRemoveStampEffect=()=>{
 				<OptionsContainer>
 					<ul style={{paddingTop:"10px"}}>
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.createOrRemoveStampEffect()} style={{listStyle:"none",marginBottom:"20px"}}>
+							<li onClick={()=>this.createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={{listStyle:"none",marginBottom:"20px"}}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",marginLeft:"5%"}}>
 										<Icon 
@@ -576,7 +622,17 @@ const mapStateToProps=(state)=>{
 	}
 }
 
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
+
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(Video);
+

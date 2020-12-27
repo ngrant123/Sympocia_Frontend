@@ -5,6 +5,8 @@ import { Icon, InlineIcon } from '@iconify/react';
 import stampIcon from '@iconify/icons-fa-solid/stamp';
 import {addStampPost,unStampPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -92,29 +94,60 @@ const StampButtonCSS={
 const AdditionalInformation=(props)=>{
 
 	const {postType,profileId}=props;
-	console.log(props);
 	const [profilePictureContributors,changeContributors]=useState([{},{},{},{},{}]);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
-	const createOrRemoveStampEffect=()=>{
+	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
-		
-		//(userId,postId,profileType,postType)
+		let confirmationResponse;
+		let dataResponse;
+
 		if(displayStampEffect==false){
-			if(isPersonalProfile==true){
-				addStampPost(props.blogData._id,"personal","Blogs",profileId);
-			}else{
-				addStampPost(props.blogData._id,"company","Blogs",profileId);
-			}
-			changeDisplayStampEffect(true);
+			const {confirmation,data}=await addStampPost(
+												props.blogData._id,
+												"personal",
+												"Blogs",
+												profileId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
 
 		}else{
-			if(isPersonalProfile==true){
-				unStampPost(props.blogData._id,"personal","Blogs",profileId);
+			const {confirmation,data}=await unStampPost(
+												props.blogData._id,
+												"personal",
+												"Blogs",
+												profileId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+		}
+
+		if(confirmationResponse=="Success"){
+			if(displayStampEffect==false)
+				changeDisplayStampEffect(true);
+			else
+				changeDisplayStampEffect(false);
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createOrRemoveStampEffect,
+						dispatch,
+						{},
+						false
+					);
 			}else{
-				unStampPost(props.blogData._id,"company","Blogs",profileId);
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 			}
-			changeDisplayStampEffect(false);
 		}
 	}
 
@@ -122,7 +155,7 @@ const AdditionalInformation=(props)=>{
 		<Container>
 				<ul style={{padding:"0px"}}>
 					{postType!="Creation" &&(
-						<li onClick={()=>createOrRemoveStampEffect()} style={{listStyle:"none"}}>
+						<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={{listStyle:"none"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 									<LoyaltyIcon

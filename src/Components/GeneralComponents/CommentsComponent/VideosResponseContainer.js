@@ -14,6 +14,11 @@ import {
 import VideoDescriptionPortal from "../PostComponent/VideoDescriptionPortal.js";
 import {connect} from "react-redux";
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
+import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 
 const Video=styled.div`
@@ -140,8 +145,9 @@ class VideoResponseContainer extends Component{
 	async componentDidMount(){
 		const {confirmation,data}=await getVideoComments(this.props.postType,this.props.postId);
 		if(confirmation=="Success"){
+			const {message}=data;
 			this.setState({
-				videoResponses:data,
+				videoResponses:message,
 				isVideoResponsesReady:true
 			})
 		}else{
@@ -153,16 +159,17 @@ class VideoResponseContainer extends Component{
 		
 		const {confirmation,data}=await getVideoCommentsReplies(this.props.postId,this.state.indicatorPosition,this.props.postType);
 		if(confirmation=="Success"){
+			const {message}=data;
 			this.setState({
 				displayComments:!this.state.displayComments,
-				replies:data
+				replies:message
 			});
 		}else{
 			alert('Unfortunately there has been an error getting the replies. Please try again');
 		}
 	}
 
-	handleCreateComment=async()=>{
+	handleCreateComment=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const comment=document.getElementById("comment").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -178,16 +185,18 @@ class VideoResponseContainer extends Component{
 				profileObject:profileObject,
 				postId:this.props.postId,
 				commentIndex:this.state.indicatorPosition,
-				userId:this.props.personalState.id
+				userId:this.props.personalState.id,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							this.props.personalState.accessToken
 			}
 			const {confirmation,data}=await createVideoCommentReply(replyObject);
 			
 			if(confirmation=="Success"){
-				
+				const {message}=data;
 				var currentComments=this.state.replies;
 				const newComment={
 					reply:comment,
-					profilePicture:data.profilePicture,
+					profilePicture:message.profilePicture,
 					ownerObject:{
 						owner:{
 							firstName:isPersonalProfileIndicator==true?this.props.personalState.firstName:
@@ -202,7 +211,19 @@ class VideoResponseContainer extends Component{
 					creationCommentExtended:false
 				})
 			}else{
-				alert('Unfortunately an error has occured please submit your comment again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalState.refreshToken,
+							this.props.personalState.id,
+							this.handleCreateComment,
+							this.props,
+							{},
+							true
+						);
+				}else{
+					alert('Unfortunately an error has occured please submit your comment again');
+				}
 			}
 		}else{
 			alert('Please enter a comment');
@@ -226,7 +247,7 @@ class VideoResponseContainer extends Component{
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li  onClick={()=>this.handleCreateComment()} style={ExtendedCommentAreaButton}>
+											<li  onClick={()=>this.handleCreateComment({isAccessTokenUpdated:false})} style={ExtendedCommentAreaButton}>
 												Create
 											</li>
 										</a>
@@ -396,7 +417,7 @@ class VideoResponseContainer extends Component{
 		});
 	}
 
-	handleNewVideoResponse=async()=>{
+	handleNewVideoResponse=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const currentProfile={
 			isPersonalProfile:isPersonalProfileIndicator,
@@ -407,11 +428,14 @@ class VideoResponseContainer extends Component{
 			postType:this.props.postType,
 			videoSrc:this.state.createdVideoSrc,
 			currentProfile:currentProfile,
-			postId:this.props.postId
+			postId:this.props.postId,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						this.props.personalState.accessToken
 		}
 
-		const {confirmation,data}=await createVideoResponse(videoResponse);
+		let {confirmation,data}=await createVideoResponse(videoResponse);
 		if(confirmation=="Success"){
+			data=data.message;
 			const newComment={
 					videoSrc:this.state.createdVideoSrc,
 					profilePicture:data.profilePicture,
@@ -434,7 +458,19 @@ class VideoResponseContainer extends Component{
 
 
 		}else{
-			alert('Unfortunately there was an error creating your video response. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						this.props.personalState.refreshToken,
+						this.props.personalState.id,
+						this.handleNewVideoResponse,
+						this.props,
+						{},
+						true
+					);
+			}else{
+				alert('Unfortunately there was an error creating your video response. Please try again');
+			}
 		}
 	}
 	/*
@@ -473,7 +509,7 @@ class VideoResponseContainer extends Component{
 									<li style={{listStyle:"none"}}>
 										<ul style={{padding:"0px"}}>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>this.handleNewVideoResponse()} style={SubmitButtonCSS}>
+												<li onClick={()=>this.handleNewVideoResponse({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
 													Submit 
 												</li>
 											</a>
@@ -510,8 +546,18 @@ const mapStateToProps=(state)=>{
 	}
 }
 
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
+
+
 export default connect(
-	mapStateToProps
+	mapStateToProps,
+	mapDispatchToProps
 )(VideoResponseContainer);
 
 

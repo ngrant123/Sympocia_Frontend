@@ -9,7 +9,8 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import RegularPostCreation from "../RegularPostCreation/index.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";
-
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {
 	addStampPost,
 	unStampPost
@@ -282,6 +283,8 @@ const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,trigger
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 		if(postData.isPostAuthentic!=null){
 			var approvesPostNumber=postData.isPostAuthentic.numOfApprove!=null?
@@ -400,13 +403,54 @@ const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,trigger
 		)
 	}
 
-	const createOrRemoveStampEffect=()=>{
+	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		let confirmationResponse;
+		let dataResponse;
+
 		if(displayStampEffect==false){
-			addStampPost(postData._id,"personal","RegularPosts",personalId);
-			changeDisplayStampEffect(true);
+			const {confirmation,data}=await addStampPost(
+												postData._id,
+												"personal",
+												"RegularPosts",
+												personalId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+
 		}else{
-			unStampPost(postData._id,"personal","RegularPosts",personalId);
-			changeDisplayStampEffect(false);
+			const {confirmation,data}=await unStampPost(
+												postData._id,
+												"personal",
+												"RegularPosts",
+												personalId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+		}
+
+		if(confirmationResponse=="Success"){
+			if(displayStampEffect==false)
+				changeDisplayStampEffect(true);
+			else
+				changeDisplayStampEffect(false);
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createOrRemoveStampEffect,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+			}
 		}
 	}
 
@@ -454,7 +498,7 @@ const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,trigger
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"20px"}}>
 								<a href="javascript:void(0);">
-									<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
+									<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
 										<LoyaltyIcon
 											style={{fontSize:30}}
 										/>

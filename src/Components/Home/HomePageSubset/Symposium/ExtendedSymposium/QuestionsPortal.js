@@ -10,7 +10,8 @@ import MicIcon from '@material-ui/icons/Mic';
 import {addCommentToPopularQuestions} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {HomeConsumer} from "../../../HomeContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -146,6 +147,8 @@ const MobileCreationButtonCSS={
 const QuestionsPortal=(props)=>{
 	const _id=useSelector(state=>state.personalInformation.id);
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	const triggerUIChange=()=>{
 		if(window.innerWidth<595){
@@ -178,7 +181,7 @@ const QuestionsPortal=(props)=>{
 	let [currentCounter,changeCurrentCounter]=useState(counter);
 	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[currentCounter].questionType);
 
-	const sendData=async(postData)=>{
+	const sendData=async({postData,isAccessTokenUpdated,updatedAccessToken})=>{
 
 		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
 		if(currentQuestionType=="Video"){
@@ -208,14 +211,30 @@ const QuestionsPortal=(props)=>{
 			industry:selectedSymposium
 		}
 
-		const {confirmation,data}=await addCommentToPopularQuestions(postInformation);
+		const {confirmation,data}=await addCommentToPopularQuestions(
+											postInformation,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken
+										);
 		if(confirmation=="Success"){
 			props.closeModalAndDisplayData({
 				data,
 				currentQuestionType
 			});
 		}else{
-			alert('Unfortunately there has been an error when trying to add your post. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						sendData,
+						dispatch,
+						{postData},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error when trying to add your post. Please try again');
+			}
 		}
 	}
 
@@ -275,7 +294,7 @@ const QuestionsPortal=(props)=>{
 											/>
 											<hr/>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
+												<li onClick={()=>sendData({postData:selectedPost,isAccessTokenUpdated:false})} style={SendButtonCSS}>
 													Send
 												</li>
 											</a>
@@ -317,7 +336,7 @@ const QuestionsPortal=(props)=>{
 									<InputContainer id="videoDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your video here"/>
 									<hr/>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
+										<li onClick={()=>sendData({postData:selectedPost,isAccessTokenUpdated:false})} style={SendButtonCSS}>
 											Send
 										</li>
 									</a>
@@ -347,7 +366,10 @@ const QuestionsPortal=(props)=>{
 													/>
 												</li>
 												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>sendData(document.getElementById("regularPostText").value)} style={SendButtonCSS}>
+													<li onClick={()=>sendData({
+																		postData:document.getElementById("regularPostText").value,
+																		isAccessTokenUpdated:false
+																	})} style={SendButtonCSS}>
 														Send
 													</li>
 												</a>
@@ -387,7 +409,7 @@ const QuestionsPortal=(props)=>{
 										<img src={selectedPost} style={{borderRadius:"5px",width:"40%",height:"50%"}}/>
 									</li>
 									<InputContainer placeholder="Describe your picture here"/>
-									<li onClick={()=>sendData()} style={SendButtonCSS}>
+									<li onClick={()=>sendData({isAccessTokenUpdated:false})} style={SendButtonCSS}>
 										Send
 									</li>
 								</ul>

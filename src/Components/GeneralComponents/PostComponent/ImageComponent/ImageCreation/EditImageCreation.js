@@ -441,25 +441,10 @@ class EditImageCreation extends Component{
 							true
 						);
 				}else{
-					debugger;
-					const {statusCode}=data;
-					if(statusCode==401){
-						await refreshTokenApiCallHandle(
-								this.props.personalProfile.refreshToken,
-								this.props.personalProfile.id,
-								this.sendImageDateToDB,
-								this.props,
-								{
-									profilePostInformation
-								},
-								true
-							);
-					}else{
-						alert('Unfortunately there has been an error editing this post. Please try again');
-						this.setState({
-							isSubmittedAndProcessing:false
-						})
-					}
+					alert('Unfortunately there has been an error editing this post. Please try again');
+					this.setState({
+						isSubmittedAndProcessing:false
+					})
 				}
 			}
 		}
