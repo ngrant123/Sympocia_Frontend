@@ -4,12 +4,14 @@ import {Link} from "react-router-dom";
 export const Container=styled.div`
 	background-color:white;
 	position:fixed;
-	width:100%;
+	width:80%;
 	height:14%;
 	border-radius:0px 0px 5px 5px;
 	z-index:31;
+	margin-left:10%;
 
 	@media screen and (max-width:1370px) {
+		height:7%;
 		#ULContainer{
 			background-color:white !important;
 		}
