@@ -118,7 +118,7 @@ const MobileChatOptionCSS={
 const MobileRouteOptionCSS={
 	color:"#5298F8",
 	borderStyle:"none",
-	backgroundColor:"#5298F8",
+	backgroundColor:"white",
 	padding:"10px"
 }
 
@@ -270,7 +270,6 @@ const NavBar=(pageProps)=>{
 										</li>
 									</NavBarButton>
 								</button>
-								
 
 								<ul class="dropdown-menu">
 									<li>
@@ -361,7 +360,7 @@ const NavBar=(pageProps)=>{
 			}
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none",width:"100%",}}>
-					<ul id="ULContainer" style={{padding:"0px"}}>
+					<ul id="ULContainer" style={{padding:"0px",marginBottom:"2%"}}>
 						{(displayPhoneUI==true || displayIpadUI==true)?
 							<>
 								<li id="mobileRoutesButton" style={{position:"relative",top:"-15px",marginLeft:"200px",marginRight:"1%",listStyle:"none",display:"inline-block"}}>
@@ -373,7 +372,6 @@ const NavBar=(pageProps)=>{
 											  <path d="M16 15c-2.21 1.333-5.792 1.333-8 0" />
 											</svg>
 										</button>
-										
 
 										<ul class="dropdown-menu">
 											<li>
@@ -428,7 +426,7 @@ const NavBar=(pageProps)=>{
 			</ul>
 
 			{displayDesktopUI==true && (
-				<ul style={{marginLeft:"32%",top:"7%"}}>
+				<ul style={{marginLeft:"27%",top:"7%"}}>
 					{personalProfileIpadPages()}
 				</ul>
 			)}

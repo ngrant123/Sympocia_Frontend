@@ -28,7 +28,12 @@ const Container=styled.div`
 			margin-left:40% !important;
     	}
     }
-	
+
+    @media screen and (max-width:1370px){
+    	#mobileHeaderLI{
+  			margin-top:13% !important;
+  		}
+	}
    
 	@media screen and (max-width:1030px){
 		#exploreDescriptionLI{
@@ -40,7 +45,11 @@ const Container=styled.div`
     	}
 	}
 
-	@media screen and (max-width:460px){
+	@media screen and (max-width:600px){
+		margin-left:0%;
+		#mobileHeaderLI{
+  			margin-top:25% !important;
+  		}
 		#exploreDescriptionLI{
 			display:none !important;
 		}
@@ -49,6 +58,7 @@ const Container=styled.div`
 			margin-left:27% !important;
     	}
 	}
+
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
     	#mobileArenaLI{
     		width:20% !important;
@@ -133,9 +143,9 @@ const PostsContainer=styled.div`
 
 const Posts=styled.div`
 	position:absolute;
-	width:90%;
+	width:100%;
 	height:90%;
-	margin-top:10%;
+	margin-top:3%;
 
 
 	@media screen and (max-width:450px){
@@ -369,6 +379,7 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -382,6 +393,7 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -394,6 +406,7 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -406,6 +419,7 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
