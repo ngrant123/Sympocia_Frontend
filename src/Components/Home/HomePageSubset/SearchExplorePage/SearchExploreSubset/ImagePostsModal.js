@@ -17,56 +17,6 @@ import {Link} from "react-router-dom";
 import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 
-/*
-	const Container=styled.div`
-		position:absolute;
-		width:95%;
-		height:97%;
-		margin-top:1%;
-
-
-		@media screen and (max-width:740px) and (max-height:420px){
-	    	#headerLI{
-				height:180% !important;
-			}
-			#headerImageLI{
-				height:95% !important;
-			}
-	    }
-
-
-		@media screen and (max-width:1300px){
-			width:120%;
-			margin-left:-5% !important;
-			#headerLI{
-				display:block !important;
-				margin-top:10% !important;
-				width:95% !important;
-			}
-			#smallPostLI{
-				width:95% !important;
-			}
-			#image{
-				width:120px !important;
-				height:120px !important;
-				margin-right:2%;
-			}
-			#suggestedSymposiumLI{
-				top:-15% !important;
-			}
-			#postLI{
-				margin-right:2% !important;
-			}
-		}
-
-		@media screen and (max-width:450px){
-			margin-left:-5% !important;
-			#headerLI{
-				margin-top:-25% !important;
-			}
-		}
-	`;
-*/
 
 const Container=styled.div`
 	display:flex;
@@ -118,6 +68,11 @@ const HeaderContainer=styled.div`
 		}
 	}
 
+	@media screen and (max-width:1370px) and (max-height:1400px) {
+    	#headerPostProfilePictureLIInformation{
+			top:60% !important;
+		}
+    }
 
 	@media screen and (max-width:600px){
 		margin-top:-130px !important;
@@ -125,12 +80,15 @@ const HeaderContainer=styled.div`
 			top:0% !important;
 		}
 	}
+
+
 	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
 		margin-top:45px !important;
     	#headerPostProfilePictureLIInformation{
 			top:120% !important;
 		}
     }
+
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
     	margin-top:45px !important;
     	#headerPostProfilePictureLIInformation{
@@ -232,7 +190,7 @@ const VideoDesriptionContainer=styled.div`
 const SuggestedSymposiumsContainer=styled.div`
 	display:flex;
 	flex-direction:column;
-	width:90%
+	width:90%;
 	margin-left:2%;
 	margin-right:2%;
 `;
