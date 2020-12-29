@@ -19,31 +19,35 @@ const Container=styled.div`
 
 	@media screen and (max-width:600px){
 		#postLI{
-			margin-top:50% !important;
+			margin-top:-50px !important;
 		}
 	}
-
-
-
-    @media screen  and (max-width:730px) and (max-height:420px) 
-	  and (orientation: landscape) 
-	  and (-webkit-min-device-pixel-ratio: 1){
-    	#postLI{
-			margin-top:5% !important;
-		}
-    }
 `;
 const PostContainer=styled.div`
 	position:absolute;
-	width:95%;
-	height:600px;
-	margin-top:7%;
-	padding:40px;
+	width:90%;
+	height:90%;
+	margin-top:10%;
 
+	@media screen and (max-width:1370px){
+		margin-top:10px !important;
+	}
+
+	@media screen and (max-width:600px){
+		margin-top:45% !important;
+		margin-left:-15% !important;
+	}
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+		margin-top:5% !important;
+    	margin-left:-5% !important;
+    }
+/*
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	margin-left:10% !important;
     	width:70% !important;
     }
+*/
 `;
 
 const PostButton={
@@ -297,16 +301,15 @@ const PostSearch=(props)=>{
 					</ul>
 				</li>
 				<hr/>
-
-				<li id="postLI"  style={{listStyle:"none"}}>
-					<PostContainer>
+				<PostContainer>
+					<ul>
 						{isFinishedLoading==true?
 							<>
 								{constructPostsResponse()}
 							</>:<LoadingScreen/>
 						}
-					</PostContainer>
-				</li>
+					</ul>
+				</PostContainer>
 			</ul>
 		</Container>
 	)

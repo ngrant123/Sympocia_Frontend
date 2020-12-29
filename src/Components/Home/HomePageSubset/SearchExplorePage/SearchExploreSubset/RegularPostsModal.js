@@ -3,23 +3,22 @@ import styled from "styled-components";
 import PersonalIndustry from "../../../../../Constants/personalIndustryConstants.js";
 import CompanyIndustry from "../../../../../Constants/industryConstants.js";
 import {useSelector} from "react-redux";
-import {
-		displayPersonalIndustryFeed,
-		DisplayRecruitButton
-	} from "./ImagePostsModal.js";
+import {DisplayRecruitButton} from "./ImagePostsModal.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 import RegularPostDisplayPortal from "../../../HomePageSet/RegularPostHomeDisplayPortal.js";
 import {Link} from "react-router-dom";
+import {
+	ConstructSuggestedSymposium,
+	displayPersonalIndustryFeed
+} from "./ConstructSuggestedSymposium.js";
 
 
 const Container=styled.div`
-	position:absolute;
-	width:95%;
-	height:97%;
-	margin-top:1%;
-
+	display:flex;
+	top:5%;
+	flex-direction:row;
 
 	@media screen and (max-width:740px) and (max-height:420px){
     	#headerLI{
@@ -31,17 +30,22 @@ const Container=styled.div`
     }
 
 
-	@media screen and (max-width:1300px){
+	@media screen and (max-width:1370px){
+		flex-direction:column;
 		width:120%;
 		margin-left:-5% !important;
 		#headerLI{
 			display:block !important;
-			margin-top:10% !important;
+			margin-top:0% !important;
 			width:95% !important;
-			margin-left:-10% !important;
+			margin-left:-7% !important;
+			margin-bottom:2% !important;
 		}
 		#smallPostLI{
 			width:95% !important;
+			height:100% !important;
+			margin-left:-10% !important;
+			overflow-y:visible;
 		}
 		#post{
 			width:120px !important;
@@ -64,7 +68,47 @@ const Container=styled.div`
 	}
 `;
 
+const HeaderContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	width:50%;
 
+	@media screen and (max-width:1370px){
+		width:90%;
+		overflow-y:scroll;
+	}
+
+	@media screen and (max-width:600px){
+		margin-top:-150px !important;
+		height:300px;
+	}
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	margin-top:45px !important;
+    }
+`;
+
+
+const PostsContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	width:50%;
+	height:600px;
+	overflow-y:scroll;
+	margin-left:2%;
+
+	@media screen and (max-width:1370px){
+		width:90%;
+		margin-left:0%;
+		margin-top:5%;
+		height:100%;
+	}
+`;
+
+const Post=styled.div`
+	display:flex;
+	flex-direction:column;
+`;
 
 const ProfileHeaderImage=styled.div`
 	position:relative;
@@ -143,169 +187,135 @@ const RegularPostModal=(props)=>{
 		changeRegularPostDisplay(true);
 	}
 
-	const constructSuggestedSymposium=(personalInformation,previousProps)=>{
-		
-		console.log(personalInformation);
-		const {personalInformationState}=personalInformation;
-		var symposiumContainer=new Map();
-		var selectedSymposiums=[];
-			var counter=0;
-			while(counter<3){   
-				if(previousProps.isPersonalProfile==true){
-					const randomNum=Math.floor(Math.random() * ((PERSONAL_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
-					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
-					if(!symposiumContainer.has(randomlySelected.industry)){
-						symposiumContainer.set(randomlySelected.industry,1);
-						selectedSymposiums.push(randomlySelected);
-					}
-				}else{
-					const randomNum=Math.floor(Math.random() * ((COMPANY_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
-					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
-					if(!symposiumContainer.has(randomlySelected.industry)){
-						symposiumContainer.set(randomlySelected.industry,1);
-						selectedSymposiums.push(randomlySelected);
-					}
-				}
-				counter++;
-			}
-
-			return <ul style={{padding:"0px",position:"relative"}}>
-						{selectedSymposiums.map(data=>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)} 
-									style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
-									<b>{data.industry}</b>
-								</li>
-							</a>
-						)}
-				   </ul>
-	}
 
 	return(
 		<Container>
 			{headerRegularPost!=null?
-				<ul>
-					<li id="headerLI" style={{overflow:"scroll",position:"relative",listStyle:"none",display:"inline-block",width:"50%",...BorderCSS}}>
-						<ul style={{padding:"0px"}}>
-
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px",overflow:"hidden"}}>
-									<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}>
-										<img src={headerRegularPost.owner.profilePicture!=null?
-												  headerRegularPost.owner.profilePicture:
-												  NoProfilePicture} 
-										style={{height:"20%",width:"90%",borderRadius:"50%"}}/>
-									</ProfilePictureLink>
-								</li>
-							</a>
-
-							<li style={{position:"relative",top:"70px",listStyle:"none",display:"inline-block",width:"70%",overflow:"hidden",marginLeft:"5%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",marginBottom:"2%"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{display:"inline-block",listStyle:"none",fontSize:"30px",marginRight:"2%"}}>
-												<b>{headerRegularPost.owner.firstName}</b>
-											</li>
-
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li  onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerRegularPost.industriesUploaded,props)} style={RegularPostLabelCSS}>
-													{headerRegularPost.industriesUploaded[0].industry}
-												</li>
-											</a>
-
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li style={{display:"inline-block",listStyle:"none"}}>
-													<DisplayRecruitButton
-														post={headerRegularPost}
-														previousProps={props}
-													/>
-												</li>
-											</a>
-										</ul>
-									</li>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="headerPostLI" onClick={()=>handleDisplayHeaderPost()} style={{listStyle:"none",height:"30%",overflowY:"scroll",display:"inline-block",width:"80%",fontSize:"20px"}}>
-												{headerRegularPost.isAudioPost==true?
-													<audio controls>
-													 	<source src={headerRegularPost.post} type="audio/ogg"/>
-													  	<source src={headerRegularPost.post} type="audio/mpeg"/>
-														Your browser does not support the audio element.
-													</audio>
-													:
-													<>{headerRegularPost.post}</>
-												}
-										</li>
-									</a>
-								</ul>
+				<>
+					<HeaderContainer style={BorderCSS}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px",overflow:"hidden"}}>
+								<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}>
+									<img src={headerRegularPost.owner.profilePicture!=null?
+											  headerRegularPost.owner.profilePicture:
+											  NoProfilePicture} 
+									style={{height:"50px",width:"60px",borderRadius:"50%"}}/>
+								</ProfilePictureLink>
 							</li>
-						</ul>
-					</li>
-					<li id="smallPostLI" style={{width:"55%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"2%",height:"80%",overflowY:"auto",marginBottom:"5%",...BorderCSS}}>
+						</a>
+
+						<li style={{position:"relative",top:"70px",listStyle:"none",display:"inline-block",width:"70%",overflow:"hidden",marginLeft:"5%"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginBottom:"2%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{display:"inline-block",listStyle:"none",fontSize:"30px",marginRight:"2%"}}>
+											<b>{headerRegularPost.owner.firstName}</b>
+										</li>
+
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li  onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerRegularPost.industriesUploaded,props)} style={RegularPostLabelCSS}>
+												{headerRegularPost.industriesUploaded[0].industry}
+											</li>
+										</a>
+
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li style={{display:"inline-block",listStyle:"none"}}>
+												<DisplayRecruitButton
+													post={headerRegularPost}
+													previousProps={props}
+												/>
+											</li>
+										</a>
+									</ul>
+								</li>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li id="headerPostLI" onClick={()=>handleDisplayHeaderPost()} style={{listStyle:"none",height:"30%",display:"inline-block",fontSize:"20px"}}>
+											{headerRegularPost.isAudioPost==true?
+												<audio controls>
+												 	<source src={headerRegularPost.post} type="audio/ogg"/>
+												  	<source src={headerRegularPost.post} type="audio/mpeg"/>
+													Your browser does not support the audio element.
+												</audio>
+												:
+												<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+								dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+								anim id est laborum.</>
+											}
+									</li>
+								</a>
+							</ul>
+						</li>
+					</HeaderContainer>
+
+					<PostsContainer style={BorderCSS}>
 						<ul style={{padding:"0px"}}>
 							{regularPosts.map(data=>
 								<React.Fragment>
 									{data=="suggestedSymposium"?
-										<li id="suggestedSymposiumLI" style={{listStyle:"none",display:"inline-block",position:"relative",top:"0px",marginBottom:"8%",width:"70%",marginRight:"4%"}}>
-											{constructSuggestedSymposium(personalInformationRedux,props)}
-										</li>
+										<ConstructSuggestedSymposium
+											personalInformation={personalInformationRedux}
+											previousProps={props}
+										/>
 										:
-										<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"90%",marginRight:"2%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none"}}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-																<img src={data.owner.profilePicture!=null?
-																		data.owner.profilePicture:
-																		NoProfilePicture} 
-																style={{height:"15%",width:"50px",borderRadius:"50%"}}/>
-															</ProfilePictureLink>
-														</li>
-														<li style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
-															<b>{data.owner.firstName} </b>
-														</li>
-													</ul>
-												</li>
+										<Post>
+											<li style={{listStyle:"none"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+															<img src={data.owner.profilePicture!=null?
+																	data.owner.profilePicture:
+																	NoProfilePicture} 
+															style={{height:"50px",width:"50px",borderRadius:"50%"}}/>
+														</ProfilePictureLink>
+													</li>
+													<li style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
+														<b>{data.owner.firstName} </b>
+													</li>
+												</ul>
+											</li>
+											<p>
+												<b> 
+													{data.isAudioPost==true?
+														<audio controls>
+														 	<source src={data.post} type="audio/ogg"/>
+														  	<source src={data.post} type="audio/mpeg"/>
+															Your browser does not support the audio element.
+														</audio>
+														:
+														<>
+															Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+															incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+															exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+															dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+															Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+															anim id est laborum.
+														</>
+													}
+												 </b>
 
-												<li iid="postLI" style={{listStyle:"none"}}>
-													<ul style={{padding:"0px"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<li  id="post" onClick={()=>displayPostModal(data)}
-																 style={{listStyle:"none",marginBottom:"1%",height:"20%",overflowY:"scroll",color:"#BDBDBD"}}>
-																<b> 
-																	{data.isAudioPost==true?
-																		<audio controls>
-																		 	<source src={data.post} type="audio/ogg"/>
-																		  	<source src={data.post} type="audio/mpeg"/>
-																			Your browser does not support the audio element.
-																		</audio>
-																		:
-																		<>{data.post}</>
-																	}
-																	
-																 </b>
-															</li>
-														</a>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={RegularPostLabelCSS}>
-																{data.industriesUploaded[0].industry}
-															</li>
-														</a>
-														<DisplayRecruitButton
-															post={data}
-															previousProps={props}
-														/>
-													</ul>
+											</p>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={RegularPostLabelCSS}>
+													{data.industriesUploaded[0].industry}
 												</li>
-											</ul>
-										</li>
+											</a>
+											{/*
+												<DisplayRecruitButton
+													post={data}
+													previousProps={props}
+												/>
+											*/}
+										</Post>
 									}
 									<hr/>
 								</React.Fragment>
 							)}
 						</ul>
-					</li>
-				</ul>:
+					</PostsContainer>
+				</>:
 				<p> No posts yet </p>
 			}
 			{displayRegualrPostDisplayPortal==false?

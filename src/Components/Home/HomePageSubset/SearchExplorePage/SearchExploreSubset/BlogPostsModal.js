@@ -5,26 +5,23 @@ import BlogHomeDisplayPortal from "../../../HomePageSet/BlogHomeDisplayPortal.js
 import {useSelector} from "react-redux";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
+import {DisplayRecruitButton} from "./ImagePostsModal.js";
 import {
-	DisplayRecruitButton,
+	ConstructSuggestedSymposium,
 	displayPersonalIndustryFeed
-} from "./ImagePostsModal.js";
-
+} from "./ConstructSuggestedSymposium.js";
 import {Link} from "react-router-dom";
 
 const Container=styled.div`
-	position:absolute;
-	width:95%;
-	height:97%;
-	margin-top:1%;
-
-
-
+	display:flex;
+	top:5%;
+	flex-direction:row;
 
 	@media screen and (max-width:1370px){
 		width:120%;
 		margin-left:-5% !important;
 		margin-bottom:30% !important;
+		flex-direction:column;
 
 		#headerLI{
 			display:block !important;
@@ -108,12 +105,12 @@ const HeaderBlog=styled.div`
 
 const HeaderBlogCSS={
 	width:"400px",
-	height:"100%",
+	height:"300px",
 	borderRadius:"5px",
 	borderRadius:"5px"
 }
 
-const VideoContainerCSS={
+const BlogImageContainerCSS={
 	position:"relative",
 	width:"280px",
 	height:"230px",
@@ -169,6 +166,67 @@ const VideoDesriptionContainer=styled.div`
 	z-index:8;
 `;
 
+const HeaderContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	width:50%;
+	justify-content:center;
+	align-items:center;
+	flex-wrap:wrap;
+
+	@media screen and (max-width:1370px){
+		height:200%;
+		width:70%;
+		overflow-y:scroll;
+	}
+	@media screen and (max-width:600px){
+		margin-top:-100px !important;
+		#headerAudioTag{
+			margin-left:10% !important;
+		}
+		#headerBlogImage{
+			height:200px !important;
+		}
+    }
+
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	margin-top:10px !important;
+    }
+`;
+
+const HeaderBlogImageInformationContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+`;
+const PostsContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	width:50%;
+	height:600px;
+	overflow-y:scroll;
+	margin-left:5%;
+
+	@media screen and (max-width:1370px){
+		width:90%;
+		height:100%;
+		margin-left:0%;
+		margin-top:20%;
+	}
+`;
+
+const SmallPostContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+	width:100%;
+`;
+
+const SmallPostDescriptionContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	margin-left:2;
+	width:100%;
+`;
+
 
 const ProfileImageCSS={
 	position:"relative",
@@ -177,7 +235,7 @@ const ProfileImageCSS={
 	borderRadius:"50%"
 }
 
-const ImageLabelCSS={
+const SymposiumLabelCSS={
 	listStyle:"none",
 	display:"inline-block",
 	borderColor:"#5298F8",
@@ -269,22 +327,13 @@ const BlogPostModal=(props)=>{
 	<Container>
 	{props.posts.length>=1?
 		<React.Fragment>
-		<li id="headerLI" style={{position:"relative",top:"-120px",listStyle:"none",display:"inline-block",width:"50%"}}>
-				<ul style={{padding:"0px"}}>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
-							{headerBlog.audioDescription!=null?
-								<li style={{llistStyle:"none",display:"inline-block"}}>
-									<audio style={{width:"200px"}} controls>
-									  	<source src={headerBlog.audioDescription} type="audio/ogg"/>
-									  	<source src={headerBlog.audioDescription} type="audio/mpeg"/>
-										Your browser does not support the audio element.
-									</audio>
-								</li>:null
-							}
-						</ul>
-					</li>
-					<li id="headerBlogOwnerInformation" style={{listStyle:"none",width:"80%"}}>
+			<HeaderContainer>
+					<audio id="headerAudioTag" style={{marginLeft:"-55%",width:"200px"}} controls>
+					  	<source src={headerBlog.audioDescription} type="audio/ogg"/>
+					  	<source src={headerBlog.audioDescription} type="audio/mpeg"/>
+						Your browser does not support the audio element.
+					</audio>	
+					<li id="headerBlogOwnerInformation" style={{listStyle:"none",width:"100%"}}>
 						<ul style={{padding:"0px"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<li style={{listStyle:"none",display:"inline-block"}}>
@@ -308,7 +357,7 @@ const BlogPostModal=(props)=>{
 							<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
 								{headerBlog.owner.firstName}
 							</li>
-							<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerBlog.industriesUploaded,props)} style={ImageLabelCSS}>
+							<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerBlog.industriesUploaded,props)} style={SymposiumLabelCSS}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									{headerBlog.industriesUploaded[0].industry}
 								</a>
@@ -319,128 +368,118 @@ const BlogPostModal=(props)=>{
 							/>
 						</ul>
 					</li>
-					<li style={{listStyle:"none",width:"120%",borderRadius:"5px",marginBottom:"2%"}}>
-						<ul style={{padding:"0px",height:"55%",width:"100%"}}>
-							<li onClick={()=>handleDisplayHeaderBlog()} style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<img id="headerBlogImage" src={headerBlog.blogImageUrl} style={HeaderBlogCSS}/>
-								</a>
-							</li>
-							<li id="headerBlogInformation" style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",width:"40%",fontSize:"25px",height:"55%",overflow:"hidden"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none"}}>
-										<b>
-											{headerBlog.title}
-										</b>
-									</li>
 
-									<li style={{fontSize:"15px",color:"#8c8c8c",listStyle:"none"}}>
-										{headerBlog.description}
-									</li>
-								</ul>
-								
+					<HeaderBlogImageInformationContainer>
+						<img   onClick={()=>handleDisplayHeaderBlog()} 
+							id="headerBlogImage" src={headerBlog.blogImageUrl} style={HeaderBlogCSS}/>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",height:"60px",overflowY:"hidden"}}>
+								<b>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+									dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+									Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+									anim id est laborum.
+								</b>
+							</li>
+
+							<li style={{fontSize:"15px",color:"#8c8c8c",listStyle:"none",height:"80px",overflowY:"hidden"}}>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+									dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+									Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+									anim id est laborum.
 							</li>
 						</ul>
-					</li>
-					
-				</ul>
-			</li>
+					</HeaderBlogImageInformationContainer>
+			</HeaderContainer>
 
-			<li id="smallPostLI" style={{marginTop:"-70px",width:"60%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"10%",height:"80%",overflowY:"auto",marginBottom:"20%"}}>
+			<PostsContainer>
 				<ul style={{padding:"0px"}}>
 					{blogs.map(data=>
 						<React.Fragment>
 								{data=="suggestedSymposium"?
-									<li id="suggestedSymposiumLI" style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%"}}>
-										{constructSuggestedSymposium(personalInformationRedux,props)}
-									</li>
-								:<li id="postLI" style={{list0Style:"none",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",marginBottom:"2%"}}>
-											<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
-												{data.audioDescription!=null?
-													<li style={{llistStyle:"none",display:"inline-block"}}>
-														<audio style={{width:"200px"}} controls>
-														  	<source src={data.audioDescription} type="audio/ogg"/>
-														  	<source src={data.audioDescription} type="audio/mpeg"/>
-															Your browser does not support the audio element.
-														</audio>
-													</li>:null
-												}
-											</ul>
+									<ConstructSuggestedSymposium
+										personalInformation={personalInformationRedux}
+										previousProps={props}
+									/>
+								:
+								<SmallPostContainer>
+									<div onClick={()=>displayBlogModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
+										<img id="image" src={data.blogImageUrl} style={BlogImageContainerCSS}/>
+										<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
+											<li style={{listStyle:"none"}}>
+												<DisplayRecruitButton
+													post={data}
+													previousProps={props}
+												/>
+											</li>
+											<li style={{listStyle:"none"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														{data.videoDescription!=null?
+																<VideoDesriptionContainer>
+																	   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																			<source src={data.videoDescription} type="video/mp4"/>
+																		</video>
+																</VideoDesriptionContainer>:
+															<img id="profilePicture" 
+																src={data.owner.profilePicture==null?
+																		NoProfilePicture:
+																		data.owner.profilePicture
+																	} style={ProfileImageCSS}
+															/>
+														}
+													</li>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														{data.owner.firstName}
+													</li>
+												</ul>
+											</li>
+											<li id="smallAudioDescription" style={{listStyle:"none"}}>
+												<audio style={{width:"150px",height:"25px"}} controls muted>
+												  	<source src={data.audioDescription} type="audio/ogg"/>
+												  	<source src={data.audioDescription} type="audio/mpeg"/>
+													Your browser does not support the audio element.
+												</audio>
+											</li>
+										</ul>
+									</div>
+									<SmallPostDescriptionContainer>
+										<li style={{listStyle:"none",height:"60px",overflowY:"hidden"}}>
+											<b>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+												incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+												exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+												dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+												Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+												anim id est laborum.
+											</b>
 										</li>
-										<li onClick={()=>displayBlogModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",marginRight:"2%"}}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<ShadowContainer/>
-												<img id="image" src={data.blogImageUrl} style={VideoContainerCSS}/>
-											</a>
+
+										<li style={{fontSize:"15px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+												incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+												exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+												dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+												Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+												anim id est laborum.
 										</li>
-										<li id="smallBlogInformation" style={{position:"relative",top:"0%",listStyle:"none",display:"inline-block"}}>
-											<ul style={{padding:"0px",position:"absolute",top:"-100px"}}>
-												<li id="smallTitleAndDescription" style={{listStyle:"none",height:"170px",width:"280px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none"}}>
-															<b>
-																{data.title}
-															</b>
-														</li>
-
-														<li style={{color:"#8c8c8c",fontSize:"12px",listStyle:"none"}}>
-															{data.description}
-														</li>
-													</ul>
-
-												</li>
-												<li style={{listStyle:"none"}}>
-													<ul style={{padding:"0px"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
-																{data.videoDescription!=null?
-																	<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
-																		<VideoDesriptionContainer>
-																			   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																					<source src={data.videoDescription} type="video/mp4"/>
-																				</video>
-																		</VideoDesriptionContainer>
-																	</li>:
-																	<img id="profilePicture" 
-																		src={data.owner.profilePicture==null?
-																				NoProfilePicture:
-																				data.owner.profilePicture
-																			} style={ProfileImageCSS}
-																	/>
-																}
-															</li>
-														</a>
-														<li style={{position:"relative",listStyle:"none",display:"inline-block",top:"-20px"}}>
-															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none"}}>
-																	{data.owner.firstName}
-																</li>
-																<DisplayRecruitButton
-																	post={data}
-																	previousProps={props}
-																/>
-
-																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																	<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={ImageLabelCSS}>
-																		{data.industriesUploaded[0].industry}
-																	</li>
-																</a>
-															</ul>
-														</li>
-													</ul>
-												</li>
-											</ul>
+										<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} 
+										style={{...SymposiumLabelCSS,marginTop:"2%"}}>
+											{data.industriesUploaded[0].industry}
 										</li>
-									</ul>
-								</li>
+									</SmallPostDescriptionContainer>
+								</SmallPostContainer>
+
 							}	
 							<hr/>
 							</React.Fragment>
 						)}
 				</ul>
-			</li>
+			</PostsContainer>
 		{displayBlogDisplayPortal==false?
 					null:
 					<BlogHomeDisplayPortal
@@ -458,4 +497,87 @@ const BlogPostModal=(props)=>{
 	)
 }
 
+/*
+									<li id="postLI" style={{list0Style:"none",marginBottom:"8%",width:"45%",marginRight:"10%"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",marginBottom:"2%"}}>
+												<ul style={{padding:"0px",zIndex:"8",marginBottom:"1%"}}>
+													{data.audioDescription!=null?
+														<li style={{llistStyle:"none",display:"inline-block"}}>
+															<audio style={{width:"200px"}} controls>
+															  	<source src={data.audioDescription} type="audio/ogg"/>
+															  	<source src={data.audioDescription} type="audio/mpeg"/>
+																Your browser does not support the audio element.
+															</audio>
+														</li>:null
+													}
+												</ul>
+											</li>
+											<li onClick={()=>displayBlogModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",marginRight:"2%",backgroundColor:"blue"}}>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<img id="image" src={data.blogImageUrl} style={BlogImageContainerCSS}/>
+												</a>
+											</li>
+											<li id="smallBlogInformation" style={{position:"relative",top:"0%",listStyle:"none",display:"inline-block"}}>
+												<ul style={{padding:"0px",position:"absolute",top:"-100px"}}>
+													<li id="smallTitleAndDescription" style={{listStyle:"none",height:"170px",width:"280px",overflow:"hidden",marginBottom:"2%",fontSize:"15px"}}>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none"}}>
+																<b>
+																	{data.title}
+																</b>
+															</li>
+
+															<li style={{color:"#8c8c8c",fontSize:"12px",listStyle:"none"}}>
+																{data.description}
+															</li>
+														</ul>
+
+													</li>
+													<li style={{listStyle:"none"}}>
+														<ul style={{padding:"0px"}}>
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<li style={{listStyle:"none",display:"inline-block",marginRight:"20%"}}>
+																	{data.videoDescription!=null?
+																		<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
+																			<VideoDesriptionContainer>
+																				   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																						<source src={data.videoDescription} type="video/mp4"/>
+																					</video>
+																			</VideoDesriptionContainer>
+																		</li>:
+																		<img id="profilePicture" 
+																			src={data.owner.profilePicture==null?
+																					NoProfilePicture:
+																					data.owner.profilePicture
+																				} style={ProfileImageCSS}
+																		/>
+																	}
+																</li>
+															</a>
+															<li style={{position:"relative",listStyle:"none",display:"inline-block",top:"-20px"}}>
+																<ul style={{padding:"0px"}}>
+																	<li style={{listStyle:"none"}}>
+																		{data.owner.firstName}
+																	</li>
+																	<DisplayRecruitButton
+																		post={data}
+																		previousProps={props}
+																	/>
+
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={SymposiumLabelCSS}>
+																			{data.industriesUploaded[0].industry}
+																		</li>
+																	</a>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+
+										</ul>
+									</li>
+*/
 export default BlogPostModal;
