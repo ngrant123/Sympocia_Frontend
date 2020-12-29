@@ -175,7 +175,7 @@ const NavBar=(pageProps)=>{
 			changeDisplayDesktopUI(false);
 			changeDisplayPhoneUI(true);
 
-		}else if(window.innerWidth<960){
+		}else if(window.innerWidth<1370){
 
 			changeDisplayIpadUI(true);
 			changeDisplayDesktopUI(false);

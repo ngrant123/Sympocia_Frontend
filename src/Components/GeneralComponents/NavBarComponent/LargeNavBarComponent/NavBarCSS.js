@@ -2,7 +2,6 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 
 export const Container=styled.div`
-	background-color:white;
 	position:fixed;
 	width:80%;
 	height:14%;
@@ -11,6 +10,8 @@ export const Container=styled.div`
 	margin-left:10%;
 
 	@media screen and (max-width:1370px) {
+		margin-left:0%;
+		width:100%;
 		height:7%;
 		#ULContainer{
 			background-color:white !important;
@@ -34,7 +35,7 @@ export const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:480px) {
+	@media screen and (max-width:600px) {
 		#mobileRoutesButton{
 			margin-left:2% !important;
 		}
@@ -42,11 +43,11 @@ export const Container=styled.div`
 			margin-left:50% !important;
 		}
 	}
-
-
-	@media screen and (max-width:400px) {
-	}
-
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	#searchLIContainer{
+    		margin-left:60% !important;
+    	}
+    }
 `;
 
 export const SearchButton=styled.textarea`
