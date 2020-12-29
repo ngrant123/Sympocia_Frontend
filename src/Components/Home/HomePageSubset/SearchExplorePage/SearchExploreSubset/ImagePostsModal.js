@@ -15,6 +15,10 @@ import {SearchConsumer} from "../../../../SearchPage/SearchContext.js";
 import {Link} from "react-router-dom";
 
 import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {
+	ConstructSuggestedSymposium,
+	displayPersonalIndustryFeed
+} from "./ConstructSuggestedSymposium.js";
 
 
 
@@ -290,117 +294,6 @@ const DisplayRecruitButton=({post,previousProps})=>{
 			</>
 }
 
-const constructSuggestedSymposium=(personalInformation,previousProps,images)=>{
-		console.log(personalInformation);
-		const {personalInformationState}=personalInformation;
-		var symposiumContainer=new Map();
-		var selectedSymposiums=[];
-			var counter=0;
-			while(counter<3){   
-				if(previousProps.isPersonalProfile==true){
-					const randomNum=Math.floor(Math.random() * ((PERSONAL_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
-					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
-					if(!symposiumContainer.has(randomlySelected.industry)){
-						symposiumContainer.set(randomlySelected.industry,1);
-						selectedSymposiums.push(randomlySelected);
-					}
-				}else{
-					const randomNum=Math.floor(Math.random() * ((COMPANY_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
-					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
-					if(!symposiumContainer.has(randomlySelected.industry)){
-						symposiumContainer.set(randomlySelected.industry,1);
-						selectedSymposiums.push(randomlySelected);
-					}
-				}
-				counter++;
-			}
-			/*
-
-				<li style={{listStyle:"none",marginBottom:"5%"}}>
-					<b> Suggested syposiums </b>
-				</li>
-			*/
-			return <SuggestedSymposiumsContainer>
-						<b> Suggested syposiums </b>
-						{selectedSymposiums.map(data=>
-							<div id="suggestedSymposiumLI" onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)}
-								 style={{width:"100%",padding:"20px",fontSize:"15px",color:"white",background:data.backgroundColor,listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
-									<b>{data.industry}</b>
-							</div>
-						)}
-				   </SuggestedSymposiumsContainer>
-}
-
-const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposium,selectedIndustries,previousProps)=>{
-		//have to format selected industries in and add additional information so that the personalPage can 
-		//accept props
-		console.log(selectedSymposium);
-		var industryColorMap=new Map();
-
-		if(previousProps.displaySymposium!=null){
-			if(selectedSymposium!=null){
-				for(var i=0;i<selectedIndustries.length;i++){
-					const currentSymposium=selectedIndustries[i].industry;
-					if(currentSymposium==selectedSymposium.industry){
-						selectedIndustries.splice(i,1);
-						selectedIndustries.splice(0,0,selectedSymposium);
-						break;
-					}
-				}
-			}
-			else{
-				var personalIndustries=PersonalIndustry.INDUSTRIES;
-				var companyIndustries=CompanyIndustry.INDUSTRIES;
-
-				if(personalInformationRedux.loggedIn==true){
-					for(var i=0;i<personalIndustries.length;i++){
-						const industry=personalIndustries[i];
-						industryColorMap.set(industry.industry,industry.backgroundColor);
-					}
-				}else{
-					for(var i=0;i<companyIndustries.length;i++){
-						const industry=personalIndustries[i];
-						industryColorMap.set(industry.industry,industry.backgroundColor);
-					}
-				}
-			}
-
-			var isPersonalProfile;
-			const industryArray=[];
-			let selectedSymposiums;
-			for(var i=0;i<selectedIndustries.length;i++){
-				const currentPostIndustry=selectedIndustries[i];
-				const {data}=await getSymposiumId(currentPostIndustry.industry);
-				var color;
-				if(currentPostIndustry.backgroundColor==null)
-					var color=industryColorMap.get(currentPostIndustry.industry);
-				else
-					color=currentPostIndustry.backgroundColor
-
-				const industryObject={
-					_id:data,
-					backgroundColor:color,
-					symposium:currentPostIndustry.industry,
-					popularVideos:[]
-				}
-				if(i!=0){
-					
-					industryArray.push(industryObject);
-				}else{
-					selectedSymposiums=industryObject;
-				}
-			}
-			industryArray.reverse();
-
-			const selectedSymposiumsObject={
-				selectedSymposiums,
-				symposiums:industryArray
-			}
-
-			previousProps.displaySymposium(selectedSymposiumsObject);
-		}
-}
-
 
 
 const ImagePostsModal=(props)=>{
@@ -434,33 +327,33 @@ const ImagePostsModal=(props)=>{
 		changeImageDisplay(true);
 	}
 
-	const displaySpecialPost=(postResult,personalInformationRedux,previousProps)=>{
-		return <>	
-					{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}
-				</>
-		/*
-			console.log(postResult);
-			if(postResult=="suggestedSymposium"){
-				return <li id="suggestedSymposiumLI" style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%",marginTop:"-40%"}}>
-							{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}
-						</li>
-			}else{
-				const {data}=postResult;
-				var posts=data;
-				return <li style={{listStyle:"none",display:"inline-block",top:"-150px",position:"relative",marginBottom:"3%",width:"45%",marginRight:"4%"}}>
-							<ul style={{padding:"0px"}}>
-								{posts.map(data=>
-									<li  onClick={()=>displayImageModal(data)}  style={{listStyle:"none",display:"inline-block",borderRadius:"5px",width:"50%",height:"30%"}}>
-										<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-											<img src={data.imgUrl} style={{width:"80%",height:"80%",borderRadius:"5px"}}/>
-										</a>
-									</li>
-								)}
-							</ul>
-					   </li>
-			}
-		*/
-	}
+	/*
+		const displaySpecialPost=(postResult,personalInformationRedux,previousProps)=>{
+			return <>	
+						{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}
+					</>
+				console.log(postResult);
+				if(postResult=="suggestedSymposium"){
+					return <li id="suggestedSymposiumLI" style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%",marginTop:"-40%"}}>
+								{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}
+							</li>
+				}else{
+					const {data}=postResult;
+					var posts=data;
+					return <li style={{listStyle:"none",display:"inline-block",top:"-150px",position:"relative",marginBottom:"3%",width:"45%",marginRight:"4%"}}>
+								<ul style={{padding:"0px"}}>
+									{posts.map(data=>
+										<li  onClick={()=>displayImageModal(data)}  style={{listStyle:"none",display:"inline-block",borderRadius:"5px",width:"50%",height:"30%"}}>
+											<a href="javascript:void(0)" style={{textDecoration:"none"}}>
+												<img src={data.imgUrl} style={{width:"80%",height:"80%",borderRadius:"5px"}}/>
+											</a>
+										</li>
+									)}
+								</ul>
+						   </li>
+				}
+		}
+	*/
 
 	return(
 	<>
@@ -553,9 +446,10 @@ const ImagePostsModal=(props)=>{
 					{images.map(data=>
 						<React.Fragment>
 							{data.owner==null?
-								<React.Fragment>
-									{displaySpecialPost(data,personalInformationRedux,props)}
-								</React.Fragment>
+								<ConstructSuggestedSymposium
+									personalInformation={personalInformationRedux}
+									previousProps={props}
+								/>
 							:<SmallPostContainer>
 									<div onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
 											<img id="image" src={data.imgUrl} style={ImageCSS}/>
@@ -622,8 +516,6 @@ const ImagePostsModal=(props)=>{
 
 export{
 	ImagePostsModal,
-	displayPersonalIndustryFeed,
-	constructSuggestedSymposium,
 	DisplayRecruitButton
 };
 

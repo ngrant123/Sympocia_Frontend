@@ -183,7 +183,7 @@ class SearchExploreContainer extends Component{
 			selectedIndustries:[],
 			displayCreatePostComponent:false,
 			displayPersonalPage:false,
-			postOption:"Videos",
+			postOption:"Blogs",
 			postsInformation:[],
 			postCount:0,
 			displayDesktopUI:false,

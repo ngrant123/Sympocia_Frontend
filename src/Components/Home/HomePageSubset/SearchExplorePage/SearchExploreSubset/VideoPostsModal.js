@@ -9,12 +9,9 @@ import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import {
-		DisplayRecruitButton,
-		displayPersonalIndustryFeed
-} from "./ImagePostsModal.js";
-
+import {DisplayRecruitButton} from "./ImagePostsModal.js";
 import {Link} from "react-router-dom";
+import {ConstructSuggestedSymposium} from "./ConstructSuggestedSymposium.js";
 
 const Container=styled.div`
 	display:flex;
@@ -23,18 +20,21 @@ const Container=styled.div`
 	@media screen and (max-width:740/px) and (max-height:420px){
     	#headerLI{
 			height:180% !important;
-
 		}
 		#headerVideoLI{
 			height:95% !important;
-			width:
 		}
     }
 
 
-	@media screen and (max-width:1300px){
+	@media screen and (max-width:1370px){
 		width:120%;
+		flex-direction:column;
 		margin-left:-5% !important;
+			#headerVideoLI{
+			height:95% !important;
+			width:100% !important;
+		}
 		#headerLI{
 			display:block !important;
 			margin-top:10% !important;
@@ -56,6 +56,12 @@ const Container=styled.div`
 		}
 		#postLI{
 			margin-right:2% !important;
+		}
+	}
+
+	@media screen and (max-width:600px){
+		#headerAudio{
+			height:20px !important;
 		}
 	}
 	@media screen and (max-width:450px){
@@ -130,6 +136,35 @@ const HeaderContainer=styled.div`
 	display:flex;
 	width:60%;
 	flex-direction:column;
+
+	@media screen and (max-width:1370px){
+		margin-top:30px !important;
+		width:90%;
+		#headerPostProfilePictureLIInformation{
+			top:60% !important;
+		}
+	}
+
+	@media screen and (max-width:600px){
+		margin-top:-130px !important;
+		#headerPostProfilePictureLIInformation{
+			top:-30% !important;
+		}
+	}
+
+	@media screen and (max-width:1370px) and (max-height:900px) and (orientation: landscape) {
+		#headerPostProfilePictureLIInformation{
+			top:110% !important;
+		}
+    }
+
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	margin-top:60px !important;
+    	#headerPostProfilePictureLIInformation{
+			top:160% !important;
+		}
+    }
 `;
 
 const HeaderDescriptionContainer=styled.div`
@@ -143,7 +178,6 @@ const HeaderTextsContainer=styled.div`
 `;
 
 const SmallPostContainer=styled.div`
-	background-color:yellow;
 	display:flex;
 	flex-direction:row;
 	width:50%;
@@ -154,19 +188,26 @@ const SmallPostContainer=styled.div`
 	@media screen and (max-width:1370px){
 		width:90%;
 	}
+
 	@media screen and (max-width:1024px) and (max-height:1366px) {
     	height:100%;
     }
 
 	@media screen and (max-width:600px){
 		margin-left:-5% !important;
-		width:115% !important;
+		width:100% !important;
 		margin-top:-5px;
 		padding-top:70px;
 		#smallAudioDescription{
 			display:none !important;
 		}
 	}
+`;
+
+const DescriptionContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+
 `;
 
 const PostContainer=styled.div`
@@ -220,44 +261,6 @@ const VideoPostModal=(props)=>{
 		changeVideoDisplay(true);
 	}
 
-	const constructSuggestedSymposium=(personalInformation,previousProps)=>{
-		
-		console.log(personalInformation);
-		const {personalInformationState}=personalInformation;
-		var symposiumContainer=new Map();
-		var selectedSymposiums=[];
-			var counter=0;
-			while(counter<3){   
-				if(previousProps.isPersonalProfile==true){
-					const randomNum=Math.floor(Math.random() * ((PERSONAL_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
-					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
-					if(!symposiumContainer.has(randomlySelected.industry)){
-						symposiumContainer.set(randomlySelected.industry,1);
-						selectedSymposiums.push(randomlySelected);
-					}
-				}else{
-					const randomNum=Math.floor(Math.random() * ((COMPANY_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
-					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
-					if(!symposiumContainer.has(randomlySelected.industry)){
-						symposiumContainer.set(randomlySelected.industry,1);
-						selectedSymposiums.push(randomlySelected);
-					}
-				}
-				counter++;
-			}
-
-			return <ul style={{padding:"0px",position:"relative"}}>
-						{selectedSymposiums.map(data=>
-							<a href="javascript:void(0);">
-								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)} 
-									style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
-									<b>{data.industry}</b>
-								</li>
-							</a>
-						)}
-				   </ul>
-	}
-
 	return(
 	<Container>
 		{headerVideo==null?
@@ -266,8 +269,8 @@ const VideoPostModal=(props)=>{
 					<HeaderContainer>
 
 						<ul id="headerPostProfilePictureLIInformation"
-							  style={{width:"90%",padding:"10px",zIndex:"8",position:"absolute",top:"70%"}}>
-							<li style={{marginLeft:"1%",marginBottom:"2%",listStyle:"none"}}>
+							  style={{width:"90%",padding:"10px",zIndex:"8",position:"absolute",top:"60%"}}>
+							<li style={{marginLeft:"1%",marginBottom:"1%",listStyle:"none"}}>
 								<DisplayRecruitButton
 									post={headerVideo}
 									previousProps={props}
@@ -295,7 +298,7 @@ const VideoPostModal=(props)=>{
 										</p>
 									</li>
 									<li style={{listStyle:"none",display:"inline-block"}}>
-										<audio style={{width:"200px"}} controls>
+										<audio id="headerAudio" style={{width:"200px"}} controls>
 										  	<source src={headerVideo.audioDescription} type="audio/ogg"/>
 										  	<source src={headerVideo.audioDescription} type="audio/mpeg"/>
 											Your browser does not support the audio element.
@@ -339,13 +342,16 @@ const VideoPostModal=(props)=>{
 						{videos.map(data=>
 							<React.Fragment>
 								{data.owner==null?
-									<React.Fragment>
-										{displaySpecialPost(data,personalInformationRedux,props)}
-									</React.Fragment>
+									<ConstructSuggestedSymposium
+										personalInformation={personalInformationRedux}
+										previousProps={props}
+									/>
 								:<PostContainer>
-										<div onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
-												<img id="image" src={data.imgUrl} style={ImageCSS}/>
-												<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
+										<div id="videoContainer" onClick={()=>displayVideoModal(data)}style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
+												<video id="video" key={data.videoUrl} position="relative" height="290px" width="100%" autoplay>
+													<source src={data.videoUrl} type="video/mp4"/>
+												</video>
+												<ul style={{padding:"0px",zIndex:"8",top:"-20%"}}>
 													<li style={{listStyle:"none"}}>
 														<DisplayRecruitButton
 															post={data}
@@ -372,24 +378,64 @@ const VideoPostModal=(props)=>{
 													</video>
 												}
 											</ProfilePictureLink>
-											<p onClick={()=>displayPersonalIndustryFeed(
-																personalInformationRedux,
-																null,
-																data.industriesUploaded,props
-															)} style={{listStyle:"none",display:"inline-block",height:"40px",overflow:"hidden",marginLeft:"2%"}}>
-												Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-												incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-												exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-												dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-												Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-												anim id est laborum.
-											</p>
+											<HeaderTextsContainer>
+												<p style={{fontSize:"20px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
+													<b>
+														Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+														incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+														exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+														dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+														Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+														anim id est laborum.
+													</b>
+												</p>
+												<p style={{width:"70%",height:"60px",overflow:"hidden"}}>
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+													incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+													exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+													dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+													Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+													anim id est laborum.
+												</p>
+											</HeaderTextsContainer>
 										</DescriptionContainer>
 								</PostContainer>
 							}	
 							</React.Fragment>
 						)}
 					</SmallPostContainer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 				{/*
 					<li id="headerLI" style={{position:"relative",top:"-70px",listStyle:"none",display:"inline-block",width:"50%"}}>
 						<ul style={{padding:"0px"}}>
