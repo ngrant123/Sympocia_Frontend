@@ -267,9 +267,8 @@ const VideoPostModal=(props)=>{
 			<p> No video posts yet </p>:
 				<React.Fragment>
 					<HeaderContainer>
-
 						<ul id="headerPostProfilePictureLIInformation"
-							  style={{width:"90%",padding:"10px",zIndex:"8",position:"absolute",top:"60%"}}>
+							  style={{width:"90%",padding:"10px",zIndex:"8",position:"relative"}}>
 							<li style={{marginLeft:"1%",marginBottom:"1%",listStyle:"none"}}>
 								<DisplayRecruitButton
 									post={headerVideo}
@@ -293,7 +292,7 @@ const VideoPostModal=(props)=>{
 										</ProfilePictureLink>
 									</li>
 									<li style={{marginLeft:"2%",listStyle:"none",display:"inline-block"}}>
-										<p style={{fontSize:"20px",color:"#FFFFFF"}}>
+										<p style={{fontSize:"20px",maxWidth:"80px",overflow:"hidden"}}>
 											<b>{headerVideo.owner.firstName}</b>
 										</p>
 									</li>

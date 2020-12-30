@@ -4,7 +4,6 @@ import Chat from "./ChatRoom.js";
 import { connect } from "react-redux";
 import SubSymposiums from "./SubSymposiums";
 import ActivePeopleModal from "./ActivePeopleModal";
-import PostsContainer from "./PostsContainer";
 import {
 		getImagesInIndustry,
 		getVideoInIndustry,
@@ -726,19 +725,6 @@ class Symposium extends Component{
 		  			</li>:null
 	  			}
 	  		</ul>
-	  }
-
-
-	  handleActivateScrollPostsContainer=()=>{
-	  	return this.state.headerAnimation==true?<PostsContainer/>:
-	  		<React.Fragment>
-		  		<PreventScrollScreen/>
-		  		<PostsContainer/>
-	  		</React.Fragment>
-	  }
-
-	  handleDisplayPostsList=()=>{
-	  	return this.state.headerAnimation==false?<ExamplePosts/>:<PostsContainer/>;
 	  }
 
 	  handleDisplayPostCreation=()=>{
