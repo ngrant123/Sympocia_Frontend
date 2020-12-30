@@ -22,12 +22,18 @@ const Container=styled.div`
 			margin-top:-50px !important;
 		}
 	}
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	#postOptionsLI{
+    		margin-top:10% !important;
+    	}
+    }
 `;
 const PostContainer=styled.div`
 	position:absolute;
 	width:90%;
 	height:90%;
-	margin-top:10%;
+	margin-top:0%;
 
 	@media screen and (max-width:1370px){
 		margin-top:10px !important;
@@ -71,13 +77,23 @@ const PostSearch=(props)=>{
 	const [displayVideos,changeDisplayVideos]=useState(false);
 	const [displayBlogs,changeDisplayBlogs]=useState(false);
 	const [displayRegularPosts,changeDisplayRegularPosts]=useState(false);
+	const [displayMobileUI,changeDisplayMobileUI]=useState(false);
 	
 	const userId=useSelector(state=>state.personalInformation.id);
 
+	const triggerUIChange=()=>{
+		if(window.innerWidth<1370){
+			changeDisplayMobileUI(true);
+		}else{
+			changeDisplayMobileUI(false);
+		}
+	}
+
+	window.addEventListener('resize',triggerUIChange)
 
 	useEffect(()=>{
 		const getPosts=async()=>{
-			
+			triggerUIChange();
 			const searchCriteria={
 				searchUrl:props.searchQuery,
 				postType:props.postType
@@ -238,8 +254,9 @@ const PostSearch=(props)=>{
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
 						targetDom={"searchContainer"}
+						isMobileUI={displayMobileUI==true?true:false}
 					/>
-		 }else if(displayVideos==true){
+		 }else if(displayVideos==true){ 
 		 	return <VideoPostModal
 						posts={posts}
 						_id={props.userId}
@@ -247,6 +264,7 @@ const PostSearch=(props)=>{
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
 						targetDom={"searchContainer"}
+						isMobileUI={displayMobileUI==true?true:false}
 		 		   />
 		 }else if(displayBlogs==true){
 		 	return <BlogPostModal
@@ -256,6 +274,7 @@ const PostSearch=(props)=>{
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
 						targetDom={"searchContainer"}
+						isMobileUI={displayMobileUI==true?true:false}
 		 			/>
 		 }else{
 		 	return <RegularPostModal
@@ -265,6 +284,7 @@ const PostSearch=(props)=>{
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
 						targetDom={"searchContainer"}
+						isMobileUI={displayMobileUI==true?true:false}
 		 			/>
 		 }
 	}
@@ -272,7 +292,7 @@ const PostSearch=(props)=>{
 	return(
 		<Container>
 			<ul>
-				<li style={{listStyle:"none"}}>
+				<li id="postOptionsLI" style={{listStyle:"none"}}>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 							<div class="btn-group">

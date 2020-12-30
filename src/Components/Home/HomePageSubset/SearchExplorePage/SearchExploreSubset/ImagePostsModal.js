@@ -62,6 +62,7 @@ const HeaderContainer=styled.div`
 	display:flex;
 	flex-direction:column;
 	width:50%;
+	flex-wrap:wrap;
 	@media screen and (max-width:1370px){
 		width:90%;
 		#headerPostProfilePictureLIInformation{
@@ -189,6 +190,26 @@ const VideoDesriptionContainer=styled.div`
 	top:70%;
 	left:2%;
 	z-index:8;
+`;
+
+const PostUserAndSymposiumInformation=styled.div`
+	display:flex;
+	flex-direction:row;
+	@media screen and (max-width:1370px){
+		flex-direction:column;
+	}
+
+	@media screen and (max-width:600px){
+		#postOwner{
+			font-size:15px !important;
+			margin-right:2% !important;
+		}
+	}
+`;
+
+const PostUserInformation=styled.div`
+	display:flex;
+	flex-direction:row;
 `;
 
 const SuggestedSymposiumsContainer=styled.div`
@@ -360,48 +381,37 @@ const ImagePostsModal=(props)=>{
 		{props.posts.length>=1?
 			<Container>
 				<HeaderContainer>
-					<p id="headerImageSympoosiumLI" onClick={()=>displayPersonalIndustryFeed(
-										personalInformationRedux,
-										null,
-										headerImage.industriesUploaded,props
-									)} style={ImageLabelCSS}>
-						{headerImage.industriesUploaded[0].industry}
-					</p>
-					<div>
-						<ul id="headerPostProfilePictureLIInformation"
-							  style={{width:"90%",padding:"10px",zIndex:"8",position:"absolute",top:"90%"}}>
-							<li style={{marginLeft:"1%",marginBottom:"2%",listStyle:"none"}}>
-								<DisplayRecruitButton
-									post={headerImage}
-									previousProps={props}
-								/>
-							</li>
+					<PostUserAndSymposiumInformation>
+						<p id="headerImageSympoosiumLI" onClick={()=>displayPersonalIndustryFeed(
+											personalInformationRedux,
+											null,
+											headerImage.industriesUploaded,props
+										)} style={ImageLabelCSS}>
+							{headerImage.industriesUploaded[0].industry}
+						</p>
+						<PostUserInformation>
+							<ProfilePictureLink to={{pathname:`/profile/${headerImage.owner._id}`}}>
+								{headerImage.videoDescription==null?
+									<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
+										headerImage.owner.profilePicture}
+										style={{height:"50px",width:"60px",borderRadius:"50%"}}
+									/>
+									:<video width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+										<source src={headerImage.videoDescription} type="video/mp4"/>
+									</video>
+								}
+							</ProfilePictureLink>
 
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<ProfilePictureLink to={{pathname:`/profile/${headerImage.owner._id}`}}>
-											{headerImage.videoDescription==null?
-												<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
-													headerImage.owner.profilePicture}
-													style={{height:"50px",width:"60px",borderRadius:"50%"}}
-												/>
-												:<video width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-													<source src={headerImage.videoDescription} type="video/mp4"/>
-												</video>
-											}
-										</ProfilePictureLink>
-									</li>
-									<li style={{marginLeft:"2%",listStyle:"none",display:"inline-block"}}>
-										<p style={{fontSize:"20px",color:"#FFFFFF"}}>
-											<b>{headerImage.owner.firstName}</b>
-										</p>
-									</li>
-								</ul>
-							</li>
-						</ul>
-						<img id="headerImageLI" src={headerImage.imgUrl} style={HeaderImageCSS}/>
-					</div>
+							<p id="postOwner" style={{fontSize:"20px",maxWidth:"80px",overflow:"hidden"}}>
+								<b>{headerImage.owner.firstName}</b>
+							</p>
+							<DisplayRecruitButton
+								post={headerImage}
+								previousProps={props}
+							/>
+						</PostUserInformation>
+					</PostUserAndSymposiumInformation>
+					<img id="headerImageLI" src={headerImage.imgUrl} style={HeaderImageCSS}/>
 					<HeaderDescriptionContainer>
 						{props.isMobileUI==true?
 							<>

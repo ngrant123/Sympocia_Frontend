@@ -31,7 +31,6 @@ export const SymposiumContainer=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	overflow:hidden;
 
 	@media screen and (max-width:1370px){
     	#postOptionsLI{
@@ -141,7 +140,6 @@ export const PostContainer=styled.div`
 	top:40%;
 	width:90%;
 	height:170%;
-	overflow-y:scroll;
 	transition:1s;
 	padding-top:8%;
 
@@ -378,10 +376,10 @@ export const ChatAndIndustryInformationContainer=styled.div`
 
 
 export const ArrowDownContainer=styled.div`
-	position:absolute;
+	position:fixed;
 	left:45%;
 	top:80%;
-	z-index:34;
+	z-index:50;
 
   animation: bounce 2s infinite;
   @keyframes bounce {
