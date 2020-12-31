@@ -103,11 +103,7 @@ export const PostsChatInformation=styled.div`
 	left:0%;
 	z-index:2;
 	background-color:white;
-	opacity:0;
-	overflow-x:visible;
-  	transition:opacity 1s linear;
-  	padding-top:20px;
-  	filter: blur(4px);
+
 `;
 
 
@@ -134,14 +130,13 @@ export const ActivePeopleContainer=styled.div`
 `;
 
 export const PostContainer=styled.div`
-	position:absolute;
+	position:relative;
 	padding-left:40px;
 	left:0%;
-	top:40%;
-	width:90%;
+	top:5%;
+	width:100%;
 	height:170%;
 	transition:1s;
-	padding-top:8%;
 
 	@media screen and (max-width:1370px){
     	position:absolute;
@@ -249,11 +244,8 @@ export const PageIndicator=styled.div`
 export const SearchContainer=styled.div`
 	position:relative;
 	width:630px;
-	height:15%;
 	border-radius:5px;
 	box-shadow: 1px 1px 5px 	#dbdddf;
-
-
 	@media screen and (max-width:1370px){
 		margin-left:-100% !important;
     	height:20% !important;
@@ -364,6 +356,7 @@ export const ChatAndIndustryInformationContainer=styled.div`
 	border-style:solid;
 	border-width:1px;
 	color:white;
+	height:15%;
 	background-color:#5298F8;
 	border-radius:5px;
 	padding:5px;
