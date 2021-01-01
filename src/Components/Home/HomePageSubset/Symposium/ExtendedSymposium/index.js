@@ -68,26 +68,29 @@ import {
 
 
 const SympociaOptionsContainer=styled.div`
-	display:flex;								
+	position:relative;
+	display:flex;							
 	flex-direction:row;
 	background-color:red;
-	@media screen and(max-width:1370px){
-		width:50%;
+	
+	@media screen and (max-width:1370px){
+		top:10%;
 	}
 `;
 
 const SearchOptionContainer=styled.div`
 	display:flex;
+	background-color:yellow;
 	flex-direction:column;
-	@media screen and(max-width:1370px){
+	@media screen and (max-width:1370px){
 		width:50%;
 		${({isScrollEnabled})=>
 			isScrollEnabled?
 			`
-				flex-direction:row;
+				flex-direction:row !important;
 			`:
 			`
-				flex-direction:row;
+				flex-direction:column !important;
 			`
 		}
 	}
@@ -1134,9 +1137,9 @@ class Symposium extends Component{
 											/>
 										</ul>
 									</SearchContainer>
-									<li id="postOptionsLI" style={{marginTop:"1%",listStyle:"none",width:"70%",zIndex:"30"}}>
-										{this.postOptionsMobileOrDesktop()}
-									</li>
+										<li id="postOptionsLI" style={{marginTop:"1%",listStyle:"none",width:"70%",zIndex:"30"}}>
+											{this.postOptionsMobileOrDesktop()}
+										</li>
 								</SearchOptionContainer>
 
 								{this.state.headerAnimation==true && (
