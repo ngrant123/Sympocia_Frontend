@@ -65,6 +65,9 @@ export const Container=styled.div`
 	borderRadius:5px;
 	z-index:30;
 
+	@media screen and (max-width:1370px){
+		height:20%;
+	}
 
 	@media screen and (max-width:730px) and (max-height:420px){
     	height:60% !important;
@@ -101,9 +104,12 @@ export const PostsChatInformation=styled.div`
 	width:100%;
 	height:45%;
 	left:0%;
+	margin-left:5%;
 	z-index:2;
-	background-color:white;
 
+	@media screen and (max-width:1370px){
+		margin-left:0%;
+	}
 `;
 
 
@@ -132,20 +138,29 @@ export const ActivePeopleContainer=styled.div`
 export const PostContainer=styled.div`
 	position:relative;
 	padding-left:40px;
-	left:0%;
+	left:-5%;
 	top:5%;
 	width:100%;
 	height:170%;
 	transition:1s;
 
+
 	@media screen and (max-width:1370px){
     	position:absolute;
     	left:5%;
-		width:80%;
 		height:180% !important;
-		padding-top:90% !important;
-    	top:20px !important;
-    	margin-left:-10% !important;
+		padding-top:20% !important;
+    	margin-left:-5% !important;
+
+		${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:50% !important;
+			`:
+			`
+				top:10% !important; 
+			`
+		}
     }
 
 	@media screen and (max-width:740px){
@@ -247,17 +262,13 @@ export const SearchContainer=styled.div`
 	border-radius:5px;
 	box-shadow: 1px 1px 5px 	#dbdddf;
 	@media screen and (max-width:1370px){
-		margin-left:-100% !important;
-    	height:20% !important;
     	width:630px;
-
     }
 
     @media screen and (max-width:730px){
     	margin-left:-140% !important;
     	width:720px;
     }
-
 
     @media screen and (max-width:730px) and (max-height:420px){
     	height:35% !important;
@@ -356,10 +367,11 @@ export const ChatAndIndustryInformationContainer=styled.div`
 	border-style:solid;
 	border-width:1px;
 	color:white;
-	height:15%;
+	height:30%;
 	background-color:#5298F8;
 	border-radius:5px;
-	padding:5px;
+	padding:10px;
+	margin-right:2px;
 
 	@media screen and (max-width:1370px){
     	display:none !important;
