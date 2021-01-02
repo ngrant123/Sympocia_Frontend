@@ -71,28 +71,26 @@ const SympociaOptionsContainer=styled.div`
 	position:relative;
 	display:flex;							
 	flex-direction:row;
-	background-color:red;
 	
 	@media screen and (max-width:1370px){
 		top:10%;
+		${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:30%;
+			`:
+			`
+				top:10%;
+			`
+		}
 	}
 `;
 
 const SearchOptionContainer=styled.div`
 	display:flex;
-	background-color:yellow;
 	flex-direction:column;
 	@media screen and (max-width:1370px){
-		width:50%;
-		${({isScrollEnabled})=>
-			isScrollEnabled?
-			`
-				flex-direction:row !important;
-			`:
-			`
-				flex-direction:column !important;
-			`
-		}
+		flex-direction:row;
 	}
 `;
 
@@ -1039,7 +1037,7 @@ class Symposium extends Component{
 		if(this.state.headerAnimation==true){
 			mobilePostCSS={
 				...mobilePostCSS,
-				marginTop:"15%"
+				marginTop:"10%"
 			}
 		}
 		return <>
@@ -1123,7 +1121,7 @@ class Symposium extends Component{
 				<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>
 					{this.state.isLoading==false?
 						<>
-							<SympociaOptionsContainer>	
+							<SympociaOptionsContainer isScrollEnabled={this.state.headerAnimation}>	
 								<SearchOptionContainer style={{marginLeft:this.state.headerAnimation==false?"10%":"0%"}}>	
 									<SearchContainer>
 										<ul style={{paddingTop:"5px"}}>
@@ -1137,9 +1135,9 @@ class Symposium extends Component{
 											/>
 										</ul>
 									</SearchContainer>
-										<li id="postOptionsLI" style={{marginTop:"1%",listStyle:"none",width:"70%",zIndex:"30"}}>
-											{this.postOptionsMobileOrDesktop()}
-										</li>
+									<li id="postOptionsLI" style={{marginTop:"1%",listStyle:"none",width:"70%",zIndex:"30"}}>
+										{this.postOptionsMobileOrDesktop()}
+									</li>
 								</SearchOptionContainer>
 
 								{this.state.headerAnimation==true && (
