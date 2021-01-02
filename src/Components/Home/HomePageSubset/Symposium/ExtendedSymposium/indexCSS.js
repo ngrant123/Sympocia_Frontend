@@ -262,7 +262,7 @@ export const SearchContainer=styled.div`
 	border-radius:5px;
 	box-shadow: 1px 1px 5px 	#dbdddf;
 	@media screen and (max-width:1370px){
-    	width:630px;
+    	width:500px;
     }
 
     @media screen and (max-width:730px){
