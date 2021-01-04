@@ -10,7 +10,7 @@ import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.
 
 const Container=styled.div`
 	position:fixed;
-	z-index:34;
+	z-index:40;
 	height:95%;
 	width:90%;
 	border-radius:5px;
@@ -24,6 +24,11 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		left:3% !important;
 	}
+
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	left:-2% !important;
+    }
 `;
 
 const ActiveProfilePictures=styled(Link)`
@@ -40,7 +45,7 @@ const ShadowContainer=styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:34;
+	z-index:40;
 	top:0px;
 `;
 

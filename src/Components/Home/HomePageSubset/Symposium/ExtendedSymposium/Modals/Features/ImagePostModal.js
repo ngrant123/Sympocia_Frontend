@@ -53,6 +53,9 @@ const CreatePostButton=styled.div`
 	border-width:5px;
 	animation: glowing 1300ms infinite;
 	text-align:center;
+	display:flex;
+	justify-content:center;
+	cursor:pointer;
 
 	@keyframes glowing {
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -73,6 +76,7 @@ const DescriptionInputContainer=styled.textarea`
 `;
 
 
+
 const ImagePopupContainer=styled.div`
 	position:absolute;
 	background-color:white;
@@ -83,6 +87,11 @@ const ImagePopupContainer=styled.div`
 	left:15%;
 	top:20%;
 	overflow-y:scroll;
+`;
+
+const PostCreationContainer=styled.div`
+	display:flex;
+	flex-direction:row;
 `;
 
 const ImageCSS={
@@ -159,10 +168,11 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 			})
 
 			if(confirmation=="Success"){
+				const {message}=data;
 				const {
 					questionId,
 					posts
-				}=data;
+				}=message;
 				changePosts(posts);
 				changeQuestionId(questionId);
 			}else{
@@ -211,11 +221,13 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 		let {confirmation,data}=await createIndustryFeatureImageResponse(submitedImage);
 		
 		if(confirmation=="Success"){
-			data={
-				...data,
+			let {message}=data;
+
+			message={
+				...message,
 				imgUrl
 			}
-			posts.splice(0,0,data);
+			posts.splice(0,0,message);
 			changeQuestionId(questionId);
 			changePosts([...posts]);
 			changeDisplayCreationModal(false);
@@ -253,27 +265,16 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 
 			{displayCreationModal==false?
 				<>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<p style={{fontSize:"20px"}}>
-									<b>{question}</b>
-								</p>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>changeDisplayCreationModal(true)} 
-										style={{listStyle:"none",marginLeft:"400px",marginBottom:"5%"}}>
-										<CreatePostButton>
-											<BorderColorIcon
-												style={{fontSize:"20",color:"#C8B0F4"}}
-											/>
-										</CreatePostButton>
-									</li>
-								</a>
-							</li>
-						</ul>
-					</li>
+					<PostCreationContainer>
+						<p style={{fontSize:"20px",marginRight:"5%"}}>
+							<b>{question}</b>
+						</p>
+						<CreatePostButton onClick={()=>changeDisplayCreationModal(true)}>
+							<BorderColorIcon
+								style={{fontSize:"20",color:"#C8B0F4"}}
+							/>
+						</CreatePostButton>
+					</PostCreationContainer>
 					<hr/>
 
 					<li style={{listStyle:"none"}}>

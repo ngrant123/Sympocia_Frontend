@@ -172,7 +172,6 @@ const MobilePostOptionsButton={
 	boxShadow:"1px 1px 5px #6e6e6e",
 	borderRadius:"5px",
 	borderStyle:"none",
-	marginLeft:"30%",
 	cursor:"pointer"
 }
 
@@ -241,6 +240,10 @@ class Symposium extends Component{
 				displayPhoneUI:false
 			})
 		}
+	}
+
+	componentDidUpdate(){
+		window.addEventListener('resize',this.triggerUIChange);
 	}
 
 	 async componentDidMount(){
@@ -539,8 +542,6 @@ class Symposium extends Component{
 
 	  	return (
 	  		<React.Fragment>
-
-
 	  		</React.Fragment>
 	  	)
 	  }
@@ -1053,14 +1054,16 @@ class Symposium extends Component{
 	}
 
 	symposiumOptions=(isScrollEnabled)=>{
+		const isPhoneScrollTriggered=(this.state.displayPhoneUI==true && isScrollEnabled==true)==true?true:false;
 		return(
 			<>
-				{(isScrollEnabled==true && this.state.displayDesktopUI==false)==true?
+				{(isScrollEnabled==true && this.state.displayDesktopUI==false) ||
+					(this.state.displayPhoneUI==true)==true?
 					<p onClick={()=>this.setState({displayMobileSymposiumOptions:true})}
 						style={{
 							...MobilePostOptionsButton,
-							marginLeft:this.state.displayPhoneUI==true?"80":"0%",
-							marginTop:this.state.displayPhoneUI==true?"10":"0%"
+							marginLeft:isPhoneScrollTriggered==true?"80":"0%",
+							marginTop:isPhoneScrollTriggered==true?"10":"0%"
 						}}>
 						 Symposium Options
 					</p>:
@@ -1092,7 +1095,8 @@ class Symposium extends Component{
 		if(this.state.headerAnimation==true){
 			mobilePostCSS={
 				...mobilePostCSS,
-				marginTop:"10%"
+				marginTop:"10%",
+				marginLeft:"20%"
 			}
 		}
 		return <>
@@ -1250,6 +1254,11 @@ class Symposium extends Component{
 											</li>
 										*/}
 										{this.postOptionsMobileOrDesktop()}
+										{(this.state.displayPhoneUI==true && this.state.headerAnimation==false)==true && (
+											<div style={{marginLeft:"2%"}}>
+												{this.symposiumOptions(this.state.headerAnimation)}
+											</div>
+										)}
 									</SearchOptionContainer>
 
 								{this.state.headerAnimation==true && (
