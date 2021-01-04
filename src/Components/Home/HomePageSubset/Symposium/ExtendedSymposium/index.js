@@ -37,8 +37,12 @@ import ExploreIcon from '@material-ui/icons/Explore';
 import GroupSharingVideoCall from "./Modals/VideoCall/index.js";
 import SymposiumOnboarding from "../../../../OnBoarding/SymposiumPageOnboarding.js";
 import LoadingScreen from "../../../../../LoadingAnimation.js";
-
+import MobilePostOptionsPortal from "./Modals/MobileUI/PostOptionsPortal.js";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
+import {
+		addSymposium,
+		removeSymposium
+} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {
 	SymposiumHeaderAnimation,
 	SymposiumContainer,
@@ -71,7 +75,8 @@ const SympociaOptionsContainer=styled.div`
 	position:relative;
 	display:flex;							
 	flex-direction:row;
-	
+	z-index:30;
+
 	@media screen and (max-width:1370px){
 		top:10%;
 		${({isScrollEnabled})=>
@@ -83,7 +88,7 @@ const SympociaOptionsContainer=styled.div`
 				top:10%;
 			`
 		}
-	}
+	} 
 `;
 
 const SearchOptionContainer=styled.div`
@@ -97,6 +102,14 @@ const SearchOptionContainer=styled.div`
 const MinifiedSymposiumInformation=styled.div`
 	display:flex;
 	flex-direction:row;
+	margin-left:-30%;
+
+	@media screen and (max-width:1370px){
+		${({isScrollEnabled})=>
+			isScrollEnabled==true &&(
+				`margin-left:-60%;`
+			)}
+	}
 `;
 
 const TEstContainer=styled.div`
@@ -159,7 +172,8 @@ const MobilePostOptionsButton={
 	boxShadow:"1px 1px 5px #6e6e6e",
 	borderRadius:"5px",
 	borderStyle:"none",
-	marginLeft:"30%"
+	marginLeft:"30%",
+	cursor:"pointer"
 }
 
 //REFACTOR LATER ON
@@ -198,26 +212,33 @@ class Symposium extends Component{
 			hideOnboarding:true,
 			featureQuestions:[],
 			isLoading:true,
-			displayDesktopUI:false
+			displayDesktopUI:false,
+			displayMobileSymposiumOptions:false,
+			displayIpadUI:false,
+			displayPhoneUI:false
 		}
 	}
 
 	triggerUIChange=()=>{
 		if(window.innerWidth<600){
 			this.setState({
-				displayIpadUI:false
+				displayDesktopUI:false,
+				displayIpadUI:false,
+				displayPhoneUI:true
 			})
 		}
 		else if(window.innerWidth<1370){
 			//alert('Unfortunately this isnt supported on ipad at the moment.Switch to desktop or phone to continue :)');
 			this.setState({
 				displayDesktopUI:false,
-				displayIpadUI:true
+				displayIpadUI:true,
+				displayPhoneUI:false
 			})
 		}else{
 			this.setState({
 				displayDesktopUI:true,
-				displayIpadUI:false
+				displayIpadUI:false,
+				displayPhoneUI:false
 			})
 		}
 	}
@@ -582,33 +603,35 @@ class Symposium extends Component{
 	  	const backgroundColor=this.state.backgroundColor;
 	  	return this.state.headerAnimation==false ? 
 	  		<Container id="headerContainer" style={{background:backgroundColor}}>
-	  			<HeaderContainer
-	  				activePeople={this.state.activePeople}
-	  				popularVideos={this.state.popularVideos}
-	  				selectedSymposiumTitle={this.state.selectedSymposiumTitle}
-	  				symposiums={this.props.location.state==null?[]:this.props.location.state.symposiums}
-	  				symposiumCounter={this.state.symposiumCounter}
-	  				previousButton={this.handlePreviousSymposiumButton}
-	  				nextButton={this.handleNextSymposiumButton}
-	  				displayPopularVideos={this.triggerDisplayPopularVideosModal}
-	  				handleSeeAllPeopleActiveModal={this.triggerSeeAllPeopleActiveModal}
-	  				hideChat={this.hideChatRoom}
-	  				isProfileFollowingSymposium={this.state.isProfileFollowingSymposium}
-	  				profileId={this.state.profileId}
-	  				changeFollowIndicator={this.changeFollowIndicator}
-	  				popularQuestionObject={{
-	  					questionInformation:this.state.popularQuestions,
-	  					isSimplified:this.state.headerAnimation,
-						selectedSymposium:this.state.selectedSymposiumTitle
-	  				}}
-	  				displayDesktopUI={this.state.displayDesktopUI}
-	  				roomId={this.state.symposiumId}
-					chat={this.state.chatRoom}
-					socket={socket}
-				  	symposium={this.state.selectedSymposiumTitle}
-				  	questions={this.state.symposiumFeatureQuestions}
-				  	isIpadView={this.state.displayIpadUI}
-	  			/>
+	  			{this.state.displayPhoneUI==false &&(
+		  			<HeaderContainer
+		  				activePeople={this.state.activePeople}
+		  				popularVideos={this.state.popularVideos}
+		  				selectedSymposiumTitle={this.state.selectedSymposiumTitle}
+		  				symposiums={this.props.location.state==null?[]:this.props.location.state.symposiums}
+		  				symposiumCounter={this.state.symposiumCounter}
+		  				previousButton={this.handlePreviousSymposiumButton}
+		  				nextButton={this.handleNextSymposiumButton}
+		  				displayPopularVideos={this.triggerDisplayPopularVideosModal}
+		  				handleSeeAllPeopleActiveModal={this.triggerSeeAllPeopleActiveModal}
+		  				hideChat={this.hideChatRoom}
+		  				isProfileFollowingSymposium={this.state.isProfileFollowingSymposium}
+		  				profileId={this.state.profileId}
+		  				changeFollowIndicator={this.changeFollowIndicator}
+		  				popularQuestionObject={{
+		  					questionInformation:this.state.popularQuestions,
+		  					isSimplified:this.state.headerAnimation,
+							selectedSymposium:this.state.selectedSymposiumTitle
+		  				}}
+		  				displayDesktopUI={this.state.displayDesktopUI}
+		  				roomId={this.state.symposiumId}
+						chat={this.state.chatRoom}
+						socket={socket}
+					  	symposium={this.state.selectedSymposiumTitle}
+					  	questions={this.state.symposiumFeatureQuestions}
+					  	isIpadView={this.state.displayIpadUI}
+		  			/>
+	  			)}
 	  		</Container>:
 	  		<SymposiumHeaderAnimation id="animatedHeaderAnimatedContainer" style={{background:backgroundColor}}>
 	  			{this.handleHeaderAnimatedContents()}
@@ -985,10 +1008,6 @@ class Symposium extends Component{
 	}
 	postOptions=()=>{
 		return <>
-					<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-						Display:
-					</li>
-
 					<li onClick={()=>this.toggleLoading("Regular")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 							<PostOptions id="regular">	
@@ -1032,6 +1051,42 @@ class Symposium extends Component{
 					*/}
 				</>
 	}
+
+	symposiumOptions=(isScrollEnabled)=>{
+		return(
+			<>
+				{(isScrollEnabled==true && this.state.displayDesktopUI==false)==true?
+					<p onClick={()=>this.setState({displayMobileSymposiumOptions:true})}
+						style={{
+							...MobilePostOptionsButton,
+							marginLeft:this.state.displayPhoneUI==true?"80":"0%",
+							marginTop:this.state.displayPhoneUI==true?"10":"0%"
+						}}>
+						 Symposium Options
+					</p>:
+					<>
+						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayPopularVideos:true})}>
+							Popular videos
+						</ChatAndIndustryInformationContainer>
+
+						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayModalPeopleActive:true})}>
+							Active people
+						</ChatAndIndustryInformationContainer>
+						
+						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayChatRoom:!this.state.displayChatRoom})}>
+							{this.state.selectedSymposiumTitle=="General"||
+							this.state.selectedSymposiumTitle=="Religion"||
+							this.state.selectedSymposiumTitle=="Gaming"||
+							this.state.selectedSymposiumTitle=="Philosophy"?
+							<p>Chat </p>:
+							<p> Symposium Features </p>
+						}
+						</ChatAndIndustryInformationContainer>
+					</>
+				}
+			</>
+		)
+	}
 	postOptionsMobileOrDesktop=()=>{
 		let mobilePostCSS={...MobilePostOptionsButton};
 		if(this.state.headerAnimation==true){
@@ -1052,10 +1107,61 @@ class Symposium extends Component{
 							</ul>
 						</div>
 						:<ul>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+								Display:
+							</li>
 							{this.postOptions()}
 						</ul> 
 					}
 			   </>
+	}
+
+
+	closeMobilePostOptions=()=>{
+		this.setState({
+			displayMobileSymposiumOptions:false
+		})
+	}
+
+	handleFollowSymposium=async()=>{
+
+		if(this.state.isProfileFollowingSymposium==false){
+			await addSymposium(this.state.profileId,this.state.selectedSymposiumTitle,null);
+		}else{
+			const {confirmation,data}=await removeSymposium(this.state.profileId,this.state.selectedSymposiumTitle,null);
+			if(confirmation=="Failure"){
+				alert('Unfortunately there has been an error with unfollowing this symposium. Please try again');
+			}
+		}
+		
+		this.setState({
+			isProfileFollowingSymposium:this.state.isProfileFollowingSymposium==true?false:true
+		})
+	}
+
+
+	triggerDisplayMobileSymposiumOptions=()=>{
+		return <>
+					{this.state.displayMobileSymposiumOptions==true &&(
+						<MobilePostOptionsPortal
+							closeModal={this.closeMobilePostOptions}
+							isSymposiumFollowed={this.state.isProfileFollowingSymposium}
+							followUnfollowSymposium={this.handleFollowSymposium}
+							popularQuestionObject={{
+			  					questionInformation:this.state.popularQuestions,
+			  					isSimplified:this.state.headerAnimation,
+								selectedSymposium:this.state.selectedSymposiumTitle
+			  				}}
+			  				activePeople={this.state.activePeople}
+			  				roomId={this.state.symposiumId}
+							chat={this.state.chatRoom}
+							socket={socket}
+						  	symposium={this.state.selectedSymposiumTitle}
+						  	questions={this.state.symposiumFeatureQuestions}
+						  	profileId={this.state.profileId}
+						/>
+					)}
+				</>
 	}
 
 
@@ -1117,58 +1223,53 @@ class Symposium extends Component{
 				{this.handleSeeAllPopularVideos()}
 				{this.handleHeaderAnimation()}
 				{this.specificSymposiumFeatures()}
+				{this.triggerDisplayMobileSymposiumOptions()}
 
 				<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>
 					{this.state.isLoading==false?
 						<>
 							<SympociaOptionsContainer isScrollEnabled={this.state.headerAnimation}>	
-								<SearchOptionContainer style={{marginLeft:this.state.headerAnimation==false?"10%":"0%"}}>	
-									<SearchContainer>
-										<ul style={{paddingTop:"5px"}}>
-											<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
-												<SearchIcon
-													style={{fontSize:30}}
-												/>
+									<SearchOptionContainer style={{width:"80%",marginLeft:this.state.headerAnimation==false?"10%":"0%"}}>	
+										{/*
+											Down the I would like a search function to be implemented
+											Should be easy just hookup the search api to here then repopulate results when the api returns
+
+											<SearchContainer>
+												<ul style={{paddingTop:"5px"}}>
+													<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
+														<SearchIcon
+															style={{fontSize:30}}
+														/>
+													</li>
+													<SearchTextArea
+														placeholder="Type here to search"
+													/>
+												</ul>
+											</SearchContainer>
+											<li id="postOptionsLI" style={{marginTop:"1%",listStyle:"none",width:"70%",zIndex:"30"}}>
 											</li>
-											<SearchTextArea
-												placeholder="Type here to search"
-											/>
-										</ul>
-									</SearchContainer>
-									<li id="postOptionsLI" style={{marginTop:"1%",listStyle:"none",width:"70%",zIndex:"30"}}>
+										*/}
 										{this.postOptionsMobileOrDesktop()}
-									</li>
-								</SearchOptionContainer>
+									</SearchOptionContainer>
 
 								{this.state.headerAnimation==true && (
-									<MinifiedSymposiumInformation>
-				  						<ChevronLeftRoundedIcon
-				  							style={{fontSize:40,marginTop:"10px"}}
-				  							onClick={()=>this.handlePreviousSymposiumButton()}
-				  						/>
-							  			<p style={{marginTop:"10px",fontSize:"20px"}}>{this.state.selectedSymposiumTitle}</p>
+									<MinifiedSymposiumInformation isScrollEnabled={this.state.headerAnimation}>
+										{(this.state.displayPhoneUI==true && this.state.headerAnimation==true)==false &&(
+											<>
+						  						<ChevronLeftRoundedIcon
+						  							style={{fontSize:40,marginTop:"10px"}}
+						  							onClick={()=>this.handlePreviousSymposiumButton()}
+						  						/>
+									  			<p style={{marginTop:"10px",fontSize:"20px"}}>{this.state.selectedSymposiumTitle}</p>
 
-				  						<ChevronRightRoundedIcon
-						  					style={{fontSize:40,marginTop:"10px"}}
-						  					onClick={()=>this.handleNextSymposiumButton()}
-						  				/>
-				  						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayPopularVideos:true})}>
-				  							View Popular videos
-				  						</ChatAndIndustryInformationContainer>
+						  						<ChevronRightRoundedIcon
+								  					style={{fontSize:40,marginTop:"10px"}}
+								  					onClick={()=>this.handleNextSymposiumButton()}
+								  				/>
+											</>
+										)}
+						  				{this.symposiumOptions(this.state.headerAnimation)}
 
-				  						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayModalPeopleActive:true})}>
-				  							View active people
-				  						</ChatAndIndustryInformationContainer>
-				  						
-				  						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayChatRoom:!this.state.displayChatRoom})}>
-				  							{this.state.selectedSymposiumTitle=="General"||
-												this.state.selectedSymposiumTitle=="Religion"||
-												this.state.selectedSymposiumTitle=="Gaming"||
-												this.state.selectedSymposiumTitle=="Philosophy"?
-												<p>View Chat </p>:
-												<p> View Features </p>
-											}
-				  						</ChatAndIndustryInformationContainer>
 									</MinifiedSymposiumInformation>
 								)}
 							</SympociaOptionsContainer>

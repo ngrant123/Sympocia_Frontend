@@ -13,7 +13,7 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {useSelector} from "react-redux";
 
 const Container=styled.div`
-	position:absolute;
+	position:fixed;
 	background-color:white;
 	width:45%;
 	height:60%;
@@ -97,6 +97,7 @@ const CreatePostContainer=styled.div`
 	color:#3898ec;
 	padding:20px;
 	font-size:15px;
+	cursor:pointer;
 `;
 
 const SendButtonCSS={
@@ -106,7 +107,8 @@ const SendButtonCSS={
     padding:"10px",
     color:"white",
     marginRight:"2%",
-    marginTop:"2%"
+    marginTop:"2%",
+    cursor:"pointer"
 }
 
 const UploadButtonCSS={
@@ -124,6 +126,7 @@ const UploadButtonCSS={
 const RegularPostContainer=styled.div`
 	transition:.8s;
 	border-radius:5px;
+	padding:20px;
 	&:hover{
 		box-shadow: 1px 1px 1px 1px #d5d5d5;
 	}
@@ -144,8 +147,10 @@ const MobileCreationButtonCSS={
 
 
 const QuestionsPortal=(props)=>{
+	const ownerInformation=useSelector(state=>state.personalInformation);
 	const _id=useSelector(state=>state.personalInformation.id);
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
+	const [isCommentProcessing,changeIsCommentProcessing]=useState(false);
 
 	const triggerUIChange=()=>{
 		if(window.innerWidth<595){
@@ -179,7 +184,7 @@ const QuestionsPortal=(props)=>{
 	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[currentCounter].questionType);
 
 	const sendData=async(postData)=>{
-
+		changeIsCommentProcessing(true);
 		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
 		if(currentQuestionType=="Video"){
 			postData={
@@ -210,13 +215,21 @@ const QuestionsPortal=(props)=>{
 
 		const {confirmation,data}=await addCommentToPopularQuestions(postInformation);
 		if(confirmation=="Success"){
+			debugger;
+			const {message}=data;
 			props.closeModalAndDisplayData({
-				data,
+				data:{
+					...message,
+					owner:{
+						firstName:ownerInformation.firstName
+					}
+				},
 				currentQuestionType
 			});
 		}else{
 			alert('Unfortunately there has been an error when trying to add your post. Please try again');
 		}
+		changeIsCommentProcessing(false);
 	}
 
 	const uuidv4=()=>{
@@ -274,11 +287,12 @@ const QuestionsPortal=(props)=>{
 												 placeholder="Describe your picture here"
 											/>
 											<hr/>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											{isCommentProcessing==false?
 												<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
 													Send
-												</li>
-											</a>
+												</li>:
+												<p>Please wait while we process your post... </p>
+											}
 										</ul>
 									</li>
 								</ul>
@@ -316,11 +330,12 @@ const QuestionsPortal=(props)=>{
 									</li>
 									<InputContainer id="videoDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your video here"/>
 									<hr/>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									{isCommentProcessing==false?
 										<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
 											Send
 										</li>
-									</a>
+										:<p>Please wait while we process your post...</p>
+									}
 								</ul>
 							</li>
 						}
@@ -346,11 +361,12 @@ const QuestionsPortal=(props)=>{
 														id="regularPostText"
 													/>
 												</li>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												{isCommentProcessing==false?
 													<li onClick={()=>sendData(document.getElementById("regularPostText").value)} style={SendButtonCSS}>
 														Send
 													</li>
-												</a>
+													:<p>Please wait while we process your post... </p>
+												}
 											</ul>
 										</li>
 										{/*	
@@ -387,9 +403,12 @@ const QuestionsPortal=(props)=>{
 										<img src={selectedPost} style={{borderRadius:"5px",width:"40%",height:"50%"}}/>
 									</li>
 									<InputContainer placeholder="Describe your picture here"/>
-									<li onClick={()=>sendData()} style={SendButtonCSS}>
-										Send
-									</li>
+									{isCommentProcessing==false?
+										<li onClick={()=>sendData()} style={SendButtonCSS}>
+											Send
+										</li>
+										:<p>Please wait while we process your post... </p>
+									}
 								</ul>
 							</li>
 						}
@@ -432,19 +451,22 @@ const QuestionsPortal=(props)=>{
 												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",width:"20%"}}>
 														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none"}}>
+															<li style={{listStyle:"none",display:"inline-block"}}>
 																<img id="imagePicture" src={data.owner.profilePicture==null?
 																			NoProfilePicture:
 																			data.owner.profilePicture} 
-																	style={{width:"80%",height:"15%",borderRadius:"50%"}}/>
+																	style={{height:"10%",borderRadius:"50%"}}/>
 															</li>
-															<li style={{listStyle:"none"}}>
+															<li style={{listStyle:"none",display:"inline-block"}}>
 																<b>{data.owner.firstName}</b>
 															</li>
 														</ul>
 													</li>
-													<li id="postLI" style={{listStyle:"none",display:"inline-block",position:"relative",top:"-60px"}}>
-														{data.post}			
+													<li id="postLI" style={{
+															listStyle:"none",display:"inline-block",position:"relative",top:"0px",
+															maxHeight:"90px",maxWidth:"80%",overflow:"hidden"
+														}}>
+														{data.post}		
 													</li>
 												</ul>
 											</li>
@@ -508,9 +530,9 @@ const QuestionsPortal=(props)=>{
 										)}
 
 										<li id="questionHeader" style={{width:"130%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"30px"}}>
-													<b>
-														{questions[currentCounter].question}
-													</b>
+											<b>
+												{questions[currentCounter].question}
+											</b>
 										</li>
 										<hr/>
 										<li style={{listStyle:"none"}}>
@@ -538,11 +560,9 @@ const QuestionsPortal=(props)=>{
 								</li>
 							</ul>
 							{displayPhoneUI==false &&(
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<CreatePostContainer onClick={()=>changeDisplayPost(true)} >
-										Create
-									</CreatePostContainer>
-								</a>
+								<CreatePostContainer onClick={()=>changeDisplayPost(true)} >
+									Create
+								</CreatePostContainer>
 							)}
 						</React.Fragment>
 					}

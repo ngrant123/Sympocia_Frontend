@@ -21,7 +21,7 @@ export const SymposiumHeaderAnimation=styled.div`
 	height:40%;
 	paddding-left:5px;
 	transition: transform 300ms ease-in-out;
-	boxShadow: "1px 1px 1px 1px #d5d5d5";
+	boxShadow: 1px 1px 1px 1px #d5d5d5;
 	border-radius:5px;
 	z-index:3;
 	animation:${keyFrameExampleTwo} 1s ease-in-out 0s forwards;
@@ -138,11 +138,12 @@ export const ActivePeopleContainer=styled.div`
 export const PostContainer=styled.div`
 	position:relative;
 	padding-left:40px;
-	left:-5%;
+	left:-2%;
 	top:5%;
 	width:100%;
 	height:170%;
 	transition:1s;
+
 
 
 	@media screen and (max-width:1370px){
@@ -172,6 +173,15 @@ export const PostContainer=styled.div`
     	margin-left:-10% !important;
     }
 
+    @media screen and (max-width:600px){
+    	top:-20% !important;
+    	${({isScrollEnabled})=>
+			isScrollEnabled==true &&(
+				`top:10% !important;`
+			)
+		}
+    }
+
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	height:170% !important;
@@ -182,7 +192,7 @@ export const PostContainer=styled.div`
     	margin-left:0% !important;
     }
 
-    @media screen  and (max-width:730px) and (max-height:420px) 
+    @media screen  and (max-width:850px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
     	height:170% !important;
@@ -260,6 +270,7 @@ export const SearchContainer=styled.div`
 	position:relative;
 	width:630px;
 	border-radius:5px;
+	background-color:red;
 	box-shadow: 1px 1px 5px 	#dbdddf;
 	@media screen and (max-width:1370px){
     	width:500px;
@@ -367,14 +378,12 @@ export const ChatAndIndustryInformationContainer=styled.div`
 	border-style:solid;
 	border-width:1px;
 	color:white;
-	height:30%;
 	background-color:#5298F8;
 	border-radius:5px;
 	padding:10px;
 	margin-right:2px;
 
 	@media screen and (max-width:1370px){
-    	display:none !important;
     }
 `;
 
@@ -384,7 +393,7 @@ export const ArrowDownContainer=styled.div`
 	position:fixed;
 	left:45%;
 	top:80%;
-	z-index:50;
+	z-index:40;
 
   animation: bounce 2s infinite;
   @keyframes bounce {
