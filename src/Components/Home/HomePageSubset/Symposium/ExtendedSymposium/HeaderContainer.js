@@ -19,6 +19,7 @@ const Container=styled.div`
 	width:100%;
 	height:100%;
 	opacity:0;
+	z-index:10;
 	transition:opacity 2s linear
 	@media screen and (max-width:1370px){
 		left:90% !important;
@@ -278,7 +279,6 @@ const HeaderContainer=(props)=>{
 	}
 
 	const replayVideo=(startTime,endTime)=>{
-
 	   		var startTime=0;
 	   		const video=this
 	   		const videoDuration=video.duration;
@@ -477,6 +477,7 @@ const SimpliedHeaderContainer=(props)=>{
 
 	return(
 		<div>
+			Testr
 		</div>
 	)
 }

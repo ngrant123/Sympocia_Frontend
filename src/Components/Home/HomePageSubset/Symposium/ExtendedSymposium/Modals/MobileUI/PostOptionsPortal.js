@@ -9,7 +9,7 @@ import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.
 
 
 const Container=styled.div`
-	position:absolute;
+	position:fixed;
 	z-index:34;
 	height:95%;
 	width:90%;
@@ -20,6 +20,10 @@ const Container=styled.div`
 	background-color:white;
 	padding:20px;
 	border-radius:5px;
+
+	@media screen and (max-width:1370px){
+		left:3% !important;
+	}
 `;
 
 const ActiveProfilePictures=styled(Link)`
@@ -119,14 +123,14 @@ const MobilePostOptionsPortal=(props)=>{
 							props.symposium=="Philosophy"?
 							<Chat
 						  		roomId={props.roomId}
-						  		chat={props.chatRoom}
+						  		chat={props.chat}
 						  		profileId={props.profileId}
 						  		socket={props.socket}
 							/>:
 						  	<SpecificFeatureSymposium
 					  			symposium={props.symposium}
 					  			symposiumId={props.roomId}
-					  			questions={props.symposiumFeatureQuestions}
+					  			questions={props.questions}
 					  		/>
 				  		} 
 					</>

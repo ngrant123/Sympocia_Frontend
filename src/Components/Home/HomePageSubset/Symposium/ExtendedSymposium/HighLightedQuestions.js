@@ -182,7 +182,6 @@ class HighLightedQuestions extends Component{
 
 		if(currentQuestionType==questionType){
 			debugger;
-			data=data._doc;
 			var replies=responsesId;
 
 			replies.splice(0,0,data);
