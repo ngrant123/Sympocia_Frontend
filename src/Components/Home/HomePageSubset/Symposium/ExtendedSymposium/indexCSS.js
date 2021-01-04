@@ -69,6 +69,10 @@ export const Container=styled.div`
 		height:20%;
 	}
 
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		height:50% !important;
+    }
+
 	@media screen and (max-width:730px) and (max-height:420px){
     	height:60% !important;
     }
@@ -191,6 +195,11 @@ export const PostContainer=styled.div`
     	margin-bottom:120% !important;
     	margin-left:0% !important;
     }
+
+    @media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		top:30%!important;
+    }
+
 
     @media screen  and (max-width:850px) and (max-height:420px) 
 	  and (orientation: landscape) 

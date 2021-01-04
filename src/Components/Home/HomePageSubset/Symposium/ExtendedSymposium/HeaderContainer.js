@@ -18,8 +18,7 @@ const Container=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	opacity:0;
-	z-index:10;
+	z-index:40;
 	transition:opacity 2s linear
 	@media screen and (max-width:1370px){
 		left:90% !important;
@@ -396,7 +395,7 @@ const HeaderContainer=(props)=>{
 							</ul>							
 
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ul id="popularVideosUL" style={{padding:"5px",backgroundColor:"white",height:props.isIpadView==true?"90%":"65%",borderRadius:"5px"}}>
+									<ul id="popularVideosUL" style={{overflow:"hidden",padding:"5px",backgroundColor:"white",height:props.isIpadView==true?"90%":"65%",borderRadius:"5px"}}>
 										{popularVideos.map(data=>
 											<>
 												{data!=null &&(
