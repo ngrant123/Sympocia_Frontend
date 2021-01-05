@@ -8,7 +8,7 @@ import VideoPostModal from "../Features/VideoPostModal.js";
 import AudioPostModal from "../Features/AudioPostModal.js";
 
 const Container=styled.div`
-	position:absolute;
+	position:fixed;
 	background-color:white;
 	width:45%;
 	height:60%;
@@ -17,6 +17,17 @@ const Container=styled.div`
 	left:30%;
 	top:20%;
 	overflow-y:scroll;
+
+	@media screen and (max-width:1370px){
+		width:80%;
+		left:10%;
+	}
+	@media screen and (max-width:600px){
+		left:5%;
+		height:80%;
+		width:90%;
+	}
+	
 `;
 
 const ImageContainer=styled.div`

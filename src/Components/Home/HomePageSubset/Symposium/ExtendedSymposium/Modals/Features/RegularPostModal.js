@@ -121,7 +121,8 @@ const SubmitButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  width:"30%"
+  width:"30%",
+  cursor:"pointer"
 }
 
 const KnowledgeLevelIndicatorCSS={
@@ -148,6 +149,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
 	const name=useSelector(state=>state.personalInformation.firstName);
+	const [isProccessingPost,changeIsProcessingPost]=useState(false);
 
 	const [displayCurrentLevel,changeCurrentLevel]=useState(false);
 
@@ -176,10 +178,11 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 		const {confirmation,data}=await retrievePosts('Intermediate');
 		console.log(data);
 		if(confirmation=="Success"){
+			const {message}=data;
 			const {
 				questionId,
 				posts
-			}=data;
+			}=message;
 			if(displayCreationModal==false){
 				document.getElementById("beginner").style.backgroundColor="white";
 				document.getElementById("beginner").style.color="#3898ec";
@@ -202,10 +205,11 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	const displayBeginnerPosts=async()=>{
 		const {confirmation,data}=await retrievePosts('Beginner');
 		if(confirmation=="Success"){
+			const {message}=data;
 			const {
 				questionId,
 				posts
-			}=data;
+			}=message;
 
 			if(displayCreationModal==false){
 				document.getElementById("intermediate").style.backgroundColor="white";
@@ -229,11 +233,13 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 
 	const displayAdvancedPosts=async()=>{
 		const {confirmation,data}=await retrievePosts('Advanced');
+
 		if(confirmation=="Success"){
+			const {message}=data;
 			const {
 				questionId,
 				posts
-			}=data;
+			}=message;
 
 			if(displayCreationModal==false){
 				document.getElementById("beginner").style.backgroundColor="white";
@@ -260,6 +266,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 		if(knowledgeLevel==null){
 			alert('Please enter a level to continue');
 		}else{
+			changeIsProcessingPost(true);
 			const post={
 				industryId:symposiumId,
 				questionId:selectedPostId,
@@ -270,12 +277,12 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 			}
 			const {confirmation,data}=await createSpecificIndustryRegularPostAnswer(post);
 			if(confirmation=="Success"){
-				
+				const {message}=data;
 				if(displayCurrentLevel==knowledgeLevel.toLowerCase()){	
 					const {
 						questionId,
 						postId
-					}=data;
+					}=message;
 					var submittedPost={
 						post:document.getElementById("post").value,
 						_id:postId,
@@ -298,6 +305,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 			}else{
 				alert('Unfortunately there has been an error with adding this image. Please try again');
 			}
+			changeIsProcessingPost(false);
 		}
 	}
 
@@ -355,9 +363,12 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 
 					<InputContainer id="post" placeholder='Enter your text here'/>
 
-					<li onClick={()=>submitPost()} style={SubmitButtonCSS}>
-						Submit
-					</li>
+					{isProccessingPost==true ?
+						<p>Please wait while we process your post </p>:
+						<li onClick={()=>submitPost()} style={SubmitButtonCSS}>
+							Submit
+						</li>
+					}
 				</>
 				:<>
 					<li style={{listStyle:"none"}}>
@@ -424,11 +435,11 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 														/>
 													</li>
 
-													<li style={{width:"70%",listStyle:"none",display:"inline-block"}}>
+													<li style={{marginLeft:"10%",width:"70%",listStyle:"none",display:"inline-block"}}>
 														<p> 
 															<b>{data.owner.firstName}</b>
 														</p>
-														<p style={{height:"10%",overflowY:"auto",}}>
+														<p style={{height:"10%",overflow:"hidden",maxHeight:"15%"}}>
 															{data.post}
 														</p>
 													</li>
