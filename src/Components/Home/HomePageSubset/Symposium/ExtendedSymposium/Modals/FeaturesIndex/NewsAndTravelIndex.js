@@ -10,7 +10,7 @@ import AudioPostModal from "../Features/AudioPostModal.js";
 
 
 const Container=styled.div`
-	position:absolute;
+	position:fixed;
 	background-color:white;
 	width:65%;
 	height:60%;

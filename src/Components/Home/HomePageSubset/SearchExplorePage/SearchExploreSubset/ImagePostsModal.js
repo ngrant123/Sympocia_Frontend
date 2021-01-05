@@ -104,7 +104,7 @@ const HeaderContainer=styled.div`
 
 const PostsContainer=styled.div`
 	display:flex;
-	flex-direction:row;
+	flex-direction:row; 
 	width:50%;
 	height:600px;
 	overflow-y:scroll;

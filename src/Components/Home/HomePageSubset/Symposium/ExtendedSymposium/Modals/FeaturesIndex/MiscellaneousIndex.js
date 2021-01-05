@@ -11,7 +11,7 @@ import VideoDisplayContainer from "../../../../../../GeneralComponents/PostCompo
 
 
 const Container=styled.div`
-	position:absolute;
+	position:fixed;
 	background-color:white;
 	width:45%;
 	height:60%;
