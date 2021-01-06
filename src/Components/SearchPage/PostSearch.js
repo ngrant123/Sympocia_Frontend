@@ -42,6 +42,7 @@ const PostContainer=styled.div`
 	@media screen and (max-width:600px){
 		margin-top:45% !important;
 		margin-left:-15% !important;
+		width:100%;
 	}
 
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
@@ -315,9 +316,11 @@ const PostSearch=(props)=>{
 							</div>
 						</li>
 
-						<li style={PostButton}>
-							Request a post
-						</li>
+						{/*
+							<li style={PostButton}>
+								Request a post
+							</li>
+						*/}
 					</ul>
 				</li>
 				<hr/>

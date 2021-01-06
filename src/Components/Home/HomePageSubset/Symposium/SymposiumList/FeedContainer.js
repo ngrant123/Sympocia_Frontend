@@ -58,6 +58,11 @@ const Container=styled.div`
 	overflow-y:scroll;
 	padding-top:0px;
 
+	@media screen and (max-width:1370px){
+		#stampIcon{
+			width:50% !important;
+		}
+	}
 	@media screen and (max-width:1150px) {
 		#followedSymposiumsButton{
 			font-size:20px !important;
@@ -82,13 +87,13 @@ const Container=styled.div`
 
 	@media screen and (max-width:960px) {
 		#stampIcon{
-			width:30% !important;
+			width:50% !important;
 		}
 	}
 
 	@media screen and (max-width:620px) {
 		#stampIcon{
-			width:40% !important;
+			width:50% !important;
 		}
 	}
 
@@ -105,7 +110,7 @@ const Container=styled.div`
 			margin-left:-20% !important;
 		}
 		#stampIcon{
-			width:50% !important;
+			width:60% !important;
 		}
 	}
 
@@ -121,6 +126,11 @@ const Container=styled.div`
  		#symposiumsLI{
  			margin-bottom:30% !important;
  		}
+    }
+    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+    	#stampImage{
+    		height:40% !important;
+    	}
     }
 `;
 
@@ -228,8 +238,7 @@ class PersonalFeedContainer extends Component{
 			displayMobileUI:false,
 			displayChatPage:false,
 			chatPageIndicator:"",
-			displayDesktopUI:false,
-			isLoading:true;
+			displayDesktopUI:false
 		}
 	}
 
@@ -478,9 +487,16 @@ class PersonalFeedContainer extends Component{
 						</li>
 					}
 					<hr/>
-					<li id="popularButton" onClick={()=>this.changeColorForPopularButton()} id="mostPopularButton"
-						 style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"#5298F8",color:"white",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"10px",borderRadius:"5px"}}>Most Popular</li>
-					<li id="fastestGrowinButton" onClick={()=>this.changeColorForFastestGrowingButton()} id="fastestGrowingButton" style={ShadowButtonCSS}>Fastest Growing</li>
+					{/*
+						<li id="popularButton" onClick={()=>this.changeColorForPopularButton()} id="mostPopularButton"
+						style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"#5298F8",color:"white",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"10px",borderRadius:"5px"}}>
+							 Most Popular
+						</li>
+
+						<li id="fastestGrowinButton" onClick={()=>this.changeColorForFastestGrowingButton()} id="fastestGrowingButton" style={ShadowButtonCSS}>
+							Fastest Growing
+						</li>
+					*/}
 						
 					{this.state.displayDesktopUI==true &&(
 						<li style={{listStyle:"none",width:"30%"}}>
@@ -488,42 +504,47 @@ class PersonalFeedContainer extends Component{
 						</li>
 					)}
 				</ul>
-				{this.state.isLoading==false && this.state.symposiumArray.length==0?
-						<li style={{listStyle:"none",marginLeft:"30%"}}>
-							<ul>
-								<li id="stampIcon" style={{listStyle:"none",display:"inline-block",width:"20%"}}>
-									<img src={StampIcon} style={{borderRadius:"50%",width:"95%",height:"20%"}}/>
-								</li>
-								<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none"}}>
-											<p> Unfortunately, we noticed that you arent following any symposiums  </p>
-											<p> Click the explore button below to search and find news ones  </p>
+				{this.state.isLoading==true?
+					<p style={{marginLeft:"15%"}}>Loading please wait..</p>:
+					<>
+						{this.state.symposiumArray.length==0?
+								<li style={{listStyle:"none",marginLeft:"30%"}}>
+									<ul>
+										<li id="stampIcon" style={{listStyle:"none",display:"inline-block",width:"20%"}}>
+											<img id="stampImage" src={StampIcon} style={{borderRadius:"50%",width:"100%",height:"20%"}}/>
 										</li>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>this.displayExploreSymposiums()} style={ExploreButton}>
-												Explore
-											</li>
-										</a>
+										<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none"}}>
+													<p> Unfortunately, we noticed that you arent following any symposiums  </p>
+													<p> Click the explore button below to search and find news ones  </p>
+												</li>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>this.displayExploreSymposiums()} style={ExploreButton}>
+														Explore
+													</li>
+												</a>
+											</ul>
+										</li>
 									</ul>
-								</li>
-							</ul>
-						</li>:
-					<React.Fragment>
-						{this.state.symposiumArray.map(data=>
-							<li id="symposiumsLI" style={{paddingBottom:"40px",listStyle:"none"}}>
-								<CommunityContainerAnimationFollowed>
-									<CommunityContainer
-										data={data}
-										isPersonalProfile={this.props.isPersonalProfile}
-										handleSymposiumClickHandler={this.handleSymposiumClick}
-										isMobileView={this.state.displayMobileUI}
-									/>
-								</CommunityContainerAnimationFollowed>
-							</li>
-						)}
-					</React.Fragment>
-				}	
+								</li>:
+							<React.Fragment>
+								{this.state.symposiumArray.map(data=>
+									<li id="symposiumsLI" style={{paddingBottom:"40px",listStyle:"none"}}>
+										<CommunityContainerAnimationFollowed>
+											<CommunityContainer
+												data={data}
+												isPersonalProfile={this.props.isPersonalProfile}
+												handleSymposiumClickHandler={this.handleSymposiumClick}
+												isMobileView={this.state.displayMobileUI}
+											/>
+										</CommunityContainerAnimationFollowed>
+									</li>
+								)}
+							</React.Fragment>
+						}	
+					</>
+				}
 			</ul>:
 				<CommunityTransitionAnimation style={{background:this.state.selectedSymposium.backgroundColor}}>
 				</CommunityTransitionAnimation>
