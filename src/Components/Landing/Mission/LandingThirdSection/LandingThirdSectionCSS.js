@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import img2 from '../../../../designs/background/ThirdSectionBackground.png';
 
-export const ThirdContainer=styled.div`
- position:absolute;
-  width:100%;
-  height:100%;
+export const ThirdContainer=styled.div`	
+	display:flex:;
+	flex-direction:column;
   opacity:0;
   transition:.8s;
 
+  @media screen and (max-width:1370px){
+        #footerIcons{
+              display:none;
+          }
+    }
    @media screen and (max-width:650px){
         #imageListContainer{
 	         display:none;
@@ -32,6 +36,7 @@ export const ThirdContainer=styled.div`
     	}
     	#textHeader{
 			width:90% !important;
+			font-size:20px !important;
 		}
     }
 
@@ -61,20 +66,6 @@ export const ThirdContainer=styled.div`
         }
     }
 
-
-    @media screen and (max-width:380px), screen and (max-height:380px){
-      margin-top:75%;
-    }
-
-    @media screen and (max-width:480px){
-       #thirdContainerCompany{
-       	margin-top:400%;
-       }
-    }
-
-    @media screen and (max-height:480px){
-        margin-top:20%;
-    }
   `;
 
 

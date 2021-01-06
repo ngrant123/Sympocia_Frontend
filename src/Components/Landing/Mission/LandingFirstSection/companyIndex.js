@@ -45,9 +45,7 @@ import LandingImage from '../../../../designs/img/CompanyFirstSection.png';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-
 import EmailInformationModal from "../../EmailInformationModal.js";
-//import {recordEmailCompany} from "../../../Actions/Requests/MarketingRequests.js";
 
 
 const LoginBox=styled.textarea`
@@ -125,6 +123,60 @@ const JoinMovementTextContainer=styled.input`
     border-color:#d9d9d9;
 `;
 
+
+
+const FirstContainerContents=styled.div`
+  display:flex;
+  flex-direction:row;
+  margin-left:10%;
+  margin-top:-5%;
+  @media screen and (max-width:1370px){
+    flex-direction:column;
+  }
+  @media screen and (max-width:600px){
+      margin-left:5%;
+  }
+`;
+
+const FirstContainerInformational=styled.div`
+  width:70%;
+  height:50%;
+  margin-top:5%;
+  display:flex;
+  flex-direction:column;
+  margin-right:10%;
+
+  @media screen and (max-width:1370px){
+      width:90%;
+    #header1{
+      font-size:20px !important;
+    }
+  }
+`;
+
+
+const PageImageContainer=styled.div`
+  display:flex;
+  flex-direction:column;
+  @media screen and (max-width:1370px){
+    margin-left:15%;
+    #amountOfUsersText{
+      margin-top:7%;
+      margin-left:-20% !important;
+    }
+  }
+
+  @media screen and (max-width:600px){
+    margin-left:15%;
+    #amountOfUsersText{
+      margin-top:0%;
+    }
+  }
+
+    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+         margin-left:20%;
+    }
+`;
 
 const SignUpButton={
     listStyle:"none",
@@ -235,95 +287,64 @@ const FirstSection=(props)=>{
 
 	return(
 
-		     <FirstContainer id="firstContainer">
+		     <FirstContainer id="firstContainer" style={{marginLeft:"5%",flexDirection:"column"}}>
               {displayEmailInformation==false?null:
                 <EmailInformationModal
                   closeModal={closeModal}
                   profileType="Company"
                 />
               }
+              <li style={{position:"relative",listStyle:"none",marginBottom:"2%"}}>
+                  <ul style={{padding:"0px"}}>
+                      <li style={{listStyle:"none",display:"inline-block"}}>
+                        <p id="headerCompany" style={{fontSize:"100px",color:"#C8B0F4",marginLeft:"-20%"}}>
+                            <b>Sympocia</b>
+                        </p>
+                      </li>
+                  </ul>
+              </li>
 
-              <ul style={{padding:"0px"}}>
-                  <li style={{position:"relative",top:"-25px",listStyle:"none",marginBottom:"2%"}}>
-                      <ul style={{padding:"0px"}}>
-                          <li style={{listStyle:"none",display:"inline-block"}}>
-                            <p id="headerCompany" style={{fontSize:"100px",color:"#C8B0F4",marginLeft:"-20%"}}>
-                                <b>Sympocia</b>
-                            </p>
-                          </li>
-                      </ul>
-                  </li>
-                  <li style={{listStyle:"none",marginTop:"7%"}}>
-                    <ul style={{padding:"0px"}}>
-                        <li id="textFirstSectionCompany" style={{listStyle:"none",display:"inline-block",width:"90%",height:"60%"}}>
-                            <ul style={{padding:"0px"}}>
-                              <li style={{listStyle:"none",display:"inline-block",width:"50%",height:"50%"}}>
-                                <ul style={{padding:"0px"}}>
-                                  <li style={{listStyle:"none",display:"inline-block"}}>
-                                      <ul style={{padding:"0px"}}>
-                                        <li style={{listStyle:"none",fontSize:"40px",marginBottom:"10%"}}>
-                                            <p>
-                                              <b>Introducing Sympocia Business</b>
-                                           </p>
-                                        </li>
+              <FirstContainerContents>
+                <FirstContainerInformational>
+                     <p style={{fontSize:"40px",marginBottom:"10%"}}>
+                        <b>Introducing Sympocia Business</b>
+                     </p>
+                      <p>
+                          So you’re starting out your business huh? Or maybe you have an idea
+                          and you need a little help with it. 
+                          Don’t worry, we built <b>Sympocia</b> just for you :)
+                      </p>
+                      <p>
+                         Starting a business is hard. But now you don’t have to do it all alone!
+                      </p>
+                      <li style={ComingSoonButton}>
+                        Coming soon
+                      </li>
+                </FirstContainerInformational>
+                <PageImageContainer>
+                   <img src={LandingImage} style={{width:"80%",height:"80%"}}/>
+                </PageImageContainer>
 
-                                        <li style={{listStyle:"none"}}>
-                                            <p>
-                                                So you’re starting out your business huh? Or maybe you have an idea
-                                                and you need a little help with it. 
-                                                Don’t worry, we built <b>Sympocia</b> just for you :)
-                                            </p>
-                                        </li>
+              </FirstContainerContents>
+              <li id="footerIcons" style={{listStyle:"none",marginLeft:"-10%"}}>
+                <ul style={{padding:"0px"}}>
+                    <li style={{listStyle:"none",display:"inline-block"}}>
+                        <FiberManualRecordIcon/>
+                    </li>
 
-                                        <li style={{listStyle:"none"}}>
-                                            <p>
-                                               Starting a business is hard. But now you don’t have to do it all alone!
-                                            </p>
-                                        </li>
-                                      </ul>
-                                  </li>
-                                  <li style={ComingSoonButton}>
-                                    Coming soon
-                                  </li>
-                                </ul>
-                              </li>
+                    <li onClick={()=>props.displaySelectedPage(1)} style={{listStyle:"none",display:"inline-block"}}>
+                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                        <RadioButtonUncheckedIcon/>
+                      </a>
+                    </li>
 
-                              <li id="imageListContainer" style={{position:"relative",top:"-100px",listStyle:"none",display:"inline-block",width:"40%"}}>
-                                  <img id="imageContainer" src={LandingImage} style={{width:"95%",height:"80%"}}/>
-                              </li>
-                            </ul>
-                        </li>
-                    </ul>
-                  </li>
-                  <li id="footerIcons" style={{listStyle:"none",marginTop:"-10%"}}>
-                    <ul style={{padding:"0px"}}>
-                        <li style={{listStyle:"none",display:"inline-block"}}>
-                            <FiberManualRecordIcon/>
-                        </li>
-
-                        <li onClick={()=>props.displaySelectedPage(1)} style={{listStyle:"none",display:"inline-block"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <RadioButtonUncheckedIcon/>
-                          </a>
-                        </li>
-
-                        <li onClick={()=>props.displaySelectedPage(2)} style={{listStyle:"none",display:"inline-block"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <RadioButtonUncheckedIcon/>
-                          </a>
-                        </li>
-                    </ul>
-                  </li>
-                  <li id="floatingArrowFunction" style={{listStyle:"none",marginTop:"7%"}}>
-                    <ArrowDownContainer>
-                      <ArrowDownwardIcon
-                        style={{fontSize:'20'}}
-                      />
-                    </ArrowDownContainer>
-                  </li>
-               </ul>
-
-
+                    <li onClick={()=>props.displaySelectedPage(2)} style={{listStyle:"none",display:"inline-block"}}>
+                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                        <RadioButtonUncheckedIcon/>
+                      </a>
+                    </li>
+                </ul>
+              </li>
 
         </FirstContainer>
 	)

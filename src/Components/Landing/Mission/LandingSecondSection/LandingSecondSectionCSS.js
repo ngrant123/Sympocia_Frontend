@@ -6,9 +6,8 @@ import { Link } from "react-router-dom";
 
 export const SecondContainer = styled.div`
 
-  position:relative;
-  width:100%;
-  height:100%;
+  display:flex:;
+  flex-direction:column;
   text-align:center;
   background-size: contain
   margin:auto;
@@ -19,8 +18,8 @@ export const SecondContainer = styled.div`
    @media screen and (max-width:1370px){
       margin-top:20%;
         #footerIcons{
-              display:none;
-          }
+            display:none;
+        }
         #floatingArrowFunction{
             display:none;
         }
@@ -53,12 +52,7 @@ export const SecondContainer = styled.div`
         }
     }
 
-    @media screen and (max-width:680px){
-      margin-top:25%;
-    }
-
     @media screen and (max-width:650px){
-      margin-top:-10%;
         #imageListContainer{
          display:none;
          top:0px;
@@ -105,14 +99,7 @@ export const SecondContainer = styled.div`
     }
 
 
-
- 
-
-    @media screen and (max-height:530px){
-      margin-top:15%;
-    }
      @media screen and (max-height:440px){
-        margin-top:15%;
          #imageListContainer{
            top:-60px;
            height:250%;
@@ -120,39 +107,11 @@ export const SecondContainer = styled.div`
         }
     }
 
-    @media screen and (max-height:400px){
-        margin-top:20%;
-
-    }
-    @media screen and (max-height:360px){
-        margin-top:30%;
-    }
-
-
-    @media screen and (max-width:820px), screen and (max-height:590px){
-      margin-top:35%;
-    }
-     @media screen and (max-width:685px), screen and (max-height:565px){
-      margin-top:70% !important;
-    }
-
-    @media screen and (max-width:420px), screen and (max-height:300px){
-      margin-top:120%;
-    }
-    @media screen and (max-width:380px), screen and (max-height:465px){
-      margin-top:55%;
-    }
-
-    @media screen and (max-width:380px), screen and (max-height:380px){
-      margin-top:75%;
-    }
-
     @media screen and (max-width:380px){
        #bulletsContainerCompany{
            width:400%;
            height:70%;
           z-index:10;
-          margin-left:-250%;
         }
     }
 
@@ -177,7 +136,6 @@ export const SecondContainer = styled.div`
           width:90% !important;
         }
     }
-
 
   
 `;

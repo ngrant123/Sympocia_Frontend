@@ -6,7 +6,6 @@ const NotificationUrl=process.env.NODE_ENV=='production'?
 
 export const notificationStatusCheck=async(userId)=>{
 	try{
-		debugger;
 		const notificationStatusResponse=await axios.get(`${NotificationUrl}/notificationCheck`,{
 			params:{
 				ownerId:userId

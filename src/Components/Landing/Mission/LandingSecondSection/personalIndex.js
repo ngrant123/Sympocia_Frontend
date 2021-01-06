@@ -97,6 +97,57 @@ const ArrowDownContainer=styled.div`
 `;
 
 
+const SecondContainerContents=styled.div`
+  display:flex;
+  flex-direction:row;
+  @media screen and (max-width:1370px){
+    flex-direction:column-reverse;
+  }
+`;
+
+const SecondContainerInformational=styled.div`
+  width:70%;
+  height:50%;
+  margin-top:5%;
+  display:flex;
+  flex-direction:column;
+  margin-right:10%;
+
+  @media screen and (max-width:1370px){
+      width:100%;
+      margin-left:0%;
+    #PageHeader{
+      font-size:20px !important;
+    }
+  }
+
+  @media screen and (max-width:600px){
+     width:90%; 
+     margin-left:5%;
+  }
+
+    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+       margin-left:5%;
+    }
+`;
+
+
+const PageImageContainer=styled.div`
+  display:flex;
+  flex-direction:column;
+  margin-left:5%;
+  @media screen and (max-width:1370px){
+    margin-left:30%;
+  }
+  @media screen and (max-width:600px){
+    margin-left:15%;
+    #image{
+      width:80% !important;
+      height:100%!important;
+    }
+  }
+`;
+
 
 const MoreDetailsButton={
     listStyle:"none",
@@ -152,196 +203,84 @@ const SecondSection=(props)=>{
     },100);
   },[]);
 
-  const displayFirstBulletHandle=()=>{
-    
-    document.getElementById('firstNumberModal').style.borderColor="#C8B0F4";
-    document.getElementById('secondNumberModal').style.borderColor="#3898ec";
-    document.getElementById('thirdNumberModal').style.borderColor="#3898ec";
-
-
-    changeDisplay(true);
-    changeFirstBulletDisplay(true);
-    changeSecondBulletDisplay(false);
-    changeThirdBulletDisplay(false);
-  }
-
-const displaySecondBulletHandle=()=>{
-    document.getElementById('secondNumberModal').style.borderColor="#C8B0F4";
-    document.getElementById('firstNumberModal').style.borderColor="#3898ec";
-    document.getElementById('thirdNumberModal').style.borderColor="#3898ec";
-
-
-    changeDisplay(true);
-    changeFirstBulletDisplay(false);
-    changeSecondBulletDisplay(true);
-    changeThirdBulletDisplay(false);
-}
-
-
-const displayThirdBulletHandle=()=>{
-    document.getElementById('thirdNumberModal').style.borderColor="#C8B0F4";
-    document.getElementById('secondNumberModal').style.borderColor="#3898ec";
-    document.getElementById('firstNumberModal').style.borderColor="#3898ec";
-
-
-    changeDisplay(true);
-    changeFirstBulletDisplay(false);
-    changeSecondBulletDisplay(false);
-    changeThirdBulletDisplay(true);
-}
-
-const closeModal=()=>{
-  changeDisplay(false);
-  
-  document.getElementById('thirdNumberModal').style.borderColor="#3898ec";
-  document.getElementById('secondNumberModal').style.borderColor="#3898ec";
-  document.getElementById('firstNumberModal').style.borderColor="#3898ec";
-}
 
 
 	return (
 		     <SecondContainer id="secondContainer"> 
-            <img id="imageListContainer" src={LandingImage} style={{zIndex:"-5",position:"absolute",top:"-5%",width:"40%",height:"50%",left:"5%"}} />
-              {displayText==true?
-                   <InformationCard>
-                      <ul>
-                        <li style={{listStyle:"none",marginLeft:"85p%"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <HighlightOffIcon
-                              style={{fontSize:"20"}}
-                              onClick={()=>closeModal()}                           
-                            />
-                          </a>
-                        </li>
-
-                        <li style={{listStyle:"none"}}>
-                           {displayFirstBulletModal==true?
-                               <p style={{color:"#C8B0F4",fontSize:"15px"}}>
-                                  Each post has a specific 
-                                  algorithm that is tailored to the kind of post that you are watching.
-                                  We believe each post is different and requires different ways to be consumed and made.
-                                  Interested in learning more about it? We give you a more detailed 
-                                  rundown when you sign up :)
-                                </p>:null
-                            }
-
-                            {displaySecondBulletModal==true?
-                               <p style={{color:"#C8B0F4",fontSize:"15px"}}>
-                                  Our new moderator system doesn’t give  moderators absolute power. 
-                                  More of a temporary power. There are rules that they have to follow 
-                                  and are voted by the people in their symposiums (communities). 
-
-                                  <br/><br/>Copyright system is also different. No personal information is 
-                                  swapped between two people. If the issue isn’t resolved within a couple 
-                                  days we come in and judge using fair eyes
-                                </p>:null
-                            }
-
-                            {displayThirdBulletModal==true?
-                               <p style={{color:"#C8B0F4",fontSize:"15px"}}>
-                                      We offer the ability for you to specifically decide where your posts appear 
-                                      and more importantly how they appeared there. Analytics is a very important
-                                      part of uploading videos to us. Don’t like a post that you posted? You can edit it
-                                      after you upload it, change the filter, along with many other options.
-                                </p>:null
-                            }
-                        </li>
-                      </ul>
-                              
-                </InformationCard>:null
-              }
-            
-            <ul style={{zIndex:"2",padding:"0px",marginTop:"5%"}}>
-              <li id="secondSectionLIParent" style={{listStyle:"none",height:"70%"}}>
-
-                  <ul id="secondSectionText" style={{width:"50%",height:"50%",marginRight:"5%",marginLeft:"50%",padding:"0px"}}>
-                     <li id="bulletsContainer" style={{listStyle:"none",display:"inline-block"}}>
-                              <p style={{fontSize:"50px",width:"60%",borderTop:"5px solid #494949",marginLeft:"20%"}}> 
-                                  <b>How are we different?</b>
-                              </p>
-                              <p style={{fontSize:"20px"}}> 
-                                  <b>Click on the bullets below to find out</b>
-                              </p>
-                              <ul style={{padding:"0px",marginTop:"5%"}}> 
-                                <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                                  <li id="firstListContainer" onClick={()=>displayFirstBulletHandle()} style={{listStyle:"none"}}>
-                                      <ul style={{padding:"0px"}}>
-                                          <li id="firstNumberModal" style={NumberBulletsIcon}>
-                                            1
-                                          </li>
-                                          <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
-                                            <p style={{color:"#3898ec"}}>
-                                              <b>New improved algorithm for images, videos, blogs, and regular posts </b>
-                                            </p>
-                                          </li>
-                                      </ul>
-                                  </li>
-                                </a>
-
-                                <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                                  <li onClick={()=>displaySecondBulletHandle()} style={{listStyle:"none"}}>
-                                     <ul style={{padding:"0px"}}>
-                                          <li id="secondNumberModal" style={NumberBulletsIcon}>
-                                            2
-                                          </li>
-                                          <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
-                                            <p style={{marginLeft:"2%",color:"#3898ec"}}>
-                                              <b>New moderator system and copyright system</b>
-                                            </p>
-                                          </li>
-                                      </ul>
-                                  </li>
-                                </a>
-
-                                <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                                  <li onClick={()=>displayThirdBulletHandle()} style={{listStyle:"none"}}>
-                                     <ul style={{padding:"0px"}}>
-                                          <li id="thirdNumberModal" style={NumberBulletsIcon}>
-                                            3
-                                          </li>
-                                          <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
-                                            <p style={{color:"#3898ec"}}>
-                                              <b>More control over posts than you ever had before</b>
-                                            </p>
-                                          </li>
-                                      </ul>
-                                  </li>
-                                </a>
-                              </ul>
+            <SecondContainerContents>
+                <PageImageContainer>
+                   <img id="image" src={LandingImage} 
+                    style={{zIndex:"-5",width:"70%",height:"90%",left:"5%"}}
+                   />
+                </PageImageContainer>
+                <SecondContainerInformational>
+                  <p id="PageHeader" style={{fontSize:"50px",width:"60%",borderTop:"5px solid #494949",marginLeft:"20%"}}> 
+                      <b>How are we different?</b>
+                  </p>
+                  <ul style={{padding:"0px",marginTop:"5%"}}> 
+                      <li id="firstListContainer" style={{listStyle:"none"}}>
+                          <ul style={{padding:"0px"}}>
+                              <li id="firstNumberModal" style={NumberBulletsIcon}>
+                                1
+                              </li>
+                              <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
+                                <p style={{color:"#3898ec"}}>
+                                  <b>New improved algorithm for images, videos, blogs, and regular posts </b>
+                                </p>
+                              </li>
+                          </ul>
                       </li>
-                    
+
+                      <li style={{listStyle:"none"}}>
+                         <ul style={{padding:"0px"}}>
+                              <li id="secondNumberModal" style={NumberBulletsIcon}>
+                                2
+                              </li>
+                              <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
+                                <p style={{marginLeft:"2%",color:"#3898ec"}}>
+                                  <b>New moderator system and copyright system</b>
+                                </p>
+                              </li>
+                          </ul>
+                      </li>
+
+                      <li style={{listStyle:"none"}}>
+                         <ul style={{padding:"0px"}}>
+                              <li id="thirdNumberModal" style={NumberBulletsIcon}>
+                                3
+                              </li>
+                              <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
+                                <p style={{color:"#3898ec"}}>
+                                  <b>More control over posts than you ever had before</b>
+                                </p>
+                              </li>
+                          </ul>
+                      </li>
                     </ul>
-                </li>
-                <li id="footerIcons" style={{listStyle:"none"}}>
-                    <ul style={{padding:"0px"}}>
-                        <li onClick={()=>props.displaySelectedPage(0)} style={{listStyle:"none",display:"inline-block"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <RadioButtonUncheckedIcon/>
-                          </a>
-                        </li>
+                </SecondContainerInformational>
+            </SecondContainerContents>
 
-                        <li style={{listStyle:"none",display:"inline-block"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <FiberManualRecordIcon/>
-                          </a>
-                        </li>
+             <li id="footerIcons" style={{listStyle:"none"}}>
+                <ul style={{padding:"0px"}}>
+                    <li onClick={()=>props.displaySelectedPage(0)} style={{listStyle:"none",display:"inline-block"}}>
+                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                        <RadioButtonUncheckedIcon/>
+                      </a>
+                    </li>
 
-                        <li onClick={()=>props.displaySelectedPage(2)} style={{listStyle:"none",display:"inline-block"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <RadioButtonUncheckedIcon/>
-                          </a>
-                        </li>
-                    </ul>
-                </li>
-                <li id="floatingArrowFunction" style={{listStyle:"none",marginTop:"5%"}}>
-                    <ArrowDownContainer>
-                      <ArrowDownwardIcon
-                        style={{fontSize:'20'}}
-                      />
-                    </ArrowDownContainer>
-                </li>
-            </ul>
+                    <li style={{listStyle:"none",display:"inline-block"}}>
+                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                        <FiberManualRecordIcon/>
+                      </a>
+                    </li>
 
+                    <li onClick={()=>props.displaySelectedPage(2)} style={{listStyle:"none",display:"inline-block"}}>
+                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                        <RadioButtonUncheckedIcon/>
+                      </a>
+                    </li>
+                </ul>
+            </li>
          </SecondContainer>
 	)
 }

@@ -115,11 +115,11 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen  and (max-width:730px) and (max-height:420px) 
+	@media screen  and (max-width:830px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
  		#symposiumsLI{
- 			margin-bottom:15% !important;
+ 			margin-bottom:30% !important;
  		}
     }
 `;
@@ -173,8 +173,7 @@ const ExploreButton={
   color:"#3898ec",
   borderStyle:"solid",
   borderWidth:"2px",
-  borderColor:"#3898ec",
-  width:"30%"
+  borderColor:"#3898ec"
 }
 
 const ShadowButtonCSS={
@@ -229,14 +228,15 @@ class PersonalFeedContainer extends Component{
 			displayMobileUI:false,
 			displayChatPage:false,
 			chatPageIndicator:"",
-			displayDesktopUI:false
+			displayDesktopUI:false,
+			isLoading:true;
 		}
 	}
 
 	//Find a better way of doing this
 	async componentDidMount(){
 		try{
-
+			console.log("TEst")
 			const verification=this.props.isLoggedIn;
 			if(verification==false){
 				this.props.history.push({
@@ -252,31 +252,39 @@ class PersonalFeedContainer extends Component{
 				}else{
 					symposiumsResponse=await getFollowedSymposiumsCompanyHome(profileId);
 				}
-				
-				var symposiums=[];
-				if(symposiumsResponse.length>0){
-					for(var i=0;i<symposiumsResponse.length;i++){
-						const specificCommunity=symposiumsResponse[i];
-						const newTimer=100*i;
-						await this.timerFunction(newTimer);
 
-						symposiums.push(specificCommunity);
+				const {confirmation,data}=symposiumsResponse;
+				debugger;
+				if(confirmation=="Success"){
+					const {message}=data;
+					var symposiums=[];
+					if(message.length>0){
+						for(var i=0;i<message.length;i++){
+							const specificCommunity=message[i];
+							const newTimer=100*i;
+							await this.timerFunction(newTimer);
 
+							symposiums.push(specificCommunity);
+
+							this.setState(prevState=>({
+								...prevState,
+								symposiumArray:symposiums,
+								isPersonalProfile:isPersonalProfile,
+								isLoading:false
+							}));
+						}
+					}else{
 						this.setState(prevState=>({
 							...prevState,
 							symposiumArray:symposiums,
 							isPersonalProfile:isPersonalProfile,
 							isLoading:false
-						}));
+						}));	
 					}
 				}else{
-					this.setState(prevState=>({
-						...prevState,
-						symposiumArray:symposiums,
-						isPersonalProfile:isPersonalProfile,
-						isLoading:false
-					}));	
+					alert('Unfortunately an error has occured when getting symposiums. Please try again');
 				}
+				
 				this.triggerUIChange();
 			}
 		}catch(err){
@@ -363,18 +371,25 @@ class PersonalFeedContainer extends Component{
 		exploreSymposiumsButton.style.color="#999999";
 
 		explorePosts=await getSymposiumsFollowedHome(this.props.profileId);
-		
-		this.setState({
-			symposiumArray:(explorePosts.length==0?[]:explorePosts),
-			isLoading:false
-		})
+		const {confirmation,data}=explorePosts;
+		if(confirmation=="Success"){
+			const {message}=data;
+			this.setState({
+				symposiumArray:(message.length==0?[]:message),
+				isLoading:false
+			})
+		}else{
+			alert('Unfortunately an error has occured when getting symposiums. Please try again');
+		}
 	}
 
 	displayExploreSymposiums=async()=>{
 		const followingSymposiumButton=document.getElementById("followedSymposiumsButton");
 		const exploreSymposiumsButton=document.getElementById("exploreSymposiumsButton");
 		var explorePosts=[];
-
+		this.setState({
+			isLoading:true
+		})
 
 		followingSymposiumButton.style.color="#999999";
 		exploreSymposiumsButton.style.color="#151518";
@@ -383,10 +398,16 @@ class PersonalFeedContainer extends Component{
 			explorePosts=await getSymposiumsNotFollowed(this.props.profileId);
 			
 		}
-		this.setState({
-			symposiumArray:(explorePosts.length==0?[]:explorePosts),
-			isLoading:false
-		})
+		const {confirmation,data}=explorePosts;
+		if(confirmation=="Success"){
+			const {message}=data;
+			this.setState({
+				symposiumArray:(message.length==0?[]:message),
+				isLoading:false
+			})
+		}else{
+			alert('Unfortunately an error has occured when getting symposiums. Please try again');
+		}
 	}
 
 	displayChatPage=(pageIndicator)=>{

@@ -40,9 +40,6 @@ export const Container = styled.div`
 
 export const FirstContainer = styled.div`
    position: relative;
-   top: 0; 
-   left: 0; 
-   height: 100%; 
    width: 100%;
    text-align:center;
     margin:auto;
@@ -50,6 +47,13 @@ export const FirstContainer = styled.div`
     textarea::-webkit-input-placeholder {  color:#DBDADC;}
     opacity:0;
     transition:.8s;
+
+
+      @media screen and (max-width:1370px){
+        #footerIcons{
+              display:none;
+          }
+    }
 
     @media screen and (max-width:1030px){
        #imageContainer{
