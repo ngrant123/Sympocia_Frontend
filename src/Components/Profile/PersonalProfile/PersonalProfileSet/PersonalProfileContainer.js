@@ -32,6 +32,7 @@ import Confetti from 'react-confetti';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CreationPortal from "./Modals-Portals/PostCreationPortal.js";
 import OnboardingPersonalPage from "../../../OnBoarding/PersonalProfileOnboarding.js";
+import GuestOnboardingModal from "../../../OnBoarding/GuestOnboarding.js";
 import PromotePortal from "../PersonalProfileSubset/PersonalPosts/PromotePortal.js";
 import SocialMediaUrlContainer from "./Modals-Portals/SocialMediaUrlModal.js";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
@@ -177,6 +178,7 @@ class LProfile extends Component{
 			displayDesktopUI:false,
 			displayMobileUIPersonalInformation:false,
 			displayMobileUIProfileOptions:false,
+			displayGuestOnboarding:false,
 			displayConfettiHandle:()=>{
 				this.displayConfetti()
 			}
@@ -209,68 +211,65 @@ class LProfile extends Component{
 
 
 	async componentDidMount(){
-
-		const verification=this.props.isLoggedIn;
-		if(verification==false){
-			this.props.history.push({
-				pathname:'/'
+		if(this.props.personalId=="0"){
+			this.setState({
+				displayGuestOnboarding:true
 			})
-		}else{
-			window.addEventListener('resize',this.triggerUIChange)
-			const {id}=this.props.match.params;
-			if(id==this.props.personalId){
-				const profileIds={
-					userId:this.props.personalId
-				}
-				const {confirmation,data}=await getProfile(profileIds);
-				if(confirmation=="Success"){
-					console.log(data);
-					var containsChampion=false;
-					if(data.championData!=null)
-						containsChampion=data.championData.name!=""?true:false;
-
-					this.setState(prevState=>({
-						...prevState,
-						isLoading:false,
-						userProfile:data,
-						isOwnProfile:true,
-						displayChampion:containsChampion,
-						champion:data.championData,
-						isLoading:false,
-						hideOnboarding:data.firstTimeLoggedIn.personalPage
-					}));
-				}else{
-					alert('Unfortunately there has been an error getting this page. Please try again');
-				}
-			}
-			else{
-				let visitorId=this.props.personalId
-				const profileIds={
-					userId:id,
-					visitorId
-				}
-				const {confirmation,data}=await getProfile(profileIds);
-
-				if(confirmation=="Success"){
-					var containsChampion=false;
-					if(data.championData!=null)
-						containsChampion=data.championData.name!=""?true:false;
-
-					this.setState(prevState=>({
-						...prevState,
-						isLoading:false,
-						userProfile:data,
-						displayChampion:containsChampion,
-						championModalData:data.championData,
-						isLoading:false,
-						visitorId
-					}));
-				}else{
-					alert('Unfortunately there has been an error getting this page. Please try again');
-				}
-			}
-			this.triggerUIChange();
 		}
+		debugger;
+		window.addEventListener('resize',this.triggerUIChange)
+		const {id}=this.props.match.params;
+		if(id==this.props.personalId){
+			const profileIds={
+				userId:this.props.personalId
+			}
+			const {confirmation,data}=await getProfile(profileIds);
+			if(confirmation=="Success"){
+				console.log(data);
+				var containsChampion=false;
+				if(data.championData!=null)
+					containsChampion=data.championData.name!=""?true:false;
+
+				this.setState(prevState=>({
+					...prevState,
+					isLoading:false,
+					userProfile:data,
+					isOwnProfile:true,
+					displayChampion:containsChampion,
+					champion:data.championData,
+					isLoading:false,
+					hideOnboarding:data.firstTimeLoggedIn.personalPage
+				}));
+			}else{
+				alert('Unfortunately there has been an error getting this page. Please try again');
+			}
+		}else{
+			let visitorId=this.props.personalId
+			const profileIds={
+				userId:id,
+				visitorId
+			}
+			const {confirmation,data}=await getProfile(profileIds);
+
+			if(confirmation=="Success"){
+				var containsChampion=false;
+				if(data.championData!=null)
+					containsChampion=data.championData.name!=""?true:false;
+
+				this.setState(prevState=>({
+					...prevState,
+					isLoading:false,
+					userProfile:data,
+					displayChampion:containsChampion,
+					championModalData:data.championData,
+					isLoading:false,
+					visitorId
+				}));
+			}else{
+				alert('Unfortunately there has been an error getting this page. Please try again');
+			}
+		}
+		this.triggerUIChange();
 	}
 
 	 handleChangeProfilePicture=()=>{
@@ -590,7 +589,8 @@ class LProfile extends Component{
 
 	closeOnboardingModal=()=>{
 		this.setState({
-			hideOnboarding:true
+			hideOnboarding:true,
+			displayGuestOnboarding:false
 		})
 	}
 
@@ -868,6 +868,13 @@ class LProfile extends Component{
 									/>
 								)}
 								
+								{this.state.displayGuestOnboarding==true &&(
+									<GuestOnboardingModal
+										targetDom="personalContainer"
+										closeModal={this.closeOnboardingModal}
+									/>
+								)}
+
 								<PostInformationContainer>
 									<PersonalPostsIndex
 										displayShadowOverlay={this.displayShadow}
@@ -889,7 +896,9 @@ class LProfile extends Component{
 
 						{this.state.displayDesktopUI==true &&(
 							<ul style={ChampionAndCreateButtonCSS}>
-								{this.displayCreatePostOptionTrigger()}
+								{this.state.isOwnProfile==true && (
+									<>{this.displayCreatePostOptionTrigger()}</>
+								)}
 								{this.displayChampionModalTrigger()}
 							</ul>
 						)}
