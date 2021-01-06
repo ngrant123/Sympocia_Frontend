@@ -58,8 +58,8 @@ const GuestOnBoarding=({targetDom,closeModal})=>{
 	  });
 	}
 	const handleCloseModal=()=>{
-		const  id=uuidv4();
-		dispatch(signUpGuestUser(id));
+		//const  id=uuidv4();
+		//dispatch(signUpGuestUser(id));
 		closeModal();
 	}
 

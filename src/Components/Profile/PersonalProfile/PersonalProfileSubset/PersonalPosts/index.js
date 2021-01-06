@@ -28,6 +28,7 @@ import {
 import {RecruitButton} from "../PersonalDetails/PersonalInformation.js";
 import {PhonePersonalInformationHeader} from "../../PersonalProfileSet/MobileUI.js";
 import {useSelector} from "react-redux";
+import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 
 
 const PostCreationContainer=styled.div`
@@ -378,6 +379,13 @@ const PersonalPostsIndex=(props)=>{
 		)
 	}
 
+	const displayFriendsGauge=()=>{
+		return <FriendsGauge
+					personalInformation={props.personalInformation}
+					mobileUIStatus={props.uiStatus}
+				/>
+	}
+
 /*
 	const initializePersonalInformationToState=(personalInformationData)=>{
 		
@@ -504,16 +512,22 @@ const PersonalPostsIndex=(props)=>{
 					{props.uiStatus.displayPhoneUI==true &&(
 						<PhonePersonalInformationHeader
 							ownerName={props.personalInformation.userProfile.firstName}
+							isGuestProfile={props.personalInformation.isGuestProfile}
 						/>
 					)}
 					<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
 							{props.personalInformation.isLoading==true?
-									<p>Give us a second </p>:
-									<FriendsGauge
-										personalInformation={props.personalInformation}
-										mobileUIStatus={props.uiStatus}
-									/>
-								}
+								<p>Give us a second </p>:
+								<>
+									{props.personalInformation.isGuestProfile==true?
+										<GuestLockScreenHOC
+											component={displayFriendsGauge()}
+										/>
+										:
+										<>{displayFriendsGauge()}</>
+									}
+								</>
+							}
 					</li>
 					<hr/>
 					{displayCreationPostContainer()}

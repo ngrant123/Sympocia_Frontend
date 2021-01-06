@@ -37,6 +37,8 @@ import PromotePortal from "../PersonalProfileSubset/PersonalPosts/PromotePortal.
 import SocialMediaUrlContainer from "./Modals-Portals/SocialMediaUrlModal.js";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
+import CONSTANTS from "../../../../Constants/constants.js";
+import GuestLockScreenHOC from "../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 
 import {
 	MobilePersonalInformation,
@@ -126,8 +128,6 @@ class LProfile extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(props);
-
 		this.state={
 			images:[],
 			videos:[],
@@ -179,6 +179,7 @@ class LProfile extends Component{
 			displayMobileUIPersonalInformation:false,
 			displayMobileUIProfileOptions:false,
 			displayGuestOnboarding:false,
+			isGuestProfile:false,
 			displayConfettiHandle:()=>{
 				this.displayConfetti()
 			}
@@ -211,6 +212,7 @@ class LProfile extends Component{
 
 
 	async componentDidMount(){
+
 		if(this.props.personalId=="0"){
 			this.setState({
 				displayGuestOnboarding:true
@@ -220,28 +222,44 @@ class LProfile extends Component{
 		window.addEventListener('resize',this.triggerUIChange)
 		const {id}=this.props.match.params;
 		if(id==this.props.personalId){
+			const {isGuestProfile}=this.props.personalState;
 			const profileIds={
 				userId:this.props.personalId
 			}
-			const {confirmation,data}=await getProfile(profileIds);
-			if(confirmation=="Success"){
-				console.log(data);
-				var containsChampion=false;
-				if(data.championData!=null)
-					containsChampion=data.championData.name!=""?true:false;
-
-				this.setState(prevState=>({
-					...prevState,
+			if(isGuestProfile==true || this.props.personalId=="0"){
+				const {GUEST_PROFILE}=CONSTANTS;
+				this.setState({
 					isLoading:false,
-					userProfile:data,
+					userProfile:GUEST_PROFILE,
 					isOwnProfile:true,
-					displayChampion:containsChampion,
-					champion:data.championData,
+					displayChampion:false,
+					champion:{},
 					isLoading:false,
-					hideOnboarding:data.firstTimeLoggedIn.personalPage
-				}));
+					hideOnboarding:true,
+					isGuestProfile:true
+				})
+
 			}else{
-				alert('Unfortunately there has been an error getting this page. Please try again');
+				const {confirmation,data}=await getProfile(profileIds);
+				if(confirmation=="Success"){
+					console.log(data);
+					var containsChampion=false;
+					if(data.championData!=null)
+						containsChampion=data.championData.name!=""?true:false;
+
+					this.setState(prevState=>({
+						...prevState,
+						isLoading:false,
+						userProfile:data,
+						isOwnProfile:true,
+						displayChampion:containsChampion,
+						champion:data.championData,
+						isLoading:false,
+						hideOnboarding:data.firstTimeLoggedIn.personalPage
+					}));
+				}else{
+					alert('Unfortunately there has been an error getting this page. Please try again');
+				}
 			}
 		}else{
 			let visitorId=this.props.personalId
@@ -628,25 +646,40 @@ class LProfile extends Component{
 					<li style={{fontSize:"20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 						{this.state.userProfile.firstName}
 					</li>
-					<li style={{zIndex:20,position:"relative",top:"-10px",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"40%"}}>
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-								style={ShadowButtonCSS}
-								onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
-								>
-							   		<span class="caret"></span>
-							</button>
-					</li>
+					{this.state.isGuestProfile==false && (
+						<li style={{zIndex:20,position:"relative",top:"-10px",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"40%"}}>
+								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+									style={ShadowButtonCSS}
+									onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
+									>
+								   		<span class="caret"></span>
+								</button>
+						</li>
+					)}
 			   </ul>
 	}
 	displayMobilePersonalInformation=()=>{
 		return  <>
 					{this.state.displayMobileUIPersonalInformation==true &&(
-							<MobilePersonalInformation
-								displayConfetti={this.displayConfetti}
-								personalInformation={this.state}
-								displaySocialMediaModal={this.displaySocialMediaModal}	
-								closeModal={this.closeMobilePersonalInformation}
-							/>
+						<>
+							{this.state.isGuestProfile==true ?
+								<GuestLockScreenHOC
+									component=<MobilePersonalInformation
+												displayConfetti={this.displayConfetti}
+												personalInformation={this.state}
+												displaySocialMediaModal={this.displaySocialMediaModal}	
+												closeModal={this.closeMobilePersonalInformation}
+											/>
+								/>
+								:
+								<MobilePersonalInformation
+									displayConfetti={this.displayConfetti}
+									personalInformation={this.state}
+									displaySocialMediaModal={this.displaySocialMediaModal}	
+									closeModal={this.closeMobilePersonalInformation}
+								/>
+							}
+						</>
 					)}
 				</>
 	}
@@ -659,6 +692,7 @@ class LProfile extends Component{
 							displayPersonalInformation={this.displayPersonalInformationMobile}
 							displayChampionsModal={this.displayChampionModalTrigger}
 							championData={this.state.champion}
+							isGuestProfile={this.state.isGuestProfile}
 						/>
 					)}
 				</>
@@ -794,7 +828,9 @@ class LProfile extends Component{
 							<ProfilePictureContainer>
 								{(this.state.displayDesktopUI==false && this.state.isOwnProfile==true)? 
 									<>
-										{this.displayCreatePostOptionTrigger()}
+										{this.state.isGuestProfile==false && (
+											<>{this.displayCreatePostOptionTrigger()}</>
+										)}
 										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} 
 											accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
 								        	name="attachments"
@@ -896,7 +932,7 @@ class LProfile extends Component{
 
 						{this.state.displayDesktopUI==true &&(
 							<ul style={ChampionAndCreateButtonCSS}>
-								{this.state.isOwnProfile==true && (
+								{(this.state.isOwnProfile==true && this.state.isGuestProfile==false)==true && (
 									<>{this.displayCreatePostOptionTrigger()}</>
 								)}
 								{this.displayChampionModalTrigger()}
@@ -912,6 +948,7 @@ class LProfile extends Component{
 
 const mapStateToProps=(state)=>{
 	return{
+		personalState:state.personalInformation,
 		personalId:state.personalInformation.id,
 		isLoggedIn:state.personalInformation.loggedIn
 	}
