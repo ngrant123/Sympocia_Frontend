@@ -16,7 +16,7 @@ import {
 	removeRecruitProfileIsFollowing,
 	removeRecruitProfileIsntFollowing
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-
+import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 
 
 const BioContainer=styled.div`
@@ -316,6 +316,72 @@ const PersonalInformation=(props)=>{
 		changeDisplaySymposiumsPortal(false);
 	}
 
+	const userInformationComponent=(personalInformation)=>{
+		return (
+			<>
+				<BioContainer>
+					{personalInformation.userProfile.bio}
+				</BioContainer>
+
+				<ul style={{padding:"0px"}}>
+					<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
+						Social Media
+					</li>
+					<li style={{listStyle:"none",marginTop:"5%"}}>
+						{props.personalInformation.isOwnProfile==true?
+							<ul style={{padding:"0px"}}>
+								<a style={{textDecoration:"none"}} href="javascript:void(0);">	
+									<li onClick={()=>alert('Option to add social media profiles coming soon')}
+									style={EditSocialMediaUrlsCSS}>
+										Edit Social Media
+									</li>
+								</a>
+								{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
+								
+							</ul>
+							:
+							<ul style={{padding:"0px"}}>
+								{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
+							</ul>
+						}
+					</li>
+					
+
+					<li style={{listStyle:"none",marginBottom:"20px"}}>
+						<a style={{textDecoration:"none"}} href="javascript:void(0);">
+							<FriendsAndIndustryDisplayButton onClick={()=>changeDisplayFriendsPortal(true)}>
+								View Recruits
+							</FriendsAndIndustryDisplayButton>
+						</a>
+					</li>
+
+					<li style={{listStyle:"none",marginBottom:"2%"}}>
+						<a style={{textDecoration:"none"}} href="javascript:void(0);">
+							<FriendsAndIndustryDisplayButton onClick={()=>changeDisplaySymposiumsPortal(true)}>
+								View Interested Symposiums
+							</FriendsAndIndustryDisplayButton>
+						</a>
+					</li>
+					<RecruitButton
+						personalInformation={personalInformation}
+						displayConfettiHandle={props.displayConfetti}
+						userId={props.userId}
+					/>
+
+					{personalInformation.isOwnProfile==true?
+						<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
+							<a style={{textDecoration:"none"}} href="javascript:void(0)">
+								<SponsorButton onClick={()=>handleChampionButton()}>
+									Champion Someone
+								</SponsorButton>
+							</a>
+						</li>:<React.Fragment></React.Fragment>}
+
+				</ul>
+			</>
+		)
+	}
+
 	return(
 		<UserConsumer>
 			{personalInformation=>{
@@ -338,66 +404,16 @@ const PersonalInformation=(props)=>{
 									)}
 									{displayFriendsAndIndustryContainer==false?
 									<React.Fragment>
-										<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4"}}><b>{personalInformation.userProfile.firstName}</b></p>
-										<BioContainer>
-											{personalInformation.userProfile.bio}
-										</BioContainer>
+										<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4"}}>
+											<b>{personalInformation.userProfile.firstName}</b>
+										</p>
 
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
-												Social Media
-											</li>
-											<li style={{listStyle:"none",marginTop:"5%"}}>
-												{props.personalInformation.isOwnProfile==true?
-													<ul style={{padding:"0px"}}>
-														<a style={{textDecoration:"none"}} href="javascript:void(0);">	
-															<li onClick={()=>alert('Option to add social media profiles coming soon')}
-															style={EditSocialMediaUrlsCSS}>
-																Edit Social Media
-															</li>
-														</a>
-														{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
-														
-													</ul>
-													:
-													<ul style={{padding:"0px"}}>
-														{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
-													</ul>
-												}
-											</li>
-											
-
-											<li style={{listStyle:"none",marginBottom:"20px"}}>
-												<a style={{textDecoration:"none"}} href="javascript:void(0);">
-													<FriendsAndIndustryDisplayButton onClick={()=>changeDisplayFriendsPortal(true)}>
-														View Recruits
-													</FriendsAndIndustryDisplayButton>
-												</a>
-											</li>
-
-											<li style={{listStyle:"none",marginBottom:"2%"}}>
-												<a style={{textDecoration:"none"}} href="javascript:void(0);">
-													<FriendsAndIndustryDisplayButton onClick={()=>changeDisplaySymposiumsPortal(true)}>
-														View Interested Symposiums
-													</FriendsAndIndustryDisplayButton>
-												</a>
-											</li>
-											<RecruitButton
-												personalInformation={personalInformation}
-												displayConfettiHandle={props.displayConfetti}
-												userId={props.userId}
-											/>
-
-											{personalInformation.isOwnProfile==true?
-												<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
-													<a style={{textDecoration:"none"}} href="javascript:void(0)">
-														<SponsorButton onClick={()=>handleChampionButton()}>
-															Champion Someone
-														</SponsorButton>
-													</a>
-												</li>:<React.Fragment></React.Fragment>}
-						
-										</ul>
+										{props.personalInformation.isGuestProfile==true?
+											<GuestLockScreenHOC
+												component={userInformationComponent(personalInformation)}
+											/>:
+											<>{userInformationComponent(personalInformation)}</>
+										}
 									</React.Fragment>
 									:<React.Fragment>
 										<BackButton onClick={()=>changeIndicator(false)}>

@@ -159,6 +159,7 @@ const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayCh
 				<OriginalShadowContainer
 					onClick={()=>closeModal()}
 				/>
+				{}
 				<EditNodeContainer>
 					{displayChampionModal==false?
 						<>
@@ -269,13 +270,13 @@ const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType})=>{
 									Edit Friends Nodes
 				                </li>
 				              </a>
-				          </li>
+					        </li>
 				        </>
 				}}
 		   </UserConsumer>
 }
 
-const PhonePersonalInformationHeader=({ownerName})=>{
+const PhonePersonalInformationHeader=({ownerName,isGuestProfile})=>{
 	const [displayPhoneProfileOptions,changePhoneProfileOptions]=useState(false);
 	const closeModal=()=>{
 		changePhoneProfileOptions(false);
@@ -287,23 +288,25 @@ const PhonePersonalInformationHeader=({ownerName})=>{
 							<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"15%"}}>
 								<b>{ownerName}</b>
 							</li>
-							<li id="mobilePersonalOptionCaret" style={{listStyle:"none",display:"inline-block",marginLeft:"40%"}}>
-								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-										style={ShadowButtonCSS}
-										onClick={()=>changePhoneProfileOptions(true)}
-									>
-									   		<span class="caret"></span>
-									</button>
-									{displayPhoneProfileOptions==true &&(
-										<MobileProfileOptionsIpad
-											{...personalInformation.mobilePhoneUIParameters}
-											closeModal={closeModal}
-											isIphoneDisplay={true}
-										/>
-									)}
-								</div>
-							</li>
+							{isGuestProfile==false &&(
+								<li id="mobilePersonalOptionCaret" style={{listStyle:"none",display:"inline-block",marginLeft:"40%"}}>
+									<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+											style={ShadowButtonCSS}
+											onClick={()=>changePhoneProfileOptions(true)}
+										>
+										   		<span class="caret"></span>
+										</button>
+										{displayPhoneProfileOptions==true &&(
+											<MobileProfileOptionsIpad
+												{...personalInformation.mobilePhoneUIParameters}
+												closeModal={closeModal}
+												isIphoneDisplay={true}
+											/>
+										)}
+									</div>
+								</li>
+							)}
 						</ul>
 						<hr/>
 				   </li>

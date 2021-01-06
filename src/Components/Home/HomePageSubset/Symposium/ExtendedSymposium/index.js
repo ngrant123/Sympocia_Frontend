@@ -37,6 +37,7 @@ import {GeneralNavBar} from "../../../../GeneralComponents/NavBarComponent/Large
 import ExploreIcon from '@material-ui/icons/Explore';
 import GroupSharingVideoCall from "./Modals/VideoCall/index.js";
 import SymposiumOnboarding from "../../../../OnBoarding/SymposiumPageOnboarding.js";
+import GuestOnboarding from "../../../../OnBoarding/GuestOnboarding.js"
 import LoadingScreen from "../../../../../LoadingAnimation.js";
 
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
@@ -197,75 +198,72 @@ class Symposium extends Component{
 	}
 
 	 async componentDidMount(){
-		const verification=this.props.isLoggedIn;
-		if(verification==false){
-			this.props.history.push({
-				pathname:'/'
+
+		if(this.props.profileId=="0"){
+			this.setState({
+				displayGuestOnboarding:true
 			})
-		}else{
-
-			window.addEventListener('resize',this.triggerUIChange)
-	  		const postContainerElement=document.getElementById("postChatInformation");
-	  		const headerContentsContainerElement=document.getElementById("headerContents");
-			console.log(this.props);
-
-			const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
-	  		var {confirmation,data}=await getIndustryInformation(
-		  										this.props.match.params.symposiumName,
-		  									   	this.state.postCount,
-		  									   	profileId
-	  									   	);
-
-	  		
-	  		if(confirmation=="Success"){
-	  			const {
-	  				posts,
-		  			popularPosts,
-		  			activeUsers,
-		  			popularQuestions,
-		  			isProfileFollowedSymposium,
-		  			isOnboardingCompleted,
-		  			featureQuestions,
-		  			_id
-	  			}=data;
-
-	  			var newHomePagePosts=this.addSuggestedSymposiums(posts);
-	  			
-	  			console.log(data);
-	  			console.log(popularQuestions);
-		  			
-		  		this.setState(prevState=>({
-			  		...prevState,
-			  		selectedSymposiumTitle:this.props.match.params.symposiumName,
-			  		symposiums:this.props.location.state==null?[]:this.props.location.state.symposiums,
-			  		symposiumCounter:-1,
-			  		backgroundColor:this.props.location.state==null?this.symposiumBackgroundColor(this.props.match.params.symposiumName):
-			  		this.props.location.state.selectedSymposium.backgroundColor,
-			  		postType:"Image",
-			  		posts:newHomePagePosts,
-			  		popularVideos:popularPosts,
-			  		activePeople:activeUsers,
-			  		popularQuestions:popularQuestions,
-			  		isProfileFollowingSymposium:isProfileFollowedSymposium,
-			  		profileId,
-			  		isLoading:false,
-			  		hideOnboarding:isOnboardingCompleted,
-			  		symposiumFeatureQuestions:featureQuestions,
-			  		symposiumId:_id
-		  		}));
-
-			  	setTimeout(function(){
-					postContainerElement.style.opacity="1";
-					headerContentsContainerElement.style.opacity="1";
-			  	},500);
-
-			  	connectToRoom(socket,_id);
-
-	  		}else{
-	  			alert('Unfortunately there has been a problem with getting the symposium information. Please try again');
-	  		}
-	  		this.triggerUIChange();
 		}
+		window.addEventListener('resize',this.triggerUIChange)
+  		const postContainerElement=document.getElementById("postChatInformation");
+  		const headerContentsContainerElement=document.getElementById("headerContents");
+
+		const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
+  		var {confirmation,data}=await getIndustryInformation(
+	  										this.props.match.params.symposiumName,
+	  									   	this.state.postCount,
+	  									   	profileId
+  									   	);
+
+  		
+  		if(confirmation=="Success"){
+  			const {
+  				posts,
+	  			popularPosts,
+	  			activeUsers,
+	  			popularQuestions,
+	  			isProfileFollowedSymposium,
+	  			isOnboardingCompleted,
+	  			featureQuestions,
+	  			_id
+  			}=data;
+
+  			var newHomePagePosts=this.addSuggestedSymposiums(posts);
+  			
+  			console.log(data);
+  			console.log(popularQuestions);
+	  			
+	  		this.setState(prevState=>({
+		  		...prevState,
+		  		selectedSymposiumTitle:this.props.match.params.symposiumName,
+		  		symposiums:this.props.location.state==null?[]:this.props.location.state.symposiums,
+		  		symposiumCounter:-1,
+		  		backgroundColor:this.props.location.state==null?this.symposiumBackgroundColor(this.props.match.params.symposiumName):
+		  		this.props.location.state.selectedSymposium.backgroundColor,
+		  		postType:"Image",
+		  		posts:newHomePagePosts,
+		  		popularVideos:popularPosts,
+		  		activePeople:activeUsers,
+		  		popularQuestions:popularQuestions,
+		  		isProfileFollowingSymposium:isProfileFollowedSymposium,
+		  		profileId,
+		  		isLoading:false,
+		  		hideOnboarding:isOnboardingCompleted,
+		  		symposiumFeatureQuestions:featureQuestions,
+		  		symposiumId:_id
+	  		}));
+
+		  	setTimeout(function(){
+				postContainerElement.style.opacity="1";
+				headerContentsContainerElement.style.opacity="1";
+		  	},500);
+
+		  	connectToRoom(socket,_id);
+
+  		}else{
+  			alert('Unfortunately there has been a problem with getting the symposium information. Please try again');
+  		}
+  		this.triggerUIChange();
 	  }
 
 	addSuggestedSymposiums=(posts)=>{
@@ -950,7 +948,8 @@ class Symposium extends Component{
 
 	closeOnboardingModal=()=>{
 		this.setState({
-			hideOnboarding:true
+			hideOnboarding:true,
+			displayGuestOnboarding:false
 		})
 	}
 
@@ -1057,6 +1056,15 @@ class Symposium extends Component{
 					{this.state.hideOnboarding==false &&(
 						<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
 							<SymposiumOnboarding
+								closeModal={this.closeOnboardingModal}
+							/>
+						</div>
+					)}
+
+					{this.state.displayGuestOnboarding==true &&(
+						<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
+							<GuestOnboarding
+								targetDom="extendedSymposiumContainer"
 								closeModal={this.closeOnboardingModal}
 							/>
 						</div>
