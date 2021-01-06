@@ -115,6 +115,9 @@ const RegularPostContainer=(props)=>{
 	const [displayEditPostModal,changeDisplayEditPostModal]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
+	const userInformation=useSelector(state=>state.personalInformation);
+	const isGuestProfile=(userInformation.id=="0" || userInformation.isGuestProfile==true)==true?
+						true:false;
 
 	const personalId=useSelector(state=>state.personalInformation.id);
 
@@ -198,6 +201,7 @@ const RegularPostContainer=(props)=>{
 												isOwnPostViewing={props.isOwnProfile}
 												deletePost={handleRemoveRegularPost}
 												personalId={personalId}
+												isGuestProfile={isGuestProfile}
 											/>
 										</li>
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",height:"20%",overflow:"hidden"}}>
