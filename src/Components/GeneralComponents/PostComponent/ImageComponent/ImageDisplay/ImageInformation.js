@@ -215,18 +215,21 @@ const ImageInformation=(props)=>{
 											)}
 										</ul>
 									</li>
+									{props.isGuestProfile==false && (
+										<>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
+													<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
+												</li>
+											</a>
 
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
-											<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
-										</li>
-									</a>
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
-											<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
-										</li>
-									</a>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
+													<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
+												</li>
+											</a>
+										</>
+									)}
 								</ul>
 
 								<p style={{height:"30%",width:"90%",fontSize:"40px"}}>
@@ -238,7 +241,7 @@ const ImageInformation=(props)=>{
 									 {props.imageInformation.description}
 								 </p>
 
-								 {props.isMobileTrue!=true &&(
+								 {(props.isMobileTrue!=true && props.isGuestProfile==false)==true &&(
 								 	 <ul style={{padding:"0px",marginTop:"5px"}}>
 									 	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 										 	<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>

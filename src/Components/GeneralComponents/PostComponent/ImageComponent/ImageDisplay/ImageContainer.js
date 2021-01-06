@@ -63,7 +63,9 @@ const ImageContainer=(props)=>{
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
-	
+	const userInformation=useSelector(state=>state.personalInformation);
+	const isGuestProfile=(userInformation.id=="0" || userInformation.isGuestProfile==true)==true?
+						true:false;
 	const userId=useSelector(state=>state.personalInformation.id);
 
 	useEffect(()=>{
@@ -147,6 +149,7 @@ const ImageContainer=(props)=>{
 						pageType={props.profileType}
 						promote={triggerPromoteModal}
 						isOwnPostViewing={props.isOwnProfile}
+						isGuestProfile={isGuestProfile}
 					/>
 					:<Container>
 						{displayImageModal==true?
@@ -174,11 +177,13 @@ const ImageContainer=(props)=>{
 															</li>
 														</a>:null
 													}
-													<a style={{textDecoration:"none"}}href="javascript:void(0);">
-														<li onClick={()=>createOrRemoveStampEffect()} style={ButtonCSS}>
-																Stamp
-														</li>
-													</a>
+													{isGuestProfile==false && (
+														<a style={{textDecoration:"none"}}href="javascript:void(0);">
+															<li onClick={()=>createOrRemoveStampEffect()} style={ButtonCSS}>
+																	Stamp
+															</li>
+														</a>
+													)}
 
 													{(props.profileType=="personalProfile" && props.isOwnProfile==true) &&(
 														<>
@@ -235,6 +240,7 @@ const ImageContainer=(props)=>{
 													imageInformation={props.imageData}
 													targetDom={props.targetDom}
 													isMobileTrue={displayMobileUI}
+													isGuestProfile={isGuestProfile}
 												/>
 												:
 												<CommentContainer>
