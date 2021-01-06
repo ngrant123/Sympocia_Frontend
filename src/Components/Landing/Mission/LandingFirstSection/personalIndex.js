@@ -171,7 +171,8 @@ const SignUpButton={
     borderRadius:"5px",
     padding:"10px",
     color:"white",
-    marginRight:"2%"
+    marginRight:"2%",
+    cursor:"pointer"
 }
 
 const ExploreButton={
@@ -183,7 +184,8 @@ const ExploreButton={
   color:"#3898ec",
   borderStyle:"solid",
   borderWidth:"2px",
-  borderColor:"#3898ec"
+  borderColor:"#3898ec",
+  cursor:"pointer"
 }
 
 const JoinMovementContainer={
@@ -310,94 +312,9 @@ const FirstSection=(props)=>{
       }
   }
 
-  const verifyCodeCall=async()=>{
-      const code=document.getElementById("code").value;
-      
-      if(code!=''){
-        const {confirmation,data}=await verifyCode(code);
-        if(confirmation=="Success"){
-          const {history}=props;
-          dispatch(loginPersonalPage(true));
-          history.push({
-            pathname:'/signup'
-          })
-        }else{
-          alert('Wrong code :(. You would have thought you was getting early access LMAO Email nathan@sympocia.com to get the code though :)');
-        }
-      }else{
-        alert('Please enter a code');
-      }
-  }
-
   const closeSignUpOrCodePrompt=()=>{
     changeDisplaySignUpPrompt(false);
     changeDisplayEnterCodePrompt(false);
-  }
-
-  const codeOrEmailModalPrompt=()=>{
-      if(displaySignUpPrompt==false && displayEnterCodePrompt==false){
-          return <li style={{listStyle:"none"}}>
-                   <ul style={{padding:"0px"}}>
-                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                        <li onClick={()=>changeDisplaySignUpPrompt(true)} style={SignUpButton}>
-                            Join
-                        </li>
-                      </a>
-                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                        <li onClick={()=>changeDisplayEnterCodePrompt(true)} style={ExploreButton}>
-                            Enter Code
-                        </li>
-                      </a>
-                      {/*
-                        <a  href="javascript:void(0);" style={{textDecoration:"none"}}>
-                          <li style={{listStyle:"none"}}>
-                              Login In
-                          </li>
-                        </a>
-                      */}
-                    </ul>
-                </li>
-      }else{
-          if(displaySignUpPrompt==true){
-              return <li style={JoinMovementContainer}>
-                       <ul style={{padding:"0px"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <li onClick={()=>closeSignUpOrCodePrompt()} style={BackButtonCSS}>
-                              <ArrowBackIosIcon/>
-                            </li>
-                          </a>
-
-                          <li style={{width:"60%",listStyle:"none",display:"inline-block",marginRight:"5%"}}> 
-                              <JoinMovementTextContainer id="email" placeholder="Enter your email" placeholderTextColor='red'/>
-                          </li>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <li onClick={()=>triggerConfirmation()} style={{listStyle:"none",display:"inline-block"}}>
-                                Join the movement 
-                            </li>
-                          </a>
-                       </ul>
-                    </li>
-          }else{
-              return <li style={JoinMovementContainer}>
-                       <ul style={{padding:"0px"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <li onClick={()=>closeSignUpOrCodePrompt()} style={BackButtonCSS}>
-                              <ArrowBackIosIcon/>
-                            </li>
-                          </a>
-
-                          <li style={{width:"60%",listStyle:"none",display:"inline-block",marginRight:"5%"}}> 
-                              <JoinMovementTextContainer id="code" placeholder="Enter the code here" placeholderTextColor='red'/>
-                          </li>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <li onClick={()=>verifyCodeCall()} style={{listStyle:"none",display:"inline-block"}}>
-                                Enter :) 
-                            </li>
-                          </a>
-                       </ul>
-                    </li>
-          }
-      }
   }
 
   const displayMobileLoginTrigger=()=>{
@@ -482,7 +399,26 @@ const FirstSection=(props)=>{
                                     </li>
                                 </ul>
                             </li>
-                            {codeOrEmailModalPrompt()}
+                            <ul style={{padding:"0px"}}>
+                              <li onClick={()=>props.history.push({
+                                pathname:'/signup'
+                              })} 
+                                style={SignUpButton}>
+                                  Sign Up
+                              </li>
+                              <li onClick={()=>props.history.push({
+                                pathname:'/home'
+                              })} style={ExploreButton}>
+                                  Explore
+                              </li>
+                              {/*
+                                <a  href="javascript:void(0);" style={{textDecoration:"none"}}>
+                                  <li style={{listStyle:"none"}}>
+                                      Login In
+                                  </li>
+                                </a>
+                              */}
+                            </ul>
 
                             <li id="mobileProfilePictures" style={{listStyle:"none",marginTop:"5%",display:"none"}}>
                                 <p> So far <b>{usersInterested.length}</b> users have signed up. What are you waiting for? :) </p>

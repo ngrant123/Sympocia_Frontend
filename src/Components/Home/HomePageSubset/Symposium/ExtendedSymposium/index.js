@@ -171,7 +171,8 @@ class Symposium extends Component{
 			hideOnboarding:true,
 			featureQuestions:[],
 			isLoading:true,
-			displayDesktopUI:false
+			displayDesktopUI:false,
+			displayGuestOnboarding:false
 		}
 	}
 

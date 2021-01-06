@@ -78,6 +78,14 @@ const logOutUser=()=>{
 	}
 }
 
+
+const signUpGuestUser=(_id)=>{
+	return{
+		type:'SIGN_IN_GUEST_USER',
+		payload:_id
+	}
+}
+
 module.exports={
 	addName,
 	addLastName,
@@ -88,5 +96,6 @@ module.exports={
 	firstTimeUsage,
 	loginPersonalPage,
 	signInPersonalUser,
-	logOutUser
+	logOutUser,
+	signUpGuestUser
 }

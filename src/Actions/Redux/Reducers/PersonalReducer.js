@@ -9,7 +9,8 @@ const initialState={
 	signInStatus:false,
 	paymentPlan:'',
 	firstTimeIndicator:false,
-	loggedIn:false
+	loggedIn:false,
+	isGuestProfile:false
 }
 
 const PersonalProfile=(state={initialState},action)=>{
@@ -100,7 +101,18 @@ const PersonalProfile=(state={initialState},action)=>{
 				email,
 				signInStatus:true,
 				paymentPlan:'',
-				loggedIn:true
+				loggedIn:true,
+				isGuestProfile:false
+			}
+			break;
+		}
+
+		case 'SIGN_IN_GUEST_USER':{
+			const {_id}=payload;
+			return{
+				...state,
+				id:_id,
+				isGuestProfile:true
 			}
 			break;
 		}
