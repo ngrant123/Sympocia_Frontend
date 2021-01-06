@@ -53,6 +53,9 @@ const CreatePostButton=styled.div`
 	border-width:5px;
 	animation: glowing 1300ms infinite;
 	text-align:center;
+	cursor:pointer;
+	display:flex;
+	justify-content:center;
 
 	@keyframes glowing {
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -63,14 +66,28 @@ const CreatePostButton=styled.div`
 
 const DescriptionInputContainer=styled.textarea`
 	border-radius:5px;
-	height:20%;
+	height:100px;
 	width:95%;
 	border-style:solid;
 	border-width:1px;
 	border-color:#D8D8D8;
 	resize:none;
+	margin-top:5%;
+	margin-bottom:5%;
 	padding:5px;
 `;
+
+
+const PostHeaderContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
+const FinalSubmittionContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+`;
+
 
 
 const ImageCSS={
@@ -146,10 +163,11 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 			})
 
 			if(confirmation=="Success"){
+				const {message}=data;
 				const {
 					questionId,
 					posts
-				}=data;
+				}=message;
 				changePosts(posts);
 				changeQuestionId(questionId);
 			}else{
@@ -198,12 +216,13 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 
 		let {confirmation,data}=await createSpecificIndustryVideoAnswer(submitedVideo);
 		if(confirmation=="Success"){
-			data={
-				...data,
+			let {message}=data;
+			message={
+				...message,
 				videoUrl
 			}
 
-			posts.splice(0,0,data);
+			posts.splice(0,0,message);
 			changeQuestionId(questionId);
 			changePosts([...posts]);
 			changeDisplayCreationModal(false);
@@ -240,32 +259,23 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 			}
 			{displayCreationModal==false?
 				<>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<p style={{fontSize:"20px"}}>
-									<b>Review my {symposium}</b>
-								</p>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>changeDisplayCreationModal(true)} 
-										style={{listStyle:"none",marginLeft:"400px",marginBottom:"5%"}}>
-										<CreatePostButton>
-											<BorderColorIcon
-												style={{fontSize:"20",color:"#C8B0F4"}}
-											/>
-										</CreatePostButton>
-									</li>
-								</a>
-							</li>
-						</ul>
-					</li>
+					<PostHeaderContainer>
+						<p style={{fontSize:"20px"}}>
+							<b>Review my {symposium}</b>
+						</p>
+						<CreatePostButton onClick={()=>changeDisplayCreationModal(true)} >
+							<BorderColorIcon
+								style={{fontSize:"20",color:"#C8B0F4"}}
+							/>
+						</CreatePostButton>
+					</PostHeaderContainer>
 					<hr/>
 
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
-							<InputContainer placeholder="Search for a person here"/>
+							{/*
+								<InputContainer placeholder="Search for a person here"/>
+							*/}
 							<li style={{listStyle:"none",marginTop:"2%"}}>
 								<ul style={{padding:"0px"}}>
 									{posts.map(data=>
@@ -292,7 +302,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 							</a>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<p style={{fontSize:"20px"}}>
-									<b>Upload video for others to {modalType}</b>
+									<b>Upload video for others to view</b>
 								</p>
 							</li>
 						</ul>
@@ -318,23 +328,17 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 
 								</li>
 							</a>:
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginBottom:"2%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",width:"40%",}}>
-											<video key={uuidv4()} width="100%" height="40%" borderRadius="5px" controls autoplay>
-												<source src={videoUrl} type="video/mp4"/>
-											</video>
-										</li>
-										<li style={{marginLeft:"3%",width:"45%",listStyle:"none",display:"inline-block"}}>
-											<DescriptionInputContainer id="videoDescription" placeholder="Write down a description here"/>
-										</li>
-									</ul>
-								</li>
+							<FinalSubmittionContainer>
+								<video key={uuidv4()} width="80%" height="20%" borderRadius="5px" controls autoplay>
+									<source src={videoUrl} type="video/mp4"/>
+								</video>
+								
+								<DescriptionInputContainer id="videoDescription" placeholder="Write down a description here"/>
 								<li onClick={()=>submitVideo()} style={SubmitButtonCSS}>
 									Submit
 								</li>
-							</ul>
+
+							</FinalSubmittionContainer>
 						}
 					</li>
 				</>

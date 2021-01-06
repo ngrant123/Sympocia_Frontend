@@ -22,10 +22,10 @@ import Community from "./Community/index.js";
 
 
 const Container=styled.div`
-	position:absolute;
+	display:flex;
+	flex-direction:column;
 	width:100%;
 	height:100%;
-	overflow-x:hidden;
 
 	@media screen and (max-width:650px){
 		#mobileImageContainer1{
@@ -180,6 +180,7 @@ const ArrowPersonalContainer=styled.div`
 	left:90%;
 	z-index:8;
 	text-align:center;
+	cursor:pointer;
 
 	@keyframes glowing {
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -201,6 +202,7 @@ const ArrowCompanyContainer=styled.div`
 	left:7%;
 	z-index:8;
 	text-align:center;
+
 
 	@keyframes glowing {
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -282,16 +284,6 @@ const ShadowContainer= styled.div`
 	top:0px;
 `;
 
-
-
-/*
-
-	Right now im setting it up so that when the breakpoints are reached then I add the 
-	mobileImageContainer, which are images from the previous sections. I should figure out 
-	how to make it so that when the breakpoints come then the image turns into a block style
-	instead of the inline-block style that it is right now
-
-*/
 const LandingPage=(props)=>{
 	const [currentPageCounter,changePageCounter]=useState(0);
 	const [displayPersonalLanding,changeDisplayForPersonal]=useState(true);
@@ -481,109 +473,56 @@ const LandingPage=(props)=>{
 			</MissionCommunityChoiceContainer>
 
 			{displayMissionPage==true?
-				<ul>
+				<>
 					{displayPersonalLanding==true?
 						<React.Fragment>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<ArrowPersonalContainer onClick={()=>changeDisplayForPersonal(false)}>
-									<ArrowForwardIosIcon/>
-								</ArrowPersonalContainer>
-							</a>
+							<ArrowPersonalContainer onClick={()=>changeDisplayForPersonal(false)}>
+								<ArrowForwardIosIcon/>
+							</ArrowPersonalContainer>
 
-							<li id="firstSection" style={{listStyle:"none"}}>
-								<FirstSection
-									increaseCounter={increasePageCounter}
-									displaySelectedPage={displaySelectedPage}
-									history={props.history}
-								/>
-							</li>
-							<li  style={{zIndex:"-5",listStyle:"none"}}>
-								<ImageContainer id="mobileImageContainer1">
-									<img id="mobileImageFirst" src={LandingImageFirstPersonal}/>	
-								</ImageContainer>
-							</li>
+							<FirstSection
+								increaseCounter={increasePageCounter}
+								displaySelectedPage={displaySelectedPage}
+								history={props.history}
+							/>
+							<SecondSection
+								increaseCounter={increasePageCounter}
+								decreaseCounter={decreasePageCounter}
+								displaySelectedPage={displaySelectedPage}
+								props={props}
+							/>
+							<ThirdSection
+								decreaseCounter={decreasePageCounter}
+								displaySelectedPage={displaySelectedPage}
+								props={props}
+							/>
+							<FourthSection/>
 
-							<li id="secondSection" style={{listStyle:"none"}}>
-								<SecondSection
-									increaseCounter={increasePageCounter}
-									decreaseCounter={decreasePageCounter}
-									displaySelectedPage={displaySelectedPage}
-									props={props}
-								/>
-							</li>
-							<ImageContainer id="mobileImageContainer1">
-								<li  id="mobileImageContainer2" style={{listStyle:"none"}}>
-									<img id="mobileImage1" src={LandingImageSecondPersonal}/>
-								</li>
-							</ImageContainer>
-
-							<li style={{listStyle:"none"}}>
-								<ThirdSection
-									decreaseCounter={decreasePageCounter}
-									displaySelectedPage={displaySelectedPage}
-									props={props}
-								/>
-							</li>
-							<li style={{zIndex:"-5",listStyle:"none"}}>
-								<ImageContainer id="mobileImageContainer1">
-									<li id="mobilePersonal1" style={{listStyle:"none",marginTop:"150%"}}>
-										<img id="mobileImage1" src={LandingImageThirdPersonal}/>
-									</li>
-								</ImageContainer>
-							</li>
-							<li id="fourthSectionLI" style={{marginTop:"50%",listStyle:"none"}}>
-								<FourthSection/>
-							</li>
 						</React.Fragment>:
 						<React.Fragment>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<ArrowCompanyContainer onClick={()=>changeDisplayForPersonal(true)}>
-									<ArrowBackIosIcon/>
-								</ArrowCompanyContainer>
-							</a>
-
-							<li style={{listStyle:"none"}}>
-								<CompanyFirstSection
-									increaseCounter={increasePageCounter}
-									displaySelectedPage={displaySelectedPage}
-									props={props}
-								/>
-							</li>
-
-							<ImageContainer id="mobileImageContainer1">
-								<li  style={{listStyle:"none"}}>
-									<img id="mobileImageFirst" src={LandingImageFirstCompany}/>
-								</li>
-							</ImageContainer>
-
-							<li style={{listStyle:"none"}}>
-								<CompanySecondSection
-									increaseCounter={increasePageCounter}
-									decreaseCounter={decreasePageCounter}
-									displaySelectedPage={displaySelectedPage}
-									props={props}
-								/>
-							</li>
-
-							<ImageContainer id="mobileImageContainer1">
-								<li  style={{marginTop:"-230px",listStyle:"none"}}>
-									<img id="mobileImageSecondCompany" src={LandingImageSecondCompany}/>
-								</li>
-							</ImageContainer>
-
-							<li style={{listStyle:"none",padding:"20px",marginTop:"20%"}}>
-								<CompanyThirdSection
-									decreaseCounter={decreasePageCounter}
-									displaySelectedPage={displaySelectedPage}
-									props={props}
-								/>
-							</li>
-							<li id="companyFourthSection" style={{marginTop:"10%",listStyle:"none"}}>
-								<FourthSection/>
-							</li>
+							<ArrowCompanyContainer onClick={()=>changeDisplayForPersonal(true)}>
+								<ArrowBackIosIcon/>
+							</ArrowCompanyContainer>
+							<CompanyFirstSection
+								increaseCounter={increasePageCounter}
+								displaySelectedPage={displaySelectedPage}
+								props={props}
+							/>
+							<CompanySecondSection
+								increaseCounter={increasePageCounter}
+								decreaseCounter={decreasePageCounter}
+								displaySelectedPage={displaySelectedPage}
+								props={props}
+							/>
+							<CompanyThirdSection
+								decreaseCounter={decreasePageCounter}
+								displaySelectedPage={displaySelectedPage}
+								props={props}
+							/>
+							<FourthSection/>
 						</React.Fragment>
 					}
-				</ul>:
+				</>:
 				<Community
 				/>
 			}

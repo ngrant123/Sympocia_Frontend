@@ -102,7 +102,7 @@ const FinalSubmittionContainer=styled.div`
 	flex-direction:column;
 `;
 
-const PostCreationContainer=styled.div`
+const PostHeaderContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 `;
@@ -281,7 +281,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 
 			{displayCreationModal==false?
 				<>
-					<PostCreationContainer>
+					<PostHeaderContainer>
 						<p style={{fontSize:"20px",marginRight:"5%"}}>
 							<b>{question}</b>
 						</p>
@@ -290,7 +290,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 								style={{fontSize:"20",color:"#C8B0F4"}}
 							/>
 						</CreatePostButton>
-					</PostCreationContainer>
+					</PostHeaderContainer>
 					<hr/>
 
 					<li style={{listStyle:"none"}}>
@@ -347,7 +347,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 										</input>
 								</li>
 							</a>:
-							<FinalSubmittionContainer>\
+							<FinalSubmittionContainer>
 								<img src={imgUrl} style={{height:"40%",width:"40%",borderRadius:"5px"}}/>
 								<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
 

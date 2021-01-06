@@ -174,7 +174,7 @@ export const PostContainer=styled.div`
 		height:150% !important;
 		padding-top:90% !important;
     	top:58% !important;
-    	margin-left:-10% !important;
+    	margin-left:0% !important;
     }
 
     @media screen and (max-width:600px){
@@ -197,7 +197,12 @@ export const PostContainer=styled.div`
     }
 
     @media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
-		top:30%!important;
+		top:50%!important;
+		${({isScrollEnabled})=>
+			isScrollEnabled==true &&(
+				`top:80% !important;`
+			)
+		}
     }
 
 

@@ -400,8 +400,7 @@ export const getSymposiumsFollowedHome=async(id)=>{
 		});
 
 		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
+		return data;
 	}catch(err){
 		
 		return err;
@@ -417,8 +416,7 @@ export const getSymposiumsNotFollowed=async(_id)=>{
 		});
 
 		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
+		return data;
 	}catch(err){
 		return err;
 	}

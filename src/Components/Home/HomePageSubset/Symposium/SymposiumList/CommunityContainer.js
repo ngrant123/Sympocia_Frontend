@@ -11,6 +11,24 @@ const Container=styled.div`
 	left:15%;
 	border-radius:5px;
 	box-shadow: 10px 10px 10px 1px #d5d5d5;
+
+	@media screen and (max-width:1370px) and (max-height:900px) and (orientation: landscape) {
+		#symposiumInformationLI{
+			top:-50% !important;
+		}
+
+		#activePeopleTitleTextLI{
+
+		}
+
+		#popularVideoTitleTextLI{
+			top:40% !important;
+		}
+    }
+
+    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+    	margin-bottom:15% !important;
+    }
 `;
 
 const MobileContainer=styled.div`
@@ -212,10 +230,18 @@ const CommunityContainer=(props)=>{
 					</MobileContainer>
 					:
 					<Container onClick={()=>triggerDisplaySymposium()} style={{background:backgroundColor}}>
-						<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.symposium}</p>
-						<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"20%",padding:"10px",borderRadius:"5px"}}>Active People</p>
-						<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"50%",padding:"10px",borderRadius:"5px"}}>Popular Videos</p>
-						<ul style={{position:"relative",top:"-30%",left:"50%"}}>
+						<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>
+							{props.data.symposium}
+						</p>
+
+						<p id="activePeopleTitleTextLI" style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"20%",padding:"10px",borderRadius:"5px"}}>
+							Active People
+						</p>
+
+						<p id="popularVideoTitleTextLI" style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"50%",padding:"10px",borderRadius:"5px"}}>
+							Popular Videos
+						</p>
+						<ul id="symposiumInformationLI" style={{position:"relative",top:"-30%",left:"50%"}}>
 							<li style={CommunityDetailsListCSS}>
 								<ActivePeopleContainer>
 									<ul>
