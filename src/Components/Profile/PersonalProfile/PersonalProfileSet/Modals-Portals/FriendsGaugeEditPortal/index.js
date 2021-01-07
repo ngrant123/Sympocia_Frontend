@@ -131,7 +131,7 @@ const FriendsGaugeEditPortal=(props)=>{
 	const [displayRemoveNodeVerification,changeRemoveNodeVerificationModal]=useState(false);
 	const [displayClosingScreen,changeDisplayClosingScreen]=useState(false);
 	const [node,changeCurrentNodes]=useState([]);
-
+	const [isLoading,changeLoadingStatus]=useState(true);
 
 	useEffect(()=>{
 		const getRecruitData=async()=>{
@@ -151,6 +151,7 @@ const FriendsGaugeEditPortal=(props)=>{
 			let currentNodes=[...props.nodes];
 			currentNodes.splice(0,1);
 			changeCurrentNodes(currentNodes);
+			changeLoadingStatus(false);
 		};
 		getRecruitData();
 	},[]);
@@ -215,12 +216,13 @@ const FriendsGaugeEditPortal=(props)=>{
 				onClick={props.hideModal}
 			/>
 			<Container>
-				{displayClosingScreen==false?
+				{isLoading==true?
+					<p style={{padding:"10px"}}>Loading please wait...</p>:
 					<>
-						{constructFriendsGaugeEditPortal(props.actionType)}
-					</>:
-					<>
-						{closingConfirmationScreen()}
+						{displayClosingScreen==false?
+							<>{constructFriendsGaugeEditPortal(props.actionType)}</>:
+							<>{closingConfirmationScreen()}</>
+						}
 					</>
 				}
 			</Container>

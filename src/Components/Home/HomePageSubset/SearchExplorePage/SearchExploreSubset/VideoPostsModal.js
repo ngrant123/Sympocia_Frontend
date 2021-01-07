@@ -31,9 +31,10 @@ const Container=styled.div`
 		width:120%;
 		flex-direction:column;
 		margin-left:-5% !important;
-			#headerVideoLI{
-			height:95% !important;
-			width:100% !important;
+		#headerVideoLI{
+			height:80% !important;
+			width:80% !important;
+			margin-top:0% !important;
 		}
 		#headerLI{
 			display:block !important;
@@ -184,6 +185,7 @@ const SmallPostContainer=styled.div`
 	height:600px;
 	overflow-y:scroll;
 	margin-left:5%;
+	padding-left:5%;
 	flex-wrap: wrap;
 	@media screen and (max-width:1370px){
 		width:90%;
@@ -202,6 +204,11 @@ const SmallPostContainer=styled.div`
 			display:none !important;
 		}
 	}
+`;
+
+const HeaderOwnerInformation=styled.div`
+	display:flex;
+	flex-direction:row;
 `;
 
 const DescriptionContainer=styled.div`
@@ -267,45 +274,40 @@ const VideoPostModal=(props)=>{
 			<p> No video posts yet </p>:
 				<React.Fragment>
 					<HeaderContainer>
-						<ul id="headerPostProfilePictureLIInformation"
-							  style={{width:"90%",padding:"10px",zIndex:"8",position:"relative"}}>
+						<HeaderOwnerInformation>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<ProfilePictureLink to={{pathname:`/profile/${headerVideo.owner._id}`}}>
+									{headerVideo.videoDescription==null?
+										<img src={headerVideo.owner.profilePicture==null?NoProfilePicture:
+											headerVideo.owner.profilePicture}
+											style={{height:"50px",width:"60px",borderRadius:"50%"}}
+										/>
+										:<video width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+											<source src={headerVideo.videoDescription} type="video/mp4"/>
+										</video>
+									}
+								</ProfilePictureLink>
+							</li>
+							<li style={{marginLeft:"2%",listStyle:"none",display:"inline-block"}}>
+								<p style={{fontSize:"20px",maxWidth:"80px",overflow:"hidden"}}>
+									<b>{headerVideo.owner.firstName}</b>
+								</p>
+							</li>
 							<li style={{marginLeft:"1%",marginBottom:"1%",listStyle:"none"}}>
 								<DisplayRecruitButton
 									post={headerVideo}
 									previousProps={props}
 								/>
 							</li>
-
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<ProfilePictureLink to={{pathname:`/profile/${headerVideo.owner._id}`}}>
-											{headerVideo.videoDescription==null?
-												<img src={headerVideo.owner.profilePicture==null?NoProfilePicture:
-													headerVideo.owner.profilePicture}
-													style={{height:"50px",width:"60px",borderRadius:"50%"}}
-												/>
-												:<video width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-													<source src={headerVideo.videoDescription} type="video/mp4"/>
-												</video>
-											}
-										</ProfilePictureLink>
-									</li>
-									<li style={{marginLeft:"2%",listStyle:"none",display:"inline-block"}}>
-										<p style={{fontSize:"20px",maxWidth:"80px",overflow:"hidden"}}>
-											<b>{headerVideo.owner.firstName}</b>
-										</p>
-									</li>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<audio id="headerAudio" style={{width:"200px"}} controls>
-										  	<source src={headerVideo.audioDescription} type="audio/ogg"/>
-										  	<source src={headerVideo.audioDescription} type="audio/mpeg"/>
-											Your browser does not support the audio element.
-										</audio>
-									</li>
-								</ul>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<audio id="headerAudio" style={{width:"200px"}} controls>
+								  	<source src={headerVideo.audioDescription} type="audio/ogg"/>
+								  	<source src={headerVideo.audioDescription} type="audio/mpeg"/>
+									Your browser does not support the audio element.
+								</audio>
 							</li>
-						</ul>
+						</HeaderOwnerInformation>
+
 						<video id="headerVideoLI" style={{cursor:"pointer",marginTop:"-5%"}} key={headerVideo.videoUrl} position="relative" height="80%" width="100%" autoplay>
 							<source src={headerVideo.videoUrl} type="video/mp4"/>
 						</video>
@@ -330,9 +332,7 @@ const VideoPostModal=(props)=>{
 									anim id est laborum.
 								</p>
 							</HeaderTextsContainer>
-
 							<p style={ImageLabelCSS}>{headerVideo.industriesUploaded[0].industry}</p>
-
 						</HeaderDescriptionContainer>
 
 

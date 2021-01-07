@@ -805,14 +805,14 @@ class LProfile extends Component{
 											src={this.state.userProfile.profilePicture==null?
 													NoProfilePicture:
 													this.state.userProfile.profilePicture
-												} style={{position:"absolute",width:"100%",height:"100%"}}
+												} style={{position:"absolute",width:"100%",height:"100%",borderRadius:"50%"}}
 										/>
 									</>:
 									<img id="profilePicture" 
 										src={this.state.userProfile.profilePicture==null?
 												NoProfilePicture:
 												this.state.userProfile.profilePicture
-											} style={{position:"absolute",width:"100%",height:"100%"}}
+											} style={{position:"absolute",width:"70%",height:"80%",borderRadius:"50%"}}
 									/>
 								}
 								
@@ -840,7 +840,6 @@ class LProfile extends Component{
 										}
 									</>
 								)}
-								
 							</ProfilePictureContainer>
 
 							{this.state.displayDesktopUI==true &&(

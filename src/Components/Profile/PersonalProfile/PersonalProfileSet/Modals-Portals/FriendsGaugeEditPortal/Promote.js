@@ -103,7 +103,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 							<hr/>
 				 		*/}
 				 		<p style={{fontSize:"20px"}}>
-				 			<b>Click the recruits that you would like to promote </b>
+				 			<b>Click on the recruits that you would like to promote </b>
 				 		</p>
 				 		<hr/>
 						{selectedRecruits.map(data=>
@@ -178,19 +178,27 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 							 			<b>Click the level that you want to promote the recruit to</b>
 							 		</p>
 							 		<hr/>
-									{nodes.map(data=>
-											<>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>changeSelectedNode(data)} style={{listStyle:"none"}}>
-														<p style={{fontSize:"25px"}}>
-															<b> {data.name} </b>
-														</p>
-														<p>{data.description}</p>
-													</li>
-												</a>
-												<hr/>
-											</>
-										)}
+							 		{nodes.length==0?
+							 			<p>
+							 				Unfortunately you have no levels to promote your recruit to.
+							 			 	Please create a new one and revisit this screen again
+							 			</p>:
+							 			<>
+											{nodes.map(data=>
+												<>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<li onClick={()=>changeSelectedNode(data)} style={{listStyle:"none"}}>
+															<p style={{fontSize:"25px"}}>
+																<b> {data.name} </b>
+															</p>
+															<p>{data.description}</p>
+														</li>
+													</a>
+													<hr/>
+												</>
+											)}
+							 			</>
+							 		}
 								</ul>
 							</li>
 						</ul>

@@ -118,9 +118,8 @@ export const Container=styled.div`
 
 export const ProfilePictureContainer=styled.div`
 	position:absolute;
-	width:25%;
+	width:90%;
 	height:35%;
-	top:15%;
 	left:2%;
 	background-color:white;
 	border-style:solid;
@@ -129,6 +128,8 @@ export const ProfilePictureContainer=styled.div`
 	border-radius:5px;
 	z-index:3;
 	box-shadow: 1px 1px 10px #d5d5d5;
+	display:flex;
+	justify-content:center;
 
 
 	 @media screen and (max-width:420px) and (max-height:740px){
@@ -230,16 +231,20 @@ export const HeaderContainer=styled.div`
 `;
 
 export const ProfileContainer=styled.div`
+	position:fixed;
 	width:30%;
-	height:70%;
-	background-color:white;
+	height:100%;
 	z-index:10;
+
+	@media screen and (max-width:1370px){
+		position:relative;
+	}
 `;
 
 export const PersonalProfileInformationContainer= styled.div`
 	position:absolute;
-	top:52%;
-	width:25%;
+	top:37%;
+	width:90%;
 	left:3%;
 	background-color:#fbfdff;
 	border-radius:5px;
