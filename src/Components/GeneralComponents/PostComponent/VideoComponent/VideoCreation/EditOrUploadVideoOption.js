@@ -52,6 +52,22 @@ class EditOrUploadVideoOption extends Component{
 		this.props.parentRedoVideo()
 	}
 
+	checkVideoLength=()=>{
+		const video=document.getElementById("videoElement");
+		let duration=video.duration;
+		duration=Math.ceil(duration);
+		if(duration>30){
+			alert('The video is too long. As of right now we only support 30 sec videos that are below 50MB. Sorry for the inconvience.'+
+			'We will redirect you to the upload screen after you close this window');
+			this.props.closeAndRedoVideo();
+		}else{
+			this.setState({
+				displayEditVideoModal:true
+			})
+		}
+	}
+
+
 
 	render(){
 		return(
@@ -87,7 +103,7 @@ class EditOrUploadVideoOption extends Component{
 											</li>
 										*/}
 
-										<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block"}} onClick={()=>this.setState({displayEditVideoModal:true})}>
+										<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block"}} onClick={()=>this.checkVideoLength()}>
 
 														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																																		borderColor:"#5298F8",
