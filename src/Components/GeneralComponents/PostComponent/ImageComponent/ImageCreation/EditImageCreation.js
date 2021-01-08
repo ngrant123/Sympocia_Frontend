@@ -949,7 +949,7 @@ class EditImageCreation extends Component{
 															</li>
 														</ul>
 													</li>
-													{this.state.isSubmittedAndProcessing==false &&(
+													{this.state.isSubmittedAndProcessing==false?
 														<li style={{listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
 															<a style={{textDecoration:"none"}} href="javascript:void(0);">
 																<ul onClick={()=>this.sendImageDateToDB(profilePostInformation)}>
@@ -962,12 +962,11 @@ class EditImageCreation extends Component{
 																	<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
 																		Send
 																	</li>
-
 																</ul>
 															</a>
-												 		</li>
-
-													)}
+												 		</li>:
+												 		<p>Please wait...</p>
+												 	}
 												</ul>
 											</li>:
 											<FilterImageSelection

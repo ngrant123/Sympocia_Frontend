@@ -123,7 +123,8 @@ const ContinueButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#C8B0F4",
-  marginTop:"2%"
+  marginTop:"2%",
+  cursor:"pointer"
 }
 
 //"blob:http://localhost:3000/9b5bb4e0-de5b-4e15-b127-1f05aeaaeb36"
@@ -140,65 +141,37 @@ const VoiceDescriptionPortal=(props)=>{
 	const [maxTime,changeMaxTime]=useState(10000);
 	const [currentTime,changeCurrentTime]=useState(0);
 	const [isRecording,changeRecordingState]=useState(false);
-	const [videoElements,changeVideoElements]=useState([]);
+	const [audioElements,changeAudioElements]=useState([]);
 	const [reInitilize,changeReInitliazed]=useState(false);
 
 	const [mediaDevice,changeMediaDevice]=useState();
-	const [firstDone,chnagFirstFone]=useState(false);
+	const [firstDone,chnagFirstDone]=useState(false);
 
 	useEffect(()=>{
 		if(!testIfUserIsUsingChrome()){
 			alert('Unfortunately your browser does not allow this option. Please switch to any other browser');
 			props.closeModal();
-		}else{
-				var video=document.getElementById("video");
-				if (navigator.mediaDevices.getUserMedia){
-					  navigator.mediaDevices.getUserMedia({
-					  		audio:true 
-					  	}).then(stream=>handleRecording(stream))
-				   		.then(recordedChunks=>{
-					  	 
-					  	 if(recordedChunks!=null){
-						  	 let recordedFile = new File(recordedChunks, { type: "video/webm" });
-						  	 var videoSrc=URL.createObjectURL(recordedFile);
-
-						  	 var reader=new FileReader();
-
-							reader.onloadend=()=>{
-								var currentVideoElements=videoElements;
-
-								const videoObject={
-									audioSrc:reader.result,
-									videoFile:recordedFile,
-									videoCounter:currentVideoElements.length
-								}
-							  	 currentVideoElements.push(videoObject);
-
-							  	 changeVideoElements(currentVideoElements);
-							  	 changeRecordingState(false);
-							  	 changeReInitliazed(true);
-							  	 chnagFirstFone(true)
-							}
-						  	 reader.readAsDataURL(recordedFile);
-					  	 }
-					  	 
-					  }).catch(function (error) {
-				    });
-			}	
 		}
 	},[]);
 
-	const stopRecording=(stream)=>{
+
+	const pauseRecording=(stream)=>{
 		mediaDevice.stop();
-		//stream.getTracks().forEach(track => track.stop());
 		changeRecordingState(false);
+	}
+	const stopRecording=(stream)=>{
+		if(isRecording==true){
+			mediaDevice.stop();
+			stream.getTracks().forEach(track => track.stop());
+			changeRecordingState(false);
+		}
 	}
 
 	const handleRecording=(stream)=>{
+		debugger;
 		var stoppedVideo;
 		var data;
 		 if(firstDone==true){
-		 	
 			  data=[];
 
 			  mediaDevice.ondataavailable = event => data.push(event.data);
@@ -208,10 +181,10 @@ const VoiceDescriptionPortal=(props)=>{
 			    mediaDevice.onstop = resolve;
 			    mediaDevice.onerror = event => reject(event.name);
 			  });
-			  //changeRecordingState(true);
 		 }else{
 		 	
 			  let recorder = new MediaRecorder(stream);
+			  changeMediaDevice(recorder);
 			  data=[];
 
 			  recorder.ondataavailable = event => data.push(event.data);
@@ -221,89 +194,70 @@ const VoiceDescriptionPortal=(props)=>{
 			    recorder.onstop = resolve;
 			    recorder.onerror = event => reject(event.name);
 			  });
-			  changeMediaDevice(recorder);
-			  //changeRecordingState(true);
 		 }
 		  return Promise.all([stoppedVideo]).then(()=>data);
 	}
 
 	const closeModal=()=>{
-		var videoElement=document.getElementById("video");
-		stopRecording(videoElement);
+		var audioElement=document.getElementById("audioElement");
+		if(firstDone!=false)
+			stopRecording(audioElement.srcObject);
 		props.closeModal()
 	}
 
 	const test=()=>{
-		if(reInitilize==true && videoElements.length>0){
-			var newElements=videoElements;
-			changeVideoElements(newElements);
+		if(reInitilize==true && audioElements.length>0){
+			var newElements=audioElements;
+			changeAudioElements(newElements);
 			changeReInitliazed(false);
 		}
 	}
 
 	const startRecording=()=>{
-		if(firstDone==true){
-			handleRecording().then(recordedChunks=>{
-		  	 if(recordedChunks!=null){
-			  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
-			  	var audioSrc=URL.createObjectURL(recordedFile);
-			  	var reader=new FileReader();
-				reader.onloadend=()=>{
-					var currentVideoElements=videoElements;
-					const videoObject={
-						audioSrc:reader.result,
-						videoFile:recordedFile,
-						videoCounter:currentVideoElements.length
+		let audio=document.getElementById("audioElement");	
+		changeRecordingState(true)
+		if (navigator.mediaDevices.getUserMedia){
+		  	navigator.mediaDevices.getUserMedia({
+		  		audio:true
+		  	}).then((stream)=>handleRecording(stream))
+		  	  .then(recordedChunks=>{
+			  	 if(recordedChunks!=null){
+				  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
+				  	var audioSrc=URL.createObjectURL(recordedFile);
+				  	var reader=new FileReader();
+					reader.onloadend=()=>{
+						var currentAudioElements=audioElements;
+						const audioObject={
+							audioSrc:reader.result,
+							videoFile:recordedFile,
+							videoCounter:currentAudioElements.length
+						}
+
+					  	 currentAudioElements.push(audioObject);
+					  	 changeAudioElements(currentAudioElements);
+
+					  	 changeRecordingState(false);
+					  	 changeReInitliazed(true);
+					  	 chnagFirstDone(true)
 					}
-
-				  	 currentVideoElements.push(videoObject);
-				  	 changeVideoElements(currentVideoElements);
-
-				  	 changeRecordingState(false);
-				  	 changeReInitliazed(true);
-				  	 chnagFirstFone(true)
-				}
-
-			  	 reader.readAsDataURL(recordedFile);
-		  	 }
+				  	reader.readAsDataURL(recordedFile);
+			  	 }
 			});
 		}
-		changeRecordingState(true)
 	}
 
-	const submitVideoDescription=()=>{
-		if(videoElements.length>0){
-			props.createAudioDescription(videoElements[0].audioSrc);
+	const submitAudioDescription=()=>{
+		if(audioElements.length>0){
+			props.createAudioDescription(audioElements[0].audioSrc);
 		}else{
 			alert('Create a video to continue or press the exit button on the top left');
 		}
 	}
 
-	/*
-
-	const displayEditVideoScreen=async()=>{
-		
-		const fileArray=[];
-		for(var i=0;i<videoElements.length;i++){
-
-			const {videoFile,videoCounter}=videoElements[i];
-			const videoElement=document.getElementById('video'+videoCounter);
-			const videoDuration=videoElement.duration;
-
-			const videoObject={
-				file:videoFile,
-				duration:videoDuration
-			}
-			fileArray.push(videoObject);
-		}
-		const concatedVideos=await concatVideoTogether(fileArray);
-	}
-	*/
-	const reDoVideo=()=>{
-		
-		videoElements.splice(0,videoElements.length);
-		var newVideoElements=videoElements;
-		changeVideoElements(newVideoElements);
+	const redoAudio=()=>{
+		audioElements.splice(0,audioElements.length);
+		var newaudioElements=audioElements;
+		changeAudioElements(newaudioElements);
 		changeReInitliazed(true);
 	}
 
@@ -336,30 +290,34 @@ const VoiceDescriptionPortal=(props)=>{
 									</li>
 								</a>:
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>stopRecording()} style={StopButtonCSS}>
+									<li onClick={()=>pauseRecording()} style={StopButtonCSS}>
 										Stop Recording
 									</li>
 								</a>
 							}
 							<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 								<RefreshIcon
-									onClick={()=>reDoVideo()}
+									onClick={()=>redoAudio()}
 									style={{fontSize:20}}
 								/>
 							</li>
 						</ul>
 					</li>
-					{videoElements.length>0?
-						<li style={{listStyle:"none"}}>
-							<audio controls>
-							  <source src={videoElements[0].audioSrc} type="audio/ogg"/>
-							  <source src={videoElements[0].audioSrc} type="audio/mpeg"/>
-							Your browser does not support the audio element.
-							</audio>
-						</li>:null
-					}
+					{audioElements.length>0 &&(
+						<>
+							{audioElements.map(data=>
+								<li style={{listStyle:"none"}}>
+									<audio controls id="audioElement" >
+									  	<source src={data.audioSrc} type="audio/ogg"/>
+									  	<source src={data.audioSrc} type="audio/mpeg"/>
+										Your browser does not support the audio element.
+									</audio>
+								</li>
+							)}
+						</>
+					)}
 					
-					<li onClick={()=>submitVideoDescription()} style={ContinueButtonCSS}>
+					<li onClick={()=>submitAudioDescription()} style={ContinueButtonCSS}>
 						Continue
 					</li>
 

@@ -301,9 +301,6 @@ class EditVideoModal extends Component{
 				this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
 			}else{
 				alert('Unfortunately an error has occured please try again ');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
 			}
 		}else{
 			const {previousData}=this.props;
@@ -350,11 +347,11 @@ class EditVideoModal extends Component{
 				this.props.editPost(editedVideo);
 			}else{
 				alert('Unfortunately there has been an error editing this post. Please try again');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
 			}
 		}
+		this.setState({
+			isSubmittedAndProcessing:false
+		})
 	}
 
 isArrayEqual=(arr1,arr2)=>{
@@ -737,7 +734,7 @@ isArrayEqual=(arr1,arr2)=>{
 
 												</li>
 												<hr/>
-												{this.state.isSubmittedAndProcessing==false &&(
+												{this.state.isSubmittedAndProcessing==false ?
 													<li id="sendButtonLIContainer" style={{top:"-560px",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
 														<ul style={{padding:"0px"}}>
 															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -757,9 +754,9 @@ isArrayEqual=(arr1,arr2)=>{
 																 </li>
 															 </a>
 														</ul>
-													</li>
-
-												)}
+													</li>:
+													<p>Please wait...</p>
+												}
 											</ul>
 								 		</Container>
 								 	}
