@@ -213,201 +213,194 @@ class BlogsPostsContainer extends Component{
 	}
 
 	render(){
-		return(
-			<UserConsumer>
-				{personalInformation=>{
-
-					return <Container>
-						{this.state.isLoading==true?<p>Currently loading blog posts</p>:
-							<React.Fragment>
-								{this.state.blogs.length==0&&this.state.headerBlog==null?
-									<NoPostsModal
-										id="noPostsModalContainer"
-										postType={"blog"}
-										profilePageType={this.props.profile}
-									/>:
+return(
+	<UserConsumer>
+		{personalInformation=>{
+			return <Container>
+			{this.state.isLoading==true?<p>Currently loading blog posts</p>:
+				<React.Fragment>
+					{this.state.blogs.length==0&&this.state.headerBlog==null?
+						<NoPostsModal
+							id="noPostsModalContainer"
+							postType={"blog"}
+							profilePageType={this.props.profile}
+						/>:
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none"}}>
+								{this.state.headerBlog==null?<React.Fragment></React.Fragment>:
+									<ThumbnailBlogComponent to={{pathname:`${personalInformation.isOwnProfile==true?'/createBlog':'/blog/this.state.headerBlog._id'}`,
+																		state:{
+																				...this.state.headerBlog,
+																				profileType:this.state.profileType,
+																				friendsNodes:this.props.friendsNodes
+																		}}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none"}}>
-												{this.state.headerBlog==null?<React.Fragment></React.Fragment>:
-													<ThumbnailBlogComponent to={{pathname:`${personalInformation.isOwnProfile==true?'/createBlog':'/blog/this.state.headerBlog._id'}`,
-																						state:{
-																								...this.state.headerBlog,
-																								profileType:this.state.profileType,
-																								friendsNodes:this.props.friendsNodes
-																						}}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none"}}>
-																{testIfUserIsUsingChrome()==true &&(
-																	<li style={{listStyle:"none",display:"inline-block"}}>
-																		{this.state.headerBlog.audioDescription!=null &&(
-																			<audio id="headerAudioLI" controls style={{width:"200px"}} >
-																			  <source src={this.state.headerBlog.audioDescription} type="audio/ogg"/>
-																			  <source src={this.state.headerBlog.audioDescription} type="audio/mpeg"/>
-																			  Your browser does not support the audio element.
-																			</audio>
-																		)}
-																	</li>
-																)}
-																{testIfUserIsUsingChrome()==true &&(
-																	<li style={{width:"20%",listStyle:"none",display:"inline-block"}}>
-																		<HeaderVideoDesriptionContainer>
-																			{this.state.headerBlog.videoDescription!=null &&(
-																				<video id="headerVideo" style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																					<source src={this.state.headerBlog.videoDescription} type="video/mp4"/>
-																				</video>
-																			)}
-																		</HeaderVideoDesriptionContainer>
-																	</li>
-																)}
-															</li>
+												{testIfUserIsUsingChrome()==true &&(
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														{this.state.headerBlog.audioDescription!=null &&(
+															<audio id="headerAudioLI" controls style={{width:"200px"}} >
+															  <source src={this.state.headerBlog.audioDescription} type="audio/ogg"/>
+															  <source src={this.state.headerBlog.audioDescription} type="audio/mpeg"/>
+															  Your browser does not support the audio element.
+															</audio>
+														)}
+													</li>
+												)}
+												{testIfUserIsUsingChrome()==true &&(
+													<li style={{width:"20%",listStyle:"none",display:"inline-block"}}>
+														<HeaderVideoDesriptionContainer>
+															{this.state.headerBlog.videoDescription!=null &&(
+																<video id="headerVideo" style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																	<source src={this.state.headerBlog.videoDescription} type="video/mp4"/>
+																</video>
+															)}
+														</HeaderVideoDesriptionContainer>
+													</li>
+												)}
+											</li>
 
-															<li id="headerImageLI" style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-																<img  id="headerImage" src={this.state.headerBlog.blogImageUrl} style={{width:"450px",height:"40%"}}/>
+											<li id="headerImageLI" style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+												<img  id="headerImage" src={this.state.headerBlog.blogImageUrl} style={{width:"450px",height:"40%"}}/>
+											</li>
 
-															</li>
+											<li id="headerDescriptionLI" style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",width:"300px"}}>
+												<ul style={{paddging:"0px"}}>
+													<li id="headerSymposiumsLI" style={{marginBottom:"5px",listStyle:"none",padding:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
+														{this.state.headerBlog.industriesUploaded[0].industry}
+													</li>
+													<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px"}}>
+														<b>{this.state.headerBlog.title}</b>
+													</li>
 
-															<li id="headerDescriptionLI" style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block"}}>
-																<ul style={{paddging:"0px"}}>
-																	<li id="headerSymposiumsLI" style={{marginBottom:"5px",listStyle:"none",padding:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
-																		{this.state.headerBlog.industriesUploaded[0].industry}
-
-																	</li>
-																	<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px"}}>
-																		<b>{this.state.headerBlog.title}</b>
-																	</li>
-
-																	<li id="headerConstructedDateLI" style={{listStyle:"none",marginBottom:"5px"}}>
-																		<ul style={{padding:"0px",color:"#a6a6a7"}}>
-																			<li style={{listStyle:"none",display:"inline-block"}}>
-																				{this.constructDate(this.state.headerBlog.datePosted)}
-																			</li>
-																		</ul>
-																	</li>
-
-																	<li style={{listStyle:"none"}}>
-																		<Description>
-																			{this.state.headerBlog.description}
-																		</Description>
-
-																	</li>
-																</ul>
+													<li id="headerConstructedDateLI" style={{listStyle:"none",marginBottom:"5px"}}>
+														<ul style={{padding:"0px",color:"#a6a6a7"}}>
+															<li style={{listStyle:"none",display:"inline-block"}}>
+																{this.constructDate(this.state.headerBlog.datePosted)}
 															</li>
 														</ul>
-													</ThumbnailBlogComponent>
-												}
-											</li>
-											<hr/>
-											<li id="searchSymposiumPostLI" style={{listStyle:"none",marginTop:"5%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",color:"#C8B0F4"}}>
-														<b>Search By Industry:</b>
 													</li>
 
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<div class="dropdown">
-															<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																					borderColor:"#5298F8",
-																																					borderStyle:"solid",
-																																					borderWidth:"1px",
-																																					color:"#5298F8",
-																																					backgroundColor:"white"}}>
-																Industries
-															   	<span class="caret"></span>
-															</button>
-															<ul class="dropdown-menu">
-																<li><a href="">Most Popular</a></li>
-																<li><a href="">Most Recent</a></li>
-																
-															</ul>
-									  				 </div>
+													<li style={{listStyle:"none"}}>
+														<Description>
+															{this.state.headerBlog.description}
+														</Description>
+
 													</li>
-												</ul>
-											</li>
-
-											<li style={{listStyle:"none",marginTop:"5%"}}>	
-												<ul style={{padding:"0px"}}>
-													{this.state.blogs.map(data=>
-														<BlogContainer to={{pathname:`${personalInformation.isOwnProfile==true?'/createBlog':'/blog/data._id'}`,
-																						state:{
-																								...data,
-																								profileType:this.state.profileType,
-																								friendsNodes:this.props.friendsNodes
-																						}}}>
-																						
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"8%",marginBottom:"-7%"}}>
-																<SmallBlogComponent>
-																	<ul style={{padding:"0px"}}>
-																		{testIfUserIsUsingChrome()==true &&(
-																			<li style={{listStyle:"none"}}>
-																				{data.audioDescription!=null &&(
-																					<audio id="smallAudio" controls>
-																					  <source src={data.audioDescription} type="audio/ogg"/>
-																					  <source src={data.audioDescription} type="audio/mpeg"/>
-																					  Your browser does not support the audio element.
-																					</audio>
-																				)}
-																			</li>
-																		)}
-
-																		<li style={{listStyle:"none"}}>
-																			<SmallBlog>
-																				<img src={data.blogImageUrl} width="100%" height="100%"/>
-																				{testIfUserIsUsingChrome()==true &&(
-																					<VideoDesriptionContainer>
-																						{data.videoDescription!=null &&(
-																							<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																								<source src={data.videoDescription} type="video/mp4"/>
-																							</video>
-																						)}
-																					</VideoDesriptionContainer>
-																				)}
-							
-																			</SmallBlog>
-																		</li>
-
-																		<li style={{listStyle:"none",fontSize:"15px"}}>
-																			<b> {data.title} </b>
-																		</li>
-																		<li style={{listStyle:"none",fontSize:"15px"}}>
-																			{data.description}
-																		</li>
-																		{/*
-																			<li style={{listStyle:"none"}}>
-																				{this.constructName(personalInformation)}
-																			</li>
-																		*/}
-
-																		<li id="datePostedLI" style={{listStyle:"none",color:"#8c8c8c"}}>
-																			<ul style={{padding:"0px"}}>
-
-																				<li style={{listStyle:"none",display:"inline-block"}}>
-																					{this.constructDate(data.datePosted)}
-																				</li>
-																			</ul>
-																		</li>
-
-																		<li id="symposiumsLI" style={{listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
-																			{data.industriesUploaded[0].industry}
-																		</li>
-																	</ul>
-
-																</SmallBlogComponent>
-															</li>
-														</BlogContainer>
-													)}
 												</ul>
 											</li>
 										</ul>
-
+									</ThumbnailBlogComponent>
 								}
-									
-							</React.Fragment>
+							</li>
+							<hr/>
+							<li id="searchSymposiumPostLI" style={{listStyle:"none",marginTop:"5%"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",color:"#C8B0F4"}}>
+										<b>Search By Industry:</b>
+									</li>
 
-						}
-					</Container>
-				}}
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<div class="dropdown">
+											<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																	borderColor:"#5298F8",
+																																	borderStyle:"solid",
+																																	borderWidth:"1px",
+																																	color:"#5298F8",
+																																	backgroundColor:"white"}}>
+												Industries
+											   	<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu">
+												<li><a href="">Most Popular</a></li>
+												<li><a href="">Most Recent</a></li>
+												
+											</ul>
+					  				 </div>
+									</li>
+								</ul>
+							</li>
 
-			</UserConsumer>
+							<li style={{listStyle:"none",marginTop:"5%"}}>	
+								<ul style={{padding:"0px"}}>
+									{this.state.blogs.map(data=>
+										<BlogContainer to={{pathname:`${personalInformation.isOwnProfile==true?'/createBlog':'/blog/data._id'}`,
+																		state:{
+																				...data,
+																				profileType:this.state.profileType,
+																				friendsNodes:this.props.friendsNodes
+																		}}}>
+																		
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"8%",marginBottom:"-7%"}}>
+												<SmallBlogComponent>
+													<ul style={{padding:"0px"}}>
+														{testIfUserIsUsingChrome()==true &&(
+															<li style={{listStyle:"none"}}>
+																{data.audioDescription!=null &&(
+																	<audio id="smallAudio" controls>
+																	  <source src={data.audioDescription} type="audio/ogg"/>
+																	  <source src={data.audioDescription} type="audio/mpeg"/>
+																	  Your browser does not support the audio element.
+																	</audio>
+																)}
+															</li>
+														)}
+
+														<li style={{listStyle:"none"}}>
+															<SmallBlog>
+																<img src={data.blogImageUrl} width="100%" height="100%"/>
+																{testIfUserIsUsingChrome()==true &&(
+																	<VideoDesriptionContainer>
+																		{data.videoDescription!=null &&(
+																			<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																				<source src={data.videoDescription} type="video/mp4"/>
+																			</video>
+																		)}
+																	</VideoDesriptionContainer>
+																)}
+			
+															</SmallBlog>
+														</li>
+
+														<li style={{listStyle:"none",fontSize:"15px"}}>
+															<b> {data.title} </b>
+														</li>
+														<li style={{listStyle:"none",fontSize:"15px"}}>
+															{data.description}
+														</li>
+														{/*
+															<li style={{listStyle:"none"}}>
+																{this.constructName(personalInformation)}
+															</li>
+														*/}
+
+														<li id="datePostedLI" style={{listStyle:"none",color:"#8c8c8c"}}>
+															<ul style={{padding:"0px"}}>
+
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	{this.constructDate(data.datePosted)}
+																</li>
+															</ul>
+														</li>
+
+														<li id="symposiumsLI" style={{listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
+															{data.industriesUploaded[0].industry}
+														</li>
+													</ul>
+
+												</SmallBlogComponent>
+											</li>
+										</BlogContainer>
+										)}
+									</ul>
+								</li>
+							</ul>
+						}	
+					</React.Fragment>
+				}
+			</Container>
+		}}
+	</UserConsumer>
 		)
 	}
 }

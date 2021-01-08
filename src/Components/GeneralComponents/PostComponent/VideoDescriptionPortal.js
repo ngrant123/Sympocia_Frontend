@@ -30,12 +30,13 @@ const Container=styled.div`
 	top:10%;
 	border-radius:5px;
 
-	@media screen and (max-width:1030px) and (max-height:1370px){
-			height:100% !important;
-			width:100%;
-    }
+	@media screen and (max-width:1370px){
+		left:5%;
+		height:50%;
+		width:90%;
+	}
 
-    @media screen and (max-width:770px){
+    @media screen and (max-width:700px){
 			left:1% !important; 
 			height:100% !important;
 			width:100%;
@@ -59,6 +60,9 @@ const RecordButton=styled.div`
 	border-radius:50%;
 	background-color:white;
 	padding:7px;
+	@media screen and (max-width:1370px){
+
+	}
 `;
 
 const ClipVideoContainer=styled.div`
@@ -267,7 +271,7 @@ const VideoDescriptionPortal=(props)=>{
 							<li style={{listStyle:"none",marginBottom:"4%"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									<VideoResultContainer>
-											<video id={'video'+data.videoCounter} width="100%" height="100%" autoplay="true" muted="muted">
+											<video id={'video'+data.videoCounter} width="100%" height="100%"  controls>
 												<source src={data.videoSrc} type="video/mp4"/>
 											</video>
 									</VideoResultContainer>
