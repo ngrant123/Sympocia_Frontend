@@ -19,6 +19,11 @@ const Container=styled.div`
 	justify-content:center;
 	align-items:center;
 
+	@media screen and (max-width:1370px){
+		left:20%;
+		width:60%;
+	}
+
 	@media screen and (max-width:330px){
 		left:1% !important; 
 		height:100% !important;

@@ -245,7 +245,8 @@ class EditImageCreation extends Component{
 			displayReplaceImageModal:false,
 			videoDescriptionId:this.uuidv4(),
 			audioDescriptionId:this.uuidv4(),
-			isSubmittedAndProcessing:false
+			isSubmittedAndProcessing:false,
+			isDesktop:true
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
@@ -556,17 +557,19 @@ class EditImageCreation extends Component{
 		})
 	}
 
-	setUpVideoDescriptionCreation=()=>{
+	setUpVideoDescriptionCreation=(isDesktop)=>{
 		this.setState({
 			displayVideoDescriptionPortal:true,
-			displayVoiceDescriptionPortal:false
+			displayVoiceDescriptionPortal:false,
+			isDesktop
 		})
 	}
 
-	setUpVoiceDescriptionCreation=()=>{
+	setUpVoiceDescriptionCreation=(isDesktop)=>{
 		this.setState({
 			displayVideoDescriptionPortal:false,
-			displayVoiceDescriptionPortal:true
+			displayVoiceDescriptionPortal:true,
+			isDesktop
 		})
 	}
 
@@ -578,6 +581,9 @@ class EditImageCreation extends Component{
 	}
 
 	createVideoDescription=(videoDescriptionSrc)=>{
+		if(this.state.isDesktop==false){
+			alert('Please scroll up to the top to view your video description if you want to');
+		}
 		this.setState({
 			videoDescription:videoDescriptionSrc,
 			displayVideoDescriptionPortal:false,
@@ -586,6 +592,9 @@ class EditImageCreation extends Component{
 	}
 
 	createAudioDescription=(audioDescriptionSrc)=>{
+		if(this.state.isDesktop==false){
+			alert('Please scroll up to the top to view your audio description if you want to');
+		}
 		this.setState({
 			audioDescription:audioDescriptionSrc,
 			displayVoiceDescriptionPortal:false,
@@ -623,19 +632,6 @@ class EditImageCreation extends Component{
 			isPostCrowned:false,
 			displayCrownModalIndicator:false
 		})
-
-/*
-		const {previousData}=this.props;
-		if(previousData!=null){
-			const headerObject={
-				isCrownedImage:true,
-				image:null
-			}
-			previousData.contextLocation.updateImagePost(headerObject);
-			const crownedImageResponse= await updateCrownedImage(previousData.owner,false,previousData._id);
-		}
-*/
-
 	}
 
 
@@ -650,30 +646,16 @@ class EditImageCreation extends Component{
 		})
 
 		alert('Your post is now crowned');
-
-
-		/*
-			const {previousData}=this.props;
-			if(previousData!=null){
-				const headerObject={
-				isCrownedImage:true,
-					image:this.props.previousData
-				}
-				previousData.contextLocation.updateImagePost(headerObject);
-				const crownedImageResponse= await updateCrownedImage(previousData.owner,true,previousData._id);
-			}
-		*/
-
 	}
 
 	displayNewCreateImage=(imgUrl)=>{
 
 		const imageElement= <ProcessImage
-									id="processedImage"
-									image={imgUrl}
-									resize={{width:450,height:450}}
-									quality={100}
-									processedImage={(src, err) => this.setState({ src, err })}
+								id="processedImage"
+								image={imgUrl}
+								resize={{width:450,height:450}}
+								quality={100}
+								processedImage={(src, err) => this.setState({ src, err })}
 							/>;
 		this.setState({
 			imgElement:imageElement,
@@ -828,7 +810,7 @@ class EditImageCreation extends Component{
 													{this.state.videoDescription!=null && (
 														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
 															<MobileVideoDescriptionContainer>
-																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
 																	<source src={this.state.videoDescription} type="video/mp4"/>
 																</video>
 															</MobileVideoDescriptionContainer>
@@ -881,7 +863,7 @@ class EditImageCreation extends Component{
 														{this.state.videoDescription==null?null:
 															<li style={{listStyle:"none"}}>
 																<VideoDescriptionContainer>
-																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
 																		<source src={this.state.videoDescription} type="video/mp4"/>
 																	</video>
 																</VideoDescriptionContainer>
@@ -930,7 +912,8 @@ class EditImageCreation extends Component{
 															</li>
 															<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>
 																<ul style={{padding:"10px"}}>
-																	<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
+																	<li onClick={()=>this.setUpVoiceDescriptionCreation(userSessionInformation.displayDesktopUI)}
+																		 style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
 																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																			<MicIcon
 																				style={{fontSize:40}}
@@ -938,7 +921,8 @@ class EditImageCreation extends Component{
 																		</a>
 																	</li>
 
-																	<li onClick={()=>this.setUpVideoDescriptionCreation()} style={{listStyle:"none",display:"inline-block"}}>
+																	<li onClick={()=>this.setUpVideoDescriptionCreation(userSessionInformation.displayDesktopUI)}
+																		 style={{listStyle:"none",display:"inline-block"}}>
 																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																			<CameraAltIcon
 																				style={{fontSize:40}}

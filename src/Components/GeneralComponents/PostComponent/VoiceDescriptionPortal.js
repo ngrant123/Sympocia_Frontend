@@ -32,13 +32,15 @@ const Container=styled.div`
 	top:20%;
 	border-radius:5px;
 
+	@media screen and (max-width:1370px){
+		width:80%;
+		left:10%;
+		#voiceOptionsLI{
+			margin-left:-5% !important;
+		}
+	}
 
-	@media screen and (max-width:1030px) and (max-height:1370px){
-			height:100% !important;
-			width:100%;
-    }
-
-    @media screen and (max-width:770px){
+    @media screen and (max-width:700px){
 			left:1% !important; 
 			height:100% !important;
 			width:100%;
@@ -124,7 +126,8 @@ const ContinueButtonCSS={
   borderWidth:"2px",
   borderColor:"#C8B0F4",
   marginTop:"2%",
-  cursor:"pointer"
+  cursor:"pointer",
+  width:"30%"
 }
 
 //"blob:http://localhost:3000/9b5bb4e0-de5b-4e15-b127-1f05aeaaeb36"
@@ -271,6 +274,7 @@ const VoiceDescriptionPortal=(props)=>{
 				<ul id="voiceOptionsLI"style={{marginLeft:"20%",marginTop:"10%"}}>
 					<li style={{listStyle:"none",marginBottom:"5%"}}>
 						<p>Click start recording to get started and then when you're all done click the continue buttonp</p>
+						<hr/>
 						<p> 
 							<b>If audio is messed up click redo button and just do it again sorry :(</b>
 						</p>
@@ -316,7 +320,7 @@ const VoiceDescriptionPortal=(props)=>{
 							)}
 						</>
 					)}
-					
+					<hr/>
 					<li onClick={()=>submitAudioDescription()} style={ContinueButtonCSS}>
 						Continue
 					</li>
