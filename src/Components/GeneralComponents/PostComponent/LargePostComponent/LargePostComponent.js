@@ -22,6 +22,7 @@ const Container=styled.div`
 	left:30%;
 	height:60%;
 	padding:30px;
+	overflow:hidden;
 
 
    @media screen and (max-width:1030px) and (max-height:1370px){

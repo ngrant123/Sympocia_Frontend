@@ -14,7 +14,7 @@ const Container=styled.div`
 	left:40%;
 	overflow:auto;
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
 	}

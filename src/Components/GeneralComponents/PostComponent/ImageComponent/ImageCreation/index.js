@@ -11,9 +11,13 @@ const Container=styled.div`
 	background-color:white;
 	border-radius:5px;
 	top:20%;
-	left:30%;
+	left:35%;
 	height:40%;
-	overflow:scroll;
+	width:35%;
+	overflow:hidden;
+	display:flex;
+	justify-content:center;
+	align-items:center;
 
 	@media screen and (max-width:330px){
 		left:1% !important; 
@@ -99,10 +103,12 @@ class ImageCreation extends Component{
 				{this.state.displayEditImagesScreen==false?
 					<Container id="container">
 						{this.state.displayCreateImageScreen==false?
-							<ul style={{position:"relative",left:"20%",top:"10%",padding:"1px"}}>
-								<li style={{fontSize:"25px",marginBottom:"1%",listStyle:"none"}}>	
+							<ul style={{marginLeft:"10%",top:"10%",padding:"1px"}}>
+							
+								<li style={{fontSize:"20px",marginBottom:"1%",listStyle:"none"}}>	
 									Image Creation
 								</li>
+								<hr/>
 								<li onClick={()=>this.clickUploadPhotoButton()} style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
 									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={ImageOptionsCSS}>
 										<ul style={{padding:"0px"}}>
@@ -115,35 +121,33 @@ class ImageCreation extends Component{
 											</li>
 										</ul>																			
 									</button>
-									<input type="file" name="img" id="imageFile" style={{opacity:"0"}}  onChange={()=>this.handleUploadPicture()} 
-								        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
-								        name="attachments">
-								    </input>
 								</li>
+								<input type="file" name="img" id="uploadPictureFile" style={{opacity:"0"}}  onChange={()=>this.handleUploadPicture()} 
+							        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
+							        name="attachments">
+							    </input>
 
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-									<button onClick={()=>alert('Option coming soon')} class="btn btn-primary dropdown-toggle"
-										 type="button" data-toggle="dropdown" style={ImageOptionsCSS}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-												<AddAPhotoIcon/>
-											</li>
+								{/*
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+										<button onClick={()=>alert('Option coming soon')} class="btn btn-primary dropdown-toggle"
+											 type="button" data-toggle="dropdown" style={ImageOptionsCSS}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+													<AddAPhotoIcon/>
+												</li>
 
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-												Take a picture
-											</li>
-										</ul>	
-									</button>
-									{/*
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+													Take a picture
+												</li>
+											</ul>	
+										</button>
 										This is not used but its here because for some reason if its not css would be messed up 
 										sooooooo 
-									*/}
-									<input type="file" name="img" id="uploadPictureFile" style={{opacity:"0"}}  onChange={()=>this.handleUploadPicture()} 
-								        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
-								        name="attachments">
-								    </input>
 
-								</li>
+
+									</li>
+								*/}
+
 							</ul>:<CreateImageModal
 									handleNewlyCreatedImage={this.handleNewlyCreatedImage}
 								  />

@@ -26,9 +26,9 @@ const Container=styled.div`
 	left:40%;
 	overflow-y:auto;
 
-	@media screen and (max-width:1030px){
-		width:40% !important;
-		left:30% !important;
+	@media screen and (max-width:1370px){
+		width:60% !important;
+		left:20% !important;
     }
     @media screen and (max-width:600px){
 		width:90% !important;

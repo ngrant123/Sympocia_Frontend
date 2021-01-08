@@ -85,6 +85,10 @@ const SponsorExtendedModal=styled.div`
 			top:10px !important;
 		}
 	}
+
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		height:50%;
+    }
 `;
 
 
@@ -205,15 +209,15 @@ const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayCh
 		,document.getElementById("personalContainer"));
 }
 
-const EditNodeModal=({closeModal,triggerActionTypeChange})=>{
+const EditNodeModal=({closeNodeOptions,editFriendNodeActionType})=>{
 	const closeAndEditActionType=(actionType)=>{
-		triggerActionTypeChange(actionType);
-		closeModal();
+		editFriendNodeActionType(actionType);
+		closeNodeOptions();
 	}
 	return createPortal(
 			<>
 				<OriginalShadowContainer
-					onClick={()=>closeModal()}
+					onClick={()=>closeNodeOptions()}
 				/>
 				<EditNodeContainer>
 					 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -246,7 +250,10 @@ const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType})=>{
 	const closeNodeOptions=()=>{
 		changeDisplayEditNodeOptions(false);
 	}
-	debugger;
+
+	const displayNodeOptions=()=>{
+		changeDisplayEditNodeOptions(true);
+	}
 	return <UserConsumer>
 				{personalInformation=>{
 					return <>
@@ -265,7 +272,7 @@ const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType})=>{
 				              </a>
 
 				              <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				                <li onClick={()=>changeDisplayEditNodeOptions(true)} style={FriendsNodeEditButtton}>
+				                <li onClick={()=>displayNodeOptions()} style={FriendsNodeEditButtton}>
 									Edit Friends Nodes
 				                </li>
 				              </a>

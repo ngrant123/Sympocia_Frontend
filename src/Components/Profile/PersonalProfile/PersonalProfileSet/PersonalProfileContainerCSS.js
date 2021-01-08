@@ -131,30 +131,23 @@ export const ProfilePictureContainer=styled.div`
 	display:flex;
 	justify-content:center;
 
+	@media screen and (max-width:1370px){
+	 	box-shadow:none !important;
+	 	height:80% !important;
+		width:100% !important;
+	 	top:5% !important;
+	 	#profilePicture{
+	      border-radius:50%;
+          height:70% !important;
+          width:70% !important;
+          margin-left:10%;
+	    }
+    }
 
 	 @media screen and (max-width:420px) and (max-height:740px){
      	top:80% !important;
 	 	height:80% !important;
      }
-
-	 @media screen and (max-width:1300px){
-	 	box-shadow:none !important;
-	 	height:25% !important;
-	 	top:15% !important;
-	 	 #profilePicture{
-	          border-radius:50%;
-	          height:70% !important;
-	          width:70% !important;
-	          margin-left:10%;
-	     }
-    }
-     @media screen and (max-width:1030px){
-     	width:31% !important;
-    }
-     @media screen and (max-width:800px){
-     	width:25% !important;
-     	height: 20% !important;
-    }
     @media screen and (max-width:700px){
 		top:35% !important;
 		width:70% !important;
@@ -238,8 +231,7 @@ export const ProfileContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		position:relative;
-		top:-15% !important;
-		width:100%;
+		height:30% !important;
 	}
 `;
 
