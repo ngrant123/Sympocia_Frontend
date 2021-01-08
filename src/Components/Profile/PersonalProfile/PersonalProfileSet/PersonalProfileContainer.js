@@ -808,7 +808,6 @@ class LProfile extends Component{
 						</HeaderContainer>
 
 						<ProfileContainer>
-
 							<ProfilePictureContainer>
 								{(this.state.displayDesktopUI==false && this.state.isOwnProfile==true)? 
 									<>
