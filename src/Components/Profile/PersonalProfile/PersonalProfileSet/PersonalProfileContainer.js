@@ -66,6 +66,11 @@ import {
 	RegularPostContainerParent
 } from "./PersonalProfileContainerCSS.js";
 
+const MediumMobileScreenUserInformation=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
 
 const ImageListCSS={
 	display:"inline-block",
@@ -625,17 +630,30 @@ class LProfile extends Component{
 
 	displayIpadUserInformationModal=()=>{
 		return <ul style={{position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
-					<li style={{fontSize:"20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-						{this.state.userProfile.firstName}
-					</li>
-					<li style={{zIndex:20,position:"relative",top:"-10px",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"40%"}}>
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-								style={ShadowButtonCSS}
-								onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
-								>
-							   		<span class="caret"></span>
-							</button>
-					</li>
+					<MediumMobileScreenUserInformation>
+						<p style={{maxWidth:"90%",maxHeight:"20px",overflow:"hidden"}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+							style={ShadowButtonCSS}
+							onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
+							>
+						   		<span class="caret"></span>
+						</button>
+					</MediumMobileScreenUserInformation>
+
+					{/*
+						<li style={{fontSize:"20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+							{this.state.userProfile.firstName}
+						</li>
+						<li style={{zIndex:20,position:"relative",top:"-10px",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"40%"}}>
+								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+									style={ShadowButtonCSS}
+									onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
+									>
+								   		<span class="caret"></span>
+								</button>
+						</li>
+
+					*/}
 			   </ul>
 	}
 	displayMobilePersonalInformation=()=>{

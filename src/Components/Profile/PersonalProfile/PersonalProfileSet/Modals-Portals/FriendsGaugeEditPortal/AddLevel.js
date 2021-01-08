@@ -54,6 +54,7 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 
 	const [levelName,changeLevelName]=useState();
 	const [levelDescription,changeLevelDescription]=useState();
+	const [isProcessingSubmit,changeIsSubmitProcessing]=useState(false);
 
 	const addNodeToProfile=()=>{
 		changeLevelName(document.getElementById("levelName").value);
@@ -87,7 +88,7 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 
 	const submitNode=async()=>{
 		
-		
+		changeIsSubmitProcessing(true);
 		const levelObject={
 			name:levelName,
 			description:levelDescription,
@@ -112,6 +113,7 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 		}else{
 			alert('Something went wrong unfortunately. Please try again');
 		}
+		changeIsSubmitProcessing(false);
 	}
 	/*
 		Right now the big o is O(n^2) its fine when a user has a short 
@@ -272,11 +274,14 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 									</li>
 								</>
 							}
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<SubmitButton onClick={()=>submitNode()}>
-									Submit
-								</SubmitButton>
-							</a>
+							{isProcessingSubmit==true?
+								<p>Please wait.... </p>:
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<SubmitButton onClick={()=>submitNode()}>
+										Submit
+									</SubmitButton>
+								</a>
+							}
 						</ul>
 			: <ul style={{padding:"20px"}}>
 							<p style={{color:"#A4A4A4"}}> Give us more details about what you want to call this level </p>

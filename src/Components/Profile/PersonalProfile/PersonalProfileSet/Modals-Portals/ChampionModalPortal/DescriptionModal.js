@@ -72,7 +72,9 @@ const NameTextArea=styled.textarea`
 	resize:none;
 	border-style:solid;
 	border-color:#BDBDBD;
-	width:130%;
+	width:90%;
+	margin-bottom:2%;
+
 	@media screen and (max-width:600px){
 		width:60% !important;
 	}
@@ -84,8 +86,9 @@ const DescriptionTextArea=styled.textarea`
 	resize:none;
 	border-style:solid;
 	border-color:#BDBDBD;
-	height:50%;
-	width:165%;
+	height:140px;
+	width:90%;
+	margin-bottom:2%;
 
 	@media screen and (max-width:600px){
 		width:120% !important;
@@ -158,6 +161,10 @@ const TikTokUrlTextArea=styled.textarea`
 
 `;
 
+const DescriptionContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+`;
 
 const DescriptionModal=(props)=>{
 	console.log("Testing sponsor modal");
@@ -215,38 +222,16 @@ const DescriptionModal=(props)=>{
 										Back
 									</a>
 								</li>
-								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"10px"}}>
-										<li id="userPictureAndNameLI" style={{listStyle:"none",display:"inline-block",marginRight:"15%",width:"30%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",marginBottom:"30px"}}>
-														<img id="pictureLI" src={props.imgData} style={{position:"relative",width:"110%",height:"35%",borderRadius:"50%"}}/>
-												</li>
-												<p><b>Name</b></p>
-												<li id="nameLI" style={{listStyle:"none",marginBottom:"2%"}}>
-													<NameTextArea id="name" placeholder="Enter a name here"/>
-												</li>
-											</ul> 
-										</li>
 
-										<li id="descriptionAndSubmitLI" style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",borderLeft:"solid",borderColor:"#D8D8D8"}}>
-											<ul style={{paddingLeft:"25px"}}>
-												<p>
-													<b>Description</b>
-												</p>
-												<li style={{listStyle:"none",marginBottom:"5%"}}>
-													<DescriptionTextArea id="description" placeholder="Start writing"/>
-												</li>
+								<DescriptionContainer>
+									<img id="pictureLI" src={props.imgData} style={{marginBottom:"2%",position:"relative",width:"30%",height:"40%",borderRadius:"50%"}}/>
+									<NameTextArea id="name" placeholder="Enter a name here"/>
+									<DescriptionTextArea id="description" placeholder="Enter a description"/>
+									<SubmitButton onClick={()=>handleSubmitButton(personalInformation,companyInformation)}>
+										Submit
+									</SubmitButton>
 
-												<li style={{listStyle:"none"}}>
-													<SubmitButton onClick={()=>handleSubmitButton(personalInformation,companyInformation)}>
-														Submit
-													</SubmitButton>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
+								</DescriptionContainer>
 							</ul>
 						</Container>
 							)
