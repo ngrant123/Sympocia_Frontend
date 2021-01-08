@@ -23,10 +23,11 @@ const RemoveLevelVerificationContainer=styled.div`
 	left:35%;
 	overflow-y:auto;
 
-	@media screen and (max-width:600px){
-		left:15% !important;
-		width:65% !important;
-		height:50%;
+	@media screen and (max-width:1370px){
+		top:20%;
+		left:20% !important;
+		width:60% !important;
+		height:30%;
 	}
 `;
 

@@ -904,7 +904,7 @@ class EditImageCreation extends Component{
 										</li>
 
 										{this.state.displayFilterPictureModal==false?
-											<li style={{overflowY:"scroll",height:"150%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+											<li style={{height:"150%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 												<ul id="imageInformationSelection" style={{padding:"0px",width:"350px"}}>
 													<IndustryPostOptions
 														alterSelectedIndustry={this.alterSelectedIndustry}
