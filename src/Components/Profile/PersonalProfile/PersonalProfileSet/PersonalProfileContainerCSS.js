@@ -238,6 +238,8 @@ export const ProfileContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		position:relative;
+		top:-15% !important;
+		width:100%;
 	}
 `;
 
