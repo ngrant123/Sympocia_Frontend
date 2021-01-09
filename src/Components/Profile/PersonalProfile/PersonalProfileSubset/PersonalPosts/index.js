@@ -504,6 +504,7 @@ const PersonalPostsIndex=(props)=>{
 					{props.uiStatus.displayPhoneUI==true &&(
 						<PhonePersonalInformationHeader
 							ownerName={props.personalInformation.userProfile.firstName}
+							isOwner={props.personalInformation.isOwner}
 						/>
 					)}
 					<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
@@ -537,7 +538,6 @@ const PersonalPostsIndex=(props)=>{
 														placeholder="Search for any posts here"
 													/>
 												</li>
-
 											</ul>
 										</li>
 

@@ -394,16 +394,17 @@ class FriendsGauge extends Component {
             </a>
           </li>
 
-          {this.state.displayPhoneEditNodesModal==true &&(
+          {(this.state.displayPhoneEditNodesModal==true && this.props.personalInformation.isOwnProfile==true)==true &&(
             <EditNodeModal
-              closeModal={this.closePhoneEditNodesModal}
+              closeNodeOptions={this.closePhoneEditNodesModal}
               triggerActionTypeChange={this.editFriendNodeActionTypeHandle}
             />
           )}
           {(this.props.mobileUIStatus.displayDesktopUI==false &&
-            this.props.mobileUIStatus.displayPhoneUI==false) &&(
+            this.props.mobileUIStatus.displayPhoneUI==false)==true &&(
               <MobileRecruitAndFriendsGaugeOptions
                   editFriendNodeActionType={this.editFriendNodeActionTypeHandle}
+                  isOwner={this.props.personalInformation.isOwnProfile}
               />
           )}
         </ul>
