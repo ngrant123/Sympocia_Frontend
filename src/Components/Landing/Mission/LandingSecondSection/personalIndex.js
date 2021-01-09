@@ -100,6 +100,7 @@ const ArrowDownContainer=styled.div`
 const SecondContainerContents=styled.div`
   display:flex;
   flex-direction:row;
+  align-items: flex-start;
   @media screen and (max-width:1370px){
     flex-direction:column-reverse;
   }
@@ -121,13 +122,15 @@ const SecondContainerInformational=styled.div`
     }
   }
 
-  @media screen and (max-width:600px){
+  @media screen and (max-width:700px){
      width:90%; 
+     height:95%;
      margin-left:5%;
   }
 
     @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
        margin-left:5%;
+       height:95%;
     }
 `;
 
@@ -136,14 +139,16 @@ const PageImageContainer=styled.div`
   display:flex;
   flex-direction:column;
   margin-left:5%;
+  align-items: flex-start;
+
   @media screen and (max-width:1370px){
     margin-left:30%;
   }
   @media screen and (max-width:600px){
     margin-left:15%;
     #image{
-      width:80% !important;
-      height:100%!important;
+      width:192px !important;
+      height:225px!important;
     }
   }
 `;
@@ -210,7 +215,7 @@ const SecondSection=(props)=>{
             <SecondContainerContents>
                 <PageImageContainer>
                    <img id="image" src={LandingImage} 
-                    style={{zIndex:"-5",width:"70%",height:"90%",left:"5%"}}
+                    style={{width:"70%",height:"90%",left:"5%"}}
                    />
                 </PageImageContainer>
                 <SecondContainerInformational>

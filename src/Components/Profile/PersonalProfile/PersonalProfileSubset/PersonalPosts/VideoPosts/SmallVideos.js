@@ -1,7 +1,6 @@
 import React,{useEffect} from "react";
 import styled from "styled-components";
 import {UserConsumer} from "../../../UserContext.js";
-import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
 
 const SmallVideoComponent=styled.div`
 	position:relative;
@@ -117,7 +116,7 @@ const SmallVideoContainer=(videoData)=>{
 							<ul style={{padding:"0px"}}>
 								<li id="videoAudio" style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
-										{(videoData.video.videoDescription==null  && testIfUserIsUsingChrome()==true)?null:
+										{videoData.video.videoDescription==null?null:
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 												<VideoDescriptionContainer>
 													<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" muted>
@@ -127,7 +126,7 @@ const SmallVideoContainer=(videoData)=>{
 											</li>
 										}
 										
-										{(videoData.video.audioDescription==null && testIfUserIsUsingChrome()==true)?null:
+										{videoData.video.audioDescription==null?null:
 											<li style={{listStyle:"none",display:"inline-block"}}>
 												<audio key={uuidv4()} style={{width:"150px"}} controls>
 													<source src={videoData.video.audioDescription} type="audio/ogg"/>

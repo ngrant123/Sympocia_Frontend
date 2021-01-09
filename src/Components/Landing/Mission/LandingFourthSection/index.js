@@ -6,64 +6,24 @@ import previewImage from '../../../../designs/img/PreviewPlatform.png';
 const Container = styled.div`
 	  display:flex;
 	  flex-direction:column;
-	  flex-wrap:wrap;
 	  text-align:center;
 	  margin:auto;
 	  padding:20;  
 	  transition:.8s;
 	  margin-top:15%;
 
-	  @media screen and (max-width:1340px){
-	  		#fourthSection{
-	  			margin-top:70% !important;
-	  		}
-	  }
-
-	   @media screen and (max-width:960px){
-	  		#fourthSection{
-	  			margin-top:150% !important;
-	  		}
-	  }
-	   @media screen and (max-width:820px){
-	   		#previewImage{
-	   			width:75% !important;
-	   		}
-	   }
-
-	    @media screen and (max-width:620px){
-	   		#fourthSection{
-	   			 margin-top:10% !important;
-	   		}
-	   		#previewImage{
-	   			width:75% !important;
-	   		}
-	   }
-
-	   @media screen and (max-width:520px){
-	   		#previewImage{
-	   			width:95% !important;
-	   			margin-left:-10% !important;
-	   		}
-	   }
-
-	    @media screen and (max-width:380px){
-	   		#previewImage{
-	   			width:110% !important;
-	   			margin-left:-5% !important;
-	   		}
-	   		#fourthSection{
-	   			margin-left:-20%;
-	   		}
-	   }
+	  @media screen and (max-width:1340px){}
 `;
 
 const ImageContainer=styled.div`
+	position:
 	display:flex;
 	justify-content:center;
 
 	@media screen and (max-width:600px){
 		#previewImage{
-			width:90% !important;
+		      width:192px !important;
+		      height:225px!important;
 		}
 	}
 `;

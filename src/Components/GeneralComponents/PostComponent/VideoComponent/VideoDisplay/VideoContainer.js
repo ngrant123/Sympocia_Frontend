@@ -4,7 +4,6 @@ import Video from "./Video.js";
 import RecommendedVideos from "./RecommendedVideos.js";
 import EditVideoModal from "../VideoCreation/EditVideoModal.js";
 import MobileUI from "./MobileUI.js";
-import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector} from "react-redux";
 
@@ -75,7 +74,6 @@ const VideoContainer=(data)=>{
 			{displayMobileUI==true?
 				<MobileUI
 					videoData={data.videoData}
-					isChromeBrowser={testIfUserIsUsingChrome()}
 					targetDom={data.targetDom}
 					deletePost={deletePost}
 					pageType={data.profileType}

@@ -6,7 +6,6 @@ import PostContent from "./PostInformation.js";
 import RegularPostCreation from "../RegularPostCreation/index.js";
 import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PostsContext.js";
 import MobileUI from "./MobileUI.js";
-import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector} from "react-redux";
 const Container=styled.div`
@@ -172,7 +171,6 @@ const RegularPostContainer=(props)=>{
 						{displayMobileUI==true?
 							<MobileUI
 								postData={props.postData}
-								isChromeBrowser={testIfUserIsUsingChrome()}
 								targetDom={props.targetDom}
 								userPostsInformation={userPostsInformation}
 								triggerPromoteModal={triggerPromoteModal}

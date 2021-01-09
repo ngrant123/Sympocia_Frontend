@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import EditIcon from '@material-ui/icons/Edit';
-import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
 
 const ImageContainer=styled.div`
 	position:relative;
@@ -108,32 +107,24 @@ const SmallImageContainer=(props)=>{
 	return(
 		<ImageContainer>
 			<ul style={{padding:"0px"}}>
-				{testIfUserIsUsingChrome()==true &&(
-					<>
-						{data.audioDescription!=null?
-							<li style={{listStyle:"none"}}>
-								<audio id="audio" key={audioId} style={{width:"200px"}} controls>
-								    <source src={data.audioDescription} type="audio/ogg"/>
-								    <source src={data.audioDescription} type="audio/mpeg"/>
-									Your browser does not support the audio element.
-								</audio>
-							</li>:null
-						}	
-					</>
-				)}
+				{data.audioDescription!=null?
+					<li style={{listStyle:"none"}}>
+						<audio id="audio" key={audioId} style={{width:"200px"}} controls>
+						    <source src={data.audioDescription} type="audio/ogg"/>
+						    <source src={data.audioDescription} type="audio/mpeg"/>
+							Your browser does not support the audio element.
+						</audio>
+					</li>:null
+				}	
 				<Image>
 					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
-						{testIfUserIsUsingChrome()==true &&(
-							<>
-								{data.videoDescription!=null &&(
-									<VideoDesriptionContainer>
-									   <video key={videoDescriptionId} style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="false" muted>
-											<source src={data.videoDescription} type="video/mp4"/>
-										</video>
-									</VideoDesriptionContainer>
-								)}
-							</>
-						)}
+					{data.videoDescription!=null &&(
+						<VideoDesriptionContainer>
+						   <video key={videoDescriptionId} style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="false" muted>
+								<source src={data.videoDescription} type="video/mp4"/>
+							</video>
+						</VideoDesriptionContainer>
+					)}
 				</Image>
 
 				{data.caption!=""?

@@ -2,7 +2,6 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import {ImageConsumer} from "./ImageContext.js";
 import PollOptionPortal from "../../PollOptionPortal.js";
-import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 
 
 const Container=styled.div`
@@ -182,8 +181,7 @@ const ImageInformation=(props)=>{
 									/>:null
 								}
 								<ul id="postLIContainer" style={{padding:"0px",width:"140%"}}>
-									{(props.imageInformation.audioDescription!=null && 
-									  testIfUserIsUsingChrome()==true && 
+									{(props.imageInformation.audioDescription!=null &&
 									 	 props.isMobileTrue==false)==true && (
 									 	 <React.Fragment>
 											<li style={{listStyle:"none"}}>

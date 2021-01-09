@@ -236,7 +236,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPostViewing,triggerPromoteModal,personalId})=>{
+const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,triggerPromoteModal,personalId})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -399,7 +399,7 @@ const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPo
 						<li style={{listStyle:"none",marginBottom:"5%"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-									{(videoData.videoDescription==null && isChromeBrowser==true)==false?null:
+									{videoData.videoDescription==null? null:
 										<VideoDesriptionContainer>
 											<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls muted>
 												<source src={videoData.videoDescription} type="video/mp4"/>
@@ -408,7 +408,7 @@ const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPo
 									}
 								</li>
 								<li style={{listStyle:"none",display:"inline-block"}}>
-									{(videoData.audioDescription==null && isChromeBrowser==true)==false?null:
+									{videoData.audioDescription==null? null:
 										<audio style={{width:"150px"}} controls>
 											<source src={videoData.audioDescription} type="audio/ogg"/>
 											<source src={videoData.audioDescription} type="audio/mpeg"/>

@@ -9,7 +9,6 @@ import PauseIcon from '@material-ui/icons/Pause';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 import MicIcon from '@material-ui/icons/Mic';
-import {testIfUserIsUsingChrome} from "../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 //<Icon icon={scissorsCutting} />
 
 const ShadowContainer= styled.div`
@@ -156,14 +155,6 @@ const VoiceDescriptionPortal=(props)=>{
 
 	const [mediaDevice,changeMediaDevice]=useState();
 	const [firstDone,chnagFirstDone]=useState(false);
-
-	useEffect(()=>{
-		if(!testIfUserIsUsingChrome()){
-			alert('Unfortunately your browser does not allow this option. Please switch to any other browser');
-			props.closeModal();
-		}
-	},[]);
-
 
 	const pauseRecording=(stream)=>{
 		mediaDevice.stop();
