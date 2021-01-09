@@ -8,7 +8,6 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 //import {concatVideoTogether} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import RefreshIcon from '@material-ui/icons/Refresh';
-import {testIfUserIsUsingChrome} from "../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -120,13 +119,6 @@ const VideoDescriptionPortal=(props)=>{
 
 	const [mediaDevice,changeMediaDevice]=useState();
 	const [firstDone,chnagFirstDone]=useState(false);
-
-	useEffect(()=>{
-		if(!testIfUserIsUsingChrome()){
-			alert('Unfortunately your browser does not allow this option. Please switch to any other browser');
-			props.closeModal();
-		}
-	},[]);
 
 	const recording=()=>{
 		debugger;

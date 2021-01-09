@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
 
 
 
@@ -141,7 +140,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 						</div>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
-								{(headerVideo.videoDescription==null && testIfUserIsUsingChrome()==true)?null:
+								{headerVideo.videoDescription==null?null:
 									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 										<VideoDescriptionContainer>
 											<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" muted>
@@ -151,7 +150,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 									</li>
 								}
 								
-								{(headerVideo.audioDescription==null && testIfUserIsUsingChrome()==true)?null:
+								{headerVideo.audioDescription==null ?null:
 									<li style={{listStyle:"none",display:"inline-block"}}>
 										<audio key={uuidv4()} style={{width:"150px"}} controls>
 											<source src={headerVideo.audioDescription} type="audio/ogg"/>

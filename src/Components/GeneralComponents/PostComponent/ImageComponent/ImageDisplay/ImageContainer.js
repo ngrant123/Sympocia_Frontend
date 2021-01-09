@@ -29,8 +29,6 @@ import {
 	CrownPostModal,
 	CommentContainer
 } from "./ImageContainerCSS.js";
-
-import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 import MobileUI from "./MobileUI.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector} from  "react-redux";
@@ -132,7 +130,7 @@ const ImageContainer=(props)=>{
 					<DeletePostConfirmationPortal
 						postType={"Posts"}
 						selectedPostType={"Images"}
-						content={props.imageData}
+						content={props.imageData}Z
 						closeModal={closeDeleteConfirmationModal}
 						removeContextLocation={props.imageData.contextLocation.removePost}
 						targetDom={"personalContainer"}
@@ -141,7 +139,6 @@ const ImageContainer=(props)=>{
 				{displayMobileUI==true?
 					<MobileUI
 						imgData={props.imageData}
-						isChromeBrowser={testIfUserIsUsingChrome()}
 						targetDom={props.targetDom}
 						deletePost={handleRemoveImagePost}
 						pageType={props.profileType}
@@ -217,7 +214,7 @@ const ImageContainer=(props)=>{
 															</React.Fragment>:
 													null}
 													<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
-													{(props.imageData.videoDescription==null && testIfUserIsUsingChrome()==true)?null:
+													{props.imageData.videoDescription==null?null:
 														<VideoDesriptionContainer>
 															<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoPlay={true} controls={true} playsInline>
 																	<source src={props.imageData.videoDescription} type="video/webm"></source>

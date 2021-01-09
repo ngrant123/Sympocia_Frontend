@@ -106,6 +106,10 @@ const PageImageContainer=styled.div`
     #amountOfUsersText{
       margin-top:0%;
     }
+    #image{
+      width:192px !important;
+      height:225px!important;
+    }
   }
 `;
 
@@ -123,9 +127,7 @@ const ExploreButton={
   borderColor:"#3898ec"
 }
 
-const QuestionCardsCSS={
-
-}
+const QuestionCardsCSS={}
 
 const ThirdSection=(props)=>{
 

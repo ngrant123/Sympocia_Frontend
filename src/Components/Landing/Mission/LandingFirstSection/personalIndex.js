@@ -82,7 +82,6 @@ const Submit=styled.div`
    background-color:#C8B0F4;
    color:white;
    text-decoration:none;
-
    display: flex;
    align-items: center;
    justify-content: center;
@@ -170,11 +169,13 @@ const FirstContainerContents=styled.div`
   flex-direction:row;
   margin-left:10%;
   margin-top:-5%;
+  align-items: flex-start;
   @media screen and (max-width:1370px){
     flex-direction:column;
   }
-  @media screen and (max-width:600px){
+  @media screen and (max-width:700px){
       margin-left:5%;
+      flex-direction:column;
   }
 `;
 
@@ -187,7 +188,8 @@ const FirstContainerInformational=styled.div`
   margin-right:10%;
 
   @media screen and (max-width:1370px){
-      width:90%;
+    width:90%;
+    height:90%;
     #header1{
       font-size:20px !important;
     }
@@ -198,16 +200,20 @@ const FirstContainerInformational=styled.div`
 const PageImageContainer=styled.div`
   display:flex;
   flex-direction:column;
+
   @media screen and (max-width:1370px){
     margin-left:15%;
     #amountOfUsersText{
       margin-top:7%;
-      margin-left:-20% !important;
+      margin-left:-20%;
     }
   }
 
-  @media screen and (max-width:600px){
-    margin-left:15%;
+
+  @media screen and (max-width:700px){
+    height:50%;
+    width:80%;
+
     #amountOfUsersText{
       margin-top:0%;
     }
@@ -215,6 +221,10 @@ const PageImageContainer=styled.div`
 
     @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
          margin-left:20%;
+      #headerImage{
+        width:192px !important;
+        height:225px!important;
+      }
     }
 `;
 const SignUpButton={
@@ -462,7 +472,7 @@ const FirstSection=(props)=>{
   }
 
   const mobileLoginUI=()=>{
-    return <>
+    return <div>
             {displayMobileLogin==true &&(
               <>
                 <ShadowContainer
@@ -476,7 +486,7 @@ const FirstSection=(props)=>{
                 </MobileLoginContainer>
               </>
             )}
-          </>
+          </div>
   }
 
 	return(
@@ -526,7 +536,7 @@ const FirstSection=(props)=>{
                       </FirstContainerInformational>
 
                       <PageImageContainer>
-                          <img src={LandingImage} style={{position:"relative",width:"70%",height:"70%"}}/>
+                          <img id="headerImage" src={LandingImage} style={{width:"70%",height:"70%"}}/>
                           <p id="amountOfUsersText">
                              So far <b>{numberOfUserInTotalInterested}</b> users have signed up. What are you waiting for? :) 
                           </p>

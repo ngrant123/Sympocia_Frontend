@@ -5,7 +5,6 @@ import {getCompanyBlogs} from "../../../../../../Actions/Requests/CompanyPageAxi
 import NoPostsModal from "../NoPostsModal.js";
 import {UserConsumer} from "../../../UserContext.js";
 import {Link} from "react-router-dom";
-import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
 
 
 const Container=styled.div`
@@ -265,28 +264,24 @@ return(
 																		}}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none"}}>
-												{testIfUserIsUsingChrome()==true &&(
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														{this.state.headerBlog.audioDescription!=null &&(
-															<audio id="headerAudioLI" controls style={{width:"200px"}} >
-															  <source src={this.state.headerBlog.audioDescription} type="audio/ogg"/>
-															  <source src={this.state.headerBlog.audioDescription} type="audio/mpeg"/>
-															  Your browser does not support the audio element.
-															</audio>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													{this.state.headerBlog.audioDescription!=null &&(
+														<audio id="headerAudioLI" controls style={{width:"200px"}} >
+														  <source src={this.state.headerBlog.audioDescription} type="audio/ogg"/>
+														  <source src={this.state.headerBlog.audioDescription} type="audio/mpeg"/>
+														  Your browser does not support the audio element.
+														</audio>
+													)}
+												</li>
+												<li style={{width:"20%",listStyle:"none",display:"inline-block"}}>
+													<HeaderVideoDesriptionContainer>
+														{this.state.headerBlog.videoDescription!=null &&(
+															<video id="headerVideo" style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																<source src={this.state.headerBlog.videoDescription} type="video/mp4"/>
+															</video>
 														)}
-													</li>
-												)}
-												{testIfUserIsUsingChrome()==true &&(
-													<li style={{width:"20%",listStyle:"none",display:"inline-block"}}>
-														<HeaderVideoDesriptionContainer>
-															{this.state.headerBlog.videoDescription!=null &&(
-																<video id="headerVideo" style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																	<source src={this.state.headerBlog.videoDescription} type="video/mp4"/>
-																</video>
-															)}
-														</HeaderVideoDesriptionContainer>
-													</li>
-												)}
+													</HeaderVideoDesriptionContainer>
+												</li>
 											</li>
 
 											<li id="headerImageLI" style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
@@ -363,30 +358,26 @@ return(
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"8%",marginBottom:"-7%"}}>
 												<SmallBlogComponent>
 													<ul style={{padding:"0px"}}>
-														{testIfUserIsUsingChrome()==true &&(
-															<li style={{listStyle:"none"}}>
-																{data.audioDescription!=null &&(
-																	<audio id="smallAudio" controls>
-																	  <source src={data.audioDescription} type="audio/ogg"/>
-																	  <source src={data.audioDescription} type="audio/mpeg"/>
-																	  Your browser does not support the audio element.
-																	</audio>
-																)}
-															</li>
-														)}
+														<li style={{listStyle:"none"}}>
+															{data.audioDescription!=null &&(
+																<audio id="smallAudio" controls>
+																  <source src={data.audioDescription} type="audio/ogg"/>
+																  <source src={data.audioDescription} type="audio/mpeg"/>
+																  Your browser does not support the audio element.
+																</audio>
+															)}
+														</li>
 
 														<li style={{listStyle:"none"}}>
 															<SmallBlog>
 																<img src={data.blogImageUrl} width="100%" height="100%"/>
-																{testIfUserIsUsingChrome()==true &&(
-																	<VideoDesriptionContainer>
-																		{data.videoDescription!=null &&(
-																			<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																				<source src={data.videoDescription} type="video/mp4"/>
-																			</video>
-																		)}
-																	</VideoDesriptionContainer>
-																)}
+																<VideoDesriptionContainer>
+																	{data.videoDescription!=null &&(
+																		<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																			<source src={data.videoDescription} type="video/mp4"/>
+																		</video>
+																	)}
+																</VideoDesriptionContainer>
 			
 															</SmallBlog>
 														</li>

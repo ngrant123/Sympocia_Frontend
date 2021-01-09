@@ -16,6 +16,7 @@ import Demo from "./Components/Demo/index.js";
 import throttle from 'lodash.throttle';
 import LoadingScreen from "./LoadingAnimation.js";
 
+import {VerifyBrowserIsNotSafari} from "./Actions/Tasks/VerifyBrowserIsNotSafari.js";
 
 
 //Starting point for the web application
@@ -62,6 +63,10 @@ const UrlEnteredVideoDisplay=React.lazy(()=>import("./Components/SearchPage/UrlE
 const UrlEnteredRegularPostDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/RegularPostDisplay.js"));
 const UrlEnteredBlogDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/BlogDisplay.js"));
 
+
+const ApplicationElementIndicator=VerifyBrowserIsNotSafari()
+let finalElement;
+
 const application  = (
 		<ErrorBoundary>
 			<Provider store={store}>
@@ -100,5 +105,15 @@ const application  = (
 		</ErrorBoundary>
 	);
 
+	if(ApplicationElementIndicator==true){
+		const alertIncorrectBrowser=(
+			alert('As of right now Sympocia is only available on chrome and firefox. We are working hard on making it available for safari as of right now'+
+				' and we are sorry for any inconvienve. Please switch over to the browsers listed above if you want to continue using this site')
+		)
+		finalElement=alertIncorrectBrowser;
+	}else{
+		finalElement=application;
+	}
 
-ReactDom.render(application,document.getElementById("App"));
+
+ReactDom.render(finalElement,document.getElementById("App"));

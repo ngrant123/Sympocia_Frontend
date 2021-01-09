@@ -272,7 +272,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({postData,isChromeBrowser,targetDom,userPostsInformation,triggerPromoteModal,pageType,isOwnPostViewing,deletePost,personalId})=>{
+const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pageType,isOwnPostViewing,deletePost,personalId})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
