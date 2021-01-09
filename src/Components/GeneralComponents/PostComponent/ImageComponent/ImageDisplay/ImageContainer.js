@@ -54,7 +54,7 @@ const ButtonCSS={
 */
 
 const ImageContainer=(props)=>{
-
+	console.log(props);
 	const [commentImageIndicator,changeIndicator]=useState(true);
 	const [displayImageModal,changeDisplayImage]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
@@ -130,7 +130,7 @@ const ImageContainer=(props)=>{
 					<DeletePostConfirmationPortal
 						postType={"Posts"}
 						selectedPostType={"Images"}
-						content={props.imageData}Z
+						content={props.imageData}
 						closeModal={closeDeleteConfirmationModal}
 						removeContextLocation={props.imageData.contextLocation.removePost}
 						targetDom={"personalContainer"}
@@ -144,6 +144,7 @@ const ImageContainer=(props)=>{
 						pageType={props.profileType}
 						promote={triggerPromoteModal}
 						isOwnPostViewing={props.isOwnProfile}
+						closePostModal={props.closePostModal}
 					/>
 					:<Container>
 						{displayImageModal==true?

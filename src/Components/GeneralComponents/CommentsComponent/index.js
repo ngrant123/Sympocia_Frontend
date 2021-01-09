@@ -4,6 +4,13 @@ import CommentContainer from "./CommentContainer.js";
 import VideoResponseContainer from "./VideosResponseContainer.js";
 
 const Container=styled.div`
+	position:relative;
+	overflow-y:scroll;
+	height:100%;
+	@media screen and (max-width:1370px){
+		height:500px;
+
+	}
 	@media screen and (max-width:420px){
 		height:350px !important;
     }

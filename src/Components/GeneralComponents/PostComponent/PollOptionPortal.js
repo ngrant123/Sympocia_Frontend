@@ -29,14 +29,18 @@ const Container=styled.div`
 	top:20%;
 	border-radius:5px;
 	left:35%;
+	padding:20px;
 	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
 		width:100% !important;
-		left:2% !important;
-		height:90% !important;
+		left:10% !important;
+		height:70% !important;
 		#profilePictureLI{
 			top:-200px !important;
+		}
+		#commentsLI{
+			margin-top:15% !important;
 		}
     }
 
@@ -45,8 +49,9 @@ const Container=styled.div`
 		left:10%
     }
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:700px){
 		width:90% !important;
+		left:5% !important;
 		#profilePictureLI{
 			top:-80px !important;
 		}
@@ -75,6 +80,10 @@ const ExtendedInputContainer=styled.textarea`
 	padding:5px;
 	margin-bottom:2%;
 	width:80%;
+
+	@media screen and (max-width:700px){
+		width:90%;
+	}
 `;
 
 const ProfilePictureContainer=styled.div`
@@ -82,6 +91,21 @@ const ProfilePictureContainer=styled.div`
 	height:50px
 	border-radius:50%;
 	background-color:blue;
+`;
+
+const CommentContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+	margin-bottom:5%;
+`;
+const CommentOwnerImage=styled.div`
+	display:flex;
+	flex-direction:column;
+`;
+
+const CommentTextAndOwner=styled.div`
+	display:flex;
+	flex-direction:column;
 `;
 
 const ProfilePictureCSS={
@@ -124,9 +148,12 @@ const PollOptionPortal=(props)=>{
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [displayCreateComment,changeDisplayCreateComment]=useState(false);
 	const [comments,changeComments]=useState([]);
+	const [isProcessing,changeIsProcessingStatus]=useState(false);
+	const [isProcessingSubmittion,changeIsProcessingSubmittion]=useState(false)
 
 	useEffect(()=>{
 		const getData=async()=>{
+			changeIsProcessingStatus(true);
 			var comments;
 			if(displayApproveModal==true){
 				comments=await getAuthenticPostComments(postId,postType);
@@ -134,11 +161,13 @@ const PollOptionPortal=(props)=>{
 				comments=await getFakeNewsComments(postId,postType);
 			}
 			changeComments(comments.reverse());
+			changeIsProcessingStatus(false);
 		}
 		getData();
 	},[]);
 
 	const submitComment=async()=>{
+		changeIsProcessingSubmittion(true);
 		const comment=document.getElementById("extendedInputContainer").value;
 		if(comment!=""){
 			const commentObject={
@@ -178,6 +207,7 @@ const PollOptionPortal=(props)=>{
 		}else{
 			alert('Please enter a value your comment');
 		}
+		changeIsProcessingSubmittion(false);
 	}
 
 
@@ -187,104 +217,105 @@ const PollOptionPortal=(props)=>{
 				onClick={()=>closeModal()}
 			/>
 			<Container>
-				<ul style={{padding:"10px"}}>
-					<li style={{listStyle:"none",display:"inline-block",marginLeft:"90%"}}>
-						<HighlightOffIcon
-							style={{fontSize:"30"}}
-							onClick={()=>closeModal()}
-						/>
-					</li>
-					{displayApproveModal==true?
-						<React.Fragment>
-							<li style={{listStyle:"none"}}>
-								<InputContainer
-									 placeholder="Click here and tell everyone why you think this post isnt fake news"
-									 style={{width:"80%",marginLeft:"10%"}}
-									 onClick={()=>changeDisplayCreateComment(true)}
-								/>
-							</li>
-							<hr/>
-
-							<li style={{color:"#01DF01",listStyle:"none",marginLeft:"10%",marginBottom:"2%"}}>	
-								<CheckCircleIcon
-									style={{fontSize:"30",color:"#01DF01"}}
-								/> Approves																																																																																								
-							</li>
-						</React.Fragment>:
-						<React.Fragment>
-							<li style={{listStyle:"none"}}>
-								<InputContainer
-									 placeholder="Click here and tell everyone why you think this post is fake news"
-									 style={{width:"80%",marginLeft:"10%"}}
-									 onClick={()=>changeDisplayCreateComment(true)}
-								/>
-							</li>
-							<hr/>
-
-							<li style={{color:"#FE2E2E",listStyle:"none",marginLeft:"10%",marginBottom:"2%"}}>	
-								<HighlightOffIcon
-									style={{fontSize:"30",color:"#FE2E2E"}}
-								/> Disapproves																																																																																								
-							</li>
-						</React.Fragment>
-					}
-
-					
-					{displayCreateComment==true?
-							<ul style={{overflow:"scroll",padding:"0px"}}>
-								<ExtendedInputContainer
-									placeholder="Write down what you want to say :)"
-									id="extendedInputContainer"
-								/>
+				{isProcessing==true?
+					<p>Please wait</p>:
+					<ul style={{padding:"10px"}}>
+						<li style={{listStyle:"none",display:"inline-block",marginLeft:"90%"}}>
+							<HighlightOffIcon
+								style={{fontSize:"30"}}
+								onClick={()=>closeModal()}
+							/>
+						</li>
+						{displayApproveModal==true?
+							<React.Fragment>
 								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<ReplyIcon
-													style={{fontSize:"20"}}
-													onClick={()=>changeDisplayCreateComment(false)}
-												/>
-											</li>
-										</a>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>submitComment()} style={ExploreButton}>
-												Submit
-											</li>
-										</a>
-									</ul>
+									<InputContainer
+										 placeholder="Click here and tell everyone why you think this post isnt fake news"
+										 style={{width:"80%",marginLeft:"10%"}}
+										 onClick={()=>changeDisplayCreateComment(true)}
+									/>
 								</li>
-							</ul>:
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									{comments.map(data=>
-											<li style={{listStyle:"none",marginBottom:"4%"}}>
-												<ul style={{pading:"0px"}}>
-													<li id="profilePictureLI" style={{position:"relative",top:"-50px",listStyle:"none",display:"inline-block"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none"}}>
-																{data.profilePicture==null?
-																	<img src={NoProfilePicture} style={ProfilePictureCSS}/>:
-																	<img src={data.profilePicture} style={ProfilePictureCSS}/>
-																}
-															</li>
+								<hr/>
 
-															<li style={{listStyle:"none"}}>
-																{data.firstName}
-															</li>
-														</ul>
-													</li>
+								<li style={{color:"#01DF01",listStyle:"none",marginLeft:"10%",marginBottom:"2%"}}>	
+									<CheckCircleIcon
+										style={{fontSize:"30",color:"#01DF01"}}
+									/> Approves																																																																																								
+								</li>
+							</React.Fragment>:
+							<React.Fragment>
+								<li style={{listStyle:"none"}}>
+									<InputContainer
+										 placeholder="Click here and tell everyone why you think this post is fake news"
+										 style={{width:"80%",marginLeft:"10%"}}
+										 onClick={()=>changeDisplayCreateComment(true)}
+									/>
+								</li>
+								<hr/>
 
-													<li style={{height:"30%",width:"60%",listStyle:"none",display:"inline-block",overflowY:"auto",marginRight:"2%"}}>
-														{data.comment}
+								<li style={{color:"#FE2E2E",listStyle:"none",marginLeft:"10%",marginBottom:"2%"}}>	
+									<HighlightOffIcon
+										style={{fontSize:"30",color:"#FE2E2E"}}
+									/> Disapproves																																																																																								
+								</li>
+							</React.Fragment>
+						}
+
+						
+						{displayCreateComment==true?
+								<ul style={{overflow:"scroll",padding:"0px"}}>
+									<ExtendedInputContainer
+										placeholder="Write down what you want to say :)"
+										id="extendedInputContainer"
+									/>
+									<li style={{listStyle:"none"}}>
+										<ul style={{padding:"0px"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<ReplyIcon
+														style={{fontSize:"20"}}
+														onClick={()=>changeDisplayCreateComment(false)}
+													/>
+												</li>
+											</a>
+											{isProcessingSubmittion==true?
+												<p>Please wait...</p>:
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>submitComment()} style={ExploreButton}>
+														Submit
 													</li>
-												</ul>
-											</li>
-										)}
-								</ul>
-							</li>
+												</a>
+											}
+										</ul>
+									</li>
+								</ul>:
+								<li id="commentsLI" style={{listStyle:"none"}}>
+									{comments.length==0?
+										<p>No opinions</p>:
+										<ul style={{padding:"0px"}}>
+											{comments.map(data=>
+												<CommentContainer>
+													<CommentOwnerImage>
+														{data.profilePicture==null?
+															<img src={NoProfilePicture} style={ProfilePictureCSS}/>:
+															<img src={data.profilePicture} style={ProfilePictureCSS}/>
+														}
+													</CommentOwnerImage>
+													<CommentTextAndOwner>
+														<p>
+															<b>{data.firstName}</b>
+														</p>
+														<p>{data.comment}</p>
+													</CommentTextAndOwner>
+												</CommentContainer>
+												)}
+										</ul>
+									}
+								</li>
+						}
+						
+					</ul>
 					}
-					
-				</ul>
 			</Container>
 		</React.Fragment>
 	,document.getElementById(targetDom));
