@@ -9,6 +9,11 @@ import {connect} from "react-redux";
 
 const Container=styled.div`
 	padding:10px;
+	@media screen and (max-width:1370px){
+		#commentLI{
+			height:10% !important;
+		}
+	}
 	@media screen and (max-width:420px){
 		height:80% !important;
 		#profilePictureLI{
@@ -66,6 +71,10 @@ const ExtendedTextArea=styled.textarea`
 	border-color:#a2a2a2;
 	margin-bottom:10px;
 	resize:none;
+
+	@media screen and (max-width:1370px){
+		height:50%;
+	}
 `;
 
 const ExtendedProfilePicture=styled.div`
@@ -134,10 +143,14 @@ class CommentsContainer extends Component{
 			creationCommentExtended:false,
 			displayReplyCreation:false,
 			selectedReplies:[],
-			commentIndex:0
+			commentIndex:0,
+			isProcessingInput:false
 		}
 	}
 	async componentDidMount(){
+		this.setState({
+			isProcessingInput:true
+		})
 		const {confirmation,data}=await getRegularComments(this.props.postType,this.props.postId);
 		if(confirmation=="Success"){
 			this.setState({
@@ -146,6 +159,9 @@ class CommentsContainer extends Component{
 		}else{
 			alert('Unfortunately, there has been an error. Please try again');
 		}
+		this.setState({
+			isProcessingInput:false
+		})
 
 	}
 
@@ -193,11 +209,15 @@ class CommentsContainer extends Component{
 	}
 
 	commentComponent=(data,index)=>{
+		console.log(data);
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-							<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture} style={ProfilePicture}/>
+							<img id="commentLI" 
+								src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
+								style={ProfilePicture}
+							/>
 						</li>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
@@ -231,6 +251,9 @@ class CommentsContainer extends Component{
 	}
 
 	handleCreateComment=async()=>{
+		this.setState({
+			isProcessingInput:true
+		})
 		const comment=document.getElementById("comment").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -274,6 +297,9 @@ class CommentsContainer extends Component{
 		}else{
 			alert('Please enter a comment');
 		}
+		this.setState({
+			isProcessingInput:false
+		})
 	}
 
 	createCommentUI=()=>{
@@ -288,19 +314,22 @@ class CommentsContainer extends Component{
 									<ExtendedTextArea id="comment" />
 								</li>
 								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li  onClick={()=>this.handleCreateComment()} style={ExtendedCommentAreaButton}>
-												Create
-											</li>
-										</a>
+									{this.state.isProcessingInput==true?
+										<p>Please wait </p>:
+										<ul style={{padding:"0px"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li  onClick={()=>this.handleCreateComment()} style={ExtendedCommentAreaButton}>
+													Create
+												</li>
+											</a>
 
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>this.setState({creationCommentExtended:false})} style={ExtendedCommentAreaButton}>
-												Close
-											</li>
-										</a>
-									</ul>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li onClick={()=>this.setState({creationCommentExtended:false})} style={ExtendedCommentAreaButton}>
+													Close
+												</li>
+											</a>
+										</ul>
+									}
 								</li>
 							</ul>
 						</>
@@ -343,6 +372,9 @@ class CommentsContainer extends Component{
 
 
 	handleCreateReply=async()=>{
+		this.setState({
+			isProcessingInput:true
+		})
 		const reply=document.getElementById("reply").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -397,6 +429,9 @@ class CommentsContainer extends Component{
 		}else{
 			alert('Please enter a comment');
 		}
+		this.setState({
+			isProcessingInput:false
+		})
 	}
 
 	createReplyComment=(key)=>{
@@ -406,19 +441,22 @@ class CommentsContainer extends Component{
 							<ExtendedTextArea id="reply"/>
 						</li>
 						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li  onClick={()=>this.handleCreateReply()} style={ExtendedCommentAreaButton}>
-										Create
-									</li>
-								</a>
+							{this.state.isProcessingInput==true?
+								<p>Please wait...</p>:
+								<ul style={{padding:"0px"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li  onClick={()=>this.handleCreateReply()} style={ExtendedCommentAreaButton}>
+											Create
+										</li>
+									</a>
 
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>this.setState({displayReplyCreation:false})} style={ExtendedCommentAreaButton}>
-										Close
-									</li>
-								</a>
-							</ul>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>this.setState({displayReplyCreation:false})} style={ExtendedCommentAreaButton}>
+											Close
+										</li>
+									</a>
+								</ul>
+							}
 						</li>
 					</ul>
 		}else{
@@ -431,16 +469,19 @@ class CommentsContainer extends Component{
 	render(){
 		return(
 			<Container>
-				<ul style={{padding:"0px",backgroundColor:"white"}}>
-					{this.createCommentUI()}
-					{this.state.comments.map((data,index)=>
-						<li style={{padding:"0px",listStyle:"none",marginBottom:"10px"}} key={data._id}>
-							{this.commentComponent(data,index)}
-							{this.createReplyComment(data._id)}
-							{this.handleDisplayResponses(data._id)}
-						</li>
-					)}
-				</ul>
+				{this.state.isProcessingInput==true?
+					<p>Please wait </p>:
+					<>
+						{this.createCommentUI()}
+						{this.state.comments.map((data,index)=>
+							<li style={{padding:"0px",listStyle:"none",marginBottom:"10px"}} key={data._id}>
+								{this.commentComponent(data,index)}
+								{this.createReplyComment(data._id)}
+								{this.handleDisplayResponses(data._id)}
+							</li>
+						)}
+					</>
+				}
 			</Container>
 		)
 	}

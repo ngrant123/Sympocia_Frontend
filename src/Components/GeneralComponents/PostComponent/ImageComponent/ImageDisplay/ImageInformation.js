@@ -6,12 +6,11 @@ import PollOptionPortal from "../../PollOptionPortal.js";
 
 const Container=styled.div`
 	position:absolute;
+	background-color:white;
 	width:40%;
 	height:82%;
 	z-index:3;
-	background-color:white;
 	top:30px;
-	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
 		width:80% !important;
@@ -180,7 +179,7 @@ const ImageInformation=(props)=>{
 										targetDom={props.targetDom}
 									/>:null
 								}
-								<ul id="postLIContainer" style={{padding:"0px",width:"140%"}}>
+								<ul id="postLIContainer" style={{padding:"0px",width:"90%"}}>
 									{(props.imageInformation.audioDescription!=null &&
 									 	 props.isMobileTrue==false)==true && (
 									 	 <React.Fragment>
@@ -213,18 +212,20 @@ const ImageInformation=(props)=>{
 											)}
 										</ul>
 									</li>
+									<ul style={{padding:"0px",marginTop:"2%"}}>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
+												<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
+											</li>
+										</a>
 
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
-											<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
-										</li>
-									</a>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
+												<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
+											</li>
+										</a>
+									</ul>
 
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
-											<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
-										</li>
-									</a>
 								</ul>
 
 								<p style={{height:"30%",width:"90%",fontSize:"40px"}}>

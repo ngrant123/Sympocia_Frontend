@@ -15,13 +15,15 @@ import {
 	addStampPost,
 	unStampPost
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 const Container=styled.div`
 	position:relative;
 	width:100%;
 	height:100%;
 	overflow:scroll;
-	@media screen and (max-width:830px){
+	@media screen and (max-width:1370px){
 		width:80%;
 		left:10% !important;
 		#postInformationLI{
@@ -31,9 +33,29 @@ const Container=styled.div`
 			display:none !important;
 		}
     }
+    @media screen and (max-width:700px){
+		width:100%;
+		left:0% !important;
+		 #image{
+			height:60% !important;
+		}
+		#postAudio{
+			width:100px !important;
+		}
+		#keyBoardArrowIcon{
+			margin-top:-20px !important;
+			margin-left:10% !important;
+		}
+		#keyBoardDownLI{
+			font-size:25 !important;
+		}
+		#keyBoardUpLI{
+			font-size:25 !important;
+		}
+    }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	#image{
-			height:140% !important;
+			height:400px !important;
 		}
     }
     @media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
@@ -42,27 +64,14 @@ const Container=styled.div`
 		}
     }
 
-    @media screen and (max-width:500px){
-		width:100%;
-		left:0% !important;
-		 #image{
-			height:60% !important;
-		}
-    }
- 
-
 `;
 
 const CommentContainer=styled.div`
-	position:absolute;
-	background-color:white;
+	position:relative;
 	border-radius:5px;
+	width:100% !important;
+	margin-left:10%;
 
-	@media screen and (max-width:1030px){
-		margin-left:5% !important;
-		left:5% !important;
-		width:80% !important;
-    }
 	@media screen and (max-width:420px){
 		margin-left:7% !important;
 		width:85% !important;
@@ -100,10 +109,8 @@ const TogglePostInformationButton=styled.div`
 `;
 
 const PostInformationContainer=styled.div`
-	position:absolute;
-	width:120%;
-	left:-10%;
-	top:30%;
+	position:relative;
+	width:80%;
 	border-radius:5px;
 	height:40%;
 
@@ -113,13 +120,21 @@ const PostInformationContainer=styled.div`
 	@media screen and (max-width:740px) and (max-height:420px){
 		height:90% !important;
     }
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	margin-left:5%;
+    }
 `;
 const VideoDesriptionContainer=styled.div`
-	width:60px;
-	height:60px;
+	width:100px;
+	height:100px;
 	border-radius:50%;
 	background-color:white;
 	z-index:8;
+
+	@media screen and (max-width:700px){
+		width:70px !important;
+		height:70px !important;
+	}
 `;
 const ShadowButtonCSS={
 	display:"inline-block",
@@ -135,7 +150,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({imgData,targetDom,deletePost,pageType,isOwnPostViewing,promote})=>{
+const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostViewing,promote})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -148,17 +163,28 @@ const MobileUI=({imgData,targetDom,deletePost,pageType,isOwnPostViewing,promote}
 
 
 	const displayCommentsTrigger=()=>{
-		changePostInfoContainerDisplay(true);
-		changeDisplayComments(true);
-		changeDisplayInformation(false);
-		changeDisplayPollOption(false);
+		if(displayComments==true){
+			changePostInfoContainerDisplay(false);
+			changeDisplayComments(false);
+			changeDisplayInformation(false);
+		}else{
+			changePostInfoContainerDisplay(true);
+			changeDisplayComments(true);
+			changeDisplayInformation(false);
+
+		}
 	}
 
 	const displayPostInformationTrigger=()=>{
-		changePostInfoContainerDisplay(true);
-		changeDisplayComments(false);
-		changeDisplayInformation(!displayInformation);
-		changeDisplayPollOption(false);
+		if(displayInformation==true){
+			changePostInfoContainerDisplay(false);
+			changeDisplayComments(false);
+			changeDisplayInformation(false);
+		}else{
+			changePostInfoContainerDisplay(true);
+			changeDisplayComments(false);
+			changeDisplayInformation(!displayInformation);
+		}
 	}
 
 	const displayPollOptionTrigger=()=>{
@@ -181,29 +207,25 @@ const MobileUI=({imgData,targetDom,deletePost,pageType,isOwnPostViewing,promote}
 
 	const postInformation=()=>{
 		return(
-			<>
-				{displayPostInformationContainer==true &&(
-					<PostInformationContainer>
-						{displayComments==true &&(
-							<CommentContainer>
-						 		<Comments
-									postId={imgData._id}
-									postType={"Images"}
-									hideComments={hidePostDisplayInformationContainer}
-									targetDom={targetDom}
-								/>
-							</CommentContainer>
-						)}
-						{displayInformation==true &&(
-							<ImageInformation
-								imageInformation={imgData}
-								targetDom={targetDom}
-								isMobileTrue={true}
-							/>
-						)}
-					</PostInformationContainer>
+			<PostInformationContainer>
+				{displayComments==true &&(
+					<CommentContainer>
+				 		<Comments
+							postId={imgData._id}
+							postType={"Images"}
+							hideComments={hidePostDisplayInformationContainer}
+							targetDom={targetDom}
+						/>
+					</CommentContainer>
 				)}
-			</>
+				{displayInformation==true &&(
+					<ImageInformation
+						imageInformation={imgData}
+						targetDom={targetDom}
+						isMobileTrue={true}
+					/>
+				)}
+			</PostInformationContainer>
 		)
 	}
 
@@ -221,6 +243,15 @@ const MobileUI=({imgData,targetDom,deletePost,pageType,isOwnPostViewing,promote}
 			{displayEditImageModal==false?
 				<Container>
 					<ul style={{padding:"10px"}}>
+						<div onClick={()=>closePostModal()} style={{marginBottom:"5%"}}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+							 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+							 stroke-linecap="round" stroke-linejoin="round">
+							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							  <circle cx="12" cy="12" r="9" />
+							  <path d="M10 10l4 4m0 -4l-4 4" />
+							</svg>
+						</div>
 						<li style={{listStyle:"none",marginBottom:"5%"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
@@ -234,41 +265,47 @@ const MobileUI=({imgData,targetDom,deletePost,pageType,isOwnPostViewing,promote}
 								</li>
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									{imgData.audioDescription!=null &&(
-										<audio style={{width:"150px"}} controls>
+										<audio id="postAudio" style={{width:"150px"}} controls>
 											<source src={imgData.audioDescription} type="audio/ogg"/>
 											<source src={imgData.audioDescription} type="audio/mpeg"/>
 											Your browser does not support the audio element.
 										</audio>
 									)}
 								</li>
-							</ul>
-						</li>
-						<div id="image" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"120%"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<TogglePostInformationButton
-									onClick={()=>displayPostInformationTrigger()}
-								>
+
+								<li id="keyBoardArrowIcon" style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}} 
+									onClick={()=>displayPostInformationTrigger()}>
 									{displayInformation==false?
-										<ExpandMoreIcon
-											style={{fontSize:30}}
-										/>
-										:<ExpandLessIcon
-											style={{fontSize:30}}
+										<KeyboardArrowDownIcon
+											id="keyBoardDownLI"
+											style={{borderRadius:"50%",fontSize:"40",boxShadow:"1px 1px 5px #dbdddf"}}
+										/>:
+										<KeyboardArrowUpIcon
+											id="keyBoardUpLI"
+											style={{borderRadius:"50%",fontSize:"40",boxShadow:"1px 1px 5px #dbdddf"}}
 										/>
 									}
-									
-								</TogglePostInformationButton>
-							</a>
-							{displayStampEffect==true &&(
-								<StampIconEffect
-									id="stampEffect"
-								>
-									<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-								</StampIconEffect>
-							)}
+								</li>
+							</ul>
+						</li>
 
-							<img  src={imgData.imgUrl} style={{width:"120%",height:"90%",borderRadius:"5px",marginLeft:"-10%"}}/>
-							{postInformation()}
+						<div id="image" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"110%"}}>
+							{displayPostInformationContainer==true?
+								<>{postInformation()}</>:
+								<>
+									{displayStampEffect==true &&(
+										<StampIconEffect
+											id="stampEffect"
+										>
+											<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+										</StampIconEffect>
+									)}
+
+									<img  src={imgData.imgUrl} 
+										style={{width:"120%",height:"90%",borderRadius:"5px",marginLeft:"-10%"}}
+									/>
+								</>
+							}
 						</div>
 						<hr/>
 						<li style={{listStyle:"none"}}>
@@ -291,8 +328,6 @@ const MobileUI=({imgData,targetDom,deletePost,pageType,isOwnPostViewing,promote}
 									</li>
 								</a>
 
-								
-								
 								{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
 									<>
 										<a href="javascript:void(0);">
@@ -319,7 +354,7 @@ const MobileUI=({imgData,targetDom,deletePost,pageType,isOwnPostViewing,promote}
 										<a href="javascript:void(0);">
 											<li onClick={()=>promote()} style={ShadowButtonCSS}>
 												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-													  width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+													  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C"
 													  fill="none" stroke-linecap="round" stroke-linejoin="round">
 													  <path stroke="none" d="M0 0h24v24H0z"/>
 													  <circle cx="12" cy="9" r="6" />

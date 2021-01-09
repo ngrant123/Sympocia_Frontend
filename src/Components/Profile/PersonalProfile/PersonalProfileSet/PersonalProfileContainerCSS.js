@@ -326,15 +326,14 @@ export const ImagePopupContainer=styled.div`
 	margin-top:10%;
 	position:fixed;
 	width:70%;
-	height:60%;
+	height:70%;
 	background-color:white;
 	padding:20px;
 	z-index:35;
 	border-radius:5px;
 
-	@media screen and (max-width:800px){
+	@media screen and (max-width:1370px){
 		margin-left:1% !important;
-		top:10% !important;
     	width:100% !important;
     	height:90% !important;
     	border-radius:5px !important;

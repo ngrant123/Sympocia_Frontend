@@ -460,6 +460,7 @@ class LProfile extends Component{
 					triggerPromoteModal={this.triggerPromoteModal}
 					history={this.props.history}
 					isOwnProfile={this.state.isOwnProfile}
+					closePostModal={this.closePostsModal}
 				/>
 			</ImagePopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -486,6 +487,7 @@ class LProfile extends Component{
 					history={this.props.history}
 					triggerPromoteModal={this.triggerPromoteModal}
 					isOwnProfile={this.state.isOwnProfile}
+					closePostModal={this.closePostsModal}
 				/>
 			</PostPopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -513,6 +515,7 @@ class LProfile extends Component{
 					triggerPromoteModal={this.triggerPromoteModal}
 					history={this.props.history}
 					isOwnProfile={this.state.isOwnProfile}
+					closePostModal={this.closePostsModal}
 				/>
 			</RegularPostContainerParent>:
 			<React.Fragment></React.Fragment>
@@ -712,6 +715,16 @@ class LProfile extends Component{
 				</a>
 	}
 
+	closePostsModal=()=>{
+		this.setState({
+			displayShadowBackground:false,
+			displayRegularPostModal:false,
+			displayBlogPostModal:false,
+			displayVideoPostModal:false,
+			displayImagePostModal:false
+		})
+	}
+
 	render(){
 		return(
 
@@ -770,13 +783,7 @@ class LProfile extends Component{
 
 						{this.state.displayShadowBackground==true?
 								<ShadowContainer
-									onClick={()=>this.setState({
-										displayShadowBackground:false,
-										displayRegularPostModal:false,
-										displayBlogPostModal:false,
-										displayVideoPostModal:false,
-										displayImagePostModal:false
-									})}
+									onClick={()=>this.closePostsModal()}
 								/>:
 								<React.Fragment></React.Fragment>
 						}
