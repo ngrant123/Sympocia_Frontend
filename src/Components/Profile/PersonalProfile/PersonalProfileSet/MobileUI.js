@@ -86,8 +86,17 @@ const SponsorExtendedModal=styled.div`
 		}
 	}
 
+
+
 	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
 		height:50%;
+    }
+	 @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		#extendedChampionModalUL{
+			#championImageLI{
+				height:70% !important;
+			}
+		}
     }
 `;
 

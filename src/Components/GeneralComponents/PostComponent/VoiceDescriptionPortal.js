@@ -31,6 +31,8 @@ const Container=styled.div`
 	height:60%;
 	top:20%;
 	border-radius:5px;
+	overflow-y:scroll;
+	padding:10px;
 
 	@media screen and (max-width:1370px){
 		width:80%;
@@ -53,6 +55,11 @@ const Container=styled.div`
 			#voiceOptionsLI{
 				margin-left:-5% !important;
 			}
+    }
+
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		height:70% !important;
+		width:90% !important;
     }
 `;
 

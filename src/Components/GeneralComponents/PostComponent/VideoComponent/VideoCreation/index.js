@@ -14,11 +14,11 @@ const Container=styled.div`
 	height:40%;
 	overflow:scroll;
 
-	@media screen and (max-width:1030px){
+	@media screen and (max-width:1370px){
     	top:20% !important;
     	width:100% !important;
 		left:1% !important; 
-		height:100% !important;
+		height:70% !important;
 
 		#uploadOptionTypeLI{
 			margin-bottom:15% !important;

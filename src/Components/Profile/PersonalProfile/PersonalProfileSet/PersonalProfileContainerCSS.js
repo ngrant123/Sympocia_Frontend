@@ -143,75 +143,14 @@ export const ProfilePictureContainer=styled.div`
           margin-left:10%;
 	    }
     }
-
-	 @media screen and (max-width:420px) and (max-height:740px){
-     	top:80% !important;
-	 	height:80% !important;
-     }
     @media screen and (max-width:700px){
-		top:35% !important;
-		width:70% !important;
-		height:30% !important;
-		margin-left:10% !important;
+		width:100% !important;
+		height:90% !important;
 		z-index:10;
 		#profilePicture{
 	          height:100% !important;
-	          width:75% !important;
 	          left:5% !important;
 	     }
-    }
-    @media screen and (max-width:485px){
-		width:60% !important;
-		margin-left:15% !important;
-		height:20% !important;
-		#profilePicture{
-	          height:100% !important;
-	          width:80% !important;
-	     }
-    }
-
-    @media screen and (max-width:520px){
-		#personalInformationIcon{
-			font-size:10 !important;
-		}
-    }
-
-    @media screen and (max-width:510px) and (max-height:770px){
-	 	top:35% !important;
-	 	height:30% !important;
-    }
-
-
-    @media screen and (max-width:420px){
-		height:30% !important;
-		margin-left:20% !important;
-		width:80% !important;
-		top:40% !important;
-		left:-10% !important;
-    }
-     @media screen and (max-width:350px){
-    	top:50% !important;
-    }
-
-
-    @media screen and (max-width:570px) and (max-height:330px){
-	 	top:75% !important;
-	 	height:80% !important;
-    }
-
-    @media screen and (max-width:670px) and (max-height:380px){
-    	top:75% !important;
-	 	height:80% !important;
-    }
-    @media screen and (max-width:400px) and (max-height:770px){
-    	top:35% !important;
-    }
-
-    @media screen and (max-width:380px) and (max-height:670px){
-    	height:35% !important;
-    }
-     @media screen and (max-width:330px) and (max-height:570px){
-    	top:40% !important;
     }
 `;
 
@@ -233,6 +172,19 @@ export const ProfileContainer=styled.div`
 		position:relative;
 		height:30% !important;
 	}
+
+	@media screen and (max-width:700px){
+		position:relative;
+		top:30%;
+		margin-left:2% !important;
+		height:40% !important;
+		width:90%;
+	}
+
+	 @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		top:70%;
+		height:90% !important;
+    }
 `;
 
 export const PersonalProfileInformationContainer= styled.div`

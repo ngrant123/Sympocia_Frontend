@@ -40,16 +40,29 @@ const Container=styled.div`
 			left:1% !important; 
 			height:100% !important;
 			width:100%;
-    }
-
-	@media screen and (max-width:420px){
-			left:1% !important; 
-			height:100% !important;
-			width:100%;
 			#videoControllerLI{
-				margin-top:-80% !important;
+				margin-top:-50% !important;
+				margin-left:25% !important;
+
+				#refreshIconLI{
+					color:black !important;
+				}
+				#replyIconLI{
+					color:black !important;
+				}
+			}
+			#videoResultUL{
+				height:30% !important;
+				left:50% !important;
 			}
 
+    }
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+    	height:80% !important;
+    	width:90% !important;
+		#videoControllerLI{
+			margin-top:-10% !important;
+		}
     }
 `;
 
@@ -79,6 +92,7 @@ const VideoResultContainer=styled.div`
 	width:140px;
 	height:90px;
 	border-radius:5px;
+	z-index:10;
 `;
 
 const VideoResultContainerCSS={
@@ -266,7 +280,7 @@ const VideoDescriptionPortal=(props)=>{
 			<Container>
 				{test()}
 				{videoElements.length>0?
-					<ul style={VideoResultContainerCSS}>
+					<ul id="videoResultUL" style={VideoResultContainerCSS}>
 						{videoElements.map(data=>
 							<li style={{listStyle:"none",marginBottom:"4%"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -282,7 +296,7 @@ const VideoDescriptionPortal=(props)=>{
 				}
 				
 
-				<video id="videoDescriptionVideo" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true" zIndex="2">
+				<video id="videoDescriptionVideo" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true">
 				</video>
 
 				<ul id="videoControllerLI" style={{marginLeft:"40%",marginTop:"-10%",padding:"0px"}}>
@@ -290,6 +304,7 @@ const VideoDescriptionPortal=(props)=>{
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 							<ClipVideoContainer onClick={()=>reDoVideo()}>
 								<RefreshIcon
+									id="refreshIconLI"
 									style={{fontSize:40,color:"white"}}
 								/>
 							</ClipVideoContainer>
@@ -316,6 +331,7 @@ const VideoDescriptionPortal=(props)=>{
 						<SubmitVideoDescriptionContainer>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<ReplyIcon
+									id="replyIconLI"
 									onClick={()=>submitVideoDescription()}
 									style={{fontSize:40,color:"white",zIndex:"4"}}
 								/>
