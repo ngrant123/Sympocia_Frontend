@@ -71,7 +71,7 @@ const ExtendedChampionModal=(championData)=>{
 				<li style={{width:"40%",listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",marginBottom:"3%",width:"40%"}}>
-								<img src={championData.imgUrl} style={{width:"170%",height:"35%",borderRadius:"50%"}}/>
+								<img id="championImageLI" src={championData.imgUrl} style={{width:"170%",height:"35%",borderRadius:"50%"}}/>
 						</li>
 
 						<li style={{listStyle:"none",fontSize:"30px",color:"#5298F8"}}>

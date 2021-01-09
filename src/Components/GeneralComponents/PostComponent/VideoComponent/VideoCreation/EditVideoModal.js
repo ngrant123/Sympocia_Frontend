@@ -26,7 +26,11 @@ import RedoVideoCreationModal from "./index.js";
 import {UserConsumer} from "../../../../Profile/PersonalProfile/UserContext.js";
 
 const Container=styled.div`
-	@media screen and (max-width:420px){
+	@media screen and (max-width:1370px){
+		width:80%;
+	}
+	@media screen and (max-width:700px){
+		width:120%;
 		#videoElement{
 			display:block !important;
 			width:120% !important;

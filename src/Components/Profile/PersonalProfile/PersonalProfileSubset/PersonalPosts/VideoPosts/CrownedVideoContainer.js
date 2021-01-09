@@ -9,12 +9,26 @@ const ThumbnailVideoComponent=styled.div`
 	width:100%;
 	height:35%;
 	overflow:hidden;
+	display:flex;
+	flex-direction:row;
 
-	@media screen and (max-width:420px){
+	@media screen and (max-width:1370px){
+		#videoDescriptionLI{
+			display:block !important;
+		}
+		#videoLI{
+			display:block !important;
+		}
+	}
+
+	@media screen and (max-width:700px){
 		#description{
 			display:none !important;
 		}
 		#postInformation{
+			display:none !important;
+		}
+		#videoDescriptionLI{
 			display:none !important;
 		}
 	}
@@ -36,6 +50,12 @@ const ThumbnailVideo=styled.div`
 	width:450px;
 	height:140%;
 	border-radius:5px;
+	display:flex;
+	flex-direction:column;
+	margin-top:-10%;
+	@media screen and (max-width:1370px){
+		margin-top:-20%;
+	}
 	@media screen and (max-width:420px){
 		width:110% !important;
 		height:120% !important;
@@ -57,6 +77,20 @@ const VideoDescriptionContainer=styled.div`
 	border-radius:50%;
 `;
 
+const DescriptionContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+
+	@media screen and (max-width:700px){
+		display:none !important;
+
+		#videoDescriptionLI{
+			display:none !important;
+		}
+	}
+`;
+
+
 const CrownedVideoContainer=({headerVideo})=>{
 	console.log(headerVideo);
 
@@ -75,16 +109,13 @@ const CrownedVideoContainer=({headerVideo})=>{
 	}
 	return(
 		<ThumbnailVideoComponent>
-			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",marginTop:"-10%"}}>
-					<ThumbnailVideo>
-						<video key={headerVideo._id} width="100%" height="100%" autoplay muted>
-							<source src={headerVideo.videoUrl} type="video/mp4"/>
-						</video>
-					</ThumbnailVideo>
-				</li>
+				<ThumbnailVideo>
+					<video key={headerVideo._id} width="100%" height="100%" autoplay muted>
+						<source src={headerVideo.videoUrl} type="video/mp4"/>
+					</video>
+				</ThumbnailVideo>
 
-				<li style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block"}}>
+				<DescriptionContainer id="videoDescriptionLI">
 					<ul style={{paddging:"0px"}}>
 						<div id="postInformation">
 							<li style={{marginBottom:"5%",listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
@@ -138,8 +169,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 							</Description>
 						</li>
 					</ul>
-				</li>
-			</ul>
+				</DescriptionContainer>
 		</ThumbnailVideoComponent>
 	)
 }

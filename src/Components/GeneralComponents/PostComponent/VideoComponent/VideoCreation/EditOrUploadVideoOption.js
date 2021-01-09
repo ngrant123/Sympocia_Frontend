@@ -6,7 +6,8 @@ import EditVideoModal from "./EditVideoModal.js";
 
 
 const VideoContainer=styled.div`
-	@media screen and (max-width:1030px){
+	@media screen and (max-width:1370px){
+		width:80%;
 		#videoElement{
 			margin-left:10% !important;
 			height:50% !important;

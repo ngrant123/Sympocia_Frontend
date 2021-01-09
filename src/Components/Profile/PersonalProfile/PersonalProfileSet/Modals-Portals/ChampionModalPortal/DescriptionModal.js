@@ -76,7 +76,7 @@ const NameTextArea=styled.textarea`
 	margin-bottom:2%;
 
 	@media screen and (max-width:600px){
-		width:60% !important;
+		width:50% !important;
 	}
 `;
 
@@ -90,8 +90,8 @@ const DescriptionTextArea=styled.textarea`
 	width:90%;
 	margin-bottom:2%;
 
-	@media screen and (max-width:600px){
-		width:120% !important;
+	@media screen and (max-width:700px){
+		width:50% !important;
 	}
 `;
 

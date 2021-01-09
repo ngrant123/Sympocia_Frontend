@@ -8,9 +8,9 @@ const SmallVideoComponent=styled.div`
 	width:250px;
 	height:50%;
 
-	@media screen and (max-width:420px){
-		width:220% !important;
-		height:50%;
+	@media screen and (max-width:700px){
+		width:250% !important;
+		height:30%;
 		#videoAudio{
 			display:none
 		}
@@ -41,6 +41,10 @@ const SmallVideo=styled.div`
 	background-color:white;
 	border-radius:5px;
 	overflow:hidden;
+
+	@media screen and (max-width:700px){
+			height:60%;
+	}
 `;
 
 const VideoDescriptionContainer=styled.div`

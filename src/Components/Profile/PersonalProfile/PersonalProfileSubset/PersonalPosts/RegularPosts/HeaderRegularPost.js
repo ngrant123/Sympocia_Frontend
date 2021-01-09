@@ -13,8 +13,12 @@ const Container=styled.div`
 	display:flex;
 	flex-direction:row;
 
-	@media screen and (max-width:1030px){
+	@media screen and (max-width:1370px){
 		width:200%;
+		#profilePicture{
+			height:40% !important;
+			width:50% !important;
+		}
 		#postCommentsLI{
 			display:none !important;
 		}
@@ -23,12 +27,17 @@ const Container=styled.div`
 		}
 	}
 
-
-	@media screen and (max-width:450px){
-		width:40%;
-		display:flex;
+	@media screen and (max-width:700px){
+		flex-direction:column;
 	}
 
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	#profilePicture{
+			height:50% !important;
+			width:40% !important;
+		}
+    }
 	@media screen and (max-width:740px) and (max-height:420px){
 	 	height:70% !important;
     }
@@ -73,11 +82,6 @@ const Post=styled.div`
 	padding-top:30px;
 	background-color:white;
 
-	@media screen and (max-width:450px){
-		display:flex;
-		height: 80% !important;
-		width:130% !important;
-	}
 `;
 
 const CommentsProfile=styled.div`
@@ -100,13 +104,20 @@ const PostFirstSection=styled.div`
 	display:flex;
 	flex-direction:column;
 	width:30%;
-	margin-right:2%;
+	margin-right:5%;
+	@media screen and (max-width:700px){
+		display:none !important;
+	}
 `;
 
 const PostSecondSection=styled.div`
 	display:flex;
 	flex-direction:column;	
 	width:100%;
+	@media screen and (max-width:700px){
+		width:40% !important;
+	}
+
 `;
 
 /*

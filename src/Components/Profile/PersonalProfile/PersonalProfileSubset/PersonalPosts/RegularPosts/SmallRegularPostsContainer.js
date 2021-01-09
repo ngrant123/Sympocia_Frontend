@@ -30,7 +30,7 @@ const Container=styled.div`
 	}
 
 	@media screen and (max-width:600px){
-		width:150% !important;
+		width:200% !important;
 		#postOwnerInformation{
 			display:none !important;
 		}

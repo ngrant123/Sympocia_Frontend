@@ -17,6 +17,19 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:120% !important;
+		#headerImageLI{
+			display:block !important;
+			#headerImage{
+				width:350px !important;
+				height:30% !important;
+			}
+		}
+		#headerDescriptionLI{
+			display:block !important;
+			margin-top:10% !important;
+			position:relative !important;
+			margin-bottom:5% !important;
+		}
 	}
 
 	@media screen and (max-width:600px){
@@ -37,15 +50,6 @@ const Container=styled.div`
 		#headerConstructedDateLI{
 			display:none;
 		}
-		#headerImageLI{
-			display:block !important;
-		}
-		#headerDescriptionLI{
-			display:block !important;
-			margin-top:10% !important;
-			position:relative !important;
-			margin-bottom:5% !important;
-		}
 		#headerAudioLI{
 			width:150px !important;
 		}
@@ -61,8 +65,29 @@ const ThumbnailBlogComponent=styled(Link)`
 	width:100%;
 	height:45%;
 	overflow:hidden;
-	background-color:red;
 	padding-bottom:10px;
+	background-color:red;
+
+	@media screen and (max-width:700px){
+		width:70%;
+		#headerImageLI{
+			display:block !important;
+			#headerImage{
+				width:250px !important;
+			}
+		}
+		#headerDescriptionLI{
+			margin-left:-20% !important;
+		}
+	}
+
+	@media screen and (max-width:740px) and (max-height:420px){
+	 	#headerImageLI{
+			#headerImage{
+				height:60% !important;
+			}
+		}
+    }
 `;
 const ThumbnailBlog=styled.div`
 	position:relative;
@@ -78,6 +103,10 @@ const Description=styled.div`
 	height:240%;
 	overflow:hidden;
 	color:#767677;
+
+	@media screen and (max-width:700px){
+		display:none;
+	}
 
 `;
 const SmallBlogComponent=styled.div`

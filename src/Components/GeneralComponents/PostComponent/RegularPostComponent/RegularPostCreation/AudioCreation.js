@@ -19,9 +19,12 @@ const ButtonCSS={
 }
 
 const Container=styled.div`
-	@media screen and (max-width:600px){
+	@media screen and (max-width:700px){
 		#sendButtonLI{
-			width:35% !important;
+			width:100% !important;
+		}
+		#audioLI{
+			width:200px !important;
 		}
 	}
 `;
@@ -112,14 +115,13 @@ const AudioCreation=({isSubmittedAndProcessing,sendDataToParent,isPostCrowned,di
 							</ul>
 						</li>
 						<li style={{listStyle:"none",display:"inline-block"}}>
-							<audio key={uuidv4()} controls>
+							<audio id="audioLI" key={uuidv4()} controls>
 								<source src={audioDescription} type="audio/ogg"/>
 								<source src={audioDescription} type="audio/mpeg"/>
 								Your browser does not support the audio element.
 							</audio>
 						</li>
-			
-						{isSubmittedAndProcessing==false &&(
+						{isSubmittedAndProcessing==false ?
 							<li id="sendButtonLI" style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									<ul onClick={()=>sendData()} style={{padding:"0px"}}>
@@ -134,8 +136,9 @@ const AudioCreation=({isSubmittedAndProcessing,sendDataToParent,isPostCrowned,di
 										</li>
 									</ul>
 								</a>
-							</li>
-						)}
+							</li>:
+							<p>Please wait... </p>
+						}
 					</ul>
 				</Container>
 			}
