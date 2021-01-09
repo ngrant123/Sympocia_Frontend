@@ -5,10 +5,10 @@ export const Container=styled.div`
 	height:100%;
 	overflow-x:hidden;
 
-	@media screen and (max-width:1300px){
+	@media screen and (max-width:1370px){
 		#postsContainer{
 			margin-left:-50%;
-			margin-top:10%;
+			margin-top:20% !important;
 		}
 		#createPostIcon{
 			top:5% !important;
@@ -25,9 +25,9 @@ export const Container=styled.div`
     }
 
     @media screen and (max-width:700px){
-		#postsContainer{
-			margin-left:-60%;
-			margin-top:105%;
+    	#postsContainer{
+			margin-left:-80% !important;
+			margin-top:180% !important;
 		}
 		#friendsGaugeContainer{
 			margin-left:-50% !important;
@@ -48,32 +48,17 @@ export const Container=styled.div`
 		}
     }
     @media screen and (max-width:620px){
-		#postsContainer{
-			margin-top:120%;
-		}
 		#createPostContainer{
 			width:400px
 		}
     }
-    @media screen and (max-width:550px){
-		#postsContainer{
-			margin-top:140%;
-		}
-    }
 
     @media screen and (max-width:520px){
-    	#postsContainer{
-			margin-left:-80%;
-		}
 		#createPostContainer{
 			width:350px
 		}
     }
     @media screen and (max-width:420px){
-    	#postsContainer{
-			margin-left:-80%;
-			margin-top:180%;
-		}
 		#createPostContainer{
 			width:300px
 		}
