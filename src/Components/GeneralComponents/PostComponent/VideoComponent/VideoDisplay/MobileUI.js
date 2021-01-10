@@ -21,15 +21,43 @@ const Container=styled.div`
 	height:100%;
 	overflow:scroll;
 	background-color:white;
+
 	border-radius:5px;
 
+	@media screen and (max-width:1370px){
+		#video{
+			width:100% !important;
+			margin-left:0% !important;
+		}
+	}
 
-	@media screen and (max-width:420px){
+	@media screen and (max-width:700px){
 		width:110% !important;
 		height:80% !important;
 		margin-left:0% !important;
 		#video{
+			width:90% !important;
 			height:100% !important;
+			margin-top:-10% !important;
+		}
+		#expandMoreLI{
+			font-size:15px !important;
+		}
+		#expandLessLI{
+			font-size:15px !important;
+		}
+		#audio{
+			width:100px !important;
+		}
+		#expandLI{
+			margin-top:0% !important;
+		}
+		#miniVideo{
+			width:40% !important;
+			height:30% !important;
+		}
+		#videoAudioAndVideoDescription{
+			display:none !important;
 		}
     }
 `;
@@ -125,11 +153,11 @@ const CommentContainer=styled.div`
 		left:5% !important;
 		width:80% !important;
     }
-	@media screen and (max-width:420px){
+	@media screen and (max-width:700px){
 		margin-left:7% !important;
 		width:85% !important;
 		left:0% !important;
-		margin-top:35% !important;
+		margin-top:5% !important;
     }
 `;
 const TogglePostInformationButton=styled.div`
@@ -219,7 +247,8 @@ const BackButtonCSS={
 	backgroundColor:"white",
 	borderRadius:"5px",
 	padding:"10px",
-	listStyle:"none"
+	listStyle:"none",
+	width:"30%"
 }
 
 const ShadowButtonCSS={
@@ -233,10 +262,11 @@ const ShadowButtonCSS={
 	borderRadius:"50%",
 	borderStyle:"none",
 	marginRight:"10%",
-	marginBottom:"2%"
+	marginBottom:"2%",
+	cursor:"pointer"
 }
 
-const MobileUI=({video,deletePost,targetDom,pageType,isOwnPostViewing,triggerPromoteModal,personalId,closePostModal,displayPollModal})=>{
+const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost,pageType,isOwnPostViewing,personalId,closePostModal,displayPollModal})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -298,78 +328,81 @@ const MobileUI=({video,deletePost,targetDom,pageType,isOwnPostViewing,triggerPro
 		changeDisplayInformation(false);
 		changeDisplayPollOption(false);
 	}
-	const editPost=(data)=>{
-		changeDisplayVideoImageModal(false);
-		video.contextLocation.editPost(data);
-	}
-
 	const postInformation=()=>{
 		return(
-			<>
-				{displayPostInformationContainer==true &&(
-					<PostInformationContainer>
-						{displayComments==true &&(
-							<CommentContainer>
-								<li style={{listStyle:"none",marginTop:"30%"}}>
-									<Comments
-										postId={video._id}
-										postType={"Videos"}
-										hideComments={hidePostDisplayInformationContainer}
-										targetDom={targetDom}
-									/>
+			<div>
+				{displayComments==true?
+					<CommentContainer>
+						<li style={{listStyle:"none"}}>
+							<Comments
+								postId={video._id}
+								postType={"Videos"}
+								hideComments={hidePostDisplayInformationContainer}
+								targetDom={targetDom}
+							/>
+						</li>
+				 		
+					</CommentContainer>:
+					<div style={{marginTop:"2%",overflow:"hidden",overflow:"scroll"}}> 
+						<ul id="postLIContainer" style={{padding:"0px"}}>
+							<hr/>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>hidePostDisplayInformationContainer()} style={BackButtonCSS}>
+									Back
 								</li>
-						 		
-							</CommentContainer>
-						)}
-						{displayInformation==true &&(
-							<VideoInformationContainer>
-								<ul id="postLIContainer" style={{marginTop:"30%",padding:"0px",width:"140%"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>hidePostDisplayInformationContainer()} style={BackButtonCSS}>
-											Back
-										</li>
-									</a>
-									<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none"}}>
-												<p style={{fontSize:"20px"}}>{video.firstName}</p>
-											</li>
-											{video.industriesUploaded.length>0 &&(
-												<li style={{listStyle:"none"}}>	
-													<IndustryButton>
-														{video.industriesUploaded[0].industry}
-													</IndustryButton>
-												</li>
-											)}
-										</ul>
+							</a>
+							<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"2%",marginRight:"3%"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none"}}>
+										<p style={{fontSize:"20px"}}>{video.firstName}</p>
 									</li>
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
-											<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
+									{video.industriesUploaded.length>0 &&(
+										<li style={{listStyle:"none"}}>	
+											<IndustryButton>
+												{video.industriesUploaded[0].industry}
+											</IndustryButton>
 										</li>
-									</a>
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
-											<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
-										</li>
-									</a>
+									)}
 								</ul>
+							</li>
 
-								<p style={{height:"30%",width:"90%",fontSize:"40px"}}>
-									<b>
-										{video.title}
-									</b>
-								</p>
-								<p style={{height:"35%",overflow:"hidden"}}> 
-									 {video.description}
-								 </p>
-							</VideoInformationContainer>
-						)}
-					</PostInformationContainer>
-				)}
-			</>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li id="approvesPostLI" onClick={()=>displayPollModal(true)} style={ButtonCSS}>
+									<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
+								</li>
+							</a>
+
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li id="disapprovePostLI" onClick={()=>displayPollModal(false)} style={ButtonCSS}>
+									<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
+								</li>
+							</a>
+						</ul>
+
+						<p style={{height:"30%",width:"90%",fontSize:"40px"}}>
+							<b>
+								{video.title}
+							</b>
+						</p>
+						<p style={{height:"35%",overflow:"hidden"}}> 
+							 {video.description}
+						 </p>
+					</div>
+				}
+			</div>
+		)
+	}
+
+	const miniVideoInformationAndCommentComponent=()=>{
+		return(
+			<React.Fragment>
+				<div>
+					<video id="miniVideo"  width="40%" height="40%" borderRadius="50%" autoplay="true" controls muted>
+						<source src={video.videoUrl} type="video/mp4"/>
+					</video>
+				</div>
+				{postInformation()}
+			</React.Fragment>
 		)
 	}
 
@@ -383,8 +416,6 @@ const MobileUI=({video,deletePost,targetDom,pageType,isOwnPostViewing,triggerPro
 		}
 	}
 	return (
-		<React.Fragment>
-			{displayVideoImageModal==false?
 				<Container>
 					<ul style={{padding:"10px"}}>
 						<div onClick={()=>closePostModal()} style={{marginBottom:"5%"}}>
@@ -396,7 +427,7 @@ const MobileUI=({video,deletePost,targetDom,pageType,isOwnPostViewing,triggerPro
 							  <path d="M10 10l4 4m0 -4l-4 4" />
 							</svg>
 						</div>
-						<li style={{listStyle:"none",marginBottom:"5%"}}>
+						<li id="videoAudioAndVideoDescription" style={{listStyle:"none",marginBottom:"5%"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 									{video.videoDescription==null? null:
@@ -409,7 +440,7 @@ const MobileUI=({video,deletePost,targetDom,pageType,isOwnPostViewing,triggerPro
 								</li>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 									{video.audioDescription==null? null:
-										<audio style={{width:"150px"}} controls>
+										<audio id="audio" style={{width:"150px"}} controls>
 											<source src={video.audioDescription} type="audio/ogg"/>
 											<source src={video.audioDescription} type="audio/mpeg"/>
 											Your browser does not support the audio element.
@@ -417,34 +448,40 @@ const MobileUI=({video,deletePost,targetDom,pageType,isOwnPostViewing,triggerPro
 									}
 								</li>
 
-								<li onClick={()=>displayPostInformationTrigger()} style={ShadowButtonCSS}>
+								<li id="expandLI" onClick={()=>displayPostInformationTrigger()} style={ShadowButtonCSS}>
 									{displayInformation==false?
 										<ExpandMoreIcon
+											id="expandMoreLI"
 											style={{fontSize:30}}
 										/>
 										:<ExpandLessIcon
+											id="expandLessLI"
 											style={{fontSize:30}}
 										/>
 									}
 								</li>
 							</ul>
 						</li>
-						<div id="video" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"120%"}}>
-		
-							<video  key={video.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay muted>
-							    <source src={video.videoUrl} type="video/mp4"/>
-							</video>
-							
-							{displayStampEffect==true &&(
-								<StampIconEffect
-									id="stampEffect"
-								>
-									<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-								</StampIconEffect>
-							)}
-							{postInformation()}
+						<div id="videoDiv" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"120%"}}>
+							{displayInformation==false && displayComments==false ?
+								<React.Fragment>
+									<video  key={video.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay muted>
+									    <source src={video.videoUrl} type="video/mp4"/>
+									</video>
+									
+									{displayStampEffect==true &&(
+										<StampIconEffect
+											id="stampEffect"
+										>
+											<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+										</StampIconEffect>
+									)}
+								</React.Fragment>:
+								<React.Fragment>
+									{miniVideoInformationAndCommentComponent()}
+								</React.Fragment>
+							}
 						</div>
-						<hr/>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"20px"}}>
 								<a href="javascript:void(0);">
@@ -467,13 +504,11 @@ const MobileUI=({video,deletePost,targetDom,pageType,isOwnPostViewing,triggerPro
 
 								{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
 									<>
-										<a href="javascript:void(0);">
-											<li onClick={()=>changeDisplayVideoImageModal(true)} style={ShadowButtonCSS}>
-												<BorderColorIcon
-													style={{fontSize:30}}
-												/>
-											</li>
-										</a>
+										<li onClick={()=>displayEditModal()} style={ShadowButtonCSS}>
+											<BorderColorIcon
+												style={{fontSize:30}}
+											/>
+										</li>
 
 										<a href="javascript:void(0);">
 											<li onClick={()=>deletePost()} style={ShadowButtonCSS}>
@@ -505,13 +540,6 @@ const MobileUI=({video,deletePost,targetDom,pageType,isOwnPostViewing,triggerPro
 						</li>
 					</ul>
 				</Container>
-				:<EditVideoModal
-					videoSrc={video.videoUrl}
-					previousData={video}
-					editPost={editPost}
-				/>
-			}
-		</React.Fragment>
 	)
 }
 

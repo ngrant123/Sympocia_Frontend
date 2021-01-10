@@ -19,6 +19,15 @@ const Container=styled.div`
 	padding:5px;
 	box-shadow: 1px 1px 50px #d5d5d5;
 	overflow-y:auto;
+
+	@media screen and (max-width:1370px){
+		width:90%;
+	}
+	@media screen and (max-width:700px){
+		height:120%;
+		width:95%;
+		margin-left:-5% !important;
+	}
 `;
 
 const VideoContainer=(data)=>{
@@ -104,27 +113,29 @@ const VideoContainer=(data)=>{
 					targetDom={"personalContainer"}
 				/>
 			)}
-			{displayMobileUI==true?
-				<MobileUI
-					{...videoProps}
-				/>:
 				<Container>
-					{displayVideoEditModal==false?
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-								<Video
-									{...videoProps}
+					{displayMobileUI==true && displayVideoEditModal==false?
+						<MobileUI
+							{...videoProps}
+						/>:
+						<React.Fragment>
+							{displayVideoEditModal==false?
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+										<Video
+											{...videoProps}
+										/>
+									</li>
+								</ul>:
+								<EditVideoModal
+									videoSrc={data.videoData.videoUrl}
+									previousData={data.videoData}
+									editPost={editPost}
 								/>
-							</li>
-						</ul>:
-						<EditVideoModal
-							videoSrc={data.videoData.videoUrl}
-							previousData={data.videoData}
-							editPost={editPost}
-						/>
+							}
+						</React.Fragment>
 					}
 				</Container>
-			}
 		</React.Fragment>
 	)
 }

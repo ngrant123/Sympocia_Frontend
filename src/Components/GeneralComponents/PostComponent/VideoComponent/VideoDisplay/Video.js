@@ -23,7 +23,7 @@ import LoyaltyIcon from '@material-ui/icons/Loyalty';
 
 const Container=styled.div`
 	position:relative;
-	width:830px;
+	width:100%;
 	height:100%;
 	background-color:black;
 	border-radius:5px;
