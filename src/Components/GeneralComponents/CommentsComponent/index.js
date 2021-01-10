@@ -7,12 +7,16 @@ const Container=styled.div`
 	position:relative;
 	overflow-y:scroll;
 	height:100%;
+	background-color:white;
 	@media screen and (max-width:1370px){
 		height:500px;
 
 	}
-	@media screen and (max-width:420px){
+	@media screen and (max-width:700px){
 		height:350px !important;
+		#containerUL{
+			width:100% !important;
+		}
     }
 `;
 
@@ -50,6 +54,18 @@ const BackButtonCSS={
 	borderRadius:"5px",
 	padding:"10px"
 }
+const MobileOptionCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginTop:"5%"
+}
 
 
 class CommentsContainer extends Component{
@@ -59,13 +75,33 @@ class CommentsContainer extends Component{
 		this.state={
 			displayResponses:false,
 			displayCommentsOrVideoResponses:true,
-			createVideoResponses:false
+			createVideoResponses:false,
+			displayPhoneUI:false,
+			selectedType:"Comments"
 		}
 	}
-	
-	componentDidMount(){
 
+	triggerUIChange=()=>{
+		if(window.innerWidth<700){
+			this.setState({
+				displayPhoneUI:true
+			})
+			return true;
+		}else{
+			this.setState({
+				displayPhoneUI:false
+			})
+			return false;
+		}
+	}
+/*
+	As of this moment creating a blog on the mobile is not available because ui for 
+	react wysiwyg is booty cheeks so going to temporarily disable it for mobile
+*/
 
+	componentDidMount=()=>{
+		window.addEventListener('resize',this.triggerUIChange);
+		this.triggerUIChange();
 	}
 
 	closeModal=()=>{
@@ -105,7 +141,8 @@ class CommentsContainer extends Component{
 		videoResponsesElement.style.borderStyle="none";
 
 		this.setState({
-			displayCommentsOrVideoResponses:true	
+			displayCommentsOrVideoResponses:true,
+			selectedType:"Comments"
 		})
 	}
 
@@ -125,16 +162,40 @@ class CommentsContainer extends Component{
 		commentsElement.style.borderStyle="none";
 
 		this.setState({
-			displayCommentsOrVideoResponses:false	
+			displayCommentsOrVideoResponses:false,
+			selectedType:"Video Comments"
 		})
 
+	}
+
+	commentOptions=()=>{
+		return(
+			<ul style={{padding:"0px"}}>
+				<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"10%",marginRight:"10%"}}>
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<CommentsTitleContainer id="commentsTitleContainer" onClick={()=>this.handleDisplayComments()}>
+							Comments
+						</CommentsTitleContainer>
+					</a>
+				</li>
+				{this.props.postType!="RegularPosts" &&(
+					<li  style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<VideoResponesTitleContainer id="videoResponsesTitleContainer" onClick={()=>this.handleDisplayVideoResponses()}>
+								Video Responses
+							</VideoResponesTitleContainer>
+						</a>
+					</li>
+				)}
+			</ul>
+		)
 	}
 
 
 	render(){
 		return(
 			<Container>
-				<ul style={{padding:"0px",backgroundColor:"white"}}>
+				<ul id="containerUL" style={{padding:"0px",backgroundColor:"white"}}>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",cursor:"pointer"}}
@@ -158,27 +219,21 @@ class CommentsContainer extends Component{
 						</ul>
 					</li>
 
+					{this.state.displayPhoneUI==true?
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileOptionCSS}>
+								{this.state.selectedType}
+								<span class="caret"></span>
+							</button>
 
-					<li style={{marginBottom:"5%",listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"10%",marginRight:"10%"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<CommentsTitleContainer id="commentsTitleContainer" onClick={()=>this.handleDisplayComments()}>
-										Comments
-									</CommentsTitleContainer>
-								</a>
-							</li>
-							{this.props.postType!="RegularPosts" &&(
-								<li  style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<VideoResponesTitleContainer id="videoResponsesTitleContainer" onClick={()=>this.handleDisplayVideoResponses()}>
-											Video Responses
-										</VideoResponesTitleContainer>
-									</a>
-								</li>
-							)}
-						</ul>
-					</li>
+							<ul class="dropdown-menu">
+								{this.commentOptions()}
+							</ul>
+						</div>
+						:<li style={{marginBottom:"5%",listStyle:"none"}}>
+							{this.commentOptions()}
+						</li>
+					}
 					{this.displayCommentsOrVideoResponses()}
 				</ul>
 			</Container>

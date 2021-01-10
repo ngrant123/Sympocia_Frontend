@@ -236,7 +236,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,triggerPromoteModal,personalId})=>{
+const MobileUI=({video,deletePost,targetDom,pageType,isOwnPostViewing,triggerPromoteModal,personalId,closePostModal,displayPollModal})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -249,12 +249,12 @@ const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,trigge
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 
-	if(videoData.isPostAuthentic!=null){
-		var approvesPostNumber=videoData.isPostAuthentic.numOfApprove!=null?
-							   videoData.isPostAuthentic.numOfApprove.length:null;
+	if(video.isPostAuthentic!=null){
+		var approvesPostNumber=video.isPostAuthentic.numOfApprove!=null?
+							   video.isPostAuthentic.numOfApprove.length:null;
 
-		var disapprovesPostNumber=videoData.isPostAuthentic.numOfDisapprove!=null?
-								  videoData.isPostAuthentic.numOfDisapprove.length:null;
+		var disapprovesPostNumber=video.isPostAuthentic.numOfDisapprove!=null?
+								  video.isPostAuthentic.numOfDisapprove.length:null;
 	}
 
 	const closeModal=()=>{
@@ -300,7 +300,7 @@ const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,trigge
 	}
 	const editPost=(data)=>{
 		changeDisplayVideoImageModal(false);
-		videoData.contextLocation.editPost(data);
+		video.contextLocation.editPost(data);
 	}
 
 	const postInformation=()=>{
@@ -312,7 +312,7 @@ const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,trigge
 							<CommentContainer>
 								<li style={{listStyle:"none",marginTop:"30%"}}>
 									<Comments
-										postId={videoData._id}
+										postId={video._id}
 										postType={"Videos"}
 										hideComments={hidePostDisplayInformationContainer}
 										targetDom={targetDom}
@@ -323,15 +323,6 @@ const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,trigge
 						)}
 						{displayInformation==true &&(
 							<VideoInformationContainer>
-								{displayPollingModal==true?
-									<PollOptionPortal
-										closeModal={closeModal}
-										displayApproveModal={displayApproveModal}
-										postId={videoData._id}
-										postType="Videos"
-										targetDom={targetDom}
-									/>:null
-								}
 								<ul id="postLIContainer" style={{marginTop:"30%",padding:"0px",width:"140%"}}>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 										<li onClick={()=>hidePostDisplayInformationContainer()} style={BackButtonCSS}>
@@ -341,12 +332,12 @@ const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,trigge
 									<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none"}}>
-												<p style={{fontSize:"20px"}}>{videoData.firstName}</p>
+												<p style={{fontSize:"20px"}}>{video.firstName}</p>
 											</li>
-											{videoData.industriesUploaded.length>0 &&(
+											{video.industriesUploaded.length>0 &&(
 												<li style={{listStyle:"none"}}>	
 													<IndustryButton>
-														{videoData.industriesUploaded[0].industry}
+														{video.industriesUploaded[0].industry}
 													</IndustryButton>
 												</li>
 											)}
@@ -368,11 +359,11 @@ const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,trigge
 
 								<p style={{height:"30%",width:"90%",fontSize:"40px"}}>
 									<b>
-										{videoData.title}
+										{video.title}
 									</b>
 								</p>
 								<p style={{height:"35%",overflow:"hidden"}}> 
-									 {videoData.description}
+									 {video.description}
 								 </p>
 							</VideoInformationContainer>
 						)}
@@ -384,10 +375,10 @@ const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,trigge
 
 	const createOrRemoveStampEffect=()=>{
 		if(displayStampEffect==false){
-			addStampPost(videoData._id,"personal","Videos",personalId);
+			addStampPost(video._id,"personal","Videos",personalId);
 			changeDisplayStampEffect(true);
 		}else{
-			unStampPost(videoData._id,"personal","Videos",personalId);
+			unStampPost(video._id,"personal","Videos",personalId);
 			changeDisplayStampEffect(false);
 		}
 	}
@@ -396,32 +387,52 @@ const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,trigge
 			{displayVideoImageModal==false?
 				<Container>
 					<ul style={{padding:"10px"}}>
+						<div onClick={()=>closePostModal()} style={{marginBottom:"5%"}}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+							 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+							 stroke-linecap="round" stroke-linejoin="round">
+							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							  <circle cx="12" cy="12" r="9" />
+							  <path d="M10 10l4 4m0 -4l-4 4" />
+							</svg>
+						</div>
 						<li style={{listStyle:"none",marginBottom:"5%"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-									{videoData.videoDescription==null? null:
+									{video.videoDescription==null? null:
 										<VideoDesriptionContainer>
 											<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls muted>
-												<source src={videoData.videoDescription} type="video/mp4"/>
+												<source src={video.videoDescription} type="video/mp4"/>
 											</video>
 										</VideoDesriptionContainer>
 									}
 								</li>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{videoData.audioDescription==null? null:
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+									{video.audioDescription==null? null:
 										<audio style={{width:"150px"}} controls>
-											<source src={videoData.audioDescription} type="audio/ogg"/>
-											<source src={videoData.audioDescription} type="audio/mpeg"/>
+											<source src={video.audioDescription} type="audio/ogg"/>
+											<source src={video.audioDescription} type="audio/mpeg"/>
 											Your browser does not support the audio element.
 										</audio>
+									}
+								</li>
+
+								<li onClick={()=>displayPostInformationTrigger()} style={ShadowButtonCSS}>
+									{displayInformation==false?
+										<ExpandMoreIcon
+											style={{fontSize:30}}
+										/>
+										:<ExpandLessIcon
+											style={{fontSize:30}}
+										/>
 									}
 								</li>
 							</ul>
 						</li>
 						<div id="video" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"120%"}}>
 		
-							<video  key={videoData.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay muted>
-							    <source src={videoData.videoUrl} type="video/mp4"/>
+							<video  key={video.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay muted>
+							    <source src={video.videoUrl} type="video/mp4"/>
 							</video>
 							
 							{displayStampEffect==true &&(
@@ -479,7 +490,7 @@ const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,trigge
 										<a href="javascript:void(0);">
 											<li onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
 												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-													  width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+													  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
 													  fill="none" stroke-linecap="round" stroke-linejoin="round">
 													  <path stroke="none" d="M0 0h24v24H0z"/>
 													  <circle cx="12" cy="9" r="6" />
@@ -490,26 +501,13 @@ const MobileUI=({videoData,deletePost,targetDom,pageType,isOwnPostViewing,trigge
 										</a>
 									</>
 								)}
-
-								<a href="javascript:void(0);">
-									<li onClick={()=>displayPostInformationTrigger()} style={ShadowButtonCSS}>
-										{displayInformation==false?
-											<ExpandLessIcon
-												style={{fontSize:30}}
-											/>:
-											<ExpandMoreIcon
-												style={{fontSize:30}}
-											/>
-										}
-									</li>
-								</a>
 							</ul>
 						</li>
 					</ul>
 				</Container>
 				:<EditVideoModal
-					videoSrc={videoData.videoUrl}
-					previousData={videoData}
+					videoSrc={video.videoUrl}
+					previousData={video}
 					editPost={editPost}
 				/>
 			}
