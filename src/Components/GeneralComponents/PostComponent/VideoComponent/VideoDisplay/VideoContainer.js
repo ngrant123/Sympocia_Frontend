@@ -6,6 +6,7 @@ import EditVideoModal from "../VideoCreation/EditVideoModal.js";
 import MobileUI from "./MobileUI.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector} from "react-redux";
+import PollOptionPortal from "../../PollOptionPortal.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -24,6 +25,9 @@ const VideoContainer=(data)=>{
 	const [displayVideoEditModal,changeVideoEditModal]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
+	const [displayPollOptionModal,changePollOptionModal]=useState(false);
+	const [displayApprovePollOptionModal,changeDisplayApprovePollModal]=useState(false);
+
 	const personalId=useSelector(state=>state.personalInformation.id);
 
 	useEffect(()=>{
@@ -59,8 +63,37 @@ const VideoContainer=(data)=>{
 	const closeDeleteConfirmationModal=()=>{
 		changeDisplayDeleteConfirmation(false);
 	}
+	const closePollModal=()=>{
+		changePollOptionModal(false);
+	}
+	const displayPollModalTrigger=(data)=>{
+		changeDisplayApprovePollModal(data);
+		changePollOptionModal(true);
+	}
+	const videoProps={
+		video:data.videoData,
+		targetDom:data.targetDom,
+		triggerPromoteModal:triggerPromoteModal,
+		displayEditModal:triggerVideoEditModal,
+		deletePost:deletePost,
+		pageType:data.profileType,
+		isOwnPostViewing:data.isOwnProfile,
+		personalId:personalId,
+		closePostModal:data.closePostModal,
+		displayPollModal:displayPollModalTrigger
+	}
 	return(
 		<React.Fragment>
+			{displayPollOptionModal==true && (
+				<PollOptionPortal
+					closeModal={closePollModal}
+					displayApproveModal={displayApprovePollOptionModal}
+					postId={data.videoData._id}
+					postType={"Videos"}
+					targetDom={"personalContainer"}
+				/>
+			)}
+
 			{displayDeleteConfirmation==true &&(
 				<DeletePostConfirmationPortal
 					postType={"Posts"}
@@ -73,28 +106,14 @@ const VideoContainer=(data)=>{
 			)}
 			{displayMobileUI==true?
 				<MobileUI
-					videoData={data.videoData}
-					targetDom={data.targetDom}
-					deletePost={deletePost}
-					pageType={data.profileType}
-					isOwnPostViewing={data.isOwnProfile}
-					triggerPromoteModal={triggerPromoteModal}
-					personalId={personalId}
+					{...videoProps}
 				/>:
 				<Container>
 					{displayVideoEditModal==false?
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 								<Video
-									video={data.videoData}
-									profileType={data.profileType}
-									targetDom={data.targetDom}
-									triggerPromoteModal={triggerPromoteModal}
-									displayEditModal={triggerVideoEditModal}
-									deletePost={deletePost}
-									pageType={data.profileType}
-									isOwnPostViewing={data.isOwnProfile}
-									personalId={personalId}
+									{...videoProps}
 								/>
 							</li>
 						</ul>:

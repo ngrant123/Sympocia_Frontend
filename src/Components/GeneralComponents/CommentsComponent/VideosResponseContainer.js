@@ -78,7 +78,8 @@ const SubmitButtonCSS={
 	borderRadius:"5px",
 	padding:"10px",
 	listStyle:"none",
-	display:"inline-block"
+	display:"inline-block",
+	cursor:"pointer"
 }
 
 const ExtendedCommentAreaButton={
@@ -112,7 +113,8 @@ const ButtonCSS={
 	listStyle:"none",
 	display:"inline-block",
 	marginRight:"2%",
-	marginBottom:"1%"
+	marginBottom:"1%",
+	cursor:"pointer"
 }
 
 /*

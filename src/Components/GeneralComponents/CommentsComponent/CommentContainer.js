@@ -14,12 +14,10 @@ const Container=styled.div`
 			height:10% !important;
 		}
 	}
-	@media screen and (max-width:420px){
+	@media screen and (max-width:700px){
 		height:80% !important;
 		#profilePictureLI{
 			height:120% !important;
-			display:none;
-
 		}
 		#replyLI{
 			height:60% !important;
@@ -27,6 +25,10 @@ const Container=styled.div`
 		}
 		#replyCommentLI{
 			margin-top:-80% !important;
+		}
+
+		#commentLI{
+			height:20% !important;
 		}
     }
 `;
@@ -171,7 +173,7 @@ class CommentsContainer extends Component{
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
 						<li id="profilePictureLI" style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-							<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture} style={ProfilePicture}/>
+							<img id="image" src={data.profilePicture==null?NoProfilePicture:data.profilePicture} style={ProfilePicture}/>
 						</li>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
@@ -194,6 +196,9 @@ class CommentsContainer extends Component{
 			postId:this.props.postId,
 			commentIndex:(this.state.comments.length-1)-indexOfComment
 		}
+		this.setState({
+			isProcessingInput:true
+		})
 
 		const {confirmation,data}=await getRepliesFromComment(replyObject);
 		debugger;
@@ -206,6 +211,9 @@ class CommentsContainer extends Component{
 		}else{
 			alert('Unfortunately there has been an error getting the replies. Please try again');
 		}
+		this.setState({
+			isProcessingInput:false
+		})
 	}
 
 	commentComponent=(data,index)=>{

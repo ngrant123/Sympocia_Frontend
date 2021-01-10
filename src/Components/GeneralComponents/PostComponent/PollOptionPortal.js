@@ -261,61 +261,59 @@ const PollOptionPortal=(props)=>{
 							</React.Fragment>
 						}
 
-						
 						{displayCreateComment==true?
-								<ul style={{overflow:"scroll",padding:"0px"}}>
-									<ExtendedInputContainer
-										placeholder="Write down what you want to say :)"
-										id="extendedInputContainer"
-									/>
-									<li style={{listStyle:"none"}}>
-										<ul style={{padding:"0px"}}>
+							<ul style={{overflow:"scroll",padding:"0px"}}>
+								<ExtendedInputContainer
+									placeholder="Write down what you want to say :)"
+									id="extendedInputContainer"
+								/>
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"0px"}}>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<ReplyIcon
+													style={{fontSize:"20"}}
+													onClick={()=>changeDisplayCreateComment(false)}
+												/>
+											</li>
+										</a>
+										{isProcessingSubmittion==true?
+											<p>Please wait...</p>:
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<ReplyIcon
-														style={{fontSize:"20"}}
-														onClick={()=>changeDisplayCreateComment(false)}
-													/>
+												<li onClick={()=>submitComment()} style={ExploreButton}>
+													Submit
 												</li>
 											</a>
-											{isProcessingSubmittion==true?
-												<p>Please wait...</p>:
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>submitComment()} style={ExploreButton}>
-														Submit
-													</li>
-												</a>
-											}
-										</ul>
-									</li>
-								</ul>:
-								<li id="commentsLI" style={{listStyle:"none"}}>
-									{comments.length==0?
-										<p>No opinions</p>:
-										<ul style={{padding:"0px"}}>
-											{comments.map(data=>
-												<CommentContainer>
-													<CommentOwnerImage>
-														{data.profilePicture==null?
-															<img src={NoProfilePicture} style={ProfilePictureCSS}/>:
-															<img src={data.profilePicture} style={ProfilePictureCSS}/>
-														}
-													</CommentOwnerImage>
-													<CommentTextAndOwner>
-														<p>
-															<b>{data.firstName}</b>
-														</p>
-														<p>{data.comment}</p>
-													</CommentTextAndOwner>
-												</CommentContainer>
-												)}
-										</ul>
-									}
+										}
+									</ul>
 								</li>
+							</ul>:
+							<li id="commentsLI" style={{listStyle:"none"}}>
+								{comments.length==0?
+									<p>No opinions</p>:
+									<ul style={{padding:"0px"}}>
+										{comments.map(data=>
+											<CommentContainer>
+												<CommentOwnerImage>
+													{data.profilePicture==null?
+														<img src={NoProfilePicture} style={ProfilePictureCSS}/>:
+														<img src={data.profilePicture} style={ProfilePictureCSS}/>
+													}
+												</CommentOwnerImage>
+												<CommentTextAndOwner>
+													<p>
+														<b>{data.firstName}</b>
+													</p>
+													<p>{data.comment}</p>
+												</CommentTextAndOwner>
+											</CommentContainer>
+											)}
+									</ul>
+								}
+							</li>
 						}
-						
 					</ul>
-					}
+				}
 			</Container>
 		</React.Fragment>
 	,document.getElementById(targetDom));

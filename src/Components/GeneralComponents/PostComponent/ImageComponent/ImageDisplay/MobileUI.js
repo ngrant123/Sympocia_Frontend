@@ -4,7 +4,6 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import ImageInformation from "./ImageInformation.js";
 import Comments from "../../../CommentsComponent/index.js";
-import PollOptionPortal from "../../PollOptionPortal.js";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import EditImageCreation from "../ImageCreation/EditImageCreation.js";
@@ -74,7 +73,7 @@ const CommentContainer=styled.div`
 
 	@media screen and (max-width:420px){
 		margin-left:7% !important;
-		width:85% !important;
+		width:100% !important;
 		left:0% !important;
     }
 `;
@@ -150,7 +149,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostViewing,promote})=>{
+const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostViewing,promote,isPhoneUI,editPostAction})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -201,29 +200,41 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 		changeDisplayPollOption(false);
 	}
 	const editPost=(data)=>{
-		changeDisplayEditImageModal(false);
-		imgData.contextLocation.editPost(data);
+		editPostAction(data);
 	}
 
+	const commentContainer=()=>{
+		return(
+			<CommentContainer>
+		 		<Comments
+					postId={imgData._id}
+					postType={"Images"}
+					hideComments={hidePostDisplayInformationContainer}
+					targetDom={targetDom}
+				/>
+			</CommentContainer>
+		)
+	}
+
+	const imageInformation=()=>{
+		return (
+			<PostInformationContainer>
+				<ImageInformation
+					imageInformation={imgData}
+					targetDom={targetDom}
+					isMobileTrue={true}
+				/>
+			</PostInformationContainer>
+		)
+	}
 	const postInformation=()=>{
 		return(
 			<PostInformationContainer>
 				{displayComments==true &&(
-					<CommentContainer>
-				 		<Comments
-							postId={imgData._id}
-							postType={"Images"}
-							hideComments={hidePostDisplayInformationContainer}
-							targetDom={targetDom}
-						/>
-					</CommentContainer>
+					<>{commentContainer()}</>
 				)}
 				{displayInformation==true &&(
-					<ImageInformation
-						imageInformation={imgData}
-						targetDom={targetDom}
-						isMobileTrue={true}
-					/>
+					<>{imageInformation()}</>
 				)}
 			</PostInformationContainer>
 		)
@@ -238,6 +249,52 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 			changeDisplayStampEffect(false);
 		}
 	}
+
+	 const commentsAndPostDescriptionDecider=()=>{
+	 	if(isPhoneUI==false){
+	 		return (
+	 			<>
+	 				{displayPostInformationContainer==true?
+		 				<>{postInformation()}</>:
+						<>
+							{displayStampEffect==true &&(
+								<StampIconEffect
+									id="stampEffect"
+								>
+									<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+								</StampIconEffect>
+							)}
+
+							<img  src={imgData.imgUrl} 
+								style={{width:"120%",height:"90%",borderRadius:"5px",marginLeft:"-10%"}}
+							/>
+						</>
+	 				}
+	 			</>
+			)
+	 	}else if(isPhoneUI==true){
+	 		return(
+	 			<>
+	 				{displayInformation==true?	
+	 					<>{imageInformation()}</>
+	 					:<>
+							{displayStampEffect==true &&(
+								<StampIconEffect
+									id="stampEffect"
+								>
+									<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+								</StampIconEffect>
+							)}
+
+							<img  src={imgData.imgUrl} 
+								style={{width:"120%",height:"90%",borderRadius:"5px",marginLeft:"-10%"}}
+							/>
+						</>
+	 				}
+	 			</>
+	 		)
+	 	}
+	 }
 	return (
 		<React.Fragment>
 			{displayEditImageModal==false?
@@ -290,84 +347,73 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 						</li>
 
 						<div id="image" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"110%"}}>
-							{displayPostInformationContainer==true?
-								<>{postInformation()}</>:
-								<>
-									{displayStampEffect==true &&(
-										<StampIconEffect
-											id="stampEffect"
-										>
-											<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-										</StampIconEffect>
-									)}
-
-									<img  src={imgData.imgUrl} 
-										style={{width:"120%",height:"90%",borderRadius:"5px",marginLeft:"-10%"}}
-									/>
-								</>
-							}
+							{commentsAndPostDescriptionDecider()}
 						</div>
 						<hr/>
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"20px"}}>
-								<a href="javascript:void(0);">
-									<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
-										<LoyaltyIcon
-											style={{fontSize:30}}
-										/>
-									</li>
-								</a>
-								<a href="javascript:void(0);">
-									<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-										  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-										  <line x1="8" y1="9" x2="16" y2="9" />
-										  <line x1="8" y1="13" x2="14" y2="13" />
-										</svg>
-									</li>
-								</a>
+						{isPhoneUI==true && (displayPostInformationContainer==true && displayComments==true)?
+							<>{commentContainer()}</>:
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"20px"}}>
+									<a href="javascript:void(0);">
+										<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
+											<LoyaltyIcon
+												style={{fontSize:30}}
+											/>
+										</li>
+									</a>
+									<a href="javascript:void(0);">
+										<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+											  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+											  <line x1="8" y1="9" x2="16" y2="9" />
+											  <line x1="8" y1="13" x2="14" y2="13" />
+											</svg>
+										</li>
+									</a>
 
-								{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
-									<>
-										<a href="javascript:void(0);">
-											<li onClick={()=>changeDisplayEditImageModal(true)} style={ShadowButtonCSS}>
-												<BorderColorIcon
-													style={{fontSize:30}}
-												/>
-											</li>
-										</a>
+									{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
+										<>
+											<a href="javascript:void(0);">
+												<li onClick={()=>changeDisplayEditImageModal(true)} style={ShadowButtonCSS}>
+													<BorderColorIcon
+														style={{fontSize:30}}
+													/>
+												</li>
+											</a>
 
-										<a href="javascript:void(0);">
-											<li onClick={()=>deletePost()} style={ShadowButtonCSS}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												  <line x1="4" y1="7" x2="20" y2="7" />
-												  <line x1="10" y1="11" x2="10" y2="17" />
-												  <line x1="14" y1="11" x2="14" y2="17" />
-												  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-												  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-												</svg>
-											</li>
-										</a>
+											<a href="javascript:void(0);">
+												<li onClick={()=>deletePost()} style={ShadowButtonCSS}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+													  <line x1="4" y1="7" x2="20" y2="7" />
+													  <line x1="10" y1="11" x2="10" y2="17" />
+													  <line x1="14" y1="11" x2="14" y2="17" />
+													  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+													  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+													</svg>
+												</li>
+											</a>
 
-										<a href="javascript:void(0);">
-											<li onClick={()=>promote()} style={ShadowButtonCSS}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-													  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C"
-													  fill="none" stroke-linecap="round" stroke-linejoin="round">
-													  <path stroke="none" d="M0 0h24v24H0z"/>
-													  <circle cx="12" cy="9" r="6" />
-													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
-													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
-												</svg>
-											</li>
-										</a>
-									</>
-								)}
+											<a href="javascript:void(0);">
+												<li onClick={()=>promote()} style={ShadowButtonCSS}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+														  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C"
+														  fill="none" stroke-linecap="round" stroke-linejoin="round">
+														  <path stroke="none" d="M0 0h24v24H0z"/>
+														  <circle cx="12" cy="9" r="6" />
+														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+													</svg>
+												</li>
+											</a>
+										</>
+									)}
 
-							</ul>
-						</li>
+								</ul>
+							</li>
+
+						}
 					</ul>
 				</Container>
 				:<EditImageCreation

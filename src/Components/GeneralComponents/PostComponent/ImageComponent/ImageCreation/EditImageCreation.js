@@ -19,7 +19,7 @@ import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
 
 import { Icon, InlineIcon } from '@iconify/react';
 import crownIcon from '@iconify/icons-mdi/crown';
-
+import ReplayIcon from '@material-ui/icons/Replay';
 import {
 	createImagePost,
 	updateCrownedImage,
@@ -54,10 +54,6 @@ const Container=styled.div`
 			width:100% !important;
 			height:40% !important;
 		}
-		#processedImage{
-			height:200px !important;
-			width:200px !important;
-		}
 		#imageInformationSelection{
 			width:400px !important;
 		}
@@ -71,10 +67,6 @@ const Container=styled.div`
 			display:block !important;
 			width:100% !important;
 			height:50% !important;
-		}
-		#processedImage{
-			height:50px !important;
-			width:50px !important;
 		}
 		#imageInformationSelection{
 			width:250px !important;
@@ -198,6 +190,12 @@ const ChangeImageVerificationModal=styled.div`
 	border-radius:5px;
 	box-shadow: 1px 1px 50px #d5d5d5;
 	overflow:scroll;
+
+	@media screen and (max-width:700px){
+		left:10%;
+		width:80%;
+		height:40%;
+	}
 `;
 const ShadowContainerNewImageCreation= styled.div`
 	position:fixed;
@@ -539,7 +537,6 @@ class EditImageCreation extends Component{
 									resize={{width:450,height:450}}
 									quality={100}
 									processedImage={(src, err) => this.setState({ src, err })}
-									{...{[type]:value}}
 							/>;
 		this.setState({
 			imgElement:imageElement,
@@ -834,18 +831,20 @@ class EditImageCreation extends Component{
 												<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px"}}>
 													<li onClick={()=>this.setState({changeImageVerification:true})} style={{listStyle:"none"}}>
 														<a href="javascript:void(0);">
-															<HighlightOffIcon
+															<ReplayIcon
 																style={{fontSize:30}}
 															/>
 														</a>
 													</li>
-													<li onClick={()=>this.setState({displayFilterPictureModal:true})} style={{listStyle:"none"}}>
-														<a href="javascript:void(0);">
-															<FormatColorFillIcon
-																style={{fontSize:30}}
-															/>
-														</a>
-													</li>
+													{/*
+														<li onClick={()=>this.setState({displayFilterPictureModal:true})} style={{listStyle:"none"}}>
+															<a href="javascript:void(0);">
+																<FormatColorFillIcon
+																	style={{fontSize:30}}
+																/>
+															</a>
+														</li>
+													*/}
 												</ul>
 												<a href="javascript:void(0);">
 													<CrownIconContainer onClick={()=>this.setState({displayCrownModalIndicator:true})}>

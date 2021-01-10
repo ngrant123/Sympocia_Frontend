@@ -59,6 +59,7 @@ const ImageContainer=(props)=>{
 	const [displayImageModal,changeDisplayImage]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
+	const [displayPhoneUI,changePhoneUIStatus]=useState(false);
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
 	
@@ -70,7 +71,11 @@ const ImageContainer=(props)=>{
 	window.addEventListener('resize',triggerUIChange)
 
 	const triggerUIChange=()=>{
-		if(window.innerWidth<1340){
+		if(window.innerWidth<700){
+			changeUIStatus(true);
+			changePhoneUIStatus(true);
+		}
+		else if(window.innerWidth<1340){
 			changeUIStatus(true);
 		}else{
 			changeUIStatus(false);
@@ -145,6 +150,8 @@ const ImageContainer=(props)=>{
 						promote={triggerPromoteModal}
 						isOwnPostViewing={props.isOwnProfile}
 						closePostModal={props.closePostModal}
+						isPhoneUI={displayPhoneUI}
+						editPostAction={editPost}
 					/>
 					:<Container>
 						{displayImageModal==true?
