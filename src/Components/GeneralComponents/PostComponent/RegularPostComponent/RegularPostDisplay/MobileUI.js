@@ -3,17 +3,11 @@ import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import Comments from "../../../CommentsComponent/index.js";
-import PollOptionPortal from "../../PollOptionPortal.js";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import RegularPostCreation from "../RegularPostCreation/index.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
-import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";
-
-import {
-	addStampPost,
-	unStampPost
-} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";\
 
 const Container=styled.div`
 	position:relative;
@@ -283,14 +277,13 @@ const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pag
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 
-		if(postData.isPostAuthentic!=null){
-			var approvesPostNumber=postData.isPostAuthentic.numOfApprove!=null?
-								   postData.isPostAuthentic.numOfApprove.length:null;
+	if(postData.isPostAuthentic!=null){
+		var approvesPostNumber=postData.isPostAuthentic.numOfApprove!=null?
+	 	postData.isPostAuthentic.numOfApprove.length:null;
 
-			var disapprovesPostNumber=postData.isPostAuthentic.numOfDisapprove!=null?
-									  postData.isPostAuthentic.numOfDisapprove.length:null;
-		}
-
+		var disapprovesPostNumber=postData.isPostAuthentic.numOfDisapprove!=null?
+		postData.isPostAuthentic.numOfDisapprove.length:null;
+	}
 
 	const closeModal=()=>{
 		changeDisplayPollingModal(false);

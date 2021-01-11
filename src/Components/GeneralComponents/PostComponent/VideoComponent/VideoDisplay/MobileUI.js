@@ -56,6 +56,14 @@ const Container=styled.div`
 			margin-left:10% !important;
 		}
     }
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+	 	#video{
+			margin-top:0% !important;
+		}
+		#videoDiv{
+			height:100% !important;
+		}
+    }
 `;
 
 
@@ -227,6 +235,14 @@ const VideoAudioAndVideoDescriptionContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	margin-bottom:5%;
+
+	@media screen and (max-width:700px){
+		${({commentsIndicator})=>
+			commentsIndicator==true &&(
+				`display:none !important;`
+			)
+		}
+	}
 `;
 
 const ButtonCSS={
@@ -448,7 +464,8 @@ const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost
 							  <path d="M10 10l4 4m0 -4l-4 4" />
 							</svg>
 						</div>
-						<VideoAudioAndVideoDescriptionContainer>
+						<VideoAudioAndVideoDescriptionContainer 
+							commentsIndicator={displayComments}>
 							<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 								{video.videoDescription==null? null:
 									<VideoDesriptionContainer>
