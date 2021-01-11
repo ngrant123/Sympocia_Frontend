@@ -425,6 +425,10 @@ export const RegularPostContainerParent=styled.div`
 		width:100% !important;
 
 	}
+
+		@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+			height:120% !important;
+    }
 `;
 
 

@@ -404,7 +404,6 @@ const RegularPostContainer=(props)=>{
 											<div style={{marginTop:"5%",maxHeight:"65%",overflowY:"scroll"}}>
 												{displayPostApprovalAndSymposiumInfo==true?
 													<React.Fragment>	
-														{}
 														<li onClick={()=>displayApprovePollModalTrigger()} style={ButtonCSS}>
 																<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> 
 																			approves post

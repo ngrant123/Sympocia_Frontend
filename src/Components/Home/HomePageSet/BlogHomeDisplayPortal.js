@@ -28,15 +28,15 @@ const Container=styled.div`
 	top:12%;
 	left:10%;
 	overflow-y:auto;
-	background-color:white;
+	background-color:red;
 	padding:20px;
 	padding-top:40px;
 
 	@media screen and (max-width:1370px){
-		top:10% !important;
-		width:95% !important;
-		margin-left:-10%;
-		height:100%;
+		top:15% !important;
+		width:80% !important;
+		margin-left:2%;
+		height:90%;
 		padding-top:0px;
 
 		#smallImagePicture{
@@ -44,6 +44,10 @@ const Container=styled.div`
 			width:40% !important;
 		}
 	}
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	top:20% !important;
+    }
 
 	@media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
 	 	#smallImagePicture{
@@ -370,7 +374,7 @@ const BlogHomeDisplayPortal=(props)=>{
 						:<ul style={{padding:"0px"}}>
 							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ExpandMoreIcon
+									<ExpandLessIcon
 										style={{fontSize:25}}
 									/>
 								</a>
@@ -435,7 +439,7 @@ const BlogHomeDisplayPortal=(props)=>{
 					<SmallPostInformationModal>
 						{displayDesktopUI==false?
 							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
-								<ExpandLessIcon
+								<ExpandMoreIcon
 									style={{fontSize:25}}
 								/>
 							</li>:

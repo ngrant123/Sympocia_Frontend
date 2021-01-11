@@ -240,7 +240,7 @@ class BlogsPostsContainer extends Component{
 		return dateToString;
 	}
 
-	render(){
+render(){
 return(
 	<UserConsumer>
 		{personalInformation=>{
@@ -256,7 +256,7 @@ return(
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								{this.state.headerBlog==null?<React.Fragment></React.Fragment>:
-									<ThumbnailBlogComponent to={{pathname:`${personalInformation.isOwnProfile==true?'/createBlog':'/blog/this.state.headerBlog._id'}`,
+									<ThumbnailBlogComponent to={{pathname:personalInformation.isOwnProfile==true?`/createBlog`:`/blog/${this.state.headerBlog._id}`,
 																		state:{
 																				...this.state.headerBlog,
 																				profileType:this.state.profileType,
@@ -348,7 +348,7 @@ return(
 							<li style={{listStyle:"none",marginTop:"5%"}}>	
 								<ul style={{padding:"0px"}}>
 									{this.state.blogs.map(data=>
-										<BlogContainer to={{pathname:`${personalInformation.isOwnProfile==true?'/createBlog':'/blog/data._id'}`,
+										<BlogContainer to={{pathname:personalInformation.isOwnProfile==true?`/createBlog`:`/blog/${data._id}`,
 																		state:{
 																				...data,
 																				profileType:this.state.profileType,
