@@ -393,7 +393,6 @@ export const CreatePostButton=styled.div`
 			width:70px !important;
 			height:70px !important;
     }
-
 `;
 
 export const RegularPostContainerParent=styled.div`
