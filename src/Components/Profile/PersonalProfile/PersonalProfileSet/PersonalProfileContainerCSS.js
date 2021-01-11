@@ -399,16 +399,16 @@ export const CreatePostButton=styled.div`
 export const RegularPostContainerParent=styled.div`
 	position:fixed;
 	width:60%;
-	height:40%;
+	height:50%;
 	z-index:35;
-	left:20%;
+	left:25%;
 	top:20%;
 	border-radius:5px;
 	background-color:white;
 	border-radius:5px;
 	padding:5px;
 	box-shadow: 1px 1px 50px #d5d5d5;
-	overflow-y:auto;
+	overflow:hiden;
 
 	@media screen and (max-width:1370px) and (max-height:1030px){
     	left:10% !important;
