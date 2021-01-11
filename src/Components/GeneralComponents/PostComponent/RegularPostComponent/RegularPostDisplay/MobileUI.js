@@ -7,7 +7,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import RegularPostCreation from "../RegularPostCreation/index.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
-import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";\
+import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";
+import {
+	addStampPost,
+	unStampPost
+} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 const Container=styled.div`
 	position:relative;
@@ -266,7 +270,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pageType,isOwnPostViewing,deletePost,personalId})=>{
+const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pageType,isOwnPostViewing,deletePost,personalId,displayApprovePollModalTrigger,displayDisapproveModalTrigger})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -287,16 +291,6 @@ const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pag
 
 	const closeModal=()=>{
 		changeDisplayPollingModal(false);
-	}
-
-	const displayApproved=()=>{
-		changeDisplayPollingModal(true);
-		changeDisplayApproveModal(true);
-	}
-
-	const displayUnApprove=()=>{
-		changeDisplayPollingModal(true);
-		changeDisplayApproveModal(false);
 	}
 
 	const displayCommentsTrigger=()=>{
@@ -348,15 +342,6 @@ const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pag
 						)}
 						{displayInformation==true &&(
 							<InformationContainer>
-								{displayPollingModal==true?
-									<PollOptionPortal
-										closeModal={closeModal}
-										displayApproveModal={displayApproveModal}
-										postId={postData._id}
-										postType="Videos"
-										targetDom={targetDom}
-									/>:null
-								}
 								<ul id="postLIContainer" style={{padding:"0px",width:"140%"}}>
 									<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
 										<ul style={{padding:"0px"}}>
@@ -374,13 +359,15 @@ const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pag
 									</li>
 
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
+										<li id="approvesPostLI" onClick={()=>displayApprovePollModalTrigger()} 
+											style={ButtonCSS}>
 											<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
 										</li>
 									</a>
 
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
+										<li id="disapprovePostLI" onClick={()=>displayDisapproveModalTrigger()}
+											 style={ButtonCSS}>
 											<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
 										</li>
 									</a>
@@ -407,6 +394,10 @@ const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pag
 		<React.Fragment>
 			{displayRegularPostModal==false?
 				<Container>
+					{/*
+
+
+					*/}
 					<ul style={{padding:"10px"}}>
 						<div id="postDiv" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"120%"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -425,9 +416,7 @@ const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pag
 								</TogglePostInformationButton>
 							</a>
 							{displayStampEffect==true &&(
-								<StampIconEffect
-									id="stampEffect"
-								>
+								<StampIconEffect id="stampEffect">
 									<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
 								</StampIconEffect>
 							)}
@@ -490,7 +479,7 @@ const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pag
 										<a href="javascript:void(0);">
 											<li onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
 												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-													  width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+													  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
 													  fill="none" stroke-linecap="round" stroke-linejoin="round">
 													  <path stroke="none" d="M0 0h24v24H0z"/>
 													  <circle cx="12" cy="9" r="6" />

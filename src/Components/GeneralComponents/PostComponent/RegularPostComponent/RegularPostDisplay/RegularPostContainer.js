@@ -123,9 +123,16 @@ const PostInformationContainer=styled.div`
 const PostOwnerAndOptionsContainer=styled.div`
 	display:flex;
 	flex-direction:row;
+	margin-top:5%;
 `;
 
 const SocialMedaIcon=styled.div`
+`;
+
+const SymposiumContainer=styled.div`
+	position:absolute;
+	top:80%;
+	margin-left:2%;
 `;
 
 const BackButtonCSS={
@@ -305,6 +312,8 @@ const RegularPostContainer=(props)=>{
 						isOwnPostViewing={props.isOwnProfile}
 						deletePost={handleRemoveRegularPost}
 						personalId={personalId}
+						displayDisapproveModalTrigger={displayDisapproveModalTrigger}
+						displayApprovePollModalTrigger={displayApprovePollModalTrigger}
 					/>:
 					<Container>
 						{displayEditPostModal==true?
@@ -322,6 +331,9 @@ const RegularPostContainer=(props)=>{
 
 									<img src={profilePicture==null?NoProfilePicture:profilePicture}
 										style={{width:"100%",height:"100%"}}/>
+									<SymposiumContainer style={ButtonCSS}>
+										{postData.industriesUploaded[0].industry}
+									</SymposiumContainer>
 								</ProfileImageContainer>
 
 								<PostInformationContainer>
@@ -389,9 +401,10 @@ const RegularPostContainer=(props)=>{
 													</React.Fragment>
 												)}
 											</PostOwnerAndOptionsContainer>
-											<div style={{marginTop:"5%",maxHeight:"70%",overflowY:"scroll"}}>
+											<div style={{marginTop:"5%",maxHeight:"65%",overflowY:"scroll"}}>
 												{displayPostApprovalAndSymposiumInfo==true?
 													<React.Fragment>	
+														{}
 														<li onClick={()=>displayApprovePollModalTrigger()} style={ButtonCSS}>
 																<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> 
 																			approves post
