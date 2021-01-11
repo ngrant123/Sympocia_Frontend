@@ -49,15 +49,11 @@ const Container=styled.div`
 		#audio{
 			width:100px !important;
 		}
-		#expandLI{
-			margin-top:0% !important;
-		}
+
 		#miniVideo{
-			width:40% !important;
-			height:30% !important;
-		}
-		#videoAudioAndVideoDescription{
-			display:none !important;
+			width:30% !important;
+			height:20% !important;
+			margin-left:10% !important;
 		}
     }
 `;
@@ -143,7 +139,7 @@ const VideoInformationContainer=styled.div`
     }
 `;
 
-const CommentContainer=styled.div`
+const CommentAndVideoInformationContainer=styled.div`
 	position:absolute;
 	background-color:white;
 	border-radius:5px;
@@ -156,6 +152,7 @@ const CommentContainer=styled.div`
 	@media screen and (max-width:700px){
 		margin-left:7% !important;
 		width:85% !important;
+		height:100%;
 		left:0% !important;
 		margin-top:5% !important;
     }
@@ -226,6 +223,12 @@ const IndustryButton=styled.div`
 	}
 `;
 
+const VideoAudioAndVideoDescriptionContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+	margin-bottom:5%;
+`;
+
 const ButtonCSS={
   listStyle:"none",
   display:"inline-block",
@@ -265,6 +268,26 @@ const ShadowButtonCSS={
 	marginBottom:"2%",
 	cursor:"pointer"
 }
+
+
+const ExpandButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"50%",
+	borderStyle:"none",
+	marginRight:"10%",
+	marginBottom:"2%",
+	cursor:"pointer",
+	height:"20%",
+	marginTop:"2%",
+	marginLeft:"5%"
+}
+
 
 const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost,pageType,isOwnPostViewing,personalId,closePostModal,displayPollModal})=>{
 
@@ -330,20 +353,17 @@ const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost
 	}
 	const postInformation=()=>{
 		return(
-			<div>
+			<CommentAndVideoInformationContainer>
 				{displayComments==true?
-					<CommentContainer>
-						<li style={{listStyle:"none"}}>
-							<Comments
-								postId={video._id}
-								postType={"Videos"}
-								hideComments={hidePostDisplayInformationContainer}
-								targetDom={targetDom}
-							/>
-						</li>
-				 		
-					</CommentContainer>:
-					<div style={{marginTop:"2%",overflow:"hidden",overflow:"scroll"}}> 
+					<li style={{listStyle:"none"}}>
+						<Comments
+							postId={video._id}
+							postType={"Videos"}
+							hideComments={hidePostDisplayInformationContainer}
+							targetDom={targetDom}
+						/>
+					</li>:
+					<React.Fragment>
 						<ul id="postLIContainer" style={{padding:"0px"}}>
 							<hr/>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -386,10 +406,10 @@ const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost
 						</p>
 						<p style={{height:"35%",overflow:"hidden"}}> 
 							 {video.description}
-						 </p>
-					</div>
+						</p>
+					</React.Fragment>
 				}
-			</div>
+			</CommentAndVideoInformationContainer>
 		)
 	}
 
@@ -397,7 +417,8 @@ const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost
 		return(
 			<React.Fragment>
 				<div>
-					<video id="miniVideo"  width="40%" height="40%" borderRadius="50%" autoplay="true" controls muted>
+					<video onClick={()=>hidePostDisplayInformationContainer()} 
+						id="miniVideo"  width="30%" height="30%" borderRadius="50%" autoplay="true">
 						<source src={video.videoUrl} type="video/mp4"/>
 					</video>
 				</div>
@@ -427,42 +448,39 @@ const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost
 							  <path d="M10 10l4 4m0 -4l-4 4" />
 							</svg>
 						</div>
-						<li id="videoAudioAndVideoDescription" style={{listStyle:"none",marginBottom:"5%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-									{video.videoDescription==null? null:
-										<VideoDesriptionContainer>
-											<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls muted>
-												<source src={video.videoDescription} type="video/mp4"/>
-											</video>
-										</VideoDesriptionContainer>
-									}
-								</li>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-									{video.audioDescription==null? null:
-										<audio id="audio" style={{width:"150px"}} controls>
-											<source src={video.audioDescription} type="audio/ogg"/>
-											<source src={video.audioDescription} type="audio/mpeg"/>
-											Your browser does not support the audio element.
-										</audio>
-									}
-								</li>
-
-								<li id="expandLI" onClick={()=>displayPostInformationTrigger()} style={ShadowButtonCSS}>
-									{displayInformation==false?
-										<ExpandMoreIcon
-											id="expandMoreLI"
-											style={{fontSize:30}}
-										/>
-										:<ExpandLessIcon
-											id="expandLessLI"
-											style={{fontSize:30}}
-										/>
-									}
-								</li>
-							</ul>
-						</li>
-						<div id="videoDiv" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"120%"}}>
+						<VideoAudioAndVideoDescriptionContainer>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+								{video.videoDescription==null? null:
+									<VideoDesriptionContainer>
+										<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls muted>
+											<source src={video.videoDescription} type="video/mp4"/>
+										</video>
+									</VideoDesriptionContainer>
+								}
+							</li>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+								{video.audioDescription==null? null:
+									<audio id="audio" style={{width:"150px"}} controls>
+										<source src={video.audioDescription} type="audio/ogg"/>
+										<source src={video.audioDescription} type="audio/mpeg"/>
+										Your browser does not support the audio element.
+									</audio>
+								}
+							</li>
+							<li id="expandLI" onClick={()=>displayPostInformationTrigger()} style={ExpandButtonCSS}>
+								{displayInformation==false?
+									<ExpandMoreIcon
+										id="expandMoreLI"
+										style={{fontSize:30}}
+									/>
+									:<ExpandLessIcon
+										id="expandLessLI"
+										style={{fontSize:30}}
+									/>
+								}
+							</li>
+						</VideoAudioAndVideoDescriptionContainer>
+						<div id="videoDiv" style={{marginLeft:"0%",height:"60%",overflow:"hidden",width:"100%"}}>
 							{displayInformation==false && displayComments==false ?
 								<React.Fragment>
 									<video  key={video.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay muted>

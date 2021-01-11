@@ -54,12 +54,13 @@ const Container=styled.div`
     }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	#image{
-			height:400px !important;
+			height:90% !important;
 		}
     }
-    @media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
 	 	#image{
-			height:70% !important;
+			height:130% !important;
+			width:80% !important;
 		}
     }
 
@@ -265,7 +266,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 								</StampIconEffect>
 							)}
 
-							<img  src={imgData.imgUrl} 
+							<img  id="image" src={imgData.imgUrl} 
 								style={{width:"120%",height:"90%",borderRadius:"5px",marginLeft:"-10%"}}
 							/>
 						</>

@@ -338,6 +338,11 @@ export const ImagePopupContainer=styled.div`
     	height:90% !important;
     	border-radius:5px !important;
     }
+
+     @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		width:95% !important;
+    	height:80% !important;
+    }
 `;
 
 export const PostPopupContainer=styled.div`
@@ -357,7 +362,6 @@ export const PostPopupContainer=styled.div`
     	height:90% !important;
     	border-radius:5px !important;
     }
-
 `;
 
 export const CreatePostButton=styled.div`	

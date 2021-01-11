@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 
-
 const ThumbnailVideoComponent=styled.div`
 	position:relative;
 	width:100%;
@@ -31,7 +30,10 @@ const ThumbnailVideoComponent=styled.div`
 			display:none !important;
 		}
 	}
-	@media screen and (max-width:740px) and (max-height:420px){
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	height:50% !important;
+    }
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
 		width:150% !important;
 		height:100% !important;
 		#description{

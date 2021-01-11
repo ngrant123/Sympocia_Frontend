@@ -21,13 +21,19 @@ const Container=styled.div`
 	overflow-y:auto;
 
 	@media screen and (max-width:1370px){
-		width:90%;
+		width:95%;
 	}
 	@media screen and (max-width:700px){
 		height:120%;
 		width:95%;
 		margin-left:-5% !important;
 	}
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	width:80% !important;
+	 	margin-left:-10% !important;
+	 	height:80%;
+    }
 `;
 
 const VideoContainer=(data)=>{
