@@ -28,7 +28,7 @@ const Container=styled.div`
 	top:12%;
 	left:10%;
 	overflow-y:auto;
-	background-color:red;
+	background-color:white;
 	padding:20px;
 	padding-top:40px;
 
@@ -44,12 +44,16 @@ const Container=styled.div`
 			width:40% !important;
 		}
 	}
+	@media screen and (max-width:700px){
+		top:20% !important;
+	}
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	top:20% !important;
     }
 
-	@media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		top:40% !important;
 	 	#smallImagePicture{
 			width:20% !important;
 		}
@@ -83,6 +87,15 @@ const PosterInformationModal=styled.div`
 		width:70% !important;
 		top:10% !important;
 	}
+
+	@media screen and (max-width:700px){
+		width:90% !important;
+		left:5% !important;
+	}
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		top:30% !important;
+    }
 `;
 
 const ProfilePicture=styled(Link)`
@@ -129,6 +142,9 @@ const SmallPostInformationModal=styled.div`
 	@media screen and (max-width:1370px){
 		top:10% !important;
 	}
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		top:25% !important;
+    }
 `;
 
 const ApproveDisapproveContainer=styled.div`
