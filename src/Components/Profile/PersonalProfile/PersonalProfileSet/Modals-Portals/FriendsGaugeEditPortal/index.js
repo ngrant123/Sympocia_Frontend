@@ -140,7 +140,6 @@ const FriendsGaugeEditPortal=(props)=>{
 				alert('Unfortunately there has been an error trying to get your recruits. Please try again');
 			}
 
-			//this is so stupdi like honestly like this shit be so fucking stupid...like why when i create  a number varibale its reference the array still in a new variable like thats are mentally challenged made me waste my whole fuckitng day on theia sa stufu ass asghist
 			let currentNodes=[...props.nodes];
 			currentNodes.splice(0,1);
 			changeCurrentNodes(currentNodes);

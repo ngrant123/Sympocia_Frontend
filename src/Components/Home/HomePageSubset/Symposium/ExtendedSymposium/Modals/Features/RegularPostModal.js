@@ -372,7 +372,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 
 					<InputContainer id="post" placeholder='Enter your text here'/>
 
-					<li onClick={()=>submitPost()} style={SubmitButtonCSS}>
+					<li onClick={()=>submitPost({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
 						Submit
 					</li>
 				</>

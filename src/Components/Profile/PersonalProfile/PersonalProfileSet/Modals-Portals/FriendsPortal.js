@@ -4,10 +4,7 @@ import {createPortal} from "react-dom";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {Link} from "react-router-dom";
 import {getRecruits} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
-import {
-	removeRecruitProfileIsFollowing,
-	removeRecruitProfileIsntFollowing
-} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -16,7 +13,6 @@ const ShadowContainer= styled.div`
 	background-color: rgba(0,0,0,0.4);
 	z-index:40;
 	top:0px;
-
 `;
 
 const Container=styled.div`
