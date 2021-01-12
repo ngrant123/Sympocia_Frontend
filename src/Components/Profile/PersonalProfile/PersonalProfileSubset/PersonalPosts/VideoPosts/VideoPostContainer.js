@@ -35,6 +35,10 @@ const Container=styled.div`
 			margin-bottom:-10% !important;
 		}
     }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	margin-left:10% !important;
+    }
 `;
 
 const SmallVideoComponent=styled.div`

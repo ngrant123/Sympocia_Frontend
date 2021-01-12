@@ -17,6 +17,7 @@ const Container=styled.div`
 	width:95%;
 	height:125%;
 	overflow-y:scroll;
+	background-color:white;
 	padding:10px;
 
 	@media screen and (max-width:1030px){
@@ -39,6 +40,9 @@ const Container=styled.div`
 			width:150% !important;
 		}
 	}
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		margin-left:20% !important;
+    }
 `;
 
 const RegularPostContainer=styled.div`

@@ -86,7 +86,7 @@ export const Container=styled.div`
 			margin-top:20% !important;
 		}
     }
-     @media screen and (max-width:670px) and (max-height:380px){
+    @media screen and (max-width:670px) and (max-height:380px){
     	#createPostContainer{
 			margin-bottom:40% !important;
 		}
@@ -99,6 +99,15 @@ export const Container=styled.div`
 			}
 		}
     }
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+    	#postsContainer{
+			margin-top:120% !important;
+		}
+		#createPostIcon{
+			margin-left:-10% !important;
+		}
+    }
+
 `;
 
 export const ProfilePictureContainer=styled.div`
@@ -136,6 +145,12 @@ export const ProfilePictureContainer=styled.div`
 	          height:100% !important;
 	          left:5% !important;
 	     }
+    }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	#profilePicture{
+	 		width:50% !important;
+	 	}
     }
 `;
 
