@@ -412,7 +412,7 @@ const BlogHomeDisplayPortal=(props)=>{
 											<img id="smallImagePicture" src={props.selectedBlog.owner.ownerImgUrl==null?
 													NoProfilePicture:
 													props.selectedBlog.owner.profilePicture
-												} style={{width:"100%",height:"20%",borderRadius:"50%"}}/>
+												} style={{width:"30%",height:"20%",borderRadius:"50%"}}/>
 										</ProfilePicture>
 									</li>
 									<li style={{listStyle:"none"}}>
@@ -463,9 +463,9 @@ const BlogHomeDisplayPortal=(props)=>{
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
 										<img id="smallImagePicture" src={props.ownerImgUrl==null?
-													NoProfilePicture:
-													props.ownerImgUrl
-												} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+											NoProfilePicture:
+											props.ownerImgUrl
+										} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
 									</ProfilePicture>
 								</li>
 

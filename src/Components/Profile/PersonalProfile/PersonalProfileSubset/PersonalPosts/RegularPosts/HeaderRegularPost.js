@@ -40,6 +40,7 @@ const Container=styled.div`
     }
 	@media screen and (max-width:740px) and (max-height:420px){
 	 	height:70% !important;
+	 	width:100% !important;
     }
 `;
 
@@ -82,6 +83,13 @@ const Post=styled.div`
 	padding-top:30px;
 	background-color:white;
 
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		heigth:70% !important;
+		#headerPostTest{
+			max-height:90% !important;
+			width:100% !important;
+		}
+    }
 `;
 
 const CommentsProfile=styled.div`
@@ -117,6 +125,9 @@ const PostSecondSection=styled.div`
 	@media screen and (max-width:700px){
 		width:40% !important;
 	}
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		width:100% !important;
+    }
 
 `;
 
@@ -197,7 +208,7 @@ const HeaderRegularPost=(props)=>{
 								Your browser does not support the audio element.
 							</audio>:
 							<React.Fragment>
-								<p style={{maxHeight:"60%",overflow:"hidden"}}>
+								<p id="headerPostTest" style={{maxHeight:"60%",overflow:"hidden"}}>
 									{post.post}
 								</p>
 							</React.Fragment>
