@@ -336,12 +336,17 @@ export const editSocialMediaUrls=async({instagramUrl,tikTokUrl,profileId})=>{
 	}
 }
 
-export const removeRecruitProfileIsFollowing=async({personalProfileId,targetProfile})=>{
+export const removeRecruitProfileIsFollowing=async({personalProfileId,targetProfile,accessToken})=>{
 	try{
 		const removedRecruitResponse=await axios.post(`${CreateUrl}/removeRecruitThatProfileFollows`,{
 			personalProfileId,
 			targetProfile
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		})
+
 		const {data}=removedRecruitResponse;
 		return data;
 	}catch(err){

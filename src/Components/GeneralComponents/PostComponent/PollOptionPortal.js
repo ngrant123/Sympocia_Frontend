@@ -148,7 +148,9 @@ const PollOptionPortal=(props)=>{
 				firstName:personalInformation.firstName,
 				_id:personalInformation.id,
 				postOption:postType,
-				postId:postId
+				postId:postId,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+				personalInformation.accessToken
 			}
 			
 			let confirmationResponse,dataResponse;

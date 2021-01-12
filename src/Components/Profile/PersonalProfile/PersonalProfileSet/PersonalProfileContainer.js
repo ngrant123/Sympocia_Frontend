@@ -908,7 +908,7 @@ class LProfile extends Component{
 											displayIpadUI:this.state.displayIpadUI,
 											displayDesktopUI:this.state.displayDesktopUI,
 										}}
-										visitorId={this.state.visitorId}
+										visitorId={this.state.isOwnProfile==true?null:this.state.visitorId}
 										displayConfetti={this.displayConfetti}
 									/>
 								</PostInformationContainer>

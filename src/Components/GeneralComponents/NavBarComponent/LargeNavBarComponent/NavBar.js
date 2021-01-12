@@ -204,19 +204,20 @@ const NavBar=(pageProps)=>{
 			const notificationTriggerCheck=true;
 			while(notificationTriggerCheck){
 				await triggerSetTimeout(40000);
-				await statusCheckTrigger({id,accessToken,refreshToken,isAccessTokenUpdated:false});
+				await statusCheckTrigger({id,isAccessTokenUpdated:false});
 			}
 		}
 		initialSetUp();
 	},[])
 
 	window.addEventListener('resize',triggerUIChange)
-	const statusCheckTrigger=async({id,accessToken,refreshToken,isAccessTokenUpdated,updatedAccessToken})=>{
-	/*
+
+	const statusCheckTrigger=async({id,isAccessTokenUpdated,updatedAccessToken})=>{
+		debugger;
 		const {confirmation,data}=await notificationStatusCheck(
 											id,
 											isAccessTokenUpdated==true?updatedAccessToken:
-											accessToken
+											personalProfileState.accessToken
 										);
 		if(confirmation=="Success"){
 			const {message}=data;
@@ -228,22 +229,18 @@ const NavBar=(pageProps)=>{
 		}else{
 			const {statusCode}=data;
 			if(statusCode==401){
-				const {refreshToken}=tokens;
 				await refreshTokenApiCallHandle(
-						refreshToken,
-						userId,
+						personalProfileState.refreshToken,
+						id,
 						statusCheckTrigger,
 						dispatch,
 						{
-							id,
-							accessToken,
-							refreshToken
+							id
 						},
 						false
 					);
 			}
 		}
-	*/
 	} 
 
 

@@ -480,7 +480,7 @@ export const createIndustryFeatureImageResponse=async({image,industryId,question
 	}
 }
 
-export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer,accessToken)=>{
+export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer)=>{
 	try{
 		
 		const {
@@ -489,7 +489,8 @@ export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer,acc
 			question,
 			postLevel,
 			userId,
-			questionId
+			questionId,
+			accessToken
 		}=regularPostAnswer;
 
 		const regularPostFeatureResponse=await axios.post(`${CreateURl}/createIndustryFeatureRegularPostResponse`,{
