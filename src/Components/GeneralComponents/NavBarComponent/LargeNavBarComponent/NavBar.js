@@ -203,6 +203,7 @@ const NavBar=(pageProps)=>{
 			triggerUIChange();
 			const notificationTriggerCheck=true;
 			let test;
+			statusCheckTrigger({id,isAccessTokenUpdated:false})
 			/*
 			while(notificationTriggerCheck){
 					debugger;
