@@ -38,7 +38,16 @@ const MobileContainer=styled.div`
 	left:10%;
 	border-radius:5px;
 
-	@media screen and (max-width:500px) {
+	@media screen and (max-width:1370px){
+		#mobileProfilePicture{
+			width:70px !important;
+		}
+	}
+
+	@media screen and (max-width:700px) {
+		#mobileProfilePicture{
+			width:40px !important;
+		}
 		#popularVideosLI{
 			margin-left:10% !important;
 		}
@@ -62,11 +71,12 @@ const SymposiumStyleDivider=styled.div`
 
 
 const ActivePeopleContainer=styled.div`
+	position:relative;
 	width:40%;
 	height:50%;
 	border-radius:5px;
 	background-color:white;
-	overflow:auto;
+	overflow:hidden;
 	padding-top:10px;
 
 	@media screen and (max-width:960px) {
@@ -216,10 +226,9 @@ const CommunityContainer=(props)=>{
 										<React.Fragment>
 											{activePeople.map(data=>
 												<li style={ActivePeopleListCSS}>
-													{data.profilePicture!=null?
-														<img src={data.profilePicture} style={ProfilePictureCSS}/>:
-														<img src={NoProfilePicture} style={ProfilePictureCSS}/>
-													}
+													<img id="mobileProfilePicture" src={data.profilePicture==null?
+																					NoProfilePicture:data.profilePicture} 
+													style={ProfilePictureCSS}/>
 												</li>
 											)}
 										</React.Fragment>:<p> No active users right now :( </p>

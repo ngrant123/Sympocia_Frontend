@@ -65,11 +65,11 @@ const HeaderContainer=styled.div`
 	flex-wrap:wrap;
 	@media screen and (max-width:1370px){
 		width:90%;
+		margin-top:5%;
 		#headerPostProfilePictureLIInformation{
 			top:70% !important;
 		}
 		#headerImageSympoosiumLI{
-			width:100% !important;
 		}
 	}
 
@@ -79,10 +79,13 @@ const HeaderContainer=styled.div`
 		}
     }
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:700px){
 		margin-top:-130px !important;
 		#headerPostProfilePictureLIInformation{
 			top:0% !important;
+		}
+		#headerImageSympoosiumLI{
+			display:none !important;
 		}
 	}
 
@@ -210,6 +213,11 @@ const PostUserAndSymposiumInformation=styled.div`
 const PostUserInformation=styled.div`
 	display:flex;
 	flex-direction:row;
+	margin-left:10%;
+
+	@media screen and (max-width:1370px){
+		margin-left:0% !important;
+	}
 `;
 
 const SuggestedSymposiumsContainer=styled.div`
@@ -221,10 +229,11 @@ const SuggestedSymposiumsContainer=styled.div`
 `;
 const HeaderImageCSS={
 	width:"100%",
-	height:"500px",
+	height:"450px",
 	borderRadius:"5px",
 	borderRadius:"5px",
-	boxShadow:"1px 1px 10px #707070"
+	boxShadow:"1px 1px 10px #707070",
+	cursor:"pointer"
 }
 
 const ImageCSS={
@@ -244,7 +253,9 @@ const ImageLabelCSS={
 	  borderStyle:"solid",
 	  borderWidth:"2px",
 	  borderColor:"#3898ec",
-	  width:"30%",
+	  maxWidth:"30%",
+	  maxHeight:"50px",
+	  overflow:"hidden",
 	  cursor:"pointer"
 }
 
@@ -387,23 +398,42 @@ const ImagePostsModal=(props)=>{
 											null,
 											headerImage.industriesUploaded,props
 										)} style={ImageLabelCSS}>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+							incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+							exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+							dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+							Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+							anim id est laborum.
+						{/*
 							{headerImage.industriesUploaded[0].industry}
+						*/}
 						</p>
 						<PostUserInformation>
 							<ProfilePictureLink to={{pathname:`/profile/${headerImage.owner._id}`}}>
-								{headerImage.videoDescription==null?
-									<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
-										headerImage.owner.profilePicture}
-										style={{height:"50px",width:"60px",borderRadius:"50%"}}
-									/>
-									:<video width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-										<source src={headerImage.videoDescription} type="video/mp4"/>
-									</video>
-								}
+								<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
+									headerImage.owner.profilePicture}
+									style={{height:"50px",width:"60px",borderRadius:"50%"}}
+								/>
+								{/*
+									{headerImage.videoDescription==null?
+										:<video width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+											<source src={headerImage.videoDescription} type="video/mp4"/>
+										</video>
+									}
+
+								*/}
 							</ProfilePictureLink>
 
-							<p id="postOwner" style={{fontSize:"20px",maxWidth:"80px",overflow:"hidden"}}>
-								<b>{headerImage.owner.firstName}</b>
+							<p id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+								dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+								anim id est laborum.
+								{/*
+									<b>{headerImage.owner.firstName}</b>
+								*/}
 							</p>
 							<DisplayRecruitButton
 								post={headerImage}
@@ -411,7 +441,8 @@ const ImagePostsModal=(props)=>{
 							/>
 						</PostUserInformation>
 					</PostUserAndSymposiumInformation>
-					<img id="headerImageLI" src={headerImage.imgUrl} style={HeaderImageCSS}/>
+					<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"
+						 src={headerImage.imgUrl} style={HeaderImageCSS}/>
 					<HeaderDescriptionContainer>
 						{props.isMobileUI==true?
 							<>
@@ -481,14 +512,16 @@ const ImagePostsModal=(props)=>{
 									</div>
 									<DescriptionContainer>
 										<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-											{data.videoDescription==null?
-												<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-													 style={{height:"50px",width:"60px",borderRadius:"50%"}}
-												/>
-												:<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-													<source src={data.videoDescription} type="video/mp4"/>
-												</video>
-											}
+											<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
+												 style={{height:"50px",width:"60px",borderRadius:"50%"}}
+											/>
+											{/*
+												{data.videoDescription==null?
+													:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%" autoplay="true" controls muted>
+														<source src={data.videoDescription} type="video/mp4"/>
+													</video>
+												}
+											*/}
 										</ProfilePictureLink>
 										<p onClick={()=>displayPersonalIndustryFeed(
 															personalInformationRedux,

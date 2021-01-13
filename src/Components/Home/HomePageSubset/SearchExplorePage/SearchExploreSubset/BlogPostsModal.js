@@ -354,8 +354,13 @@ const BlogPostModal=(props)=>{
 									}
 								</li>
 							</a>
-							<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
-								{headerBlog.owner.firstName}
+							<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+									dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+									Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+									anim id est laborum.
 							</li>
 							<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerBlog.industriesUploaded,props)} style={SymposiumLabelCSS}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -419,22 +424,29 @@ const BlogPostModal=(props)=>{
 											<li style={{listStyle:"none"}}>
 												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:"none",display:"inline-block"}}>
-														{data.videoDescription!=null?
-																<VideoDesriptionContainer>
-																	   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																			<source src={data.videoDescription} type="video/mp4"/>
-																		</video>
-																</VideoDesriptionContainer>:
-															<img id="profilePicture" 
-																src={data.owner.profilePicture==null?
-																		NoProfilePicture:
-																		data.owner.profilePicture
-																	} style={ProfileImageCSS}
-															/>
-														}
+														<img id="profilePicture" 
+															src={data.owner.profilePicture==null?
+																	NoProfilePicture:
+																	data.owner.profilePicture
+																} style={ProfileImageCSS}
+														/>
+														{/*
+															{data.videoDescription!=null?
+																	<VideoDesriptionContainer>
+																		   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																				<source src={data.videoDescription} type="video/mp4"/>
+																			</video>
+																	</VideoDesriptionContainer>:
+															}
+														*/}
 													</li>
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														{data.owner.firstName}
+													<li style={{listStyle:"none",display:"inline-block",maxWidth:"70px",overflow:"hidden",maxHeight:"20px"}}>
+														Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+												incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+												exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+												dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+												Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+												anim id est laborum.
 													</li>
 												</ul>
 											</li>

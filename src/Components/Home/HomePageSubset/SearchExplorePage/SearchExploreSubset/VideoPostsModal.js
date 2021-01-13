@@ -31,6 +31,10 @@ const Container=styled.div`
 		width:120%;
 		flex-direction:column;
 		margin-left:-5% !important;
+
+		#symposiumText{
+			display:none !important;
+		}
 		#headerVideoLI{
 			height:80% !important;
 			width:80% !important;
@@ -189,6 +193,8 @@ const SmallPostContainer=styled.div`
 	flex-wrap: wrap;
 	@media screen and (max-width:1370px){
 		width:90%;
+    	margin-left:-4% !important;
+    	margin-top:5%;
 	}
 
 	@media screen and (max-width:1024px) and (max-height:1366px) {
@@ -224,17 +230,19 @@ const PostContainer=styled.div`
 `;
 
 const ImageLabelCSS={
-	listStyle:"none",
-	height:"30%",
-	display:"inline-block",
-	borderColor:"#5298F8",
-	borderStyle:"solid",
-	borderWidth:"1px",
-	color:"#5298F8",
-	backgroundColor:"white",
-	padding:"5px",
-	borderRadius:"5px",
-	marginRight:"2%"
+		listStyle:"none",
+	  display:"inline-block",
+	  backgroundColor:"white",
+	  borderRadius:"5px",
+	  padding:"10px",
+	  color:"#3898ec",
+	  borderStyle:"solid",
+	  borderWidth:"2px",
+	  borderColor:"#3898ec",
+	  maxWidth:"30%",
+	  maxHeight:"50px",
+	  overflow:"hidden",
+	  cursor:"pointer"
 }
 
 const VideoPostModal=(props)=>{
@@ -277,22 +285,32 @@ const VideoPostModal=(props)=>{
 						<HeaderOwnerInformation>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<ProfilePictureLink to={{pathname:`/profile/${headerVideo.owner._id}`}}>
-									{headerVideo.videoDescription==null?
-										<img src={headerVideo.owner.profilePicture==null?NoProfilePicture:
-											headerVideo.owner.profilePicture}
-											style={{height:"50px",width:"60px",borderRadius:"50%"}}
-										/>
-										:<video width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-											<source src={headerVideo.videoDescription} type="video/mp4"/>
-										</video>
-									}
+									<img src={headerVideo.owner.profilePicture==null?NoProfilePicture:
+										headerVideo.owner.profilePicture}
+										style={{height:"50px",width:"60px",borderRadius:"50%"}}
+									/>
+									{/*
+										{headerVideo.videoDescription==null?
+											<img src={headerVideo.owner.profilePicture==null?NoProfilePicture:
+												headerVideo.owner.profilePicture}
+												style={{height:"50px",width:"60px",borderRadius:"50%"}}
+											/>
+											:<video width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+												<source src={headerVideo.videoDescription} type="video/mp4"/>
+											</video>
+										}
+
+									*/}
 								</ProfilePictureLink>
 							</li>
-							<li style={{marginLeft:"2%",listStyle:"none",display:"inline-block"}}>
-								<p style={{fontSize:"20px",maxWidth:"80px",overflow:"hidden"}}>
-									<b>{headerVideo.owner.firstName}</b>
+								<p style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+									dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+									Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+									anim id est laborum.
 								</p>
-							</li>
 							<li style={{marginLeft:"1%",marginBottom:"1%",listStyle:"none"}}>
 								<DisplayRecruitButton
 									post={headerVideo}
@@ -332,7 +350,14 @@ const VideoPostModal=(props)=>{
 									anim id est laborum.
 								</p>
 							</HeaderTextsContainer>
-							<p style={ImageLabelCSS}>{headerVideo.industriesUploaded[0].industry}</p>
+							<p id="symposiumText" style={ImageLabelCSS}>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+									dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+									Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+									anim id est laborum.
+							</p>
 						</HeaderDescriptionContainer>
 
 
@@ -368,14 +393,19 @@ const VideoPostModal=(props)=>{
 										</div>
 										<DescriptionContainer>
 											<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-												{data.videoDescription==null?
-													<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-														 style={{height:"50px",width:"60px",borderRadius:"50%"}}
-													/>
-													:<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-														<source src={data.videoDescription} type="video/mp4"/>
-													</video>
-												}
+												<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
+													 style={{height:"50px",width:"60px",borderRadius:"50%"}}
+												/>
+												{/*
+													{data.videoDescription==null?
+														<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
+															 style={{height:"50px",width:"60px",borderRadius:"50%"}}
+														/>
+														:<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+															<source src={data.videoDescription} type="video/mp4"/>
+														</video>
+													}
+												*/}
 											</ProfilePictureLink>
 											<HeaderTextsContainer>
 												<p style={{fontSize:"20px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>

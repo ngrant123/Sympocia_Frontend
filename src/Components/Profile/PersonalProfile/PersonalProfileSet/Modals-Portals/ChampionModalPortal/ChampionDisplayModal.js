@@ -13,6 +13,7 @@ const SponsorExtendedModal=styled.div`
 	height:35%;
 	background-color:white;
 	top:0px;
+	overflow-y:scroll;
 	z-index:25;
 	border-radius:5px;
 	box-shadow: 10px 10px 20px 	#9395a0;
@@ -26,7 +27,21 @@ const SponsorSimpliedModal=styled.div`
 	height:10%;
 	background-color:white;
 	border-radius:5px;
+	overflow:hidden;
+	display:flex;
+	flex-direction:row;
 	box-shadow: 10px 10px 20px 	#9395a0;
+	padding:10px;
+`;
+
+const ExtendedChampionModalContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
+const ExtendedChampionInformation=styled.div`
+	display:flex;
+	flex-direction:column;
 `;
 
 const ExtendedProfilePicture=styled.div`
@@ -67,22 +82,60 @@ const DeleteChampionCSS={
 
 
 const ExtendedChampionModal=(championData)=>{
-	return <ul id="extendedChampionModalUL">
+	return <ExtendedChampionModalContainer id="extendedChampionModalUL">
+				<ExtendedChampionInformation>
+					<img id="championImageLI" src={championData.imgUrl} 
+					style={{width:"70%",height:"40%",borderRadius:"50%"}}/>
+
+					<li style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",color:"#5298F8"}}>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+					exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+					dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+					Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+					anim id est laborum.
+					</li>
+				</ExtendedChampionInformation>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+					exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+					dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+					Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+					anim id est laborum.
+				</p>
+				{/*
 				<li style={{width:"40%",listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",marginBottom:"3%",width:"40%"}}>
-								<img id="championImageLI" src={championData.imgUrl} style={{width:"170%",height:"35%",borderRadius:"50%"}}/>
-						</li>
 
 						<li style={{listStyle:"none",fontSize:"30px",color:"#5298F8"}}>
-							<b>{championData.name}</b>
 						</li>
 					</ul>
 				</li>
-				<li id="extendChampionDescriptionUL" style={{height:"40%",overflowY:"auto",position:"relative",top:"-60px",listStyle:"none",display:"inline-block",width:"50%"}}>
-					{championData.description}
+				<li id="extendChampionDescriptionUL" style={{height:"40%",position:"relative",top:"-60px",listStyle:"none",display:"inline-block",width:"50%"}}>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+					exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+					dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+					Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+					anim id est laborum.
 				</li>
-			</ul>
+					<li style={{width:"40%",listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",marginBottom:"3%",width:"40%"}}>
+									<img id="championImageLI" src={championData.imgUrl} style={{width:"170%",height:"35%",borderRadius:"50%"}}/>
+							</li>
+
+							<li style={{listStyle:"none",fontSize:"30px",color:"#5298F8"}}>
+								<b>{championData.name}</b>
+							</li>
+						</ul>
+					</li>
+					<li id="extendChampionDescriptionUL" style={{height:"40%",overflowY:"auto",position:"relative",top:"-60px",listStyle:"none",display:"inline-block",width:"50%"}}>
+						{championData.description}
+					</li>
+				*/}
+			</ExtendedChampionModalContainer>
 }
 
 const SponsorDisplayModal=(props)=>{
@@ -120,40 +173,51 @@ const SponsorDisplayModal=(props)=>{
 							/>
 						</li>
 
-						<li style={{listStyle:"none"}}>
+						<li style={{listStyle:"none",marginTop:"10%"}}>
 							{ExtendedChampionModal(props.championData)}
 						</li>
 					</ul>
 				</SponsorExtendedModal>:
 				<SponsorSimpliedModal>
-					<ul style={{padding:"10px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
-							<img src={props.championData.imgUrl} style={{position:"relative",top:"-30px",width:"80px",height:"80%",borderRadius:"50%"}}/>
-						</li>
+					<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
+						<img src={props.championData.imgUrl} style={{position:"relative",width:"80px",height:"100%",borderRadius:"50%"}}/>
+					</li>
+					<li style={{position:"relative",top:"-5px",overflow:"hidden",listStyle:"none",display:"inline-block",width:"50%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",fontSize:"20px",maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+							incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+							exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+							dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+							Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+							anim id est laborum.
+							</li>
+						</ul>
+					</li>
+					<li style={{listStyle:"none",display:"inline-block"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<KeyboardArrowUpIcon
+								style={{borderStyle:"solid",
+										borderRadius:"50%",
+										color:"#BDBDBD",
+										fontSize:30}}
+								onClick={()=>changeExtendedSponsorModal(true)}
+							/>
+						</a>
+					</li>
 
-						<li style={{position:"relative",top:"-5px",overflow:"hidden",listStyle:"none",display:"inline-block",width:"50%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",fontSize:"20px"}}>
-									<b>{props.championData.name}</b> 
-								</li>
-								<li style={{listStyle:"none",width:"70%",height:"45%",color:"#BDBDBD"}}>
-									{props.championData.description}
-								</li>
-							</ul>
-						</li>
-						
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<KeyboardArrowUpIcon
-									style={{borderStyle:"solid",
-											borderRadius:"50%",
-											color:"#BDBDBD",
-											fontSize:30}}
-									onClick={()=>changeExtendedSponsorModal(true)}
-								/>
-							</a>
-						</li>
-					</ul>
+						{/*
+							<li style={{position:"relative",top:"-5px",overflow:"hidden",listStyle:"none",display:"inline-block",width:"50%"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",fontSize:"20px"}}>
+										<b>{props.championData.name}</b> 
+									</li>
+									<li style={{listStyle:"none",width:"70%",height:"45%",color:"#BDBDBD"}}>
+										{props.championData.description}
+									</li>
+								</ul>
+							</li>
+						*/}
 				</SponsorSimpliedModal>
 			}
 

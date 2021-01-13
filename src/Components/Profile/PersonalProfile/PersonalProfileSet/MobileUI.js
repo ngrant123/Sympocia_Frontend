@@ -305,10 +305,10 @@ const PhonePersonalInformationHeader=({ownerName,isOwner})=>{
 				{personalInformation=>{
 					return <li style={{listStyle:"none",marginLeft:"-60%"}}>
 						<ul style={{padding:"0px"}}>
-							<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"15%"}}>
+							<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",fontSize:"20px",maxHeight:"50px",maxWidth:"70%",overflow:"hidden"}}>
 								<b>{ownerName}</b>
 							</li>
-							<li id="mobilePersonalOptionCaret" style={{listStyle:"none",display:"inline-block",marginLeft:"40%"}}>
+							<li id="mobilePersonalOptionCaret" style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
 								<div class="dropdown">
 									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
 										style={ShadowButtonCSS}

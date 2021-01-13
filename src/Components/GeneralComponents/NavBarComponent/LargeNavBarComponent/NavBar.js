@@ -197,15 +197,17 @@ const NavBar=(pageProps)=>{
 			changeDisplayPersonalProfileIcon(true);
 			triggerUIChange();
 			const notificationTriggerCheck=true;
-			while(notificationTriggerCheck){
-				await triggerSetTimeout(10000);
-				const {confirmation,data}=await notificationStatusCheck(personalProfileState.id);
-				if(confirmation=="Success"){
-					if(data==true){
-						changeDisplayNotificationIndicator(true);
+			/*
+				while(notificationTriggerCheck){
+					await triggerSetTimeout(10000);
+					const {confirmation,data}=await notificationStatusCheck(personalProfileState.id);
+					if(confirmation=="Success"){
+						if(data==true){
+							changeDisplayNotificationIndicator(true);
+						}
 					}
 				}
-			}
+			*/
 		}
 
 		initialSetUp();
