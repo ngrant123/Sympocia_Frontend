@@ -8,7 +8,7 @@ const Container=styled.div`
 	background-color:red;
 	z-index:40;
 	height:90%;
-	width:60%;
+	width:70%;
 	border-radius:5px;
 	top:5%;
 	left:20%;
@@ -16,18 +16,23 @@ const Container=styled.div`
 	background-color:white;
 	padding:20px;
 
+	@media screen and (max-width:1370px){
+		left:5%;
+		width:90%;
+	}
+	@media screen and (max-width:700px){
+		width:100% !important;
+		height:100% !important;
+		margin-right:-10% !important;
+		top:5% !important;
+		margin-left:-5% !important;
+	}
+
 	@media screen and (max-width:740px) and (max-height:420px){
     	margin-left:10% !important;
     	top:30% !important;
     }
 
-	@media screen and (max-width:450px){
-		width:100% !important;
-		height:100% !important;
-		margin-right:-10% !important;
-		top:15% !important;
-		margin-left:-20% !important;
-	}
 `;
 
 const ShadowContainer= styled.div`
@@ -58,7 +63,7 @@ const ShadowContainerRecommenedImages=styled.div`
 
 const ImageContainer=styled.div`
 	position:relative;
-	height:60%;
+	height:80%;
 
 	@media screen and (max-width:450px){
 		height:90% !important;
@@ -88,15 +93,18 @@ const ImageCSS={
 
 
 const ImageHomeDisplayPortal=(props)=>{
-
+	const closeModal=()=>{
+		props.closeModal()
+	}
 	return createPortal(
 		<React.Fragment>
-			<ShadowContainer onClick={()=>props.closeModal()}/>
+			<ShadowContainer onClick={()=>closeModal()}/>
 			<Container>
 				<ImageContainer>
 					<ImageDisplayContainer
 						imageData={props.selectedImage}
 						targetDom={props.targetDom}
+						closePostModal={closeModal}
 					/>
 				</ImageContainer>
 				{/*

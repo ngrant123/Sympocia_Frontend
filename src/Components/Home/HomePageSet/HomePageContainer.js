@@ -481,11 +481,11 @@ class HomePageContainer extends Component{
 												<li onClick={()=>this.props.history.push({
 														pathname:'/symposiumList'
 													})} style={{listStyle:"none",marginBottom:"20%"}}>
-														<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-															<AppsIcon
-																style={{fontSize:40}}
-															/>
-														</a>
+													<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+														<AppsIcon
+															style={{fontSize:40}}
+														/>
+													</a>
 												</li>
 												<hr/>
 												

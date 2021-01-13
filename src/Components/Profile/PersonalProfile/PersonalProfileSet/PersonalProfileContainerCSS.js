@@ -73,9 +73,6 @@ export const Container=styled.div`
 		#recommendedPostsLI{
 			margin-top:60% !important;
 		}
-		#mobilePersonalOptionCaret{
-			margin-left:30% !important;
-		}
     }
 
     @media screen and (max-width:570px) and (max-height:330px){

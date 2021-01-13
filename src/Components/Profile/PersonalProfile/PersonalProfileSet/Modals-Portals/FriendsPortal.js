@@ -38,6 +38,10 @@ const Container=styled.div`
 		width:90% !important;
 		left:5% !important;
     }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	height:60%;
+    }
 `;
 
 const InputContainer=styled.textarea`
@@ -53,6 +57,12 @@ const InputContainer=styled.textarea`
 const ViewProfile=styled(Link)`
 	listStyle:none;
   display:inline-block;
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+	  #profilePicture{
+	  	height:30% !important;
+	  }
+    }
 `;
 
 
@@ -155,13 +165,13 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 														<li style={{listStyle:"none",display:"inline-block",width:"25%"}}>
 															<ViewProfile to={{pathname:`/profile/${data._id}`}}>
-																<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
+																<img id="profilePicture" src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
 																	style={{borderRadius:"50%",width:"75%",height:"15%"}}
 																/>
 															</ViewProfile>
 														</li>
 													</a>
-													<li style={{fontSize:"20px",listStyle:"none",display:"inline-block",width:"40%"}}>
+													<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",maxWidth:"40%",maxHeight:"50px",overflow:"hidden"}}>
 														{data.firstName}
 													</li>
 													{isOwner==true &&(

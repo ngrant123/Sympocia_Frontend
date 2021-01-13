@@ -208,8 +208,13 @@ const RegularPostModal=(props)=>{
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",marginBottom:"2%"}}>
 									<ul style={{padding:"0px"}}>
-										<li style={{display:"inline-block",listStyle:"none",fontSize:"30px",marginRight:"2%"}}>
-											<b>{headerRegularPost.owner.firstName}</b>
+										<li style={{display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
+											<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+								dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+								anim id est laborum.</b>
 										</li>
 
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -271,8 +276,13 @@ const RegularPostModal=(props)=>{
 															style={{height:"50px",width:"50px",borderRadius:"50%"}}/>
 														</ProfilePictureLink>
 													</li>
-													<li style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
-														<b>{data.owner.firstName} </b>
+													<li style={{display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
+														<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+															incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+															exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+															dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+															Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+															anim id est laborum.</b>
 													</li>
 												</ul>
 											</li>

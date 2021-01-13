@@ -145,13 +145,19 @@ const Posts=styled.div`
 	position:absolute;
 	width:100%;
 	height:90%;
-	margin-top:3%;
-
 
 	@media screen and (max-width:450px){
 		margin-top:60% !important;
 	}
 `;
+
+const PostOptionButtonCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white"
+}
 
 const ArenaButtonCSS={
 	listStyle:"none",
@@ -367,6 +373,50 @@ class SearchExploreContainer extends Component{
 							</ArenaContainer>
 						</li>
 					</a>
+					<li style={{listStyle:"none",display:"inline-block",marginLeft:"10%",width:"40%"}}>
+						<ul style={{padding:"0px"}}>
+							<li id="headerTitleLI" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"40px"}}>
+								<b>{this.state.postOption}</b>
+							</li>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+								<div class="btn-group">
+									<button class="btn btn-primary dropdown-toggle" type="button" 
+										data-toggle="dropdown" style={PostOptionButtonCSS}>
+										Post Options
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li onClick={()=>this.handleChangePostOption("Images")}>
+											<a href="javascript:;">Images</a>
+										</li>	
+										<li onClick={()=>this.handleChangePostOption("Videos")}>
+											<a href="javascript:;">Videos</a>
+										</li>	
+										<li onClick={()=>this.handleChangePostOption("Blogs")}>
+											<a href="javascript:;">Blogs</a>
+										</li>	
+										<li onClick={()=>this.handleChangePostOption("RegularPosts")}>
+											<a href="javascript:;">Posts</a>
+										</li>		
+									</ul>
+								</div>
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
+										Options
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a href="javascript:;">Most Popular</a></li>
+										<li><a href="javascript:;">Newest</a></li>
+										<li><a href="javascript:;">Popular</a></li>						
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</li>
 				</li>
 	}
 	handleDisplayImages=(homePageInformation,searchPageInformation)=>{
@@ -445,19 +495,11 @@ class SearchExploreContainer extends Component{
 										<li style={{listStyle:"none"}}>
 											<PostsContainer>
 												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none"}}>
-														<ul style={{padding:"0px"}}>
-															<li id="headerTitleLI" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"50px"}}>
-																<b>{this.state.postOption}</b>
-															</li>
+													{this.state.displayDesktopUI==false &&(
+														<React.Fragment>
 															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 																<div class="btn-group">
-																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																								borderColor:"#5298F8",
-																																								borderStyle:"solid",
-																																								borderWidth:"1px",
-																																								color:"#5298F8",
-																																								backgroundColor:"white"}}>
+																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
 																		Post Options
 																		<span class="caret"></span>
 																	</button>
@@ -480,12 +522,7 @@ class SearchExploreContainer extends Component{
 
 															<li style={{listStyle:"none",display:"inline-block"}}>
 																<div class="dropdown">
-																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																												borderColor:"#5298F8",
-																																												borderStyle:"solid",
-																																												borderWidth:"1px",
-																																												color:"#5298F8",
-																																												backgroundColor:"white"}}>
+																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
 																		Options
 																		<span class="caret"></span>
 																	</button>
@@ -496,8 +533,8 @@ class SearchExploreContainer extends Component{
 																	</ul>
 																</div>
 															</li>
-														</ul>
-													</li>
+														</React.Fragment>
+													)}
 													<Posts>
 														<ul style={{padding:"0px"}}>
 															{this.handleDisplayImages(homePageInformation,searchPageInformation)}
