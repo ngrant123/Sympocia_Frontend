@@ -166,7 +166,8 @@ const NavBar=(pageProps)=>{
 	const [displayNotificationIndicator,changeDisplayNotificationIndicator]=useState(false);
 	const [displayNotifications,changeDisplayNotifications]=useState(false);
 	const [notifications,changeNotifications]=useState();
-	const {
+	const [reloadNotificationAccessToken,changeReload]=useState(false);
+	let {
 			refreshToken,
 			accessToken,
 			id
@@ -198,14 +199,19 @@ const NavBar=(pageProps)=>{
 
 	useEffect(()=>{
 		const initialSetUp=async()=>{
-			debugger;
 			changeDisplayPersonalProfileIcon(true);
 			triggerUIChange();
 			const notificationTriggerCheck=true;
+			let test;
+			/*
 			while(notificationTriggerCheck){
-				await triggerSetTimeout(40000);
-				await statusCheckTrigger({id,isAccessTokenUpdated:false});
+					debugger;
+					console.log(test);
+					await triggerSetTimeout(40000);
+					const updatedToken=await statusCheckTrigger({accessToken,id,isAccessTokenUpdated:false});
+					test=updatedToken;
 			}
+			*/
 		}
 		initialSetUp();
 	},[])
@@ -226,6 +232,7 @@ const NavBar=(pageProps)=>{
 			}else{
 				changeDisplayNotificationIndicator(false);
 			}
+			return updatedAccessToken;
 		}else{
 			const {statusCode}=data;
 			if(statusCode==401){
@@ -358,9 +365,33 @@ const NavBar=(pageProps)=>{
 	}
 
 	const closeNotificationsPortal=()=>{
-		clearNewNotifications(personalProfileState.id,accessToken);
-		changeDisplayNotifications(false);
-		changeDisplayNotificationIndicator(false);
+		closeNotificationsPortalTrigger({isAccessTokenUpdated:false});
+	}
+
+
+	const closeNotificationsPortalTrigger=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		const {confirmation,data}=await clearNewNotifications(
+											personalProfileState.id,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalProfileState.accessToken
+										);
+
+		if(confirmation=="Success"){
+			changeDisplayNotifications(false);
+			changeDisplayNotificationIndicator(false);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalProfileState.refreshToken,
+						id,
+						closeNotificationsPortalTrigger,
+						dispatch,
+						{},
+						false
+					);
+			}
+		}
 	}
 
 	return(
