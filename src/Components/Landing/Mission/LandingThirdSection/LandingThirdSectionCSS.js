@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import img2 from '../../../../designs/background/ThirdSectionBackground.png';
 
 export const ThirdContainer=styled.div`	
-	display:flex:;
-	flex-direction:column;
+  display:flex:;
+  flex-direction:column;
   opacity:0;
   transition:.8s;
+  padding-bottom:10%;
 
   @media screen and (max-width:1370px){
         #footerIcons{
@@ -30,7 +31,7 @@ export const ThirdContainer=styled.div`
       margin-top:20%;
     }
 
-    @media screen and (max-width:640px){
+    @media screen and (max-width:700px){
     	#thirdSectionText{
     		width:90% !important;
     	}

@@ -152,6 +152,12 @@ const FirstContainerInformational=styled.div`
       font-size:20px !important;
     }
   }
+
+  @media screen and (max-width:700px){
+    #headerText{
+      font-size:20px !important;
+    }
+  }
 `;
 
 
@@ -306,7 +312,7 @@ const FirstSection=(props)=>{
 
               <FirstContainerContents>
                 <FirstContainerInformational>
-                     <p style={{fontSize:"40px",marginBottom:"10%"}}>
+                     <p id="headerText" style={{fontSize:"40px",marginBottom:"10%"}}>
                         <b>Introducing Sympocia Business</b>
                      </p>
                       <p>

@@ -13,6 +13,11 @@ const Container = styled.div`
 	  margin-top:15%;
 
 	  @media screen and (max-width:1340px){}
+	  @media screen and (max-width:700px){
+	  	#headerTexts{
+	  		font-size:20px !important;
+	  	}
+	  }
 `;
 
 const ImageContainer=styled.div`
@@ -32,7 +37,7 @@ const FourthSection=()=>{
 
 	return(
 		<Container>
-			<p style={{fontSize:"30px"}}>
+			<p id="headerTexts" style={{fontSize:"30px"}}>
 				<b>Heres a preview of the product </b>
 			</p>
 			<p> We have a lot of features that we havent talked about here so submit your 
@@ -40,11 +45,11 @@ const FourthSection=()=>{
 			</p>
 			<ImageContainer>
 				<img id="previewImage" src={previewImage}
-				 style={{borderRadius:"5px",width:"50%",height:"90%",boxShadow:"1px 5px 5px 5px #d5d5d5"}}
+				 style={{borderRadius:"5px",width:"60%",height:"400px",boxShadow:"1px 5px 5px 5px #d5d5d5"}}
 				/>
 			</ImageContainer>
-
-			<p style={{fontSize:"30px"}}>
+			<hr/>
+			<p id="headerTexts" style={{fontSize:"30px"}}>
 				<b>Frequently asked questions </b>
 			</p>
 			

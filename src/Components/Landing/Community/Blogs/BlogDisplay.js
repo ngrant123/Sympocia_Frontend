@@ -3,15 +3,14 @@ import styled from "styled-components";
 import {fileManager} from "../utilFileManager.js";
 
 const Container=styled.div`
+	position:relative;
 	display:flex;
-	flex-direction:row;
+	flex-direction:column;
 	align-items:center;
 	justify-content:center;
-	overflow:hidden;
 
 	@media screen and (max-width:1370px){
 		height:100% !important;
-		overflow:hidden;
 		#blog{
 			overflow:visible;
 			width:90% !important;
@@ -48,12 +47,8 @@ const BlogDisplay=({headerImage,title,description,index})=>{
 
 	return (
 		<Container>
-			<div id="blog" style={{padding:"50px",width:"40%",height:"90%",overflow:"scroll",marginLeft:"15%",marginRight:"5%"}}>
-				{componentBlog}
-			</div>
-
 			<BlogDescription>
-				<img src={headerImage} style={{marginRight:"2%",position:"relative",width:"200px",height:"200px",borderRadius:"50%"}}/>
+				<img src={headerImage} style={{marginRight:"2%",width:"200px",height:"200px",borderRadius:"50%"}}/>
 				<Descriptions>
 					<p style={{fontSize:"20px"}}>
 						<b>{title}</b>
@@ -63,6 +58,10 @@ const BlogDisplay=({headerImage,title,description,index})=>{
 					</p>
 				</Descriptions>
 			</BlogDescription>
+			<div id="blog" style={{padding:"50px",marginLeft:"15%",marginRight:"5%"}}>
+				{componentBlog}
+			</div>
+
 		</Container>
 	)
 }

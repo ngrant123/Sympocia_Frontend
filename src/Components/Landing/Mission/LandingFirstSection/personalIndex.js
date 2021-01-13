@@ -161,7 +161,11 @@ const MobileLoginContainer=styled.div`
   background-color:white;
   border-radius:5px;
   top:20%;
- z-index:8;
+  z-index:8;
+
+  @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+    height:90%;
+  }
 `;
 
 const FirstContainerContents=styled.div`
@@ -190,9 +194,12 @@ const FirstContainerInformational=styled.div`
   @media screen and (max-width:1370px){
     width:90%;
     height:90%;
-    #header1{
-      font-size:20px !important;
-    }
+  }
+
+  @media screen and (max-width:700px){
+      #header1{
+        font-size:20px !important;
+      }
   }
 `;
 
