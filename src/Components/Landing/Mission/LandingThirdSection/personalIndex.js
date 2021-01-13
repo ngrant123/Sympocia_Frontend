@@ -101,13 +101,13 @@ const PageImageContainer=styled.div`
     }
   }
 
-  @media screen and (max-width:600px){
+  @media screen and (max-width:700px){
   	margin-left:0%;
     #amountOfUsersText{
       margin-top:0%;
     }
     #image{
-      width:192px !important;
+      width:240px !important;
       height:225px!important;
     }
   }

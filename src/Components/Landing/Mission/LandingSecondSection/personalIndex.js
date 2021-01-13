@@ -117,15 +117,15 @@ const SecondContainerInformational=styled.div`
   @media screen and (max-width:1370px){
       width:100%;
       margin-left:0%;
-    #PageHeader{
-      font-size:20px !important;
-    }
   }
 
   @media screen and (max-width:700px){
      width:90%; 
      height:95%;
      margin-left:5%;
+    #PageHeader{
+      font-size:20px !important;
+    }
   }
 
     @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
@@ -219,7 +219,7 @@ const SecondSection=(props)=>{
                    />
                 </PageImageContainer>
                 <SecondContainerInformational>
-                  <p id="PageHeader" style={{fontSize:"50px",width:"60%",borderTop:"5px solid #494949",marginLeft:"20%"}}> 
+                  <p id="PageHeader" style={{fontSize:"40px",width:"60%",borderTop:"5px solid #494949",marginLeft:"20%"}}> 
                       <b>How are we different?</b>
                   </p>
                   <ul style={{padding:"0px",marginTop:"5%"}}> 

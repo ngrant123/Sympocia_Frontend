@@ -12,7 +12,10 @@ export const SecondContainer = styled.div`
   background-size: contain
   margin:auto;
   padding:0;  
+  background-color:white;
   opacity:0;
+  padding-bottom:10%;
+  padding-top:10%;
   transition:.8s;
 
    @media screen and (max-width:1370px){
@@ -124,7 +127,7 @@ export const SecondContainer = styled.div`
         }
 
       #companyHeader{
-        font-size:30px;
+        font-size:20px !important;
       }
        #secondSectionText{
           width:150% !important;

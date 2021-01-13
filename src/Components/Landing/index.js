@@ -231,7 +231,7 @@ const MissionCommunityChoiceContainer=styled.div`
 	width:10%;
 	background-color:white;
 	border-radius:5px;
-	z-index:30;
+	z-index:7;
 	display:flex;
 	flex-direction:column;
 	padding:20px;
@@ -399,13 +399,11 @@ const LandingPage=(props)=>{
 		if(displayMobileUI==true){
 			return <div onClick={()=>changeMobilePageChoicesModal(true)}>
 						{displayMissionPage==false &&(
-							<>
-								{communityButton()}
-							</>
+							<>{communityButton()}</>
 						)}
 				   </div>
 		}else{
-			return <MissionButtonContainer onClick={()=>displaySympociaCommunity()}>
+			return <MissionButtonContainer onClick={()=>alert('Sympocia Community Coming Soon')}>
 						{communityButton()}
 						<p style={{color:displayMissionPage==false?"#5298F8":"#A4A4A4"}}> Sympocia </p>
 						<p style={{color:displayMissionPage==false?"#5298F8":"#A4A4A4"}}> Community </p>
@@ -448,7 +446,7 @@ const LandingPage=(props)=>{
 									<b>Our Mission</b>
 								</p>
 								<hr/>
-								<p onClick={()=>displaySympociaCommunityFromMobile()}>	
+								<p onClick={()=>alert('Sympocia Community Coming Soon')}>	
 									<b> Sympocia Community</b>
 							    </p>
 							</MobileChoicesContainer>
