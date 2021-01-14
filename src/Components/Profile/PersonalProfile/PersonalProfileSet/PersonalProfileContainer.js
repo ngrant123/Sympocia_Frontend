@@ -196,7 +196,7 @@ class LProfile extends Component{
 				displayIpadUI:false,
 				displayDesktopUI:false
 			})
-		}else if(window.innerWidth<1300){
+		}else if(window.innerWidth<1400){
 			this.setState({
 				displayPhoneUI:false,
 				displayIpadUI:true,
@@ -802,6 +802,7 @@ class LProfile extends Component{
 								targetDom={"personalContainer"}
 							/>
 						</HeaderContainer>
+
 
 						<ProfileContainer>
 							<ProfilePictureContainer>

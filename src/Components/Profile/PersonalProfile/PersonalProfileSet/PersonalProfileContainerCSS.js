@@ -27,6 +27,7 @@ export const Container=styled.div`
     @media screen and (max-width:700px){
     	#postsContainer{
 			margin-left:-80% !important;
+			margin-top:180% !important;
 		}
 		#friendsGaugeContainer{
 			margin-left:-50% !important;
@@ -95,7 +96,14 @@ export const Container=styled.div`
 			}
 		}
     }
-    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+
+    @media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
+		#postsContainer{
+			margin-top:0% !important;
+		}
+    }
+
+    @media screen and (max-width:700px) and (max-height:420px) and (orientation:landscape){
     	#postsContainer{
 			margin-top:120% !important;
 		}
@@ -123,7 +131,7 @@ export const ProfilePictureContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 	 	box-shadow:none !important;
-	 	height:80% !important;
+	 	height:90% !important;
 		width:100% !important;
 	 	top:5% !important;
 	 	#profilePicture{
@@ -133,21 +141,21 @@ export const ProfilePictureContainer=styled.div`
           margin-left:10%;
 	    }
     }
-    @media screen and (max-width:840px){
+
+
+    @media screen and (max-width:700px){
     	top:-10% !important;
-    	height:60% !important;
+    	height:100% !important;
     	margin-left:5%;
     	width:90% !important;
 		z-index:10;
 		#profilePicture{
-	          height:100% !important;
-	          left:5% !important;
-	     }
-    }
-    @media screen and (max-width:700px){
-		width:100% !important;
-		height:90% !important;
-		margin-left:0%;
+          height:200% !important;
+          left:5% !important;
+          max-height:240px !important;
+	    }
+
+	    max-height:250px !important;
     }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -180,9 +188,14 @@ export const ProfileContainer=styled.div`
 		position:relative;
 		top:30%;
 		margin-left:2% !important;
-		height:40% !important;
+		height:20% !important;
 		width:90%;
 	}
+	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
+		height:60% !important;
+		margin-top:5% !important;
+    	
+    }
 
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
 		top:70%;
@@ -314,6 +327,9 @@ export const PostInformationContainer=styled.div`
 	 	top:35% !important;
     }
  
+ 	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
+		top:20%;
+    }
 
 `;
 
