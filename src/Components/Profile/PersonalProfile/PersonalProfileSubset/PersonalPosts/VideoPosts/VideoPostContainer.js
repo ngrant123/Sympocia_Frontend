@@ -33,7 +33,7 @@ const Container=styled.div`
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	margin-left:10% !important;
     }
-	@media screen and (max-width:840px) and (max-height:420px){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		#smallVideoParentContainer{
 			margin-bottom:-10% !important;
 		}
@@ -119,7 +119,7 @@ class VideoPostsContainer extends Component{
 																									companyPostDisplayModal,
 																									data,
 																									postsConsumer)} 
-																			style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"10%",marginBottom:"-5%"}}>
+																			style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginBottom:"-5%"}}>
 																					<SmallVideoContainer
 																						video={data}
 																					/>
