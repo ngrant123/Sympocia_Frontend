@@ -20,6 +20,7 @@ const Container=styled.div`
 	box-shadow: 1px 1px 50px #d5d5d5;
 	overflow-y:auto;
 
+
 	@media screen and (max-width:1370px){
 		width:95%;
 	}
@@ -29,16 +30,7 @@ const Container=styled.div`
 		margin-left:-5% !important;
 	}
 
-    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-	 	width:80% !important;
-	 	margin-left:-10% !important;
-	 	height:80%;
-    }
 
-    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
-	 	margin-left:5% !important;
-	 	margin-top:-10%;
-    }
 `;
 
 const VideoContainer=(data)=>{

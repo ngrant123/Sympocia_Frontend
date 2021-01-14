@@ -59,6 +59,7 @@ const Container=styled.div`
     }
     @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
 	 	#image{
+	 		margin-left:5% !important;
 			height:130% !important;
 			width:80% !important;
 		}

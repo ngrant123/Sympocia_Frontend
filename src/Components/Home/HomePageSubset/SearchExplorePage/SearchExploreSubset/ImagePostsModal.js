@@ -97,7 +97,7 @@ const HeaderContainer=styled.div`
 		}
     }
 
-	@media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
     	margin-top:45px !important;
     	#headerPostProfilePictureLIInformation{
 			top:90% !important;

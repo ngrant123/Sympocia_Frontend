@@ -380,7 +380,7 @@ export const ImagePopupContainer=styled.div`
 `;
 
 export const PostPopupContainer=styled.div`
-	margin-left:0%;
+	margin-left:20%;
 	margin-top:10%;
 	position:fixed;
 	width:70%;
@@ -389,6 +389,10 @@ export const PostPopupContainer=styled.div`
 	z-index:35;
 	border-radius:5px;
 
+	@media screen and (max-width:1370px){
+		margin-left:0%;
+	}
+
 	@media screen and (max-width:800px){
 		margin-left:0% !important;
 		top:0% !important;
@@ -396,10 +400,13 @@ export const PostPopupContainer=styled.div`
     	height:90% !important;
     	border-radius:5px !important;
     }
+
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-    	margin-top:7%;
-    	margin-left:20%;
+    	margin-top:0%;
+    	height:90%;
     }
+
+
 `;
 
 export const CreatePostButton=styled.div`	
@@ -464,8 +471,8 @@ export const RegularPostContainerParent=styled.div`
 
 	}
 
-		@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
-			height:120% !important;
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+			height:70% !important;
     }
 `;
 

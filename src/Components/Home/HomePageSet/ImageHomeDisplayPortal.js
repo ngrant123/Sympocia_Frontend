@@ -28,10 +28,6 @@ const Container=styled.div`
 		margin-left:-5% !important;
 	}
 
-	@media screen and (max-width:740px) and (max-height:420px){
-    	margin-left:10% !important;
-    	top:30% !important;
-    }
 
 `;
 
@@ -65,9 +61,17 @@ const ImageContainer=styled.div`
 	position:relative;
 	height:80%;
 
-	@media screen and (max-width:450px){
-		height:90% !important;
-	}
+	@media screen and (max-width:1370px){
+		margin-left:1% !important;
+    	width:100% !important;
+    	height:90% !important;
+    	border-radius:5px !important;
+    }
+
+     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		width:95% !important;
+    	height:80% !important;
+    }
 `;
 
 const ImageLabelCSS={
