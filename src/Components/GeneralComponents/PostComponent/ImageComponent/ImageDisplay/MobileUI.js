@@ -54,7 +54,7 @@ const Container=styled.div`
     }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	#image{
-			height:90% !important;
+			height:150% !important;
 		}
     }
     @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
@@ -347,7 +347,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 							</ul>
 						</li>
 
-						<div id="image" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"110%"}}>
+						<div id="image" style={{marginLeft:"-10%",height:"60%",overflow:"scroll",width:"110%"}}>
 							{commentsAndPostDescriptionDecider()}
 						</div>
 						<hr/>

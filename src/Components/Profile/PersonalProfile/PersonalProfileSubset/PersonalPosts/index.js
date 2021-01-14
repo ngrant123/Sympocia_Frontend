@@ -331,7 +331,7 @@ const PersonalPostsIndex=(props)=>{
 		return (
 			<li  style={{listStyle:"none"}}>
 				<ul style={{padding:"0px"}}>
-					<li id="mobilePhonePostOption"style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+					<li id="mobilePhonePostOption" style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 						<div class="dropdown">
 							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
 								style={ShadowButtonCSS}>
@@ -504,7 +504,7 @@ const PersonalPostsIndex=(props)=>{
 					{props.uiStatus.displayPhoneUI==true &&(
 						<PhonePersonalInformationHeader
 							ownerName={props.personalInformation.userProfile.firstName}
-							isOwner={props.personalInformation.isOwner}
+							isOwner={props.personalInformation.isOwnProfile}
 						/>
 					)}
 					<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
