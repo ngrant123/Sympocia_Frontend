@@ -36,12 +36,21 @@ const SponsorSimpliedModal=styled.div`
 
 const ExtendedChampionModalContainer=styled.div`
 	display:flex;
-	flex-direction:row;
+	flex-direction:column;
 `;
 
 const ExtendedChampionInformation=styled.div`
 	display:flex;
-	flex-direction:column;
+	flex-direction:row;
+
+
+
+	@media screen and (max-width:1370px){
+		#championImageLI{
+			width:100px !important;
+			height:100px !important;
+		}
+	}
 `;
 
 const ExtendedProfilePicture=styled.div`
@@ -85,56 +94,15 @@ const ExtendedChampionModal=(championData)=>{
 	return <ExtendedChampionModalContainer id="extendedChampionModalUL">
 				<ExtendedChampionInformation>
 					<img id="championImageLI" src={championData.imgUrl} 
-					style={{width:"70%",height:"40%",borderRadius:"50%"}}/>
+					style={{width:"70px",height:"80px",borderRadius:"50%"}}/>
 
-					<li style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",color:"#5298F8"}}>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-					exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-					dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-					Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-					anim id est laborum.
+					<li style={{listStyle:"none",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",color:"#5298F8"}}>
+						<b>{championData.name}</b>
 					</li>
 				</ExtendedChampionInformation>
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-					exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-					dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-					Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-					anim id est laborum.
+					{championData.description}
 				</p>
-				{/*
-				<li style={{width:"40%",listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-					<ul style={{padding:"0px"}}>
-
-						<li style={{listStyle:"none",fontSize:"30px",color:"#5298F8"}}>
-						</li>
-					</ul>
-				</li>
-				<li id="extendChampionDescriptionUL" style={{height:"40%",position:"relative",top:"-60px",listStyle:"none",display:"inline-block",width:"50%"}}>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-					exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-					dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-					Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-					anim id est laborum.
-				</li>
-					<li style={{width:"40%",listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",marginBottom:"3%",width:"40%"}}>
-									<img id="championImageLI" src={championData.imgUrl} style={{width:"170%",height:"35%",borderRadius:"50%"}}/>
-							</li>
-
-							<li style={{listStyle:"none",fontSize:"30px",color:"#5298F8"}}>
-								<b>{championData.name}</b>
-							</li>
-						</ul>
-					</li>
-					<li id="extendChampionDescriptionUL" style={{height:"40%",overflowY:"auto",position:"relative",top:"-60px",listStyle:"none",display:"inline-block",width:"50%"}}>
-						{championData.description}
-					</li>
-				*/}
 			</ExtendedChampionModalContainer>
 }
 
@@ -182,17 +150,8 @@ const SponsorDisplayModal=(props)=>{
 					<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
 						<img src={props.championData.imgUrl} style={{position:"relative",width:"80px",height:"100%",borderRadius:"50%"}}/>
 					</li>
-					<li style={{position:"relative",top:"-5px",overflow:"hidden",listStyle:"none",display:"inline-block",width:"50%"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",fontSize:"20px",maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-							incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-							exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-							dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-							Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-							anim id est laborum.
-							</li>
-						</ul>
+					<li style={{position:"relative",overflow:"hidden",listStyle:"none",display:"inline-block",width:"50%",fontSize:"20px",maxWidth:"80%",maxHeight:"50px"}}>
+						<b>{props.championData.name}</b> 
 					</li>
 					<li style={{listStyle:"none",display:"inline-block"}}>
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -205,19 +164,6 @@ const SponsorDisplayModal=(props)=>{
 							/>
 						</a>
 					</li>
-
-						{/*
-							<li style={{position:"relative",top:"-5px",overflow:"hidden",listStyle:"none",display:"inline-block",width:"50%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",fontSize:"20px"}}>
-										<b>{props.championData.name}</b> 
-									</li>
-									<li style={{listStyle:"none",width:"70%",height:"45%",color:"#BDBDBD"}}>
-										{props.championData.description}
-									</li>
-								</ul>
-							</li>
-						*/}
 				</SponsorSimpliedModal>
 			}
 

@@ -18,7 +18,7 @@ const SmallVideoComponent=styled.div`
 		}
 	}
 
-	@media screen and (max-width:740px) and (max-height:420px){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
 		height:200% !important;
 		width:200%;
 	 	#videoAudio{
@@ -33,7 +33,6 @@ const SmallVideoComponent=styled.div`
 
 
 const SmallVideo=styled.div`
-
 	position:relative;
 	height:50%;
 	width:100%;

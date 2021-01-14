@@ -26,7 +26,7 @@ const Container=styled.div`
 			width:210px !important;
 		}
     }
-    @media screen and (max-width:740px) and (max-height:420px){
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
 	 	#crownedImageContainer{
 			width:180px !important;
 		}
@@ -134,7 +134,7 @@ const CrownedImageContainer=(props)=>{
 						<li style={IndustryButtonCSS}>
 							{imageData.industriesUploaded[0].industry}
 						</li>
-						<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px"}}>
+						<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 							<b>{imageData.caption}</b>
 						</li>
 
@@ -145,7 +145,7 @@ const CrownedImageContainer=(props)=>{
 						*/}
 
 						<li style={{listStyle:"none"}}>
-							<Description>
+							<Description style={{maxWidth:"60%",maxHeight:"60px",overflow:"hidden"}}>
 								{imageData.description}
 							</Description>
 						</li>

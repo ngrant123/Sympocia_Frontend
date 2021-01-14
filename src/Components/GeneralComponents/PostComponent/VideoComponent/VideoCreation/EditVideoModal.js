@@ -79,7 +79,7 @@ const CrownIconContainer=styled.div`
 	position:absolute;
 	border-style:solid;
 	border-width:2px;
-	border-color:red;
+	border-color:#C8B0F4;;
 	animation: glowing 1300ms infinite;
 	top:25%;
 	left:77%;
