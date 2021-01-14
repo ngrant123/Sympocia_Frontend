@@ -50,12 +50,12 @@ const ThumbnailVideoComponent=styled.div`
 
 const ThumbnailVideo=styled.div`
 	position:relative;
-	width:450px;
-	height:140%;
+	width:60%;
+	height:100%;
 	border-radius:5px;
 	display:flex;
 	flex-direction:column;
-	margin-top:-10%;
+	margin-right:2%;
 	@media screen and (max-width:1370px){
 		margin-top:-20%;
 	}
@@ -83,6 +83,7 @@ const VideoDescriptionContainer=styled.div`
 const DescriptionContainer=styled.div`
 	display:flex;
 	flex-direction:column;
+	width:50%;
 
 	@media screen and (max-width:700px){
 		display:none !important;
@@ -119,22 +120,27 @@ const CrownedVideoContainer=({headerVideo})=>{
 				</ThumbnailVideo>
 
 				<DescriptionContainer id="videoDescriptionLI">
-					<ul style={{paddging:"0px"}}>
 						<div id="postInformation">
 							<li style={{marginBottom:"5%",listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
 								{headerVideo.industriesUploaded[0].industry}
 							</li>
-							<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px"}}>
-								<b>{headerVideo.title}</b>
+							<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+								dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+								anim id est laborum.
+								{/*
+									<b>{headerVideo.title}</b>
+								*/}
 							</li>
 
 							<li style={{listStyle:"none",marginBottom:"5px"}}>
 								<ul style={{padding:"0px",color:"#a6a6a7"}}>
-									{/*
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 											{headerVideo.views} views
 										</li>
-									*/}
 
 									<li style={{listStyle:"none",display:"inline-block"}}>
 										{constructDate(headerVideo.datePosted)}
@@ -165,14 +171,14 @@ const CrownedVideoContainer=({headerVideo})=>{
 								}
 							</ul>
 						</li>
-
 						<li id="description" style={{listStyle:"none"}}>
-							<Description>
-								{headerVideo.description}
+							<Description style={{maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
+								Lorem ipsum dolor
+									{headerVideo.description}
 							</Description>
 						</li>
-					</ul>
-				</DescriptionContainer>
+					</DescriptionContainer>
+
 		</ThumbnailVideoComponent>
 	)
 }
