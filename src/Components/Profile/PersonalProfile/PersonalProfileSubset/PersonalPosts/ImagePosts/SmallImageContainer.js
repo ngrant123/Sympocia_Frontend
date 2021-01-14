@@ -22,7 +22,7 @@ const ImageContainer=styled.div`
 		}
 	}
 
-	@media screen and (max-width:740px) and (max-height:420px){
+	@media screen and (max-width:840px) and (max-height:420px)  and (orientation: landscape){
 		height:100% !important;
 		width:100%;
 	 	#imageAudio{

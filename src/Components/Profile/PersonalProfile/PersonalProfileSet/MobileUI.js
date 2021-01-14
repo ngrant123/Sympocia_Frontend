@@ -80,6 +80,9 @@ const SponsorExtendedModal=styled.div`
 		left:5% !important;
 		top:40%;
 		width:90% !important;
+		height:35%;
+		padding:20px;
+		overflow:scroll;
 
 		#extendChampionDescriptionUL{
 			top:10px !important;

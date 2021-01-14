@@ -35,7 +35,7 @@ const ThumbnailVideoComponent=styled.div`
 	 	height:50% !important;
     }
 
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		width:150% !important;
 		height:100% !important;
 		#description{
