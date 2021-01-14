@@ -24,6 +24,7 @@ const Container=styled.div`
 			}
 		}
 		#headerDescriptionLI{
+			margin-left:10% !important;
 			display:block !important;
 			margin-top:10% !important;
 			position:relative !important;
@@ -31,7 +32,8 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:840px){
+
 		#searchSymposiumPostLI{
 			display:none;
 		}
@@ -57,6 +59,12 @@ const Container=styled.div`
 			width:250px !important;
 		}
     }
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	margin-left:10% !important;
+		#headerDescriptionLI{
+			margin-left:10% !important;
+		}
+    }
 `;
 
 const ThumbnailBlogComponent=styled(Link)`
@@ -80,7 +88,10 @@ const ThumbnailBlogComponent=styled(Link)`
 		}
 	}
 
-	@media screen and (max-width:740px) and (max-height:420px){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#headerDescriptionLI{
+			margin-left:-5% !important;
+		}
 	 	#headerImageLI{
 			#headerImage{
 				height:60% !important;
@@ -120,18 +131,22 @@ const SmallBlog=styled.div`
 	height:50%;
 	width:100%;
 	border-radius:5px;
+	background-color:red;
 	overflow:hidden;
 
-	@media screen and (max-width:420px){
-		width:50% !important;
-		height:50% !important;
+	@media screen and (max-width:840px){
+		width:60% !important;
+		height:40% !important;
+		#smallImage{
+			height:100% !important;
+		}
     }
 
-    @media screen  and (max-width:730px) and (max-height:420px) 
+    @media screen  and (max-width:840px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
-    	height:90% !important;
-    	margin-top:60% !important;
+	  	width:90% !important;
+		height:90% !important;
     }
 `;
 
@@ -167,7 +182,7 @@ const HeaderVideoDesriptionContainer=styled.div`
 		}
     }
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:840px){
 		height:10% !important;
 		width:30% !important;
 		#headerVideo{
@@ -288,12 +303,12 @@ return(
 												<img  id="headerImage" src={this.state.headerBlog.blogImageUrl} style={{width:"450px",height:"40%"}}/>
 											</li>
 
-											<li id="headerDescriptionLI" style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",width:"300px"}}>
+											<li id="headerDescriptionLI" style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",width:"300px",overflow:"hidden"}}>
 												<ul style={{paddging:"0px"}}>
 													<li id="headerSymposiumsLI" style={{marginBottom:"5px",listStyle:"none",padding:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
 														{this.state.headerBlog.industriesUploaded[0].industry}
 													</li>
-													<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px"}}>
+													<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
 														<b>{this.state.headerBlog.title}</b>
 													</li>
 
@@ -306,7 +321,7 @@ return(
 													</li>
 
 													<li style={{listStyle:"none"}}>
-														<Description>
+														<Description style={{maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 															{this.state.headerBlog.description}
 														</Description>
 
@@ -370,7 +385,7 @@ return(
 
 														<li style={{listStyle:"none"}}>
 															<SmallBlog>
-																<img src={data.blogImageUrl} width="100%" height="100%"/>
+																<img id="smallImage" src={data.blogImageUrl} width="100%" height="100%"/>
 																<VideoDesriptionContainer>
 																	{data.videoDescription!=null &&(
 																		<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
@@ -382,10 +397,10 @@ return(
 															</SmallBlog>
 														</li>
 
-														<li style={{listStyle:"none",fontSize:"15px"}}>
+														<li style={{listStyle:"none",fontSize:"15px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 															<b> {data.title} </b>
 														</li>
-														<li style={{listStyle:"none",fontSize:"15px"}}>
+														<li style={{listStyle:"none",fontSize:"15px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 															{data.description}
 														</li>
 														{/*
