@@ -41,9 +41,12 @@ const ThumbnailVideoComponent=styled.div`
 		#description{
 			display:none !important;
 		}
-		#postInformation{
-			display:none !important;
-		}
+		margin-left:-10% !important;
+    }
+
+    @media screen and (max-width:700px) and (max-height:420px) and (orientation:landscape){
+		
+		margin-left:0% !important;
     }
 
 `;
@@ -64,6 +67,10 @@ const ThumbnailVideo=styled.div`
 		height:120% !important;
 		margin-right:-5% !important;
 	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		width:40%;
+		height:200%;
+    }
 `;
 
 const Description=styled.div`
@@ -92,6 +99,14 @@ const DescriptionContainer=styled.div`
 			display:none !important;
 		}
 	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		display:none !important;
+
+		#videoDescriptionLI{
+			display:none !important;
+		}
+    }
 `;
 
 
@@ -125,15 +140,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 								{headerVideo.industriesUploaded[0].industry}
 							</li>
 							<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-								dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-								anim id est laborum.
-								{/*
-									<b>{headerVideo.title}</b>
-								*/}
+								<b>{headerVideo.title}</b>
 							</li>
 
 							<li style={{listStyle:"none",marginBottom:"5px"}}>
@@ -173,8 +180,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 						</li>
 						<li id="description" style={{listStyle:"none"}}>
 							<Description style={{maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
-								Lorem ipsum dolor
-									{headerVideo.description}
+								{headerVideo.description}
 							</Description>
 						</li>
 					</DescriptionContainer>
