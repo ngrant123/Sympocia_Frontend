@@ -48,6 +48,27 @@ const RegularPostDisplayContainer=styled.div`
 		overflow-y:auto;
 		background-color:white;
 	}
+	
+	@media screen and (max-width:1370px) and (max-height:1030px){
+    	left:10% !important;
+    }
+
+
+	@media screen and (max-width:1030px){
+		left:10% !important;
+		width:80% !important;
+	}
+
+	@media screen and (max-width:450px){
+		left:0% !important;
+		height:100% !important;
+		width:100% !important;
+
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+			height:70% !important;
+    }
 `;
 
 const RegularPostHomeDisplayPortal=(props)=>{
