@@ -27,7 +27,6 @@ export const Container=styled.div`
     @media screen and (max-width:700px){
     	#postsContainer{
 			margin-left:-80% !important;
-			margin-top:180% !important;
 		}
 		#friendsGaugeContainer{
 			margin-left:-50% !important;
@@ -96,7 +95,7 @@ export const Container=styled.div`
 			}
 		}
     }
-    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	#postsContainer{
 			margin-top:120% !important;
 		}
@@ -108,7 +107,7 @@ export const Container=styled.div`
 `;
 
 export const ProfilePictureContainer=styled.div`
-	position:absolute;
+	position:relative;
 	width:90%;
 	height:35%;
 	left:2%;
@@ -134,14 +133,21 @@ export const ProfilePictureContainer=styled.div`
           margin-left:10%;
 	    }
     }
-    @media screen and (max-width:700px){
-		width:100% !important;
-		height:90% !important;
+    @media screen and (max-width:840px){
+    	top:-10% !important;
+    	height:60% !important;
+    	margin-left:5%;
+    	width:90% !important;
 		z-index:10;
 		#profilePicture{
 	          height:100% !important;
 	          left:5% !important;
 	     }
+    }
+    @media screen and (max-width:700px){
+		width:100% !important;
+		height:90% !important;
+		margin-left:0%;
     }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -178,7 +184,7 @@ export const ProfileContainer=styled.div`
 		width:90%;
 	}
 
-	 @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
 		top:70%;
 		height:90% !important;
     }

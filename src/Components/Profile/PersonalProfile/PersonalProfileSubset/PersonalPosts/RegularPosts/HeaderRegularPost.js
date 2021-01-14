@@ -38,7 +38,7 @@ const Container=styled.div`
 			width:40% !important;
 		}
     }
-	@media screen and (max-width:740px) and (max-height:420px){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 	 	height:70% !important;
 	 	width:100% !important;
     }
@@ -83,7 +83,7 @@ const Post=styled.div`
 	padding-top:30px;
 	background-color:white;
 
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		heigth:70% !important;
 		#headerPostTest{
 			max-height:90% !important;
@@ -113,7 +113,7 @@ const PostFirstSection=styled.div`
 	flex-direction:column;
 	width:30%;
 	margin-right:5%;
-	@media screen and (max-width:700px){
+	@media screen and (max-width:840px){
 		display:none !important;
 	}
 `;
@@ -125,7 +125,7 @@ const PostSecondSection=styled.div`
 	@media screen and (max-width:700px){
 		width:40% !important;
 	}
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		width:100% !important;
     }
 
@@ -209,15 +209,7 @@ const HeaderRegularPost=(props)=>{
 							</audio>:
 							<React.Fragment>
 								<p id="headerPostTest" style={{maxHeight:"60%",overflow:"hidden"}}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-									dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-									Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-									anim id est laborum.
-									{/*
-										{post.post}
-									*/}
+									{post.post}
 								</p>
 							</React.Fragment>
 						}
