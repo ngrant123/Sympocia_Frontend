@@ -380,7 +380,7 @@ export const ImagePopupContainer=styled.div`
 `;
 
 export const PostPopupContainer=styled.div`
-	margin-left:20%;
+	margin-left:0%;
 	margin-top:10%;
 	position:fixed;
 	width:70%;
@@ -395,6 +395,10 @@ export const PostPopupContainer=styled.div`
     	width:100% !important;
     	height:90% !important;
     	border-radius:5px !important;
+    }
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	margin-top:7%;
+    	margin-left:20%;
     }
 `;
 
