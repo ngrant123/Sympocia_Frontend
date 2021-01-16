@@ -259,12 +259,11 @@ class Symposium extends Component{
 
 			const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
 	  		var {confirmation,data}=await getIndustryInformation(
-		  										this.props.match.params.symposiumName,
-		  									   	this.state.postCount,
-		  									   	profileId
-	  									   	);
-
-	  		
+	  										this.props.match.params.symposiumName,
+	  									   	this.state.postCount,
+	  									   	profileId
+  									   	);
+	  		debugger;
 	  		if(confirmation=="Success"){
 	  			const {
 	  				posts,
