@@ -1,0 +1,150 @@
+db.profiles.aggregate([
+	{$match:{_id:ObjectId("6008fb3a2cf1760ce7c07314")}},
+	{$project:{
+		championData:1,
+		firstTimeLoggedIn:1,
+		socialMediaUrls:1,
+		imagePost:{
+			$reverseArray:"$imagePost"
+		},
+		firstName:1,
+		friendsGaugeNodes:1,
+		recruits:1,
+		'crownPost.image':1
+	}},
+	{$addFields:{
+		imagePost:{
+			$slice:["$imagePost",0,20]
+		}
+	}},
+	{$unwind:{
+		path:"$crownPost.image",
+        preserveNullAndEmptyArrays: true
+	}},
+	{$addFields:{
+		crownedPost:"$crownPost.image"
+	}},
+	{$lookup:{
+		from:"imageposts",
+		let:{postId:"$crownedPost"},
+		pipeline:[
+			{$match:{
+				$expr:{
+					$eq:["$_id","$$postId"]
+				}
+			}}
+		],
+		as:"crownedPost"
+	}},
+	{$unwind:{
+		path:"$crownedPost",
+        preserveNullAndEmptyArrays: true
+	}},
+	{$unwind:{
+		path:"$imagePost",
+        preserveNullAndEmptyArrays: true
+	}},
+	{$lookup:{
+		from:"imageposts",
+		let:{posts:"$imagePost"},
+		pipeline:[
+			{$match:{
+				$expr:{
+					$eq:["$_id","$$posts"]
+				}
+			}}
+		],
+		as:"imagePost"
+	}},
+	{$unwind:{
+		path:"$imagePost",
+        preserveNullAndEmptyArrays: true
+	}},
+	{$group:{
+		_id:"$_id",
+		championData:{$first:"$championData"},
+		firstTimeLoggedIn:{$first:"$firstTimeLoggedIn"},
+		socialMediaUrls:{$first:"$socialMediaUrls"},
+		firstName:{$first:"$firstName"},
+		friendsGaugeNodes:{$first:"$friendsGaugeNodes"},
+		recruits:{$first:"$recruits"},
+		crownedPost:{$first:"$crownedPost"},
+		imagePost:{$addToSet:"$imagePost"}
+	}},
+	{$unwind:{
+		path:"$recruits",
+        preserveNullAndEmptyArrays: true
+	}},
+	{$lookup:{
+		from:"profiles",
+		let:{userId:"$recruits"},
+		pipeline:[
+			{$match:{
+				$expr:{
+					$eq:["$_id","$$userId"]
+				}
+			}},
+			{$project:{
+				_id:"$_id",
+				firstName:"$firstName"
+			}}
+		],
+		as:"recruits"
+	}}
+]).pretty()
+
+
+
+
+
+
+
+
+"image" : ObjectId("600769c933955d20b9ba4f10")
+
+
+,
+	{$lookup:{
+		from:"imagePost",
+		let:{postId:"imagePost"},
+		pipeline:[
+			{$match:{
+				expr:{
+					$eq:["$_id","$$postId"]
+				}
+			}}
+		],
+		as:"crownPost"
+	}}
+
+,
+	{$unwind:"$imagePost"},
+	{$lookup:{
+		from:"imageposts",
+		let:{posts:"$imagePost"},
+		pipeline:[
+			{$match:{
+				$expr:{
+					$eq:["$_id","$$posts"]
+				}
+			}}
+		],
+		as:"imagePost"
+	}}
+
+
+,
+	{$group:{
+		_id:"$_id"
+		championData:{ $addToSet:"$championData"},
+		firstTimeLoggedIn:{$addToSet:"$firstTimeLoggedIn"},
+		socialMediaUrls:{$addToSet:"$socialMediaUrls"},
+		firstName:{$addToSet:"$firstName"},
+		friendsGaugeNodes:{$addToSet:"$friendsGaugeNodes"},
+		recruits:{$addToSet:"$recruits"},
+		imagePost:{
+			$push:{
+				_id:"$_id"
+			}
+		}
+	}}

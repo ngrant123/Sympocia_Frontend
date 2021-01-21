@@ -211,6 +211,7 @@ const HeaderContainer=(props)=>{
 			displayPopularVideos,
 			displayDesktopUI
 		}=props;
+	console.log(props);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 	const [displayMobilePostOptions,changeMobileDisplayPostOptions]=useState(false);

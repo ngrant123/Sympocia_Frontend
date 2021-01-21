@@ -200,24 +200,27 @@ class BlogsPostsContainer extends Component{
 		this.state={
 			isLoading:true,
 			blogs:[],
-			profileType:this.props.profileType
+			profileType:this.props.profileType,
+			currentPostCount:0
 		}
 	}
 
 	async componentDidMount(){
 		if(this.props.profileType=="Personal"){
-			const {	confirmation,data}=await getBlogFromUser({userId:this.props.id,visitorId:this.props.visitorId});
+			const {	confirmation,data}=await getBlogFromUser({
+												userId:this.props.id,
+												visitorId:this.props.visitorId,
+												postCount:this.state.currentPostCount
+											});
 			if(confirmation=="Success"){
 				const {
-					crownedBlog,
-					blogArray
+					crownedPost,
+					posts
 				}=data;
-
-				console.log(crownedBlog);
-				console.log(blogArray);
+				console.log(posts);
 				this.setState({
-					headerBlog:crownedBlog==={}?null:crownedBlog,
-					blogs:blogArray,
+					headerBlog:crownedPost==={}?null:crownedPost,
+					blogs:posts,
 					isLoading:false,
 					blogUrl:`/createBlog`,
 					profileType:"Personal"
