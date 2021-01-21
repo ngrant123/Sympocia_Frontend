@@ -149,15 +149,17 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 	}}=personalInformation;
 
 	const isOwnProfileRecruitButtonDecider=()=>{
+		debugger;
 		const {
 			userProfile:{
 				recruits
 			}
 		}=personalInformation;
+		console.log(recruits);
 		let isRecruit=false;
 
 		recruits.forEach((data,index)=>{
-			if(data==userId)
+			if(data._id==userId)
 				isRecruit=true;
 		})
 		if(personalInformation.isOwnProfile || isRecruit){

@@ -25,7 +25,6 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		left:2%;
 	}
-
 	@media screen and (max-width:840px){
 		left:5%;
 	}

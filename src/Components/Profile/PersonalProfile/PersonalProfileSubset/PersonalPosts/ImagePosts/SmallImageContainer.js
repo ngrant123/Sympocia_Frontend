@@ -85,7 +85,6 @@ const IndustryButtonCSS={
 
 const SmallImageContainer=(props)=>{
 	const {data}=props;
-	console.log(props);
 
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));

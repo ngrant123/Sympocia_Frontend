@@ -182,6 +182,9 @@ class LProfile extends Component{
 			displayDesktopUI:false,
 			displayMobileUIPersonalInformation:false,
 			displayMobileUIProfileOptions:false,
+			triggerPostReload:false,
+			endOfPostsDBIndicator:false,
+			isLoadingReloadedPosts:false,
 			displayConfettiHandle:()=>{
 				this.displayConfetti()
 			}
@@ -725,6 +728,35 @@ class LProfile extends Component{
 		})
 	}
 
+	detectEndOfPostContainer=(divElement)=>{
+		if(	divElement.scrollHeight - divElement.scrollTop - divElement.clientHeight < 1
+			 && this.state.endOfPostsDBIndicator==false && this.state.isLoadingReloadedPosts==false){
+			this.setState({
+				triggerPostReload:true,
+				isLoadingReloadedPosts:true
+			})
+		}
+	}
+
+	isPostReloading=(indicator)=>{
+		this.setState({
+			isLoadingReloadedPosts:indicator
+		})
+	}
+
+	unTriggerReload=()=>{
+		this.setState({
+			triggerPostReload:false,
+			isLoadingReloadedPosts:false
+		})
+	}
+
+	finalPostRecieved=()=>{
+		this.setState({
+			endOfPostsDBIndicator:true
+		})
+	}
+
 	render(){
 		return(
 
@@ -773,7 +805,7 @@ class LProfile extends Component{
 						}
 					}}
 				>
-					<Container id="personalContainer">
+					<Container id="personalContainer"  onScroll={element=>this.detectEndOfPostContainer(element.target)}>
 						{this.state.displayConfetti==true?
 							<Confetti
 								style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
@@ -895,6 +927,10 @@ class LProfile extends Component{
 										}}
 										visitorId={this.state.visitorId}
 										displayConfetti={this.displayConfetti}
+										triggerPostReload={this.state.triggerPostReload}
+										isPostReloading={this.isPostReloading}
+										unTriggerReload={this.unTriggerReload}
+										finalPostRecieved={this.finalPostRecieved}
 									/>
 								</PostInformationContainer>
 							</>

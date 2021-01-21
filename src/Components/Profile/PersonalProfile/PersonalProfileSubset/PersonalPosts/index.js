@@ -15,7 +15,8 @@ import PostCreationPortal from "../../PersonalProfileSet/Modals-Portals/PostCrea
 
 import {
 		getRegularPostFromUser,
-		getVideosFromUser
+		getVideosFromUser,
+		getUserImages
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 import {
@@ -164,13 +165,17 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
+	console.log(props);
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
 	const [displayRegularPosts,changeDisplayForRegularPosts]=useState(false);
 	const personalRedux=useSelector(state=>state.personalInformation);
+	const [currentPostType,changeCurrentPostType]=useState("image");
+	const [currentPostCounter,changeCurrentPostCounter]=useState(0);
+	const [isLoadingNewPosts,changeIsLoadingNewPosts]=useState(false);
 
-	const [regularPost,changeRegularPost]=useState({
+	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
 		posts:[]
 	})
@@ -179,12 +184,12 @@ const PersonalPostsIndex=(props)=>{
 	const [postOption,changePostOption]=useState();
 	const [personalInformation,changePersonalInformation]=useState(props.personalInformation);
 
-	const [imagePost,changeImagePost]=useState({
+	let [imagePost,changeImagePost]=useState({
 			crownedImage:props.personalInformation.userProfile.crownedImage,
 			images:props.personalInformation.userProfile.imagePost
 	});
 
-	const [videoPost,changeVideoPosts]=useState({
+	let [videoPost,changeVideoPosts]=useState({
 		headerVideo:null,
 		videos:[]
 	});
@@ -224,7 +229,7 @@ const PersonalPostsIndex=(props)=>{
 		regularPost.style.borderStyle="none";
 	}
 
-	const handlePostsClick=async(kindOfPost,id)=>{
+	const handlePostsClick=async(kindOfPost,id,isLoadingNewPosts,postCounter)=>{
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
@@ -233,13 +238,39 @@ const PersonalPostsIndex=(props)=>{
 			unSelectButtonsCSS();
 
 		if(kindOfPost=="image"){
-
 			const image=document.getElementById("images");
 			image.style.color="#C8B0F4";
 			image.style.borderBottom="solid";
 			image.style.borderColor="#C8B0F4";
-
+			changeCurrentPostType("image");
 			changeDisplayForImages(true);
+
+			if(isLoadingNewPosts==true){
+				const {confirmation,data}=await getUserImages({
+												userId:id,
+												visitorId:props.visitorId,
+												postCount:postCounter
+											});
+				debugger;
+				if(confirmation=="Success"){
+					const {crownedPost,posts}=data;
+					if(posts.length==0){
+						props.finalPostRecieved();
+					}else{
+						const {images}=imagePost;
+						const newImages=images.concat(posts);
+						imagePost={
+							...imagePost,
+							images:newImages
+						}
+						props.unTriggerReload();
+						changeImagePost(imagePost);
+						changeIsLoadingNewPosts(false)
+					}
+				}else{
+					alert('Unfortunately there has been an error getting your videos. Please try again');
+				}
+			}
 
 		}else if(kindOfPost=="video"){
 			const videos=document.getElementById("videos");
@@ -247,20 +278,25 @@ const PersonalPostsIndex=(props)=>{
 			videos.style.borderBottom="solid";
 			videos.style.borderColor="#C8B0F4";
 			changeDisplayForVideos(true); 
+			changeCurrentPostType("video");
 
-			const {confirmation,data}=await getVideosFromUser({userId:id,visitorId:props.visitorId});
+			const {confirmation,data}=await getVideosFromUser({
+												userId:id,
+												visitorId:props.visitorId,
+												postCount:currentPostCounter
+											});
 
 			if(confirmation=="Success"){
-				const {crownedVideo,videoPosts}=data;
+				const {crownedPost,posts}=data;
 				
 				const videoObject={
-					headerVideo:crownedVideo,
-					videos:videoPosts
+					headerVideo:crownedPost,
+					videos:posts
 				}
 				changeVideoPosts(videoObject);
 				changeVideosLoadingIndicator(false);
 			}else{
-				alert('Unfortunately there has been an error getting your pictures. Please try again');
+				alert('Unfortunately there has been an error getting your videos. Please try again');
 			}
 		}else if(kindOfPost=="blog"){
 			const blogs=document.getElementById("blogs");
@@ -268,30 +304,35 @@ const PersonalPostsIndex=(props)=>{
 			blogs.style.borderBottom="solid";
 			blogs.style.borderColor="#C8B0F4";
 			changeDisplayForBlogs(true);
+			changeCurrentPostType("blog")
 		}else{
 			changeDisplayForRegularPosts(true);
-			const {confirmation,data}=await getRegularPostFromUser({userId:id,
-																	visitorId:props.visitorId
-																});
-				if(confirmation=="Success"){	
-					const {crownedRegularPost,regularPosts}=data;
-					const regularPost=document.getElementById("regularPosts");
-					regularPost.style.color="#C8B0F4";
-					regularPost.style.borderBottom="solid";
-					regularPost.style.borderColor="#C8B0F4";
-		
-					const regularPostObject={
-						headerPost:crownedRegularPost,
-						posts:regularPosts.reverse()
-					}
-		
-					changeRegularPost(regularPostObject);
-					changeDisplayForRegularPosts(true);
-					changeRegularPostsLoadingIndicator(false);
-				}else{
-					alert('Unfortunately there has been an error getting your regular posts. Please try again');
+			changeCurrentPostType("video");
+			const {confirmation,data}=await getRegularPostFromUser({
+												userId:id,
+												visitorId:props.visitorId,
+												postCount:currentPostCounter
+											});
+			if(confirmation=="Success"){	
+				const {crownedPost,posts}=data;
+				const regularPost=document.getElementById("regularPosts");
+				regularPost.style.color="#C8B0F4";
+				regularPost.style.borderBottom="solid";
+				regularPost.style.borderColor="#C8B0F4";
+	
+				const regularPostObject={
+					headerPost:crownedPost,
+					posts:posts.reverse()
 				}
+	
+				changeRegularPost(regularPostObject);
+				changeDisplayForRegularPosts(true);
+				changeRegularPostsLoadingIndicator(false);
+			}else{
+				alert('Unfortunately there has been an error getting your regular posts. Please try again');
+			}
 		}
+		
 	}
 
 	const closeModal=()=>{
@@ -376,6 +417,14 @@ const PersonalPostsIndex=(props)=>{
 				<hr/>
 			</li>
 		)
+	}
+
+	const handleTriggerPostReload=()=>{
+		if(props.triggerPostReload==true && isLoadingNewPosts==false){
+			changeCurrentPostCounter(currentPostCounter+1);
+			changeIsLoadingNewPosts(true)
+			handlePostsClick(currentPostType,props.personalInformation.userProfile._id,true,currentPostCounter+1);
+		}
 	}
 
 /*
@@ -518,7 +567,7 @@ const PersonalPostsIndex=(props)=>{
 					</li>
 					<hr/>
 					{displayCreationPostContainer()}
-
+					{handleTriggerPostReload()}
 					<li id="postsContainer" style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
 							{props.uiStatus.displayPhoneUI==true? 
