@@ -11,6 +11,7 @@ import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 import CrownedVideo from "./CrownedVideoContainer.js";
 import {PostConsumer} from "../PostsContext.js";
+import Typed from "react-typed";
 
 const Container=styled.div`
 	position:absolute;
@@ -128,6 +129,14 @@ class VideoPostsContainer extends Component{
 																	</ul>
 																</li>
 															</a>
+
+															{postDisplayModal.isLoadingReloadedPosts==true &&(
+																  <Typed 
+												                    strings={['Loading...']} 
+												                    typeSpeed={60} 
+												                    backSpeed={30} 
+										                		  />
+															)}
 														</ul>
 													}
 												</React.Fragment>
