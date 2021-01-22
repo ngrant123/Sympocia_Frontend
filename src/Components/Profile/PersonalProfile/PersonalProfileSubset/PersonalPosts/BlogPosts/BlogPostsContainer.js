@@ -207,45 +207,7 @@ class BlogsPostsContainer extends Component{
 		}
 	}
 
-	async componentDidMount(){
-		if(this.props.profileType=="Personal"){
-			const {	confirmation,data}=await getBlogFromUser({
-												userId:this.props.id,
-												visitorId:this.props.visitorId,
-												postCount:this.state.currentPostCount
-											});
-			if(confirmation=="Success"){
-				const {
-					crownedPost,
-					posts
-				}=data;
-				console.log(posts);
-				this.setState({
-					headerBlog:crownedPost==={}?null:crownedPost,
-					blogs:posts,
-					isLoading:false,
-					blogUrl:`/createBlog`,
-					profileType:"Personal"
-				})
-			}else{
-				alert('Unfortunately there has been an error getting these blog posts. Please try again');
-			}
-		}else{				
-		
-			const {	headerBlog,blogPosts}=await getCompanyBlogs(this.props.id);
-			
-			this.setState({
-				headerBlog:headerBlog,
-				blogs:blogPosts,
-				isLoading:false,
-				blogUrl:`/blog/${this.props.id}`,
-				profileType:"Company"
-			})
-		}
-	}
-
 	constructName=(personalInformation)=>{
-		
 		const firstName=personalInformation.userProfile.firstName;
 		const lastName=personalInformation.userProfile.lastName;
 		const fullName=firstName+" "+lastName
@@ -267,9 +229,9 @@ return(
 		<PostDisplayConsumer>
 		{postDisplayModal=>(
 			 <Container>
-				{this.state.isLoading==true?<p>Currently loading blog posts</p>:
+				{this.props.isLoadingIndicatorBlogPost==true?<p>Currently loading blog posts</p>:
 					<React.Fragment>
-						{this.state.blogs.length==0&&this.state.headerBlog==null?
+						{this.props.blogData.blogs.length==0&&this.props.blogData.headerBlog==null?
 						<NoPostsModal
 							id="noPostsModalContainer"
 							postType={"blog"}
@@ -277,29 +239,29 @@ return(
 						/>:
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
-								{this.state.headerBlog==null?<React.Fragment></React.Fragment>:
-									<ThumbnailBlogComponent to={{pathname:personalInformation.isOwnProfile==true?`/createBlog`:`/blog/${this.state.headerBlog._id}`,
+								{this.props.blogData.headerBlog==null?<React.Fragment></React.Fragment>:
+									<ThumbnailBlogComponent to={{pathname:personalInformation.isOwnProfile==true?`/createBlog`:`/blog/${this.props.blogData.headerBlog._id}`,
 																		state:{
-																				...this.state.headerBlog,
+																				...this.props.blogData.headerBlog,
 																				profileType:this.state.profileType,
 																				friendsNodes:this.props.friendsNodes
 																		}}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none"}}>
 												<li style={{listStyle:"none",display:"inline-block"}}>
-													{this.state.headerBlog.audioDescription!=null &&(
+													{this.props.blogData.headerBlog.audioDescription!=null &&(
 														<audio id="headerAudioLI" controls style={{width:"200px"}} >
-														  <source src={this.state.headerBlog.audioDescription} type="audio/ogg"/>
-														  <source src={this.state.headerBlog.audioDescription} type="audio/mpeg"/>
+														  <source src={this.props.blogData.headerBlog.audioDescription} type="audio/ogg"/>
+														  <source src={this.props.blogData.headerBlog.audioDescription} type="audio/mpeg"/>
 														  Your browser does not support the audio element.
 														</audio>
 													)}
 												</li>
 												<li style={{width:"20%",listStyle:"none",display:"inline-block"}}>
 													<HeaderVideoDesriptionContainer>
-														{this.state.headerBlog.videoDescription!=null &&(
+														{this.props.blogData.headerBlog.videoDescription!=null &&(
 															<video id="headerVideo" style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																<source src={this.state.headerBlog.videoDescription} type="video/mp4"/>
+																<source src={this.props.blogData.headerBlog.videoDescription} type="video/mp4"/>
 															</video>
 														)}
 													</HeaderVideoDesriptionContainer>
@@ -307,29 +269,29 @@ return(
 											</li>
 
 											<li id="headerImageLI" style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-												<img  id="headerImage" src={this.state.headerBlog.blogImageUrl} style={{width:"450px",height:"40%"}}/>
+												<img  id="headerImage" src={this.props.blogData.headerBlog.blogImageUrl} style={{width:"450px",height:"40%"}}/>
 											</li>
 
 											<li id="headerDescriptionLI" style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",width:"300px",overflow:"hidden"}}>
 												<ul style={{paddging:"0px"}}>
 													<li id="headerSymposiumsLI" style={{marginBottom:"5px",listStyle:"none",padding:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
-														{this.state.headerBlog.industriesUploaded[0].industry}
+														{this.props.blogData.headerBlog.industriesUploaded[0].industry}
 													</li>
 													<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
-														<b>{this.state.headerBlog.title}</b>
+														<b>{this.props.blogData.headerBlog.title}</b>
 													</li>
 
 													<li id="headerConstructedDateLI" style={{listStyle:"none",marginBottom:"5px"}}>
 														<ul style={{padding:"0px",color:"#a6a6a7"}}>
 															<li style={{listStyle:"none",display:"inline-block"}}>
-																{this.constructDate(this.state.headerBlog.datePosted)}
+																{this.constructDate(this.props.blogData.headerBlog.datePosted)}
 															</li>
 														</ul>
 													</li>
 
 													<li style={{listStyle:"none"}}>
 														<Description style={{maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-															{this.state.headerBlog.description}
+															{this.props.blogData.headerBlog.description}
 														</Description>
 
 													</li>
@@ -369,7 +331,7 @@ return(
 
 							<li style={{listStyle:"none",marginTop:"5%"}}>	
 								<ul style={{padding:"0px"}}>
-									{this.state.blogs.map(data=>
+									{this.props.blogData.blogs.map(data=>
 										<BlogContainer to={{pathname:personalInformation.isOwnProfile==true?`/createBlog`:`/blog/${data._id}`,
 																		state:{
 																				...data,
@@ -434,6 +396,7 @@ return(
 											</li>
 										</BlogContainer>
 									)}
+									</ul>
 									{postDisplayModal.isLoadingReloadedPosts==true &&(
 										  <Typed 
 						                    strings={['Loading...']} 
@@ -441,7 +404,6 @@ return(
 						                    backSpeed={30} 
 				                		  />
 									)}
-									</ul>
 								</li>
 							</ul>
 						}	

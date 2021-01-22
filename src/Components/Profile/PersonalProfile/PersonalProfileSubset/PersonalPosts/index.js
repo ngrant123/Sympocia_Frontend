@@ -16,7 +16,8 @@ import PostCreationPortal from "../../PersonalProfileSet/Modals-Portals/PostCrea
 import {
 		getRegularPostFromUser,
 		getVideosFromUser,
-		getUserImages
+		getUserImages,
+		getBlogFromUser
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 import {
@@ -193,8 +194,14 @@ const PersonalPostsIndex=(props)=>{
 		headerVideo:null,
 		videos:[]
 	});
+
+	let [blogPost,changeBlogPosts]=useState({
+		headerBlog:null,
+		blogs:[]
+	});
 	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorRegularPost,changeRegularPostsLoadingIndicator]=useState(true);
+	const [isLoadingIndicatorBlogPost,changeBlogPostsLoadingIndicator]=useState(true);
 
 	useEffect(()=>{
 		if(props.personalInformation.isLoading!=true){
@@ -306,12 +313,44 @@ const PersonalPostsIndex=(props)=>{
 				alert('Unfortunately there has been an error getting your videos. Please try again');
 			}
 		}else if(kindOfPost=="blog"){
-			const blogs=document.getElementById("blogs");
-			blogs.style.color="#C8B0F4";
-			blogs.style.borderBottom="solid";
-			blogs.style.borderColor="#C8B0F4";
 			changeDisplayForBlogs(true);
-			changeCurrentPostType("blog")
+			changeCurrentPostType("blog");
+
+			const {	confirmation,data}=await getBlogFromUser({
+												userId:id,
+												visitorId:props.visitorId,
+												postCount:postCounter==null?0:postCounter
+											});
+			if(confirmation=="Success"){
+				const {crownedPost,posts}=data;
+
+				if(posts.length==0){
+					props.finalPostRecieved();
+				}else{
+					const blogDiv=document.getElementById("blogs");
+					blogDiv.style.color="#C8B0F4";
+					blogDiv.style.borderBottom="solid";
+					blogDiv.style.borderColor="#C8B0F4";
+
+					const {blogs}=blogPost;
+					const newBlogs=blogs.concat(posts);
+					const blogObject={
+						headerBlog:crownedPost,
+						blogs:newBlogs
+					}
+
+					props.unTriggerReload();
+					changeBlogPosts(blogObject);
+					changeBlogPostsLoadingIndicator(false);
+					changeIsLoadingNewPosts(false);
+					changeDisplayForBlogs(true);
+				}
+			}else{
+				alert('Unfortunately there has been an error getting these blog posts. Please try again');
+			}
+
+
+
 		}else{
 			changeDisplayForRegularPosts(true);
 			changeCurrentPostType("regularPost");
@@ -701,10 +740,9 @@ const PersonalPostsIndex=(props)=>{
 								{
 									displayBlogs==true?
 									<BlogsPosts
-										id={props.personalInformation.userProfile._id}
-										profileType="Personal"
-										friendsNodes={props.personalInformation.userProfile.friendsGaugeNodes}
-										visitorId={props.visitorId}
+										blogData={blogPost}
+										isLoadingIndicatorBlogPost={isLoadingIndicatorBlogPost}
+										id={personalInformation.userProfile._id}
 									/>:<React.Fragment></React.Fragment>
 								}
 								{
