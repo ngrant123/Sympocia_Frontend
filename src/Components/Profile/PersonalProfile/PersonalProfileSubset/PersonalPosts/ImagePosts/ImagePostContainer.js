@@ -8,6 +8,7 @@ import CrownedImageContainer from "./CrownedImageContainer.js";
 import SmallImageContainer from "./SmallImageContainer.js";
 import {PostConsumer} from "../PostsContext.js";
 import Typed from "react-typed";
+
 const Container=styled.div`
 	position:absolute;
 	width:95%;
