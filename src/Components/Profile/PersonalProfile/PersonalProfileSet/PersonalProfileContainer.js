@@ -753,7 +753,8 @@ class LProfile extends Component{
 
 	finalPostRecieved=()=>{
 		this.setState({
-			endOfPostsDBIndicator:true
+			endOfPostsDBIndicator:true,
+			isLoadingReloadedPosts:false
 		})
 	}
 
@@ -770,6 +771,7 @@ class LProfile extends Component{
 							}}>
 				<PostDisplayProvider
 					value={{
+						isLoadingReloadedPosts:this.state.isLoadingReloadedPosts,
 						handleImagePostModal:(imagePostData,contextLocation)=>{
 							console.log(imagePostData);
 							

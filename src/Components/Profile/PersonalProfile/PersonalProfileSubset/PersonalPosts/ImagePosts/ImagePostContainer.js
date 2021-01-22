@@ -7,6 +7,7 @@ import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProf
 import CrownedImageContainer from "./CrownedImageContainer.js";
 import SmallImageContainer from "./SmallImageContainer.js";
 import {PostConsumer} from "../PostsContext.js";
+import Typed from "react-typed";
 const Container=styled.div`
 	position:absolute;
 	width:95%;
@@ -143,72 +144,79 @@ class ImagePostsContainer extends Component{
 		else
 			profileAction.handleImagePostModal(data,postsConsumer);
 	}
-
+//isLoadingReloadedPosts
 	render(){
 		return(
 			<PostConsumer>
-				{postsConsumer=>(
-					<PostDisplayConsumer>
-						{postDisplayModal=>(
-							<CompanyPostDisplayConsumer>
-								{companyPostDisplayModal=>(
-									<Container>
-										{this.props.isLoading==true?
-												<p>Give us a second we're getting your information</p>:
-												<React.Fragment>
-												{this.props.imageData.images.length==0 &&
-													this.props.imageData.crownedImage==null?
-													<NoPostsModal
-														id="noPostsModalContainer"
-														postType={"image"}
-														profilePageType={this.props.profile}
-													  />:
-														<ul style={{padding:"0px"}}>
-															{this.props.imageData.crownedImage==null?
-																null:
-																<React.Fragment>
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li style={{listStyle:"none",marginBottom:"-5%"}}
-																				 onClick={()=>this.displayPostModal(	
-																				 			postDisplayModal,
-																							companyPostDisplayModal,
-																							postsConsumer,
-																							this.props.imageData.crownedImage)}>
-																			<CrownedImageContainer
-																				imageData={this.props.imageData.crownedImage}
-																			/>
-																		</li>
-																	</a>
-																	<hr/>
-																</React.Fragment>
-															}	
-															<li id="parentLISmallPostContainer" style={{listStyle:"none",marginTop:"3%"}}>
-																{this.props.imageData.images.map(data=>
-																	<li id="smallPostLI" onClick={()=>this.displayPostModal(	
-																											postDisplayModal,
-																											companyPostDisplayModal,
-																											postsConsumer,
-																											data)} 
-																		style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
-																		<a href="javascript:;" style={{textDecoration:"none"}}>
-																			<SmallImageContainer
-																				data={data}
-																			/>
-																		</a>
+			{postsConsumer=>(
+				<PostDisplayConsumer>
+					{postDisplayModal=>(
+						<CompanyPostDisplayConsumer>
+							{companyPostDisplayModal=>(
+								<Container>
+									{this.props.isLoading==true?
+											<p>Give us a second we're getting your information</p>:
+											<React.Fragment>
+											{this.props.imageData.images.length==0 &&
+												this.props.imageData.crownedImage==null?
+												<NoPostsModal
+													id="noPostsModalContainer"
+													postType={"image"}
+													profilePageType={this.props.profile}
+												  />:
+													<ul style={{padding:"0px"}}>
+														{this.props.imageData.crownedImage==null?
+															null:
+															<React.Fragment>
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<li style={{listStyle:"none",marginBottom:"-5%"}}
+																			 onClick={()=>this.displayPostModal(	
+																			 			postDisplayModal,
+																						companyPostDisplayModal,
+																						postsConsumer,
+																						this.props.imageData.crownedImage)}>
+																		<CrownedImageContainer
+																			imageData={this.props.imageData.crownedImage}
+																		/>
 																	</li>
-																)}
-															</li>
-														</ul>
-												}
-												</React.Fragment>
+																</a>
+																<hr/>
+															</React.Fragment>
+														}	
+														<li id="parentLISmallPostContainer" style={{listStyle:"none",marginTop:"3%"}}>
+															{this.props.imageData.images.map(data=>
+																<li id="smallPostLI" onClick={()=>this.displayPostModal(	
+																										postDisplayModal,
+																										companyPostDisplayModal,
+																										postsConsumer,
+																										data)} 
+																	style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
+																	<a href="javascript:;" style={{textDecoration:"none"}}>
+																		<SmallImageContainer
+																			data={data}
+																		/>
+																	</a>
+																</li>
+															)}
+														</li>
+													{postDisplayModal.isLoadingReloadedPosts==true &&(
+														  <Typed 
+										                    strings={['Loading...']} 
+										                    typeSpeed={60} 
+										                    backSpeed={30} 
+								                		  />
+													)}
+													</ul>
 											}
-									</Container>
-									)
-								}
-							</CompanyPostDisplayConsumer>
-						)}
-						</PostDisplayConsumer>
+											</React.Fragment>
+										}
+								</Container>
+								)
+							}
+						</CompanyPostDisplayConsumer>
 					)}
+					</PostDisplayConsumer>
+				)}
 			</PostConsumer>
 		)
 	}

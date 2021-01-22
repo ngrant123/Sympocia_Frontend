@@ -5,6 +5,8 @@ import {getCompanyBlogs} from "../../../../../../Actions/Requests/CompanyPageAxi
 import NoPostsModal from "../NoPostsModal.js";
 import {UserConsumer} from "../../../UserContext.js";
 import {Link} from "react-router-dom";
+import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
+import Typed from "react-typed";
 
 
 const Container=styled.div`
@@ -261,11 +263,13 @@ class BlogsPostsContainer extends Component{
 render(){
 return(
 	<UserConsumer>
-		{personalInformation=>{
-			return <Container>
-			{this.state.isLoading==true?<p>Currently loading blog posts</p>:
-				<React.Fragment>
-					{this.state.blogs.length==0&&this.state.headerBlog==null?
+	{personalInformation=>(
+		<PostDisplayConsumer>
+		{postDisplayModal=>(
+			 <Container>
+				{this.state.isLoading==true?<p>Currently loading blog posts</p>:
+					<React.Fragment>
+						{this.state.blogs.length==0&&this.state.headerBlog==null?
 						<NoPostsModal
 							id="noPostsModalContainer"
 							postType={"blog"}
@@ -429,7 +433,14 @@ return(
 												</SmallBlogComponent>
 											</li>
 										</BlogContainer>
-										)}
+									)}
+									{postDisplayModal.isLoadingReloadedPosts==true &&(
+										  <Typed 
+						                    strings={['Loading...']} 
+						                    typeSpeed={60} 
+						                    backSpeed={30} 
+				                		  />
+									)}
 									</ul>
 								</li>
 							</ul>
@@ -437,7 +448,9 @@ return(
 					</React.Fragment>
 				}
 			</Container>
-		}}
+			)}
+			</PostDisplayConsumer>
+		)}
 	</UserConsumer>
 		)
 	}

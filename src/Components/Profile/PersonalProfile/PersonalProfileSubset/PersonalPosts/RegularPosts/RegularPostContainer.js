@@ -11,12 +11,12 @@ import HeaderPost from "./HeaderRegularPost.js";
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
 import {PostConsumer} from "../PostsContext.js";
+import Typed from "react-typed";
 
 const Container=styled.div`
 	position:absolute;
 	width:95%;
 	height:125%;
-	overflow-y:scroll;
 	background-color:white;
 	padding:10px;
 
@@ -198,6 +198,13 @@ class RegularPostsContainer extends Component{
 																							/>
 																						</li>
 																					</a>
+																				)}
+																				{postDisplayModal.isLoadingReloadedPosts==true &&(
+																					  <Typed 
+																	                    strings={['Loading...']} 
+																	                    typeSpeed={60} 
+																	                    backSpeed={30} 
+															                		  />
 																				)}
 																			</ul>
 																		</li>

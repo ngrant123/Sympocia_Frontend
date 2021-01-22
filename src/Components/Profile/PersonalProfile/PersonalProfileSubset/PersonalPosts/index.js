@@ -249,7 +249,7 @@ const PersonalPostsIndex=(props)=>{
 				const {confirmation,data}=await getUserImages({
 												userId:id,
 												visitorId:props.visitorId,
-												postCount:postCounter
+												postCount:postCounter==null?0:postCounter
 											});
 				debugger;
 				if(confirmation=="Success"){
@@ -283,18 +283,25 @@ const PersonalPostsIndex=(props)=>{
 			const {confirmation,data}=await getVideosFromUser({
 												userId:id,
 												visitorId:props.visitorId,
-												postCount:currentPostCounter
+												postCount:postCounter==null?0:postCounter
 											});
 
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
-				
-				const videoObject={
-					headerVideo:crownedPost,
-					videos:posts
+				if(posts.length==0){
+					props.finalPostRecieved();
+				}else{
+					const {videos}=videoPost;
+					const newVideos=videos.concat(posts);
+					const videoObject={
+						headerVideo:crownedPost,
+						videos:newVideos
+					}
+					props.unTriggerReload();
+					changeVideoPosts(videoObject);
+					changeVideosLoadingIndicator(false);
+					changeIsLoadingNewPosts(false)
 				}
-				changeVideoPosts(videoObject);
-				changeVideosLoadingIndicator(false);
 			}else{
 				alert('Unfortunately there has been an error getting your videos. Please try again');
 			}
@@ -307,27 +314,37 @@ const PersonalPostsIndex=(props)=>{
 			changeCurrentPostType("blog")
 		}else{
 			changeDisplayForRegularPosts(true);
-			changeCurrentPostType("video");
+			changeCurrentPostType("regularPost");
 			const {confirmation,data}=await getRegularPostFromUser({
 												userId:id,
 												visitorId:props.visitorId,
-												postCount:currentPostCounter
+												postCount:postCounter==null?0:postCounter
 											});
 			if(confirmation=="Success"){	
-				const {crownedPost,posts}=data;
-				const regularPost=document.getElementById("regularPosts");
-				regularPost.style.color="#C8B0F4";
-				regularPost.style.borderBottom="solid";
-				regularPost.style.borderColor="#C8B0F4";
-	
-				const regularPostObject={
-					headerPost:crownedPost,
-					posts:posts.reverse()
+				const {crownedPost}=data;
+				const postsResponse=data.posts;
+				if(postsResponse.length==0){
+					props.finalPostRecieved();
+				}else{
+					const regularPostDiv=document.getElementById("regularPosts");
+					regularPostDiv.style.color="#C8B0F4";
+					regularPostDiv.style.borderBottom="solid";
+					regularPostDiv.style.borderColor="#C8B0F4";
+					const {posts}=regularPost;
+					const newRegularPosts=posts.concat(postsResponse);
+
+					const regularPostObject={
+						headerPost:crownedPost,
+						//posts:posts.reverse()
+						posts:newRegularPosts
+					}
+		
+					props.unTriggerReload();
+					changeRegularPost(regularPostObject);
+					changeDisplayForRegularPosts(true);
+					changeRegularPostsLoadingIndicator(false);
+					changeIsLoadingNewPosts(false)
 				}
-	
-				changeRegularPost(regularPostObject);
-				changeDisplayForRegularPosts(true);
-				changeRegularPostsLoadingIndicator(false);
 			}else{
 				alert('Unfortunately there has been an error getting your regular posts. Please try again');
 			}
@@ -421,11 +438,20 @@ const PersonalPostsIndex=(props)=>{
 
 	const handleTriggerPostReload=()=>{
 		if(props.triggerPostReload==true && isLoadingNewPosts==false){
-			changeCurrentPostCounter(currentPostCounter+1);
+			const nextCounter=currentPostCounter+1;
+			changeCurrentPostCounter(nextCounter);
 			changeIsLoadingNewPosts(true)
-			handlePostsClick(currentPostType,props.personalInformation.userProfile._id,true,currentPostCounter+1);
+			handlePostsClick(currentPostType,props.personalInformation.userProfile._id,true,nextCounter);
 		}
 	}
+
+	const triggerPostDecider=(postType,profileId,counter)=>{
+		if(postType!=currentPostType){
+			handlePostsClick(postType,profileId,counter)
+		}
+	}
+
+
 
 /*
 	const initializePersonalInformationToState=(personalInformationData)=>{
@@ -596,19 +622,19 @@ const PersonalPostsIndex=(props)=>{
 											</a>
 										</li>
 
-										<li onClick={()=>handlePostsClick("video",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+										<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 											<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Videos
 											</a>
 										</li>
 
-										<li onClick={()=>handlePostsClick("regularPost",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+										<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 											<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Regular Posts
 											</a>
 										</li>
 
-										<li onClick={()=>handlePostsClick("blog",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+										<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 											<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Blogs
 											</a>
