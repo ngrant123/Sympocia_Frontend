@@ -21,7 +21,6 @@ const Container=styled.div`
 	position:relative;
 	width:100%;
 	height:100%;
-	overflow:scroll;
 	@media screen and (max-width:1370px){
 		width:80%;
 		left:10% !important;
@@ -34,7 +33,7 @@ const Container=styled.div`
     }
     @media screen and (max-width:700px){
 		width:100%;
-		left:0% !important;
+		left:2% !important;
 		 #image{
 			height:60% !important;
 		}
@@ -54,7 +53,7 @@ const Container=styled.div`
     }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	#image{
-			height:150% !important;
+			height:90% !important;
 		}
     }
     @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
@@ -268,7 +267,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 							)}
 
 							<img  id="image" src={imgData.imgUrl} 
-								style={{width:"120%",height:"90%",borderRadius:"5px",marginLeft:"-10%"}}
+								style={{width:"80%",height:"90%",borderRadius:"5px",marginLeft:"10%"}}
 							/>
 						</>
 	 				}
@@ -289,7 +288,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 							)}
 
 							<img  src={imgData.imgUrl} 
-								style={{width:"120%",height:"90%",borderRadius:"5px",marginLeft:"-10%"}}
+								style={{width:"100%",height:"90%",borderRadius:"5px",marginLeft:"0%"}}
 							/>
 						</>
 	 				}

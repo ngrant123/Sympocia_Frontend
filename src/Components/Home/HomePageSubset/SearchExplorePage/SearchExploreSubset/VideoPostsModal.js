@@ -343,7 +343,9 @@ const VideoPostModal=(props)=>{
 							</li>
 						</HeaderOwnerInformation>
 
-						<video id="headerVideoLI" style={{cursor:"pointer",marginTop:"-5%"}} key={headerVideo.videoUrl} position="relative" height="80%" width="100%" autoplay>
+						<video id="headerVideoLI" style={{cursor:"pointer",marginTop:"-5%"}}
+						 key={headerVideo.videoUrl} position="relative" height="80%" width="100%" autoplay
+						 onClick={()=>handleDisplayHeaderVideo()}>
 							<source src={headerVideo.videoUrl} type="video/mp4"/>
 						</video>
 						<HeaderDescriptionContainer>

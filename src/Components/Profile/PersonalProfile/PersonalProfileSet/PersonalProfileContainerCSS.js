@@ -365,6 +365,7 @@ export const ImagePopupContainer=styled.div`
 	padding:20px;
 	z-index:35;
 	border-radius:5px;
+	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
 		margin-left:1% !important;

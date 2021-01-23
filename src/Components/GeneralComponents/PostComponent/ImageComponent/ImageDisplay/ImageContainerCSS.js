@@ -4,7 +4,6 @@ export const Container=styled.div`
 	position:relative;
 	width:100%;
 	height:100%;
-	overflow-y:scroll;
 	@media screen and (max-width:800px){
 		#postInformationLI{
 			display:none !important;

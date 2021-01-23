@@ -12,9 +12,9 @@ const Container=styled.div`
 	border-radius:5px;
 	top:5%;
 	left:20%;
-	overflow-y:auto;
 	background-color:white;
 	padding:20px;
+	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
 		left:5%;
