@@ -28,7 +28,7 @@ const Container=styled.div`
 	top:12%;
 	left:10%;
 	overflow-y:auto;
-	background-color:white;
+	background-color:red;
 	padding:20px;
 	padding-top:40px;
 
