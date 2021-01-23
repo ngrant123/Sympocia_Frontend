@@ -214,7 +214,10 @@ class Symposium extends Component{
 			displayDesktopUI:false,
 			displayMobileSymposiumOptions:false,
 			displayIpadUI:false,
-			displayPhoneUI:false
+			displayPhoneUI:false,
+			isLoadingReloadedPosts:false,
+			endOfPostsDBIndicator:false,
+			postOption:"Image"
 		}
 	}
 
@@ -835,6 +838,9 @@ class Symposium extends Component{
 
 	 //Could be implemented in a better way it just looks awkward to me 
 	changePostOption=async(postOption)=>{
+		this.setState({
+			postOption:postOption
+		})
 		const postParameters={
 			industry:this.state.selectedSymposiumTitle,
 			postCount:this.state.postCount,
@@ -845,14 +851,24 @@ class Symposium extends Component{
 			
 
 			if(confirmation=="Success"){
-				var newHomePagePosts=this.addSuggestedSymposiums(data);
-				this.setState({
-					posts:newHomePagePosts,
-					postType:"Image",
-					isLoading:false
-				},()=>{
-					this.highlightAppropriatePostOption(postOption);
-				})
+				if(data.length==0){
+					this.setState({
+						endOfPostsDBIndicator:true,
+						isLoadingReloadedPosts:false
+					})
+				}else{
+					const currentPosts=this.state.posts;
+					const nextPosts=currentPosts.concat(data);
+					var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
+					this.setState({
+						posts:newHomePagePosts,
+						postType:"Image",
+						isLoadingReloadedPosts:false,
+						isLoading:false
+					},()=>{
+						this.highlightAppropriatePostOption(postOption);
+					})
+				}
 			}else{
 				alert('Unfortunately there has been an error getting this image data. Please try again');
 			}
@@ -861,14 +877,24 @@ class Symposium extends Component{
 			var {confirmation,data}=await getVideoInIndustry(postParameters);
 			
 			if(confirmation=="Success"){
-				var newHomePagePosts=this.addSuggestedSymposiums(data);
-				this.setState({
-					posts:newHomePagePosts,
-					postType:"Video",
-					isLoading:false
-				},function(){
-					this.highlightAppropriatePostOption(postOption);
-				})
+				if(data.length==0){
+					this.setState({
+						endOfPostsDBIndicator:true,
+						isLoadingReloadedPosts:false
+					})
+				}else{
+					const currentPosts=this.state.posts;
+					const nextPosts=currentPosts.concat(data);
+					var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
+					this.setState({
+						posts:newHomePagePosts,
+						postType:"Video",
+						isLoadingReloadedPosts:false,
+						isLoading:false
+					},function(){
+						this.highlightAppropriatePostOption(postOption);
+					})
+				}
 			}else{
 				alert('Unfortunately there has been an error getting this video data. Please try again');
 			}
@@ -877,14 +903,24 @@ class Symposium extends Component{
 			var {confirmation,data}=await getBlogsInIndustry(postParameters);
 			
 			if(confirmation=="Success"){
-				var newHomePagePosts=this.addSuggestedSymposiums(data);
-				this.setState({
-					posts:newHomePagePosts,
-					postType:"Blog",
-					isLoading:false
-				},function(){
-					this.highlightAppropriatePostOption(postOption);
-				})
+				if(data.length==0){
+					this.setState({
+						endOfPostsDBIndicator:true,
+						isLoadingReloadedPosts:false
+					})
+				}else{
+					const currentPosts=this.state.posts;
+					const nextPosts=currentPosts.concat(data);
+					var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
+					this.setState({
+						posts:newHomePagePosts,
+						postType:"Blog",
+						isLoadingReloadedPosts:false,
+						isLoading:false
+					},function(){
+						this.highlightAppropriatePostOption(postOption);
+					})
+				}
 			}else{
 				alert('Unfortunately there has been an error getting this blog data. Please try again');
 			}
@@ -892,14 +928,24 @@ class Symposium extends Component{
 			var {confirmation,data}=await getRegularPostsInIndustry(postParameters);
 			
 			if(confirmation=="Success"){
-				var newHomePagePosts=this.addSuggestedSymposiums(data);
-				this.setState({
-					posts:newHomePagePosts,
-					postType:"Regular",
-					isLoading:false
-				},function(){
-					this.highlightAppropriatePostOption(postOption);
-				})
+				if(data.length==0){
+					this.setState({
+						endOfPostsDBIndicator:true,
+						isLoadingReloadedPosts:false
+					})
+				}else{
+					const currentPosts=this.state.posts;
+					const nextPosts=currentPosts.concat(data);
+					var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
+					this.setState({
+						posts:newHomePagePosts,
+						postType:"Regular",
+						isLoadingReloadedPosts:false,
+						isLoading:false
+					},function(){
+						this.highlightAppropriatePostOption(postOption);
+					})
+				}
 			}else{
 				alert('Unfortunately there has been an error getting this regular post data. Please try again');
 			}
@@ -908,7 +954,9 @@ class Symposium extends Component{
 
 	toggleLoading=(postOption)=>{
 		this.setState({
-			isLoading:true
+			isLoading:true,
+			posts:[],
+			postCount:0
 		},()=>{
 			this.changePostOption(postOption);
 		})
@@ -1167,6 +1215,16 @@ class Symposium extends Component{
 				</>
 	}
 
+	triggerReloadingPostsHandle=()=>{
+		this.setState({
+			triggerPostReload:true,
+			isLoadingReloadedPosts:true,
+			postCount:(this.state.postCount+1)
+		},()=>{
+			this.changePostOption(this.state.postOption)	
+		})
+	}
+
 
 	render(){
 		return(
@@ -1292,6 +1350,9 @@ class Symposium extends Component{
 										isPersonalProfile={true}
 										displaySymposium={this.displaySymposium}
 										targetDom={"extendedSymposiumContainer"}
+										isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+										triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+										endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
 									/>:null
 								}
 
@@ -1303,6 +1364,9 @@ class Symposium extends Component{
 										isPersonalProfile={true}
 										displaySymposium={this.displaySymposium}
 										targetDom={"extendedSymposiumContainer"}
+										isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+										triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+										endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
 									/>:null
 								}
 
@@ -1315,6 +1379,9 @@ class Symposium extends Component{
 											isPersonalProfile={true}
 											displaySymposium={this.displaySymposium}
 											targetDom={"extendedSymposiumContainer"}
+											isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+											triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+											endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
 										/>
 									</li>:null
 								}
@@ -1328,6 +1395,9 @@ class Symposium extends Component{
 											isPersonalProfile={true}
 											displaySymposium={this.displaySymposium}
 											targetDom={"extendedSymposiumContainer"}
+											isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+											triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+											endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
 										/>
 									</li>:null
 								}
