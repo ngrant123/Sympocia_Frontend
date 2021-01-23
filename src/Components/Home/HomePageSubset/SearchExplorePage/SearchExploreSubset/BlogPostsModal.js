@@ -248,6 +248,18 @@ const SymposiumLabelCSS={
 	marginRight:"2%"
 }
 
+const NextButtonCSS={
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	color:"#3898ec",
+	height:"70px",
+	width:"30%",
+	padding:"10px",
+	borderRadius:"5px",
+	cursor:"pointer"
+}
+
 
 const ProfilePictureLink=styled(Link)`
 	position:relative;
@@ -322,6 +334,13 @@ const BlogPostModal=(props)=>{
 							</a>
 						)}
 				   </ul>
+	}
+
+	const detectEndOfPostContainer=(divElement)=>{
+		if(	divElement.scrollHeight - divElement.scrollTop - divElement.clientHeight < 1
+			 && props.endOfPostsDBIndicator==false && props.isLoadingReloadedPosts==false){
+			props.triggerReloadingPostsHandle();
+		}
 	}
 	return(
 	<Container>
@@ -402,7 +421,6 @@ const BlogPostModal=(props)=>{
 			</HeaderContainer>
 
 			<PostsContainer>
-				<ul style={{padding:"0px"}}>
 					{blogs.map(data=>
 						<React.Fragment>
 								{data=="suggestedSymposium"?
@@ -488,9 +506,18 @@ const BlogPostModal=(props)=>{
 
 							}	
 							<hr/>
-							</React.Fragment>
-						)}
-				</ul>
+						</React.Fragment>
+					)}
+					{props.endOfPostsDBIndicator==true && (
+						<React.Fragment>
+							{props.isLoadingReloadedPosts==true?
+								<p>Loading please wait...</p>:
+								<p onClick={()=>props.triggerReloadingPostsHandle()} style={NextButtonCSS}>
+									Next Page
+								</p>
+							}
+						</React.Fragment>
+					)}
 			</PostsContainer>
 		{displayBlogDisplayPortal==false?
 					null:

@@ -160,6 +160,19 @@ const BorderCSS={
 	borderColor:"#D8D8D8",
 	padding:"10px"
 }
+
+const NextButtonCSS={
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	color:"#3898ec",
+	height:"70px",
+	width:"30%",
+	padding:"10px",
+	borderRadius:"5px",
+	cursor:"pointer"
+}
+
 const RegularPostModal=(props)=>{
 	
 	console.log(props);
@@ -186,7 +199,12 @@ const RegularPostModal=(props)=>{
 		changeRecommendedPosts(regularPosts);
 		changeRegularPostDisplay(true);
 	}
-
+	const detectEndOfPostContainer=(divElement)=>{
+		if(	divElement.scrollHeight - divElement.scrollTop - divElement.clientHeight < 1
+			 && props.endOfPostsDBIndicator==false && props.isLoadingReloadedPosts==false){
+			props.triggerReloadingPostsHandle();
+		}
+	}
 
 	return(
 		<Container>
@@ -255,7 +273,7 @@ const RegularPostModal=(props)=>{
 						</li>
 					</HeaderContainer>
 
-					<PostsContainer style={BorderCSS}>
+					<PostsContainer style={BorderCSS} onScroll={element=>detectEndOfPostContainer(element.target)}>
 						<ul style={{padding:"0px"}}>
 							{regularPosts.map(data=>
 								<React.Fragment>
@@ -322,7 +340,17 @@ const RegularPostModal=(props)=>{
 									}
 									<hr/>
 								</React.Fragment>
-							)}
+							)}	
+						{props.endOfPostsDBIndicator==true && (
+							<React.Fragment>
+								{props.isLoadingReloadedPosts==true?
+									<p>Loading please wait...</p>:
+									<p onClick={()=>props.triggerReloadingPostsHandle()} style={NextButtonCSS}>
+										Next Page
+									</p>
+								}
+							</React.Fragment>
+						)}
 						</ul>
 					</PostsContainer>
 				</>:

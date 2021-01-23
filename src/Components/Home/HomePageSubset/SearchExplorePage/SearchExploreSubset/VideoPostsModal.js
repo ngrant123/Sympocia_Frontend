@@ -184,13 +184,12 @@ const HeaderTextsContainer=styled.div`
 
 const SmallPostContainer=styled.div`
 	display:flex;
-	flex-direction:row;
+	flex-direction:column;
 	width:50%;
 	height:600px;
 	overflow-y:scroll;
 	margin-left:5%;
 	padding-left:5%;
-	flex-wrap: wrap;
 	@media screen and (max-width:1370px){
 		width:90%;
     	margin-left:-4% !important;
@@ -245,6 +244,18 @@ const ImageLabelCSS={
 	  cursor:"pointer"
 }
 
+const NextButtonCSS={
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	color:"#3898ec",
+	height:"70px",
+	width:"30%",
+	padding:"10px",
+	borderRadius:"5px",
+	cursor:"pointer"
+}
+
 const VideoPostModal=(props)=>{
 	console.log(props);
 	const headerVideo=props.posts[0];
@@ -276,6 +287,12 @@ const VideoPostModal=(props)=>{
 		changeVideoDisplay(true);
 	}
 
+	const detectEndOfPostContainer=(divElement)=>{
+		if(	divElement.scrollHeight - divElement.scrollTop - divElement.clientHeight < 1
+			 && props.endOfPostsDBIndicator==false && props.isLoadingReloadedPosts==false){
+			props.triggerReloadingPostsHandle();
+		}
+	}
 	return(
 	<Container>
 		{headerVideo==null?
@@ -371,7 +388,7 @@ const VideoPostModal=(props)=>{
 										previousProps={props}
 									/>
 								:<PostContainer>
-										<div id="videoContainer" onClick={()=>displayVideoModal(data)}style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
+										<div id="videoContainer" onClick={()=>displayVideoModal(data)}style={{listStyle:"none",marginBottom:"1%",cursor:"pointer"}}>
 												<video id="video" key={data.videoUrl} position="relative" height="290px" width="100%" autoplay>
 													<source src={data.videoUrl} type="video/mp4"/>
 												</video>
@@ -430,6 +447,16 @@ const VideoPostModal=(props)=>{
 										</DescriptionContainer>
 								</PostContainer>
 							}	
+							</React.Fragment>
+						)}
+						{props.endOfPostsDBIndicator==false && (
+							<React.Fragment>
+								{props.isLoadingReloadedPosts==true?
+									<p>Loading please wait...</p>:
+									<p onClick={()=>props.triggerReloadingPostsHandle()} style={NextButtonCSS}>
+										Next Page
+									</p>
+								}
 							</React.Fragment>
 						)}
 					</SmallPostContainer>

@@ -193,7 +193,9 @@ class SearchExploreContainer extends Component{
 			postsInformation:[],
 			postCount:0,
 			displayDesktopUI:false,
-			isLoading:true
+			isLoading:true,
+			isLoadingReloadedPosts:false,
+			endOfPostsDBIndicator:false
 		}
 	}
 
@@ -260,11 +262,22 @@ class SearchExploreContainer extends Component{
 		}
 		var {confirmation,data}=homePagePostsResponse;
 		if(confirmation=="Success"){
-			var newHomePagePosts=this.addSuggestedSymposiums(data);
-			this.setState({
-				postsInformation:newHomePagePosts,
-				isLoading:false
-			})
+			if(data.length==0){
+				this.setState({
+					endOfPostsDBIndicator:true,
+					isLoadingReloadedPosts:false
+				})
+			}else{
+				let currentPosts=this.state.postsInformation;
+				currentPosts=currentPosts.concat(data);
+				var newHomePagePosts=this.addSuggestedSymposiums(currentPosts);
+				this.setState({
+					postsInformation:newHomePagePosts,
+					isLoading:false,
+					isLoadingReloadedPosts:false,
+					postOption:postOption
+				})
+			}
 
 		}else{
 			alert('Unfortunately there has been an error in retrieving you data. Please try again');
@@ -277,7 +290,7 @@ class SearchExploreContainer extends Component{
 	}
 
 	suggestedSymposiumsRecursive=(posts)=>{
-		
+		debugger;
 		if(posts==null||posts.length==0){
 			return posts;
 		}else if(posts.length==1){
@@ -306,7 +319,9 @@ class SearchExploreContainer extends Component{
 		console.log(props);
 		this.setState({
 			postOption:props,	
-			isLoading:true
+			isLoading:true,
+			postCount:0,
+			postsInformation:[]
 		},function(){
 			this.changeHomePagePosts(props);
 		})
@@ -430,6 +445,9 @@ class SearchExploreContainer extends Component{
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
 				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -444,6 +462,9 @@ class SearchExploreContainer extends Component{
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
 				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -457,6 +478,9 @@ class SearchExploreContainer extends Component{
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
 				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -470,8 +494,21 @@ class SearchExploreContainer extends Component{
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
 				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
+	}
+
+	triggerReloadingPostsHandle=()=>{
+		this.setState({
+			triggerPostReload:true,
+			isLoadingReloadedPosts:true,
+			postCount:(this.state.postCount+1)
+		},()=>{
+			this.changeHomePagePosts(this.state.postOption)	
+		})
 	}
 
 	render(){
