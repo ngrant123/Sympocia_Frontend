@@ -345,7 +345,8 @@ const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pag
 									<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none"}}>
-												<p style={{fontSize:"20px"}}>{postData.firstName}</p>
+												<p style={{fontSize:"20px"}}>
+												{postData.firstName==null?postData.owner.firstName:postData.firstName}</p>
 											</li>
 											{postData.industriesUploaded.length>0 &&(
 												<li style={{listStyle:"none"}}>	
@@ -395,7 +396,7 @@ const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pag
 				<Container>
 					<PostOwnerInformation>
 						<img id="profilePictureImage" 
-						src={postData.profilePicture==null?NoProfilePicture:postData.profilePicture} 
+						src={postData.profilePicture==null?(postData.owner.profilePicture==null?NoProfilePicture:postData.owner.profilePicture):postData.profilePicture} 
 						style={{borderRadius:"50%",width:"15%",height:"80px"}}/>
 						<p style={{fontSize:"25px",maxWidth:"55%",overflow:"hidden",maxHeight:"40px",marginLeft:"5%",marginRight:"5%"}}>
 							<b>{postData.firstName}</b>
@@ -416,6 +417,7 @@ const MobileUI=({postData,targetDom,userPostsInformation,triggerPromoteModal,pag
 							{postInformation()}
 						</React.Fragment>
 						:<React.Fragment>
+							
 							<div id="postDiv" style={{marginLeft:"-10%",width:"90%",marginTop:"5%"}}>
 								{displayStampEffect==true &&(
 									<StampIconEffect id="stampEffect">

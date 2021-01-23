@@ -18,54 +18,87 @@ import PollIcon from '@material-ui/icons/Poll';
 import {HomeConsumer} from "../HomeContext.js";
 import {Link} from "react-router-dom";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
+	/*
+		position:absolute;
+		z-index:40;
+		height:80%;
+		width:80%;
+		border-radius:5px;
+		top:12%;
+		left:10%;
+		overflow-y:auto;
+		background-color:white;
+		padding:20px;
+		padding-top:40px;
+
+		@media screen and (max-width:1370px){
+			top:15% !important;
+			width:80% !important;
+			margin-left:2%;
+			height:90%;
+			padding-top:0px;
+
+			#smallImagePicture{
+				height:30% !important;
+				width:40% !important;
+			}
+		}
+		@media screen and (max-width:700px){
+			top:20% !important;
+		}
+
+		@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		 	top:20% !important;
+	    }
+
+		@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+			top:40% !important;
+		 	#smallImagePicture{
+				width:20% !important;
+			}
+	    }
+
+	*/
 
 const Container=styled.div`
-	position:absolute;
-	z-index:13;
-	height:80%;
-	width:80%;
-	border-radius:5px;
-	top:12%;
-	left:10%;
-	overflow-y:auto;
+	position:fixed;
 	background-color:red;
+	z-index:40;
+	height:90%;
+	width:70%;
+	border-radius:5px;
+	top:5%;
+	left:20%;
+	background-color:white;
 	padding:20px;
-	padding-top:40px;
+	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
-		top:15% !important;
-		width:80% !important;
-		margin-left:2%;
-		height:90%;
-		padding-top:0px;
-
-		#smallImagePicture{
-			height:30% !important;
-			width:40% !important;
+		left:5%;
+		width:90%;
+		#blogContainerDiv{
+			margin-top:15% !important;
 		}
 	}
 	@media screen and (max-width:700px){
-		top:20% !important;
+		width:100% !important;
+		height:100% !important;
+		margin-right:-10% !important;
+		top:5% !important;
+		margin-left:-5% !important;
 	}
 
-	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-	 	top:20% !important;
-    }
 
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
-		top:40% !important;
-	 	#smallImagePicture{
-			width:20% !important;
-		}
-    }
+
 `;
 
 const ShadowContainerBlog=styled.div`
 	position:fixed;
-	width:100%;
+	width:110%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:11;
+	z-index:40;
+	left:-5;
 	top:0px;
 `;
 
@@ -368,21 +401,30 @@ const BlogHomeDisplayPortal=(props)=>{
 
 	return createPortal(
 		<React.Fragment>
-			{(props.displayShadowContainer!=null && props.displayShadowContainer!=false) &&(
-				<ShadowContainerBlog onClick={()=>props.closeModal()}/>
-			)}
+			<ShadowContainerBlog onClick={()=>props.closeModal()}/>
 			<Container>	
+				<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+					 stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <circle cx="12" cy="12" r="9" />
+					  <path d="M10 10l4 4m0 -4l-4 4" />
+					</svg>
+				</div>
 				{pollModal()}
 				{displayApproveDisapproveModal()}
-				<Editor
-					editorState={blogContentState}
-					toolbarClassName="toolbarClassName"
-					wrapperClassName="wrapperClassName"
-					editorClassName="editorClassName"
-					placeholder="Start typing to create your masterpiece"
-					readOnly={false}
-					toolbarHidden={true}
-				/>
+				<div id="blogContainerDiv" style={{marginTop:"2%"}}>
+					<Editor
+						editorState={blogContentState}
+						toolbarClassName="toolbarClassName"
+						wrapperClassName="wrapperClassName"
+						editorClassName="editorClassName"
+						placeholder="Start typing to create your masterpiece"
+						readOnly={false}
+						toolbarHidden={true}
+					/>
+				</div>
 				{displayLargeModal==true?
 					<PosterInformationModal>
 						{displayCommentsContainer==true?
