@@ -508,7 +508,7 @@ const BlogPostModal=(props)=>{
 							<hr/>
 						</React.Fragment>
 					)}
-					{props.endOfPostsDBIndicator==true && (
+					{props.endOfPostsDBIndicator==false && (
 						<React.Fragment>
 							{props.isLoadingReloadedPosts==true?
 								<p>Loading please wait...</p>:

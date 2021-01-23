@@ -273,7 +273,7 @@ const RegularPostModal=(props)=>{
 						</li>
 					</HeaderContainer>
 
-					<PostsContainer style={BorderCSS} onScroll={element=>detectEndOfPostContainer(element.target)}>
+					<PostsContainer style={BorderCSS}>
 						<ul style={{padding:"0px"}}>
 							{regularPosts.map(data=>
 								<React.Fragment>
@@ -341,7 +341,7 @@ const RegularPostModal=(props)=>{
 									<hr/>
 								</React.Fragment>
 							)}	
-						{props.endOfPostsDBIndicator==true && (
+						{props.endOfPostsDBIndicator==false && (
 							<React.Fragment>
 								{props.isLoadingReloadedPosts==true?
 									<p>Loading please wait...</p>:
