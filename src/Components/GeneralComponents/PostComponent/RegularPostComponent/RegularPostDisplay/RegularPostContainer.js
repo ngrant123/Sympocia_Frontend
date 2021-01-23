@@ -185,7 +185,7 @@ const RegularPostContainer=(props)=>{
 		targetDom
 	}=props;
 
-	const {
+	let {
 		post,
 		isAudioPost,
 		comments,
@@ -194,6 +194,8 @@ const RegularPostContainer=(props)=>{
 		firstName,
 		profilePicture
 	}=postData;
+	profilePicture=profilePicture==null?postData.owner.profilePicture:profilePicture;
+	firstName=firstName==null?postData.owner.firstName:firstName;
 	const [displayCommentsAndResponses,changeDisplayCommentsAndResponses]=useState(false);
 	const [displayEditPostModal,changeDisplayEditPostModal]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
@@ -329,6 +331,7 @@ const RegularPostContainer=(props)=>{
 										</StampIconEffect>
 									)}
 
+
 									<img src={profilePicture==null?NoProfilePicture:profilePicture}
 										style={{width:"100%",height:"100%"}}/>
 									<SymposiumContainer style={ButtonCSS}>
@@ -340,8 +343,19 @@ const RegularPostContainer=(props)=>{
 									{displayCommentsAndResponses==false?
 										<React.Fragment>
 											<PostOwnerAndOptionsContainer>
-												<p style={{marginRight:"5%"}}>
-													<b>{firstName}</b>
+												<p style={{marginRight:"5%",maxWidth:"50%",maxHeight:"20px",overflow:"hidden"}}>
+													<b>
+														{/*
+															{firstName}
+														*/}
+														Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+														incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+														exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+														dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+														Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+														anim id est laborum.
+
+													</b>
 												</p>
 												<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
 													<LoyaltyIcon

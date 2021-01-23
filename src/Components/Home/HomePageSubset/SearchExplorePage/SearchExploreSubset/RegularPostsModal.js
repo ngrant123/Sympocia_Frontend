@@ -210,7 +210,7 @@ const RegularPostModal=(props)=>{
 		<Container>
 			{headerRegularPost!=null?
 				<>
-					<HeaderContainer style={BorderCSS}>
+					<HeaderContainer onClick={()=>handleDisplayHeaderPost()} style={BorderCSS}>
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 							<li style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px",overflow:"hidden"}}>
 								<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}>
@@ -252,7 +252,7 @@ const RegularPostModal=(props)=>{
 									</ul>
 								</li>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li id="headerPostLI" onClick={()=>handleDisplayHeaderPost()} style={{listStyle:"none",height:"30%",display:"inline-block",fontSize:"20px"}}>
+									<li id="headerPostLI" style={{listStyle:"none",height:"30%",display:"inline-block",fontSize:"20px"}}>
 											{headerRegularPost.isAudioPost==true?
 												<audio controls>
 												 	<source src={headerRegularPost.post} type="audio/ogg"/>
@@ -283,7 +283,7 @@ const RegularPostModal=(props)=>{
 											previousProps={props}
 										/>
 										:
-										<Post>
+										<Post onClick={()=>displayPostModal(data)}>
 											<li style={{listStyle:"none"}}>
 												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:"none",display:"inline-block"}}>
