@@ -185,11 +185,10 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 			if(confirmation=="Success"){
 				const {message}=data;
 				const {
-					questionId,
 					posts
 				}=message;
 				changePosts(posts);
-				changeQuestionId(questionId);
+				changeQuestionId(selectedPostId);
 			}else{
 				alert('Unfortunately there has been an error trying to get this images data. Please try again');
 			}

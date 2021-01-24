@@ -210,14 +210,11 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 		console.log(data);
 		if(confirmation=="Success"){
 			const {message}=data;
-			const {
-				questionId,
-				posts
-			}=message;
+			const {posts}=message;
 			if(displayCreationModal==false){
 				changeCurrentLevel("Intermediate");
 				changePosts(posts);
-				changeQuestionId(questionId);
+				changeQuestionId(selectedPostId);
 			}
 		}else{
 			alert('Unfortunately there has been an error trying to get this images data. Please try again');
@@ -231,15 +228,12 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 		const {confirmation,data}=await retrievePosts('Beginner');
 		if(confirmation=="Success"){
 			const {message}=data;
-			const {
-				questionId,
-				posts
-			}=message;
+			const {posts}=message;
 
 			if(displayCreationModal==false){
 				changeCurrentLevel("Beginner");
 				changePosts(posts);
-				changeQuestionId(questionId);
+				changeQuestionId(selectedPostId);
 			}
 
 		}else{
@@ -254,15 +248,12 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 
 		if(confirmation=="Success"){
 			const {message}=data;
-			const {
-				questionId,
-				posts
-			}=message;
+			const {posts}=message;
 
 			if(displayCreationModal==false){
 				changeCurrentLevel("Advanced");
 				changePosts(posts);
-				changeQuestionId(questionId);				
+				changeQuestionId(selectedPostId);				
 			}
 
 
