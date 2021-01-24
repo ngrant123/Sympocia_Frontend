@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import {createPortal} from "react-dom";
 import {deleteChampion} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {UserConsumer} from "../../UserContext.js";
 import {deletePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 
 const Container=styled.div`
@@ -54,15 +55,18 @@ const ConfirmationButtonCSS={
 	marginRight:"2%"
 }
 const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostType,removeContextLocation,targetDom,history})=>{
-	const userId=useSelector(state=>state.personalInformation.id);
-	const handleDelete=(personalInformation)=>{
+	const userId=useSelector(state=>state.personalInformation.id);	
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
+
+	const handleDelete=(personalContextInformation)=>{
 		if(postType=="Champion")
-			handleDeleteChampion(personalInformation);
+			handleDeleteChampion({personalContextInformation,isAccessTokenUpdated:false});
 		else
-			handleDeletePost(personalInformation);
+			handleDeletePost({personalContextInformation,isAccessTokenUpdated:false});
 	}
 
-	const handleDeletePost=async()=>{
+	const handleDeletePost=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		debugger;
 		const {
 			_id,
@@ -74,39 +78,69 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 			postType:selectedPostType,
 			postId,
 			industriesUploaded,
-			profileId:owner
+			profileId:owner,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 
 		const {confirmation,data}=await deletePost(removedPost);
 
-		if(confirmation=="Success"){
-			if(selectedPostType=="Blogs"){
-				alert('Post has been deleted. Please reload page to view updated post section');
-				history.push(`/profile/${owner}`);
+			if(confirmation=="Success"){
+				if(selectedPostType=="Blogs"){
+					alert('Post has been deleted. Please reload page to view updated post section');
+					history.push(`/profile/${owner}`);
+				}else{
+					removeContextLocation(postId,selectedPostType);
+					closeModal();
+				}
 			}else{
-				removeContextLocation(postId,selectedPostType);
-				closeModal();
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							handleDeletePost,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error deleting this post. Please try again');
+				}
 			}
-		}else{
-			alert('Unfortunately there has been an error deleting this post. Please try again');
-		}
  	}
-	const handleDeleteChampion=async(personalInformation)=>{
-      const {confirmation,data}=await deleteChampion({userId});
+	const handleDeleteChampion=async({personalContextInformation,isAccessTokenUpdated,updatedAccessToken})=>{
+      const {confirmation,data}=await deleteChampion({
+      									userId,
+      									accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+										personalInformation.accessToken
+      								});
       if(confirmation=="Success"){
-        personalInformation.deleteChampionModal({
+        personalContextInformation.deleteChampionModal({
           name:"",
           description:""
         })
         closeModal();
       }else{
-        alert('There was an error deleting your champion. Please try again');
+      	const {statusCode}=data;
+		if(statusCode==401){
+			await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					handleDeleteChampion,
+					dispatch,
+					{personalContextInformation},
+					false
+				);
+		}else{
+			alert('Unfortunately there has been an error deleting this post. Please try again');
+		}
       }
     }
 
 	return createPortal(
 		<UserConsumer>
-			{personalInformation=>{
+			{personalContextInformation=>{
 				return <>
 						<Container>
 							<p style={{fontSize:"20px"}}>
@@ -114,7 +148,7 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 							</p>
 							<hr/>
 							<ConfirmationContainer>
-								<p onClick={()=>handleDelete(personalInformation)} style={ConfirmationButtonCSS}> Yes </p>
+								<p onClick={()=>handleDelete(personalContextInformation)} style={ConfirmationButtonCSS}> Yes </p>
 								<p onClick={()=>closeModal()} style={ConfirmationButtonCSS}> No </p>
 							</ConfirmationContainer>
 						</Container>

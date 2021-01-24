@@ -78,9 +78,10 @@ class BlogDisplay extends Component{
 		console.log(confirmation);
 
 		if(confirmation=="Success"){
+			const {message}=data;
 			this.setState({
 				isLoading:false,
-				postData:data
+				postData:message
 			})
 		}else{
 			alert('Unfortunately an error has occured when trying to retried this post information. Please try again');

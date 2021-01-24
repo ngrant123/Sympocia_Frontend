@@ -5,8 +5,9 @@ import CameraIcon from '@material-ui/icons/Camera';
 import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.png";
 import {createSpecificIndustryRegularPostAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryRegularPostFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import RegularPostDisplayPortal from "../../../../../HomePageSet/RegularPostHomeDisplayPortal.js";
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -182,6 +183,8 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	const name=useSelector(state=>state.personalInformation.firstName);
 	const [isProccessingPost,changeIsProcessingPost]=useState(false);
 	const [isLoadingTextIndicator,changeIsLoadingTextIndicator]=useState(false);
+	const dispatch=useDispatch();
+	const {personalInformation}=useSelector(state=>state);
 
 	const [displayCurrentLevel,changeCurrentLevel]=useState(false);
 
@@ -263,7 +266,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 		changeIsLoadingTextIndicator(false);
 	}
 
-	const submitPost=async()=>{
+	const submitPost=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		if(knowledgeLevel==null){
 			alert('Please enter a level to continue');
 		}else{
@@ -274,7 +277,9 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 				question,
 				userId:userId,
 				post:document.getElementById("post").value,
-				postLevel:knowledgeLevel
+				postLevel:knowledgeLevel,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							personalInformation.accessToken
 			}
 			const {confirmation,data}=await createSpecificIndustryRegularPostAnswer(post);
 			if(confirmation=="Success"){
@@ -304,7 +309,19 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 				changeQuestionId(questionId);
 
 			}else{
-				alert('Unfortunately there has been an error with adding this image. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							submitPost,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error with adding this image. Please try again');
+				}
 			}
 			changeIsProcessingPost(false);
 		}
@@ -366,7 +383,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 
 					{isProccessingPost==true ?
 						<p>Please wait while we process your post </p>:
-						<li onClick={()=>submitPost()} style={SubmitButtonCSS}>
+						<li onClick={()=>submitPost({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
 							Submit
 						</li>
 					}

@@ -5,9 +5,9 @@ import MicIcon from '@material-ui/icons/Mic';
 import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.png";
 import {createSpecificIndustryAudioAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryAudioFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import RegularPostDisplayPortal from "../../../../../HomePageSet/RegularPostHomeDisplayPortal.js";
-
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
 
 
 const Container=styled.div`
@@ -174,6 +174,8 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 	const userId=useSelector(state=>state.personalInformation.id);
 	const name=useSelector(state=>state.personalInformation.firstName);
 	const [isProccessingPost,changeIsProcessingPost]=useState(false);
+	const dispatch=useDispatch();
+	const {personalInformation}=useSelector(state=>state);
 
 	useEffect(()=>{
 		const fetchData=async()=>{
@@ -222,8 +224,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 		document.getElementById("uploadAudioFile").click();
 	}
 
-	const submitAudio=async()=>{
-		changeIsProcessingPost(true);
+	const submitAudio=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		var audio={
 			audioUrl:audioUrl,
 			description:document.getElementById("imageDescription").value
@@ -233,7 +234,9 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 			industryId:symposiumId,
 			questionId:selectedPostId,
 			questionIndex:questionIndex,
-			userId:userId
+			userId:userId,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 
 		let {confirmation,data}=await createSpecificIndustryAudioAnswer(submitedAudio);
@@ -253,7 +256,19 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 			changeDisplayForFinalAudio(false);
 			changeDisplayCreationModal(false);
 		}else{
-			alert('Unfortunately there has been an error with adding this audio post. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitAudio,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with adding this audio post. Please try again');
+			}
 		}
 		changeIsProcessingPost(false);
 	}
@@ -375,7 +390,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 
 								{isProccessingPost==true ?
 									<p>Please wait while we process your post </p>:
-									<li onClick={()=>submitAudio()} style={SubmitButtonCSS}>
+									<li onClick={()=>submitAudio({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
 										Submit
 									</li>
 								}

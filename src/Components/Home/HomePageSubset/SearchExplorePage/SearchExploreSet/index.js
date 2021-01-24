@@ -14,12 +14,16 @@ import BlogsPostsModal from '../SearchExploreSubset/BlogPostsModal.js';
 import RegularPostsModal from '../SearchExploreSubset/RegularPostsModal.js';
 
 import {
-		getPostsForHomePage,
 		exploreImagePosts,
 		exploreVideoPosts,
 		exploreBlogPosts,
 		exploreRegularPosts
 	} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+import {refreshTokenApiCallHandle} from "./../../../../../Actions/Tasks/index.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+		} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
 	@media screen and (max-width:1370px) and (max-height:1030px){
@@ -195,7 +199,8 @@ class SearchExploreContainer extends Component{
 			displayDesktopUI:false,
 			isLoading:true,
 			isLoadingReloadedPosts:false,
-			endOfPostsDBIndicator:false
+			endOfPostsDBIndicator:false,
+			accessToken:this.props.personalInformation.accessToken
 		}
 	}
 
@@ -217,7 +222,7 @@ class SearchExploreContainer extends Component{
 		//If user just gets to the page set industry to general and postType to images
 		window.addEventListener('resize',this.triggerUIChange)
 		
-		this.changeHomePagePosts(this.state.postOption);
+		this.changeHomePagePosts({postOption:this.state.postOption,isAccessTokenUpdated:false});
 		this.triggerUIChange();
 	}
 
@@ -230,7 +235,7 @@ class SearchExploreContainer extends Component{
 		this.setState({
 			selectedIndustries:selectedIndustries
 		},function(){
-			this.changeHomePagePosts(this.state.postOption);
+			this.changeHomePagePosts({postOption:this.state.postOption,isAccessTokenUpdated:false});
 		})
 	}
 
@@ -238,18 +243,20 @@ class SearchExploreContainer extends Component{
 		this.setState({
 			selectedSubCommunities:selectedSubCommunities
 		},function(){
-			this.changeHomePagePosts(this.state.postOption);
+			this.changeHomePagePosts({postOption:this.state.postOption,isAccessTokenUpdated:false});
 		})
 	}
 
-	changeHomePagePosts=async(postOption)=>{
+	changeHomePagePosts=async({postOption,isAccessTokenUpdated,updatedAccessToken})=>{
 		debugger;
 		console.log(postOption);
 		var homePagePostsResponse;
 		var profileId=(this.props.personalInformation.loggedIn==true)?this.props.personalInformation.id:this.props.companyInformation.id;
 		const searchParameters={
 			id:profileId,
-			postCount:this.state.postCount
+			postCount:this.state.postCount,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						this.state.accessToken
 		}
 		if(postOption=="Images"){
 			homePagePostsResponse=await exploreImagePosts(searchParameters);
@@ -280,7 +287,22 @@ class SearchExploreContainer extends Component{
 			}
 
 		}else{
-			alert('Unfortunately there has been an error in retrieving you data. Please try again');
+			debugger;
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						this.props.personalInformation.refreshToken,
+						this.props.personalInformation.id,
+						this.changeHomePagePosts,
+						this.props,
+						{
+							postOption
+						},
+						true
+					);
+			}else{
+				alert('Unfortunately there has been an error in retrieving you data. Please try again');
+			}
 		}
 	}
 
@@ -290,7 +312,6 @@ class SearchExploreContainer extends Component{
 	}
 
 	suggestedSymposiumsRecursive=(posts)=>{
-		debugger;
 		if(posts==null||posts.length==0){
 			return posts;
 		}else if(posts.length==1){
@@ -323,7 +344,7 @@ class SearchExploreContainer extends Component{
 			postCount:0,
 			postsInformation:[]
 		},function(){
-			this.changeHomePagePosts(props);
+			this.changeHomePagePosts({postOption:props,isAccessTokenUpdated:false});
 		})
 	}
 
@@ -601,9 +622,17 @@ const mapStateToProps=(state)=>{
 	}
 }
 
+
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(SearchExploreContainer);
 
 

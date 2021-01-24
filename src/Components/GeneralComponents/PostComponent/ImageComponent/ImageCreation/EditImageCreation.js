@@ -11,12 +11,10 @@ import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
 import FilterImageSelection from "./FilterImageSelection.js";
 import ProcessImage from 'react-imgpro';
 import {UserConsumer} from "../../../../Profile/PersonalProfile/UserContext.js";
-
 import MicIcon from '@material-ui/icons/Mic';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import VideoDescriptionPortal from "../../VideoDescriptionPortal.js";
 import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
-
 import { Icon, InlineIcon } from '@iconify/react';
 import crownIcon from '@iconify/icons-mdi/crown';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -26,6 +24,11 @@ import {
 	editPost
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import CreateNewImageModal from "./index.js";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 
 const Container=styled.div`
@@ -310,7 +313,7 @@ class EditImageCreation extends Component{
 		}
 	}
 
-	sendImageDateToDB=async(profilePostInformation)=>{
+	sendImageDateToDB=async({profilePostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
 		debugger;
 		this.setState({
 			isSubmittedAndProcessing:true
@@ -346,16 +349,36 @@ class EditImageCreation extends Component{
 				//companyPostContextConsumer.hideCreationPost();
 				//this.pushDummyImageObjectToProfile(companyPostContextConsumer,searchCriteria);
 			}else{
-				const {confirmation,data}=await createImagePost(this.props.personalProfile.id,searchCriteria,"Personal");
+				const {confirmation,data}=await createImagePost(
+													this.props.personalProfile.id,
+													searchCriteria,
+													"Personal",
+													isAccessTokenUpdated==true?updatedAccessToken:
+													this.props.personalProfile.accessToken);
 				
 				if(confirmation=="Success"){
 					profilePostInformation.hideCreationPost();
 					this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria,data,this.props.personalProfile.id);
 				}else{
-					alert('Unfortunately there was an error uploading your image. Please try again');
-					this.setState({
-						isSubmittedAndProcessing:false
-					})
+					debugger;
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								this.props.personalProfile.refreshToken,
+								this.props.personalProfile.id,
+								this.sendImageDateToDB,
+								this.props,
+								{
+									profilePostInformation
+								},
+								true
+							);
+					}else{
+						alert('Unfortunately there has been an error editing this post. Please try again');
+						this.setState({
+							isSubmittedAndProcessing:false
+						})
+					}
 				}
 			}
 		}else{
@@ -394,17 +417,34 @@ class EditImageCreation extends Component{
 						newUrl:currentVideoDescription!=videoDescription?currentVideoDescription:null
 					}
 				],
-				ownerId:this.props.personalProfile.id
+				ownerId:this.props.personalProfile.id,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							this.props.personalProfile.accessToken
 			}
 
  			const {confirmation,data}=await editPost(editedImage);
 			if(confirmation=="Success"){
 				this.props.editPost(editedImage);
 			}else{
-				alert('Unfortunately there has been an error editing this post. Please try again');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalProfile.refreshToken,
+							this.props.personalProfile.id,
+							this.sendImageDateToDB,
+							this.props,
+							{
+								profilePostInformation
+							},
+							true
+						);
+				}else{
+					alert('Unfortunately there has been an error editing this post. Please try again');
+					this.setState({
+						isSubmittedAndProcessing:false
+					})
+				}
 			}
 		}
 	}
@@ -935,7 +975,7 @@ class EditImageCreation extends Component{
 													{this.state.isSubmittedAndProcessing==false?
 														<li style={{listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
 															<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																<ul onClick={()=>this.sendImageDateToDB(profilePostInformation)}>
+																<ul onClick={()=>this.sendImageDateToDB({profilePostInformation,isAccessTokenUpdated:false})}>
 																	<li style={{listStyle:"none",display:"inline-block"}}>
 																		<SendIcon
 																			style={{fontSize:20,color:"white"}}
@@ -978,9 +1018,19 @@ const mapStateToProps=state=>{
 	}
 }
 
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
+
+
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(EditImageCreation);
 
 

@@ -10,7 +10,8 @@ import MicIcon from '@material-ui/icons/Mic';
 import {addCommentToPopularQuestions} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {HomeConsumer} from "../../../HomeContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -187,6 +188,8 @@ const QuestionsPortal=(props)=>{
 	const _id=useSelector(state=>state.personalInformation.id);
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
 	const [isCommentProcessing,changeIsCommentProcessing]=useState(false);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	const triggerUIChange=()=>{
 		if(window.innerWidth<600){
@@ -219,8 +222,8 @@ const QuestionsPortal=(props)=>{
 	let [currentCounter,changeCurrentCounter]=useState(counter);
 	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[currentCounter].questionType);
 
-	const sendData=async(postData)=>{
-		changeIsCommentProcessing(true);
+
+	const sendData=async({postData,isAccessTokenUpdated,updatedAccessToken})=>{
 		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
 		if(currentQuestionType=="Video"){
 			postData={
@@ -249,7 +252,11 @@ const QuestionsPortal=(props)=>{
 			industry:selectedSymposium
 		}
 
-		const {confirmation,data}=await addCommentToPopularQuestions(postInformation);
+		const {confirmation,data}=await addCommentToPopularQuestions(
+											postInformation,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken
+										);
 		if(confirmation=="Success"){
 			debugger;
 			const {message}=data;
@@ -265,7 +272,19 @@ const QuestionsPortal=(props)=>{
 				currentQuestionType
 			});
 		}else{
-			alert('Unfortunately there has been an error when trying to add your post. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						sendData,
+						dispatch,
+						{postData},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error when trying to add your post. Please try again');
+			}
 		}
 		changeIsCommentProcessing(false);
 	}
@@ -333,7 +352,7 @@ const QuestionsPortal=(props)=>{
 											/>
 											<hr/>
 											{isCommentProcessing==false?
-												<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
+												<li onClick={()=>sendData({postData:selectedPost,isAccessTokenUpdated:false})} style={SendButtonCSS}>
 													Send
 												</li>:
 												<p>Please wait while we process your post... </p>
@@ -386,7 +405,8 @@ const QuestionsPortal=(props)=>{
 									<InputContainer id="videoDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your video here"/>
 									<hr/>
 									{isCommentProcessing==false?
-										<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
+										<li onClick={()=>sendData({postData:selectedPost,isAccessTokenUpdated:false})} style={SendButtonCSS}>
+
 											Send
 										</li>
 										:<p>Please wait while we process your post...</p>
@@ -418,8 +438,12 @@ const QuestionsPortal=(props)=>{
 														id="regularPostText"
 													/>
 												</li>
+
 												{isCommentProcessing==false?
-													<li onClick={()=>sendData(document.getElementById("regularPostText").value)} style={SendButtonCSS}>
+													<li onClick={()=>sendData({
+																		postData:document.getElementById("regularPostText").value,
+																		isAccessTokenUpdated:false
+																	})} style={SendButtonCSS}>
 														Send
 													</li>
 													:<p>Please wait while we process your post... </p>
@@ -461,7 +485,7 @@ const QuestionsPortal=(props)=>{
 									</li>
 									<InputContainer placeholder="Describe your picture here"/>
 									{isCommentProcessing==false?
-										<li onClick={()=>sendData()} style={SendButtonCSS}>
+										<li onClick={()=>sendData({isAccessTokenUpdated:false})} style={SendButtonCSS}>
 											Send
 										</li>
 										:<p>Please wait while we process your post... </p>

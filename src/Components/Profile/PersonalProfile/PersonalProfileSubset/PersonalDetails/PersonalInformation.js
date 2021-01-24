@@ -5,17 +5,15 @@ import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import FriendsAndIndustryInformation from "./FriendsAndIndustryInformation.js";
 import DonatePortal from "../../PersonalProfileSet/Modals-Portals/DonatePortal.js";
 import ChampionPortal from "../../PersonalProfileSet/Modals-Portals/ChampionModalPortal/index.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import {addRecruit} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import FriendsPortal from "../../PersonalProfileSet/Modals-Portals/FriendsPortal.js";
 import SymposiumPortal from "../../PersonalProfileSet/Modals-Portals/FollowedSymposiumsPortal.js";
 
 import { Icon, InlineIcon } from '@iconify/react';
 import tiktokIcon from '@iconify/icons-simple-icons/tiktok';
-import {
-	removeRecruitProfileIsFollowing,
-	removeRecruitProfileIsntFollowing
-} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 
 
@@ -171,20 +169,70 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 
 	const isRecruitOrOwner=isOwnProfileRecruitButtonDecider();
 	const [isProfileARecruitOrOwner,changeIsProfileARecruitOrOwner]=useState(isRecruitOrOwner);
+	const personalReduxInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	const recruitProfile=()=>{
 		changeIsProfileARecruitOrOwner(true);
-		handleRecruitButton(personalInformation,displayConfettiHandle,userId);
+		handleRecruitButton({personalInformation,displayConfettiHandle,userId,isAccessTokenUpdated:false});
 	}
 
-	const unRecruitVisitor=async()=>{
+	const unRecruitVisitor=async({isAccessTokenUpdated,updatedAccessToken,accessToken})=>{
 		if(personalInformation.isOwnProfile==false){
-			const {confirmation,data}=await removeRecruitProfileIsntFollowing({
-				personalProfileId:_id,
-				targetProfile:userId
+			const {confirmation,data}=await removeRecruitProfileIsFollowing({
+				personalProfileId:userId,
+				targetProfile:_id,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+				personalReduxInformation.accessToken
 			})
 			if(confirmation=="Success"){
 				changeIsProfileARecruitOrOwner(false);
+			}else{
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalReduxInformation.refreshToken,
+							userId,
+							unRecruitVisitor,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error adding this recruit. Please try again');
+				}
+			}
+		}
+	}
+
+	const handleRecruitButton=async({personalInformation,displayConfettiHandle,userId,isAccessTokenUpdated,updatedAccessToken})=>{
+	
+		const profileId=personalInformation.userProfile._id;
+		const {confirmation,data}=await addRecruit(
+											userId,
+											profileId,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalReduxInformation.accessToken
+										);
+		if(confirmation=="Success"){
+			displayConfettiHandle();
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalReduxInformation.refreshToken,
+						userId,
+						handleRecruitButton,
+						dispatch,
+						{
+							personalInformation,
+							displayConfettiHandle,
+							userId
+						},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error adding this recruit. Please try again');
 			}
 		}
 	}
@@ -195,7 +243,7 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 							<a style={{textDecoration:"none"}} href="javascript:void(0);">
-								<RecruitButtonContainer onClick={()=>unRecruitVisitor()}>
+								<RecruitButtonContainer onClick={()=>unRecruitVisitor({isAccessTokenUpdated:false})}>
 									- Recruit
 								</RecruitButtonContainer>
 							</a>
@@ -206,7 +254,7 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 							<a style={{textDecoration:"none"}} href="javascript:void(0);">
-								<RecruitButtonContainer onClick={()=>recruitProfile()}>
+								<RecruitButtonContainer onClick={()=>recruitProfile({isAccessTokenUpdated:false})}>
 									+ Recruit
 								</RecruitButtonContainer>
 							</a>
@@ -227,17 +275,8 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 		   </>
 }
 
-//
-const handleRecruitButton=(personalInformation,displayConfetti,userId)=>{
-	displayConfetti();
-	console.log(personalInformation);
-	
-	const profileId=personalInformation.userProfile._id;
-	addRecruit(userId,profileId);
-}
 
 const PersonalInformation=(props)=>{
-	console.log(props);
 
 	const [displayFriendsAndIndustryContainer,changeIndicator]=useState(false);
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);

@@ -78,6 +78,20 @@ const logOutUser=()=>{
 	}
 }
 
+const setPersonalProfileAccessToken=(accessToken)=>{
+	return{
+		type:'ACCESS_TOKEN',
+		payload:accessToken
+	}
+}
+
+const setPersonalProfileRefreshToken=(refreshToken)=>{
+	return{
+		type:'REFRESH_TOKEN',
+		payload:refreshToken
+	}
+}
+
 module.exports={
 	addName,
 	addLastName,
@@ -88,5 +102,7 @@ module.exports={
 	firstTimeUsage,
 	loginPersonalPage,
 	signInPersonalUser,
-	logOutUser
+	logOutUser,
+	setPersonalProfileAccessToken,
+	setPersonalProfileRefreshToken
 }

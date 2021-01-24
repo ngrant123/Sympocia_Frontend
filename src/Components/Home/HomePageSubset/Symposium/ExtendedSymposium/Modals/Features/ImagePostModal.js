@@ -4,9 +4,9 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
 import {createIndustryFeatureImageResponse} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryImageFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import ImagePostDisplayPortal from "../../../../../HomePageSet/ImageHomeDisplayPortal.js";
-
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	padding:20px;
@@ -168,6 +168,8 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 	const [displayPostExpand,changePostExpand]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const [isProccessingPost,changeIsProcessingPost]=useState(false);
+	const dispatch=useDispatch();
+	const {personalInformation}=useSelector(state=>state);
 
 
 	const userId=useSelector(state=>state.personalInformation.id);
@@ -218,8 +220,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 		document.getElementById("uploadPictureFile").click();
 	}
 
-	const submitImage=async()=>{
-		changeIsProcessingPost(true);
+	const submitImage=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		var image={
 			imgUrl:imgUrl,
 			description:document.getElementById("imageDescription").value
@@ -229,7 +230,9 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 			industryId:symposiumId,
 			questionId:selectedPostId,
 			questionIndex:questionIndex,
-			userId:userId
+			userId:userId,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 
 		let {confirmation,data}=await createIndustryFeatureImageResponse(submitedImage);
@@ -246,7 +249,19 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 			changePosts([...posts]);
 			changeDisplayCreationModal(false);
 		}else{
-			alert('Unfortunately there has been an error with adding this image. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitImage,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with adding this image. Please try again');
+			}
 		}
 		changeIsProcessingPost(false);
 	}
@@ -352,7 +367,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 
 								{isProccessingPost==true ?
 									<p>Please wait while we process your post </p>:
-									<li onClick={()=>submitImage()} style={SubmitButtonCSS}>
+									<li onClick={()=>submitImage({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
 										Submit
 									</li>
 								}

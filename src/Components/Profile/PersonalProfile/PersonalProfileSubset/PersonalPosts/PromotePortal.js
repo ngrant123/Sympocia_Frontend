@@ -2,7 +2,8 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {promotePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -50,6 +51,9 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 	const [displayConfirmationPage,changeDisplayConfirmationPage]=useState(false);
 	const [nodeSelected,changeNodeSelected]=useState();
 	const [node,changeCurrentNodes]=useState([]);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
+
 	useEffect(()=>{
 		debugger;
 		let currentNodes=[...nodes];
@@ -62,11 +66,14 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 		changeDisplayConfirmationPage(true);
 	}
 
-	const promotePostHandle=async()=>{
+	const promotePostHandle=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const promotion={
 			nodeId:nodeSelected._id,
 			postId,
-			postType
+			postType,
+			userId:personalInformation.id,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 
 		const {confirmation,data}=await promotePost(promotion);
@@ -74,7 +81,19 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 			alert('Post has been promoted');
 			closePromotePortal();
 		}else{
-			alert('Unfortunately there has been an error promoting this post. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						promotePostHandle,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error promoting this post. Please try again');
+			}
 		}
 	}
 
@@ -116,7 +135,7 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<a href="javascription:void(0)" style={{textDecoration:"none"}}>
-									<li onClick={()=>promotePostHandle()} style={ButtonCSS}>
+									<li onClick={()=>promotePostHandle({isAccessTokenUpdated:false})} style={ButtonCSS}>
 										Yes
 									</li>
 								</a>

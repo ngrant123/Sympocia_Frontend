@@ -8,7 +8,8 @@ import ReplyIcon from '@material-ui/icons/Reply';
 
 import {markPostAsAuthentic,markPostAsFakeNews} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js"
 import {getFakeNewsComments,getAuthenticPostComments} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 
 
 const ShadowContainer= styled.div`
@@ -150,6 +151,7 @@ const PollOptionPortal=(props)=>{
 	const [comments,changeComments]=useState([]);
 	const [isProcessing,changeIsProcessingStatus]=useState(false);
 	const [isProcessingSubmittion,changeIsProcessingSubmittion]=useState(false)
+	const dispatch=useDispatch();
 
 	useEffect(()=>{
 		const getData=async()=>{
@@ -166,8 +168,7 @@ const PollOptionPortal=(props)=>{
 		getData();
 	},[]);
 
-	const submitComment=async()=>{
-		changeIsProcessingSubmittion(true);
+	const submitComment=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const comment=document.getElementById("extendedInputContainer").value;
 		if(comment!=""){
 			const commentObject={
@@ -175,7 +176,9 @@ const PollOptionPortal=(props)=>{
 				firstName:personalInformation.firstName,
 				_id:personalInformation.id,
 				postOption:postType,
-				postId:postId
+				postId:postId,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+				personalInformation.accessToken
 			}
 			
 			let confirmationResponse,dataResponse;
@@ -202,7 +205,19 @@ const PollOptionPortal=(props)=>{
 				currentComments.splice(0,0,dummyCommentObject);
 				changeComments([...currentComments]);
 			}else{
-				alert('An error has unfortunately occured. Please try again');
+				const {statusCode}=dataResponse;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							submitComment,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('An error has unfortunately occured. Please try again');
+				}
 			}
 		}else{
 			alert('Please enter a value your comment');
@@ -280,7 +295,7 @@ const PollOptionPortal=(props)=>{
 										{isProcessingSubmittion==true?
 											<p>Please wait...</p>:
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>submitComment()} style={ExploreButton}>
+												<li onClick={()=>submitComment({isAccessTokenUpdated:false})} style={ExploreButton}>
 													Submit
 												</li>
 											</a>

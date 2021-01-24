@@ -29,7 +29,8 @@ import {
 } from "./ContextActions.js";
 import {RecruitButton} from "../PersonalDetails/PersonalInformation.js";
 import {PhonePersonalInformationHeader} from "../../PersonalProfileSet/MobileUI.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 
 const PostCreationContainer=styled.div`
@@ -175,6 +176,7 @@ const PersonalPostsIndex=(props)=>{
 	const [currentPostType,changeCurrentPostType]=useState("image");
 	const [currentPostCounter,changeCurrentPostCounter]=useState(0);
 	const [isLoadingNewPosts,changeIsLoadingNewPosts]=useState(false);
+	const dispatch=useDispatch();
 
 	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
@@ -236,7 +238,7 @@ const PersonalPostsIndex=(props)=>{
 		regularPost.style.borderStyle="none";
 	}
 
-	const handlePostsClick=async(kindOfPost,id,isLoadingNewPosts,postCounter)=>{
+	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,isLoadingNewPosts,postCounter})=>{
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
@@ -290,7 +292,9 @@ const PersonalPostsIndex=(props)=>{
 			const {confirmation,data}=await getVideosFromUser({
 												userId:id,
 												visitorId:props.visitorId,
-												postCount:postCounter==null?0:postCounter
+												postCount:postCounter==null?0:postCounter,
+												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+												personalRedux.accessToken
 											});
 
 			if(confirmation=="Success"){
@@ -310,7 +314,23 @@ const PersonalPostsIndex=(props)=>{
 					changeIsLoadingNewPosts(false)
 				}
 			}else{
-				alert('Unfortunately there has been an error getting your videos. Please try again');
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalRedux.refreshToken,
+							personalRedux.id,
+							handlePostsClick,
+							dispatch,
+							{
+								kindOfPost,
+								id
+							},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error getting your videos. Please try again');
+				}
 			}
 		}else if(kindOfPost=="blog"){
 			changeDisplayForBlogs(true);
@@ -346,7 +366,24 @@ const PersonalPostsIndex=(props)=>{
 					changeDisplayForBlogs(true);
 				}
 			}else{
-				alert('Unfortunately there has been an error getting these blog posts. Please try again');
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalRedux.refreshToken,
+							personalRedux.id,
+							handlePostsClick,
+							dispatch,
+							{
+								kindOfPost,
+								id
+							},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error getting these blog posts. Please try again');
+				}
+				
 			}
 
 
@@ -357,7 +394,9 @@ const PersonalPostsIndex=(props)=>{
 			const {confirmation,data}=await getRegularPostFromUser({
 												userId:id,
 												visitorId:props.visitorId,
-												postCount:postCounter==null?0:postCounter
+												postCount:postCounter==null?0:postCounter,
+												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+												personalRedux.accessToken
 											});
 			if(confirmation=="Success"){	
 				const {crownedPost}=data;
@@ -371,7 +410,6 @@ const PersonalPostsIndex=(props)=>{
 					regularPostDiv.style.borderColor="#C8B0F4";
 					const {posts}=regularPost;
 					const newRegularPosts=posts.concat(postsResponse);
-
 					const regularPostObject={
 						headerPost:crownedPost,
 						//posts:posts.reverse()
@@ -385,7 +423,23 @@ const PersonalPostsIndex=(props)=>{
 					changeIsLoadingNewPosts(false)
 				}
 			}else{
-				alert('Unfortunately there has been an error getting your regular posts. Please try again');
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalRedux.refreshToken,
+							personalRedux.id,
+							handlePostsClick,
+							dispatch,
+							{
+								kindOfPost,
+								id
+							},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error getting your regular posts. Please try again');
+				}
 			}
 		}
 		
@@ -436,25 +490,33 @@ const PersonalPostsIndex=(props)=>{
 							   		<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
-								<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+								<li onClick={()=>handlePostsClick({
+													kindOfPost:"image",
+													id:props.personalInformation.userProfile._id,
+													isAccessTokenUpdated:false
+												})} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
 									<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
 										Images
 									</a>
 								</li>
 
 								<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+
 									<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 										Videos
 									</a>
 								</li>
 
 								<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+
 									<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 										Regular Posts
 									</a>
 								</li>
 
+
 								<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+
 									<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 										Blogs
 									</a>
@@ -480,13 +542,24 @@ const PersonalPostsIndex=(props)=>{
 			const nextCounter=currentPostCounter+1;
 			changeCurrentPostCounter(nextCounter);
 			changeIsLoadingNewPosts(true)
-			handlePostsClick(currentPostType,props.personalInformation.userProfile._id,true,nextCounter);
+			handlePostsClick({
+				kindOfPost:currentPostType,
+				id:props.personalInformation.userProfile._id,
+				isAccessTokenUpdated:false,
+				postCounter:nextCounter,
+				isLoadingNewPosts:true
+			})
 		}
 	}
 
 	const triggerPostDecider=(postType,profileId,counter)=>{
 		if(postType!=currentPostType){
-			handlePostsClick(postType,profileId,counter)
+			handlePostsClick({
+				kindOfPost:postType,
+				id:profileId,
+				isAccessTokenUpdated:false,
+				postCounter:counter
+			})
 		}
 	}
 
@@ -655,25 +728,34 @@ const PersonalPostsIndex=(props)=>{
 											</ul>
 										</li>
 
-										<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+										<li onClick={()=>handlePostsClick({
+													kindOfPost:"image",
+													id:props.personalInformation.userProfile._id,
+													isAccessTokenUpdated:false
+												})} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 											<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
 												Images
 											</a>
 										</li>
 
+
 										<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+
 											<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Videos
 											</a>
 										</li>
 
+
 										<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+
 											<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Regular Posts
 											</a>
 										</li>
 
 										<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+
 											<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Blogs
 											</a>
