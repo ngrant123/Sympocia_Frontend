@@ -7,9 +7,11 @@ import crownIcon from '@iconify/icons-mdi/crown';
 
 
 const Container=styled.div`
-	overflow:scroll;
-	@media screen and (max-width:600px){
+	@media screen and (max-width:700px){
 		width:120% !important;
+		#submitLI{
+			width:100% !important;
+		}
 	}
 	@media screen and (max-width:740px) and (max-height:420px){
 	 	width:160% !important;
@@ -122,8 +124,8 @@ const TextCreation=({isSubmittedAndProcessing,isPostCrowned,displayTextOrAudioSc
 					<InputContainer id="textContainer" placeholder="Create your post here"/>
 				</li>
 
-				{isSubmittedAndProcessing==false &&(
-					<li  onClick={()=>sendData()} style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
+				{isSubmittedAndProcessing==false?
+					<li  id="submitLI" onClick={()=>sendData()} style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
@@ -137,8 +139,9 @@ const TextCreation=({isSubmittedAndProcessing,isPostCrowned,displayTextOrAudioSc
 								</li>
 							</ul>
 						</a>
-					</li>
-				)}
+					</li>:
+					<p>Please wait...</p>
+				}
 			</ul>
 		</Container>
 	)

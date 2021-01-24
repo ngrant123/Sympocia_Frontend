@@ -62,6 +62,60 @@ import HowToRegIcon from '@material-ui/icons/HowToReg';
 import BusinessIcon from '@material-ui/icons/Business';
 import Particles from 'react-particles-js';
 
+const CardContentContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+
+	@media screen and (max-width:1370px){
+		flex-direction:column;
+		padding-bottom:10px !important;
+		margin-bottom:10% !important;
+	}
+`;
+
+const Card=styled.div`
+	display:flex;
+	flex-direction:column;
+	margin-right:10%;
+	width:50%;
+
+	@media screen and (max-width:1370px){
+		width:70%;
+		margin-bottom:5%;
+	}
+
+	@media screen and (max-width:600px){
+		width:130%;
+		margin-left:-30% !important;
+		border-style:none !important;
+		margin-bottom:-15% !important;
+
+		#companyCard{
+			margin-top:-20% !important;
+			margin-bottom:50% !important;
+			width:160% !important;
+		}
+	}
+
+`;
+const CompanyCard=styled.div`
+	display:flex;
+	flex-direction:column;
+	margin-right:10%;
+	width:50%;
+
+	@media screen and (max-width:1370px){
+		width:70%;
+	}
+
+	@media screen and (max-width:600px){
+		width:160%;
+		margin-left:-30% !important;
+		border-style:none !important;
+		margin-bottom:-15% !important;
+	}
+`;
+
 const divStyle = {
   	position:'absolute',
 	backgroundColor:'#4D4C4D',
@@ -114,17 +168,12 @@ const StartuptypeStyle ={
 }
 
 const PersonalCardContainerCSS={
-	position:"relative",
-	listStyle:"none",
-	display:"inline-block",
 	backgroundColor:"white",
-	width:"30%",
 	height:"400px",
 	borderRadius:"5px",
 	borderStyle:"solid",
     borderColor:"#5298F8",
-    padding:"20px",
-    top:"-150px"
+    padding:"20px"
 }
 
 const CompanyCardContainerCSS={
@@ -216,7 +265,6 @@ class LSignupPage extends Component {
 	}
 
 	handleDisplayGeneralSetupPage=()=>{
-		document.getElementById("titleHeader").style.visibility="visible";
 		this.setState({
 			displayPersonalSignupModal:false
 		})
@@ -232,94 +280,155 @@ class LSignupPage extends Component {
 			</React.Fragment>: 
 			<React.Fragment>
 				<ul id="CardContainer" style={{position:"absolute",left:"15%",top:"10%"}}>
-					<p style={{fontSize:"80px"}}>
-						<b id="titleHeader">
-							What are you looking for on here?
-						</b>
-					</p>
-					<hr id="mobileDivider" />
-					<li style={{listStyle:"none",marginTop:"5%"}}>
-						<ul style={{padding:"0px"}}>
-							{this.state.displayPersonalSignupModal==true?
-								<li id="signUpContainer" style={{position:"relative",listStyle:"none",top:"-140px"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>this.handleDisplayGeneralSetupPage()} style={BackButtonCSS}>
-											Back
-										</li>
-									</a>
-									<PersonalSignUpCard id="personalSignInCard">
-										<PersonalSignUp
-											history={this.props.history}
-										/>
-									 </PersonalSignUpCard>
-								</li>:
-								 <>
-								 	<li id="personalCardContainer" style={PersonalCardContainerCSS}>
-											<p id="personalCardTitle" style={HeaderCSS}>
-												<b>
-													<PortraitIcon style={{fontSize:"40"}}/> Entertainment
-												</b>
-											</p>
-											<p style={HeaderDescriptionCSS}> Interested in viewing videos, posts, and images
-											from your friends and people you are interested in? Click on the button below</p>
+					{this.state.displayPersonalSignupModal==true?
+						<li id="signUpContainer" style={{position:"relative",listStyle:"none"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li id="backButton" onClick={()=>this.handleDisplayGeneralSetupPage()} style={BackButtonCSS}>
+									Back
+								</li>
+							</a>
+							<PersonalSignUpCard id="personalSignInCard">
+								<PersonalSignUp
+									history={this.props.history}
+								/>
+							 </PersonalSignUpCard>
+						</li>:
+						<>
+							<p style={{fontSize:"80px"}}>
+								<b id="titleHeader">
+									What are you looking for on here?
+								</b>
+							</p>
+							<hr id="mobileDivider" />
+							<li style={{listStyle:"none",marginTop:"5%"}}>
+								<ul style={{padding:"0px"}}>
+										 <CardContentContainer>
+										 	<Card style={PersonalCardContainerCSS}>
+												<p id="personalCardTitle" style={HeaderCSS}>
+													<b>
+														<PortraitIcon style={{fontSize:"40"}}/> Entertainment
+													</b>
+												</p>
+												<p style={HeaderDescriptionCSS}> Interested in viewing videos, posts, and images
+												from your friends and people you are interested in? Click on the button below</p>
+												
+												<SignUpButton style={{width:"60%",height:"10%",marginLeft:"5%"}} 
+													onClick={()=>this.handleDisplayPersonalSetupPage()}>
+													Click here
+												</SignUpButton>
+											
+										 	</Card>
+										 	<hr id="mobileDivider" />
 
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<SignUpButton style={{width:"80%",marginLeft:"5%"}} onClick={()=>this.handleDisplayPersonalSetupPage()}>Click here</SignUpButton>
-											</a>
-									</li>
-									<hr id="mobileDivider" />
+										 	<CompanyCard id="companyCard" style={PersonalCardContainerCSS}>
+										 		<p id="companyCardTitle" style={HeaderCSS}>
+													<b>
+														<AccountBalanceIcon style={{fontSize:"40",marginRight:"10%"}}/>Business
+													</b>
+												</p>
+												<ul style={{padding:"0px",marginTop:"10%"}}>
+													<li style={{listStyle:"none"}}>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+																<BusinessIcon 
+																	style={{fontSize:"40",color:"#5298F8"}}
+																/>
+															</li>
 
-									<li id="companyCardContainer" style={CompanyCardContainerCSS}>
-										<p id="companyCardTitle" style={HeaderCSS}>
-											<b>
-												<AccountBalanceIcon style={{fontSize:"40",marginRight:"10%"}}/>Business
-											</b>
-										</p>
-
-										<ul style={{padding:"0px",marginTop:"10%"}}>
-											<li style={{listStyle:"none"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
-														<BusinessIcon 
-															style={{fontSize:"40",color:"#5298F8"}}
-														/>
+															<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
+																Ready to show the world your hobby that you're 
+																building?Or maybe you have a startup or business and you want
+																to connect with people who you think would want to see it? Click 
+																on the button below to get started
+															</li>
+														</ul>
 													</li>
 
-													<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
-														Ready to show the world your hobby that you're 
-														building?Or maybe you have a startup or business and you want
-														to connect with people who you think would want to see it? Click 
-														on the button below to get started
+													<li style={{listStyle:"none",marginTop:"10%"}}>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+																<HowToRegIcon 
+																	style={{fontSize:"40",color:"#5298F8"}}
+																/>
+															</li>
+															
+
+															<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
+																Click here if you plan on investing now or the future 
+														    	(dont worry if you dont know how we'll try our best to teach you)
+															</li>
+															<li style={{marginLeft:"5%",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
+																<SignUpButton>
+																	Coming Soon
+																</SignUpButton>
+															</li>
+														</ul>
 													</li>
 												</ul>
-											</li>
+										 	</CompanyCard>
 
-											<li style={{listStyle:"none",marginTop:"10%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
-														<HowToRegIcon 
-															style={{fontSize:"40",color:"#5298F8"}}
-														/>
-													</li>
-													
 
-													<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
-														Click here if you plan on investing now or the future 
-												    	(dont worry if you dont know how we'll try our best to teach you)
-													</li>
-													<li style={{marginLeft:"5%",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
-														<SignUpButton>
-															Coming Soon
-														</SignUpButton>
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								 </>
-							}
-						</ul>
-					</li>
+
+
+										 	{/*
+											 	<li id="personalCardContainer" style={PersonalCardContainerCSS}>
+												</li>
+												<hr id="mobileDivider" />
+
+												<li id="companyCardContainer" style={CompanyCardContainerCSS}>
+													<p id="companyCardTitle" style={HeaderCSS}>
+														<b>
+															<AccountBalanceIcon style={{fontSize:"40",marginRight:"10%"}}/>Business
+														</b>
+													</p>
+
+													<ul style={{padding:"0px",marginTop:"10%"}}>
+														<li style={{listStyle:"none"}}>
+															<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+																	<BusinessIcon 
+																		style={{fontSize:"40",color:"#5298F8"}}
+																	/>
+																</li>
+
+																<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
+																	Ready to show the world your hobby that you're 
+																	building?Or maybe you have a startup or business and you want
+																	to connect with people who you think would want to see it? Click 
+																	on the button below to get started
+																</li>
+															</ul>
+														</li>
+
+														<li style={{listStyle:"none",marginTop:"10%"}}>
+															<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+																	<HowToRegIcon 
+																		style={{fontSize:"40",color:"#5298F8"}}
+																	/>
+																</li>
+																
+
+																<li style={{listStyle:"none",display:"inline-block",width:"70%"}}>
+																	Click here if you plan on investing now or the future 
+															    	(dont worry if you dont know how we'll try our best to teach you)
+																</li>
+																<li style={{marginLeft:"5%",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
+																	<SignUpButton>
+																		Coming Soon
+																	</SignUpButton>
+																</li>
+															</ul>
+														</li>
+													</ul>
+												</li>
+
+										 	*/}
+										 </CardContentContainer>
+								</ul>
+							</li>
+						</>
+					}
 				</ul>
 			</React.Fragment>
 	}

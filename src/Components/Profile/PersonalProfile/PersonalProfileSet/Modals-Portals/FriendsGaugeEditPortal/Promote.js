@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
@@ -48,6 +48,18 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	const [displayPromoteSomeoneScreen,changeDisplayPromotionScreen]=useState(false);
 	const [selectedRecruits,changeSelectedRecruits]=useState([]);
 	const [selectedNode,changeSelectedNode]=useState();
+	const [selectedRecruitsMap,changeSelectedRecruitsMap]=useState(new Map());
+	const [isProcessingSubmit,changeIsSubmitProcessing]=useState(false); 
+
+	useEffect(()=>{
+		debugger;
+		const selectedRecruitsMapping=new Map();
+		for(var i=0;i<selectedRecruits.length;i++){
+			const {_id,firstName}=selectedRecruits[i];
+			selectedRecruitsMapping.set(_id,firstName);
+		}
+		changeSelectedRecruitsMap(selectedRecruitsMapping)
+	},[selectedRecruits]);
 
 	const removeSelectedPerson=(data)=>{
 		
@@ -71,24 +83,38 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 		console.log(selectedRecruits);
 	} 
 
-	const promoteRecruits=async()=>{
-		
-		/*
-			const promoteRecruit={
-				selectedRecruits:selectedRecruits,
-				node:selectedNode._id,
-				_id:id
-			}
+	const promoteRecruits=async()=>{ 
+		changeIsSubmitProcessing(true);
+		const promoteRecruit={
+			selectedRecruits:selectedRecruits,
+			node:selectedNode._id,
+			_id:id
+		}
 
-			const {confirmation}=await promoteRecruitRequest(promoteRecruit);
-		*/
-
-		const confirmation="Success";
+		const {confirmation,data}=await promoteRecruitRequest(promoteRecruit);
 		if(confirmation=='Success'){
-			closeModal();
+			debugger;
+			const {message}=data;
+			let{
+				recruitsAdded,
+				recruitsNotAdded
+			}=message;
+			if(recruitsNotAdded.length>0){
+				for(var j=0;j<recruitsNotAdded.length;j++){
+					const _id=recruitsNotAdded[j];
+					const recruitName=selectedRecruitsMap.get(_id);
+					recruitsNotAdded[j]=recruitName;
+				}
+				alert("The selected recruits:"+recruitsNotAdded.toString()+' have not been added because they have already'+
+				' been added to your level before.');
+			}else{
+				alert('Selected recruits promoted');
+				closeModal();
+			}
 		}else{
 			alert('Unfortunately there has been an error. Please try again');
 		}
+		changeIsSubmitProcessing(false);
 	}
 
 
@@ -103,7 +129,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 							<hr/>
 				 		*/}
 				 		<p style={{fontSize:"20px"}}>
-				 			<b>Click the recruits that you would like to promote </b>
+				 			<b>Click on the recruits that you would like to promote </b>
 				 		</p>
 				 		<hr/>
 						{selectedRecruits.map(data=>
@@ -163,13 +189,18 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 					<>
 						<ul style={{padding:"25px"}}>
 							{selectedNode!=null?
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li style={{listStyle:"none",marginBottom:"5%"}}>
-										<SubmitButton onClick={()=>promoteRecruits()}>
-											Submit
-										</SubmitButton>
-									</li>
-								</a>
+								<>
+									{isProcessingSubmit==true?
+										<p>Please wait...</p>
+										:<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li style={{listStyle:"none",marginBottom:"5%"}}>
+												<SubmitButton onClick={()=>promoteRecruits()}>
+													Submit
+												</SubmitButton>
+											</li>
+										</a>
+									}
+								</>
 								:null
 							}
 							<li style={{listStyle:"none"}}>
@@ -178,19 +209,27 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 							 			<b>Click the level that you want to promote the recruit to</b>
 							 		</p>
 							 		<hr/>
-									{nodes.map(data=>
-											<>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>changeSelectedNode(data)} style={{listStyle:"none"}}>
-														<p style={{fontSize:"25px"}}>
-															<b> {data.name} </b>
-														</p>
-														<p>{data.description}</p>
-													</li>
-												</a>
-												<hr/>
-											</>
-										)}
+							 		{nodes.length==0?
+							 			<p>
+							 				Unfortunately you have no levels to promote your recruit to.
+							 			 	Please create a new one and revisit this screen again
+							 			</p>:
+							 			<>
+											{nodes.map(data=>
+												<>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<li onClick={()=>changeSelectedNode(data)} style={{listStyle:"none"}}>
+															<p style={{fontSize:"25px"}}>
+																<b> {data.name} </b>
+															</p>
+															<p>{data.description}</p>
+														</li>
+													</a>
+													<hr/>
+												</>
+											)}
+							 			</>
+							 		}
 								</ul>
 							</li>
 						</ul>

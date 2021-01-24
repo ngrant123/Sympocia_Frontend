@@ -2,17 +2,16 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import {ImageConsumer} from "./ImageContext.js";
 import PollOptionPortal from "../../PollOptionPortal.js";
-import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
+import {Link} from "react-router-dom";
 
 
 const Container=styled.div`
 	position:absolute;
+	background-color:white;
 	width:40%;
 	height:82%;
 	z-index:3;
-	background-color:white;
 	top:30px;
-	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
 		width:80% !important;
@@ -108,6 +107,11 @@ const PostInformationContainer=styled.div`
 `;
 
 
+const PostProfilePictureAndNameContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
 
 const ImagePostsButtons=styled.div`
 	position:relative;
@@ -126,6 +130,7 @@ const ImagePostsButtons=styled.div`
 		background-color:#0857c2;
 	}
 `; 
+
 
 
 const ButtonCSS={
@@ -171,86 +176,127 @@ const ImageInformation=(props)=>{
 		return (
 			<ImageConsumer>
 				{information=>{
-					return <Container>
-								{displayPollingModal==true?
-									<PollOptionPortal
-										closeModal={closeModal}
-										displayApproveModal={displayApproveModal}
-										postId={props.imageInformation._id}
-										postType="Images"
-										targetDom={props.targetDom}
-									/>:null
-								}
-								<ul id="postLIContainer" style={{padding:"0px",width:"140%"}}>
-									{(props.imageInformation.audioDescription!=null && 
-									  testIfUserIsUsingChrome()==true && 
-									 	 props.isMobileTrue==false)==true && (
-									 	 <React.Fragment>
-											<li style={{listStyle:"none"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<audio style={{width:"200px"}} controls>
-															<source src={props.imageInformation.audioDescription} type="audio/ogg"/>
-															<source src={props.imageInformation.audioDescription} type="audio/mpeg"/>
-															Your browser does not support the audio element.
-														</audio>
-													</li>
-												</ul>
-											</li>
-											<hr/>
-										</React.Fragment>
-									)}
-
-									<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
+			return <Container>
+						{displayPollingModal==true?
+							<PollOptionPortal
+								closeModal={closeModal}
+								displayApproveModal={displayApproveModal}
+								postId={props.imageInformation._id}
+								postType="Images"
+								targetDom={props.targetDom}
+							/>:null
+						}
+						<ul id="postLIContainer" style={{padding:"0px",width:"90%"}}>
+							{(props.imageInformation.audioDescription!=null &&
+							 	 props.isMobileTrue==false)==true && (
+							 	 <React.Fragment>
+									<li style={{listStyle:"none"}}>
 										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none"}}>
-												<p style={{fontSize:"20px"}}>{props.imageInformation.firstName}</p>
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<audio style={{width:"200px"}} controls>
+													<source src={props.imageInformation.audioDescription} type="audio/ogg"/>
+													<source src={props.imageInformation.audioDescription} type="audio/mpeg"/>
+													Your browser does not support the audio element.
+												</audio>
 											</li>
-											{props.imageInformation.industriesUploaded.length>0 &&(
-												<li style={{listStyle:"none"}}>	
-													<IndustryButton>
-														{props.imageInformation.industriesUploaded[0].industry}
-													</IndustryButton>
-												</li>
-											)}
 										</ul>
 									</li>
+									<hr/>
+								</React.Fragment>
+							)}
 
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
-											<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
+							<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginBottom:"2%"}}>
+										<PostProfilePictureAndNameContainer>
+											{props.imageInformation.owner.firstName!=null?
+												<React.Fragment>
+													<img src={props.imageInformation.owner.profilePicture} style={{borderRadius:"50%",width:"20%",height:"15%"}}/>
+													<Link style={{marginLeft:"4%",fontSize:"20px",maxWidth:"80%",maxHeight:"30px",overflow:"hidden",textDecoration:"none",color:"black"}}
+														to={{pathname:`/profile/${props.imageInformation.owner._id}`}}
+													>	
+														{/*
+															{props.imageInformation.owner.firstName}</p>
+														*/}
+														Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+														incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+														exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+														dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+														Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+														anim id est laborum.
+													</Link>
+												</React.Fragment>:
+												<p style={{fontSize:"20px"}}>{props.imageInformation.firstName}</p>
+											}
+										</PostProfilePictureAndNameContainer>
+									</li>
+									{props.imageInformation.industriesUploaded.length>0 &&(
+										<li style={{listStyle:"none"}}>	
+											<IndustryButton>
+												{props.imageInformation.industriesUploaded[0].industry}
+											</IndustryButton>
 										</li>
-									</a>
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
-											<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
-										</li>
-									</a>
+									)}
 								</ul>
+							</li>
+							<ul style={{padding:"0px",marginTop:"2%"}}>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
+										<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
+									</li>
+								</a>
 
-								<p style={{height:"30%",width:"90%",fontSize:"40px"}}>
-									<b>
-										{props.imageInformation.caption}
-									</b>
-								</p>
-								<p style={{height:"35%",overflow:"hidden"}}> 
-									 {props.imageInformation.description}
-								 </p>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
+										<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
+									</li>
+								</a>
+							</ul>
+						</ul>
+						<p style={{width:"90%",fontSize:"40px"}}>
+							<b>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+								dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+								anim id est laborum.
+							</b>
+						</p>
+						<p style={{height:"35%"}}> 
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+							incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+							exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+							dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+							Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+							anim id est laborum.
+						 </p>
 
-								 {props.isMobileTrue!=true &&(
-								 	 <ul style={{padding:"0px",marginTop:"5px"}}>
-									 	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										 	<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-										 		 <ImagePostsButtons onClick={()=>information.updateIndicator(false)}>
-										 			Comments
-												 </ImagePostsButtons>
-										 	</li>
-										 </a>
-									 </ul>
-								 )}
-								
-							</Container>
+
+						{/*
+							<p style={{height:"30%",width:"90%",fontSize:"40px"}}>
+								<b>
+									{props.imageInformation.caption}
+								</b>
+							</p>
+							<p style={{height:"35%",overflow:"hidden"}}> 
+								 {props.imageInformation.description}
+							 </p>
+						*/}
+
+						 {props.isMobileTrue!=true &&(
+						 	 <ul style={{padding:"0px",marginTop:"5px"}}>
+							 	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								 	<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
+								 		 <ImagePostsButtons onClick={()=>information.updateIndicator(false)}>
+								 			Comments
+										 </ImagePostsButtons>
+								 	</li>
+								 </a>
+							 </ul>
+						 )}
+						
+					</Container>
 
 				}
 			}

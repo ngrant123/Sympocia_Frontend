@@ -4,9 +4,9 @@ import Video from "./Video.js";
 import RecommendedVideos from "./RecommendedVideos.js";
 import EditVideoModal from "../VideoCreation/EditVideoModal.js";
 import MobileUI from "./MobileUI.js";
-import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector} from "react-redux";
+import PollOptionPortal from "../../PollOptionPortal.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -19,12 +19,27 @@ const Container=styled.div`
 	padding:5px;
 	box-shadow: 1px 1px 50px #d5d5d5;
 	overflow-y:auto;
+
+
+	@media screen and (max-width:1370px){
+		width:95%;
+	}
+	@media screen and (max-width:700px){
+		height:120%;
+		width:100%;
+		margin-left:-5% !important;
+	}
+
+
 `;
 
 const VideoContainer=(data)=>{
 	const [displayVideoEditModal,changeVideoEditModal]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
+	const [displayPollOptionModal,changePollOptionModal]=useState(false);
+	const [displayApprovePollOptionModal,changeDisplayApprovePollModal]=useState(false);
+
 	const personalId=useSelector(state=>state.personalInformation.id);
 
 	useEffect(()=>{
@@ -60,8 +75,37 @@ const VideoContainer=(data)=>{
 	const closeDeleteConfirmationModal=()=>{
 		changeDisplayDeleteConfirmation(false);
 	}
+	const closePollModal=()=>{
+		changePollOptionModal(false);
+	}
+	const displayPollModalTrigger=(data)=>{
+		changeDisplayApprovePollModal(data);
+		changePollOptionModal(true);
+	}
+	const videoProps={
+		video:data.videoData,
+		targetDom:data.targetDom,
+		triggerPromoteModal:triggerPromoteModal,
+		displayEditModal:triggerVideoEditModal,
+		deletePost:deletePost,
+		pageType:data.profileType,
+		isOwnPostViewing:data.isOwnProfile,
+		personalId:personalId,
+		closePostModal:data.closePostModal,
+		displayPollModal:displayPollModalTrigger
+	}
 	return(
 		<React.Fragment>
+			{displayPollOptionModal==true && (
+				<PollOptionPortal
+					closeModal={closePollModal}
+					displayApproveModal={displayApprovePollOptionModal}
+					postId={data.videoData._id}
+					postType={"Videos"}
+					targetDom={"personalContainer"}
+				/>
+			)}
+
 			{displayDeleteConfirmation==true &&(
 				<DeletePostConfirmationPortal
 					postType={"Posts"}
@@ -72,42 +116,29 @@ const VideoContainer=(data)=>{
 					targetDom={"personalContainer"}
 				/>
 			)}
-			{displayMobileUI==true?
-				<MobileUI
-					videoData={data.videoData}
-					isChromeBrowser={testIfUserIsUsingChrome()}
-					targetDom={data.targetDom}
-					deletePost={deletePost}
-					pageType={data.profileType}
-					isOwnPostViewing={data.isOwnProfile}
-					triggerPromoteModal={triggerPromoteModal}
-					personalId={personalId}
-				/>:
 				<Container>
-					{displayVideoEditModal==false?
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-								<Video
-									video={data.videoData}
-									profileType={data.profileType}
-									targetDom={data.targetDom}
-									triggerPromoteModal={triggerPromoteModal}
-									displayEditModal={triggerVideoEditModal}
-									deletePost={deletePost}
-									pageType={data.profileType}
-									isOwnPostViewing={data.isOwnProfile}
-									personalId={personalId}
+					{displayMobileUI==true && displayVideoEditModal==false?
+						<MobileUI
+							{...videoProps}
+						/>:
+						<React.Fragment>
+							{displayVideoEditModal==false?
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+										<Video
+											{...videoProps}
+										/>
+									</li>
+								</ul>:
+								<EditVideoModal
+									videoSrc={data.videoData.videoUrl}
+									previousData={data.videoData}
+									editPost={editPost}
 								/>
-							</li>
-						</ul>:
-						<EditVideoModal
-							videoSrc={data.videoData.videoUrl}
-							previousData={data.videoData}
-							editPost={editPost}
-						/>
+							}
+						</React.Fragment>
 					}
 				</Container>
-			}
 		</React.Fragment>
 	)
 }

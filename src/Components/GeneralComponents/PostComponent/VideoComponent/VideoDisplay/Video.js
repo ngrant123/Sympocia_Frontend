@@ -17,13 +17,13 @@ import {
 		unStampPost
 	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import PollOptionPortal from "../../PollOptionPortal.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import {Link} from "react-router-dom";
+import LoyaltyIcon from '@material-ui/icons/Loyalty';
 
 const Container=styled.div`
 	position:relative;
-	width:830px;
+	width:100%;
 	height:100%;
 	background-color:black;
 	border-radius:5px;
@@ -49,21 +49,20 @@ const SmallVideoModal=styled.div`
 const CommentsContainer=styled.div`
 	position:relative;
 	width:450px;
-	height:250px;
+	height:100%;
 	overflow-y:scroll;
 	border-radius:5px;
 `;
 
 const VideoCommentsAndModalContainer=styled.div`
 	position:absolute;
-	width:80%;
+	width:100%;
 	height:80%;
 	z-index:3;
 	top:10%;
 	left:2%;
 	visibility: hidden;
 	z-index:4;
-
 `;
 
 const ShadowContainer = styled.div`
@@ -132,8 +131,8 @@ const keyFrame=keyframes`
 
 `;
 const StampIconEffect=styled.div`
-	  height:200px;
-	  width:200px;
+	  height:100px;
+	  width:100px;
 	  border-radius:5px;
 	  position:absolute;
 	  animation:${keyFrame} 1s ease-in-out 0s forwards;
@@ -172,6 +171,7 @@ class Video extends Component{
 
 
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			displayComments:false,
@@ -237,7 +237,7 @@ displayDescription=(postInformation)=>{
 											</Link>
 										)}
 									</>:
-									<video style={{borderRadius:"5px"}} width="100%" height="100%" autoplay="true" controls>
+									<video style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" controls>
 										<source src={this.props.video.videoDescription} type="video/mp4"/>
 									</video>
 								}
@@ -262,7 +262,7 @@ displayDescription=(postInformation)=>{
 				<li style={{listStyle:"none",marginBottom:"2%",padding:"5px",fontSize:"15px",color:"white"}}>
 					{postInformation.description}
 				</li>
-				<li onClick={()=>this.setState({displayDescription:false})} style={{position:"relative",listStyle:"none",color:"white"}}>
+				<li onClick={()=>this.setState({displayDescription:false})} style={{position:"relative",listStyle:"none",color:"white",cursor:"pointer"}}>
 					<b>Close</b>
 				</li>
 			</ul>
@@ -279,15 +279,15 @@ displayShadow=()=>{
 }
 
 createOrRemoveStampEffect=()=>{
-		var isPersonalProfile=this.props.profileType=="personalProfile"?true:false;
+		var isPersonalProfile=this.props.pageType=="personalProfile"?true:false;
 		if(this.state.displayStampEffect==false){
-			addStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
+			//addStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
 			this.setState({
 				displayStampEffect:true
 			})
 
 		}else{
-			unStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
+			//unStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
 			this.setState({
 				displayStampEffect:false
 			})
@@ -315,6 +315,10 @@ createOrRemoveStampEffect=()=>{
 		})
 	}
 
+	triggerPollModal=(indicator)=>{
+		this.props.displayPollModal(indicator);
+	}
+
 	displayApproveDisapproveModal=()=>{
 		return <React.Fragment>
 					{this.state.displayApproveDisapproveIndicator && (
@@ -325,10 +329,7 @@ createOrRemoveStampEffect=()=>{
 							<ApproveDisapproveContainer>
 								<ul style={{padding:"20px"}}>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>this.setState({
-															displayApproveModal:true,
-															displayPollModal:true
-														})} style={authenticPostButtonCSS}>
+										<li onClick={()=>this.triggerPollModal(true)} style={authenticPostButtonCSS}>
 
 											<p style={{color:"#01DF01"}}>{this.state.approvesPostNumber}</p> 
 												approves post
@@ -337,10 +338,7 @@ createOrRemoveStampEffect=()=>{
 									</a>
 
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>this.setState({
-															displayApproveModal:false,
-															displayPollModal:true
-														})} style={authenticPostButtonCSS}>
+										<li onClick={()=>this.triggerPollModal(false)} style={authenticPostButtonCSS}>
 
 												<p style={{color:"#FE2E2E"}}>{this.state.disapprovesPostNumber}</p> 
 												disapproves post
@@ -353,32 +351,12 @@ createOrRemoveStampEffect=()=>{
 			   </React.Fragment>
 	}
 
-	pollModal=()=>{
-		return <React.Fragment>
-					{this.state.displayPollModal && (
-						<PollOptionPortal
-							closeModal={this.closeModal}
-							displayApproveModal={this.state.displayApproveModal}
-							postId={this.props.video._id}
-							postType="Videos"
-							targetDom={this.props.targetDom}
-						/>
-					)}
-				</React.Fragment>
-		
-	}
-
-	removeVideoPost=async()=>{
-		this.props.handleDeletePost();
-	}
-
 //Like,Dislike,Comment,Share,Promote
 
 	render(){
 		return(
 			<Container>
 				{this.displayApproveDisapproveModal()}
-				{this.pollModal()}
 				{this.displayShadow()}
 
 				<VideoCommentsAndModalContainer id="commentsAndVideoContainer">
@@ -401,7 +379,6 @@ createOrRemoveStampEffect=()=>{
 								<video id="smallVideo" position="relative" height="100%" width="100%" controls autoplay>
 								    <source src={this.props.video.videoUrl} type="video/mp4"/>
 								</video>
-
 							</SmallVideoModal>
 						</li>
 					</ul>
@@ -429,7 +406,7 @@ createOrRemoveStampEffect=()=>{
 							<li onClick={()=>this.createOrRemoveStampEffect()} style={{listStyle:"none",marginBottom:"20px"}}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",marginLeft:"5%"}}>
-										<Icon 
+										<LoyaltyIcon 
 											icon={stampIcon}
 											style={{fontSize:30,color:"white"}}
 										/>
@@ -505,7 +482,7 @@ createOrRemoveStampEffect=()=>{
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",marginLeft:"5%"}}>
 												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award"
-													 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
+													 width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
 													 fill="none" stroke-linecap="round" stroke-linejoin="round">
 													  <path stroke="none" d="M0 0h24v24H0z"/>
 													  <circle cx="12" cy="9" r="6" />
@@ -521,12 +498,12 @@ createOrRemoveStampEffect=()=>{
 								</a>
 
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>this.removeVideoPost()}
+									<li onClick={()=>this.props.deletePost()}
 										 style={{listStyle:"none",marginBottom:"20px"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",marginLeft:"5%"}}>
 												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
-													icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" 
+													icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" 
 													stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round"
 													 stroke-linejoin="round">
 													  <path stroke="none" d="M0 0h24v24H0z"/>

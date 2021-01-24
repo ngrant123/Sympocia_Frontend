@@ -9,8 +9,8 @@ import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.
 
 
 const Container=styled.div`
-	position:absolute;
-	z-index:34;
+	position:fixed;
+	z-index:40;
 	height:95%;
 	width:90%;
 	border-radius:5px;
@@ -20,6 +20,15 @@ const Container=styled.div`
 	background-color:white;
 	padding:20px;
 	border-radius:5px;
+
+	@media screen and (max-width:1370px){
+		left:3% !important;
+	}
+
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	left:-2% !important;
+    }
 `;
 
 const ActiveProfilePictures=styled(Link)`
@@ -36,7 +45,7 @@ const ShadowContainer=styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:34;
+	z-index:40;
 	top:0px;
 `;
 
@@ -119,14 +128,14 @@ const MobilePostOptionsPortal=(props)=>{
 							props.symposium=="Philosophy"?
 							<Chat
 						  		roomId={props.roomId}
-						  		chat={props.chatRoom}
+						  		chat={props.chat}
 						  		profileId={props.profileId}
 						  		socket={props.socket}
 							/>:
 						  	<SpecificFeatureSymposium
 					  			symposium={props.symposium}
 					  			symposiumId={props.roomId}
-					  			questions={props.symposiumFeatureQuestions}
+					  			questions={props.questions}
 					  		/>
 				  		} 
 					</>
@@ -158,7 +167,7 @@ const MobilePostOptionsPortal=(props)=>{
 					<hr/>
 
 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li onClick={()=>alert("Unfortunately this isn't available on mobile please try on desktop")} 
+						<li onClick={()=>triggerSymposiumFeatures()} 
 							style={{listStyle:"none"}}>
 							Symposium Features
 						</li>

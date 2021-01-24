@@ -19,7 +19,7 @@ import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
 
 import { Icon, InlineIcon } from '@iconify/react';
 import crownIcon from '@iconify/icons-mdi/crown';
-
+import ReplayIcon from '@material-ui/icons/Replay';
 import {
 	createImagePost,
 	updateCrownedImage,
@@ -54,10 +54,6 @@ const Container=styled.div`
 			width:100% !important;
 			height:40% !important;
 		}
-		#processedImage{
-			height:200px !important;
-			width:200px !important;
-		}
 		#imageInformationSelection{
 			width:400px !important;
 		}
@@ -71,10 +67,6 @@ const Container=styled.div`
 			display:block !important;
 			width:100% !important;
 			height:50% !important;
-		}
-		#processedImage{
-			height:50px !important;
-			width:50px !important;
 		}
 		#imageInformationSelection{
 			width:250px !important;
@@ -198,6 +190,12 @@ const ChangeImageVerificationModal=styled.div`
 	border-radius:5px;
 	box-shadow: 1px 1px 50px #d5d5d5;
 	overflow:scroll;
+
+	@media screen and (max-width:700px){
+		left:10%;
+		width:80%;
+		height:40%;
+	}
 `;
 const ShadowContainerNewImageCreation= styled.div`
 	position:fixed;
@@ -245,7 +243,8 @@ class EditImageCreation extends Component{
 			displayReplaceImageModal:false,
 			videoDescriptionId:this.uuidv4(),
 			audioDescriptionId:this.uuidv4(),
-			isSubmittedAndProcessing:false
+			isSubmittedAndProcessing:false,
+			isDesktop:true
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
@@ -538,7 +537,6 @@ class EditImageCreation extends Component{
 									resize={{width:450,height:450}}
 									quality={100}
 									processedImage={(src, err) => this.setState({ src, err })}
-									{...{[type]:value}}
 							/>;
 		this.setState({
 			imgElement:imageElement,
@@ -556,17 +554,19 @@ class EditImageCreation extends Component{
 		})
 	}
 
-	setUpVideoDescriptionCreation=()=>{
+	setUpVideoDescriptionCreation=(isDesktop)=>{
 		this.setState({
 			displayVideoDescriptionPortal:true,
-			displayVoiceDescriptionPortal:false
+			displayVoiceDescriptionPortal:false,
+			isDesktop
 		})
 	}
 
-	setUpVoiceDescriptionCreation=()=>{
+	setUpVoiceDescriptionCreation=(isDesktop)=>{
 		this.setState({
 			displayVideoDescriptionPortal:false,
-			displayVoiceDescriptionPortal:true
+			displayVoiceDescriptionPortal:true,
+			isDesktop
 		})
 	}
 
@@ -578,6 +578,9 @@ class EditImageCreation extends Component{
 	}
 
 	createVideoDescription=(videoDescriptionSrc)=>{
+		if(this.state.isDesktop==false){
+			alert('Please scroll up to the top to view your video description if you want to');
+		}
 		this.setState({
 			videoDescription:videoDescriptionSrc,
 			displayVideoDescriptionPortal:false,
@@ -586,6 +589,9 @@ class EditImageCreation extends Component{
 	}
 
 	createAudioDescription=(audioDescriptionSrc)=>{
+		if(this.state.isDesktop==false){
+			alert('Please scroll up to the top to view your audio description if you want to');
+		}
 		this.setState({
 			audioDescription:audioDescriptionSrc,
 			displayVoiceDescriptionPortal:false,
@@ -623,19 +629,6 @@ class EditImageCreation extends Component{
 			isPostCrowned:false,
 			displayCrownModalIndicator:false
 		})
-
-/*
-		const {previousData}=this.props;
-		if(previousData!=null){
-			const headerObject={
-				isCrownedImage:true,
-				image:null
-			}
-			previousData.contextLocation.updateImagePost(headerObject);
-			const crownedImageResponse= await updateCrownedImage(previousData.owner,false,previousData._id);
-		}
-*/
-
 	}
 
 
@@ -650,30 +643,16 @@ class EditImageCreation extends Component{
 		})
 
 		alert('Your post is now crowned');
-
-
-		/*
-			const {previousData}=this.props;
-			if(previousData!=null){
-				const headerObject={
-				isCrownedImage:true,
-					image:this.props.previousData
-				}
-				previousData.contextLocation.updateImagePost(headerObject);
-				const crownedImageResponse= await updateCrownedImage(previousData.owner,true,previousData._id);
-			}
-		*/
-
 	}
 
 	displayNewCreateImage=(imgUrl)=>{
 
 		const imageElement= <ProcessImage
-									id="processedImage"
-									image={imgUrl}
-									resize={{width:450,height:450}}
-									quality={100}
-									processedImage={(src, err) => this.setState({ src, err })}
+								id="processedImage"
+								image={imgUrl}
+								resize={{width:450,height:450}}
+								quality={100}
+								processedImage={(src, err) => this.setState({ src, err })}
 							/>;
 		this.setState({
 			imgElement:imageElement,
@@ -828,7 +807,7 @@ class EditImageCreation extends Component{
 													{this.state.videoDescription!=null && (
 														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
 															<MobileVideoDescriptionContainer>
-																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
 																	<source src={this.state.videoDescription} type="video/mp4"/>
 																</video>
 															</MobileVideoDescriptionContainer>
@@ -852,18 +831,20 @@ class EditImageCreation extends Component{
 												<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px"}}>
 													<li onClick={()=>this.setState({changeImageVerification:true})} style={{listStyle:"none"}}>
 														<a href="javascript:void(0);">
-															<HighlightOffIcon
+															<ReplayIcon
 																style={{fontSize:30}}
 															/>
 														</a>
 													</li>
-													<li onClick={()=>this.setState({displayFilterPictureModal:true})} style={{listStyle:"none"}}>
-														<a href="javascript:void(0);">
-															<FormatColorFillIcon
-																style={{fontSize:30}}
-															/>
-														</a>
-													</li>
+													{/*
+														<li onClick={()=>this.setState({displayFilterPictureModal:true})} style={{listStyle:"none"}}>
+															<a href="javascript:void(0);">
+																<FormatColorFillIcon
+																	style={{fontSize:30}}
+																/>
+															</a>
+														</li>
+													*/}
 												</ul>
 												<a href="javascript:void(0);">
 													<CrownIconContainer onClick={()=>this.setState({displayCrownModalIndicator:true})}>
@@ -881,7 +862,7 @@ class EditImageCreation extends Component{
 														{this.state.videoDescription==null?null:
 															<li style={{listStyle:"none"}}>
 																<VideoDescriptionContainer>
-																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
 																		<source src={this.state.videoDescription} type="video/mp4"/>
 																	</video>
 																</VideoDescriptionContainer>
@@ -904,7 +885,7 @@ class EditImageCreation extends Component{
 										</li>
 
 										{this.state.displayFilterPictureModal==false?
-											<li style={{overflowY:"scroll",height:"150%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+											<li style={{height:"150%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 												<ul id="imageInformationSelection" style={{padding:"0px",width:"350px"}}>
 													<IndustryPostOptions
 														alterSelectedIndustry={this.alterSelectedIndustry}
@@ -930,7 +911,8 @@ class EditImageCreation extends Component{
 															</li>
 															<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>
 																<ul style={{padding:"10px"}}>
-																	<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
+																	<li onClick={()=>this.setUpVoiceDescriptionCreation(userSessionInformation.displayDesktopUI)}
+																		 style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
 																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																			<MicIcon
 																				style={{fontSize:40}}
@@ -938,7 +920,8 @@ class EditImageCreation extends Component{
 																		</a>
 																	</li>
 
-																	<li onClick={()=>this.setUpVideoDescriptionCreation()} style={{listStyle:"none",display:"inline-block"}}>
+																	<li onClick={()=>this.setUpVideoDescriptionCreation(userSessionInformation.displayDesktopUI)}
+																		 style={{listStyle:"none",display:"inline-block"}}>
 																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																			<CameraAltIcon
 																				style={{fontSize:40}}
@@ -949,7 +932,7 @@ class EditImageCreation extends Component{
 															</li>
 														</ul>
 													</li>
-													{this.state.isSubmittedAndProcessing==false &&(
+													{this.state.isSubmittedAndProcessing==false?
 														<li style={{listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
 															<a style={{textDecoration:"none"}} href="javascript:void(0);">
 																<ul onClick={()=>this.sendImageDateToDB(profilePostInformation)}>
@@ -962,12 +945,11 @@ class EditImageCreation extends Component{
 																	<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
 																		Send
 																	</li>
-
 																</ul>
 															</a>
-												 		</li>
-
-													)}
+												 		</li>:
+												 		<p>Please wait...</p>
+												 	}
 												</ul>
 											</li>:
 											<FilterImageSelection

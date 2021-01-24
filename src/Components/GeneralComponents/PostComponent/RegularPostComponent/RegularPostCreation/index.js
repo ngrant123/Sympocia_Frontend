@@ -51,6 +51,11 @@ const Container = styled.div`
 	overflow:scroll;
 	z-index:35;
 
+	@media screen and (max-width:1370px){
+		width:90%;
+		left:5%;
+	}
+
 
 	@media screen and (max-width:600px){
 		left:5%;

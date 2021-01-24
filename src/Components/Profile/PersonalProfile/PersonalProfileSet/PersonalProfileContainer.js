@@ -66,6 +66,11 @@ import {
 	RegularPostContainerParent
 } from "./PersonalProfileContainerCSS.js";
 
+const MediumMobileScreenUserInformation=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
 
 const ImageListCSS={
 	display:"inline-block",
@@ -177,6 +182,9 @@ class LProfile extends Component{
 			displayDesktopUI:false,
 			displayMobileUIPersonalInformation:false,
 			displayMobileUIProfileOptions:false,
+			triggerPostReload:false,
+			endOfPostsDBIndicator:false,
+			isLoadingReloadedPosts:false,
 			displayConfettiHandle:()=>{
 				this.displayConfetti()
 			}
@@ -191,7 +199,7 @@ class LProfile extends Component{
 				displayIpadUI:false,
 				displayDesktopUI:false
 			})
-		}else if(window.innerWidth<1300){
+		}else if(window.innerWidth<1400){
 			this.setState({
 				displayPhoneUI:false,
 				displayIpadUI:true,
@@ -455,6 +463,7 @@ class LProfile extends Component{
 					triggerPromoteModal={this.triggerPromoteModal}
 					history={this.props.history}
 					isOwnProfile={this.state.isOwnProfile}
+					closePostModal={this.closePostsModal}
 				/>
 			</ImagePopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -481,6 +490,7 @@ class LProfile extends Component{
 					history={this.props.history}
 					triggerPromoteModal={this.triggerPromoteModal}
 					isOwnProfile={this.state.isOwnProfile}
+					closePostModal={this.closePostsModal}
 				/>
 			</PostPopupContainer>:
 			<React.Fragment></React.Fragment>
@@ -508,6 +518,7 @@ class LProfile extends Component{
 					triggerPromoteModal={this.triggerPromoteModal}
 					history={this.props.history}
 					isOwnProfile={this.state.isOwnProfile}
+					closePostModal={this.closePostsModal}
 				/>
 			</RegularPostContainerParent>:
 			<React.Fragment></React.Fragment>
@@ -625,17 +636,17 @@ class LProfile extends Component{
 
 	displayIpadUserInformationModal=()=>{
 		return <ul style={{position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
-					<li style={{fontSize:"20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-						{this.state.userProfile.firstName}
-					</li>
-					<li style={{zIndex:20,position:"relative",top:"-10px",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"40%"}}>
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-								style={ShadowButtonCSS}
-								onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
-								>
-							   		<span class="caret"></span>
-							</button>
-					</li>
+					<MediumMobileScreenUserInformation>
+						<p style={{maxWidth:"90%",maxHeight:"20px",overflow:"hidden"}}>
+							{this.state.userProfile.firstName}
+						</p>
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+							style={ShadowButtonCSS}
+							onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
+							>
+						   		<span class="caret"></span>
+						</button>
+					</MediumMobileScreenUserInformation>
 			   </ul>
 	}
 	displayMobilePersonalInformation=()=>{
@@ -646,6 +657,7 @@ class LProfile extends Component{
 								personalInformation={this.state}
 								displaySocialMediaModal={this.displaySocialMediaModal}	
 								closeModal={this.closeMobilePersonalInformation}
+								userId={this.props.personalId}
 							/>
 					)}
 				</>
@@ -659,6 +671,7 @@ class LProfile extends Component{
 							displayPersonalInformation={this.displayPersonalInformationMobile}
 							displayChampionsModal={this.displayChampionModalTrigger}
 							championData={this.state.champion}
+							isOwner={this.state.isOwnProfile}
 						/>
 					)}
 				</>
@@ -705,6 +718,46 @@ class LProfile extends Component{
 				</a>
 	}
 
+	closePostsModal=()=>{
+		this.setState({
+			displayShadowBackground:false,
+			displayRegularPostModal:false,
+			displayBlogPostModal:false,
+			displayVideoPostModal:false,
+			displayImagePostModal:false
+		})
+	}
+
+	detectEndOfPostContainer=(divElement)=>{
+		if(	divElement.scrollHeight - divElement.scrollTop - divElement.clientHeight < 1
+			 && this.state.endOfPostsDBIndicator==false && this.state.isLoadingReloadedPosts==false){
+			this.setState({
+				triggerPostReload:true,
+				isLoadingReloadedPosts:true
+			})
+		}
+	}
+
+	isPostReloading=(indicator)=>{
+		this.setState({
+			isLoadingReloadedPosts:indicator
+		})
+	}
+
+	unTriggerReload=()=>{
+		this.setState({
+			triggerPostReload:false,
+			isLoadingReloadedPosts:false
+		})
+	}
+
+	finalPostRecieved=()=>{
+		this.setState({
+			endOfPostsDBIndicator:true,
+			isLoadingReloadedPosts:false
+		})
+	}
+
 	render(){
 		return(
 
@@ -718,6 +771,7 @@ class LProfile extends Component{
 							}}>
 				<PostDisplayProvider
 					value={{
+						isLoadingReloadedPosts:this.state.isLoadingReloadedPosts,
 						handleImagePostModal:(imagePostData,contextLocation)=>{
 							console.log(imagePostData);
 							
@@ -753,7 +807,7 @@ class LProfile extends Component{
 						}
 					}}
 				>
-					<Container id="personalContainer">
+					<Container id="personalContainer"  onScroll={element=>this.detectEndOfPostContainer(element.target)}>
 						{this.state.displayConfetti==true?
 							<Confetti
 								style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
@@ -763,13 +817,7 @@ class LProfile extends Component{
 
 						{this.state.displayShadowBackground==true?
 								<ShadowContainer
-									onClick={()=>this.setState({
-										displayShadowBackground:false,
-										displayRegularPostModal:false,
-										displayBlogPostModal:false,
-										displayVideoPostModal:false,
-										displayImagePostModal:false
-									})}
+									onClick={()=>this.closePostsModal()}
 								/>:
 								<React.Fragment></React.Fragment>
 						}
@@ -789,8 +837,8 @@ class LProfile extends Component{
 							/>
 						</HeaderContainer>
 
-						<ProfileContainer>
 
+						<ProfileContainer>
 							<ProfilePictureContainer>
 								{(this.state.displayDesktopUI==false && this.state.isOwnProfile==true)? 
 									<>
@@ -805,14 +853,14 @@ class LProfile extends Component{
 											src={this.state.userProfile.profilePicture==null?
 													NoProfilePicture:
 													this.state.userProfile.profilePicture
-												} style={{position:"absolute",width:"100%",height:"100%"}}
+												} style={{position:"absolute",width:"100%",height:"100%",borderRadius:"50%"}}
 										/>
 									</>:
 									<img id="profilePicture" 
 										src={this.state.userProfile.profilePicture==null?
 												NoProfilePicture:
 												this.state.userProfile.profilePicture
-											} style={{position:"absolute",width:"100%",height:"100%"}}
+											} style={{position:"absolute",width:"70%",height:"80%",borderRadius:"50%"}}
 									/>
 								}
 								
@@ -840,7 +888,6 @@ class LProfile extends Component{
 										}
 									</>
 								)}
-								
 							</ProfilePictureContainer>
 
 							{this.state.displayDesktopUI==true &&(
@@ -882,12 +929,16 @@ class LProfile extends Component{
 										}}
 										visitorId={this.state.visitorId}
 										displayConfetti={this.displayConfetti}
+										triggerPostReload={this.state.triggerPostReload}
+										isPostReloading={this.isPostReloading}
+										unTriggerReload={this.unTriggerReload}
+										finalPostRecieved={this.finalPostRecieved}
 									/>
 								</PostInformationContainer>
 							</>
 						}
 
-						{this.state.displayDesktopUI==true &&(
+						{(this.state.displayDesktopUI==true && this.state.isOwnProfile==true)==true &&(
 							<ul style={ChampionAndCreateButtonCSS}>
 								{this.displayCreatePostOptionTrigger()}
 								{this.displayChampionModalTrigger()}

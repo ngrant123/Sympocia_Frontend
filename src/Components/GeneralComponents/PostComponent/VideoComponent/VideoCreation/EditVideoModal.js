@@ -26,7 +26,11 @@ import RedoVideoCreationModal from "./index.js";
 import {UserConsumer} from "../../../../Profile/PersonalProfile/UserContext.js";
 
 const Container=styled.div`
-	@media screen and (max-width:420px){
+	@media screen and (max-width:1370px){
+		width:80%;
+	}
+	@media screen and (max-width:700px){
+		width:120%;
 		#videoElement{
 			display:block !important;
 			width:120% !important;
@@ -75,7 +79,7 @@ const CrownIconContainer=styled.div`
 	position:absolute;
 	border-style:solid;
 	border-width:2px;
-	border-color:red;
+	border-color:#C8B0F4;;
 	animation: glowing 1300ms infinite;
 	top:25%;
 	left:77%;
@@ -301,9 +305,6 @@ class EditVideoModal extends Component{
 				this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
 			}else{
 				alert('Unfortunately an error has occured please try again ');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
 			}
 		}else{
 			const {previousData}=this.props;
@@ -350,11 +351,11 @@ class EditVideoModal extends Component{
 				this.props.editPost(editedVideo);
 			}else{
 				alert('Unfortunately there has been an error editing this post. Please try again');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
 			}
 		}
+		this.setState({
+			isSubmittedAndProcessing:false
+		})
 	}
 
 isArrayEqual=(arr1,arr2)=>{
@@ -737,7 +738,7 @@ isArrayEqual=(arr1,arr2)=>{
 
 												</li>
 												<hr/>
-												{this.state.isSubmittedAndProcessing==false &&(
+												{this.state.isSubmittedAndProcessing==false ?
 													<li id="sendButtonLIContainer" style={{top:"-560px",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
 														<ul style={{padding:"0px"}}>
 															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -757,9 +758,9 @@ isArrayEqual=(arr1,arr2)=>{
 																 </li>
 															 </a>
 														</ul>
-													</li>
-
-												)}
+													</li>:
+													<p>Please wait...</p>
+												}
 											</ul>
 								 		</Container>
 								 	}

@@ -6,13 +6,34 @@ import { Link } from "react-router-dom";
 export const PersonalSignUpCard=styled.div`
 	position:relative;
 	background-color:white;
-	width:35%;
+	width:60%;
 	border-radius:5px;
 	border-style:solid;
     border-color:#5298F8;
 
     @media screen and (max-width:1370px) {
 		width:80% !important;
+	}
+
+	@media screen and (max-width:700px){
+		border-style:none;
+		margin-left:20% !important;
+		width:40% !important;
+		#inputContainerLI{
+			padding-left:0px !important;
+		}
+		#signUpText{
+			margin-left:0% !important;
+		}
+		#headerText{
+			font-size:20px !important;
+			margin-left:0% !important;
+		}
+		#image{
+			width:95px !important;
+			height:80px !important;
+			margin-left:30% !important;
+		}
 	}
 
 `;
@@ -40,9 +61,6 @@ export const BodyContainer= styled.div`
 	} 
 
 	@media screen and (max-width:1370px) {
-		#signUpContainer{
-			top:-300px !important;
-		}
 
 		#personalCardContainer{
 			width:40% !important;
@@ -71,10 +89,12 @@ export const BodyContainer= styled.div`
 
 
 	@media screen and (max-width:760px) {
-		#signUpContainer{
-			top:-100px !important;
+		#backButton{
+			margin-left:0% !important;
 		}
-
+		#signUpContainer{
+			margin-left:-20% !important;
+		}
 		#mobileDivider{
 			display:block;
 		}
@@ -97,6 +117,8 @@ export const BodyContainer= styled.div`
 
 
 	@media screen and (max-width:600px){
+		padding:20px;
+		padding-bottom:20%;
 		#personalCardContainer{
 			border-style:none !important;
 			display:block;
@@ -111,7 +133,7 @@ export const BodyContainer= styled.div`
 		}
 		#titleHeader{
 			font-size:20px !important;
-			margin-left:-30% !important;
+			margin-left:-20% !important;
 			width:40% !important;
 		}
 		#personalSignInCard{
@@ -473,12 +495,12 @@ export const SignUpButton=styled.div`
 	background-color:#5298F8;
 	color:white;
 	width:80px;
-	height:15%;
 	transition:.8s;
 	border-radius:5px;
 	text-align:center;
 	padding:5px;
 	font-size:15px;
+	cursor:pointer;
 
 	&:hover{
 		background-color:#0b6cef;

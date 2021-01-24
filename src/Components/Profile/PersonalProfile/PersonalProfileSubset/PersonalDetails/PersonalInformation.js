@@ -149,15 +149,17 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 	}}=personalInformation;
 
 	const isOwnProfileRecruitButtonDecider=()=>{
+		debugger;
 		const {
 			userProfile:{
 				recruits
 			}
 		}=personalInformation;
+		console.log(recruits);
 		let isRecruit=false;
 
 		recruits.forEach((data,index)=>{
-			if(data==userId)
+			if(data._id==userId)
 				isRecruit=true;
 		})
 		if(personalInformation.isOwnProfile || isRecruit){
@@ -338,7 +340,10 @@ const PersonalInformation=(props)=>{
 									)}
 									{displayFriendsAndIndustryContainer==false?
 									<React.Fragment>
-										<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4"}}><b>{personalInformation.userProfile.firstName}</b></p>
+
+										<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+											<b>{personalInformation.userProfile.firstName}</b>
+										</p>
 										<BioContainer>
 											{personalInformation.userProfile.bio}
 										</BioContainer>

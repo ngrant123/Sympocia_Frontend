@@ -30,7 +30,7 @@ const Container=styled.div`
 	}
 
 	@media screen and (max-width:600px){
-		width:150% !important;
+		width:200% !important;
 		#postOwnerInformation{
 			display:none !important;
 		}
@@ -46,7 +46,7 @@ const Container=styled.div`
     	
     }
 
-    @media screen  and (max-width:730px) and (max-height:420px) 
+    @media screen  and (max-width:840px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
     	width:350% !important;
@@ -120,7 +120,10 @@ const SmallRegularPosts=(props)=>{
 											<source src={post.post} type="audio/ogg"/>
 											<source src={post.post} type="audio/mpeg"/>
 											Your browser does not support the audio element.
-								</audio>:<React.Fragment>{post.post}</React.Fragment>
+								</audio>:
+								<React.Fragment>
+									{post.post}
+								</React.Fragment>
 							}
 						</li>
 						<div id="commentLI">	

@@ -90,6 +90,59 @@ const ArrowDownContainer=styled.div`
 
 
 
+const SecondContainerContents=styled.div`
+  display:flex;
+  flex-direction:row;
+  @media screen and (max-width:1370px){
+    flex-direction:column-reverse;
+  }
+`;
+
+const SecondContainerInformational=styled.div`
+  width:70%;
+  height:50%;
+  margin-top:5%;
+  display:flex;
+  flex-direction:column;
+  margin-right:10%;
+  overflow-x:hidden;
+
+  @media screen and (max-width:1370px){
+      width:70%;
+      margin-left:20%;
+    #PageHeader{
+      font-size:20px !important;
+    }
+  }
+
+  @media screen and (max-width:600px){
+     width:90%; 
+     margin-left:5%;
+  }
+
+    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+       margin-left:5%;
+    }
+`;
+
+
+const PageImageContainer=styled.div`
+  display:flex;
+  flex-direction:column;
+  margin-left:5%;
+  @media screen and (max-width:1370px){
+    margin-left:30%;
+  }
+  @media screen and (max-width:600px){
+    margin-left:15%;
+    #image{
+      width:80% !important;
+      height:100%!important;
+    }
+  }
+`;
+
+
 const MoreDetailsButton={
     listStyle:"none",
     display:"inline-block",
@@ -146,85 +199,74 @@ const SecondSection=(props)=>{
 
 	return (
 		     <SecondContainer id="secondContainer"> 
-            <img id="imageListContainer" src={LandingImage} style={{zIndex:"-5",position:"absolute",top:"-5%",width:"40%",height:"50%",left:"5%"}} />
-            
-            <ul style={{zIndex:"2",padding:"0px",marginTop:"5%"}}>
-              <li style={{listStyle:"none",height:"70%"}}>
-
-                  <ul style={{width:"35%",height:"50%",marginRight:"5%",marginLeft:"40%",padding:"20px"}}>
-                     <li id="bulletsContainerCompany" style={{listStyle:"none",display:"inline-block"}}>
-                            <li style={{listStyle:"none",fontSize:"50px"}}>
-                               <p id="companyHeader" style={{borderTop:"5px solid #494949"}}> 
-                                  <b>How can this help you? </b>
-                              </p>
-                            </li>
-                             
-                              <p style={{fontSize:"20px"}}> 
-                                 We offer two things one this platform that you can’t get anywhere else:
-                              </p>
-                              <ul style={{padding:"0px",marginTop:"5%"}}> 
-                                  <li id="firstListContainer" style={{listStyle:"none"}}>
-                                      <ul style={{padding:"0px"}}>
-                                          <li id="firstNumberModal" style={NumberBulletsIcon}>
-                                            1
-                                          </li>
-                                          <li style={{listStyle:"none",display:"inline-block",width:"60%",marginTop:"10px"}}>
-                                            <p style={{color:"#3898ec"}}>
-                                              <b>
-                                                 A supportive group of like minded people who are interested 
-                                                 in you as a personal and what you building
-                                              </b>
-                                            </p>
-                                          </li>
-                                      </ul>
-                                  </li>
-
-                                  <li style={{listStyle:"none"}}>
-                                     <ul style={{padding:"0px"}}>
-                                          <li id="secondNumberModal" style={NumberBulletsIcon}>
-                                            2
-                                          </li>
-                                          <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
-                                            <p style={{marginLeft:"2%",color:"#3898ec"}}>
-                                              <b>The ability of meet investors in your terms </b>
-                                            </p>
-                                          </li>
-                                      </ul>
-                                  </li>
-                              </ul>
+            <SecondContainerContents>
+              <PageImageContainer>
+                <img src={LandingImage}
+                 style={{width:"80%",height:"80%"}}
+                />
+              </PageImageContainer>
+              <SecondContainerInformational>
+                    <p id="companyHeader" style={{fontSize:"40px",borderTop:"5px solid #494949"}}> 
+                        <b>How can this help you? </b>
+                    </p>
+                    <p style={{fontSize:"20px"}}> 
+                       We offer two things one this platform that you can’t get anywhere else:
+                    </p>
+                   <ul style={{padding:"0px",marginTop:"5%"}}> 
+                      <li id="firstListContainer" style={{listStyle:"none"}}>
+                          <ul style={{padding:"0px"}}>
+                              <li id="firstNumberModal" style={NumberBulletsIcon}>
+                                1
+                              </li>
+                              <li style={{listStyle:"none",display:"inline-block",width:"60%",marginTop:"10px"}}>
+                                <p style={{color:"#3898ec"}}>
+                                  <b>
+                                     A supportive group of like minded people who are interested 
+                                     in you as a personal and what you building
+                                  </b>
+                                </p>
+                              </li>
+                          </ul>
                       </li>
-                    </ul>
-                </li>
-                <li id="footerIcons" style={{listStyle:"none",marginTop:"-5%"}}>
-                    <ul style={{padding:"0px"}}>
-                        <li onClick={()=>props.displaySelectedPage(0)} style={{listStyle:"none",display:"inline-block"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <RadioButtonUncheckedIcon/>
-                          </a>
-                        </li>
 
-                        <li style={{listStyle:"none",display:"inline-block"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <FiberManualRecordIcon/>
-                          </a>
-                        </li>
+                      <li style={{listStyle:"none"}}>
+                         <ul style={{padding:"0px"}}>
+                              <li id="secondNumberModal" style={NumberBulletsIcon}>
+                                2
+                              </li>
+                              <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
+                                <p style={{marginLeft:"2%",color:"#3898ec"}}>
+                                  <b>The ability of meet investors in your terms </b>
+                                </p>
+                              </li>
+                          </ul>
+                      </li>
+                  </ul>
+              </SecondContainerInformational>
+            </SecondContainerContents>
 
-                        <li onClick={()=>props.displaySelectedPage(2)} style={{listStyle:"none",display:"inline-block"}}>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <RadioButtonUncheckedIcon/>
-                          </a>
-                        </li>
-                    </ul>
-                </li>
-                <li id="floatingArrowFunction" style={{listStyle:"none",marginTop:"5%"}}>
-                    <ArrowDownContainer>
-                      <ArrowDownwardIcon
-                        style={{fontSize:'20'}}
-                      />
-                    </ArrowDownContainer>
-                </li>
-            </ul>
+             <li id="footerIcons" style={{listStyle:"none",marginTop:"-5%"}}>
+                <ul style={{padding:"0px"}}>
+                    <li onClick={()=>props.displaySelectedPage(0)} style={{listStyle:"none",display:"inline-block"}}>
+                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                        <RadioButtonUncheckedIcon/>
+                      </a>
+                    </li>
 
+                    <li style={{listStyle:"none",display:"inline-block"}}>
+                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                        <FiberManualRecordIcon/>
+                      </a>
+                    </li>
+
+                    <li onClick={()=>props.displaySelectedPage(2)} style={{listStyle:"none",display:"inline-block"}}>
+                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                        <RadioButtonUncheckedIcon/>
+                      </a>
+                    </li>
+                </ul>
+            </li>
+            
          </SecondContainer>
 	)
 }

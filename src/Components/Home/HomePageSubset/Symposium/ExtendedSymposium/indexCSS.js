@@ -21,7 +21,7 @@ export const SymposiumHeaderAnimation=styled.div`
 	height:40%;
 	paddding-left:5px;
 	transition: transform 300ms ease-in-out;
-	boxShadow: "1px 1px 1px 1px #d5d5d5";
+	boxShadow: 1px 1px 1px 1px #d5d5d5;
 	border-radius:5px;
 	z-index:3;
 	animation:${keyFrameExampleTwo} 1s ease-in-out 0s forwards;
@@ -31,7 +31,6 @@ export const SymposiumContainer=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	overflow:hidden;
 
 	@media screen and (max-width:1370px){
     	#postOptionsLI{
@@ -66,6 +65,13 @@ export const Container=styled.div`
 	borderRadius:5px;
 	z-index:30;
 
+	@media screen and (max-width:1370px){
+		height:20%;
+	}
+
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		height:50% !important;
+    }
 
 	@media screen and (max-width:730px) and (max-height:420px){
     	height:60% !important;
@@ -102,13 +108,12 @@ export const PostsChatInformation=styled.div`
 	width:100%;
 	height:45%;
 	left:0%;
+	margin-left:5%;
 	z-index:2;
-	background-color:white;
-	opacity:0;
-	overflow-x:visible;
-  	transition:opacity 1s linear;
-  	padding-top:20px;
-  	filter: blur(4px);
+
+	@media screen and (max-width:1370px){
+		margin-left:0%;
+	}
 `;
 
 
@@ -135,24 +140,32 @@ export const ActivePeopleContainer=styled.div`
 `;
 
 export const PostContainer=styled.div`
-	position:absolute;
+	position:relative;
 	padding-left:40px;
-	left:0%;
-	top:40%;
-	width:90%;
+	left:-2%;
+	top:5%;
+	width:100%;
 	height:170%;
-	overflow-y:scroll;
 	transition:1s;
-	padding-top:8%;
+
+
 
 	@media screen and (max-width:1370px){
     	position:absolute;
     	left:5%;
-		width:80%;
 		height:180% !important;
-		padding-top:90% !important;
-    	top:20px !important;
-    	margin-left:-10% !important;
+		padding-top:20% !important;
+    	margin-left:-5% !important;
+
+		${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:50% !important;
+			`:
+			`
+				top:10% !important; 
+			`
+		}
     }
 
 	@media screen and (max-width:740px){
@@ -161,7 +174,16 @@ export const PostContainer=styled.div`
 		height:150% !important;
 		padding-top:90% !important;
     	top:58% !important;
-    	margin-left:-10% !important;
+    	margin-left:0% !important;
+    }
+
+    @media screen and (max-width:600px){
+    	top:-20% !important;
+    	${({isScrollEnabled})=>
+			isScrollEnabled==true &&(
+				`top:10% !important;`
+			)
+		}
     }
 
 
@@ -174,7 +196,17 @@ export const PostContainer=styled.div`
     	margin-left:0% !important;
     }
 
-    @media screen  and (max-width:730px) and (max-height:420px) 
+    @media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		top:50%!important;
+		${({isScrollEnabled})=>
+			isScrollEnabled==true &&(
+				`top:80% !important;`
+			)
+		}
+    }
+
+
+    @media screen  and (max-width:850px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
     	height:170% !important;
@@ -251,23 +283,17 @@ export const PageIndicator=styled.div`
 export const SearchContainer=styled.div`
 	position:relative;
 	width:630px;
-	height:15%;
 	border-radius:5px;
+	background-color:red;
 	box-shadow: 1px 1px 5px 	#dbdddf;
-
-
 	@media screen and (max-width:1370px){
-		margin-left:-100% !important;
-    	height:20% !important;
-    	width:630px;
-
+    	width:500px;
     }
 
     @media screen and (max-width:730px){
     	margin-left:-140% !important;
     	width:720px;
     }
-
 
     @media screen and (max-width:730px) and (max-height:420px){
     	height:35% !important;
@@ -368,20 +394,20 @@ export const ChatAndIndustryInformationContainer=styled.div`
 	color:white;
 	background-color:#5298F8;
 	border-radius:5px;
-	padding:5px;
+	padding:10px;
+	margin-right:2px;
 
 	@media screen and (max-width:1370px){
-    	display:none !important;
     }
 `;
 
 
 
 export const ArrowDownContainer=styled.div`
-	position:absolute;
+	position:fixed;
 	left:45%;
 	top:80%;
-	z-index:34;
+	z-index:40;
 
   animation: bounce 2s infinite;
   @keyframes bounce {

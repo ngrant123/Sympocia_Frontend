@@ -58,6 +58,11 @@ const Container=styled.div`
 	overflow-y:scroll;
 	padding-top:0px;
 
+	@media screen and (max-width:1370px){
+		#stampIcon{
+			width:50% !important;
+		}
+	}
 	@media screen and (max-width:1150px) {
 		#followedSymposiumsButton{
 			font-size:20px !important;
@@ -82,13 +87,13 @@ const Container=styled.div`
 
 	@media screen and (max-width:960px) {
 		#stampIcon{
-			width:30% !important;
+			width:50% !important;
 		}
 	}
 
 	@media screen and (max-width:620px) {
 		#stampIcon{
-			width:40% !important;
+			width:50% !important;
 		}
 	}
 
@@ -105,7 +110,7 @@ const Container=styled.div`
 			margin-left:-20% !important;
 		}
 		#stampIcon{
-			width:50% !important;
+			width:60% !important;
 		}
 	}
 
@@ -115,12 +120,17 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen  and (max-width:730px) and (max-height:420px) 
+	@media screen  and (max-width:830px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
  		#symposiumsLI{
- 			margin-bottom:15% !important;
+ 			margin-bottom:30% !important;
  		}
+    }
+    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+    	#stampImage{
+    		height:40% !important;
+    	}
     }
 `;
 
@@ -173,8 +183,7 @@ const ExploreButton={
   color:"#3898ec",
   borderStyle:"solid",
   borderWidth:"2px",
-  borderColor:"#3898ec",
-  width:"30%"
+  borderColor:"#3898ec"
 }
 
 const ShadowButtonCSS={
@@ -236,7 +245,7 @@ class PersonalFeedContainer extends Component{
 	//Find a better way of doing this
 	async componentDidMount(){
 		try{
-
+			console.log("TEst")
 			const verification=this.props.isLoggedIn;
 			if(verification==false){
 				this.props.history.push({
@@ -252,31 +261,39 @@ class PersonalFeedContainer extends Component{
 				}else{
 					symposiumsResponse=await getFollowedSymposiumsCompanyHome(profileId);
 				}
-				
-				var symposiums=[];
-				if(symposiumsResponse.length>0){
-					for(var i=0;i<symposiumsResponse.length;i++){
-						const specificCommunity=symposiumsResponse[i];
-						const newTimer=100*i;
-						await this.timerFunction(newTimer);
 
-						symposiums.push(specificCommunity);
+				const {confirmation,data}=symposiumsResponse;
+				debugger;
+				if(confirmation=="Success"){
+					const {message}=data;
+					var symposiums=[];
+					if(message.length>0){
+						for(var i=0;i<message.length;i++){
+							const specificCommunity=message[i];
+							const newTimer=100*i;
+							await this.timerFunction(newTimer);
 
+							symposiums.push(specificCommunity);
+
+							this.setState(prevState=>({
+								...prevState,
+								symposiumArray:symposiums,
+								isPersonalProfile:isPersonalProfile,
+								isLoading:false
+							}));
+						}
+					}else{
 						this.setState(prevState=>({
 							...prevState,
 							symposiumArray:symposiums,
 							isPersonalProfile:isPersonalProfile,
 							isLoading:false
-						}));
+						}));	
 					}
 				}else{
-					this.setState(prevState=>({
-						...prevState,
-						symposiumArray:symposiums,
-						isPersonalProfile:isPersonalProfile,
-						isLoading:false
-					}));	
+					alert('Unfortunately an error has occured when getting symposiums. Please try again');
 				}
+				
 				this.triggerUIChange();
 			}
 		}catch(err){
@@ -363,18 +380,25 @@ class PersonalFeedContainer extends Component{
 		exploreSymposiumsButton.style.color="#999999";
 
 		explorePosts=await getSymposiumsFollowedHome(this.props.profileId);
-		
-		this.setState({
-			symposiumArray:(explorePosts.length==0?[]:explorePosts),
-			isLoading:false
-		})
+		const {confirmation,data}=explorePosts;
+		if(confirmation=="Success"){
+			const {message}=data;
+			this.setState({
+				symposiumArray:(message.length==0?[]:message),
+				isLoading:false
+			})
+		}else{
+			alert('Unfortunately an error has occured when getting symposiums. Please try again');
+		}
 	}
 
 	displayExploreSymposiums=async()=>{
 		const followingSymposiumButton=document.getElementById("followedSymposiumsButton");
 		const exploreSymposiumsButton=document.getElementById("exploreSymposiumsButton");
 		var explorePosts=[];
-
+		this.setState({
+			isLoading:true
+		})
 
 		followingSymposiumButton.style.color="#999999";
 		exploreSymposiumsButton.style.color="#151518";
@@ -383,10 +407,16 @@ class PersonalFeedContainer extends Component{
 			explorePosts=await getSymposiumsNotFollowed(this.props.profileId);
 			
 		}
-		this.setState({
-			symposiumArray:(explorePosts.length==0?[]:explorePosts),
-			isLoading:false
-		})
+		const {confirmation,data}=explorePosts;
+		if(confirmation=="Success"){
+			const {message}=data;
+			this.setState({
+				symposiumArray:(message.length==0?[]:message),
+				isLoading:false
+			})
+		}else{
+			alert('Unfortunately an error has occured when getting symposiums. Please try again');
+		}
 	}
 
 	displayChatPage=(pageIndicator)=>{
@@ -457,9 +487,16 @@ class PersonalFeedContainer extends Component{
 						</li>
 					}
 					<hr/>
-					<li id="popularButton" onClick={()=>this.changeColorForPopularButton()} id="mostPopularButton"
-						 style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"#5298F8",color:"white",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"10px",borderRadius:"5px"}}>Most Popular</li>
-					<li id="fastestGrowinButton" onClick={()=>this.changeColorForFastestGrowingButton()} id="fastestGrowingButton" style={ShadowButtonCSS}>Fastest Growing</li>
+					{/*
+						<li id="popularButton" onClick={()=>this.changeColorForPopularButton()} id="mostPopularButton"
+						style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"#5298F8",color:"white",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"10px",borderRadius:"5px"}}>
+							 Most Popular
+						</li>
+
+						<li id="fastestGrowinButton" onClick={()=>this.changeColorForFastestGrowingButton()} id="fastestGrowingButton" style={ShadowButtonCSS}>
+							Fastest Growing
+						</li>
+					*/}
 						
 					{this.state.displayDesktopUI==true &&(
 						<li style={{listStyle:"none",width:"30%"}}>
@@ -467,42 +504,47 @@ class PersonalFeedContainer extends Component{
 						</li>
 					)}
 				</ul>
-				{this.state.isLoading==false && this.state.symposiumArray.length==0?
-						<li style={{listStyle:"none",marginLeft:"30%"}}>
-							<ul>
-								<li id="stampIcon" style={{listStyle:"none",display:"inline-block",width:"20%"}}>
-									<img src={StampIcon} style={{borderRadius:"50%",width:"95%",height:"20%"}}/>
-								</li>
-								<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none"}}>
-											<p> Unfortunately, we noticed that you arent following any symposiums  </p>
-											<p> Click the explore button below to search and find news ones  </p>
+				{this.state.isLoading==true?
+					<p style={{marginLeft:"15%"}}>Loading please wait..</p>:
+					<>
+						{this.state.symposiumArray.length==0?
+								<li style={{listStyle:"none",marginLeft:"30%"}}>
+									<ul>
+										<li id="stampIcon" style={{listStyle:"none",display:"inline-block",width:"20%"}}>
+											<img id="stampImage" src={StampIcon} style={{borderRadius:"50%",width:"100%",height:"20%"}}/>
 										</li>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>this.displayExploreSymposiums()} style={ExploreButton}>
-												Explore
-											</li>
-										</a>
+										<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none"}}>
+													<p> Unfortunately, we noticed that you arent following any symposiums  </p>
+													<p> Click the explore button below to search and find news ones  </p>
+												</li>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>this.displayExploreSymposiums()} style={ExploreButton}>
+														Explore
+													</li>
+												</a>
+											</ul>
+										</li>
 									</ul>
-								</li>
-							</ul>
-						</li>:
-					<React.Fragment>
-						{this.state.symposiumArray.map(data=>
-							<li id="symposiumsLI" style={{paddingBottom:"40px",listStyle:"none"}}>
-								<CommunityContainerAnimationFollowed>
-									<CommunityContainer
-										data={data}
-										isPersonalProfile={this.props.isPersonalProfile}
-										handleSymposiumClickHandler={this.handleSymposiumClick}
-										isMobileView={this.state.displayMobileUI}
-									/>
-								</CommunityContainerAnimationFollowed>
-							</li>
-						)}
-					</React.Fragment>
-				}	
+								</li>:
+							<React.Fragment>
+								{this.state.symposiumArray.map(data=>
+									<li id="symposiumsLI" style={{paddingBottom:"40px",listStyle:"none"}}>
+										<CommunityContainerAnimationFollowed>
+											<CommunityContainer
+												data={data}
+												isPersonalProfile={this.props.isPersonalProfile}
+												handleSymposiumClickHandler={this.handleSymposiumClick}
+												isMobileView={this.state.displayMobileUI}
+											/>
+										</CommunityContainerAnimationFollowed>
+									</li>
+								)}
+							</React.Fragment>
+						}	
+					</>
+				}
 			</ul>:
 				<CommunityTransitionAnimation style={{background:this.state.selectedSymposium.backgroundColor}}>
 				</CommunityTransitionAnimation>

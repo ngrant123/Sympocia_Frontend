@@ -29,8 +29,6 @@ import {
 	CrownPostModal,
 	CommentContainer
 } from "./ImageContainerCSS.js";
-
-import {testIfUserIsUsingChrome} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 import MobileUI from "./MobileUI.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector} from  "react-redux";
@@ -56,11 +54,12 @@ const ButtonCSS={
 */
 
 const ImageContainer=(props)=>{
-
+	console.log(props);
 	const [commentImageIndicator,changeIndicator]=useState(true);
 	const [displayImageModal,changeDisplayImage]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
+	const [displayPhoneUI,changePhoneUIStatus]=useState(false);
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
 	
@@ -72,7 +71,11 @@ const ImageContainer=(props)=>{
 	window.addEventListener('resize',triggerUIChange)
 
 	const triggerUIChange=()=>{
-		if(window.innerWidth<1340){
+		if(window.innerWidth<700){
+			changeUIStatus(true);
+			changePhoneUIStatus(true);
+		}
+		else if(window.innerWidth<1340){
 			changeUIStatus(true);
 		}else{
 			changeUIStatus(false);
@@ -141,12 +144,14 @@ const ImageContainer=(props)=>{
 				{displayMobileUI==true?
 					<MobileUI
 						imgData={props.imageData}
-						isChromeBrowser={testIfUserIsUsingChrome()}
 						targetDom={props.targetDom}
 						deletePost={handleRemoveImagePost}
 						pageType={props.profileType}
 						promote={triggerPromoteModal}
 						isOwnPostViewing={props.isOwnProfile}
+						closePostModal={props.closePostModal}
+						isPhoneUI={displayPhoneUI}
+						editPostAction={editPost}
 					/>
 					:<Container>
 						{displayImageModal==true?
@@ -217,7 +222,7 @@ const ImageContainer=(props)=>{
 															</React.Fragment>:
 													null}
 													<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
-													{(props.imageData.videoDescription==null && testIfUserIsUsingChrome()==true)?null:
+													{props.imageData.videoDescription==null?null:
 														<VideoDesriptionContainer>
 															<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoPlay={true} controls={true} playsInline>
 																	<source src={props.imageData.videoDescription} type="video/webm"></source>

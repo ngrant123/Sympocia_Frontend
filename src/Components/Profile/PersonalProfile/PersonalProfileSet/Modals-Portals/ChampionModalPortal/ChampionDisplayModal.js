@@ -13,6 +13,7 @@ const SponsorExtendedModal=styled.div`
 	height:35%;
 	background-color:white;
 	top:0px;
+	overflow-y:scroll;
 	z-index:25;
 	border-radius:5px;
 	box-shadow: 10px 10px 20px 	#9395a0;
@@ -26,7 +27,30 @@ const SponsorSimpliedModal=styled.div`
 	height:10%;
 	background-color:white;
 	border-radius:5px;
+	overflow:hidden;
+	display:flex;
+	flex-direction:row;
 	box-shadow: 10px 10px 20px 	#9395a0;
+	padding:10px;
+`;
+
+const ExtendedChampionModalContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+`;
+
+const ExtendedChampionInformation=styled.div`
+	display:flex;
+	flex-direction:row;
+
+
+
+	@media screen and (max-width:1370px){
+		#championImageLI{
+			width:100px !important;
+			height:100px !important;
+		}
+	}
 `;
 
 const ExtendedProfilePicture=styled.div`
@@ -67,22 +91,19 @@ const DeleteChampionCSS={
 
 
 const ExtendedChampionModal=(championData)=>{
-	return <ul id="extendedChampionModalUL">
-				<li style={{width:"40%",listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",marginBottom:"3%",width:"40%"}}>
-								<img src={championData.imgUrl} style={{width:"170%",height:"35%",borderRadius:"50%"}}/>
-						</li>
+	return <ExtendedChampionModalContainer id="extendedChampionModalUL">
+				<ExtendedChampionInformation>
+					<img id="championImageLI" src={championData.imgUrl} 
+					style={{width:"70px",height:"80px",borderRadius:"50%"}}/>
 
-						<li style={{listStyle:"none",fontSize:"30px",color:"#5298F8"}}>
-							<b>{championData.name}</b>
-						</li>
-					</ul>
-				</li>
-				<li id="extendChampionDescriptionUL" style={{height:"40%",overflowY:"auto",position:"relative",top:"-60px",listStyle:"none",display:"inline-block",width:"50%"}}>
+					<li style={{listStyle:"none",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",color:"#5298F8"}}>
+						<b>{championData.name}</b>
+					</li>
+				</ExtendedChampionInformation>
+				<p>
 					{championData.description}
-				</li>
-			</ul>
+				</p>
+			</ExtendedChampionModalContainer>
 }
 
 const SponsorDisplayModal=(props)=>{
@@ -120,40 +141,29 @@ const SponsorDisplayModal=(props)=>{
 							/>
 						</li>
 
-						<li style={{listStyle:"none"}}>
+						<li style={{listStyle:"none",marginTop:"10%"}}>
 							{ExtendedChampionModal(props.championData)}
 						</li>
 					</ul>
 				</SponsorExtendedModal>:
 				<SponsorSimpliedModal>
-					<ul style={{padding:"10px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
-							<img src={props.championData.imgUrl} style={{position:"relative",top:"-30px",width:"80px",height:"80%",borderRadius:"50%"}}/>
-						</li>
-
-						<li style={{position:"relative",top:"-5px",overflow:"hidden",listStyle:"none",display:"inline-block",width:"50%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",fontSize:"20px"}}>
-									<b>{props.championData.name}</b> 
-								</li>
-								<li style={{listStyle:"none",width:"70%",height:"45%",color:"#BDBDBD"}}>
-									{props.championData.description}
-								</li>
-							</ul>
-						</li>
-						
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<KeyboardArrowUpIcon
-									style={{borderStyle:"solid",
-											borderRadius:"50%",
-											color:"#BDBDBD",
-											fontSize:30}}
-									onClick={()=>changeExtendedSponsorModal(true)}
-								/>
-							</a>
-						</li>
-					</ul>
+					<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
+						<img src={props.championData.imgUrl} style={{position:"relative",width:"80px",height:"100%",borderRadius:"50%"}}/>
+					</li>
+					<li style={{position:"relative",overflow:"hidden",listStyle:"none",display:"inline-block",width:"50%",fontSize:"20px",maxWidth:"80%",maxHeight:"50px"}}>
+						<b>{props.championData.name}</b> 
+					</li>
+					<li style={{listStyle:"none",display:"inline-block"}}>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<KeyboardArrowUpIcon
+								style={{borderStyle:"solid",
+										borderRadius:"50%",
+										color:"#BDBDBD",
+										fontSize:30}}
+								onClick={()=>changeExtendedSponsorModal(true)}
+							/>
+						</a>
+					</li>
 				</SponsorSimpliedModal>
 			}
 

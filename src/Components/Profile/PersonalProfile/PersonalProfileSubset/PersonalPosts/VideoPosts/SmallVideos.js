@@ -1,16 +1,15 @@
 import React,{useEffect} from "react";
 import styled from "styled-components";
 import {UserConsumer} from "../../../UserContext.js";
-import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
 
 const SmallVideoComponent=styled.div`
 	position:relative;
 	width:250px;
 	height:50%;
 
-	@media screen and (max-width:420px){
-		width:220% !important;
-		height:50%;
+	@media screen and (max-width:700px){
+		width:250% !important;
+		height:30%;
 		#videoAudio{
 			display:none
 		}
@@ -19,7 +18,7 @@ const SmallVideoComponent=styled.div`
 		}
 	}
 
-	@media screen and (max-width:740px) and (max-height:420px){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
 		height:200% !important;
 		width:200%;
 	 	#videoAudio{
@@ -34,13 +33,16 @@ const SmallVideoComponent=styled.div`
 
 
 const SmallVideo=styled.div`
-
 	position:relative;
 	height:50%;
 	width:100%;
 	background-color:white;
 	border-radius:5px;
 	overflow:hidden;
+
+	@media screen and (max-width:700px){
+			height:60%;
+	}
 `;
 
 const VideoDescriptionContainer=styled.div`
@@ -113,7 +115,7 @@ const SmallVideoContainer=(videoData)=>{
 							<ul style={{padding:"0px"}}>
 								<li id="videoAudio" style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
-										{(videoData.video.videoDescription==null  && testIfUserIsUsingChrome()==true)?null:
+										{videoData.video.videoDescription==null?null:
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 												<VideoDescriptionContainer>
 													<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" muted>
@@ -123,7 +125,7 @@ const SmallVideoContainer=(videoData)=>{
 											</li>
 										}
 										
-										{(videoData.video.audioDescription==null && testIfUserIsUsingChrome()==true)?null:
+										{videoData.video.audioDescription==null?null:
 											<li style={{listStyle:"none",display:"inline-block"}}>
 												<audio key={uuidv4()} style={{width:"150px"}} controls>
 													<source src={videoData.video.audioDescription} type="audio/ogg"/>
@@ -143,7 +145,7 @@ const SmallVideoContainer=(videoData)=>{
 								</li>
 
 								<div id="postInformation">
-									<li style={{listStyle:"none",fontSize:"15px"}}>
+									<li style={{listStyle:"none",fontSize:"15px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 										<b>{videoData.video.title} </b>
 									</li>
 

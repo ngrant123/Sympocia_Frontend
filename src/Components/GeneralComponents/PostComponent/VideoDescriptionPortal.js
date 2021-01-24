@@ -8,7 +8,6 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 //import {concatVideoTogether} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import RefreshIcon from '@material-ui/icons/Refresh';
-import {testIfUserIsUsingChrome} from "../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -30,25 +29,39 @@ const Container=styled.div`
 	top:10%;
 	border-radius:5px;
 
-	@media screen and (max-width:1030px) and (max-height:1370px){
-			height:100% !important;
-			width:100%;
-    }
+	@media screen and (max-width:1370px){
+		left:5%;
+		height:50%;
+		width:90%;
+	}
 
-    @media screen and (max-width:770px){
-			left:1% !important; 
-			height:100% !important;
-			width:100%;
-    }
-
-	@media screen and (max-width:420px){
+    @media screen and (max-width:700px){
 			left:1% !important; 
 			height:100% !important;
 			width:100%;
 			#videoControllerLI{
-				margin-top:-80% !important;
+				margin-top:-50% !important;
+				margin-left:25% !important;
+
+				#refreshIconLI{
+					color:black !important;
+				}
+				#replyIconLI{
+					color:black !important;
+				}
+			}
+			#videoResultUL{
+				height:30% !important;
+				left:50% !important;
 			}
 
+    }
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+    	height:80% !important;
+    	width:90% !important;
+		#videoControllerLI{
+			margin-top:-10% !important;
+		}
     }
 `;
 
@@ -59,6 +72,9 @@ const RecordButton=styled.div`
 	border-radius:50%;
 	background-color:white;
 	padding:7px;
+	@media screen and (max-width:1370px){
+
+	}
 `;
 
 const ClipVideoContainer=styled.div`
@@ -75,6 +91,7 @@ const VideoResultContainer=styled.div`
 	width:140px;
 	height:90px;
 	border-radius:5px;
+	z-index:10;
 `;
 
 const VideoResultContainerCSS={
@@ -102,13 +119,6 @@ const VideoDescriptionPortal=(props)=>{
 
 	const [mediaDevice,changeMediaDevice]=useState();
 	const [firstDone,chnagFirstDone]=useState(false);
-
-	useEffect(()=>{
-		if(!testIfUserIsUsingChrome()){
-			alert('Unfortunately your browser does not allow this option. Please switch to any other browser');
-			props.closeModal();
-		}
-	},[]);
 
 	const recording=()=>{
 		debugger;
@@ -262,12 +272,12 @@ const VideoDescriptionPortal=(props)=>{
 			<Container>
 				{test()}
 				{videoElements.length>0?
-					<ul style={VideoResultContainerCSS}>
+					<ul id="videoResultUL" style={VideoResultContainerCSS}>
 						{videoElements.map(data=>
 							<li style={{listStyle:"none",marginBottom:"4%"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									<VideoResultContainer>
-											<video id={'video'+data.videoCounter} width="100%" height="100%" autoplay="true" muted="muted">
+											<video id={'video'+data.videoCounter} width="100%" height="100%"  controls>
 												<source src={data.videoSrc} type="video/mp4"/>
 											</video>
 									</VideoResultContainer>
@@ -278,7 +288,7 @@ const VideoDescriptionPortal=(props)=>{
 				}
 				
 
-				<video id="videoDescriptionVideo" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true" zIndex="2">
+				<video id="videoDescriptionVideo" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true">
 				</video>
 
 				<ul id="videoControllerLI" style={{marginLeft:"40%",marginTop:"-10%",padding:"0px"}}>
@@ -286,6 +296,7 @@ const VideoDescriptionPortal=(props)=>{
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 							<ClipVideoContainer onClick={()=>reDoVideo()}>
 								<RefreshIcon
+									id="refreshIconLI"
 									style={{fontSize:40,color:"white"}}
 								/>
 							</ClipVideoContainer>
@@ -312,6 +323,7 @@ const VideoDescriptionPortal=(props)=>{
 						<SubmitVideoDescriptionContainer>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<ReplyIcon
+									id="replyIconLI"
 									onClick={()=>submitVideoDescription()}
 									style={{fontSize:40,color:"white",zIndex:"4"}}
 								/>

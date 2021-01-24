@@ -23,10 +23,11 @@ const RemoveLevelVerificationContainer=styled.div`
 	left:35%;
 	overflow-y:auto;
 
-	@media screen and (max-width:600px){
-		left:15% !important;
-		width:65% !important;
-		height:50%;
+	@media screen and (max-width:1370px){
+		top:20%;
+		left:20% !important;
+		width:60% !important;
+		height:30%;
 	}
 `;
 
@@ -40,6 +41,7 @@ const RemoveLevelVerificationContainer=styled.div`
 const RemoveLevel=({nodes,closeModal,id})=>{
 	const [displayRemoveNodeVerification,changeRemoveNodeVerificationModal]=useState(false);
 	const [nodeId,changeNodeId]=useState();
+	const [isProcessingSubmit,changeIsSubmitProcessing]=useState(false); 
 
 	const addRemovedNodeToQueue=(node)=>{
 		/*
@@ -55,7 +57,7 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 	}
 
 	const removeLevelHandler=async()=>{
-		console.log(id);
+		changeIsSubmitProcessing(true);
 		const levelObject={
 			_id:id,
 			levelId:nodeId
@@ -73,6 +75,7 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 			}else{
 				alert('Unfortunately there has been an error. Please try again');
 			}
+		changeIsSubmitProcessing(false);
 	}
 
 	const removeNodeVerification=()=>{
@@ -87,28 +90,31 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 						in the general section </p>
 						<li style={{listStyle:"none"}}>
 							<ul style={{pading:"20px"}}>
-								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>removeLevelHandler()}style={{listStyle:"none",display:"inline-block"}}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-check" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7cfc00" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z"/>
-												  <circle cx="12" cy="12" r="9" />
-												  <path d="M9 12l2 2l4 -4" />
-												</svg> Yes
-											</li>
-										</a>
-										<a href="javascript:void(0);" style={{textDecoration:"none",marginTop:"3%"}}>
-											<li onClick={()=>closeRemoveNodeVerificationModal()} style={{listStyle:"none",display:"inline-block"}}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#E91E63" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z"/>
-												  <rect x="4" y="4" width="16" height="16" rx="2" />
-												  <path d="M10 10l4 4m0 -4l-4 4" />
-												</svg> No
-											</li>
-										</a>
-									</ul>
-								</li>
+								{isProcessingSubmit==true?
+									<p>Please wait</p>:
+									<li style={{listStyle:"none"}}>
+										<ul style={{padding:"0px"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li onClick={()=>removeLevelHandler()}style={{listStyle:"none",display:"inline-block"}}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-check" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7cfc00" fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z"/>
+													  <circle cx="12" cy="12" r="9" />
+													  <path d="M9 12l2 2l4 -4" />
+													</svg> Yes
+												</li>
+											</a>
+											<a href="javascript:void(0);" style={{textDecoration:"none",marginTop:"3%"}}>
+												<li onClick={()=>closeRemoveNodeVerificationModal()} style={{listStyle:"none",display:"inline-block"}}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#E91E63" fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z"/>
+													  <rect x="4" y="4" width="16" height="16" rx="2" />
+													  <path d="M10 10l4 4m0 -4l-4 4" />
+													</svg> No
+												</li>
+											</a>
+										</ul>
+									</li>
+								}
 							</ul>
 						</li>
 					</ul>

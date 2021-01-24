@@ -62,7 +62,7 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 			handleDeletePost(personalInformation);
 	}
 
-const handleDeletePost=async()=>{
+	const handleDeletePost=async()=>{
 		debugger;
 		const {
 			_id,
@@ -90,8 +90,8 @@ const handleDeletePost=async()=>{
 		}else{
 			alert('Unfortunately there has been an error deleting this post. Please try again');
 		}
- }
-const handleDeleteChampion=async(personalInformation)=>{
+ 	}
+	const handleDeleteChampion=async(personalInformation)=>{
       const {confirmation,data}=await deleteChampion({userId});
       if(confirmation=="Success"){
         personalInformation.deleteChampionModal({
@@ -124,7 +124,7 @@ const handleDeleteChampion=async(personalInformation)=>{
 					</>
 			}}
 		</UserConsumer>
-		,document.getElementById(targetDom)
+		,document.getElementById("personalContainer")
 	)
 }
 
