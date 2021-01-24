@@ -6,12 +6,7 @@ import {PersonalInformation} from "../PersonalProfileSubset/PersonalDetails/Pers
 import ProfileStatue from "../../../../designs/background/ProfileStatue.png";
 import Typed from "react-typed";
 import {useSelector,useDispatch, connect} from 'react-redux';
-import { 
-			getProfile,
-			getVideos,
-			getImages,
-			getBlogs
-		 } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import { getProfile } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {
 	setBio,
 	setProfilePicture
@@ -36,6 +31,12 @@ import PromotePortal from "../PersonalProfileSubset/PersonalPosts/PromotePortal.
 import SocialMediaUrlContainer from "./Modals-Portals/SocialMediaUrlModal.js";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
+import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
+
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 import {
 	MobilePersonalInformation,
@@ -215,7 +216,9 @@ class LProfile extends Component{
 		}
 	}
 
-
+/*
+	The code below could be structured in a better way in the future
+*/
 	async componentDidMount(){
 
 		const verification=this.props.isLoggedIn;
@@ -224,82 +227,95 @@ class LProfile extends Component{
 				pathname:'/'
 			})
 		}else{
-			window.addEventListener('resize',this.triggerUIChange)
-			const {id}=this.props.match.params;
-			if(id==this.props.personalId){
-				const profileIds={
-					userId:this.props.personalId
-				}
-				const {confirmation,data}=await getProfile(profileIds);
-				if(confirmation=="Success"){
-					console.log(data);
-					var containsChampion=false;
-					if(data.championData!=null)
-						containsChampion=data.championData.name!=""?true:false;
-
-					this.setState(prevState=>({
-						...prevState,
-						isLoading:false,
-						userProfile:data,
-						isOwnProfile:true,
-						displayChampion:containsChampion,
-						champion:data.championData,
-						isLoading:false,
-						hideOnboarding:data.firstTimeLoggedIn.personalPage
-					}));
-				}else{
-					alert('Unfortunately there has been an error getting this page. Please try again');
-				}
-			}
-			else{
-				let visitorId=this.props.personalId
-				const profileIds={
-					userId:id,
-					visitorId
-				}
-				const {confirmation,data}=await getProfile(profileIds);
-
-				if(confirmation=="Success"){
-					var containsChampion=false;
-					if(data.championData!=null)
-						containsChampion=data.championData.name!=""?true:false;
-
-					this.setState(prevState=>({
-						...prevState,
-						isLoading:false,
-						userProfile:data,
-						displayChampion:containsChampion,
-						championModalData:data.championData,
-						isLoading:false,
-						visitorId
-					}));
-				}else{
-					alert('Unfortunately there has been an error getting this page. Please try again');
-				}
-			}
-			this.triggerUIChange();
+			this.getProfileApiTriggerCall({isAccessTokenUpdated:false});
 		}
 	}
 
-	 handleChangeProfilePicture=()=>{
+	getProfileApiTriggerCall=async({isAccessTokenUpdated})=>{
+		window.addEventListener('resize',this.triggerUIChange)
+			const {id}=this.props.match.params;
+			let confirmationResponse;
+			let dataResponse;
+			let visitorId=this.props.personalId
 
+			if(id==this.props.personalId){
+				const profileIds={
+					userId:this.props.personalId,
+					accessToken:this.props.personalInformation.accessToken
+				}
+				const {confirmation,data}=await getProfile(profileIds);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+			}
+			else{
+				const profileIds={
+					userId:id,
+					visitorId,
+					accessToken:this.props.personalInformation.accessToken
+				}
+				const {confirmation,data}=await getProfile(profileIds);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+			}
+
+			if(confirmationResponse=="Success"){
+				var containsChampion=false;
+				const {message}=dataResponse;
+				if(message.championData!=null)
+					containsChampion=message.championData.name!=""?true:false;
+
+				this.setState(prevState=>({
+					...prevState,
+					userProfile:message,
+					isOwnProfile:id==this.props.personalId?true:false,
+					displayChampion:containsChampion,
+					championModalData:message.championData,
+					isLoading:false,
+					hideOnboarding:true,
+					visitorId
+				}));
+			}else{
+				debugger;
+				const {statusCode}=dataResponse;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalInformation.refreshToken,
+							this.props.personalInformation.id,
+							this.getProfileApiTriggerCall,
+							this.props,
+							{},
+							true
+						);
+				}else{
+					alert('Unfortunately there has been an error getting this page. Please try again');
+				}
+			}
+
+			this.triggerUIChange();
+	}
+
+	 handleChangeProfilePicture=()=>{
 	 	document.getElementById("profilePicutreImageFile").click();
 		console.log('Change pic button clicked');
 	}
 
 
 	changeProfilePicture=async()=>{
-
-		console.log("Change picture button clicked");
+		debugger;
 		let profileContainer=document.getElementById("profilePicture");
 		let image=document.getElementById("profilePicutreImageFile").files[0];
 		let reader= new FileReader();
+
 		reader.onloadend=async()=>{
 			profileContainer.src=reader.result;
 			const profileUrl=profileContainer.src;
 
 			console.log(reader.result);
-			const {confirmation,data}=await setProfilePicture(this.state.userProfile._id,profileUrl);
+			const {confirmation,data}=await setProfilePicture(
+												this.state.userProfile._id,
+												profileUrl,
+												this.props.personalInformation.accessToken
+											);
 			
 			if(confirmation=="Success"){
 				this.setState({
@@ -309,7 +325,19 @@ class LProfile extends Component{
 					}
 				});
 			}else{
-				alert('Unfortunately there has been an error with changing your profile picture. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+						this.props.personalInformation.refreshToken,
+						this.props.personalInformation.id,
+						this.changeProfilePicture,
+						this.props,
+						{},
+						true
+					);
+				}else{
+					alert('Unfortunately there has been an error with changing your profile picture. Please try again');
+				}
 			}
 		}
 
@@ -927,7 +955,7 @@ class LProfile extends Component{
 											displayIpadUI:this.state.displayIpadUI,
 											displayDesktopUI:this.state.displayDesktopUI,
 										}}
-										visitorId={this.state.visitorId}
+										visitorId={this.state.isOwnProfile==true?null:this.state.visitorId}
 										displayConfetti={this.displayConfetti}
 										triggerPostReload={this.state.triggerPostReload}
 										isPostReloading={this.isPostReloading}
@@ -954,11 +982,20 @@ class LProfile extends Component{
 
 const mapStateToProps=(state)=>{
 	return{
+		personalInformation:state.personalInformation,
 		personalId:state.personalInformation.id,
 		isLoggedIn:state.personalInformation.loggedIn
 	}
 }
 
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
 export default withRouter(connect(
 	mapStateToProps,
-	null)(LProfile));
+	mapDispatchToProps
+)(LProfile));

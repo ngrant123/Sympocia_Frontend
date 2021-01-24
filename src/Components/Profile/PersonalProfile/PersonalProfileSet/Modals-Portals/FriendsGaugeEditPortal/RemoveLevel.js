@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {removeLevel} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -42,6 +44,8 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 	const [displayRemoveNodeVerification,changeRemoveNodeVerificationModal]=useState(false);
 	const [nodeId,changeNodeId]=useState();
 	const [isProcessingSubmit,changeIsSubmitProcessing]=useState(false); 
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
 
 	const addRemovedNodeToQueue=(node)=>{
 		/*
@@ -56,14 +60,15 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 		changeRemoveNodeVerificationModal(false);
 	}
 
-	const removeLevelHandler=async()=>{
-		changeIsSubmitProcessing(true);
+	const removeLevelHandler=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const levelObject={
 			_id:id,
-			levelId:nodeId
+			levelId:nodeId,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 		debugger;
-		const {confirmation}=await removeLevel(levelObject);
+		const {confirmation,data}=await removeLevel(levelObject);
 			if(confirmation=="Success"){
 				const removeNodeAction={
 						actionType:"Remove",
@@ -73,7 +78,20 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 				}
 				closeModal(removeNodeAction);
 			}else{
-				alert('Unfortunately there has been an error. Please try again');
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							removeLevelHandler,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error. Please try again');
+				}
 			}
 		changeIsSubmitProcessing(false);
 	}
@@ -95,7 +113,7 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 									<li style={{listStyle:"none"}}>
 										<ul style={{padding:"0px"}}>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>removeLevelHandler()}style={{listStyle:"none",display:"inline-block"}}>
+												<li onClick={()=>removeLevelHandler({isAccessTokenUpdated:false})}style={{listStyle:"none",display:"inline-block"}}>
 													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-check" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7cfc00" fill="none" stroke-linecap="round" stroke-linejoin="round">
 													  <path stroke="none" d="M0 0h24v24H0z"/>
 													  <circle cx="12" cy="12" r="9" />
@@ -115,6 +133,7 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 										</ul>
 									</li>
 								}
+							
 							</ul>
 						</li>
 					</ul>

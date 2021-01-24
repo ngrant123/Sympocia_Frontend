@@ -3,6 +3,8 @@ import styled from "styled-components";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 import {promoteRecruitRequest} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
 
 const InputContainer=styled.textarea`
 	position:relative;
@@ -60,6 +62,8 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 		}
 		changeSelectedRecruitsMap(selectedRecruitsMapping)
 	},[selectedRecruits]);
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
 
 	const removeSelectedPerson=(data)=>{
 		
@@ -83,12 +87,14 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 		console.log(selectedRecruits);
 	} 
 
-	const promoteRecruits=async()=>{ 
-		changeIsSubmitProcessing(true);
+
+	const promoteRecruits=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const promoteRecruit={
 			selectedRecruits:selectedRecruits,
 			node:selectedNode._id,
-			_id:id
+			_id:id,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 
 		const {confirmation,data}=await promoteRecruitRequest(promoteRecruit);
@@ -112,7 +118,19 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 				closeModal();
 			}
 		}else{
-			alert('Unfortunately there has been an error. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						promoteRecruits,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error. Please try again');
+			}
 		}
 		changeIsSubmitProcessing(false);
 	}
@@ -194,14 +212,13 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 										<p>Please wait...</p>
 										:<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 											<li style={{listStyle:"none",marginBottom:"5%"}}>
-												<SubmitButton onClick={()=>promoteRecruits()}>
+												<SubmitButton onClick={()=>promoteRecruits({isAccessTokenUpdated:false})}>
 													Submit
 												</SubmitButton>
 											</li>
 										</a>
 									}
-								</>
-								:null
+								</>:null
 							}
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"0px"}}>

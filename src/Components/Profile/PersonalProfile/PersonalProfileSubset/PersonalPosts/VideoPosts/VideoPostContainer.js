@@ -1,7 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import SmallVideoContainer from "./SmallVideos.js";
-import {getVideosFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getCompanyVideos} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import {UserConsumer} from "../../../UserContext.js";
 import NoPostsModal from "../NoPostsModal.js";

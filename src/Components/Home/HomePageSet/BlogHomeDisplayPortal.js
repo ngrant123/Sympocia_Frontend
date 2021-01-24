@@ -59,6 +59,8 @@ import LoyaltyIcon from '@material-ui/icons/Loyalty';
 	    }
 
 	*/
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -284,6 +286,8 @@ const BlogHomeDisplayPortal=(props)=>{
 					   props.selectedBlog.isPostAuthentic.numOfApprove.length:0;
 	const disapprovesPostNumber=props.selectedBlog.isPostAuthentic.numOfDisapprove!=null?
 						  props.selectedBlog.isPostAuthentic.numOfDisapprove.length:0;
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 
 	const triggerUIChange=()=>{
@@ -301,25 +305,58 @@ const BlogHomeDisplayPortal=(props)=>{
 
 	window.addEventListener('resize',triggerUIChange)
 
-	const createOrRemoveStampEffect=()=>{
+	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
-		if(displayStampEffect==false){
-			if(isPersonalProfile==true){
-				addStampPost(props.selectedBlog._id,"personal","Blogs",props.personalId);
-			}else{
-				addStampPost(props.selectedBlog._id,"company","Blogs",props.personalId);
-			}
-			changeDisplayStampEffect(true);
+		let confirmationResponse;
+		let dataResponse;
 
+		if(displayStampEffect==false){
+			const {confirmation,data}=await addStampPost(
+												props.selectedBlog._id,
+												"personal",
+												"Blogs",
+												props.personalId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
 		}else{
-			if(isPersonalProfile==true){
-				unStampPost(props.selectedBlog._id,"personal","Blogs",props.personalId);
+			const {confirmation,data}=await unStampPost(
+												props.selectedBlog._id,
+												"personal",
+												"Blogs",
+												props.personalId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+		}
+
+		if(confirmationResponse=="Success"){
+			if(displayStampEffect==false)
+				changeDisplayStampEffect(true);
+			else
+				changeDisplayStampEffect(false);
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createOrRemoveStampEffect,
+						dispatch,
+						{},
+						false
+					);
 			}else{
-				unStampPost(props.selectedBlog._id,"company","Blogs",props.personalId);
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 			}
-			changeDisplayStampEffect(false);
 		}
 	}
+
+
 
 	const displayOrHideModal=()=>{
 		changeDisplayModal(!displayLargeModal);

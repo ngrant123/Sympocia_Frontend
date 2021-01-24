@@ -9,13 +9,14 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import EditImageCreation from "../ImageCreation/EditImageCreation.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {StampIconEffect} from "./ImageContainerCSS.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import {
 	addStampPost,
 	unStampPost
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:relative;
@@ -160,6 +161,8 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 
 	const userId=useSelector(state=>state.personalInformation.id);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 
 	const displayCommentsTrigger=()=>{
@@ -241,13 +244,55 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 		)
 	}
 
-	const createOrRemoveStampEffect=()=>{
+	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		let confirmationResponse;
+		let dataResponse;
+
 		if(displayStampEffect==false){
-			addStampPost(imgData._id,"personal","Images",userId);
-			changeDisplayStampEffect(true);
+			const {confirmation,data}=await addStampPost(
+												imgData._id,
+												"personal",
+												"Images",
+												userId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+
 		}else{
-			unStampPost(imgData._id,"personal","Images",userId);
-			changeDisplayStampEffect(false);
+			const {confirmation,data}=await unStampPost(
+												imgData._id,
+												"personal",
+												"Images",
+												userId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+			debugger;
+		}
+
+		if(confirmationResponse=="Success"){
+			if(displayStampEffect==false)
+				changeDisplayStampEffect(true);
+			else
+				changeDisplayStampEffect(false);
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createOrRemoveStampEffect,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+			}
 		}
 	}
 
@@ -354,62 +399,64 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 						{isPhoneUI==true && (displayPostInformationContainer==true && displayComments==true)?
 							<>{commentContainer()}</>:
 							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"20px"}}>
-									<a href="javascript:void(0);">
-										<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
-											<LoyaltyIcon
-												style={{fontSize:30}}
-											/>
-										</li>
-									</a>
-									<a href="javascript:void(0);">
-										<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-											  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-											  <line x1="8" y1="9" x2="16" y2="9" />
-											  <line x1="8" y1="13" x2="14" y2="13" />
-											</svg>
-										</li>
-									</a>
+							<ul style={{padding:"20px"}}>
+								<a href="javascript:void(0);">
+									<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+										<LoyaltyIcon
+											style={{fontSize:30}}
+										/>
+									</li>
+								</a>
+								<a href="javascript:void(0);">
+									<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+										  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+										  <line x1="8" y1="9" x2="16" y2="9" />
+										  <line x1="8" y1="13" x2="14" y2="13" />
+										</svg>
+									</li>
+								</a>
 
-									{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
-										<>
-											<a href="javascript:void(0);">
-												<li onClick={()=>changeDisplayEditImageModal(true)} style={ShadowButtonCSS}>
-													<BorderColorIcon
-														style={{fontSize:30}}
-													/>
-												</li>
-											</a>
+								
+								
+								{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
+									<>
+										<a href="javascript:void(0);">
+											<li onClick={()=>changeDisplayEditImageModal(true)} style={ShadowButtonCSS}>
+												<BorderColorIcon
+													style={{fontSize:30}}
+												/>
+											</li>
+										</a>
 
-											<a href="javascript:void(0);">
-												<li onClick={()=>deletePost()} style={ShadowButtonCSS}>
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-													  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-													  <line x1="4" y1="7" x2="20" y2="7" />
-													  <line x1="10" y1="11" x2="10" y2="17" />
-													  <line x1="14" y1="11" x2="14" y2="17" />
-													  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-													  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-													</svg>
-												</li>
-											</a>
+										<a href="javascript:void(0);">
+											<li onClick={()=>deletePost()} style={ShadowButtonCSS}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												  <line x1="4" y1="7" x2="20" y2="7" />
+												  <line x1="10" y1="11" x2="10" y2="17" />
+												  <line x1="14" y1="11" x2="14" y2="17" />
+												  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+												  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+												</svg>
+											</li>
+										</a>
 
-											<a href="javascript:void(0);">
-												<li onClick={()=>promote()} style={ShadowButtonCSS}>
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-														  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C"
-														  fill="none" stroke-linecap="round" stroke-linejoin="round">
-														  <path stroke="none" d="M0 0h24v24H0z"/>
-														  <circle cx="12" cy="9" r="6" />
-														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
-														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
-													</svg>
-												</li>
-											</a>
-										</>
-									)}
+										<a href="javascript:void(0);">
+											<li onClick={()=>promote()} style={ShadowButtonCSS}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+													  width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+													  fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z"/>
+													  <circle cx="12" cy="9" r="6" />
+													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+												</svg>
+											</li>
+										</a>
+									</>
+								)}
 
 								</ul>
 							</li>

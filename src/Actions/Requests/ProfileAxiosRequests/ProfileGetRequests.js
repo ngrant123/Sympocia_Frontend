@@ -20,52 +20,24 @@ export function getActivityLog(userId){
 }
 
 
-export async function getProfile({userId,visitorId}){
+export async function getProfile({userId,visitorId,accessToken}){
 
 	try{
 		const profile=await axios.get(`${SearchUrl}/getProfile`,{
 			params:{
 				id:userId,
 				visitorId
+			},
+			headers:{
+				authorization:accessToken
 			}
-		});
+		}); 
+		debugger;
 		const {data}=profile;
 		return data;
 	}catch(err){
 	}
 }
-
-export function getVideos(profileId){
-
-	axios.get(`${SearchUrl}/getVideos`,{
-		_id:profileId
-	}).then(videos=>{
-		return videos;
-	}).catch(err=>{
-	})
-} 
-
-export function getImages(profileId){
-
-	axios.get(`${SearchUrl}/getImages`,{
-		_id:profileId
-	}).then(images=>{
-		return images;
-	}).catch(err=>{
-	})
-}
-
-export function getBlogs(profileId){
-
-
-	axios.get(`${SearchUrl}/getBlogs`,{
-			_id:profileId
-		}).then(blogs=>{
-			return blogs;
-		}).catch(err=>{
-		})
-}
-
 
 export async function getProfileByName(profileName){	
 
@@ -162,13 +134,18 @@ export async function getMostPopular(investors){
 	}
 }
 
-export async function getVideosFromUser({userId,visitorId,postCount}){
+
+export async function getVideosFromUser({userId,visitorId,postCount,accessToken}){
 	try{
 		const videos=await axios.get(`${SearchUrl}/getUserVideos`,{
 			params:{
 				id:userId,
 				visitorId,
-				postCount
+				postCount,
+				visitorId
+			},
+			headers:{
+				authorization:accessToken
 			}
 		});
 
@@ -180,13 +157,18 @@ export async function getVideosFromUser({userId,visitorId,postCount}){
 		
 	}
 }
-export async function getBlogFromUser({userId,visitorId,postCount}){
+
+export async function getBlogFromUser({userId,visitorId,postCount,accessToken}){
 	try{
 		const blogsPostsData=await axios.get(`${SearchUrl}/getUserBlogs`,{
 			params:{
 				id:userId,
 				visitorId,
-				postCount
+				postCount,
+				visitorId
+			},
+			headers:{
+				authorization:accessToken
 			}
 		})
 
@@ -199,13 +181,17 @@ export async function getBlogFromUser({userId,visitorId,postCount}){
 }
 
 
-export async function getRegularPostFromUser({userId,visitorId,postCount}){
+export async function getRegularPostFromUser({userId,visitorId,postCount,accessToken}){
 	try{
 		const regularPostsResults=await axios.get(`${SearchUrl}/getUserRegularPosts`,{
 			params:{
 				id:userId,
 				visitorId,
-				postCount
+				postCount,
+				visitorId
+			},
+			headers:{
+				authorization:accessToken
 			}
 		});
 		
@@ -290,23 +276,6 @@ export const checkIfEmailIsUsed=async(email)=>{
 		return err.message;
 	}
 
-}
-
-
-export const getRecruitsInformation=async(userId)=>{
-	try{
-		const recruitsInformationResponse=await axios.get(`${SearchUrl}/getRecruitsInformation`,{
-			params:{
-				_id:userId
-			}
-		});
-
-		const {data}=recruitsInformationResponse;
-		const recruitsData=data.data;
-		return recruitsData;
-	}catch(err){
-		
-	}
 }
 
 export const getPersonalProfileGeneralMessages=async(personalId)=>{

@@ -2,6 +2,8 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {editNodeInformation} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
 
 const Container=styled.div`
 	position:fixed;
@@ -56,8 +58,10 @@ const ExploreButton={
 const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNode})=>{
 	console.log(nodeInformation);
 	const [displayEditArea,changeDisplayEditArea]=useState(false);
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
 
-	const submitInformation=async()=>{
+	const submitInformation=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const name=document.getElementById("name").value;
 		const description=document.getElementById("description").value;
 
@@ -65,9 +69,11 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 			_id:userId,
 			name:name,
 			description:description,
-			levelId:nodeInformation._id
+			levelId:nodeInformation._id,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
-		const {confirmation}=await editNodeInformation(nodeObject);
+		const {confirmation,data}=await editNodeInformation(nodeObject);
 		if(confirmation=="Success"){
 			updateNode({
 				...nodeObject,
@@ -75,7 +81,20 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 			});
 			closeModal();
 		}else{
-			alert('Unfortunately there has been an error. Please upload again');
+			debugger;
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitInformation,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error. Please upload again');
+			}
 		}
 	}
 	return createPortal(
@@ -127,7 +146,7 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 								<DescriptionTextArea id="description">
 									{nodeInformation.description}
 								</DescriptionTextArea>
-								<a href="javascript:void(0);" onClick={()=>submitInformation()} style={{textDecoration:"none"}}>
+								<a href="javascript:void(0);" onClick={()=>submitInformation({isAccessTokenUpdated:false})} style={{textDecoration:"none"}}>
 									<li style={ExploreButton}>
 										Submit
 									</li>

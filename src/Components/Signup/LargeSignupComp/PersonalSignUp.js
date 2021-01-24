@@ -124,21 +124,20 @@ class PersonalSignUp extends Component{
 				email:email,
 				isInvestor:false,
 				password:password
-			}
+ 			}
 			const {confirmation,data}=await createProfile(profile);
 
 			if(confirmation=="Success"){ 
+				const {message}=data;
 				const promises=[];  
 				const {
 					signInPersonalUser,
 					loginCompanyPage
 				}=this.props;
 
-
-
 				promises.push(signInPersonalUser({
 					...profile,
-					_id:data._id
+					...message
 				}));
 			    promises.push(loginCompanyPage(false));
 
@@ -149,7 +148,12 @@ class PersonalSignUp extends Component{
 					})
 			    })
 			}else{
-				alert('Unfortunately there was an error trying to create your profile. Please try again');
+				const {statusCode}=data;
+				if(statusCode==400){
+					alert('Unfortunately an error has occured on using the credentials you supplied. Please repeat the process and submit again');
+				}else{
+					alert('Unfortunately an error has occured when creating your profile. Please try again later');
+				}
 			}
 		}
 	}

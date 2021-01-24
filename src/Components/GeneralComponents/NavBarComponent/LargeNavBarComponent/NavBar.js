@@ -33,7 +33,7 @@ import {
 	clearNewNotifications
 } from "../../../../Actions/Requests/NotificationsRequests.js";
 import Notifications from "../../NotificationComponent/index.js";
-
+import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 
 const NotificationIconContainer=styled.div`
 	border-radius:50%;
@@ -166,7 +166,12 @@ const NavBar=(pageProps)=>{
 	const [displayNotificationIndicator,changeDisplayNotificationIndicator]=useState(false);
 	const [displayNotifications,changeDisplayNotifications]=useState(false);
 	const [notifications,changeNotifications]=useState();
-
+	const [reloadNotificationAccessToken,changeReload]=useState(false);
+	let {
+			refreshToken,
+			accessToken,
+			id
+		}=personalProfileState;
 
 	const triggerUIChange=()=>{
 		if(window.innerWidth<595){
@@ -187,33 +192,77 @@ const NavBar=(pageProps)=>{
 			changeDisplayPhoneUI(false);
 		}
 	}
+
 	const triggerSetTimeout=(seconds)=>{    
 		return new Promise(resolve => setTimeout(resolve, seconds));
 	}
 
 	useEffect(()=>{
 		const initialSetUp=async()=>{
-			debugger;
 			changeDisplayPersonalProfileIcon(true);
 			triggerUIChange();
 			const notificationTriggerCheck=true;
 			/*
 				while(notificationTriggerCheck){
-					await triggerSetTimeout(10000);
-					const {confirmation,data}=await notificationStatusCheck(personalProfileState.id);
-					if(confirmation=="Success"){
-						if(data==true){
-							changeDisplayNotificationIndicator(true);
+						await triggerSetTimeout(10000);
+						const {confirmation,data}=await notificationStatusCheck(personalProfileState.id);
+						if(confirmation=="Success"){
+							if(data==true){
+								changeDisplayNotificationIndicator(true);
+							}
 						}
 					}
+
+				let test;
+				statusCheckTrigger({id,isAccessTokenUpdated:false})
+
+				
+				while(notificationTriggerCheck){
+						debugger;
+						console.log(test);
+						await triggerSetTimeout(40000);
+						const updatedToken=await statusCheckTrigger({accessToken,id,isAccessTokenUpdated:false});
+						test=updatedToken;
 				}
 			*/
 		}
-
 		initialSetUp();
-	})
+	},[])
 
 	window.addEventListener('resize',triggerUIChange)
+
+	const statusCheckTrigger=async({id,isAccessTokenUpdated,updatedAccessToken})=>{
+		debugger;
+		const {confirmation,data}=await notificationStatusCheck(
+											id,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalProfileState.accessToken
+										);
+		if(confirmation=="Success"){
+			const {message}=data;
+			if(message==true){
+				changeDisplayNotificationIndicator(true);
+			}else{
+				changeDisplayNotificationIndicator(false);
+			}
+			return updatedAccessToken;
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalProfileState.refreshToken,
+						id,
+						statusCheckTrigger,
+						dispatch,
+						{
+							id
+						},
+						false
+					);
+			}
+		}
+	} 
+
 
 
 	const displayChatContainerForPersonalPage=(pageProps)=>{
@@ -328,9 +377,33 @@ const NavBar=(pageProps)=>{
 	}
 
 	const closeNotificationsPortal=()=>{
-		clearNewNotifications(personalProfileState.id);
-		changeDisplayNotifications(false);
-		changeDisplayNotificationIndicator(false);
+		closeNotificationsPortalTrigger({isAccessTokenUpdated:false});
+	}
+
+
+	const closeNotificationsPortalTrigger=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		const {confirmation,data}=await clearNewNotifications(
+											personalProfileState.id,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalProfileState.accessToken
+										);
+
+		if(confirmation=="Success"){
+			changeDisplayNotifications(false);
+			changeDisplayNotificationIndicator(false);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalProfileState.refreshToken,
+						id,
+						closeNotificationsPortalTrigger,
+						dispatch,
+						{},
+						false
+					);
+			}
+		}
 	}
 
 	return(
@@ -341,6 +414,10 @@ const NavBar=(pageProps)=>{
 					closeModal={closeNotificationsPortal}
 					userId={personalProfileState.id}
 					history={pageProps.pageProps.routerHistory}
+					tokens={{
+						accessToken:personalProfileState.accessToken,
+						refreshToken:personalProfileState.refreshToken
+					}}
 				/>
 			)}
 

@@ -31,7 +31,8 @@ import {
 } from "./ImageContainerCSS.js";
 import MobileUI from "./MobileUI.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
-import {useSelector} from  "react-redux";
+import {useSelector,useDispatch} from  "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const ButtonCSS={
   listStyle:"none",
@@ -64,6 +65,8 @@ const ImageContainer=(props)=>{
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
 	
 	const userId=useSelector(state=>state.personalInformation.id);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	useEffect(()=>{
 		triggerUIChange();
@@ -87,22 +90,55 @@ const ImageContainer=(props)=>{
 		changeDisplayDeleteConfirmation(true);
 	}
 
-	const createOrRemoveStampEffect=()=>{
-		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
+	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		let confirmationResponse;
+		let dataResponse;
+
 		if(displayStampEffect==false){
-			if(isPersonalProfile==true){
-				addStampPost(props.imageData._id,"personal","Images",userId);
-			}else{
-				addStampPost(props.imageData._id,"company","Images",userId);
-			}
-			changeDisplayStampEffect(true);
+			const {confirmation,data}=await addStampPost(
+												props.imageData._id,
+												"personal",
+												"Images",
+												userId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+
 		}else{
-			if(isPersonalProfile==true){
-				unStampPost(props.imageData._id,"personal","Images",userId);
+			const {confirmation,data}=await unStampPost(
+												props.imageData._id,
+												"personal",
+												"Images",
+												userId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+			debugger;
+		}
+
+		if(confirmationResponse=="Success"){
+			if(displayStampEffect==false)
+				changeDisplayStampEffect(true);
+			else
+				changeDisplayStampEffect(false);
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createOrRemoveStampEffect,
+						dispatch,
+						{},
+						false
+					);
 			}else{
-				unStampPost(props.imageData._id,"company","Images",userId);
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 			}
-			changeDisplayStampEffect(false);
 		}
 	}
 
@@ -180,7 +216,7 @@ const ImageContainer=(props)=>{
 														</a>:null
 													}
 													<a style={{textDecoration:"none"}}href="javascript:void(0);">
-														<li onClick={()=>createOrRemoveStampEffect()} style={ButtonCSS}>
+														<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ButtonCSS}>
 																Stamp
 														</li>
 													</a>
