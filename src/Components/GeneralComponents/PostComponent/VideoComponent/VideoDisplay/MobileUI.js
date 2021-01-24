@@ -468,7 +468,7 @@ const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost
 
 		if(displayStampEffect==false){
 			const {confirmation,data}=await addStampPost(
-												videoData._id,
+												video._id,
 												"personal",
 												"Videos",
 												personalInformation.id,
@@ -480,7 +480,7 @@ const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost
 
 		}else{
 			const {confirmation,data}=await unStampPost(
-												videoData._id,
+												video._id,
 												"personal",
 												"Videos",
 												personalInformation.id,
