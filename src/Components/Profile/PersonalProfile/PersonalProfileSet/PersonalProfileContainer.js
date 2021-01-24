@@ -27,6 +27,7 @@ import Confetti from 'react-confetti';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CreationPortal from "./Modals-Portals/PostCreationPortal.js";
 import OnboardingPersonalPage from "../../../OnBoarding/PersonalProfileOnboarding.js";
+import GuestOnboardingModal from "../../../OnBoarding/GuestOnboarding.js";
 import PromotePortal from "../PersonalProfileSubset/PersonalPosts/PromotePortal.js";
 import SocialMediaUrlContainer from "./Modals-Portals/SocialMediaUrlModal.js";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
@@ -37,6 +38,8 @@ import {
 		setPersonalProfileAccessToken,
 		setPersonalProfileRefreshToken
 	} from "../../../../Actions/Redux/Actions/PersonalProfile.js"; 
+import CONSTANTS from "../../../../Constants/constants.js";
+import GuestLockScreenHOC from "../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 
 import {
 	MobilePersonalInformation,
@@ -131,8 +134,6 @@ class LProfile extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(props);
-
 		this.state={
 			images:[],
 			videos:[],
@@ -186,6 +187,8 @@ class LProfile extends Component{
 			triggerPostReload:false,
 			endOfPostsDBIndicator:false,
 			isLoadingReloadedPosts:false,
+			displayGuestOnboarding:false,
+			isGuestProfile:false,
 			displayConfettiHandle:()=>{
 				this.displayConfetti()
 			}
@@ -221,77 +224,81 @@ class LProfile extends Component{
 */
 	async componentDidMount(){
 
-		const verification=this.props.isLoggedIn;
-		if(verification==false){
-			this.props.history.push({
-				pathname:'/'
+		if(this.props.personalId=="0"){
+			this.setState({
+				displayGuestOnboarding:true
 			})
-		}else{
-			this.getProfileApiTriggerCall({isAccessTokenUpdated:false});
 		}
-	}
-
-	getProfileApiTriggerCall=async({isAccessTokenUpdated})=>{
+		debugger;
 		window.addEventListener('resize',this.triggerUIChange)
-			const {id}=this.props.match.params;
-			let confirmationResponse;
-			let dataResponse;
-			let visitorId=this.props.personalId
-
-			if(id==this.props.personalId){
-				const profileIds={
-					userId:this.props.personalId,
-					accessToken:this.props.personalInformation.accessToken
-				}
-				const {confirmation,data}=await getProfile(profileIds);
-				confirmationResponse=confirmation;
-				dataResponse=data;
+		const {id}=this.props.match.params;
+		if(id==this.props.personalId){
+			const {isGuestProfile}=this.props.personalState;
+			const profileIds={
+				userId:this.props.personalId
 			}
-			else{
-				const profileIds={
-					userId:id,
-					visitorId,
-					accessToken:this.props.personalInformation.accessToken
-				}
-				const {confirmation,data}=await getProfile(profileIds);
-				confirmationResponse=confirmation;
-				dataResponse=data;
-			}
-
-			if(confirmationResponse=="Success"){
-				var containsChampion=false;
-				const {message}=dataResponse;
-				if(message.championData!=null)
-					containsChampion=message.championData.name!=""?true:false;
-
-				this.setState(prevState=>({
-					...prevState,
-					userProfile:message,
-					isOwnProfile:id==this.props.personalId?true:false,
-					displayChampion:containsChampion,
-					championModalData:message.championData,
+			if(isGuestProfile==true || this.props.personalId=="0"){
+				const {GUEST_PROFILE}=CONSTANTS;
+				this.setState({
+					isLoading:false,
+					userProfile:GUEST_PROFILE,
+					isOwnProfile:true,
+					displayChampion:false,
+					champion:{},
 					isLoading:false,
 					hideOnboarding:true,
-					visitorId
-				}));
+					isGuestProfile:true
+				})
+
 			}else{
-				debugger;
-				const {statusCode}=dataResponse;
-				if(statusCode==401){
-					await refreshTokenApiCallHandle(
-							this.props.personalInformation.refreshToken,
-							this.props.personalInformation.id,
-							this.getProfileApiTriggerCall,
-							this.props,
-							{},
-							true
-						);
+				const {confirmation,data}=await getProfile(profileIds);
+				if(confirmation=="Success"){
+					console.log(data);
+					var containsChampion=false;
+					if(data.championData!=null)
+						containsChampion=data.championData.name!=""?true:false;
+
+					this.setState(prevState=>({
+						...prevState,
+						isLoading:false,
+						userProfile:data,
+						isOwnProfile:true,
+						displayChampion:containsChampion,
+						champion:data.championData,
+						isLoading:false,
+						hideOnboarding:data.firstTimeLoggedIn.personalPage
+					}));
 				}else{
 					alert('Unfortunately there has been an error getting this page. Please try again');
 				}
 			}
+		}else{
+			let visitorId=this.props.personalId
+			const profileIds={
+				userId:id,
+				visitorId
+			}
+			const {confirmation,data}=await getProfile(profileIds);
 
-			this.triggerUIChange();
+			if(confirmation=="Success"){
+				var containsChampion=false;
+				if(data.championData!=null)
+					containsChampion=data.championData.name!=""?true:false;
+
+				this.setState(prevState=>({
+					...prevState,
+					isLoading:false,
+					userProfile:data,
+					displayChampion:containsChampion,
+					championModalData:data.championData,
+					isLoading:false,
+					visitorId
+				}));
+			}else{
+				alert('Unfortunately there has been an error getting this page. Please try again');
+			}
+		}
+		this.triggerUIChange();
 	}
 
 	 handleChangeProfilePicture=()=>{
@@ -629,7 +636,8 @@ class LProfile extends Component{
 
 	closeOnboardingModal=()=>{
 		this.setState({
-			hideOnboarding:true
+			hideOnboarding:true,
+			displayGuestOnboarding:false
 		})
 	}
 
@@ -668,25 +676,40 @@ class LProfile extends Component{
 						<p style={{maxWidth:"90%",maxHeight:"20px",overflow:"hidden"}}>
 							{this.state.userProfile.firstName}
 						</p>
-						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-							style={ShadowButtonCSS}
-							onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
-							>
-						   		<span class="caret"></span>
-						</button>
+						{this.state.isGuestProfile==false && (
+							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+								style={ShadowButtonCSS}
+								onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
+								>
+							   		<span class="caret"></span>
+							</button>
+						)}
 					</MediumMobileScreenUserInformation>
 			   </ul>
 	}
 	displayMobilePersonalInformation=()=>{
 		return  <>
 					{this.state.displayMobileUIPersonalInformation==true &&(
-							<MobilePersonalInformation
-								displayConfetti={this.displayConfetti}
-								personalInformation={this.state}
-								displaySocialMediaModal={this.displaySocialMediaModal}	
-								closeModal={this.closeMobilePersonalInformation}
-								userId={this.props.personalId}
-							/>
+						<>
+							{this.state.isGuestProfile==true ?
+								<GuestLockScreenHOC
+									component=<MobilePersonalInformation
+												displayConfetti={this.displayConfetti}
+												personalInformation={this.state}
+												displaySocialMediaModal={this.displaySocialMediaModal}	
+												closeModal={this.closeMobilePersonalInformation}
+											/>
+								/>
+								:
+								<MobilePersonalInformation
+									displayConfetti={this.displayConfetti}
+									personalInformation={this.state}
+									displaySocialMediaModal={this.displaySocialMediaModal}	
+									closeModal={this.closeMobilePersonalInformation}
+									userId={this.props.personalId}
+								/>
+							}
+						</>
 					)}
 				</>
 	}
@@ -700,6 +723,7 @@ class LProfile extends Component{
 							displayChampionsModal={this.displayChampionModalTrigger}
 							championData={this.state.champion}
 							isOwner={this.state.isOwnProfile}
+							isGuestProfile={this.state.isGuestProfile}
 						/>
 					)}
 				</>
@@ -870,7 +894,9 @@ class LProfile extends Component{
 							<ProfilePictureContainer>
 								{(this.state.displayDesktopUI==false && this.state.isOwnProfile==true)? 
 									<>
-										{this.displayCreatePostOptionTrigger()}
+										{this.state.isGuestProfile==false && (
+											<>{this.displayCreatePostOptionTrigger()}</>
+										)}
 										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} 
 											accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
 								        	name="attachments"
@@ -943,6 +969,13 @@ class LProfile extends Component{
 									/>
 								)}
 								
+								{this.state.displayGuestOnboarding==true &&(
+									<GuestOnboardingModal
+										targetDom="personalContainer"
+										closeModal={this.closeOnboardingModal}
+									/>
+								)}
+
 								<PostInformationContainer>
 									<PersonalPostsIndex
 										displayShadowOverlay={this.displayShadow}
@@ -968,7 +1001,9 @@ class LProfile extends Component{
 
 						{(this.state.displayDesktopUI==true && this.state.isOwnProfile==true)==true &&(
 							<ul style={ChampionAndCreateButtonCSS}>
-								{this.displayCreatePostOptionTrigger()}
+								{(this.state.isOwnProfile==true && this.state.isGuestProfile==false)==true && (
+									<>{this.displayCreatePostOptionTrigger()}</>
+								)}
 								{this.displayChampionModalTrigger()}
 							</ul>
 						)}
@@ -983,6 +1018,7 @@ class LProfile extends Component{
 const mapStateToProps=(state)=>{
 	return{
 		personalInformation:state.personalInformation,
+		personalState:state.personalInformation,
 		personalId:state.personalInformation.id,
 		isLoggedIn:state.personalInformation.loggedIn
 	}

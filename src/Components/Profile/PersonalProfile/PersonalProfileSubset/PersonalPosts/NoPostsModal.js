@@ -12,6 +12,7 @@ import {
 		getBlogPosts
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import {connect} from "react-redux";
+import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 import {Link} from "react-router-dom";
 
 const SympociaStampIconContainer=styled.div`
@@ -117,6 +118,21 @@ const NoPostsModal=(props)=>{
 	const postContext=useContext(PostContext);
 	const profileContext=useContext(UserContext);
 
+	const uploadButtonComponent=()=>{
+		return <a href="javascript:void(0);" style={{textDecoration:"none",color:"white"}}>
+				<li onClick={()=>postContext.updatePostComponent(props.postType)}style={{marginLeft:"33%",listStyle:"none",display:"inline-block",padding:"5px",color:"white",backgroundColor:"#C8B0F4",borderRadius:"5px",padding:"10px",fontSize:"15px"}}>
+					{props.postType=="blog"?
+						<BlogCreationButton style={{textDecoration:"none",color:"white"}} to={{pathname:`/createBlog`,state:{postType:"Creation"}}}>
+							<p>
+								Upload a {props.postType}
+							</p>
+						</BlogCreationButton>
+						:
+						<p> Upload a {props.postType} </p>
+					}
+				</li>
+			</a>
+	}
 	const createPostModal=()=>{
 		console.log(props);
 		if(props!=null){
@@ -139,19 +155,12 @@ const NoPostsModal=(props)=>{
 											<p style={{fontSize:"20px",marginLeft:"10%"}}><b>Upload a {props.postType} of your own to get started</b></p>
 											<p>Show people your story through {props.postType}s and start sharing your story to others </p>
 
-											<a href="javascript:void(0);" style={{textDecoration:"none",color:"white"}}>
-												<li onClick={()=>postContext.updatePostComponent(props.postType)}style={{marginLeft:"33%",listStyle:"none",display:"inline-block",padding:"5px",color:"white",backgroundColor:"#C8B0F4",borderRadius:"5px",padding:"10px",fontSize:"15px"}}>
-													{props.postType=="blog"?
-														<BlogCreationButton style={{textDecoration:"none",color:"white"}} to={{pathname:`/createBlog`,state:{postType:"Creation"}}}>
-															<p>
-																Upload a {props.postType}
-															</p>
-														</BlogCreationButton>
-														:
-														<p> Upload a {props.postType} </p>
-													}
-												</li>
-											</a>
+											{profileContext.isGuestProfile==true? 
+												<GuestLockScreenHOC
+													component={uploadButtonComponent()}
+												/>
+												:<>{uploadButtonComponent()}</>
+											}
 											</ul>
 									</CreatePostContainer>
 									<hr/>

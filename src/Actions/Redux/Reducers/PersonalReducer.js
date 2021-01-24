@@ -1,6 +1,3 @@
-
-
-
 const initialState={
 	id:"0",
 	firstName:'',
@@ -11,7 +8,8 @@ const initialState={
 	firstTimeIndicator:false,
 	loggedIn:false,
 	accessToken:"",
-	refreshToken:""
+	refreshToken:"",
+	isGuestProfile:false
 }
 
 const PersonalProfile=(state={initialState},action)=>{
@@ -106,7 +104,18 @@ const PersonalProfile=(state={initialState},action)=>{
 				paymentPlan:'',
 				loggedIn:true,
 				accessToken,
-				refreshToken
+				refreshToken,
+				isGuestProfile:false
+			}
+			break;
+		}
+
+		case 'SIGN_IN_GUEST_USER':{
+			const {_id}=payload;
+			return{
+				...state,
+				id:_id,
+				isGuestProfile:true
 			}
 			break;
 		}
