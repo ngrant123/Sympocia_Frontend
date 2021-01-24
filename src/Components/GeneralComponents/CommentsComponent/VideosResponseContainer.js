@@ -18,10 +18,10 @@ import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 
 const Video=styled.div`
 
-	position:absolute;
+	position:relative;
 	width:100%;
 	height:80%;
-	overflow-y:scroll;
+	overflow:hidden;
 	border-radius:5px
 	z-index:5;
 	background-color:#1C1C1C;
@@ -78,7 +78,8 @@ const SubmitButtonCSS={
 	borderRadius:"5px",
 	padding:"10px",
 	listStyle:"none",
-	display:"inline-block"
+	display:"inline-block",
+	cursor:"pointer"
 }
 
 const ExtendedCommentAreaButton={
@@ -112,7 +113,8 @@ const ButtonCSS={
 	listStyle:"none",
 	display:"inline-block",
 	marginRight:"2%",
-	marginBottom:"1%"
+	marginBottom:"1%",
+	cursor:"pointer"
 }
 
 /*
@@ -133,11 +135,16 @@ class VideoResponseContainer extends Component{
 			createdVideoSrc:null,
 			isVideoResponsesReady:false,
 			replies:[],
-			creationCommentExtended:false
+			creationCommentExtended:false,
+			isProcessingInput:false,
+			isRepliesFetched:false
 		}
 	}
 
 	async componentDidMount(){
+		this.setState({
+			isProcessingInput:true
+		})
 		const {confirmation,data}=await getVideoComments(this.props.postType,this.props.postId);
 		if(confirmation=="Success"){
 			this.setState({
@@ -147,6 +154,9 @@ class VideoResponseContainer extends Component{
 		}else{
 			alert('Unfortunately there has been an error getting the video responses. Please try again');
 		}
+		this.setState({
+			isProcessingInput:false
+		})
 	}
 
 	getReplies=async()=>{
@@ -155,7 +165,8 @@ class VideoResponseContainer extends Component{
 		if(confirmation=="Success"){
 			this.setState({
 				displayComments:!this.state.displayComments,
-				replies:data
+				replies:data,
+				isRepliesFetched:true
 			});
 		}else{
 			alert('Unfortunately there has been an error getting the replies. Please try again');
@@ -163,6 +174,9 @@ class VideoResponseContainer extends Component{
 	}
 
 	handleCreateComment=async()=>{
+		this.setState({
+			isProcessingInput:true
+		})
 		const comment=document.getElementById("comment").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -207,6 +221,9 @@ class VideoResponseContainer extends Component{
 		}else{
 			alert('Please enter a comment');
 		}
+		this.setState({
+			isProcessingInput:false
+		})
 	}
 
 
@@ -224,19 +241,22 @@ class VideoResponseContainer extends Component{
 									<ExtendedTextArea id="comment" />
 								</li>
 								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li  onClick={()=>this.handleCreateComment()} style={ExtendedCommentAreaButton}>
-												Create
-											</li>
-										</a>
+									{this.state.isProcessingInput==true?
+										<p>Please wait </p>:
+										<ul style={{padding:"0px"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li  onClick={()=>this.handleCreateComment()} style={ExtendedCommentAreaButton}>
+													Create
+												</li>
+											</a>
 
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>this.setState({creationCommentExtended:false})} style={ExtendedCommentAreaButton}>
-												Close
-											</li>
-										</a>
-									</ul>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li onClick={()=>this.setState({creationCommentExtended:false})} style={ExtendedCommentAreaButton}>
+													Close
+												</li>
+											</a>
+										</ul>
+									}
 								</li>
 							</ul>
 						</>
@@ -246,7 +266,7 @@ class VideoResponseContainer extends Component{
 
 	commentUI=()=>{
 		console.log(this.state.replies);
-		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
+		return <ul style={{marginBottom:"20px",marginTop:"5%",marginLeft:"-5%"}}>
 					<li onClick={()=>this.setState({displayComments:false})} style={{marginRight:"80%",listStyle:"none"}}>
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
@@ -290,67 +310,88 @@ class VideoResponseContainer extends Component{
 		const videoData=this.state.videoResponses[this.state.indicatorPosition];
 
 		return <>
-					{this.state.videoResponses.length==0 || videoData==null?
-						null:
-						<>	
-							<ul style={{padding:"0px"}}>
-								{this.state.indicatorPosition==0?null:
-									<li onClick={()=>this.handlePreviousResponse()} style={ButtonCSS}>
-										Previous
-									</li>
-								}
+					{this.state.isProcessingInput==true?
+						<p>Please wait...</p>:
+						<>
+							{this.state.videoResponses.length==0 || videoData==null?
+								<p>No video comments</p>:
+								<>	
+									<ul style={{padding:"0px"}}>
+										{this.state.indicatorPosition==0?null:
+											<li onClick={()=>this.handlePreviousResponse()} style={ButtonCSS}>
+												Previous
+											</li>
+										}
 
-								{this.state.indicatorPosition==this.state.videoResponses.length-1?null:
-									<li onClick={()=>this.handleNextResponse()} style={ButtonCSS}> 
-										Next
-									</li>
-								}
-							</ul>
-							<Video>
-								<video key={videoData._id} objectFit="cover" position="absolute" width="100%" top="0px" height="110%" borderRadius="50%" autoplay="true" controls>
-									<source src={videoData.videoSrc} type="video/mp4"/>
-								</video>
-								<ul style={{position:"absolute",top:"50px"}}>
-									<li style={{listStyle:"none",width:"400px"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-												<img src={videoData.profilePicture==null?NoProfilePicture:videoData.profilePicture}
-													style={{borderRadius:"50%",width:"50px",height:"45px"}}
-												/>
+										{this.state.indicatorPosition==this.state.videoResponses.length-1?null:
+											<li onClick={()=>this.handleNextResponse()} style={ButtonCSS}> 
+												Next
+											</li>
+										}
+									</ul>
+									<Video>
+										<video key={videoData._id} objectFit="cover" position="absolute" width="100%" top="0px" height="100%" borderRadius="50%" autoplay="true" controls>
+											<source src={videoData.videoSrc} type="video/mp4"/>
+										</video>
+										<ul style={{position:"absolute",top:"50px"}}>
+											<li style={{listStyle:"none",width:"400px"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+														<img src={videoData.profilePicture==null?NoProfilePicture:videoData.profilePicture}
+															style={{borderRadius:"50%",width:"50px",height:"45px"}}
+														/>
+													</li>
+
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														<p style={{color:"white",fontSize:"25px",marginLeft:"5%"}}>
+															<b>{videoData.ownerObject.owner.firstName}</b>
+														</p>
+													</li>
+												</ul>
 											</li>
 
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<p style={{color:"white",fontSize:"25px",marginLeft:"5%"}}>
-													<b>{videoData.ownerObject.owner.firstName}</b>
-												</p>
-											</li>
+											{/*
+												<li style={{listStyle:"none"}}>
+													<ul style={{zIndex:"2",padding:"0px",width:"15%"}}>
+														<li style={{listStyle:"none",marginBottom:"40%"}} onClick={()=>this.getReplies()}>
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
+																	 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
+																	 fill="none" stroke-linecap="round" stroke-linejoin="round">
+																  <path stroke="none" d="M0 0h24v24H0z"/>
+																  <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
+																  <line x1="8" y1="9" x2="16" y2="9" />
+																  <line x1="8" y1="13" x2="14" y2="13" />
+																</svg>
+															</a>
+														</li>
+													</ul>
+												</li>
+													{this.state.displayComments==true?
+															<CommentsContainerDiv>
+																{this.commentUI()}
+															</CommentsContainerDiv>:null
+													}
+											*/}
 										</ul>
-									</li>
-
-									<li style={{listStyle:"none"}}>
-										<ul style={{zIndex:"2",padding:"0px",width:"15%"}}>
-											<li style={{listStyle:"none",marginBottom:"40%"}} onClick={()=>this.getReplies()}>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
-														 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
-														 fill="none" stroke-linecap="round" stroke-linejoin="round">
-													  <path stroke="none" d="M0 0h24v24H0z"/>
-													  <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
-													  <line x1="8" y1="9" x2="16" y2="9" />
-													  <line x1="8" y1="13" x2="14" y2="13" />
-													</svg>
-												</a>
-											</li>
-										</ul>
-									</li>
-									{this.state.displayComments==true?
-											<CommentsContainerDiv>
-												{this.commentUI()}
-											</CommentsContainerDiv>:null
+									</Video>
+									{this.state.replies.length==0 ?
+										<p style={ButtonCSS} onClick={()=>this.getReplies()}>
+											{this.state.isProcessingInput==true?
+												<p>Please wait</p>:
+												<>
+													{this.state.isRepliesFetched==true?
+														<p> No video comments</p>:
+														<p>View Comments </p>
+													}
+												</>
+											}
+										</p>:
+										<>{this.commentUI()}</>
 									}
-								</ul>
-							</Video>
-							
+									
+								</>
+							}
 						</>
 					}
 				</>
@@ -364,7 +405,8 @@ class VideoResponseContainer extends Component{
 
 			this.setState({
 				indicatorPosition:newIndicator,
-				displayComments:false
+				displayComments:false,
+				isRepliesFetched:false
 			})
 		}
 	}
@@ -380,7 +422,8 @@ class VideoResponseContainer extends Component{
 
 			this.setState({
 				indicatorPosition:newIndicator,
-				displayComments:false
+				displayComments:false,
+				isRepliesFetched:false
 			})
 		}
 	}
@@ -455,11 +498,7 @@ class VideoResponseContainer extends Component{
 			<React.Fragment>
 				{this.props.displayCreationPrompt==false?
 					<>
-						{this.state.isVideoResponsesReady && (
-							<>
-								{this.VideoComponent()}
-							</>
-						)}
+						{this.VideoComponent()}
 					</>:
 					<>
 						{this.state.displayFinalResultVideoResponseScreen==false?

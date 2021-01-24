@@ -13,7 +13,7 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {useSelector} from "react-redux";
 
 const Container=styled.div`
-	position:absolute;
+	position:fixed;
 	background-color:white;
 	width:45%;
 	height:60%;
@@ -24,11 +24,17 @@ const Container=styled.div`
 	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
-		left:5% !important;
+		left:3% !important;
 		width:90% !important;
 		height:80% !important;
 
 		#videoLI{
+			width:80% !important;
+		}
+		#imgUrl{
+			width:60% !important;
+		}
+		#creationImageLI{
 			width:80% !important;
 		}
 	}
@@ -38,7 +44,7 @@ const Container=styled.div`
 			margin-left:30% !important;
 		}
 		#imagePicture{
-			width:120% !important;
+			width:30% !important;
 			height:10% !important;
 		}
 		#questionHeader{
@@ -55,7 +61,22 @@ const Container=styled.div`
 		#imgUrl{
 			width:60% !important;
 		}
+		#regularPostQuestionLI{
+			font-size:15px !important;
+		}
 	}
+
+
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		#imgUrl{
+			width:70% !important;
+			height:40% !important;
+		}
+
+		#creationImage{
+			height:60% !important;
+		}
+    }
 `;
 
 const ShadowContainer=styled.div`
@@ -81,10 +102,13 @@ const InputContainer=styled.textarea`
 	@media screen and (max-width:1370px){
 		width:80% !important;
 	}
+	@media screen and (max-width:600px){
+		width:100% !important;
+	}
 `;
 
 const CreatePostContainer=styled.div`
-	position:absolute;
+	position:fixed;
 	top:80%;
 	left:60%;
 	width:30%;
@@ -97,6 +121,7 @@ const CreatePostContainer=styled.div`
 	color:#3898ec;
 	padding:20px;
 	font-size:15px;
+	cursor:pointer;
 `;
 
 const SendButtonCSS={
@@ -106,7 +131,8 @@ const SendButtonCSS={
     padding:"10px",
     color:"white",
     marginRight:"2%",
-    marginTop:"2%"
+    marginTop:"2%",
+    cursor:"pointer"
 }
 
 const UploadButtonCSS={
@@ -118,15 +144,27 @@ const UploadButtonCSS={
   color:"#3898ec",
   borderStyle:"solid",
   borderWidth:"2px",
-  borderColor:"#3898ec"
+  borderColor:"#3898ec",
+  cursor:"pointer"
 }
 
 const RegularPostContainer=styled.div`
 	transition:.8s;
 	border-radius:5px;
+	padding:20px;
+	display:flex;
+	flex-direction:row;
 	&:hover{
 		box-shadow: 1px 1px 1px 1px #d5d5d5;
 	}
+	@media screen and (max-width:600px){
+		flex-direction:column;
+	}
+`;
+
+const RegularPostUserInformation=styled.div`
+	display:flex;
+	flex-direction:column;
 `;
 
 const MobileCreationButtonCSS={
@@ -138,17 +176,20 @@ const MobileCreationButtonCSS={
 	color:"#3898ec",
 	padding:"20px",
 	fontSize:"15px",
-	listStyle:"none"
+	listStyle:"none",
+	cursor:"pointer"
 }
 
 
 
 const QuestionsPortal=(props)=>{
+	const ownerInformation=useSelector(state=>state.personalInformation);
 	const _id=useSelector(state=>state.personalInformation.id);
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
+	const [isCommentProcessing,changeIsCommentProcessing]=useState(false);
 
 	const triggerUIChange=()=>{
-		if(window.innerWidth<595){
+		if(window.innerWidth<600){
 			changeDisplayPhoneUI(true);
 
 		}else{
@@ -179,7 +220,7 @@ const QuestionsPortal=(props)=>{
 	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[currentCounter].questionType);
 
 	const sendData=async(postData)=>{
-
+		changeIsCommentProcessing(true);
 		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
 		if(currentQuestionType=="Video"){
 			postData={
@@ -210,13 +251,23 @@ const QuestionsPortal=(props)=>{
 
 		const {confirmation,data}=await addCommentToPopularQuestions(postInformation);
 		if(confirmation=="Success"){
+			debugger;
+			const {message}=data;
 			props.closeModalAndDisplayData({
-				data,
+				data:{
+					...message,
+					owner:{
+						firstName:ownerInformation.firstName
+					},
+					videoUrl:postData.videoUrl,
+					imgUrl:postData.imgUrl
+				},
 				currentQuestionType
 			});
 		}else{
 			alert('Unfortunately there has been an error when trying to add your post. Please try again');
 		}
+		changeIsCommentProcessing(false);
 	}
 
 	const uuidv4=()=>{
@@ -248,7 +299,10 @@ const QuestionsPortal=(props)=>{
 		if(currentQuestionType=="Image"){
 			return <ul style={{padding:"50px"}}>
 						{displayUploadScreen==true?
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<>
+								<p style={{fontSize:"20px",marginBottom:"5%"}}>
+									<b>Upload an image here</b>
+								</p>
 								<li onClick={()=>document.getElementById("uploadFile").click()} style={UploadButtonCSS}>
 										<ul style={{padding:"0px",marginTop:"20%",marginLeft:"10%"}}>
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
@@ -261,11 +315,15 @@ const QuestionsPortal=(props)=>{
 										</ul>	
 									<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="image/x-png,image/gif,image/jpeg"></input>
 								</li>
-							</a>:
+							</>:
 							<li style={{listStyle:"none"}}>
 								<ul style={{paddingTop:"10px"}}>
+									<p style={{fontSize:"20px",marginBottom:"5%"}}>
+										<b>Submit image</b>
+									</p>
+									<hr/>
 									<li id="creationImageLI" style={{position:"relative",listStyle:"none",display:"inline-block",width:"40%",marinRight:"2%"}}>
-										<img src={selectedPost} style={{borderRadius:"5px",width:"90%",height:"30%"}}/>
+										<img id="creationImage" src={selectedPost} style={{borderRadius:"5px",width:"90%",height:"30%"}}/>
 									</li>
 									<hr/>
 									<li id="imageDescriptionLI" style={{listStyle:"none",display:"inline-block",width:"85%",marginTop:"2%"}}>
@@ -274,11 +332,12 @@ const QuestionsPortal=(props)=>{
 												 placeholder="Describe your picture here"
 											/>
 											<hr/>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											{isCommentProcessing==false?
 												<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
 													Send
-												</li>
-											</a>
+												</li>:
+												<p>Please wait while we process your post... </p>
+											}
 										</ul>
 									</li>
 								</ul>
@@ -286,29 +345,39 @@ const QuestionsPortal=(props)=>{
 						}
 				   </ul>;
 		}else if(currentQuestionType=="Video"){
-			return <ul>
+			return <ul style={{padding:"20px"}}>
 						{displayUploadScreen==true?
-							<li onClick={()=>document.getElementById("uploadFile").click()} style={{listStyle:"none",marginRight:"1%"}}>
-								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																														borderColor:"#5298F8",
-																														borderStyle:"solid",
-																														borderWidth:"1px",
-																														color:"white",
-																														backgroundColor:"#5298F8"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-											<CameraIcon/>
-										</li>
+							<>
+								<p style={{fontSize:"20px",marginBottom:"5%"}}>
+									<b>Upload a video here</b>
+								</p>
+								<hr/>
+								<li onClick={()=>document.getElementById("uploadFile").click()} style={{listStyle:"none",marginRight:"1%"}}>
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																															borderColor:"#5298F8",
+																															borderStyle:"solid",
+																															borderWidth:"1px",
+																															color:"white",
+																															backgroundColor:"#5298F8"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+												<CameraIcon/>
+											</li>
 
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-											Upload Video
-										</li>
-									</ul>																			
-								</button>
-								<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="video/*"></input>
-							</li>:
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+												Upload Video
+											</li>
+										</ul>																			
+									</button>
+									<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="video/*"></input>
+								</li>
+							</>:
 							<li style={{listStyle:"none"}}>
 								<ul>
+									<p style={{fontSize:"20px",marginBottom:"5%"}}>
+										<b>Submit video</b>
+									</p>
+									<hr/>
 									<li style={{listStyle:"none"}}>
 										<video id="videoLI" width="45%" height="50%" controls autoplay>
 											<source src={selectedPost} type="video/mp4"/>
@@ -316,11 +385,12 @@ const QuestionsPortal=(props)=>{
 									</li>
 									<InputContainer id="videoDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your video here"/>
 									<hr/>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									{isCommentProcessing==false?
 										<li onClick={()=>sendData(selectedPost)} style={SendButtonCSS}>
 											Send
 										</li>
-									</a>
+										:<p>Please wait while we process your post...</p>
+									}
 								</ul>
 							</li>
 						}
@@ -329,7 +399,9 @@ const QuestionsPortal=(props)=>{
 			return <ul>
 						{displayUploadScreen==true?
 							<React.Fragment>
-								<li style={{marginBottom:"10%",width:"80%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"30px"}}>
+								<li id="regularPostQuestionLI" style={{
+											marginBottom:"10%",width:"80%",color:"#585858",listStyle:"none",
+											display:"inline-block",fontSize:"30px",marginTop:"2%"}}>
 										<b>
 											{questions[currentCounter].question}
 										</b>
@@ -346,11 +418,12 @@ const QuestionsPortal=(props)=>{
 														id="regularPostText"
 													/>
 												</li>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												{isCommentProcessing==false?
 													<li onClick={()=>sendData(document.getElementById("regularPostText").value)} style={SendButtonCSS}>
 														Send
 													</li>
-												</a>
+													:<p>Please wait while we process your post... </p>
+												}
 											</ul>
 										</li>
 										{/*	
@@ -387,9 +460,12 @@ const QuestionsPortal=(props)=>{
 										<img src={selectedPost} style={{borderRadius:"5px",width:"40%",height:"50%"}}/>
 									</li>
 									<InputContainer placeholder="Describe your picture here"/>
-									<li onClick={()=>sendData()} style={SendButtonCSS}>
-										Send
-									</li>
+									{isCommentProcessing==false?
+										<li onClick={()=>sendData()} style={SendButtonCSS}>
+											Send
+										</li>
+										:<p>Please wait while we process your post... </p>
+									}
 								</ul>
 							</li>
 						}
@@ -427,29 +503,18 @@ const QuestionsPortal=(props)=>{
 					return <React.Fragment>
 								{replies.map(data=>
 									<RegularPostContainer>
-										<a href="javascript:void(0);"  style={{textDecoration:"none"}}>
-											<li onClick={()=>triggerRegularPostPortal(data)} style={{listStyle:"none",display:"inline-block"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"1%",width:"20%"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none"}}>
-																<img id="imagePicture" src={data.owner.profilePicture==null?
-																			NoProfilePicture:
-																			data.owner.profilePicture} 
-																	style={{width:"80%",height:"15%",borderRadius:"50%"}}/>
-															</li>
-															<li style={{listStyle:"none"}}>
-																<b>{data.owner.firstName}</b>
-															</li>
-														</ul>
-													</li>
-													<li id="postLI" style={{listStyle:"none",display:"inline-block",position:"relative",top:"-60px"}}>
-														{data.post}			
-													</li>
-												</ul>
-											</li>
-											<hr/>
-										</a>
+										<RegularPostUserInformation>
+											<img id="imagePicture" src={data.owner.profilePicture==null?
+														NoProfilePicture:
+														data.owner.profilePicture} 
+											style={{height:"30px",width:"40px",borderRadius:"50%"}}/>
+											<p style={{maxHeight:"30px",maxWidth:"80%",overflow:"hidden"}}>
+												<b>{data.owner.firstName}</b>
+											</p>
+										</RegularPostUserInformation>
+										<p style={{marginLeft:"1%",maxHeight:"90px",maxWidth:"80%",overflow:"hidden"}}>
+											{data.post}		
+										</p>
 									</RegularPostContainer>
 								)}
 							</React.Fragment>;
@@ -488,29 +553,31 @@ const QuestionsPortal=(props)=>{
 						</React.Fragment>:
 						<React.Fragment>
 							<ul style={{padding:"10px"}}>
-								<li style={{marginRight:"10%",listStyle:"none",display:"inline-block"}}>
-									{currentCounter!=0?
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<NavigateBeforeIcon
-													style={{fontSize:"25",borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-													onClick={()=>decreaseCounter()}
-												/>
-											</a>:<React.Fragment></React.Fragment>
-									}
-								</li>
+								{/*
+
+									<li style={{marginRight:"10%",listStyle:"none",display:"inline-block"}}>
+										{currentCounter!=0?
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<NavigateBeforeIcon
+														style={{fontSize:"25",borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
+														onClick={()=>decreaseCounter()}
+													/>
+												</a>:<React.Fragment></React.Fragment>
+										}
+									</li>
+
+								*/}
 
 								<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
 									<ul style={{padding:"0px"}}>
-										{displayPhoneUI &&(
-											<li onClick={()=>changeDisplayPost(true)} style={MobileCreationButtonCSS}>
-												Create
-											</li>
-										)}
+										<li onClick={()=>changeDisplayPost(true)} style={MobileCreationButtonCSS}>
+											Create
+										</li>
 
 										<li id="questionHeader" style={{width:"130%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"30px"}}>
-													<b>
-														{questions[currentCounter].question}
-													</b>
+											<b>
+												{questions[currentCounter].question}
+											</b>
 										</li>
 										<hr/>
 										<li style={{listStyle:"none"}}>
@@ -526,24 +593,19 @@ const QuestionsPortal=(props)=>{
 									</ul>
 								</li>
 		  
-								<li style={{marginLeft:"10%",listStyle:"none",display:"inline-block"}}>
-									{currentCounter!=(questions.length-1)?
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<NavigateNextIcon
-													style={{fontSize:"25",borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-													onClick={()=>increaseCounter()}
-												/>
-											</a>:<React.Fragment></React.Fragment>
-									}
-								</li>
+		  						{/*
+									<li style={{marginLeft:"10%",listStyle:"none",display:"inline-block"}}>
+										{currentCounter!=(questions.length-1)?
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<NavigateNextIcon
+														style={{fontSize:"25",borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
+														onClick={()=>increaseCounter()}
+													/>
+												</a>:<React.Fragment></React.Fragment>
+										}
+									</li>
+		  						*/}
 							</ul>
-							{displayPhoneUI==false &&(
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<CreatePostContainer onClick={()=>changeDisplayPost(true)} >
-										Create
-									</CreatePostContainer>
-								</a>
-							)}
 						</React.Fragment>
 					}
 				</Container>

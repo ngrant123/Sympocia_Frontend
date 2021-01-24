@@ -34,13 +34,14 @@ export const getSymposiumsFromSearch=async(searchUrl)=>{
 }
 
 
-export const getPostsFromSearch=async({searchUrl,postType,userId})=>{
+export const getPostsFromSearch=async({searchUrl,postType,userId,postCount})=>{
 	try{
 		const postsSearch=await axios.get(`${SearchUrl}/getPosts`,{
 			params:{
 				searchUrl,
             	postType,
-            	userId
+            	userId,
+            	postCount
 			}
 		})
 

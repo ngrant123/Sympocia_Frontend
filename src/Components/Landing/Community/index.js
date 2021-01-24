@@ -38,7 +38,6 @@ const BlogContainer=styled.div`
 	margin-left:15%;
 	height:95%;
 	background-color:white;
-	overflow:scroll;
 	padding:30px;
 	width:60%;
 

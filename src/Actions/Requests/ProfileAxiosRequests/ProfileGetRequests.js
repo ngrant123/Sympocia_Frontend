@@ -162,12 +162,13 @@ export async function getMostPopular(investors){
 	}
 }
 
-export async function getVideosFromUser({userId,visitorId}){
+export async function getVideosFromUser({userId,visitorId,postCount}){
 	try{
 		const videos=await axios.get(`${SearchUrl}/getUserVideos`,{
 			params:{
 				id:userId,
-				visitorId
+				visitorId,
+				postCount
 			}
 		});
 
@@ -179,12 +180,13 @@ export async function getVideosFromUser({userId,visitorId}){
 		
 	}
 }
-export async function getBlogFromUser({userId,visitorId}){
+export async function getBlogFromUser({userId,visitorId,postCount}){
 	try{
 		const blogsPostsData=await axios.get(`${SearchUrl}/getUserBlogs`,{
 			params:{
 				id:userId,
-				visitorId
+				visitorId,
+				postCount
 			}
 		})
 
@@ -197,12 +199,13 @@ export async function getBlogFromUser({userId,visitorId}){
 }
 
 
-export async function getRegularPostFromUser({userId,visitorId}){
+export async function getRegularPostFromUser({userId,visitorId,postCount}){
 	try{
 		const regularPostsResults=await axios.get(`${SearchUrl}/getUserRegularPosts`,{
 			params:{
 				id:userId,
-				visitorId
+				visitorId,
+				postCount
 			}
 		});
 		
@@ -251,16 +254,17 @@ export const getRecruitsPostsHomePage=async({id,currentTime,postType,recruits})=
 	}
 }
 
-export const getUserImages=async(userId)=>{
+export const getUserImages=async({userId,visitorId,postCount})=>{
 	try{
 		const userImageResponse=await axios.get(`${SearchUrl}/getUserImages`,{
 			params:{
-				_id:userId
+				_id:userId,
+				visitorId,
+				postCount
 			}
 		});
 		const {data}=userImageResponse;
-		const userImageData=data.data;
-		return userImageData;
+		return data;
 
 	}catch(err){
 		
@@ -400,8 +404,7 @@ export const getSymposiumsFollowedHome=async(id)=>{
 		});
 
 		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
+		return data;
 	}catch(err){
 		
 		return err;
@@ -417,8 +420,7 @@ export const getSymposiumsNotFollowed=async(_id)=>{
 		});
 
 		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
+		return data;
 	}catch(err){
 		return err;
 	}

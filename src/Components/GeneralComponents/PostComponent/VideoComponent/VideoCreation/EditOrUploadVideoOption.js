@@ -6,8 +6,8 @@ import EditVideoModal from "./EditVideoModal.js";
 
 
 const VideoContainer=styled.div`
-	overflow:scroll;
-	@media screen and (max-width:1030px){
+	@media screen and (max-width:1370px){
+		width:80%;
 		#videoElement{
 			margin-left:10% !important;
 			height:50% !important;
@@ -125,21 +125,23 @@ class EditOrUploadVideoOption extends Component{
 										</li>
 									</ul>
 							</li>
-							<li id="sideInformation" style={{listStyle:"none",marginLeft:"20%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",width:"30%",marginRight:"10%",color:"#a6a6a6"}}>
-										Already finished with your video? Thats great. 
-										Upload it so that people can finall see it and appreciate your talent
-									</li>
+							{/*
+								<li id="sideInformation" style={{listStyle:"none",marginLeft:"20%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",width:"30%",marginRight:"10%",color:"#a6a6a6"}}>
+											Already finished with your video? Thats great. 
+											Upload it so that people can finall see it and appreciate your talent
+										</li>
 
-									<li style={{listStyle:"none",display:"inline-block",width:"30%",color:"#a6a6a6"}}>
-										We understand that your video might not be ready yet. Click here to add a caption,
-										description, or even edit your video. Lets make it perfect
+										<li style={{listStyle:"none",display:"inline-block",width:"30%",color:"#a6a6a6"}}>
+											We understand that your video might not be ready yet. Click here to add a caption,
+											description, or even edit your video. Lets make it perfect
 
-									</li>
-								</ul>
+										</li>
+									</ul>
 
-							</li>
+								</li>
+							*/}
 						</ul>:
 						<EditVideoModal
 							videoSrc={this.props.videoSrc}

@@ -53,6 +53,66 @@ const ArrowDownContainer=styled.div`
   }
 `;
 
+const ThirdContainerContents=styled.div`
+  display:flex;
+  flex-direction:row;
+  margin-left:10%;
+  margin-top:10%;
+
+  @media screen and (max-width:1370px){
+    flex-direction:column;
+  }
+
+`;
+
+const ThirdContainerInformational=styled.div`
+  display:flex;
+  flex-direction:column;
+  margin-left:0%;
+  margin-top:5%;
+ 	margin-right:5%;
+  width:100%;
+  @media screen and (max-width:1370px){
+      width:90%;
+      margin-left:-7%;
+    #header1{
+      font-size:20px !important;
+    }
+  }
+
+  @media screen and (max-width:600px){
+  	margin-left:0%;
+  }
+`;
+
+
+const PageImageContainer=styled.div`
+  display:flex;
+  flex-direction:column;
+  @media screen and (max-width:1370px){
+  	#image{
+  		height:70% !important;
+  		width:70% !important;
+  	}
+  	margin-left:10%;
+    #amountOfUsersText{
+      margin-top:7%;
+      margin-left:-20% !important;
+    }
+  }
+
+  @media screen and (max-width:700px){
+  	margin-left:0%;
+    #amountOfUsersText{
+      margin-top:0%;
+    }
+    #image{
+      width:240px !important;
+      height:225px!important;
+    }
+  }
+`;
+
 const ExploreButton={
   listStyle:"none",
   marginTop:"20%",
@@ -67,9 +127,7 @@ const ExploreButton={
   borderColor:"#3898ec"
 }
 
-const QuestionCardsCSS={
-
-}
+const QuestionCardsCSS={}
 
 const ThirdSection=(props)=>{
 
@@ -81,63 +139,53 @@ const ThirdSection=(props)=>{
 	  },[]);
 	return(
 			<ThirdContainer id="thirdContainer">
-			    <img id="imageListContainer" src={LandingImage} style={{zIndex:"-5",left:"65%",position:"absolute",top:"-10%",width:"40%",height:"60%"}} />
-				<ul id="textULContainer" style={{padding:"50px"}}>
-		            <li id="textContainer" style={{listStyle:"none"}}>
-		            	<ul style={{padding:"0px"}}>
-		            			<li style={{listStyle:"none"}}>
-									<p id="textHeader" style={{fontSize:"40px",marginLeft:"10%",width:"30%",marginBottom:"2%",borderTop:"5px solid #494949"}}> 
-										<b>Why should you care?</b> 
-									</p>
-								</li>
-								<p style={{marginLeft:"10%",fontSize:"20px",marginBottom:"2%",color:"#b3b3b3"}}> 
-									That's the million dollar question right?
-							    </p>
-								<li id="thirdSectionText" style={{listStyle:"none",width:"50%",marginLeft:"10%",lineheight:"200%"}}>
-									<p>
-										Whether we like it or not, we’re all addicted to social media. We love connecting 
-										with people, learning, and growing from each other. But currently we live 
-										In an era where misinformation is the new normal. Where being fake is the new
-										normal. Where getting clout is the main goal not authenticity. 
-										Sympocia allows you to truly be authentic and doesn’t force you to fit into this 
-										mold that other platforms have. 
-										<br/>
-										<b>
-											Just be yourself :)
-										</b>
-									</p>
-								</li>
-		            	</ul>
-		            </li>
-					<li id="footerIcons" style={{listStyle:"none",marginLeft:"50%",marginTop:"15%"}}>
-	                    <ul style={{padding:"0px"}}>
-	                        <li onClick={()=>props.displaySelectedPage(0)} style={{listStyle:"none",display:"inline-block"}}>
-	                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-	                            <RadioButtonUncheckedIcon/>
-	                          </a>
-	                        </li>
+				<ThirdContainerContents>
+					<ThirdContainerInformational>
+						<p id="textHeader" style={{fontSize:"40px",marginLeft:"10%",marginBottom:"5%",borderTop:"5px solid #494949"}}> 
+							<b>Why should you care?</b> 
+						</p>
+						<p style={{marginLeft:"10%",fontSize:"20px",marginBottom:"2%",color:"#b3b3b3"}}> 
+							That's the million dollar question right?
+					    </p>
+						<p style={{marginLeft:"10%"}}>
+							Whether we like it or not, we’re all addicted to social media. We love connecting 
+							with people, learning, and growing from each other. But currently we live 
+							In an era where misinformation is the new normal. Where being fake is the new
+							normal. Where getting clout is the main goal not authenticity. 
+							Sympocia allows you to truly be authentic and doesn’t force you to fit into this 
+							mold that other platforms have. 
+							<br/>
+							<b>
+								Just be yourself :)
+							</b>
+						</p>
 
-	                        <li onClick={()=>props.displaySelectedPage(1)} style={{listStyle:"none",display:"inline-block"}}>
-	                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-	                            <RadioButtonUncheckedIcon/>
-	                          </a>
-	                        </li>
+					</ThirdContainerInformational>
+					<PageImageContainer>
+			   			<img id="image" src={LandingImage} style={{width:"80%",height:"80%"}} />
+					</PageImageContainer>
+				</ThirdContainerContents>
+				<li id="footerIcons" style={{listStyle:"none",marginLeft:"50%"}}>
+	                <ul style={{padding:"0px"}}>
+	                    <li onClick={()=>props.displaySelectedPage(0)} style={{listStyle:"none",display:"inline-block"}}>
+	                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+	                        <RadioButtonUncheckedIcon/>
+	                      </a>
+	                    </li>
 
-	                        <li style={{listStyle:"none",display:"inline-block"}}>
-	                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-	                            <FiberManualRecordIcon/>
-	                          </a>
-	                        </li>
-	                    </ul>
-	                </li>
-	                <li style={{listStyle:"none",marginTop:"5%",marginLeft:"50%"}}>
-	                    <ArrowDownContainer>
-	                      <ArrowDownwardIcon
-	                        style={{fontSize:'20'}}
-	                      />
-	                    </ArrowDownContainer>
-	                </li>
-				</ul>	
+	                    <li onClick={()=>props.displaySelectedPage(1)} style={{listStyle:"none",display:"inline-block"}}>
+	                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+	                        <RadioButtonUncheckedIcon/>
+	                      </a>
+	                    </li>
+
+	                    <li style={{listStyle:"none",display:"inline-block"}}>
+	                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+	                        <FiberManualRecordIcon/>
+	                      </a>
+	                    </li>
+	                </ul>
+	            </li>
 			</ThirdContainer>
 	)
 }

@@ -13,9 +13,13 @@ const Container=styled.div`
 	z-index:10;
 	@media screen and (max-width:1370px){
     	height:90% !important;
+    	display:flex;
+    	justify-content:center;
     	#symposiumFeatureContainerUL{
     		top:20% !important;
     		height:90% !important;
+    		padding-top:40px !important;
+    		width:70% !important;
     	}
     }
 `;

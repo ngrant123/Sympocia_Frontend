@@ -173,39 +173,20 @@ class FriendsGauge extends Component {
       
       return <ul onClick={()=>this.displayNodeInformation(node,this.props.mobileUIStatus.displayDesktopUI)} style={{marginTop:"5%",padding:"0px"}}>
                 {this.props.mobileUIStatus.displayDesktopUI==false?
-                    <>
-                      {this.props.mobileUIStatus.displayIpadUI==true?
-                           <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <li style={{listStyle:"none"}}>
-                              <ul style={{padding:"0px"}}>
-                                 <img
-                                    style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
-                                    width="30"
-                                    src={StampIcon}
-                                    style={{borderRadius:"50%"}}
-                                  />
-                                <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}> <b>{name}</b></p>
-                                <p style={{width:"85%",height:"30px",overflow:"hidden"}}> {description} </p>
-                              </ul>
-                            </li>
-                          </a>:
-                           <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                              <li style={{listStyle:"none"}}>
-                                <ul style={{padding:"0px"}}>
-                                  <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
-                                     <img
-                                        style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
-                                        width="30"
-                                        src={StampIcon}
-                                        style={{borderRadius:"50%"}}
-                                      />
-                                  </p>
-                                </ul>
-                              </li>
-                            </a>
-                      }
-                    </>
-                  :
+                   <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                      <li style={{listStyle:"none"}}>
+                        <ul style={{padding:"0px"}}>
+                          <p style={{color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
+                             <img
+                                style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
+                                width="30"
+                                src={StampIcon}
+                                style={{borderRadius:"50%"}}
+                              />
+                          </p>
+                        </ul>
+                      </li>
+                    </a>:
                   <a href="javascript:void(0);" style={{textDecoration:"none"}}>
                     <li style={{listStyle:"none"}}>
                        {this.handleLockIconChange(isUnlocked)}
@@ -413,16 +394,17 @@ class FriendsGauge extends Component {
             </a>
           </li>
 
-          {this.state.displayPhoneEditNodesModal==true &&(
+          {(this.state.displayPhoneEditNodesModal==true && this.props.personalInformation.isOwnProfile==true)==true &&(
             <EditNodeModal
-              closeModal={this.closePhoneEditNodesModal}
+              closeNodeOptions={this.closePhoneEditNodesModal}
               triggerActionTypeChange={this.editFriendNodeActionTypeHandle}
             />
           )}
           {(this.props.mobileUIStatus.displayDesktopUI==false &&
-            this.props.mobileUIStatus.displayPhoneUI==false) &&(
+            this.props.mobileUIStatus.displayPhoneUI==false)==true &&(
               <MobileRecruitAndFriendsGaugeOptions
                   editFriendNodeActionType={this.editFriendNodeActionTypeHandle}
+                  isOwner={this.props.personalInformation.isOwnProfile}
               />
           )}
         </ul>

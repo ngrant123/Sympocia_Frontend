@@ -21,6 +21,12 @@ const Container=styled.div`
 	overflow-y:auto;
 	background-color:white;
 	padding:20px;
+
+	@media screen and (max-width:600px){
+		#audioLI{
+			width:50% !important;
+		}
+	}
 `;
 
 const InputContainer=styled.textarea`
@@ -55,6 +61,9 @@ const CreatePostButton=styled.div`
 	border-width:5px;
 	animation: glowing 1300ms infinite;
 	text-align:center;
+	cursor:pointer;
+	display:flex;
+	justify-content:center;
 
 	@keyframes glowing {
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -72,6 +81,25 @@ const DescriptionInputContainer=styled.textarea`
 	border-color:#D8D8D8;
 	resize:none;
 	padding:5px;
+
+`;
+
+const PostHeaderContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
+
+const AudioPostContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	cursor:pointer;
+	margin-bottom:5%;
+`;
+
+const AudioPostOwnerInformation=styled.div`
+	display:flex;
+	flex-direction:row;
 `;
 
 const ProfilePictureCSS={
@@ -145,6 +173,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
 	const name=useSelector(state=>state.personalInformation.firstName);
+	const [isProccessingPost,changeIsProcessingPost]=useState(false);
 
 	useEffect(()=>{
 		const fetchData=async()=>{
@@ -158,12 +187,12 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 			console.log(data);
 
 			if(confirmation=="Success"){
+				const {message}=data;
 				const {
-					questionId,
 					posts
-				}=data;
+				}=message;
 				changePosts(posts);
-				changeQuestionId(questionId);
+				changeQuestionId(selectedPostId);
 			}else{
 				alert('Unfortunately there has been an error trying to get this images data. Please try again');
 			}
@@ -193,8 +222,8 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 		document.getElementById("uploadAudioFile").click();
 	}
 
-	const submitImage=async()=>{
-			
+	const submitAudio=async()=>{
+		changeIsProcessingPost(true);
 		var audio={
 			audioUrl:audioUrl,
 			description:document.getElementById("imageDescription").value
@@ -209,15 +238,16 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 
 		let {confirmation,data}=await createSpecificIndustryAudioAnswer(submitedAudio);
 		if(confirmation=="Success"){
-			data={
-				...data,
+			let {message}=data;
+			message={
+				...message,
 				post:audioUrl,
 				owner:{
 					firstName:name
 				}
 			}
 
-			posts.splice(0,0,data);
+			posts.splice(0,0,message);
 			changeQuestionId(questionId);
 			changePosts([...posts]);
 			changeDisplayForFinalAudio(false);
@@ -225,6 +255,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 		}else{
 			alert('Unfortunately there has been an error with adding this audio post. Please try again');
 		}
+		changeIsProcessingPost(false);
 	}
 
 	const displaySelectedPost=(data)=>{
@@ -249,61 +280,45 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 
 			{displayCreationModal==false?
 				<>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<p style={{fontSize:"20px"}}>
-									<b>{symposium} {modalType}</b>
-								</p>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>changeDisplayCreationModal(true)} 
-										style={{listStyle:"none",marginLeft:"400px",marginBottom:"5%"}}>
-										<CreatePostButton>
-											<BorderColorIcon
-												style={{fontSize:"20",color:"#C8B0F4"}}
-											/>
-										</CreatePostButton>
-									</li>
-								</a>
-							</li>
-						</ul>
-					</li>
+					<PostHeaderContainer>
+						<p style={{fontSize:"20px"}}>
+							<b>{question}</b>
+						</p>
+						<CreatePostButton onClick={()=>changeDisplayCreationModal(true)}>
+							<BorderColorIcon
+								style={{fontSize:"20",color:"#C8B0F4"}}
+							/>
+						</CreatePostButton>
+					</PostHeaderContainer>
 					<hr/>
 
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
-							<InputContainer placeholder="Search for a person here"/>
+							{/*
+								<InputContainer placeholder="Search for a person here"/>
+							*/}
 							<li style={{listStyle:"none",marginTop:"2%"}}>
 								<ul style={{padding:"0px"}}>
 									{posts.map(data=>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displaySelectedPost(data)} style={AudioCSS}>
-												<ul style={{padding:"0px"}}>
-													<li style={ProfilePictureCSS}>
-														<img src={data.owner.profilePicture==null?
-															NoProfilePicture:
-															data.owner.profilePicture
-														} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
-													</li>
-
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<p> 
-															<b>{data.owner.firstName}</b>
-														</p>
-														<audio controls>
-														  <source src={data.post} type="audio/ogg"/>
-														  <source src={data.post} type="audio/mpeg"/>
-															Your browser does not support the audio element.
-														</audio>
-														<p style={{overflowY:"auto",height:"10%"}}>
-															{data.description}
-														</p>
-													</li>
-												</ul>
-											</li>
-										</a>
+										<AudioPostContainer onClick={()=>displaySelectedPost(data)}>
+											<AudioPostOwnerInformation>
+												<img src={data.owner.profilePicture==null?
+													NoProfilePicture:
+													data.owner.profilePicture
+												} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
+												<p> 
+													<b>{data.owner.firstName}</b>
+												</p>
+											</AudioPostOwnerInformation>
+											<audio controls>
+											  <source src={data.post} type="audio/ogg"/>
+											  <source src={data.post} type="audio/mpeg"/>
+												Your browser does not support the audio element.
+											</audio>
+											<p style={{overflowY:"auto",maxHeight:"10%",overflow:"hidden"}}>
+												{data.description}
+											</p>
+										</AudioPostContainer>
 									)}
 								</ul>
 							</li>
@@ -348,20 +363,22 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 								<li style={{listStyle:"none",marginBottom:"2%"}}>
 									<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",width:"40%"}}>
-											<audio controls>
+											<audio id="audioLI" controls>
 											  <source src={audioUrl} type="audio/ogg"/>
 											  <source src={audioUrl} type="audio/mpeg"/>
 											Your browser does not support the audio element.
 											</audio>
 										</li>
-										<li style={{width:"45%",listStyle:"none"}}>
-											<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
-										</li>
+										<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
 									</ul>
 								</li>
-								<li onClick={()=>submitImage()} style={SubmitButtonCSS}>
-									Submit
-								</li>
+
+								{isProccessingPost==true ?
+									<p>Please wait while we process your post </p>:
+									<li onClick={()=>submitAudio()} style={SubmitButtonCSS}>
+										Submit
+									</li>
+								}
 							</ul>
 						}
 					</li>

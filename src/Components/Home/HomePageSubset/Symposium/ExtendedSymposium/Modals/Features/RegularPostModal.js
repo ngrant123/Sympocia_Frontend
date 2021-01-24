@@ -42,6 +42,11 @@ const InputContainer=styled.textarea`
 	padding:5px;
 	margin-top:2%;
 	margin-bottom:2%;
+
+	@media screen and (max-width:600px){
+		height:60% !important;
+		width:90% !important;
+	}
 `;
 
 
@@ -56,6 +61,9 @@ const CreatePostButton=styled.div`
 	border-width:5px;
 	animation: glowing 1300ms infinite;
 	text-align:center;
+	display:flex;
+	justify-content:center;
+	cursor:pointer;
 
 	@keyframes glowing {
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -75,6 +83,22 @@ const DescriptionInputContainer=styled.textarea`
 	padding:5px;
 `;
 
+const RegularPostContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	cursor:pointer;
+`;
+
+const RegularPostInformation=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
+
+const PostHeaderContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
 
 const SkillLevelButton={
   listStyle:"none",
@@ -121,7 +145,16 @@ const SubmitButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  width:"30%"
+  width:"30%",
+  cursor:"pointer"
+}
+
+const LevelSelectionCSS={	
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white"
 }
 
 const KnowledgeLevelIndicatorCSS={
@@ -133,7 +166,6 @@ const KnowledgeLevelIndicatorCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  width:"30%",
   marginTop:"1%"
 }
 
@@ -148,12 +180,13 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
 	const name=useSelector(state=>state.personalInformation.firstName);
+	const [isProccessingPost,changeIsProcessingPost]=useState(false);
+	const [isLoadingTextIndicator,changeIsLoadingTextIndicator]=useState(false);
 
 	const [displayCurrentLevel,changeCurrentLevel]=useState(false);
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			
 			console.log(symposiumId);
 			displayBeginnerPosts()
 		}
@@ -172,94 +205,69 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	}
 
 	const displayIntermediatePosts=async()=>{
-		
+		changeIsLoadingTextIndicator(true);
 		const {confirmation,data}=await retrievePosts('Intermediate');
 		console.log(data);
 		if(confirmation=="Success"){
-			const {
-				questionId,
-				posts
-			}=data;
+			const {message}=data;
+			const {posts}=message;
 			if(displayCreationModal==false){
-				document.getElementById("beginner").style.backgroundColor="white";
-				document.getElementById("beginner").style.color="#3898ec";
-
-				document.getElementById("intermediate").style.backgroundColor="#3898ec";
-				document.getElementById("intermediate").style.color="white";
-
-				document.getElementById("advanced").style.backgroundColor="white";
-				document.getElementById("advanced").style.color="#3898ec";
-
-				changeCurrentLevel("intermediate");
+				changeCurrentLevel("Intermediate");
 				changePosts(posts);
-				changeQuestionId(questionId);
+				changeQuestionId(selectedPostId);
 			}
 		}else{
 			alert('Unfortunately there has been an error trying to get this images data. Please try again');
 		}
+		changeIsLoadingTextIndicator(false);
 	}
 
 	const displayBeginnerPosts=async()=>{
+		changeIsLoadingTextIndicator(true);
+
 		const {confirmation,data}=await retrievePosts('Beginner');
 		if(confirmation=="Success"){
-			const {
-				questionId,
-				posts
-			}=data;
+			const {message}=data;
+			const {posts}=message;
 
 			if(displayCreationModal==false){
-				document.getElementById("intermediate").style.backgroundColor="white";
-				document.getElementById("intermediate").style.color="#3898ec";
-
-				document.getElementById("beginner").style.backgroundColor="#3898ec";
-				document.getElementById("beginner").style.color="white";
-
-				document.getElementById("advanced").style.backgroundColor="white";
-				document.getElementById("advanced").style.color="#3898ec";
-
-				changeCurrentLevel("beginner");
+				changeCurrentLevel("Beginner");
 				changePosts(posts);
-				changeQuestionId(questionId);
+				changeQuestionId(selectedPostId);
 			}
 
 		}else{
 			alert('Unfortunately there has been an error trying to get this images data. Please try again');
 		}
+		changeIsLoadingTextIndicator(false);
 	}
 
 	const displayAdvancedPosts=async()=>{
+		changeIsLoadingTextIndicator(true);
 		const {confirmation,data}=await retrievePosts('Advanced');
+
 		if(confirmation=="Success"){
-			const {
-				questionId,
-				posts
-			}=data;
+			const {message}=data;
+			const {posts}=message;
 
 			if(displayCreationModal==false){
-				document.getElementById("beginner").style.backgroundColor="white";
-				document.getElementById("beginner").style.color="#3898ec";
-
-				document.getElementById("advanced").style.backgroundColor="#3898ec";
-				document.getElementById("advanced").style.color="white";
-
-				document.getElementById("intermediate").style.backgroundColor="white";
-				document.getElementById("intermediate").style.color="#3898ec";
-
-				changeCurrentLevel("advanced");
+				changeCurrentLevel("Advanced");
 				changePosts(posts);
-				changeQuestionId(questionId);				
+				changeQuestionId(selectedPostId);				
 			}
 
 
 		}else{
 			alert('Unfortunately there has been an error trying to get this images data. Please try again');
 		}
+		changeIsLoadingTextIndicator(false);
 	}
 
 	const submitPost=async()=>{
 		if(knowledgeLevel==null){
 			alert('Please enter a level to continue');
 		}else{
+			changeIsProcessingPost(true);
 			const post={
 				industryId:symposiumId,
 				questionId:selectedPostId,
@@ -270,12 +278,12 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 			}
 			const {confirmation,data}=await createSpecificIndustryRegularPostAnswer(post);
 			if(confirmation=="Success"){
-				
-				if(displayCurrentLevel==knowledgeLevel.toLowerCase()){	
+				const {message}=data;
+				if(displayCurrentLevel.toLowerCase()==knowledgeLevel.toLowerCase()){	
 					const {
 						questionId,
 						postId
-					}=data;
+					}=message;
 					var submittedPost={
 						post:document.getElementById("post").value,
 						_id:postId,
@@ -298,6 +306,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 			}else{
 				alert('Unfortunately there has been an error with adding this image. Please try again');
 			}
+			changeIsProcessingPost(false);
 		}
 	}
 
@@ -355,89 +364,84 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 
 					<InputContainer id="post" placeholder='Enter your text here'/>
 
-					<li onClick={()=>submitPost()} style={SubmitButtonCSS}>
-						Submit
-					</li>
+					{isProccessingPost==true ?
+						<p>Please wait while we process your post </p>:
+						<li onClick={()=>submitPost()} style={SubmitButtonCSS}>
+							Submit
+						</li>
+					}
 				</>
 				:<>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<p style={{fontSize:"20px"}}>
-									<b>{symposium} {modalType}</b>
-								</p>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>changeDisplayCreationModal(true)} 
-										style={{listStyle:"none",marginLeft:"400px",marginBottom:"5%"}}>
-										<CreatePostButton>
-											<BorderColorIcon
-												style={{fontSize:"20",color:"#C8B0F4"}}
-											/>
-										</CreatePostButton>
-									</li>
-								</a>
-							</li>
-						</ul>
-					</li>
+					<PostHeaderContainer>
+						<p style={{fontSize:"20px"}}>
+							<b>{question}</b>
+						</p>
+						<CreatePostButton onClick={()=>changeDisplayCreationModal(true)}>
+							<BorderColorIcon
+								style={{fontSize:"20",color:"#C8B0F4"}}
+							/>
+						</CreatePostButton>
+					</PostHeaderContainer>
 					<p> 
-						Learn from the best. Give out tips and {modalType} that could help others 
+						Learn from the best. Give out tips and {question} that could help others 
 						in this craft
 					</p>
 					<hr/>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
-								<ul stlye={{padding:"0px"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>displayBeginnerPosts()} id="beginner" style={SkillLevelButton}>
-											Beginner
-										</li>
-									</a>
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>displayIntermediatePosts()} id="intermediate" style={SkillLevelButton}>
-											Intermediate
-										</li>
-									</a>
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>displayAdvancedPosts()} id="advanced" style={SkillLevelButton}>
-											Advanced
-										</li>
-									</a>
-								</ul>
-							</li>
-
-							<li style={{listStyle:"none",marginTop:"2%"}}>
 								<ul style={{padding:"0px"}}>
-									{posts.map(data=>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displaySelectedPost(data)} style={{listStyle:"none",marginBottom:"2%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{top:"-50px",position:"relative",width:"10%",listStyle:"none",display:"inline-block"}}>
-														<img src={data.owner.profilePicture==null?
-																	NoProfilePicture:
-																	data.owner.profilePicture
-																} style={{width:"60px",height:"10%",borderRadius:"50%"}}
-														/>
-													</li>
-
-													<li style={{width:"70%",listStyle:"none",display:"inline-block"}}>
-														<p> 
-															<b>{data.owner.firstName}</b>
-														</p>
-														<p style={{height:"10%",overflowY:"auto",}}>
-															{data.post}
-														</p>
-													</li>
-												</ul>
-											</li>
-										</a>
-									)}
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<div class="dropdown">
+											<button class="btn btn-primary dropdown-toggle"
+												 type="button" data-toggle="dropdown" style={LevelSelectionCSS}>
+												Choose Level
+											   	<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu">
+												<li onClick={()=>displayBeginnerPosts()}>
+													<a href="javascript:void(0);">Beginner</a>
+												</li>
+												<li onClick={()=>displayIntermediatePosts()}>
+													<a href="javascript:void(0);">Intermediate</a>
+												</li>
+												<li onClick={()=>displayAdvancedPosts()}>
+													<a href="javascript:void(0);">Advanced</a>
+												</li>
+											</ul>
+						  				</div>
+									</li>
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										{displayCurrentLevel}	
+									</li>
 								</ul>
 							</li>
+
+							{isLoadingTextIndicator==true?
+								<p>Loading please wait...</p>:
+								<li style={{listStyle:"none",marginTop:"2%"}}>
+									<ul style={{padding:"0px"}}>
+										{posts.map(data=>
+											<RegularPostContainer>
+												<RegularPostInformation>
+													<img src={data.owner.profilePicture==null?
+																NoProfilePicture:
+																data.owner.profilePicture
+															} style={{width:"60px",height:"10%",borderRadius:"50%"}}
+													/>
+													<p> 
+														<b>{data.owner.firstName}</b>
+													</p>
+												</RegularPostInformation>
+												<p style={{height:"10%",overflow:"hidden",maxHeight:"15%"}}>
+													{data.post}
+												</p>
+											</RegularPostContainer>
+										)}
+									</ul>
+								</li>
+
+							}
 						</ul>
 					</li>
 				</>

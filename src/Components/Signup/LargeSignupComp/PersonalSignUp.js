@@ -20,6 +20,10 @@ const InputContainer=styled.textarea`
 	padding:5px;
 	margin-bottom:2%;
 	margin-right:2%;
+
+	@media screen and (max-width:700px){
+		width:95% !important;
+	}
 `;
 
 const SubmitButton=styled.div`
@@ -277,13 +281,13 @@ class PersonalSignUp extends Component{
 		return (
 			<React.Fragment>
 				<ul style={{padding:"0px"}}>
-					<img src={SympociaIcon} style={{position:"relative",marginLeft:"40%",width:"80px",height:"60px"}}/>
-					<p style={{fontSize:"30px",marginLeft:"10%",color:"#424242"}}>
+					<img id="image" src={SympociaIcon} style={{position:"relative",marginLeft:"40%",width:"80px",height:"60px"}}/>
+					<p id="headerText" style={{fontSize:"30px",marginLeft:"10%",color:"#424242"}}>
 						<b>Welcome to Sympocia</b>
 					</p>
-					<p style={{marginLeft:"35%"}}> Sign up is quick and easy </p>
+					<p id="signUpText" style={{marginLeft:"35%"}}> Sign up is quick and easy </p>
 
-					<ul style={{paddingLeft:"70px"}}>
+					<ul id="inputContainerLI" style={{paddingLeft:"70px"}}>
 						<InputContainer id="email" placeholder="Email"/>
 						<InputContainer onClick={()=>this.checkIfEmailIsValid()}
 							 id="firstName" placeholder="First Name"

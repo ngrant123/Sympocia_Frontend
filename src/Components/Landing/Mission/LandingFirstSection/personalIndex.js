@@ -82,7 +82,6 @@ const Submit=styled.div`
    background-color:#C8B0F4;
    color:white;
    text-decoration:none;
-
    display: flex;
    align-items: center;
    justify-content: center;
@@ -162,7 +161,78 @@ const MobileLoginContainer=styled.div`
   background-color:white;
   border-radius:5px;
   top:20%;
- z-index:8;
+  z-index:8;
+
+  @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+    height:90%;
+  }
+`;
+
+const FirstContainerContents=styled.div`
+  display:flex;
+  flex-direction:row;
+  margin-left:10%;
+  margin-top:-5%;
+  align-items: flex-start;
+  @media screen and (max-width:1370px){
+    flex-direction:column;
+  }
+  @media screen and (max-width:700px){
+      margin-left:5%;
+      flex-direction:column;
+  }
+`;
+
+const FirstContainerInformational=styled.div`
+  width:70%;
+  height:50%;
+  margin-top:5%;
+  display:flex;
+  flex-direction:column;
+  margin-right:10%;
+
+  @media screen and (max-width:1370px){
+    width:90%;
+    height:90%;
+  }
+
+  @media screen and (max-width:700px){
+      #header1{
+        font-size:20px !important;
+      }
+  }
+`;
+
+
+const PageImageContainer=styled.div`
+  display:flex;
+  flex-direction:column;
+
+  @media screen and (max-width:1370px){
+    margin-left:15%;
+    #amountOfUsersText{
+      margin-top:7%;
+      margin-left:-20%;
+    }
+  }
+
+
+  @media screen and (max-width:700px){
+    height:50%;
+    width:80%;
+
+    #amountOfUsersText{
+      margin-top:0%;
+    }
+  }
+
+    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+         margin-left:20%;
+      #headerImage{
+        width:192px !important;
+        height:225px!important;
+      }
+    }
 `;
 const SignUpButton={
     listStyle:"none",
@@ -409,7 +479,7 @@ const FirstSection=(props)=>{
   }
 
   const mobileLoginUI=()=>{
-    return <>
+    return <div>
             {displayMobileLogin==true &&(
               <>
                 <ShadowContainer
@@ -423,7 +493,7 @@ const FirstSection=(props)=>{
                 </MobileLoginContainer>
               </>
             )}
-          </>
+          </div>
   }
 
 	return(
@@ -453,78 +523,57 @@ const FirstSection=(props)=>{
                           </li>
                       </ul>
                   </li>
-                  <li style={{listStyle:"none",display:"inline-block",width:"90%",height:"60%"}}>
-                      <ul style={{padding:"0px",marginLeft:"-5%"}}>
-                        <li id="listOpeningTextContainer" style={{position:"relative",top:"-80px",listStyle:"none",display:"inline-block",width:"50%",height:"50%"}}>
-                          <ul id="openingTextContainer" style={{padding:"0px"}}>
-                            <li style={{listStyle:"none",display:"inline-block"}}>
-                                <ul style={{padding:"0px"}}>
-                                    <li style={{listStyle:"none",fontSize:"40px",marginBottom:"10%"}}>
-                                         <p id="header1">
-                                            <b>Finally.... a platform where you can just be yourself</b>
-                                        </p>
-                                    </li>
+                  <FirstContainerContents>
+                      <FirstContainerInformational>
+                            <p  id="header1" style={{fontSize:"40px",marginBottom:"10%"}}>
+                                <b>Finally.... a platform where you can just be yourself</b>
+                            </p>
+                            <p>
+                                We've all been there. You've asked yourself "I really like this photo but will 
+                                it get likes?" or "Will anyone care about my hobbies?". You've also asked yourself,
+                                "Why do I feel so alone after using social media?". We've asked ourselves these question also. 
+                                Which is why we built <b>Sympocia</b>
+                            </p>
 
-                                    <li style={{listStyle:"none"}}>
-                                        <p>
-                                            We've all been there. You've asked yourself "I really like this photo but will 
-                                            it get likes?" or "Will anyone care about my hobbies?". You've also asked yourself,
-                                            "Why do I feel so alone after using social media?". We've asked ourselves these question also. 
-                                            Which is why we built <b>Sympocia</b>
-                                        </p>
-                                    </li>
+                             <p>
+                                 Introducing the first social entertainment platform focused on you expressing yourself
+                                 regardless of whether people like it or not
+                              </p>
+                              {codeOrEmailModalPrompt()} 
+                      </FirstContainerInformational>
 
-                                    <li style={{listStyle:"none"}}>
-                                        <p>
-                                           Introducing the first social entertainment platform focused on you expressing yourself
-                                           regardless of whether people like it or not
-                                        </p>
-                                    </li>
-                                </ul>
-                            </li>
-                            {codeOrEmailModalPrompt()}
+                      <PageImageContainer>
+                          <img id="headerImage" src={LandingImage} style={{width:"70%",height:"70%"}}/>
+                          <p id="amountOfUsersText">
+                             So far <b>{numberOfUserInTotalInterested}</b> users have signed up. What are you waiting for? :) 
+                          </p>
+                          <li style={{listStyle:"none"}}>
+                                      <ul style={{padding:"5px",width:"70%",height:"80px",borderRadius:"5px",overflowX:"auto",boxShadow:"1px 5px 5px 5px #d5d5d5"}}>
+                                        {usersInterested.map(data=>
+                                            <>
+                                              {data.profilePicture==null?
+                                                <a href={data.link} style={{textDecoration:"none"}}>
+                                                  <li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+                                                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"  width="80px" height="95%" viewBox="0 0 24 24" stroke-width="1.5" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                          <path stroke="none" d="M0 0h24v24H0z"/>
+                                                          <circle cx="12" cy="7" r="4" />
+                                                          <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                                      </svg>
+                                                  </li>
+                                                </a>:
+                                                <a href={data.link} style={{textDecoration:"none"}}>
+                                                  <li style={{position:"relative",top:"-30%",listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+                                                    <img src={data.profilePicture} style={{width:"50px",height:"70%",borderRadius:"50%"}}/>
+                                                  </li>
+                                                </a>
+                                              }
+                                            </>
+                                        )}
+                                      </ul>
+                                  </li>
+                      </PageImageContainer>
+                  </FirstContainerContents>
 
-                            <li id="mobileProfilePictures" style={{listStyle:"none",marginTop:"5%",display:"none"}}>
-                                <p> So far <b>{usersInterested.length}</b> users have signed up. What are you waiting for? :) </p>
-                            </li>
-                          </ul>
-                        </li>
-
-                        <li id="imageListContainer" style={{position:"relative",top:"-80px",listStyle:"none",display:"inline-block",width:"40%",marginLeft:"5%"}}>
-                            <ul style={{padding:"0px"}}>
-                                <li style={{listStyle:"none",marginBottom:"20px"}}>
-                                    <img id="imageContainer" src={LandingImage} style={{position:"relative",width:"95%",height:"80%"}}/>
-                                </li>
-                                <p> So far <b>{numberOfUserInTotalInterested}</b> users have signed up. What are you waiting for? :) </p>
-
-                                <li style={{listStyle:"none"}}>
-                                    <ul style={{padding:"5px",width:"110%",height:"15%",borderRadius:"5px",overflowX:"auto",boxShadow:"1px 5px 5px 5px #d5d5d5"}}>
-                                      {usersInterested.map(data=>
-                                          <>
-                                            {data.profilePicture==null?
-                                              <a href={data.link} style={{textDecoration:"none"}}>
-                                                <li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"  width="80px" height="95%" viewBox="0 0 24 24" stroke-width="1.5" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z"/>
-                                                        <circle cx="12" cy="7" r="4" />
-                                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                                                    </svg>
-                                                </li>
-                                              </a>:
-                                              <a href={data.link} style={{textDecoration:"none"}}>
-                                                <li style={{position:"relative",top:"-30%",listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
-                                                  <img src={data.profilePicture} style={{width:"80px",height:"95%",borderRadius:"50%"}}/>
-                                                </li>
-                                              </a>
-                                            }
-                                          </>
-                                      )}
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                      </ul>
-                  </li>
                   <li id="footerIcons" style={{listStyle:"none"}}>
                     <ul style={{padding:"0px"}}>
                         <li style={{listStyle:"none",display:"inline-block"}}>
@@ -543,13 +592,6 @@ const FirstSection=(props)=>{
                           </a>
                         </li>
                       </ul>
-                  </li>
-                  <li id="floatingArrowFunction" style={{listStyle:"none",marginTop:"5%"}}>
-                    <ArrowDownContainer>
-                      <ArrowDownwardIcon
-                        style={{fontSize:'20'}}
-                      />
-                    </ArrowDownContainer>
                   </li>
                </ul>
         </FirstContainer>

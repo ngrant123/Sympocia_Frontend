@@ -404,6 +404,18 @@ isArrayEqual=(arr1,arr2)=>{
 	  });
 	}
 
+	isIsHeaderImageAdded=()=>{
+		if(this.state.pictureUrl==""){
+			alert('Please added an image to your blog to continue');
+		}else{
+			this.setState({
+				displayIndustrySelectModal:true,
+				title:document.getElementById("blogTitle").value,
+				description:document.getElementById("blogDescription").value
+			})
+		}
+	}
+
 
 
 	render(){
@@ -573,11 +585,7 @@ isArrayEqual=(arr1,arr2)=>{
 
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-													<ul onClick={()=>this.setState({
-																displayIndustrySelectModal:true,
-																title:document.getElementById("blogTitle").value,
-																description:document.getElementById("blogDescription").value
-															})}>
+													<ul onClick={()=>this.isIsHeaderImageAdded()}>
 														<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
 															Next
 														</li>
@@ -592,7 +600,7 @@ isArrayEqual=(arr1,arr2)=>{
 													alterSelectedSubCommunities={this.alterSelectedSubCommunities}
 												/>
 											</li>
-											{this.state.isSubmittedAndProcessing==false &&(
+											{this.state.isSubmittedAndProcessing==false?
 												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
 													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 															<ul onClick={()=>this.sendBlogDataToDB(blogPostInformation,profilePostInformation)}>
@@ -607,8 +615,9 @@ isArrayEqual=(arr1,arr2)=>{
 																</li>
 															</ul>
 													</a>
-												 </li>
-											)}
+												 </li>:
+												 <p> Please wait....</p>
+											}
 										</React.Fragment>
 									}
 								</li>

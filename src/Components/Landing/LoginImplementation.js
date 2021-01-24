@@ -165,7 +165,7 @@ const LoginUI=({history,displayMobileLoginTrigger})=>{
                   </li>
                 </a>
                 :<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                  <li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+                  <li id="submitLI" style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
                       <Submit onClick ={() =>  handleLoginClick(  
                                                 document.getElementById("LoginEmail").value,
                                                 document.getElementById("LoginPassword").value,

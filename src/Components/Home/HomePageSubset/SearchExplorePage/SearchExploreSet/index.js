@@ -28,7 +28,12 @@ const Container=styled.div`
 			margin-left:40% !important;
     	}
     }
-	
+
+    @media screen and (max-width:1370px){
+    	#mobileHeaderLI{
+  			margin-top:13% !important;
+  		}
+	}
    
 	@media screen and (max-width:1030px){
 		#exploreDescriptionLI{
@@ -40,7 +45,11 @@ const Container=styled.div`
     	}
 	}
 
-	@media screen and (max-width:460px){
+	@media screen and (max-width:600px){
+		margin-left:0%;
+		#mobileHeaderLI{
+  			margin-top:25% !important;
+  		}
 		#exploreDescriptionLI{
 			display:none !important;
 		}
@@ -49,6 +58,7 @@ const Container=styled.div`
 			margin-left:27% !important;
     	}
 	}
+
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
     	#mobileArenaLI{
     		width:20% !important;
@@ -133,15 +143,21 @@ const PostsContainer=styled.div`
 
 const Posts=styled.div`
 	position:absolute;
-	width:90%;
+	width:100%;
 	height:90%;
-	margin-top:10%;
-
 
 	@media screen and (max-width:450px){
 		margin-top:60% !important;
 	}
 `;
+
+const PostOptionButtonCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white"
+}
 
 const ArenaButtonCSS={
 	listStyle:"none",
@@ -177,7 +193,9 @@ class SearchExploreContainer extends Component{
 			postsInformation:[],
 			postCount:0,
 			displayDesktopUI:false,
-			isLoading:true
+			isLoading:true,
+			isLoadingReloadedPosts:false,
+			endOfPostsDBIndicator:false
 		}
 	}
 
@@ -244,11 +262,22 @@ class SearchExploreContainer extends Component{
 		}
 		var {confirmation,data}=homePagePostsResponse;
 		if(confirmation=="Success"){
-			var newHomePagePosts=this.addSuggestedSymposiums(data);
-			this.setState({
-				postsInformation:newHomePagePosts,
-				isLoading:false
-			})
+			if(data.length==0){
+				this.setState({
+					endOfPostsDBIndicator:true,
+					isLoadingReloadedPosts:false
+				})
+			}else{
+				let currentPosts=this.state.postsInformation;
+				currentPosts=currentPosts.concat(data);
+				var newHomePagePosts=this.addSuggestedSymposiums(currentPosts);
+				this.setState({
+					postsInformation:newHomePagePosts,
+					isLoading:false,
+					isLoadingReloadedPosts:false,
+					postOption:postOption
+				})
+			}
 
 		}else{
 			alert('Unfortunately there has been an error in retrieving you data. Please try again');
@@ -261,7 +290,7 @@ class SearchExploreContainer extends Component{
 	}
 
 	suggestedSymposiumsRecursive=(posts)=>{
-		
+		debugger;
 		if(posts==null||posts.length==0){
 			return posts;
 		}else if(posts.length==1){
@@ -290,7 +319,9 @@ class SearchExploreContainer extends Component{
 		console.log(props);
 		this.setState({
 			postOption:props,	
-			isLoading:true
+			isLoading:true,
+			postCount:0,
+			postsInformation:[]
 		},function(){
 			this.changeHomePagePosts(props);
 		})
@@ -357,6 +388,50 @@ class SearchExploreContainer extends Component{
 							</ArenaContainer>
 						</li>
 					</a>
+					<li style={{listStyle:"none",display:"inline-block",marginLeft:"10%",width:"40%"}}>
+						<ul style={{padding:"0px"}}>
+							<li id="headerTitleLI" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"40px"}}>
+								<b>{this.state.postOption}</b>
+							</li>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+								<div class="btn-group">
+									<button class="btn btn-primary dropdown-toggle" type="button" 
+										data-toggle="dropdown" style={PostOptionButtonCSS}>
+										Post Options
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li onClick={()=>this.handleChangePostOption("Images")}>
+											<a href="javascript:;">Images</a>
+										</li>	
+										<li onClick={()=>this.handleChangePostOption("Videos")}>
+											<a href="javascript:;">Videos</a>
+										</li>	
+										<li onClick={()=>this.handleChangePostOption("Blogs")}>
+											<a href="javascript:;">Blogs</a>
+										</li>	
+										<li onClick={()=>this.handleChangePostOption("RegularPosts")}>
+											<a href="javascript:;">Posts</a>
+										</li>		
+									</ul>
+								</div>
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
+										Options
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a href="javascript:;">Most Popular</a></li>
+										<li><a href="javascript:;">Newest</a></li>
+										<li><a href="javascript:;">Popular</a></li>						
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</li>
 				</li>
 	}
 	handleDisplayImages=(homePageInformation,searchPageInformation)=>{
@@ -369,6 +444,10 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -382,6 +461,10 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -394,6 +477,10 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -406,8 +493,22 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
+	}
+
+	triggerReloadingPostsHandle=()=>{
+		this.setState({
+			triggerPostReload:true,
+			isLoadingReloadedPosts:true,
+			postCount:(this.state.postCount+1)
+		},()=>{
+			this.changeHomePagePosts(this.state.postOption)	
+		})
 	}
 
 	render(){
@@ -431,19 +532,11 @@ class SearchExploreContainer extends Component{
 										<li style={{listStyle:"none"}}>
 											<PostsContainer>
 												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none"}}>
-														<ul style={{padding:"0px"}}>
-															<li id="headerTitleLI" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"50px"}}>
-																<b>{this.state.postOption}</b>
-															</li>
+													{this.state.displayDesktopUI==false &&(
+														<React.Fragment>
 															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 																<div class="btn-group">
-																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																								borderColor:"#5298F8",
-																																								borderStyle:"solid",
-																																								borderWidth:"1px",
-																																								color:"#5298F8",
-																																								backgroundColor:"white"}}>
+																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
 																		Post Options
 																		<span class="caret"></span>
 																	</button>
@@ -466,12 +559,7 @@ class SearchExploreContainer extends Component{
 
 															<li style={{listStyle:"none",display:"inline-block"}}>
 																<div class="dropdown">
-																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																												borderColor:"#5298F8",
-																																												borderStyle:"solid",
-																																												borderWidth:"1px",
-																																												color:"#5298F8",
-																																												backgroundColor:"white"}}>
+																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
 																		Options
 																		<span class="caret"></span>
 																	</button>
@@ -482,8 +570,8 @@ class SearchExploreContainer extends Component{
 																	</ul>
 																</div>
 															</li>
-														</ul>
-													</li>
+														</React.Fragment>
+													)}
 													<Posts>
 														<ul style={{padding:"0px"}}>
 															{this.handleDisplayImages(homePageInformation,searchPageInformation)}

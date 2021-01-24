@@ -24,7 +24,6 @@ import NoProfileIcon from "../../../designs/img/NoProfilePicture.png";
 import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 import Confetti from 'react-confetti';
-
 import ExplorePageOnboarding from "../../OnBoarding/ExplorePageOnboarding.js";
 import LoadingScreen from "../../../LoadingAnimation.js";
 
@@ -34,7 +33,6 @@ const Container=styled.div`
 	padding:10px;
 	padding-top:0px;
 	height:100%;
-	background-color:white;
 	overflow-y:scroll;
 	transition:.8s;
 	overflow-x:hidden;
@@ -83,7 +81,6 @@ const ExploreIconContainer=styled.div`
 	padding:10px;
 	box-shadow: 1px 1px 1px 1px #d5d5d5;
 	transition:.8s;
-	z-index:50;
 	&:hover{
 		box-shadow: 1px 1px 10px #707070;	
 	}
@@ -484,11 +481,11 @@ class HomePageContainer extends Component{
 												<li onClick={()=>this.props.history.push({
 														pathname:'/symposiumList'
 													})} style={{listStyle:"none",marginBottom:"20%"}}>
-														<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-															<AppsIcon
-																style={{fontSize:40}}
-															/>
-														</a>
+													<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+														<AppsIcon
+															style={{fontSize:40}}
+														/>
+													</a>
 												</li>
 												<hr/>
 												

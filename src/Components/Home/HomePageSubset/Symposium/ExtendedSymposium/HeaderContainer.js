@@ -18,9 +18,10 @@ const Container=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	opacity:0;
+	z-index:40;
 	transition:opacity 2s linear
 	@media screen and (max-width:1370px){
+		left:90% !important;
     	#nextButtonIcon{
     		height:5px !important;
     		width:5px !important;
@@ -151,8 +152,7 @@ const ActivePeopleAndFollowContainer=styled.div`
 
 const MobileOptions=styled.div`
 	position:absolute;
-	z-index:30;
-	top:35%;
+	top:40%;
 	left:90%;
 	z-index:40;
 	border-radius:50%;
@@ -212,7 +212,6 @@ const HeaderContainer=(props)=>{
 			displayDesktopUI
 		}=props;
 	console.log(props);
-	console.log(props.popularQuestionObject);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 	const [displayMobilePostOptions,changeMobileDisplayPostOptions]=useState(false);
@@ -280,7 +279,6 @@ const HeaderContainer=(props)=>{
 	}
 
 	const replayVideo=(startTime,endTime)=>{
-
 	   		var startTime=0;
 	   		const video=this
 	   		const videoDuration=video.duration;
@@ -398,7 +396,7 @@ const HeaderContainer=(props)=>{
 							</ul>							
 
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ul id="popularVideosUL" style={{padding:"5px",backgroundColor:"white",height:"65%",borderRadius:"5px"}}>
+									<ul id="popularVideosUL" style={{overflow:"hidden",padding:"5px",backgroundColor:"white",height:props.isIpadView==true?"90%":"65%",borderRadius:"5px"}}>
 										{popularVideos.map(data=>
 											<>
 												{data!=null &&(
@@ -479,6 +477,7 @@ const SimpliedHeaderContainer=(props)=>{
 
 	return(
 		<div>
+			Testr
 		</div>
 	)
 }

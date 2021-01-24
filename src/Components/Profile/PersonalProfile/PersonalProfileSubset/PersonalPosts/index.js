@@ -15,7 +15,9 @@ import PostCreationPortal from "../../PersonalProfileSet/Modals-Portals/PostCrea
 
 import {
 		getRegularPostFromUser,
-		getVideosFromUser
+		getVideosFromUser,
+		getUserImages,
+		getBlogFromUser
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 import {
@@ -164,13 +166,17 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
+	console.log(props);
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
 	const [displayRegularPosts,changeDisplayForRegularPosts]=useState(false);
 	const personalRedux=useSelector(state=>state.personalInformation);
+	const [currentPostType,changeCurrentPostType]=useState("image");
+	const [currentPostCounter,changeCurrentPostCounter]=useState(0);
+	const [isLoadingNewPosts,changeIsLoadingNewPosts]=useState(false);
 
-	const [regularPost,changeRegularPost]=useState({
+	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
 		posts:[]
 	})
@@ -179,17 +185,23 @@ const PersonalPostsIndex=(props)=>{
 	const [postOption,changePostOption]=useState();
 	const [personalInformation,changePersonalInformation]=useState(props.personalInformation);
 
-	const [imagePost,changeImagePost]=useState({
+	let [imagePost,changeImagePost]=useState({
 			crownedImage:props.personalInformation.userProfile.crownedImage,
 			images:props.personalInformation.userProfile.imagePost
 	});
 
-	const [videoPost,changeVideoPosts]=useState({
+	let [videoPost,changeVideoPosts]=useState({
 		headerVideo:null,
 		videos:[]
 	});
+
+	let [blogPost,changeBlogPosts]=useState({
+		headerBlog:null,
+		blogs:[]
+	});
 	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorRegularPost,changeRegularPostsLoadingIndicator]=useState(true);
+	const [isLoadingIndicatorBlogPost,changeBlogPostsLoadingIndicator]=useState(true);
 
 	useEffect(()=>{
 		if(props.personalInformation.isLoading!=true){
@@ -224,7 +236,7 @@ const PersonalPostsIndex=(props)=>{
 		regularPost.style.borderStyle="none";
 	}
 
-	const handlePostsClick=async(kindOfPost,id)=>{
+	const handlePostsClick=async(kindOfPost,id,isLoadingNewPosts,postCounter)=>{
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
@@ -233,13 +245,39 @@ const PersonalPostsIndex=(props)=>{
 			unSelectButtonsCSS();
 
 		if(kindOfPost=="image"){
-
 			const image=document.getElementById("images");
 			image.style.color="#C8B0F4";
 			image.style.borderBottom="solid";
 			image.style.borderColor="#C8B0F4";
-
+			changeCurrentPostType("image");
 			changeDisplayForImages(true);
+
+			if(isLoadingNewPosts==true){
+				const {confirmation,data}=await getUserImages({
+												userId:id,
+												visitorId:props.visitorId,
+												postCount:postCounter==null?0:postCounter
+											});
+				debugger;
+				if(confirmation=="Success"){
+					const {crownedPost,posts}=data;
+					if(posts.length==0){
+						props.finalPostRecieved();
+					}else{
+						const {images}=imagePost;
+						const newImages=images.concat(posts);
+						imagePost={
+							...imagePost,
+							images:newImages
+						}
+						props.unTriggerReload();
+						changeImagePost(imagePost);
+						changeIsLoadingNewPosts(false)
+					}
+				}else{
+					alert('Unfortunately there has been an error getting your videos. Please try again');
+				}
+			}
 
 		}else if(kindOfPost=="video"){
 			const videos=document.getElementById("videos");
@@ -247,51 +285,110 @@ const PersonalPostsIndex=(props)=>{
 			videos.style.borderBottom="solid";
 			videos.style.borderColor="#C8B0F4";
 			changeDisplayForVideos(true); 
+			changeCurrentPostType("video");
 
-			const {confirmation,data}=await getVideosFromUser({userId:id,visitorId:props.visitorId});
+			const {confirmation,data}=await getVideosFromUser({
+												userId:id,
+												visitorId:props.visitorId,
+												postCount:postCounter==null?0:postCounter
+											});
 
 			if(confirmation=="Success"){
-				const {crownedVideo,videoPosts}=data;
-				
-				const videoObject={
-					headerVideo:crownedVideo,
-					videos:videoPosts
+				const {crownedPost,posts}=data;
+				if(posts.length==0){
+					props.finalPostRecieved();
+				}else{
+					const {videos}=videoPost;
+					const newVideos=videos.concat(posts);
+					const videoObject={
+						headerVideo:crownedPost,
+						videos:newVideos
+					}
+					props.unTriggerReload();
+					changeVideoPosts(videoObject);
+					changeVideosLoadingIndicator(false);
+					changeIsLoadingNewPosts(false)
 				}
-				changeVideoPosts(videoObject);
-				changeVideosLoadingIndicator(false);
 			}else{
-				alert('Unfortunately there has been an error getting your pictures. Please try again');
+				alert('Unfortunately there has been an error getting your videos. Please try again');
 			}
 		}else if(kindOfPost=="blog"){
-			const blogs=document.getElementById("blogs");
-			blogs.style.color="#C8B0F4";
-			blogs.style.borderBottom="solid";
-			blogs.style.borderColor="#C8B0F4";
 			changeDisplayForBlogs(true);
+			changeCurrentPostType("blog");
+
+			const {	confirmation,data}=await getBlogFromUser({
+												userId:id,
+												visitorId:props.visitorId,
+												postCount:postCounter==null?0:postCounter
+											});
+			if(confirmation=="Success"){
+				const {crownedPost,posts}=data;
+
+				if(posts.length==0){
+					props.finalPostRecieved();
+				}else{
+					const blogDiv=document.getElementById("blogs");
+					blogDiv.style.color="#C8B0F4";
+					blogDiv.style.borderBottom="solid";
+					blogDiv.style.borderColor="#C8B0F4";
+
+					const {blogs}=blogPost;
+					const newBlogs=blogs.concat(posts);
+					const blogObject={
+						headerBlog:crownedPost,
+						blogs:newBlogs
+					}
+
+					props.unTriggerReload();
+					changeBlogPosts(blogObject);
+					changeBlogPostsLoadingIndicator(false);
+					changeIsLoadingNewPosts(false);
+					changeDisplayForBlogs(true);
+				}
+			}else{
+				alert('Unfortunately there has been an error getting these blog posts. Please try again');
+			}
+
+
+
 		}else{
 			changeDisplayForRegularPosts(true);
-			const {confirmation,data}=await getRegularPostFromUser({userId:id,
-																	visitorId:props.visitorId
-																});
-				if(confirmation=="Success"){	
-					const {crownedRegularPost,regularPosts}=data;
-					const regularPost=document.getElementById("regularPosts");
-					regularPost.style.color="#C8B0F4";
-					regularPost.style.borderBottom="solid";
-					regularPost.style.borderColor="#C8B0F4";
-		
+			changeCurrentPostType("regularPost");
+			const {confirmation,data}=await getRegularPostFromUser({
+												userId:id,
+												visitorId:props.visitorId,
+												postCount:postCounter==null?0:postCounter
+											});
+			if(confirmation=="Success"){	
+				const {crownedPost}=data;
+				const postsResponse=data.posts;
+				if(postsResponse.length==0){
+					props.finalPostRecieved();
+				}else{
+					const regularPostDiv=document.getElementById("regularPosts");
+					regularPostDiv.style.color="#C8B0F4";
+					regularPostDiv.style.borderBottom="solid";
+					regularPostDiv.style.borderColor="#C8B0F4";
+					const {posts}=regularPost;
+					const newRegularPosts=posts.concat(postsResponse);
+
 					const regularPostObject={
-						headerPost:crownedRegularPost,
-						posts:regularPosts.reverse()
+						headerPost:crownedPost,
+						//posts:posts.reverse()
+						posts:newRegularPosts
 					}
 		
+					props.unTriggerReload();
 					changeRegularPost(regularPostObject);
 					changeDisplayForRegularPosts(true);
 					changeRegularPostsLoadingIndicator(false);
-				}else{
-					alert('Unfortunately there has been an error getting your regular posts. Please try again');
+					changeIsLoadingNewPosts(false)
 				}
+			}else{
+				alert('Unfortunately there has been an error getting your regular posts. Please try again');
+			}
 		}
+		
 	}
 
 	const closeModal=()=>{
@@ -331,7 +428,7 @@ const PersonalPostsIndex=(props)=>{
 		return (
 			<li  style={{listStyle:"none"}}>
 				<ul style={{padding:"0px"}}>
-					<li id="mobilePhonePostOption"style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+					<li id="mobilePhonePostOption" style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 						<div class="dropdown">
 							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
 								style={ShadowButtonCSS}>
@@ -345,19 +442,19 @@ const PersonalPostsIndex=(props)=>{
 									</a>
 								</li>
 
-								<li onClick={()=>handlePostsClick("video",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+								<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
 									<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 										Videos
 									</a>
 								</li>
 
-								<li onClick={()=>handlePostsClick("regularPost",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+								<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 									<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 										Regular Posts
 									</a>
 								</li>
 
-								<li onClick={()=>handlePostsClick("blog",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+								<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 									<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 										Blogs
 									</a>
@@ -377,6 +474,23 @@ const PersonalPostsIndex=(props)=>{
 			</li>
 		)
 	}
+
+	const handleTriggerPostReload=()=>{
+		if(props.triggerPostReload==true && isLoadingNewPosts==false){
+			const nextCounter=currentPostCounter+1;
+			changeCurrentPostCounter(nextCounter);
+			changeIsLoadingNewPosts(true)
+			handlePostsClick(currentPostType,props.personalInformation.userProfile._id,true,nextCounter);
+		}
+	}
+
+	const triggerPostDecider=(postType,profileId,counter)=>{
+		if(postType!=currentPostType){
+			handlePostsClick(postType,profileId,counter)
+		}
+	}
+
+
 
 /*
 	const initializePersonalInformationToState=(personalInformationData)=>{
@@ -504,6 +618,7 @@ const PersonalPostsIndex=(props)=>{
 					{props.uiStatus.displayPhoneUI==true &&(
 						<PhonePersonalInformationHeader
 							ownerName={props.personalInformation.userProfile.firstName}
+							isOwner={props.personalInformation.isOwnProfile}
 						/>
 					)}
 					<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
@@ -517,7 +632,7 @@ const PersonalPostsIndex=(props)=>{
 					</li>
 					<hr/>
 					{displayCreationPostContainer()}
-
+					{handleTriggerPostReload()}
 					<li id="postsContainer" style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
 							{props.uiStatus.displayPhoneUI==true? 
@@ -537,7 +652,6 @@ const PersonalPostsIndex=(props)=>{
 														placeholder="Search for any posts here"
 													/>
 												</li>
-
 											</ul>
 										</li>
 
@@ -547,19 +661,19 @@ const PersonalPostsIndex=(props)=>{
 											</a>
 										</li>
 
-										<li onClick={()=>handlePostsClick("video",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+										<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 											<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Videos
 											</a>
 										</li>
 
-										<li onClick={()=>handlePostsClick("regularPost",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+										<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 											<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Regular Posts
 											</a>
 										</li>
 
-										<li onClick={()=>handlePostsClick("blog",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+										<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 											<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Blogs
 											</a>
@@ -626,10 +740,9 @@ const PersonalPostsIndex=(props)=>{
 								{
 									displayBlogs==true?
 									<BlogsPosts
-										id={props.personalInformation.userProfile._id}
-										profileType="Personal"
-										friendsNodes={props.personalInformation.userProfile.friendsGaugeNodes}
-										visitorId={props.visitorId}
+										blogData={blogPost}
+										isLoadingIndicatorBlogPost={isLoadingIndicatorBlogPost}
+										id={personalInformation.userProfile._id}
 									/>:<React.Fragment></React.Fragment>
 								}
 								{
