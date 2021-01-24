@@ -150,6 +150,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	const [displayPostExpand,changePostExpand]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
+	const [isProccessingPost,changeIsProcessingPost]=useState(false);
 
 
 	useEffect(()=>{
@@ -165,11 +166,10 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 			if(confirmation=="Success"){
 				const {message}=data;
 				const {
-					questionId,
 					posts
 				}=message;
 				changePosts(posts);
-				changeQuestionId(questionId);
+				changeQuestionId(selectedPostId);
 			}else{
 				alert('Unfortunately there has been an error trying to get this images data. Please try again');
 			}
@@ -201,7 +201,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 
 	const submitVideo=async()=>{
 		
-			
+		changeIsProcessingPost(true);
 		var video={
 			videoUrl,
 			description:document.getElementById("videoDescription").value
@@ -229,6 +229,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 		}else{
 			alert('Unfortunately there has been an error with adding this image. Please try again');
 		}
+		changeIsProcessingPost(false);
 	}
 
 	const uuidv4=()=>{
@@ -334,9 +335,13 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 								</video>
 								
 								<DescriptionInputContainer id="videoDescription" placeholder="Write down a description here"/>
-								<li onClick={()=>submitVideo()} style={SubmitButtonCSS}>
-									Submit
-								</li>
+								
+								{isProccessingPost==true ?
+									<p>Please wait while we process your post </p>:
+									<li onClick={()=>submitVideo()} style={SubmitButtonCSS}>
+										Submit
+									</li>
+								}
 
 							</FinalSubmittionContainer>
 						}
