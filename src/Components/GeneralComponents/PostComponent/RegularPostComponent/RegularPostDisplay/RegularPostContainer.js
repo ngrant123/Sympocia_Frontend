@@ -209,9 +209,11 @@ const RegularPostContainer=(props)=>{
 
 	const approvesPostNumber=isPostAuthentic.numOfApprove!=null?
 		  isPostAuthentic.numOfApprove.length:0;
-
 	const disapprovesPostNumber=isPostAuthentic.numOfDisapprove!=null?
 		  isPostAuthentic.numOfDisapprove.length:0;
+	const userInformation=useSelector(state=>state.personalInformation);
+	const isGuestProfile=(userInformation.id=="0" || userInformation.isGuestProfile==true)==true?
+						true:false;
 
 	const personalId=useSelector(state=>state.personalInformation.id);
 
@@ -282,7 +284,7 @@ const RegularPostContainer=(props)=>{
 	return(
 	<PostConsumer>
 		{userPostsInformation=>{
-	return <React.Fragment>
+			return <React.Fragment>
 				{displayDeleteConfirmation==true &&(
 					<DeletePostConfirmationPortal
 						postType={"Posts"}
