@@ -83,7 +83,6 @@ const application  = (
 							<Route exact path="/symposium/:symposiumName" component={Symposium}/>
 							<Route exact path="/symposiumList" component={SymposiumList}/>	
 							<Route exact path="/admin" component={Admin}/>
-							<Route exact path="/symposiumList" component={SymposiumList}/>
 							<Route exact path="/image/:id" component={UrlEnteredImageDisplay}/>
 							<Route exact path="/video/:id" component={UrlEnteredVideoDisplay}/>
 							<Route exact path="/blog/:id" component={UrlEnteredBlogDisplay}/>
