@@ -63,7 +63,9 @@ const ImageContainer=(props)=>{
 	const [displayPhoneUI,changePhoneUIStatus]=useState(false);
 	const [displayCrownModalIndicator,changeDisplayCrownModalIndicator]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
-	
+	const userInformation=useSelector(state=>state.personalInformation);
+	const isGuestProfile=(userInformation.id=="0" || userInformation.isGuestProfile==true)==true?
+						true:false;
 	const userId=useSelector(state=>state.personalInformation.id);
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const dispatch=useDispatch();
@@ -187,7 +189,7 @@ const ImageContainer=(props)=>{
 						isOwnPostViewing={props.isOwnProfile}
 						closePostModal={props.closePostModal}
 						isPhoneUI={displayPhoneUI}
-						editPostAction={editPost}
+						isGuestProfile={isGuestProfile}
 					/>
 					:<Container>
 						{displayImageModal==true?
@@ -276,6 +278,7 @@ const ImageContainer=(props)=>{
 													imageInformation={props.imageData}
 													targetDom={props.targetDom}
 													isMobileTrue={displayMobileUI}
+													isGuestProfile={isGuestProfile}
 												/>
 												:
 												<CommentContainer>

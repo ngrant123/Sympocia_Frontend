@@ -7,7 +7,6 @@ import {UserConsumer} from "../../../UserContext.js";
 import {Link} from "react-router-dom";
 import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
 import Typed from "react-typed";
-import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 import {
 		setPersonalProfileAccessToken,

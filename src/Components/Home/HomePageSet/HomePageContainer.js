@@ -26,6 +26,7 @@ import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 import Confetti from 'react-confetti';
 import ExplorePageOnboarding from "../../OnBoarding/ExplorePageOnboarding.js";
 import LoadingScreen from "../../../LoadingAnimation.js";
+import GuestOnboarding from "../../OnBoarding/GuestOnboarding.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -190,7 +191,8 @@ class HomePageContainer extends Component{
 			displayConfetti:false,
 			isLoading:true,
 			hideOnboarding:true,
-			displayDesktopUI:false
+			displayDesktopUI:false,
+			displayGuestOnboarding:false
 		}
 	}
 
@@ -208,19 +210,24 @@ class HomePageContainer extends Component{
 		}
 	}
 	async componentDidMount(){
-		const verification=this.props.isLoggedIn;
-		if(verification==false){
-			this.props.history.push({
-				pathname:'/'
+		window.addEventListener('resize',this.triggerUIChange)
+		const {isGuestProfile,id}=this.props.personalInformation;
+
+		if(id=="0"){
+			this.setState({
+				displayGuestOnboarding:true
 			})
-		}else{
-			window.addEventListener('resize',this.triggerUIChange)
-			var profile;
-			var symposiumsMap;
-			var isPersonalProfile;
+		}
+		this.initiliazeUserProfileForHomePage(id);
+		this.triggerUIChange();
+	}
+
+	initiliazeUserProfileForHomePage=async(id)=>{
+			var profile={};
+			var symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
+			var isPersonalProfile=true;
 				
-			if(this.props.personalInformation.loggedIn==true){
-				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
+			if(id!="0"){
 				const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
 				debugger;
 				if(confirmation=="Success"){
@@ -229,22 +236,17 @@ class HomePageContainer extends Component{
 				}else{
 					alert('Unfortunately there has been an error with getting the posts/profile for the home page. Please try again');
 				}
-			}else{
-				var symposiumsMap=this.constructSymposiumsMap(COMPANY_INDUSTRIES.INDUSTRIES);
-				profile=await getCompanyProfileForHomePage(this.props.companyInformation.id);
-				isPersonalProfile=false
 			}
+
 			this.setState({
-				recruitsPost:profile.recruitsFollowing,
+				recruitsPost:id=="0"?[]:profile.recruitsFollowing,
 				isPersonalProfile:isPersonalProfile,
 				profile:profile,
-				profileId:profile._id,
+				profileId:id,
 				symposiumsMap:symposiumsMap,
 				isLoading:false,
-				hideOnboarding:profile.firstTimeLoggedIn.explorePage
+				hideOnboarding:id=="0"?false:profile.firstTimeLoggedIn.explorePage
 			})
-			this.triggerUIChange();
-		}
 	}
 
 	constructSymposiumsMap=(symposiums)=>{
@@ -348,7 +350,6 @@ class HomePageContainer extends Component{
 				return <SearchExploreScreen
 								displayGrids={this.handleDisplayGridLayout}
 								history={this.props.history}
-								hideOnboarding={this.state.profile.firstTimeLoggedIn.personalPage}
 							/>;
 		}else if(this.state.displayPlayListPage==true){
 			return <PlayListComponent/>
@@ -374,7 +375,8 @@ class HomePageContainer extends Component{
 
 	closeOnboardingModal=()=>{
 		this.setState({
-			hideOnboarding:true
+			hideOnboarding:true,
+			displayGuestOnboarding:false
 		})
 	} 
 
@@ -421,8 +423,18 @@ class HomePageContainer extends Component{
 							routerHistory={this.props.history}
 							targetDom={"homePageContainer"}
 						/>
+						{this.state.displayGuestOnboarding==true &&(
+							<GuestOnboarding
+								targetDom="homePageContainer"
+								closeModal={this.closeOnboardingModal}
+							/>
+						)}
 
-						{this.state.hideOnboarding==false &&(
+						{(
+							this.state.hideOnboarding==false &&
+						 	this.props.personalInformation.id!="0" &&
+						 	this.props.personalInformation.isGuestProfile!=true
+						 )==true &&(
 							<ExplorePageOnboarding
 								closeModal={this.closeOnboardingModal}
 							/>

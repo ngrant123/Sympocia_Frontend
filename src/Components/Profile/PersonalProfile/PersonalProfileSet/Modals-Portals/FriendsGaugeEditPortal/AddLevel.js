@@ -313,7 +313,6 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 					</SubmitButton>
 				</a>
 			</ul>
->>>>>>> JWTFront
 			:<ul style={{padding:"20px"}}>
 				<p style={{color:"#A4A4A4"}}> Give us more details about what you want to call this level </p>
 				<li style={{listStyle:"none",marginBottom:"5%"}}>

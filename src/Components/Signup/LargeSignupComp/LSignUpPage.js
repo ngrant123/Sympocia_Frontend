@@ -224,18 +224,7 @@ class LSignupPage extends Component {
 			displayInvestorPersonalSignUpFinalModal:false
 		};
 	}
-
-
-	componentDidMount(){
-		const verification=this.props.isLoggedIn;
-		if(verification==false){
-			this.props.history.push({
-				pathname:'/'
-			})
-		}
-	}
-
-
+	
 	DisplayPersonalSetupPage=()=>{
 
 		return this.state.displayPersonalSetupPage==false?

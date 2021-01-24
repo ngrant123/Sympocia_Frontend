@@ -31,6 +31,7 @@ import {RecruitButton} from "../PersonalDetails/PersonalInformation.js";
 import {PhonePersonalInformationHeader} from "../../PersonalProfileSet/MobileUI.js";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 
 
 const PostCreationContainer=styled.div`
@@ -386,8 +387,6 @@ const PersonalPostsIndex=(props)=>{
 				
 			}
 
-
-
 		}else{
 			changeDisplayForRegularPosts(true);
 			changeCurrentPostType("regularPost");
@@ -537,6 +536,7 @@ const PersonalPostsIndex=(props)=>{
 		)
 	}
 
+
 	const handleTriggerPostReload=()=>{
 		if(props.triggerPostReload==true && isLoadingNewPosts==false){
 			const nextCounter=currentPostCounter+1;
@@ -563,7 +563,12 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 
-
+	const displayFriendsGauge=()=>{
+		return <FriendsGauge
+					personalInformation={props.personalInformation}
+					mobileUIStatus={props.uiStatus}
+				/>
+	}
 
 /*
 	const initializePersonalInformationToState=(personalInformationData)=>{
@@ -692,16 +697,22 @@ const PersonalPostsIndex=(props)=>{
 						<PhonePersonalInformationHeader
 							ownerName={props.personalInformation.userProfile.firstName}
 							isOwner={props.personalInformation.isOwnProfile}
+							isGuestProfile={props.personalInformation.isGuestProfile}
 						/>
 					)}
 					<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
 							{props.personalInformation.isLoading==true?
-									<p>Give us a second </p>:
-									<FriendsGauge
-										personalInformation={props.personalInformation}
-										mobileUIStatus={props.uiStatus}
-									/>
-								}
+								<p>Give us a second </p>:
+								<>
+									{props.personalInformation.isGuestProfile==true?
+										<GuestLockScreenHOC
+											component={displayFriendsGauge()}
+										/>
+										:
+										<>{displayFriendsGauge()}</>
+									}
+								</>
+							}
 					</li>
 					<hr/>
 					{displayCreationPostContainer()}

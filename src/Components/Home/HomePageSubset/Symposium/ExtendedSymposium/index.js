@@ -36,6 +36,7 @@ import {GeneralNavBar} from "../../../../GeneralComponents/NavBarComponent/Large
 import ExploreIcon from '@material-ui/icons/Explore';
 import GroupSharingVideoCall from "./Modals/VideoCall/index.js";
 import SymposiumOnboarding from "../../../../OnBoarding/SymposiumPageOnboarding.js";
+import GuestOnboarding from "../../../../OnBoarding/GuestOnboarding.js"
 import LoadingScreen from "../../../../../LoadingAnimation.js";
 import MobilePostOptionsPortal from "./Modals/MobileUI/PostOptionsPortal.js";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
@@ -217,7 +218,8 @@ class Symposium extends Component{
 			displayPhoneUI:false,
 			isLoadingReloadedPosts:false,
 			endOfPostsDBIndicator:false,
-			postOption:"Image"
+			postOption:"Image",
+			displayGuestOnboarding:false
 		}
 	}
 
@@ -1036,7 +1038,8 @@ class Symposium extends Component{
 
 	closeOnboardingModal=()=>{
 		this.setState({
-			hideOnboarding:true
+			hideOnboarding:true,
+			displayGuestOnboarding:false
 		})
 	}
 
@@ -1238,6 +1241,15 @@ class Symposium extends Component{
 					{this.state.hideOnboarding==false &&(
 						<div onMouseEnter={()=>this.setState({handleScroll:false})} >
 							<SymposiumOnboarding
+								closeModal={this.closeOnboardingModal}
+							/>
+						</div>
+					)}
+
+					{this.state.displayGuestOnboarding==true &&(
+						<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
+							<GuestOnboarding
+								targetDom="extendedSymposiumContainer"
 								closeModal={this.closeOnboardingModal}
 							/>
 						</div>
