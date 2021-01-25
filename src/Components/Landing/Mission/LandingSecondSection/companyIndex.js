@@ -121,7 +121,7 @@ const SecondContainerInformational=styled.div`
   }
 
     @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
-       margin-left:5%;
+       margin-left:15%;
     }
 `;
 
@@ -167,9 +167,10 @@ const NumberBulletsIcon={
     borderWidth:"2px",
     borderColor:"#3898ec",
     marginBottom:"5%",
-    width:"5%",
-    borderRadius:"50%"
+    borderRadius:"50%",
+    padding:"10px"
 }
+
 
 const DisplayTextButton={
     ...MoreDetailsButton,

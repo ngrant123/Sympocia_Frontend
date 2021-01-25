@@ -34,12 +34,17 @@ const ThirdContainerContents=styled.div`
 
 	@media screen and (max-width:1370px){
 		flex-direction:column;
-		margin-left:0%;
+		margin-left:15%;
+		width:80%;
 	}
 `;
 
 const SectionImageContainer=styled.div`
 	width:30%;
+
+	@media screen and (max-width:1370px){
+		display:none !important;
+	}
 `;
 
 const ArrowDownContainer=styled.div`
