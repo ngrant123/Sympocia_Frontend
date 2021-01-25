@@ -64,16 +64,19 @@ const FollowedSymposiumsModal=({isOwner,closeModal,userId})=>{
 	const [displayRemoveSymposiumVerification,changeDisplayRemoveSymposiumModal]=useState(false);
 	const [selectedSymposium,changeSelectedSymposium]=useState();
 	const personalInformation=useSelector(state=>state.personalInformation);
+	const [isLoadingData,changeIsLoadingStatus]=useState(false);
 	const dispatch=useDispatch();
 
 	useEffect(()=>{
 		const getSymposiums=async()=>{
+			changeIsLoadingStatus(true);
 			const {confirmation,data}=await getSymposiumsFollowedPersonal(userId);
 			if(confirmation=="Success"){
 				changeSymposiums(data);
 			}else{
 				alert('Unfortunately there has been an error trying to get your symposiums. Please try again');
 			}
+			changeIsLoadingStatus(false);
 		}
 		getSymposiums();
 	},[]);
@@ -118,92 +121,96 @@ const FollowedSymposiumsModal=({isOwner,closeModal,userId})=>{
 	}
 
 	return createPortal(
-				<>	
-					<ShadowContainer
-						onClick={()=>closeModal()}
-					/>
-					<Container>
-						{displayRemoveSymposiumVerification==false?
-							<ul style={{padding:"20px"}}>
-								<InputContainer
-									placeholder="Search through your symposiums"
-								/>
-								<hr/>
-								{/*
-									<li style={{listStyle:"none",display:"inline-block",width:"100%",marginBottom:"5%"}}>
-										<ul style={{padding:"0px"}}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li style={SymposiumsOptionsCSS}>
-													Best Recruits
-												</li>
-											</a>
+			<>	
+				<ShadowContainer
+					onClick={()=>closeModal()}
+				/>
+				<Container>
+					{displayRemoveSymposiumVerification==false?
+						<ul style={{padding:"20px"}}>
+							{isLoadingData==true?
+								<p>Loading please wait...</p>:
+								<React.Fragment>
+									{/*
+										<InputContainer
+											placeholder="Search through your symposiums"
+										/>
+										<hr/>
+										<li style={{listStyle:"none",display:"inline-block",width:"100%",marginBottom:"5%"}}>
+											<ul style={{padding:"0px"}}>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li style={SymposiumsOptionsCSS}>
+														Best Recruits
+													</li>
+												</a>
 
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li style={SymposiumsOptionsCSS}>
-													Newest
-												</li>
-											</a>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li style={SymposiumsOptionsCSS}>
+														Newest
+													</li>
+												</a>
+											</ul>
+										</li>
+									*/}
+									<li style={{listStyle:"none"}}>
+										<ul style={{padding:"0px"}}>
+											{symposiums.map(data=>	
+												<>
+													<li style={{listStyle:"none",width:"100%"}}>
+														<ul style={{padding:"0px",width:"100%"}}>
+															<li style={SymposiumsOptionsCSS}>
+																{data.symposium}
+															</li>
+
+															{isOwner==true &&(
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<li onClick={()=>displayRemoveSymposiumModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
+																		<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
+																			 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
+																			 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
+																			 stroke-linejoin="round">
+																		  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+																		  <circle cx="12" cy="12" r="9" />
+																		  <path d="M10 10l4 4m0 -4l-4 4" />
+																		</svg>
+																	</li>
+																</a>
+															)}
+														</ul>
+													</li>
+													<hr/>
+												</>
+											)}
 										</ul>
 									</li>
-								*/}
-								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										{symposiums.map(data=>	
-											<>
-												<li style={{listStyle:"none",width:"100%"}}>
-													<ul style={{padding:"0px",width:"100%"}}>
-														<li style={SymposiumsOptionsCSS}>
-															{data.symposium}
-														</li>
-
-
-														{isOwner==true &&(
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<li onClick={()=>displayRemoveSymposiumModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
-																	<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
-																		 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
-																		 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
-																		 stroke-linejoin="round">
-																	  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-																	  <circle cx="12" cy="12" r="9" />
-																	  <path d="M10 10l4 4m0 -4l-4 4" />
-																	</svg>
-																</li>
-															</a>
-														)}
-													</ul>
-												</li>
-												<hr/>
-											</>
-										)}
-									</ul>
+								</React.Fragment>
+							}
+						</ul>
+						:
+						<ul style={{padding:"20px"}}>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>changeDisplayRemoveSymposiumModal(false)} style={SymposiumsOptionsCSS}>
+									Back
 								</li>
-							</ul>
-							:
-							<ul style={{padding:"20px"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>changeDisplayRemoveSymposiumModal(false)} style={SymposiumsOptionsCSS}>
-										Back
-									</li>
-								</a>
-								<p style={{marginTop:"15%"}}> Are you sure you want to remove {selectedSymposium.symposium}? </p>
+							</a>
+							<p style={{marginTop:"15%"}}> Are you sure you want to remove {selectedSymposium.symposium}? </p>
 
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>removeSymposiumTrigger({isAccessTokenUpdated:false})} style={SymposiumsOptionsCSS}>
-										Yes
-									</li>
-								</a>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>removeSymposiumTrigger({isAccessTokenUpdated:false})} style={SymposiumsOptionsCSS}>
+									Yes
+								</li>
+							</a>
 
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>changeDisplayRemoveSymposiumModal(false)} style={SymposiumsOptionsCSS}>
-										No
-									</li>
-								</a>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>changeDisplayRemoveSymposiumModal(false)} style={SymposiumsOptionsCSS}>
+									No
+								</li>
+							</a>
 
-							</ul>
-						}
-					</Container>
-				</>
+						</ul>
+					}
+				</Container>
+			</>
 	,document.getElementById("personalContainer"));
 }
 
