@@ -32,7 +32,8 @@ const Container=styled.div`
 
 const ShadowContainer=styled.div`
 	position:fixed;
-	width:100%;
+	width:110%;
+	left:-5%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
 	z-index:35;

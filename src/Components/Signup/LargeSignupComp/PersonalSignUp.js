@@ -103,12 +103,15 @@ class PersonalSignUp extends Component{
 			isEmailValid:false,
 			createProfile:this.handleSignUpButton,
 			password:[],
-			reformatedPassword:""
+			reformatedPassword:"",
+			isCreatingProfile:false
 		}
 	}
 
 	handleSignUpButton=async()=>{
-		
+		this.setState({
+			isCreatingProfile:true
+		})
 
 		const firstName=document.getElementById("firstName").value;
 		const lastName=document.getElementById("lastName").value;
@@ -148,14 +151,22 @@ class PersonalSignUp extends Component{
 					})
 			    })
 			}else{
-				const {statusCode}=data;
+				const {statusCode,error}=data;
 				if(statusCode==400){
-					alert('Unfortunately an error has occured on using the credentials you supplied. Please repeat the process and submit again');
+					let errorValidationResonse="";
+					for(var i=0;i<error.length;i++){
+						errorValidationResonse=errorValidationResonse+' '+error[i]+',';
+					}
+					alert('Unfortunately an error has occured on using the credentials you supplied for :'+errorValidationResonse
+						+'. Please repeat the process and submit again');
 				}else{
 					alert('Unfortunately an error has occured when creating your profile. Please try again later');
 				}
 			}
 		}
+		this.setState({
+			isCreatingProfile:false
+		})
 	}
 
 	checkIfEmailIsValid=async()=>{
@@ -306,11 +317,14 @@ class PersonalSignUp extends Component{
 							 style={{width:"85%"}} placeholder="Password"
 						/>
 
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<SubmitButton onClick={()=>this.handleSignUpButton()}>
-								Submit
-							</SubmitButton>
-						</a>
+						{this.state.isCreatingProfile==true ?
+							<p>Please wait...</p>
+							:<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<SubmitButton onClick={()=>this.handleSignUpButton()}>
+									Submit
+								</SubmitButton>
+							</a>
+						}
 
 						 <TermsOfAgreement>
                            By clicking Submit, you agree to our Terms, Data Policy and Cookies Policy.

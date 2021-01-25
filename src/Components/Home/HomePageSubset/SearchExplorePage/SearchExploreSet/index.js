@@ -269,14 +269,16 @@ class SearchExploreContainer extends Component{
 		}
 		var {confirmation,data}=homePagePostsResponse;
 		if(confirmation=="Success"){
-			if(data.length==0){
+			const {message}=data;
+			if(message.length==0){
 				this.setState({
 					endOfPostsDBIndicator:true,
-					isLoadingReloadedPosts:false
+					isLoadingReloadedPosts:false,
+					isLoading:false
 				})
 			}else{
 				let currentPosts=this.state.postsInformation;
-				currentPosts=currentPosts.concat(data);
+				currentPosts=currentPosts.concat(message);
 				var newHomePagePosts=this.addSuggestedSymposiums(currentPosts);
 				this.setState({
 					postsInformation:newHomePagePosts,
