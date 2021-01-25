@@ -176,7 +176,6 @@ const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayCh
 				<OriginalShadowContainer
 					onClick={()=>closeModal()}
 				/>
-				{}
 				<EditNodeContainer>
 					{displayChampionModal==false?
 						<>

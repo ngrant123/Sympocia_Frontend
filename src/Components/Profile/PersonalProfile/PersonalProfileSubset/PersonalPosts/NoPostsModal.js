@@ -15,12 +15,22 @@ import {connect} from "react-redux";
 import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 import {Link} from "react-router-dom";
 
+const Container=styled.div`
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		margin-left:10% !important;
+    }
+`;
+
 const SympociaStampIconContainer=styled.div`
 	position:relative;
 	border-radius:50%;
 	width:65%;
 	height:40%;
-	background-color:red;
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		height:100%;
+		width:60%;
+    }
 `;
 
 const CreatePostContainer=styled.div`
@@ -36,6 +46,12 @@ const CreatePostContainer=styled.div`
 	&:hover{
 		box-shadow:5px 5px 5px 5px #9395a0;
 	}
+    @media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
+		box-shadow:none;
+		&:hover{
+			box-shadow:none;
+		}
+    }
 `;
 
 const RecommendedContainer=styled.div`
@@ -120,7 +136,7 @@ const NoPostsModal=(props)=>{
 
 	const uploadButtonComponent=()=>{
 		return <a href="javascript:void(0);" style={{textDecoration:"none",color:"white"}}>
-				<li onClick={()=>postContext.updatePostComponent(props.postType)}style={{marginLeft:"33%",listStyle:"none",display:"inline-block",padding:"5px",color:"white",backgroundColor:"#C8B0F4",borderRadius:"5px",padding:"10px",fontSize:"15px"}}>
+				<li onClick={()=>postContext.updatePostComponent(props.postType)}style={{listStyle:"none",display:"inline-block",padding:"5px",color:"white",backgroundColor:"#C8B0F4",borderRadius:"5px",padding:"10px",fontSize:"15px"}}>
 					{props.postType=="blog"?
 						<BlogCreationButton style={{textDecoration:"none",color:"white"}} to={{pathname:`/createBlog`,state:{postType:"Creation"}}}>
 							<p>
@@ -152,7 +168,7 @@ const NoPostsModal=(props)=>{
 													<img position="relative" src={SympociaIcon} width="100%" height="100%"/>
 												</SympociaStampIconContainer>
 											</li>
-											<p style={{fontSize:"20px",marginLeft:"10%"}}><b>Upload a {props.postType} of your own to get started</b></p>
+											<p style={{fontSize:"20px"}}><b>Upload a {props.postType} of your own to get started</b></p>
 											<p>Show people your story through {props.postType}s and start sharing your story to others </p>
 
 											{profileContext.isGuestProfile==true? 
@@ -171,10 +187,10 @@ const NoPostsModal=(props)=>{
 	}
 
 	return(
-			<React.Fragment>
+			<Container>
 				<p>Currently there are no posts available here</p>
 				{createPostModal()}
-			</React.Fragment>
+			</Container>
 	)
 }
 

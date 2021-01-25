@@ -6,6 +6,26 @@ import {promoteRecruitRequest} from "../../../../../../Actions/Requests/ProfileA
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
 
+const Container=styled.div`
+	@media screen and (max-width:1370px){
+		#recruitImage{
+			height:40% !important;
+		}
+	}
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#recruitImage{
+			height:60% !important;
+			width:60% !important;
+		}
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	#recruitImage{
+			width:45% !important;
+		}
+    }
+`;
+
 const InputContainer=styled.textarea`
 	position:relative;
 	border-radius:5px;
@@ -137,7 +157,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 
 
 	return(
-		<>
+		<Container>
 			{displayPromoteSomeoneScreen==false?
 				 <ul style={{padding:"25px"}}>
 				 		{/*
@@ -174,10 +194,9 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 												<li  onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",display:"inline-block",width:"35%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
 													<ul style={{padding:"10px"}}>
 														<li style={{listStyle:"none"}}>
-															{data.profilePicture==null?
-																<img src={NoProfilePicture} style={ImageCSS}/>:
-																<img src={data.profilePicture} style={ImageCSS}/>
-															}
+															<img id="recruitImage" src={data.profilePicture==null?
+																NoProfilePicture:data.profilePicture} style={ImageCSS
+															}/>
 														</li>
 														<li style={{listStyle:"none"}}>
 															{data.firstName}
@@ -185,8 +204,6 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 														<li style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
 															Promote
 														</li>
-														
-
 													</ul>
 												</li>
 											</a>
@@ -252,7 +269,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 						</ul>
 					</>
 				}
-		</>
+		</Container>
 
 	)
 }
