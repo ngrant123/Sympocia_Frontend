@@ -111,6 +111,14 @@ const PageImageContainer=styled.div`
       height:225px!important;
     }
   }
+
+    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+       margin-left:30%;
+      #image{
+        width:192px !important;
+        height:225px!important;
+      }
+    }
 `;
 
 const ExploreButton={

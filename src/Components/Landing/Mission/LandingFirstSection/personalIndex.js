@@ -227,7 +227,7 @@ const PageImageContainer=styled.div`
   }
 
     @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
-         margin-left:20%;
+         margin-left:30%;
       #headerImage{
         width:192px !important;
         height:225px!important;

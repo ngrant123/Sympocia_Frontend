@@ -165,7 +165,7 @@ const PageImageContainer=styled.div`
   display:flex;
   flex-direction:column;
   @media screen and (max-width:1370px){
-    margin-left:15%;
+      margin-left:5%;
     #amountOfUsersText{
       margin-top:7%;
       margin-left:-20% !important;
