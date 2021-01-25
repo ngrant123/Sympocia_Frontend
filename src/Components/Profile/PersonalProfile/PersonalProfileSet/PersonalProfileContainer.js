@@ -223,15 +223,7 @@ class LProfile extends Component{
 	The code below could be structured in a better way in the future
 */
 	async componentDidMount(){
-
-		const verification=this.props.isLoggedIn;
-		if(verification==false){
-			this.props.history.push({
-				pathname:'/'
-			})
-		}else{
-			this.getProfileApiTriggerCall({isAccessTokenUpdated:false});
-		}
+		this.getProfileApiTriggerCall({isAccessTokenUpdated:false});
 	}
 
 	getProfileApiTriggerCall=async({isAccessTokenUpdated})=>{
@@ -242,7 +234,7 @@ class LProfile extends Component{
 		let dataResponse;
 		let visitorId=this.props.personalId
 		const {isGuestProfile}=this.props.personalState;
-		if((id==this.props.personalId && isGuestProfile) || this.props.personalId=="0"){
+		if((id==this.props.personalId && isGuestProfile) || this.props.personalId=="0" || isGuestProfile==null){
 			const {GUEST_PROFILE}=CONSTANTS;
 			this.setState({
 				isLoading:false,

@@ -398,6 +398,7 @@ class FriendsGauge extends Component {
             <EditNodeModal
               closeNodeOptions={this.closePhoneEditNodesModal}
               triggerActionTypeChange={this.editFriendNodeActionTypeHandle}
+              editFriendNodeActionType={this.editFriendNodeActionTypeHandle}
             />
           )}
           {(this.props.mobileUIStatus.displayDesktopUI==false &&

@@ -31,6 +31,17 @@ const RemoveLevelVerificationContainer=styled.div`
 		width:60% !important;
 		height:30%;
 	}
+
+	@media screen and (max-width:700px){
+		left:10% !important;
+		width:80% !important;
+		height:30%;
+	}
+	  @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	height:65%;
+    	left:5% !important;
+    	width:90% !important;
+    }
 `;
 
 {/*
@@ -61,6 +72,7 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 	}
 
 	const removeLevelHandler=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeIsSubmitProcessing(true);
 		const levelObject={
 			_id:id,
 			levelId:nodeId,
