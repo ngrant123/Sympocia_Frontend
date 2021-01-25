@@ -35,7 +35,7 @@ const Container=styled.div`
 		left:5% !important;
     }
 
-    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	height:60%;
     }
 `;
@@ -97,10 +97,11 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 			const {confirmation,data}=await getRecruits(userId);
 			console.log(data);
 			if(confirmation=="Success"){
+				const {message}=data;
 				const {
 					recruits,
 					recruitsFollowing
-				}=data;
+				}=message;
 				changeRecruits(recruitsFollowing);
 				//recruitsProfileFollows(recruits);
 
