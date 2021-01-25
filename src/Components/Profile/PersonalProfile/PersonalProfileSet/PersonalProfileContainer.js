@@ -224,82 +224,93 @@ class LProfile extends Component{
 */
 	async componentDidMount(){
 
-		if(this.props.personalId=="0"){
-			this.setState({
-				displayGuestOnboarding:true
+		const verification=this.props.isLoggedIn;
+		if(verification==false){
+			this.props.history.push({
+				pathname:'/'
 			})
+		}else{
+			this.getProfileApiTriggerCall({isAccessTokenUpdated:false});
 		}
+	}
+
+	getProfileApiTriggerCall=async({isAccessTokenUpdated})=>{
 		debugger;
 		window.addEventListener('resize',this.triggerUIChange)
 		const {id}=this.props.match.params;
-		if(id==this.props.personalId){
-			const {isGuestProfile}=this.props.personalState;
-			const profileIds={
-				userId:this.props.personalId
+		let confirmationResponse;
+		let dataResponse;
+		let visitorId=this.props.personalId
+		const {isGuestProfile}=this.props.personalState;
+		if((id==this.props.personalId && isGuestProfile) || this.props.personalId=="0"){
+			const {GUEST_PROFILE}=CONSTANTS;
+			this.setState({
+				isLoading:false,
+				userProfile:GUEST_PROFILE,
+				isOwnProfile:true,
+				displayChampion:false,
+				champion:{},
+				isLoading:false,
+				hideOnboarding:true,
+				isGuestProfile:true
+			})
+
+		}else{
+			if(id==this.props.personalId){
+				const profileIds={
+					userId:this.props.personalId,
+					accessToken:this.props.personalInformation.accessToken
+				}
+				const {confirmation,data}=await getProfile(profileIds);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+			}else{
+				const profileIds={
+					userId:id,
+					visitorId,
+					accessToken:this.props.personalInformation.accessToken
+				}
+				const {confirmation,data}=await getProfile(profileIds);
+				confirmationResponse=confirmation;
+				dataResponse=data;
 			}
-			if(isGuestProfile==true || this.props.personalId=="0"){
-				const {GUEST_PROFILE}=CONSTANTS;
-				this.setState({
-					isLoading:false,
-					userProfile:GUEST_PROFILE,
-					isOwnProfile:true,
-					displayChampion:false,
-					champion:{},
+
+			if(confirmationResponse=="Success"){
+				var containsChampion=false;
+				const {message}=dataResponse;
+				if(message.championData!=null)
+					containsChampion=message.championData.name!=""?true:false;
+
+				this.setState(prevState=>({
+					...prevState,
+					userProfile:message,
+					isOwnProfile:id==this.props.personalId?true:false,
+					displayChampion:containsChampion,
+					championModalData:message.championData,
 					isLoading:false,
 					hideOnboarding:true,
-					isGuestProfile:true
-				})
-
+					visitorId
+				}));
 			}else{
-				const {confirmation,data}=await getProfile(profileIds);
-				if(confirmation=="Success"){
-					console.log(data);
-					var containsChampion=false;
-					if(data.championData!=null)
-						containsChampion=data.championData.name!=""?true:false;
-
-					this.setState(prevState=>({
-						...prevState,
-						isLoading:false,
-						userProfile:data,
-						isOwnProfile:true,
-						displayChampion:containsChampion,
-						champion:data.championData,
-						isLoading:false,
-						hideOnboarding:data.firstTimeLoggedIn.personalPage
-					}));
+				debugger;
+				const {statusCode}=dataResponse;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalInformation.refreshToken,
+							this.props.personalInformation.id,
+							this.getProfileApiTriggerCall,
+							this.props,
+							{},
+							true
+						);
 				}else{
 					alert('Unfortunately there has been an error getting this page. Please try again');
 				}
 			}
-		}else{
-			let visitorId=this.props.personalId
-			const profileIds={
-				userId:id,
-				visitorId
-			}
-			const {confirmation,data}=await getProfile(profileIds);
-
-			if(confirmation=="Success"){
-				var containsChampion=false;
-				if(data.championData!=null)
-					containsChampion=data.championData.name!=""?true:false;
-
-				this.setState(prevState=>({
-					...prevState,
-					isLoading:false,
-					userProfile:data,
-					displayChampion:containsChampion,
-					championModalData:data.championData,
-					isLoading:false,
-					visitorId
-				}));
-			}else{
-				alert('Unfortunately there has been an error getting this page. Please try again');
-			}
 		}
 		this.triggerUIChange();
 	}
+
 
 	 handleChangeProfilePicture=()=>{
 	 	document.getElementById("profilePicutreImageFile").click();
@@ -343,7 +354,8 @@ class LProfile extends Component{
 						true
 					);
 				}else{
-					alert('Unfortunately there has been an error with changing your profile picture. Please try again');
+					alert('Unfortunately there has been an error with changing your profile picture. We only accept jpeg'+
+					' and png. Please try again');
 				}
 			}
 		}
@@ -824,6 +836,7 @@ class LProfile extends Component{
 				<PostDisplayProvider
 					value={{
 						isLoadingReloadedPosts:this.state.isLoadingReloadedPosts,
+						endOfPostsDBIndicator:this.state.endOfPostsDBIndicator,
 						handleImagePostModal:(imagePostData,contextLocation)=>{
 							console.log(imagePostData);
 							
@@ -856,10 +869,16 @@ class LProfile extends Component{
 								displayShadowBackground:true,
 								contextLocation:contextLocation
 							})
+						},
+						fetchNextPosts:()=>{
+							this.setState({
+								triggerPostReload:true,
+								isLoadingReloadedPosts:true
+							})
 						}
 					}}
 				>
-					<Container id="personalContainer"  onScroll={element=>this.detectEndOfPostContainer(element.target)}>
+					<Container id="personalContainer">
 						{this.state.displayConfetti==true?
 							<Confetti
 								style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}

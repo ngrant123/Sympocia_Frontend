@@ -137,7 +137,7 @@ export const ProfilePictureContainer=styled.div`
 	 	#profilePicture{
 	      border-radius:50%;
           height:70% !important;
-          width:70% !important;
+          width:85% !important;
           margin-left:10%;
 	    }
     }
@@ -146,7 +146,7 @@ export const ProfilePictureContainer=styled.div`
     @media screen and (max-width:700px){
     	top:-10% !important;
     	height:100% !important;
-    	margin-left:5%;
+    	margin-left:0%;
     	width:90% !important;
 		z-index:10;
 		#profilePicture{
@@ -159,6 +159,7 @@ export const ProfilePictureContainer=styled.div`
     }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+    	margin-left:5%;
 	 	#profilePicture{
 	 		width:50% !important;
 	 	}
