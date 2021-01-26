@@ -180,6 +180,7 @@ const DescriptionModal=(props)=>{
 	const personalReduxInformation=useSelector(state=>state.personalInformation);
 	const [currentAccessToken,changeCurrentAccessToken]=useState(personalReduxInformation.accessToken);
 	const [isAccessTokenRefreshTriggered,changeIsAccessTokenTriggered]=useState(false);
+	const [isProcessingSubmittion,changeIsProcessingSubmittion]=useState(false);
 
 	const [contextPersonalInformation,changeContextPersonalInformation]=useState();
 	const [contextCompanyInformation,changeContextCompanyInformation]=useState();
@@ -210,6 +211,7 @@ const DescriptionModal=(props)=>{
 
 	const handleSubmitButton=async(personalInformation,companyInformation)=>{
 		debugger;
+		changeIsProcessingSubmittion(true);
 		const name=document.getElementById("name").value;
 		const description=document.getElementById("description").value;
 
@@ -255,6 +257,7 @@ const DescriptionModal=(props)=>{
 				alert('Unfortunately an error has occured when trying to update your champion. Please try again');
 			}
 		}
+		changeIsProcessingSubmittion(false);
 	}
 	
 	return(
@@ -274,10 +277,13 @@ const DescriptionModal=(props)=>{
 									<img id="pictureLI" src={props.imgData} style={{marginBottom:"2%",position:"relative",width:"30%",height:"40%",borderRadius:"50%"}}/>
 									<NameTextArea id="name" placeholder="Enter a name here"/>
 									<DescriptionTextArea id="description" placeholder="Enter a description"/>
-									<SubmitButton onClick={()=>handleSubmitButton(personalInformation,companyInformation)}>
-										Submit
-									</SubmitButton>
 
+									{isProcessingSubmittion==true?
+										<p>Loading please wait...</p>:
+										<SubmitButton onClick={()=>handleSubmitButton(personalInformation,companyInformation)}>
+											Submit
+										</SubmitButton>
+									}
 								</DescriptionContainer>
 							</ul>
 						</Container>
