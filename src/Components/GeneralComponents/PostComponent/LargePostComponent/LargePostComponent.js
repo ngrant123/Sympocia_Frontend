@@ -326,6 +326,7 @@ class LargePostComponent extends Component{
 
 
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			companyTitle:"CEO",
@@ -481,6 +482,7 @@ class LargePostComponent extends Component{
 			<PostProvider
 				value={{
 					userProfileId:this.state.id,
+					isPhoneUIEnabled:this.props.isPhoneUIEnabled,
 					profileType:this.props.profileType,
 					closeModal:()=>{
 						this.props.closeModal();

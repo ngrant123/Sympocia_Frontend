@@ -42,13 +42,19 @@ const Container=styled.div`
 	overflow-y:scroll;
 	height:55%;
 
-	@media screen and (max-width:1030px) and (max-height:1370px){
+	@media screen and (max-height:1370px){
     	height:100% !important;
-		width:100%;
+		width:80%;
 		left:5% !important; 
     }
 
-    @media screen and (max-width:770px){
+    @media screen and (max-width:1370px){
+    	${({isPhoneUIEnabled})=>(
+    		isPhoneUIEnabled==true && (
+    			`top:5% !important;`
+    		)
+    	)}
+
 		left:1% !important; 
 		height:100% !important;
 		width:100%;
@@ -75,7 +81,10 @@ const Container=styled.div`
 			width:250px !important;
 		}
     }
-    @media screen and (max-width:740px) and (max-height:420px){
+    @media screen and (max-width:840px) and (max-height:420px){
+    	top:5%;
+		overflow-y:scroll;
+		height:90% !important;
     	#imageListContainer{
 			display:block !important;
 			width:100% !important;
@@ -92,6 +101,11 @@ const Image=styled.div`
 	overflow-y:auto;
 	border-radius:5px;
 
+	 @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		height:80% !important;
+		width:80%;
+    }
+
 `;
 
 const ImageTextArea=styled.textarea`
@@ -104,10 +118,9 @@ const ImageTextArea=styled.textarea`
 	background-color:#f1f1f1;
 	padding:5px;
 
-	@media screen and (max-width:330px){
-		width:250px;
-		
-    }
+	@media screen and (max-width:700px){
+		width:110% !important;
+	}
 `;
 
 const SelectedIndustryButton=styled.div`
@@ -374,7 +387,7 @@ class EditImageCreation extends Component{
 								true
 							);
 					}else{
-						alert('Unfortunately there has been an error editing this post. Please try again');
+						alert('Unfortunately there has been an error creating this post. Please try again');
 						this.setState({
 							isSubmittedAndProcessing:false
 						})
@@ -713,7 +726,18 @@ class EditImageCreation extends Component{
 				{profilePostInformation=>(
 						<UserConsumer>
 							{userSessionInformation=>(
-								<Container id="editImageContainer">
+								<Container id="editImageContainer" isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
+									{this.props.isPhoneUIEnabled==true &&(
+										<div onClick={()=>this.props.closeModal()}>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+											 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+											 stroke-linecap="round" stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+											  <circle cx="12" cy="12" r="9" />
+											  <path d="M10 10l4 4m0 -4l-4 4" />
+											</svg>
+										</div>
+									)}
 									{this.state.displayReplaceImageModal==true &&(
 										<>
 											<ShadowContainerNewImageCreation 

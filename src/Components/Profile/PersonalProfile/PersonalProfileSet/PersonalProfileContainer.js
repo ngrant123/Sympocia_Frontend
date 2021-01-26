@@ -25,7 +25,6 @@ import RegularPostContainer from "../../../GeneralComponents/PostComponent/Regul
 import {SponsorDisplayModal} from "./Modals-Portals/ChampionModalPortal/ChampionDisplayModal.js";
 import Confetti from 'react-confetti';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
-import CreationPortal from "./Modals-Portals/PostCreationPortal.js";
 import OnboardingPersonalPage from "../../../OnBoarding/PersonalProfileOnboarding.js";
 import GuestOnboardingModal from "../../../OnBoarding/GuestOnboarding.js";
 import PromotePortal from "../PersonalProfileSubset/PersonalPosts/PromotePortal.js";

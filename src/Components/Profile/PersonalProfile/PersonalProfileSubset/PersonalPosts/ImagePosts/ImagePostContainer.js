@@ -11,12 +11,16 @@ import Typed from "react-typed";
 
 const Container=styled.div`
 	position:absolute;
-	width:95%;
+	width:120%;
 	height:95%;
 
-	@media screen and (max-width:1020px), screen and (max-height:1370px){
-        #smallPostLI{
-			width:200px !important;
+    #smallPostLI{
+		width:200px !important;
+		margin-right:10% !important;
+	}
+	@media screen and (max-width:1370px){
+		width:95%;
+		#smallPostLI{
 			margin-right:10% !important;
 		}
     }
@@ -25,6 +29,7 @@ const Container=styled.div`
 		#smallPostLI{
 			width:200px !important;
 			margin-right:10% !important;
+			margin-bottom:30% !important;
 		}
 		#parentLISmallPostContainer{
 				width:150% !important;
@@ -54,10 +59,17 @@ const Container=styled.div`
 		}
     }
 
-    @media screen and (max-width:740px) and (max-height:420px){
+    @media screen and (max-width:840px) and (max-height:420px)  and (orientation: landscape){
+    	margin-left:5% !important;
 		#smallPostLI{
 			width:35% !important;
 			margin-left:3% !important;
+		}
+    }
+
+     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#smallPostLI{
+			margin-bottom:35% !important;
 		}
     }
 

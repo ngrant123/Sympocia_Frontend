@@ -5,6 +5,9 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {Link} from "react-router-dom";
 import {getRecruits} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
+
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -90,6 +93,8 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 	const [selectedRecruit,changeSelectedRecruit]=useState();
 	const [isLoadingData,changeIsLoadingStatus]=useState(false);
 	const [processingSubmittion,changeIsSubmittionProcessing]=useState(false);
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
 
 	useEffect(()=>{
 		const getRecruitsFromDB=async()=>{
@@ -118,12 +123,14 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 		changeDisplayRemoveRecruitsModal(true);
 	}
 
-	const removeRecruit=async()=>{
+	const removeRecruit=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const {_id}=selectedRecruit;
 		changeIsSubmittionProcessing(true);
 		const {confirmation,data}=await removeRecruitProfileIsFollowing({
 				personalProfileId:userId,
-				targetProfile:_id
+				targetProfile:_id,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+				personalInformation.accessToken
 			});
 		if(confirmation=="Success"){
 			for(var i=0;i<recruits.length;i++){
@@ -134,7 +141,20 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 			changeDisplayRemoveRecruitsModal(false);
 			changeRecruits([...recruits]);
 		}else{
-			alert('Unfortunately an error has occurred when tryin to delete this recruit. Please try again');
+			debugger;
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						removeRecruit,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately an error has occurred when tryin to delete this recruit. Please try again');
+			}
 		}
 		changeIsSubmittionProcessing(false);
 	}
@@ -224,7 +244,7 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 								<p style={{marginTop:"15%"}}> Are you sure you want to remove {selectedRecruit.firstName}? </p>
 
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>removeRecruit()} style={RecruitsOptionsCSS}>
+									<li onClick={()=>removeRecruit({isAccessTokenUpdated:false})} style={RecruitsOptionsCSS}>
 										Yes
 									</li>
 								</a>

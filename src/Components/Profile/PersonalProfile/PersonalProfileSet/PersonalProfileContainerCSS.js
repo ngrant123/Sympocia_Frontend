@@ -357,6 +357,7 @@ export const ShadowContainer= styled.div`
 `;
 
 export const ImagePopupContainer=styled.div`
+	position:absolute;
 	margin-left:20%;
 	margin-top:10%;
 	position:fixed;
