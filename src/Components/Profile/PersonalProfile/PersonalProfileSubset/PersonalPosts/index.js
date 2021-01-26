@@ -311,9 +311,9 @@ const PersonalPostsIndex=(props)=>{
 					}
 					props.unTriggerReload();
 					changeVideoPosts(videoObject);
-					changeVideosLoadingIndicator(false);
-					changeIsLoadingNewPosts(false)
 				}
+				changeVideosLoadingIndicator(false);
+				changeIsLoadingNewPosts(false)
 			}else{
 				debugger;
 				const {statusCode}=data;
@@ -362,10 +362,10 @@ const PersonalPostsIndex=(props)=>{
 
 					props.unTriggerReload();
 					changeBlogPosts(blogObject);
-					changeBlogPostsLoadingIndicator(false);
-					changeIsLoadingNewPosts(false);
 					changeDisplayForBlogs(true);
 				}
+					changeBlogPostsLoadingIndicator(false);
+					changeIsLoadingNewPosts(false);
 			}else{
 				debugger;
 				const {statusCode}=data;
@@ -418,9 +418,9 @@ const PersonalPostsIndex=(props)=>{
 					props.unTriggerReload();
 					changeRegularPost(regularPostObject);
 					changeDisplayForRegularPosts(true);
+				}
 					changeRegularPostsLoadingIndicator(false);
 					changeIsLoadingNewPosts(false)
-				}
 			}else{
 				debugger;
 				const {statusCode}=data;
@@ -455,6 +455,7 @@ const PersonalPostsIndex=(props)=>{
 			<PostCreationPortal
 				postOption={postOption}
 				closeModal={closeModal}
+				isPhoneUIEnabled={props.uiStatus.displayPhoneUI}
 			/>:null;
 	}
 

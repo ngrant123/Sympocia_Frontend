@@ -136,10 +136,11 @@ const FriendsGaugeEditPortal=(props)=>{
 			const {confirmation,data}=await getRecruits(props.userInformation);
 			console.log(data);
 			if(confirmation=="Success"){
+				const {message}=data;
 				const {
 					recruits,
 					recruitsFollowing
-				}=data;
+				}=message;
 				changeRecruitsInformation(recruitsFollowing);
 			}else{
 				alert('Unfortunately there has been an error trying to get your recruits. Please try again');

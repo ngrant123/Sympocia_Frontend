@@ -56,7 +56,7 @@ const Container=styled.div`
 			border-left:none !important;
 		}
 		#pictureLI{
-			width:5% !important;
+			width:10% !important;
 			height:50% !important;
 		}
     }
