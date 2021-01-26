@@ -14,7 +14,7 @@ const Container=styled.div`
 	flex-direction:row;
 
 	@media screen and (max-width:1370px){
-		width:200%;
+		width:100%;
 		#profilePicture{
 			height:40% !important;
 			width:50% !important;
@@ -28,6 +28,7 @@ const Container=styled.div`
 	}
 
 	@media screen and (max-width:700px){
+		width:200%;
 		flex-direction:column;
 	}
 
@@ -35,12 +36,13 @@ const Container=styled.div`
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	#profilePicture{
 			height:50% !important;
-			width:40% !important;
+			width:60% !important;
 		}
+		width:200%;
     }
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 	 	height:70% !important;
-	 	width:100% !important;
+	 	width:200% !important;
     }
 `;
 

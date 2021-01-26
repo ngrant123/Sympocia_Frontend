@@ -65,11 +65,18 @@ const Container=styled.div`
 		#smallAudio{
 			width:250px !important;
 		}
+
+		#smallBlogLI{
+			margin-bottom:15% !important;
+		}
     }
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	margin-left:10% !important;
 		#headerDescriptionLI{
 			margin-left:10% !important;
+		}
+		#smallBlogLI{
+			margin-bottom:25% !important;
 		}
     }
 `;
@@ -213,46 +220,7 @@ class BlogsPostsContainer extends Component{
 	}
 
 	async componentDidMount(){
-		this.blogApiTriggerCall({isAccessTokenUpdated:false});
-	}
-
-	blogApiTriggerCall=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		const {	confirmation,data}=await getBlogFromUser({
-				userId:this.props.id,
-				visitorId:this.props.visitorId,
-				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-						this.props.personalInformation.accessToken
-
-			});
-		if(confirmation=="Success"){
-			const {message}=data;
-			const {
-				crownedBlog,
-				blogArray
-			}=message;
-			this.setState({
-				headerBlog:crownedBlog==={}?null:crownedBlog,
-				blogs:blogArray,
-				isLoading:false,
-				blogUrl:`/createBlog`,
-				profileType:"Personal"
-			})
-		}else{
-			debugger;
-			const {statusCode}=data;
-			if(statusCode==401){
-				await refreshTokenApiCallHandle(
-						this.props.personalInformation.refreshToken,
-						this.props.personalInformation.id,
-						this.blogApiTriggerCall,
-						this.props,
-						{},
-						true
-					);
-			}else{
-				alert('Unfortunately there has been an error getting these blog posts. Please try again');
-			}
-		}
+	//	this.blogApiTriggerCall({isAccessTokenUpdated:false});
 	}
 
 
@@ -389,7 +357,7 @@ return(
 																				friendsNodes:this.props.friendsNodes
 																		}}}>
 																		
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"8%",marginBottom:"-7%"}}>
+											<li id="smallBlogLI" style={{listStyle:"none",display:"inline-block",marginRight:"8%",marginBottom:"7%"}}>
 												<SmallBlogComponent>
 													<ul style={{padding:"0px"}}>
 														<li style={{listStyle:"none"}}>
