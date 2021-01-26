@@ -40,6 +40,11 @@ const Container=styled.div`
 			width:150% !important;
 		}
 	}
+  @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#headerContainerLI{
+			width:50% !important;
+		}
+    }
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		margin-left:20% !important;
     }

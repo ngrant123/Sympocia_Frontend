@@ -264,7 +264,7 @@ const PersonalPostsIndex=(props)=>{
 				debugger;
 				if(confirmation=="Success"){
 					const {crownedPost,posts}=data;
-					if(posts.length==0){
+					if(posts.length==0 && crownedPost==null){
 						props.finalPostRecieved();
 					}else{
 						const {images}=imagePost;
@@ -300,7 +300,7 @@ const PersonalPostsIndex=(props)=>{
 
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
-				if(posts.length==0){
+				if(posts.length==0 && crownedPost==null){
 					props.finalPostRecieved();
 				}else{
 					const {videos}=videoPost;
@@ -340,12 +340,14 @@ const PersonalPostsIndex=(props)=>{
 			const {	confirmation,data}=await getBlogFromUser({
 												userId:id,
 												visitorId:props.visitorId,
-												postCount:postCounter==null?0:postCounter
+												postCount:postCounter==null?0:postCounter,
+												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+												personalRedux.accessToken
 											});
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 
-				if(posts.length==0){
+				if(posts.length==0 && crownedPost==null){
 					props.finalPostRecieved();
 				}else{
 					const blogDiv=document.getElementById("blogs");
@@ -400,7 +402,7 @@ const PersonalPostsIndex=(props)=>{
 			if(confirmation=="Success"){	
 				const {crownedPost}=data;
 				const postsResponse=data.posts;
-				if(postsResponse.length==0){
+				if(postsResponse.length==0 && crownedPost==null){
 					props.finalPostRecieved();
 				}else{
 					const regularPostDiv=document.getElementById("regularPosts");
