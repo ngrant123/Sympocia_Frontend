@@ -57,7 +57,7 @@ const Container=styled.div`
 			height:90% !important;
 		}
     }
-    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 	 	#image{
 	 		margin-left:5% !important;
 			height:130% !important;
@@ -93,7 +93,7 @@ const TogglePostInformationButton=styled.div`
 		height:10%;
 		width:7%;
     }
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 			top:10%; !important;
 			height:10%;
 			width:7%;
@@ -118,7 +118,7 @@ const PostInformationContainer=styled.div`
 	@media screen and (max-width:1370px) and (max-height:1030px){
 	 	height:10% !important;
     }
-	@media screen and (max-width:740px) and (max-height:420px){
+	@media screen and (max-width:840px) and (max-height:420px){
 		height:90% !important;
     }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -452,7 +452,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 										<a href="javascript:void(0);">
 											<li onClick={()=>promote()} style={ShadowButtonCSS}>
 												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-													  width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+													  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C"
 													  fill="none" stroke-linecap="round" stroke-linejoin="round">
 													  <path stroke="none" d="M0 0h24v24H0z"/>
 													  <circle cx="12" cy="9" r="6" />

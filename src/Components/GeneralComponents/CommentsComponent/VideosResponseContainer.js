@@ -353,7 +353,8 @@ class VideoResponseContainer extends Component{
 											<li style={{listStyle:"none",width:"400px"}}>
 												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-														<img src={videoData.profilePicture==null?NoProfilePicture:videoData.profilePicture}
+														<img src={videoData.ownerObject.profilePicture==null?
+															NoProfilePicture:videoData.ownerObject.profilePicture}
 															style={{borderRadius:"50%",width:"50px",height:"45px"}}
 														/>
 													</li>
@@ -456,6 +457,9 @@ class VideoResponseContainer extends Component{
 	}
 
 	handleNewVideoResponse=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		this.setState({
+			isProcessingInput:true
+		})
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const currentProfile={
 			isPersonalProfile:isPersonalProfileIndicator,
@@ -510,6 +514,9 @@ class VideoResponseContainer extends Component{
 				alert('Unfortunately there was an error creating your video response. Please try again');
 			}
 		}
+		this.setState({
+			isProcessingInput:false
+		})
 	}
 	/*
 		<{this.state.indicatorPosition==this.state.videoResponses.length-1?
@@ -539,30 +546,34 @@ class VideoResponseContainer extends Component{
 								parentContainer={this.props.targetContainer}
 							/>:
 							<>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none"}}>
-										<ul style={{padding:"0px"}}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>this.handleNewVideoResponse({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
-													Submit 
-												</li>
-											</a>
+								<hr/>
+								{this.state.isProcessingInput==true?
+									<p>Please wait...</p>:
+									<ul style={{padding:"0px"}}>
 
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>this.setState({displayFinalResultVideoResponseScreen:false})}style={SubmitButtonCSS}>
-													Redo response
-												</li>
-											</a>
-										</ul>
-									</li>
+										<li style={{listStyle:"none"}}>
+											<ul style={{padding:"0px"}}>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>this.handleNewVideoResponse({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
+														Submit 
+													</li>
+												</a>
 
-									<li style={{listStyle:"none"}}>
-										<video width="100%" height="100%" autoplay="true" controls>
-											<source src={this.state.createdVideoSrc} type="video/mp4"/>
-										</video>
-									</li>
-								</ul>
-								
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>this.setState({displayFinalResultVideoResponseScreen:false})}style={SubmitButtonCSS}>
+														Redo response
+													</li>
+												</a>
+											</ul>
+										</li>
+
+										<li style={{listStyle:"none"}}>
+											<video width="100%" height="100%" autoplay="true" controls>
+												<source src={this.state.createdVideoSrc} type="video/mp4"/>
+											</video>
+										</li>
+									</ul>
+								}
 							</>
 						}
 					</>
