@@ -392,20 +392,22 @@ class VideoResponseContainer extends Component{
 											*/}
 										</ul>
 									</Video>
-									{this.state.replies.length==0 ?
-										<p style={ButtonCSS} onClick={()=>this.getReplies()}>
-											{this.state.isProcessingInput==true?
-												<p>Please wait</p>:
-												<>
-													{this.state.isRepliesFetched==true?
-														<p> No video comments</p>:
-														<p>View Comments </p>
-													}
-												</>
-											}
-										</p>:
-										<>{this.commentUI()}</>
-									}
+									{/*
+										{this.state.replies.length==0 ?
+											<p style={ButtonCSS} onClick={()=>this.getReplies()}>
+												{this.state.isProcessingInput==true?
+													<p>Please wait</p>:
+													<>
+														{this.state.isRepliesFetched==true?
+															<p> No video comments</p>:
+															<p>View Comments </p>
+														}
+													</>
+												}
+											</p>:
+											<>{this.commentUI()}</>
+										}
+									*/}
 									
 								</>
 							}
@@ -480,12 +482,12 @@ class VideoResponseContainer extends Component{
 			data=data.message;
 			const newComment={
 					videoSrc:this.state.createdVideoSrc,
-					profilePicture:data.profilePicture,
 					ownerObject:{
 						owner:{
 							firstName:isPersonalProfileIndicator==true?this.props.personalState.firstName:
 							this.props.companyState.companyName
-						}
+						},
+						profilePicture:data.profilePicture
 					},
 					_id:data.comments.videoComments[data.comments.videoComments.length-1]._id.toString()
 				}

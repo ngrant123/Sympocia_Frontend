@@ -839,6 +839,7 @@ const PersonalPostsIndex=(props)=>{
 										blogData={blogPost}
 										isLoadingIndicatorBlogPost={isLoadingIndicatorBlogPost}
 										id={personalInformation.userProfile._id}
+										friendsNodes={props.personalInformation.userProfile.friendsGaugeNodes}
 									/>:<React.Fragment></React.Fragment>
 								}
 								{

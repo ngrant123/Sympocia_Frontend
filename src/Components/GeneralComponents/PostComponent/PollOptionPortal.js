@@ -194,9 +194,12 @@ const PollOptionPortal=(props)=>{
 			}
 
 			if(confirmationResponse=="Success"){
+				const {message}=dataResponse;
 				changeDisplayCreateComment(false);
 				var dummyCommentObject={
-					profilePicture:dataResponse,
+					ownerObject:{
+						profilePicture:message,
+					},
 					comment:comment,
 					firstName:personalInformation.firstName
 				};
@@ -310,9 +313,9 @@ const PollOptionPortal=(props)=>{
 										{comments.map(data=>
 											<CommentContainer>
 												<CommentOwnerImage>
-													{data.profilePicture==null?
+													{data.ownerObject.profilePicture==null?
 														<img src={NoProfilePicture} style={ProfilePictureCSS}/>:
-														<img src={data.profilePicture} style={ProfilePictureCSS}/>
+														<img src={data.ownerObject.profilePicture} style={ProfilePictureCSS}/>
 													}
 												</CommentOwnerImage>
 												<CommentTextAndOwner>

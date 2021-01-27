@@ -281,13 +281,13 @@ displayShadow=()=>{
 createOrRemoveStampEffect=()=>{
 		var isPersonalProfile=this.props.pageType=="personalProfile"?true:false;
 		if(this.state.displayStampEffect==false){
-			//addStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
+			addStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
 			this.setState({
 				displayStampEffect:true
 			})
 
 		}else{
-			//unStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
+			unStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
 			this.setState({
 				displayStampEffect:false
 			})

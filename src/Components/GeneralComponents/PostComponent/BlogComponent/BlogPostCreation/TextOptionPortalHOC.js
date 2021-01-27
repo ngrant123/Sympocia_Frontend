@@ -14,22 +14,26 @@ const ShadowContainer= styled.div`
 
 const Container=styled.div`
 	position:fixed;
-	width:25%;
-	height:50%;
+	width:50%;
+	height:70%;
 	background-color:white;
 	z-index:5;
-	top:20%;
+	top:15%;
 	border-radius:5px;
-	left:40%;
+	left:25%;
+	padding:10px;
 	overflow-y:auto;
-	@media screen and (max-width:1030px){
-		width:40% !important;
-		left:30% !important;
+	@media screen and (max-width:1370px){
+		width:75% !important;
+		left:15% !important;
     }
 
     @media screen and (max-width:600px){
 		width:90% !important;
 		left:5% !important;
+    }
+     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		top:25% !important;
     }
 `;
 

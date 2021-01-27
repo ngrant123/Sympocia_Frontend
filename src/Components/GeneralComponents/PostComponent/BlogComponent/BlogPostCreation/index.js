@@ -138,6 +138,7 @@ class BlogPostCreation extends Component{
 		debugger;
 		window.addEventListener('resize',this.triggerUIChange);
 		const verification=this.props.isLoggedIn;
+		console.log(this.props);
 		if(verification==false){
 			this.props.history.push({
 				pathname:'/'
@@ -331,10 +332,20 @@ class BlogPostCreation extends Component{
 								{this.pollModal()}
 								{this.displayApproveDisapproveModal()}
 								<AdditionalInformation
-									blogData={this.props.location.state}
 									postType={this.props.location.state.postType}
 									profileId={this.props.personalInformation.id}
+									displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
+									blogState={this.state.blogState}
+									postType={this.props.location.state.postType}
+									displayCommentSection={this.displayCommentSection}
+									displayApproveDisapproveModalHandle={this.displayApproveDisapproveModalHandle}
+									history={this.props.history}
+									isDesktop={this.state.displayDesktopUI}
+									profileId={this.props.personalInformation.id}
+									postId={this.props.location.state._id}
+									triggerPromoteModal={this.triggerPromoteModal}
 								/>
+
 								<TextOptions
 									displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
 									blogState={this.state.blogState}
@@ -347,6 +358,7 @@ class BlogPostCreation extends Component{
 									history={this.props.history}
 									isDesktop={this.state.displayDesktopUI}
 									profileId={this.props.personalInformation.id}
+									isInEditMode={this.state.isInEditMode}
 								/>
 								<Blog
 									isDesktop={this.state.displayDesktopUI}
@@ -362,7 +374,6 @@ class BlogPostCreation extends Component{
 											hideComments={this.hideComments}
 											targetDom={"blogPostContainer"}
 										/>
-
 									</CommentContainer>
 								)}
 							</>

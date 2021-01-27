@@ -92,8 +92,6 @@ export const createBlogPost=async(_id,searchCriteria,profileIndicator,accessToke
 
 export const addStampPost =async(postId,profileType,postType,userId,accessToken)=>{
 	try{
-		
-		
 		const postStampResponse= await axios.post(`${CreateURl}/addStamp`,{
 			postId:postId,
 			profileType:profileType,
@@ -108,7 +106,7 @@ export const addStampPost =async(postId,profileType,postType,userId,accessToken)
 		const {data}=postStampResponse;
 		return data;
 	}catch(err){
-		
+		return err.message;
 	}
 
 }
@@ -412,27 +410,26 @@ export const editPost=async({postType,postId,post,postS3,ownerId,accessToken})=>
 
 export const promotePost=async({postId,nodeId,postType,accessToken,userId})=>{
 	try{
-		
 		const promotionResponse=await axios.post(`${CreateURl}/promotePost`,{
 			postId,
 			nodeId,
 			postType,
 			userId
 		},{
-				headers:{
-					authorization:accessToken
-				}
-			});
+			headers:{
+				authorization:accessToken
+			}
+		});
 		const {data}=promotionResponse;
 		return data;
 	}catch(err){
-		
+		console.log(err);
 		return err;
 	}
 
 }
 
-export const deletePost=async({postId,postType,industriesUploaded,profileId,accessToken,userId})=>{
+export const deletePost=async({postId,postType,industriesUploaded,profileId,accessToken,userId,isCrownedPost})=>{
 	try{
 		
 		const deleteResponse=await axios.post(`${CreateURl}/deletePost`,{
@@ -440,6 +437,7 @@ export const deletePost=async({postId,postType,industriesUploaded,profileId,acce
 			postType,
 			industriesUploaded,
 			profileId,
+			isCrownedPost,
 			userId
 		},{
 				headers:{

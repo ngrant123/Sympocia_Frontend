@@ -51,6 +51,7 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 	const [displayConfirmationPage,changeDisplayConfirmationPage]=useState(false);
 	const [nodeSelected,changeNodeSelected]=useState();
 	const [node,changeCurrentNodes]=useState([]);
+	const [isProcessingSubmit,changeIsProcessingSubmit]=useState(false);
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const dispatch=useDispatch();
 
@@ -134,13 +135,13 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 						<hr/>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
-								<a href="javascription:void(0)" style={{textDecoration:"none"}}>
+								<a style={{textDecoration:"none"}}>
 									<li onClick={()=>promotePostHandle({isAccessTokenUpdated:false})} style={ButtonCSS}>
 										Yes
 									</li>
 								</a>
 
-								<a href="javascription:void(0)" style={{textDecoration:"none"}}>
+								<a style={{textDecoration:"none"}}>
 									<li onClick={()=>changeDisplayConfirmationPage(false)} style={ButtonCSS}>
 										No
 									</li>

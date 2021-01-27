@@ -143,6 +143,7 @@ const TextOptions=(props)=>{
 		changeDisplayDeleteConfirmation(false);
 	}
 
+
 	const userOptions=()=>{
 		return	<>
 					<li style={{listStyle:"none"}}>
@@ -266,124 +267,21 @@ const TextOptions=(props)=>{
 										closeModal={closeTextOptions}
 									/>
 								)}
-								{props.isDesktop==true?
+								{props.isDesktop==true &&(
 									<ul style={{padding:"0px"}}>
-										{/*
-											<li style={{listStyle:"none",marginBottom:"20%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-														<ProfilePicture/>
-													</li>
-
-													<li  style={{listStyle:"none",display:"inline-block"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",fontSize:"30px"}}>
-																<b>Nathan</b>
-															</li>
-
-															<li style={{listStyle:"none"}}>
-																Started 2 days ago
-															</li>
-
-
-														</ul>
-													</li>
-												</ul>
-											</li>
-										*/}
-
-										<li style={{listStyle:"none",filter:" blur(8px)"}}>
-											<ul style={{padding:"10px",minHeight:"50%",borderRadius:"5px"}}>
-												<li style={TextOptionsCSS}>
-													<ImageOutlinedIcon
-														style={{fontSize:40}}
-													/>
-												</li>
-
-												<li style={TextOptionsCSS}>
-													<FormatBoldOutlinedIcon
-														style={{fontSize:40}}
-														onClick={()=>changeBold()}
-													/>
-												</li>
-
-												<li style={TextOptionsCSS}>
-													<TextFormatIcon
-														style={{fontSize:40}}
-														onClick={()=>changeBold()}
-													/>
-												</li>
-
-												<li style={TextOptionsCSS}>
-													<FormatItalicOutlinedIcon
-														style={{fontSize:40}}
-														onClick={()=>changeItalics()}
-													/>
-												</li>
-												<li style={TextOptionsCSS}>
-													<CodeOutlinedIcon
-														style={{fontSize:40}}
-														onClick={()=>enableCodingBlock()}
-													/>
-												</li>
-												<li style={TextOptionsCSS}>
-													<FormatListBulletedOutlinedIcon
-														style={{fontSize:40}}
-														onClick={()=>enableBulletList()}
-													/>
-												</li>
-												<li style={TextOptionsCSS}>
-													<FormatListNumberedOutlinedIcon
-														style={{fontSize:40}}
-														onClick={()=>enableNumberedLst()}
-													/>
-												</li>
-												<li style={TextOptionsCSS}>
-													<FormatQuoteRoundedIcon
-														style={{fontSize:40}}
-													/>
-												</li>
-												<li style={TextOptionsCSS}>
-													<FunctionsRoundedIcon
-														style={{fontSize:40}}
-													/>
-												</li>
-												<li style={TextOptionsCSS}>
-													<EmojiEmotionsOutlinedIcon
-														style={{fontSize:40}}
-														/>
-												</li>
-												<li style={TextOptionsCSS}>
-													<GifIcon	
-														style={{fontSize:40}}
-													/>
-												</li>
-											</ul>
-										</li>
 										<li style={{listStyle:"none",marginBottom:"3%"}}>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 												<SubmitButton onClick={()=>displayEditBlogSubmitModal()}>
-													Submit
+													{props.isInEditMode==true?
+														<p>Edit</p>:
+														<p>Submit</p>
+													}
 												</SubmitButton>
 											</a>
 										</li>
 										<hr/>
-										{userOptions()}
-										
 									</ul>
-									:<TogglePostInformationButton>
-										{displayInformation==false?
-											<ExpandMoreIcon
-												style={{fontSize:30}}
-												onClick={()=>changeDisplayInformation(true)}
-											/>
-											:<ExpandLessIcon
-												style={{fontSize:30}}
-												onClick={()=>changeDisplayInformation(false)}
-											/>
-										}
-									</TogglePostInformationButton>
-								}
+								)}
 							</Container>
 						}}
 		</BlogConsumer>
