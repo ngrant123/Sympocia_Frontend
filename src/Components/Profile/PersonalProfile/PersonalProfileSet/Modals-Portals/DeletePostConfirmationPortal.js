@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import {useSelector,useDispatch} from "react-redux";
 import {createPortal} from "react-dom";
@@ -57,6 +57,7 @@ const ConfirmationButtonCSS={
 const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostType,removeContextLocation,targetDom,history})=>{
 	const userId=useSelector(state=>state.personalInformation.id);	
 	const personalInformation=useSelector(state=>state.personalInformation);
+	const [isProcessingDeletion,changeIsProcessingDeletion]=useState(false);
 	const dispatch=useDispatch();
 
 	const handleDelete=(personalContextInformation)=>{
@@ -68,10 +69,12 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 
 	const handleDeletePost=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		debugger;
+		changeIsProcessingDeletion(true);
 		const {
 			_id,
 			industriesUploaded,
-			owner
+			owner,
+			isCrownedPost
 		}=content;
 		const postId=(_id==null)?content.id:_id;
 		const removedPost={
@@ -79,35 +82,36 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 			postId,
 			industriesUploaded,
 			profileId:owner,
+			isCrownedPost,
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						personalInformation.accessToken
 		}
 
-		const {confirmation,data}=await deletePost(removedPost);
-
-			if(confirmation=="Success"){
-				if(selectedPostType=="Blogs"){
-					alert('Post has been deleted. Please reload page to view updated post section');
-					history.push(`/profile/${owner}`);
-				}else{
-					removeContextLocation(postId,selectedPostType);
-					closeModal();
-				}
+		const {confirmation,data}=await deletePost(removedPost); 
+		if(confirmation=="Success"){
+			if(selectedPostType=="Blogs"){
+				alert('Post has been deleted. Please reload page to view updated post section');
+				history.push(`/profile/${owner}`);
 			}else{
-				const {statusCode}=data;
-				if(statusCode==401){
-					await refreshTokenApiCallHandle(
-							personalInformation.refreshToken,
-							personalInformation.id,
-							handleDeletePost,
-							dispatch,
-							{},
-							false
-						);
-				}else{
-					alert('Unfortunately there has been an error deleting this post. Please try again');
-				}
+				removeContextLocation(postId,selectedPostType);
+				closeModal();
 			}
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						handleDeletePost,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error deleting this post. Please try again');
+			}
+		}
+		changeIsProcessingDeletion(false);
  	}
 	const handleDeleteChampion=async({personalContextInformation,isAccessTokenUpdated,updatedAccessToken})=>{
       const {confirmation,data}=await deleteChampion({
@@ -143,14 +147,19 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 			{personalContextInformation=>{
 				return <>
 						<Container>
-							<p style={{fontSize:"20px"}}>
-								<b>Are you sure you want to delete this {postType=="Champion"?"champion":"post"}? </b>
-							</p>
-							<hr/>
-							<ConfirmationContainer>
-								<p onClick={()=>handleDelete(personalContextInformation)} style={ConfirmationButtonCSS}> Yes </p>
-								<p onClick={()=>closeModal()} style={ConfirmationButtonCSS}> No </p>
-							</ConfirmationContainer>
+							{isProcessingDeletion==true?
+								<p>Please wait...</p>:
+								<React.Fragment>
+									<p style={{fontSize:"20px"}}>
+										<b>Are you sure you want to delete this {postType=="Champion"?"champion":"post"}? </b>
+									</p>
+									<hr/>
+									<ConfirmationContainer>
+										<p onClick={()=>handleDelete(personalContextInformation)} style={ConfirmationButtonCSS}> Yes </p>
+										<p onClick={()=>closeModal()} style={ConfirmationButtonCSS}> No </p>
+									</ConfirmationContainer>
+								</React.Fragment>
+							}
 						</Container>
 						<ShadowContainer
 							onClick={()=>closeModal()}
@@ -158,7 +167,7 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 					</>
 			}}
 		</UserConsumer>
-		,document.getElementById("personalContainer")
+		,document.getElementById(targetDom)
 	)
 }
 

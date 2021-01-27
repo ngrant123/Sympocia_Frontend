@@ -24,7 +24,7 @@ const Container=styled.div`
 		#profilePictureLI{
 			height:120% !important;
 		}
-		#replyLI{
+		#replyLIImage{
 			height:60% !important;
 			overflow:scroll;
 		}
@@ -33,6 +33,9 @@ const Container=styled.div`
 		}
 
 		#commentLI{
+			height:20% !important;
+		}
+		#replyLIImage{
 			height:20% !important;
 		}
     }
@@ -175,26 +178,24 @@ class CommentsContainer extends Component{
 
 
 	replyComment=(data)=>{
-		return <ul style={{color:"#03A9F4",marginBottom:"20px",marginTop:"5%"}}>
+		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
-						<li id="profilePictureLI" style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-							<img id="image" src={data.ownerObject.profilePicture==null
-											?NoProfilePicture:data.ownerObject.profilePicture}
-							 style={ProfilePicture}/>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
+							<img id="replyLIImage" 
+								src={data.ownerObject.profilePicture==null?
+									NoProfilePicture:data.ownerObject.profilePicture}
+							style={ProfilePicture}/>
 						</li>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
 						</li>
 					</ul>
 				</li>
-				<li id="replyCommentLI" style={{listStyle:"none"}}>
-					<CommentText>
-						{data.reply}
-					</CommentText>
-				</li>
-				<hr/>
-			</ul>
+				<CommentText>
+					{data.reply}
+				</CommentText>
+			 </ul>
 	}
 //
 	handleReplyFetch=async(commentId)=>{
