@@ -179,7 +179,9 @@ class CommentsContainer extends Component{
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
 						<li id="profilePictureLI" style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-							<img id="image" src={data.profilePicture==null?NoProfilePicture:data.profilePicture} style={ProfilePicture}/>
+							<img id="image" src={data.ownerObject.profilePicture==null
+											?NoProfilePicture:data.ownerObject.profilePicture}
+							 style={ProfilePicture}/>
 						</li>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
@@ -230,9 +232,9 @@ class CommentsContainer extends Component{
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
 							<img id="commentLI" 
-								src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
-								style={ProfilePicture}
-							/>
+								src={data.ownerObject.profilePicture==null?
+									NoProfilePicture:data.ownerObject.profilePicture}
+							style={ProfilePicture}/>
 						</li>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
@@ -288,12 +290,12 @@ class CommentsContainer extends Component{
 				var currentComments=this.state.comments;
 				const newComment={
 					comment:comment,
-					profilePicture:data.profilePicture,
 					ownerObject:{
 						owner:{
 							firstName:isPersonalProfileIndicator==true?this.props.personalState.firstName:
 							this.props.companyState.companyName
-						}
+						},
+						profilePicture:data.profilePicture
 					},
 					replies:[],
 					_id:data.comments.regularComments[data.comments.regularComments.length-1]._id.toString()
@@ -423,9 +425,9 @@ class CommentsContainer extends Component{
 						owner:{
 							firstName:isPersonalProfileIndicator==true?this.props.personalState.firstName:
 							this.props.companyState.companyName
-						}
-					},
-					profilePicture:data.profilePicture
+						},
+						profilePicture:data.profilePicture
+					}
 				}
 
 				currentReplies.splice(0,0,newReply);
@@ -477,19 +479,22 @@ class CommentsContainer extends Component{
 							<ExtendedTextArea id="reply"/>
 						</li>
 						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li  onClick={()=>this.handleCreateReply({isAccessTokenUpdated:false})} style={ExtendedCommentAreaButton}>
-										Create
-									</li>
-								</a>
+							{this.state.isProcessingInput==true?
+								<p>Please wait...</p>:
+								<ul style={{padding:"0px"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li  onClick={()=>this.handleCreateReply({isAccessTokenUpdated:false})} style={ExtendedCommentAreaButton}>
+											Create
+										</li>
+									</a>
 
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>this.setState({displayReplyCreation:false})} style={ExtendedCommentAreaButton}>
-										Close
-									</li>
-								</a>
-							</ul>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>this.setState({displayReplyCreation:false})} style={ExtendedCommentAreaButton}>
+											Close
+										</li>
+									</a>
+								</ul>
+							}
 						</li>
 					</ul>
 		}else{
