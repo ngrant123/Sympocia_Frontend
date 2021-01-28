@@ -6,8 +6,9 @@ import RegularPostDisplay from "../../GeneralComponents/PostComponent/RegularPos
 
 const ShadowContainer=styled.div`
 	position:fixed;
-	width:100%;
+	width:110%;
 	height:100%;
+	margin-left:-5%;
 	background-color: rgba(0,0,0,0.4);
 	z-index:40;
 	top:0px;

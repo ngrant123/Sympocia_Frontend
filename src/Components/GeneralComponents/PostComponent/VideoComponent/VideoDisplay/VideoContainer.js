@@ -102,7 +102,7 @@ const VideoContainer=(data)=>{
 					displayApproveModal={displayApprovePollOptionModal}
 					postId={data.videoData._id}
 					postType={"Videos"}
-					targetDom={"personalContainer"}
+					targetDom={data.targetDom}
 				/>
 			)}
 
@@ -113,7 +113,7 @@ const VideoContainer=(data)=>{
 					content={data.videoData}
 					closeModal={closeDeleteConfirmationModal}
 					removeContextLocation={data.videoData.contextLocation.removePost}
-					targetDom={"personalContainer"}
+					targetDom={data.targetDom}
 				/>
 			)}
 				<Container>

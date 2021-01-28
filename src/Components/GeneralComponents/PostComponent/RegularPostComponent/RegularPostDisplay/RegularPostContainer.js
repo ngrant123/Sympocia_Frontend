@@ -345,7 +345,7 @@ const RegularPostContainer=(props)=>{
 						closeModal={closePollingModal}
 						displayApproveModal={displayApproveModal}
 						postId={postData._id}
-						postType="Posts"
+						postType="RegularPost"
 						targetDom={targetDom}
 					/>:null
 				}
