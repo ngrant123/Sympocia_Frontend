@@ -107,6 +107,7 @@ class BlogEditSubmitModal extends Component{
 
 	constructor(props){
 		super(props);
+		console.log(this.props);
 		this.state={
 			pictureUrl:"",
 			displayImage:false,
@@ -120,14 +121,14 @@ class BlogEditSubmitModal extends Component{
 			displayVoiceDescriptionPortal:false,
 			videoDescription:null,
 			audioDescription:null,
-			isPostCrowned:false,
+			isPostCrowned:this.props.previousState==null?false:(this.props.previousState.isCrownedPost),
 			isSubmittedAndProcessing:false,
 			retryCounter:0
 		}
 	}
 
 	componentDidMount(){
-		
+		console.log(this.props.previousState);
 		if(this.props.previousState!=null){
 			const {
 				blogImageUrl,
@@ -136,7 +137,6 @@ class BlogEditSubmitModal extends Component{
 				audioDescription,
 				videoDescription
 			}=this.props.previousState;
-
 			document.getElementById("blogTitle").value=title;
 			document.getElementById("blogDescription").value=description;
 
@@ -269,6 +269,12 @@ class BlogEditSubmitModal extends Component{
 						isSubmittedAndProcessing:false
 					})
 				}
+			}else{
+				if(isEditSuccess!=false){
+					alert('Your blog has been published. If you do not see it on your profile please wait a little bit');
+					this.props.routerHistory.push('/profile/'+this.props.personalInformation.id);
+				}
+
 			}
 		}else{
 			const {previousData}=this.props;
@@ -335,11 +341,13 @@ class BlogEditSubmitModal extends Component{
 						isSubmittedAndProcessing:false
 					})
 				}
+			}else{
+				if(isEditSuccess!=false){
+					alert('Your blog has been published. If you do not see it on your profile please wait a little bit');
+					this.props.routerHistory.push('/profile/'+this.props.personalInformation.id);
+				}
+
 			}
-		}
-		if(isEditSuccess!=false){
-			alert('Your blog has been published. If you do not see it on your profile please wait a little bit');
-			this.props.routerHistory.push('/profile/'+this.props.personalInformation.id);
 		}
 	}
 
@@ -497,8 +505,7 @@ isArrayEqual=(arr1,arr2)=>{
 								parentUnCrownPost={this.unCrownPost}
 								previousData={this.props.previousData}
 								isPostCrowned={this.state.isPostCrowned}
-							/>
-							:null
+							/>:null
 						}
 
 

@@ -45,9 +45,9 @@ const CrownIconContainer=styled.div`
 `;
 
 
-const AudioCreation=({isSubmittedAndProcessing,sendDataToParent,isPostCrowned,displayCrownPostModal,displayTextOrAudioScreen})=>{
-	const [displayAudioCreation,changeDisplayAudioCreation]=useState(false);
-	const [audioDescription,changeAudioDescription]=useState();
+const AudioCreation=({audio,isPreviousDataLoaded,isSubmittedAndProcessing,sendDataToParent,isPostCrowned,displayCrownPostModal,displayTextOrAudioScreen})=>{
+	const [displayAudioCreation,changeDisplayAudioCreation]=useState(isPreviousDataLoaded==true?true:false);
+	const [audioDescription,changeAudioDescription]=useState(isPreviousDataLoaded==true?audio:null);
 	const [crownPostColor,changeCrownPostColor]=useState("#D6C5F4");
 	const [crownPostBackgroundColor,changeCrownPostBackgroundColor]=useState("white");
 
@@ -93,9 +93,12 @@ const AudioCreation=({isSubmittedAndProcessing,sendDataToParent,isPostCrowned,di
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
-								<li onClick={()=>displayTextOrAudioScreen()} style={ButtonCSS}>
-									Back
-								</li>
+								{isPreviousDataLoaded==false &&(
+									<li onClick={()=>displayTextOrAudioScreen()} style={ButtonCSS}>
+										Back
+									</li>
+
+								)}
 
 								<li onClick={()=>changeDisplayAudioCreation(false)} style={ButtonCSS}>
 									Redo

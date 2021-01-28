@@ -460,6 +460,9 @@ class EditImageCreation extends Component{
 				}
 			}
 		}
+		this.setState({
+			isSubmittedAndProcessing:false
+		})
 	}
 
 	isImagesSrcEqual=(img1,img2)=>{
@@ -649,6 +652,8 @@ class EditImageCreation extends Component{
 			audioDescription:audioDescriptionSrc,
 			displayVoiceDescriptionPortal:false,
 			audioDescriptionId:this.uuidv4()
+		},()=>{
+
 		})
 	}
 
@@ -879,7 +884,7 @@ class EditImageCreation extends Component{
 													)}
 													{this.state.audioDescription!=null &&(
 														<li style={{listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
-															<audio controls>
+															<audio key={this.state.audioDescriptionId} controls>
 															  <source src={this.state.audioDescription} typ e="audio/ogg"/>
 															  <source src={this.state.audioDescription} type="audio/mpeg"/>
 															Your browser does not support the audio element.

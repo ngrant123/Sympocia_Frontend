@@ -427,6 +427,7 @@ class LargePostComponent extends Component{
 									<PostOptionButton onClick={()=>this.setState({
 																			displayElement:<RegularPostCreation
 																								displayProps={this.displayPostOptions}
+																								closeModal={this.props.closeModal}
 																							  />,
 																			displayGeneralCreationModal:false
 																		 })}>
@@ -440,6 +441,7 @@ class LargePostComponent extends Component{
 									<PostOptionButton  onClick={()=>this.setState({
 																					displayElement:<ImagePostCreation
 																									displayProps={this.displayPostOptions}
+																									closeModal={this.props.closeModal}
 																									/>,
 																					displayGeneralCreationModal:false
 																				})}>
@@ -453,6 +455,7 @@ class LargePostComponent extends Component{
 									<PostOptionButton onClick={()=>this.setState({
 																					displayElement:<VideoPostCreation
 																										displayProps={this.displayPostOptions}
+																										closeModal={this.props.closeModal}
 																									/>,
 																					displayGeneralCreationModal:false
 																				})}>

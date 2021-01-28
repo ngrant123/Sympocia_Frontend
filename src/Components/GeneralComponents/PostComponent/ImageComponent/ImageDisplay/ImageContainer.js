@@ -190,6 +190,7 @@ const ImageContainer=(props)=>{
 						closePostModal={props.closePostModal}
 						isPhoneUI={displayPhoneUI}
 						isGuestProfile={isGuestProfile}
+						editPostAction={editPost}
 					/>
 					:<Container>
 						{displayImageModal==true?

@@ -109,8 +109,8 @@ const TogglePostInformationButton=styled.div`
 
 const VideoDescriptionContainer=styled.div`
 	position:relative;
-	width:50px;
-	height:60px;
+	width:40%;
+	height:50%;
 	border-radius:50%;
 `;
 
@@ -325,10 +325,10 @@ const AdditionalInformation=(props)=>{
 								</ul>
 							</li>
 							
-							<li style={{listStyle:"none",marginTop:"15%"}}>
+							<li style={{listStyle:"none",marginTop:"2%"}}>
 								<ul style={{padding:"0px"}}>
 									{videoDescription!=null &&(
-										<li style={{listStyle:"none",display:"inline-block"}}>
+										<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
 											<VideoDescriptionContainer>
 												<video width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
 													<source src={videoDescription} type="video/mp4"/>
