@@ -101,82 +101,76 @@ class ImageCreation extends Component{
 	}
 	render(){
 		return(
-			<PostConsumer>
-				{postConsumerInformation=>{
-					return 	<React.Fragment>
-								{this.state.displayEditImagesScreen==false?
-									<Container id="container">
-										{postConsumerInformation.isPhoneUIEnabled==true &&(
-											<div onClick={()=>postConsumerInformation.closeModal()} style={{marginLeft:"-70%",marginTop:"-60%"}}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-												 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-												 stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												  <circle cx="12" cy="12" r="9" />
-												  <path d="M10 10l4 4m0 -4l-4 4" />
-												</svg>
-											</div>
-										)}
-										{this.state.displayCreateImageScreen==false?
-											<ul style={{marginLeft:"10%",top:"10%",padding:"1px"}}>
-											
-												<li style={{fontSize:"20px",marginBottom:"1%",listStyle:"none"}}>	
-													Image Creation
+			<React.Fragment>
+				{this.state.displayEditImagesScreen==false?
+					<Container id="container">
+						<div onClick={()=>this.props.closeModal()} style={{marginLeft:"-70%",marginTop:"-60%"}}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+							 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+							 stroke-linecap="round" stroke-linejoin="round">
+							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							  <circle cx="12" cy="12" r="9" />
+							  <path d="M10 10l4 4m0 -4l-4 4" />
+							</svg>
+						</div>
+						{this.state.displayCreateImageScreen==false?
+							<ul style={{marginLeft:"10%",top:"10%",padding:"1px"}}>
+							
+								<li style={{fontSize:"20px",marginBottom:"1%",listStyle:"none"}}>	
+									Image Creation
+								</li>
+								<hr/>
+								<li onClick={()=>this.clickUploadPhotoButton()} style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={ImageOptionsCSS}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+												<CameraIcon/>
+											</li>
+
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+												Upload Photo
+											</li>
+										</ul>																			
+									</button>
+								</li>
+								<input type="file" name="img" id="uploadPictureFile" style={{opacity:"0"}}  onChange={()=>this.handleUploadPicture()} 
+							        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
+							        name="attachments">
+							    </input>
+
+								{/*
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+										<button onClick={()=>alert('Option coming soon')} class="btn btn-primary dropdown-toggle"
+											 type="button" data-toggle="dropdown" style={ImageOptionsCSS}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+													<AddAPhotoIcon/>
 												</li>
-												<hr/>
-												<li onClick={()=>this.clickUploadPhotoButton()} style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={ImageOptionsCSS}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-																<CameraIcon/>
-															</li>
 
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-																Upload Photo
-															</li>
-														</ul>																			
-													</button>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+													Take a picture
 												</li>
-												<input type="file" name="img" id="uploadPictureFile" style={{opacity:"0"}}  onChange={()=>this.handleUploadPicture()} 
-											        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
-											        name="attachments">
-											    </input>
-
-												{/*
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-														<button onClick={()=>alert('Option coming soon')} class="btn btn-primary dropdown-toggle"
-															 type="button" data-toggle="dropdown" style={ImageOptionsCSS}>
-															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-																	<AddAPhotoIcon/>
-																</li>
-
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-																	Take a picture
-																</li>
-															</ul>	
-														</button>
-														This is not used but its here because for some reason if its not css would be messed up 
-														sooooooo 
+											</ul>	
+										</button>
+										This is not used but its here because for some reason if its not css would be messed up 
+										sooooooo 
 
 
-													</li>
-												*/}
+									</li>
+								*/}
 
-											</ul>:<CreateImageModal
-													handleNewlyCreatedImage={this.handleNewlyCreatedImage}
-												  />
-										}
-									</Container>:
-									<EditImageCreation
-										imageSrcUrl={this.state.pictureUrl}
-										closeModal={postConsumerInformation.closeModal}
-										isPhoneUIEnabled={postConsumerInformation.isPhoneUIEnabled}
-									/>
-								}
-							</React.Fragment>
-				}}
-			</PostConsumer>
+							</ul>:<CreateImageModal
+									handleNewlyCreatedImage={this.handleNewlyCreatedImage}
+								  />
+						}
+					</Container>:
+					<EditImageCreation
+						imageSrcUrl={this.state.pictureUrl}
+						closeModal={this.props.closeModal}
+						isPhoneUIEnabled={true}
+					/>
+				}
+			</React.Fragment>
 		
 
 		)

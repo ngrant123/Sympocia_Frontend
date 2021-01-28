@@ -187,7 +187,7 @@ const ButtonCSS={
 			changeAudioOrTextScreenChoice(false);
 			changeIsPostCrowned(isCrownedPost);
 
-			if(isAudioPost==false){
+			if(isAudioPost==false || isAudioPost==null){
 				changeRegularPostDescription(true);
 			}else{
 				changeRegularPostDescription(false);
@@ -205,7 +205,8 @@ const ButtonCSS={
 		changeSubIndustriesSelected(selectedSubCommunities);
 	}
 
-const sendRegularPost=async({profilePostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
+	const sendRegularPost=async({profilePostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
+		debugger;
 		changeIsSubmittedAndProcessing(true);
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const searchCriteriaIndustryArray=[];
@@ -309,11 +310,13 @@ const sendRegularPost=async({profilePostInformation,isAccessTokenUpdated,updated
 				},
 				postS3:[
 					{
-						optionType:'audioDescription',
+						optionType:'audioPost',
 						newUrl:isAudioPost==true?(currentPost!=audioDescription?currentPost:null):null
 					}
 				],
-				ownerId:personalInformation.id
+				ownerId:personalInformation.id,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+				personalInformation.accessToken
 			}
 
  			const {confirmation,data}=await editPost(editedRegularPost);
@@ -533,6 +536,8 @@ const sendRegularPost=async({profilePostInformation,isAccessTokenUpdated,updated
 													displayCrownPostModal={displayCrownModal}
 													displayTextOrAudioScreen={displayAudioORTextScreenHandle}
 													isSubmittedAndProcessing={isSubmittedAndProcessing}
+													isPreviousDataLoaded={isPreviousDataLoaded}
+													audio={props.previousData.post}
 												/>
 											}
 										</React.Fragment>

@@ -189,7 +189,7 @@ const PersonalPostsIndex=(props)=>{
 	const [personalInformation,changePersonalInformation]=useState(props.personalInformation);
 
 	let [imagePost,changeImagePost]=useState({
-			crownedImage:props.personalInformation.userProfile.crownedImage,
+			crownedImage:props.personalInformation.userProfile.crownedPost,
 			images:props.personalInformation.userProfile.imagePost
 	});
 
@@ -254,6 +254,9 @@ const PersonalPostsIndex=(props)=>{
 			image.style.borderColor="#C8B0F4";
 			changeCurrentPostType("image");
 			changeDisplayForImages(true);
+			changeVideoPosts({...videoPost,videos:[]})
+			changeBlogPosts({...blogPost,blogs:[]})
+			changeRegularPost({...blogPost,posts:[]})
 
 			if(isLoadingNewPosts==true){
 				const {confirmation,data}=await getUserImages({
@@ -276,9 +279,10 @@ const PersonalPostsIndex=(props)=>{
 						props.unTriggerReload();
 						changeImagePost(imagePost);
 						changeIsLoadingNewPosts(false)
+
 					}
 				}else{
-					alert('Unfortunately there has been an error getting your videos. Please try again');
+					alert('Unfortunately there has been an error getting images. Please try again');
 				}
 			}
 
@@ -289,6 +293,8 @@ const PersonalPostsIndex=(props)=>{
 			videos.style.borderColor="#C8B0F4";
 			changeDisplayForVideos(true); 
 			changeCurrentPostType("video");
+			changeBlogPosts({...blogPost,blogs:[]})
+			changeRegularPost({...blogPost,posts:[]})
 
 			const {confirmation,data}=await getVideosFromUser({
 												userId:id,
@@ -330,12 +336,14 @@ const PersonalPostsIndex=(props)=>{
 							false
 						);
 				}else{
-					alert('Unfortunately there has been an error getting your videos. Please try again');
+					alert('Unfortunately there has been an error getting videos. Please try again');
 				}
 			}
 		}else if(kindOfPost=="blog"){
 			changeDisplayForBlogs(true);
 			changeCurrentPostType("blog");
+			changeVideoPosts({...videoPost,videos:[]})
+			changeRegularPost({...blogPost,posts:[]})
 
 			const {	confirmation,data}=await getBlogFromUser({
 												userId:id,
@@ -361,10 +369,11 @@ const PersonalPostsIndex=(props)=>{
 						headerBlog:crownedPost,
 						blogs:newBlogs
 					}
-
+							
 					props.unTriggerReload();
 					changeBlogPosts(blogObject);
 					changeDisplayForBlogs(true);
+
 				}
 					changeBlogPostsLoadingIndicator(false);
 					changeIsLoadingNewPosts(false);
@@ -386,12 +395,12 @@ const PersonalPostsIndex=(props)=>{
 				}else{
 					alert('Unfortunately there has been an error getting these blog posts. Please try again');
 				}
-				
 			}
-
 		}else{
 			changeDisplayForRegularPosts(true);
 			changeCurrentPostType("regularPost");
+			changeBlogPosts({...blogPost,blogs:[]});
+			changeVideoPosts({...videoPost,videos:[]})
 			const {confirmation,data}=await getRegularPostFromUser({
 												userId:id,
 												visitorId:props.visitorId,
@@ -439,7 +448,7 @@ const PersonalPostsIndex=(props)=>{
 							false
 						);
 				}else{
-					alert('Unfortunately there has been an error getting your regular posts. Please try again');
+					alert('Unfortunately there has been an error getting regular posts. Please try again');
 				}
 			}
 		}

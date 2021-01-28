@@ -135,7 +135,8 @@ const ButtonCSS={
   borderWidth:"2px",
   borderColor:"#3898ec",
   marginRight:"4%",
-  marginTop:"10%"
+  marginTop:"10%",
+  cursor:"pointer"
 }
 
 class EditVideoModal extends Component{
@@ -272,10 +273,10 @@ class EditVideoModal extends Component{
 			}
 			
 			const searchObject={
-						industry:industries[i].industry,
-						subIndustry:subCommunitiyArray
+				industry:industries[i].industry,
+				subIndustry:subCommunitiyArray
 			}
-				searchCriteriaIndustryArray.push(searchObject);
+			searchCriteriaIndustryArray.push(searchObject);
 		}
 		
 		var searchVideoResult={
@@ -370,7 +371,9 @@ class EditVideoModal extends Component{
 						newUrl:videoAudioDescription!=videoDescription?videoAudioDescription:null
 					}
 				],
-				ownerId:this.props.personalProfile.id
+				ownerId:this.props.personalProfile.id,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+				this.props.personalProfile.accessToken
 			}
 
  			const {confirmation,data}=await editPost(editedVideo);

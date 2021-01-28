@@ -43,7 +43,8 @@ const ButtonCSS={
   borderWidth:"2px",
   borderColor:"#3898ec",
   marginRight:"2%",
-  marginBottom:"2%"
+  marginBottom:"2%",
+  cursor:"pointer"
 }
 
 
