@@ -506,7 +506,7 @@ const BlogHomeDisplayPortal=(props)=>{
 
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"0px"}}>
-									<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
+									<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
 										<LoyaltyIcon
 											style={{fontSize:30}}
 										/>

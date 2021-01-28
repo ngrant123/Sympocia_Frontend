@@ -363,6 +363,9 @@ const PersonalInformation=(props)=>{
 	const userInformationComponent=(personalInformation)=>{
 		return (
 			<>
+				<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+					<b>{personalInformation.userProfile.firstName}</b>
+				</p>
 				<BioContainer>
 					{personalInformation.userProfile.bio}
 				</BioContainer>
