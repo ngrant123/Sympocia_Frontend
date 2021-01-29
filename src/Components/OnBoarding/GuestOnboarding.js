@@ -58,8 +58,7 @@ const GuestOnBoarding=({targetDom,closeModal})=>{
 	  });
 	}
 	const handleCloseModal=()=>{
-		//const  id=uuidv4();
-		//dispatch(signUpGuestUser(id));
+		dispatch(signUpGuestUser());
 		closeModal();
 	}
 
@@ -80,7 +79,7 @@ const GuestOnBoarding=({targetDom,closeModal})=>{
 					and all the other good stuff :( But feel free to explore and everything
 				</p>
 
-				<p style={ButtonCSS}>
+				<p onClick={()=>handleCloseModal()} style={ButtonCSS}>
 					Close
 				</p>
 			</Container>

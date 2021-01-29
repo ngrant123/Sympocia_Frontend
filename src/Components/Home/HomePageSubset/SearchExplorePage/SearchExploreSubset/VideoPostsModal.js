@@ -328,12 +328,15 @@ const VideoPostModal=(props)=>{
 									Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
 									anim id est laborum.
 								</p>
-							<li style={{marginLeft:"1%",marginBottom:"1%",listStyle:"none"}}>
-								<DisplayRecruitButton
-									post={headerVideo}
-									previousProps={props}
-								/>
-							</li>
+
+							{props.isGuestProfileIndicator==false &&(
+								<li style={{marginLeft:"1%",marginBottom:"1%",listStyle:"none"}}>
+									<DisplayRecruitButton
+										post={headerVideo}
+										previousProps={props}
+									/>
+								</li>
+							)}
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<audio id="headerAudio" style={{width:"200px"}} controls>
 								  	<source src={headerVideo.audioDescription} type="audio/ogg"/>
@@ -395,12 +398,14 @@ const VideoPostModal=(props)=>{
 													<source src={data.videoUrl} type="video/mp4"/>
 												</video>
 												<ul style={{padding:"0px",zIndex:"8",top:"-20%"}}>
-													<li style={{listStyle:"none"}}>
-														<DisplayRecruitButton
-															post={data}
-															previousProps={props}
-														/>
-													</li>
+													{props.isGuestProfileIndicator==false &&(
+														<li style={{listStyle:"none"}}>
+															<DisplayRecruitButton
+																post={data}
+																previousProps={props}
+															/>
+														</li>
+													)}
 													<li id="smallAudioDescription" style={{listStyle:"none"}}>
 														<audio style={{width:"150px",height:"25px"}} controls muted>
 														  	<source src={data.audioDescription} type="audio/ogg"/>

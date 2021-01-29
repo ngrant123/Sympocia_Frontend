@@ -118,7 +118,7 @@ const MobileChatOptionCSS={
 const MobileRouteOptionCSS={
 	color:"#5298F8",
 	borderStyle:"none",
-	backgroundColor:"white",
+	backgroundColor:"#5298F8",
 	padding:"10px"
 }
 

@@ -443,10 +443,12 @@ const ImagePostsModal=(props)=>{
 									<b>{headerImage.owner.firstName}</b>
 								*/}
 							</p>
-							<DisplayRecruitButton
-								post={headerImage}
-								previousProps={props}
-							/>
+							{props.isGuestProfileIndicator==false &&(
+								<DisplayRecruitButton
+									post={headerImage}
+									previousProps={props}
+								/>
+							)}
 						</PostUserInformation>
 					</PostUserAndSymposiumInformation>
 					<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"
@@ -503,12 +505,14 @@ const ImagePostsModal=(props)=>{
 									<div onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
 											<img id="image" src={data.imgUrl} style={ImageCSS}/>
 											<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
-												<li style={{listStyle:"none"}}>
-													<DisplayRecruitButton
-														post={data}
-														previousProps={props}
-													/>
-												</li>
+												{props.isGuestProfileIndicator==false &&(
+													<li style={{listStyle:"none"}}>
+														<DisplayRecruitButton
+															post={data}
+															previousProps={props}
+														/>
+													</li>
+												)}
 												<li id="smallAudioDescription" style={{listStyle:"none"}}>
 													<audio style={{width:"150px",height:"25px"}} controls muted>
 													  	<source src={data.audioDescription} type="audio/ogg"/>

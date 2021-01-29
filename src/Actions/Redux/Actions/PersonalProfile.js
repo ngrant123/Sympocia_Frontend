@@ -91,10 +91,10 @@ const setPersonalProfileRefreshToken=(refreshToken)=>{
 		payload:refreshToken
 	}
 }
-const signUpGuestUser=(_id)=>{
+const signUpGuestUser=()=>{
 	return{
 		type:'SIGN_IN_GUEST_USER',
-		payload:_id
+		payload:""
 	}
 }
 

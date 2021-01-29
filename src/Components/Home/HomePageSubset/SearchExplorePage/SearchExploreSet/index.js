@@ -251,10 +251,16 @@ class SearchExploreContainer extends Component{
 		debugger;
 		console.log(postOption);
 		var homePagePostsResponse;
-		var profileId=(this.props.personalInformation.loggedIn==true)?this.props.personalInformation.id:this.props.companyInformation.id;
+		const isGuestProfile=this.props.personalInformation.isGuestProfile;
+		var profileId=this.props.personalInformation.id;
+		let isGuestProfileIndicator=false;
+		if(profileId==0 || isGuestProfile){
+			isGuestProfileIndicator=true;
+		}
 		const searchParameters={
 			id:profileId,
 			postCount:this.state.postCount,
+			isGuestProfile:isGuestProfileIndicator,
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						this.state.accessToken
 		}
@@ -274,7 +280,8 @@ class SearchExploreContainer extends Component{
 				this.setState({
 					endOfPostsDBIndicator:true,
 					isLoadingReloadedPosts:false,
-					isLoading:false
+					isLoading:false,
+					isGuestProfileIndicator
 				})
 			}else{
 				let currentPosts=this.state.postsInformation;
@@ -284,7 +291,8 @@ class SearchExploreContainer extends Component{
 					postsInformation:newHomePagePosts,
 					isLoading:false,
 					isLoadingReloadedPosts:false,
-					postOption:postOption
+					postOption:postOption,
+					isGuestProfileIndicator
 				})
 			}
 
@@ -471,6 +479,7 @@ class SearchExploreContainer extends Component{
 				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
 				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
 				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -488,6 +497,7 @@ class SearchExploreContainer extends Component{
 				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
 				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
 				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -504,6 +514,7 @@ class SearchExploreContainer extends Component{
 				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
 				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
 				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -520,6 +531,7 @@ class SearchExploreContainer extends Component{
 				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
 				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
 				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
