@@ -61,7 +61,33 @@ class VideoDisplay extends Component{
 		}
 	}
 
+
+	triggerUIChange=()=>{
+		if(window.innerWidth<700){
+
+			this.setState({
+				displayPhoneUI:true,
+				displayIpadUI:false,
+				displayDesktopUI:false
+			})
+		}else if(window.innerWidth<1400){
+			this.setState({
+				displayPhoneUI:false,
+				displayIpadUI:true,
+				displayDesktopUI:false
+			})
+
+		}else{
+			this.setState({
+				displayPhoneUI:false,
+				displayIpadUI:false,
+				displayDesktopUI:true
+			})
+		}
+	}
+
 	async componentDidMount(){
+		window.addEventListener('resize',this.triggerUIChange)
 		const {
 			history,
 			match:{
@@ -80,7 +106,7 @@ class VideoDisplay extends Component{
 				postData:message
 			})
 		}else{
-			alert('Unfortunately an error has occured when trying to retried this post information. Please try again');
+			alert('Unfortunately an error has occured when trying to retrieve this post information. Please try again');
 		}
 	}
 
@@ -92,6 +118,7 @@ class VideoDisplay extends Component{
 			pathname:"/home"
 		})
 	}
+	closeModal=()=>{}
 
 	render(){
 		return(
@@ -104,24 +131,27 @@ class VideoDisplay extends Component{
 				/>
 				{this.state.isLoading==false?
 					<PostContainer>
-						<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none"}}>
-									<ExploreIcon
-										style={{fontSize:50}}
-									/>
-								</li>
+						{this.state.displayDesktopUI==true && (
+							<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none"}}>
+										<ExploreIcon
+											style={{fontSize:50}}
+										/>
+									</li>
 
-								<li style={{listStyle:"none"}}>
-									Explore
-								</li>
-							</ul>
-						</ExploreIconContainer>
+									<li style={{listStyle:"none"}}>
+										Explore
+									</li>
+								</ul>
+							</ExploreIconContainer>
+						)}
 						<div>
 							<VideoDisplayContainer
 								videoData={this.state.postData}
 								recommendedVideos={[]}
 								targetDom={"urlEnteredVideoContainer"}
+								closeModal={this.closeModal}
 							/>
 						</div>
 					</PostContainer>
