@@ -225,19 +225,21 @@ const QuestionsPortal=(props)=>{
 
 	const sendData=async({postData,isAccessTokenUpdated,updatedAccessToken})=>{
 		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
+		changeIsCommentProcessing(true);
+		let addCommentRequestData;
 		if(currentQuestionType=="Video"){
-			postData={
+			addCommentRequestData={
 				videoUrl:postData,
 				description:document.getElementById("videoDescription").value
 			}
 		}else if(currentQuestionType=="Image"){
-			postData={
+			addCommentRequestData={
 				imgUrl:postData,
 				description:document.getElementById("imageDescription").value,
 				comment:[]
 			}
 		}else{
-			postData={
+			addCommentRequestData={
 				post:postData,
 				comment:[]
 			}
@@ -248,7 +250,7 @@ const QuestionsPortal=(props)=>{
 			profileIndicator:"Profile",
 			questionId:questions[currentCounter]._id,
 			questionType:currentQuestionType,
-			comment:postData,
+			comment:addCommentRequestData,
 			industry:selectedSymposium
 		}
 
@@ -266,8 +268,8 @@ const QuestionsPortal=(props)=>{
 					owner:{
 						firstName:ownerInformation.firstName
 					},
-					videoUrl:postData.videoUrl,
-					imgUrl:postData.imgUrl
+					videoUrl:data.videoUrl,
+					imgUrl:data.imgUrl
 				},
 				currentQuestionType
 			});

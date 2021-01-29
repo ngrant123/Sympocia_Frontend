@@ -170,13 +170,14 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 	const [isProccessingPost,changeIsProcessingPost]=useState(false);
 	const dispatch=useDispatch();
 	const {personalInformation}=useSelector(state=>state);
+	const [isLoading,changeIsLoadingStatus]=useState(false);
 
 
 	const userId=useSelector(state=>state.personalInformation.id);
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			
+			changeIsLoadingStatus(true);
 			console.log(symposiumId);
 			const {confirmation,data}=await getIndustryImageFeatureAnswers({
 				industryId:symposiumId,
@@ -194,6 +195,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 			}else{
 				alert('Unfortunately there has been an error trying to get this images data. Please try again');
 			}
+			changeIsLoadingStatus(false);
 		}
 
 		fetchData();
@@ -221,6 +223,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 	}
 
 	const submitImage=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeIsProcessingPost(true);
 		var image={
 			imgUrl:imgUrl,
 			description:document.getElementById("imageDescription").value
@@ -308,22 +311,26 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 					<hr/>
 
 					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							{/*
-								<InputContainer placeholder="Search for a person here"/>
-							*/}
-							<li style={{listStyle:"none",marginTop:"2%"}}>
-								<ul style={{padding:"0px"}}>
-									{posts.map(data=>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
-												<img id="imageLI" src={data.imgUrl} style={{height:"40%",width:"100%",borderRadius:"5px"}}/>
-											</li>
-										</a>
-									)}
-								</ul>
-							</li>
-						</ul>
+						{isLoading==true?
+							<p>Loading please wait...</p>
+							:<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginTop:"2%"}}>
+									{posts.length==0?
+										<p>No posts</p>:
+										<ul style={{padding:"0px"}}>
+											{posts.map(data=>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
+														<img id="imageLI" src={data.imgUrl} 
+														style={{height:"40%",width:"100%",borderRadius:"5px"}}/>
+													</li>
+												</a>
+											)}
+										</ul>
+									}
+								</li>
+							</ul>
+						}
 					</li>
 				</>:
 				<>
