@@ -131,7 +131,7 @@ class VideoDisplay extends Component{
 				/>
 				{this.state.isLoading==false?
 					<PostContainer>
-						{this.state.displayDesktopUI==true && (
+						{this.state.displayDesktopUI==null && (
 							<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none"}}>
