@@ -87,12 +87,12 @@ const ProfilePictureCSS={
 	backgroundColor:"red",
 	borderRadius:"50%",
 	marginBottom:"10px",
-	textAlign:"center",
-
+	textAlign:"center"
 }
 
 
 const ActivePeopleModal=(props)=>{
+	console.log(props);
 	return(
 			<ActivePeopleContainer>
 					{props.peopleActive.length==0?
@@ -104,10 +104,9 @@ const ActivePeopleModal=(props)=>{
 											<ul style={{position:"relative",left:"-20%",top:"5%"}}>
 
 												<li style={ProfileContainerContentsCSS}>
-													{data.ProfilePicture==null?
-														<img src={NoProfilePicture} style={ProfilePictureCSS}/>:
-														<img src={data.ProfilePicture} style={ProfilePictureCSS}/>
-													}
+													<img src={data.owner.profilePicture==null?
+															NoProfilePicture:data.owner.profilePicture}
+													style={ProfilePictureCSS}/>
 												</li>
 												<li style={ProfileContainerContentsCSS}>
 													<p style={{overflowX:"scroll",color:"#a2a2a2"}}><b>{data.firstName}</b></p>

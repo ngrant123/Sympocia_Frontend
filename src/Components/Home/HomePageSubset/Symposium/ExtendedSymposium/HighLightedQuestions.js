@@ -123,18 +123,18 @@ class HighLightedQuestions extends Component{
 		}else{
 			if(questionType=="Image"){
 				return <React.Fragment>
-									{replies.map(data=>
-										<React.Fragment>
-											{data._id==null?null:
-												<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block"}}>
-													<img id="imageHighlightedQuestion" src={data.imgUrl}
-													 style={{borderRadius:"5px",width:"90px",height:"30%"}}
-													/>
-												</li>
-											}
-										</React.Fragment>
-									)}
-								</React.Fragment>;
+							{replies.map(data=>
+								<React.Fragment>
+									{data._id==null?null:
+										<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block"}}>
+											<img id="imageHighlightedQuestion" src={data.imgUrl}
+											 style={{borderRadius:"5px",width:"90px",height:"30%"}}
+											/>
+										</li>
+									}
+								</React.Fragment>
+							)}
+						</React.Fragment>;
 			}else if(questionType=="Video"){
 				console.log(replies);
 				return <React.Fragment>
@@ -157,7 +157,7 @@ class HighLightedQuestions extends Component{
 									{data._id==null?null:
 										<>
 											<li onClick={()=>this.setRegularPost(data)} style={{listStyle:"none",marginBottom:"5%"}}>
-												{data.post}	
+												{data.post.post}	
 											</li>
 											<hr/>
 										</>
@@ -175,10 +175,7 @@ class HighLightedQuestions extends Component{
 		});
 	}
 
-	addComment=(data)=>{
-
-	}
-
+	addComment=(data)=>{}
 
 	closeModal=()=>{
 		this.setState({

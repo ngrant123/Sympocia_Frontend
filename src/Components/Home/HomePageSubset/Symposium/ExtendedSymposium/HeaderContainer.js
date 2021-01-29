@@ -472,8 +472,8 @@ const HeaderContainer=(props)=>{
 									 				{activePeople.map(data=>
 								 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
 								 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
-								 								<img src={data.profilePicture!=null?
-								 											data.profilePicture:
+								 								<img src={data.owner.profilePicture!=null?
+								 											data.owner.profilePicture:
 								 											NoProfilePicture} 
 								 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
 								 							</ActiveProfilePictures>

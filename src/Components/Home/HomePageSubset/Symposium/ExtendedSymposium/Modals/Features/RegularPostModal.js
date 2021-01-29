@@ -164,9 +164,6 @@ const KnowledgeLevelIndicatorCSS={
   borderRadius:"5px",
   padding:"10px",
   color:"#3898ec",
-  borderStyle:"solid",
-  borderWidth:"2px",
-  borderColor:"#3898ec",
   marginTop:"1%"
 }
 
@@ -220,7 +217,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 				changeQuestionId(selectedPostId);
 			}
 		}else{
-			alert('Unfortunately there has been an error trying to get this images data. Please try again');
+			alert('Unfortunately there has been an error trying to get this regular post data. Please try again');
 		}
 		changeIsLoadingTextIndicator(false);
 	}
@@ -240,7 +237,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 			}
 
 		}else{
-			alert('Unfortunately there has been an error trying to get this images data. Please try again');
+			alert('Unfortunately there has been an error trying to get this regular post data. Please try again');
 		}
 		changeIsLoadingTextIndicator(false);
 	}
@@ -261,7 +258,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 
 
 		}else{
-			alert('Unfortunately there has been an error trying to get this images data. Please try again');
+			alert('Unfortunately there has been an error trying to get this regular post data. Please try again');
 		}
 		changeIsLoadingTextIndicator(false);
 	}
@@ -437,25 +434,28 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 							{isLoadingTextIndicator==true?
 								<p>Loading please wait...</p>:
 								<li style={{listStyle:"none",marginTop:"2%"}}>
-									<ul style={{padding:"0px"}}>
-										{posts.map(data=>
-											<RegularPostContainer>
-												<RegularPostInformation>
-													<img src={data.owner.profilePicture==null?
-																NoProfilePicture:
-																data.owner.profilePicture
-															} style={{width:"60px",height:"10%",borderRadius:"50%"}}
-													/>
-													<p> 
-														<b>{data.owner.firstName}</b>
+									{posts.length==0?
+										<p>No posts</p>:
+										<ul style={{padding:"0px"}}>
+											{posts.map(data=>
+												<RegularPostContainer>
+													<RegularPostInformation>
+														<img src={data.owner.profilePicture==null?
+																	NoProfilePicture:
+																	data.owner.profilePicture
+																} style={{width:"60px",height:"10%",borderRadius:"50%"}}
+														/>
+														<p> 
+															<b>{data.owner.firstName}</b>
+														</p>
+													</RegularPostInformation>
+													<p style={{height:"10%",overflow:"hidden",maxHeight:"15%"}}>
+														{data.post}
 													</p>
-												</RegularPostInformation>
-												<p style={{height:"10%",overflow:"hidden",maxHeight:"15%"}}>
-													{data.post}
-												</p>
-											</RegularPostContainer>
-										)}
-									</ul>
+												</RegularPostContainer>
+											)}
+										</ul>
+									}
 								</li>
 
 							}

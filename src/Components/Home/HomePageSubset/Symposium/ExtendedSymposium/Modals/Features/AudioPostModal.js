@@ -176,11 +176,11 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 	const [isProccessingPost,changeIsProcessingPost]=useState(false);
 	const dispatch=useDispatch();
 	const {personalInformation}=useSelector(state=>state);
+	const [isLoading,changeIsLoading]=useState(false);
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			
-			console.log(symposiumId);
+			changeIsLoading(true);
 			const {confirmation,data}=await getIndustryAudioFeatureAnswers({
 				industryId:symposiumId,
 				questionIndex,
@@ -198,6 +198,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 			}else{
 				alert('Unfortunately there has been an error trying to get this images data. Please try again');
 			}
+			changeIsLoading(false);
 		}
 
 		fetchData();
@@ -225,6 +226,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 	}
 
 	const submitAudio=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeIsProcessingPost(true);
 		var audio={
 			audioUrl:audioUrl,
 			description:document.getElementById("imageDescription").value
@@ -306,39 +308,41 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 						</CreatePostButton>
 					</PostHeaderContainer>
 					<hr/>
-
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							{/*
-								<InputContainer placeholder="Search for a person here"/>
-							*/}
-							<li style={{listStyle:"none",marginTop:"2%"}}>
-								<ul style={{padding:"0px"}}>
-									{posts.map(data=>
-										<AudioPostContainer onClick={()=>displaySelectedPost(data)}>
-											<AudioPostOwnerInformation>
-												<img src={data.owner.profilePicture==null?
-													NoProfilePicture:
-													data.owner.profilePicture
-												} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
-												<p> 
-													<b>{data.owner.firstName}</b>
-												</p>
-											</AudioPostOwnerInformation>
-											<audio controls>
-											  <source src={data.post} type="audio/ogg"/>
-											  <source src={data.post} type="audio/mpeg"/>
-												Your browser does not support the audio element.
-											</audio>
-											<p style={{overflowY:"auto",maxHeight:"10%",overflow:"hidden"}}>
-												{data.description}
-											</p>
-										</AudioPostContainer>
-									)}
-								</ul>
-							</li>
-						</ul>
-					</li>
+					{isLoading==true?
+						<p>Loading please wait...</p>:
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginTop:"2%"}}>
+									{posts.length==0?
+										<p>No posts</p>:
+										<ul style={{padding:"0px"}}>
+											{posts.map(data=>
+												<AudioPostContainer onClick={()=>displaySelectedPost(data)}>
+													<AudioPostOwnerInformation>
+														<img src={data.owner.profilePicture==null?
+															NoProfilePicture:
+															data.owner.profilePicture
+														} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
+														<p> 
+															<b>{data.owner.firstName}</b>
+														</p>
+													</AudioPostOwnerInformation>
+													<audio controls>
+													  <source src={data.post} type="audio/ogg"/>
+													  <source src={data.post} type="audio/mpeg"/>
+														Your browser does not support the audio element.
+													</audio>
+													<p style={{overflowY:"auto",maxHeight:"10%",overflow:"hidden"}}>
+														{data.description}
+													</p>
+												</AudioPostContainer>
+											)}
+										</ul>
+									}
+								</li>
+							</ul>
+						</li>
+					}
 				</>:
 				<>
 					<li style={{listStyle:"none"}}>

@@ -153,12 +153,12 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	const [isProccessingPost,changeIsProcessingPost]=useState(false);
 	const dispatch=useDispatch();
 	const {personalInformation}=useSelector(state=>state);
+	const [isLoading,changeIsLoadingIndicator]=useState(false);
 
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			
-			console.log(symposiumId);
+			changeIsLoadingIndicator(true);
 			const {confirmation,data}=await getIndustryVideoFeatureAnswers({
 				industryId:symposiumId,
 				questionIndex,
@@ -173,8 +173,9 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 				changePosts(posts);
 				changeQuestionId(selectedPostId);
 			}else{
-				alert('Unfortunately there has been an error trying to get this images data. Please try again');
+				alert('Unfortunately there has been an error trying to get this video data. Please try again');
 			}
+			changeIsLoadingIndicator(false);
 		}
 
 		fetchData();
@@ -288,26 +289,29 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 					</PostHeaderContainer>
 					<hr/>
 
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							{/*
-								<InputContainer placeholder="Search for a person here"/>
-							*/}
-							<li style={{listStyle:"none",marginTop:"2%"}}>
-								<ul style={{padding:"0px"}}>
-									{posts.map(data=>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
-												<video key={data._id} width="100%" height="40%" borderRadius="5px" controls autoplay>
-													<source src={data.videoUrl} type="video/mp4"/>
-												</video>
-											</li>
-										</a>
-									)}
-								</ul>
-							</li>
-						</ul>
-					</li>
+					{isLoading==true?
+						<p>Loading please wait</p>:
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginTop:"2%"}}>
+									{posts.length==0?
+										<p>No posts</p>:
+										<ul style={{padding:"0px"}}>
+											{posts.map(data=>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
+														<video key={data._id} width="100%" height="40%" borderRadius="5px" controls autoplay>
+															<source src={data.videoUrl} type="video/mp4"/>
+														</video>
+													</li>
+												</a>
+											)}
+										</ul>
+									}
+								</li>
+							</ul>
+						</li>
+					}
 				</>:
 				<>
 					<li style={{listStyle:"none"}}>
