@@ -111,10 +111,8 @@ const PersonalProfile=(state={initialState},action)=>{
 		}
 
 		case 'SIGN_IN_GUEST_USER':{
-			const {_id}=payload;
 			return{
 				...state,
-				id:_id,
 				isGuestProfile:true
 			}
 			break;

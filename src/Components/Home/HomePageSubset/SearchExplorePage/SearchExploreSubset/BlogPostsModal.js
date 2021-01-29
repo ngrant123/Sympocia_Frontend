@@ -386,10 +386,12 @@ const BlogPostModal=(props)=>{
 									{headerBlog.industriesUploaded[0].industry}
 								</a>
 							</li>
-							<DisplayRecruitButton
-								post={headerBlog}
-								previousProps={props}
-							/>
+							{props.isGuestProfileIndicator==false &&(
+								<DisplayRecruitButton
+									post={headerBlog}
+									previousProps={props}
+								/>
+							)}
 						</ul>
 					</li>
 
@@ -433,12 +435,14 @@ const BlogPostModal=(props)=>{
 									<div onClick={()=>displayBlogModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
 										<img id="image" src={data.blogImageUrl} style={BlogImageContainerCSS}/>
 										<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
-											<li style={{listStyle:"none"}}>
-												<DisplayRecruitButton
-													post={data}
-													previousProps={props}
-												/>
-											</li>
+											{props.isGuestProfileIndicator==false &&(
+												<li style={{listStyle:"none"}}>
+													<DisplayRecruitButton
+														post={data}
+														previousProps={props}
+													/>
+												</li>
+											)}
 											<li style={{listStyle:"none"}}>
 												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:"none",display:"inline-block"}}>

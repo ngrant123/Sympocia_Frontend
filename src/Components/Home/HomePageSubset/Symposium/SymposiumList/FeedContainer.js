@@ -245,57 +245,49 @@ class PersonalFeedContainer extends Component{
 	//Find a better way of doing this
 	async componentDidMount(){
 		try{
-			console.log("TEst")
-			const verification=this.props.isLoggedIn;
-			if(verification==false){
-				this.props.history.push({
-					pathname:'/'
-				})
+			window.addEventListener('resize',this.triggerUIChange)
+			const {isPersonalProfile,profileId}=this.props;
+			var symposiumsResponse;
+
+			if(isPersonalProfile==true){
+				symposiumsResponse=await getSymposiumsFollowedHome(profileId);
 			}else{
-				window.addEventListener('resize',this.triggerUIChange)
-				const {isPersonalProfile,profileId}=this.props;
-				var symposiumsResponse;
+				symposiumsResponse=await getFollowedSymposiumsCompanyHome(profileId);
+			}
 
-				if(isPersonalProfile==true){
-					symposiumsResponse=await getSymposiumsFollowedHome(profileId);
-				}else{
-					symposiumsResponse=await getFollowedSymposiumsCompanyHome(profileId);
-				}
+			const {confirmation,data}=symposiumsResponse;
+			debugger;
+			if(confirmation=="Success"){
+				const {message}=data;
+				var symposiums=[];
+				if(message.length>0){
+					for(var i=0;i<message.length;i++){
+						const specificCommunity=message[i];
+						const newTimer=100*i;
+						await this.timerFunction(newTimer);
 
-				const {confirmation,data}=symposiumsResponse;
-				debugger;
-				if(confirmation=="Success"){
-					const {message}=data;
-					var symposiums=[];
-					if(message.length>0){
-						for(var i=0;i<message.length;i++){
-							const specificCommunity=message[i];
-							const newTimer=100*i;
-							await this.timerFunction(newTimer);
+						symposiums.push(specificCommunity);
 
-							symposiums.push(specificCommunity);
-
-							this.setState(prevState=>({
-								...prevState,
-								symposiumArray:symposiums,
-								isPersonalProfile:isPersonalProfile,
-								isLoading:false
-							}));
-						}
-					}else{
 						this.setState(prevState=>({
 							...prevState,
 							symposiumArray:symposiums,
 							isPersonalProfile:isPersonalProfile,
 							isLoading:false
-						}));	
+						}));
 					}
 				}else{
-					alert('Unfortunately an error has occured when getting symposiums. Please try again');
+					this.setState(prevState=>({
+						...prevState,
+						symposiumArray:symposiums,
+						isPersonalProfile:isPersonalProfile,
+						isLoading:false
+					}));	
 				}
-				
-				this.triggerUIChange();
+			}else{
+				alert('Unfortunately an error has occured when getting symposiums. Please try again');
 			}
+			
+			this.triggerUIChange();
 		}catch(err){
 		}
 	}

@@ -213,7 +213,7 @@ class HomePageContainer extends Component{
 		window.addEventListener('resize',this.triggerUIChange)
 		const {isGuestProfile,id}=this.props.personalInformation;
 
-		if(id=="0"){
+		if(id=="0" && isGuestProfile==false){
 			this.setState({
 				displayGuestOnboarding:true
 			})
@@ -223,30 +223,31 @@ class HomePageContainer extends Component{
 	}
 
 	initiliazeUserProfileForHomePage=async(id)=>{
-			var profile={};
-			var symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
-			var isPersonalProfile=true;
-				
-			if(id!="0"){
-				const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
-				debugger;
-				if(confirmation=="Success"){
-					profile=data;
-					isPersonalProfile=true;
-				}else{
-					alert('Unfortunately there has been an error with getting the posts/profile for the home page. Please try again');
-				}
+		debugger;
+		var profile={};
+		var symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
+		var isPersonalProfile=true;
+			
+		if(id!="0" && this.props.personalInformation.isGuestProfile==false){
+			const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
+			debugger;
+			if(confirmation=="Success"){
+				profile=data;
+				isPersonalProfile=true;
+			}else{
+				alert('Unfortunately there has been an error with getting the posts/profile for the home page. Please try again');
 			}
+		}
 
-			this.setState({
-				recruitsPost:id=="0"?[]:profile.recruitsFollowing,
-				isPersonalProfile:isPersonalProfile,
-				profile:profile,
-				profileId:id,
-				symposiumsMap:symposiumsMap,
-				isLoading:false,
-				hideOnboarding:id=="0"?false:profile.firstTimeLoggedIn.explorePage
-			})
+		this.setState({
+			recruitsPost:id=="0"?[]:profile.recruitsFollowing,
+			isPersonalProfile:isPersonalProfile,
+			profile:profile,
+			profileId:id,
+			symposiumsMap:symposiumsMap,
+			isLoading:false,
+			hideOnboarding:(id=="0"|| this.props.personalInformation.isGuestProfile)?false:profile.firstTimeLoggedIn.explorePage
+		})
 	}
 
 	constructSymposiumsMap=(symposiums)=>{

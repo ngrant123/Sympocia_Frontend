@@ -20,10 +20,9 @@ export const getSymposiumId=async(name)=>{
 	}catch(err){
 		return err;
 	}
-
 }
 
-export const exploreImagePosts=async({id,postCount,accessToken})=>{
+export const exploreImagePosts=async({id,postCount,accessToken,isGuestProfile})=>{
 	try{
 		
 		const imageResults=await axios.get(`${GetUrl}/getExploreImagePosts`,{
@@ -32,7 +31,8 @@ export const exploreImagePosts=async({id,postCount,accessToken})=>{
 				postCount:postCount
 			},
 			headers:{
-				authorization:accessToken
+				authorization:accessToken,
+				isGuestProfile
 			}
 		});
 
@@ -43,7 +43,7 @@ export const exploreImagePosts=async({id,postCount,accessToken})=>{
 	}
 }
 
-export const exploreVideoPosts=async({id,postCount,accessToken})=>{
+export const exploreVideoPosts=async({id,postCount,accessToken,isGuestProfile})=>{
 	try{
 		
 		const videoResults=await axios.get(`${GetUrl}/getExploreVideoPosts`,{
@@ -52,7 +52,8 @@ export const exploreVideoPosts=async({id,postCount,accessToken})=>{
 				postCount:postCount
 			},
 			headers:{
-				authorization:accessToken
+				authorization:accessToken,
+				isGuestProfile
 			}
 		});
 
@@ -64,7 +65,7 @@ export const exploreVideoPosts=async({id,postCount,accessToken})=>{
 	}
 }
 
-export const exploreBlogPosts=async({id,postCount,accessToken})=>{
+export const exploreBlogPosts=async({id,postCount,accessToken,isGuestProfile})=>{
 	try{
 		const blogResults=await axios.get(`${GetUrl}/getExploreBlogsPosts`,{
 			params:{
@@ -72,7 +73,8 @@ export const exploreBlogPosts=async({id,postCount,accessToken})=>{
 				postCount:postCount
 			},
 			headers:{
-				authorization:accessToken
+				authorization:accessToken,
+				isGuestProfile
 			}
 		});
 
@@ -83,7 +85,7 @@ export const exploreBlogPosts=async({id,postCount,accessToken})=>{
 	}
 }
 
-export const exploreRegularPosts=async({id,postCount,accessToken})=>{
+export const exploreRegularPosts=async({id,postCount,accessToken,isGuestProfile})=>{
 	try{
 		const regularPostResults=await axios.get(`${GetUrl}/getExploreRegularPosts`,{
 			params:{
@@ -91,7 +93,8 @@ export const exploreRegularPosts=async({id,postCount,accessToken})=>{
 				postCount:postCount
 			},
 			headers:{
-				authorization:accessToken
+				authorization:accessToken,
+				isGuestProfile 
 			}
 		});
 

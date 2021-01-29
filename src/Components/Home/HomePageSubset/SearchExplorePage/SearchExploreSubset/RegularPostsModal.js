@@ -240,15 +240,16 @@ const RegularPostModal=(props)=>{
 												{headerRegularPost.industriesUploaded[0].industry}
 											</li>
 										</a>
-
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={{display:"inline-block",listStyle:"none"}}>
-												<DisplayRecruitButton
-													post={headerRegularPost}
-													previousProps={props}
-												/>
-											</li>
-										</a>
+										{props.isGuestProfileIndicator==false &&(
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li style={{display:"inline-block",listStyle:"none"}}>
+													<DisplayRecruitButton
+														post={headerRegularPost}
+														previousProps={props}
+													/>
+												</li>
+											</a>
+										)}
 									</ul>
 								</li>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
