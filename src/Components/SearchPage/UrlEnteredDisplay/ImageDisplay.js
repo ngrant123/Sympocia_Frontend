@@ -19,7 +19,6 @@ const PostContainer=styled.div`
 	flex-direction:row;
 	margin-top:10%;
 	height:50%;
-	width:100%;
 	padding-left:2%;
 `;
 
@@ -36,6 +35,34 @@ const ExploreIconContainer=styled.div`
 	&:hover{
 		box-shadow: 1px 1px 10px #707070;	
 	}
+`;
+
+const ImageContainer=styled.div`
+	position:relative;
+	height:120%;
+	padding:10px;
+	width:100%;
+
+	@media screen and (max-width:1370px){
+		margin-left:5% !important;
+    	width:90% !important;
+    	height:150% !important;
+    	border-radius:5px !important;
+    	margin-top:10%;
+    }
+
+    @media screen and (max-width:700px){
+		margin-left:0% !important;
+    	width:100% !important;
+    	height:160% !important;
+    	border-radius:5px !important;
+    	margin-top:10%;
+    }
+
+     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		width:95% !important;
+    	height:150% !important;
+    }
 `;
 
 
@@ -61,7 +88,32 @@ class ImageDisplay extends Component{
 		}
 	}
 
+	triggerUIChange=()=>{
+		if(window.innerWidth<700){
+
+			this.setState({
+				displayPhoneUI:true,
+				displayIpadUI:false,
+				displayDesktopUI:false
+			})
+		}else if(window.innerWidth<1400){
+			this.setState({
+				displayPhoneUI:false,
+				displayIpadUI:true,
+				displayDesktopUI:false
+			})
+
+		}else{
+			this.setState({
+				displayPhoneUI:false,
+				displayIpadUI:false,
+				displayDesktopUI:true
+			})
+		}
+	}
+
 	async componentDidMount(){
+		window.addEventListener('resize',this.triggerUIChange)
 		const {
 			history,
 			match:{
@@ -80,8 +132,9 @@ class ImageDisplay extends Component{
 				imageData:message
 			})
 		}else{
-			alert('Unfortunately an error has occured when trying to retried this post information. Please try again');
+			alert('Unfortunately an error has occured when trying to retrieve this post information. Please try again');
 		}
+		this.triggerUIChange();
 	}
 
 	displayChatPageHandle=()=>{
@@ -91,6 +144,9 @@ class ImageDisplay extends Component{
 		this.props.history.push({
 			pathname:"/home"
 		})
+	}
+	closeModal=()=>{
+
 	}
 
 	render(){
@@ -104,23 +160,28 @@ class ImageDisplay extends Component{
 				/>
 				{this.state.isLoading==false?
 					<PostContainer>
-						<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none"}}>
-									<ExploreIcon
-										style={{fontSize:50}}
-									/>
-								</li>
+						{this.state.displayDesktopUI==true && (
+							<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none"}}>
+										<ExploreIcon
+											style={{fontSize:50}}
+										/>
+									</li>
 
-								<li style={{listStyle:"none"}}>
-									Explore
-								</li>
-							</ul>
-						</ExploreIconContainer>
-						<ImageDisplayContainer
-							imageData={this.state.imageData}
-							targetDom={"urlEnteredImageContainer"}
-						/>
+									<li style={{listStyle:"none"}}>
+										Explore
+									</li>
+								</ul>
+							</ExploreIconContainer>
+						)}
+						<ImageContainer>
+							<ImageDisplayContainer
+								imageData={this.state.imageData}
+								targetDom={"urlEnteredImageContainer"}
+								closePostModal={this.closeModal}
+							/>
+						</ImageContainer>
 					</PostContainer>
 					:<LoadingAnimation/>
 				}

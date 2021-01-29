@@ -84,7 +84,7 @@ class BlogDisplay extends Component{
 				postData:message
 			})
 		}else{
-			alert('Unfortunately an error has occured when trying to retried this post information. Please try again');
+			alert('Unfortunately an error has occured when trying to retrieve this post information. Please try again');
 		}
 	}
 
