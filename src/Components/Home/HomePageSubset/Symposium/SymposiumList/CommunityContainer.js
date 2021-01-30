@@ -157,11 +157,7 @@ const CommunityContainer=(props)=>{
 	const [backgroundColor,changeBackGroundColor]=useState();
 	
 	useEffect(()=>{
-		/*
-			changePopularVideos(props.data.popularVideos);
-			changeActivePeople(props.data.activePeople);
-		*/
-		var symposiums=props.isPersonalProfile==true?PERSONAL_INDUSTRIES.INDUSTRIES:COMPANY_INDUSTRIES.INDUSTRIES;
+		var symposiums=PERSONAL_INDUSTRIES.INDUSTRIES;
 		for(var i=0;i<symposiums.length;i++){
 			const currentSymposium=symposiums[i].industry;
 			if(currentSymposium==symposium){

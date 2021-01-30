@@ -247,44 +247,46 @@ class PersonalFeedContainer extends Component{
 		try{
 			window.addEventListener('resize',this.triggerUIChange)
 			const {isPersonalProfile,profileId}=this.props;
-			var symposiumsResponse;
-
-			if(isPersonalProfile==true){
-				symposiumsResponse=await getSymposiumsFollowedHome(profileId);
+			if(profileId==0){
+				this.setState(prevState=>({
+					...prevState,
+					symposiumArray:[],
+					isPersonalProfile:isPersonalProfile,
+					isLoading:false
+				}));
 			}else{
-				symposiumsResponse=await getFollowedSymposiumsCompanyHome(profileId);
-			}
+				var symposiumsResponse=await getSymposiumsFollowedHome(profileId);
+				const {confirmation,data}=symposiumsResponse;
+				debugger;
+				if(confirmation=="Success"){
+					const {message}=data;
+					var symposiums=[];
+					if(message.length>0){
+						for(var i=0;i<message.length;i++){
+							const specificCommunity=message[i];
+							const newTimer=100*i;
+							await this.timerFunction(newTimer);
 
-			const {confirmation,data}=symposiumsResponse;
-			debugger;
-			if(confirmation=="Success"){
-				const {message}=data;
-				var symposiums=[];
-				if(message.length>0){
-					for(var i=0;i<message.length;i++){
-						const specificCommunity=message[i];
-						const newTimer=100*i;
-						await this.timerFunction(newTimer);
+							symposiums.push(specificCommunity);
 
-						symposiums.push(specificCommunity);
-
+							this.setState(prevState=>({
+								...prevState,
+								symposiumArray:symposiums,
+								isPersonalProfile:isPersonalProfile,
+								isLoading:false
+							}));
+						}
+					}else{
 						this.setState(prevState=>({
 							...prevState,
 							symposiumArray:symposiums,
 							isPersonalProfile:isPersonalProfile,
 							isLoading:false
-						}));
+						}));	
 					}
 				}else{
-					this.setState(prevState=>({
-						...prevState,
-						symposiumArray:symposiums,
-						isPersonalProfile:isPersonalProfile,
-						isLoading:false
-					}));	
+					alert('Unfortunately an error has occured when getting symposiums. Please try again');
 				}
-			}else{
-				alert('Unfortunately an error has occured when getting symposiums. Please try again');
 			}
 			
 			this.triggerUIChange();
@@ -371,34 +373,37 @@ class PersonalFeedContainer extends Component{
 		followingSymposiumButton.style.color="#151518";
 		exploreSymposiumsButton.style.color="#999999";
 
-		explorePosts=await getSymposiumsFollowedHome(this.props.profileId);
-		const {confirmation,data}=explorePosts;
-		if(confirmation=="Success"){
-			const {message}=data;
+		if(this.props.profileId=="0"){
 			this.setState({
-				symposiumArray:(message.length==0?[]:message),
+				symposiumArray:[],
 				isLoading:false
 			})
 		}else{
-			alert('Unfortunately an error has occured when getting symposiums. Please try again');
+			explorePosts=await getSymposiumsFollowedHome(this.props.profileId);
+			const {confirmation,data}=explorePosts;
+			if(confirmation=="Success"){
+				const {message}=data;
+				this.setState({
+					symposiumArray:(message.length==0?[]:message),
+					isLoading:false
+				})
+			}else{
+				alert('Unfortunately an error has occured when getting symposiums. Please try again');
+			}
 		}
 	}
 
 	displayExploreSymposiums=async()=>{
 		const followingSymposiumButton=document.getElementById("followedSymposiumsButton");
 		const exploreSymposiumsButton=document.getElementById("exploreSymposiumsButton");
-		var explorePosts=[];
+	
 		this.setState({
 			isLoading:true
 		})
 
 		followingSymposiumButton.style.color="#999999";
 		exploreSymposiumsButton.style.color="#151518";
-
-		if(this.props.isPersonalProfile==true){
-			explorePosts=await getSymposiumsNotFollowed(this.props.profileId);
-			
-		}
+		var explorePosts=await getSymposiumsNotFollowed(this.props.profileId);
 		const {confirmation,data}=explorePosts;
 		if(confirmation=="Success"){
 			const {message}=data;
