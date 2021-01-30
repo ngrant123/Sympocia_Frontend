@@ -510,28 +510,31 @@ const PersonalPostsIndex=(props)=>{
 										Images
 									</a>
 								</li>
+								{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) &&(
+									<React.Fragment>
+										<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
 
-								<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+											<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+												Videos
+											</a>
+										</li>
 
-									<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-										Videos
-									</a>
-								</li>
+										<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
-								<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-
-									<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-										Regular Posts
-									</a>
-								</li>
+											<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+												Regular Posts
+											</a>
+										</li>
 
 
-								<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+										<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
-									<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-										Blogs
-									</a>
-								</li>
+											<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+												Blogs
+											</a>
+										</li>
+									</React.Fragment>
+								)}
 							</ul>
 						</div>
 					</li>
@@ -761,28 +764,31 @@ const PersonalPostsIndex=(props)=>{
 											</a>
 										</li>
 
+										{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) && (
+											<React.Fragment>
+												<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 
-										<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
-
-											<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-												Videos
-											</a>
-										</li>
+													<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+														Videos
+													</a>
+												</li>
 
 
-										<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+												<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
-											<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-												Regular Posts
-											</a>
-										</li>
+													<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+														Regular Posts
+													</a>
+												</li>
 
-										<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+												<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
-											<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-												Blogs
-											</a>
-										</li>
+													<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+														Blogs
+													</a>
+												</li>
+											</React.Fragment>
+										)}
 
 										<li style={listCSSButton}>	
 
