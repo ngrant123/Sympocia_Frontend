@@ -176,8 +176,12 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 	const dispatch=useDispatch();
 
 	const recruitProfile=()=>{
-		changeIsProfileARecruitOrOwner(true);
-		handleRecruitButton({personalInformation,displayConfettiHandle,userId,isAccessTokenUpdated:false});
+		if(personalInformation.isGuestVisitorProfile==true){
+			alert('Create your own profile so you can recruit this person :)');
+		}else{
+			changeIsProfileARecruitOrOwner(true);
+			handleRecruitButton({personalInformation,displayConfettiHandle,userId,isAccessTokenUpdated:false});
+		}
 	}
 
 	const unRecruitVisitor=async({isAccessTokenUpdated,updatedAccessToken,accessToken})=>{

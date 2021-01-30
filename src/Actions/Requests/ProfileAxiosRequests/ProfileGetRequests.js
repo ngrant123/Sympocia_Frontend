@@ -20,7 +20,7 @@ export function getActivityLog(userId){
 }
 
 
-export async function getProfile({userId,visitorId,accessToken}){
+export async function getProfile({userId,visitorId,accessToken,isGuestProfileIndicator}){
 
 	try{
 		const profile=await axios.get(`${SearchUrl}/getProfile`,{
@@ -29,7 +29,8 @@ export async function getProfile({userId,visitorId,accessToken}){
 				visitorId
 			},
 			headers:{
-				authorization:accessToken
+				authorization:accessToken,
+				isGuestProfile:isGuestProfileIndicator
 			}
 		}); 
 		debugger;

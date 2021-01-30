@@ -233,7 +233,7 @@ class LProfile extends Component{
 		let dataResponse;
 		let visitorId=this.props.personalId
 		const {isGuestProfile}=this.props.personalState;
-		if((id==this.props.personalId && isGuestProfile) || this.props.personalId=="0" || isGuestProfile==null){
+		if((id==this.props.personalId && isGuestProfile)){
 			const {GUEST_PROFILE}=CONSTANTS;
 			this.setState({
 				isLoading:false,
@@ -256,10 +256,17 @@ class LProfile extends Component{
 				confirmationResponse=confirmation;
 				dataResponse=data;
 			}else{
+				const isGuestProfile=this.props.personalInformation.isGuestProfile;
+				var profileId=this.props.personalInformation.id;
+				let isGuestProfileIndicator=false;
+				if(profileId==0 || isGuestProfile){
+					isGuestProfileIndicator=true;
+				}
 				const profileIds={
 					userId:id,
 					visitorId,
-					accessToken:this.props.personalInformation.accessToken
+					accessToken:this.props.personalInformation.accessToken,
+					isGuestProfileIndicator
 				}
 				const {confirmation,data}=await getProfile(profileIds);
 				confirmationResponse=confirmation;
@@ -280,7 +287,8 @@ class LProfile extends Component{
 					championModalData:message.championData,
 					isLoading:false,
 					hideOnboarding:true,
-					visitorId
+					visitorId,
+					isGuestVisitorProfile:true
 				}));
 			}else{
 				debugger;
@@ -304,8 +312,10 @@ class LProfile extends Component{
 
 
 	 handleChangeProfilePicture=()=>{
-	 	document.getElementById("profilePicutreImageFile").click();
-		console.log('Change pic button clicked');
+	 	if(!this.state.isGuestProfile){
+		 	document.getElementById("profilePicutreImageFile").click();
+			console.log('Change pic button clicked');
+	 	}
 	}
 
 
@@ -1004,6 +1014,8 @@ class LProfile extends Component{
 										isPostReloading={this.isPostReloading}
 										unTriggerReload={this.unTriggerReload}
 										finalPostRecieved={this.finalPostRecieved}
+										isGuestProfile={this.state.isGuestProfile}
+										isGuestVisitorProfile={this.state.isGuestVisitorProfile}
 									/>
 								</PostInformationContainer>
 							</>
