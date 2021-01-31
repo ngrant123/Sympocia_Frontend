@@ -168,8 +168,6 @@ const authenticPostButtonCSS={
 
 
 class Video extends Component{
-
-
 	constructor(props){
 		console.log(props);
 		super(props);
@@ -189,96 +187,92 @@ class Video extends Component{
 	}
 
 
-displayOrHideVideoAndComments=()=>{
+	displayOrHideVideoAndComments=()=>{
+		if(this.state.displayComments==true){
+			const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
+			commentsAndVideoContainer.style.visibility="visible";
 
-
-	if(this.state.displayComments==true){
-		const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
-		commentsAndVideoContainer.style.visibility="visible";
-
-		const videoElement=document.getElementById("video");
-		const videoSeconds=videoElement.currentTime;
-		videoElement.muted=true;
-		const smallVideo=document.getElementById("smallVideo");
-		smallVideo.currentTime=videoSeconds;
-		smallVideo.play();
-
-		//make api call to get comments
-	}
-	else{
-		const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
-		if(commentsAndVideoContainer!=null){
 			const videoElement=document.getElementById("video");
-			commentsAndVideoContainer.style.visibility="hidden";
+			const videoSeconds=videoElement.currentTime;
+			videoElement.muted=true;
 			const smallVideo=document.getElementById("smallVideo");
-			smallVideo.pause();
-			videoElement.muted=false;
+			smallVideo.currentTime=videoSeconds;
+			smallVideo.play();
+
+			//make api call to get comments
+		}
+		else{
+			const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
+			if(commentsAndVideoContainer!=null){
+				const videoElement=document.getElementById("video");
+				commentsAndVideoContainer.style.visibility="hidden";
+				const smallVideo=document.getElementById("smallVideo");
+				smallVideo.pause();
+				videoElement.muted=false;
+			}
 		}
 	}
-	
-}
 
-displayDescription=(postInformation)=>{
-	console.log(postInformation);
-	return this.state.displayDescription==false? <React.Fragment></React.Fragment>:
-		<DescriptionModal>
-			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",marginBottom:"2%"}}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-							<SmallProfileDescriptionPicture>
-								{this.props.video.videoDescription==null?
-									<>
-										{postInformation.owner.profilePicture!=null &&(
-											<Link to={{pathname:`/profile/${postInformation.owner._id}`}}>
-												<img src={postInformation.owner.profilePicture} 
-													style={{borderRadius:"50%",width:"100%",height:"100%"}}
-												/>
-											</Link>
-										)}
-									</>:
-									<video style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" controls>
-										<source src={this.props.video.videoDescription} type="video/mp4"/>
-									</video>
-								}
-							</SmallProfileDescriptionPicture>
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"white",marginRight:"35%"}}>
-							<b>{postInformation.owner.firstName}</b>
-						</li>
-						{postInformation.audioDescription!=null &&(
-							<li style={{listStyle:"none"}}>
-								<audio controls>
-									<source src={this.props.video.audioDescription} type="audio/ogg"/>
-									<source src={this.props.video.audioDescription} type="audio/mpeg"/>
-									Your browser does not support the audio element.
-								</audio>
+	displayDescription=(postInformation)=>{
+		console.log(postInformation);
+		return this.state.displayDescription==false? <React.Fragment></React.Fragment>:
+			<DescriptionModal>
+				<ul style={{padding:"0px"}}>
+					<li style={{listStyle:"none",marginBottom:"2%"}}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+								<SmallProfileDescriptionPicture>
+									{this.props.video.videoDescription==null?
+										<>
+											{postInformation.owner.profilePicture!=null &&(
+												<Link to={{pathname:`/profile/${postInformation.owner._id}`}}>
+													<img src={postInformation.owner.profilePicture} 
+														style={{borderRadius:"50%",width:"100%",height:"100%"}}
+													/>
+												</Link>
+											)}
+										</>:
+										<video style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" controls>
+											<source src={this.props.video.videoDescription} type="video/mp4"/>
+										</video>
+									}
+								</SmallProfileDescriptionPicture>
 							</li>
-						)}
-					</ul>
-				</li>
 
-				<li style={{listStyle:"none",marginBottom:"2%",padding:"5px",fontSize:"15px",color:"white"}}>
-					{postInformation.description}
-				</li>
-				<li onClick={()=>this.setState({displayDescription:false})} style={{position:"relative",listStyle:"none",color:"white",cursor:"pointer"}}>
-					<b>Close</b>
-				</li>
-			</ul>
+							<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"white",marginRight:"35%"}}>
+								<b>{postInformation.owner.firstName}</b>
+							</li>
+							{postInformation.audioDescription!=null &&(
+								<li style={{listStyle:"none"}}>
+									<audio controls>
+										<source src={this.props.video.audioDescription} type="audio/ogg"/>
+										<source src={this.props.video.audioDescription} type="audio/mpeg"/>
+										Your browser does not support the audio element.
+									</audio>
+								</li>
+							)}
+						</ul>
+					</li>
 
-		</DescriptionModal>
+					<li style={{listStyle:"none",marginBottom:"2%",padding:"5px",fontSize:"15px",color:"white"}}>
+						{postInformation.description}
+					</li>
+					<li onClick={()=>this.setState({displayDescription:false})} style={{position:"relative",listStyle:"none",color:"white",cursor:"pointer"}}>
+						<b>Close</b>
+					</li>
+				</ul>
+			</DescriptionModal>
 
 
-}
+	}
 
 
-displayShadow=()=>{
-	return this.state.displayComments==true?<ShadowContainer onClick={()=>this.setState({displayComments:false})}/>:
-		<React.Fragment></React.Fragment>
-}
+	displayShadow=()=>{
+		return this.state.displayComments==true?<ShadowContainer onClick={()=>this.setState({displayComments:false})}/>:
+			<React.Fragment></React.Fragment>
+	}
 
-createOrRemoveStampEffect=()=>{
+	createOrRemoveStampEffect=()=>{
 		var isPersonalProfile=this.props.pageType=="personalProfile"?true:false;
 		if(this.state.displayStampEffect==false){
 			addStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
@@ -402,43 +396,41 @@ createOrRemoveStampEffect=()=>{
 
 				<OptionsContainer>
 					<ul style={{paddingTop:"10px"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.createOrRemoveStampEffect()} style={{listStyle:"none",marginBottom:"20px"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",marginLeft:"5%"}}>
-										<LoyaltyIcon 
-											icon={stampIcon}
-											style={{fontSize:30,color:"white"}}
-										/>
+						{this.props.isGuestProfile==false &&(
+							<React.Fragment>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>this.createOrRemoveStampEffect()} style={{listStyle:"none",marginBottom:"20px"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",marginLeft:"5%"}}>
+												<LoyaltyIcon 
+													icon={stampIcon}
+													style={{fontSize:30,color:"white"}}
+												/>
+											</li>
+											<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+												Stamp
+											</li>
+										</ul>
 									</li>
-									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-										Stamp
+								</a>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>this.setState({displayComments:!this.state.displayComments})} 
+										style={{listStyle:"none",marginBottom:"20px"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",marginLeft:"5%"}}>
+												<ChatIcon
+													style={{fontSize:30,color:"white"}}
+												/>
+											</li>
+											<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+												Comments
+											</li>
+										</ul>
 									</li>
-								</ul>
-							</li>
-						</a>
+								</a>
+							</React.Fragment>
+						)}
 
-						{/*
-							<li style={{listStyle:"none",marginBottom:"20px"}}>
-								Dislike
-							</li>
-
-						*/}
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.setState({displayComments:!this.state.displayComments})} 
-								style={{listStyle:"none",marginBottom:"20px"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",marginLeft:"5%"}}>
-										<ChatIcon
-											style={{fontSize:30,color:"white"}}
-										/>
-									</li>
-									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-										Comments
-									</li>
-								</ul>
-							</li>
-						</a>
 
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 							<li onClick={()=>this.setState({displayDescription:!this.state.displayDescription})} 
@@ -456,23 +448,25 @@ createOrRemoveStampEffect=()=>{
 							</li>
 						</a>
 
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.setState({
-												displayApproveDisapproveIndicator:!this.state.displayApproveDisapproveIndicator
-											})}
-								 style={{listStyle:"none",marginBottom:"20px"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",marginLeft:"5%"}}>
-										<PollIcon
-											style={{fontSize:30,color:"white"}}
-										/>
-									</li>
-									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-										Poll
-									</li>
-								</ul>
-							</li>
-						</a>
+						{this.props.isGuestProfile==false &&(
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>this.setState({
+													displayApproveDisapproveIndicator:!this.state.displayApproveDisapproveIndicator
+												})}
+									 style={{listStyle:"none",marginBottom:"20px"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",marginLeft:"5%"}}>
+											<PollIcon
+												style={{fontSize:30,color:"white"}}
+											/>
+										</li>
+										<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+											Poll
+										</li>
+									</ul>
+								</li>
+							</a>
+						)}
 
 						{(this.props.pageType=="personalProfile" && this.props.isOwnPostViewing==true) &&(
 							<>

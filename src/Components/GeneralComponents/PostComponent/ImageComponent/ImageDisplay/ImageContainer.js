@@ -218,11 +218,13 @@ const ImageContainer=(props)=>{
 															</li>
 														</a>:null
 													}
-													<a style={{textDecoration:"none"}}href="javascript:void(0);">
-														<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ButtonCSS}>
-																Stamp
-														</li>
-													</a>
+													{isGuestProfile==false &&(
+														<a style={{textDecoration:"none"}}href="javascript:void(0);">
+															<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ButtonCSS}>
+																	Stamp
+															</li>
+														</a>
+													)}
 
 													{(props.profileType=="personalProfile" && props.isOwnProfile==true) &&(
 														<>

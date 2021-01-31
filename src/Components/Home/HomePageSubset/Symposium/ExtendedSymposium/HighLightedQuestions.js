@@ -170,9 +170,13 @@ class HighLightedQuestions extends Component{
 	}
 
 	expandQuestion=()=>{
-		this.setState({
-			displayExpandedQuestionModal:true
-		});
+		if(this.props.isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
+		}else{
+			this.setState({
+				displayExpandedQuestionModal:true
+			});
+		}
 	}
 
 	addComment=(data)=>{}
