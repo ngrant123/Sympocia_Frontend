@@ -234,10 +234,11 @@ export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment,i
 	}
 }
 
-export const createComment=async(postType,postId,comment,profileObject,accessToken)=>{
+export const createComment=async(userId,postType,postId,comment,profileObject,accessToken)=>{
 	try{
 		
 		const commentResponse=await axios.post(`${CreateURl}/createComment`,{
+			userId,
 			postType:postType,
 			postId:postId,
 			comment:comment,

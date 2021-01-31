@@ -278,6 +278,7 @@ class CommentsContainer extends Component{
 		}
 		if(comment!=""){
 			let {confirmation,data}=await createComment(
+												this.props.personalState.id,
 												this.props.postType,
 												this.props.postId,
 												comment,

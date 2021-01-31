@@ -20,6 +20,11 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import {Link} from "react-router-dom";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
 	position:relative;
@@ -272,21 +277,61 @@ class Video extends Component{
 			<React.Fragment></React.Fragment>
 	}
 
-	createOrRemoveStampEffect=()=>{
-		var isPersonalProfile=this.props.pageType=="personalProfile"?true:false;
+	createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		debugger;
+		let confirmationResponse;
+		let dataResponse;
 		if(this.state.displayStampEffect==false){
-			addStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
-			this.setState({
-				displayStampEffect:true
-			})
+			const {confirmation,data}=await addStampPost(
+												this.props.video._id,
+												"personal",
+												"Videos",
+												this.props.personalId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												this.props.personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
 
 		}else{
-			unStampPost(this.props.video._id,"personal","Videos",this.props.personalId);
-			this.setState({
-				displayStampEffect:false
-			})
+			const {confirmation,data}=await unStampPost(
+												this.props.video._id,
+												"personal",
+												"Videos",
+												this.props.personalId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												this.props.personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
 		}
-}
+
+		if(confirmationResponse=="Success"){
+			if(this.state.displayStampEffect==false){
+				this.setState({
+					displayStampEffect:true
+				})
+			}else{
+				this.setState({
+					displayStampEffect:false
+				})
+			}
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						this.props.personalInformation.refreshToken,
+						this.props.personalInformation.id,
+						this.createOrRemoveStampEffect,
+						this.props,
+						{},
+						true
+					);
+			}else{
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+			}
+		}
+	}
 
 	hideComments=()=>{
 		const smallVideoCurrentTime=document.getElementById("smallVideo").currentTime;
@@ -399,7 +444,7 @@ class Video extends Component{
 						{this.props.isGuestProfile==false &&(
 							<React.Fragment>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>this.createOrRemoveStampEffect()} style={{listStyle:"none",marginBottom:"20px"}}>
+									<li onClick={()=>this.createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={{listStyle:"none",marginBottom:"20px"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",marginLeft:"5%"}}>
 												<LoyaltyIcon 
@@ -542,12 +587,20 @@ class Video extends Component{
 
 const mapStateToProps=(state)=>{
 	return {
-		personalInformation:state=>state.personalInformation,
-		companyInformation:state=>state.companyInformation
+		personalInformation:state.personalInformation,
+		companyInformation:state.companyInformation
+	}
+}
+
+
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
 	}
 }
 
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(Video);
