@@ -14,6 +14,7 @@ import {
 	createVideoCommentReply
 } from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {useSelector} from "react-redux";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 
 const Container=styled.div`
 	position:fixed;
@@ -50,6 +51,18 @@ const Notification=styled.div`
 	display:flex;
 	flex-direction:row;
 	margin-top:2%;
+
+	@media screen and (max-width:700px){
+		flex-direction:column;
+		#viewPostButtonDIV{
+			margin-top:5%;
+			width:70% !important;
+		}
+		#regularCommentAndAuthenticationProfilePicture{
+			width:20% !important;
+			height:10% !important;
+		}
+	}
 `;
 
 const InputContainer=styled.textarea`
@@ -65,6 +78,11 @@ const InputContainer=styled.textarea`
 	margin-right:2%;
 `;
 
+
+const RegularCommentAndAuthenticationContaienr=styled.div`
+	display:flex;
+	flex-direction:column;
+`;
 
 const VideoCommentReplyContainer=styled.div`
 	display:flex;
@@ -104,7 +122,6 @@ const BackButtonCSS={
 
 const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postId,displayPostElementPage,isPostAudio})=>{
 	const {notificationType,postType,commentID,replyId}=data;
-
 	const [notification,changeNotification]=useState();
 	const [isLoading,changeIsLoading]=useState(true);
 	const [displayReplyModal,changeDisplayReplyModal]=useState(false);
@@ -153,12 +170,12 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 				console.log(data);
 				if(confirmationResponse=="Success"){
 					changeNotification({...dataResponse});
-					changeIsLoading(false);
 				}else{
 					alert('Unfortunately there has been an error when trying to retrive this notification. Please try again');
 					closeModal();
 				}
 			}
+			changeIsLoading(false);
 		}
 
 		fetchData();
@@ -200,7 +217,17 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 			if(notificationType!="Stamp"){
 				if(notificationType=="RegularComment" || notificationType=="AuthenticPost"){
 					return(
-						<p>{notification.comment}</p>
+						<RegularCommentAndAuthenticationContaienr>
+							<div style={{display:"flex",flexDirection:"row"}}>
+								<img id="regularCommentAndAuthenticationProfilePicture" src={notification.profilePicture==null?
+									NoProfilePicture:notification.profilePicture}
+									style={{width:"10%",height:"10%",borderRadius:"50%"}}/>
+								<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
+									<b>{notification.firstName}</b>
+								</p>
+							</div>
+							<p>{notification.comment}</p>
+						</RegularCommentAndAuthenticationContaienr>
 					)
 				}else if(notificationType=="VideoCommentReply"){
 					return(
@@ -225,9 +252,20 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 								<p>{notification.reply}</p>
 							</div>
 				}else{
-			   		return <video key={uuidv4()} width="60%" height="100%" autoplay="true" muted controls>
-								<source src={notification.videoSrc} type="video/mp4"/>
-							</video>
+			   		return <div style={{display:"flex",flexDirection:"column"}}>
+			   					<div style={{display:"flex",flexDirection:"row"}}>
+									<img id="regularCommentAndAuthenticationProfilePicture" 
+										src={notification.ownerObject.profilePicture==null?
+											NoProfilePicture:notification.ownerObject.profilePicture}
+										style={{width:"10%",height:"10%",borderRadius:"50%"}}/>
+									<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
+										<b>{notification.ownerObject.owner.firstName}</b>
+									</p>
+								</div>
+				   				<video key={uuidv4()} width="60%" height="100%" autoplay="true" muted controls>
+									<source src={notification.videoSrc} type="video/mp4"/>
+								</video>
+			   				</div>
 				}
 			}else{
 				return null;
@@ -295,7 +333,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					<div style={{width:"70%",marginLeft:"2%"}}>
 						{displayReplyModal==false? 
 							<>
-								<div onClick={()=>triggerDisplayElementPage()} style={BackButtonCSS}>
+								<div id="viewPostButtonDIV" onClick={()=>triggerDisplayElementPage()} style={BackButtonCSS}>
 									View Post
 								</div>
 								<hr/>
@@ -306,7 +344,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 									</div>
 								}
 								<hr/>
-								{(notificationType=="RegularComment" || notificationType=="VideoComment") &&(
+								{(notificationType=="RegularComment") &&(
 									<div onClick={()=>changeDisplayReplyModal(true)} style={BackButtonCSS}>
 										Reply
 									</div>

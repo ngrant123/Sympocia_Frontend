@@ -208,10 +208,14 @@ const NavBar=(pageProps)=>{
 
 	useEffect(()=>{
 		const initialSetUp=async()=>{
+			debugger;
+			if(isGuestProfile==false){
+				statusCheckTrigger({id,isAccessTokenUpdated:false})
+			}
 			changeDisplayPersonalProfileIcon(true);
 			triggerUIChange();
-			const notificationTriggerCheck=true;
 			/*
+			const notificationTriggerCheck=true;
 				while(notificationTriggerCheck){
 						await triggerSetTimeout(10000);
 						const {confirmation,data}=await notificationStatusCheck(personalProfileState.id);

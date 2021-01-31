@@ -195,7 +195,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 							{data.notificationType=="Stamp" &&(
 								<>
 									<img src={StampIcon} style={{height:"20px",width:"20px"}}/>
-									<p>Congrats you posted has been stamped	</p>
+									<p>Congrats your posted has been stamped	</p>
 								</>
 							)}
 							{data.notificationType=="RegularComment" &&(

@@ -29,7 +29,7 @@ const Video=styled.div`
 	overflow:hidden;
 	border-radius:5px
 	z-index:5;
-	background-color:#1C1C1C;
+	background-color:white;
 `;
 
 const InputContainer=styled.textarea`
@@ -272,7 +272,6 @@ class VideoResponseContainer extends Component{
 											</li>
 										</a>
 									</ul>
-									}
 								</li>
 							</ul>
 						</>
@@ -346,69 +345,53 @@ class VideoResponseContainer extends Component{
 										}
 									</ul>
 									<Video>
-										<video key={videoData._id} objectFit="cover" position="absolute" width="100%" top="0px" height="100%" borderRadius="50%" autoplay="true" controls>
-											<source src={videoData.videoSrc} type="video/mp4"/>
-										</video>
-										<ul style={{position:"absolute",top:"50px"}}>
-											<li style={{listStyle:"none",width:"400px"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-														<img src={videoData.ownerObject.profilePicture==null?
-															NoProfilePicture:videoData.ownerObject.profilePicture}
-															style={{borderRadius:"50%",width:"50px",height:"45px"}}
-														/>
-													</li>
+										{this.state.displayComments==false?
+											<>
+												<video key={videoData._id} objectFit="cover" position="absolute" width="100%" top="0px" height="100%" borderRadius="50%" autoplay="true" controls>
+													<source src={videoData.videoSrc} type="video/mp4"/>
+												</video>
+												<ul style={{position:"absolute",top:"50px"}}>
+													<li style={{listStyle:"none",width:"400px"}}>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+																<img src={videoData.ownerObject.profilePicture==null?
+																	NoProfilePicture:videoData.ownerObject.profilePicture}
+																	style={{borderRadius:"50%",width:"50px",height:"45px"}}
+																/>
+															</li>
 
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<p style={{color:"white",fontSize:"25px",marginLeft:"5%"}}>
-															<b>{videoData.ownerObject.owner.firstName}</b>
-														</p>
+															<li style={{listStyle:"none",display:"inline-block"}}>
+																<p style={{color:"white",fontSize:"25px",marginLeft:"5%"}}>
+																	<b>{videoData.ownerObject.owner.firstName}</b>
+																</p>
+															</li>
+														</ul>
 													</li>
-												</ul>
-											</li>
-
-											{/*
-												<li style={{listStyle:"none"}}>
-													<ul style={{zIndex:"2",padding:"0px",width:"15%"}}>
-														<li style={{listStyle:"none",marginBottom:"40%"}} onClick={()=>this.getReplies()}>
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
-																	 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
-																	 fill="none" stroke-linecap="round" stroke-linejoin="round">
-																  <path stroke="none" d="M0 0h24v24H0z"/>
-																  <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
-																  <line x1="8" y1="9" x2="16" y2="9" />
-																  <line x1="8" y1="13" x2="14" y2="13" />
-																</svg>
-															</a>
+													{/*
+														<li style={{listStyle:"none"}}>
+															<ul style={{zIndex:"2",padding:"0px",width:"15%"}}>
+																<li style={{listStyle:"none",marginBottom:"40%"}} onClick={()=>this.getReplies()}>
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
+																			 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
+																			 fill="none" stroke-linecap="round" stroke-linejoin="round">
+																		  <path stroke="none" d="M0 0h24v24H0z"/>
+																		  <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
+																		  <line x1="8" y1="9" x2="16" y2="9" />
+																		  <line x1="8" y1="13" x2="14" y2="13" />
+																		</svg>
+																	</a>
+																</li>
+															</ul>
 														</li>
-													</ul>
-												</li>
-													{this.state.displayComments==true?
-															<CommentsContainerDiv>
-																{this.commentUI()}
-															</CommentsContainerDiv>:null
-													}
-											*/}
-										</ul>
-									</Video>
-									{/*
-										{this.state.replies.length==0 ?
-											<p style={ButtonCSS} onClick={()=>this.getReplies()}>
-												{this.state.isProcessingInput==true?
-													<p>Please wait</p>:
-													<>
-														{this.state.isRepliesFetched==true?
-															<p> No video comments</p>:
-															<p>View Comments </p>
-														}
-													</>
-												}
-											</p>:
-											<>{this.commentUI()}</>
+													*/}
+												</ul>
+											</>:
+											<>
+												{this.commentUI()}
+											</>
 										}
-									*/}
-									
+									</Video>
 								</>
 							}
 						</>
