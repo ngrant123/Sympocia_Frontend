@@ -252,72 +252,67 @@ class Symposium extends Component{
 	}
 
 	 async componentDidMount(){
-		const verification=this.props.isLoggedIn;
-		if(verification==false){
-			this.props.history.push({
-				pathname:'/'
-			})
-		}else{
-			window.addEventListener('resize',this.triggerUIChange)
-	  		const postContainerElement=document.getElementById("postChatInformation");
-	  		const headerContentsContainerElement=document.getElementById("headerContents");
+		window.addEventListener('resize',this.triggerUIChange)
+  		const postContainerElement=document.getElementById("postChatInformation");
+  		const headerContentsContainerElement=document.getElementById("headerContents");
 
-			const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
-	  		var {confirmation,data}=await getIndustryInformation(
-	  										this.props.match.params.symposiumName,
-	  									   	this.state.postCount,
-	  									   	profileId
-  									   	);
-	  		debugger;
-	  		if(confirmation=="Success"){
-	  			const {
-	  				posts,
-		  			popularPosts,
-		  			activeUsers,
-		  			popularQuestions,
-		  			isProfileFollowedSymposium,
-		  			isOnboardingCompleted,
-		  			featureQuestions,
-		  			_id
-	  			}=data;
+		const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
+  		var {confirmation,data}=await getIndustryInformation(
+  										this.props.match.params.symposiumName,
+  									   	this.state.postCount,
+  									   	profileId
+									   	);
+  		debugger;
+  		if(confirmation=="Success"){
+  			const {
+  				posts,
+	  			popularPosts,
+	  			activeUsers,
+	  			popularQuestions,
+	  			isProfileFollowedSymposium,
+	  			isOnboardingCompleted,
+	  			featureQuestions,
+	  			_id
+  			}=data;
 
-	  			var newHomePagePosts=this.addSuggestedSymposiums(posts);
+  			var newHomePagePosts=this.addSuggestedSymposiums(posts);
+  			
+  			console.log(data);
+  			console.log(popularQuestions);
 	  			
-	  			console.log(data);
-	  			console.log(popularQuestions);
-		  			
-		  		this.setState(prevState=>({
-			  		...prevState,
-			  		selectedSymposiumTitle:this.props.match.params.symposiumName,
-			  		symposiums:this.props.location.state==null?[]:this.props.location.state.symposiums,
-			  		symposiumCounter:-1,
-			  		backgroundColor:this.props.location.state==null?this.symposiumBackgroundColor(this.props.match.params.symposiumName):
-			  		this.props.location.state.selectedSymposium.backgroundColor,
-			  		postType:"Image",
-			  		posts:newHomePagePosts,
-			  		popularVideos:popularPosts,
-			  		activePeople:activeUsers,
-			  		popularQuestions:popularQuestions,
-			  		isProfileFollowingSymposium:isProfileFollowedSymposium,
-			  		profileId,
-			  		isLoading:false,
-			  		hideOnboarding:isOnboardingCompleted,
-			  		symposiumFeatureQuestions:featureQuestions,
-			  		symposiumId:_id
-		  		}));
+	  		this.setState(prevState=>({
+		  		...prevState,
+		  		selectedSymposiumTitle:this.props.match.params.symposiumName,
+		  		symposiums:this.props.location.state==null?[]:this.props.location.state.symposiums,
+		  		symposiumCounter:-1,
+		  		backgroundColor:this.props.location.state==null?this.symposiumBackgroundColor(this.props.match.params.symposiumName):
+		  		this.props.location.state.selectedSymposium.backgroundColor,
+		  		postType:"Image",
+		  		posts:newHomePagePosts,
+		  		popularVideos:popularPosts,
+		  		activePeople:activeUsers,
+		  		popularQuestions:popularQuestions,
+		  		isProfileFollowingSymposium:isProfileFollowedSymposium,
+		  		profileId,
+		  		isLoading:false,
+		  		hideOnboarding:isOnboardingCompleted,
+		  		symposiumFeatureQuestions:featureQuestions,
+		  		symposiumId:_id,
+		  		isGuestProfile:(this.props.personalInformation.id=="0" || this.props.personalInformation.isGuestProfile==true)==true?
+								true:false
+	  		}));
 
-			  	setTimeout(function(){
-					postContainerElement.style.opacity="1";
-					headerContentsContainerElement.style.opacity="1";
-			  	},500);
+		  	setTimeout(function(){
+				postContainerElement.style.opacity="1";
+				headerContentsContainerElement.style.opacity="1";
+		  	},500);
 
-			  	connectToRoom(socket,_id);
+		  	connectToRoom(socket,_id);
 
-	  		}else{
-	  			alert('Unfortunately there has been a problem with getting the symposium information. Please try again');
-	  		}
-	  		this.triggerUIChange();
-		}
+  		}else{
+  			alert('Unfortunately there has been a problem with getting the symposium information. Please try again');
+  		}
+  		this.triggerUIChange();
 	  }
 
 	addSuggestedSymposiums=(posts)=>{
@@ -635,6 +630,7 @@ class Symposium extends Component{
 					  	symposium={this.state.selectedSymposiumTitle}
 					  	questions={this.state.symposiumFeatureQuestions}
 					  	isIpadView={this.state.displayIpadUI}
+					  	isGuestProfile={this.state.isGuestProfile}
 		  			/>
 	  			)}
 	  		</Container>:
@@ -709,11 +705,11 @@ class Symposium extends Component{
 							  			symposium={this.state.selectedSymposiumTitle}
 							  			symposiumId={this.state.symposiumId}
 							  			questions={this.state.symposiumFeatureQuestions}
+							  			isGuestProfile={this.state.isGuestProfile}
 							  		/>
 							</SymposiumFeatureContainer>
 				  		} 
 					</>
-
 		  		)}
 		  	  </>
 
@@ -780,7 +776,7 @@ class Symposium extends Component{
 		  			</li>
 		  			{this.state.displayChatRoom==true?
 		  				<li style={{listStyle:"none"}}>
-							  	 {this.symposiumFeaturesAndChat()}
+							{this.symposiumFeaturesAndChat()}
 			  			</li>:null
 		  			}
 		  		</ul>
@@ -978,7 +974,6 @@ class Symposium extends Component{
 
 	displayChatPage=(pageIndicator)=>{
 		this.setState(prevState=>({
-
 			...prevState,
 			displayChatPage:true,
 			chatPageIndicator:pageIndicator
@@ -987,7 +982,6 @@ class Symposium extends Component{
 
 	hideChatPage=()=>{
 		this.setState(prevState=>({
-
 			...prevState,
 			displayChatPage:false
 		}))
@@ -1425,6 +1419,7 @@ class Symposium extends Component{
 
 const mapStateToProps=(state)=>{
 	return{
+		personalInformation:state.personalInformation,
 		profileId:state.personalInformation.id,
 		isLoggedIn:state.personalInformation.loggedIn
 	}

@@ -247,6 +247,7 @@ class LProfile extends Component{
 			})
 
 		}else{
+			let isGuestProfileIndicator=false;
 			if(id==this.props.personalId){
 				const profileIds={
 					userId:this.props.personalId,
@@ -258,7 +259,6 @@ class LProfile extends Component{
 			}else{
 				const isGuestProfile=this.props.personalInformation.isGuestProfile;
 				var profileId=this.props.personalInformation.id;
-				let isGuestProfileIndicator=false;
 				if(profileId==0 || isGuestProfile){
 					isGuestProfileIndicator=true;
 				}
@@ -288,7 +288,7 @@ class LProfile extends Component{
 					isLoading:false,
 					hideOnboarding:true,
 					visitorId,
-					isGuestVisitorProfile:true
+					isGuestVisitorProfile:isGuestProfileIndicator
 				}));
 			}else{
 				debugger;

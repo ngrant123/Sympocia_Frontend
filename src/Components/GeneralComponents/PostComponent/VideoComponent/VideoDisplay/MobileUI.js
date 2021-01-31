@@ -307,7 +307,20 @@ const ExpandButtonCSS={
 }
 
 
-const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost,pageType,isOwnPostViewing,personalId,closePostModal,displayPollModal})=>{
+const MobileUI=(props)=>{
+	const {
+		video,
+		targetDom,
+		triggerPromoteModal,
+		displayEditModal,
+		deletePost,
+		pageType,
+		isOwnPostViewing,
+		personalId,
+		closePostModal,
+		displayPollModal,
+		isGuestProfile
+	}=props;
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -404,18 +417,21 @@ const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost
 									)}
 								</ul>
 							</li>
+							{isGuestProfile==false &&(
+								<React.Fragment>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li id="approvesPostLI" onClick={()=>displayPollModal(true)} style={ButtonCSS}>
+											<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
+										</li>
+									</a>
 
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li id="approvesPostLI" onClick={()=>displayPollModal(true)} style={ButtonCSS}>
-									<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
-								</li>
-							</a>
-
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li id="disapprovePostLI" onClick={()=>displayPollModal(false)} style={ButtonCSS}>
-									<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
-								</li>
-							</a>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li id="disapprovePostLI" onClick={()=>displayPollModal(false)} style={ButtonCSS}>
+											<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
+										</li>
+									</a>
+								</React.Fragment>
+							)}
 						</ul>
 
 						<p style={{width:"90%",fontSize:"40px"}}>
@@ -580,23 +596,27 @@ const MobileUI=({video,targetDom,triggerPromoteModal,displayEditModal,deletePost
 						{displayInformation==false && displayComments==false && (
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"20px"}}>
-									<a href="javascript:void(0);">
-										<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
-											<LoyaltyIcon
-												style={{fontSize:30}}
-											/>
-										</li>
-									</a>
-									<a href="javascript:void(0);">
-										<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-											  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-											  <line x1="8" y1="9" x2="16" y2="9" />
-											  <line x1="8" y1="13" x2="14" y2="13" />
-											</svg>
-										</li>
-									</a>
+									{isGuestProfile==false && (
+										<React.Fragment>
+											<a href="javascript:void(0);">
+												<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+													<LoyaltyIcon
+														style={{fontSize:30}}
+													/>
+												</li>
+											</a>
+											<a href="javascript:void(0);">
+												<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+													  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+													  <line x1="8" y1="9" x2="16" y2="9" />
+													  <line x1="8" y1="13" x2="14" y2="13" />
+													</svg>
+												</li>
+											</a>
+										</React.Fragment>
+									)}
 									<hr/>
 
 									{(pageType=="personalProfile" && isOwnPostViewing==true) &&(

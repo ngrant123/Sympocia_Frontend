@@ -118,7 +118,14 @@ const MobileChatOptionCSS={
 const MobileRouteOptionCSS={
 	color:"#5298F8",
 	borderStyle:"none",
-	backgroundColor:"#5298F8",
+	backgroundColor:"white",
+	padding:"10px"
+}
+
+const RouteOptionCSS={
+	color:"#5298F8",
+	borderStyle:"none",
+	backgroundColor:"5298F8",
 	padding:"10px"
 }
 
@@ -153,6 +160,8 @@ const NavBar=(pageProps)=>{
 		}=pageProps;
 
 	const personalProfileState=useSelector(state=>state.personalInformation);
+	const isGuestProfile=(personalProfileState.id=="0" || personalProfileState.isGuestProfile==true)==true?
+					true:false;
 	const companyProfileState=useSelector(state=>state.companyInformation);
 	const [displayPersonalProfileIcon,changeDisplayPersonalProfileIcon]=useState(false);
 	const [displayCompanyProfileIcon,changeDisplayCompanyProfileIcon]=useState(false);
@@ -292,7 +301,11 @@ const NavBar=(pageProps)=>{
 	}
 
 	const fetchNotificationData=async()=>{
-		changeDisplayNotifications(true)
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+		}else{
+			changeDisplayNotifications(true);
+		}
 	}
 
 	const personalProfileIpadPages=()=>{
@@ -310,7 +323,7 @@ const NavBar=(pageProps)=>{
 					<div style={{marginLeft:"5%"}}>
 						<ul style={{padding:"0px"}}>
 							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileRouteOptionCSS}>
+								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={RouteOptionCSS}>
 									<NavBarButton>
 										<li style={{listStyle:"none",display:"inline-block"}}>
 											<AccountCircleIcon/>

@@ -39,8 +39,11 @@ const VideoContainer=(data)=>{
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
 	const [displayPollOptionModal,changePollOptionModal]=useState(false);
 	const [displayApprovePollOptionModal,changeDisplayApprovePollModal]=useState(false);
-
 	const personalId=useSelector(state=>state.personalInformation.id);
+
+	const userInformation=useSelector(state=>state.personalInformation);
+	const isGuestProfile=(userInformation.id=="0" || userInformation.isGuestProfile==true)==true?
+						true:false;
 
 	useEffect(()=>{
 		triggerUIChange();
@@ -92,7 +95,8 @@ const VideoContainer=(data)=>{
 		isOwnPostViewing:data.isOwnProfile,
 		personalId:personalId,
 		closePostModal:data.closePostModal,
-		displayPollModal:displayPollModalTrigger
+		displayPollModal:displayPollModalTrigger,
+		isGuestProfile
 	}
 	return(
 		<React.Fragment>

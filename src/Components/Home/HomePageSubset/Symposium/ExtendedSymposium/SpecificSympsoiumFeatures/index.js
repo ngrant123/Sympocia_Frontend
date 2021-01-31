@@ -46,7 +46,7 @@ const ChatOption={
 	featuresindex
 */
 
-const SpecificFeatureSymposium=({symposium,symposiumId,questions})=>{
+const SpecificFeatureSymposium=({symposium,symposiumId,questions,isGuestProfile})=>{
 	console.log(questions);
 	/*
 		const [isArtSymposium,changeArtStatus]=useState(false);
@@ -139,7 +139,8 @@ const SpecificFeatureSymposium=({symposium,symposiumId,questions})=>{
 	return(
 		<FeatureProvider
 			value={{
-				symposiumId:symposiumId
+				symposiumId:symposiumId,
+				isGuestProfile
 			}}
 		>
 			{isLoadingFeatureSymposiums==false?

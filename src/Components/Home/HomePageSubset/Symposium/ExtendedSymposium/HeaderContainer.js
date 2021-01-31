@@ -211,7 +211,8 @@ const HeaderContainer=(props)=>{
 			profileId,
 			changeFollowIndicator,
 			displayPopularVideos,
-			displayDesktopUI
+			displayDesktopUI,
+			isGuestProfile
 		}=props;
 	console.log(props);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
@@ -308,57 +309,60 @@ const HeaderContainer=(props)=>{
 	   }
 
 	const handleFollowSymposium=async({isAccessTokenUpdated,updatedAccessToken})=>{
-
-		if(followSymposiumButtonClick==false){
-			const {confirmation,data}=await addSymposium(
-												profileId,
-												selectedSymposiumTitle,
-												null,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												personalInformation.accessToken
-											);
-			if(confirmation=="Failure"){
-				const {statusCode}=data;
-				if(statusCode==401){
-					await refreshTokenApiCallHandle(
-							personalInformation.refreshToken,
-							personalInformation.id,
-							handleFollowSymposium,
-							dispatch,
-							{},
-							false
-						);
-				}else{
-					alert('Unfortunately there has been an error in retrieving you data. Please try again');
-				}
-			}
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
 		}else{
-			const {confirmation,data}=await removeSymposium({
-												profileId,
-												symposium:selectedSymposiumTitle,
-												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-												personalInformation.accessToken
-											});
-			if(confirmation=="Failure"){
-				debugger;
-				const {statusCode}=data;
-				if(statusCode==401){
-					await refreshTokenApiCallHandle(
-							personalInformation.refreshToken,
-							personalInformation.id,
-							handleFollowSymposium,
-							dispatch,
-							{},
-							false
-						);
-				}else{
-					alert('Unfortunately there has been an error with unfollowing this symposium. Please try again');
+			if(followSymposiumButtonClick==false){
+				const {confirmation,data}=await addSymposium(
+													profileId,
+													selectedSymposiumTitle,
+													null,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												);
+				if(confirmation=="Failure"){
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								personalInformation.refreshToken,
+								personalInformation.id,
+								handleFollowSymposium,
+								dispatch,
+								{},
+								false
+							);
+					}else{
+						alert('Unfortunately there has been an error in retrieving you data. Please try again');
+					}
+				}
+			}else{
+				const {confirmation,data}=await removeSymposium({
+													profileId,
+													symposium:selectedSymposiumTitle,
+													accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												});
+				if(confirmation=="Failure"){
+					debugger;
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								personalInformation.refreshToken,
+								personalInformation.id,
+								handleFollowSymposium,
+								dispatch,
+								{},
+								false
+							);
+					}else{
+						alert('Unfortunately there has been an error with unfollowing this symposium. Please try again');
+					}
 				}
 			}
+			
+			var newFollowIndicator=followSymposiumButtonClick==true?false:true;
+			changeFollowIndicator(newFollowIndicator);
 		}
-		
-		var newFollowIndicator=followSymposiumButtonClick==true?false:true;
-		changeFollowIndicator(newFollowIndicator);
 	}
 
 	const mobileArrowDownOptions=()=>{
@@ -401,6 +405,7 @@ const HeaderContainer=(props)=>{
 							questionInformation={props.popularQuestionObject.questionInformation}
 							isSimplified={props.popularQuestionObject.isSimplified}
 							selectedSymposium={props.popularQuestionObject.selectedSymposium}
+							isGuestProfile={isGuestProfile}
 						/>
 					}
 				</HighlightedQuestionsContainer>

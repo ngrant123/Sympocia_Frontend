@@ -343,200 +343,200 @@ const BlogPostModal=(props)=>{
 		}
 	}
 	return(
-	<Container>
-	{props.posts.length>=1?
-		<React.Fragment>
-			<HeaderContainer>
-					<audio id="headerAudioTag" style={{marginLeft:"-55%",width:"200px"}} controls>
-					  	<source src={headerBlog.audioDescription} type="audio/ogg"/>
-					  	<source src={headerBlog.audioDescription} type="audio/mpeg"/>
-						Your browser does not support the audio element.
-					</audio>	
-					<li id="headerBlogOwnerInformation" style={{listStyle:"none",width:"100%"}}>
-						<ul style={{padding:"0px"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{headerBlog.videoDescription!=null?
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
-											<VideoDesriptionContainer>
-												   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-														<source src={headerBlog.videoDescription} type="video/mp4"/>
-													</video>
-											</VideoDesriptionContainer>
-										</li>:
-										<ProfilePictureLink to={{pathname:`/profile/${headerBlog.owner._id}`}}>
-												{headerBlog.owner.profilePicture!=null?
-													<img src={headerBlog.owner.profilePicture} style={ProfileImageCSS}/>:
-													<img src={NoProfilePicture} style={ProfileImageCSS}/>
-												}
-										</ProfilePictureLink>
-									}
-								</li>
-							</a>
-							<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-									dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-									Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-									anim id est laborum.
-							</li>
-							<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerBlog.industriesUploaded,props)} style={SymposiumLabelCSS}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									{headerBlog.industriesUploaded[0].industry}
-								</a>
-							</li>
-							{props.isGuestProfileIndicator==false &&(
-								<DisplayRecruitButton
-									post={headerBlog}
-									previousProps={props}
-								/>
-							)}
-						</ul>
-					</li>
-
-					<HeaderBlogImageInformationContainer>
-						<img   onClick={()=>handleDisplayHeaderBlog()} 
-							id="headerBlogImage" src={headerBlog.blogImageUrl} style={HeaderBlogCSS}/>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",height:"60px",overflowY:"hidden"}}>
-								<b>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-									dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-									Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-									anim id est laborum.
-								</b>
+		<Container>
+			{props.posts.length>=1?
+				<React.Fragment>
+					<HeaderContainer>
+							<audio id="headerAudioTag" style={{marginLeft:"-55%",width:"200px"}} controls>
+							  	<source src={headerBlog.audioDescription} type="audio/ogg"/>
+							  	<source src={headerBlog.audioDescription} type="audio/mpeg"/>
+								Your browser does not support the audio element.
+							</audio>	
+							<li id="headerBlogOwnerInformation" style={{listStyle:"none",width:"100%"}}>
+								<ul style={{padding:"0px"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											{headerBlog.videoDescription!=null?
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
+													<VideoDesriptionContainer>
+														   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																<source src={headerBlog.videoDescription} type="video/mp4"/>
+															</video>
+													</VideoDesriptionContainer>
+												</li>:
+												<ProfilePictureLink to={{pathname:`/profile/${headerBlog.owner._id}`}}>
+														{headerBlog.owner.profilePicture!=null?
+															<img src={headerBlog.owner.profilePicture} style={ProfileImageCSS}/>:
+															<img src={NoProfilePicture} style={ProfileImageCSS}/>
+														}
+												</ProfilePictureLink>
+											}
+										</li>
+									</a>
+									<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+											incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+											exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+											dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+											Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+											anim id est laborum.
+									</li>
+									<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerBlog.industriesUploaded,props)} style={SymposiumLabelCSS}>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											{headerBlog.industriesUploaded[0].industry}
+										</a>
+									</li>
+									{props.isGuestProfileIndicator==false &&(
+										<DisplayRecruitButton
+											post={headerBlog}
+											previousProps={props}
+										/>
+									)}
+								</ul>
 							</li>
 
-							<li style={{fontSize:"15px",color:"#8c8c8c",listStyle:"none",height:"80px",overflowY:"hidden"}}>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-									dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-									Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-									anim id est laborum.
-							</li>
-						</ul>
-					</HeaderBlogImageInformationContainer>
-			</HeaderContainer>
+							<HeaderBlogImageInformationContainer>
+								<img   onClick={()=>handleDisplayHeaderBlog()} 
+									id="headerBlogImage" src={headerBlog.blogImageUrl} style={HeaderBlogCSS}/>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",height:"60px",overflowY:"hidden"}}>
+										<b>
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+											incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+											exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+											dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+											Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+											anim id est laborum.
+										</b>
+									</li>
 
-			<PostsContainer>
-					{blogs.map(data=>
-						<React.Fragment>
-								{data=="suggestedSymposium"?
-									<ConstructSuggestedSymposium
-										personalInformation={personalInformationRedux}
-										previousProps={props}
-									/>
-								:
-								<SmallPostContainer>
-									<div onClick={()=>displayBlogModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
-										<img id="image" src={data.blogImageUrl} style={BlogImageContainerCSS}/>
-										<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
-											{props.isGuestProfileIndicator==false &&(
-												<li style={{listStyle:"none"}}>
-													<DisplayRecruitButton
-														post={data}
-														previousProps={props}
-													/>
-												</li>
-											)}
-											<li style={{listStyle:"none"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<img id="profilePicture" 
-															src={data.owner.profilePicture==null?
-																	NoProfilePicture:
-																	data.owner.profilePicture
-																} style={ProfileImageCSS}
-														/>
-														{/*
-															{data.videoDescription!=null?
-																	<VideoDesriptionContainer>
-																		   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																				<source src={data.videoDescription} type="video/mp4"/>
-																			</video>
-																	</VideoDesriptionContainer>:
-															}
-														*/}
+									<li style={{fontSize:"15px",color:"#8c8c8c",listStyle:"none",height:"80px",overflowY:"hidden"}}>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+											incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+											exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+											dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+											Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+											anim id est laborum.
+									</li>
+								</ul>
+							</HeaderBlogImageInformationContainer>
+					</HeaderContainer>
+
+					<PostsContainer>
+							{blogs.map(data=>
+								<React.Fragment>
+										{data=="suggestedSymposium"?
+											<ConstructSuggestedSymposium
+												personalInformation={personalInformationRedux}
+												previousProps={props}
+											/>
+										:
+										<SmallPostContainer>
+											<div onClick={()=>displayBlogModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
+												<img id="image" src={data.blogImageUrl} style={BlogImageContainerCSS}/>
+												<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
+													{props.isGuestProfileIndicator==false &&(
+														<li style={{listStyle:"none"}}>
+															<DisplayRecruitButton
+																post={data}
+																previousProps={props}
+															/>
+														</li>
+													)}
+													<li style={{listStyle:"none"}}>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none",display:"inline-block"}}>
+																<img id="profilePicture" 
+																	src={data.owner.profilePicture==null?
+																			NoProfilePicture:
+																			data.owner.profilePicture
+																		} style={ProfileImageCSS}
+																/>
+																{/*
+																	{data.videoDescription!=null?
+																			<VideoDesriptionContainer>
+																				   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																						<source src={data.videoDescription} type="video/mp4"/>
+																					</video>
+																			</VideoDesriptionContainer>:
+																	}
+																*/}
+															</li>
+															<li style={{listStyle:"none",display:"inline-block",maxWidth:"70px",overflow:"hidden",maxHeight:"20px"}}>
+																Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+														incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+														exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+														dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+														Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+														anim id est laborum.
+															</li>
+														</ul>
 													</li>
-													<li style={{listStyle:"none",display:"inline-block",maxWidth:"70px",overflow:"hidden",maxHeight:"20px"}}>
-														Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-												incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-												exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-												dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-												Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-												anim id est laborum.
+													<li id="smallAudioDescription" style={{listStyle:"none"}}>
+														<audio style={{width:"150px",height:"25px"}} controls muted>
+														  	<source src={data.audioDescription} type="audio/ogg"/>
+														  	<source src={data.audioDescription} type="audio/mpeg"/>
+															Your browser does not support the audio element.
+														</audio>
 													</li>
 												</ul>
-											</li>
-											<li id="smallAudioDescription" style={{listStyle:"none"}}>
-												<audio style={{width:"150px",height:"25px"}} controls muted>
-												  	<source src={data.audioDescription} type="audio/ogg"/>
-												  	<source src={data.audioDescription} type="audio/mpeg"/>
-													Your browser does not support the audio element.
-												</audio>
-											</li>
-										</ul>
-									</div>
-									<SmallPostDescriptionContainer>
-										<li style={{listStyle:"none",height:"60px",overflowY:"hidden"}}>
-											<b>
-												Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-												incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-												exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-												dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-												Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-												anim id est laborum.
-											</b>
-										</li>
+											</div>
+											<SmallPostDescriptionContainer>
+												<li style={{listStyle:"none",height:"60px",overflowY:"hidden"}}>
+													<b>
+														Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+														incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+														exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+														dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+														Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+														anim id est laborum.
+													</b>
+												</li>
 
-										<li style={{fontSize:"15px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-												incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-												exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-												dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-												Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-												anim id est laborum.
-										</li>
-										<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} 
-										style={{...SymposiumLabelCSS,marginTop:"2%"}}>
-											{data.industriesUploaded[0].industry}
-										</li>
-									</SmallPostDescriptionContainer>
-								</SmallPostContainer>
+												<li style={{fontSize:"15px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+														incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+														exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+														dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+														Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+														anim id est laborum.
+												</li>
+												<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} 
+												style={{...SymposiumLabelCSS,marginTop:"2%"}}>
+													{data.industriesUploaded[0].industry}
+												</li>
+											</SmallPostDescriptionContainer>
+										</SmallPostContainer>
 
-							}	
-							<hr/>
-						</React.Fragment>
-					)}
-					{props.endOfPostsDBIndicator==false && (
-						<React.Fragment>
-							{props.isLoadingReloadedPosts==true?
-								<p>Loading please wait...</p>:
-								<p onClick={()=>props.triggerReloadingPostsHandle()} style={NextButtonCSS}>
-									Next Page
-								</p>
-							}
-						</React.Fragment>
-					)}
-			</PostsContainer>
-		{displayBlogDisplayPortal==false?
-					null:
-					<BlogHomeDisplayPortal
-						closeModal={closeModal}
-						selectedBlog={selectedBlog}
-						recommendedBlogs={displayRecommendedBlogs}
-						targetDom={props.targetDom}
-						personalId={personalInformationRedux.id}
-					/>
-			}
-	</React.Fragment>
+									}	
+									<hr/>
+								</React.Fragment>
+							)}
+							{props.endOfPostsDBIndicator==false && (
+								<React.Fragment>
+									{props.isLoadingReloadedPosts==true?
+										<p>Loading please wait...</p>:
+										<p onClick={()=>props.triggerReloadingPostsHandle()} style={NextButtonCSS}>
+											Next Page
+										</p>
+									}
+								</React.Fragment>
+							)}
+					</PostsContainer>
+					{displayBlogDisplayPortal==false?
+						null:
+						<BlogHomeDisplayPortal
+							closeModal={closeModal}
+							selectedBlog={selectedBlog}
+							recommendedBlogs={displayRecommendedBlogs}
+							targetDom={props.targetDom}
+							personalId={personalInformationRedux.id}
+						/>
+					}
+				</React.Fragment>
 				:<p> No posts </p>
-		}
-	</Container>
+			}
+		</Container>
 	)
 }
 
