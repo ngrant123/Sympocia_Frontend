@@ -28,6 +28,26 @@ const Container=styled.div`
 			display:none !important;
 		}
     }
+
+    @media screen and (max-width:700px){
+    	#firstOnboardingImage{
+    		height:70% !important;
+    		width:90% !important;
+    		margin-left:0% !important;
+    	}
+    }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#firstOnboardingImage{
+    		height:80% !important;
+    	}
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+      #firstOnboardingImage{
+    		height:120% !important;
+    	}
+    }
 `;
 
 const ShadowContainer=styled.div`
@@ -132,7 +152,9 @@ const personalInformationId=useSelector(state=>state.personalInformation.id);
 							Other site post cookie cutter templates for all of their "communities". Not us. Each symposium has different 
 							features that allows you to express yourself in different ways.
 						</p>
-						<img src={SymposiumFeatures} style={{width:"60%",height:"60%",marginLeft:"15%"}}/>
+						<img id="firstOnboardingImage" 
+							src={SymposiumFeatures} style={{width:"60%",height:"60%",marginLeft:"15%"}}
+						/>
 						<hr/>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>

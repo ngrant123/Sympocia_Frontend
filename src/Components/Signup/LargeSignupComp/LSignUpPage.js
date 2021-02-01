@@ -82,6 +82,11 @@ const Card=styled.div`
 	@media screen and (max-width:1370px){
 		width:70%;
 		margin-bottom:5%;
+		font-size:20px !important;
+
+		#headerContentText{
+			font-size:15px !important;
+		}
 	}
 
 	@media screen and (max-width:600px){
@@ -106,13 +111,15 @@ const CompanyCard=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:70%;
+		font-size:15px !important;
 	}
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:700px){
 		width:160%;
 		margin-left:-30% !important;
 		border-style:none !important;
 		margin-bottom:-15% !important;
+		margin-top:40% !important;
 	}
 `;
 
@@ -169,7 +176,6 @@ const StartuptypeStyle ={
 
 const PersonalCardContainerCSS={
 	backgroundColor:"white",
-	height:"400px",
 	borderRadius:"5px",
 	borderStyle:"solid",
     borderColor:"#5298F8",
@@ -298,8 +304,10 @@ class LSignupPage extends Component {
 														<PortraitIcon style={{fontSize:"40"}}/> Entertainment
 													</b>
 												</p>
-												<p style={HeaderDescriptionCSS}> Interested in viewing videos, posts, and images
-												from your friends and people you are interested in? Click on the button below</p>
+												<p id="headerContentText"style={HeaderDescriptionCSS}>
+													Interested in viewing videos, posts, and images
+													from your friends and people you are interested in? Click 
+													on the button below</p>
 												
 												<SignUpButton style={{width:"60%",height:"10%",marginLeft:"5%"}} 
 													onClick={()=>this.handleDisplayPersonalSetupPage()}>

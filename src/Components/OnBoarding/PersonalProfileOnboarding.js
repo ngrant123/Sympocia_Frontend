@@ -28,6 +28,20 @@ const Container=styled.div`
 			display:none !important;
 		}
     }
+
+    @media screen and (max-width:700px){
+    	#firstPageOnboardingImage{
+    		height:20% !important;
+    		width:100% !important;
+    	}
+    }
+
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+      	#firstPageOnboardingImage{
+    		height:50% !important;
+    	}
+    }
 `;
 
 const ShadowContainer=styled.div`
@@ -129,7 +143,7 @@ const PersonalProfileOnboarding=({closeModal})=>{
 							certain people right? Maybe you dont want people to know that you collect rocks on the side. Now theres 
 							a way to do this. Add levels and allow only certain people access to you secrets :)
 						</p>
-						<img src={FriendsGaugeImage} style={{width:"90%"}}/>
+						<img id="firstPageOnboardingImage" src={FriendsGaugeImage} style={{width:"90%"}}/>
 						<hr/>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>

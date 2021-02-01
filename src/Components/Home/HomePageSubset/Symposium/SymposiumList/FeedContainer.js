@@ -127,6 +127,12 @@ const Container=styled.div`
  			margin-bottom:30% !important;
  		}
     }
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#stampImage{
+    		height:40% !important;
+    	}
+    }
+
     @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
     	#stampImage{
     		height:40% !important;

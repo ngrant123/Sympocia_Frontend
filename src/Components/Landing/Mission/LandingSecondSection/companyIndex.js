@@ -110,14 +110,31 @@ const SecondContainerInformational=styled.div`
   @media screen and (max-width:1370px){
       width:70%;
       margin-left:20%;
+
+      font-size:20px;
+      #firstListContainer{
+        font-size:20px;
+      }
+      #introductoryText{
+        font-size:20px !important;
+      }
+
+
     #PageHeader{
       font-size:20px !important;
     }
   }
 
-  @media screen and (max-width:600px){
+  @media screen and (max-width:700px){
      width:90%; 
      margin-left:5%;
+     font-size:15px;
+      #firstListContainer{
+        font-size:15px;
+      }
+      #introductoryText{
+        font-size:15px !important;
+      }
   }
 
     @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
@@ -210,7 +227,7 @@ const SecondSection=(props)=>{
                     <p id="companyHeader" style={{fontSize:"40px",borderTop:"5px solid #494949"}}> 
                         <b>How can this help you? </b>
                     </p>
-                    <p style={{fontSize:"20px"}}> 
+                    <p id="introductoryText" style={{fontSize:"20px"}}> 
                        We offer two things one this platform that you can’t get anywhere else:
                     </p>
                    <ul style={{padding:"0px",marginTop:"5%"}}> 

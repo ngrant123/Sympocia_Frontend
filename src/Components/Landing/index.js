@@ -202,6 +202,7 @@ const ArrowCompanyContainer=styled.div`
 	left:7%;
 	z-index:8;
 	text-align:center;
+	cursor:pointer;
 
 
 	@keyframes glowing {

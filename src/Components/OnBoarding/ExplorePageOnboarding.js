@@ -27,6 +27,26 @@ const Container=styled.div`
 			display:none !important;
 		}
     }
+
+    @media screen  and (max-width:700px){
+    	#arenaIcon{
+    		width:110% !important;
+    		margin-left:-5% !important;
+    	}
+    }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#arenaIcon{
+    		width:40% !important;
+    		margin-left:30% !important;
+    	}
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	#arenaIcon{
+    		height:70% !important;
+    	}
+    }
 `;
 
 
@@ -125,7 +145,7 @@ const ExplorePageOnboarding=({closeModal})=>{
 							Click on the button on the screen and find out :) But before you do that thats one more thing 
 							we want to show you about the explore page. Click next to continue.
 						</p>
-						<img src={ArenaEnter} style={{marginLeft:"15%",width:"60%",height:"45%"}}/>
+						<img id="arenaIcon" src={ArenaEnter} style={{marginLeft:"15%",width:"60%",height:"45%"}}/>
 						<hr/>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
