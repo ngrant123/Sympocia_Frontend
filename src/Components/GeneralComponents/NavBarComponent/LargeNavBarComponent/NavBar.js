@@ -474,6 +474,13 @@ const NavBar=(pageProps)=>{
 												<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
 											</li>
 											<li>
+												<p style={{paddingLeft:"12%",marginTop:"5%"}}
+												 	onClick={()=>fetchNotificationData()}>
+													Notifications
+												 </p>
+											</li>
+											<hr/>
+											<li>
 												<Link  to="/home">Home</Link>
 											</li>
 
@@ -481,17 +488,16 @@ const NavBar=(pageProps)=>{
 												<Link to="/symposiumList">Symposiums</Link>
 											</li>
 											
+											<hr/>
 											<li>
 												<Link onClick={()=>logoutUser()} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
 													Logout
 												</Link>
 											</li>
 
-											<hr/>
-											<li style={{cursor:"pointer",paddingLeft:"10px"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
+											<li style={{cursor:"pointer",paddingLeft:"12%",marginTop:"10%"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
 												Send opinion
 											</li>
-
 										</ul>
 									</div>
 								</li>
