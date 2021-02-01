@@ -13,8 +13,9 @@ import {
 	createReply,
 	createVideoCommentReply
 } from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
+import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -61,6 +62,21 @@ const Notification=styled.div`
 		#regularCommentAndAuthenticationProfilePicture{
 			width:20% !important;
 			height:10% !important;
+		}
+
+		#replyButtonDIV{
+			margin-top:5%;
+			width:70% !important;
+		}
+
+		#submitButtonDIV{
+			margin-top:5%;
+			width:70% !important;
+		}
+
+		#videoPostComponent{
+			width:70% !important;
+			height:150% !important;
 		}
 	}
 `;
@@ -127,6 +143,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 	const [displayReplyModal,changeDisplayReplyModal]=useState(false);
 	const [displayIsProcessingCommentPrompt,changeIsProcessingCommentPrompt]=useState(true);
 
+	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
 
 	useEffect(()=>{
@@ -193,7 +210,8 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 		if(postType=="Images" || postType=="Blogs"){
 			return <img src={headerUrl} style={{width:"50%",height:"70%"}}/>
 		}else if(postType=="Videos"){
-			return <video key={uuidv4()} objectFit="cover" position="absolute" width="50%" top="0px" height="70%" borderRadius="50%" controls>
+			return <video id="videoPostComponent" key={uuidv4()} objectFit="cover"
+						 position="absolute" width="50%" top="0px" height="70%" borderRadius="50%" controls>
 						<source src={headerUrl} type="video/mp4"/>
 				   </video>
 		}else{
@@ -284,11 +302,11 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 		}
 	}
 
-	const submitReply=async()=>{
+	const submitReply=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changeIsProcessingCommentPrompt(false);
 		const reply=document.getElementById("replyValue").value;
 		if(reply==""){
-			alert('Please enter a comment');
+			alert('Please enter a reply');
 		}else{
 			const commentReply={
 				postType,
@@ -298,7 +316,9 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 				profileObject:{
 					isPersonalProfile:true,
 					profileId:personalInformation.id
-				}
+				},
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+				personalInformation.accessToken
 			}
 
 			if(notificationType=="VideoComment"){
@@ -307,7 +327,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					alert('Success');
 					changeDisplayReplyModal(false);
 				}else{
-					alert('Unfortunately there has been an error when submitted your reply. Please try again');
+					alert('Unfortunately there has been an error when submitting your reply. Please try again');
 				}
 			}else{
 				const {confirmation,data}=await createReply(commentReply);
@@ -315,7 +335,19 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					alert('Success');
 					changeDisplayReplyModal(false);
 				}else{
-					alert('Unfortunately there has been an error when submitted your video reply. Please try again');
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								personalInformation.refreshToken,
+								personalInformation.id,
+								submitReply,
+								dispatch,
+								{},
+								false
+							);
+					}else{
+						alert('Unfortunately there has been an error when submitting your reply. Please try again');
+					}
 				}
 			}
 		}
@@ -345,7 +377,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 								}
 								<hr/>
 								{(notificationType=="RegularComment") &&(
-									<div onClick={()=>changeDisplayReplyModal(true)} style={BackButtonCSS}>
+									<div id="replyButtonDIV" onClick={()=>changeDisplayReplyModal(true)} style={BackButtonCSS}>
 										Reply
 									</div>
 								)}
@@ -358,7 +390,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 								<InputContainer id="replyValue" placeholder="Enter placeholder here"/>
 								<hr/>
 								{displayIsProcessingCommentPrompt==true? 
-									<div onClick={()=>submitReply()} style={BackButtonCSS}>
+									<div id="submitButtonDIV" onClick={()=>submitReply({isAccessTokenUpdated:false})} style={BackButtonCSS}>
 										Submit
 									</div>
 									:<p>Submitting... Please wait </p>
