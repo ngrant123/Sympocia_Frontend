@@ -129,7 +129,8 @@ const FirstContainerContents=styled.div`
   display:flex;
   flex-direction:row;
   margin-left:10%;
-  margin-top:-5%;
+  margin-top:0%;
+
   @media screen and (max-width:1370px){
     flex-direction:column;
   }
@@ -147,13 +148,15 @@ const FirstContainerInformational=styled.div`
   margin-right:10%;
 
   @media screen and (max-width:1370px){
-      width:90%;
+    width:90%;
+    font-size:20px;
     #header1{
       font-size:20px !important;
     }
   }
 
   @media screen and (max-width:700px){
+    font-size:15px;
     #headerText{
       font-size:20px !important;
     }

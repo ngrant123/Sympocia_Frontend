@@ -243,7 +243,10 @@ class SearchExploreContainer extends Component{
 		this.setState({
 			selectedSubCommunities:selectedSubCommunities
 		},function(){
-			this.changeHomePagePosts({postOption:this.state.postOption,isAccessTokenUpdated:false});
+			this.changeHomePagePosts({
+				postOption:this.state.postOption,
+				isAccessTokenUpdated:false
+			});
 		})
 	}
 

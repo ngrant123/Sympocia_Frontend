@@ -75,13 +75,15 @@ const ThirdContainerInformational=styled.div`
   @media screen and (max-width:1370px){
       width:90%;
       margin-left:-7%;
-    #header1{
-      font-size:20px !important;
-    }
+      font-size:20px;
+      #header1{
+        font-size:20px !important;
+      }
   }
 
-  @media screen and (max-width:600px){
+  @media screen and (max-width:700px){
   	margin-left:0%;
+    font-size:15px;
   }
 `;
 

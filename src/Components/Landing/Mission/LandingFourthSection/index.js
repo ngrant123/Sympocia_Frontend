@@ -12,8 +12,11 @@ const Container = styled.div`
 	  transition:.8s;
 	  margin-top:15%;
 
-	  @media screen and (max-width:1340px){}
+	  @media screen and (max-width:1370px){
+	  	font-size:20px;
+	  }
 	  @media screen and (max-width:700px){
+	  	font-size:15px;
 	  	#headerTexts{
 	  		font-size:20px !important;
 	  	}
@@ -25,12 +28,18 @@ const ImageContainer=styled.div`
 	display:flex;
 	justify-content:center;
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:700px){
 		#previewImage{
-		      width:192px !important;
+		      width:250px !important;
 		      height:225px!important;
 		}
 	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+      	#previewImage{
+		      width:400px !important;
+		      height:225px!important;
+		}
+    }
 `;
 
 const FourthSection=()=>{
@@ -45,7 +54,7 @@ const FourthSection=()=>{
 			</p>
 			<ImageContainer>
 				<img id="previewImage" src={previewImage}
-				 style={{borderRadius:"5px",width:"60%",height:"400px",boxShadow:"1px 5px 5px 5px #d5d5d5"}}
+				 style={{borderRadius:"5px",width:"60%",height:"450px",boxShadow:"1px 5px 5px 5px #d5d5d5"}}
 				/>
 			</ImageContainer>
 			<hr/>

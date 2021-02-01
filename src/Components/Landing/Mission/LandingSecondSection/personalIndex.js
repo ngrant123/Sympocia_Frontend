@@ -117,15 +117,26 @@ const SecondContainerInformational=styled.div`
   @media screen and (max-width:1370px){
       width:100%;
       margin-left:0%;
+      font-size:20px;
+
+      #firstListContainer{
+       font-size:20px;  
+      }
   }
+
 
   @media screen and (max-width:700px){
      width:90%; 
      height:95%;
      margin-left:5%;
+    font-size:15px;
     #PageHeader{
       font-size:20px !important;
     }
+
+      #firstListContainer{
+       font-size:15px;  
+      }
   }
 
     @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {

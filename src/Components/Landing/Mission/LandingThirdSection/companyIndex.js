@@ -21,6 +21,16 @@ const InformationCard=styled.div`
 
   @media screen and (max-width:1370px){
   	width:90% !important;
+  	#informationalCardText{
+  		font-size:20px !important;
+  	}
+  }
+
+  @media screen and (max-width:700px){
+  	width:100% !important;
+  	#informationalCardText{
+  		font-size:15px !important;
+  	}
   }
 `;
 
@@ -36,14 +46,10 @@ const ThirdContainerContents=styled.div`
 		flex-direction:column;
 		margin-left:15%;
 		width:80%;
-	}
-`;
 
-const SectionImageContainer=styled.div`
-	width:30%;
-
-	@media screen and (max-width:1370px){
-		display:none !important;
+		#thirdSectionCompanyImage{
+			display:none !important;
+		}
 	}
 `;
 
@@ -79,7 +85,7 @@ const ThirdSection=(props)=>{
 					<p style={{fontSize:"20px",color:"#1f1f1f",borderTop:"5px solid #494949"}}>
 						<b>Starting a company is similar to jumping into a lake when you don’t know how to swim.</b>
 					</p>
-					<p style={{fontSize:"15px",marginTop:"3%"}}>
+					<p id="informationalCardText" style={{fontSize:"15px",marginTop:"3%"}}>
 						You  may feel like you don’t know what you’re doing. You’re flailing around trying
 						to survive and it all seems pointless.Using our platform gives
 						you the necessary life vest that you absolutely need. The journey 
@@ -88,16 +94,20 @@ const ThirdSection=(props)=>{
 					</p>
 				</InformationCard> 
 
-				<SectionImageContainer>	
-					<img src={LandingImage} style={{width:"100%",height:"100%"}}/>
-				</SectionImageContainer>
+				<img id="thirdSectionCompanyImage" src={LandingImage} style={{width:"35%",height:"80%"}}/>
+
+				{/*
+					<SectionImageContainer>	
+					</SectionImageContainer>
+				*/}
+
 				<InformationCard>
 					<p style={{fontSize:"20px",color:"#1f1f1f",borderTop:"5px solid #494949"}}>
 						<b> I know what you’re also asking yourself. Will Sympocia also help people 
 						    with established companies?
 						</b>
 					</p>
-					<p style={{fontSize:"15px",marginTop:"3%"}}>
+					<p id="informationalCardText" style={{fontSize:"15px",marginTop:"3%"}}>
 						We allow you to connect with investors who
 						are actually interested in the industry you’re specialized in. No more guessing 
 						required. Paranoid about what you post online and if investors are going to see it? 

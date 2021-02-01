@@ -156,6 +156,12 @@ export const BodyContainer= styled.div`
 			background-color:red;
 		}
 	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+       	#titleHeader{
+			font-size:30px !important;
+		}
+    }
 `;
 
 export const SignUp = styled.div`
