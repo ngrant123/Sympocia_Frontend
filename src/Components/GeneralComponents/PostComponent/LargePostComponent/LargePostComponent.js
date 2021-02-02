@@ -344,6 +344,7 @@ class LargePostComponent extends Component{
 			this.setState({
 				displayElement:<RegularPostCreation 
 									displayProps={this.displayPostOptions}
+									closeModal={this.props.closeModal}
 								/>,
 				id:this.props._id
 			})
@@ -352,6 +353,7 @@ class LargePostComponent extends Component{
 			this.setState({
 				displayElement:<ImagePostCreation
 									displayProps={this.displayPostOptions}
+									closeModal={this.props.closeModal}
 								/>,
 				id:this.props._id
 			})
@@ -361,6 +363,7 @@ class LargePostComponent extends Component{
 			this.setState({
 				displayElement:<VideoPostCreation 
 									displayProps={this.displayPostOptions}
+									closeModal={this.props.closeModal}
 								/>,
 				id:this.props._id
 			})

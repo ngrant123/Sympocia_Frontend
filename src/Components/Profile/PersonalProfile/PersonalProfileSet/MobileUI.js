@@ -60,7 +60,7 @@ const EditNodeContainer=styled.div`
 	overflow:auto;
 	padding:20px;
 
-	 @media screen and (max-width:1030px){
+	 @media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
     }
@@ -154,7 +154,7 @@ const MobileChampionData=(championData)=>{
 	)
 }
 
-const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayChampionsModal,championData,isIphoneDisplay,isOwner})=>{
+const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayChampionsModal,championModalData,isIphoneDisplay,isOwner})=>{
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [editChampionModal,changeEditChampionModal]=useState(false);
 	const [displayChampion,changeDisplayChampion]=useState(false); 
@@ -171,7 +171,7 @@ const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayCh
 					/>
 				)}
 				{displayChampion==true &&(
-					<>{MobileChampionData(championData)}</>
+					<>{MobileChampionData(championModalData)}</>
 				)}
 				<OriginalShadowContainer
 					onClick={()=>closeModal()}
@@ -210,7 +210,7 @@ const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayCh
 					            </a>
 							)}
 				            <hr/>
-				            {championData!=null && (
+				            {championModalData!=null && (
 				            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 				            		<li onClick={()=>changeDisplayChampion(true)}style={{listStyle:"none"}}>
 					                    View Champion
@@ -322,6 +322,7 @@ const PhonePersonalInformationHeader=({ownerName,isOwner,isGuestProfile})=>{
 										{displayPhoneProfileOptions==true &&(
 											<MobileProfileOptionsIpad
 												{...personalInformation.mobilePhoneUIParameters}
+												championModalData={personalInformation.championModalData}
 												closeModal={closeModal}
 												isIphoneDisplay={true}
 												isOwner={isOwner}

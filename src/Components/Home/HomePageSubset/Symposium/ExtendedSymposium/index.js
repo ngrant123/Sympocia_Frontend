@@ -45,6 +45,11 @@ import {
 		removeSymposium
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+} from "../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {
 	SymposiumHeaderAnimation,
 	SymposiumContainer,
 	Container,
@@ -1171,20 +1176,62 @@ class Symposium extends Component{
 		})
 	}
 
-	handleFollowSymposium=async()=>{
-
-		if(this.state.isProfileFollowingSymposium==false){
-			await addSymposium(this.state.profileId,this.state.selectedSymposiumTitle,null);
+	handleFollowSymposium=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		if(this.state.isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
 		}else{
-			const {confirmation,data}=await removeSymposium(this.state.profileId,this.state.selectedSymposiumTitle,null);
-			if(confirmation=="Failure"){
-				alert('Unfortunately there has been an error with unfollowing this symposium. Please try again');
+			if(this.state.isProfileFollowingSymposium==false){
+				const {confirmation,data}=await addSymposium(
+													this.state.profileId,
+													this.state.selectedSymposiumTitle,
+													null,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													this.props.personalInformation.accessToken
+												);
+				if(confirmation=="Failure"){
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								this.props.personalInformation.refreshToken,
+								this.props.personalInformation.id,
+								this.handleFollowSymposium,
+								this.props,
+								{},
+								true
+							);
+					}else{
+						alert('Unfortunately there has been an error in retrieving you data. Please try again');
+					}
+				}
+			}else{
+				const {confirmation,data}=await removeSymposium({
+													profileId:this.state.profileId,
+													symposium:this.state.selectedSymposiumTitle,
+													accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+													this.props.personalInformation.accessToken
+												});
+				if(confirmation=="Failure"){
+					debugger;
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								this.props.personalInformation.refreshToken,
+								this.props.personalInformation.id,
+								this.handleFollowSymposium,
+								this.props,
+								{},
+								true
+							);
+					}else{
+						alert('Unfortunately there has been an error with unfollowing this symposium. Please try again');
+					}
+				}
 			}
+			
+			this.setState({
+				isProfileFollowingSymposium:this.state.isProfileFollowingSymposium==true?false:true
+			})
 		}
-		
-		this.setState({
-			isProfileFollowingSymposium:this.state.isProfileFollowingSymposium==true?false:true
-		})
 	}
 
 
@@ -1426,8 +1473,9 @@ const mapStateToProps=(state)=>{
 }
 
 const mapDispatchToProps=dispatch=>{
-	return {
-
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
 	}
 }
 

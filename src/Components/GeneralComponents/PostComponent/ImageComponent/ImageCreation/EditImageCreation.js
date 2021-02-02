@@ -36,17 +36,12 @@ const Container=styled.div`
 	z-index:35;
 	background-color:white;
 	border-radius:5px;
-	top:20%;
-	left:25%;
-	width:65%;
+	top:10%;
+	left:10%;
+	width:80%;
 	overflow-y:scroll;
-	height:55%;
-
-	@media screen and (max-height:1370px){
-    	height:100% !important;
-		width:80%;
-		left:5% !important; 
-    }
+	height:70%;
+	padding:5px;
 
     @media screen and (max-width:1370px){
     	${({isPhoneUIEnabled})=>(

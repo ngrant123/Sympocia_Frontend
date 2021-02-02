@@ -20,6 +20,9 @@ const Container=styled.div`
 	}
 	@media screen and (max-width:1370px){
 		width:95%;
+		#parentLISmallPostContainer{
+			width:190% !important;
+		}
 		#smallPostLI{
 			margin-right:10% !important;
 		}
@@ -55,7 +58,15 @@ const Container=styled.div`
 		}
 		#parentLISmallPostContainer{
 			width:190% !important;
+		}
+    }
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#parentLISmallPostContainer{
+			width:190% !important;
+		}
 
+    	#smallPostLI{
+			margin-bottom:35% !important;
 		}
     }
 
@@ -67,11 +78,6 @@ const Container=styled.div`
 		}
     }
 
-     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	#smallPostLI{
-			margin-bottom:35% !important;
-		}
-    }
 
 `;
 

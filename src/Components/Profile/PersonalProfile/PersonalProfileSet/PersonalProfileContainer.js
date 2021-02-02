@@ -274,6 +274,7 @@ class LProfile extends Component{
 			}
 
 			if(confirmationResponse=="Success"){
+				debugger;
 				var containsChampion=false;
 				const {message}=dataResponse;
 				if(message.championData!=null)
@@ -687,7 +688,7 @@ class LProfile extends Component{
 		return <ul style={{position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
 					<MediumMobileScreenUserInformation>
 						<p style={{maxWidth:"90%",maxHeight:"20px",overflow:"hidden"}}>
-							{this.state.userProfile.firstName}
+							<b>{this.state.userProfile.firstName}</b>
 						</p>
 						{this.state.isGuestProfile==false && (
 							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
@@ -734,7 +735,7 @@ class LProfile extends Component{
 							closeModal={this.closeMobileProfileOptions}
 							displayPersonalInformation={this.displayPersonalInformationMobile}
 							displayChampionsModal={this.displayChampionModalTrigger}
-							championData={this.state.champion}
+							championModalData={this.state.championModalData}
 							isOwner={this.state.isOwnProfile}
 							isGuestProfile={this.state.isGuestProfile}
 						/>
@@ -775,7 +776,7 @@ class LProfile extends Component{
 					<li style={{listStyle:"none"}}>
 						{this.state.displayChampion==true &&(
 							<SponsorDisplayModal
-								championData={this.state.champion}
+								championData={this.state.championModalData}
 								isOwnProfile={this.state.isOwnProfile}
 							/>
 						)}

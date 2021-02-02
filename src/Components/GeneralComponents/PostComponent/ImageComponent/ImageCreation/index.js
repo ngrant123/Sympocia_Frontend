@@ -31,6 +31,10 @@ const Container=styled.div`
     	width:100% !important;
 		left:1% !important; 
 		height:100% !important;
+
+		#closeModalButton{
+			marginTop:-80% !important;
+		}
     }
    	@media screen and (max-width:740px) and (max-height:420px){
     	top:20% !important;
@@ -104,7 +108,8 @@ class ImageCreation extends Component{
 			<React.Fragment>
 				{this.state.displayEditImagesScreen==false?
 					<Container id="container">
-						<div onClick={()=>this.props.closeModal()} style={{marginLeft:"-70%",marginTop:"-60%"}}>
+						<div id="closeModalButton" 
+							onClick={()=>this.props.closeModal()} style={{marginLeft:"-70%",marginTop:"0%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 							 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 							 stroke-linecap="round" stroke-linejoin="round">
