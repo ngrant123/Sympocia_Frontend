@@ -137,7 +137,7 @@ export const BodyContainer= styled.div`
 			width:40% !important;
 		}
 		#personalSignInCard{
-			width:120% !important;
+			width:100% !important;
 			left:-25%;
 		}
 	}

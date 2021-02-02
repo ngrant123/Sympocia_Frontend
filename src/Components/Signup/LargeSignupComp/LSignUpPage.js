@@ -115,7 +115,7 @@ const CompanyCard=styled.div`
 	}
 
 	@media screen and (max-width:700px){
-		width:160%;
+		width:130%;
 		margin-left:-30% !important;
 		border-style:none !important;
 		margin-bottom:-15% !important;

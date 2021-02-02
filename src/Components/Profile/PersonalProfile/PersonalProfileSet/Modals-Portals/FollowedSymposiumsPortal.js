@@ -25,13 +25,15 @@ const Container=styled.div`
 	border-radius:5px;
 	left:40%;
 	overflow-y:auto;
-	@media screen and (max-width:1030px){
-		width:40% !important;
-		left:30% !important;
+	@media screen and (max-width:1370px){
+		width:60% !important;
+		left:20% !important;
+		height:60%;
     }
-    @media screen and (max-width:600px){
+    @media screen and (max-width:700px){
 		width:90% !important;
 		left:5% !important;
+		height:60%;
     }
 `;
 
@@ -153,35 +155,38 @@ const FollowedSymposiumsModal=({isOwner,closeModal,userId})=>{
 										</li>
 									*/}
 									<li style={{listStyle:"none"}}>
-										<ul style={{padding:"0px"}}>
-											{symposiums.map(data=>	
-												<>
-													<li style={{listStyle:"none",width:"100%"}}>
-														<ul style={{padding:"0px",width:"100%"}}>
-															<li style={SymposiumsOptionsCSS}>
-																{data.symposium}
-															</li>
+										{symposiums.length==0?
+											<p>No interested symposiums</p>:
+											<ul style={{padding:"0px"}}>
+												{symposiums.map(data=>	
+													<>
+														<li style={{listStyle:"none",width:"100%"}}>
+															<ul style={{padding:"0px",width:"100%"}}>
+																<li style={SymposiumsOptionsCSS}>
+																	{data.symposium}
+																</li>
 
-															{isOwner==true &&(
-																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																	<li onClick={()=>displayRemoveSymposiumModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
-																		<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
-																			 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
-																			 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
-																			 stroke-linejoin="round">
-																		  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-																		  <circle cx="12" cy="12" r="9" />
-																		  <path d="M10 10l4 4m0 -4l-4 4" />
-																		</svg>
-																	</li>
-																</a>
-															)}
-														</ul>
-													</li>
-													<hr/>
-												</>
-											)}
-										</ul>
+																{isOwner==true &&(
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<li onClick={()=>displayRemoveSymposiumModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
+																			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
+																				 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
+																				 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
+																				 stroke-linejoin="round">
+																			  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+																			  <circle cx="12" cy="12" r="9" />
+																			  <path d="M10 10l4 4m0 -4l-4 4" />
+																			</svg>
+																		</li>
+																	</a>
+																)}
+															</ul>
+														</li>
+														<hr/>
+													</>
+												)}
+											</ul>
+										}
 									</li>
 								</React.Fragment>
 							}

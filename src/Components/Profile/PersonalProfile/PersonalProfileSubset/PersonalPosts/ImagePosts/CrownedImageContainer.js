@@ -26,6 +26,14 @@ const Container=styled.div`
 			width:210px !important;
 		}
     }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#parentContainer{
+			height:60% !important;
+		}
+    }
+
+
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
 	 	#crownedImageContainer{
 			width:180px !important;

@@ -31,11 +31,13 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		width:60% !important;
 		left:20% !important;
+		height:60%;
     }
 
-    @media screen and (max-width:600px){
+    @media screen and (max-width:700px){
 		width:90% !important;
 		left:5% !important;
+		height:60%;
     }
 
      @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
@@ -174,43 +176,46 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 						{isLoadingData==true?
 							<p>Please wait... </p>:
 							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									{recruits.map(data=>	
-										<>
-											<li style={{listStyle:"none",width:"100%"}}>
-												<ul style={{padding:"0px",width:"100%"}}>
-													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-														<li style={{listStyle:"none",display:"inline-block",width:"25%"}}>
-															<ViewProfile to={{pathname:`/profile/${data._id}`}}>
-																<img id="profilePicture" src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
-																	style={{borderRadius:"50%",width:"75%",height:"15%"}}
-																/>
-															</ViewProfile>
-														</li>
-													</a>
-													<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",maxWidth:"40%",maxHeight:"50px",overflow:"hidden"}}>
-														{data.firstName}
-													</li>
-													{isOwner==true &&(
+								{recruits.length==0?
+									<p>No recruits</p>:
+									<ul style={{padding:"0px"}}>
+										{recruits.map(data=>	
+											<>
+												<li style={{listStyle:"none",width:"100%"}}>
+													<ul style={{padding:"0px",width:"100%"}}>
 														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<li onClick={()=>displayRemoveRecruitModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
-																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
-																	 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
-																	 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
-																	 stroke-linejoin="round">
-																  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-																  <circle cx="12" cy="12" r="9" />
-																  <path d="M10 10l4 4m0 -4l-4 4" />
-																</svg>
+															<li style={{listStyle:"none",display:"inline-block",width:"25%"}}>
+																<ViewProfile to={{pathname:`/profile/${data._id}`}}>
+																	<img id="profilePicture" src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
+																		style={{borderRadius:"50%",width:"75%",height:"15%"}}
+																	/>
+																</ViewProfile>
 															</li>
 														</a>
-													)}
-												</ul>
-											</li>
-											<hr/>
-										</>
-									)}
-								</ul>
+														<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",maxWidth:"40%",maxHeight:"50px",overflow:"hidden"}}>
+															{data.firstName}
+														</li>
+														{isOwner==true &&(
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<li onClick={()=>displayRemoveRecruitModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
+																	<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
+																		 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
+																		 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
+																		 stroke-linejoin="round">
+																	  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+																	  <circle cx="12" cy="12" r="9" />
+																	  <path d="M10 10l4 4m0 -4l-4 4" />
+																	</svg>
+																</li>
+															</a>
+														)}
+													</ul>
+												</li>
+												<hr/>
+											</>
+										)}
+									</ul>
+								}
 							</li>
 						}
 						{/*

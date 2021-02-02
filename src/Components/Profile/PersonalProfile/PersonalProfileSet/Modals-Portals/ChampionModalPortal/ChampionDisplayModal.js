@@ -42,7 +42,7 @@ const ExtendedChampionModalContainer=styled.div`
 const ExtendedChampionInformation=styled.div`
 	display:flex;
 	flex-direction:row;
-
+	margin-bottom:5%;
 
 
 	@media screen and (max-width:1370px){
@@ -94,14 +94,20 @@ const ExtendedChampionModal=(championData)=>{
 	return <ExtendedChampionModalContainer id="extendedChampionModalUL">
 				<ExtendedChampionInformation>
 					<img id="championImageLI" src={championData.imgUrl} 
-					style={{width:"70px",height:"80px",borderRadius:"50%"}}/>
+					style={{width:"70px",height:"70px",borderRadius:"50%"}}/>
 
 					<li style={{listStyle:"none",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",color:"#5298F8"}}>
-						<b>{championData.name}</b>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						{/*
+							<b>{championData.name}</b>
+						*/}
 					</li>
 				</ExtendedChampionInformation>
 				<p>
-					{championData.description}
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					{/*
+						{championData.description}
+					*/}
 				</p>
 			</ExtendedChampionModalContainer>
 }
