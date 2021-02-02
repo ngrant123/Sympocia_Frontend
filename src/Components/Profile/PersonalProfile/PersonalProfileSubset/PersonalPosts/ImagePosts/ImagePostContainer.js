@@ -27,34 +27,12 @@ const Container=styled.div`
 			margin-right:10% !important;
 		}
     }
+	@media screen and (max-width:740px){
 
-	@media screen and (max-width:770px){
-		#smallPostLI{
-			width:200px !important;
-			margin-right:10% !important;
-			margin-bottom:30% !important;
-		}
-		#parentLISmallPostContainer{
-				width:150% !important;
-		}
-    }
-
-	@media screen and (max-width:420px){
-		#smallPostLI{
-			width:300px !important;
-		}
-	}
-
-	@media screen and (max-width:380px){
-		#smallPostLI{
-			width:40% !important;
-		}
-	}
-
-	@media screen and (max-width:340px){
 		#smallPostLI{
 			width:37% !important;
 			margin-right:5% !important;
+			margin-bottom:5% !important;
 		}
 		#parentLISmallPostContainer{
 			width:190% !important;
@@ -72,9 +50,13 @@ const Container=styled.div`
 
     @media screen and (max-width:840px) and (max-height:420px)  and (orientation: landscape){
     	margin-left:5% !important;
+    	#parentLISmallPostContainer{
+			width:150% !important;
+		}
 		#smallPostLI{
 			width:35% !important;
 			margin-left:3% !important;
+			margin-bottom:0% !important;
 		}
     }
 

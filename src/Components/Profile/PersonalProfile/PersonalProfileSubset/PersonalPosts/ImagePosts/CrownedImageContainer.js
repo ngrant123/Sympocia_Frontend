@@ -39,7 +39,7 @@ const Container=styled.div`
 			width:180px !important;
 		}
 		#parentContainer{
-			height:80% !important;
+			height:100% !important;
 		}
     }
     @media screen and (max-width:670px) and (max-height:380px){

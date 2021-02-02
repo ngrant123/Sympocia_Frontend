@@ -24,7 +24,7 @@ export const Container=styled.div`
 		}
     }
 
-    @media screen and (max-width:700px){
+    @media screen and (max-width:740px){
     	#postsContainer{
 			margin-left:-80% !important;
 			margin-top:180% !important;
@@ -103,9 +103,10 @@ export const Container=styled.div`
 		}
     }
 
-    @media screen and (max-width:700px) and (max-height:420px) and (orientation:landscape){
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
     	#postsContainer{
 			margin-top:120% !important;
+			margin-left:-60% !important;
 		}
 		#createPostIcon{
 			margin-left:-10% !important;
@@ -143,7 +144,7 @@ export const ProfilePictureContainer=styled.div`
     }
 
 
-    @media screen and (max-width:700px){
+    @media screen and (max-width:740px){
     	top:-10% !important;
     	height:100% !important;
     	margin-left:0%;
@@ -185,7 +186,7 @@ export const ProfileContainer=styled.div`
 		height:30% !important;
 	}
 
-	@media screen and (max-width:700px){
+	@media screen and (max-width:740px){
 		position:relative;
 		top:30%;
 		margin-left:2% !important;
