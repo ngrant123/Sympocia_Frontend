@@ -270,7 +270,8 @@ const NavBar=(pageProps)=>{
 						{
 							id
 						},
-						false
+						false,
+						personalProfileState.isTokenRefreshing
 					);
 			}
 		}
