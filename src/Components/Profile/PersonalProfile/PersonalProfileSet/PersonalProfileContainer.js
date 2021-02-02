@@ -195,7 +195,7 @@ class LProfile extends Component{
 	}
 
 	triggerUIChange=()=>{
-		if(window.innerWidth<700){
+		if(window.innerWidth<740){
 
 			this.setState({
 				displayPhoneUI:true,
