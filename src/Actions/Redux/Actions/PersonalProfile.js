@@ -98,6 +98,13 @@ const signUpGuestUser=()=>{
 	}
 }
 
+const setIsTokenRefreshing=(indicator)=>{
+	debugger;
+	return{
+		type:'IS_TOKEN_REFRESHING',
+		payload:indicator
+	}
+}
 module.exports={
 	addName,
 	addLastName,
@@ -111,5 +118,6 @@ module.exports={
 	logOutUser,
 	setPersonalProfileAccessToken,
 	setPersonalProfileRefreshToken,
-	signUpGuestUser
+	signUpGuestUser,
+	setIsTokenRefreshing
 }

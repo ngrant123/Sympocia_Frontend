@@ -886,6 +886,13 @@ class LProfile extends Component{
 								 run={true}
 							/>
 						:<React.Fragment></React.Fragment>}
+						<HeaderContainer>
+							<GeneralNavBar
+								page={"PersonalProfile"}
+								routerHistory={this.props.history}
+								targetDom={"personalContainer"}
+							/>
+						</HeaderContainer>
 
 						{this.state.displayShadowBackground==true?
 								<ShadowContainer
@@ -901,13 +908,6 @@ class LProfile extends Component{
 						{this.RegularPostModal()}
 						{this.socialMediaModal(this.state.userProfile.socialMediaUrls)}
 
-						<HeaderContainer>
-							<GeneralNavBar
-								page={"PersonalProfile"}
-								routerHistory={this.props.history}
-								targetDom={"personalContainer"}
-							/>
-						</HeaderContainer>
 
 
 						<ProfileContainer>

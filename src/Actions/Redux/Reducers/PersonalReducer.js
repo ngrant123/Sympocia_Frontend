@@ -9,7 +9,8 @@ const initialState={
 	loggedIn:false,
 	accessToken:"",
 	refreshToken:"",
-	isGuestProfile:false
+	isGuestProfile:false,
+	isTokenRefreshing:false
 }
 
 const PersonalProfile=(state={initialState},action)=>{
@@ -135,6 +136,13 @@ const PersonalProfile=(state={initialState},action)=>{
 			return{
 				...state,
 				refreshToken:payload
+			}
+		}
+
+		case 'IS_TOKEN_REFRESHING':{
+			return{
+				...state,
+				isTokenRefreshing:payload
 			}
 		}
 

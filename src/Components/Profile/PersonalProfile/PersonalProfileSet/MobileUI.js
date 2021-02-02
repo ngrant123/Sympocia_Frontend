@@ -311,7 +311,7 @@ const PhonePersonalInformationHeader=({ownerName,isOwner,isGuestProfile})=>{
 								<b>{ownerName}</b>
 							</li>
 							{isGuestProfile==false &&(
-								<li id="mobilePersonalOptionCaret" style={{listStyle:"none",display:"inline-block",marginLeft:"40%"}}>
+								<li id="mobilePersonalOptionCaret" style={{listStyle:"none",display:"inline-block",marginLeft:"10%"}}>
 									<div class="dropdown">
 										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
 											style={ShadowButtonCSS}
