@@ -192,113 +192,114 @@ const ImageContainer=(props)=>{
 						isGuestProfile={isGuestProfile}
 						editPostAction={editPost}
 					/>
-					:<Container>
+					:<React.Fragment>
 						{displayImageModal==true?
 							<EditImageCreation
 								imageSrcUrl={props.imageData.imgUrl}
 								previousData={props.imageData}
 								editPost={editPost}
 							/>:
-							<React.Fragment>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"70px"}}>
-										<ul>
-											<li id="postOptionsLI" style={{listStyle:"none",marginBottom:"2%"}}>
-												<ul style={{padding:"0px"}}>
-													{props.imageData.isCrownedPost==true?
-														<a style={{textDecoration:"none"}}href="javascript:void(0);">
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																<CrownIconContainer>
-																	<Icon 
-																		id="crownIcon"
-																		icon={crownIcon}
-																		style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
-																	/>
-																</CrownIconContainer>
-															</li>
-														</a>:null
-													}
-													{isGuestProfile==false &&(
-														<a style={{textDecoration:"none"}}href="javascript:void(0);">
-															<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ButtonCSS}>
-																	Stamp
+						<Container>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"70px"}}>
+									<ul>
+										<li id="postOptionsLI" style={{listStyle:"none",marginBottom:"2%"}}>
+											<ul style={{padding:"0px"}}>
+												{props.imageData.isCrownedPost==true?
+													<a style={{textDecoration:"none"}}href="javascript:void(0);">
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+															<CrownIconContainer>
+																<Icon 
+																	id="crownIcon"
+																	icon={crownIcon}
+																	style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
+																/>
+															</CrownIconContainer>
+														</li>
+													</a>:null
+												}
+												{isGuestProfile==false &&(
+													<a style={{textDecoration:"none"}}href="javascript:void(0);">
+														<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ButtonCSS}>
+																Stamp
+														</li>
+													</a>
+												)}
+
+												{(props.profileType=="personalProfile" && props.isOwnProfile==true) &&(
+													<>
+														<a style={{textDecoration:"none"}} href="javascript:void(0);">
+															<li onClick={()=>triggerPromoteModal()} style={ButtonCSS}>
+																	Promote
 															</li>
 														</a>
-													)}
 
-													{(props.profileType=="personalProfile" && props.isOwnProfile==true) &&(
-														<>
-															<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																<li onClick={()=>triggerPromoteModal()} style={ButtonCSS}>
-																		Promote
-																</li>
+														<li onClick={()=>changeDisplayImage(!displayImageModal)} style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+															<a style={{textDecoration:"none"}}href="javascript:void(0);">
+																<EditIcon/> 
+																Edit image
 															</a>
+														</li>
 
-															<li onClick={()=>changeDisplayImage(!displayImageModal)} style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
-																<a style={{textDecoration:"none"}}href="javascript:void(0);">
-																	<EditIcon/> 
-																	Edit image
-																</a>
-															</li>
+														<li onClick={()=>handleRemoveImagePost()} style={{listStyle:"none",display:"inline-block"}}>
+															<a style={{textDecoration:"none"}}href="javascript:;">
+																<HighlightOffIcon/> 
+																Remove image
+															</a>
+														</li>
+													</>
+												)}
+											</ul>
+										</li>
+										<li style={{listStyle:"none"}}>
+											<Image>	
+												{displayStampEffect==true?
+														<React.Fragment>
+															<StampIconEffect
+																id="stampEffect"
+															>
+																<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+															</StampIconEffect>
+														</React.Fragment>:
+												null}
+												<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
+												{props.imageData.videoDescription==null?null:
+													<VideoDesriptionContainer>
+														<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoPlay={true} controls={true} playsInline>
+																<source src={props.imageData.videoDescription} type="video/webm"></source>
+														 </video>
+													</VideoDesriptionContainer>
+												}
+											</Image>
+										</li>
+									</ul>
+								</li>
 
-															<li onClick={()=>handleRemoveImagePost()} style={{listStyle:"none",display:"inline-block"}}>
-																<a style={{textDecoration:"none"}}href="javascript:;">
-																	<HighlightOffIcon/> 
-																	Remove image
-																</a>
-															</li>
-														</>
-													)}
-												</ul>
-											</li>
-											<li style={{listStyle:"none"}}>
-												<Image>	
-													{displayStampEffect==true?
-															<React.Fragment>
-																<StampIconEffect
-																	id="stampEffect"
-																>
-																	<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-																</StampIconEffect>
-															</React.Fragment>:
-													null}
-													<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
-													{props.imageData.videoDescription==null?null:
-														<VideoDesriptionContainer>
-															<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoPlay={true} controls={true} playsInline>
-																	<source src={props.imageData.videoDescription} type="video/webm"></source>
-															 </video>
-														</VideoDesriptionContainer>
-													}
-												</Image>
-											</li>
-										</ul>
-									</li>
-
-									<li id="postInformationLI" style={{listStyle:"none",display:"inline-block",padding:"0px"}}>
-										{commentImageIndicator==true?
-												<ImageInformation
-													imageInformation={props.imageData}
+								<li id="postInformationLI" style={{listStyle:"none",display:"inline-block",padding:"0px"}}>
+									{commentImageIndicator==true?
+											<ImageInformation
+												imageInformation={props.imageData}
+												targetDom={props.targetDom}
+												isMobileTrue={displayMobileUI}
+												isGuestProfile={isGuestProfile}
+											/>
+											:
+											<CommentContainer>
+												<Comments
+													postId={props.imageData._id}
+													postType={"Images"}
+													hideComments={hideComments}
 													targetDom={props.targetDom}
-													isMobileTrue={displayMobileUI}
-													isGuestProfile={isGuestProfile}
 												/>
-												:
-												<CommentContainer>
-													<Comments
-														postId={props.imageData._id}
-														postType={"Images"}
-														hideComments={hideComments}
-														targetDom={props.targetDom}
-													/>
-												</CommentContainer>
-										}
+											</CommentContainer>
+									}
 
-									</li>
-								</ul>
-							</React.Fragment>
+								</li>
+							</ul>
+						</Container>
 						}
-					</Container>
+					</React.Fragment>
+
 				}
 			</React.Fragment>
 		</ImageProvider>
