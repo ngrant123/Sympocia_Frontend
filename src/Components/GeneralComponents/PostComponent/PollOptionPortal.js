@@ -156,6 +156,7 @@ const PollOptionPortal=(props)=>{
 
 	useEffect(()=>{
 		const getData=async()=>{
+			debugger;
 			changeIsProcessingStatus(true);
 			var comments;
 			if(displayApproveModal==true){

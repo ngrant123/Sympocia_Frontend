@@ -258,6 +258,9 @@ class Video extends Component{
 							)}
 						</ul>
 					</li>
+					<li style={{listStyle:"none",marginBottom:"2%",padding:"5px",fontSize:"20px",color:"white"}}>
+						<b>{postInformation.title}</b>
+					</li>
 
 					<li style={{listStyle:"none",marginBottom:"2%",padding:"5px",fontSize:"15px",color:"white"}}>
 						{postInformation.description}

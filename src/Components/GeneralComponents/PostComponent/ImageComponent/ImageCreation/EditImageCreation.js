@@ -301,6 +301,15 @@ class EditImageCreation extends Component{
 		});
 	}
 
+	componentDidUpdate(){
+
+		if(this.state.isPostCrowned==true && this.state.displayRedoPage==false){
+			const crownElement=document.getElementById("crownIcon");
+			crownElement.style.backgroundColor="#D6C5F4";
+			crownElement.style.color="white";
+		}
+	}
+
 	clearImageCaptionTextArea=()=>{
 		if(this.state.isCaptionCleared==false){
 			document.getElementById("captionTextArea").value="";
