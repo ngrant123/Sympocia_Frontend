@@ -222,23 +222,25 @@ const PersonalPostsIndex=(props)=>{
 	*/
 
 	const unSelectButtonsCSS=()=>{
-		const image=document.getElementById("images");
-		image.style.color="#bebebf";
-		image.style.borderStyle="none";
+		if(props.isGuestVisitorProfile==false){
+			const image=document.getElementById("images");
+			image.style.color="#bebebf";
+			image.style.borderStyle="none";
 
-		const blogs=document.getElementById("blogs");
-		blogs.style.color="#bebebf";
-		blogs.style.borderStyle="none";
-
-
-		const videos=document.getElementById("videos");
-		videos.style.color="#bebebf";
-		videos.style.borderStyle="none";
+			const blogs=document.getElementById("blogs");
+			blogs.style.color="#bebebf";
+			blogs.style.borderStyle="none";
 
 
-		const regularPost=document.getElementById("regularPosts");
-		regularPost.style.color="#bebebf";
-		regularPost.style.borderStyle="none";
+			const videos=document.getElementById("videos");
+			videos.style.color="#bebebf";
+			videos.style.borderStyle="none";
+
+
+			const regularPost=document.getElementById("regularPosts");
+			regularPost.style.color="#bebebf";
+			regularPost.style.borderStyle="none";
+		}
 	}
 
 	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter})=>{
@@ -264,7 +266,8 @@ const PersonalPostsIndex=(props)=>{
 											visitorId:props.visitorId,
 											postCount:postCounter==null?0:postCounter,
 											accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-											personalRedux.accessToken
+											personalRedux.accessToken,
+											isGuestProfile:props.isGuestVisitorProfile
 										});
 			debugger;
 			if(confirmation=="Success"){
