@@ -511,7 +511,7 @@ const MobileUI=(props)=>{
 								{isGuestProfile==false &&(
 									<React.Fragment>
 										<a href="javascript:void(0);">
-											<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
+											<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
 												<LoyaltyIcon
 													style={{fontSize:30}}
 												/>
