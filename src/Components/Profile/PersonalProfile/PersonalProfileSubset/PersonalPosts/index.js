@@ -178,6 +178,8 @@ const PersonalPostsIndex=(props)=>{
 	const [currentPostCounter,changeCurrentPostCounter]=useState(0);
 	const [isLoadingNewPosts,changeIsLoadingNewPosts]=useState(false);
 	const dispatch=useDispatch();
+	const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
+	const [endOfPostsDBIndicator,changeEndOfPostsDBIndicator]=useState(false);
 
 	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
@@ -239,12 +241,12 @@ const PersonalPostsIndex=(props)=>{
 		regularPost.style.borderStyle="none";
 	}
 
-	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,isLoadingNewPosts,postCounter})=>{
+	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter})=>{
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
 			changeDisplayForRegularPosts(false);
-
+			changeIsLoadingReloadedPosts(true);
 			unSelectButtonsCSS();
 
 		if(kindOfPost=="image"){
@@ -256,34 +258,32 @@ const PersonalPostsIndex=(props)=>{
 			changeDisplayForImages(true);
 			changeVideoPosts({...videoPost,videos:[]})
 			changeBlogPosts({...blogPost,blogs:[]})
-			changeRegularPost({...blogPost,posts:[]})
-
-			if(isLoadingNewPosts==true){
-				const {confirmation,data}=await getUserImages({
-												userId:id,
-												visitorId:props.visitorId,
-												postCount:postCounter==null?0:postCounter
-											});
-				debugger;
-				if(confirmation=="Success"){
-					const {crownedPost,posts}=data;
-					if(posts.length==0 && crownedPost==null){
-						props.finalPostRecieved();
-					}else{
-						const {images}=imagePost;
-						const newImages=images.concat(posts);
-						imagePost={
-							...imagePost,
-							images:newImages
-						}
-						props.unTriggerReload();
-						changeImagePost(imagePost);
-						changeIsLoadingNewPosts(false)
-
-					}
+			changeRegularPost({...regularPost,posts:[]})
+			const {confirmation,data}=await getUserImages({
+											userId:id,
+											visitorId:props.visitorId,
+											postCount:postCounter==null?0:postCounter,
+											accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+											personalRedux.accessToken
+										});
+			debugger;
+			if(confirmation=="Success"){
+				const {crownedPost,posts}=data;
+				if(posts.length==0 && crownedPost==null){
+					changeEndOfPostsDBIndicator(true);
 				}else{
-					alert('Unfortunately there has been an error getting images. Please try again');
+					const {images}=imagePost;
+					const newImages=images.concat(posts);
+					imagePost={
+						...imagePost,
+						images:newImages
+					}
+					changeImagePost(imagePost);
+					changeIsLoadingNewPosts(false)
+
 				}
+			}else{
+				alert('Unfortunately there has been an error getting images. Please try again');
 			}
 
 		}else if(kindOfPost=="video"){
@@ -293,8 +293,9 @@ const PersonalPostsIndex=(props)=>{
 			videos.style.borderColor="#C8B0F4";
 			changeDisplayForVideos(true); 
 			changeCurrentPostType("video");
+			changeImagePost({...imagePost,images:[]});
 			changeBlogPosts({...blogPost,blogs:[]})
-			changeRegularPost({...blogPost,posts:[]})
+			changeRegularPost({...regularPost,posts:[]})
 
 			const {confirmation,data}=await getVideosFromUser({
 												userId:id,
@@ -307,7 +308,7 @@ const PersonalPostsIndex=(props)=>{
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
-					props.finalPostRecieved();
+					changeEndOfPostsDBIndicator(true);
 				}else{
 					const {videos}=videoPost;
 					const newVideos=videos.concat(posts);
@@ -315,11 +316,9 @@ const PersonalPostsIndex=(props)=>{
 						headerVideo:crownedPost,
 						videos:newVideos
 					}
-					props.unTriggerReload();
 					changeVideoPosts(videoObject);
 				}
 				changeVideosLoadingIndicator(false);
-				changeIsLoadingNewPosts(false)
 			}else{
 				debugger;
 				const {statusCode}=data;
@@ -342,8 +341,6 @@ const PersonalPostsIndex=(props)=>{
 		}else if(kindOfPost=="blog"){
 			changeDisplayForBlogs(true);
 			changeCurrentPostType("blog");
-			changeVideoPosts({...videoPost,videos:[]})
-			changeRegularPost({...blogPost,posts:[]})
 
 			const {	confirmation,data}=await getBlogFromUser({
 												userId:id,
@@ -355,8 +352,9 @@ const PersonalPostsIndex=(props)=>{
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 
+				changeBlogPostsLoadingIndicator(false);
 				if(posts.length==0 && crownedPost==null){
-					props.finalPostRecieved();
+					changeEndOfPostsDBIndicator(true);
 				}else{
 					const blogDiv=document.getElementById("blogs");
 					blogDiv.style.color="#C8B0F4";
@@ -366,17 +364,13 @@ const PersonalPostsIndex=(props)=>{
 					const {blogs}=blogPost;
 					const newBlogs=blogs.concat(posts);
 					const blogObject={
-						headerBlog:crownedPost,
+						headerBlog:crownedPost==null?blogPost.headerBlog:crownedPost,
 						blogs:newBlogs
 					}
 							
-					props.unTriggerReload();
 					changeBlogPosts(blogObject);
 					changeDisplayForBlogs(true);
-
 				}
-					changeBlogPostsLoadingIndicator(false);
-					changeIsLoadingNewPosts(false);
 			}else{
 				debugger;
 				const {statusCode}=data;
@@ -396,10 +390,14 @@ const PersonalPostsIndex=(props)=>{
 					alert('Unfortunately there has been an error getting these blog posts. Please try again');
 				}
 			}
+			changeImagePost({...imagePost,images:[]});
+			changeVideoPosts({...videoPost,videos:[]})
+			changeRegularPost({...regularPost,posts:[]})
 		}else{
 			changeDisplayForRegularPosts(true);
 			changeCurrentPostType("regularPost");
 			changeBlogPosts({...blogPost,blogs:[]});
+			changeImagePost({...imagePost,images:[]});
 			changeVideoPosts({...videoPost,videos:[]})
 			const {confirmation,data}=await getRegularPostFromUser({
 												userId:id,
@@ -412,7 +410,7 @@ const PersonalPostsIndex=(props)=>{
 				const {crownedPost}=data;
 				const postsResponse=data.posts;
 				if(postsResponse.length==0 && crownedPost==null){
-					props.finalPostRecieved();
+					changeEndOfPostsDBIndicator(true);
 				}else{
 					const regularPostDiv=document.getElementById("regularPosts");
 					regularPostDiv.style.color="#C8B0F4";
@@ -426,7 +424,6 @@ const PersonalPostsIndex=(props)=>{
 						posts:newRegularPosts
 					}
 		
-					props.unTriggerReload();
 					changeRegularPost(regularPostObject);
 					changeDisplayForRegularPosts(true);
 				}
@@ -452,6 +449,7 @@ const PersonalPostsIndex=(props)=>{
 				}
 			}
 		}
+		changeIsLoadingReloadedPosts(false);
 		
 	}
 
@@ -553,22 +551,21 @@ const PersonalPostsIndex=(props)=>{
 
 
 	const handleTriggerPostReload=()=>{
-		if(props.triggerPostReload==true && isLoadingNewPosts==false){
-			const nextCounter=currentPostCounter+1;
-			changeCurrentPostCounter(nextCounter);
-			changeIsLoadingNewPosts(true)
-			handlePostsClick({
-				kindOfPost:currentPostType,
-				id:props.personalInformation.userProfile._id,
-				isAccessTokenUpdated:false,
-				postCounter:nextCounter,
-				isLoadingNewPosts:true
-			})
-		}
+		const nextCounter=currentPostCounter+1;
+		changeCurrentPostCounter(nextCounter);
+		changeIsLoadingNewPosts(true);
+		handlePostsClick({
+			kindOfPost:currentPostType,
+			id:props.personalInformation.userProfile._id,
+			isAccessTokenUpdated:false,
+			postCounter:nextCounter,
+			isLoadingNewPosts:true
+		})
 	}
 
 	const triggerPostDecider=(postType,profileId,counter)=>{
 		if(postType!=currentPostType){
+			changeEndOfPostsDBIndicator(false);
 			handlePostsClick({
 				kindOfPost:postType,
 				id:profileId,
@@ -595,6 +592,8 @@ const PersonalPostsIndex=(props)=>{
 	return (
 			<PostProvider
 				value={{
+					isLoadingReloadedPosts,
+					endOfPostsDBIndicator,
 					updatePostComponent:(postOption)=>{
 						changePostOption(postOption);
 						changeDisplayCreationPost(true);
@@ -698,6 +697,9 @@ const PersonalPostsIndex=(props)=>{
 						let result=removePostIndexContext(postId,propData,postType);
 						stateCallBackFunction(result);
 						props.closeModal();
+					},
+					fetchNextPosts:()=>{
+						handleTriggerPostReload();
 					}
 				}}
 			>
@@ -731,7 +733,6 @@ const PersonalPostsIndex=(props)=>{
 					</li>
 					<hr/>
 					{displayCreationPostContainer()}
-					{handleTriggerPostReload()}
 					<li id="postsContainer" style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
 							{props.uiStatus.displayPhoneUI==true? 

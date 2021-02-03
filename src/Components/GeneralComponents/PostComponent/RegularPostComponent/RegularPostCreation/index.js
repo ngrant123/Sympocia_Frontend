@@ -537,7 +537,7 @@ const ButtonCSS={
 													displayTextOrAudioScreen={displayAudioORTextScreenHandle}
 													isSubmittedAndProcessing={isSubmittedAndProcessing}
 													isPreviousDataLoaded={isPreviousDataLoaded}
-													audio={props.previousData.post}
+													audio={props.previousData!=null?props.previousData.post:null}
 												/>
 											}
 										</React.Fragment>

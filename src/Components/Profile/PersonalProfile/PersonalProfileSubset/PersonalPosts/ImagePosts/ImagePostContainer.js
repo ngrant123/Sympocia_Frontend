@@ -216,15 +216,15 @@ class ImagePostsContainer extends Component{
 																</li>
 															)}
 														</li>
-														{postDisplayModal.endOfPostsDBIndicator==false && (
+														{postsConsumer.endOfPostsDBIndicator==false && (
 															<React.Fragment>
-																{postDisplayModal.isLoadingReloadedPosts==true?
+																{postsConsumer.isLoadingReloadedPosts==true?
 																	 <Typed 
 													                    strings={['Loading...']} 
 													                    typeSpeed={60} 
 													                    backSpeed={30} 
 											                		  />:
-																	<p onClick={()=>postDisplayModal.fetchNextPosts()} style={ImageLabelCSS}>
+																	<p onClick={()=>postsConsumer.fetchNextPosts()} style={ImageLabelCSS}>
 																		Next Page
 																	</p>
 																}

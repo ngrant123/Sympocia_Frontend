@@ -5,7 +5,7 @@ import {getCompanyBlogs} from "../../../../../../Actions/Requests/CompanyPageAxi
 import NoPostsModal from "../NoPostsModal.js";
 import {UserConsumer} from "../../../UserContext.js";
 import {Link} from "react-router-dom";
-import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
+import {PostConsumer} from "../PostsContext.js";
 import Typed from "react-typed";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 import {
@@ -36,6 +36,13 @@ const Container=styled.div`
 			margin-top:10% !important;
 			position:relative !important;
 			margin-bottom:5% !important;
+		}
+		#smallBlogLI{
+			width:25% !important;
+			margin-right:20% !important;
+		}
+		#smallPostsContainerLI{
+			width:120%;
 		}
 	}
 
@@ -68,6 +75,7 @@ const Container=styled.div`
 
 		#smallBlogLI{
 			margin-bottom:15% !important;
+			margin-right:40% !important;
 		}
     }
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
@@ -76,7 +84,7 @@ const Container=styled.div`
 			margin-left:10% !important;
 		}
 		#smallBlogLI{
-			margin-bottom:25% !important;
+			margin-bottom:40% !important;
 		}
     }
 `;
@@ -137,6 +145,14 @@ const SmallBlogComponent=styled.div`
 	position:relative;
 	width:250px;
 	height:50%;
+
+	@media screen and (max-width:1370px){
+		width:350px !important;
+	}
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	width:300px !important;
+    }
 `;
 
 const SmallBlog=styled.div`
@@ -184,7 +200,7 @@ const VideoDesriptionContainer=styled.div`
 `;
 
 const HeaderVideoDesriptionContainer=styled.div`
-	width:20%;
+	width:30%;
 	height:5%;
 	border-radius:50%;
 	z-index:30;
@@ -205,6 +221,23 @@ const HeaderVideoDesriptionContainer=styled.div`
 		}
     }
 `;
+
+
+const NextPostLabelCSS={
+	listStyle:"none",
+	  display:"inline-block",
+	  backgroundColor:"white",
+	  borderRadius:"5px",
+	  padding:"10px",
+	  color:"#3898ec",
+	  borderStyle:"solid",
+	  borderWidth:"2px",
+	  borderColor:"#3898ec",
+	  maxWidth:"30%",
+	  maxHeight:"50px",
+	  overflow:"hidden",
+	  cursor:"pointer"
+}
 
 
 class BlogsPostsContainer extends Component{
@@ -244,7 +277,7 @@ render(){
 return(
 	<UserConsumer>
 	{personalInformation=>(
-		<PostDisplayConsumer>
+		<PostConsumer>
 		{postDisplayModal=>(
 			 <Container>
 				{this.props.isLoadingIndicatorBlogPost==true?<p>Currently loading blog posts</p>:
@@ -347,7 +380,7 @@ return(
 								</ul>
 							</li>
 
-							<li style={{listStyle:"none",marginTop:"5%"}}>	
+							<li id="smallPostsContainerLI" style={{listStyle:"none",marginTop:"5%"}}>	
 								<ul style={{padding:"0px"}}>
 									{this.props.blogData.blogs.map(data=>
 										<BlogContainer to={{pathname:personalInformation.isOwnProfile==true?`/createBlog`:`/blog/${data._id}`,
@@ -415,12 +448,19 @@ return(
 										</BlogContainer>
 									)}
 									</ul>
-									{postDisplayModal.isLoadingReloadedPosts==true &&(
-										  <Typed 
-						                    strings={['Loading...']} 
-						                    typeSpeed={60} 
-						                    backSpeed={30} 
-				                		  />
+									{postDisplayModal.endOfPostsDBIndicator==false && (
+										<React.Fragment>
+											{postDisplayModal.isLoadingReloadedPosts==true?
+												 <Typed 
+								                    strings={['Loading...']} 
+								                    typeSpeed={60} 
+								                    backSpeed={30} 
+						                		  />:
+												<p onClick={()=>postDisplayModal.fetchNextPosts()} style={NextPostLabelCSS}>
+													Next Page
+												</p>
+											}
+										</React.Fragment>
 									)}
 								</li>
 							</ul>
@@ -429,7 +469,7 @@ return(
 				}
 			</Container>
 			)}
-			</PostDisplayConsumer>
+			</PostConsumer>
 		)}
 	</UserConsumer>
 		)

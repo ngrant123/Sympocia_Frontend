@@ -5,8 +5,8 @@ import {UserConsumer} from "../../../UserContext.js";
 const SmallVideoComponent=styled.div`
 	position:relative;
 	width:250px;
-	height:50%;
-
+	height:40%;
+	background-color:white;
 	@media screen and (max-width:700px){
 		width:250% !important;
 		height:30%;
@@ -113,31 +113,54 @@ const SmallVideoContainer=(videoData)=>{
 			{personalInformation=>{
 				return <SmallVideoComponent>
 							<ul style={{padding:"0px"}}>
-								<li id="videoAudio" style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										{videoData.video.videoDescription==null?null:
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-												<VideoDescriptionContainer>
-													<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" muted>
-														<source src={videoData.video.videoDescription} type="video/mp4"/>
-													</video>
-												</VideoDescriptionContainer>
-											</li>
-										}
-										
-										{videoData.video.audioDescription==null?null:
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<audio key={uuidv4()} style={{width:"150px"}} controls>
-													<source src={videoData.video.audioDescription} type="audio/ogg"/>
-													<source src={videoData.video.audioDescription} type="audio/mpeg"/>
-													Your browser does not support the audio element.
-												</audio>
-											</li>
-										}
-									</ul>
-								</li>
+								{/*
+									<li id="videoAudio" style={{listStyle:"none"}}>
+										<ul style={{padding:"0px"}}>
+											{videoData.video.videoDescription==null?null:
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+													<VideoDescriptionContainer>
+														<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" muted>
+															<source src={videoData.video.videoDescription} type="video/mp4"/>
+														</video>
+													</VideoDescriptionContainer>
+												</li>
+											}
+											
+											{videoData.video.audioDescription==null?null:
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<audio key={uuidv4()} style={{width:"150px"}} controls>
+														<source src={videoData.video.audioDescription} type="audio/ogg"/>
+														<source src={videoData.video.audioDescription} type="audio/mpeg"/>
+														Your browser does not support the audio element.
+													</audio>
+												</li>
+											}
+										</ul>
+									</li>
+								*/}
 								<li style={{listStyle:"none"}}>
 									<SmallVideo>
+										<ul style={{padding:"0px"}}>
+											{videoData.video.videoDescription==null?null:
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+													<VideoDescriptionContainer>
+														<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" muted>
+															<source src={videoData.video.videoDescription} type="video/mp4"/>
+														</video>
+													</VideoDescriptionContainer>
+												</li>
+											}
+											
+											{videoData.video.audioDescription==null?null:
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<audio key={uuidv4()} style={{width:"150px"}} controls>
+														<source src={videoData.video.audioDescription} type="audio/ogg"/>
+														<source src={videoData.video.audioDescription} type="audio/mpeg"/>
+														Your browser does not support the audio element.
+													</audio>
+												</li>
+											}
+										</ul>
 										<video key={uuidv4()} width="100%" height="100%" autoplay muted>
 												<source src={videoData.video.videoUrl} type="video/mp4"/>
 										</video>

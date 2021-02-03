@@ -22,6 +22,7 @@ const Container=styled.div`
 		width:140%;
 		#smallVideoLI{
 			margin-right:15% !important;
+			width:10% !important;
 		}
 	}
 	@media screen and (max-width:1030px){
@@ -58,6 +59,22 @@ const SmallVideo=styled.div`
 	background-color:red;
 	border-radius:5px;
 `;
+
+const NextPostLabelCSS={
+	listStyle:"none",
+	  display:"inline-block",
+	  backgroundColor:"white",
+	  borderRadius:"5px",
+	  padding:"10px",
+	  color:"#3898ec",
+	  borderStyle:"solid",
+	  borderWidth:"2px",
+	  borderColor:"#3898ec",
+	  maxWidth:"30%",
+	  maxHeight:"50px",
+	  overflow:"hidden",
+	  cursor:"pointer"
+}
 
 
 class VideoPostsContainer extends Component{
@@ -122,7 +139,7 @@ class VideoPostsContainer extends Component{
 																									companyPostDisplayModal,
 																									data,
 																									postsConsumer)} 
-																			style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginBottom:"-5%"}}>
+																			style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
 																					<SmallVideoContainer
 																						video={data}
 																					/>
@@ -131,13 +148,19 @@ class VideoPostsContainer extends Component{
 																	</ul>
 																</li>
 															</a>
-
-															{postDisplayModal.isLoadingReloadedPosts==true &&(
-																  <Typed 
-												                    strings={['Loading...']} 
-												                    typeSpeed={60} 
-												                    backSpeed={30} 
-										                		  />
+															{postDisplayModal.endOfPostsDBIndicator==false && (
+																<React.Fragment>
+																	{postDisplayModal.isLoadingReloadedPosts==true?
+																		 <Typed 
+														                    strings={['Loading...']} 
+														                    typeSpeed={60} 
+														                    backSpeed={30} 
+												                		  />:
+																		<p onClick={()=>postDisplayModal.fetchNextPosts()} style={NextPostLabelCSS}>
+																			Next Page
+																		</p>
+																	}
+																</React.Fragment>
 															)}
 														</ul>
 													}
