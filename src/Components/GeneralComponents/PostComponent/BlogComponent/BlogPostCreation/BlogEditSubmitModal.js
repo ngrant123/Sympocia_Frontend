@@ -140,6 +140,13 @@ class BlogEditSubmitModal extends Component{
 			document.getElementById("blogTitle").value=title;
 			document.getElementById("blogDescription").value=description;
 
+
+			if(this.state.isPostCrowned==true){
+				const crownElement=document.getElementById("crownIcon");
+				crownElement.style.backgroundColor="#D6C5F4";
+				crownElement.style.color="white";
+			}
+
 			this.setState({
 				pictureUrl:blogImageUrl,
 				displayImage:true,
@@ -277,6 +284,7 @@ class BlogEditSubmitModal extends Component{
 
 			}
 		}else{
+			debugger;
 			const {previousData}=this.props;
 			const {
 				blogImageUrl,
@@ -286,8 +294,13 @@ class BlogEditSubmitModal extends Component{
 				videoDescription,
 				isCrownedPost,
 				_id,
-				industriesUploaded
+				industriesUploaded,
+				blog
 			}=this.props.previousState;
+			let currentBlogPost;
+			if(blogPostInformation.blogPostState!=""){
+				currentBlogPost=JSON.stringify(convertToRaw(blogPostInformation.blogPostState.getCurrentContent()));
+			}
 
 			const editedImage={
 				postType:"Blogs",
@@ -297,7 +310,11 @@ class BlogEditSubmitModal extends Component{
 						?searchCriteriaIndustryArray:null,
 					description:currentDescription!=description?currentDescription:null,
 					title:currentTitle!=title?currentTitle:null,
-					isCrownedPost:this.state.isPostCrowned!=isCrownedPost?this.state.isPostCrowned:null
+					isCrownedPost:this.state.isPostCrowned!=isCrownedPost?this.state.isPostCrowned:null,
+					//blog:rawDraftContentState!=blog?rawDraftContentState:null
+					blog:currentBlogPost==null?null:(
+						currentBlogPost!=blog?currentBlogPost:null
+					)
 				},
 				postS3:[
 					{
