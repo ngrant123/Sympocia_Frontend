@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ImagePostDisplayPortal from "../../../HomePageSet/ImageHomeDisplayPortal.js";
 import PersonalIndustry from "../../../../../Constants/personalIndustryConstants.js";
 import CompanyIndustry from "../../../../../Constants/industryConstants.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 import {getSymposiumId} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
@@ -15,10 +15,12 @@ import {SearchConsumer} from "../../../../SearchPage/SearchContext.js";
 import {Link} from "react-router-dom";
 
 import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {
 	ConstructSuggestedSymposium,
 	displayPersonalIndustryFeed
 } from "./ConstructSuggestedSymposium.js";
+
 
 
 
@@ -274,12 +276,6 @@ const RecruitButtonLabelCSS={
 	textAlign:"center"
 }
 
-const handleRecruitButton=async(previousProps,post,changeDisplayRecruitButton)=>{
-	const {_id,confettiAnimation}=previousProps;
-	confettiAnimation();
-	addRecruit(_id,post.owner._id);
-	changeDisplayRecruitButton(true);
-} 
 
 const unRecruitButton=async(previousProps,post,changeDisplayRecruitButton)=>{
 	const {_id}=previousProps;
@@ -296,12 +292,44 @@ const unRecruitButton=async(previousProps,post,changeDisplayRecruitButton)=>{
 }
 
 
-const DisplayRecruitButton=({post,previousProps})=>{
+const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 	const {isUserFollowing}=post;
 	const postOwnerId=post.owner._id;
 	const personalId=previousProps._id;
-
+	const dispatch=useDispatch();
 	const [displayRecruitButton,changeDisplayRecruitButton]=useState(isUserFollowing);
+
+	const handleRecruitButton=async({previousProps,post,changeDisplayRecruitButton,isAccessTokenUpdated,updatedAccessToken})=>{
+		const {_id,confettiAnimation}=previousProps;
+		const {confirmation,data}=await addRecruit(
+												_id,
+												post.owner._id,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformationRedux.accessToken
+											);
+		if(confirmation=="Success"){
+			confettiAnimation();
+			changeDisplayRecruitButton(true);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformationRedux.refreshToken,
+						_id,
+						handleRecruitButton,
+						dispatch,
+						{
+							previousProps,
+							post,
+							changeDisplayRecruitButton
+						},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error adding this recruit. Please try again');
+			}
+		}
+	} 
 
 	return <>
 				{(personalId!=postOwnerId) &&(
@@ -316,8 +344,14 @@ const DisplayRecruitButton=({post,previousProps})=>{
 								  <path d="M5 12l5 5l10 -10" />
 								</svg>
 							</li>:
-							<li onClick={()=>handleRecruitButton(previousProps,post,changeDisplayRecruitButton)} 
-								style={RecruitButtonLabelCSS}>
+							<li onClick={()=>handleRecruitButton({
+												previousProps,
+												post,
+												changeDisplayRecruitButton,
+												isAccessTokenUpdated:false,
+												dispatch,
+												personalInformationRedux
+											})} style={RecruitButtonLabelCSS}>
 								+ 
 							</li>
 						}
@@ -329,12 +363,8 @@ const DisplayRecruitButton=({post,previousProps})=>{
 
 
 const ImagePostsModal=(props)=>{
-	console.log(props);
 	const headerImage=props.posts[0];
-	console.log("Header image");
-	console.log(headerImage);
 	const images=props.posts.slice(1,props.posts.length);
-	console.log(images);
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
 
@@ -439,6 +469,7 @@ const ImagePostsModal=(props)=>{
 								<DisplayRecruitButton
 									post={headerImage}
 									previousProps={props}
+									personalInformationRedux={personalInformationRedux}
 								/>
 							)}
 						</PostUserInformation>

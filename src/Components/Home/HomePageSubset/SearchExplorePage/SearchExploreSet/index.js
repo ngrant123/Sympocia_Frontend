@@ -289,9 +289,8 @@ class SearchExploreContainer extends Component{
 			}else{
 				let currentPosts=this.state.postsInformation;
 				currentPosts=currentPosts.concat(message);
-				var newHomePagePosts=this.addSuggestedSymposiums(currentPosts);
 				this.setState({
-					postsInformation:newHomePagePosts,
+					postsInformation:this.state.postCount==0?this.addSuggestedSymposiums(currentPosts):currentPosts,
 					isLoading:false,
 					isLoadingReloadedPosts:false,
 					postOption:postOption,
