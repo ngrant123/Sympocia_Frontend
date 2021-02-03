@@ -40,7 +40,7 @@ const Container=styled.div`
 	left:10%;
 	width:80%;
 	overflow-y:scroll;
-	height:70%;
+	height:80%;
 	padding:5px;
 
     @media screen and (max-width:1370px){

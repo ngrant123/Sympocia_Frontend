@@ -69,6 +69,7 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 	}
 
 	const promotePostHandle=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeIsProcessingSubmit(true);
 		const promotion={
 			nodeId:nodeSelected._id,
 			postId,
@@ -97,6 +98,7 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 				alert('Unfortunately there has been an error promoting this post. Please try again');
 			}
 		}
+		changeIsProcessingSubmit(false);
 	}
 
 	return createPortal(
@@ -134,21 +136,24 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 					<ul style={{padding:"0px"}}>
 						<p> Are you sure you want to place this post in {nodeSelected.name} ? </p>
 						<hr/>
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								<a style={{textDecoration:"none"}}>
-									<li onClick={()=>promotePostHandle({isAccessTokenUpdated:false})} style={ButtonCSS}>
-										Yes
-									</li>
-								</a>
+						{isProcessingSubmit==true?
+							<p>Please wait...</p>:
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px"}}>
+									<a style={{textDecoration:"none"}}>
+										<li onClick={()=>promotePostHandle({isAccessTokenUpdated:false})} style={ButtonCSS}>
+											Yes
+										</li>
+									</a>
 
-								<a style={{textDecoration:"none"}}>
-									<li onClick={()=>changeDisplayConfirmationPage(false)} style={ButtonCSS}>
-										No
-									</li>
-								</a>
-							</ul>
-						</li>
+									<a style={{textDecoration:"none"}}>
+										<li onClick={()=>changeDisplayConfirmationPage(false)} style={ButtonCSS}>
+											No
+										</li>
+									</a>
+								</ul>
+							</li>
+						}
 					</ul>
 				}
 			</Container>
