@@ -34,6 +34,17 @@ const AnimationContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:60% !important;
+		margin-left:-10%;
+		#animationImage{
+			height:90% !important;
+		}
+	}
+
+	@media screen and (max-width:740px){
+		#animationImage{
+			width:75% !important;
+			height:70% !important;
+		}
 	}
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	width:20% !important;
@@ -44,7 +55,7 @@ const LoadingAnimation=()=>{
 	return (
 		<React.Fragment>
 			<AnimationContainer>
-				<img src={StampIcon} style={{borderRadius:"50%",width:"60%",height:"70%"}} />
+				<img id="animationImage" src={StampIcon} style={{borderRadius:"50%",width:"60%",height:"70%"}} />
 			</AnimationContainer>
 			<p style={{fontSize:"30px",position:"fixed",top:"70%",left:"30%"}}> 
 				<b><Typed 

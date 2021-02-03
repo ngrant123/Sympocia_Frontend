@@ -346,7 +346,7 @@ const RegularPostModal=(props)=>{
 							<React.Fragment>
 								{props.isLoadingReloadedPosts==true?
 									<p>Loading please wait...</p>:
-									<p onClick={()=>props.triggerReloadingPostsHandle()} style={NextButtonCSS}>
+									<p onClick={()=>props.triggerReloadingPostsHandle("RegularPosts")} style={NextButtonCSS}>
 										Next Page
 									</p>
 								}

@@ -21,6 +21,10 @@ const PostContainer=styled.div`
 	height:50%;
 	width:100%;
 	padding-left:2%;
+
+	@media screen and (max-width:740px){
+		margin-top:20% !important;
+	}
 `;
 
 const ExploreIconContainer=styled.div`
@@ -131,7 +135,7 @@ class VideoDisplay extends Component{
 				/>
 				{this.state.isLoading==false?
 					<PostContainer>
-						{this.state.displayDesktopUI==null && (
+						{this.state.displayDesktopUI==true && (
 							<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none"}}>
@@ -151,7 +155,7 @@ class VideoDisplay extends Component{
 								videoData={this.state.postData}
 								recommendedVideos={[]}
 								targetDom={"urlEnteredVideoContainer"}
-								closeModal={this.closeModal}
+								closePostModal={this.closeModal}
 							/>
 						</div>
 					</PostContainer>

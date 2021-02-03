@@ -387,14 +387,6 @@ const ImagePostsModal=(props)=>{
 		}
 	*/
 
-
-	const detectEndOfPostContainer=(divElement)=>{
-		if(	divElement.scrollHeight - divElement.scrollTop - divElement.clientHeight < 1
-			 && props.endOfPostsDBIndicator==false && props.isLoadingReloadedPosts==false){
-			props.triggerReloadingPostsHandle();
-		}
-	}
-
 	return(
 	<>
 		{props.posts.length>=1?
@@ -556,7 +548,7 @@ const ImagePostsModal=(props)=>{
 						<React.Fragment>
 							{props.isLoadingReloadedPosts==true?
 								<p>Loading please wait...</p>:
-								<p onClick={()=>props.triggerReloadingPostsHandle()} style={ImageLabelCSS}>
+								<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={ImageLabelCSS}>
 									Next Page
 								</p>
 							}

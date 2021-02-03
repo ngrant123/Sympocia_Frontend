@@ -516,7 +516,7 @@ const BlogPostModal=(props)=>{
 								<React.Fragment>
 									{props.isLoadingReloadedPosts==true?
 										<p>Loading please wait...</p>:
-										<p onClick={()=>props.triggerReloadingPostsHandle()} style={NextButtonCSS}>
+										<p onClick={()=>props.triggerReloadingPostsHandle("Blogs")} style={NextButtonCSS}>
 											Next Page
 										</p>
 									}
