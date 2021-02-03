@@ -794,36 +794,6 @@ class LProfile extends Component{
 		})
 	}
 
-	detectEndOfPostContainer=(divElement)=>{
-		if(	divElement.scrollHeight - divElement.scrollTop - divElement.clientHeight < 1
-			 && this.state.endOfPostsDBIndicator==false && this.state.isLoadingReloadedPosts==false){
-			this.setState({
-				triggerPostReload:true,
-				isLoadingReloadedPosts:true
-			})
-		}
-	}
-
-	isPostReloading=(indicator)=>{
-		this.setState({
-			isLoadingReloadedPosts:indicator
-		})
-	}
-
-	unTriggerReload=()=>{
-		this.setState({
-			triggerPostReload:false,
-			isLoadingReloadedPosts:false
-		})
-	}
-
-	finalPostRecieved=()=>{
-		this.setState({
-			endOfPostsDBIndicator:true,
-			isLoadingReloadedPosts:false
-		})
-	}
-
 	render(){
 		return(
 
@@ -837,8 +807,6 @@ class LProfile extends Component{
 							}}>
 				<PostDisplayProvider
 					value={{
-						isLoadingReloadedPosts:this.state.isLoadingReloadedPosts,
-						endOfPostsDBIndicator:this.state.endOfPostsDBIndicator,
 						handleImagePostModal:(imagePostData,contextLocation)=>{
 							console.log(imagePostData);
 							
@@ -870,12 +838,6 @@ class LProfile extends Component{
 								displayRegularPostModal:true,
 								displayShadowBackground:true,
 								contextLocation:contextLocation
-							})
-						},
-						fetchNextPosts:()=>{
-							this.setState({
-								triggerPostReload:true,
-								isLoadingReloadedPosts:true
 							})
 						}
 					}}
@@ -1017,6 +979,7 @@ class LProfile extends Component{
 										finalPostRecieved={this.finalPostRecieved}
 										isGuestProfile={this.state.isGuestProfile}
 										isGuestVisitorProfile={this.state.isGuestVisitorProfile}
+										updateEndOfPostsDBIndicator={this.updateEndOfPostsDBIndicator}
 									/>
 								</PostInformationContainer>
 							</>

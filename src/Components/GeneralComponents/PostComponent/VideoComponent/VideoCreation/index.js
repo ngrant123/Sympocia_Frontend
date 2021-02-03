@@ -24,11 +24,11 @@ const Container=styled.div`
 			margin-bottom:15% !important;
 		}
     }
-   	@media screen and (max-width:740px) and (max-height:420px){
-    	top:20% !important;
+     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+	  top:20% !important;
     	width:100% !important;
 		left:1% !important; 
-		height:100% !important;
+		height:70% !important;
     }
 `;
 

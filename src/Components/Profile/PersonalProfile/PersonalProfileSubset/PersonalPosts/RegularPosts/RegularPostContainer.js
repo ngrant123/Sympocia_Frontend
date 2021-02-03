@@ -110,6 +110,22 @@ const SmallProfileCommentPicture=styled.div`
 	margin-top:2%;
 `;
 
+const NextPostLabelCSS={
+	listStyle:"none",
+	  display:"inline-block",
+	  backgroundColor:"white",
+	  borderRadius:"5px",
+	  padding:"10px",
+	  color:"#3898ec",
+	  borderStyle:"solid",
+	  borderWidth:"2px",
+	  borderColor:"#3898ec",
+	  maxWidth:"30%",
+	  maxHeight:"50px",
+	  overflow:"hidden",
+	  cursor:"pointer"
+}
+
 
 class RegularPostsContainer extends Component{
 
@@ -204,12 +220,19 @@ class RegularPostsContainer extends Component{
 																						</li>
 																					</a>
 																				)}
-																				{postDisplayModal.isLoadingReloadedPosts==true &&(
-																					  <Typed 
-																	                    strings={['Loading...']} 
-																	                    typeSpeed={60} 
-																	                    backSpeed={30} 
-															                		  />
+																				{postDisplayModal.endOfPostsDBIndicator==false && (
+																					<React.Fragment>
+																						{postDisplayModal.isLoadingReloadedPosts==true?
+																							 <Typed 
+																			                    strings={['Loading...']} 
+																			                    typeSpeed={60} 
+																			                    backSpeed={30} 
+																	                		  />:
+																							<p onClick={()=>postDisplayModal.fetchNextPosts()} style={NextPostLabelCSS}>
+																								Next Page
+																							</p>
+																						}
+																					</React.Fragment>
 																				)}
 																			</ul>
 																		</li>

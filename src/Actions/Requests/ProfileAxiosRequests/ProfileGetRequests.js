@@ -241,13 +241,16 @@ export const getRecruitsPostsHomePage=async({id,currentTime,postType,recruits})=
 	}
 }
 
-export const getUserImages=async({userId,visitorId,postCount})=>{
+export const getUserImages=async({userId,visitorId,postCount,accessToken})=>{
 	try{
 		const userImageResponse=await axios.get(`${SearchUrl}/getUserImages`,{
 			params:{
 				_id:userId,
 				visitorId,
 				postCount
+			},
+			headers:{
+				authorization:accessToken
 			}
 		});
 		const {data}=userImageResponse;
