@@ -313,7 +313,7 @@ const PersonalPostsIndex=(props)=>{
 					const {videos}=videoPost;
 					const newVideos=videos.concat(posts);
 					const videoObject={
-						headerVideo:crownedPost,
+						headerVideo:crownedPost==null?videoPost.headerVideo:crownedPost,
 						videos:newVideos
 					}
 					changeVideoPosts(videoObject);
@@ -419,8 +419,7 @@ const PersonalPostsIndex=(props)=>{
 					const {posts}=regularPost;
 					const newRegularPosts=posts.concat(postsResponse);
 					const regularPostObject={
-						headerPost:crownedPost,
-						//posts:posts.reverse()
+						headerPost:crownedPost==null?regularPost.headerPost:crownedPost,
 						posts:newRegularPosts
 					}
 		

@@ -10,6 +10,7 @@ import SmallRegularPost from "./SmallRegularPostsContainer.js";
 import HeaderPost from "./HeaderRegularPost.js";
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
+
 import {PostConsumer} from "../PostsContext.js";
 import Typed from "react-typed";
 
@@ -205,37 +206,37 @@ class RegularPostsContainer extends Component{
 																	}
 																	<hr/>
 																	<li style={{listStyle:"none"}}>
-																			<ul style={{padding:"0px"}}>
-																				{this.props.posts.posts.map(data=>
-																					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																						<li id="smallContainerLI"  onClick={()=>this.displayPostModal(
-																											postDisplayModal,
-																											companyPostDisplayModal,
-																											data,
-																											postsConsumer)} style={{width:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
-																							<SmallRegularPost
-																								post={data}
-																								profilePicture={this.props.profilePicture}
-																							/>
-																						</li>
-																					</a>
-																				)}
-																				{postDisplayModal.endOfPostsDBIndicator==false && (
-																					<React.Fragment>
-																						{postDisplayModal.isLoadingReloadedPosts==true?
-																							 <Typed 
-																			                    strings={['Loading...']} 
-																			                    typeSpeed={60} 
-																			                    backSpeed={30} 
-																	                		  />:
-																							<p onClick={()=>postDisplayModal.fetchNextPosts()} style={NextPostLabelCSS}>
-																								Next Page
-																							</p>
-																						}
-																					</React.Fragment>
-																				)}
-																			</ul>
-																		</li>
+																		<ul style={{padding:"0px"}}>
+																			{this.props.posts.posts.map(data=>
+																				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																					<li id="smallContainerLI"  onClick={()=>this.displayPostModal(
+																										postDisplayModal,
+																										companyPostDisplayModal,
+																										data,
+																										postsConsumer)} style={{width:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
+																						<SmallRegularPost
+																							post={data}
+																							profilePicture={this.props.profilePicture}
+																						/>
+																					</li>
+																				</a>
+																			)}
+																		</ul>
+																	</li>
+																	{postsConsumer.endOfPostsDBIndicator==false && (
+																		<React.Fragment>
+																			{postsConsumer.isLoadingReloadedPosts==true?
+																				 <Typed 
+																                    strings={['Loading...']} 
+																                    typeSpeed={60} 
+																                    backSpeed={30} 
+														                		  />:
+																				<p onClick={()=>postsConsumer.fetchNextPosts()} style={NextPostLabelCSS}>
+																					Next Page
+																				</p>
+																			}
+																		</React.Fragment>
+																	)}
 																</ul>
 														}
 													</React.Fragment>

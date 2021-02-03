@@ -22,7 +22,7 @@ const Container=styled.div`
 		width:140%;
 		#smallVideoLI{
 			margin-right:15% !important;
-			width:10% !important;
+			width:20% !important;
 		}
 	}
 	@media screen and (max-width:1030px){
@@ -148,15 +148,15 @@ class VideoPostsContainer extends Component{
 																	</ul>
 																</li>
 															</a>
-															{postDisplayModal.endOfPostsDBIndicator==false && (
+															{postsConsumer.endOfPostsDBIndicator==false && (
 																<React.Fragment>
-																	{postDisplayModal.isLoadingReloadedPosts==true?
+																	{postsConsumer.isLoadingReloadedPosts==true?
 																		 <Typed 
 														                    strings={['Loading...']} 
 														                    typeSpeed={60} 
 														                    backSpeed={30} 
 												                		  />:
-																		<p onClick={()=>postDisplayModal.fetchNextPosts()} style={NextPostLabelCSS}>
+																		<p onClick={()=>postsConsumer.fetchNextPosts()} style={NextPostLabelCSS}>
 																			Next Page
 																		</p>
 																	}

@@ -387,7 +387,8 @@ const ButtonCSS={
 		const dateInMill=date.getTime();
 		var newRegularObject={
 			...searchCriteriaObject,
-			industriesUploaded:searchCriteriaObject.industryArray,
+			industriesUploaded:searchCriteriaObject.industryArray.length==0?
+			[{industry:"General",subIndustry:[]}]:searchCriteriaObject.industryArray,
 			comments:{
 				regularComments:[],
 				videoComments:[]
