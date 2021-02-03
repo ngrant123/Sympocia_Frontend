@@ -34,6 +34,7 @@ const Container=styled.div`
 `;
 
 const VideoContainer=(data)=>{
+	debugger;
 	const [displayVideoEditModal,changeVideoEditModal]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);

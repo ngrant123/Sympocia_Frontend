@@ -196,6 +196,15 @@ class EditVideoModal extends Component{
 		}
 	}
 
+	componentDidUpdate(){
+
+		if(this.state.isPostCrowned==true && this.state.displayRedoPage==false){
+			const crownElement=document.getElementById("crownIcon");
+			crownElement.style.backgroundColor="#D6C5F4";
+			crownElement.style.color="white";
+		}
+	}
+
 	clearImageCaptionTextArea=()=>{
 
 		if(this.state.isVideoDescriptionCleared==false){
@@ -310,7 +319,7 @@ class EditVideoModal extends Component{
 						numOfDisapprove:[]
 					},
 					owner:id,
-					_id:data,
+					_id:data.message,
 					key:this.uuidv4()
 				}
 				videoPostInformation.hideCreationPost();

@@ -129,7 +129,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 	return(
 		<ThumbnailVideoComponent>
 				<ThumbnailVideo>
-					<video key={headerVideo._id} width="100%" height="100%" autoplay muted>
+					<video key={uuidv4()} width="100%" height="100%" autoplay muted>
 						<source src={headerVideo.videoUrl} type="video/mp4"/>
 					</video>
 				</ThumbnailVideo>
@@ -145,9 +145,11 @@ const CrownedVideoContainer=({headerVideo})=>{
 
 							<li style={{listStyle:"none",marginBottom:"5px"}}>
 								<ul style={{padding:"0px",color:"#a6a6a7"}}>
+									{/*
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 											{headerVideo.views} views
 										</li>
+									*/}
 
 									<li style={{listStyle:"none",display:"inline-block"}}>
 										{constructDate(headerVideo.datePosted)}
