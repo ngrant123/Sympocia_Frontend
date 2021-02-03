@@ -19,7 +19,7 @@ const ThumbnailVideoComponent=styled.div`
 		}
 	}
 
-	@media screen and (max-width:700px){
+	@media screen and (max-width:740px){
 		#description{
 			display:none !important;
 		}
@@ -44,7 +44,7 @@ const ThumbnailVideoComponent=styled.div`
 		margin-left:-10% !important;
     }
 
-    @media screen and (max-width:700px) and (max-height:420px) and (orientation:landscape){
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		
 		margin-left:0% !important;
     }
@@ -60,7 +60,7 @@ const ThumbnailVideo=styled.div`
 	flex-direction:column;
 	margin-right:2%;
 	@media screen and (max-width:1370px){
-		margin-top:-20%;
+		margin-top:-10%;
 	}
 	@media screen and (max-width:420px){
 		width:110% !important;
