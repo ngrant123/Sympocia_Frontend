@@ -115,9 +115,18 @@ const PostFirstSection=styled.div`
 	flex-direction:column;
 	width:30%;
 	margin-right:5%;
-	@media screen and (max-width:840px){
+	@media screen and (max-width:1370px){
+		width:60% !important;
+	}
+	@media screen and (max-width:700px){
 		display:none !important;
 	}
+	 @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	width:40% !important;
+    }
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		height:55% !important;
+    }
 `;
 
 const PostSecondSection=styled.div`

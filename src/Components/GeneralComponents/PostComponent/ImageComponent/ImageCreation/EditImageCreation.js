@@ -550,7 +550,8 @@ class EditImageCreation extends Component{
 		const dateInMill=date.getTime();
 		var newImageObject={
 			...searchCriteriaObject,
-			industriesUploaded:searchCriteriaObject.industryArray,
+			industriesUploaded:searchCriteriaObject.industryArray.length==0?
+			[{industry:"General",subIndustry:[]}]:searchCriteriaObject.industryArray,
 			comments:[],
 			datePosted:dateInMill,
 			owner:profileId,

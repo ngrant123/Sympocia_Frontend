@@ -457,6 +457,8 @@ isArrayEqual=(arr1,arr2)=>{
 		const dateInMill=date.getTime();
 		var newVideoObject={
 			...searchCriteriaObject,
+			industriesUploaded:searchCriteriaObject.industriesUploaded.length==0?
+			[{industry:"General",subIndustry:[]}]:searchCriteriaObject.industriesUploaded,
 			comments:[],
 			datePosted:dateInMill
 		}
