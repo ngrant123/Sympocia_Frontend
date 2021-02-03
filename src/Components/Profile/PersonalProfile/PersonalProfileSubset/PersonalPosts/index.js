@@ -565,11 +565,12 @@ const PersonalPostsIndex=(props)=>{
 	const triggerPostDecider=(postType,profileId,counter)=>{
 		if(postType!=currentPostType){
 			changeEndOfPostsDBIndicator(false);
+			changeCurrentPostCounter(0);
 			handlePostsClick({
 				kindOfPost:postType,
 				id:profileId,
 				isAccessTokenUpdated:false,
-				postCounter:counter
+				postCounter:0
 			})
 		}
 	}

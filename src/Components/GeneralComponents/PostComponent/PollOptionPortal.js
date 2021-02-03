@@ -171,6 +171,7 @@ const PollOptionPortal=(props)=>{
 
 	const submitComment=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const comment=document.getElementById("extendedInputContainer").value;
+		changeIsProcessingSubmittion(true);
 		if(comment!=""){
 			const commentObject={
 				comment:comment,
@@ -281,7 +282,7 @@ const PollOptionPortal=(props)=>{
 						}
 
 						{displayCreateComment==true?
-							<ul style={{overflow:"scroll",padding:"0px"}}>
+							<ul style={{padding:"0px"}}>
 								<ExtendedInputContainer
 									placeholder="Write down what you want to say :)"
 									id="extendedInputContainer"

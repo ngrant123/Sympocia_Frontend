@@ -481,7 +481,9 @@ const RegularPostContainer=(props)=>{
 													</React.Fragment>:
 													<React.Fragment>
 														{isAudioPost==null || isAudioPost==false?
-															<p>{post}</p>:
+															<p>
+																{post}
+															</p>:
 															<audio style={{width:"90%"}} controls>
 																<source src={post} type="audio/ogg"/>
 																<source src={post} type="audio/mpeg"/>

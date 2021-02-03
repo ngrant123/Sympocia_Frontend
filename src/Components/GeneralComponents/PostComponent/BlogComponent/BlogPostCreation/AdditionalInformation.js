@@ -22,6 +22,11 @@ const Container=styled.div`
 	top:17%;
 	border-radius:5px;
 	background-color:white;
+
+	
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+	  top:25% !important;
+    }
 `;
 
 const ProfilePicture=styled.div`

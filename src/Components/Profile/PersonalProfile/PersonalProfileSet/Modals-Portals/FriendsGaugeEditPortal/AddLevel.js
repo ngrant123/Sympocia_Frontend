@@ -86,7 +86,7 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 	}
 
 	const pushSelectedPersonToArray=(data)=>{
-		selectedRecruits.push(data);
+		selectedRecruits.push({_id:data._id,firstName:data.firstName});
 		const newSelectedRecruitsArray=selectedRecruits;
 		changeSelectedRecruits([...newSelectedRecruitsArray]);
 		console.log(selectedRecruits);

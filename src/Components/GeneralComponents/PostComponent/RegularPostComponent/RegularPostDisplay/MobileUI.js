@@ -46,6 +46,12 @@ const Container=styled.div`
     		height:40px !important;
     	}
     }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+	    #profilePictureImage{
+    		height:60px !important;
+    	}
+    }
  
 `;
 
@@ -458,8 +464,9 @@ const MobileUI=(props)=>{
 				<Container>
 					<PostOwnerInformation>
 						<img id="profilePictureImage" 
-						src={postData.profilePicture==null?(postData.owner.profilePicture==null?NoProfilePicture:postData.owner.profilePicture):postData.profilePicture} 
-						style={{borderRadius:"50%",width:"15%",height:"80px"}}/>
+							src={postData.profilePicture==null?(postData.owner.profilePicture==null?NoProfilePicture:postData.owner.profilePicture):postData.profilePicture} 
+							style={{borderRadius:"50%",width:"15%",height:"80px"}}
+						/>
 						<p style={{fontSize:"25px",maxWidth:"55%",overflow:"hidden",maxHeight:"40px",marginLeft:"5%",marginRight:"5%"}}>
 							<b>{postData.firstName}</b>
 						</p>
@@ -486,30 +493,16 @@ const MobileUI=(props)=>{
 										<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
 									</StampIconEffect>
 								)}
-								{/*
-									{postData.isAudioPost==null || postData.isAudioPost==false?
-										<PostContent id="postContent">
-											{postData.post}
-										</PostContent>:
-										<audio style={{width:"90%"}} controls>
-											<source src={postData.post} type="audio/ogg"/>
-											<source src={postData.post} type="audio/mpeg"/>
-											Your browser does not support the audio element.
-										</audio>
-									}
-								*/}
-								<PostContent>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-									 et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-									  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-									   cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-									   culpa qui officia deserunt mollit anim id est laborum.
-									   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-									 et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-									  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-									   cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-									   culpa qui officia deserunt mollit anim id est laborum.
-								</PostContent>
+								{postData.isAudioPost==null || postData.isAudioPost==false?
+									<PostContent id="postContent">
+										{postData.post}
+									</PostContent>:
+									<audio style={{width:"90%"}} controls>
+										<source src={postData.post} type="audio/ogg"/>
+										<source src={postData.post} type="audio/mpeg"/>
+										Your browser does not support the audio element.
+									</audio>
+								}
 							</div>
 							<ul style={{padding:"10px"}}>
 						<hr/>

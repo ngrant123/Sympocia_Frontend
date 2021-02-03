@@ -617,8 +617,7 @@ const MobileUI=(props)=>{
 											</a>
 										</React.Fragment>
 									)}
-									<hr/>
-
+									
 									{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
 										<>
 											<li onClick={()=>displayEditModal()} style={ShadowButtonCSS}>

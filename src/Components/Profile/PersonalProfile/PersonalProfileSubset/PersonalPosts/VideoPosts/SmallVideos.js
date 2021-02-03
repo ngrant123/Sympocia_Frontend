@@ -7,7 +7,7 @@ const SmallVideoComponent=styled.div`
 	width:250px;
 	height:40%;
 	background-color:white;
-	@media screen and (max-width:700px){
+	@media screen and (max-width:740px){
 		width:250% !important;
 		height:30%;
 		#videoAudio{
@@ -16,10 +16,11 @@ const SmallVideoComponent=styled.div`
 		#postInformation{
 			display:none;
 		}
+
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
-		height:200% !important;
+		height:100% !important;
 		width:200%;
 	 	#videoAudio{
 			display:none
@@ -40,9 +41,25 @@ const SmallVideo=styled.div`
 	border-radius:5px;
 	overflow:hidden;
 
-	@media screen and (max-width:700px){
-			height:60%;
+	@media screen and (max-width:1370px){
+		#videoAndAudioDescriptionLI{
+			margin-top:50% !important;
+		}
 	}
+
+	@media screen and (max-width:740px){
+		height:90%;
+		#audioLI{
+			height:20px !important;
+			width:50px !important;
+		}
+	}
+
+	 @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#videoAndAudioDescriptionLI{
+			margin-top:10% !important;
+		}
+    }
 `;
 
 const VideoDescriptionContainer=styled.div`
@@ -50,6 +67,12 @@ const VideoDescriptionContainer=styled.div`
 	width:70px;
 	height:60px;
 	border-radius:50%;
+
+	@media screen and (max-width:700px){
+		width:30px;
+		height:40px;
+	}
+
 `;
 
 const IndustryButtonCSS={
@@ -140,7 +163,7 @@ const SmallVideoContainer=(videoData)=>{
 								*/}
 								<li style={{listStyle:"none"}}>
 									<SmallVideo>
-										<ul style={{padding:"0px"}}>
+										<ul id="videoAndAudioDescriptionLI" style={{position:"absolute",padding:"0px"}}>
 											{videoData.video.videoDescription==null?null:
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 													<VideoDescriptionContainer>
@@ -153,7 +176,7 @@ const SmallVideoContainer=(videoData)=>{
 											
 											{videoData.video.audioDescription==null?null:
 												<li style={{listStyle:"none",display:"inline-block"}}>
-													<audio key={uuidv4()} style={{width:"150px"}} controls>
+													<audio id="audioLI" key={uuidv4()} style={{width:"150px"}} controls>
 														<source src={videoData.video.audioDescription} type="audio/ogg"/>
 														<source src={videoData.video.audioDescription} type="audio/mpeg"/>
 														Your browser does not support the audio element.

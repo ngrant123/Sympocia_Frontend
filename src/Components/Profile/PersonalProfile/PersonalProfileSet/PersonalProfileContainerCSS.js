@@ -351,6 +351,7 @@ export const ShadowContainer= styled.div`
 	position:fixed;
 	width:100%;
 	height:100%;
+	top:0%;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
 	z-index:35;
@@ -360,7 +361,7 @@ export const ShadowContainer= styled.div`
 export const ImagePopupContainer=styled.div`
 	position:absolute;
 	margin-left:20%;
-	margin-top:10%;
+	margin-top:5%;
 	position:fixed;
 	width:70%;
 	height:70%;
@@ -373,7 +374,7 @@ export const ImagePopupContainer=styled.div`
 	@media screen and (max-width:1370px){
 		margin-left:1% !important;
     	width:100% !important;
-    	height:90% !important;
+    	height:85% !important;
     	border-radius:5px !important;
     }
 
@@ -381,11 +382,15 @@ export const ImagePopupContainer=styled.div`
 		width:95% !important;
     	height:80% !important;
     }
+
+   	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	margin-top:0%;
+    }
 `;
 
 export const PostPopupContainer=styled.div`
 	margin-left:20%;
-	margin-top:10%;
+	margin-top:4%;
 	position:fixed;
 	width:70%;
 	height:60%;
@@ -395,6 +400,7 @@ export const PostPopupContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		margin-left:0%;
+		margin-top:10%;
 	}
 
 	@media screen and (max-width:800px){
@@ -403,6 +409,10 @@ export const PostPopupContainer=styled.div`
     	width:100% !important;
     	height:90% !important;
     	border-radius:5px !important;
+    }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	margin-top:5%;
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {

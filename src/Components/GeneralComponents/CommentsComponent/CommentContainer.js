@@ -154,7 +154,8 @@ class CommentsContainer extends Component{
 			displayReplyCreation:false,
 			selectedReplies:[],
 			commentIndex:0,
-			isProcessingInput:false
+			isProcessingInput:false,
+			isCreatingComment:false
 		}
 	}
 	async componentDidMount(){
@@ -269,6 +270,8 @@ class CommentsContainer extends Component{
 	}
 
 	handleCreateComment=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		this.setState({isCreatingComment:true});
+
 		const comment=document.getElementById("comment").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -329,7 +332,8 @@ class CommentsContainer extends Component{
 			alert('Please enter a comment');
 		}
 		this.setState({
-			isProcessingInput:false
+			isProcessingInput:false,
+			isCreatingComment:false
 		})
 	}
 
@@ -345,19 +349,22 @@ class CommentsContainer extends Component{
 									<ExtendedTextArea id="comment" />
 								</li>
 								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li  onClick={()=>this.handleCreateComment({isAccessTokenUpdated:false})} style={ExtendedCommentAreaButton}>
-												Create
-											</li>
-										</a>
+									{this.state.isCreatingComment==true?
+										<p>Please wait...</p>:
+										<ul style={{padding:"0px"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li  onClick={()=>this.handleCreateComment({isAccessTokenUpdated:false})} style={ExtendedCommentAreaButton}>
+													Create
+												</li>
+											</a>
 
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>this.setState({creationCommentExtended:false})} style={ExtendedCommentAreaButton}>
-												Close
-											</li>
-										</a>
-									</ul>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li onClick={()=>this.setState({creationCommentExtended:false})} style={ExtendedCommentAreaButton}>
+													Close
+												</li>
+											</a>
+										</ul>
+									}
 								</li>
 							</ul>
 						</>

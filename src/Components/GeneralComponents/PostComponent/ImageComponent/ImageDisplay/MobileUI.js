@@ -227,6 +227,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 					imageInformation={imgData}
 					targetDom={targetDom}
 					isMobileTrue={true}
+					isGuestProfile={isGuestProfile}
 				/>
 			</PostInformationContainer>
 		)

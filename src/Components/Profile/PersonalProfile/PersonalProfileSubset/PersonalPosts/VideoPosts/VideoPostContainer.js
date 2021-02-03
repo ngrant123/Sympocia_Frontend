@@ -22,13 +22,20 @@ const Container=styled.div`
 		width:140%;
 		#smallVideoLI{
 			margin-right:15% !important;
-			width:20% !important;
+			width:10% !important;
 		}
 	}
+
 	@media screen and (max-width:1030px){
 		width:140%;
 		#smallVideoLI{
 			margin-right:30% !important;
+		}
+	}
+
+	@media screen and (max-width:740px){
+		#smallVideoLI{
+			width:15% !important;
 		}
 	}
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -39,7 +46,7 @@ const Container=styled.div`
     }
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		#smallVideoParentContainer{
-			margin-bottom:-10% !important;
+			margin-bottom:-5% !important;
 		}
     }
 
