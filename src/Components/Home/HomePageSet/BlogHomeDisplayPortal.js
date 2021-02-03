@@ -137,6 +137,16 @@ const ProfilePicture=styled(Link)`
 	position:relative;
 	width:80px;
 	height:80px;
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		#smallImagePicture{
+			height:40% !important;
+		}
+	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#smallImagePicture{
+			height:60% !important;
+		}
+    }
 `;
 
 const keyFrame=keyframes`
@@ -491,7 +501,7 @@ const BlogHomeDisplayPortal=(props)=>{
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 										<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
-											<img id="smallImagePicture" src={props.selectedBlog.owner.ownerImgUrl==null?
+											<img id="smallImagePicture" src={props.selectedBlog.owner.profilePicture==null?
 													NoProfilePicture:
 													props.selectedBlog.owner.profilePicture
 												} style={{width:"30%",height:"20%",borderRadius:"50%"}}/>
@@ -544,21 +554,23 @@ const BlogHomeDisplayPortal=(props)=>{
 								/>
 							</li>:
 							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
-										<img id="smallImagePicture" src={props.ownerImgUrl==null?
-											NoProfilePicture:
-											props.ownerImgUrl
-										} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-									</ProfilePicture>
-								</li>
+								{/*
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
+											<img id="smallImagePicture" src={props.ownerImgUrl==null?
+												NoProfilePicture:
+												props.ownerImgUrl
+											} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+										</ProfilePicture>
+									</li>
 
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
-									<b>{props.selectedBlog.owner.firstName}</b>
-								</li>
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
+										<b>{props.selectedBlog.owner.firstName}</b>
+									</li>
+								*/}
 
 								<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
-									<ExpandLessIcon
+									<ExpandMoreIcon
 										style={{fontSize:25}}
 									/>
 								</li>

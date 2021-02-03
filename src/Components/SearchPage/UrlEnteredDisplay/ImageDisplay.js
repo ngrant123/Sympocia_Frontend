@@ -12,6 +12,10 @@ const Container=styled.div`
 	height:100%;
 	display:flex;
 	flex-direction:column;
+
+	@media screen and (max-width:740px){
+		padding:10px !important;
+	}
 `;
 
 const PostContainer=styled.div`

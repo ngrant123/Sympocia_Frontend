@@ -460,7 +460,7 @@ const VideoPostModal=(props)=>{
 							<React.Fragment>
 								{props.isLoadingReloadedPosts==true?
 									<p>Loading please wait...</p>:
-									<p onClick={()=>props.triggerReloadingPostsHandle()} style={NextButtonCSS}>
+									<p onClick={()=>props.triggerReloadingPostsHandle("Videos")} style={NextButtonCSS}>
 										Next Page
 									</p>
 								}

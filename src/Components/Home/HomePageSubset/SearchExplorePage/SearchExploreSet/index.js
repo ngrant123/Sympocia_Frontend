@@ -357,6 +357,7 @@ class SearchExploreContainer extends Component{
 			postCount:0,
 			postsInformation:[]
 		},function(){
+			debugger;
 			this.changeHomePagePosts({postOption:props,isAccessTokenUpdated:false});
 		})
 	}
@@ -539,13 +540,14 @@ class SearchExploreContainer extends Component{
 			<React.Fragment></React.Fragment>
 	}
 
-	triggerReloadingPostsHandle=()=>{
+	triggerReloadingPostsHandle=(props)=>{
 		this.setState({
 			triggerPostReload:true,
 			isLoadingReloadedPosts:true,
 			postCount:(this.state.postCount+1)
 		},()=>{
-			this.changeHomePagePosts(this.state.postOption)	
+			debugger;
+			this.changeHomePagePosts({postOption:props,isAccessTokenUpdated:false});	
 		})
 	}
 
