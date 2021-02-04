@@ -91,8 +91,7 @@ const HeaderContainer=styled.div`
 		}
 	}
 
-
-	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 		margin-top:45px !important;
     	#headerPostProfilePictureLIInformation{
 			top:120% !important;
@@ -277,27 +276,42 @@ const RecruitButtonLabelCSS={
 }
 
 
-const unRecruitButton=async(previousProps,post,changeDisplayRecruitButton)=>{
-	const {_id}=previousProps;
-
-	const {confirmation,data}=await removeRecruitProfileIsFollowing({
-		personalProfileId:_id,
-		targetProfile:post.owner._id
-	})
-	if(confirmation=="Success"){
-		changeDisplayRecruitButton(false);
-	}else{
-		alert('Unfortunately something has gone wrong when unrecruiting this person. Please try again');
-	}
-}
-
-
 const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
+	debugger;
 	const {isUserFollowing}=post;
 	const postOwnerId=post.owner._id;
 	const personalId=previousProps._id;
 	const dispatch=useDispatch();
-	const [displayRecruitButton,changeDisplayRecruitButton]=useState(isUserFollowing);
+	const [isUserFollowingProfile,changeDisplayRecruitButton]=useState(isUserFollowing);
+
+	const unRecruitButton=async({previousProps,post,changeDisplayRecruitButton,isAccessTokenUpdated,updatedAccessToken})=>{
+		const {_id}=previousProps;
+
+		const {confirmation,data}=await removeRecruitProfileIsFollowing({
+			personalProfileId:_id,
+			targetProfile:post.owner._id,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+			personalInformationRedux.accessToken
+		})
+		if(confirmation=="Success"){
+			changeDisplayRecruitButton(false);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformationRedux.refreshToken,
+						_id,
+						unRecruitButton,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error adding this recruit. Please try again');
+			}
+			alert('Unfortunately something has gone wrong when unrecruiting this person. Please try again');
+		}
+	}
 
 	const handleRecruitButton=async({previousProps,post,changeDisplayRecruitButton,isAccessTokenUpdated,updatedAccessToken})=>{
 		const {_id,confettiAnimation}=previousProps;
@@ -334,8 +348,15 @@ const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 	return <>
 				{(personalId!=postOwnerId) &&(
 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						{displayRecruitButton==true?
-							<li onClick={()=>unRecruitButton(previousProps,post,changeDisplayRecruitButton)} 
+						{isUserFollowingProfile==true?
+							<li onClick={()=>unRecruitButton({
+												previousProps,
+												post,
+												changeDisplayRecruitButton,
+												isAccessTokenUpdated:false,
+												dispatch,
+												personalInformationRedux
+											})} 
 								style={RecruitButtonLabelCSS}>
 								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" 
 									width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none"
@@ -440,21 +461,19 @@ const ImagePostsModal=(props)=>{
 						</p>
 						<PostUserInformation>
 							<ProfilePictureLink to={{pathname:`/profile/${headerImage.owner._id}`}}>
-								<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
-									headerImage.owner.profilePicture}
-									style={{height:"50px",width:"60px",borderRadius:"50%"}}
-								/>
-								{/*
-									{headerImage.videoDescription==null?
-										:<video width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-											<source src={headerImage.videoDescription} type="video/mp4"/>
-										</video>
-									}
-
-								*/}
+								{headerImage.videoDescription==null?
+									<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
+										headerImage.owner.profilePicture}
+										style={{height:"50px",width:"60px",borderRadius:"50%"}}
+									/>
+									:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%" autoplay="true" muted>
+										<source src={headerImage.videoDescription} type="video/mp4"/>
+									</video>
+								}
 							</ProfilePictureLink>
 
-							<p id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+							<Link to={{pathname:`/profile/${headerImage.owner._id}`}}
+								id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
 								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
 								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
@@ -464,7 +483,7 @@ const ImagePostsModal=(props)=>{
 								{/*
 									<b>{headerImage.owner.firstName}</b>
 								*/}
-							</p>
+							</Link>
 							{props.isGuestProfileIndicator==false &&(
 								<DisplayRecruitButton
 									post={headerImage}
@@ -533,6 +552,7 @@ const ImagePostsModal=(props)=>{
 														<DisplayRecruitButton
 															post={data}
 															previousProps={props}
+															personalInformationRedux={personalInformationRedux}
 														/>
 													</li>
 												)}
@@ -547,16 +567,14 @@ const ImagePostsModal=(props)=>{
 									</div>
 									<DescriptionContainer>
 										<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-											<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-												 style={{height:"50px",width:"60px",borderRadius:"50%"}}
-											/>
-											{/*
-												{data.videoDescription==null?
-													:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%" autoplay="true" controls muted>
-														<source src={data.videoDescription} type="video/mp4"/>
-													</video>
-												}
-											*/}
+											{data.videoDescription==null?
+												<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
+													 style={{height:"50px",width:"60px",borderRadius:"50%"}}
+												/>
+												:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%" autoplay="true" controls muted>
+													<source src={data.videoDescription} type="video/mp4"/>
+												</video>
+											}
 										</ProfilePictureLink>
 										<p onClick={()=>displayPersonalIndustryFeed(
 															personalInformationRedux,

@@ -38,6 +38,12 @@ const Container=styled.div`
 	transition:.8s;
 	overflow-x:hidden;
 	overflow-y:scroll;
+
+	@media screen and (max-width:740px){
+		#confettiAnimation{
+			width:300% !important;
+		}
+	}
 `;
 
 
@@ -443,6 +449,7 @@ class HomePageContainer extends Component{
 
 						{this.state.displayConfetti==true?
 								<Confetti
+									id="confettiAnimation"
 									style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
 									 run={true}
 								/>
