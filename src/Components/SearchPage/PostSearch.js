@@ -29,33 +29,68 @@ const Container=styled.div`
     	}
     }
 `;
-const PostContainer=styled.div`
+
+
+const PostsContainer=styled.div`
 	position:absolute;
-	width:90%;
-	height:90%;
-	margin-top:0%;
+	width:85%;
+	height:60%;
 
-	@media screen and (max-width:1370px){
-		margin-top:10px !important;
+	@media screen and (max-width:1300px){
+		#headerTitleLI{
+			display:none !important;
+		}
 	}
 
-	@media screen and (max-width:600px){
-		margin-top:45% !important;
-		margin-left:-15% !important;
-		width:100%;
+	@media screen and (max-width:740px){
+		width:100% !important;
+		margin-left:-10%;
+		margin-top:-15%;
 	}
 
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
-		margin-top:5% !important;
-    	margin-left:-5% !important;
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		margin-left:0% !important;
+		margin-top:-5%;
     }
-/*
-	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	margin-left:10% !important;
-    	width:70% !important;
-    }
-*/
 `;
+
+const Posts=styled.div`
+	position:absolute;
+	width:100%;
+	height:90%;
+
+	@media screen and (max-width:450px){
+		margin-top:60% !important;
+	}
+`;
+
+/*
+	const PostContainer=styled.div`
+		position:absolute;
+		width:90%;
+		height:90%;
+		margin-top:0%;
+
+		@media screen and (max-width:1370px){
+			margin-top:10px !important;
+		}
+
+		@media screen and (max-width:740px){
+			margin-top:45% !important;
+			margin-left:-15% !important;
+			width:100%;
+		}
+
+		@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+			margin-top:5% !important;
+	    	margin-left:-5% !important;
+	    }
+		@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+	    	margin-left:10% !important;
+	    	width:70% !important;
+	    }
+	`;
+*/
 
 const PostButton={
   listStyle:"none",
@@ -421,15 +456,17 @@ const PostSearch=(props)=>{
 					</ul>
 				</li>
 				<hr/>
-				<PostContainer>
-					<ul>
-						{isFinishedLoading==true?
-							<>
-								{constructPostsResponse()}
-							</>:<LoadingScreen/>
-						}
-					</ul>
-				</PostContainer>
+				<PostsContainer>
+					<Posts>
+						<ul>
+							{isFinishedLoading==true?
+								<>
+									{constructPostsResponse()}
+								</>:<LoadingScreen/>
+							}
+						</ul>
+					</Posts>
+				</PostsContainer>
 			</ul>
 		</Container>
 	)

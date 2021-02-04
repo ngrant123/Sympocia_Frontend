@@ -47,7 +47,15 @@ export const SymposiumContainer=styled.div`
     		display:none !important;
     	}
     }
-     @media screen and (max-width:730px) and (max-height:420px){
+
+    @media screen and (max-width:740px){
+    	#mobileSymposiumOptions{
+    		width:120% !important;
+    	}
+    }
+
+
+    @media screen and (max-width:730px) and (max-height:420px){
     	#postOptionsLI{
     		margin-left:-20% !important;
     	}
@@ -105,7 +113,7 @@ export const PopularVideos=styled.div`
 export const PostsChatInformation=styled.div`
 	position:relative;
 	top:0%;
-	width:100%;
+	width:90%;
 	height:45%;
 	left:0%;
 	margin-left:5%;
@@ -155,7 +163,7 @@ export const PostContainer=styled.div`
     	left:5%;
 		height:180% !important;
 		padding-top:20% !important;
-    	margin-left:-5% !important;
+    	margin-left:-2% !important;
 
 		${({isScrollEnabled})=>
 			isScrollEnabled?
@@ -172,9 +180,9 @@ export const PostContainer=styled.div`
     	position:absolute;
 		width:100%;
 		height:150% !important;
-		padding-top:90% !important;
+		padding-top:50% !important;
     	top:58% !important;
-    	margin-left:0% !important;
+    	margin-left:-10% !important;
     }
 
     @media screen and (max-width:600px){
@@ -185,13 +193,23 @@ export const PostContainer=styled.div`
 			)
 		}
     }
+    @media screen  and (max-width:850px) and (max-height:420px) 
+	  and (orientation: landscape) 
+	  and (-webkit-min-device-pixel-ratio: 1){
+    	height:170% !important;
+    	padding:20px !important;
+    	width:90%;
+    	top:130% !important;
+    	margin-bottom:120% !important;
+    	margin-left:0% !important;
+    }
 
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	height:170% !important;
     	padding:20px !important;
     	width:100%;
-    	top:10% !important;
+    	top:60% !important;
     	margin-bottom:120% !important;
     	margin-left:0% !important;
     }
@@ -200,22 +218,12 @@ export const PostContainer=styled.div`
 		top:50%!important;
 		${({isScrollEnabled})=>
 			isScrollEnabled==true &&(
-				`top:80% !important;`
+				`top:90% !important;`
 			)
 		}
     }
 
 
-    @media screen  and (max-width:850px) and (max-height:420px) 
-	  and (orientation: landscape) 
-	  and (-webkit-min-device-pixel-ratio: 1){
-    	height:170% !important;
-    	padding:20px !important;
-    	width:100%;
-    	top:130% !important;
-    	margin-bottom:120% !important;
-    	margin-left:0% !important;
-    }
 `;
 
 export const ShadowContainer=styled.div`

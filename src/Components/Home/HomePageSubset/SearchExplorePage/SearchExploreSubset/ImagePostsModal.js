@@ -123,7 +123,7 @@ const PostsContainer=styled.div`
 
 	@media screen and (max-width:600px){
 		margin-left:-5% !important;
-		width:115% !important;
+		width:100% !important;
 		margin-top:-5px;
 		padding-top:70px;
 		#smallAudioDescription{

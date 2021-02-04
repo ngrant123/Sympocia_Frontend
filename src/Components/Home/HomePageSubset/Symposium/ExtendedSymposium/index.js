@@ -124,6 +124,16 @@ const TEstContainer=styled.div`
 	height:97%;
 `;
 
+const Posts=styled.div`
+	position:absolute;
+	width:100%;
+	height:90%;
+
+	@media screen and (max-width:450px){
+		margin-top:60% !important;
+	}
+`;
+
 
 
 const SymposiumChoicesListCSS={
@@ -862,9 +872,9 @@ class Symposium extends Component{
 				}else{
 					const currentPosts=this.state.posts;
 					const nextPosts=currentPosts.concat(data);
-					var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
+					//var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
 					this.setState({
-						posts:newHomePagePosts,
+						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
 						postType:"Image",
 						isLoadingReloadedPosts:false,
 						isLoading:false
@@ -888,9 +898,8 @@ class Symposium extends Component{
 				}else{
 					const currentPosts=this.state.posts;
 					const nextPosts=currentPosts.concat(data);
-					var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
 					this.setState({
-						posts:newHomePagePosts,
+						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
 						postType:"Video",
 						isLoadingReloadedPosts:false,
 						isLoading:false
@@ -914,9 +923,9 @@ class Symposium extends Component{
 				}else{
 					const currentPosts=this.state.posts;
 					const nextPosts=currentPosts.concat(data);
-					var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
+					//var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
 					this.setState({
-						posts:newHomePagePosts,
+						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
 						postType:"Blog",
 						isLoadingReloadedPosts:false,
 						isLoading:false
@@ -939,9 +948,9 @@ class Symposium extends Component{
 				}else{
 					const currentPosts=this.state.posts;
 					const nextPosts=currentPosts.concat(data);
-					var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
+					//var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
 					this.setState({
-						posts:newHomePagePosts,
+						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
 						postType:"Regular",
 						isLoadingReloadedPosts:false,
 						isLoading:false
@@ -1108,13 +1117,13 @@ class Symposium extends Component{
 			<>
 				{(isScrollEnabled==true && this.state.displayDesktopUI==false) ||
 					(this.state.displayPhoneUI==true)==true?
-					<p onClick={()=>this.setState({displayMobileSymposiumOptions:true})}
+					<p id="mobileSymposiumOptions" onClick={()=>this.setState({displayMobileSymposiumOptions:true})}
 						style={{
 							...MobilePostOptionsButton,
-							marginLeft:isPhoneScrollTriggered==true?"80":"0%",
-							marginTop:isPhoneScrollTriggered==true?"10":"0%"
+							marginLeft:isPhoneScrollTriggered==true?"70":"0%",
+							marginTop:isPhoneScrollTriggered==true?"10":"2%"
 						}}>
-						 Symposium Options
+						 Symposium
 					</p>:
 					<>
 						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayPopularVideos:true})}>
@@ -1395,37 +1404,9 @@ class Symposium extends Component{
 							<hr/>
 					
 							<PostContainer isScrollEnabled={this.state.headerAnimation} id="postsContainer">
-								{this.state.postType=="Image"?
-									<ImagePostsModal
-										posts={this.state.posts}
-										_id={this.props.profileId}
-										confettiAnimation={this.displayRecruitConfetti}
-										isPersonalProfile={true}
-										displaySymposium={this.displaySymposium}
-										targetDom={"extendedSymposiumContainer"}
-										isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
-										triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-										endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-									/>:null
-								}
-
-								{this.state.postType=="Video"?
-									<VideoPostModal
-										posts={this.state.posts}
-										_id={this.props.profileId}
-										confettiAnimation={this.displayRecruitConfetti}
-										isPersonalProfile={true}
-										displaySymposium={this.displaySymposium}
-										targetDom={"extendedSymposiumContainer"}
-										isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
-										triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-										endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-									/>:null
-								}
-
-								{this.state.postType=="Blog"?
-									<li style={{listStyle:"none",marginTop:"3%",marginLeft:"5%"}}>
-										<BlogPostModal
+								<Posts>
+									{this.state.postType=="Image"?
+										<ImagePostsModal
 											posts={this.state.posts}
 											_id={this.props.profileId}
 											confettiAnimation={this.displayRecruitConfetti}
@@ -1435,13 +1416,11 @@ class Symposium extends Component{
 											isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
 											triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
 											endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-										/>
-									</li>:null
-								}
+										/>:null
+									}
 
-								{this.state.postType=="Regular"?
-									<li style={{listStyle:"none",marginTop:"5%",marginLeft:"5%",width:"90%"}}>
-										<RegularPostModal
+									{this.state.postType=="Video"?
+										<VideoPostModal
 											posts={this.state.posts}
 											_id={this.props.profileId}
 											confettiAnimation={this.displayRecruitConfetti}
@@ -1451,9 +1430,41 @@ class Symposium extends Component{
 											isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
 											triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
 											endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-										/>
-									</li>:null
-								}
+										/>:null
+									}
+
+									{this.state.postType=="Blog"?
+										<li style={{listStyle:"none",marginTop:"3%",marginLeft:"5%"}}>
+											<BlogPostModal
+												posts={this.state.posts}
+												_id={this.props.profileId}
+												confettiAnimation={this.displayRecruitConfetti}
+												isPersonalProfile={true}
+												displaySymposium={this.displaySymposium}
+												targetDom={"extendedSymposiumContainer"}
+												isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+												triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+												endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+											/>
+										</li>:null
+									}
+
+									{this.state.postType=="Regular"?
+										<li style={{listStyle:"none",marginTop:"5%",marginLeft:"5%",width:"90%"}}>
+											<RegularPostModal
+												posts={this.state.posts}
+												_id={this.props.profileId}
+												confettiAnimation={this.displayRecruitConfetti}
+												isPersonalProfile={true}
+												displaySymposium={this.displaySymposium}
+												targetDom={"extendedSymposiumContainer"}
+												isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+												triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+												endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+											/>
+										</li>:null
+									}
+								</Posts>
 							</PostContainer>
 						</>:<LoadingScreen/>
 					}

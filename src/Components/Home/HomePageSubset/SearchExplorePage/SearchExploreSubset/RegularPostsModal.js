@@ -212,7 +212,7 @@ const RegularPostModal=(props)=>{
 				<>
 					<HeaderContainer onClick={()=>handleDisplayHeaderPost()} style={BorderCSS}>
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px",overflow:"hidden"}}>
+							<li style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px"}}>
 								<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}>
 									<img src={headerRegularPost.owner.profilePicture!=null?
 											  headerRegularPost.owner.profilePicture:
@@ -261,12 +261,14 @@ const RegularPostModal=(props)=>{
 													Your browser does not support the audio element.
 												</audio>
 												:
-												<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-								dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-								anim id est laborum.</>
+												<>
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+													incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+													exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+													dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+													Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+													anim id est laborum.
+												</>
 											}
 									</li>
 								</a>
