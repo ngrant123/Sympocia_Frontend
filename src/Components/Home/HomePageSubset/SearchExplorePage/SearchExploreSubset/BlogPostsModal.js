@@ -178,14 +178,24 @@ const HeaderContainer=styled.div`
 		height:200%;
 		width:70%;
 		overflow-y:scroll;
+		margin-top:50px !important;
+		#headerBlogImage{
+			height:400px !important;
+		}
 	}
-	@media screen and (max-width:600px){
-		margin-top:-100px !important;
+	@media screen and (max-width:740px){
+		margin-top:-150px !important;
 		#headerAudioTag{
-			margin-left:10% !important;
+			margin-left:-20% !important;
 		}
 		#headerBlogImage{
 			height:200px !important;
+		}
+
+		#headerSymposiumSubmitted{
+			margin-top:2% !important;
+			margin-bottom:2% !important;
+			width:90% !important;
 		}
     }
 
@@ -355,7 +365,7 @@ const BlogPostModal=(props)=>{
 							<li id="headerBlogOwnerInformation" style={{listStyle:"none",width:"100%"}}>
 								<ul style={{padding:"0px"}}>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li style={{listStyle:"none",display:"inline-block"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 											{headerBlog.videoDescription!=null?
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"4%"}}>
 													<VideoDesriptionContainer>
@@ -381,7 +391,7 @@ const BlogPostModal=(props)=>{
 											Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
 											anim id est laborum.
 									</li>
-									<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerBlog.industriesUploaded,props)} style={SymposiumLabelCSS}>
+									<li id="headerSymposiumSubmitted" onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerBlog.industriesUploaded,props)} style={SymposiumLabelCSS}>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 											{headerBlog.industriesUploaded[0].industry}
 										</a>
@@ -400,7 +410,7 @@ const BlogPostModal=(props)=>{
 								<img   onClick={()=>handleDisplayHeaderBlog()} 
 									id="headerBlogImage" src={headerBlog.blogImageUrl} style={HeaderBlogCSS}/>
 								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",height:"60px",overflowY:"hidden"}}>
+									<li style={{fontSize:"20px",listStyle:"none",height:"60px",overflowY:"hidden"}}>
 										<b>
 											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
 											incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
@@ -411,7 +421,7 @@ const BlogPostModal=(props)=>{
 										</b>
 									</li>
 
-									<li style={{fontSize:"15px",color:"#8c8c8c",listStyle:"none",height:"80px",overflowY:"hidden"}}>
+									<li style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"80px",overflowY:"hidden"}}>
 										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
 											incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
 											exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
@@ -448,21 +458,19 @@ const BlogPostModal=(props)=>{
 													<li style={{listStyle:"none"}}>
 														<ul style={{padding:"0px"}}>
 															<li style={{listStyle:"none",display:"inline-block"}}>
-																<img id="profilePicture" 
-																	src={data.owner.profilePicture==null?
-																			NoProfilePicture:
-																			data.owner.profilePicture
-																		} style={ProfileImageCSS}
-																/>
-																{/*
-																	{data.videoDescription!=null?
-																			<VideoDesriptionContainer>
-																				   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																						<source src={data.videoDescription} type="video/mp4"/>
-																					</video>
-																			</VideoDesriptionContainer>:
-																	}
-																*/}
+																{data.videoDescription!=null?
+																	<VideoDesriptionContainer>
+																		   <video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																				<source src={data.videoDescription} type="video/mp4"/>
+																			</video>
+																	</VideoDesriptionContainer>:
+																	<img id="profilePicture" 
+																		src={data.owner.profilePicture==null?
+																				NoProfilePicture:
+																				data.owner.profilePicture
+																			} style={ProfileImageCSS}
+																	/>
+																}
 															</li>
 															<li style={{listStyle:"none",display:"inline-block",maxWidth:"70px",overflow:"hidden",maxHeight:"20px"}}>
 																Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
@@ -495,7 +503,7 @@ const BlogPostModal=(props)=>{
 													</b>
 												</li>
 
-												<li style={{fontSize:"15px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
+												<li style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
 													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
 														incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
 														exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure

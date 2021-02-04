@@ -23,6 +23,29 @@ const CommunityContainerAnimationFollowed=styled.div`
 	transition: transform 300ms ease-in-out;
 	border-radius:5px;
 
+	@media screen and (max-width:1370px){
+		height:35ss0px;
+		width:200% !important;
+		margin-top:25% !important;
+	}
+
+	@media screen and (max-width:800px){
+		margin-top:10% !important;
+		width:80% !important;
+	}
+
+	@media screen and (max-width:740px){
+		width:80% !important;
+		margin-left:-15% !important;
+	}
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	width:100% !important;
+	 	margin-top:10% !important;
+    }
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	margin-left:-5% !important;
+    }
+
 `;
  const keyFrame= keyframes`
   0% {
@@ -85,8 +108,9 @@ const SymposiumSearch=({searchQuery,userId,history})=>{
 	window.addEventListener('resize',triggerUIChange)
 
 	const triggerUIChange=()=>{
-		if(window.innerWidth<1340){
+		if(window.innerWidth<960){
 			changeUIStatus(true);
+
 		}else{
 			changeUIStatus(false);
 		}
