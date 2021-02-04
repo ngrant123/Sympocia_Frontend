@@ -37,19 +37,16 @@ const Container=styled.div`
     	#mobileHeaderLI{
   			margin-top:13% !important;
   		}
-	}
-   
-	@media screen and (max-width:1030px){
-		#exploreDescriptionLI{
-			display:none !important;
-		}
-		#mobileArenaLI{
+  		#mobileArenaLI{
     		width:15% !important;
 			margin-left:35% !important;
     	}
+		#exploreDescriptionLI{
+			display:none !important;
+		}
 	}
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:740px){
 		margin-left:0%;
 		#mobileHeaderLI{
   			margin-top:25% !important;
@@ -58,18 +55,31 @@ const Container=styled.div`
 			display:none !important;
 		}
 		#mobileArenaLI{
-    		width:35% !important;
+    		width:30% !important;
 			margin-left:27% !important;
     	}
 	}
 
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		#mobileArenaLI{
+    		width:10% !important;
+			margin-left:37% !important;
+  		}
+    }
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
     	#mobileArenaLI{
-    		width:20% !important;
+    		width:15% !important;
 			margin-left:35% !important;
   		}
   		#mobileHeaderLI{
   			margin-top:15% !important;
+  		}
+    }
+
+    @media screen and (max-width:700px) and (max-height:420px) and (orientation: landscape) {
+    	#mobileArenaLI{
+    		width:20% !important;
   		}
     }
 `;
@@ -176,7 +186,6 @@ const MobileArenaButtonCSS={
 	borderRadius:"50%",
 	padding:"10px",
 	boxShadow: "1px 1px 30px #d5d5d5",
-	width:"30%",
 	marginLeft:"25%"
 }
 
@@ -354,7 +363,8 @@ class SearchExploreContainer extends Component{
 			postOption:props,	
 			isLoading:true,
 			postCount:0,
-			postsInformation:[]
+			postsInformation:[],
+			endOfPostsDBIndicator:false
 		},function(){
 			debugger;
 			this.changeHomePagePosts({postOption:props,isAccessTokenUpdated:false});

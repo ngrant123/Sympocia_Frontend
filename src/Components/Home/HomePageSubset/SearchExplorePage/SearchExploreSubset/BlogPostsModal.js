@@ -390,6 +390,7 @@ const BlogPostModal=(props)=>{
 										<DisplayRecruitButton
 											post={headerBlog}
 											previousProps={props}
+											personalInformationRedux={personalInformationRedux}
 										/>
 									)}
 								</ul>
@@ -440,6 +441,7 @@ const BlogPostModal=(props)=>{
 															<DisplayRecruitButton
 																post={data}
 																previousProps={props}
+																personalInformationRedux={personalInformationRedux}
 															/>
 														</li>
 													)}

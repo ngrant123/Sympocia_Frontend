@@ -124,6 +124,7 @@ const ShadowContainer= styled.div`
 
 const ProfilePictureLink=styled(Link)`
 	position:relative;
+	overflow:hidden;
 `;
 
 
@@ -206,7 +207,7 @@ const SmallPostContainer=styled.div`
 		margin-top:-5px;
 		padding-top:70px;
 		#smallAudioDescription{
-			display:none !important;
+			
 		}
 	}
 `;
@@ -287,12 +288,6 @@ const VideoPostModal=(props)=>{
 		changeVideoDisplay(true);
 	}
 
-	const detectEndOfPostContainer=(divElement)=>{
-		if(	divElement.scrollHeight - divElement.scrollTop - divElement.clientHeight < 1
-			 && props.endOfPostsDBIndicator==false && props.isLoadingReloadedPosts==false){
-			props.triggerReloadingPostsHandle();
-		}
-	}
 	return(
 	<Container>
 		{headerVideo==null?
@@ -302,22 +297,15 @@ const VideoPostModal=(props)=>{
 						<HeaderOwnerInformation>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<ProfilePictureLink to={{pathname:`/profile/${headerVideo.owner._id}`}}>
-									<img src={headerVideo.owner.profilePicture==null?NoProfilePicture:
-										headerVideo.owner.profilePicture}
-										style={{height:"50px",width:"60px",borderRadius:"50%"}}
-									/>
-									{/*
-										{headerVideo.videoDescription==null?
-											<img src={headerVideo.owner.profilePicture==null?NoProfilePicture:
-												headerVideo.owner.profilePicture}
-												style={{height:"50px",width:"60px",borderRadius:"50%"}}
-											/>
-											:<video width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-												<source src={headerVideo.videoDescription} type="video/mp4"/>
-											</video>
-										}
-
-									*/}
+									{headerVideo.videoDescription==null?
+										<img src={headerVideo.owner.profilePicture==null?NoProfilePicture:
+											headerVideo.owner.profilePicture}
+											style={{height:"50px",width:"60px",borderRadius:"50%"}}
+										/>
+										:<video style={{borderRadius:"50%"}} width="50px" height="60px" borderRadius="50%" autoplay="true" muted>
+											<source src={headerVideo.videoDescription} type="video/mp4"/>
+										</video>
+									}
 								</ProfilePictureLink>
 							</li>
 								<p style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
@@ -334,6 +322,7 @@ const VideoPostModal=(props)=>{
 									<DisplayRecruitButton
 										post={headerVideo}
 										previousProps={props}
+										personalInformationRedux={personalInformationRedux}
 									/>
 								</li>
 							)}
@@ -398,11 +387,24 @@ const VideoPostModal=(props)=>{
 													<source src={data.videoUrl} type="video/mp4"/>
 												</video>
 												<ul style={{padding:"0px",zIndex:"8",top:"-20%"}}>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+														<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+															{data.videoDescription==null?
+																<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
+																	 style={{height:"50px",width:"60px",borderRadius:"50%"}}
+																/>
+																:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%" autoplay="true" controls muted>
+																	<source src={data.videoDescription} type="video/mp4"/>
+																</video>
+															}
+														</ProfilePictureLink>
+													</li>
 													{props.isGuestProfileIndicator==false &&(
-														<li style={{listStyle:"none"}}>
+														<li style={{listStyle:"none",display:"inline-block"}}>
 															<DisplayRecruitButton
 																post={data}
 																previousProps={props}
+																personalInformationRedux={personalInformationRedux}
 															/>
 														</li>
 													)}
@@ -416,21 +418,6 @@ const VideoPostModal=(props)=>{
 												</ul>
 										</div>
 										<DescriptionContainer>
-											<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-												<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-													 style={{height:"50px",width:"60px",borderRadius:"50%"}}
-												/>
-												{/*
-													{data.videoDescription==null?
-														<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-															 style={{height:"50px",width:"60px",borderRadius:"50%"}}
-														/>
-														:<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-															<source src={data.videoDescription} type="video/mp4"/>
-														</video>
-													}
-												*/}
-											</ProfilePictureLink>
 											<HeaderTextsContainer>
 												<p style={{fontSize:"20px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
 													<b>
