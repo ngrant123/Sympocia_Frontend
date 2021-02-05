@@ -124,44 +124,32 @@ class HighLightedQuestions extends Component{
 			if(questionType=="Image"){
 				return <React.Fragment>
 							{replies.map(data=>
-								<React.Fragment>
-									{data._id==null?null:
-										<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block"}}>
-											<img id="imageHighlightedQuestion" src={data.imgUrl}
-											 style={{borderRadius:"5px",width:"90px",height:"30%"}}
-											/>
-										</li>
-									}
-								</React.Fragment>
+								<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block"}}>
+									<img id="imageHighlightedQuestion" src={data.imgUrl}
+									 style={{borderRadius:"5px",width:"90px",height:"30%",marginRight:"2%",marginBottom:"5%"}}
+									/>
+								</li>
 							)}
 						</React.Fragment>;
 			}else if(questionType=="Video"){
 				console.log(replies);
 				return <React.Fragment>
 							{replies.map(data=>
-								<React.Fragment>
-									{data!=null &&(
-										<li id="postLI" onClick={()=>this.setVideoPost(data)} style={{marginBottom:"5%",width:"30%",listStyle:"none",display:"inline-block"}}>
-											<video id="videoQuestionAnswers" key={this.uuidv4()} width="90" height="40" borderRadius="5px" muted autoplay>
-												<source src={data.videoUrl} type="video/mp4"/>
-											</video>
-										</li>
-									)}
-								</React.Fragment>
+								<li id="postLI" onClick={()=>this.setVideoPost(data)} style={{marginBottom:"5%",width:"30%",listStyle:"none",display:"inline-block"}}>
+									<video id="videoQuestionAnswers" key={this.uuidv4()} width="90" height="40" borderRadius="5px" muted autoplay>
+										<source src={data.videoUrl} type="video/mp4"/>
+									</video>
+								</li>
 							)}
 						</React.Fragment>;
 			}else{
 				return <React.Fragment>
 							{replies.map(data=>
 								<React.Fragment>
-									{data._id==null?null:
-										<>
-											<li onClick={()=>this.setRegularPost(data)} style={{listStyle:"none",marginBottom:"5%"}}>
-												{data.post}	
-											</li>
-											<hr/>
-										</>
-									}
+									<li onClick={()=>this.setRegularPost(data)} style={{listStyle:"none",marginBottom:"5%"}}>
+										{data.post}	
+									</li>
+									<hr/>
 								</React.Fragment>
 							)}
 						</React.Fragment>;
@@ -207,7 +195,7 @@ class HighLightedQuestions extends Component{
 				displayExpandedQuestionModal:false,
 				[question]:{
 					...[question],
-					responsesId:replies
+					responsesId:[...replies]
 				}
 			}))
 		}

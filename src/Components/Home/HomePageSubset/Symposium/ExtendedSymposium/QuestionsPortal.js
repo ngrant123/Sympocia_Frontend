@@ -13,6 +13,10 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
+import ImagePostDisplayPortal from "../../../HomePageSet/ImageHomeDisplayPortal.js";
+import VideoPostDisplayPortal from "../../../HomePageSet/VideoHomeDisplayPortal.js";
+import RegularPostDisplayPortal from "../../../HomePageSet/RegularPostHomeDisplayPortal.js";
+
 const Container=styled.div`
 	position:fixed;
 	background-color:white;
@@ -189,6 +193,27 @@ const QuestionsPortal=(props)=>{
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
 	const [isCommentProcessing,changeIsCommentProcessing]=useState(false);
 	const personalInformation=useSelector(state=>state.personalInformation);
+
+	const [displayImagePortal,changeImagePortal]=useState(false);
+	const [displayVideoPortal,changeVideoPortal]=useState(false);
+	const [displayRegularPortal,changeRegularPortal]=useState(false);
+	const [selectedPost,changeSelectedPost]=useState();
+	const [selectedPostDisplayModal,changeSelectedPostDisplayModal]=useState();
+
+	const {	questionType,
+			counter,
+			questions,
+			closeModalAndDisplayData,
+			selectedSymposium
+		}=props;
+
+	const [displayCreatePost,changeDisplayPost]=useState(false);
+	const [displayUploadScreen,changeDisplayUploadScreen]=useState(true);
+	let [currentCounter,changeCurrentCounter]=useState(counter);
+	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[currentCounter].questionType);
+
+	//const [displayExpandedQuestionModal,change]
+
 	const dispatch=useDispatch();
 
 	const triggerUIChange=()=>{
@@ -205,22 +230,6 @@ const QuestionsPortal=(props)=>{
 
 	window.addEventListener('resize',triggerUIChange)
 
-	const {	questionType,
-			closeModal,
-			counter,
-			questions,
-			closeModalAndDisplayData,
-			selectedSymposium,
-			triggerImagePortal,
-			triggerVideoPortal,
-			triggerRegularPostPortal
-		}=props;
-
-	const [displayCreatePost,changeDisplayPost]=useState(false);
-	const [selectedPost,changeSelectedPost]=useState();
-	const [displayUploadScreen,changeDisplayUploadScreen]=useState(true);
-	let [currentCounter,changeCurrentCounter]=useState(counter);
-	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[currentCounter].questionType);
 
 
 	const sendData=async({postData,isAccessTokenUpdated,updatedAccessToken})=>{
@@ -253,7 +262,6 @@ const QuestionsPortal=(props)=>{
 			comment:addCommentRequestData,
 			industry:selectedSymposium
 		}
-
 		const {confirmation,data}=await addCommentToPopularQuestions(
 											postInformation,
 											isAccessTokenUpdated==true?updatedAccessToken:
@@ -289,6 +297,17 @@ const QuestionsPortal=(props)=>{
 			}
 		}
 		changeIsCommentProcessing(false);
+	}
+
+	const displayAppropriatePostModal=(data,currentQuestionType)=>{
+		changeSelectedPostDisplayModal(data);
+		if(currentQuestionType=="Images"){
+			changeImagePortal(true);
+		}else if(currentQuestionType=="Videos"){
+			changeVideoPortal(true);
+		}else{
+			changeRegularPortal(true);
+		}
 	}
 
 	const uuidv4=()=>{
@@ -509,7 +528,7 @@ const QuestionsPortal=(props)=>{
 				if(currentQuestionType=="Image"){
 					return <React.Fragment>
 										{replies.map(data=>
-											<li onClick={()=>triggerImagePortal(data)} style={{listStyle:"none",display:"inline-block"}}>
+											<li onClick={()=>displayAppropriatePostModal(data,"Images")} style={{listStyle:"none",display:"inline-block"}}>
 												<img id="imgUrl" src={data.imgUrl} style={{borderRadius:"5px",width:"30%",height:"20%"}}/>
 											</li>
 										)}
@@ -518,7 +537,7 @@ const QuestionsPortal=(props)=>{
 					debugger;
 					return <React.Fragment>
 								{replies.map(data=>
-									<li onClick={()=>triggerVideoPortal(data)}style={{width:"90%",listStyle:"none",display:"inline-block"}}>
+									<li onClick={()=>displayAppropriatePostModal(data,"Videos")}style={{width:"90%",listStyle:"none",display:"inline-block"}}>
 										<video key={uuidv4()} width="200" height="200" borderRadius="5px" muted autoplay>
 											<source src={data.videoUrl} type="video/mp4"/>
 										</video>
@@ -528,7 +547,7 @@ const QuestionsPortal=(props)=>{
 				}else{
 					return <React.Fragment>
 								{replies.map(data=>
-									<RegularPostContainer onClick={()=>triggerRegularPostPortal(data)}>
+									<RegularPostContainer onClick={()=>displayAppropriatePostModal(data,"RegularPosts")}>
 										<RegularPostUserInformation>
 											<img id="imagePicture" src={data.owner.profilePicture==null?
 														NoProfilePicture:
@@ -566,9 +585,45 @@ const QuestionsPortal=(props)=>{
 		changeCurrentQuestionType(previousType);
 	}
 
+	const closeModal=()=>{
+		changeImagePortal(false);
+		changeRegularPortal(false);
+		changeVideoPortal(false);
+	}
+
+
 
 	return createPortal(
 			<React.Fragment>
+				{displayImagePortal==true?
+					<ImagePostDisplayPortal
+						closeModal={closeModal}
+						selectedImage={selectedPostDisplayModal}
+						recommendedImages={[]}
+						targetDom="extendedSymposiumContainer"
+					/>:
+					<React.Fragment></React.Fragment>
+				}
+
+				{displayVideoPortal==true?
+					<VideoPostDisplayPortal
+						closeModal={closeModal}
+						selectedVideo={selectedPostDisplayModal}
+						recommendedVideos={[]}
+						targetDom="extendedSymposiumContainer"
+					/>
+					:<React.Fragment></React.Fragment>
+				}
+
+				{displayRegularPortal==true?
+					<RegularPostDisplayPortal
+						closeModal={closeModal}
+						selectedPost={selectedPostDisplayModal}
+						recommendedRegularPosts={[]}
+						targetDom="extendedSymposiumContainer"
+					/>
+					:<React.Fragment></React.Fragment>
+				}
 				<ShadowContainer
 					onClick={()=>props.closeModal()}
 				/>
