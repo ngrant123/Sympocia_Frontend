@@ -42,15 +42,20 @@ const Container=styled.div`
 		#creationImageLI{
 			width:80% !important;
 		}
+
+		#videoPost{
+			height:200px !important;
+			width:200px !important;
+		}
 	}
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:740px){
 		#postLI{
 			margin-left:30% !important;
 		}
 		#imagePicture{
-			width:30% !important;
-			height:10% !important;
+			width:25% !important;
+			height:60% !important;
 		}
 		#questionHeader{
 			margin-top:10% !important;
@@ -58,6 +63,9 @@ const Container=styled.div`
 		}
 		#creationImageLI{
 			width:90% !important;
+		}
+		#creationImage{
+			height:20% !important;
 		}
 		#imageDescriptionLI{
 			width:130% !important;
@@ -69,10 +77,13 @@ const Container=styled.div`
 		#regularPostQuestionLI{
 			font-size:15px !important;
 		}
+		#createButtonLI{
+			width:30% !important;	
+		}
 	}
 
 
-	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
 		#imgUrl{
 			width:70% !important;
 			height:40% !important;
@@ -80,6 +91,13 @@ const Container=styled.div`
 
 		#creationImage{
 			height:60% !important;
+		}
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#imageDescriptionLI{
+			width:90% !important;
+			margin-left:0% !important;
 		}
     }
 `;
@@ -129,6 +147,12 @@ const CreatePostContainer=styled.div`
 	cursor:pointer;
 `;
 
+const PostsContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+	flex-wrap:wrap;
+`;
+
 const SendButtonCSS={
     listStyle:"none",
     backgroundColor:"#3898ec",
@@ -159,6 +183,8 @@ const RegularPostContainer=styled.div`
 	padding:20px;
 	display:flex;
 	flex-direction:row;
+	flex-wrap:wrap;
+	width:100%;
 	&:hover{
 		box-shadow: 1px 1px 1px 1px #d5d5d5;
 	}
@@ -182,7 +208,8 @@ const MobileCreationButtonCSS={
 	padding:"20px",
 	fontSize:"15px",
 	listStyle:"none",
-	cursor:"pointer"
+	cursor:"pointer",
+	width:"20%"
 }
 
 
@@ -230,13 +257,28 @@ const QuestionsPortal=(props)=>{
 
 	window.addEventListener('resize',triggerUIChange)
 
+	const checkVideoLength=()=>{
+		const video=document.getElementById("videoLI");
+		let duration=video.duration;
+		duration=Math.ceil(duration);
+		if(duration>30){
+			alert('The video is too long. As of right now we only support 30 sec videos that are below 50MB. Sorry for the inconvience.');
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 
 	const sendData=async({postData,isAccessTokenUpdated,updatedAccessToken})=>{
 		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
 		changeIsCommentProcessing(true);
 		let addCommentRequestData;
+		let continueUploadProcess=true;
 		if(currentQuestionType=="Video"){
+			const isVideoAppropiateSize=checkVideoLength();
+			continueUploadProcess=isVideoAppropiateSize;
+
 			addCommentRequestData={
 				videoUrl:postData,
 				description:document.getElementById("videoDescription").value
@@ -254,46 +296,49 @@ const QuestionsPortal=(props)=>{
 			}
 		}
 
-		const postInformation={
-			userId:_id,
-			profileIndicator:"Profile",
-			questionId:questions[currentCounter]._id,
-			questionType:currentQuestionType,
-			comment:addCommentRequestData,
-			industry:selectedSymposium
-		}
-		const {confirmation,data}=await addCommentToPopularQuestions(
-											postInformation,
-											isAccessTokenUpdated==true?updatedAccessToken:
-											personalInformation.accessToken
-										);
-		if(confirmation=="Success"){
-			debugger;
-			const {message}=data;
-			props.closeModalAndDisplayData({
-				data:{
-					...message,
-					videoUrl:postData,
-					imgUrl:postData
-				},
-				currentQuestionType
-			});
-		}else{
-			const {statusCode}=data;
-			if(statusCode==401){
-				await refreshTokenApiCallHandle(
-						personalInformation.refreshToken,
-						personalInformation.id,
-						sendData,
-						dispatch,
-						{postData},
-						false
-					);
+		if(continueUploadProcess!=false){
+			const postInformation={
+				userId:_id,
+				profileIndicator:"Profile",
+				questionId:questions[currentCounter]._id,
+				questionType:currentQuestionType,
+				comment:addCommentRequestData,
+				industry:selectedSymposium
+			}
+			const {confirmation,data}=await addCommentToPopularQuestions(
+												postInformation,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			if(confirmation=="Success"){
+				debugger;
+				const {message}=data;
+				props.closeModalAndDisplayData({
+					data:{
+						...message,
+						videoUrl:postData,
+						imgUrl:postData
+					},
+					currentQuestionType
+				});
 			}else{
-				alert('Unfortunately there has been an error when trying to add your post. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							sendData,
+							dispatch,
+							{postData},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error when trying to add your post. Please try again');
+				}
 			}
 		}
 		changeIsCommentProcessing(false);
+
 	}
 
 	const displayAppropriatePostModal=(data,currentQuestionType)=>{
@@ -524,21 +569,21 @@ const QuestionsPortal=(props)=>{
 			}else{
 				if(currentQuestionType=="Image"){
 					return <React.Fragment>
-										{replies.map(data=>
-											<li onClick={()=>displayAppropriatePostModal(data,"Images")} style={{listStyle:"none",display:"inline-block"}}>
-												<img id="imgUrl" src={data.imgUrl} style={{borderRadius:"5px",width:"30%",height:"20%"}}/>
-											</li>
-										)}
-									</React.Fragment>;
+								{replies.map(data=>
+									<img id="imgUrl" src={data.imgUrl} onClick={()=>displayAppropriatePostModal(data,"Images")} 
+									style={{borderRadius:"5px",width:"30%",height:"20%",marginRight:"2%",marginBottom:"2%"}}/>
+								)}
+							</React.Fragment>;
 				}else if(currentQuestionType=="Video"){
 					debugger;
 					return <React.Fragment>
 								{replies.map(data=>
-									<li onClick={()=>displayAppropriatePostModal(data,"Videos")}style={{width:"90%",listStyle:"none",display:"inline-block"}}>
-										<video key={uuidv4()} width="200" height="200" borderRadius="5px" muted autoplay>
+									<div style={{marginRight:"2%",marginBottom:"2%"}}>
+										<video id="videoPost" onClick={()=>displayAppropriatePostModal(data,"Videos")} 
+											key={uuidv4()} width="150" height="150" borderRadius="5px" muted autoplay>
 											<source src={data.videoUrl} type="video/mp4"/>
 										</video>
-									</li>
+									</div>
 								)}
 							</React.Fragment>;
 				}else{
@@ -646,27 +691,28 @@ const QuestionsPortal=(props)=>{
 
 								*/}
 
-								<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
+								<li style={{listStyle:"none",display:"inline-block",width:"100%"}}>
 									<ul style={{padding:"0px"}}>
-										<li onClick={()=>changeDisplayPost(true)} style={MobileCreationButtonCSS}>
+										<li id="createButtonLI" onClick={()=>changeDisplayPost(true)} 
+											style={MobileCreationButtonCSS}>
 											Create
 										</li>
 
-										<li id="questionHeader" style={{width:"130%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"30px"}}>
+										<li id="questionHeader" style={{width:"100%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"30px"}}>
 											<b>
 												{questions[currentCounter].question}
 											</b>
 										</li>
 										<hr/>
 										<li style={{listStyle:"none",cursor:"pointer"}}>
-											<ul style={{padding:"0px"}}>
+											<PostsContainer>
 												{questions[currentCounter].responsesId.length==0?
 													<p>No replies yet :( </p>:
 													<React.Fragment>
 														{constructResponses(questions[counter].responsesId)}
 													</React.Fragment>
 												}
-											</ul>
+											</PostsContainer>
 										</li>
 									</ul>
 								</li>

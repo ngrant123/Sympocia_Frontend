@@ -34,7 +34,7 @@ const ShadowContainer=styled.div`
 const InputContainer=styled.textarea`
 	position:relative;
 	border-radius:5px;
-	height:10%;
+	height:30%;
 	width:80%;
 	border-style:solid;
 	border-width:1px;
@@ -264,7 +264,8 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	}
 
 	const submitPost=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		if(knowledgeLevel==null){
+		debugger;
+		if(knowledgeLevel==null || document.getElementById("post").value==""){
 			alert('Please enter a level to continue');
 		}else{
 			changeIsProcessingPost(true);
@@ -280,25 +281,16 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 			}
 			const {confirmation,data}=await createSpecificIndustryRegularPostAnswer(post);
 			if(confirmation=="Success"){
-				const {message}=data;
+				let {message}=data;
 				if(displayCurrentLevel.toLowerCase()==knowledgeLevel.toLowerCase()){	
-					const {
-						questionId,
-						postId
-					}=message;
-					var submittedPost={
-						post:document.getElementById("post").value,
-						_id:postId,
-						comments:[],
-						isCrownedPost:false,
-						industriesUploaded:[{industry:symposium}],
+					message={
+						...message,
 						owner:{
-							firstName:name,
-							profilePicture:null
+							...message.owner,
+							firstName:personalInformation.firstName
 						}
 					}
-
-					posts.splice(0,0,submittedPost);
+					posts.splice(0,0,message);
 					changePosts([...posts]);
 				}
 
@@ -438,7 +430,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 										<p>No posts</p>:
 										<ul style={{padding:"0px"}}>
 											{posts.map(data=>
-												<RegularPostContainer>
+												<RegularPostContainer onClick={()=>displaySelectedPost(data)}>
 													<RegularPostInformation>
 														<img src={data.owner.profilePicture==null?
 																	NoProfilePicture:

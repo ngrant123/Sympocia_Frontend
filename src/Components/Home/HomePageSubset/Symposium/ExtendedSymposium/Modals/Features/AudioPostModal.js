@@ -228,8 +228,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 	const submitAudio=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changeIsProcessingPost(true);
 		var audio={
-			audioUrl:audioUrl,
-			description:document.getElementById("imageDescription").value
+			audioUrl:audioUrl
 		}
 		const submitedAudio={
 			audio,
@@ -248,10 +247,10 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 				...message,
 				post:audioUrl,
 				owner:{
-					firstName:name
+					...message.owner,
+					firstName:personalInformation.firstName
 				}
 			}
-
 			posts.splice(0,0,message);
 			changeQuestionId(questionId);
 			changePosts([...posts]);
@@ -327,7 +326,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 															<b>{data.owner.firstName}</b>
 														</p>
 													</AudioPostOwnerInformation>
-													<audio controls>
+													<audio key={data._id} controls>
 													  <source src={data.post} type="audio/ogg"/>
 													  <source src={data.post} type="audio/mpeg"/>
 														Your browser does not support the audio element.
@@ -388,7 +387,11 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 											Your browser does not support the audio element.
 											</audio>
 										</li>
-										<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
+										{/*
+											<DescriptionInputContainer id="imageDescription" 
+												placeholder="Write down a description here"
+											/>
+										*/}
 									</ul>
 								</li>
 

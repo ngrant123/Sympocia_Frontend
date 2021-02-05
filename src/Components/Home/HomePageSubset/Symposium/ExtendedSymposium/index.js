@@ -27,7 +27,6 @@ import BlogPostModal from "../../SearchExplorePage/SearchExploreSubset/BlogPosts
 
 import PopularVideosModal from "../PopularVideosModal.js";
 import {HeaderContainer,SimpliedHeaderContainer} from "./HeaderContainer.js";
-import HightLightedQuestions from "./HighLightedQuestions.js";
 import SpecificFeatureSymposium from "./SpecificSympsoiumFeatures/index.js";
 import Confetti from 'react-confetti';
 
