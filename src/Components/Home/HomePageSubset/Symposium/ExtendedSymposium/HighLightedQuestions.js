@@ -124,9 +124,9 @@ class HighLightedQuestions extends Component{
 			if(questionType=="Image"){
 				return <React.Fragment>
 							{replies.map(data=>
-								<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block"}}>
+								<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 									<img id="imageHighlightedQuestion" src={data.imgUrl}
-									 style={{borderRadius:"5px",width:"90px",height:"30%",marginRight:"2%",marginBottom:"5%"}}
+									 style={{borderRadius:"5px",width:"90px",height:"30%",marginBottom:"5%"}}
 									/>
 								</li>
 							)}

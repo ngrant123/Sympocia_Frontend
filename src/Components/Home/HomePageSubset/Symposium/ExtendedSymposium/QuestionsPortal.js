@@ -273,11 +273,8 @@ const QuestionsPortal=(props)=>{
 			props.closeModalAndDisplayData({
 				data:{
 					...message,
-					owner:{
-						firstName:ownerInformation.firstName
-					},
-					videoUrl:data.videoUrl,
-					imgUrl:data.imgUrl
+					videoUrl:postData,
+					imgUrl:postData
 				},
 				currentQuestionType
 			});
