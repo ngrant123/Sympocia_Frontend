@@ -224,6 +224,10 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 			let {message}=data;
 			message={
 				...message,
+				owner:{
+					...message.owner,
+					firstName:personalInformation.firstName
+				},
 				videoUrl
 			}
 

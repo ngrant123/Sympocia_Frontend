@@ -15,6 +15,13 @@ const Container=styled.div`
 			height:20% !important;
 		}
 	}
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+ 		#imageLI{
+			height:60% !important;
+		}
+    }
+
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
     	#imageLI{
 			height:50% !important;
@@ -186,6 +193,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 			})
 
 			if(confirmation=="Success"){
+				console.log(message);
 				const {message}=data;
 				const {
 					posts
@@ -237,7 +245,10 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						personalInformation.accessToken
 		}
-
+		const message={
+			imgUrl,
+			description:document.getElementById("imageDescription").value
+		}
 		let {confirmation,data}=await createIndustryFeatureImageResponse(submitedImage);
 		
 		if(confirmation=="Success"){
@@ -245,6 +256,10 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 
 			message={
 				...message,
+				owner:{
+					...message.owner,
+					firstName:personalInformation.firstName
+				},
 				imgUrl
 			}
 			posts.splice(0,0,message);
@@ -266,6 +281,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 				alert('Unfortunately there has been an error with adding this image. Please try again');
 			}
 		}
+
 		changeIsProcessingPost(false);
 	}
 

@@ -36,6 +36,13 @@ const Container=styled.div`
 			width:70% !important;
 		}
 	}
+
+	@media screen and (max-width:740px){
+		#videoQuestionAnswers{
+			height:30% !important;
+		}
+	}
+
 	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
 		#imageHighlightedQuestion{
 			width:40% !important;
