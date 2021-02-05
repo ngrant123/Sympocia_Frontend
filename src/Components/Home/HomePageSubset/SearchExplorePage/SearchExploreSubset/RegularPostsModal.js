@@ -32,7 +32,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		flex-direction:column;
-		width:120%;
+		width:110%;
 		margin-left:-5% !important;
 		#headerLI{
 			display:block !important;
@@ -78,9 +78,16 @@ const HeaderContainer=styled.div`
 		overflow-y:scroll;
 	}
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:700px){
 		margin-top:-150px !important;
 		height:300px;
+
+		#headerOwnerNameLI{
+			max-width:100% !important;
+		}
+		#headerPostTextOrAudioContainerLI{
+			top:20px !important;
+		}
 	}
 
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
@@ -222,11 +229,11 @@ const RegularPostModal=(props)=>{
 							</li>
 						</a>
 
-						<li style={{position:"relative",top:"70px",listStyle:"none",display:"inline-block",width:"70%",overflow:"hidden",marginLeft:"5%"}}>
+						<li id="headerPostTextOrAudioContainerLI" style={{position:"relative",top:"70px",listStyle:"none",display:"inline-block",width:"70%",overflow:"hidden",marginLeft:"5%"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",marginBottom:"2%"}}>
 									<ul style={{padding:"0px"}}>
-										<li style={{display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
+										<li id="headerOwnerNameLI" style={{display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
 											<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
 								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
 								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure

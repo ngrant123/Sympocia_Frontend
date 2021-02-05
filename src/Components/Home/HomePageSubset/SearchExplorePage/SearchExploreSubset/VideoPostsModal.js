@@ -28,7 +28,7 @@ const Container=styled.div`
 
 
 	@media screen and (max-width:1370px){
-		width:120%;
+		width:100%;
 		flex-direction:column;
 		margin-left:-5% !important;
 

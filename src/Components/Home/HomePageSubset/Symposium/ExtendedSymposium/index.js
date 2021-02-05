@@ -1434,7 +1434,7 @@ class Symposium extends Component{
 									}
 
 									{this.state.postType=="Blog"?
-										<li style={{listStyle:"none",marginTop:"3%",marginLeft:"5%"}}>
+										<li style={{listStyle:"none",marginTop:"0%",marginLeft:"5%"}}>
 											<BlogPostModal
 												posts={this.state.posts}
 												_id={this.props.profileId}
@@ -1450,7 +1450,7 @@ class Symposium extends Component{
 									}
 
 									{this.state.postType=="Regular"?
-										<li style={{listStyle:"none",marginTop:"5%",marginLeft:"5%",width:"90%"}}>
+										<li style={{listStyle:"none",marginTop:"1%",marginLeft:"5%",width:"90%"}}>
 											<RegularPostModal
 												posts={this.state.posts}
 												_id={this.props.profileId}

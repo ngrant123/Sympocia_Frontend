@@ -182,7 +182,7 @@ export const PostContainer=styled.div`
 		height:150% !important;
 		padding-top:50% !important;
     	top:58% !important;
-    	margin-left:-10% !important;
+    	margin-left:-7% !important;
     }
 
     @media screen and (max-width:600px){
