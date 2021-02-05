@@ -528,12 +528,12 @@ const QuestionsPortal=(props)=>{
 				}else{
 					return <React.Fragment>
 								{replies.map(data=>
-									<RegularPostContainer>
+									<RegularPostContainer onClick={()=>triggerRegularPostPortal(data)}>
 										<RegularPostUserInformation>
 											<img id="imagePicture" src={data.owner.profilePicture==null?
 														NoProfilePicture:
 														data.owner.profilePicture} 
-											style={{height:"30px",width:"40px",borderRadius:"50%"}}/>
+											style={{height:"60px",width:"60px",borderRadius:"50%"}}/>
 											<p style={{maxHeight:"30px",maxWidth:"80%",overflow:"hidden"}}>
 												<b>{data.owner.firstName}</b>
 											</p>
@@ -606,7 +606,7 @@ const QuestionsPortal=(props)=>{
 											</b>
 										</li>
 										<hr/>
-										<li style={{listStyle:"none"}}>
+										<li style={{listStyle:"none",cursor:"pointer"}}>
 											<ul style={{padding:"0px"}}>
 												{questions[currentCounter].responsesId.length==0?
 													<p>No replies yet :( </p>:

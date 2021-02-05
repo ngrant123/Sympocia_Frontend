@@ -18,7 +18,7 @@ const Container=styled.div`
 	flex-direction:row;
 
 	@media screen and (max-width:1370px){
-		width:120%;
+		width:100%;
 		margin-left:-5% !important;
 		margin-bottom:30% !important;
 		flex-direction:column;
@@ -176,7 +176,7 @@ const HeaderContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		height:200%;
-		width:70%;
+		width:90%;
 		overflow-y:scroll;
 		margin-top:50px !important;
 		#headerBlogImage{
@@ -201,6 +201,9 @@ const HeaderContainer=styled.div`
 
     @media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
     	margin-top:10px !important;
+    	#headerBlogImage{
+			height:400px !important;
+		}
     }
 `;
 

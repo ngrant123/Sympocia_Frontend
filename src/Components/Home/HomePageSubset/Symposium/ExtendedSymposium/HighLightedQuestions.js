@@ -157,7 +157,7 @@ class HighLightedQuestions extends Component{
 									{data._id==null?null:
 										<>
 											<li onClick={()=>this.setRegularPost(data)} style={{listStyle:"none",marginBottom:"5%"}}>
-												{data.post.post}	
+												{data.post}	
 											</li>
 											<hr/>
 										</>
