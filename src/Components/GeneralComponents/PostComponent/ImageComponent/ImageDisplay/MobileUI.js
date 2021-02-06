@@ -17,6 +17,7 @@ import {
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import VideoDescriptionMobileDisplayPortal from "../../VideoDescriptionMobileDisplayPortal.js";
 
 const Container=styled.div`
 	position:relative;
@@ -159,6 +160,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 	const [displayPollOption,changeDisplayPollOption]=useState(false);
 	const [displayEditImageModal,changeDisplayEditImageModal]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
+	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
 
 	const userId=useSelector(state=>state.personalInformation.id);
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -346,8 +348,23 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 	 		)
 	 	}
 	 }
+
+	 const displayVideoDescriptionTrigger=()=>{
+	 	changeVideoDescriptionDisplay(true);
+	}	
+
+	const closeVideoDescriptionDisplayModal=()=>{
+		changeVideoDescriptionDisplay(false);
+	}
 	return (
 		<React.Fragment>
+			{displayVideoDescriptionDisplay==true &&(
+				<VideoDescriptionMobileDisplayPortal
+					targetDom={targetDom}
+					closeModal={closeVideoDescriptionDisplayModal}
+					videoUrl={imgData.videoDescription}
+				/>
+			)}
 			{displayEditImageModal==false?
 				<Container>
 					<ul style={{padding:"10px"}}>
@@ -365,7 +382,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 									{imgData.videoDescription!=null &&(
 										<VideoDesriptionContainer>
-											<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
+											<video id="videoDescription" onClick={()=>displayVideoDescriptionTrigger()} style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
 												<source src={imgData.videoDescription} type="video/mp4"/>
 											</video>
 										</VideoDesriptionContainer>
