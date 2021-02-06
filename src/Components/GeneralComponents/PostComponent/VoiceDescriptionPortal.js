@@ -201,7 +201,7 @@ const VoiceDescriptionPortal=(props)=>{
 
 	const closeModal=()=>{
 		var audioElement=document.getElementById("audioElement");
-		if(firstDone!=false)
+		if(firstDone!=false && audioElement!=null)
 			stopRecording(audioElement.srcObject);
 		props.closeModal()
 	}
@@ -215,35 +215,39 @@ const VoiceDescriptionPortal=(props)=>{
 	}
 
 	const startRecording=()=>{
-		let audio=document.getElementById("audioElement");	
-		changeRecordingState(true)
-		if (navigator.mediaDevices.getUserMedia){
-		  	navigator.mediaDevices.getUserMedia({
-		  		audio:true
-		  	}).then((stream)=>handleRecording(stream))
-		  	  .then(recordedChunks=>{
-			  	 if(recordedChunks!=null){
-				  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
-				  	var audioSrc=URL.createObjectURL(recordedFile);
-				  	var reader=new FileReader();
-					reader.onloadend=()=>{
-						var currentAudioElements=audioElements;
-						const audioObject={
-							audioSrc:reader.result,
-							videoFile:recordedFile,
-							videoCounter:currentAudioElements.length
+		if(audioElements.length>0){
+			alert('Please refresh your previous audio to create a new one');
+		}else{
+			let audio=document.getElementById("audioElement");	
+			changeRecordingState(true)
+			if (navigator.mediaDevices.getUserMedia){
+			  	navigator.mediaDevices.getUserMedia({
+			  		audio:true
+			  	}).then((stream)=>handleRecording(stream))
+			  	  .then(recordedChunks=>{
+				  	 if(recordedChunks!=null){
+					  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
+					  	var audioSrc=URL.createObjectURL(recordedFile);
+					  	var reader=new FileReader();
+						reader.onloadend=()=>{
+							var currentAudioElements=audioElements;
+							const audioObject={
+								audioSrc:reader.result,
+								videoFile:recordedFile,
+								videoCounter:currentAudioElements.length
+							}
+
+						  	 currentAudioElements.push(audioObject);
+						  	 changeAudioElements(currentAudioElements);
+
+						  	 changeRecordingState(false);
+						  	 changeReInitliazed(true);
+						  	 chnagFirstDone(true)
 						}
-
-					  	 currentAudioElements.push(audioObject);
-					  	 changeAudioElements(currentAudioElements);
-
-					  	 changeRecordingState(false);
-					  	 changeReInitliazed(true);
-					  	 chnagFirstDone(true)
-					}
-				  	reader.readAsDataURL(recordedFile);
-			  	 }
-			});
+					  	reader.readAsDataURL(recordedFile);
+				  	 }
+				});
+			}
 		}
 	}
 
