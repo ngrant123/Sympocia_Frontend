@@ -207,7 +207,7 @@ class ChatRoom extends Component{
 											<li style={{listStyle:"none",display:"inline-block",width:"20%"}}>
 												{data.senderProfilePicture==null?
 													<img src={NoProfilePicture} style={{borderRadius:"50%",width:"60%",height:"30"}}/>:
-													<img src={data.senderProfilePicture} style={{borderRadius:"50%",width:"20%",height:"20"}}/>
+													<img src={data.senderProfilePicture} style={{borderRadius:"50%",width:"60%",height:"30"}}/>
 												}
 											</li>
 

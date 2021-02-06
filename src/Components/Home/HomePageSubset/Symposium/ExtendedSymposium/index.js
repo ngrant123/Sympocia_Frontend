@@ -233,7 +233,8 @@ class Symposium extends Component{
 			isLoadingReloadedPosts:false,
 			endOfPostsDBIndicator:false,
 			postOption:"Image",
-			displayGuestOnboarding:false
+			displayGuestOnboarding:false,
+			displaySpecficSymposiumFeature:false
 		}
 	}
 
@@ -540,12 +541,12 @@ class Symposium extends Component{
 	  handleSeeAllPeopleActiveModal=()=>{
 	  	return this.state.displayModalPeopleActive==true?
 	  		<React.Fragment>
-	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayModalPeopleActive:false}))}/>
 	  			<ActivePeopleContainer>
 	  				<ActivePeopleModal
 	  					peopleActive={this.state.activePeople}
 	  				/>
 	  			</ActivePeopleContainer>
+	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayModalPeopleActive:false}))}/>
 	  		</React.Fragment>:
 	  		<React.Fragment>
 	  		</React.Fragment>
@@ -686,7 +687,7 @@ class Symposium extends Component{
 					  		socket={socket}
 						/>
 					</SymposiumChatContainer>
-				  	:<SymposiumFeatureContainer>
+				  	:<SymposiumFeatureContainer headerAnimation={this.state.headerAnimation}>
 					  	<SpecificFeatureSymposium
 				  			symposium={this.state.selectedSymposiumTitle}
 				  			symposiumId={this.state.symposiumId}
@@ -700,101 +701,10 @@ class Symposium extends Component{
 
 	  specificSymposiumFeatures=()=>{
 	  	return <>
-	  			{this.state.headerAnimation==false &&(
-					<>
-						{this.state.selectedSymposiumTitle=="General"||
-							this.state.selectedSymposiumTitle=="Religion"||
-							this.state.selectedSymposiumTitle=="Gaming"||
-							this.state.selectedSymposiumTitle=="Philosophy"?
-							<SymposiumChatContainer>
-					  			<Chat
-							  		roomId={this.state.symposiumId}
-							  		chat={this.state.chatRoom}
-							  		profileId={this.state.profileId}
-							  		socket={socket}
-							  	/>
-						  	</SymposiumChatContainer>:
-						  	<SymposiumFeatureContainer>
-							  	<SpecificFeatureSymposium
-							  			symposium={this.state.selectedSymposiumTitle}
-							  			symposiumId={this.state.symposiumId}
-							  			questions={this.state.symposiumFeatureQuestions}
-							  			isGuestProfile={this.state.isGuestProfile}
-							  		/>
-							</SymposiumFeatureContainer>
-				  		} 
-					</>
+	  			{(this.state.headerAnimation==false || this.state.displaySpecficSymposiumFeature==true)==true && (
+					<>{this.symposiumFeaturesAndChat()}</>
 		  		)}
 		  	  </>
-
-			{/*
-		  		<ul style={{padding:"0px",position:"relative",top:"-10px",left:"71%"}}>
-		  			<li style={{listStyle:"none"}}>
-		  				<ul style={{padding:"0px"}}>
-		  					<li style={{listStyle:"none",marginBottom:"-2%"}}>
-				  				<ul id="symposiumIndicatorUL" style={{padding:"0px",fontSize:"20px"}}>
-				  					<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
-				  						<ChevronLeftRoundedIcon
-				  							style={{fontSize:40,marginTop:"10px"}}
-				  							onClick={()=>this.handlePreviousSymposiumButton()}
-				  						/>
-				  					</li>
-
-				  					<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
-				  						{this.state.selectedSymposiumTitle}
-				  					</li>
-				  					
-				  					<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"4%"}}>
-				  						<ChevronRightRoundedIcon
-						  					style={{fontSize:40}}
-						  					onClick={()=>this.handleNextSymposiumButton()}
-						  				/>
-				  					</li>
-				  				</ul>
-				  			</li>
-
-				  			<li style={{listStyle:"none"}}>
-				  				<ul style={{padding:"0px"}}>
-				  					<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"4%"}}>
-				  						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					  						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayPopularVideos:true})}>
-					  							View Popular videos
-					  						</ChatAndIndustryInformationContainer>
-				  						</a>
-				  					</li>
-
-				  					<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"4%"}}>
-				  						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					  						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayModalPeopleActive:true})}>
-					  							View active people
-					  						</ChatAndIndustryInformationContainer>
-				  						</a>
-				  					</li>
-
-				  					<li style={{listStyle:"none",display:"inline-block"}}>
-				  						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					  						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayChatRoom:!this.state.displayChatRoom})}>
-					  							{this.state.selectedSymposiumTitle=="General"||
-													this.state.selectedSymposiumTitle=="Religion"||
-													this.state.selectedSymposiumTitle=="Gaming"||
-													this.state.selectedSymposiumTitle=="Philosophy"?
-													<p>View Chat </p>:
-													<p> View Features </p>
-												}
-					  						</ChatAndIndustryInformationContainer>
-				  						</a>
-				  					</li>
-				  				</ul>
-				  			</li>
-		  				</ul>
-		  			</li>
-		  			{this.state.displayChatRoom==true?
-		  				<li style={{listStyle:"none"}}>
-							{this.symposiumFeaturesAndChat()}
-			  			</li>:null
-		  			}
-		  		</ul>
-			*/}
 	  }
 
 	  handleDisplayPostCreation=()=>{
@@ -1052,8 +962,8 @@ class Symposium extends Component{
 
 	arrowIndicatorButton=()=>{
 		return <ArrowDownContainer id="arrowIndicator" onClick={()=>this.handleScroll()}>
-					<p style={{marginLeft:"-30%",color:"#C8B0F4"}}>Click here to enter symposium </p>
-					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-down-circle"
+					<p style={{color:"#C8B0F4"}}>Click here to enter symposium </p>
+					<svg style={{marginLeft:"35%"}} xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-down-circle"
 					 width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#C8B0F4"
 					  fill="none" stroke-linecap="round" stroke-linejoin="round">
 					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -1133,7 +1043,7 @@ class Symposium extends Component{
 							Active people
 						</ChatAndIndustryInformationContainer>
 						
-						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayChatRoom:!this.state.displayChatRoom})}>
+						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displaySpecficSymposiumFeature:!this.state.displaySpecficSymposiumFeature})}>
 							{this.state.selectedSymposiumTitle=="General"||
 							this.state.selectedSymposiumTitle=="Religion"||
 							this.state.selectedSymposiumTitle=="Gaming"||
@@ -1262,6 +1172,7 @@ class Symposium extends Component{
 						  	symposium={this.state.selectedSymposiumTitle}
 						  	questions={this.state.symposiumFeatureQuestions}
 						  	profileId={this.state.profileId}
+						  	displayPopularVideos={this.triggerDisplayPopularVideosModal}
 						/>
 					)}
 				</>
@@ -1383,16 +1294,20 @@ class Symposium extends Component{
 									<MinifiedSymposiumInformation isScrollEnabled={this.state.headerAnimation}>
 										{(this.state.displayPhoneUI==true && this.state.headerAnimation==true)==false &&(
 											<>
-						  						<ChevronLeftRoundedIcon
-						  							style={{fontSize:40,marginTop:"10px"}}
-						  							onClick={()=>this.handlePreviousSymposiumButton()}
-						  						/>
+												{/*
+							  						<ChevronLeftRoundedIcon
+							  							style={{fontSize:40,marginTop:"10px"}}
+							  							onClick={()=>this.handlePreviousSymposiumButton()}
+							  						/>
+												*/}
 									  			<p style={{marginTop:"10px",fontSize:"20px"}}>{this.state.selectedSymposiumTitle}</p>
 
-						  						<ChevronRightRoundedIcon
-								  					style={{fontSize:40,marginTop:"10px"}}
-								  					onClick={()=>this.handleNextSymposiumButton()}
-								  				/>
+									  			{/*
+							  						<ChevronRightRoundedIcon
+									  					style={{fontSize:40,marginTop:"10px"}}
+									  					onClick={()=>this.handleNextSymposiumButton()}
+									  				/>
+									  			*/}
 											</>
 										)}
 						  				{this.symposiumOptions(this.state.headerAnimation)}

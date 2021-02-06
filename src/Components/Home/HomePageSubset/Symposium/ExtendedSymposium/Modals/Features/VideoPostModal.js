@@ -180,6 +180,17 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 
 		fetchData();
 	},[])
+	const checkVideoLength=()=>{
+		const video=document.getElementById("uploadVideoUrl");
+		let duration=video.duration;
+		duration=Math.ceil(duration);
+		if(duration>30){
+			alert('The video is too long. As of right now we only support 30 sec videos that are below 50MB. Sorry for the inconvience.');
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 	const handleUploadVideo=()=>{
 		var fileReader=new FileReader();
@@ -203,51 +214,53 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	}
 
 	const submitVideo=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		
-		changeIsProcessingPost(true);
-		var video={
-			videoUrl,
-			description:document.getElementById("videoDescription").value
-		}
-		const submitedVideo={
-			video,
-			industryId:symposiumId,
-			questionId:selectedPostId,
-			questionIndex:questionIndex,
-			userId:userId,
-			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-						personalInformation.accessToken
-		}
-
-		let {confirmation,data}=await createSpecificIndustryVideoAnswer(submitedVideo);
-		if(confirmation=="Success"){
-			let {message}=data;
-			message={
-				...message,
-				owner:{
-					...message.owner,
-					firstName:personalInformation.firstName
-				},
-				videoUrl
+		const isVideoAppropriateSize=checkVideoLength();
+		if(isVideoAppropriateSize==true){
+			changeIsProcessingPost(true);
+			var video={
+				videoUrl,
+				description:document.getElementById("videoDescription").value
+			}
+			const submitedVideo={
+				video,
+				industryId:symposiumId,
+				questionId:selectedPostId,
+				questionIndex:questionIndex,
+				userId:userId,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							personalInformation.accessToken
 			}
 
-			posts.splice(0,0,message);
-			changeQuestionId(questionId);
-			changePosts([...posts]);
-			changeDisplayCreationModal(false);
-		}else{
-			const {statusCode}=data;
-			if(statusCode==401){
-				await refreshTokenApiCallHandle(
-						personalInformation.refreshToken,
-						personalInformation.id,
-						submitVideo,
-						dispatch,
-						{},
-						false
-					);
+			let {confirmation,data}=await createSpecificIndustryVideoAnswer(submitedVideo);
+			if(confirmation=="Success"){
+				let {message}=data;
+				message={
+					...message,
+					owner:{
+						...message.owner,
+						firstName:personalInformation.firstName
+					},
+					videoUrl
+				}
+
+				posts.splice(0,0,message);
+				changeQuestionId(questionId);
+				changePosts([...posts]);
+				changeDisplayCreationModal(false);
 			}else{
-				alert('Unfortunately there has been an error with adding this image. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							submitVideo,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error with adding this image. Please try again');
+				}
 			}
 		}
 		changeIsProcessingPost(false);
@@ -304,7 +317,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 											{posts.map(data=>
 												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 													<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
-														<video key={data._id} width="100%" height="40%" borderRadius="5px" controls autoplay>
+														<video key={data._id} width="100%" height="40%" borderRadius="5px" >
 															<source src={data.videoUrl} type="video/mp4"/>
 														</video>
 													</li>
@@ -354,7 +367,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 								</li>
 							</a>:
 							<FinalSubmittionContainer>
-								<video key={uuidv4()} width="80%" height="20%" borderRadius="5px" controls autoplay>
+								<video id="uploadVideoUrl" key={uuidv4()} width="80%" height="20%" borderRadius="5px" controls autoplay>
 									<source src={videoUrl} type="video/mp4"/>
 								</video>
 								

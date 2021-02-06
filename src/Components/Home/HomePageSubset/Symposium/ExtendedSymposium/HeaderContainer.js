@@ -20,7 +20,7 @@ const Container=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	z-index:40;
+	z-index:30;
 	transition:opacity 2s linear
 	@media screen and (max-width:1370px){
 		left:90% !important;
@@ -34,7 +34,7 @@ const Container=styled.div`
 
 const ActiveContainer =styled.div`
 	position:relative;
-	width:300%;
+	width:150%;
 	height:50%;
 	background-color:white;
 	padding:5px;
@@ -51,7 +51,7 @@ const ActiveProfilePictures=styled(Link)`
 	height:25%;
 	border-radius:50%;
 	background-color:red;
-
+	cursor:pointer;
 `;
 
 const PopularContainer=styled.div`
@@ -415,21 +415,27 @@ const HeaderContainer=(props)=>{
 				<PopularVideosContainer>
 					<ul id="popularVideoContainerLI" style={{padding:"0px"}}>
 						<li id="titleContainer" style={{listStyle:"none",position:"relative"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-		  						<li id="previousTitleLI" style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
-		  							{previousSymposiumTitle}
-		  						</li>
-		  					</a>
+							{/*
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+			  						<li id="previousTitleLI" style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
+			  							{previousSymposiumTitle}
+			  						</li>
+			  					</a>
+
+							*/}
 		  					
 		  					<li id="selectedSymposiumTitle" style={{width:displayDesktopUI==true?"40%":"60%",overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px"}}>
 		  						{displayDesktopUI==true?<><b>{selectedSymposiumTitle}</b></>:<>{selectedSymposiumTitle}</>}
 		  					</li>
 
-		  					<a href="javascript:void(0);" style={{textDecoration:"none",marginRight:"5%"}}>
-		  						<li id="nextTitleLI" style={{width:"5%",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
-		  							{nextSymposiumTitle}
-		  						</li>
-		  					</a>
+		  					{/*
+			  					<a href="javascript:void(0);" style={{textDecoration:"none",marginRight:"5%"}}>
+			  						<li id="nextTitleLI" style={{width:"5%",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
+			  							{nextSymposiumTitle}
+			  						</li>
+			  					</a>
+
+		  					*/}
 						</li>
 
 						<li style={{listStyle:"none"}}>
@@ -471,22 +477,20 @@ const HeaderContainer=(props)=>{
 										Active People
 									</p>
 									<li style={{listStyle:"none",width:"90%"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<ActiveContainer>
-												<ul>
-									 				{activePeople.map(data=>
-								 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
-								 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
-								 								<img src={data.owner.profilePicture!=null?
-								 											data.owner.profilePicture:
-								 											NoProfilePicture} 
-								 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
-								 							</ActiveProfilePictures>
-								 						</li>
-								 					)}
-									 			</ul>
-											</ActiveContainer>
-										</a>
+										<ActiveContainer>
+											<ul>
+								 				{activePeople.map(data=>
+							 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
+							 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
+							 								<img src={data.owner.profilePicture!=null?
+							 											data.owner.profilePicture:
+							 											NoProfilePicture} 
+							 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
+							 							</ActiveProfilePictures>
+							 						</li>
+							 					)}
+								 			</ul>
+										</ActiveContainer>
 									</li>
 							</ul>
 						</li>

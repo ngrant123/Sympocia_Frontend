@@ -145,13 +145,15 @@ const SpecificFeatureSymposium=({symposium,symposiumId,questions,isGuestProfile}
 		>
 			{isLoadingFeatureSymposiums==false?
 				<Container>
-					<ul id="symposiumFeatureContainerUL" style={{padding:"0px",position:"fixed",top:"45%"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li style={ChatOption}>
-								Show chat 
-							</li>
-						</a>
-						<hr/>
+					<ul id="symposiumFeatureContainerUL" style={{padding:"0px",position:"fixed"}}>
+						{/*
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li style={ChatOption}>
+									Show chat 
+								</li>
+							</a>
+							<hr/>
+						*/}
 
 						<li style={{listStyle:"none"}}>
 							{featureDecider()}

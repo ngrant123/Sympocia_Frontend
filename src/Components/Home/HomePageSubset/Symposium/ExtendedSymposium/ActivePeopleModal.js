@@ -32,21 +32,18 @@ const ActivePeopleContainer=styled.div`
 	box-shadow: 1px 5px 5px 1px #d5d5d5;
 `;
 
-const ActivePeopleListCSS={
-	display:"inline-block",
-	listStyle:"none",
-	marginRight:"30px",
-	marginTop:"20px"
-}
 
-const PeopleContainer =styled.div`
+const PeopleContainer =styled(Link)`
 	position:relative;
 	width:100px;
 	height:50%;
 	background-color:white;
 	border-radius:5px;
 	box-shadow: 1px 5px 5px 1px #d5d5d5;
-
+	cursor:pointer;
+	overflow:hidden;
+	margin-right:5%;
+	margin-bottom:5%;
 `;
 
 const ProfilePicture=styled.div`
@@ -75,6 +72,14 @@ const ViewProfileButton=styled(Link)`
 	border-color:#0750b3;
 `;
 
+const ActivePeople=styled.div`
+	display:flex;
+	flex-direction:row;
+	height:100%;
+	flex-wrap:wrap;
+
+`;
+
 
 const ProfileContainerContentsCSS={
 	listStyle:"none"
@@ -90,6 +95,12 @@ const ProfilePictureCSS={
 	textAlign:"center"
 }
 
+const ActivePeopleListCSS={
+	display:"inline-block",
+	listStyle:"none",
+	marginRight:"30px",
+	marginTop:"20px"
+}
 
 const ActivePeopleModal=(props)=>{
 	console.log(props);
@@ -97,30 +108,30 @@ const ActivePeopleModal=(props)=>{
 			<ActivePeopleContainer>
 					{props.peopleActive.length==0?
 						<p>Unfortunately there are no people here at the moment. Why dont you follow the symposium instead? </p>:
-						<ul>
+						<ActivePeople>
 							{props.peopleActive.map(data=>
-									<li style={ActivePeopleListCSS}>
-										<PeopleContainer>
-											<ul style={{position:"relative",left:"-20%",top:"5%"}}>
+								<PeopleContainer to={{pathname:`/profile/${data._id}`}}>
+									<ul style={{position:"relative",left:"-20%",top:"5%"}}>
 
-												<li style={ProfileContainerContentsCSS}>
-													<img src={data.owner.profilePicture==null?
-															NoProfilePicture:data.owner.profilePicture}
-													style={ProfilePictureCSS}/>
-												</li>
-												<li style={ProfileContainerContentsCSS}>
-													<p style={{overflowX:"scroll",color:"#a2a2a2"}}><b>{data.firstName}</b></p>
-												</li>
-												<li style={ProfileContainerContentsCSS}>
-													<ViewProfileButton to={{pathname:`/profile/${data._id}`}}>
-														View Profile
-													</ViewProfileButton>
-												</li>
-											</ul>
-										</PeopleContainer>
-									</li>
-								)}
-						</ul>
+										<li style={ProfileContainerContentsCSS}>
+											<img src={data.owner.profilePicture==null?
+													NoProfilePicture:data.owner.profilePicture}
+											style={ProfilePictureCSS}/>
+										</li>
+										<li style={ProfileContainerContentsCSS}>
+											<p style={{overflowX:"scroll",color:"#a2a2a2"}}>
+												<b>
+													{/*
+														{data.firstName}
+													*/}
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+												</b>
+											</p>
+										</li>
+									</ul>
+								</PeopleContainer>
+							)}
+						</ActivePeople>
 					}
 			</ActivePeopleContainer>
 

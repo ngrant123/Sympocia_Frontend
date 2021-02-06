@@ -128,21 +128,21 @@ export const PostsChatInformation=styled.div`
 export const BackgroundModalContainer= styled.div`
 	position:absolute;
 	width:100%;
-	height:100%;
+	height:140%;
 	background: rgba(0, 0, 0, 0.5);
-	z-index:15;
+	z-index:40;
 `;
 
 
 
 export const ActivePeopleContainer=styled.div`
 
-	position:absolute;
+	position:fixed;
 	background-color:white;
 	border-radius:5px;
 	width:40%;
 	height:50%;
-	z-index:17;
+	z-index:46;
 	left:30%;
 	top:15%;
 `;
@@ -360,17 +360,22 @@ export const ChatContainer=styled.div`
 `;
 
 export const SymposiumFeatureContainer=styled.div`
-	position: fixed;
+	position: absolute;
 	overflow:hidden;
 	width:80%;
-	height:85%;
-	top:10%;
+	height:40%;
+	top:55%;
 	left:75%;
 	border-radius:5px;
 	overflow-y:auto;
 	-webkit-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0);
-	z-index: 20;
+	z-index: 30;
+
+	${({headerAnimation})=>
+		headerAnimation==true &&(
+			`top:40% !important;`
+	)}
 
 	@media screen and (max-width:1370px){
 		display:none !important;
@@ -389,7 +394,7 @@ export const SymposiumChatContainer=styled.div`
 	overflow-y:auto;
 	-webkit-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0);
-	z-index: 40;
+	z-index: 30;
 
 	@media screen and (max-width:1370px){
     	display:none !important;
@@ -404,6 +409,7 @@ export const ChatAndIndustryInformationContainer=styled.div`
 	border-radius:5px;
 	padding:10px;
 	margin-right:2px;
+	cursor:pointer;
 
 	@media screen and (max-width:1370px){
     }
@@ -413,9 +419,17 @@ export const ChatAndIndustryInformationContainer=styled.div`
 
 export const ArrowDownContainer=styled.div`
 	position:fixed;
-	left:45%;
+	left:40%;
 	top:80%;
-	z-index:40;
+	z-index:39;
+	cursor:pointer;
+
+	@media screen and (max-width:740px){
+		left:25% !important;
+	}
+	@media screen and (max-width:740px) and (max-height:420px){
+	 	left:40% !important;
+    }
 
   animation: bounce 2s infinite;
   @keyframes bounce {

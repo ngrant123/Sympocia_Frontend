@@ -10,7 +10,7 @@ import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.
 
 const Container=styled.div`
 	position:fixed;
-	z-index:40;
+	z-index:39;
 	height:95%;
 	width:90%;
 	border-radius:5px;
@@ -45,7 +45,7 @@ const ShadowContainer=styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:40;
+	z-index:39;
 	top:0px;
 `;
 
@@ -53,7 +53,8 @@ const MobilePostOptionsPortal=(props)=>{
 	const {
 		closeModal,
 		isSymposiumFollowed,
-		followUnfollowSymposium
+		followUnfollowSymposium,
+		displayPopularVideos
 	}=props;
 
 	const [displayHighlightedQuestions,changeDisplayHighlightedQuestions]=useState(false);
@@ -102,10 +103,10 @@ const MobilePostOptionsPortal=(props)=>{
 							<p>Active Users:</p>
 							<ul>
 								{props.activePeople.map(data=>
-									<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
 										<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
-											<img src={data.profilePicture!=null?
-														data.profilePicture:
+											<img src={data.owner.profilePicture!=null?
+														data.owner.profilePicture:
 														NoProfilePicture} 
 											style={{backgroundColor:"red", width:"70px",height:"70px",borderRadius:"50%"}}/>
 										</ActiveProfilePictures>
@@ -186,6 +187,15 @@ const MobilePostOptionsPortal=(props)=>{
 							Active People
 						</li>
 					</a>
+
+					<hr/>
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li onClick={()=>displayPopularVideos()} style={{listStyle:"none"}}>
+							Popular Videos
+						</li>
+					</a>
+
+
 				</ul>
 			</Container>
 		</>
