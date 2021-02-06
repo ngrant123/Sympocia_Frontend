@@ -39,7 +39,7 @@ const VideoDescriptionMobileDisplayPortal=({videoUrl,targetDom,closeModal})=>{
 				onClick={()=>closeModal()}
 			/>
 			<Container>
-				<div onClick={()=>closePostModal()} style={{marginBottom:"5%"}}>
+				<div onClick={()=>closeModal()} style={{marginBottom:"5%"}}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 					 stroke-linecap="round" stroke-linejoin="round">
@@ -49,8 +49,7 @@ const VideoDescriptionMobileDisplayPortal=({videoUrl,targetDom,closeModal})=>{
 					</svg>
 				</div>
 				<hr/>
-				<video id="videoDescription" onClick={()=>displayVideoDescriptionTrigger()} 
-					style={{borderRadius:"50%"}} width="50%" height="50%" autoplay="true">
+				<video id="videoDescription" controls={true} width="100%" height="100%" autoplay="true">
 					<source src={videoUrl} type="video/mp4"/>
 				</video>
 			</Container>
