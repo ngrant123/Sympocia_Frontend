@@ -244,6 +244,7 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter})=>{
+			debugger;
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
@@ -269,7 +270,6 @@ const PersonalPostsIndex=(props)=>{
 											personalRedux.accessToken,
 											isGuestProfile:props.isGuestVisitorProfile
 										});
-			debugger;
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
