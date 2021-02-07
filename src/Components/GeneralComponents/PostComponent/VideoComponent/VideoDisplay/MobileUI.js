@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
@@ -16,6 +16,7 @@ import {
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import VideoDescriptionMobileDisplayPortal from "../../VideoDescriptionMobileDisplayPortal.js";
 
 const Container=styled.div`
 	position:relative;
@@ -329,10 +330,16 @@ const MobileUI=(props)=>{
 	const [displayVideoImageModal,changeDisplayVideoImageModal]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const personalInformation=useSelector(state=>state.personalInformation);
+	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
+	const [currentVideoPlayTime,changeVideoPlayTime]=useState(0)
 	const dispatch=useDispatch();
 
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
+
+	useEffect(()=>{
+		updateVideoComponentPlayTime();
+	},[displayComments])
 
 	if(video.isPostAuthentic!=null){
 		var approvesPostNumber=video.isPostAuthentic.numOfApprove!=null?
@@ -357,6 +364,8 @@ const MobileUI=(props)=>{
 	}
 
 	const displayCommentsTrigger=()=>{
+		const currentPlayTime=document.getElementById("video").currentTime;
+		changeVideoPlayTime(currentPlayTime);
 		changePostInfoContainerDisplay(true);
 		changeDisplayComments(true);
 		changeDisplayInformation(false);
@@ -382,6 +391,19 @@ const MobileUI=(props)=>{
 		changeDisplayComments(false);
 		changeDisplayInformation(false);
 		changeDisplayPollOption(false);
+	}
+
+
+	const updateVideoComponentPlayTime=()=>{
+		if(displayComments==true){
+			const smallVideo=document.getElementById("miniVideo");
+			smallVideo.currentTime=currentVideoPlayTime;
+			smallVideo.play();
+		}else{
+			const originVideoComponent=document.getElementById('video');
+			originVideoComponent.currentTime=currentVideoPlayTime;
+			originVideoComponent.play();
+		}
 	}
 	const postInformation=()=>{
 		return(
@@ -528,8 +550,24 @@ const MobileUI=(props)=>{
 			}
 		}
 	}
+	const displayVideoDescriptionTrigger=()=>{
+	 	changeVideoDescriptionDisplay(true);
+	}	
+
+	const closeVideoDescriptionDisplayModal=()=>{
+		const currentPlayTimeMiniVideo=document.getElementById('miniVideo').currentTime;
+		changeVideoPlayTime(currentPlayTimeMiniVideo);
+		changeVideoDescriptionDisplay(false);
+	}
 	return (
 				<Container>
+					{displayVideoDescriptionDisplay==true &&(
+						<VideoDescriptionMobileDisplayPortal
+							targetDom={targetDom}
+							closeModal={closeVideoDescriptionDisplayModal}
+							videoUrl={video.videoDescription}
+						/>
+					)}
 					<ul style={{padding:"10px"}}>
 						<div onClick={()=>closePostModal()} style={{marginBottom:"5%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
@@ -545,7 +583,8 @@ const MobileUI=(props)=>{
 							<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 								{video.videoDescription==null? null:
 									<VideoDesriptionContainer>
-										<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls muted>
+										<video style={{borderRadius:"50%"}} onClick={()=>displayVideoDescriptionTrigger()} 
+											width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
 											<source src={video.videoDescription} type="video/mp4"/>
 										</video>
 									</VideoDesriptionContainer>

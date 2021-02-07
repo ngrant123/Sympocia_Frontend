@@ -205,8 +205,7 @@ class Video extends Component{
 			smallVideo.play();
 
 			//make api call to get comments
-		}
-		else{
+		}else{
 			const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
 			if(commentsAndVideoContainer!=null){
 				const videoElement=document.getElementById("video");
