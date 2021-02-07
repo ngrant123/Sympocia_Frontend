@@ -289,7 +289,7 @@ class LSignupPage extends Component {
 							 </PersonalSignUpCard>
 						</li>:
 						<>
-							<p style={{fontSize:"80px"}}>
+							<p style={{fontSize:"70px"}}>
 								<b id="titleHeader">
 									What are you looking for on here?
 								</b>

@@ -49,8 +49,9 @@ const FourthSection=()=>{
 			<p id="headerTexts" style={{fontSize:"30px"}}>
 				<b>Heres a preview of the product </b>
 			</p>
-			<p> We have a lot of features that we havent talked about here so submit your 
-				email so that you can learn more 
+			<p> 
+				We have a lot of features that we havent talked about here so when you 
+				have a chance clicked the signup or explore button and check it out.
 			</p>
 			<ImageContainer>
 				<img id="previewImage" src={previewImage}
@@ -78,7 +79,7 @@ const FourthSection=()=>{
 			<p>
 				<b>What information do we store about the user? </b>
 			</p>
-			<p> We store the general information about the user like name, email, posts and etc. Thats the
+			<p> We store the general information about the user like name, email, and posts. Thats the
 			 only thing we store. Dont worry we're not like our other competitors who track
 			your every move on the internet </p>
 

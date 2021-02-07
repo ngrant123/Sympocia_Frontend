@@ -319,12 +319,12 @@ const FirstSection=(props)=>{
                         <b>Introducing Sympocia Business</b>
                      </p>
                       <p>
-                          So you’re starting out your business huh? Or maybe you have an idea
+                          So you’re starting out your very own business? Or maybe you have an idea
                           and you need a little help with it. 
-                          Don’t worry, we built <b>Sympocia</b> just for you :)
+                          Don’t worry, we built <b>Sympocia</b> just for you also :)
                       </p>
                       <p>
-                         Starting a business is hard. But now you don’t have to do it all alone!
+                         Starting a business is hard. But now you don’t have to do it all alone
                       </p>
                       <li style={ComingSoonButton}>
                         Coming soon

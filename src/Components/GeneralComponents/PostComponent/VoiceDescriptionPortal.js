@@ -220,33 +220,39 @@ const VoiceDescriptionPortal=(props)=>{
 		}else{
 			let audio=document.getElementById("audioElement");	
 			changeRecordingState(true)
-			if (navigator.mediaDevices.getUserMedia){
-			  	navigator.mediaDevices.getUserMedia({
-			  		audio:true
-			  	}).then((stream)=>handleRecording(stream))
-			  	  .then(recordedChunks=>{
-				  	 if(recordedChunks!=null){
-					  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
-					  	var audioSrc=URL.createObjectURL(recordedFile);
-					  	var reader=new FileReader();
-						reader.onloadend=()=>{
-							var currentAudioElements=audioElements;
-							const audioObject={
-								audioSrc:reader.result,
-								videoFile:recordedFile,
-								videoCounter:currentAudioElements.length
+			if(!navigator.mediaDevices){
+				alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
+			}else{
+				if (navigator.mediaDevices.getUserMedia){
+				  	navigator.mediaDevices.getUserMedia({
+				  		audio:true
+				  	}).then((stream)=>handleRecording(stream))
+				  	  .then(recordedChunks=>{
+					  	 if(recordedChunks!=null){
+						  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
+						  	var audioSrc=URL.createObjectURL(recordedFile);
+						  	var reader=new FileReader();
+							reader.onloadend=()=>{
+								var currentAudioElements=audioElements;
+								const audioObject={
+									audioSrc:reader.result,
+									videoFile:recordedFile,
+									videoCounter:currentAudioElements.length
+								}
+
+							  	 currentAudioElements.push(audioObject);
+							  	 changeAudioElements(currentAudioElements);
+
+							  	 changeRecordingState(false);
+							  	 changeReInitliazed(true);
+							  	 chnagFirstDone(true)
 							}
-
-						  	 currentAudioElements.push(audioObject);
-						  	 changeAudioElements(currentAudioElements);
-
-						  	 changeRecordingState(false);
-						  	 changeReInitliazed(true);
-						  	 chnagFirstDone(true)
-						}
-					  	reader.readAsDataURL(recordedFile);
-				  	 }
-				});
+						  	reader.readAsDataURL(recordedFile);
+					  	 }
+					}).catch(err=>{
+						alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
+					});
+				}
 			}
 		}
 	}
