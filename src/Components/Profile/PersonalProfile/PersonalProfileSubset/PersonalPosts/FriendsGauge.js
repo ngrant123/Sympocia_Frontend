@@ -344,7 +344,7 @@ class FriendsGauge extends Component {
                           <a href="javascript:void(0);" style={{textDecoration:"none"}}>
                             <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({displayFriendsGaugeEditModal:true,friendsGaugeActionType:"Remove"})}>
                                 Remove level
-                          </li>
+                            </li>
                           </a>
 
                           <a href="javascript:void(0);" style={{textDecoration:"none"}}>
