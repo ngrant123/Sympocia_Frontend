@@ -863,6 +863,7 @@ const PersonalPostsIndex=(props)=>{
 										videos={videoPost}
 										isLoadingIndicatorVideos={isLoadingIndicatorVideos}
 										id={personalInformation.userProfile._id}
+										postCounter={currentPostCounter}
 									/>:<React.Fragment></React.Fragment>
 								}
 								{

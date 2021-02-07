@@ -91,7 +91,13 @@ class VideoPostsContainer extends Component{
 		this.state={
 			videos:[],
 			firstVideo:{},
-			isLoading:true
+			isLoading:true,
+			test:[]
+		}
+	}
+	componentDidUpdate(){
+		if(this.props.videos.videos!=this.state.test && this.props.videos.videos.length>0){
+			this.generateVideoComponents(this.props.videos.videos);
 		}
 	}
 	
@@ -100,6 +106,36 @@ class VideoPostsContainer extends Component{
 			companyAction.handleVideoPostModal(data,postsConsumer);
 		else
 			profileAction.handleVideoPostModal(data,postsConsumer);
+	}
+
+	generateVideoComponents=(videos)=>{
+		debugger;
+		//const currentPostCounter=this.props.postCounter%10==0?this.props.postCounter:;
+		videos.splice(0,this.state.videos.length);
+		const newlyConstructedComponents=[];
+		for(var i=0;i<videos.length;i++){
+			const videoElement=this.videoComponentsConstructor(videos[i]);
+			newlyConstructedComponents.push(videoElement);
+		}
+
+		const finalVideoElements=this.state.videos.concat(newlyConstructedComponents);
+		this.setState({
+			videos:finalVideoElements,
+			test:videos	
+		})
+	}
+
+	videoComponentsConstructor=(videoData)=>{
+		return <li id="smallVideoLI" onClick={()=>this.displayPostModal(
+										PostDisplayConsumer,
+										CompanyPostDisplayConsumer,
+										videoData,
+										PostConsumer)} 
+				style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
+						<SmallVideoContainer
+							video={videoData}
+						/>
+				</li>
 	}
 
 	
@@ -142,19 +178,26 @@ class VideoPostsContainer extends Component{
 															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																<li id="smallVideoParentContainer" style={{listStyle:"none",marginTop:"1%"}}>	
 																	<ul style={{padding:"0px"}}>
-																		{this.props.videos.videos.map(data=>
-																			<li id="smallVideoLI" onClick={()=>this.displayPostModal(
-																									postDisplayModal,
-																									companyPostDisplayModal,
-																									data,
-																									postsConsumer)} 
-																			style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
-																					<SmallVideoContainer
-																						video={data}
-																					/>
-																			</li>
+																		{this.state.videos.map(data=>
+																			<React.Fragment>{data}</React.Fragment>
 																		)}
 																	</ul>
+																		{/*
+																			<ul style={{padding:"0px"}}>
+																				{this.props.videos.videos.map(data=>
+																					<li id="smallVideoLI" onClick={()=>this.displayPostModal(
+																											postDisplayModal,
+																											companyPostDisplayModal,
+																											data,
+																											postsConsumer)} 
+																					style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
+																							<SmallVideoContainer
+																								video={data}
+																							/>
+																					</li>
+																				)}
+																			</ul>
+																		*/}
 																</li>
 															</a>
 															{postsConsumer.endOfPostsDBIndicator==false && (
