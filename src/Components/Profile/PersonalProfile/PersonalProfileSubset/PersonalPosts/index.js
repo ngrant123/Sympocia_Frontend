@@ -204,11 +204,13 @@ const PersonalPostsIndex=(props)=>{
 		headerBlog:null,
 		blogs:[]
 	});
+	const [isLoadingIndicatorImages,changeImagesLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorRegularPost,changeRegularPostsLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorBlogPost,changeBlogPostsLoadingIndicator]=useState(true);
 
 	useEffect(()=>{
+		changeImagesLoadingIndicator(false)
 		if(props.personalInformation.isLoading!=true){
 			const image=document.getElementById("images");
 			image.style.color="#C8B0F4";
@@ -244,7 +246,6 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter})=>{
-			debugger;
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
@@ -270,6 +271,7 @@ const PersonalPostsIndex=(props)=>{
 											personalRedux.accessToken,
 											isGuestProfile:props.isGuestVisitorProfile
 										});
+			debugger;
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
@@ -288,7 +290,7 @@ const PersonalPostsIndex=(props)=>{
 			}else{
 				alert('Unfortunately there has been an error getting images. Please try again');
 			}
-
+			changeImagesLoadingIndicator(false);
 		}else if(kindOfPost=="video"){
 			const videos=document.getElementById("videos");
 			videos.style.color="#C8B0F4";
@@ -501,11 +503,7 @@ const PersonalPostsIndex=(props)=>{
 							   		<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
-								<li onClick={()=>handlePostsClick({
-													kindOfPost:"image",
-													id:props.personalInformation.userProfile._id,
-													isAccessTokenUpdated:false
-												})} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+								<li onClick={()=>triggerPostDecider("image",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
 									<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
 										Images
 									</a>
@@ -566,6 +564,24 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const triggerPostDecider=(postType,profileId,counter)=>{
+		switch(postType){
+			case 'image':{
+				changeImagesLoadingIndicator(true)
+				break;
+			}
+			case 'video':{
+				changeVideosLoadingIndicator(true);
+				break;
+			}
+			case 'blog':{
+				changeBlogPostsLoadingIndicator(true);
+				break;
+			}
+			default:{
+				changeRegularPostsLoadingIndicator(true);
+				break;
+			}
+		}
 		if(postType!=currentPostType){
 			changeEndOfPostsDBIndicator(false);
 			changeCurrentPostCounter(0);
@@ -573,7 +589,7 @@ const PersonalPostsIndex=(props)=>{
 				kindOfPost:postType,
 				id:profileId,
 				isAccessTokenUpdated:false,
-				postCounter:0
+				postCounter:0,
 			})
 		}
 	}
@@ -758,11 +774,8 @@ const PersonalPostsIndex=(props)=>{
 											</ul>
 										</li>
 
-										<li onClick={()=>handlePostsClick({
-													kindOfPost:"image",
-													id:props.personalInformation.userProfile._id,
-													isAccessTokenUpdated:false
-												})} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+										<li onClick={()=>triggerPostDecider("image",props.personalInformation.userProfile._id,0)} 
+											style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 											<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
 												Images
 											</a>
@@ -840,7 +853,7 @@ const PersonalPostsIndex=(props)=>{
 									displayImages==true?
 									<ImagePosts
 										imageData={imagePost}
-										isLoading={props.personalInformation.isLoading}
+										isLoading={isLoadingIndicatorImages}
 										profile="Personal"
 									/>:<React.Fragment></React.Fragment>
 								}
