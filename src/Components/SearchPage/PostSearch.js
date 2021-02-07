@@ -119,6 +119,7 @@ const PostSearch=(props)=>{
 	const [endOfPostsDBIndicator,changeEndOfPostsIndicator]=useState(false);
 	const [triggerPostReload,changePostReloadTrigger]=useState(false);
 	const [isLoadingReloadedPosts,changeIsLoadingReloadPostsTrigger]=useState(false);
+	const [currentSelectedPostType,changeCurrentSelectedPostType]=useState();
 	const [postType,changePostType]=useState(props.postType);
 
 	const triggerUIChange=()=>{
@@ -139,6 +140,7 @@ const PostSearch=(props)=>{
 				searchUrl:props.searchQuery,
 				postType:props.postType
 			}
+			changeCurrentSelectedPostType(props.postType);
 			switch(props.postType){
 				case "Images":{
 					await fetchImagePosts(0);
@@ -410,6 +412,7 @@ const PostSearch=(props)=>{
 	const triggerPostHandle=(postType)=>{
 		changePostsCount(0);
 		changePosts([]);
+		changeCurrentSelectedPostType(postType);
 
 		if(postType=="Images"){
 			fetchImagePosts(0);
@@ -447,7 +450,9 @@ const PostSearch=(props)=>{
 								</ul>
 							</div>
 						</li>
-
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",color:"#5298F8"}}>
+							{currentSelectedPostType}
+						</li>
 						{/*
 							<li style={PostButton}>
 								Request a post

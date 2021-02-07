@@ -125,6 +125,7 @@ const VideoDescriptionPortal=(props)=>{
 		changeRecordingState(true);
 		let video=document.getElementById("videoDescriptionVideo");
 		if (navigator.mediaDevices.getUserMedia){
+			console.log(navigator.mediaDevices.getUserMedia);
 			navigator.mediaDevices.getUserMedia({ 
 			  		video: true,
 			  		audio:true
