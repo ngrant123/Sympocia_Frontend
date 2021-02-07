@@ -92,11 +92,12 @@ class VideoPostsContainer extends Component{
 			videos:[],
 			firstVideo:{},
 			isLoading:true,
-			test:[]
+			previousAddedVideos:[]
 		}
 	}
 	componentDidUpdate(){
-		if(this.props.videos.videos!=this.state.test && this.props.videos.videos.length>0){
+		debugger;
+		if(this.props.videos.videos!=this.state.previousAddedVideos && this.props.videos.videos.length>0){
 			this.generateVideoComponents(this.props.videos.videos);
 		}
 	}
@@ -120,8 +121,8 @@ class VideoPostsContainer extends Component{
 
 		const finalVideoElements=this.state.videos.concat(newlyConstructedComponents);
 		this.setState({
-			videos:finalVideoElements,
-			test:videos	
+			videos:finalVideoElements.length==0?this.state.videos:finalVideoElements,
+			previousAddedVideos:videos	
 		})
 	}
 
@@ -150,7 +151,7 @@ class VideoPostsContainer extends Component{
 										<Container>
 											{this.props.isLoadingIndicatorVideos==true ? <p>We are currently getting the videos please wait </p>:
 												<React.Fragment>
-													{this.props.videos.videos.length==0 && this.props.videos.headerVideo==null? 
+													{this.state.videos.length==0 && this.props.videos.headerVideo==null? 
 																					<NoPostsModal
 																						id="noPostsModalContainer"
 																						postType={"video"}
