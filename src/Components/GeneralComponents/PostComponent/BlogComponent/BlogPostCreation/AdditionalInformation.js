@@ -13,6 +13,7 @@ import TextOptionsHOC from "./TextOptionPortalHOC.js";
 import PollOutlinedIcon from '@material-ui/icons/PollOutlined';
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import Comments from "../../../CommentsComponent/index.js";
+import VideoDescriptionMobileDisplayPortal from "../../VideoDescriptionMobileDisplayPortal.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -116,6 +117,7 @@ const VideoDescriptionContainer=styled.div`
 	width:40%;
 	height:50%;
 	border-radius:50%;
+	cursor:pointer;
 `;
 
 
@@ -164,6 +166,7 @@ const AdditionalInformation=(props)=>{
 		displayApproveDisapproveModalHandle,
 		profileId,
 		history,
+		targetDom,
 		postId
 	}=props;
 	const {location:{
@@ -181,6 +184,8 @@ const AdditionalInformation=(props)=>{
 	const dispatch=useDispatch();
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
+	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
+
 	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
 		let confirmationResponse;
@@ -334,7 +339,8 @@ const AdditionalInformation=(props)=>{
 									{videoDescription!=null &&(
 										<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
 											<VideoDescriptionContainer>
-												<video width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
+												<video width="100%" onClick={()=>displayVideoDescriptionTrigger()}
+													height="100%" borderRadius="50%" autoplay="true">
 													<source src={videoDescription} type="video/mp4"/>
 												</video>
 											</VideoDescriptionContainer>
@@ -360,9 +366,23 @@ const AdditionalInformation=(props)=>{
 		changeDisplayInformation(false);
 	}
 
+	const displayVideoDescriptionTrigger=()=>{
+	 	changeVideoDescriptionDisplay(true);
+	}	
+
+	const closeVideoDescriptionDisplayModal=()=>{
+		changeVideoDescriptionDisplay(false);
+	}
 
 	return(
 		<Container>
+			{displayVideoDescriptionDisplay==true &&(
+				<VideoDescriptionMobileDisplayPortal
+					targetDom={targetDom}
+					closeModal={closeVideoDescriptionDisplayModal}
+					videoUrl={videoDescription}
+				/>
+			)}
 			{displayDeleteConfirmation==true &&(
 				<DeletePostConfirmationPortal
 					postType={"Posts"}

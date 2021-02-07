@@ -344,6 +344,7 @@ class BlogPostCreation extends Component{
 									profileId={this.props.personalInformation.id}
 									postId={this.props.location.state._id}
 									triggerPromoteModal={this.triggerPromoteModal}
+									targetDom={"blogPostContainer"}
 								/>
 
 								<TextOptions

@@ -43,12 +43,15 @@ const SmallVideo=styled.div`
 
 	@media screen and (max-width:1370px){
 		#videoAndAudioDescriptionLI{
-			margin-top:50% !important;
+			margin-top:30% !important;
 		}
 	}
 
 	@media screen and (max-width:740px){
 		height:90%;
+		#videoAndAudioDescriptionLI{
+			margin-top:80% !important;
+		}
 		#audioLI{
 			height:20px !important;
 			width:50px !important;
