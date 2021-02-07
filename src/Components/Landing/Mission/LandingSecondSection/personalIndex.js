@@ -262,7 +262,7 @@ const SecondSection=(props)=>{
                               </li>
                               <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
                                 <p style={{marginLeft:"2%",color:"#3898ec"}}>
-                                  <b>New moderator system and copyright system</b>
+                                  <b>More emphasis on creating real connections with people that you like</b>
                                 </p>
                               </li>
                           </ul>

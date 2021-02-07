@@ -124,39 +124,44 @@ const VideoDescriptionPortal=(props)=>{
 		debugger;
 		changeRecordingState(true);
 		let video=document.getElementById("videoDescriptionVideo");
-		if (navigator.mediaDevices.getUserMedia){
-			console.log(navigator.mediaDevices.getUserMedia);
-			navigator.mediaDevices.getUserMedia({ 
-			  		video: true,
-			  		audio:true
-			  	}).then(function(stream) {
-			  	  video.muted='true'
-			      video.srcObject = stream;
-			      video.captureStream = video.captureStream || video.mozCaptureStream;
-			      return new Promise(resolve => video.onplaying = resolve);
-			    })
-		    .then(()=>handleRecording(video.captureStream()))
-		    .then(recordedChunks=>{
-		    	debugger;
-			  	 if(recordedChunks!=null){
-					  	let recordedFile = new File(recordedChunks, { type: "video/webm" });
-					  	var videoSrc=URL.createObjectURL(recordedFile);
-						var currentVideoElements=videoElements;
+		if(!navigator.mediaDevices){
+			alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
+		}else{
+			if (navigator.mediaDevices.getUserMedia){
+				console.log(navigator.mediaDevices.getUserMedia);
+				navigator.mediaDevices.getUserMedia({ 
+				  		video: true,
+				  		audio:true
+				  	}).then(function(stream) {
+				  	  video.muted='true'
+				      video.srcObject = stream;
+				      video.captureStream = video.captureStream || video.mozCaptureStream;
+				      return new Promise(resolve => video.onplaying = resolve);
+				    })
+			    .then(()=>handleRecording(video.captureStream()))
+			    .then(recordedChunks=>{
+			    	debugger;
+				  	 if(recordedChunks!=null){
+						  	let recordedFile = new File(recordedChunks, { type: "video/webm" });
+						  	var videoSrc=URL.createObjectURL(recordedFile);
+							var currentVideoElements=videoElements;
 
-						const videoObject={
-							videoSrc,
-							videoFile:recordedFile,
-							videoCounter:currentVideoElements.length
+							const videoObject={
+								videoSrc,
+								videoFile:recordedFile,
+								videoCounter:currentVideoElements.length
+							}
+
+						  	 currentVideoElements.push(videoObject);
+						  	 changeVideoElements(currentVideoElements);
+						  	 changeRecordingState(false);
+						  	 changeReInitliazed(true);
+						  	 chnagFirstDone(true)
 						}
-
-					  	 currentVideoElements.push(videoObject);
-					  	 changeVideoElements(currentVideoElements);
-					  	 changeRecordingState(false);
-					  	 changeReInitliazed(true);
-					  	 chnagFirstDone(true)
-					}
-			  }).catch(function (error) {
-		    });
+				  }).catch(function (error) {
+				  	alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
+			   	 });
+			}
 		}
 	}
 
