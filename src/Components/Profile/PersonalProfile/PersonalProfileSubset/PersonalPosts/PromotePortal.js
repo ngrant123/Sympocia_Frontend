@@ -57,7 +57,6 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 	const dispatch=useDispatch();
 
 	useEffect(()=>{
-		debugger;
 		let currentNodes=[...nodes];
 		currentNodes.splice(0,1);
 		changeCurrentNodes(currentNodes)

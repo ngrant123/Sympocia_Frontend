@@ -67,8 +67,6 @@
 	}
 
 	export const editPostIndexContext=(postData,props)=>{
-		
-		console.log("Post Edited");
 		const {
 			postId,
 			post,
@@ -197,7 +195,6 @@
 
 
 	export const removePostIndexContext=(postId,props,postType)=>{
-		debugger;
 		const {
 			optionTypeParam,
 			crownedPost,
@@ -265,7 +262,6 @@
 	}
 
 	export const updateVideoPostIndexContext=(videoObject,videoPost)=>{
-		debugger;
 		const {isCrownedVideo,video}=videoObject;
 		let newVideoObject;
 		if(isCrownedVideo==true){
