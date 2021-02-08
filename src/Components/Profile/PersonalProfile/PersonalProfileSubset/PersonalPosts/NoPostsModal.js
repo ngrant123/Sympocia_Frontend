@@ -150,6 +150,7 @@ const NoPostsModal=(props)=>{
 			</a>
 	}
 	const createPostModal=()=>{
+		console.log(props);
 		if(props!=null){
 			var displayCreatePostIndicator;
 			if(props.profilePageType=="Company"){

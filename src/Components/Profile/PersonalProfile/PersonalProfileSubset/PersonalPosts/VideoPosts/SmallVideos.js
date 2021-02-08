@@ -91,11 +91,14 @@ const IndustryButtonCSS={
 }
 
 const SmallVideoContainer=(videoData)=>{
+	console.log(videoData);
 	const displayIndustries=()=>{
 		
 		const {industriesUploaded}=videoData.video;
 		if(industriesUploaded.length>=1){
 			const industry=industriesUploaded[0].industry;
+			console.log("Small video industry");
+			console.log(industry);
 			return <ul style={{padding:"0px"}}>
 						<li style={IndustryButtonCSS}>
 							{industry}
