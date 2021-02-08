@@ -168,7 +168,6 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
-	console.log(props);
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -271,7 +270,6 @@ const PersonalPostsIndex=(props)=>{
 											personalRedux.accessToken,
 											isGuestProfile:props.isGuestVisitorProfile
 										});
-			debugger;
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
@@ -288,7 +286,22 @@ const PersonalPostsIndex=(props)=>{
 
 				}
 			}else{
-				alert('Unfortunately there has been an error getting images. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalRedux.refreshToken,
+							personalRedux.id,
+							handlePostsClick,
+							dispatch,
+							{
+								kindOfPost,
+								id
+							},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error getting images. Please try again');
+				}
 			}
 			changeImagesLoadingIndicator(false);
 		}else if(kindOfPost=="video"){
@@ -325,7 +338,6 @@ const PersonalPostsIndex=(props)=>{
 				}
 				changeVideosLoadingIndicator(false);
 			}else{
-				debugger;
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(
@@ -377,7 +389,6 @@ const PersonalPostsIndex=(props)=>{
 					changeDisplayForBlogs(true);
 				}
 			}else{
-				debugger;
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(
@@ -434,7 +445,6 @@ const PersonalPostsIndex=(props)=>{
 					changeRegularPostsLoadingIndicator(false);
 					changeIsLoadingNewPosts(false)
 			}else{
-				debugger;
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(
@@ -491,7 +501,6 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 	const mobilePostSelectionAndRecruitUI=(personalInformation)=>{
-		debugger;
 		return (
 			<li  style={{listStyle:"none"}}>
 				<ul style={{padding:"0px"}}>
@@ -639,7 +648,6 @@ const PersonalPostsIndex=(props)=>{
 						props.closeModal();
 					},
 					updateRegularPost:(regularPostProp)=>{
-						debugger;
 						const {isCrowned,post}=regularPostProp;
 						let updatedNewRegularPostProp;
 						if(isCrowned==true){
