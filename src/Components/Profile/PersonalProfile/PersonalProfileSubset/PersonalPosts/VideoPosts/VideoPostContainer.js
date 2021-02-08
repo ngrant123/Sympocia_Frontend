@@ -87,6 +87,7 @@ const NextPostLabelCSS={
 class VideoPostsContainer extends Component{
 	constructor(props){
 		super(props);
+		console.log(props);
 		this.state={
 			videos:[],
 			firstVideo:{},
@@ -109,6 +110,7 @@ class VideoPostsContainer extends Component{
 	}
 
 	generateVideoComponents=(videos)=>{
+		debugger;
 		//const currentPostCounter=this.props.postCounter%10==0?this.props.postCounter:;
 		videos.splice(0,this.state.videos.length);
 		const newlyConstructedComponents=[];

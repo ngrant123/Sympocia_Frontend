@@ -89,7 +89,7 @@ const Card=styled.div`
 		}
 	}
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:600px){
 		width:130%;
 		margin-left:-30% !important;
 		border-style:none !important;
@@ -114,7 +114,7 @@ const CompanyCard=styled.div`
 		font-size:15px !important;
 	}
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:700px){
 		width:130%;
 		margin-left:-30% !important;
 		border-style:none !important;
