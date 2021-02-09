@@ -16,8 +16,18 @@ const SuggestedSymposiumsContainer=styled.div`
 	@media screen and (max-width:600px){
 		width:70%;
 	}
-
 `;
+
+const SuggestedSymposiumsCSS={
+	width:"100%",
+	padding:"20px",
+	fontSize:"15px",
+	color:"white",
+	listStyle:"none",
+	borderRadius:"5px",
+	marginBottom:"5%",
+	cursor:"pointer"
+}
 
 const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposium,selectedIndustries,previousProps)=>{
 		//have to format selected industries in and add additional information so that the personalPage can 
@@ -119,7 +129,7 @@ const ConstructSuggestedSymposium=({personalInformation,previousProps})=>{
 					<b> Suggested syposiums </b>
 					{selectedSymposiums.map(data=>
 						<div id="suggestedSymposiumLI" onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)}
-							 style={{width:"100%",padding:"20px",fontSize:"15px",color:"white",background:data.backgroundColor,listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
+							 style={{...SuggestedSymposiumsCSS,background:data.backgroundColor}}>
 								<b>{data.industry}</b>
 						</div>
 					)}

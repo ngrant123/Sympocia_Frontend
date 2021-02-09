@@ -760,7 +760,7 @@ class LProfile extends Component{
 
 	displayCreatePostOptionTrigger=()=>{
 		return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li id="createPostIcon" onClick={()=>this.setState({displayCreationPortal:true})} style={{listStyle:"none",marginLeft:"400px",marginBottom:"5%"}}>
+					<li id="createPostIcon" onClick={()=>this.setState({displayCreationPortal:true})} style={{listStyle:"none",marginLeft:"380px",marginBottom:"5%"}}>
 						<CreatePostButton>
 							<BorderColorIcon
 								style={{fontSize:"30",color:"#C8B0F4"}}
@@ -794,14 +794,6 @@ class LProfile extends Component{
 		})
 	}
 
-	handleVideoPostModal=(videoPostData,contextLocation)=>{
-		this.setState({
-			videoModalData:videoPostData,
-			contextLocation:contextLocation,
-			displayVideoPostModal:true,
-			displayShadowBackground:true
-		})
-	}
 
 	render(){
 		return(
@@ -823,6 +815,14 @@ class LProfile extends Component{
 								imageModalData:imagePostData,
 								contextLocation:contextLocation,
 								displayImagePostModal:true,
+								displayShadowBackground:true
+							})
+						},
+						handleVideoPostModal:(videoPostData,contextLocation)=>{
+							this.setState({
+								videoModalData:videoPostData,
+								contextLocation:contextLocation,
+								displayVideoPostModal:true,
 								displayShadowBackground:true
 							})
 						},
