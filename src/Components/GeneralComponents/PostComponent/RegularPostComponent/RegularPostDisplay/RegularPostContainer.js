@@ -408,6 +408,17 @@ const RegularPostContainer=(props)=>{
 															  <line x1="8" y1="13" x2="14" y2="13" />
 															</svg>
 														</li>
+														<li onClick={()=>changeDisplayPostApprovalAndSymposium(!displayPostApprovalAndSymposiumInfo)} 
+															style={ShadowButtonCSS}>
+															{displayPostApprovalAndSymposiumInfo==false?
+																<ExpandMoreIcon
+																	style={{fontSize:20}}
+																/>
+																:<ExpandLessIcon
+																	style={{fontSize:20}}
+																/>
+															}
+														</li>
 													</React.Fragment>
 												)}
 
@@ -441,17 +452,6 @@ const RegularPostContainer=(props)=>{
 															</svg>
 														</li>
 
-														<li onClick={()=>changeDisplayPostApprovalAndSymposium(!displayPostApprovalAndSymposiumInfo)} 
-															style={ShadowButtonCSS}>
-															{displayPostApprovalAndSymposiumInfo==false?
-																<ExpandMoreIcon
-																	style={{fontSize:20}}
-																/>
-																:<ExpandLessIcon
-																	style={{fontSize:20}}
-																/>
-															}
-														</li>
 													</React.Fragment>
 												)}
 											</PostOwnerAndOptionsContainer>

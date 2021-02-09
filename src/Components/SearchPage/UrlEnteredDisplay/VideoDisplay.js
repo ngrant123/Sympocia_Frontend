@@ -61,7 +61,10 @@ class VideoDisplay extends Component{
 		super(props);
 		this.state={
 			isLoading:true,
-			postData:{}
+			postData:{},
+			displayPhoneUI:true,
+			displayIpadUI:false,
+			displayDesktopUI:true
 		}
 	}
 
@@ -74,7 +77,7 @@ class VideoDisplay extends Component{
 				displayIpadUI:false,
 				displayDesktopUI:false
 			})
-		}else if(window.innerWidth<1400){
+		}else if(window.innerWidth<1370){
 			this.setState({
 				displayPhoneUI:false,
 				displayIpadUI:true,
@@ -112,6 +115,7 @@ class VideoDisplay extends Component{
 		}else{
 			alert('Unfortunately an error has occured when trying to retrieve this post information. Please try again');
 		}
+		this.triggerUIChange()
 	}
 
 	displayChatPageHandle=()=>{
