@@ -48,6 +48,9 @@ const Container=styled.div`
     }
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		margin-left:20% !important;
+		#smallContainerLI{
+			height:60% !important;
+		}
     }
 `;
 

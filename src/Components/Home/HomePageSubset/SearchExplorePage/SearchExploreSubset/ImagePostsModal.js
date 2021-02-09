@@ -254,6 +254,7 @@ const ImageLabelCSS={
 	  borderStyle:"solid",
 	  borderWidth:"2px",
 	  borderColor:"#3898ec",
+	  width:"90%",
 	  maxWidth:"30%",
 	  maxHeight:"50px",
 	  overflow:"hidden",
@@ -449,15 +450,7 @@ const ImagePostsModal=(props)=>{
 											null,
 											headerImage.industriesUploaded,props
 										)} style={ImageLabelCSS}>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-							incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-							exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-							dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-							Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-							anim id est laborum.
-						{/*
-							{headerImage.industriesUploaded[0].industry}
-						*/}
+						{headerImage.industriesUploaded[0].industry}
 						</p>
 						<PostUserInformation>
 							<ProfilePictureLink to={{pathname:`/profile/${headerImage.owner._id}`}}>
@@ -474,15 +467,7 @@ const ImagePostsModal=(props)=>{
 
 							<Link to={{pathname:`/profile/${headerImage.owner._id}`}}
 								id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-								dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-								anim id est laborum.
-								{/*
-									<b>{headerImage.owner.firstName}</b>
-								*/}
+								<b>{headerImage.owner.firstName}</b>
 							</Link>
 							{props.isGuestProfileIndicator==false &&(
 								<DisplayRecruitButton
@@ -500,12 +485,7 @@ const ImagePostsModal=(props)=>{
 							<>
 								{headerImage.audioDescription==null?
 									<p style={{marginLeft:"2%",height:"70px",overflow:"hidden"}}>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-										incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-										exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-										dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-										Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-										anim id est laborum.
+										{headerImage.description}
 									</p>
 									:
 									<audio id="headerAudioLI" style={{width:"150%"}} controls muted>
@@ -522,12 +502,7 @@ const ImagePostsModal=(props)=>{
 									Your browser does not support the audio element.
 								</audio>
 								<p style={{marginLeft:"2%",height:"70px",overflow:"hidden"}}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-									dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-									Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-									anim id est laborum.
+									{headerImage.description}
 								</p>
 							</>
 						}
@@ -581,12 +556,7 @@ const ImagePostsModal=(props)=>{
 															null,
 															data.industriesUploaded,props
 														)} style={{listStyle:"none",display:"inline-block",height:"40px",overflow:"hidden",marginLeft:"2%"}}>
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-											incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-											exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-											dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-											Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-											anim id est laborum.
+											{data.owner.firstName}
 										</p>
 									</DescriptionContainer>
 							</SmallPostContainer>

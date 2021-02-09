@@ -299,66 +299,50 @@ class EditVideoModal extends Component{
 		}
 
 		if(this.props.previousData==null){
+			const {confirmation,data}=await createVideoPost(
+												this.props.personalProfile.id,
+												searchVideoResult,
+												"Personal",
+												isAccessTokenUpdated==true?updatedAccessToken:
+												this.props.personalProfile.accessToken
+											);
+			const {
+				firstName,
+				id
+			}=this.props.personalProfile;
+
+			if(confirmation=="Success"){
 				searchVideoResult={
 					...searchVideoResult,
 					isPostAuthentic:{
 						numOfApprove:[],
 						numOfDisapprove:[]
 					},
-					owner:1234567865432,
-					_id:132456786543,
+					owner:id,
+					_id:data.message,
 					key:this.uuidv4()
 				}
 				videoPostInformation.hideCreationPost();
 				this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
-
-			/*
-				const {confirmation,data}=await createVideoPost(
-													this.props.personalProfile.id,
-													searchVideoResult,
-													"Personal",
-													isAccessTokenUpdated==true?updatedAccessToken:
-													this.props.personalProfile.accessToken
-												);
-				const {
-					firstName,
-					id
-				}=this.props.personalProfile;
-
-				if(confirmation=="Success"){
-					searchVideoResult={
-						...searchVideoResult,
-						isPostAuthentic:{
-							numOfApprove:[],
-							numOfDisapprove:[]
-						},
-						owner:id,
-						_id:132456786543,
-						key:this.uuidv4()
-					}
-					videoPostInformation.hideCreationPost();
-					this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
+			}else{
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalProfile.refreshToken,
+							this.props.personalProfile.id,
+							this.sendVideoDataToDB,
+							this.props,
+							{videoPostInformation},
+							true
+						);
 				}else{
-					debugger;
-					const {statusCode}=data;
-					if(statusCode==401){
-						await refreshTokenApiCallHandle(
-								this.props.personalProfile.refreshToken,
-								this.props.personalProfile.id,
-								this.sendVideoDataToDB,
-								this.props,
-								{videoPostInformation},
-								true
-							);
-					}else{
-						alert('Unfortunately an error has occured please try again ');
-						this.setState({
-							isSubmittedAndProcessing:false
-						})
-					}
+					alert('Unfortunately an error has occured please try again ');
+					this.setState({
+						isSubmittedAndProcessing:false
+					})
 				}
-
-			*/
+			}
 		}else{
 			const {previousData}=this.props;
 			let {
