@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const Container=styled.div`
 	position:relative;
 	width:80%;
-	height:25%;
+	height:100%;
 	padding:10px;
 	border-radius:5px;
 	background-color:white;

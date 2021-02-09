@@ -944,7 +944,7 @@ class EditImageCreation extends Component{
 														}
 														{this.state.audioDescription==null?null:
 															<li style={{listStyle:"none"}}>
-																<audio controls>
+																<audio key={this.state.audioDescriptionId} controls>
 																  <source src={this.state.audioDescription} type="audio/ogg"/>
 																  <source src={this.state.audioDescription} type="audio/mpeg"/>
 																Your browser does not support the audio element.

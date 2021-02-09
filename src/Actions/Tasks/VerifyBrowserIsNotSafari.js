@@ -1,10 +1,11 @@
-const VerifyBrowserIsNotSafari=()=>{
+const VerifyBrowserIsChrome=()=>{
 	debugger;
-    var isSafari = navigator.vendor && navigator.vendor.indexOf('Apple')!=-1;
-   return isSafari;
+    var isChrome = navigator.vendor && navigator.vendor.indexOf('Google Inc')!=-1;
+    console.log(navigator.vendor);
+   return isChrome;
 }
 
 
 export{
-	VerifyBrowserIsNotSafari
+	VerifyBrowserIsChrome
 }

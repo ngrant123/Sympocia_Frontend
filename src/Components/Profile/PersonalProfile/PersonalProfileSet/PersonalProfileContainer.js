@@ -794,6 +794,15 @@ class LProfile extends Component{
 		})
 	}
 
+	handleVideoPostModal=(videoPostData,contextLocation)=>{
+		this.setState({
+			videoModalData:videoPostData,
+			contextLocation:contextLocation,
+			displayVideoPostModal:true,
+			displayShadowBackground:true
+		})
+	}
+
 	render(){
 		return(
 
@@ -814,14 +823,6 @@ class LProfile extends Component{
 								imageModalData:imagePostData,
 								contextLocation:contextLocation,
 								displayImagePostModal:true,
-								displayShadowBackground:true
-							})
-						},
-						handleVideoPostModal:(videoPostData,contextLocation)=>{
-							this.setState({
-								videoModalData:videoPostData,
-								contextLocation:contextLocation,
-								displayVideoPostModal:true,
 								displayShadowBackground:true
 							})
 						},
@@ -980,6 +981,7 @@ class LProfile extends Component{
 										isGuestProfile={this.state.isGuestProfile}
 										isGuestVisitorProfile={this.state.isGuestVisitorProfile}
 										updateEndOfPostsDBIndicator={this.updateEndOfPostsDBIndicator}
+										handleVideoPostModal={this.handleVideoPostModal}
 									/>
 								</PostInformationContainer>
 							</>

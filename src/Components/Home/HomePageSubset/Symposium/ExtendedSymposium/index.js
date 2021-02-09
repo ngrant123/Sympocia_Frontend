@@ -776,7 +776,8 @@ class Symposium extends Component{
 				if(data.length==0){
 					this.setState({
 						endOfPostsDBIndicator:true,
-						isLoadingReloadedPosts:false
+						isLoadingReloadedPosts:false,
+						isLoading:false
 					})
 				}else{
 					const currentPosts=this.state.posts;
@@ -802,7 +803,8 @@ class Symposium extends Component{
 				if(data.length==0){
 					this.setState({
 						endOfPostsDBIndicator:true,
-						isLoadingReloadedPosts:false
+						isLoadingReloadedPosts:false,
+						isLoading:false
 					})
 				}else{
 					const currentPosts=this.state.posts;
@@ -827,7 +829,8 @@ class Symposium extends Component{
 				if(data.length==0){
 					this.setState({
 						endOfPostsDBIndicator:true,
-						isLoadingReloadedPosts:false
+						isLoadingReloadedPosts:false,
+						isLoading:false
 					})
 				}else{
 					const currentPosts=this.state.posts;
@@ -852,7 +855,8 @@ class Symposium extends Component{
 				if(data.length==0){
 					this.setState({
 						endOfPostsDBIndicator:true,
-						isLoadingReloadedPosts:false
+						isLoadingReloadedPosts:false,
+						isLoading:false
 					})
 				}else{
 					const currentPosts=this.state.posts;

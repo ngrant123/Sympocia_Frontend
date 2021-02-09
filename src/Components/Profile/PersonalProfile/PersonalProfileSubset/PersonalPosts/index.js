@@ -252,6 +252,7 @@ const PersonalPostsIndex=(props)=>{
 			changeDisplayForRegularPosts(false);
 			changeIsLoadingReloadedPosts(true);
 			unSelectButtonsCSS();
+			console.log(videoPost);
 
 		if(kindOfPost=="image"){
 			const image=document.getElementById("images");
@@ -285,10 +286,25 @@ const PersonalPostsIndex=(props)=>{
 					}
 					changeImagePost(imagePost);
 					changeIsLoadingNewPosts(false)
-
 				}
 			}else{
-				alert('Unfortunately there has been an error getting images. Please try again');
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalRedux.refreshToken,
+							personalRedux.id,
+							handlePostsClick,
+							dispatch,
+							{
+								kindOfPost,
+								id
+							},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error getting images. Please try again');
+				}
 			}
 			changeImagesLoadingIndicator(false);
 		}else if(kindOfPost=="video"){
@@ -315,8 +331,9 @@ const PersonalPostsIndex=(props)=>{
 				if(posts.length==0 && crownedPost==null){
 					changeEndOfPostsDBIndicator(true);
 				}else{
-					const {videos}=videoPost;
+					let {videos}=videoPost;
 					const newVideos=videos.concat(posts);
+					console.log(newVideos);
 					const videoObject={
 						headerVideo:crownedPost==null?videoPost.headerVideo:crownedPost,
 						videos:newVideos
@@ -601,6 +618,27 @@ const PersonalPostsIndex=(props)=>{
 				/>
 	}
 
+	const editPostVideo=(postData)=>{
+		const {postType}=postData;
+		let propData=videoPost;
+		let stateCallBackFunction=changeVideoPosts;
+
+		let result =editPostIndexContext(postData,propData);
+		stateCallBackFunction(result);
+		props.closeModal();
+	}
+
+	const removePostVideo=(postId,postType)=>{
+		debugger;
+		let propData=videoPost;
+		let result=removePostIndexContext(postId,propData,postType);
+		changeVideoPosts(result);
+		props.closeModal();
+	}
+
+	const updateVideoPosts=(posts)=>{
+	}
+
 /*
 	const initializePersonalInformationToState=(personalInformationData)=>{
 		
@@ -631,6 +669,7 @@ const PersonalPostsIndex=(props)=>{
 						props.closeModal();
 					},
 					updateVideoPost:(videoObject)=>{
+						debugger;
 						if(displayVideos==true){
 							let newVideoObject=updateVideoPostIndexContext(videoObject,videoPost);
 							changeVideoPosts(newVideoObject);							
@@ -864,6 +903,10 @@ const PersonalPostsIndex=(props)=>{
 										isLoadingIndicatorVideos={isLoadingIndicatorVideos}
 										id={personalInformation.userProfile._id}
 										postCounter={currentPostCounter}
+										handleVideoPostModal={props.handleVideoPostModal}
+										editPost={editPostVideo}
+										removePost={removePostVideo}
+										updateVideoPosts={updateVideoPosts}
 									/>:<React.Fragment></React.Fragment>
 								}
 								{

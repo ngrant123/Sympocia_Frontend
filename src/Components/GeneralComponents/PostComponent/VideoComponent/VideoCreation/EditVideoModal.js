@@ -299,50 +299,66 @@ class EditVideoModal extends Component{
 		}
 
 		if(this.props.previousData==null){
-			const {confirmation,data}=await createVideoPost(
-												this.props.personalProfile.id,
-												searchVideoResult,
-												"Personal",
-												isAccessTokenUpdated==true?updatedAccessToken:
-												this.props.personalProfile.accessToken
-											);
-			const {
-				firstName,
-				id
-			}=this.props.personalProfile;
-
-			if(confirmation=="Success"){
 				searchVideoResult={
 					...searchVideoResult,
 					isPostAuthentic:{
 						numOfApprove:[],
 						numOfDisapprove:[]
 					},
-					owner:id,
-					_id:data.message,
+					owner:1234567865432,
+					_id:132456786543,
 					key:this.uuidv4()
 				}
 				videoPostInformation.hideCreationPost();
 				this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
-			}else{
-				debugger;
-				const {statusCode}=data;
-				if(statusCode==401){
-					await refreshTokenApiCallHandle(
-							this.props.personalProfile.refreshToken,
-							this.props.personalProfile.id,
-							this.sendVideoDataToDB,
-							this.props,
-							{videoPostInformation},
-							true
-						);
+
+			/*
+				const {confirmation,data}=await createVideoPost(
+													this.props.personalProfile.id,
+													searchVideoResult,
+													"Personal",
+													isAccessTokenUpdated==true?updatedAccessToken:
+													this.props.personalProfile.accessToken
+												);
+				const {
+					firstName,
+					id
+				}=this.props.personalProfile;
+
+				if(confirmation=="Success"){
+					searchVideoResult={
+						...searchVideoResult,
+						isPostAuthentic:{
+							numOfApprove:[],
+							numOfDisapprove:[]
+						},
+						owner:id,
+						_id:132456786543,
+						key:this.uuidv4()
+					}
+					videoPostInformation.hideCreationPost();
+					this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
 				}else{
-					alert('Unfortunately an error has occured please try again ');
-					this.setState({
-						isSubmittedAndProcessing:false
-					})
+					debugger;
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								this.props.personalProfile.refreshToken,
+								this.props.personalProfile.id,
+								this.sendVideoDataToDB,
+								this.props,
+								{videoPostInformation},
+								true
+							);
+					}else{
+						alert('Unfortunately an error has occured please try again ');
+						this.setState({
+							isSubmittedAndProcessing:false
+						})
+					}
 				}
-			}
+
+			*/
 		}else{
 			const {previousData}=this.props;
 			let {
@@ -387,6 +403,7 @@ class EditVideoModal extends Component{
 
  			const {confirmation,data}=await editPost(editedVideo);
 			if(confirmation=="Success"){
+				alert('Your video has been edited. Please reload your profile to see your updated post.')
 				this.props.editPost(editedVideo);
 			}else{
 				debugger;
@@ -629,7 +646,7 @@ isArrayEqual=(arr1,arr2)=>{
 													<Icon 
 														id="crownIcon"
 														icon={crownIcon}
-														style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
+														style={{borderRadius:"50%",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
 													/>
 												</CrownIconContainer>
 											</a>

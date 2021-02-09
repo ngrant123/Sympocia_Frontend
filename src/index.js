@@ -16,7 +16,7 @@ import Demo from "./Components/Demo/index.js";
 import throttle from 'lodash.throttle';
 import LoadingScreen from "./LoadingAnimation.js";
 
-import {VerifyBrowserIsNotSafari} from "./Actions/Tasks/VerifyBrowserIsNotSafari.js";
+import {VerifyBrowserIsChrome} from "./Actions/Tasks/VerifyBrowserIsNotSafari.js";
 
 
 //Starting point for the web application
@@ -64,7 +64,7 @@ const UrlEnteredRegularPostDisplay=React.lazy(()=>import("./Components/SearchPag
 const UrlEnteredBlogDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/BlogDisplay.js"));
 
 
-const ApplicationElementIndicator=VerifyBrowserIsNotSafari()
+const ApplicationElementIndicator=VerifyBrowserIsChrome()
 let finalElement;
 
 const application  = (
@@ -104,9 +104,9 @@ const application  = (
 		</ErrorBoundary>
 	);
 
-	if(ApplicationElementIndicator==true){
+	if(ApplicationElementIndicator==false){
 		const alertIncorrectBrowser=(
-			alert('As of right now Sympocia is only available on chrome and firefox. We are working hard on making it available for safari as of right now'+
+			alert('As of right now Sympocia is only available on chrome. We are working hard on making it available for everywhere as of right now'+
 				' and we are sorry for any inconvienve. Please switch over to the browsers listed above if you want to continue using this site')
 		)
 		finalElement=alertIncorrectBrowser;

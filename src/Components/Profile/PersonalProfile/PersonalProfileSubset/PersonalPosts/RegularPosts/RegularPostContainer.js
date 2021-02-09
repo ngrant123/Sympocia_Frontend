@@ -177,73 +177,73 @@ class RegularPostsContainer extends Component{
 				{postsConsumer=>(
 					<PostDisplayConsumer>
 						{postDisplayModal=>(
-								<CompanyPostDisplayConsumer>
-									{companyPostDisplayModal=>(
-										<Container>
-											{this.props.isLoadingIndicatorRegularPost==true?
-												<p>We are currently getting posts</p>:
-												<React.Fragment>
-													{this.props.posts.posts.length==0 && this.props.posts.headerPost==null?
-																					<NoPostsModal
-																						id="noPostsModalContainer"
-																						postType={"post"}
-																						profilePageType={this.props.profile}
-																					/>:
-																<ul id="postContainer" style={{padding:"0px"}}>
-																	{this.props.posts.headerPost==null?null:
-																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																			<li id="headerContainerLI" onClick={()=>this.displayPostModal(
-																								postDisplayModal,
-																								companyPostDisplayModal,
-																								this.props.posts.headerPost,
-																								postsConsumer)} style={{listStyle:"none",marginBottom:"2%",marginBottom:"2%"}}>
-																				<HeaderPost
-																					post={this.props.posts.headerPost}
-																					profilePicture={this.props.profilePicture}
-																				/>	
-																			</li>
-																		</a>
-																	}
-																	<hr/>
-																	<li style={{listStyle:"none"}}>
-																		<ul style={{padding:"0px"}}>
-																			{this.props.posts.posts.map(data=>
-																				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																					<li id="smallContainerLI"  onClick={()=>this.displayPostModal(
-																										postDisplayModal,
-																										companyPostDisplayModal,
-																										data,
-																										postsConsumer)} style={{width:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
-																						<SmallRegularPost
-																							post={data}
-																							profilePicture={this.props.profilePicture}
-																						/>
-																					</li>
-																				</a>
-																			)}
-																		</ul>
-																	</li>
-																	{postsConsumer.endOfPostsDBIndicator==false && (
-																		<React.Fragment>
-																			{postsConsumer.isLoadingReloadedPosts==true?
-																				 <Typed 
-																                    strings={['Loading...']} 
-																                    typeSpeed={60} 
-																                    backSpeed={30} 
-														                		  />:
-																				<p onClick={()=>postsConsumer.fetchNextPosts()} style={NextPostLabelCSS}>
-																					Next Page
-																				</p>
-																			}
-																		</React.Fragment>
-																	)}
-																</ul>
-														}
-													</React.Fragment>
-												}
-											</Container>
-									)}
-								</CompanyPostDisplayConsumer>
+							<CompanyPostDisplayConsumer>
+								{companyPostDisplayModal=>(
+									<Container>
+										{this.props.isLoadingIndicatorRegularPost==true?
+											<p>We are currently getting posts</p>:
+											<React.Fragment>
+												{this.props.posts.posts.length==0 && this.props.posts.headerPost==null?
+																				<NoPostsModal
+																					id="noPostsModalContainer"
+																					postType={"post"}
+																					profilePageType={this.props.profile}
+																				/>:
+															<ul id="postContainer" style={{padding:"0px"}}>
+																{this.props.posts.headerPost==null?null:
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<li id="headerContainerLI" onClick={()=>this.displayPostModal(
+																							postDisplayModal,
+																							companyPostDisplayModal,
+																							this.props.posts.headerPost,
+																							postsConsumer)} style={{listStyle:"none",marginBottom:"2%",marginBottom:"2%",height:"25%"}}>
+																			<HeaderPost
+																				post={this.props.posts.headerPost}
+																				profilePicture={this.props.profilePicture}
+																			/>	
+																		</li>
+																	</a>
+																}
+																<hr/>
+																<li style={{listStyle:"none"}}>
+																	<ul style={{padding:"0px"}}>
+																		{this.props.posts.posts.map(data=>
+																			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																				<li id="smallContainerLI"  onClick={()=>this.displayPostModal(
+																									postDisplayModal,
+																									companyPostDisplayModal,
+																									data,
+																									postsConsumer)} style={{width:"30%",height:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
+																					<SmallRegularPost
+																						post={data}
+																						profilePicture={this.props.profilePicture}
+																					/>
+																				</li>
+																			</a>
+																		)}
+																	</ul>
+																</li>
+																{postsConsumer.endOfPostsDBIndicator==false && (
+																	<React.Fragment>
+																		{postsConsumer.isLoadingReloadedPosts==true?
+																			 <Typed 
+															                    strings={['Loading...']} 
+															                    typeSpeed={60} 
+															                    backSpeed={30} 
+													                		  />:
+																			<p onClick={()=>postsConsumer.fetchNextPosts()} style={NextPostLabelCSS}>
+																				Next Page
+																			</p>
+																		}
+																	</React.Fragment>
+																)}
+															</ul>
+													}
+												</React.Fragment>
+											}
+										</Container>
+								)}
+							</CompanyPostDisplayConsumer>
 							)}
 					</PostDisplayConsumer>
 				)}

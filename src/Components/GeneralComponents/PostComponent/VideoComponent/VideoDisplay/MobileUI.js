@@ -555,8 +555,6 @@ const MobileUI=(props)=>{
 	}	
 
 	const closeVideoDescriptionDisplayModal=()=>{
-		const currentPlayTimeMiniVideo=document.getElementById('miniVideo').currentTime;
-		changeVideoPlayTime(currentPlayTimeMiniVideo);
 		changeVideoDescriptionDisplay(false);
 	}
 	return (
