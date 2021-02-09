@@ -28,9 +28,15 @@ const AnimationContainer=styled.div`
 	left:37%;
 	top:30%;
 	width:20%;
-	height:30%;
 	filter: blur(4px);
 	animation:${keyFrameAnimation} 3s ease-in-out 0s forwards infinite;
+
+	${({isScrollEnabled})=>
+		isScrollEnabled==true ?
+		`height:65%;`:
+		`height:30%;`
+	}
+
 
 	@media screen and (max-width:1370px){
 		width:60% !important;
@@ -50,11 +56,11 @@ const AnimationContainer=styled.div`
     	width:20% !important;
     }
 `;
-const LoadingAnimation=()=>{
-
+const LoadingAnimation=({isScrollEnabled})=>{
+	console.log(isScrollEnabled);
 	return (
 		<React.Fragment>
-			<AnimationContainer>
+			<AnimationContainer isScrollEnabled={isScrollEnabled}>
 				<img id="animationImage" src={StampIcon} style={{borderRadius:"50%",width:"60%",height:"70%"}} />
 			</AnimationContainer>
 			<p style={{fontSize:"30px",position:"fixed",top:"70%",left:"30%"}}> 
