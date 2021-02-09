@@ -428,7 +428,7 @@ const MobileUI=(props)=>{
 							<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"2%",marginRight:"3%"}}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none"}}>
-										<p style={{fontSize:"20px"}}>{video.firstName}</p>
+										<p style={{fontSize:"20px"}}>{video.owner.firstName}</p>
 									</li>
 									{video.industriesUploaded.length>0 &&(
 										<li style={{listStyle:"none"}}>	
@@ -457,28 +457,10 @@ const MobileUI=(props)=>{
 						</ul>
 
 						<p style={{width:"90%",fontSize:"40px"}}>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-							incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-							exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-							dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-							Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-							anim id est laborum.
-							{/*
-								<b>
-									{video.title}
-								</b>
-							*/}
+							<b>{video.title}</b>
 						</p>
 						<p style={{overflow:"hidden"}}> 
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-							incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-							exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-							dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-							Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-							anim id est laborum.
-							{/*
-							 	{video.description}
-							*/}
+							{video.description}
 						</p>
 					</React.Fragment>
 				}
