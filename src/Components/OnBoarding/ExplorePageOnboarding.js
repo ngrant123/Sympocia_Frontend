@@ -73,6 +73,13 @@ const ButtonCSS={
   marginRight:"2%"
 }
 
+const CloseButtonCSS={
+	listStyle:"none",
+	display:"inline-block",
+	marginLeft:"50%",
+	cursor:"pointer"
+}
+
 const ExplorePageOnboarding=({closeModal})=>{
 
 	const personalInformationId=useSelector(state=>state.personalInformation.id);
@@ -117,17 +124,15 @@ const ExplorePageOnboarding=({closeModal})=>{
 										<b>Beautiful isnt it?</b>
 									</p>
 								</li>
-								<a href="javascript:void(0);" style={{textDecoration:"none",marginLeft:"50%"}}>
-									<li id="closeOptionIconLI" style={{listStyle:"none",display:"inline-block"}}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
-											width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
-											fill="none" stroke-linecap="round" stroke-linejoin="round">
-											<path stroke="none" d="M0 0h24v24H0z"/>
-											<circle cx="12" cy="12" r="9" />
-											<path d="M10 10l4 4m0 -4l-4 4" />
-										</svg>
-									</li>
-								</a>
+								<li onClick={()=>onBoardingCloseModal()} id="closeOptionIconLI" style={CloseButtonCSS}>
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
+										width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
+										fill="none" stroke-linecap="round" stroke-linejoin="round">
+										<path stroke="none" d="M0 0h24v24H0z"/>
+										<circle cx="12" cy="12" r="9" />
+										<path d="M10 10l4 4m0 -4l-4 4" />
+									</svg>
+								</li>
 							</ul>
 						</li>
 						<hr/>
@@ -169,7 +174,7 @@ const ExplorePageOnboarding=({closeModal})=>{
 
 				{displaySecondPage && (
 					<ul style={{padding:"30px"}}>
-						<li id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%"}}>
+						<li onClick={()=>onBoardingCloseModal()} id="closeOptionIconLI" style={{...CloseButtonCSS,marginLeft:"85%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
 								width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
 								fill="none" stroke-linecap="round" stroke-linejoin="round">

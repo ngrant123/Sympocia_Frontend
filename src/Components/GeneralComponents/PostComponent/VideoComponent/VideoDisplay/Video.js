@@ -193,11 +193,12 @@ class Video extends Component{
 
 
 	displayOrHideVideoAndComments=()=>{
+		debugger;
 		if(this.state.displayComments==true){
 			const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
 			commentsAndVideoContainer.style.visibility="visible";
 
-			const videoElement=document.getElementById("video");
+			const videoElement=document.getElementById("largeVideoElement");
 			const videoSeconds=videoElement.currentTime;
 			videoElement.muted=true;
 			const smallVideo=document.getElementById("smallVideo");
@@ -208,7 +209,7 @@ class Video extends Component{
 		}else{
 			const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
 			if(commentsAndVideoContainer!=null){
-				const videoElement=document.getElementById("video");
+				const videoElement=document.getElementById("largeVideoElement");
 				commentsAndVideoContainer.style.visibility="hidden";
 				const smallVideo=document.getElementById("smallVideo");
 				smallVideo.pause();
@@ -337,13 +338,13 @@ class Video extends Component{
 
 	hideComments=()=>{
 		const smallVideoCurrentTime=document.getElementById("smallVideo").currentTime;
-		const largeVideo=document.getElementById("video");
+		const largeVideo=document.getElementById("largeVideoElement");
 		const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
 
 		largeVideo.currentTime=smallVideoCurrentTime;
 		largeVideo.play();
 
-		const videoElement=document.getElementById("video");
+		const videoElement=document.getElementById("largeVideoElement");
 		commentsAndVideoContainer.style.visibility="hidden";
 
 		this.setState({
@@ -435,7 +436,7 @@ class Video extends Component{
 						null
 				}
 
-    			<video  key={this.props.video.videoUrl} id="video" position="relative" height="100%" width="100%" controls autoplay muted>
+    			<video  key={this.props.video.videoUrl} id="largeVideoElement" position="relative" height="100%" width="100%" controls autoplay muted>
 				    <source src={this.props.video.videoUrl} type="video/mp4"/>
 				</video>
 

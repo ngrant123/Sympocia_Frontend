@@ -1355,6 +1355,7 @@ class Symposium extends Component{
 											isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
 											triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
 											endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+											isGuestProfileIndicator={this.state.isGuestProfile}
 										/>:null
 									}
 
