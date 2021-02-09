@@ -122,40 +122,36 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						personalInformation.accessToken
 		}
-
-		/*
-			const {confirmation,data}=await createLevel(levelObject);
-			if(confirmation=="Success"){
-				const {message}=data;
-				const newNode={
-					name:levelName,
-					description:levelDescription,
-					nodeCounter:nodeNumber,
-					_id:message
-				}
-				const addNodeAction={
-					actionType:"Add",
-					node:newNode
-				}
-				closeModal(addNodeAction);
-			}else{
-				debugger;
-				const {statusCode}=data;
-				if(statusCode==401){
-					await refreshTokenApiCallHandle(
-							personalInformation.refreshToken,
-							personalInformation.id,
-							submitNode,
-							dispatch,
-							{},
-							false
-						);
-				}else{
-					alert('Unfortunately there has been an error creating this level. Please try again');
-				}
+		const {confirmation,data}=await createLevel(levelObject);
+		if(confirmation=="Success"){
+			const {message}=data;
+			const newNode={
+				name:levelName,
+				description:levelDescription,
+				nodeCounter:nodeNumber,
+				_id:message
 			}
-
-		*/
+			const addNodeAction={
+				actionType:"Add",
+				node:newNode
+			}
+			closeModal(addNodeAction);
+		}else{
+			debugger;
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitNode,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error creating this level. Please try again');
+			}
+		}
 		changeIsSubmitProcessing(false);
 	}
 	/*

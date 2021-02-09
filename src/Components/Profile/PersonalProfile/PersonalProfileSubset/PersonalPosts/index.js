@@ -797,21 +797,23 @@ const PersonalPostsIndex=(props)=>{
 								<>{mobilePostSelectionAndRecruitUI(props.personalInformation)}</>:
 								<li style={{listStyle:"none",marginBottom:"20px"}}>
 									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<SearchIcon
-														style={{fontSize:40}}
-													/>
-												</li>
+										{/*
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														<SearchIcon
+															style={{fontSize:40}}
+														/>
+													</li>
 
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<SearchPostsTextArea
-														placeholder="Search for any posts here"
-													/>
-												</li>
-											</ul>
-										</li>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														<SearchPostsTextArea
+															placeholder="Search for any posts here"
+														/>
+													</li>
+												</ul>
+											</li>
+										*/}
 
 										<li onClick={()=>triggerPostDecider("image",props.personalInformation.userProfile._id,0)} 
 											style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
@@ -846,44 +848,45 @@ const PersonalPostsIndex=(props)=>{
 											</React.Fragment>
 										)}
 
-										<li style={listCSSButton}>	
+										{/*
+											<li style={listCSSButton}>	
 
-											<div class="dropdown">
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																			borderColor:"#5298F8",
-																																			borderStyle:"solid",
-																																			borderWidth:"1px",
-																																			color:"#5298F8",
-																																			backgroundColor:"white"}}>
-														Sort By
-													   	<span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu">
-														<li><a href="">Most Popular</a></li>
-														<li><a href="">Most Recent</a></li>
-													</ul>
-							  				 </div>
-							  			</li>
+												<div class="dropdown">
+														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																				borderColor:"#5298F8",
+																																				borderStyle:"solid",
+																																				borderWidth:"1px",
+																																				color:"#5298F8",
+																																				backgroundColor:"white"}}>
+															Sort By
+														   	<span class="caret"></span>
+														</button>
+														<ul class="dropdown-menu">
+															<li><a href="">Most Popular</a></li>
+															<li><a href="">Most Recent</a></li>
+														</ul>
+								  				 </div>
+								  			</li>
 
-										<li style={listCSSButton}>
-											<div class="dropdown">
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																			borderColor:"#5298F8",
-																																			borderStyle:"solid",
-																																			borderWidth:"1px",
-																																			color:"#5298F8",
-																																			backgroundColor:"white"}}>
-														Industries
-													   	<span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu">
-														<li><a href="">Most Popular</a></li>
-														<li><a href="">Most Recent</a></li>
-														
-													</ul>
-							  				 </div>
-										</li>
-
+											<li style={listCSSButton}>
+												<div class="dropdown">
+														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																				borderColor:"#5298F8",
+																																				borderStyle:"solid",
+																																				borderWidth:"1px",
+																																				color:"#5298F8",
+																																				backgroundColor:"white"}}>
+															Industries
+														   	<span class="caret"></span>
+														</button>
+														<ul class="dropdown-menu">
+															<li><a href="">Most Popular</a></li>
+															<li><a href="">Most Recent</a></li>
+															
+														</ul>
+								  				 </div>
+											</li>
+										*/}
 									</ul>
 								</li>
 							}
