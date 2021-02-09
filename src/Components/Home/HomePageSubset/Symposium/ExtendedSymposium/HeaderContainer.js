@@ -177,7 +177,8 @@ const ButtonCSS={
 	borderColor:"white",
 	borderWidth:"1px",
 	color:"white",
-	marginTop:"-25%"
+	marginTop:"-25%",
+	cursor:"pointer"
 }
 
 const MobileRouteOptionCSS={
@@ -495,30 +496,28 @@ const HeaderContainer=(props)=>{
 							</ul>
 						</li>
 
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})} style={ButtonCSS}>
-								<b>
-									<AddCircleOutlineIcon style={{font:20}}/>
-									 	{followSymposiumButtonClick==false?
-									 		<p>Follow Symposium</p>:
-									 		<p>Unfollow Symposium</p>
-									 	}
-								</b>
-							</li>
-						</a>
-							{/*
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>props.hideChat()} style={ButtonCSS}>
-										<b>
-											<ExpandLessIcon style={{font:20}}/> 
-												{hideChatButtonClicked==false?
-													<p>Hide chat </p>:
-													<p> Unhide Chat </p>
-												}
-										</b>
-									</li>
-								</a>
-							*/}
+						<li onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})} style={ButtonCSS}>
+							<b>
+								<AddCircleOutlineIcon style={{font:20}}/>
+								 	{followSymposiumButtonClick==false?
+								 		<p>Follow Symposium</p>:
+								 		<p>Unfollow Symposium</p>
+								 	}
+							</b>
+						</li>
+						{/*
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>props.hideChat()} style={ButtonCSS}>
+									<b>
+										<ExpandLessIcon style={{font:20}}/> 
+											{hideChatButtonClicked==false?
+												<p>Hide chat </p>:
+												<p> Unhide Chat </p>
+											}
+									</b>
+								</li>
+							</a>
+						*/}
 					</ul>
 				</ActivePeopleAndFollowContainer>
 			</Container>

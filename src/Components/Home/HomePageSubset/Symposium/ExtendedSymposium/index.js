@@ -672,6 +672,12 @@ class Symposium extends Component{
 	  	}
 	  }
 
+
+	  closeSymposiumFeatureModal=()=>{
+	  	this.setState({
+	  		displaySpecficSymposiumFeature:!this.state.displaySpecficSymposiumFeature
+	  	})
+	  }
 	  symposiumFeaturesAndChat=()=>{
 	  	return (
 	  		<>
@@ -685,6 +691,7 @@ class Symposium extends Component{
 					  		chat={this.state.chatRoom}
 					  		profileId={this.state.profileId}
 					  		socket={socket}
+					  		closePostModal={this.closeSymposiumFeatureModal}
 						/>
 					</SymposiumChatContainer>
 				  	:<SymposiumFeatureContainer headerAnimation={this.state.headerAnimation}>
@@ -1384,7 +1391,7 @@ class Symposium extends Component{
 									}
 								</Posts>
 							</PostContainer>
-						</>:<LoadingScreen/>
+						</>:<LoadingScreen isScrollEnabled={this.state.headerAnimation}/>
 					}
 				</PostsChatInformation>
 			</SymposiumContainer>
