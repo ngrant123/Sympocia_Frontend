@@ -373,6 +373,9 @@ class PersonalFeedContainer extends Component{
 
 		const followingSymposiumButton=document.getElementById("followedSymposiumsButton");
 		const exploreSymposiumsButton=document.getElementById("exploreSymposiumsButton");
+		this.setState({
+			isLoading:true
+		})
 
 		var explorePosts=[];
 	

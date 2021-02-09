@@ -215,15 +215,7 @@ const ImageInformation=(props)=>{
 													<Link style={{marginLeft:"4%",fontSize:"20px",maxWidth:"80%",maxHeight:"30px",overflow:"hidden",textDecoration:"none",color:"black"}}
 														to={{pathname:`/profile/${props.imageInformation.owner._id}`}}
 													>	
-														{/*
-															{props.imageInformation.owner.firstName}</p>
-														*/}
-														Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-														incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-														exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-														dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-														Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-														anim id est laborum.
+														<p>{props.imageInformation.owner.firstName}</p>
 													</Link>
 												</React.Fragment>:
 												<p style={{fontSize:"20px"}}>{props.imageInformation.firstName}</p>
@@ -260,34 +252,12 @@ const ImageInformation=(props)=>{
 						</ul>
 						<p style={{width:"90%",fontSize:"40px"}}>
 							<b>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-								dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-								anim id est laborum.
+								{props.imageInformation.caption}
 							</b>
 						</p>
 						<p style={{height:"35%"}}> 
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-							incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-							exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-							dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-							Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-							anim id est laborum.
+							{props.imageInformation.description}
 						 </p>
-
-
-						{/*
-							<p style={{height:"30%",width:"90%",fontSize:"40px"}}>
-								<b>
-									{props.imageInformation.caption}
-								</b>
-							</p>
-							<p style={{height:"35%",overflow:"hidden"}}> 
-								 {props.imageInformation.description}
-							 </p>
-						*/}
 
 						 {(props.isMobileTrue!=true && props.isGuestProfile==false)==true &&(
 						 	 <ul style={{padding:"0px",marginTop:"5px"}}>
