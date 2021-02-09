@@ -387,12 +387,7 @@ const BlogPostModal=(props)=>{
 										</li>
 									</a>
 									<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-											incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-											exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-											dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-											Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-											anim id est laborum.
+										{headerBlog.owner.firstName}
 									</li>
 									<li id="headerSymposiumSubmitted" onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerBlog.industriesUploaded,props)} style={SymposiumLabelCSS}>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -414,23 +409,11 @@ const BlogPostModal=(props)=>{
 									id="headerBlogImage" src={headerBlog.blogImageUrl} style={HeaderBlogCSS}/>
 								<ul style={{padding:"0px"}}>
 									<li style={{fontSize:"20px",listStyle:"none",height:"60px",overflowY:"hidden"}}>
-										<b>
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-											incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-											exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-											dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-											Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-											anim id est laborum.
-										</b>
+										<b>{headerBlog.title}</b>
 									</li>
 
 									<li style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"80px",overflowY:"hidden"}}>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-											incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-											exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-											dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-											Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-											anim id est laborum.
+										{headerBlog.description}
 									</li>
 								</ul>
 							</HeaderBlogImageInformationContainer>
@@ -476,12 +459,7 @@ const BlogPostModal=(props)=>{
 																}
 															</li>
 															<li style={{listStyle:"none",display:"inline-block",maxWidth:"70px",overflow:"hidden",maxHeight:"20px"}}>
-																Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-														incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-														exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-														dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-														Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-														anim id est laborum.
+																{data.owner.firstName}
 															</li>
 														</ul>
 													</li>
@@ -497,22 +475,12 @@ const BlogPostModal=(props)=>{
 											<SmallPostDescriptionContainer>
 												<li style={{listStyle:"none",height:"60px",overflowY:"hidden"}}>
 													<b>
-														Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-														incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-														exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-														dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-														Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-														anim id est laborum.
+														{data.title}
 													</b>
 												</li>
 
 												<li style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-														incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-														exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-														dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-														Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-														anim id est laborum.
+													{data.description}
 												</li>
 												<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} 
 												style={{...SymposiumLabelCSS,marginTop:"2%"}}>
