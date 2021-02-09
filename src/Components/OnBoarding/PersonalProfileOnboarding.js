@@ -116,17 +116,16 @@ const PersonalProfileOnboarding=({closeModal})=>{
 										<b> Hold on...wait a minute slow down a bit</b>
 									</p>
 								</li>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li id="closeOptionIconLI" style={{listStyle:"none",display:"inline-block"}}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
-											width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
-											fill="none" stroke-linecap="round" stroke-linejoin="round">
-											<path stroke="none" d="M0 0h24v24H0z"/>
-											<circle cx="12" cy="12" r="9" />
-											<path d="M10 10l4 4m0 -4l-4 4" />
-										</svg>
-									</li>
-								</a>
+								<li id="closeOptionIconLI" onClick={()=>onBoardingCloseModal()}
+									style={{listStyle:"none",display:"inline-block",cursor:"pointer"}}>
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
+										width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
+										fill="none" stroke-linecap="round" stroke-linejoin="round">
+										<path stroke="none" d="M0 0h24v24H0z"/>
+										<circle cx="12" cy="12" r="9" />
+										<path d="M10 10l4 4m0 -4l-4 4" />
+									</svg>
+								</li>
 							</ul>
 						</li>
 						<hr/>
@@ -141,7 +140,12 @@ const PersonalProfileOnboarding=({closeModal})=>{
 						<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
 							We've all been in that situation before... You have a picture but you want to upload it to only 
 							certain people right? Maybe you dont want people to know that you collect rocks on the side. Now theres 
-							a way to do this. Add levels and allow only certain people access to you secrets :)
+							a way to do this. Add levels and allow only certain people access to you secrets :). 
+							<hr/>
+
+							Here at sympocia you have a max of <b>100</b> recruits (friends) per profile. We do this because we want this platform
+							to be also about people you really care about. So 
+							use your recruits wisely ;)
 						</p>
 						<img id="firstPageOnboardingImage" src={FriendsGaugeImage} style={{width:"90%"}}/>
 						<hr/>
@@ -168,7 +172,7 @@ const PersonalProfileOnboarding=({closeModal})=>{
 
 				{displaySecondPage && (
 					<ul style={{padding:"30px"}}>
-						<li onClick={()=>onBoardingCloseModal()} id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%"}}>
+						<li onClick={()=>onBoardingCloseModal()} id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%",cursor:"pointer"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
 								width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
 								fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -214,7 +218,7 @@ const PersonalProfileOnboarding=({closeModal})=>{
 
 				{displayThirdPage && (
 					<ul style={{padding:"30px"}}>
-						<li onClick={()=>onBoardingCloseModal()} id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%"}}>
+						<li onClick={()=>onBoardingCloseModal()} id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%",cursor:"pointer"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
 								width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
 								fill="none" stroke-linecap="round" stroke-linejoin="round">

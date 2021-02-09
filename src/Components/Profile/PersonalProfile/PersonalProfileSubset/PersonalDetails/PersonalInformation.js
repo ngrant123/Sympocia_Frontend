@@ -179,7 +179,6 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 		if(personalInformation.isGuestVisitorProfile==true){
 			alert('Create your own profile so you can recruit this person :)');
 		}else{
-			changeIsProfileARecruitOrOwner(true);
 			handleRecruitButton({personalInformation,displayConfettiHandle,userId,isAccessTokenUpdated:false});
 		}
 	}
@@ -222,7 +221,13 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 											personalReduxInformation.accessToken
 										);
 		if(confirmation=="Success"){
-			displayConfettiHandle();
+			const {statusCode}=data;
+			if(statusCode==300){
+				alert('You have reached the limit of 100 recruits. Please delete some to recruit this person');
+			}else{
+				changeIsProfileARecruitOrOwner(true);
+				displayConfettiHandle();
+			}
 		}else{
 			const {statusCode}=data;
 			if(statusCode==401){

@@ -323,8 +323,13 @@ const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 												personalInformationRedux.accessToken
 											);
 		if(confirmation=="Success"){
-			confettiAnimation();
-			changeDisplayRecruitButton(true);
+			const {statusCode}=data;
+			if(statusCode==300){
+				alert('You have reached the limit of 100 recruits. Please delete some to recruit this person');
+			}else{
+				confettiAnimation();
+				changeDisplayRecruitButton(true);
+			}
 		}else{
 			const {statusCode}=data;
 			if(statusCode==401){

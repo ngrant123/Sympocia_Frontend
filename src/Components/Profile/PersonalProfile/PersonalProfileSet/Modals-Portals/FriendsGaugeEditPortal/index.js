@@ -188,7 +188,7 @@ const FriendsGaugeEditPortal=(props)=>{
 		if(actionType=="Add"){
 			return <AddLevel
 						userId={props.userInformation}
-						nodeNumber={props.nodeNumber}
+						nodeNumber={props.nodes.length}
 						recruitsInformation={recruitsInformation}
 						closeModal={closingScreen}
 					/>;
