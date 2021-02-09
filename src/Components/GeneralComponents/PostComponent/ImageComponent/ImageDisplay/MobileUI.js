@@ -113,8 +113,7 @@ const TogglePostInformationButton=styled.div`
 const PostInformationContainer=styled.div`
 	position:relative;
 	width:80%;
-	border-radius:5px;
-	height:40%;
+	border-radius:5px; 
 
 	@media screen and (max-width:1370px) and (max-height:1030px){
 	 	height:10% !important;
@@ -368,59 +367,60 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 			{displayEditImageModal==false?
 				<Container>
 					<ul style={{padding:"10px"}}>
-						<div onClick={()=>closePostModal()} style={{marginBottom:"5%"}}>
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-							 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-							 stroke-linecap="round" stroke-linejoin="round">
-							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-							  <circle cx="12" cy="12" r="9" />
-							  <path d="M10 10l4 4m0 -4l-4 4" />
-							</svg>
-						</div>
-						<li style={{listStyle:"none",marginBottom:"5%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-									{imgData.videoDescription!=null &&(
-										<VideoDesriptionContainer>
-											<video id="videoDescription" onClick={()=>displayVideoDescriptionTrigger()}
-												style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
-												<source src={imgData.videoDescription} type="video/mp4"/>
-											</video>
-										</VideoDesriptionContainer>
-									)}
-								</li>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{imgData.audioDescription!=null &&(
-										<audio id="postAudio" style={{width:"150px"}} controls>
-											<source src={imgData.audioDescription} type="audio/ogg"/>
-											<source src={imgData.audioDescription} type="audio/mpeg"/>
-											Your browser does not support the audio element.
-										</audio>
-									)}
-								</li>
-
-								<li id="keyBoardArrowIcon" style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}} 
-									onClick={()=>displayPostInformationTrigger()}>
-									{displayInformation==false?
-										<KeyboardArrowDownIcon
-											id="keyBoardDownLI"
-											style={{borderRadius:"50%",fontSize:"40",boxShadow:"1px 1px 5px #dbdddf"}}
-										/>:
-										<KeyboardArrowUpIcon
-											id="keyBoardUpLI"
-											style={{borderRadius:"50%",fontSize:"40",boxShadow:"1px 1px 5px #dbdddf"}}
-										/>
-									}
-								</li>
-							</ul>
-						</li>
-
-						<div id="image" style={{marginLeft:"-10%",height:"60%",overflow:"scroll",width:"110%"}}>
-							{commentsAndPostDescriptionDecider()}
-						</div>
-						<hr/>
 						{isPhoneUI==true && (displayPostInformationContainer==true && displayComments==true)?
 							<>{commentContainer()}</>:
+							<React.Fragment>
+								<div onClick={()=>closePostModal()} style={{marginBottom:"5%"}}>
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+									 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+									 stroke-linecap="round" stroke-linejoin="round">
+									  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+									  <circle cx="12" cy="12" r="9" />
+									  <path d="M10 10l4 4m0 -4l-4 4" />
+									</svg>
+								</div>
+								<li style={{listStyle:"none",marginBottom:"5%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+											{imgData.videoDescription!=null &&(
+												<VideoDesriptionContainer>
+													<video id="videoDescription" onClick={()=>displayVideoDescriptionTrigger()}
+														style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+														<source src={imgData.videoDescription} type="video/mp4"/>
+													</video>
+												</VideoDesriptionContainer>
+											)}
+										</li>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											{imgData.audioDescription!=null &&(
+												<audio id="postAudio" style={{width:"150px"}} controls>
+													<source src={imgData.audioDescription} type="audio/ogg"/>
+													<source src={imgData.audioDescription} type="audio/mpeg"/>
+													Your browser does not support the audio element.
+												</audio>
+											)}
+										</li>
+
+										<li id="keyBoardArrowIcon" style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}} 
+											onClick={()=>displayPostInformationTrigger()}>
+											{displayInformation==false?
+												<KeyboardArrowDownIcon
+													id="keyBoardDownLI"
+													style={{borderRadius:"50%",fontSize:"40",boxShadow:"1px 1px 5px #dbdddf"}}
+												/>:
+												<KeyboardArrowUpIcon
+													id="keyBoardUpLI"
+													style={{borderRadius:"50%",fontSize:"40",boxShadow:"1px 1px 5px #dbdddf"}}
+												/>
+											}
+										</li>
+									</ul>
+								</li>
+
+								<div id="image" style={{marginLeft:"-10%",height:"60%",overflow:"scroll",width:"110%"}}>
+									{commentsAndPostDescriptionDecider()}
+								</div>
+								<hr/>
 							<li style={{listStyle:"none"}}>
 							<ul style={{padding:"20px"}}>
 								{isGuestProfile==false && (
@@ -485,6 +485,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 
 								</ul>
 							</li>
+							</React.Fragment>
 
 						}
 					</ul>

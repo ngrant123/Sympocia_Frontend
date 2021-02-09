@@ -16,6 +16,11 @@ const ShadowContainer= styled.div`
 	background-color: rgba(0,0,0,0.4);
 	z-index:45;
 	top:0px;
+
+	@media screen and (max-width:740px){
+		left:-5%;
+		width:120%;
+	}
 `;
 
 const Container=styled.div`
