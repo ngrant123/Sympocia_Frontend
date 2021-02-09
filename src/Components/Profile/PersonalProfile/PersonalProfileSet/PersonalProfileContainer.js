@@ -987,7 +987,7 @@ class LProfile extends Component{
 							</>
 						}
 
-						{(this.state.displayDesktopUI==true && this.state.isOwnProfile==true)==true &&(
+						{this.state.displayDesktopUI==true && (
 							<ul style={ChampionAndCreateButtonCSS}>
 								{(this.state.isOwnProfile==true && this.state.isGuestProfile==false)==true && (
 									<>{this.displayCreatePostOptionTrigger()}</>

@@ -514,24 +514,26 @@ class HomePageContainer extends Component{
 														style={{fontSize:40}}
 													/>
 												</li>
-												<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
-													<ul style={{padding:"0px"}}>
-														{this.state.recruitsPost!=null?
-															<React.Fragment>
-																{this.state.recruitsPost.map(data=>
-																	<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
-																		<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																			<img src={data.profilePicture==null?
-																					  NoProfileIcon:
-																					  data.profilePicture} 
-																			style={RecruitImageCSS}/>
-																		</a>
-																	</li>
-																)}
-															</React.Fragment>:null
-														}
-													</ul>
-												</li>
+												{/*
+													<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
+														<ul style={{padding:"0px"}}>
+															{this.state.recruitsPost!=null?
+																<React.Fragment>
+																	{this.state.recruitsPost.map(data=>
+																		<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
+																			<a style={{textDecoration:"none"}} href="javascript:void(0);">
+																				<img src={data.profilePicture==null?
+																						  NoProfileIcon:
+																						  data.profilePicture} 
+																				style={RecruitImageCSS}/>
+																			</a>
+																		</li>
+																	)}
+																</React.Fragment>:null
+															}
+														</ul>
+													</li>
+												*/}
 											</ul>
 										</ForYouIconContainer>
 									</li>

@@ -53,15 +53,21 @@ const Notification=styled.div`
 	flex-direction:row;
 	margin-top:2%;
 
-	@media screen and (max-width:700px){
+	@media screen and (max-width:1370px){
+		#regularCommentAndAuthenticationProfilePicture{
+			width:15% !important;
+			height:55px !important
+		}
+	}
+
+	@media screen and (max-width:740px){
 		flex-direction:column;
 		#viewPostButtonDIV{
 			margin-top:5%;
 			width:70% !important;
 		}
 		#regularCommentAndAuthenticationProfilePicture{
-			width:20% !important;
-			height:10% !important;
+			width:30% !important;
 		}
 
 		#replyButtonDIV{
@@ -79,6 +85,17 @@ const Notification=styled.div`
 			height:150% !important;
 		}
 	}
+	@media screen and (max-width:1370px) and (max-height:900px) and (orientation: landscape) {
+		#regularCommentAndAuthenticationProfilePicture{
+			width:10% !important;
+		}
+    }
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	#regularCommentAndAuthenticationProfilePicture{
+			width:15% !important;
+		}
+    }
 `;
 
 const InputContainer=styled.textarea`
@@ -239,7 +256,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 							<div style={{display:"flex",flexDirection:"row"}}>
 								<img id="regularCommentAndAuthenticationProfilePicture" src={notification.profilePicture==null?
 									NoProfilePicture:notification.profilePicture}
-									style={{width:"10%",height:"10%",borderRadius:"50%"}}/>
+									style={{width:"10%",height:"40px",borderRadius:"50%"}}/>
 								<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
 									<b>{notification.firstName}</b>
 								</p>
@@ -387,7 +404,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 									<b>Reply to the comment here</b>
 								</p>
 								<hr/>
-								<InputContainer id="replyValue" placeholder="Enter placeholder here"/>
+								<InputContainer id="replyValue" placeholder="Enter comment here"/>
 								<hr/>
 								{displayIsProcessingCommentPrompt==true? 
 									<div id="submitButtonDIV" onClick={()=>submitReply({isAccessTokenUpdated:false})} style={BackButtonCSS}>
