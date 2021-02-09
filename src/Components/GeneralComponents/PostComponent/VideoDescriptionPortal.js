@@ -109,7 +109,7 @@ const VideoResultContainerCSS={
 
 const VideoDescriptionPortal=(props)=>{
 	var targetContainer=document.getElementById(props.parentContainer);
-
+	const [localStream,changeLocalStream]=useState();
 
 	const [maxTime,changeMaxTime]=useState(10000);
 	const [currentTime,changeCurrentTime]=useState(0);
@@ -134,6 +134,7 @@ const VideoDescriptionPortal=(props)=>{
 				  		audio:true
 				  	}).then(function(stream) {
 				  	  video.muted='true'
+				  	  changeLocalStream(stream);
 				      video.srcObject = stream;
 				      video.captureStream = video.captureStream || video.mozCaptureStream;
 				      return new Promise(resolve => video.onplaying = resolve);
@@ -174,6 +175,8 @@ const VideoDescriptionPortal=(props)=>{
 			mediaDevice.stop();
 		}
 		stream.getTracks().forEach(track => track.stop());
+		stream.getVideoTracks()[0].stop();
+		stream.getAudioTracks()[0].stop();
 		changeRecordingState(false);
 	}
 
@@ -212,7 +215,7 @@ const VideoDescriptionPortal=(props)=>{
 
 	const closeModal=()=>{
 		if(isRecording!=false)
-			stopRecording(document.getElementById("videoDescriptionVideo").srcObject);
+			stopRecording(localStream);
 		props.closeModal()
 	}
 
@@ -231,7 +234,7 @@ const VideoDescriptionPortal=(props)=>{
 	const submitVideoDescription=()=>{
 		
 		if(videoElements.length>0){
-			stopRecording(document.getElementById("videoDescriptionVideo").captureStream());
+			stopRecording(localStream);
 			let reader=new FileReader();
 			reader.onloadend=()=>{
 				props.createVideoDescription(reader.result);

@@ -152,6 +152,7 @@ const VoiceDescriptionPortal=(props)=>{
 	const [isRecording,changeRecordingState]=useState(false);
 	const [audioElements,changeAudioElements]=useState([]);
 	const [reInitilize,changeReInitliazed]=useState(false);
+	const [localStream,changeLocalStream]=useState();
 
 	const [mediaDevice,changeMediaDevice]=useState();
 	const [firstDone,chnagFirstDone]=useState(false);
@@ -170,6 +171,7 @@ const VoiceDescriptionPortal=(props)=>{
 
 	const handleRecording=(stream)=>{
 		debugger;
+		changeLocalStream(stream);
 		var stoppedVideo;
 		var data;
 		 if(firstDone==true){
@@ -202,7 +204,7 @@ const VoiceDescriptionPortal=(props)=>{
 	const closeModal=()=>{
 		var audioElement=document.getElementById("audioElement");
 		if(firstDone!=false && audioElement!=null)
-			stopRecording(audioElement.srcObject);
+			stopRecording(localStream);
 		props.closeModal()
 	}
 

@@ -1,4 +1,4 @@
-import React,{Component} from "react";
+import React,{Component,useState,useEffect,useContext} from "react";
 import styled from "styled-components";
 import SmallVideoContainer from "./SmallVideos.js";
 import {getCompanyVideos} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
@@ -6,10 +6,10 @@ import {UserConsumer} from "../../../UserContext.js";
 import NoPostsModal from "../NoPostsModal.js";
 import {VideoPostProvider} from "./VideoPostContext.js";
 
-import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
+import {PostDisplayConsumer,PostDisplayContext} from "../../../PostDisplayModalContext.js";
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 import CrownedVideo from "./CrownedVideoContainer.js";
-import {PostConsumer} from "../PostsContext.js";
+import {PostConsumer,PostContext} from "../PostsContext.js";
 import Typed from "react-typed";
 
 const Container=styled.div`
@@ -83,7 +83,6 @@ const NextPostLabelCSS={
 	  cursor:"pointer"
 }
 
-
 class VideoPostsContainer extends Component{
 	constructor(props){
 		super(props);
@@ -102,11 +101,10 @@ class VideoPostsContainer extends Component{
 		}
 	}
 	
-	displayPostModal=(profileAction,companyAction,data,postsConsumer)=>{
-		if(profileAction==null)
-			companyAction.handleVideoPostModal(data,postsConsumer);
-		else
-			profileAction.handleVideoPostModal(data,postsConsumer);
+	displayPostModal=(data)=>{
+		debugger;
+		//this.props.updateVideoPosts(this.state.videos);
+		this.props.handleVideoPostModal(data,{editPost:this.props.editPost,removePost:this.props.removePost});
 	}
 
 	generateVideoComponents=(videos)=>{
@@ -127,11 +125,7 @@ class VideoPostsContainer extends Component{
 	}
 
 	videoComponentsConstructor=(videoData)=>{
-		return <li id="smallVideoLI" onClick={()=>this.displayPostModal(
-										PostDisplayConsumer,
-										CompanyPostDisplayConsumer,
-										videoData,
-										PostConsumer)} 
+		return <li id="smallVideoLI" onClick={()=>this.displayPostModal(videoData)} 
 				style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
 						<SmallVideoContainer
 							video={videoData}
@@ -143,89 +137,60 @@ class VideoPostsContainer extends Component{
 	render(){
 		return(
 			<PostConsumer>
-				{postsConsumer=>(
-						<PostDisplayConsumer>
-							{postDisplayModal=>(
-								<CompanyPostDisplayConsumer>
-									{companyPostDisplayModal=>(
-										<Container>
-											{this.props.isLoadingIndicatorVideos==true ? <p>We are currently getting the videos please wait </p>:
+				{postsConsumer=>{
+					return <Container>
+							{this.props.isLoadingIndicatorVideos==true ? <p>We are currently getting the videos please wait </p>:
+								<React.Fragment>
+									{this.state.videos.length==0 && this.props.videos.headerVideo==null? 
+																	<NoPostsModal
+																		id="noPostsModalContainer"
+																		postType={"video"}
+																		profilePageType={this.props.profile}
+																	/>:
+										<ul style={{padding:"0px"}}>
+											{this.props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
 												<React.Fragment>
-													{this.state.videos.length==0 && this.props.videos.headerVideo==null? 
-																					<NoPostsModal
-																						id="noPostsModalContainer"
-																						postType={"video"}
-																						profilePageType={this.props.profile}
-																					/>:
-														<ul style={{padding:"0px"}}>
-															{this.props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
-																<React.Fragment>
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li onClick={()=>this.displayPostModal(
-																											postDisplayModal,
-																											companyPostDisplayModal,
-																											this.props.videos.headerVideo,
-																											postsConsumer)} 
-																		style={{listStyle:"none"}}>
-																				<CrownedVideo
-																					headerVideo={this.props.videos.headerVideo}
-																				/>
-																		</li>
-																	</a>
-																	<hr/>
-																</React.Fragment>
-															}
-						
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<li id="smallVideoParentContainer" style={{listStyle:"none",marginTop:"1%"}}>	
-																	<ul style={{padding:"0px"}}>
-																		{this.state.videos.map(data=>
-																			<React.Fragment>{data}</React.Fragment>
-																		)}
-																	</ul>
-																		{/*
-																			<ul style={{padding:"0px"}}>
-																				{this.props.videos.videos.map(data=>
-																					<li id="smallVideoLI" onClick={()=>this.displayPostModal(
-																											postDisplayModal,
-																											companyPostDisplayModal,
-																											data,
-																											postsConsumer)} 
-																					style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
-																							<SmallVideoContainer
-																								video={data}
-																							/>
-																					</li>
-																				)}
-																			</ul>
-																		*/}
-																</li>
-															</a>
-															{postsConsumer.endOfPostsDBIndicator==false && (
-																<React.Fragment>
-																	{postsConsumer.isLoadingReloadedPosts==true?
-																		 <Typed 
-														                    strings={['Loading...']} 
-														                    typeSpeed={60} 
-														                    backSpeed={30} 
-												                		  />:
-																		<p onClick={()=>postsConsumer.fetchNextPosts()} style={NextPostLabelCSS}>
-																			Next Page
-																		</p>
-																	}
-																</React.Fragment>
-															)}
-														</ul>
-													}
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<li onClick={()=>this.displayPostModal(this.props.videos.headerVideo)} 
+														style={{listStyle:"none"}}>
+																<CrownedVideo
+																	headerVideo={this.props.videos.headerVideo}
+																/>
+														</li>
+													</a>
+													<hr/>
 												</React.Fragment>
 											}
-										</Container>
-									)
-								}
-							</CompanyPostDisplayConsumer>
-						)}
-					</PostDisplayConsumer>
-				)}
+
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li id="smallVideoParentContainer" style={{listStyle:"none",marginTop:"1%"}}>	
+													<ul style={{padding:"0px"}}>
+														{this.state.videos.map(data=>
+															<React.Fragment>{data}</React.Fragment>
+														)}
+													</ul>
+												</li>
+											</a>
+											{postsConsumer.endOfPostsDBIndicator==false && (
+												<React.Fragment>
+													{postsConsumer.isLoadingReloadedPosts==true?
+														 <Typed 
+										                    strings={['Loading...']} 
+										                    typeSpeed={60} 
+										                    backSpeed={30} 
+								                		  />:
+														<p onClick={()=>postsConsumer.fetchNextPosts()} style={NextPostLabelCSS}>
+															Next Page
+														</p>
+													}
+												</React.Fragment>
+											)}
+										</ul>
+									}
+								</React.Fragment>
+							}
+						</Container>
+				}}
 			</PostConsumer>
 		)
 	}

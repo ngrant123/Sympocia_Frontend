@@ -8,8 +8,8 @@ const Container=styled.div`
 	position:relative;
 	background-color:white;
 	width:90%;
-	height:30%;
-	marginRight:20%;
+	height:100%;
+	margin-right:20%;
 	border-radius:5px;
 
 	border-style:solid;
