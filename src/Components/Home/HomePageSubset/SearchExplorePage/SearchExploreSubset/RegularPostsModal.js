@@ -234,12 +234,7 @@ const RegularPostModal=(props)=>{
 								<li style={{listStyle:"none",marginBottom:"2%"}}>
 									<ul style={{padding:"0px"}}>
 										<li id="headerOwnerNameLI" style={{display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
-											<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-								dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-								anim id est laborum.</b>
+											<b>{headerRegularPost.owner.firstName}</b>
 										</li>
 
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -268,14 +263,7 @@ const RegularPostModal=(props)=>{
 													Your browser does not support the audio element.
 												</audio>
 												:
-												<>
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-													incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-													exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-													dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-													Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-													anim id est laborum.
-												</>
+												<>{headerRegularPost.post}</>
 											}
 									</li>
 								</a>
@@ -305,12 +293,7 @@ const RegularPostModal=(props)=>{
 														</ProfilePictureLink>
 													</li>
 													<li style={{display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
-														<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-															incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-															exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-															dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-															Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-															anim id est laborum.</b>
+														<b>{data.owner.firstName}</b>
 													</li>
 												</ul>
 											</li>
@@ -323,14 +306,7 @@ const RegularPostModal=(props)=>{
 															Your browser does not support the audio element.
 														</audio>
 														:
-														<>
-															Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-															incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-															exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-															dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-															Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-															anim id est laborum.
-														</>
+														<>{data.post}</>
 													}
 												 </b>
 
