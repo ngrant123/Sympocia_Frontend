@@ -22,7 +22,7 @@ const Container=styled.div`
 	left:30%;
 	height:60%;
 	padding:30px;
-
+	overflow:hidden;
 
    @media screen and (max-width:1030px) and (max-height:1370px){
     	top:20% !important;
@@ -41,7 +41,7 @@ const Container=styled.div`
     	top:20% !important;
     	width:100% !important;
 		left:1% !important; 
-		height:100% !important;
+		height:70% !important;
 		overflow:scroll;
     }
 
@@ -52,6 +52,12 @@ const Container=styled.div`
     		height:20% !important;
     	}
     }
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	#blogCreationButton{
+    		margin-top:-15px !important;
+    	}
+    }
+
 `;
 
 const IndustryTypeContainer = styled.div`
@@ -84,6 +90,9 @@ const PostOptionsContainer = styled.div`
 	 	height:40% !important;
 	 	top:20% !important;
     }
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	top:30% !important;
+    }
 
 
 `;
@@ -112,6 +121,9 @@ const PostOptionsContainer = styled.div`
  	@media screen and (max-width:420px){
     	display:none !important;
     	height:10% !important;
+    }
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	display:none;
     }
  `;
 
@@ -185,6 +197,20 @@ const PostOptionsContainer = styled.div`
  	@media screen and (max-width:1030px){
  		height:30% !important;
  	}
+
+ 	@media screen and (max-width:740px){
+ 		${({isPhoneUIEnabled})=>
+ 			isPhoneUIEnabled==true &&(
+ 				`background-color:white;
+ 				color:#C8B0F4;`
+ 			)
+ 		}
+ 	}
+ 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	height:70% !important;
+    	background-color:white;
+ 		color:#C8B0F4;
+    }
  `;
 
 
@@ -206,7 +232,20 @@ const BlogOptionButton=styled(Link)`
  		border-style:none;
  		text-decoration:none;
  	}
-
+ 	@media screen and (max-width:740px){
+ 		${({isPhoneUIEnabled})=>
+ 			isPhoneUIEnabled==true &&(
+ 				`background-color:white;
+ 				color:#C8B0F4;`
+ 			)
+ 		}
+ 	}
+ 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	height:70% !important;
+    	background-color:white;
+ 		color:#C8B0F4;
+ 		top:0px;
+    }
 `;
 
   const ImageOptionButton = styled.div`
@@ -299,7 +338,6 @@ const BlogOptionButton=styled(Link)`
 
 
 const CompanyTitleContainer = styled.div`
-
 	position:absolute;
  	width:50%;
  	height:17%;
@@ -309,9 +347,22 @@ const CompanyTitleContainer = styled.div`
  	color:	#af9ad5;
  	text-align:center;
  	font-size:105%;
-
-
 `;
+
+const PostOptionCSS={
+	listStyle:"none",
+	display:"inline-block",
+	padding:"0px",
+	marginRight:"10%"
+}
+
+const BlogPostOptionCSS={
+	listStyle:"none",
+	display:"inline-block",
+	padding:"0px",
+	marginTop:"-10px",
+	marginLeft:"5%"
+}
 
 
  const testdata = {
@@ -325,6 +376,7 @@ class LargePostComponent extends Component{
 
 
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			companyTitle:"CEO",
@@ -342,6 +394,7 @@ class LargePostComponent extends Component{
 			this.setState({
 				displayElement:<RegularPostCreation 
 									displayProps={this.displayPostOptions}
+									closeModal={this.props.closeModal}
 								/>,
 				id:this.props._id
 			})
@@ -350,6 +403,7 @@ class LargePostComponent extends Component{
 			this.setState({
 				displayElement:<ImagePostCreation
 									displayProps={this.displayPostOptions}
+									closeModal={this.props.closeModal}
 								/>,
 				id:this.props._id
 			})
@@ -359,6 +413,7 @@ class LargePostComponent extends Component{
 			this.setState({
 				displayElement:<VideoPostCreation 
 									displayProps={this.displayPostOptions}
+									closeModal={this.props.closeModal}
 								/>,
 				id:this.props._id
 			})
@@ -385,6 +440,7 @@ class LargePostComponent extends Component{
 			this.setState({
 					displayElement:<RegularPostCreation 
 										displayProps={this.displayPostOptions}
+										closeModal={this.props.closeModal}
 									/>
 			})
 		}else if(props=="ImagePosts"){
@@ -392,6 +448,7 @@ class LargePostComponent extends Component{
 			this.setState({
 					displayElement:<ImagePostCreation
 										displayProps={this.displayPostOptions}
+										closeModal={this.props.closeModal}
 									/>
 			})
 		}else if(props=="VideoPosts"){
@@ -399,12 +456,12 @@ class LargePostComponent extends Component{
 			this.setState({
 					displayElement:<VideoPostCreation 
 										displayProps={this.displayPostOptions}
+										closeModal={this.props.closeModal}
 									/>})
 
 		}
 	}
-
-
+	triggerRegularPostCreation=()=>{}
 
 	originalScreen=()=>{
 		this.setState({
@@ -413,54 +470,71 @@ class LargePostComponent extends Component{
 		return (
 				<React.Fragment>
 					<PostContainer>
-						<PostTextarea id="posttextarea" onClick={()=>this.handleTextareaClick()}>
+						<PostTextarea id="posttextarea" onClick={()=>this.displayPostOptions("RegularPost")}>
 							Order the post in according to recent, popular?
 						</PostTextarea>
 					</PostContainer>
 
 					<PostOptionsContainer>
 						<ul style={{padding:"0px",marginLeft:"10%",marginTop:"5px"}}>
-							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+							<li onClick={()=>this.setState({
+											displayElement:<RegularPostCreation
+																displayProps={this.displayPostOptions}
+																closeModal={this.props.closeModal}
+															  />,
+											displayGeneralCreationModal:false
+										 })} 
+								id="postOptionLI" style={PostOptionCSS}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<PostOptionButton onClick={()=>this.setState({
-																			displayElement:<RegularPostCreation
-																								displayProps={this.displayPostOptions}
-																							  />,
-																			displayGeneralCreationModal:false
-																		 })}>
+									<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
 										Post
 									</PostOptionButton>
 								</a>
 							</li>
+							{this.props.isPhoneUIEnabled==true &&(
+								<hr/>
+							)}
 
-							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+							<li  onClick={()=>this.setState({
+														displayElement:<ImagePostCreation
+																		displayProps={this.displayPostOptions}
+																		closeModal={this.props.closeModal}
+																		/>,
+														displayGeneralCreationModal:false
+													})} 
+								id="postOptionLI" style={PostOptionCSS}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<PostOptionButton  onClick={()=>this.setState({
-																					displayElement:<ImagePostCreation
-																									displayProps={this.displayPostOptions}
-																									/>,
-																					displayGeneralCreationModal:false
-																				})}>
+									<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
 										Image
 									</PostOptionButton>
 								</a>
 							</li>
+							{this.props.isPhoneUIEnabled==true &&(
+								<hr/>
+							)}
 
-							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginRight:"10%"}}>
+							<li onClick={()=>this.setState({
+											displayElement:<VideoPostCreation
+																displayProps={this.displayPostOptions}
+																closeModal={this.props.closeModal}
+															/>,
+											displayGeneralCreationModal:false
+										})}
+								id="postOptionLI" style={PostOptionCSS}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<PostOptionButton onClick={()=>this.setState({
-																					displayElement:<VideoPostCreation
-																										displayProps={this.displayPostOptions}
-																									/>,
-																					displayGeneralCreationModal:false
-																				})}>
+									<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
 										Video
 									</PostOptionButton>
 								</a>
 							</li>
-							<li id="postOptionLI" style={{listStyle:"none",display:"inline-block",padding:"0px",marginTop:"-10px"}}>
+							{this.props.isPhoneUIEnabled==true &&(
+								<hr/>
+							)}
+
+							<li id="postOptionLI" style={BlogPostOptionCSS}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<BlogOptionButton id="blogCreationButton" to={{pathname:`/blog/${this.props._id}`,state:{postType:"Creation"}}}>
+									<BlogOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled} 
+									id="blogCreationButton" to={{pathname:`/createBlog`,state:{postType:"Creation"}}}>
 										Blog
 									</BlogOptionButton>
 								</a>
@@ -480,6 +554,7 @@ class LargePostComponent extends Component{
 			<PostProvider
 				value={{
 					userProfileId:this.state.id,
+					isPhoneUIEnabled:this.props.isPhoneUIEnabled,
 					profileType:this.props.profileType,
 					closeModal:()=>{
 						this.props.closeModal();

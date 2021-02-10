@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import InstagramIcon from '@material-ui/icons/Instagram';
@@ -8,7 +8,14 @@ import {UserConsumer} from "../../../UserContext.js";
 import {CompanyConsumer} from "../../../../CompanyProfile/CompanyContext.js";
 import {createCompanyChampion} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPagePostRequests.js";
 import {createChampion} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
+import {refreshTokenApi} from "../../../../../../Actions/Requests/JWTRequests.js";
+import {
+	setPersonalProfileAccessToken,
+	setPersonalProfileRefreshToken,
+	addName
+} from "../../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const BackButtonCSS={
 	listStyle:"none",
@@ -49,7 +56,7 @@ const Container=styled.div`
 			border-left:none !important;
 		}
 		#pictureLI{
-			width:5% !important;
+			width:10% !important;
 			height:50% !important;
 		}
     }
@@ -72,9 +79,11 @@ const NameTextArea=styled.textarea`
 	resize:none;
 	border-style:solid;
 	border-color:#BDBDBD;
-	width:130%;
+	width:90%;
+	margin-bottom:2%;
+
 	@media screen and (max-width:600px){
-		width:60% !important;
+		width:50% !important;
 	}
 `;
 
@@ -84,11 +93,12 @@ const DescriptionTextArea=styled.textarea`
 	resize:none;
 	border-style:solid;
 	border-color:#BDBDBD;
-	height:50%;
-	width:165%;
+	height:140px;
+	width:90%;
+	margin-bottom:2%;
 
-	@media screen and (max-width:600px){
-		width:120% !important;
+	@media screen and (max-width:700px){
+		width:50% !important;
 	}
 `;
 
@@ -158,15 +168,34 @@ const TikTokUrlTextArea=styled.textarea`
 
 `;
 
+const DescriptionContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+`;
 
 const DescriptionModal=(props)=>{
 	console.log("Testing sponsor modal");
 	const [instagramUrl,changeInstagramUrl]=useState();
 	const [tikTokUlr,changeTikTokUrl]=useState();
-	const reduxInformation=useSelector(state=>state);
+	const personalReduxInformation=useSelector(state=>state.personalInformation);
+	const [currentAccessToken,changeCurrentAccessToken]=useState(personalReduxInformation.accessToken);
+	const [isAccessTokenRefreshTriggered,changeIsAccessTokenTriggered]=useState(false);
+	const [isProcessingSubmittion,changeIsProcessingSubmittion]=useState(false);
 
+	const [contextPersonalInformation,changeContextPersonalInformation]=useState();
+	const [contextCompanyInformation,changeContextCompanyInformation]=useState();
+	const dispatch=useDispatch();
 	const [displayIGUrlPrompt,changeDisplayIGUrlPrompt]=useState(false);
 	const [displayTikTokUrlPrompt,changeDisplayTikTokUrlPrompt]=useState(false);
+
+	useEffect(()=>{
+		debugger;
+		if(isAccessTokenRefreshTriggered==true){
+			dispatch(setPersonalProfileAccessToken(currentAccessToken));
+			dispatch(setPersonalProfileRefreshToken(personalReduxInformation.refreshToken));
+			handleSubmitButton(contextPersonalInformation,contextCompanyInformation);
+		}
+	},[currentAccessToken]);
 
 	const handleSubmitIGUrl=()=>{
 		const instagramUrl=document.getElementById("igUrl").value;
@@ -180,7 +209,9 @@ const DescriptionModal=(props)=>{
 		changeDisplayTikTokUrlPrompt(false);
 	}
 
-	const handleSubmitButton=(personalInformation,companyInformation)=>{
+	const handleSubmitButton=async(personalInformation,companyInformation)=>{
+		debugger;
+		changeIsProcessingSubmittion(true);
 		const name=document.getElementById("name").value;
 		const description=document.getElementById("description").value;
 
@@ -191,16 +222,42 @@ const DescriptionModal=(props)=>{
 			tikTokUrl:tikTokUlr,
 			instagramUrl:instagramUrl
 		}
-		console.log("Testig")
-		if(props.profileType=="Company"){
-			companyInformation.displayChampionModal(ChampionModalObject);
-			createCompanyChampion(reduxInformation.companyInformation.id,ChampionModalObject);
+		personalInformation.displayChampionModal(ChampionModalObject);
+		const {confirmation,data}=await createChampion(
+											personalReduxInformation.id,
+											ChampionModalObject,
+											currentAccessToken
+										);
+		if(confirmation=="Success"){
+			props.closeModal();
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				const refreshTokenResponse=await refreshTokenApi({
+					userId:personalReduxInformation.id,
+					refreshToken:personalReduxInformation.refreshToken
+				})
+
+				const refreshTokenConfirmation=refreshTokenResponse.confirmation;
+				const refreshTokenData=refreshTokenResponse.data;
+
+
+				if(refreshTokenConfirmation=="Success"){
+					const {message:{
+						accessToken,
+						refreshToken
+					}}=refreshTokenData;
+					changeContextPersonalInformation(personalInformation)
+					changeIsAccessTokenTriggered(true);
+					changeCurrentAccessToken(accessToken);
+				}else{
+					alert('Unfortunately something has gone wrong. Please log out and sign back in again');
+				}
+			}else{
+				alert('Unfortunately an error has occured when trying to update your champion. Please try again');
+			}
 		}
-		else{
-			personalInformation.displayChampionModal(ChampionModalObject);
-			createChampion(reduxInformation.personalInformation.id,ChampionModalObject);
-		}
-		props.closeModal();
+		changeIsProcessingSubmittion(false);
 	}
 	
 	return(
@@ -215,38 +272,19 @@ const DescriptionModal=(props)=>{
 										Back
 									</a>
 								</li>
-								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"10px"}}>
-										<li id="userPictureAndNameLI" style={{listStyle:"none",display:"inline-block",marginRight:"15%",width:"30%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",marginBottom:"30px"}}>
-														<img id="pictureLI" src={props.imgData} style={{position:"relative",width:"110%",height:"35%",borderRadius:"50%"}}/>
-												</li>
-												<p><b>Name</b></p>
-												<li id="nameLI" style={{listStyle:"none",marginBottom:"2%"}}>
-													<NameTextArea id="name" placeholder="Enter a name here"/>
-												</li>
-											</ul> 
-										</li>
 
-										<li id="descriptionAndSubmitLI" style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",borderLeft:"solid",borderColor:"#D8D8D8"}}>
-											<ul style={{paddingLeft:"25px"}}>
-												<p>
-													<b>Description</b>
-												</p>
-												<li style={{listStyle:"none",marginBottom:"5%"}}>
-													<DescriptionTextArea id="description" placeholder="Start writing"/>
-												</li>
+								<DescriptionContainer>
+									<img id="pictureLI" src={props.imgData} style={{marginBottom:"2%",position:"relative",width:"30%",height:"40%",borderRadius:"50%"}}/>
+									<NameTextArea id="name" placeholder="Enter a name here"/>
+									<DescriptionTextArea id="description" placeholder="Enter a description"/>
 
-												<li style={{listStyle:"none"}}>
-													<SubmitButton onClick={()=>handleSubmitButton(personalInformation,companyInformation)}>
-														Submit
-													</SubmitButton>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
+									{isProcessingSubmittion==true?
+										<p>Loading please wait...</p>:
+										<SubmitButton onClick={()=>handleSubmitButton(personalInformation,companyInformation)}>
+											Submit
+										</SubmitButton>
+									}
+								</DescriptionContainer>
 							</ul>
 						</Container>
 							)

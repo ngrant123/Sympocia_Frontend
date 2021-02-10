@@ -6,22 +6,37 @@ import {getRegularComments,
 import {createComment,createReply} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js"
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import {connect} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
 	padding:10px;
-	@media screen and (max-width:420px){
+	@media screen and (max-width:1370px){
+		#commentLI{
+			height:10% !important;
+		}
+	}
+	@media screen and (max-width:700px){
 		height:80% !important;
 		#profilePictureLI{
 			height:120% !important;
-			display:none;
-
 		}
-		#replyLI{
+		#replyLIImage{
 			height:60% !important;
 			overflow:scroll;
 		}
 		#replyCommentLI{
 			margin-top:-80% !important;
+		}
+
+		#commentLI{
+			height:20% !important;
+		}
+		#replyLIImage{
+			height:20% !important;
 		}
     }
 `;
@@ -66,6 +81,10 @@ const ExtendedTextArea=styled.textarea`
 	border-color:#a2a2a2;
 	margin-bottom:10px;
 	resize:none;
+
+	@media screen and (max-width:1370px){
+		height:50%;
+	}
 `;
 
 const ExtendedProfilePicture=styled.div`
@@ -133,71 +152,91 @@ class CommentsContainer extends Component{
 			extendCreationAreaa:false,
 			creationCommentExtended:false,
 			displayReplyCreation:false,
-			selectedReplies:[]
+			selectedReplies:[],
+			commentIndex:0,
+			isProcessingInput:false,
+			isCreatingComment:false
 		}
 	}
 	async componentDidMount(){
+		this.setState({
+			isProcessingInput:true
+		})
 		const {confirmation,data}=await getRegularComments(this.props.postType,this.props.postId);
 		if(confirmation=="Success"){
+			const {message}=data;
 			this.setState({
-				comments:data
+				comments:message
 			})
 		}else{
 			alert('Unfortunately, there has been an error. Please try again');
 		}
+		this.setState({
+			isProcessingInput:false
+		})
 
 	}
 
 
 	replyComment=(data)=>{
-		return <ul style={{color:"#03A9F4",marginBottom:"20px",marginTop:"5%"}}>
+		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
-						<li id="profilePictureLI" style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-							<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture} style={ProfilePicture}/>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
+							<img id="replyLIImage" 
+								src={data.ownerObject.profilePicture==null?
+									NoProfilePicture:data.ownerObject.profilePicture}
+							style={ProfilePicture}/>
 						</li>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
 						</li>
 					</ul>
 				</li>
-				<li id="replyCommentLI" style={{listStyle:"none"}}>
-					<CommentText>
-						{data.reply}
-					</CommentText>
-				</li>
-				<hr/>
-			</ul>
+				<CommentText>
+					{data.reply}
+				</CommentText>
+			 </ul>
 	}
 //
 	handleReplyFetch=async(commentId)=>{
-		
 		var indexOfComment=this.state.comments.findIndex(comment=>comment._id === commentId);
 		const replyObject={
 			postType:this.props.postType,
 			postId:this.props.postId,
 			commentIndex:(this.state.comments.length-1)-indexOfComment
 		}
+		this.setState({
+			isProcessingInput:true
+		})
 
 		const {confirmation,data}=await getRepliesFromComment(replyObject);
 		debugger;
 		if(confirmation=="Success"){
+			const {message}=data;
 			this.setState({
 				keyToDisplayRespones:commentId,
 				displayResponses:true,
-				selectedReplies:data
+				selectedReplies:message
 			});
 		}else{
 			alert('Unfortunately there has been an error getting the replies. Please try again');
 		}
+		this.setState({
+			isProcessingInput:false
+		})
 	}
 
-	commentComponent=(data)=>{
+	commentComponent=(data,index)=>{
+		console.log(data);
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-							<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture} style={ProfilePicture}/>
+							<img id="commentLI" 
+								src={data.ownerObject.profilePicture==null?
+									NoProfilePicture:data.ownerObject.profilePicture}
+							style={ProfilePicture}/>
 						</li>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
@@ -220,7 +259,7 @@ class CommentsContainer extends Component{
 							null
 						}
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.setState({displayReplyCreation:true,keyToDisplayReplyCreation:data._id})} 
+							<li onClick={()=>this.setState({displayReplyCreation:true,keyToDisplayReplyCreation:data._id,commentIndex:index})} 
 																		style={{listStyle:"none",display:"inline-block"}}>
 								Reply
 							</li>
@@ -230,7 +269,9 @@ class CommentsContainer extends Component{
 			</ul>
 	}
 
-	handleCreateComment=async()=>{
+	handleCreateComment=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		this.setState({isCreatingComment:true});
+
 		const comment=document.getElementById("comment").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -239,23 +280,27 @@ class CommentsContainer extends Component{
 														this.props.companyState.id
 		}
 		if(comment!=""){
-			const {confirmation,data}=await createComment(this.props.postType,
-													 this.props.postId,
-													 comment,
-													 profileObject
-													);
+			let {confirmation,data}=await createComment(
+												this.props.personalState.id,
+												this.props.postType,
+												this.props.postId,
+												comment,
+												profileObject,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												this.props.personalState.accessToken
+											);
 			
 			if(confirmation=="Success"){
-				
+				data=data.message;
 				var currentComments=this.state.comments;
 				const newComment={
 					comment:comment,
-					profilePicture:data.profilePicture,
 					ownerObject:{
 						owner:{
 							firstName:isPersonalProfileIndicator==true?this.props.personalState.firstName:
 							this.props.companyState.companyName
-						}
+						},
+						profilePicture:data.profilePicture
 					},
 					replies:[],
 					_id:data.comments.regularComments[data.comments.regularComments.length-1]._id.toString()
@@ -268,11 +313,28 @@ class CommentsContainer extends Component{
 				})
 
 			}else{
-				alert('Unfortunately an error has occured please submit your comment again');
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalState.refreshToken,
+							this.props.personalState.id,
+							this.handleCreateComment,
+							this.props,
+							{},
+							true
+						);
+				}else{
+					alert('Unfortunately an error has occured please submit your comment again');
+				}
 			}
 		}else{
 			alert('Please enter a comment');
 		}
+		this.setState({
+			isProcessingInput:false,
+			isCreatingComment:false
+		})
 	}
 
 	createCommentUI=()=>{
@@ -287,19 +349,22 @@ class CommentsContainer extends Component{
 									<ExtendedTextArea id="comment" />
 								</li>
 								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li  onClick={()=>this.handleCreateComment()} style={ExtendedCommentAreaButton}>
-												Create
-											</li>
-										</a>
+									{this.state.isCreatingComment==true?
+										<p>Please wait...</p>:
+										<ul style={{padding:"0px"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li  onClick={()=>this.handleCreateComment({isAccessTokenUpdated:false})} style={ExtendedCommentAreaButton}>
+													Create
+												</li>
+											</a>
 
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>this.setState({creationCommentExtended:false})} style={ExtendedCommentAreaButton}>
-												Close
-											</li>
-										</a>
-									</ul>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<li onClick={()=>this.setState({creationCommentExtended:false})} style={ExtendedCommentAreaButton}>
+													Close
+												</li>
+											</a>
+										</ul>
+									}
 								</li>
 							</ul>
 						</>
@@ -339,25 +404,9 @@ class CommentsContainer extends Component{
 	}
 //
 
-/*
-
-Sample reply
 
 
-	date: "1599313696007"
-ownerObject:
-isPersonalProfile: true
-owner:
-firstName: "Doggo"
-_id: "5f50fc195459bcf522a64fb0"
-__proto__: Object
-__proto__: Object
-reply: "Testing doggo again lol"
-_id: "5f5397209c484c08c99c389d"
-*/
-
-
-	handleCreateReply=async()=>{
+	handleCreateReply=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const reply=document.getElementById("reply").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -371,7 +420,10 @@ _id: "5f5397209c484c08c99c389d"
 				commentId:this.state.keyToDisplayReplyCreation,
 				reply:reply,
 				profileObject:profileObject,
-				postId:this.props.postId
+				postId:this.props.postId,
+				commentIndex:(this.state.comments.length-1)-this.state.commentIndex,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							this.props.personalState.accessToken
 			}
 			const {confirmation,data}=await createReply(replyObject);
 			if(confirmation=="Success"){
@@ -382,9 +434,9 @@ _id: "5f5397209c484c08c99c389d"
 						owner:{
 							firstName:isPersonalProfileIndicator==true?this.props.personalState.firstName:
 							this.props.companyState.companyName
-						}
-					},
-					profilePicture:data.profilePicture
+						},
+						profilePicture:data.profilePicture
+					}
 				}
 
 				currentReplies.splice(0,0,newReply);
@@ -406,11 +458,27 @@ _id: "5f5397209c484c08c99c389d"
 					comments:newComments
 				})
 			}else{
-				alert('Unfortunately an error has occured please submit your comment again');
+						debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalState.refreshToken,
+							this.props.personalState.id,
+							this.handleCreateReply,
+							this.props,
+							{},
+							true
+						);
+				}else{
+					alert('Unfortunately an error has occured please submit your comment again');
+				}
 			}
 		}else{
 			alert('Please enter a comment');
 		}
+		this.setState({
+			isProcessingInput:false
+		})
 	}
 
 	createReplyComment=(key)=>{
@@ -420,19 +488,22 @@ _id: "5f5397209c484c08c99c389d"
 							<ExtendedTextArea id="reply"/>
 						</li>
 						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li  onClick={()=>this.handleCreateReply()} style={ExtendedCommentAreaButton}>
-										Create
-									</li>
-								</a>
+							{this.state.isProcessingInput==true?
+								<p>Please wait...</p>:
+								<ul style={{padding:"0px"}}>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li  onClick={()=>this.handleCreateReply({isAccessTokenUpdated:false})} style={ExtendedCommentAreaButton}>
+											Create
+										</li>
+									</a>
 
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>this.setState({displayReplyCreation:false})} style={ExtendedCommentAreaButton}>
-										Close
-									</li>
-								</a>
-							</ul>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>this.setState({displayReplyCreation:false})} style={ExtendedCommentAreaButton}>
+											Close
+										</li>
+									</a>
+								</ul>
+							}
 						</li>
 					</ul>
 		}else{
@@ -445,16 +516,19 @@ _id: "5f5397209c484c08c99c389d"
 	render(){
 		return(
 			<Container>
-				<ul style={{padding:"0px",backgroundColor:"white"}}>
-					{this.createCommentUI()}
-					{this.state.comments.map(data=>
-						<li style={{padding:"0px",listStyle:"none",marginBottom:"10px"}} key={data._id}>
-							{this.commentComponent(data)}
-							{this.createReplyComment(data._id)}
-							{this.handleDisplayResponses(data._id)}
-						</li>
-					)}
-				</ul>
+				{this.state.isProcessingInput==true?
+					<p>Please wait </p>:
+					<>
+						{this.createCommentUI()}
+						{this.state.comments.map((data,index)=>
+							<li style={{padding:"0px",listStyle:"none",marginBottom:"10px"}} key={data._id}>
+								{this.commentComponent(data,index)}
+								{this.createReplyComment(data._id)}
+								{this.handleDisplayResponses(data._id)}
+							</li>
+						)}
+					</>
+				}
 			</Container>
 		)
 	}
@@ -466,6 +540,15 @@ const mapStateToProps=(state)=>{
 	}
 }
 
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
+
 export default connect(
-	mapStateToProps
+	mapStateToProps,
+	mapDispatchToProps
 )(CommentsContainer);

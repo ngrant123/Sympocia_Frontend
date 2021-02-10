@@ -4,9 +4,9 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
 import {createSpecificIndustryVideoAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryVideoFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import VideoPostDisplayPortal from "../../../../../HomePageSet/VideoHomeDisplayPortal.js";
-
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -53,6 +53,9 @@ const CreatePostButton=styled.div`
 	border-width:5px;
 	animation: glowing 1300ms infinite;
 	text-align:center;
+	cursor:pointer;
+	display:flex;
+	justify-content:center;
 
 	@keyframes glowing {
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -63,14 +66,28 @@ const CreatePostButton=styled.div`
 
 const DescriptionInputContainer=styled.textarea`
 	border-radius:5px;
-	height:20%;
+	height:100px;
 	width:95%;
 	border-style:solid;
 	border-width:1px;
 	border-color:#D8D8D8;
 	resize:none;
+	margin-top:5%;
+	margin-bottom:5%;
 	padding:5px;
 `;
+
+
+const PostHeaderContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
+const FinalSubmittionContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+`;
+
 
 
 const ImageCSS={
@@ -133,12 +150,15 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	const [displayPostExpand,changePostExpand]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
+	const [isProccessingPost,changeIsProcessingPost]=useState(false);
+	const dispatch=useDispatch();
+	const {personalInformation}=useSelector(state=>state);
+	const [isLoading,changeIsLoadingIndicator]=useState(false);
 
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			
-			console.log(symposiumId);
+			changeIsLoadingIndicator(true);
 			const {confirmation,data}=await getIndustryVideoFeatureAnswers({
 				industryId:symposiumId,
 				questionIndex,
@@ -146,19 +166,31 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 			})
 
 			if(confirmation=="Success"){
+				const {message}=data;
 				const {
-					questionId,
 					posts
-				}=data;
+				}=message;
 				changePosts(posts);
-				changeQuestionId(questionId);
+				changeQuestionId(selectedPostId);
 			}else{
-				alert('Unfortunately there has been an error trying to get this images data. Please try again');
+				alert('Unfortunately there has been an error trying to get this video data. Please try again');
 			}
+			changeIsLoadingIndicator(false);
 		}
 
 		fetchData();
 	},[])
+	const checkVideoLength=()=>{
+		const video=document.getElementById("uploadVideoUrl");
+		let duration=video.duration;
+		duration=Math.ceil(duration);
+		if(duration>30){
+			alert('The video is too long. As of right now we only support 30 sec videos that are below 50MB. Sorry for the inconvience.');
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 	const handleUploadVideo=()=>{
 		var fileReader=new FileReader();
@@ -181,35 +213,57 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 		document.getElementById("uploadVideoFile").click();
 	}
 
-	const submitVideo=async()=>{
-		
-			
-		var video={
-			videoUrl,
-			description:document.getElementById("videoDescription").value
-		}
-		const submitedVideo={
-			video,
-			industryId:symposiumId,
-			questionId:selectedPostId,
-			questionIndex:questionIndex,
-			userId:userId
-		}
-
-		let {confirmation,data}=await createSpecificIndustryVideoAnswer(submitedVideo);
-		if(confirmation=="Success"){
-			data={
-				...data,
-				videoUrl
+	const submitVideo=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		const isVideoAppropriateSize=checkVideoLength();
+		if(isVideoAppropriateSize==true){
+			changeIsProcessingPost(true);
+			var video={
+				videoUrl,
+				description:document.getElementById("videoDescription").value
+			}
+			const submitedVideo={
+				video,
+				industryId:symposiumId,
+				questionId:selectedPostId,
+				questionIndex:questionIndex,
+				userId:userId,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							personalInformation.accessToken
 			}
 
-			posts.splice(0,0,data);
-			changeQuestionId(questionId);
-			changePosts([...posts]);
-			changeDisplayCreationModal(false);
-		}else{
-			alert('Unfortunately there has been an error with adding this image. Please try again');
+			let {confirmation,data}=await createSpecificIndustryVideoAnswer(submitedVideo);
+			if(confirmation=="Success"){
+				let {message}=data;
+				message={
+					...message,
+					owner:{
+						...message.owner,
+						firstName:personalInformation.firstName
+					},
+					videoUrl
+				}
+
+				posts.splice(0,0,message);
+				changeQuestionId(questionId);
+				changePosts([...posts]);
+				changeDisplayCreationModal(false);
+			}else{
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							submitVideo,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error with adding this image. Please try again');
+				}
+			}
 		}
+		changeIsProcessingPost(false);
 	}
 
 	const uuidv4=()=>{
@@ -240,47 +294,41 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 			}
 			{displayCreationModal==false?
 				<>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<p style={{fontSize:"20px"}}>
-									<b>Review my {symposium}</b>
-								</p>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>changeDisplayCreationModal(true)} 
-										style={{listStyle:"none",marginLeft:"400px",marginBottom:"5%"}}>
-										<CreatePostButton>
-											<BorderColorIcon
-												style={{fontSize:"20",color:"#C8B0F4"}}
-											/>
-										</CreatePostButton>
-									</li>
-								</a>
-							</li>
-						</ul>
-					</li>
+					<PostHeaderContainer>
+						<p style={{fontSize:"20px"}}>
+							<b>Review my {symposium}</b>
+						</p>
+						<CreatePostButton onClick={()=>changeDisplayCreationModal(true)} >
+							<BorderColorIcon
+								style={{fontSize:"20",color:"#C8B0F4"}}
+							/>
+						</CreatePostButton>
+					</PostHeaderContainer>
 					<hr/>
 
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<InputContainer placeholder="Search for a person here"/>
-							<li style={{listStyle:"none",marginTop:"2%"}}>
-								<ul style={{padding:"0px"}}>
-									{posts.map(data=>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
-												<video key={data._id} width="100%" height="40%" borderRadius="5px" controls autoplay>
-													<source src={data.videoUrl} type="video/mp4"/>
-												</video>
-											</li>
-										</a>
-									)}
-								</ul>
-							</li>
-						</ul>
-					</li>
+					{isLoading==true?
+						<p>Loading please wait</p>:
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginTop:"2%"}}>
+									{posts.length==0?
+										<p>No posts</p>:
+										<ul style={{padding:"0px"}}>
+											{posts.map(data=>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
+														<video key={data._id} width="100%" height="40%" borderRadius="5px" >
+															<source src={data.videoUrl} type="video/mp4"/>
+														</video>
+													</li>
+												</a>
+											)}
+										</ul>
+									}
+								</li>
+							</ul>
+						</li>
+					}
 				</>:
 				<>
 					<li style={{listStyle:"none"}}>
@@ -292,7 +340,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 							</a>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<p style={{fontSize:"20px"}}>
-									<b>Upload video for others to {modalType}</b>
+									<b>Upload video for others to view</b>
 								</p>
 							</li>
 						</ul>
@@ -318,23 +366,21 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 
 								</li>
 							</a>:
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginBottom:"2%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",width:"40%",}}>
-											<video key={uuidv4()} width="100%" height="40%" borderRadius="5px" controls autoplay>
-												<source src={videoUrl} type="video/mp4"/>
-											</video>
-										</li>
-										<li style={{marginLeft:"3%",width:"45%",listStyle:"none",display:"inline-block"}}>
-											<DescriptionInputContainer id="videoDescription" placeholder="Write down a description here"/>
-										</li>
-									</ul>
-								</li>
-								<li onClick={()=>submitVideo()} style={SubmitButtonCSS}>
-									Submit
-								</li>
-							</ul>
+							<FinalSubmittionContainer>
+								<video id="uploadVideoUrl" key={uuidv4()} width="80%" height="20%" borderRadius="5px" controls autoplay>
+									<source src={videoUrl} type="video/mp4"/>
+								</video>
+								
+								<DescriptionInputContainer id="videoDescription" placeholder="Write down a description here"/>
+								
+								{isProccessingPost==true ?
+									<p>Please wait while we process your post </p>:
+									<li onClick={()=>submitVideo({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
+										Submit
+									</li>
+								}
+
+							</FinalSubmittionContainer>
 						}
 					</li>
 				</>

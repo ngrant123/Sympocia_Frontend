@@ -13,9 +13,13 @@ const Container=styled.div`
 	z-index:10;
 	@media screen and (max-width:1370px){
     	height:90% !important;
+    	display:flex;
+    	justify-content:center;
     	#symposiumFeatureContainerUL{
     		top:20% !important;
     		height:90% !important;
+    		padding-top:40px !important;
+    		width:70% !important;
     	}
     }
 `;
@@ -42,7 +46,7 @@ const ChatOption={
 	featuresindex
 */
 
-const SpecificFeatureSymposium=({symposium,symposiumId,questions})=>{
+const SpecificFeatureSymposium=({symposium,symposiumId,questions,isGuestProfile})=>{
 	console.log(questions);
 	/*
 		const [isArtSymposium,changeArtStatus]=useState(false);
@@ -135,18 +139,21 @@ const SpecificFeatureSymposium=({symposium,symposiumId,questions})=>{
 	return(
 		<FeatureProvider
 			value={{
-				symposiumId:symposiumId
+				symposiumId:symposiumId,
+				isGuestProfile
 			}}
 		>
 			{isLoadingFeatureSymposiums==false?
 				<Container>
-					<ul id="symposiumFeatureContainerUL" style={{padding:"0px",position:"fixed",top:"45%"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li style={ChatOption}>
-								Show chat 
-							</li>
-						</a>
-						<hr/>
+					<ul id="symposiumFeatureContainerUL" style={{padding:"0px",position:"fixed"}}>
+						{/*
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li style={ChatOption}>
+									Show chat 
+								</li>
+							</a>
+							<hr/>
+						*/}
 
 						<li style={{listStyle:"none"}}>
 							{featureDecider()}

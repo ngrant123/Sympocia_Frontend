@@ -12,48 +12,96 @@ import {addStampPost,unStampPost} from "../../../Actions/Requests/PostAxiosReque
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PollOptionPortal from "../../GeneralComponents/PostComponent/PollOptionPortal.js";
+import Comments from "../../GeneralComponents/CommentsComponent/index.js";
+import VideoDescriptionMobileDisplayPortal from "../../GeneralComponents/PostComponent/VideoDescriptionMobileDisplayPortal.js";
 
 import PollIcon from '@material-ui/icons/Poll';
 import {HomeConsumer} from "../HomeContext.js";
 import {Link} from "react-router-dom";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
+	/*
+		position:absolute;
+		z-index:40;
+		height:80%;
+		width:80%;
+		border-radius:5px;
+		top:12%;
+		left:10%;
+		overflow-y:auto;
+		background-color:white;
+		padding:20px;
+		padding-top:40px;
+
+		@media screen and (max-width:1370px){
+			top:15% !important;
+			width:80% !important;
+			margin-left:2%;
+			height:90%;
+			padding-top:0px;
+
+			#smallImagePicture{
+				height:30% !important;
+				width:40% !important;
+			}
+		}
+		@media screen and (max-width:700px){
+			top:20% !important;
+		}
+
+		@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		 	top:20% !important;
+	    }
+
+		@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+			top:40% !important;
+		 	#smallImagePicture{
+				width:20% !important;
+			}
+	    }
+
+	*/
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
-	position:absolute;
-	z-index:13;
-	height:100%;
-	width:80%;
+	position:fixed;
+	background-color:red;
+	z-index:40;
+	height:90%;
+	width:70%;
 	border-radius:5px;
-	top:2%;
-	left:10%;
-	overflow-y:auto;
+	top:5%;
+	left:20%;
 	background-color:white;
 	padding:20px;
+	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
-		top:10% !important;
-		width:95% !important;
-		margin-left:-10%;
-
-		#smallImagePicture{
-			height:30% !important;
-			width:40% !important;
+		left:5%;
+		width:90%;
+		#blogContainerDiv{
+			margin-top:15% !important;
 		}
 	}
+	@media screen and (max-width:700px){
+		width:100% !important;
+		height:100% !important;
+		margin-right:-10% !important;
+		top:5% !important;
+		margin-left:-5% !important;
+	}
 
-	@media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
-	 	#smallImagePicture{
-			width:20% !important;
-		}
-    }
+
+
 `;
 
 const ShadowContainerBlog=styled.div`
 	position:fixed;
-	width:100%;
+	width:110%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:11;
+	z-index:40;
+	left:-5;
 	top:0px;
 `;
 
@@ -63,7 +111,7 @@ const PosterInformationModal=styled.div`
 	border-radius:5px;
 	background-color:white;
 	box-shadow: 1px 1px 10px #707070;
-	top:10%;
+	top:20%;
 	left:55%;
 	padding:10px;
 	height:60%;
@@ -73,13 +121,33 @@ const PosterInformationModal=styled.div`
 	@media screen and (max-width:1370px){
 		left:20% !important;
 		width:70% !important;
+		top:10% !important;
 	}
+
+	@media screen and (max-width:700px){
+		width:90% !important;
+		left:5% !important;
+	}
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		top:30% !important;
+    }
 `;
 
 const ProfilePicture=styled(Link)`
 	position:relative;
 	width:80px;
 	height:80px;
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		#smallImagePicture{
+			height:40% !important;
+		}
+	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#smallImagePicture{
+			height:60% !important;
+		}
+    }
 `;
 
 const keyFrame=keyframes`
@@ -112,15 +180,22 @@ const SmallPostInformationModal=styled.div`
 	border-radius:5px;
 	background-color:white;
 	box-shadow: 1px 1px 10px #707070;
-	top:10%;
+	top:12%;
 	left:65%;
 	padding:10px;
 	z-index:9;
+
+	@media screen and (max-width:1370px){
+		top:10% !important;
+	}
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		top:25% !important;
+    }
 `;
 
 const ApproveDisapproveContainer=styled.div`
 	position:fixed;
-	background-color:#1C1C1C;
+	background-color:white;
 	width:30%;
 	height:10%;
 	border-radius:5px;
@@ -129,6 +204,7 @@ const ApproveDisapproveContainer=styled.div`
 	height:25%;
 	overflow:scroll;
 	z-index:16;
+	box-shadow: 1px 1px 10px #707070;
 
 	@media screen and (max-width:1370px){
 		width:60% !important;
@@ -137,12 +213,18 @@ const ApproveDisapproveContainer=styled.div`
 
 
 const ShadowContainer = styled.div`
-
 	position:absolute;
 	width:100%;
 	height:100%;
 	z-index:15;
+`;
 
+const VideoDescriptionContainer=styled.div`
+	position:relative;
+	width:40%;
+	height:50%;
+	border-radius:50%;
+	cursor:pointer;
 `;
 
 
@@ -184,12 +266,27 @@ const ShadowButtonCSS={
 	borderRadius:"50%",
 	borderStyle:"none",
 	marginRight:"10%",
-	marginBottom:"2%"
+	marginBottom:"2%",
+	cursor:"pointer"
 }
+
+const BackButtonCSS={
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginLeft:"10%"
+}
+
+
 
 
 const BlogHomeDisplayPortal=(props)=>{
 	console.log(props);
+
 	const blog=props.selectedBlog.blog;
 	var DBEditorState = convertFromRaw(JSON.parse(blog));
 	var blogContentState=EditorState.createWithContent(DBEditorState);
@@ -200,11 +297,18 @@ const BlogHomeDisplayPortal=(props)=>{
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 	const [displayApproveDisapproveIndicator,changeDisplayApproveDisapproveIndicator]=useState(false);
+	const [displayCommentsContainer,changeDisplayCommentsContainer]=useState(false);
+	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
 
 	const approvesPostNumber=props.selectedBlog.isPostAuthentic.numOfApprove!=null?
 					   props.selectedBlog.isPostAuthentic.numOfApprove.length:0;
 	const disapprovesPostNumber=props.selectedBlog.isPostAuthentic.numOfDisapprove!=null?
 						  props.selectedBlog.isPostAuthentic.numOfDisapprove.length:0;
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const isGuestProfile=(personalInformation.id=="0" || personalInformation.isGuestProfile==true)==true?
+					true:false;
+	const dispatch=useDispatch();
+
 
 
 	const triggerUIChange=()=>{
@@ -222,25 +326,58 @@ const BlogHomeDisplayPortal=(props)=>{
 
 	window.addEventListener('resize',triggerUIChange)
 
-	const createOrRemoveStampEffect=()=>{
+	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
-		if(displayStampEffect==false){
-			if(isPersonalProfile==true){
-				addStampPost(props.selectedBlog._id,"personal","BlogPost");
-			}else{
-				addStampPost(props.selectedBlog._id,"company","BlogPost");
-			}
-			changeDisplayStampEffect(true);
+		let confirmationResponse;
+		let dataResponse;
 
+		if(displayStampEffect==false){
+			const {confirmation,data}=await addStampPost(
+												props.selectedBlog._id,
+												"personal",
+												"Blogs",
+												props.personalId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
 		}else{
-			if(isPersonalProfile==true){
-				unStampPost(props.selectedBlog._id,"personal","BlogPost");
+			const {confirmation,data}=await unStampPost(
+												props.selectedBlog._id,
+												"personal",
+												"Blogs",
+												props.personalId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+		}
+
+		if(confirmationResponse=="Success"){
+			if(displayStampEffect==false)
+				changeDisplayStampEffect(true);
+			else
+				changeDisplayStampEffect(false);
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createOrRemoveStampEffect,
+						dispatch,
+						{},
+						false
+					);
 			}else{
-				unStampPost(props.selectedBlog._id,"company","BlogPost");
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 			}
-			changeDisplayStampEffect(false);
 		}
 	}
+
+
 
 	const displayOrHideModal=()=>{
 		changeDisplayModal(!displayLargeModal);
@@ -305,31 +442,71 @@ const BlogHomeDisplayPortal=(props)=>{
 				</React.Fragment>
 	}
 
+	const hideComments=()=>{
+		changeDisplayCommentsContainer(false);
+	}
+
+	const commentModal=()=>{
+		return (
+			<Comments
+				postId={props.selectedBlog._id}
+				postType={"Blogs"}
+				hideComments={hideComments}
+				targetDom={props.targetDom}
+			/>
+		)
+	}
+
+	const displayVideoDescriptionTrigger=()=>{
+	 	changeVideoDescriptionDisplay(true);
+	}	
+
+	const closeVideoDescriptionDisplayModal=()=>{
+		changeVideoDescriptionDisplay(false);
+	}
+
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainerBlog onClick={()=>props.closeModal()}/>
 			<Container>	
+				{displayVideoDescriptionDisplay==true &&(
+					<VideoDescriptionMobileDisplayPortal
+						targetDom={props.targetDom}
+						closeModal={closeVideoDescriptionDisplayModal}
+						videoUrl={props.selectedBlog.videoDescription}
+					/>
+				)}
+				<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+					 stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <circle cx="12" cy="12" r="9" />
+					  <path d="M10 10l4 4m0 -4l-4 4" />
+					</svg>
+				</div>
 				{pollModal()}
 				{displayApproveDisapproveModal()}
-				<Editor
-					editorState={blogContentState}
-					toolbarClassName="toolbarClassName"
-					wrapperClassName="wrapperClassName"
-					editorClassName="editorClassName"
-					placeholder="Start typing to create your masterpiece"
-					readOnly={false}
-					toolbarHidden={true}
-				/>
+				<div id="blogContainerDiv" style={{marginTop:"2%"}}>
+					<Editor
+						editorState={blogContentState}
+						toolbarClassName="toolbarClassName"
+						wrapperClassName="wrapperClassName"
+						editorClassName="editorClassName"
+						placeholder="Start typing to create your masterpiece"
+						readOnly={false}
+						toolbarHidden={true}
+					/>
+				</div>
 				{displayLargeModal==true?
 					<PosterInformationModal>
-						<ul style={{padding:"0px"}}>
-
-							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ExpandMoreIcon
-										style={{fontSize:25}}
-									/>
-								</a>
+						{displayCommentsContainer==true?
+							<>{commentModal()}</>
+						:<ul style={{padding:"0px"}}>
+							<li onClick={()=>displayOrHideModal()} style={{cursor:"pointer",listStyle:"none",marginRight:"70%"}}>
+								<ExpandLessIcon
+									style={{fontSize:25}}
+								/>
 							</li>
 							{displayStampEffect==true?
 									<li style={{listStyle:"none"}}>
@@ -345,10 +522,10 @@ const BlogHomeDisplayPortal=(props)=>{
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 										<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
-											<img id="smallImagePicture" src={props.selectedBlog.owner.ownerImgUrl==null?
+											<img id="smallImagePicture" src={props.selectedBlog.owner.profilePicture==null?
 													NoProfilePicture:
 													props.selectedBlog.owner.profilePicture
-												} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+												} style={{width:"30%",height:"20%",borderRadius:"50%"}}/>
 										</ProfilePicture>
 									</li>
 									<li style={{listStyle:"none"}}>
@@ -360,52 +537,86 @@ const BlogHomeDisplayPortal=(props)=>{
 									</li>
 								</ul>
 							</li>
-
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									<a href="javascript:void(0);">
-										<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
+							{isGuestProfile==false &&(
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"0px"}}>
+										<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
 											<LoyaltyIcon
 												style={{fontSize:30}}
 											/>
 										</li>
-									</a>
 
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} 
-											style={ShadowButtonCSS}>
+										<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} style={ShadowButtonCSS}>
 											<PollIcon
 												style={{fontSize:"30"}}
 											/>
 										</li>
-									</a>
+
+										<li onClick={()=>changeDisplayCommentsContainer(true)} style={ShadowButtonCSS}>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#585858" fill="none" stroke-linecap="round" stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+											  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+											  <line x1="8" y1="9" x2="16" y2="9" />
+											  <line x1="8" y1="13" x2="14" y2="13" />
+											</svg>
+										</li>
+									</ul>
+								</li>
+							)}
+							<hr/>
+							<li style={{listStyle:"none",marginTop:"2%"}}>
+								<ul style={{padding:"0px"}}>
+									{props.selectedBlog.videoDescription!=null &&(
+										<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
+											<VideoDescriptionContainer>
+												<video width="100%" onClick={()=>displayVideoDescriptionTrigger()}
+													height="100%" borderRadius="50%" autoplay="true">
+													<source src={props.selectedBlog.videoDescription} type="video/mp4"/>
+												</video>
+											</VideoDescriptionContainer>
+										</li>
+									)}
+									{props.selectedBlog.audioDescription && (
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<audio controls>
+												<source src={props.selectedBlog.audioDescription} type="audio/ogg"/>
+												<source src={props.selectedBlog.audioDescription}
+												type="audio/mpeg"/>
+												Your browser does not support the audio element.
+											</audio>
+										</li>
+									)}
 								</ul>
 							</li>
+
 						</ul>
+						}
 					</PosterInformationModal>:
 					<SmallPostInformationModal>
 						{displayDesktopUI==false?
-							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
-								<ExpandLessIcon
+							<li onClick={()=>displayOrHideModal()} style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+								<ExpandMoreIcon
 									style={{fontSize:25}}
 								/>
 							</li>:
 							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
-										<img id="smallImagePicture" src={props.ownerImgUrl==null?
-													NoProfilePicture:
-													props.ownerImgUrl
-												} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-									</ProfilePicture>
-								</li>
+								{/*
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
+											<img id="smallImagePicture" src={props.ownerImgUrl==null?
+												NoProfilePicture:
+												props.ownerImgUrl
+											} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+										</ProfilePicture>
+									</li>
 
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
-									<b>{props.selectedBlog.owner.firstName}</b>
-								</li>
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
+										<b>{props.selectedBlog.owner.firstName}</b>
+									</li>
+								*/}
 
-								<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
-									<ExpandLessIcon
+								<li onClick={()=>displayOrHideModal()} style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+									<ExpandMoreIcon
 										style={{fontSize:25}}
 									/>
 								</li>

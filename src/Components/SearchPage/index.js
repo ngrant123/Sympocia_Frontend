@@ -35,15 +35,6 @@ const SearchPage=(props)=>{
 	const state=useSelector(state=>state);
 	console.log(state);
 
-	useEffect(()=>{
-		const verification=state.personalInformation.isLoggedIn;
-		if(verification==false){
-			props.history.push({
-				pathname:'/'
-			})
-		}
-	},[]);
-
 	var profileId=(state.personalInformation.loggedIn==true)?state.personalInformation.id:state.companyInformation.id;
 	var isPersonalProfile=(state.personalInformation.loggedIn==true)?true:false;
 	const displayChatPageHandle=(pageIndicator)=>{
@@ -67,7 +58,8 @@ const SearchPage=(props)=>{
 						userId={profileId}
 						displayRecruitConfetti={displayRecruitConfetti}
 						isPersonalProfile={isPersonalProfile}
-						postType={props.location.state.postType}
+						postType={props.location.state.postType==null?"Images":props.location.state.postType}
+						displaySymposium={displaySymposiumHandle}
 					/>
 		}else if(params.searchType=="Symposiums"){
 			return <SymposiumSearch
@@ -99,13 +91,24 @@ const SearchPage=(props)=>{
 		},5000);
 	}
 
+	const displaySymposiumHandle=(data)=>{
+		props.history.push({
+		  pathname:`/symposium/${data.selectedSymposiums.symposium}`,
+		  state: {
+		  	selectedSymposium:data.selectedSymposiums,
+			symposiums:data.symposiums,
+			profileId:state.personalInformation.id
+		  }
+		});
+	}
+
 	return(
 		<SearchProvider
 			value={{
 					personalInformationState:{
 						_id:profileId
 					},
-					isPersonalProfile:isPersonalProfile,
+					isPersonalProfile:isPersonalProfile
 			}}
 		>
 			<Container id="searchContainer">
@@ -113,6 +116,7 @@ const SearchPage=(props)=>{
 					displayChatPage={displayChatPageHandle}
 					page={"Home"}
 					routerHistory={props.history}
+					targetDom={"searchContainer"}
 				/>
 				{displayConfetti==true &&(
 					<Confetti

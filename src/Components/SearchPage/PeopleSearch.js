@@ -11,7 +11,7 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		#profileCardsLI{
 			display:block !important;
-			width:110% !important;
+			width:60% !important;
 			margin-left:0% !important;
 		}
 	}

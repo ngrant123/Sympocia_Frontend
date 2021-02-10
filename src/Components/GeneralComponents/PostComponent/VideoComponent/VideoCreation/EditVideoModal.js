@@ -24,9 +24,18 @@ import CrownPostModal from "../../CrownPost.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import RedoVideoCreationModal from "./index.js";
 import {UserConsumer} from "../../../../Profile/PersonalProfile/UserContext.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
-	@media screen and (max-width:420px){
+	@media screen and (max-width:1370px){
+		width:80%;
+	}
+	@media screen and (max-width:700px){
+		width:120%;
 		#videoElement{
 			display:block !important;
 			width:120% !important;
@@ -75,7 +84,7 @@ const CrownIconContainer=styled.div`
 	position:absolute;
 	border-style:solid;
 	border-width:2px;
-	border-color:red;
+	border-color:#C8B0F4;;
 	animation: glowing 1300ms infinite;
 	top:25%;
 	left:77%;
@@ -126,7 +135,8 @@ const ButtonCSS={
   borderWidth:"2px",
   borderColor:"#3898ec",
   marginRight:"4%",
-  marginTop:"10%"
+  marginTop:"10%",
+  cursor:"pointer"
 }
 
 class EditVideoModal extends Component{
@@ -186,6 +196,15 @@ class EditVideoModal extends Component{
 		}
 	}
 
+	componentDidUpdate(){
+
+		if(this.state.isPostCrowned==true && this.state.displayRedoPage==false){
+			const crownElement=document.getElementById("crownIcon");
+			crownElement.style.backgroundColor="#D6C5F4";
+			crownElement.style.color="white";
+		}
+	}
+
 	clearImageCaptionTextArea=()=>{
 
 		if(this.state.isVideoDescriptionCleared==false){
@@ -226,7 +245,7 @@ class EditVideoModal extends Component{
 	    return v.toString(16);
 	  });
 	}
-	sendVideoDataToDB=async(videoPostInformation)=>{
+	sendVideoDataToDB=async({videoPostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
 
 		this.setState({
 			isSubmittedAndProcessing:true
@@ -263,10 +282,10 @@ class EditVideoModal extends Component{
 			}
 			
 			const searchObject={
-						industry:industries[i].industry,
-						subIndustry:subCommunitiyArray
+				industry:industries[i].industry,
+				subIndustry:subCommunitiyArray
 			}
-				searchCriteriaIndustryArray.push(searchObject);
+			searchCriteriaIndustryArray.push(searchObject);
 		}
 		
 		var searchVideoResult={
@@ -280,7 +299,13 @@ class EditVideoModal extends Component{
 		}
 
 		if(this.props.previousData==null){
-			const {confirmation,data}=await createVideoPost(this.props.personalProfile.id,searchVideoResult,"Personal");
+			const {confirmation,data}=await createVideoPost(
+												this.props.personalProfile.id,
+												searchVideoResult,
+												"Personal",
+												isAccessTokenUpdated==true?updatedAccessToken:
+												this.props.personalProfile.accessToken
+											);
 			const {
 				firstName,
 				id
@@ -294,16 +319,29 @@ class EditVideoModal extends Component{
 						numOfDisapprove:[]
 					},
 					owner:id,
-					_id:data,
+					_id:data.message,
 					key:this.uuidv4()
 				}
 				videoPostInformation.hideCreationPost();
 				this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
 			}else{
-				alert('Unfortunately an error has occured please try again ');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalProfile.refreshToken,
+							this.props.personalProfile.id,
+							this.sendVideoDataToDB,
+							this.props,
+							{videoPostInformation},
+							true
+						);
+				}else{
+					alert('Unfortunately an error has occured please try again ');
+					this.setState({
+						isSubmittedAndProcessing:false
+					})
+				}
 			}
 		}else{
 			const {previousData}=this.props;
@@ -342,19 +380,38 @@ class EditVideoModal extends Component{
 						newUrl:videoAudioDescription!=videoDescription?videoAudioDescription:null
 					}
 				],
-				ownerId:this.props.personalProfile.id
+				ownerId:this.props.personalProfile.id,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+				this.props.personalProfile.accessToken
 			}
 
  			const {confirmation,data}=await editPost(editedVideo);
 			if(confirmation=="Success"){
+				alert('Your video has been edited. Please reload your profile to see your updated post.')
 				this.props.editPost(editedVideo);
 			}else{
-				alert('Unfortunately there has been an error editing this post. Please try again');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalProfile.refreshToken,
+							this.props.personalProfile.id,
+							this.sendVideoDataToDB,
+							this.props,
+							{videoPostInformation},
+							true
+						);
+				}else{
+					alert('Unfortunately there has been an error editing this post. Please try again');
+					this.setState({
+						isSubmittedAndProcessing:false
+					})
+				}
 			}
 		}
+		this.setState({
+			isSubmittedAndProcessing:false
+		})
 	}
 
 isArrayEqual=(arr1,arr2)=>{
@@ -410,6 +467,8 @@ isArrayEqual=(arr1,arr2)=>{
 		const dateInMill=date.getTime();
 		var newVideoObject={
 			...searchCriteriaObject,
+			industriesUploaded:searchCriteriaObject.industriesUploaded.length==0?
+			[{industry:"General",subIndustry:[]}]:searchCriteriaObject.industriesUploaded,
 			comments:[],
 			datePosted:dateInMill
 		}
@@ -571,7 +630,7 @@ isArrayEqual=(arr1,arr2)=>{
 													<Icon 
 														id="crownIcon"
 														icon={crownIcon}
-														style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
+														style={{borderRadius:"50%",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
 													/>
 												</CrownIconContainer>
 											</a>
@@ -737,12 +796,12 @@ isArrayEqual=(arr1,arr2)=>{
 
 												</li>
 												<hr/>
-												{this.state.isSubmittedAndProcessing==false &&(
+												{this.state.isSubmittedAndProcessing==false ?
 													<li id="sendButtonLIContainer" style={{top:"-560px",listStyle:"none",display:"inline-block",marginTop:"1%"}}>
 														<ul style={{padding:"0px"}}>
 															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-																	<ul onClick={()=>this.sendVideoDataToDB(videoPostInformation)}>
+																	<ul onClick={()=>this.sendVideoDataToDB({videoPostInformation,isAccessTokenUpdated:false})}>
 																		<li style={{listStyle:"none",display:"inline-block"}}>
 																			<SendIcon
 																				style={{fontSize:20,color:"white"}}
@@ -757,9 +816,9 @@ isArrayEqual=(arr1,arr2)=>{
 																 </li>
 															 </a>
 														</ul>
-													</li>
-
-												)}
+													</li>:
+													<p>Please wait...</p>
+												}
 											</ul>
 								 		</Container>
 								 	}
@@ -782,7 +841,15 @@ const mapStateToProps=state=>{
 	}
 }
 
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(EditVideoModal);

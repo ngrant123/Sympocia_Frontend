@@ -46,8 +46,8 @@ const PersonalInformationContainer=styled.div`
 		width:90% !important;
 		left:5% !important;
     }
-
 `;
+
 const EditNodeContainer=styled.div`
 	position:fixed;
 	width:25%;
@@ -60,7 +60,7 @@ const EditNodeContainer=styled.div`
 	overflow:auto;
 	padding:20px;
 
-	 @media screen and (max-width:1030px){
+	 @media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
     }
@@ -80,11 +80,27 @@ const SponsorExtendedModal=styled.div`
 		left:5% !important;
 		top:40%;
 		width:90% !important;
+		height:35%;
+		padding:20px;
+		overflow:scroll;
 
 		#extendChampionDescriptionUL{
 			top:10px !important;
 		}
 	}
+
+
+
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		height:50%;
+    }
+	 @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		#extendedChampionModalUL{
+			#championImageLI{
+				height:70% !important;
+			}
+		}
+    }
 `;
 
 
@@ -113,7 +129,7 @@ const FriendsNodeEditButtton={
   marginLeft:"5%"
 }
 
-const MobilePersonalInformation=({closeModal,displayConfetti,personalInformation,displaySocialMediaModal})=>{
+const MobilePersonalInformation=({closeModal,displayConfetti,personalInformation,displaySocialMediaModal,userId})=>{
 	return <>
 				<ShadowContainer
 					onClick={()=>closeModal()}
@@ -123,6 +139,7 @@ const MobilePersonalInformation=({closeModal,displayConfetti,personalInformation
 						displayConfetti={displayConfetti}
 						personalInformation={personalInformation}
 						displaySocialMediaModal={displaySocialMediaModal}
+						userId={userId}
 					/>
 
 				</PersonalInformationContainer>
@@ -137,7 +154,7 @@ const MobileChampionData=(championData)=>{
 	)
 }
 
-const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayChampionsModal,championData,isIphoneDisplay})=>{
+const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayChampionsModal,championModalData,isIphoneDisplay,isOwner})=>{
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [editChampionModal,changeEditChampionModal]=useState(false);
 	const [displayChampion,changeDisplayChampion]=useState(false); 
@@ -154,7 +171,7 @@ const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayCh
 					/>
 				)}
 				{displayChampion==true &&(
-					<>{MobileChampionData(championData)}</>
+					<>{MobileChampionData(championModalData)}</>
 				)}
 				<OriginalShadowContainer
 					onClick={()=>closeModal()}
@@ -185,13 +202,15 @@ const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayCh
 				            <hr/>
 			            </>
 						:<>
-			            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				                <li onClick={()=>changeEditChampionModal(true)} style={{listStyle:"none"}}>
-				                    Edit Champion
-				                </li>
-				            </a>
+							{isOwner==true && (
+				            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					                <li onClick={()=>changeEditChampionModal(true)} style={{listStyle:"none"}}>
+					                    Edit Champion
+					                </li>
+					            </a>
+							)}
 				            <hr/>
-				            {championData!=null && (
+				            {championModalData!=null && (
 				            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 				            		<li onClick={()=>changeDisplayChampion(true)}style={{listStyle:"none"}}>
 					                    View Champion
@@ -205,15 +224,15 @@ const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayCh
 		,document.getElementById("personalContainer"));
 }
 
-const EditNodeModal=({closeModal,triggerActionTypeChange})=>{
+const EditNodeModal=({closeNodeOptions,editFriendNodeActionType})=>{
 	const closeAndEditActionType=(actionType)=>{
-		triggerActionTypeChange(actionType);
-		closeModal();
+		editFriendNodeActionType(actionType);
+		closeNodeOptions();
 	}
 	return createPortal(
 			<>
 				<OriginalShadowContainer
-					onClick={()=>closeModal()}
+					onClick={()=>closeNodeOptions()}
 				/>
 				<EditNodeContainer>
 					 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -239,14 +258,17 @@ const EditNodeModal=({closeModal,triggerActionTypeChange})=>{
 		,document.getElementById("personalContainer"));
 }
 
-const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType})=>{
+const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType,isOwner})=>{
 	const personalRedux=useSelector(state=>state.personalInformation);
 	const [displayEditNodeOptions,changeDisplayEditNodeOptions]=useState(false);
 
 	const closeNodeOptions=()=>{
 		changeDisplayEditNodeOptions(false);
 	}
-	debugger;
+
+	const displayNodeOptions=()=>{
+		changeDisplayEditNodeOptions(true);
+	}
 	return <UserConsumer>
 				{personalInformation=>{
 					return <>
@@ -263,19 +285,20 @@ const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType})=>{
 									/>
 				                </li>
 				              </a>
-
-				              <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				                <li onClick={()=>changeDisplayEditNodeOptions(true)} style={FriendsNodeEditButtton}>
-									Edit Friends Nodes
-				                </li>
-				              </a>
+				              {isOwner==true && (
+					              <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					                <li onClick={()=>displayNodeOptions()} style={FriendsNodeEditButtton}>
+										Edit Friends Nodes
+					                </li>
+					              </a>
+				              )}
 				          </li>
 				        </>
 				}}
 		   </UserConsumer>
 }
 
-const PhonePersonalInformationHeader=({ownerName})=>{
+const PhonePersonalInformationHeader=({ownerName,isOwner,isGuestProfile})=>{
 	const [displayPhoneProfileOptions,changePhoneProfileOptions]=useState(false);
 	const closeModal=()=>{
 		changePhoneProfileOptions(false);
@@ -284,26 +307,30 @@ const PhonePersonalInformationHeader=({ownerName})=>{
 				{personalInformation=>{
 					return <li style={{listStyle:"none",marginLeft:"-60%"}}>
 						<ul style={{padding:"0px"}}>
-							<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"15%"}}>
+							<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",fontSize:"20px",maxHeight:"50px",maxWidth:"70%",overflow:"hidden"}}>
 								<b>{ownerName}</b>
 							</li>
-							<li id="mobilePersonalOptionCaret" style={{listStyle:"none",display:"inline-block",marginLeft:"40%"}}>
-								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-										style={ShadowButtonCSS}
-										onClick={()=>changePhoneProfileOptions(true)}
-									>
-									   		<span class="caret"></span>
-									</button>
-									{displayPhoneProfileOptions==true &&(
-										<MobileProfileOptionsIpad
-											{...personalInformation.mobilePhoneUIParameters}
-											closeModal={closeModal}
-											isIphoneDisplay={true}
-										/>
-									)}
-								</div>
-							</li>
+							{isGuestProfile==false &&(
+								<li id="mobilePersonalOptionCaret" style={{listStyle:"none",display:"inline-block",marginLeft:"10%"}}>
+									<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+											style={ShadowButtonCSS}
+											onClick={()=>changePhoneProfileOptions(true)}
+										>
+										   		<span class="caret"></span>
+										</button>
+										{displayPhoneProfileOptions==true &&(
+											<MobileProfileOptionsIpad
+												{...personalInformation.mobilePhoneUIParameters}
+												championModalData={personalInformation.championModalData}
+												closeModal={closeModal}
+												isIphoneDisplay={true}
+												isOwner={isOwner}
+											/>
+										)}
+									</div>
+								</li>
+							)}
 						</ul>
 						<hr/>
 				   </li>

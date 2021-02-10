@@ -1,6 +1,3 @@
-
-
-
 const initialState={
 	id:"0",
 	firstName:'',
@@ -9,11 +6,15 @@ const initialState={
 	signInStatus:false,
 	paymentPlan:'',
 	firstTimeIndicator:false,
-	loggedIn:false
+	loggedIn:false,
+	accessToken:"",
+	refreshToken:"",
+	isGuestProfile:false,
+	isTokenRefreshing:false
 }
 
 const PersonalProfile=(state={initialState},action)=>{
-
+	debugger;
 	const { type, payload }=action;
 	switch(type){
 
@@ -89,7 +90,9 @@ const PersonalProfile=(state={initialState},action)=>{
 				firstName,
 				lastName,
 				email,
-				_id
+				_id,
+				accessToken,
+				refreshToken
 			}=payload;
 
 			return {
@@ -100,14 +103,47 @@ const PersonalProfile=(state={initialState},action)=>{
 				email,
 				signInStatus:true,
 				paymentPlan:'',
-				loggedIn:true
+				loggedIn:true,
+				accessToken,
+				refreshToken,
+				isGuestProfile:false
 			}
 			break;
 		}
+
+		case 'SIGN_IN_GUEST_USER':{
+			return{
+				...state,
+				isGuestProfile:true
+			}
+			break;
+		}
+		
 		case 'LOGOUT_USER':{
 			debugger;
 			return initialState
 			break;
+		}
+
+		case 'ACCESS_TOKEN':{
+			return{
+				...state,
+				accessToken:payload
+			}
+		}
+
+		case 'REFRESH_TOKEN':{
+			return{
+				...state,
+				refreshToken:payload
+			}
+		}
+
+		case 'IS_TOKEN_REFRESHING':{
+			return{
+				...state,
+				isTokenRefreshing:payload
+			}
 		}
 
 		default:{

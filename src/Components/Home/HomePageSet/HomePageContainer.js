@@ -24,9 +24,9 @@ import NoProfileIcon from "../../../designs/img/NoProfilePicture.png";
 import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 import Confetti from 'react-confetti';
-
 import ExplorePageOnboarding from "../../OnBoarding/ExplorePageOnboarding.js";
 import LoadingScreen from "../../../LoadingAnimation.js";
+import GuestOnboarding from "../../OnBoarding/GuestOnboarding.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -34,11 +34,16 @@ const Container=styled.div`
 	padding:10px;
 	padding-top:0px;
 	height:100%;
-	background-color:white;
 	overflow-y:scroll;
 	transition:.8s;
 	overflow-x:hidden;
 	overflow-y:scroll;
+
+	@media screen and (max-width:740px){
+		#confettiAnimation{
+			width:300% !important;
+		}
+	}
 `;
 
 
@@ -83,7 +88,6 @@ const ExploreIconContainer=styled.div`
 	padding:10px;
 	box-shadow: 1px 1px 1px 1px #d5d5d5;
 	transition:.8s;
-
 	&:hover{
 		box-shadow: 1px 1px 10px #707070;	
 	}
@@ -193,7 +197,8 @@ class HomePageContainer extends Component{
 			displayConfetti:false,
 			isLoading:true,
 			hideOnboarding:true,
-			displayDesktopUI:false
+			displayDesktopUI:false,
+			displayGuestOnboarding:false
 		}
 	}
 
@@ -211,43 +216,44 @@ class HomePageContainer extends Component{
 		}
 	}
 	async componentDidMount(){
-		const verification=this.props.isLoggedIn;
-		if(verification==false){
-			this.props.history.push({
-				pathname:'/'
-			})
-		}else{
-			window.addEventListener('resize',this.triggerUIChange)
-			var profile;
-			var symposiumsMap;
-			var isPersonalProfile;
-				
-			if(this.props.personalInformation.loggedIn==true){
-				symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
-				const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
+		window.addEventListener('resize',this.triggerUIChange)
+		const {isGuestProfile,id}=this.props.personalInformation;
 
-				if(confirmation=="Success"){
-					profile=data;
-					isPersonalProfile=true;
-				}else{
-					alert('Unfortunately there has been an error with getting the posts/profile for the home page. Please try again');
-				}
-			}else{
-				var symposiumsMap=this.constructSymposiumsMap(COMPANY_INDUSTRIES.INDUSTRIES);
-				profile=await getCompanyProfileForHomePage(this.props.companyInformation.id);
-				isPersonalProfile=false
-			}
+		if(id=="0" && isGuestProfile==false){
 			this.setState({
-				recruitsPost:profile.recruitsFollowing,
-				isPersonalProfile:isPersonalProfile,
-				profile:profile,
-				profileId:profile._id,
-				symposiumsMap:symposiumsMap,
-				isLoading:false,
-				hideOnboarding:profile.firstTimeLoggedIn.explorePage
+				displayGuestOnboarding:true
 			})
-			this.triggerUIChange();
 		}
+		this.initiliazeUserProfileForHomePage(id);
+		this.triggerUIChange();
+	}
+
+	initiliazeUserProfileForHomePage=async(id)=>{
+		debugger;
+		var profile={};
+		var symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
+		var isPersonalProfile=true;
+			
+		if(id!="0" && this.props.personalInformation.isGuestProfile==false){
+			const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
+			debugger;
+			if(confirmation=="Success"){
+				profile=data;
+				isPersonalProfile=true;
+			}else{
+				alert('Unfortunately there has been an error with getting the posts/profile for the home page. Please try again');
+			}
+		}
+
+		this.setState({
+			recruitsPost:id=="0"?[]:profile.recruitsFollowing,
+			isPersonalProfile:isPersonalProfile,
+			profile:profile,
+			profileId:id,
+			symposiumsMap:symposiumsMap,
+			isLoading:false,
+			hideOnboarding:(id=="0"|| this.props.personalInformation.isGuestProfile)?false:profile.firstTimeLoggedIn.explorePage
+		})
 	}
 
 	constructSymposiumsMap=(symposiums)=>{
@@ -351,7 +357,6 @@ class HomePageContainer extends Component{
 				return <SearchExploreScreen
 								displayGrids={this.handleDisplayGridLayout}
 								history={this.props.history}
-								hideOnboarding={this.state.profile.firstTimeLoggedIn.personalPage}
 							/>;
 		}else if(this.state.displayPlayListPage==true){
 			return <PlayListComponent/>
@@ -377,7 +382,8 @@ class HomePageContainer extends Component{
 
 	closeOnboardingModal=()=>{
 		this.setState({
-			hideOnboarding:true
+			hideOnboarding:true,
+			displayGuestOnboarding:false
 		})
 	} 
 
@@ -422,9 +428,20 @@ class HomePageContainer extends Component{
 							displayChatPage={this.displayChatPage}
 							page={"Home"}
 							routerHistory={this.props.history}
+							targetDom={"homePageContainer"}
 						/>
+						{this.state.displayGuestOnboarding==true &&(
+							<GuestOnboarding
+								targetDom="homePageContainer"
+								closeModal={this.closeOnboardingModal}
+							/>
+						)}
 
-						{this.state.hideOnboarding==false &&(
+						{(
+							this.state.hideOnboarding==false &&
+						 	this.props.personalInformation.id!="0" &&
+						 	this.props.personalInformation.isGuestProfile!=true
+						 )==true &&(
 							<ExplorePageOnboarding
 								closeModal={this.closeOnboardingModal}
 							/>
@@ -432,6 +449,7 @@ class HomePageContainer extends Component{
 
 						{this.state.displayConfetti==true?
 								<Confetti
+									id="confettiAnimation"
 									style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
 									 run={true}
 								/>
@@ -483,11 +501,11 @@ class HomePageContainer extends Component{
 												<li onClick={()=>this.props.history.push({
 														pathname:'/symposiumList'
 													})} style={{listStyle:"none",marginBottom:"20%"}}>
-														<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-															<AppsIcon
-																style={{fontSize:40}}
-															/>
-														</a>
+													<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+														<AppsIcon
+															style={{fontSize:40}}
+														/>
+													</a>
 												</li>
 												<hr/>
 												
@@ -496,24 +514,26 @@ class HomePageContainer extends Component{
 														style={{fontSize:40}}
 													/>
 												</li>
-												<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
-													<ul style={{padding:"0px"}}>
-														{this.state.recruitsPost!=null?
-															<React.Fragment>
-																{this.state.recruitsPost.map(data=>
-																	<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
-																		<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																			<img src={data.profilePicture==null?
-																					  NoProfileIcon:
-																					  data.profilePicture} 
-																			style={RecruitImageCSS}/>
-																		</a>
-																	</li>
-																)}
-															</React.Fragment>:null
-														}
-													</ul>
-												</li>
+												{/*
+													<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
+														<ul style={{padding:"0px"}}>
+															{this.state.recruitsPost!=null?
+																<React.Fragment>
+																	{this.state.recruitsPost.map(data=>
+																		<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
+																			<a style={{textDecoration:"none"}} href="javascript:void(0);">
+																				<img src={data.profilePicture==null?
+																						  NoProfileIcon:
+																						  data.profilePicture} 
+																				style={RecruitImageCSS}/>
+																			</a>
+																		</li>
+																	)}
+																</React.Fragment>:null
+															}
+														</ul>
+													</li>
+												*/}
 											</ul>
 										</ForYouIconContainer>
 									</li>

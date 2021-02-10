@@ -15,7 +15,9 @@ import PostCreationPortal from "../../PersonalProfileSet/Modals-Portals/PostCrea
 
 import {
 		getRegularPostFromUser,
-		getVideosFromUser
+		getVideosFromUser,
+		getUserImages,
+		getBlogFromUser
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 import {
@@ -27,7 +29,9 @@ import {
 } from "./ContextActions.js";
 import {RecruitButton} from "../PersonalDetails/PersonalInformation.js";
 import {PhonePersonalInformationHeader} from "../../PersonalProfileSet/MobileUI.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 
 
 const PostCreationContainer=styled.div`
@@ -164,13 +168,20 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
+	console.log(props);
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
 	const [displayRegularPosts,changeDisplayForRegularPosts]=useState(false);
 	const personalRedux=useSelector(state=>state.personalInformation);
+	const [currentPostType,changeCurrentPostType]=useState("image");
+	const [currentPostCounter,changeCurrentPostCounter]=useState(0);
+	const [isLoadingNewPosts,changeIsLoadingNewPosts]=useState(false);
+	const dispatch=useDispatch();
+	const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
+	const [endOfPostsDBIndicator,changeEndOfPostsDBIndicator]=useState(false);
 
-	const [regularPost,changeRegularPost]=useState({
+	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
 		posts:[]
 	})
@@ -179,19 +190,27 @@ const PersonalPostsIndex=(props)=>{
 	const [postOption,changePostOption]=useState();
 	const [personalInformation,changePersonalInformation]=useState(props.personalInformation);
 
-	const [imagePost,changeImagePost]=useState({
-			crownedImage:props.personalInformation.userProfile.crownedImage,
+	let [imagePost,changeImagePost]=useState({
+			crownedImage:props.personalInformation.userProfile.crownedPost,
 			images:props.personalInformation.userProfile.imagePost
 	});
 
-	const [videoPost,changeVideoPosts]=useState({
+	let [videoPost,changeVideoPosts]=useState({
 		headerVideo:null,
 		videos:[]
 	});
+
+	let [blogPost,changeBlogPosts]=useState({
+		headerBlog:null,
+		blogs:[]
+	});
+	const [isLoadingIndicatorImages,changeImagesLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorRegularPost,changeRegularPostsLoadingIndicator]=useState(true);
+	const [isLoadingIndicatorBlogPost,changeBlogPostsLoadingIndicator]=useState(true);
 
 	useEffect(()=>{
+		changeImagesLoadingIndicator(false)
 		if(props.personalInformation.isLoading!=true){
 			const image=document.getElementById("images");
 			image.style.color="#C8B0F4";
@@ -205,93 +224,254 @@ const PersonalPostsIndex=(props)=>{
 	*/
 
 	const unSelectButtonsCSS=()=>{
-		const image=document.getElementById("images");
-		image.style.color="#bebebf";
-		image.style.borderStyle="none";
+		if(props.isGuestVisitorProfile==false){
+			const image=document.getElementById("images");
+			image.style.color="#bebebf";
+			image.style.borderStyle="none";
 
-		const blogs=document.getElementById("blogs");
-		blogs.style.color="#bebebf";
-		blogs.style.borderStyle="none";
-
-
-		const videos=document.getElementById("videos");
-		videos.style.color="#bebebf";
-		videos.style.borderStyle="none";
+			const blogs=document.getElementById("blogs");
+			blogs.style.color="#bebebf";
+			blogs.style.borderStyle="none";
 
 
-		const regularPost=document.getElementById("regularPosts");
-		regularPost.style.color="#bebebf";
-		regularPost.style.borderStyle="none";
+			const videos=document.getElementById("videos");
+			videos.style.color="#bebebf";
+			videos.style.borderStyle="none";
+
+
+			const regularPost=document.getElementById("regularPosts");
+			regularPost.style.color="#bebebf";
+			regularPost.style.borderStyle="none";
+		}
 	}
 
-	const handlePostsClick=async(kindOfPost,id)=>{
+	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter})=>{
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
 			changeDisplayForRegularPosts(false);
-
+			changeIsLoadingReloadedPosts(true);
 			unSelectButtonsCSS();
+			console.log(videoPost);
 
 		if(kindOfPost=="image"){
-
 			const image=document.getElementById("images");
 			image.style.color="#C8B0F4";
 			image.style.borderBottom="solid";
 			image.style.borderColor="#C8B0F4";
-
+			changeCurrentPostType("image");
 			changeDisplayForImages(true);
-
+			changeVideoPosts({...videoPost,videos:[]})
+			changeBlogPosts({...blogPost,blogs:[]})
+			changeRegularPost({...regularPost,posts:[]})
+			const {confirmation,data}=await getUserImages({
+											userId:id,
+											visitorId:props.visitorId,
+											postCount:postCounter==null?0:postCounter,
+											accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+											personalRedux.accessToken,
+											isGuestProfile:props.isGuestVisitorProfile
+										});
+			debugger;
+			if(confirmation=="Success"){
+				const {crownedPost,posts}=data;
+				if(posts.length==0 && crownedPost==null){
+					changeEndOfPostsDBIndicator(true);
+				}else{
+					const {images}=imagePost;
+					const newImages=images.concat(posts);
+					imagePost={
+						...imagePost,
+						images:newImages
+					}
+					changeImagePost(imagePost);
+					changeIsLoadingNewPosts(false)
+				}
+			}else{
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalRedux.refreshToken,
+							personalRedux.id,
+							handlePostsClick,
+							dispatch,
+							{
+								kindOfPost,
+								id
+							},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error getting images. Please try again');
+				}
+			}
+			changeImagesLoadingIndicator(false);
 		}else if(kindOfPost=="video"){
 			const videos=document.getElementById("videos");
 			videos.style.color="#C8B0F4";
 			videos.style.borderBottom="solid";
 			videos.style.borderColor="#C8B0F4";
 			changeDisplayForVideos(true); 
+			changeCurrentPostType("video");
+			changeImagePost({...imagePost,images:[]});
+			changeBlogPosts({...blogPost,blogs:[]})
+			changeRegularPost({...regularPost,posts:[]})
 
-			const {confirmation,data}=await getVideosFromUser({userId:id,visitorId:props.visitorId});
+			const {confirmation,data}=await getVideosFromUser({
+												userId:id,
+												visitorId:props.visitorId,
+												postCount:postCounter==null?0:postCounter,
+												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+												personalRedux.accessToken
+											});
 
 			if(confirmation=="Success"){
-				const {crownedVideo,videoPosts}=data;
-				
-				const videoObject={
-					headerVideo:crownedVideo,
-					videos:videoPosts
+				const {crownedPost,posts}=data;
+				if(posts.length==0 && crownedPost==null){
+					changeEndOfPostsDBIndicator(true);
+				}else{
+					let {videos}=videoPost;
+					const newVideos=videos.concat(posts);
+					console.log(newVideos);
+					const videoObject={
+						headerVideo:crownedPost==null?videoPost.headerVideo:crownedPost,
+						videos:newVideos
+					}
+					changeVideoPosts(videoObject);
 				}
-				changeVideoPosts(videoObject);
 				changeVideosLoadingIndicator(false);
 			}else{
-				alert('Unfortunately there has been an error getting your pictures. Please try again');
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalRedux.refreshToken,
+							personalRedux.id,
+							handlePostsClick,
+							dispatch,
+							{
+								kindOfPost,
+								id
+							},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error getting videos. Please try again');
+				}
 			}
 		}else if(kindOfPost=="blog"){
-			const blogs=document.getElementById("blogs");
-			blogs.style.color="#C8B0F4";
-			blogs.style.borderBottom="solid";
-			blogs.style.borderColor="#C8B0F4";
 			changeDisplayForBlogs(true);
+			changeCurrentPostType("blog");
+
+			const {	confirmation,data}=await getBlogFromUser({
+												userId:id,
+												visitorId:props.visitorId,
+												postCount:postCounter==null?0:postCounter,
+												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+												personalRedux.accessToken
+											});
+			if(confirmation=="Success"){
+				const {crownedPost,posts}=data;
+
+				changeBlogPostsLoadingIndicator(false);
+				if(posts.length==0 && crownedPost==null){
+					changeEndOfPostsDBIndicator(true);
+				}else{
+					const blogDiv=document.getElementById("blogs");
+					blogDiv.style.color="#C8B0F4";
+					blogDiv.style.borderBottom="solid";
+					blogDiv.style.borderColor="#C8B0F4";
+
+					const {blogs}=blogPost;
+					const newBlogs=blogs.concat(posts);
+					const blogObject={
+						headerBlog:crownedPost==null?blogPost.headerBlog:crownedPost,
+						blogs:newBlogs
+					}
+							
+					changeBlogPosts(blogObject);
+					changeDisplayForBlogs(true);
+				}
+			}else{
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalRedux.refreshToken,
+							personalRedux.id,
+							handlePostsClick,
+							dispatch,
+							{
+								kindOfPost,
+								id
+							},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error getting these blog posts. Please try again');
+				}
+			}
+			changeImagePost({...imagePost,images:[]});
+			changeVideoPosts({...videoPost,videos:[]})
+			changeRegularPost({...regularPost,posts:[]})
 		}else{
 			changeDisplayForRegularPosts(true);
-			const {confirmation,data}=await getRegularPostFromUser({userId:id,
-																	visitorId:props.visitorId
-																});
-				if(confirmation=="Success"){	
-					const {crownedRegularPost,regularPosts}=data;
-					const regularPost=document.getElementById("regularPosts");
-					regularPost.style.color="#C8B0F4";
-					regularPost.style.borderBottom="solid";
-					regularPost.style.borderColor="#C8B0F4";
-		
+			changeCurrentPostType("regularPost");
+			changeBlogPosts({...blogPost,blogs:[]});
+			changeImagePost({...imagePost,images:[]});
+			changeVideoPosts({...videoPost,videos:[]})
+			const {confirmation,data}=await getRegularPostFromUser({
+												userId:id,
+												visitorId:props.visitorId,
+												postCount:postCounter==null?0:postCounter,
+												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+												personalRedux.accessToken
+											});
+			if(confirmation=="Success"){	
+				const {crownedPost}=data;
+				const postsResponse=data.posts;
+				if(postsResponse.length==0 && crownedPost==null){
+					changeEndOfPostsDBIndicator(true);
+				}else{
+					const regularPostDiv=document.getElementById("regularPosts");
+					regularPostDiv.style.color="#C8B0F4";
+					regularPostDiv.style.borderBottom="solid";
+					regularPostDiv.style.borderColor="#C8B0F4";
+					const {posts}=regularPost;
+					const newRegularPosts=posts.concat(postsResponse);
 					const regularPostObject={
-						headerPost:crownedRegularPost,
-						posts:regularPosts.reverse()
+						headerPost:crownedPost==null?regularPost.headerPost:crownedPost,
+						posts:newRegularPosts
 					}
 		
 					changeRegularPost(regularPostObject);
 					changeDisplayForRegularPosts(true);
-					changeRegularPostsLoadingIndicator(false);
-				}else{
-					alert('Unfortunately there has been an error getting your regular posts. Please try again');
 				}
+					changeRegularPostsLoadingIndicator(false);
+					changeIsLoadingNewPosts(false)
+			}else{
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalRedux.refreshToken,
+							personalRedux.id,
+							handlePostsClick,
+							dispatch,
+							{
+								kindOfPost,
+								id
+							},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error getting regular posts. Please try again');
+				}
+			}
 		}
+		changeIsLoadingReloadedPosts(false);
+		
 	}
 
 	const closeModal=()=>{
@@ -305,6 +485,7 @@ const PersonalPostsIndex=(props)=>{
 			<PostCreationPortal
 				postOption={postOption}
 				closeModal={closeModal}
+				isPhoneUIEnabled={props.uiStatus.displayPhoneUI}
 			/>:null;
 	}
 
@@ -331,7 +512,7 @@ const PersonalPostsIndex=(props)=>{
 		return (
 			<li  style={{listStyle:"none"}}>
 				<ul style={{padding:"0px"}}>
-					<li id="mobilePhonePostOption"style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+					<li id="mobilePhonePostOption" style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 						<div class="dropdown">
 							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
 								style={ShadowButtonCSS}>
@@ -339,29 +520,36 @@ const PersonalPostsIndex=(props)=>{
 							   		<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
-								<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+								<li onClick={()=>triggerPostDecider("image",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
 									<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
 										Images
 									</a>
 								</li>
+								{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) &&(
+									<React.Fragment>
+										<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
 
-								<li onClick={()=>handlePostsClick("video",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
-									<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-										Videos
-									</a>
-								</li>
+											<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+												Videos
+											</a>
+										</li>
 
-								<li onClick={()=>handlePostsClick("regularPost",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-									<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-										Regular Posts
-									</a>
-								</li>
+										<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
-								<li onClick={()=>handlePostsClick("blog",props.personalInformation.userProfile._id)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-									<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-										Blogs
-									</a>
-								</li>
+											<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+												Regular Posts
+											</a>
+										</li>
+
+
+										<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+
+											<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+												Blogs
+											</a>
+										</li>
+									</React.Fragment>
+								)}
 							</ul>
 						</div>
 					</li>
@@ -378,6 +566,79 @@ const PersonalPostsIndex=(props)=>{
 		)
 	}
 
+
+	const handleTriggerPostReload=()=>{
+		const nextCounter=currentPostCounter+1;
+		changeCurrentPostCounter(nextCounter);
+		changeIsLoadingNewPosts(true);
+		handlePostsClick({
+			kindOfPost:currentPostType,
+			id:props.personalInformation.userProfile._id,
+			isAccessTokenUpdated:false,
+			postCounter:nextCounter,
+			isLoadingNewPosts:true
+		})
+	}
+
+	const triggerPostDecider=(postType,profileId,counter)=>{
+		switch(postType){
+			case 'image':{
+				changeImagesLoadingIndicator(true)
+				break;
+			}
+			case 'video':{
+				changeVideosLoadingIndicator(true);
+				break;
+			}
+			case 'blog':{
+				changeBlogPostsLoadingIndicator(true);
+				break;
+			}
+			default:{
+				changeRegularPostsLoadingIndicator(true);
+				break;
+			}
+		}
+		if(postType!=currentPostType){
+			changeEndOfPostsDBIndicator(false);
+			changeCurrentPostCounter(0);
+			handlePostsClick({
+				kindOfPost:postType,
+				id:profileId,
+				isAccessTokenUpdated:false,
+				postCounter:0,
+			})
+		}
+	}
+
+	const displayFriendsGauge=()=>{
+		return <FriendsGauge
+					personalInformation={props.personalInformation}
+					mobileUIStatus={props.uiStatus}
+				/>
+	}
+
+	const editPostVideo=(postData)=>{
+		const {postType}=postData;
+		let propData=videoPost;
+		let stateCallBackFunction=changeVideoPosts;
+
+		let result =editPostIndexContext(postData,propData);
+		stateCallBackFunction(result);
+		props.closeModal();
+	}
+
+	const removePostVideo=(postId,postType)=>{
+		debugger;
+		let propData=videoPost;
+		let result=removePostIndexContext(postId,propData,postType);
+		changeVideoPosts(result);
+		props.closeModal();
+	}
+
+	const updateVideoPosts=(posts)=>{
+	}
+
 /*
 	const initializePersonalInformationToState=(personalInformationData)=>{
 		
@@ -388,6 +649,8 @@ const PersonalPostsIndex=(props)=>{
 	return (
 			<PostProvider
 				value={{
+					isLoadingReloadedPosts,
+					endOfPostsDBIndicator,
 					updatePostComponent:(postOption)=>{
 						changePostOption(postOption);
 						changeDisplayCreationPost(true);
@@ -406,6 +669,7 @@ const PersonalPostsIndex=(props)=>{
 						props.closeModal();
 					},
 					updateVideoPost:(videoObject)=>{
+						debugger;
 						if(displayVideos==true){
 							let newVideoObject=updateVideoPostIndexContext(videoObject,videoPost);
 							changeVideoPosts(newVideoObject);							
@@ -491,6 +755,9 @@ const PersonalPostsIndex=(props)=>{
 						let result=removePostIndexContext(postId,propData,postType);
 						stateCallBackFunction(result);
 						props.closeModal();
+					},
+					fetchNextPosts:()=>{
+						handleTriggerPostReload();
 					}
 				}}
 			>
@@ -504,105 +771,122 @@ const PersonalPostsIndex=(props)=>{
 					{props.uiStatus.displayPhoneUI==true &&(
 						<PhonePersonalInformationHeader
 							ownerName={props.personalInformation.userProfile.firstName}
+							isOwner={props.personalInformation.isOwnProfile}
+							isGuestProfile={props.personalInformation.isGuestProfile}
 						/>
 					)}
 					<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
 							{props.personalInformation.isLoading==true?
-									<p>Give us a second </p>:
-									<FriendsGauge
-										personalInformation={props.personalInformation}
-										mobileUIStatus={props.uiStatus}
-									/>
-								}
+								<p>Give us a second </p>:
+								<>
+									{props.personalInformation.isGuestProfile==true?
+										<GuestLockScreenHOC
+											component={displayFriendsGauge()}
+										/>
+										:
+										<>{displayFriendsGauge()}</>
+									}
+								</>
+							}
 					</li>
 					<hr/>
 					{displayCreationPostContainer()}
-
 					<li id="postsContainer" style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
 							{props.uiStatus.displayPhoneUI==true? 
 								<>{mobilePostSelectionAndRecruitUI(props.personalInformation)}</>:
 								<li style={{listStyle:"none",marginBottom:"20px"}}>
 									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<SearchIcon
-														style={{fontSize:40}}
-													/>
-												</li>
+										{/*
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														<SearchIcon
+															style={{fontSize:40}}
+														/>
+													</li>
 
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<SearchPostsTextArea
-														placeholder="Search for any posts here"
-													/>
-												</li>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														<SearchPostsTextArea
+															placeholder="Search for any posts here"
+														/>
+													</li>
+												</ul>
+											</li>
+										*/}
 
-											</ul>
-										</li>
-
-										<li onClick={()=>handlePostsClick("image")} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+										<li onClick={()=>triggerPostDecider("image",props.personalInformation.userProfile._id,0)} 
+											style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 											<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
 												Images
 											</a>
 										</li>
 
-										<li onClick={()=>handlePostsClick("video",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
-											<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-												Videos
-											</a>
-										</li>
+										{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) && (
+											<React.Fragment>
+												<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 
-										<li onClick={()=>handlePostsClick("regularPost",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-											<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-												Regular Posts
-											</a>
-										</li>
+													<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+														Videos
+													</a>
+												</li>
 
-										<li onClick={()=>handlePostsClick("blog",props.personalInformation.userProfile._id)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-											<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-												Blogs
-											</a>
-										</li>
 
-										<li style={listCSSButton}>	
+												<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
-											<div class="dropdown">
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																			borderColor:"#5298F8",
-																																			borderStyle:"solid",
-																																			borderWidth:"1px",
-																																			color:"#5298F8",
-																																			backgroundColor:"white"}}>
-														Sort By
-													   	<span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu">
-														<li><a href="">Most Popular</a></li>
-														<li><a href="">Most Recent</a></li>
-													</ul>
-							  				 </div>
-							  			</li>
+													<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+														Regular Posts
+													</a>
+												</li>
 
-										<li style={listCSSButton}>
-											<div class="dropdown">
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																			borderColor:"#5298F8",
-																																			borderStyle:"solid",
-																																			borderWidth:"1px",
-																																			color:"#5298F8",
-																																			backgroundColor:"white"}}>
-														Industries
-													   	<span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu">
-														<li><a href="">Most Popular</a></li>
-														<li><a href="">Most Recent</a></li>
-														
-													</ul>
-							  				 </div>
-										</li>
+												<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
+													<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+														Blogs
+													</a>
+												</li>
+											</React.Fragment>
+										)}
+
+										{/*
+											<li style={listCSSButton}>	
+
+												<div class="dropdown">
+														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																				borderColor:"#5298F8",
+																																				borderStyle:"solid",
+																																				borderWidth:"1px",
+																																				color:"#5298F8",
+																																				backgroundColor:"white"}}>
+															Sort By
+														   	<span class="caret"></span>
+														</button>
+														<ul class="dropdown-menu">
+															<li><a href="">Most Popular</a></li>
+															<li><a href="">Most Recent</a></li>
+														</ul>
+								  				 </div>
+								  			</li>
+
+											<li style={listCSSButton}>
+												<div class="dropdown">
+														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																				borderColor:"#5298F8",
+																																				borderStyle:"solid",
+																																				borderWidth:"1px",
+																																				color:"#5298F8",
+																																				backgroundColor:"white"}}>
+															Industries
+														   	<span class="caret"></span>
+														</button>
+														<ul class="dropdown-menu">
+															<li><a href="">Most Popular</a></li>
+															<li><a href="">Most Recent</a></li>
+															
+														</ul>
+								  				 </div>
+											</li>
+										*/}
 									</ul>
 								</li>
 							}
@@ -611,7 +895,7 @@ const PersonalPostsIndex=(props)=>{
 									displayImages==true?
 									<ImagePosts
 										imageData={imagePost}
-										isLoading={props.personalInformation.isLoading}
+										isLoading={isLoadingIndicatorImages}
 										profile="Personal"
 									/>:<React.Fragment></React.Fragment>
 								}
@@ -621,15 +905,20 @@ const PersonalPostsIndex=(props)=>{
 										videos={videoPost}
 										isLoadingIndicatorVideos={isLoadingIndicatorVideos}
 										id={personalInformation.userProfile._id}
+										postCounter={currentPostCounter}
+										handleVideoPostModal={props.handleVideoPostModal}
+										editPost={editPostVideo}
+										removePost={removePostVideo}
+										updateVideoPosts={updateVideoPosts}
 									/>:<React.Fragment></React.Fragment>
 								}
 								{
 									displayBlogs==true?
 									<BlogsPosts
-										id={props.personalInformation.userProfile._id}
-										profileType="Personal"
+										blogData={blogPost}
+										isLoadingIndicatorBlogPost={isLoadingIndicatorBlogPost}
+										id={personalInformation.userProfile._id}
 										friendsNodes={props.personalInformation.userProfile.friendsGaugeNodes}
-										visitorId={props.visitorId}
 									/>:<React.Fragment></React.Fragment>
 								}
 								{

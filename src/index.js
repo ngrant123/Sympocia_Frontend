@@ -16,6 +16,7 @@ import Demo from "./Components/Demo/index.js";
 import throttle from 'lodash.throttle';
 import LoadingScreen from "./LoadingAnimation.js";
 
+import {VerifyBrowserIsChrome} from "./Actions/Tasks/VerifyBrowserIsNotSafari.js";
 
 
 //Starting point for the web application
@@ -56,7 +57,15 @@ const BlogPostCreation=React.lazy(()=>import("./Components/GeneralComponents/Pos
 const SearchPage=React.lazy(()=>import("./Components/SearchPage/index.js"))
 const Symposium=React.lazy(()=>import("./Components/Home/HomePageSubset/Symposium/ExtendedSymposium/index.js"))
 const SymposiumList=React.lazy(()=>import("./Components/Home/HomePageSubset/Symposium/SymposiumList/FeedContainer.js"))
+const Admin=React.lazy(()=>import("./Components/Admin/index.js"));
+const UrlEnteredImageDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/ImageDisplay.js"));
+const UrlEnteredVideoDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/VideoDisplay.js"));
+const UrlEnteredRegularPostDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/RegularPostDisplay.js"));
+const UrlEnteredBlogDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/BlogDisplay.js"));
 
+
+const ApplicationElementIndicator=VerifyBrowserIsChrome()
+let finalElement;
 
 const application  = (
 		<ErrorBoundary>
@@ -69,11 +78,15 @@ const application  = (
 							<Route exact path="/logout" component= {Landing}/>
 							<Route exact path="/signup" component={Signup}/>
 							<Route exact path="/home" component= {HomeScreen}/>
-							<Route exact path="/blog/:id" component={BlogPostCreation}/>
+							<Route exact path="/createBlog" component={BlogPostCreation}/>
 							<Route exact path="/search/:string/:searchType" component={SearchPage}/>
 							<Route exact path="/symposium/:symposiumName" component={Symposium}/>
 							<Route exact path="/symposiumList" component={SymposiumList}/>	
-
+							<Route exact path="/admin" component={Admin}/>
+							<Route exact path="/image/:id" component={UrlEnteredImageDisplay}/>
+							<Route exact path="/video/:id" component={UrlEnteredVideoDisplay}/>
+							<Route exact path="/blog/:id" component={UrlEnteredBlogDisplay}/>
+							<Route exact path="/regularPost/:id" component={UrlEnteredRegularPostDisplay}/>
 							{/*
 								<Route exact path="/investor/:id" component= {InvestorScreen} />
 								<Route exact path="/createPost" component={CreatePostScreen}/>	
@@ -91,5 +104,15 @@ const application  = (
 		</ErrorBoundary>
 	);
 
+	if(ApplicationElementIndicator==false){
+		const alertIncorrectBrowser=(
+			alert('As of right now Sympocia is only available on chrome. We are working hard on making it available for everywhere as of right now'+
+				' and we are sorry for any inconvienve. Please switch over to the browsers listed above if you want to continue using this site')
+		)
+		finalElement=alertIncorrectBrowser;
+	}else{
+		finalElement=application;
+	}
 
-ReactDom.render(application,document.getElementById("App"));
+
+ReactDom.render(finalElement,document.getElementById("App"));

@@ -4,10 +4,10 @@ import {createPortal} from "react-dom";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {Link} from "react-router-dom";
 import {getRecruits} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
-import {
-	removeRecruitProfileIsFollowing,
-	removeRecruitProfileIsntFollowing
-} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
+
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -16,7 +16,6 @@ const ShadowContainer= styled.div`
 	background-color: rgba(0,0,0,0.4);
 	z-index:40;
 	top:0px;
-
 `;
 
 const Container=styled.div`
@@ -29,14 +28,20 @@ const Container=styled.div`
 	border-radius:5px;
 	left:40%;
 	overflow-y:auto;
-	@media screen and (max-width:1030px){
-		width:40% !important;
-		left:30% !important;
+	@media screen and (max-width:1370px){
+		width:60% !important;
+		left:20% !important;
+		height:60%;
     }
 
-    @media screen and (max-width:600px){
+    @media screen and (max-width:700px){
 		width:90% !important;
 		left:5% !important;
+		height:60%;
+    }
+
+     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	height:60%;
     }
 `;
 
@@ -53,6 +58,12 @@ const InputContainer=styled.textarea`
 const ViewProfile=styled(Link)`
 	listStyle:none;
   display:inline-block;
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+	  #profilePicture{
+	  	height:30% !important;
+	  }
+    }
 `;
 
 
@@ -82,22 +93,29 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 	const [recruitsThatFollowProfile,changeRecruitsNotFollowing]=useState([]);
 	const [displayRemoveRecruitsVerification,changeDisplayRemoveRecruitsModal]=useState(false);
 	const [selectedRecruit,changeSelectedRecruit]=useState();
+	const [isLoadingData,changeIsLoadingStatus]=useState(false);
+	const [processingSubmittion,changeIsSubmittionProcessing]=useState(false);
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
 
 	useEffect(()=>{
 		const getRecruitsFromDB=async()=>{
+			changeIsLoadingStatus(true);
 			const {confirmation,data}=await getRecruits(userId);
 			console.log(data);
 			if(confirmation=="Success"){
+				const {message}=data;
 				const {
 					recruits,
 					recruitsFollowing
-				}=data;
+				}=message;
 				changeRecruits(recruitsFollowing);
 				//recruitsProfileFollows(recruits);
 
 			}else{
 				alert('Unfortunately there has been an error trying to get your recruits. Please try again');
 			}
+			changeIsLoadingStatus(false);
 		}
 		getRecruitsFromDB();
 	},[]);
@@ -107,11 +125,14 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 		changeDisplayRemoveRecruitsModal(true);
 	}
 
-	const removeRecruit=async()=>{
+	const removeRecruit=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const {_id}=selectedRecruit;
+		changeIsSubmittionProcessing(true);
 		const {confirmation,data}=await removeRecruitProfileIsFollowing({
 				personalProfileId:userId,
-				targetProfile:_id
+				targetProfile:_id,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+				personalInformation.accessToken
 			});
 		if(confirmation=="Success"){
 			for(var i=0;i<recruits.length;i++){
@@ -122,8 +143,22 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 			changeDisplayRemoveRecruitsModal(false);
 			changeRecruits([...recruits]);
 		}else{
-			alert('Unfortunately an error has occurred when tryin to delete this recruit. Please try again');
+			debugger;
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						removeRecruit,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately an error has occurred when tryin to delete this recruit. Please try again');
+			}
 		}
+		changeIsSubmittionProcessing(false);
 	}
 
 	return createPortal(
@@ -138,6 +173,51 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 							placeholder="Search through you recruits"
 						/>
 						<hr/>
+						{isLoadingData==true?
+							<p>Please wait... </p>:
+							<li style={{listStyle:"none"}}>
+								{recruits.length==0?
+									<p>No recruits</p>:
+									<ul style={{padding:"0px"}}>
+										{recruits.map(data=>	
+											<>
+												<li style={{listStyle:"none",width:"100%"}}>
+													<ul style={{padding:"0px",width:"100%"}}>
+														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+															<li style={{listStyle:"none",display:"inline-block",width:"25%"}}>
+																<ViewProfile to={{pathname:`/profile/${data._id}`}}>
+																	<img id="profilePicture" src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
+																		style={{borderRadius:"50%",width:"75%",height:"15%"}}
+																	/>
+																</ViewProfile>
+															</li>
+														</a>
+														<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",maxWidth:"40%",maxHeight:"50px",overflow:"hidden"}}>
+															{data.firstName}
+														</li>
+														{isOwner==true &&(
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<li onClick={()=>displayRemoveRecruitModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
+																	<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
+																		 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
+																		 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
+																		 stroke-linejoin="round">
+																	  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+																	  <circle cx="12" cy="12" r="9" />
+																	  <path d="M10 10l4 4m0 -4l-4 4" />
+																	</svg>
+																</li>
+															</a>
+														)}
+													</ul>
+												</li>
+												<hr/>
+											</>
+										)}
+									</ul>
+								}
+							</li>
+						}
 						{/*
 							<li style={{listStyle:"none",display:"inline-block",width:"100%",marginBottom:"5%"}}>
 								<ul style={{padding:"0px"}}>
@@ -155,67 +235,32 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 								</ul>
 							</li>
 						*/}
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								{recruits.map(data=>	
-									<>
-										<li style={{listStyle:"none",width:"100%"}}>
-											<ul style={{padding:"0px",width:"100%"}}>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li style={{listStyle:"none",display:"inline-block",width:"25%"}}>
-														<ViewProfile to={{pathname:`/profile/${data._id}`}}>
-															<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
-																style={{borderRadius:"50%",width:"75%",height:"15%"}}
-															/>
-														</ViewProfile>
-													</li>
-												</a>
-												<li style={{fontSize:"20px",listStyle:"none",display:"inline-block",width:"40%"}}>
-													{data.firstName}
-												</li>
-												{isOwner==true &&(
-													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-														<li onClick={()=>displayRemoveRecruitModal(data)} style={{listStyle:"none",display:"inline-block",width:"10%"}}>
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler
-																 icon-tabler-circle-x" width="44" height="44" viewBox="0 0 24 24" 
-																 stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round"
-																 stroke-linejoin="round">
-															  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-															  <circle cx="12" cy="12" r="9" />
-															  <path d="M10 10l4 4m0 -4l-4 4" />
-															</svg>
-														</li>
-													</a>
-												)}
-											</ul>
-										</li>
-										<hr/>
-									</>
-								)}
-							</ul>
-						</li>
 					</ul>
 					:
 					<ul style={{padding:"20px"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>changeDisplayRemoveRecruitsModal(false)} style={RecruitsOptionsCSS}>
-								Back
-							</li>
-						</a>
-						<p style={{marginTop:"15%"}}> Are you sure you want to remove {selectedRecruit.firstName}? </p>
+						{processingSubmittion==true?
+							<p>Please wait... </p>:
+							<>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>changeDisplayRemoveRecruitsModal(false)} style={RecruitsOptionsCSS}>
+										Back
+									</li>
+								</a>
+								<p style={{marginTop:"15%"}}> Are you sure you want to remove {selectedRecruit.firstName}? </p>
 
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>removeRecruit()} style={RecruitsOptionsCSS}>
-								Yes
-							</li>
-						</a>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>removeRecruit({isAccessTokenUpdated:false})} style={RecruitsOptionsCSS}>
+										Yes
+									</li>
+								</a>
 
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>changeDisplayRemoveRecruitsModal(false)} style={RecruitsOptionsCSS}>
-								No
-							</li>
-						</a>
-
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>changeDisplayRemoveRecruitsModal(false)} style={RecruitsOptionsCSS}>
+										No
+									</li>
+								</a>
+							</>
+						}
 					</ul>
 				}
 			</Container>

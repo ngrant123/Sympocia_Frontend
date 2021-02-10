@@ -11,6 +11,24 @@ const Container=styled.div`
 	left:15%;
 	border-radius:5px;
 	box-shadow: 10px 10px 10px 1px #d5d5d5;
+
+	@media screen and (max-width:1370px) and (max-height:900px) and (orientation: landscape) {
+		#symposiumInformationLI{
+			top:-50% !important;
+		}
+
+		#activePeopleTitleTextLI{
+
+		}
+
+		#popularVideoTitleTextLI{
+			top:40% !important;
+		}
+    }
+
+    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+    	margin-bottom:15% !important;
+    }
 `;
 
 const MobileContainer=styled.div`
@@ -20,7 +38,16 @@ const MobileContainer=styled.div`
 	left:10%;
 	border-radius:5px;
 
-	@media screen and (max-width:500px) {
+	@media screen and (max-width:1370px){
+		#mobileProfilePicture{
+			width:70px !important;
+		}
+	}
+
+	@media screen and (max-width:700px) {
+		#mobileProfilePicture{
+			width:40px !important;
+		}
 		#popularVideosLI{
 			margin-left:10% !important;
 		}
@@ -44,11 +71,12 @@ const SymposiumStyleDivider=styled.div`
 
 
 const ActivePeopleContainer=styled.div`
+	position:relative;
 	width:40%;
 	height:50%;
 	border-radius:5px;
 	background-color:white;
-	overflow:auto;
+	overflow:hidden;
 	padding-top:10px;
 
 	@media screen and (max-width:960px) {
@@ -129,11 +157,7 @@ const CommunityContainer=(props)=>{
 	const [backgroundColor,changeBackGroundColor]=useState();
 	
 	useEffect(()=>{
-		/*
-			changePopularVideos(props.data.popularVideos);
-			changeActivePeople(props.data.activePeople);
-		*/
-		var symposiums=props.isPersonalProfile==true?PERSONAL_INDUSTRIES.INDUSTRIES:COMPANY_INDUSTRIES.INDUSTRIES;
+		var symposiums=PERSONAL_INDUSTRIES.INDUSTRIES;
 		for(var i=0;i<symposiums.length;i++){
 			const currentSymposium=symposiums[i].industry;
 			if(currentSymposium==symposium){
@@ -198,10 +222,9 @@ const CommunityContainer=(props)=>{
 										<React.Fragment>
 											{activePeople.map(data=>
 												<li style={ActivePeopleListCSS}>
-													{data.profilePicture!=null?
-														<img src={data.profilePicture} style={ProfilePictureCSS}/>:
-														<img src={NoProfilePicture} style={ProfilePictureCSS}/>
-													}
+													<img id="mobileProfilePicture" src={data.profilePicture==null?
+																					NoProfilePicture:data.profilePicture} 
+													style={ProfilePictureCSS}/>
 												</li>
 											)}
 										</React.Fragment>:<p> No active users right now :( </p>
@@ -212,10 +235,18 @@ const CommunityContainer=(props)=>{
 					</MobileContainer>
 					:
 					<Container onClick={()=>triggerDisplaySymposium()} style={{background:backgroundColor}}>
-						<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>{props.data.symposium}</p>
-						<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"20%",padding:"10px",borderRadius:"5px"}}>Active People</p>
-						<p style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"50%",padding:"10px",borderRadius:"5px"}}>Popular Videos</p>
-						<ul style={{position:"relative",top:"-30%",left:"50%"}}>
+						<p style={{position:"absolute",left:"-10%",top:"10%",fontSize:"90px",color:"#5298F8",fontFamily:"'Fredoka One', cursive"}}>
+							{props.data.symposium}
+						</p>
+
+						<p id="activePeopleTitleTextLI" style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"20%",padding:"10px",borderRadius:"5px"}}>
+							Active People
+						</p>
+
+						<p id="popularVideoTitleTextLI" style={{color:"white",position:"relative",background:"rgba(0, 0, 0, 0.1)",left:"35%",width:"15%",top:"50%",padding:"10px",borderRadius:"5px"}}>
+							Popular Videos
+						</p>
+						<ul id="symposiumInformationLI" style={{position:"relative",top:"-30%",left:"50%"}}>
 							<li style={CommunityDetailsListCSS}>
 								<ActivePeopleContainer>
 									<ul>

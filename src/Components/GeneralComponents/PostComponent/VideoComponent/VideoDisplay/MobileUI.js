@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
@@ -14,6 +14,9 @@ import {
 	addStampPost,
 	unStampPost
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import VideoDescriptionMobileDisplayPortal from "../../VideoDescriptionMobileDisplayPortal.js";
 
 const Container=styled.div`
 	position:relative;
@@ -21,14 +24,46 @@ const Container=styled.div`
 	height:100%;
 	overflow:scroll;
 	background-color:white;
+
 	border-radius:5px;
 
+	@media screen and (max-width:1370px){
+		#video{
+			width:100% !important;
+			margin-left:0% !important;
+		}
+	}
 
-	@media screen and (max-width:420px){
+	@media screen and (max-width:700px){
 		width:110% !important;
 		height:80% !important;
 		margin-left:0% !important;
 		#video{
+			width:90% !important;
+			height:100% !important;
+			margin-top:-10% !important;
+		}
+		#expandMoreLI{
+			font-size:15px !important;
+		}
+		#expandLessLI{
+			font-size:15px !important;
+		}
+		#audio{
+			width:100px !important;
+		}
+
+		#miniVideo{
+			width:30% !important;
+			height:20% !important;
+			margin-left:10% !important;
+		}
+    }
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+	 	#video{
+			margin-top:0% !important;
+		}
+		#videoDiv{
 			height:100% !important;
 		}
     }
@@ -115,7 +150,7 @@ const VideoInformationContainer=styled.div`
     }
 `;
 
-const CommentContainer=styled.div`
+const CommentAndVideoInformationContainer=styled.div`
 	position:absolute;
 	background-color:white;
 	border-radius:5px;
@@ -125,11 +160,12 @@ const CommentContainer=styled.div`
 		left:5% !important;
 		width:80% !important;
     }
-	@media screen and (max-width:420px){
+	@media screen and (max-width:700px){
 		margin-left:7% !important;
 		width:85% !important;
+		height:100%;
 		left:0% !important;
-		margin-top:35% !important;
+		margin-top:5% !important;
     }
 `;
 const TogglePostInformationButton=styled.div`
@@ -198,6 +234,20 @@ const IndustryButton=styled.div`
 	}
 `;
 
+const VideoAudioAndVideoDescriptionContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+	margin-bottom:5%;
+
+	@media screen and (max-width:700px){
+		${({commentsIndicator})=>
+			commentsIndicator==true &&(
+				`display:none !important;`
+			)
+		}
+	}
+`;
+
 const ButtonCSS={
   listStyle:"none",
   display:"inline-block",
@@ -219,7 +269,8 @@ const BackButtonCSS={
 	backgroundColor:"white",
 	borderRadius:"5px",
 	padding:"10px",
-	listStyle:"none"
+	listStyle:"none",
+	width:"30%"
 }
 
 const ShadowButtonCSS={
@@ -233,30 +284,70 @@ const ShadowButtonCSS={
 	borderRadius:"50%",
 	borderStyle:"none",
 	marginRight:"10%",
-	marginBottom:"2%"
+	marginBottom:"2%",
+	cursor:"pointer"
 }
 
-const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPostViewing,triggerPromoteModal})=>{
-	console.log(videoData.videoDescription);
-	console.log(isChromeBrowser);
+
+const ExpandButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"50%",
+	borderStyle:"none",
+	marginRight:"10%",
+	marginBottom:"2%",
+	cursor:"pointer",
+	height:"20%",
+	marginTop:"2%",
+	marginLeft:"5%"
+}
+
+
+const MobileUI=(props)=>{
+	const {
+		video,
+		targetDom,
+		triggerPromoteModal,
+		displayEditModal,
+		deletePost,
+		pageType,
+		isOwnPostViewing,
+		personalId,
+		closePostModal,
+		displayPollModal,
+		isGuestProfile
+	}=props;
+
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
 	const [displayInformation,changeDisplayInformation]=useState(false);
 	const [displayPollOption,changeDisplayPollOption]=useState(false);
 	const [displayVideoImageModal,changeDisplayVideoImageModal]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
-
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
+	const [currentVideoPlayTime,changeVideoPlayTime]=useState(0)
+	const dispatch=useDispatch();
 
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 
-		if(videoData.isPostAuthentic!=null){
-			var approvesPostNumber=videoData.isPostAuthentic.numOfApprove!=null?
-								   videoData.isPostAuthentic.numOfApprove.length:null;
+	useEffect(()=>{
+		updateVideoComponentPlayTime();
+	},[displayComments])
 
-			var disapprovesPostNumber=videoData.isPostAuthentic.numOfDisapprove!=null?
-									  videoData.isPostAuthentic.numOfDisapprove.length:null;
-		}
+	if(video.isPostAuthentic!=null){
+		var approvesPostNumber=video.isPostAuthentic.numOfApprove!=null?
+							   video.isPostAuthentic.numOfApprove.length:null;
+
+		var disapprovesPostNumber=video.isPostAuthentic.numOfDisapprove!=null?
+								  video.isPostAuthentic.numOfDisapprove.length:null;
+	}
 
 	const closeModal=()=>{
 		changeDisplayPollingModal(false);
@@ -273,6 +364,8 @@ const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPo
 	}
 
 	const displayCommentsTrigger=()=>{
+		const currentPlayTime=document.getElementById("video").currentTime;
+		changeVideoPlayTime(currentPlayTime);
 		changePostInfoContainerDisplay(true);
 		changeDisplayComments(true);
 		changeDisplayInformation(false);
@@ -299,222 +392,292 @@ const MobileUI=({videoData,isChromeBrowser,deletePost,targetDom,pageType,isOwnPo
 		changeDisplayInformation(false);
 		changeDisplayPollOption(false);
 	}
-	const editPost=(data)=>{
-		changeDisplayVideoImageModal(false);
-		videoData.contextLocation.editPost(data);
-	}
 
+
+	const updateVideoComponentPlayTime=()=>{
+		if(displayComments==true){
+			const smallVideo=document.getElementById("miniVideo");
+			smallVideo.currentTime=currentVideoPlayTime;
+			smallVideo.play();
+		}else{
+			const originVideoComponent=document.getElementById('video');
+			originVideoComponent.currentTime=currentVideoPlayTime;
+			originVideoComponent.play();
+		}
+	}
 	const postInformation=()=>{
 		return(
-			<>
-				{displayPostInformationContainer==true &&(
-					<PostInformationContainer>
-						{displayComments==true &&(
-							<CommentContainer>
-								<li style={{listStyle:"none",marginTop:"30%"}}>
-									<Comments
-										postId={videoData._id}
-										postType={"Video"}
-										hideComments={hidePostDisplayInformationContainer}
-										targetDom={targetDom}
-									/>
+			<CommentAndVideoInformationContainer>
+				{displayComments==true?
+					<li style={{listStyle:"none"}}>
+						<Comments
+							postId={video._id}
+							postType={"Videos"}
+							hideComments={hidePostDisplayInformationContainer}
+							targetDom={targetDom}
+						/>
+					</li>:
+					<React.Fragment>
+						<ul id="postLIContainer" style={{padding:"0px"}}>
+							<hr/>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>hidePostDisplayInformationContainer()} style={BackButtonCSS}>
+									Back
 								</li>
-						 		
-							</CommentContainer>
-						)}
-						{displayInformation==true &&(
-							<VideoInformationContainer>
-								{displayPollingModal==true?
-									<PollOptionPortal
-										closeModal={closeModal}
-										displayApproveModal={displayApproveModal}
-										postId={videoData._id}
-										postType="Videos"
-										targetDom={targetDom}
-									/>:null
-								}
-								<ul id="postLIContainer" style={{marginTop:"30%",padding:"0px",width:"140%"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>hidePostDisplayInformationContainer()} style={BackButtonCSS}>
-											Back
-										</li>
-									</a>
-									<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none"}}>
-												<p style={{fontSize:"20px"}}>{videoData.firstName}</p>
-											</li>
-											{videoData.industriesUploaded.length>0 &&(
-												<li style={{listStyle:"none"}}>	
-													<IndustryButton>
-														{videoData.industriesUploaded[0].industry}
-													</IndustryButton>
-												</li>
-											)}
-										</ul>
+							</a>
+							<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"2%",marginRight:"3%"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none"}}>
+										<p style={{fontSize:"20px"}}>{video.owner.firstName}</p>
 									</li>
-
+									{video.industriesUploaded.length>0 &&(
+										<li style={{listStyle:"none"}}>	
+											<IndustryButton>
+												{video.industriesUploaded[0].industry}
+											</IndustryButton>
+										</li>
+									)}
+								</ul>
+							</li>
+							{isGuestProfile==false &&(
+								<React.Fragment>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
+										<li id="approvesPostLI" onClick={()=>displayPollModal(true)} style={ButtonCSS}>
 											<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
 										</li>
 									</a>
 
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
+										<li id="disapprovePostLI" onClick={()=>displayPollModal(false)} style={ButtonCSS}>
 											<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
 										</li>
 									</a>
-								</ul>
+								</React.Fragment>
+							)}
+						</ul>
 
-								<p style={{height:"30%",width:"90%",fontSize:"40px"}}>
-									<b>
-										{videoData.title}
-									</b>
-								</p>
-								<p style={{height:"35%",overflow:"hidden"}}> 
-									 {videoData.description}
-								 </p>
-							</VideoInformationContainer>
-						)}
-					</PostInformationContainer>
-				)}
-			</>
+						<p style={{width:"90%",fontSize:"40px"}}>
+							<b>{video.title}</b>
+						</p>
+						<p style={{overflow:"hidden"}}> 
+							{video.description}
+						</p>
+					</React.Fragment>
+				}
+			</CommentAndVideoInformationContainer>
 		)
 	}
 
-	const createOrRemoveStampEffect=()=>{
+	const miniVideoInformationAndCommentComponent=()=>{
+		return(
+			<React.Fragment>
+				<div>
+					<video onClick={()=>hidePostDisplayInformationContainer()} 
+						id="miniVideo"  width="30%" height="30%" borderRadius="50%" autoplay="true">
+						<source src={video.videoUrl} type="video/mp4"/>
+					</video>
+				</div>
+				{postInformation()}
+			</React.Fragment>
+		)
+	}
+
+	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		let confirmationResponse;
+		let dataResponse;
+
 		if(displayStampEffect==false){
-			addStampPost(videoData._id,"personal","VideoPost");
-			changeDisplayStampEffect(true);
+			const {confirmation,data}=await addStampPost(
+												video._id,
+												"personal",
+												"Videos",
+												personalInformation.id,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+
 		}else{
-			unStampPost(videoData._id,"personal","VideoPost");
-			changeDisplayStampEffect(false);
+			const {confirmation,data}=await unStampPost(
+												video._id,
+												"personal",
+												"Videos",
+												personalInformation.id,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+		}
+
+		if(confirmationResponse=="Success"){
+			if(displayStampEffect==false)
+				changeDisplayStampEffect(true);
+			else
+				changeDisplayStampEffect(false);
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createOrRemoveStampEffect,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+			}
 		}
 	}
-	return (
-		<React.Fragment>
-			{displayVideoImageModal==false?
-				<Container>
-					<ul style={{padding:"10px"}}>
-						<li style={{listStyle:"none",marginBottom:"5%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-									{(videoData.videoDescription==null && isChromeBrowser==true)==false?null:
-										<VideoDesriptionContainer>
-											<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls muted>
-												<source src={videoData.videoDescription} type="video/mp4"/>
-											</video>
-										</VideoDesriptionContainer>
-									}
-								</li>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{(videoData.audioDescription==null && isChromeBrowser==true)==false?null:
-										<audio style={{width:"150px"}} controls>
-											<source src={videoData.audioDescription} type="audio/ogg"/>
-											<source src={videoData.audioDescription} type="audio/mpeg"/>
-											Your browser does not support the audio element.
-										</audio>
-									}
-								</li>
-							</ul>
-						</li>
-						<div id="video" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"120%"}}>
-		
-							<video  key={videoData.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay muted>
-							    <source src={videoData.videoUrl} type="video/mp4"/>
-							</video>
-							
-							{displayStampEffect==true &&(
-								<StampIconEffect
-									id="stampEffect"
-								>
-									<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-								</StampIconEffect>
-							)}
-							{postInformation()}
-						</div>
-						<hr/>
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"20px"}}>
-								<a href="javascript:void(0);">
-									<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
-										<LoyaltyIcon
-											style={{fontSize:30}}
-										/>
-									</li>
-								</a>
-								<a href="javascript:void(0);">
-									<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-										  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-										  <line x1="8" y1="9" x2="16" y2="9" />
-										  <line x1="8" y1="13" x2="14" y2="13" />
-										</svg>
-									</li>
-								</a>
+	const displayVideoDescriptionTrigger=()=>{
+	 	changeVideoDescriptionDisplay(true);
+	}	
 
-								{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
-									<>
-										<a href="javascript:void(0);">
-											<li onClick={()=>changeDisplayVideoImageModal(true)} style={ShadowButtonCSS}>
+	const closeVideoDescriptionDisplayModal=()=>{
+		changeVideoDescriptionDisplay(false);
+	}
+	return (
+				<Container>
+					{displayVideoDescriptionDisplay==true &&(
+						<VideoDescriptionMobileDisplayPortal
+							targetDom={targetDom}
+							closeModal={closeVideoDescriptionDisplayModal}
+							videoUrl={video.videoDescription}
+						/>
+					)}
+					<ul style={{padding:"10px"}}>
+						<div onClick={()=>closePostModal()} style={{marginBottom:"5%"}}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+							 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+							 stroke-linecap="round" stroke-linejoin="round">
+							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							  <circle cx="12" cy="12" r="9" />
+							  <path d="M10 10l4 4m0 -4l-4 4" />
+							</svg>
+						</div>
+						<VideoAudioAndVideoDescriptionContainer 
+							commentsIndicator={displayComments}>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+								{video.videoDescription==null? null:
+									<VideoDesriptionContainer>
+										<video style={{borderRadius:"50%"}} onClick={()=>displayVideoDescriptionTrigger()} 
+											width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+											<source src={video.videoDescription} type="video/mp4"/>
+										</video>
+									</VideoDesriptionContainer>
+								}
+							</li>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+								{video.audioDescription==null? null:
+									<audio id="audio" style={{width:"150px"}} controls>
+										<source src={video.audioDescription} type="audio/ogg"/>
+										<source src={video.audioDescription} type="audio/mpeg"/>
+										Your browser does not support the audio element.
+									</audio>
+								}
+							</li>
+							<li id="expandLI" onClick={()=>displayPostInformationTrigger()} style={ExpandButtonCSS}>
+								{displayInformation==false?
+									<ExpandMoreIcon
+										id="expandMoreLI"
+										style={{fontSize:30}}
+									/>
+									:<ExpandLessIcon
+										id="expandLessLI"
+										style={{fontSize:30}}
+									/>
+								}
+							</li>
+						</VideoAudioAndVideoDescriptionContainer>
+						<div id="videoDiv" style={{marginLeft:"0%",height:"60%",overflow:"hidden",width:"100%"}}>
+							{displayInformation==false && displayComments==false ?
+								<React.Fragment>
+									<video  key={video.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay muted>
+									    <source src={video.videoUrl} type="video/mp4"/>
+									</video>
+									
+									{displayStampEffect==true &&(
+										<StampIconEffect
+											id="stampEffect"
+										>
+											<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+										</StampIconEffect>
+									)}
+								</React.Fragment>:
+								<React.Fragment>
+									{miniVideoInformationAndCommentComponent()}
+								</React.Fragment>
+							}
+						</div>
+						{displayInformation==false && displayComments==false && (
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"20px"}}>
+									{isGuestProfile==false && (
+										<React.Fragment>
+											<a href="javascript:void(0);">
+												<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+													<LoyaltyIcon
+														style={{fontSize:30}}
+													/>
+												</li>
+											</a>
+											<a href="javascript:void(0);">
+												<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+													  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+													  <line x1="8" y1="9" x2="16" y2="9" />
+													  <line x1="8" y1="13" x2="14" y2="13" />
+													</svg>
+												</li>
+											</a>
+										</React.Fragment>
+									)}
+									
+									{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
+										<>
+											<li onClick={()=>displayEditModal()} style={ShadowButtonCSS}>
 												<BorderColorIcon
 													style={{fontSize:30}}
 												/>
 											</li>
-										</a>
 
-										<a href="javascript:void(0);">
-											<li onClick={()=>deletePost()} style={ShadowButtonCSS}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												  <line x1="4" y1="7" x2="20" y2="7" />
-												  <line x1="10" y1="11" x2="10" y2="17" />
-												  <line x1="14" y1="11" x2="14" y2="17" />
-												  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-												  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-												</svg>
-											</li>
-										</a>
-										<a href="javascript:void(0);">
-											<li onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-													  width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
-													  fill="none" stroke-linecap="round" stroke-linejoin="round">
-													  <path stroke="none" d="M0 0h24v24H0z"/>
-													  <circle cx="12" cy="9" r="6" />
-													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
-													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
-												</svg>
-											</li>
-										</a>
-									</>
-								)}
+											<a href="javascript:void(0);">
+												<li onClick={()=>deletePost()} style={ShadowButtonCSS}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+													  <line x1="4" y1="7" x2="20" y2="7" />
+													  <line x1="10" y1="11" x2="10" y2="17" />
+													  <line x1="14" y1="11" x2="14" y2="17" />
+													  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+													  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+													</svg>
+												</li>
+											</a>
+											<a href="javascript:void(0);">
+												<li onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+														  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+														  fill="none" stroke-linecap="round" stroke-linejoin="round">
+														  <path stroke="none" d="M0 0h24v24H0z"/>
+														  <circle cx="12" cy="9" r="6" />
+														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+													</svg>
+												</li>
+											</a>
+										</>
+									)}
+								</ul>
+							</li>
 
-								<a href="javascript:void(0);">
-									<li onClick={()=>displayPostInformationTrigger()} style={ShadowButtonCSS}>
-										{displayInformation==false?
-											<ExpandLessIcon
-												style={{fontSize:30}}
-											/>:
-											<ExpandMoreIcon
-												style={{fontSize:30}}
-											/>
-										}
-									</li>
-								</a>
-							</ul>
-						</li>
+						)}
+
 					</ul>
 				</Container>
-				:<EditVideoModal
-					videoSrc={videoData.videoUrl}
-					previousData={videoData}
-					editPost={editPost}
-				/>
-			}
-		</React.Fragment>
 	)
 }
 

@@ -2,7 +2,8 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {promotePost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -25,7 +26,7 @@ const Container=styled.div`
 	overflow-y:auto;
 	padding:20px;
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
 	}
@@ -42,7 +43,8 @@ const ButtonCSS={
   borderWidth:"2px",
   borderColor:"#3898ec",
   marginRight:"2%",
-  marginBottom:"2%"
+  marginBottom:"2%",
+  cursor:"pointer"
 }
 
 
@@ -50,6 +52,10 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 	const [displayConfirmationPage,changeDisplayConfirmationPage]=useState(false);
 	const [nodeSelected,changeNodeSelected]=useState();
 	const [node,changeCurrentNodes]=useState([]);
+	const [isProcessingSubmit,changeIsProcessingSubmit]=useState(false);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
+
 	useEffect(()=>{
 		debugger;
 		let currentNodes=[...nodes];
@@ -62,11 +68,15 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 		changeDisplayConfirmationPage(true);
 	}
 
-	const promotePostHandle=async()=>{
+	const promotePostHandle=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeIsProcessingSubmit(true);
 		const promotion={
 			nodeId:nodeSelected._id,
 			postId,
-			postType
+			postType,
+			userId:personalInformation.id,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 
 		const {confirmation,data}=await promotePost(promotion);
@@ -74,8 +84,21 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 			alert('Post has been promoted');
 			closePromotePortal();
 		}else{
-			alert('Unfortunately there has been an error promoting this post. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						promotePostHandle,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error promoting this post. Please try again');
+			}
 		}
+		changeIsProcessingSubmit(false);
 	}
 
 	return createPortal(
@@ -113,21 +136,24 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 					<ul style={{padding:"0px"}}>
 						<p> Are you sure you want to place this post in {nodeSelected.name} ? </p>
 						<hr/>
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								<a href="javascription:void(0)" style={{textDecoration:"none"}}>
-									<li onClick={()=>promotePostHandle()} style={ButtonCSS}>
-										Yes
-									</li>
-								</a>
+						{isProcessingSubmit==true?
+							<p>Please wait...</p>:
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px"}}>
+									<a style={{textDecoration:"none"}}>
+										<li onClick={()=>promotePostHandle({isAccessTokenUpdated:false})} style={ButtonCSS}>
+											Yes
+										</li>
+									</a>
 
-								<a href="javascription:void(0)" style={{textDecoration:"none"}}>
-									<li onClick={()=>changeDisplayConfirmationPage(false)} style={ButtonCSS}>
-										No
-									</li>
-								</a>
-							</ul>
-						</li>
+									<a style={{textDecoration:"none"}}>
+										<li onClick={()=>changeDisplayConfirmationPage(false)} style={ButtonCSS}>
+											No
+										</li>
+									</a>
+								</ul>
+							</li>
+						}
 					</ul>
 				}
 			</Container>

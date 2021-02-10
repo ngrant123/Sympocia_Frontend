@@ -4,7 +4,22 @@ import {createLevel} from "../../../../../../Actions/Requests/ProfileAxiosReques
 import {getProfileForHomePage} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
+const Container=styled.div`
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#recruitImage{
+			height:60% !important;
+		}
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	#recruitImage{
+			width:60% !important;
+		}
+    }
+`;
 const InputContainer=styled.textarea`
 	position:relative;
 	border-radius:5px;
@@ -15,6 +30,7 @@ const InputContainer=styled.textarea`
 	resize:none;
 	padding:5px;
 	padding-right:120px;
+	width:100%;
 `;
 
 const SubmitButton=styled.div`
@@ -24,6 +40,7 @@ const SubmitButton=styled.div`
 	padding:10px;
 	background-color:#C8B0F4;
 	border-radius:5px;
+	cursor:pointer;
 `;
 
 const NextButton=styled.div`
@@ -54,15 +71,23 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 
 	const [levelName,changeLevelName]=useState();
 	const [levelDescription,changeLevelDescription]=useState();
+	const [isProcessingSubmit,changeIsSubmitProcessing]=useState(false);
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const [isMaxNodesReached,changeIsMaxNodesReached]=useState(nodeNumber==3?true:false);
 
 	const addNodeToProfile=()=>{
-		changeLevelName(document.getElementById("levelName").value);
-		changeLevelDescription(document.getElementById("levelDescription").value);
-		changeDisplayAddScreen(true);
+		if(document.getElementById("levelName").value!=""){
+			changeLevelName(document.getElementById("levelName").value);
+			changeLevelDescription(document.getElementById("levelDescription").value);
+			changeDisplayAddScreen(true);
+		}else{
+			alert('Please enter a name for this level');
+		}
 	}
 
 	const pushSelectedPersonToArray=(data)=>{
-		selectedRecruits.push(data);
+		selectedRecruits.push({_id:data._id,firstName:data.firstName});
 		const newSelectedRecruitsArray=selectedRecruits;
 		changeSelectedRecruits([...newSelectedRecruitsArray]);
 		console.log(selectedRecruits);
@@ -85,24 +110,26 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 
 	}
 
-	const submitNode=async()=>{
+	const submitNode=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		
-		
+		changeIsSubmitProcessing(true);
 		const levelObject={
 			name:levelName,
 			description:levelDescription,
 			recruits:selectedRecruits,
 			_id:userId,
-			nodeCounter:nodeNumber 
+			nodeCounter:nodeNumber,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
-
 		const {confirmation,data}=await createLevel(levelObject);
 		if(confirmation=="Success"){
+			const {message}=data;
 			const newNode={
 				name:levelName,
 				description:levelDescription,
 				nodeCounter:nodeNumber,
-				_id:data
+				_id:message
 			}
 			const addNodeAction={
 				actionType:"Add",
@@ -110,8 +137,22 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 			}
 			closeModal(addNodeAction);
 		}else{
-			alert('Something went wrong unfortunately. Please try again');
+			debugger;
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitNode,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error creating this level. Please try again');
+			}
 		}
+		changeIsSubmitProcessing(false);
 	}
 	/*
 		Right now the big o is O(n^2) its fine when a user has a short 
@@ -134,8 +175,6 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 		saying no results. Its trivial at this stage though
 	*/
 	const searchForPerson=(key)=>{
-		
-		
 		var searchedNames=[];
 		if(key=="Backspace"){
 			var currentName=constructWordFromArray(currentSearchName);
@@ -188,8 +227,11 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 	}
 
 	return(
-		<>
-			{displayAddNodeScreen==true?
+		<Container>
+			{isMaxNodesReached==true?
+				<p style={{padding:"20px"}}>Maximum nodes is 3 :( Please delete one</p>:
+				<React.Fragment>
+					{displayAddNodeScreen==true?
 					 <ul style={{padding:"10px"}}>
 							<p style={{color:"#292929"}}>
 								<b>{levelName}</b>
@@ -225,10 +267,10 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 														<li style={{listStyle:"none",display:"inline-block",width:"25%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
 															<ul style={{padding:"10px"}}>
 																<li style={{listStyle:"none"}}>
-																	{data.profilePicture==null?
-																		<img src={NoProfilePicture} style={ImageCSS}/>:
-																		<img src={data.profilePicture} style={ImageCSS}/>
-																	}
+																	<img id="recruitImage" src={
+																			data.profilePicture==null?
+																			NoProfilePicture:
+																			data.profilePicture} style={ImageCSS}/>
 																</li>
 																<li style={{listStyle:"none"}}>
 																	{data.firstName}
@@ -249,8 +291,8 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 															<ul style={{padding:"10px"}}>
 																<li style={{listStyle:"none"}}>
 																	{data.profilePicture==null?
-																		<img src={NoProfilePicture} style={ImageCSS}/>:
-																		<img src={data.profilePicture} style={ImageCSS}/>
+																		<img id="recruitImage" src={NoProfilePicture} style={ImageCSS}/>:
+																		<img id="recruitImage" src={data.profilePicture} style={ImageCSS}/>
 																	}
 																</li>
 																<li style={{listStyle:"none"}}>
@@ -272,13 +314,15 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 									</li>
 								</>
 							}
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<SubmitButton onClick={()=>submitNode()}>
+
+							{isProcessingSubmit==true?
+								<p>Please wait.... </p>:
+								<SubmitButton onClick={()=>submitNode({isAccessTokenUpdated:false})}>
 									Submit
 								</SubmitButton>
-							</a>
+							}
 						</ul>
-			: <ul style={{padding:"20px"}}>
+						:<ul style={{padding:"20px"}}>
 							<p style={{color:"#A4A4A4"}}> Give us more details about what you want to call this level </p>
 							<li style={{listStyle:"none",marginBottom:"5%"}}>
 								<InputContainer id="levelName" placeholder="What do you want to call this level?"/>
@@ -295,8 +339,10 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 								</NextButton>
 							</a>
 						</ul>
+						}
+				</React.Fragment>
 			}
-		</>
+		</Container>
 
 	)
 }

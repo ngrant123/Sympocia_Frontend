@@ -11,21 +11,24 @@ import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
 import FilterImageSelection from "./FilterImageSelection.js";
 import ProcessImage from 'react-imgpro';
 import {UserConsumer} from "../../../../Profile/PersonalProfile/UserContext.js";
-
 import MicIcon from '@material-ui/icons/Mic';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import VideoDescriptionPortal from "../../VideoDescriptionPortal.js";
 import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
-
 import { Icon, InlineIcon } from '@iconify/react';
 import crownIcon from '@iconify/icons-mdi/crown';
-
+import ReplayIcon from '@material-ui/icons/Replay';
 import {
 	createImagePost,
 	updateCrownedImage,
 	editPost
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import CreateNewImageModal from "./index.js";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 
 const Container=styled.div`
@@ -33,19 +36,20 @@ const Container=styled.div`
 	z-index:35;
 	background-color:white;
 	border-radius:5px;
-	top:20%;
-	left:25%;
-	width:65%;
+	top:10%;
+	left:10%;
+	width:80%;
 	overflow-y:scroll;
-	height:55%;
+	height:80%;
+	padding:5px;
 
-	@media screen and (max-width:1030px) and (max-height:1370px){
-    	height:100% !important;
-		width:100%;
-		left:5% !important; 
-    }
+    @media screen and (max-width:1370px){
+    	${({isPhoneUIEnabled})=>(
+    		isPhoneUIEnabled==true && (
+    			`top:5% !important;`
+    		)
+    	)}
 
-    @media screen and (max-width:770px){
 		left:1% !important; 
 		height:100% !important;
 		width:100%;
@@ -53,10 +57,6 @@ const Container=styled.div`
 			display:block !important;
 			width:100% !important;
 			height:40% !important;
-		}
-		#processedImage{
-			height:200px !important;
-			width:200px !important;
 		}
 		#imageInformationSelection{
 			width:400px !important;
@@ -72,15 +72,14 @@ const Container=styled.div`
 			width:100% !important;
 			height:50% !important;
 		}
-		#processedImage{
-			height:50px !important;
-			width:50px !important;
-		}
 		#imageInformationSelection{
 			width:250px !important;
 		}
     }
-    @media screen and (max-width:740px) and (max-height:420px){
+    @media screen and (max-width:840px) and (max-height:420px){
+    	top:5%;
+		overflow-y:scroll;
+		height:90% !important;
     	#imageListContainer{
 			display:block !important;
 			width:100% !important;
@@ -97,6 +96,11 @@ const Image=styled.div`
 	overflow-y:auto;
 	border-radius:5px;
 
+	 @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		height:80% !important;
+		width:80%;
+    }
+
 `;
 
 const ImageTextArea=styled.textarea`
@@ -109,10 +113,9 @@ const ImageTextArea=styled.textarea`
 	background-color:#f1f1f1;
 	padding:5px;
 
-	@media screen and (max-width:330px){
-		width:250px;
-		
-    }
+	@media screen and (max-width:700px){
+		width:110% !important;
+	}
 `;
 
 const SelectedIndustryButton=styled.div`
@@ -198,6 +201,12 @@ const ChangeImageVerificationModal=styled.div`
 	border-radius:5px;
 	box-shadow: 1px 1px 50px #d5d5d5;
 	overflow:scroll;
+
+	@media screen and (max-width:700px){
+		left:10%;
+		width:80%;
+		height:40%;
+	}
 `;
 const ShadowContainerNewImageCreation= styled.div`
 	position:fixed;
@@ -245,7 +254,8 @@ class EditImageCreation extends Component{
 			displayReplaceImageModal:false,
 			videoDescriptionId:this.uuidv4(),
 			audioDescriptionId:this.uuidv4(),
-			isSubmittedAndProcessing:false
+			isSubmittedAndProcessing:false,
+			isDesktop:true
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
@@ -291,6 +301,15 @@ class EditImageCreation extends Component{
 		});
 	}
 
+	componentDidUpdate(){
+
+		if(this.state.isPostCrowned==true && this.state.displayRedoPage==false){
+			const crownElement=document.getElementById("crownIcon");
+			crownElement.style.backgroundColor="#D6C5F4";
+			crownElement.style.color="white";
+		}
+	}
+
 	clearImageCaptionTextArea=()=>{
 		if(this.state.isCaptionCleared==false){
 			document.getElementById("captionTextArea").value="";
@@ -311,7 +330,8 @@ class EditImageCreation extends Component{
 		}
 	}
 
-	sendImageDateToDB=async(profilePostInformation)=>{
+	sendImageDateToDB=async({profilePostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
+		debugger;
 		this.setState({
 			isSubmittedAndProcessing:true
 		})
@@ -346,16 +366,36 @@ class EditImageCreation extends Component{
 				//companyPostContextConsumer.hideCreationPost();
 				//this.pushDummyImageObjectToProfile(companyPostContextConsumer,searchCriteria);
 			}else{
-				const {confirmation,data}=await createImagePost(this.props.personalProfile.id,searchCriteria,"Personal");
+				const {confirmation,data}=await createImagePost(
+													this.props.personalProfile.id,
+													searchCriteria,
+													"Personal",
+													isAccessTokenUpdated==true?updatedAccessToken:
+													this.props.personalProfile.accessToken);
 				
 				if(confirmation=="Success"){
 					profilePostInformation.hideCreationPost();
 					this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria,data,this.props.personalProfile.id);
 				}else{
-					alert('Unfortunately there was an error uploading your image. Please try again');
-					this.setState({
-						isSubmittedAndProcessing:false
-					})
+					debugger;
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								this.props.personalProfile.refreshToken,
+								this.props.personalProfile.id,
+								this.sendImageDateToDB,
+								this.props,
+								{
+									profilePostInformation
+								},
+								true
+							);
+					}else{
+						alert('Unfortunately there has been an error creating this post. Please try again');
+						this.setState({
+							isSubmittedAndProcessing:false
+						})
+					}
 				}
 			}
 		}else{
@@ -394,19 +434,39 @@ class EditImageCreation extends Component{
 						newUrl:currentVideoDescription!=videoDescription?currentVideoDescription:null
 					}
 				],
-				ownerId:this.props.personalProfile.id
+				ownerId:this.props.personalProfile.id,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							this.props.personalProfile.accessToken
 			}
 
  			const {confirmation,data}=await editPost(editedImage);
 			if(confirmation=="Success"){
 				this.props.editPost(editedImage);
 			}else{
-				alert('Unfortunately there has been an error editing this post. Please try again');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalProfile.refreshToken,
+							this.props.personalProfile.id,
+							this.sendImageDateToDB,
+							this.props,
+							{
+								profilePostInformation
+							},
+							true
+						);
+				}else{
+					alert('Unfortunately there has been an error editing this post. Please try again');
+					this.setState({
+						isSubmittedAndProcessing:false
+					})
+				}
 			}
 		}
+		this.setState({
+			isSubmittedAndProcessing:false
+		})
 	}
 
 	isImagesSrcEqual=(img1,img2)=>{
@@ -499,7 +559,8 @@ class EditImageCreation extends Component{
 		const dateInMill=date.getTime();
 		var newImageObject={
 			...searchCriteriaObject,
-			industriesUploaded:searchCriteriaObject.industryArray,
+			industriesUploaded:searchCriteriaObject.industryArray.length==0?
+			[{industry:"General",subIndustry:[]}]:searchCriteriaObject.industryArray,
 			comments:[],
 			datePosted:dateInMill,
 			owner:profileId,
@@ -537,7 +598,6 @@ class EditImageCreation extends Component{
 									resize={{width:450,height:450}}
 									quality={100}
 									processedImage={(src, err) => this.setState({ src, err })}
-									{...{[type]:value}}
 							/>;
 		this.setState({
 			imgElement:imageElement,
@@ -555,17 +615,19 @@ class EditImageCreation extends Component{
 		})
 	}
 
-	setUpVideoDescriptionCreation=()=>{
+	setUpVideoDescriptionCreation=(isDesktop)=>{
 		this.setState({
 			displayVideoDescriptionPortal:true,
-			displayVoiceDescriptionPortal:false
+			displayVoiceDescriptionPortal:false,
+			isDesktop
 		})
 	}
 
-	setUpVoiceDescriptionCreation=()=>{
+	setUpVoiceDescriptionCreation=(isDesktop)=>{
 		this.setState({
 			displayVideoDescriptionPortal:false,
-			displayVoiceDescriptionPortal:true
+			displayVoiceDescriptionPortal:true,
+			isDesktop
 		})
 	}
 
@@ -577,6 +639,9 @@ class EditImageCreation extends Component{
 	}
 
 	createVideoDescription=(videoDescriptionSrc)=>{
+		if(this.state.isDesktop==false){
+			alert('Please scroll up to the top to view your video description if you want to');
+		}
 		this.setState({
 			videoDescription:videoDescriptionSrc,
 			displayVideoDescriptionPortal:false,
@@ -585,10 +650,15 @@ class EditImageCreation extends Component{
 	}
 
 	createAudioDescription=(audioDescriptionSrc)=>{
+		if(this.state.isDesktop==false){
+			alert('Please scroll up to the top to view your audio description if you want to');
+		}
 		this.setState({
 			audioDescription:audioDescriptionSrc,
 			displayVoiceDescriptionPortal:false,
 			audioDescriptionId:this.uuidv4()
+		},()=>{
+
 		})
 	}
 
@@ -622,19 +692,6 @@ class EditImageCreation extends Component{
 			isPostCrowned:false,
 			displayCrownModalIndicator:false
 		})
-
-/*
-		const {previousData}=this.props;
-		if(previousData!=null){
-			const headerObject={
-				isCrownedImage:true,
-				image:null
-			}
-			previousData.contextLocation.updateImagePost(headerObject);
-			const crownedImageResponse= await updateCrownedImage(previousData.owner,false,previousData._id);
-		}
-*/
-
 	}
 
 
@@ -649,30 +706,16 @@ class EditImageCreation extends Component{
 		})
 
 		alert('Your post is now crowned');
-
-
-		/*
-			const {previousData}=this.props;
-			if(previousData!=null){
-				const headerObject={
-				isCrownedImage:true,
-					image:this.props.previousData
-				}
-				previousData.contextLocation.updateImagePost(headerObject);
-				const crownedImageResponse= await updateCrownedImage(previousData.owner,true,previousData._id);
-			}
-		*/
-
 	}
 
 	displayNewCreateImage=(imgUrl)=>{
 
 		const imageElement= <ProcessImage
-									id="processedImage"
-									image={imgUrl}
-									resize={{width:450,height:450}}
-									quality={100}
-									processedImage={(src, err) => this.setState({ src, err })}
+								id="processedImage"
+								image={imgUrl}
+								resize={{width:450,height:450}}
+								quality={100}
+								processedImage={(src, err) => this.setState({ src, err })}
 							/>;
 		this.setState({
 			imgElement:imageElement,
@@ -693,7 +736,18 @@ class EditImageCreation extends Component{
 				{profilePostInformation=>(
 						<UserConsumer>
 							{userSessionInformation=>(
-								<Container id="editImageContainer">
+								<Container id="editImageContainer" isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
+									{this.props.isPhoneUIEnabled==true &&(
+										<div onClick={()=>this.props.closeModal()}>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+											 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+											 stroke-linecap="round" stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+											  <circle cx="12" cy="12" r="9" />
+											  <path d="M10 10l4 4m0 -4l-4 4" />
+											</svg>
+										</div>
+									)}
 									{this.state.displayReplaceImageModal==true &&(
 										<>
 											<ShadowContainerNewImageCreation 
@@ -827,7 +881,7 @@ class EditImageCreation extends Component{
 													{this.state.videoDescription!=null && (
 														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
 															<MobileVideoDescriptionContainer>
-																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
 																	<source src={this.state.videoDescription} type="video/mp4"/>
 																</video>
 															</MobileVideoDescriptionContainer>
@@ -835,7 +889,7 @@ class EditImageCreation extends Component{
 													)}
 													{this.state.audioDescription!=null &&(
 														<li style={{listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
-															<audio controls>
+															<audio key={this.state.audioDescriptionId} controls>
 															  <source src={this.state.audioDescription} typ e="audio/ogg"/>
 															  <source src={this.state.audioDescription} type="audio/mpeg"/>
 															Your browser does not support the audio element.
@@ -851,18 +905,20 @@ class EditImageCreation extends Component{
 												<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px"}}>
 													<li onClick={()=>this.setState({changeImageVerification:true})} style={{listStyle:"none"}}>
 														<a href="javascript:void(0);">
-															<HighlightOffIcon
+															<ReplayIcon
 																style={{fontSize:30}}
 															/>
 														</a>
 													</li>
-													<li onClick={()=>this.setState({displayFilterPictureModal:true})} style={{listStyle:"none"}}>
-														<a href="javascript:void(0);">
-															<FormatColorFillIcon
-																style={{fontSize:30}}
-															/>
-														</a>
-													</li>
+													{/*
+														<li onClick={()=>this.setState({displayFilterPictureModal:true})} style={{listStyle:"none"}}>
+															<a href="javascript:void(0);">
+																<FormatColorFillIcon
+																	style={{fontSize:30}}
+																/>
+															</a>
+														</li>
+													*/}
 												</ul>
 												<a href="javascript:void(0);">
 													<CrownIconContainer onClick={()=>this.setState({displayCrownModalIndicator:true})}>
@@ -880,7 +936,7 @@ class EditImageCreation extends Component{
 														{this.state.videoDescription==null?null:
 															<li style={{listStyle:"none"}}>
 																<VideoDescriptionContainer>
-																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
 																		<source src={this.state.videoDescription} type="video/mp4"/>
 																	</video>
 																</VideoDescriptionContainer>
@@ -888,7 +944,7 @@ class EditImageCreation extends Component{
 														}
 														{this.state.audioDescription==null?null:
 															<li style={{listStyle:"none"}}>
-																<audio controls>
+																<audio key={this.state.audioDescriptionId} controls>
 																  <source src={this.state.audioDescription} type="audio/ogg"/>
 																  <source src={this.state.audioDescription} type="audio/mpeg"/>
 																Your browser does not support the audio element.
@@ -903,7 +959,7 @@ class EditImageCreation extends Component{
 										</li>
 
 										{this.state.displayFilterPictureModal==false?
-											<li style={{overflowY:"scroll",height:"150%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+											<li style={{height:"150%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 												<ul id="imageInformationSelection" style={{padding:"0px",width:"350px"}}>
 													<IndustryPostOptions
 														alterSelectedIndustry={this.alterSelectedIndustry}
@@ -929,7 +985,8 @@ class EditImageCreation extends Component{
 															</li>
 															<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>
 																<ul style={{padding:"10px"}}>
-																	<li onClick={()=>this.setUpVoiceDescriptionCreation()} style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
+																	<li onClick={()=>this.setUpVoiceDescriptionCreation(userSessionInformation.displayDesktopUI)}
+																		 style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
 																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																			<MicIcon
 																				style={{fontSize:40}}
@@ -937,7 +994,8 @@ class EditImageCreation extends Component{
 																		</a>
 																	</li>
 
-																	<li onClick={()=>this.setUpVideoDescriptionCreation()} style={{listStyle:"none",display:"inline-block"}}>
+																	<li onClick={()=>this.setUpVideoDescriptionCreation(userSessionInformation.displayDesktopUI)}
+																		 style={{listStyle:"none",display:"inline-block"}}>
 																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																			<CameraAltIcon
 																				style={{fontSize:40}}
@@ -948,10 +1006,10 @@ class EditImageCreation extends Component{
 															</li>
 														</ul>
 													</li>
-													{this.state.isSubmittedAndProcessing==false &&(
+													{this.state.isSubmittedAndProcessing==false?
 														<li style={{listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
 															<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																<ul onClick={()=>this.sendImageDateToDB(profilePostInformation)}>
+																<ul onClick={()=>this.sendImageDateToDB({profilePostInformation,isAccessTokenUpdated:false})}>
 																	<li style={{listStyle:"none",display:"inline-block"}}>
 																		<SendIcon
 																			style={{fontSize:20,color:"white"}}
@@ -961,12 +1019,11 @@ class EditImageCreation extends Component{
 																	<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
 																		Send
 																	</li>
-
 																</ul>
 															</a>
-												 		</li>
-
-													)}
+												 		</li>:
+												 		<p>Please wait...</p>
+												 	}
 												</ul>
 											</li>:
 											<FilterImageSelection
@@ -995,9 +1052,19 @@ const mapStateToProps=state=>{
 	}
 }
 
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
+
+
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(EditImageCreation);
 
 

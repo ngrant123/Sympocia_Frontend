@@ -19,32 +19,78 @@ const Container=styled.div`
 
 	@media screen and (max-width:600px){
 		#postLI{
-			margin-top:50% !important;
+			margin-top:-50px !important;
 		}
 	}
 
-
-
-    @media screen  and (max-width:730px) and (max-height:420px) 
-	  and (orientation: landscape) 
-	  and (-webkit-min-device-pixel-ratio: 1){
-    	#postLI{
-			margin-top:5% !important;
-		}
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	#postOptionsLI{
+    		margin-top:10% !important;
+    	}
     }
 `;
-const PostContainer=styled.div`
+
+
+const PostsContainer=styled.div`
 	position:absolute;
-	width:95%;
-	height:600px;
-	margin-top:7%;
-	padding:40px;
+	width:85%;
+	height:60%;
 
-	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	margin-left:10% !important;
-    	width:70% !important;
+	@media screen and (max-width:1300px){
+		#headerTitleLI{
+			display:none !important;
+		}
+	}
+
+	@media screen and (max-width:740px){
+		width:100% !important;
+		margin-left:-10%;
+		margin-top:-15%;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		margin-left:0% !important;
+		margin-top:-5%;
     }
 `;
+
+const Posts=styled.div`
+	position:absolute;
+	width:100%;
+	height:90%;
+
+	@media screen and (max-width:450px){
+		margin-top:60% !important;
+	}
+`;
+
+/*
+	const PostContainer=styled.div`
+		position:absolute;
+		width:90%;
+		height:90%;
+		margin-top:0%;
+
+		@media screen and (max-width:1370px){
+			margin-top:10px !important;
+		}
+
+		@media screen and (max-width:740px){
+			margin-top:45% !important;
+			margin-left:-15% !important;
+			width:100%;
+		}
+
+		@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+			margin-top:5% !important;
+	    	margin-left:-5% !important;
+	    }
+		@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+	    	margin-left:10% !important;
+	    	width:70% !important;
+	    }
+	`;
+*/
 
 const PostButton={
   listStyle:"none",
@@ -59,40 +105,57 @@ const PostButton={
 }
 
 const PostSearch=(props)=>{
-	const [posts,changePosts]=useState([]);
-	const [postsCount,changePostsCount]=useState(0);
+	let [posts,changePosts]=useState([]);
+	const [postCount,changePostsCount]=useState(0);
 	const [isFinishedLoading,changeFinisheLoadingState]=useState(false);
 
 	const [displayImages,changeDisplayImages]=useState(true);
 	const [displayVideos,changeDisplayVideos]=useState(false);
 	const [displayBlogs,changeDisplayBlogs]=useState(false);
 	const [displayRegularPosts,changeDisplayRegularPosts]=useState(false);
+	const [displayMobileUI,changeDisplayMobileUI]=useState(false);
 	
 	const userId=useSelector(state=>state.personalInformation.id);
+	const [endOfPostsDBIndicator,changeEndOfPostsIndicator]=useState(false);
+	const [triggerPostReload,changePostReloadTrigger]=useState(false);
+	const [isLoadingReloadedPosts,changeIsLoadingReloadPostsTrigger]=useState(false);
+	const [currentSelectedPostType,changeCurrentSelectedPostType]=useState();
+	const [postType,changePostType]=useState(props.postType);
 
+	const triggerUIChange=()=>{
+		if(window.innerWidth<1370){
+			changeDisplayMobileUI(true);
+		}else{
+			changeDisplayMobileUI(false);
+		}
+	}
+
+	window.addEventListener('resize',triggerUIChange)
 
 	useEffect(()=>{
 		const getPosts=async()=>{
-			
+			debugger;
+			triggerUIChange();
 			const searchCriteria={
 				searchUrl:props.searchQuery,
 				postType:props.postType
 			}
+			changeCurrentSelectedPostType(props.postType);
 			switch(props.postType){
 				case "Images":{
-					fetchImagePosts();
+					await fetchImagePosts(0);
 					break;
 				}
 				case "Blogs":{
-					fetchBlogPosts();
+					await fetchBlogPosts(0);
 					break;
 				}
 				case "Videos":{
-					fetchVideoPosts();
+					await fetchVideoPosts(0);
 					break;
 				}
 				case "RegularPosts":{
-					fetchRegularPosts();
+					await fetchRegularPosts(0);
 					break;
 				}
 			}
@@ -104,97 +167,145 @@ const PostSearch=(props)=>{
 		return suggestedSymposiumsRecursive(posts);
 	}
 
-	const fetchBlogPosts=async()=>{
-
+	const fetchBlogPosts=async(postCount)=>{
+		if(postType!="Blogs"){
+			postCount=0;
+			posts=[];
+			changeFinisheLoadingState(false);
+		}
 		const searchCriteria={
 			searchUrl:props.searchQuery,
 			postType:"Blogs",
-			userId
+			userId,
+			postCount
 		}
-		changeFinisheLoadingState(false);
 
 		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
 		if(confirmation=="Success"){
-			const finalPosts=addSuggestedSymposiums(data);
-			changePosts(finalPosts);
+			debugger;
 			changeFinisheLoadingState(true);
+			if(data.length==0){
+				changeEndOfPostsIndicator(true);
+			}else{
+				changePostType("Blogs");
+				posts=posts.concat(data);
+				const finalPosts=addSuggestedSymposiums(posts);
+				changePosts([...finalPosts]);
 
-			changeDisplayImages(false);
-			changeDisplayVideos(false);
-			changeDisplayBlogs(true);
-			changeDisplayRegularPosts(false);
+				changeDisplayImages(false);
+				changeDisplayVideos(false);
+				changeDisplayBlogs(true);
+				changeDisplayRegularPosts(false);	
+			}
+				changeIsLoadingReloadPostsTrigger(false);
 		}else{
 			alert('Unfortunately there has been an error getting this search result. Please try again');
 		}
 	}
 
-	const fetchImagePosts=async()=>{
-
+	const fetchImagePosts=async(postCount)=>{
+		debugger
+		if(postType!="Images"){
+			postCount=0;
+			posts=[];
+			changeFinisheLoadingState(false);
+		}
 		const searchCriteria={
 			searchUrl:props.searchQuery,
 			postType:"Images",
-			userId
+			userId,
+			postCount
 		}
-		changeFinisheLoadingState(false);
 
 		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
 		if(confirmation=="Success"){
-			const finalPosts=addSuggestedSymposiums(data);
-			changePosts(finalPosts);
 			changeFinisheLoadingState(true);
+			if(data.length==0){
+				changeEndOfPostsIndicator(true);
+			}else{
+				changePostType("Images");
+				posts=posts.concat(data);
+				const finalPosts=addSuggestedSymposiums(posts);
+				changePosts([...finalPosts]);
 
-			changeDisplayImages(true);
-			changeDisplayVideos(false);
-			changeDisplayBlogs(false);
-			changeDisplayRegularPosts(false);
+				changeDisplayImages(true);
+				changeDisplayVideos(false);
+				changeDisplayBlogs(false);
+				changeDisplayRegularPosts(false);
+
+			}
+				changeIsLoadingReloadPostsTrigger(false);
 		}else{
 			alert('Unfortunately there has been an error getting this search result. Please try again');
 		}
 	}
 
-	const fetchVideoPosts=async()=>{
-
+	const fetchVideoPosts=async(postCount)=>{
+		if(postType!="Videos"){
+			postCount=0;
+			posts=[];
+			changeFinisheLoadingState(false);
+		}
 		const searchCriteria={
 			searchUrl:props.searchQuery,
 			postType:"Videos",
-			userId
+			userId,
+			postCount
 		}
-		changeFinisheLoadingState(false);
 
 		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
 		if(confirmation=="Success"){
-			const finalPosts=addSuggestedSymposiums(data);
-			changePosts(finalPosts);
 			changeFinisheLoadingState(true);
+			if(data.length==0){
+				changeEndOfPostsIndicator(true);
+			}else{
+				changePostType("Videos");
+				posts=posts.concat(data);
+				const finalPosts=addSuggestedSymposiums(posts);
+				changePosts([...finalPosts]);
 
-			changeDisplayImages(false);
-			changeDisplayVideos(true);
-			changeDisplayBlogs(false);
-			changeDisplayRegularPosts(false);
+				changeDisplayImages(false);
+				changeDisplayVideos(true);
+				changeDisplayBlogs(false);
+				changeDisplayRegularPosts(false);
+
+			}
+				changeIsLoadingReloadPostsTrigger(false);
 		}else{
 			alert('Unfortunately there has been an error getting this search result. Please try again');
 		}
 	}
 
-	const fetchRegularPosts=async()=>{
-
+	const fetchRegularPosts=async(postCount)=>{
+		if(postType!="RegularPosts"){
+			postCount=0;
+			posts=[];
+			changeFinisheLoadingState(false);
+		}
 		const searchCriteria={
 			searchUrl:props.searchQuery,
 			postType:"RegularPosts",
-			userId
+			userId,
+			postCount
 		}
-		changeFinisheLoadingState(false);
 
 		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
 		if(confirmation=="Success"){
-			const finalPosts=addSuggestedSymposiums(data);
-			changePosts(finalPosts);
 			changeFinisheLoadingState(true);
+			if(data.length==0){
+				changeEndOfPostsIndicator(true);
+			}else{
+				changePostType("RegularPosts");
+				posts=posts.concat(data);
+				const finalPosts=addSuggestedSymposiums(posts);
+				changePosts([...finalPosts]);
 
-			changeDisplayImages(false);
-			changeDisplayVideos(false);
-			changeDisplayBlogs(false);
-			changeDisplayRegularPosts(true);
+				changeDisplayImages(false);
+				changeDisplayVideos(false);
+				changeDisplayBlogs(false);
+				changeDisplayRegularPosts(true);
+			}
+				changeIsLoadingReloadPostsTrigger(false);
 		}else{
 			alert('Unfortunately there has been an error getting this search result. Please try again');
 		}
@@ -225,11 +336,6 @@ const PostSearch=(props)=>{
 			return currentPosts;
 		}
 	}
-
-	const displaySymposium=()=>{
-
-	}
-
 	const constructPostsResponse=()=>{
 		 if(displayImages==true){
 		 	return <ImagePostsModal
@@ -239,8 +345,12 @@ const PostSearch=(props)=>{
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
 						targetDom={"searchContainer"}
+						isMobileUI={displayMobileUI==true?true:false}
+						isLoadingReloadedPosts={isLoadingReloadedPosts}
+						triggerReloadingPostsHandle={triggerReloadingPostsHandle}
+						endOfPostsDBIndicator={endOfPostsDBIndicator}
 					/>
-		 }else if(displayVideos==true){
+		 }else if(displayVideos==true){ 
 		 	return <VideoPostModal
 						posts={posts}
 						_id={props.userId}
@@ -248,6 +358,10 @@ const PostSearch=(props)=>{
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
 						targetDom={"searchContainer"}
+						isMobileUI={displayMobileUI==true?true:false}
+						isLoadingReloadedPosts={isLoadingReloadedPosts}
+						triggerReloadingPostsHandle={triggerReloadingPostsHandle}
+						endOfPostsDBIndicator={endOfPostsDBIndicator}
 		 		   />
 		 }else if(displayBlogs==true){
 		 	return <BlogPostModal
@@ -257,6 +371,10 @@ const PostSearch=(props)=>{
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
 						targetDom={"searchContainer"}
+						isMobileUI={displayMobileUI==true?true:false}
+						isLoadingReloadedPosts={isLoadingReloadedPosts}
+						triggerReloadingPostsHandle={triggerReloadingPostsHandle}
+						endOfPostsDBIndicator={endOfPostsDBIndicator}
 		 			/>
 		 }else{
 		 	return <RegularPostModal
@@ -266,14 +384,51 @@ const PostSearch=(props)=>{
 						isPersonalProfile={props.isPersonalProfile}
 						displaySymposium={props.displaySymposium}
 						targetDom={"searchContainer"}
+						isMobileUI={displayMobileUI==true?true:false}
+						isLoadingReloadedPosts={isLoadingReloadedPosts}
+						triggerReloadingPostsHandle={triggerReloadingPostsHandle}
+						endOfPostsDBIndicator={endOfPostsDBIndicator}
 		 			/>
 		 }
+	}
+
+	const triggerReloadingPostsHandle=()=>{ 
+		const nextPostCount=postCount+1;
+		changePostReloadTrigger(true);
+		changeIsLoadingReloadPostsTrigger(true);
+		changePostsCount(nextPostCount);
+		
+		if(postType=="Images"){
+			fetchImagePosts(nextPostCount);
+		}else if(postType=="Videos"){
+			fetchVideoPosts(nextPostCount);
+		}else if(postType=="Blogs"){
+			fetchBlogPosts(nextPostCount);
+		}else{
+			fetchRegularPosts(nextPostCount)
+		}
+	}
+
+	const triggerPostHandle=(postType)=>{
+		changePostsCount(0);
+		changePosts([]);
+		changeCurrentSelectedPostType(postType);
+
+		if(postType=="Images"){
+			fetchImagePosts(0);
+		}else if(postType=="Videos"){
+			fetchVideoPosts(0);
+		}else if(postType=="Blogs"){
+			fetchBlogPosts(0);
+		}else{
+			fetchRegularPosts(0)
+		}
 	}
 
 	return(
 		<Container>
 			<ul>
-				<li style={{listStyle:"none"}}>
+				<li id="postOptionsLI" style={{listStyle:"none"}}>
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 							<div class="btn-group">
@@ -288,30 +443,35 @@ const PostSearch=(props)=>{
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">
-										<li onClick={()=>fetchImagePosts()}><a href="javascript:;">Images</a></li>	
-										<li onClick={()=>fetchVideoPosts()}><a href="javascript:;">Videos</a></li>	
-										<li onClick={()=>fetchBlogPosts()}><a href="javascript:;">Blogs</a></li>	
-										<li onClick={()=>fetchRegularPosts()}><a href="javascript:;">Posts</a></li>		
+									<li onClick={()=>triggerPostHandle("Images")}><a href="javascript:;">Images</a></li>	
+									<li onClick={()=>triggerPostHandle("Videos")}><a href="javascript:;">Videos</a></li>	
+									<li onClick={()=>triggerPostHandle("Blogs")}><a href="javascript:;">Blogs</a></li>	
+									<li onClick={()=>triggerPostHandle("RegularPosts")}><a href="javascript:;">Posts</a></li>			
 								</ul>
 							</div>
 						</li>
-
-						<li style={PostButton}>
-							Request a post
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",color:"#5298F8"}}>
+							{currentSelectedPostType}
 						</li>
+						{/*
+							<li style={PostButton}>
+								Request a post
+							</li>
+						*/}
 					</ul>
 				</li>
 				<hr/>
-
-				<li id="postLI"  style={{listStyle:"none"}}>
-					<PostContainer>
-						{isFinishedLoading==true?
-							<>
-								{constructPostsResponse()}
-							</>:<LoadingScreen/>
-						}
-					</PostContainer>
-				</li>
+				<PostsContainer>
+					<Posts>
+						<ul>
+							{isFinishedLoading==true?
+								<>
+									{constructPostsResponse()}
+								</>:<LoadingScreen/>
+							}
+						</ul>
+					</Posts>
+				</PostsContainer>
 			</ul>
 		</Container>
 	)

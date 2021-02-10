@@ -5,10 +5,10 @@ export const Container=styled.div`
 	height:100%;
 	overflow-x:hidden;
 
-	@media screen and (max-width:1300px){
+	@media screen and (max-width:1370px){
 		#postsContainer{
 			margin-left:-50%;
-			margin-top:10%;
+			margin-top:20% !important;
 		}
 		#createPostIcon{
 			top:5% !important;
@@ -24,10 +24,10 @@ export const Container=styled.div`
 		}
     }
 
-    @media screen and (max-width:700px){
-		#postsContainer{
-			margin-left:-60%;
-			margin-top:105%;
+    @media screen and (max-width:740px){
+    	#postsContainer{
+			margin-left:-80% !important;
+			margin-top:180% !important;
 		}
 		#friendsGaugeContainer{
 			margin-left:-50% !important;
@@ -48,32 +48,17 @@ export const Container=styled.div`
 		}
     }
     @media screen and (max-width:620px){
-		#postsContainer{
-			margin-top:120%;
-		}
 		#createPostContainer{
 			width:400px
 		}
     }
-    @media screen and (max-width:550px){
-		#postsContainer{
-			margin-top:140%;
-		}
-    }
 
     @media screen and (max-width:520px){
-    	#postsContainer{
-			margin-left:-80%;
-		}
 		#createPostContainer{
 			width:350px
 		}
     }
     @media screen and (max-width:420px){
-    	#postsContainer{
-			margin-left:-80%;
-			margin-top:180%;
-		}
 		#createPostContainer{
 			width:300px
 		}
@@ -88,9 +73,6 @@ export const Container=styled.div`
 		#recommendedPostsLI{
 			margin-top:60% !important;
 		}
-		#mobilePersonalOptionCaret{
-			margin-left:30% !important;
-		}
     }
 
     @media screen and (max-width:570px) and (max-height:330px){
@@ -101,7 +83,7 @@ export const Container=styled.div`
 			margin-top:20% !important;
 		}
     }
-     @media screen and (max-width:670px) and (max-height:380px){
+    @media screen and (max-width:670px) and (max-height:380px){
     	#createPostContainer{
 			margin-bottom:40% !important;
 		}
@@ -114,13 +96,29 @@ export const Container=styled.div`
 			}
 		}
     }
+
+    @media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
+		#postsContainer{
+			margin-top:0% !important;
+		}
+    }
+
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+    	#postsContainer{
+			margin-top:120% !important;
+			margin-left:-60% !important;
+		}
+		#createPostIcon{
+			margin-left:-10% !important;
+		}
+    }
+
 `;
 
 export const ProfilePictureContainer=styled.div`
-	position:absolute;
-	width:25%;
+	position:relative;
+	width:90%;
 	height:35%;
-	top:15%;
 	left:2%;
 	background-color:white;
 	border-style:solid;
@@ -129,95 +127,43 @@ export const ProfilePictureContainer=styled.div`
 	border-radius:5px;
 	z-index:3;
 	box-shadow: 1px 1px 10px #d5d5d5;
+	display:flex;
+	justify-content:center;
 
-
-	 @media screen and (max-width:420px) and (max-height:740px){
-     	top:80% !important;
-	 	height:80% !important;
-     }
-
-	 @media screen and (max-width:1300px){
+	@media screen and (max-width:1370px){
 	 	box-shadow:none !important;
-	 	height:25% !important;
-	 	top:15% !important;
-	 	 #profilePicture{
-	          border-radius:50%;
-	          height:70% !important;
-	          width:70% !important;
-	          margin-left:10%;
-	     }
+	 	height:90% !important;
+		width:100% !important;
+	 	top:5% !important;
+	 	#profilePicture{
+	      border-radius:50%;
+          height:70% !important;
+          width:85% !important;
+          margin-left:10%;
+	    }
     }
-     @media screen and (max-width:1030px){
-     	width:31% !important;
-    }
-     @media screen and (max-width:800px){
-     	width:25% !important;
-     	height: 20% !important;
-    }
-    @media screen and (max-width:700px){
-		top:35% !important;
-		width:70% !important;
-		height:30% !important;
-		margin-left:10% !important;
+
+
+    @media screen and (max-width:740px){
+    	top:-10% !important;
+    	height:100% !important;
+    	margin-left:0%;
+    	width:90% !important;
 		z-index:10;
 		#profilePicture{
-	          height:100% !important;
-	          width:75% !important;
-	          left:5% !important;
-	     }
-    }
-    @media screen and (max-width:485px){
-		width:60% !important;
-		margin-left:15% !important;
-		height:20% !important;
-		#profilePicture{
-	          height:100% !important;
-	          width:80% !important;
-	     }
+          height:200% !important;
+          left:5% !important;
+          max-height:240px !important;
+	    }
+
+	    max-height:250px !important;
     }
 
-    @media screen and (max-width:520px){
-		#personalInformationIcon{
-			font-size:10 !important;
-		}
-    }
-
-    @media screen and (max-width:510px) and (max-height:770px){
-	 	top:35% !important;
-	 	height:30% !important;
-    }
-
-
-    @media screen and (max-width:420px){
-		height:30% !important;
-		margin-left:20% !important;
-		width:80% !important;
-		top:40% !important;
-		left:-10% !important;
-    }
-     @media screen and (max-width:350px){
-    	top:50% !important;
-    }
-
-
-    @media screen and (max-width:570px) and (max-height:330px){
-	 	top:75% !important;
-	 	height:80% !important;
-    }
-
-    @media screen and (max-width:670px) and (max-height:380px){
-    	top:75% !important;
-	 	height:80% !important;
-    }
-    @media screen and (max-width:400px) and (max-height:770px){
-    	top:35% !important;
-    }
-
-    @media screen and (max-width:380px) and (max-height:670px){
-    	height:35% !important;
-    }
-     @media screen and (max-width:330px) and (max-height:570px){
-    	top:40% !important;
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+    	margin-left:5%;
+	 	#profilePicture{
+	 		width:50% !important;
+	 	}
     }
 `;
 
@@ -230,16 +176,39 @@ export const HeaderContainer=styled.div`
 `;
 
 export const ProfileContainer=styled.div`
+	position:fixed;
 	width:30%;
-	height:70%;
-	background-color:white;
+	height:100%;
 	z-index:10;
+
+	@media screen and (max-width:1370px){
+		position:relative;
+		height:30% !important;
+	}
+
+	@media screen and (max-width:740px){
+		position:relative;
+		top:30%;
+		margin-left:2% !important;
+		height:20% !important;
+		width:90%;
+	}
+	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
+		height:60% !important;
+		margin-top:5% !important;
+    	
+    }
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		top:70%;
+		height:90% !important;
+    }
 `;
 
 export const PersonalProfileInformationContainer= styled.div`
 	position:absolute;
-	top:52%;
-	width:25%;
+	top:37%;
+	width:90%;
 	left:3%;
 	background-color:#fbfdff;
 	border-radius:5px;
@@ -360,6 +329,9 @@ export const PostInformationContainer=styled.div`
 	 	top:35% !important;
     }
  
+ 	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
+		top:20%;
+    }
 
 `;
 
@@ -379,6 +351,7 @@ export const ShadowContainer= styled.div`
 	position:fixed;
 	width:100%;
 	height:100%;
+	top:0%;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
 	z-index:35;
@@ -386,28 +359,38 @@ export const ShadowContainer= styled.div`
 `;
 
 export const ImagePopupContainer=styled.div`
+	position:absolute;
 	margin-left:20%;
-	margin-top:10%;
+	margin-top:5%;
 	position:fixed;
 	width:70%;
-	height:60%;
+	height:70%;
 	background-color:white;
 	padding:20px;
 	z-index:35;
 	border-radius:5px;
+	overflow-y:scroll;
 
-	@media screen and (max-width:800px){
+	@media screen and (max-width:1370px){
 		margin-left:1% !important;
-		top:10% !important;
     	width:100% !important;
-    	height:90% !important;
+    	height:85% !important;
     	border-radius:5px !important;
+    }
+
+     @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		width:95% !important;
+    	height:80% !important;
+    }
+
+   	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	margin-top:0%;
     }
 `;
 
 export const PostPopupContainer=styled.div`
 	margin-left:20%;
-	margin-top:10%;
+	margin-top:4%;
 	position:fixed;
 	width:70%;
 	height:60%;
@@ -415,13 +398,28 @@ export const PostPopupContainer=styled.div`
 	z-index:35;
 	border-radius:5px;
 
+	@media screen and (max-width:1370px){
+		margin-left:0%;
+		margin-top:10%;
+	}
+
 	@media screen and (max-width:800px){
-		margin-left:-5% !important;
-		top:10% !important;
+		margin-left:0% !important;
+		top:0% !important;
     	width:100% !important;
     	height:90% !important;
     	border-radius:5px !important;
     }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	margin-top:5%;
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	margin-top:0%;
+    	height:90%;
+    }
+
 
 `;
 
@@ -454,22 +452,21 @@ export const CreatePostButton=styled.div`
 			width:70px !important;
 			height:70px !important;
     }
-
 `;
 
 export const RegularPostContainerParent=styled.div`
 	position:fixed;
 	width:60%;
-	height:40%;
+	height:50%;
 	z-index:35;
-	left:20%;
+	left:25%;
 	top:20%;
 	border-radius:5px;
 	background-color:white;
 	border-radius:5px;
 	padding:5px;
 	box-shadow: 1px 1px 50px #d5d5d5;
-	overflow-y:auto;
+	overflow:hiden;
 
 	@media screen and (max-width:1370px) and (max-height:1030px){
     	left:10% !important;
@@ -487,6 +484,10 @@ export const RegularPostContainerParent=styled.div`
 		width:100% !important;
 
 	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+			height:70% !important;
+    }
 `;
 
 

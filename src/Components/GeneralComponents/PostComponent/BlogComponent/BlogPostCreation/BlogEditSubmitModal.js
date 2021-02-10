@@ -23,6 +23,11 @@ import CrownPostModal from "../../CrownPost.js";
 
 import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+	} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
 	position:fixed;
@@ -102,6 +107,7 @@ class BlogEditSubmitModal extends Component{
 
 	constructor(props){
 		super(props);
+		console.log(this.props);
 		this.state={
 			pictureUrl:"",
 			displayImage:false,
@@ -115,13 +121,14 @@ class BlogEditSubmitModal extends Component{
 			displayVoiceDescriptionPortal:false,
 			videoDescription:null,
 			audioDescription:null,
-			isPostCrowned:false,
-			isSubmittedAndProcessing:false
+			isPostCrowned:this.props.previousState==null?false:(this.props.previousState.isCrownedPost),
+			isSubmittedAndProcessing:false,
+			retryCounter:0
 		}
 	}
 
 	componentDidMount(){
-		
+		console.log(this.props.previousState);
 		if(this.props.previousState!=null){
 			const {
 				blogImageUrl,
@@ -130,9 +137,15 @@ class BlogEditSubmitModal extends Component{
 				audioDescription,
 				videoDescription
 			}=this.props.previousState;
-
 			document.getElementById("blogTitle").value=title;
 			document.getElementById("blogDescription").value=description;
+
+
+			if(this.state.isPostCrowned==true){
+				const crownElement=document.getElementById("crownIcon");
+				crownElement.style.backgroundColor="#D6C5F4";
+				crownElement.style.color="white";
+			}
 
 			this.setState({
 				pictureUrl:blogImageUrl,
@@ -178,7 +191,7 @@ class BlogEditSubmitModal extends Component{
 		})
 	}
 
-	sendBlogDataToDB=async(blogPostInformation,profilePostType)=>{
+	sendBlogDataToDB=async({blogPostInformation,profilePostType,isAccessTokenUpdated,updatedAccessToken})=>{
 		this.setState({
 			isSubmittedAndProcessing:true
 		})
@@ -233,15 +246,45 @@ class BlogEditSubmitModal extends Component{
 				isPostCrowned:this.state.isPostCrowned
 			}
 
-			const{confirmation,data}=await createBlogPost(this.props.personalProfile.id,blogPostSendObject,"Personal");
+			const{confirmation,data}=await createBlogPost(
+											this.props.personalInformation.id,
+											blogPostSendObject,
+											"Personal",
+											isAccessTokenUpdated==true?updatedAccessToken:
+											this.props.personalInformation.accessToken
+										);
 			if(confirmation=="Failure"){
-				isEditSuccess=false;
-				alert('Unfortunately there has been an error editing this post. Please try again');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					isEditSuccess=false;
+					await refreshTokenApiCallHandle(
+							this.props.personalInformation.refreshToken,
+							this.props.personalInformation.id,
+							this.sendBlogDataToDB,
+							this.props,
+							{
+								blogPostInformation,
+								profilePostType
+							},
+							true
+						);
+				}else{
+					isEditSuccess=false;
+					alert('Unfortunately there has been an error when creating this post. Please try again');
+					this.setState({
+						isSubmittedAndProcessing:false
+					})
+				}
+			}else{
+				if(isEditSuccess!=false){
+					alert('Your blog has been published. If you do not see it on your profile please wait a little bit');
+					this.props.routerHistory.push('/profile/'+this.props.personalInformation.id);
+				}
+
 			}
 		}else{
+			debugger;
 			const {previousData}=this.props;
 			const {
 				blogImageUrl,
@@ -251,8 +294,13 @@ class BlogEditSubmitModal extends Component{
 				videoDescription,
 				isCrownedPost,
 				_id,
-				industriesUploaded
+				industriesUploaded,
+				blog
 			}=this.props.previousState;
+			let currentBlogPost;
+			if(blogPostInformation.blogPostState!=""){
+				currentBlogPost=JSON.stringify(convertToRaw(blogPostInformation.blogPostState.getCurrentContent()));
+			}
 
 			const editedImage={
 				postType:"Blogs",
@@ -262,7 +310,11 @@ class BlogEditSubmitModal extends Component{
 						?searchCriteriaIndustryArray:null,
 					description:currentDescription!=description?currentDescription:null,
 					title:currentTitle!=title?currentTitle:null,
-					isCrownedPost:this.state.isPostCrowned!=isCrownedPost?this.state.isPostCrowned:null
+					isCrownedPost:this.state.isPostCrowned!=isCrownedPost?this.state.isPostCrowned:null,
+					//blog:rawDraftContentState!=blog?rawDraftContentState:null
+					blog:currentBlogPost==null?null:(
+						currentBlogPost!=blog?currentBlogPost:null
+					)
 				},
 				postS3:[
 					{
@@ -278,21 +330,41 @@ class BlogEditSubmitModal extends Component{
 						newUrl:currentVideoDescription!=videoDescription?currentVideoDescription:null
 					}
 				],
-				ownerId:this.props.previousState.owner
+				ownerId:this.props.previousState.owner,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							this.props.personalInformation.accessToken
 			}
 			
  			const {confirmation,data}=await editPost(editedImage);
 			if(confirmation=="Failure"){
-				isEditSuccess=false;
-				alert('Unfortunately there has been an error editing this post. Please try again');
-				this.setState({
-					isSubmittedAndProcessing:false
-				})
+				debugger;
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalInformation.refreshToken,
+							this.props.personalInformation.id,
+							this.sendBlogDataToDB,
+							this.props,
+							{
+								blogPostInformation,
+								profilePostType
+							},
+							true
+						);
+				}else{
+					isEditSuccess=false;
+					alert('Unfortunately there has been an error editing this post. Please try again');
+					this.setState({
+						isSubmittedAndProcessing:false
+					})
+				}
+			}else{
+				if(isEditSuccess!=false){
+					alert('Your blog has been published. If you do not see it on your profile please wait a little bit');
+					this.props.routerHistory.push('/profile/'+this.props.personalInformation.id);
+				}
+
 			}
-		}
-		if(isEditSuccess!=false){
-			alert('Your blog has been published. If you do not see it on your profile please wait a little bit');
-			this.props.routerHistory.push('/profile/'+this.props.personalProfile.id);
 		}
 	}
 
@@ -404,6 +476,18 @@ isArrayEqual=(arr1,arr2)=>{
 	  });
 	}
 
+	isIsHeaderImageAdded=()=>{
+		if(this.state.pictureUrl==""){
+			alert('Please added an image to your blog to continue');
+		}else{
+			this.setState({
+				displayIndustrySelectModal:true,
+				title:document.getElementById("blogTitle").value,
+				description:document.getElementById("blogDescription").value
+			})
+		}
+	}
+
 
 
 	render(){
@@ -438,8 +522,7 @@ isArrayEqual=(arr1,arr2)=>{
 								parentUnCrownPost={this.unCrownPost}
 								previousData={this.props.previousData}
 								isPostCrowned={this.state.isPostCrowned}
-							/>
-							:null
+							/>:null
 						}
 
 
@@ -573,11 +656,7 @@ isArrayEqual=(arr1,arr2)=>{
 
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-													<ul onClick={()=>this.setState({
-																displayIndustrySelectModal:true,
-																title:document.getElementById("blogTitle").value,
-																description:document.getElementById("blogDescription").value
-															})}>
+													<ul onClick={()=>this.isIsHeaderImageAdded()}>
 														<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
 															Next
 														</li>
@@ -592,10 +671,10 @@ isArrayEqual=(arr1,arr2)=>{
 													alterSelectedSubCommunities={this.alterSelectedSubCommunities}
 												/>
 											</li>
-											{this.state.isSubmittedAndProcessing==false &&(
+											{this.state.isSubmittedAndProcessing==false?
 												<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
 													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<ul onClick={()=>this.sendBlogDataToDB(blogPostInformation,profilePostInformation)}>
+															<ul onClick={()=>this.sendBlogDataToDB({blogPostInformation,profilePostInformation,isAccessTokenUpdated:false})}>
 																<li style={{listStyle:"none",display:"inline-block"}}>
 																	<SendIcon
 																		style={{fontSize:20,color:"white"}}
@@ -607,8 +686,9 @@ isArrayEqual=(arr1,arr2)=>{
 																</li>
 															</ul>
 													</a>
-												 </li>
-											)}
+												 </li>:
+												 <p> Please wait....</p>
+											}
 										</React.Fragment>
 									}
 								</li>
@@ -625,12 +705,20 @@ isArrayEqual=(arr1,arr2)=>{
 
 const mapStateToProps=state=>{
 	return{
-		personalProfile:state.personalInformation,
+		personalInformation:state.personalInformation,
 		companyProfile:state.companyInformation
 	}
 }
 
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(BlogEditSubmitModal);

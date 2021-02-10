@@ -7,5 +7,6 @@ const PostDisplayConsumer=PostDisplayContext.Consumer;
 
 export {
 	PostDisplayProvider,
-	PostDisplayConsumer
+	PostDisplayConsumer,
+	PostDisplayContext
 } 

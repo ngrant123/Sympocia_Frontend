@@ -27,7 +27,28 @@ const Container=styled.div`
 		#postLI{
 			width:110% !important;
 		}
+		#videoQuestionAnswers{
+			width:60% !important;
+			height:50% !important;
+		}
+
+		#imageHighlightedQuestion{
+			width:70% !important;
+		}
 	}
+
+	@media screen and (max-width:740px){
+		#videoQuestionAnswers{
+			height:30% !important;
+		}
+	}
+
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		#imageHighlightedQuestion{
+			width:40% !important;
+			height:40% !important;
+		}
+    }
 
 `;
 
@@ -109,43 +130,33 @@ class HighLightedQuestions extends Component{
 		}else{
 			if(questionType=="Image"){
 				return <React.Fragment>
-									{replies.map(data=>
-										<React.Fragment>
-											{data._id==null?null:
-												<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block"}}>
-													<img src={data.imgUrl} style={{borderRadius:"5px",width:"90px",height:"30%"}}/>
-												</li>
-											}
-										</React.Fragment>
-									)}
-								</React.Fragment>;
+							{replies.map(data=>
+								<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+									<img id="imageHighlightedQuestion" src={data.imgUrl}
+									 style={{borderRadius:"5px",width:"90px",height:"30%",marginBottom:"5%"}}
+									/>
+								</li>
+							)}
+						</React.Fragment>;
 			}else if(questionType=="Video"){
 				console.log(replies);
 				return <React.Fragment>
 							{replies.map(data=>
-								<React.Fragment>
-									{data!=null &&(
-										<li id="postLI" onClick={()=>this.setVideoPost(data)} style={{marginBottom:"5%",width:"30%",listStyle:"none",display:"inline-block"}}>
-											<video key={this.uuidv4()} width="90" height="40" borderRadius="5px" muted autoplay>
-												<source src={data.videoUrl} type="video/mp4"/>
-											</video>
-										</li>
-									)}
-								</React.Fragment>
+								<li id="postLI" onClick={()=>this.setVideoPost(data)} style={{marginBottom:"5%",width:"30%",listStyle:"none",display:"inline-block"}}>
+									<video id="videoQuestionAnswers" key={this.uuidv4()} width="90" height="40" borderRadius="5px" muted autoplay>
+										<source src={data.videoUrl} type="video/mp4"/>
+									</video>
+								</li>
 							)}
 						</React.Fragment>;
 			}else{
 				return <React.Fragment>
 							{replies.map(data=>
 								<React.Fragment>
-									{data._id==null?null:
-										<>
-											<li onClick={()=>this.setRegularPost(data)} style={{listStyle:"none",marginBottom:"5%"}}>
-												{data.post}	
-											</li>
-											<hr/>
-										</>
-									}
+									<li onClick={()=>this.setRegularPost(data)} style={{listStyle:"none",marginBottom:"5%"}}>
+										{data.post}	
+									</li>
+									<hr/>
 								</React.Fragment>
 							)}
 						</React.Fragment>;
@@ -154,15 +165,16 @@ class HighLightedQuestions extends Component{
 	}
 
 	expandQuestion=()=>{
-		this.setState({
-			displayExpandedQuestionModal:true
-		});
+		if(this.props.isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
+		}else{
+			this.setState({
+				displayExpandedQuestionModal:true
+			});
+		}
 	}
 
-	addComment=(data)=>{
-
-	}
-
+	addComment=(data)=>{}
 
 	closeModal=()=>{
 		this.setState({
@@ -182,7 +194,6 @@ class HighLightedQuestions extends Component{
 
 		if(currentQuestionType==questionType){
 			debugger;
-			data=data._doc;
 			var replies=responsesId;
 
 			replies.splice(0,0,data);
@@ -191,7 +202,7 @@ class HighLightedQuestions extends Component{
 				displayExpandedQuestionModal:false,
 				[question]:{
 					...[question],
-					responsesId:replies
+					responsesId:[...replies]
 				}
 			}))
 		}

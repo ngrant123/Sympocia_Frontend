@@ -14,21 +14,21 @@ const Container=styled.div`
 	height:40%;
 	overflow:scroll;
 
-	@media screen and (max-width:1030px){
+	@media screen and (max-width:1370px){
     	top:20% !important;
     	width:100% !important;
 		left:1% !important; 
-		height:100% !important;
+		height:70% !important;
 
 		#uploadOptionTypeLI{
 			margin-bottom:15% !important;
 		}
     }
-   	@media screen and (max-width:740px) and (max-height:420px){
-    	top:20% !important;
+     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+	  top:20% !important;
     	width:100% !important;
 		left:1% !important; 
-		height:100% !important;
+		height:70% !important;
     }
 `;
 
@@ -51,21 +51,42 @@ const VideoOptionCSS={
 
  	const uploadVideo=()=>{
  		let reader= new FileReader();
+ 		const maxFileSize=50*1024*1024 //50MB;
+ 		let dummyVideoObject=document.createElement('video');
+ 		dummyVideoObject.preload = 'metadata'
 		const video=document.getElementById("uploadVideoFile").files[0];
-		reader.onloadend=()=>{
-			
-			if(props.uploadedRedoVideo!=null){
-				props.uploadedRedoVideo(reader.result);
-			}else{
-				changeVideo(reader.result);
+		const videoSize=video.size;
+		if(videoSize>maxFileSize){
+			alert('The file you selected is too large. As of right now we only accept files of size 50MB for videos. Sorry for the inconvenience.');
+		}else{
+			reader.onloadend=()=>{
+				debugger;
+				dummyVideoObject.src=reader.result;
+				 window.URL.revokeObjectURL(dummyVideoObject.src);
+				const duration=dummyVideoObject.duration;
+				if(duration>30){
+
+				}else{
+					console.log(reader);
+					if(props.uploadedRedoVideo!=null){
+						props.uploadedRedoVideo(reader.result);
+					}else{
+						changeVideo(reader.result);
+					}
+				}
 			}
+			if(video!=null){
+					reader.readAsDataURL(video);
+			}
+			else{
+				alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
+			}
+
 		}
-		if(video!=null){
-				reader.readAsDataURL(video);
-		}
-		else{
-			alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
-		}
+ 	}
+
+ 	const closeAndRedoVideo=()=>{
+ 		changeVideo(null)
  	}
 
  	const createEditVideoContainer=()=>{
@@ -74,6 +95,7 @@ const VideoOptionCSS={
  		return <EditOrUploadVideoOption
  					videoSrc={videoUploaded}
  					parentRedoVideo={parentRedoVideo}
+ 					closeAndRedoVideo={closeAndRedoVideo}
  				/>;
  	}
 

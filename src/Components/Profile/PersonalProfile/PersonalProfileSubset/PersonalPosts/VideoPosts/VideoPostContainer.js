@@ -1,7 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
 import SmallVideoContainer from "./SmallVideos.js";
-import {getVideosFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getCompanyVideos} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import {UserConsumer} from "../../../UserContext.js";
 import NoPostsModal from "../NoPostsModal.js";
@@ -11,6 +10,7 @@ import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 import CrownedVideo from "./CrownedVideoContainer.js";
 import {PostConsumer} from "../PostsContext.js";
+import Typed from "react-typed";
 
 const Container=styled.div`
 	position:absolute;
@@ -22,6 +22,7 @@ const Container=styled.div`
 		width:140%;
 		#smallVideoLI{
 			margin-right:15% !important;
+			width:10% !important;
 		}
 	}
 	@media screen and (max-width:1030px){
@@ -30,9 +31,20 @@ const Container=styled.div`
 			margin-right:30% !important;
 		}
 	}
-	@media screen and (max-width:740px) and (max-height:420px){
+	@media screen and (max-width:740px){
+		#smallVideoLI{
+			width:15% !important;
+		}
+	}
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	margin-left:10% !important;
+	 	#smallVideoLI{
+			margin-bottom:5% !important;
+		}
+    }
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		#smallVideoParentContainer{
-			margin-bottom:-10% !important;
+			margin-bottom:-5% !important;
 		}
     }
 `;
@@ -44,13 +56,28 @@ const SmallVideoComponent=styled.div`
 `;
 
 const SmallVideo=styled.div`
-
 	position:relative;
 	height:65%;
 	width:100%;
 	background-color:red;
 	border-radius:5px;
 `;
+
+const NextPostLabelCSS={
+	listStyle:"none",
+	  display:"inline-block",
+	  backgroundColor:"white",
+	  borderRadius:"5px",
+	  padding:"10px",
+	  color:"#3898ec",
+	  borderStyle:"solid",
+	  borderWidth:"2px",
+	  borderColor:"#3898ec",
+	  maxWidth:"30%",
+	  maxHeight:"50px",
+	  overflow:"hidden",
+	  cursor:"pointer"
+}
 
 
 class VideoPostsContainer extends Component{
@@ -90,21 +117,23 @@ class VideoPostsContainer extends Component{
 																						profilePageType={this.props.profile}
 																					/>:
 														<ul style={{padding:"0px"}}>
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<li onClick={()=>this.displayPostModal(
-																									postDisplayModal,
-																									companyPostDisplayModal,
-																									this.props.videos.headerVideo,
-																									postsConsumer)} 
-																style={{listStyle:"none"}}>
-																	{this.props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
-																		<CrownedVideo
-																			headerVideo={this.props.videos.headerVideo}
-																		/>
-																	}
-																</li>
-															</a>
-															<hr/>
+															{this.props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
+																<React.Fragment>
+																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																		<li onClick={()=>this.displayPostModal(
+																											postDisplayModal,
+																											companyPostDisplayModal,
+																											this.props.videos.headerVideo,
+																											postsConsumer)} 
+																		style={{listStyle:"none"}}>
+																				<CrownedVideo
+																					headerVideo={this.props.videos.headerVideo}
+																				/>
+																		</li>
+																	</a>
+																	<hr/>
+																</React.Fragment>
+															}
 						
 															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 																<li id="smallVideoParentContainer" style={{listStyle:"none",marginTop:"1%"}}>	
@@ -115,7 +144,7 @@ class VideoPostsContainer extends Component{
 																									companyPostDisplayModal,
 																									data,
 																									postsConsumer)} 
-																			style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"10%",marginBottom:"-5%"}}>
+																			style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
 																					<SmallVideoContainer
 																						video={data}
 																					/>
@@ -124,6 +153,20 @@ class VideoPostsContainer extends Component{
 																	</ul>
 																</li>
 															</a>
+															{postsConsumer.endOfPostsDBIndicator==false && (
+																<React.Fragment>
+																	{postsConsumer.isLoadingReloadedPosts==true?
+																		 <Typed 
+														                    strings={['Loading...']} 
+														                    typeSpeed={60} 
+														                    backSpeed={30} 
+												                		  />:
+																		<p onClick={()=>postsConsumer.fetchNextPosts()} style={NextPostLabelCSS}>
+																			Next Page
+																		</p>
+																	}
+																</React.Fragment>
+															)}
 														</ul>
 													}
 												</React.Fragment>

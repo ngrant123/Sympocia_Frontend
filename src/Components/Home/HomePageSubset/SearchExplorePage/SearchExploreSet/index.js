@@ -14,12 +14,16 @@ import BlogsPostsModal from '../SearchExploreSubset/BlogPostsModal.js';
 import RegularPostsModal from '../SearchExploreSubset/RegularPostsModal.js';
 
 import {
-		getPostsForHomePage,
 		exploreImagePosts,
 		exploreVideoPosts,
 		exploreBlogPosts,
 		exploreRegularPosts
 	} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+import {refreshTokenApiCallHandle} from "./../../../../../Actions/Tasks/index.js";
+import {
+		setPersonalProfileAccessToken,
+		setPersonalProfileRefreshToken
+		} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
 	@media screen and (max-width:1370px) and (max-height:1030px){
@@ -28,31 +32,54 @@ const Container=styled.div`
 			margin-left:40% !important;
     	}
     }
-	
-   
-	@media screen and (max-width:1030px){
-		#exploreDescriptionLI{
-			display:none !important;
-		}
-		#mobileArenaLI{
+
+    @media screen and (max-width:1370px){
+    	#mobileHeaderLI{
+  			margin-top:13% !important;
+  		}
+  		#mobileArenaLI{
     		width:15% !important;
 			margin-left:35% !important;
     	}
+		#exploreDescriptionLI{
+			display:none !important;
+		}
 	}
 
-	@media screen and (max-width:460px){
+	@media screen and (max-width:740px){
+		margin-left:0%;
+		#mobileHeaderLI{
+  			margin-top:25% !important;
+  		}
 		#exploreDescriptionLI{
 			display:none !important;
 		}
 		#mobileArenaLI{
-    		width:35% !important;
+    		width:30% !important;
 			margin-left:27% !important;
     	}
 	}
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		#mobileArenaLI{
+    		width:10% !important;
+			margin-left:37% !important;
+  		}
+    }
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	#mobileArenaLI{
+    		width:15% !important;
+			margin-left:35% !important;
+  		}
+  		#mobileHeaderLI{
+  			margin-top:15% !important;
+  		}
+    }
+
+    @media screen and (max-width:700px) and (max-height:420px) and (orientation: landscape) {
     	#mobileArenaLI{
     		width:20% !important;
-			margin-left:35% !important;
   		}
     }
 `;
@@ -130,15 +157,21 @@ const PostsContainer=styled.div`
 
 const Posts=styled.div`
 	position:absolute;
-	width:90%;
+	width:100%;
 	height:90%;
-	margin-top:10%;
-
 
 	@media screen and (max-width:450px){
 		margin-top:60% !important;
 	}
 `;
+
+const PostOptionButtonCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white"
+}
 
 const ArenaButtonCSS={
 	listStyle:"none",
@@ -153,7 +186,6 @@ const MobileArenaButtonCSS={
 	borderRadius:"50%",
 	padding:"10px",
 	boxShadow: "1px 1px 30px #d5d5d5",
-	width:"30%",
 	marginLeft:"25%"
 }
 
@@ -174,7 +206,10 @@ class SearchExploreContainer extends Component{
 			postsInformation:[],
 			postCount:0,
 			displayDesktopUI:false,
-			isLoading:true
+			isLoading:true,
+			isLoadingReloadedPosts:false,
+			endOfPostsDBIndicator:false,
+			accessToken:this.props.personalInformation.accessToken
 		}
 	}
 
@@ -196,7 +231,7 @@ class SearchExploreContainer extends Component{
 		//If user just gets to the page set industry to general and postType to images
 		window.addEventListener('resize',this.triggerUIChange)
 		
-		this.changeHomePagePosts(this.state.postOption);
+		this.changeHomePagePosts({postOption:this.state.postOption,isAccessTokenUpdated:false});
 		this.triggerUIChange();
 	}
 
@@ -209,7 +244,7 @@ class SearchExploreContainer extends Component{
 		this.setState({
 			selectedIndustries:selectedIndustries
 		},function(){
-			this.changeHomePagePosts(this.state.postOption);
+			this.changeHomePagePosts({postOption:this.state.postOption,isAccessTokenUpdated:false});
 		})
 	}
 
@@ -217,18 +252,29 @@ class SearchExploreContainer extends Component{
 		this.setState({
 			selectedSubCommunities:selectedSubCommunities
 		},function(){
-			this.changeHomePagePosts(this.state.postOption);
+			this.changeHomePagePosts({
+				postOption:this.state.postOption,
+				isAccessTokenUpdated:false
+			});
 		})
 	}
 
-	changeHomePagePosts=async(postOption)=>{
+	changeHomePagePosts=async({postOption,isAccessTokenUpdated,updatedAccessToken})=>{
 		debugger;
 		console.log(postOption);
 		var homePagePostsResponse;
-		var profileId=(this.props.personalInformation.loggedIn==true)?this.props.personalInformation.id:this.props.companyInformation.id;
+		const isGuestProfile=this.props.personalInformation.isGuestProfile;
+		var profileId=this.props.personalInformation.id;
+		let isGuestProfileIndicator=false;
+		if(profileId==0 || isGuestProfile){
+			isGuestProfileIndicator=true;
+		}
 		const searchParameters={
 			id:profileId,
-			postCount:this.state.postCount
+			postCount:this.state.postCount,
+			isGuestProfile:isGuestProfileIndicator,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						this.state.accessToken
 		}
 		if(postOption=="Images"){
 			homePagePostsResponse=await exploreImagePosts(searchParameters);
@@ -241,14 +287,43 @@ class SearchExploreContainer extends Component{
 		}
 		var {confirmation,data}=homePagePostsResponse;
 		if(confirmation=="Success"){
-			var newHomePagePosts=this.addSuggestedSymposiums(data);
-			this.setState({
-				postsInformation:newHomePagePosts,
-				isLoading:false
-			})
+			const {message}=data;
+			if(message.length==0){
+				this.setState({
+					endOfPostsDBIndicator:true,
+					isLoadingReloadedPosts:false,
+					isLoading:false,
+					isGuestProfileIndicator
+				})
+			}else{
+				let currentPosts=this.state.postsInformation;
+				currentPosts=currentPosts.concat(message);
+				this.setState({
+					postsInformation:this.state.postCount==0?this.addSuggestedSymposiums(currentPosts):currentPosts,
+					isLoading:false,
+					isLoadingReloadedPosts:false,
+					postOption:postOption,
+					isGuestProfileIndicator
+				})
+			}
 
 		}else{
-			alert('Unfortunately there has been an error in retrieving you data. Please try again');
+			debugger;
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						this.props.personalInformation.refreshToken,
+						this.props.personalInformation.id,
+						this.changeHomePagePosts,
+						this.props,
+						{
+							postOption
+						},
+						true
+					);
+			}else{
+				alert('Unfortunately there has been an error in retrieving you data. Please try again');
+			}
 		}
 	}
 
@@ -258,7 +333,6 @@ class SearchExploreContainer extends Component{
 	}
 
 	suggestedSymposiumsRecursive=(posts)=>{
-		
 		if(posts==null||posts.length==0){
 			return posts;
 		}else if(posts.length==1){
@@ -287,9 +361,13 @@ class SearchExploreContainer extends Component{
 		console.log(props);
 		this.setState({
 			postOption:props,	
-			isLoading:true
+			isLoading:true,
+			postCount:0,
+			postsInformation:[],
+			endOfPostsDBIndicator:false
 		},function(){
-			this.changeHomePagePosts(props);
+			debugger;
+			this.changeHomePagePosts({postOption:props,isAccessTokenUpdated:false});
 		})
 	}
 
@@ -298,7 +376,7 @@ class SearchExploreContainer extends Component{
 	}
 
 	mobileHeaderUI=()=>{
-		return  <li style={{listStyle:"none",marginBottom:"2%",marginTop:"30%"}}>
+		return  <li id="mobileHeaderLI" style={{listStyle:"none",marginBottom:"2%",marginTop:"30%"}}>
 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 						<li id="mobileArenaLI" onClick={()=>alert('Arena coming soon... :)')} style={MobileArenaButtonCSS}>
 							<MobileArenaContainer>
@@ -354,6 +432,50 @@ class SearchExploreContainer extends Component{
 							</ArenaContainer>
 						</li>
 					</a>
+					<li style={{listStyle:"none",display:"inline-block",marginLeft:"10%",width:"40%"}}>
+						<ul style={{padding:"0px"}}>
+							<li id="headerTitleLI" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"40px"}}>
+								<b>{this.state.postOption}</b>
+							</li>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+								<div class="btn-group">
+									<button class="btn btn-primary dropdown-toggle" type="button" 
+										data-toggle="dropdown" style={PostOptionButtonCSS}>
+										Post Options
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li onClick={()=>this.handleChangePostOption("Images")}>
+											<a href="javascript:;">Images</a>
+										</li>	
+										<li onClick={()=>this.handleChangePostOption("Videos")}>
+											<a href="javascript:;">Videos</a>
+										</li>	
+										<li onClick={()=>this.handleChangePostOption("Blogs")}>
+											<a href="javascript:;">Blogs</a>
+										</li>	
+										<li onClick={()=>this.handleChangePostOption("RegularPosts")}>
+											<a href="javascript:;">Posts</a>
+										</li>		
+									</ul>
+								</div>
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
+										Options
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a href="javascript:;">Most Popular</a></li>
+										<li><a href="javascript:;">Newest</a></li>
+										<li><a href="javascript:;">Popular</a></li>						
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</li>
 				</li>
 	}
 	handleDisplayImages=(homePageInformation,searchPageInformation)=>{
@@ -366,6 +488,11 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -379,6 +506,11 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -391,6 +523,11 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
 	}
@@ -403,8 +540,24 @@ class SearchExploreContainer extends Component{
 				isPersonalProfile={homePageInformation.isPersonalProfile}
 				displaySymposium={homePageInformation.displaySymposium}
 				targetDom={"homePageContainer"}
+				isMobileUI={this.state.displayDesktopUI==true?false:true}
+				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
 			/>:
 			<React.Fragment></React.Fragment>
+	}
+
+	triggerReloadingPostsHandle=(props)=>{
+		this.setState({
+			triggerPostReload:true,
+			isLoadingReloadedPosts:true,
+			postCount:(this.state.postCount+1)
+		},()=>{
+			debugger;
+			this.changeHomePagePosts({postOption:props,isAccessTokenUpdated:false});	
+		})
 	}
 
 	render(){
@@ -428,19 +581,11 @@ class SearchExploreContainer extends Component{
 										<li style={{listStyle:"none"}}>
 											<PostsContainer>
 												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none"}}>
-														<ul style={{padding:"0px"}}>
-															<li id="headerTitleLI" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"50px"}}>
-																<b>{this.state.postOption}</b>
-															</li>
+													{this.state.displayDesktopUI==false &&(
+														<React.Fragment>
 															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 																<div class="btn-group">
-																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																								borderColor:"#5298F8",
-																																								borderStyle:"solid",
-																																								borderWidth:"1px",
-																																								color:"#5298F8",
-																																								backgroundColor:"white"}}>
+																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
 																		Post Options
 																		<span class="caret"></span>
 																	</button>
@@ -463,12 +608,7 @@ class SearchExploreContainer extends Component{
 
 															<li style={{listStyle:"none",display:"inline-block"}}>
 																<div class="dropdown">
-																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																												borderColor:"#5298F8",
-																																												borderStyle:"solid",
-																																												borderWidth:"1px",
-																																												color:"#5298F8",
-																																												backgroundColor:"white"}}>
+																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
 																		Options
 																		<span class="caret"></span>
 																	</button>
@@ -479,8 +619,8 @@ class SearchExploreContainer extends Component{
 																	</ul>
 																</div>
 															</li>
-														</ul>
-													</li>
+														</React.Fragment>
+													)}
 													<Posts>
 														<ul style={{padding:"0px"}}>
 															{this.handleDisplayImages(homePageInformation,searchPageInformation)}
@@ -510,9 +650,17 @@ const mapStateToProps=(state)=>{
 	}
 }
 
+
+const mapDispatchToProps=dispatch=>{
+	return{
+		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
+		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
+	}
+}
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(SearchExploreContainer);
 
 
