@@ -5,18 +5,19 @@ import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import FriendsAndIndustryInformation from "./FriendsAndIndustryInformation.js";
 import DonatePortal from "../../PersonalProfileSet/Modals-Portals/DonatePortal.js";
 import ChampionPortal from "../../PersonalProfileSet/Modals-Portals/ChampionModalPortal/index.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import {addRecruit} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import FriendsPortal from "../../PersonalProfileSet/Modals-Portals/FriendsPortal.js";
 import SymposiumPortal from "../../PersonalProfileSet/Modals-Portals/FollowedSymposiumsPortal.js";
 
 import { Icon, InlineIcon } from '@iconify/react';
 import tiktokIcon from '@iconify/icons-simple-icons/tiktok';
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {
 	removeRecruitProfileIsFollowing,
 	removeRecruitProfileIsntFollowing
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-
+import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 
 
 const BioContainer=styled.div`
@@ -149,15 +150,17 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 	}}=personalInformation;
 
 	const isOwnProfileRecruitButtonDecider=()=>{
+		debugger;
 		const {
 			userProfile:{
 				recruits
 			}
 		}=personalInformation;
+		console.log(recruits);
 		let isRecruit=false;
 
 		recruits.forEach((data,index)=>{
-			if(data==userId)
+			if(data._id==userId)
 				isRecruit=true;
 		})
 		if(personalInformation.isOwnProfile || isRecruit){
@@ -169,20 +172,79 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 
 	const isRecruitOrOwner=isOwnProfileRecruitButtonDecider();
 	const [isProfileARecruitOrOwner,changeIsProfileARecruitOrOwner]=useState(isRecruitOrOwner);
+	const personalReduxInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	const recruitProfile=()=>{
-		changeIsProfileARecruitOrOwner(true);
-		handleRecruitButton(personalInformation,displayConfettiHandle,userId);
+		if(personalInformation.isGuestVisitorProfile==true){
+			alert('Create your own profile so you can recruit this person :)');
+		}else{
+			handleRecruitButton({personalInformation,displayConfettiHandle,userId,isAccessTokenUpdated:false});
+		}
 	}
 
-	const unRecruitVisitor=async()=>{
+	const unRecruitVisitor=async({isAccessTokenUpdated,updatedAccessToken,accessToken})=>{
 		if(personalInformation.isOwnProfile==false){
-			const {confirmation,data}=await removeRecruitProfileIsntFollowing({
-				personalProfileId:_id,
-				targetProfile:userId
+			const {confirmation,data}=await removeRecruitProfileIsFollowing({
+				personalProfileId:userId,
+				targetProfile:_id,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+				personalReduxInformation.accessToken
 			})
 			if(confirmation=="Success"){
 				changeIsProfileARecruitOrOwner(false);
+			}else{
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalReduxInformation.refreshToken,
+							userId,
+							unRecruitVisitor,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error adding this recruit. Please try again');
+				}
+			}
+		}
+	}
+
+	const handleRecruitButton=async({personalInformation,displayConfettiHandle,userId,isAccessTokenUpdated,updatedAccessToken})=>{
+	
+		const profileId=personalInformation.userProfile._id;
+		const {confirmation,data}=await addRecruit(
+											userId,
+											profileId,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalReduxInformation.accessToken
+										);
+		if(confirmation=="Success"){
+			const {statusCode}=data;
+			if(statusCode==300){
+				alert('You have reached the limit of 100 recruits. Please delete some to recruit this person');
+			}else{
+				changeIsProfileARecruitOrOwner(true);
+				displayConfettiHandle();
+			}
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalReduxInformation.refreshToken,
+						userId,
+						handleRecruitButton,
+						dispatch,
+						{
+							personalInformation,
+							displayConfettiHandle,
+							userId
+						},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error adding this recruit. Please try again');
 			}
 		}
 	}
@@ -193,7 +255,7 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 							<a style={{textDecoration:"none"}} href="javascript:void(0);">
-								<RecruitButtonContainer onClick={()=>unRecruitVisitor()}>
+								<RecruitButtonContainer onClick={()=>unRecruitVisitor({isAccessTokenUpdated:false})}>
 									- Recruit
 								</RecruitButtonContainer>
 							</a>
@@ -204,7 +266,7 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 							<a style={{textDecoration:"none"}} href="javascript:void(0);">
-								<RecruitButtonContainer onClick={()=>recruitProfile()}>
+								<RecruitButtonContainer onClick={()=>recruitProfile({isAccessTokenUpdated:false})}>
 									+ Recruit
 								</RecruitButtonContainer>
 							</a>
@@ -225,17 +287,8 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 		   </>
 }
 
-//
-const handleRecruitButton=(personalInformation,displayConfetti,userId)=>{
-	displayConfetti();
-	console.log(personalInformation);
-	
-	const profileId=personalInformation.userProfile._id;
-	addRecruit(userId,profileId);
-}
 
 const PersonalInformation=(props)=>{
-	console.log(props);
 
 	const [displayFriendsAndIndustryContainer,changeIndicator]=useState(false);
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);
@@ -316,6 +369,75 @@ const PersonalInformation=(props)=>{
 		changeDisplaySymposiumsPortal(false);
 	}
 
+	const userInformationComponent=(personalInformation)=>{
+		return (
+			<>
+				<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+					<b>{personalInformation.userProfile.firstName}</b>
+				</p>
+				<BioContainer>
+					{personalInformation.userProfile.bio}
+				</BioContainer>
+
+				<ul style={{padding:"0px"}}>
+					<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
+						Social Media
+					</li>
+					<li style={{listStyle:"none",marginTop:"5%"}}>
+						{props.personalInformation.isOwnProfile==true?
+							<ul style={{padding:"0px"}}>
+								<a style={{textDecoration:"none"}} href="javascript:void(0);">	
+									<li onClick={()=>alert('Option to add social media profiles coming soon')}
+									style={EditSocialMediaUrlsCSS}>
+										Edit Social Media
+									</li>
+								</a>
+								{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
+								
+							</ul>
+							:
+							<ul style={{padding:"0px"}}>
+								{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
+							</ul>
+						}
+					</li>
+					
+
+					<li style={{listStyle:"none",marginBottom:"20px"}}>
+						<a style={{textDecoration:"none"}} href="javascript:void(0);">
+							<FriendsAndIndustryDisplayButton onClick={()=>changeDisplayFriendsPortal(true)}>
+								View Recruits
+							</FriendsAndIndustryDisplayButton>
+						</a>
+					</li>
+
+					<li style={{listStyle:"none",marginBottom:"2%"}}>
+						<a style={{textDecoration:"none"}} href="javascript:void(0);">
+							<FriendsAndIndustryDisplayButton onClick={()=>changeDisplaySymposiumsPortal(true)}>
+								View Interested Symposiums
+							</FriendsAndIndustryDisplayButton>
+						</a>
+					</li>
+					<RecruitButton
+						personalInformation={personalInformation}
+						displayConfettiHandle={props.displayConfetti}
+						userId={props.userId}
+					/>
+
+					{personalInformation.isOwnProfile==true?
+						<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
+							<a style={{textDecoration:"none"}} href="javascript:void(0)">
+								<SponsorButton onClick={()=>handleChampionButton()}>
+									Champion Someone
+								</SponsorButton>
+							</a>
+						</li>:<React.Fragment></React.Fragment>}
+
+				</ul>
+			</>
+		)
+	}
+
 	return(
 		<UserConsumer>
 			{personalInformation=>{
@@ -338,66 +460,12 @@ const PersonalInformation=(props)=>{
 									)}
 									{displayFriendsAndIndustryContainer==false?
 									<React.Fragment>
-										<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4"}}><b>{personalInformation.userProfile.firstName}</b></p>
-										<BioContainer>
-											{personalInformation.userProfile.bio}
-										</BioContainer>
-
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
-												Social Media
-											</li>
-											<li style={{listStyle:"none",marginTop:"5%"}}>
-												{props.personalInformation.isOwnProfile==true?
-													<ul style={{padding:"0px"}}>
-														<a style={{textDecoration:"none"}} href="javascript:void(0);">	
-															<li onClick={()=>alert('Option to add social media profiles coming soon')}
-															style={EditSocialMediaUrlsCSS}>
-																Edit Social Media
-															</li>
-														</a>
-														{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
-														
-													</ul>
-													:
-													<ul style={{padding:"0px"}}>
-														{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
-													</ul>
-												}
-											</li>
-											
-
-											<li style={{listStyle:"none",marginBottom:"20px"}}>
-												<a style={{textDecoration:"none"}} href="javascript:void(0);">
-													<FriendsAndIndustryDisplayButton onClick={()=>changeDisplayFriendsPortal(true)}>
-														View Recruits
-													</FriendsAndIndustryDisplayButton>
-												</a>
-											</li>
-
-											<li style={{listStyle:"none",marginBottom:"2%"}}>
-												<a style={{textDecoration:"none"}} href="javascript:void(0);">
-													<FriendsAndIndustryDisplayButton onClick={()=>changeDisplaySymposiumsPortal(true)}>
-														View Interested Symposiums
-													</FriendsAndIndustryDisplayButton>
-												</a>
-											</li>
-											<RecruitButton
-												personalInformation={personalInformation}
-												displayConfettiHandle={props.displayConfetti}
-												userId={props.userId}
-											/>
-
-											{personalInformation.isOwnProfile==true?
-												<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
-													<a style={{textDecoration:"none"}} href="javascript:void(0)">
-														<SponsorButton onClick={()=>handleChampionButton()}>
-															Champion Someone
-														</SponsorButton>
-													</a>
-												</li>:<React.Fragment></React.Fragment>}
-						
-										</ul>
+										{props.personalInformation.isGuestProfile==true?
+											<GuestLockScreenHOC
+												component={userInformationComponent(personalInformation)}
+											/>:
+											<>{userInformationComponent(personalInformation)}</>
+										}
 									</React.Fragment>
 									:<React.Fragment>
 										<BackButton onClick={()=>changeIndicator(false)}>

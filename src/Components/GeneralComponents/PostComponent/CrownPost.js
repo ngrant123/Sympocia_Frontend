@@ -22,7 +22,7 @@ const CrownPostModal=styled.div`
 	width:30%;
 	height:20%;
 	background-color:white;
-	z-index:11;
+	z-index:21;
 	left:40%;
 	top:40%;
 	border-radius:5px;

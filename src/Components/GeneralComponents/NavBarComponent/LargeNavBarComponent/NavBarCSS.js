@@ -3,12 +3,16 @@ import {Link} from "react-router-dom";
 
 export const Container=styled.div`
 	position:fixed;
-	width:100%;
+	width:80%;
 	height:14%;
 	border-radius:0px 0px 5px 5px;
 	z-index:31;
+	margin-left:10%;
 
 	@media screen and (max-width:1370px) {
+		margin-left:0%;
+		width:100%;
+		height:7%;
 		#ULContainer{
 			background-color:white !important;
 		}
@@ -31,7 +35,7 @@ export const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:480px) {
+	@media screen and (max-width:600px) {
 		#mobileRoutesButton{
 			margin-left:2% !important;
 		}
@@ -39,11 +43,11 @@ export const Container=styled.div`
 			margin-left:50% !important;
 		}
 	}
-
-
-	@media screen and (max-width:400px) {
-	}
-
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	#searchLIContainer{
+    		margin-left:60% !important;
+    	}
+    }
 `;
 
 export const SearchButton=styled.textarea`
@@ -135,7 +139,6 @@ export const CompanyProfileNotificationsContainer=styled.div`
 `;
 
 export const NavBarButton=styled(Link)`
-	position:absolute;
 	background-color:#5298F8;
 	padding:10px;
 	color:white;
@@ -153,12 +156,13 @@ export const NavBarButton=styled(Link)`
 
 
 export const CreateButton=styled.div`
-	position:absolute;
 	background-color:#C8B0F4;
 	padding:10px;
 	color:white;
 	border-radius:5px;
 	filter: blur(4px);
+	margin-right:5%;
+	margin-left:5%;
 	
 	@media screen and (max-width:960px) {
 		margin-top:-25px;

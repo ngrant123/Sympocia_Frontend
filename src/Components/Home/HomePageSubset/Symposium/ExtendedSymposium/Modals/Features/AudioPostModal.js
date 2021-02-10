@@ -5,9 +5,9 @@ import MicIcon from '@material-ui/icons/Mic';
 import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.png";
 import {createSpecificIndustryAudioAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryAudioFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import RegularPostDisplayPortal from "../../../../../HomePageSet/RegularPostHomeDisplayPortal.js";
-
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
 
 
 const Container=styled.div`
@@ -21,6 +21,12 @@ const Container=styled.div`
 	overflow-y:auto;
 	background-color:white;
 	padding:20px;
+
+	@media screen and (max-width:600px){
+		#audioLI{
+			width:50% !important;
+		}
+	}
 `;
 
 const InputContainer=styled.textarea`
@@ -55,6 +61,9 @@ const CreatePostButton=styled.div`
 	border-width:5px;
 	animation: glowing 1300ms infinite;
 	text-align:center;
+	cursor:pointer;
+	display:flex;
+	justify-content:center;
 
 	@keyframes glowing {
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -72,6 +81,25 @@ const DescriptionInputContainer=styled.textarea`
 	border-color:#D8D8D8;
 	resize:none;
 	padding:5px;
+
+`;
+
+const PostHeaderContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
+
+const AudioPostContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	cursor:pointer;
+	margin-bottom:5%;
+`;
+
+const AudioPostOwnerInformation=styled.div`
+	display:flex;
+	flex-direction:row;
 `;
 
 const ProfilePictureCSS={
@@ -145,11 +173,14 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
 	const name=useSelector(state=>state.personalInformation.firstName);
+	const [isProccessingPost,changeIsProcessingPost]=useState(false);
+	const dispatch=useDispatch();
+	const {personalInformation}=useSelector(state=>state);
+	const [isLoading,changeIsLoading]=useState(false);
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			
-			console.log(symposiumId);
+			changeIsLoading(true);
 			const {confirmation,data}=await getIndustryAudioFeatureAnswers({
 				industryId:symposiumId,
 				questionIndex,
@@ -158,15 +189,16 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 			console.log(data);
 
 			if(confirmation=="Success"){
+				const {message}=data;
 				const {
-					questionId,
 					posts
-				}=data;
+				}=message;
 				changePosts(posts);
-				changeQuestionId(questionId);
+				changeQuestionId(selectedPostId);
 			}else{
 				alert('Unfortunately there has been an error trying to get this images data. Please try again');
 			}
+			changeIsLoading(false);
 		}
 
 		fetchData();
@@ -193,38 +225,53 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 		document.getElementById("uploadAudioFile").click();
 	}
 
-	const submitImage=async()=>{
-			
+	const submitAudio=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeIsProcessingPost(true);
 		var audio={
-			audioUrl:audioUrl,
-			description:document.getElementById("imageDescription").value
+			audioUrl:audioUrl
 		}
 		const submitedAudio={
 			audio,
 			industryId:symposiumId,
 			questionId:selectedPostId,
 			questionIndex:questionIndex,
-			userId:userId
+			userId:userId,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 
 		let {confirmation,data}=await createSpecificIndustryAudioAnswer(submitedAudio);
 		if(confirmation=="Success"){
-			data={
-				...data,
+			let {message}=data;
+			message={
+				...message,
 				post:audioUrl,
 				owner:{
-					firstName:name
+					...message.owner,
+					firstName:personalInformation.firstName
 				}
 			}
-
-			posts.splice(0,0,data);
+			posts.splice(0,0,message);
 			changeQuestionId(questionId);
 			changePosts([...posts]);
 			changeDisplayForFinalAudio(false);
 			changeDisplayCreationModal(false);
 		}else{
-			alert('Unfortunately there has been an error with adding this audio post. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitAudio,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with adding this audio post. Please try again');
+			}
 		}
+		changeIsProcessingPost(false);
 	}
 
 	const displaySelectedPost=(data)=>{
@@ -249,66 +296,52 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 
 			{displayCreationModal==false?
 				<>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<p style={{fontSize:"20px"}}>
-									<b>{symposium} {modalType}</b>
-								</p>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>changeDisplayCreationModal(true)} 
-										style={{listStyle:"none",marginLeft:"400px",marginBottom:"5%"}}>
-										<CreatePostButton>
-											<BorderColorIcon
-												style={{fontSize:"20",color:"#C8B0F4"}}
-											/>
-										</CreatePostButton>
-									</li>
-								</a>
-							</li>
-						</ul>
-					</li>
+					<PostHeaderContainer>
+						<p style={{fontSize:"20px"}}>
+							<b>{question}</b>
+						</p>
+						<CreatePostButton onClick={()=>changeDisplayCreationModal(true)}>
+							<BorderColorIcon
+								style={{fontSize:"20",color:"#C8B0F4"}}
+							/>
+						</CreatePostButton>
+					</PostHeaderContainer>
 					<hr/>
-
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<InputContainer placeholder="Search for a person here"/>
-							<li style={{listStyle:"none",marginTop:"2%"}}>
-								<ul style={{padding:"0px"}}>
-									{posts.map(data=>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displaySelectedPost(data)} style={AudioCSS}>
-												<ul style={{padding:"0px"}}>
-													<li style={ProfilePictureCSS}>
+					{isLoading==true?
+						<p>Loading please wait...</p>:
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginTop:"2%"}}>
+									{posts.length==0?
+										<p>No posts</p>:
+										<ul style={{padding:"0px"}}>
+											{posts.map(data=>
+												<AudioPostContainer onClick={()=>displaySelectedPost(data)}>
+													<AudioPostOwnerInformation>
 														<img src={data.owner.profilePicture==null?
 															NoProfilePicture:
 															data.owner.profilePicture
 														} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
-													</li>
-
-													<li style={{listStyle:"none",display:"inline-block"}}>
 														<p> 
 															<b>{data.owner.firstName}</b>
 														</p>
-														<audio controls>
-														  <source src={data.post} type="audio/ogg"/>
-														  <source src={data.post} type="audio/mpeg"/>
-															Your browser does not support the audio element.
-														</audio>
-														<p style={{overflowY:"auto",height:"10%"}}>
-															{data.description}
-														</p>
-													</li>
-												</ul>
-											</li>
-										</a>
-									)}
-								</ul>
-							</li>
-						</ul>
-					</li>
+													</AudioPostOwnerInformation>
+													<audio key={data._id} controls>
+													  <source src={data.post} type="audio/ogg"/>
+													  <source src={data.post} type="audio/mpeg"/>
+														Your browser does not support the audio element.
+													</audio>
+													<p style={{overflowY:"auto",maxHeight:"10%",overflow:"hidden"}}>
+														{data.description}
+													</p>
+												</AudioPostContainer>
+											)}
+										</ul>
+									}
+								</li>
+							</ul>
+						</li>
+					}
 				</>:
 				<>
 					<li style={{listStyle:"none"}}>
@@ -348,20 +381,26 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 								<li style={{listStyle:"none",marginBottom:"2%"}}>
 									<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",width:"40%"}}>
-											<audio controls>
+											<audio id="audioLI" controls>
 											  <source src={audioUrl} type="audio/ogg"/>
 											  <source src={audioUrl} type="audio/mpeg"/>
 											Your browser does not support the audio element.
 											</audio>
 										</li>
-										<li style={{width:"45%",listStyle:"none"}}>
-											<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
-										</li>
+										{/*
+											<DescriptionInputContainer id="imageDescription" 
+												placeholder="Write down a description here"
+											/>
+										*/}
 									</ul>
 								</li>
-								<li onClick={()=>submitImage()} style={SubmitButtonCSS}>
-									Submit
-								</li>
+
+								{isProccessingPost==true ?
+									<p>Please wait while we process your post </p>:
+									<li onClick={()=>submitAudio({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
+										Submit
+									</li>
+								}
 							</ul>
 						}
 					</li>

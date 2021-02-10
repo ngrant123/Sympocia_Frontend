@@ -9,7 +9,6 @@ import PauseIcon from '@material-ui/icons/Pause';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 import MicIcon from '@material-ui/icons/Mic';
-import {testIfUserIsUsingChrome} from "../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/VerifyBrowserIsChrome.js";
 //<Icon icon={scissorsCutting} />
 
 const ShadowContainer= styled.div`
@@ -31,14 +30,18 @@ const Container=styled.div`
 	height:60%;
 	top:20%;
 	border-radius:5px;
+	overflow-y:scroll;
+	padding:10px;
 
+	@media screen and (max-width:1370px){
+		width:80%;
+		left:10%;
+		#voiceOptionsLI{
+			margin-left:-5% !important;
+		}
+	}
 
-	@media screen and (max-width:1030px) and (max-height:1370px){
-			height:100% !important;
-			width:100%;
-    }
-
-    @media screen and (max-width:770px){
+    @media screen and (max-width:700px){
 			left:1% !important; 
 			height:100% !important;
 			width:100%;
@@ -51,6 +54,11 @@ const Container=styled.div`
 			#voiceOptionsLI{
 				margin-left:-5% !important;
 			}
+    }
+
+    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		height:70% !important;
+		width:90% !important;
     }
 `;
 
@@ -123,7 +131,9 @@ const ContinueButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#C8B0F4",
-  marginTop:"2%"
+  marginTop:"2%",
+  cursor:"pointer",
+  width:"30%"
 }
 
 //"blob:http://localhost:3000/9b5bb4e0-de5b-4e15-b127-1f05aeaaeb36"
@@ -140,65 +150,31 @@ const VoiceDescriptionPortal=(props)=>{
 	const [maxTime,changeMaxTime]=useState(10000);
 	const [currentTime,changeCurrentTime]=useState(0);
 	const [isRecording,changeRecordingState]=useState(false);
-	const [videoElements,changeVideoElements]=useState([]);
+	const [audioElements,changeAudioElements]=useState([]);
 	const [reInitilize,changeReInitliazed]=useState(false);
+	const [localStream,changeLocalStream]=useState();
 
 	const [mediaDevice,changeMediaDevice]=useState();
-	const [firstDone,chnagFirstFone]=useState(false);
+	const [firstDone,chnagFirstDone]=useState(false);
 
-	useEffect(()=>{
-		if(!testIfUserIsUsingChrome()){
-			alert('Unfortunately your browser does not allow this option. Please switch to any other browser');
-			props.closeModal();
-		}else{
-				var video=document.getElementById("video");
-				if (navigator.mediaDevices.getUserMedia){
-					  navigator.mediaDevices.getUserMedia({
-					  		audio:true 
-					  	}).then(stream=>handleRecording(stream))
-				   		.then(recordedChunks=>{
-					  	 
-					  	 if(recordedChunks!=null){
-						  	 let recordedFile = new File(recordedChunks, { type: "video/webm" });
-						  	 var videoSrc=URL.createObjectURL(recordedFile);
-
-						  	 var reader=new FileReader();
-
-							reader.onloadend=()=>{
-								var currentVideoElements=videoElements;
-
-								const videoObject={
-									audioSrc:reader.result,
-									videoFile:recordedFile,
-									videoCounter:currentVideoElements.length
-								}
-							  	 currentVideoElements.push(videoObject);
-
-							  	 changeVideoElements(currentVideoElements);
-							  	 changeRecordingState(false);
-							  	 changeReInitliazed(true);
-							  	 chnagFirstFone(true)
-							}
-						  	 reader.readAsDataURL(recordedFile);
-					  	 }
-					  	 
-					  }).catch(function (error) {
-				    });
-			}	
-		}
-	},[]);
-
-	const stopRecording=(stream)=>{
+	const pauseRecording=(stream)=>{
 		mediaDevice.stop();
-		//stream.getTracks().forEach(track => track.stop());
 		changeRecordingState(false);
+	}
+	const stopRecording=(stream)=>{
+		if(isRecording==true){
+			mediaDevice.stop();
+			stream.getTracks().forEach(track => track.stop());
+			changeRecordingState(false);
+		}
 	}
 
 	const handleRecording=(stream)=>{
+		debugger;
+		changeLocalStream(stream);
 		var stoppedVideo;
 		var data;
 		 if(firstDone==true){
-		 	
 			  data=[];
 
 			  mediaDevice.ondataavailable = event => data.push(event.data);
@@ -208,10 +184,10 @@ const VoiceDescriptionPortal=(props)=>{
 			    mediaDevice.onstop = resolve;
 			    mediaDevice.onerror = event => reject(event.name);
 			  });
-			  //changeRecordingState(true);
 		 }else{
 		 	
 			  let recorder = new MediaRecorder(stream);
+			  changeMediaDevice(recorder);
 			  data=[];
 
 			  recorder.ondataavailable = event => data.push(event.data);
@@ -221,89 +197,80 @@ const VoiceDescriptionPortal=(props)=>{
 			    recorder.onstop = resolve;
 			    recorder.onerror = event => reject(event.name);
 			  });
-			  changeMediaDevice(recorder);
-			  //changeRecordingState(true);
 		 }
 		  return Promise.all([stoppedVideo]).then(()=>data);
 	}
 
 	const closeModal=()=>{
-		var videoElement=document.getElementById("video");
-		stopRecording(videoElement);
+		var audioElement=document.getElementById("audioElement");
+		if(firstDone!=false && audioElement!=null)
+			stopRecording(localStream);
 		props.closeModal()
 	}
 
 	const test=()=>{
-		if(reInitilize==true && videoElements.length>0){
-			var newElements=videoElements;
-			changeVideoElements(newElements);
+		if(reInitilize==true && audioElements.length>0){
+			var newElements=audioElements;
+			changeAudioElements(newElements);
 			changeReInitliazed(false);
 		}
 	}
 
 	const startRecording=()=>{
-		if(firstDone==true){
-			handleRecording().then(recordedChunks=>{
-		  	 if(recordedChunks!=null){
-			  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
-			  	var audioSrc=URL.createObjectURL(recordedFile);
-			  	var reader=new FileReader();
-				reader.onloadend=()=>{
-					var currentVideoElements=videoElements;
-					const videoObject={
-						audioSrc:reader.result,
-						videoFile:recordedFile,
-						videoCounter:currentVideoElements.length
-					}
+		if(audioElements.length>0){
+			alert('Please refresh your previous audio to create a new one');
+		}else{
+			let audio=document.getElementById("audioElement");	
+			changeRecordingState(true)
+			if(!navigator.mediaDevices){
+				alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
+			}else{
+				if (navigator.mediaDevices.getUserMedia){
+				  	navigator.mediaDevices.getUserMedia({
+				  		audio:true
+				  	}).then((stream)=>handleRecording(stream))
+				  	  .then(recordedChunks=>{
+					  	 if(recordedChunks!=null){
+						  	let recordedFile = new File(recordedChunks, { type: "audio/mpeg-3" });
+						  	var audioSrc=URL.createObjectURL(recordedFile);
+						  	var reader=new FileReader();
+							reader.onloadend=()=>{
+								var currentAudioElements=audioElements;
+								const audioObject={
+									audioSrc:reader.result,
+									videoFile:recordedFile,
+									videoCounter:currentAudioElements.length
+								}
 
-				  	 currentVideoElements.push(videoObject);
-				  	 changeVideoElements(currentVideoElements);
+							  	 currentAudioElements.push(audioObject);
+							  	 changeAudioElements(currentAudioElements);
 
-				  	 changeRecordingState(false);
-				  	 changeReInitliazed(true);
-				  	 chnagFirstFone(true)
+							  	 changeRecordingState(false);
+							  	 changeReInitliazed(true);
+							  	 chnagFirstDone(true)
+							}
+						  	reader.readAsDataURL(recordedFile);
+					  	 }
+					}).catch(err=>{
+						alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
+					});
 				}
-
-			  	 reader.readAsDataURL(recordedFile);
-		  	 }
-			});
+			}
 		}
-		changeRecordingState(true)
 	}
 
-	const submitVideoDescription=()=>{
-		if(videoElements.length>0){
-			props.createAudioDescription(videoElements[0].audioSrc);
+	const submitAudioDescription=()=>{
+		if(audioElements.length>0){
+			props.createAudioDescription(audioElements[0].audioSrc);
 		}else{
 			alert('Create a video to continue or press the exit button on the top left');
 		}
 	}
 
-	/*
-
-	const displayEditVideoScreen=async()=>{
-		
-		const fileArray=[];
-		for(var i=0;i<videoElements.length;i++){
-
-			const {videoFile,videoCounter}=videoElements[i];
-			const videoElement=document.getElementById('video'+videoCounter);
-			const videoDuration=videoElement.duration;
-
-			const videoObject={
-				file:videoFile,
-				duration:videoDuration
-			}
-			fileArray.push(videoObject);
-		}
-		const concatedVideos=await concatVideoTogether(fileArray);
-	}
-	*/
-	const reDoVideo=()=>{
-		
-		videoElements.splice(0,videoElements.length);
-		var newVideoElements=videoElements;
-		changeVideoElements(newVideoElements);
+	const redoAudio=()=>{
+		audioElements.splice(0,audioElements.length);
+		var newaudioElements=audioElements;
+		changeAudioElements(newaudioElements);
 		changeReInitliazed(true);
 	}
 
@@ -317,6 +284,7 @@ const VoiceDescriptionPortal=(props)=>{
 				<ul id="voiceOptionsLI"style={{marginLeft:"20%",marginTop:"10%"}}>
 					<li style={{listStyle:"none",marginBottom:"5%"}}>
 						<p>Click start recording to get started and then when you're all done click the continue buttonp</p>
+						<hr/>
 						<p> 
 							<b>If audio is messed up click redo button and just do it again sorry :(</b>
 						</p>
@@ -336,30 +304,34 @@ const VoiceDescriptionPortal=(props)=>{
 									</li>
 								</a>:
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>stopRecording()} style={StopButtonCSS}>
+									<li onClick={()=>pauseRecording()} style={StopButtonCSS}>
 										Stop Recording
 									</li>
 								</a>
 							}
 							<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 								<RefreshIcon
-									onClick={()=>reDoVideo()}
+									onClick={()=>redoAudio()}
 									style={{fontSize:20}}
 								/>
 							</li>
 						</ul>
 					</li>
-					{videoElements.length>0?
-						<li style={{listStyle:"none"}}>
-							<audio controls>
-							  <source src={videoElements[0].audioSrc} type="audio/ogg"/>
-							  <source src={videoElements[0].audioSrc} type="audio/mpeg"/>
-							Your browser does not support the audio element.
-							</audio>
-						</li>:null
-					}
-					
-					<li onClick={()=>submitVideoDescription()} style={ContinueButtonCSS}>
+					{audioElements.length>0 &&(
+						<>
+							{audioElements.map(data=>
+								<li style={{listStyle:"none"}}>
+									<audio controls id="audioElement" >
+									  	<source src={data.audioSrc} type="audio/ogg"/>
+									  	<source src={data.audioSrc} type="audio/mpeg"/>
+										Your browser does not support the audio element.
+									</audio>
+								</li>
+							)}
+						</>
+					)}
+					<hr/>
+					<li onClick={()=>submitAudioDescription()} style={ContinueButtonCSS}>
 						Continue
 					</li>
 

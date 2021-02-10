@@ -4,6 +4,7 @@ export const Container=styled.div`
 	position:relative;
 	width:100%;
 	height:100%;
+	background-color:white;
 	@media screen and (max-width:800px){
 		#postInformationLI{
 			display:none !important;
@@ -18,7 +19,7 @@ export const Container=styled.div`
 export const Image=styled.div`
 	position:relative;
 	width:460px;
-	height:85%;
+	height:75%;
 	background-color:blue;
 	border-radius:20px;
 	margin-bottom:5px;
@@ -136,6 +137,5 @@ export const CommentContainer=styled.div`
 	width:40%;
 	height:82%;
 	margin-top:13px;
-	overflow-y:scroll;
 	top:30px;
 `;

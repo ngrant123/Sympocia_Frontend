@@ -8,81 +8,7 @@ const CreateUrl=process.env.NODE_ENV=='production'?
 				process.env.REACT_APP_PROFILE_SET_URL:
 				process.env.REACT_APP_TEST_PROFILE_SET_URL;
 
-export function addEmployeeData(userId,employeeData){
-	/*
-		userId:number
-		employeeData:object
-	*/
 
-	axios.put(`${baseurl}/addEmployee`,{
-
-		params:{
-			userid:userId,
-			employeedata:employeeData
-		}
-	}).then(res=>{
-
-	}).catch(err=>{
-	})
-}
-
-
-export function addNewsData(userId,newsData){
-
-	/*
-		userId:number
-		newsdata:object
-	*/
-	axios.put(`${baseurl}/addNews`,{
-
-		params:{
-			userid:userId,
-			newsdata:newsData
-		}
-	}).then(res=>{
-	}).catch(err=>{
-
-	})
-}
-
-export function addPostData(userId,postData){
-
-	/*
-		userId:number
-		postdata:object
-	*/
-
-	axios.post(`${baseurl}/addPost`,{
-
-		params:{
-			userid:userId,
-			postdata:postData
-		}
-	}).then(res=>{
-
-	}).catch(err=>{
-
-	})
-}
-
-export function updateEmployee(userId,updatedEmployeeData){
-
-	/*
-		userId:number
-		updateemployeedata:object
-	*/
-
-	axios.put(`${baseurl}/updateEmployee`,{
-		params:{
-			userid:userId,
-			updatedemployeedata:updatedEmployeeData
-		}
-	}).then(res=>{
-
-
-	}).catch(err=>{
-	})
-}
 
 export async function createProfile(personalData){
 	debugger;
@@ -118,11 +44,15 @@ export function setBio(personalId,bio){
 	})
 }
 
-export async function setProfilePicture(profileId,pictureUrl){
+export async function setProfilePicture(profileId,pictureUrl,accessToken){
 	try{
 		const profilePictureVerification=await axios.post(`${CreateUrl}/setProfilePicture`,{
 				_id:profileId,
 				profilePicture:pictureUrl
+			},{
+				headers:{
+					authorization:accessToken
+				}
 			});
 
 		const {data}=profilePictureVerification;
@@ -132,16 +62,19 @@ export async function setProfilePicture(profileId,pictureUrl){
 }
 
 
-export const createChampion=async(profileId,championData)=>{
+export const createChampion=async(profileId,championData,accessToken)=>{
 	try{
 		const championCreationResponse=await axios.post(`${CreateUrl}/createChampion`,{
 			_id:profileId,
 			championData:championData
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 
-		const {data}=championCreationResponse.data;
-		const championResponse=data.data;
-		return championResponse;
+		const {data}=championCreationResponse;
+		return data;
 	}catch(err){
 		return err;
 	}
@@ -149,16 +82,19 @@ export const createChampion=async(profileId,championData)=>{
 }
 
 
-export const addRecruit=async(personalProfile,targetedProfile)=>{
+export const addRecruit=async(personalProfile,targetedProfile,accessToken)=>{
 	try{
 		
 		const recruitResponse=await axios.post(`${CreateUrl}/addRecruit`,{
 			personalProfileId:personalProfile,
 			targetProfile:targetedProfile
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=recruitResponse;
-		const recruitData=data.data;
-		return recruitData;
+		return data;
 
 	}catch(err){
 		return err;
@@ -201,51 +137,39 @@ export const createChat=async(owner,message,participants)=>{
 	}
 }
 
-//get axios request not allowing me to pass in array values which is why this is here
-
-export const getSymposiumsExplore=async(id,symposiums)=>{
-	try{
-		
-		const symposiumResponse=await axios.post(`${CreateUrl}/getSymposiumsExplore`,{
-				_id:id,
-				symposiums:symposiums
-		});
-
-		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
-
-	}catch(err){
-		return err;
-	}
-}
 
 
 
-
-export const addSymposium=async(profileId,symposium,subSymposium)=>{
+export const addSymposium=async(profileId,symposium,subSymposium,accessToken)=>{
 	try{
 		var symposiumResponse=await axios.post(`${CreateUrl}/addSymposium`,{
 			profileId,
 			symposium,
 			subSymposium
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=symposiumResponse;
-		const symposiumData=data.data;
-		return symposiumData;
+		return data;
 
 	}catch(err){
 		return err;
 	}
 }
 
-export const removeSymposium=async({profileId,symposium,subSymposium})=>{
+export const removeSymposium=async({profileId,symposium,subSymposium,accessToken})=>{
 	try{
 
 		var symposiumResponse=await axios.post(`${CreateUrl}/removeSymposium`,{
 			profileId,
 			symposium,
 			subSymposium
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=symposiumResponse;
 		return data;
@@ -269,7 +193,7 @@ export const concatVideoTogether=async(videos)=>{
 
 
 
-export const createLevel=async({name,description,recruits,_id,nodeCounter})=>{
+export const createLevel=async({name,description,recruits,_id,nodeCounter,accessToken})=>{
 	try{
 		const levelResponse=await axios.post(`${CreateUrl}/createLevel`,{
 			name:name,
@@ -277,6 +201,10 @@ export const createLevel=async({name,description,recruits,_id,nodeCounter})=>{
 			recruits:recruits,
 			_id:_id,
 			nodeCounter:nodeCounter
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=levelResponse;
 		return data;
@@ -287,11 +215,15 @@ export const createLevel=async({name,description,recruits,_id,nodeCounter})=>{
 }
 
 
-export const removeLevel=async({_id,levelId})=>{
+export const removeLevel=async({_id,levelId,accessToken})=>{
 	try{
 		const levelResponse=await axios.post(`${CreateUrl}/removeLevel`,{
 			_id:_id,
 			levelId:levelId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=levelResponse;
 		return data;
@@ -300,29 +232,17 @@ export const removeLevel=async({_id,levelId})=>{
 	}
 }
 
-export const changeRecruitLevelStatus=async({recruitId,_id,levelCounter})=>{
-	try{
-
-		const levelResponse=await axios.post(`${CreateUrl}/changeRecruitLevelStatus`,{
-			recruitId:recruitId,
-			_id:_id,
-			levelCounter:levelCounter
-		});
-		const {data}=levelResponse;
-		return data;
-
-	}catch(err){
-		return err;
-	}
-}
-
-export const editNodeInformation=async({_id,name,levelId,description})=>{
+export const editNodeInformation=async({_id,name,levelId,description,accessToken})=>{
 	try{
 		const levelResponse=await axios.post(`${CreateUrl}/editNodeInformation`,{
 			_id:_id,
 			name:name,
 			description:description,
 			levelId:levelId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=levelResponse;
 		return data;
@@ -333,13 +253,17 @@ export const editNodeInformation=async({_id,name,levelId,description})=>{
 }
 
 
-export const promoteRecruitRequest=async({node,selectedRecruits,_id})=>{
+export const promoteRecruitRequest=async({node,selectedRecruits,_id,accessToken})=>{
 	try{
 		const promoteRecruitResponse=await axios.post(`${CreateUrl}/promoteRecruit`,{
-													node:node,
-													recruits:selectedRecruits,
-													_id:_id
-												});
+				node:node,
+				recruits:selectedRecruits,
+				_id:_id
+			},{
+				headers:{
+					authorization:accessToken
+				}
+			});
 		const {data}=promoteRecruitResponse;
 		return data;
 	}catch(err){
@@ -412,12 +336,17 @@ export const editSocialMediaUrls=async({instagramUrl,tikTokUrl,profileId})=>{
 	}
 }
 
-export const removeRecruitProfileIsFollowing=async({personalProfileId,targetProfile})=>{
+export const removeRecruitProfileIsFollowing=async({personalProfileId,targetProfile,accessToken})=>{
 	try{
 		const removedRecruitResponse=await axios.post(`${CreateUrl}/removeRecruitThatProfileFollows`,{
 			personalProfileId,
 			targetProfile
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		})
+
 		const {data}=removedRecruitResponse;
 		return data;
 	}catch(err){
@@ -456,18 +385,33 @@ export const loginProfile=async(email,password)=>{
 	try{
 		
 		const loginResponse=await axios.post(`${CreateUrl}/loginProfile`,{
-									email,
-									password
+								email,
+								password
 							});
 
 		const {data}=loginResponse;
-		const loginData=data.data;
-		return loginData;
+		return data;
 	}catch(err){
 		return err;
 	}
 }
 
+export const deleteChampion=async({userId,accessToken})=>{
+	try{
+		const deletedChampionResponse=await axios.post(`${CreateUrl}/deleteChampion`,{
+			userId
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+
+		const {data}=deletedChampionResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
 
 
 

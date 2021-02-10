@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import EditIcon from '@material-ui/icons/Edit';
-import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
 
 const ImageContainer=styled.div`
 	position:relative;
@@ -23,7 +22,7 @@ const ImageContainer=styled.div`
 		}
 	}
 
-	@media screen and (max-width:740px) and (max-height:420px){
+	@media screen and (max-width:840px) and (max-height:420px)  and (orientation: landscape){
 		height:100% !important;
 		width:100%;
 	 	#imageAudio{
@@ -86,7 +85,6 @@ const IndustryButtonCSS={
 
 const SmallImageContainer=(props)=>{
 	const {data}=props;
-	console.log(props);
 
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
@@ -108,36 +106,24 @@ const SmallImageContainer=(props)=>{
 	return(
 		<ImageContainer>
 			<ul style={{padding:"0px"}}>
-				{testIfUserIsUsingChrome()==true &&(
-					<>
-						{data.audioDescription!=null?
-							<li style={{listStyle:"none"}}>
-								<audio id="audio" key={audioId} style={{width:"200px"}} controls>
-								    <source src={data.audioDescription} type="audio/ogg"/>
-								    <source src={data.audioDescription} type="audio/mpeg"/>
-									Your browser does not support the audio element.
-								</audio>
-							</li>:null
-						}	
-					</>
-				)}
+				{data.audioDescription!=null?
+					<li style={{listStyle:"none"}}>
+						<audio id="audio" key={audioId} style={{width:"200px"}} controls>
+						    <source src={data.audioDescription} type="audio/ogg"/>
+						    <source src={data.audioDescription} type="audio/mpeg"/>
+							Your browser does not support the audio element.
+						</audio>
+					</li>:null
+				}	
 				<Image>
-					<EditIcon
-						id="editIcon"
-						style={{position:"absolute",fontSize:35,color:"white"}}
-					/>
 					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
-						{testIfUserIsUsingChrome()==true &&(
-							<>
-								{data.videoDescription!=null &&(
-									<VideoDesriptionContainer>
-									   <video key={videoDescriptionId} style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="false" muted>
-											<source src={data.videoDescription} type="video/mp4"/>
-										</video>
-									</VideoDesriptionContainer>
-								)}
-							</>
-						)}
+					{data.videoDescription!=null &&(
+						<VideoDesriptionContainer>
+						   <video key={videoDescriptionId} style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="false" muted>
+								<source src={data.videoDescription} type="video/mp4"/>
+							</video>
+						</VideoDesriptionContainer>
+					)}
 				</Image>
 
 				{data.caption!=""?

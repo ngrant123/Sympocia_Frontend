@@ -61,15 +61,13 @@ const ApproveDisapproveContainer=styled.div`
 	left:15%;
 	top:20%;
 	height:25%;
-	z-index:4;
-	z-index:6;
+	z-index:40;
 	overflow:scroll;
 
 	@media screen and (max-width:600px){
 		width:90% !important;
 		left:5% !important;
 	}
-
 `;
 
 const authenticPostButtonCSS={
@@ -111,7 +109,9 @@ class BlogPostCreation extends Component{
 			displayApproveModal:false,
 			displayPromotePortal:false,
 			displayDesktopUI:false,
-			displayBlogCreationScreen:true
+			displayBlogCreationScreen:true,
+			isLoading:true,
+			blogContent:""
 		}
 	}
 
@@ -135,8 +135,10 @@ class BlogPostCreation extends Component{
 */
 
 	componentDidMount=()=>{
+		debugger;
 		window.addEventListener('resize',this.triggerUIChange);
 		const verification=this.props.isLoggedIn;
+		console.log(this.props);
 		if(verification==false){
 			this.props.history.push({
 				pathname:'/'
@@ -167,7 +169,8 @@ class BlogPostCreation extends Component{
 					isOwner:isOwner,
 					blogContent:blogContentState,
 					blogState:this.props.location.state,
-					isInEditMode:this.props.location.state.postType=="Creation"?false:true
+					isInEditMode:this.props.location.state.postType=="Creation"?false:true,
+					isLoading:false
 				})
 				this.triggerUIChange();
 			}
@@ -307,7 +310,6 @@ class BlogPostCreation extends Component{
 		return(
 			<BlogProvider value={{
 				blog:this.state.blogContent,
-				isOwner:this.state.isOwner,
 				personInformation:this.state.userInformation,
 				blogPostState:this.state.blog,
 				updateBlogPost:(blogPost)=>{
@@ -317,45 +319,66 @@ class BlogPostCreation extends Component{
 				}
 			}}>
 			<Container id="blogPostContainer">
-				<GeneralNavBar/>
+				<GeneralNavBar
+					page={"Blog"}
+					routerHistory={this.props.history}
+					targetDom={"blogPostContainer"}
+				/>
 				{this.state.displayBlogCreationScreen==true?
 					<>
-						{this.pollModal()}
-						{this.displayApproveDisapproveModal()}
-						<AdditionalInformation
-							blogData={this.props.location.state}
-							postType={this.props.location.state.postType}
-						/>
-						<TextOptions
-							displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
-							blogState={this.state.blogState}
-							postType={this.props.location.state.postType}
-							displayCommentSection={this.displayCommentSection}
-							displayApproveDisapproveModalHandle={this.displayApproveDisapproveModalHandle}
-							triggerPromoteModal={this.triggerPromoteModal}
-							postId={this.props.location.state._id}
-							industriesUploaded={this.props.location.state.industriesUploaded}
-							history={this.props.history}
-							isOwner={this.state.isOwner}
-							isDesktop={this.state.displayDesktopUI}
-							profileId={this.props.personalInformation.id}
-						/>
-						<Blog
-							isDesktop={this.state.displayDesktopUI}
-						/>
-						{this.editBlogSubmitModal()}
-						{this.promotePortal()}
-						{this.state.displayComments && (
-							<CommentContainer>
-								<Comments
+						{this.state.isLoading==true?
+							<p>Please wait </p>:
+							<>
+								{this.pollModal()}
+								{this.displayApproveDisapproveModal()}
+								<AdditionalInformation
+									postType={this.props.location.state.postType}
+									profileId={this.props.personalInformation.id}
+									displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
+									blogState={this.state.blogState}
+									postType={this.props.location.state.postType}
+									displayCommentSection={this.displayCommentSection}
+									displayApproveDisapproveModalHandle={this.displayApproveDisapproveModalHandle}
+									history={this.props.history}
+									isDesktop={this.state.displayDesktopUI}
+									profileId={this.props.personalInformation.id}
 									postId={this.props.location.state._id}
-									postType={"Blog"}
-									hideComments={this.hideComments}
+									triggerPromoteModal={this.triggerPromoteModal}
 									targetDom={"blogPostContainer"}
 								/>
 
-							</CommentContainer>
-						)}
+								<TextOptions
+									displayEditBlogSubmitModal={this.displayOrHideSubmitModal}
+									blogState={this.state.blogState}
+									postType={this.props.location.state.postType}
+									displayCommentSection={this.displayCommentSection}
+									displayApproveDisapproveModalHandle={this.displayApproveDisapproveModalHandle}
+									triggerPromoteModal={this.triggerPromoteModal}
+									postId={this.props.location.state._id}
+									industriesUploaded={this.props.location.state.industriesUploaded}
+									history={this.props.history}
+									isDesktop={this.state.displayDesktopUI}
+									profileId={this.props.personalInformation.id}
+									isInEditMode={this.state.isInEditMode}
+								/>
+								<Blog
+									isDesktop={this.state.displayDesktopUI}
+									blog={this.state.blogContent}
+								/>
+								{this.editBlogSubmitModal()}
+								{this.promotePortal()}
+								{this.state.displayComments && (
+									<CommentContainer>
+										<Comments
+											postId={this.props.location.state._id}
+											postType={"Blogs"}
+											hideComments={this.hideComments}
+											targetDom={"blogPostContainer"}
+										/>
+									</CommentContainer>
+								)}
+							</>
+						}
 					</>
 					:<p style={{marginTop:"40%"}}> Unfortunately this isnt supported for you mobile device. Please switch to desktop to continue</p>
 				}

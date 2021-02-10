@@ -483,9 +483,10 @@ class LInvestor extends Component{
 					}
 				}}
 			>
-				<Container>
+				<Container id="investorContainer">
 						<GeneralNavBar
 							pageType={"Investor"}
+							targetDom={"investorContainer"}
 						/>
 
 					<SearchContainer id="container">

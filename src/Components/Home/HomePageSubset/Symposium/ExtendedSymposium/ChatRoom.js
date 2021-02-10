@@ -113,6 +113,12 @@ const ChatAndIndustryInfoContainer=styled.div`
 	border-width:1px;
 	border-color:#5298F8;
 	background-color:white;
+
+	@media screen and (max-width:1370px){
+		width:75%;
+		height:60%;
+		left:10%;
+	}
 `;
 
 
@@ -130,6 +136,7 @@ const MessageListNestedCSS={
 class ChatRoom extends Component{
 
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			songPlaying:"",
@@ -207,7 +214,7 @@ class ChatRoom extends Component{
 											<li style={{listStyle:"none",display:"inline-block",width:"20%"}}>
 												{data.senderProfilePicture==null?
 													<img src={NoProfilePicture} style={{borderRadius:"50%",width:"60%",height:"30"}}/>:
-													<img src={data.senderProfilePicture} style={{borderRadius:"50%",width:"20%",height:"20"}}/>
+													<img src={data.senderProfilePicture} style={{borderRadius:"50%",width:"60%",height:"30"}}/>
 												}
 											</li>
 
@@ -240,7 +247,17 @@ class ChatRoom extends Component{
 					</li>
 					<li style={{listStyle:"none",display:"inline-block"}}>
 						<ChatAndIndustryInfoContainer>
+							
 							{/*	
+							<div onClick={()=>this.props.closePostModal()} style={{marginBottom:"5%"}}>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+								 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+								 stroke-linecap="round" stroke-linejoin="round">
+								  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+								  <circle cx="12" cy="12" r="9" />
+								  <path d="M10 10l4 4m0 -4l-4 4" />
+								</svg>
+							</div>
 								<SongPlaying>
 									<p style={{position:"absolute",color:"#848484",left:"80px"}}>Testing song playing</p>
 								</SongPlaying>
@@ -256,7 +273,7 @@ class ChatRoom extends Component{
 									/>
 
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<SendIcon
+										<SendIcon id="sendIcon"
 											style={{color:"#5298F8",fontSize:"30",paddingLeft:"5%"}}
 											onClick={()=>this.sendMessageToGroupChat()}
 										/>

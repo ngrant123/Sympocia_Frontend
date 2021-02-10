@@ -4,9 +4,6 @@ import Chat from "./ChatRoom.js";
 import { connect } from "react-redux";
 import SubCommunities from "./SubCommunities";
 import ActivePeopleModal from "./ActivePeopleModal";
-import {
-		getCommunityById
-	} from "../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 
  const keyFrameExampleTwo= keyframes`
@@ -370,12 +367,6 @@ class PersonalizedPage extends Component{
 			  	},500);
 	  }
 
-
-	  getCommunityData=(communityId)=>{
-
-	  		return getCommunityById(communityId);
-	  }
-
 	  handlePreviousCommunityButton=()=>{
 
 	  	this.fadeOutInEffect();
@@ -385,11 +376,6 @@ class PersonalizedPage extends Component{
 
 	  		const newCounter=this.state.communityCounter-1;
 	  		const newCommunity=this.state.communities[newCounter];
-
-	  		/*
-				make an api call here
-				const newCommunityData=getCommunityData(newCommunity.id);
-	  		*/
 	  		this.setState(prevState=>({
 	  			...prevState,
 	  			selectedCommunityTitle:newCommunity.communityName,
@@ -423,12 +409,6 @@ class PersonalizedPage extends Component{
 
 	  		const newCounter=this.state.communityCounter+1;
 	  		const newCommunity=this.state.communities[newCounter];
-
-	  		/*
-				make an api call here
-				const newCommunityData=getCommunityData(newCommunity.id);
- 
-	  		*/
 	  		this.setState(prevState=>({
 	  			...prevState,
 	  			selectedCommunityTitle:newCommunity.communityName,

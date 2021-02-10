@@ -7,13 +7,18 @@ const PopularVideosContainer=styled.div`
 	background-color:white;
 	border-radius:5px;
 	top:20%;
-	left:15%;
+	left:25%;
 	width:50%;
 	height:60%;
 	padding:20px;
 	overflow-y:scroll;
-	z-index:16;
+	z-index:40;
 	box-shadow: 1px 5px 5px 1px #d5d5d5;
+
+	@media screen and (max-width:740px){
+		width:90% !important;
+		left:5% !important;
+	}
 `;
 
 /*

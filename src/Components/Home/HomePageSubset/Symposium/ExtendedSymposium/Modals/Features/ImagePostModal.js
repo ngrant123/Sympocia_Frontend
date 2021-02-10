@@ -4,21 +4,29 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
 import {createIndustryFeatureImageResponse} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryImageFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import ImagePostDisplayPortal from "../../../../../HomePageSet/ImageHomeDisplayPortal.js";
-
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
-	position:absolute;
-	z-index:40;
-	height:95%;
-	width:80%;
-	border-radius:5px;
-	top:2%;
-	left:10%;
-	overflow-y:auto;
-	background-color:white;
 	padding:20px;
+	@media screen and (max-width:600px){
+		#imageLI{
+			height:20% !important;
+		}
+	}
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+ 		#imageLI{
+			height:60% !important;
+		}
+    }
+
+	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+    	#imageLI{
+			height:50% !important;
+		}
+    }
 `;
 
 const InputContainer=styled.textarea`
@@ -53,6 +61,9 @@ const CreatePostButton=styled.div`
 	border-width:5px;
 	animation: glowing 1300ms infinite;
 	text-align:center;
+	display:flex;
+	justify-content:center;
+	cursor:pointer;
 
 	@keyframes glowing {
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -63,14 +74,17 @@ const CreatePostButton=styled.div`
 
 const DescriptionInputContainer=styled.textarea`
 	border-radius:5px;
-	height:20%;
+	height:70px;
 	width:95%;
 	border-style:solid;
 	border-width:1px;
 	border-color:#D8D8D8;
 	resize:none;
 	padding:5px;
+	margin-top:5%;
+	margin-bottom:5%;
 `;
+
 
 
 const ImagePopupContainer=styled.div`
@@ -83,6 +97,21 @@ const ImagePopupContainer=styled.div`
 	left:15%;
 	top:20%;
 	overflow-y:scroll;
+`;
+
+const FinalPostContainerInformation=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
+const FinalSubmittionContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+`;
+
+const PostHeaderContainer=styled.div`
+	display:flex;
+	flex-direction:row;
 `;
 
 const ImageCSS={
@@ -117,7 +146,8 @@ const SubmitButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  width:"30%"
+  width:"30%",
+  cursor:"pointer"
 }
 
 const SkillLevelButton={
@@ -144,13 +174,17 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 
 	const [displayPostExpand,changePostExpand]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState(false);
+	const [isProccessingPost,changeIsProcessingPost]=useState(false);
+	const dispatch=useDispatch();
+	const {personalInformation}=useSelector(state=>state);
+	const [isLoading,changeIsLoadingStatus]=useState(false);
 
 
 	const userId=useSelector(state=>state.personalInformation.id);
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			
+			changeIsLoadingStatus(true);
 			console.log(symposiumId);
 			const {confirmation,data}=await getIndustryImageFeatureAnswers({
 				industryId:symposiumId,
@@ -159,15 +193,17 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 			})
 
 			if(confirmation=="Success"){
+				console.log(message);
+				const {message}=data;
 				const {
-					questionId,
 					posts
-				}=data;
+				}=message;
 				changePosts(posts);
-				changeQuestionId(questionId);
+				changeQuestionId(selectedPostId);
 			}else{
 				alert('Unfortunately there has been an error trying to get this images data. Please try again');
 			}
+			changeIsLoadingStatus(false);
 		}
 
 		fetchData();
@@ -194,8 +230,8 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 		document.getElementById("uploadPictureFile").click();
 	}
 
-	const submitImage=async()=>{
-		
+	const submitImage=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeIsProcessingPost(true);
 		var image={
 			imgUrl:imgUrl,
 			description:document.getElementById("imageDescription").value
@@ -205,23 +241,48 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 			industryId:symposiumId,
 			questionId:selectedPostId,
 			questionIndex:questionIndex,
-			userId:userId
+			userId:userId,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
-
+		const message={
+			imgUrl,
+			description:document.getElementById("imageDescription").value
+		}
 		let {confirmation,data}=await createIndustryFeatureImageResponse(submitedImage);
 		
 		if(confirmation=="Success"){
-			data={
-				...data,
+			let {message}=data;
+
+			message={
+				...message,
+				owner:{
+					...message.owner,
+					firstName:personalInformation.firstName
+				},
 				imgUrl
 			}
-			posts.splice(0,0,data);
+			posts.splice(0,0,message);
 			changeQuestionId(questionId);
 			changePosts([...posts]);
 			changeDisplayCreationModal(false);
 		}else{
-			alert('Unfortunately there has been an error with adding this image. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitImage,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with adding this image. Please try again');
+			}
 		}
+
+		changeIsProcessingPost(false);
 	}
 
 	const initializeSymposiumId=(id)=>{
@@ -237,7 +298,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 	}
 
 	return(
-		<ul style={{padding:"20px"}}>
+		<Container>
 			
 			{displayPostExpand==false?
 					null:
@@ -253,44 +314,39 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 
 			{displayCreationModal==false?
 				<>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<p style={{fontSize:"20px"}}>
-									<b>{question}</b>
-								</p>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>changeDisplayCreationModal(true)} 
-										style={{listStyle:"none",marginLeft:"400px",marginBottom:"5%"}}>
-										<CreatePostButton>
-											<BorderColorIcon
-												style={{fontSize:"20",color:"#C8B0F4"}}
-											/>
-										</CreatePostButton>
-									</li>
-								</a>
-							</li>
-						</ul>
-					</li>
+					<PostHeaderContainer>
+						<p style={{fontSize:"20px",marginRight:"5%"}}>
+							<b>{question}</b>
+						</p>
+						<CreatePostButton onClick={()=>changeDisplayCreationModal(true)}>
+							<BorderColorIcon
+								style={{fontSize:"20",color:"#C8B0F4"}}
+							/>
+						</CreatePostButton>
+					</PostHeaderContainer>
 					<hr/>
 
 					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<InputContainer placeholder="Search for a person here"/>
-							<li style={{listStyle:"none",marginTop:"2%"}}>
-								<ul style={{padding:"0px"}}>
-									{posts.map(data=>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
-												<img src={data.imgUrl} style={{height:"40%",width:"100%",borderRadius:"5px"}}/>
-											</li>
-										</a>
-									)}
-								</ul>
-							</li>
-						</ul>
+						{isLoading==true?
+							<p>Loading please wait...</p>
+							:<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",marginTop:"2%"}}>
+									{posts.length==0?
+										<p>No posts</p>:
+										<ul style={{padding:"0px"}}>
+											{posts.map(data=>
+												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+													<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
+														<img id="imageLI" src={data.imgUrl} 
+														style={{height:"40%",width:"100%",borderRadius:"5px"}}/>
+													</li>
+												</a>
+											)}
+										</ul>
+									}
+								</li>
+							</ul>
+						}
 					</li>
 				</>:
 				<>
@@ -328,28 +384,23 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 										</input>
 								</li>
 							</a>:
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginBottom:"2%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",width:"40%",}}>
-											<img src={imgUrl} style={{height:"40%",width:"90%",borderRadius:"5px"}}/>
-										</li>
-										<li style={{width:"45%",listStyle:"none",display:"inline-block"}}>
-											<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
-										</li>
-									</ul>
-								</li>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>submitImage()} style={SubmitButtonCSS}>
+							<FinalSubmittionContainer>
+								<img src={imgUrl} style={{height:"40%",width:"40%",borderRadius:"5px"}}/>
+								<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
+
+								{isProccessingPost==true ?
+									<p>Please wait while we process your post </p>:
+									<li onClick={()=>submitImage({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
 										Submit
 									</li>
-								</a>
-							</ul>
+								}
+								
+							</FinalSubmittionContainer>
 						}
 					</li>
 				</>
 			}
-		</ul>
+		</Container>
 	);
 }
 

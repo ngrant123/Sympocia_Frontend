@@ -13,14 +13,17 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MobilePostOptionsPortal from "./Modals/MobileUI/PostOptionsPortal.js";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	opacity:0;
+	z-index:30;
 	transition:opacity 2s linear
 	@media screen and (max-width:1370px){
+		left:90% !important;
     	#nextButtonIcon{
     		height:5px !important;
     		width:5px !important;
@@ -31,7 +34,7 @@ const Container=styled.div`
 
 const ActiveContainer =styled.div`
 	position:relative;
-	width:300%;
+	width:150%;
 	height:50%;
 	background-color:white;
 	padding:5px;
@@ -48,7 +51,7 @@ const ActiveProfilePictures=styled(Link)`
 	height:25%;
 	border-radius:50%;
 	background-color:red;
-
+	cursor:pointer;
 `;
 
 const PopularContainer=styled.div`
@@ -151,8 +154,7 @@ const ActivePeopleAndFollowContainer=styled.div`
 
 const MobileOptions=styled.div`
 	position:absolute;
-	z-index:30;
-	top:35%;
+	top:40%;
 	left:90%;
 	z-index:40;
 	border-radius:50%;
@@ -175,7 +177,8 @@ const ButtonCSS={
 	borderColor:"white",
 	borderWidth:"1px",
 	color:"white",
-	marginTop:"-25%"
+	marginTop:"-25%",
+	cursor:"pointer"
 }
 
 const MobileRouteOptionCSS={
@@ -209,13 +212,16 @@ const HeaderContainer=(props)=>{
 			profileId,
 			changeFollowIndicator,
 			displayPopularVideos,
-			displayDesktopUI
+			displayDesktopUI,
+			isGuestProfile
 		}=props;
 	console.log(props);
-	console.log(props.popularQuestionObject);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 	const [displayMobilePostOptions,changeMobileDisplayPostOptions]=useState(false);
+
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	useEffect(()=>{
 		changeSymposiumFollow(isProfileFollowingSymposium);
@@ -280,7 +286,6 @@ const HeaderContainer=(props)=>{
 	}
 
 	const replayVideo=(startTime,endTime)=>{
-
 	   		var startTime=0;
 	   		const video=this
 	   		const videoDuration=video.duration;
@@ -304,19 +309,61 @@ const HeaderContainer=(props)=>{
 	   		}
 	   }
 
-	const handleFollowSymposium=async()=>{
-
-		if(followSymposiumButtonClick==false){
-			await addSymposium(profileId,selectedSymposiumTitle,null);
+	const handleFollowSymposium=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
 		}else{
-			const {confirmation,data}=await removeSymposium(profileId,selectedSymposiumTitle,null);
-			if(confirmation=="Failure"){
-				alert('Unfortunately there has been an error with unfollowing this symposium. Please try again');
+			if(followSymposiumButtonClick==false){
+				const {confirmation,data}=await addSymposium(
+													profileId,
+													selectedSymposiumTitle,
+													null,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												);
+				if(confirmation=="Failure"){
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								personalInformation.refreshToken,
+								personalInformation.id,
+								handleFollowSymposium,
+								dispatch,
+								{},
+								false
+							);
+					}else{
+						alert('Unfortunately there has been an error in retrieving you data. Please try again');
+					}
+				}
+			}else{
+				const {confirmation,data}=await removeSymposium({
+													profileId,
+													symposium:selectedSymposiumTitle,
+													accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												});
+				if(confirmation=="Failure"){
+					debugger;
+					const {statusCode}=data;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								personalInformation.refreshToken,
+								personalInformation.id,
+								handleFollowSymposium,
+								dispatch,
+								{},
+								false
+							);
+					}else{
+						alert('Unfortunately there has been an error with unfollowing this symposium. Please try again');
+					}
+				}
 			}
+			
+			var newFollowIndicator=followSymposiumButtonClick==true?false:true;
+			changeFollowIndicator(newFollowIndicator);
 		}
-		
-		var newFollowIndicator=followSymposiumButtonClick==true?false:true;
-		changeFollowIndicator(newFollowIndicator);
 	}
 
 	const mobileArrowDownOptions=()=>{
@@ -359,6 +406,7 @@ const HeaderContainer=(props)=>{
 							questionInformation={props.popularQuestionObject.questionInformation}
 							isSimplified={props.popularQuestionObject.isSimplified}
 							selectedSymposium={props.popularQuestionObject.selectedSymposium}
+							isGuestProfile={isGuestProfile}
 						/>
 					}
 				</HighlightedQuestionsContainer>
@@ -368,21 +416,27 @@ const HeaderContainer=(props)=>{
 				<PopularVideosContainer>
 					<ul id="popularVideoContainerLI" style={{padding:"0px"}}>
 						<li id="titleContainer" style={{listStyle:"none",position:"relative"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-		  						<li id="previousTitleLI" style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
-		  							{previousSymposiumTitle}
-		  						</li>
-		  					</a>
+							{/*
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+			  						<li id="previousTitleLI" style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
+			  							{previousSymposiumTitle}
+			  						</li>
+			  					</a>
+
+							*/}
 		  					
 		  					<li id="selectedSymposiumTitle" style={{width:displayDesktopUI==true?"40%":"60%",overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px"}}>
 		  						{displayDesktopUI==true?<><b>{selectedSymposiumTitle}</b></>:<>{selectedSymposiumTitle}</>}
 		  					</li>
 
-		  					<a href="javascript:void(0);" style={{textDecoration:"none",marginRight:"5%"}}>
-		  						<li id="nextTitleLI" style={{width:"5%",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
-		  							{nextSymposiumTitle}
-		  						</li>
-		  					</a>
+		  					{/*
+			  					<a href="javascript:void(0);" style={{textDecoration:"none",marginRight:"5%"}}>
+			  						<li id="nextTitleLI" style={{width:"5%",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
+			  							{nextSymposiumTitle}
+			  						</li>
+			  					</a>
+
+		  					*/}
 						</li>
 
 						<li style={{listStyle:"none"}}>
@@ -398,7 +452,7 @@ const HeaderContainer=(props)=>{
 							</ul>							
 
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ul id="popularVideosUL" style={{padding:"5px",backgroundColor:"white",height:"65%",borderRadius:"5px"}}>
+									<ul id="popularVideosUL" style={{overflow:"hidden",padding:"5px",backgroundColor:"white",height:props.isIpadView==true?"90%":"65%",borderRadius:"5px"}}>
 										{popularVideos.map(data=>
 											<>
 												{data!=null &&(
@@ -424,50 +478,46 @@ const HeaderContainer=(props)=>{
 										Active People
 									</p>
 									<li style={{listStyle:"none",width:"90%"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<ActiveContainer>
-												<ul>
-									 				{activePeople.map(data=>
-								 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
-								 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
-								 								<img src={data.profilePicture!=null?
-								 											data.profilePicture:
-								 											NoProfilePicture} 
-								 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
-								 							</ActiveProfilePictures>
-								 						</li>
-								 					)}
-									 			</ul>
-											</ActiveContainer>
-										</a>
+										<ActiveContainer>
+											<ul>
+								 				{activePeople.map(data=>
+							 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
+							 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
+							 								<img src={data.owner.profilePicture!=null?
+							 											data.owner.profilePicture:
+							 											NoProfilePicture} 
+							 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
+							 							</ActiveProfilePictures>
+							 						</li>
+							 					)}
+								 			</ul>
+										</ActiveContainer>
 									</li>
 							</ul>
 						</li>
 
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>handleFollowSymposium()} style={ButtonCSS}>
-								<b>
-									<AddCircleOutlineIcon style={{font:20}}/>
-									 	{followSymposiumButtonClick==false?
-									 		<p>Follow Symposium</p>:
-									 		<p>Unfollow Symposium</p>
-									 	}
-								</b>
-							</li>
-						</a>
-							{/*
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>props.hideChat()} style={ButtonCSS}>
-										<b>
-											<ExpandLessIcon style={{font:20}}/> 
-												{hideChatButtonClicked==false?
-													<p>Hide chat </p>:
-													<p> Unhide Chat </p>
-												}
-										</b>
-									</li>
-								</a>
-							*/}
+						<li onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})} style={ButtonCSS}>
+							<b>
+								<AddCircleOutlineIcon style={{font:20}}/>
+								 	{followSymposiumButtonClick==false?
+								 		<p>Follow Symposium</p>:
+								 		<p>Unfollow Symposium</p>
+								 	}
+							</b>
+						</li>
+						{/*
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li onClick={()=>props.hideChat()} style={ButtonCSS}>
+									<b>
+										<ExpandLessIcon style={{font:20}}/> 
+											{hideChatButtonClicked==false?
+												<p>Hide chat </p>:
+												<p> Unhide Chat </p>
+											}
+									</b>
+								</li>
+							</a>
+						*/}
 					</ul>
 				</ActivePeopleAndFollowContainer>
 			</Container>
@@ -479,6 +529,7 @@ const SimpliedHeaderContainer=(props)=>{
 
 	return(
 		<div>
+			Testr
 		</div>
 	)
 }

@@ -19,14 +19,18 @@ class Blog extends Component{
 
 	constructor(props){
 		super(props);
-
+		console.log("Testing blog createion");
 		this.state={
 			firstTimeClick:true,
 			blogPostContents:"Testing blog contents",
 			firstEdit:true,
-			editorState:"",
+			editorState:this.props.blog,
 			initialValue:true
 		}
+	}
+
+	componentDidMount(){
+
 	}
 
 
@@ -61,35 +65,26 @@ class Blog extends Component{
 	}
 
 	handleSetInitialBlogContent=(postInformation)=>{
-		if(postInformation.isOwner==true && this.state.initialValue==true){
-			this.setState({
-				editorState:postInformation.blog,
-				initialValue:false
-			},function(){
-				return this.state.editorState;	
-			})
-		}
-		return this.state.editorState;
+		this.setState({
+			editorState:postInformation.blog,
+			initialValue:false
+		})
 	}
-
-
 
 	render(){
 		return(
-			//Needs to be fixed later but now this will work
-
 			<BlogConsumer>
 				{postInformation=>{
 					return <Container>
 								<Editor
-									  editorState={this.handleSetInitialBlogContent(postInformation)}
-									  toolbarClassName="toolbarClassName"
-									  wrapperClassName="wrapperClassName"
-									  editorClassName="editorClassName"
-									  onEditorStateChange={this.onEditorStateChange}
-									  placeholder="Start typing to create your masterpiece"
-									  readOnly={!postInformation.isOwner}
-									  toolbarHidden={this.props.isDesktop==true?false:true}
+								  editorState={this.state.editorState}
+								  toolbarClassName="toolbarClassName"
+								  wrapperClassName="wrapperClassName"
+								  editorClassName="editorClassName"
+								  onEditorStateChange={this.onEditorStateChange}
+								  placeholder="Start typing to create your masterpiece"
+								  readOnly={false}
+								  toolbarHidden={this.props.isDesktop==true?false:true}
 								/>
 								{this.handleBlogTextAreaChange(postInformation)}
 							</Container>

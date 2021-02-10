@@ -4,24 +4,26 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import ImageInformation from "./ImageInformation.js";
 import Comments from "../../../CommentsComponent/index.js";
-import PollOptionPortal from "../../PollOptionPortal.js";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import EditImageCreation from "../ImageCreation/EditImageCreation.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {StampIconEffect} from "./ImageContainerCSS.js";
-
+import {useSelector,useDispatch} from "react-redux";
 import {
 	addStampPost,
 	unStampPost
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import VideoDescriptionMobileDisplayPortal from "../../VideoDescriptionMobileDisplayPortal.js";
 
 const Container=styled.div`
 	position:relative;
 	width:100%;
 	height:100%;
-	overflow:scroll;
-	@media screen and (max-width:830px){
+	@media screen and (max-width:1370px){
 		width:80%;
 		left:10% !important;
 		#postInformationLI{
@@ -31,41 +33,50 @@ const Container=styled.div`
 			display:none !important;
 		}
     }
-    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-	 	#image{
-			height:140% !important;
-		}
-    }
-    @media screen and (min-width:740px) and (min-height:420px) and (orientation:landscape){
-	 	#image{
-			height:70% !important;
-		}
-    }
-
-    @media screen and (max-width:500px){
+    @media screen and (max-width:700px){
 		width:100%;
-		left:0% !important;
+		left:2% !important;
 		 #image{
 			height:60% !important;
 		}
+		#postAudio{
+			width:100px !important;
+		}
+		#keyBoardArrowIcon{
+			margin-top:-20px !important;
+			margin-left:10% !important;
+		}
+		#keyBoardDownLI{
+			font-size:25 !important;
+		}
+		#keyBoardUpLI{
+			font-size:25 !important;
+		}
     }
- 
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	#image{
+			height:90% !important;
+		}
+    }
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+	 	#image{
+	 		margin-left:5% !important;
+			height:130% !important;
+			width:80% !important;
+		}
+    }
 
 `;
 
 const CommentContainer=styled.div`
-	position:absolute;
-	background-color:white;
+	position:relative;
 	border-radius:5px;
+	width:100% !important;
+	margin-left:10%;
 
-	@media screen and (max-width:1030px){
-		margin-left:5% !important;
-		left:5% !important;
-		width:80% !important;
-    }
 	@media screen and (max-width:420px){
 		margin-left:7% !important;
-		width:85% !important;
+		width:100% !important;
 		left:0% !important;
     }
 `;
@@ -83,7 +94,7 @@ const TogglePostInformationButton=styled.div`
 		height:10%;
 		width:7%;
     }
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 			top:10%; !important;
 			height:10%;
 			width:7%;
@@ -100,26 +111,31 @@ const TogglePostInformationButton=styled.div`
 `;
 
 const PostInformationContainer=styled.div`
-	position:absolute;
-	width:120%;
-	left:-10%;
-	top:30%;
-	border-radius:5px;
-	height:40%;
+	position:relative;
+	width:80%;
+	border-radius:5px; 
 
 	@media screen and (max-width:1370px) and (max-height:1030px){
 	 	height:10% !important;
     }
-	@media screen and (max-width:740px) and (max-height:420px){
+	@media screen and (max-width:840px) and (max-height:420px){
 		height:90% !important;
+    }
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	margin-left:5%;
     }
 `;
 const VideoDesriptionContainer=styled.div`
-	width:60px;
-	height:60px;
+	width:100px;
+	height:100px;
 	border-radius:50%;
 	background-color:white;
 	z-index:8;
+
+	@media screen and (max-width:700px){
+		width:70px !important;
+		height:70px !important;
+	}
 `;
 const ShadowButtonCSS={
 	display:"inline-block",
@@ -135,7 +151,7 @@ const ShadowButtonCSS={
 	marginBottom:"2%"
 }
 
-const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPostViewing,promote})=>{
+const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostViewing,promote,isPhoneUI,editPostAction,isGuestProfile})=>{
 
 	const [displayPostInformationContainer,changePostInfoContainerDisplay]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -143,20 +159,36 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 	const [displayPollOption,changeDisplayPollOption]=useState(false);
 	const [displayEditImageModal,changeDisplayEditImageModal]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
+	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
+
+	const userId=useSelector(state=>state.personalInformation.id);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 
 	const displayCommentsTrigger=()=>{
-		changePostInfoContainerDisplay(true);
-		changeDisplayComments(true);
-		changeDisplayInformation(false);
-		changeDisplayPollOption(false);
+		if(displayComments==true){
+			changePostInfoContainerDisplay(false);
+			changeDisplayComments(false);
+			changeDisplayInformation(false);
+		}else{
+			changePostInfoContainerDisplay(true);
+			changeDisplayComments(true);
+			changeDisplayInformation(false);
+
+		}
 	}
 
 	const displayPostInformationTrigger=()=>{
-		changePostInfoContainerDisplay(true);
-		changeDisplayComments(false);
-		changeDisplayInformation(!displayInformation);
-		changeDisplayPollOption(false);
+		if(displayInformation==true){
+			changePostInfoContainerDisplay(false);
+			changeDisplayComments(false);
+			changeDisplayInformation(false);
+		}else{
+			changePostInfoContainerDisplay(true);
+			changeDisplayComments(false);
+			changeDisplayInformation(!displayInformation);
+		}
 	}
 
 	const displayPollOptionTrigger=()=>{
@@ -173,91 +205,110 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 		changeDisplayPollOption(false);
 	}
 	const editPost=(data)=>{
-		changeDisplayEditImageModal(false);
-		imgData.contextLocation.editPost(data);
+		editPostAction(data);
 	}
 
-	const postInformation=()=>{
+	const commentContainer=()=>{
 		return(
-			<>
-				{displayPostInformationContainer==true &&(
-					<PostInformationContainer>
-						{displayComments==true &&(
-							<CommentContainer>
-						 		<Comments
-									postId={imgData._id}
-									postType={"Image"}
-									hideComments={hidePostDisplayInformationContainer}
-									targetDom={targetDom}
-								/>
-							</CommentContainer>
-						)}
-						{displayInformation==true &&(
-							<ImageInformation
-								imageInformation={imgData}
-								targetDom={targetDom}
-								isMobileTrue={true}
-							/>
-						)}
-					</PostInformationContainer>
-				)}
-			</>
+			<CommentContainer>
+		 		<Comments
+					postId={imgData._id}
+					postType={"Images"}
+					hideComments={hidePostDisplayInformationContainer}
+					targetDom={targetDom}
+				/>
+			</CommentContainer>
 		)
 	}
 
-	const createOrRemoveStampEffect=()=>{
+	const imageInformation=()=>{
+		return (
+			<PostInformationContainer>
+				<ImageInformation
+					imageInformation={imgData}
+					targetDom={targetDom}
+					isMobileTrue={true}
+					isGuestProfile={isGuestProfile}
+				/>
+			</PostInformationContainer>
+		)
+	}
+	const postInformation=()=>{
+		return(
+			<PostInformationContainer>
+				{isGuestProfile==false && (
+					<React.Fragment>
+						{displayComments==true &&(
+							<>{commentContainer()}</>
+						)}
+					</React.Fragment>
+				)}
+				{displayInformation==true &&(
+					<>{imageInformation()}</>
+				)}
+			</PostInformationContainer>
+		)
+	}
+
+	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		let confirmationResponse;
+		let dataResponse;
+
 		if(displayStampEffect==false){
-			addStampPost(imgData._id,"personal","ImagePost");
-			changeDisplayStampEffect(true);
+			const {confirmation,data}=await addStampPost(
+												imgData._id,
+												"personal",
+												"Images",
+												userId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+
 		}else{
-			unStampPost(imgData._id,"personal","ImagePost");
-			changeDisplayStampEffect(false);
+			const {confirmation,data}=await unStampPost(
+												imgData._id,
+												"personal",
+												"Images",
+												userId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			confirmationResponse=confirmation;
+			dataResponse=data;
+			debugger;
+		}
+
+		if(confirmationResponse=="Success"){
+			if(displayStampEffect==false)
+				changeDisplayStampEffect(true);
+			else
+				changeDisplayStampEffect(false);
+		}else{
+			const {statusCode}=dataResponse;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createOrRemoveStampEffect,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+			}
 		}
 	}
-	return (
-		<React.Fragment>
-			{displayEditImageModal==false?
-				<Container>
-					<ul style={{padding:"10px"}}>
-						<li style={{listStyle:"none",marginBottom:"5%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-									{(imgData.videoDescription!=null && isChromeBrowser==true)==true &&(
-										<VideoDesriptionContainer>
-											<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
-												<source src={imgData.videoDescription} type="video/mp4"/>
-											</video>
-										</VideoDesriptionContainer>
-									)}
-								</li>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{(imgData.audioDescription!=null && 
-									  isChromeBrowser==true)==true &&(
-										<audio style={{width:"150px"}} controls>
-											<source src={imgData.audioDescription} type="audio/ogg"/>
-											<source src={imgData.audioDescription} type="audio/mpeg"/>
-											Your browser does not support the audio element.
-										</audio>
-									)}
-								</li>
-							</ul>
-						</li>
-						<div id="image" style={{marginLeft:"-10%",height:"60%",overflow:"hidden",width:"120%"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<TogglePostInformationButton
-									onClick={()=>displayPostInformationTrigger()}
-								>
-									{displayInformation==false?
-										<ExpandMoreIcon
-											style={{fontSize:30}}
-										/>
-										:<ExpandLessIcon
-											style={{fontSize:30}}
-										/>
-									}
-									
-								</TogglePostInformationButton>
-							</a>
+
+	 const commentsAndPostDescriptionDecider=()=>{
+	 	if(isPhoneUI==false){
+	 		return (
+	 			<>
+	 				{displayPostInformationContainer==true?
+		 				<>{postInformation()}</>:
+						<>
 							{displayStampEffect==true &&(
 								<StampIconEffect
 									id="stampEffect"
@@ -266,29 +317,133 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 								</StampIconEffect>
 							)}
 
-							<img  src={imgData.imgUrl} style={{width:"120%",height:"90%",borderRadius:"5px",marginLeft:"-10%"}}/>
-							{postInformation()}
-						</div>
-						<hr/>
-						<li style={{listStyle:"none"}}>
+							<img  id="image" src={imgData.imgUrl} 
+								style={{width:"80%",height:"90%",borderRadius:"5px",marginLeft:"10%"}}
+							/>
+						</>
+	 				}
+	 			</>
+			)
+	 	}else if(isPhoneUI==true){
+	 		return(
+	 			<>
+	 				{displayInformation==true?	
+	 					<>{imageInformation()}</>
+	 					:<>
+							{displayStampEffect==true &&(
+								<StampIconEffect
+									id="stampEffect"
+								>
+									<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+								</StampIconEffect>
+							)}
+
+							<img  src={imgData.imgUrl} 
+								style={{width:"100%",height:"90%",borderRadius:"5px",marginLeft:"0%"}}
+							/>
+						</>
+	 				}
+	 			</>
+	 		)
+	 	}
+	 }
+
+	 const displayVideoDescriptionTrigger=()=>{
+	 	changeVideoDescriptionDisplay(true);
+	}	
+
+	const closeVideoDescriptionDisplayModal=()=>{
+		changeVideoDescriptionDisplay(false);
+	}
+	return (
+		<React.Fragment>
+			{displayVideoDescriptionDisplay==true &&(
+				<VideoDescriptionMobileDisplayPortal
+					targetDom={targetDom}
+					closeModal={closeVideoDescriptionDisplayModal}
+					videoUrl={imgData.videoDescription}
+				/>
+			)}
+			{displayEditImageModal==false?
+				<Container>
+					<ul style={{padding:"10px"}}>
+						{isPhoneUI==true && (displayPostInformationContainer==true && displayComments==true)?
+							<>{commentContainer()}</>:
+							<React.Fragment>
+								<div onClick={()=>closePostModal()} style={{marginBottom:"5%"}}>
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+									 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+									 stroke-linecap="round" stroke-linejoin="round">
+									  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+									  <circle cx="12" cy="12" r="9" />
+									  <path d="M10 10l4 4m0 -4l-4 4" />
+									</svg>
+								</div>
+								<li style={{listStyle:"none",marginBottom:"5%"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+											{imgData.videoDescription!=null &&(
+												<VideoDesriptionContainer>
+													<video id="videoDescription" onClick={()=>displayVideoDescriptionTrigger()}
+														style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+														<source src={imgData.videoDescription} type="video/mp4"/>
+													</video>
+												</VideoDesriptionContainer>
+											)}
+										</li>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											{imgData.audioDescription!=null &&(
+												<audio id="postAudio" style={{width:"150px"}} controls>
+													<source src={imgData.audioDescription} type="audio/ogg"/>
+													<source src={imgData.audioDescription} type="audio/mpeg"/>
+													Your browser does not support the audio element.
+												</audio>
+											)}
+										</li>
+
+										<li id="keyBoardArrowIcon" style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}} 
+											onClick={()=>displayPostInformationTrigger()}>
+											{displayInformation==false?
+												<KeyboardArrowDownIcon
+													id="keyBoardDownLI"
+													style={{borderRadius:"50%",fontSize:"40",boxShadow:"1px 1px 5px #dbdddf"}}
+												/>:
+												<KeyboardArrowUpIcon
+													id="keyBoardUpLI"
+													style={{borderRadius:"50%",fontSize:"40",boxShadow:"1px 1px 5px #dbdddf"}}
+												/>
+											}
+										</li>
+									</ul>
+								</li>
+
+								<div id="image" style={{marginLeft:"-10%",height:"60%",overflow:"scroll",width:"110%"}}>
+									{commentsAndPostDescriptionDecider()}
+								</div>
+								<hr/>
+							<li style={{listStyle:"none"}}>
 							<ul style={{padding:"20px"}}>
-								<a href="javascript:void(0);">
-									<li onClick={()=>createOrRemoveStampEffect()} style={ShadowButtonCSS}>
-										<LoyaltyIcon
-											style={{fontSize:30}}
-										/>
-									</li>
-								</a>
-								<a href="javascript:void(0);">
-									<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-										  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-										  <line x1="8" y1="9" x2="16" y2="9" />
-										  <line x1="8" y1="13" x2="14" y2="13" />
-										</svg>
-									</li>
-								</a>
+								{isGuestProfile==false && (
+									<>
+										<a href="javascript:void(0);">
+											<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+												<LoyaltyIcon
+													style={{fontSize:30}}
+												/>
+											</li>
+										</a>
+										<a href="javascript:void(0);">
+											<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+												  <line x1="8" y1="9" x2="16" y2="9" />
+												  <line x1="8" y1="13" x2="14" y2="13" />
+												</svg>
+											</li>
+										</a>
+									</>
+								)}
 								
 								{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
 									<>
@@ -316,7 +471,7 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 										<a href="javascript:void(0);">
 											<li onClick={()=>promote()} style={ShadowButtonCSS}>
 												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-													  width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+													  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C"
 													  fill="none" stroke-linecap="round" stroke-linejoin="round">
 													  <path stroke="none" d="M0 0h24v24H0z"/>
 													  <circle cx="12" cy="9" r="6" />
@@ -328,8 +483,11 @@ const MobileUI=({imgData,isChromeBrowser,targetDom,deletePost,pageType,isOwnPost
 									</>
 								)}
 
-							</ul>
-						</li>
+								</ul>
+							</li>
+							</React.Fragment>
+
+						}
 					</ul>
 				</Container>
 				:<EditImageCreation

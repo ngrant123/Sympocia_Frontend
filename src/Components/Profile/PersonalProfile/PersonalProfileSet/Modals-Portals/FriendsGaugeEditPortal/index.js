@@ -1,13 +1,6 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import {
-		createLevel,
-		removeLevel,
-		changeRecruitLevelStatus,
-		editLevelName,
-		editLevelDescription
-} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {getRecruits} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
@@ -26,14 +19,19 @@ const Container=styled.div`
 	left:40%;
 	overflow-y:auto;
 
-	@media screen and (max-width:1030px){
-		width:40% !important;
-		left:30% !important;
+	@media screen and (max-width:1370px){
+		width:60% !important;
+		left:20% !important;
     }
     @media screen and (max-width:600px){
 		width:90% !important;
 		left:5% !important;
 	}
+
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	height:65%;
+    }
 `;
 const InputContainer=styled.textarea`
 	position:relative;
@@ -131,26 +129,27 @@ const FriendsGaugeEditPortal=(props)=>{
 	const [displayRemoveNodeVerification,changeRemoveNodeVerificationModal]=useState(false);
 	const [displayClosingScreen,changeDisplayClosingScreen]=useState(false);
 	const [node,changeCurrentNodes]=useState([]);
-
+	const [isLoading,changeLoadingStatus]=useState(true);
 
 	useEffect(()=>{
 		const getRecruitData=async()=>{
 			const {confirmation,data}=await getRecruits(props.userInformation);
 			console.log(data);
 			if(confirmation=="Success"){
+				const {message}=data;
 				const {
 					recruits,
 					recruitsFollowing
-				}=data;
+				}=message;
 				changeRecruitsInformation(recruitsFollowing);
 			}else{
 				alert('Unfortunately there has been an error trying to get your recruits. Please try again');
 			}
 
-			//this is so stupdi like honestly like this shit be so fucking stupid...like why when i create  a number varibale its reference the array still in a new variable like thats are mentally challenged made me waste my whole fuckitng day on theia sa stufu ass asghist
 			let currentNodes=[...props.nodes];
 			currentNodes.splice(0,1);
 			changeCurrentNodes(currentNodes);
+			changeLoadingStatus(false);
 		};
 		getRecruitData();
 	},[]);
@@ -189,7 +188,7 @@ const FriendsGaugeEditPortal=(props)=>{
 		if(actionType=="Add"){
 			return <AddLevel
 						userId={props.userInformation}
-						nodeNumber={props.nodeNumber}
+						nodeNumber={props.nodes.length}
 						recruitsInformation={recruitsInformation}
 						closeModal={closingScreen}
 					/>;
@@ -215,12 +214,13 @@ const FriendsGaugeEditPortal=(props)=>{
 				onClick={props.hideModal}
 			/>
 			<Container>
-				{displayClosingScreen==false?
+				{isLoading==true?
+					<p style={{padding:"10px"}}>Loading please wait...</p>:
 					<>
-						{constructFriendsGaugeEditPortal(props.actionType)}
-					</>:
-					<>
-						{closingConfirmationScreen()}
+						{displayClosingScreen==false?
+							<>{constructFriendsGaugeEditPortal(props.actionType)}</>:
+							<>{closingConfirmationScreen()}</>
+						}
 					</>
 				}
 			</Container>

@@ -5,13 +5,7 @@ import SympociaIcon from "../../../designs/img/SympociaIcon.jpg";
 import {createProfile} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {checkIfEmailIsUsed} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {connect} from "react-redux";
-import {
-	addName,
-	addLastName,
-	addEmail,
-	addPersonalIdentificationId,
-	loginPersonalPage
-} from "../../../Actions/Redux/Actions/PersonalProfile.js";
+import {signInPersonalUser} from "../../../Actions/Redux/Actions/PersonalProfile.js";
 import {loginCompanyPage} from "../../../Actions/Redux/Actions/CompanyActions.js";
 
 
@@ -26,6 +20,10 @@ const InputContainer=styled.textarea`
 	padding:5px;
 	margin-bottom:2%;
 	margin-right:2%;
+
+	@media screen and (max-width:700px){
+		width:95% !important;
+	}
 `;
 
 const SubmitButton=styled.div`
@@ -105,12 +103,15 @@ class PersonalSignUp extends Component{
 			isEmailValid:false,
 			createProfile:this.handleSignUpButton,
 			password:[],
-			reformatedPassword:""
+			reformatedPassword:"",
+			isCreatingProfile:false
 		}
 	}
 
 	handleSignUpButton=async()=>{
-		
+		this.setState({
+			isCreatingProfile:true
+		})
 
 		const firstName=document.getElementById("firstName").value;
 		const lastName=document.getElementById("lastName").value;
@@ -120,39 +121,52 @@ class PersonalSignUp extends Component{
 		if(firstName==""||email==""||password==""){
 			alert('Your are missing a required field. Please enter a value');
 		}else{
-			console.log(password);
-
-			const {
-					addFirstName,
-				 	addLastName,
-				 	addEmail,
-				 	addPersonalIdentificationId,
-				 	loginPersonalPage,
-				 	loginCompanyPage
-				 }=this.props;
-					debugger;
-			const {confirmation,data}=await createProfile({
+			const profile={
 				firstName:firstName,
 				lastName:lastName,
 				email:email,
 				isInvestor:false,
 				password:password
-			});
+ 			}
+			const {confirmation,data}=await createProfile(profile);
 
-			if(confirmation=="Success"){
-				addPersonalIdentificationId(data._id);
-				loginPersonalPage(true);
-				loginCompanyPage(false);
-				addFirstName(firstName);
-				addLastName(lastName);
-				addEmail(email);
-				this.props.history.push({
-					pathname:'/home'
-				})
+			if(confirmation=="Success"){ 
+				const {message}=data;
+				const promises=[];  
+				const {
+					signInPersonalUser,
+					loginCompanyPage
+				}=this.props;
+
+				promises.push(signInPersonalUser({
+					...profile,
+					...message
+				}));
+			    promises.push(loginCompanyPage(false));
+
+			    Promise.all(promises).then(result=>{
+			    	debugger;
+			     	this.props.history.push({
+					  pathname:'/home'
+					})
+			    })
 			}else{
-				alert('Unfortunately there was an error trying to create your profile. Please try again');
+				const {statusCode,error}=data;
+				if(statusCode==400){
+					let errorValidationResonse="";
+					for(var i=0;i<error.length;i++){
+						errorValidationResonse=errorValidationResonse+' '+error[i]+',';
+					}
+					alert('Unfortunately an error has occured on using the credentials you supplied for :'+errorValidationResonse
+						+'. Please repeat the process and submit again');
+				}else{
+					alert('Unfortunately an error has occured when creating your profile. Please try again later');
+				}
 			}
 		}
+		this.setState({
+			isCreatingProfile:false
+		})
 	}
 
 	checkIfEmailIsValid=async()=>{
@@ -282,13 +296,13 @@ class PersonalSignUp extends Component{
 		return (
 			<React.Fragment>
 				<ul style={{padding:"0px"}}>
-					<img src={SympociaIcon} style={{position:"relative",marginLeft:"40%",width:"80px",height:"60px"}}/>
-					<p style={{fontSize:"30px",marginLeft:"10%",color:"#424242"}}>
+					<img id="image" src={SympociaIcon} style={{position:"relative",marginLeft:"40%",width:"80px",height:"60px"}}/>
+					<p id="headerText" style={{fontSize:"30px",marginLeft:"10%",color:"#424242"}}>
 						<b>Welcome to Sympocia</b>
 					</p>
-					<p style={{marginLeft:"35%"}}> Sign up is quick and easy </p>
+					<p id="signUpText" style={{marginLeft:"35%"}}> Sign up is quick and easy </p>
 
-					<ul style={{paddingLeft:"70px"}}>
+					<ul id="inputContainerLI" style={{paddingLeft:"70px"}}>
 						<InputContainer id="email" placeholder="Email"/>
 						<InputContainer onClick={()=>this.checkIfEmailIsValid()}
 							 id="firstName" placeholder="First Name"
@@ -303,11 +317,14 @@ class PersonalSignUp extends Component{
 							 style={{width:"85%"}} placeholder="Password"
 						/>
 
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<SubmitButton onClick={()=>this.handleSignUpButton()}>
-								Submit
-							</SubmitButton>
-						</a>
+						{this.state.isCreatingProfile==true ?
+							<p>Please wait...</p>
+							:<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<SubmitButton onClick={()=>this.handleSignUpButton()}>
+									Submit
+								</SubmitButton>
+							</a>
+						}
 
 						 <TermsOfAgreement>
                            By clicking Submit, you agree to our Terms, Data Policy and Cookies Policy.
@@ -325,11 +342,7 @@ class PersonalSignUp extends Component{
 const mapDispatchToProps=dispatch=>{
 
 	return{
-		addFirstName:(firstName)=>dispatch(addName(firstName)),
-		addLastName:(lastName)=>dispatch(addLastName(lastName)),
-		addEmail:(email)=>dispatch(addEmail(email)),
-		addPersonalIdentificationId:(id)=>dispatch(addPersonalIdentificationId(id)),
-		loginPersonalPage:(loginIndicator)=>dispatch(loginPersonalPage(loginIndicator)),
+		signInPersonalUser:(profile)=>dispatch(signInPersonalUser(profile)),
 		loginCompanyPage:(loginIndicator)=>dispatch(loginCompanyPage(loginIndicator))
 	}
 }

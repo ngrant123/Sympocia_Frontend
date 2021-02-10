@@ -1,22 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import {testIfUserIsUsingChrome} from "../VerifyBrowserIsChrome.js";
-
-/*
-	audioDescription: "data:application/octet-stream;base64,GkXfo59ChoEBQ"
-	caption: "TEStin"
-	comments: []
-	datePosted: 1594367618370
-	description: "yup"
-	imageScore: 0
-	imgUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcIA"
-	industriesUploaded: [{…}]
-	owner: "5f07eabdda8abe1fb10375e5"
-	stampCount: 0
-	videoDescription: "data:application/octet-stream;base64,GkXfo6NChoEBQ"
-	__v: 0
-	_id: "5f081ee3502ed922ffba5169"
-*/
 
 const Container=styled.div`
 	position:relative;
@@ -43,12 +26,20 @@ const Container=styled.div`
 			width:210px !important;
 		}
     }
-    @media screen and (max-width:740px) and (max-height:420px){
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#parentContainer{
+			height:60% !important;
+		}
+    }
+
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
 	 	#crownedImageContainer{
 			width:180px !important;
 		}
 		#parentContainer{
-			height:80% !important;
+			height:100% !important;
 		}
     }
     @media screen and (max-width:670px) and (max-height:380px){
@@ -137,14 +128,12 @@ const CrownedImageContainer=(props)=>{
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
 					<Image>
 						<img src={imageData.imgUrl} style={{width:"100%",height:"100%"}}/>
-						{testIfUserIsUsingChrome()==true &&(
-							<VideoDesriptionContainer>
-							   <video key={videoDescriptionId} style={{borderRadius:"50%"}}
-							   		width="100%" height="100%" borderRadius="50%" autoplay="false" muted>
-									<source src={imageData.videoDescription} type="video/mp4"/>
-								</video>
-							</VideoDesriptionContainer>
-						)}
+						<VideoDesriptionContainer>
+						   <video key={videoDescriptionId} style={{borderRadius:"50%"}}
+						   		width="100%" height="100%" borderRadius="50%" autoplay="false" muted>
+								<source src={imageData.videoDescription} type="video/mp4"/>
+							</video>
+						</VideoDesriptionContainer>
 					</Image>
 				</li>
 
@@ -153,7 +142,7 @@ const CrownedImageContainer=(props)=>{
 						<li style={IndustryButtonCSS}>
 							{imageData.industriesUploaded[0].industry}
 						</li>
-						<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px"}}>
+						<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 							<b>{imageData.caption}</b>
 						</li>
 
@@ -164,7 +153,7 @@ const CrownedImageContainer=(props)=>{
 						*/}
 
 						<li style={{listStyle:"none"}}>
-							<Description>
+							<Description style={{maxWidth:"60%",maxHeight:"60px",overflow:"hidden"}}>
 								{imageData.description}
 							</Description>
 						</li>
@@ -183,7 +172,7 @@ const CrownedImageContainer=(props)=>{
 										</li>
 									</a>
 								*/}
-								{(imageData.audioDescription!=null && testIfUserIsUsingChrome()==true)?
+								{imageData.audioDescription!=null?
 									<li style={{listStyle:"none"}}>
 											<audio key={audioId} style={{width:"200px"}} controls>
 											  <source src={imageData.audioDescription} type="audio/ogg"/>

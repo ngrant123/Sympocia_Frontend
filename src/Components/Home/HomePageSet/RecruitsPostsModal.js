@@ -10,7 +10,7 @@ import {getRecruitsPostsHomePage} from "../../../Actions/Requests/ProfileAxiosRe
 import SelectedRecruitPosts from "./SelectedRecruitPost.js";
 import LoadingScreen from "../../../LoadingAnimation.js";
 import {Link} from "react-router-dom";
-import {displayPersonalIndustryFeed} from "../HomePageSubset/SearchExplorePage/SearchExploreSubset/ImagePostsModal.js";
+import {displayPersonalIndustryFeed} from "../HomePageSubset/SearchExplorePage/SearchExploreSubset/ConstructSuggestedSymposium.js";
 import {useSelector} from "react-redux";
 
 import ImagePostDisplayPortal from "./ImageHomeDisplayPortal.js";

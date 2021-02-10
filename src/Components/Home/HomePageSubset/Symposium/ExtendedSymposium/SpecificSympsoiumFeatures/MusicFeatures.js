@@ -53,13 +53,17 @@ const MusicFeatures=({symposium,questions})=>{
 		changeQuestionIndex(index);
 	}
 
-	const displayPostModal=(posts,postType,selectedPost)=>{
-		var indexOfStevie = posts.findIndex(i => i._id === selectedPost._id);
-		changeModalType(postType);
-		changeDisplayMusicModal(true);
-		changeQuestionIndex(indexOfStevie);
-		changeSelectedQuestion(selectedPost.question);
-		changeSelectedPostId(selectedPost._id);
+	const displayPostModal=(posts,postType,selectedPost,isGuestProfile)=>{
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
+		}else{
+			var indexOfStevie = posts.findIndex(i => i._id === selectedPost._id);
+			changeModalType(postType);
+			changeDisplayMusicModal(true);
+			changeQuestionIndex(indexOfStevie);
+			changeSelectedQuestion(selectedPost.question);
+			changeSelectedPostId(selectedPost._id);	
+		}
 	}
 
 	const handleCloseModal=()=>{
@@ -87,7 +91,7 @@ const MusicFeatures=({symposium,questions})=>{
 								{audioQuestion.map(data=>
 									<>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>displayPostModal(audioQuestion,"Audio",data)} style={OptionsCSS}>
+										<li onClick={()=>displayPostModal(audioQuestion,"Audio",data,symposiumInformation.isGuestProfile)} style={OptionsCSS}>
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													{data.question}
@@ -105,7 +109,7 @@ const MusicFeatures=({symposium,questions})=>{
 								{imageQuestion.map(data=>
 									<>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>displayPostModal(imageQuestion,"Image",data)} style={OptionsCSS}>
+										<li onClick={()=>displayPostModal(imageQuestion,"Image",data,symposiumInformation.isGuestProfile)} style={OptionsCSS}>
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													{data.question}
@@ -124,7 +128,7 @@ const MusicFeatures=({symposium,questions})=>{
 								{regularPostQuestion.map(data=>
 									<>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>displayPostModal(regularPostQuestion,"RegularPost",data)} style={OptionsCSS}>
+										<li onClick={()=>displayPostModal(regularPostQuestion,"RegularPost",data,symposiumInformation.isGuestProfile)} style={OptionsCSS}>
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													{data.question}
@@ -142,7 +146,7 @@ const MusicFeatures=({symposium,questions})=>{
 								{videoQuestion.map(data=>
 									<>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>displayPostModal(videoQuestion,"Video",data)} style={OptionsCSS}>
+										<li onClick={()=>displayPostModal(videoQuestion,"Video",data,symposiumInformation.isGuestProfile)} style={OptionsCSS}>
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													{data.question}
