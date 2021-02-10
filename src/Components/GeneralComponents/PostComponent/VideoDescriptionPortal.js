@@ -131,6 +131,7 @@ const VideoDescriptionPortal=(props)=>{
 		let video=document.getElementById("videoDescriptionVideo");
 		if(!navigator.mediaDevices){
 			alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
+			props.closeModal();
 		}else{
 			if (navigator.mediaDevices.getUserMedia){
 				console.log(navigator.mediaDevices.getUserMedia);
