@@ -94,8 +94,8 @@ const DescriptionModal=styled.div`
 
 const SmallProfileDescriptionPicture=styled.div`
 	postion:relative;
-	width:80px;
-	height:30%;
+	width:70px;
+	height:60px;
 	border-radius:50%;
 	background-color:white;
 
@@ -245,7 +245,9 @@ class Video extends Component{
 							</li>
 
 							<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"white",marginRight:"35%"}}>
-								<b>{postInformation.owner.firstName}</b>
+								<Link to={{pathname:`/profile/${postInformation.owner._id}`}}>
+									<b>{postInformation.owner.firstName}</b>
+								</Link>
 							</li>
 							{postInformation.audioDescription!=null &&(
 								<li style={{listStyle:"none"}}>

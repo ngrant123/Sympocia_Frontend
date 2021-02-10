@@ -222,13 +222,13 @@ const DescriptionModal=(props)=>{
 			tikTokUrl:tikTokUlr,
 			instagramUrl:instagramUrl
 		}
-		personalInformation.displayChampionModal(ChampionModalObject);
 		const {confirmation,data}=await createChampion(
 											personalReduxInformation.id,
 											ChampionModalObject,
 											currentAccessToken
 										);
 		if(confirmation=="Success"){
+			personalInformation.displayChampionModal(ChampionModalObject);
 			props.closeModal();
 		}else{
 			const {statusCode}=data;

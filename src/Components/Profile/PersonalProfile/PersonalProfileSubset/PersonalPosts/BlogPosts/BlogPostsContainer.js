@@ -353,32 +353,35 @@ return(
 								}
 							</li>
 							<hr/>
-							<li id="searchSymposiumPostLI" style={{listStyle:"none",marginTop:"5%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",color:"#C8B0F4"}}>
-										<b>Search By Industry:</b>
-									</li>
+							
+							{/*
+								<li id="searchSymposiumPostLI" style={{listStyle:"none",marginTop:"5%"}}>
+									<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",color:"#C8B0F4"}}>
+												<b>Search By Industry:</b>
+											</li>
 
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<div class="dropdown">
-											<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																	borderColor:"#5298F8",
-																																	borderStyle:"solid",
-																																	borderWidth:"1px",
-																																	color:"#5298F8",
-																																	backgroundColor:"white"}}>
-												Industries
-											   	<span class="caret"></span>
-											</button>
-											<ul class="dropdown-menu">
-												<li><a href="">Most Popular</a></li>
-												<li><a href="">Most Recent</a></li>
-												
-											</ul>
-					  				 </div>
-									</li>
-								</ul>
-							</li>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<div class="dropdown">
+												<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																		borderColor:"#5298F8",
+																																		borderStyle:"solid",
+																																		borderWidth:"1px",
+																																		color:"#5298F8",
+																																		backgroundColor:"white"}}>
+													Industries
+												   	<span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu">
+													<li><a href="">Most Popular</a></li>
+													<li><a href="">Most Recent</a></li>
+													
+												</ul>
+						  				 </div>
+										</li>
+									</ul>
+								</li>
+							*/}
 
 							<li id="smallPostsContainerLI" style={{listStyle:"none",marginTop:"5%"}}>	
 								<ul style={{padding:"0px"}}>
@@ -457,7 +460,7 @@ return(
 								                    backSpeed={30} 
 						                		  />:
 												<p onClick={()=>postDisplayModal.fetchNextPosts()} style={NextPostLabelCSS}>
-													Next Page
+													Next
 												</p>
 											}
 										</React.Fragment>

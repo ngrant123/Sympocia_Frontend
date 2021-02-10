@@ -153,12 +153,13 @@ class PersonalSignUp extends Component{
 			}else{
 				const {statusCode,error}=data;
 				if(statusCode==400){
-					let errorValidationResonse="";
-					for(var i=0;i<error.length;i++){
-						errorValidationResonse=errorValidationResonse+' '+error[i]+',';
-					}
-					alert('Unfortunately an error has occured on using the credentials you supplied for :'+errorValidationResonse
-						+'. Please repeat the process and submit again');
+					/*
+						let errorValidationResonse="";
+						for(var i=0;i<error.length;i++){
+							errorValidationResonse=errorValidationResonse+' '+error[i]+',';
+						}
+					*/
+					alert('Unfortunately an error has occured on using the credentials you supplied for. Please repeat the process and submit again');
 				}else{
 					alert('Unfortunately an error has occured when creating your profile. Please try again later');
 				}

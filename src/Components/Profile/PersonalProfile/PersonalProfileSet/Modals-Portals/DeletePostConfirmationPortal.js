@@ -122,7 +122,8 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
       if(confirmation=="Success"){
         personalContextInformation.deleteChampionModal({
           name:"",
-          description:""
+          description:"",
+          imgUrl:""
         })
         closeModal();
       }else{

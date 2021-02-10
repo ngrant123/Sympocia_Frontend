@@ -302,8 +302,11 @@ const VideoDescriptionPortal=(props)=>{
 					</ul>:null
 				}
 				
-
-				<video id="videoDescriptionVideo" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true">
+				{/*
+					<video id="videoDescriptionVideo" transform="rotateY(180deg)" width="100%" height="100%" autoplay="true">
+					</video>
+				*/}
+				<video id="videoDescriptionVideo" width="100%" height="100%" autoplay="true">
 				</video>
 
 				<ul id="videoControllerLI" style={{marginLeft:"40%",marginTop:"-10%",padding:"0px"}}>

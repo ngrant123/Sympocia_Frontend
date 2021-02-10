@@ -22,6 +22,12 @@ const Container=styled.div`
 		#postLIContainer{
 			width:60% !important;
 		}
+		#postOwnerAndSymposium{
+			#ownerProfilePicture{
+			 	width:45px !important;
+				height:40px !important;
+			}
+		}
 	}
 
 	@media screen and (max-width:800px){
@@ -211,7 +217,8 @@ const ImageInformation=(props)=>{
 										<PostProfilePictureAndNameContainer>
 											{props.imageInformation.owner.firstName!=null?
 												<React.Fragment>
-													<img src={props.imageInformation.owner.profilePicture} style={{borderRadius:"50%",width:"20%",height:"15%"}}/>
+													<img id="ownerProfilePicture" src={props.imageInformation.owner.profilePicture}
+													 style={{borderRadius:"50%",width:"20%",height:"65px"}}/>
 													<Link style={{marginLeft:"4%",fontSize:"20px",maxWidth:"80%",maxHeight:"30px",overflow:"hidden",textDecoration:"none",color:"black"}}
 														to={{pathname:`/profile/${props.imageInformation.owner._id}`}}
 													>	

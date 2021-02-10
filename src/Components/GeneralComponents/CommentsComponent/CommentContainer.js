@@ -33,7 +33,7 @@ const Container=styled.div`
 		}
 
 		#commentLI{
-			height:20% !important;
+			height:40px !important;
 		}
 		#replyLIImage{
 			height:20% !important;
@@ -44,7 +44,6 @@ const Container=styled.div`
 const CommentContainerDiv=styled.div`
 	position:relative;
 	width:50%;
-	
 `;
 
 const CommentCreationContainer=styled.div`
@@ -105,8 +104,8 @@ const CommentTextArea=styled.textarea`
 
 const ProfilePicture={
 	position:"relative",
-	width:"53px",
-	height:"13%",
+	width:"40px",
+	height:"40px",
 	borderRadius:"50%"
 }
 

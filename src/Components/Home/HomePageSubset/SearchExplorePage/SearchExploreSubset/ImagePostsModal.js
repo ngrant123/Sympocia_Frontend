@@ -32,7 +32,7 @@ const Container=styled.div`
 		flex-direction:column;
 	}
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:700px){
 		flex-direction:column !important;
 		top:-5%;
 		#headerImageLI{
@@ -43,8 +43,8 @@ const Container=styled.div`
 			width:100px !important;
 		}
 		#image{
-			width:120px !important;
-			height:120px !important;
+			width:100px !important;
+			height:100px !important;
 			margin-bottom:10%;
 		}
 		#smallPersonalInformation{
@@ -111,11 +111,12 @@ const PostsContainer=styled.div`
 	flex-direction:row; 
 	width:50%;
 	height:600px;
-	overflow-y:scroll;
 	margin-left:5%;
+	overflow:scroll;
 	flex-wrap: wrap;
 	@media screen and (max-width:1370px){
 		width:90%;
+		overflow:visible !important;
 	}
 	@media screen and (max-width:1024px) and (max-height:1366px) {
     	height:100%;
@@ -124,7 +125,7 @@ const PostsContainer=styled.div`
 	@media screen and (max-width:600px){
 		margin-left:-5% !important;
 		width:100% !important;
-		margin-top:-5px;
+		margin-top:-150px;
 		padding-top:70px;
 		#smallAudioDescription{
 			display:none !important;
@@ -501,11 +502,13 @@ const ImagePostsModal=(props)=>{
 								}
 							</>:
 							<>
-								<audio id="headerAudioLI" style={{width:"150%"}} controls muted>
-								  	<source src={headerImage.audioDescription} type="audio/ogg"/>
-								  	<source src={headerImage.audioDescription} type="audio/mpeg"/>
-									Your browser does not support the audio element.
-								</audio>
+								{headerImage.audioDescription!=null &&(
+									<audio id="headerAudioLI" style={{width:"150%"}} controls muted>
+									  	<source src={headerImage.audioDescription} type="audio/ogg"/>
+									  	<source src={headerImage.audioDescription} type="audio/mpeg"/>
+										Your browser does not support the audio element.
+									</audio>
+								)}
 								<p style={{marginLeft:"2%",height:"70px",overflow:"hidden"}}>
 									{headerImage.description}
 								</p>
@@ -536,13 +539,15 @@ const ImagePostsModal=(props)=>{
 														/>
 													</li>
 												)}
-												<li id="smallAudioDescription" style={{listStyle:"none"}}>
-													<audio style={{width:"150px",height:"25px"}} controls muted>
-													  	<source src={data.audioDescription} type="audio/ogg"/>
-													  	<source src={data.audioDescription} type="audio/mpeg"/>
-														Your browser does not support the audio element.
-													</audio>
-												</li>
+												{data.audioDescription!=null &&(
+													<li id="smallAudioDescription" style={{listStyle:"none"}}>
+														<audio style={{width:"150px",height:"25px"}} controls muted>
+														  	<source src={data.audioDescription} type="audio/ogg"/>
+														  	<source src={data.audioDescription} type="audio/mpeg"/>
+															Your browser does not support the audio element.
+														</audio>
+													</li>
+												)}
 											</ul>
 									</div>
 									<DescriptionContainer>
@@ -573,7 +578,7 @@ const ImagePostsModal=(props)=>{
 							{props.isLoadingReloadedPosts==true?
 								<p>Loading please wait...</p>:
 								<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={ImageLabelCSS}>
-									Next Page
+									Next
 								</p>
 							}
 						</React.Fragment>

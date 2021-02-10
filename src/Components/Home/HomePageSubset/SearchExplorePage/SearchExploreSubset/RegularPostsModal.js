@@ -109,6 +109,7 @@ const PostsContainer=styled.div`
 		margin-left:0%;
 		margin-top:5%;
 		height:100%;
+		overflow:visible !important;
 	}
 `;
 
@@ -332,7 +333,7 @@ const RegularPostModal=(props)=>{
 								{props.isLoadingReloadedPosts==true?
 									<p>Loading please wait...</p>:
 									<p onClick={()=>props.triggerReloadingPostsHandle("RegularPosts")} style={NextButtonCSS}>
-										Next Page
+										Next
 									</p>
 								}
 							</React.Fragment>

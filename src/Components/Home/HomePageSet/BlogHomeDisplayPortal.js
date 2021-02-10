@@ -13,7 +13,6 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PollOptionPortal from "../../GeneralComponents/PostComponent/PollOptionPortal.js";
 import Comments from "../../GeneralComponents/CommentsComponent/index.js";
-import VideoDescriptionMobileDisplayPortal from "../../GeneralComponents/PostComponent/VideoDescriptionMobileDisplayPortal.js";
 
 import PollIcon from '@material-ui/icons/Poll';
 import {HomeConsumer} from "../HomeContext.js";
@@ -138,16 +137,6 @@ const ProfilePicture=styled(Link)`
 	position:relative;
 	width:80px;
 	height:80px;
-	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-		#smallImagePicture{
-			height:40% !important;
-		}
-	}
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		#smallImagePicture{
-			height:60% !important;
-		}
-    }
 `;
 
 const keyFrame=keyframes`
@@ -183,6 +172,7 @@ const SmallPostInformationModal=styled.div`
 	top:12%;
 	left:65%;
 	padding:10px;
+	cursor:pointer;
 	z-index:9;
 
 	@media screen and (max-width:1370px){
@@ -213,18 +203,12 @@ const ApproveDisapproveContainer=styled.div`
 
 
 const ShadowContainer = styled.div`
+
 	position:absolute;
 	width:100%;
 	height:100%;
 	z-index:15;
-`;
 
-const VideoDescriptionContainer=styled.div`
-	position:relative;
-	width:40%;
-	height:50%;
-	border-radius:50%;
-	cursor:pointer;
 `;
 
 
@@ -298,7 +282,6 @@ const BlogHomeDisplayPortal=(props)=>{
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 	const [displayApproveDisapproveIndicator,changeDisplayApproveDisapproveIndicator]=useState(false);
 	const [displayCommentsContainer,changeDisplayCommentsContainer]=useState(false);
-	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
 
 	const approvesPostNumber=props.selectedBlog.isPostAuthentic.numOfApprove!=null?
 					   props.selectedBlog.isPostAuthentic.numOfApprove.length:0;
@@ -457,25 +440,10 @@ const BlogHomeDisplayPortal=(props)=>{
 		)
 	}
 
-	const displayVideoDescriptionTrigger=()=>{
-	 	changeVideoDescriptionDisplay(true);
-	}	
-
-	const closeVideoDescriptionDisplayModal=()=>{
-		changeVideoDescriptionDisplay(false);
-	}
-
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainerBlog onClick={()=>props.closeModal()}/>
 			<Container>	
-				{displayVideoDescriptionDisplay==true &&(
-					<VideoDescriptionMobileDisplayPortal
-						targetDom={props.targetDom}
-						closeModal={closeVideoDescriptionDisplayModal}
-						videoUrl={props.selectedBlog.videoDescription}
-					/>
-				)}
 				<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
@@ -503,10 +471,12 @@ const BlogHomeDisplayPortal=(props)=>{
 						{displayCommentsContainer==true?
 							<>{commentModal()}</>
 						:<ul style={{padding:"0px"}}>
-							<li onClick={()=>displayOrHideModal()} style={{cursor:"pointer",listStyle:"none",marginRight:"70%"}}>
-								<ExpandLessIcon
-									style={{fontSize:25}}
-								/>
+							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<ExpandLessIcon
+										style={{fontSize:25}}
+									/>
+								</a>
 							</li>
 							{displayStampEffect==true?
 									<li style={{listStyle:"none"}}>
@@ -522,10 +492,10 @@ const BlogHomeDisplayPortal=(props)=>{
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 										<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
-											<img id="smallImagePicture" src={props.selectedBlog.owner.profilePicture==null?
+											<img id="smallImagePicture" src={props.selectedBlog.owner.ownerImgUrl==null?
 													NoProfilePicture:
 													props.selectedBlog.owner.profilePicture
-												} style={{width:"30%",height:"20%",borderRadius:"50%"}}/>
+												} style={{width:"55px",height:"50px",borderRadius:"50%"}}/>
 										</ProfilePicture>
 									</li>
 									<li style={{listStyle:"none"}}>
@@ -563,65 +533,16 @@ const BlogHomeDisplayPortal=(props)=>{
 									</ul>
 								</li>
 							)}
-							<hr/>
-							<li style={{listStyle:"none",marginTop:"2%"}}>
-								<ul style={{padding:"0px"}}>
-									{props.selectedBlog.videoDescription!=null &&(
-										<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
-											<VideoDescriptionContainer>
-												<video width="100%" onClick={()=>displayVideoDescriptionTrigger()}
-													height="100%" borderRadius="50%" autoplay="true">
-													<source src={props.selectedBlog.videoDescription} type="video/mp4"/>
-												</video>
-											</VideoDescriptionContainer>
-										</li>
-									)}
-									{props.selectedBlog.audioDescription && (
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<audio controls>
-												<source src={props.selectedBlog.audioDescription} type="audio/ogg"/>
-												<source src={props.selectedBlog.audioDescription}
-												type="audio/mpeg"/>
-												Your browser does not support the audio element.
-											</audio>
-										</li>
-									)}
-								</ul>
-							</li>
 
 						</ul>
 						}
 					</PosterInformationModal>:
 					<SmallPostInformationModal>
-						{displayDesktopUI==false?
-							<li onClick={()=>displayOrHideModal()} style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
 								<ExpandMoreIcon
 									style={{fontSize:25}}
 								/>
-							</li>:
-							<ul style={{padding:"0px"}}>
-								{/*
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
-											<img id="smallImagePicture" src={props.ownerImgUrl==null?
-												NoProfilePicture:
-												props.ownerImgUrl
-											} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-										</ProfilePicture>
-									</li>
-
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"30%"}}>
-										<b>{props.selectedBlog.owner.firstName}</b>
-									</li>
-								*/}
-
-								<li onClick={()=>displayOrHideModal()} style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
-									<ExpandMoreIcon
-										style={{fontSize:25}}
-									/>
-								</li>
-							</ul>
-						}
+							</li>
 					</SmallPostInformationModal>
 					}
 				</Container>
