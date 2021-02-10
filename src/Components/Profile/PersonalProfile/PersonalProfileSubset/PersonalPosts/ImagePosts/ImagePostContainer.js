@@ -225,7 +225,7 @@ class ImagePostsContainer extends Component{
 													                    backSpeed={30} 
 											                		  />:
 																	<p onClick={()=>postsConsumer.fetchNextPosts()} style={ImageLabelCSS}>
-																		Next Page
+																		Next
 																	</p>
 																}
 															</React.Fragment>

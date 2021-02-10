@@ -162,7 +162,7 @@ class VideoPostsContainer extends Component{
 														                    backSpeed={30} 
 												                		  />:
 																		<p onClick={()=>postsConsumer.fetchNextPosts()} style={NextPostLabelCSS}>
-																			Next Page
+																			Next
 																		</p>
 																	}
 																</React.Fragment>

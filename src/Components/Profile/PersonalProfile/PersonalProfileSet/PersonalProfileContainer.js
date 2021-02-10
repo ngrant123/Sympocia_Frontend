@@ -164,14 +164,14 @@ class LProfile extends Component{
 		    	
 		    	this.setState({
 		    		...this.state,
-		    		champion:championData,
+		    		championModalData:championData,
 		    		displayChampion:true
 		    	})
 		    },
 		    deleteChampionModal:(championData)=>{
 		    	this.setState({
 		    		...this.state,
-		    		champion:championData,
+		    		championModalData:championData,
 		    		displayChampion:false
 		    	})
 		    },

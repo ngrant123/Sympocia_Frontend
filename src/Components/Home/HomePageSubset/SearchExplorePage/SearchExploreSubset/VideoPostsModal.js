@@ -195,16 +195,17 @@ const SmallPostContainer=styled.div`
 		width:90%;
     	margin-left:-4% !important;
     	margin-top:5%;
+    	overflow:visible !important;
 	}
 
 	@media screen and (max-width:1024px) and (max-height:1366px) {
     	height:100%;
     }
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:700px){
+		margin-top:-100px;
 		margin-left:-5% !important;
 		width:100% !important;
-		margin-top:-5px;
 		padding-top:70px;
 		#smallAudioDescription{
 			
@@ -284,6 +285,8 @@ const VideoPostModal=(props)=>{
 	}
 
 	const displayVideoModal=(data)=>{
+		const video=document.getElementById("video");
+		video.pause();
 		changeSelectedVideo(data);
 		changeRecommendedVideos(videos);
 		changeVideoDisplay(true);
@@ -322,13 +325,15 @@ const VideoPostModal=(props)=>{
 									/>
 								</li>
 							)}
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<audio id="headerAudio" style={{width:"200px"}} controls>
-								  	<source src={headerVideo.audioDescription} type="audio/ogg"/>
-								  	<source src={headerVideo.audioDescription} type="audio/mpeg"/>
-									Your browser does not support the audio element.
-								</audio>
-							</li>
+							{headerVideo.audioDescription!=null &&(
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<audio id="headerAudio" style={{width:"200px"}} controls>
+									  	<source src={headerVideo.audioDescription} type="audio/ogg"/>
+									  	<source src={headerVideo.audioDescription} type="audio/mpeg"/>
+										Your browser does not support the audio element.
+									</audio>
+								</li>
+							)}
 						</HeaderOwnerInformation>
 
 						<video id="headerVideoLI" style={{cursor:"pointer",marginTop:"0%"}}
@@ -363,8 +368,8 @@ const VideoPostModal=(props)=>{
 										previousProps={props}
 									/>
 								:<PostContainer>
-										<div id="videoContainer" onClick={()=>displayVideoModal(data)}style={{listStyle:"none",marginBottom:"1%",cursor:"pointer"}}>
-												<video id="video" key={data.videoUrl} position="relative" height="290px" width="100%" autoplay>
+										<div id="videoContainer" onClick={()=>displayVideoModal(data)} style={{listStyle:"none",marginBottom:"1%",cursor:"pointer"}}>
+												<video id="video" key={data.videoUrl} position="relative" height="290px" width="100%" autoplay muted>
 													<source src={data.videoUrl} type="video/mp4"/>
 												</video>
 												<ul style={{padding:"0px",zIndex:"8",top:"-20%"}}>
@@ -389,13 +394,15 @@ const VideoPostModal=(props)=>{
 															/>
 														</li>
 													)}
-													<li id="smallAudioDescription" style={{listStyle:"none"}}>
-														<audio style={{width:"150px",height:"25px"}} controls muted>
-														  	<source src={data.audioDescription} type="audio/ogg"/>
-														  	<source src={data.audioDescription} type="audio/mpeg"/>
-															Your browser does not support the audio element.
-														</audio>
-													</li>
+													{data.audioDescription!=null &&(
+														<li id="smallAudioDescription" style={{listStyle:"none"}}>
+															<audio style={{width:"150px",height:"25px"}} controls muted>
+															  	<source src={data.audioDescription} type="audio/ogg"/>
+															  	<source src={data.audioDescription} type="audio/mpeg"/>
+																Your browser does not support the audio element.
+															</audio>
+														</li>
+													)}
 												</ul>
 										</div>
 										<DescriptionContainer>
@@ -419,7 +426,7 @@ const VideoPostModal=(props)=>{
 								{props.isLoadingReloadedPosts==true?
 									<p>Loading please wait...</p>:
 									<p onClick={()=>props.triggerReloadingPostsHandle("Videos")} style={NextButtonCSS}>
-										Next Page
+										Next 
 									</p>
 								}
 							</React.Fragment>
