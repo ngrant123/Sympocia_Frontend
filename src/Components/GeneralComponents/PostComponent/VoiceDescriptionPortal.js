@@ -224,6 +224,7 @@ const VoiceDescriptionPortal=(props)=>{
 			changeRecordingState(true)
 			if(!navigator.mediaDevices){
 				alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
+				props.closeModal();
 			}else{
 				if (navigator.mediaDevices.getUserMedia){
 				  	navigator.mediaDevices.getUserMedia({
