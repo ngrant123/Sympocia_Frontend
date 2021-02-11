@@ -149,7 +149,7 @@ const VideoDescriptionPortal=(props)=>{
 			    .then(recordedChunks=>{
 			    	debugger;
 				  	 if(recordedChunks!=null){
-						  	let recordedFile = new File(recordedChunks, { type: "video/mp4" });
+						  	let recordedFile = new File(recordedChunks,'videoDescription.mp4',{type:"video/quicktime",lastModified:new Date()});
 						  	var videoSrc=URL.createObjectURL(recordedFile);
 							var currentVideoElements=videoElements;
 
@@ -243,7 +243,10 @@ const VideoDescriptionPortal=(props)=>{
 			stopRecording(localStream);
 			let reader=new FileReader();
 			reader.onloadend=()=>{
-				props.createVideoDescription(reader.result);
+				debugger;
+				let videoDescriptionResult=reader.result;
+				videoDescriptionResult=videoDescriptionResult.replace('data:application/octet-stream','data:video/quicktime');
+				props.createVideoDescription(videoDescriptionResult);
 			}
 		  	reader.readAsDataURL(videoElements[0].videoFile);
 		}else{
