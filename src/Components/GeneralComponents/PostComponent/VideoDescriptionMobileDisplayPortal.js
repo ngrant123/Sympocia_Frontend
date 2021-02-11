@@ -34,8 +34,6 @@ const ShadowContainer= styled.div`
 `;
 
 const VideoDescriptionMobileDisplayPortal=({videoUrl,targetDom,closeModal})=>{
-	useEffect(()=>{
-	},[])
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer
