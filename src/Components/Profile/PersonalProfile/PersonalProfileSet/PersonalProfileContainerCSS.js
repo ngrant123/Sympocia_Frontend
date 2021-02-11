@@ -145,15 +145,15 @@ export const ProfilePictureContainer=styled.div`
 
 
     @media screen and (max-width:740px){
-    	top:-10% !important;
+    	top:-20% !important;
     	height:100% !important;
     	margin-left:0%;
     	width:90% !important;
 		z-index:10;
 		#profilePicture{
-          height:200% !important;
+          height:230% !important;
           left:5% !important;
-          max-height:240px !important;
+          max-height:250px !important;
 	    }
 
 	    max-height:250px !important;

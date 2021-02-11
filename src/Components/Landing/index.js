@@ -475,9 +475,11 @@ const LandingPage=(props)=>{
 				<>
 					{displayPersonalLanding==true?
 						<React.Fragment>
-							<ArrowPersonalContainer onClick={()=>changeDisplayForPersonal(false)}>
-								<ArrowForwardIosIcon/>
-							</ArrowPersonalContainer>
+							{/*
+								<ArrowPersonalContainer onClick={()=>changeDisplayForPersonal(false)}>
+									<ArrowForwardIosIcon/>
+								</ArrowPersonalContainer>
+							*/}
 
 							<FirstSection
 								increaseCounter={increasePageCounter}
@@ -499,9 +501,11 @@ const LandingPage=(props)=>{
 
 						</React.Fragment>:
 						<React.Fragment>
-							<ArrowCompanyContainer onClick={()=>changeDisplayForPersonal(true)}>
-								<ArrowBackIosIcon/>
-							</ArrowCompanyContainer>
+							{/*
+								<ArrowCompanyContainer onClick={()=>changeDisplayForPersonal(true)}>
+									<ArrowBackIosIcon/>
+								</ArrowCompanyContainer>
+							*/}
 							<CompanyFirstSection
 								increaseCounter={increasePageCounter}
 								displaySelectedPage={displaySelectedPage}
