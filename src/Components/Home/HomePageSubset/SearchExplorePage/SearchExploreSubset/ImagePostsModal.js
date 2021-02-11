@@ -125,8 +125,6 @@ const PostsContainer=styled.div`
 	@media screen and (max-width:600px){
 		margin-left:-5% !important;
 		width:100% !important;
-		margin-top:-150px;
-		padding-top:70px;
 		#smallAudioDescription{
 			display:none !important;
 		}
@@ -465,7 +463,8 @@ const ImagePostsModal=(props)=>{
 										headerImage.owner.profilePicture}
 										style={{height:"50px",width:"60px",borderRadius:"50%"}}
 									/>
-									:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%" autoplay="true" muted>
+									:<video autoplay loop autobuffer muted playsinline 
+										style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%">
 										<source src={headerImage.videoDescription} type="video/mp4"/>
 									</video>
 								}
@@ -490,7 +489,7 @@ const ImagePostsModal=(props)=>{
 						{props.isMobileUI==true?
 							<>
 								{headerImage.audioDescription==null?
-									<p style={{marginLeft:"2%",height:"70px",overflow:"hidden"}}>
+									<p style={{marginLeft:"2%",maxHeight:"70px",overflow:"hidden"}}>
 										{headerImage.description}
 									</p>
 									:
@@ -509,7 +508,7 @@ const ImagePostsModal=(props)=>{
 										Your browser does not support the audio element.
 									</audio>
 								)}
-								<p style={{marginLeft:"2%",height:"70px",overflow:"hidden"}}>
+								<p style={{marginLeft:"2%",maxHeight:"70px",overflow:"hidden"}}>
 									{headerImage.description}
 								</p>
 							</>
@@ -556,7 +555,7 @@ const ImagePostsModal=(props)=>{
 												<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
 													 style={{height:"50px",width:"60px",borderRadius:"50%"}}
 												/>
-												:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%" autoplay="true" controls muted>
+												:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%" autoplay loop autobuffer muted playsinline>
 													<source src={data.videoDescription} type="video/mp4"/>
 												</video>
 											}
