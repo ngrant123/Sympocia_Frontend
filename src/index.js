@@ -115,4 +115,4 @@ const application  = (
 	}
 
 
-ReactDom.render(application,document.getElementById("App"));
+ReactDom.render(finalElement,document.getElementById("App"));
