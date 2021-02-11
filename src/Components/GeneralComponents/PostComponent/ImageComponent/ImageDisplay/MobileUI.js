@@ -384,8 +384,9 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 											{imgData.videoDescription!=null &&(
 												<VideoDesriptionContainer>
-													<video id="videoDescription" style={{borderRadius:"50%"}} width="100%" 
-													height="100%" borderRadius="50%" autoPlay muted>
+													<video id="videoDescription" onClick={()=>displayVideoDescriptionTrigger()}
+														style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%"
+														autoPlay loop autoBuffer muted playsInline>
 														<source src={imgData.videoDescription} type="video/mp4"/>
 													</video>
 												</VideoDesriptionContainer>
