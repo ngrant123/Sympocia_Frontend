@@ -243,9 +243,8 @@ const VideoDescriptionPortal=(props)=>{
 			stopRecording(localStream);
 			let reader=new FileReader();
 			reader.onloadend=()=>{
-				debugger;
 				let videoDescriptionResult=reader.result;
-				videoDescriptionResult=videoDescriptionResult.replace('data:application/octet-stream','data:video/quicktime');
+				videoDescriptionResult=videoDescriptionResult.replace('data:application/octet-stream','data:video/mp4');
 				props.createVideoDescription(videoDescriptionResult);
 			}
 		  	reader.readAsDataURL(videoElements[0].videoFile);
