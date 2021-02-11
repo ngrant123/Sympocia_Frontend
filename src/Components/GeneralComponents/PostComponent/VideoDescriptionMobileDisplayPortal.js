@@ -35,8 +35,6 @@ const ShadowContainer= styled.div`
 
 const VideoDescriptionMobileDisplayPortal=({videoUrl,targetDom,closeModal})=>{
 	useEffect(()=>{
-		const video=document.getElementById("videoDescription");
-		video.pause();
 	},[])
 	return createPortal(
 		<React.Fragment>
@@ -54,10 +52,8 @@ const VideoDescriptionMobileDisplayPortal=({videoUrl,targetDom,closeModal})=>{
 					</svg>
 				</div>
 				<hr/>
-				<video id="videoDescription" controls autoPlay={true} loop autoBuffer muted playsInline width="100%" height="100%">
-					<source src={videoUrl} type="video/mp4"/>
-					<source src={videoUrl} type="video/webm"/>
-					<source src={videoUrl} type="video/ogg"/>
+				<video controls width="100%" height="100%">
+					<source  type="video/mp4" src={videoUrl}/>
 					<p>This is fallback content to display for user agents that do not support the video tag.</p>
 				</video>
 			</Container>
