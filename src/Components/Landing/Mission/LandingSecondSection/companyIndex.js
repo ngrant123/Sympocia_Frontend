@@ -150,13 +150,22 @@ const PageImageContainer=styled.div`
   @media screen and (max-width:1370px){
     margin-left:30%;
   }
+
   @media screen and (max-width:600px){
     margin-left:15%;
     #image{
-      width:80% !important;
-      height:100%!important;
+      width:192px !important;
+      height:225px!important;
     }
   }
+
+    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+       margin-left:40%;
+      #image{
+        width:192px !important;
+        height:225px!important;
+      }
+    }
 `;
 
 
@@ -219,7 +228,7 @@ const SecondSection=(props)=>{
 		     <SecondContainer id="secondContainer"> 
             <SecondContainerContents>
               <PageImageContainer>
-                <img src={LandingImage}
+                <img id="image" src={LandingImage}
                  style={{width:"80%",height:"80%"}}
                 />
               </PageImageContainer>

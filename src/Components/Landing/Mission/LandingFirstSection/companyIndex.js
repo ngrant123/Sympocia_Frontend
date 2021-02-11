@@ -168,22 +168,24 @@ const PageImageContainer=styled.div`
   display:flex;
   flex-direction:column;
   @media screen and (max-width:1370px){
-      margin-left:5%;
     #amountOfUsersText{
       margin-top:7%;
       margin-left:-20% !important;
     }
   }
 
-  @media screen and (max-width:600px){
-    margin-left:15%;
-    #amountOfUsersText{
-      margin-top:0%;
-    }
+  @media screen and (max-width:700px){
+    height:50%;
+    width:80%;
+    margin-left:10% !important;
   }
 
-    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
-         margin-left:20%;
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+      margin-left:15%;
+      #headerImage{
+        width:192px !important;
+        height:225px!important;
+      }
     }
 `;
 
@@ -296,7 +298,7 @@ const FirstSection=(props)=>{
 
 	return(
 
-		     <FirstContainer id="firstContainer" style={{marginLeft:"5%",flexDirection:"column"}}>
+		     <FirstContainer id="firstContainer" style={{flexDirection:"column"}}>
               {displayEmailInformation==false?null:
                 <EmailInformationModal
                   closeModal={closeModal}
@@ -306,7 +308,7 @@ const FirstSection=(props)=>{
               <li style={{position:"relative",listStyle:"none",marginBottom:"2%"}}>
                   <ul style={{padding:"0px"}}>
                       <li style={{listStyle:"none",display:"inline-block"}}>
-                        <p id="headerCompany" style={{fontSize:"100px",color:"#C8B0F4",marginLeft:"-20%"}}>
+                        <p id="header" style={{fontSize:"100px",color:"#C8B0F4",marginLeft:"-20%"}}>
                             <b>Sympocia</b>
                         </p>
                       </li>

@@ -49,7 +49,7 @@ const AnimationContainer=styled.div`
 	@media screen and (max-width:740px){
 		#animationImage{
 			width:75% !important;
-			height:70% !important;
+			height:85% !important;
 		}
 	}
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {

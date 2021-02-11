@@ -28,6 +28,8 @@ const InformationCard=styled.div`
 
   @media screen and (max-width:700px){
   	width:100% !important;
+  	overflow-y:visible !important;
+  	overflow:visible;
   	#informationalCardText{
   		font-size:15px !important;
   	}
