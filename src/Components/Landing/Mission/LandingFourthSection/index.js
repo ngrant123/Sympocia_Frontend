@@ -24,7 +24,6 @@ const Container = styled.div`
 `;
 
 const ImageContainer=styled.div`
-	position:
 	display:flex;
 	justify-content:center;
 

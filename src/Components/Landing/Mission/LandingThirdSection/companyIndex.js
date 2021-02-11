@@ -81,7 +81,7 @@ const ThirdSection=(props)=>{
 	  },[]);
 
 	return (
-		<ThirdContainer id="thirdContainerCompany" style={{marginTop:"5%"}}>
+		<ThirdContainer id="thirdContainerCompany">
 			<ThirdContainerContents>
 				<InformationCard>
 					<p style={{fontSize:"20px",color:"#1f1f1f",borderTop:"5px solid #494949"}}>
