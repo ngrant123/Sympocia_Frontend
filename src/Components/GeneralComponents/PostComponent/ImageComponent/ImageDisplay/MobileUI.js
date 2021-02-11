@@ -385,7 +385,8 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 											{imgData.videoDescription!=null &&(
 												<VideoDesriptionContainer>
 													<video id="videoDescription" onClick={()=>displayVideoDescriptionTrigger()}
-														style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true">
+														style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%"
+														autoPlay loop autoBuffer muted playsInline>
 														<source src={imgData.videoDescription} type="video/mp4"/>
 													</video>
 												</VideoDesriptionContainer>
@@ -395,7 +396,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 											{imgData.audioDescription!=null &&(
 												<audio id="postAudio" style={{width:"150px"}} controls>
 													<source src={imgData.audioDescription} type="audio/ogg"/>
-													<source src={imgData.audioDescription} type="audio/mpeg"/>
+													<source src={imgData.audioDescription} type="audio/mp4"/>
 													Your browser does not support the audio element.
 												</audio>
 											)}

@@ -463,7 +463,7 @@ const ImagePostsModal=(props)=>{
 										headerImage.owner.profilePicture}
 										style={{height:"50px",width:"60px",borderRadius:"50%"}}
 									/>
-									:<video autoplay loop autobuffer muted playsinline 
+									:<video autoPlay loop autoBuffer muted playsInline 
 										style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%">
 										<source src={headerImage.videoDescription} type="video/mp4"/>
 									</video>
@@ -555,7 +555,8 @@ const ImagePostsModal=(props)=>{
 												<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
 													 style={{height:"50px",width:"60px",borderRadius:"50%"}}
 												/>
-												:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%" autoplay loop autobuffer muted playsinline>
+												:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%"
+												 autoPlay loop autoBuffer muted playsInline>
 													<source src={data.videoDescription} type="video/mp4"/>
 												</video>
 											}

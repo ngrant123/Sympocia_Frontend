@@ -149,7 +149,7 @@ const VideoDescriptionPortal=(props)=>{
 			    .then(recordedChunks=>{
 			    	debugger;
 				  	 if(recordedChunks!=null){
-						  	let recordedFile = new File(recordedChunks, { type: "video/webm" });
+						  	let recordedFile = new File(recordedChunks, { type: "video/mp4" });
 						  	var videoSrc=URL.createObjectURL(recordedFile);
 							var currentVideoElements=videoElements;
 
