@@ -25,11 +25,12 @@ const Container=styled.div`
 
 const ShadowContainer= styled.div`
 	position:fixed;
-	width:100%;
+	width:110%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
 	z-index:40;
 	top:0px;
+	left:-5%;
 `;
 
 const VideoDescriptionMobileDisplayPortal=({videoUrl,targetDom,closeModal})=>{
@@ -49,8 +50,11 @@ const VideoDescriptionMobileDisplayPortal=({videoUrl,targetDom,closeModal})=>{
 					</svg>
 				</div>
 				<hr/>
-				<video id="videoDescription" controls={true} width="100%" height="100%" autoplay="true">
-					<source src={videoUrl} type="video/mp4"/>
+				<video id="videoDescription" controls autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
+					<source src={videoUrl} type='video/mp4'/>
+					<source src={videoUrl} type='video/webm;'/>
+					<source src={videoUrl} type='video/ogg; codecs="theora, vorbis"'/>
+					<p>This is fallback content to display for user agents that do not support the video tag.</p>
 				</video>
 			</Container>
 		</React.Fragment>
