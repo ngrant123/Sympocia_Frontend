@@ -103,7 +103,7 @@ class SearchExplorePosts extends Component{
 	}
 
 	displayImages=()=>{                                        
-		console.log("TEsting calls");
+		
 		this.setState({
 			displayImagePosts:true,
 			displayVideoPosts:false,

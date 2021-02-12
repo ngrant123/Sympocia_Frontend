@@ -32,7 +32,7 @@ const SuggestedSymposiumsCSS={
 const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposium,selectedIndustries,previousProps)=>{
 		//have to format selected industries in and add additional information so that the personalPage can 
 		//accept props
-		console.log(selectedSymposium);
+
 		var industryColorMap=new Map();
 
 		if(previousProps.displaySymposium!=null){
@@ -101,7 +101,7 @@ const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposi
 
 
 const ConstructSuggestedSymposium=({personalInformation,previousProps})=>{
-		console.log(personalInformation);
+		
 		const {personalInformationState}=personalInformation;
 		var symposiumContainer=new Map();
 		var selectedSymposiums=[];

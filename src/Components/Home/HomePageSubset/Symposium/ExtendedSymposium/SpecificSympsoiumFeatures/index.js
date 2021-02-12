@@ -47,7 +47,6 @@ const ChatOption={
 */
 
 const SpecificFeatureSymposium=({symposium,symposiumId,questions,isGuestProfile})=>{
-	console.log(questions);
 	/*
 		const [isArtSymposium,changeArtStatus]=useState(false);
 		const [isSTEMSymposium,changeSTEMStatus]=useState(false);

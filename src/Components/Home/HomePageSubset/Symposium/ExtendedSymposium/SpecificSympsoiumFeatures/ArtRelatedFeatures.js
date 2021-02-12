@@ -16,7 +16,6 @@ const OptionsCSS={
   borderColor:"#3898ec"
 }
 const ArtRelatedFeatures=({symposium,questions})=>{
-	console.log(questions);
 	if(questions!=null){
 		var {
 			audioQuestion,

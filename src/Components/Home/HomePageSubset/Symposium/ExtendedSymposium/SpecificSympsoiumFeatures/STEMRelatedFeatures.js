@@ -39,7 +39,6 @@ const STEMRelatedFeatures=({symposium,questions})=>{
 	}
 
 	const displayRecommendedBooksModal=(index)=>{
-		console.log("Supplies");
 		changeModalType("Books");
 		changeDisplaySTEMModal(true);
 		changeQuestionIndex(index);

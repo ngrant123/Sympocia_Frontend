@@ -165,7 +165,7 @@ const CommunityContainer=()=>{
 	const [selectedPost,changeSelectedPosts]=useState();
 
 	useEffect(()=>{
-		debugger;
+		
 		const fetchData=async()=>{
 			//let {confirmation,data}=await getSympociaInterviews({interviewMetaData:InterviewMetadata.interviews});
 			const confirmation="Success";
@@ -186,8 +186,7 @@ const CommunityContainer=()=>{
 	},[]);
 
 	const selectInterview=(data,index)=>{
-		console.log("Seleceted Interview");
-		debugger;
+		
 		const {title,description}=InterviewMetadata.interviews[index];
 		const video=data.default;
 		const selectedInterview={
@@ -203,7 +202,6 @@ const CommunityContainer=()=>{
 
 
 	const selectBlog=(data,index)=>{
-		console.log("Selected Blog")
 
 		changeSelectedPosts({
 			...data,

@@ -192,7 +192,6 @@ const Arena=()=>{
 		const fetchInformation=async()=>{
 				const {confirmation,data}=await fetchArenaInformation(personalId);
 				
-				console.log(data);
 				if(confirmation=="Success"){
 					const {
 						Images,

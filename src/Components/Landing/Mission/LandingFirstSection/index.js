@@ -138,8 +138,6 @@ const FirstSection=(props)=>{
 	
 	const dispatch=useDispatch();
 	const state=useSelector(state=>state);
-	console.log(props);
-
   useEffect(()=>{
     setTimeout(()=>{
         const container=document.getElementById("firstContainer");

@@ -215,7 +215,6 @@ const HeaderContainer=(props)=>{
 			displayDesktopUI,
 			isGuestProfile
 		}=props;
-	console.log(props);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 	const [displayMobilePostOptions,changeMobileDisplayPostOptions]=useState(false);
@@ -344,7 +343,7 @@ const HeaderContainer=(props)=>{
 													personalInformation.accessToken
 												});
 				if(confirmation=="Failure"){
-					debugger;
+					
 					const {statusCode}=data;
 					if(statusCode==401){
 						await refreshTokenApiCallHandle(

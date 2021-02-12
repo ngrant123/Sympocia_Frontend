@@ -291,7 +291,7 @@ const ProfilePictureLink=styled(Link)`
 const BlogPostModal=(props)=>{
 	const headerBlog=props.posts[0];
 	const blogs=props.posts.slice(1,props.posts.length);
-	console.log(props);
+
 
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
@@ -318,12 +318,12 @@ const BlogPostModal=(props)=>{
 	}
 
 	const tester=()=>{
-		console.log("Testing");
+	
 	}
 
 	const constructSuggestedSymposium=(personalInformation,previousProps)=>{
 		
-		console.log(personalInformation);
+
 		const {personalInformationState}=personalInformation;
 		var symposiumContainer=new Map();
 		var selectedSymposiums=[];

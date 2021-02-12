@@ -269,7 +269,6 @@ class PersonalizedPage extends Component{
 	constructor(props){
 		super(props);
 
-		console.log(props);
 		this.state={ 
 			headerAnimation:false,
 			popularVideos:[{},{},{},{}],
@@ -329,7 +328,6 @@ class PersonalizedPage extends Component{
 
 	  
 
-				console.log(this.props);
 				/*
 					Make api call here
 
@@ -338,7 +336,6 @@ class PersonalizedPage extends Component{
 				*/
 		  		const communities=this.props.communities;
 		  		let communityCounter=0;
-		  		console.log(this.props.selectedCommunity.communityName);
 
 		  		//Keep track of where you are at in the array of subcommuities
 
@@ -515,9 +512,6 @@ class PersonalizedPage extends Component{
 	  }
 
 	  handleSubCommunitiesChoices=(props)=>{
-
-	  	console.log(props);
-
 	  }
 
 	  handleSeeAllSubCommunities=()=>{

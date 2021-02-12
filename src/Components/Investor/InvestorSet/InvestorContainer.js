@@ -269,8 +269,6 @@ class LInvestor extends Component{
 		const profileId=this.props.match.params.id;
 		document.getElementById("container").style.opacity=1;
 		document.getElementById("locationid").style.opacity=1;
-
-		console.log(LOCATIONS);
 		const locationArray=LOCATIONS.WORLDCITIES;
         const newLocationArray=[];
         const deciderMap=new Map();
@@ -424,7 +422,6 @@ class LInvestor extends Component{
 		}  
 
 		const investorsData=await getInvestorsInIndustryAndArea(searchCriteria);
-		console.log(investorsData);
 		this.setState({
 			investorResults:investorsData,
 			searchCriteria:searchCriteria,

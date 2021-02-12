@@ -145,15 +145,12 @@ const ProfilePictureCSS={
 }
 
 const CommunityContainer=(props)=>{
-	console.log(props);
-	console.log("Community Container");
 	const  {
 		activePeople,
 		popularPosts,
 		symposium,
 	}=props.data;
 	const {isMobileView}=props;
-	console.log(isMobileView);
 	const [backgroundColor,changeBackGroundColor]=useState();
 	
 	useEffect(()=>{

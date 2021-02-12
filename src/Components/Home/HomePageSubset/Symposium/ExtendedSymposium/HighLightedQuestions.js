@@ -69,8 +69,6 @@ const SimplifiedContainer=styled.div`
 
 class HighLightedQuestions extends Component{
 	constructor(props){
-		
-		console.log(props);
 		super(props);
 		this.state={
 			questionData:props.questionInformation,
@@ -96,8 +94,6 @@ class HighLightedQuestions extends Component{
 	}
 
 	setVideoPost=(data)=>{
-		
-		console.log(data);
 		this.setState({
 			selectedPost:data,
 			displayVideoPortal:!this.state.displayVideoPortal
@@ -124,7 +120,6 @@ class HighLightedQuestions extends Component{
 		const {questionType}=question;
 		var replies=question.responsesId;
 		var element;
-		console.log(replies);
 		if(replies.length==0){
 			return <p> No replies yet :(. Click on the question and click the pencil icon to make a post </p>
 		}else{
@@ -139,7 +134,6 @@ class HighLightedQuestions extends Component{
 							)}
 						</React.Fragment>;
 			}else if(questionType=="Video"){
-				console.log(replies);
 				return <React.Fragment>
 							{replies.map(data=>
 								<li id="postLI" onClick={()=>this.setVideoPost(data)} style={{marginBottom:"5%",width:"30%",listStyle:"none",display:"inline-block"}}>
@@ -193,7 +187,7 @@ class HighLightedQuestions extends Component{
 			}=this.state.questionData[this.state.counter];
 
 		if(currentQuestionType==questionType){
-			debugger;
+			
 			var replies=responsesId;
 
 			replies.splice(0,0,data);
@@ -221,7 +215,7 @@ class HighLightedQuestions extends Component{
 		currentCounter=this.state.counter+1;
 
 		const {confirmation,data}=await getPopularQuestionReplies(this.props.selectedSymposium,currentCounter);
-		debugger;
+		
 		if(confirmation=="Success"){
 			this.setState({
 				counter:currentCounter,

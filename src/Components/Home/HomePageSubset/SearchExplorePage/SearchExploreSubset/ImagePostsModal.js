@@ -277,7 +277,6 @@ const RecruitButtonLabelCSS={
 
 
 const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
-	debugger;
 	const {isUserFollowing}=post;
 	const postOwnerId=post.owner._id;
 	const personalId=previousProps._id;
@@ -420,7 +419,7 @@ const ImagePostsModal=(props)=>{
 			return <>	
 						{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}
 					</>
-				console.log(postResult);
+			
 				if(postResult=="suggestedSymposium"){
 					return <li id="suggestedSymposiumLI" style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%",marginTop:"-40%"}}>
 								{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}

@@ -186,7 +186,6 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 				questionIndex,
 				questionId:selectedPostId
 			})
-			console.log(data);
 
 			if(confirmation=="Success"){
 				const {message}=data;

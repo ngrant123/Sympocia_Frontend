@@ -152,7 +152,6 @@ class Reaction extends Component{
 		}=this.props
 		if(this.props.arenaId!=null){
 			const {confirmation,data}=await getVideoReactions({arenaId,postType,textCounter:1})
-			console.log(data);
 			if(confirmation=="Success"){
 				this.setState({
 					videoReactions:data,
@@ -300,7 +299,6 @@ class Reaction extends Component{
 		let {confirmation,data}=await addVideoReaction(videoReaction);
 		
 		if(confirmation=="Success"){
-			console.log(data);
 			data={
 				...data,
 				owner:{

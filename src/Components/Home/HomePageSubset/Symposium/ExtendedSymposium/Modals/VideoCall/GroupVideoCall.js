@@ -231,7 +231,6 @@ class GroupVideoCall extends Component{
 
 	async componentDidMount(){
 		
-		console.log(this.props);
 		if(this.props.location.state!=null){
 			var isGroupCallOwner;
 			if(this.props.location.state.ownerId==this.props.personalInformation.id)
@@ -257,25 +256,17 @@ class GroupVideoCall extends Component{
 	}
 
 	handleNewAddition=(data)=>{
-		console.log("Socket Response");
-		console.log(data);
 		this.test(data)
 	}
 
 	handleNewGeneralMessage=(data)=>{
-		console.log("Socket Response");
-		console.log(data);
 	}
 
 	handleNewPrivateMessage=(data)=>{
-		console.log("Socket Response");
-		console.log(data);
 	}
 
 	componentDidUpdate(){
-		console.log("Component updated");
 		var videoContainer=document.getElementById("videoContainer");
-		console.log(videoContainer);
 		if(videoContainer!=null && this.state.displayChatContainer!=true){
 			
 			for(var i=0;i<this.state.currentParticipants.length;i++){
@@ -413,8 +404,6 @@ class GroupVideoCall extends Component{
 				  },
 				  audio:true
 			}).catch(err=>{
-				console.log("An error has occured");
-				console.log(err);
 			});
 		})
 	}
@@ -500,8 +489,6 @@ class GroupVideoCall extends Component{
 	  			  	displayInitialSetupScreen:false
 	  			  })
 			    }).catch(function (error) {
-		      console.log("Something went wrong!");
-		      console.log(error);
 		    });
 		}	
 	}
@@ -537,8 +524,6 @@ class GroupVideoCall extends Component{
 	  			  	displayDefaultImageSelectionScreen:false
 	  			  })
 			    }).catch(function (error) {
-		      console.log("Something went wrong!");
-		      console.log(error);
 		    });
 		}	
 	}

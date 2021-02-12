@@ -84,13 +84,11 @@ class SubSymposiums extends Component{
 
 	componentWillUnmount(){
 		this.props.subCommunitiesChoices(this.state.subCommunitiesArray);
-		console.log("Component unmounted");
+	
 	}
 
 
 	 addCommunity=(data)=>{
-
-		console.log(data);
 		const element=document.getElementById(data.key);
 		const elementParagraph=document.getElementById(data.key+"P");
 

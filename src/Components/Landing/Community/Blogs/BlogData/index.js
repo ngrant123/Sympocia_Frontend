@@ -3,7 +3,6 @@ import BlogMetaDescription from "../blogDataMetaDescription.js";
 
 
 export const BlogsData=()=>{
-		debugger;
 		let {
 				blogFiles,
 				blogImages,

@@ -293,7 +293,7 @@ const LandingPage=(props)=>{
 	const [displayMobilePageChoicesModal,changeMobilePageChoicesModal]=useState(false);
 
 	const dispatch=useDispatch();
-	debugger;
+	
 	const isLoggedIn=useSelector(state=>state.personalInformation.loggedIn);
 	const ownerId=useSelector(state=>state.personalInformation.id);
 
@@ -306,9 +306,8 @@ const LandingPage=(props)=>{
 	}
 
 	useEffect(()=>{
-		debugger;
+		
 		const {history}=props;
-		console.log(history);
 		
 		if(history.location.pathname=='/logout'){
 			dispatch(logOutUser());

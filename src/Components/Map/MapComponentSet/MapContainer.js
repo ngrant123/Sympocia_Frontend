@@ -174,7 +174,6 @@ class MapContainer extends Component {
 	constructor(props){
 
 		super(props);
-		console.log("testing");
 
 		/*
 		  this.state = {
@@ -211,7 +210,6 @@ class MapContainer extends Component {
 	}
 
 	componentDidMount(){	
-		console.log("testing");
 		/*
 		if(this.state.lat==0 && this.state.lng==0){
 
@@ -227,8 +225,6 @@ class MapContainer extends Component {
 			navigator.geolocation.getCurrentPosition((position)=> {
 					let longitude = position.coords.longitude;
 					let latitude = position.coords.latitude;
-					console.log(longitude);
-					console.log(latitude);
 
 					let testlatitude = position.coords.latitude+1;
 
@@ -243,7 +239,6 @@ class MapContainer extends Component {
 
 			},function(e){
 
-				console.log(e);
 				UserLocation();
 
 			},{
@@ -253,7 +248,6 @@ class MapContainer extends Component {
 	
 		} 
 		else{
-			console.log("Not supported");
 			this.getLocationManually();
 		}
 		*/
@@ -275,7 +269,6 @@ class MapContainer extends Component {
 	}
 
 	dispayPopupModal=(props)=>{
-		console.log(props);
 		this.setState({
 			displaySmallCompanyProfile:true,
 			selectedCompany:{
@@ -296,7 +289,6 @@ class MapContainer extends Component {
 
 	visitCompanyPage=()=>{
 		document.getElementById("viewCompanyButon").click();
-		//console.log("Testing click button")
 	}
 
 	popup=()=>{
@@ -326,7 +318,6 @@ class MapContainer extends Component {
 
 
 	handleClick=(props)=>{
-		console.log(props);
 	}
 
 	render(){

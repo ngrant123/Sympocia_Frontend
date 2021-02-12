@@ -137,8 +137,6 @@ class LargeMapContainer extends Component {
 			navigator.geolocation.getCurrentPosition((position)=> {
 					let longitude = position.coords.longitude;
 					let latitude = position.coords.latitude;
-					console.log(longitude);
-					console.log(latitude);
 
 					let testlatitude = position.coords.latitude+1;
 
@@ -153,8 +151,6 @@ class LargeMapContainer extends Component {
 					});
 
 			},function(e){
-
-				console.log(e);
 				UserLocation();
 
 			},{
@@ -164,7 +160,6 @@ class LargeMapContainer extends Component {
 	
 		} 
 		else{
-			console.log("Not supported");
 			this.getLocationManually();
 		}
 	}
@@ -192,8 +187,6 @@ class LargeMapContainer extends Component {
 	}
 
 	handleClickOnMap=(e)=>{
-		console.log(e);
-		console.log("Clicked on map");
 	}
 
 	render(){
