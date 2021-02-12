@@ -254,9 +254,10 @@ const UploadPost=({closeUploadPostModal})=>{
 				{postType=="Images"?
 					<img src={postUrl} style={{height:"150px",width:"150px"}}/>:
 					<VideoContainer>
-						<video key={uuidv4()} width="100%" height="200px" autoplay="true" controls>
-		 					<source src={postUrl} type="video/mp4"/>
-		   				</video>
+						<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+							width="100%" height="200px">
+							<source src={postUrl} type="video/mp4"/>
+						</video>
 					</VideoContainer>
 				}
 			</>

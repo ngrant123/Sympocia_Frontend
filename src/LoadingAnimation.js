@@ -36,7 +36,7 @@ const AnimationContainer=styled.div`
 		isScrollEnabled!=null &&(
 			isScrollEnabled==true ?
 			`height:65%;`:
-			`height:60%;`
+			`height:30%;`
 		)
 	}
 

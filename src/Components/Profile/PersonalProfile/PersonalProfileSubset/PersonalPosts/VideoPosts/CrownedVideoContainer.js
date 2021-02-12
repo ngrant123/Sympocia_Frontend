@@ -129,7 +129,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 	return(
 		<ThumbnailVideoComponent>
 				<ThumbnailVideo>
-					<video key={uuidv4()} width="100%" height="100%" autoplay muted>
+					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
 						<source src={headerVideo.videoUrl} type="video/mp4"/>
 					</video>
 				</ThumbnailVideo>
@@ -162,7 +162,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 								{headerVideo.videoDescription==null?null:
 									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 										<VideoDescriptionContainer>
-											<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" muted>
+											<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
 												<source src={headerVideo.videoDescription} type="video/mp4"/>
 											</video>
 										</VideoDescriptionContainer>

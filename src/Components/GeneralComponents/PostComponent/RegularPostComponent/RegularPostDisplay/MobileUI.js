@@ -235,7 +235,6 @@ const PostOwnerInformation=styled.div`
 
 const ButtonCSS={
   listStyle:"none",
-  display:"inline-block",
   backgroundColor:"white",
   borderRadius:"5px",
   padding:"10px",
@@ -243,7 +242,9 @@ const ButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  marginRight:"4%"
+  marginRight:"4%",
+  marginBottom:"2%",
+  marginTop:"2%"
 }
 
 
@@ -267,13 +268,11 @@ const ExpandButtonCSS={
 	padding:"10px",
 	backgroundColor:"white",
 	color:"#6e6e6e",
-	boxShadow:"1px 1px 5px #6e6e6e",
 	marginRight:"5px",
 	borderRadius:"50%",
 	borderStyle:"none",
 	marginRight:"10%",
 	marginBottom:"2%",
-	height:"5%",
 	textAlign:"center"
 }
 
@@ -365,7 +364,7 @@ const MobileUI=(props)=>{
 						{displayInformation==true &&(
 							<InformationContainer>
 								<ul id="postLIContainer" style={{padding:"0px"}}>
-									<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"0%",marginRight:"3%"}}>
+									<li id="postOwnerAndSymposium" style={{listStyle:"none",marginTop:"0%",marginRight:"3%"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none"}}>
 												<p style={{fontSize:"20px"}}>

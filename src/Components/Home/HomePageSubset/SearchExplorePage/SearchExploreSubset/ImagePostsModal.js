@@ -229,7 +229,7 @@ const SuggestedSymposiumsContainer=styled.div`
 `;
 const HeaderImageCSS={
 	width:"100%",
-	height:"450px",
+	height:"500px",
 	borderRadius:"5px",
 	borderRadius:"5px",
 	boxShadow:"1px 1px 10px #707070",

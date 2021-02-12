@@ -154,7 +154,19 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	const dispatch=useDispatch();
 	const {personalInformation}=useSelector(state=>state);
 	const [isLoading,changeIsLoadingIndicator]=useState(false);
+	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
 
+
+	const triggerUIChange=()=>{
+		if(window.innerWidth<740){
+			changeDisplayPhoneUI(true);
+
+		}else{
+			changeDisplayPhoneUI(false);
+		}
+	}
+
+	window.addEventListener('resize',triggerUIChange)
 
 	useEffect(()=>{
 		const fetchData=async()=>{
@@ -178,8 +190,10 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 			changeIsLoadingIndicator(false);
 		}
 
+		triggerUIChange();
 		fetchData();
 	},[])
+
 	const checkVideoLength=()=>{
 		const video=document.getElementById("uploadVideoUrl");
 		let duration=video.duration;
@@ -281,6 +295,14 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	const closePostModal=()=>{
 		changePostExpand(false);
 	}
+
+	const triggerPostCreation=()=>{
+		if(displayPhoneUI==true){
+			alert('Unfortunately you can only upload videos on a desktop/laptop. Please switch to that to continue');
+		}else{
+			changeDisplayCreationModal(true)
+		}
+	}
 	return(
 		<ul style={{padding:"20px"}}>
 			{displayPostExpand==false?
@@ -298,7 +320,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 						<p style={{fontSize:"20px"}}>
 							<b>Review my {symposium}</b>
 						</p>
-						<CreatePostButton onClick={()=>changeDisplayCreationModal(true)} >
+						<CreatePostButton onClick={()=>triggerPostCreation()} >
 							<BorderColorIcon
 								style={{fontSize:"20",color:"#C8B0F4"}}
 							/>

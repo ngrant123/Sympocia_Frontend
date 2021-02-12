@@ -120,9 +120,9 @@ const UploadInterview=()=>{
 					<b>Step 2: Submit File</b>
 				</p>
 				<VideoContainer>
-					<video key={uuidv4()} width="30%" height="100%" autoplay="true" controls>
-	 					<source src={videoUrl} type="video/mp4"/>
-	   				</video>
+					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="30%" height="100%">
+						<source src={videoUrl} type="video/mp4"/>
+					</video>
 
 					<VideoDescriptionContainer>
 						<InputContainer placeholder="Enter video title"/>

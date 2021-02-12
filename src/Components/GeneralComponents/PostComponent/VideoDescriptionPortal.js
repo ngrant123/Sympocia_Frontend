@@ -8,6 +8,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 //import {concatVideoTogether} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import RefreshIcon from '@material-ui/icons/Refresh';
+import CameraIcon from '@material-ui/icons/Camera';
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -33,7 +34,7 @@ const Container=styled.div`
 	height:70%;
 	top:10%;
 	border-radius:5px;
-
+	padding:20px;
 	@media screen and (max-width:1370px){
 		left:5%;
 		height:50%;
@@ -99,6 +100,16 @@ const VideoResultContainer=styled.div`
 	z-index:10;
 `;
 
+const VideoOptionCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"white",
+	backgroundColor:"#5298F8",
+	boxShadow:"2px 10px 10px #b9d6ff"
+}
+
+
 const VideoResultContainerCSS={
 	position:"absolute",
 	left:"70%",
@@ -111,13 +122,27 @@ const VideoResultContainerCSS={
 }
 
 const VideoDescriptionPortal=(props)=>{
+	var targetContainer=document.getElementById(props.parentContainer);
+	const [isMobileUI,changeIsMobileUI]=useState(false);
+	const triggerUIChange=()=>{
+		if(window.innerWidth<1370){
+			changeIsMobileUI(true);
+		}else{
+			changeIsMobileUI(false);
+		}
+	}
+	window.addEventListener('resize',triggerUIChange)
 	useEffect(()=>{
+		triggerUIChange();
 		const inputElement=document.getElementById("uploadedVideoDescription");
 		inputElement.click();
 	},[])
 
+	const clickUploadVideoButton=()=>{
+ 		document.getElementById("uploadedVideoDescription").click();
+ 	}
+
 	const handleUploadedVideoDescription=()=>{
-		debugger;
 		let reader= new FileReader();
 		const videoDescription=document.getElementById("uploadedVideoDescription").files[0];
 
@@ -133,12 +158,40 @@ const VideoDescriptionPortal=(props)=>{
 		}
 	}
 
-	return(
+	return createPortal(
 		<React.Fragment>
-			<input type="file" name="img" id="uploadedVideoDescription" style={{opacity:"0"}}  onChange={()=>handleUploadedVideoDescription()} 
-		        accept="video/*" name="attachments">
-		    </input>
-		</React.Fragment>
+			{isMobileUI==true?
+				<Container>
+					<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+						 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+						 stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <circle cx="12" cy="12" r="9" />
+						  <path d="M10 10l4 4m0 -4l-4 4" />
+						</svg>
+					</div>
+					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
+						<ul style={{padding:"0px"}} onClick={()=>clickUploadVideoButton()}>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+								<CameraIcon/>
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+								Upload Video
+							</li>
+						</ul>																			
+					</button>
+					<input type="file" accept="video/*" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
+						onChange={()=>handleUploadedVideoDescription()}>
+					</input>
+				</Container>
+				:<input type="file" accept="video/*" id="uploadedVideoDescription" style={{position:"relative",cursor:"pointer"}} 
+					onChange={()=>handleUploadedVideoDescription()}>
+				</input>
+			}
+		</React.Fragment>,
+		targetContainer
 	)
 }
 

@@ -135,16 +135,44 @@ const ContinueButtonCSS={
   cursor:"pointer",
   width:"30%"
 }
+const VideoOptionCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"white",
+	backgroundColor:"#5298F8",
+	boxShadow:"2px 10px 10px #b9d6ff"
+}
 
 //"blob:http://localhost:3000/9b5bb4e0-de5b-4e15-b127-1f05aeaaeb36"
 const VoiceDescriptionPortal=(props)=>{
+	var targetContainer;
+	if(props.isBlog==true){
+		targetContainer=document.getElementById("blogPostContainer")
+	}else{
+		targetContainer=document.getElementById("personalContainer");
+	}
+		
+	const [isMobileUI,changeIsMobileUI]=useState(false);
+	const triggerUIChange=()=>{
+		if(window.innerWidth<1370){
+			changeIsMobileUI(true);
+		}else{
+			changeIsMobileUI(false);
+		}
+	}
+	window.addEventListener('resize',triggerUIChange)
 	useEffect(()=>{
+		triggerUIChange();
 		const inputElement=document.getElementById("uploadAudioFile");
 		inputElement.click();
 	},[])
 
+	const clickUploadAudioButton=()=>{
+ 		document.getElementById("uploadAudioFile").click();
+ 	}
+
 	const handleUploadAudioDescription=()=>{
-		debugger;
 		let reader= new FileReader();
 		const audioDescription=document.getElementById("uploadAudioFile").files[0];
 
@@ -160,13 +188,40 @@ const VoiceDescriptionPortal=(props)=>{
 		}
 	}
 
-	return(
+	return createPortal(
 		<React.Fragment>
-			<input type="file" id="uploadAudioFile" name="img" accept=".mp3,.wav"
-				style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadAudioDescription()}>
-			</input>
+			{isMobileUI==true?
+				<Container>
+					<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+						 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+						 stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <circle cx="12" cy="12" r="9" />
+						  <path d="M10 10l4 4m0 -4l-4 4" />
+						</svg>
+					</div>
+					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
+						<ul style={{padding:"0px"}} onClick={()=>clickUploadAudioButton()}>
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+								<MicIcon/>
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+								Upload Audio
+							</li>
+						</ul>																			
+					</button>
+					<input type="file" id="uploadAudioFile" name="img" accept=".mp3,.wav" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
+						onChange={()=>handleUploadAudioDescription()}>
+					</input>
+				</Container>
+				:<input type="file" id="uploadAudioFile" name="img" accept=".mp3,.wav"
+					style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadAudioDescription()}>
+				</input>
+			}
 		</React.Fragment>
-	)
+	,targetContainer)
 }
 {/*
 	const VoiceDescriptionPortal=(props)=>{

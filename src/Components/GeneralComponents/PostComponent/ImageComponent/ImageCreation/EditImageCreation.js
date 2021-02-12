@@ -813,6 +813,7 @@ class EditImageCreation extends Component{
 										<VoiceDescriptionPortal
 											closeModal={this.closeModal}
 											createAudioDescription={this.createAudioDescription}
+											parentContainer="personalContainer"
 										/>
 									}
 									{this.state.displayCrownModalIndicator==false?null:

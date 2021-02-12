@@ -231,7 +231,8 @@ const QuestionsPortal=(props)=>{
 			counter,
 			questions,
 			closeModalAndDisplayData,
-			selectedSymposium
+			selectedSymposium,
+			isPhoneUI
 		}=props;
 
 	const [displayCreatePost,changeDisplayPost]=useState(false);
@@ -244,7 +245,7 @@ const QuestionsPortal=(props)=>{
 	const dispatch=useDispatch();
 
 	const triggerUIChange=()=>{
-		if(window.innerWidth<600){
+		if(window.innerWidth<740){
 			changeDisplayPhoneUI(true);
 
 		}else{
@@ -311,7 +312,6 @@ const QuestionsPortal=(props)=>{
 												personalInformation.accessToken
 											);
 			if(confirmation=="Success"){
-				debugger;
 				const {message}=data;
 				props.closeModalAndDisplayData({
 					data:{
@@ -562,8 +562,6 @@ const QuestionsPortal=(props)=>{
 
 	const constructResponses=(replies)=>{
 			var element;
-			console.log(replies);
-			console.log(currentQuestionType);
 			if(replies.length==0){
 				return <p> No replies yet :(. Click on the question and click the pencil icon to make a post </p>
 			}else{
@@ -575,7 +573,6 @@ const QuestionsPortal=(props)=>{
 								)}
 							</React.Fragment>;
 				}else if(currentQuestionType=="Video"){
-					debugger;
 					return <React.Fragment>
 								{replies.map(data=>
 									<div style={{marginRight:"2%",marginBottom:"2%"}}>
@@ -633,6 +630,13 @@ const QuestionsPortal=(props)=>{
 		changeVideoPortal(false);
 	}
 
+	const triggerCreationOption=()=>{
+		if(questionType=="Video" && displayPhoneUI==true){
+			alert('Unfortunately you can only upload videos on a desktop/laptop. Please switch to that to continue');
+		}else{
+			changeDisplayPost(true)
+		}
+	}
 
 
 	return createPortal(
@@ -693,7 +697,7 @@ const QuestionsPortal=(props)=>{
 
 								<li style={{listStyle:"none",display:"inline-block",width:"100%"}}>
 									<ul style={{padding:"0px"}}>
-										<li id="createButtonLI" onClick={()=>changeDisplayPost(true)} 
+										<li id="createButtonLI" onClick={()=>triggerCreationOption()} 
 											style={MobileCreationButtonCSS}>
 											Create
 										</li>
