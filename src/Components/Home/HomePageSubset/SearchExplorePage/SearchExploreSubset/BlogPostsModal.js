@@ -183,7 +183,7 @@ const HeaderContainer=styled.div`
 		}
 	}
 	@media screen and (max-width:740px){
-		margin-top:-150px !important;
+		margin-top:-40% !important;
 		#headerAudioTag{
 			margin-left:-20% !important;
 		}
