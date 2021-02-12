@@ -229,14 +229,14 @@ class HomePageContainer extends Component{
 	}
 
 	initiliazeUserProfileForHomePage=async(id)=>{
-		debugger;
+		
 		var profile={};
 		var symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
 		var isPersonalProfile=true;
 			
 		if(id!="0" && this.props.personalInformation.isGuestProfile==false){
 			const{confirmation,data}=await getProfileForHomePage(this.props.personalInformation.id)
-			debugger;
+			
 			if(confirmation=="Success"){
 				profile=data;
 				isPersonalProfile=true;

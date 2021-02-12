@@ -263,7 +263,7 @@ class PersonalFeedContainer extends Component{
 			}else{
 				var symposiumsResponse=await getSymposiumsFollowedHome(profileId);
 				const {confirmation,data}=symposiumsResponse;
-				debugger;
+				
 				if(confirmation=="Success"){
 					const {message}=data;
 					var symposiums=[];

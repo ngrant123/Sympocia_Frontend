@@ -55,7 +55,6 @@ class GroupVideoCall extends Component{
 
 	constructor(props){
 		
-		console.log(props);
 		super(props);
 		this.state={
 			currentVideoCalls:[{

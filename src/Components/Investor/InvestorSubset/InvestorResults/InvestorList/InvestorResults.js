@@ -549,7 +549,6 @@ var investorpagetracker=1;
 class InvestorComp extends Component{
 	constructor(props){
 		super(props);
-		console.log(props);
 		this.state = {
 			name:"",
 			bio:"",
@@ -564,7 +563,6 @@ class InvestorComp extends Component{
 			displayInvestmentContainer:false,
 			investorData:{}
 		};
-		console.log(this.props);
 	}
 
 
@@ -578,7 +576,6 @@ class InvestorComp extends Component{
 	}
 
 	handleDisappearInvestmentModal(){
-		console.log(this.state.displayInvestmentContainer)
 		this.setState({
 			displayInvestmentContainer:false
 		});

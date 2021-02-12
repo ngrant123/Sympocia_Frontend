@@ -194,7 +194,7 @@ class SearchExploreContainer extends Component{
 
 	constructor(props){
 		super(props);
-		console.log("Search Explore");
+	
 		this.state={
 			subCommunitiesDisplay:[],
 			selectedIndustry:"",
@@ -236,7 +236,7 @@ class SearchExploreContainer extends Component{
 	}
 
 	handleCheckBoxCheck=()=>{
-		console.log("Testing");
+		
 		this.props.displayGrids(false);
 	}
 
@@ -260,8 +260,8 @@ class SearchExploreContainer extends Component{
 	}
 
 	changeHomePagePosts=async({postOption,isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
-		console.log(postOption);
+		
+		
 		var homePagePostsResponse;
 		const isGuestProfile=this.props.personalInformation.isGuestProfile;
 		var profileId=this.props.personalInformation.id;
@@ -308,7 +308,7 @@ class SearchExploreContainer extends Component{
 			}
 
 		}else{
-			debugger;
+			
 			const {statusCode}=data;
 			if(statusCode==401){
 				await refreshTokenApiCallHandle(
@@ -358,7 +358,7 @@ class SearchExploreContainer extends Component{
 	}
 
 	handleChangePostOption=(props)=>{
-		console.log(props);
+		
 		this.setState({
 			postOption:props,	
 			isLoading:true,
@@ -366,7 +366,7 @@ class SearchExploreContainer extends Component{
 			postsInformation:[],
 			endOfPostsDBIndicator:false
 		},function(){
-			debugger;
+			
 			this.changeHomePagePosts({postOption:props,isAccessTokenUpdated:false});
 		})
 	}
@@ -555,7 +555,7 @@ class SearchExploreContainer extends Component{
 			isLoadingReloadedPosts:true,
 			postCount:(this.state.postCount+1)
 		},()=>{
-			debugger;
+			
 			this.changeHomePagePosts({postOption:props,isAccessTokenUpdated:false});	
 		})
 	}

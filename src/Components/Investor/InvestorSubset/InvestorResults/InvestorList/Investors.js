@@ -237,7 +237,6 @@ class Investors extends Component{
 
 	constructor(props){
 		super(props);	
-		console.log(props);
 		this.state={
 			name:"",
 			bio:"",
@@ -256,8 +255,6 @@ class Investors extends Component{
 	componentDidMount(){
 
 		var length=this.state.totalinvestors.length;
-		console.log("Total investors");
-		console.log(this.state.totalinvestors);
 		var stoppingpoint;
 		var startingpoint;
 

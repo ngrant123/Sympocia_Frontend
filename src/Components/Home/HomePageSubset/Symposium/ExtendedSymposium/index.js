@@ -298,7 +298,7 @@ class Symposium extends Component{
   									   	this.state.postCount,
   									   	profileId
 									   	);
-  		debugger;
+  		
   		if(confirmation=="Success"){
   			const {
   				posts,
@@ -313,8 +313,6 @@ class Symposium extends Component{
 
   			var newHomePagePosts=this.addSuggestedSymposiums(posts);
   			
-  			console.log(data);
-  			console.log(popularQuestions);
 	  			
 	  		this.setState(prevState=>({
 		  		...prevState,
@@ -583,9 +581,6 @@ class Symposium extends Component{
 	  }
 
 	  handleSubSymposiumsChoices=(props)=>{
-
-	  	console.log(props);
-
 	  }
 
 	  handleSeeAllSubSymposiums=()=>{
@@ -636,7 +631,6 @@ class Symposium extends Component{
 	  //Props is huge will have to prob be refactored later
 
 	  handleHeaderAnimation=()=>{
-	  	console.log("Testing Header connection");
 	  	const backgroundColor=this.state.backgroundColor;
 	  	return this.state.headerAnimation==false ? 
 	  		<Container id="headerContainer" style={{background:backgroundColor}}>
@@ -944,7 +938,6 @@ class Symposium extends Component{
 	}
 
 	chatPage=()=>{
-		console.log(this.state.displayChatPage);
 		return this.state.displayChatPage==true?
 			<ChatPageContainer
 				pageIndicator={this.state.chatPageIndicator}
@@ -1193,7 +1186,7 @@ class Symposium extends Component{
 													this.props.personalInformation.accessToken
 												});
 				if(confirmation=="Failure"){
-					debugger;
+					
 					const {statusCode}=data;
 					if(statusCode==401){
 						await refreshTokenApiCallHandle(

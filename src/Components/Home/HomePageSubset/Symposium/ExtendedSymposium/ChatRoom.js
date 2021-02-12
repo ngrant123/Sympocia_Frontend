@@ -136,7 +136,6 @@ const MessageListNestedCSS={
 class ChatRoom extends Component{
 
 	constructor(props){
-		console.log(props);
 		super(props);
 		this.state={
 			songPlaying:"",
@@ -148,8 +147,6 @@ class ChatRoom extends Component{
 	}
 
 	 handleChatData=(data)=>{
-  		console.log("Socket response");
-  		console.log(data);
 
   		const currentChatRoomState=this.state.chatMessages;
   		currentChatRoomState.splice(0,0,data);
@@ -203,7 +200,6 @@ class ChatRoom extends Component{
 	}
 
 	constructChat=(chatRoom)=>{
-		console.log(chatRoom);
 		
 		return <React.Fragment>
 					{chatRoom==null?null:

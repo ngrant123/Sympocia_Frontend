@@ -187,7 +187,6 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			console.log(symposiumId);
 			displayBeginnerPosts()
 		}
 
@@ -264,7 +263,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	}
 
 	const submitPost=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
+		
 		if(knowledgeLevel==null || document.getElementById("post").value==""){
 			alert('Please enter a level to continue');
 		}else{

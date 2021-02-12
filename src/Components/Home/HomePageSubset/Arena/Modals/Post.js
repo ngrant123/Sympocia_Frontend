@@ -115,9 +115,6 @@ but its just a hassle right now. Will implement later
 */
 
 const PostModal=({closeModal,postType,postData})=>{
-	console.log(postType);
-	console.log(postData);
-
 	const constructDate=(dateMilliseconds)=>{
 		const newDate=new Date(dateMilliseconds).toLocaleDateString();
 		return newDate;

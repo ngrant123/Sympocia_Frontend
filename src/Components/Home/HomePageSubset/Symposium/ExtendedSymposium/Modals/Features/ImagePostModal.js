@@ -185,7 +185,6 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 	useEffect(()=>{
 		const fetchData=async()=>{
 			changeIsLoadingStatus(true);
-			console.log(symposiumId);
 			const {confirmation,data}=await getIndustryImageFeatureAnswers({
 				industryId:symposiumId,
 				questionIndex,
@@ -193,7 +192,6 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 			})
 
 			if(confirmation=="Success"){
-				console.log(message);
 				const {message}=data;
 				const {
 					posts

@@ -123,7 +123,6 @@ class SearchComponent extends Component{
 	constructor(props){
 
 		super(props);
-            console.log("Teste");
 
 		this.state={
 		    industries:[],
@@ -205,9 +204,7 @@ class SearchComponent extends Component{
             let quickSearchData=this.state.industries;
             quickSearchData.push(data.trim());
             const companies=await quickSearchIndustry(this.props._id,this.state.industries);
-            console.log(companies);
             mapContext.updateCompaniesLocation(companies);
-            console.log(companies);
 
             this.setState({
                   industries:quickSearchData

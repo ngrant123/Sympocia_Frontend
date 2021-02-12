@@ -103,7 +103,6 @@ const ActivePeopleListCSS={
 }
 
 const ActivePeopleModal=(props)=>{
-	console.log(props);
 	return(
 			<ActivePeopleContainer>
 					{props.peopleActive.length==0?
