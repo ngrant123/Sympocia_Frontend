@@ -33,7 +33,7 @@ export async function getProfile({userId,visitorId,accessToken,isGuestProfileInd
 				isGuestProfile:isGuestProfileIndicator
 			}
 		}); 
-		debugger;
+	
 		const {data}=profile;
 		return data;
 	}catch(err){

@@ -14,7 +14,7 @@ const initialState={
 }
 
 const PersonalProfile=(state={initialState},action)=>{
-	debugger;
+	
 	const { type, payload }=action;
 	switch(type){
 
@@ -85,7 +85,7 @@ const PersonalProfile=(state={initialState},action)=>{
 		}
 
 		case 'SIGN_IN_PERSONAL_USER':{
-			debugger;
+			
 			const {
 				firstName,
 				lastName,
@@ -120,7 +120,7 @@ const PersonalProfile=(state={initialState},action)=>{
 		}
 		
 		case 'LOGOUT_USER':{
-			debugger;
+			
 			return initialState
 			break;
 		}

@@ -85,14 +85,14 @@ const UploadInterview=()=>{
 		const file=document.getElementById("uploadedInterviewFile").files[0];
 
 		reader.onload=()=>{
-			debugger;
+		
 			const data=reader.result;
 			changeVideoUrl(data);
 			changeSecondStep(true);
 		}
 
 		if(file!=null){
-			debugger;
+		
 			const chunks=sliceFile(file);
 		}else{
 			alert('An error has occured');

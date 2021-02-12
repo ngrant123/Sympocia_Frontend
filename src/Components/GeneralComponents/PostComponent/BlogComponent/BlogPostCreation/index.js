@@ -135,10 +135,10 @@ class BlogPostCreation extends Component{
 */
 
 	componentDidMount=()=>{
-		debugger;
+		
 		window.addEventListener('resize',this.triggerUIChange);
 		const verification=this.props.isLoggedIn;
-		console.log(this.props);
+		
 		if(verification==false){
 			this.props.history.push({
 				pathname:'/'
@@ -189,12 +189,9 @@ class BlogPostCreation extends Component{
 	}
 
 	displayOrHideSubmitModal=()=>{
-		console.log(this.state.displayDesktopUI);
-		console.log(this.props.location.state.postType);
 		if(this.state.displayDesktopUI==false){
 			alert('Unfortunately this isnt supported for you mobile device. Please switch to desktop to continue');
 		}else{
-			console.log(this.state.blog);
 			if(this.state.blog!="" || this.props.location.state.postType!="Creation"){
 				this.setState({
 					displayEditButtonSubmitModal:!this.state.displayEditButtonSubmitModal

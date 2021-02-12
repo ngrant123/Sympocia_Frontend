@@ -59,7 +59,6 @@ const ConfirmationCheckIcon=styled.div`
 
 
 const AnonymousSuggestions=({targetDom,closeModal})=>{
-	console.log(targetDom);
 	const [confirmationDisplay,changeConfirmationDisplay]=useState(false);
 
 	const sendValue=async()=>{

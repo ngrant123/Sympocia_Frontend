@@ -238,7 +238,7 @@ const AdditionalInformation=(props)=>{
 		}
 	}
 	const handleRemoveBlogPost=async()=>{
-		debugger;
+		
 		changeDisplayDeleteConfirmation(true);
 	}
 

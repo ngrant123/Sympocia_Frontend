@@ -280,7 +280,7 @@ class VideoResponseContainer extends Component{
 	}
 
 	commentUI=()=>{
-		console.log(this.state.replies);
+		
 		return <ul style={{marginBottom:"20px",marginTop:"5%",marginLeft:"-5%"}}>
 					<li onClick={()=>this.setState({displayComments:false})} style={{marginRight:"80%",listStyle:"none"}}>
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>

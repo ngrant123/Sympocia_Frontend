@@ -206,7 +206,7 @@ const ButtonCSS={
 	}
 
 	const sendRegularPost=async({profilePostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
+		
 		changeIsSubmittedAndProcessing(true);
 		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const searchCriteriaIndustryArray=[];
@@ -287,7 +287,7 @@ const ButtonCSS={
 				}
 			}
 		}else{
-			debugger;
+			
 			const {previousData}=props;
 			let currentAudioDescription;
 			let {
@@ -382,7 +382,7 @@ const ButtonCSS={
 	}
 
 	const pushDummyRegularPostObjectToProfile=(profilePostInformation,searchCriteriaObject)=>{
-		debugger;
+		
 		const date=new Date();
 		const dateInMill=date.getTime();
 		var newRegularObject={

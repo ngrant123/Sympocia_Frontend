@@ -55,7 +55,7 @@ const ButtonCSS={
 */
 
 const ImageContainer=(props)=>{
-	console.log(props);
+	
 	const [commentImageIndicator,changeIndicator]=useState(true);
 	const [displayImageModal,changeDisplayImage]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
@@ -88,7 +88,7 @@ const ImageContainer=(props)=>{
 	}
 	
 	const handleRemoveImagePost=async()=>{
-		debugger;
+		
 		changeDisplayDeleteConfirmation(true);
 	}
 
@@ -119,7 +119,7 @@ const ImageContainer=(props)=>{
 											);
 			confirmationResponse=confirmation;
 			dataResponse=data;
-			debugger;
+			
 		}
 
 		if(confirmationResponse=="Success"){

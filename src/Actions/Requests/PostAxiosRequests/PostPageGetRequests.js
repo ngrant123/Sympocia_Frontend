@@ -326,7 +326,6 @@ export const getPostById=async({postId,userId,postType})=>{
 				postType
 			}
 		})
-		debugger;
 		const {data}=postResponse;
 		return data;
 	}catch(err){

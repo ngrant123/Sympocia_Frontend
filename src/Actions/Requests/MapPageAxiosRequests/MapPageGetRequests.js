@@ -7,16 +7,16 @@ const Url=process.env.NODE_ENV=='production'?
 export async function quickSearchIndustry(id,industryArray){
 
 	try{
-		   const companies= await axios.get(`${Url}/getQuickSearch`,{
-				params:{
-					id:id,
-					industries:industryArray
-				}
-			});
+	   const companies= await axios.get(`${Url}/getQuickSearch`,{
+			params:{
+				id:id,
+				industries:industryArray
+			}
+		});
 
-			const {data}=companies;
-			const companyData=data.data;
-			return companyData;
+		const {data}=companies;
+		const companyData=data.data;
+		return companyData;
 	}catch(err){
 	}
 }

@@ -9,9 +9,9 @@ import {useDispatch} from "react-redux";
 
 let isTokenRefreshingIndicator=false;
 export const refreshTokenApiCallHandle=async(refreshToken,userId,parentApiTrigger,dispatch,parameters,isClassBasedComponent,isTokenRefreshing)=>{
-	debugger;
+	
 	if(isTokenRefreshingIndicator){
-		debugger;
+		
 		return true;
 		setInterval(()=>{
 			if(isTokenRefreshingIndicator){
@@ -27,13 +27,13 @@ export const refreshTokenApiCallHandle=async(refreshToken,userId,parentApiTrigge
 			}
 		},100);	
 	}else{
-		debugger;
+		
 		isTokenRefreshingIndicator=true;
 		const {confirmation,data}=await refreshTokenApi({
 			userId,
 			refreshToken
 		})
-		debugger;
+		
 		if(confirmation=="Success"){
 			const {message:{
 				accessToken,
@@ -54,7 +54,7 @@ export const refreshTokenApiCallHandle=async(refreshToken,userId,parentApiTrigge
 
 
 			Promise.all(promises).then(result=>{
-				debugger;
+				
 				isTokenRefreshingIndicator=false;
 				parentApiTrigger({
 					...parameters,

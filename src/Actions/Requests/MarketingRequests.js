@@ -26,7 +26,7 @@ export const createResponse=async({text,name,profilePicture,email})=>{
 
 export const getInterestedProfiles=async(counter)=>{
 	try{
-		debugger;
+		
 		const response=await axios.get(`${SearchUrl}/getMarketingProfilesInterested`,{
 			params:{
 				counter:counter

@@ -200,7 +200,7 @@ export const getPopularQuestionReplies=async(industry,counter)=>{
 				counter:counter
 			}
 		})
-		debugger;
+
 		const {data}=popularQuestionResponse;
 		return data;
 

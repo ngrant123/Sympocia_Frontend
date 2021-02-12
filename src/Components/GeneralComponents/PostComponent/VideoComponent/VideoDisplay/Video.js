@@ -174,7 +174,7 @@ const authenticPostButtonCSS={
 
 class Video extends Component{
 	constructor(props){
-		console.log(props);
+		
 		super(props);
 		this.state={
 			displayComments:false,
@@ -193,7 +193,7 @@ class Video extends Component{
 
 
 	displayOrHideVideoAndComments=()=>{
-		debugger;
+		
 		if(this.state.displayComments==true){
 			const commentsAndVideoContainer=document.getElementById("commentsAndVideoContainer");
 			commentsAndVideoContainer.style.visibility="visible";
@@ -219,7 +219,7 @@ class Video extends Component{
 	}
 
 	displayDescription=(postInformation)=>{
-		console.log(postInformation);
+		
 		return this.state.displayDescription==false? <React.Fragment></React.Fragment>:
 			<DescriptionModal>
 				<ul style={{padding:"0px"}}>
@@ -283,7 +283,7 @@ class Video extends Component{
 	}
 
 	createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
+		
 		let confirmationResponse;
 		let dataResponse;
 		if(this.state.displayStampEffect==false){

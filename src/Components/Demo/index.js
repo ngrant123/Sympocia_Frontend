@@ -23,7 +23,6 @@ import GifIcon from '@material-ui/icons/Gif';
 
 const PostCreationContainer=styled.div`
 	width:60%;
-
 `;
 
 const CommentsContainerTesting=styled.div`
