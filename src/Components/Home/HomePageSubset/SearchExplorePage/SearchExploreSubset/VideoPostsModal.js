@@ -203,10 +203,8 @@ const SmallPostContainer=styled.div`
     }
 
 	@media screen and (max-width:700px){
-		margin-top:-100px;
 		margin-left:-5% !important;
 		width:100% !important;
-		padding-top:70px;
 		#smallAudioDescription{
 			
 		}
