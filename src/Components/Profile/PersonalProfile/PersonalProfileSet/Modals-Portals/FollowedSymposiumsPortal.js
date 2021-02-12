@@ -105,7 +105,7 @@ const FollowedSymposiumsModal=({isOwner,closeModal,userId})=>{
 			changeSymposiums([...symposiums]);
 			changeDisplayRemoveSymposiumModal(false);
 		}else{
-			debugger;
+		
 			const {statusCode}=data;
 			if(statusCode==401){
 				await refreshTokenApiCallHandle(

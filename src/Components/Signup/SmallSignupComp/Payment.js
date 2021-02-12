@@ -343,7 +343,6 @@ class Payment extends Component {
 				firstTime:true
 			}
 			
-			console.log("Testing request");
 			const profile=await createCompanyProfile(personalData);
 			addCompanyId(profile._id);
 			updatefirstTimeUsage(true);
@@ -352,7 +351,6 @@ class Payment extends Component {
 			return profile;
 
 			///Implement strip api on frontend
-			//console.log(createProfile(personalData));
 		}
 
 	handleFirstPageContinueClick=()=>{

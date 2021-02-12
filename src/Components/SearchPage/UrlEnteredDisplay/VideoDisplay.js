@@ -104,8 +104,6 @@ class VideoDisplay extends Component{
 				}
 			}=this.props;
 		const {confirmation,data}=await getPostById({postId:id,userId:this.props.personalState.id,postType:"Videos"})
-		console.log(confirmation);
-
 		if(confirmation=="Success"){
 			const {message}=data;
 			this.setState({

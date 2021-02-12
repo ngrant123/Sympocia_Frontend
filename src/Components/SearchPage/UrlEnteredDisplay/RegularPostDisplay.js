@@ -122,8 +122,6 @@ class RegularPostDisplay extends Component{
 				}
 			}=this.props;
 		const {confirmation,data}=await getPostById({postId:id,userId:this.props.personalState.id,postType:"RegularPosts"})
-		console.log(confirmation);
-
 		if(confirmation=="Success"){
 			const {message}=data;
 			this.setState({

@@ -33,7 +33,6 @@ const SearchPage=(props)=>{
 	const [displayConfetti,changeDisplayConfetti]=useState(false);
 
 	const state=useSelector(state=>state);
-	console.log(state);
 
 	var profileId=(state.personalInformation.loggedIn==true)?state.personalInformation.id:state.companyInformation.id;
 	var isPersonalProfile=(state.personalInformation.loggedIn==true)?true:false;

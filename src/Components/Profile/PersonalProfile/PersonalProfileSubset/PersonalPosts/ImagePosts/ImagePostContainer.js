@@ -130,15 +130,12 @@ class ImagePostsContainer extends Component{
 
 	constructor(props){
 		super(props);
-		console.log("Testing images requests");
-		console.log(props);
 		this.state={
 		 	images:[]
 		}
 	}
 
 	componentDidMount(){
-		console.log(this.props);
 		const profileImages=this.props.imageData;
 		this.setState({
 			images:profileImages
@@ -155,7 +152,6 @@ class ImagePostsContainer extends Component{
 	}
 
 	displayPostModal=(profileAction,companyAction,postsConsumer,data)=>{
-		console.log(data);
 		if(profileAction==null)
 			companyAction.handleImagePostModal(data,postsConsumer);
 		else

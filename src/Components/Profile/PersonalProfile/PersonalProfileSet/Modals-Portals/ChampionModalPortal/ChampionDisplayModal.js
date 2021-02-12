@@ -105,7 +105,6 @@ const ExtendedChampionModal=(championData)=>{
 }
 
 const SponsorDisplayModal=(props)=>{
-	console.log(props);
 	const [displayExtendedSponsorModal,changeExtendedSponsorModal]=useState(false);
 	const [displayDeletePortal,changeDisplayDeletePortal]=useState(false);
 

@@ -21,7 +21,6 @@ const PostCreationContainer=styled.div`
 
 const PostCreationPortal=(props)=>{
 	const {postOption,closeModal,isPhoneUIEnabled}=props;
-	console.log(props);
 
 	const closeModalHandle=()=>{
 		closeModal();

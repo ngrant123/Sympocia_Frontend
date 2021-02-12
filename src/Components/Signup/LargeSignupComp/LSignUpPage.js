@@ -208,7 +208,6 @@ class LSignupPage extends Component {
 		super(props);
 		//Below code is mainly used when we have the "code" authentication thing for certain users
 		
-		console.log(props);
 		this.state= {
 			viewport: {
 		      width: "100%",
@@ -242,8 +241,6 @@ class LSignupPage extends Component {
 
 
 	DisplayCompanySetupPage=()=>{
-
-		console.log(this.state);
 		if(this.state.displayCompanySetupPage==false)
 			return <React.Fragment/>;
 		else 
@@ -467,7 +464,6 @@ class LSignupPage extends Component {
 
 
 	displayPersonalInvestorSection=()=>{
-		console.log("Testing sign up page");
 		return this.state.displayPersonalInvestorPage==false?
 			<React.Fragment></React.Fragment>:
 			<React.Fragment>

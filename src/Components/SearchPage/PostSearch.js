@@ -134,7 +134,7 @@ const PostSearch=(props)=>{
 
 	useEffect(()=>{
 		const getPosts=async()=>{
-			debugger;
+			
 			triggerUIChange();
 			const searchCriteria={
 				searchUrl:props.searchQuery,
@@ -182,7 +182,7 @@ const PostSearch=(props)=>{
 
 		const {confirmation,data}=await getPostsFromSearch(searchCriteria);
 		if(confirmation=="Success"){
-			debugger;
+			
 			changeFinisheLoadingState(true);
 			if(data.length==0){
 				changeEndOfPostsIndicator(true);

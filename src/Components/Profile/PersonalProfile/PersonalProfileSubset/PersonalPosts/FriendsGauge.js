@@ -40,16 +40,12 @@ const AddRemoveLevelButtonCSS={
 class FriendsGauge extends Component {
 
   constructor(props){
-    console.log(props);
     super(props);
 
     
     var numberNodes;
     var progressBarCounter;
     var {friendsGauge,friendsGaugeNodes}=this.props.personalInformation.userProfile;
-    debugger;
-    console.log("Friend nodes");
-    console.log(friendsGaugeNodes);
     numberNodes=friendsGaugeNodes.length+1;
     
     let refromattedNodes;
@@ -214,7 +210,7 @@ class FriendsGauge extends Component {
   }
 
   unlockedOrLockedPrompt=(index,isUnlocked)=>{
-    debugger;
+    
     if(index>0 && index<(this.state.numberOfNodes-2)){
       return <p style={{width:"60%",color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
                  {isUnlocked==true?
@@ -233,7 +229,7 @@ class FriendsGauge extends Component {
   }
 
   hideModal=()=>{
-    debugger;
+    
     this.setState({
       displayFriendsGaugeEditModal:false
     })
@@ -266,7 +262,7 @@ class FriendsGauge extends Component {
   }
 
   addNode=(data)=>{
-    debugger;
+    
     if(this.state.nodes.length==3){
       alert('Maximum nodes is 3 :( Please delete one');
     }else{
@@ -280,7 +276,7 @@ class FriendsGauge extends Component {
   }
 
   removeNode=(data)=>{
-    debugger;
+    
       var currentNodes=this.state.nodes;
       const {_id}=data;
       for(var i=0;i<currentNodes.length;i++){

@@ -135,8 +135,6 @@ class RegularPostsContainer extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(props);
-		console.log("Regular  Post component");
 		this.state={
 			regularPosts:[],
 			headerPost:null,

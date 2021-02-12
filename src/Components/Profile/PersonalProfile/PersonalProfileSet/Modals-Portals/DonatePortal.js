@@ -28,9 +28,7 @@ const stripePromise=loadStripe('pk_test_OLEtDzV7lwtccHsmV9cn4DaP00a1U7RZqD');
 const DonatePortal=(props)=>{
 
 	const handleStripeToken=async()=>{
-		console.log("Stripe token");
 		const token=await stripePromise;
-		console.log(token);
 	}
 
 

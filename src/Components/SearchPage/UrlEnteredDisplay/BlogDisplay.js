@@ -75,8 +75,6 @@ class BlogDisplay extends Component{
 				}
 			}=this.props;
 		const {confirmation,data}=await getPostById({postId:id,userId:this.props.personalState.id,postType:"Blogs"})
-		console.log(confirmation);
-		console.log(data);
 		if(confirmation=="Success"){
 			const {message}=data;
 			this.setState({

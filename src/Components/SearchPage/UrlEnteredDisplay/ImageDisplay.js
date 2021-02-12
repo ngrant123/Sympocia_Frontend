@@ -127,7 +127,6 @@ class ImageDisplay extends Component{
 				}
 			}=this.props;
 		const {confirmation,data}=await getPostById({postId:id,userId:this.props.personalState.id,postType:"Images"})
-		console.log(confirmation);
 
 		if(confirmation=="Success"){
 			const {message}=data;

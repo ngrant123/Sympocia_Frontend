@@ -145,7 +145,7 @@ class PersonalSignUp extends Component{
 			    promises.push(loginCompanyPage(false));
 
 			    Promise.all(promises).then(result=>{
-			    	debugger;
+			    	
 			     	this.props.history.push({
 					  pathname:'/home'
 					})
@@ -233,7 +233,7 @@ class PersonalSignUp extends Component{
 	}
 
 	handlePasswordEnter=(event)=>{
-		debugger;
+		
 		if(event.key=="Shift" || event.key=="Backspace" ||
 		  (event.keyCode >= 48 && event.keyCode <= 57)==true ||
 		  (event.keyCode >= 65 && event.keyCode <= 90)==true){

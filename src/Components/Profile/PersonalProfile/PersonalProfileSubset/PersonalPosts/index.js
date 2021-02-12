@@ -168,7 +168,7 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
-	console.log(props);
+	
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -252,7 +252,7 @@ const PersonalPostsIndex=(props)=>{
 			changeDisplayForRegularPosts(false);
 			changeIsLoadingReloadedPosts(true);
 			unSelectButtonsCSS();
-			console.log(videoPost);
+			
 
 		if(kindOfPost=="image"){
 			const image=document.getElementById("images");
@@ -272,7 +272,7 @@ const PersonalPostsIndex=(props)=>{
 											personalRedux.accessToken,
 											isGuestProfile:props.isGuestVisitorProfile
 										});
-			debugger;
+			
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
@@ -288,7 +288,7 @@ const PersonalPostsIndex=(props)=>{
 					changeIsLoadingNewPosts(false)
 				}
 			}else{
-				debugger;
+				
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(
@@ -333,7 +333,7 @@ const PersonalPostsIndex=(props)=>{
 				}else{
 					let {videos}=videoPost;
 					const newVideos=videos.concat(posts);
-					console.log(newVideos);
+					
 					const videoObject={
 						headerVideo:crownedPost==null?videoPost.headerVideo:crownedPost,
 						videos:newVideos
@@ -342,7 +342,7 @@ const PersonalPostsIndex=(props)=>{
 				}
 				changeVideosLoadingIndicator(false);
 			}else{
-				debugger;
+				
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(
@@ -394,7 +394,7 @@ const PersonalPostsIndex=(props)=>{
 					changeDisplayForBlogs(true);
 				}
 			}else{
-				debugger;
+				
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(
@@ -451,7 +451,7 @@ const PersonalPostsIndex=(props)=>{
 					changeRegularPostsLoadingIndicator(false);
 					changeIsLoadingNewPosts(false)
 			}else{
-				debugger;
+				
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(
@@ -508,7 +508,7 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 	const mobilePostSelectionAndRecruitUI=(personalInformation)=>{
-		debugger;
+		
 		return (
 			<li  style={{listStyle:"none"}}>
 				<ul style={{padding:"0px"}}>
@@ -629,7 +629,7 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const removePostVideo=(postId,postType)=>{
-		debugger;
+		
 		let propData=videoPost;
 		let result=removePostIndexContext(postId,propData,postType);
 		changeVideoPosts(result);
@@ -669,7 +669,7 @@ const PersonalPostsIndex=(props)=>{
 						props.closeModal();
 					},
 					updateVideoPost:(videoObject)=>{
-						debugger;
+						
 						if(displayVideos==true){
 							let newVideoObject=updateVideoPostIndexContext(videoObject,videoPost);
 							changeVideoPosts(newVideoObject);							
@@ -678,7 +678,7 @@ const PersonalPostsIndex=(props)=>{
 						props.closeModal();
 					},
 					updateRegularPost:(regularPostProp)=>{
-						debugger;
+						
 						const {isCrowned,post}=regularPostProp;
 						let updatedNewRegularPostProp;
 						if(isCrowned==true){
