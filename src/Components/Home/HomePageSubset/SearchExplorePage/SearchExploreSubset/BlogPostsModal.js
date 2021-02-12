@@ -222,7 +222,6 @@ const PostsContainer=styled.div`
 		width:90%;
 		height:100%;
 		margin-left:0%;
-		margin-top:20%;
 		overflow:visible !important;
 	}
 `;

@@ -28,13 +28,16 @@ const AnimationContainer=styled.div`
 	left:37%;
 	top:30%;
 	width:20%;
+	height:30%;
 	filter: blur(4px);
 	animation:${keyFrameAnimation} 3s ease-in-out 0s forwards infinite;
 
 	${({isScrollEnabled})=>
-		isScrollEnabled==true ?
-		`height:65%;`:
-		`height:30%;`
+		isScrollEnabled!=null &&(
+			isScrollEnabled==true ?
+			`height:65%;`:
+			`height:60%;`
+		)
 	}
 
 
