@@ -212,17 +212,26 @@ const HeaderBlogImageInformationContainer=styled.div`
 `;
 const PostsContainer=styled.div`
 	display:flex;
-	flex-direction:column;
+	flex-direction:row; 
 	width:50%;
 	height:600px;
-	overflow-y:scroll;
 	margin-left:5%;
-
+	overflow:scroll;
+	flex-wrap: wrap;
 	@media screen and (max-width:1370px){
 		width:90%;
-		height:100%;
-		margin-left:0%;
 		overflow:visible !important;
+	}
+	@media screen and (max-width:1024px) and (max-height:1366px) {
+    	height:100%;
+    }
+
+	@media screen and (max-width:600px){
+		margin-left:-5% !important;
+		width:100% !important;
+		#smallAudioDescription{
+			display:none !important;
+		}
 	}
 `;
 
@@ -230,6 +239,7 @@ const SmallPostContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	width:100%;
+	margin-top:5% !important;
 `;
 
 const SmallPostDescriptionContainer=styled.div`
