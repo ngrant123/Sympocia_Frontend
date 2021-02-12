@@ -185,7 +185,7 @@ const HeaderContainer=styled.div`
 	@media screen and (max-width:740px){
 		margin-top:-40% !important;
 		#headerAudioTag{
-			margin-left:-20% !important;
+			margin-left:0% !important;
 		}
 		#headerBlogImage{
 			height:200px !important;
