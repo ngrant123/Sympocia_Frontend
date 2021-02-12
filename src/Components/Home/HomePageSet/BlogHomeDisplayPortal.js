@@ -492,7 +492,7 @@ const BlogHomeDisplayPortal=(props)=>{
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
 										<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
-											<img id="smallImagePicture" src={props.selectedBlog.owner.ownerImgUrl==null?
+											<img id="smallImagePicture" src={props.selectedBlog.owner.profilePicture==null?
 													NoProfilePicture:
 													props.selectedBlog.owner.profilePicture
 												} style={{width:"55px",height:"50px",borderRadius:"50%"}}/>

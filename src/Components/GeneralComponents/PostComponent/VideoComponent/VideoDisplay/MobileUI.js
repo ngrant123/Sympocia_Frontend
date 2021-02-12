@@ -44,10 +44,10 @@ const Container=styled.div`
 			margin-top:-10% !important;
 		}
 		#expandMoreLI{
-			font-size:15px !important;
+			font-size:30px !important;
 		}
 		#expandLessLI{
-			font-size:15px !important;
+			font-size:30px !important;
 		}
 		#audio{
 			width:100px !important;
@@ -250,7 +250,6 @@ const VideoAudioAndVideoDescriptionContainer=styled.div`
 
 const ButtonCSS={
   listStyle:"none",
-  display:"inline-block",
   backgroundColor:"white",
   borderRadius:"5px",
   padding:"10px",
@@ -258,7 +257,9 @@ const ButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  marginRight:"4%"
+  marginRight:"4%",
+  marginTop:"2%",
+  marginBottom:"2%"
 }
 
 const BackButtonCSS={
@@ -295,14 +296,12 @@ const ExpandButtonCSS={
 	padding:"10px",
 	backgroundColor:"white",
 	color:"#6e6e6e",
-	boxShadow:"1px 1px 5px #6e6e6e",
 	marginRight:"5px",
 	borderRadius:"50%",
 	borderStyle:"none",
 	marginRight:"10%",
 	marginBottom:"2%",
 	cursor:"pointer",
-	height:"20%",
 	marginTop:"2%",
 	marginLeft:"5%"
 }
@@ -425,7 +424,7 @@ const MobileUI=(props)=>{
 									Back
 								</li>
 							</a>
-							<li id="postOwnerAndSymposium" style={{listStyle:"none",display:"inline-block",marginTop:"2%",marginRight:"3%"}}>
+							<li id="postOwnerAndSymposium" style={{listStyle:"none",marginTop:"2%",marginRight:"3%"}}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none"}}>
 										<p style={{fontSize:"20px"}}>{video.owner.firstName}</p>
@@ -558,27 +557,27 @@ const MobileUI=(props)=>{
 							  <path d="M10 10l4 4m0 -4l-4 4" />
 							</svg>
 						</div>
-						<VideoAudioAndVideoDescriptionContainer 
-							commentsIndicator={displayComments}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-								{video.videoDescription==null? null:
+						<VideoAudioAndVideoDescriptionContainer commentsIndicator={displayComments}>
+							{video.videoDescription!=null &&(
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 									<VideoDesriptionContainer>
-										<video style={{borderRadius:"50%"}} onClick={()=>displayVideoDescriptionTrigger()} 
-											width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+										<video onClick={()=>displayVideoDescriptionTrigger()} 
+											autoPlay loop autoBuffer muted playsInline 
+											style={{borderRadius:"50%"}} width="50px" height="40px" borderRadius="50%">
 											<source src={video.videoDescription} type="video/mp4"/>
 										</video>
 									</VideoDesriptionContainer>
-								}
-							</li>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-								{video.audioDescription==null? null:
-									<audio id="audio" style={{width:"150px"}} controls>
-										<source src={video.audioDescription} type="audio/ogg"/>
-										<source src={video.audioDescription} type="audio/mpeg"/>
-										Your browser does not support the audio element.
-									</audio>
-								}
-							</li>
+								</li>
+							)}
+							{video.audioDescription!=null &&(
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+										<audio id="audio" style={{width:"150px"}} controls>
+											<source src={video.audioDescription} type="audio/ogg"/>
+											<source src={video.audioDescription} type="audio/mpeg"/>
+											Your browser does not support the audio element.
+										</audio>
+								</li>
+							)}
 							<li id="expandLI" onClick={()=>displayPostInformationTrigger()} style={ExpandButtonCSS}>
 								{displayInformation==false?
 									<ExpandMoreIcon
@@ -595,8 +594,9 @@ const MobileUI=(props)=>{
 						<div id="videoDiv" style={{marginLeft:"0%",height:"60%",overflow:"hidden",width:"100%"}}>
 							{displayInformation==false && displayComments==false ?
 								<React.Fragment>
-									<video  key={video.videoUrl} id="video" position="absolute" height="100%" width="100%" controls autoplay muted>
-									    <source src={video.videoUrl} type="video/mp4"/>
+									<video key={video.videoUrl} id="video"  
+										autoPlay loop autoBuffer muted playsInline controls width="100%x" height="100%">
+										<source src={video.videoUrl} type="video/mp4"/>
 									</video>
 									
 									{displayStampEffect==true &&(

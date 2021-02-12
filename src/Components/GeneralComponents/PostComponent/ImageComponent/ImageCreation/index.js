@@ -159,8 +159,6 @@ class ImageCreation extends Component{
 										</button>
 										This is not used but its here because for some reason if its not css would be messed up 
 										sooooooo 
-
-
 									</li>
 								*/}
 

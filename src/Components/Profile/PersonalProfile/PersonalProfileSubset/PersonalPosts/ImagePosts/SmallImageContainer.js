@@ -50,7 +50,6 @@ const VideoDesriptionContainer=styled.div`
 	top:50%;
 	left:2%;
 	z-index:8;
-	background-color:white;
 
 	@media screen and (max-width:340px){
 		height:30% !important;
@@ -119,7 +118,8 @@ const SmallImageContainer=(props)=>{
 					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
 					{data.videoDescription!=null &&(
 						<VideoDesriptionContainer>
-						   <video key={videoDescriptionId} style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="false" muted>
+							<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
+								style={{borderRadius:"50%"}} width="50px" height="40px" borderRadius="50%">
 								<source src={data.videoDescription} type="video/mp4"/>
 							</video>
 						</VideoDesriptionContainer>
@@ -136,10 +136,6 @@ const SmallImageContainer=(props)=>{
 
 				<li id="postInformation" style={{listStyle:"none"}}>
 					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-							Likes 
-						</li>
-
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"24%"}}>
 							Comments
 						</li>

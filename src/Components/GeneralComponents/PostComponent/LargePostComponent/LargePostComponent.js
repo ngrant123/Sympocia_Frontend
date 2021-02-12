@@ -463,6 +463,20 @@ class LargePostComponent extends Component{
 	}
 	triggerRegularPostCreation=()=>{}
 
+	uploadVideosTrigger=()=>{
+		if(this.props.isPhoneUIEnabled==true){
+			alert('Unfortunately you can only upload videos on a desktop/laptop. Please switch to that to continue');
+		}else{
+			this.setState({
+				displayElement:<VideoPostCreation
+									displayProps={this.displayPostOptions}
+									closeModal={this.props.closeModal}
+								/>,
+				displayGeneralCreationModal:false
+			})
+		}
+	}
+
 	originalScreen=()=>{
 		this.setState({
 			displayGeneralCreationModal:true	
@@ -513,13 +527,7 @@ class LargePostComponent extends Component{
 								<hr/>
 							)}
 
-							<li onClick={()=>this.setState({
-											displayElement:<VideoPostCreation
-																displayProps={this.displayPostOptions}
-																closeModal={this.props.closeModal}
-															/>,
-											displayGeneralCreationModal:false
-										})}
+							<li onClick={()=>this.uploadVideosTrigger()}
 								id="postOptionLI" style={PostOptionCSS}>
 								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
 									<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}>

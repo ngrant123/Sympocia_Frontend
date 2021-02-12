@@ -34,8 +34,6 @@ const Container=styled.div`
 `;
 
 const VideoContainer=(data)=>{
-	debugger;
-	console.log(data);
 	const [displayVideoEditModal,changeVideoEditModal]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
@@ -65,7 +63,6 @@ const VideoContainer=(data)=>{
 	}
 
 	const deletePost=async()=>{
-		debugger;
 		changeDisplayDeleteConfirmation(true);
 	}
   

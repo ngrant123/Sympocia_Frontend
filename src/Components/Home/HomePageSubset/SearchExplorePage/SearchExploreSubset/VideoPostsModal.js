@@ -51,7 +51,10 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:740px){
+		#ownerFirstName{
+			display:none !important;
+		}
 		#headerAudio{
 			height:20px !important;
 		}
@@ -59,8 +62,8 @@ const Container=styled.div`
 	@media screen and (max-width:450px){
 		margin-left:-5% !important;
 		#video{
-			width:230px !important;
-			height:160px !important;
+			width:150px !important;
+			height:auto !important;
 		}
 	}
 `;
@@ -175,19 +178,10 @@ const SmallPostContainer=styled.div`
 	margin-left:5%;
 	overflow:scroll;
 	@media screen and (max-width:1370px){
-		width:90%;
 		overflow:visible !important;
+		width:100%;
 	}
-	@media screen and (max-width:1024px) and (max-height:1366px) {
-    	height:100%;
-    }
 
-	@media screen and (max-width:600px){
-		width:100% !important;
-		#smallAudioDescription{
-			display:none !important;
-		}
-	}
 `;
 
 const HeaderOwnerInformation=styled.div`
@@ -237,9 +231,7 @@ const NextButtonCSS={
 }
 
 const VideoPostModal=(props)=>{
-	console.log(props);
 	const headerVideo=props.posts[0];
-	console.log(headerVideo);
 	const videos=props.posts.slice(1,props.posts.length);
 	
 
@@ -289,7 +281,9 @@ const VideoPostModal=(props)=>{
 									}
 								</ProfilePictureLink>
 							</li>
-								<p style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
+
+								<p id="ownerFirstName" 
+									style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
 									{headerVideo.owner.firstName}
 								</p>
 
@@ -324,7 +318,7 @@ const VideoPostModal=(props)=>{
 										{headerVideo.title}
 									</b>
 								</p>
-								<p style={{width:"70%",height:"60px",overflow:"hidden"}}>
+								<p style={{width:"70%",maxHeight:"60px",overflow:"hidden"}}>
 									{headerVideo.description}
 								</p>
 							</HeaderTextsContainer>
@@ -338,16 +332,21 @@ const VideoPostModal=(props)=>{
 					<SmallPostContainer>
 						{videos.map(data=>
 							<React.Fragment>
-								{data.owner==null?
-									<ConstructSuggestedSymposium
-										personalInformation={personalInformationRedux}
-										previousProps={props}
-									/>
-								:<PostContainer>
-										<div onClick={()=>displayVideoModal(data)} style={{listStyle:"none",cursor:"pointer"}}>	
-											<video id="video" height="290px" width="160%"  borderRadius="50%"
-											 key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-												<source src={data.videoUrl} type="video/mp4"/>
+								{/*
+									For some reason the css of the suggested symposiums is messed up on production so just showing 
+									videos on here.
+									{data.owner==null?
+										<ConstructSuggestedSymposium
+											personalInformation={personalInformationRedux}
+											previousProps={props}
+										/>
+								*/}
+								{data.owner!=null &&(
+									<PostContainer>
+										<video onClick={()=>displayVideoModal(data)} style={{listStyle:"none",cursor:"pointer"}}
+											id="video" position="relative" height="290px" width="160%" borderRadius="50%"
+										 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+											<source src={data.videoUrl} type="video/mp4"/>
 										</video>
 										<ul style={{padding:"0px",zIndex:"8"}}>
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
@@ -381,21 +380,20 @@ const VideoPostModal=(props)=>{
 												</li>
 											)}
 										</ul>
-									</div>
-									<DescriptionContainer>
-										<HeaderTextsContainer>
-											<p style={{fontSize:"20px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
-												<b>
-													{data.title}
-												</b>
-											</p>
-											<p style={{width:"70%",maxWidth:"100%",height:"60px",overflow:"hidden"}}>
-												{data.description}
-											</p>
-										</HeaderTextsContainer>
-									</DescriptionContainer>
-								</PostContainer>
-							}	
+										<DescriptionContainer>
+											<HeaderTextsContainer>
+												<p style={{fontSize:"20px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
+													<b>
+														{data.title}
+													</b>
+												</p>
+												<p style={{width:"70%",maxWidth:"100%",height:"60px",overflow:"hidden"}}>
+													{data.description}
+												</p>
+											</HeaderTextsContainer>
+										</DescriptionContainer>
+									</PostContainer>
+								)}
 							</React.Fragment>
 						)}
 						{props.endOfPostsDBIndicator==false && (

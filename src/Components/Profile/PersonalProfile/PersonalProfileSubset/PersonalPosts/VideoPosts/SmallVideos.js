@@ -170,7 +170,8 @@ const SmallVideoContainer=(videoData)=>{
 											{videoData.video.videoDescription==null?null:
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 													<VideoDescriptionContainer>
-														<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" muted>
+														<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+															width="100%" height="100%">
 															<source src={videoData.video.videoDescription} type="video/mp4"/>
 														</video>
 													</VideoDescriptionContainer>
@@ -187,8 +188,9 @@ const SmallVideoContainer=(videoData)=>{
 												</li>
 											}
 										</ul>
-										<video key={uuidv4()} width="100%" height="100%" autoplay muted>
-												<source src={videoData.video.videoUrl} type="video/mp4"/>
+										<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+											width="100%" height="100%">
+											<source src={videoData.video.videoUrl} type="video/mp4"/>
 										</video>
 									</SmallVideo>
 								</li>

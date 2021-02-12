@@ -129,10 +129,11 @@ const CrownedImageContainer=(props)=>{
 					<Image>
 						<img src={imageData.imgUrl} style={{width:"100%",height:"100%"}}/>
 						<VideoDesriptionContainer>
-						   <video key={videoDescriptionId} style={{borderRadius:"50%"}}
-						   		width="100%" height="100%" borderRadius="50%" autoplay="false" muted>
+							<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
+								style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
 								<source src={imageData.videoDescription} type="video/mp4"/>
 							</video>
+
 						</VideoDesriptionContainer>
 					</Image>
 				</li>
