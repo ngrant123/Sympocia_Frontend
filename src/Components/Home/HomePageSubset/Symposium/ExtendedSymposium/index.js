@@ -48,6 +48,7 @@ import {
 		setPersonalProfileRefreshToken
 } from "../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import HightLightedQuestions from "./HighLightedQuestions.js";
 import {
 	SymposiumHeaderAnimation,
 	SymposiumContainer,
@@ -130,6 +131,25 @@ const Posts=styled.div`
 
 	@media screen and (max-width:450px){
 		margin-top:60% !important;
+	}
+`;
+
+const HightLightedQuestionsContainerModal=styled.div`
+	position:fixed;
+	background-color:white;
+	border-radius:5px;
+	top:20%;
+	left:25%;
+	width:50%;
+	height:60%;
+	padding:20px;
+	overflow-y:scroll;
+	z-index:40;
+	box-shadow: 1px 5px 5px 1px #d5d5d5;
+
+	@media screen and (max-width:740px){
+		width:90% !important;
+		left:5% !important;
 	}
 `;
 
@@ -234,7 +254,8 @@ class Symposium extends Component{
 			endOfPostsDBIndicator:false,
 			postOption:"Image",
 			displayGuestOnboarding:false,
-			displaySpecficSymposiumFeature:false
+			displaySpecficSymposiumFeature:false,
+			displayHightletedSimplifiedQuestionsModal:false
 		}
 	}
 
@@ -379,6 +400,7 @@ class Symposium extends Component{
 		  	document.getElementById("postChatInformation").style.overflow="visible";
 		  	document.getElementById("postChatInformation").style.top="-20%";
 		  	document.getElementById("postChatInformation").style.filter="blur(0)";
+		  	document.getElementById("postChatInformation").style.zIndex=2;
 		  	document.getElementById("arrowIndicator").style.opacity="0";
 	  		document.getElementById("postsContainer").style.opacity="0";
 
@@ -1031,6 +1053,26 @@ class Symposium extends Component{
 				</>
 	}
 
+	highlightedQuestionsSimplifiedModal=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayHightletedSimplifiedQuestionsModal==true &&(
+					<React.Fragment>
+						<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayHightletedSimplifiedQuestionsModal:false}))}/>
+						<HightLightedQuestionsContainerModal>
+							<HightLightedQuestions
+								questionInformation={this.state.popularQuestions}
+								isSimplified={this.state.headerAnimation}
+								selectedSymposium={this.state.selectedSymposiumTitle}
+								isGuestProfile={this.state.isGuestProfile}
+							/>
+						</HightLightedQuestionsContainerModal>
+					</React.Fragment>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	symposiumOptions=(isScrollEnabled)=>{
 		const isPhoneScrollTriggered=(this.state.displayPhoneUI==true && isScrollEnabled==true)==true?true:false;
 		return(
@@ -1045,25 +1087,36 @@ class Symposium extends Component{
 						}}>
 						 Symposium
 					</p>:
-					<>
-						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayPopularVideos:true})}>
-							Popular videos
-						</ChatAndIndustryInformationContainer>
+					<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobilePostOptionsButton}>
+							Post Options
+						</button>
 
-						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayModalPeopleActive:true})}>
-							Active people
-						</ChatAndIndustryInformationContainer>
-						
-						<ChatAndIndustryInformationContainer onClick={()=>this.setState({displaySpecficSymposiumFeature:!this.state.displaySpecficSymposiumFeature})}>
-							{this.state.selectedSymposiumTitle=="General"||
-							this.state.selectedSymposiumTitle=="Religion"||
-							this.state.selectedSymposiumTitle=="Gaming"||
-							this.state.selectedSymposiumTitle=="Philosophy"?
-							<p>Chat </p>:
-							<p> Symposium Features </p>
-						}
-						</ChatAndIndustryInformationContainer>
-					</>
+						<ul class="dropdown-menu">
+							<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayHightletedSimplifiedQuestionsModal:true})}>
+								Highlighted Questions
+							</ChatAndIndustryInformationContainer>
+
+							<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayPopularVideos:true})}>
+								Popular videos
+							</ChatAndIndustryInformationContainer>
+
+							<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayModalPeopleActive:true})}>
+								Active people
+							</ChatAndIndustryInformationContainer>
+
+							<ChatAndIndustryInformationContainer onClick={()=>this.setState({displaySpecficSymposiumFeature:!this.state.displaySpecficSymposiumFeature})}>
+								{
+									this.state.selectedSymposiumTitle=="General"||
+									this.state.selectedSymposiumTitle=="Religion"||
+									this.state.selectedSymposiumTitle=="Gaming"||
+									this.state.selectedSymposiumTitle=="Philosophy"?
+									<p>Chat </p>:
+									<p> Symposium Features </p>
+								}	
+							</ChatAndIndustryInformationContainer>
+						</ul>
+					</div>
 				}
 			</>
 		)
@@ -1268,6 +1321,7 @@ class Symposium extends Component{
 				{this.handleHeaderAnimation()}
 				{this.specificSymposiumFeatures()}
 				{this.triggerDisplayMobileSymposiumOptions()}
+				{this.highlightedQuestionsSimplifiedModal()}
 
 				<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>
 					{this.state.isLoading==false?
@@ -1311,7 +1365,7 @@ class Symposium extends Component{
 							  							onClick={()=>this.handlePreviousSymposiumButton()}
 							  						/>
 												*/}
-									  			<p style={{marginTop:"10px",fontSize:"20px"}}>{this.state.selectedSymposiumTitle}</p>
+									  			<p style={{marginTop:"10px",fontSize:"20px",marginRight:"5%"}}>{this.state.selectedSymposiumTitle}</p>
 
 									  			{/*
 							  						<ChevronRightRoundedIcon

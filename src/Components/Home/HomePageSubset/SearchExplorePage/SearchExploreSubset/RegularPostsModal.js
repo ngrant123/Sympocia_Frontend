@@ -110,6 +110,7 @@ const PostsContainer=styled.div`
 		margin-top:5%;
 		height:100%;
 		overflow:visible !important;
+		border-style:none !important;
 	}
 `;
 

@@ -117,7 +117,8 @@ export const PostsChatInformation=styled.div`
 	height:45%;
 	left:0%;
 	margin-left:5%;
-	z-index:2;
+	filter:blur(1px);
+	z-index:-1;
 
 	@media screen and (max-width:1370px){
 		margin-left:0%;

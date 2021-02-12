@@ -48,6 +48,12 @@ const ShadowContainer=styled.div`
 	z-index:39;
 	top:0px;
 `;
+const HighlightedQuestionsContainer=styled.div`
+	height:55%;
+	border-radius:5px;
+	background-color:white;
+`;
+
 
 const MobilePostOptionsPortal=(props)=>{
 	const {
@@ -79,17 +85,20 @@ const MobilePostOptionsPortal=(props)=>{
 
 	}
 
+
 	const highlightedQuestions=()=>{
 		return <>
 				{displayHighlightedQuestions==true &&(
 					<>
 						{props.popularQuestionObject.questionInformation.length==0?
 								null
-							:<HightLightedQuestions
-								questionInformation={props.popularQuestionObject.questionInformation}
-								isSimplified={props.popularQuestionObject.isSimplified}
-								selectedSymposium={props.popularQuestionObject.selectedSymposium}
-							/>
+							:<HighlightedQuestionsContainer>
+								<HightLightedQuestions
+									questionInformation={props.popularQuestionObject.questionInformation}
+									isSimplified={props.popularQuestionObject.isSimplified}
+									selectedSymposium={props.popularQuestionObject.selectedSymposium}
+								/>
+							</HighlightedQuestionsContainer>
 						}
 					</>
 				)}

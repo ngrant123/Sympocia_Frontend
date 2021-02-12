@@ -298,7 +298,6 @@ class HighLightedQuestions extends Component{
 							/>
 							:<React.Fragment></React.Fragment>
 						}
-						{this.props.isSimplified==false?
 							<Container>
 								{this.state.isLoading==true?
 									<p> Loading...</p>:
@@ -345,12 +344,7 @@ class HighLightedQuestions extends Component{
 									</ul>
 									</>
 								}
-							</Container>:
-							<SimplifiedContainer>
-	
-	
-							</SimplifiedContainer>
-						}
+							</Container>
 					</React.Fragment>:null
 				}
 			</React.Fragment>
