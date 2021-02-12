@@ -38,12 +38,6 @@ const Container=styled.div`
 		#headerVideoLI{
 			height:80% !important;
 			width:80% !important;
-			margin-top:0% !important;
-		}
-		#headerLI{
-			display:block !important;
-			margin-top:10% !important;
-			width:95% !important;
 		}
 		#smallPostLI{
 			width:95% !important;
@@ -55,13 +49,6 @@ const Container=styled.div`
 	
 			margin-right:2%;
 		}
-		#suggestedSymposiumLI{
-			top:-15% !important;
-			width:120% !important;
-		}
-		#postLI{
-			margin-right:2% !important;
-		}
 	}
 
 	@media screen and (max-width:600px){
@@ -71,9 +58,6 @@ const Container=styled.div`
 	}
 	@media screen and (max-width:450px){
 		margin-left:-5% !important;
-		#headerLI{
-			margin-top:-25% !important;
-		}
 		#video{
 			width:230px !important;
 			height:160px !important;
@@ -185,28 +169,23 @@ const HeaderTextsContainer=styled.div`
 
 const SmallPostContainer=styled.div`
 	display:flex;
-	flex-direction:column;
+	flex-direction:column; 
 	width:50%;
 	height:600px;
-	overflow-y:scroll;
 	margin-left:5%;
-	padding-left:5%;
+	overflow:scroll;
 	@media screen and (max-width:1370px){
 		width:90%;
-    	margin-left:-4% !important;
-    	margin-top:5%;
-    	overflow:visible !important;
+		overflow:visible !important;
 	}
-
 	@media screen and (max-width:1024px) and (max-height:1366px) {
     	height:100%;
     }
 
-	@media screen and (max-width:700px){
-		margin-left:-5% !important;
+	@media screen and (max-width:600px){
 		width:100% !important;
 		#smallAudioDescription{
-			
+			display:none !important;
 		}
 	}
 `;
@@ -224,7 +203,7 @@ const DescriptionContainer=styled.div`
 
 const PostContainer=styled.div`
 	margin-bottom:8%;
-	width:70%;
+	width:35%;
 	margin-right:8%;
 `;
 
@@ -334,7 +313,7 @@ const VideoPostModal=(props)=>{
 							)}
 						</HeaderOwnerInformation>
 
-						<video id="headerVideoLI" style={{cursor:"pointer",marginTop:"0%"}} width="80%" height="100%" borderRadius="50%"
+						<video id="headerVideoLI" style={{cursor:"pointer"}} width="80%" height="100%" borderRadius="50%"
 						 key={headerVideo.videoUrl} autoPlay loop autoBuffer muted playsInline onClick={()=>handleDisplayHeaderVideo()}>
 							<source src={headerVideo.videoUrl} type="video/mp4"/>
 						</video>
@@ -365,56 +344,56 @@ const VideoPostModal=(props)=>{
 										previousProps={props}
 									/>
 								:<PostContainer>
-										<div id="videoContainer" onClick={()=>displayVideoModal(data)} style={{listStyle:"none",marginBottom:"1%",cursor:"pointer"}}>	
-											<video id="video" position="relative" height="290px" width="100%"  borderRadius="50%"
+										<div onClick={()=>displayVideoModal(data)} style={{listStyle:"none",cursor:"pointer"}}>	
+											<video id="video" height="290px" width="160%"  borderRadius="50%"
 											 key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
 												<source src={data.videoUrl} type="video/mp4"/>
-											</video>
-												<ul style={{padding:"0px",zIndex:"8",top:"-20%"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-														<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-															{data.videoDescription==null?
-																<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-																	 style={{height:"50px",width:"60px",borderRadius:"50%"}}
-																/>
-																:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%" autoplay="true" controls muted>
-																	<source src={data.videoDescription} type="video/mp4"/>
-																</video>
-															}
-														</ProfilePictureLink>
-													</li>
-													{props.isGuestProfileIndicator==false &&(
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<DisplayRecruitButton
-																post={data}
-																previousProps={props}
-																personalInformationRedux={personalInformationRedux}
-															/>
-														</li>
-													)}
-													{data.audioDescription!=null &&(
-														<li id="smallAudioDescription" style={{listStyle:"none"}}>
-															<audio style={{width:"150px",height:"25px"}} controls muted>
-															  	<source src={data.audioDescription} type="audio/ogg"/>
-															  	<source src={data.audioDescription} type="audio/mpeg"/>
-																Your browser does not support the audio element.
-															</audio>
-														</li>
-													)}
-												</ul>
-										</div>
-										<DescriptionContainer>
-											<HeaderTextsContainer>
-												<p style={{fontSize:"20px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
-													<b>
-														{data.title}
-													</b>
-												</p>
-												<p style={{width:"70%",maxWidth:"100%",height:"60px",overflow:"hidden"}}>
-													{data.description}
-												</p>
-											</HeaderTextsContainer>
-										</DescriptionContainer>
+										</video>
+										<ul style={{padding:"0px",zIndex:"8"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+												<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+													{data.videoDescription==null?
+														<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
+															 style={{height:"50px",width:"60px",borderRadius:"50%"}}
+														/>
+														:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%" autoplay="true" controls muted>
+															<source src={data.videoDescription} type="video/mp4"/>
+														</video>
+													}
+												</ProfilePictureLink>
+											</li>
+											{props.isGuestProfileIndicator==false &&(
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<DisplayRecruitButton
+														post={data}
+														previousProps={props}
+														personalInformationRedux={personalInformationRedux}
+													/>
+												</li>
+											)}
+											{data.audioDescription!=null &&(
+												<li id="smallAudioDescription" style={{listStyle:"none"}}>
+													<audio style={{width:"150px",height:"25px"}} controls muted>
+													  	<source src={data.audioDescription} type="audio/ogg"/>
+													  	<source src={data.audioDescription} type="audio/mpeg"/>
+														Your browser does not support the audio element.
+													</audio>
+												</li>
+											)}
+										</ul>
+									</div>
+									<DescriptionContainer>
+										<HeaderTextsContainer>
+											<p style={{fontSize:"20px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
+												<b>
+													{data.title}
+												</b>
+											</p>
+											<p style={{width:"70%",maxWidth:"100%",height:"60px",overflow:"hidden"}}>
+												{data.description}
+											</p>
+										</HeaderTextsContainer>
+									</DescriptionContainer>
 								</PostContainer>
 							}	
 							</React.Fragment>
