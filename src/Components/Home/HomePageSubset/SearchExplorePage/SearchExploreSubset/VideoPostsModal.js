@@ -336,9 +336,8 @@ const VideoPostModal=(props)=>{
 							)}
 						</HeaderOwnerInformation>
 
-						<video id="headerVideoLI" style={{cursor:"pointer",marginTop:"0%"}}
-						 key={headerVideo.videoUrl} position="relative" height="80%" width="100%" autoplay
-						 onClick={()=>handleDisplayHeaderVideo()}>
+						<video id="headerVideoLI" style={{cursor:"pointer",marginTop:"0%"}} width="80%" height="100%" borderRadius="50%"
+						 key={headerVideo.videoUrl} autoPlay loop autoBuffer muted playsInline onClick={()=>handleDisplayHeaderVideo()}>
 							<source src={headerVideo.videoUrl} type="video/mp4"/>
 						</video>
 						<HeaderDescriptionContainer>
@@ -368,10 +367,11 @@ const VideoPostModal=(props)=>{
 										previousProps={props}
 									/>
 								:<PostContainer>
-										<div id="videoContainer" onClick={()=>displayVideoModal(data)} style={{listStyle:"none",marginBottom:"1%",cursor:"pointer"}}>
-												<video id="video" key={data.videoUrl} position="relative" height="290px" width="100%" autoplay muted>
-													<source src={data.videoUrl} type="video/mp4"/>
-												</video>
+										<div id="videoContainer" onClick={()=>displayVideoModal(data)} style={{listStyle:"none",marginBottom:"1%",cursor:"pointer"}}>	
+											<video id="video" position="relative" height="290px" width="100%"  borderRadius="50%"
+											 key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+												<source src={data.videoUrl} type="video/mp4"/>
+											</video>
 												<ul style={{padding:"0px",zIndex:"8",top:"-20%"}}>
 													<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 														<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
