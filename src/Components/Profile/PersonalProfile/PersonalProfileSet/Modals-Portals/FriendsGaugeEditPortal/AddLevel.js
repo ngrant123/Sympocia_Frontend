@@ -90,7 +90,6 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 		selectedRecruits.push({_id:data._id,firstName:data.firstName});
 		const newSelectedRecruitsArray=selectedRecruits;
 		changeSelectedRecruits([...newSelectedRecruitsArray]);
-		console.log(selectedRecruits);
 	}
 
 	const removeSelectedPerson=(data)=>{
@@ -137,7 +136,7 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 			}
 			closeModal(addNodeAction);
 		}else{
-			debugger;
+
 			const {statusCode}=data;
 			if(statusCode==401){
 				await refreshTokenApiCallHandle(
@@ -222,7 +221,6 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 
 			changeSearchName(currentSearchName);
 			changeCurrentSearchedNames(searchedNames);
-			console.log(searchedNames);
 		}
 	}
 

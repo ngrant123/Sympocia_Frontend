@@ -92,8 +92,6 @@ class PostContainer extends Component{
 		    	blogs
 		    } = displayedItemsIndicator;
 
-		console.log(displayedItemsIndicator);
-
 		
 		const {profile}=displayedItemsIndicator;
 		let displayItems=profile.images;
@@ -121,14 +119,9 @@ class PostContainer extends Component{
 		}
 		else if(displayBlogs==true){
 			displayItems=profile.blogs;
-			console.log("Blogs Clicked");
 		}
 		else{
 			displayItems=profile.images;
-			console.log("Images Clicked");
-
-			console.log(profile);
-			console.log(displayItems);
 		 	if(displayItems.length==0)
 				return <p style={{position:"relative",fontSize:"150%",left:"20%"}}> Add some images to get started</p>;
 			else{

@@ -74,7 +74,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	const [isProcessingSubmit,changeIsSubmitProcessing]=useState(false); 
 
 	useEffect(()=>{
-		debugger;
+		
 		const selectedRecruitsMapping=new Map();
 		for(var i=0;i<selectedRecruits.length;i++){
 			const {_id,firstName}=selectedRecruits[i];
@@ -104,7 +104,6 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 		selectedRecruits.push(data);
 		const newSelectedRecruitsArray=selectedRecruits;
 		changeSelectedRecruits([...newSelectedRecruitsArray]);
-		console.log(selectedRecruits);
 	} 
 
 
@@ -119,7 +118,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 
 		const {confirmation,data}=await promoteRecruitRequest(promoteRecruit);
 		if(confirmation=='Success'){
-			debugger;
+			
 			const {message}=data;
 			let{
 				recruitsAdded,

@@ -174,7 +174,6 @@ const DescriptionContainer=styled.div`
 `;
 
 const DescriptionModal=(props)=>{
-	console.log("Testing sponsor modal");
 	const [instagramUrl,changeInstagramUrl]=useState();
 	const [tikTokUlr,changeTikTokUrl]=useState();
 	const personalReduxInformation=useSelector(state=>state.personalInformation);
@@ -189,7 +188,7 @@ const DescriptionModal=(props)=>{
 	const [displayTikTokUrlPrompt,changeDisplayTikTokUrlPrompt]=useState(false);
 
 	useEffect(()=>{
-		debugger;
+		
 		if(isAccessTokenRefreshTriggered==true){
 			dispatch(setPersonalProfileAccessToken(currentAccessToken));
 			dispatch(setPersonalProfileRefreshToken(personalReduxInformation.refreshToken));
@@ -210,7 +209,7 @@ const DescriptionModal=(props)=>{
 	}
 
 	const handleSubmitButton=async(personalInformation,companyInformation)=>{
-		debugger;
+		
 		changeIsProcessingSubmittion(true);
 		const name=document.getElementById("name").value;
 		const description=document.getElementById("description").value;

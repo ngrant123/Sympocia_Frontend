@@ -226,8 +226,6 @@ handleClick(){
 }
 
 handleDisplayPaymentScreen=()=>{
-
-	console.log("Payment Screen clicked");
 	this.setState({
 		displayPaymentScreen:true,
 		displayPaymentOptionsScreen:false

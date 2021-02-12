@@ -79,7 +79,7 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						personalInformation.accessToken
 		}
-		debugger;
+		
 		const {confirmation,data}=await removeLevel(levelObject);
 			if(confirmation=="Success"){
 				const removeNodeAction={
@@ -90,7 +90,7 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 				}
 				closeModal(removeNodeAction);
 			}else{
-				debugger;
+				
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(

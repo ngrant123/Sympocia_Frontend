@@ -94,7 +94,6 @@ const PeopleSearch=({searchQuery,userId,displayProfile})=>{
 		const getProfiles=async()=>{
 			const {confirmation,data}=await getProfilesFromSearch(searchQuery);
 			if(confirmation=="Success"){
-				console.log(data);
 				changeProfiles([...data]);
 				changeLoadingScreen(false);
 			}else{

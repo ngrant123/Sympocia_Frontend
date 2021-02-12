@@ -226,7 +226,7 @@ class LProfile extends Component{
 	}
 
 	getProfileApiTriggerCall=async({isAccessTokenUpdated})=>{
-		debugger;
+		
 		window.addEventListener('resize',this.triggerUIChange)
 		const {id}=this.props.match.params;
 		let confirmationResponse;
@@ -274,7 +274,7 @@ class LProfile extends Component{
 			}
 
 			if(confirmationResponse=="Success"){
-				debugger;
+				
 				var containsChampion=false;
 				const {message}=dataResponse;
 				if(message.championData!=null)
@@ -292,7 +292,7 @@ class LProfile extends Component{
 					isGuestVisitorProfile:isGuestProfileIndicator
 				}));
 			}else{
-				debugger;
+				
 				const {statusCode}=dataResponse;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(
@@ -315,13 +315,12 @@ class LProfile extends Component{
 	 handleChangeProfilePicture=()=>{
 	 	if(!this.state.isGuestProfile){
 		 	document.getElementById("profilePicutreImageFile").click();
-			console.log('Change pic button clicked');
 	 	}
 	}
 
 
 	changeProfilePicture=async()=>{
-		debugger;
+		
 		let profileContainer=document.getElementById("profilePicture");
 		let image=document.getElementById("profilePicutreImageFile").files[0];
 		let reader= new FileReader();
@@ -329,8 +328,6 @@ class LProfile extends Component{
 		reader.onloadend=async()=>{
 			profileContainer.src=reader.result;
 			const profileUrl=profileContainer.src;
-
-			console.log(reader.result);
 			const {confirmation,data}=await setProfilePicture(
 												this.state.userProfile._id,
 												profileUrl,
@@ -455,8 +452,6 @@ class LProfile extends Component{
 
 
 	handleImageModal=(imgData)=>{
-
-		console.log(imgData);
 		this.setState(prevState=>({
 			...prevState,
 			displayImageModal:true,
@@ -466,7 +461,6 @@ class LProfile extends Component{
 	}
 
 	handleVideoModal=(videoData)=>{
-		console.log("Video modal button clicked");
 		this.setState(prevState=>({
 			...prevState,
 			displayVideoModal:true,
@@ -476,11 +470,9 @@ class LProfile extends Component{
 
 
 	handleBlogsModal=()=>{
-		console.log("Blog modal button clicked");
 	}
 
 	displayShadow=()=>{
-		console.log("Testing display shafow");
 		this.setState({
 			displayShadowBackground:true
 		})
@@ -521,7 +513,7 @@ class LProfile extends Component{
 	VideoModal=()=>{
 		
 		var newVideoObject={};
-		debugger;
+		
 		if(this.state.isLoading!=true){
 			newVideoObject={
 				...this.state.videoModalData,
@@ -620,7 +612,6 @@ class LProfile extends Component{
 	}
 	socialMediaModal=(socialMediaURLS)=>{
 		if(socialMediaURLS!=null){
-			console.log(socialMediaURLS);
 			return <>
 					{this.state.displaySocialMediaUrlContainer==true?
 						<SocialMediaUrlContainer
@@ -809,8 +800,6 @@ class LProfile extends Component{
 				<PostDisplayProvider
 					value={{
 						handleImagePostModal:(imagePostData,contextLocation)=>{
-							console.log(imagePostData);
-							
 							this.setState({
 								imageModalData:imagePostData,
 								contextLocation:contextLocation,

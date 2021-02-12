@@ -56,7 +56,6 @@ const ExploreButton={
 }
 
 const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNode})=>{
-	console.log(nodeInformation);
 	const [displayEditArea,changeDisplayEditArea]=useState(false);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -81,7 +80,7 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 			});
 			closeModal();
 		}else{
-			debugger;
+			
 			const {statusCode}=data;
 			if(statusCode==401){
 				await refreshTokenApiCallHandle(

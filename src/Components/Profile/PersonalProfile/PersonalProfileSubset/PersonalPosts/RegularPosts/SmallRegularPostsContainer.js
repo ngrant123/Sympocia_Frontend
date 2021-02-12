@@ -91,7 +91,6 @@ const CommentButtonCSS={
 
 const SmallRegularPosts=(props)=>{
 	const {post,profilePicture}=props;
-	console.log(post);
 
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

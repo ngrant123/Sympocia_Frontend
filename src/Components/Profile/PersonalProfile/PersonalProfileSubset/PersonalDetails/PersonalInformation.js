@@ -144,19 +144,18 @@ const EditSocialMediaUrlsCSS={
 }
 
 const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
-	debugger;
+	
 	const {userProfile:{
 		_id
 	}}=personalInformation;
 
 	const isOwnProfileRecruitButtonDecider=()=>{
-		debugger;
+		
 		const {
 			userProfile:{
 				recruits
 			}
 		}=personalInformation;
-		console.log(recruits);
 		let isRecruit=false;
 
 		recruits.forEach((data,index)=>{
@@ -298,13 +297,11 @@ const PersonalInformation=(props)=>{
 
 	
 	const handleDonateButton=()=>{
-		console.log("Download modal");
 		changeDisplayForDonationModal(!displayDonationModal);
 
 	}
 
 	const handleChampionButton=()=>{
-		console.log("Download modal");
 		changeDisplayChampionModal(!displayChampionModal);
 
 	}

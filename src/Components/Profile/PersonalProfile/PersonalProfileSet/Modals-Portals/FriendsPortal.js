@@ -102,7 +102,6 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 		const getRecruitsFromDB=async()=>{
 			changeIsLoadingStatus(true);
 			const {confirmation,data}=await getRecruits(userId);
-			console.log(data);
 			if(confirmation=="Success"){
 				const {message}=data;
 				const {

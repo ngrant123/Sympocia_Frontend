@@ -31,9 +31,6 @@ const VideoDescriptionContainer=styled.div`
 `;
 
 class PlayListContents extends Component{
-
-
-
 	constructor(props){
 		super(props);
 

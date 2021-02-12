@@ -163,6 +163,7 @@ const HeaderContainer=styled.div`
 const HeaderDescriptionContainer=styled.div`
 	display:flex;
 	flex-direction:row;
+	margin-top:1%;
 `;
 
 const HeaderTextsContainer=styled.div`
@@ -307,7 +308,7 @@ const VideoPostModal=(props)=>{
 							)}
 						</HeaderOwnerInformation>
 
-						<video id="headerVideoLI" style={{cursor:"pointer"}} width="80%" height="100%" borderRadius="50%"
+						<video id="headerVideoLI" style={{cursor:"pointer"}} width="90%" height="100%" borderRadius="50%"
 						 key={headerVideo.videoUrl} autoPlay loop autoBuffer muted playsInline onClick={()=>handleDisplayHeaderVideo()}>
 							<source src={headerVideo.videoUrl} type="video/mp4"/>
 						</video>

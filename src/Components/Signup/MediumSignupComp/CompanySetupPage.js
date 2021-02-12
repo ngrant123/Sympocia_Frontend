@@ -349,7 +349,6 @@ const MAPBOX_TOKEN ="pk.eyJ1IjoibmdyYW50MTIzIiwiYSI6ImNrNzZzcjV3NTAwaGYza3BqbHZj
 class CompanySetupPage extends Component{
 
 	constructor(props){
-		console.log('Setup Page is accessed');
 		super(props);
 		this.state={
 			viewport: {
@@ -391,7 +390,6 @@ class CompanySetupPage extends Component{
 
 
 	handleBackButtonEvent=()=>{
-		console.log("Back event clicked");
 		document.getElementById("payment").style.opacity="0";
 		document.getElementById("payment").style.pointerEvents="none";
 	}
@@ -490,8 +488,6 @@ class CompanySetupPage extends Component{
 				displayLocationChoiceDiv:true
 			})
 		}
-
-		console.log(searchCharacters)
 		if(searchCharacters==""){
 			this.setState({
 				location:[]
@@ -511,7 +507,6 @@ class CompanySetupPage extends Component{
 	searchForCities=(searchCharacters)=>{
 
 		const states=STATES.STATES;
-		console.log(states);
 		const returnCities=[];
 
 		for(var i=0;i<states.length;i++){
@@ -531,8 +526,6 @@ class CompanySetupPage extends Component{
 
 	handleSearchIndustry=(character)=>{
 		const industries=this.state.industries;
-
-		console.log(character);
 		if(character==""){
 			this.setState({
 				industries:INDUSTRIES.INDUSTRIES
@@ -544,10 +537,8 @@ class CompanySetupPage extends Component{
 			for(var i=0;i<industries.length;i++){
 
 				const selectedIndustries=industries[i].industry;
-				console.log(selectedIndustries);
 
 				if(selectedIndustries.includes(character)==true){
-					console.log("Accessed");
 					const industry={industry:selectedIndustries};
 					displaySearchIndustries.push(industry);
 				}

@@ -68,7 +68,7 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 	}
 
 	const handleDeletePost=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
+
 		changeIsProcessingDeletion(true);
 		const {
 			_id,

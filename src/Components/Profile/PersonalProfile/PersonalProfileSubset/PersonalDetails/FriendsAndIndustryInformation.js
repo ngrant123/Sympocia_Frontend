@@ -161,7 +161,6 @@ class FriendsAndIndustryInformation extends Component{
 	handleDisplayFriends=(personalInformation)=>{
 
 		//const {friends}=personalInformation;
-		console.log("Display friends");
 		const {userProfile}=personalInformation;
 		const {friends}=userProfile;
 		if(friends.length==0)

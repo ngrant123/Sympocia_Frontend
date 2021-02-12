@@ -113,7 +113,6 @@ const NewNodeImageCSS={
 */
 
 const FriendsGaugeEditPortal=(props)=>{
-	console.log(props);
 	const [recruitsInformation,changeRecruitsInformation]=useState([]);
 	const [selectedRecruits,changeSelectedRecruits]=useState([]);
 
@@ -134,7 +133,6 @@ const FriendsGaugeEditPortal=(props)=>{
 	useEffect(()=>{
 		const getRecruitData=async()=>{
 			const {confirmation,data}=await getRecruits(props.userInformation);
-			console.log(data);
 			if(confirmation=="Success"){
 				const {message}=data;
 				const {
@@ -155,7 +153,6 @@ const FriendsGaugeEditPortal=(props)=>{
 	},[]);
 
 	const closingScreen=(data)=>{
-		console.log(data)
 		if(data!=null){
 			props.implementAction(data);
 		}
