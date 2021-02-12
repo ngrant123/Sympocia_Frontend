@@ -1,18 +1,5 @@
 import axios from "axios";
 
-
-/*
-    addTextReactionToPostArena,
-    addVideoReactionToPostArena,
-    setCompetitionStartDate,
-    setCompetitionEndDate,
-    addBoostToPost,
-    addStampToTextReaction,
-    addStampToVideoReaction,
-    removeVideoReactionComment,
-    removeTextReactionComment,
-    removePostArena
-*/
 const arenaUrl=process.env.NODE_ENV=='production'?
 				process.env.REACT_APP_ARENA_SET_URL:
 				process.env.REACT_APP_TEST_ARENA_SET_URL;

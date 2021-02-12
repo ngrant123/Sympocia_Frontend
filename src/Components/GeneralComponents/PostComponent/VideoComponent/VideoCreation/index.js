@@ -60,14 +60,14 @@ const VideoOptionCSS={
 			alert('The file you selected is too large. As of right now we only accept files of size 50MB for videos. Sorry for the inconvenience.');
 		}else{
 			reader.onloadend=()=>{
-				debugger;
+				
 				dummyVideoObject.src=reader.result;
 				 window.URL.revokeObjectURL(dummyVideoObject.src);
 				const duration=dummyVideoObject.duration;
 				if(duration>30){
 
 				}else{
-					console.log(reader);
+					
 					if(props.uploadedRedoVideo!=null){
 						props.uploadedRedoVideo(reader.result);
 					}else{

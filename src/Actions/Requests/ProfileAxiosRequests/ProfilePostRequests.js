@@ -3,7 +3,6 @@ import BASE_URL from "../../../Constants/constants.js";
 
 
 const baseurl=BASE_URL.BASE_URL;
-debugger;
 const CreateUrl=process.env.NODE_ENV=='production'?
 				process.env.REACT_APP_PROFILE_SET_URL:
 				process.env.REACT_APP_TEST_PROFILE_SET_URL;
@@ -11,7 +10,7 @@ const CreateUrl=process.env.NODE_ENV=='production'?
 
 
 export async function createProfile(personalData){
-	debugger;
+
 	const {firstName,lastName,email,paymentPlan,isInvestor,location,stripToken}=personalData;
 	let personalInformation;
 	if(isInvestor==true){

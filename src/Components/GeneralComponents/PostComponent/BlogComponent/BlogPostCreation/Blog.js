@@ -19,7 +19,7 @@ class Blog extends Component{
 
 	constructor(props){
 		super(props);
-		console.log("Testing blog createion");
+		
 		this.state={
 			firstTimeClick:true,
 			blogPostContents:"Testing blog contents",

@@ -94,7 +94,6 @@ const BackContainerCSS={
 
 
 const UploadPost=({closeUploadPostModal})=>{
-	console.log("Testing");
 	const [postType,changePostType]=useState("Videos");
 	const [postUrl,changePostUrl]=useState();
 	const [isFileUploaded,changeIsFileUploadedStatus]=useState(false);
@@ -248,7 +247,7 @@ const UploadPost=({closeUploadPostModal})=>{
 	}
 
 	const postUrlDisplay=()=>{
-		debugger;
+		
 		return(
 			<>
 				{postType=="Images"?

@@ -107,7 +107,7 @@ class BlogEditSubmitModal extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(this.props);
+		
 		this.state={
 			pictureUrl:"",
 			displayImage:false,
@@ -128,7 +128,7 @@ class BlogEditSubmitModal extends Component{
 	}
 
 	componentDidMount(){
-		console.log(this.props.previousState);
+		
 		if(this.props.previousState!=null){
 			const {
 				blogImageUrl,
@@ -230,7 +230,7 @@ class BlogEditSubmitModal extends Component{
 			}
 			searchCriteriaIndustryArray.push(searchObject);
 		}
-		debugger;
+		
 		
 			//Quick fix but this could be implemented in a better way
 		if(this.props.previousState==null){
@@ -254,7 +254,7 @@ class BlogEditSubmitModal extends Component{
 											this.props.personalInformation.accessToken
 										);
 			if(confirmation=="Failure"){
-				debugger;
+				
 				const {statusCode}=data;
 				if(statusCode==401){
 					isEditSuccess=false;
@@ -284,7 +284,7 @@ class BlogEditSubmitModal extends Component{
 
 			}
 		}else{
-			debugger;
+			
 			const {previousData}=this.props;
 			const {
 				blogImageUrl,
@@ -337,7 +337,7 @@ class BlogEditSubmitModal extends Component{
 			
  			const {confirmation,data}=await editPost(editedImage);
 			if(confirmation=="Failure"){
-				debugger;
+				
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(

@@ -178,7 +178,7 @@ const ButtonCSS={
 
 
 const RegularPostContainer=(props)=>{
-	console.log(props);
+	
 	const{
 		profileType,
 		postData,

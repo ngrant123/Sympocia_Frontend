@@ -6,8 +6,6 @@ const EmailUrl=process.env.NODE_ENV=='production'?
 
 export const sendAnonymousTipsEmail=async({content})=>{
 	try{
-		debugger;
-		console.log(process.env);
 		const anonymousTipResponse=await axios.post(`${EmailUrl}/emailAnonyousSuggestion`,{
 			content
 		})

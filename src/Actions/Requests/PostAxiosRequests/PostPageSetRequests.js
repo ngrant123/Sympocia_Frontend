@@ -424,7 +424,7 @@ export const promotePost=async({postId,nodeId,postType,accessToken,userId})=>{
 		const {data}=promotionResponse;
 		return data;
 	}catch(err){
-		console.log(err);
+		
 		return err;
 	}
 

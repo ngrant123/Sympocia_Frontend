@@ -325,7 +325,7 @@ class EditVideoModal extends Component{
 				videoPostInformation.hideCreationPost();
 				this.pushDummyVideoObjectToProfile(videoPostInformation,searchVideoResult);
 			}else{
-				debugger;
+				
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(
@@ -390,7 +390,7 @@ class EditVideoModal extends Component{
 				alert('Your video has been edited. Please reload your profile to see your updated post.')
 				this.props.editPost(editedVideo);
 			}else{
-				debugger;
+				
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(

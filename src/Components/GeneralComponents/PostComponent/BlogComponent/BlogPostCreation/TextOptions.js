@@ -135,7 +135,6 @@ const TextOptions=(props)=>{
 	const handleSubmitBlogData=()=>{}
 
 	const handleRemoveBlogPost=async()=>{
-		debugger;
 		changeDisplayDeleteConfirmation(true);
 	}
 

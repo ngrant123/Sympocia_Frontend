@@ -165,10 +165,10 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			console.log(data);
+			
 			let confirmationResponse;
 			let dataResponse;
-			debugger;
+			
 
 			if(notificationType!="Stamp"){
 				if(notificationType=="RegularComment"){
@@ -201,7 +201,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					dataResponse=data;
 				}
 
-				console.log(data);
+			
 				if(confirmationResponse=="Success"){
 					changeNotification({...dataResponse});
 				}else{
@@ -223,7 +223,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 	}
 
 	const postUrlComponent=()=>{
-		console.log(headerUrl);
+		
 		if(postType=="Images" || postType=="Blogs"){
 			return <img src={headerUrl} style={{width:"50%",height:"70%"}}/>
 		}else if(postType=="Videos"){
@@ -248,7 +248,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 	}
 
 	const notificationTypeComponent=()=>{
-		debugger;
+		
 			if(notificationType!="Stamp"){
 				if(notificationType=="RegularComment" || notificationType=="AuthenticPost"){
 					return(

@@ -277,7 +277,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 											);
 			confirmationResponse=confirmation;
 			dataResponse=data;
-			debugger;
+			
 		}
 
 		if(confirmationResponse=="Success"){

@@ -152,7 +152,7 @@ const TestContainaer=styled.div`
 
 const NavBar=(pageProps)=>{
 	const dispatch=useDispatch();
-	console.log(pageProps);
+	
 	const {
 			pageProps:{
 				targetDom
@@ -208,7 +208,7 @@ const NavBar=(pageProps)=>{
 
 	useEffect(()=>{
 		const initialSetUp=async()=>{
-			debugger;
+			
 			if(isGuestProfile==false){
 				statusCheckTrigger({id,isAccessTokenUpdated:false})
 			}
@@ -231,8 +231,8 @@ const NavBar=(pageProps)=>{
 
 				
 				while(notificationTriggerCheck){
-						debugger;
-						console.log(test);
+						
+						
 						await triggerSetTimeout(40000);
 						const updatedToken=await statusCheckTrigger({accessToken,id,isAccessTokenUpdated:false});
 						test=updatedToken;
@@ -245,7 +245,7 @@ const NavBar=(pageProps)=>{
 	window.addEventListener('resize',triggerUIChange)
 
 	const statusCheckTrigger=async({id,isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
+		
 		const {confirmation,data}=await notificationStatusCheck(
 											id,
 											isAccessTokenUpdated==true?updatedAccessToken:
@@ -302,7 +302,7 @@ const NavBar=(pageProps)=>{
 	}
 
 	const logoutUser=()=>{
-		console.log("Testing");
+		
 	}
 
 	const fetchNotificationData=async()=>{

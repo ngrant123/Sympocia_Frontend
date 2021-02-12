@@ -331,7 +331,7 @@ class EditImageCreation extends Component{
 	}
 
 	sendImageDateToDB=async({profilePostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
+		
 		this.setState({
 			isSubmittedAndProcessing:true
 		})
@@ -377,7 +377,7 @@ class EditImageCreation extends Component{
 					profilePostInformation.hideCreationPost();
 					this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria,data,this.props.personalProfile.id);
 				}else{
-					debugger;
+					
 					const {statusCode}=data;
 					if(statusCode==401){
 						await refreshTokenApiCallHandle(
@@ -443,7 +443,7 @@ class EditImageCreation extends Component{
 			if(confirmation=="Success"){
 				this.props.editPost(editedImage);
 			}else{
-				debugger;
+				
 				const {statusCode}=data;
 				if(statusCode==401){
 					await refreshTokenApiCallHandle(
@@ -477,7 +477,7 @@ class EditImageCreation extends Component{
 	}
 
 	isArrayEqual=(arr1,arr2)=>{
-		debugger;
+		
 		let isArrayEqualIndicator=true;
 
 		if(arr1.length!=arr2.length)

@@ -110,7 +110,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			debugger;
+			
 			triggerGetNotifications({notificationsStatus:"New",isAccessTokenUpdated:false})
 		}
 		fetchData();
@@ -172,7 +172,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	const filterNotifications=(filterSelection)=>{}
 
 	const triggerDisplayExtendedNotification=(data,postUrl,postId,isAudioPost)=>{
-		debugger;
+		
 		changePostId(postId);
 		changePostIdUrl(postUrl);
 		changeIsPostAudio(isAudioPost);
@@ -181,7 +181,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	}
 
 	const constructSelectedPostNotifications=()=>{
-		debugger;
+		
 		const {postType,post,postUrl,isAudioPost,_id}=postSpecificNotifications;
 		const stampCounter=0;
 		const authenticationCounter=0;
@@ -266,7 +266,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 											isAccessTokenUpdated==true?updatedAccessToken:
 											personalInformation.accessToken);
 		if(confirmation=="Success"){
-			debugger;
+			
 			const {message}=data;
 			changeCurrentFilterNotifications([...message]);
 			changeNotifications([...message]);

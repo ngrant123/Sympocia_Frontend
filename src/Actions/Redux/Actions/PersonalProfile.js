@@ -63,7 +63,6 @@ const loginPersonalPage=(loginIndicator)=>{
 }
 
 const signInPersonalUser=(userInformation)=>{
-	debugger;
 	return{
 		type:'SIGN_IN_PERSONAL_USER',
 		payload:userInformation
@@ -71,7 +70,6 @@ const signInPersonalUser=(userInformation)=>{
 }
 
 const logOutUser=()=>{
-	debugger;
 	return{
 		type:'LOGOUT_USER',
 		payload:""
@@ -99,7 +97,6 @@ const signUpGuestUser=()=>{
 }
 
 const setIsTokenRefreshing=(indicator)=>{
-	debugger;
 	return{
 		type:'IS_TOKEN_REFRESHING',
 		payload:indicator

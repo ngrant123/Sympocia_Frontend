@@ -163,7 +163,7 @@ const PosterInformation=(props)=>{
 			confirmationResponse=confirmation;
 			dataResponse=data;
 		}
-		debugger;
+		
 		if(confirmationResponse=="Success"){
 			if(displayStampEffect==false)
 				changeDisplayStampEffect(true);
