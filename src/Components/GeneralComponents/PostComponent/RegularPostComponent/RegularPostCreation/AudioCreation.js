@@ -120,7 +120,7 @@ const AudioCreation=({audio,isPreviousDataLoaded,isSubmittedAndProcessing,sendDa
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<audio id="audioLI" key={uuidv4()} controls>
 								<source src={audioDescription} type="audio/ogg"/>
-								<source src={audioDescription} type="audio/mpeg"/>
+								<source src={audioDescription} type="audio/mp4"/>
 								Your browser does not support the audio element.
 							</audio>
 						</li>

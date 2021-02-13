@@ -176,7 +176,7 @@ const CrownedImageContainer=(props)=>{
 									<li style={{listStyle:"none"}}>
 											<audio key={audioId} style={{width:"200px"}} controls>
 											  <source src={imageData.audioDescription} type="audio/ogg"/>
-											  <source src={imageData.audioDescription} type="audio/mpeg"/>
+											  <source src={imageData.audioDescription} type="audio/mp4"/>
 											Your browser does not support the audio element.
 											</audio>
 									</li>:null

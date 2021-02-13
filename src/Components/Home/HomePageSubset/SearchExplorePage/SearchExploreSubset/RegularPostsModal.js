@@ -261,7 +261,7 @@ const RegularPostModal=(props)=>{
 											{headerRegularPost.isAudioPost==true?
 												<audio controls>
 												 	<source src={headerRegularPost.post} type="audio/ogg"/>
-												  	<source src={headerRegularPost.post} type="audio/mpeg"/>
+												  	<source src={headerRegularPost.post} type="audio/mp4"/>
 													Your browser does not support the audio element.
 												</audio>
 												:
@@ -304,7 +304,7 @@ const RegularPostModal=(props)=>{
 													{data.isAudioPost==true?
 														<audio controls>
 														 	<source src={data.post} type="audio/ogg"/>
-														  	<source src={data.post} type="audio/mpeg"/>
+														  	<source src={data.post} type="audio/mp4"/>
 															Your browser does not support the audio element.
 														</audio>
 														:

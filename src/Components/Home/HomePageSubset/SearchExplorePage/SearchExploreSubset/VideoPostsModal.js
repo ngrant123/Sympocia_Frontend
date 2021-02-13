@@ -301,7 +301,7 @@ const VideoPostModal=(props)=>{
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<audio id="headerAudio" style={{width:"200px"}} controls>
 									  	<source src={headerVideo.audioDescription} type="audio/ogg"/>
-									  	<source src={headerVideo.audioDescription} type="audio/mpeg"/>
+									  	<source src={headerVideo.audioDescription} type="audio/mp4"/>
 										Your browser does not support the audio element.
 									</audio>
 								</li>
@@ -375,7 +375,7 @@ const VideoPostModal=(props)=>{
 												<li id="smallAudioDescription" style={{listStyle:"none"}}>
 													<audio style={{width:"150px",height:"25px"}} controls muted>
 													  	<source src={data.audioDescription} type="audio/ogg"/>
-													  	<source src={data.audioDescription} type="audio/mpeg"/>
+													  	<source src={data.audioDescription} type="audio/mp4"/>
 														Your browser does not support the audio element.
 													</audio>
 												</li>

@@ -327,7 +327,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 													</AudioPostOwnerInformation>
 													<audio key={data._id} controls>
 													  <source src={data.post} type="audio/ogg"/>
-													  <source src={data.post} type="audio/mpeg"/>
+													  <source src={data.post} type="audio/mp4"/>
 														Your browser does not support the audio element.
 													</audio>
 													<p style={{overflowY:"auto",maxHeight:"10%",overflow:"hidden"}}>
@@ -382,7 +382,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 										<li style={{listStyle:"none",width:"40%"}}>
 											<audio id="audioLI" controls>
 											  <source src={audioUrl} type="audio/ogg"/>
-											  <source src={audioUrl} type="audio/mpeg"/>
+											  <source src={audioUrl} type="audio/mp4"/>
 											Your browser does not support the audio element.
 											</audio>
 										</li>

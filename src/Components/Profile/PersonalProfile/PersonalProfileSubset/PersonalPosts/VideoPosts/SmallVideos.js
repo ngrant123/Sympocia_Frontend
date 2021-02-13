@@ -153,7 +153,7 @@ const SmallVideoContainer=(videoData)=>{
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													<audio key={uuidv4()} style={{width:"150px"}} controls>
 														<source src={videoData.video.audioDescription} type="audio/ogg"/>
-														<source src={videoData.video.audioDescription} type="audio/mpeg"/>
+														<source src={videoData.video.audioDescription} type="audio/mp4"/>
 														Your browser does not support the audio element.
 													</audio>
 												</li>
@@ -179,7 +179,7 @@ const SmallVideoContainer=(videoData)=>{
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													<audio id="audioLI" key={uuidv4()} style={{width:"150px"}} controls>
 														<source src={videoData.video.audioDescription} type="audio/ogg"/>
-														<source src={videoData.video.audioDescription} type="audio/mpeg"/>
+														<source src={videoData.video.audioDescription} type="audio/mp4"/>
 														Your browser does not support the audio element.
 													</audio>
 												</li>

@@ -171,7 +171,7 @@ const CrownedVideoContainer=({headerVideo})=>{
 									<li style={{listStyle:"none",display:"inline-block"}}>
 										<audio key={uuidv4()} style={{width:"150px"}} controls>
 											<source src={headerVideo.audioDescription} type="audio/ogg"/>
-											<source src={headerVideo.audioDescription} type="audio/mpeg"/>
+											<source src={headerVideo.audioDescription} type="audio/mp4"/>
 											Your browser does not support the audio element.
 										</audio>
 									</li>

@@ -303,7 +303,7 @@ return(
 													{this.props.blogData.headerBlog.audioDescription!=null &&(
 														<audio id="headerAudioLI" controls style={{width:"200px"}} >
 														  <source src={this.props.blogData.headerBlog.audioDescription} type="audio/ogg"/>
-														  <source src={this.props.blogData.headerBlog.audioDescription} type="audio/mpeg"/>
+														  <source src={this.props.blogData.headerBlog.audioDescription} type="audio/mp4"/>
 														  Your browser does not support the audio element.
 														</audio>
 													)}
@@ -400,7 +400,7 @@ return(
 															{data.audioDescription!=null &&(
 																<audio id="smallAudio" controls>
 																  <source src={data.audioDescription} type="audio/ogg"/>
-																  <source src={data.audioDescription} type="audio/mpeg"/>
+																  <source src={data.audioDescription} type="audio/mp4"/>
 																  Your browser does not support the audio element.
 																</audio>
 															)}

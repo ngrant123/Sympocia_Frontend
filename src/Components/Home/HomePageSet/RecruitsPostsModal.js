@@ -408,7 +408,7 @@ const RecruitsPosts=(props)=>{
 												</p>:
 												<audio controls>
 												 	<source src={data.post.audioDescription} type="audio/ogg"/>
-												  	<source src={data.post.audioDescription} type="audio/mpeg"/>
+												  	<source src={data.post.audioDescription} type="audio/mp4"/>
 													Your browser does not support the audio element.
 												</audio>
 											}

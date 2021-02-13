@@ -109,7 +109,7 @@ const SmallImageContainer=(props)=>{
 					<li style={{listStyle:"none"}}>
 						<audio id="audio" key={audioId} style={{width:"200px"}} controls>
 						    <source src={data.audioDescription} type="audio/ogg"/>
-						    <source src={data.audioDescription} type="audio/mpeg"/>
+						    <source src={data.audioDescription} type="audio/mp4"/>
 							Your browser does not support the audio element.
 						</audio>
 					</li>:null

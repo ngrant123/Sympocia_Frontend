@@ -237,7 +237,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					{isPostAudio!=null?
 						<audio style={{width:"50px"}} key={uuidv4()} controls>
 						  <source src={headerUrl} type="audio/ogg"/>
-						  <source src={headerUrl} type="audio/mpeg"/>
+						  <source src={headerUrl} type="audio/mp4"/>
 							Your browser does not support the audio element.
 						</audio>:
 						<p style={{color:"#A4A4A4",overflow:"hidden"}}>{headerUrl}</p>
