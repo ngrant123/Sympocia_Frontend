@@ -31,6 +31,7 @@ const Container=styled.div`
 		left:5% !important;
 		overflow:scroll !important;
 	}
+
 `;
 
 
@@ -49,6 +50,9 @@ const PostContainer=styled.div`
 	padding:10px;
 	margin-bottom:2%;
 	cursor:pointer;
+	@media screen and (max-width:740px){
+		height:120px !important;
+	}
 `;
 
 
@@ -139,7 +143,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 
 	const createPostUrl=(postType,postUrl,isAudioPost)=>{
 		return(
-			<div>
+			<div style={{width:"100%",height:"100%"}}>
 				{(postType=="Images" || postType=="Videos" || postType=="Blogs")==true?
 					<p>{postUrlContruct(postType,postUrl)}</p>:
 					<>
@@ -160,12 +164,12 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	const constructPost=(data)=>{
 		const {postType,post,postUrl,isAudioPost}=data;
 		return(
-			<PostContainer onClick={()=>displayPostSpecificNotifications(data)}>
+			<React.Fragment>
 				{createPostUrl(postType,postUrl,isAudioPost)}
 				<p style={{marginLeft:"2%"}}>
 					<b>{post.length}</b> new notifications for this post
 				</p>
-			</PostContainer>
+			</React.Fragment>
 		)
 	}
 
@@ -349,7 +353,10 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 								</SelectedFilterContainer>
 								<hr style={HorizontalLineCSS}/>
 								{currentFilterdNotifications.map(data=>
-									<>{constructPost(data)}</>
+									<div id="postContainerDiv" style={{display:"flex",flexDirection:"row"}}
+										onClick={()=>displayPostSpecificNotifications(data)}>
+										{constructPost(data)}
+									</div>
 								)}
 							</>
 						}
