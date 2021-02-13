@@ -21,24 +21,25 @@ const Container = styled.div`
 	  		font-size:20px !important;
 	  	}
 	  }
+		@media screen and (max-width:700px){
+			#previewImage{
+			      width:250px !important;
+			      height:225px!important;
+			}
+		}
+		@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+	      	#previewImage{
+			      width:400px !important;
+			      height:225px!important;
+			}
+	    }
 `;
 
 const ImageContainer=styled.div`
+	position:relative;
 	display:flex;
 	justify-content:center;
 
-	@media screen and (max-width:700px){
-		#previewImage{
-		      width:250px !important;
-		      height:225px!important;
-		}
-	}
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-      	#previewImage{
-		      width:400px !important;
-		      height:225px!important;
-		}
-    }
 `;
 
 const FourthSection=()=>{
@@ -52,11 +53,9 @@ const FourthSection=()=>{
 				We have a lot of features that we havent talked about here so when you 
 				have a chance clicked the signup or explore button and check it out.
 			</p>
-			<ImageContainer>
-				<img id="previewImage" src={previewImage}
-				 style={{borderRadius:"5px",width:"60%",height:"450px",boxShadow:"1px 5px 5px 5px #d5d5d5"}}
-				/>
-			</ImageContainer>
+			<img id="previewImage" src={previewImage}
+			 style={{borderRadius:"5px",width:"60%",height:"450px",boxShadow:"1px 5px 5px 5px #d5d5d5"}}
+			/>
 			<hr/>
 			<p id="headerTexts" style={{fontSize:"30px"}}>
 				<b>Frequently asked questions </b>
