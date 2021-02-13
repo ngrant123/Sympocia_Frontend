@@ -34,9 +34,9 @@ const AnimationContainer=styled.div`
 
 	${({isScrollEnabled})=>
 		isScrollEnabled!=null &&(
-			isScrollEnabled==true ?
-			`height:65%;`:
-			`height:60%;`
+			`@media screen and (max-width:740px){
+				display:none !important;
+			}`
 		)
 	}
 
