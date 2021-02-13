@@ -434,7 +434,7 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 														<img src={data.owner.profilePicture==null?
 																	NoProfilePicture:
 																	data.owner.profilePicture
-																} style={{width:"60px",height:"10%",borderRadius:"50%"}}
+																} style={{width:"60px",height:"60px",borderRadius:"50%"}}
 														/>
 														<p> 
 															<b>{data.owner.firstName}</b>

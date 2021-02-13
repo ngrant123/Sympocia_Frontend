@@ -32,6 +32,10 @@ const AnimationContainer=styled.div`
 	filter: blur(4px);
 	animation:${keyFrameAnimation} 3s ease-in-out 0s forwards infinite;
 
+	${({isExtendedSymposium})=>
+		isExtendedSymposium!=null &&(
+			`height:60%;`
+	)}
 	${({isScrollEnabled})=>
 		isScrollEnabled!=null &&(
 			`@media screen and (max-width:740px){
@@ -59,11 +63,11 @@ const AnimationContainer=styled.div`
     	width:20% !important;
     }
 `;
-const LoadingAnimation=({isScrollEnabled})=>{
+const LoadingAnimation=({isScrollEnabled,isExtendedSymposium})=>{
 	console.log(isScrollEnabled);
 	return (
 		<React.Fragment>
-			<AnimationContainer isScrollEnabled={isScrollEnabled}>
+			<AnimationContainer isScrollEnabled={isScrollEnabled} isExtendedSymposium={isExtendedSymposium}>
 				<img id="animationImage" src={StampIcon} style={{borderRadius:"50%",width:"60%",height:"70%"}} />
 			</AnimationContainer>
 			<p style={{fontSize:"30px",position:"fixed",top:"70%",left:"30%"}}> 
