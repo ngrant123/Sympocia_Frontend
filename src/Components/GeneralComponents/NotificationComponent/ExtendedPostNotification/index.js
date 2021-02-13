@@ -227,10 +227,10 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 		if(postType=="Images" || postType=="Blogs"){
 			return <img src={headerUrl} style={{width:"50%",height:"70%"}}/>
 		}else if(postType=="Videos"){
-			return <video id="videoPostComponent" key={uuidv4()} objectFit="cover"
-						 position="absolute" width="50%" top="0px" height="70%" borderRadius="50%" controls>
+			return <video id="videoPostComponent" key={uuidv4()} objectFit="cover" autoPlay loop autoBuffer muted playsInline 
+						position="absolute" width="50%" top="0px" height="70%" borderRadius="50%" controls>
 						<source src={headerUrl} type="video/mp4"/>
-				   </video>
+					</video>
 		}else{
 			return (
 				<div style={RegularPostDivCSS}>
@@ -269,7 +269,8 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 						<div>
 							<VideoCommentReplyContainer>
 								<p style={{marginRight:"2%"}}>Your video comment:</p>
-								<video key={uuidv4()} width="25%" height="25%" autoplay="true" muted controls>
+								<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+									width="25%" height="25%" borderRadius="50%" controls>
 									<source src={notification.parentVideoComment} type="video/mp4"/>
 								</video>
 							</VideoCommentReplyContainer>
@@ -297,7 +298,8 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 										<b>{notification.ownerObject.owner.firstName}</b>
 									</p>
 								</div>
-				   				<video key={uuidv4()} width="60%" height="100%" autoplay="true" muted controls>
+								<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+									width="60%" height="100%" borderRadius="50%" controls>
 									<source src={notification.videoSrc} type="video/mp4"/>
 								</video>
 			   				</div>
