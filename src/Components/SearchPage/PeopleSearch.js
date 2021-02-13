@@ -5,7 +5,7 @@ import NoSearchResultDisplay from "../../designs/img/FirstSectionLandingPAgeImag
 import {getProfilesFromSearch} from "../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import NoProfilePicture from "../../designs/img/NoProfilePicture.png";
 import LoadingScreen from "../../LoadingAnimation.js";
-
+import NoResultsModal from "./NoResultsModal.js";
 
 const Container=styled.div`
 	@media screen and (max-width:1370px){
@@ -126,18 +126,7 @@ const PeopleSearch=({searchQuery,userId,displayProfile})=>{
 						*/}
 						<hr/>
 						{profiles.length==0?
-							<li style={{listStyle:"none",marginLeft:"5%"}}>	
-								<ul style={{padding:"20px"}}>
-									<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
-										<img src={NoSearchResultDisplay} style={{borderRadius:"50%",width:"80%",height:"400px"}}/>
-									</li>
-									<li style={{width:"30%",fontSize:"30px",listStyle:"none",display:"inline-block"}}>
-										<b>
-											No results unfortunately :( Maybe search something else?
-										</b>
-									</li>
-								</ul>
-							</li>:
+							<NoResultsModal/>:
 							<li style={{listStyle:"none",marginLeft:"5%"}}>
 								<ul style={{padding:"20px"}}>
 									{profiles.map(data=>

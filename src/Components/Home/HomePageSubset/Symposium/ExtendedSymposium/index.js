@@ -139,9 +139,9 @@ const HightLightedQuestionsContainerModal=styled.div`
 	background-color:white;
 	border-radius:5px;
 	top:20%;
-	left:25%;
-	width:50%;
-	height:60%;
+	left:30%;
+	width:30%;
+	height:30%;
 	padding:20px;
 	overflow-y:scroll;
 	z-index:40;
@@ -392,26 +392,27 @@ class Symposium extends Component{
 	}
 
 	  handleScroll=()=>{
+	  	if(this.state.isLoading!=true){
+		  	if(this.state.handleScroll!=false){
 
-	  	if(this.state.handleScroll!=false){
+			  	document.getElementById("postChatInformation").style.overflow="visible";
+			  	document.getElementById("postChatInformation").style.top="-20%";
+			  	document.getElementById("postChatInformation").style.filter="blur(0)";
+			  	document.getElementById("postChatInformation").style.zIndex=2;
+			  	document.getElementById("arrowIndicator").style.opacity="0";
+		  		document.getElementById("postsContainer").style.opacity="0";
 
-		  	document.getElementById("postChatInformation").style.overflow="visible";
-		  	document.getElementById("postChatInformation").style.top="-20%";
-		  	document.getElementById("postChatInformation").style.filter="blur(0)";
-		  	document.getElementById("postChatInformation").style.zIndex=2;
-		  	document.getElementById("arrowIndicator").style.opacity="0";
-	  		document.getElementById("postsContainer").style.opacity="0";
-
-	  	if(this.state.headerAnimation==false){
-	  		this.setState(prevState=>({
-	  			...prevState,
-	  			headerAnimation:true,
-	  			handleScroll:false
-	  		}))
-	  	  }
-	  	   	setTimeout(function(){
-				document.getElementById("postsContainer").style.opacity="1";
-		  	},1000);
+		  	if(this.state.headerAnimation==false){
+		  		this.setState(prevState=>({
+		  			...prevState,
+		  			headerAnimation:true,
+		  			handleScroll:false
+		  		}))
+		  	  }
+		  	   	setTimeout(function(){
+					document.getElementById("postsContainer").style.opacity="1";
+			  	},1000);
+		  	}
 	  	}
 	  }
 
