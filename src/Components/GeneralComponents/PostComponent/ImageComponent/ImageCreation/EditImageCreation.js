@@ -9,7 +9,6 @@ import {PostConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileS
 import {ImageConsumer} from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/ImagePosts/ImagePostContext.js";
 import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
 import FilterImageSelection from "./FilterImageSelection.js";
-import ProcessImage from 'react-imgpro';
 import {UserConsumer} from "../../../../Profile/PersonalProfile/UserContext.js";
 import MicIcon from '@material-ui/icons/Mic';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
@@ -259,7 +258,11 @@ class EditImageCreation extends Component{
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
-
+	/*
+		Was previously using image processing library react-imgpro but for mobile prod it was rotating the images
+		themselves. Believe to think that the library may have been taking the images EXIFS information into consideration
+		and altering it there? Maybe...maybe not who knows
+	*/
 	componentDidMount(){
 		const {previousData}=this.props;
 		if(previousData!=null){
@@ -280,14 +283,6 @@ class EditImageCreation extends Component{
 				crownElement.style.color="white";
 			}
 		}
-
-		const imageElement= <ProcessImage
-								image={this.props.imageSrcUrl}
-								resize={{width:450,height:450}}
-								quality={100}
-								processedImage={(src, err) => this.setState({ src, err })}
-							/>;
-
 		this.setState({
 			imgElement:imageElement,
 			isCaptionCleared:caption==null?false:true,
@@ -593,11 +588,11 @@ class EditImageCreation extends Component{
 		const type=""+imageFilter.type+"";
 		const value=imageFilter.value;
 		const imageElement= <ProcessImage
-		 							id="processedImage"
-									image={this.props.imageSrcUrl}
-									resize={{width:450,height:450}}
-									quality={100}
-									processedImage={(src, err) => this.setState({ src, err })}
+	 							id="processedImage"
+								image={this.props.imageSrcUrl}
+								resize={{width:450,height:450}}
+								quality={100}
+								processedImage={(src, err) => this.setState({ src, err })}
 							/>;
 		this.setState({
 			imgElement:imageElement,
