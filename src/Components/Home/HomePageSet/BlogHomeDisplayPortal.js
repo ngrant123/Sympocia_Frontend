@@ -12,7 +12,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PollOptionPortal from "../../GeneralComponents/PostComponent/PollOptionPortal.js";
 import Comments from "../../GeneralComponents/CommentsComponent/index.js";
-
+import VideoDescriptionMobileDisplayPortal from "../../GeneralComponents/PostComponent/VideoDescriptionMobileDisplayPortal.js";
 import PollIcon from '@material-ui/icons/Poll';
 import {HomeConsumer} from "../HomeContext.js";
 import {Link} from "react-router-dom";
@@ -210,6 +210,14 @@ const ShadowContainer = styled.div`
 
 `;
 
+const VideoDescriptionContainer=styled.div`
+	position:relative;
+	width:40%;
+	height:50%;
+	border-radius:50%;
+	cursor:pointer;
+`;
+
 
 const StampButtonCSS={
 	borderColor:"#5298F8",
@@ -289,6 +297,7 @@ const BlogHomeDisplayPortal=(props)=>{
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const isGuestProfile=(personalInformation.id=="0" || personalInformation.isGuestProfile==true)==true?
 					true:false;
+	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
 	const dispatch=useDispatch();
 
 
@@ -438,11 +447,25 @@ const BlogHomeDisplayPortal=(props)=>{
 			/>
 		)
 	}
+	const displayVideoDescriptionTrigger=()=>{
+	 	changeVideoDescriptionDisplay(true);
+	}
+	const closeVideoDescriptionDisplayModal=()=>{
+		changeVideoDescriptionDisplay(false);
+	}
+	
 
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainerBlog onClick={()=>props.closeModal()}/>
 			<Container>	
+				{displayVideoDescriptionDisplay==true &&(
+					<VideoDescriptionMobileDisplayPortal
+						targetDom={props.targetDom}
+						closeModal={closeVideoDescriptionDisplayModal}
+						videoUrl={props.selectedBlog.videoDescription}
+					/>
+				)}
 				<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
@@ -532,6 +555,30 @@ const BlogHomeDisplayPortal=(props)=>{
 									</ul>
 								</li>
 							)}
+							<hr/>
+							<li style={{listStyle:"none",marginTop:"2%"}}>
+								<ul style={{padding:"0px"}}>
+									{props.selectedBlog.videoDescription!=null &&(
+										<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
+											<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
+												<video autoPlay loop autoBuffer muted playsInline 
+													style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
+													<source src={props.selectedBlog.videoDescription} type="video/mp4"/>
+												</video>
+											</VideoDescriptionContainer>
+										</li>
+									)}
+									{props.selectedBlog.audioDescription && (
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<audio controls>
+												<source src={props.selectedBlog.audioDescription} type="audio/ogg"/>
+												<source src={props.selectedBlog.audioDescription} type="audio/mp4"/>
+												Your browser does not support the audio element.
+											</audio>
+										</li>
+									)}
+								</ul>
+							</li>
 
 						</ul>
 						}

@@ -336,9 +336,9 @@ const AdditionalInformation=(props)=>{
 								<ul style={{padding:"0px"}}>
 									{videoDescription!=null &&(
 										<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
-											<VideoDescriptionContainer>
-												<video width="100%" onClick={()=>displayVideoDescriptionTrigger()}
-													height="100%" borderRadius="50%" autoplay="true">
+											<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
+												 <video autoPlay loop autoBuffer muted playsInline 
+													style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
 													<source src={videoDescription} type="video/mp4"/>
 												</video>
 											</VideoDescriptionContainer>
@@ -348,7 +348,7 @@ const AdditionalInformation=(props)=>{
 										<li style={{listStyle:"none",display:"inline-block"}}>
 											<audio controls>
 												<source src={audioDescription} type="audio/ogg"/>
-												<source src={props.blogState.audioDescription} type="audio/mp4"/>
+												<source src={audioDescription} type="audio/mp4"/>
 												Your browser does not support the audio element.
 											</audio>
 										</li>

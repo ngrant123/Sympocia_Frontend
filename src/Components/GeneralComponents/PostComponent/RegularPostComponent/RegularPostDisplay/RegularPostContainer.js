@@ -473,7 +473,7 @@ const RegularPostContainer=(props)=>{
 															</p>:
 															<audio style={{width:"90%"}} controls>
 																<source src={post} type="audio/ogg"/>
-																<source src={post} type="audio/mpeg"/>
+																<source src={post} type="audio/mp4"/>
 																Your browser does not support the audio element.
 															</audio>
 														}

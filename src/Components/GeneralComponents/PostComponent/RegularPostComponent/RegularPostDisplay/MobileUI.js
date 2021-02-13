@@ -498,7 +498,7 @@ const MobileUI=(props)=>{
 									</PostContent>:
 									<audio style={{width:"90%"}} controls>
 										<source src={postData.post} type="audio/ogg"/>
-										<source src={postData.post} type="audio/mpeg"/>
+										<source src={postData.post} type="audio/mp4"/>
 										Your browser does not support the audio element.
 									</audio>
 								}

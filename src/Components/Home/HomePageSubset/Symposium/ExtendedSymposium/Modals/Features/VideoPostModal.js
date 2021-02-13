@@ -339,7 +339,8 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 											{posts.map(data=>
 												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 													<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
-														<video key={data._id} width="100%" height="40%" borderRadius="5px" >
+														<video key={data._id} autoPlay loop autoBuffer muted playsInline 
+															style={{borderRadius:"5px"}} width="100%" height="40%">
 															<source src={data.videoUrl} type="video/mp4"/>
 														</video>
 													</li>
