@@ -154,7 +154,7 @@ const ButtonCSS={
 
 //Could be turned into a functional component im a bot
 const ImageInformation=(props)=>{
-	debugger;
+	
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 
@@ -201,7 +201,7 @@ const ImageInformation=(props)=>{
 											<li style={{listStyle:"none",display:"inline-block"}}>
 												<audio style={{width:"200px"}} controls>
 													<source src={props.imageInformation.audioDescription} type="audio/ogg"/>
-													<source src={props.imageInformation.audioDescription} type="audio/mpeg"/>
+													<source src={props.imageInformation.audioDescription} type="audio/mp4"/>
 													Your browser does not support the audio element.
 												</audio>
 											</li>

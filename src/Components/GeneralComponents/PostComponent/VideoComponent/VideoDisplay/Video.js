@@ -3,8 +3,6 @@ import ReactDom from "react-dom";
 import styled , {keyframes}from "styled-components";
 import Comments from "../../../../GeneralComponents/CommentsComponent/index.js";
 import { Icon, InlineIcon } from '@iconify/react';
-import stampIcon from '@iconify/icons-fa-solid/stamp';
-import shareIcon from '@iconify/icons-fa-solid/share';
 
 import ChatIcon from '@material-ui/icons/Chat';
 import DescriptionIcon from '@material-ui/icons/Description';
@@ -97,7 +95,6 @@ const SmallProfileDescriptionPicture=styled.div`
 	width:70px;
 	height:60px;
 	border-radius:50%;
-	background-color:white;
 
 `;
 
@@ -219,7 +216,7 @@ class Video extends Component{
 	}
 
 	displayDescription=(postInformation)=>{
-		
+		console.log(postInformation);
 		return this.state.displayDescription==false? <React.Fragment></React.Fragment>:
 			<DescriptionModal>
 				<ul style={{padding:"0px"}}>
@@ -253,7 +250,7 @@ class Video extends Component{
 								<li style={{listStyle:"none"}}>
 									<audio controls>
 										<source src={this.props.video.audioDescription} type="audio/ogg"/>
-										<source src={this.props.video.audioDescription} type="audio/mpeg"/>
+										<source src={this.props.video.audioDescription} type="audio/mp4"/>
 										Your browser does not support the audio element.
 									</audio>
 								</li>
@@ -453,7 +450,6 @@ class Video extends Component{
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",marginLeft:"5%"}}>
 												<LoyaltyIcon 
-													icon={stampIcon}
 													style={{fontSize:30,color:"white"}}
 												/>
 											</li>

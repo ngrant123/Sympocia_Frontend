@@ -4,7 +4,6 @@ import {createPortal} from "react-dom";
 import { Editor } from 'react-draft-wysiwyg';
 import { convertFromRaw,EditorState } from 'draft-js';
 import { Icon, InlineIcon } from '@iconify/react';
-import stampIcon from '@iconify/icons-fa-solid/stamp';
 import StampIcon from "../../../designs/img/StampIcon.png";
 
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";

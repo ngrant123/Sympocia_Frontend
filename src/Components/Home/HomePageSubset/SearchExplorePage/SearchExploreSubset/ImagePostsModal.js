@@ -494,7 +494,7 @@ const ImagePostsModal=(props)=>{
 									:
 									<audio id="headerAudioLI" style={{width:"150%"}} controls muted>
 									  	<source src={headerImage.audioDescription} type="audio/ogg"/>
-									  	<source src={headerImage.audioDescription} type="audio/mpeg"/>
+									  	<source src={headerImage.audioDescription} type="audio/mp4"/>
 										Your browser does not support the audio element.
 									</audio>
 								}
@@ -503,7 +503,7 @@ const ImagePostsModal=(props)=>{
 								{headerImage.audioDescription!=null &&(
 									<audio id="headerAudioLI" style={{width:"150%"}} controls muted>
 									  	<source src={headerImage.audioDescription} type="audio/ogg"/>
-									  	<source src={headerImage.audioDescription} type="audio/mpeg"/>
+									  	<source src={headerImage.audioDescription} type="audio/mp4"/>
 										Your browser does not support the audio element.
 									</audio>
 								)}
@@ -541,7 +541,7 @@ const ImagePostsModal=(props)=>{
 													<li id="smallAudioDescription" style={{listStyle:"none"}}>
 														<audio style={{width:"150px",height:"25px"}} controls muted>
 														  	<source src={data.audioDescription} type="audio/ogg"/>
-														  	<source src={data.audioDescription} type="audio/mpeg"/>
+														  	<source src={data.audioDescription} type="audio/mp4"/>
 															Your browser does not support the audio element.
 														</audio>
 													</li>

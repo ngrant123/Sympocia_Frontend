@@ -573,7 +573,7 @@ const MobileUI=(props)=>{
 								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 										<audio id="audio" style={{width:"150px"}} controls>
 											<source src={video.audioDescription} type="audio/ogg"/>
-											<source src={video.audioDescription} type="audio/mpeg"/>
+											<source src={video.audioDescription} type="audio/mp4"/>
 											Your browser does not support the audio element.
 										</audio>
 								</li>

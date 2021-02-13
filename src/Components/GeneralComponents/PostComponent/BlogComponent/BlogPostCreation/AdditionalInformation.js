@@ -1,8 +1,6 @@
 import React,{useState,Component} from "react";
 import styled, {keyframes} from "styled-components";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
-import { Icon, InlineIcon } from '@iconify/react';
-import stampIcon from '@iconify/icons-fa-solid/stamp';
 import {addStampPost,unStampPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import {useSelector,useDispatch} from "react-redux";
@@ -350,7 +348,7 @@ const AdditionalInformation=(props)=>{
 										<li style={{listStyle:"none",display:"inline-block"}}>
 											<audio controls>
 												<source src={audioDescription} type="audio/ogg"/>
-												<source src={props.blogState.audioDescription} type="audio/mpeg"/>
+												<source src={props.blogState.audioDescription} type="audio/mp4"/>
 												Your browser does not support the audio element.
 											</audio>
 										</li>

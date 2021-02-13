@@ -213,7 +213,7 @@ const HeaderRegularPost=(props)=>{
 						{post.isAudioPost==true?
 							<audio key={uuidv4()} style={{width:"90%"}} controls>
 								<source src={post.post} type="audio/ogg"/>
-								<source src={post.post} type="audio/mpeg"/>
+								<source src={post.post} type="audio/mp4"/>
 								Your browser does not support the audio element.
 							</audio>:
 							<React.Fragment>
@@ -287,7 +287,7 @@ const HeaderRegularPost=(props)=>{
 										{post.isAudioPost==true?
 											<audio key={uuidv4()} style={{width:"90%"}} controls>
 												<source src={post.post} type="audio/ogg"/>
-												<source src={post.post} type="audio/mpeg"/>
+												<source src={post.post} type="audio/mp4"/>
 												Your browser does not support the audio element.
 											</audio>:<React.Fragment>{post.post}</React.Fragment>
 										}

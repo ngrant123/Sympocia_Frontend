@@ -62,10 +62,13 @@ const Container=styled.div`
 		}
     }
 
-	@media screen and (max-width:420px){
+	@media screen and (max-width:740px){
 		left:1% !important; 
 		height:100% !important;
 		width:100%;
+		#uploadedImage{
+			height:90% !important;
+		}
 		#imageListContainer{
 			display:block !important;
 			width:100% !important;
@@ -283,8 +286,9 @@ class EditImageCreation extends Component{
 				crownElement.style.color="white";
 			}
 		}
+
 		this.setState({
-			imgElement:imageElement,
+			imgSrc:this.props.imageSrcUrl,
 			isCaptionCleared:caption==null?false:true,
 			isImageDescriptionCleared:description==null?false:true,
 			videoDescription:videoDescription,
@@ -587,15 +591,7 @@ class EditImageCreation extends Component{
 	displayFilteredImageHandle=(imageFilter)=>{
 		const type=""+imageFilter.type+"";
 		const value=imageFilter.value;
-		const imageElement= <ProcessImage
-	 							id="processedImage"
-								image={this.props.imageSrcUrl}
-								resize={{width:450,height:450}}
-								quality={100}
-								processedImage={(src, err) => this.setState({ src, err })}
-							/>;
 		this.setState({
-			imgElement:imageElement,
 			displayReplaceImageModal:false
 		},function(){
 			localStorage.removeItem('placeholder');
@@ -704,16 +700,8 @@ class EditImageCreation extends Component{
 	}
 
 	displayNewCreateImage=(imgUrl)=>{
-
-		const imageElement= <ProcessImage
-								id="processedImage"
-								image={imgUrl}
-								resize={{width:450,height:450}}
-								quality={100}
-								processedImage={(src, err) => this.setState({ src, err })}
-							/>;
 		this.setState({
-			imgElement:imageElement,
+			imgSrc:imgUrl,
 			displayReplaceImageModal:false
 		},function(){
 			localStorage.removeItem('placeholder');
@@ -887,7 +875,7 @@ class EditImageCreation extends Component{
 														<li style={{listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
 															<audio key={this.state.audioDescriptionId} controls>
 															  <source src={this.state.audioDescription} typ e="audio/ogg"/>
-															  <source src={this.state.audioDescription} type="audio/mpeg"/>
+															  <source src={this.state.audioDescription} type="audio/mp4"/>
 															Your browser does not support the audio element.
 															</audio>
 														</li>
@@ -942,15 +930,14 @@ class EditImageCreation extends Component{
 															<li style={{listStyle:"none"}}>
 																<audio key={this.state.audioDescriptionId} controls>
 																  <source src={this.state.audioDescription} type="audio/ogg"/>
-																  <source src={this.state.audioDescription} type="audio/mpeg"/>
+																  <source src={this.state.audioDescription} type="audio/mp4"/>
 																Your browser does not support the audio element.
 																</audio>
 															</li>
 														}
 													</ul>
 												)}
-											
-												{this.state.imgElement}
+												<img id="uploadedImage" src={this.state.imgSrc} style={{width:"100%",height:"60%"}}/>
 											</Image>
 										</li>
 

@@ -1,6 +1,5 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import ProcessImage from 'react-imgpro';
 
 const OriginalImage=styled.div`
 	position:relative;
@@ -97,24 +96,6 @@ conditional expression in processed image component
 	}
 
 	displayFilterdImage=(data)=>{
-		const type=data.type;
-		const value=data.value;
-		const filterObject={type:value};
-		return <React.Fragment>
-					<li style={{listStyle:"none"}}>
-						<DisplayedImageContainer>
-							<ProcessImage
-								image={this.props.imgUrl}
-								resize={{width:70,height:70}}
-								quality={100}
-								{...filterObject}
-							/>
-						</DisplayedImageContainer>
-					</li>
-					<li style={{listStyle:"none"}}>
-						{data.type}
-					</li>
-				</React.Fragment>
 	}
 
 	bubbleUpSelectedFilter=(data)=>{
@@ -169,12 +150,6 @@ conditional expression in processed image component
 														<a href="javascript:;">
 															<ul style={{padding:"0px"}}> 
 																<li style={{listStyle:"none"}}>
-																		<ProcessImage
-																			image={this.props.imgUrl}
-																			resize={{width:70,height:70}}
-																			quality={100}
-																			{...{[type]:value}}
-																		/>
 																</li>
 
 																<li style={{listStyle:"none"}}>

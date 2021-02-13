@@ -232,7 +232,7 @@ const TextOptions=(props)=>{
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<audio controls>
 										<source src={audioDescription} type="audio/ogg"/>
-										<source src={props.blogState.audioDescription} type="audio/mpeg"/>
+										<source src={props.blogState.audioDescription} type="audio/mp4"/>
 										Your browser does not support the audio element.
 									</audio>
 								</li>
