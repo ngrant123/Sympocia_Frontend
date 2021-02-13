@@ -41,6 +41,9 @@ const Container=styled.div`
 		#videoQuestionAnswers{
 			height:30% !important;
 		}
+		#imageHighlightedQuestion{
+			height:50% !important;
+		}
 	}
 
 	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {

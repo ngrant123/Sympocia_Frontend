@@ -363,7 +363,7 @@ const MobileUI=(props)=>{
 	}
 
 	const displayCommentsTrigger=()=>{
-		const currentPlayTime=document.getElementById("video").currentTime;
+		const currentPlayTime=document.getElementById("videoMobile").currentTime;
 		changeVideoPlayTime(currentPlayTime);
 		changePostInfoContainerDisplay(true);
 		changeDisplayComments(true);
@@ -399,7 +399,7 @@ const MobileUI=(props)=>{
 			smallVideo.currentTime=currentVideoPlayTime;
 			smallVideo.play();
 		}else{
-			const originVideoComponent=document.getElementById('video');
+			const originVideoComponent=document.getElementById('videoMobile');
 			originVideoComponent.currentTime=currentVideoPlayTime;
 			originVideoComponent.play();
 		}
@@ -594,7 +594,7 @@ const MobileUI=(props)=>{
 						<div id="videoDiv" style={{marginLeft:"0%",height:"60%",overflow:"hidden",width:"100%"}}>
 							{displayInformation==false && displayComments==false ?
 								<React.Fragment>
-									<video key={video.videoUrl} id="video"  
+									<video key={video.videoUrl} id="videoMobile"  
 										autoPlay loop autoBuffer muted playsInline controls width="100%x" height="100%">
 										<source src={video.videoUrl} type="video/mp4"/>
 									</video>

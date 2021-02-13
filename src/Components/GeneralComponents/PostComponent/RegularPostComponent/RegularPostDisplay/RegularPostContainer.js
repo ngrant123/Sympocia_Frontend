@@ -46,7 +46,6 @@ const PostProfilePicture=styled.div`
 	width:130px;
 	height:120px;
 	border-radius:50%;
-	background-color:red;
 	left:45%;
 	margin-top:10%;
 	top:10%;
@@ -110,7 +109,6 @@ const ProfileImageContainer=styled.div`
 	flex-direction:column;
 	width:45%;
 	height:100%;
-	background-color:red;
 	margin-right:5%;
 `;
 
