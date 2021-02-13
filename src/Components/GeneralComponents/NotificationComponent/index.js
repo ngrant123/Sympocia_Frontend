@@ -32,10 +32,17 @@ const Container=styled.div`
 		overflow:scroll !important;
 	}
 
+	@media screen and (max-width:740px){
+		#postContainerDiv{
+			overflow:scroll;
+			height:150px !important;
+		}
+	}
 `;
 
 
 const NotificationContainer=styled.div`
+	position:relative;
 	display:flex;
 	flex-direction:row;
 	cursor:pointer;
@@ -43,7 +50,15 @@ const NotificationContainer=styled.div`
 
 const PostContainer=styled.div`
 	display:flex;
-	flex-direction:row;
+	height:90%;
+	flex-direction:column;
+
+	@media screen and (max-width:740px){
+		height:200% !important;
+	}
+
+`;
+/*
 	border-style:solid;
 	border-color:#F2F2F2;
 	border-radius:5px;
@@ -53,8 +68,7 @@ const PostContainer=styled.div`
 	@media screen and (max-width:740px){
 		height:120px !important;
 	}
-`;
-
+*/
 
 
 const ShadowContainer= styled.div`
@@ -77,6 +91,19 @@ const TitleContainer=styled.div`
 	flex-direction:row;
 	align-items:center;
 `;
+
+const PostsCSS={
+	borderStyle:"solid",
+	borderColor:"#F2F2F2",
+	borderRadius:"5px",
+	padding:"10px",
+	marginBottom:"2%",
+	cursor:"pointer",
+	display:"flex",
+	flexDirection:"row",
+	height:"50%",
+	position:"relative"
+}
 
 const ButtonCSS={
 	borderColor:"#5298F8",
@@ -131,9 +158,10 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 		if(postType=="Images" || postType=="Blogs"){
 			return <img src={postUrl} style={{width:"60px",height:"60px"}}/>
 		}else{
-			return <video key={uuidv4()} objectFit="cover" position="absolute" width="60px" top="0px" height="60px" borderRadius="50%">
+			return <video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+						objectFit="cover" width="60px" top="0px" height="60px" borderRadius="50%">
 						<source src={postUrl} type="video/mp4"/>
-				   </video>
+					</video>
 		}
 	}
 
@@ -143,7 +171,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 
 	const createPostUrl=(postType,postUrl,isAudioPost)=>{
 		return(
-			<div style={{width:"100%",height:"100%"}}>
+			<div>
 				{(postType=="Images" || postType=="Videos" || postType=="Blogs")==true?
 					<p>{postUrlContruct(postType,postUrl)}</p>:
 					<>
@@ -352,12 +380,14 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 									<p style={{marginLeft:"2%"}}>Selected Filter: <b>{currentSelectedType}</b> </p>
 								</SelectedFilterContainer>
 								<hr style={HorizontalLineCSS}/>
-								{currentFilterdNotifications.map(data=>
-									<div id="postContainerDiv" style={{display:"flex",flexDirection:"row"}}
-										onClick={()=>displayPostSpecificNotifications(data)}>
-										{constructPost(data)}
-									</div>
-								)}
+								<PostContainer>
+									{currentFilterdNotifications.map(data=>
+										<div id="postContainerDiv" style={PostsCSS}
+											onClick={()=>displayPostSpecificNotifications(data)}>
+											{constructPost(data)}
+										</div>
+									)}
+								</PostContainer>
 							</>
 						}
 					</>
