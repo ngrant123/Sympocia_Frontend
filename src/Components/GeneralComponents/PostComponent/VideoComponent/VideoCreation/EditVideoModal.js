@@ -777,7 +777,7 @@ isArrayEqual=(arr1,arr2)=>{
 															<li style={{listStyle:"none"}}>
 																<audio key={this.state.audioId} controls>
 																  <source src={this.state.audioDescription} type="audio/ogg"/>
-																  <source src={this.state.audioDescription} type="audio/mpeg"/>
+																  <source src={this.state.audioDescription} type="audio/mp4"/>
 																Your browser does not support the audio element.
 																</audio>
 															</li>

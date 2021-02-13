@@ -107,7 +107,8 @@ const HeaderBlogCSS={
 	width:"400px",
 	height:"300px",
 	borderRadius:"5px",
-	borderRadius:"5px"
+	borderRadius:"5px",
+	cursor:"pointer"
 }
 
 const BlogImageContainerCSS={
@@ -370,7 +371,7 @@ const BlogPostModal=(props)=>{
 				<React.Fragment>
 					<HeaderContainer>
 						{headerBlog.audioDescription!=null &&(
-							<audio id="headerAudioTag" style={{marginLeft:"-55%",width:"200px"}} controls>
+							<audio id="headerAudioTag" style={{width:"200px"}} controls>
 							  	<source src={headerBlog.audioDescription} type="audio/ogg"/>
 							  	<source src={headerBlog.audioDescription} type="audio/mp4"/>
 								Your browser does not support the audio element.
