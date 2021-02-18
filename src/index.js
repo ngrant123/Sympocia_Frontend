@@ -65,7 +65,7 @@ const UrlEnteredBlogDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEn
 
 
 const ApplicationElementIndicator=VerifyBrowserIsChrome()
-let finalElement;
+//let finalElement=application;
 
 const application  = (
 		<ErrorBoundary>
@@ -103,16 +103,19 @@ const application  = (
 			</Provider>
 		</ErrorBoundary>
 	);
+	/*
 
-	if(ApplicationElementIndicator==false){
-		const alertIncorrectBrowser=(
-			alert('As of right now Sympocia is only available on chrome. We are working hard on making it available for everywhere as of right now'+
-				' and we are sorry for any inconvienve. Please switch over to the browsers listed above if you want to continue using this site')
-		)
-		finalElement=alertIncorrectBrowser;
-	}else{
-		finalElement=application;
-	}
+		if(ApplicationElementIndicator==false){
+			const alertIncorrectBrowser=(
+				alert('As of right now Sympocia is only available on chrome. We are working hard on making it available for everywhere as of right now'+
+					' and we are sorry for any inconvienve. Please switch over to the browsers listed above if you want to continue using this site')
+			)
+			finalElement=alertIncorrectBrowser;
+		}else{
+			finalElement=application;
+		}
+	*/
 
 
-ReactDom.render(finalElement,document.getElementById("App"));
+
+ReactDom.render(application,document.getElementById("App"));

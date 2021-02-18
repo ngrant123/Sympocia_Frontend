@@ -108,7 +108,6 @@ const SecondContainerContents=styled.div`
 
 const SecondContainerInformational=styled.div`
   width:70%;
-  height:50%;
   margin-top:5%;
   display:flex;
   flex-direction:column;
@@ -125,7 +124,7 @@ const SecondContainerInformational=styled.div`
   }
 
 
-  @media screen and (max-width:700px){
+  @media screen and (max-width:650px){
      width:90%; 
      height:95%;
      margin-left:5%;
@@ -151,7 +150,7 @@ const PageImageContainer=styled.div`
   flex-direction:column;
   margin-left:5%;
   align-items: flex-start;
-
+  height:50%;
   @media screen and (max-width:1370px){
     margin-left:30%;
   }

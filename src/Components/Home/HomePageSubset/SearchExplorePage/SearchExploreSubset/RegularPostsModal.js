@@ -78,8 +78,8 @@ const HeaderContainer=styled.div`
 		overflow-y:scroll;
 	}
 
-	@media screen and (max-width:700px){
-		margin-top:-150px !important;
+	@media screen and (max-width:650px){
+		margin-top:-130px !important;
 		height:300px;
 
 		#headerOwnerNameLI{

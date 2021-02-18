@@ -44,7 +44,7 @@ const MobileContainer=styled.div`
 		}
 	}
 
-	@media screen and (max-width:700px) {
+	@media screen and (max-width:650px) {
 		#mobileProfilePicture{
 			width:40px !important;
 		}
