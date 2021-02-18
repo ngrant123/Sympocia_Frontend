@@ -31,7 +31,7 @@ const PostsContainer=styled.div`
 		margin-top:60% !important;
 	}
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:650px){
 		margin-top:-10% !important;
 	}
 `;

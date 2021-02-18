@@ -45,6 +45,11 @@ const Container=styled.div`
     	#profilePictureImage{
     		height:40px !important;
     	}
+    }   
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#profilePictureImage{
+    		height:50px !important;
+    	}
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
@@ -464,7 +469,7 @@ const MobileUI=(props)=>{
 					<PostOwnerInformation>
 						<img id="profilePictureImage" 
 							src={postData.profilePicture==null?(postData.owner.profilePicture==null?NoProfilePicture:postData.owner.profilePicture):postData.profilePicture} 
-							style={{borderRadius:"50%",width:"15%",height:"80px"}}
+							style={{borderRadius:"50%",width:"10%",height:"80px"}}
 						/>
 						<p style={{fontSize:"25px",maxWidth:"55%",overflow:"hidden",maxHeight:"40px",marginLeft:"5%",marginRight:"5%"}}>
 							<b>{postData.firstName}</b>

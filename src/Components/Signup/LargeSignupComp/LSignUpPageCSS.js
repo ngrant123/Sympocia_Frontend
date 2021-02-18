@@ -15,7 +15,7 @@ export const PersonalSignUpCard=styled.div`
 		width:80% !important;
 	}
 
-	@media screen and (max-width:700px){
+	@media screen and (max-width:650px){
 		border-style:none;
 		margin-left:20% !important;
 		width:40% !important;

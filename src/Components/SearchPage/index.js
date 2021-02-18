@@ -57,7 +57,7 @@ const SearchPage=(props)=>{
 						userId={profileId}
 						displayRecruitConfetti={displayRecruitConfetti}
 						isPersonalProfile={isPersonalProfile}
-						postType={props.location.state.postType==null?"Images":props.location.state.postType}
+						postType={props.location.state==null?"Images":props.location.state.postType}
 						displaySymposium={displaySymposiumHandle}
 					/>
 		}else if(params.searchType=="Symposiums"){

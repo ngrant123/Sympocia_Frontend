@@ -32,7 +32,7 @@ const Container=styled.div`
 		flex-direction:column;
 	}
 
-	@media screen and (max-width:700px){
+	@media screen and (max-width:650px){
 		flex-direction:column !important;
 		top:-5%;
 		#headerImageLI{
@@ -81,7 +81,7 @@ const HeaderContainer=styled.div`
 		}
     }
 
-	@media screen and (max-width:700px){
+	@media screen and (max-width:650px){
 		margin-top:-130px !important;
 		#headerPostProfilePictureLIInformation{
 			top:0% !important;
