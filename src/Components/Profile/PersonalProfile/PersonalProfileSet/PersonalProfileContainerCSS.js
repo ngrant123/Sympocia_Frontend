@@ -31,7 +31,8 @@ export const Container=styled.div`
 			margin-top:180% !important;
 		}
 		#friendsGaugeContainer{
-			margin-left:-50% !important;
+			margin-left: -60% !important;
+    		padding-right: 10%;
 		}
     }
     @media screen and (max-width:640px){
@@ -201,7 +202,7 @@ export const ProfileContainer=styled.div`
     }
 
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
-		top:70%;
+		top:72%;
 		height:90% !important;
     }
 `;
