@@ -195,7 +195,7 @@ class LProfile extends Component{
 	}
 
 	triggerUIChange=()=>{
-		if(window.innerWidth<740){
+		if(window.innerWidth<650){
 
 			this.setState({
 				displayPhoneUI:true,
@@ -676,7 +676,7 @@ class LProfile extends Component{
 	}
 
 	displayIpadUserInformationModal=()=>{
-		return <ul style={{position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
+		return <ul style={{maxHeight:"20px",position:"relative",position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
 					<MediumMobileScreenUserInformation>
 						<p style={{maxWidth:"90%",maxHeight:"20px",overflow:"hidden"}}>
 							<b>{this.state.userProfile.firstName}</b>
@@ -870,7 +870,7 @@ class LProfile extends Component{
 										{this.state.isGuestProfile==false && (
 											<>{this.displayCreatePostOptionTrigger()}</>
 										)}
-										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} 
+										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0",width:"1px",height:"1px"}} 
 											accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
 								        	name="attachments"
 											onChange={()=>this.changeProfilePicture()}>
@@ -890,8 +890,6 @@ class LProfile extends Component{
 											} style={{position:"absolute",width:"70%",height:"80%",borderRadius:"50%"}}
 									/>
 								}
-								
-
 								{this.state.displayPhoneUI==false &&(
 									<>
 										{this.state.displayIpadUI==true?
@@ -915,6 +913,8 @@ class LProfile extends Component{
 										}
 									</>
 								)}
+								
+
 							</ProfilePictureContainer>
 
 							{this.state.displayDesktopUI==true &&(

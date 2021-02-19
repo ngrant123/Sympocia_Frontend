@@ -16,6 +16,7 @@ import {
 import {useSelector,useDispatch} from "react-redux";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
+import VideoDescriptionMobileDisplayPortal from "../../PostComponent/VideoDescriptionMobileDisplayPortal.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -56,18 +57,19 @@ const Notification=styled.div`
 	@media screen and (max-width:1370px){
 		#regularCommentAndAuthenticationProfilePicture{
 			width:15% !important;
-			height:55px !important
+			height:40px !important
 		}
 	}
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:650px){
 		flex-direction:column;
 		#viewPostButtonDIV{
 			margin-top:5%;
 			width:70% !important;
 		}
 		#regularCommentAndAuthenticationProfilePicture{
-			width:30% !important;
+			width:20% !important;
+			height:40px !important
 		}
 
 		#replyButtonDIV{
@@ -159,6 +161,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 	const [isLoading,changeIsLoading]=useState(true);
 	const [displayReplyModal,changeDisplayReplyModal]=useState(false);
 	const [displayIsProcessingCommentPrompt,changeIsProcessingCommentPrompt]=useState(true);
+	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
 
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -289,17 +292,17 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 							</div>
 				}else{
 			   		return <div style={{display:"flex",flexDirection:"column"}}>
-			   					<div style={{display:"flex",flexDirection:"row"}}>
+			   					<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>
 									<img id="regularCommentAndAuthenticationProfilePicture" 
 										src={notification.ownerObject.profilePicture==null?
 											NoProfilePicture:notification.ownerObject.profilePicture}
-										style={{width:"10%",height:"10%",borderRadius:"50%"}}/>
+										style={{width:"10%",height:"20%",borderRadius:"50%"}}/>
 									<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
 										<b>{notification.ownerObject.owner.firstName}</b>
 									</p>
 								</div>
 								<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-									width="60%" height="100%" borderRadius="50%" controls>
+									width="60%" height="100%" borderRadius="50%" onClick={()=>displayVideoDescriptionTrigger()}>
 									<source src={notification.videoSrc} type="video/mp4"/>
 								</video>
 			   				</div>
@@ -372,9 +375,22 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 		}
 		changeIsProcessingCommentPrompt(true);
 	}
+	const closeVideoDescriptionDisplayModal=()=>{
+		changeVideoDescriptionDisplay(false);
+	}
+	const displayVideoDescriptionTrigger=()=>{
+	 	changeVideoDescriptionDisplay(true);
+	}	
 						
 	return createPortal(
 		<>
+			{displayVideoDescriptionDisplay==true &&(
+				<VideoDescriptionMobileDisplayPortal
+					targetDom={targetDom}
+					closeModal={closeVideoDescriptionDisplayModal}
+					videoUrl={notification.videoSrc}
+				/>
+			)}
 			<Container>
 				<div onClick={()=>triggerCloseModal()} style={BackButtonCSS}>
 					Back

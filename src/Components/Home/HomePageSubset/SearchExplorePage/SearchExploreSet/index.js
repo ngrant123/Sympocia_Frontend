@@ -46,7 +46,7 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:650px){
 		margin-left:0%;
 		#mobileHeaderLI{
   			margin-top:25% !important;
@@ -55,7 +55,7 @@ const Container=styled.div`
 			display:none !important;
 		}
 		#mobileArenaLI{
-    		width:30% !important;
+    		width:28% !important;
 			margin-left:27% !important;
     	}
 	}
@@ -376,22 +376,20 @@ class SearchExploreContainer extends Component{
 	}
 
 	mobileHeaderUI=()=>{
-		return  <li id="mobileHeaderLI" style={{listStyle:"none",marginBottom:"2%",marginTop:"30%"}}>
-					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li id="mobileArenaLI" onClick={()=>alert('Arena coming soon... :)')} style={MobileArenaButtonCSS}>
-							<MobileArenaContainer>
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trophy" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-								  <path stroke="none" d="M0 0h24v24H0z"/>
-								  <line x1="8" y1="21" x2="16" y2="21" />
-								  <line x1="12" y1="17" x2="12" y2="21" />
-								  <line x1="7" y1="4" x2="17" y2="4" />
-								  <path d="M17 4v8a5 5 0 0 1 -10 0v-8" />
-								  <circle cx="5" cy="9" r="2" />
-								  <circle cx="19" cy="9" r="2" />
-								</svg>
-							</MobileArenaContainer>
-						</li>
-					</a>
+		return  <div id="mobileHeaderLI" style={{listStyle:"none",marginBottom:"2%",marginTop:"30%"}}>
+					<li id="mobileArenaLI" onClick={()=>alert('Arena coming soon... :)')} style={MobileArenaButtonCSS}>
+						<MobileArenaContainer>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trophy" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							  <path stroke="none" d="M0 0h24v24H0z"/>
+							  <line x1="8" y1="21" x2="16" y2="21" />
+							  <line x1="12" y1="17" x2="12" y2="21" />
+							  <line x1="7" y1="4" x2="17" y2="4" />
+							  <path d="M17 4v8a5 5 0 0 1 -10 0v-8" />
+							  <circle cx="5" cy="9" r="2" />
+							  <circle cx="19" cy="9" r="2" />
+							</svg>
+						</MobileArenaContainer>
+					</li>
 					<li style={{listStyle:"none",width:"100%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",fontSize:"20px"}}>
@@ -402,7 +400,7 @@ class SearchExploreContainer extends Component{
 							</li>
 						</ul>
 					</li>
-				</li>
+				</div>
 	}
 
 	headerUI=()=>{

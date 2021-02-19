@@ -81,7 +81,7 @@ const ThirdContainerInformational=styled.div`
       }
   }
 
-  @media screen and (max-width:700px){
+  @media screen and (max-width:650px){
   	margin-left:0%;
     font-size:15px;
   }
@@ -91,6 +91,7 @@ const ThirdContainerInformational=styled.div`
 const PageImageContainer=styled.div`
   display:flex;
   flex-direction:column;
+   height:50%;
   @media screen and (max-width:1370px){
   	#image{
   		height:70% !important;
@@ -103,7 +104,7 @@ const PageImageContainer=styled.div`
     }
   }
 
-  @media screen and (max-width:700px){
+  @media screen and (max-width:650px){
   	margin-left:0%;
     #amountOfUsersText{
       margin-top:0%;

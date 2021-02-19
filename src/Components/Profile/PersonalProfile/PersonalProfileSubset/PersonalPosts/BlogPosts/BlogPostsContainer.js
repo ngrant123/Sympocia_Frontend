@@ -166,7 +166,7 @@ const SmallBlog=styled.div`
 
 	@media screen and (max-width:840px){
 		width:60% !important;
-		height:40% !important;
+		height:50% !important;
 		#smallImage{
 			height:100% !important;
 		}
@@ -176,7 +176,7 @@ const SmallBlog=styled.div`
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
 	  	width:90% !important;
-		height:90% !important;
+		height:110% !important;
     }
 `;
 
@@ -291,69 +291,71 @@ return(
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								{this.props.blogData.headerBlog==null?<React.Fragment></React.Fragment>:
-									<ThumbnailBlogComponent to={{pathname:personalInformation.isOwnProfile==true?`/createBlog`:`/blog/${this.props.blogData.headerBlog._id}`,
-																		state:{
-																				...this.props.blogData.headerBlog,
-																				profileType:this.state.profileType,
-																				friendsNodes:this.props.friendsNodes
-																		}}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													{this.props.blogData.headerBlog.audioDescription!=null &&(
-														<audio id="headerAudioLI" controls style={{width:"200px"}} >
-														  <source src={this.props.blogData.headerBlog.audioDescription} type="audio/ogg"/>
-														  <source src={this.props.blogData.headerBlog.audioDescription} type="audio/mp4"/>
-														  Your browser does not support the audio element.
-														</audio>
-													)}
-												</li>
-												<li style={{width:"20%",listStyle:"none",display:"inline-block"}}>
-													<HeaderVideoDesriptionContainer>
-														{this.props.blogData.headerBlog.videoDescription!=null &&(
-															<video id="headerVideo" style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
-																<source src={this.props.blogData.headerBlog.videoDescription} type="video/mp4"/>
-															</video>
+									<React.Fragment>
+										<ThumbnailBlogComponent to={{pathname:personalInformation.isOwnProfile==true?`/createBlog`:`/blog/${this.props.blogData.headerBlog._id}`,
+																			state:{
+																					...this.props.blogData.headerBlog,
+																					profileType:this.state.profileType,
+																					friendsNodes:this.props.friendsNodes
+																			}}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none"}}>
+													<li style={{listStyle:"none",display:"inline-block"}}>
+														{this.props.blogData.headerBlog.audioDescription!=null &&(
+															<audio id="headerAudioLI" controls style={{width:"200px"}} >
+															  <source src={this.props.blogData.headerBlog.audioDescription} type="audio/ogg"/>
+															  <source src={this.props.blogData.headerBlog.audioDescription} type="audio/mp4"/>
+															  Your browser does not support the audio element.
+															</audio>
 														)}
-													</HeaderVideoDesriptionContainer>
+													</li>
+													<li style={{width:"20%",listStyle:"none",display:"inline-block"}}>
+														<HeaderVideoDesriptionContainer>
+															{this.props.blogData.headerBlog.videoDescription!=null &&(
+																<video id="headerVideo" style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																	<source src={this.props.blogData.headerBlog.videoDescription} type="video/mp4"/>
+																</video>
+															)}
+														</HeaderVideoDesriptionContainer>
+													</li>
 												</li>
-											</li>
 
-											<li id="headerImageLI" style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-												<img  id="headerImage" src={this.props.blogData.headerBlog.blogImageUrl} style={{width:"450px",height:"40%"}}/>
-											</li>
+												<li id="headerImageLI" style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+													<img  id="headerImage" src={this.props.blogData.headerBlog.blogImageUrl} style={{width:"450px",height:"40%"}}/>
+												</li>
 
-											<li id="headerDescriptionLI" style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",width:"300px",overflow:"hidden"}}>
-												<ul style={{paddging:"0px"}}>
-													<li id="headerSymposiumsLI" style={{marginBottom:"5px",listStyle:"none",padding:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
-														{this.props.blogData.headerBlog.industriesUploaded[0].industry}
-													</li>
-													<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
-														<b>{this.props.blogData.headerBlog.title}</b>
-													</li>
+												<li id="headerDescriptionLI" style={{position:"absolute",top:"0%",listStyle:"none",display:"inline-block",width:"300px",overflow:"hidden"}}>
+													<ul style={{paddging:"0px"}}>
+														<li id="headerSymposiumsLI" style={{marginBottom:"5px",listStyle:"none",padding:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
+															{this.props.blogData.headerBlog.industriesUploaded[0].industry}
+														</li>
+														<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
+															<b>{this.props.blogData.headerBlog.title}</b>
+														</li>
 
-													<li id="headerConstructedDateLI" style={{listStyle:"none",marginBottom:"5px"}}>
-														<ul style={{padding:"0px",color:"#a6a6a7"}}>
-															<li style={{listStyle:"none",display:"inline-block"}}>
-																{this.constructDate(this.props.blogData.headerBlog.datePosted)}
-															</li>
-														</ul>
-													</li>
+														<li id="headerConstructedDateLI" style={{listStyle:"none",marginBottom:"5px"}}>
+															<ul style={{padding:"0px",color:"#a6a6a7"}}>
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	{this.constructDate(this.props.blogData.headerBlog.datePosted)}
+																</li>
+															</ul>
+														</li>
 
-													<li style={{listStyle:"none"}}>
-														<Description style={{maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-															{this.props.blogData.headerBlog.description}
-														</Description>
+														<li style={{listStyle:"none"}}>
+															<Description style={{maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+																{this.props.blogData.headerBlog.description}
+															</Description>
 
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</ThumbnailBlogComponent>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</ThumbnailBlogComponent>
+										<hr/>
+									</React.Fragment>
 								}
 							</li>
-							<hr/>
-							
+
 							{/*
 								<li id="searchSymposiumPostLI" style={{listStyle:"none",marginTop:"5%"}}>
 									<ul style={{padding:"0px"}}>

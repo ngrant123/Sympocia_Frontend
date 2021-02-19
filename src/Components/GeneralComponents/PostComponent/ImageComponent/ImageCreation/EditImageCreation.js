@@ -62,7 +62,7 @@ const Container=styled.div`
 		}
     }
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:650px){
 		left:1% !important; 
 		height:100% !important;
 		width:100%;
@@ -335,7 +335,7 @@ class EditImageCreation extends Component{
 			isSubmittedAndProcessing:true
 		})
 		const industries=this.state.industriesSelected;
-		const imgUrl=this.state.src;
+		const imgUrl=this.state.imgSrc;
 		const currentVideoDescription=this.state.videoDescription;
 		const currentAudioDescription=this.state.audioDescription;
 		const selectedSubCommunities=this.state.subIndustriesSelected;

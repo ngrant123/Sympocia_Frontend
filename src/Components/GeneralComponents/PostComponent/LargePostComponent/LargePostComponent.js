@@ -193,7 +193,7 @@ const PostOptionsContainer = styled.div`
  	border-radius:5px;
  	color:	#f7f4f8;
  	text-align:center;
-
+ 	
  	@media screen and (max-width:1030px){
  		height:30% !important;
  	}

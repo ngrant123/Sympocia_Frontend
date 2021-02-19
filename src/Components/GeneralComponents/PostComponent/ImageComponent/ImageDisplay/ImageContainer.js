@@ -265,9 +265,11 @@ const ImageContainer=(props)=>{
 												<img src={props.imageData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
 												{props.imageData.videoDescription==null?null:
 													<VideoDesriptionContainer>
-														<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoPlay={true} controls={true} playsInline>
-																<source src={props.imageData.videoDescription} type="video/webm"></source>
-														 </video>
+														<video id="videoDescription"
+															style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%"
+															autoPlay loop autoBuffer muted playsInline controls>
+															<source src={props.imageData.videoDescription} type="video/mp4"/>
+														</video>
 													</VideoDesriptionContainer>
 												}
 											</Image>

@@ -14,25 +14,26 @@ const Container = styled.div`
 
 	  @media screen and (max-width:1370px){
 	  	font-size:20px;
+		#previewImage{
+			width:80% !important;
+		    margin-left:10% !important;
+		}
 	  }
-	  @media screen and (max-width:700px){
+	  @media screen and (max-width:650px){
 	  	font-size:15px;
 	  	#headerTexts{
 	  		font-size:20px !important;
 	  	}
-	  }
-		@media screen and (max-width:700px){
-			#previewImage{
-			      width:250px !important;
-			      height:225px!important;
-			}
+	  	#previewImage{
+			height:200px !important;
 		}
-		@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-	      	#previewImage{
-			      width:400px !important;
-			      height:225px!important;
-			}
-	    }
+	  }
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+      	#previewImage{
+		      width:400px !important;
+		      height:225px!important;
+		}
+    }
 `;
 
 const ImageContainer=styled.div`
@@ -54,7 +55,7 @@ const FourthSection=()=>{
 				have a chance clicked the signup or explore button and check it out.
 			</p>
 			<img id="previewImage" src={previewImage}
-			 style={{borderRadius:"5px",width:"60%",height:"450px",boxShadow:"1px 5px 5px 5px #d5d5d5"}}
+			 style={{borderRadius:"5px",width:"60%",height:"450px",boxShadow:"1px 5px 5px 5px #d5d5d5",marginLeft:"20%"}}
 			/>
 			<hr/>
 			<p id="headerTexts" style={{fontSize:"30px"}}>

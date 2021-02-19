@@ -190,36 +190,34 @@ const VoiceDescriptionPortal=(props)=>{
 
 	return createPortal(
 		<React.Fragment>
-			{isMobileUI==true?
-				<Container>
-					<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
-						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-						 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-						 stroke-linecap="round" stroke-linejoin="round">
-						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-						  <circle cx="12" cy="12" r="9" />
-						  <path d="M10 10l4 4m0 -4l-4 4" />
-						</svg>
-					</div>
-					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
-						<ul style={{padding:"0px"}} onClick={()=>clickUploadAudioButton()}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-								<MicIcon/>
-							</li>
+			<ShadowContainer
+				onClick={()=>props.closeModal()}
+			/>
+			<Container>
+				<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+					 stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <circle cx="12" cy="12" r="9" />
+					  <path d="M10 10l4 4m0 -4l-4 4" />
+					</svg>
+				</div>
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
+					<ul style={{padding:"0px"}} onClick={()=>clickUploadAudioButton()}>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+							<MicIcon/>
+						</li>
 
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-								Upload Audio
-							</li>
-						</ul>																			
-					</button>
-					<input type="file" id="uploadAudioFile" name="img" accept=".mp3,.wav" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
-						onChange={()=>handleUploadAudioDescription()}>
-					</input>
-				</Container>
-				:<input type="file" id="uploadAudioFile" name="img" accept=".mp3,.wav"
-					style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadAudioDescription()}>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+							Upload Audio
+						</li>
+					</ul>																			
+				</button>
+				<input type="file" id="uploadAudioFile" name="img" accept=".mp3,.wav" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
+					onChange={()=>handleUploadAudioDescription()}>
 				</input>
-			}
+			</Container>
 		</React.Fragment>
 	,targetContainer)
 }
