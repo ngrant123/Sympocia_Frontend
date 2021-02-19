@@ -34,11 +34,14 @@ const AnimationContainer=styled.div`
 
 	${({isExtendedSymposium})=>
 		isExtendedSymposium!=null &&(
-			`height:60%;`
+			`
+				height:300px;
+				width:300px;
+			`
 	)}
 	${({isScrollEnabled})=>
 		isScrollEnabled!=null &&(
-			`@media screen and (max-width:740px){
+			`@media screen and (max-width:650px){
 				display:none !important;
 			}`
 		)

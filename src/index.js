@@ -64,9 +64,7 @@ const UrlEnteredRegularPostDisplay=React.lazy(()=>import("./Components/SearchPag
 const UrlEnteredBlogDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/BlogDisplay.js"));
 
 
-const ApplicationElementIndicator=VerifyBrowserIsChrome()
-//let finalElement=application;
-
+const ApplicationElementIndicator=VerifyBrowserIsChrome();
 const application  = (
 		<ErrorBoundary>
 			<Provider store={store}>
@@ -103,19 +101,6 @@ const application  = (
 			</Provider>
 		</ErrorBoundary>
 	);
-	/*
-
-		if(ApplicationElementIndicator==false){
-			const alertIncorrectBrowser=(
-				alert('As of right now Sympocia is only available on chrome. We are working hard on making it available for everywhere as of right now'+
-					' and we are sorry for any inconvienve. Please switch over to the browsers listed above if you want to continue using this site')
-			)
-			finalElement=alertIncorrectBrowser;
-		}else{
-			finalElement=application;
-		}
-	*/
-
 
 
 ReactDom.render(application,document.getElementById("App"));
