@@ -475,7 +475,7 @@ const NavBar=(pageProps)=>{
 												<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
 											</li>
 											<li>
-												<p style={{paddingLeft:"12%",marginTop:"5%"}}
+												<p style={{cursor:"pointer",paddingLeft:"12%",marginTop:"5%"}}
 												 	onClick={()=>fetchNotificationData()}>
 													Notifications
 												 </p>

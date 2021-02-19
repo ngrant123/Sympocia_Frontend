@@ -47,7 +47,7 @@ const Container=styled.div`
     	height:80% !important;
 
     	#profilePictureImage{
-    		height:30px !important;
+    		height:50px !important;
     	}
     }   
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {

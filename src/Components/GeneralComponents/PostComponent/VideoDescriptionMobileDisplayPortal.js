@@ -8,7 +8,7 @@ const Container=styled.div`
 	width:25%;
 	height:50%;
 	background-color:white;
-	z-index:45;
+	z-index:55;
 	top:20%;
 	border-radius:5px;
 	left:40%;
@@ -28,7 +28,7 @@ const ShadowContainer= styled.div`
 	width:110%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:40;
+	z-index:55;
 	top:0px;
 	left:-5%;
 `;
