@@ -32,7 +32,7 @@ export const PersonalSignUpCard=styled.div`
 		#image{
 			width:95px !important;
 			height:80px !important;
-			margin-left:30% !important;
+			margin-left:25% !important;
 		}
 	}
 

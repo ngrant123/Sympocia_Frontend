@@ -328,21 +328,17 @@ const FirstSection=(props)=>{
     },200);
 
     const getInterestedApi=async()=>{
-        const {confirmation,data}=await getInterestedProfiles(1);
-        if(confirmation=="Success"){
-          const {
-            numberOfPeopleInterested,
-            responses
-          }=data;
+      const {confirmation,data}=await getInterestedProfiles(1);
+      const {
+        numberOfPeopleInterested,
+        responses
+      }=data;
 
-          changeTotalAmountInterested(numberOfPeopleInterested);
-          changeUsersInterested([...responses]);
-        }else{
-          alert('There has been an error with our database. Please try again later');
-        }
+      changeTotalAmountInterested(numberOfPeopleInterested);
+      changeUsersInterested([...responses]);
     }
-
     getInterestedApi();
+    
   },[]);
 
 	const handleSignupClick=(props)=>{

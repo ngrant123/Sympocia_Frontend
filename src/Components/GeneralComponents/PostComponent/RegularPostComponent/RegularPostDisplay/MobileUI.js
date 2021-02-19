@@ -23,7 +23,7 @@ const Container=styled.div`
 	overflow:scroll;
 	padding:20px;
 
-	@media screen and (max-width:1370px) and (max-height:1030px){
+	@media screen and (max-width:1370px){
     	#postDiv{
 			margin-left:5% !important;
 		}
@@ -35,15 +35,19 @@ const Container=styled.div`
 		#postOptionsLI{
 			display:none !important;
 		}
+		#profilePictureImage{
+    		height:50px !important;
+    		width:50px !important;
+    	}
     }
-	@media screen and (max-width:700px){
+	@media screen and (max-width:650px){
     	width:100% !important;
     	padding:20px !important;
     	margin-left:-7% !important;
     	height:80% !important;
 
     	#profilePictureImage{
-    		height:40px !important;
+    		height:30px !important;
     	}
     }   
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
@@ -54,7 +58,7 @@ const Container=styled.div`
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 	    #profilePictureImage{
-    		height:60px !important;
+    		height:40px !important;
     	}
     }
  
@@ -469,7 +473,7 @@ const MobileUI=(props)=>{
 					<PostOwnerInformation>
 						<img id="profilePictureImage" 
 							src={postData.profilePicture==null?(postData.owner.profilePicture==null?NoProfilePicture:postData.owner.profilePicture):postData.profilePicture} 
-							style={{borderRadius:"50%",width:"10%",height:"80px"}}
+							style={{borderRadius:"50%",width:"30px",height:"80px"}}
 						/>
 						<p style={{fontSize:"25px",maxWidth:"55%",overflow:"hidden",maxHeight:"40px",marginLeft:"5%",marginRight:"5%"}}>
 							<b>{postData.firstName}</b>

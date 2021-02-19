@@ -161,7 +161,6 @@ const HeaderDescriptionContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	height:10%;
-	width:100%;
 
 `;
 

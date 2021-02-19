@@ -23,8 +23,9 @@ const Container=styled.div`
 	overflow-y:auto;
 	width:65%;
 	height:70%;
+
 	@media screen and (max-width:1370px){
-		margin-left:2%;
+		margin-left:-1%;
 		top:5%;
 	}
 
@@ -37,7 +38,7 @@ const Container=styled.div`
     	border-radius:5px !important;
     }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	width:80% !important;
+    	width:100% !important;
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {

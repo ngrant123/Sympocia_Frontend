@@ -133,8 +133,8 @@ const VideoDesriptionContainer=styled.div`
 	z-index:8;
 
 	@media screen and (max-width:700px){
-		width:70px !important;
-		height:70px !important;
+		width:50px !important;
+		height:50px !important;
 	}
 `;
 const ShadowButtonCSS={
