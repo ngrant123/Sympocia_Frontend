@@ -48,7 +48,7 @@ export const SymposiumContainer=styled.div`
     	}
     }
 
-    @media screen and (max-width:740px){
+    @media screen and (max-width:650px){
     	#mobileSymposiumOptions{
     		width:120% !important;
     	}
@@ -157,8 +157,6 @@ export const PostContainer=styled.div`
 	height:170%;
 	transition:1s;
 
-
-
 	@media screen and (max-width:1370px){
     	position:absolute;
     	left:5%;
@@ -177,7 +175,7 @@ export const PostContainer=styled.div`
 		}
     }
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:650px){
     	position:absolute;
 		width:100%;
 		height:150% !important;
@@ -425,7 +423,7 @@ export const ArrowDownContainer=styled.div`
 	z-index:39;
 	cursor:pointer;
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:650px){
 		left:25% !important;
 	}
 	@media screen and (max-width:740px) and (max-height:420px){

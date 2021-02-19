@@ -34,7 +34,7 @@ const AnimationContainer=styled.div`
 
 	${({isExtendedSymposium})=>
 		isExtendedSymposium!=null &&(
-			`height:60%;`
+			`height:60%`
 	)}
 	${({isScrollEnabled})=>
 		isScrollEnabled!=null &&(
