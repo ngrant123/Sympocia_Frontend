@@ -192,20 +192,20 @@ class RegularPostsContainer extends Component{
 																				/>:
 															<ul id="postContainer" style={{padding:"0px"}}>
 																{this.props.posts.headerPost==null?null:
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<React.Fragment>
 																		<li id="headerContainerLI" onClick={()=>this.displayPostModal(
 																							postDisplayModal,
 																							companyPostDisplayModal,
 																							this.props.posts.headerPost,
-																							postsConsumer)} style={{listStyle:"none",marginBottom:"2%",marginBottom:"2%",height:"25%"}}>
+																							postsConsumer)} style={{cursor:"pointer",listStyle:"none",marginBottom:"2%",marginBottom:"2%",height:"25%"}}>
 																			<HeaderPost
 																				post={this.props.posts.headerPost}
 																				profilePicture={this.props.profilePicture}
 																			/>	
 																		</li>
-																	</a>
+																		<hr/>
+																	</React.Fragment>
 																}
-																<hr/>
 																<li style={{listStyle:"none"}}>
 																	<ul style={{padding:"0px"}}>
 																		{this.props.posts.posts.map(data=>

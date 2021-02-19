@@ -34,11 +34,14 @@ const AnimationContainer=styled.div`
 
 	${({isExtendedSymposium})=>
 		isExtendedSymposium!=null &&(
-			`height:60%;`
+			`
+				height:300px;
+				width:300px;
+			`
 	)}
 	${({isScrollEnabled})=>
 		isScrollEnabled!=null &&(
-			`@media screen and (max-width:740px){
+			`@media screen and (max-width:650px){
 				display:none !important;
 			}`
 		)
@@ -71,7 +74,8 @@ const LoadingAnimation=({isScrollEnabled,isExtendedSymposium})=>{
 				<img id="animationImage" src={StampIcon} style={{borderRadius:"50%",width:"60%",height:"70%"}} />
 			</AnimationContainer>
 			<p style={{fontSize:"30px",position:"fixed",top:"70%",left:"30%"}}> 
-				<b><Typed 
+				<b>
+					<Typed 
 			           strings={["Give us a second we're getting all your information"]} 
 			           typeSpeed={60} 
 			           backSpeed={30} 

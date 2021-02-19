@@ -185,7 +185,6 @@ const FirstContainerContents=styled.div`
 
 const FirstContainerInformational=styled.div`
   width:70%;
-  height:50%;
   margin-top:5%;
   display:flex;
   flex-direction:column;
@@ -194,7 +193,6 @@ const FirstContainerInformational=styled.div`
 
   @media screen and (max-width:1370px){
     width:90%;
-    height:90%;
     font-size:20px;
   }
 
@@ -210,7 +208,7 @@ const FirstContainerInformational=styled.div`
 const PageImageContainer=styled.div`
   display:flex;
   flex-direction:column;
-
+  height:50%;
   @media screen and (max-width:1370px){
     margin-left:15%;
     #amountOfUsersText{
@@ -330,21 +328,17 @@ const FirstSection=(props)=>{
     },200);
 
     const getInterestedApi=async()=>{
-        const {confirmation,data}=await getInterestedProfiles(1);
-        if(confirmation=="Success"){
-          const {
-            numberOfPeopleInterested,
-            responses
-          }=data;
+      const {confirmation,data}=await getInterestedProfiles(1);
+      const {
+        numberOfPeopleInterested,
+        responses
+      }=data;
 
-          changeTotalAmountInterested(numberOfPeopleInterested);
-          changeUsersInterested([...responses]);
-        }else{
-          alert('There has been an error with our database. Please try again later');
-        }
+      changeTotalAmountInterested(numberOfPeopleInterested);
+      changeUsersInterested([...responses]);
     }
-
     getInterestedApi();
+    
   },[]);
 
 	const handleSignupClick=(props)=>{

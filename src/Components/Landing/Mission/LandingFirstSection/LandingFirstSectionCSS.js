@@ -163,7 +163,7 @@ export const FirstContainer = styled.div`
       }
     }
 
-     @media screen and (max-height:750px){
+     @media screen and (max-height:650px){
         #floatingArrowFunction{
           display:none;
         }

@@ -167,24 +167,27 @@ const VideoDesriptionContainer=styled.div`
 	z-index:8;
 `;
 
-const HeaderContainer=styled.div`
+const HeaderContainer=styled.div`	
 	display:flex;
 	flex-direction:column;
 	width:50%;
-	justify-content:center;
 	flex-wrap:wrap;
-
 	@media screen and (max-width:1370px){
-		height:200%;
 		width:90%;
-		overflow-y:scroll;
-		margin-top:50px !important;
+		margin-top:5%;
 		#headerBlogImage{
 			height:400px !important;
 		}
 	}
-	@media screen and (max-width:740px){
-		margin-top:-40% !important;
+
+	@media screen and (max-width:1370px) and (max-height:1400px) {
+    	#headerPostProfilePictureLIInformation{
+			top:60% !important;
+		}
+    }
+
+	@media screen and (max-width:650px){
+		margin-top:-130px !important;
 		#headerAudioTag{
 			margin-left:0% !important;
 		}
@@ -197,12 +200,13 @@ const HeaderContainer=styled.div`
 			margin-bottom:2% !important;
 			width:90% !important;
 		}
-    }
+	}
 
-    @media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
-    	margin-top:10px !important;
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	margin-top:45px !important;
     	#headerBlogImage{
-			height:400px !important;
+			height:300px !important;
 		}
     }
 `;
