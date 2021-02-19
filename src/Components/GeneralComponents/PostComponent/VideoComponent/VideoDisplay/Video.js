@@ -234,7 +234,8 @@ class Video extends Component{
 												</Link>
 											)}
 										</>:
-										<video style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" controls>
+										<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%"
+											autoPlay loop autoBuffer muted playsInline controls>
 											<source src={this.props.video.videoDescription} type="video/mp4"/>
 										</video>
 									}

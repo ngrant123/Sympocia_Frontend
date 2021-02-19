@@ -42,7 +42,7 @@ const PersonalInformationContainer=styled.div`
 	top:20%;
 	overflow-y:scroll;
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:650px){
 		width:90% !important;
 		left:5% !important;
     }
