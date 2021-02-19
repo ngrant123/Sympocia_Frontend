@@ -27,47 +27,42 @@ const ShadowContainer= styled.div`
 const Container=styled.div`
 	position:fixed;
 	background-color:white;
-	width:70%;
+	width:50%;
 	top:20%;
-	left:20%;
+	left:30%;
 	z-index:45;
-	height:70%;
-	top:10%;
+	height:60%;
+	top:20%;
 	border-radius:5px;
-	padding:20px;
+	overflow-y:scroll;
+	padding:10px;
+
 	@media screen and (max-width:1370px){
-		left:5%;
-		height:50%;
-		width:90%;
+		width:80%;
+		left:10%;
+		#voiceOptionsLI{
+			margin-left:-5% !important;
+		}
 	}
 
     @media screen and (max-width:700px){
 			left:1% !important; 
 			height:100% !important;
 			width:100%;
-			#videoControllerLI{
-				margin-top:-50% !important;
-				margin-left:25% !important;
-
-				#refreshIconLI{
-					color:black !important;
-				}
-				#replyIconLI{
-					color:black !important;
-				}
-			}
-			#videoResultUL{
-				height:30% !important;
-				left:50% !important;
-			}
-
     }
+
+	@media screen and (max-width:420px){
+			left:1% !important; 
+			height:100% !important;
+			width:100%;
+			#voiceOptionsLI{
+				margin-left:-5% !important;
+			}
+    }
+
     @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
-    	height:80% !important;
-    	width:90% !important;
-		#videoControllerLI{
-			margin-top:-10% !important;
-		}
+		height:70% !important;
+		width:90% !important;
     }
 `;
 
@@ -136,7 +131,7 @@ const VideoDescriptionPortal=(props)=>{
 		triggerUIChange();
 		const inputElement=document.getElementById("uploadedVideoDescription");
 		inputElement.click();
-	},[])
+	},[]);
 
 	const clickUploadVideoButton=()=>{
  		document.getElementById("uploadedVideoDescription").click();
@@ -160,36 +155,34 @@ const VideoDescriptionPortal=(props)=>{
 
 	return createPortal(
 		<React.Fragment>
-			{isMobileUI==true?
-				<Container>
-					<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
-						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-						 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-						 stroke-linecap="round" stroke-linejoin="round">
-						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-						  <circle cx="12" cy="12" r="9" />
-						  <path d="M10 10l4 4m0 -4l-4 4" />
-						</svg>
-					</div>
-					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
-						<ul style={{padding:"0px"}} onClick={()=>clickUploadVideoButton()}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-								<CameraIcon/>
-							</li>
+			<ShadowContainer
+				onClick={()=>props.closeModal()}
+			/>
+			<Container>
+				<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+					 stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <circle cx="12" cy="12" r="9" />
+					  <path d="M10 10l4 4m0 -4l-4 4" />
+					</svg>
+				</div>
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
+					<ul style={{padding:"0px"}} onClick={()=>clickUploadVideoButton()}>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+							<CameraIcon/>
+						</li>
 
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-								Upload Video
-							</li>
-						</ul>																			
-					</button>
-					<input type="file" accept="video/*" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
-						onChange={()=>handleUploadedVideoDescription()}>
-					</input>
-				</Container>
-				:<input type="file" accept="video/*" id="uploadedVideoDescription" style={{position:"relative",cursor:"pointer"}} 
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+							Upload Video
+						</li>
+					</ul>																			
+				</button>
+				<input type="file" accept="video/*" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
 					onChange={()=>handleUploadedVideoDescription()}>
 				</input>
-			}
+			</Container>
 		</React.Fragment>,
 		targetContainer
 	)

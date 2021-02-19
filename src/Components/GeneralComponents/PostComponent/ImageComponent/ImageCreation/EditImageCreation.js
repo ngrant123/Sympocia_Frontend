@@ -335,7 +335,7 @@ class EditImageCreation extends Component{
 			isSubmittedAndProcessing:true
 		})
 		const industries=this.state.industriesSelected;
-		const imgUrl=this.state.src;
+		const imgUrl=this.state.imgSrc;
 		const currentVideoDescription=this.state.videoDescription;
 		const currentAudioDescription=this.state.audioDescription;
 		const selectedSubCommunities=this.state.subIndustriesSelected;

@@ -13,18 +13,19 @@ export const Container=styled.div`
 		#createPostIcon{
 			top:5% !important;
 			position:absolute !important;
-			margin-left:5% !important;
+			left:10px !important;
+			margin-left:0px !important;
 			z-index:22;
 		}
-
     }
+
     @media screen and (max-width:1060px){
 		#recommendedPostsLI{
 			display:block !important;
 		}
     }
 
-    @media screen and (max-width:740px){
+    @media screen and (max-width:650px){
     	#postsContainer{
 			margin-left:-80% !important;
 			margin-top:180% !important;
@@ -144,7 +145,7 @@ export const ProfilePictureContainer=styled.div`
     }
 
 
-    @media screen and (max-width:740px){
+    @media screen and (max-width:650px){
     	top:-20% !important;
     	height:100% !important;
     	margin-left:0%;
@@ -186,7 +187,7 @@ export const ProfileContainer=styled.div`
 		height:30% !important;
 	}
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:650px){
 		position:relative;
 		top:30%;
 		margin-left:2% !important;
