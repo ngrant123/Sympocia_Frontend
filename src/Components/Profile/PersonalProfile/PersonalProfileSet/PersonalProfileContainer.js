@@ -39,11 +39,11 @@ import {
 	} from "../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import CONSTANTS from "../../../../Constants/constants.js";
 import GuestLockScreenHOC from "../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
-
 import {
 	MobilePersonalInformation,
 	MobileProfileOptionsIpad
 } from "./MobileUI.js";
+import ProfilePicturesDefaultOptionsModal from "./Modals-Portals/ProfilePicturesDefaultOptions/index.js";
 
 
 import {
@@ -188,6 +188,7 @@ class LProfile extends Component{
 			isLoadingReloadedPosts:false,
 			displayGuestOnboarding:false,
 			isGuestProfile:false,
+			displayProfilePictureOptionsModal:false,
 			displayConfettiHandle:()=>{
 				this.displayConfetti()
 			}
@@ -314,13 +315,17 @@ class LProfile extends Component{
 
 	 handleChangeProfilePicture=()=>{
 	 	if(!this.state.isGuestProfile){
-		 	document.getElementById("profilePicutreImageFile").click();
-	 	}
+	 		this.setState({
+				displayProfilePictureOptionsModal:true
+			})
+			/*
+			 	document.getElementById("profilePicutreImageFile").click();
+			*/
+		}
 	}
 
 
 	changeProfilePicture=async()=>{
-		
 		let profileContainer=document.getElementById("profilePicture");
 		let image=document.getElementById("profilePicutreImageFile").files[0];
 		let reader= new FileReader();
@@ -366,9 +371,6 @@ class LProfile extends Component{
 			alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
 		}
 	}
-	/*
-		Could be done in such a better way nigga
-	*/
 
 	displayImages=()=>{
 
@@ -785,6 +787,25 @@ class LProfile extends Component{
 		})
 	}
 
+	closeProfilePicturesOptionsModal=()=>{
+		this.setState({
+			displayProfilePictureOptionsModal:false
+		})
+	}
+
+	displayProfilePictureOptionsTrigger=()=>{
+		return <React.Fragment>
+					{this.state.displayProfilePictureOptionsModal==true &&(
+						<ProfilePicturesDefaultOptionsModal
+							userId={this.state.userProfile._id}
+							targetDom={"personalContainer"}
+							closeModal={this.closeProfilePicturesOptionsModal}
+						/>
+					)}
+			   </React.Fragment>
+	}
+
+
 
 	render(){
 		return(
@@ -853,6 +874,7 @@ class LProfile extends Component{
 								/>:
 								<React.Fragment></React.Fragment>
 						}
+						{this.displayProfilePictureOptionsTrigger()}
 						{this.displayMobilePersonalInformation()}
 						{this.displayMobileProfileOptions()}
 						{this.ImageModal()}
@@ -870,11 +892,6 @@ class LProfile extends Component{
 										{this.state.isGuestProfile==false && (
 											<>{this.displayCreatePostOptionTrigger()}</>
 										)}
-										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0",width:"1px",height:"1px"}} 
-											accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
-								        	name="attachments"
-											onChange={()=>this.changeProfilePicture()}>
-										</input>
 										<img id="profilePicture" 
 											onClick={()=>this.handleChangeProfilePicture()}
 											src={this.state.userProfile.profilePicture==null?
@@ -882,6 +899,11 @@ class LProfile extends Component{
 													this.state.userProfile.profilePicture
 												} style={{position:"absolute",width:"100%",height:"100%",borderRadius:"50%"}}
 										/>
+										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0",width:"1px",height:"1px"}} 
+											accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
+								        	name="attachments"
+											onChange={()=>this.changeProfilePicture()}>
+										</input>
 									</>:
 									<img id="profilePicture" 
 										src={this.state.userProfile.profilePicture==null?
@@ -897,7 +919,7 @@ class LProfile extends Component{
 											<>
 												{this.state.isOwnProfile==true?
 													<React.Fragment>
-														<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0"}} 
+														<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0",zIndex:"-1"}} 
 															accept="image/x-png,image/gif,image/jpeg" 
 															onChange={()=>this.changeProfilePicture()}>
 														</input>
