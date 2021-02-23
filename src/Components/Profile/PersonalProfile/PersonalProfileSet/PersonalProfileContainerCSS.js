@@ -105,7 +105,7 @@ export const Container=styled.div`
 		}
     }
 
-    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+    @media screen and (max-width:650px) and (max-height:420px) and (orientation:landscape){
     	#postsContainer{
 			margin-top:120% !important;
 			margin-left:-60% !important;
@@ -201,7 +201,7 @@ export const ProfileContainer=styled.div`
     	
     }
 
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+	@media screen and (max-width:650px) and (max-height:420px) and (orientation:landscape){
 		top:72%;
 		height:90% !important;
     }
