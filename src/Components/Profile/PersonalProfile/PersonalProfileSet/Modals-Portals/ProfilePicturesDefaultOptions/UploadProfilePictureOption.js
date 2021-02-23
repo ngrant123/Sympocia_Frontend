@@ -26,15 +26,16 @@ const UploadOptionsCSS={
 	padding:"20px",
 	borderRadius:"5px",
 	cursor:"pointer",
-	width:"30%"
+	width:"50%"
 }
 
 const ImageCSS={
 	marginRight:"2%",
 	marginBottom:"2%",
-	width:"90px",
-	height:"90px",
-	cursor:"pointer"
+	width:"200px",
+	height:"200px",
+	cursor:"pointer",
+	borderRadius:"5px"
 }
 
 const UploadProfilePictureOption=({backButtonTrigger,uploadFile})=>{
@@ -47,9 +48,8 @@ const UploadProfilePictureOption=({backButtonTrigger,uploadFile})=>{
 	const changeProfilePicture=()=>{
 		let reader=new FileReader();
 		const uploadedFile=document.getElementById("profilePictureFileUpload").files[0];
-		reader.onloadend=async(result)=>{
-			debugger;
-			const uploadedFile=result;
+		reader.onloadend=async()=>{
+			const uploadedFile=reader.result;
 			changeUploadedImageSrc(uploadedFile);
 		}
 
@@ -69,7 +69,7 @@ const UploadProfilePictureOption=({backButtonTrigger,uploadFile})=>{
 			{uploadedImageSrc!=null ?
 				<React.Fragment>
 					<img src={uploadedImageSrc} style={ImageCSS}/>
-					<p>Upload </p>
+					<p onClick={()=>uploadFile({isAccessTokenUpdated:false,selectedImageSrc:uploadedImageSrc})} style={{...ButtonContainerCSS,width:"30%"}}>Upload </p>
 				</React.Fragment>:
 				<React.Fragment>
 					<p onClick={()=>triggerFileUploadPrompt()} style={UploadOptionsCSS}>Upload File</p>
