@@ -1,0 +1,87 @@
+import React,{useState} from "react";
+import styled from "styled-components";
+
+
+const ButtonContainerCSS={
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  cursor:"pointer",
+  marginRight:"5%",
+  marginTop:"5%",
+  marginBottom:"5%"
+}
+
+
+const UploadOptionsCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"white",
+	backgroundColor:"#5298F8",
+	padding:"20px",
+	borderRadius:"5px",
+	cursor:"pointer",
+	width:"30%"
+}
+
+const ImageCSS={
+	marginRight:"2%",
+	marginBottom:"2%",
+	width:"90px",
+	height:"90px",
+	cursor:"pointer"
+}
+
+const UploadProfilePictureOption=({backButtonTrigger,uploadFile})=>{
+	const [uploadedImageSrc,changeUploadedImageSrc]=useState();
+	const triggerFileUploadPrompt=()=>{
+		const fileUploadButton=document.getElementById("profilePictureFileUpload");
+		fileUploadButton.click();
+	}
+
+	const changeProfilePicture=()=>{
+		let reader=new FileReader();
+		const uploadedFile=document.getElementById("profilePictureFileUpload").files[0];
+		reader.onloadend=async(result)=>{
+			debugger;
+			const uploadedFile=result;
+			changeUploadedImageSrc(uploadedFile);
+		}
+
+		if(uploadedFile!=null){
+			reader.readAsDataURL(uploadedFile);
+		}else{
+			alert('File not supported');
+		}
+	}
+
+
+	return(
+		<React.Fragment>
+			<p style={ButtonContainerCSS} onClick={()=>backButtonTrigger()}>
+				Back
+			</p>
+			{uploadedImageSrc!=null ?
+				<React.Fragment>
+					<img src={uploadedImageSrc} style={ImageCSS}/>
+					<p>Upload </p>
+				</React.Fragment>:
+				<React.Fragment>
+					<p onClick={()=>triggerFileUploadPrompt()} style={UploadOptionsCSS}>Upload File</p>
+					<input type="file" name="img" id="profilePictureFileUpload" style={{opacity:"0",width:"1px",height:"1px"}} 
+						accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
+			        	name="attachments"
+						onChange={()=>changeProfilePicture()}>
+					</input>
+				</React.Fragment>
+			}
+		</React.Fragment>
+	)
+}
+
+export default UploadProfilePictureOption;
