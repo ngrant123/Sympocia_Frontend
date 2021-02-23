@@ -3,6 +3,9 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import  DefaultOptions from "./DefaultOptions.js";
 import UploadProfilePictureOption from "./UploadProfilePictureOption.js";
+import {useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
+import {setProfilePicture} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -17,6 +20,23 @@ const Container=styled.div`
 	padding:15px;
 	flex-direction:column;
 	overflow:scroll;
+
+
+	@media screen and (max-width:1370px){
+		width:60% !important;
+		left:20% !important;
+		height:60%;
+    }
+
+    @media screen and (max-width:700px){
+		width:90% !important;
+		left:5% !important;
+		height:60%;
+    }
+
+     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	height:60%;
+    }
 `;
 
 const ShadowContainer= styled.div`
@@ -39,8 +59,9 @@ const OptionsCSS={
 	cursor:"pointer"
 }
 
-const ProfilePicturesDefaultOptions=({targetDom,closeModal})=>{
+const ProfilePicturesDefaultOptions=({targetDom,closeModal,userId,accessToken,refreshToken,reduxFunctions,updateProfilePicture})=>{
 	const targetContainer=document.getElementById(targetDom);
+	const dispatch=useDispatch();
 
 	const [displayDefaultPictures,changeDefaultPicturesDisplay]=useState(false);
 	const [displayDefaultOptions,changeDisplayDefaultOptions]=useState(true);
@@ -56,8 +77,32 @@ const ProfilePicturesDefaultOptions=({targetDom,closeModal})=>{
 		changeDisplayDefaultOptions(false);
 	}
 
-	const uploadFile=(selectedImageSrc)=>{
-
+	const sendFileToDB=async({isAccessTokenUpdated,updatedAccessToken,selectedImageSrc})=>{
+		const {confirmation,data}=await setProfilePicture(
+											userId,
+											selectedImageSrc,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											accessToken
+										);
+		
+		if(confirmation=="Success"){
+			updateProfilePicture(selectedImageSrc);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					refreshToken,
+					userId,
+					sendFileToDB,
+					dispatch,
+					{selectedImageSrc},
+					false
+				);
+			}else{
+				alert('Unfortunately there has been an error with changing your profile picture. We only accept jpeg'+
+				' and png. Please try again');
+			}
+		}
 	}
 
 	const defaultOptionsTrigger=()=>{
@@ -100,7 +145,7 @@ const ProfilePicturesDefaultOptions=({targetDom,closeModal})=>{
 				{displayDefaultPictures==true && (
 					<DefaultOptions
 						backButtonTrigger={closeModalAndDisplayOptions}
-						uploadFile={uploadFile}
+						uploadFile={sendFileToDB}
 					/>
 				)}
 			</React.Fragment>
@@ -113,7 +158,7 @@ const ProfilePicturesDefaultOptions=({targetDom,closeModal})=>{
 				{displayUploadOption==true && (
 					<UploadProfilePictureOption
 						backButtonTrigger={closeModalAndDisplayOptions}
-						uploadFile={uploadFile}
+						uploadFile={sendFileToDB}
 					/>
 				)}
 			</React.Fragment>

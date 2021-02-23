@@ -318,57 +318,6 @@ class LProfile extends Component{
 	 		this.setState({
 				displayProfilePictureOptionsModal:true
 			})
-			/*
-			 	document.getElementById("profilePicutreImageFile").click();
-			*/
-		}
-	}
-
-
-	changeProfilePicture=async()=>{
-		let profileContainer=document.getElementById("profilePicture");
-		let image=document.getElementById("profilePicutreImageFile").files[0];
-		let reader= new FileReader();
-
-		reader.onloadend=async()=>{
-			profileContainer.src=reader.result;
-			const profileUrl=profileContainer.src;
-			const {confirmation,data}=await setProfilePicture(
-												this.state.userProfile._id,
-												profileUrl,
-												this.props.personalInformation.accessToken
-											);
-			
-			if(confirmation=="Success"){
-				this.setState({
-					userProfile:{
-						...this.state.userProfile,
-						profilePicture:profileUrl
-					}
-				});
-			}else{
-				const {statusCode}=data;
-				if(statusCode==401){
-					await refreshTokenApiCallHandle(
-						this.props.personalInformation.refreshToken,
-						this.props.personalInformation.id,
-						this.changeProfilePicture,
-						this.props,
-						{},
-						true
-					);
-				}else{
-					alert('Unfortunately there has been an error with changing your profile picture. We only accept jpeg'+
-					' and png. Please try again');
-				}
-			}
-		}
-
-		if(image!=null){
-			reader.readAsDataURL(image);
-		}
-		else{
-			alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
 		}
 	}
 
@@ -793,6 +742,16 @@ class LProfile extends Component{
 		})
 	}
 
+	updateProfilePicture=(profileUrl)=>{
+		this.setState({
+			userProfile:{
+				...this.state.userProfile,
+				profilePicture:profileUrl
+			},
+			displayProfilePictureOptionsModal:false
+		});
+	}
+
 	displayProfilePictureOptionsTrigger=()=>{
 		return <React.Fragment>
 					{this.state.displayProfilePictureOptionsModal==true &&(
@@ -800,6 +759,9 @@ class LProfile extends Component{
 							userId={this.state.userProfile._id}
 							targetDom={"personalContainer"}
 							closeModal={this.closeProfilePicturesOptionsModal}
+							accessToken={this.props.personalInformation.accessToken}
+							refreshToken={this.props.personalInformation.refreshToken}
+							updateProfilePicture={this.updateProfilePicture}
 						/>
 					)}
 			   </React.Fragment>
@@ -899,11 +861,6 @@ class LProfile extends Component{
 													this.state.userProfile.profilePicture
 												} style={{position:"absolute",width:"100%",height:"100%",borderRadius:"50%"}}
 										/>
-										<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0",width:"1px",height:"1px"}} 
-											accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
-								        	name="attachments"
-											onChange={()=>this.changeProfilePicture()}>
-										</input>
 									</>:
 									<img id="profilePicture" 
 										src={this.state.userProfile.profilePicture==null?
@@ -919,10 +876,6 @@ class LProfile extends Component{
 											<>
 												{this.state.isOwnProfile==true?
 													<React.Fragment>
-														<input type="file" name="img" id="profilePicutreImageFile" style={{opacity:"0",zIndex:"-1"}} 
-															accept="image/x-png,image/gif,image/jpeg" 
-															onChange={()=>this.changeProfilePicture()}>
-														</input>
 														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 															<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
 																Change Profile Picture

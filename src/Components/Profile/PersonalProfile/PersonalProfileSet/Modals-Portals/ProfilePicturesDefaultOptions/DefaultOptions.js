@@ -50,27 +50,37 @@ const DefaultOptions=({backButtonTrigger,uploadFile})=>{
 	const selectImage=(imageSrc)=>{
 		changeSelectedImageSrc(imageSrc);
 	}
+
+	const backButton=()=>{
+		if(selectedImgSrc!=null){
+			changeSelectedImageSrc(null)
+		}else{
+			backButtonTrigger()
+		}
+	}
 	return(
 		<React.Fragment>
-			<p style={ButtonContainerCSS} onClick={()=>backButtonTrigger()}>
+			<p style={ButtonContainerCSS} onClick={()=>backButton()}>
 				Back
 			</p>
-			{selectedImgSrc!=null &&(
+			{selectedImgSrc!=null ?
 				<SelectedPictureContainer>
 					<img src={selectedImgSrc} style={ImageCSS}/>
-					<p onClick={()=>uploadFile(selectedImgSrc)} style={ButtonContainerCSS}> Upload</p>
-				</SelectedPictureContainer>
-			)}
+					<p onClick={()=>uploadFile({isAccessTokenUpdated:false,selectedImageSrc:selectedImgSrc})} style={ButtonContainerCSS}> Upload</p>
+				</SelectedPictureContainer>:
+				<React.Fragment>
+					<p> Choose from the options below </p>
+					<hr style={HorizontalLineCSS}/>
+					<PicturesContainer>
+						{defaultProfileOptions.map(data=>
+							<img onClick={()=>selectImage(data.default)}
+								src={data.default} style={ImageCSS}
+							/>
+						)}
+					</PicturesContainer>
+				</React.Fragment>
+			}
 
-			<p> Choose from the options below </p>
-			<hr style={HorizontalLineCSS}/>
-			<PicturesContainer>
-				{defaultProfileOptions.map(data=>
-					<img onClick={()=>selectImage(data.default)}
-						src={data.default} style={ImageCSS}
-					/>
-				)}
-			</PicturesContainer>
 		</React.Fragment>
 	)
 }
