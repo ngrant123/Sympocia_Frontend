@@ -243,7 +243,7 @@ class Symposium extends Component{
 			chatPageIndicator:"",
 			displayChatPage:false,
 			displayGroupSharingVideoCallPortal:false,
-			hideOnboarding:true,
+			displayOnboarding:false,
 			featureQuestions:[],
 			isLoading:true,
 			displayDesktopUI:false,
@@ -329,7 +329,7 @@ class Symposium extends Component{
 		  		isProfileFollowingSymposium:isProfileFollowedSymposium,
 		  		profileId,
 		  		isLoading:false,
-		  		hideOnboarding:isOnboardingCompleted,
+		  		displayOnboarding:isOnboardingCompleted,
 		  		symposiumFeatureQuestions:featureQuestions,
 		  		symposiumId:_id,
 		  		isGuestProfile:(this.props.personalInformation.id=="0" || this.props.personalInformation.isGuestProfile==true)==true?
@@ -982,7 +982,7 @@ class Symposium extends Component{
 
 	closeOnboardingModal=()=>{
 		this.setState({
-			hideOnboarding:true,
+			displayOnboarding:false,
 			displayGuestOnboarding:false
 		})
 	}
@@ -1256,7 +1256,7 @@ class Symposium extends Component{
 					routerHistory={this.props.history}
 					targetDom={"extendedSymposiumContainer"}
 				/>
-					{this.state.hideOnboarding==false &&(
+					{this.state.displayOnboarding==true &&(
 						<div onMouseEnter={()=>this.setState({handleScroll:false})} >
 							<SymposiumOnboarding
 								closeModal={this.closeOnboardingModal}
