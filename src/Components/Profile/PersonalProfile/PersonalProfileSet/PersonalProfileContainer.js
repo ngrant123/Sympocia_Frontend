@@ -288,7 +288,7 @@ class LProfile extends Component{
 					displayChampion:containsChampion,
 					championModalData:message.championData,
 					isLoading:false,
-					hideOnboarding:message.firstTimeLoggedIn,
+					hideOnboarding:!message.firstTimeLoggedIn.personalPage,
 					visitorId,
 					isGuestVisitorProfile:isGuestProfileIndicator
 				}));
