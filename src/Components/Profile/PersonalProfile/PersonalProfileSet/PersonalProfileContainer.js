@@ -176,7 +176,7 @@ class LProfile extends Component{
 		    	})
 		    },
 		    displayConfetti:false,
-		    hideOnboarding:false,
+		    displayOnboarding:false,
 		    displaySocialMediaUrlContainer:false,
 		    displayPhoneUI:false,
 			displayIpadUI:false,
@@ -243,7 +243,7 @@ class LProfile extends Component{
 				displayChampion:false,
 				champion:{},
 				isLoading:false,
-				hideOnboarding:true,
+				displayOnboarding:false,
 				isGuestProfile:true
 			})
 
@@ -288,7 +288,7 @@ class LProfile extends Component{
 					displayChampion:containsChampion,
 					championModalData:message.championData,
 					isLoading:false,
-					hideOnboarding:!message.firstTimeLoggedIn.personalPage,
+					displayOnboarding:message.firstTimeLoggedIn.personalPage,
 					visitorId,
 					isGuestVisitorProfile:isGuestProfileIndicator
 				}));
@@ -592,7 +592,7 @@ class LProfile extends Component{
 
 	closeOnboardingModal=()=>{
 		this.setState({
-			hideOnboarding:true,
+			displayOnboarding:false,
 			displayGuestOnboarding:false
 		})
 	}
@@ -911,7 +911,7 @@ class LProfile extends Component{
 						{this.state.isLoading==true?null:
 							<>
 								{this.promotePortal()}
-								{(this.state.hideOnboarding==false && this.state.isOwnProfile==true) &&(
+								{(this.state.displayOnboarding==true && this.state.isOwnProfile==true) &&(
 									<OnboardingPersonalPage
 										closeModal={this.closeOnboardingModal}
 									/>

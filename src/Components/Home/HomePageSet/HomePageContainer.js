@@ -252,7 +252,7 @@ class HomePageContainer extends Component{
 			profileId:id,
 			symposiumsMap:symposiumsMap,
 			isLoading:false,
-			hideOnboarding:(id=="0"|| this.props.personalInformation.isGuestProfile)?false:profile.firstTimeLoggedIn.explorePage
+			hideOnboarding:(id=="0"|| this.props.personalInformation.isGuestProfile)?false:!profile.firstTimeLoggedIn.explorePage
 		})
 	}
 
