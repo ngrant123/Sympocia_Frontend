@@ -102,21 +102,29 @@ const UploadPost=({closeUploadPostModal})=>{
 
 
 	const submitPost=async()=>{
+		debugger;
 		let postData={
 			token:document.getElementById("verficationTokenId").value,
 		    postType,
 		    _id:document.getElementById("targetProfileId").value,
 		    profileIndicator:"Personal"
 		}
+		let selectedSymposium=document.getElementById("symposium").value;
+		selectedSymposium=selectedSymposium.split(" ");
+		for(var i=0;i<selectedSymposium.length;i++){
+			const symposium=selectedSymposium[i];
+			selectedSymposium[i]={
+				industry:symposium,
+				subIndustry:[]
+			}
+		}
+
 		let searchCriteria;
 		if(postType=="Images"){
 			searchCriteria={
 				caption:document.getElementById("imageCaption").value,
 		        description:document.getElementById("imageDescription").value,
-		        industryArray:[{
-		            industry:document.getElementById("symposium").value,
-		            subIndustry:[]
-		        }],
+		        industryArray:selectedSymposium,
 		        isCrownedPost:false,
 		        imgUrl:postUrl
 			}
@@ -128,10 +136,7 @@ const UploadPost=({closeUploadPostModal})=>{
 		        title:document.getElementById("videoTitle").value,
 		        videoDescription:null,
 		        description:document.getElementById("videoDescription").value,
-		        industriesUploaded:[{
-		            industry:document.getElementById("symposium").value,
-		            subIndustry:[]
-		        }],
+		        industriesUploaded:selectedSymposium,
 		        isCrownedPost:false,
 		        videoUrl:postUrl
 			}
@@ -142,10 +147,7 @@ const UploadPost=({closeUploadPostModal})=>{
 				id:document.getElementById("targetProfileId").value
 			}
 			searchCriteria={
-				industryArray:[{
-		            industry:document.getElementById("symposium").value,
-		            subIndustry:[]
-		        }],
+				industryArray:selectedSymposium,
 		        isAudioPost:null,
 		        isCrownedPost:false,
 		        isPostAuthentic:{
