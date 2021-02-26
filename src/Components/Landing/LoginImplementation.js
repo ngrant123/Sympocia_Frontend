@@ -204,7 +204,7 @@ const LoginUI=({history,displayMobileLoginTrigger})=>{
                       </li>
                     </a>
                     <li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-                       <p style={{color:"#5298F8"}}>Forgot password?</p>
+                       <p onClick={()=>triggerResetPasswordDisplay(history)} style={{cursor:"pointer",color:"#5298F8"}}>Forgot password?</p>
                     </li>
                 </React.Fragment>
               }
