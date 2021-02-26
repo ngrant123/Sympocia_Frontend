@@ -1,5 +1,9 @@
 import React,{useState} from "react";
 import styled from "styled-components";
+import {verifyCode} from "../../../../Actions/Requests/EmailServiceRequests.js";
+import {resetPassword} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js"; 
+import {useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -84,14 +88,67 @@ const Button=styled.div`
 `;
 
 
-const EmailReset=({triggerEmailConfirmationModal})=>{
+const EmailReset=({email,triggerEmailConfirmationModal,history})=>{
 	const [displayEnterPasswordPrompt,changeEnterPasswordPrompt]=useState(true);
-	const verifyToken=()=>{
-		changeEnterPasswordPrompt(false);
+	const [userRefreshToken,changeUserRefreshToken]=useState();
+	const [userAccessToken,changeUserAccessToken]=useState();
+	const [userId,changeUserId]=useState();
+	const dispatch=useDispatch();
+
+	const verifyToken=async()=>{
+		const {confirmation,data}=await verifyCode(email,document.getElementById("verificationCode").value);
+		if(confirmation=="Success"){
+			const { 
+				message:{
+					_id,
+	                accessToken,
+	                refreshToken	
+				}
+            }=data;
+
+            changeUserId(_id);
+            changeUserRefreshToken(refreshToken);
+            changeUserAccessToken(accessToken);
+			changeEnterPasswordPrompt(false);
+
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				alert('Your verification code is incorrect or the time has expired. Please try again');
+			}else{
+				alert('An error has occured. Please try again');
+			}
+		}	
 	}
 
-	const setPasswordForUser=()=>{
-
+	const setPasswordForUser=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		const newPassword=document.getElementById("newPassword").value;
+		const {confirmation,data}=await resetPassword({
+											newPassword,
+											userId,
+											accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+											userAccessToken
+										});
+		if(confirmation=="Success"){
+			alert('Password updated. You will be redirected to the landing screen to login in again');
+			history.push({pathname:'/'})
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						userRefreshToken,
+						userId,
+						setPasswordForUser,
+						dispatch,
+						{},
+						false
+					);
+				changeEnterPasswordPrompt(false);
+			}else{
+				const {message}=data;
+				alert(message);
+			}
+		}
 	}
 	return(
 		<Container>
@@ -100,16 +157,18 @@ const EmailReset=({triggerEmailConfirmationModal})=>{
 			</p>
 			{displayEnterPasswordPrompt==true?
 				<React.Fragment>
-					<p>Please enter the verification code that was sent to your email</p>
-					<InputContainer placeholder="Enter verification code"/>
+					<p>
+						Please enter the verification code that was sent to your email. It will be located in either your inbox or spam.
+						The code will be invalid in five minutes
+				 	</p>
+					<InputContainer id="verificationCode" verficplaceholder="Enter verification code"/>
 					<Button onClick={()=>verifyToken()}>
 						Submit
 					</Button>
 				</React.Fragment>:
 				<React.Fragment>
-					<InputContainer placeholder="New Password"/>
-					<InputContainer placeholder="Retype new Password"/>
-					<Button onClick={()=>setPasswordForUser()}>
+					<InputContainer id="newPassword" placeholder="New Password"/>
+					<Button onClick={()=>setPasswordForUser({isAccessTokenUpdated:false})}>
 						Submit
 					</Button>
 				</React.Fragment>

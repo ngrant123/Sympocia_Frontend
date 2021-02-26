@@ -112,15 +112,21 @@ const MobileLoginUI=({history})=>{
                 Login 
           </li>
         </a>
+        <li onClick={()=>triggerResetPasswordDisplay(history)} style={{listStyle:"none",width:"40%",color:"#5298F8",marginTop:"5%"}}>
+           Forgot password?
+        </li>
     </ul>
   )
+}
+
+const triggerResetPasswordDisplay=(history)=>{
+  history.push({pathname:'/emailreset'})
 }
 
 const handleLoginClick=async(email,password,dispatch,history)=>{
   const {confirmation,data}=await loginProfile(email,password);
 
   if(confirmation=="Success"){
-    debugger;
     const {message}=data;
     const {
       passWordIndicator,
@@ -185,17 +191,22 @@ const LoginUI=({history,displayMobileLoginTrigger})=>{
                       <Submit onClick={()=>displayMobileLoginTrigger()}>Login </Submit>
                   </li>
                 </a>
-                :<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                  <li id="submitLI" style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-                      <Submit onClick ={() =>  handleLoginClick(  
-                                                document.getElementById("LoginEmail").value,
-                                                document.getElementById("LoginPassword").value,
-                                                dispatch,
-                                                history
-                                        )}>Login
-                       </Submit>
-                  </li>
-                </a>
+                :<React.Fragment>
+                    <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+                      <li id="submitLI" style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+                          <Submit onClick ={() =>  handleLoginClick(  
+                                                    document.getElementById("LoginEmail").value,
+                                                    document.getElementById("LoginPassword").value,
+                                                    dispatch,
+                                                    history
+                                            )}>Login
+                           </Submit>
+                      </li>
+                    </a>
+                    <li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+                       <p style={{color:"#5298F8"}}>Forgot password?</p>
+                    </li>
+                </React.Fragment>
               }
           </ul>
       </Container>
