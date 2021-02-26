@@ -412,6 +412,23 @@ export const deleteChampion=async({userId,accessToken})=>{
 	}
 }
 
+export const resetPassword=async({newPassword,userId,accessToken})=>{
+	try{
+		const resetPasswordResponse=await axios.post(`${CreateUrl}/resetPassword`,{
+			newPassword,
+			userId
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+		const {data}=resetPasswordResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
 
 
 

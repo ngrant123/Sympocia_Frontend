@@ -799,7 +799,7 @@ const PersonalPostsIndex=(props)=>{
 									<ul style={{padding:"0px"}}>
 										{/*
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-												<ul style={{padding:"0px"}}>
+postsContainer												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:"none",display:"inline-block"}}>
 														<SearchIcon
 															style={{fontSize:40}}
