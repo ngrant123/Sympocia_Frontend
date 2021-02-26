@@ -142,7 +142,6 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 			changeDisplayRemoveRecruitsModal(false);
 			changeRecruits([...recruits]);
 		}else{
-			debugger;
 			const {statusCode}=data;
 			if(statusCode==401){
 				await refreshTokenApiCallHandle(

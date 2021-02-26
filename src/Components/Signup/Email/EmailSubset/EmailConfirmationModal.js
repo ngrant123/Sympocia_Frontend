@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import {sendResetEmail} from "../../../../Actions/Requests/EmailServiceRequests.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -89,6 +90,14 @@ const SubmitButton=styled.div`
 `;
 
 const EmailConfirmation=({triggerResetModal})=>{
+	const sendResetEmailConfirmation=async()=>{
+		const {confirmation,data}=await sendResetEmail(document.getElementById("email").value);
+		if(confirmation=="Success"){
+			triggerResetModal(document.getElementById("email").value);
+		}else{
+			alert('An error has occured when trying to send you an reset email confirmation. Please try again or enter another email');
+		}
+	}
 	return(
 		<Container>
 			<p style={{fontSize:"30px"}}>
@@ -98,8 +107,8 @@ const EmailConfirmation=({triggerResetModal})=>{
 				Please enter your email so we can send you a code to use as verification
 			</p>
 			<hr/>
-			<InputContainer placeholder="Enter your email"/>
-			<SubmitButton onClick={()=>triggerResetModal()}>
+			<InputContainer id="email" placeholder="Enter your email"/>
+			<SubmitButton onClick={()=>sendResetEmailConfirmation()}>
 				Submit
 			</SubmitButton>
 		</Container>

@@ -204,7 +204,6 @@ const VideoDescriptionPortal=(props)=>{
 		const [firstDone,chnagFirstDone]=useState(false);
 
 		const recording=()=>{
-			debugger;
 			changeRecordingState(true);
 			let video=document.getElementById("videoDescriptionVideo");
 			if(!navigator.mediaDevices){
@@ -225,7 +224,6 @@ const VideoDescriptionPortal=(props)=>{
 					    })
 				    .then(()=>handleRecording(video.captureStream()))
 				    .then(recordedChunks=>{
-				    	debugger;
 					  	 if(recordedChunks!=null){
 							  	let recordedFile = new File(recordedChunks,'videoDescription2.mp4',{mime:"video/mp4",type:"video/mp4",lastModified:new Date()});
 							  	var videoSrc=URL.createObjectURL(recordedFile);

@@ -16,7 +16,7 @@ const Container=styled.div`
 			justify-content:flex-start !important;
 		}
 	}
-	
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 	 	#elementContainerDiv{
 			justify-content:flex-start !important;
@@ -48,11 +48,13 @@ const ParticlesConfiguration={
     }	
 }
 
-const EmailRestPassword=()=>{
+const EmailRestPassword=(props)=>{
 	const [displayEmailConfirmationModal,changeDisplayEmailConfirmationModal]=useState(true);
 	const [displayResetPasswordModal,changeDisplayResetPasswordModal]=useState(false);
-
-	const triggerResetModal=()=>{
+	const [selectedEmail,changeSelectedEmail]=useState()
+	const {history}=props;
+	const triggerResetModal=(email)=>{
+		changeSelectedEmail(email);
 		changeDisplayResetPasswordModal(true);
 		changeDisplayEmailConfirmationModal(false);
 	}
@@ -74,6 +76,8 @@ const EmailRestPassword=()=>{
 					/>:
 					<EmailResetModal
 						triggerEmailConfirmationModal={triggerEmailConfirmationModal}
+						email={selectedEmail}
+						history={history}
 					/>
 				}
 			</div>

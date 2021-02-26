@@ -102,7 +102,6 @@ const UploadPost=({closeUploadPostModal})=>{
 
 
 	const submitPost=async()=>{
-		debugger;
 		let postData={
 			token:document.getElementById("verficationTokenId").value,
 		    postType,
