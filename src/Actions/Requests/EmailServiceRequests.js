@@ -16,3 +16,30 @@ export const sendAnonymousTipsEmail=async({content})=>{
 		return err;
 	}
 }
+
+export const sendResetEmail=async(targetEmail)=>{
+	try{
+		const sendResetEmailResponse=await axios.post(`${EmailUrl}/sendResetEmail`,{
+			targetEmail
+		})
+		const {data}=sendResetEmailResponse
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+export const verifyCode=async(targetEmail,code)=>{
+	try{
+		const VerificationCodeResponse=await axios.get(`${EmailUrl}/verfiyCode`,{
+			params:{
+				targetEmail,
+            	code
+			}
+		})
+		const {data}=VerificationCodeResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}

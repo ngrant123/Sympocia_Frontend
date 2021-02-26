@@ -62,6 +62,7 @@ const UrlEnteredImageDisplay=React.lazy(()=>import("./Components/SearchPage/UrlE
 const UrlEnteredVideoDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/VideoDisplay.js"));
 const UrlEnteredRegularPostDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/RegularPostDisplay.js"));
 const UrlEnteredBlogDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/BlogDisplay.js"));
+const EmailReset=React.lazy(()=>import('./Components/Signup/Email/EmailSet/index.js'));
 
 
 const ApplicationElementIndicator=VerifyBrowserIsChrome();
@@ -85,6 +86,7 @@ const application  = (
 							<Route exact path="/video/:id" component={UrlEnteredVideoDisplay}/>
 							<Route exact path="/blog/:id" component={UrlEnteredBlogDisplay}/>
 							<Route exact path="/regularPost/:id" component={UrlEnteredRegularPostDisplay}/>
+							<Route exact path="/emailreset" component={EmailReset}/>
 							{/*
 								<Route exact path="/investor/:id" component= {InvestorScreen} />
 								<Route exact path="/createPost" component={CreatePostScreen}/>	
