@@ -499,7 +499,7 @@ const HeaderContainer=(props)=>{
 							<b>
 								<AddCircleOutlineIcon style={{font:20}}/>
 								 	{followSymposiumButtonClick==false?
-								 		<p>Follow Symposium</p>:
+								 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
 								 		<p>Unfollow Symposium</p>
 								 	}
 							</b>
