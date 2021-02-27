@@ -172,6 +172,7 @@ const HeaderContainer=styled.div`
 	flex-direction:column;
 	width:50%;
 	flex-wrap:wrap;
+	cursor:pointer;
 	@media screen and (max-width:1370px){
 		width:90%;
 		margin-top:5%;
@@ -245,6 +246,7 @@ const SmallPostContainer=styled.div`
 	flex-direction:row;
 	width:100%;
 	margin-top:5% !important;
+	cursor:pointer;
 `;
 
 const SmallPostDescriptionContainer=styled.div`

@@ -41,7 +41,7 @@ const NotificationIconContainer=styled.div`
 	border-color:white;
 	border-style:solid;
 	border-width:5px;
-	margin-right:2%;
+	margin-right:5%;
 	cursor:pointer;
 
 	${({ displayNotificationIndicator }) =>
@@ -141,6 +141,7 @@ const MobileSearchButtonCSS={
 const TestContainaer=styled.div`
 	display:flex;
 	flex-direction:row;
+	justify-content:center;
 `;
 /*
 	So right now the nav bar is just explore, home page, and view messages
@@ -317,15 +318,7 @@ const NavBar=(pageProps)=>{
 		return(
 			<>
 				<TestContainaer> 
-					<NotificationIconContainer displayNotificationIndicator={displayNotificationIndicator} onClick={()=>fetchNotificationData()}>
-						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-urgent" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
-						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-						  <path d="M8 16v-4a4 4 0 0 1 8 0v4" />
-						  <path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7" />
-						  <rect x="6" y="16" width="12" height="4" rx="1" />
-						</svg>
-					</NotificationIconContainer>
-					<div style={{marginLeft:"5%"}}>
+					<div style={{marginLeft:"-7%",marginRight:"5%"}}>
 						<ul style={{padding:"0px"}}>
 							<div class="dropdown">
 								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={RouteOptionCSS}>
@@ -357,19 +350,31 @@ const NavBar=(pageProps)=>{
 							</div>
 						</ul>
 					</div>
-					<CreateButton>
-						<ul style={{padding:"0px"}}>
 
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<AddCircleIcon
-									/>
-								</li>
+					<NotificationIconContainer displayNotificationIndicator={displayNotificationIndicator} onClick={()=>fetchNotificationData()}>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-urgent" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <path d="M8 16v-4a4 4 0 0 1 8 0v4" />
+						  <path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7" />
+						  <rect x="6" y="16" width="12" height="4" rx="1" />
+						</svg>
+					</NotificationIconContainer>
 
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									Create
-								</li>
-						</ul>
-					</CreateButton>
+					{/*
+						<CreateButton>
+							<ul style={{padding:"0px"}}>
+
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										<AddCircleIcon
+										/>
+									</li>
+
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										Create
+									</li>
+							</ul>
+						</CreateButton>
+					*/}
 
 					<NavBarButton  to="/home">
 						<ul style={{padding:"0px"}}>
@@ -382,9 +387,6 @@ const NavBar=(pageProps)=>{
 							</li>
 						</ul>
 					</NavBarButton>
-
-					<div>
-					</div>
 				</TestContainaer>
 			</>
 		)
@@ -529,7 +531,7 @@ const NavBar=(pageProps)=>{
 			</ul>
 
 			{displayDesktopUI==true && (
-				<ul style={{marginLeft:"27%",top:"7%"}}>
+				<ul style={{top:"7%"}}>
 					{personalProfileIpadPages()}
 				</ul>
 			)}

@@ -72,6 +72,7 @@ const HeaderContainer=styled.div`
 	display:flex;
 	flex-direction:column;
 	width:50%;
+	cursor:pointer;
 
 	@media screen and (max-width:1370px){
 		width:90%;
@@ -117,6 +118,7 @@ const PostsContainer=styled.div`
 const Post=styled.div`
 	display:flex;
 	flex-direction:column;
+	cursor:pointer;
 `;
 
 const ProfileHeaderImage=styled.div`

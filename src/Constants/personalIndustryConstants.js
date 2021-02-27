@@ -676,7 +676,7 @@ export default{
 				}
 			]
 		},
-		{ industry:"Anime/Manga",
+		{ industry:"Anime",
 			backgroundColor:"linear-gradient(to right, #40e0d0, #53dba5, #79d274, #a1c542, #cab206, #df9e00, #f18811, #ff6f2c, #ff5940, #ff4154, #ff266a, #ff0080)",
 			subCommunity:[
 				{industry:"Dragon Ball"},
