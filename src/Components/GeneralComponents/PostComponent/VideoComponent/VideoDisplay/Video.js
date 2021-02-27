@@ -281,57 +281,60 @@ class Video extends Component{
 	}
 
 	createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		
-		let confirmationResponse;
-		let dataResponse;
-		if(this.state.displayStampEffect==false){
-			const {confirmation,data}=await addStampPost(
-												this.props.video._id,
-												"personal",
-												"Videos",
-												this.props.personalId,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												this.props.personalInformation.accessToken
-											);
-			confirmationResponse=confirmation;
-			dataResponse=data;
-
+		if(this.props.isGuestProfile==true){
+			alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 		}else{
-			const {confirmation,data}=await unStampPost(
-												this.props.video._id,
-												"personal",
-												"Videos",
-												this.props.personalId,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												this.props.personalInformation.accessToken
-											);
-			confirmationResponse=confirmation;
-			dataResponse=data;
-		}
-
-		if(confirmationResponse=="Success"){
+			let confirmationResponse;
+			let dataResponse;
 			if(this.state.displayStampEffect==false){
-				this.setState({
-					displayStampEffect:true
-				})
+				const {confirmation,data}=await addStampPost(
+													this.props.video._id,
+													"personal",
+													"Videos",
+													this.props.personalId,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													this.props.personalInformation.accessToken
+												);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+
 			}else{
-				this.setState({
-					displayStampEffect:false
-				})
+				const {confirmation,data}=await unStampPost(
+													this.props.video._id,
+													"personal",
+													"Videos",
+													this.props.personalId,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													this.props.personalInformation.accessToken
+												);
+				confirmationResponse=confirmation;
+				dataResponse=data;
 			}
-		}else{
-			const {statusCode}=dataResponse;
-			if(statusCode==401){
-				await refreshTokenApiCallHandle(
-						this.props.personalInformation.refreshToken,
-						this.props.personalInformation.id,
-						this.createOrRemoveStampEffect,
-						this.props,
-						{},
-						true
-					);
+
+			if(confirmationResponse=="Success"){
+				if(this.state.displayStampEffect==false){
+					this.setState({
+						displayStampEffect:true
+					})
+				}else{
+					this.setState({
+						displayStampEffect:false
+					})
+				}
 			}else{
-				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+				const {statusCode}=dataResponse;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							this.props.personalInformation.refreshToken,
+							this.props.personalInformation.id,
+							this.createOrRemoveStampEffect,
+							this.props,
+							{},
+							true
+						);
+				}else{
+					alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+				}
 			}
 		}
 	}
@@ -411,6 +414,7 @@ class Video extends Component{
 										postType={"Videos"}
 										hideComments={this.hideComments}
 										targetDom={this.props.targetDom}
+										isGuestProfile={this.props.isGuestProfile}
 									/> 
 								</CommentsContainer>
 							</li>:null
@@ -444,39 +448,35 @@ class Video extends Component{
 
 				<OptionsContainer>
 					<ul style={{paddingTop:"10px"}}>
-						{this.props.isGuestProfile==false &&(
-							<React.Fragment>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>this.createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={{listStyle:"none",marginBottom:"20px"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",marginLeft:"5%"}}>
-												<LoyaltyIcon 
-													style={{fontSize:30,color:"white"}}
-												/>
-											</li>
-											<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-												Stamp
-											</li>
-										</ul>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>this.createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={{listStyle:"none",marginBottom:"20px"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginLeft:"5%"}}>
+										<LoyaltyIcon 
+											style={{fontSize:30,color:"white"}}
+										/>
 									</li>
-								</a>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>this.setState({displayComments:!this.state.displayComments})} 
-										style={{listStyle:"none",marginBottom:"20px"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",marginLeft:"5%"}}>
-												<ChatIcon
-													style={{fontSize:30,color:"white"}}
-												/>
-											</li>
-											<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-												Comments
-											</li>
-										</ul>
+									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+										Stamp
 									</li>
-								</a>
-							</React.Fragment>
-						)}
+								</ul>
+							</li>
+						</a>
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>this.setState({displayComments:!this.state.displayComments})} 
+								style={{listStyle:"none",marginBottom:"20px"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginLeft:"5%"}}>
+										<ChatIcon
+											style={{fontSize:30,color:"white"}}
+										/>
+									</li>
+									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+										Comments
+									</li>
+								</ul>
+							</li>
+						</a>
 
 
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -494,26 +494,23 @@ class Video extends Component{
 								</ul>
 							</li>
 						</a>
-
-						{this.props.isGuestProfile==false &&(
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>this.setState({
-													displayApproveDisapproveIndicator:!this.state.displayApproveDisapproveIndicator
-												})}
-									 style={{listStyle:"none",marginBottom:"20px"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",marginLeft:"5%"}}>
-											<PollIcon
-												style={{fontSize:30,color:"white"}}
-											/>
-										</li>
-										<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
-											Poll
-										</li>
-									</ul>
-								</li>
-							</a>
-						)}
+						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+							<li onClick={()=>this.setState({
+												displayApproveDisapproveIndicator:!this.state.displayApproveDisapproveIndicator
+											})}
+								 style={{listStyle:"none",marginBottom:"20px"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",marginLeft:"5%"}}>
+										<PollIcon
+											style={{fontSize:30,color:"white"}}
+										/>
+									</li>
+									<li style={{listStyle:"none",color:"white",fontSize:"10px"}}>
+										Poll
+									</li>
+								</ul>
+							</li>
+						</a>
 
 						{(this.props.pageType=="personalProfile" && this.props.isOwnPostViewing==true) &&(
 							<>

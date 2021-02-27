@@ -93,53 +93,57 @@ const ImageContainer=(props)=>{
 	}
 
 	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		let confirmationResponse;
-		let dataResponse;
-
-		if(displayStampEffect==false){
-			const {confirmation,data}=await addStampPost(
-												props.imageData._id,
-												"personal",
-												"Images",
-												userId,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												personalInformation.accessToken
-											);
-			confirmationResponse=confirmation;
-			dataResponse=data;
-
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
 		}else{
-			const {confirmation,data}=await unStampPost(
-												props.imageData._id,
-												"personal",
-												"Images",
-												userId,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												personalInformation.accessToken
-											);
-			confirmationResponse=confirmation;
-			dataResponse=data;
-			
-		}
+			let confirmationResponse;
+			let dataResponse;
 
-		if(confirmationResponse=="Success"){
-			if(displayStampEffect==false)
-				changeDisplayStampEffect(true);
-			else
-				changeDisplayStampEffect(false);
-		}else{
-			const {statusCode}=dataResponse;
-			if(statusCode==401){
-				await refreshTokenApiCallHandle(
-						personalInformation.refreshToken,
-						personalInformation.id,
-						createOrRemoveStampEffect,
-						dispatch,
-						{},
-						false
-					);
+			if(displayStampEffect==false){
+				const {confirmation,data}=await addStampPost(
+													props.imageData._id,
+													"personal",
+													"Images",
+													userId,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+
 			}else{
-				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+				const {confirmation,data}=await unStampPost(
+													props.imageData._id,
+													"personal",
+													"Images",
+													userId,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+				
+			}
+
+			if(confirmationResponse=="Success"){
+				if(displayStampEffect==false)
+					changeDisplayStampEffect(true);
+				else
+					changeDisplayStampEffect(false);
+			}else{
+				const {statusCode}=dataResponse;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							createOrRemoveStampEffect,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+				}
 			}
 		}
 	}
@@ -205,26 +209,26 @@ const ImageContainer=(props)=>{
 									<ul>
 										<li id="postOptionsLI" style={{listStyle:"none",marginBottom:"2%"}}>
 											<ul style={{padding:"0px"}}>
-												{props.imageData.isCrownedPost==true?
-													<a style={{textDecoration:"none"}}href="javascript:void(0);">
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-															<CrownIconContainer>
-																<Icon 
-																	id="crownIcon"
-																	icon={crownIcon}
-																	style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
-																/>
-															</CrownIconContainer>
-														</li>
-													</a>:null
-												}
-												{isGuestProfile==false &&(
-													<a style={{textDecoration:"none"}}href="javascript:void(0);">
-														<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ButtonCSS}>
-																Stamp
-														</li>
-													</a>
-												)}
+												{/*
+													{props.imageData.isCrownedPost==true?
+														<a style={{textDecoration:"none"}}href="javascript:void(0);">
+															<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+																<CrownIconContainer>
+																	<Icon 
+																		id="crownIcon"
+																		icon={crownIcon}
+																		style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
+																	/>
+																</CrownIconContainer>
+															</li>
+														</a>:null
+													}
+												*/}
+												<a style={{textDecoration:"none"}}href="javascript:void(0);">
+													<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ButtonCSS}>
+															Stamp
+													</li>
+												</a>
 
 												{(props.profileType=="personalProfile" && props.isOwnProfile==true) &&(
 													<>
@@ -292,6 +296,7 @@ const ImageContainer=(props)=>{
 													postType={"Images"}
 													hideComments={hideComments}
 													targetDom={props.targetDom}
+													isGuestProfile={isGuestProfile}
 												/>
 											</CommentContainer>
 									}

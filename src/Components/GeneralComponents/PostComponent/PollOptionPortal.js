@@ -144,7 +144,8 @@ const PollOptionPortal=(props)=>{
 		closeModal,
 		displayApproveModal,
 		postType,
-		targetDom
+		targetDom,
+		isGuestProfile
 	}=props;
 
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -231,6 +232,14 @@ const PollOptionPortal=(props)=>{
 		changeIsProcessingSubmittion(false);
 	}
 
+	const triggerPollOptionCreation=()=>{
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
+		}else{
+			changeDisplayCreateComment(true)
+		}
+	}
+
 
 	return createPortal(
 		<React.Fragment>
@@ -253,7 +262,7 @@ const PollOptionPortal=(props)=>{
 									<InputContainer
 										 placeholder="Click here and tell everyone why you think this post isnt fake news"
 										 style={{width:"80%",marginLeft:"10%"}}
-										 onClick={()=>changeDisplayCreateComment(true)}
+										 onClick={()=>triggerPollOptionCreation()}
 									/>
 								</li>
 								<hr/>
@@ -269,7 +278,7 @@ const PollOptionPortal=(props)=>{
 									<InputContainer
 										 placeholder="Click here and tell everyone why you think this post is fake news"
 										 style={{width:"80%",marginLeft:"10%"}}
-										 onClick={()=>changeDisplayCreateComment(true)}
+										 onClick={()=>triggerPollOptionCreation()}
 									/>
 								</li>
 								<hr/>

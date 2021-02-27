@@ -31,6 +31,7 @@ export const SymposiumContainer=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
+	overflow:hidden;
 
 	@media screen and (max-width:1370px){
     	#postOptionsLI{
@@ -418,20 +419,28 @@ export const ChatAndIndustryInformationContainer=styled.div`
 
 export const ArrowDownContainer=styled.div`
 	position:fixed;
-	left:40%;
+	left:50%;
 	top:80%;
 	z-index:39;
 	cursor:pointer;
-
+	border-radius:5px;
+	background-color:white;
+	border-radius:50%;
+	display:flex;
+	justify-content:center;
+	@media screen and (max-width:1370px){
+		left:45%;
+	}
 	@media screen and (max-width:650px){
-		left:25% !important;
+		left:40% !important;
 	}
 	@media screen and (max-width:740px) and (max-height:420px){
 	 	left:40% !important;
     }
 
-  animation: bounce 2s infinite;
-  @keyframes bounce {
+
+    animation: glowing 1300ms infinite, bounce 2s infinite;
+  	@keyframes bounce {
         0%, 20%, 50%, 80%, 100% {
           transform: translateY(0);
         }
@@ -441,7 +450,12 @@ export const ArrowDownContainer=styled.div`
         60% {
           transform: translateY(-15px);
         }
-  }
+	}
+    @keyframes glowing {
+	      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+	      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+	      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+	  }
 `;
 
 export const PostContainerTEst=styled.div`

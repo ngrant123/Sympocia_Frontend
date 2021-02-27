@@ -226,6 +226,17 @@ class CommentsContainer extends Component{
 		})
 	}
 
+	triggerReply=(data,index)=>{
+		if(this.props.isGuestProfile){
+			alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+		}else{
+			this.setState({
+				displayReplyCreation:true,
+				keyToDisplayReplyCreation:data._id,
+				commentIndex:index
+			}) 												
+		}
+	}
 	commentComponent=(data,index)=>{
 		
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
@@ -258,8 +269,7 @@ class CommentsContainer extends Component{
 							null
 						}
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.setState({displayReplyCreation:true,keyToDisplayReplyCreation:data._id,commentIndex:index})} 
-																		style={{listStyle:"none",display:"inline-block"}}>
+							<li onClick={()=>this.triggerReply(data,index)} style={{listStyle:"none",display:"inline-block"}}>
 								Reply
 							</li>
 						</a>
@@ -336,10 +346,20 @@ class CommentsContainer extends Component{
 		})
 	}
 
+	triggerDisplayAddComment=()=>{
+		if(this.props.isGuestProfile){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
+		}else{
+			this.setState({
+				creationCommentExtended:true
+			})
+		}
+	}
+
 	createCommentUI=()=>{
 		return <>
 					{this.state.creationCommentExtended==false?
-						<InputContainer onClick={()=>this.setState({creationCommentExtended:true})} 
+						<InputContainer onClick={()=>this.triggerDisplayAddComment()} 
 							placeholder="Add a comment"
 						/>:
 						<>

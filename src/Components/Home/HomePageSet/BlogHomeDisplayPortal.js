@@ -321,49 +321,52 @@ const BlogHomeDisplayPortal=(props)=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
 		let confirmationResponse;
 		let dataResponse;
-
-		if(displayStampEffect==false){
-			const {confirmation,data}=await addStampPost(
-												props.selectedBlog._id,
-												"personal",
-												"Blogs",
-												props.personalId,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												personalInformation.accessToken
-											);
-			confirmationResponse=confirmation;
-			dataResponse=data;
+		if(isGuestProfile==true){
+			alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 		}else{
-			const {confirmation,data}=await unStampPost(
-												props.selectedBlog._id,
-												"personal",
-												"Blogs",
-												props.personalId,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												personalInformation.accessToken
-											);
-			confirmationResponse=confirmation;
-			dataResponse=data;
-		}
-
-		if(confirmationResponse=="Success"){
-			if(displayStampEffect==false)
-				changeDisplayStampEffect(true);
-			else
-				changeDisplayStampEffect(false);
-		}else{
-			const {statusCode}=dataResponse;
-			if(statusCode==401){
-				await refreshTokenApiCallHandle(
-						personalInformation.refreshToken,
-						personalInformation.id,
-						createOrRemoveStampEffect,
-						dispatch,
-						{},
-						false
-					);
+			if(displayStampEffect==false){
+				const {confirmation,data}=await addStampPost(
+													props.selectedBlog._id,
+													"personal",
+													"Blogs",
+													props.personalId,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												);
+				confirmationResponse=confirmation;
+				dataResponse=data;
 			}else{
-				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+				const {confirmation,data}=await unStampPost(
+													props.selectedBlog._id,
+													"personal",
+													"Blogs",
+													props.personalId,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+			}
+
+			if(confirmationResponse=="Success"){
+				if(displayStampEffect==false)
+					changeDisplayStampEffect(true);
+				else
+					changeDisplayStampEffect(false);
+			}else{
+				const {statusCode}=dataResponse;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							createOrRemoveStampEffect,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+				}
 			}
 		}
 	}
@@ -428,6 +431,7 @@ const BlogHomeDisplayPortal=(props)=>{
 							postId={props.selectedBlog._id}
 							postType="Blogs"
 							targetDom={props.targetDom}
+							isGuestProfile={isGuestProfile}
 						/>
 					)}
 				</React.Fragment>
@@ -444,6 +448,7 @@ const BlogHomeDisplayPortal=(props)=>{
 				postType={"Blogs"}
 				hideComments={hideComments}
 				targetDom={props.targetDom}
+				isGuestProfile={isGuestProfile}
 			/>
 		)
 	}
@@ -529,32 +534,30 @@ const BlogHomeDisplayPortal=(props)=>{
 									</li>
 								</ul>
 							</li>
-							{isGuestProfile==false &&(
-								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
-											<LoyaltyIcon
-												style={{fontSize:30}}
-											/>
-										</li>
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px"}}>
+									<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+										<LoyaltyIcon
+											style={{fontSize:30}}
+										/>
+									</li>
 
-										<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} style={ShadowButtonCSS}>
-											<PollIcon
-												style={{fontSize:"30"}}
-											/>
-										</li>
+									<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} style={ShadowButtonCSS}>
+										<PollIcon
+											style={{fontSize:"30"}}
+										/>
+									</li>
 
-										<li onClick={()=>changeDisplayCommentsContainer(true)} style={ShadowButtonCSS}>
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#585858" fill="none" stroke-linecap="round" stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-											  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-											  <line x1="8" y1="9" x2="16" y2="9" />
-											  <line x1="8" y1="13" x2="14" y2="13" />
-											</svg>
-										</li>
-									</ul>
-								</li>
-							)}
+									<li onClick={()=>changeDisplayCommentsContainer(true)} style={ShadowButtonCSS}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#585858" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+										  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+										  <line x1="8" y1="9" x2="16" y2="9" />
+										  <line x1="8" y1="13" x2="14" y2="13" />
+										</svg>
+									</li>
+								</ul>
+							</li>
 							<hr/>
 							<li style={{listStyle:"none",marginTop:"2%"}}>
 								<ul style={{padding:"0px"}}>

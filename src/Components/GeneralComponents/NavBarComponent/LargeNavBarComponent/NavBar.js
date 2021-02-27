@@ -318,38 +318,43 @@ const NavBar=(pageProps)=>{
 		return(
 			<>
 				<TestContainaer> 
-					<div style={{marginLeft:"-7%",marginRight:"5%"}}>
-						<ul style={{padding:"0px"}}>
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={RouteOptionCSS}>
-									<NavBarButton>
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<AccountCircleIcon/>
-										</li>
+					{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
+						<Link style={{...RouteOptionCSS,borderRadius:"5px",marginLeft:"-5%",marginRight:"5%",color:"white"}} to='/signup'>
+							Sign Up
+						</Link>:
+						<div style={{marginLeft:"-7%",marginRight:"5%"}}>
+							<ul style={{padding:"0px"}}>	
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={RouteOptionCSS}>
+										<NavBarButton>
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												<AccountCircleIcon/>
+											</li>
 
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											Me
-										</li>
-									</NavBarButton>
-								</button>
+											<li style={{listStyle:"none",display:"inline-block"}}>
+												Me
+											</li>
+										</NavBarButton>
+									</button>
 
-								<ul class="dropdown-menu">
-									<li>
-										<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
-									</li>
-									<li>
-										<Link onClick={()=>logoutUser()} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
-											Logout
-										</Link>
-									</li>
-									<hr/>
-									<li style={{cursor:"pointer",paddingLeft:"10px"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
-										Send opinion
-									</li>
-								</ul>
-							</div>
-						</ul>
-					</div>
+									<ul class="dropdown-menu">
+										<li>
+											<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
+										</li>
+										<li>
+											<Link onClick={()=>logoutUser()} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
+												Logout
+											</Link>
+										</li>
+										<hr/>
+										<li style={{cursor:"pointer",paddingLeft:"10px"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
+											Send opinion
+										</li>
+									</ul>
+								</div>
+							</ul>
+						</div>
+					}
 
 					<NotificationIconContainer displayNotificationIndicator={displayNotificationIndicator} onClick={()=>fetchNotificationData()}>
 						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-urgent" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -426,6 +431,8 @@ const NavBar=(pageProps)=>{
 		}
 	}
 
+
+
 	return(
 		<Container>
 			{displayNotifications==true &&(
@@ -474,7 +481,10 @@ const NavBar=(pageProps)=>{
 
 										<ul class="dropdown-menu">
 											<li>
-												<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
+												{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
+													<Link to='/signup'>Sign Up</Link>:
+													<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
+												}
 											</li>
 											<li>
 												<p style={{cursor:"pointer",paddingLeft:"12%",marginTop:"5%"}}

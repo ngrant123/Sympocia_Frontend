@@ -190,6 +190,7 @@ const ImageInformation=(props)=>{
 								postId={props.imageInformation._id}
 								postType="Images"
 								targetDom={props.targetDom}
+								isGuestProfile={props.isGuestProfile}
 							/>:null
 						}
 						<ul id="postLIContainer" style={{padding:"0px",width:"90%"}}>
@@ -238,24 +239,20 @@ const ImageInformation=(props)=>{
 									)}
 								</ul>
 							</li>
-							{props.isGuestProfile==false && (
-								<>
-									<ul style={{padding:"0px",marginTop:"2%"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
-												<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
-											</li>
-										</a>
+							<ul style={{padding:"0px",marginTop:"2%"}}>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li id="approvesPostLI" onClick={()=>displayApproved()} style={ButtonCSS}>
+										<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
+									</li>
+								</a>
 
 
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
-												<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
-											</li>
-										</a>
-									</ul>
-								</>
-							)}
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li id="disapprovePostLI" onClick={()=>displayUnApprove()} style={ButtonCSS}>
+										<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
+									</li>
+								</a>
+							</ul>
 						</ul>
 						<p style={{width:"90%",fontSize:"40px"}}>
 							<b>
@@ -266,7 +263,7 @@ const ImageInformation=(props)=>{
 							{props.imageInformation.description}
 						 </p>
 
-						 {(props.isMobileTrue!=true && props.isGuestProfile==false)==true &&(
+						 {props.isMobileTrue!=true &&(
 						 	 <ul style={{padding:"0px",marginTop:"5px"}}>
 							 	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								 	<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>

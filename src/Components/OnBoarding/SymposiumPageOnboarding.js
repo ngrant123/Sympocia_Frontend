@@ -78,11 +78,6 @@ const SymposiumPageOnboarding=({closeModal})=>{
 	const [displaySecondPage,changeSecondDisplayPage]=useState(false);
 	const [displayThirdPage,changesThirdDisplayPage]=useState(false);
 
-	useEffect(()=>{
-		const parentContainer=document.getElementById("extendedSymposiumContainer");
-		parentContainer.style.overflow="hidden";
-	},[]);
-
 	const displayFirstPageHandle=()=>{
 		changeFirstDisplayPage(true);
 		changeSecondDisplayPage(false);
@@ -102,8 +97,6 @@ const SymposiumPageOnboarding=({closeModal})=>{
 	}
 
 	const onBoardingCloseModal=async()=>{
-		const parentContainer=document.getElementById("extendedSymposiumContainer");
-		parentContainer.style.overflow="auto";
 		const {confirmation,data}=await completeOnboardingSymposiumPage(personalInformationId);
 		if(confirmation=="Success")
 			closeModal();

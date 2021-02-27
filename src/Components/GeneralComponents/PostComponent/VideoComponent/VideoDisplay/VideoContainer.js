@@ -106,6 +106,7 @@ const VideoContainer=(data)=>{
 					postId={data.videoData._id}
 					postType={"Videos"}
 					targetDom={data.targetDom}
+					isGuestProfile={isGuestProfile}
 				/>
 			)}
 

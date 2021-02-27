@@ -258,50 +258,53 @@ const RegularPostContainer=(props)=>{
 	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
 			let confirmationResponse;
 		let dataResponse;
-
-		if(displayStampEffect==false){
-			const {confirmation,data}=await addStampPost(
-												postData._id,
-												"personal",
-												"RegularPosts",
-												personalId,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												personalInformation.accessToken
-											);
-			confirmationResponse=confirmation;
-			dataResponse=data;
-
+		if(isGuestProfile==true){
+			alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 		}else{
-			const {confirmation,data}=await unStampPost(
-												postData._id,
-												"personal",
-												"RegularPosts",
-												personalId,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												personalInformation.accessToken
-											);
-			confirmationResponse=confirmation;
-			dataResponse=data;
-		}
+			if(displayStampEffect==false){
+				const {confirmation,data}=await addStampPost(
+													postData._id,
+													"personal",
+													"RegularPosts",
+													personalId,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												);
+				confirmationResponse=confirmation;
+				dataResponse=data;
 
-		if(confirmationResponse=="Success"){
-			if(displayStampEffect==false)
-				changeDisplayStampEffect(true);
-			else
-				changeDisplayStampEffect(false);
-		}else{
-			const {statusCode}=dataResponse;
-			if(statusCode==401){
-				await refreshTokenApiCallHandle(
-						personalInformation.refreshToken,
-						personalInformation.id,
-						createOrRemoveStampEffect,
-						dispatch,
-						{},
-						false
-					);
 			}else{
-				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+				const {confirmation,data}=await unStampPost(
+													postData._id,
+													"personal",
+													"RegularPosts",
+													personalId,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+			}
+
+			if(confirmationResponse=="Success"){
+				if(displayStampEffect==false)
+					changeDisplayStampEffect(true);
+				else
+					changeDisplayStampEffect(false);
+			}else{
+				const {statusCode}=dataResponse;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							createOrRemoveStampEffect,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+				}
 			}
 		}
 	}
@@ -345,6 +348,7 @@ const RegularPostContainer=(props)=>{
 						postId={postData._id}
 						postType="RegularPost"
 						targetDom={targetDom}
+						isGuestProfile={isGuestProfile}
 					/>:null
 				}
 				{displayMobileUI==true?
@@ -391,34 +395,30 @@ const RegularPostContainer=(props)=>{
 												<p style={{marginRight:"5%",maxWidth:"50%",maxHeight:"20px",overflow:"hidden"}}>
 													<b>{firstName}</b>
 												</p>
-												{isGuestProfile==false &&(
-													<React.Fragment>
-														<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
-															<LoyaltyIcon
-																style={{fontSize:20}}
-															/>
-														</li>
-														<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-															  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-															  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-															  <line x1="8" y1="9" x2="16" y2="9" />
-															  <line x1="8" y1="13" x2="14" y2="13" />
-															</svg>
-														</li>
-														<li onClick={()=>changeDisplayPostApprovalAndSymposium(!displayPostApprovalAndSymposiumInfo)} 
-															style={ShadowButtonCSS}>
-															{displayPostApprovalAndSymposiumInfo==false?
-																<ExpandMoreIcon
-																	style={{fontSize:20}}
-																/>
-																:<ExpandLessIcon
-																	style={{fontSize:20}}
-																/>
-															}
-														</li>
-													</React.Fragment>
-												)}
+												<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+													<LoyaltyIcon
+														style={{fontSize:20}}
+													/>
+												</li>
+												<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+													  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+													  <line x1="8" y1="9" x2="16" y2="9" />
+													  <line x1="8" y1="13" x2="14" y2="13" />
+													</svg>
+												</li>
+												<li onClick={()=>changeDisplayPostApprovalAndSymposium(!displayPostApprovalAndSymposiumInfo)} 
+													style={ShadowButtonCSS}>
+													{displayPostApprovalAndSymposiumInfo==false?
+														<ExpandMoreIcon
+															style={{fontSize:20}}
+														/>
+														:<ExpandLessIcon
+															style={{fontSize:20}}
+														/>
+													}
+												</li>
 
 												{(profileType=="personalProfile" && isOwnProfile==true) &&(
 													<React.Fragment>
@@ -487,6 +487,7 @@ const RegularPostContainer=(props)=>{
 											postType={"RegularPosts"}
 											hideComments={hideComments}
 											targetDom={targetDom}
+											isGuestProfile={isGuestProfile}
 										/>
 									}
 								</PostInformationContainer>
