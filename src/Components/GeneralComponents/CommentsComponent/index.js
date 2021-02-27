@@ -72,6 +72,7 @@ class CommentsContainer extends Component{
 
 	constructor(props){
 		super(props);
+		console.log(props);
 		this.state={
 			displayResponses:false,
 			displayCommentsOrVideoResponses:true,
@@ -115,6 +116,7 @@ class CommentsContainer extends Component{
 			<CommentContainer
 				postType={this.props.postType}
 				postId={this.props.postId}
+				isGuestProfile={this.props.isGuestProfile}
 			/>:
 			<VideoResponseContainer
 				postType={this.props.postType}
@@ -122,6 +124,7 @@ class CommentsContainer extends Component{
 				displayCreationPrompt={this.state.createVideoResponses}
 				closeVideoCreationModal={this.closeModal}
 				targetContainer={this.props.targetDom}
+				isGuestProfile={this.props.isGuestProfile}
 			/>
 	}
 
@@ -191,6 +194,16 @@ class CommentsContainer extends Component{
 		)
 	}
 
+	triggerDisplayVideoComments=()=>{
+		if(this.props.isGuestProfile==true){
+			 alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
+		}else{
+			this.setState({
+				createVideoResponses:!this.state.createVideoResponses
+			})
+		}
+	}
+
 
 	render(){
 		return(
@@ -206,7 +219,7 @@ class CommentsContainer extends Component{
 							</li>
 
 
-							<li onClick={()=>this.setState({createVideoResponses:!this.state.createVideoResponses})}
+							<li onClick={()=>this.triggerDisplayVideoComments()}
 																 style={{listStyle:"none",display:"inline-block"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									{this.state.displayCommentsOrVideoResponses==false?

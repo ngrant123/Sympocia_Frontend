@@ -414,6 +414,7 @@ const MobileUI=(props)=>{
 							postType={"Videos"}
 							hideComments={hidePostDisplayInformationContainer}
 							targetDom={targetDom}
+							isGuestProfile={isGuestProfile}
 						/>
 					</li>:
 					<React.Fragment>
@@ -438,21 +439,17 @@ const MobileUI=(props)=>{
 									)}
 								</ul>
 							</li>
-							{isGuestProfile==false &&(
-								<React.Fragment>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="approvesPostLI" onClick={()=>displayPollModal(true)} style={ButtonCSS}>
-											<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
-										</li>
-									</a>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li id="approvesPostLI" onClick={()=>displayPollModal(true)} style={ButtonCSS}>
+									<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> Approve Post
+								</li>
+							</a>
 
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li id="disapprovePostLI" onClick={()=>displayPollModal(false)} style={ButtonCSS}>
-											<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
-										</li>
-									</a>
-								</React.Fragment>
-							)}
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li id="disapprovePostLI" onClick={()=>displayPollModal(false)} style={ButtonCSS}>
+									<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> Mark as Fake News
+								</li>
+							</a>
 						</ul>
 
 						<p style={{width:"90%",fontSize:"40px"}}>
@@ -484,50 +481,53 @@ const MobileUI=(props)=>{
 	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		let confirmationResponse;
 		let dataResponse;
-
-		if(displayStampEffect==false){
-			const {confirmation,data}=await addStampPost(
-												video._id,
-												"personal",
-												"Videos",
-												personalInformation.id,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												personalInformation.accessToken
-											);
-			confirmationResponse=confirmation;
-			dataResponse=data;
-
+		if(isGuestProfile==true){
+			alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 		}else{
-			const {confirmation,data}=await unStampPost(
-												video._id,
-												"personal",
-												"Videos",
-												personalInformation.id,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												personalInformation.accessToken
-											);
-			confirmationResponse=confirmation;
-			dataResponse=data;
-		}
+			if(displayStampEffect==false){
+				const {confirmation,data}=await addStampPost(
+													video._id,
+													"personal",
+													"Videos",
+													personalInformation.id,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												);
+				confirmationResponse=confirmation;
+				dataResponse=data;
 
-		if(confirmationResponse=="Success"){
-			if(displayStampEffect==false)
-				changeDisplayStampEffect(true);
-			else
-				changeDisplayStampEffect(false);
-		}else{
-			const {statusCode}=dataResponse;
-			if(statusCode==401){
-				await refreshTokenApiCallHandle(
-						personalInformation.refreshToken,
-						personalInformation.id,
-						createOrRemoveStampEffect,
-						dispatch,
-						{},
-						false
-					);
 			}else{
-				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+				const {confirmation,data}=await unStampPost(
+													video._id,
+													"personal",
+													"Videos",
+													personalInformation.id,
+													isAccessTokenUpdated==true?updatedAccessToken:
+													personalInformation.accessToken
+												);
+				confirmationResponse=confirmation;
+				dataResponse=data;
+			}
+
+			if(confirmationResponse=="Success"){
+				if(displayStampEffect==false)
+					changeDisplayStampEffect(true);
+				else
+					changeDisplayStampEffect(false);
+			}else{
+				const {statusCode}=dataResponse;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							createOrRemoveStampEffect,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+				}
 			}
 		}
 	}
@@ -615,27 +615,23 @@ const MobileUI=(props)=>{
 						{displayInformation==false && displayComments==false && (
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"20px"}}>
-									{isGuestProfile==false && (
-										<React.Fragment>
-											<a href="javascript:void(0);">
-												<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
-													<LoyaltyIcon
-														style={{fontSize:30}}
-													/>
-												</li>
-											</a>
-											<a href="javascript:void(0);">
-												<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-													  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-													  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-													  <line x1="8" y1="9" x2="16" y2="9" />
-													  <line x1="8" y1="13" x2="14" y2="13" />
-													</svg>
-												</li>
-											</a>
-										</React.Fragment>
-									)}
+									<a href="javascript:void(0);">
+										<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+											<LoyaltyIcon
+												style={{fontSize:30}}
+											/>
+										</li>
+									</a>
+									<a href="javascript:void(0);">
+										<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+											  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+											  <line x1="8" y1="9" x2="16" y2="9" />
+											  <line x1="8" y1="13" x2="14" y2="13" />
+											</svg>
+										</li>
+									</a>
 									
 									{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
 										<>

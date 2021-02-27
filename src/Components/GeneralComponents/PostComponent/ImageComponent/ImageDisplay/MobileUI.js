@@ -216,6 +216,7 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 					postType={"Images"}
 					hideComments={hidePostDisplayInformationContainer}
 					targetDom={targetDom}
+					isGuestProfile={isGuestProfile}
 				/>
 			</CommentContainer>
 		)
@@ -355,6 +356,16 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 	const closeVideoDescriptionDisplayModal=()=>{
 		changeVideoDescriptionDisplay(false);
 	}
+
+	const triggerStampDisplay=()=>{
+		if(isGuestProfile==true){
+			alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+		}else{
+			createOrRemoveStampEffect({
+				isAccessTokenUpdated:false
+			})
+		}
+	}
 	return (
 		<React.Fragment>
 			{displayVideoDescriptionDisplay==true &&(
@@ -424,27 +435,24 @@ const MobileUI=({closePostModal,imgData,targetDom,deletePost,pageType,isOwnPostV
 								<hr/>
 							<li style={{listStyle:"none"}}>
 							<ul style={{padding:"20px"}}>
-								{isGuestProfile==false && (
-									<>
-										<a href="javascript:void(0);">
-											<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
-												<LoyaltyIcon
-													style={{fontSize:30}}
-												/>
-											</li>
-										</a>
-										<a href="javascript:void(0);">
-											<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-												  <line x1="8" y1="9" x2="16" y2="9" />
-												  <line x1="8" y1="13" x2="14" y2="13" />
-												</svg>
-											</li>
-										</a>
-									</>
-								)}
+								<a href="javascript:void(0);">
+									<li onClick={()=>triggerStampDisplay()} style={ShadowButtonCSS}>
+										<LoyaltyIcon
+											style={{fontSize:30}}
+										/>
+									</li>
+								</a>
+
+								<a href="javascript:void(0);">
+									<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+										  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+										  <line x1="8" y1="9" x2="16" y2="9" />
+										  <line x1="8" y1="13" x2="14" y2="13" />
+										</svg>
+									</li>
+								</a>
 								
 								{(pageType=="personalProfile" && isOwnPostViewing==true) &&(
 									<>

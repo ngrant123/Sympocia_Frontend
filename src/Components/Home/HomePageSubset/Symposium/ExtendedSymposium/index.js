@@ -297,7 +297,7 @@ class Symposium extends Component{
   										this.props.match.params.symposiumName,
   									   	this.state.postCount,
   									   	profileId
-									   	);
+									);
   		
   		if(confirmation=="Success"){
   			const {
@@ -394,7 +394,7 @@ class Symposium extends Component{
 	  handleScroll=()=>{
 	  	if(this.state.isLoading!=true){
 		  	if(this.state.handleScroll!=false){
-
+		  		document.getElementById("extendedSymposiumContainer").style.overflow="auto";
 			  	document.getElementById("postChatInformation").style.overflow="visible";
 			  	document.getElementById("postChatInformation").style.top="-20%";
 			  	document.getElementById("postChatInformation").style.filter="blur(0)";
@@ -989,8 +989,7 @@ class Symposium extends Component{
 
 	arrowIndicatorButton=()=>{
 		return <ArrowDownContainer id="arrowIndicator" onClick={()=>this.handleScroll()}>
-					<p style={{color:"#C8B0F4"}}>Click here to enter symposium </p>
-					<svg style={{marginLeft:"35%"}} xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-down-circle"
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-down-circle"
 					 width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#C8B0F4"
 					  fill="none" stroke-linecap="round" stroke-linejoin="round">
 					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>

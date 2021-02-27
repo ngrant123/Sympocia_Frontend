@@ -61,7 +61,7 @@ const MobilePostOptionsPortal=(props)=>{
 		isSymposiumFollowed,
 		followUnfollowSymposium,
 		displayPopularVideos,
-		selectedSymposiumTitle
+		symposium
 	}=props;
 	console.log(props);
 
@@ -170,8 +170,8 @@ const MobilePostOptionsPortal=(props)=>{
 						<li onClick={()=>followUnfollowSymposium({isAccessTokenUpdated:false})}
 							style={{listStyle:"none"}}>
 							{isSymposiumFollowed==false?
-						 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
-						 		<p>Unfollow {selectedSymposiumTitle} Symposium</p>
+						 		<p>Follow {symposium} Symposium</p>:
+						 		<p>Unfollow {symposium} Symposium</p>
 						 	}
 						</li>
 					</a>

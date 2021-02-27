@@ -126,7 +126,7 @@ const ConstructSuggestedSymposium=({personalInformation,previousProps})=>{
 		}
 
 		return <SuggestedSymposiumsContainer>
-					<b> Suggested syposiums </b>
+					<b> Suggested symposiums </b>
 					{selectedSymposiums.map(data=>
 						<div id="suggestedSymposiumLI" onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)}
 							 style={{...SuggestedSymposiumsCSS,background:data.backgroundColor}}>
