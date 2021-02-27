@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 
@@ -73,11 +73,15 @@ const ButtonCSS={
 }
 
 const SymposiumPageOnboarding=({closeModal})=>{
-const personalInformationId=useSelector(state=>state.personalInformation.id);
-
+	const personalInformationId=useSelector(state=>state.personalInformation.id);
 	const [displayFirstPage,changeFirstDisplayPage]=useState(true);
 	const [displaySecondPage,changeSecondDisplayPage]=useState(false);
 	const [displayThirdPage,changesThirdDisplayPage]=useState(false);
+
+	useEffect(()=>{
+		const parentContainer=document.getElementById("extendedSymposiumContainer");
+		parentContainer.style.overflow="hidden";
+	},[]);
 
 	const displayFirstPageHandle=()=>{
 		changeFirstDisplayPage(true);
@@ -98,6 +102,8 @@ const personalInformationId=useSelector(state=>state.personalInformation.id);
 	}
 
 	const onBoardingCloseModal=async()=>{
+		const parentContainer=document.getElementById("extendedSymposiumContainer");
+		parentContainer.style.overflow="auto";
 		const {confirmation,data}=await completeOnboardingSymposiumPage(personalInformationId);
 		if(confirmation=="Success")
 			closeModal();

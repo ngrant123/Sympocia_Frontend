@@ -323,9 +323,11 @@ const VideoPostModal=(props)=>{
 									{headerVideo.description}
 								</p>
 							</HeaderTextsContainer>
-							<p id="symposiumText" style={ImageLabelCSS}>
-								{headerVideo.industriesUploaded[0].industry}
-							</p>
+							{/*
+								<p id="symposiumText" style={ImageLabelCSS}>
+									{headerVideo.industriesUploaded[0].industry}
+								</p>
+							*/}
 						</HeaderDescriptionContainer>
 
 

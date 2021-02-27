@@ -974,7 +974,7 @@ class Symposium extends Component{
 		  state: {
 		  	selectedSymposium:data.selectedSymposiums,
 			symposiums:data.symposiums,
-			profileId:this.props.location.state==null?this.props.profileId:this.props.location.state
+			profileId:this.props.location.state==null?this.props.profileId:this.props.location.state.profileId
 		  }
 		});
 		window.location.reload(false);
@@ -1257,11 +1257,9 @@ class Symposium extends Component{
 					targetDom={"extendedSymposiumContainer"}
 				/>
 					{this.state.displayOnboarding==true &&(
-						<div onMouseEnter={()=>this.setState({handleScroll:false})} >
-							<SymposiumOnboarding
-								closeModal={this.closeOnboardingModal}
-							/>
-						</div>
+						<SymposiumOnboarding
+							closeModal={this.closeOnboardingModal}
+						/>
 					)}
 
 					{this.state.displayGuestOnboarding==true &&(
