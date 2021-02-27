@@ -1441,7 +1441,7 @@ class Symposium extends Component{
 						</>:<LoadingScreen isScrollEnabled={this.state.headerAnimation} isExtendedSymposium={true}/>
 					}
 				</PostsChatInformation>
-			</SymposiumContainer>
+			</SymposiumContainer> 
 		)
 	}
 }
