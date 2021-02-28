@@ -158,7 +158,7 @@ const PostsContainer=styled.div`
 const Posts=styled.div`
 	position:absolute;
 	width:100%;
-	height:90%;
+	height:100%;
 
 	@media screen and (max-width:450px){
 		margin-top:60% !important;
