@@ -478,6 +478,7 @@ class HomePageContainer extends Component{
 						{this.state.displayDesktopUI==true &&(
 							<PageIndicator>
 								<ul>
+									
 									<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
 										<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
 											<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
@@ -509,12 +510,12 @@ class HomePageContainer extends Component{
 												</li>
 												<hr/>
 												
-												<li style={{listStyle:"none",marginBottom:"10%"}}>
-													<PersonPinIcon
-														style={{fontSize:40}}
-													/>
-												</li>
 												{/*
+													<li style={{listStyle:"none",marginBottom:"10%"}}>
+														<PersonPinIcon
+															style={{fontSize:40}}
+														/>
+													</li>
 													<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
 														<ul style={{padding:"0px"}}>
 															{this.state.recruitsPost!=null?

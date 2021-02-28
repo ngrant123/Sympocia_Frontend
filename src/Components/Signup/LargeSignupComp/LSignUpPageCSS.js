@@ -77,6 +77,10 @@ export const BodyContainer= styled.div`
 		#companyCardTitle{
 			font-size:20px !important;
 		}
+		#CardContainer{
+			left:15% !important;
+			top:10% !important;
+		}
 	}
 	@media screen and (max-width:840px) {
 		#personalCardContainer{
@@ -84,6 +88,10 @@ export const BodyContainer= styled.div`
 		}
 		#companyCardContainer{
 			
+		}
+		#CardContainer{
+			left:5% !important;
+			top:10% !important;
 		}
 	}
 
