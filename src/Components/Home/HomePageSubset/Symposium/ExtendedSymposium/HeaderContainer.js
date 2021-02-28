@@ -424,7 +424,7 @@ const HeaderContainer=(props)=>{
 
 							*/}
 		  					
-		  					<li id="selectedSymposiumTitle" style={{width:displayDesktopUI==true?"40%":"60%",overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px"}}>
+		  					<li id="selectedSymposiumTitle" style={{width:"60%",overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",overflow:"hidden"}}>
 		  						{displayDesktopUI==true?<><b>{selectedSymposiumTitle}</b></>:<>{selectedSymposiumTitle}</>}
 		  					</li>
 
