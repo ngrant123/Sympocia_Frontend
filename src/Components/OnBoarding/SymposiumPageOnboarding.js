@@ -117,7 +117,7 @@ const SymposiumPageOnboarding=({closeModal})=>{
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<p style={{fontSize:"30px"}}>
-										The bread of butter of Sympocia. Welcome to the <b>Symposium</b>
+										The bread and butter of Sympocia. Welcome to the <b>Symposium</b>
 									</p>
 								</li>
 								{/*
@@ -141,14 +141,14 @@ const SymposiumPageOnboarding=({closeModal})=>{
 							What is the symposium? We envisioned it as a place where you can join and be welcomed by a group of people 
 							immediately. We are finally bringing the social part of social media back. There are numerous symposiums 
 							but the goal is for you to join a select few and get the most out of it. Learn something new and most importantly
-							connect with everyone here. Now we know its hard to connect with randoms so we've added a few features to help out
+							connect with everyone there. Now we know its hard to connect with randoms so we've added a few features to help out
 						</p>
 
 						<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
 							<b>Symposium Features:</b>
 						</p>
 						<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
-							Other site post cookie cutter templates for all of their "communities". Not us. Each symposium has different 
+							Other sites post cookie cutter templates for all of their "communities". Not us. Each symposium has different 
 							features that allows you to express yourself in different ways.
 						</p>
 						<img id="firstOnboardingImage" 
@@ -196,7 +196,7 @@ const SymposiumPageOnboarding=({closeModal})=>{
 								<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
 									You thought we were done? Nope. Another one. You can also find highlighted questions 
 									that allows you to show off your best stuff to others. Great for exposure or starting 
-									a conversation with other people who catches your interest
+									a conversation with other people who catches your interest.
 								</p>
 								<img src={SymposiumHighlightedQuestions} style={{width:"90%"}}/>
 						
@@ -241,14 +241,13 @@ const SymposiumPageOnboarding=({closeModal})=>{
 									<b>Post Options:</b>
 								</p>
 								<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
-									And finall we got post options. Want to see only blogs for this symposium? Easy 
-									click the blog option button. Want to create a video call with your friends in this symposium
-									and watch something together? Easy click the video call button. We honestly got it all :)
+									And finally we got post options. Want to see only blogs for this symposium? Easy 
+									click the blog option button. What about videos? Got that also. We honestly got it all :)
 								</p>
 								<img src={SymposiumPostOptions} style={{width:"90%"}}/>
 
 								<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px",marginTop:"5%"}}> 
-									And there you have have. Finished :)
+									And there you have it. Finished :)
 								</p>
 
 								<hr/>

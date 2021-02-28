@@ -75,7 +75,7 @@ const GuestOnBoarding=({targetDom,closeModal})=>{
 				<hr/>
 				<p>
 				 	We've noticed that you're currently not signed up to our platform. Thats okay we don't mind just go at
-					your own pace but unfortunately you're signed in as a guest. Thats means you can't go anything like commenting, posting,
+					your own pace but unfortunately you're signed in as a guest. Thats means you can't go anything like comment, post,
 					and all the other good stuff :( But feel free to explore and everything
 				</p>
 

@@ -443,7 +443,7 @@ const FirstSection=(props)=>{
                   <FirstContainerContents>
                       <FirstContainerInformational>
                             <p  id="header1" style={{fontSize:"40px",marginBottom:"10%"}}>
-                                <b>Finally.... a platform where you can just be yourself</b>
+                                <b>Finally a platform where you can just be yourself</b>
                             </p>
                             <p>
                                 We've all been there. You've asked yourself "I really like this photo but will 

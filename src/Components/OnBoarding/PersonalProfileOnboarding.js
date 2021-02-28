@@ -113,7 +113,7 @@ const PersonalProfileOnboarding=({closeModal})=>{
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<p style={{fontSize:"30px"}}>
-										<b> Hold on...wait a minute slow down a bit</b>
+										<b> Hold on wait a minute</b>
 									</p>
 								</li>
 								<li id="closeOptionIconLI" onClick={()=>onBoardingCloseModal()}
@@ -130,7 +130,7 @@ const PersonalProfileOnboarding=({closeModal})=>{
 						</li>
 						<hr/>
 						<p> 
-							We both know how excited you are to check out your <b> profile page</b> but lets us give 
+							We both know how excited you are to check out your <b> profile page</b> but let us give 
 							you a quick run down first
 						</p>
 
@@ -138,9 +138,9 @@ const PersonalProfileOnboarding=({closeModal})=>{
 							<b>Friends Gauge:</b>
 						</p>
 						<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
-							We've all been in that situation before... You have a picture but you want to upload it to only 
+							We've all been in that situation before. You have a picture but you want to upload it to only 
 							certain people right? Maybe you dont want people to know that you collect rocks on the side. Now theres 
-							a way to do this. Add levels and allow only certain people access to you secrets :). 
+							a way to do that. Add levels and allow only certain people access to you secrets :). 
 							<hr/>
 
 							Here at sympocia you have a max of <b>100</b> recruits (friends) per profile. We do this because we want this platform
@@ -188,7 +188,7 @@ const PersonalProfileOnboarding=({closeModal})=>{
 									<b>Champion:</b>
 								</p>
 								<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
-									Have you have wanted to show appreciation for someone other than temporary shoutouts? 
+									Have you ever wanted to show appreciation for someone other than temporary shoutouts? 
 									Now you can by championing someone. Upload a picture of someone you want to champion then 
 									add a description and their sympocia,tik tok, or ig page.
 								</p>

@@ -147,7 +147,7 @@ const ExplorePageOnboarding=({closeModal})=>{
 						<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
 							This is what the entrance to the arena looks like. It's a concept that we came up 
 							with where the best content wins. Interested in learning more about it? 
-							Click on the button on the screen and find out :) But before you do that thats one more thing 
+							Click on the button on the screen and find out :) But before you do there's one more thing 
 							we want to show you about the explore page. Click next to continue.
 						</p>
 						<img id="arenaIcon" src={ArenaEnter} style={{marginLeft:"15%",width:"60%",height:"45%"}}/>
@@ -190,9 +190,9 @@ const ExplorePageOnboarding=({closeModal})=>{
 									<b>Explore Post Options:</b>
 								</p>
 								<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}>
-									You've ever went on an explore page and saw content that was the complete opposite
+									Have you ever went on an explore page and saw content that was the complete opposite
 									of what you like? Or maybe you're scrolling and see a promoted post for a "social media model".
-									Annoying right? We'll not here. We only curate items that we think you would like to see 
+									Annoying right? Well not here. We only curate items that we think you would like to see 
 									not what we want you to see. The post option button allows you to switch between different kinds of 
 									posts. Pretty self explanatory right? 
 								</p>
