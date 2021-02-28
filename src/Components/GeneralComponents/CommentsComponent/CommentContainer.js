@@ -228,7 +228,7 @@ class CommentsContainer extends Component{
 
 	triggerReply=(data,index)=>{
 		if(this.props.isGuestProfile){
-			alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
 		}else{
 			this.setState({
 				displayReplyCreation:true,
