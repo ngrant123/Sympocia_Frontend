@@ -48,11 +48,11 @@ const FourthSection=()=>{
 	return(
 		<Container>
 			<p id="headerTexts" style={{fontSize:"30px"}}>
-				<b>Heres a preview of the product </b>
+				<b>Heres a preview</b>
 			</p>
 			<p> 
 				We have a lot of features that we havent talked about here so when you 
-				have a chance clicked the signup or explore button and check it out.
+				have a chance click the signup or explore button and check it out.
 			</p>
 			<img id="previewImage" src={previewImage}
 			 style={{borderRadius:"5px",width:"60%",height:"450px",boxShadow:"1px 5px 5px 5px #d5d5d5",marginLeft:"20%"}}

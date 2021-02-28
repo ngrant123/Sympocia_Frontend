@@ -161,7 +161,7 @@ const ThirdSection=(props)=>{
 						<p style={{marginLeft:"10%"}}>
 							Whether we like it or not, we’re all addicted to social media. We love connecting 
 							with people, learning, and growing from each other. But currently we live 
-							In an era where misinformation is the new normal. Where being fake is the new
+							in an era where misinformation is the new normal. Where being fake is the new
 							normal. Where getting clout is the main goal not authenticity. 
 							Sympocia allows you to truly be authentic and doesn’t force you to fit into this 
 							mold that other platforms have. 
