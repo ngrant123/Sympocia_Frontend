@@ -139,7 +139,7 @@ class ImageCreation extends Component{
 									</button>
 								</li>
 								<input type="file" name="img" id="uploadPictureFile" style={{opacity:"0"}}  onChange={()=>this.handleUploadPicture()} 
-							        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
+							        accept="image/x-png,image/gif,image/jpeg" 
 							        name="attachments">
 							    </input>
 
