@@ -3,6 +3,10 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import ArenaEnter from "../../designs/img/ArenaEnter.png";
 import ExplorePagePostOptions from "../../designs/img/ExplorePagePostOptions.png";
+import MobileHomeButton from "../../designs/img/MobileHomeButton.png";
+import SymposiumListButton from "../../designs/img/SymposiumListButton.png";
+import ExplorePageButton from "../../designs/img/ExplorePageButton.png";
+
 import {completeOnboardingExplorePage} from "../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {useSelector} from "react-redux";
 
@@ -29,9 +33,27 @@ const Container=styled.div`
     }
 
     @media screen  and (max-width:700px){
+    	#firstPageOnboarding{
+    		margin-left:0% !important;
+    		padding:20px !important;
+    		align-items:normal !important;
+    	}
     	#arenaIcon{
     		width:110% !important;
     		margin-left:-5% !important;
+    	}
+
+    	#parentOptionsContainer{
+    		flex-direction:column !important;
+    	}
+    	#optionsDiv{
+    		margin-left:0% !important;
+    	}
+    	#specificImageOptionsDiv{
+    		flex-direction:column !important;
+    	}
+    	#text{
+    		width:90% !important;
     	}
     }
 
@@ -70,7 +92,8 @@ const ButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  marginRight:"2%"
+  marginRight:"2%",
+  cursor:"pointer"
 }
 
 const CloseButtonCSS={
@@ -79,10 +102,15 @@ const CloseButtonCSS={
 	marginLeft:"50%",
 	cursor:"pointer"
 }
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0"
+}
 
 const ExplorePageOnboarding=({closeModal})=>{
 
 	const personalInformationId=useSelector(state=>state.personalInformation.id);
+	const personalFirstName=useSelector(state=>state.personalInformation.firstName);
 
 	const [displayFirstPage,changeFirstDisplayPage]=useState(true);
 	const [displaySecondPage,changeSecondDisplayPage]=useState(false);
@@ -98,6 +126,12 @@ const ExplorePageOnboarding=({closeModal})=>{
 		changeFirstDisplayPage(false);
 		changeSecondDisplayPage(true);
 		changesThirdDisplayPage(false);
+	}
+
+	const displayThirdPageHandle=()=>{
+		changeFirstDisplayPage(false);
+		changeSecondDisplayPage(false);
+		changesThirdDisplayPage(true);
 	}
 
 	const onBoardingCloseModal=async()=>{
@@ -116,63 +150,85 @@ const ExplorePageOnboarding=({closeModal})=>{
 			/>
 			<Container>
 				{displayFirstPage && (
-					<ul style={{padding:"30px"}}>
-						<li style={{listStyle:"none"}}> 
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<p style={{fontSize:"30px"}}>
-										<b>Beautiful isnt it?</b>
-									</p>
-								</li>
-								<li onClick={()=>onBoardingCloseModal()} id="closeOptionIconLI" style={CloseButtonCSS}>
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
-										width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
-										fill="none" stroke-linecap="round" stroke-linejoin="round">
-										<path stroke="none" d="M0 0h24v24H0z"/>
-										<circle cx="12" cy="12" r="9" />
-										<path d="M10 10l4 4m0 -4l-4 4" />
-									</svg>
-								</li>
-							</ul>
-						</li>
-						<hr/>
-						<p> 
-							Welcome to the <b> explore page</b>. Let us give 
-							you a quick run down first
+					<div id="firstPageOnboarding" style={{marginTop:"20%",display:"flex",alignItems:"center",flexDirection:"column",marginLeft:"-2%"}}>
+						<p style={{fontSize:"40px"}}>
+							<b>Welcome to Sympocia</b>
 						</p>
+						<hr/>
+						<p>
+							<b>I'm so glad that you made a profile {personalFirstName}</b>
+						</p>	
+						<p>Click on the start onboarding button below to get started </p>
+						<hr/>
+						<p onClick={()=>displaySecondPageHandle()} style={ButtonCSS}> Start Onboarding</p>
+					</div>
+				)}
 
-						<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
-							<b>Arena Entrance:</b>
+				{displaySecondPage && (
+					<div style={{padding:"30px",display:"flex",flexDirection:"column"}}>
+						<p style={{fontSize:"30px"}}>
+							<b>Beautiful isnt it?</b>
 						</p>
-						<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
-							This is what the entrance to the arena looks like. It's a concept that we came up 
-							with where the best content wins. Interested in learning more about it? 
-							Click on the button on the screen and find out :) But before you do there's one more thing 
-							we want to show you about the explore page. Click next to continue.
-						</p>
-						<img id="arenaIcon" src={ArenaEnter} style={{marginLeft:"15%",width:"60%",height:"45%"}}/>
-						<hr/>
+						<hr style={HorizontalLineCSS}/>
+						<p>Welcome to the explore page and to sympocia. Let us give you a quick run down first</p>
+						<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%",marginTop:"5%"}}>
+							<b>Navigation Options:</b>
+						</p>	
+						<div id="parentOptionsContainer" style={{display:"flex",flexDirection:"row"}}>
+							<p>Desktop</p>
+							<div id="optionsDiv" style={{display:"flex",flexDirection:"column",marginLeft:"20%"}}>
+								<div id="specificImageOptionsDiv" style={{display:"flex",flexDirection:"row"}}>
+									<img src={ExplorePageButton} style={{width:"70px",height:"70px"}}/>
+									<p id="text" style={{width:"40%",marginLeft:"10%"}}>
+										This option directs you to the explore page and will in later features allow
+										you to refresh you current explore page posts
+									</p>
+								</div>
+								<div id="specificImageOptionsDiv" style={{display:"flex",flexDirection:"row"}}>
+									<img src={SymposiumListButton} style={{width:"70px",height:"70px"}}/>
+									<p id="text" style={{width:"40%",marginLeft:"10%"}}>
+										Shows you a list of you’re followed symposiums and also ones you haven’t followed yet
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div id="parentOptionsContainer" style={{display:"flex",flexDirection:"row",marginTop:"10%"}}>
+							<p>Mobile</p>
+							<div id="optionsDiv" style={{display:"flex",flexDirection:"column",marginLeft:"20%"}}>
+								<div id="specificImageOptionsDiv" style={{display:"flex",flexDirection:"row"}}>
+									<img src={MobileHomeButton} style={{width:"80px",height:"70px"}}/>
+									<p  id="text" style={{width:"40%",marginLeft:"10%"}}>
+										Displays a drop down of all you options: profile,home,notifications etc etc
+									</p>
+								</div>
+							</div>
+						</div>
+
+
+						<hr style={HorizontalLineCSS}/>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
-									Step 1 of 2
+									Step 2 of 3
 								</li>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>onBoardingCloseModal()} style={ButtonCSS}>
-										Close
+									<li onClick={()=>displayFirstPageHandle()} style={ButtonCSS}>
+										Previous
 									</li>
 								</a>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>displaySecondPageHandle()} style={ButtonCSS}>
+									<li onClick={()=>displayThirdPageHandle()} style={ButtonCSS}>
 										Next
 									</li>
 								</a>
 							</ul>
 						</li>
-					</ul>
+
+					</div>
 				)}
 
-				{displaySecondPage && (
+				{displayThirdPage &&(
 					<ul style={{padding:"30px"}}>
 						<li onClick={()=>onBoardingCloseModal()} id="closeOptionIconLI" style={{...CloseButtonCSS,marginLeft:"85%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
@@ -190,11 +246,8 @@ const ExplorePageOnboarding=({closeModal})=>{
 									<b>Explore Post Options:</b>
 								</p>
 								<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}>
-									Have you ever went on an explore page and saw content that was the complete opposite
-									of what you like? Or maybe you're scrolling and see a promoted post for a "social media model".
-									Annoying right? Well not here. We only curate items that we think you would like to see 
-									not what we want you to see. The post option button allows you to switch between different kinds of 
-									posts. Pretty self explanatory right? 
+									We only curate items that we think you would like to see not what we want you to see. 
+									The post option button allows you to switch between different kinds of posts. Pretty self explanatory right?
 								</p>
 
 								<img src={ExplorePagePostOptions} style={{width:"90%"}}/>
@@ -207,10 +260,10 @@ const ExplorePageOnboarding=({closeModal})=>{
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
-											Step 2 of 2
+											Step 3 of 3
 										</li>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayFirstPageHandle()} style={ButtonCSS}>
+											<li onClick={()=>displaySecondPageHandle()} style={ButtonCSS}>
 												Previous
 											</li>
 										</a>

@@ -109,65 +109,72 @@ class PersonalSignUp extends Component{
 	}
 
 	handleSignUpButton=async()=>{
-		this.setState({
-			isCreatingProfile:true
-		})
-
-		const firstName=document.getElementById("firstName").value;
-		const lastName=document.getElementById("lastName").value;
-		const email=document.getElementById("email").value;
-		const password=document.getElementById("password").value;
-
-		if(firstName==""||email==""||password==""){
-			alert('Your are missing a required field. Please enter a value');
+		if(this.state.isEmailValid==false){
+			alert('The email that you have typed is already used unfortunately by someone else. Please enter another one or sign in if its yours');
 		}else{
-			const profile={
-				firstName:firstName,
-				lastName:lastName,
-				email:email,
-				isInvestor:false,
-				password:password
- 			}
-			const {confirmation,data}=await createProfile(profile);
+			this.setState({
+				isCreatingProfile:true
+			})
 
-			if(confirmation=="Success"){ 
-				const {message}=data;
-				const promises=[];  
-				const {
-					signInPersonalUser,
-					loginCompanyPage
-				}=this.props;
+			const firstName=document.getElementById("firstName").value;
+			const lastName=document.getElementById("lastName").value;
+			const email=document.getElementById("email").value;
+			const password=document.getElementById("password").value;
 
-				promises.push(signInPersonalUser({
-					...profile,
-					...message
-				}));
-			    promises.push(loginCompanyPage(false));
-
-			    Promise.all(promises).then(result=>{
-			    	
-			     	this.props.history.push({
-					  pathname:'/home'
-					})
-			    })
+			if(firstName==""||email==""||password==""){
+				alert('Your are missing a required field. Please enter a value');
 			}else{
-				const {statusCode,error}=data;
-				if(statusCode==400){
-					/*
-						let errorValidationResonse="";
-						for(var i=0;i<error.length;i++){
-							errorValidationResonse=errorValidationResonse+' '+error[i]+',';
-						}
-					*/
-					alert('Unfortunately an error has occured on using the credentials you supplied for. Please repeat the process and submit again');
+				const profile={
+					firstName:firstName,
+					lastName:lastName,
+					email:email,
+					isInvestor:false,
+					password:password
+	 			}
+				const {confirmation,data}=await createProfile(profile);
+
+				if(confirmation=="Success"){ 
+					const {message}=data;
+					const promises=[];  
+					const {
+						signInPersonalUser,
+						loginCompanyPage
+					}=this.props;
+
+					promises.push(signInPersonalUser({
+						...profile,
+						...message
+					}));
+				    promises.push(loginCompanyPage(false));
+
+				    Promise.all(promises).then(result=>{
+				    	
+				     	this.props.history.push({
+						  pathname:'/home'
+						})
+				    })
 				}else{
-					alert('Unfortunately an error has occured when creating your profile. Please try again later');
+					const {statusCode,error}=data;
+					if(statusCode==400){
+						/*
+							let errorValidationResonse="";
+							for(var i=0;i<error.length;i++){
+								errorValidationResonse=errorValidationResonse+' '+error[i]+',';
+							}
+						*/
+						alert('Unfortunately an error has occured on using the credentials you supplied for. Please repeat the process and submit again');
+					}else if(statusCode==401){
+						alert(error);
+					}else{
+						alert('Unfortunately an error has occured when creating your profile. Please try again later');
+					}
 				}
 			}
+			this.setState({
+				isCreatingProfile:false
+			})
+			
 		}
-		this.setState({
-			isCreatingProfile:false
-		})
 	}
 
 	checkIfEmailIsValid=async()=>{

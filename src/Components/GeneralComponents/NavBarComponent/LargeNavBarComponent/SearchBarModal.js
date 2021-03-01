@@ -76,6 +76,7 @@ const SearchButton=styled.textarea`
 	border-style:none;
 	text-align:center;
 	z-index:6;
+	white-space: nowrap;
 
 	border-style:solid;
 	border-width:2px;
@@ -152,7 +153,7 @@ class SearchBarModal extends Component{
 
 	search=()=>{
 		const searchQuery=document.getElementById("searchTextArea").value;
-		if(this.state.searchType!=null || searchQuery!=""){
+		if(this.state.searchType!=null && searchQuery!=""){
 			this.props.history.push({
 				pathname:`/search/${searchQuery}/${this.state.searchType}`,
 				state:{
@@ -176,7 +177,7 @@ class SearchBarModal extends Component{
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
 							<li id="searchContainerLI" style={{listStyle:"none",display:"inline-block",width:"75%"}}>
-								<SearchButton id="searchTextArea" placeholder="Search here..."/>
+								<SearchButton id="searchTextArea" placeholder="Search here (case-sensitive)"/>
 							</li>
 							<li id="optionLI" style={{listStyle:"none",marginTop:"2%"}}>
 								<div class="dropdown">

@@ -77,23 +77,34 @@ const SymposiumPageOnboarding=({closeModal})=>{
 	const [displayFirstPage,changeFirstDisplayPage]=useState(true);
 	const [displaySecondPage,changeSecondDisplayPage]=useState(false);
 	const [displayThirdPage,changesThirdDisplayPage]=useState(false);
+	const [displayFourthPage,changeFourthDisplayPage]=useState(false);
 
 	const displayFirstPageHandle=()=>{
 		changeFirstDisplayPage(true);
 		changeSecondDisplayPage(false);
 		changesThirdDisplayPage(false);
+		changeFourthDisplayPage(false);
 	}
 
 	const displaySecondPageHandle=()=>{
 		changeFirstDisplayPage(false);
 		changeSecondDisplayPage(true);
 		changesThirdDisplayPage(false);
+		changeFourthDisplayPage(false);
 	}
 
 	const displayThirdPageHandle=()=>{
 		changeFirstDisplayPage(false);
 		changeSecondDisplayPage(false);
 		changesThirdDisplayPage(true);
+		changeFourthDisplayPage(false);
+	}
+
+	const displayFourthPageHandle=()=>{
+		changeFirstDisplayPage(false);
+		changeSecondDisplayPage(false);
+		changesThirdDisplayPage(false);
+		changeFourthDisplayPage(true);
 	}
 
 	const onBoardingCloseModal=async()=>{
@@ -139,26 +150,17 @@ const SymposiumPageOnboarding=({closeModal})=>{
 						<hr/>
 						<p style={{fontSize:"15px"}}> 
 							What is the symposium? We envisioned it as a place where you can join and be welcomed by a group of people 
-							immediately. We are finally bringing the social part of social media back. There are numerous symposiums 
-							but the goal is for you to join a select few and get the most out of it. Learn something new and most importantly
-							connect with everyone there. Now we know its hard to connect with randoms so we've added a few features to help out
+							immediately. There are numerous symposiums but the goal is for you to join a select few and get the most out of it. 
+							Learn something new and most importantly
+							connect with everyone there. 
 						</p>
-
-						<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
-							<b>Symposium Features:</b>
-						</p>
-						<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
-							Other sites post cookie cutter templates for all of their "communities". Not us. Each symposium has different 
-							features that allows you to express yourself in different ways.
-						</p>
-						<img id="firstOnboardingImage" 
-							src={SymposiumFeatures} style={{width:"60%",height:"60%",marginLeft:"15%"}}
-						/>
+						<br/>
+						<p>Now we know its hard to connect with randoms so we've added a few features to help out</p>
 						<hr/>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
-									Step 1 of 3
+									Step 1 of 4
 								</li>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									<li onClick={()=>onBoardingCloseModal()} style={ButtonCSS}>
@@ -178,22 +180,48 @@ const SymposiumPageOnboarding=({closeModal})=>{
 
 				{displaySecondPage && (
 					<ul style={{padding:"30px"}}>
-						<li id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%"}}>
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
-								width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
-								fill="none" stroke-linecap="round" stroke-linejoin="round">
-								<path stroke="none" d="M0 0h24v24H0z"/>
-								<circle cx="12" cy="12" r="9" />
-								<path d="M10 10l4 4m0 -4l-4 4" />
-							</svg>
+						<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
+							<b>Symposium Specific Features:</b>
+						</p>
+						<p style={{marginBottom:"5%",fontSize:"15px"}}> 
+							Other sites post cookie cutter templates for all of their "communities". Not us. Each symposium has different 
+							features that allows you to express yourself in different ways. Here's an example of a the photography symposium 
+							features
+						</p>
+						<img id="firstOnboardingImage" 
+							src={SymposiumFeatures} style={{width:"60%",height:"60%",marginLeft:"15%"}}
+						/>
+						<hr/>
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
+									Step 2 of 4
+								</li>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>displayFirstPageHandle()} style={ButtonCSS}>
+										Previous
+									</li>
+								</a>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>displayThirdPageHandle
+										()} style={ButtonCSS}>
+										Next
+									</li>
+								</a>
+							</ul>
 						</li>
+					</ul>
+				)}
+
+				{displayThirdPage && (
+					<ul style={{padding:"30px"}}>
 
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
 									<b>Addition Features:</b>
 								</p>
-								<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
+								<p style={{marginBottom:"5%",fontSize:"15px"}}> 
 									You thought we were done? Nope. Another one. You can also find highlighted questions 
 									that allows you to show off your best stuff to others. Great for exposure or starting 
 									a conversation with other people who catches your interest.
@@ -204,15 +232,15 @@ const SymposiumPageOnboarding=({closeModal})=>{
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
-											Step 2 of 3
+											Step 3 of 4
 										</li>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayFirstPageHandle()} style={ButtonCSS}>
+											<li onClick={()=>displaySecondPageHandle()} style={ButtonCSS}>
 												Previous
 											</li>
 										</a>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayThirdPageHandle()} style={ButtonCSS}>
+											<li onClick={()=>displayFourthPageHandle()} style={ButtonCSS}>
 												Next
 											</li>
 										</a>
@@ -223,7 +251,7 @@ const SymposiumPageOnboarding=({closeModal})=>{
 					</ul>
 				)}
 
-				{displayThirdPage && (
+				{displayFourthPage &&(
 					<ul style={{padding:"30px"}}>
 						<li id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
@@ -240,13 +268,13 @@ const SymposiumPageOnboarding=({closeModal})=>{
 								<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
 									<b>Post Options:</b>
 								</p>
-								<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}> 
+								<p style={{marginBottom:"5%",fontSize:"15px"}}> 
 									And finally we got post options. Want to see only blogs for this symposium? Easy 
 									click the blog option button. What about videos? Got that also. We honestly got it all :)
 								</p>
 								<img src={SymposiumPostOptions} style={{width:"90%"}}/>
 
-								<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px",marginTop:"5%"}}> 
+								<p style={{marginBottom:"5%",fontSize:"15px",marginTop:"5%"}}> 
 									And there you have it. Finished :)
 								</p>
 
@@ -254,10 +282,10 @@ const SymposiumPageOnboarding=({closeModal})=>{
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
-											Step 3 of 3
+											Step 4 of 4
 										</li>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displaySecondPageHandle()} style={ButtonCSS}>
+											<li onClick={()=>displayThirdPageHandle()} style={ButtonCSS}>
 												Previous
 											</li>
 										</a>
