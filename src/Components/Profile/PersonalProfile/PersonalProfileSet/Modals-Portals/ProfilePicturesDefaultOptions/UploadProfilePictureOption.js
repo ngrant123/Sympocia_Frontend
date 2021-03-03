@@ -48,15 +48,20 @@ const UploadProfilePictureOption=({backButtonTrigger,uploadFile})=>{
 	const changeProfilePicture=()=>{
 		let reader=new FileReader();
 		const uploadedFile=document.getElementById("profilePictureFileUpload").files[0];
-		reader.onloadend=async()=>{
-			const uploadedFile=reader.result;
-			changeUploadedImageSrc(uploadedFile);
-		}
-
-		if(uploadedFile!=null){
-			reader.readAsDataURL(uploadedFile);
+		const maxFileSize=250*1024;
+		if(uploadedFile.size>maxFileSize){
+			alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
 		}else{
-			alert('File not supported');
+			reader.onloadend=async()=>{
+				const uploadedFile=reader.result;
+				changeUploadedImageSrc(uploadedFile);
+			}
+
+			if(uploadedFile!=null){
+				reader.readAsDataURL(uploadedFile);
+			}else{
+				alert('File not supported');
+			}
 		}
 	}
 

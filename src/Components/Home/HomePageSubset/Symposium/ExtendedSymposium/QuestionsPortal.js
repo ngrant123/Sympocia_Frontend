@@ -360,19 +360,36 @@ const QuestionsPortal=(props)=>{
 	}
 
 
-	const uploadFile=()=>{
+	const uploadFile=(postType)=>{
 		const reader=new FileReader();
 		const uploadedFile=document.getElementById("uploadFile").files[0];
+		let proceedWithUploadIndicator=true;
 
-		reader.onload=()=>{
-			changeSelectedPost(reader.result);
-			changeDisplayUploadScreen(false);
+		if(postType=="Images"){
+			const maxFileSize=250*1024;
+			if(uploadedFile.size>maxFileSize){
+				alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
+				proceedWithUploadIndicator=false;
+			}
+		}else{
+			const maxSize=11*1024*1024;
+			if(uploadedFile.size>maxSize){
+				alert('Your file is too large. We only accept video descriptions that have a size of 11MB. You can go to quicktime (Mac) and lower the resolution there.');
+				proceedWithUploadIndicator=false;
+			}
 		}
 
-		if(uploadedFile!=null){
-			reader.readAsDataURL(uploadedFile);
-		}else{
-			alert('This type of file is unfortunatley not supported ')
+		if(proceedWithUploadIndicator==true){
+			reader.onload=()=>{
+				changeSelectedPost(reader.result);
+				changeDisplayUploadScreen(false);
+			}
+
+			if(uploadedFile!=null){
+				reader.readAsDataURL(uploadedFile);
+			}else{
+				alert('This type of file is unfortunatley not supported ')
+			}
 		}
 	}
 
@@ -395,7 +412,10 @@ const QuestionsPortal=(props)=>{
 												Upload Photo   
 											</li>
 										</ul>	
-									<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="image/x-png,image/gif,image/jpeg"></input>
+									<input type="file" name="img" id="uploadFile" 
+										style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile("Images")} 
+										accept="image/jpeg">
+									</input>
 								</li>
 							</>:
 							<li style={{listStyle:"none"}}>
@@ -451,7 +471,10 @@ const QuestionsPortal=(props)=>{
 											</li>
 										</ul>																			
 									</button>
-									<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="video/*"></input>
+									<input type="file" name="img" id="uploadFile" 
+										style={{position:"relative",opacity:"0",zIndex:"0"}} 
+										onChange={()=>uploadFile("Videos")} accept="video/*">
+									</input>
 								</li>
 							</>:
 							<li style={{listStyle:"none"}}>
@@ -513,30 +536,6 @@ const QuestionsPortal=(props)=>{
 												}
 											</ul>
 										</li>
-										{/*	
-											<li style={{marginRight:"2%",position:"relative",top:"-100px",listStyle:"none",display:"inline-block"}}>
-												Or
-											</li>
-											<li style={{width:"25%",position:"relative",top:"-100px",listStyle:"none",display:"inline-block",marginRight:"1%"}}>
-												<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																		borderColor:"#5298F8",
-																																		borderStyle:"solid",
-																																		borderWidth:"1px",
-																																		color:"white",
-																																		backgroundColor:"#5298F8"}}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-															<MicIcon/>
-														</li>
-
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-															Say it instead
-														</li>
-													</ul>																			
-												</button>
-												<input type="file" name="img" id="uploadFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadFile()} accept="image/x-png,image/gif,image/jpeg"></input>
-											</li>
-										*/}
 									</ul>
 								</li>
 							</React.Fragment>
