@@ -140,16 +140,21 @@ const VideoDescriptionPortal=(props)=>{
 	const handleUploadedVideoDescription=()=>{
 		let reader= new FileReader();
 		const videoDescription=document.getElementById("uploadedVideoDescription").files[0];
+		console.log(videoDescription);
+		const maxSize=11*1024*1024;
+		if(videoDescription.size>maxSize){
+			alert('Your file is too large. We only accept video descriptions that have a size of 11MB. You can go to quicktime (Mac) and lower the resolution there.');
+		}else{
+			reader.onloadend=()=>{
+				props.createVideoDescription(reader.result);
+			}
 
-		reader.onloadend=()=>{
-			props.createVideoDescription(reader.result);
-		}
-
-		if(videoDescription!=null){
-			reader.readAsDataURL(videoDescription);
-		}
-		else{
-			alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
+			if(videoDescription!=null){
+				reader.readAsDataURL(videoDescription);
+			}
+			else{
+				alert("Sorry but this type of video is not currently allowed. Change it to either mov,mp4 to continue");
+			}
 		}
 	}
 
@@ -179,7 +184,7 @@ const VideoDescriptionPortal=(props)=>{
 						</li>
 					</ul>																			
 				</button>
-				<input type="file" accept="video/*" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
+				<input type="file" accept="video/move,video/mp4" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
 					onChange={()=>handleUploadedVideoDescription()}>
 				</input>
 			</Container>
