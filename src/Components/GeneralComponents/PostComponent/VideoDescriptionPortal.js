@@ -184,7 +184,7 @@ const VideoDescriptionPortal=(props)=>{
 						</li>
 					</ul>																			
 				</button>
-				<input type="file" accept="video/move,video/mp4" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
+				<input type="file" accept="video/mp4,video/x-m4v,video/*" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
 					onChange={()=>handleUploadedVideoDescription()}>
 				</input>
 			</Container>

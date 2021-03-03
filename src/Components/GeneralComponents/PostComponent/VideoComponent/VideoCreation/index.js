@@ -108,7 +108,7 @@ const VideoOptionCSS={
 			{videoUploaded==null?
 				<React.Fragment>
 
-					<input type="file" accept="video/move,video/mp4" name="img" id="uploadVideoFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadVideo()}></input>
+					<input type="file" accept="video/mp4,video/x-m4v,video/*" name="img" id="uploadVideoFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadVideo()}></input>
 
 					<ul style={{padding:"0px",marginLeft:"20%",paddingTop:"10%",width:"70%"}}>
 						<p style={{fontSize:"25px"}}><b>Create your own video here with the click of a button</b> </p>
