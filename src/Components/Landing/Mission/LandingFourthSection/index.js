@@ -14,16 +14,9 @@ const Container = styled.div`
 	  width:70%;
 
 	  @media screen and (max-width:1370px){
-	  	font-size:20px;
-		#previewImage{
-			width:80% !important;
-		    margin-left:10% !important;
-		}
-	  }
-	  @media screen and (max-width:1370px){
 	  	font-size:15px;
 	  	justify-content:center;
-	  	margin-left:10%;
+	  	margin-left:20%;
 	  	width:60%;
 	  	#questionId{
 	  		font-size:15px !important;
@@ -34,6 +27,11 @@ const Container = styled.div`
 	  	#previewImage{
 			height:200px !important;
 		}
+	  }
+
+	  
+	  @media screen and (max-width:650px){
+	  	margin-left:10%;
 	  }
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
 		margin-top:20%;
@@ -132,7 +130,7 @@ const FourthSection=({history})=>{
 			<hr style={HorizontalLineCSS}/>
 			<CompanyInformationEndNotes>
 				<div style={{display:"flex",flexDirection:"row"}}>
-					<div id="companyInformation" style={{display:"flex",flexDirection:"column"}}>
+					<div id="companyInformation" style={{display:"flex",flexDirection:"column",marginRight:"70%"}}>
 						<p id="questionId" style={{fontSize:"18px"}}>
 							<b>Follow us</b>
 						</p>

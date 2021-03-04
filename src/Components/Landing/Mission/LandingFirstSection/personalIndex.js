@@ -218,7 +218,7 @@ const PageImageContainer=styled.div`
   display:flex;
   flex-direction:column;
 
-   @media screen and (max-width:750px){
+   @media screen and (max-width:1370px){
     align-items:center;
       #headerImage{
         width:200px !important;
@@ -229,15 +229,21 @@ const PageImageContainer=styled.div`
       }
     }
 
-
-    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-      #headerImage{
+    @media screen and (max-width:1370px) and (max-height:900px) and (orientation: landscape) {
+      margin-left:15%;
+       #headerImage{
         width:192px !important;
         height:225px!important;
       }
+
       #signedUpProfilesLI{
         height:90px !important;
       }
+    }
+
+
+    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
+      margin-left:0%;
     }
 `;
 const SignUpButton={

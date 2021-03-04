@@ -61,6 +61,11 @@ const ThirdContainerContents=styled.div`
 
   @media screen and (max-width:1370px){
     flex-direction:column;
+    margin-left:20%;
+  }
+
+  @media screen and (max-width:650px){
+    margin-left:10%;
   }
 
 `;
@@ -114,7 +119,7 @@ const PageImageContainer=styled.div`
 
   @media screen and (max-width:1370px){
   	align-items:normal;
-  	margin-left:0%;
+  	margin-left:15%;
     #amountOfUsersText{
       margin-top:0%;
     }
@@ -122,6 +127,10 @@ const PageImageContainer=styled.div`
       width:240px !important;
       height:225px!important;
     }
+  }
+
+  @media screen and (max-width:650px){
+  	margin-left:0%;
   }
 
     @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
