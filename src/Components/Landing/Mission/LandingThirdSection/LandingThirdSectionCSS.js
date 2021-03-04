@@ -7,6 +7,7 @@ export const ThirdContainer=styled.div`
   opacity:0;
   transition:.8s;
   padding-bottom:10%;
+  width:90%;
 
   @media screen and (max-width:1370px){
         #footerIcons{

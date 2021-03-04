@@ -8,7 +8,6 @@ export const SecondContainer = styled.div`
 
   display:flex:;
   flex-direction:column;
-  text-align:center;
   background-size: contain
   margin:auto;
   padding:0;  

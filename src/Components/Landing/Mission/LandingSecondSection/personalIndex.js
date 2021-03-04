@@ -100,7 +100,6 @@ const ArrowDownContainer=styled.div`
 const SecondContainerContents=styled.div`
   display:flex;
   flex-direction:row;
-  align-items: flex-start;
   @media screen and (max-width:1370px){
     flex-direction:column-reverse;
   }
@@ -112,6 +111,8 @@ const SecondContainerInformational=styled.div`
   display:flex;
   flex-direction:column;
   margin-right:10%;
+  justify-content:space-between;
+  align-items:flex-start;
 
   @media screen and (max-width:1370px){
       width:100%;
@@ -205,6 +206,10 @@ const DisplayTextButton={
     width:"80%"
 }
 
+const OLListCSS={
+  marginBottom:"5%"
+}
+
 /*
   Something about this solution looks naive and amateurish to me 
   so later in the future i'll change it but for now it is what it is 
@@ -233,55 +238,38 @@ const SecondSection=(props)=>{
             <SecondContainerContents>
                 <PageImageContainer>
                    <img id="image" src={LandingImage} 
-                    style={{width:"70%",height:"90%",left:"5%"}}
+                    style={{width:"70%",height:"90%",left:"5%",borderRadius:"50%",boxShadow:"1px 1px 2px #d5d5d5",}}
                    />
                 </PageImageContainer>
                 <SecondContainerInformational>
-                  <p id="PageHeader" style={{fontSize:"40px",width:"60%",borderTop:"5px solid #494949",marginLeft:"20%"}}> 
-                      <b>How are we different?</b>
+                  <p style={{color:"#C8B0F4",fontSize:"24px"}}>
+                    <b>Manifesto</b>
                   </p>
-                  <ul style={{padding:"0px",marginTop:"5%"}}> 
-                      <li id="firstListContainer" style={{listStyle:"none"}}>
-                          <ul style={{padding:"0px"}}>
-                              <li id="firstNumberModal" style={NumberBulletsIcon}>
-                                1
-                              </li>
-                              <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
-                                <p style={{color:"#3898ec"}}>
-                                  <b>New improved algorithm for images, videos, blogs, and regular posts </b>
-                                </p>
-                              </li>
-                          </ul>
-                      </li>
+                  <p style={{fontSize:"36px"}}>
+                    <b>How are we different?</b>
+                  </p>
+                  <p style={{marginBottom:"15%",color:"#5B5B5B",fontSize:"18px"}}>
+                    We've all been there. You've asked yourself "I really like this photo but will it get likes?"
+                    or "Will anyone care about my hobbies?". You've also asked yourself, "Why do I feel so alone after
+                    using social media?". We've asked ourselves these question also. Which is why we built Sympocia
+                  </p>
+                  <p style={{color:"#5298F8",fontSize:"18px"}}>Here’s some things that we offer:</p>
+                  <ol style={{color:"#5298F8",fontSize:"18px"}}>
+                    <li style={OLListCSS}>
+                      New improved algorithm for images, videos, blogs, and regular posts
+                    </li>
+                    <li style={OLListCSS}>
+                      More emphasis on creating real connections with people that you like
+                    </li>
 
-                      <li style={{listStyle:"none"}}>
-                         <ul style={{padding:"0px"}}>
-                              <li id="secondNumberModal" style={NumberBulletsIcon}>
-                                2
-                              </li>
-                              <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
-                                <p style={{marginLeft:"2%",color:"#3898ec"}}>
-                                  <b>More emphasis on creating real connections with people that you like</b>
-                                </p>
-                              </li>
-                          </ul>
-                      </li>
-
-                      <li style={{listStyle:"none"}}>
-                         <ul style={{padding:"0px"}}>
-                              <li id="thirdNumberModal" style={NumberBulletsIcon}>
-                                3
-                              </li>
-                              <li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
-                                <p style={{color:"#3898ec"}}>
-                                  <b>More control over posts than you ever had before</b>
-                                </p>
-                              </li>
-                          </ul>
-                      </li>
-                    </ul>
+                    <li style={OLListCSS}>
+                      More control over posts than you ever had before
+                    </li>
+                  </ol>
                 </SecondContainerInformational>
             </SecondContainerContents>
+
+            {/*
 
              <li id="footerIcons" style={{listStyle:"none"}}>
                 <ul style={{padding:"0px"}}>
@@ -303,7 +291,8 @@ const SecondSection=(props)=>{
                       </a>
                     </li>
                 </ul>
-            </li>
+              </li>
+            */}
          </SecondContainer>
 	)
 }
