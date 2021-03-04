@@ -7,6 +7,7 @@ import MobileUI from "./MobileUI.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector} from "react-redux";
 import PollOptionPortal from "../../PollOptionPortal.js";
+import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js"
 
 const Container=styled.div`
 	position:fixed;
@@ -99,6 +100,10 @@ const VideoContainer=(data)=>{
 	}
 	return(
 		<React.Fragment>
+			<FirstTimePostOnboarding
+				userId={personalId}
+				isGuestProfile={isGuestProfile}
+			/>
 			{displayPollOptionModal==true && (
 				<PollOptionPortal
 					closeModal={closePollModal}

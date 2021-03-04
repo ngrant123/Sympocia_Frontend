@@ -20,6 +20,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js"
 
 const Container=styled.div`
 `;
@@ -330,6 +331,10 @@ const RegularPostContainer=(props)=>{
 	<PostConsumer>
 		{userPostsInformation=>{
 			return <React.Fragment>
+				<FirstTimePostOnboarding
+					userId={personalId}
+					isGuestProfile={isGuestProfile}
+				/>
 				{displayDeleteConfirmation==true &&(
 					<DeletePostConfirmationPortal
 						postType={"Posts"}
