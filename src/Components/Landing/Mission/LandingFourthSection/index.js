@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import previewImage from '../../../../designs/img/PreviewPlatform.png';
+import {Link} from "react-router-dom";
 
 
 const Container = styled.div`
@@ -134,16 +135,25 @@ const FourthSection=({history})=>{
 						<p id="questionId" style={{fontSize:"18px"}}>
 							<b>Follow us</b>
 						</p>
-						<p>Instagram</p>
-						<p>Twitter</p>
+						<a href="https://www.instagram.com/sympocia/">
+							<p>Instagram</p>
+						</a>
+						<a href="https://twitter.com/sympocia">
+							<p>Twitter</p>
+						</a>
 					</div>
 
 					<div id="companyInformation"  style={{display:"flex",flexDirection:"column"}}>
 						<p id="questionId" style={{fontSize:"18px"}}>
 							<b>Company</b>
 						</p>
-						<p>Privacy Policy</p>
-						<p>Terms & Conditions</p>
+						<Link to={{pathname:"/privacyPolicy"}}>
+							<p>Privacy Policy</p>
+						</Link>
+
+						<Link to={{pathname:"/termsOfService"}}>
+							<p>Terms & Conditions</p>
+						</Link>
 					</div>
 				</div>
 				<div id="companySignUpDiv" style={{display:"flex",flexDirection:"row",height:"50px"}}>
