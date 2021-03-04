@@ -16,6 +16,23 @@ import {
 import {loginProfile} from "../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const Container=styled.div`
+  z-index:8;
+  position:fixed;
+  height:50%;
+  background-color:white;
+  z-index:12;
+  top:20%;
+  border-radius:5px;
+  width:30%;
+  left:35%;
+  padding:40px;
+  display:flex;
+  flex-direction:column;
+
+  @media screen and (max-width:1370px){
+    width:90% !important;
+    left:5% !important;
+  }
     @media screen and (max-width:600px){
         #loginBoxLI{
             display:none !important;
@@ -26,10 +43,11 @@ const Container=styled.div`
 const LoginBox=styled.textarea`
     position:relative;
     padding :.5em;
-    width:110%;
+    width:90%;
     height:50px;
     font-size:15px;
     background-color:white;
+    margin-bottom:5%;
 
     color:#848484;
     resize:none;
@@ -57,8 +75,8 @@ const Submit=styled.div`
   transition:8s;
   border-radius:5px;
   padding:20px;
-  margin-left:30%;
   margin-bottom:5%;
+  cursor:pointer;
 
    z-index:2;
    &:hover{
@@ -77,6 +95,16 @@ const Submit=styled.div`
     }
 `;
 
+const ShadowContainer = styled.div`
+  position:fixed;
+  width:200%;
+  height:100%;
+  left:-10%;
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  display:block;
+  z-index:8;
+`;
+
 
 const MobileButtonCSS={
    borderColor:"#C8B0F4",
@@ -87,6 +115,10 @@ const MobileButtonCSS={
    width:"40%",
    color:"white",
    borderRadius:"5px"
+}
+const HorizontalLineCSS={
+  marginLeft:"0",
+  marginRight:"0"
 }
 
 
@@ -158,7 +190,7 @@ const handleLoginClick=async(email,password,dispatch,history)=>{
 }
 
 
-const LoginUI=({history,displayMobileLoginTrigger})=>{
+const LoginUI=({closeModal,history,displayMobileLoginTrigger})=>{
 	const dispatch=useDispatch();
   const [displayMobileLogin,changeDisplayMobileLogin]=useState(false);
 
@@ -177,39 +209,27 @@ const LoginUI=({history,displayMobileLoginTrigger})=>{
 
 
   return (
+    <React.Fragment>
+      <ShadowContainer
+        onClick={()=>closeModal()}
+      />
       <Container>
-           <ul style={{padding:"0px"}}>
-              <li id="loginBoxLI" style={{listStyle:"none",display:"inline-block"}}>
-                  <LoginBox id="LoginEmail" placeholder="Email"/>
-              </li>
-              <li id="loginBoxLI" style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-                  <LoginBox id="LoginPassword" placeholder="Password"/>
-              </li>
-              {displayMobileLogin==true?
-                <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                  <li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-                      <Submit onClick={()=>displayMobileLoginTrigger()}>Login </Submit>
-                  </li>
-                </a>
-                :<React.Fragment>
-                    <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                      <li id="submitLI" style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-                          <Submit onClick ={() =>  handleLoginClick(  
-                                                    document.getElementById("LoginEmail").value,
-                                                    document.getElementById("LoginPassword").value,
-                                                    dispatch,
-                                                    history
-                                            )}>Login
-                           </Submit>
-                      </li>
-                    </a>
-                    <li style={{position:"relative",top:"-20px",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-                       <p onClick={()=>triggerResetPasswordDisplay(history)} style={{cursor:"pointer",color:"#5298F8"}}>Forgot password?</p>
-                    </li>
-                </React.Fragment>
-              }
-          </ul>
+        <LoginBox id="LoginEmail" placeholder="Email"/>
+        <LoginBox id="LoginPassword" placeholder="Password"/>
+        <Submit onClick ={() =>  handleLoginClick(  
+                                  document.getElementById("LoginEmail").value,
+                                  document.getElementById("LoginPassword").value,
+                                  dispatch,
+                                  history
+                          )}>Login
+        </Submit>
+        <hr style={HorizontalLineCSS}/>
+        <p onClick={()=>triggerResetPasswordDisplay(history)} style={{cursor:"pointer",color:"#5298F8"}}>
+          Forgot password?
+        </p>
       </Container>
+    </React.Fragment>
+
   )
 }
 export{

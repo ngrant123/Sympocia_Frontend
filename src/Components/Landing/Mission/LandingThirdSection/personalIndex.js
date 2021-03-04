@@ -55,7 +55,7 @@ const ArrowDownContainer=styled.div`
 
 const ThirdContainerContents=styled.div`
   display:flex;
-  flex-direction:row;
+  flex-direction:column;
   margin-left:10%;
   margin-top:10%;
 
@@ -67,11 +67,12 @@ const ThirdContainerContents=styled.div`
 
 const ThirdContainerInformational=styled.div`
   display:flex;
-  flex-direction:column;
+  flex-direction:row;
   margin-left:0%;
   margin-top:5%;
  	margin-right:5%;
   width:100%;
+  justify-content:space-between;
   @media screen and (max-width:1370px){
       width:90%;
       margin-left:-7%;
@@ -91,6 +92,8 @@ const ThirdContainerInformational=styled.div`
 const PageImageContainer=styled.div`
   display:flex;
   flex-direction:column;
+  align-items:center;
+  margin-top:5%;
    height:50%;
   @media screen and (max-width:1370px){
   	#image{
@@ -151,52 +154,96 @@ const ThirdSection=(props)=>{
 	return(
 			<ThirdContainer id="thirdContainer">
 				<ThirdContainerContents>
-					<ThirdContainerInformational>
-						<p id="textHeader" style={{fontSize:"40px",marginLeft:"10%",marginBottom:"5%",borderTop:"5px solid #494949"}}> 
-							<b>Why should you care?</b> 
-						</p>
-						<p style={{marginLeft:"10%",fontSize:"20px",marginBottom:"2%",color:"#b3b3b3"}}> 
-							That's the million dollar question right?
-					    </p>
-						<p style={{marginLeft:"10%"}}>
-							Whether we like it or not, we’re all addicted to social media. We love connecting 
-							with people, learning, and growing from each other. But currently we live 
-							in an era where misinformation is the new normal. Where being fake is the new
-							normal. Where getting clout is the main goal not authenticity. 
-							Sympocia allows you to truly be authentic and doesn’t force you to fit into this 
-							mold that other platforms have. 
-							<br/>
-							<b>
-								Just be yourself :)
-							</b>
-						</p>
+					<p style={{color:"#C8B0F4",fontSize:"24px"}}>
+	                   <b>Purpose</b>
+	                </p>
+	                <p style={{fontSize:"36px"}}>
+	                  <b>Why should you care?</b>
+	                </p>
+	                <ThirdContainerInformational>
+	                	<div style={{width:"20%"}}>
+	                		<p style={{fontSize:"18px"}}>
+	                			<b>Addiction</b>
+	                		</p>
+	                		<p style={{color:"#5B5B5B",fontSize:"18px"}}>
+	                			Whether we like it or not, we’re all addicted to social media.
+	                			We love connecting with people, learning, and growing from each other. 
+	                		</p>
+	                	</div>
 
-					</ThirdContainerInformational>
-					<PageImageContainer>
-			   			<img id="image" src={LandingImage} style={{width:"80%",height:"80%"}} />
+	                	<div style={{width:"20%"}}>
+	                		<p style={{fontSize:"18px"}}>
+	                			<b>Normality</b>
+	                		</p>
+	                		<p style={{color:"#5B5B5B",fontSize:"18px"}}>
+	                			But currently we live In an era where misinformation is the new normal.
+	                			Where being fake is the new normal. Where getting clout is the main goal not authenticity.
+	                		</p>
+	                	</div>
+
+	                	<div style={{width:"20%"}}>
+	                		<p style={{fontSize:"18px"}}>
+	                			<b>Solution</b>
+	                		</p>
+	                		<p style={{color:"#5B5B5B",fontSize:"18px"}}>
+	                			Sympocia allows you to truly be authentic and doesn’t force you to fit into this mold that other platforms have.
+								Just be yourself :) 
+	                		</p>
+	                	</div>
+	                </ThirdContainerInformational>
+                	<PageImageContainer>
+			   			<img id="image" src={LandingImage} style={{borderRadius:"50%",boxShadow:"1px 1px 2px #d5d5d5",width:"40%",height:"40%"}} />
 					</PageImageContainer>
+					{/*
+						<ThirdContainerInformational>
+							<p id="textHeader" style={{fontSize:"40px",marginLeft:"10%",marginBottom:"5%",borderTop:"5px solid #494949"}}> 
+								<b>Why should you care?</b> 
+							</p>
+							<p style={{marginLeft:"10%",fontSize:"20px",marginBottom:"2%",color:"#b3b3b3"}}> 
+								That's the million dollar question right?
+						    </p>
+							<p style={{marginLeft:"10%"}}>
+								Whether we like it or not, we’re all addicted to social media. We love connecting 
+								with people, learning, and growing from each other. But currently we live 
+								in an era where misinformation is the new normal. Where being fake is the new
+								normal. Where getting clout is the main goal not authenticity. 
+								Sympocia allows you to truly be authentic and doesn’t force you to fit into this 
+								mold that other platforms have. 
+								<br/>
+								<b>
+									Just be yourself :)
+								</b>
+							</p>
+
+						</ThirdContainerInformational>
+						<PageImageContainer>
+				   			<img id="image" src={LandingImage} style={{width:"80%",height:"80%"}} />
+						</PageImageContainer>
+					*/}
 				</ThirdContainerContents>
-				<li id="footerIcons" style={{listStyle:"none",marginLeft:"50%"}}>
-	                <ul style={{padding:"0px"}}>
-	                    <li onClick={()=>props.displaySelectedPage(0)} style={{listStyle:"none",display:"inline-block"}}>
-	                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-	                        <RadioButtonUncheckedIcon/>
-	                      </a>
-	                    </li>
+				{/*
+					<li id="footerIcons" style={{listStyle:"none",marginLeft:"50%"}}>
+		                <ul style={{padding:"0px"}}>
+		                    <li onClick={()=>props.displaySelectedPage(0)} style={{listStyle:"none",display:"inline-block"}}>
+		                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+		                        <RadioButtonUncheckedIcon/>
+		                      </a>
+		                    </li>
 
-	                    <li onClick={()=>props.displaySelectedPage(1)} style={{listStyle:"none",display:"inline-block"}}>
-	                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-	                        <RadioButtonUncheckedIcon/>
-	                      </a>
-	                    </li>
+		                    <li onClick={()=>props.displaySelectedPage(1)} style={{listStyle:"none",display:"inline-block"}}>
+		                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+		                        <RadioButtonUncheckedIcon/>
+		                      </a>
+		                    </li>
 
-	                    <li style={{listStyle:"none",display:"inline-block"}}>
-	                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-	                        <FiberManualRecordIcon/>
-	                      </a>
-	                    </li>
-	                </ul>
-	            </li>
+		                    <li style={{listStyle:"none",display:"inline-block"}}>
+		                      <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+		                        <FiberManualRecordIcon/>
+		                      </a>
+		                    </li>
+		                </ul>
+		            </li>
+				*/}
 			</ThirdContainer>
 	)
 }
