@@ -307,6 +307,18 @@ export const completeOnboardingSymposiumPage=async(id)=>{
 	}
 }
 
+export const completeOnboardingPostPage=async(_id)=>{
+	try{
+		const onBoardingPersonalPageResponse=await axios.post(`${CreateUrl}/onBoardingCompetePostPage`,{
+			_id:_id
+		});
+		const {data}=onBoardingPersonalPageResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
 
 export const completeOnboardingArenaPage=async(id)=>{
 	try{
@@ -428,6 +440,7 @@ export const resetPassword=async({newPassword,userId,accessToken})=>{
 		throw err;
 	}
 }
+
 
 
 
