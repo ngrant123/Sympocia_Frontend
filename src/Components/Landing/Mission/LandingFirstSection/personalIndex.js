@@ -193,6 +193,9 @@ const FirstContainerInformational=styled.div`
   @media screen and (max-width:1370px){
     width:90%;
     font-size:20px;
+    #signUpButtonLI{
+      display:none !important;
+    }
   }
 
   @media screen and (max-width:700px){
@@ -442,7 +445,7 @@ const FirstSection=(props)=>{
                             express yourself truthfully regardless of whether people like it or not
                           </p>
                             <ul style={{padding:"0px"}}>
-                                <li onClick={()=>props.history.push({
+                                <li id="signUpButtonLI" onClick={()=>props.history.push({
                                   pathname:'/signup'
                                 })} 
                                   style={SignUpButton}>
