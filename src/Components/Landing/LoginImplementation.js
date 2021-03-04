@@ -16,9 +16,8 @@ import {
 import {loginProfile} from "../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const Container=styled.div`
-  z-index:8;
   position:fixed;
-  height:50%;
+  height:60%;
   background-color:white;
   z-index:12;
   top:20%;
@@ -27,6 +26,7 @@ const Container=styled.div`
   left:35%;
   padding:40px;
   display:flex;
+  overflow-y:scroll;
   flex-direction:column;
 
   @media screen and (max-width:1370px){
@@ -38,26 +38,26 @@ const Container=styled.div`
             display:none !important;
         }
     }
+    @media screen and (max-width:1370px) and (max-height:900px) and (orientation: landscape) {
+        height:70%;
+    }
 `;
 
 const LoginBox=styled.textarea`
-    position:relative;
-    padding :.5em;
-    width:90%;
-    height:50px;
-    font-size:15px;
-    background-color:white;
-    margin-bottom:5%;
-
-    color:#848484;
-    resize:none;
-    border-radius:10px;
-    outline:none;
-    border-color:#e5e5e5;
-    border-width:2px;
-
-    @media screen and (max-width:760px){
-    }
+  position:relative;
+  border-radius:5px;
+  width:85%;
+  border-style:solid;
+  border-width:1px;
+  border-color:#D8D8D8;
+  resize:none;
+  padding:5px;
+  margin-bottom:2%;
+  margin-right:2%;
+  height:20%;
+  @media screen and (max-width:700px){
+    width:95% !important;
+  }
 `;
 
 const Submit=styled.div`
@@ -88,9 +88,8 @@ const Submit=styled.div`
 
    }
 
-    @media screen and (max-width:600px){
-        width:190% !important;
-        margin-left:-70% !important;
+    @media screen and (max-width:650px){
+        width:100% !important;
         margin-top:10% !important;
     }
 `;
@@ -98,7 +97,7 @@ const Submit=styled.div`
 const ShadowContainer = styled.div`
   position:fixed;
   width:200%;
-  height:100%;
+  height:100vh;
   left:-10%;
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   display:block;
@@ -214,19 +213,21 @@ const LoginUI=({closeModal,history,displayMobileLoginTrigger})=>{
         onClick={()=>closeModal()}
       />
       <Container>
-        <LoginBox id="LoginEmail" placeholder="Email"/>
-        <LoginBox id="LoginPassword" placeholder="Password"/>
-        <Submit onClick ={() =>  handleLoginClick(  
-                                  document.getElementById("LoginEmail").value,
-                                  document.getElementById("LoginPassword").value,
-                                  dispatch,
-                                  history
-                          )}>Login
-        </Submit>
-        <hr style={HorizontalLineCSS}/>
-        <p onClick={()=>triggerResetPasswordDisplay(history)} style={{cursor:"pointer",color:"#5298F8"}}>
-          Forgot password?
-        </p>
+        <div>
+          <LoginBox id="LoginEmail" placeholder="Email"/>
+          <LoginBox id="LoginPassword" placeholder="Password"/>
+          <Submit onClick ={() =>  handleLoginClick(  
+                                    document.getElementById("LoginEmail").value,
+                                    document.getElementById("LoginPassword").value,
+                                    dispatch,
+                                    history
+                            )}>Login
+          </Submit>
+          <hr style={HorizontalLineCSS}/>
+          <p onClick={()=>triggerResetPasswordDisplay(history)} style={{cursor:"pointer",color:"#5298F8"}}>
+            Forgot password?
+          </p>
+        </div>
       </Container>
     </React.Fragment>
 

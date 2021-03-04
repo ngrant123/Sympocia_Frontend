@@ -24,7 +24,7 @@ const NavBarContainer=styled.div`
 	    #forgotPassword{
 	    	display:none !important;
 	    }
-	     padding:50px;
+	    padding:50px;
 	    width:90%;
 	    box-shadow:none;
 	}
@@ -91,7 +91,7 @@ const LandingPageNavBar=({displayCommunityMissionOption,history,displayLoginModa
             {missionButton()}
             <SignUpLoginContainer>
             	<p id="forgotPassword" onClick={()=>history.push({pathname:'/emailreset'})} style={{cursor:"pointer",color:"#5298F8"}}>Forgot Password? </p>
-            	<div onClick={()=>history.push({pathname:'/signup'})}style={SignUpButton}>
+            	<div id="signUpButton" onClick={()=>history.push({pathname:'/signup'})}style={SignUpButton}>
             		Sign Up
             	</div>
             	<div onClick={()=>displayLoginModalHandle()}style={LoginButton}>
