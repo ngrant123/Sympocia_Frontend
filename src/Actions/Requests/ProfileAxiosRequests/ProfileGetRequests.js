@@ -431,6 +431,21 @@ export const getProfilePicture=async(_id)=>{
 	}
 }
 
+export const firstTimePostInteractedStatus=async(_id)=>{
+	try{
+		debugger;
+		const firstTimePostInteraction=await axios.get(`${SearchUrl}/firstTimePostInteratedIndicator`,{
+			params:{
+				_id
+			}
+		})
+		const {data}=firstTimePostInteraction;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
 
 
 

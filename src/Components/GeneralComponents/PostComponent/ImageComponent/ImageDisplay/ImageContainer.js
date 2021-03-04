@@ -33,6 +33,7 @@ import MobileUI from "./MobileUI.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector,useDispatch} from  "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js"
 
 const ButtonCSS={
   listStyle:"none",
@@ -173,6 +174,9 @@ const ImageContainer=(props)=>{
 			}
 		}}>
 			<React.Fragment>
+				<FirstTimePostOnboarding
+					userId={userId}
+				/>
 				{displayDeleteConfirmation==true &&(
 					<DeletePostConfirmationPortal
 						postType={"Posts"}
