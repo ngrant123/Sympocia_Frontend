@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from "react";
 import {firstTimePostInteractedStatus} from  "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {completeOnboardingPostPage} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import PostOnboarding from "../../OnBoarding/PostOnboarding.js";
 
-const FirstTimePostOnboardingStatusTrigger=({userId})=>{
+const FirstTimePostOnboardingStatusTrigger=({userId,isGuestProfile})=>{
 	const [displayOnboarding,changeDisplayOnboarding]=useState(false);
 
 
@@ -21,17 +22,22 @@ const FirstTimePostOnboardingStatusTrigger=({userId})=>{
 		fetchOnboardingIndicator();
 	},[])
 
-	const closeModal=()=>{
+	const closeModal=async()=>{
+		const {confirmation,data}=await completeOnboardingPostPage(userId);
 		changeDisplayOnboarding(false);
 	}
 
 	return(
 		<React.Fragment>
-			{displayOnboarding==false?null:
-				<PostOnboarding
-					closeModal={closeModal}
-				/>
-			}
+			{isGuestProfile==false &&(
+				<React.Fragment>
+					{displayOnboarding==false?null:
+						<PostOnboarding
+							closeModal={closeModal}
+						/>
+					}
+				</React.Fragment>
+			)}
 		</React.Fragment>
 	)
 }

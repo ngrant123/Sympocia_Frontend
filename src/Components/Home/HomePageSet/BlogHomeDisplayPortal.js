@@ -17,6 +17,7 @@ import PollIcon from '@material-ui/icons/Poll';
 import {HomeConsumer} from "../HomeContext.js";
 import {Link} from "react-router-dom";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
+import FirstTimePostOnboarding from "../../GeneralComponents/PostComponent/FirstTimePostOnboardingIndicator.js"
 	/*
 		position:absolute;
 		z-index:40;
@@ -464,6 +465,10 @@ const BlogHomeDisplayPortal=(props)=>{
 		<React.Fragment>
 			<ShadowContainerBlog onClick={()=>props.closeModal()}/>
 			<Container>	
+				<FirstTimePostOnboarding
+					userId={personalInformation.id}
+					isGuestProfile={isGuestProfile}
+				/>
 				{displayVideoDescriptionDisplay==true &&(
 					<VideoDescriptionMobileDisplayPortal
 						targetDom={props.targetDom}

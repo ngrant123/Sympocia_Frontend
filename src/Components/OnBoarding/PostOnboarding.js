@@ -26,10 +26,26 @@ const Container=styled.div`
 	top:20%;
 	overflow-y:scroll;
 
+	@media screen  and (max-width:1370px){
+		width:90% !important;
+		left:5% !important;
+		height:70% !important;
+    }
+
 `;
 const IconContainer=styled.div`
 	display:flex;
 	flex-direction:column;
+	width:150%;
+
+	@media screen and (max-width:1370px){
+		#iconInformation{
+			flex-direction:column !important;
+		}
+		#text{
+			width:60% !important;
+		}
+	}
 `;
 
 const ButtonCSS={
@@ -45,11 +61,19 @@ const ButtonCSS={
   marginRight:"2%"
 }
 
+const IconsInformationCSS={
+	marginBottom:"5%",
+	display:"flex",
+	flexDirection:"row"
+}
+
 
 const PostOnboarding=({closeModal})=>{
 	return(
 		<React.Fragment>
-			<ShadowContainer/>
+			<ShadowContainer
+				onClick={()=>closeModal()}
+			/>
 			<Container>
 				<hr/>
 				<ul style={{padding:"30px"}}>
@@ -61,32 +85,32 @@ const PostOnboarding=({closeModal})=>{
 						<b>Post Options:</b>
 					</p>
 					<IconContainer>
-						<div style={{display:"flex",flexDirection:"row"}}>
-							<img src={StampButton} style={{width:"70px",height:"70px"}}/>
+						<div id="iconInformation" style={IconsInformationCSS}>
+							<img src={StampButton} style={{width:"80px",height:"70px"}}/>
 							<p id="text" style={{width:"40%",marginLeft:"10%"}}>
 								The stamps are intergral to posts. If you like a post then just click
 								this button to show appreciation and a little stamp button will show up
 							</p>
 						</div>
 
-						<div style={{display:"flex",flexDirection:"row"}}>
-							<img src={AuthenticPostButton} style={{width:"70px",height:"70px"}}/>
+						<div id="iconInformation" style={IconsInformationCSS}>
+							<img id="iconInformation" src={AuthenticPostButton} style={{width:"80px",height:"70px"}}/>
 							<p id="text" style={{width:"40%",marginLeft:"10%"}}>
 								We value authenticity so if you see a post that looks fake or if you 
 								love it click on this button. Explain why you feel the way you feel and submit your opinion about that post
 							</p>
 						</div>
 
-						<div style={{display:"flex",flexDirection:"row"}}>
-							<img src={CommentsButton} style={{width:"70px",height:"70px"}}/>
+						<div id="iconInformation" style={IconsInformationCSS}>
+							<img src={CommentsButton} style={{width:"80px",height:"70px"}}/>
 							<p id="text" style={{width:"40%",marginLeft:"10%"}}>
 								Hard to believe but this is the comments button. Crazy right?
 								But here you can upload also video comments. Just click on the button and get started
 							</p>
 						</div>
 
-						<div style={{display:"flex",flexDirection:"row"}}>
-							<img src={MoreInformationButton} style={{width:"70px",height:"70px"}}/>
+						<div id="iconInformation" style={IconsInformationCSS}>
+							<img src={MoreInformationButton} style={{width:"80px",height:"70px"}}/>
 							<p id="text" style={{width:"40%",marginLeft:"10%"}}>
 								When you see this icon it means that theres more information about the post.
 								Click on it when you see it to learn more.
@@ -94,6 +118,10 @@ const PostOnboarding=({closeModal})=>{
 						</div>
 
 					</IconContainer>
+
+					<p style={{color:"#C8B0F4"}}>
+						Easy right? Well go on then and remember that we value communication. Let people know how you feel
+					</p>
 
 					<hr/>
 					<li style={{listStyle:"none"}}>

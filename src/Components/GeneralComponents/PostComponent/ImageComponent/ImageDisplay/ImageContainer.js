@@ -176,6 +176,7 @@ const ImageContainer=(props)=>{
 			<React.Fragment>
 				<FirstTimePostOnboarding
 					userId={userId}
+					isGuestProfile={isGuestProfile}
 				/>
 				{displayDeleteConfirmation==true &&(
 					<DeletePostConfirmationPortal
