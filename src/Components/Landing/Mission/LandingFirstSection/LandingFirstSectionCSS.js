@@ -235,50 +235,6 @@ export const FirstStatue = styled.div`
 `;
 
 
-
-export const NavBarContainer= styled.div`
-
-  position:absolute;
-  height:10%;
-  width:100%;
-
-`;
-
-export const NavEmail = styled.textarea`
-
-    position:relative;
-    padding :.5em;
-    width:0%;
-    height:50px;
-    font-size:15px;
-    background-color:white;
-
-    color:#DBDADC;
-    resize:none;
-    border-radius:10px;
-    outline:none;
-    border-color:#e5e5e5;
-    border-width:2px;
-`;
-
-export const NavPassword = styled.textarea`
-
-   position:relative;
-   padding :.5em;
-   width:10%;
-   height:50px;
-   font-size:15px;
-   border-style:solid;
-   background-color:white;
-
-   color:#a6a6a6;
-   resize:none;
-   border-radius:10px;
-   outline:none;
-   border-color:#e5e5e5;
-   border-width:2px;
-`;
-
 export const InputTextArea=styled.textarea`
 
   padding :.5em;
@@ -300,32 +256,6 @@ export const InputTextArea=styled.textarea`
 
 
 `;
-
-export const NavSubmitButton = styled(Link)`
-
-   position:relative;
-   width:5%;
-   height:50px;
-   fontSize:160%;
-
-   background-color:#C8B0F4;
-   color:white;
-   border-style:solid;
-   border-color: #C8B0F4;
-
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   border-radius:10px;
-   transition: all ease 0.8s;
-   
-    &:hover{
-      text-decoration:none;
-      color:white;
-      background-color:#6941E5;
-    }
-
- `;
 
 
 //Used a textarea because changing the location for Input was 

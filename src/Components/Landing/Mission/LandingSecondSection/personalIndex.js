@@ -103,6 +103,9 @@ const SecondContainerContents=styled.div`
   @media screen and (max-width:1370px){
     flex-direction:column-reverse;
   }
+   @media screen and (max-width:1370px){
+    align-items:center;
+  }
 `;
 
 const SecondContainerInformational=styled.div`
@@ -115,34 +118,16 @@ const SecondContainerInformational=styled.div`
   align-items:flex-start;
 
   @media screen and (max-width:1370px){
-      width:100%;
-      margin-left:0%;
-      font-size:20px;
-
-      #firstListContainer{
-       font-size:20px;  
-      }
-  }
-
-
-  @media screen and (max-width:650px){
-     width:90%; 
-     height:95%;
-     margin-left:5%;
-    font-size:15px;
-    #PageHeader{
-      font-size:20px !important;
+    #offerHeaderText{
+      font-size:15px !important;
     }
-
-      #firstListContainer{
-       font-size:15px;  
-      }
-  }
-
-    @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
-       margin-left:5%;
-       height:95%;
+    #howAreWeDifferentText{
+      font-size:15px !important;
     }
+    #OLListCSSID{
+      font-size:15px !important;
+    }
+  }
 `;
 
 
@@ -153,18 +138,15 @@ const PageImageContainer=styled.div`
   align-items: flex-start;
   height:50%;
   @media screen and (max-width:1370px){
-    margin-left:30%;
-  }
-  @media screen and (max-width:600px){
-    margin-left:15%;
+    align-items:center;
+    margin-left:-10%;
     #image{
-      width:192px !important;
-      height:225px!important;
+        width:200px !important;
+        height:225px!important;
     }
   }
 
     @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
-       margin-left:40%;
       #image{
         width:192px !important;
         height:225px!important;
@@ -248,13 +230,13 @@ const SecondSection=(props)=>{
                   <p style={{fontSize:"36px"}}>
                     <b>How are we different?</b>
                   </p>
-                  <p style={{marginBottom:"15%",color:"#5B5B5B",fontSize:"18px"}}>
+                  <p id="howAreWeDifferentText" style={{marginBottom:"15%",color:"#5B5B5B",fontSize:"18px"}}>
                     We've all been there. You've asked yourself "I really like this photo but will it get likes?"
                     or "Will anyone care about my hobbies?". You've also asked yourself, "Why do I feel so alone after
                     using social media?". We've asked ourselves these question also. Which is why we built Sympocia
                   </p>
-                  <p style={{color:"#5298F8",fontSize:"18px"}}>Here’s some things that we offer:</p>
-                  <ol style={{color:"#5298F8",fontSize:"18px"}}>
+                  <p id="offerHeaderText"style={{color:"#5298F8",fontSize:"18px"}}>Here’s some things that we offer:</p>
+                  <ol id="OLListCSSID"style={{color:"#5298F8",fontSize:"18px"}}>
                     <li style={OLListCSS}>
                       New improved algorithm for images, videos, blogs, and regular posts
                     </li>
