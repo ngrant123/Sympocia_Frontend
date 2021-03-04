@@ -8,7 +8,6 @@ import {connect} from "react-redux";
 import {signInPersonalUser} from "../../../Actions/Redux/Actions/PersonalProfile.js";
 import {loginCompanyPage} from "../../../Actions/Redux/Actions/CompanyActions.js";
 
-
 const InputContainer=styled.textarea`
 	position:relative;
 	border-radius:5px;
@@ -173,7 +172,7 @@ class PersonalSignUp extends Component{
 			this.setState({
 				isCreatingProfile:false
 			})
-			
+
 		}
 	}
 
@@ -334,9 +333,17 @@ class PersonalSignUp extends Component{
 							</a>
 						}
 
+
+
 						 <TermsOfAgreement>
-                           By clicking Submit, you agree to our Terms, Data Policy and Cookies Policy.
-                           We dont use your data or sell it without letting you know first.
+                           By clicking Submit, you agree to our 
+                           <Link to={{pathname:"/termsOfService"}}>
+                           		Terms
+                           </Link> and 
+                           <Link to={{pathname:"/privacyPolicy"}}>
+								Privacy Policy
+							</Link>
+                           .We dont use your data or sell it without letting you know first.
 
                         </TermsOfAgreement>
 					</ul>

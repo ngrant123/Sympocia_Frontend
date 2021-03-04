@@ -301,7 +301,6 @@ class EditImageCreation extends Component{
 	}
 
 	componentDidUpdate(){
-
 		if(this.state.isPostCrowned==true && this.state.displayRedoPage==false){
 			const crownElement=document.getElementById("crownIcon");
 			crownElement.style.backgroundColor="#D6C5F4";

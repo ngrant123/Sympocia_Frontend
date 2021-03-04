@@ -63,6 +63,8 @@ const UrlEnteredVideoDisplay=React.lazy(()=>import("./Components/SearchPage/UrlE
 const UrlEnteredRegularPostDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/RegularPostDisplay.js"));
 const UrlEnteredBlogDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/BlogDisplay.js"));
 const EmailReset=React.lazy(()=>import('./Components/Signup/Email/EmailSet/index.js'));
+const PrivacyPolicy=React.lazy(()=>import('./Components/LegalDocumentConditions/PrivacyPolicy.js'));
+const TermsOfConditions=React.lazy(()=>import('./Components/LegalDocumentConditions/TermsAndConditions.js'));
 
 
 const ApplicationElementIndicator=VerifyBrowserIsChrome();
@@ -87,6 +89,8 @@ const application  = (
 							<Route exact path="/blog/:id" component={UrlEnteredBlogDisplay}/>
 							<Route exact path="/regularPost/:id" component={UrlEnteredRegularPostDisplay}/>
 							<Route exact path="/emailreset" component={EmailReset}/>
+							<Route exact path="/privacyPolicy" component={PrivacyPolicy}/>
+							<Route exact path="/termsOfService" component={TermsOfConditions}/>
 							{/*
 								<Route exact path="/investor/:id" component= {InvestorScreen} />
 								<Route exact path="/createPost" component={CreatePostScreen}/>	
