@@ -20,10 +20,6 @@ import  {
         SignInformation,
         FirstContainer,
         FirstStatue,
-        NavBarContainer,
-        NavEmail,
-        NavPassword,
-        NavSubmitButton,
         NameInput,
         LastInput,
         EmailInput,
@@ -172,13 +168,15 @@ const FirstContainerContents=styled.div`
   display:flex;
   flex-direction:row;
   margin-left:15%;
+  margin-right:10%;
   margin-top:5%;
   align-items: flex-start;
   @media screen and (max-width:1370px){
     flex-direction:column;
   }
   @media screen and (max-width:700px){
-      margin-left:5%;
+      margin-left:10%;
+      align-items:center;
       flex-direction:column;
   }
 `;
@@ -199,8 +197,12 @@ const FirstContainerInformational=styled.div`
 
   @media screen and (max-width:700px){
     font-size:15px;
+    width:80%;
       #header1{
         font-size:20px !important;
+      }
+      #informationalDescription{
+        font-size:15px !important;
       }
   }
 `;
@@ -215,33 +217,26 @@ const NavBar=styled.div`
 const PageImageContainer=styled.div`
   display:flex;
   flex-direction:column;
-  height:50%;
-  @media screen and (max-width:1370px){
-    margin-left:15%;
-    #amountOfUsersText{
-      margin-top:7%;
-      margin-left:-20%;
+
+   @media screen and (max-width:750px){
+    align-items:center;
+      #headerImage{
+        width:200px !important;
+        height:225px!important;
+      }
+      #amountOfUsersText{
+        margin-left:0% !important;
+      }
     }
-  }
 
-
-  @media screen and (max-width:700px){
-    height:50%;
-    width:80%;
-
-    #amountOfUsersText{
-      margin-top:0%;
-    }
-  }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-         margin-left:30%;
       #headerImage{
         width:192px !important;
         height:225px!important;
       }
       #signedUpProfilesLI{
-        margin-left:-10% !important;
+        height:90px !important;
       }
     }
 `;
@@ -431,13 +426,12 @@ const FirstSection=(props)=>{
                 />
               }
               {mobileLoginUI()}
-              <ul style={{padding:"0px"}}>
                 <FirstContainerContents>
                     <FirstContainerInformational>
                           <p  id="header1" style={{fontSize:"40px",marginBottom:"10%"}}>
                               <b>Finally a platform where you can just be yourself</b>
                           </p>
-                          <p style={{fontSize:"20px"}}> 
+                          <p id="informationalDescription" style={{fontSize:"20px"}}> 
                             Introducing the first social entertainment platform that allows you to 
                             express yourself truthfully regardless of whether people like it or not
                           </p>
@@ -464,34 +458,32 @@ const FirstSection=(props)=>{
                     </FirstContainerInformational>
 
                     <PageImageContainer>
-                        <img id="headerImage" src={LandingImage} style={{borderRadius:"50%",boxShadow:"1px 1px 2px #d5d5d5",width:"60%",height:"60%"}}/>
+                        <img id="headerImage" src={LandingImage} style={{borderRadius:"50%",boxShadow:"1px 1px 2px #d5d5d5",width:"427px",height:"435px"}}/>
                         <p id="amountOfUsersText" style={{marginLeft:"-30%",marginTop:"5%"}}>
                            So far <b>{numberOfUserInTotalInterested}</b> users have signed up. What are you waiting for? :) 
                         </p>
-                        <li id="signedUpProfilesLI" style={{listStyle:"none"}}>
-                            <ul style={{padding:"5px",width:"70%",height:"80px",borderRadius:"5px",overflowX:"auto",boxShadow:"1px 5px 5px 5px #d5d5d5"}}>
-                              {usersInterested.map(data=>
-                                  <>
-                                    {data.profilePicture==null?
-                                      <a href={data.link} style={{textDecoration:"none"}}>
-                                        <li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"  width="80px" height="95%" viewBox="0 0 24 24" stroke-width="1.5" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z"/>
-                                                <circle cx="12" cy="7" r="4" />
-                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                                            </svg>
-                                        </li>
-                                      </a>:
-                                      <a href={data.link} style={{textDecoration:"none"}}>
-                                        <li style={{position:"relative",top:"-30%",listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
-                                          <img src={data.profilePicture} style={{width:"50px",height:"70%",borderRadius:"50%"}}/>
-                                        </li>
-                                      </a>
-                                    }
-                                  </>
-                              )}
-                            </ul>
-                        </li>
+                          <ul id="signedUpProfilesLI" style={{padding:"5px",width:"70%",height:"80px",borderRadius:"5px",overflowX:"auto",boxShadow:"1px 5px 5px 5px #d5d5d5"}}>
+                            {usersInterested.map(data=>
+                                <>
+                                  {data.profilePicture==null?
+                                    <a href={data.link} style={{textDecoration:"none"}}>
+                                      <li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"  width="80px" height="95%" viewBox="0 0 24 24" stroke-width="1.5" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                              <path stroke="none" d="M0 0h24v24H0z"/>
+                                              <circle cx="12" cy="7" r="4" />
+                                              <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                          </svg>
+                                      </li>
+                                    </a>:
+                                    <a href={data.link} style={{textDecoration:"none"}}>
+                                      <li style={{position:"relative",top:"-30%",listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+                                        <img src={data.profilePicture} style={{width:"50px",height:"70%",borderRadius:"50%"}}/>
+                                      </li>
+                                    </a>
+                                  }
+                                </>
+                            )}
+                          </ul>
                     </PageImageContainer>
                 </FirstContainerContents>
 
@@ -516,7 +508,6 @@ const FirstSection=(props)=>{
                       </ul>
                   </li>
                 */}
-             </ul>
         </FirstContainer>
 	)
 }

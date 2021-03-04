@@ -4,15 +4,14 @@ import previewImage from '../../../../designs/img/PreviewPlatform.png';
 
 
 const Container = styled.div`
-		position:relative;
+	 position:relative;
 	  display:flex;
 	  flex-direction:column;
 	  text-align:center;
 	  margin:auto;
-	  padding:200px;  
+	  padding-bottom:10%;  
 	  transition:.8s;
-	  width:80%;
-
+	  width:70%;
 
 	  @media screen and (max-width:1370px){
 	  	font-size:20px;
@@ -21,8 +20,14 @@ const Container = styled.div`
 		    margin-left:10% !important;
 		}
 	  }
-	  @media screen and (max-width:650px){
+	  @media screen and (max-width:1370px){
 	  	font-size:15px;
+	  	justify-content:center;
+	  	margin-left:10%;
+	  	width:60%;
+	  	#questionId{
+	  		font-size:15px !important;
+	  	}
 	  	#headerTexts{
 	  		font-size:20px !important;
 	  	}
@@ -31,6 +36,7 @@ const Container = styled.div`
 		}
 	  }
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		margin-top:20%;
       	#previewImage{
 		      width:400px !important;
 		      height:225px!important;
@@ -44,6 +50,17 @@ const CompanyInformationEndNotes=styled.div`
 	justify-content:space-between;
 	width:70%;
 	margin-top:10%;
+
+	@media screen and (max-width:1370px){
+		font-size:15px !important;
+		flex-direction:column;
+		#companySignUpDiv{
+			flex-direction:column !important;
+		}
+		#companyInformation{
+			margin-right:70%;
+		}
+	}
 `;
 
 const ImageContainer=styled.div`
@@ -61,7 +78,8 @@ const SignUpButton={
     color:"white",
     marginRight:"2%",
     cursor:"pointer",
-    width:"120px"
+    width:"120px",
+    marginBottom:"5%"
 }
 
 const ExploreButton={
@@ -92,20 +110,20 @@ const FourthSection=({history})=>{
 				<b>Frequently asked questions </b>
 			</p>
 			
-			<p style={{fontSize:"18px"}}>
+			<p id="questionId" style={{fontSize:"18px"}}>
 				<b>Is Sympocia free?</b>
 			</p>
 			<p>Yes. Free now and free forever </p>
 			<hr/>
-			<p style={{fontSize:"18px"}}>
+			<p id="questionId" style={{fontSize:"18px"}}>
 				<b>Are we going to sell you're data and think of you as information rather than people like 
 					our other competitors?
 				</b>
 			</p>
-			<p style={{fontSize:"18px"}}> No our main mission is serving you guys so we will never do that </p>
+			<p id="questionId" style={{fontSize:"18px"}}> No our main mission is serving you guys so we will never do that </p>
 			<hr/>
 
-			<p style={{fontSize:"18px"}}>
+			<p id="questionId" style={{fontSize:"18px"}}>
 				<b>What information do we store about the user? </b>
 			</p>
 			<p> We store the general information about the user like name, email, and posts. Thats the
@@ -113,22 +131,24 @@ const FourthSection=({history})=>{
 			your every move on the internet </p>
 			<hr style={HorizontalLineCSS}/>
 			<CompanyInformationEndNotes>
-				<div style={{display:"flex",flexDirection:"column"}}>
-					<p style={{fontSize:"18px"}}>
-						<b>Follow us</b>
-					</p>
-					<p>Instagram</p>
-					<p>Twitter</p>
-				</div>
+				<div style={{display:"flex",flexDirection:"row"}}>
+					<div id="companyInformation" style={{display:"flex",flexDirection:"column"}}>
+						<p id="questionId" style={{fontSize:"18px"}}>
+							<b>Follow us</b>
+						</p>
+						<p>Instagram</p>
+						<p>Twitter</p>
+					</div>
 
-				<div style={{display:"flex",flexDirection:"column"}}>
-					<p style={{fontSize:"18px"}}>
-						<b>Company</b>
-					</p>
-					<p>Privacy Policy</p>
-					<p>Terms & Conditions</p>
+					<div id="companyInformation"  style={{display:"flex",flexDirection:"column"}}>
+						<p id="questionId" style={{fontSize:"18px"}}>
+							<b>Company</b>
+						</p>
+						<p>Privacy Policy</p>
+						<p>Terms & Conditions</p>
+					</div>
 				</div>
-				<div style={{display:"flex",flexDirection:"row",height:"50%"}}>
+				<div id="companySignUpDiv" style={{display:"flex",flexDirection:"row",height:"50px"}}>
 	                    <li onClick={()=>history.push({
 	                      pathname:'/signup'
 	                    })} 

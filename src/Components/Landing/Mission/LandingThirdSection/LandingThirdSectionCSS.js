@@ -9,64 +9,9 @@ export const ThirdContainer=styled.div`
   padding-bottom:10%;
   width:90%;
 
-  @media screen and (max-width:1370px){
-        #footerIcons{
-              display:none;
-          }
-    }
-   @media screen and (max-width:650px){
-        #imageListContainer{
-	         display:none;
-	         top:0px;
-	     }
-
-	     #imageListContainerCompany{
-	     	background-color:red;
-	     	opacity:.3;
-	     }
-	     #footerIcons{
-	          display:none;
-	      }
-    }
-    @media screen and (max-width:820px), screen and (max-height:590px){
-      margin-top:20%;
-    }
-
-    @media screen and (max-width:700px){
-    	#thirdSectionText{
-    		width:90% !important;
-    	}
-    	#textHeader{
-			width:90% !important;
-			font-size:20px !important;
-		}
-    }
-
-
-
-    @media screen and (max-width:420px){
-		#textContainer{
-			width:90% !important;
-			margin-left:-50% !important;
-		}
-	}
-
-	@media screen and (max-width:415px){
-		#textULContainer{
-			margin-left:30% !important;
-			width:130%;
-		}
-	}
-
-
-    @media screen and (max-height:750px){
-        #floatingArrowFunction{
-          display:none;
-        }
-         #footerIcons{
-            display:none;
-        }
-    }
+  @media screen and (max-width:650px){
+  	width:90%;
+  }
 
   `;
 

@@ -5,16 +5,29 @@ import {Link} from "react-router-dom";
 const SignUpLoginContainer=styled.div`
 	display:flex;
 	flex-direction:row;
+	@media screen and (max-width:1370px){
+		margin-top:5% !important;
+	}
 `;
 
-const NavBar=styled.div`
+const NavBarContainer=styled.div`
   display:flex;
   flex-direction:row;
-  justify-content:center;
   align-items:center;
   justify-content: space-between;
-  padding:30px;
-  box-shadow:1px 1px 1px #d5d5d5
+  padding:50px;
+  box-shadow:1px 1px 1px #d5d5d5;
+
+  	@media screen and (max-width:1370px){
+	    flex-direction:column;
+	    padding:0px;
+	    #forgotPassword{
+	    	display:none !important;
+	    }
+	     padding:50px;
+	    width:90%;
+	    box-shadow:none;
+	}
 `;
 
 const SignUpButton={
@@ -71,13 +84,13 @@ const LandingPageNavBar=({displayCommunityMissionOption,history,displayLoginModa
 			</svg>
 	}
 	return (
-		<NavBar>
+		<NavBarContainer>
             <p style={{fontSize:"30px",color:"#C8B0F4"}}>
                 <b>Sympocia</b>
             </p>
             {missionButton()}
             <SignUpLoginContainer>
-            	<p onClick={()=>history.push({pathname:'/emailreset'})} style={{cursor:"pointer",color:"#5298F8"}}>Forgot Password? </p>
+            	<p id="forgotPassword" onClick={()=>history.push({pathname:'/emailreset'})} style={{cursor:"pointer",color:"#5298F8"}}>Forgot Password? </p>
             	<div onClick={()=>history.push({pathname:'/signup'})}style={SignUpButton}>
             		Sign Up
             	</div>
@@ -86,7 +99,7 @@ const LandingPageNavBar=({displayCommunityMissionOption,history,displayLoginModa
             	</div>
             </SignUpLoginContainer>
             
-        </NavBar>
+        </NavBarContainer>
 	)
 }
 

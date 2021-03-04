@@ -73,6 +73,7 @@ const ThirdContainerInformational=styled.div`
  	margin-right:5%;
   width:100%;
   justify-content:space-between;
+  font-size:18px;
   @media screen and (max-width:1370px){
       width:90%;
       margin-left:-7%;
@@ -82,9 +83,14 @@ const ThirdContainerInformational=styled.div`
       }
   }
 
-  @media screen and (max-width:650px){
+  @media screen and (max-width:1370px){
+
   	margin-left:0%;
     font-size:15px;
+    flex-direction:column;
+    #informationDiv{
+    	width:90% !important;
+    }
   }
 `;
 
@@ -100,14 +106,14 @@ const PageImageContainer=styled.div`
   		height:70% !important;
   		width:70% !important;
   	}
-  	margin-left:10%;
     #amountOfUsersText{
       margin-top:7%;
       margin-left:-20% !important;
     }
   }
 
-  @media screen and (max-width:650px){
+  @media screen and (max-width:1370px){
+  	align-items:normal;
   	margin-left:0%;
     #amountOfUsersText{
       margin-top:0%;
@@ -119,7 +125,7 @@ const PageImageContainer=styled.div`
   }
 
     @media screen and (max-width:900px) and (max-height:420px) and (orientation: landscape) {
-       margin-left:30%;
+       margin-left:20%;
       #image{
         width:192px !important;
         height:225px!important;
@@ -161,38 +167,38 @@ const ThirdSection=(props)=>{
 	                  <b>Why should you care?</b>
 	                </p>
 	                <ThirdContainerInformational>
-	                	<div style={{width:"20%"}}>
-	                		<p style={{fontSize:"18px"}}>
+	                	<div id="informationDiv" style={{width:"20%"}}>
+	                		<p>
 	                			<b>Addiction</b>
 	                		</p>
-	                		<p style={{color:"#5B5B5B",fontSize:"18px"}}>
+	                		<p style={{color:"#5B5B5B"}}>
 	                			Whether we like it or not, we’re all addicted to social media.
 	                			We love connecting with people, learning, and growing from each other. 
 	                		</p>
 	                	</div>
 
-	                	<div style={{width:"20%"}}>
-	                		<p style={{fontSize:"18px"}}>
+	                	<div id="informationDiv" style={{width:"20%"}}>
+	                		<p >
 	                			<b>Normality</b>
 	                		</p>
-	                		<p style={{color:"#5B5B5B",fontSize:"18px"}}>
+	                		<p style={{color:"#5B5B5B"}}>
 	                			But currently we live In an era where misinformation is the new normal.
 	                			Where being fake is the new normal. Where getting clout is the main goal not authenticity.
 	                		</p>
 	                	</div>
 
-	                	<div style={{width:"20%"}}>
-	                		<p style={{fontSize:"18px"}}>
+	                	<div id="informationDiv" style={{width:"20%"}}>
+	                		<p>
 	                			<b>Solution</b>
 	                		</p>
-	                		<p style={{color:"#5B5B5B",fontSize:"18px"}}>
+	                		<p style={{color:"#5B5B5B"}}>
 	                			Sympocia allows you to truly be authentic and doesn’t force you to fit into this mold that other platforms have.
 								Just be yourself :) 
 	                		</p>
 	                	</div>
 	                </ThirdContainerInformational>
                 	<PageImageContainer>
-			   			<img id="image" src={LandingImage} style={{borderRadius:"50%",boxShadow:"1px 1px 2px #d5d5d5",width:"40%",height:"40%"}} />
+			   			<img id="image" src={LandingImage} style={{borderRadius:"50%",boxShadow:"1px 1px 2px #d5d5d5",width:"427px",height:"435px"}} />
 					</PageImageContainer>
 					{/*
 						<ThirdContainerInformational>
