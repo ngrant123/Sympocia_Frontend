@@ -334,6 +334,21 @@ export const getPostById=async({postId,userId,postType})=>{
 }
 
 
+export const getVideoUrl=async(retrievalId)=>{
+	try{
+		const videoUrlResponse=await axios.get(`${SearchUrl}/videoUrl`,{
+			params:{
+				videoTokenId:retrievalId
+			}
+		})
+
+		const {data}=videoUrlResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
 
 
 
