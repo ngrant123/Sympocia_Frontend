@@ -8,6 +8,7 @@ import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/Pe
 import {useSelector} from "react-redux";
 import PollOptionPortal from "../../PollOptionPortal.js";
 import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js"
+import {getVideoUrl} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -41,12 +42,53 @@ const VideoContainer=(data)=>{
 	const [displayPollOptionModal,changePollOptionModal]=useState(false);
 	const [displayApprovePollOptionModal,changeDisplayApprovePollModal]=useState(false);
 	const personalId=useSelector(state=>state.personalInformation.id);
+	const [isLoading,changeIsLoadingStatus]=useState(true);
+	const [postData,changePostData]=useState(data);
 
 	const userInformation=useSelector(state=>state.personalInformation);
 	const isGuestProfile=(userInformation.id=="0" || userInformation.isGuestProfile==true)==true?
 						true:false;
 
 	useEffect(()=>{
+		const fetchData=async()=>{
+			const {videoData}=data;
+			const {
+				videoDescriptionKey,
+				videoUrlKey
+			}=videoData;
+
+			const promise=[];
+			promise.push(getVideoUrl(videoUrlKey));
+			if(videoDescriptionKey!=null)
+				promise.push(getVideoUrl(videoDescriptionKey));
+
+			Promise.all(promise).then(result=>{
+				const videoUrlResult=result[0];
+				const videoDescriptionUrlResult=result[1];
+				let data=postData;
+
+				if(videoUrlResult.confirmation=="Success" && videoDescriptionUrlResult.confirmation=="Success"){
+
+					const videoUrl=videoUrlResult.data.message;
+					const videoDescriptionUrl=videoDescriptionUrlResult.data.message;
+
+					data={
+						...data,
+						videoData:{
+							...videoData,
+							videoUrl,
+							videoDescription:videoDescriptionUrl
+						}
+					}
+				}else{
+					alert('Unfortunately there was an error getting this video. Please try again later');
+				}
+				changePostData(data);
+				changeIsLoadingStatus(false);
+			})
+		}
+
+		fetchData();
 		triggerUIChange();
 	},[]);
 	window.addEventListener('resize',triggerUIChange)
@@ -60,7 +102,7 @@ const VideoContainer=(data)=>{
 	}
 
 	const editPost=(editedVideoData)=>{
-		data.videoData.contextLocation.editPost(editedVideoData);
+		postData.videoData.contextLocation.editPost(editedVideoData);
 	}
 
 	const deletePost=async()=>{
@@ -68,7 +110,7 @@ const VideoContainer=(data)=>{
 	}
   
 	const triggerPromoteModal=()=>{
-		data.triggerPromoteModal(data.videoData._id,"Videos");
+		postData.triggerPromoteModal(postData.videoData._id,"Videos");
 	}
 
 	const triggerVideoEditModal=()=>{
@@ -81,20 +123,20 @@ const VideoContainer=(data)=>{
 	const closePollModal=()=>{
 		changePollOptionModal(false);
 	}
-	const displayPollModalTrigger=(data)=>{
-		changeDisplayApprovePollModal(data);
+	const displayPollModalTrigger=(postData)=>{
+		changeDisplayApprovePollModal(postData);
 		changePollOptionModal(true);
 	}
 	const videoProps={
-		video:data.videoData,
-		targetDom:data.targetDom,
+		video:postData.videoData,
+		targetDom:postData.targetDom,
 		triggerPromoteModal:triggerPromoteModal,
 		displayEditModal:triggerVideoEditModal,
 		deletePost:deletePost,
-		pageType:data.profileType,
-		isOwnPostViewing:data.isOwnProfile,
+		pageType:postData.profileType,
+		isOwnPostViewing:postData.isOwnProfile,
 		personalId:personalId,
-		closePostModal:data.closePostModal,
+		closePostModal:postData.closePostModal,
 		displayPollModal:displayPollModalTrigger,
 		isGuestProfile
 	}
@@ -108,9 +150,9 @@ const VideoContainer=(data)=>{
 				<PollOptionPortal
 					closeModal={closePollModal}
 					displayApproveModal={displayApprovePollOptionModal}
-					postId={data.videoData._id}
+					postId={postData.videoData._id}
 					postType={"Videos"}
-					targetDom={data.targetDom}
+					targetDom={postData.targetDom}
 					isGuestProfile={isGuestProfile}
 				/>
 			)}
@@ -119,31 +161,36 @@ const VideoContainer=(data)=>{
 				<DeletePostConfirmationPortal
 					postType={"Posts"}
 					selectedPostType={"Videos"}
-					content={data.videoData}
+					content={postData.videoData}
 					closeModal={closeDeleteConfirmationModal}
-					removeContextLocation={data.videoData.contextLocation.removePost}
-					targetDom={data.targetDom}
+					removeContextLocation={postData.videoData.contextLocation.removePost}
+					targetDom={postData.targetDom}
 				/>
 			)}
 				<Container>
-					{displayMobileUI==true && displayVideoEditModal==false?
-						<MobileUI
-							{...videoProps}
-						/>:
+					{isLoading==true?
+						<p>Gives us one second while we get this post</p>:
 						<React.Fragment>
-							{displayVideoEditModal==false?
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-										<Video
-											{...videoProps}
+							{displayMobileUI==true && displayVideoEditModal==false?
+								<MobileUI
+									{...videoProps}
+								/>:
+								<React.Fragment>
+									{displayVideoEditModal==false?
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+												<Video
+													{...videoProps}
+												/>
+											</li>
+										</ul>:
+										<EditVideoModal
+											videoSrc={postData.videoData.videoUrl}
+											previousData={postData.videoData}
+											editPost={editPost}
 										/>
-									</li>
-								</ul>:
-								<EditVideoModal
-									videoSrc={data.videoData.videoUrl}
-									previousData={data.videoData}
-									editPost={editPost}
-								/>
+									}
+								</React.Fragment>
 							}
 						</React.Fragment>
 					}
