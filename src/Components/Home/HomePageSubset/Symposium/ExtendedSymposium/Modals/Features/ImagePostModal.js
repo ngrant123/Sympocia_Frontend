@@ -211,16 +211,21 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 		var fileReader=new FileReader();
 		var currentImgUrl=document.getElementById("uploadPictureFile").files[0];
 
-		fileReader.onloadend=()=>{
-			const imgResult=fileReader.result;
-			changeImageUrl(imgResult);
-			changeDisplayForFinalImage(true);
-		}
-
-		if(currentImgUrl!=null){
-			fileReader.readAsDataURL(currentImgUrl);
+		const maxFileSize=250*1024;
+		if(currentImgUrl.size>maxFileSize){
+			alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
 		}else{
-			alert('Sorry, this image type is not allowed. Please try again');
+			fileReader.onloadend=()=>{
+				const imgResult=fileReader.result;
+				changeImageUrl(imgResult);
+				changeDisplayForFinalImage(true);
+			}
+
+			if(currentImgUrl!=null){
+				fileReader.readAsDataURL(currentImgUrl);
+			}else{
+				alert('Sorry, this image type is not allowed. Please try again');
+			}
 		}
 	}
 
@@ -378,7 +383,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 											</ul>
 										<input type="file" name="img" id="uploadPictureFile" 
 											style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadPicture()} 
-											accept="image/x-png,image/gif,image/jpeg">
+											accept="image/jpeg">
 										</input>
 								</li>
 							</a>:

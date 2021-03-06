@@ -93,17 +93,22 @@ const SponsorPortal=(props)=>{
 		
 		var reader=new FileReader();
 		var image=document.getElementById("imageFile").files[0];
-
-		reader.onloadend=()=>{
-			const imageData=reader.result;
-			changeChangeDescriptionScreen(!displayDescriptionScreen);
-			changeImageData(imageData);
-		}
-
-		if(image==null){
-			alert("This image type is not supported ");
+		
+		const maxFileSize=250*1024;
+		if(image.size>maxFileSize){
+			alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
 		}else{
-			reader.readAsDataURL(image);
+			reader.onloadend=()=>{
+				const imageData=reader.result;
+				changeChangeDescriptionScreen(!displayDescriptionScreen);
+				changeImageData(imageData);
+			}
+
+			if(image==null){
+				alert("This image type is not supported ");
+			}else{
+				reader.readAsDataURL(image);
+			}
 		}
 	}
 
