@@ -51,13 +51,13 @@ const VideoOptionCSS={
 
  	const uploadVideo=()=>{
  		let reader= new FileReader();
- 		const maxFileSize=50*1024*1024 //50MB;
+ 		const maxFileSize=15*1024*1024 //50MB;
  		let dummyVideoObject=document.createElement('video');
  		dummyVideoObject.preload = 'metadata'
 		const video=document.getElementById("uploadVideoFile").files[0];
 		const videoSize=video.size;
 		if(videoSize>maxFileSize){
-			alert('The file you selected is too large. As of right now we only accept files of size 50MB for videos. Sorry for the inconvenience.');
+			alert('The file you selected is too large. As of right now we only accept files of size 15MB for videos. Sorry for the inconvenience.');
 		}else{
 			reader.onloadend=()=>{
 				
@@ -108,7 +108,7 @@ const VideoOptionCSS={
 			{videoUploaded==null?
 				<React.Fragment>
 
-					<input type="file" accept="video/*" name="img" id="uploadVideoFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadVideo()}></input>
+					<input type="file" accept="video/mp4,video/x-m4v,video/*" name="img" id="uploadVideoFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>uploadVideo()}></input>
 
 					<ul style={{padding:"0px",marginLeft:"20%",paddingTop:"10%",width:"70%"}}>
 						<p style={{fontSize:"25px"}}><b>Create your own video here with the click of a button</b> </p>

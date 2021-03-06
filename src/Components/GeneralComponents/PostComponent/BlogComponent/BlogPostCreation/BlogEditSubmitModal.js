@@ -163,19 +163,23 @@ class BlogEditSubmitModal extends Component{
 	handleUploadPicture=()=>{
 		let fileReader= new FileReader();
 		const picture=document.getElementById("uploadPictureFile").files[0];
-
-		fileReader.onloadend=()=>{
-			const picUrl=fileReader.result;
-			this.setState({
-				pictureUrl:picUrl,
-				displayImage:true
-			})
-		}
-
-		if(picture!=null){
-			fileReader.readAsDataURL(picture);
+		const maxFileSize=250*1024;
+		if(picture.size>maxFileSize){
+			alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
 		}else{
-			alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
+			fileReader.onloadend=()=>{
+				const picUrl=fileReader.result;
+				this.setState({
+					pictureUrl:picUrl,
+					displayImage:true
+				})
+			}
+
+			if(picture!=null){
+				fileReader.readAsDataURL(picture);
+			}else{
+				alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
+			}
 		}
 	}
 
@@ -550,7 +554,10 @@ isArrayEqual=(arr1,arr2)=>{
 											/>
 										</CrownIconContainer>
 									</a>
-									<input type="file" name="img" id="uploadPictureFile" style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()} accept="image/x-png,image/gif,image/jpeg"></input>
+									<input type="file" name="img" id="uploadPictureFile" 
+										style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>this.handleUploadPicture()}
+										accept="image/jpeg">
+									</input>
 									{this.state.displayImage==false?
 										<React.Fragment>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>

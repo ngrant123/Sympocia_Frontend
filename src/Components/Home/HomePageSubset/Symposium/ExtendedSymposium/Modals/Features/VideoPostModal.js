@@ -210,16 +210,21 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 		var fileReader=new FileReader();
 		var currentVideoUrl=document.getElementById("uploadVideoFile").files[0];
 
-		fileReader.onloadend=()=>{
-			const videoResult=fileReader.result;
-			changeVideoUrl(videoResult);
-			changeDisplayForFinalImage(true);
-		}
-
-		if(currentVideoUrl!=null){
-			fileReader.readAsDataURL(currentVideoUrl);
+		const maxFileSize=15*1024*1024 //50MB;
+		if(currentVideoUrl.size>maxFileSize){
+			alert('The file you selected is too large. As of right now we only accept files of size 15MB for videos. Sorry for the inconvenience.');
 		}else{
-			alert('Sorry, this image type is not allowed. Please try again');
+			fileReader.onloadend=()=>{
+				const videoResult=fileReader.result;
+				changeVideoUrl(videoResult);
+				changeDisplayForFinalImage(true);
+			}
+
+			if(currentVideoUrl!=null){
+				fileReader.readAsDataURL(currentVideoUrl);
+			}else{
+				alert('Sorry, this image type is not allowed. Please try again');
+			}
 		}
 	}
 
