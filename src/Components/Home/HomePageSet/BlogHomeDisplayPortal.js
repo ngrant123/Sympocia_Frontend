@@ -60,6 +60,7 @@ import LoyaltyIcon from '@material-ui/icons/Loyalty';
 	*/
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
+import {getVideoUrl} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -278,10 +279,11 @@ const BackButtonCSS={
 const BlogHomeDisplayPortal=(props)=>{
 	
 
-	const blog=props.selectedBlog.blog;
+
+	const [postData,changePostData]=useState(props);
+	const blog=postData.selectedBlog.blog;
 	var DBEditorState = convertFromRaw(JSON.parse(blog));
 	var blogContentState=EditorState.createWithContent(DBEditorState);
-
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const [displayLargeModal,changeDisplayModal]=useState(true);
 	const [displayDesktopUI,changeDisplayDesktopUI]=useState(false);
@@ -290,10 +292,10 @@ const BlogHomeDisplayPortal=(props)=>{
 	const [displayApproveDisapproveIndicator,changeDisplayApproveDisapproveIndicator]=useState(false);
 	const [displayCommentsContainer,changeDisplayCommentsContainer]=useState(false);
 
-	const approvesPostNumber=props.selectedBlog.isPostAuthentic.numOfApprove!=null?
-					   props.selectedBlog.isPostAuthentic.numOfApprove.length:0;
-	const disapprovesPostNumber=props.selectedBlog.isPostAuthentic.numOfDisapprove!=null?
-						  props.selectedBlog.isPostAuthentic.numOfDisapprove.length:0;
+	const approvesPostNumber=postData.selectedBlog.isPostAuthentic.numOfApprove!=null?
+					   postData.selectedBlog.isPostAuthentic.numOfApprove.length:0;
+	const disapprovesPostNumber=postData.selectedBlog.isPostAuthentic.numOfDisapprove!=null?
+						  postData.selectedBlog.isPostAuthentic.numOfDisapprove.length:0;
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const isGuestProfile=(personalInformation.id=="0" || personalInformation.isGuestProfile==true)==true?
 					true:false;
@@ -312,13 +314,40 @@ const BlogHomeDisplayPortal=(props)=>{
 	}
 
 	useEffect(()=>{
+		const fetchData=async()=>{
+			debugger;
+			const {selectedBlog}=postData;
+			const {videoDescriptionKey}=selectedBlog;	
+			if(videoDescriptionKey!=null){
+				const {confirmation,data}=await getVideoUrl(videoDescriptionKey);
+
+				let currentData=postData;
+				if(confirmation=="Success"){
+					const videoDescriptionUrl=data.message;
+
+					currentData={
+						...currentData,
+						selectedBlog:{
+							...selectedBlog,
+							videoDescription:videoDescriptionUrl
+						}
+					}
+				}else{
+					alert('Unfortunately there was an error getting this video. Please try again later');
+				}
+				debugger;
+				changePostData(currentData);
+			}
+		}
+
+		fetchData();
 		triggerUIChange();
 	},[]);
 
 	window.addEventListener('resize',triggerUIChange)
 
 	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
+		var isPersonalProfile=postData.profileType=="personalProfile"?true:false;
 		let confirmationResponse;
 		let dataResponse;
 		if(isGuestProfile==true){
@@ -326,10 +355,10 @@ const BlogHomeDisplayPortal=(props)=>{
 		}else{
 			if(displayStampEffect==false){
 				const {confirmation,data}=await addStampPost(
-													props.selectedBlog._id,
+													postData.selectedBlog._id,
 													"personal",
 													"Blogs",
-													props.personalId,
+													postData.personalId,
 													isAccessTokenUpdated==true?updatedAccessToken:
 													personalInformation.accessToken
 												);
@@ -337,10 +366,10 @@ const BlogHomeDisplayPortal=(props)=>{
 				dataResponse=data;
 			}else{
 				const {confirmation,data}=await unStampPost(
-													props.selectedBlog._id,
+													postData.selectedBlog._id,
 													"personal",
 													"Blogs",
-													props.personalId,
+													postData.personalId,
 													isAccessTokenUpdated==true?updatedAccessToken:
 													personalInformation.accessToken
 												);
@@ -428,9 +457,9 @@ const BlogHomeDisplayPortal=(props)=>{
 						<PollOptionPortal
 							closeModal={closeModalPollModal}
 							displayApproveModal={displayApproveModal}
-							postId={props.selectedBlog._id}
+							postId={postData.selectedBlog._id}
 							postType="Blogs"
-							targetDom={props.targetDom}
+							targetDom={postData.targetDom}
 							isGuestProfile={isGuestProfile}
 						/>
 					)}
@@ -444,10 +473,10 @@ const BlogHomeDisplayPortal=(props)=>{
 	const commentModal=()=>{
 		return (
 			<Comments
-				postId={props.selectedBlog._id}
+				postId={postData.selectedBlog._id}
 				postType={"Blogs"}
 				hideComments={hideComments}
-				targetDom={props.targetDom}
+				targetDom={postData.targetDom}
 				isGuestProfile={isGuestProfile}
 			/>
 		)
@@ -462,16 +491,16 @@ const BlogHomeDisplayPortal=(props)=>{
 
 	return createPortal(
 		<React.Fragment>
-			<ShadowContainerBlog onClick={()=>props.closeModal()}/>
+			<ShadowContainerBlog onClick={()=>postData.closeModal()}/>
 			<Container>	
 				{displayVideoDescriptionDisplay==true &&(
 					<VideoDescriptionMobileDisplayPortal
-						targetDom={props.targetDom}
+						targetDom={postData.targetDom}
 						closeModal={closeVideoDescriptionDisplayModal}
-						videoUrl={props.selectedBlog.videoDescription}
+						videoUrl={postData.selectedBlog.videoDescription}
 					/>
 				)}
-				<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
+				<div onClick={()=>postData.closeModal()} style={{marginBottom:"5%"}}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 					 stroke-linecap="round" stroke-linejoin="round">
@@ -518,19 +547,19 @@ const BlogHomeDisplayPortal=(props)=>{
 							<li style={{listStyle:"none",marginBottom:"5%"}}>
 								<ul style={{padding:"0px"}}>
 									<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-										<ProfilePicture to={{pathname:`/profile/${props.selectedBlog.owner._id}`}}>
-											<img id="smallImagePicture" src={props.selectedBlog.owner.profilePicture==null?
+										<ProfilePicture to={{pathname:`/profile/${postData.selectedBlog.owner._id}`}}>
+											<img id="smallImagePicture" src={postData.selectedBlog.owner.profilePicture==null?
 													NoProfilePicture:
-													props.selectedBlog.owner.profilePicture
+													postData.selectedBlog.owner.profilePicture
 												} style={{width:"55px",height:"50px",borderRadius:"50%"}}/>
 										</ProfilePicture>
 									</li>
 									<li style={{listStyle:"none"}}>
-										<b>{props.selectedBlog.owner.firstName}</b>
+										<b>{postData.selectedBlog.owner.firstName}</b>
 									</li>
 
 									<li style={{height:"90px",overflowY:"auto",listStyle:"none"}}>
-										{props.selectedBlog.title}
+										{postData.selectedBlog.title}
 									</li>
 								</ul>
 							</li>
@@ -561,21 +590,21 @@ const BlogHomeDisplayPortal=(props)=>{
 							<hr/>
 							<li style={{listStyle:"none",marginTop:"2%"}}>
 								<ul style={{padding:"0px"}}>
-									{props.selectedBlog.videoDescription!=null &&(
+									{postData.selectedBlog.videoDescription!=null &&(
 										<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
 											<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
 												<video autoPlay loop autoBuffer muted playsInline 
 													style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
-													<source src={props.selectedBlog.videoDescription} type="video/mp4"/>
+													<source src={postData.selectedBlog.videoDescription} type="video/mp4"/>
 												</video>
 											</VideoDescriptionContainer>
 										</li>
 									)}
-									{props.selectedBlog.audioDescription && (
+									{postData.selectedBlog.audioDescription && (
 										<li style={{listStyle:"none",display:"inline-block"}}>
 											<audio controls>
-												<source src={props.selectedBlog.audioDescription} type="audio/ogg"/>
-												<source src={props.selectedBlog.audioDescription} type="audio/mp4"/>
+												<source src={postData.selectedBlog.audioDescription} type="audio/ogg"/>
+												<source src={postData.selectedBlog.audioDescription} type="audio/mp4"/>
 												Your browser does not support the audio element.
 											</audio>
 										</li>
@@ -596,7 +625,7 @@ const BlogHomeDisplayPortal=(props)=>{
 					}
 				</Container>
 			</React.Fragment>
-	,document.getElementById(props.targetDom));
+	,document.getElementById(postData.targetDom));
 
 }
 

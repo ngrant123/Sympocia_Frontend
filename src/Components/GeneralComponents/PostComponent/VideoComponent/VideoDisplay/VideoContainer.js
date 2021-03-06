@@ -58,12 +58,14 @@ const VideoContainer=(data)=>{
 
 			const promise=[];
 			promise.push(getVideoUrl(videoUrlKey));
-			promise.push(getVideoUrl(videoDescriptionKey));
+			if(videoDescriptionKey!=null)
+				promise.push(getVideoUrl(videoDescriptionKey));
 
 			Promise.all(promise).then(result=>{
 				const videoUrlResult=result[0];
 				const videoDescriptionUrlResult=result[1];
 				let data=postData;
+
 				if(videoUrlResult.confirmation=="Success" && videoDescriptionUrlResult.confirmation=="Success"){
 
 					const videoUrl=videoUrlResult.data.message;

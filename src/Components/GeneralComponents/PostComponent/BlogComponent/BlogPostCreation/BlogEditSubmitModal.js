@@ -299,7 +299,8 @@ class BlogEditSubmitModal extends Component{
 				isCrownedPost,
 				_id,
 				industriesUploaded,
-				blog
+				blog,
+				videoDescriptionKey
 			}=this.props.previousState;
 			let currentBlogPost;
 			if(blogPostInformation.blogPostState!=""){
@@ -331,7 +332,8 @@ class BlogEditSubmitModal extends Component{
 					},
 					{
 						optionType:'videoDescription',
-						newUrl:currentVideoDescription!=videoDescription?currentVideoDescription:null
+						newUrl:currentVideoDescription!=videoDescription?currentVideoDescription:null,
+						key:videoDescriptionKey
 					}
 				],
 				ownerId:this.props.previousState.owner,
