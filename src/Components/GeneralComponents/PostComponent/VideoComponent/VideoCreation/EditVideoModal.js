@@ -353,7 +353,9 @@ class EditVideoModal extends Component{
 				title,
 				isCrownedPost,
 				industriesUploaded,
-				_id
+				_id,
+				videoUrlKey,
+				videoDescriptionKey
 			}=previousData;
 
 			const editedVideo={
@@ -369,7 +371,8 @@ class EditVideoModal extends Component{
 				postS3:[
 					{
 						optionType:'postUrl',
-						newUrl:this.isVideosSrcEqual(this.state.videoSrc,this.props.videoSrc)==false?this.state.videoSrc:null
+						newUrl:this.isVideosSrcEqual(this.state.videoSrc,this.props.videoSrc)==false?this.state.videoSrc:null,
+						key:videoUrlKey
 					},
 					{
 						optionType:'audioDescription',
@@ -377,7 +380,8 @@ class EditVideoModal extends Component{
 					},
 					{
 						optionType:'videoDescription',
-						newUrl:videoAudioDescription!=videoDescription?videoAudioDescription:null
+						newUrl:videoAudioDescription!=videoDescription?videoAudioDescription:null,
+						key:videoDescriptionKey
 					}
 				],
 				ownerId:this.props.personalProfile.id,

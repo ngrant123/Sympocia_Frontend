@@ -171,7 +171,6 @@ const CommunityContainer=(props)=>{
 		}
 		props.handleSymposiumClickHandler(symposium);
 	}
-
 	return(
 
 		<React.Fragment>
@@ -266,11 +265,15 @@ const CommunityContainer=(props)=>{
 								<PopularVideosContainer>
 									<ul>
 										{popularPosts.map(data=>
-											<li style={PopularVideosListCSS}>
-												<video id="smallVideo" key={data.videoUrl} borderRadius="5px" position="relative" height="95%" width="60px">
-													<source src={data.videoUrl} type="video/mp4"/>
-												</video>
-											</li>
+											<React.Fragment>
+												{data.videoUrl!=null &&(
+													<li style={PopularVideosListCSS}>
+														<video id="smallVideo" key={data.videoUrl} borderRadius="5px" position="relative" height="95%" width="60px">
+															<source src={data.videoUrl} type="video/mp4"/>
+														</video>
+													</li>
+												)}
+											</React.Fragment>
 										)}
 									</ul>
 

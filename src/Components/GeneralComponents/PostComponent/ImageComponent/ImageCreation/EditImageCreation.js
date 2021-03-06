@@ -405,7 +405,8 @@ class EditImageCreation extends Component{
 				videoDescription,
 				isCrownedPost,
 				industriesUploaded,
-				_id
+				_id,
+				videoDescriptionKey
 			}=previousData;
 
 			const editedImage={
@@ -429,7 +430,8 @@ class EditImageCreation extends Component{
 					},
 					{
 						optionType:'videoDescription',
-						newUrl:currentVideoDescription!=videoDescription?currentVideoDescription:null
+						newUrl:currentVideoDescription!=videoDescription?currentVideoDescription:null,
+						key:videoDescriptionKey
 					}
 				],
 				ownerId:this.props.personalProfile.id,

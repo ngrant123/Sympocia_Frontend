@@ -14,6 +14,8 @@ import { convertFromRaw,EditorState } from 'draft-js';
 import Comments from "../../../CommentsComponent/index.js";
 import PollOptionPortal from "../../PollOptionPortal.js";
 import PromotePortal from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PromotePortal.js";
+import {getVideoUrl} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+
 
 const Container=styled.div`
 	position:absolute;
@@ -134,7 +136,7 @@ class BlogPostCreation extends Component{
 	react wysiwyg is booty cheeks so going to temporarily disable it for mobile
 */
 
-	componentDidMount=()=>{
+	componentDidMount=async()=>{
 		
 		window.addEventListener('resize',this.triggerUIChange);
 		const verification=this.props.isLoggedIn;
@@ -161,6 +163,16 @@ class BlogPostCreation extends Component{
 				if(this.props.location.state.postType=="Creation"){
 					blogContentState="";
 				}else{
+					debugger;
+					console.log(this.props);
+					const {confirmation,data}=await getVideoUrl(
+														this.props.location.state.videoDescriptionKey
+													);
+
+					if(confirmation=="Success"){
+						const videoDescriptionUrl=data.message;
+						this.props.location.state.videoDescription=videoDescriptionUrl;
+					}
 					var DBEditorState = convertFromRaw(JSON.parse(this.props.location.state.blog));
 					blogContentState=EditorState.createWithContent(DBEditorState);
 				}
