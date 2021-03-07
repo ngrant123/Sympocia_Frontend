@@ -173,6 +173,7 @@ const VideoDescriptionPortal=(props)=>{
 					  <path d="M10 10l4 4m0 -4l-4 4" />
 					</svg>
 				</div>
+				<p>We only allow .mov files as of right now unfortunately</p>
 				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
 					<ul style={{padding:"0px"}} onClick={()=>clickUploadVideoButton()}>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
@@ -184,7 +185,7 @@ const VideoDescriptionPortal=(props)=>{
 						</li>
 					</ul>																			
 				</button>
-				<input type="file" accept="video/mp4,video/x-m4v,video/*" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
+				<input type="file" accept="video/*" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
 					onChange={()=>handleUploadedVideoDescription()}>
 				</input>
 			</Container>

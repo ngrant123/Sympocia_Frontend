@@ -79,9 +79,7 @@ const UploadProfilePictureOption=({backButtonTrigger,uploadFile})=>{
 				<React.Fragment>
 					<p onClick={()=>triggerFileUploadPrompt()} style={UploadOptionsCSS}>Upload File</p>
 					<input type="file" name="img" id="profilePictureFileUpload" style={{opacity:"0",width:"1px",height:"1px"}} 
-						accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
-			        	name="attachments"
-						onChange={()=>changeProfilePicture()}>
+						accept="image/jpeg" name="attachments" onChange={()=>changeProfilePicture()}>
 					</input>
 				</React.Fragment>
 			}

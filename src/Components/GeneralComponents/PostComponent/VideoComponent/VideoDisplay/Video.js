@@ -225,15 +225,12 @@ class Video extends Component{
 							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 								<SmallProfileDescriptionPicture>
 									{this.props.video.videoDescription==null?
-										<>
-											{postInformation.owner.profilePicture!=null &&(
-												<Link to={{pathname:`/profile/${postInformation.owner._id}`}}>
-													<img src={postInformation.owner.profilePicture} 
-														style={{borderRadius:"50%",width:"100%",height:"100%"}}
-													/>
-												</Link>
-											)}
-										</>:
+										<Link to={{pathname:`/profile/${postInformation.owner._id}`}}>
+											<img src={postInformation.owner.profilePicture==null?
+														NoProfilePicture:postInformation.owner.profilePicture
+														} style={{borderRadius:"50%",width:"100%",height:"100%"}}
+											/>
+										</Link>:
 										<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%"
 											autoPlay loop autoBuffer muted playsInline controls>
 											<source src={this.props.video.videoDescription} type="video/mp4"/>

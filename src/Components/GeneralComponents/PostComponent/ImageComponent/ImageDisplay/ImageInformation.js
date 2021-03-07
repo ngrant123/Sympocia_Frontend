@@ -2,6 +2,8 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import {ImageConsumer} from "./ImageContext.js";
 import PollOptionPortal from "../../PollOptionPortal.js";
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+
 import {Link} from "react-router-dom";
 
 
@@ -218,7 +220,8 @@ const ImageInformation=(props)=>{
 										<PostProfilePictureAndNameContainer>
 											{props.imageInformation.owner.firstName!=null?
 												<React.Fragment>
-													<img id="ownerProfilePicture" src={props.imageInformation.owner.profilePicture}
+													<img id="ownerProfilePicture" src={props.imageInformation.owner.profilePicture==null?
+																						NoProfilePicture:props.imageInformation.owner.profilePicture}
 													 style={{borderRadius:"50%",width:"20%",height:"65px"}}/>
 													<Link style={{marginLeft:"4%",fontSize:"20px",maxWidth:"80%",maxHeight:"30px",overflow:"hidden",textDecoration:"none",color:"black"}}
 														to={{pathname:`/profile/${props.imageInformation.owner._id}`}}

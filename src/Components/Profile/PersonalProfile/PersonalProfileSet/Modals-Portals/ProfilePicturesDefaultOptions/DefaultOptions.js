@@ -44,11 +44,27 @@ const DefaultOptions=({backButtonTrigger,uploadFile})=>{
 	const [defaultProfileOptions,changeDefaultProfileOptions]=useState([]);
 	const [selectedImgSrc,changeSelectedImageSrc]=useState();
 	useEffect(()=>{
-		const defaultProfileOptions=importAll(require.context("../../../../../../designs/defaultProfilePictures", false, /\.png$/));
+		const defaultProfileOptions=importAll(require.context("../../../../../../designs/defaultProfilePictures", false, /\.jpeg$/));
 		changeDefaultProfileOptions([...defaultProfileOptions]);
 	},[])
 	const selectImage=(imageSrc)=>{
 		changeSelectedImageSrc(imageSrc);
+	}
+
+	const convertImageToDataUrl=()=>{
+		debugger;
+		let defaultImage=new Image();
+		const canvas=document.createElement('canvas');
+		const canvasContext=canvas.getContext('2d');
+		defaultImage.onload=function(){
+			canvas.width=defaultImage.width;
+			canvas.height=defaultImage.height;
+
+			canvasContext.drawImage(defaultImage,0,0,defaultImage.width,defaultImage.height);
+			const dataUrl=canvas.toDataURL("image/jpeg");
+			uploadFile({isAccessTokenUpdated:false,selectedImageSrc:dataUrl})
+		}
+		defaultImage.src=selectedImgSrc
 	}
 
 	const backButton=()=>{
@@ -66,7 +82,7 @@ const DefaultOptions=({backButtonTrigger,uploadFile})=>{
 			{selectedImgSrc!=null ?
 				<SelectedPictureContainer>
 					<img src={selectedImgSrc} style={ImageCSS}/>
-					<p onClick={()=>uploadFile({isAccessTokenUpdated:false,selectedImageSrc:selectedImgSrc})} style={ButtonContainerCSS}> Upload</p>
+					<p onClick={()=>convertImageToDataUrl()} style={ButtonContainerCSS}> Upload</p>
 				</SelectedPictureContainer>:
 				<React.Fragment>
 					<p> Choose from the options below </p>
