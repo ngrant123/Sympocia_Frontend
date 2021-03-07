@@ -15,7 +15,8 @@ const ButtonCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  marginRight:"5%"
+  marginRight:"5%",
+  cursor:"pointer"
 }
 
 const Container=styled.div`
