@@ -36,11 +36,11 @@ const Container=styled.div`
 		flex-direction:column !important;
 		top:-5%;
 		#headerImageLI{
-			width:250px !important;
-			height:200px !important;
+			width:220px !important;
+			height:180px !important;
 		}
 		#headerAudioLI{
-			width:100px !important;
+			width:200px !important;
 		}
 		#image{
 			width:100px !important;
@@ -89,6 +89,13 @@ const HeaderContainer=styled.div`
 		#headerImageSympoosiumLI{
 			display:none !important;
 		}
+
+		#videoDescriptionContainer{
+			top:25% !important;
+			left:0% !important;
+			width:100px !important;
+			height:40% !important;
+		}
 	}
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -123,7 +130,7 @@ const PostsContainer=styled.div`
     }
 
 	@media screen and (max-width:600px){
-		margin-left:-5% !important;
+		margin-left:0% !important;
 		width:100% !important;
 		#smallAudioDescription{
 			display:none !important;
@@ -159,15 +166,35 @@ const ShadowContainer= styled.div`
 const HeaderDescriptionContainer=styled.div`
 	padding:10px;
 	display:flex;
-	flex-direction:row;
-	height:10%;
+	flex-direction:column;
+	height:20%;
+	overflow:hidden;
 
+	@media screen and (max-width:650px){
+		height:90px;
+	}
 `;
 
 const SmallPostContainer=styled.div`
 	margin-bottom:8%;
 	width:35%;
 	margin-right:8%;
+
+	@media screen and (max-width:1370px){
+		margin-right:15%;
+	}
+
+	@media screen and (max-width:650px){
+		margin-right:8%;
+		#smallVideoDescriptionContainer{
+			width:50px !important;
+			height:40% !important;
+		}
+		#smallImageContainer{
+			width:260px !important;
+			height:100px !important;
+		}
+	}
 `;
 
 const DescriptionContainer=styled.div`
@@ -182,6 +209,13 @@ const HeaderInformationContainer=styled.div`
 `;
 const ProfilePictureLink=styled(Link)`
 	position:relative;
+
+	@media screen and (max-width:650px){
+		#smallProfilePicture{
+			height:30px !important;
+			width:40px !important;
+		}
+	}
 `;
 
 
@@ -212,7 +246,8 @@ const PostUserAndSymposiumInformation=styled.div`
 const PostUserInformation=styled.div`
 	display:flex;
 	flex-direction:row;
-	margin-left:10%;
+	padding:10px;
+	margin-right:10%;
 
 	@media screen and (max-width:1370px){
 		margin-left:0% !important;
@@ -227,8 +262,9 @@ const SuggestedSymposiumsContainer=styled.div`
 	margin-right:2%;
 `;
 const HeaderImageCSS={
-	width:"100%",
-	height:"500px",
+	position:"relative",
+	width:"85%",
+	height:"400px",
 	borderRadius:"5px",
 	borderRadius:"5px",
 	boxShadow:"1px 1px 10px #707070",
@@ -268,10 +304,17 @@ const RecruitButtonLabelCSS={
 	borderWidth:"1px",
 	borderRadius:"50%",
 	color:"white",
+	width:"20%",
 	backgroundColor:"#a076e6",
-	padding:"6px",
+	padding:"10px",
 	marginRight:"2%",
 	textAlign:"center"
+}
+
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	display:"none"
 }
 
 
@@ -362,7 +405,7 @@ const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 											})} 
 								style={RecruitButtonLabelCSS}>
 								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" 
-									width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none"
+									width="25" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none"
 									stroke-linecap="round" stroke-linejoin="round">
 								  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 								  <path d="M5 12l5 5l10 -10" />
@@ -413,107 +456,50 @@ const ImagePostsModal=(props)=>{
 		changeImageDisplay(true);
 	}
 
-	/*
-		const displaySpecialPost=(postResult,personalInformationRedux,previousProps)=>{
-			return <>	
-						{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}
-					</>
-			
-				if(postResult=="suggestedSymposium"){
-					return <li id="suggestedSymposiumLI" style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"4%",marginTop:"-40%"}}>
-								{constructSuggestedSymposium(personalInformationRedux,previousProps,images)}
-							</li>
-				}else{
-					const {data}=postResult;
-					var posts=data;
-					return <li style={{listStyle:"none",display:"inline-block",top:"-150px",position:"relative",marginBottom:"3%",width:"45%",marginRight:"4%"}}>
-								<ul style={{padding:"0px"}}>
-									{posts.map(data=>
-										<li  onClick={()=>displayImageModal(data)}  style={{listStyle:"none",display:"inline-block",borderRadius:"5px",width:"50%",height:"30%"}}>
-											<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-												<img src={data.imgUrl} style={{width:"80%",height:"80%",borderRadius:"5px"}}/>
-											</a>
-										</li>
-									)}
-								</ul>
-						   </li>
-				}
-		}
-	*/
-
 	return(
 	<>
 		{props.posts.length>=1?
 			<Container>
 				<HeaderContainer>
 					<PostUserAndSymposiumInformation>
-						<p id="headerImageSympoosiumLI" onClick={()=>displayPersonalIndustryFeed(
-											personalInformationRedux,
-											null,
-											headerImage.industriesUploaded,props
-										)} style={ImageLabelCSS}>
-						{headerImage.industriesUploaded[0].industry}
-						</p>
 						<PostUserInformation>
-							<ProfilePictureLink to={{pathname:`/profile/${headerImage.owner._id}`}}>
-								{headerImage.videoDescription==null?
-									<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
-										headerImage.owner.profilePicture}
-										style={{height:"50px",width:"60px",borderRadius:"50%"}}
-									/>
-									:<video autoPlay loop autoBuffer muted playsInline 
-										style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%">
-										<source src={headerImage.videoDescription} type="video/mp4"/>
-									</video>
-								}
+							<ProfilePictureLink style={{marginRight:"20%"}} to={{pathname:`/profile/${headerImage.owner._id}`}}>
+								<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
+									headerImage.owner.profilePicture}
+									style={{height:"50px",width:"60px",borderRadius:"50%"}}
+								/>
 							</ProfilePictureLink>
 
 							<Link to={{pathname:`/profile/${headerImage.owner._id}`}}
-								id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+								id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px"}}>
 								<b>{headerImage.owner.firstName}</b>
 							</Link>
-							{props.isGuestProfileIndicator==false &&(
-								<DisplayRecruitButton
-									post={headerImage}
-									previousProps={props}
-									personalInformationRedux={personalInformationRedux}
-								/>
-							)}
 						</PostUserInformation>
+						<audio id="headerAudioLI" style={{width:"350px",marginBottom:"2%"}} id="headerAudioLI" controls muted>
+						  	<source src={headerImage.audioDescription} type="audio/ogg"/>
+						  	<source src={headerImage.audioDescription} type="audio/mp4"/>
+							Your browser does not support the audio element.
+						</audio>
 					</PostUserAndSymposiumInformation>
-					<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"
-						 src={headerImage.imgUrl} style={HeaderImageCSS}/>
-					<HeaderDescriptionContainer>
-						{props.isMobileUI==true?
-							<>
-								{headerImage.audioDescription==null?
-									<p style={{marginLeft:"2%",maxHeight:"70px",overflow:"hidden"}}>
-										{headerImage.description}
-									</p>
-									:
-									<audio id="headerAudioLI" style={{width:"150%"}} controls muted>
-									  	<source src={headerImage.audioDescription} type="audio/ogg"/>
-									  	<source src={headerImage.audioDescription} type="audio/mp4"/>
-										Your browser does not support the audio element.
-									</audio>
-								}
-							</>:
-							<>
-								{headerImage.audioDescription!=null &&(
-									<audio id="headerAudioLI" style={{width:"150%"}} controls muted>
-									  	<source src={headerImage.audioDescription} type="audio/ogg"/>
-									  	<source src={headerImage.audioDescription} type="audio/mp4"/>
-										Your browser does not support the audio element.
-									</audio>
-								)}
-								<p style={{marginLeft:"2%",maxHeight:"70px",overflow:"hidden"}}>
-									{headerImage.description}
-								</p>
-							</>
-						}
+					<div id="headerImageLI" style={HeaderImageCSS}>
+						<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"
+							 src={headerImage.imgUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
+						/>
+						<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+							style={{position:"absolute",top:"50%",left:"0%"}} width="200px" height="60%">
+							<source src={headerImage.videoDescription} type="video/mp4"/>
+						</video>
+					</div>
+					<HeaderDescriptionContainer> 
+						<p style={{fontSize:"20px"}}>
+							<b>{headerImage.caption}</b>
+						</p>
+						<p>
+							{headerImage.description}
+						</p>
 					</HeaderDescriptionContainer>
 				</HeaderContainer>
-				<hr/>
+				<hr id="horizontalSeperator" style={HorizontalLineCSS}/>
 
 				<PostsContainer>
 					{images.map(data=>
@@ -525,17 +511,7 @@ const ImagePostsModal=(props)=>{
 								/>
 							:<SmallPostContainer>
 									<div onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
-											<img id="image" src={data.imgUrl} style={ImageCSS}/>
 											<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
-												{props.isGuestProfileIndicator==false &&(
-													<li style={{listStyle:"none"}}>
-														<DisplayRecruitButton
-															post={data}
-															previousProps={props}
-															personalInformationRedux={personalInformationRedux}
-														/>
-													</li>
-												)}
 												{data.audioDescription!=null &&(
 													<li id="smallAudioDescription" style={{listStyle:"none"}}>
 														<audio style={{width:"150px",height:"25px"}} controls muted>
@@ -546,18 +522,22 @@ const ImagePostsModal=(props)=>{
 													</li>
 												)}
 											</ul>
-									</div>
-									<DescriptionContainer>
-										<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-											{data.videoDescription==null?
-												<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-													 style={{height:"50px",width:"60px",borderRadius:"50%"}}
-												/>
-												:<video style={{borderRadius:"50%"}} width="60px" height="50px" borderRadius="50%"
-												 autoPlay loop autoBuffer muted playsInline>
+											<div id="smallImageContainer" style={ImageCSS}>
+												<img id="image" src={data.imgUrl} style={{borderRadius:"5px",width:"100%",height:"100%"}}/>
+												<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+													style={{position:"absolute",top:"62%",left:"0%"}} width="100px" height="40%">
 													<source src={data.videoDescription} type="video/mp4"/>
 												</video>
-											}
+											</div>
+									</div>
+									<p style={{maxHeight:"15%",overflow:"hidden"}}>
+										<b>{data.caption}</b>
+									</p>
+									<DescriptionContainer>
+										<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+											<img id="smallProfilePicture" src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
+												 style={{height:"50px",width:"60px",borderRadius:"50%"}}
+											/>
 										</ProfilePictureLink>
 										<p onClick={()=>displayPersonalIndustryFeed(
 															personalInformationRedux,
