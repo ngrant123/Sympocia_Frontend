@@ -129,8 +129,9 @@ const Posts=styled.div`
 	width:100%;
 	height:90%;
 
-	@media screen and (max-width:450px){
+	@media screen and (max-width:650px){
 		margin-top:60% !important;
+		width:100%;
 	}
 `;
 

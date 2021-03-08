@@ -5,6 +5,10 @@ export const Container=styled.div`
 	width:100%;
 	height:100%;
 	background-color:white;
+	display:flex;
+	padding:30px;
+	flex-direction:column;
+
 	@media screen and (max-width:800px){
 		#postInformationLI{
 			display:none !important;
@@ -18,9 +22,8 @@ export const Container=styled.div`
 
 export const Image=styled.div`
 	position:relative;
-	width:460px;
-	height:75%;
-	background-color:blue;
+	width:500px;
+	height:450px;
 	border-radius:20px;
 	margin-bottom:5px;
 
@@ -87,12 +90,11 @@ export const StampIconEffect=styled.div`
 
 `;
 export const VideoDesriptionContainer=styled.div`
-	position:absolute;
 	width:30%;
-	height:30%;
-	border-radius:50%;
-	top:70%;
-	left:2%;
+	height:85%;
+	justify-content:center;
+	margin-right:2%;
+	background-color:#151515;
 `;
 
 export const CrownIconContainer=styled.div`
@@ -139,3 +141,25 @@ export const CommentContainer=styled.div`
 	margin-top:13px;
 	top:30px;
 `;
+
+export const PersonalInformation=styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
+export const Post=styled.div`
+	display:flex;
+	flex-direction:row;
+	justify-content:center;
+	height:90%;
+`;
+
+
+
+
+
+
+
+
+
+

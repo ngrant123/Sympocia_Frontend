@@ -163,6 +163,7 @@ const Posts=styled.div`
 	@media screen and (max-width:450px){
 		margin-top:60% !important;
 	}
+
 `;
 
 const PostOptionButtonCSS={
