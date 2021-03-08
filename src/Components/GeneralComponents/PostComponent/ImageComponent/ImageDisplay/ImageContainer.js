@@ -27,14 +27,22 @@ import {
 	CrownIconContainer,
 	ShadowContainer,
 	CrownPostModal,
-	CommentContainer
+	CommentContainer,
+	PersonalInformation,
+	Post
 } from "./ImageContainerCSS.js";
 import MobileUI from "./MobileUI.js";
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector,useDispatch} from  "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js"
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {getVideoUrl} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {Link} from "react-router-dom";
+import LoyaltyIcon from '@material-ui/icons/Loyalty';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import ChatIcon from '@material-ui/icons/Chat';
 
 const ButtonCSS={
   listStyle:"none",
@@ -47,6 +55,19 @@ const ButtonCSS={
   borderWidth:"2px",
   borderColor:"#3898ec",
   marginRight:"4%"
+}
+
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	borderRadius:"50%",
+	borderStyle:"none",
+	marginRight:"5%",
+	marginBottom:"2%"
 }
 
 
@@ -218,134 +239,219 @@ const ImageContainer=(props)=>{
 						targetDom={"personalContainer"}
 					/>
 				)}
-				{displayMobileUI==true?
-					<MobileUI
-						imgData={postData.imageData}
-						targetDom={postData.targetDom}
-						deletePost={handleRemoveImagePost}
-						pageType={postData.profileType}
-						promote={triggerPromoteModal}
-						isOwnPostViewing={postData.isOwnProfile}
-						closePostModal={postData.closePostModal}
-						isPhoneUI={displayPhoneUI}
-						isGuestProfile={isGuestProfile}
-						editPostAction={editPost}
-					/>
-					:<React.Fragment>
-						{displayImageModal==true?
-							<EditImageCreation
-								imageSrcUrl={postData.imageData.imgUrl}
-								previousData={postData.imageData}
-								editPost={editPost}
-							/>:
-						<Container>
-							{isLoading==true?
-								<p>Gives us one second while we get this post</p>:
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"70px"}}>
-										<ul>
-											<li id="postOptionsLI" style={{listStyle:"none",marginBottom:"2%"}}>
-												<ul style={{padding:"0px"}}>
-													{/*
-														{postData.imageData.isCrownedPost==true?
-															<a style={{textDecoration:"none"}}href="javascript:void(0);">
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																	<CrownIconContainer>
-																		<Icon 
-																			id="crownIcon"
-																			icon={crownIcon}
-																			style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
-																		/>
-																	</CrownIconContainer>
-																</li>
-															</a>:null
-														}
-													*/}
-													<a style={{textDecoration:"none"}}href="javascript:void(0);">
-														<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ButtonCSS}>
-																Stamp
-														</li>
-													</a>
+				{displayImageModal==true?
+					<EditImageCreation
+						imageSrcUrl={postData.imageData.imgUrl}
+						previousData={postData.imageData}
+						editPost={editPost}
+					/>:
+					<React.Fragment>
+						{isLoading==true?
+							<p>Gives us one second while we get this post</p>:
+							<Container>
+								<PersonalInformation>
+									<img id="ownerProfilePicture" 
+										src={postData.imageData.owner.profilePicture==null?
+										NoProfilePicture:postData.imageData.owner.profilePicture}
+									 style={{borderRadius:"50%",width:"7%",height:"60px"}}
+									/>
+									<Link style={{marginLeft:"4%",fontSize:"20px",maxWidth:"80%",maxHeight:"30px",overflow:"hidden",textDecoration:"none",color:"black",marginRight:"10%"}}
+										to={{pathname:`/profile/${postData.imageData.owner._id}`}}
+									>	
+										<p>
+											<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliq</b>
+										</p>
+									</Link>
+									<LoyaltyIcon
+										style={{fontSize:50,...ShadowButtonCSS}}
+									/>
+									<ChatIcon
+										style={{fontSize:50,...ShadowButtonCSS}}
+									/>
 
-													{(postData.profileType=="personalProfile" && postData.isOwnProfile==true) &&(
-														<>
-															<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																<li onClick={()=>triggerPromoteModal()} style={ButtonCSS}>
-																		Promote
-																</li>
-															</a>
+									<AssessmentIcon
+										style={{fontSize:50,...ShadowButtonCSS}}
+									/>
+										
+									{(postData.profileType=="personalProfile" && postData.isOwnProfile==true) &&(
+										<>
+											<BorderColorIcon
+												style={{fontSize:50,...ShadowButtonCSS}}
+											/>
 
-															<li onClick={()=>changeDisplayImage(!displayImageModal)} style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
-																<a style={{textDecoration:"none"}}href="javascript:void(0);">
-																	<EditIcon/> 
-																	Edit image
-																</a>
-															</li>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+												width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none"
+												stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>
+											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+											  <line x1="4" y1="7" x2="20" y2="7" />
+											  <line x1="10" y1="11" x2="10" y2="17" />
+											  <line x1="14" y1="11" x2="14" y2="17" />
+											  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+											  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+											</svg>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+												  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C"
+												  fill="none" stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>
+												  <path stroke="none" d="M0 0h24v24H0z"/>
+												  <circle cx="12" cy="9" r="6" />
+												  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+												  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+											</svg>
+										</>
+									)}
+								</PersonalInformation>
+								<Post>
+									{postData.imageData.videoDescription==null?null:
+										<VideoDesriptionContainer>
+											<video id="videoDescription"
+												width="100%" height="100%" borderRadius="50%"
+												autoPlay loop autoBuffer muted playsInline controls>
+												<source src={postData.imageData.videoDescription} type="video/mp4"/>
+											</video>
+										</VideoDesriptionContainer>
+									}
+									<Image>	
+										{displayStampEffect==true?
+												<React.Fragment>
+													<StampIconEffect
+														id="stampEffect"
+													>
+														<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+													</StampIconEffect>
+												</React.Fragment>:
+										null}
+										<img src={postData.imageData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
+									</Image>
+								</Post>
+								<div>
+									<p style={{fontSize:"20px",listStyle:"none",height:"60px",overflowY:"hidden",marginBottom:"2%"}}>
+										<b>
+											{postData.imageData.caption}
+										</b>
+									</p>
 
-															<li onClick={()=>handleRemoveImagePost()} style={{listStyle:"none",display:"inline-block"}}>
-																<a style={{textDecoration:"none"}}href="javascript:;">
-																	<HighlightOffIcon/> 
-																	Remove image
-																</a>
-															</li>
-														</>
-													)}
-												</ul>
-											</li>
-											<li style={{listStyle:"none"}}>
-												<Image>	
-													{displayStampEffect==true?
-															<React.Fragment>
-																<StampIconEffect
-																	id="stampEffect"
-																>
-																	<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-																</StampIconEffect>
-															</React.Fragment>:
-													null}
-													<img src={postData.imageData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
-													{postData.imageData.videoDescription==null?null:
-														<VideoDesriptionContainer>
-															<video id="videoDescription"
-																style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%"
-																autoPlay loop autoBuffer muted playsInline controls>
-																<source src={postData.imageData.videoDescription} type="video/mp4"/>
-															</video>
-														</VideoDesriptionContainer>
-													}
-												</Image>
-											</li>
-										</ul>
-									</li>
-
-									<li id="postInformationLI" style={{listStyle:"none",display:"inline-block",padding:"0px"}}>
-										{commentImageIndicator==true?
-												<ImageInformation
-													imageInformation={postData.imageData}
-													targetDom={postData.targetDom}
-													isMobileTrue={displayMobileUI}
-													isGuestProfile={isGuestProfile}
-												/>
-												:
-												<CommentContainer>
-													<Comments
-														postId={postData.imageData._id}
-														postType={"Images"}
-														hideComments={hideComments}
-														targetDom={postData.targetDom}
-														isGuestProfile={isGuestProfile}
-													/>
-												</CommentContainer>
-										}
-
-									</li>
-								</ul>
-							}
-						</Container>
+									<p style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
+										{postData.imageData.description}
+									</p>
+								</div>
+							</Container>
 						}
 					</React.Fragment>
-
 				}
+				{/*
+					{displayMobileUI==true?
+						<MobileUI
+							imgData={postData.imageData}
+							targetDom={postData.targetDom}
+							deletePost={handleRemoveImagePost}
+							pageType={postData.profileType}
+							promote={triggerPromoteModal}
+							isOwnPostViewing={postData.isOwnProfile}
+							closePostModal={postData.closePostModal}
+							isPhoneUI={displayPhoneUI}
+							isGuestProfile={isGuestProfile}
+							editPostAction={editPost}
+						/>
+						:<React.Fragment>
+							{displayImageModal==true?
+								<EditImageCreation
+									imageSrcUrl={postData.imageData.imgUrl}
+									previousData={postData.imageData}
+									editPost={editPost}
+								/>:
+							<Container>
+								{isLoading==true?
+									<p>Gives us one second while we get this post</p>:
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"70px"}}>
+											<ul>
+												<li id="postOptionsLI" style={{listStyle:"none",marginBottom:"2%"}}>
+													<ul style={{padding:"0px"}}>
+														<a style={{textDecoration:"none"}}href="javascript:void(0);">
+															<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ButtonCSS}>
+																	Stamp
+															</li>
+														</a>
+
+														{(postData.profileType=="personalProfile" && postData.isOwnProfile==true) &&(
+															<>
+																<a style={{textDecoration:"none"}} href="javascript:void(0);">
+																	<li onClick={()=>triggerPromoteModal()} style={ButtonCSS}>
+																			Promote
+																	</li>
+																</a>
+
+																<li onClick={()=>changeDisplayImage(!displayImageModal)} style={{listStyle:"none",display:"inline-block",marginRight:"3%"}}>
+																	<a style={{textDecoration:"none"}}href="javascript:void(0);">
+																		<EditIcon/> 
+																		Edit image
+																	</a>
+																</li>
+
+																<li onClick={()=>handleRemoveImagePost()} style={{listStyle:"none",display:"inline-block"}}>
+																	<a style={{textDecoration:"none"}}href="javascript:;">
+																		<HighlightOffIcon/> 
+																		Remove image
+																	</a>
+																</li>
+															</>
+														)}
+													</ul>
+												</li>
+												<li style={{listStyle:"none"}}>
+													<Image>	
+														{displayStampEffect==true?
+																<React.Fragment>
+																	<StampIconEffect
+																		id="stampEffect"
+																	>
+																		<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+																	</StampIconEffect>
+																</React.Fragment>:
+														null}
+														<img src={postData.imageData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
+														{postData.imageData.videoDescription==null?null:
+															<VideoDesriptionContainer>
+																<video id="videoDescription"
+																	style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%"
+																	autoPlay loop autoBuffer muted playsInline controls>
+																	<source src={postData.imageData.videoDescription} type="video/mp4"/>
+																</video>
+															</VideoDesriptionContainer>
+														}
+													</Image>
+												</li>
+											</ul>
+										</li>
+
+										<li id="postInformationLI" style={{listStyle:"none",display:"inline-block",padding:"0px"}}>
+											{commentImageIndicator==true?
+													<ImageInformation
+														imageInformation={postData.imageData}
+														targetDom={postData.targetDom}
+														isMobileTrue={displayMobileUI}
+														isGuestProfile={isGuestProfile}
+													/>
+													:
+													<CommentContainer>
+														<Comments
+															postId={postData.imageData._id}
+															postType={"Images"}
+															hideComments={hideComments}
+															targetDom={postData.targetDom}
+															isGuestProfile={isGuestProfile}
+														/>
+													</CommentContainer>
+											}
+
+										</li>
+									</ul>
+								}
+							</Container>
+							}
+					</React.Fragment>
+					}
+				*/}
 			</React.Fragment>
 		</ImageProvider>
 

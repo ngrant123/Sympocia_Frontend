@@ -50,6 +50,10 @@ const Container=styled.div`
 			margin-bottom:20% !important;
 		}
 	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	top:10px;
+    }
 `;
 
 
@@ -81,12 +85,17 @@ const PostsContainer=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		width:90%;
+		width:80%;
+		height:300px;
 		#headerOwnerNameLI{
 			margin-left:20% !important;
 		}
 		#headerPostTextOrAudioContainerLI{
-			width:90% !important;
+			width:100% !important;
+		}
+
+		#audio{
+			width:190px;
 		}
 	}
 
@@ -234,7 +243,7 @@ const RegularPostModal=(props)=>{
 
 							<p id="headerPostTextOrAudioContainerLI" style={{padding:"5px",fontSize:"20px",position:"relative",top:"70px",listStyle:"none",display:"inline-block",width:"100%",overflow:"hidden",marginLeft:"5%"}}>
 								{headerRegularPost.isAudioPost==true?
-									<audio controls>
+									<audio id="audio" controls>
 									 	<source src={headerRegularPost.post} type="audio/ogg"/>
 									  	<source src={headerRegularPost.post} type="audio/mp4"/>
 										Your browser does not support the audio element.
