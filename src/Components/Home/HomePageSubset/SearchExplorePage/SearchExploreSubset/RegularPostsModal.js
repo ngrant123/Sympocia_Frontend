@@ -15,64 +15,55 @@ import {
 } from "./ConstructSuggestedSymposium.js";
 
 
-const Container=styled.div`
+const Container=styled.div`	
 	display:flex;
 	top:5%;
 	flex-direction:row;
-
-	@media screen and (max-width:740px) and (max-height:420px){
-    	#headerLI{
-			height:180% !important;
-		}
-		#headerPostLI{
-			height:95% !important;
-		}
-    }
-
-
+	flex-wrap:wrap;
 	@media screen and (max-width:1370px){
 		flex-direction:column;
-		width:110%;
-		margin-left:-5% !important;
-		#headerLI{
-			display:block !important;
-			margin-top:0% !important;
-			width:95% !important;
-			margin-left:-7% !important;
-			margin-bottom:2% !important;
+	}
+
+	@media screen and (max-width:650px){
+		flex-direction:column !important;
+		margin-left:-10%;
+		#headerImageLI{
+			width:220px !important;
+			height:180px !important;
 		}
-		#smallPostLI{
-			width:95% !important;
-			height:100% !important;
-			margin-left:-10% !important;
-			overflow-y:visible;
+		#headerAudioLI{
+			width:200px !important;
 		}
-		#post{
-			width:120px !important;
-			height:120px !important;
-			margin-right:2%;
+		#image{
+			width:100px !important;
+			height:100px !important;
+			margin-bottom:10%;
 		}
-		#suggestedSymposiumLI{
-			top:-15% !important;
+		#smallPersonalInformation{
+			display:none !important;
+		}
+		#descriptionLI{
+			display:none !important;
 		}
 		#postLI{
-			margin-right:2% !important;
-		}
-	}
-	@media screen and (max-width:450px){
-		margin-left:-5% !important;
-		#headerLI{
-			margin-top:-50% !important;
+			top:-80px;
 			margin-bottom:20% !important;
 		}
 	}
 `;
 
-const HeaderContainer=styled.div`
+
+const PostsContainer=styled.div`
 	display:flex;
 	flex-direction:column;
-	width:50%;
+	height:350px;
+	width:30%;
 	cursor:pointer;
+	overflow:scroll;
+	border-radius:5px;
+	background-color:white;
+	margin-right:2%;
+	margin-bottom:2%;
 
 	@media screen and (max-width:1370px){
 		width:90%;
@@ -80,8 +71,6 @@ const HeaderContainer=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		margin-top:-130px !important;
-		height:300px;
 
 		#headerOwnerNameLI{
 			max-width:100% !important;
@@ -91,29 +80,21 @@ const HeaderContainer=styled.div`
 		}
 	}
 
+	@media screen and (max-width:650px){
+		width:90%;
+		#headerOwnerNameLI{
+			margin-left:20% !important;
+		}
+		#headerPostTextOrAudioContainerLI{
+			width:90% !important;
+		}
+	}
+
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
     	margin-top:45px !important;
     }
 `;
 
-
-const PostsContainer=styled.div`
-	display:flex;
-	flex-direction:column;
-	width:50%;
-	height:600px;
-	overflow-y:scroll;
-	margin-left:2%;
-
-	@media screen and (max-width:1370px){
-		width:90%;
-		margin-left:0%;
-		margin-top:5%;
-		height:100%;
-		overflow:visible !important;
-		border-style:none !important;
-	}
-`;
 
 const Post=styled.div`
 	display:flex;
@@ -151,6 +132,17 @@ const ProfilePictureLink=styled(Link)`
 	position:relative;
 `;
 
+
+const PostUserInformation=styled.div`
+	display:flex;
+	flex-direction:row;
+	padding:10px;
+	margin-right:10%;
+
+	@media screen and (max-width:1370px){
+		margin-left:0% !important;
+	}
+`;
 
 const RegularPostLabelCSS={
 	listStyle:"none",
@@ -219,133 +211,52 @@ const RegularPostModal=(props)=>{
 
 	return(
 		<Container>
-			{headerRegularPost!=null?
-				<>
-					<HeaderContainer onClick={()=>handleDisplayHeaderPost()} style={BorderCSS}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px"}}>
-								<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}>
+			{regularPosts.map(data=>
+				<React.Fragment>
+					{data=="suggestedSymposium"?
+						<ConstructSuggestedSymposium
+							personalInformation={personalInformationRedux}
+							previousProps={props}
+						/>:
+						<PostsContainer style={BorderCSS}>
+							<PostUserInformation>
+								<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}
+									style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px"}}>
 									<img src={headerRegularPost.owner.profilePicture!=null?
 											  headerRegularPost.owner.profilePicture:
 											  NoProfilePicture} 
 									style={{height:"50px",width:"60px",borderRadius:"50%"}}/>
 								</ProfilePictureLink>
-							</li>
-						</a>
+								<p id="headerOwnerNameLI" style={{display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginLeft:"5%"}}>
+									<b>{headerRegularPost.owner.firstName}</b>
+								</p>
+							</PostUserInformation>
 
-						<li id="headerPostTextOrAudioContainerLI" style={{position:"relative",top:"70px",listStyle:"none",display:"inline-block",width:"70%",overflow:"hidden",marginLeft:"5%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginBottom:"2%"}}>
-									<ul style={{padding:"0px"}}>
-										<li id="headerOwnerNameLI" style={{display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
-											<b>{headerRegularPost.owner.firstName}</b>
-										</li>
-
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li  onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,headerRegularPost.industriesUploaded,props)} style={RegularPostLabelCSS}>
-												{headerRegularPost.industriesUploaded[0].industry}
-											</li>
-										</a>
-										{props.isGuestProfileIndicator==false &&(
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li style={{display:"inline-block",listStyle:"none"}}>
-													<DisplayRecruitButton
-														post={headerRegularPost}
-														previousProps={props}
-													/>
-												</li>
-											</a>
-										)}
-									</ul>
-								</li>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li id="headerPostLI" style={{listStyle:"none",height:"30%",display:"inline-block",fontSize:"20px"}}>
-											{headerRegularPost.isAudioPost==true?
-												<audio controls>
-												 	<source src={headerRegularPost.post} type="audio/ogg"/>
-												  	<source src={headerRegularPost.post} type="audio/mp4"/>
-													Your browser does not support the audio element.
-												</audio>
-												:
-												<>{headerRegularPost.post}</>
-											}
-									</li>
-								</a>
-							</ul>
-						</li>
-					</HeaderContainer>
-
-					<PostsContainer style={BorderCSS}>
-						<ul style={{padding:"0px"}}>
-							{regularPosts.map(data=>
-								<React.Fragment>
-									{data=="suggestedSymposium"?
-										<ConstructSuggestedSymposium
-											personalInformation={personalInformationRedux}
-											previousProps={props}
-										/>
-										:
-										<Post onClick={()=>displayPostModal(data)}>
-											<li style={{listStyle:"none"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-															<img src={data.owner.profilePicture!=null?
-																	data.owner.profilePicture:
-																	NoProfilePicture} 
-															style={{height:"50px",width:"50px",borderRadius:"50%"}}/>
-														</ProfilePictureLink>
-													</li>
-													<li style={{display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
-														<b>{data.owner.firstName}</b>
-													</li>
-												</ul>
-											</li>
-											<p>
-												<b> 
-													{data.isAudioPost==true?
-														<audio controls>
-														 	<source src={data.post} type="audio/ogg"/>
-														  	<source src={data.post} type="audio/mp4"/>
-															Your browser does not support the audio element.
-														</audio>
-														:
-														<>{data.post}</>
-													}
-												 </b>
-
-											</p>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>displayPersonalIndustryFeed(personalInformationRedux,null,data.industriesUploaded,props)} style={RegularPostLabelCSS}>
-													{data.industriesUploaded[0].industry}
-												</li>
-											</a>
-											{/*
-												<DisplayRecruitButton
-													post={data}
-													previousProps={props}
-												/>
-											*/}
-										</Post>
-									}
-									<hr/>
-								</React.Fragment>
-							)}	
-						{props.endOfPostsDBIndicator==false && (
-							<React.Fragment>
-								{props.isLoadingReloadedPosts==true?
-									<p>Loading please wait...</p>:
-									<p onClick={()=>props.triggerReloadingPostsHandle("RegularPosts")} style={NextButtonCSS}>
-										Next
-									</p>
+							<p id="headerPostTextOrAudioContainerLI" style={{padding:"5px",fontSize:"20px",position:"relative",top:"70px",listStyle:"none",display:"inline-block",width:"100%",overflow:"hidden",marginLeft:"5%"}}>
+								{headerRegularPost.isAudioPost==true?
+									<audio controls>
+									 	<source src={headerRegularPost.post} type="audio/ogg"/>
+									  	<source src={headerRegularPost.post} type="audio/mp4"/>
+										Your browser does not support the audio element.
+									</audio>
+									:
+									<>{headerRegularPost.post}</>
 								}
-							</React.Fragment>
-						)}
-						</ul>
-					</PostsContainer>
-				</>:
-				<p> No posts yet </p>
-			}
+							</p>
+						</PostsContainer>
+					}
+				</React.Fragment>
+			)}
+			{props.endOfPostsDBIndicator==false && (
+				<React.Fragment>
+					{props.isLoadingReloadedPosts==true?
+						<p>Loading please wait...</p>:
+						<p onClick={()=>props.triggerReloadingPostsHandle("RegularPosts")} style={NextButtonCSS}>
+							Next
+						</p>
+					}
+				</React.Fragment>
+			)}
 			{displayRegualrPostDisplayPortal==false?
 				null:
 				<RegularPostDisplayPortal

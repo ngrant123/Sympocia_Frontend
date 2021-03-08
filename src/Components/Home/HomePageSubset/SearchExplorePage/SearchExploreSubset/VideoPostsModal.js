@@ -349,10 +349,12 @@ const VideoPostModal=(props)=>{
 							 key={headerVideo.videoUrl} autoPlay loop autoBuffer muted playsInline onClick={()=>handleDisplayHeaderVideo()}>
 								<source src={headerVideo.videoUrl} type="video/mp4"/>
 							</video>
-							<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-								style={{position:"absolute",top:"50px",left:"0%"}} width="200px" height="60%">
-								<source src={headerVideo.videoDescription} type="video/mp4"/>
-							</video>
+							{headerVideo.videoDescription!=null &&(
+								<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+									style={{position:"absolute",top:"50px",left:"0%"}} width="200px" height="60%">
+									<source src={headerVideo.videoDescription} type="video/mp4"/>
+								</video>
+							)}
 						</div>
 
 						<HeaderDescriptionContainer>
@@ -389,10 +391,12 @@ const VideoPostModal=(props)=>{
 											 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
 												<source src={data.videoUrl} type="video/mp4"/>
 											</video>
-											<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-												style={{position:"absolute",top:"50%",left:"5%"}} width="100px" height="40%">
-												<source src={data.videoDescription} type="video/mp4"/>
-											</video>
+											{data.videoDescription!=null &&(
+												<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+													style={{position:"absolute",top:"50%",left:"5%"}} width="100px" height="40%">
+													<source src={data.videoDescription} type="video/mp4"/>
+												</video>
+											)}
 										</div>
 										<DescriptionContainer>
 											<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>

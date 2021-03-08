@@ -475,20 +475,24 @@ const ImagePostsModal=(props)=>{
 								<b>{headerImage.owner.firstName}</b>
 							</Link>
 						</PostUserInformation>
-						<audio id="headerAudioLI" style={{width:"350px",marginBottom:"2%"}} id="headerAudioLI" controls muted>
-						  	<source src={headerImage.audioDescription} type="audio/ogg"/>
-						  	<source src={headerImage.audioDescription} type="audio/mp4"/>
-							Your browser does not support the audio element.
-						</audio>
+						{headerImage.audioDescription!=null &&(
+							<audio id="headerAudioLI" style={{width:"350px",marginBottom:"2%"}} id="headerAudioLI" controls muted>
+							  	<source src={headerImage.audioDescription} type="audio/ogg"/>
+							  	<source src={headerImage.audioDescription} type="audio/mp4"/>
+								Your browser does not support the audio element.
+							</audio>
+						)}
 					</PostUserAndSymposiumInformation>
 					<div id="headerImageLI" style={HeaderImageCSS}>
 						<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"
-							 src={headerImage.imgUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
+							src={headerImage.imgUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
 						/>
-						<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-							style={{position:"absolute",top:"50%",left:"0%"}} width="200px" height="60%">
-							<source src={headerImage.videoDescription} type="video/mp4"/>
-						</video>
+						{headerImage.videoDescription!=null &&(
+							<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+								style={{position:"absolute",top:"50%",left:"0%"}} width="200px" height="60%">
+								<source src={headerImage.videoDescription} type="video/mp4"/>
+							</video>
+						)}
 					</div>
 					<HeaderDescriptionContainer> 
 						<p style={{fontSize:"20px"}}>
@@ -524,10 +528,12 @@ const ImagePostsModal=(props)=>{
 											</ul>
 											<div id="smallImageContainer" style={ImageCSS}>
 												<img id="image" src={data.imgUrl} style={{borderRadius:"5px",width:"100%",height:"100%"}}/>
-												<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-													style={{position:"absolute",top:"62%",left:"0%"}} width="100px" height="40%">
-													<source src={data.videoDescription} type="video/mp4"/>
-												</video>
+												{data.videoDescription!=null &&(
+													<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+														style={{position:"absolute",top:"62%",left:"0%"}} width="100px" height="40%">
+														<source src={data.videoDescription} type="video/mp4"/>
+													</video>
+												)}
 											</div>
 									</div>
 									<p style={{maxHeight:"15%",overflow:"hidden"}}>
