@@ -9,12 +9,32 @@ export const Container=styled.div`
 	padding:30px;
 	flex-direction:column;
 
-	@media screen and (max-width:800px){
+	@media screen and (max-width:650px){
+		padding:10px;
 		#postInformationLI{
 			display:none !important;
 		}
 		#postOptionsLI{
 			display:none !important;
+		}
+		#ownerProfilePicture{
+			width:20% !important;
+		}
+		#audio{
+			margin-top:5%;
+			margin-bottom:2%;
+			width:90% !important;
+			margin-left:0% !important;
+		}
+			#postInformation{
+			display:none !important;
+		}
+		#removePostOption{
+			width:50px !important;
+		}
+
+		#promotePostOption{
+			width:50px !important;
 		}
     }
 `;
@@ -31,8 +51,8 @@ export const Image=styled.div`
 		height:40% !important;
     }
 
-	@media screen and (max-width:350px){
-		height:40%;
+	@media screen and (max-width:650px){
+		height:70%;
 		width:200px;
     }
 `;
@@ -95,6 +115,10 @@ export const VideoDesriptionContainer=styled.div`
 	justify-content:center;
 	margin-right:2%;
 	background-color:#151515;
+
+	@media screen and (max-width:650px){
+		height:95%;
+	}
 `;
 
 export const CrownIconContainer=styled.div`
@@ -140,11 +164,18 @@ export const CommentContainer=styled.div`
 	height:82%;
 	margin-top:13px;
 	top:30px;
+
+	@media screen and (max-width:650px){
+		width:100%;
+	}
 `;
 
 export const PersonalInformation=styled.div`
 	display:flex;
 	flex-direction:row;
+	@media screen and (max-width:650px){
+		margin-bottom:5%;
+	}
 `;
 
 export const Post=styled.div`
@@ -152,8 +183,21 @@ export const Post=styled.div`
 	flex-direction:row;
 	justify-content:center;
 	height:90%;
+
+	@media screen and (max-width:650px){
+		height:40%;
+		margin-bottom:5%;
+		#image{
+			height:170px !important;
+		}
+	}
 `;
 
+
+export const PollingOptionsContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+`;
 
 
 
