@@ -227,7 +227,7 @@ const RegularPostModal=(props)=>{
 							personalInformation={personalInformationRedux}
 							previousProps={props}
 						/>:
-						<PostsContainer style={BorderCSS}>
+						<PostsContainer onClick={()=>displayPostModal(data)} style={BorderCSS}>
 							<PostUserInformation>
 								<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}
 									style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px"}}>

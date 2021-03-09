@@ -23,6 +23,9 @@ import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js"
 
 const Container=styled.div`
+	padding:30px;
+	height:100%;
+	overflow:scroll;
 `;
 
 
@@ -102,16 +105,32 @@ const PostContainer=styled.div`
 	width:100%;
 	height:100%;
 	display:flex;
-	flex-direction:row;
+	flex-direction:column;
 `;
 
-const ProfileImageContainer=styled.div`
+const PostOwnerAndActionsContainer=styled.div`
 	display:flex;
-	flex-direction:column;
-	width:45%;
+	flex-direction:row;
+	height:20%;
+	margin-right:5%;
+	align-items:center;
+`;
+
+const PostActions=styled.div`
+	display:flex;
+	flex-direction:row;
+	flex-wrap:wrap;
+`;
+
+const ProfileOwnerContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+	width:20%;
 	height:100%;
 	margin-right:5%;
+	align-items:center;
 `;
+
 
 const PostInformationContainer=styled.div`
 	display:flex;
@@ -257,57 +276,60 @@ const RegularPostContainer=(props)=>{
 	}
 
 	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeDisplayStampEffect(true);
+		/*
 			let confirmationResponse;
-		let dataResponse;
-		if(isGuestProfile==true){
-			alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
-		}else{
-			if(displayStampEffect==false){
-				const {confirmation,data}=await addStampPost(
-													postData._id,
-													"personal",
-													"RegularPosts",
-													personalId,
-													isAccessTokenUpdated==true?updatedAccessToken:
-													personalInformation.accessToken
-												);
-				confirmationResponse=confirmation;
-				dataResponse=data;
-
+			let dataResponse;
+			if(isGuestProfile==true){
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 			}else{
-				const {confirmation,data}=await unStampPost(
-													postData._id,
-													"personal",
-													"RegularPosts",
-													personalId,
-													isAccessTokenUpdated==true?updatedAccessToken:
-													personalInformation.accessToken
-												);
-				confirmationResponse=confirmation;
-				dataResponse=data;
-			}
+				if(displayStampEffect==false){
+					const {confirmation,data}=await addStampPost(
+														postData._id,
+														"personal",
+														"RegularPosts",
+														personalId,
+														isAccessTokenUpdated==true?updatedAccessToken:
+														personalInformation.accessToken
+													);
+					confirmationResponse=confirmation;
+					dataResponse=data;
 
-			if(confirmationResponse=="Success"){
-				if(displayStampEffect==false)
-					changeDisplayStampEffect(true);
-				else
-					changeDisplayStampEffect(false);
-			}else{
-				const {statusCode}=dataResponse;
-				if(statusCode==401){
-					await refreshTokenApiCallHandle(
-							personalInformation.refreshToken,
-							personalInformation.id,
-							createOrRemoveStampEffect,
-							dispatch,
-							{},
-							false
-						);
 				}else{
-					alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+					const {confirmation,data}=await unStampPost(
+														postData._id,
+														"personal",
+														"RegularPosts",
+														personalId,
+														isAccessTokenUpdated==true?updatedAccessToken:
+														personalInformation.accessToken
+													);
+					confirmationResponse=confirmation;
+					dataResponse=data;
+				}
+
+				if(confirmationResponse=="Success"){
+					if(displayStampEffect==false)
+						changeDisplayStampEffect(true);
+					else
+						changeDisplayStampEffect(false);
+				}else{
+					const {statusCode}=dataResponse;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								personalInformation.refreshToken,
+								personalInformation.id,
+								createOrRemoveStampEffect,
+								dispatch,
+								{},
+								false
+							);
+					}else{
+						alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+					}
 				}
 			}
-		}
+		*/
 	}
 	const displayCommentsTrigger=()=>{
 		changeDisplayCommentsAndResponses(true);
@@ -356,150 +378,116 @@ const RegularPostContainer=(props)=>{
 						isGuestProfile={isGuestProfile}
 					/>:null
 				}
-				{displayMobileUI==true?
-					<MobileUI
-						postData={props.postData}
-						targetDom={props.targetDom}
-						userPostsInformation={userPostsInformation}
-						triggerPromoteModal={triggerPromoteModal}
-						triggerEditPostModal={displayEditPostHandle}
-						pageType={props.profileType}
-						isOwnPostViewing={props.isOwnProfile}
-						deletePost={handleRemoveRegularPost}
-						personalId={personalId}
-						displayDisapproveModalTrigger={displayDisapproveModalTrigger}
-						displayApprovePollModalTrigger={displayApprovePollModalTrigger}
-						isGuestProfile={isGuestProfile}
-					/>:
-					<Container>
-						{displayEditPostModal==true?
-							<RegularPostCreation 
-								previousData={props.postData}
-								contextLocation={userPostsInformation}
-							/>
-							:<PostContainer>
-								<ProfileImageContainer>
-									{displayStampEffect==true && (
-										<StampIconEffect id="stampEffect">
-											<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-										</StampIconEffect>
-									)}
-
-
+				<Container>
+					{displayEditPostModal==true?
+						<RegularPostCreation 
+							previousData={props.postData}
+							contextLocation={userPostsInformation}
+						/>
+						:<PostContainer>
+							{/*
+								{displayStampEffect==true && (
+									<StampIconEffect id="stampEffect">
+										<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+									</StampIconEffect>
+								)}
+							*/}
+							<PostOwnerAndActionsContainer>
+								<ProfileOwnerContainer>
 									<img src={profilePicture==null?NoProfilePicture:profilePicture}
-										style={{width:"100%",height:"100%"}}/>
-									<SymposiumContainer style={ButtonCSS}>
-										{postData.industriesUploaded[0].industry}
-									</SymposiumContainer>
-								</ProfileImageContainer>
-
-								<PostInformationContainer>
-									{displayCommentsAndResponses==false?
-										<React.Fragment>
-											<PostOwnerAndOptionsContainer>
-												<p style={{marginRight:"5%",maxWidth:"50%",maxHeight:"20px",overflow:"hidden"}}>
-													<b>{firstName}</b>
-												</p>
-												<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
-													<LoyaltyIcon
-														style={{fontSize:20}}
-													/>
-												</li>
-												<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-													  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-													  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-													  <line x1="8" y1="9" x2="16" y2="9" />
-													  <line x1="8" y1="13" x2="14" y2="13" />
-													</svg>
-												</li>
-												<li onClick={()=>changeDisplayPostApprovalAndSymposium(!displayPostApprovalAndSymposiumInfo)} 
-													style={ShadowButtonCSS}>
-													{displayPostApprovalAndSymposiumInfo==false?
-														<ExpandMoreIcon
-															style={{fontSize:20}}
-														/>
-														:<ExpandLessIcon
-															style={{fontSize:20}}
-														/>
-													}
-												</li>
-
-												{(profileType=="personalProfile" && isOwnProfile==true) &&(
-													<React.Fragment>
-														<li onClick={()=>displayEditPostHandle()} style={ShadowButtonCSS}>
-															<BorderColorIcon
-																style={{fontSize:20}}
-															/>
-														</li>
-
-														<li onClick={()=>handleRemoveRegularPost()} style={ShadowButtonCSS}>
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-															  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-															  <line x1="4" y1="7" x2="20" y2="7" />
-															  <line x1="10" y1="11" x2="10" y2="17" />
-															  <line x1="14" y1="11" x2="14" y2="17" />
-															  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-															  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-															</svg>
-														</li>
-
-														<li onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-																  width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
-																  fill="none" stroke-linecap="round" stroke-linejoin="round">
-																  <path stroke="none" d="M0 0h24v24H0z"/>
-																  <circle cx="12" cy="9" r="6" />
-																  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
-																  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
-															</svg>
-														</li>
-
-													</React.Fragment>
-												)}
-											</PostOwnerAndOptionsContainer>
-											<div style={{marginTop:"5%",maxHeight:"65%",overflowY:"scroll"}}>
-												{displayPostApprovalAndSymposiumInfo==true?
-													<React.Fragment>	
-														<li onClick={()=>displayApprovePollModalTrigger()} style={ButtonCSS}>
-																<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> 
-																			approves post
-														</li>
-
-														<li onClick={()=>displayDisapproveModalTrigger()} style={ButtonCSS}>
-															<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> 
-																			disapproves post
-														</li>
-													</React.Fragment>:
-													<React.Fragment>
-														{isAudioPost==null || isAudioPost==false?
-															<p>
-																{post}
-															</p>:
-															<audio style={{width:"90%"}} controls>
-																<source src={post} type="audio/ogg"/>
-																<source src={post} type="audio/mp4"/>
-																Your browser does not support the audio element.
-															</audio>
-														}
-													</React.Fragment>
-
-												}
-											</div>
-										</React.Fragment>:
-										<CommentsContainer
-											postId={postData._id}
-											postType={"RegularPosts"}
-											hideComments={hideComments}
-											targetDom={targetDom}
-											isGuestProfile={isGuestProfile}
+										style={{width:"30%",height:"60px",borderRadius:"50%",marginRight:"5%"}}
+									/>
+									<p style={{marginRight:"5%",maxWidth:"60%",maxHeight:"20px",overflow:"hidden"}}>
+										<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</b>
+									</p>
+								</ProfileOwnerContainer>
+								<PostActions>
+									<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+										<LoyaltyIcon
+											style={{fontSize:20}}
 										/>
-									}
-								</PostInformationContainer>
-							</PostContainer>
-						}
-					</Container>
-				}
+									</li>
+									<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+										  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+										  <line x1="8" y1="9" x2="16" y2="9" />
+										  <line x1="8" y1="13" x2="14" y2="13" />
+										</svg>
+									</li>
+									<li onClick={()=>changeDisplayPostApprovalAndSymposium(!displayPostApprovalAndSymposiumInfo)} 
+										style={ShadowButtonCSS}>
+										{displayPostApprovalAndSymposiumInfo==false?
+											<ExpandMoreIcon
+												style={{fontSize:20}}
+											/>
+											:<ExpandLessIcon
+												style={{fontSize:20}}
+											/>
+										}
+									</li>
+
+									{(profileType=="personalProfile" && isOwnProfile==true) &&(
+										<React.Fragment>
+											<li onClick={()=>displayEditPostHandle()} style={ShadowButtonCSS}>
+												<BorderColorIcon
+													style={{fontSize:20}}
+												/>
+											</li>
+
+											<li onClick={()=>handleRemoveRegularPost()} style={ShadowButtonCSS}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												  <line x1="4" y1="7" x2="20" y2="7" />
+												  <line x1="10" y1="11" x2="10" y2="17" />
+												  <line x1="14" y1="11" x2="14" y2="17" />
+												  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+												  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+												</svg>
+											</li>
+
+											<li onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+													  width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+													  fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z"/>
+													  <circle cx="12" cy="9" r="6" />
+													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+												</svg>
+											</li>
+
+										</React.Fragment>
+									)}
+								</PostActions>
+							</PostOwnerAndActionsContainer>
+
+							<PostInformationContainer>
+								{displayCommentsAndResponses==false?
+									<React.Fragment>
+										{isAudioPost==null || isAudioPost==false?
+											<p>
+												{post}
+											</p>:
+											<audio style={{width:"90%"}} controls>
+												<source src={post} type="audio/ogg"/>
+												<source src={post} type="audio/mp4"/>
+												Your browser does not support the audio element.
+											</audio>
+										}
+									</React.Fragment>:
+									<CommentsContainer
+										postId={postData._id}
+										postType={"RegularPosts"}
+										hideComments={hideComments}
+										targetDom={targetDom}
+										isGuestProfile={isGuestProfile}
+									/>
+								}
+							</PostInformationContainer>
+						</PostContainer>
+					}
+				</Container>
 			</React.Fragment>
 		}}
 	</PostConsumer>
