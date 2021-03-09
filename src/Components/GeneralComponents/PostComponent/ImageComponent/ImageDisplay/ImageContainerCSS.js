@@ -9,7 +9,7 @@ export const Container=styled.div`
 	padding:30px;
 	flex-direction:column;
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:1370px){
 		padding:10px;
 		#postInformationLI{
 			display:none !important;
@@ -18,7 +18,8 @@ export const Container=styled.div`
 			display:none !important;
 		}
 		#ownerProfilePicture{
-			width:20% !important;
+			width:10% !important;
+			height:60px !important;
 		}
 		#audio{
 			margin-top:5%;
@@ -37,23 +38,30 @@ export const Container=styled.div`
 			width:50px !important;
 		}
     }
+
+    @media screen and (max-width:650px){
+    	#ownerProfilePicture{
+			width:20% !important;
+			height:50px !important;
+		}
+    }
 `;
 
 
 export const Image=styled.div`
 	position:relative;
 	width:500px;
-	height:450px;
+	height:100%;
 	border-radius:20px;
 	margin-bottom:5px;
 
 	@media screen and (max-width:1370px){
-		height:40% !important;
+		height:100% !important;
+		width:100%;
     }
-
-	@media screen and (max-width:650px){
-		height:70%;
-		width:200px;
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+   		height:100% !important;
+	
     }
 `;
 
@@ -110,15 +118,18 @@ export const StampIconEffect=styled.div`
 
 `;
 export const VideoDesriptionContainer=styled.div`
-	width:30%;
-	height:85%;
+	width:50%;
+	height:100%;
 	justify-content:center;
 	margin-right:2%;
 	background-color:#151515;
 
 	@media screen and (max-width:650px){
-		height:95%;
+		height:100%;
 	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+   		height:100% !important;
+    }
 `;
 
 export const CrownIconContainer=styled.div`
@@ -176,23 +187,34 @@ export const PersonalInformation=styled.div`
 	@media screen and (max-width:650px){
 		margin-bottom:5%;
 	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	margin-bottom:-10% !important;
+    }
 `;
 
 export const Post=styled.div`
 	display:flex;
 	flex-direction:row;
 	justify-content:center;
-	height:90%;
+	height:100%;
 
-	@media screen and (max-width:650px){
-		height:40%;
+	@media screen and (max-width:1370px){
+		height:30%;
 		margin-bottom:5%;
 		#image{
-			height:170px !important;
+			height:100% !important;
 		}
 	}
-`;
 
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+   		#image{
+			height:100% !important;
+		}
+		height:90%;
+		margin-bottom:5%;
+	
+    }
+`;
 
 export const PollingOptionsContainer=styled.div`
 	display:flex;
