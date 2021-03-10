@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {PollingOptionsContainer} from "./ImageContainerCSS.js";
-import Comments from "../../../CommentsComponent/index.js";
+import Comments from "../../CommentsComponent/index.js";
 import {postCaptionAndDescription} from "./Post.js";
 
 

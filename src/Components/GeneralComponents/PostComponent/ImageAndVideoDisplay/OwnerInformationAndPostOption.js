@@ -3,7 +3,7 @@ import styled from "styled-components";
 import{
 	PersonalInformation
 } from "./ImageContainerCSS.js";
-import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import AssessmentIcon from '@material-ui/icons/Assessment';
