@@ -11,8 +11,6 @@ import { Provider } from 'react-redux';
 import { createStore,compose } from 'redux';
 import {loadState,saveState} from './reduxState';
 import ErrorBoundary from "./ErrorBoundary.js";
-//TEST
-import Demo from "./Components/Demo/index.js";
 import throttle from 'lodash.throttle';
 import LoadingScreen from "./LoadingAnimation.js";
 

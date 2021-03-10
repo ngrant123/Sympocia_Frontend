@@ -5,22 +5,7 @@ import MiscellaneousIndexPortal from "../Modals/FeaturesIndex/MiscellaneousIndex
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {FeatureConsumer} from "./FeatureContext.js";
-/*
-		MISCELLANEOUS_SYMPOSIUM:{
-		ENTREPENEUR:["Entrepeneur"],
-		RELIGION:["Religion"],
-		ENTERTAINMENT:[
-			"Tv Shows",
-			"Movies"
-		],
-		COMEDY:["Comedy"],
-		CARS_COOKING_DIY:[
-			"Cars",
-			"Cooking",
-			"DIY"
-		]
-	},
-*/
+
 const OptionsCSS={
   listStyle:"none",
   backgroundColor:"white",

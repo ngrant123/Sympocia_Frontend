@@ -111,32 +111,49 @@ const ImageContainer=(props)=>{
 
 	useEffect(()=>{
 		const fetchData=async()=>{
+			debugger;
 			const destructuredData=props.imageData==null?props.videoData:props.imageData;
 			const destructedFieldTerm=props.imageData==null?"videoData":"imageData";
+			const {videoDescriptionKey,videoUrlKey}=destructuredData;	
+			let	currentData=postData;
 
-			const {videoDescriptionKey}=destructuredData;	
 			if(videoDescriptionKey!=null){
 				const {confirmation,data}=await getVideoUrl(videoDescriptionKey);
 
-				let currentData=postData;
 				if(confirmation=="Success"){
 					const videoDescriptionUrl=data.message;
 
 					currentData={
 						...currentData,
 						[destructedFieldTerm]:{
-							...destructuredData,
+							...currentData[destructedFieldTerm],
 							videoDescription:videoDescriptionUrl
 						}
 					}
 				}else{
 					alert('Unfortunately there was an error getting this video. Please try again later');
 				}
-				debugger;
-				console.log(destructedFieldTerm)
-				changePostData(currentData);
-				changePostDataDestructuredField(destructedFieldTerm)
+			} 
+			if(videoUrlKey!=null){
+				const {confirmation,data}=await getVideoUrl(videoUrlKey);
+				if(confirmation=="Success"){
+					const videoUrl=data.message;
+
+					currentData={
+						...currentData,
+						[destructedFieldTerm]:{
+							...currentData[destructedFieldTerm],
+							videoUrl:videoUrl
+						}
+					}
+				}else{
+					alert('Unfortunately there was an error getting this video. Please try again later');
+				}
 			}
+
+
+			changePostData(currentData);
+			changePostDataDestructuredField(destructedFieldTerm)
 			changeIsLoadingStatus(false);
 		}
 

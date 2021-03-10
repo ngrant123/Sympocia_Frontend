@@ -310,8 +310,6 @@ const VideoPostModal=(props)=>{
 	}
 
 	const displayVideoModal=(data)=>{
-		const video=document.getElementById("video");
-		video.pause();
 		changeSelectedVideo(data);
 		changeRecommendedVideos(videos);
 		changeVideoDisplay(true);
