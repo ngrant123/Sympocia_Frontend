@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import VideoDisplayContainer from "../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
+import VideoDisplayContainer from "../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
 
 const ShadowContainerVideos=styled.div`
 	position:fixed;
@@ -16,13 +16,14 @@ const ShadowContainerVideos=styled.div`
 const Container=styled.div`
 
 	position:fixed;
-	z-index:40;
+	z-index:45;
 	border-radius:5px;
 	top:10%;
 	margin-left:17%;
 	overflow-y:auto;
 	width:65%;
 	height:70%;
+	background-color:white;
 
 	@media screen and (max-width:1370px){
 		margin-left:-1%;

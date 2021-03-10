@@ -13,8 +13,8 @@ import {
 	getCompanyInformation
 } from "../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
 import {CompanyPostDisplayProvider} from "../CompanyProfilePostsDisplayContext.js";
-import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
-import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
+import ImageContainer from "../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
+import VideoContainer from "../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
 import {SponsorDisplayModal} from "../../PersonalProfile/PersonalProfileSet/Modals-Portals/ChampionModalPortal/ChampionDisplayModal.js";
 import EmployeeDisplayModal from "./EmployeeDisplayModal.js";
 

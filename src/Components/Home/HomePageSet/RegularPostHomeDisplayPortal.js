@@ -78,7 +78,7 @@ const RegularPostHomeDisplayPortal=(props)=>{
 		<React.Fragment>
 			<ShadowContainer onClick={()=>props.closeModal()}/>
 			<RegularPostDisplayContainer>
-				<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
+				<div onClick={()=>props.closeModal()} style={{cursor:"pointer",marginBottom:"5%"}}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 					 stroke-linecap="round" stroke-linejoin="round">

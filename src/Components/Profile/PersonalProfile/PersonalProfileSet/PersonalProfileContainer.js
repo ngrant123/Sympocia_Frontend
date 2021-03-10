@@ -19,8 +19,10 @@ import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'
 import { withRouter } from "react-router-dom";
 import {PostDisplayProvider} from "../PostDisplayModalContext.js";
-import ImageContainer from "../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
-import VideoContainer from "../../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
+import ImageContainer from "../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
+
+
+import VideoContainer from "../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
 import RegularPostContainer from "../../../GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
 import {SponsorDisplayModal} from "./Modals-Portals/ChampionModalPortal/ChampionDisplayModal.js";
 import Confetti from 'react-confetti';

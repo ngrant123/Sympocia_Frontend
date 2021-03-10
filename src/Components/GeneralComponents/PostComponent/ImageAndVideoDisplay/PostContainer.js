@@ -1,6 +1,5 @@
 import React,{useState,useEffect,Component} from "react";
 import styled,{keyframes} from "styled-components";
-import {ImageProvider} from "./ImageContext.js";
 import EditImageCreation from "../ImageComponent/ImageCreation/EditImageCreation.js";
 import EditIcon from '@material-ui/icons/Edit';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
@@ -26,15 +25,14 @@ import {
 	CommentContainer,
 	PersonalInformation,
 	PollingOptionsContainer
-} from "./ImageContainerCSS.js";
+} from "./PostContainerCSS.js";
 
-import MobileUI from "./MobileUI.js";
-import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
+import DeletePostConfirmationPortal from "../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector,useDispatch} from  "react-redux";
-import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
-import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js"
-import {getVideoUrl} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
-import PollOptionPortal from "../../PollOptionPortal.js";
+import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
+import FirstTimePostOnboarding from "../FirstTimePostOnboardingIndicator.js"
+import {getVideoUrl} from "../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import PollOptionPortal from "../PollOptionPortal.js";
 import {OwnerInformationAndPostOptions} from "./OwnerInformationAndPostOption.js";
 import {PostDisplayContainer} from "./Post.js";
 import CommentsAndAuthenticReplies from "./CommentsAndAuthenticReplies.js";
@@ -88,8 +86,8 @@ const HorizontalLineCSS={
 
 const ImageContainer=(props)=>{
 	console.log(props);
-	const [commentImageIndicator,changeCommentsDisplay]=useState(false);
-	const [displayImageModal,changeDisplayImage]=useState(false);
+	const [commentPostIndicator,changeCommentsDisplay]=useState(false);
+	const [displayPostModal,changeDisplayPost]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const [displayMobileUI,changeUIStatus]=useState(false);
 	const [displayPhoneUI,changePhoneUIStatus]=useState(false);
@@ -103,6 +101,9 @@ const ImageContainer=(props)=>{
 	const dispatch=useDispatch();
 	const [isLoading,changeIsLoadingStatus]=useState(true);
 	const [postData,changePostData]=useState(props);
+	const [postDataDestructedField,changePostDataDestructuredField]=useState();
+
+
 	const [displayPollingOptions,changeDisplayPollingOptions]=useState(false);
 	const [displayPollModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
@@ -110,8 +111,10 @@ const ImageContainer=(props)=>{
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			const {imageData}=props;
-			const {videoDescriptionKey}=imageData;	
+			const destructuredData=props.imageData==null?props.videoData:props.imageData;
+			const destructedFieldTerm=props.imageData==null?"videoData":"imageData";
+
+			const {videoDescriptionKey}=destructuredData;	
 			if(videoDescriptionKey!=null){
 				const {confirmation,data}=await getVideoUrl(videoDescriptionKey);
 
@@ -121,8 +124,8 @@ const ImageContainer=(props)=>{
 
 					currentData={
 						...currentData,
-						imageData:{
-							...imageData,
+						[destructedFieldTerm]:{
+							...destructuredData,
 							videoDescription:videoDescriptionUrl
 						}
 					}
@@ -130,7 +133,9 @@ const ImageContainer=(props)=>{
 					alert('Unfortunately there was an error getting this video. Please try again later');
 				}
 				debugger;
+				console.log(destructedFieldTerm)
 				changePostData(currentData);
+				changePostDataDestructuredField(destructedFieldTerm)
 			}
 			changeIsLoadingStatus(false);
 		}
@@ -166,7 +171,7 @@ const ImageContainer=(props)=>{
 
 			if(displayStampEffect==false){
 				const {confirmation,data}=await addStampPost(
-													postData.imageData._id,
+													postData[postDataDestructedField]._id,
 													"personal",
 													"Images",
 													userId,
@@ -178,7 +183,7 @@ const ImageContainer=(props)=>{
 
 			}else{
 				const {confirmation,data}=await unStampPost(
-													postData.imageData._id,
+													postData[postDataDestructedField]._id,
 													"personal",
 													"Images",
 													userId,
@@ -218,12 +223,12 @@ const ImageContainer=(props)=>{
 	}
 
 	const triggerPromoteModal=()=>{
-		postData.triggerPromoteModal(postData.imageData._id,"Images");
+		postData.triggerPromoteModal(postData[postDataDestructedField]._id,"Images");
 	}
 
 	const editPost=(data)=>{
-		changeDisplayImage(false);
-		postData.imageData.contextLocation.editPost(data);
+		changeDisplayPost(false);
+		postData[postDataDestructedField].contextLocation.editPost(data);
 	}
 
 	const closeDeleteConfirmationModal=()=>{
@@ -248,95 +253,99 @@ const ImageContainer=(props)=>{
 			displayComments:displayComments,
 			changeDisplayPollingOptions:changeDisplayPollingOptions,
 			handleRemoveImagePost:handleRemoveImagePost,
-			changeDisplayImage:changeDisplayImage,
+			changeDisplayPost:changeDisplayPost,
 			promoteModal:triggerPromoteModal
 		},
 		isOwnProfile:postData.isOwnProfile,
-		displayImageModal:displayImageModal,
+		displayPostModal:displayPostModal,
 		profileType:postData.profileType
 	}
 
 	return(
-		<ImageProvider value={{
-			updateIndicator:(indicator)=>{
-				changeCommentsDisplay(indicator);
-			}
-		}}>
-			<React.Fragment>
-				<FirstTimePostOnboarding
-					userId={userId}
-					isGuestProfile={isGuestProfile}
+		<React.Fragment>
+			<FirstTimePostOnboarding
+				userId={userId}
+				isGuestProfile={isGuestProfile}
+			/>
+			{displayDeleteConfirmation==true &&(
+				<DeletePostConfirmationPortal
+					postType={"Posts"}
+					selectedPostType={"Images"}
+					content={postData[postDataDestructedField]}
+					closeModal={closeDeleteConfirmationModal}
+					removeContextLocation={postData[postDataDestructedField].contextLocation.removePost}
+					targetDom={"personalContainer"}
 				/>
-				{displayDeleteConfirmation==true &&(
-					<DeletePostConfirmationPortal
-						postType={"Posts"}
-						selectedPostType={"Images"}
-						content={postData.imageData}
-						closeModal={closeDeleteConfirmationModal}
-						removeContextLocation={postData.imageData.contextLocation.removePost}
-						targetDom={"personalContainer"}
-					/>
-				)}
-				{displayPollModal==true?
-					<PollOptionPortal
-						closeModal={closePollingModal}
-						displayApproveModal={displayApproveModal}
-						postId={postData.imageData._id}
-						postType="Images"
-						targetDom={"personalContainer"}
-						isGuestProfile={isGuestProfile}
-					/>:null
-				}
-				{displayImageModal==true?
-					<EditImageCreation
-						imageSrcUrl={postData.imageData.imgUrl}
-						previousData={postData.imageData}
-						editPost={editPost}
-					/>:
-					<React.Fragment>
-						{isLoading==true?
-							<p>Gives us one second while we get this post</p>:
-							<Container>
-								{(commentImageIndicator==false && displayPollingOptions==false && displayPostAdditionalInformation==false)==true?
-									<React.Fragment>
-										<OwnerInformationAndPostOptions
-											displayMobileUI={displayMobileUI}
-											imageData={postData.imageData}
-											profileType={postData.profileType}
-											userActions={{...userActions}}
-											triggerDisplayPostDescriptionAndCaption={changePostAdditionalInformation}
-											targetDom={postData.targetDom}
-										/>
-										<PostDisplayContainer
-											imageData={postData.imageData}
-											displayStampEffect={displayStampEffect}
-											displayMobileUI={displayMobileUI}
-											userActions={{...userActions}}
-											targetDom={postData.targetDom}
-										/>
-									</React.Fragment>:
-									<CommentsAndAuthenticReplies
-										_id={postData.imageData._id}
-										hideComments={hideComments}
-										targetDom={postData.targetDom}
-										isGuestProfile={isGuestProfile}
-										changeDisplayPollingOptions={changeDisplayPollingOptions}
-										displayPollingOptionsTrigger={displayPollingOptionsTrigger}
-										postType={"Images"}
-										displayPollingOptions={displayPollingOptions}
-										displayPostAdditionalInformation={displayPostAdditionalInformation}
-										caption={postData.imageData.caption}
-										description={postData.imageData.description}
+			)}
+			{displayPollModal==true?
+				<PollOptionPortal
+					closeModal={closePollingModal}
+					displayApproveModal={displayApproveModal}
+					postId={postData[postDataDestructedField]._id}
+					postType="Images"
+					targetDom={postData.targetDom}
+					isGuestProfile={isGuestProfile}
+				/>:null
+			}
+			{displayPostModal==true?
+				<EditImageCreation
+					imageSrcUrl={postData[postDataDestructedField].imgUrl}
+					previousData={postData[postDataDestructedField]}
+					editPost={editPost}
+				/>:
+				<Container>
+					{isLoading==true?
+						<p>Gives us one second while we get this post</p>:
+						<React.Fragment>
+							{(commentPostIndicator==false && displayPollingOptions==false && displayPostAdditionalInformation==false)==true?
+								<React.Fragment>
+									<div style={{marginBottom:"2%",cursor:"pointer"}} onClick={()=>props.closePostModal()}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+											 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+											 stroke-linecap="round" stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+											  <circle cx="12" cy="12" r="9" />
+											  <path d="M10 10l4 4m0 -4l-4 4" />
+										</svg>
+									</div>
+									<OwnerInformationAndPostOptions
+										displayMobileUI={displayMobileUI}
+										postData={postData[postDataDestructedField]}
+										profileType={postData.profileType}
+										userActions={{...userActions}}
 										triggerDisplayPostDescriptionAndCaption={changePostAdditionalInformation}
+										targetDom={postData.targetDom}
 									/>
-								}
-							</Container>
-						}
-					</React.Fragment>
-				}
-			</React.Fragment>
-		</ImageProvider>
-
+									<PostDisplayContainer
+										postData={postData[postDataDestructedField]}
+										displayStampEffect={displayStampEffect}
+										displayMobileUI={displayMobileUI}
+										userActions={{...userActions}}
+										targetDom={postData.targetDom}
+										headlineText={postDataDestructedField=="imageData"?postData.imageData.caption:postData.videoData.title}
+										secondaryText={postData[postDataDestructedField].description}
+									/>
+								</React.Fragment>:
+								<CommentsAndAuthenticReplies
+									_id={postData[postDataDestructedField]._id}
+									hideComments={hideComments}
+									targetDom={postData.targetDom}
+									isGuestProfile={isGuestProfile}
+									changeDisplayPollingOptions={changeDisplayPollingOptions}
+									displayPollingOptionsTrigger={displayPollingOptionsTrigger}
+									postType={postData[postDataDestructedField].imgUrl==null?"Videos":"Images"}
+									displayPollingOptions={displayPollingOptions}
+									displayPostAdditionalInformation={displayPostAdditionalInformation}
+									headlineText={postDataDestructedField=="imageData"?postData.imageData.caption:postData.videoData.title}
+									secondaryText={postData[postDataDestructedField].description}
+									triggerDisplayPostDescriptionAndCaption={changePostAdditionalInformation}
+								/>
+							}
+						</React.Fragment>
+					}
+				</Container>
+			}
+		</React.Fragment>
 	)
 }
 
