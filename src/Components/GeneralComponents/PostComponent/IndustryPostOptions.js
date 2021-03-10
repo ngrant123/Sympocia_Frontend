@@ -211,27 +211,30 @@ class IndustryPostOptions extends Component{
 													)}
 												</ul>
 											</li>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<p>Choose an sub-symposium (optional):</p>
-												<div class="dropdown">
-																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																							borderColor:"#5298F8",
-																																							borderStyle:"solid",
-																																							borderWidth:"1px",
-																																							color:"#5298F8",
-																																							backgroundColor:"white"}}>
-																		Sub-industries
-																	   	<span class="caret"></span>
-																	</button>
-																	<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
-																		{this.state.subIndustriesSelectedDropDown.map(data=>
-																			<li onClick={()=>this.addSelectedSubCommunity(data)}>
-																				<a href="javascript:;">{data.industry}</a>
-																			</li>
-																		)}
-																	</ul>
-											  	</div>
-											</li>
+											{/*
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<p>Choose an sub-symposium (optional):</p>
+													<div class="dropdown">
+														<button class="btn btn-primary dropdown-toggle" type="button"
+															data-toggle="dropdown" style={{	
+																borderColor:"#5298F8",
+																borderStyle:"solid",
+																borderWidth:"1px",
+																color:"#5298F8",
+																backgroundColor:"white"}}>
+															Sub-industries
+														   	<span class="caret"></span>
+														</button>
+														<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
+															{this.state.subIndustriesSelectedDropDown.map(data=>
+																<li onClick={()=>this.addSelectedSubCommunity(data)}>
+																	<a href="javascript:;">{data.industry}</a>
+																</li>
+															)}
+														</ul>
+												  	</div>
+												</li>
+											*/}
 											<li style={{listStyle:"none",display:"inline-block"}}>
 													<ul style={{padding:"0px"}}>
 														{this.state.subIndustriesSelected.map(data=>

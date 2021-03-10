@@ -483,8 +483,11 @@ isArrayEqual=(arr1,arr2)=>{
 	}
 
 	isIsHeaderImageAdded=()=>{
-		if(this.state.pictureUrl==""){
-			alert('Please added an image to your blog to continue');
+		const title=document.getElementById("blogTitle").value;
+		const description=document.getElementById("blogDescription").value;
+
+		if(this.state.pictureUrl=="" || title=="" || description==""){
+			alert('Please add the require information for this blog');
 		}else{
 			this.setState({
 				displayIndustrySelectModal:true,
@@ -625,12 +628,12 @@ isArrayEqual=(arr1,arr2)=>{
 												</ul>
 											</li>
 
-											<p> Title (optinal)</p>
+											<p> Title</p>
 											<BlogTitle
 												placeholder="Write down a title so it will immediately grab users attention"
 												id="blogTitle"
 											/>
-											<p> Description (optinal)</p>
+											<p> Description</p>
 											<BlogDescription
 												placeholder="Write down a description so readers can get a quick summary of you masterpiece"
 												id="blogDescription"

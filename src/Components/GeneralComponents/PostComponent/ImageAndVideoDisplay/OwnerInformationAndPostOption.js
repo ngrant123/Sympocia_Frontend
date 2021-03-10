@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import{
-	PersonalInformation
-} from "./PostContainerCSS.js";
+import{PersonalInformation} from "./PostContainerCSS.js";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import BorderColorIcon from '@material-ui/icons/BorderColor';

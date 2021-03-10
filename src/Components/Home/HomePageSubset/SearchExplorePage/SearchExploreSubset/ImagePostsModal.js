@@ -83,6 +83,9 @@ const HeaderContainer=styled.div`
 
 	@media screen and (max-width:650px){
 		margin-top:-130px !important;
+		#headerImageDescription{
+			display:none !important;
+		}
 		#headerPostProfilePictureLIInformation{
 			top:0% !important;
 		}
@@ -129,8 +132,9 @@ const PostsContainer=styled.div`
     	height:100%;
     }
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:650px){
 		margin-left:0% !important;
+		margin-top:2%;
 		width:100% !important;
 		#smallAudioDescription{
 			display:none !important;
@@ -263,8 +267,8 @@ const SuggestedSymposiumsContainer=styled.div`
 `;
 const HeaderImageCSS={
 	position:"relative",
-	width:"85%",
-	height:"400px",
+	width:"90%",
+	height:"500px",
 	borderRadius:"5px",
 	borderRadius:"5px",
 	boxShadow:"1px 1px 10px #707070",
@@ -273,8 +277,8 @@ const HeaderImageCSS={
 
 const ImageCSS={
 	position:"relative",
-	width:"220px",
-	height:"200px",
+	width:"240px",
+	height:"220px",
 	borderRadius:"5px"
 }
 
@@ -498,7 +502,7 @@ const ImagePostsModal=(props)=>{
 						<p style={{fontSize:"20px"}}>
 							<b>{headerImage.caption}</b>
 						</p>
-						<p>
+						<p id="headerImageDescription">
 							{headerImage.description}
 						</p>
 					</HeaderDescriptionContainer>
@@ -553,8 +557,8 @@ const ImagePostsModal=(props)=>{
 											{data.owner.firstName}
 										</p>
 									</DescriptionContainer>
-							</SmallPostContainer>
-						}	
+								</SmallPostContainer>
+							}	
 						</React.Fragment>
 					)}
 					{props.endOfPostsDBIndicator==false && (

@@ -146,7 +146,7 @@ const MobileArenaContainer=styled.div`
 const PostsContainer=styled.div`
 	position:absolute;
 	width:85%;
-	height:60%;
+	height:70%;
 
 	@media screen and (max-width:1300px){
 		#headerTitleLI{

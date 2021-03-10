@@ -340,8 +340,8 @@ const NextButtonCSS={
 
 const HeaderBlogCSS={
 	position:"relative",
-	width:"85%",
-	height:"400px",
+	width:"90%",
+	height:"500px",
 	borderRadius:"5px",
 	borderRadius:"5px",
 	boxShadow:"1px 1px 10px #707070",
@@ -350,8 +350,8 @@ const HeaderBlogCSS={
 
 const SmallBlogImageCSS={
 	position:"relative",
-	width:"220px",
-	height:"200px",
+	width:"240px",
+	height:"220px",
 	borderRadius:"5px"
 }
 

@@ -200,14 +200,18 @@ export const Post=styled.div`
 	display:flex;
 	flex-direction:row;
 	justify-content:center;
-	height:60%;
+	height:400px;
 
 	@media screen and (max-width:1370px){
-		height:20%;
+		height:40%;
 		margin-bottom:5%;
 		#image{
 			height:100% !important;
 		}
+	}
+
+	@media screen and (max-width:650px){
+		height:120px;
 	}
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -217,6 +221,10 @@ export const Post=styled.div`
 		height:90%;
 		margin-bottom:5%;
 	
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	height:160px;
     }
 `;
 

@@ -1,9 +1,9 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
-import ImageContainer from "../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
+import ImageContainer from "../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
 import RegularPost from "../../GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
 import BlogPost from "../../GeneralComponents/PostComponent/BlogComponent/BlogPostDisplay/BlogPostContainer.js";
-import VideoPost from "../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
+import VideoPost from "../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
 import NoProfileIcon from "../../../designs/img/NoProfilePicture.png";
 
 import {getRecruitsPostsHomePage} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";

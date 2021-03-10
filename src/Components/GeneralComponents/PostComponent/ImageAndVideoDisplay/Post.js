@@ -12,6 +12,7 @@ import VideoDescriptionMobileDisplayPortal from "../VideoDescriptionMobileDispla
 import ZoomedPostImageOrVideoPortal from "../ZoomedInPostImageOrVideo.js";
 
 const Container=styled.div`	
+	margin-top:10%;
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
    		margin-top:20%;
     }
