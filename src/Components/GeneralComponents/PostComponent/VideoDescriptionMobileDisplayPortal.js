@@ -15,6 +15,7 @@ const Container=styled.div`
 	display:flex;
 	flex-direction: column;
 	padding:30px;
+	overflow:scroll;
 
 	@media screen and (max-width:1370px){
 		width:90% !important;
