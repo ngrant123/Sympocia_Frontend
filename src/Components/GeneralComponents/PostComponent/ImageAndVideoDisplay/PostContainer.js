@@ -1,7 +1,7 @@
 import React,{useState,useEffect,Component} from "react";
 import styled,{keyframes} from "styled-components";
 import {ImageProvider} from "./ImageContext.js";
-import EditImageCreation from "../ImageCreation/EditImageCreation.js";
+import EditImageCreation from "../ImageComponent/ImageCreation/EditImageCreation.js";
 import EditIcon from '@material-ui/icons/Edit';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {
@@ -10,7 +10,7 @@ import {
 		fakeNewsPostResponse,
 		markPostAsAuthentic,
 		deletePost
-	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+	} from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 import { Icon, InlineIcon } from '@iconify/react';
 import crownIcon from '@iconify/icons-mdi/crown';

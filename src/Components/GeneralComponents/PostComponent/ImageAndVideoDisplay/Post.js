@@ -7,9 +7,9 @@ import {
 	StampIconEffect,
 	Post
 } from "./ImageContainerCSS.js";
-import StampIcon from "../../../../../designs/img/StampIcon.png";
-import VideoDescriptionMobileDisplayPortal from "../../VideoDescriptionMobileDisplayPortal.js";
-import ZoomedPostImageOrVideoPortal from "../../ZoomedInPostImageOrVideo.js";
+import StampIcon from "../../../../designs/img/StampIcon.png";
+import VideoDescriptionMobileDisplayPortal from "../VideoDescriptionMobileDisplayPortal.js";
+import ZoomedPostImageOrVideoPortal from "../ZoomedInPostImageOrVideo.js";
 
 const Container=styled.div`	
 	margin-top:10%;
