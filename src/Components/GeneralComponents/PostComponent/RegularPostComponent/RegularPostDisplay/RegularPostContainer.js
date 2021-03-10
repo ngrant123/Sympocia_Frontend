@@ -21,6 +21,7 @@ import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js"
+import AssessmentIcon from '@material-ui/icons/Assessment';
 
 const Container=styled.div`
 	padding:30px;
@@ -33,7 +34,6 @@ const PostContentAndCommentsButtons=styled.div`
 	position:relative;
 	height:80%;
 	width:800;
-	background-color:blue;
 `;
 
 
@@ -106,37 +106,64 @@ const PostContainer=styled.div`
 	height:100%;
 	display:flex;
 	flex-direction:column;
+
+	@media screen and (max-width:1370px){
+		height:70% !important;
+		overflow:scroll;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+   		height:110% !important;
+    }
 `;
 
 const PostOwnerAndActionsContainer=styled.div`
 	display:flex;
-	flex-direction:row;
-	height:20%;
-	margin-right:5%;
 	align-items:center;
+	flex-direction:row;
+
+	@media screen and (max-width:1370px){
+		flex-direction:column;
+	}
 `;
 
 const PostActions=styled.div`
 	display:flex;
 	flex-direction:row;
 	flex-wrap:wrap;
+	@media screen and (max-width:1370px){
+		margin-top:2%;
+	}
 `;
 
 const ProfileOwnerContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	width:20%;
-	height:100%;
-	margin-right:5%;
-	align-items:center;
+
+	@media screen and (max-width:1370px){
+		width:100%;
+		align-items:flex-start;
+
+		#profilePictureDiv{
+			width:50px !important;
+			height:50px !important;
+		}
+	}
 `;
 
 
 const PostInformationContainer=styled.div`
-	display:flex;
-	flex-direction:column;
+	position:relative;
 	width:55%;
 	padding:5px;
+
+	@media screen and (max-width:1370px){
+		width:100%;
+		height:20%;
+		display:flex;
+		flex-wrap:wrap;
+	}
 `;
 
 const PostOwnerAndOptionsContainer=styled.div`
@@ -385,13 +412,105 @@ const RegularPostContainer=(props)=>{
 							contextLocation={userPostsInformation}
 						/>
 						:<PostContainer>
+							<PostOwnerAndActionsContainer>
+								<ProfileOwnerContainer>
+									<img id="profilePictureDiv" src={profilePicture==null?NoProfilePicture:profilePicture}
+										style={{width:"30%",height:"60px",borderRadius:"50%",marginRight:"5%"}}
+									/>
+									<p style={{marginRight:"5%",maxWidth:"60%",maxHeight:"20px",overflow:"hidden"}}>
+										<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</b>
+									</p>
+								</ProfileOwnerContainer>
+								<PostActions>
+									<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+										<LoyaltyIcon
+											style={{fontSize:20}}
+										/>
+									</li>
+									<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+										  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+										  <line x1="8" y1="9" x2="16" y2="9" />
+										  <line x1="8" y1="13" x2="14" y2="13" />
+										</svg>
+									</li>
+									<li style={ShadowButtonCSS}>
+										<AssessmentIcon
+											style={{fontSize:20}}
+										/>
+									</li>
+
+									{(profileType=="personalProfile" && isOwnProfile==true) &&(
+										<React.Fragment>
+											<li onClick={()=>displayEditPostHandle()} style={ShadowButtonCSS}>
+												<BorderColorIcon
+													style={{fontSize:20}}
+												/>
+											</li>
+
+											<li onClick={()=>handleRemoveRegularPost()} style={ShadowButtonCSS}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												  <line x1="4" y1="7" x2="20" y2="7" />
+												  <line x1="10" y1="11" x2="10" y2="17" />
+												  <line x1="14" y1="11" x2="14" y2="17" />
+												  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+												  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+												</svg>
+											</li>
+
+											<li onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+													  width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+													  fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z"/>
+													  <circle cx="12" cy="9" r="6" />
+													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+												</svg>
+											</li>
+
+										</React.Fragment>
+									)}
+								</PostActions>
+							</PostOwnerAndActionsContainer>
+							<PostInformationContainer>
+								{displayStampEffect==true && (
+									<StampIconEffect id="stampEffect">
+										<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+									</StampIconEffect>
+								)}
+								{displayCommentsAndResponses==false?
+									<React.Fragment>
+										{isAudioPost==null || isAudioPost==false?
+											<p>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+											</p>:
+											<audio style={{width:"90%"}} controls>
+												<source src={post} type="audio/ogg"/>
+												<source src={post} type="audio/mp4"/>
+												Your browser does not support the audio element.
+											</audio>
+										}
+									</React.Fragment>:
+									<CommentsContainer
+										postId={postData._id}
+										postType={"RegularPosts"}
+										hideComments={hideComments}
+										targetDom={targetDom}
+										isGuestProfile={isGuestProfile}
+									/>
+								}
+							</PostInformationContainer>
 							{/*
 								{displayStampEffect==true && (
 									<StampIconEffect id="stampEffect">
 										<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
 									</StampIconEffect>
 								)}
-							*/}
 							<PostOwnerAndActionsContainer>
 								<ProfileOwnerContainer>
 									<img src={profilePicture==null?NoProfilePicture:profilePicture}
@@ -485,6 +604,7 @@ const RegularPostContainer=(props)=>{
 									/>
 								}
 							</PostInformationContainer>
+						*/}
 						</PostContainer>
 					}
 				</Container>
