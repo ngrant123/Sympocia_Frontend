@@ -64,8 +64,8 @@ const HeaderContainer=styled.div`
 	display:flex;
 	flex-direction:column;
 	width:50%;
-	flex-wrap:wrap;
 	@media screen and (max-width:1370px){
+		flex-wrap:wrap;
 		width:90%;
 		margin-top:5%;
 		#headerPostProfilePictureLIInformation{
@@ -124,6 +124,7 @@ const PostsContainer=styled.div`
 	margin-left:5%;
 	overflow:scroll;
 	flex-wrap: wrap;
+
 	@media screen and (max-width:1370px){
 		width:90%;
 		overflow:visible !important;
