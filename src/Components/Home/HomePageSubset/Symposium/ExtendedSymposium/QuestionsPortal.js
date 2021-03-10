@@ -55,7 +55,7 @@ const Container=styled.div`
 		}
 		#imagePicture{
 			width:25% !important;
-			height:60% !important;
+			height:50px !important;
 		}
 		#questionHeader{
 			margin-top:10% !important;
@@ -98,6 +98,9 @@ const Container=styled.div`
 		#imageDescriptionLI{
 			width:90% !important;
 			margin-left:0% !important;
+		}
+		#imagePicture{
+			width:15% !important;
 		}
     }
 `;

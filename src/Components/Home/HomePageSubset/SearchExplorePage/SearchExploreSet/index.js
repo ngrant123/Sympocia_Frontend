@@ -159,6 +159,11 @@ const Posts=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
+	margin-top:5%;
+
+	@media screen and (max-width:1370px){
+		margin-top:0%;		
+	}
 
 	@media screen and (max-width:450px){
 		margin-top:60% !important;
