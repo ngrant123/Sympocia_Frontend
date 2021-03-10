@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import{
 	PersonalInformation
-} from "./ImageContainerCSS.js";
+} from "./PostContainerCSS.js";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
@@ -26,13 +26,13 @@ const ShadowButtonCSS={
 }
 
 
-const userActionsContainer=({actions,isOwnProfile,displayImageModal,profileType})=>{
+const userActionsContainer=({actions,isOwnProfile,displayPostModal,profileType})=>{
 	const{
 		createOrRemoveStampEffect,
 		displayComments,
 		changeDisplayPollingOptions,
 		handleRemoveImagePost,
-		changeDisplayImage,
+		changeDisplayPost,
 		promoteModal
 	}=actions;
 	console.log(actions);
@@ -58,7 +58,7 @@ const userActionsContainer=({actions,isOwnProfile,displayImageModal,profileType}
 				<>
 					<BorderColorIcon
 						style={{fontSize:50,...ShadowButtonCSS}}
-						onClick={()=>changeDisplayImage(!displayImageModal)}
+						onClick={()=>changeDisplayPost(!displayPostModal)}
 					/>
 
 					<svg id="removePostOption" onClick={()=>handleRemoveImagePost()}
@@ -92,10 +92,10 @@ const OwnerInformationAndPostOptions=(props)=>{
 	console.log(props);
 	const {
 		displayMobileUI,
-		imageData,
+		postData,
 		userActions,
 		isOwnProfile,
-		displayImageModal,
+		displayPostModal,
 		profileType,
 		triggerDisplayPostDescriptionAndCaption,
 		targetDom
@@ -105,15 +105,15 @@ const OwnerInformationAndPostOptions=(props)=>{
 			{targetDom!="personalContainer" &&(
 				<React.Fragment>
 					<img id="ownerProfilePicture" 
-						src={imageData.owner.profilePicture==null?
-						NoProfilePicture:imageData.owner.profilePicture}
+						src={postData.owner.profilePicture==null?
+						NoProfilePicture:postData.owner.profilePicture}
 					 style={{borderRadius:"50%",width:"7%",height:"60px"}}
 					/>
 					<Link style={{marginLeft:"4%",fontSize:"20px",width:"80%",height:"30px",maxWidth:"80%",maxHeight:"30px",overflow:"hidden",textDecoration:"none",color:"black",marginRight:"10%"}}
-						to={{pathname:`/profile/${imageData.owner._id}`}}
+						to={{pathname:`/profile/${postData.owner._id}`}}
 					>	
 						<p>
-							<b>{imageData.owner.firstName}</b>
+							<b>{postData.owner.firstName}</b>
 						</p>
 					</Link>
 				</React.Fragment>

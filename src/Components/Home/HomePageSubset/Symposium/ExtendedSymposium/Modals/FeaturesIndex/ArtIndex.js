@@ -5,8 +5,7 @@ import ImagePostModal from "../Features/ImagePostModal.js";
 import RegularPostModal from "../Features/RegularPostModal.js";
 import VideoPostModal from "../Features/VideoPostModal.js";
 import AudioPostModal from "../Features/AudioPostModal.js";
-import ImageDisplayContainer from "../../../../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
-
+import ImageDisplayContainer from "../../../../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
 
 const Container=styled.div`
 	position:fixed;

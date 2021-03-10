@@ -8,9 +8,12 @@ export const Container=styled.div`
 	display:flex;
 	padding:30px;
 	flex-direction:column;
+	overflow:scroll;
+	z-index:40;
 
 	@media screen and (max-width:1370px){
 		padding:10px;
+	
 		#postInformationLI{
 			display:none !important;
 		}
@@ -123,6 +126,7 @@ export const VideoDesriptionContainer=styled.div`
 	justify-content:center;
 	margin-right:2%;
 	background-color:#151515;
+	cursor:pointer;
 
 	@media screen and (max-width:650px){
 		height:100%;
@@ -196,10 +200,10 @@ export const Post=styled.div`
 	display:flex;
 	flex-direction:row;
 	justify-content:center;
-	height:100%;
+	height:60%;
 
 	@media screen and (max-width:1370px){
-		height:30%;
+		height:20%;
 		margin-bottom:5%;
 		#image{
 			height:100% !important;

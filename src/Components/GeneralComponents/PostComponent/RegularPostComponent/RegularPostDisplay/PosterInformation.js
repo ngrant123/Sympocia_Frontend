@@ -7,7 +7,7 @@ import {
 	deletePost
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
-import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";
+import {StampIconEffect} from "../../../PostComponent/ImageAndVideoDisplay/PostContainerCSS.js";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 

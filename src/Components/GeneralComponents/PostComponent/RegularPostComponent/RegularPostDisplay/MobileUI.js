@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import RegularPostCreation from "../RegularPostCreation/index.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
-import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";
+import {StampIconEffect} from "../../../PostComponent/ImageAndVideoDisplay/PostContainerCSS.js";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {

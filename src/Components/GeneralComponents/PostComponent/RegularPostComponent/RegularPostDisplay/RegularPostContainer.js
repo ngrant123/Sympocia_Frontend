@@ -18,7 +18,7 @@ import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import StampIcon from "../../../../../designs/img/StampIcon.png";
-import {StampIconEffect} from "../../ImageComponent/ImageDisplay/ImageContainerCSS.js";
+import {StampIconEffect} from "../../../PostComponent/ImageAndVideoDisplay/PostContainerCSS.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js"
 import AssessmentIcon from '@material-ui/icons/Assessment';

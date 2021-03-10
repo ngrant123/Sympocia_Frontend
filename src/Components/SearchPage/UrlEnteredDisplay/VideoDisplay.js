@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import VideoDisplayContainer from "../../GeneralComponents/PostComponent/VideoComponent/VideoDisplay/VideoContainer.js";
+import VideoDisplayContainer from "../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
 import {getPostById} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import LoadingAnimation from "../../../LoadingAnimation.js";
 import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";

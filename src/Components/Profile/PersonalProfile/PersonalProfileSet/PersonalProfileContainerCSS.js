@@ -395,7 +395,7 @@ export const PostPopupContainer=styled.div`
 	margin-top:4%;
 	position:fixed;
 	width:70%;
-	height:60%;
+	height:70%;
 	padding:20px;
 	z-index:35;
 	border-radius:5px;

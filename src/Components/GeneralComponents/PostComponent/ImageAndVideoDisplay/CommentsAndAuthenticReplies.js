@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {PollingOptionsContainer} from "./ImageContainerCSS.js";
+import {PollingOptionsContainer} from "./PostContainerCSS.js";
 import Comments from "../../CommentsComponent/index.js";
 import {postCaptionAndDescription} from "./Post.js";
 
@@ -42,8 +42,8 @@ const CommentsAndAuthenticReplies=(props)=>{
 		displayPollingOptions,
 		profileType,
 		displayPostAdditionalInformation,
-		caption,
-		description,
+		headlineText,
+		secondaryText,
 		triggerDisplayPostDescriptionAndCaption
 	}=props;
 
@@ -52,13 +52,13 @@ const CommentsAndAuthenticReplies=(props)=>{
 			{displayPostAdditionalInformation==true?
 				<React.Fragment>
 					<p onClick={()=>triggerDisplayPostDescriptionAndCaption(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
-					{postCaptionAndDescription(caption,description)}
+					{postCaptionAndDescription(headlineText,secondaryText)}
 				</React.Fragment>:
 				<React.Fragment>
 					{displayPollingOptions==false?
 						<Comments
 							postId={_id}
-							postType={"Images"}
+							postType={postType}
 							hideComments={hideComments}
 							targetDom={targetDom}
 							isGuestProfile={isGuestProfile}

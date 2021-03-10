@@ -6,7 +6,7 @@ import RegularPostModal from "../Features/RegularPostModal.js";
 import VideoPostModal from "../Features/VideoPostModal.js";
 import ImagePostModal from "../Features/ImagePostModal.js";
 
-import ImageDisplayContainer from "../../../../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
+import ImageDisplayContainer from "../../../../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
 import VideoDisplayContainer from "../../../../../../GeneralComponents/PostComponent/ImageComponent/ImageDisplay/ImageContainer.js";
 
 
