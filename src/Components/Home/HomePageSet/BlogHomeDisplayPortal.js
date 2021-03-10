@@ -18,47 +18,6 @@ import {HomeConsumer} from "../HomeContext.js";
 import {Link} from "react-router-dom";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import FirstTimePostOnboarding from "../../GeneralComponents/PostComponent/FirstTimePostOnboardingIndicator.js"
-	/*
-		position:absolute;
-		z-index:40;
-		height:80%;
-		width:80%;
-		border-radius:5px;
-		top:12%;
-		left:10%;
-		overflow-y:auto;
-		background-color:white;
-		padding:20px;
-		padding-top:40px;
-
-		@media screen and (max-width:1370px){
-			top:15% !important;
-			width:80% !important;
-			margin-left:2%;
-			height:90%;
-			padding-top:0px;
-
-			#smallImagePicture{
-				height:30% !important;
-				width:40% !important;
-			}
-		}
-		@media screen and (max-width:700px){
-			top:20% !important;
-		}
-
-		@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-		 	top:20% !important;
-	    }
-
-		@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
-			top:40% !important;
-		 	#smallImagePicture{
-				width:20% !important;
-			}
-	    }
-
-	*/
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 import {getVideoUrl} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
@@ -274,6 +233,30 @@ const BackButtonCSS={
   marginLeft:"10%"
 }
 
+const ButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginRight:"4%",
+  cursor:"pointer"
+}
+
+
+const PollingOptionsCSS={
+	boxShadow:"1px 1px 5px #6e6e6e",
+	padding:"40px",
+	borderRadius:"5px",
+	cursor:"pointer",
+	marginBottom:"10%"
+}
+
+
 
 
 
@@ -293,14 +276,12 @@ const BlogHomeDisplayPortal=(props)=>{
 	const [displayApproveDisapproveIndicator,changeDisplayApproveDisapproveIndicator]=useState(false);
 	const [displayCommentsContainer,changeDisplayCommentsContainer]=useState(false);
 
-	const approvesPostNumber=postData.selectedBlog.isPostAuthentic.numOfApprove!=null?
-					   postData.selectedBlog.isPostAuthentic.numOfApprove.length:0;
-	const disapprovesPostNumber=postData.selectedBlog.isPostAuthentic.numOfDisapprove!=null?
-						  postData.selectedBlog.isPostAuthentic.numOfDisapprove.length:0;
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const isGuestProfile=(personalInformation.id=="0" || personalInformation.isGuestProfile==true)==true?
 					true:false;
 	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
+	const [displayPollingOptions,changeDisplayPollingOptions]=useState(false);
+
 	const dispatch=useDispatch();
 
 
@@ -348,57 +329,57 @@ const BlogHomeDisplayPortal=(props)=>{
 	window.addEventListener('resize',triggerUIChange)
 
 	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		var isPersonalProfile=postData.profileType=="personalProfile"?true:false;
-		let confirmationResponse;
-		let dataResponse;
-		if(isGuestProfile==true){
-			alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
-		}else{
-			if(displayStampEffect==false){
-				const {confirmation,data}=await addStampPost(
-													postData.selectedBlog._id,
-													"personal",
-													"Blogs",
-													postData.personalId,
-													isAccessTokenUpdated==true?updatedAccessToken:
-													personalInformation.accessToken
-												);
-				confirmationResponse=confirmation;
-				dataResponse=data;
+			var isPersonalProfile=postData.profileType=="personalProfile"?true:false;
+			let confirmationResponse;
+			let dataResponse;
+			if(isGuestProfile==true){
+				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 			}else{
-				const {confirmation,data}=await unStampPost(
-													postData.selectedBlog._id,
-													"personal",
-													"Blogs",
-													postData.personalId,
-													isAccessTokenUpdated==true?updatedAccessToken:
-													personalInformation.accessToken
-												);
-				confirmationResponse=confirmation;
-				dataResponse=data;
-			}
-
-			if(confirmationResponse=="Success"){
-				if(displayStampEffect==false)
-					changeDisplayStampEffect(true);
-				else
-					changeDisplayStampEffect(false);
-			}else{
-				const {statusCode}=dataResponse;
-				if(statusCode==401){
-					await refreshTokenApiCallHandle(
-							personalInformation.refreshToken,
-							personalInformation.id,
-							createOrRemoveStampEffect,
-							dispatch,
-							{},
-							false
-						);
+				if(displayStampEffect==false){
+					const {confirmation,data}=await addStampPost(
+														postData.selectedBlog._id,
+														"personal",
+														"Blogs",
+														postData.personalId,
+														isAccessTokenUpdated==true?updatedAccessToken:
+														personalInformation.accessToken
+													);
+					confirmationResponse=confirmation;
+					dataResponse=data;
 				}else{
-					alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+					const {confirmation,data}=await unStampPost(
+														postData.selectedBlog._id,
+														"personal",
+														"Blogs",
+														postData.personalId,
+														isAccessTokenUpdated==true?updatedAccessToken:
+														personalInformation.accessToken
+													);
+					confirmationResponse=confirmation;
+					dataResponse=data;
+				}
+
+				if(confirmationResponse=="Success"){
+					if(displayStampEffect==false)
+						changeDisplayStampEffect(true);
+					else
+						changeDisplayStampEffect(false);
+				}else{
+					const {statusCode}=dataResponse;
+					if(statusCode==401){
+						await refreshTokenApiCallHandle(
+								personalInformation.refreshToken,
+								personalInformation.id,
+								createOrRemoveStampEffect,
+								dispatch,
+								{},
+								false
+							);
+					}else{
+						alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
+					}
 				}
 			}
-		}
 	}
 
 
@@ -418,38 +399,6 @@ const BlogHomeDisplayPortal=(props)=>{
 	const triggerDisapprovePollModal=()=>{
 		changeDisplayApproveModal(false);
 		changeDisplayPollingModal(true);	
-	}
-
-	const displayApproveDisapproveModal=()=>{
-		return <React.Fragment>
-					{displayApproveDisapproveIndicator && (
-						<>
-							<ShadowContainer
-								onClick={()=>changeDisplayApproveDisapproveIndicator(false)}
-							/>
-							<ApproveDisapproveContainer>
-								<ul style={{padding:"20px"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>triggerApprovePollModal()} style={authenticPostButtonCSS}>
-
-											<p style={{color:"#01DF01"}}>{approvesPostNumber}</p> 
-												approves post
-
-										</li>
-									</a>
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>triggerDisapprovePollModal()} style={authenticPostButtonCSS}>
-
-												<p style={{color:"#FE2E2E"}}>{disapprovesPostNumber}</p> 
-												disapproves post
-										</li>
-									</a>
-								</ul>
-							</ApproveDisapproveContainer>
-						</>
-					)}
-			   </React.Fragment>
 	}
 
 	const pollModal=()=>{
@@ -515,7 +464,6 @@ const BlogHomeDisplayPortal=(props)=>{
 					</svg>
 				</div>
 				{pollModal()}
-				{displayApproveDisapproveModal()}
 				<div id="blogContainerDiv" style={{marginTop:"2%"}}>
 					<Editor
 						editorState={blogContentState}
@@ -529,95 +477,109 @@ const BlogHomeDisplayPortal=(props)=>{
 				</div>
 				{displayLargeModal==true?
 					<PosterInformationModal>
-						{displayCommentsContainer==true?
-							<>{commentModal()}</>
-						:<ul style={{padding:"0px"}}>
-							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ExpandLessIcon
-										style={{fontSize:25}}
-									/>
-								</a>
-							</li>
-							{displayStampEffect==true?
+						{displayApproveDisapproveIndicator==true?
+							<React.Fragment>
+								<p onClick={()=>changeDisplayApproveDisapproveIndicator(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
+								<p onClick={()=>triggerApprovePollModal(true)} style={PollingOptionsCSS}>
+									Approve Post
+								</p>
+
+								<p onClick={()=>triggerDisapprovePollModal(false)} style={PollingOptionsCSS}>
+									Disapprove Post
+								</p>
+							</React.Fragment>
+							:<React.Fragment>
+								{displayCommentsContainer==true?
+									<>{commentModal()}</>
+								:<ul style={{padding:"0px"}}>
+									<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<ExpandLessIcon
+												style={{fontSize:25}}
+											/>
+										</a>
+									</li>
+									{displayStampEffect==true?
+											<li style={{listStyle:"none"}}>
+												<StampIconEffect
+													id="stampEffect"
+												>
+													<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+												</StampIconEffect>
+											</li>
+									:null}
+				
+									<li style={{listStyle:"none",marginBottom:"5%"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+												<ProfilePicture to={{pathname:`/profile/${postData.selectedBlog.owner._id}`}}>
+													<img id="smallImagePicture" src={postData.selectedBlog.owner.profilePicture==null?
+															NoProfilePicture:
+															postData.selectedBlog.owner.profilePicture
+														} style={{width:"55px",height:"50px",borderRadius:"50%"}}/>
+												</ProfilePicture>
+											</li>
+											<li style={{listStyle:"none"}}>
+												<b>{postData.selectedBlog.owner.firstName}</b>
+											</li>
+
+											<li style={{height:"90px",overflowY:"auto",listStyle:"none"}}>
+												{postData.selectedBlog.title}
+											</li>
+										</ul>
+									</li>
 									<li style={{listStyle:"none"}}>
-										<StampIconEffect
-											id="stampEffect"
-										>
-											<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-										</StampIconEffect>
+										<ul style={{padding:"0px"}}>
+											<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+												<LoyaltyIcon
+													style={{fontSize:30}}
+												/>
+											</li>
+
+											<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} style={ShadowButtonCSS}>
+												<PollIcon
+													style={{fontSize:"30"}}
+												/>
+											</li>
+
+											<li onClick={()=>changeDisplayCommentsContainer(true)} style={ShadowButtonCSS}>
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#585858" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+												  <line x1="8" y1="9" x2="16" y2="9" />
+												  <line x1="8" y1="13" x2="14" y2="13" />
+												</svg>
+											</li>
+										</ul>
 									</li>
-							:null}
-		
-							<li style={{listStyle:"none",marginBottom:"5%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-										<ProfilePicture to={{pathname:`/profile/${postData.selectedBlog.owner._id}`}}>
-											<img id="smallImagePicture" src={postData.selectedBlog.owner.profilePicture==null?
-													NoProfilePicture:
-													postData.selectedBlog.owner.profilePicture
-												} style={{width:"55px",height:"50px",borderRadius:"50%"}}/>
-										</ProfilePicture>
-									</li>
-									<li style={{listStyle:"none"}}>
-										<b>{postData.selectedBlog.owner.firstName}</b>
+									<hr/>
+									<li style={{listStyle:"none",marginTop:"2%"}}>
+										<ul style={{padding:"0px"}}>
+											{postData.selectedBlog.videoDescription!=null &&(
+												<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
+													<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
+														<video autoPlay loop autoBuffer muted playsInline 
+															width="100%" height="100%" borderRadius="50%">
+															<source src={postData.selectedBlog.videoDescription} type="video/mp4"/>
+														</video>
+													</VideoDescriptionContainer>
+												</li>
+											)}
+											{postData.selectedBlog.audioDescription && (
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<audio controls>
+														<source src={postData.selectedBlog.audioDescription} type="audio/ogg"/>
+														<source src={postData.selectedBlog.audioDescription} type="audio/mp4"/>
+														Your browser does not support the audio element.
+													</audio>
+												</li>
+											)}
+										</ul>
 									</li>
 
-									<li style={{height:"90px",overflowY:"auto",listStyle:"none"}}>
-										{postData.selectedBlog.title}
-									</li>
 								</ul>
-							</li>
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
-										<LoyaltyIcon
-											style={{fontSize:30}}
-										/>
-									</li>
-
-									<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} style={ShadowButtonCSS}>
-										<PollIcon
-											style={{fontSize:"30"}}
-										/>
-									</li>
-
-									<li onClick={()=>changeDisplayCommentsContainer(true)} style={ShadowButtonCSS}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#585858" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-										  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-										  <line x1="8" y1="9" x2="16" y2="9" />
-										  <line x1="8" y1="13" x2="14" y2="13" />
-										</svg>
-									</li>
-								</ul>
-							</li>
-							<hr/>
-							<li style={{listStyle:"none",marginTop:"2%"}}>
-								<ul style={{padding:"0px"}}>
-									{postData.selectedBlog.videoDescription!=null &&(
-										<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
-											<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
-												<video autoPlay loop autoBuffer muted playsInline 
-													style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
-													<source src={postData.selectedBlog.videoDescription} type="video/mp4"/>
-												</video>
-											</VideoDescriptionContainer>
-										</li>
-									)}
-									{postData.selectedBlog.audioDescription && (
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<audio controls>
-												<source src={postData.selectedBlog.audioDescription} type="audio/ogg"/>
-												<source src={postData.selectedBlog.audioDescription} type="audio/mp4"/>
-												Your browser does not support the audio element.
-											</audio>
-										</li>
-									)}
-								</ul>
-							</li>
-
-						</ul>
+								}
+							</React.Fragment>
 						}
 					</PosterInformationModal>:
 					<SmallPostInformationModal>
