@@ -15,6 +15,7 @@ import VideoDescriptionPortal from "../PostComponent/VideoDescriptionPortal.js";
 import {connect} from "react-redux";
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
+import {Link} from "react-router-dom";
 import {
 		setPersonalProfileAccessToken,
 		setPersonalProfileRefreshToken
@@ -323,7 +324,7 @@ class VideoResponseContainer extends Component{
 
 	VideoComponent=()=>{ 
 		const videoData=this.state.videoResponses[this.state.indicatorPosition];
-
+		console.log(videoData);
 		return <>
 					{this.state.isProcessingInput==true?
 						<p>Please wait...</p>:
@@ -354,10 +355,12 @@ class VideoResponseContainer extends Component{
 													<li style={{listStyle:"none",width:"400px"}}>
 														<ul style={{padding:"0px"}}>
 															<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																<img src={videoData.ownerObject.profilePicture==null?
-																	NoProfilePicture:videoData.ownerObject.profilePicture}
-																	style={{borderRadius:"50%",width:"50px",height:"45px"}}
-																/>
+																<Link to={{pathname:`/profile/${videoData.ownerObject.owner._id}`}}>
+																	<img src={videoData.ownerObject.profilePicture==null?
+																		NoProfilePicture:videoData.ownerObject.profilePicture}
+																		style={{borderRadius:"50%",width:"50px",height:"45px"}}
+																	/>
+																</Link>
 															</li>
 
 															<li style={{listStyle:"none",display:"inline-block"}}>
