@@ -20,6 +20,7 @@ const Container=styled.div`
 	top:5%;
 	flex-direction:row;
 	flex-wrap:wrap;
+	overflow:scroll;
 	@media screen and (max-width:1370px){
 		flex-direction:column;
 	}
@@ -187,9 +188,9 @@ const NextButtonCSS={
 
 const RegularPostModal=(props)=>{
 	
-	
+	console.log(props);
 	const headerRegularPost=props.posts[0];
-	const regularPosts=props.posts.slice(1,props.posts.length);
+	const regularPosts=props.posts;
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 
 	const [displayRegualrPostDisplayPortal,changeRegularPostDisplay]=useState(false);
@@ -229,27 +230,27 @@ const RegularPostModal=(props)=>{
 						/>:
 						<PostsContainer onClick={()=>displayPostModal(data)} style={BorderCSS}>
 							<PostUserInformation>
-								<ProfilePictureLink to={{pathname:`/profile/${headerRegularPost.owner._id}`}}
+								<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}
 									style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px"}}>
-									<img src={headerRegularPost.owner.profilePicture!=null?
-											  headerRegularPost.owner.profilePicture:
+									<img src={data.owner.profilePicture!=null?
+											  data.owner.profilePicture:
 											  NoProfilePicture} 
 									style={{height:"50px",width:"60px",borderRadius:"50%"}}/>
 								</ProfilePictureLink>
 								<p id="headerOwnerNameLI" style={{display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginLeft:"5%"}}>
-									<b>{headerRegularPost.owner.firstName}</b>
+									<b>{data.owner.firstName}</b>
 								</p>
 							</PostUserInformation>
 
 							<p id="headerPostTextOrAudioContainerLI" style={{padding:"5px",fontSize:"20px",position:"relative",top:"70px",listStyle:"none",display:"inline-block",width:"100%",overflow:"hidden",marginLeft:"5%"}}>
-								{headerRegularPost.isAudioPost==true?
+								{data.isAudioPost==true?
 									<audio id="audio" controls>
-									 	<source src={headerRegularPost.post} type="audio/ogg"/>
-									  	<source src={headerRegularPost.post} type="audio/mp4"/>
+									 	<source src={data.post} type="audio/ogg"/>
+									  	<source src={data.post} type="audio/mp4"/>
 										Your browser does not support the audio element.
 									</audio>
 									:
-									<>{headerRegularPost.post}</>
+									<>{data.post}</>
 								}
 							</p>
 						</PostsContainer>
