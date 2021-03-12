@@ -433,13 +433,14 @@ class LargePostComponent extends Component{
 	}
 
 	displayPostOptions=(props)=>{
-
+        debugger;
 		if(props=="RegularPost"){
 			
 			this.setState({
 					displayElement:<RegularPostCreation 
 										displayProps={this.displayPostOptions}
 										closeModal={this.props.closeModal}
+                                        isPhoneUIEnabled={this.props.isPhoneUIEnabled}
 									/>
 			})
 		}else if(props=="ImagePosts"){
@@ -494,6 +495,7 @@ class LargePostComponent extends Component{
 											displayElement:<RegularPostCreation
 																displayProps={this.displayPostOptions}
 																closeModal={this.props.closeModal}
+                                                                isPhoneUIEnabled={this.props.isPhoneUIEnabled}
 															  />,
 											displayGeneralCreationModal:false
 										 })} 

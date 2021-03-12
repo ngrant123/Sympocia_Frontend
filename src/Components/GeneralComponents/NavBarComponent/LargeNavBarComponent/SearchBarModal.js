@@ -157,7 +157,7 @@ class SearchBarModal extends Component{
 			this.props.history.push({
 				pathname:`/search/${searchQuery}/${this.state.searchType}`,
 				state:{
-					postType:this.state.selectedPostType
+					postType:this.state.selectedPostType==null?"Images":this.state.selectedPostType
 				}
 			});
 			this.props.closeSearchModal();

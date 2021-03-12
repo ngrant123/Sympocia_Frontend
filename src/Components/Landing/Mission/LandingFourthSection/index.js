@@ -108,11 +108,6 @@ const FourthSection=({history})=>{
 			<p id="headerTexts" style={{fontSize:"36px",color:"#C8B0F4"}}>
 				<b>Frequently asked questions </b>
 			</p>
-			
-			<p id="questionId" style={{fontSize:"18px"}}>
-				<b>Is Sympocia free?</b>
-			</p>
-			<p>Yes. Free now and free forever </p>
 			<hr/>
 			<p id="questionId" style={{fontSize:"18px"}}>
 				<b>Are we going to sell you're data and think of you as information rather than people like 

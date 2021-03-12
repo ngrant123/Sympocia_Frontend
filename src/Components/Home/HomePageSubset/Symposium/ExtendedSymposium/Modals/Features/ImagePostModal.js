@@ -7,6 +7,7 @@ import {getIndustryImageFeatureAnswers} from "../../../../../../../Actions/Reque
 import {useSelector,useDispatch} from "react-redux";
 import ImagePostDisplayPortal from "../../../../../HomePageSet/ImageHomeDisplayPortal.js";
 import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
+import {FeatureConsumer} from "../../SpecificSympsoiumFeatures/FeatureContext.js";
 
 const Container=styled.div`
 	padding:20px;
@@ -300,110 +301,122 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 		changePostExpand(false);
 	}
 
+	const triggerCreationModal=(isGuestProfile)=>{
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
+		}else{
+			changeDisplayCreationModal(true)
+		}
+	}
+
 	return(
-		<Container>
-			
-			{displayPostExpand==false?
-					null:
-					<div style={{zIndex:"36"}}>
-						<ImagePostDisplayPortal
-							closeModal={closePostModal}
-							selectedImage={selectedPost}
-							recommendedImages={[]}
-							targetDom={"extendedSymposiumContainer"}
-						/>
-					</div>
-				}
+		<FeatureConsumer>
+			{featureConsumer=>{
+				return <Container>
+						{displayPostExpand==false?
+								null:
+								<div style={{zIndex:"36"}}>
+									<ImagePostDisplayPortal
+										closeModal={closePostModal}
+										selectedImage={selectedPost}
+										recommendedImages={[]}
+										targetDom={"extendedSymposiumContainer"}
+									/>
+								</div>
+							}
 
-			{displayCreationModal==false?
-				<>
-					<PostHeaderContainer>
-						<p style={{fontSize:"20px",marginRight:"5%"}}>
-							<b>{question}</b>
-						</p>
-						<CreatePostButton onClick={()=>changeDisplayCreationModal(true)}>
-							<BorderColorIcon
-								style={{fontSize:"20",color:"#C8B0F4"}}
-							/>
-						</CreatePostButton>
-					</PostHeaderContainer>
-					<hr/>
+						{displayCreationModal==false?
+							<>
+								<PostHeaderContainer>
+									<p style={{fontSize:"20px",marginRight:"5%"}}>
+										<b>{question}</b>
+									</p>
+									<CreatePostButton onClick={()=>triggerCreationModal(featureConsumer.isGuestProfile)}>
+										<BorderColorIcon
+											style={{fontSize:"20",color:"#C8B0F4"}}
+										/>
+									</CreatePostButton>
+								</PostHeaderContainer>
+								<hr/>
 
-					<li style={{listStyle:"none"}}>
-						{isLoading==true?
-							<p>Loading please wait...</p>
-							:<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginTop:"2%"}}>
-									{posts.length==0?
-										<p>No posts</p>:
-										<ul style={{padding:"0px"}}>
-											{posts.map(data=>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
-														<img id="imageLI" src={data.imgUrl} 
-														style={{height:"40%",width:"100%",borderRadius:"5px"}}/>
-													</li>
-												</a>
-											)}
+								<li style={{listStyle:"none"}}>
+									{isLoading==true?
+										<p>Loading please wait...</p>
+										:<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",marginTop:"2%"}}>
+												{posts.length==0?
+													<p>No posts</p>:
+													<ul style={{padding:"0px"}}>
+														{posts.map(data=>
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
+																	<img id="imageLI" src={data.imgUrl} 
+																	style={{height:"40%",width:"100%",borderRadius:"5px"}}/>
+																</li>
+															</a>
+														)}
+													</ul>
+												}
+											</li>
 										</ul>
 									}
 								</li>
-							</ul>
-						}
-					</li>
-				</>:
-				<>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>changeDisplayCreationModal(false)} style={ButtonCSS}>
-									Back
+							</>:
+							<>
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"0px"}}>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>changeDisplayCreationModal(false)} style={ButtonCSS}>
+												Back
+											</li>
+										</a>
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<p style={{fontSize:"20px"}}>
+												<b>Upload an image for others to see</b>
+											</p>
+										</li>
+									</ul>
 								</li>
-							</a>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<p style={{fontSize:"20px"}}>
-									<b>Upload an image for others to see</b>
-								</p>
-							</li>
-						</ul>
-					</li>
-					<hr/>
-					<li style={{marginTop:"2%",listStyle:"none"}}>
-						{finalImageEditDisplay==false?
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>clickFileUpload()} style={ButtonCSS}>
-										<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-													<CameraIcon/>
-												</li>
+								<hr/>
+								<li style={{marginTop:"2%",listStyle:"none"}}>
+									{finalImageEditDisplay==false?
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>clickFileUpload()} style={ButtonCSS}>
+													<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+																<CameraIcon/>
+															</li>
 
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-													Upload Photo
+															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+																Upload Photo
+															</li>
+														</ul>
+													<input type="file" name="img" id="uploadPictureFile" 
+														style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadPicture()} 
+														accept="image/jpeg">
+													</input>
+											</li>
+										</a>:
+										<FinalSubmittionContainer>
+											<img src={imgUrl} style={{height:"40%",width:"40%",borderRadius:"5px"}}/>
+											<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
+
+											{isProccessingPost==true ?
+												<p>Please wait while we process your post </p>:
+												<li onClick={()=>submitImage({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
+													Submit
 												</li>
-											</ul>
-										<input type="file" name="img" id="uploadPictureFile" 
-											style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadPicture()} 
-											accept="image/jpeg">
-										</input>
+											}
+											
+										</FinalSubmittionContainer>
+									}
 								</li>
-							</a>:
-							<FinalSubmittionContainer>
-								<img src={imgUrl} style={{height:"40%",width:"40%",borderRadius:"5px"}}/>
-								<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
-
-								{isProccessingPost==true ?
-									<p>Please wait while we process your post </p>:
-									<li onClick={()=>submitImage({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
-										Submit
-									</li>
-								}
-								
-							</FinalSubmittionContainer>
+							</>
 						}
-					</li>
-				</>
+					</Container>
+				}
 			}
-		</Container>
+		</FeatureConsumer>
 	);
 }
 

@@ -11,7 +11,7 @@ const ShadowContainer=styled.div`
 	left:-5%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:35;
+	z-index:45;
 	top:0px;
 `;
 
@@ -21,7 +21,7 @@ const Container=styled.div`
 	width:45%;
 	height:60%;
 	border-radius:5px; 
-	z-index:35;
+	z-index:45;
 	left:30%;
 	top:20%;
 	overflow-y:scroll;
@@ -118,6 +118,7 @@ const PostOnboarding=({closeModal})=>{
 						</div>
 
 					</IconContainer>
+					<p style={{marginBottom:"5%"}}>Finally if you're looking at an image or a video you can click on it to isolate it and view it </p>
 
 					<p style={{color:"#C8B0F4"}}>
 						Easy right? Well go on then and remember that we value communication. Let people know how you feel

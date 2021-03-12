@@ -191,7 +191,7 @@ const ThirdSection=(props)=>{
 	                			<b>Normality</b>
 	                		</p>
 	                		<p style={{color:"#5B5B5B"}}>
-	                			But currently we live In an era where misinformation is the new normal.
+	                			But currently we live in an era where misinformation is the new normal.
 	                			Where being fake is the new normal. Where getting clout is the main goal not authenticity.
 	                		</p>
 	                	</div>

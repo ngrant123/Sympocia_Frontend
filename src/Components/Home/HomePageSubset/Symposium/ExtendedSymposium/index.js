@@ -717,6 +717,7 @@ class Symposium extends Component{
 				  			symposium={this.state.selectedSymposiumTitle}
 				  			symposiumId={this.state.symposiumId}
 				  			questions={this.state.symposiumFeatureQuestions}
+				  			isGuestProfile={this.state.isGuestProfile}
 				  		/>
 				  	</SymposiumFeatureContainer>
 		  		} 
@@ -1231,6 +1232,7 @@ class Symposium extends Component{
 						  	questions={this.state.symposiumFeatureQuestions}
 						  	profileId={this.state.profileId}
 						  	displayPopularVideos={this.triggerDisplayPopularVideosModal}
+						  	isGuestProfile={this.state.isGuestProfile}
 						/>
 					)}
 				</>

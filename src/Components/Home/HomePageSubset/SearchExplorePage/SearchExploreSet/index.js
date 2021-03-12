@@ -610,19 +610,21 @@ class SearchExploreContainer extends Component{
 																	</ul>
 																</div>
 															</li>
-															<li style={{listStyle:"none",display:"inline-block"}}>
-																<div class="dropdown">
-																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
-																		Options
-																		<span class="caret"></span>
-																	</button>
-																	<ul class="dropdown-menu">
-																		<li><a href="javascript:;">Most Popular</a></li>
-																		<li><a href="javascript:;">Newest</a></li>
-																		<li><a href="javascript:;">Popular</a></li>						
-																	</ul>
-																</div>
-															</li>
+															{/*
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<div class="dropdown">
+																		<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
+																			Options
+																			<span class="caret"></span>
+																		</button>
+																		<ul class="dropdown-menu">
+																			<li><a href="javascript:;">Most Popular</a></li>
+																			<li><a href="javascript:;">Newest</a></li>
+																			<li><a href="javascript:;">Popular</a></li>						
+																		</ul>
+																	</div>
+																</li>
+															*/}
 														</React.Fragment>
 													)}
 													<Posts>

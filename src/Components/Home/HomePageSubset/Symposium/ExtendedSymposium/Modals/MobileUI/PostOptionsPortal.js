@@ -99,6 +99,7 @@ const MobilePostOptionsPortal=(props)=>{
 									questionInformation={props.popularQuestionObject.questionInformation}
 									isSimplified={props.popularQuestionObject.isSimplified}
 									selectedSymposium={props.popularQuestionObject.selectedSymposium}
+									isGuestProfile={props.isGuestProfile}
 								/>
 							</HighlightedQuestionsContainer>
 						}
@@ -148,6 +149,7 @@ const MobilePostOptionsPortal=(props)=>{
 					  			symposium={props.symposium}
 					  			symposiumId={props.roomId}
 					  			questions={props.questions}
+					  			isGuestProfile={props.isGuestProfile}
 					  		/>
 				  		} 
 					</>

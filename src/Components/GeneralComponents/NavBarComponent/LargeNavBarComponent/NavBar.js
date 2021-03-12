@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import styled from "styled-components";
+import styled,{keyframes,css} from "styled-components";
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown'
 import {Link} from "react-router-dom";
@@ -35,10 +35,17 @@ import {
 import Notifications from "../../NotificationComponent/index.js";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 
+
+const glowing=keyframes`
+      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+`;
+
+
 const NotificationIconContainer=styled.div`
 	border-radius:50%;
-	background-color:${({displayNotificationIndicator})=>(displayNotificationIndicator ?"red":"#C8B0F4")}
-	border-color:white;
+	background-color:${({displayNotificationIndicator})=>(displayNotificationIndicator ?"#FFFFFF":"#C8B0F4")};
 	border-style:solid;
 	border-width:5px;
 	margin-right:5%;
@@ -46,18 +53,13 @@ const NotificationIconContainer=styled.div`
 
 	${({ displayNotificationIndicator }) =>
     displayNotificationIndicator ?
-    `
-    animation: glowing 1300ms infinite;
-     background: #C8B0F4;
-     @keyframes glowing {
-	      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
-	      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
-	      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
-	  }
+    css`
+	    animation: ${glowing} 1300ms infinite;
+	    background-color: #C8B0F4;
     `:
 	`
-	border-color:#A4A4A4;
-	background:#BDBDBD;
+		border-color:#A4A4A4;
+		background-color:#BDBDBD;
 	`}
 
 

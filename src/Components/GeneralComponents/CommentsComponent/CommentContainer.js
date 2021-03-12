@@ -10,7 +10,8 @@ import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 import {
 		setPersonalProfileAccessToken,
 		setPersonalProfileRefreshToken
-	} from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
+} from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
+import {Link} from "react-router-dom";
 
 const Container=styled.div`
 	padding:10px;
@@ -101,6 +102,11 @@ const CommentTextArea=styled.textarea`
 	height:90%;
 `;
 
+const OwnerProfilePictureLink=styled(Link)`
+	listStyle:none;
+	display:inline-block;
+	margin-right:10px
+`;
 
 const ProfilePicture={
 	position:"relative",
@@ -238,16 +244,16 @@ class CommentsContainer extends Component{
 		}
 	}
 	commentComponent=(data,index)=>{
-		
+		console.log(data);
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
+						<OwnerProfilePictureLink to={{pathname:`/profile/${data.ownerObject.owner._id}`}}>
 							<img id="commentLI" 
 								src={data.ownerObject.profilePicture==null?
 									NoProfilePicture:data.ownerObject.profilePicture}
 							style={ProfilePicture}/>
-						</li>
+						</OwnerProfilePictureLink>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
 						</li>

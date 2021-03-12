@@ -176,7 +176,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 					<p>{postUrlContruct(postType,postUrl)}</p>:
 					<>
 						{isAudioPost==true?
-							<audio style={{width:"50px"}} key={this.uuidv4()} controls>
+							<audio style={{width:"200px"}} key={uuidv4()} controls>
 							  <source src={postUrl} type="audio/ogg"/>
 							  <source src={postUrl} type="audio/mp4"/>
 							Your browser does not support the audio element.
