@@ -199,9 +199,13 @@ class CommentsContainer extends Component{
 		if(this.props.isGuestProfile==true){
 			 alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
 		}else{
-			this.setState({
-				createVideoResponses:!this.state.createVideoResponses
-			})
+			if(this.state.displayPhoneUI==true){
+				alert('Unfortunately you have to be on a desktop to access this feature. Sorry for the inconvenience');
+			}else{
+				this.setState({
+					createVideoResponses:!this.state.createVideoResponses
+				})
+			}
 		}
 	}
 

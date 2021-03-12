@@ -47,10 +47,32 @@ const PostDisplayContainer=(props)=>{
 		secondaryText,
 	}=props;
 
+	const pauseVideoUrls=()=>{
+		if(document.getElementById("videoDescription")!=null)
+			document.getElementById("videoDescription").pause();
+
+		if(document.getElementById("videoElement"))
+			document.getElementById("videoElement").pause();
+	}
+
+	const displayVideoDescriptionContainer=()=>{	
+		pauseVideoUrls();
+		changeVideoDescriptionDisplay(true);
+	}
+
+	const displayVideoContainer=()=>{
+		pauseVideoUrls();
+		changeZoomedInPostDisplay(true)
+	}
+
 	const closeModal=()=>{
+		if(document.getElementById("videoDescription")!=null)
+			document.getElementById("videoDescription").play();
+		
 		changeVideoDescriptionDisplay(false);
 		changeZoomedInPostDisplay(false);
 	}
+
 	return(
 		<Container>
 			{displayZoomedInPostDisplay==true &&(
@@ -69,41 +91,44 @@ const PostDisplayContainer=(props)=>{
 				/>
 			)}
 			<hr/>
-			<div style={{marginLeft:"10%",marginBottom:"2%"}}>
-				<audio id="audio" style={{width:"800px"}} controls>
-					<source src={postData.audioDescription} type="audio/ogg"/>
-					<source src={postData.audioDescription} type="audio/mp4"/>
-					Your browser does not support the audio element.
-				</audio>
-			</div>
+			{postData.audioDescription!=null &&(
+				<div style={{marginLeft:"10%",marginBottom:"2%"}}>
+					<audio id="audio" style={{width:"800px"}} controls>
+						<source src={postData.audioDescription} type="audio/ogg"/>
+						<source src={postData.audioDescription} type="audio/mp4"/>
+						Your browser does not support the audio element.
+					</audio>
+				</div>
+			)}
 			<Post>
 				{postData.videoDescription==null?null:
-					<VideoDesriptionContainer onClick={()=>changeVideoDescriptionDisplay(true)}>
+					<VideoDesriptionContainer onClick={()=>displayVideoDescriptionContainer()}>
 						<video id="videoDescription"
 							width="100%" height="100%" borderRadius="50%"
-							autoPlay loop autoBuffer muted playsInline>
+							autoPlay loop autoBuffer playsInline>
 							<source src={postData.videoDescription} type="video/mp4"/>
 						</video>
 					</VideoDesriptionContainer>
 				}
+				{displayStampEffect==true?
+					<React.Fragment>
+						<StampIconEffect
+							id="stampEffect"
+						>
+							<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+						</StampIconEffect>
+					</React.Fragment>:
+					null
+				}
 				{postData.imgUrl==null?
-					<VideoDesriptionContainer onClick={()=>changeZoomedInPostDisplay(true)}>
-						<video id="videoDescription"
+					<VideoDesriptionContainer onClick={()=>displayVideoContainer()}>
+						<video id="videoElement"
 							width="100%" height="100%" borderRadius="50%"
 							autoPlay loop autoBuffer muted playsInline>
 							<source src={postData.videoUrl} type="video/mp4"/>
 						</video>
 					</VideoDesriptionContainer>
 					:<Image onClick={()=>changeZoomedInPostDisplay(true)}>	
-						{displayStampEffect==true?
-								<React.Fragment>
-									<StampIconEffect
-										id="stampEffect"
-									>
-										<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-									</StampIconEffect>
-								</React.Fragment>:
-						null}
 						<img id="image" src={postData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
 					</Image>
 				}

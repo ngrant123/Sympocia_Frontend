@@ -185,12 +185,11 @@ const ImageContainer=(props)=>{
 		}else{
 			let confirmationResponse;
 			let dataResponse;
-
 			if(displayStampEffect==false){
 				const {confirmation,data}=await addStampPost(
 													postData[postDataDestructedField]._id,
 													"personal",
-													"Images",
+													postData[postDataDestructedField].imgUrl==null?"Videos":"Images",
 													userId,
 													isAccessTokenUpdated==true?updatedAccessToken:
 													personalInformation.accessToken
@@ -202,7 +201,7 @@ const ImageContainer=(props)=>{
 				const {confirmation,data}=await unStampPost(
 													postData[postDataDestructedField]._id,
 													"personal",
-													"Images",
+													postData[postDataDestructedField].imgUrl==null?"Videos":"Images",
 													userId,
 													isAccessTokenUpdated==true?updatedAccessToken:
 													personalInformation.accessToken
@@ -287,7 +286,7 @@ const ImageContainer=(props)=>{
 			{displayDeleteConfirmation==true &&(
 				<DeletePostConfirmationPortal
 					postType={"Posts"}
-					selectedPostType={"Images"}
+					selectedPostType={postData[postDataDestructedField].imgUrl==null?"Videos":"Images"}
 					content={postData[postDataDestructedField]}
 					closeModal={closeDeleteConfirmationModal}
 					removeContextLocation={postData[postDataDestructedField].contextLocation.removePost}
@@ -299,7 +298,7 @@ const ImageContainer=(props)=>{
 					closeModal={closePollingModal}
 					displayApproveModal={displayApproveModal}
 					postId={postData[postDataDestructedField]._id}
-					postType="Images"
+					postType={postData[postDataDestructedField].imgUrl==null?"Videos":"Images"}
 					targetDom={postData.targetDom}
 					isGuestProfile={isGuestProfile}
 				/>:null

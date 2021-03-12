@@ -153,7 +153,7 @@ export const ProfilePictureContainer=styled.div`
     	width:90% !important;
 		z-index:10;
 		#profilePicture{
-          height:230% !important;
+          height:240% !important;
           left:5% !important;
           max-height:250px !important;
 	    }

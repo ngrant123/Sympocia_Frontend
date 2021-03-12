@@ -237,8 +237,8 @@ const ButtonCSS={
 				}
 			}
 			const searchObject={
-						industry:industries[i].industry,
-						subIndustry:subCommunitiyArray
+				industry:industries[i].industry,
+				subIndustry:subCommunitiyArray
 			}
 				searchCriteriaIndustryArray.push(searchObject);
 		}
@@ -427,8 +427,13 @@ const ButtonCSS={
 	}
 
 	const displayAudioPostCreation=()=>{
-		changeAudioOrTextScreenChoice(false);
-		changeDisplayAudioPostOption(true);
+		debugger;
+		if(props.isPhoneUIEnabled==true){
+			alert('Unfortunately you can only upload voice posts on a desktop/laptop. Please switch to that to continue');
+		}else{
+			changeAudioOrTextScreenChoice(false);
+			changeDisplayAudioPostOption(true);
+		}
 	}
 
 	const closeCrownModal=()=>{

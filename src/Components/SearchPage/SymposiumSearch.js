@@ -7,6 +7,7 @@ import NoProfilePicture from "../../designs/img/NoProfilePicture.png";
 import {getSymposiumsFromSearch} from "../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import LoadingScreen from "../../LoadingAnimation.js";
 import NoSearchResultDisplay from "../../designs/img/FirstSectionLandingPAgeImage.png";
+import NoResultsModal from "./NoResultsModal.js";
 
 const Container=styled.div`
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
@@ -151,18 +152,7 @@ const SymposiumSearch=({searchQuery,userId,history})=>{
 						*/}
 						<hr/>
 						{symposiums.length==0?
-							<li style={{listStyle:"none",marginLeft:"5%"}}>	
-								<ul style={{padding:"20px"}}>
-									<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
-										<img src={NoSearchResultDisplay} style={{borderRadius:"50%",width:"80%",height:"400px"}}/>
-									</li>
-									<li style={{width:"30%",fontSize:"30px",listStyle:"none",display:"inline-block"}}>
-										<b>
-											No results unfortunately :( Maybe search something else?
-										</b>
-									</li>
-								</ul>
-							</li>:
+							<NoResultsModal/>:
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"0px"}}>
 									{symposiums.map(data=>

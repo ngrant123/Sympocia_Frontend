@@ -150,7 +150,7 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 	}}=personalInformation;
 
 	const isOwnProfileRecruitButtonDecider=()=>{
-		
+		debugger;
 		const {
 			userProfile:{
 				recruits

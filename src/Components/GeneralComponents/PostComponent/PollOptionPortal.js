@@ -10,6 +10,7 @@ import {markPostAsAuthentic,markPostAsFakeNews} from "../../../Actions/Requests/
 import {getFakeNewsComments,getAuthenticPostComments} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
+import {Link} from "react-router-dom";
 
 
 const ShadowContainer= styled.div`
@@ -100,7 +101,7 @@ const CommentContainer=styled.div`
 	flex-direction:row;
 	margin-bottom:5%;
 `;
-const CommentOwnerImage=styled.div`
+const CommentOwnerImage=styled(Link)`
 	display:flex;
 	flex-direction:column;
 `;
@@ -126,7 +127,8 @@ const ExploreButton={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  width:"30%"
+  width:"30%",
+  cursor:"pointer"
 }
 
 /*
@@ -165,6 +167,7 @@ const PollOptionPortal=(props)=>{
 			}else{
 				comments=await getFakeNewsComments(postId,postType);
 			}
+			console.log(comments);
 			changeComments(comments.reverse());
 			changeIsProcessingStatus(false);
 		}
@@ -252,95 +255,88 @@ const PollOptionPortal=(props)=>{
 					<ul style={{padding:"10px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginLeft:"90%"}}>
 							<HighlightOffIcon
-								style={{fontSize:"30"}}
+								style={{fontSize:"30",cursor:"pointer"}}
 								onClick={()=>closeModal()}
 							/>
 						</li>
-						{displayApproveModal==true?
-							<React.Fragment>
-								<li style={{listStyle:"none"}}>
-									<InputContainer
-										 placeholder="Click here and tell everyone why you think this post isnt fake news"
-										 style={{width:"80%",marginLeft:"10%"}}
-										 onClick={()=>triggerPollOptionCreation()}
-									/>
-								</li>
-								<hr/>
-
-								<li style={{color:"#01DF01",listStyle:"none",marginLeft:"10%",marginBottom:"2%"}}>	
-									<CheckCircleIcon
-										style={{fontSize:"30",color:"#01DF01"}}
-									/> Approves																																																																																								
-								</li>
-							</React.Fragment>:
-							<React.Fragment>
-								<li style={{listStyle:"none"}}>
-									<InputContainer
-										 placeholder="Click here and tell everyone why you think this post is fake news"
-										 style={{width:"80%",marginLeft:"10%"}}
-										 onClick={()=>triggerPollOptionCreation()}
-									/>
-								</li>
-								<hr/>
-
-								<li style={{color:"#FE2E2E",listStyle:"none",marginLeft:"10%",marginBottom:"2%"}}>	
-									<HighlightOffIcon
-										style={{fontSize:"30",color:"#FE2E2E"}}
-									/> Disapproves																																																																																								
-								</li>
-							</React.Fragment>
-						}
-
+						
 						{displayCreateComment==true?
 							<ul style={{padding:"0px"}}>
+								<li style={{marginBottom:"2%",...ExploreButton}} onClick={()=>changeDisplayCreateComment(false)}>
+									Back
+								</li>
 								<ExtendedInputContainer
 									placeholder="Write down what you want to say :)"
 									id="extendedInputContainer"
 								/>
 								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<ReplyIcon
-													style={{fontSize:"20"}}
-													onClick={()=>changeDisplayCreateComment(false)}
-												/>
-											</li>
-										</a>
-										{isProcessingSubmittion==true?
-											<p>Please wait...</p>:
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>submitComment({isAccessTokenUpdated:false})} style={ExploreButton}>
-													Submit
-												</li>
-											</a>
-										}
-									</ul>
+									{isProcessingSubmittion==true?
+										<p>Please wait...</p>:
+										<li onClick={()=>submitComment({isAccessTokenUpdated:false})} style={ExploreButton}>
+											Submit
+										</li>
+									}
 								</li>
 							</ul>:
-							<li id="commentsLI" style={{listStyle:"none"}}>
-								{comments.length==0?
-									<p>No opinions</p>:
-									<ul style={{padding:"0px"}}>
-										{comments.map(data=>
-											<CommentContainer>
-												<CommentOwnerImage>
-													{data.ownerObject.profilePicture==null?
-														<img src={NoProfilePicture} style={ProfilePictureCSS}/>:
-														<img src={data.ownerObject.profilePicture} style={ProfilePictureCSS}/>
-													}
-												</CommentOwnerImage>
-												<CommentTextAndOwner>
-													<p>
-														<b>{data.firstName}</b>
-													</p>
-													<p>{data.comment}</p>
-												</CommentTextAndOwner>
-											</CommentContainer>
-											)}
-									</ul>
+							<React.Fragment>
+								{displayApproveModal==true?
+									<React.Fragment>
+										<li style={{listStyle:"none"}}>
+											<InputContainer
+												 placeholder="Click here and tell everyone why you think this post isn't fake news"
+												 style={{width:"80%",marginLeft:"10%"}}
+												 onClick={()=>triggerPollOptionCreation()}
+											/>
+										</li>
+										<hr/>
+
+										<li style={{color:"#01DF01",listStyle:"none",marginLeft:"10%",marginBottom:"2%"}}>	
+											<CheckCircleIcon
+												style={{fontSize:"30",color:"#01DF01"}}
+											/> Approves																																																																																								
+										</li>
+									</React.Fragment>:
+									<React.Fragment>
+										<li style={{listStyle:"none"}}>
+											<InputContainer
+												 placeholder="Click here and tell everyone why you think this post is fake news"
+												 style={{width:"80%",marginLeft:"10%"}}
+												 onClick={()=>triggerPollOptionCreation()}
+											/>
+										</li>
+										<hr/>
+
+										<li style={{color:"#FE2E2E",listStyle:"none",marginLeft:"10%",marginBottom:"2%"}}>	
+											<HighlightOffIcon
+												style={{fontSize:"30",color:"#FE2E2E"}}
+											/> Disapproves																																																																																								
+										</li>
+									</React.Fragment>
 								}
-							</li>
+								<li id="commentsLI" style={{listStyle:"none"}}>
+									{comments.length==0?
+										<p>No opinions</p>:
+										<ul style={{padding:"0px"}}>
+											{comments.map(data=>
+												<CommentContainer>
+													<CommentOwnerImage to={{pathname:`/profile/${data.ownerId}`}}>
+														{data.ownerObject.profilePicture==null?
+															<img src={NoProfilePicture} style={ProfilePictureCSS}/>:
+															<img src={data.ownerObject.profilePicture} style={ProfilePictureCSS}/>
+														}
+													</CommentOwnerImage>
+													<CommentTextAndOwner>
+														<p>
+															<b>{data.firstName}</b>
+														</p>
+														<p>{data.comment}</p>
+													</CommentTextAndOwner>
+												</CommentContainer>
+												)}
+										</ul>
+									}
+								</li>
+							</React.Fragment>
 						}
 					</ul>
 				}

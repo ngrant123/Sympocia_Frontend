@@ -38,6 +38,7 @@ const Container=styled.div`
 		}
 		#imgUrl{
 			width:60% !important;
+			height:200px !important;
 		}
 		#creationImageLI{
 			width:80% !important;
@@ -49,7 +50,7 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:650px){
 		#postLI{
 			margin-left:30% !important;
 		}
@@ -72,7 +73,8 @@ const Container=styled.div`
 			margin-left:-20% !important;
 		}
 		#imgUrl{
-			width:60% !important;
+			width:80% !important;
+			height:180px !important;
 		}
 		#regularPostQuestionLI{
 			font-size:15px !important;
@@ -85,7 +87,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
 		#imgUrl{
-			width:70% !important;
+			width:40% !important;
 			height:40% !important;
 		}
 
@@ -101,6 +103,9 @@ const Container=styled.div`
 		}
 		#imagePicture{
 			width:15% !important;
+		}
+		#imgUrl{
+			height:200px !important;
 		}
     }
 `;
@@ -571,7 +576,7 @@ const QuestionsPortal=(props)=>{
 					return <React.Fragment>
 								{replies.map(data=>
 									<img id="imgUrl" src={data.imgUrl} onClick={()=>displayAppropriatePostModal(data,"Images")} 
-									style={{borderRadius:"5px",width:"30%",height:"20%",marginRight:"2%",marginBottom:"2%"}}/>
+									style={{borderRadius:"5px",width:"30%",height:"140px",marginRight:"2%",marginBottom:"2%"}}/>
 								)}
 							</React.Fragment>;
 				}else if(currentQuestionType=="Video"){

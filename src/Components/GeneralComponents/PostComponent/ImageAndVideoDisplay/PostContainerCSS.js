@@ -57,6 +57,7 @@ export const Image=styled.div`
 	height:100%;
 	border-radius:20px;
 	margin-bottom:5px;
+	cursor:pointer;
 
 	@media screen and (max-width:1370px){
 		height:100% !important;
