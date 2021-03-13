@@ -1,4 +1,4 @@
-import styled,{keyframes} from "styled-components";
+import styled,{keyframes,css} from "styled-components";
 
 export const Container=styled.div`
 	position:relative;
@@ -211,8 +211,18 @@ export const Post=styled.div`
 		}
 	}
 
+
+
+
+
+
+
 	@media screen and (max-width:650px){
-		height:120px;
+		${({isImagePost})=>
+			isImagePost==false?
+			css`height:250px;`:
+			css`height:180px;`
+		}
 	}
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -225,8 +235,11 @@ export const Post=styled.div`
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-    	height:160px;
-    }
+    	${({isImagePost})=>
+			isImagePost==false?
+			css`height:200px;`:
+			css`height:160px;`
+		}
 `;
 
 export const PollingOptionsContainer=styled.div`

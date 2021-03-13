@@ -47,6 +47,9 @@ const PostDisplayContainer=(props)=>{
 		secondaryText,
 	}=props;
 
+	const containsVideoDescriptionAndIsImage=(postData.imgUrl==null?false:true)&&(postData.videoDescription==null?false:true);
+	console.log(containsVideoDescriptionAndIsImage);
+
 	const pauseVideoUrls=()=>{
 		if(document.getElementById("videoDescription")!=null)
 			document.getElementById("videoDescription").pause();
@@ -100,7 +103,7 @@ const PostDisplayContainer=(props)=>{
 					</audio>
 				</div>
 			)}
-			<Post>
+			<Post isImagePost={containsVideoDescriptionAndIsImage}>
 				{postData.videoDescription==null?null:
 					<VideoDesriptionContainer onClick={()=>displayVideoDescriptionContainer()}>
 						<video id="videoDescription"
