@@ -391,38 +391,33 @@ export const ImagePopupContainer=styled.div`
 `;
 
 export const PostPopupContainer=styled.div`
+	position:absolute;
 	margin-left:20%;
-	margin-top:4%;
+	margin-top:5%;
 	position:fixed;
 	width:70%;
 	height:70%;
+	background-color:white;
 	padding:20px;
 	z-index:35;
 	border-radius:5px;
+	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
-		margin-left:0%;
-		margin-top:10%;
-	}
-
-	@media screen and (max-width:800px){
-		margin-left:0% !important;
-		top:0% !important;
+		margin-left:1% !important;
     	width:100% !important;
-    	height:90% !important;
+    	height:85% !important;
     	border-radius:5px !important;
     }
 
-    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	margin-top:5%;
+     @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+		width:95% !important;
+    	height:80% !important;
     }
 
-    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+   	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	margin-top:0%;
-    	height:90%;
     }
-
-
 `;
 
 export const CreatePostButton=styled.div`	

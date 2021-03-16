@@ -14,39 +14,29 @@ const ShadowContainerVideos=styled.div`
 `;
 
 const Container=styled.div`
-
 	position:fixed;
-	z-index:45;
+	background-color:red;
+	z-index:40;
+	height:90%;
+	width:70%;
 	border-radius:5px;
-	top:10%;
-	margin-left:17%;
-	overflow-y:auto;
-	width:65%;
-	height:70%;
+	top:5%;
+	left:20%;
 	background-color:white;
+	padding:20px;
+	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
-		margin-left:-1%;
-		top:5%;
+		left:5%;
+		width:90%;
 	}
-
 	@media screen and (max-width:700px){
-		margin-left:2% !important;
-		left:-2% !important;
-		top:0px !important;
-    	width:100% !important;
-    	height:100% !important;
-    	border-radius:5px !important;
-    }
-    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	width:100% !important;
-    }
-
-    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-    	margin-top:0%;
-    	height:90%;
-    	width:110% !important;
-    }
+		width:100% !important;
+		height:100% !important;
+		margin-right:-10% !important;
+		top:5% !important;
+		margin-left:-5% !important;
+	}
 `;
 
 

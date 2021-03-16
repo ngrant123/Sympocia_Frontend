@@ -431,10 +431,10 @@ const RegularPostContainer=(props)=>{
 							<PostOwnerAndActionsContainer>
 								<ProfileOwnerContainer>
 									<img id="profilePictureDiv" src={profilePicture==null?NoProfilePicture:profilePicture}
-										style={{width:"30%",height:"60px",borderRadius:"50%",marginRight:"5%"}}
+										style={{width:"30%",height:"45px",borderRadius:"50%",marginRight:"5%"}}
 									/>
 									<p style={{marginRight:"5%",maxWidth:"60%",maxHeight:"20px",overflow:"hidden"}}>
-										<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</b>
+										<b>{props.postData.owner.firstName}</b>
 									</p>
 								</ProfileOwnerContainer>
 								<PostActions>

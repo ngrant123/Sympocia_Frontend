@@ -5,13 +5,13 @@ import {createPortal} from "react-dom";
 
 const Container=styled.div`
 	position:fixed;
-	width:25%;
-	height:50%;
+	width:60%;
+	height:80%;
 	background-color:white;
 	z-index:55;
-	top:20%;
+	top:10%;
 	border-radius:5px;
-	left:40%;
+	left:25%;
 	display:flex;
 	flex-direction: column;
 	padding:30px;
@@ -22,13 +22,23 @@ const Container=styled.div`
 		left:5% !important;
 		overflow:scroll !important;
 	}
+	@media screen and (max-width:650px){
+		#postDisplay{
+			height:60% !important;
+		}
+	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	#postDisplay{
+    		height:200% !important;
+    	}
+	}
 `;
 
 const ShadowContainer= styled.div`
 	position:fixed;
 	width:110%;
 	height:100%;
-	background-color: rgba(0,0,0,0.4);
+	background-color: rgba(0,0,0,0.9);
 	z-index:55;
 	top:0px;
 	left:-5%;
@@ -39,8 +49,8 @@ const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType})=>{
 		return(
 			<React.Fragment>
 				{postType=="Images"?
-					<img src={postUrl} style={{width:"100%",height:"100%"}}/>
-					:<video controls width="100%" height="100%">
+					<img id="postDisplay" src={postUrl} style={{width:"100%",height:"100%"}}/>
+					:<video id="postDisplay" controls width="100%" height="100%">
 						<source  type="video/mp4" src={postUrl}/>
 						<p>This is fallback content to display for user agents that do not support the video tag.</p>
 					</video>

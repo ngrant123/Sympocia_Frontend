@@ -3,15 +3,14 @@ import styled,{keyframes,css} from "styled-components";
 export const Container=styled.div`
 	position:relative;
 	width:100%;
-	height:100%;
-	background-color:white;
 	display:flex;
 	padding:30px;
+	background-color:white;
 	flex-direction:column;
-	overflow:scroll;
 	z-index:40;
 
 	@media screen and (max-width:1370px){
+		height:100%;
 		padding:10px;
 	
 		#postInformationLI{
@@ -47,7 +46,12 @@ export const Container=styled.div`
 			width:20% !important;
 			height:50px !important;
 		}
-    }
+    }  
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	#ownerProfilePicture{
+			width:10% !important;
+		}
+	}
 `;
 
 
@@ -64,9 +68,12 @@ export const Image=styled.div`
 		width:100%;
     }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-   		height:100% !important;
-	
+   		height:600px !important;
     }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	height:400px !important;
+	}
 `;
 
 export const ImageButtons=styled.div`
@@ -107,6 +114,7 @@ export const StampIconEffect=styled.div`
 	  border-radius:5px;
 	  position:absolute;
 	  animation:${keyFrame} 1s ease-in-out 0s forwards;
+	  z-index:40;
 
     @media screen and (max-width:1030px){
 		height:70px !important;
@@ -132,9 +140,13 @@ export const VideoDesriptionContainer=styled.div`
 	@media screen and (max-width:650px){
 		height:100%;
 	}
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-   		height:100% !important;
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+   		height:600px !important;
     }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	height:400px !important;
+	}
 `;
 
 export const CrownIconContainer=styled.div`
@@ -189,6 +201,7 @@ export const CommentContainer=styled.div`
 export const PersonalInformation=styled.div`
 	display:flex;
 	flex-direction:row;
+
 	@media screen and (max-width:650px){
 		margin-bottom:5%;
 	}
@@ -198,24 +211,28 @@ export const PersonalInformation=styled.div`
 `;
 
 export const Post=styled.div`
+	position:relative;
 	display:flex;
 	flex-direction:row;
 	justify-content:center;
 	height:400px;
 
 	@media screen and (max-width:1370px){
-		height:40%;
+		height:600px;
 		margin-bottom:5%;
 		#image{
 			height:100% !important;
 		}
+		#audioOnClickDiv{
+			width:500px !important;
+			display:none !important;
+		}
+
+		#audioDescription{
+			width:500px !important;
+			display:none !important;
+		}
 	}
-
-
-
-
-
-
 
 	@media screen and (max-width:650px){
 		${({isImagePost})=>
@@ -229,17 +246,13 @@ export const Post=styled.div`
    		#image{
 			height:100% !important;
 		}
-		height:90%;
+		height:600px;
 		margin-bottom:5%;
-	
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-    	${({isImagePost})=>
-			isImagePost==false?
-			css`height:200px;`:
-			css`height:160px;`
-		}
+    	height:400px;
+	}
 `;
 
 export const PollingOptionsContainer=styled.div`

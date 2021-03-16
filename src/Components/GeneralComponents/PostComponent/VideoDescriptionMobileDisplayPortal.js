@@ -5,13 +5,13 @@ import {createPortal} from "react-dom";
 
 const Container=styled.div`
 	position:fixed;
-	width:25%;
-	height:50%;
+	width:60%;
+	height:80%;
 	background-color:white;
 	z-index:55;
-	top:20%;
+	top:10%;
 	border-radius:5px;
-	left:40%;
+	left:25%;
 	display:flex;
 	flex-direction: column;
 	padding:30px;
@@ -28,7 +28,7 @@ const ShadowContainer= styled.div`
 	position:fixed;
 	width:110%;
 	height:100%;
-	background-color: rgba(0,0,0,0.4);
+	background-color: rgba(0,0,0,0.9);
 	z-index:55;
 	top:0px;
 	left:-5%;

@@ -11,22 +11,46 @@ import StampIcon from "../../../../designs/img/StampIcon.png";
 import VideoDescriptionMobileDisplayPortal from "../VideoDescriptionMobileDisplayPortal.js";
 import ZoomedPostImageOrVideoPortal from "../ZoomedInPostImageOrVideo.js";
 
-const Container=styled.div`	
-	margin-top:10%;
+const Container=styled.div`
+	display:flex;
+	flex-direction:column;
+	@media screen and (max-width:1370px){
+		#audioOnClickDiv{
+			width:500px !important;
+		}
+
+		#audioDescription{
+			width:500px !important;
+		}
+	}
+
+	@media screen and (max-width:650px){
+		#audioOnClickDiv{
+			width:200px !important;
+		}
+
+		#audioDescription{
+			width:200px !important;
+		}
+	}
+
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-   		margin-top:20%;
+   		margin-top:10%;
+   		#mobileUserActions{
+   			display:none !important;
+   		}
     }
 `;
 const postCaptionAndDescription=(caption,description)=>{
 	return(
 		<React.Fragment>
-			<p style={{fontSize:"20px",listStyle:"none",height:"60px",overflowY:"hidden",marginBottom:"2%"}}>
+			<p style={{marginTop:"5%",fontSize:"20px",listStyle:"none",marginBottom:"2%"}}>
 				<b>
 					{caption}
 				</b>
 			</p>
 
-			<p style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
+			<p style={{marginTop:"10%",fontSize:"13px",color:"#8c8c8c",listStyle:"none"}}>
 				{description}
 			</p>
 		</React.Fragment>
@@ -34,9 +58,9 @@ const postCaptionAndDescription=(caption,description)=>{
 }
 
 const PostDisplayContainer=(props)=>{
-	console.log(props);
 	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
 	const [displayZoomedInPostDisplay,changeZoomedInPostDisplay]=useState(false);
+	let isVideoDescriptionPaused=false;
 	const {
 		postData,
 		displayStampEffect,
@@ -76,6 +100,24 @@ const PostDisplayContainer=(props)=>{
 		changeZoomedInPostDisplay(false);
 	}
 
+	const playAudio=()=>{
+		debugger;
+		const audio=document.getElementById("audioDescription");
+		if(document.getElementById("videoDescription")!=null && audio!=null){
+			const currentTime=audio.currentTime;
+			const duration=audio.duration;
+			if(currentTime==duration || isVideoDescriptionPaused==false){
+				isVideoDescriptionPaused=true;
+				audio.play();
+				document.getElementById("videoDescription").pause();
+			}else if(isVideoDescriptionPaused==true){
+				isVideoDescriptionPaused=false;
+				audio.pause();
+				document.getElementById("videoDescription").play();
+			}
+		}
+	}
+
 	return(
 		<Container>
 			{displayZoomedInPostDisplay==true &&(
@@ -96,7 +138,11 @@ const PostDisplayContainer=(props)=>{
 			<hr/>
 			{postData.audioDescription!=null &&(
 				<div style={{marginLeft:"10%",marginBottom:"2%"}}>
-					<audio id="audio" style={{width:"800px"}} controls>
+					{postData.videoDescription!=null &&(
+						<div id="audioOnClickDiv" onClick={()=>playAudio()} style={{cursor:"pointer",zIndex:"7",position:"absolute",width:"800px",height:"7%"}}>
+						</div>
+					)}
+					<audio id="audioDescription" style={{width:"800px"}} controls>
 						<source src={postData.audioDescription} type="audio/ogg"/>
 						<source src={postData.audioDescription} type="audio/mp4"/>
 						Your browser does not support the audio element.
@@ -138,12 +184,14 @@ const PostDisplayContainer=(props)=>{
 			</Post>
 			{displayMobileUI==true ?
 				<React.Fragment>
-					<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
+					<div id="mobileUserActions" style={{display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
 						{userActionsContainer({...userActions})}
 					</div>
 				</React.Fragment>:
-				<div id="postInformation">
-					{postCaptionAndDescription(headlineText,secondaryText)}
+				<div  id="postInformation" style={{display:"flex",justifyContent:"center"}}>
+					<div style={{width:"70%",padding:"20px"}}>
+						{postCaptionAndDescription(headlineText,secondaryText)}
+					</div>
 				</div>
 			}
 

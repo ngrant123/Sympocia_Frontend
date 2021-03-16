@@ -183,7 +183,7 @@ const HeaderDescriptionContainer=styled.div`
 const SmallPostContainer=styled.div`
 	margin-bottom:8%;
 	width:35%;
-	margin-right:8%;
+	margin-right:10%;
 
 	@media screen and (max-width:1370px){
 		margin-right:15%;
@@ -269,7 +269,7 @@ const SuggestedSymposiumsContainer=styled.div`
 const HeaderImageCSS={
 	position:"relative",
 	width:"90%",
-	height:"500px",
+	height:"400px",
 	borderRadius:"5px",
 	borderRadius:"5px",
 	boxShadow:"1px 1px 10px #707070",
