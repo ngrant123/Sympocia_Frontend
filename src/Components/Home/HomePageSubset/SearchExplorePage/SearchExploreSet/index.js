@@ -147,8 +147,10 @@ const PostsContainer=styled.div`
 	position:absolute;
 	width:85%;
 	height:70%;
+	overflow:hidden;
 
 	@media screen and (max-width:1300px){
+		overflow:visible;
 		#headerTitleLI{
 			display:none !important;
 		}
@@ -159,7 +161,7 @@ const Posts=styled.div`
 	position:absolute;
 	width:100%;
 	height:100%;
-	margin-top:5%;
+	margin-top:0%;
 
 	@media screen and (max-width:1370px){
 		margin-top:0%;		
@@ -342,14 +344,13 @@ class SearchExploreContainer extends Component{
 		if(posts==null||posts.length==0){
 			return posts;
 		}else if(posts.length==1){
-			posts.splice(1,0,"suggestedSymposium");
 			return posts;
 		}else{
 			var randomNumber;
-			if(posts.length<5){
+			if(posts.length<8){
 				randomNumber=Math.floor(Math.random() * ((posts.length-1) - 1 + 1)) + 1;
 			}else{
-				randomNumber=Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+				randomNumber=Math.floor(Math.random() * (7 - 1 + 1)) + 1;
 			}
 
 			posts.splice(randomNumber,0,"suggestedSymposium");
@@ -628,12 +629,10 @@ class SearchExploreContainer extends Component{
 														</React.Fragment>
 													)}
 													<Posts>
-														<ul style={{padding:"0px"}}>
-															{this.handleDisplayImages(homePageInformation,searchPageInformation)}
-															{this.handleDisplayVideos(homePageInformation,searchPageInformation)}
-															{this.handleDisplayBlogs(homePageInformation,searchPageInformation)}
-															{this.handleDisplayRegularPosts(homePageInformation,searchPageInformation)}
-														</ul>
+														{this.handleDisplayImages(homePageInformation,searchPageInformation)}
+														{this.handleDisplayVideos(homePageInformation,searchPageInformation)}
+														{this.handleDisplayBlogs(homePageInformation,searchPageInformation)}
+														{this.handleDisplayRegularPosts(homePageInformation,searchPageInformation)}	
 													</Posts>
 												</ul>
 											</PostsContainer>

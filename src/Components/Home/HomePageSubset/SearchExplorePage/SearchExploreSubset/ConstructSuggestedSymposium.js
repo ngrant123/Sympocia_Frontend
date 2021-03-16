@@ -7,8 +7,6 @@ import CompanyIndustry from "../../../../../Constants/industryConstants.js";
 import {getSymposiumId} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 const SuggestedSymposiumsContainer=styled.div`
-	display:flex;
-	flex-direction:column;
 	width:90%;
 	margin-left:2%;
 	margin-right:2%;
@@ -107,20 +105,11 @@ const ConstructSuggestedSymposium=({personalInformation,previousProps})=>{
 		var selectedSymposiums=[];
 		var counter=0;
 		while(counter<3){   
-			if(previousProps.isPersonalProfile==true){
-				const randomNum=Math.floor(Math.random() * ((PERSONAL_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
-				const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
-				if(!symposiumContainer.has(randomlySelected.industry)){
-					symposiumContainer.set(randomlySelected.industry,1);
-					selectedSymposiums.push(randomlySelected);
-				}
-			}else{
-				const randomNum=Math.floor(Math.random() * ((COMPANY_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
-				const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
-				if(!symposiumContainer.has(randomlySelected.industry)){
-					symposiumContainer.set(randomlySelected.industry,1);
-					selectedSymposiums.push(randomlySelected);
-				}
+			const randomNum=Math.floor(Math.random() * ((PERSONAL_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
+			const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
+			if(!symposiumContainer.has(randomlySelected.industry)){
+				symposiumContainer.set(randomlySelected.industry,1);
+				selectedSymposiums.push(randomlySelected);
 			}
 			counter++;
 		}

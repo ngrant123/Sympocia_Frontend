@@ -261,6 +261,7 @@ const PostsContainer=styled.div`
 	margin-left:5%;
 	overflow:scroll;
 	flex-wrap: wrap;
+	margin-bottom:5%;
 	@media screen and (max-width:1370px){
 		width:90%;
 		overflow:visible !important;
@@ -341,7 +342,7 @@ const NextButtonCSS={
 const HeaderBlogCSS={
 	position:"relative",
 	width:"90%",
-	height:"500px",
+	height:"400px",
 	borderRadius:"5px",
 	borderRadius:"5px",
 	boxShadow:"1px 1px 10px #707070",
@@ -394,10 +395,6 @@ const BlogPostModal=(props)=>{
 		changeSelectedBlog(data);
 		changeRecommendedBlogs(blogs);
 		changeBlogDisplay(true);
-	}
-
-	const tester=()=>{
-	
 	}
 
 	const constructSuggestedSymposium=(personalInformation,previousProps)=>{

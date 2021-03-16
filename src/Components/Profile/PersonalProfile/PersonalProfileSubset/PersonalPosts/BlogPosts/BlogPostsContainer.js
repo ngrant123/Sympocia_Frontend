@@ -312,7 +312,8 @@ return(
 													<li style={{width:"20%",listStyle:"none",display:"inline-block"}}>
 														<HeaderVideoDesriptionContainer>
 															{this.props.blogData.headerBlog.videoDescription!=null &&(
-																<video id="headerVideo" style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																<video id="headerVideo" style={{borderRadius:"50%"}} autoPlay loop autoBuffer muted playsInline
+																	width="100%" height="100%" borderRadius="50%" autoplay="true">
 																	<source src={this.props.blogData.headerBlog.videoDescription} type="video/mp4"/>
 																</video>
 															)}
@@ -413,7 +414,8 @@ return(
 																<img id="smallImage" src={data.blogImageUrl} width="100%" height="100%"/>
 																<VideoDesriptionContainer>
 																	{data.videoDescription!=null &&(
-																		<video style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%" autoplay="true" muted>
+																		<video style={{borderRadius:"50%"}} autoPlay loop autoBuffer muted playsInline 
+																			width="100%" height="100%" borderRadius="50%" autoplay="true" >
 																			<source src={data.videoDescription} type="video/mp4"/>
 																		</video>
 																	)}

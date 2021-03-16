@@ -21,13 +21,17 @@ const Container=styled.div`
 	flex-direction:row;
 	flex-wrap:wrap;
 	overflow:scroll;
+	width:100%;
+	height:600px;
 	@media screen and (max-width:1370px){
 		flex-direction:column;
+		overflow:visible;
+		flex-wrap:nowrap;
 	}
-
 	@media screen and (max-width:650px){
-		flex-direction:column !important;
 		margin-left:-10%;
+		padding-bottom:10px;
+		margin-top:-40%;
 		#headerImageLI{
 			width:220px !important;
 			height:180px !important;
@@ -51,9 +55,9 @@ const Container=styled.div`
 			margin-bottom:20% !important;
 		}
 	}
-
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
     	top:10px;
+    	margin-top:0%;
     }
 `;
 
@@ -62,44 +66,35 @@ const PostsContainer=styled.div`
 	display:flex;
 	flex-direction:column;
 	height:350px;
+	flex-shrink: 0;
+
 	width:30%;
+	background-color:red;
 	cursor:pointer;
-	overflow:scroll;
+	overflow:hidden;
 	border-radius:5px;
 	background-color:white;
 	margin-right:2%;
 	margin-bottom:2%;
-
 	@media screen and (max-width:1370px){
 		width:90%;
-		overflow-y:scroll;
 	}
 
 	@media screen and (max-width:650px){
-
-		#headerOwnerNameLI{
-			max-width:100% !important;
-		}
-		#headerPostTextOrAudioContainerLI{
-			top:20px !important;
-		}
-	}
-
-	@media screen and (max-width:650px){
-		width:80%;
+		width:100%;
 		height:300px;
 		#headerOwnerNameLI{
+			max-width:100% !important;
 			margin-left:20% !important;
 		}
 		#headerPostTextOrAudioContainerLI{
+			top:20px !important;
 			width:100% !important;
 		}
-
 		#audio{
 			width:190px;
 		}
 	}
-
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
     	margin-top:45px !important;
     }
@@ -148,7 +143,6 @@ const PostUserInformation=styled.div`
 	flex-direction:row;
 	padding:10px;
 	margin-right:10%;
-
 	@media screen and (max-width:1370px){
 		margin-left:0% !important;
 	}

@@ -342,8 +342,8 @@ const VideoPostModal=(props)=>{
 								</audio>
 							)}
 						</HeaderOwnerInformation>
-						<div id="headerVideoLI" style={{height:"100%",width:"90%",position:"relative"}}>
-							<video id="headerVideoContainer" style={{cursor:"pointer",position:"absolute"}} height="100%" width="90%" borderRadius="50%"
+						<div id="headerVideoLI" style={{height:"400px",width:"100%",position:"relative"}}>
+							<video id="headerVideoContainer" style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer",position:"absolute"}} height="100%" width="90%" borderRadius="50%"
 							 key={headerVideo.videoUrl} autoPlay loop autoBuffer muted playsInline onClick={()=>handleDisplayHeaderVideo()}>
 								<source src={headerVideo.videoUrl} type="video/mp4"/>
 							</video>

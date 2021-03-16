@@ -155,7 +155,7 @@ export const PostContainer=styled.div`
 	left:-2%;
 	top:5%;
 	width:100%;
-	height:170%;
+	height:100%;
 	transition:1s;
 
 	@media screen and (max-width:1370px){
