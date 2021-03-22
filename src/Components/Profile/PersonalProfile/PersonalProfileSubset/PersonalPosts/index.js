@@ -32,6 +32,7 @@ import {PhonePersonalInformationHeader} from "../../PersonalProfileSet/MobileUI.
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
+import {searchSymposiumsFilter} from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
 
 
 const PostCreationContainer=styled.div`
@@ -89,6 +90,15 @@ const SearchPostsTextArea=styled.textarea`
 	height:5%;
 	border-radius:5px;
 	border-style:none;
+	  border: none;
+    overflow: auto;
+    outline: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    resize: none; /*remove the resize handle on the bottom right*/
 `;
 
 
@@ -180,6 +190,7 @@ const PersonalPostsIndex=(props)=>{
 	const dispatch=useDispatch();
 	const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
 	const [endOfPostsDBIndicator,changeEndOfPostsDBIndicator]=useState(false);
+	const [isFilteredPostsActivated,changeIsFilteredPosts]=useState(false);
 
 	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
@@ -246,6 +257,7 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter})=>{
+		debugger;
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
@@ -278,7 +290,8 @@ const PersonalPostsIndex=(props)=>{
 				if(posts.length==0 && crownedPost==null){
 					changeEndOfPostsDBIndicator(true);
 				}else{
-					const {images}=imagePost;
+					let {images}=imagePost;
+					images=isFilteredPostsActivated==true?[]:images;
 					const newImages=images.concat(posts);
 					imagePost={
 						...imagePost,
@@ -332,6 +345,7 @@ const PersonalPostsIndex=(props)=>{
 					changeEndOfPostsDBIndicator(true);
 				}else{
 					let {videos}=videoPost;
+					videos=isFilteredPostsActivated==true?[]:videos;
 					const newVideos=videos.concat(posts);
 					
 					const videoObject={
@@ -383,7 +397,8 @@ const PersonalPostsIndex=(props)=>{
 					blogDiv.style.borderBottom="solid";
 					blogDiv.style.borderColor="#C8B0F4";
 
-					const {blogs}=blogPost;
+					let {blogs}=blogPost;
+					blogs=isFilteredPostsActivated==true?[]:blogs;
 					const newBlogs=blogs.concat(posts);
 					const blogObject={
 						headerBlog:crownedPost==null?blogPost.headerBlog:crownedPost,
@@ -438,7 +453,8 @@ const PersonalPostsIndex=(props)=>{
 					regularPostDiv.style.color="#C8B0F4";
 					regularPostDiv.style.borderBottom="solid";
 					regularPostDiv.style.borderColor="#C8B0F4";
-					const {posts}=regularPost;
+					let {posts}=regularPost;
+					posts=isFilteredPostsActivated==true?[]:posts;
 					const newRegularPosts=posts.concat(postsResponse);
 					const regularPostObject={
 						headerPost:crownedPost==null?regularPost.headerPost:crownedPost,
@@ -470,6 +486,7 @@ const PersonalPostsIndex=(props)=>{
 				}
 			}
 		}
+		changeIsFilteredPosts(false);
 		changeIsLoadingReloadedPosts(false);
 		
 	}
@@ -581,25 +598,25 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const triggerPostDecider=(postType,profileId,counter)=>{
-		switch(postType){
-			case 'image':{
-				changeImagesLoadingIndicator(true)
-				break;
+		if(postType!=currentPostType || isFilteredPostsActivated==true){
+			switch(postType){
+				case 'image':{
+					changeImagesLoadingIndicator(true)
+					break;
+				}
+				case 'video':{
+					changeVideosLoadingIndicator(true);
+					break;
+				}
+				case 'blog':{
+					changeBlogPostsLoadingIndicator(true);
+					break;
+				}
+				default:{
+					changeRegularPostsLoadingIndicator(true);
+					break;
+				}
 			}
-			case 'video':{
-				changeVideosLoadingIndicator(true);
-				break;
-			}
-			case 'blog':{
-				changeBlogPostsLoadingIndicator(true);
-				break;
-			}
-			default:{
-				changeRegularPostsLoadingIndicator(true);
-				break;
-			}
-		}
-		if(postType!=currentPostType){
 			changeEndOfPostsDBIndicator(false);
 			changeCurrentPostCounter(0);
 			handlePostsClick({
@@ -607,6 +624,7 @@ const PersonalPostsIndex=(props)=>{
 				id:profileId,
 				isAccessTokenUpdated:false,
 				postCounter:0,
+				isLoadingNewPosts:true
 			})
 		}
 	}
@@ -639,13 +657,97 @@ const PersonalPostsIndex=(props)=>{
 	const updateVideoPosts=(posts)=>{
 	}
 
-/*
-	const initializePersonalInformationToState=(personalInformationData)=>{
-		
-		changePersonalInformation(personalInformation);
+	const retrievedCurrentDisplayedPosts=()=>{
+		let displayedPosts;
+		debugger;
+		if(currentPostType=="image"){
+			displayedPosts=imagePost.images;
+		}else if(currentPostType=="video"){
+			displayedPosts=videoPost.videos;
+		}else if(currentPostType=="blog"){
+			displayedPosts=blogPost.blogs;
+		}else{
+			displayedPosts=regularPost.posts;
+		}
+		return displayedPosts;
 	}
-*/
+	const selectedPostSymposiums=()=>{
+		let displayedPosts=retrievedCurrentDisplayedPosts();
+		const postSelectedSymposiums=[];
+		const isSymposiumsContained=new Map();
 
+		for(var i=0;i<displayedPosts.length;i++){
+			const symposiums=displayedPosts[i].industriesUploaded;
+			for(var j=0;j<symposiums.length;j++){
+				const selectedSymposium=symposiums[j].industry;
+				if(isSymposiumsContained.get(selectedSymposium)==null){
+					isSymposiumsContained.set(selectedSymposium,1);
+					postSelectedSymposiums.push(selectedSymposium);
+				}
+			}
+		}
+
+		return (
+			<ul class="dropdown-menu">
+				<li style={{cursor:"pointer"}} 
+					onClick={()=>triggerPostDecider(currentPostType,props.personalInformation.userProfile._id,0)}>
+					<a>Clear Filter</a>
+				</li>
+				<hr/>
+				{postSelectedSymposiums.map(data=>
+					<li style={{cursor:"pointer"}}>
+						<a onClick={()=>triggerSymposiumsPostFilters(data)}>{data}</a>
+					</li>
+				)}
+			</ul>
+		)
+	}
+
+
+	const triggerSymposiumsPostFilters=(filteredInput)=>{
+		let displayedPosts=retrievedCurrentDisplayedPosts();
+		changeIsFilteredPosts(true);
+		const filteredPosts=searchSymposiumsFilter(filteredInput,displayedPosts);
+		debugger;
+		switch(currentPostType){
+			case 'image':{
+				const filteredImagePosts={
+					...imagePost,
+					images:filteredPosts
+				}
+				changeImagePost(filteredImagePosts);
+			}
+
+			case 'video':{
+
+				const filteredVideoPosts={
+					...videoPost,
+					videos:filteredPosts
+				}
+				changeVideoPosts(filteredVideoPosts);
+			}
+			case 'blog':{
+				const filteredBlogPosts={
+					...blogPost,
+					blogs:filteredPosts
+				}
+				changeBlogPosts(filteredBlogPosts);
+			}
+
+			case 'regularPost':{
+				const filteredRegularPosts={
+					...regularPost,
+					posts:filteredPosts
+				}
+				changeRegularPost(filteredRegularPosts);
+			}
+		}
+
+	}
+
+	const searchPromptTrigger=(e)=>{
+		console.log(e);
+	}
 	return (
 			<PostProvider
 				value={{
@@ -797,9 +899,8 @@ const PersonalPostsIndex=(props)=>{
 								<>{mobilePostSelectionAndRecruitUI(props.personalInformation)}</>:
 								<li style={{listStyle:"none",marginBottom:"20px"}}>
 									<ul style={{padding:"0px"}}>
-										{/*
 											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-postsContainer												<ul style={{padding:"0px"}}>
+												<ul style={{padding:"0px"}}>
 													<li style={{listStyle:"none",display:"inline-block"}}>
 														<SearchIcon
 															style={{fontSize:40}}
@@ -808,12 +909,12 @@ postsContainer												<ul style={{padding:"0px"}}>
 
 													<li style={{listStyle:"none",display:"inline-block"}}>
 														<SearchPostsTextArea
+															onKeyUp={e=>searchPromptTrigger(e.target.value)}
 															placeholder="Search for any posts here"
 														/>
 													</li>
 												</ul>
 											</li>
-										*/}
 
 										<li onClick={()=>triggerPostDecider("image",props.personalInformation.userProfile._id,0)} 
 											style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
@@ -848,6 +949,21 @@ postsContainer												<ul style={{padding:"0px"}}>
 											</React.Fragment>
 										)}
 
+										<li style={listCSSButton}>
+											<div class="dropdown">
+													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																			borderColor:"#5298F8",
+																																			borderStyle:"solid",
+																																			borderWidth:"1px",
+																																			color:"#5298F8",
+																																			backgroundColor:"white"}}>
+														Symposiums
+													   	<span class="caret"></span>
+													</button>
+													{selectedPostSymposiums()}
+							  				 </div>
+										</li>
+
 										{/*
 											<li style={listCSSButton}>	
 
@@ -868,24 +984,6 @@ postsContainer												<ul style={{padding:"0px"}}>
 								  				 </div>
 								  			</li>
 
-											<li style={listCSSButton}>
-												<div class="dropdown">
-														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																				borderColor:"#5298F8",
-																																				borderStyle:"solid",
-																																				borderWidth:"1px",
-																																				color:"#5298F8",
-																																				backgroundColor:"white"}}>
-															Industries
-														   	<span class="caret"></span>
-														</button>
-														<ul class="dropdown-menu">
-															<li><a href="">Most Popular</a></li>
-															<li><a href="">Most Recent</a></li>
-															
-														</ul>
-								  				 </div>
-											</li>
 										*/}
 									</ul>
 								</li>
