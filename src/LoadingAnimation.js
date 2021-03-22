@@ -2,6 +2,7 @@ import React from "react";
 import styled,{keyframes} from "styled-components";
 import StampIcon from "./designs/img/StampIcon.png";
 import Typed from "react-typed";
+import {useSelector} from "react-redux";
 
 
 const ShadowContainer=styled.div`
@@ -67,7 +68,8 @@ const AnimationContainer=styled.div`
     }
 `;
 const LoadingAnimation=({isScrollEnabled,isExtendedSymposium})=>{
-	console.log(isScrollEnabled);
+	const isGuestProfile=useSelector(state=>state.personalInformation.isGuestProfile);
+	const loadingText=isGuestProfile==false?"Give us a second we're getting all your information":"Please wait..."
 	return (
 		<React.Fragment>
 			<AnimationContainer isScrollEnabled={isScrollEnabled} isExtendedSymposium={isExtendedSymposium}>
@@ -76,7 +78,7 @@ const LoadingAnimation=({isScrollEnabled,isExtendedSymposium})=>{
 			<p style={{fontSize:"30px",position:"fixed",top:"70%",left:"30%"}}> 
 				<b>
 					<Typed 
-			           strings={["Give us a second we're getting all your information"]} 
+			           strings={[loadingText]} 
 			           typeSpeed={60} 
 			           backSpeed={30} 
 	               />
