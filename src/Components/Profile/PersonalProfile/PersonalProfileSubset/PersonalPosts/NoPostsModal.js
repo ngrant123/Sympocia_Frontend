@@ -158,7 +158,7 @@ const NoPostsModal=(props)=>{
 				displayCreatePostIndicator=profileContext.isOwnProfile
 			}
 			return	<React.Fragment>
-						{displayCreatePostIndicator==true?
+						{displayCreatePostIndicator==true && props.isSearchFilterActivated==false?
 							 <li style={{marginRight:"5%",listStyle:"none",display:"inline-block"}}>
 									<CreatePostContainer id="createPostContainer">
 										<ul style={{padding:"0px"}}>

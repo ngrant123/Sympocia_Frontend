@@ -114,6 +114,7 @@ class VideoPostsContainer extends Component{
 																						id="noPostsModalContainer"
 																						postType={"video"}
 																						profilePageType={this.props.profile}
+																						isSearchFilterActivated={postsConsumer.isSearchFilterActivated}
 																					/>:
 														<ul style={{padding:"0px"}}>
 															{this.props.videos.headerVideo==null? <React.Fragment></React.Fragment>:

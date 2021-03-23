@@ -189,6 +189,7 @@ class RegularPostsContainer extends Component{
 																					id="noPostsModalContainer"
 																					postType={"post"}
 																					profilePageType={this.props.profile}
+																					isSearchFilterActivated={postsConsumer.isSearchFilterActivated}
 																				/>:
 															<ul id="postContainer" style={{padding:"0px"}}>
 																{this.props.posts.headerPost==null?null:

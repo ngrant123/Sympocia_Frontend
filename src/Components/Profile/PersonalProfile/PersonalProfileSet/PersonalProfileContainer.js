@@ -864,12 +864,15 @@ class LProfile extends Component{
 												} style={{position:"absolute",width:"100%",height:"100%",borderRadius:"50%"}}
 										/>
 									</>:
-									<img id="profilePicture" 
-										src={this.state.userProfile.profilePicture==null?
-												NoProfilePicture:
-												this.state.userProfile.profilePicture
-											} style={{position:"absolute",width:"70%",height:"80%",borderRadius:"50%"}}
-									/>
+									<React.Fragment>
+										<img id="profilePicture" 
+											src={this.state.userProfile.profilePicture==null?
+													NoProfilePicture:
+													this.state.userProfile.profilePicture
+												} style={{position:"absolute",width:"70%",height:"80%",borderRadius:"50%"}}
+										/>
+										<p style={{position:"relative",marginTop:"110%"}}>Loading...</p>
+									</React.Fragment>
 								}
 								{this.state.displayPhoneUI==false &&(
 									<>
