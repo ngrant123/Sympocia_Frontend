@@ -28,7 +28,6 @@ const Container=styled.div`
 	display:flex;
 	top:5%;
 	flex-direction:row;
-	background-color:red;
 
 	@media screen and (max-width:1370px){
 		flex-direction:column;
@@ -61,7 +60,6 @@ const HeaderContainer=styled.div`
 	display:flex;
 	flex-direction:column;
 	width:50%;
-	background-color:blue;
 	@media screen and (max-width:1370px){
 		flex-wrap:wrap;
 		width:90%;
@@ -122,7 +120,6 @@ const PostsContainer=styled.div`
 	margin-left:5%;
 	overflow:scroll;
 	flex-wrap: wrap;
-	background-color:yellow;
 
 	@media screen and (max-width:1370px){
 		width:90%;
@@ -183,7 +180,6 @@ const SmallPostContainer=styled.div`
 	margin-bottom:8%;
 	width:35%;
 	margin-right:10%;
-	background-color:blue;
 
 	@media screen and (max-width:1370px){
 		margin-right:15%;
