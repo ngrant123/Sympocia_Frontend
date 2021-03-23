@@ -46,7 +46,7 @@ const Container=styled.div`
 		
 		#headerVideoLI{
 			height:200px !important;
-			width:250px !important;
+			width:300px !important;
 		}
 	}
 	@media screen and (max-width:450px){
@@ -384,7 +384,8 @@ const VideoPostModal=(props)=>{
 											</li>
 										)}
 										<div id="video" style={{height:"280px",width:"200%",position:"relative"}}>
-											<video onClick={()=>displayVideoModal(data)} style={{backgroundColor:"#151515",position:"absolute",cursor:"pointer"}}
+											<video onClick={()=>displayVideoModal(data)} 
+												style={{borderRadius:"5px",backgroundColor:"#151515",position:"absolute",cursor:"pointer"}}
 												 position="relative" height="90%" width="100%" borderRadius="50%"
 											 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
 												<source src={data.videoUrl} type="video/mp4"/>
