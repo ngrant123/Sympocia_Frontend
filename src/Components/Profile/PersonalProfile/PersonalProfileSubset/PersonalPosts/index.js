@@ -797,6 +797,7 @@ const PersonalPostsIndex=(props)=>{
 			<PostProvider
 				value={{
 					isSearchFilterActivated,
+					isFilteredPostsActivated,
 					isLoadingReloadedPosts,
 					endOfPostsDBIndicator,
 					updatePostComponent:(postOption)=>{

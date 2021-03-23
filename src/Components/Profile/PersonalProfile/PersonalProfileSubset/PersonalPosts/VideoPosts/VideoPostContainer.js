@@ -153,7 +153,9 @@ class VideoPostsContainer extends Component{
 																	</ul>
 																</li>
 															</a>
-															{postsConsumer.endOfPostsDBIndicator==false && (
+															{postsConsumer.endOfPostsDBIndicator==false
+																&& postsConsumer.isSearchFilterActivated==false 
+																&& postsConsumer.isFilteredPostsActivated==false && (
 																<React.Fragment>
 																	{postsConsumer.isLoadingReloadedPosts==true?
 																		 <Typed 
