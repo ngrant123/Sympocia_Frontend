@@ -33,6 +33,7 @@ import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 import {searchSymposiumsFilter} from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
+import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts.js";
 
 
 const PostCreationContainer=styled.div`
@@ -191,6 +192,7 @@ const PersonalPostsIndex=(props)=>{
 	const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
 	const [endOfPostsDBIndicator,changeEndOfPostsDBIndicator]=useState(false);
 	const [isFilteredPostsActivated,changeIsFilteredPosts]=useState(false);
+	const [isSearchFilterActivated,changeIsSearchFilterActivated]=useState(false);
 
 	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
@@ -257,7 +259,6 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter})=>{
-		debugger;
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
 			changeDisplayForVideos(false);
@@ -291,7 +292,7 @@ const PersonalPostsIndex=(props)=>{
 					changeEndOfPostsDBIndicator(true);
 				}else{
 					let {images}=imagePost;
-					images=isFilteredPostsActivated==true?[]:images;
+					images=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:images;
 					const newImages=images.concat(posts);
 					imagePost={
 						...imagePost,
@@ -345,7 +346,7 @@ const PersonalPostsIndex=(props)=>{
 					changeEndOfPostsDBIndicator(true);
 				}else{
 					let {videos}=videoPost;
-					videos=isFilteredPostsActivated==true?[]:videos;
+					videos=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:videos;
 					const newVideos=videos.concat(posts);
 					
 					const videoObject={
@@ -398,7 +399,7 @@ const PersonalPostsIndex=(props)=>{
 					blogDiv.style.borderColor="#C8B0F4";
 
 					let {blogs}=blogPost;
-					blogs=isFilteredPostsActivated==true?[]:blogs;
+					blogs=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:blogs;
 					const newBlogs=blogs.concat(posts);
 					const blogObject={
 						headerBlog:crownedPost==null?blogPost.headerBlog:crownedPost,
@@ -454,7 +455,7 @@ const PersonalPostsIndex=(props)=>{
 					regularPostDiv.style.borderBottom="solid";
 					regularPostDiv.style.borderColor="#C8B0F4";
 					let {posts}=regularPost;
-					posts=isFilteredPostsActivated==true?[]:posts;
+					posts=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:posts;
 					const newRegularPosts=posts.concat(postsResponse);
 					const regularPostObject={
 						headerPost:crownedPost==null?regularPost.headerPost:crownedPost,
@@ -487,6 +488,7 @@ const PersonalPostsIndex=(props)=>{
 			}
 		}
 		changeIsFilteredPosts(false);
+		changeIsSearchFilterActivated(false);
 		changeIsLoadingReloadedPosts(false);
 		
 	}
@@ -598,7 +600,7 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const triggerPostDecider=(postType,profileId,counter)=>{
-		if(postType!=currentPostType || isFilteredPostsActivated==true){
+		if(postType!=currentPostType || isFilteredPostsActivated==true || isSearchFilterActivated==true){
 			switch(postType){
 				case 'image':{
 					changeImagesLoadingIndicator(true)
@@ -659,7 +661,6 @@ const PersonalPostsIndex=(props)=>{
 
 	const retrievedCurrentDisplayedPosts=()=>{
 		let displayedPosts;
-		debugger;
 		if(currentPostType=="image"){
 			displayedPosts=imagePost.images;
 		}else if(currentPostType=="video"){
@@ -708,7 +709,6 @@ const PersonalPostsIndex=(props)=>{
 		let displayedPosts=retrievedCurrentDisplayedPosts();
 		changeIsFilteredPosts(true);
 		const filteredPosts=searchSymposiumsFilter(filteredInput,displayedPosts);
-		debugger;
 		switch(currentPostType){
 			case 'image':{
 				const filteredImagePosts={
@@ -745,12 +745,58 @@ const PersonalPostsIndex=(props)=>{
 
 	}
 
-	const searchPromptTrigger=(e)=>{
-		console.log(e);
+	const searchPromptTrigger=(event)=>{
+		const textAreaValue=document.getElementById("searchPostTextArea").value;
+		const keyEntered=event.key;
+		const currentSelectedPosts=retrievedCurrentDisplayedPosts();
+		if(keyEntered=="Enter"){
+			changeIsSearchFilterActivated(true);
+			debugger;
+			event.preventDefault();
+			if(textAreaValue==""){
+				triggerPostDecider(currentPostType,props.personalInformation.userProfile._id,0)
+			}else{
+				const posts=searchPostsFilter(currentSelectedPosts,textAreaValue,currentPostType);
+				switch(currentPostType){
+					case 'image':{
+						const filteredImagePosts={
+							...imagePost,
+							images:posts
+						}
+						changeImagePost(filteredImagePosts);
+					}
+
+					case 'video':{
+
+						const filteredVideoPosts={
+							...videoPost,
+							videos:posts
+						}
+						changeVideoPosts(filteredVideoPosts);
+					}
+					case 'blog':{
+						const filteredBlogPosts={
+							...blogPost,
+							blogs:posts
+						}
+						changeBlogPosts(filteredBlogPosts);
+					}
+
+					case 'regularPost':{
+						const filteredRegularPosts={
+							...regularPost,
+							posts:posts
+						}
+						changeRegularPost(filteredRegularPosts);
+					}
+				}
+			}
+		}
 	}
 	return (
 			<PostProvider
 				value={{
+					isSearchFilterActivated,
 					isLoadingReloadedPosts,
 					endOfPostsDBIndicator,
 					updatePostComponent:(postOption)=>{
@@ -909,7 +955,8 @@ const PersonalPostsIndex=(props)=>{
 
 													<li style={{listStyle:"none",display:"inline-block"}}>
 														<SearchPostsTextArea
-															onKeyUp={e=>searchPromptTrigger(e.target.value)}
+															id="searchPostTextArea"
+															onKeyPress={e=>searchPromptTrigger(e)}
 															placeholder="Search for any posts here"
 														/>
 													</li>

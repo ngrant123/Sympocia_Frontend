@@ -287,6 +287,7 @@ return(
 							id="noPostsModalContainer"
 							postType={"blog"}
 							profilePageType={this.props.profile}
+							isSearchFilterActivated={postDisplayModal.isSearchFilterActivated}
 						/>:
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>

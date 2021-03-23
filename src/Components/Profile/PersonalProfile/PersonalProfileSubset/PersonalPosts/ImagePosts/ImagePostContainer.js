@@ -176,6 +176,7 @@ class ImagePostsContainer extends Component{
 													id="noPostsModalContainer"
 													postType={"image"}
 													profilePageType={this.props.profile}
+													isSearchFilterActivated={postsConsumer.isSearchFilterActivated}
 												  />:
 													<ul style={{padding:"0px"}}>
 														{this.props.imageData.crownedImage==null?
