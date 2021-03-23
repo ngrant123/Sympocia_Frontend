@@ -213,7 +213,9 @@ class ImagePostsContainer extends Component{
 																</li>
 															)}
 														</li>
-														{postsConsumer.endOfPostsDBIndicator==false && (
+														{ postsConsumer.endOfPostsDBIndicator==false
+														 && postsConsumer.isSearchFilterActivated==false 
+														 && postsConsumer.isFilteredPostsActivated==false  && (
 															<React.Fragment>
 																{postsConsumer.isLoadingReloadedPosts==true?
 																	 <Typed 

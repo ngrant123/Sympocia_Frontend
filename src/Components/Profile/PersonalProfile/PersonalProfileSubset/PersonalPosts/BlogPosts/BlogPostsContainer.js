@@ -456,7 +456,9 @@ return(
 										</BlogContainer>
 									)}
 									</ul>
-									{postDisplayModal.endOfPostsDBIndicator==false && (
+									{postDisplayModal.endOfPostsDBIndicator==false
+									 && postDisplayModal.isSearchFilterActivated==false 
+									 && postDisplayModal.isFilteredPostsActivated==false  && (
 										<React.Fragment>
 											{postDisplayModal.isLoadingReloadedPosts==true?
 												 <Typed 
