@@ -44,7 +44,6 @@ const PostsContainer=styled.div`
 
 	@media screen and (max-width:650px){
 		width:100% !important;
-		margin-left:-25px !important;
 		margin-top:-15%;
 	}
 
@@ -59,6 +58,7 @@ const Posts=styled.div`
 	width:100%;
 	@media screen and (max-width:650px){
 		margin-top:60% !important;
+		margin-left:2% !important;
 	}
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		margin-top:110px !important;
@@ -427,10 +427,10 @@ const PostSearch=(props)=>{
 
 	return(
 		<Container>
-			<ul>
+			<ul style={{padding:"0px"}}>
 				<li id="postOptionsLI" style={{listStyle:"none"}}>
 					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginLeft:"10%"}}>
 							<div class="btn-group">
 								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
 																															borderColor:"#5298F8",

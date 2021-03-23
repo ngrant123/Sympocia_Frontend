@@ -28,6 +28,8 @@ const Container=styled.div`
 	display:flex;
 	top:5%;
 	flex-direction:row;
+	background-color:red;
+
 	@media screen and (max-width:1370px){
 		flex-direction:column;
 	}
@@ -36,16 +38,11 @@ const Container=styled.div`
 		flex-direction:column !important;
 		top:-5%;
 		#headerImageLI{
-			width:220px !important;
-			height:180px !important;
+			width:100% !important;
+			height:260px !important;
 		}
 		#headerAudioLI{
 			width:200px !important;
-		}
-		#image{
-			width:100px !important;
-			height:100px !important;
-			margin-bottom:10%;
 		}
 		#smallPersonalInformation{
 			display:none !important;
@@ -64,6 +61,7 @@ const HeaderContainer=styled.div`
 	display:flex;
 	flex-direction:column;
 	width:50%;
+	background-color:blue;
 	@media screen and (max-width:1370px){
 		flex-wrap:wrap;
 		width:90%;
@@ -124,6 +122,7 @@ const PostsContainer=styled.div`
 	margin-left:5%;
 	overflow:scroll;
 	flex-wrap: wrap;
+	background-color:yellow;
 
 	@media screen and (max-width:1370px){
 		width:90%;
@@ -184,6 +183,7 @@ const SmallPostContainer=styled.div`
 	margin-bottom:8%;
 	width:35%;
 	margin-right:10%;
+	background-color:blue;
 
 	@media screen and (max-width:1370px){
 		margin-right:15%;
@@ -191,13 +191,14 @@ const SmallPostContainer=styled.div`
 
 	@media screen and (max-width:650px){
 		margin-right:10%;
+		width:40%;
 		#smallVideoDescriptionContainer{
 			width:50px !important;
 			height:40% !important;
 		}
 		#smallImageContainer{
-			width:260px !important;
-			height:100px !important;
+			width:100% !important;
+			height:120px !important;
 		}
 	}
 `;
@@ -218,7 +219,7 @@ const ProfilePictureLink=styled(Link)`
 	@media screen and (max-width:650px){
 		#smallProfilePicture{
 			height:30px !important;
-			width:40px !important;
+			width:30px !important;
 		}
 	}
 `;
@@ -280,7 +281,8 @@ const ImageCSS={
 	position:"relative",
 	width:"240px",
 	height:"220px",
-	borderRadius:"5px"
+	borderRadius:"5px",
+	backgroundColor:"green"
 }
 
 const ImageLabelCSS={

@@ -150,6 +150,7 @@ const CommunityContainer=(props)=>{
 		popularPosts,
 		symposium,
 	}=props.data;
+	console.log(props);
 	const {isMobileView}=props;
 	const [backgroundColor,changeBackGroundColor]=useState();
 	

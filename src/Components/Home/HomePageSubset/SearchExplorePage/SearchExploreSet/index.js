@@ -26,10 +26,9 @@ import {
 		} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
-	@media screen and (max-width:1370px) and (max-height:1030px){
+	@media screen and (max-width:1370px){
     	#mobileArenaLI{
-    		width:10% !important;
-			margin-left:40% !important;
+    		display:none!important;
     	}
     }
 
@@ -124,7 +123,10 @@ const ArenaContainer=styled.div`
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
       50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
       100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
-  }
+  	}
+  	@media screen and (max-width:1370px){
+  		display:none !important;
+  	}
 `;
 
 const MobileArenaContainer=styled.div`
@@ -140,7 +142,11 @@ const MobileArenaContainer=styled.div`
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
       50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
       100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
-  }
+  	}
+
+  	@media screen and (max-width:1370px){
+  		display:none !important;
+  	}
 `;
 
 const PostsContainer=styled.div`
