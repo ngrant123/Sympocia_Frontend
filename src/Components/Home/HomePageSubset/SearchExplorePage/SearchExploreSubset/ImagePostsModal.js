@@ -31,6 +31,10 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		flex-direction:column;
+		#headerImageLI{
+			width:100% !important;
+			height:500px !important;
+		}
 	}
 
 	@media screen and (max-width:650px){
