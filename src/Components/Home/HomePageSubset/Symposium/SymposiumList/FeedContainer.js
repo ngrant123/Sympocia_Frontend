@@ -63,14 +63,6 @@ const Container=styled.div`
 			width:50% !important;
 		}
 	}
-	@media screen and (max-width:1150px) {
-		#followedSymposiumsButton{
-			font-size:20px !important;
-		}
-		#exploreSymposiumsButton{
-			font-size:20px !important;
-		}
-	}
 
 	@media screen and (max-width:1050px) {
 		#SymposiumListContainer{
