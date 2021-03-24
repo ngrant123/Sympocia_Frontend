@@ -155,7 +155,7 @@ const PostsContainer=styled.div`
 	height:70%;
 	overflow:hidden;
 
-	@media screen and (max-width:1300px){
+	@media screen and (max-width:1370px){
 		overflow:visible;
 		#headerTitleLI{
 			display:none !important;

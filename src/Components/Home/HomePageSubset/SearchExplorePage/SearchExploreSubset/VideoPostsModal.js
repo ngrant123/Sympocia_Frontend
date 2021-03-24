@@ -28,7 +28,7 @@ const Container=styled.div`
 		}
 		#headerVideoLI{
 			height:600px !important;
-			width:650px !important;
+			width:750px !important;
 		}
 		#smallPostLI{
 			width:95% !important;
