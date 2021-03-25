@@ -274,12 +274,11 @@ class SearchExploreContainer extends Component{
 	}
 
 	changeHomePagePosts=async({postOption,isAccessTokenUpdated,updatedAccessToken})=>{
-		
-		
 		var homePagePostsResponse;
 		const isGuestProfile=this.props.personalInformation.isGuestProfile;
 		var profileId=this.props.personalInformation.id;
 		let isGuestProfileIndicator=false;
+		debugger;
 		if(profileId==0 || isGuestProfile){
 			isGuestProfileIndicator=true;
 		}

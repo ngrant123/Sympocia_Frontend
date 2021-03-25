@@ -205,12 +205,15 @@ export async function getRegularPostFromUser({userId,visitorId,postCount,accessT
 	}
 }
 
-export const getProfileForHomePage=async(id)=>{
+export const getProfileForHomePage=async(id,isGuestProfileIndicator)=>{
 	try{
 		
 		const profileResult=await axios.get(`${SearchUrl}/getProfileForHomePage`,{
 			params:{
 				_id:id
+			},
+			headers:{
+				isGuestProfile:isGuestProfileIndicator
 			}
 		});
 		const {data}=profileResult;

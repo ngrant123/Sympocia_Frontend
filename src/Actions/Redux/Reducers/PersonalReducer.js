@@ -13,7 +13,7 @@ const initialState={
 	isTokenRefreshing:false
 }
 
-const PersonalProfile=(state={initialState},action)=>{
+const PersonalProfile=(state={...initialState},action)=>{
 	
 	const { type, payload }=action;
 	switch(type){
@@ -112,8 +112,11 @@ const PersonalProfile=(state={initialState},action)=>{
 		}
 
 		case 'SIGN_IN_GUEST_USER':{
+			debugger;
 			return{
 				...state,
+				id:0,
+				firstName:"Guest",
 				isGuestProfile:true
 			}
 			break;

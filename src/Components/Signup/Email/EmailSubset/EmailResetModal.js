@@ -130,7 +130,7 @@ const EmailReset=({email,triggerEmailConfirmationModal,history})=>{
 											userAccessToken
 										});
 		if(confirmation=="Success"){
-			alert('Password updated. You will be redirected to the landing screen to login in again');
+			alert('Password updated. You will be redirected to the landing screen to login again');
 			history.push({pathname:'/'})
 		}else{
 			const {statusCode}=data;
