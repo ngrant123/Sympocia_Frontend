@@ -189,6 +189,7 @@ const PostSearch=(props)=>{
 			if(data.length==0){
 				changeEndOfPostsIndicator(true);
 			}else{
+				changeEndOfPostsIndicator(false);
 				changePostType("Blogs");
 				posts=posts.concat(data);
 				const finalPosts=addSuggestedSymposiums(posts);
@@ -225,6 +226,7 @@ const PostSearch=(props)=>{
 			if(data.length==0){
 				changeEndOfPostsIndicator(true);
 			}else{
+				changeEndOfPostsIndicator(false);
 				changePostType("Images");
 				posts=posts.concat(data);
 				const finalPosts=addSuggestedSymposiums(posts);
@@ -261,6 +263,7 @@ const PostSearch=(props)=>{
 			if(data.length==0){
 				changeEndOfPostsIndicator(true);
 			}else{
+				changeEndOfPostsIndicator(false);
 				changePostType("Videos");
 				posts=posts.concat(data);
 				const finalPosts=addSuggestedSymposiums(posts);
@@ -297,6 +300,7 @@ const PostSearch=(props)=>{
 			if(data.length==0){
 				changeEndOfPostsIndicator(true);
 			}else{
+				changeEndOfPostsIndicator(false);
 				changePostType("RegularPosts");
 				posts=posts.concat(data);
 				const finalPosts=addSuggestedSymposiums(posts);

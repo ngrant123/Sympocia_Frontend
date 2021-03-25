@@ -813,6 +813,7 @@ class Symposium extends Component{
 						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
 						postType:"Image",
 						isLoadingReloadedPosts:false,
+						endOfPostsDBIndicator:false,
 						isLoading:false
 					},()=>{
 						this.highlightAppropriatePostOption(postOption);
@@ -839,6 +840,7 @@ class Symposium extends Component{
 						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
 						postType:"Video",
 						isLoadingReloadedPosts:false,
+						endOfPostsDBIndicator:false,
 						isLoading:false
 					},function(){
 						this.highlightAppropriatePostOption(postOption);
@@ -866,6 +868,7 @@ class Symposium extends Component{
 						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
 						postType:"Blog",
 						isLoadingReloadedPosts:false,
+						endOfPostsDBIndicator:false,
 						isLoading:false
 					},function(){
 						this.highlightAppropriatePostOption(postOption);
@@ -892,6 +895,7 @@ class Symposium extends Component{
 						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
 						postType:"Regular",
 						isLoadingReloadedPosts:false,
+						endOfPostsDBIndicator:false,
 						isLoading:false
 					},function(){
 						this.highlightAppropriatePostOption(postOption);
