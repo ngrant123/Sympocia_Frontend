@@ -6,11 +6,7 @@ import {CompanyPostsContext} from "../../../CompanyProfile/CompanyPostsContext.j
 import {CompanyContext} from "../../../CompanyProfile/CompanyContext.js";
 import SympociaIcon from "../../../../../designs/img/SympociaIcon.jpg";
 import {useSelector} from "react-redux";
-import {
-		getImagesPosts,
-		getVideosPosts,
-		getBlogPosts
-} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+
 import {connect} from "react-redux";
 import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 import {Link} from "react-router-dom";

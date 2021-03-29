@@ -10,7 +10,8 @@ import {
 		getBlogsInIndustry,
 		getRegularPostsInIndustry,
 		getIndustryInformation
-	} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+	} from "../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+
 
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import SearchIcon from '@material-ui/icons/Search';

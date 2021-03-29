@@ -174,40 +174,7 @@ export const getRegularPostsInIndustry=async({industry,postCount,userId})=>{
 	}
 }
 
-export const getIndustryInformation=async(industry,postCount,userId)=>{
-	try{
-		
-		const industryInformation=await axios.get(`${GetUrl}/getIndustryInformation`,{
-			params:{
-				industry:industry,
-				postCount:postCount,
-				userId:userId
-			}
-		})
 
-		const {data}=industryInformation;
-		return data;
-	}catch(err){
-		return err;
-	}
-}
-
-export const getPopularQuestionReplies=async(industry,counter)=>{
-	try{
-		const popularQuestionResponse=await axios.get(`${GetUrl}/getPopularQuestion`,{
-			params:{
-				industry:industry,
-				counter:counter
-			}
-		})
-
-		const {data}=popularQuestionResponse;
-		return data;
-
-	}catch(err){
-		return err;
-	}
-}
 
 export const getGroupVideoCallOwner=async({symposiumId,groupCallId})=>{
 	try{

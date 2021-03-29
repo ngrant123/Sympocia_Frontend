@@ -10,7 +10,7 @@ import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import QuestionsPortal from "./QuestionsPortal.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 
-import {getPopularQuestionReplies} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+import {getPopularQuestionReplies} from "../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
 const Container=styled.div`
 	position:relative;
