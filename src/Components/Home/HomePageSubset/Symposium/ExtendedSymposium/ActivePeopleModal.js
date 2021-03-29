@@ -113,8 +113,8 @@ const ActivePeopleModal=(props)=>{
 									<ul style={{position:"relative",left:"-20%",top:"5%"}}>
 
 										<li style={ProfileContainerContentsCSS}>
-											<img src={data.owner.profilePicture==null?
-													NoProfilePicture:data.owner.profilePicture}
+											<img src={data.profilePicture==null?
+													NoProfilePicture:data.profilePicture}
 											style={ProfilePictureCSS}/>
 										</li>
 										<li style={ProfileContainerContentsCSS}>

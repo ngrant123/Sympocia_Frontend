@@ -3,7 +3,7 @@ import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
 import {createIndustryFeatureImageResponse} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-import {getIndustryImageFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {getIndustryImageFeatureAnswers} from "../../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
 import ImagePostDisplayPortal from "../../../../../HomePageSet/ImageHomeDisplayPortal.js";
 import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";

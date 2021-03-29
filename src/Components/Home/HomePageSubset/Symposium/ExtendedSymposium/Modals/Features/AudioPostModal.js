@@ -4,7 +4,7 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import MicIcon from '@material-ui/icons/Mic';
 import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.png";
 import {createSpecificIndustryAudioAnswer} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-import {getIndustryAudioFeatureAnswers} from "../../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {getIndustryAudioFeatureAnswers} from "../../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
 import RegularPostDisplayPortal from "../../../../../HomePageSet/RegularPostHomeDisplayPortal.js";
 import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
