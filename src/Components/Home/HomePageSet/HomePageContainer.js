@@ -2,27 +2,19 @@ import React , {Component} from "react";
 import styled from "styled-components";
 import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import { connect } from "react-redux";
-import SymposiumList from "../HomePageSubset/Symposium/SymposiumList/FeedContainer";
+import SymposiumList from "../../Symposium/SymposiumList/FeedContainer";
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
 import SearchExploreScreen from "../HomePageSubset/SearchExplorePage/SearchExploreSet/index.js";
 
 import ExploreIcon from '@material-ui/icons/Explore';
-import PersonPinIcon from '@material-ui/icons/PersonPin';
-import AssistantIcon from '@material-ui/icons/Assistant';
-import YoutubeSearchedForIcon from '@material-ui/icons/YoutubeSearchedFor';
 import RecruitsPosts from "./RecruitsPostsModal.js";
 
 import AppsIcon from '@material-ui/icons/Apps';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PlayListComponent from "../../PlayList/PlayListSet/PlayListContainer.js";
 import {HomeProvider} from "../HomeContext.js";
-import Symposium from "../HomePageSubset/Symposium/ExtendedSymposium/index.js";
 
 import {getProfileForHomePage} from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
-import {getCompanyProfileForHomePage} from "../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
-import NoProfileIcon from "../../../designs/img/NoProfilePicture.png";
 import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
-import COMPANY_INDUSTRIES from "../../../Constants/industryConstants.js";
 import Confetti from 'react-confetti';
 import ExplorePageOnboarding from "../../OnBoarding/ExplorePageOnboarding.js";
 import LoadingScreen from "../../../LoadingAnimation.js";

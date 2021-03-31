@@ -2,11 +2,11 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import ImagePostDisplayPortal from "../../Home/HomePageSet/ImageHomeDisplayPortal.js";
-import VideoPostDisplayPortal from "../../Home/HomePageSet/VideoHomeDisplayPortal.js";
-import RegularPostDisplayPortal from "../../Home/HomePageSet/RegularPostHomeDisplayPortal.js";
+import ImagePostDisplayPortal from "../../../Home/HomePageSet/ImageHomeDisplayPortal.js";
+import VideoPostDisplayPortal from "../../../Home/HomePageSet/VideoHomeDisplayPortal.js";
+import RegularPostDisplayPortal from "../../../Home/HomePageSet/RegularPostHomeDisplayPortal.js";
 import QuestionsPortal from "./QuestionsPortal.js";
-import {getPopularQuestionReplies} from "../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import {getPopularQuestionReplies} from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
 const Container=styled.div`
 	position:relative;
