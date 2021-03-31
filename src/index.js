@@ -53,8 +53,8 @@ const Signup=React.lazy(()=>import("./Components/Signup/LargeSignupComp/LSignUpP
 const HomeScreen=React.lazy(()=>import("./Components/Home/HomePageSet/HomePageContainer.js"))
 const BlogPostCreation=React.lazy(()=>import("./Components/GeneralComponents/PostComponent/BlogComponent/BlogPostCreation/index.js"))
 const SearchPage=React.lazy(()=>import("./Components/SearchPage/index.js"))
-const Symposium=React.lazy(()=>import("./Components/Home/HomePageSubset/Symposium/ExtendedSymposium/index.js"))
-const SymposiumList=React.lazy(()=>import("./Components/Home/HomePageSubset/Symposium/SymposiumList/FeedContainer.js"))
+const Symposium=React.lazy(()=>import("./Components/Symposium/ExtendedSymposium/index.js"))
+const SymposiumList=React.lazy(()=>import("./Components/Symposium/SymposiumList/FeedContainer.js"))
 const Admin=React.lazy(()=>import("./Components/Admin/index.js"));
 const UrlEnteredImageDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/ImageDisplay.js"));
 const UrlEnteredVideoDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEnteredDisplay/VideoDisplay.js"));
