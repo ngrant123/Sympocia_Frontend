@@ -36,6 +36,7 @@ import PollOptionPortal from "../PollOptionPortal.js";
 import {OwnerInformationAndPostOptions} from "./OwnerInformationAndPostOption.js";
 import {PostDisplayContainer} from "./Post.js";
 import CommentsAndAuthenticReplies from "./CommentsAndAuthenticReplies.js";
+import EditVideoModal from "../VideoComponent/VideoCreation/EditVideoModal.js";
 
 const ButtonCSS={
   listStyle:"none",
@@ -304,11 +305,20 @@ const ImageContainer=(props)=>{
 				/>:null
 			}
 			{displayPostModal==true?
-				<EditImageCreation
-					imageSrcUrl={postData[postDataDestructedField].imgUrl}
-					previousData={postData[postDataDestructedField]}
-					editPost={editPost}
-				/>:
+				<React.Fragment>
+					{postData[postDataDestructedField].imgUrl==null?
+						<EditVideoModal
+							videoSrc={postData[postDataDestructedField].videoUrl}
+							previousData={postData[postDataDestructedField]}
+							editPost={editPost}
+						/>
+						:<EditImageCreation
+							imageSrcUrl={postData[postDataDestructedField].imgUrl}
+							previousData={postData[postDataDestructedField]}
+							editPost={editPost}
+						/>
+					}
+				</React.Fragment>:
 				<Container>
 					{isLoading==true?
 						<p>Gives us one second while we get this post</p>:
