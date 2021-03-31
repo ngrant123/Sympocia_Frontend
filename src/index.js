@@ -63,6 +63,7 @@ const UrlEnteredBlogDisplay=React.lazy(()=>import("./Components/SearchPage/UrlEn
 const EmailReset=React.lazy(()=>import('./Components/Signup/Email/EmailSet/index.js'));
 const PrivacyPolicy=React.lazy(()=>import('./Components/LegalDocumentConditions/PrivacyPolicy.js'));
 const TermsOfConditions=React.lazy(()=>import('./Components/LegalDocumentConditions/TermsAndConditions.js'));
+const PageNotFound=React.lazy(()=>import('./Components/ErrorPage/404ErrorPage.js'));
 
 
 const ApplicationElementIndicator=VerifyBrowserIsChrome();
@@ -70,8 +71,8 @@ const application  = (
 		<ErrorBoundary>
 			<Provider store={store}>
 				<Router forceRefresh={true}>
-					<Switch>
-						<Suspense fallback={<LoadingScreen/>}>
+					<Suspense fallback={<LoadingScreen/>}>
+						<Switch>
 							<Route exact path="/profile/:id" component={PersonalProfileScreen}/>
 							<Route exact path="/" component= {Landing}/>
 							<Route exact path="/logout" component= {Landing}/>
@@ -89,6 +90,8 @@ const application  = (
 							<Route exact path="/emailreset" component={EmailReset}/>
 							<Route exact path="/privacyPolicy" component={PrivacyPolicy}/>
 							<Route exact path="/termsOfService" component={TermsOfConditions}/>
+							<Route component={PageNotFound}/>
+
 							{/*
 								<Route exact path="/investor/:id" component= {InvestorScreen} />
 								<Route exact path="/createPost" component={CreatePostScreen}/>	
@@ -99,8 +102,8 @@ const application  = (
 								<Route exact path="/groupVideoCall/:symposiumId/:groupCallId" component={GroupVideoCall}/>	
 							*/}
 
-						</Suspense>
-					</Switch>
+						</Switch>
+					</Suspense>
 				</Router>
 			</Provider>
 		</ErrorBoundary>
