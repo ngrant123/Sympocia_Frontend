@@ -1,17 +1,17 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
-import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import {
 		addSymposium,
 		removeSymposium
-} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-import HightLightedQuestions from "./HighLightedQuestions.js";
+} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import HightLightedQuestions from "../Modals/HighLightedQuestions.js";
 import {Link} from "react-router-dom";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MobilePostOptionsPortal from "./Modals/MobileUI/PostOptionsPortal.js";
+import MobilePostOptionsPortal from "../Modals/MobileUI/PostOptionsPortal.js";
 import {useSelector,useDispatch} from "react-redux";
-import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
+import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:absolute;

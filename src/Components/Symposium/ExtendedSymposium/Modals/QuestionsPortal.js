@@ -2,14 +2,14 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import CameraIcon from '@material-ui/icons/Camera';
-import {addCommentToPopularQuestions} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {addCommentToPopularQuestions} from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import {useSelector,useDispatch} from "react-redux";
-import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
+import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 
-import ImagePostDisplayPortal from "../../Home/HomePageSet/ImageHomeDisplayPortal.js";
-import VideoPostDisplayPortal from "../../Home/HomePageSet/VideoHomeDisplayPortal.js";
-import RegularPostDisplayPortal from "../../Home/HomePageSet/RegularPostHomeDisplayPortal.js";
+import ImagePostDisplayPortal from "../../../Home/HomePageSet/ImageHomeDisplayPortal.js";
+import VideoPostDisplayPortal from "../../../Home/HomePageSet/VideoHomeDisplayPortal.js";
+import RegularPostDisplayPortal from "../../../Home/HomePageSet/RegularPostHomeDisplayPortal.js";
 
 const Container=styled.div`
 	position:fixed;

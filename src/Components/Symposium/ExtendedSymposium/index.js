@@ -1,8 +1,8 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import Chat from "./ChatRoom.js";
+import Chat from "./Modals/ChatRoom.js";
 import { connect } from "react-redux";
-import ActivePeopleModal from "./ActivePeopleModal";
+import ActivePeopleModal from "./Modals/ActivePeopleModal";
 import {
 		getImagesInIndustry,
 		getVideoInIndustry,
@@ -14,13 +14,9 @@ import PostCreation from "../../GeneralComponents/PostComponent/LargePostCompone
 
 import {connectToRoom} from "../../../Actions/Requests/SocketIORequests";
 import io from 'socket.io-client';
-import {ImagePostsModal} from "../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/ImagePostsModal.js";
-import VideoPostModal from "../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/VideoPostsModal.js";
-import RegularPostModal from "../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/RegularPostsModal.js";
-import BlogPostModal from "../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/BlogPostsModal.js";
 
 import PopularVideosModal from "../PopularVideosModal.js";
-import {HeaderContainer} from "./HeaderContainer.js";
+import {HeaderContainer} from "./Header/HeaderContainer.js";
 import SpecificFeatureSymposium from "./SpecificSympsoiumFeatures/index.js";
 import Confetti from 'react-confetti';
 
@@ -42,7 +38,7 @@ import {
 		setPersonalProfileRefreshToken
 } from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
-import HightLightedQuestions from "./HighLightedQuestions.js";
+import HightLightedQuestions from "./Modals/HighLightedQuestions.js";
 import {
 	SymposiumHeaderAnimation,
 	SymposiumContainer,
@@ -51,7 +47,6 @@ import {
 	PostsChatInformation,
 	BackgroundModalContainer,
 	ActivePeopleContainer,
-	PostContainer,
 	ExploreIconContainer,
 	PageIndicator,
 	PostOptions,
@@ -61,65 +56,9 @@ import {
 	PostContainerTEst,
 	SymposiumChatContainer
 } from "./indexCSS.js";
+import Posts from "./Posts/index.js";
+import SearchOptions from "./SearchOptions/index.js";
 
-
-const SympociaOptionsContainer=styled.div`
-	position:relative;
-	display:flex;							
-	flex-direction:row;
-	z-index:30;
-
-	@media screen and (max-width:1370px){
-		top:10%;
-		${({isScrollEnabled})=>
-			isScrollEnabled?
-			`
-				top:30%;
-			`:
-			`
-				top:10%;
-			`
-		}
-	} 
-`;
-
-const SearchOptionContainer=styled.div`
-	display:flex;
-	flex-direction:column;
-	@media screen and (max-width:1370px){
-		flex-direction:row;
-	}
-`;
-
-const MinifiedSymposiumInformation=styled.div`
-	display:flex;
-	flex-direction:row;
-	margin-left:-30%;
-
-	@media screen and (max-width:1370px){
-		${({isScrollEnabled})=>
-			isScrollEnabled==true &&(
-				`margin-left:-60%;`
-			)}
-	}
-`;
-
-const TEstContainer=styled.div`
-	position:absolute;
-	width:95%;
-	height:97%;
-`;
-
-const Posts=styled.div`
-	position:absolute;
-	width:100%;
-	height:90%;
-
-	@media screen and (max-width:650px){
-		margin-top:60% !important;
-		width:100%;
-	}
-`;
 
 const HightLightedQuestionsContainerModal=styled.div`
 	position:fixed;
@@ -140,50 +79,6 @@ const HightLightedQuestionsContainerModal=styled.div`
 	}
 `;
 
-
-
-const SymposiumChoicesListCSS={
-	display:"inline-block",
-	listStyle:"none",
-	marginRight:"20px",
-	marginBottom:"50px",
-	fontSize:"20px",
-	padding:"10px",
-	paddingRight:"20px"
-}
-
-const SymposiumChoicesListCSSLast={
-	display:"inline-block",
-	listStyle:"none",
-	marginRight:"50px",
-	marginBottom:"50px",
-	fontSize:"20px",
-	padding:"10px"
-
-}
-
-const PostOptionCSS={
-	display:"flex",
-	listStyle:"none",
-	marginBottom:"2px",
-	fontSize:"20px",
-	padding:"5px"
-}
-
-
-const CloseButtonCSS={
-	listStyle:"none",
-  display:"inline-block",
-  backgroundColor:"white",
-  borderRadius:"5px",
-  padding:"10px",
-  color:"#3898ec",
-  borderStyle:"solid",
-  borderWidth:"2px",
-  borderColor:"#3898ec",
-  marginTop:"2%",
-  marginBottom:"2%"
-}
 
 
 const MobilePostOptionsButton={
@@ -387,7 +282,6 @@ class Symposium extends Component{
 			  	document.getElementById("postChatInformation").style.filter="blur(0)";
 			  	document.getElementById("postChatInformation").style.zIndex=2;
 			  	document.getElementById("arrowIndicator").style.opacity="0";
-		  		document.getElementById("postsContainer").style.opacity="0";
 
 		  	if(this.state.headerAnimation==false){
 		  		this.setState(prevState=>({
@@ -396,9 +290,6 @@ class Symposium extends Component{
 		  			handleScroll:false
 		  		}))
 		  	  }
-		  	   	setTimeout(function(){
-					document.getElementById("postsContainer").style.opacity="1";
-			  	},1000);
 		  	}
 	  	}
 	  }
@@ -1280,16 +1171,6 @@ class Symposium extends Component{
 						</ExploreIconContainer>
 					</a>
 				</PageIndicator>
-				
-				{this.state.displayGroupSharingVideoCallPortal==true?
-					<div onMouseEnter={()=>this.setState({handleScroll:false})}>
-						<GroupSharingVideoCall
-							closeModal={this.closeGroupVideoCallPortal}
-							symposiumId={this.state.symposiumId}
-							routerHistory={this.props.history}
-						/>
-					</div>:null
-				}
 			
 				{this.state.displayConfetti &&(
 					<Confetti
@@ -1310,126 +1191,30 @@ class Symposium extends Component{
 				<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>
 					{this.state.isLoading==false?
 						<>
-							<SympociaOptionsContainer isScrollEnabled={this.state.headerAnimation}>	
-									<SearchOptionContainer style={{width:"80%",marginLeft:this.state.headerAnimation==false?"10%":"0%"}}>	
-										{/*
-											Down the I would like a search function to be implemented
-											Should be easy just hookup the search api to here then repopulate results when the api returns
-
-											<SearchContainer>
-												<ul style={{paddingTop:"5px"}}>
-													<li style={{position:"relative",top:"-10px",listStyle:"none",display:"inline-block"}}>
-														<SearchIcon
-															style={{fontSize:30}}
-														/>
-													</li>
-													<SearchTextArea
-														placeholder="Type here to search"
-													/>
-												</ul>
-											</SearchContainer>
-											<li id="postOptionsLI" style={{marginTop:"1%",listStyle:"none",width:"70%",zIndex:"30"}}>
-											</li>
-										*/}
-										{this.postOptionsMobileOrDesktop()}
-										{(this.state.displayPhoneUI==true && this.state.headerAnimation==false)==true && (
-											<div style={{marginLeft:"2%"}}>
-												{this.symposiumOptions(this.state.headerAnimation)}
-											</div>
-										)}
-									</SearchOptionContainer>
-
-								{this.state.headerAnimation==true && (
-									<MinifiedSymposiumInformation isScrollEnabled={this.state.headerAnimation}>
-										{(this.state.displayPhoneUI==true && this.state.headerAnimation==true)==false &&(
-											<>
-												{/*
-							  						<ChevronLeftRoundedIcon
-							  							style={{fontSize:40,marginTop:"10px"}}
-							  							onClick={()=>this.handlePreviousSymposiumButton()}
-							  						/>
-												*/}
-									  			<p style={{marginTop:"10px",fontSize:"20px",marginRight:"5%"}}>{this.state.selectedSymposiumTitle}</p>
-
-									  			{/*
-							  						<ChevronRightRoundedIcon
-									  					style={{fontSize:40,marginTop:"10px"}}
-									  					onClick={()=>this.handleNextSymposiumButton()}
-									  				/>
-									  			*/}
-											</>
-										)}
-						  				{this.symposiumOptions(this.state.headerAnimation)}
-
-									</MinifiedSymposiumInformation>
-								)}
-							</SympociaOptionsContainer>
+							<SearchOptions
+								state={{
+									headerAnimation:this.state.headerAnimation,
+									displayPhoneUI:this.state.displayPhoneUI,
+									selectedSymposiumTitle:this.state.selectedSymposiumTitle
+								}}
+								symposiumOptions={this.symposiumOptions}
+								postOptionsMobileOrDesktop={this.postOptionsMobileOrDesktop}
+							/>
 							<hr/>
-					
-							<PostContainer isScrollEnabled={this.state.headerAnimation} id="postsContainer">
-								<Posts>
-									{this.state.postType=="Image"?
-										<ImagePostsModal
-											posts={this.state.posts}
-											_id={this.props.profileId}
-											confettiAnimation={this.displayRecruitConfetti}
-											isPersonalProfile={true}
-											displaySymposium={this.displaySymposium}
-											targetDom={"extendedSymposiumContainer"}
-											isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
-											triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-											endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-										/>:null
-									}
-
-									{this.state.postType=="Video"?
-										<VideoPostModal
-											posts={this.state.posts}
-											_id={this.props.profileId}
-											confettiAnimation={this.displayRecruitConfetti}
-											isPersonalProfile={true}
-											displaySymposium={this.displaySymposium}
-											targetDom={"extendedSymposiumContainer"}
-											isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
-											triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-											endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-											isGuestProfileIndicator={this.state.isGuestProfile}
-										/>:null
-									}
-
-									{this.state.postType=="Blog"?
-										<li style={{listStyle:"none",marginTop:"0%",marginLeft:"5%"}}>
-											<BlogPostModal
-												posts={this.state.posts}
-												_id={this.props.profileId}
-												confettiAnimation={this.displayRecruitConfetti}
-												isPersonalProfile={true}
-												displaySymposium={this.displaySymposium}
-												targetDom={"extendedSymposiumContainer"}
-												isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
-												triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-												endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-											/>
-										</li>:null
-									}
-
-									{this.state.postType=="Regular"?
-										<li style={{listStyle:"none",marginTop:"1%",marginLeft:"5%",width:"90%"}}>
-											<RegularPostModal
-												posts={this.state.posts}
-												_id={this.props.profileId}
-												confettiAnimation={this.displayRecruitConfetti}
-												isPersonalProfile={true}
-												displaySymposium={this.displaySymposium}
-												targetDom={"extendedSymposiumContainer"}
-												isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
-												triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-												endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-											/>
-										</li>:null
-									}
-								</Posts>
-							</PostContainer>
+							<Posts
+								state={{
+									posts:this.state.posts,
+									isLoadingReloadedPosts:this.state.isLoadingReloadedPosts,
+									endOfPostsDBIndicator:this.state.endOfPostsDBIndicator,
+									headerAnimation:this.state.headerAnimation,
+									postType:this.state.postType,
+									handleScroll:this.state.handleScroll
+								}}
+								triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+								displaySymposium={this.displaySymposium}
+								displayRecruitConfetti={this.displayRecruitConfetti}
+								profileId={this.props.profileId}
+							/>
 						</>:<LoadingScreen isScrollEnabled={this.state.headerAnimation} isExtendedSymposium={true}/>
 					}
 				</PostsChatInformation>

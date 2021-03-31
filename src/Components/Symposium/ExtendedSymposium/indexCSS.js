@@ -12,6 +12,17 @@ import styled, {keyframes} from "styled-components";
   }
 `;
 
+export const Posts=styled.div`
+	position:absolute;
+	width:100%;
+	height:90%;
+
+	@media screen and (max-width:650px){
+		margin-top:60% !important;
+		width:100%;
+	}
+`;
+
 
 export const SymposiumHeaderAnimation=styled.div`
 	position:sticky;
@@ -462,3 +473,44 @@ export const PostContainerTEst=styled.div`
 	z-index:7;
 `;
 
+
+export const SympociaOptionsContainer=styled.div`
+	position:relative;
+	display:flex;							
+	flex-direction:row;
+	z-index:30;
+
+	@media screen and (max-width:1370px){
+		top:10%;
+		${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:30%;
+			`:
+			`
+				top:10%;
+			`
+		}
+	} 
+`;
+
+export const SearchOptionContainer=styled.div`
+	display:flex;
+	flex-direction:column;
+	@media screen and (max-width:1370px){
+		flex-direction:row;
+	}
+`;
+
+export const MinifiedSymposiumInformation=styled.div`
+	display:flex;
+	flex-direction:row;
+	margin-left:-30%;
+
+	@media screen and (max-width:1370px){
+		${({isScrollEnabled})=>
+			isScrollEnabled==true &&(
+				`margin-left:-60%;`
+			)}
+	}
+`;

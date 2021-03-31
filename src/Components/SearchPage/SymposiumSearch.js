@@ -1,12 +1,9 @@
 import React,{useState,useEffect} from "react";
 import styled,{keyframes} from "styled-components";
 
-import SymposiumContainer from "../Home/HomePageSubset/Symposium/SymposiumList/CommunityContainer.js";
-import TestProfilePicture from "../../designs/img/FirstSectionLandingPAgeImage.png";
-import NoProfilePicture from "../../designs/img/NoProfilePicture.png";
+import SymposiumContainer from "../Symposium/SymposiumList/CommunityContainer.js";
 import {getSymposiumsFromSearch} from "../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import LoadingScreen from "../../LoadingAnimation.js";
-import NoSearchResultDisplay from "../../designs/img/FirstSectionLandingPAgeImage.png";
 import NoResultsModal from "./NoResultsModal.js";
 
 const Container=styled.div`
