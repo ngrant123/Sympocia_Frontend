@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import CameraIcon from '@material-ui/icons/Camera';
 import {addCommentToPopularQuestions} from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 

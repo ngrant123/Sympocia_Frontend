@@ -13,21 +13,10 @@ import MobilePostOptionsPortal from "../Modals/MobileUI/PostOptionsPortal.js";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 
-const Container=styled.div`
-	position:absolute;
-	width:100%;
-	height:100%;
-	z-index:30;
-	transition:opacity 2s linear
-	@media screen and (max-width:1370px){
-		left:90% !important;
-    	#nextButtonIcon{
-    		height:5px !important;
-    		width:5px !important;
-		}
-    }
-	
-`;
+import {
+	SymposiumHeaderAnimation,
+	Container
+} from '../indexCSS.js';
 
 const ActiveContainer =styled.div`
 	position:relative;
@@ -210,7 +199,9 @@ const HeaderContainer=(props)=>{
 			changeFollowIndicator,
 			displayPopularVideos,
 			displayDesktopUI,
-			isGuestProfile
+			isGuestProfile,
+			headerAnimation,
+			backgroundColor
 		}=props;
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
@@ -221,6 +212,12 @@ const HeaderContainer=(props)=>{
 
 	useEffect(()=>{
 		changeSymposiumFollow(isProfileFollowingSymposium);
+		if(headerAnimation==false){
+			const headerContentsContainerElement=document.getElementById("headerContents");
+		  	setTimeout(function(){
+				headerContentsContainerElement.style.opacity="1";
+		  	},500);	
+		}
 	});
 
 	const counter=symposiumCounter;
@@ -394,129 +391,134 @@ const HeaderContainer=(props)=>{
 	}
 
 	return(
-			<Container id="headerContents">
-				<HighlightedQuestionsContainer>
-					{props.popularQuestionObject.questionInformation.length==0?
-							null
-						:<HightLightedQuestions
-							questionInformation={props.popularQuestionObject.questionInformation}
-							isSimplified={props.popularQuestionObject.isSimplified}
-							selectedSymposium={props.popularQuestionObject.selectedSymposium}
-							isGuestProfile={isGuestProfile}
-						/>
-					}
-				</HighlightedQuestionsContainer>
-				{mobileArrowDownOptions()}
-				{triggerDisplayMobilePostOptions()}
+		<React.Fragment>
+			{headerAnimation==false ?
+				<Container id="headerContents">
+					<HighlightedQuestionsContainer>
+						{props.popularQuestionObject.questionInformation.length==0?
+								null
+							:<HightLightedQuestions
+								questionInformation={props.popularQuestionObject.questionInformation}
+								isSimplified={props.popularQuestionObject.isSimplified}
+								selectedSymposium={props.popularQuestionObject.selectedSymposium}
+								isGuestProfile={isGuestProfile}
+							/>
+						}
+					</HighlightedQuestionsContainer>
+					{mobileArrowDownOptions()}
+					{triggerDisplayMobilePostOptions()}
 
-				<PopularVideosContainer>
-					<ul id="popularVideoContainerLI" style={{padding:"0px"}}>
-						<li id="titleContainer" style={{listStyle:"none",position:"relative"}}>
+					<PopularVideosContainer>
+						<ul id="popularVideoContainerLI" style={{padding:"0px"}}>
+							<li id="titleContainer" style={{listStyle:"none",position:"relative"}}>
+								{/*
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+				  						<li id="previousTitleLI" style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
+				  							{previousSymposiumTitle}
+				  						</li>
+				  					</a>
+
+								*/}
+			  					
+			  					<li id="selectedSymposiumTitle" style={{width:"60%",overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",overflow:"hidden"}}>
+			  						{displayDesktopUI==true?<><b>{selectedSymposiumTitle}</b></>:<>{selectedSymposiumTitle}</>}
+			  					</li>
+
+			  					{/*
+				  					<a href="javascript:void(0);" style={{textDecoration:"none",marginRight:"5%"}}>
+				  						<li id="nextTitleLI" style={{width:"5%",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
+				  							{nextSymposiumTitle}
+				  						</li>
+				  					</a>
+
+			  					*/}
+							</li>
+
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px",position:"relative"}}>
+									<li id="popularVideosTitle" style={{listStyle:"none",display:"inline-block",marginRight:"60%",color:"white",fontSize:"20px"}}>
+										Popular Videos
+									</li>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li id="seeAllTitle" onClick={()=>displayPopularVideos()} style={{listStyle:"none",display:"inline-block",color:"white",fontSize:"20px"}}>
+											See All
+										</li>
+									</a>
+								</ul>							
+
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<ul id="popularVideosUL" style={{overflow:"hidden",padding:"5px",backgroundColor:"white",height:props.isIpadView==true?"90%":"65%",borderRadius:"5px"}}>
+											{popularVideos.map(data=>
+												<>
+													{data!=null &&(
+														<li style={PopularVideosListCSS}>
+															<video id="smallVideo" key={uuidv4()} borderRadius="5px" position="relative" height="95%" width="60px">
+																<source src={data.videoUrl} type="video/mp4"/>
+															</video>
+														</li>
+													)}
+												</>
+											)}
+										</ul>
+								</a>
+							</li>
+						</ul>
+					</PopularVideosContainer>
+
+					<ActivePeopleAndFollowContainer>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
+								<ul style={{padding:"0px"}}>
+										<p style={{color:"white",fontSize:"20px"}}>
+											Active People
+										</p>
+										<li style={{listStyle:"none",width:"90%"}}>
+											<ActiveContainer>
+												<ul>
+									 				{activePeople.map(data=>
+								 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
+								 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
+								 								<img src={data.profilePicture!=null?
+								 											data.profilePicture:
+								 											NoProfilePicture} 
+								 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
+								 							</ActiveProfilePictures>
+								 						</li>
+								 					)}
+									 			</ul>
+											</ActiveContainer>
+										</li>
+								</ul>
+							</li>
+
+							<li onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})} style={ButtonCSS}>
+								<b>
+									<AddCircleOutlineIcon style={{font:20}}/>
+									 	{followSymposiumButtonClick==false?
+									 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
+									 		<p>Unfollow Symposium</p>
+									 	}
+								</b>
+							</li>
 							{/*
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-			  						<li id="previousTitleLI" style={{color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
-			  							{previousSymposiumTitle}
-			  						</li>
-			  					</a>
-
-							*/}
-		  					
-		  					<li id="selectedSymposiumTitle" style={{width:"60%",overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",overflow:"hidden"}}>
-		  						{displayDesktopUI==true?<><b>{selectedSymposiumTitle}</b></>:<>{selectedSymposiumTitle}</>}
-		  					</li>
-
-		  					{/*
-			  					<a href="javascript:void(0);" style={{textDecoration:"none",marginRight:"5%"}}>
-			  						<li id="nextTitleLI" style={{width:"5%",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",opacity:".5"}}>
-			  							{nextSymposiumTitle}
-			  						</li>
-			  					</a>
-
-		  					*/}
-						</li>
-
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px",position:"relative"}}>
-								<li id="popularVideosTitle" style={{listStyle:"none",display:"inline-block",marginRight:"60%",color:"white",fontSize:"20px"}}>
-									Popular Videos
-								</li>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li id="seeAllTitle" onClick={()=>displayPopularVideos()} style={{listStyle:"none",display:"inline-block",color:"white",fontSize:"20px"}}>
-										See All
+									<li onClick={()=>props.hideChat()} style={ButtonCSS}>
+										<b>
+											<ExpandLessIcon style={{font:20}}/> 
+												{hideChatButtonClicked==false?
+													<p>Hide chat </p>:
+													<p> Unhide Chat </p>
+												}
+										</b>
 									</li>
 								</a>
-							</ul>							
-
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ul id="popularVideosUL" style={{overflow:"hidden",padding:"5px",backgroundColor:"white",height:props.isIpadView==true?"90%":"65%",borderRadius:"5px"}}>
-										{popularVideos.map(data=>
-											<>
-												{data!=null &&(
-													<li style={PopularVideosListCSS}>
-														<video id="smallVideo" key={uuidv4()} borderRadius="5px" position="relative" height="95%" width="60px">
-															<source src={data.videoUrl} type="video/mp4"/>
-														</video>
-													</li>
-												)}
-											</>
-										)}
-									</ul>
-							</a>
-						</li>
-					</ul>
-				</PopularVideosContainer>
-
-				<ActivePeopleAndFollowContainer>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
-							<ul style={{padding:"0px"}}>
-									<p style={{color:"white",fontSize:"20px"}}>
-										Active People
-									</p>
-									<li style={{listStyle:"none",width:"90%"}}>
-										<ActiveContainer>
-											<ul>
-								 				{activePeople.map(data=>
-							 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"30px",marginBottom:"10px"}}>
-							 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
-							 								<img src={data.profilePicture!=null?
-							 											data.profilePicture:
-							 											NoProfilePicture} 
-							 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
-							 							</ActiveProfilePictures>
-							 						</li>
-							 					)}
-								 			</ul>
-										</ActiveContainer>
-									</li>
-							</ul>
-						</li>
-
-						<li onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})} style={ButtonCSS}>
-							<b>
-								<AddCircleOutlineIcon style={{font:20}}/>
-								 	{followSymposiumButtonClick==false?
-								 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
-								 		<p>Unfollow Symposium</p>
-								 	}
-							</b>
-						</li>
-						{/*
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>props.hideChat()} style={ButtonCSS}>
-									<b>
-										<ExpandLessIcon style={{font:20}}/> 
-											{hideChatButtonClicked==false?
-												<p>Hide chat </p>:
-												<p> Unhide Chat </p>
-											}
-									</b>
-								</li>
-							</a>
-						*/}
-					</ul>
-				</ActivePeopleAndFollowContainer>
-			</Container>
+							*/}
+						</ul>
+					</ActivePeopleAndFollowContainer>
+				</Container>:
+				<SymposiumHeaderAnimation id="animatedHeaderAnimatedContainer" style={{background:backgroundColor}}/>
+			}
+		</React.Fragment>
 			)
 		}
 

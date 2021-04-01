@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import SendIcon from '@material-ui/icons/Send';
-import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import {getProfilePicture} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {connect} from "react-redux";
 import {sendChatRoomMessage} from "../../../../Actions/Requests/SocketIORequests";
