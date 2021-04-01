@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import styled from "styled-components";
-import NewsAndTravelIndexModal from "../Modals/FeaturesIndex/NewsAndTravelIndex.js";
+import NewsAndTravelIndexModal from "./FeaturesIndex/NewsAndTravelIndex.js";
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {FeatureConsumer} from "./FeatureContext.js";

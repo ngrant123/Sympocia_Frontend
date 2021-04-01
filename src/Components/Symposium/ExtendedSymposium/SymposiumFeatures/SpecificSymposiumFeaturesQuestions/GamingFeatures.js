@@ -14,9 +14,7 @@ class GamingFeatures extends Component{
 
 	render(){
 		return(
-			<>
-				Testing {this.props.symposium} symposium
-			</>
+			<></>
 		)
 	}
 }

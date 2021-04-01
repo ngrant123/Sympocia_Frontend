@@ -1,10 +1,12 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import ImagePostModal from "../Features/ImagePostModal.js";
-import RegularPostModal from "../Features/RegularPostModal.js";
-import VideoPostModal from "../Features/VideoPostModal.js";
-import AudioPostModal from "../Features/AudioPostModal.js";
+import AudioPostModal from "../FeaturesPosts/AudioPostModal.js";
+import RegularPostModal from "../FeaturesPosts/RegularPostModal.js";
+import ImageDisplayContainer from "../../../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
+import ImagePostModal from "../FeaturesPosts/ImagePostModal.js";
+import VideoPostModal from "../FeaturesPosts/VideoPostModal.js";
+
 
 const Container=styled.div`
 	position:fixed;
@@ -34,12 +36,13 @@ const ImageContainer=styled.div`
 	background-color:white;
 	width:60%;
 	height:60%;
-	border-radius:5px;  
-	z-index:17;
+	border-radius:5px; 
+	z-index:35;
 	left:20%;
 	top:20%;
 	overflow-y:scroll;
 `;
+
 
 const ShadowContainer=styled.div`
 	position:fixed;
@@ -52,16 +55,12 @@ const ShadowContainer=styled.div`
 
 
 
-
-const ArtIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
+const MusicIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
 	const [displayImageExpand,changeImageExpandDisplay]=useState(false);
 	const [imageData,changeImageData]=useState();
-	const [videoData,changeVideoData]=useState();
-	const [regularPostData,changeRegularPostData]=useState();
-	const [audioPostData,changeAudioPostData]=useState();
-	
+
 	const modalDecider=()=>{
-		if(modalType=="Image"){
+			if(modalType=="Image"){
 			return <ImagePostModal
 						symposium={symposium}
 						displayImage={displayImageHandler}
@@ -113,9 +112,22 @@ const ArtIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,questi
 		changeImageExpandDisplay(false);
 	}
 
+	/*
+		<Comments
+			postId={props.imageData._id}
+			postType={"Image"}
+			hideComments={hideComments}
+		/>
+	*/
 
 	return createPortal(
 		<>
+			{displayImageExpand==true?
+				<ImageDisplayContainer
+					imageData={imageData}
+				/>
+				:null
+			}
 			<ShadowContainer
 				onClick={()=>closeModal()}
 			/>
@@ -127,4 +139,4 @@ const ArtIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,questi
 	,document.getElementById("extendedSymposiumContainer"));
 }
 
-export default ArtIndex;
+export default MusicIndex;

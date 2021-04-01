@@ -120,6 +120,71 @@ export const PopularVideos=styled.div`
 	border-radius:5px;
 `;
 
+export const PopularVideosContainer=styled.div`
+	position:fixed;
+	background-color:white;
+	border-radius:5px;
+	top:20%;
+	left:25%;
+	width:50%;
+	height:60%;
+	padding:20px;
+	overflow-y:scroll;
+	z-index:41;
+	box-shadow: 1px 5px 5px 1px #d5d5d5;
+
+	@media screen and (max-width:740px){
+		width:90% !important;
+		left:5% !important;
+	}
+`;
+
+export const HightLightedQuestionsContainerModal=styled.div`
+	position:relative;
+	width:100%;
+	height:100%;
+	padding:20px;
+	overflow-y:scroll;
+	z-index:40;
+	box-shadow: 1px 5px 5px 1px #d5d5d5;
+	border-radius:5px;
+	background-color:white;
+	border-style:solid;
+	border-width:1px;
+	border-color:#5298F8;
+	overflow-y:scroll;
+
+	@media screen and (max-width:1370px){
+		#postLI{
+			width:110% !important;
+		}
+		#videoQuestionAnswers{
+			width:60% !important;
+			height:50% !important;
+		}
+
+		#imageHighlightedQuestion{
+			width:70% !important;
+		}
+	}
+
+	@media screen and (max-width:740px){
+		#videoQuestionAnswers{
+			height:30% !important;
+		}
+		#imageHighlightedQuestion{
+			height:50% !important;
+		}
+	}
+
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		#imageHighlightedQuestion{
+			width:40% !important;
+			height:40% !important;
+		}
+    }
+
+`;
 
 
 export const PostsChatInformation=styled.div`

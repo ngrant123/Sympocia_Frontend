@@ -1,9 +1,10 @@
 import React,{useState} from "react";
 import styled from "styled-components";
+import STEMIndexModal from "./FeaturesIndex/STEMIndex.js";
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
-import ArtIndexModal from "../Modals/FeaturesIndex/ArtIndex.js";
 import {FeatureConsumer} from "./FeatureContext.js";
+
 
 const OptionsCSS={
   listStyle:"none",
@@ -15,7 +16,8 @@ const OptionsCSS={
   borderWidth:"2px",
   borderColor:"#3898ec"
 }
-const ArtRelatedFeatures=({symposium,questions})=>{
+
+const STEMRelatedFeatures=({symposium,questions})=>{
 	if(questions!=null){
 		var {
 			audioQuestion,
@@ -24,45 +26,56 @@ const ArtRelatedFeatures=({symposium,questions})=>{
 			videoQuestion
 		}=questions;
 	}
-	
-
-	const [displayArtFeaturesPortal,changeDisplayArtModal]=useState(false);
+	const [displaySTEMFeaturesPortal,changeDisplaySTEMModal]=useState(false);
 	const [displayModalType,changeModalType]=useState();
 	const [questionIndex,changeQuestionIndex]=useState();
 	const [selectedQuestion,changeSelectedQuestion]=useState();
 	const [selectedPostId,changeSelectedPostId]=useState();
 
-	const displaySubmitModal=(index)=>{
-		changeModalType("Submit");
-		changeDisplayArtModal(true);
+	const displayTutoringModal=(index)=>{
+		changeModalType("Tutoring");
+		changeDisplaySTEMModal(true);
 		changeQuestionIndex(index);
+	}
+
+	const displayRecommendedBooksModal=(index)=>{
+		changeModalType("Books");
+		changeDisplaySTEMModal(true);
+		changeQuestionIndex(index);
+	}
+
+	const displayAchievementsModal=(index)=>{
+		changeModalType("Achievement");
+		changeDisplaySTEMModal(true);
+		changeQuestionIndex(index);
+	}
+
+	const handleCloseModal=()=>{
+		changeDisplaySTEMModal(false);
 	}
 
 	const displayPostModal=(posts,postType,selectedPost,isGuestProfile)=>{
 		if(isGuestProfile==true){
-			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
 		}else{
 			var indexOfStevie = posts.findIndex(i => i._id === selectedPost._id);
 			changeModalType(postType);
-			changeDisplayArtModal(true);
+			changeDisplaySTEMModal(true);
 			changeQuestionIndex(indexOfStevie);
 			changeSelectedQuestion(selectedPost.question);
 			changeSelectedPostId(selectedPost._id);
 		}
 	}
 
-	const handleCloseModal=()=>{
-		changeDisplayArtModal(false);
-	}
-
 	return(
+
 		<FeatureConsumer>
 			{symposiumInformation=>{
 				return <>
 					{questions!=null && (
 						<>
-							{displayArtFeaturesPortal==true?
-								<ArtIndexModal
+						{displaySTEMFeaturesPortal==true?
+								<STEMIndexModal
 									modalType={displayModalType}
 									closeModal={handleCloseModal}
 									symposium={symposium}
@@ -147,14 +160,15 @@ const ArtRelatedFeatures=({symposium,questions})=>{
 									<hr/>
 									</>
 								)}
+
 							</ul>
 						</>
 
 					)}
-				 </>
+				</>		
 			}}
 		</FeatureConsumer>
 	)
 }
 
-export default ArtRelatedFeatures;
+export default STEMRelatedFeatures;

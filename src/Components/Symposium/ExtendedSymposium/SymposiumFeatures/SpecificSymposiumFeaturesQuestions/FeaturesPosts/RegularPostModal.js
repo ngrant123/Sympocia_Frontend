@@ -2,12 +2,12 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
-import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import {createSpecificIndustryRegularPostAnswer} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-import {getIndustryRegularPostFeatureAnswers} from "../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
+import {createSpecificIndustryRegularPostAnswer} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {getIndustryRegularPostFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
-import RegularPostDisplayPortal from "../../../../Home/HomePageSet/RegularPostHomeDisplayPortal.js";
-import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import RegularPostDisplayPortal from "../../../../../Home/HomePageSet/RegularPostHomeDisplayPortal.js";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:absolute;

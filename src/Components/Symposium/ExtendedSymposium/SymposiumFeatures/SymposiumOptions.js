@@ -9,7 +9,8 @@ let MobilePostOptionsButton={
     boxShadow:"1px 1px 5px #6e6e6e",
     borderRadius:"5px",
     borderStyle:"none",
-    cursor:"pointer"
+    cursor:"pointer",
+    marginLeft:"5%"
 }
 const symposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle})=>{
 		const isPhoneScrollTriggered=(displayPhoneUI==true && headerAnimation==true)==true?true:false;

@@ -1,23 +1,25 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import ImagePostModal from "../Features/ImagePostModal.js";
-import RegularPostModal from "../Features/RegularPostModal.js";
-import ImageDisplayContainer from "../../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
-import VideoPostModal from "../Features/VideoPostModal.js";
-import AudioPostModal from "../Features/AudioPostModal.js";
+import RegularPostModal from "../FeaturesPosts/RegularPostModal.js";
+import ImageDisplayContainer from "../../../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
+import ImagePostModal from "../FeaturesPosts/ImagePostModal.js";
+import VideoPostModal from "../FeaturesPosts/VideoPostModal.js";
+import AudioPostModal from "../FeaturesPosts/AudioPostModal.js";
+
 
 const Container=styled.div`
 	position:fixed;
 	background-color:white;
-	width:45%;
+	width:65%;
 	height:60%;
 	border-radius:5px; 
 	z-index:40;
-	left:30%;
+	left:20%;
 	top:20%;
 	overflow-y:scroll;
 
+	
 	@media screen and (max-width:1370px){
 		width:80%;
 		left:10%;
@@ -27,7 +29,6 @@ const Container=styled.div`
 		height:80%;
 		width:90%;
 	}
-	
 `;
 
 const ImageContainer=styled.div`
@@ -42,6 +43,7 @@ const ImageContainer=styled.div`
 	overflow-y:scroll;
 `;
 
+
 const ShadowContainer=styled.div`
 	position:fixed;
 	width:100%;
@@ -51,25 +53,15 @@ const ShadowContainer=styled.div`
 	top:0px;
 `;
 
-const ImagePopupContainer=styled.div`
-	position:absolute;
-	background-color:white;
-	width:70%;
-	height:65%;
-	border-radius:5px; 
-	z-index:35;
-	left:15%;
-	top:20%;
-	overflow-y:scroll;
-`;
 
 
-const STEMIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
+
+const NewsAndTravelIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
 	const [displayImageExpand,changeImageExpandDisplay]=useState(false);
 	const [imageData,changeImageData]=useState();
 
 	const modalDecider=()=>{
-				if(modalType=="Image"){
+		if(modalType=="Image"){
 			return <ImagePostModal
 						symposium={symposium}
 						displayImage={displayImageHandler}
@@ -131,29 +123,21 @@ const STEMIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,quest
 
 	return createPortal(
 		<>
-			
+			{displayImageExpand==true?
+				<ImageDisplayContainer
+					imageData={imageData}
+				/>
+				:null
+			}
 			<ShadowContainer
 				onClick={()=>closeModal()}
 			/>
 			<Container>
 				{modalDecider()}
 			</Container>
-			{displayImageExpand==true?
-				<div>
-					<ShadowContainer
-						onClick={()=>closeImageModal()}
-					/>
-					<ImagePopupContainer>
-						<ImageDisplayContainer
-							imageData={imageData}
-						/>
-					</ImagePopupContainer>
-				</div>:null
-			}
 		</>
 
 	,document.getElementById("extendedSymposiumContainer"));
 }
 
-export default STEMIndex;
-
+export default NewsAndTravelIndex;

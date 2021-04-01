@@ -185,7 +185,13 @@ const PopularVideosListCSS={
 /*
 	Idea down the road is to have it so that the videos automatically display and play and repeat 
 	but that will be done later in a to do list
+
+
+	linear-gradient(to left, #9933ff 0%, #ff99ff 100%)
+	linear-gradient(to right,#E44D26 0%,#F16529 100%)
+
 */
+
 
 const HeaderContainer=(props)=>{
 	const {
@@ -203,6 +209,7 @@ const HeaderContainer=(props)=>{
 			headerAnimation,
 			backgroundColor
 		}=props;
+	console.log(backgroundColor);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 	const [displayMobilePostOptions,changeMobileDisplayPostOptions]=useState(false);
@@ -393,7 +400,7 @@ const HeaderContainer=(props)=>{
 	return(
 		<React.Fragment>
 			{headerAnimation==false ?
-				<Container id="headerContents">
+				<Container id="headerContents"  style={{background:backgroundColor}}>
 					<HighlightedQuestionsContainer>
 						{props.popularQuestionObject.questionInformation.length==0?
 								null
