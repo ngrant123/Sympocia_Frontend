@@ -2,11 +2,11 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
-import {createSpecificIndustryVideoAnswer} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-import {getIndustryVideoFeatureAnswers} from "../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import {createSpecificIndustryVideoAnswer} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {getIndustryVideoFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
-import VideoPostDisplayPortal from "../../../../Home/HomePageSet/VideoHomeDisplayPortal.js";
-import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import VideoPostDisplayPortal from "../../../../../Home/HomePageSet/VideoHomeDisplayPortal.js";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:absolute;

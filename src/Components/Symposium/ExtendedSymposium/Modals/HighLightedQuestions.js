@@ -8,62 +8,10 @@ import RegularPostDisplayPortal from "../../../Home/HomePageSet/RegularPostHomeD
 import QuestionsPortal from "./QuestionsPortal.js";
 import {getPopularQuestionReplies} from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
-const Container=styled.div`
-	position:relative;
-	width:100%;
-	height:100%;
-	border-radius:5px;
-	background-color:white;
-	border-style:solid;
-	border-width:1px;
-	border-color:#5298F8;
-	overflow-y:scroll;
-
-	@media screen and (max-width:1370px){
-		#postLI{
-			width:110% !important;
-		}
-		#videoQuestionAnswers{
-			width:60% !important;
-			height:50% !important;
-		}
-
-		#imageHighlightedQuestion{
-			width:70% !important;
-		}
-	}
-
-	@media screen and (max-width:740px){
-		#videoQuestionAnswers{
-			height:30% !important;
-		}
-		#imageHighlightedQuestion{
-			height:50% !important;
-		}
-	}
-
-	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
-		#imageHighlightedQuestion{
-			width:40% !important;
-			height:40% !important;
-		}
-    }
-
-`;
-
-const SimplifiedContainer=styled.div`
-	position:absolute;
-	overflow:hidden;
-	width:20%;
-	height:20%;
-	top:5%;
-	left:10%;
-	border-radius:5px;
-	border-style:solid;
-	border-width:1px;
-	border-color:#5298F8;
-	overflow-y:scroll;
-`;
+import {
+	HightLightedQuestionsContainerModal,
+	BackgroundModalContainer
+} from "../indexCSS.js";
 
 
 class HighLightedQuestions extends Component{
@@ -291,7 +239,7 @@ class HighLightedQuestions extends Component{
 							/>
 							:<React.Fragment></React.Fragment>
 						}
-							<Container>
+							<HightLightedQuestionsContainerModal>
 								{this.state.isLoading==true?
 									<p> Loading...</p>:
 									<>
@@ -337,7 +285,7 @@ class HighLightedQuestions extends Component{
 									</ul>
 									</>
 								}
-							</Container>
+							</HightLightedQuestionsContainerModal>
 					</React.Fragment>:null
 				}
 			</React.Fragment>

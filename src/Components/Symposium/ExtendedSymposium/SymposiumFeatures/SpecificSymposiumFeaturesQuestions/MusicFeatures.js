@@ -1,7 +1,7 @@
 
 import React,{useState} from "react";
 import styled from "styled-components";
-import MusicIndexModal from "../Modals/FeaturesIndex/MusicIndex.js";
+import MusicIndexModal from "./FeaturesIndex/MusicIndex.js";
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {FeatureConsumer} from "./FeatureContext.js";

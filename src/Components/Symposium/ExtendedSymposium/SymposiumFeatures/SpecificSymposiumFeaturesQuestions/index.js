@@ -1,12 +1,12 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
-import ArtRelatedFeatures from "./ArtRelatedFeatures.js";
+import NonMiscellaneousRelatedFeatures from "./NonMiscellaneousRelatedFeatures.js";
 import GamingFeatures from "./GamingFeatures.js";
 import MiscellaneousFeatures from "./MiscellaneousFeatures.js";
 import MusicFeatures from "./MusicFeatures.js";
 import NewsAndTravelFeatures from "./NewsAndTravelFeatures.js";
 import STEMRelatedFeatures from "./STEMRelatedFeatures.js";
-import SYMPOSIUM_FEATURES from "../../../../Constants/featureSymposiumConstants.js";
+import SYMPOSIUM_FEATURES from "../../../../../Constants/featureSymposiumConstants.js";
 import {FeatureProvider} from "./FeatureContext.js";
 
 const Container=styled.div`
@@ -44,16 +44,13 @@ const ChatOption={
 	feature the user clicked on  and then sends it to the features section.
 	Waste of time, should just refactor the features into a portal and then just delete
 	featuresindex
+
+
+	Don't know if this is even necessary the way its implemented below. Could probably 
+	be refactored in the near distant future
 */
 
 const SpecificFeatureSymposium=({symposium,symposiumId,questions,isGuestProfile})=>{
-	/*
-		const [isArtSymposium,changeArtStatus]=useState(false);
-		const [isSTEMSymposium,changeSTEMStatus]=useState(false);
-		const [isMusicSymposium,changeMusicStatus]=useState(false)
-		const [isNewsAndTravelSymposium,changeNewsTravelStatus]=useState(false);
-		const [isMiscellaneousSymposium,changeMiscellaneousSTatus]=useState(false);
-	*/
 	const [artMap,changeArtMap]=useState(new Map);
 	const [stemMap,changeStemMap]=useState(new Map);
 	const [musicMap,changeMusicMap]=useState(new Map);
@@ -96,34 +93,10 @@ const SpecificFeatureSymposium=({symposium,symposiumId,questions,isGuestProfile}
 	},[]);
 
 	const featureDecider=()=>{
-		if(artMap.has(symposium)){
+		if(artMap.has(symposium) || stemMap.has(symposium)|| musicMap.has(symposium)
+		 || newstravelMap.has(symposium) || gamingMap.has(symposium)){
 
-			return <ArtRelatedFeatures
-						symposium={symposium}
-						questions={questions}
-					/>;
-
-		}else if(stemMap.has(symposium)){
-			return <STEMRelatedFeatures
-						symposium={symposium}
-						questions={questions}
-					/>
-
-		}else if(musicMap.has(symposium)){
-			return <MusicFeatures
-						symposium={symposium}
-						questions={questions}
-					/>
-
-		}else if(newstravelMap.has(symposium)){
-			return <NewsAndTravelFeatures
-						symposium={symposium}
-						questions={questions}
-					/>
-
-		}else if(gamingMap.has(symposium)){
-
-			return <GamingFeatures
+			return <NonMiscellaneousRelatedFeatures
 						symposium={symposium}
 						questions={questions}
 					/>;

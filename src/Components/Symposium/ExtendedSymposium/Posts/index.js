@@ -3,7 +3,6 @@ import React,{useState} from "react";
 import SearchOptions from "./PostFilterOptions/index.js";
 import Posts from "./PostDisplay/index.js"
 import {suggestedSymposiumsRecursive} from "./PostDisplay/SuggestedSymposiums.js"
-import {highlightAppropriatePostOption} from "./PostDisplay/HighLightAppropriatePostOption.js";
 import {
         getImagesInIndustry,
         getVideoInIndustry,

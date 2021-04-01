@@ -9,9 +9,8 @@ import PostCreation from "../../GeneralComponents/PostComponent/LargePostCompone
 import {connectToRoom} from "../../../Actions/Requests/SocketIORequests";
 import io from 'socket.io-client';
 
-import PopularVideosModal from "../PopularVideosModal.js";
+import PopularVideosModal from "./Modals/PopularVideosModal.js";
 import {HeaderContainer} from "./Header/HeaderContainer.js";
-import SpecificFeatureSymposium from "./SpecificSympsoiumFeatures/index.js";
 import Confetti from 'react-confetti';
 
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
@@ -48,26 +47,28 @@ import {
 } from "./indexCSS.js";
 import Posts from "./Posts/index.js";
 import SearchOptions from "./Posts/PostFilterOptions/index.js";
+import InitialSymposiumFeaturesDisplay from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
 
+/*
+	const HightLightedQuestionsContainerModal=styled.div`
+		position:fixed;
+		background-color:white;
+		border-radius:5px;
+		top:20%;
+		left:30%;
+		width:30%;
+		height:30%;
+		padding:20px;
+		overflow-y:scroll;
+		z-index:40;
+		box-shadow: 1px 5px 5px 1px #d5d5d5;
 
-const HightLightedQuestionsContainerModal=styled.div`
-	position:fixed;
-	background-color:white;
-	border-radius:5px;
-	top:20%;
-	left:30%;
-	width:30%;
-	height:30%;
-	padding:20px;
-	overflow-y:scroll;
-	z-index:40;
-	box-shadow: 1px 5px 5px 1px #d5d5d5;
-
-	@media screen and (max-width:740px){
-		width:90% !important;
-		left:5% !important;
-	}
-`;
+		@media screen and (max-width:740px){
+			width:90% !important;
+			left:5% !important;
+		}
+	`;
+*/
 
 
 
@@ -265,15 +266,11 @@ class Symposium extends Component{
 	  }
 
 	  handleSeeAllPopularVideos=()=>{
-	  	return this.state.displayPopularVideos==true?
-	  		<React.Fragment>
-	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayPopularVideos:false}))}/>
-	  			<PopularVideosModal
+	  	return <PopularVideosModal
 	  				popularVideos={this.state.popularVideos}
-	  			/> 
-	  		</React.Fragment>:
-	  		<React.Fragment>
-	  		</React.Fragment>
+	  				changeState={this}
+  					displayPopularVideos={this.state.displayPopularVideos}
+	  			/>
 	  } 
 
 	  //Method below is not working completely correct but is doing half it correctly moving on 
@@ -323,17 +320,11 @@ class Symposium extends Component{
 	}
 
 	  handleSeeAllPeopleActiveModal=()=>{
-	  	return this.state.displayModalPeopleActive==true?
-	  		<React.Fragment>
-	  			<ActivePeopleContainer>
-	  				<ActivePeopleModal
-	  					peopleActive={this.state.activePeople}
-	  				/>
-	  			</ActivePeopleContainer>
-	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayModalPeopleActive:false}))}/>
-	  		</React.Fragment>:
-	  		<React.Fragment>
-	  		</React.Fragment>
+	  	return <ActivePeopleModal
+  					peopleActive={this.state.activePeople}
+  					changeState={this}
+  					displayModalPeopleActive={this.state.displayModalPeopleActive}
+  				/>
 	  }
 
 	  handleHeaderAnimatedContents=()=>{
@@ -345,27 +336,6 @@ class Symposium extends Component{
 	  }
 
 	  handleSubSymposiumsChoices=(props)=>{
-	  }
-
-	  handleSeeAllSubSymposiums=()=>{
-
-	  	return this.state.displayModalSubSymposiums==true?
-	  		<React.Fragment>
-	  			<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayModalSubSymposiums:false}))}/>
-	  				{/*
-	  					Need to figure out how the subSymposiums are goint to displayed here
-						<SubCommunitiesContainer>
-			  				<SubSymposiums
-			  					subCommunities={this.state.SubSymposiums}
-			  					subCommunitiesChoices={this.handleSubCommunitiesChoices}
-			  				/>
-
-			  			</SubCommunitiesContainer>
-
-	  				*/}
-	  		</React.Fragment>:
-	  		<React.Fragment>
-	  		</React.Fragment>
 	  }
 	  hideChatRoom=()=>{
 	  	
@@ -416,52 +386,20 @@ class Symposium extends Component{
 	  		displaySpecficSymposiumFeature:!this.state.displaySpecficSymposiumFeature
 	  	})
 	  }
-	  symposiumFeaturesAndChat=()=>{
-	  	return (
-	  		<>
-		  		{(this.state.selectedSymposiumTitle=="General"||
-					this.state.selectedSymposiumTitle=="Religion"||
-					this.state.selectedSymposiumTitle=="Gaming"||
-					this.state.selectedSymposiumTitle=="Philosophy")?
-		  			<SymposiumChatContainer>
-			  			<Chat
-					  		roomId={this.state.symposiumId}
-					  		chat={this.state.chatRoom}
-					  		profileId={this.state.profileId}
-					  		socket={socket}
-					  		closePostModal={this.closeSymposiumFeatureModal}
-						/>
-					</SymposiumChatContainer>
-				  	:<SymposiumFeatureContainer headerAnimation={this.state.headerAnimation}>
-					  	<SpecificFeatureSymposium
-				  			symposium={this.state.selectedSymposiumTitle}
-				  			symposiumId={this.state.symposiumId}
-				  			questions={this.state.symposiumFeatureQuestions}
-				  			isGuestProfile={this.state.isGuestProfile}
-				  		/>
-				  	</SymposiumFeatureContainer>
-		  		} 
-	  		</>
-	  	)
-	  }
 
 	  specificSymposiumFeatures=()=>{
-	  	return <>
-	  			{(this.state.headerAnimation==false || this.state.displaySpecficSymposiumFeature==true)==true && (
-					<>{this.symposiumFeaturesAndChat()}</>
-		  		)}
-		  	  </>
-	  }
-
-	  handleDisplayPostCreation=()=>{
-	  	return this.state.displayPostCreation==false?
-	  		<React.Fragment></React.Fragment>:
-	  		<React.Fragment>
-	  			<BackgroundModalContainer onClick={()=>this.setState({displayPostCreation:false})}/>	  			
-	  			<PostContainerTEst>
-	  				<PostCreation/>
-	  			</PostContainerTEst>
-	  		</React.Fragment>
+	  	return <InitialSymposiumFeaturesDisplay
+	  				selectedSymposiumTitle={this.state.selectedSymposiumTitle}
+					symposiumId={this.state.symposiumId}
+					chatRoom={this.state.chatRoom}
+					profileId={this.state.profileId}
+					socket={socket}
+					closeSymposiumFeatureModal={this.closeSymposiumFeatureModal}
+					headerAnimation={this.state.headerAnimation}
+					symposiumFeatureQuestions={this.state.symposiumFeatureQuestions}
+					isGuestProfile={this.state.isGuestProfile}
+					displaySpecficSymposiumFeature={this.state.displaySpecficSymposiumFeature}
+	  			/>
 	  }
 
 	displayRecruitConfetti=()=>{
@@ -555,22 +493,14 @@ class Symposium extends Component{
 	}
 
 	highlightedQuestionsSimplifiedModal=()=>{
-		return(
-			<React.Fragment>
-				{this.state.displayHightletedSimplifiedQuestionsModal==true &&(
-					<React.Fragment>
-						<BackgroundModalContainer onClick={()=>this.setState(prevState=>({...prevState,displayHightletedSimplifiedQuestionsModal:false}))}/>
-						<HightLightedQuestionsContainerModal>
-							<HightLightedQuestions
-								questionInformation={this.state.popularQuestions}
-								isSimplified={this.state.headerAnimation}
-								selectedSymposium={this.state.selectedSymposiumTitle}
-								isGuestProfile={this.state.isGuestProfile}
-							/>
-						</HightLightedQuestionsContainerModal>
-					</React.Fragment>
-				)}
-			</React.Fragment>
+		return( <HightLightedQuestions
+					questionInformation={this.state.popularQuestions}
+					isSimplified={this.state.headerAnimation}
+					selectedSymposium={this.state.selectedSymposiumTitle}
+					isGuestProfile={this.state.isGuestProfile}
+					changeState={this}
+					displayHightletedSimplifiedQuestionsModal={this.state.displayHightletedSimplifiedQuestionsModal}
+				/>
 		)
 	}
 
@@ -640,6 +570,7 @@ class Symposium extends Component{
 	}
 
 
+/*
 	triggerDisplayMobileSymposiumOptions=()=>{
 		return <>
 					{this.state.displayMobileSymposiumOptions==true &&(
@@ -665,6 +596,8 @@ class Symposium extends Component{
 					)}
 				</>
 	}
+
+*/
 
 
 	render(){
@@ -716,12 +649,12 @@ class Symposium extends Component{
 					/>
 				)}
 				{this.arrowIndicatorButton()}
-				{this.handleDisplayPostCreation()}
-				{this.handleSeeAllSubSymposiums()}
 				{this.handleSeeAllPeopleActiveModal()}
 				{this.handleSeeAllPopularVideos()}
 				{this.specificSymposiumFeatures()}
-				{this.triggerDisplayMobileSymposiumOptions()}
+				{/*
+					{this.triggerDisplayMobileSymposiumOptions()}
+				*/}
 				{this.highlightedQuestionsSimplifiedModal()}
 
 				<HeaderContainer

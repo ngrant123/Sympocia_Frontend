@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import HightLightedQuestions from "../HighLightedQuestions.js";
 import Chat from "../ChatRoom.js";
-import SpecificFeatureSymposium from "../../SpecificSympsoiumFeatures/index.js";
+import SpecificFeatureSymposium from "../../SymposiumFeatures/SpecificSymposiumFeaturesQuestions/index.js";
 import {Link} from "react-router-dom"
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 
