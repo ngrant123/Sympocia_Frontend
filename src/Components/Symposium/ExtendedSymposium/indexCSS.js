@@ -302,8 +302,10 @@ export const PageIndicator=styled.div`
 export const SearchContainer=styled.div`
 	position:relative;
 	width:630px;
+	display:flex;
+	flex-direction:row;
 	border-radius:5px;
-	background-color:red;
+	margin-right:2%;
 	box-shadow: 1px 1px 5px 	#dbdddf;
 	@media screen and (max-width:1370px){
     	width:500px;
@@ -340,9 +342,6 @@ export const SearchTextArea=styled.textarea`
 `;
 
 export const PostOptions=styled.div`
-	border-color:#5298F8;
-	border-style:solid;
-	border-width:1px;
 	color:#5298F8;
 	background-color:white;
 	border-radius:5px;
@@ -413,10 +412,7 @@ export const SymposiumChatContainer=styled.div`
 `;
 
 export const ChatAndIndustryInformationContainer=styled.div`
-	border-style:solid;
-	border-width:1px;
-	color:white;
-	background-color:#5298F8;
+	color:#5298F8;
 	border-radius:5px;
 	padding:10px;
 	margin-right:2px;
@@ -496,7 +492,7 @@ export const SympociaOptionsContainer=styled.div`
 
 export const SearchOptionContainer=styled.div`
 	display:flex;
-	flex-direction:column;
+	flex-direction:row;
 	@media screen and (max-width:1370px){
 		flex-direction:row;
 	}
@@ -505,12 +501,4 @@ export const SearchOptionContainer=styled.div`
 export const MinifiedSymposiumInformation=styled.div`
 	display:flex;
 	flex-direction:row;
-	margin-left:-30%;
-
-	@media screen and (max-width:1370px){
-		${({isScrollEnabled})=>
-			isScrollEnabled==true &&(
-				`margin-left:-60%;`
-			)}
-	}
 `;

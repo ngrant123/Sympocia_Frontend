@@ -1,64 +1,129 @@
-import React, { useEffect } from "react";
 
-import {ImagePostsModal} from "../../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/ImagePostsModal.js";
-import VideoPostModal from "../../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/VideoPostsModal.js";
-import RegularPostModal from "../../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/RegularPostsModal.js";
-import BlogPostModal from "../../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/BlogPostsModal.js";
-
+import React,{useState} from "react";
+import SearchOptions from "./PostFilterOptions/index.js";
+import Posts from "./PostDisplay/index.js"
+import {suggestedSymposiumsRecursive} from "./PostDisplay/SuggestedSymposiums.js"
+import {highlightAppropriatePostOption} from "./PostDisplay/HighLightAppropriatePostOption.js";
 import {
-    PostContainer,
-    Posts
-} from "../indexCSS.js";
+        getImagesInIndustry,
+        getVideoInIndustry,
+        getBlogsInIndustry,
+        getRegularPostsInIndustry,
+        getIndustryInformation
+} from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
-const PostsContainerDisplay=({state,triggerReloadingPostsHandle,displaySymposium,displayRecruitConfetti,profileId})=>{
-    debugger;
-    const postsProps={
-        posts:state.posts,
-        _id:profileId,
-        confettiAnimation:displayRecruitConfetti,
-        isPersonalProfile:true,
-        displaySymposium:displaySymposium,
-        targetDom:"extendedSymposiumContainer",
-        isLoadingReloadedPosts:state.isLoadingReloadedPosts,
-        triggerReloadingPostsHandle:triggerReloadingPostsHandle,
-        endOfPostsDBIndicator:state.endOfPostsDBIndicator
-    }
-    useEffect(()=>{
-        if(state.handleScroll!=false){
-            document.getElementById("postsContainer").style.opacity="0";
-    
-            setTimeout(function(){
-              document.getElementById("postsContainer").style.opacity="1";
-            },1000);
+const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,profileId})=>{
+
+    const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
+    const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
+    const [posts,changePosts]=useState(state.posts);
+    const [postOption,changePostOptionState]=useState(state.postOption);
+    const [postCount,changePostCount]=useState(state.postCount);
+
+    const  changePostOption=async(postOption)=>{
+        debugger;
+        changePostOptionState(postOption);
+        const postParameters={
+            industry:state.selectedSymposiumTitle,
+            postCount,
+            userId:profileId
         }
-    })
+        let postResults;
 
+        if(postOption=="Image"){
+            postResults=await getImagesInIndustry({...postParameters});
+        }else if(postOption=="Video"){
+            postResults=await getVideoInIndustry({...postParameters});
+        }else if(postOption=="Blog"){
+            postResults=await getVideoInIndustry({...postParameters});
+        }else{
+            postOption="Regular";
+            postResults=await getRegularPostsInIndustry({...postParameters});
+        }
+        let {confirmation,data}=postResults;
+
+        if(confirmation=="Success"){
+            if(data.length==0){
+                changeEndOfPostIndicator(true);
+                changeIsLoadingReloadedPosts(false);
+
+                /*
+                    this.setState({
+                        endOfPostsDBIndicator:true,
+                        isLoadingReloadedPosts:false,
+                        isLoading:false
+                    })
+                */
+            }else{
+                const currentPosts=state.posts;
+                let nextPosts=currentPosts.concat(data);
+                nextPosts=postCount==0?suggestedSymposiumsRecursive(nextPosts):nextPosts;
+
+                changeEndOfPostIndicator(false);
+                changeIsLoadingReloadedPosts(false);
+                changePostOptionState(postOption);
+                changePosts([...nextPosts]);
+                /*
+                    this.setState({
+                        posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
+                        postType:postOption,
+                        isLoadingReloadedPosts:false,
+                        endOfPostsDBIndicator:false,
+                        isLoading:false
+                    },()=>{
+                        this.highlightAppropriatePostOption(postOption);
+                    })
+                */
+            }
+        }else{
+            alert('Unfortunately there has been an error getting this post data. Please try again');
+        }
+    }
+    const triggerReloadingPostsHandle=(postOption)=>{
+        changeIsLoadingReloadedPosts(true);
+        changePostCount(postCount+1);
+        changePostOption(postOption);
+    }
+
+    const fetchPosts=(newPostOption)=>{
+        if(newPostOption!=postOption){
+            changeIsLoadingReloadedPosts(true);
+            changePostCount(0);
+            changePosts([]);
+            changePostOption(newPostOption);
+        }
+    }
 
     return(
-        <PostContainer isScrollEnabled={state.headerAnimation} id="postsContainer">
-            <Posts>
-                {state.postType=="Image"?
-                    <ImagePostsModal {...postsProps}/>:null
-                }
-
-                {state.postType=="Video"?
-                    <VideoPostModal {...postsProps}/>:null
-                }
-
-                {state.postType=="Blog"?
-                    <li style={{listStyle:"none",marginTop:"0%",marginLeft:"5%"}}>
-                        <BlogPostModal {...postsProps}/>
-                    </li>:null
-                }
-
-                {state.postType=="Regular"?
-                    <li style={{listStyle:"none",marginTop:"1%",marginLeft:"5%",width:"90%"}}>
-                        <RegularPostModal {...postsProps}/>
-                    </li>:null
-                }
-            </Posts>
-        </PostContainer>
+        <React.Fragment>
+            <SearchOptions
+                state={{
+                    headerAnimation:state.headerAnimation,
+                    displayPhoneUI:state.displayPhoneUI,
+                    selectedSymposiumTitle:state.selectedSymposiumTitle,
+                    displayDesktopUI:state.displayDesktopUI
+                }}
+                updatePosts={fetchPosts}
+            />
+            <hr/>
+            <Posts
+                state={{
+                    posts,
+                    isLoadingReloadedPosts,
+                    endOfPostsDBIndicator,
+                    headerAnimation:state.headerAnimation,
+                    postType:state.postType,
+                    handleScroll:state.handleScroll,
+                    postCount:state.postCount,
+                    selectedSymposiumTitle:state.selectedSymposiumTitle
+                }}
+                triggerReloadingPostsHandle={triggerReloadingPostsHandle}
+                displaySymposium={displaySymposium}
+                displayRecruitConfetti={displayRecruitConfetti}
+                profileId={profileId}
+            />
+        </React.Fragment>
     )
 }
 
-export default PostsContainerDisplay;
+export default PostsAndFilterOptions;

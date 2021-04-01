@@ -3,13 +3,7 @@ import styled from "styled-components";
 import Chat from "./Modals/ChatRoom.js";
 import { connect } from "react-redux";
 import ActivePeopleModal from "./Modals/ActivePeopleModal";
-import {
-		getImagesInIndustry,
-		getVideoInIndustry,
-		getBlogsInIndustry,
-		getRegularPostsInIndustry,
-		getIndustryInformation
-	} from "../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import {getIndustryInformation} from "../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import PostCreation from "../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 
 import {connectToRoom} from "../../../Actions/Requests/SocketIORequests";
@@ -40,24 +34,20 @@ import {
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 import HightLightedQuestions from "./Modals/HighLightedQuestions.js";
 import {
-	SymposiumHeaderAnimation,
 	SymposiumContainer,
-	Container,
 	PopularVideos,
 	PostsChatInformation,
 	BackgroundModalContainer,
 	ActivePeopleContainer,
 	ExploreIconContainer,
 	PageIndicator,
-	PostOptions,
 	SymposiumFeatureContainer,
-	ChatAndIndustryInformationContainer,
 	ArrowDownContainer,
 	PostContainerTEst,
 	SymposiumChatContainer
 } from "./indexCSS.js";
 import Posts from "./Posts/index.js";
-import SearchOptions from "./SearchOptions/index.js";
+import SearchOptions from "./Posts/PostFilterOptions/index.js";
 
 
 const HightLightedQuestionsContainerModal=styled.div`
@@ -80,17 +70,6 @@ const HightLightedQuestionsContainerModal=styled.div`
 `;
 
 
-
-const MobilePostOptionsButton={
-	listStyle:"none",
-	padding:"10px",
-	backgroundColor:"white",
-	color:"#6e6e6e",
-	boxShadow:"1px 1px 5px #6e6e6e",
-	borderRadius:"5px",
-	borderStyle:"none",
-	cursor:"pointer"
-}
 
 //REFACTOR LATER ON
 
@@ -172,7 +151,6 @@ class Symposium extends Component{
 	 async componentDidMount(){
 		window.addEventListener('resize',this.triggerUIChange)
   		const postContainerElement=document.getElementById("postChatInformation");
-  		const headerContentsContainerElement=document.getElementById("headerContents");
 
 		const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
   		var {confirmation,data}=await getIndustryInformation(
@@ -193,7 +171,7 @@ class Symposium extends Component{
 	  			_id
   			}=data;
 
-  			var newHomePagePosts=this.addSuggestedSymposiums(posts);
+  			//var newHomePagePosts=this.addSuggestedSymposiums(posts);
   			
 	  			
 	  		this.setState(prevState=>({
@@ -204,7 +182,7 @@ class Symposium extends Component{
 		  		backgroundColor:this.props.location.state==null?this.symposiumBackgroundColor(this.props.match.params.symposiumName):
 		  		this.props.location.state.selectedSymposium.backgroundColor,
 		  		postType:"Image",
-		  		posts:newHomePagePosts,
+		  		posts,
 		  		popularVideos:popularPosts,
 		  		activePeople:activeUsers,
 		  		popularQuestions:popularQuestions,
@@ -220,7 +198,6 @@ class Symposium extends Component{
 
 		  	setTimeout(function(){
 				postContainerElement.style.opacity="1";
-				headerContentsContainerElement.style.opacity="1";
 		  	},500);
 
 		  	connectToRoom(socket,_id);
@@ -230,10 +207,6 @@ class Symposium extends Component{
   		}
   		this.triggerUIChange();
 	  }
-
-	addSuggestedSymposiums=(posts)=>{
-		return this.suggestedSymposiumsRecursive(posts);
-	}
 
 
 	symposiumBackgroundColor=(symposiumName)=>{
@@ -247,33 +220,7 @@ class Symposium extends Component{
 		}
 	}
 
-	suggestedSymposiumsRecursive=(posts)=>{
-		
-		if(posts==null||posts.length==0){
-			return posts;
-		}else if(posts.length==1){
-			posts.splice(1,0,"suggestedSymposium");
-			return posts;
-		}else{
-			var randomNumber;
-			if(posts.length<5){
-				randomNumber=Math.floor(Math.random() * ((posts.length-1) - 1 + 1)) + 1;
-			}else{
-				randomNumber=Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-			}
-
-			posts.splice(randomNumber,0,"suggestedSymposium");
-			const currentPosts=posts.slice(0,6);
-			const newPost=posts.slice(6,posts.length);
-			const returnArray=this.suggestedSymposiumsRecursive(newPost);
-			for(var i=0;i<returnArray.length;i++){
-				currentPosts.push(returnArray[i]);
-			}
-			return currentPosts;
-		}
-	}
-
-	  handleScroll=()=>{
+	handleScroll=()=>{
 	  	if(this.state.isLoading!=true){
 		  	if(this.state.handleScroll!=false){
 		  		document.getElementById("extendedSymposiumContainer").style.overflow="auto";
@@ -292,38 +239,7 @@ class Symposium extends Component{
 		  	  }
 		  	}
 	  	}
-	  }
-
-
-	  handlePreviousSymposiumButton=async()=>{
-	  	this.fadeOutInEffect();
-	  	if(this.state.symposiumCounter!=-1){
-	  		const newCounter=this.state.symposiumCounter-1;
-	  		const newSymposium=newCounter==-1?this.props.match.params.symposiumName:this.state.symposiums[newCounter].symposium;
-	  		const postParameters={
-				industry:newSymposium,
-				postCount:0,
-				userId:this.props.profileId
-			}
-	  		var {confirmation,data}=await getImagesInIndustry(postParameters);
-	  		if(confirmation=="Success"){
-	  			let newHomePagePosts=this.addSuggestedSymposiums(data);
-	  			this.setState(prevState=>({
-		  			...prevState,
-		  			selectedSymposiumTitle:newSymposium,
-		  			backgroundColor:this.symposiumBackgroundColor(newSymposium),
-		  			symposiumCounter:newCounter,
-		  			posts:newHomePagePosts,
-					postType:"Image",
-					isLoading:false
-		  		}))
-	  		}else{
-	  			alert('Unfortunately there has been an error getting this symposiums data. Please try again ');
-	  		}
-	  	 }
-	  }
-
-
+	}
 	  fadeOutInEffect=()=>{
 	  		if(this.state.headerAnimation==false){
 	  			document.getElementById("postChatInformation").style.opacity="0";
@@ -346,37 +262,6 @@ class Symposium extends Component{
 	  		this.setState({
 	  			isLoading:true
 	  		})	
-	  }
-
-	  handleNextSymposiumButton=async()=>{
-	  		this.fadeOutInEffect();
-	  		if((this.state.symposiumCounter+1)<this.state.symposiums.length){
-
-	  		const newCounter=this.state.symposiumCounter+1;
-	  		const newSymposium=this.state.symposiums[newCounter];
-	  		const postParameters={
-				industry:newSymposium.symposium,
-				postCount:0,
-				userId:this.props.profileId
-			}
-
-			var {confirmation,data}=await getImagesInIndustry(postParameters);
-
-			if(confirmation=="Success"){
-				let newHomePagePosts=this.addSuggestedSymposiums(data);
-				this.setState(prevState=>({
-		  			...prevState,
-		  			selectedSymposiumTitle:newSymposium.symposium,
-		  			backgroundColor:this.symposiumBackgroundColor(newSymposium.symposium),
-		  			symposiumCounter:newCounter,
-		  			posts:newHomePagePosts,
-					postType:"Image",
-					isLoading:false
-		  		}))
-			}else{
-				alert('Unfortunately there has been an error getting this symposiums data. Please try again');
-			}
-	  	}
 	  }
 
 	  handleSeeAllPopularVideos=()=>{
@@ -507,48 +392,6 @@ class Symposium extends Component{
 	  	})
 	  }
 
-	  //Props is huge will have to prob be refactored later
-
-	  handleHeaderAnimation=()=>{
-	  	const backgroundColor=this.state.backgroundColor;
-	  	return this.state.headerAnimation==false ? 
-	  		<Container id="headerContainer" style={{background:backgroundColor}}>
-	  			{this.state.displayPhoneUI==false &&(
-		  			<HeaderContainer
-		  				activePeople={this.state.activePeople}
-		  				popularVideos={this.state.popularVideos}
-		  				selectedSymposiumTitle={this.state.selectedSymposiumTitle}
-		  				symposiums={this.props.location.state==null?[]:this.props.location.state.symposiums}
-		  				symposiumCounter={this.state.symposiumCounter}
-		  				previousButton={this.handlePreviousSymposiumButton}
-		  				nextButton={this.handleNextSymposiumButton}
-		  				displayPopularVideos={this.triggerDisplayPopularVideosModal}
-		  				handleSeeAllPeopleActiveModal={this.triggerSeeAllPeopleActiveModal}
-		  				hideChat={this.hideChatRoom}
-		  				isProfileFollowingSymposium={this.state.isProfileFollowingSymposium}
-		  				profileId={this.state.profileId}
-		  				changeFollowIndicator={this.changeFollowIndicator}
-		  				popularQuestionObject={{
-		  					questionInformation:this.state.popularQuestions,
-		  					isSimplified:this.state.headerAnimation,
-							selectedSymposium:this.state.selectedSymposiumTitle
-		  				}}
-		  				displayDesktopUI={this.state.displayDesktopUI}
-		  				roomId={this.state.symposiumId}
-						chat={this.state.chatRoom}
-						socket={socket}
-					  	symposium={this.state.selectedSymposiumTitle}
-					  	questions={this.state.symposiumFeatureQuestions}
-					  	isIpadView={this.state.displayIpadUI}
-					  	isGuestProfile={this.state.isGuestProfile}
-		  			/>
-	  			)}
-	  		</Container>:
-	  		<SymposiumHeaderAnimation id="animatedHeaderAnimatedContainer" style={{background:backgroundColor}}>
-	  			{this.handleHeaderAnimatedContents()}
-	  		</SymposiumHeaderAnimation>
-	  }
-
 	  changeOptionColors=(option)=>{
 
 	  	/*
@@ -620,179 +463,6 @@ class Symposium extends Component{
 	  			</PostContainerTEst>
 	  		</React.Fragment>
 	  }
-
-	  highlightAppropriatePostOption=(postOption)=>{
-	  		document.getElementById("regular").style.backgroundColor="white";
-			document.getElementById("regular").style.color="#5298F8";
-
-			document.getElementById("image").style.backgroundColor="white";
-			document.getElementById("image").style.color="#5298F8";
-
-			document.getElementById("video").style.backgroundColor="white";
-			document.getElementById("video").style.color="#5298F8";
-
-			document.getElementById("blog").style.backgroundColor="white";
-			document.getElementById("blog").style.color="#5298F8";
-
-			switch(postOption){
-				case "Image":{
-					document.getElementById("image").style.backgroundColor="#5298F8";
-					document.getElementById("image").style.color="white";
-					break;
-				}
-				case "Video":{
-					document.getElementById("video").style.backgroundColor="#5298F8";
-					document.getElementById("video").style.color="white";
-					break;
-				}
-				case "Blog":{
-					document.getElementById("blog").style.backgroundColor="#5298F8";
-					document.getElementById("blog").style.color="white";
-					break;
-				}
-				case "Regular":{
-					document.getElementById("regular").style.backgroundColor="#5298F8";
-					document.getElementById("regular").style.color="white";
-					break;
-				}
-			}
-	  }
-
-
-
-
-	 //Could be implemented in a better way it just looks awkward to me 
-	changePostOption=async(postOption)=>{
-		this.setState({
-			postOption:postOption
-		})
-		const postParameters={
-			industry:this.state.selectedSymposiumTitle,
-			postCount:this.state.postCount,
-			userId:this.props.profileId
-		}
-		if(postOption=="Image"){
-			var {confirmation,data}=await getImagesInIndustry(postParameters);
-			
-
-			if(confirmation=="Success"){
-				if(data.length==0){
-					this.setState({
-						endOfPostsDBIndicator:true,
-						isLoadingReloadedPosts:false,
-						isLoading:false
-					})
-				}else{
-					const currentPosts=this.state.posts;
-					const nextPosts=currentPosts.concat(data);
-					//var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
-					this.setState({
-						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
-						postType:"Image",
-						isLoadingReloadedPosts:false,
-						endOfPostsDBIndicator:false,
-						isLoading:false
-					},()=>{
-						this.highlightAppropriatePostOption(postOption);
-					})
-				}
-			}else{
-				alert('Unfortunately there has been an error getting this image data. Please try again');
-			}
-
-		}else if(postOption=="Video"){
-			var {confirmation,data}=await getVideoInIndustry(postParameters);
-			
-			if(confirmation=="Success"){
-				if(data.length==0){
-					this.setState({
-						endOfPostsDBIndicator:true,
-						isLoadingReloadedPosts:false,
-						isLoading:false
-					})
-				}else{
-					const currentPosts=this.state.posts;
-					const nextPosts=currentPosts.concat(data);
-					this.setState({
-						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
-						postType:"Video",
-						isLoadingReloadedPosts:false,
-						endOfPostsDBIndicator:false,
-						isLoading:false
-					},function(){
-						this.highlightAppropriatePostOption(postOption);
-					})
-				}
-			}else{
-				alert('Unfortunately there has been an error getting this video data. Please try again');
-			}
-
-		}else if(postOption=="Blog"){
-			var {confirmation,data}=await getBlogsInIndustry(postParameters);
-			
-			if(confirmation=="Success"){
-				if(data.length==0){
-					this.setState({
-						endOfPostsDBIndicator:true,
-						isLoadingReloadedPosts:false,
-						isLoading:false
-					})
-				}else{
-					const currentPosts=this.state.posts;
-					const nextPosts=currentPosts.concat(data);
-					//var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
-					this.setState({
-						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
-						postType:"Blog",
-						isLoadingReloadedPosts:false,
-						endOfPostsDBIndicator:false,
-						isLoading:false
-					},function(){
-						this.highlightAppropriatePostOption(postOption);
-					})
-				}
-			}else{
-				alert('Unfortunately there has been an error getting this blog data. Please try again');
-			}
-		}else{
-			var {confirmation,data}=await getRegularPostsInIndustry(postParameters);
-			
-			if(confirmation=="Success"){
-				if(data.length==0){
-					this.setState({
-						endOfPostsDBIndicator:true,
-						isLoadingReloadedPosts:false,
-						isLoading:false
-					})
-				}else{
-					const currentPosts=this.state.posts;
-					const nextPosts=currentPosts.concat(data);
-					//var newHomePagePosts=this.addSuggestedSymposiums(nextPosts);
-					this.setState({
-						posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
-						postType:"Regular",
-						isLoadingReloadedPosts:false,
-						endOfPostsDBIndicator:false,
-						isLoading:false
-					},function(){
-						this.highlightAppropriatePostOption(postOption);
-					})
-				}
-			}else{
-				alert('Unfortunately there has been an error getting this regular post data. Please try again');
-			}
-		}
-	}
-
-	toggleLoading=(postOption)=>{
-		this.setState({
-			isLoading:true,
-			posts:[],
-			postCount:0
-		},()=>{
-			this.changePostOption(postOption);
-		})
-	}
 
 	displayRecruitConfetti=()=>{
 		this.setState({
@@ -883,51 +553,6 @@ class Symposium extends Component{
 					</svg>
 				</ArrowDownContainer>
 	}
-	postOptions=()=>{
-		return <>
-					<li onClick={()=>this.toggleLoading("Regular")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<PostOptions id="regular">	
-								Regular posts
-							</PostOptions>
-						</a>
-					</li>
-
-					<li  onClick={()=>this.toggleLoading("Image")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<PostOptions id="image">	
-								Images
-							</PostOptions>
-						</a>
-					</li>
-
-					<li onClick={()=>this.toggleLoading("Video")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<PostOptions id="video">	
-								Videos
-							</PostOptions>
-						</a>
-					</li>
-
-					<li onClick={()=>this.toggleLoading("Blog")} style={{listStyle:"none",display:"inline-block"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<PostOptions id="blog">	
-								Blogs
-							</PostOptions>
-						</a>
-					</li>
-
-					{/*
-						<li onClick={()=>this.displayVideoCallModal()} style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<VideoCallOption id="blog">	
-									+ 234 Video calls
-								</VideoCallOption>
-							</a>
-						</li>
-					*/}
-				</>
-	}
 
 	highlightedQuestionsSimplifiedModal=()=>{
 		return(
@@ -947,84 +572,6 @@ class Symposium extends Component{
 				)}
 			</React.Fragment>
 		)
-	}
-
-	symposiumOptions=(isScrollEnabled)=>{
-		const isPhoneScrollTriggered=(this.state.displayPhoneUI==true && isScrollEnabled==true)==true?true:false;
-		return(
-			<>
-				{(isScrollEnabled==true && this.state.displayDesktopUI==false) ||
-					(this.state.displayPhoneUI==true)==true?
-					<p id="mobileSymposiumOptions" onClick={()=>this.setState({displayMobileSymposiumOptions:true})}
-						style={{
-							...MobilePostOptionsButton,
-							marginLeft:isPhoneScrollTriggered==true?"70":"0%",
-							marginTop:isPhoneScrollTriggered==true?"10":"2%"
-						}}>
-						 Symposium
-					</p>:
-					<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobilePostOptionsButton}>
-							Post Options
-						</button>
-
-						<ul class="dropdown-menu">
-							<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayHightletedSimplifiedQuestionsModal:true})}>
-								Highlighted Questions
-							</ChatAndIndustryInformationContainer>
-
-							<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayPopularVideos:true})}>
-								Popular videos
-							</ChatAndIndustryInformationContainer>
-
-							<ChatAndIndustryInformationContainer onClick={()=>this.setState({displayModalPeopleActive:true})}>
-								Active people
-							</ChatAndIndustryInformationContainer>
-
-							<ChatAndIndustryInformationContainer onClick={()=>this.setState({displaySpecficSymposiumFeature:!this.state.displaySpecficSymposiumFeature})}>
-								{
-									this.state.selectedSymposiumTitle=="General"||
-									this.state.selectedSymposiumTitle=="Religion"||
-									this.state.selectedSymposiumTitle=="Gaming"||
-									this.state.selectedSymposiumTitle=="Philosophy"?
-									<p>Chat </p>:
-									<p> Symposium Features </p>
-								}	
-							</ChatAndIndustryInformationContainer>
-						</ul>
-					</div>
-				}
-			</>
-		)
-	}
-	postOptionsMobileOrDesktop=()=>{
-		let mobilePostCSS={...MobilePostOptionsButton};
-		if(this.state.headerAnimation==true){
-			mobilePostCSS={
-				...mobilePostCSS,
-				marginTop:"10%",
-				marginLeft:"20%"
-			}
-		}
-		return <>
-					{this.state.displayDesktopUI==false?
-						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={mobilePostCSS}>
-								Post Options
-							</button>
-
-							<ul class="dropdown-menu">
-								{this.postOptions()}
-							</ul>
-						</div>
-						:<ul>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-								Display:
-							</li>
-							{this.postOptions()}
-						</ul> 
-					}
-			   </>
 	}
 
 
@@ -1119,16 +666,6 @@ class Symposium extends Component{
 				</>
 	}
 
-	triggerReloadingPostsHandle=()=>{
-		this.setState({
-			triggerPostReload:true,
-			isLoadingReloadedPosts:true,
-			postCount:(this.state.postCount+1)
-		},()=>{
-			this.changePostOption(this.state.postOption)	
-		})
-	}
-
 
 	render(){
 		return(
@@ -1183,39 +720,58 @@ class Symposium extends Component{
 				{this.handleSeeAllSubSymposiums()}
 				{this.handleSeeAllPeopleActiveModal()}
 				{this.handleSeeAllPopularVideos()}
-				{this.handleHeaderAnimation()}
 				{this.specificSymposiumFeatures()}
 				{this.triggerDisplayMobileSymposiumOptions()}
 				{this.highlightedQuestionsSimplifiedModal()}
 
+				<HeaderContainer
+	  				activePeople={this.state.activePeople}
+	  				popularVideos={this.state.popularVideos}
+	  				selectedSymposiumTitle={this.state.selectedSymposiumTitle}
+	  				symposiums={this.props.location.state==null?[]:this.props.location.state.symposiums}
+	  				symposiumCounter={this.state.symposiumCounter}
+	  				displayPopularVideos={this.triggerDisplayPopularVideosModal}
+	  				handleSeeAllPeopleActiveModal={this.triggerSeeAllPeopleActiveModal}
+	  				hideChat={this.hideChatRoom}
+	  				isProfileFollowingSymposium={this.state.isProfileFollowingSymposium}
+	  				profileId={this.state.profileId}
+	  				changeFollowIndicator={this.changeFollowIndicator}
+	  				popularQuestionObject={{
+	  					questionInformation:this.state.popularQuestions,
+	  					isSimplified:this.state.headerAnimation,
+						selectedSymposium:this.state.selectedSymposiumTitle
+	  				}}
+	  				displayDesktopUI={this.state.displayDesktopUI}
+	  				roomId={this.state.symposiumId}
+					chat={this.state.chatRoom}
+					socket={socket}
+				  	symposium={this.state.selectedSymposiumTitle}
+				  	questions={this.state.symposiumFeatureQuestions}
+				  	isIpadView={this.state.displayIpadUI}
+				  	isGuestProfile={this.state.isGuestProfile}
+				  	headerAnimation={this.state.headerAnimation}
+				  	backgroundColor={this.state.backgroundColor}
+	  			/>
+
 				<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>
 					{this.state.isLoading==false?
-						<>
-							<SearchOptions
-								state={{
-									headerAnimation:this.state.headerAnimation,
-									displayPhoneUI:this.state.displayPhoneUI,
-									selectedSymposiumTitle:this.state.selectedSymposiumTitle
-								}}
-								symposiumOptions={this.symposiumOptions}
-								postOptionsMobileOrDesktop={this.postOptionsMobileOrDesktop}
-							/>
-							<hr/>
-							<Posts
-								state={{
-									posts:this.state.posts,
-									isLoadingReloadedPosts:this.state.isLoadingReloadedPosts,
-									endOfPostsDBIndicator:this.state.endOfPostsDBIndicator,
-									headerAnimation:this.state.headerAnimation,
-									postType:this.state.postType,
-									handleScroll:this.state.handleScroll
-								}}
-								triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-								displaySymposium={this.displaySymposium}
-								displayRecruitConfetti={this.displayRecruitConfetti}
-								profileId={this.props.profileId}
-							/>
-						</>:<LoadingScreen isScrollEnabled={this.state.headerAnimation} isExtendedSymposium={true}/>
+						<Posts
+							state={{
+								posts:this.state.posts,
+								isLoadingReloadedPosts:this.state.isLoadingReloadedPosts,
+								endOfPostsDBIndicator:this.state.endOfPostsDBIndicator,
+								headerAnimation:this.state.headerAnimation,
+								postType:this.state.postType,
+								handleScroll:this.state.handleScroll,
+								postCount:this.state.postCount,
+								selectedSymposiumTitle:this.state.selectedSymposiumTitle,
+								displayPhoneUI:this.state.displayPhoneUI,
+								displayDesktopUI:this.state.displayDesktopUI
+							}}
+							displaySymposium={this.displaySymposium}
+							displayRecruitConfetti={this.displayRecruitConfetti}
+							profileId={this.props.profileId}
+						/>:<LoadingScreen isScrollEnabled={this.state.headerAnimation} isExtendedSymposium={true}/>
 					}
 				</PostsChatInformation>
 			</SymposiumContainer> 

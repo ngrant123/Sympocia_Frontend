@@ -6,18 +6,18 @@ const SearchUrl=process.env.NODE_ENV=='production'?
 
 
 
-export const getImagesInIndustry=async(industry,postCounter)=>{
+export const getImagesInIndustry=async({industry,postCount,userId})=>{
 	try{
-		const imageResponse=await axios.get(`${SearchUrl}/getImagesInIndustry`,{
+		const imageResults=await axios.get(`${SearchUrl}/getImagesInIndustry`,{
 			params:{
-				industry:industry,
-				postCount:postCounter
+				industry,
+				postCount,
+				userId
 			}
-		})
-		const {data}=imageResponse;
-		const imageData=data.data;
-		return imageData;
+		});
 
+		const {data}=imageResults;
+		return data;
 	}catch(err){
 		return err;
 	}
@@ -96,40 +96,41 @@ export const getIndustryRegularPostFeatureAnswers=async({industryId,question,que
 }
 
 
-
-export const getVideoInIndustry=async(industry,postCounter)=>{
+export const getVideoInIndustry=async({industry,postCount,userId})=>{
 	try{
 		const videoResponse=await axios.get(`${SearchUrl}/getVideosInIndustry`,{
 			params:{
-				industry:industry,
-				postCount:postCounter
+				industry,
+				postCount,
+				userId
 			}
-		})
+		});
+
 		const {data}=videoResponse;
-		const videoData=data.data;
-		return videoData;
+		return data;
 	}catch(err){
 		return err;
 	}
 }
 
 
-export const getBlogsInIndustry=async(industry,postCounter)=>{
+export const getBlogsInIndustry=async({industry,postCount,userId})=>{
 	try{
 		const blogResponse=await axios.get(`${SearchUrl}/getBlogsInIndustry`,{
 			params:{
-				industry:industry,
-				postCount:postCounter
+				industry,
+				postCount,
+				userId
 			}
-		})
-		const {data}=blogResponse;
-		const blogData=data.data;
-		return blogData;
+		});
 
+		const {data}=blogResponse;
+		return data;
 	}catch(err){
 		return err;
 	}
 }
+
 
 export const getIndustryAudioFeatureAnswers=async({industryId,question,questionIndex,questionId})=>{
 	try{

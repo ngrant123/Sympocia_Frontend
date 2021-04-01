@@ -1,22 +1,8 @@
-import React,{useState,useEffect} from "react";
+import React from "react";
 import styled from "styled-components";
-import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import {Link} from "react-router-dom";
 
-const SearchContainer=styled.textarea`
-	position:absolute;
-	width:60%;
-	height:10%;
-	background-color:white;
-	border-radius:5px;
-	resize:none;
-	box-shadow: 1px 5px 5px 1px #d5d5d5;
-	border:none;
-	left:20%;
-	top:5%;
-	text-align:center;
-
-`;
 
 const ActivePeopleContainer=styled.div`
 	position:relative;
