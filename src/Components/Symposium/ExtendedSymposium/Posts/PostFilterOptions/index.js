@@ -10,6 +10,7 @@ import {PostConsumer} from "../PostsContext.js"
 import SymposiumOptions from "../../SymposiumFeatures/SymposiumOptions.js";
 import {PostOptions} from "../../indexCSS.js";
 import SearchIcon from '@material-ui/icons/Search';
+import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts.js";
 
 const MobilePostOptionsButton={
     listStyle:"none",
@@ -22,7 +23,25 @@ const MobilePostOptionsButton={
     cursor:"pointer"
 }
 
-const SearchOptions=({state,updatePosts})=>{
+const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts})=>{
+
+    const searchPromptTrigger=(event)=>{
+        debugger;
+        const textAreaValue=document.getElementById("symposiumSearchPostTextArea").value;
+        const keyEntered=event.key;
+        const currentSelectedPosts=posts;
+        if(keyEntered=="Enter"){
+           // changeIsSearchFilterActivated(true);
+            debugger;
+            event.preventDefault();
+            if(textAreaValue==""){
+               updatePosts(postType,true);
+            }else{
+                const posts=searchPostsFilter(currentSelectedPosts,textAreaValue,postType.toLowerCase());
+                searchFilterPosts(posts);
+            }
+        }
+    }
 
     const postOptionsMobileOrDesktop=()=>{
         let mobilePostCSS={...MobilePostOptionsButton};
@@ -82,51 +101,54 @@ const SearchOptions=({state,updatePosts})=>{
     }
     return(
         <SympociaOptionsContainer isScrollEnabled={state.headerAnimation}>	
-            <SearchOptionContainer style={{width:"80%",marginLeft:state.headerAnimation==false?"10%":"0%"}}>	
-                <SearchContainer>
-                    <SearchIcon
-                        style={{fontSize:30}}
+                <SearchOptionContainer style={{width:"80%",marginLeft:state.headerAnimation==false?"10%":"0%"}}>	
+                    <SearchContainer>
+                        <SearchIcon
+                            style={{fontSize:30}}
+                        />
+                        <SearchTextArea
+                            id="symposiumSearchPostTextArea"
+                            placeholder="Type here to search"
+                            onKeyPress={e=>searchPromptTrigger(e)}
+                        />
+                    </SearchContainer>
+                    {postOptionsMobileOrDesktop()}
+                    <SymposiumOptions
+                        headerAnimation={state.headerAnimation}
+                        displayPhoneUI={state.displayPhoneUI}
+                        selectedSymposiumTitle={state.selectedSymposiumTitle}
                     />
-                    <SearchTextArea
-                        placeholder="Type here to search"
-                    />
-                </SearchContainer>
-                {postOptionsMobileOrDesktop()}
-                <SymposiumOptions
-                    headerAnimation={state.headerAnimation}
-                    displayPhoneUI={state.displayPhoneUI}
-                />
-            </SearchOptionContainer>
+                </SearchOptionContainer>
 
-        {state.headerAnimation==true && (
-            <MinifiedSymposiumInformation isScrollEnabled={state.headerAnimation}>
-                {(state.displayPhoneUI==true && state.headerAnimation==true)==false &&(
-                    <>
-                        {/*
-                            <ChevronLeftRoundedIcon
-                                style={{fontSize:40,marginTop:"10px"}}
-                                onClick={()=>handlePreviousSymposiumButton()}
-                            />
-                        */}
-                        <p style={{marginTop:"10px",fontSize:"20px",marginRight:"5%"}}>
-                            <b>{state.selectedSymposiumTitle}</b>
-                        </p>
+            {state.headerAnimation==true && (
+                <MinifiedSymposiumInformation isScrollEnabled={state.headerAnimation}>
+                    {(state.displayPhoneUI==true && state.headerAnimation==true)==false &&(
+                        <>
+                            {/*
+                                <ChevronLeftRoundedIcon
+                                    style={{fontSize:40,marginTop:"10px"}}
+                                    onClick={()=>handlePreviousSymposiumButton()}
+                                />
+                            */}
+                            <p style={{marginTop:"10px",fontSize:"20px",marginRight:"5%"}}>
+                                <b>{state.selectedSymposiumTitle}</b>
+                            </p>
 
-                        {/*
-                            <ChevronRightRoundedIcon
-                                style={{fontSize:40,marginTop:"10px"}}
-                                onClick={()=>handleNextSymposiumButton()}
-                            />
-                        */}
-                    </>
-                )}
-                {/*
-                    {symposiumOptions(state.headerAnimation,state.displayPhoneUI)}
-                */}
+                            {/*
+                                <ChevronRightRoundedIcon
+                                    style={{fontSize:40,marginTop:"10px"}}
+                                    onClick={()=>handleNextSymposiumButton()}
+                                />
+                            */}
+                        </>
+                    )}
+                    {/*
+                        {symposiumOptions(state.headerAnimation,state.displayPhoneUI)}
+                    */}
 
-            </MinifiedSymposiumInformation>
-        )}
-    </SympociaOptionsContainer>
+                </MinifiedSymposiumInformation>
+            )}
+        </SympociaOptionsContainer>
     )
 }
 

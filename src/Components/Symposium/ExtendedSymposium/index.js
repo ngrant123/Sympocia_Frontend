@@ -47,7 +47,12 @@ import {
 } from "./indexCSS.js";
 import Posts from "./Posts/index.js";
 import SearchOptions from "./Posts/PostFilterOptions/index.js";
-import InitialSymposiumFeaturesDisplay from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
+import {
+		InitialSymposiumFeaturesDisplay,
+		symposiumFeaturesAndChat,
+		symposiumFeatures
+	} from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
+import {SymposiumProvider} from "./SymposiumContext.js";
 
 /*
 	const HightLightedQuestionsContainerModal=styled.div`
@@ -602,112 +607,144 @@ class Symposium extends Component{
 
 	render(){
 		return(
-			<SymposiumContainer id="extendedSymposiumContainer">
-				<GeneralNavBar
-					displayChatPage={this.displayChatPage}
-					page={"Home"}
-					routerHistory={this.props.history}
-					targetDom={"extendedSymposiumContainer"}
-				/>
-					{this.state.displayOnboarding==true &&(
-						<SymposiumOnboarding
-							closeModal={this.closeOnboardingModal}
-						/>
-					)}
-
-					{this.state.displayGuestOnboarding==true &&(
-						<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
-							<GuestOnboarding
-								targetDom="extendedSymposiumContainer"
+			<SymposiumProvider
+				value={{
+					handleSeeAllPeopleActiveModal:()=>{
+						this.triggerSeeAllPeopleActiveModal()
+					},
+					displayPopularVideos:()=>{
+						this.triggerDisplayPopularVideosModal()
+					},
+					highLightedQuestionComponent:()=>{
+						return this.highlightedQuestionsSimplifiedModal()
+					},
+					specificSymposiumFeaturesComponent:()=>{
+						let specificProps={
+							selectedSymposiumTitle:this.state.selectedSymposiumTitle,
+							symposiumId:this.state.symposiumId,
+							chatRoom:this.state.chatRoom,
+							profileId:this.state.profileId,
+							socket:socket,
+							closeSymposiumFeatureModal:this.closeSymposiumFeatureModal,
+							headerAnimation:this.state.headerAnimation,
+							symposiumFeatureQuestions:this.state.symposiumFeatureQuestions,
+							isGuestProfile:this.state.isGuestProfile,
+							displaySpecficSymposiumFeature:this.state.displaySpecficSymposiumFeature
+						}
+						const {requestedComponent}=symposiumFeatures(specificProps);
+						
+						
+						return <>{requestedComponent}</>
+					}
+				}}
+			>
+				<SymposiumContainer id="extendedSymposiumContainer">
+					<GeneralNavBar
+						displayChatPage={this.displayChatPage}
+						page={"Home"}
+						routerHistory={this.props.history}
+						targetDom={"extendedSymposiumContainer"}
+					/>
+						{this.state.displayOnboarding==true &&(
+							<SymposiumOnboarding
 								closeModal={this.closeOnboardingModal}
 							/>
-						</div>
+						)}
+
+						{this.state.displayGuestOnboarding==true &&(
+							<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
+								<GuestOnboarding
+									targetDom="extendedSymposiumContainer"
+									closeModal={this.closeOnboardingModal}
+								/>
+							</div>
+						)}
+
+					<PageIndicator>
+						<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+							<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none"}}>
+										<ExploreIcon
+											style={{fontSize:50}}
+										/>
+									</li>
+
+									<li style={{listStyle:"none"}}>
+										Explore
+									</li>
+								</ul>
+							</ExploreIconContainer>
+						</a>
+					</PageIndicator>
+				
+					{this.state.displayConfetti &&(
+						<Confetti
+							style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
+							 run={true}
+						/>
 					)}
+					{this.arrowIndicatorButton()}
+					{this.handleSeeAllPeopleActiveModal()}
+					{this.handleSeeAllPopularVideos()}
+					{this.specificSymposiumFeatures()}
+					{/*
+						{this.triggerDisplayMobileSymposiumOptions()}
+					*/}
 
-				<PageIndicator>
-					<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-						<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none"}}>
-									<ExploreIcon
-										style={{fontSize:50}}
-									/>
-								</li>
+					<HeaderContainer
+		  				activePeople={this.state.activePeople}
+		  				popularVideos={this.state.popularVideos}
+		  				selectedSymposiumTitle={this.state.selectedSymposiumTitle}
+		  				symposiums={this.props.location.state==null?[]:this.props.location.state.symposiums}
+		  				symposiumCounter={this.state.symposiumCounter}
+		  				displayPopularVideos={this.triggerDisplayPopularVideosModal}
+		  				handleSeeAllPeopleActiveModal={this.triggerSeeAllPeopleActiveModal}
+		  				hideChat={this.hideChatRoom}
+		  				isProfileFollowingSymposium={this.state.isProfileFollowingSymposium}
+		  				profileId={this.state.profileId}
+		  				changeFollowIndicator={this.changeFollowIndicator}
+		  				popularQuestionObject={{
+		  					questionInformation:this.state.popularQuestions,
+		  					isSimplified:this.state.headerAnimation,
+							selectedSymposium:this.state.selectedSymposiumTitle
+		  				}}
+		  				displayDesktopUI={this.state.displayDesktopUI}
+		  				roomId={this.state.symposiumId}
+						chat={this.state.chatRoom}
+						socket={socket}
+					  	symposium={this.state.selectedSymposiumTitle}
+					  	questions={this.state.symposiumFeatureQuestions}
+					  	isIpadView={this.state.displayIpadUI}
+					  	isGuestProfile={this.state.isGuestProfile}
+					  	headerAnimation={this.state.headerAnimation}
+					  	backgroundColor={this.state.backgroundColor}
+		  			/>
 
-								<li style={{listStyle:"none"}}>
-									Explore
-								</li>
-							</ul>
-						</ExploreIconContainer>
-					</a>
-				</PageIndicator>
-			
-				{this.state.displayConfetti &&(
-					<Confetti
-						style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
-						 run={true}
-					/>
-				)}
-				{this.arrowIndicatorButton()}
-				{this.handleSeeAllPeopleActiveModal()}
-				{this.handleSeeAllPopularVideos()}
-				{this.specificSymposiumFeatures()}
-				{/*
-					{this.triggerDisplayMobileSymposiumOptions()}
-				*/}
-				{this.highlightedQuestionsSimplifiedModal()}
+					<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>
+						{this.state.isLoading==false?
+							<Posts
+								state={{
+									posts:this.state.posts,
+									isLoadingReloadedPosts:this.state.isLoadingReloadedPosts,
+									endOfPostsDBIndicator:this.state.endOfPostsDBIndicator,
+									headerAnimation:this.state.headerAnimation,
+									postType:this.state.postType,
+									handleScroll:this.state.handleScroll,
+									postCount:this.state.postCount,
+									selectedSymposiumTitle:this.state.selectedSymposiumTitle,
+									displayPhoneUI:this.state.displayPhoneUI,
+									displayDesktopUI:this.state.displayDesktopUI
+								}}
+								displaySymposium={this.displaySymposium}
+								displayRecruitConfetti={this.displayRecruitConfetti}
+								profileId={this.props.profileId}
+							/>:<LoadingScreen isScrollEnabled={this.state.headerAnimation} isExtendedSymposium={true}/>
+						}
+					</PostsChatInformation>
+				</SymposiumContainer> 
 
-				<HeaderContainer
-	  				activePeople={this.state.activePeople}
-	  				popularVideos={this.state.popularVideos}
-	  				selectedSymposiumTitle={this.state.selectedSymposiumTitle}
-	  				symposiums={this.props.location.state==null?[]:this.props.location.state.symposiums}
-	  				symposiumCounter={this.state.symposiumCounter}
-	  				displayPopularVideos={this.triggerDisplayPopularVideosModal}
-	  				handleSeeAllPeopleActiveModal={this.triggerSeeAllPeopleActiveModal}
-	  				hideChat={this.hideChatRoom}
-	  				isProfileFollowingSymposium={this.state.isProfileFollowingSymposium}
-	  				profileId={this.state.profileId}
-	  				changeFollowIndicator={this.changeFollowIndicator}
-	  				popularQuestionObject={{
-	  					questionInformation:this.state.popularQuestions,
-	  					isSimplified:this.state.headerAnimation,
-						selectedSymposium:this.state.selectedSymposiumTitle
-	  				}}
-	  				displayDesktopUI={this.state.displayDesktopUI}
-	  				roomId={this.state.symposiumId}
-					chat={this.state.chatRoom}
-					socket={socket}
-				  	symposium={this.state.selectedSymposiumTitle}
-				  	questions={this.state.symposiumFeatureQuestions}
-				  	isIpadView={this.state.displayIpadUI}
-				  	isGuestProfile={this.state.isGuestProfile}
-				  	headerAnimation={this.state.headerAnimation}
-				  	backgroundColor={this.state.backgroundColor}
-	  			/>
-
-				<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>
-					{this.state.isLoading==false?
-						<Posts
-							state={{
-								posts:this.state.posts,
-								isLoadingReloadedPosts:this.state.isLoadingReloadedPosts,
-								endOfPostsDBIndicator:this.state.endOfPostsDBIndicator,
-								headerAnimation:this.state.headerAnimation,
-								postType:this.state.postType,
-								handleScroll:this.state.handleScroll,
-								postCount:this.state.postCount,
-								selectedSymposiumTitle:this.state.selectedSymposiumTitle,
-								displayPhoneUI:this.state.displayPhoneUI,
-								displayDesktopUI:this.state.displayDesktopUI
-							}}
-							displaySymposium={this.displaySymposium}
-							displayRecruitConfetti={this.displayRecruitConfetti}
-							profileId={this.props.profileId}
-						/>:<LoadingScreen isScrollEnabled={this.state.headerAnimation} isExtendedSymposium={true}/>
-					}
-				</PostsChatInformation>
-			</SymposiumContainer> 
+			</SymposiumProvider>
 		)
 	}
 }

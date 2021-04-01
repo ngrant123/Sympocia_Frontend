@@ -12,7 +12,7 @@ import {
 const PeopleContainer =styled(Link)`
 	position:relative;
 	width:100px;
-	height:50%;
+	height:40%;
 	background-color:white;
 	border-radius:5px;
 	box-shadow: 1px 5px 5px 1px #d5d5d5;
