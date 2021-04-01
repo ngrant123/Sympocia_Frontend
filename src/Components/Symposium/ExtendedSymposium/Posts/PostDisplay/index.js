@@ -43,27 +43,30 @@ const PostsContainerDisplay=({state,triggerReloadingPostsHandle,displaySymposium
 
     return(
         <PostContainer isScrollEnabled={state.headerAnimation} id="postsContainer">
-            <Posts>
-                {state.postType=="Image"?
-                    <ImagePostsModal {...postsProps}/>:null
-                }
+            {state.isLoadingReloadedPosts==true?
+                <p>Loading...</p>:
+                <Posts>
+                    {state.postType=="Image"?
+                        <ImagePostsModal {...postsProps}/>:null
+                    }
 
-                {state.postType=="Video"?
-                    <VideoPostModal {...postsProps}/>:null
-                }
+                    {state.postType=="Video"?
+                        <VideoPostModal {...postsProps}/>:null
+                    }
 
-                {state.postType=="Blog"?
-                    <li style={{listStyle:"none",marginTop:"0%",marginLeft:"5%"}}>
-                        <BlogPostModal {...postsProps}/>
-                    </li>:null
-                }
+                    {state.postType=="Blog"?
+                        <li style={{listStyle:"none",marginTop:"0%",marginLeft:"5%"}}>
+                            <BlogPostModal {...postsProps}/>
+                        </li>:null
+                    }
 
-                {state.postType=="Regular"?
-                    <li style={{listStyle:"none",marginTop:"1%",marginLeft:"5%",width:"90%"}}>
-                        <RegularPostModal {...postsProps}/>
-                    </li>:null
-                }
-            </Posts>
+                    {state.postType=="Regular"?
+                        <li style={{listStyle:"none",marginTop:"1%",marginLeft:"5%",width:"90%"}}>
+                            <RegularPostModal {...postsProps}/>
+                        </li>:null
+                    }
+                </Posts>
+            }
         </PostContainer>
     )
 }

@@ -123,6 +123,10 @@ const PopularVideosContainer=styled.div`
 			height:120% !important;
 		}
     }
+
+    @media screen and (max-width:640px){
+    	display:none !important;
+    }
 `;
 
 const ActivePeopleAndFollowContainer=styled.div`
@@ -400,7 +404,7 @@ const HeaderContainer=(props)=>{
 	return(
 		<React.Fragment>
 			{headerAnimation==false ?
-				<Container id="headerContents"  style={{background:backgroundColor}}>
+				<Container id="headerContents" style={{background:backgroundColor}}>
 					<HighlightedQuestionsContainer>
 						{props.popularQuestionObject.questionInformation.length==0?
 								null

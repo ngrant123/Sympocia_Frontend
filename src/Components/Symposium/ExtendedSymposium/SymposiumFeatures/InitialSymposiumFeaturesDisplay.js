@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import Chat from "../Modals/ChatRoom.js";
 import SpecificFeatureSymposium from "./SpecificSymposiumFeaturesQuestions/index.js";
 import {
@@ -7,7 +6,7 @@ import {
 	SymposiumFeatureContainer
 } from "../indexCSS.js";
 
-const InitialSymposiumFeaturesDisplay=(props)=>{
+const symposiumFeatures=(props)=>{
 	const {
 		selectedSymposiumTitle,
 		symposiumId,
@@ -20,46 +19,70 @@ const InitialSymposiumFeaturesDisplay=(props)=>{
 		isGuestProfile,
 		displaySpecficSymposiumFeature
 	}=props;
-	const symposiumFeaturesAndChat=()=>{
-	  	return (
-	  		<>
-		  		{(selectedSymposiumTitle=="General"||
-					selectedSymposiumTitle=="Religion"||
-					selectedSymposiumTitle=="Gaming"||
-					selectedSymposiumTitle=="Philosophy")?
-		  			<SymposiumChatContainer>
-			  			<Chat
+
+	if(selectedSymposiumTitle=="General"||
+		selectedSymposiumTitle=="Religion"||
+		selectedSymposiumTitle=="Gaming"||
+		selectedSymposiumTitle=="Philosophy"){
+		const features={
+			requestedComponent:<Chat
 					  		roomId={symposiumId}
 					  		chat={chatRoom}
 					  		profileId={profileId}
 					  		socket={socket}
 					  		closePostModal={closeSymposiumFeatureModal}
-						/>
-					</SymposiumChatContainer>
-				  	:<SymposiumFeatureContainer headerAnimation={headerAnimation}>
-					  	<SpecificFeatureSymposium
-				  			symposium={selectedSymposiumTitle}
-				  			symposiumId={symposiumId}
-				  			questions={symposiumFeatureQuestions}
-				  			isGuestProfile={isGuestProfile}
-				  		/>
-				  	</SymposiumFeatureContainer>
-		  		} 
-	  		</>
-	  	)
-	  }
+						/>,
+			isGeneral:true
+		}
+		return features;
+	}else{
+		return {requestedComponent:<SpecificFeatureSymposium
+		  			symposium={selectedSymposiumTitle}
+		  			symposiumId={symposiumId}
+		  			questions={symposiumFeatureQuestions}
+		  			isGuestProfile={isGuestProfile}
+		  		/>
+		  	}
+	}
+	
+}
+const symposiumFeaturesAndChat=(props)=>{
+	const {requestedComponent,isGeneral}=symposiumFeatures(props);
+  	return (
+  		<>
+	  		{isGeneral==true?
+	  			<SymposiumChatContainer>
+		  			{requestedComponent}
+				</SymposiumChatContainer>
+			  	:<SymposiumFeatureContainer headerAnimation={props.headerAnimation}>
+				  	{requestedComponent}
+			  	</SymposiumFeatureContainer>
+	  		} 
+  		</>
+  	)
+  }
+
+const InitialSymposiumFeaturesDisplay=(props)=>{
+	const {
+		headerAnimation,
+		displaySpecficSymposiumFeature
+	}=props;
 
 	return(
 		<React.Fragment>
 			{(headerAnimation==false || displaySpecficSymposiumFeature==true)==true && (
 				<React.Fragment>
-					{symposiumFeaturesAndChat()}
+					{symposiumFeaturesAndChat(props)}
 				</React.Fragment>
 			)}
 		 </React.Fragment>
 	)
 }
-export default InitialSymposiumFeaturesDisplay;
+export{
+	InitialSymposiumFeaturesDisplay,
+	symposiumFeaturesAndChat,
+	symposiumFeatures
+}
 
 
 

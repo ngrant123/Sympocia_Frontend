@@ -100,7 +100,7 @@ const ExtendedMessageBox=styled.div`
 `;
 
 const ChatAndIndustryInfoContainer=styled.div`
-	position:fixed;
+	position:absolute;
 	width:100%;
 	height:100%;
 	left:0%;
@@ -117,6 +117,12 @@ const ChatAndIndustryInfoContainer=styled.div`
 		width:75%;
 		height:60%;
 		left:10%;
+	}
+
+	@media screen and (max-width:640px){
+		width:100%;
+		height:100%;
+		left:0%;
 	}
 `;
 
@@ -235,7 +241,7 @@ class ChatRoom extends Component{
 	render(){
 
 		return(
-			<React.Fragment>
+			<div style={{position:"relative",width:"100%",height:"100%"}}>
 				<ul id="chatContainerUL" style={{padding:"0px"}}>
 					<li style={{listStyle:"none",display:"inline-block",marginLeft:"55%"}}>
 						{this.handleDisplayTextBox()}
@@ -293,7 +299,7 @@ class ChatRoom extends Component{
 									</li>
 				</ul>
 			*/}
-			</React.Fragment>
+			</div>
 		)
 	}
 }

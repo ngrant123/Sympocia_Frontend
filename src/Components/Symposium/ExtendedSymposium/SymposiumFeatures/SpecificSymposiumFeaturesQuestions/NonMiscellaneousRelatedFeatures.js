@@ -1,7 +1,4 @@
 import React,{useState} from "react";
-import styled from "styled-components";
-import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
-import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import FeaturesIndex from "./FeaturesIndex/index.js";
 import {FeatureConsumer} from "./FeatureContext.js";
 

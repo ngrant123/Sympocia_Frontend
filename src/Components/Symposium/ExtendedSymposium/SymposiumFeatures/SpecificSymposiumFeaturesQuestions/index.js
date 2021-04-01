@@ -1,11 +1,7 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import NonMiscellaneousRelatedFeatures from "./NonMiscellaneousRelatedFeatures.js";
-import GamingFeatures from "./GamingFeatures.js";
 import MiscellaneousFeatures from "./MiscellaneousFeatures.js";
-import MusicFeatures from "./MusicFeatures.js";
-import NewsAndTravelFeatures from "./NewsAndTravelFeatures.js";
-import STEMRelatedFeatures from "./STEMRelatedFeatures.js";
 import SYMPOSIUM_FEATURES from "../../../../../Constants/featureSymposiumConstants.js";
 import {FeatureProvider} from "./FeatureContext.js";
 

@@ -21,6 +21,9 @@ export const Posts=styled.div`
 		margin-top:60% !important;
 		width:100%;
 	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		margin-top:10% !important;
+	}
 `;
 
 
@@ -92,7 +95,6 @@ export const Container=styled.div`
 	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
 		height:50% !important;
     }
-
 	@media screen and (max-width:730px) and (max-height:420px){
     	height:60% !important;
     }
@@ -204,11 +206,12 @@ export const PostsChatInformation=styled.div`
 
 
 export const BackgroundModalContainer= styled.div`
-	position:absolute;
+	position:fixed;
 	width:100%;
 	height:140%;
 	background: rgba(0, 0, 0, 0.5);
 	z-index:40;
+	top:0%;
 `;
 
 
@@ -223,6 +226,12 @@ export const ActivePeopleContainer=styled.div`
 	z-index:46;
 	left:30%;
 	top:15%;
+	padding:10px;
+
+	@media screen and (max-width:640px){
+		width:90% !important;
+		left:5% !important;
+	}
 `;
 
 export const PostContainer=styled.div`
@@ -367,18 +376,21 @@ export const PageIndicator=styled.div`
 export const SearchContainer=styled.div`
 	position:relative;
 	width:630px;
+	height:50px;
 	display:flex;
 	flex-direction:row;
 	border-radius:5px;
 	margin-right:2%;
 	box-shadow: 1px 1px 5px 	#dbdddf;
 	@media screen and (max-width:1370px){
-    	width:500px;
+    	width:400px;
+    	margin-left:2% !important;
     }
 
     @media screen and (max-width:730px){
     	margin-left:-140% !important;
     	width:720px;
+    	display:none !important;
     }
 
     @media screen and (max-width:730px) and (max-height:420px){
@@ -386,7 +398,7 @@ export const SearchContainer=styled.div`
     }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	margin-left:-100% !important;
+    	margin-left:0% !important;
     }
 
     @media screen  and (max-width:730px) and (max-height:420px) 
@@ -403,6 +415,16 @@ export const SearchTextArea=styled.textarea`
 	height:90%;
 	padding-top:10px;
 	border-style:none;
+
+	border: none;
+    overflow: auto;
+    outline: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    resize: none; /*remove the resize handle on the bottom right*/
 
 `;
 
@@ -566,4 +588,8 @@ export const SearchOptionContainer=styled.div`
 export const MinifiedSymposiumInformation=styled.div`
 	display:flex;
 	flex-direction:row;
+
+	@media screen and (max-width:1370px){
+		display:none !important;
+	}
 `;

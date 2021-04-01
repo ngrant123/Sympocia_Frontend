@@ -16,12 +16,11 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
     const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
     const [posts,changePosts]=useState(state.posts);
-    const [postOption,changePostOptionState]=useState(state.postOption);
+    const [postOption,changePostOptionState]=useState(state.postType);
     const [postCount,changePostCount]=useState(state.postCount);
 
-    const  changePostOption=async(postOption)=>{
+    const  changePostOption=async(newPostOption,isNewPostOption,postCount)=>{
         debugger;
-        changePostOptionState(postOption);
         const postParameters={
             industry:state.selectedSymposiumTitle,
             postCount,
@@ -29,18 +28,21 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         }
         let postResults;
 
-        if(postOption=="Image"){
+        if(newPostOption=="Image" || newPostOption=="Images"){
+            newPostOption="Image";
             postResults=await getImagesInIndustry({...postParameters});
-        }else if(postOption=="Video"){
+        }else if(newPostOption=="Video" || newPostOption=="Videos" ){
+            newPostOption="Video";
             postResults=await getVideoInIndustry({...postParameters});
-        }else if(postOption=="Blog"){
-            postResults=await getVideoInIndustry({...postParameters});
+        }else if(newPostOption=="Blog" || newPostOption=="Blogs"){
+            newPostOption="Blog";
+            postResults=await getBlogsInIndustry({...postParameters});
         }else{
-            postOption="Regular";
+            newPostOption="Regular";
             postResults=await getRegularPostsInIndustry({...postParameters});
         }
         let {confirmation,data}=postResults;
-
+        console.log(postResults);
         if(confirmation=="Success"){
             if(data.length==0){
                 changeEndOfPostIndicator(true);
@@ -54,13 +56,20 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     })
                 */
             }else{
-                const currentPosts=state.posts;
-                let nextPosts=currentPosts.concat(data);
-                nextPosts=postCount==0?suggestedSymposiumsRecursive(nextPosts):nextPosts;
+                debugger;
+                const currentPosts=posts;
+                let nextPosts;
+                if(isNewPostOption==true)
+                    nextPosts=data;
+                else
+                    nextPosts=currentPosts.concat(data);
+
+                if(newPostOption!="Video")
+                    nextPosts=postCount==0?suggestedSymposiumsRecursive(nextPosts):nextPosts;
 
                 changeEndOfPostIndicator(false);
                 changeIsLoadingReloadedPosts(false);
-                changePostOptionState(postOption);
+                changePostOptionState(newPostOption);
                 changePosts([...nextPosts]);
                 /*
                     this.setState({
@@ -79,18 +88,31 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         }
     }
     const triggerReloadingPostsHandle=(postOption)=>{
-        changeIsLoadingReloadedPosts(true);
+        debugger;
         changePostCount(postCount+1);
-        changePostOption(postOption);
+        changePostOption(postOption,null,postCount+1);
     }
 
-    const fetchPosts=(newPostOption)=>{
-        if(newPostOption!=postOption){
-            changeIsLoadingReloadedPosts(true);
-            changePostCount(0);
-            changePosts([]);
-            changePostOption(newPostOption);
+    const fetchPosts=(newPostOption,resetSearchResults)=>{
+        debugger;
+        if(resetSearchResults==true){
+            resetAndFetchPosts(newPostOption);
+        }else if(newPostOption!=postOption){
+            resetAndFetchPosts(newPostOption);
         }
+        
+    }
+
+    const resetAndFetchPosts=(newPostOption)=>{
+        changeIsLoadingReloadedPosts(true);
+        changePostCount(0);
+        changePosts([]);
+        changePostOption(newPostOption,true,0);
+    }
+
+    const searchFilterPosts=(posts)=>{
+        console.log(posts);
+        changePosts([...posts])
     }
 
     return(
@@ -103,6 +125,9 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     displayDesktopUI:state.displayDesktopUI
                 }}
                 updatePosts={fetchPosts}
+                posts={posts}
+                postType={postOption}
+                searchFilterPosts={searchFilterPosts}
             />
             <hr/>
             <Posts
@@ -111,9 +136,9 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     isLoadingReloadedPosts,
                     endOfPostsDBIndicator,
                     headerAnimation:state.headerAnimation,
-                    postType:state.postType,
+                    postType:postOption,
                     handleScroll:state.handleScroll,
-                    postCount:state.postCount,
+                    postCount,
                     selectedSymposiumTitle:state.selectedSymposiumTitle
                 }}
                 triggerReloadingPostsHandle={triggerReloadingPostsHandle}
