@@ -8,7 +8,27 @@ import {
 } from "../../PersonalProfileSet/PersonalProfileContainerCSS.js";
 
 
-const ProfilePicture=({state,displayCreatePostOptionTrigger,handleChangeProfilePicture,displayIpadUserInformationModal})=>{
+const ProfilePicture=({state,displayCreatePostOptionTrigger,handleChangeProfilePicture})=>{
+	const displayMobileUserInformationnModal=()=>{
+		return <ul style={{maxHeight:"20px",position:"relative",position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
+					{/*
+						<MediumMobileScreenUserInformation>
+							<p style={{maxWidth:"90%",maxHeight:"20px",overflow:"hidden"}}>
+								<b>{this.state.userProfile.firstName}</b>
+							</p>
+							{this.state.isGuestProfile==false && (
+								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+									style={ShadowButtonCSS}
+									onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
+									>
+								   		<span class="caret"></span>
+								</button>
+							)}
+						</MediumMobileScreenUserInformation>
+
+					*/}
+			   </ul>
+	}
 	return(
 		<ProfilePictureContainer>
 			{(state.displayDesktopUI==false && state.isOwnProfile==true)? 
@@ -40,7 +60,7 @@ const ProfilePicture=({state,displayCreatePostOptionTrigger,handleChangeProfileP
 			{state.displayPhoneUI==false &&(
 				<>
 					{state.displayIpadUI==true?
-						<>{displayIpadUserInformationModal()}</>:
+						<>{displayMobileUserInformationnModal()}</>:
 						<>
 							{state.isOwnProfile==true?
 								<React.Fragment>

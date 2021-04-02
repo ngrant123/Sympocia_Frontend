@@ -154,7 +154,7 @@ const MobileChampionData=(championData)=>{
 	)
 }
 
-const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayChampionsModal,championModalData,isIphoneDisplay,isOwner})=>{
+const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampionsModal,championModalData,isIphoneDisplay,isOwner})=>{
 	
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [editChampionModal,changeEditChampionModal]=useState(false);
@@ -325,7 +325,7 @@ const PhonePersonalInformationHeader=({ownerName,isOwner,isGuestProfile})=>{
 										   		<span class="caret"></span>
 										</button>
 										{displayPhoneProfileOptions==true &&(
-											<MobileProfileOptionsIpad
+											<MobileProfileOptions
 												{...personalInformation.mobilePhoneUIParameters}
 												championModalData={personalInformation.championModalData}
 												closeModal={closeModal}
@@ -347,6 +347,6 @@ export{
 	MobilePersonalInformation,
 	MobileRecruitAndFriendsGaugeOptions,
 	PhonePersonalInformationHeader,
-	MobileProfileOptionsIpad,
+	MobileProfileOptions,
 	EditNodeModal
 }

@@ -116,6 +116,18 @@ const SponsorButton=styled.div`
 	}
 `;
 
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"5px",
+	borderStyle:"none"
+}
+
 let TikTokCSS={
 	position:"relative",
 	borderStyle:"solid",
@@ -289,6 +301,8 @@ const PersonalInformation=(props)=>{
 	const [displayFriendsPortal,changeDisplayFriendsPortal]=useState(false);
 	const [displaySymposiumsPortal,changeDisplaySymposiumsPortal]=useState(false);
 
+	const [displayMobileProfileOptions,changeDisplayMobileProfileOptions]=useState(false);
+
 	
 	const handleDonateButton=()=>{
 		changeDisplayForDonationModal(!displayDonationModal);
@@ -359,75 +373,94 @@ const PersonalInformation=(props)=>{
 	const closeFollowedSymposiumsPortal=()=>{
 		changeDisplaySymposiumsPortal(false);
 	}
+	
+	const mobileUserInformation=(firstName,displayMobileProfileOptions)=>{
+		return(
+			<React.Fragment>
+				<div style={{display:"flex",flexDirection:"row"}}>
+					<p style={{maxWidth:"90%",maxHeight:"20px",overflow:"hidden"}}>
+						<b>{firstName}</b>
+					</p>
+					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+						style={ShadowButtonCSS}
+						onClick={()=>displayMobileProfileOptions()}
+						>
+					   		<span class="caret"></span>
+					</button>
+				</div>
+			</React.Fragment>
+		)
+	}
 
-	const userInformationComponent=(personalInformation)=>{
-		console.log(personalInformation);
+	const userInformationComponent=(personalInformation,displayDesktopUI,displayMobileProfileOptions)=>{
 		return (
 			<>
-				<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-					<b>{personalInformation.firstName}</b>
-				</p>
-				{/*
-					<BioContainer>
-						{personalInformation.bio}
-					</BioContainer>
-				*/}
+				{displayDesktopUI==false?
+					<>{mobileUserInformation(personalInformation.firstName,displayMobileProfileOptions)}</>:
+					<>
+						<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+							<b>{personalInformation.firstName}</b>
+						</p>
 
-				<ul style={{padding:"0px"}}>
-					<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
-						Social Media
-					</li>
-					<li style={{listStyle:"none",marginTop:"5%"}}>
-						{props.personalInformation.isOwnProfile==true?
-							<ul style={{padding:"0px"}}>
-								<a style={{textDecoration:"none"}} href="javascript:void(0);">	
-									<li onClick={()=>alert('Option to add social media profiles coming soon')}
-									style={EditSocialMediaUrlsCSS}>
-										Edit Social Media
-									</li>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
+								Social Media
+							</li>
+							<li style={{listStyle:"none",marginTop:"5%"}}>
+								{props.personalInformation.isOwnProfile==true?
+									<ul style={{padding:"0px"}}>
+										<a style={{textDecoration:"none"}} href="javascript:void(0);">	
+											<li onClick={()=>alert('Option to add social media profiles coming soon')}
+											style={EditSocialMediaUrlsCSS}>
+												Edit Social Media
+											</li>
+										</a>
+										{socialMediaIcons(props.personalInformation.socialMediaUrls)}
+										
+									</ul>
+									:
+									<ul style={{padding:"0px"}}>
+										{socialMediaIcons(props.personalInformation.socialMediaUrls)}
+									</ul>
+								}
+							</li>
+							
+
+							<li style={{listStyle:"none",marginBottom:"20px"}}>
+								<a style={{textDecoration:"none"}} href="javascript:void(0);">
+									<FriendsAndIndustryDisplayButton onClick={()=>changeDisplayFriendsPortal(true)}>
+										View Recruits
+									</FriendsAndIndustryDisplayButton>
 								</a>
-								{socialMediaIcons(props.personalInformation.socialMediaUrls)}
-								
-							</ul>
-							:
-							<ul style={{padding:"0px"}}>
-								{socialMediaIcons(props.personalInformation.socialMediaUrls)}
-							</ul>
-						}
-					</li>
-					
+							</li>
 
-					<li style={{listStyle:"none",marginBottom:"20px"}}>
-						<a style={{textDecoration:"none"}} href="javascript:void(0);">
-							<FriendsAndIndustryDisplayButton onClick={()=>changeDisplayFriendsPortal(true)}>
-								View Recruits
-							</FriendsAndIndustryDisplayButton>
-						</a>
-					</li>
+							<li style={{listStyle:"none",marginBottom:"2%"}}>
+								<a style={{textDecoration:"none"}} href="javascript:void(0);">
+									<FriendsAndIndustryDisplayButton onClick={()=>changeDisplaySymposiumsPortal(true)}>
+										View Interested Symposiums
+									</FriendsAndIndustryDisplayButton>
+								</a>
+							</li>
+							<RecruitButton
+								personalInformation={personalInformation}
+								displayConfettiHandle={props.displayConfetti}
+								userId={props.userId}
+							/>
 
-					<li style={{listStyle:"none",marginBottom:"2%"}}>
-						<a style={{textDecoration:"none"}} href="javascript:void(0);">
-							<FriendsAndIndustryDisplayButton onClick={()=>changeDisplaySymposiumsPortal(true)}>
-								View Interested Symposiums
-							</FriendsAndIndustryDisplayButton>
-						</a>
-					</li>
-					<RecruitButton
-						personalInformation={personalInformation}
-						displayConfettiHandle={props.displayConfetti}
-						userId={props.userId}
-					/>
+							{personalInformation.isOwnProfile==true?
+								<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
+									<a style={{textDecoration:"none"}} href="javascript:void(0)">
+										<SponsorButton onClick={()=>handleChampionButton()}>
+											Champion Someone
+										</SponsorButton>
+									</a>
+								</li>:<React.Fragment></React.Fragment>}
 
-					{personalInformation.isOwnProfile==true?
-						<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
-							<a style={{textDecoration:"none"}} href="javascript:void(0)">
-								<SponsorButton onClick={()=>handleChampionButton()}>
-									Champion Someone
-								</SponsorButton>
-							</a>
-						</li>:<React.Fragment></React.Fragment>}
+						</ul>
+					</>
 
-				</ul>
+
+					}
 			</>
 		)
 	}
@@ -454,9 +487,17 @@ const PersonalInformation=(props)=>{
 							<React.Fragment>
 								{props.personalInformation.isGuestProfile==true?
 									<GuestLockScreenHOC
-										component={userInformationComponent(props.personalInformation)}
+										component={userInformationComponent(
+												props.personalInformation,
+												props.displayDesktopUI,
+												props.displayMobileProfileOptionsTrigger
+										)}
 									/>:
-									<>{userInformationComponent(props.personalInformation)}</>
+									<>{userInformationComponent(
+											props.personalInformation,
+											props.displayDesktopUI,
+											props.displayMobileProfileOptionsTrigger
+										)}</>
 								}
 							</React.Fragment>
 							:<React.Fragment>

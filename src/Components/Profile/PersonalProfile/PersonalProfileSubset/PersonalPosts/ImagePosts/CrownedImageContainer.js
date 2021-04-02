@@ -8,7 +8,7 @@ const Container=styled.div`
 	width:140%;
 
 	@media screen and (max-width:770px){
-		width:200%;
+		width:180%;
 		#postInformationLI{
     		width:30% !important;
     		margin-left:-5%;

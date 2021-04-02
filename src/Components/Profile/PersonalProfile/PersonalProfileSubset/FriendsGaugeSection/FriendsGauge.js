@@ -1,4 +1,6 @@
 import React,{Component} from "react";
+import styled from "styled-components";
+
 import "react-step-progress-bar/styles.css";
 import { ProgressBar, Step } from "react-step-progress-bar";
 import LockIcon from '@material-ui/icons/Lock';
@@ -11,6 +13,16 @@ import {
   MobileRecruitAndFriendsGaugeOptions,
   EditNodeModal
 } from "../../PersonalProfileSet/MobileUI.js";
+
+const Container=styled.div`
+  @media screen and (max-width:1370px){
+    margin-left:5%;
+  }
+  @media screen and (max-width:650px){
+    margin-left:-30%;
+    margin-right:5%;
+  }
+`;
 
 const LocksCSS={
   marginLeft:"45%",
@@ -318,7 +330,7 @@ class FriendsGauge extends Component {
   render() {
 
     return (
-        <ul style={{padding:"0px"}}>
+        <Container>
           <li style={{listStyle:"none",marginBottom:"7%"}}>
             <ul style={{padding:"0px"}}>
               {this.props.mobileUIStatus.displayPhoneUI==false &&(
@@ -403,7 +415,7 @@ class FriendsGauge extends Component {
                   isOwner={this.props.personalInformation.isOwnProfile}
               />
           )}
-        </ul>
+        </Container>
       )
   }
 }
