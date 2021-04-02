@@ -13,7 +13,7 @@ import BlogEditSubmitModal from "./BlogEditSubmitModal.js";
 import { convertFromRaw,EditorState } from 'draft-js';
 import Comments from "../../../CommentsComponent/index.js";
 import PollOptionPortal from "../../PollOptionPortal.js";
-import PromotePortal from "../../../../Profile/PersonalProfile/PersonalProfileSubset/PersonalPosts/PromotePortal.js";
+import PromotePortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/PromotePortal.js";
 import {getVideoUrl} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 
 

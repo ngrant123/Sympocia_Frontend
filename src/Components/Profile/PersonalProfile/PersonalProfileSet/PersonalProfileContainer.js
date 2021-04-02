@@ -1,21 +1,12 @@
-import React, { useState, useEffect, useRef,Component } from 'react'
+import React, {Component } from 'react'
 import styled from "styled-components";
 import { GeneralNavBar } from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
-import PostsContainer from "../PersonalProfileSubset/PostSection/PostContainer.js";
 import {PersonalInformation} from "../PersonalProfileSubset/PersonalDetails/PersonalInformation.js";
-import ProfileStatue from "../../../../designs/background/ProfileStatue.png";
-import Typed from "react-typed";
-import {useSelector,useDispatch, connect} from 'react-redux';
+import {connect} from 'react-redux';
 import { getProfile } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
-import {
-	setBio,
-	setProfilePicture
-} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 import { UserProvider } from "../UserContext.js";
-import Button from 'react-bootstrap/Button';
 import PersonalPostsIndex from "../PersonalProfileSubset/PersonalPosts/index.js";
-import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'
 import { withRouter } from "react-router-dom";
 import {PostDisplayProvider} from "../PostDisplayModalContext.js";
@@ -29,10 +20,8 @@ import Confetti from 'react-confetti';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import OnboardingPersonalPage from "../../../OnBoarding/PersonalProfileOnboarding.js";
 import GuestOnboardingModal from "../../../OnBoarding/GuestOnboarding.js";
-import PromotePortal from "../PersonalProfileSubset/PersonalPosts/PromotePortal.js";
+import PromotePortal from "./Modals-Portals/PromotePortal.js";
 import SocialMediaUrlContainer from "./Modals-Portals/SocialMediaUrlModal.js";
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import HowToRegIcon from '@material-ui/icons/HowToReg';
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 
 import {
@@ -47,24 +36,15 @@ import {
 } from "./MobileUI.js";
 import ProfilePicturesDefaultOptionsModal from "./Modals-Portals/ProfilePicturesDefaultOptions/index.js";
 import ProfilePicture from "../PersonalProfileSubset/PersonalDetails/ProfilePictureContainer.js";
+import FriendsGauge from "../PersonalProfileSubset/FriendsGaugeSection/FriendsGauge.js";
 
 
 import {
 	Container,
-	ProfilePictureContainer,
 	HeaderContainer,
 	ProfileContainer,
 	PersonalProfileInformationContainer,
-	PersonalProfileContentContainer,
-	ChangePictureButton,
-	BackgroundModalContainer,
-	ImageModal,
-	SelectedImage,
-	ImagePortfolioContainer,
-	VideoModal,
-	Video,
 	PostInformationContainer,
-	PostInformationContainerShadowOverlay,
 	ShadowContainer,
 	ImagePopupContainer,
 	PostPopupContainer,
@@ -78,38 +58,6 @@ const MediumMobileScreenUserInformation=styled.div`
 `;
 
 
-const ImageListCSS={
-	display:"inline-block",
-	listStyle:"none",
-	marginRight:"30px"
-
-}
-
-const ImageCSS={
-	position:"relative",
-	width:"100px",
-	height:"30%",
-	backgroundColor:"black",
-	borderRadius:"5px"
-
-}
-
-const SelectedImageCss={
-	position:"absolute",
-	width:"100%",
-	height:"100%",
-	borderRadius:"5px"
-	
-}
-
-const VideoThumbNailCSS={
-	position:"relative",
-	width:"160px",
-	height:"20%",
-	backgroundColor:"black",
-	borderRadius:"5px"
-
-}
 
 const ChampionAndCreateButtonCSS={
 	position:"fixed",
@@ -130,6 +78,8 @@ const ShadowButtonCSS={
 	borderRadius:"5px",
 	borderStyle:"none"
 }
+
+//Guest HOC is no longer needed 
 
 class LProfile extends Component{
 
@@ -646,32 +596,35 @@ class LProfile extends Component{
 					</MediumMobileScreenUserInformation>
 			   </ul>
 	}
-	displayMobilePersonalInformation=()=>{
-		return  <>
-					{this.state.displayMobileUIPersonalInformation==true &&(
-						<>
-							{this.state.isGuestProfile==true ?
-								<GuestLockScreenHOC
-									component=<MobilePersonalInformation
-												displayConfetti={this.displayConfetti}
-												personalInformation={this.state}
-												displaySocialMediaModal={this.displaySocialMediaModal}	
-												closeModal={this.closeMobilePersonalInformation}
-											/>
-								/>
-								:
-								<MobilePersonalInformation
-									displayConfetti={this.displayConfetti}
-									personalInformation={this.state}
-									displaySocialMediaModal={this.displaySocialMediaModal}	
-									closeModal={this.closeMobilePersonalInformation}
-									userId={this.props.personalId}
-								/>
-							}
-						</>
-					)}
-				</>
-	}
+	/*
+		displayMobilePersonalInformation=()=>{
+			return  <>
+						{this.state.displayMobileUIPersonalInformation==true &&(
+							<>
+								{this.state.isGuestProfile==true ?
+									<GuestLockScreenHOC
+										component=<MobilePersonalInformation
+													displayConfetti={this.displayConfetti}
+													personalInformation={this.state}
+													displaySocialMediaModal={this.displaySocialMediaModal}	
+													closeModal={this.closeMobilePersonalInformation}
+												/>
+									/>
+									:
+									<MobilePersonalInformation
+										displayConfetti={this.displayConfetti}
+										personalInformation={this.state}
+										displaySocialMediaModal={this.displaySocialMediaModal}	
+										closeModal={this.closeMobilePersonalInformation}
+										userId={this.props.personalId}
+									/>
+								}
+							</>
+						)}
+					</>
+		}
+
+	*/
 
 	displayMobileProfileOptions=()=>{
 		return <>
@@ -840,7 +793,6 @@ class LProfile extends Component{
 								<React.Fragment></React.Fragment>
 						}
 						{this.displayProfilePictureOptionsTrigger()}
-						{this.displayMobilePersonalInformation()}
 						{this.displayMobileProfileOptions()}
 						{this.ImageModal()}
 						{this.VideoModal()}
@@ -908,7 +860,21 @@ class LProfile extends Component{
 									/>
 								)}
 
-								<PostInformationContainer>
+								<PostInformationContainer>	
+									<FriendsGauge
+										personalInformation={{
+											isOwnProfile:this.state.isOwnProfile,
+											_id:this.state.userProfile._id,
+											friendsGauge:this.state.userProfile.friendsGauge,
+											friendsGaugeNodes:this.state.userProfile.friendsGaugeNodes
+										}}
+										mobileUIStatus={{
+										    displayPhoneUI:this.state.displayPhoneUI,
+											displayIpadUI:this.state.displayIpadUI,
+											displayDesktopUI:this.state.displayDesktopUI,
+										}}
+									/>
+
 									<PersonalPostsIndex
 										displayShadowOverlay={this.displayShadow}
 										disappearShadow={this.disappearShadow}

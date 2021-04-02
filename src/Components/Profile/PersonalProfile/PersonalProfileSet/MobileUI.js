@@ -280,9 +280,13 @@ const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType,isOwner})=>
 				              <a href="javascript:void(0);" style={{textDecoration:"none"}}>
 				                <li style={{listStyle:"none",display:"inline-block",marginLeft:"-5%"}}>
 									<RecruitButton
-										personalInformation={personalInformation}
-										displayConfettiHandle={personalInformation.displayConfettiHandle}
-										userId={personalRedux.id}
+										personalInformation={{
+											_id:personalInformation.userProfile._id,
+											isGuestProfile:personalInformation.isGuestProfile,
+											isOwnProfile:personalInformation.isOwnProfile,
+											isGuestVisitorProfile:personalInformation.isGuestVisitorProfile,
+											recruits:personalInformation.userProfile.recruits
+										}}
 									/>
 				                </li>
 				              </a>

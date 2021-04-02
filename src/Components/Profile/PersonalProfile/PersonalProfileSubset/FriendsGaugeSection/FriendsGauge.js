@@ -45,7 +45,7 @@ class FriendsGauge extends Component {
     
     var numberNodes;
     var progressBarCounter;
-    var {friendsGauge,friendsGaugeNodes}=this.props.personalInformation.userProfile;
+    var {friendsGauge,friendsGaugeNodes}=this.props.personalInformation;
     numberNodes=friendsGaugeNodes.length+1;
     
     let refromattedNodes;
@@ -369,7 +369,7 @@ class FriendsGauge extends Component {
                   <RecruitsNodeInformationPortal
                       nodeInformation={this.state.nodeInformation}
                       closeModal={this.closeModal}
-                      userId={this.props.personalInformation.userProfile._id}
+                      userId={this.props.personalInformation._id}
                       updateNode={this.updateNode}
                       isOwner={this.props.personalInformation.isOwnProfile}
                   />:<React.Fragment></React.Fragment>
