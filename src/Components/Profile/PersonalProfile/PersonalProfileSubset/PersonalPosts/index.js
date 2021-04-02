@@ -527,7 +527,7 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 	const mobilePostSelectionAndRecruitUI=(personalInformation)=>{
-		
+		console.log(personalInformation);
 		return (
 			<li  style={{listStyle:"none"}}>
 				<ul style={{padding:"0px"}}>
@@ -572,16 +572,24 @@ const PersonalPostsIndex=(props)=>{
 							</ul>
 						</div>
 					</li>
-					{/*
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<RecruitButton
-								personalInformation={personalInformation}
-								displayConfettiHandle={personalInformation.displayConfettiHandle}
-								userId={personalRedux.id}
-							/>
-						</li>
-
-					*/}
+					<li style={{listStyle:"none",display:"inline-block"}}>
+						<RecruitButton
+							personalInformation={{
+								_id:personalInformation.userProfile._id,
+								isGuestProfile:personalInformation.isGuestProfile,
+								isOwnProfile:personalInformation.isOwnProfile,
+								firstName:personalInformation.userProfile.firstName,
+								socialMediaUrls:{
+									instagramUrl:"",
+									tikTokUrl:""
+								},
+								isGuestVisitorProfile:personalInformation.isGuestVisitorProfile,
+								recruits:personalInformation.userProfile.recruits
+							}}
+							displayConfettiHandle={personalInformation.displayConfettiHandle}
+							userId={personalRedux.id}
+						/>
+					</li>
 				</ul>
 				<hr/>
 			</li>
@@ -912,15 +920,15 @@ const PersonalPostsIndex=(props)=>{
 					{displayCreatePostAndShadowOverlay(props.personalInformation)}
 				*/}
 				<ul>
-					{props.uiStatus.displayPhoneUI==true &&(
-						<PhonePersonalInformationHeader
-							ownerName={props.personalInformation.userProfile.firstName}
-							isOwner={props.personalInformation.isOwnProfile}
-							isGuestProfile={props.personalInformation.isGuestProfile}
-						/>
-					)}
 
 					{/*
+						{props.uiStatus.displayPhoneUI==true &&(
+							<PhonePersonalInformationHeader
+								ownerName={props.personalInformation.userProfile.firstName}
+								isOwner={props.personalInformation.isOwnProfile}
+								isGuestProfile={props.personalInformation.isGuestProfile}
+							/>
+						)}
 						<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
 								{props.personalInformation.isLoading==true?
 									<p>Give us a second </p>:

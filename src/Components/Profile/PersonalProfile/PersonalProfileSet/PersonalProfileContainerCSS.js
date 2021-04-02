@@ -117,12 +117,39 @@ export const Container=styled.div`
 
 `;
 
+export const MobilePersonalInformationContainer=styled.div`
+	position:fixed;
+	background-color:white;
+	width:60%;
+	height:60%;
+	border-radius:5px; 
+	padding:20px;
+	z-index:40;
+	left:20%;
+	top:20%;
+	overflow-y:scroll;
+	@media screen and (max-width:650px){
+		width:90% !important;
+		left:5% !important;
+    }
+`;
+
+export const MobileShadowContainer=styled.div`
+		position:fixed;
+	width:100%;
+	height:100%;
+	top:0%;
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	display:block;
+	z-index:40;
+
+`;
+
 export const ProfilePictureContainer=styled.div`
 	position:relative;
 	width:90%;
 	height:35%;
 	left:2%;
-	background-color:white;
 	border-style:solid;
 	border-color:white;
 	border-width:7px;
@@ -134,12 +161,11 @@ export const ProfilePictureContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 	 	box-shadow:none !important;
-	 	height:90% !important;
+	 	height:60% !important;
 		width:100% !important;
-	 	top:5% !important;
 	 	#profilePicture{
 	      border-radius:50%;
-          height:70% !important;
+          height:95% !important;
           width:85% !important;
           margin-left:10%;
 	    }
@@ -147,18 +173,17 @@ export const ProfilePictureContainer=styled.div`
 
 
     @media screen and (max-width:650px){
-    	top:-20% !important;
-    	height:100% !important;
+    	height:90% !important;
     	margin-left:0%;
-    	width:90% !important;
+    	width:85% !important;
 		z-index:10;
+		margin-top:10%;
 		#profilePicture{
-          height:240% !important;
-          left:5% !important;
-          max-height:250px !important;
+		  width:80% !important;
+          height:200% !important;
+          left:10% !important;
+          max-height:190px !important;
 	    }
-
-	    max-height:250px !important;
     }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -182,17 +207,20 @@ export const ProfileContainer=styled.div`
 	width:30%;
 	height:100%;
 	z-index:10;
+	display:flex;
+	flex-direction:column;
 
 	@media screen and (max-width:1370px){
 		position:relative;
-		height:30% !important;
+		height:30%;
 	}
 
 	@media screen and (max-width:650px){
+		flex-direction: column-reverse;
 		position:relative;
-		top:30%;
+		top:12%;
 		margin-left:2% !important;
-		height:20% !important;
+		height:40% !important;
 		width:90%;
 	}
 	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
@@ -208,8 +236,7 @@ export const ProfileContainer=styled.div`
 `;
 
 export const PersonalProfileInformationContainer= styled.div`
-	position:absolute;
-	top:37%;
+	position:relative;
 	width:90%;
 	left:3%;
 	background-color:#fbfdff;
@@ -219,6 +246,12 @@ export const PersonalProfileInformationContainer= styled.div`
 
 	&:hover{
 		box-shadow: 5px 5px 5px 5px #d5d5d5;
+	}
+	@media screen and (max-width:1370px){
+		top:10%;
+		html.touch *:hover {
+		    all:unset!important;
+		}
 	}
 `;
 
@@ -324,6 +357,12 @@ export const PostInformationContainer=styled.div`
 	left:33%;
 	z-index:7;
 	top:15%;
+
+	@media screen and (max-width:1370px){
+		#friendsGaugeContainer{
+			margin-left:5%;
+		}
+	}
 	@media screen and (max-width:670px) and (max-height:340px){
 	 	top:40% !important;
     }

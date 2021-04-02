@@ -32,7 +32,7 @@ import CONSTANTS from "../../../../Constants/constants.js";
 import GuestLockScreenHOC from "../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 import {
 	MobilePersonalInformation,
-	MobileProfileOptionsIpad
+	MobileProfileOptions
 } from "./MobileUI.js";
 import ProfilePicturesDefaultOptionsModal from "./Modals-Portals/ProfilePicturesDefaultOptions/index.js";
 import ProfilePicture from "../PersonalProfileSubset/PersonalDetails/ProfilePictureContainer.js";
@@ -49,7 +49,9 @@ import {
 	ImagePopupContainer,
 	PostPopupContainer,
 	CreatePostButton,
-	RegularPostContainerParent
+	RegularPostContainerParent,
+	MobilePersonalInformationContainer,
+	MobileShadowContainer
 } from "./PersonalProfileContainerCSS.js";
 
 const MediumMobileScreenUserInformation=styled.div`
@@ -276,7 +278,6 @@ class LProfile extends Component{
 
 	displayImages=()=>{
 
-		this.changeButtonsColor("images");
 		this.setState(prevState => ({
 		    ...prevState,  
 		    //images                   
@@ -291,8 +292,6 @@ class LProfile extends Component{
 	displayVideos=()=>{
 	
 
-		this.changeButtonsColor("videos");
-
 		this.setState(prevState=>({
 
 			...prevState,
@@ -302,50 +301,7 @@ class LProfile extends Component{
 		}))
 	}
 
-	changeButtonsColor=(button)=>{
-
-		if(button=="images"){
-
-			document.getElementById("imageButton").style.backgroundColor="#3386f6";
-			document.getElementById("imageButton").style.color="white";
-
-
-
-			document.getElementById("videoButton").style.backgroundColor="white";
-			document.getElementById("videoButton").style.color="#3386f6";
-
-			document.getElementById("blogsButton").style.backgroundColor="white";
-			document.getElementById("blogsButton").style.color="#3386f6";
-		}else if(button=="videos"){
-
-			document.getElementById("videoButton").style.backgroundColor="#d3a7dd";
-			document.getElementById("videoButton").style.color="white";
-
-
-			document.getElementById("imageButton").style.backgroundColor="white";
-			document.getElementById("imageButton").style.color="#3386f6";
-
-			document.getElementById("blogsButton").style.backgroundColor="white";
-			document.getElementById("blogsButton").style.color="#3386f6";
-
-
-
-		}else{
-
-			document.getElementById("blogsButton").style.backgroundColor="#189318";
-			document.getElementById("blogsButton").style.color="white";
-
-			document.getElementById("imageButton").style.backgroundColor="white";
-			document.getElementById("imageButton").style.color="#3386f6";
-
-			document.getElementById("videoButton").style.backgroundColor="white";
-			document.getElementById("videoButton").style.color="#3386f6";
-		}
-	}
-
-
 	displayBlogs=()=>{
-		this.changeButtonsColor("blog");
 		this.setState(prevState=>({
 			...prevState,
 			displayImages:false,
@@ -579,57 +535,10 @@ class LProfile extends Component{
 			    </>
 	}
 
-	displayIpadUserInformationModal=()=>{
-		return <ul style={{maxHeight:"20px",position:"relative",position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
-					<MediumMobileScreenUserInformation>
-						<p style={{maxWidth:"90%",maxHeight:"20px",overflow:"hidden"}}>
-							<b>{this.state.userProfile.firstName}</b>
-						</p>
-						{this.state.isGuestProfile==false && (
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-								style={ShadowButtonCSS}
-								onClick={()=>this.setState({displayMobileUIProfileOptions:true})}
-								>
-							   		<span class="caret"></span>
-							</button>
-						)}
-					</MediumMobileScreenUserInformation>
-			   </ul>
-	}
-	/*
-		displayMobilePersonalInformation=()=>{
-			return  <>
-						{this.state.displayMobileUIPersonalInformation==true &&(
-							<>
-								{this.state.isGuestProfile==true ?
-									<GuestLockScreenHOC
-										component=<MobilePersonalInformation
-													displayConfetti={this.displayConfetti}
-													personalInformation={this.state}
-													displaySocialMediaModal={this.displaySocialMediaModal}	
-													closeModal={this.closeMobilePersonalInformation}
-												/>
-									/>
-									:
-									<MobilePersonalInformation
-										displayConfetti={this.displayConfetti}
-										personalInformation={this.state}
-										displaySocialMediaModal={this.displaySocialMediaModal}	
-										closeModal={this.closeMobilePersonalInformation}
-										userId={this.props.personalId}
-									/>
-								}
-							</>
-						)}
-					</>
-		}
-
-	*/
-
 	displayMobileProfileOptions=()=>{
 		return <>
 					{this.state.displayMobileUIProfileOptions==true &&(
-						<MobileProfileOptionsIpad
+						<MobileProfileOptions
 							closeModal={this.closeMobileProfileOptions}
 							displayPersonalInformation={this.displayPersonalInformationMobile}
 							displayChampionsModal={this.displayChampionModalTrigger}
@@ -640,6 +549,30 @@ class LProfile extends Component{
 					)}
 				</>
 	}
+
+	displayMobileProfileOptionsTrigger=()=>{
+		this.setState({
+			displayMobileUIProfileOptions:true
+		})
+	}
+
+	displayPersonalInformationComponent=()=>{
+		return(
+			<>
+				{this.state.displayMobileUIPersonalInformation==true &&(
+					<>
+						<MobileShadowContainer
+							onClick={()=>this.closeMobileProfileInformation()}
+						/>
+						<MobilePersonalInformationContainer>
+							{this.personalInformation(true)}
+						</MobilePersonalInformationContainer>
+					</>
+				)}
+			</>
+		)
+	}
+
 	displayPersonalInformationMobile=()=>{
 		this.setState({
 			displayMobileUIPersonalInformation:true
@@ -650,6 +583,13 @@ class LProfile extends Component{
 			displayMobileUIProfileOptions:false
 		})
 	}
+
+	closeMobileProfileInformation=()=>{
+		this.setState({
+			displayMobileUIPersonalInformation:false
+		})
+	}
+
 	closeMobilePersonalInformation=()=>{
 		this.setState({
 			displayMobileUIPersonalInformation:false
@@ -723,6 +663,29 @@ class LProfile extends Component{
 			   </React.Fragment>
 	}
 
+	personalInformation=(isMobileInformation)=>{
+		return <PersonalInformation
+					displayConfetti={this.displayConfetti}
+					personalInformation={{
+						_id:this.state.userProfile._id,
+						isGuestProfile:this.state.isGuestProfile,
+						isOwnProfile:this.state.isOwnProfile,
+						firstName:this.state.userProfile.firstName,
+						socialMediaUrls:{
+							instagramUrl:"",
+							tikTokUrl:""
+						},
+						isGuestVisitorProfile:this.state.isGuestVisitorProfile,
+						recruits:this.state.userProfile.recruits
+					}}
+					displayDesktopUI={isMobileInformation==true?true:this.state.displayDesktopUI}
+					displaySocialMediaModal={this.displaySocialMediaModal}
+					displayMobileProfileOptionsTrigger={this.displayMobileProfileOptionsTrigger}
+					userId={this.props.personalId}
+					isLoading={this.state.isLoading}
+				/>
+	}
+
 
 
 	render(){
@@ -786,12 +749,11 @@ class LProfile extends Component{
 							/>
 						</HeaderContainer>
 
-						{this.state.displayShadowBackground==true?
-								<ShadowContainer
-									onClick={()=>this.closePostsModal()}
-								/>:
-								<React.Fragment></React.Fragment>
-						}
+						{this.state.displayShadowBackground==true &&(
+							<ShadowContainer
+								onClick={()=>this.closePostsModal()}
+							/>
+						)}
 						{this.displayProfilePictureOptionsTrigger()}
 						{this.displayMobileProfileOptions()}
 						{this.ImageModal()}
@@ -799,6 +761,7 @@ class LProfile extends Component{
 						{this.BlogModal()}
 						{this.RegularPostModal()}
 						{this.socialMediaModal(this.state.userProfile.socialMediaUrls)}
+						{this.displayPersonalInformationComponent()}
 
 
 
@@ -815,32 +778,11 @@ class LProfile extends Component{
 								}}
 								displayCreatePostOptionTrigger={this.displayCreatePostOptionTrigger}
 								handleChangeProfilePicture={this.handleChangeProfilePicture}
-								displayIpadUserInformationModal={this.displayIpadUserInformationModal}
 							/>
 
-							{this.state.displayDesktopUI==true &&(
-								<PersonalProfileInformationContainer>
-									<PersonalInformation
-										displayConfetti={this.displayConfetti}
-										personalInformation={{
-											_id:this.state.userProfile._id,
-											isGuestProfile:this.state.isGuestProfile,
-											isOwnProfile:this.state.isOwnProfile,
-											firstName:this.state.userProfile.firstName,
-											socialMediaUrls:{
-												instagramUrl:"",
-												tikTokUrl:""
-											},
-											isGuestVisitorProfile:this.state.isGuestVisitorProfile,
-											recruits:this.state.userProfile.recruits
-										}}
-										displaySocialMediaModal={this.displaySocialMediaModal}
-										userId={this.props.personalId}
-										isLoading={this.state.isLoading}
-									/>
-
-								</PersonalProfileInformationContainer>
-							)}
+							<PersonalProfileInformationContainer>
+								{this.personalInformation()}
+							</PersonalProfileInformationContainer>
 							
 						</ProfileContainer>
 						
@@ -862,6 +804,7 @@ class LProfile extends Component{
 
 								<PostInformationContainer>	
 									<FriendsGauge
+										id="friendsGaugeContainer"
 										personalInformation={{
 											isOwnProfile:this.state.isOwnProfile,
 											_id:this.state.userProfile._id,
