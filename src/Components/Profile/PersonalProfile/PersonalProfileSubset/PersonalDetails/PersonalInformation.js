@@ -282,7 +282,7 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 
 
 const PersonalInformation=(props)=>{
-
+	console.log(props);
 	const [displayFriendsAndIndustryContainer,changeIndicator]=useState(false);
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);

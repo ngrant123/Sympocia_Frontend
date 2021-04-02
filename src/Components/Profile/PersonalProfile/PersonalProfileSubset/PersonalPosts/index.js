@@ -10,7 +10,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {UserConsumer} from "../../UserContext.js";
 import {PostProvider} from "./PostsContext.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import FriendsGauge from "./FriendsGauge.js";
+import FriendsGauge from "../FriendsGaugeSection/FriendsGauge.js";
 import PostCreationPortal from "../../PersonalProfileSet/Modals-Portals/PostCreationPortal.js";
 
 import {
@@ -572,13 +572,16 @@ const PersonalPostsIndex=(props)=>{
 							</ul>
 						</div>
 					</li>
-					<li style={{listStyle:"none",display:"inline-block"}}>
-						<RecruitButton
-							personalInformation={personalInformation}
-							displayConfettiHandle={personalInformation.displayConfettiHandle}
-							userId={personalRedux.id}
-						/>
-					</li>
+					{/*
+						<li style={{listStyle:"none",display:"inline-block"}}>
+							<RecruitButton
+								personalInformation={personalInformation}
+								displayConfettiHandle={personalInformation.displayConfettiHandle}
+								userId={personalRedux.id}
+							/>
+						</li>
+
+					*/}
 				</ul>
 				<hr/>
 			</li>
@@ -630,14 +633,6 @@ const PersonalPostsIndex=(props)=>{
 			})
 		}
 	}
-
-	const displayFriendsGauge=()=>{
-		return <FriendsGauge
-					personalInformation={props.personalInformation}
-					mobileUIStatus={props.uiStatus}
-				/>
-	}
-
 	const editPostVideo=(postData)=>{
 		const {postType}=postData;
 		let propData=videoPost;
@@ -924,20 +919,23 @@ const PersonalPostsIndex=(props)=>{
 							isGuestProfile={props.personalInformation.isGuestProfile}
 						/>
 					)}
-					<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
-							{props.personalInformation.isLoading==true?
-								<p>Give us a second </p>:
-								<>
-									{props.personalInformation.isGuestProfile==true?
-										<GuestLockScreenHOC
-											component={displayFriendsGauge()}
-										/>
-										:
-										<>{displayFriendsGauge()}</>
-									}
-								</>
-							}
-					</li>
+
+					{/*
+						<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
+								{props.personalInformation.isLoading==true?
+									<p>Give us a second </p>:
+									<>
+										{props.personalInformation.isGuestProfile==true?
+											<GuestLockScreenHOC
+												component={displayFriendsGauge()}
+											/>
+											:
+											<>{displayFriendsGauge()}</>
+										}
+									</>
+								}
+						</li>
+					*/}
 					<hr/>
 					{displayCreationPostContainer()}
 					<li id="postsContainer" style={{listStyle:"none"}}>
