@@ -37,6 +37,7 @@ import {
 import ProfilePicturesDefaultOptionsModal from "./Modals-Portals/ProfilePicturesDefaultOptions/index.js";
 import ProfilePicture from "../PersonalProfileSubset/PersonalDetails/ProfilePictureContainer.js";
 import FriendsGauge from "../PersonalProfileSubset/FriendsGaugeSection/FriendsGauge.js";
+import PostDisplay from "./PostsDisplay/index.js";
 
 
 import {
@@ -109,7 +110,7 @@ class LProfile extends Component{
 		    videoModalData:{},
 		    displayBlogModal:false,
 		    blogModalData:{},
-		    displayRegularPostModal:false,
+		    displayPostData:false,
 		    regularModalData:{},
 		    displayChampion:false,
 		    champion:{},
@@ -143,6 +144,7 @@ class LProfile extends Component{
 			isLoadingReloadedPosts:false,
 			displayGuestOnboarding:false,
 			isGuestProfile:false,
+			selectedDisplayPostType:"Images",
 			displayProfilePictureOptionsModal:false,
 			displayConfettiHandle:()=>{
 				this.displayConfetti()
@@ -344,85 +346,39 @@ class LProfile extends Component{
 		})
 	}
 
-	ImageModal=()=>{
-		var newImageObject={};
-		if(this.state.isLoading!=true){
-			newImageObject={
-				...this.state.imageModalData,
-				firstName:this.state.userProfile.firstName,
-				lastName:this.state.userProfile.lastName,
-				contextLocation:this.state.contextLocation
-			}
-		}
-		return this.state.displayImagePostModal?
-			<ImagePopupContainer>
-				<ImageContainer
-					imageData={newImageObject}
-					profileType="personalProfile"
-					closeModal={this.closeModal}
-					targetDom={"personalContainer"}
-					triggerPromoteModal={this.triggerPromoteModal}
-					history={this.props.history}
-					isOwnProfile={this.state.isOwnProfile}
-					closePostModal={this.closePostsModal}
-				/>
-			</ImagePopupContainer>:
-			<React.Fragment></React.Fragment>
-	}
+	PostModal=()=>{
+		let newRegularPostObject;
+		let displayParams;
 
-	VideoModal=()=>{
-		
-		var newVideoObject={};
-		
-		if(this.state.isLoading!=true){
-			newVideoObject={
-				...this.state.videoModalData,
-				firstName:this.state.userProfile.firstName,
-				lastName:this.state.userProfile.lastName,
-				contextLocation:this.state.contextLocation
-			}
-		}
-		return this.state.displayVideoPostModal?
-			<PostPopupContainer>
-				<VideoContainer
-					videoData={newVideoObject}
-					profileType="personalProfile"
-					targetDom={"personalContainer"}
-					history={this.props.history}
-					triggerPromoteModal={this.triggerPromoteModal}
-					isOwnProfile={this.state.isOwnProfile}
-					closePostModal={this.closePostsModal}
-				/>
-			</PostPopupContainer>:
-			<React.Fragment></React.Fragment>
-	}
-
-	RegularPostModal=()=>{
-		
-		var newRegularPostObject={};
-		if(this.state.isLoading!=true){
+		if(this.state.displayPostData==true){
 			newRegularPostObject={
-				...this.state.regularModalData,
+				...this.state.postData,
 				firstName:this.state.userProfile.firstName,
 				profilePicture:this.state.userProfile.profilePicture,
 				lastName:this.state.userProfile.lastName,
-				contextLocation:this.state.contextLocation
+				contextLocation:this.state.contextLocation,
+				selectedDisplayPostType:this.state.selectedDisplayPostType
 
 			}
+
+			displayParams={
+				profileType:"personalProfile",
+				targetDom:"personalContainer",
+				triggerPromoteModal:this.triggerPromoteModal,
+				history:this.props.history,
+				isOwnProfile:this.state.isOwnProfile,
+				closePostModal:this.closePostsModal,
+			}
 		}
-		return this.state.displayRegularPostModal?
-			<RegularPostContainerParent>
-				<RegularPostContainer
-					postData={newRegularPostObject}
-					profileType="personalProfile"
-					targetDom={"personalContainer"}
-					triggerPromoteModal={this.triggerPromoteModal}
-					history={this.props.history}
-					isOwnProfile={this.state.isOwnProfile}
-					closePostModal={this.closePostsModal}
-				/>
-			</RegularPostContainerParent>:
-			<React.Fragment></React.Fragment>
+		return <React.Fragment>
+					{this.state.displayPostData==true &&(
+						<PostDisplay
+							postData={{...newRegularPostObject}}
+							postDisplayParams={{...displayParams}}
+						/>
+					)}
+				</React.Fragment>
+			
 	}
 
 	BlogModal=()=>{
@@ -625,10 +581,7 @@ class LProfile extends Component{
 	closePostsModal=()=>{
 		this.setState({
 			displayShadowBackground:false,
-			displayRegularPostModal:false,
-			displayBlogPostModal:false,
-			displayVideoPostModal:false,
-			displayImagePostModal:false
+			displayPostData:false
 		})
 	}
 
@@ -703,33 +656,36 @@ class LProfile extends Component{
 					value={{
 						handleImagePostModal:(imagePostData,contextLocation)=>{
 							this.setState({
-								imageModalData:imagePostData,
+								postData:imagePostData,
 								contextLocation:contextLocation,
-								displayImagePostModal:true,
-								displayShadowBackground:true
+								displayPostData:true,
+								displayShadowBackground:true,
+								selectedDisplayPostType:"Images"
 							})
 						},
 						handleVideoPostModal:(videoPostData,contextLocation)=>{
 							this.setState({
-								videoModalData:videoPostData,
+								postData:videoPostData,
 								contextLocation:contextLocation,
-								displayVideoPostModal:true,
-								displayShadowBackground:true
+								displayPostData:true,
+								displayShadowBackground:true,
+								selectedDisplayPostType:"Videos"
 							})
 						},
 						handleBlogPostModal:(blogPostData,contextLocation)=>{
 							this.setState({
-								blogModalData:blogPostData,
-								displayBlogPostModal:true,
+								postData:blogPostData,
+								displayPostData:true,
 								displayShadowBackground:true
 							})
 						},
 						handleRegularPostModal:(regularPostData,contextLocation)=>{
 							this.setState({
-								regularModalData:regularPostData,
-								displayRegularPostModal:true,
+								postData:regularPostData,
+								displayPostData:true,
 								displayShadowBackground:true,
-								contextLocation:contextLocation
+								contextLocation:contextLocation,
+								selectedDisplayPostType:"Regular"
 							})
 						}
 					}}
@@ -756,10 +712,7 @@ class LProfile extends Component{
 						)}
 						{this.displayProfilePictureOptionsTrigger()}
 						{this.displayMobileProfileOptions()}
-						{this.ImageModal()}
-						{this.VideoModal()}
-						{this.BlogModal()}
-						{this.RegularPostModal()}
+						{this.PostModal()}
 						{this.socialMediaModal(this.state.userProfile.socialMediaUrls)}
 						{this.displayPersonalInformationComponent()}
 
