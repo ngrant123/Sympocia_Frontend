@@ -144,18 +144,12 @@ const EditSocialMediaUrlsCSS={
 }
 
 const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
-	
-	const {userProfile:{
-		_id
-	}}=personalInformation;
+	console.log(personalInformation);
+	const _id=personalInformation._id;
 
 	const isOwnProfileRecruitButtonDecider=()=>{
 		debugger;
-		const {
-			userProfile:{
-				recruits
-			}
-		}=personalInformation;
+		const recruits=personalInformation.recruits;
 		let isRecruit=false;
 
 		recruits.forEach((data,index)=>{
@@ -212,7 +206,7 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 
 	const handleRecruitButton=async({personalInformation,displayConfettiHandle,userId,isAccessTokenUpdated,updatedAccessToken})=>{
 	
-		const profileId=personalInformation.userProfile._id;
+		const profileId=personalInformation._id;
 		const {confirmation,data}=await addRecruit(
 											userId,
 											profileId,
@@ -367,14 +361,17 @@ const PersonalInformation=(props)=>{
 	}
 
 	const userInformationComponent=(personalInformation)=>{
+		console.log(personalInformation);
 		return (
 			<>
 				<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-					<b>{personalInformation.userProfile.firstName}</b>
+					<b>{personalInformation.firstName}</b>
 				</p>
-				<BioContainer>
-					{personalInformation.userProfile.bio}
-				</BioContainer>
+				{/*
+					<BioContainer>
+						{personalInformation.bio}
+					</BioContainer>
+				*/}
 
 				<ul style={{padding:"0px"}}>
 					<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
@@ -389,12 +386,12 @@ const PersonalInformation=(props)=>{
 										Edit Social Media
 									</li>
 								</a>
-								{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
+								{socialMediaIcons(props.personalInformation.socialMediaUrls)}
 								
 							</ul>
 							:
 							<ul style={{padding:"0px"}}>
-								{socialMediaIcons(props.personalInformation.userProfile.socialMediaUrls)}
+								{socialMediaIcons(props.personalInformation.socialMediaUrls)}
 							</ul>
 						}
 					</li>
@@ -436,60 +433,54 @@ const PersonalInformation=(props)=>{
 	}
 
 	return(
-		<UserConsumer>
-			{personalInformation=>{
-				return <React.Fragment>
-						{personalInformation.isLoading==true?<p>Loading please wait</p>:
-								<React.Fragment>
-									{displayFriendsPortal==true &&(
-										<FriendsPortal
-											userId={props.personalInformation.userProfile._id}
-											closeModal={closeFriendsPortal}
-											isOwner={personalInformation.isOwnProfile}
-										/>
-									)}
-									{displaySymposiumsPortal==true &&(
-										<SymposiumPortal
-											userId={props.personalInformation.userProfile._id}
-											closeModal={closeFollowedSymposiumsPortal}
-											isOwner={personalInformation.isOwnProfile}
-										/>
-									)}
-									{displayFriendsAndIndustryContainer==false?
-									<React.Fragment>
-										{props.personalInformation.isGuestProfile==true?
-											<GuestLockScreenHOC
-												component={userInformationComponent(personalInformation)}
-											/>:
-											<>{userInformationComponent(personalInformation)}</>
-										}
-									</React.Fragment>
-									:<React.Fragment>
-										<BackButton onClick={()=>changeIndicator(false)}>
-											Back
-										</BackButton>
-										<FriendsAndIndustryInformation/>
-
-									 </React.Fragment>
-
+		<React.Fragment>
+			{props.isLoading==false &&(
+				<React.Fragment>
+					{displayFriendsPortal==true &&(
+							<FriendsPortal
+								userId={props.personalInformation._id}
+								closeModal={closeFriendsPortal}
+								isOwner={props.personalInformation.isOwnProfile}
+							/>
+						)}
+						{displaySymposiumsPortal==true &&(
+							<SymposiumPortal
+								userId={props.personalInformation._id}
+								closeModal={closeFollowedSymposiumsPortal}
+								isOwner={props.personalInformation.isOwnProfile}
+							/>
+						)}
+						{displayFriendsAndIndustryContainer==false?
+							<React.Fragment>
+								{props.personalInformation.isGuestProfile==true?
+									<GuestLockScreenHOC
+										component={userInformationComponent(props.personalInformation)}
+									/>:
+									<>{userInformationComponent(props.personalInformation)}</>
 								}
-
 							</React.Fragment>
+							:<React.Fragment>
+								<BackButton onClick={()=>changeIndicator(false)}>
+									Back
+								</BackButton>
+								<FriendsAndIndustryInformation/>
 
+							 </React.Fragment>
 						}
-						{displayDonationModal==true?
-							<DonatePortal
-								closeModal={handleDonateButton}
-							/>:null
-						}
-						{displayChampionModal==true?
-							<ChampionPortal
-								closeModal={handleChampionButton}
-							/>:null
-						}
-						</React.Fragment>
-				}}
-		</UserConsumer>
+
+					{displayDonationModal==true?
+						<DonatePortal
+							closeModal={handleDonateButton}
+						/>:null
+					}
+					{displayChampionModal==true?
+						<ChampionPortal
+							closeModal={handleChampionButton}
+						/>:null
+					}
+				</React.Fragment>
+			)}
+		</React.Fragment>
 	)
 }
 export{

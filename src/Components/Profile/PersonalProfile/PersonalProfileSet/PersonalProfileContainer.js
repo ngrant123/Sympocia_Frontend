@@ -46,6 +46,7 @@ import {
 	MobileProfileOptionsIpad
 } from "./MobileUI.js";
 import ProfilePicturesDefaultOptionsModal from "./Modals-Portals/ProfilePicturesDefaultOptions/index.js";
+import ProfilePicture from "../PersonalProfileSubset/PersonalDetails/ProfilePictureContainer.js";
 
 
 import {
@@ -850,68 +851,43 @@ class LProfile extends Component{
 
 
 						<ProfileContainer>
-							<ProfilePictureContainer>
-								{(this.state.displayDesktopUI==false && this.state.isOwnProfile==true)? 
-									<>
-										{this.state.isGuestProfile==false && (
-											<>{this.displayCreatePostOptionTrigger()}</>
-										)}
-										<img id="profilePicture" 
-											onClick={()=>this.handleChangeProfilePicture()}
-											src={this.state.userProfile.profilePicture==null?
-													NoProfilePicture:
-													this.state.userProfile.profilePicture
-												} style={{position:"absolute",width:"100%",height:"100%",borderRadius:"50%"}}
-										/>
-									</>:
-									<>
-									<img id="profilePicture" 
-										src={this.state.userProfile.profilePicture==null?
-												NoProfilePicture:
-												this.state.userProfile.profilePicture
-											} style={{position:"absolute",width:"70%",height:"80%",borderRadius:"50%"}}
-									/>
-									
-									{this.state.isLoading==true &&(
-										<p style={{position:"relative",marginTop:"110%"}}>Loading...</p>
-									)}
-									</>
-								}
-								{this.state.displayPhoneUI==false &&(
-									<>
-										{this.state.displayIpadUI==true?
-											<>{this.displayIpadUserInformationModal()}</>:
-											<>
-												{this.state.isOwnProfile==true?
-													<React.Fragment>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<ChangePictureButton onClick={()=>this.handleChangeProfilePicture()}>
-																Change Profile Picture
-															</ChangePictureButton>
-														</a>
-													</React.Fragment>:
-													<React.Fragment></React.Fragment>
-												}
-											</>
-										}
-									</>
-								)}
-								
-
-							</ProfilePictureContainer>
+							<ProfilePicture
+								state={{
+									displayDesktopUI:this.state.displayDesktopUI,
+									isOwnProfile:this.state.isOwnProfile,
+									isGuestProfile:this.state.isGuestProfile,
+									profilePicture:this.state.userProfile.profilePicture,
+									isLoading:this.state.isLoading,
+									displayPhoneUI:this.state.displayPhoneUI,
+									displayIpadUI:this.state.displayIpadUI
+								}}
+								displayCreatePostOptionTrigger={this.displayCreatePostOptionTrigger}
+								handleChangeProfilePicture={this.handleChangeProfilePicture}
+								displayIpadUserInformationModal={this.displayIpadUserInformationModal}
+							/>
 
 							{this.state.displayDesktopUI==true &&(
-								<>
-									<PersonalProfileInformationContainer>
-										<PersonalInformation
-											displayConfetti={this.displayConfetti}
-											personalInformation={this.state}
-											displaySocialMediaModal={this.displaySocialMediaModal}
-											userId={this.props.personalId}
-										/>
+								<PersonalProfileInformationContainer>
+									<PersonalInformation
+										displayConfetti={this.displayConfetti}
+										personalInformation={{
+											_id:this.state.userProfile._id,
+											isGuestProfile:this.state.isGuestProfile,
+											isOwnProfile:this.state.isOwnProfile,
+											firstName:this.state.userProfile.firstName,
+											socialMediaUrls:{
+												instagramUrl:"",
+												tikTokUrl:""
+											},
+											isGuestVisitorProfile:this.state.isGuestVisitorProfile,
+											recruits:this.state.userProfile.recruits
+										}}
+										displaySocialMediaModal={this.displaySocialMediaModal}
+										userId={this.props.personalId}
+										isLoading={this.state.isLoading}
+									/>
 
-									</PersonalProfileInformationContainer>
-								</>
+								</PersonalProfileInformationContainer>
 							)}
 							
 						</ProfileContainer>

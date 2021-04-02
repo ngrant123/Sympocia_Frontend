@@ -155,6 +155,7 @@ const MobileChampionData=(championData)=>{
 }
 
 const MobileProfileOptionsIpad=({closeModal,displayPersonalInformation,displayChampionsModal,championModalData,isIphoneDisplay,isOwner})=>{
+	
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [editChampionModal,changeEditChampionModal]=useState(false);
 	const [displayChampion,changeDisplayChampion]=useState(false); 
