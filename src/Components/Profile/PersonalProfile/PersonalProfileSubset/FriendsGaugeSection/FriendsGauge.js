@@ -212,7 +212,6 @@ class FriendsGauge extends Component {
                       <ul style={{padding:"0px"}}>
                         {this.unlockedOrLockedPrompt(index,isUnlocked)}
                         <p style={{color:"#5298F8",width:"95%",height:"20px",overflow:"hidden"}}> <b>{name}</b></p>
-                        <p style={{width:"85%",height:"30px",overflow:"hidden"}}> {description} </p>
                       </ul>
                     </li>
                   </a>

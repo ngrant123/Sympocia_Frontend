@@ -258,6 +258,8 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 
+// Should be refactored in the future everytime i look at it i want to kill myself
+
 	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter})=>{
 			changeDisplayForImages(false);
 			changeDisplayForBlogs(false);
@@ -915,35 +917,7 @@ const PersonalPostsIndex=(props)=>{
 			>
 			{props.personalInformation.isLoading==true?null:
 				<>
-				{/*
-					{initializePersonalInformationToState(props.personalInformation)}
-					{displayCreatePostAndShadowOverlay(props.personalInformation)}
-				*/}
 				<ul>
-
-					{/*
-						{props.uiStatus.displayPhoneUI==true &&(
-							<PhonePersonalInformationHeader
-								ownerName={props.personalInformation.userProfile.firstName}
-								isOwner={props.personalInformation.isOwnProfile}
-								isGuestProfile={props.personalInformation.isGuestProfile}
-							/>
-						)}
-						<li id="friendsGaugeContainer" style={{listStyle:"none",marginBottom:"10%"}}>
-								{props.personalInformation.isLoading==true?
-									<p>Give us a second </p>:
-									<>
-										{props.personalInformation.isGuestProfile==true?
-											<GuestLockScreenHOC
-												component={displayFriendsGauge()}
-											/>
-											:
-											<>{displayFriendsGauge()}</>
-										}
-									</>
-								}
-						</li>
-					*/}
 					<hr/>
 					{displayCreationPostContainer()}
 					<li id="postsContainer" style={{listStyle:"none"}}>

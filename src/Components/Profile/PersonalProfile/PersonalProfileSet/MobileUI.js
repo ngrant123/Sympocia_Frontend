@@ -303,50 +303,9 @@ const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType,isOwner})=>
 		   </UserConsumer>
 }
 
-const PhonePersonalInformationHeader=({ownerName,isOwner,isGuestProfile})=>{
-	const [displayPhoneProfileOptions,changePhoneProfileOptions]=useState(false);
-	const closeModal=()=>{
-		changePhoneProfileOptions(false);
-	}
-	return <UserConsumer>
-				{personalInformation=>{
-					return <li style={{listStyle:"none",marginLeft:"-60%"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",fontSize:"20px",maxHeight:"50px",maxWidth:"70%",overflow:"hidden"}}>
-								<b>{ownerName}</b>
-							</li>
-							{isGuestProfile==false &&(
-								<li id="mobilePersonalOptionCaret" style={{listStyle:"none",display:"inline-block",marginLeft:"10%"}}>
-									<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-											style={ShadowButtonCSS}
-											onClick={()=>changePhoneProfileOptions(true)}
-										>
-										   		<span class="caret"></span>
-										</button>
-										{displayPhoneProfileOptions==true &&(
-											<MobileProfileOptions
-												{...personalInformation.mobilePhoneUIParameters}
-												championModalData={personalInformation.championModalData}
-												closeModal={closeModal}
-												isIphoneDisplay={true}
-												isOwner={isOwner}
-											/>
-										)}
-									</div>
-								</li>
-							)}
-						</ul>
-						<hr/>
-				   </li>
-				}}
-		   </UserConsumer>
-}
-
 export{
 	MobilePersonalInformation,
 	MobileRecruitAndFriendsGaugeOptions,
-	PhonePersonalInformationHeader,
 	MobileProfileOptions,
 	EditNodeModal
 }
