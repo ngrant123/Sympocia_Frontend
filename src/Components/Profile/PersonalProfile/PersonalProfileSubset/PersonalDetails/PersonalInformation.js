@@ -295,6 +295,7 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 
 const PersonalInformation=(props)=>{
 	console.log(props);
+	console.log("Another comp re render");
 	const [displayFriendsAndIndustryContainer,changeIndicator]=useState(false);
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);

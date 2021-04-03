@@ -1,4 +1,4 @@
-import React,{useState,useEffect,Component} from "react";
+import React,{useState,useEffect,useMemo} from "react";
 import styled from "styled-components";
 import SearchIcon from '@material-ui/icons/Search';
 import ImagePosts from "./ImagePosts/ImagePostContainer.js";
@@ -179,7 +179,9 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
-	
+	console.log("Re-render");
+	console.log(props);
+
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -204,8 +206,8 @@ const PersonalPostsIndex=(props)=>{
 	const [personalInformation,changePersonalInformation]=useState(props.personalInformation);
 
 	let [imagePost,changeImagePost]=useState({
-			crownedImage:props.personalInformation.userProfile.crownedPost,
-			images:props.personalInformation.userProfile.imagePost
+			crownedImage:props.personalInformation.crownedPost,
+			images:props.personalInformation.imagePost
 	});
 
 	let [videoPost,changeVideoPosts]=useState({
@@ -541,21 +543,21 @@ const PersonalPostsIndex=(props)=>{
 							   		<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
-								<li onClick={()=>triggerPostDecider("image",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+								<li onClick={()=>triggerPostDecider("image",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
 									<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
 										Images
 									</a>
 								</li>
 								{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) &&(
 									<React.Fragment>
-										<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+										<li onClick={()=>triggerPostDecider("video",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
 
 											<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Videos
 											</a>
 										</li>
 
-										<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+										<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
 											<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Regular Posts
@@ -563,7 +565,7 @@ const PersonalPostsIndex=(props)=>{
 										</li>
 
 
-										<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+										<li onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
 											<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 												Blogs
@@ -577,16 +579,16 @@ const PersonalPostsIndex=(props)=>{
 					<li style={{listStyle:"none",display:"inline-block"}}>
 						<RecruitButton
 							personalInformation={{
-								_id:personalInformation.userProfile._id,
+								_id:personalInformation._id,
 								isGuestProfile:personalInformation.isGuestProfile,
 								isOwnProfile:personalInformation.isOwnProfile,
-								firstName:personalInformation.userProfile.firstName,
+								firstName:personalInformation.firstName,
 								socialMediaUrls:{
 									instagramUrl:"",
 									tikTokUrl:""
 								},
 								isGuestVisitorProfile:personalInformation.isGuestVisitorProfile,
-								recruits:personalInformation.userProfile.recruits
+								recruits:personalInformation.recruits
 							}}
 							displayConfettiHandle={personalInformation.displayConfettiHandle}
 							userId={personalRedux.id}
@@ -605,7 +607,7 @@ const PersonalPostsIndex=(props)=>{
 		changeIsLoadingNewPosts(true);
 		handlePostsClick({
 			kindOfPost:currentPostType,
-			id:props.personalInformation.userProfile._id,
+			id:props.personalInformation._id,
 			isAccessTokenUpdated:false,
 			postCounter:nextCounter,
 			isLoadingNewPosts:true
@@ -696,7 +698,7 @@ const PersonalPostsIndex=(props)=>{
 		return (
 			<ul class="dropdown-menu">
 				<li style={{cursor:"pointer"}} 
-					onClick={()=>triggerPostDecider(currentPostType,props.personalInformation.userProfile._id,0)}>
+					onClick={()=>triggerPostDecider(currentPostType,props.personalInformation._id,0)}>
 					<a>Clear Filter</a>
 				</li>
 				<hr/>
@@ -759,7 +761,7 @@ const PersonalPostsIndex=(props)=>{
 			debugger;
 			event.preventDefault();
 			if(textAreaValue==""){
-				triggerPostDecider(currentPostType,props.personalInformation.userProfile._id,0)
+				triggerPostDecider(currentPostType,props.personalInformation._id,0)
 			}else{
 				const posts=searchPostsFilter(currentSelectedPosts,textAreaValue,currentPostType);
 				switch(currentPostType){
@@ -798,6 +800,61 @@ const PersonalPostsIndex=(props)=>{
 			}
 		}
 	}
+
+	const postsDisplaySystem=useMemo(()=>{
+		return <div id="postCollectionContainer">
+				{
+					displayImages==true?
+					<ImagePosts
+						imageData={imagePost}
+						isLoading={isLoadingIndicatorImages}
+						profile="Personal"
+					/>:<React.Fragment></React.Fragment>
+				}
+				{
+					displayVideos==true?
+					<VideoPosts
+						videos={videoPost}
+						isLoadingIndicatorVideos={isLoadingIndicatorVideos}
+						id={personalInformation._id}
+						postCounter={currentPostCounter}
+						handleVideoPostModal={props.handleVideoPostModal}
+						editPost={editPostVideo}
+						removePost={removePostVideo}
+						updateVideoPosts={updateVideoPosts}
+					/>:<React.Fragment></React.Fragment>
+				}
+				{
+					displayBlogs==true?
+					<BlogsPosts
+						blogData={blogPost}
+						isLoadingIndicatorBlogPost={isLoadingIndicatorBlogPost}
+						id={personalInformation._id}
+						friendsNodes={props.personalInformation.friendsGaugeNodes}
+					/>:<React.Fragment></React.Fragment>
+				}
+				{
+					displayRegularPosts==true?
+					<RegularPost
+						id={props.personalInformation._id}
+						posts={regularPost}
+						isLoadingIndicatorRegularPost={isLoadingIndicatorRegularPost}
+						profilePicture={props.personalInformation.profilePicture}
+						profile="Personal"
+					/>:<React.Fragment></React.Fragment>
+				}
+			</div>
+	},[imagePost,
+		videoPost,
+		blogPost,
+		regularPost,
+		displayImages,
+		isLoadingIndicatorImages,
+		isLoadingIndicatorBlogPost,
+		isLoadingIndicatorRegularPost,
+		isLoadingIndicatorVideos
+	])
+
 	return (
 			<PostProvider
 				value={{
@@ -838,12 +895,12 @@ const PersonalPostsIndex=(props)=>{
 						if(isCrowned==true){
 							updatedNewRegularPostProp={
 								...post,
-								owner:props.personalInformation.userProfile._id
+								owner:props.personalInformation._id
 							}
 						}else{
 							updatedNewRegularPostProp={
 								...regularPostProp,
-								owner:props.personalInformation.userProfile._id
+								owner:props.personalInformation._id
 							}
 						}
 						if(displayRegularPosts){
@@ -944,7 +1001,7 @@ const PersonalPostsIndex=(props)=>{
 												</ul>
 											</li>
 
-										<li onClick={()=>triggerPostDecider("image",props.personalInformation.userProfile._id,0)} 
+										<li onClick={()=>triggerPostDecider("image",props.personalInformation._id,0)} 
 											style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 											<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
 												Images
@@ -953,7 +1010,7 @@ const PersonalPostsIndex=(props)=>{
 
 										{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) && (
 											<React.Fragment>
-												<li onClick={()=>triggerPostDecider("video",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
+												<li onClick={()=>triggerPostDecider("video",props.personalInformation._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 
 													<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 														Videos
@@ -961,14 +1018,14 @@ const PersonalPostsIndex=(props)=>{
 												</li>
 
 
-												<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+												<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
 													<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 														Regular Posts
 													</a>
 												</li>
 
-												<li onClick={()=>triggerPostDecider("blog",props.personalInformation.userProfile._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+												<li onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
 													<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
 														Blogs
@@ -1016,49 +1073,7 @@ const PersonalPostsIndex=(props)=>{
 									</ul>
 								</li>
 							}
-							<div id="postCollectionContainer">
-								{
-									displayImages==true?
-									<ImagePosts
-										imageData={imagePost}
-										isLoading={isLoadingIndicatorImages}
-										profile="Personal"
-									/>:<React.Fragment></React.Fragment>
-								}
-								{
-									displayVideos==true?
-									<VideoPosts
-										videos={videoPost}
-										isLoadingIndicatorVideos={isLoadingIndicatorVideos}
-										id={personalInformation.userProfile._id}
-										postCounter={currentPostCounter}
-										handleVideoPostModal={props.handleVideoPostModal}
-										editPost={editPostVideo}
-										removePost={removePostVideo}
-										updateVideoPosts={updateVideoPosts}
-									/>:<React.Fragment></React.Fragment>
-								}
-								{
-									displayBlogs==true?
-									<BlogsPosts
-										blogData={blogPost}
-										isLoadingIndicatorBlogPost={isLoadingIndicatorBlogPost}
-										id={personalInformation.userProfile._id}
-										friendsNodes={props.personalInformation.userProfile.friendsGaugeNodes}
-									/>:<React.Fragment></React.Fragment>
-								}
-								{
-									displayRegularPosts==true?
-									<RegularPost
-										id={props.personalInformation.userProfile._id}
-										posts={regularPost}
-										isLoadingIndicatorRegularPost={isLoadingIndicatorRegularPost}
-										profilePicture={props.personalInformation.userProfile.profilePicture}
-										profile="Personal"
-									/>:<React.Fragment></React.Fragment>
-								}
-							</div>
-								
+							{postsDisplaySystem}
 						</ul>
 					</li>
 				</ul>

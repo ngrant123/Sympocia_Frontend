@@ -10,11 +10,7 @@ import PersonalPostsIndex from "../PersonalProfileSubset/PersonalPosts/index.js"
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'
 import { withRouter } from "react-router-dom";
 import {PostDisplayProvider} from "../PostDisplayModalContext.js";
-import ImageContainer from "../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
 
-
-import VideoContainer from "../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
-import RegularPostContainer from "../../../GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
 import {SponsorDisplayModal} from "./Modals-Portals/ChampionModalPortal/ChampionDisplayModal.js";
 import Confetti from 'react-confetti';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
@@ -31,7 +27,6 @@ import {
 import CONSTANTS from "../../../../Constants/constants.js";
 import GuestLockScreenHOC from "../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 import {
-	MobilePersonalInformation,
 	MobileProfileOptions
 } from "./MobileUI.js";
 import ProfilePicturesDefaultOptionsModal from "./Modals-Portals/ProfilePicturesDefaultOptions/index.js";
@@ -47,20 +42,10 @@ import {
 	PersonalProfileInformationContainer,
 	PostInformationContainer,
 	ShadowContainer,
-	ImagePopupContainer,
-	PostPopupContainer,
 	CreatePostButton,
-	RegularPostContainerParent,
 	MobilePersonalInformationContainer,
 	MobileShadowContainer
 } from "./PersonalProfileContainerCSS.js";
-
-const MediumMobileScreenUserInformation=styled.div`
-	display:flex;
-	flex-direction:row;
-`;
-
-
 
 const ChampionAndCreateButtonCSS={
 	position:"fixed",
@@ -70,17 +55,6 @@ const ChampionAndCreateButtonCSS={
 	top:"75%"
 }
 
-const ShadowButtonCSS={
-	display:"inline-block",
-	listStyle:"none",
-	padding:"10px",
-	backgroundColor:"white",
-	color:"#6e6e6e",
-	boxShadow:"1px 1px 5px #6e6e6e",
-	marginRight:"5px",
-	borderRadius:"5px",
-	borderStyle:"none"
-}
 
 //Guest HOC is no longer needed 
 
@@ -136,7 +110,7 @@ class LProfile extends Component{
 		    displaySocialMediaUrlContainer:false,
 		    displayPhoneUI:false,
 			displayIpadUI:false,
-			displayDesktopUI:false,
+			displayDesktopUI:true,
 			displayMobileUIPersonalInformation:false,
 			displayMobileUIProfileOptions:false,
 			triggerPostReload:false,
@@ -579,9 +553,12 @@ class LProfile extends Component{
 	}
 
 	closePostsModal=()=>{
-		this.setState({
-			displayShadowBackground:false,
-			displayPostData:false
+		this.setState(prevState=>{
+			return{
+				...prevState,
+				displayShadowBackground:false,
+				displayPostData:false
+			}
 		})
 	}
 
@@ -776,7 +753,20 @@ class LProfile extends Component{
 										disappearShadow={this.disappearShadow}
 										displayCreationPortal={this.state.displayCreationPortal}
 										closeModal={this.closeModal}
-										personalInformation={this.state}
+										personalInformation={{
+											_id:this.state.userProfile._id,
+											isGuestProfile:this.state.isGuestProfile,
+											isOwnProfile:this.state.isOwnProfile,
+											firstName:this.state.userProfile.firstName,
+											socialMediaUrls:{
+												instagramUrl:"",
+												tikTokUrl:""
+											},
+											crownedPost:this.state.userProfile.crownedPost,
+											imagePost:this.state.userProfile.imagePost,
+											isGuestVisitorProfile:this.state.isGuestVisitorProfile,
+											recruits:this.state.userProfile.recruits
+										}}
 										uiStatus={{
 										    displayPhoneUI:this.state.displayPhoneUI,
 											displayIpadUI:this.state.displayIpadUI,
