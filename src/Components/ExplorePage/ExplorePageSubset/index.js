@@ -20,6 +20,7 @@ import {
 		setPersonalProfileAccessToken,
 		setPersonalProfileRefreshToken
 		} from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
+import PostsMemo from "./PostsMemo.js";
 
 const Container=styled.div`
 	@media screen and (max-width:1370px){
@@ -629,12 +630,15 @@ class SearchExploreContainer extends Component{
 															*/}
 														</React.Fragment>
 													)}
-													<Posts>
-														{this.handleDisplayImages(homePageInformation,searchPageInformation)}
-														{this.handleDisplayVideos(homePageInformation,searchPageInformation)}
-														{this.handleDisplayBlogs(homePageInformation,searchPageInformation)}
-														{this.handleDisplayRegularPosts(homePageInformation,searchPageInformation)}	
-													</Posts>
+													<PostsMemo
+														handleDisplayImages={this.handleDisplayImages}
+														handleDisplayVideos={this.handleDisplayVideos}
+														handleDisplayBlogs={this.handleDisplayBlogs}
+														handleDisplayRegularPosts={this.handleDisplayRegularPosts}
+														homePageInformation={homePageInformation}
+														searchPageInformation={searchPageInformation}
+														postsInformation={this.state.postsInformation}
+													/>
 												</ul>
 											</PostsContainer>
 										</li>

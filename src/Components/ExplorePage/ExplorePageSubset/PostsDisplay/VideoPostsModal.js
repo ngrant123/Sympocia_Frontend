@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useMemo} from "react";
 import styled from "styled-components";
 import VideoPostDisplayPortal from "../../ExplorePageSet/VideoHomeDisplayPortal.js";
 import {useSelector} from "react-redux";
@@ -280,7 +280,7 @@ const HorizontalLineCSS={
 
 const VideoPostModal=(props)=>{
 	const headerVideo=props.posts[0];
-	const videos=props.posts.slice(1,props.posts.length);
+	const [videos,changeVideos]=useState(props.posts.slice(1,props.posts.length));
 	
 
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
@@ -307,12 +307,11 @@ const VideoPostModal=(props)=>{
 		changeVideoDisplay(true);
 	}
 
-	return(
-	<Container>
-		{headerVideo==null?
-			<p> No video posts yet </p>:
-				<React.Fragment>
-					<HeaderContainer>
+	const posts=useMemo(()=>{
+		console.log('Posts Re render');
+		return(
+			<React.Fragment>
+				<HeaderContainer>
 						<HeaderOwnerInformation>
 							<div id="ownerInformationDiv" style={{display:"flex",flexDirection:"row",width:"60%"}}>
 								<ProfilePictureLink to={{pathname:`/profile/${headerVideo.owner._id}`}}>
@@ -421,15 +420,25 @@ const VideoPostModal=(props)=>{
 							</React.Fragment>
 						)}
 					</SmallPostContainer>
-				{displayVideoDisplayPortal==false?
-					null:
-					<VideoPostDisplayPortal
-						closeModal={closeModal}
-						selectedVideo={selectedVideo}
-						recommendedVideos={displayRecommendedVideos}
-						targetDom={props.targetDom}
-					/>
-				}
+			</React.Fragment>
+		)
+	},[videos]);
+
+	return(
+	<Container>
+		{headerVideo==null?
+			<p> No video posts yet </p>:
+				<React.Fragment>
+					{posts}
+					{displayVideoDisplayPortal==false?
+						null:
+						<VideoPostDisplayPortal
+							closeModal={closeModal}
+							selectedVideo={selectedVideo}
+							recommendedVideos={displayRecommendedVideos}
+							targetDom={props.targetDom}
+						/>
+					}
 			</React.Fragment>
 		}
 		</Container>
