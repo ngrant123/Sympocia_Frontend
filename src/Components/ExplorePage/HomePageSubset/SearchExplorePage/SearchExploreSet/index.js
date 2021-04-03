@@ -8,22 +8,22 @@ import {connect} from "react-redux";
 import {HomeConsumer} from "../../../HomeContext.js";
 import {SearchConsumer} from "../../../../SearchPage/SearchContext.js";
 
-import {ImagePostsModal} from '../SearchExploreSubset/ImagePostsModal.js';
-import VideosPostsModal from '../SearchExploreSubset/VideoPostsModal.js';
-import BlogsPostsModal from '../SearchExploreSubset/BlogPostsModal.js';
-import RegularPostsModal from '../SearchExploreSubset/RegularPostsModal.js';
+import {ImagePostsModal} from '../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/ImagePostsModal.js.js.js';
+import VideosPostsModal from '../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/VideoPostsModal.js.js.js';
+import BlogsPostsModal from '../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/BlogPostsModal.js.js.js';
+import RegularPostsModal from '../../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/RegularPostsModal.js.js.js';
 
 import {
 		exploreImagePosts,
 		exploreVideoPosts,
 		exploreBlogPosts,
 		exploreRegularPosts
-	} from "./../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
-import {refreshTokenApiCallHandle} from "./../../../../../Actions/Tasks/index.js";
+	} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {
 		setPersonalProfileAccessToken,
 		setPersonalProfileRefreshToken
-		} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
+		} from "../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 
 const Container=styled.div`
 	@media screen and (max-width:1370px){

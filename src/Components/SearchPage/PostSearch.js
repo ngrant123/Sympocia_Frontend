@@ -1,13 +1,14 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 
-import {ImagePostsModal} from "../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/ImagePostsModal.js";
-import VideoPostModal from "../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/VideoPostsModal.js";
-import BlogPostModal from "../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/BlogPostsModal.js";
-import RegularPostModal from "../Home/HomePageSubset/SearchExplorePage/SearchExploreSubset/RegularPostsModal.js";
+import {ImagePostsModal} from "../ExplorePage/ExplorePageSubset/PostsDisplay/ImagePostsModal.js";
+import VideoPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/VideoPostsModal.js";
+import BlogPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/BlogPostsModal.js";
+import RegularPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/RegularPostsModal.js";
 import {getPostsFromSearch} from "../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import LoadingScreen from "../../LoadingAnimation.js";
 import {useSelector} from "react-redux";
+
 
 
 const Container=styled.div`

@@ -1,21 +1,14 @@
-import React,{useState,useEffect} from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
-import ImagePostDisplayPortal from "../../../HomePageSet/ImageHomeDisplayPortal.js";
-import PersonalIndustry from "../../../../../Constants/personalIndustryConstants.js";
-import CompanyIndustry from "../../../../../Constants/industryConstants.js";
+import ImagePostDisplayPortal from "../../ExplorePageSet/ImageHomeDisplayPortal.js";
 import {useSelector,useDispatch} from "react-redux";
-import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
-import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
-import {getSymposiumId} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
-import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import {addRecruit} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-import {isUserFollwingProfile} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
-import {SearchConsumer} from "../../../../SearchPage/SearchContext.js";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
+import {addRecruit} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {Link} from "react-router-dom";
 
-import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {removeRecruitProfileIsFollowing} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 import {
 	ConstructSuggestedSymposium,
 	displayPersonalIndustryFeed

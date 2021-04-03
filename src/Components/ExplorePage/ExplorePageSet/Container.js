@@ -4,7 +4,7 @@ import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBar
 import { connect } from "react-redux";
 import SymposiumList from "../../Symposium/SymposiumList/FeedContainer";
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
-import SearchExploreScreen from "../HomePageSubset/SearchExplorePage/SearchExploreSet/index.js";
+import SearchExploreScreen from "../ExplorePageSubset/index.js";
 
 import ExploreIcon from '@material-ui/icons/Explore';
 import RecruitsPosts from "./RecruitsPostsModal.js";
@@ -483,7 +483,6 @@ class HomePageContainer extends Component{
 						{this.state.displayDesktopUI==true &&(
 							<PageIndicator>
 								<ul>
-									
 									<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
 										<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
 											<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>

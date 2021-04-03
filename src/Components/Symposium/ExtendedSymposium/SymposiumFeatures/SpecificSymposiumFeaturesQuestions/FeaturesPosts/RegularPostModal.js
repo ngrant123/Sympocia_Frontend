@@ -6,7 +6,7 @@ import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png
 import {createSpecificIndustryRegularPostAnswer} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryRegularPostFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
-import RegularPostDisplayPortal from "../../../../../Home/HomePageSet/RegularPostHomeDisplayPortal.js";
+import RegularPostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`

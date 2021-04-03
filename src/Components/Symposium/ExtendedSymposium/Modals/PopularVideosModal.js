@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import styled from "styled-components";
-import VideoPostDisplayPortal from "../../../Home/HomePageSet/VideoHomeDisplayPortal.js";
+import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
 import {
 	PopularVideosContainer,
 	BackgroundModalContainer

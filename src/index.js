@@ -50,7 +50,7 @@ const LoadableOptions={
 const PersonalProfileScreen=React.lazy(()=>import("./Components/Profile/PersonalProfile/PersonalProfileSet/PersonalProfileContainer"))
 const Landing=React.lazy(()=>import("./Components/Landing/index.js"))
 const Signup=React.lazy(()=>import("./Components/Signup/LargeSignupComp/LSignUpPage"))
-const HomeScreen=React.lazy(()=>import("./Components/Home/HomePageSet/HomePageContainer.js"))
+const ExplorePageScreen=React.lazy(()=>import("./Components/ExplorePage/ExplorePageSet/Container.js"))
 const BlogPostCreation=React.lazy(()=>import("./Components/GeneralComponents/PostComponent/BlogComponent/BlogPostCreation/index.js"))
 const SearchPage=React.lazy(()=>import("./Components/SearchPage/index.js"))
 const Symposium=React.lazy(()=>import("./Components/Symposium/ExtendedSymposium/index.js"))
@@ -77,7 +77,7 @@ const application  = (
 							<Route exact path="/" component= {Landing}/>
 							<Route exact path="/logout" component= {Landing}/>
 							<Route exact path="/signup" component={Signup}/>
-							<Route exact path="/home" component= {HomeScreen}/>
+							<Route exact path="/home" component= {ExplorePageScreen}/>
 							<Route exact path="/createBlog" component={BlogPostCreation}/>
 							<Route exact path="/search/:string/:searchType" component={SearchPage}/>
 							<Route exact path="/symposium/:symposiumName" component={Symposium}/>

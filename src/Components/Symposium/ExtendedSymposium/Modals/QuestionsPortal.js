@@ -7,9 +7,9 @@ import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 
-import ImagePostDisplayPortal from "../../../Home/HomePageSet/ImageHomeDisplayPortal.js";
-import VideoPostDisplayPortal from "../../../Home/HomePageSet/VideoHomeDisplayPortal.js";
-import RegularPostDisplayPortal from "../../../Home/HomePageSet/RegularPostHomeDisplayPortal.js";
+import ImagePostDisplayPortal from "../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
+import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
+import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
 
 const Container=styled.div`
 	position:fixed;
