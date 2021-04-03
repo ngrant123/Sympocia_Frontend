@@ -33,6 +33,7 @@ import ProfilePicturesDefaultOptionsModal from "./Modals-Portals/ProfilePictures
 import ProfilePicture from "../PersonalProfileSubset/PersonalDetails/ProfilePictureContainer.js";
 import FriendsGauge from "../PersonalProfileSubset/FriendsGaugeSection/FriendsGauge.js";
 import PostDisplay from "./PostsDisplay/index.js";
+import PersonalPostsIndexContainer from "./PersonalPostsIndexContainer";
 
 
 import {
@@ -64,12 +65,7 @@ class LProfile extends Component{
 	constructor(props){
 		super(props);
 		this.state={
-			images:[],
-			videos:[],
-			blogs:[],
-			imgUrl:{},
 			displayImages:false,
-			displayImageModal:false,
 		    displayVideos:false,
 		    videoData:{},
 		    displayBlogs:false,
@@ -78,14 +74,6 @@ class LProfile extends Component{
 		    userProfile:{},
 		    isLoading:true,
 		    displayShadowBackground:false,
-		    displayImageModal:false,
-		    imageModalData:{},
-		    displayVideoModal:false,
-		    videoModalData:{},
-		    displayBlogModal:false,
-		    blogModalData:{},
-		    displayPostData:false,
-		    regularModalData:{},
 		    displayChampion:false,
 		    champion:{},
 		    displayCreationPortal:false,
@@ -124,6 +112,13 @@ class LProfile extends Component{
 				this.displayConfetti()
 			}
 		};
+	}
+
+	shouldComponentUpdate(nextProps, nextState){
+		if(this.state==nextState){
+			return false;
+		}
+	   return true; // equals() is your implementation
 	}
 
 	triggerUIChange=()=>{
@@ -748,7 +743,7 @@ class LProfile extends Component{
 										}}
 									/>
 
-									<PersonalPostsIndex
+									<PersonalPostsIndexContainer
 										displayShadowOverlay={this.displayShadow}
 										disappearShadow={this.disappearShadow}
 										displayCreationPortal={this.state.displayCreationPortal}
