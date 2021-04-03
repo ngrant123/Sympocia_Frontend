@@ -13,6 +13,8 @@ import {PostProvider} from "../PostsContext.js";
 
 
 const PostsContainerDisplay=({state,triggerReloadingPostsHandle,displaySymposium,displayRecruitConfetti,profileId})=>{
+    debugger;
+    console.log(state);
     const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
     const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
     const [posts,changePosts]=useState(state.posts);

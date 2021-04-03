@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useMemo} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import BlogHomeDisplayPortal from "../../ExplorePageSet/BlogHomeDisplayPortal.js";
@@ -368,7 +368,7 @@ const ProfilePictureLink=styled(Link)`
 
 const BlogPostModal=(props)=>{
 	const headerBlog=props.posts[0];
-	const blogs=props.posts.slice(1,props.posts.length);
+	const [blogs,changeBlogs]=useState(props.posts.slice(1,props.posts.length));
 
 
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
@@ -438,130 +438,139 @@ const BlogPostModal=(props)=>{
 			props.triggerReloadingPostsHandle();
 		}
 	}
+
+	const posts=useMemo(()=>{
+		return(
+			<React.Fragment>
+			<HeaderContainer>
+				<PostUserAndSymposiumInformation>
+					<PostUserInformation>
+						<ProfilePictureLink to={{pathname:`/profile/${headerBlog.owner._id}`}}>
+							{headerBlog.owner.profilePicture!=null?
+								<img src={headerBlog.owner.profilePicture} style={ProfileImageCSS}/>:
+								<img src={NoProfilePicture} style={ProfileImageCSS}/>
+							}
+						</ProfilePictureLink>
+
+						<Link to={{pathname:`/profile/${headerBlog.owner._id}`}}
+							id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px"}}>
+							<b>{headerBlog.owner.firstName}</b>
+						</Link>
+					</PostUserInformation>
+					{headerBlog.audioDescription!=null &&(
+						<audio id="headerAudioLI" style={{width:"350px",marginBottom:"2%"}} id="headerAudioLI" controls>
+						  	<source src={headerBlog.audioDescription} type="audio/ogg"/>
+						  	<source src={headerBlog.audioDescription} type="audio/mp4"/>
+							Your browser does not support the audio element.
+						</audio>	
+					)}
+				</PostUserAndSymposiumInformation>
+				<div id="headerBlogImage" style={HeaderBlogCSS}>
+					<img  onClick={()=>handleDisplayHeaderBlog()}  id="headerBlogLI"
+						src={headerBlog.blogImageUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
+					/>
+					{headerBlog.videoDescription!=null &&(
+						<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+							style={{position:"absolute",top:"50%",left:"0%"}} width="200px" height="60%">
+							<source src={headerBlog.videoDescription} type="video/mp4"/>
+						</video>
+					)}
+				</div>
+
+				<HeaderBlogImageInformationContainer>
+					<p style={{fontSize:"20px",listStyle:"none",height:"60px",overflowY:"hidden"}}>
+						<b>{headerBlog.title}</b>
+					</p>
+
+					<p style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"80px",overflowY:"hidden"}}>
+						{headerBlog.description}
+					</p>
+				</HeaderBlogImageInformationContainer>
+			</HeaderContainer>
+			<hr id="horizontalSeperator" style={HorizontalLineCSS}/>
+			<PostsContainer>
+					{blogs.map(data=>
+						<React.Fragment>
+								{data=="suggestedSymposium"?
+									<ConstructSuggestedSymposium
+										personalInformation={personalInformationRedux}
+										previousProps={props}
+									/>
+								:
+								<SmallPostContainer>
+									{data.audioDescription!=null &&(
+										<li id="smallAudioDescription" style={{listStyle:"none"}}>
+											<audio style={{width:"150px",height:"25px"}} controls muted>
+											  	<source src={data.audioDescription} type="audio/ogg"/>
+											  	<source src={data.audioDescription} type="audio/mp4"/>
+												Your browser does not support the audio element.
+											</audio>
+										</li>
+									)}
+									<div onClick={()=>displayBlogModal(data)} style={{display:"flex",flexDirection:"row",marginBottom:"1%",cursor:"pointer"}}>
+										<div id="smallImageContainer" style={SmallBlogImageCSS}>
+											<img id="image" src={data.blogImageUrl} style={BlogImageContainerCSS}/>
+											{data.videoDescription!=null &&(
+												<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+													style={{position:"absolute",top:"40%",left:"0%"}} width="100px" height="40%">
+													<source src={data.videoDescription} type="video/mp4"/>
+												</video>
+											)}
+										</div>
+
+										<SmallPostDescriptionContainer>
+											<li style={{fontSize:"20px",listStyle:"none",height:"60px",overflowY:"hidden",marginBottom:"2%"}}>
+												<b>
+													{data.title}
+												</b>
+											</li>
+
+											<li style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
+												{data.description}
+											</li>
+										</SmallPostDescriptionContainer>
+									</div>
+									<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
+										<li style={{listStyle:"none"}}>
+											<ul style={{padding:"0px"}}>
+												<img id="profilePicture" 
+													src={data.owner.profilePicture==null?
+															NoProfilePicture:
+															data.owner.profilePicture
+														} style={ProfileImageCSS}
+												/>
+												<li style={{listStyle:"none",display:"inline-block",maxWidth:"90px",overflow:"hidden",maxHeight:"20px",marginLeft:"2%"}}>
+													{data.owner.firstName}
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</SmallPostContainer>
+
+							}	
+							<hr/>
+						</React.Fragment>
+					)}
+					{props.endOfPostsDBIndicator==false && (
+						<React.Fragment>
+							{props.isLoadingReloadedPosts==true?
+								<p>Loading please wait...</p>:
+								<p onClick={()=>props.triggerReloadingPostsHandle("Blogs")} style={NextButtonCSS}>
+									Next
+								</p>
+							}
+						</React.Fragment>
+					)}
+			</PostsContainer>
+			</React.Fragment>
+		)
+	},[]);
+
 	return(
 		<Container>
 			{props.posts.length>=1?
 				<React.Fragment>
-					<HeaderContainer>
-						<PostUserAndSymposiumInformation>
-							<PostUserInformation>
-								<ProfilePictureLink to={{pathname:`/profile/${headerBlog.owner._id}`}}>
-									{headerBlog.owner.profilePicture!=null?
-										<img src={headerBlog.owner.profilePicture} style={ProfileImageCSS}/>:
-										<img src={NoProfilePicture} style={ProfileImageCSS}/>
-									}
-								</ProfilePictureLink>
-
-								<Link to={{pathname:`/profile/${headerBlog.owner._id}`}}
-									id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px"}}>
-									<b>{headerBlog.owner.firstName}</b>
-								</Link>
-							</PostUserInformation>
-							{headerBlog.audioDescription!=null &&(
-								<audio id="headerAudioLI" style={{width:"350px",marginBottom:"2%"}} id="headerAudioLI" controls>
-								  	<source src={headerBlog.audioDescription} type="audio/ogg"/>
-								  	<source src={headerBlog.audioDescription} type="audio/mp4"/>
-									Your browser does not support the audio element.
-								</audio>	
-							)}
-						</PostUserAndSymposiumInformation>
-						<div id="headerBlogImage" style={HeaderBlogCSS}>
-							<img  onClick={()=>handleDisplayHeaderBlog()}  id="headerBlogLI"
-								src={headerBlog.blogImageUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
-							/>
-							{headerBlog.videoDescription!=null &&(
-								<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-									style={{position:"absolute",top:"50%",left:"0%"}} width="200px" height="60%">
-									<source src={headerBlog.videoDescription} type="video/mp4"/>
-								</video>
-							)}
-						</div>
-
-						<HeaderBlogImageInformationContainer>
-							<p style={{fontSize:"20px",listStyle:"none",height:"60px",overflowY:"hidden"}}>
-								<b>{headerBlog.title}</b>
-							</p>
-
-							<p style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"80px",overflowY:"hidden"}}>
-								{headerBlog.description}
-							</p>
-						</HeaderBlogImageInformationContainer>
-					</HeaderContainer>
-					<hr id="horizontalSeperator" style={HorizontalLineCSS}/>
-					<PostsContainer>
-							{blogs.map(data=>
-								<React.Fragment>
-										{data=="suggestedSymposium"?
-											<ConstructSuggestedSymposium
-												personalInformation={personalInformationRedux}
-												previousProps={props}
-											/>
-										:
-										<SmallPostContainer>
-											{data.audioDescription!=null &&(
-												<li id="smallAudioDescription" style={{listStyle:"none"}}>
-													<audio style={{width:"150px",height:"25px"}} controls muted>
-													  	<source src={data.audioDescription} type="audio/ogg"/>
-													  	<source src={data.audioDescription} type="audio/mp4"/>
-														Your browser does not support the audio element.
-													</audio>
-												</li>
-											)}
-											<div onClick={()=>displayBlogModal(data)} style={{display:"flex",flexDirection:"row",marginBottom:"1%",cursor:"pointer"}}>
-												<div id="smallImageContainer" style={SmallBlogImageCSS}>
-													<img id="image" src={data.blogImageUrl} style={BlogImageContainerCSS}/>
-													{data.videoDescription!=null &&(
-														<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-															style={{position:"absolute",top:"40%",left:"0%"}} width="100px" height="40%">
-															<source src={data.videoDescription} type="video/mp4"/>
-														</video>
-													)}
-												</div>
-
-												<SmallPostDescriptionContainer>
-													<li style={{fontSize:"20px",listStyle:"none",height:"60px",overflowY:"hidden",marginBottom:"2%"}}>
-														<b>
-															{data.title}
-														</b>
-													</li>
-
-													<li style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
-														{data.description}
-													</li>
-												</SmallPostDescriptionContainer>
-											</div>
-											<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
-												<li style={{listStyle:"none"}}>
-													<ul style={{padding:"0px"}}>
-														<img id="profilePicture" 
-															src={data.owner.profilePicture==null?
-																	NoProfilePicture:
-																	data.owner.profilePicture
-																} style={ProfileImageCSS}
-														/>
-														<li style={{listStyle:"none",display:"inline-block",maxWidth:"90px",overflow:"hidden",maxHeight:"20px",marginLeft:"2%"}}>
-															{data.owner.firstName}
-														</li>
-													</ul>
-												</li>
-											</ul>
-										</SmallPostContainer>
-
-									}	
-									<hr/>
-								</React.Fragment>
-							)}
-							{props.endOfPostsDBIndicator==false && (
-								<React.Fragment>
-									{props.isLoadingReloadedPosts==true?
-										<p>Loading please wait...</p>:
-										<p onClick={()=>props.triggerReloadingPostsHandle("Blogs")} style={NextButtonCSS}>
-											Next
-										</p>
-									}
-								</React.Fragment>
-							)}
-					</PostsContainer>
+					{posts}
 					{displayBlogDisplayPortal==false?
 						null:
 						<BlogHomeDisplayPortal

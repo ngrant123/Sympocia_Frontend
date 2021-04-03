@@ -67,10 +67,10 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                 if(newPostOption!="Video")
                     nextPosts=postCount==0?suggestedSymposiumsRecursive(nextPosts):nextPosts;
 
-                changeEndOfPostIndicator(false);
-                changeIsLoadingReloadedPosts(false);
                 changePostOptionState(newPostOption);
                 changePosts([...nextPosts]);
+                changeEndOfPostIndicator(false);
+                changeIsLoadingReloadedPosts(false);
                 /*
                     this.setState({
                         posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,

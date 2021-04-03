@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useMemo} from "react";
 import styled from "styled-components";
 import ImagePostDisplayPortal from "../../ExplorePageSet/ImageHomeDisplayPortal.js";
 import {useSelector,useDispatch} from "react-redux";
@@ -430,8 +430,10 @@ const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 
 
 const ImagePostsModal=(props)=>{
+	console.log("re-render")
 	const headerImage=props.posts[0];
-	const images=props.posts.slice(1,props.posts.length);
+	const [images,changeImages]=useState(props.posts.slice(1,props.posts.length));
+
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
 
@@ -444,22 +446,16 @@ const ImagePostsModal=(props)=>{
 		changeImageDisplay(false)
 	}
 
-	const handleDisplayHeaderImage=()=>{
-		changeSelectedImage(headerImage);
-		changeRecommendedImages(images);
-		changeImageDisplay(true);
-	}
-
 	const displayImageModal=(data)=>{
 		changeSelectedImage(data);
 		changeRecommendedImages(images);
 		changeImageDisplay(true);
 	}
 
-	return(
-	<>
-		{props.posts.length>=1?
-			<Container>
+	const posts=useMemo(()=>{
+		console.log('Posts Re render');
+		return(
+			<React.Fragment>
 				<HeaderContainer>
 					<PostUserAndSymposiumInformation>
 						<PostUserInformation>
@@ -568,6 +564,16 @@ const ImagePostsModal=(props)=>{
 						</React.Fragment>
 					)}
 				</PostsContainer>
+			</React.Fragment>
+		)
+	},[images]);
+
+
+	return(
+	<>
+		{props.posts.length>=1?
+			<Container>
+				{posts}
 				{displayImageDisplayPortal==false?
 					null:
 					<ImagePostDisplayPortal
