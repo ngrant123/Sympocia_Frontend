@@ -2,9 +2,9 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import ImagePostDisplayPortal from "../../../Home/HomePageSet/ImageHomeDisplayPortal.js";
-import VideoPostDisplayPortal from "../../../Home/HomePageSet/VideoHomeDisplayPortal.js";
-import RegularPostDisplayPortal from "../../../Home/HomePageSet/RegularPostHomeDisplayPortal.js";
+import ImagePostDisplayPortal from "../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
+import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
+import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
 import QuestionsPortal from "./QuestionsPortal.js";
 import {getPopularQuestionReplies} from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 

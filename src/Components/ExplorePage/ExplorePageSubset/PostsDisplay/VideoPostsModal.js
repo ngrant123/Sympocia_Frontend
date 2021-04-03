@@ -1,17 +1,9 @@
 import React,{useState} from "react";
 import styled from "styled-components";
-import VideoPostDisplayPortal from "../../../HomePageSet/VideoHomeDisplayPortal.js";
-import PersonalIndustry from "../../../../../Constants/personalIndustryConstants.js";
-import CompanyIndustry from "../../../../../Constants/industryConstants.js";
+import VideoPostDisplayPortal from "../../ExplorePageSet/VideoHomeDisplayPortal.js";
 import {useSelector} from "react-redux";
-import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
-import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
-
-import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import {DisplayRecruitButton} from "./ImagePostsModal.js";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import {Link} from "react-router-dom";
-import {ConstructSuggestedSymposium} from "./ConstructSuggestedSymposium.js";
 
 const Container=styled.div`
 	display:flex;

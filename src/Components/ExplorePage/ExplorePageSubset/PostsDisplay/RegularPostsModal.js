@@ -1,17 +1,11 @@
 import React,{useState} from "react";
 import styled from "styled-components";
-import PersonalIndustry from "../../../../../Constants/personalIndustryConstants.js";
-import CompanyIndustry from "../../../../../Constants/industryConstants.js";
 import {useSelector} from "react-redux";
-import {DisplayRecruitButton} from "./ImagePostsModal.js";
-import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
-import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
-import RegularPostDisplayPortal from "../../../HomePageSet/RegularPostHomeDisplayPortal.js";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
+import RegularPostDisplayPortal from "../../ExplorePageSet/RegularPostHomeDisplayPortal.js";
 import {Link} from "react-router-dom";
 import {
-	ConstructSuggestedSymposium,
-	displayPersonalIndustryFeed
+	ConstructSuggestedSymposium
 } from "./ConstructSuggestedSymposium.js";
 
 

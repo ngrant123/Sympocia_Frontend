@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
-import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
-import PersonalIndustry from "../../../../../Constants/personalIndustryConstants.js";
-import CompanyIndustry from "../../../../../Constants/industryConstants.js";
-import {getSymposiumId} from "../../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+import PERSONAL_INDUSTRIES from "../../../../Constants/personalIndustryConstants.js";
+import COMPANY_INDUSTRIES from "../../../../Constants/industryConstants.js";
+import PersonalIndustry from "../../../../Constants/personalIndustryConstants.js";
+import CompanyIndustry from "../../../../Constants/industryConstants.js";
+import {getSymposiumId} from "../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 const SuggestedSymposiumsContainer=styled.div`
 	width:90%;

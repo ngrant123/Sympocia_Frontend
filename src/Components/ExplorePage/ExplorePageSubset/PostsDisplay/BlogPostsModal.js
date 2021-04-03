@@ -1,11 +1,10 @@
 import React,{useState} from "react";
 import styled from "styled-components";
-import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import BlogHomeDisplayPortal from "../../../HomePageSet/BlogHomeDisplayPortal.js";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
+import BlogHomeDisplayPortal from "../../ExplorePageSet/BlogHomeDisplayPortal.js";
 import {useSelector} from "react-redux";
-import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
-import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
-import {DisplayRecruitButton} from "./ImagePostsModal.js";
+import PERSONAL_INDUSTRIES from "../../../../Constants/personalIndustryConstants.js";
+import COMPANY_INDUSTRIES from "../../../../Constants/industryConstants.js";
 import {
 	ConstructSuggestedSymposium,
 	displayPersonalIndustryFeed

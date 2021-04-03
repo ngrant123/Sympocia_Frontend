@@ -5,7 +5,7 @@ import CameraIcon from '@material-ui/icons/Camera';
 import {createSpecificIndustryVideoAnswer} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryVideoFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
-import VideoPostDisplayPortal from "../../../../../Home/HomePageSet/VideoHomeDisplayPortal.js";
+import VideoPostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
