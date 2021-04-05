@@ -533,7 +533,7 @@ const PersonalPostsIndex=(props)=>{
 	const mobilePostSelectionAndRecruitUI=(personalInformation)=>{
 		console.log(personalInformation);
 		return (
-			<li  style={{listStyle:"none"}}>
+			<li  style={{listStyle:"none",marginLeft:"-5%"}}>
 				<ul style={{padding:"0px"}}>
 					<li id="mobilePhonePostOption" style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 						<div class="dropdown">
@@ -802,6 +802,8 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const postsDisplaySystem=useMemo(()=>{
+		console.log("Posts re render");
+		console.log(regularPost);
 		return <div id="postCollectionContainer">
 				{
 					displayImages==true?

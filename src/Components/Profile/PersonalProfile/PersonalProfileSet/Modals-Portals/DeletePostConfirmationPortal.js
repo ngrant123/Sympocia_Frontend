@@ -86,7 +86,6 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						personalInformation.accessToken
 		}
-
 		const {confirmation,data}=await deletePost(removedPost); 
 		if(confirmation=="Success"){
 			if(selectedPostType=="Blogs"){

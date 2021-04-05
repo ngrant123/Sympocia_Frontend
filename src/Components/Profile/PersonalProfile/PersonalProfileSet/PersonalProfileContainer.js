@@ -373,7 +373,8 @@ class LProfile extends Component{
 			displayRegularPostModal:false,
 			displayBlogPostModal:false,
 			displayVideoPostModal:false,
-			displayImagePostModal:false
+			displayImagePostModal:false,
+			displayPostData:false
 		})
 	}
 	updateProfileSocialUrls=(data)=>{
@@ -522,6 +523,7 @@ class LProfile extends Component{
 	}
 
 	displayCreatePostOptionTrigger=()=>{
+		console.log("Creation post clicked");
 		return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
 					<li id="createPostIcon" onClick={()=>this.setState({displayCreationPortal:true})} style={{listStyle:"none",marginLeft:"380px",marginBottom:"5%"}}>
 						<CreatePostButton>
@@ -586,6 +588,47 @@ class LProfile extends Component{
 						/>
 					)}
 			   </React.Fragment>
+	}
+	friendsGauge=()=>{
+		return(
+			<FriendsGauge
+				id="friendsGaugeContainer"
+				personalInformation={{
+					isOwnProfile:this.state.isOwnProfile,
+					_id:this.state.userProfile._id,
+					friendsGauge:this.state.userProfile.friendsGauge,
+					friendsGaugeNodes:this.state.userProfile.friendsGaugeNodes
+				}}
+				mobileUIStatus={{
+				    displayPhoneUI:this.state.displayPhoneUI,
+					displayIpadUI:this.state.displayIpadUI,
+					displayDesktopUI:this.state.displayDesktopUI,
+				}}
+			/>
+		)
+	}
+	desktopIpadFriendsGauge=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayPhoneUI==false &&(
+					<React.Fragment>
+						{this.friendsGauge()}
+					</React.Fragment>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	displayMobileFriendsGaugeComponent=()=>{
+		return(
+			<React.Fragment>
+				{(this.state.isLoading==false && this.state.displayPhoneUI==true)==true &&(
+					<React.Fragment>
+						{this.friendsGauge()}
+					</React.Fragment>
+				)}
+			</React.Fragment>
+		)
 	}
 
 	personalInformation=(isMobileInformation)=>{
@@ -704,7 +747,7 @@ class LProfile extends Component{
 								displayCreatePostOptionTrigger={this.displayCreatePostOptionTrigger}
 								handleChangeProfilePicture={this.handleChangeProfilePicture}
 							/>
-
+							{this.displayMobileFriendsGaugeComponent()}
 							<PersonalProfileInformationContainer>
 								{this.personalInformation()}
 							</PersonalProfileInformationContainer>
@@ -727,21 +770,8 @@ class LProfile extends Component{
 									/>
 								)}
 
-								<PostInformationContainer>	
-									<FriendsGauge
-										id="friendsGaugeContainer"
-										personalInformation={{
-											isOwnProfile:this.state.isOwnProfile,
-											_id:this.state.userProfile._id,
-											friendsGauge:this.state.userProfile.friendsGauge,
-											friendsGaugeNodes:this.state.userProfile.friendsGaugeNodes
-										}}
-										mobileUIStatus={{
-										    displayPhoneUI:this.state.displayPhoneUI,
-											displayIpadUI:this.state.displayIpadUI,
-											displayDesktopUI:this.state.displayDesktopUI,
-										}}
-									/>
+								<PostInformationContainer>
+									{this.desktopIpadFriendsGauge()}	
 
 									<PersonalPostsIndexContainer
 										displayShadowOverlay={this.displayShadow}
@@ -757,6 +787,7 @@ class LProfile extends Component{
 												instagramUrl:"",
 												tikTokUrl:""
 											},
+											profilePicture:this.state.userProfile.profilePicture,
 											crownedPost:this.state.userProfile.crownedPost,
 											imagePost:this.state.userProfile.imagePost,
 											isGuestVisitorProfile:this.state.isGuestVisitorProfile,

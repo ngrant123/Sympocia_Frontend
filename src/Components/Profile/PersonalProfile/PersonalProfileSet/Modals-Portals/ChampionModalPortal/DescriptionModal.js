@@ -31,13 +31,14 @@ const BackButtonCSS={
 
 const Container=styled.div`
 	padding:20px;
-	@media screen and (max-width:600px){
+	@media screen and (max-width:650px){
 		width:180% !important;
 		#userPictureAndNameLI{
 			width:90% !important;
 		}
 		#pictureLI{
 			width:30% !important;
+			height:120px !important;
 		}
 		#nameLI{
 			width:90% !important;
@@ -57,7 +58,7 @@ const Container=styled.div`
 		}
 		#pictureLI{
 			width:10% !important;
-			height:50% !important;
+			height:90px !important;
 		}
     }
 `;
@@ -214,49 +215,54 @@ const DescriptionModal=(props)=>{
 		const name=document.getElementById("name").value;
 		const description=document.getElementById("description").value;
 
-		const ChampionModalObject={
-			name:name,
-			imgUrl:props.imgData,
-			description:description,
-			tikTokUrl:tikTokUlr,
-			instagramUrl:instagramUrl
-		}
-		const {confirmation,data}=await createChampion(
-											personalReduxInformation.id,
-											ChampionModalObject,
-											currentAccessToken
-										);
-		if(confirmation=="Success"){
-			personalInformation.displayChampionModal(ChampionModalObject);
-			props.closeModal();
+		if(name==""){
+			alert('Please enter minimum a name for your champion');
+			changeIsProcessingSubmittion(false);
 		}else{
-			const {statusCode}=data;
-			if(statusCode==401){
-				const refreshTokenResponse=await refreshTokenApi({
-					userId:personalReduxInformation.id,
-					refreshToken:personalReduxInformation.refreshToken
-				})
-
-				const refreshTokenConfirmation=refreshTokenResponse.confirmation;
-				const refreshTokenData=refreshTokenResponse.data;
-
-
-				if(refreshTokenConfirmation=="Success"){
-					const {message:{
-						accessToken,
-						refreshToken
-					}}=refreshTokenData;
-					changeContextPersonalInformation(personalInformation)
-					changeIsAccessTokenTriggered(true);
-					changeCurrentAccessToken(accessToken);
-				}else{
-					alert('Unfortunately something has gone wrong. Please log out and sign back in again');
-				}
-			}else{
-				alert('Unfortunately an error has occured when trying to update your champion. Please try again');
+			const ChampionModalObject={
+				name:name,
+				imgUrl:props.imgData,
+				description:description,
+				tikTokUrl:tikTokUlr,
+				instagramUrl:instagramUrl
 			}
+			const {confirmation,data}=await createChampion(
+												personalReduxInformation.id,
+												ChampionModalObject,
+												currentAccessToken
+											);
+			if(confirmation=="Success"){
+				personalInformation.displayChampionModal(ChampionModalObject);
+				props.closeModal();
+			}else{
+				const {statusCode}=data;
+				if(statusCode==401){
+					const refreshTokenResponse=await refreshTokenApi({
+						userId:personalReduxInformation.id,
+						refreshToken:personalReduxInformation.refreshToken
+					})
+
+					const refreshTokenConfirmation=refreshTokenResponse.confirmation;
+					const refreshTokenData=refreshTokenResponse.data;
+
+
+					if(refreshTokenConfirmation=="Success"){
+						const {message:{
+							accessToken,
+							refreshToken
+						}}=refreshTokenData;
+						changeContextPersonalInformation(personalInformation)
+						changeIsAccessTokenTriggered(true);
+						changeCurrentAccessToken(accessToken);
+					}else{
+						alert('Unfortunately something has gone wrong. Please log out and sign back in again');
+					}
+				}else{
+					alert('Unfortunately an error has occured when trying to update your champion. Please try again');
+				}
+			}
+			changeIsProcessingSubmittion(false);
 		}
-		changeIsProcessingSubmittion(false);
 	}
 	
 	return(

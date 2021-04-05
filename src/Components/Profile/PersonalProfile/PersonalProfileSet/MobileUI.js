@@ -155,7 +155,7 @@ const MobileChampionData=(championData)=>{
 }
 
 const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampionsModal,championModalData,isIphoneDisplay,isOwner})=>{
-	
+	console.log(championModalData);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [editChampionModal,changeEditChampionModal]=useState(false);
 	const [displayChampion,changeDisplayChampion]=useState(false); 
@@ -211,7 +211,7 @@ const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampi
 					            </a>
 							)}
 				            <hr/>
-				            {championModalData!=null && (
+				            {(championModalData!=null || championModalData.name!="")==true && (
 				            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 				            		<li onClick={()=>changeDisplayChampion(true)}style={{listStyle:"none"}}>
 					                    View Champion
