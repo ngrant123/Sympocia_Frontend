@@ -26,6 +26,9 @@ export const Container=styled.div`
     }
 
     @media screen and (max-width:650px){
+    	#postCollectionContainer{
+    		margin-left:2% !important;
+    	}
     	#postsContainer{
 			margin-left:-80% !important;
 			margin-top:180% !important;
@@ -174,13 +177,14 @@ export const ProfilePictureContainer=styled.div`
 
     @media screen and (max-width:650px){
     	height:90% !important;
-    	margin-left:0%;
-    	width:85% !important;
+    	margin-bottom:2%;
+    	margin-left:5%;
+    	width:75% !important;
 		z-index:10;
-		margin-top:10%;
+		margin-top:15%;
 		#profilePicture{
 		  width:80% !important;
-          height:200% !important;
+          height:190% !important;
           left:10% !important;
           max-height:190px !important;
 	    }
@@ -192,6 +196,19 @@ export const ProfilePictureContainer=styled.div`
 	 		width:50% !important;
 	 	}
     }
+
+  @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	margin-top:0%;
+    	margin-bottom:-10px;
+    	height:110px !important;
+   	}
+
+
+    @media screen and (max-width:570px) and (max-height:340px) and (orientation:landscape){
+    	margin-top:-2%;
+    	margin-bottom:0px;
+    	height:90% !important;
+   	}
 `;
 
 export const HeaderContainer=styled.div`
@@ -230,7 +247,7 @@ export const ProfileContainer=styled.div`
     }
 
 	@media screen and (max-width:650px) and (max-height:420px) and (orientation:landscape){
-		top:72%;
+		top:40%;
 		height:90% !important;
     }
 `;
@@ -253,6 +270,18 @@ export const PersonalProfileInformationContainer= styled.div`
 		    all:unset!important;
 		}
 	}
+
+	@media screen and (max-width:650px){
+		top:-20% !important;
+	}
+
+	  @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	top:20px !important;
+   	}
+
+   	@media screen and (max-width:570px) and (max-height:340px) and (orientation:landscape){
+    	top:-40% !important;
+   	}
 `;
 
 export const PersonalProfileContentContainer= styled.div`
@@ -374,6 +403,9 @@ export const PostInformationContainer=styled.div`
 		top:20%;
     }
 
+    @media screen and (max-width:650px){
+    	top:25%;
+    }
 `;
 
 export const PostInformationContainerShadowOverlay=styled.div`

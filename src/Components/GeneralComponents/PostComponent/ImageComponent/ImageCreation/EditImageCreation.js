@@ -373,7 +373,8 @@ class EditImageCreation extends Component{
 				
 				if(confirmation=="Success"){
 					profilePostInformation.hideCreationPost();
-					this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria,data,this.props.personalProfile.id);
+					const {message}=data;
+					this.pushDummyImageObjectToProfile(profilePostInformation,searchCriteria,message,this.props.personalProfile.id);
 				}else{
 					
 					const {statusCode}=data;

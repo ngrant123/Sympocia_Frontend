@@ -19,9 +19,14 @@ const Container=styled.div`
     margin-left:5%;
   }
   @media screen and (max-width:650px){
-    margin-left:-30%;
+    margin-left:10%;
     margin-right:5%;
   }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+     margin-top:-10%;
+     margin-bottom:5%;
+    }
 `;
 
 const LocksCSS={

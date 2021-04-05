@@ -2,7 +2,6 @@ import React,{useState,Component} from "react";
 import styled from "styled-components";
 import {UserConsumer} from "../../UserContext.js";
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
-import FriendsAndIndustryInformation from "./FriendsAndIndustryInformation.js";
 import DonatePortal from "../../PersonalProfileSet/Modals-Portals/DonatePortal.js";
 import ChampionPortal from "../../PersonalProfileSet/Modals-Portals/ChampionModalPortal/index.js";
 import {useSelector,useDispatch} from "react-redux";
@@ -296,7 +295,6 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 const PersonalInformation=(props)=>{
 	console.log(props);
 	console.log("Another comp re render");
-	const [displayFriendsAndIndustryContainer,changeIndicator]=useState(false);
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [displayFriendsPortal,changeDisplayFriendsPortal]=useState(false);
@@ -379,7 +377,7 @@ const PersonalInformation=(props)=>{
 		return(
 			<React.Fragment>
 				<div style={{display:"flex",flexDirection:"row"}}>
-					<p style={{maxWidth:"90%",maxHeight:"20px",overflow:"hidden"}}>
+					<p style={{maxWidth:"90%",maxHeight:"20px",marginRight:"10%",overflow:"hidden"}}>
 						<b>{firstName}</b>
 					</p>
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
@@ -477,39 +475,27 @@ const PersonalInformation=(props)=>{
 								isOwner={props.personalInformation.isOwnProfile}
 							/>
 						)}
-						{displaySymposiumsPortal==true &&(
-							<SymposiumPortal
-								userId={props.personalInformation._id}
-								closeModal={closeFollowedSymposiumsPortal}
-								isOwner={props.personalInformation.isOwnProfile}
-							/>
-						)}
-						{displayFriendsAndIndustryContainer==false?
-							<React.Fragment>
-								{props.personalInformation.isGuestProfile==true?
-									<GuestLockScreenHOC
-										component={userInformationComponent(
-												props.personalInformation,
-												props.displayDesktopUI,
-												props.displayMobileProfileOptionsTrigger
-										)}
-									/>:
-									<>{userInformationComponent(
-											props.personalInformation,
-											props.displayDesktopUI,
-											props.displayMobileProfileOptionsTrigger
-										)}</>
-								}
-							</React.Fragment>
-							:<React.Fragment>
-								<BackButton onClick={()=>changeIndicator(false)}>
-									Back
-								</BackButton>
-								<FriendsAndIndustryInformation/>
-
-							 </React.Fragment>
-						}
-
+					{displaySymposiumsPortal==true &&(
+						<SymposiumPortal
+							userId={props.personalInformation._id}
+							closeModal={closeFollowedSymposiumsPortal}
+							isOwner={props.personalInformation.isOwnProfile}
+						/>
+					)}
+					{props.personalInformation.isGuestProfile==true?
+						<GuestLockScreenHOC
+							component={userInformationComponent(
+									props.personalInformation,
+									props.displayDesktopUI,
+									props.displayMobileProfileOptionsTrigger
+							)}
+						/>:
+						<>{userInformationComponent(
+								props.personalInformation,
+								props.displayDesktopUI,
+								props.displayMobileProfileOptionsTrigger
+							)}</>
+					}
 					{displayDonationModal==true?
 						<DonatePortal
 							closeModal={handleDonateButton}

@@ -19,6 +19,7 @@ const PersonalPostsIndexContainer=(props)=>{
 							instagramUrl:"",
 							tikTokUrl:""
 						},
+						profilePicture:props.personalInformation.profilePicture,
 						crownedPost:props.personalInformation.crownedPost,
 						imagePost:props.personalInformation.imagePost,
 						isGuestVisitorProfile:props.personalInformation.isGuestVisitorProfile,
@@ -40,7 +41,7 @@ const PersonalPostsIndexContainer=(props)=>{
 					updateEndOfPostsDBIndicator={props.updateEndOfPostsDBIndicator}
 					handleVideoPostModal={props.handleVideoPostModal}
 				/>
-	},[])
+	},[props.displayCreationPortal,props.uiStatus])
 
 	return(
 		<React.Fragment>
