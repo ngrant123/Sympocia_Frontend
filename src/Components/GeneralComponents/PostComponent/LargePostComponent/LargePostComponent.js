@@ -433,7 +433,6 @@ class LargePostComponent extends Component{
 	}
 
 	displayPostOptions=(props)=>{
-        debugger;
 		if(props=="RegularPost"){
 			
 			this.setState({

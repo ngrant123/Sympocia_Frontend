@@ -104,14 +104,12 @@ class CoverPhoto extends Component{
 	}
 
 	componentDidMount(){
-		console.log("Testing cover photo component");
 		this.setState({
 			coverPhotoUrl:this.props.coverPhotoData  
 		})
 	}
 
 	handleChangeCover(companyId){
-		console.log(companyId);
 
 		var node=document.getElementById("coverphotoimage");
 		var image=document.getElementById("coverphotoimagefile").files[0];
@@ -121,7 +119,6 @@ class CoverPhoto extends Component{
 		reader.onloadend=()=>{
 
 			node.src=reader.result;
-			console.log(reader.result);
 			document.getElementById("coverphotoimage").style.opacity=1;
 
 			const coverPhotoUrl=reader.result;

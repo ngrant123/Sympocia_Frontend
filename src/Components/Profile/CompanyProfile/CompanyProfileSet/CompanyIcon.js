@@ -36,19 +36,14 @@ class CompanyIcon extends Component{
 
 			if(companyInformation.state.isOwnProfile==true){
 				document.getElementById("imagefile").click();
-				console.log("This is getting clicked");
 				this.setState({
 					companyInformation:companyInformation
 				})
 			}
-		    //console.log(image.value);
 	}
 
 	handleSubmit=(companyInformation)=>{
 		const companyId=this.state.companyInformation.state.userProfile._id;
-		console.log(this.state.companyInformation);
-		console.log(this.props);
-		console.log(companyId);
 		var node = document.getElementById('imagecontainer');
 		var dataUrl=document.getElementById("imagefile").files[0];
 		var reader= new FileReader();
@@ -59,7 +54,6 @@ class CompanyIcon extends Component{
 			document.getElementById("container").src=reader.result;
 
 			const iconUrl=reader.result;
-			console.log(iconUrl);
 			sendCompanyIconToDB(companyId,iconUrl);
 		}
 
@@ -73,7 +67,6 @@ class CompanyIcon extends Component{
 	}
 
 	 handleTest(){
-		console.log("Click");
 	}
 
 	handleSettingDefaultProfilePicture=(companyInformation)=>{

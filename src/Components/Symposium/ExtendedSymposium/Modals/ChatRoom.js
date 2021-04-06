@@ -179,7 +179,6 @@ class ChatRoom extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(this.props.isSimplified);
 		this.state={
 			songPlaying:"",
 			characterLimit:20,
@@ -212,7 +211,6 @@ class ChatRoom extends Component{
   	}
 
 	handleTextChange=(event)=>{
-		console.log(event);
 		const newText=event.target.value;
 		this.setState({
 			songPlaying:this.state.songPlaying,

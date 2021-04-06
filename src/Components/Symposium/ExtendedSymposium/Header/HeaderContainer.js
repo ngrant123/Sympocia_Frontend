@@ -213,7 +213,6 @@ const HeaderContainer=(props)=>{
 			headerAnimation,
 			backgroundColor
 		}=props;
-	console.log(backgroundColor);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 	const [displayMobilePostOptions,changeMobileDisplayPostOptions]=useState(false);
@@ -431,7 +430,7 @@ const HeaderContainer=(props)=>{
 
 								*/}
 			  					
-			  					<li id="selectedSymposiumTitle" style={{width:"60%",overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",overflow:"hidden"}}>
+			  					<li id="selectedSymposiumTitle" style={{overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",overflow:"hidden"}}>
 			  						{displayDesktopUI==true?<><b>{selectedSymposiumTitle}</b></>:<>{selectedSymposiumTitle}</>}
 			  					</li>
 

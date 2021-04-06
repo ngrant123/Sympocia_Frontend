@@ -72,7 +72,7 @@ const PostDisplayContainer=(props)=>{
 	}=props;
 
 	const containsVideoDescriptionAndIsImage=(postData.imgUrl==null?false:true)&&(postData.videoDescription==null?false:true);
-	console.log(containsVideoDescriptionAndIsImage);
+
 
 	const pauseVideoUrls=()=>{
 		if(document.getElementById("videoDescription")!=null)
@@ -101,7 +101,6 @@ const PostDisplayContainer=(props)=>{
 	}
 
 	const playAudio=()=>{
-		debugger;
 		const audio=document.getElementById("audioDescription");
 		if(document.getElementById("videoDescription")!=null && audio!=null){
 			const currentTime=audio.currentTime;

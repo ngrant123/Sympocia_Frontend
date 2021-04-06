@@ -1,7 +1,6 @@
 
 export const searchPostsFilter=(posts,searchCriteria,postType)=>{
 	try{
-		debugger;
 		searchCriteria=searchCriteria.toLowerCase();
 		let postText;
 		switch(postType){
@@ -71,7 +70,6 @@ export const searchPostsFilter=(posts,searchCriteria,postType)=>{
 
 
 	}catch(err){
-		console.log(err);
 		return [];
 	}
 }

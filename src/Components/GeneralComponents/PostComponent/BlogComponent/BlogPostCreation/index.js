@@ -163,8 +163,6 @@ class BlogPostCreation extends Component{
 				if(this.props.location.state.postType=="Creation"){
 					blogContentState="";
 				}else{
-					debugger;
-					console.log(this.props);
 					if(this.props.location.state.videoDescriptionKey!=null){
 						const {confirmation,data}=await getVideoUrl(
 															this.props.location.state.videoDescriptionKey

@@ -28,7 +28,6 @@ const Container=styled.div`
 `;
 //Later down the road should add a contact button in this modal
 const EmployeeDisplayModal=(props)=>{
-	console.log(props);
 	const {data,closeModal}=props;
 	return(
 		<React.Fragment>

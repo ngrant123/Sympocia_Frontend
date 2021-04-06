@@ -25,7 +25,6 @@ const PortalHOCContainer=styled.div`
 
 
 const PortalHOC=({component,closeModal})=>{
-	debugger;
 	return createPortal(
 		<React.Fragment>
 			<BackgroundModalContainer onClick={()=>closeModal()}/>

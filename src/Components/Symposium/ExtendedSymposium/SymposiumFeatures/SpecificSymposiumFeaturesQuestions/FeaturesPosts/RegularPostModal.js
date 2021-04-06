@@ -206,7 +206,6 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 	const displayIntermediatePosts=async()=>{
 		changeIsLoadingTextIndicator(true);
 		const {confirmation,data}=await retrievePosts('Intermediate');
-		console.log(data);
 		if(confirmation=="Success"){
 			const {message}=data;
 			const {posts}=message;

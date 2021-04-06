@@ -10,7 +10,6 @@ import {
 
 const PostDisplayDecider=({postData,postDisplayParams})=>{
 	const {selectedDisplayPostType}=postData;
-	debugger;
 	const postDecider=()=>{
 		switch(selectedDisplayPostType){
 			case 'Images':{

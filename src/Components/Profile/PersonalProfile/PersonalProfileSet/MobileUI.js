@@ -155,7 +155,6 @@ const MobileChampionData=(championData)=>{
 }
 
 const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampionsModal,championModalData,isIphoneDisplay,isOwner})=>{
-	console.log(championModalData);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [editChampionModal,changeEditChampionModal]=useState(false);
 	const [displayChampion,changeDisplayChampion]=useState(false); 

@@ -130,7 +130,11 @@ class FriendsGauge extends Component {
   constructNodeElements=()=>{
     const ProgressBarSteps=[];
       for(var i=0;i<this.state.nodes.length;i++){
-        const currentNode=this.state.nodes[i];
+        let currentNode=this.state.nodes[i];
+        currentNode={
+          ...currentNode,
+          nodeCounter:i
+        }
         if(currentNode!=null){
              const StepElement= <Step  transition="scale"
                                         index={i}>

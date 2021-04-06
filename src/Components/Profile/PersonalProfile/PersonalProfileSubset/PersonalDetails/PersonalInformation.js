@@ -155,11 +155,9 @@ const EditSocialMediaUrlsCSS={
 }
 
 const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
-	console.log(personalInformation);
 	const _id=personalInformation._id;
 
 	const isOwnProfileRecruitButtonDecider=()=>{
-		debugger;
 		const recruits=personalInformation.recruits;
 		let isRecruit=false;
 
@@ -293,8 +291,6 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 
 
 const PersonalInformation=(props)=>{
-	console.log(props);
-	console.log("Another comp re render");
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [displayFriendsPortal,changeDisplayFriendsPortal]=useState(false);

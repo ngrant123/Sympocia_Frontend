@@ -307,7 +307,6 @@ const VideoPostModal=(props)=>{
 	}
 
 	const posts=useMemo(()=>{
-		console.log('Posts Re render');
 		return(
 			<React.Fragment>
 				{headerVideo==null?

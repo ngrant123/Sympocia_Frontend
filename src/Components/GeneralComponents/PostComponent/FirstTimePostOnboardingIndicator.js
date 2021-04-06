@@ -9,11 +9,9 @@ const FirstTimePostOnboardingStatusTrigger=({userId,isGuestProfile})=>{
 
 	useEffect(()=>{
 		const fetchOnboardingIndicator=async()=>{
-			debugger;
 			const {confirmation,data}=await firstTimePostInteractedStatus(userId);
 			if(confirmation=="Success"){
 				const {message}=data;
-				console.log(message);
 				if(message==true){
 					changeDisplayOnboarding(true);
 				}

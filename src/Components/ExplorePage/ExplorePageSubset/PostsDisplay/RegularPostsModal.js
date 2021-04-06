@@ -175,8 +175,6 @@ const NextButtonCSS={
 }
 
 const RegularPostModal=(props)=>{
-	
-	console.log(props);
 	const headerRegularPost=props.posts[0];
 	const regularPosts=props.posts;
 	const personalInformationRedux=useSelector(state=>state.personalInformation);

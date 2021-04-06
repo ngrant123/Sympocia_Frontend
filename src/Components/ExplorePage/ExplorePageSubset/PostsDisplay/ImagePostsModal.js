@@ -429,9 +429,7 @@ const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 
 
 const ImagePostsModal=(props)=>{
-	console.log("re-render")
 	const headerImage=props.posts[0];
-	console.log(props);
 	const images=props.posts.slice(1,props.posts.length);
 	//const [images,changeImages]=useState(props.posts.slice(1,props.posts.length));
 
@@ -454,7 +452,6 @@ const ImagePostsModal=(props)=>{
 	}
 
 	const posts=useMemo(()=>{
-		console.log('Posts Re render');
 		return(
 			<React.Fragment>
 				{props.posts.length>=1?

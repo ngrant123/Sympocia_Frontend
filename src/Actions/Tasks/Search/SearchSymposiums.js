@@ -1,8 +1,6 @@
 export const searchSymposiumsFilter=(targetSymposium,posts)=>{
 	try{
-		debugger;
 		const filteredPost=[];
-		console.log(posts);
 		for(var i=0;i<posts.length;i++){
 
 			const selectedPost=posts[i];
@@ -19,7 +17,6 @@ export const searchSymposiumsFilter=(targetSymposium,posts)=>{
 
 		return filteredPost;
 	}catch(err){
-		debugger;
 		return [];
 	}
 }

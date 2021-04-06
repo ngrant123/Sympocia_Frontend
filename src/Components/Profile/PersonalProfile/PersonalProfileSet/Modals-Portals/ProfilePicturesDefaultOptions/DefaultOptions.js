@@ -52,7 +52,6 @@ const DefaultOptions=({backButtonTrigger,uploadFile})=>{
 	}
 
 	const convertImageToDataUrl=()=>{
-		debugger;
 		let defaultImage=new Image();
 		const canvas=document.createElement('canvas');
 		const canvasContext=canvas.getContext('2d');

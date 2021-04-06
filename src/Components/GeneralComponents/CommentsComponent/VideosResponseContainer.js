@@ -324,7 +324,6 @@ class VideoResponseContainer extends Component{
 
 	VideoComponent=()=>{ 
 		const videoData=this.state.videoResponses[this.state.indicatorPosition];
-		console.log(videoData);
 		return <>
 					{this.state.isProcessingInput==true?
 						<p>Please wait...</p>:

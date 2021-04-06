@@ -59,7 +59,6 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 	const [displayEditArea,changeDisplayEditArea]=useState(false);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
-	console.log(nodeInformation);
 
 	const submitInformation=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const name=document.getElementById("name").value;
@@ -106,7 +105,7 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 				<ul style={{padding:"15px"}}>
 					{isOwner==true &&(
 						<React.Fragment>
-							{nodeInformation.nodeCounter==1 ?
+							{nodeInformation.nodeCounter==0 ?
 								<p>Your general node can not be edited. Create a new one to be able to edit it</p>:
 								<li style={{listStyle:"none",marginBottom:"10%"}}>
 									<ul style={{padding:"0px"}}>

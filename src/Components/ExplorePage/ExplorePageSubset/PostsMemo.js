@@ -8,10 +8,8 @@ import RegularPostsModal from './PostsDisplay/RegularPostsModal.js';
 
 
 const PostDisplayDecider=(props)=>{
-	debugger;
 	const {postType}=props;
 	const postDecider=()=>{
-		debugger;
 		switch(postType){
 			case 'Images':{
 				return <ImagePostsModal
