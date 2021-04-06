@@ -18,7 +18,7 @@ export const Posts=styled.div`
 	height:90%;
 
 	@media screen and (max-width:650px){
-		margin-top:60% !important;
+		margin-top:5% !important;
 		width:100%;
 	}
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
@@ -132,7 +132,7 @@ export const PopularVideosContainer=styled.div`
 	height:60%;
 	padding:20px;
 	overflow-y:scroll;
-	z-index:41;
+	z-index:40;
 	box-shadow: 1px 5px 5px 1px #d5d5d5;
 
 	@media screen and (max-width:740px){
@@ -155,6 +155,25 @@ export const HightLightedQuestionsContainerModal=styled.div`
 	border-width:1px;
 	border-color:#5298F8;
 	overflow-y:scroll;
+
+	${({isSimplified})=>
+		isSimplified==true &&(
+			`
+				#videoQuestionAnswers{
+					height:80% !important;
+					width:300px !important;
+				}
+
+				#imageHighlightedQuestion{
+					width:200px !important;
+				}
+
+				#postLI{
+					margin-right:10% !important
+				}
+			`
+		)
+	}
 
 	@media screen and (max-width:1370px){
 		#postLI{
@@ -210,7 +229,7 @@ export const BackgroundModalContainer= styled.div`
 	width:100%;
 	height:140%;
 	background: rgba(0, 0, 0, 0.5);
-	z-index:40;
+	z-index:39;
 	top:0%;
 `;
 

@@ -1,48 +1,46 @@
 import React,{useMemo} from "react";
 import styled from "styled-components";
+import {ImagePostsModal} from './PostsDisplay/ImagePostsModal.js';
+import VideosPostsModal from './PostsDisplay/VideoPostsModal.js';
+import BlogsPostsModal from './PostsDisplay/BlogPostsModal.js';
+import RegularPostsModal from './PostsDisplay/RegularPostsModal.js';
 
 
-const Posts=styled.div`
-	position:absolute;
-	width:100%;
-	height:100%;
-	margin-top:0%;
 
-	@media screen and (max-width:1370px){
-		margin-top:0%;		
+const PostDisplayDecider=(props)=>{
+	debugger;
+	const {postType}=props;
+	const postDecider=()=>{
+		debugger;
+		switch(postType){
+			case 'Images':{
+				return <ImagePostsModal
+							{...props}
+						/>
+			};
+			case 'Videos':{
+				return <VideosPostsModal
+							{...props}
+						/>
+			};
+			case 'RegularPosts':{
+				return <RegularPostsModal
+							{...props}
+						/>
+			};
+
+			case 'Blogs':{
+				return <BlogsPostsModal
+							{...props}
+						/>
+			}
+		}
 	}
-
-	@media screen and (max-width:450px){
-		margin-top:60% !important;
-	}
-
-`;
-
-const PostsMemo=(props)=>{
-	const {
-		handleDisplayImages,
-		handleDisplayVideos,
-		handleDisplayBlogs,
-		handleDisplayRegularPosts,
-		homePageInformation,
-		searchPageInformation,
-		postsInformation
-	}=props;
-
-	const posts=useMemo(()=>{
-		return <Posts>
-					{handleDisplayImages(homePageInformation,searchPageInformation)}
-					{handleDisplayVideos(homePageInformation,searchPageInformation)}
-					{handleDisplayBlogs(homePageInformation,searchPageInformation)}
-					{handleDisplayRegularPosts(homePageInformation,searchPageInformation)}	
-				</Posts>
-	},[postsInformation]);
-
 	return(
 		<React.Fragment>
-			{posts}
+			{postDecider()}	
 		</React.Fragment>
 	)
 }
 
-export default PostsMemo;
+export default PostDisplayDecider;

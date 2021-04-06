@@ -17,7 +17,8 @@ const symposiumFeatures=(props)=>{
 		headerAnimation,
 		symposiumFeatureQuestions,
 		isGuestProfile,
-		displaySpecficSymposiumFeature
+		displaySpecficSymposiumFeature,
+		isSimplified
 	}=props;
 
 	if(selectedSymposiumTitle=="General"||
@@ -26,12 +27,13 @@ const symposiumFeatures=(props)=>{
 		selectedSymposiumTitle=="Philosophy"){
 		const features={
 			requestedComponent:<Chat
-					  		roomId={symposiumId}
-					  		chat={chatRoom}
-					  		profileId={profileId}
-					  		socket={socket}
-					  		closePostModal={closeSymposiumFeatureModal}
-						/>,
+							  		roomId={symposiumId}
+							  		chat={chatRoom}
+							  		profileId={profileId}
+							  		socket={socket}
+							  		closePostModal={closeSymposiumFeatureModal}
+							  		isSimplified={isSimplified}
+								/>,
 			isGeneral:true
 		}
 		return features;

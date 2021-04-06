@@ -58,7 +58,7 @@ const Posts=styled.div`
 	position:absolute;
 	width:100%;
 	@media screen and (max-width:650px){
-		margin-top:60% !important;
+		margin-top:5% !important;
 		margin-left:2% !important;
 	}
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){

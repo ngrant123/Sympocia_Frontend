@@ -25,7 +25,7 @@ const Container=styled.div`
 	@media screen and (max-width:650px){
 		margin-left:-10%;
 		padding-bottom:10px;
-		margin-top:-40%;
+		margin-top:5%;
 		#headerImageLI{
 			width:220px !important;
 			height:180px !important;

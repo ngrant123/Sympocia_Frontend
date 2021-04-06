@@ -54,6 +54,10 @@ const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle})
 									</button>
 
 									<ul class="dropdown-menu">
+										<ChatAndIndustryInformationContainer onClick={()=>symposiumInformation.handleFollowSymposium()}>
+											Folow Symposium
+										</ChatAndIndustryInformationContainer>
+										<hr/>
 										<ChatAndIndustryInformationContainer onClick={()=>changeDisplayHighLightQuesition(true)}>
 											Highlighted Questions
 										</ChatAndIndustryInformationContainer>

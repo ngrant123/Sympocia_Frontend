@@ -96,7 +96,8 @@ const OwnerInformationAndPostOptions=(props)=>{
 		displayPostModal,
 		profileType,
 		triggerDisplayPostDescriptionAndCaption,
-		targetDom
+		targetDom,
+		postType
 	}=props;
 	return(
 		<PersonalInformation>
@@ -105,7 +106,7 @@ const OwnerInformationAndPostOptions=(props)=>{
 					<img id="ownerProfilePicture" 
 						src={postData.owner.profilePicture==null?
 						NoProfilePicture:postData.owner.profilePicture}
-					 style={{borderRadius:"50%",width:"7%",height:"60px"}}
+					 style={{borderRadius:"50%",width:"7%",height:postType=="Images"?"50px":"30px"}}
 					/>
 					<Link style={{marginLeft:"4%",fontSize:"20px",width:"80%",height:"30px",maxWidth:"80%",maxHeight:"30px",overflow:"hidden",textDecoration:"none",color:"black",marginRight:"10%"}}
 						to={{pathname:`/profile/${postData.owner._id}`}}
