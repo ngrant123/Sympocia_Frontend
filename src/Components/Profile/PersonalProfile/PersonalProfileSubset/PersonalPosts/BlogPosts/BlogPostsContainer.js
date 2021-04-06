@@ -254,6 +254,7 @@ class BlogsPostsContainer extends Component{
 
 	async componentDidMount(){
 	//	this.blogApiTriggerCall({isAccessTokenUpdated:false});
+		console.log(this.props.blogData.blogs);
 	}
 
 

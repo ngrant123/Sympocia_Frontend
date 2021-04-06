@@ -58,7 +58,7 @@ const ProfilePicture=styled.div`
 	position:relative;
 	border-radius:50%;
 	height:20%;
-	width:60px;
+	width:55px;
 	margin-top:2%;
 	overflow:hidden;
 	border-radius:50%;

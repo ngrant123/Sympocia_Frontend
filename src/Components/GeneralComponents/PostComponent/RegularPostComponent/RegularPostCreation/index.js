@@ -265,9 +265,10 @@ const ButtonCSS={
 											);
 			
 			if(confirmation=="Success"){
+				const {message}=data;
 				searchCriteriaObject={
 					...searchCriteriaObject,
-					_id:data
+					_id:message
 				}
 				pushDummyRegularPostObjectToProfile(contextInformation,searchCriteriaObject);
 			}else{

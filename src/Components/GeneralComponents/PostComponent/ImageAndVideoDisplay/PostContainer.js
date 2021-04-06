@@ -240,7 +240,10 @@ const ImageContainer=(props)=>{
 	}
 
 	const triggerPromoteModal=()=>{
-		postData.triggerPromoteModal(postData[postDataDestructedField]._id,"Images");
+		postData.triggerPromoteModal(
+			postData[postDataDestructedField]._id,
+			postData[postDataDestructedField].imgUrl==null?"Videos":"Images"
+		);
 	}
 
 	const editPost=(data)=>{

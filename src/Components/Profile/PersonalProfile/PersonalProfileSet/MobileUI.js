@@ -18,7 +18,7 @@ const OriginalShadowContainer=styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:24;
+	z-index:40;
 	top:0px;
 `;
 
@@ -53,7 +53,7 @@ const EditNodeContainer=styled.div`
 	width:25%;
 	height:50%;
 	background-color:white;
-	z-index:35;
+	z-index:40;
 	top:20%;
 	border-radius:5px;
 	left:40%;

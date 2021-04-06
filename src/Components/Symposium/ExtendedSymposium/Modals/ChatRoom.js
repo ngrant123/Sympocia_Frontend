@@ -31,6 +31,34 @@ const Chat=styled.div`
 			#chatProfilePicture{
 				width:20% !important;
 			}
+			@media screen and (max-width:1340px){
+				#chatProfilePicture{
+					width:70% !important;
+					height:20% !important;
+				}
+			}
+
+
+			@media screen and (max-width:640px){
+				#chatProfilePicture{
+					width:80% !important;
+				}
+			}
+
+			@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+		    	#chatProfilePicture{
+					width:50% !important;
+				}
+		    }
+
+
+			@media screen  and (max-width:840px) and (max-height:420px) 
+			  and (orientation: landscape) 
+			  and (-webkit-min-device-pixel-ratio: 1){
+			  	#chatProfilePicture{
+					width:50% !important;
+				}
+		    }
 		`)
 	}
 
