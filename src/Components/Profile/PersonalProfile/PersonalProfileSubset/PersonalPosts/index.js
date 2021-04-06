@@ -382,6 +382,10 @@ const PersonalPostsIndex=(props)=>{
 		}else if(kindOfPost=="blog"){
 			changeDisplayForBlogs(true);
 			changeCurrentPostType("blog");
+			const blogDiv=document.getElementById("blogs");
+			blogDiv.style.color="#C8B0F4";
+			blogDiv.style.borderBottom="solid";
+			blogDiv.style.borderColor="#C8B0F4";
 
 			const {	confirmation,data}=await getBlogFromUser({
 												userId:id,
@@ -397,10 +401,6 @@ const PersonalPostsIndex=(props)=>{
 				if(posts.length==0 && crownedPost==null){
 					changeEndOfPostsDBIndicator(true);
 				}else{
-					const blogDiv=document.getElementById("blogs");
-					blogDiv.style.color="#C8B0F4";
-					blogDiv.style.borderBottom="solid";
-					blogDiv.style.borderColor="#C8B0F4";
 
 					let {blogs}=blogPost;
 					blogs=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:blogs;
@@ -441,6 +441,12 @@ const PersonalPostsIndex=(props)=>{
 			changeBlogPosts({...blogPost,blogs:[]});
 			changeImagePost({...imagePost,images:[]});
 			changeVideoPosts({...videoPost,videos:[]})
+			const regularPostDiv=document.getElementById("regularPosts");
+			regularPostDiv.style.color="#C8B0F4";
+			regularPostDiv.style.borderBottom="solid";
+			regularPostDiv.style.borderColor="#C8B0F4";
+
+
 			const {confirmation,data}=await getRegularPostFromUser({
 												userId:id,
 												visitorId:props.visitorId,
@@ -454,10 +460,6 @@ const PersonalPostsIndex=(props)=>{
 				if(postsResponse.length==0 && crownedPost==null){
 					changeEndOfPostsDBIndicator(true);
 				}else{
-					const regularPostDiv=document.getElementById("regularPosts");
-					regularPostDiv.style.color="#C8B0F4";
-					regularPostDiv.style.borderBottom="solid";
-					regularPostDiv.style.borderColor="#C8B0F4";
 					let {posts}=regularPost;
 					posts=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:posts;
 					const newRegularPosts=posts.concat(postsResponse);
@@ -891,23 +893,19 @@ const PersonalPostsIndex=(props)=>{
 						props.closeModal();
 					},
 					updateRegularPost:(regularPostProp)=>{
-						
 						const {isCrowned,post}=regularPostProp;
-						let updatedNewRegularPostProp;
-						if(isCrowned==true){
-							updatedNewRegularPostProp={
-								...post,
-								owner:props.personalInformation._id
-							}
-						}else{
-							updatedNewRegularPostProp={
-								...regularPostProp,
-								owner:props.personalInformation._id
-							}
-						}
 						if(displayRegularPosts){
+							if(isCrowned==true){
+								regularPostProp={
+									...regularPostProp,
+									post:{
+										...regularPostProp.post,
+										owner:props.personalInformation._id
+									}
+								}
+							}
 							let newPostObject=updateRegularPostIndexContext(
-								updatedNewRegularPostProp,
+								regularPostProp,
 								regularPost
 							);
 							changeRegularPost(newPostObject);

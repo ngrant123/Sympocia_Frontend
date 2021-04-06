@@ -30,6 +30,17 @@ const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle})
         	changeDisplayHighLightQuesition(false)
         	changeDisplaySpecficSymposiumFeatures(false);
         }
+
+        const isUserFollowingSymposium=(followingIndicator)=>{
+        	return(
+        		<React.Fragment>
+        			{followingIndicator==false?
+				 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
+				 		<p>Unfollow Symposium</p>
+				 	}
+        		</React.Fragment>
+        	)
+        }
 		return(
 			<SymposiumConsumer>
 				{symposiumInformation=>{
@@ -55,7 +66,7 @@ const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle})
 
 									<ul class="dropdown-menu">
 										<ChatAndIndustryInformationContainer onClick={()=>symposiumInformation.handleFollowSymposium()}>
-											Folow Symposium
+											{isUserFollowingSymposium(symposiumInformation.isUserFollowingSymposium())}
 										</ChatAndIndustryInformationContainer>
 										<hr/>
 										<ChatAndIndustryInformationContainer onClick={()=>changeDisplayHighLightQuesition(true)}>

@@ -165,13 +165,15 @@ class BlogPostCreation extends Component{
 				}else{
 					debugger;
 					console.log(this.props);
-					const {confirmation,data}=await getVideoUrl(
-														this.props.location.state.videoDescriptionKey
-													);
+					if(this.props.location.state.videoDescriptionKey!=null){
+						const {confirmation,data}=await getVideoUrl(
+															this.props.location.state.videoDescriptionKey
+														);
 
-					if(confirmation=="Success"){
-						const videoDescriptionUrl=data.message;
-						this.props.location.state.videoDescription=videoDescriptionUrl;
+						if(confirmation=="Success"){
+							const videoDescriptionUrl=data.message;
+							this.props.location.state.videoDescription=videoDescriptionUrl;
+						}
 					}
 					var DBEditorState = convertFromRaw(JSON.parse(this.props.location.state.blog));
 					blogContentState=EditorState.createWithContent(DBEditorState);

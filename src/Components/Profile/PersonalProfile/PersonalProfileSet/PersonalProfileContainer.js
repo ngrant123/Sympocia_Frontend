@@ -791,7 +791,8 @@ class LProfile extends Component{
 											crownedPost:this.state.userProfile.crownedPost,
 											imagePost:this.state.userProfile.imagePost,
 											isGuestVisitorProfile:this.state.isGuestVisitorProfile,
-											recruits:this.state.userProfile.recruits
+											recruits:this.state.userProfile.recruits,
+											friendsGaugeNodes:this.state.userProfile.friendsGaugeNodes
 										}}
 										uiStatus={{
 										    displayPhoneUI:this.state.displayPhoneUI,
