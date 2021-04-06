@@ -179,8 +179,6 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
-	console.log("Re-render");
-	console.log(props);
 
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
@@ -533,7 +531,6 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 	const mobilePostSelectionAndRecruitUI=(personalInformation)=>{
-		console.log(personalInformation);
 		return (
 			<li  style={{listStyle:"none",marginLeft:"-5%"}}>
 				<ul style={{padding:"0px"}}>
@@ -760,7 +757,6 @@ const PersonalPostsIndex=(props)=>{
 		const currentSelectedPosts=retrievedCurrentDisplayedPosts();
 		if(keyEntered=="Enter"){
 			changeIsSearchFilterActivated(true);
-			debugger;
 			event.preventDefault();
 			if(textAreaValue==""){
 				triggerPostDecider(currentPostType,props.personalInformation._id,0)
@@ -804,8 +800,6 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const postsDisplaySystem=useMemo(()=>{
-		console.log("Posts re render");
-		console.log(regularPost);
 		return <div id="postCollectionContainer">
 				{
 					displayImages==true?
@@ -893,17 +887,8 @@ const PersonalPostsIndex=(props)=>{
 						props.closeModal();
 					},
 					updateRegularPost:(regularPostProp)=>{
-						const {isCrowned,post}=regularPostProp;
+						const {isCrownedPost,post}=regularPostProp;
 						if(displayRegularPosts){
-							if(isCrowned==true){
-								regularPostProp={
-									...regularPostProp,
-									post:{
-										...regularPostProp.post,
-										owner:props.personalInformation._id
-									}
-								}
-							}
 							let newPostObject=updateRegularPostIndexContext(
 								regularPostProp,
 								regularPost

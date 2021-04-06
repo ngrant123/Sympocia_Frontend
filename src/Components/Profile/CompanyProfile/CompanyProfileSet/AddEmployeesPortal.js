@@ -28,8 +28,6 @@ const Container=styled.div`
 
 
 const AddEmployeesPortal=(props)=>{
-	console.log(props);
-	console.log("Add employee portal");
 	return createPortal(
 			<React.Fragment>
 				<ShadowContainer

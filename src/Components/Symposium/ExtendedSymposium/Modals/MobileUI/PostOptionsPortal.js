@@ -63,7 +63,6 @@ const MobilePostOptionsPortal=(props)=>{
 		displayPopularVideos,
 		symposium
 	}=props;
-	console.log(props);
 
 	const [displayHighlightedQuestions,changeDisplayHighlightedQuestions]=useState(false);
 	const [displayActiveUsers,changeDisplayActiveUsers]=useState(false);

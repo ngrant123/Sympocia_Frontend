@@ -254,7 +254,6 @@ const VoiceDescriptionPortal=(props)=>{
 		}
 
 		const handleRecording=(stream)=>{
-			debugger;
 			changeLocalStream(stream);
 			var stoppedVideo;
 			var data;

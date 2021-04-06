@@ -518,7 +518,6 @@ class Symposium extends Component{
 	}
 
 	handleFollowSymposium=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
 		if(this.state.isGuestProfile==true){
 			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
 		}else{

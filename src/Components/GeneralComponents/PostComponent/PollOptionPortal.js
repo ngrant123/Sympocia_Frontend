@@ -167,7 +167,6 @@ const PollOptionPortal=(props)=>{
 			}else{
 				comments=await getFakeNewsComments(postId,postType);
 			}
-			console.log(comments);
 			changeComments(comments.reverse());
 			changeIsProcessingStatus(false);
 		}

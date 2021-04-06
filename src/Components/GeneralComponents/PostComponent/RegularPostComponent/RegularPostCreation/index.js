@@ -268,7 +268,10 @@ const ButtonCSS={
 				const {message}=data;
 				searchCriteriaObject={
 					...searchCriteriaObject,
-					_id:message
+					_id:message,
+					owner:{
+						_id:personalInformation.id
+					}
 				}
 				pushDummyRegularPostObjectToProfile(contextInformation,searchCriteriaObject);
 			}else{
@@ -428,7 +431,6 @@ const ButtonCSS={
 	}
 
 	const displayAudioPostCreation=()=>{
-		debugger;
 		if(props.isPhoneUIEnabled==true){
 			alert('Unfortunately you can only upload voice posts on a desktop/laptop. Please switch to that to continue');
 		}else{

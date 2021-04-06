@@ -244,7 +244,6 @@ class CommentsContainer extends Component{
 		}
 	}
 	commentComponent=(data,index)=>{
-		console.log(data);
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>

@@ -523,7 +523,6 @@ class LProfile extends Component{
 	}
 
 	displayCreatePostOptionTrigger=()=>{
-		console.log("Creation post clicked");
 		return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
 					<li id="createPostIcon" onClick={()=>this.setState({displayCreationPortal:true})} style={{listStyle:"none",marginLeft:"380px",marginBottom:"5%"}}>
 						<CreatePostButton>

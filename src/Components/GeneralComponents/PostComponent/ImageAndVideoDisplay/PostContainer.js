@@ -86,7 +86,6 @@ const HorizontalLineCSS={
 */
 
 const ImageContainer=(props)=>{
-	console.log(props);
 	const [commentPostIndicator,changeCommentsDisplay]=useState(false);
 	const [displayPostModal,changeDisplayPost]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
@@ -112,7 +111,6 @@ const ImageContainer=(props)=>{
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			debugger;
 			const destructuredData=props.imageData==null?props.videoData:props.imageData;
 			const destructedFieldTerm=props.imageData==null?"videoData":"imageData";
 			const {videoDescriptionKey,videoUrlKey}=destructuredData;	

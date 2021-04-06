@@ -495,8 +495,6 @@ const EmployeeCSS = {
 class ProfileComp extends Component{
 
 	constructor(props){
-		console.log("Testing");
-		console.log(props);
 		super(props);
 
 		this.state={
@@ -563,8 +561,6 @@ class ProfileComp extends Component{
 	}
 
 	displayChampionPortalHandle=()=>{
-		
-		console.log("test")
 		this.setState({
 			displayChampionPortal:true
 		})

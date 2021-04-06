@@ -203,26 +203,6 @@ handleClick(){
 
 	this.props.handleBackClick();
 
-/*
-	var object={
-		pricedescription:'Tester',
-		number: '$0',
-		description: 'Free for everybody and anybody',
-		id:4
-
-	}
-
-	paymentOptions.push(object);
-	console.log(paymentOptions);
-	this.setState({
-
-		paymentOption:paymentOptions
-
-
-	});
-	console.log(this.state.paymentOption);
-	*/
-
 }
 
 handleDisplayPaymentScreen=()=>{

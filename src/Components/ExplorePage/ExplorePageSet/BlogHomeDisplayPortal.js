@@ -298,7 +298,6 @@ const BlogHomeDisplayPortal=(props)=>{
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			debugger;
 			const {selectedBlog}=postData;
 			const {videoDescriptionKey}=selectedBlog;	
 			if(videoDescriptionKey!=null){
@@ -318,7 +317,6 @@ const BlogHomeDisplayPortal=(props)=>{
 				}else{
 					alert('Unfortunately there was an error getting this video. Please try again later');
 				}
-				debugger;
 				changePostData(currentData);
 			}
 			changeIsLoadingStatus(false);

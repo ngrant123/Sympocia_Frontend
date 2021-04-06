@@ -20,7 +20,6 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     const [postCount,changePostCount]=useState(state.postCount);
 
     const  changePostOption=async(newPostOption,isNewPostOption,postCount)=>{
-        debugger;
         const postParameters={
             industry:state.selectedSymposiumTitle,
             postCount,
@@ -42,7 +41,6 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
             postResults=await getRegularPostsInIndustry({...postParameters});
         }
         let {confirmation,data}=postResults;
-        console.log(postResults);
         if(confirmation=="Success"){
             if(data.length==0){
                 changeEndOfPostIndicator(true);
@@ -56,7 +54,6 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     })
                 */
             }else{
-                debugger;
                 const currentPosts=posts;
                 let nextPosts;
                 if(isNewPostOption==true)
@@ -88,13 +85,11 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         }
     }
     const triggerReloadingPostsHandle=(postOption)=>{
-        debugger;
         changePostCount(postCount+1);
         changePostOption(postOption,null,postCount+1);
     }
 
     const fetchPosts=(newPostOption,resetSearchResults)=>{
-        debugger;
         if(resetSearchResults==true){
             resetAndFetchPosts(newPostOption);
         }else if(newPostOption!=postOption){
@@ -111,7 +106,6 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     }
 
     const searchFilterPosts=(posts)=>{
-        console.log(posts);
         changePosts([...posts])
     }
 

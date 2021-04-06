@@ -279,7 +279,7 @@ const DescriptionModal=(props)=>{
 								</li>
 
 								<DescriptionContainer>
-									<img id="pictureLI" src={props.imgData} style={{marginBottom:"2%",position:"relative",width:"30%",height:"40%",borderRadius:"50%"}}/>
+									<img id="pictureLI" src={props.imgData} style={{marginBottom:"2%",position:"relative",width:"30%",height:"140px",borderRadius:"5px"}}/>
 									<NameTextArea id="name" placeholder="Enter a name here"/>
 									<DescriptionTextArea id="description" placeholder="Enter a description"/>
 

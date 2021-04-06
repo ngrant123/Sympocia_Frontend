@@ -26,13 +26,10 @@ const MobilePostOptionsButton={
 const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts})=>{
 
     const searchPromptTrigger=(event)=>{
-        debugger;
         const textAreaValue=document.getElementById("symposiumSearchPostTextArea").value;
         const keyEntered=event.key;
         const currentSelectedPosts=posts;
         if(keyEntered=="Enter"){
-           // changeIsSearchFilterActivated(true);
-            debugger;
             event.preventDefault();
             if(textAreaValue==""){
                updatePosts(postType,true);

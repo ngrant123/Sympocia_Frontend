@@ -211,12 +211,10 @@ class HomePageContainer extends Component{
 	async componentDidMount(){
 		window.addEventListener('resize',this.triggerUIChange)
 		const {isGuestProfile,id}=this.props.personalInformation;
-		debugger;
 		if(id==null){
 			this.setState({
 				displayGuestOnboarding:true
 			})
-			console.log(this.props);
 			this.props.dispatch(signUpGuestUser())
 		}else if(id=="0" && isGuestProfile==false){
 			this.setState({
@@ -230,7 +228,6 @@ class HomePageContainer extends Component{
 	initiliazeUserProfileForHomePage=async(id)=>{
 		
 		var profile={};
-		debugger;
 		var symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
 		var isPersonalProfile=true;
 		if(id!="0" && this.props.personalInformation.isGuestProfile==false){
@@ -243,9 +240,6 @@ class HomePageContainer extends Component{
 				alert('Unfortunately there has been an error with getting the posts/profile for the home page. Please try again');
 			}
 		}
-		console.log(id);
-		console.log(this.props.personalInformation)
-		console.log(this.props.personalInformation.isGuestProfile);
 
 		this.setState({
 			recruitsPost:id=="0"?[]:profile.recruitsFollowing,

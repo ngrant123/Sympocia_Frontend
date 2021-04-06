@@ -31,7 +31,6 @@ export const BlogsData=()=>{
 
 /*
 	export const BlogsData=()=>{
-		debugger;
 		const {blogFiles,blogImages}=fileManager();
 		const finalBlogs=[];
 

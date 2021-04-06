@@ -715,7 +715,6 @@ class LProfile extends Component{
 				if(id==this.props.companyPersonalId){
 
 					const profile=await getCompanyInformation(this.props.companyPersonalId);
-					console.log(profile);
 					var containsChampion;
 					if(profile.championData!=null){
 						containsChampion=profile.championData.name!=""?true:false;
@@ -735,7 +734,6 @@ class LProfile extends Component{
 				}
 				else{
 					const profile=await getCompanyInformation(id);
-					console.log(profile);
 
 					if(profile.championData!=null){
 						containsChampion=profile.championData.name!=""?true:false;
@@ -766,7 +764,6 @@ class LProfile extends Component{
 	}
 
 	displaytoplevelemployeeprofile=(data)=>{
-		console.log(data);
 		this.setState({
 			displayEmployeeModal:true,
 			topLevelEmployeeData:data
@@ -890,7 +887,6 @@ class LProfile extends Component{
 					<CompanyPostDisplayProvider
 						value={{
 							handleImagePostModal:(imagePostData)=>{
-								console.log(imagePostData);
 								this.setState({
 									imageModalData:imagePostData,
 									displayImagePostModal:true,

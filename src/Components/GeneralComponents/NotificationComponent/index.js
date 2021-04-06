@@ -121,6 +121,19 @@ const HorizontalLineCSS={
 	marginRight:"0"
 }
 
+let MobilePostOptionsButton={
+    listStyle:"none",
+    backgroundColor:"white",
+    padding:"10px",
+    color:"#6e6e6e",
+    boxShadow:"1px 1px 5px #6e6e6e",
+    borderRadius:"5px",
+    borderStyle:"none",
+    cursor:"pointer",
+    marginLeft:"5%"
+}
+
+
 const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	
 	const [isLoading,changeIsLoading]=useState(true);
@@ -134,6 +147,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	const [isPostAudio,changeIsPostAudio]=useState();
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const dispatch=useDispatch();
+	const [selectedNotificationType,changeSelectedNotificationType]=useState("Notifications");
 
 	const [postIdUrl,changePostIdUrl]=useState();
 	const [postId,changePostId]=useState();
@@ -298,6 +312,11 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 											isAccessTokenUpdated==true?updatedAccessToken:
 											personalInformation.accessToken);
 		if(confirmation=="Success"){
+			if(notificationsStatus=="New"){
+				changeSelectedNotificationType("Notifications");
+			}else{
+				changeSelectedNotificationType("Previous");
+			}
 			
 			const {message}=data;
 			changeCurrentFilterNotifications([...message]);
@@ -352,14 +371,29 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 							</>
 							:<>
 								<TitleContainer>
-									<p onClick={()=>triggerGetNotifications({notificationsStatus:"New",isAccessTokenUpdated:false})}
-										style={{fontSize:"20px",marginRight:"5%"}}>
-										<b>Notifications</b>
-									</p>
-									<p onClick={()=>triggerGetNotifications({notificationsStatus:"Previous",isAccessTokenUpdated:false})}
-										style={{cursor:"pointer",color:"#C8B0F4"}}>
-										Previous Notifications
-									</p>
+									<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobilePostOptionsButton}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<p>{selectedNotificationType}</p>
+												</li>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<span class="caret"></span>
+												</li>
+											</ul>
+										</button>
+
+										<ul class="dropdown-menu">
+											<p onClick={()=>triggerGetNotifications({notificationsStatus:"New",isAccessTokenUpdated:false})}
+												style={{cursor:"pointer"}}>
+												Notifications
+											</p>
+											<p onClick={()=>triggerGetNotifications({notificationsStatus:"Previous",isAccessTokenUpdated:false})}
+												style={{cursor:"pointer"}}>
+												Previous Notifications
+											</p>
+										</ul>
+									</div>
 								</TitleContainer>
 
 								<hr style={HorizontalLineCSS}/>

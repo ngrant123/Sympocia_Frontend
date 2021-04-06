@@ -42,7 +42,6 @@ const ExploreButton={
 
 
 const NewsDisplayPortal=(props)=>{
-	console.log(props);
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer

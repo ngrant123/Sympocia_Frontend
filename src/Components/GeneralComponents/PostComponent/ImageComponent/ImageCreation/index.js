@@ -67,12 +67,10 @@ class ImageCreation extends Component{
 		document.getElementById("uploadPictureFile").click();
 	}
 	handleUploadPicture=()=>{
-		debugger;
 		let reader= new FileReader();
 		const picture=document.getElementById("uploadPictureFile").files[0];
 
 		reader.onloadend=()=>{
-			debugger;
 			const maxFileSize=250*1024;
 			if(picture.size>maxFileSize){
 				alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');

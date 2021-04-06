@@ -211,7 +211,6 @@ const NavBar=(pageProps)=>{
 
 	useEffect(()=>{
 		const initialSetUp=async()=>{
-			debugger;
 			if(isGuestProfile==false){
 				statusCheckTrigger({id,isAccessTokenUpdated:false})
 			}

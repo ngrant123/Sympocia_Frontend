@@ -33,8 +33,6 @@ const userActionsContainer=({actions,isOwnProfile,displayPostModal,profileType})
 		changeDisplayPost,
 		promoteModal
 	}=actions;
-	console.log(actions);
-	console.log(displayComments);
 
 	return(
 		<React.Fragment>
@@ -87,7 +85,6 @@ const userActionsContainer=({actions,isOwnProfile,displayPostModal,profileType})
 
 
 const OwnerInformationAndPostOptions=(props)=>{
-	console.log(props);
 	const {
 		displayMobileUI,
 		postData,

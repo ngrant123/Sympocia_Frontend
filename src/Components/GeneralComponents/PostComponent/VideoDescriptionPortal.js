@@ -140,7 +140,7 @@ const VideoDescriptionPortal=(props)=>{
 	const handleUploadedVideoDescription=()=>{
 		let reader= new FileReader();
 		const videoDescription=document.getElementById("uploadedVideoDescription").files[0];
-		console.log(videoDescription);
+
 		const maxSize=11*1024*1024;
 		if(videoDescription.size>maxSize){
 			alert('Your file is too large. We only accept video descriptions that have a size of 11MB. You can go to quicktime (Mac) and lower the resolution there.');
@@ -217,7 +217,6 @@ const VideoDescriptionPortal=(props)=>{
 				props.closeModal();
 			}else{
 				if (navigator.mediaDevices.getUserMedia){
-					console.log(navigator.mediaDevices.getUserMedia);
 					navigator.mediaDevices.getUserMedia({ 
 					  		video: true,
 					  		audio:true
@@ -325,7 +324,6 @@ const VideoDescriptionPortal=(props)=>{
 				stopRecording(localStream);
 				let reader=new FileReader();
 				reader.onloadend=()=>{
-					debugger;
 					props.createVideoDescription(reader.result);
 				}
 			  	reader.readAsDataURL(videoElements[0].videoFile);
