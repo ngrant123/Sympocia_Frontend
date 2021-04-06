@@ -75,7 +75,6 @@ const HeaderContainer=styled.div`
     }
 
 	@media screen and (max-width:650px){
-		margin-top:-130px !important;
 		#headerImageDescription{
 			display:none !important;
 		}
@@ -339,14 +338,14 @@ const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 		}else{
 			const {statusCode}=data;
 			if(statusCode==401){
-				await refreshTokenApiCallHandle(
-						personalInformationRedux.refreshToken,
-						_id,
-						unRecruitButton,
-						dispatch,
-						{},
-						false
-					);
+				await refreshTokenApiCallHandle( 
+					personalInformationRedux.refreshToken,
+					_id,
+					unRecruitButton,
+					dispatch,
+					{},
+					false
+				);
 			}else{
 				alert('Unfortunately there has been an error adding this recruit. Please try again');
 			}
@@ -432,7 +431,9 @@ const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 const ImagePostsModal=(props)=>{
 	console.log("re-render")
 	const headerImage=props.posts[0];
-	const [images,changeImages]=useState(props.posts.slice(1,props.posts.length));
+	console.log(props);
+	const images=props.posts.slice(1,props.posts.length);
+	//const [images,changeImages]=useState(props.posts.slice(1,props.posts.length));
 
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
@@ -456,139 +457,139 @@ const ImagePostsModal=(props)=>{
 		console.log('Posts Re render');
 		return(
 			<React.Fragment>
-				<HeaderContainer>
-					<PostUserAndSymposiumInformation>
-						<PostUserInformation>
-							<ProfilePictureLink style={{marginRight:"20%"}} to={{pathname:`/profile/${headerImage.owner._id}`}}>
-								<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
-									headerImage.owner.profilePicture}
-									style={{height:"50px",width:"60px",borderRadius:"50%"}}
-								/>
-							</ProfilePictureLink>
+				{props.posts.length>=1?
+					<React.Fragment>
+						<HeaderContainer>
+							<PostUserAndSymposiumInformation>
+								<PostUserInformation>
+									<ProfilePictureLink style={{marginRight:"20%"}} to={{pathname:`/profile/${headerImage.owner._id}`}}>
+										<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
+											headerImage.owner.profilePicture}
+											style={{height:"50px",width:"60px",borderRadius:"50%"}}
+										/>
+									</ProfilePictureLink>
 
-							<Link to={{pathname:`/profile/${headerImage.owner._id}`}}
-								id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px"}}>
-								<b>{headerImage.owner.firstName}</b>
-							</Link>
-						</PostUserInformation>
-						{headerImage.audioDescription!=null &&(
-							<audio id="headerAudioLI" style={{width:"350px",marginBottom:"2%"}} id="headerAudioLI" controls muted>
-							  	<source src={headerImage.audioDescription} type="audio/ogg"/>
-							  	<source src={headerImage.audioDescription} type="audio/mp4"/>
-								Your browser does not support the audio element.
-							</audio>
-						)}
-					</PostUserAndSymposiumInformation>
-					<div id="headerImageLI" style={HeaderImageCSS}>
-						<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"
-							src={headerImage.imgUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
-						/>
-						{headerImage.videoDescription!=null &&(
-							<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-								style={{position:"absolute",top:"50%",left:"0%"}} width="200px" height="60%">
-								<source src={headerImage.videoDescription} type="video/mp4"/>
-							</video>
-						)}
-					</div>
-					<HeaderDescriptionContainer> 
-						<p style={{fontSize:"20px"}}>
-							<b>{headerImage.caption}</b>
-						</p>
-						<p id="headerImageDescription">
-							{headerImage.description}
-						</p>
-					</HeaderDescriptionContainer>
-				</HeaderContainer>
-				<hr id="horizontalSeperator" style={HorizontalLineCSS}/>
-
-				<PostsContainer>
-					{images.map(data=>
-						<React.Fragment>
-							{data.owner==null?
-								<ConstructSuggestedSymposium
-									personalInformation={personalInformationRedux}
-									previousProps={props}
+									<Link to={{pathname:`/profile/${headerImage.owner._id}`}}
+										id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px"}}>
+										<b>{headerImage.owner.firstName}</b>
+									</Link>
+								</PostUserInformation>
+								{headerImage.audioDescription!=null &&(
+									<audio id="headerAudioLI" style={{width:"350px",marginBottom:"2%"}} id="headerAudioLI" controls muted>
+									  	<source src={headerImage.audioDescription} type="audio/ogg"/>
+									  	<source src={headerImage.audioDescription} type="audio/mp4"/>
+										Your browser does not support the audio element.
+									</audio>
+								)}
+							</PostUserAndSymposiumInformation>
+							<div id="headerImageLI" style={HeaderImageCSS}>
+								<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"
+									src={headerImage.imgUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
 								/>
-							:<SmallPostContainer>
-									<div onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
-											<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
-												{data.audioDescription!=null &&(
-													<li id="smallAudioDescription" style={{listStyle:"none"}}>
-														<audio style={{width:"150px",height:"25px"}} controls muted>
-														  	<source src={data.audioDescription} type="audio/ogg"/>
-														  	<source src={data.audioDescription} type="audio/mp4"/>
-															Your browser does not support the audio element.
-														</audio>
-													</li>
-												)}
-											</ul>
-											<div id="smallImageContainer" style={ImageCSS}>
-												<img id="image" src={data.imgUrl} style={{borderRadius:"5px",width:"100%",height:"100%"}}/>
-												{data.videoDescription!=null &&(
-													<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-														style={{position:"absolute",top:"62%",left:"0%"}} width="100px" height="40%">
-														<source src={data.videoDescription} type="video/mp4"/>
-													</video>
-												)}
-											</div>
-									</div>
-									<p style={{maxHeight:"15%",overflow:"hidden"}}>
-										<b>{data.caption}</b>
-									</p>
-									<DescriptionContainer>
-										<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-											<img id="smallProfilePicture" src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-												 style={{height:"50px",width:"60px",borderRadius:"50%"}}
-											/>
-										</ProfilePictureLink>
-										<p onClick={()=>displayPersonalIndustryFeed(
-															personalInformationRedux,
-															null,
-															data.industriesUploaded,props
-														)} style={{listStyle:"none",display:"inline-block",height:"40px",overflow:"hidden",marginLeft:"2%"}}>
-											{data.owner.firstName}
-										</p>
-									</DescriptionContainer>
-								</SmallPostContainer>
-							}	
-						</React.Fragment>
-					)}
-					{props.endOfPostsDBIndicator==false && (
-						<React.Fragment>
-							{props.isLoadingReloadedPosts==true?
-								<p>Loading please wait...</p>:
-								<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={ImageLabelCSS}>
-									Next
+								{headerImage.videoDescription!=null &&(
+									<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+										style={{position:"absolute",top:"50%",left:"0%"}} width="200px" height="60%">
+										<source src={headerImage.videoDescription} type="video/mp4"/>
+									</video>
+								)}
+							</div>
+							<HeaderDescriptionContainer> 
+								<p style={{fontSize:"20px"}}>
+									<b>{headerImage.caption}</b>
 								</p>
-							}
-						</React.Fragment>
-					)}
-				</PostsContainer>
+								<p id="headerImageDescription">
+									{headerImage.description}
+								</p>
+							</HeaderDescriptionContainer>
+						</HeaderContainer>
+						<hr id="horizontalSeperator" style={HorizontalLineCSS}/>
+
+						<PostsContainer>
+							{images.map(data=>
+								<React.Fragment>
+									{data.owner==null?
+										<ConstructSuggestedSymposium
+											personalInformation={personalInformationRedux}
+											previousProps={props}
+										/>
+									:<SmallPostContainer>
+											<div onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
+													<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
+														{data.audioDescription!=null &&(
+															<li id="smallAudioDescription" style={{listStyle:"none"}}>
+																<audio style={{width:"150px",height:"25px"}} controls muted>
+																  	<source src={data.audioDescription} type="audio/ogg"/>
+																  	<source src={data.audioDescription} type="audio/mp4"/>
+																	Your browser does not support the audio element.
+																</audio>
+															</li>
+														)}
+													</ul>
+													<div id="smallImageContainer" style={ImageCSS}>
+														<img id="image" src={data.imgUrl} style={{borderRadius:"5px",width:"100%",height:"100%"}}/>
+														{data.videoDescription!=null &&(
+															<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+																style={{position:"absolute",top:"62%",left:"0%"}} width="100px" height="40%">
+																<source src={data.videoDescription} type="video/mp4"/>
+															</video>
+														)}
+													</div>
+											</div>
+											<p style={{maxHeight:"15%",overflow:"hidden"}}>
+												<b>{data.caption}</b>
+											</p>
+											<DescriptionContainer>
+												<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+													<img id="smallProfilePicture" src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
+														 style={{height:"50px",width:"60px",borderRadius:"50%"}}
+													/>
+												</ProfilePictureLink>
+												<p onClick={()=>displayPersonalIndustryFeed(
+																	personalInformationRedux,
+																	null,
+																	data.industriesUploaded,props
+																)} style={{listStyle:"none",display:"inline-block",height:"40px",overflow:"hidden",marginLeft:"2%"}}>
+													{data.owner.firstName}
+												</p>
+											</DescriptionContainer>
+										</SmallPostContainer>
+									}	
+								</React.Fragment>
+							)}
+							{props.endOfPostsDBIndicator==false && (
+								<React.Fragment>
+									{props.isLoadingReloadedPosts==true?
+										<p>Loading please wait...</p>:
+										<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={ImageLabelCSS}>
+											Next
+										</p>
+									}
+								</React.Fragment>
+							)}
+						</PostsContainer>
+					</React.Fragment>
+				:<p>No posts </p>
+				}
 			</React.Fragment>
 		)
-	},[images]);
+	},[props.posts.length,props.isLoadingReloadedPosts,props.endOfPostsDBIndicator]);
 
 
 	return(
-	<>
-		{props.posts.length>=1?
-			<Container>
-				{posts}
-				{displayImageDisplayPortal==false?
-					null:
-					<ImagePostDisplayPortal
-						closeModal={closeModal}
-						selectedImage={selectedImage}
-						recommendedImages={displayRecommendedImages}
-						targetDom={props.targetDom}
-					/>
-				}
-			</Container>
-		:<p>No posts </p>
-	}
-</>
-		)
-	}
+		<Container>
+			{posts}
+			{displayImageDisplayPortal==false?
+				null:
+				<ImagePostDisplayPortal
+					closeModal={closeModal}
+					selectedImage={selectedImage}
+					recommendedImages={displayRecommendedImages}
+					targetDom={props.targetDom}
+				/>
+			}
+		</Container>
+	)
+}
 
 export{
 	ImagePostsModal,

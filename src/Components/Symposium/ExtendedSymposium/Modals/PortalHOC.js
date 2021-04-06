@@ -30,9 +30,7 @@ const PortalHOC=({component,closeModal})=>{
 		<React.Fragment>
 			<BackgroundModalContainer onClick={()=>closeModal()}/>
 			<PortalHOCContainer>
-				<div>
-					{component}
-				</div>
+				{component}
 			</PortalHOCContainer>
 		</React.Fragment>
 	,document.getElementById("extendedSymposiumContainer"))

@@ -25,6 +25,15 @@ const Chat=styled.div`
 	height:75%;
 	overflow-y:auto;
 
+	${({isSimplified})=>
+		isSimplified==true &&(
+			`
+			#chatProfilePicture{
+				width:20% !important;
+			}
+		`)
+	}
+
 `;
 
 const SongPlaying =styled.div`
@@ -142,6 +151,7 @@ class ChatRoom extends Component{
 
 	constructor(props){
 		super(props);
+		console.log(this.props.isSimplified);
 		this.state={
 			songPlaying:"",
 			characterLimit:20,
@@ -214,8 +224,8 @@ class ChatRoom extends Component{
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",display:"inline-block",width:"20%"}}>
 												{data.senderProfilePicture==null?
-													<img src={NoProfilePicture} style={{borderRadius:"50%",width:"60%",height:"30"}}/>:
-													<img src={data.senderProfilePicture} style={{borderRadius:"50%",width:"60%",height:"30"}}/>
+													<img id="chatProfilePicture" src={NoProfilePicture} style={{borderRadius:"50%",width:"60%",height:"30"}}/>:
+													<img id="chatProfilePicture" src={data.senderProfilePicture} style={{borderRadius:"50%",width:"60%",height:"30"}}/>
 												}
 											</li>
 
@@ -264,14 +274,12 @@ class ChatRoom extends Component{
 								</SongPlaying>
 							*/}
 
-							<Chat>
+							<Chat isSimplified={this.props.isSimplified}>
 								{this.constructChat(this.state.chatMessages)}
 							</Chat>
 
 							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",width:"60%"}}>
-									<MessageBox id="messageContainer" placeholder="Send something...." 
-									/>
+								<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
 
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 										<SendIcon id="sendIcon"
@@ -279,6 +287,10 @@ class ChatRoom extends Component{
 											onClick={()=>this.sendMessageToGroupChat()}
 										/>
 									</a>
+								</li>
+								<li style={{listStyle:"none",display:"inline-block",width:"50%"}}>
+									<MessageBox id="messageContainer" placeholder="Send something...." 
+									/>
 								</li>
 							</ul>
 						</ChatAndIndustryInfoContainer>

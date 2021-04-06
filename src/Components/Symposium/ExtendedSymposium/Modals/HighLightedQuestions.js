@@ -14,6 +14,16 @@ import {
 } from "../indexCSS.js";
 
 
+const QuestionCSS={
+	fontSize:"15px",
+	color:"#3898ec",
+	listStyle:"none",
+	display:"inline-block",
+	width:"70%",
+	marginLeft:"2%",
+	marginRight:"2%"
+}
+
 class HighLightedQuestions extends Component{
 	constructor(props){
 		super(props);
@@ -75,7 +85,7 @@ class HighLightedQuestions extends Component{
 							{replies.map(data=>
 								<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 									<img id="imageHighlightedQuestion" src={data.imgUrl}
-									 style={{borderRadius:"5px",width:"90px",height:"30%",marginBottom:"5%"}}
+									 style={{borderRadius:"5px",width:"90px",height:"40%",marginBottom:"5%"}}
 									/>
 								</li>
 							)}
@@ -239,7 +249,7 @@ class HighLightedQuestions extends Component{
 							/>
 							:<React.Fragment></React.Fragment>
 						}
-							<HightLightedQuestionsContainerModal>
+							<HightLightedQuestionsContainerModal isSimplified={this.props.isSimplified}>
 								{this.state.isLoading==true?
 									<p> Loading...</p>:
 									<>
@@ -247,7 +257,7 @@ class HighLightedQuestions extends Component{
 										<li style={{listStyle:"none"}}>
 											<ul style={{padding:"10px"}}>
 												{this.state.counter!=0?
-													<li style={{listStyle:"none",display:"inline-block",marginLeft:"1%"}}>
+													<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
 														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 															<NavigateBeforeIcon
 																style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
@@ -257,13 +267,13 @@ class HighLightedQuestions extends Component{
 													</li>:<React.Fragment></React.Fragment>
 												}
 												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>this.expandQuestion()} style={{fontSize:"15px",color:"#3898ec",listStyle:"none",display:"inline-block",width:"70%"}}>
+													<li onClick={()=>this.expandQuestion()} style={QuestionCSS}>
 														
 															{this.state.questionData[this.state.counter].question}
 													</li>
 												</a>
 												{this.state.counter!=(this.state.questionData.length-1)?
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 															<NavigateNextIcon
 																style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}

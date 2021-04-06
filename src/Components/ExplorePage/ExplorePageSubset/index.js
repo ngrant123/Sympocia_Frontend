@@ -486,77 +486,6 @@ class SearchExploreContainer extends Component{
 					</li>
 				</li>
 	}
-	handleDisplayImages=(homePageInformation,searchPageInformation)=>{
-		homePageInformation=homePageInformation==null?searchPageInformation:homePageInformation;
-		return this.state.postOption=="Images"?
-			<ImagePostsModal
-				posts={this.state.postsInformation}
-				_id={homePageInformation.personalInformationState._id}
-				confettiAnimation={homePageInformation.displayRecruitConfetti}
-				isPersonalProfile={homePageInformation.isPersonalProfile}
-				displaySymposium={homePageInformation.displaySymposium}
-				targetDom={"homePageContainer"}
-				isMobileUI={this.state.displayDesktopUI==true?false:true}
-				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
-				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
-			/>:
-			<React.Fragment></React.Fragment>
-	}
-
-	handleDisplayVideos=(homePageInformation,searchPageInformation)=>{
-		return this.state.postOption=="Videos"?
-			<VideosPostsModal
-				posts={this.state.postsInformation}
-				_id={homePageInformation.personalInformationState._id}
-				confettiAnimation={homePageInformation.displayRecruitConfetti}
-				isPersonalProfile={homePageInformation.isPersonalProfile}
-				displaySymposium={homePageInformation.displaySymposium}
-				targetDom={"homePageContainer"}
-				isMobileUI={this.state.displayDesktopUI==true?false:true}
-				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
-				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
-			/>:
-			<React.Fragment></React.Fragment>
-	}
-	handleDisplayBlogs=(homePageInformation,searchPageInformation)=>{
-		return this.state.postOption=="Blogs"?
-			<BlogsPostsModal
-				posts={this.state.postsInformation}
-				_id={homePageInformation.personalInformationState._id}
-				confettiAnimation={homePageInformation.displayRecruitConfetti}
-				isPersonalProfile={homePageInformation.isPersonalProfile}
-				displaySymposium={homePageInformation.displaySymposium}
-				targetDom={"homePageContainer"}
-				isMobileUI={this.state.displayDesktopUI==true?false:true}
-				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
-				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
-			/>:
-			<React.Fragment></React.Fragment>
-	}
-	handleDisplayRegularPosts=(homePageInformation,searchPageInformation)=>{
-		return this.state.postOption=="RegularPosts"?
-			<RegularPostsModal
-				posts={this.state.postsInformation}
-				_id={homePageInformation.personalInformationState._id}
-				confettiAnimation={homePageInformation.displayRecruitConfetti}
-				isPersonalProfile={homePageInformation.isPersonalProfile}
-				displaySymposium={homePageInformation.displaySymposium}
-				targetDom={"homePageContainer"}
-				isMobileUI={this.state.displayDesktopUI==true?false:true}
-				isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
-				triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-				endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-				isGuestProfileIndicator={this.state.isGuestProfileIndicator}
-			/>:
-			<React.Fragment></React.Fragment>
-	}
-
 	triggerReloadingPostsHandle=(props)=>{
 		this.setState({
 			triggerPostReload:true,
@@ -631,13 +560,18 @@ class SearchExploreContainer extends Component{
 														</React.Fragment>
 													)}
 													<PostsMemo
-														handleDisplayImages={this.handleDisplayImages}
-														handleDisplayVideos={this.handleDisplayVideos}
-														handleDisplayBlogs={this.handleDisplayBlogs}
-														handleDisplayRegularPosts={this.handleDisplayRegularPosts}
-														homePageInformation={homePageInformation}
-														searchPageInformation={searchPageInformation}
-														postsInformation={this.state.postsInformation}
+														posts={this.state.postsInformation}
+														_id={homePageInformation.personalInformationState._id}
+														confettiAnimation={homePageInformation.displayRecruitConfetti}
+														isPersonalProfile={homePageInformation.isPersonalProfile}
+														displaySymposium={homePageInformation.displaySymposium}
+														targetDom={"homePageContainer"}
+														isMobileUI={this.state.displayDesktopUI==true?false:true}
+														isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+														triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+														endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+														isGuestProfileIndicator={this.state.isGuestProfileIndicator}
+														postType={this.state.postOption}
 													/>
 												</ul>
 											</PostsContainer>

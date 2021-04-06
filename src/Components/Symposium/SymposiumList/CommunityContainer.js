@@ -57,6 +57,12 @@ const MobileContainer=styled.div`
 			margin-left:20% !important;
 		}
 	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	#mobileProfilePicture{
+			height:80% !important;
+		}
+    }
 `;
 
 const SymposiumStyleDivider=styled.div`
@@ -82,6 +88,7 @@ const ActivePeopleContainer=styled.div`
 		width:100%;
 		height:25%;
 	}
+
 `;
 
 
@@ -251,8 +258,8 @@ const CommunityContainer=(props)=>{
 												{activePeople.map(data=>
 													<li style={ActivePeopleListCSS}>
 														{data.profilePicture!=null?
-															<img src={data.profilePicture} style={ProfilePictureCSS}/>:
-															<img src={NoProfilePicture} style={ProfilePictureCSS}/>
+															<img id="profilePicture" src={data.profilePicture} style={ProfilePictureCSS}/>:
+															<img id="profilePicture" src={NoProfilePicture} style={ProfilePictureCSS}/>
 														}
 													</li>
 												)}

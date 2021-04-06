@@ -505,6 +505,7 @@ class Symposium extends Component{
 					isGuestProfile={this.state.isGuestProfile}
 					changeState={this}
 					displayHightletedSimplifiedQuestionsModal={this.state.displayHightletedSimplifiedQuestionsModal}
+					isSimplified={true}
 				/>
 		)
 	}
@@ -542,6 +543,8 @@ class Symposium extends Component{
 					}else{
 						alert('Unfortunately there has been an error in retrieving you data. Please try again');
 					}
+				}else{
+					alert('Symposium Followed :)');
 				}
 			}else{
 				const {confirmation,data}=await removeSymposium({
@@ -629,12 +632,16 @@ class Symposium extends Component{
 							headerAnimation:this.state.headerAnimation,
 							symposiumFeatureQuestions:this.state.symposiumFeatureQuestions,
 							isGuestProfile:this.state.isGuestProfile,
-							displaySpecficSymposiumFeature:this.state.displaySpecficSymposiumFeature
+							displaySpecficSymposiumFeature:this.state.displaySpecficSymposiumFeature,
+							isSimplified:true
 						}
 						const {requestedComponent}=symposiumFeatures(specificProps);
 						
 						
 						return <>{requestedComponent}</>
+					},
+					handleFollowSymposium:()=>{
+						this.handleFollowSymposium({isAccessTokenUpdated:false});
 					}
 				}}
 			>

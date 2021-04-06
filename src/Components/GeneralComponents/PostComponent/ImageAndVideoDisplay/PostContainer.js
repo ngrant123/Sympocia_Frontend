@@ -341,6 +341,7 @@ const ImageContainer=(props)=>{
 										userActions={{...userActions}}
 										triggerDisplayPostDescriptionAndCaption={changePostAdditionalInformation}
 										targetDom={postData.targetDom}
+										postType={postData[postDataDestructedField].imgUrl==null?"Videos":"Images"}
 									/>
 									<PostDisplayContainer
 										postData={postData[postDataDestructedField]}
