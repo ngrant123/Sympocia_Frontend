@@ -108,6 +108,12 @@ const FinalPostContainerInformation=styled.div`
 const FinalSubmittionContainer=styled.div`
 	display:flex;
 	flex-direction:column;
+
+	@media screen and (max-width:650px){
+		#selectedImage{
+			height:130px !important;
+		}
+	}
 `;
 
 const PostHeaderContainer=styled.div`
@@ -398,7 +404,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 											</li>
 										</a>:
 										<FinalSubmittionContainer>
-											<img src={imgUrl} style={{height:"40%",width:"40%",borderRadius:"5px"}}/>
+											<img id="selectedImage" src={imgUrl} style={{height:"210px",width:"40%",borderRadius:"5px"}}/>
 											<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
 
 											{isProccessingPost==true ?
