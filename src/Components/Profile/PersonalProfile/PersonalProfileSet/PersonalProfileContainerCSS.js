@@ -181,12 +181,13 @@ export const ProfilePictureContainer=styled.div`
     	margin-left:5%;
     	width:75% !important;
 		z-index:10;
-		margin-top:15%;
+		margin-top:13%;
+
 		#profilePicture{
-		  width:80% !important;
-          height:190% !important;
-          left:10% !important;
-          max-height:190px !important;
+		  width:70% !important;
+          height:90% !important;
+          left:15% !important;
+          min-height:140px !important;
 	    }
     }
 
@@ -237,7 +238,7 @@ export const ProfileContainer=styled.div`
 		position:relative;
 		top:12%;
 		margin-left:2% !important;
-		height:40% !important;
+		height:50% !important;
 		width:90%;
 	}
 	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
