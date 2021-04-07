@@ -184,13 +184,16 @@ export const ProfilePictureContainer=styled.div`
 		margin-top:55%;
 		#profilePicture{
 		  width:90% !important;
-          height:100% !important;
+          height:120% !important;
           left:10% !important;
 	    }
     }
 
-    @media screen and (max-width:450px){
+    @media screen and (max-width:340px){
     	height:190px !important;
+    	#profilePicture{
+          height:120% !important;
+	    }
     }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -232,7 +235,6 @@ export const ProfileContainer=styled.div`
 	z-index:10;
 	display:flex;
 	flex-direction:column;
-	background-color:green;
 
 	@media screen and (max-width:1370px){
 		position:relative;
@@ -398,6 +400,10 @@ export const PostInformationContainer=styled.div`
 		#friendsGaugeContainer{
 			margin-left:5%;
 		}
+	}
+
+	@media screen and (max-width:650px){
+		top:35% !important;
 	}
 	@media screen and (max-width:670px) and (max-height:340px){
 	 	top:40% !important;
