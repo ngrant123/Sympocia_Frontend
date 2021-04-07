@@ -176,18 +176,16 @@ export const ProfilePictureContainer=styled.div`
 
 
     @media screen and (max-width:650px){
-    	height:90% !important;
+    	height:30% !important;
     	margin-bottom:2%;
-    	margin-left:5%;
+    	margin-left:0%;
     	width:75% !important;
 		z-index:10;
-		margin-top:13%;
-
+		margin-top:55%;
 		#profilePicture{
-		  width:70% !important;
-          height:90% !important;
-          left:15% !important;
-          min-height:140px !important;
+		  width:90% !important;
+          height:100% !important;
+          left:10% !important;
 	    }
     }
 
@@ -206,9 +204,12 @@ export const ProfilePictureContainer=styled.div`
 
 
     @media screen and (max-width:570px) and (max-height:340px) and (orientation:landscape){
-    	margin-top:-2%;
+    	margin-top:45%;
     	margin-bottom:0px;
     	height:90% !important;
+    	#profilePicture{
+	 		height:60% !important;
+	 	}
    	}
 `;
 
@@ -235,20 +236,20 @@ export const ProfileContainer=styled.div`
 
 	@media screen and (max-width:650px){
 		flex-direction: column-reverse;
-		position:relative;
-		top:12%;
+		position:absolute;
 		margin-left:2% !important;
-		height:50% !important;
+		height:150px !important;
 		width:90%;
 	}
 	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
-		height:60% !important;
+		height:30% !important;
 		margin-top:5% !important;
     	
     }
 
 	@media screen and (max-width:650px) and (max-height:420px) and (orientation:landscape){
-		top:40%;
+		top:0%;
+		margin-top:0% !important;
 		height:90% !important;
     }
 `;

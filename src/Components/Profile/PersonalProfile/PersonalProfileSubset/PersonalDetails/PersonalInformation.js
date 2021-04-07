@@ -373,7 +373,7 @@ const PersonalInformation=(props)=>{
 		return(
 			<React.Fragment>
 				<div style={{display:"flex",flexDirection:"row"}}>
-					<p style={{maxWidth:"90%",maxHeight:"20px",marginRight:"10%",overflow:"hidden"}}>
+					<p style={{maxWidth:"90%",maxHeight:"30px",marginRight:"10%",overflow:"hidden",fontSize:"20px"}}>
 						<b>{firstName}</b>
 					</p>
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 

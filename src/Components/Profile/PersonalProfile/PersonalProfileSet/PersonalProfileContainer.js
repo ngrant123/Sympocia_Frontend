@@ -653,6 +653,44 @@ class LProfile extends Component{
 				/>
 	}
 
+	profilePicture=()=>{
+		return(
+			<ProfilePicture
+				state={{
+					displayDesktopUI:this.state.displayDesktopUI,
+					isOwnProfile:this.state.isOwnProfile,
+					isGuestProfile:this.state.isGuestProfile,
+					profilePicture:this.state.userProfile.profilePicture,
+					isLoading:this.state.isLoading,
+					displayPhoneUI:this.state.displayPhoneUI,
+					displayIpadUI:this.state.displayIpadUI
+				}}
+				displayCreatePostOptionTrigger={this.displayCreatePostOptionTrigger}
+				handleChangeProfilePicture={this.handleChangeProfilePicture}
+			/>
+		)
+	}
+
+	phoneProfilePicture=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayPhoneUI==true &&(
+					<>{this.profilePicture()}</>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	desktopProfilePicture=()=>{
+		return(
+			<React.Fragment>
+				{(this.state.displayDesktopUI==true || this.state.displayIpadUI==true)==true &&(
+					<>{this.profilePicture()}</>
+				)}
+			</React.Fragment>
+		)
+	}
+
 
 
 	render(){
@@ -731,27 +769,20 @@ class LProfile extends Component{
 						{this.displayPersonalInformationComponent()}
 
 
-
 						<ProfileContainer>
-							<ProfilePicture
-								state={{
-									displayDesktopUI:this.state.displayDesktopUI,
-									isOwnProfile:this.state.isOwnProfile,
-									isGuestProfile:this.state.isGuestProfile,
-									profilePicture:this.state.userProfile.profilePicture,
-									isLoading:this.state.isLoading,
-									displayPhoneUI:this.state.displayPhoneUI,
-									displayIpadUI:this.state.displayIpadUI
-								}}
-								displayCreatePostOptionTrigger={this.displayCreatePostOptionTrigger}
-								handleChangeProfilePicture={this.handleChangeProfilePicture}
-							/>
-							{this.displayMobileFriendsGaugeComponent()}
-							<PersonalProfileInformationContainer>
-								{this.personalInformation()}
-							</PersonalProfileInformationContainer>
+							{this.state.isLoading==true && this.state.displayPhoneUI==false?
+								<p>Please wait</p>:
+								<>
+									{this.desktopProfilePicture()}
+									{this.displayMobileFriendsGaugeComponent()}
+									<PersonalProfileInformationContainer>
+										{this.personalInformation()}
+									</PersonalProfileInformationContainer>
+								</>
+							}
 							
 						</ProfileContainer>
+						{this.phoneProfilePicture()}
 						
 						{this.state.isLoading==true?null:
 							<>
