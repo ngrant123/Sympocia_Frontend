@@ -176,7 +176,7 @@ export const ProfilePictureContainer=styled.div`
 
 
     @media screen and (max-width:650px){
-    	height:30% !important;
+    	height:240px !important;
     	margin-bottom:2%;
     	margin-left:0%;
     	width:75% !important;
@@ -187,6 +187,10 @@ export const ProfilePictureContainer=styled.div`
           height:100% !important;
           left:10% !important;
 	    }
+    }
+
+    @media screen and (max-width:450px){
+    	height:190px !important;
     }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -228,6 +232,7 @@ export const ProfileContainer=styled.div`
 	z-index:10;
 	display:flex;
 	flex-direction:column;
+	background-color:green;
 
 	@media screen and (max-width:1370px){
 		position:relative;
