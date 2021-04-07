@@ -176,7 +176,7 @@ export const ProfilePictureContainer=styled.div`
 
 
     @media screen and (max-width:650px){
-    	height:240px !important;
+    	height:237px !important;
     	margin-bottom:2%;
     	margin-left:0%;
     	width:75% !important;
@@ -190,7 +190,7 @@ export const ProfilePictureContainer=styled.div`
     }
 
     @media screen and (max-width:340px){
-    	height:185px !important;
+    	height:179px !important;
     	#profilePicture{
           height:120% !important;
 	    }
