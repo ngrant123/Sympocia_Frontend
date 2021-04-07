@@ -190,7 +190,7 @@ export const ProfilePictureContainer=styled.div`
     }
 
     @media screen and (max-width:340px){
-    	height:190px !important;
+    	height:185px !important;
     	#profilePicture{
           height:120% !important;
 	    }
@@ -206,16 +206,17 @@ export const ProfilePictureContainer=styled.div`
   @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	margin-top:0%;
     	margin-bottom:-10px;
-    	height:110px !important;
+    	height:80px !important;
+    	width:160px !important;
    	}
 
 
     @media screen and (max-width:570px) and (max-height:340px) and (orientation:landscape){
     	margin-top:45%;
     	margin-bottom:0px;
-    	height:90% !important;
+    	height:120px !important;
     	#profilePicture{
-	 		height:60% !important;
+	 		height:70px !important;
 	 	}
    	}
 `;
