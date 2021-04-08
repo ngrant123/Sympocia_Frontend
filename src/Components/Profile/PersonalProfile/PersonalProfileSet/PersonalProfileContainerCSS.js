@@ -292,7 +292,7 @@ export const PersonalProfileInformationContainer= styled.div`
 	}
 
 	  @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-    	top:20px !important;
+    	top:40px !important;
    	}
 
    	@media screen and (max-width:570px) and (max-height:340px) and (orientation:landscape){
