@@ -190,7 +190,7 @@ export const ProfilePictureContainer=styled.div`
     }
 
     @media screen and (max-width:340px){
-    	height:179px !important;
+    	height:170px !important;
     	#profilePicture{
           height:120% !important;
 	    }
@@ -208,6 +208,9 @@ export const ProfilePictureContainer=styled.div`
     	margin-bottom:-10px;
     	height:80px !important;
     	width:160px !important;
+    	#profilePicture{
+          height:70px !important;
+	    }
    	}
 
 
@@ -215,8 +218,11 @@ export const ProfilePictureContainer=styled.div`
     	margin-top:45%;
     	margin-bottom:0px;
     	height:120px !important;
+    	margin-left:25% !important;
     	#profilePicture{
-	 		height:70px !important;
+	 		width:90% !important;
+	        height:120% !important;
+	        left:10% !important;
 	 	}
    	}
 `;
