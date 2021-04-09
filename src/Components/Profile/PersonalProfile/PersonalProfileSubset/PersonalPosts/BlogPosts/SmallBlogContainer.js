@@ -24,6 +24,11 @@ const SmallBlogComponent=styled.div`
     	width:300px !important;
     	margin-bottom:50%;
     }
+     @media screen  and (max-width:840px) and (max-height:420px) 
+	  and (orientation: landscape) 
+	  and (-webkit-min-device-pixel-ratio: 1){
+		
+    }
 `;
 
 const SmallBlog=styled.div`
@@ -42,12 +47,16 @@ const SmallBlog=styled.div`
 			height:100% !important;
 		}
     }
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	height:90% !important;
+    }
 
     @media screen  and (max-width:840px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
 	  	width:90% !important;
-		height:110% !important;
+		height:140% !important;
+
     }
 `;
 
