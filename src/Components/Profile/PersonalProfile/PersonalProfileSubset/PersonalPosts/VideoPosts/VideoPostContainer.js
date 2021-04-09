@@ -1,4 +1,4 @@
-import React,{Component} from "react";
+import React,{useContext,useMemo} from "react";
 import styled from "styled-components";
 import SmallVideoContainer from "./SmallVideos.js";
 import {getCompanyVideos} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
@@ -6,10 +6,10 @@ import {UserConsumer} from "../../../UserContext.js";
 import NoPostsModal from "../NoPostsModal.js";
 import {VideoPostProvider} from "./VideoPostContext.js";
 
-import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
+import {PostDisplayConsumer,PostDisplayContext} from "../../../PostDisplayModalContext.js";
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 import CrownedVideo from "./CrownedVideoContainer.js";
-import {PostConsumer} from "../PostsContext.js";
+import {PostConsumer,PostContext} from "../PostsContext.js";
 import Typed from "react-typed";
 
 const Container=styled.div`
@@ -79,110 +79,85 @@ const NextPostLabelCSS={
 	  cursor:"pointer"
 }
 
+const VideoPostsContainer=(props)=>{
+	const PostContextValues=useContext(PostContext);
+	const PostDisplay=useContext(PostDisplayContext);
 
-class VideoPostsContainer extends Component{
-	constructor(props){
-		super(props);
-		this.state={
-			videos:[],
-			firstVideo:{},
-			isLoading:true
-		}
-	}
-	
-	displayPostModal=(profileAction,companyAction,data,postsConsumer)=>{
-		if(profileAction==null)
-			companyAction.handleVideoPostModal(data,postsConsumer);
-		else
-			profileAction.handleVideoPostModal(data,postsConsumer);
+	const displayPostModal=(data)=>{
+		PostDisplay.handleVideoPostModal(data,PostContextValues);
 	}
 
-	
-	render(){
+	const videoDisplayRender=useMemo(()=>{
 		return(
-			<PostConsumer>
-				{postsConsumer=>(
-						<PostDisplayConsumer>
-							{postDisplayModal=>(
-								<CompanyPostDisplayConsumer>
-									{companyPostDisplayModal=>(
-										<Container>
-											{this.props.isLoadingIndicatorVideos==true ? <p>We are currently getting the videos please wait </p>:
-												<React.Fragment>
-													{this.props.videos.videos.length==0 && this.props.videos.headerVideo==null? 
-																					<NoPostsModal
-																						id="noPostsModalContainer"
-																						postType={"video"}
-																						profilePageType={this.props.profile}
-																						isSearchFilterActivated={postsConsumer.isSearchFilterActivated}
-																					/>:
-														<ul style={{padding:"0px"}}>
-															{this.props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
-																<React.Fragment>
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li onClick={()=>this.displayPostModal(
-																											postDisplayModal,
-																											companyPostDisplayModal,
-																											this.props.videos.headerVideo,
-																											postsConsumer)} 
-																		style={{listStyle:"none"}}>
-																				<CrownedVideo
-																					headerVideo={this.props.videos.headerVideo}
-																				/>
-																		</li>
-																	</a>
-																	<hr/>
-																</React.Fragment>
-															}
-						
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<li id="smallVideoParentContainer" style={{listStyle:"none",marginTop:"1%"}}>	
-																	<ul style={{padding:"0px"}}>
-																		{this.props.videos.videos.map(data=>
-																			<li id="smallVideoLI" onClick={()=>this.displayPostModal(
-																									postDisplayModal,
-																									companyPostDisplayModal,
-																									data,
-																									postsConsumer)} 
-																			style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
-																					<SmallVideoContainer
-																						video={data}
-																					/>
-																			</li>
-																		)}
-																	</ul>
-																</li>
-															</a>
-															{postsConsumer.endOfPostsDBIndicator==false
-																&& postsConsumer.isSearchFilterActivated==false 
-																&& postsConsumer.isFilteredPostsActivated==false && (
-																<React.Fragment>
-																	{postsConsumer.isLoadingReloadedPosts==true?
-																		 <Typed 
-														                    strings={['Loading...']} 
-														                    typeSpeed={60} 
-														                    backSpeed={30} 
-												                		  />:
-																		<p onClick={()=>postsConsumer.fetchNextPosts()} style={NextPostLabelCSS}>
-																			Next
-																		</p>
-																	}
-																</React.Fragment>
-															)}
-														</ul>
-													}
-												</React.Fragment>
-											}
-										</Container>
-									)
-								}
-							</CompanyPostDisplayConsumer>
-						)}
-					</PostDisplayConsumer>
-				)}
-			</PostConsumer>
+			<li id="smallVideoParentContainer" style={{cursor:"pointer",listStyle:"none",marginTop:"1%"}}>	
+				<ul style={{padding:"0px"}}>
+					{props.videos.videos.map(data=>
+						<li id="smallVideoLI" onClick={()=>displayPostModal(data)} 
+						style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
+								<SmallVideoContainer
+									video={data}
+								/>
+						</li>
+					)}
+				</ul>
+			</li>
 		)
-	}
+	},[props.videos.videos]);
+
+	const crownPostDisplayRender=useMemo(()=>{
+		return(
+			<li onClick={()=>displayPostModal(props.videos.headerVideo)} 
+				style={{listStyle:"none",cursor:"pointer"}}>
+					<CrownedVideo
+						headerVideo={props.videos.headerVideo}
+					/>
+			</li>
+		)
+	},[props.videos.headerVideo]);
+
+
+	return(
+		<Container>
+			{props.isLoadingIndicatorVideos==true ? <p>We are currently getting the videos please wait </p>:
+				<React.Fragment>
+					{props.videos.videos.length==0 && props.videos.headerVideo==null? 
+													<NoPostsModal
+														id="noPostsModalContainer"
+														postType={"video"}
+														profilePageType={props.profile}
+														isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
+													/>:
+						<ul style={{padding:"0px"}}>
+							{props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
+								<React.Fragment>
+									{crownPostDisplayRender}
+									<hr/>
+								</React.Fragment>
+							}
+							{videoDisplayRender}
+							{PostContextValues.endOfPostsDBIndicator==false
+								&& PostContextValues.isSearchFilterActivated==false 
+								&& PostContextValues.isFilteredPostsActivated==false && (
+								<React.Fragment>
+									{PostContextValues.isLoadingReloadedPosts==true?
+										 <Typed 
+						                    strings={['Loading...']} 
+						                    typeSpeed={60} 
+						                    backSpeed={30} 
+				                		  />:
+										<p onClick={()=>PostContextValues.fetchNextPosts()} style={NextPostLabelCSS}>
+											Next
+										</p>
+									}
+								</React.Fragment>
+							)}
+						</ul>
+					}
+				</React.Fragment>
+			}
+		</Container>
+	)
 }
+
 
 export default VideoPostsContainer;

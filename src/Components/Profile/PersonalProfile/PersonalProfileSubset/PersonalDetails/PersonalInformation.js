@@ -1,4 +1,4 @@
-import React,{useState,Component} from "react";
+import React,{useState,useMemo} from "react";
 import styled from "styled-components";
 import {UserConsumer} from "../../UserContext.js";
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
@@ -387,14 +387,14 @@ const PersonalInformation=(props)=>{
 		)
 	}
 
-	const userInformationComponent=(personalInformation,displayDesktopUI,displayMobileProfileOptions)=>{
+	const userInformationComponent=useMemo(()=>{
 		return (
 			<>
-				{displayDesktopUI==false?
-					<>{mobileUserInformation(personalInformation.firstName,displayMobileProfileOptions)}</>:
+				{props.displayDesktopUI==false?
+					<>{mobileUserInformation(props.personalInformation.firstName,props.displayMobileProfileOptions)}</>:
 					<>
 						<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-							<b>{personalInformation.firstName}</b>
+							<b>{props.personalInformation.firstName}</b>
 						</p>
 
 						<ul style={{padding:"0px"}}>
@@ -437,12 +437,12 @@ const PersonalInformation=(props)=>{
 								</a>
 							</li>
 							<RecruitButton
-								personalInformation={personalInformation}
+								personalInformation={props.personalInformation}
 								displayConfettiHandle={props.displayConfetti}
 								userId={props.userId}
 							/>
 
-							{personalInformation.isOwnProfile==true?
+							{props.personalInformation.isOwnProfile==true?
 								<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
 									<a style={{textDecoration:"none"}} href="javascript:void(0)">
 										<SponsorButton onClick={()=>handleChampionButton()}>
@@ -458,7 +458,9 @@ const PersonalInformation=(props)=>{
 					}
 			</>
 		)
-	}
+	},[props.personalInformation,
+		props.displayDesktopUI,
+		props.displayMobileProfileOptionsTrigger]);
 
 	return(
 		<React.Fragment>
@@ -486,11 +488,7 @@ const PersonalInformation=(props)=>{
 									props.displayMobileProfileOptionsTrigger
 							)}
 						/>:
-						<>{userInformationComponent(
-								props.personalInformation,
-								props.displayDesktopUI,
-								props.displayMobileProfileOptionsTrigger
-							)}</>
+						<>{userInformationComponent}</>
 					}
 					{displayDonationModal==true?
 						<DonatePortal
