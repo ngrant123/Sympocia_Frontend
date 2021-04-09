@@ -31,7 +31,7 @@ import {
 } from "./MobileUI.js";
 import ProfilePicturesDefaultOptionsModal from "./Modals-Portals/ProfilePicturesDefaultOptions/index.js";
 import ProfilePicture from "../PersonalProfileSubset/PersonalDetails/ProfilePictureContainer.js";
-import FriendsGauge from "../PersonalProfileSubset/FriendsGaugeSection/FriendsGauge.js";
+import FriendsGauge from "./FriendsGaugeMemo.js";
 import PostDisplay from "./PostsDisplay/index.js";
 import PersonalPostsIndexContainer from "./PersonalPostsIndexContainer";
 
@@ -370,10 +370,6 @@ class LProfile extends Component{
 		this.setState({
 			displayCreationPortal:false,
 			displayShadowBackground:false,
-			displayRegularPostModal:false,
-			displayBlogPostModal:false,
-			displayVideoPostModal:false,
-			displayImagePostModal:false,
 			displayPostData:false
 		})
 	}
