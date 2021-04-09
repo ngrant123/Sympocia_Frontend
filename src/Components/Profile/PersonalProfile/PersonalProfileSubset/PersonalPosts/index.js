@@ -798,7 +798,7 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 
-	const postsDisplaySystem=useMemo(()=>{
+	const postsDisplaySystem=()=>{
 		return <div id="postCollectionContainer">
 				{
 					displayImages==true?
@@ -841,13 +841,7 @@ const PersonalPostsIndex=(props)=>{
 					/>:<React.Fragment></React.Fragment>
 				}
 			</div>
-	},[imagePost,
-		videoPost,
-		blogPost,
-		regularPost,
-		displayImages
-	])
-
+	}
 	return (
 			<PostProvider
 				value={{
@@ -1053,7 +1047,7 @@ const PersonalPostsIndex=(props)=>{
 									</ul>
 								</li>
 							}
-							{postsDisplaySystem}
+							{postsDisplaySystem()}
 						</ul>
 					</li>
 				</ul>
