@@ -17,6 +17,8 @@ import {
 	removeRecruitProfileIsntFollowing
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+import ProfileSettingsModal from "../../PersonalProfileSet/Modals-Portals/PersonalPreferances/index.js";
 
 
 const BioContainer=styled.div`
@@ -295,6 +297,7 @@ const PersonalInformation=(props)=>{
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [displayFriendsPortal,changeDisplayFriendsPortal]=useState(false);
 	const [displaySymposiumsPortal,changeDisplaySymposiumsPortal]=useState(false);
+	const [displayProfileSettingsPage,changeDisplayProfileSettingsPage]=useState(false);
 
 	const [displayMobileProfileOptions,changeDisplayMobileProfileOptions]=useState(false);
 
@@ -393,10 +396,15 @@ const PersonalInformation=(props)=>{
 				{displayDesktopUI==false?
 					<>{mobileUserInformation(personalInformation.firstName,displayMobileProfileOptions)}</>:
 					<>
-						<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-							<b>{personalInformation.firstName}</b>
-						</p>
-
+						<div style={{display:"flex",flexDirection:"row"}}>
+							<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+								<b>{personalInformation.firstName}</b>
+							</p>
+							<BorderColorIcon
+								onClick={()=>changeDisplayProfileSettingsPage(true)}
+								style={{fontSize:25,color:"#C8B0F4",cursor:"pointer"}}
+							/>
+						</div>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
 								Social Media
@@ -460,8 +468,17 @@ const PersonalInformation=(props)=>{
 		)
 	}
 
+	const closeProfileSettingsModal=()=>{
+		changeDisplayProfileSettingsPage(false);
+	}
 	return(
 		<React.Fragment>
+			{displayProfileSettingsPage==true &&(
+				<ProfileSettingsModal
+					closeModal={closeProfileSettingsModal}
+					userProfilePicture={props.personalInformation.userProfile.profilePicture}
+				/>
+			)}
 			{props.isLoading==false &&(
 				<React.Fragment>
 					{displayFriendsPortal==true &&(
