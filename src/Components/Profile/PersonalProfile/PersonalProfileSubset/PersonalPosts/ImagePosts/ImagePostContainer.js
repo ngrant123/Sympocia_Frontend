@@ -1,12 +1,12 @@
-import React,{Component} from "react";
+import React,{useState,useMemo,useContext} from "react";
 import styled from "styled-components";
 import NoPostsModal from "../NoPostsModal.js";
-import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
+import {PostDisplayConsumer,PostDisplayContext} from "../../../PostDisplayModalContext.js";
 import EditIcon from '@material-ui/icons/Edit';
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 import CrownedImageContainer from "./CrownedImageContainer.js";
 import SmallImageContainer from "./SmallImageContainer.js";
-import {PostConsumer} from "../PostsContext.js";
+import {PostConsumer,PostContext} from "../PostsContext.js";
 import Typed from "react-typed";
 
 const Container=styled.div`
@@ -125,24 +125,11 @@ const ImageLabelCSS={
 	  cursor:"pointer"
 }
 
+const ImagePostsContainer=(props)=>{
+	const PostContextValues=useContext(PostContext);
+	const PostDisplay=useContext(PostDisplayContext);
 
-class ImagePostsContainer extends Component{
-
-	constructor(props){
-		super(props);
-		this.state={
-		 	images:[]
-		}
-	}
-
-	componentDidMount(){
-		const profileImages=this.props.imageData;
-		this.setState({
-			images:profileImages
-		})
-	}
-
-	constructDate=(date)=>{
+	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
 		var current=new Date();
@@ -151,98 +138,84 @@ class ImagePostsContainer extends Component{
 		return dateToString;
 	}
 
-	displayPostModal=(profileAction,companyAction,postsConsumer,data)=>{
-		if(profileAction==null)
-			companyAction.handleImagePostModal(data,postsConsumer);
-		else
-			profileAction.handleImagePostModal(data,postsConsumer);
+	const displayPostModal=(data)=>{
+		PostDisplay.handleImagePostModal(data,PostContextValues);
 	}
-//isLoadingReloadedPosts
-	render(){
+
+	const imagesDisplayRender=useMemo(()=>{
 		return(
-			<PostConsumer>
-			{postsConsumer=>(
-				<PostDisplayConsumer>
-					{postDisplayModal=>(
-						<CompanyPostDisplayConsumer>
-							{companyPostDisplayModal=>(
-								<Container>
-									{this.props.isLoading==true?
-											<p>Give us a second we're getting your information</p>:
-											<React.Fragment>
-											{this.props.imageData.images.length==0 &&
-												this.props.imageData.crownedImage==null?
-												<NoPostsModal
-													id="noPostsModalContainer"
-													postType={"image"}
-													profilePageType={this.props.profile}
-													isSearchFilterActivated={postsConsumer.isSearchFilterActivated}
-												  />:
-													<ul style={{padding:"0px"}}>
-														{this.props.imageData.crownedImage==null?
-															null:
-															<React.Fragment>
-																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																	<li style={{listStyle:"none",marginBottom:"-5%"}}
-																			 onClick={()=>this.displayPostModal(	
-																			 			postDisplayModal,
-																						companyPostDisplayModal,
-																						postsConsumer,
-																						this.props.imageData.crownedImage)}>
-																		<CrownedImageContainer
-																			imageData={this.props.imageData.crownedImage}
-																		/>
-																	</li>
-																</a>
-																<hr/>
-															</React.Fragment>
-														}	
-														<li id="parentLISmallPostContainer" style={{listStyle:"none",marginTop:"3%"}}>
-															{this.props.imageData.images.map(data=>
-																<li id="smallPostLI" onClick={()=>this.displayPostModal(	
-																										postDisplayModal,
-																										companyPostDisplayModal,
-																										postsConsumer,
-																										data)} 
-																	style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
-																	<a href="javascript:;" style={{textDecoration:"none"}}>
-																		<SmallImageContainer
-																			data={data}
-																		/>
-																	</a>
-																</li>
-															)}
-														</li>
-														{ postsConsumer.endOfPostsDBIndicator==false
-														 && postsConsumer.isSearchFilterActivated==false 
-														 && postsConsumer.isFilteredPostsActivated==false  && (
-															<React.Fragment>
-																{postsConsumer.isLoadingReloadedPosts==true?
-																	 <Typed 
-													                    strings={['Loading...']} 
-													                    typeSpeed={60} 
-													                    backSpeed={30} 
-											                		  />:
-																	<p onClick={()=>postsConsumer.fetchNextPosts()} style={ImageLabelCSS}>
-																		Next
-																	</p>
-																}
-															</React.Fragment>
-														)}
-													</ul>
-											}
-											</React.Fragment>
-										}
-								</Container>
-								)
-							}
-						</CompanyPostDisplayConsumer>
-					)}
-					</PostDisplayConsumer>
+			<li id="parentLISmallPostContainer" style={{listStyle:"none",marginTop:"3%"}}>
+				{props.imageData.images.map(data=>
+					<li id="smallPostLI" onClick={()=>displayPostModal(data)} 
+						style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
+						<a href="javascript:;" style={{textDecoration:"none"}}>
+							<SmallImageContainer
+								data={data}
+							/>
+						</a>
+					</li>
 				)}
-			</PostConsumer>
+			</li>
 		)
-	}
+	},[props.imageData.images]);
+
+	const crownPostDisplayRender=useMemo(()=>{
+		return(
+			<li style={{listStyle:"none",marginBottom:"-5%",cursor:"pointer"}}
+					 onClick={()=>displayPostModal(
+					 				props.imageData.crownedImage
+								)}>
+				<CrownedImageContainer
+					imageData={props.imageData.crownedImage}
+				/>
+			</li>
+		)
+	},[props.imageData.crownedImage]);
+
+	return(
+		<Container>
+			{props.isLoading==true?
+					<p>Give us a second we're getting your information</p>:
+					<React.Fragment>
+					{props.imageData.images.length==0 &&
+						props.imageData.crownedImage==null?
+						<NoPostsModal
+							id="noPostsModalContainer"
+							postType={"image"}
+							profilePageType={props.profile}
+							isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
+						  />:
+							<ul style={{padding:"0px"}}>
+								{props.imageData.crownedImage==null?
+									null:
+									<React.Fragment>
+										{crownPostDisplayRender}
+										<hr/>
+									</React.Fragment>
+								}	
+								{imagesDisplayRender}
+								{ PostContextValues.endOfPostsDBIndicator==false
+								 && PostContextValues.isSearchFilterActivated==false 
+								 && PostContextValues.isFilteredPostsActivated==false  && (
+									<React.Fragment>
+										{PostContextValues.isLoadingReloadedPosts==true?
+											 <Typed 
+							                    strings={['Loading...']} 
+							                    typeSpeed={60} 
+							                    backSpeed={30} 
+					                		  />:
+											<p onClick={()=>PostContextValues.fetchNextPosts()} style={ImageLabelCSS}>
+												Next
+											</p>
+										}
+									</React.Fragment>
+								)}
+							</ul>
+					}
+					</React.Fragment>
+				}
+		</Container>
+	)
 }
 
 export default ImagePostsContainer;

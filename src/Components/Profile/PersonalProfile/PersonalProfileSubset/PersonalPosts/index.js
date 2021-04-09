@@ -217,13 +217,12 @@ const PersonalPostsIndex=(props)=>{
 		headerBlog:null,
 		blogs:[]
 	});
-	const [isLoadingIndicatorImages,changeImagesLoadingIndicator]=useState(true);
+	const [isLoadingIndicatorImages,changeImagesLoadingIndicator]=useState(false);
 	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorRegularPost,changeRegularPostsLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorBlogPost,changeBlogPostsLoadingIndicator]=useState(true);
 
 	useEffect(()=>{
-		changeImagesLoadingIndicator(false)
 		if(props.personalInformation.isLoading!=true){
 			const image=document.getElementById("images");
 			image.style.color="#C8B0F4";
@@ -846,11 +845,7 @@ const PersonalPostsIndex=(props)=>{
 		videoPost,
 		blogPost,
 		regularPost,
-		displayImages,
-		isLoadingIndicatorImages,
-		isLoadingIndicatorBlogPost,
-		isLoadingIndicatorRegularPost,
-		isLoadingIndicatorVideos
+		displayImages
 	])
 
 	return (
