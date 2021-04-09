@@ -27,6 +27,12 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		width:130% !important;
 	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#nextButton{
+			margin-top:20% !important;
+		}
+    }
 `;
 
 
@@ -118,7 +124,7 @@ const BlogsPostsContainer=(props)=>{
 							                    typeSpeed={60} 
 							                    backSpeed={30} 
 					                		  />:
-											<p onClick={()=>PostContextValues.fetchNextPosts()} style={NextPostLabelCSS}>
+											<p id="nextButton" onClick={()=>PostContextValues.fetchNextPosts()} style={NextPostLabelCSS}>
 												Next
 											</p>
 										}

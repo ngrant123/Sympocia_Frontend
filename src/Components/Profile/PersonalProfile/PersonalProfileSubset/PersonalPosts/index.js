@@ -100,6 +100,9 @@ const SearchPostsTextArea=styled.textarea`
     box-shadow: none;
 
     resize: none; /*remove the resize handle on the bottom right*/
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		height:10%;
+    }
 `;
 
 
