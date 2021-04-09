@@ -19,76 +19,14 @@ import SmallBlogContainer from "./SmallBlogContainer.js";
 const Container=styled.div`
 	position:absolute;
 	width:95%;
-	height:125%;
+	height:95%;
+
 	padding:10px;
 	padding-right:10px;
 
 	@media screen and (max-width:1370px){
-		width:120% !important;
-		#headerImageLI{
-			display:block !important;
-			#headerImage{
-				width:350px !important;
-				height:30% !important;
-			}
-		}
-		#headerDescriptionLI{
-			margin-left:10% !important;
-			display:block !important;
-			margin-top:10% !important;
-			position:relative !important;
-			margin-bottom:5% !important;
-		}
-		#smallBlogLI{
-			width:25% !important;
-			margin-right:20% !important;
-		}
-		#smallPostsContainerLI{
-			width:120%;
-		}
+		width:130% !important;
 	}
-
-	@media screen and (max-width:840px){
-
-		#searchSymposiumPostLI{
-			display:none;
-		}
-		#datePostedLI{
-			display:none;
-		}
-		#symposiumsLI{
-			display:none;
-		}
-		#headerImage{
-			width:100% !important;
-			height:150px !important;
-		}
-
-		#headerConstructedDateLI{
-			display:none;
-		}
-		#headerAudioLI{
-			width:150px !important;
-		}
-
-		#smallAudio{
-			width:250px !important;
-		}
-
-		#smallBlogLI{
-			margin-bottom:15% !important;
-			margin-right:40% !important;
-		}
-    }
-    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-    	margin-left:10% !important;
-		#headerDescriptionLI{
-			margin-left:10% !important;
-		}
-		#smallBlogLI{
-			margin-bottom:40% !important;
-		}
-    }
 `;
 
 

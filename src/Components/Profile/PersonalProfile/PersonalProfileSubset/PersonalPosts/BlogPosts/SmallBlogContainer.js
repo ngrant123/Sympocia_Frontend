@@ -10,10 +10,19 @@ const SmallBlogComponent=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:350px !important;
+		margin-bottom:40%;
+	}
+
+	@media screen and (max-width:700px){
+		width:290px !important;
+		#smallAudio{
+			width:170px !important;
+		}
 	}
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	width:300px !important;
+    	margin-bottom:50%;
     }
 `;
 
@@ -27,8 +36,8 @@ const SmallBlog=styled.div`
 	overflow:hidden;
 
 	@media screen and (max-width:840px){
-		width:60% !important;
-		height:50% !important;
+		width:90% !important;
+		height:80% !important;
 		#smallImage{
 			height:100% !important;
 		}
@@ -44,6 +53,7 @@ const SmallBlog=styled.div`
 
 
 const Container=styled(Link)`
+
 `;
 
 const VideoDesriptionContainer=styled.div`
@@ -63,7 +73,7 @@ const VideoDesriptionContainer=styled.div`
 
 
 const BlogContainer=(props)=>{
-	
+
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
@@ -109,21 +119,22 @@ const BlogContainer=(props)=>{
 							</SmallBlog>
 						</li>
 
-						<li style={{listStyle:"none",fontSize:"15px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+						<li style={{listStyle:"none",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginBottom:"2%"}}>
 							<b> {props.data.title} </b>
 						</li>
 						<li style={{listStyle:"none",fontSize:"15px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 							{props.data.description}
 						</li>
+						{/*
+							<li id="datePostedLI" style={{listStyle:"none",color:"#8c8c8c"}}>
+								<ul style={{padding:"0px"}}>
 
-						<li id="datePostedLI" style={{listStyle:"none",color:"#8c8c8c"}}>
-							<ul style={{padding:"0px"}}>
-
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{constructDate(props.data.datePosted)}
-								</li>
-							</ul>
-						</li>
+									<li style={{listStyle:"none",display:"inline-block"}}>
+										{constructDate(props.data.datePosted)}
+									</li>
+								</ul>
+							</li>
+						*/}
 
 						<li id="symposiumsLI" style={{listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
 							{props.data.industriesUploaded[0].industry}
