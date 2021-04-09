@@ -1,4 +1,4 @@
-import React,{Component} from "react";
+import React,{useContext,useMemo} from "react";
 import styled from "styled-components";
 import {getRegularPostFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getCompanyRegularPosts} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
@@ -9,9 +9,9 @@ import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png
 import SmallRegularPost from "./SmallRegularPostsContainer.js";
 import HeaderPost from "./HeaderRegularPost.js";
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
-import {PostDisplayConsumer} from "../../../PostDisplayModalContext.js";
+import {PostDisplayConsumer,PostDisplayContext} from "../../../PostDisplayModalContext.js";
 
-import {PostConsumer} from "../PostsContext.js";
+import {PostConsumer,PostContext} from "../PostsContext.js";
 import Typed from "react-typed";
 
 const Container=styled.div`
@@ -131,129 +131,89 @@ const NextPostLabelCSS={
 }
 
 
-class RegularPostsContainer extends Component{
+const RegularPostsContainer=(props)=>{
+	const PostContextValues=useContext(PostContext);
+	const PostDisplay=useContext(PostDisplayContext);
 
-	constructor(props){
-		super(props);
-		this.state={
-			regularPosts:[],
-			headerPost:null,
-			isLoading:false
-		}
+
+	const displayPostModal=(data)=>{
+		PostDisplay.handleRegularPostModal(data,PostContextValues);
 	}
 
-	alterLoadingState=(loadingIndicator)=>{
-		this.setState({
-			isLoading:loadingIndicator
-		})
-	}
 
-	constructRegularPosts=(regularPosts)=>{
-		for(var i=0;i<regularPosts.length;i++){
-			const {post}=regularPosts[i];
-			var DBEditorState = convertFromRaw(JSON.parse(post));
-			var postContentState=EditorState.createWithContent(DBEditorState);
-			const content=postContentState.getCurrentContent().getPlainText('\u0001');
-
-			const newRegularPost={
-				...regularPosts[i],
-				post:content
-			}
-			regularPosts[i]=newRegularPost
-		}
-		return regularPosts;
-	}
-
-	displayPostModal=(profileAction,companyAction,data,postsConsumer)=>{
-		
-		if(profileAction==null)
-			companyAction.handleRegularPostModal(data,postsConsumer);
-		else
-			profileAction.handleRegularPostModal(data,postsConsumer);
-	}
-
-	render(){
+	const postRender=useMemo(()=>{
 		return(
-			<PostConsumer>
-				{postsConsumer=>(
-					<PostDisplayConsumer>
-						{postDisplayModal=>(
-							<CompanyPostDisplayConsumer>
-								{companyPostDisplayModal=>(
-									<Container>
-										{this.props.isLoadingIndicatorRegularPost==true?
-											<p>We are currently getting posts</p>:
-											<React.Fragment>
-												{this.props.posts.posts.length==0 && this.props.posts.headerPost==null?
-																				<NoPostsModal
-																					id="noPostsModalContainer"
-																					postType={"post"}
-																					profilePageType={this.props.profile}
-																					isSearchFilterActivated={postsConsumer.isSearchFilterActivated}
-																				/>:
-															<ul id="postContainer" style={{padding:"0px"}}>
-																{this.props.posts.headerPost==null?null:
-																	<React.Fragment>
-																		<li id="headerContainerLI" onClick={()=>this.displayPostModal(
-																							postDisplayModal,
-																							companyPostDisplayModal,
-																							this.props.posts.headerPost,
-																							postsConsumer)} style={{cursor:"pointer",listStyle:"none",marginBottom:"2%",marginBottom:"2%",height:"25%"}}>
-																			<HeaderPost
-																				post={this.props.posts.headerPost}
-																				profilePicture={this.props.profilePicture}
-																			/>	
-																		</li>
-																		<hr/>
-																	</React.Fragment>
-																}
-																<li style={{listStyle:"none"}}>
-																	<ul style={{padding:"0px"}}>
-																		{this.props.posts.posts.map(data=>
-																			<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																				<li id="smallContainerLI"  onClick={()=>this.displayPostModal(
-																									postDisplayModal,
-																									companyPostDisplayModal,
-																									data,
-																									postsConsumer)} style={{width:"30%",height:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
-																					<SmallRegularPost
-																						post={data}
-																						profilePicture={this.props.profilePicture}
-																					/>
-																				</li>
-																			</a>
-																		)}
-																	</ul>
-																</li>
-																{postsConsumer.endOfPostsDBIndicator==false
-																 && postsConsumer.isSearchFilterActivated==false 
-																 && postsConsumer.isFilteredPostsActivated==false  && (
-																	<React.Fragment>
-																		{postsConsumer.isLoadingReloadedPosts==true?
-																			 <Typed 
-															                    strings={['Loading...']} 
-															                    typeSpeed={60} 
-															                    backSpeed={30} 
-													                		  />:
-																			<p onClick={()=>postsConsumer.fetchNextPosts()} style={NextPostLabelCSS}>
-																				Next
-																			</p>
-																		}
-																	</React.Fragment>
-																)}
-															</ul>
-													}
-												</React.Fragment>
-											}
-										</Container>
-								)}
-							</CompanyPostDisplayConsumer>
-							)}
-					</PostDisplayConsumer>
-				)}
-			</PostConsumer>
+			<li style={{listStyle:"none"}}>
+				<ul style={{padding:"0px"}}>
+					{props.posts.posts.map(data=>
+						<li id="smallContainerLI"  onClick={()=>displayPostModal(data)}
+						 	style={{cursor:"pointer",width:"30%",height:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
+							<SmallRegularPost
+								post={data}
+								profilePicture={props.profilePicture}
+							/>
+						</li>
+					)}
+				</ul>
+			</li>
 		)
-	}
+	},[props.posts.posts]);
+
+	const crownPostRender=useMemo(()=>{
+		return(
+			<li id="headerContainerLI" onClick={()=>displayPostModal(
+														props.posts.headerPost)} 
+				style={{cursor:"pointer",listStyle:"none",marginBottom:"2%",marginBottom:"2%",height:"25%"}}>
+				<HeaderPost
+					post={props.posts.headerPost}
+					profilePicture={props.profilePicture}
+				/>	
+			</li>
+		)
+	},[props.posts.headerPost]);
+
+	return(
+		<Container>
+			{props.isLoadingIndicatorRegularPost==true?
+				<p>We are currently getting posts</p>:
+				<React.Fragment>
+					{props.posts.posts.length==0 && props.posts.headerPost==null?
+													<NoPostsModal
+														id="noPostsModalContainer"
+														postType={"post"}
+														profilePageType={props.profile}
+														isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
+													/>:
+								<ul id="postContainer" style={{padding:"0px"}}>
+									{props.posts.headerPost==null?null:
+										<React.Fragment>
+											{crownPostRender}
+											<hr/>
+										</React.Fragment>
+									}
+									{postRender}
+									{PostContextValues.endOfPostsDBIndicator==false
+									 && PostContextValues.isSearchFilterActivated==false 
+									 && PostContextValues.isFilteredPostsActivated==false  && (
+										<React.Fragment>
+											{PostContextValues.isLoadingReloadedPosts==true?
+												 <Typed 
+								                    strings={['Loading...']} 
+								                    typeSpeed={60} 
+								                    backSpeed={30} 
+						                		  />:
+												<p onClick={()=>PostContextValues.fetchNextPosts()} style={NextPostLabelCSS}>
+													Next
+												</p>
+											}
+										</React.Fragment>
+									)}
+								</ul>
+						}
+					</React.Fragment>
+				}
+			</Container>
+	)
 }
 
 export default RegularPostsContainer;
