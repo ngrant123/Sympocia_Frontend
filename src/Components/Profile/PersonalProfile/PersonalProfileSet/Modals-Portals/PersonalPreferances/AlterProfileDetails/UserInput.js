@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+const Container=styled.div`
+	position:absolute;
+`;
 const InputContainer=styled.textarea`
 	position:relative;
 	border-radius:5px;
@@ -13,6 +16,20 @@ const InputContainer=styled.textarea`
 	padding:5px;
 	margin-top:5%;
 	margin-bottom:5%;
+
+	@media screen and (max-width:1370px){
+		left:1% !important;
+	}
+
+	@media screen and (max-width:650px){
+		width:90% !important;
+		height:150px !important;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		width:110% !important;
+		height:90px !important;
+   	}
 `;
 
 
@@ -42,7 +59,8 @@ const BackButton={
 }
 
 
-const UserInput=({bubbleUpResponse,closeModal})=>{
+const UserInput=({bubbleUpResponse,closeModal,editProfileParameter})=>{
+	const editParameter="Change "+editProfileParameter+" here";
 	const sendResponse=()=>{
 		const userInput=document.getElementById("input").value;
 		if(userInput!="")
@@ -52,19 +70,19 @@ const UserInput=({bubbleUpResponse,closeModal})=>{
 	}
 
 	return(
-		<React.Fragment>
+		<Container>
 			<div style={BackButton} onClick={()=>closeModal()}>
 				Back
 			</div>
 			<InputContainer
 				id="input"
-				placeholder="Change first name here"
+				placeholder={editParameter}
 			/>
 
-			<div onClick={()=>sendResponse()} style={SumbitButton}>
+			<div id="submitButton" onClick={()=>sendResponse()} style={SumbitButton}>
 				Submit
 			</div>
-		</React.Fragment>
+		</Container>
 	)
 }
 

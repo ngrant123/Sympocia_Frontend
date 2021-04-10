@@ -1,12 +1,10 @@
 import React, {Component } from 'react'
-import styled from "styled-components";
 import { GeneralNavBar } from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import {PersonalInformation} from "../PersonalProfileSubset/PersonalDetails/PersonalInformation.js";
 import {connect} from 'react-redux';
 import { getProfile } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 import { UserProvider } from "../UserContext.js";
-import PersonalPostsIndex from "../PersonalProfileSubset/PersonalPosts/index.js";
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'
 import { withRouter } from "react-router-dom";
 import {PostDisplayProvider} from "../PostDisplayModalContext.js";
@@ -25,7 +23,6 @@ import {
 		setPersonalProfileRefreshToken
 	} from "../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import CONSTANTS from "../../../../Constants/constants.js";
-import GuestLockScreenHOC from "../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 import {
 	MobileProfileOptions
 } from "./MobileUI.js";
@@ -639,7 +636,8 @@ class LProfile extends Component{
 							tikTokUrl:""
 						},
 						isGuestVisitorProfile:this.state.isGuestVisitorProfile,
-						recruits:this.state.userProfile.recruits
+						recruits:this.state.userProfile.recruits,
+						profilePicture:this.state.userProfile.profilePicture
 					}}
 					displayDesktopUI={isMobileInformation==true?true:this.state.displayDesktopUI}
 					displaySocialMediaModal={this.displaySocialMediaModal}
@@ -698,6 +696,14 @@ class LProfile extends Component{
 									displayPersonalInformation:this.displayPersonalInformationMobile,
 									displayChampionsModal:this.displayChampionModalTrigger,
 									championData:this.state.champion
+								},
+								updateFirstName:(firstName)=>{
+									this.setState({
+										userProfile:{
+											...this.state.userProfile,
+											firstName
+										}
+									})
 								}
 							}}>
 				<PostDisplayProvider

@@ -1,18 +1,22 @@
-import React from "react";
+import React,{useContext} from "react";
 import UserInput from "./UserInput.js";
+import {UserContext} from "../../../../UserContext.js";
 
 
 const AlterFirstNamePrompt=({closeModal})=>{
-	const bubbleUpResponse=(userInput)=>{
+	const UserValues=useContext(UserContext);
 
+	const bubbleUpResponse=(userInput)=>{
+		alert('First name has been changed');
+		UserValues.updateFirstName(userInput);
+		closeModal();
 	}
 	return(
-		<React.Fragment>
-			<UserInput
-				closeModal={closeModal}
-				bubbleUpResponse={bubbleUpResponse}
-			/>
-		</React.Fragment>
+		<UserInput
+			closeModal={closeModal}
+			editProfileParameter={"first name"}
+			bubbleUpResponse={bubbleUpResponse}
+		/>
 	)
 }
 
