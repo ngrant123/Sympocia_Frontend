@@ -5,6 +5,11 @@ import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import AlterFirstNamePrompt from "./AlterProfileDetails/AlterFirstNamePrompt.js";
+import AlterEmailPrompt from "./AlterProfileDetails/AlterEmailPrompt.js";
+import AlterLastNamePrompt from "./AlterProfileDetails/AlterLastNamePrompt.js";
+import DeleteProfilePrompt from "./DeleteProfilePrompt.js";
+
+import {Link} from "react-router-dom";
 
 
 const Container=styled.div`
@@ -27,6 +32,41 @@ const Container=styled.div`
 		left:5% !important;
 		overflow:scroll !important;
 	}
+
+	@media screen and (max-width:650px){
+		#settingsContainer{
+			width:110% !important;
+		}
+		#options{
+			box-shadow:none !important;
+		}
+		#accountSettingsTitle{
+			margin-left:15% !important;
+		}
+		#settingsProfilePicture{
+			width:20% !important;
+			height:13% !important;
+		}
+	}
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		#settingsProfilePicture{
+			width:10% !important;
+			height:20% !important;
+		}
+    }
+
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	#settingsProfilePicture{
+			width:10% !important;
+			height:35% !important;
+		}
+		#accountSettingsTitle{
+			margin-left:7% !important;
+		}
+   	}
+
 `;
 
 const ShadowContainer= styled.div`
@@ -57,7 +97,9 @@ const Button={
   color:"white",
   cursor:"pointer",
   width:"70%",
-  cursor:"pointer"
+  cursor:"pointer",
+  marginTop:"5%",
+  marginBottom:"20px"
 }
 
 const UserSettingOptionsCSS={
@@ -65,7 +107,15 @@ const UserSettingOptionsCSS={
 	display:"flex",
 	flexDirection:"column",
 	borderRadius:"5px",
-	marginBottom:"5%"
+	marginBottom:"5%",
+	paddingBottom:"10px"
+}
+
+const SpecificSettingOptionCSS={
+	display:"flex",
+	flexDirection:"row",
+	cursor:"pointer",
+	marginTop:"5%"
 }
 
 
@@ -73,25 +123,51 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 
 	const [displayFirstNameModalPrompt,changeDisplayFirstNamePrompt]=useState(false);
 	const [displayLastNameModalPrompt,changeDisplayLastNamePrompt]=useState(false);
-	const [displayPassWordModalPrompt,changePassWordPrompt]=useState(false);
+	const [displayEmailModalPrompt,changeEmailPrompt]=useState(false);
 	const [displayDeleteProfilePrompt,changeDisplayDeleteProfilePrompt]=useState(false);
 	const [displayInitialSettingsModal,changeInitialSettingsModal]=useState(true);
 
 	const displayInitilaModal=()=>{
 		changeDisplayFirstNamePrompt(false);
 		changeDisplayLastNamePrompt(false);
-		changePassWordPrompt(false);
 		changeDisplayDeleteProfilePrompt(false);
 		changeInitialSettingsModal(true);
+		changeEmailPrompt(false);
 	}
 
 	const hanldeDisplayFirstNameModal=()=>{
 		changeDisplayFirstNamePrompt(true);
 		changeDisplayLastNamePrompt(false);
-		changePassWordPrompt(false);
+		changeDisplayDeleteProfilePrompt(false);
+		changeInitialSettingsModal(false);
+		changeEmailPrompt(false);
+	}
+
+	const hanldeDisplayLastNameModal=()=>{
+		changeDisplayFirstNamePrompt(false);
+		changeDisplayLastNamePrompt(true);
+		changeDisplayDeleteProfilePrompt(false);
+		changeInitialSettingsModal(false);
+		changeEmailPrompt(false);
+	}
+
+
+	const handleDisplayEmailModal=()=>{
+		changeDisplayFirstNamePrompt(false);
+		changeDisplayLastNamePrompt(false);
+		changeEmailPrompt(true);
 		changeDisplayDeleteProfilePrompt(false);
 		changeInitialSettingsModal(false);
 	}
+
+	const handleDisplayDeleteModal=()=>{
+		changeDisplayFirstNamePrompt(false);
+		changeDisplayLastNamePrompt(false);
+		changeEmailPrompt(false);
+		changeDisplayDeleteProfilePrompt(true);
+		changeInitialSettingsModal(false);
+	}
+
 
 	const initialDisplayModal=()=>{
 		return(
@@ -102,14 +178,18 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 							onClick={()=>closeModal()}
 							style={{color:"A4A4A4",marginLeft:"90%",cursor:"pointer"}}
 						/>
-						<img src={userProfilePicture} style={{width:"20%",height:"20%",borderRadius:"50%"}}/>
+						<img id="settingsProfilePicture" src={userProfilePicture==null?
+									NoProfilePicture:userProfilePicture
+								} 
+								style={{width:"20%",height:"20%",borderRadius:"50%"}}
+						/>
 						<hr style={HorizontalLineCSS}/>
-						<div style={UserSettingOptionsCSS}>
-							<p style={{color:"A4A4A4"}}>
+						<div id="settingsContainer" style={UserSettingOptionsCSS}>
+							<p id="accountSettingsTitle" style={{color:"A4A4A4"}}>
 								<b>Account Settings</b>
 							</p>
-							<div style={{padding:"40px",borderRadius:"5px",boxShadow:"2px 2px 10px #A4A4A4"}}>
-								<div onClick={()=>changeDisplayFirstNamePrompt}
+							<div id="options" style={{padding:"40px",borderRadius:"5px",boxShadow:"2px 2px 10px #A4A4A4"}}>
+								<div onClick={()=>handleDisplayEmailModal()}
 									style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>
 									<p>
 										<b>Update email addresses</b>
@@ -118,9 +198,10 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 										style={{marginLeft:"20%"}}
 									/>
 								</div>
+								<hr/>
 
 								<div onClick={()=>hanldeDisplayFirstNameModal()}
-									style={{display:"flex",flexDirection:"row",cursor:"pointer",marginTop:"5%"}}>
+									style={SpecificSettingOptionCSS}>
 									<p>
 										<b>Update first name</b>
 									</p>
@@ -128,8 +209,9 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 										style={{marginLeft:"38%"}}
 									/>
 								</div>
+								<hr/>
 
-								<div style={{display:"flex",flexDirection:"row",cursor:"pointer",marginTop:"5%"}}>
+								<div style={SpecificSettingOptionCSS} onClick={()=>hanldeDisplayLastNameModal()}>
 									<p>
 										<b>Update last name</b>
 									</p>
@@ -137,21 +219,24 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 										style={{marginLeft:"39%"}}
 									/>
 								</div>
+								<hr/>
 
-								<div style={{display:"flex",flexDirection:"row",cursor:"pointer",marginTop:"5%"}}>
+								<Link to={{pathname:'/emailreset'}} style={{...SpecificSettingOptionCSS,textDecoration:"none",color:"black"}}>
 									<p>
 										<b>Update password</b>
 									</p>
 									<ArrowDropDownCircleOutlinedIcon
 										style={{marginLeft:"39%"}}
 									/>
-								</div>
+								</Link>
+								
+							</div>
+
+							<div style={Button} onClick={()=>handleDisplayDeleteModal()}>
+								Delete Profile
 							</div>
 						</div>
 
-						<div style={Button}>
-							Delete Profile
-						</div>
 					</React.Fragment>
 				)}
 			</React.Fragment>
@@ -170,7 +255,41 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 		)
 	}
 
+	const lastNamePrompt=()=>{
+		return(
+			<React.Fragment>
+				{displayLastNameModalPrompt==true &&(
+					<AlterLastNamePrompt
+						closeModal={displayInitilaModal}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
 
+	const emailPrompt=()=>{
+		return(
+			<React.Fragment>
+				{displayEmailModalPrompt==true &&(
+					<AlterEmailPrompt
+						closeModal={displayInitilaModal}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	const deleteModal=()=>{
+		return(
+			<React.Fragment>
+				{displayDeleteProfilePrompt==true &&(
+					<DeleteProfilePrompt
+						closeModal={displayInitilaModal}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
 
 	return createPortal(
 		<React.Fragment>
@@ -180,6 +299,9 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 			<Container>
 				{initialDisplayModal()}
 				{firstNameAlterPrompt()}
+				{lastNamePrompt()}
+				{emailPrompt()}
+				{deleteModal()}
 			</Container>
 		</React.Fragment>
 	,document.getElementById("personalContainer"))

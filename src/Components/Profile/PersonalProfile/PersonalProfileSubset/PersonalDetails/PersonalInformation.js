@@ -1,7 +1,5 @@
 import React,{useState,Component} from "react";
 import styled from "styled-components";
-import {UserConsumer} from "../../UserContext.js";
-import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import DonatePortal from "../../PersonalProfileSet/Modals-Portals/DonatePortal.js";
 import ChampionPortal from "../../PersonalProfileSet/Modals-Portals/ChampionModalPortal/index.js";
 import {useSelector,useDispatch} from "react-redux";
@@ -9,27 +7,16 @@ import {addRecruit} from "../../../../../Actions/Requests/ProfileAxiosRequests/P
 import FriendsPortal from "../../PersonalProfileSet/Modals-Portals/FriendsPortal.js";
 import SymposiumPortal from "../../PersonalProfileSet/Modals-Portals/FollowedSymposiumsPortal.js";
 
-import { Icon, InlineIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 import tiktokIcon from '@iconify/icons-simple-icons/tiktok';
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {
-	removeRecruitProfileIsFollowing,
-	removeRecruitProfileIsntFollowing
+	removeRecruitProfileIsFollowing
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import ProfileSettingsModal from "../../PersonalProfileSet/Modals-Portals/PersonalPreferances/index.js";
 
-
-const BioContainer=styled.div`
-	position:realtive;
-	width:80%;
-	margin-left:7%;
-	background-color:white;
-	margin-bottom:10px;
-	color:#848484;
-
-`;
 
 
 const FriendsAndIndustryDisplayButton=styled.div`
@@ -49,22 +36,6 @@ const FriendsAndIndustryDisplayButton=styled.div`
 	}
 `;
 
-const BackButton=styled.div`
-	padding:10px;
-	text-align:center;
-	border-radius:5px;
-	border-style:solid;
-	border-color:#5298F8;
-	border-width:1px;
-	color:#5298F8;
-	transition:.8s;
-
-
-	&:hover{
-		background-color:#5298F8;
-		color:white;
-	}
-`;
 
 const RecruitButtonContainer=styled.div`
 	position:relative;
@@ -84,22 +55,6 @@ const RecruitButtonContainer=styled.div`
 	}
 `;
 
-const DonateButton=styled.div`
-	position:relative;
-	border-color:#5298F8;
-	border-style:solid;
-	border-width:1px;
-	color:#5298F8;
-	padding:10px;
-	background-color:white;
-	border-radius:5px;
-	transition:.8s;
-
-	&:hover{
-		box-shadow: 5px 5px 5px 5px #d5d5d5;
-	}
-
-`;
 
 const SponsorButton=styled.div`
 	padding:10px;
@@ -156,6 +111,16 @@ const EditSocialMediaUrlsCSS={
   marginBottom:"5%"
 }
 
+const FirstNameCSS={
+	position:"relative",
+	fontSize:"30px",
+	color:"#C8B0F4",
+	fontSize:"20px",
+	maxWidth:"60%",
+	maxHeight:"50px",
+	overflow:"hidden",
+	marginRight:"5%"
+}
 const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 	const _id=personalInformation._id;
 
@@ -299,8 +264,6 @@ const PersonalInformation=(props)=>{
 	const [displaySymposiumsPortal,changeDisplaySymposiumsPortal]=useState(false);
 	const [displayProfileSettingsPage,changeDisplayProfileSettingsPage]=useState(false);
 
-	const [displayMobileProfileOptions,changeDisplayMobileProfileOptions]=useState(false);
-
 	
 	const handleDonateButton=()=>{
 		changeDisplayForDonationModal(!displayDonationModal);
@@ -397,7 +360,7 @@ const PersonalInformation=(props)=>{
 					<>{mobileUserInformation(personalInformation.firstName,displayMobileProfileOptions)}</>:
 					<>
 						<div style={{display:"flex",flexDirection:"row"}}>
-							<p style={{position:"relative",left:"20%",fontSize:"30px",color:"#C8B0F4",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+							<p style={FirstNameCSS}>
 								<b>{personalInformation.firstName}</b>
 							</p>
 							<BorderColorIcon
@@ -476,7 +439,7 @@ const PersonalInformation=(props)=>{
 			{displayProfileSettingsPage==true &&(
 				<ProfileSettingsModal
 					closeModal={closeProfileSettingsModal}
-					userProfilePicture={props.personalInformation.userProfile.profilePicture}
+					userProfilePicture={props.personalInformation.profilePicture}
 				/>
 			)}
 			{props.isLoading==false &&(
