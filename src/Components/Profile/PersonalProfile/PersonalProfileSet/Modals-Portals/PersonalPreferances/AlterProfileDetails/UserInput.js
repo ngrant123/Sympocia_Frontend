@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 
 const Container=styled.div`
@@ -61,10 +61,12 @@ const BackButton={
 
 const UserInput=({bubbleUpResponse,closeModal,editProfileParameter})=>{
 	const editParameter="Change "+editProfileParameter+" here";
+	const [isSubmitting,changeSubmittingStatus]=useState(false);
+
 	const sendResponse=()=>{
 		const userInput=document.getElementById("input").value;
 		if(userInput!="")
-			bubbleUpResponse(userInput);
+			bubbleUpResponse({userInput,changeSubmittingStatus,isAccessTokenUpdated:false});
 		else
 			alert('Please enter a value');
 	}
@@ -79,9 +81,12 @@ const UserInput=({bubbleUpResponse,closeModal,editProfileParameter})=>{
 				placeholder={editParameter}
 			/>
 
-			<div id="submitButton" onClick={()=>sendResponse()} style={SumbitButton}>
-				Submit
-			</div>
+			{isSubmitting==false?
+				<div id="submitButton" onClick={()=>sendResponse()} style={SumbitButton}>
+					Submit
+				</div>:
+				<p>Submitting please wait...</p>
+			}
 		</Container>
 	)
 }

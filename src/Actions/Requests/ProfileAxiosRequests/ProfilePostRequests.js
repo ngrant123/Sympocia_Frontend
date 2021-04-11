@@ -442,6 +442,57 @@ export const resetPassword=async({newPassword,userId,accessToken})=>{
 }
 
 
+export const setFirstName=async({_id,firstName,accessToken})=>{
+	try{
+		const setFirstNameResult=await axios.post(`${CreateUrl}/setFirstName`,{
+			_id,
+			firstName
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		});
+		const {data}=setFirstNameResult;
+		return data
+	}catch(err){
+		throw err;
+	}
+}
+
+
+export const setLastName=async({_id,lastName,accessToken})=>{
+	try{
+		const setLastNameResult=await axios.post(`${CreateUrl}/setLastName`,{
+			_id,
+			lastName
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		});
+		const {data}=setLastNameResult;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+export const setEmail=async({_id,submittedEmail,accessToken})=>{
+	try{
+		const setEmailResult=await axios.post(`${CreateUrl}/setEmail`,{
+			_id,
+			submittedEmail
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+		const {data}=setEmailResult;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 
