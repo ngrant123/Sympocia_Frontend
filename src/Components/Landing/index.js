@@ -276,7 +276,7 @@ const LandingPage=(props)=>{
 									<b>Our Mission</b>
 								</p>
 								<hr/>
-								<p onClick={()=>alert('Sympocia Community Coming Soon')} style={{cursor:"pointer"}}>	
+								<p onClick={()=>displaySympociaCommunityFromMobile()} style={{cursor:"pointer"}}>	
 									<b> Sympocia Community</b>
 							    </p>
 							</ChoicesContainer>
