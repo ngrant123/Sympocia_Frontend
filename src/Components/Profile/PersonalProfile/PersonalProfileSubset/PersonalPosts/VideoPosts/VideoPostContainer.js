@@ -102,7 +102,7 @@ const VideoPostsContainer=(props)=>{
 				</ul>
 			</li>
 		)
-	},[props.videos.videos]);
+	},[[...props.videos.videos]]);
 
 	const crownPostDisplayRender=useMemo(()=>{
 		return(

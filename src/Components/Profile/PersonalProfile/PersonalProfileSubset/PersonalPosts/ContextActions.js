@@ -77,7 +77,7 @@
 		}=postData;
 		let newEditedPost;
 		let newEditedPostS3;
-		
+		debugger;
 		const {isCrownedPost}=post;
 
 		//remove null keys from post and postS3
@@ -227,6 +227,7 @@
 		}
 
 		let finalPosts=finalReturnPosts(props,postType,currentPosts,currentCrownedPost);
+		console.log(finalPosts);
 		return finalPosts;
 	}
 

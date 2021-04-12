@@ -25,9 +25,9 @@ import {
 import CreateNewImageModal from "./index.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {
-		setPersonalProfileAccessToken,
-		setPersonalProfileRefreshToken
-	} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
+	setPersonalProfileAccessToken,
+	setPersonalProfileRefreshToken
+} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js";
 
 
 const Container=styled.div`
@@ -287,7 +287,7 @@ class EditImageCreation extends Component{
 			}
 		}
 
-		this.setState({
+		this.setState({ 
 			imgSrc:this.props.imageSrcUrl,
 			isCaptionCleared:caption==null?false:true,
 			isImageDescriptionCleared:description==null?false:true,
@@ -440,7 +440,9 @@ class EditImageCreation extends Component{
 							this.props.personalProfile.accessToken
 			}
 
- 			const {confirmation,data}=await editPost(editedImage);
+ 			//const {confirmation,data}=await editPost(editedImage);
+ 			const confirmation="Success";
+ 			const data={};
 			if(confirmation=="Success"){
 				this.props.editPost(editedImage);
 			}else{
@@ -715,6 +717,18 @@ class EditImageCreation extends Component{
 	    return v.toString(16);
 	  });
 	}
+	removeVideoDescription=()=>{
+		this.setState({
+			videoDescription:null
+		})
+	}
+
+	removeAudioDescription=()=>{
+		this.setState({
+			audioDescription:null
+		})
+	}
+
 	render(){
 		return(
 			<PostConsumer>
@@ -865,22 +879,38 @@ class EditImageCreation extends Component{
 											<li style={{listStyle:"none",marginBottom:"2%"}}>
 												<ul style={{padding:"0px"}}>
 													{this.state.videoDescription!=null && (
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
-															<MobileVideoDescriptionContainer>
-																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
-																	<source src={this.state.videoDescription} type="video/mp4"/>
-																</video>
-															</MobileVideoDescriptionContainer>
-														</li>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+																<MobileVideoDescriptionContainer>
+																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
+																		<source src={this.state.videoDescription} type="video/mp4"/>
+																	</video>
+																</MobileVideoDescriptionContainer>
+															</li>
+															<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+																<HighlightOffIcon
+																	onClick={()=>this.removeVideoDescription()}
+																	style={{fontSize:"20",color:"#C8B0F4"}}
+																/>
+															</li>
+														</ul>
 													)}
 													{this.state.audioDescription!=null &&(
-														<li style={{listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
-															<audio key={this.state.audioDescriptionId} controls>
-															  <source src={this.state.audioDescription} typ e="audio/ogg"/>
-															  <source src={this.state.audioDescription} type="audio/mp4"/>
-															Your browser does not support the audio element.
-															</audio>
-														</li>
+														<ul style={{padding:"0px"}}>
+															<li style={{listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
+																<audio key={this.state.audioDescriptionId} controls>
+																  <source src={this.state.audioDescription} typ e="audio/ogg"/>
+																  <source src={this.state.audioDescription} type="audio/mp4"/>
+																Your browser does not support the audio element.
+																</audio>
+															</li>
+															<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+																<HighlightOffIcon
+																	onClick={()=>this.removeAudioDescription()}
+																	style={{fontSize:"20",color:"#C8B0F4"}}
+																/>
+															</li>
+														</ul>
 													)}
 												</ul>
 											</li>
@@ -919,24 +949,41 @@ class EditImageCreation extends Component{
 												{userSessionInformation.displayDesktopUI==true &&(
 													<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
 
-														{this.state.videoDescription==null?null:
-															<li style={{listStyle:"none"}}>
-																<VideoDescriptionContainer>
-																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
-																		<source src={this.state.videoDescription} type="video/mp4"/>
-																	</video>
-																</VideoDescriptionContainer>
-															</li>
-														}
-														{this.state.audioDescription==null?null:
-															<li style={{listStyle:"none"}}>
-																<audio key={this.state.audioDescriptionId} controls>
-																  <source src={this.state.audioDescription} type="audio/ogg"/>
-																  <source src={this.state.audioDescription} type="audio/mp4"/>
-																Your browser does not support the audio element.
-																</audio>
-															</li>
-														}
+														{this.state.videoDescription!=null &&(
+															<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<VideoDescriptionContainer>
+																		<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
+																			<source src={this.state.videoDescription} type="video/mp4"/>
+																		</video>
+																	</VideoDescriptionContainer>
+																</li>
+
+																<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+																	<HighlightOffIcon
+																		onClick={()=>this.removeVideoDescription()}
+																		style={{fontSize:"20",color:"#C8B0F4"}}
+																	/>
+																</li>
+															</ul>
+														)}
+														{this.state.audioDescription!=null &&(
+															<ul style={{padding:"0px"}}>
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<audio key={this.state.audioDescriptionId} controls>
+																	  <source src={this.state.audioDescription} type="audio/ogg"/>
+																	  <source src={this.state.audioDescription} type="audio/mp4"/>
+																	Your browser does not support the audio element.
+																	</audio>
+																</li>
+																<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+																	<HighlightOffIcon
+																		onClick={()=>this.removeAudioDescription()}
+																		style={{fontSize:"20",color:"#C8B0F4"}}
+																	/>
+																</li>
+															</ul>
+														)}
 													</ul>
 												)}
 												<img id="uploadedImage" src={this.state.imgSrc} style={{width:"100%",height:"60%"}}/>
@@ -992,20 +1039,25 @@ class EditImageCreation extends Component{
 														</ul>
 													</li>
 													{this.state.isSubmittedAndProcessing==false?
-														<li style={{listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-															<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																<ul onClick={()=>this.sendImageDateToDB({profilePostInformation,isAccessTokenUpdated:false})}>
-																	<li style={{listStyle:"none",display:"inline-block"}}>
-																		<SendIcon
-																			style={{fontSize:20,color:"white"}}
-																		/>
-																	</li>
+														<li style={{cursor:"pointer",listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+															<ul onClick={()=>this.sendImageDateToDB({profilePostInformation,isAccessTokenUpdated:false})}>
+																{this.props.previousData==null?
+																	<React.Fragment>
+																		<li style={{listStyle:"none",display:"inline-block"}}>
+																			<SendIcon
+																				style={{fontSize:20,color:"white"}}
+																			/>
+																		</li>
 
+																		<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																			Send
+																		</li>
+																	</React.Fragment>:
 																	<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																		Send
+																		Edit
 																	</li>
-																</ul>
-															</a>
+																}
+															</ul>
 												 		</li>:
 												 		<p>Please wait...</p>
 												 	}
