@@ -83,6 +83,7 @@ const IndustryButtonCSS={
 }
 
 const SmallImageContainer=(props)=>{
+	console.log(props);
 	const {data}=props;
 
 	const constructDate=(date)=>{

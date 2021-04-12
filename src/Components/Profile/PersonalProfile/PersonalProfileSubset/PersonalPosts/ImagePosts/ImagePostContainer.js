@@ -1,4 +1,4 @@
-import React,{useState,useMemo,useContext} from "react";
+import React,{useState,useMemo,memo,useContext} from "react";
 import styled from "styled-components";
 import NoPostsModal from "../NoPostsModal.js";
 import {PostDisplayConsumer,PostDisplayContext} from "../../../PostDisplayModalContext.js";
@@ -126,8 +126,10 @@ const ImageLabelCSS={
 }
 
 const ImagePostsContainer=(props)=>{
+	console.log(props);
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
+	const images=useMemo(()=>props.imageData.images,[props.imageData.images])
 
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
@@ -142,7 +144,7 @@ const ImagePostsContainer=(props)=>{
 		PostDisplay.handleImagePostModal(data,PostContextValues);
 	}
 
-	const imagesDisplayRender=useMemo(()=>{
+	const imagesDisplayRender=()=>{
 		return(
 			<li id="parentLISmallPostContainer" style={{listStyle:"none",marginTop:"3%"}}>
 				{props.imageData.images.map(data=>
@@ -157,7 +159,7 @@ const ImagePostsContainer=(props)=>{
 				)}
 			</li>
 		)
-	},[props.imageData.images]);
+	};
 
 	const crownPostDisplayRender=useMemo(()=>{
 		return(
@@ -193,7 +195,7 @@ const ImagePostsContainer=(props)=>{
 										<hr/>
 									</React.Fragment>
 								}	
-								{imagesDisplayRender}
+								{imagesDisplayRender()}
 								{ PostContextValues.endOfPostsDBIndicator==false
 								 && PostContextValues.isSearchFilterActivated==false 
 								 && PostContextValues.isFilteredPostsActivated==false  && (
@@ -218,4 +220,4 @@ const ImagePostsContainer=(props)=>{
 	)
 }
 
-export default ImagePostsContainer;
+export default memo(ImagePostsContainer);

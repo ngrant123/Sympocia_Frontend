@@ -157,7 +157,7 @@ const RegularPostsContainer=(props)=>{
 				</ul>
 			</li>
 		)
-	},[props.posts.posts]);
+	},[[...props.posts.posts]]);
 
 	const crownPostRender=useMemo(()=>{
 		return(
