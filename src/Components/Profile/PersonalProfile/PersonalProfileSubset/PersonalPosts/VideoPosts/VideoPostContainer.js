@@ -1,4 +1,4 @@
-import React,{useContext,useMemo} from "react";
+import React,{useContext,useMemo,useCallback} from "react";
 import styled from "styled-components";
 import SmallVideoContainer from "./SmallVideos.js";
 import {getCompanyVideos} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
@@ -82,39 +82,11 @@ const NextPostLabelCSS={
 const VideoPostsContainer=(props)=>{
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
+	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[]);
 
 	const displayPostModal=(data)=>{
 		PostDisplay.handleVideoPostModal(data,PostContextValues);
 	}
-
-	const videoDisplayRender=useMemo(()=>{
-		return(
-			<li id="smallVideoParentContainer" style={{cursor:"pointer",listStyle:"none",marginTop:"1%"}}>	
-				<ul style={{padding:"0px"}}>
-					{props.videos.videos.map(data=>
-						<li id="smallVideoLI" onClick={()=>displayPostModal(data)} 
-						style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
-								<SmallVideoContainer
-									video={data}
-								/>
-						</li>
-					)}
-				</ul>
-			</li>
-		)
-	},[[...props.videos.videos]]);
-
-	const crownPostDisplayRender=useMemo(()=>{
-		return(
-			<li onClick={()=>displayPostModal(props.videos.headerVideo)} 
-				style={{listStyle:"none",cursor:"pointer"}}>
-					<CrownedVideo
-						headerVideo={props.videos.headerVideo}
-					/>
-			</li>
-		)
-	},[props.videos.headerVideo]);
-
 
 	return(
 		<Container>
@@ -130,11 +102,17 @@ const VideoPostsContainer=(props)=>{
 						<ul style={{padding:"0px"}}>
 							{props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
 								<React.Fragment>
-									{crownPostDisplayRender}
+									<CrownedVideo
+										headerVideo={props.videos.headerVideo}
+										displayPostModal={displayPostModalCallback}
+									/>
 									<hr/>
 								</React.Fragment>
 							}
-							{videoDisplayRender}
+							<SmallVideoContainer
+								videos={props.videos.videos}
+								displayPostModal={displayPostModalCallback}
+							/>
 							{PostContextValues.endOfPostsDBIndicator==false
 								&& PostContextValues.isSearchFilterActivated==false 
 								&& PostContextValues.isFilteredPostsActivated==false && (

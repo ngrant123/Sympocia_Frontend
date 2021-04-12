@@ -43,14 +43,14 @@
 			case 'Images':{
 				finalPost={
 					crownedImage:crownedPost=={}?null:crownedPost,
-					images:posts==null?[]:posts
+					images:posts==null?[]:[...posts]
 				}
 				break;
 			}
 			case 'Videos':{
 				finalPost={
 					headerVideo:crownedPost=={}?null:crownedPost,
-					videos:posts==null?[]:posts
+					videos:posts==null?[]:[...posts]
 				}
 				break;
 			}
@@ -58,7 +58,7 @@
 			case 'RegularPosts':{
 				finalPost={
 					headerPost:crownedPost=={}?null:crownedPost,
-					posts:posts==null?[]:posts
+					posts:posts==null?[]:[...posts]
 				}
 				break;
 			}

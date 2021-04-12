@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,memo} from "react";
 import styled from "styled-components";
 import EditIcon from '@material-ui/icons/Edit';
 
@@ -6,6 +6,7 @@ const ImageContainer=styled.div`
 	position:relative;
 	width:100%;
 	height:30%;
+	cursor:pointer;
 
 	@media screen and (max-width:420px){
 		#imageAudio{
@@ -82,10 +83,8 @@ const IndustryButtonCSS={
 	borderRadius:"5px"
 }
 
-const SmallImageContainer=(props)=>{
-	console.log(props);
-	const {data}=props;
-
+const SmallImageContainer=({images,displayPostModal})=>{
+	console.log(images);
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
@@ -100,58 +99,67 @@ const SmallImageContainer=(props)=>{
 	    return v.toString(16);
 	  });
 	}
+	//onClick={()=>displayPostModal(data)} 
 
 	let audioId=uuidv4();
 	let videoDescriptionId=uuidv4();
 	return(
-		<ImageContainer>
-			<ul style={{padding:"0px"}}>
-				{data.audioDescription!=null?
-					<li style={{listStyle:"none"}}>
-						<audio id="audio" key={audioId} style={{width:"200px"}} controls>
-						    <source src={data.audioDescription} type="audio/ogg"/>
-						    <source src={data.audioDescription} type="audio/mp4"/>
-							Your browser does not support the audio element.
-						</audio>
-					</li>:null
-				}	
-				<Image>
-					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
-					{data.videoDescription!=null &&(
-						<VideoDesriptionContainer>
-							<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
-								style={{borderRadius:"50%"}} width="50px" height="40px" borderRadius="50%">
-								<source src={data.videoDescription} type="video/mp4"/>
-							</video>
-						</VideoDesriptionContainer>
-					)}
-				</Image>
+		<li id="parentLISmallPostContainer" style={{listStyle:"none",marginTop:"3%"}}>
+			{images.map(data=>
+				<li id="smallPostLI" onClick={()=>displayPostModal(data)}
+					style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
+							<ImageContainer>
+								<ul style={{padding:"0px"}}>
+									{data.audioDescription!=null?
+										<li style={{listStyle:"none"}}>
+											<audio id="audio" key={audioId} style={{width:"200px"}} controls>
+											    <source src={data.audioDescription} type="audio/ogg"/>
+											    <source src={data.audioDescription} type="audio/mp4"/>
+												Your browser does not support the audio element.
+											</audio>
+										</li>:null
+									}	
+									<Image>
+										<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
+										{data.videoDescription!=null &&(
+											<VideoDesriptionContainer>
+												<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
+													style={{borderRadius:"50%"}} width="50px" height="40px" borderRadius="50%">
+													<source src={data.videoDescription} type="video/mp4"/>
+												</video>
+											</VideoDesriptionContainer>
+										)}
+									</Image>
 
-				{data.caption!=""?
-					<li style={{listStyle:"none",marginBottom:"5%"}}>
-						<ImageCaption>
-							{data.caption}
-						</ImageCaption>
-					</li>:<React.Fragment></React.Fragment>
+									{data.caption!=""?
+										<li style={{listStyle:"none",marginBottom:"5%"}}>
+											<ImageCaption>
+												{data.caption}
+											</ImageCaption>
+										</li>:<React.Fragment></React.Fragment>
+									}
+
+									<li id="postInformation" style={{listStyle:"none"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"24%"}}>
+												Comments
+											</li>
+
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",color:"#C8B0F4"}}>
+												{constructDate(data.datePosted)}
+											</li>
+											<li style={IndustryButtonCSS}>
+												{data.industriesUploaded[0].industry}					
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</ImageContainer>
 				}
-
-				<li id="postInformation" style={{listStyle:"none"}}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"24%"}}>
-							Comments
-						</li>
-
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",color:"#C8B0F4"}}>
-							{constructDate(data.datePosted)}
-						</li>
-						<li style={IndustryButtonCSS}>
-							{data.industriesUploaded[0].industry}					
-						</li>
-					</ul>
 				</li>
-			</ul>
-		</ImageContainer>
+			)}
+		</li>
 	)
 }
 
-export default SmallImageContainer;
+export default memo(SmallImageContainer);

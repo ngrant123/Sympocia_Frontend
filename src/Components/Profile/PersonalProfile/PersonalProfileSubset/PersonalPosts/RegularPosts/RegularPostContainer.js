@@ -1,4 +1,4 @@
-import React,{useContext,useMemo} from "react";
+import React,{useContext,useMemo,useCallback} from "react";
 import styled from "styled-components";
 import {getRegularPostFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getCompanyRegularPosts} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
@@ -134,6 +134,7 @@ const NextPostLabelCSS={
 const RegularPostsContainer=(props)=>{
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
+	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[]);
 
 
 	const displayPostModal=(data)=>{
@@ -187,11 +188,19 @@ const RegularPostsContainer=(props)=>{
 								<ul id="postContainer" style={{padding:"0px"}}>
 									{props.posts.headerPost==null?null:
 										<React.Fragment>
-											{crownPostRender}
+											<HeaderPost
+												post={props.posts.headerPost}
+												profilePicture={props.profilePicture}
+												displayPostModal={displayPostModalCallback}
+											/>	
 											<hr/>
 										</React.Fragment>
 									}
-									{postRender}
+									<SmallRegularPost
+										posts={props.posts.posts}
+										profilePicture={props.profilePicture}
+										displayPostModal={displayPostModalCallback}
+									/>
 									{PostContextValues.endOfPostsDBIndicator==false
 									 && PostContextValues.isSearchFilterActivated==false 
 									 && PostContextValues.isFilteredPostsActivated==false  && (

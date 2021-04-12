@@ -183,9 +183,7 @@ const CommentButtonCSS={
 	borderRadius:"5px"	
 }
 
-const HeaderRegularPost=(props)=>{
-
-	const {post,profilePicture}=props;
+const HeaderRegularPost=({post,profilePicture,displayPostModal})=>{
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -195,77 +193,80 @@ const HeaderRegularPost=(props)=>{
 	
 
 	return(
-		<Container>
-			<PostFirstSection>
-				<img id="profilePicture" src={profilePicture==null?NoProfilePicture:profilePicture} 
-					style={{width:"100%",height:"60%",borderRadius:"50%",marginBottom:"1%"}}
-				/>
-				{post.industriesUploaded[0]!=null?
-					<li style={IndustryButtonCSS}>
-							<p>{post.industriesUploaded[0].industry}</p>
-					</li>:null
-				}
-			</PostFirstSection>
-
-			<PostSecondSection>
-				<li style={{listStyle:"none",marginBottom:"2%",height:"60%"}}>
-					<Post>
-						{post.isAudioPost==true?
-							<audio key={uuidv4()} style={{width:"90%"}} controls>
-								<source src={post.post} type="audio/ogg"/>
-								<source src={post.post} type="audio/mp4"/>
-								Your browser does not support the audio element.
-							</audio>:
-							<React.Fragment>
-								<p id="headerPostTest" style={{maxHeight:"60%",overflow:"hidden"}}>
-									{post.post}
-								</p>
-							</React.Fragment>
+		<li id="headerContainerLI" onClick={()=>displayPostModal(post)} 
+			style={{cursor:"pointer",listStyle:"none",marginBottom:"2%",marginBottom:"2%",height:"25%"}}>
+				<Container>
+					<PostFirstSection>
+						<img id="profilePicture" src={profilePicture==null?NoProfilePicture:profilePicture} 
+							style={{width:"100%",height:"60%",borderRadius:"50%",marginBottom:"1%"}}
+						/>
+						{post.industriesUploaded[0]!=null?
+							<li style={IndustryButtonCSS}>
+									<p>{post.industriesUploaded[0].industry}</p>
+							</li>:null
 						}
-					</Post>
-				</li>
-				<li id="postCommentsLI" style={{listStyle:"none"}}>
-					<ul>
-						{post.comments.regularComments.length==0?
-							<li style={{listStyle:"none",marginLeft:"-10%"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-										No comments here unfortunately
-									</li>
+					</PostFirstSection>
 
-									<li style={CommentButtonCSS}>
-										Leave a comment
-									</li>
-								</ul>
-							</li>:
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginLeft:"-10%"}}>
-									<ul style={{padding:"0px"}}>	
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-											Show comments <ExpandMoreIcon/>
-										</li>
-										{/*
-											<li style={{listStyle:"none",display:"inline-block",marginTop:"2%",height:"30%"}}>
-												<CommentsProfile>
-													{post.comments.map(commentData=>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-															<SmallProfileCommentPicture>
-																<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-																<img id="profilePicture" src={commentData.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
-															</SmallProfileCommentPicture>
-														</li>
-													)}
-												</CommentsProfile>
+					<PostSecondSection>
+						<li style={{listStyle:"none",marginBottom:"2%",height:"60%"}}>
+							<Post>
+								{post.isAudioPost==true?
+									<audio key={uuidv4()} style={{width:"90%"}} controls>
+										<source src={post.post} type="audio/ogg"/>
+										<source src={post.post} type="audio/mp4"/>
+										Your browser does not support the audio element.
+									</audio>:
+									<React.Fragment>
+										<p id="headerPostTest" style={{maxHeight:"60%",overflow:"hidden"}}>
+											{post.post}
+										</p>
+									</React.Fragment>
+								}
+							</Post>
+						</li>
+						<li id="postCommentsLI" style={{listStyle:"none"}}>
+							<ul>
+								{post.comments.regularComments.length==0?
+									<li style={{listStyle:"none",marginLeft:"-10%"}}>
+										<ul style={{padding:"0px"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+												No comments here unfortunately
 											</li>
-										*/}
-									</ul>
-								</li>
-							</a>
-						}
-					</ul>
-				</li>
-			</PostSecondSection>
-		</Container>
+
+											<li style={CommentButtonCSS}>
+												Leave a comment
+											</li>
+										</ul>
+									</li>:
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginLeft:"-10%"}}>
+											<ul style={{padding:"0px"}}>	
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+													Show comments <ExpandMoreIcon/>
+												</li>
+												{/*
+													<li style={{listStyle:"none",display:"inline-block",marginTop:"2%",height:"30%"}}>
+														<CommentsProfile>
+															{post.comments.map(commentData=>
+																<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+																	<SmallProfileCommentPicture>
+																		<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
+																		<img id="profilePicture" src={commentData.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
+																	</SmallProfileCommentPicture>
+																</li>
+															)}
+														</CommentsProfile>
+													</li>
+												*/}
+											</ul>
+										</li>
+									</a>
+								}
+							</ul>
+						</li>
+					</PostSecondSection>
+				</Container>
+		</li>
 	)
 }
 

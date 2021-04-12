@@ -1,4 +1,4 @@
-import React,{useState,useMemo,memo,useContext} from "react";
+import React,{useState,useMemo,memo,useContext,useCallback} from "react";
 import styled from "styled-components";
 import NoPostsModal from "../NoPostsModal.js";
 import {PostDisplayConsumer,PostDisplayContext} from "../../../PostDisplayModalContext.js";
@@ -129,7 +129,7 @@ const ImagePostsContainer=(props)=>{
 	console.log(props);
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
-	const images=useMemo(()=>props.imageData.images,[props.imageData.images])
+	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[]);
 
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
@@ -143,37 +143,6 @@ const ImagePostsContainer=(props)=>{
 	const displayPostModal=(data)=>{
 		PostDisplay.handleImagePostModal(data,PostContextValues);
 	}
-
-	const imagesDisplayRender=()=>{
-		return(
-			<li id="parentLISmallPostContainer" style={{listStyle:"none",marginTop:"3%"}}>
-				{props.imageData.images.map(data=>
-					<li id="smallPostLI" onClick={()=>displayPostModal(data)} 
-						style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
-						<a href="javascript:;" style={{textDecoration:"none"}}>
-							<SmallImageContainer
-								data={data}
-							/>
-						</a>
-					</li>
-				)}
-			</li>
-		)
-	};
-
-	const crownPostDisplayRender=useMemo(()=>{
-		return(
-			<li style={{listStyle:"none",marginBottom:"-5%",cursor:"pointer"}}
-					 onClick={()=>displayPostModal(
-					 				props.imageData.crownedImage
-								)}>
-				<CrownedImageContainer
-					imageData={props.imageData.crownedImage}
-				/>
-			</li>
-		)
-	},[props.imageData.crownedImage]);
-
 	return(
 		<Container>
 			{props.isLoading==true?
@@ -186,33 +155,39 @@ const ImagePostsContainer=(props)=>{
 							postType={"image"}
 							profilePageType={props.profile}
 							isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
-						  />:
-							<ul style={{padding:"0px"}}>
-								{props.imageData.crownedImage==null?
-									null:
-									<React.Fragment>
-										{crownPostDisplayRender}
-										<hr/>
-									</React.Fragment>
-								}	
-								{imagesDisplayRender()}
-								{ PostContextValues.endOfPostsDBIndicator==false
-								 && PostContextValues.isSearchFilterActivated==false 
-								 && PostContextValues.isFilteredPostsActivated==false  && (
-									<React.Fragment>
-										{PostContextValues.isLoadingReloadedPosts==true?
-											 <Typed 
-							                    strings={['Loading...']} 
-							                    typeSpeed={60} 
-							                    backSpeed={30} 
-					                		  />:
-											<p onClick={()=>PostContextValues.fetchNextPosts()} style={ImageLabelCSS}>
-												Next
-											</p>
-										}
-									</React.Fragment>
-								)}
-							</ul>
+						 />:
+						<ul style={{padding:"0px"}}>
+							{props.imageData.crownedImage==null?
+								null:
+								<React.Fragment>
+									<CrownedImageContainer
+										crownedImage={props.imageData.crownedImage}
+										displayPostModal={displayPostModalCallback}
+									/>
+									<hr/>
+								</React.Fragment>
+							}	
+							<SmallImageContainer
+								images={props.imageData.images}
+								displayPostModal={displayPostModalCallback}
+							/>
+							{ PostContextValues.endOfPostsDBIndicator==false
+							 && PostContextValues.isSearchFilterActivated==false 
+							 && PostContextValues.isFilteredPostsActivated==false  && (
+								<React.Fragment>
+									{PostContextValues.isLoadingReloadedPosts==true?
+										 <Typed 
+						                    strings={['Loading...']} 
+						                    typeSpeed={60} 
+						                    backSpeed={30} 
+				                		  />:
+										<p onClick={()=>PostContextValues.fetchNextPosts()} style={ImageLabelCSS}>
+											Next
+										</p>
+									}
+								</React.Fragment>
+							)}
+						</ul>
 					}
 					</React.Fragment>
 				}
