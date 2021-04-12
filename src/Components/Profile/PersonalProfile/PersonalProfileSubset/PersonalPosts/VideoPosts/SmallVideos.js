@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React,{useEffect,memo} from "react";
 import styled from "styled-components";
 import {UserConsumer} from "../../../UserContext.js";
 
@@ -90,10 +90,10 @@ const IndustryButtonCSS={
 	borderRadius:"5px"
 }
 
-const SmallVideoContainer=(videoData)=>{
-	const displayIndustries=()=>{
+const SmallVideoContainer=({videos,displayPostModal})=>{
+	const displayIndustries=(data)=>{
 		
-		const {industriesUploaded}=videoData.video;
+		const {industriesUploaded}=data;
 		if(industriesUploaded.length>=1){
 			const industry=industriesUploaded[0].industry;
 			return <ul style={{padding:"0px"}}>
@@ -114,8 +114,8 @@ const SmallVideoContainer=(videoData)=>{
 	}
 
 
-	const constructDate=()=>{
-		const date=videoData.video.datePosted;
+	const constructDate=(data)=>{
+		const date=data.datePosted;
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
 		var current=new Date();
@@ -132,84 +132,70 @@ const SmallVideoContainer=(videoData)=>{
 	let audioId=uuidv4();
 	let videoDescriptionId=uuidv4();
 	return(
-			<SmallVideoComponent>
-				<ul style={{padding:"0px"}}>
-					{/*
-						<li id="videoAudio" style={{listStyle:"none"}}>
+		<li id="smallVideoParentContainer" style={{cursor:"pointer",listStyle:"none",marginTop:"1%"}}>	
+			<ul style={{padding:"0px"}}>
+				{videos.map(data=>
+					<li id="smallVideoLI" onClick={()=>displayPostModal(data)} 
+					style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
+						<SmallVideoComponent>
 							<ul style={{padding:"0px"}}>
-								{videoData.video.videoDescription==null?null:
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-										<VideoDescriptionContainer>
-											<video key={uuidv4()} style={{borderRadius:"50%"}} width="100%" height="100%" autoplay="true" muted>
-												<source src={videoData.video.videoDescription} type="video/mp4"/>
-											</video>
-										</VideoDescriptionContainer>
-									</li>
-								}
-								
-								{videoData.video.audioDescription==null?null:
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<audio key={uuidv4()} style={{width:"150px"}} controls>
-											<source src={videoData.video.audioDescription} type="audio/ogg"/>
-											<source src={videoData.video.audioDescription} type="audio/mp4"/>
-											Your browser does not support the audio element.
-										</audio>
-									</li>
-								}
-							</ul>
-						</li>
-					*/}
-					<li style={{listStyle:"none"}}>
-						<SmallVideo>
-							<ul id="videoAndAudioDescriptionLI" style={{position:"absolute",padding:"0px"}}>
-								{videoData.video.videoDescription==null?null:
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-										<VideoDescriptionContainer>
-											<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-												width="100%" height="100%">
-												<source src={videoData.video.videoDescription} type="video/mp4"/>
-											</video>
-										</VideoDescriptionContainer>
-									</li>
-								}
-								
-								{videoData.video.audioDescription==null?null:
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<audio id="audioLI" key={uuidv4()} style={{width:"150px"}} controls>
-											<source src={videoData.video.audioDescription} type="audio/ogg"/>
-											<source src={videoData.video.audioDescription} type="audio/mp4"/>
-											Your browser does not support the audio element.
-										</audio>
-									</li>
-								}
-							</ul>
-							<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-								width="100%" height="100%">
-								<source src={videoData.video.videoUrl} type="video/mp4"/>
-							</video>
-						</SmallVideo>
-					</li>
-
-					<div id="postInformation">
-						<li style={{listStyle:"none",fontSize:"15px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-							<b>{videoData.video.title} </b>
-						</li>
-
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{constructDate()}
+								<li style={{listStyle:"none"}}>
+									<SmallVideo>
+										<ul id="videoAndAudioDescriptionLI" style={{position:"absolute",padding:"0px"}}>
+											{data.videoDescription==null?null:
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+													<VideoDescriptionContainer>
+														<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+															width="100%" height="100%">
+															<source src={data.videoDescription} type="video/mp4"/>
+														</video>
+													</VideoDescriptionContainer>
+												</li>
+											}
+											
+											{data.audioDescription==null?null:
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<audio id="audioLI" key={uuidv4()} style={{width:"150px"}} controls>
+														<source src={data.audioDescription} type="audio/ogg"/>
+														<source src={data.audioDescription} type="audio/mp4"/>
+														Your browser does not support the audio element.
+													</audio>
+												</li>
+											}
+										</ul>
+										<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+											width="100%" height="100%">
+											<source src={data.videoUrl} type="video/mp4"/>
+										</video>
+									</SmallVideo>
 								</li>
-							</ul>
-						</li>
 
-						<li style={{listStyle:"none"}}>
-							{displayIndustries()}
-						</li>
-					</div>
-				</ul>
-			</SmallVideoComponent>
+								<div id="postInformation">
+									<li style={{listStyle:"none",fontSize:"15px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+										<b>{data.title} </b>
+									</li>
+									{/*
+										<li style={{listStyle:"none"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													{constructDate(data)}
+												</li>
+											</ul>
+										</li>
+									*/}
+
+									<li style={{listStyle:"none"}}>
+										{displayIndustries(data)}
+									</li>
+								</div>
+							</ul>
+						</SmallVideoComponent>
+							
+					</li>
+				)}
+			</ul>
+		</li>
 	)
 }
 
-export default SmallVideoContainer;
+export default memo(SmallVideoContainer);

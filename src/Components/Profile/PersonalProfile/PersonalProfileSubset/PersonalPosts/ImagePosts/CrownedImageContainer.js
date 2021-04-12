@@ -1,4 +1,4 @@
-import React from "react";
+import React,{memo} from "react";
 import styled from "styled-components";
 
 
@@ -85,9 +85,7 @@ const IndustryButtonCSS={
 	marginRight:"2%"
 }
 
-const CrownedImageContainer=(props)=>{
-	const {imageData}=props;
-
+const CrownedImageContainer=({crownedImage,displayPostModal})=>{
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -99,70 +97,76 @@ const CrownedImageContainer=(props)=>{
 	let videoDescriptionId=uuidv4();
 
 	return(
-		<Container>
-			<div id="parentContainer" style={{display:"flex",flexDirection:"row",padding:"0px",height:"45%",overflow:"hidden"}}>
-				<Image>
-					<img src={imageData.imgUrl} style={{width:"100%",height:"100%"}}/>
-					<VideoDesriptionContainer>
-						<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
-							style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
-							<source src={imageData.videoDescription} type="video/mp4"/>
-						</video>
+		<li style={{listStyle:"none",marginBottom:"-5%",cursor:"pointer"}}
+					 onClick={()=>displayPostModal(
+					 				crownedImage
+								)}>
 
-					</VideoDesriptionContainer>
-				</Image>
+			<Container>
+				<div id="parentContainer" style={{display:"flex",flexDirection:"row",padding:"0px",height:"45%",overflow:"hidden"}}>
+					<Image>
+						<img src={crownedImage.imgUrl} style={{width:"100%",height:"100%"}}/>
+						<VideoDesriptionContainer>
+							<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
+								style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
+								<source src={crownedImage.videoDescription} type="video/mp4"/>
+							</video>
 
-				<div id="postInformationLI" style={{top:"0%",width:"50%"}}>
-					<ul style={{paddging:"0px"}}>
-						<li style={IndustryButtonCSS}>
-							{imageData.industriesUploaded[0].industry}
-						</li>
-						<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-							<b>{imageData.caption}</b>
-						</li>
+						</VideoDesriptionContainer>
+					</Image>
 
-						{/*
-							<li style={{listStyle:"none",marginBottom:"5px"}}>
-								2 days ago
+					<div id="postInformationLI" style={{top:"0%",width:"50%"}}>
+						<ul style={{paddging:"0px"}}>
+							<li style={IndustryButtonCSS}>
+								{crownedImage.industriesUploaded[0].industry}
 							</li>
-						*/}
+							<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+								<b>{crownedImage.caption}</b>
+							</li>
 
-						<li style={{listStyle:"none"}}>
-							<Description style={{maxWidth:"60%",maxHeight:"60px",overflow:"hidden"}}>
-								{imageData.description}
-							</Description>
-						</li>
-						<li style={{listStyle:"none",marginTop:"2%"}}>
-							<ul style={{padding:"0px"}}>
-								{/*	
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li style={IndustryButtonCSS}>
-											Stamp
-										</li>
-									</a>
+							{/*
+								<li style={{listStyle:"none",marginBottom:"5px"}}>
+									2 days ago
+								</li>
+							*/}
 
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li style={IndustryButtonCSS}>
-											Comment
-										</li>
-									</a>
-								*/}
-								{imageData.audioDescription!=null?
-									<li style={{listStyle:"none"}}>
-											<audio key={audioId} style={{width:"200px"}} controls>
-											  <source src={imageData.audioDescription} type="audio/ogg"/>
-											  <source src={imageData.audioDescription} type="audio/mp4"/>
-											Your browser does not support the audio element.
-											</audio>
-									</li>:null
-								}	
-							</ul>
-						</li>
-					</ul>
+							<li style={{listStyle:"none"}}>
+								<Description style={{maxWidth:"60%",maxHeight:"60px",overflow:"hidden"}}>
+									{crownedImage.description}
+								</Description>
+							</li>
+							<li style={{listStyle:"none",marginTop:"2%"}}>
+								<ul style={{padding:"0px"}}>
+									{/*	
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li style={IndustryButtonCSS}>
+												Stamp
+											</li>
+										</a>
+
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li style={IndustryButtonCSS}>
+												Comment
+											</li>
+										</a>
+									*/}
+									{crownedImage.audioDescription!=null?
+										<li style={{listStyle:"none"}}>
+												<audio key={audioId} style={{width:"200px"}} controls>
+												  <source src={crownedImage.audioDescription} type="audio/ogg"/>
+												  <source src={crownedImage.audioDescription} type="audio/mp4"/>
+												Your browser does not support the audio element.
+												</audio>
+										</li>:null
+									}	
+								</ul>
+							</li>
+						</ul>
+					</div>
 				</div>
-			</div>
-		</Container>
+			</Container>
+		</li>
 	)
 }
 
-export default CrownedImageContainer;
+export default memo(CrownedImageContainer);

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{memo} from "react";
 import styled from "styled-components";
 
 
@@ -110,7 +110,7 @@ const DescriptionContainer=styled.div`
 `;
 
 
-const CrownedVideoContainer=({headerVideo})=>{
+const CrownedVideoContainer=({headerVideo,displayPostModal})=>{
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -125,68 +125,71 @@ const CrownedVideoContainer=({headerVideo})=>{
 		return dateToString;
 	}
 	return(
-		<ThumbnailVideoComponent>
-				<ThumbnailVideo>
-					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
-						<source src={headerVideo.videoUrl} type="video/mp4"/>
-					</video>
-				</ThumbnailVideo>
+		<li onClick={()=>displayPostModal(headerVideo)} 
+				style={{listStyle:"none",cursor:"pointer"}}>
+			<ThumbnailVideoComponent>
+					<ThumbnailVideo>
+						<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
+							<source src={headerVideo.videoUrl} type="video/mp4"/>
+						</video>
+					</ThumbnailVideo>
 
-				<DescriptionContainer id="videoDescriptionLI">
-						<div id="postInformation">
-							<li style={{marginBottom:"5%",listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
-								{headerVideo.industriesUploaded[0].industry}
-							</li>
-							<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-								<b>{headerVideo.title}</b>
-							</li>
+					<DescriptionContainer id="videoDescriptionLI">
+							<div id="postInformation">
+								<li style={{marginBottom:"5%",listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
+									{headerVideo.industriesUploaded[0].industry}
+								</li>
+								<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+									<b>{headerVideo.title}</b>
+								</li>
 
-							<li style={{listStyle:"none",marginBottom:"5px"}}>
-								<ul style={{padding:"0px",color:"#a6a6a7"}}>
-									{/*
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-											{headerVideo.views} views
+								<li style={{listStyle:"none",marginBottom:"5px"}}>
+									<ul style={{padding:"0px",color:"#a6a6a7"}}>
+										{/*
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
+												{headerVideo.views} views
+											</li>
+										*/}
+
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											{constructDate(headerVideo.datePosted)}
 										</li>
-									*/}
-
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										{constructDate(headerVideo.datePosted)}
-									</li>
+									</ul>
+								</li>
+							</div>
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px"}}>
+									{headerVideo.videoDescription==null?null:
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+											<VideoDescriptionContainer>
+												<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
+													<source src={headerVideo.videoDescription} type="video/mp4"/>
+												</video>
+											</VideoDescriptionContainer>
+										</li>
+									}
+									
+									{headerVideo.audioDescription==null ?null:
+										<li style={{listStyle:"none",display:"inline-block"}}>
+											<audio key={uuidv4()} style={{width:"150px"}} controls>
+												<source src={headerVideo.audioDescription} type="audio/ogg"/>
+												<source src={headerVideo.audioDescription} type="audio/mp4"/>
+												Your browser does not support the audio element.
+											</audio>
+										</li>
+									}
 								</ul>
 							</li>
-						</div>
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								{headerVideo.videoDescription==null?null:
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-										<VideoDescriptionContainer>
-											<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
-												<source src={headerVideo.videoDescription} type="video/mp4"/>
-											</video>
-										</VideoDescriptionContainer>
-									</li>
-								}
-								
-								{headerVideo.audioDescription==null ?null:
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<audio key={uuidv4()} style={{width:"150px"}} controls>
-											<source src={headerVideo.audioDescription} type="audio/ogg"/>
-											<source src={headerVideo.audioDescription} type="audio/mp4"/>
-											Your browser does not support the audio element.
-										</audio>
-									</li>
-								}
-							</ul>
-						</li>
-						<li id="description" style={{listStyle:"none"}}>
-							<Description style={{maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
-								{headerVideo.description}
-							</Description>
-						</li>
-					</DescriptionContainer>
+							<li id="description" style={{listStyle:"none"}}>
+								<Description style={{maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
+									{headerVideo.description}
+								</Description>
+							</li>
+						</DescriptionContainer>
 
-		</ThumbnailVideoComponent>
+			</ThumbnailVideoComponent>
+		</li>
 	)
 }
 
-export default CrownedVideoContainer;
+export default memo(CrownedVideoContainer);
