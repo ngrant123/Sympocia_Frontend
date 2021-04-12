@@ -231,10 +231,11 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 								</Link>
 								
 							</div>
-
-							<div style={Button} onClick={()=>handleDisplayDeleteModal()}>
-								Delete Profile
-							</div>
+							{/*
+								<div style={Button} onClick={()=>handleDisplayDeleteModal()}>
+									Delete Profile
+								</div>
+							*/}
 						</div>
 
 					</React.Fragment>
