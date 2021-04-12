@@ -81,7 +81,8 @@ const ShadowButtonCSS={
 	boxShadow:"1px 1px 5px #6e6e6e",
 	marginRight:"5px",
 	borderRadius:"5px",
-	borderStyle:"none"
+	borderStyle:"none",
+	marginLeft:"10%"
 }
 
 let TikTokCSS={
@@ -342,6 +343,7 @@ const PersonalInformation=(props)=>{
 					<p style={{maxWidth:"90%",maxHeight:"30px",marginRight:"10%",overflow:"hidden",fontSize:"20px"}}>
 						<b>{firstName}</b>
 					</p>
+					{editIcon()}
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
 						style={ShadowButtonCSS}
 						onClick={()=>displayMobileProfileOptions()}
@@ -349,6 +351,19 @@ const PersonalInformation=(props)=>{
 					   		<span class="caret"></span>
 					</button>
 				</div>
+			</React.Fragment>
+		)
+	}
+
+	const editIcon=()=>{
+		return(
+			<React.Fragment>
+				{props.personalInformation.isOwnProfile==true &&(
+					<BorderColorIcon
+						onClick={()=>changeDisplayProfileSettingsPage(true)}
+						style={{fontSize:25,color:"#C8B0F4",cursor:"pointer"}}
+					/>
+				)}
 			</React.Fragment>
 		)
 	}
@@ -363,10 +378,7 @@ const PersonalInformation=(props)=>{
 							<p style={FirstNameCSS}>
 								<b>{personalInformation.firstName}</b>
 							</p>
-							<BorderColorIcon
-								onClick={()=>changeDisplayProfileSettingsPage(true)}
-								style={{fontSize:25,color:"#C8B0F4",cursor:"pointer"}}
-							/>
+							{editIcon()}
 						</div>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
