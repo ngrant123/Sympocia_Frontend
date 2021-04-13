@@ -68,7 +68,6 @@
 
 	export const editPostIndexContext=(postData,props)=>{
 		
-		
 		const {
 			postId,
 			post,
@@ -77,7 +76,7 @@
 		}=postData;
 		let newEditedPost;
 		let newEditedPostS3;
-		debugger;
+		
 		const {isCrownedPost}=post;
 
 		//remove null keys from post and postS3
@@ -97,22 +96,15 @@
 		}=postParams(postType,props);
 
 		postS3.forEach((s3Option,index)=>{
-			let {newUrl,optionType,isCurrentlyDeleted}=s3Option;
+			let {newUrl,optionType}=s3Option;
 
-			if(newUrl!=null || isCurrentlyDeleted==false){
+			if(newUrl!=null){
 				if(optionType=="postUrl")
 					optionType=optionTypeParam
 
 				newEditedPostS3={
 					...newEditedPostS3,
 					[optionType]:newUrl
-				}
-			}else{
-				if(isCurrentlyDeleted==true){
-					newEditedPostS3={
-						...newEditedPostS3,
-						[optionType]:null
-					}
 				}
 			}
 		});
@@ -197,7 +189,6 @@
 			if((Object.keys(currentCrownedPost).length === 0)==true)
 					currentCrownedPost=null
 		}
-		debugger;
 
 		finalPosts=finalReturnPosts(props,postType,currentPosts,currentCrownedPost);
 		return finalPosts;
