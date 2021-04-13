@@ -197,6 +197,7 @@
 			if((Object.keys(currentCrownedPost).length === 0)==true)
 					currentCrownedPost=null
 		}
+		debugger;
 
 		finalPosts=finalReturnPosts(props,postType,currentPosts,currentCrownedPost);
 		return finalPosts;
@@ -260,7 +261,7 @@
 			});
 			newImageObject={
 				crownedImage:image.image,
-				images:currentImages
+				images:[...currentImages]
 			}
 		}else{
 			currentImages.splice(0,0,image)
@@ -292,14 +293,14 @@
 
 			newVideoObject={
 				headerVideo:video,
-				videos:currentVideos==null?[]:currentVideos
+				videos:currentVideos==null?[]:[...currentVideos]
 			}
 		}else{
 			var currentVideos=videoPost.videos;
 			currentVideos.splice(0,0,videoObject);
 			newVideoObject={
 					...videoPost,
-					videos:currentVideos
+					videos:[...currentVideos]
 			}
 		}
 		return newVideoObject;
@@ -325,14 +326,14 @@
 
 			var newPostObject={
 				headerPost:post,
-				posts:currentPosts==null?[]:currentPosts
+				posts:currentPosts==null?[]:[...currentPosts]
 			}
 		}else{
 			var currentPosts=regularPost.posts;
 			currentPosts.splice(0,0,regularPostProp);
 			var newPostObject={
 					...regularPost,
-					posts:currentPosts
+					posts:[...currentPosts]
 			}
 		}
 
