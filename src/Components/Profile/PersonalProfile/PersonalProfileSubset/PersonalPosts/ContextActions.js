@@ -97,15 +97,22 @@
 		}=postParams(postType,props);
 
 		postS3.forEach((s3Option,index)=>{
-			let {newUrl,optionType}=s3Option;
+			let {newUrl,optionType,isCurrentlyDeleted}=s3Option;
 
-			if(newUrl!=null){
+			if(newUrl!=null || isCurrentlyDeleted==false){
 				if(optionType=="postUrl")
 					optionType=optionTypeParam
 
 				newEditedPostS3={
 					...newEditedPostS3,
 					[optionType]:newUrl
+				}
+			}else{
+				if(isCurrentlyDeleted==true){
+					newEditedPostS3={
+						...newEditedPostS3,
+						[optionType]:null
+					}
 				}
 			}
 		});

@@ -86,10 +86,7 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						personalInformation.accessToken
 		}
-		//const {confirmation,data}=await deletePost(removedPost); 
-		debugger;
-		const confirmation="Success";
-		const data={};
+		const {confirmation,data}=await deletePost(removedPost); 
 		if(confirmation=="Success"){
 			if(selectedPostType=="Blogs"){
 				alert('Post has been deleted. Please reload page to view updated post section');
