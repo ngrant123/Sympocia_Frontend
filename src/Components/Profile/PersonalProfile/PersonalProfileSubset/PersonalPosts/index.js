@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useMemo} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import SearchIcon from '@material-ui/icons/Search';
 import ImagePosts from "./ImagePosts/ImagePostContainer.js";
@@ -182,7 +182,7 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
-
+console.log("Personal posts rerender");
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -263,10 +263,6 @@ const PersonalPostsIndex=(props)=>{
 // Should be refactored in the future everytime i look at it i want to kill myself
 
 	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter})=>{
-			changeDisplayForImages(false);
-			changeDisplayForBlogs(false);
-			changeDisplayForVideos(false);
-			changeDisplayForRegularPosts(false);
 			changeIsLoadingReloadedPosts(true);
 			unSelectButtonsCSS();
 			
@@ -277,10 +273,7 @@ const PersonalPostsIndex=(props)=>{
 			image.style.borderBottom="solid";
 			image.style.borderColor="#C8B0F4";
 			changeCurrentPostType("image");
-			changeDisplayForImages(true);
-			changeVideoPosts({...videoPost,videos:[]})
-			changeBlogPosts({...blogPost,blogs:[]})
-			changeRegularPost({...regularPost,posts:[]})
+
 			const {confirmation,data}=await getUserImages({
 											userId:id,
 											visitorId:props.visitorId,
@@ -297,7 +290,7 @@ const PersonalPostsIndex=(props)=>{
 				}else{
 					let {images}=imagePost;
 					images=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:images;
-					const newImages=images.concat(posts);
+					const newImages=postCounter==0?posts:images.concat(posts);
 					imagePost={
 						...imagePost,
 						images:newImages
@@ -330,11 +323,7 @@ const PersonalPostsIndex=(props)=>{
 			videos.style.color="#C8B0F4";
 			videos.style.borderBottom="solid";
 			videos.style.borderColor="#C8B0F4";
-			changeDisplayForVideos(true); 
 			changeCurrentPostType("video");
-			changeImagePost({...imagePost,images:[]});
-			changeBlogPosts({...blogPost,blogs:[]})
-			changeRegularPost({...regularPost,posts:[]})
 
 			const {confirmation,data}=await getVideosFromUser({
 												userId:id,
@@ -352,13 +341,13 @@ const PersonalPostsIndex=(props)=>{
 				}else{
 					let {videos}=videoPost;
 					videos=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:videos;
-					const newVideos=videos.concat(posts);
+					const newVideos=postCounter==0?posts:videos.concat(posts);
 					
 					const videoObject={
 						headerVideo:crownedPost==null?videoPost.headerVideo:crownedPost,
-						videos:newVideos
+						videos:[...newVideos]
 					}
-					changeVideoPosts(videoObject);
+					changeVideoPosts({...videoObject});
 				}
 				changeVideosLoadingIndicator(false);
 			}else{
@@ -381,7 +370,6 @@ const PersonalPostsIndex=(props)=>{
 				}
 			}
 		}else if(kindOfPost=="blog"){
-			changeDisplayForBlogs(true);
 			changeCurrentPostType("blog");
 			const blogDiv=document.getElementById("blogs");
 			blogDiv.style.color="#C8B0F4";
@@ -405,14 +393,13 @@ const PersonalPostsIndex=(props)=>{
 
 					let {blogs}=blogPost;
 					blogs=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:blogs;
-					const newBlogs=blogs.concat(posts);
+					const newBlogs=postCounter==0?posts:blogs.concat(posts);
 					const blogObject={
 						headerBlog:crownedPost==null?blogPost.headerBlog:crownedPost,
 						blogs:newBlogs
 					}
 							
 					changeBlogPosts(blogObject);
-					changeDisplayForBlogs(true);
 				}
 			}else{
 				
@@ -433,15 +420,10 @@ const PersonalPostsIndex=(props)=>{
 					alert('Unfortunately there has been an error getting these blog posts. Please try again');
 				}
 			}
-			changeImagePost({...imagePost,images:[]});
-			changeVideoPosts({...videoPost,videos:[]})
-			changeRegularPost({...regularPost,posts:[]})
+			
 		}else{
-			changeDisplayForRegularPosts(true);
 			changeCurrentPostType("regularPost");
-			changeBlogPosts({...blogPost,blogs:[]});
-			changeImagePost({...imagePost,images:[]});
-			changeVideoPosts({...videoPost,videos:[]})
+
 			const regularPostDiv=document.getElementById("regularPosts");
 			regularPostDiv.style.color="#C8B0F4";
 			regularPostDiv.style.borderBottom="solid";
@@ -463,14 +445,12 @@ const PersonalPostsIndex=(props)=>{
 				}else{
 					let {posts}=regularPost;
 					posts=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:posts;
-					const newRegularPosts=posts.concat(postsResponse);
+					const newRegularPosts=postCounter==0?postsResponse:posts.concat(postsResponse);
 					const regularPostObject={
 						headerPost:crownedPost==null?regularPost.headerPost:crownedPost,
 						posts:newRegularPosts
 					}
-		
 					changeRegularPost(regularPostObject);
-					changeDisplayForRegularPosts(true);
 				}
 					changeRegularPostsLoadingIndicator(false);
 					changeIsLoadingNewPosts(false)
@@ -497,7 +477,6 @@ const PersonalPostsIndex=(props)=>{
 		changeIsFilteredPosts(false);
 		changeIsSearchFilterActivated(false);
 		changeIsLoadingReloadedPosts(false);
-		
 	}
 
 	const closeModal=()=>{
@@ -783,45 +762,50 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const postsDisplaySystem=()=>{
-		return <div id="postCollectionContainer">
-				{
-					displayImages==true?
-					<ImagePosts
+		let posts;
+		debugger;
+		switch(currentPostType){
+			case 'image':{
+				posts=<ImagePosts
 						imageData={imagePost}
 						isLoading={isLoadingIndicatorImages}
 						profile="Personal"
-					/>:<React.Fragment></React.Fragment>
-				}
-				{
-					displayVideos==true?
-					<VideoPosts
+					/>
+				break;
+			}
+			case 'video':{
+				posts=<VideoPosts
 						videos={videoPost}
 						isLoadingIndicatorVideos={isLoadingIndicatorVideos}
 						id={personalInformation._id}
 						postCounter={currentPostCounter}
 						handleVideoPostModal={props.handleVideoPostModal}
-					/>:<React.Fragment></React.Fragment>
-				}
-				{
-					displayBlogs==true?
-					<BlogsPosts
+					/>
+				break;
+			}
+			case 'blog':{
+				posts=<BlogsPosts
 						blogData={blogPost}
 						isLoadingIndicatorBlogPost={isLoadingIndicatorBlogPost}
 						id={personalInformation._id}
 						friendsNodes={props.personalInformation.friendsGaugeNodes}
-					/>:<React.Fragment></React.Fragment>
-				}
-				{
-					displayRegularPosts==true?
-					<RegularPost
+					/>
+				break;
+			}
+			default:{
+				posts=<RegularPost
 						id={props.personalInformation._id}
 						posts={regularPost}
 						isLoadingIndicatorRegularPost={isLoadingIndicatorRegularPost}
 						profilePicture={props.personalInformation.profilePicture}
 						profile="Personal"
-					/>:<React.Fragment></React.Fragment>
-				}
-			</div>
+					/>
+				break;
+			}
+		}
+		return <div id="postCollectionContainer">
+					{posts}
+				</div>
 	}
 	return (
 			<PostProvider
@@ -837,36 +821,6 @@ const PersonalPostsIndex=(props)=>{
 					hideCreationPost:()=>{
 						props.disappearShadow();
 						changeDisplayCreationPost(false)
-					},
-					updateImagePost:(imageData)=>{
-						
-						if(displayImages==true){
-							let newImageObject=updateImagePostIndexContext(imageData,imagePost);
-							changeImagePost(newImageObject);
-						}
-						changeDisplayCreationPost(false);
-						props.closeModal();
-					},
-					updateVideoPost:(videoObject)=>{
-						
-						if(displayVideos==true){
-							let newVideoObject=updateVideoPostIndexContext(videoObject,videoPost);
-							changeVideoPosts(newVideoObject);							
-						}
-						changeDisplayCreationPost(false);
-						props.closeModal();
-					},
-					updateRegularPost:(regularPostProp)=>{
-						const {isCrownedPost,post}=regularPostProp;
-						if(displayRegularPosts){
-							let newPostObject=updateRegularPostIndexContext(
-								regularPostProp,
-								regularPost
-							);
-							changeRegularPost(newPostObject);
-						}
-						changeDisplayCreationPost(false);
-						props.closeModal();
 					},
 					editPost:(postData)=>{
 						const {postType}=postData;
@@ -920,6 +874,8 @@ const PersonalPostsIndex=(props)=>{
 							}
 						}
 						console.log(videoPost);
+						console.log(imagePost);
+
 						let result=removePostIndexContext(postId,propData,postType);
 						stateCallBackFunction(result);
 						props.closeModal();

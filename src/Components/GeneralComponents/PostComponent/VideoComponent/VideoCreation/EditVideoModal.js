@@ -394,9 +394,7 @@ class EditVideoModal extends Component{
 				this.props.personalProfile.accessToken
 			}
 
- 			//const {confirmation,data}=await editPost(editedVideo);
- 			const confirmation="Success";
- 			const data={};
+ 			const {confirmation,data}=await editPost(editedVideo);
 			if(confirmation=="Success"){
 				alert('Your video has been edited. Please reload your profile to see your updated post.')
 				this.props.editPost(editedVideo);

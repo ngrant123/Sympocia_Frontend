@@ -232,7 +232,7 @@
 			if((Object.keys(currentCrownedPost).length === 0)==true)
 					currentCrownedPost=null
 		}
-
+		debugger;
 		let finalPosts=finalReturnPosts(props,postType,currentPosts,currentCrownedPost);
 		console.log(finalPosts);
 		return finalPosts;

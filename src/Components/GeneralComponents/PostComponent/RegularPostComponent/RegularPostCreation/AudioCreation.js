@@ -129,15 +129,22 @@ const AudioCreation=({audio,isPreviousDataLoaded,isSubmittedAndProcessing,sendDa
 							<li id="sendButtonLI" style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									<ul onClick={()=>sendData()} style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-											<SendIcon
-												style={{fontSize:20,color:"white"}}
-											/>
-										</li>
+										{audio==null?
+											<React.Fragment>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+													<SendIcon
+														style={{fontSize:20,color:"white"}}
+													/>
+												</li>
 
-										<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
-											Send
-										</li>
+												<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
+													Send
+												</li>
+											</React.Fragment>:
+											<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
+												Edit
+											</li>
+										}
 									</ul>
 								</a>
 							</li>:

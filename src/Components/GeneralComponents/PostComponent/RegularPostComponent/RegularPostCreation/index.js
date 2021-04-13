@@ -552,45 +552,6 @@ const ButtonCSS={
 										</React.Fragment>
 									}
 								</li>
-							{/*
-								<li style={{position:"relative",top:"0px",listStyle:"none",display:"inline-block",marginRight:"-1%"}}>
-											<div class="dropdown">
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																			borderColor:"#5298F8",
-																																			borderStyle:"solid",
-																																			borderWidth:"1px",
-																																			color:"#5298F8",
-																																			backgroundColor:"white"}}>
-														Post Option
-													   	<span class="caret"></span>
-													</button>
-
-													<ul class="dropdown-menu">
-														<li onClick={()=>props.displayProps("ImagePosts")}><a>Image</a></li>
-														<li onClick={()=>props.displayProps("VideoPosts")}><a>Video</a></li>
-														<li onClick={()=>props.displayProps("RegularPost")}><a>Post</a></li>
-														<li onClick={()=>props.displayProps("RegularPost")}><a href={"/blog"}>Blog</a></li>
-													</ul>
-							  				 </div>
-								</li>
-							
-								
-								<li style={{marginTop:"5%",listStyle:"none",backgroundColor:"#C8B0F4",width:"20%",textAlign:"center",fontSize:"15px",borderRadius:"5px"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<ul onClick={()=>sendRegularPost(userPostsInformation)} style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-													<SendIcon
-														style={{fontSize:20,color:"white"}}
-													/>
-												</li>
-
-												<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
-													Send
-												</li>
-											</ul>
-										</a>
-								</li>
-							*/}
 							</ul>
 							
 						</Container>
