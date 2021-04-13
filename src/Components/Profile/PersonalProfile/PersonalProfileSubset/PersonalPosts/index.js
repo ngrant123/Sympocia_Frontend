@@ -343,7 +343,8 @@ const PersonalPostsIndex=(props)=>{
 												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 												personalRedux.accessToken
 											});
-
+			debugger;
+			console.log(data);
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
@@ -646,26 +647,6 @@ const PersonalPostsIndex=(props)=>{
 			})
 		}
 	}
-	const editPostVideo=(postData)=>{
-		const {postType}=postData;
-		let propData=videoPost;
-		let stateCallBackFunction=changeVideoPosts;
-
-		let result =editPostIndexContext(postData,propData);
-		stateCallBackFunction(result);
-		props.closeModal();
-	}
-
-	const removePostVideo=(postId,postType)=>{
-		
-		let propData=videoPost;
-		let result=removePostIndexContext(postId,propData,postType);
-		changeVideoPosts(result);
-		props.closeModal();
-	}
-
-	const updateVideoPosts=(posts)=>{
-	}
 
 	const retrievedCurrentDisplayedPosts=()=>{
 		let displayedPosts;
@@ -819,9 +800,6 @@ const PersonalPostsIndex=(props)=>{
 						id={personalInformation._id}
 						postCounter={currentPostCounter}
 						handleVideoPostModal={props.handleVideoPostModal}
-						editPost={editPostVideo}
-						removePost={removePostVideo}
-						updateVideoPosts={updateVideoPosts}
 					/>:<React.Fragment></React.Fragment>
 				}
 				{
@@ -921,6 +899,7 @@ const PersonalPostsIndex=(props)=>{
 					removePost:(postId,postType)=>{
 						let propData;
 						let stateCallBackFunction;
+						debugger;
 						switch(postType){
 							case 'Images':{
 								propData=imagePost;
@@ -940,6 +919,7 @@ const PersonalPostsIndex=(props)=>{
 								break;
 							}
 						}
+						console.log(videoPost);
 						let result=removePostIndexContext(postId,propData,postType);
 						stateCallBackFunction(result);
 						props.closeModal();

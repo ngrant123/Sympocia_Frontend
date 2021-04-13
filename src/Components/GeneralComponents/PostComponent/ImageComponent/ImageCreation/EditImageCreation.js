@@ -883,42 +883,40 @@ class EditImageCreation extends Component{
 									<ul style={{padding:"10px"}}>
 										{userSessionInformation.displayDesktopUI==false &&(
 											<li style={{listStyle:"none",marginBottom:"2%"}}>
-												<ul style={{padding:"0px"}}>
-													{this.state.videoDescription!=null && (
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
-																<MobileVideoDescriptionContainer>
-																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
-																		<source src={this.state.videoDescription} type="video/mp4"/>
-																	</video>
-																</MobileVideoDescriptionContainer>
-															</li>
-															<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
-																<HighlightOffIcon
-																	onClick={()=>this.removeVideoDescription()}
-																	style={{fontSize:"20",color:"#C8B0F4"}}
-																/>
-															</li>
-														</ul>
-													)}
-													{this.state.audioDescription!=null &&(
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
-																<audio key={this.state.audioDescriptionId} controls>
-																  <source src={this.state.audioDescription} typ e="audio/ogg"/>
-																  <source src={this.state.audioDescription} type="audio/mp4"/>
-																Your browser does not support the audio element.
-																</audio>
-															</li>
-															<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
-																<HighlightOffIcon
-																	onClick={()=>this.removeAudioDescription()}
-																	style={{fontSize:"20",color:"#C8B0F4"}}
-																/>
-															</li>
-														</ul>
-													)}
-												</ul>
+												{this.state.videoDescription!=null && (
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+															<MobileVideoDescriptionContainer>
+																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
+																	<source src={this.state.videoDescription} type="video/mp4"/>
+																</video>
+															</MobileVideoDescriptionContainer>
+														</li>
+														<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+															<HighlightOffIcon
+																onClick={()=>this.removeVideoDescription()}
+																style={{fontSize:"20",color:"#C8B0F4"}}
+															/>
+														</li>
+													</ul>
+												)}
+												{this.state.audioDescription!=null &&(
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
+															<audio key={this.state.audioDescriptionId} controls>
+															  <source src={this.state.audioDescription} typ e="audio/ogg"/>
+															  <source src={this.state.audioDescription} type="audio/mp4"/>
+															Your browser does not support the audio element.
+															</audio>
+														</li>
+														<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+															<HighlightOffIcon
+																onClick={()=>this.removeAudioDescription()}
+																style={{fontSize:"20",color:"#C8B0F4"}}
+															/>
+														</li>
+													</ul>
+												)}
 											</li>
 										)}
 
