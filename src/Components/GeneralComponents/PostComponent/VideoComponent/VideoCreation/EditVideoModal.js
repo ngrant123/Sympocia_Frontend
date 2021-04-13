@@ -771,7 +771,7 @@ isArrayEqual=(arr1,arr2)=>{
 														{this.state.videoDescription==null?null:
 															<li style={{listStyle:"none"}}>
 																<VideoDescriptionContainer>
-																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true">
+																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" controls autoplay="true">
 																		<source src={this.state.videoDescription} type="video/mp4"/>
 																	</video>
 																</VideoDescriptionContainer>

@@ -257,7 +257,9 @@ class EditImageCreation extends Component{
 			videoDescriptionId:this.uuidv4(),
 			audioDescriptionId:this.uuidv4(),
 			isSubmittedAndProcessing:false,
-			isDesktop:true
+			isDesktop:true,
+			isVideoDescriptionDeleted:false,
+			isAudioDescriptionDeleted:false
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
@@ -427,11 +429,13 @@ class EditImageCreation extends Component{
 					},
 					{
 						optionType:'audioDescription',
-						newUrl:currentAudioDescription!=audioDescription?currentAudioDescription:null
+						newUrl:currentAudioDescription!=audioDescription?currentAudioDescription:null,
+						isCurrentlyDeleted:this.state.isAudioDescriptionDeleted
 					},
 					{
 						optionType:'videoDescription',
 						newUrl:currentVideoDescription!=videoDescription?currentVideoDescription:null,
+						isCurrentlyDeleted:this.state.isVideoDescriptionDeleted,
 						key:videoDescriptionKey
 					}
 				],
@@ -440,9 +444,7 @@ class EditImageCreation extends Component{
 							this.props.personalProfile.accessToken
 			}
 
- 			//const {confirmation,data}=await editPost(editedImage);
- 			const confirmation="Success";
- 			const data={};
+ 			const {confirmation,data}=await editPost(editedImage);
 			if(confirmation=="Success"){
 				this.props.editPost(editedImage);
 			}else{
@@ -640,6 +642,7 @@ class EditImageCreation extends Component{
 		this.setState({
 			videoDescription:videoDescriptionSrc,
 			displayVideoDescriptionPortal:false,
+			isVideoDescriptionDeleted:false,
 			videoDescriptionId:this.uuidv4()
 		})
 	}
@@ -651,6 +654,7 @@ class EditImageCreation extends Component{
 		this.setState({
 			audioDescription:audioDescriptionSrc,
 			displayVoiceDescriptionPortal:false,
+			isAudioDescriptionDeleted:false,
 			audioDescriptionId:this.uuidv4()
 		},()=>{
 
@@ -719,13 +723,15 @@ class EditImageCreation extends Component{
 	}
 	removeVideoDescription=()=>{
 		this.setState({
-			videoDescription:null
+			videoDescription:null,
+			isVideoDescriptionDeleted:true
 		})
 	}
 
 	removeAudioDescription=()=>{
 		this.setState({
-			audioDescription:null
+			audioDescription:null,
+			isAudioDescriptionDeleted:true
 		})
 	}
 
