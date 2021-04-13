@@ -326,6 +326,7 @@ const ButtonCSS={
  			const {confirmation,data}=await editPost(editedRegularPost);
  			
 			if(confirmation=="Success"){
+				alert('Your post has been edited. Please reload your profile to see your updated post.')
 				props.previousData.contextLocation.editPost(editedRegularPost);
 			}else{
 				const {statusCode}=data;

@@ -446,6 +446,7 @@ class EditImageCreation extends Component{
 
  			const {confirmation,data}=await editPost(editedImage);
 			if(confirmation=="Success"){
+				alert('Your post has been edited. Please reload your profile to see your updated post.')
 				this.props.editPost(editedImage);
 			}else{
 				
