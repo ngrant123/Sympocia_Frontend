@@ -277,10 +277,8 @@
 		
 		const {isCrownedVideo,video}=videoObject;
 		let newVideoObject;
+		let currentVideos=videoPost.videos;
 		if(isCrownedVideo==true){
-			//Set 
-			
-			var currentVideos=videoPost.videos;
 			var currentCrownedVideo=videoPost.headerVideo;
 			if(currentCrownedVideo!=null){
 				currentVideos.push(currentCrownedVideo);
@@ -296,8 +294,8 @@
 				videos:currentVideos==null?[]:[...currentVideos]
 			}
 		}else{
-			var currentVideos=videoPost.videos;
 			currentVideos.splice(0,0,videoObject);
+			console.log(videoPost);
 			newVideoObject={
 					...videoPost,
 					videos:[...currentVideos]

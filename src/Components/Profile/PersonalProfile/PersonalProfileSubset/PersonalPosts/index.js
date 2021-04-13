@@ -824,31 +824,24 @@ console.log("Personal posts rerender");
 					},
 					updateImagePost:(imageData)=>{
 						
-						if(displayImages==true){
-							let newImageObject=updateImagePostIndexContext(imageData,imagePost);
-							changeImagePost(newImageObject);
-						}
+						let newImageObject=updateImagePostIndexContext(imageData,imagePost);
+						changeImagePost(newImageObject);
 						changeDisplayCreationPost(false);
 						props.closeModal();
 					},
 					updateVideoPost:(videoObject)=>{
-						
-						if(displayVideos==true){
-							let newVideoObject=updateVideoPostIndexContext(videoObject,videoPost);
-							changeVideoPosts(newVideoObject);							
-						}
+						let newVideoObject=updateVideoPostIndexContext(videoObject,videoPost);
+						changeVideoPosts(newVideoObject);		
 						changeDisplayCreationPost(false);
 						props.closeModal();
 					},
 					updateRegularPost:(regularPostProp)=>{
 						const {isCrownedPost,post}=regularPostProp;
-						if(displayRegularPosts){
-							let newPostObject=updateRegularPostIndexContext(
-								regularPostProp,
-								regularPost
-							);
-							changeRegularPost(newPostObject);
-						}
+						let newPostObject=updateRegularPostIndexContext(
+							regularPostProp,
+							regularPost
+						);
+						changeRegularPost(newPostObject);
 						changeDisplayCreationPost(false);
 						props.closeModal();
 					},
