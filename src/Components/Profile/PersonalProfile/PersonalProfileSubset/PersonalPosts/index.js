@@ -822,6 +822,36 @@ console.log("Personal posts rerender");
 						props.disappearShadow();
 						changeDisplayCreationPost(false)
 					},
+					updateImagePost:(imageData)=>{
+						
+						if(displayImages==true){
+							let newImageObject=updateImagePostIndexContext(imageData,imagePost);
+							changeImagePost(newImageObject);
+						}
+						changeDisplayCreationPost(false);
+						props.closeModal();
+					},
+					updateVideoPost:(videoObject)=>{
+						
+						if(displayVideos==true){
+							let newVideoObject=updateVideoPostIndexContext(videoObject,videoPost);
+							changeVideoPosts(newVideoObject);							
+						}
+						changeDisplayCreationPost(false);
+						props.closeModal();
+					},
+					updateRegularPost:(regularPostProp)=>{
+						const {isCrownedPost,post}=regularPostProp;
+						if(displayRegularPosts){
+							let newPostObject=updateRegularPostIndexContext(
+								regularPostProp,
+								regularPost
+							);
+							changeRegularPost(newPostObject);
+						}
+						changeDisplayCreationPost(false);
+						props.closeModal();
+					},
 					editPost:(postData)=>{
 						const {postType}=postData;
 						let propData;
@@ -845,7 +875,7 @@ console.log("Personal posts rerender");
 								break;
 							}
 						}
-
+						debugger;
 						let result =editPostIndexContext(postData,propData);
 						stateCallBackFunction(result);
 						props.closeModal();
