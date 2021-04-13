@@ -134,44 +134,12 @@ const NextPostLabelCSS={
 const RegularPostsContainer=(props)=>{
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
-	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[]);
+	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[props.posts.posts]);
 
 
 	const displayPostModal=(data)=>{
 		PostDisplay.handleRegularPostModal(data,PostContextValues);
 	}
-
-
-	const postRender=useMemo(()=>{
-		return(
-			<li style={{listStyle:"none"}}>
-				<ul style={{padding:"0px"}}>
-					{props.posts.posts.map(data=>
-						<li id="smallContainerLI"  onClick={()=>displayPostModal(data)}
-						 	style={{cursor:"pointer",width:"30%",height:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
-							<SmallRegularPost
-								post={data}
-								profilePicture={props.profilePicture}
-							/>
-						</li>
-					)}
-				</ul>
-			</li>
-		)
-	},[[...props.posts.posts]]);
-
-	const crownPostRender=useMemo(()=>{
-		return(
-			<li id="headerContainerLI" onClick={()=>displayPostModal(
-														props.posts.headerPost)} 
-				style={{cursor:"pointer",listStyle:"none",marginBottom:"2%",marginBottom:"2%",height:"25%"}}>
-				<HeaderPost
-					post={props.posts.headerPost}
-					profilePicture={props.profilePicture}
-				/>	
-			</li>
-		)
-	},[props.posts.headerPost]);
 
 	return(
 		<Container>

@@ -129,7 +129,7 @@ const ImagePostsContainer=(props)=>{
 	console.log(props);
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
-	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[]);
+	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[props.imageData.images]);
 
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
