@@ -449,11 +449,14 @@ export const firstTimePostInteractedStatus=async(_id)=>{
 }
 
 
-export const getPromotedRecruits=async(profileId)=>{
+export const getPromotedRecruits=async({id,accessToken})=>{
 	try{
 		const promotedRecruits=await axios.get(`${SearchUrl}/recruitsPromoted`,{
 			params:{
-				profileId
+				profileId:id
+			},
+			headers:{
+				authorization:accessToken
 			}
 		});
 		const {data}=promotedRecruits;

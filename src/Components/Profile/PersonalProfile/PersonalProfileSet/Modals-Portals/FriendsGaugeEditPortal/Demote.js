@@ -6,6 +6,8 @@ import {
 	} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {demoteRecruit} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
 
 const Container=styled.div`
 	padding:10px;
@@ -84,19 +86,37 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 	const [isSubmitting,changeIsSubmitting]=useState(false);
 
 	const [isGeneralNode,changeIsGeneralNode]=useState(false);
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
 
 	useEffect(()=>{
-		const fetchData=async()=>{
-			const {confirmation,data}=await getPromotedRecruits(id);
+		const fetchData=async({isAccessTokenUpdated,updatedAccessToken})=>{
+			const {confirmation,data}=await getPromotedRecruits({
+												id,
+												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											});
 			if(confirmation=="Success"){
 				const {message}=data;
 				changeRecruits([...message]);
 			}else{
-				alert('There was an error getting your promoted recruits :(');
-				closeModal();
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							fetchData,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('There was an error getting your promoted recruits :(');
+					closeModal();
+				}
 			}
 		}
-		fetchData();
+		fetchData({isAccessTokenUpdated:false});
 	},[]);
 
 	const filterOutSelectedNode=(currentSelectedNode)=>{
@@ -137,20 +157,34 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 		}
 	}
 
-	const demoteRecruitHandle=async()=>{
+	const demoteRecruitHandle=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changeIsSubmitting(true);
 		const {confirmation,data}=await demoteRecruit({
 											profileId:id,
 											recruitId:selectedRecruit.recruits._id,
 											selectedNodeInformation:selectedNodeInformation.node._id,
 											destinationDemoteNode:destinationDemoteNode._id,
-											isGeneralNode
+											isGeneralNode,
+											accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken
 									})
 		if(confirmation=="Success"){
 			alert('Recruit successfully demoted. Please know that if your recruit is on other levels they would have to be deleted from there also if you want them to be completely at the general node');
 			closeModal();
 		}else{
-			alert('An error has occured when trying to demote this recurit');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						demoteRecruitHandle,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('An error has occured when trying to demote this recurit');
+			}
 		}
 		changeIsSubmitting(false);
 	}
@@ -206,7 +240,7 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 									<p> Are you sure you want to demote <b>{selectedRecruit.recruits.firstName}</b></p>
 									<p> from <b>{selectedNodeInformation.node.name}</b></p>
 									<p> to <b>{destinationDemoteNode.name}</b> ?</p>
-		 							<Submit onClick={()=>demoteRecruitHandle()}> 
+		 							<Submit onClick={()=>demoteRecruitHandle({isAccessTokenUpdated:false})}> 
 		 								{isSubmitting==false?
 		 									<p>Demote</p>:
 		 									<p>Submitting...</p>
