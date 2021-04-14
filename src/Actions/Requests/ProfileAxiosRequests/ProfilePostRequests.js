@@ -499,7 +499,8 @@ export const demoteRecruit=async({
 								recruitId,
 								selectedNodeInformation,
 								destinationDemoteNode,
-								isGeneralNode
+								isGeneralNode,
+								accessToken
 							})=>{
 	try{
 		const demoteRecruitResponse=await axios.post(`${CreateUrl}/demoteRecruit`,{
@@ -508,6 +509,10 @@ export const demoteRecruit=async({
 			selectedNodeInformation,
 			destinationDemoteNode,
 			isGeneralNode
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		})
 		const {data}=demoteRecruitResponse;
 		return data;
