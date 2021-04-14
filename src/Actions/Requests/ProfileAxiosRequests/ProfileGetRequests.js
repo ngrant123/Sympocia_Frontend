@@ -449,5 +449,34 @@ export const firstTimePostInteractedStatus=async(_id)=>{
 }
 
 
+export const getPromotedRecruits=async(profileId)=>{
+	try{
+		const promotedRecruits=await axios.get(`${SearchUrl}/recruitsPromoted`,{
+			params:{
+				profileId
+			}
+		});
+		const {data}=promotedRecruits;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+export const getNodesSpecificToRecruit=async(profileId,recruitId)=>{
+	try{
+		const nodesSpecificToRoute=await axios.get(`${SearchUrl}/nodeAssignedToRecruit`,{
+			params:{
+				profileId,
+				recruitId
+			}
+		})
+		const {data}=nodesSpecificToRoute;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
 
 

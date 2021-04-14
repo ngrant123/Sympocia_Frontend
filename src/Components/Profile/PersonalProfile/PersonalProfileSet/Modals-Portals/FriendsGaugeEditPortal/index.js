@@ -7,6 +7,8 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddLevel from "./AddLevel.js";
 import RemoveLevel from "./RemoveLevel.js";
 import Promote from "./Promote.js";
+import Demote from "./Demote.js";
+
 
 const Container=styled.div`
 	position:fixed;
@@ -196,12 +198,18 @@ const FriendsGaugeEditPortal=(props)=>{
 						closeModal={closingScreen}
 						id={props.userInformation}
 					/>;
-		}else{
+		}else if(actionType=="Remove"){
 			return <RemoveLevel
 						nodes={node}
 						id={props.userInformation}
 						closeModal={closingScreen}
 					/>;
+		}else{
+			return <Demote
+						nodes={props.nodes}
+						closeModal={closingScreen}
+						id={props.userInformation}
+					/>
 		}
 	}
 

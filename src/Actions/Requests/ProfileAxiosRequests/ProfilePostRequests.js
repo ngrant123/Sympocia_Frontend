@@ -494,6 +494,27 @@ export const setEmail=async({_id,submittedEmail,accessToken})=>{
 	}
 }
 
+export const demoteRecruit=async({
+								profileId,
+								recruitId,
+								selectedNodeInformation,
+								destinationDemoteNode,
+								isGeneralNode
+							})=>{
+	try{
+		const demoteRecruitResponse=await axios.post(`${CreateUrl}/demoteRecruit`,{
+			profileId,
+			recruitId,
+			selectedNodeInformation,
+			destinationDemoteNode,
+			isGeneralNode
+		})
+		const {data}=demoteRecruitResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 
