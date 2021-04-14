@@ -46,7 +46,8 @@ const AddRemoveLevelButtonCSS={
   backgroundColor:"white",
   borderRadius:"5px",
   padding:"10px",
-  marginRight:"3%"
+  marginRight:"3%",
+  cursor:"pointer"
 }
 
 /*
@@ -351,22 +352,38 @@ class FriendsGauge extends Component {
                   <>
                     {this.props.personalInformation.isOwnProfile==true &&(
                       <React.Fragment>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({displayFriendsGaugeEditModal:true,friendsGaugeActionType:"Add"})}>
-                                Add level
-                            </li>
-                          </a>
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({displayFriendsGaugeEditModal:true,friendsGaugeActionType:"Remove"})}>
-                                Remove level
-                            </li>
-                          </a>
-
-                          <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({displayFriendsGaugeEditModal:true,friendsGaugeActionType:"Promote"})}>
-                                Promote Someone
-                            </li>
-                          </a>
+                          <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({
+                                                                        displayFriendsGaugeEditModal:true,
+                                                                        friendsGaugeActionType:"Add"})}>
+                              Add level
+                          </li>
+                          <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({
+                                                                          displayFriendsGaugeEditModal:true,
+                                                                          friendsGaugeActionType:"Remove"})}>
+                              Remove level
+                          </li>
+                          <li style={{listStyle:"none",display:"inline-block"}}>
+                            <div class="dropdown">
+                              <button class="btn btn-primary dropdown-toggle" 
+                                type="button" data-toggle="dropdown" style={AddRemoveLevelButtonCSS}>
+                                Recruit Status
+                                <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" style={{padding:"10px"}}>
+                                  <li style={{cursor:"pointer"}} onClick={()=>this.setState({
+                                                        displayFriendsGaugeEditModal:true,
+                                                        friendsGaugeActionType:"Promote"})}>
+                                      Promote Someone
+                                  </li>
+                                  <hr/>
+                                  <li style={{cursor:"pointer"}} onClick={()=>this.setState({
+                                                    displayFriendsGaugeEditModal:true,
+                                                    friendsGaugeActionType:"Demote"})}>
+                                      Demote Someone
+                                  </li>
+                              </ul>
+                            </div>
+                          </li>
                       </React.Fragment>
                     )}
                   </>

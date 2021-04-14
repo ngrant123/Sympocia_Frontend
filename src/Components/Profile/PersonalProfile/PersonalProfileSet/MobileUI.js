@@ -253,6 +253,14 @@ const EditNodeModal=({closeNodeOptions,editFriendNodeActionType})=>{
 		                    Promote Someone
 		                </li>
 		              </a>
+						<hr/>
+
+						
+		               <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+			                <li onClick={()=>closeAndEditActionType("Demote")} style={{listStyle:"none"}}>
+			                    Demote Someone
+			                </li>
+			            </a>
 				</EditNodeContainer>
 			</>
 		,document.getElementById("personalContainer"));
