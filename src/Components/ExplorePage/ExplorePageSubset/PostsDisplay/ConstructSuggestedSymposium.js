@@ -7,12 +7,18 @@ import CompanyIndustry from "../../../../Constants/industryConstants.js";
 import {getSymposiumId} from "../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 const SuggestedSymposiumsContainer=styled.div`
-	width:90%;
+	${({isBlogPost})=>
+		isBlogPost!=null?
+		`width:90%;`:`width:30%;`
+	}
 	margin-left:2%;
 	margin-right:2%;
-
-	@media screen and (max-width:600px){
-		width:70%;
+	margin-top:10%;
+	@media screen and (max-width:1370px){
+		width:90%;
+	}
+	@media screen and (max-width:650px){
+		width:90%;
 	}
 `;
 
@@ -98,7 +104,7 @@ const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposi
 }
 
 
-const ConstructSuggestedSymposium=({personalInformation,previousProps})=>{
+const ConstructSuggestedSymposium=({personalInformation,previousProps,isBlogPost})=>{
 		
 		const {personalInformationState}=personalInformation;
 		var symposiumContainer=new Map();
@@ -114,7 +120,7 @@ const ConstructSuggestedSymposium=({personalInformation,previousProps})=>{
 			counter++;
 		}
 
-		return <SuggestedSymposiumsContainer>
+		return <SuggestedSymposiumsContainer isBlogPost={isBlogPost}>
 					<b> Suggested symposiums </b>
 					{selectedSymposiums.map(data=>
 						<div id="suggestedSymposiumLI" onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)}

@@ -28,6 +28,9 @@ const Container=styled.div`
 			width:100% !important;
 			height:500px !important;
 		}
+		#image{
+			border-radius:5px !important;
+		}
 	}
 
 	@media screen and (max-width:650px){
@@ -111,9 +114,8 @@ const HeaderContainer=styled.div`
 const PostsContainer=styled.div`
 	display:flex;
 	flex-direction:row; 
-	width:50%;
+	width:60%;
 	height:600px;
-	margin-left:5%;
 	overflow:scroll;
 	flex-wrap: wrap;
 
@@ -173,17 +175,30 @@ const HeaderDescriptionContainer=styled.div`
 `;
 
 const SmallPostContainer=styled.div`
-	margin-bottom:8%;
-	width:35%;
-	margin-right:10%;
+	margin-bottom:10%;
+	margin-top:10%;
+	width:30%;
+	height:40%;
+	cursor:pointer;
 
 	@media screen and (max-width:1370px){
-		margin-right:15%;
+		margin-right:10%;
+		margin-bottom:5%;
+		width:40%;
+		#smallVideoDescriptionContainer{
+			width:50px !important;
+			height:40% !important;
+		}
+		#smallImageContainer{
+			width:100% !important;
+			height:200px !important;
+		}
 	}
 
 	@media screen and (max-width:650px){
 		margin-right:10%;
 		width:40%;
+		margin-bottom:1%;
 		#smallVideoDescriptionContainer{
 			width:50px !important;
 			height:40% !important;
@@ -193,6 +208,10 @@ const SmallPostContainer=styled.div`
 			height:120px !important;
 		}
 	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	margin-bottom:200px;
+    }
 `;
 
 const DescriptionContainer=styled.div`
@@ -262,7 +281,7 @@ const SuggestedSymposiumsContainer=styled.div`
 const HeaderImageCSS={
 	position:"relative",
 	width:"90%",
-	height:"400px",
+	height:"360px",
 	borderRadius:"5px",
 	borderRadius:"5px",
 	boxShadow:"1px 1px 10px #707070",
@@ -271,8 +290,8 @@ const HeaderImageCSS={
 
 const ImageCSS={
 	position:"relative",
-	width:"240px",
-	height:"220px",
+	width:"100%",
+	height:"70%",
 	borderRadius:"5px",
 	backgroundColor:"green"
 }
@@ -431,7 +450,7 @@ const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 const ImagePostsModal=(props)=>{
 	const headerImage=props.posts[0];
 	const images=props.posts.slice(1,props.posts.length);
-	//const [images,changeImages]=useState(props.posts.slice(1,props.posts.length));
+	console.log(props);
 
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
@@ -510,35 +529,34 @@ const ImagePostsModal=(props)=>{
 											previousProps={props}
 										/>
 									:<SmallPostContainer>
-											<div onClick={()=>displayImageModal(data)} style={{listStyle:"none",display:"inline-block",marginBottom:"1%",cursor:"pointer"}}>
-													<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
-														{data.audioDescription!=null &&(
-															<li id="smallAudioDescription" style={{listStyle:"none"}}>
-																<audio style={{width:"150px",height:"25px"}} controls muted>
-																  	<source src={data.audioDescription} type="audio/ogg"/>
-																  	<source src={data.audioDescription} type="audio/mp4"/>
-																	Your browser does not support the audio element.
-																</audio>
-															</li>
-														)}
-													</ul>
-													<div id="smallImageContainer" style={ImageCSS}>
-														<img id="image" src={data.imgUrl} style={{borderRadius:"5px",width:"100%",height:"100%"}}/>
-														{data.videoDescription!=null &&(
-															<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-																style={{position:"absolute",top:"62%",left:"0%"}} width="100px" height="40%">
-																<source src={data.videoDescription} type="video/mp4"/>
-															</video>
-														)}
-													</div>
+											
+											<div id="smallImageContainer" onClick={()=>displayImageModal(data)} style={ImageCSS}>
+												<img id="image" src={data.imgUrl} style={{width:"100%",height:"100%"}}/>
+												{data.videoDescription!=null &&(
+													<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+														style={{position:"absolute",top:"60%",left:"0%",borderRadius:"5px"}} width="80px" height="30%">
+														<source src={data.videoDescription} type="video/mp4"/>
+													</video>
+												)}
 											</div>
+											<ul style={{padding:"0px",zIndex:"8"}}>
+												{data.audioDescription!=null &&(
+													<li id="smallAudioDescription" style={{listStyle:"none"}}>
+														<audio style={{width:"150px",height:"25px"}} controls muted>
+														  	<source src={data.audioDescription} type="audio/ogg"/>
+														  	<source src={data.audioDescription} type="audio/mp4"/>
+															Your browser does not support the audio element.
+														</audio>
+													</li>
+												)}
+											</ul>
 											<p style={{maxHeight:"15%",overflow:"hidden"}}>
 												<b>{data.caption}</b>
 											</p>
 											<DescriptionContainer>
 												<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
 													<img id="smallProfilePicture" src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-														 style={{height:"50px",width:"60px",borderRadius:"50%"}}
+														 style={{height:"30px",width:"40px",borderRadius:"50%"}}
 													/>
 												</ProfilePictureLink>
 												<p onClick={()=>displayPersonalIndustryFeed(
@@ -557,7 +575,7 @@ const ImagePostsModal=(props)=>{
 								<React.Fragment>
 									{props.isLoadingReloadedPosts==true?
 										<p>Loading please wait...</p>:
-										<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={ImageLabelCSS}>
+										<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={{...ImageLabelCSS,marginLeft:"2%",marginTop:"30%"}}>
 											Next
 										</p>
 									}

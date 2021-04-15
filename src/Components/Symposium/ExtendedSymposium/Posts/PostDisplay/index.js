@@ -12,7 +12,7 @@ import {
 import {PostProvider} from "../PostsContext.js";
 
 
-const PostsContainerDisplay=({state,triggerReloadingPostsHandle,displaySymposium,displayRecruitConfetti,profileId})=>{
+const PostsContainerDisplay=({isLoadingNewPosts,state,triggerReloadingPostsHandle,displaySymposium,displayRecruitConfetti,profileId})=>{
     const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
     const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
     const [posts,changePosts]=useState(state.posts);
@@ -43,7 +43,7 @@ const PostsContainerDisplay=({state,triggerReloadingPostsHandle,displaySymposium
 
     return(
         <PostContainer isScrollEnabled={state.headerAnimation} id="postsContainer">
-            {state.isLoadingReloadedPosts==true?
+            {isLoadingNewPosts==true?
                 <p>Loading...</p>:
                 <Posts>
                     {state.postType=="Image"?

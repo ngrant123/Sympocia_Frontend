@@ -20,7 +20,7 @@ import {
 
 const ActiveContainer =styled.div`
 	position:relative;
-	width:150%;
+	width:300px;
 	height:50%;
 	background-color:white;
 	padding:5px;

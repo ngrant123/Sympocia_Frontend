@@ -221,6 +221,7 @@ const HeaderContainer=styled.div`
 const PostUserAndSymposiumInformation=styled.div`
 	display:flex;
 	flex-direction:row;
+	margin-bottom:2%;
 	@media screen and (max-width:1370px){
 		flex-direction:column;
 	}
@@ -454,7 +455,7 @@ const BlogPostModal=(props)=>{
 									</ProfilePictureLink>
 
 									<Link to={{pathname:`/profile/${headerBlog.owner._id}`}}
-										id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px"}}>
+										id="postOwner" style={{marginLeft:"2%",fontSize:"20px",maxWidth:"60%",maxHeight:"50px"}}>
 										<b>{headerBlog.owner.firstName}</b>
 									</Link>
 								</PostUserInformation>
@@ -496,6 +497,7 @@ const BlogPostModal=(props)=>{
 												<ConstructSuggestedSymposium
 													personalInformation={personalInformationRedux}
 													previousProps={props}
+													isBlogPost={true}
 												/>
 											:
 											<SmallPostContainer>
@@ -556,7 +558,7 @@ const BlogPostModal=(props)=>{
 									<React.Fragment>
 										{props.isLoadingReloadedPosts==true?
 											<p>Loading please wait...</p>:
-											<p onClick={()=>props.triggerReloadingPostsHandle("Blogs")} style={NextButtonCSS}>
+											<p onClick={()=>props.triggerReloadingPostsHandle("Blogs")} style={{...NextButtonCSS,marginTop:"5%"}}>
 												Next
 											</p>
 										}

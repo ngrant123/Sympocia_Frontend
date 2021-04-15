@@ -54,30 +54,6 @@ import {
 	} from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
 import {SymposiumProvider} from "./SymposiumContext.js";
 
-/*
-	const HightLightedQuestionsContainerModal=styled.div`
-		position:fixed;
-		background-color:white;
-		border-radius:5px;
-		top:20%;
-		left:30%;
-		width:30%;
-		height:30%;
-		padding:20px;
-		overflow-y:scroll;
-		z-index:40;
-		box-shadow: 1px 5px 5px 1px #d5d5d5;
-
-		@media screen and (max-width:740px){
-			width:90% !important;
-			left:5% !important;
-		}
-	`;
-*/
-
-
-
-//REFACTOR LATER ON
 
 const socket = io('http://localhost:4000');
 class Symposium extends Component{
@@ -576,37 +552,6 @@ class Symposium extends Component{
 			})
 		}
 	}
-
-
-/*
-	triggerDisplayMobileSymposiumOptions=()=>{
-		return <>
-					{this.state.displayMobileSymposiumOptions==true &&(
-						<MobilePostOptionsPortal
-							closeModal={this.closeMobilePostOptions}
-							isSymposiumFollowed={this.state.isProfileFollowingSymposium}
-							followUnfollowSymposium={this.handleFollowSymposium}
-							popularQuestionObject={{
-			  					questionInformation:this.state.popularQuestions,
-			  					isSimplified:this.state.headerAnimation,
-								selectedSymposium:this.state.selectedSymposiumTitle
-			  				}}
-			  				activePeople={this.state.activePeople}
-			  				roomId={this.state.symposiumId}
-							chat={this.state.chatRoom}
-							socket={socket}
-						  	symposium={this.state.selectedSymposiumTitle}
-						  	questions={this.state.symposiumFeatureQuestions}
-						  	profileId={this.state.profileId}
-						  	displayPopularVideos={this.triggerDisplayPopularVideosModal}
-						  	isGuestProfile={this.state.isGuestProfile}
-						/>
-					)}
-				</>
-	}
-
-*/
-
 
 	render(){
 		return(

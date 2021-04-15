@@ -4,7 +4,6 @@ import styled, {keyframes} from "styled-components";
     width:100%;
 	height:42%;
 	left:0%;
-	top:0px;
   }
   100% {
   	height:15%;
@@ -217,6 +216,7 @@ export const PostsChatInformation=styled.div`
 	margin-left:5%;
 	filter:blur(1px);
 	z-index:-1;
+	transition: all 10s;
 
 	@media screen and (max-width:1370px){
 		margin-left:0%;
@@ -471,7 +471,6 @@ export const ChatContainer=styled.div`
 	height:85%;
 	top:-30%;
 	left:75%;
-	background-color:red;
 	border-radius:5px;
 `;
 
