@@ -7,19 +7,39 @@ import CreateImageModal from "./CreateImageModal.js";
 import {PostConsumer} from "../../PostContext.js";
 
 const Container=styled.div`
-	position:fixed;
-	z-index:35;
-	background-color:white;
-	border-radius:5px;
-	top:20%;
-	left:35%;
-	height:40%;
-	width:35%;
-	overflow:hidden;
-	display:flex;
-	flex-direction:column;
-	justify-content:center;
-	align-items:center;
+
+	${({displayEditImagesScreen})=>
+		displayEditImagesScreen==true?
+		`
+			position:fixed;
+			z-index:35;
+			background-color:white;
+			border-radius:5px;
+			top:10%;
+			left:10%;
+			width:80%;
+			overflow-y:scroll;
+			height:80%;
+			padding:5px;
+		`:
+		`
+			position:fixed;
+			z-index:35;
+			background-color:white;
+			border-radius:5px;
+			top:20%;
+			left:35%;
+			height:40%;
+			width:35%;
+			overflow:hidden;
+			display:flex;
+			flex-direction:column;
+			justify-content:center;
+			align-items:center;
+
+		`
+	}
+	
 
 	@media screen and (max-width:1370px){
 		left:20%;
@@ -110,9 +130,9 @@ class ImageCreation extends Component{
 	}
 	render(){
 		return(
-			<React.Fragment>
+			<Container id="container" displayEditImagesScreen={this.state.displayEditImagesScreen}>
 				{this.state.displayEditImagesScreen==false?
-					<Container id="container">
+					<React.Fragment>
 						<div id="closeModalButton" 
 							onClick={()=>this.props.closeModal()} style={{marginLeft:"-70%",marginTop:"0%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
@@ -171,16 +191,14 @@ class ImageCreation extends Component{
 									handleNewlyCreatedImage={this.handleNewlyCreatedImage}
 								  />
 						}
-					</Container>:
+					</React.Fragment>:
 					<EditImageCreation
 						imageSrcUrl={this.state.pictureUrl}
 						closeModal={this.props.closeModal}
 						isPhoneUIEnabled={true}
 					/>
 				}
-			</React.Fragment>
-		
-
+			</Container>
 		)
 	}
 }

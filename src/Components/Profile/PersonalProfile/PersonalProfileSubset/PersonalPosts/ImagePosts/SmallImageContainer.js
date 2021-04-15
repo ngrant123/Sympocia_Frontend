@@ -155,7 +155,6 @@ const SmallImageContainer=({images,displayPostModal})=>{
 									</li>
 								</ul>
 							</ImageContainer>
-				}
 				</li>
 			)}
 		</li>
