@@ -247,7 +247,8 @@ class EditImageCreation extends Component{
 			isSubmittedAndProcessing:false,
 			isDesktop:true,
 			isVideoDescriptionDeleted:false,
-			isAudioDescriptionDeleted:false
+			isAudioDescriptionDeleted:false,
+			isSymposiumsAltered:false
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
@@ -258,6 +259,7 @@ class EditImageCreation extends Component{
 	*/
 	componentDidMount(){
 		const {previousData}=this.props;
+		console.log(this.props);
 		if(previousData!=null){
 			var {
 				description,
@@ -399,13 +401,12 @@ class EditImageCreation extends Component{
 				_id,
 				videoDescriptionKey
 			}=previousData;
-
+			debugger;
 			const editedImage={
 				postType:"Images",
 				postId:_id,
 				post:{
-					industriesUploaded:this.isArrayEqual(industriesUploaded,(searchCriteriaIndustryArray.length==0?industriesUploaded:searchCriteriaIndustryArray))==false
-						?searchCriteriaIndustryArray:null,
+					industriesUploaded:this.state.isSymposiumsAltered==true?searchCriteriaIndustryArray:null,
 					description:descriptionTextArea!=description?descriptionTextArea:null,
 					caption:captionTextArea!=caption?captionTextArea:null,
 					isCrownedPost:isPostCrowned!=isCrownedPost?isPostCrowned:null
@@ -471,7 +472,7 @@ class EditImageCreation extends Component{
 	}
 
 	isArrayEqual=(arr1,arr2)=>{
-		
+		debugger;
 		let isArrayEqualIndicator=true;
 
 		if(arr1.length!=arr2.length)
@@ -479,32 +480,48 @@ class EditImageCreation extends Component{
 		else{
 			let arr1Map=new Map();
 			arr1.forEach((iteratedIndustry,i)=>{
-				const {industry,subIndustry}=iteratedIndustry;
-				let subArr1Map=new Map();
-
-				subIndustry.forEach((selectedSubIndustry,j)=>{
-					subArr1Map.set(selectedSubIndustry,1);
-				})
-				arr1Map.set(industry,subArr1Map);
+				const {industry}=iteratedIndustry;
+				arr1Map.set(industry,1);
 			});
 
-			arr2.forEach((selectedIndustry,index)=>{
-				
-				var testing=arr1Map.has(selectedIndustry.industry);
-				if(arr1Map.has(selectedIndustry.industry)==undefined || arr1Map.has(selectedIndustry.industry)==false)
-					isArrayEqualIndicator=false
-				else{
-					
-					const {subIndustry}=selectedIndustry;
-
-					subIndustry.forEach((selectedSubIndustry,i)=>{
-						const selectedIndustryArr1=arr1Map.get(selectedSubIndustry.industry);
-						if(selectedIndustryArr1.get(selectedSubIndustry.industry)==undefined)
-							isArrayEqualIndicator=false
-					})
+			for(var i=0;i<arr2.length;i++){
+				if(arr1Map.has(arr2[i].industry)==undefined){
+					isArrayEqualIndicator=false;
+					break;
 				}
-			})
+			}
 		}
+			/*
+				In the future when sub-sympoisums are a thing 
+
+				let arr1Map=new Map();
+				arr1.forEach((iteratedIndustry,i)=>{
+					const {industry,subIndustry}=iteratedIndustry;
+					let subArr1Map=new Map();
+
+					subIndustry.forEach((selectedSubIndustry,j)=>{
+						subArr1Map.set(selectedSubIndustry,1);
+					})
+					arr1Map.set(industry,subArr1Map);
+				});
+
+				arr2.forEach((selectedIndustry,index)=>{
+					
+					var testing=arr1Map.has(selectedIndustry.industry);
+					if(arr1Map.has(selectedIndustry.industry)==undefined || arr1Map.has(selectedIndustry.industry)==false)
+						isArrayEqualIndicator=false
+					else{
+						
+						const {subIndustry}=selectedIndustry;
+
+						subIndustry.forEach((selectedSubIndustry,i)=>{
+							const selectedIndustryArr1=arr1Map.get(selectedSubIndustry.industry);
+							if(selectedIndustryArr1.get(selectedSubIndustry.industry)==undefined)
+								isArrayEqualIndicator=false
+						})
+					}
+				})
+			*/
 		return isArrayEqualIndicator;
 	}
 
@@ -573,7 +590,8 @@ class EditImageCreation extends Component{
 
 	alterSelectedIndustry=(selectedIndustries)=>{
 		this.setState({
-			industriesSelected:selectedIndustries
+			industriesSelected:selectedIndustries,
+			isSymposiumsAltered:true
 		})
 	}
 
@@ -728,159 +746,230 @@ class EditImageCreation extends Component{
 		return(
 			<PostConsumer>
 				{profilePostInformation=>(
-						<UserConsumer>
-							{userSessionInformation=>(
-								<Container id="editImageContainer" isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
-									{this.props.isPhoneUIEnabled==true &&(
-										<div onClick={()=>this.props.closeModal()}>
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-											 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-											 stroke-linecap="round" stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-											  <circle cx="12" cy="12" r="9" />
-											  <path d="M10 10l4 4m0 -4l-4 4" />
-											</svg>
-										</div>
-									)}
-									{this.state.displayReplaceImageModal==true &&(
-										<>
-											<ShadowContainerNewImageCreation 
-												onClick={()=>this.setState({displayReplaceImageModal:false})} 
-											/>
-											<CreateNewImageModal
-												handleNewlyCreatedImage={this.displayNewCreateImage}
-												isPreviousLoaded={true}
-											/>
-										</>
-									)}
-									{this.state.changeImageVerification==true?
-										<>
-											<ShadowContainer onClick={()=>this.setState({changeImageVerification:false})} />
-											<ChangeImageVerificationModal>
-												<ul style={{padding:"20px"}}>
-													<a href="javascript:void(0);">
-														<li onClick={()=>this.setState({changeImageVerification:false})} style={{listStyle:"none",marginLeft:"90%"}}>
-															<HighlightOffIcon
-																style={{fontSize:"20"}}
-															/>
+				<UserConsumer>
+					{userSessionInformation=>(
+						<Container id="editImageContainer" isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
+							{this.props.isPhoneUIEnabled==true &&(
+								<div onClick={()=>this.props.closeModal()}>
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+									 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+									 stroke-linecap="round" stroke-linejoin="round">
+									  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+									  <circle cx="12" cy="12" r="9" />
+									  <path d="M10 10l4 4m0 -4l-4 4" />
+									</svg>
+								</div>
+							)}
+							{this.state.displayReplaceImageModal==true &&(
+								<>
+									<ShadowContainerNewImageCreation 
+										onClick={()=>this.setState({displayReplaceImageModal:false})} 
+									/>
+									<CreateNewImageModal
+										handleNewlyCreatedImage={this.displayNewCreateImage}
+										isPreviousLoaded={true}
+									/>
+								</>
+							)}
+							{this.state.changeImageVerification==true?
+								<>
+									<ShadowContainer onClick={()=>this.setState({changeImageVerification:false})} />
+									<ChangeImageVerificationModal>
+										<ul style={{padding:"20px"}}>
+											<a href="javascript:void(0);">
+												<li onClick={()=>this.setState({changeImageVerification:false})} style={{listStyle:"none",marginLeft:"90%"}}>
+													<HighlightOffIcon
+														style={{fontSize:"20"}}
+													/>
+												</li>
+											</a>
+											<p> 
+												Are you sure you want to change the image for this post?
+											</p>
+											<li style={{listStyle:"none"}}>
+												<ul style={{padding:"0px"}}>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<li onClick={()=>this.setState({
+																				displayReplaceImageModal:true,
+																				changeImageVerification:false
+																			})} 
+														style={ButtonCSS}>
+															Yes
 														</li>
 													</a>
+
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<li onClick={()=>this.setState({changeImageVerification:false})}
+														style={ButtonCSS}>
+															No
+														</li>
+													</a>
+												</ul>
+											</li>
+										</ul>
+									</ChangeImageVerificationModal>
+								</>
+								:null
+							}
+
+							{this.state.displayVideoDescriptionPortal==false?
+								null:
+								<VideoDescriptionPortal
+								 	closeModal={this.closeModal}
+									createVideoDescription={this.createVideoDescription}
+									parentContainer="personalContainer"
+								/>
+							}
+							{this.state.displayVoiceDescriptionPortal==false?
+								null:
+								<VoiceDescriptionPortal
+									closeModal={this.closeModal}
+									createAudioDescription={this.createAudioDescription}
+									parentContainer="personalContainer"
+								/>
+							}
+							{this.state.displayCrownModalIndicator==false?null:
+								<React.Fragment>
+									<ShadowContainer onClick={()=>this.setState({displayCrownModalIndicator:false})} />
+									<CrownPostModal>
+										<ul style={{padding:"20px"}}>
+											<a href="javascript:void(0);">
+												<li onClick={()=>this.setState({displayCrownModalIndicator:false})} style={{listStyle:"none",marginLeft:"90%"}}>
+													<HighlightOffIcon
+														style={{fontSize:"20"}}
+													/>
+												</li>
+											</a>
+											{this.state.isPostCrowned==true?
+												<React.Fragment>
 													<p> 
-														Are you sure you want to change the image for this post?
+														Are you sure you want to uncrown this post?
 													</p>
 													<li style={{listStyle:"none"}}>
 														<ul style={{padding:"0px"}}>
 															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<li onClick={()=>this.setState({
-																						displayReplaceImageModal:true,
-																						changeImageVerification:false
-																					})} 
-																style={ButtonCSS}>
+																<li onClick={()=>this.unCrownPost(profilePostInformation)} style={ButtonCSS}>
 																	Yes
 																</li>
 															</a>
 
 															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<li onClick={()=>this.setState({changeImageVerification:false})}
-																style={ButtonCSS}>
+																<li style={ButtonCSS} onClick={()=>this.setState({displayCrownModalIndicator:false})}>
 																	No
 																</li>
 															</a>
 														</ul>
 													</li>
-												</ul>
-											</ChangeImageVerificationModal>
-										</>
-										:null
-									}
+												</React.Fragment>:
+												<React.Fragment>
+													<p> 
+														Are you sure you want to crown this post? You're current crowned 
+														post will be replace.
+													</p>
+													<li style={{listStyle:"none"}}>
+														<ul style={{padding:"0px"}}>
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<li onClick={()=>this.crownPost(profilePostInformation)} style={ButtonCSS}>
+																	Yes
+																</li>
+															</a>
 
-									{this.state.displayVideoDescriptionPortal==false?
-										null:
-										<VideoDescriptionPortal
-										 	closeModal={this.closeModal}
-											createVideoDescription={this.createVideoDescription}
-											parentContainer="personalContainer"
-										/>
-									}
-									{this.state.displayVoiceDescriptionPortal==false?
-										null:
-										<VoiceDescriptionPortal
-											closeModal={this.closeModal}
-											createAudioDescription={this.createAudioDescription}
-											parentContainer="personalContainer"
-										/>
-									}
-									{this.state.displayCrownModalIndicator==false?null:
-										<React.Fragment>
-											<ShadowContainer onClick={()=>this.setState({displayCrownModalIndicator:false})} />
-											<CrownPostModal>
-												<ul style={{padding:"20px"}}>
+															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																<li style={ButtonCSS} onClick={()=>this.setState({displayCrownModalIndicator:false})}>
+																	No
+																</li>
+															</a>
+														</ul>
+													</li>
+												</React.Fragment>
+											}
+										</ul>
+									</CrownPostModal>
+								</React.Fragment>
+							}
+							<ul style={{padding:"10px"}}>
+								{userSessionInformation.displayDesktopUI==false &&(
+									<li style={{listStyle:"none",marginBottom:"2%"}}>
+										{this.state.videoDescription!=null && (
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
+													<MobileVideoDescriptionContainer>
+														<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
+															<source src={this.state.videoDescription} type="video/mp4"/>
+														</video>
+													</MobileVideoDescriptionContainer>
+												</li>
+												<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+													<HighlightOffIcon
+														onClick={()=>this.removeVideoDescription()}
+														style={{fontSize:"20",color:"#C8B0F4"}}
+													/>
+												</li>
+											</ul>
+										)}
+										{this.state.audioDescription!=null &&(
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
+													<audio key={this.state.audioDescriptionId} controls>
+													  <source src={this.state.audioDescription} typ e="audio/ogg"/>
+													  <source src={this.state.audioDescription} type="audio/mp4"/>
+													Your browser does not support the audio element.
+													</audio>
+												</li>
+												<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+													<HighlightOffIcon
+														onClick={()=>this.removeAudioDescription()}
+														style={{fontSize:"20",color:"#C8B0F4"}}
+													/>
+												</li>
+											</ul>
+										)}
+									</li>
+								)}
+
+								<li id="imageListContainer" style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
+									<Image>
+										<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px"}}>
+											<li onClick={()=>this.setState({changeImageVerification:true})} style={{listStyle:"none"}}>
+												<a href="javascript:void(0);">
+													<ReplayIcon
+														style={{fontSize:30}}
+													/>
+												</a>
+											</li>
+											{/*
+												<li onClick={()=>this.setState({displayFilterPictureModal:true})} style={{listStyle:"none"}}>
 													<a href="javascript:void(0);">
-														<li onClick={()=>this.setState({displayCrownModalIndicator:false})} style={{listStyle:"none",marginLeft:"90%"}}>
-															<HighlightOffIcon
-																style={{fontSize:"20"}}
-															/>
-														</li>
+														<FormatColorFillIcon
+															style={{fontSize:30}}
+														/>
 													</a>
-													{this.state.isPostCrowned==true?
-														<React.Fragment>
-															<p> 
-																Are you sure you want to uncrown this post?
-															</p>
-															<li style={{listStyle:"none"}}>
-																<ul style={{padding:"0px"}}>
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li onClick={()=>this.unCrownPost(profilePostInformation)} style={ButtonCSS}>
-																			Yes
-																		</li>
-																	</a>
+												</li>
+											*/}
+										</ul>
+										<a href="javascript:void(0);">
+											<CrownIconContainer onClick={()=>this.setState({displayCrownModalIndicator:true})}>
+												<Icon 
+													id="crownIcon"
+													icon={crownIcon}
+													style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
+												/>
+											</CrownIconContainer>
+										</a>
 
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li style={ButtonCSS} onClick={()=>this.setState({displayCrownModalIndicator:false})}>
-																			No
-																		</li>
-																	</a>
-																</ul>
-															</li>
-														</React.Fragment>:
-														<React.Fragment>
-															<p> 
-																Are you sure you want to crown this post? You're current crowned 
-																post will be replace.
-															</p>
-															<li style={{listStyle:"none"}}>
-																<ul style={{padding:"0px"}}>
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li onClick={()=>this.crownPost(profilePostInformation)} style={ButtonCSS}>
-																			Yes
-																		</li>
-																	</a>
+										{userSessionInformation.displayDesktopUI==true &&(
+											<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
 
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li style={ButtonCSS} onClick={()=>this.setState({displayCrownModalIndicator:false})}>
-																			No
-																		</li>
-																	</a>
-																</ul>
-															</li>
-														</React.Fragment>
-													}
-												</ul>
-											</CrownPostModal>
-										</React.Fragment>
-									}
-									<ul style={{padding:"10px"}}>
-										{userSessionInformation.displayDesktopUI==false &&(
-											<li style={{listStyle:"none",marginBottom:"2%"}}>
-												{this.state.videoDescription!=null && (
+												{this.state.videoDescription!=null &&(
 													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
-															<MobileVideoDescriptionContainer>
+														<li style={{listStyle:"none",display:"inline-block"}}>
+															<VideoDescriptionContainer>
 																<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
 																	<source src={this.state.videoDescription} type="video/mp4"/>
 																</video>
-															</MobileVideoDescriptionContainer>
+															</VideoDescriptionContainer>
 														</li>
+
 														<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
 															<HighlightOffIcon
 																onClick={()=>this.removeVideoDescription()}
@@ -891,9 +980,9 @@ class EditImageCreation extends Component{
 												)}
 												{this.state.audioDescription!=null &&(
 													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginBottom:"2%"}}>
+														<li style={{listStyle:"none",display:"inline-block"}}>
 															<audio key={this.state.audioDescriptionId} controls>
-															  <source src={this.state.audioDescription} typ e="audio/ogg"/>
+															  <source src={this.state.audioDescription} type="audio/ogg"/>
 															  <source src={this.state.audioDescription} type="audio/mp4"/>
 															Your browser does not support the audio element.
 															</audio>
@@ -906,169 +995,99 @@ class EditImageCreation extends Component{
 														</li>
 													</ul>
 												)}
-											</li>
+											</ul>
 										)}
+										<img id="uploadedImage" src={this.state.imgSrc} style={{width:"100%",height:"60%"}}/>
+									</Image>
+								</li>
 
-										<li id="imageListContainer" style={{listStyle:"none",display:"inline-block",width:"50%",marginRight:"2%"}}>
-											<Image>
-												<ul style={{backgroundColor:"white",zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px"}}>
-													<li onClick={()=>this.setState({changeImageVerification:true})} style={{listStyle:"none"}}>
-														<a href="javascript:void(0);">
-															<ReplayIcon
-																style={{fontSize:30}}
-															/>
-														</a>
+								{this.state.displayFilterPictureModal==false?
+									<li style={{height:"150%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+										<ul id="imageInformationSelection" style={{padding:"0px",width:"350px"}}>
+											<IndustryPostOptions
+												alterSelectedIndustry={this.alterSelectedIndustry}
+												alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+												symposiumsUploaded={this.props.previousData==null?[]:this.props.previousData.industriesUploaded}
+											/>
+											<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
+												<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
+																Writing a caption...
+												</ImageTextArea>
+											</li>
+
+											<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
+												<ImageTextArea id="descriptionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
+													Write a title description...
+												</ImageTextArea>
+
+											</li>
+											<p style={{marginLeft:"50%",fontSize:"20px",color:"#5298F8"}}> Or </p>
+											<li style={{listStyle:"none"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
+														Create either a video or voice description for your image. Much more interesting than regular text imo ;)
 													</li>
-													{/*
-														<li onClick={()=>this.setState({displayFilterPictureModal:true})} style={{listStyle:"none"}}>
-															<a href="javascript:void(0);">
-																<FormatColorFillIcon
-																	style={{fontSize:30}}
-																/>
-															</a>
-														</li>
-													*/}
-												</ul>
-												<a href="javascript:void(0);">
-													<CrownIconContainer onClick={()=>this.setState({displayCrownModalIndicator:true})}>
-														<Icon 
-															id="crownIcon"
-															icon={crownIcon}
-															style={{borderRadius:"50%",zIndex:"8",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
-														/>
-													</CrownIconContainer>
-												</a>
-
-												{userSessionInformation.displayDesktopUI==true &&(
-													<ul style={{zIndex:"8",position:"absolute",marginRight:"5%",padding:"15px",marginTop:"55%"}}>
-
-														{this.state.videoDescription!=null &&(
-															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none",display:"inline-block"}}>
-																	<VideoDescriptionContainer>
-																		<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" autoplay="true" controls>
-																			<source src={this.state.videoDescription} type="video/mp4"/>
-																		</video>
-																	</VideoDescriptionContainer>
-																</li>
-
-																<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
-																	<HighlightOffIcon
-																		onClick={()=>this.removeVideoDescription()}
-																		style={{fontSize:"20",color:"#C8B0F4"}}
+													<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>
+														<ul style={{padding:"10px"}}>
+															<li onClick={()=>this.setUpVoiceDescriptionCreation(userSessionInformation.displayDesktopUI)}
+																 style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<MicIcon
+																		style={{fontSize:40}}
 																	/>
-																</li>
-															</ul>
-														)}
-														{this.state.audioDescription!=null &&(
-															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none",display:"inline-block"}}>
-																	<audio key={this.state.audioDescriptionId} controls>
-																	  <source src={this.state.audioDescription} type="audio/ogg"/>
-																	  <source src={this.state.audioDescription} type="audio/mp4"/>
-																	Your browser does not support the audio element.
-																	</audio>
-																</li>
-																<li style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
-																	<HighlightOffIcon
-																		onClick={()=>this.removeAudioDescription()}
-																		style={{fontSize:"20",color:"#C8B0F4"}}
-																	/>
-																</li>
-															</ul>
-														)}
-													</ul>
-												)}
-												<img id="uploadedImage" src={this.state.imgSrc} style={{width:"100%",height:"60%"}}/>
-											</Image>
-										</li>
-
-										{this.state.displayFilterPictureModal==false?
-											<li style={{height:"150%",position:"absolute",listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-												<ul id="imageInformationSelection" style={{padding:"0px",width:"350px"}}>
-													<IndustryPostOptions
-														alterSelectedIndustry={this.alterSelectedIndustry}
-														alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-													/>
-													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
-														<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
-																		Writing a caption...
-														</ImageTextArea>
-													</li>
-
-													<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
-														<ImageTextArea id="descriptionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
-															Write a title description...
-														</ImageTextArea>
-
-													</li>
-													<p style={{marginLeft:"50%",fontSize:"20px",color:"#5298F8"}}> Or </p>
-													<li style={{listStyle:"none"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
-																Create either a video or voice description for your image. Much more interesting than regular text imo ;)
+																</a>
 															</li>
-															<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>
-																<ul style={{padding:"10px"}}>
-																	<li onClick={()=>this.setUpVoiceDescriptionCreation(userSessionInformation.displayDesktopUI)}
-																		 style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
-																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																			<MicIcon
-																				style={{fontSize:40}}
-																			/>
-																		</a>
-																	</li>
 
-																	<li onClick={()=>this.setUpVideoDescriptionCreation(userSessionInformation.displayDesktopUI)}
-																		 style={{listStyle:"none",display:"inline-block"}}>
-																		<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																			<CameraAltIcon
-																				style={{fontSize:40}}
-																			/>
-																		</a>
-																	</li>
-																</ul>
+															<li onClick={()=>this.setUpVideoDescriptionCreation(userSessionInformation.displayDesktopUI)}
+																 style={{listStyle:"none",display:"inline-block"}}>
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<CameraAltIcon
+																		style={{fontSize:40}}
+																	/>
+																</a>
 															</li>
 														</ul>
 													</li>
-													{this.state.isSubmittedAndProcessing==false?
-														<li style={{cursor:"pointer",listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
-															<ul onClick={()=>this.sendImageDateToDB({profilePostInformation,isAccessTokenUpdated:false})}>
-																{this.props.previousData==null?
-																	<React.Fragment>
-																		<li style={{listStyle:"none",display:"inline-block"}}>
-																			<SendIcon
-																				style={{fontSize:20,color:"white"}}
-																			/>
-																		</li>
-
-																		<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																			Send
-																		</li>
-																	</React.Fragment>:
-																	<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
-																		Edit
-																	</li>
-																}
-															</ul>
-												 		</li>:
-												 		<p>Please wait...</p>
-												 	}
 												</ul>
-											</li>:
-											<FilterImageSelection
-												imgUrl={this.props.imageSrcUrl}
-												displayFilteredImage={this.displayFilteredImageHandle}
-												switchBackToSubmitModal={this.handleDisplaySubmitModal}
-											/>
-										}
-										
-									</ul>
-								</Container>
-							) 
-						}
-						</UserConsumer>
-					)
+											</li>
+											{this.state.isSubmittedAndProcessing==false?
+												<li style={{cursor:"pointer",listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+													<ul onClick={()=>this.sendImageDateToDB({profilePostInformation,isAccessTokenUpdated:false})}>
+														{this.props.previousData==null?
+															<React.Fragment>
+																<li style={{listStyle:"none",display:"inline-block"}}>
+																	<SendIcon
+																		style={{fontSize:20,color:"white"}}
+																	/>
+																</li>
+
+																<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																	Send
+																</li>
+															</React.Fragment>:
+															<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+																Edit
+															</li>
+														}
+													</ul>
+										 		</li>:
+										 		<p>Please wait...</p>
+										 	}
+										</ul>
+									</li>:
+									<FilterImageSelection
+										imgUrl={this.props.imageSrcUrl}
+										displayFilteredImage={this.displayFilteredImageHandle}
+										switchBackToSubmitModal={this.handleDisplaySubmitModal}
+									/>
+								}
+								
+							</ul>
+						</Container>
+					) 
+				}
+				</UserConsumer>
+			)
 			}
 			</PostConsumer>
 		)

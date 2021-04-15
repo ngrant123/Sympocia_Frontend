@@ -125,7 +125,8 @@ class BlogEditSubmitModal extends Component{
 			isSubmittedAndProcessing:false,
 			retryCounter:0,
 			isVideoDescriptionDeleted:false,
-			isAudioDescriptionDeleted:false
+			isAudioDescriptionDeleted:false,
+			isSymposiumsAltered:false
 		}
 	}
 
@@ -187,7 +188,8 @@ class BlogEditSubmitModal extends Component{
 
 	alterSelectedIndustry=(selectedIndustries)=>{
 		this.setState({
-			industriesSelected:selectedIndustries
+			industriesSelected:selectedIndustries,
+			isSymposiumsAltered:true
 		})
 	}
 
@@ -313,8 +315,7 @@ class BlogEditSubmitModal extends Component{
 				postType:"Blogs",
 				postId:_id,
 				post:{
-					industriesUploaded:this.isArrayEqual(industriesUploaded,(searchCriteriaIndustryArray.length==0?industriesUploaded:searchCriteriaIndustryArray))==false
-						?searchCriteriaIndustryArray:null,
+					industriesUploaded:this.state.isSymposiumsAltered==true?searchCriteriaIndustryArray:null,
 					description:currentDescription!=description?currentDescription:null,
 					title:currentTitle!=title?currentTitle:null,
 					isCrownedPost:this.state.isPostCrowned!=isCrownedPost?this.state.isPostCrowned:null,
@@ -716,6 +717,7 @@ isArrayEqual=(arr1,arr2)=>{
 												<IndustryPostOptions
 													alterSelectedIndustry={this.alterSelectedIndustry}
 													alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+													symposiumsUploaded={this.props.previousState==null?[]:this.props.previousState.industriesUploaded}
 												/>
 											</li>
 											{this.state.isSubmittedAndProcessing==false?
