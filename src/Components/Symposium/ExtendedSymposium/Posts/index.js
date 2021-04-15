@@ -17,9 +17,15 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
     const [posts,changePosts]=useState(state.posts);
     const [postOption,changePostOptionState]=useState(state.postType);
+    const [isLoadingNewPosts,changeIsLoadingNewPosts]=useState(false);
     const [postCount,changePostCount]=useState(state.postCount);
 
     const  changePostOption=async(newPostOption,isNewPostOption,postCount)=>{
+        if(postCount>0){
+            changeIsLoadingReloadedPosts(true);
+        }else{
+            changeIsLoadingNewPosts(true);
+        }
         const postParameters={
             industry:state.selectedSymposiumTitle,
             postCount,
@@ -44,15 +50,6 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         if(confirmation=="Success"){
             if(data.length==0){
                 changeEndOfPostIndicator(true);
-                changeIsLoadingReloadedPosts(false);
-
-                /*
-                    this.setState({
-                        endOfPostsDBIndicator:true,
-                        isLoadingReloadedPosts:false,
-                        isLoading:false
-                    })
-                */
             }else{
                 const currentPosts=posts;
                 let nextPosts;
@@ -67,19 +64,9 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                 changePostOptionState(newPostOption);
                 changePosts([...nextPosts]);
                 changeEndOfPostIndicator(false);
-                changeIsLoadingReloadedPosts(false);
-                /*
-                    this.setState({
-                        posts:this.state.postCount==0?this.addSuggestedSymposiums(nextPosts):nextPosts,
-                        postType:postOption,
-                        isLoadingReloadedPosts:false,
-                        endOfPostsDBIndicator:false,
-                        isLoading:false
-                    },()=>{
-                        this.highlightAppropriatePostOption(postOption);
-                    })
-                */
             }
+                changeIsLoadingReloadedPosts(false);
+                changeIsLoadingNewPosts(false);
         }else{
             alert('Unfortunately there has been an error getting this post data. Please try again');
         }
@@ -135,6 +122,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     postCount,
                     selectedSymposiumTitle:state.selectedSymposiumTitle
                 }}
+                isLoadingNewPosts={isLoadingNewPosts}
                 triggerReloadingPostsHandle={triggerReloadingPostsHandle}
                 displaySymposium={displaySymposium}
                 displayRecruitConfetti={displayRecruitConfetti}

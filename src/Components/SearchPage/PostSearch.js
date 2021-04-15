@@ -50,19 +50,25 @@ const PostsContainer=styled.div`
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		margin-left:0% !important;
-		margin-top:-100px !important;
+		margin-top:-10px !important;
+		padding-top:-10px;
     }
 `;
 
 const Posts=styled.div`
 	position:absolute;
 	width:100%;
+	@media screen and (max-width:1370px){
+		margin-left:5% !important;
+	}
+
 	@media screen and (max-width:650px){
 		margin-top:5% !important;
-		margin-left:2% !important;
+		margin-left:1% !important;
 	}
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		margin-top:110px !important;
+		margin-top:0px !important;
+		margin-left:5% !important;
     }
 
 `;
