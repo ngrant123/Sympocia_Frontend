@@ -198,7 +198,12 @@ const SmallPostContainer=styled.div`
 	@media screen and (max-width:650px){
 		margin-right:10%;
 		width:40%;
-		margin-bottom:30px;
+
+		${({isSymposiumPostUI})=>
+			isSymposiumPostUI==true?
+			`margin-bottom:80px;`:
+			`margin-bottom:30px;`
+		}
 		#smallVideoDescriptionContainer{
 			width:50px !important;
 			height:40% !important;
@@ -528,7 +533,7 @@ const ImagePostsModal=(props)=>{
 											personalInformation={personalInformationRedux}
 											previousProps={props}
 										/>
-									:<SmallPostContainer>
+									:<SmallPostContainer isSymposiumPostUI={props.isSymposiumPostUI}>
 											
 											<div id="smallImageContainer" onClick={()=>displayImageModal(data)} style={ImageCSS}>
 												<img id="image" src={data.imgUrl} style={{width:"100%",height:"100%"}}/>
