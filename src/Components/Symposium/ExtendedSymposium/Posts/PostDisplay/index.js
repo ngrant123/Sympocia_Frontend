@@ -37,7 +37,8 @@ const PostsContainerDisplay=({isLoadingNewPosts,state,triggerReloadingPostsHandl
         targetDom:"extendedSymposiumContainer",
         isLoadingReloadedPosts:state.isLoadingReloadedPosts,
         triggerReloadingPostsHandle:triggerReloadingPostsHandle,
-        endOfPostsDBIndicator:state.endOfPostsDBIndicator
+        endOfPostsDBIndicator:state.endOfPostsDBIndicator,
+        isSymposiumPostUI:true
     }
 
 
