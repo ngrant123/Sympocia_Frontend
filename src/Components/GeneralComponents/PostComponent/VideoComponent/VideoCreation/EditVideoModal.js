@@ -164,7 +164,8 @@ class EditVideoModal extends Component{
 			displayRedoPage:false,
 			isSubmittedAndProcessing:false,
 			isVideoDescriptionDeleted:false,
-			isAudioDescriptionDeleted:false
+			isAudioDescriptionDeleted:false,
+			isSymposiumsAltered:false
 		}
 	}
 
@@ -232,7 +233,8 @@ class EditVideoModal extends Component{
 
 	alterSelectedIndustry=(selectedIndustries)=>{
 		this.setState({
-			industriesSelected:selectedIndustries
+			industriesSelected:selectedIndustries,
+			isSymposiumsAltered:true
 		})
 	}
 
@@ -365,8 +367,7 @@ class EditVideoModal extends Component{
 				postType:"Videos",
 				postId:_id,
 				post:{
-					industriesUploaded:this.isArrayEqual(industriesUploaded,(searchCriteriaIndustryArray.length==0?industriesUploaded:searchCriteriaIndustryArray))==false
-						?searchCriteriaIndustryArray:null,
+					industriesUploaded:this.state.isSymposiumsAltered==true?searchCriteriaIndustryArray:null,
 					videoDescription:currentVideoDescription!=videoDescription?currentVideoDescription:null,
 					title:currentVideoTitle!=title?currentVideoTitle:null,
 					isCrownedPost:isPostCrowned!=isCrownedPost?isPostCrowned:null
@@ -809,6 +810,7 @@ isArrayEqual=(arr1,arr2)=>{
 											<IndustryPostOptions
 												alterSelectedIndustry={this.alterSelectedIndustry}
 												alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+												symposiumsUploaded={this.props.previousData.industriesUploaded}
 											/>
 
 										</li>

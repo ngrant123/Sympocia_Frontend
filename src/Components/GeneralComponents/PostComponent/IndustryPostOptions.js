@@ -30,9 +30,9 @@ class IndustryPostOptions extends Component{
 	constructor(props){
 		super(props);
 		var subCommunitiesMap=new Map();
-
+		debugger;
 		this.state={
-			industriesSelected:[],
+			industriesSelected:props.symposiumsUploaded.length==0?[]:props.symposiumsUploaded,
 			subIndustriesSelectedDropDown:[],
 			subIndustriesSelected:[],
 			subCommunitiesMap:subCommunitiesMap
@@ -90,7 +90,7 @@ class IndustryPostOptions extends Component{
 
 			}
 		}
-
+		console.log(currentSelectedIndustries);
 		this.setState({
 			industriesSelected:currentSelectedIndustries,
 			subCommunitiesMap:newSubCommunityMap,
@@ -201,7 +201,7 @@ class IndustryPostOptions extends Component{
 																		{data.industry}
 																	</SelectedIndustryButton>
 																</li>
-																<li  onClick={()=>this.removeIndustry(data)} style={{listStyle:"none",display:"inline-block"}}>
+																<li  onClick={()=>this.removeIndustry(data)} style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
 																	<HighlightOffIcon
 																		style={{ fontSize: 30 }}
 																	/>
