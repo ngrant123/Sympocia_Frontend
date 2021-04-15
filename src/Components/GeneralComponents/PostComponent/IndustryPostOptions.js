@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {filterSymposiumUploadOptions} from "../../../Actions/Tasks/FilterSymposiumsUploadOptions.js";
 
 const InputContainer=styled.textarea`
 	position:relative;
@@ -41,7 +42,9 @@ class IndustryPostOptions extends Component{
 			industriesSelected:props.symposiumsUploaded.length==0?[]:props.symposiumsUploaded,
 			subIndustriesSelectedDropDown:[],
 			subIndustriesSelected:[],
-			subCommunitiesMap:subCommunitiesMap
+			subCommunitiesMap:subCommunitiesMap,
+			suppliedSymposiums:PERSONAL_INDUSTRIES.INDUSTRIES,
+			originalSymposiums:PERSONAL_INDUSTRIES.INDUSTRIES
 		}
 	}
 
@@ -170,6 +173,18 @@ class IndustryPostOptions extends Component{
 		})
 	}
 
+	filterSymposiums=(character)=>{
+		const symposiums=filterSymposiumUploadOptions(
+							character,
+							this.state.suppliedSymposiums,
+							this.state.originalSymposiums
+						);
+		debugger;
+		this.setState({
+			suppliedSymposiums:symposiums
+		})
+	}
+
 
 	render(){
 		return(
@@ -177,24 +192,26 @@ class IndustryPostOptions extends Component{
 				<li style={{listStyle:"none",display:"inline-block"}}>
 					<p style={{color:"#8c8c8c"}}>Choose an symposium:</p>
 					<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																borderColor:"#5298F8",
-																																borderStyle:"solid",
-																																borderWidth:"1px",
-																																color:"#5298F8",
-																																backgroundColor:"white"
-																															}}>
-											Symposiums
-										   	<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto",overflowX:"hidden"}}>
-											<InputContainer placeholder="Search symposiums"/>
-											{PERSONAL_INDUSTRIES.INDUSTRIES.map(data=>
-												<li onClick={()=>this.addSelectedIndustry(data)}>
-													<a href="javascript:;">{data.industry}</a>
-												</li>
-											)}
-										</ul>
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																												borderColor:"#5298F8",
+																												borderStyle:"solid",
+																												borderWidth:"1px",
+																												color:"#5298F8",
+																												backgroundColor:"white"
+																											}}>
+							Symposiums
+						   	<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto",overflowX:"hidden"}}>
+							<InputContainer placeholder="Search symposiums"
+								onChange={event=>this.filterSymposiums(event.target.value)}
+							/>
+							{this.state.suppliedSymposiums.map(data=>
+								<li onClick={()=>this.addSelectedIndustry(data)}>
+									<a href="javascript:;">{data.industry}</a>
+								</li>
+							)}
+						</ul>
 				  	</div>
 				</li>
 				{this.state.industriesSelected.length!=0?
