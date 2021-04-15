@@ -29,19 +29,7 @@ import {
 	setPersonalProfileRefreshToken
 } from "./../../../../../Actions/Redux/Actions/PersonalProfile.js";
 
-
 const Container=styled.div`
-	position:fixed;
-	z-index:35;
-	background-color:white;
-	border-radius:5px;
-	top:10%;
-	left:10%;
-	width:80%;
-	overflow-y:scroll;
-	height:80%;
-	padding:5px;
-
     @media screen and (max-width:1370px){
     	${({isPhoneUIEnabled})=>(
     		isPhoneUIEnabled==true && (
