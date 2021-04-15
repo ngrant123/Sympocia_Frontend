@@ -2,16 +2,23 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {filterSymposiumUploadOptions} from "../../../Actions/Tasks/FilterSymposiumsUploadOptions.js";
 
-const ImageTextArea=styled.textarea`
-	width:350px;
-	resize:none;
-	text-decoration:none;
-	color:#8c8c8c;
-	border-style:none;
+const InputContainer=styled.textarea`
+	position:relative;
 	border-radius:5px;
-	background-color:#f1f1f1;
+	width:100%;
+	border-style:solid;
+	border-width:1px;
+	border-color:#D8D8D8;
+	resize:none;
 	padding:5px;
+	margin-bottom:2%;
+	margin-right:2%;
+
+	@media screen and (max-width:700px){
+		width:95% !important;
+	}
 `;
 
 const SelectedIndustryButton=styled.div`
@@ -30,12 +37,14 @@ class IndustryPostOptions extends Component{
 	constructor(props){
 		super(props);
 		var subCommunitiesMap=new Map();
-
+		debugger;
 		this.state={
-			industriesSelected:[],
+			industriesSelected:props.symposiumsUploaded.length==0?[]:props.symposiumsUploaded,
 			subIndustriesSelectedDropDown:[],
 			subIndustriesSelected:[],
-			subCommunitiesMap:subCommunitiesMap
+			subCommunitiesMap:subCommunitiesMap,
+			suppliedSymposiums:PERSONAL_INDUSTRIES.INDUSTRIES,
+			originalSymposiums:PERSONAL_INDUSTRIES.INDUSTRIES
 		}
 	}
 
@@ -90,7 +99,7 @@ class IndustryPostOptions extends Component{
 
 			}
 		}
-
+		console.log(currentSelectedIndustries);
 		this.setState({
 			industriesSelected:currentSelectedIndustries,
 			subCommunitiesMap:newSubCommunityMap,
@@ -164,104 +173,117 @@ class IndustryPostOptions extends Component{
 		})
 	}
 
+	filterSymposiums=(character)=>{
+		const symposiums=filterSymposiumUploadOptions(
+							character,
+							this.state.suppliedSymposiums,
+							this.state.originalSymposiums
+						);
+		debugger;
+		this.setState({
+			suppliedSymposiums:symposiums
+		})
+	}
+
 
 	render(){
 		return(
 			<React.Fragment>
 				<li style={{listStyle:"none",display:"inline-block"}}>
-										<p style={{color:"#8c8c8c"}}>Choose an symposium:</p>
-										<div class="dropdown">
-															<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																					borderColor:"#5298F8",
-																																					borderStyle:"solid",
-																																					borderWidth:"1px",
-																																					color:"#5298F8",
-																																					backgroundColor:"white"}}>
-																Symposiums
-															   	<span class="caret"></span>
-															</button>
-															<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
-																{PERSONAL_INDUSTRIES.INDUSTRIES.map(data=>
-																	<li onClick={()=>this.addSelectedIndustry(data)}>
-																		<a href="javascript:;">{data.industry}</a>
-																	</li>
-																)}
-															</ul>
-									  	</div>
-									</li>
-									{this.state.industriesSelected.length!=0?
-										<React.Fragment>
-											<li style={{listStyle:"none"}}>
-												<ul style={{padding:"0px"}}>
-													{this.state.industriesSelected.map(data=>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"1px",marginBottom:"1%"}}>
-															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none",display:"inline-block"}}>
-																	<SelectedIndustryButton>
-																		{data.industry}
-																	</SelectedIndustryButton>
-																</li>
-																<li  onClick={()=>this.removeIndustry(data)} style={{listStyle:"none",display:"inline-block"}}>
-																	<HighlightOffIcon
-																		style={{ fontSize: 30 }}
-																	/>
-																</li>
-															</ul>
-														</li>
-													)}
-												</ul>
-											</li>
-											{/*
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<p>Choose an sub-symposium (optional):</p>
-													<div class="dropdown">
-														<button class="btn btn-primary dropdown-toggle" type="button"
-															data-toggle="dropdown" style={{	
-																borderColor:"#5298F8",
-																borderStyle:"solid",
-																borderWidth:"1px",
-																color:"#5298F8",
-																backgroundColor:"white"}}>
-															Sub-industries
-														   	<span class="caret"></span>
-														</button>
-														<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
-															{this.state.subIndustriesSelectedDropDown.map(data=>
-																<li onClick={()=>this.addSelectedSubCommunity(data)}>
-																	<a href="javascript:;">{data.industry}</a>
-																</li>
-															)}
-														</ul>
-												  	</div>
-												</li>
-											*/}
+					<p style={{color:"#8c8c8c"}}>Choose an symposium:</p>
+					<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																												borderColor:"#5298F8",
+																												borderStyle:"solid",
+																												borderWidth:"1px",
+																												color:"#5298F8",
+																												backgroundColor:"white"
+																											}}>
+							Symposiums
+						   	<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto",overflowX:"hidden"}}>
+							<InputContainer placeholder="Search symposiums"
+								onChange={event=>this.filterSymposiums(event.target.value)}
+							/>
+							{this.state.suppliedSymposiums.map(data=>
+								<li onClick={()=>this.addSelectedIndustry(data)}>
+									<a href="javascript:;">{data.industry}</a>
+								</li>
+							)}
+						</ul>
+				  	</div>
+				</li>
+				{this.state.industriesSelected.length!=0?
+					<React.Fragment>
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px"}}>
+								{this.state.industriesSelected.map(data=>
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"1px",marginBottom:"1%"}}>
+										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",display:"inline-block"}}>
-													<ul style={{padding:"0px"}}>
-														{this.state.subIndustriesSelected.map(data=>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"1px",marginBottom:"1%"}}>
-																<ul style={{padding:"0px"}}>
-																	<li style={{listStyle:"none",display:"inline-block"}}>
-																		<SelectedIndustryButton>
-																			{data}
-																		</SelectedIndustryButton>
-																	</li>
-
-																	<li onClick={()=>this.removeSubCommunity(data,"selected")} style={{listStyle:"none",display:"inline-block"}}>
-																		<HighlightOffIcon/>
-																	</li>
-																</ul>
-																
-															</li>
-														)}
-													</ul>
+												<SelectedIndustryButton>
+													{data.industry}
+												</SelectedIndustryButton>
 											</li>
-										</React.Fragment>:
-										<React.Fragment></React.Fragment>
-									}
+											<li  onClick={()=>this.removeIndustry(data)} style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+												<HighlightOffIcon
+													style={{ fontSize: 30 }}
+												/>
+											</li>
+										</ul>
+									</li>
+								)}
+							</ul>
+						</li>
+						{/*
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<p>Choose an sub-symposium (optional):</p>
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button"
+										data-toggle="dropdown" style={{	
+											borderColor:"#5298F8",
+											borderStyle:"solid",
+											borderWidth:"1px",
+											color:"#5298F8",
+											backgroundColor:"white"}}>
+										Sub-industries
+									   	<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
+										{this.state.subIndustriesSelectedDropDown.map(data=>
+											<li onClick={()=>this.addSelectedSubCommunity(data)}>
+												<a href="javascript:;">{data.industry}</a>
+											</li>
+										)}
+									</ul>
+							  	</div>
+							</li>
+						*/}
+						<li style={{listStyle:"none",display:"inline-block"}}>
+								<ul style={{padding:"0px"}}>
+									{this.state.subIndustriesSelected.map(data=>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"1px",marginBottom:"1%"}}>
+											<ul style={{padding:"0px"}}>
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<SelectedIndustryButton>
+														{data}
+													</SelectedIndustryButton>
+												</li>
 
-
+												<li onClick={()=>this.removeSubCommunity(data,"selected")} style={{listStyle:"none",display:"inline-block"}}>
+													<HighlightOffIcon/>
+												</li>
+											</ul>
+											
+										</li>
+									)}
+								</ul>
+						</li>
+					</React.Fragment>:
+					<React.Fragment></React.Fragment>
+				}
 			</React.Fragment>
-
 		)
 	}
 }

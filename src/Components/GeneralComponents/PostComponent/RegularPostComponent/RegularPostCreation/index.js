@@ -168,6 +168,7 @@ const ButtonCSS={
 	const [crownPostBackgroundColor,changeCrownPostBackgroundColor]=useState("white");
 	const [contextInformation,changeContextInformation]=useState();
 	const [isSubmittedAndProcessing,changeIsSubmittedAndProcessing]=useState(false);
+	const [isSymposiumsAltered,changeIsSymposiumsAltered]=useState(false)
 
 	useEffect(()=>{
 		
@@ -198,6 +199,7 @@ const ButtonCSS={
 	},[]);
 
 	const alterSelectedIndustry=(selectedIndustries)=>{
+		changeIsSymposiumsAltered(true);
 		changeIndustriesSelected(selectedIndustries);
 	}
 
@@ -307,8 +309,7 @@ const ButtonCSS={
 				postType:"RegularPosts",
 				postId:_id,
 				post:{
-					industriesUploaded:isArrayEqual(industriesUploaded,(searchCriteriaIndustryArray.length==0?industriesUploaded:searchCriteriaIndustryArray))==false
-						?searchCriteriaIndustryArray:null,
+					industriesUploaded:isSymposiumsAltered==true?searchCriteriaIndustryArray:null,
 					isCrownedPost:isPostCrowned!=isCrownedPost?isPostCrowned:null,
 					post:currentPost!=post?currentPost:null
 				},
@@ -508,6 +509,7 @@ const ButtonCSS={
 											<IndustryPostOptions
 												alterSelectedIndustry={alterSelectedIndustry}
 												alterSelectedSubCommunities={alterSelectedSubCommunities}
+												symposiumsUploaded={props.previousData==null?[]:props.previousData.industriesUploaded}
 											/>
 										</li>
 									</ul>
