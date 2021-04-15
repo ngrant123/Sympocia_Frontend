@@ -1019,7 +1019,7 @@ class EditImageCreation extends Component{
 											<IndustryPostOptions
 												alterSelectedIndustry={this.alterSelectedIndustry}
 												alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-												symposiumsUploaded={this.props.previousData.industriesUploaded}
+												symposiumsUploaded={this.props.previousData==null?[]:this.props.previousData.industriesUploaded}
 											/>
 											<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
 												<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>

@@ -509,7 +509,7 @@ const ButtonCSS={
 											<IndustryPostOptions
 												alterSelectedIndustry={alterSelectedIndustry}
 												alterSelectedSubCommunities={alterSelectedSubCommunities}
-												symposiumsUploaded={props.previousData.industriesUploaded}
+												symposiumsUploaded={props.previousData==null?[]:props.previousData.industriesUploaded}
 											/>
 										</li>
 									</ul>

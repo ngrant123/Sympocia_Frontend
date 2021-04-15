@@ -717,7 +717,7 @@ isArrayEqual=(arr1,arr2)=>{
 												<IndustryPostOptions
 													alterSelectedIndustry={this.alterSelectedIndustry}
 													alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-													symposiumsUploaded={this.props.previousState.industriesUploaded}
+													symposiumsUploaded={this.props.previousState==null?[]:this.props.previousState.industriesUploaded}
 												/>
 											</li>
 											{this.state.isSubmittedAndProcessing==false?
