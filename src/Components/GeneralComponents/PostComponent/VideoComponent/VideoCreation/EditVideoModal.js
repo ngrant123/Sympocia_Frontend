@@ -810,7 +810,7 @@ isArrayEqual=(arr1,arr2)=>{
 											<IndustryPostOptions
 												alterSelectedIndustry={this.alterSelectedIndustry}
 												alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-												symposiumsUploaded={this.props.previousData.industriesUploaded}
+												symposiumsUploaded={this.props.previousData==null?[]:this.props.previousData.industriesUploaded}
 											/>
 
 										</li>
