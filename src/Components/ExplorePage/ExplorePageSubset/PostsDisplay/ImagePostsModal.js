@@ -198,7 +198,7 @@ const SmallPostContainer=styled.div`
 	@media screen and (max-width:650px){
 		margin-right:10%;
 		width:40%;
-		margin-bottom:1%;
+		margin-bottom:30px;
 		#smallVideoDescriptionContainer{
 			width:50px !important;
 			height:40% !important;
