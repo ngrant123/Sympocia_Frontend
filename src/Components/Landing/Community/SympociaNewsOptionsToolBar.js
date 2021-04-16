@@ -7,6 +7,13 @@ const TitleContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	margin-bottom:5%;
+
+	@media screen and (max-width:650px){
+		flex-direction:column;
+		#sympociaNewsHeader{
+			display:none !important;
+		}
+	}
 `;
 
 const SearchOptions=styled.div`
@@ -59,32 +66,37 @@ const PostFilterButtonCSS={
 	marginLeft:"2%"
 }
 
-const SympociaNewsOptionToolBar=({news,interviews})=>{
+const PostOptionButtonCSS={
+	listStyle:"none",
+	fontSize:"17px",
+	padding:"10px",
+	textDecoration:"none",
+	color:"#C8B0F4",
+	cursor:"pointer"
+}
+
+const SympociaNewsOptionToolBar=({changePostTypeOption,news,interviews})=>{
 	return(
 		<React.Fragment>
 			<TitleContainer>
-				<p style={{fontSize:"40px",marginRight:"5%"}}>
+				<p id="sympociaNewsHeader" style={{fontSize:"40px",marginRight:"5%"}}>
 					<b>Sympocia News</b>
 				</p>
 				<div class="dropdown">
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
 						style={PostTypeOptionButtonCSS}>
-							News
-					   		<ArrowDropDownCircleOutlinedIcon
-					   			style={{marginLeft:"20px",fontSize:"20",color:"#C2C2C2"}}
-					   		/>
+						News
+				   		<ArrowDropDownCircleOutlinedIcon
+				   			style={{marginLeft:"20px",fontSize:"20",color:"#C2C2C2"}}
+				   		/>
 					</button>
 					<ul class="dropdown-menu">
-						<li style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
-							<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
-								News
-							</a>
+						<li style={PostOptionButtonCSS} onClick={()=>changePostTypeOption(true)}>
+							News
 						</li>
 						<hr/>
-						<li style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
-							<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
-								Interviews
-							</a>
+						<li style={PostOptionButtonCSS} onClick={()=>changePostTypeOption(false)}>
+							Interviews
 						</li>
 					</ul>
 				</div>

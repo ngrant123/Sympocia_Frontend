@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import styled from "styled-components";
-import Test from "./Test.js";
-import TestImage from "../../../../designs/background/ThirdSectionBackground.png";
+import HeaderImage from "../../../../designs/background/ThirdSectionBackground.png";
+import SympociaProfilePicture from "../../../../designs/img/test3.png";
 
 const NewsContainer=styled.div`
 	display:column;
@@ -12,6 +12,29 @@ const NewsContainer=styled.div`
 	border-radius:5px;
 	box-shadow: 5px 10px 10px #E1E1E1;
 	overflow:hidden;
+
+	@media screen and (max-width:1370px){
+		width:40% !important;
+		height:60% !important;
+
+		#newsImage{
+			height:200px !important;
+		}
+	}
+
+
+	@media screen and (max-width:650px){
+		width:100% !important;
+		height:60% !important;
+
+		#newsImage{
+			height:200px !important;
+		}
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	width:60% !important;
+    }
 `;
 
 const NewsInformation=styled.div`
@@ -64,33 +87,24 @@ const SmallNewsContainer=({news,displaySelectedBlog})=>{
 			{news.map(data=>
 				<React.Fragment>
 					<NewsContainer>
-						<div style={{height:"250px",overflow:"hidden"}}>
-							<img src={TestImage} style={{width:"100%",height:"100%"}}/>
+						<div id="newsImage" style={{height:"250px",overflow:"hidden"}}>
+							<img src={HeaderImage} style={{width:"100%",height:"100%"}}/>
 						</div>
 						<NewsInformation>
 							<p style={{fontSize:"20px",maxHeight:"60px",overflow:"hidden"}}>
 								<b>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-									Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
-									cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+									{data.title}
 								</b>
 							</p>
 							<OwnerInformation>
-								<img src={TestImage} style={{borderRadius:"50%",width:"40px",height:"40px"}}/>
+								<img src={SympociaProfilePicture} style={{borderRadius:"50%",width:"40px",height:"35px"}}/>
 								<p style={{fontSize:"12px",color:"#939393",marginLeft:"2%",maxWidth:"200px",maxHeight:"30px",overflow:"hidden"}}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-									Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
-									cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+									Sympocia
 								</p>
 							</OwnerInformation>
 				 			<PostInformation>
 								<p style={{maxHeight:"40px",overflow:"hidden",color:"#939393"}}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-									Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
-									cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+									{data.description}
 								</p>
 								<hr style={HorizontalLineCSS}/>
 								<SecondaryPostInformation>

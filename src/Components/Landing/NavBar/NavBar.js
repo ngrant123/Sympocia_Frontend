@@ -56,12 +56,14 @@ const LoginButton={
 }
 
 
-const LandingPageNavBar=({displayCommunityMissionOption,history,displayLoginModalHandle})=>{
+const LandingPageNavBar=({isMissionPage,displayCommunityMissionOption,history,displayLoginModalHandle})=>{
 	const [displayMissionPage,changeDisplayMissionPage]=useState(true);
 	//<p style={{color:displayMissionPage==false?"#5298F8":"#A4A4A4"}}>
 	const communityButton=()=>{
-		return <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-yin-yang" width="44" height="44" 
-				viewBox="0 0 24 24" stroke-width="1.5" stroke={displayMissionPage==false?"#5298F8":"#A4A4A4"}
+		return <svg onClick={()=>displayCommunityMissionOption()}
+				style={{cursor:"pointer",borderRadius:"50%",boxShadow:"1px 1px 10px #d5d5d5",padding:"5px"}} 
+				xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-yin-yang" width="44" height="44" 
+				viewBox="0 0 24 24" stroke-width="1.5" stroke="#5298F8"
 				 fill="none" stroke-linecap="round" stroke-linejoin="round">
 				  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 				  <circle cx="12" cy="12" r="9" />
@@ -75,7 +77,7 @@ const LandingPageNavBar=({displayCommunityMissionOption,history,displayLoginModa
 		return <svg onClick={()=>displayCommunityMissionOption()}
 				style={{cursor:"pointer",borderRadius:"50%",boxShadow:"1px 1px 10px #d5d5d5",padding:"5px"}} 
 				xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rocket" width="44" 
-				height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke={displayMissionPage==true?"#5298F8":"#A4A4A4"}
+				height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#5298F8"
 				 fill="none" stroke-linecap="round" stroke-linejoin="round">
 				  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 				  <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
@@ -85,10 +87,13 @@ const LandingPageNavBar=({displayCommunityMissionOption,history,displayLoginModa
 	}
 	return (
 		<NavBarContainer>
-            <p style={{fontSize:"30px",color:"#C8B0F4"}}>
+            <p onClick={()=>history.push({pathname:'/'})} style={{cursor:"pointer",fontSize:"30px",color:"#C8B0F4"}}>
                 <b>Sympocia</b>
             </p>
-            {missionButton()}
+            {isMissionPage==true?
+            	<>{missionButton()}</>:
+            	<>{communityButton()}</>
+           	}
             <SignUpLoginContainer>
             	<p id="forgotPassword" onClick={()=>history.push({pathname:'/emailreset'})} style={{cursor:"pointer",color:"#5298F8"}}>Forgot Password? </p>
             	<div id="signUpButton" onClick={()=>history.push({pathname:'/signup'})}style={SignUpButton}>
