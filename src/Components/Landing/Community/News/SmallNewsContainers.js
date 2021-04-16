@@ -6,7 +6,6 @@ import SympociaProfilePicture from "../../../../designs/img/test3.png";
 const NewsContainer=styled.div`
 	display:column;
 	width:27%;
-	height:90%;
 	margin-right:5%;
 	margin-bottom:5%;
 	border-radius:5px;
@@ -15,17 +14,14 @@ const NewsContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:40% !important;
-		height:60% !important;
 
 		#newsImage{
 			height:200px !important;
 		}
 	}
-
-
+ 
 	@media screen and (max-width:650px){
 		width:100% !important;
-		height:60% !important;
 
 		#newsImage{
 			height:200px !important;
