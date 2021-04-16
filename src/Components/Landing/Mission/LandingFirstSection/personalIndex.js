@@ -41,7 +41,7 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import {
         LoginUI,
         MobileLoginUI
-} from "../../LoginImplementation.js";
+} from "../../NavBar/LoginImplementation.js";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import EmailInformationModal from "../../EmailInformationModal.js";

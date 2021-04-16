@@ -7,11 +7,18 @@ const Container=styled.div`
 	display:flex;
 	flex-direction:row;
 	flex-wrap:wrap;
+
+	@media screen and (max-width:650px){
+		flex-direction:column;
+	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    }
 `;
 
 const ExtendedBlog=styled.div`
 	display:flex;
 	flex-direction:column;
+	margin-bottom:10%;
 `;
 
 const BackButtonCSS={
@@ -25,7 +32,8 @@ const BackButtonCSS={
   borderWidth:"2px",
   borderColor:"#3898ec",
   cursor:"pointer",
-  marginBottom:"20%"
+  marginBottom:"5%",
+  maxWidth:"60px"
 }
 
 
@@ -36,7 +44,6 @@ const News=({news})=>{
 	const displaySelectedBlog=(blogData)=>{
 		changeSelectedNews(blogData);
 		changeDisplayCurrentNews(false);
-
 	}
 	return(
 		<Container>

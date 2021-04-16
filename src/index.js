@@ -64,6 +64,7 @@ const EmailReset=React.lazy(()=>import('./Components/Signup/Email/EmailSet/index
 const PrivacyPolicy=React.lazy(()=>import('./Components/LegalDocumentConditions/PrivacyPolicy.js'));
 const TermsOfConditions=React.lazy(()=>import('./Components/LegalDocumentConditions/TermsAndConditions.js'));
 const PageNotFound=React.lazy(()=>import('./Components/ErrorPage/404ErrorPage.js'));
+const SympociaNews=React.lazy(()=>import('./Components/Landing/Community/index.js'));
 
 
 const ApplicationElementIndicator=VerifyBrowserIsChrome();
@@ -90,6 +91,7 @@ const application  = (
 							<Route exact path="/emailreset" component={EmailReset}/>
 							<Route exact path="/privacyPolicy" component={PrivacyPolicy}/>
 							<Route exact path="/termsOfService" component={TermsOfConditions}/>
+							<Route exact path="/sympociaNews" component={SympociaNews}/>
 							<Route component={PageNotFound}/>
 
 							{/*

@@ -1,19 +1,14 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {useDispatch} from "react-redux";
-import { 
-         addCompanyId,
-         updatefirstTimeUsage,
-         loginCompanyPage
-  } from "../../Actions/Redux/Actions/CompanyActions.js";
 
 import {
   signInPersonalUser,
   setPersonalProfileAccessToken,
   setPersonalProfileRefreshToken
-} from '../../Actions/Redux/Actions/PersonalProfile';
+} from '../../../Actions/Redux/Actions/PersonalProfile';
 
-import {loginProfile} from "../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {loginProfile} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
 const Container=styled.div`
   position:fixed;
@@ -170,7 +165,6 @@ const handleLoginClick=async(email,password,dispatch,history)=>{
     const promises=[];
 
     promises.push(dispatch(signInPersonalUser(profile)));
-    promises.push(dispatch(loginCompanyPage(false)));
     promises.push(dispatch(setPersonalProfileAccessToken(accessToken)));
     promises.push(dispatch(setPersonalProfileRefreshToken(refreshToken)));
 
