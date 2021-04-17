@@ -91,20 +91,31 @@ class ImageCreation extends Component{
 		const picture=document.getElementById("uploadPictureFile").files[0];
 
 		reader.onloadend=()=>{
-			const maxFileSize=250*1024;
-			if(picture.size>maxFileSize){
-				alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
+			const picUrl=reader.result;
+			if(this.props.isPreviousLoaded==true){
+				this.props.handleNewlyCreatedImage(picUrl);
 			}else{
-				const picUrl=reader.result;
-				if(this.props.isPreviousLoaded==true){
-					this.props.handleNewlyCreatedImage(picUrl);
-				}else{
-					this.setState({
-						pictureUrl:picUrl,
-						displayEditImagesScreen:true
-					})
-				}
+				this.setState({
+					pictureUrl:picUrl,
+					displayEditImagesScreen:true
+				})
 			}
+			/*
+				const maxFileSize=250*1024;
+				if(picture.size>maxFileSize){
+					alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
+				}else{
+					const picUrl=reader.result;
+					if(this.props.isPreviousLoaded==true){
+						this.props.handleNewlyCreatedImage(picUrl);
+					}else{
+						this.setState({
+							pictureUrl:picUrl,
+							displayEditImagesScreen:true
+						})
+					}
+				}
+			*/
 		}
 
 		if(picture!=null){
