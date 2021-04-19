@@ -53,6 +53,7 @@ import {
 		symposiumFeatures
 	} from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
 import {SymposiumProvider} from "./SymposiumContext.js";
+import Beacons from "./Modals/Beacons/index.js";
 
 
 const socket = io('http://localhost:4000');
@@ -98,7 +99,8 @@ class Symposium extends Component{
 			postOption:"Image",
 			displayGuestOnboarding:false,
 			displaySpecficSymposiumFeature:false,
-			displayHightletedSimplifiedQuestionsModal:false
+			displayHightletedSimplifiedQuestionsModal:false,
+			displayBeaconPrompt:false
 		}
 	}
 
@@ -553,6 +555,30 @@ class Symposium extends Component{
 		}
 	}
 
+	displayBeacon=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayBeaconPrompt==true &&(
+					<Beacons
+						closeModal={this.closeBeaconPrompt}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	displayBeaconHandle=()=>{
+		this.setState({
+			displayBeaconPrompt:true
+		})
+	}
+
+	closeBeaconPrompt=()=>{
+		this.setState({
+			displayBeaconPrompt:false
+		})
+	}
+
 	render(){
 		return(
 			<SymposiumProvider
@@ -590,6 +616,9 @@ class Symposium extends Component{
 					},
 					isUserFollowingSymposium:()=>{
 						return this.state.isProfileFollowingSymposium
+					},
+					handleDisplayBeacons:()=>{
+						this.displayBeaconHandle();
 					}
 				}}
 			>
@@ -643,6 +672,8 @@ class Symposium extends Component{
 					{this.handleSeeAllPeopleActiveModal()}
 					{this.handleSeeAllPopularVideos()}
 					{this.specificSymposiumFeatures()}
+					{this.displayBeacon()}
+
 					{/*
 						{this.triggerDisplayMobileSymposiumOptions()}
 					*/}
@@ -674,6 +705,7 @@ class Symposium extends Component{
 					  	isGuestProfile={this.state.isGuestProfile}
 					  	headerAnimation={this.state.headerAnimation}
 					  	backgroundColor={this.state.backgroundColor}
+					  	displayBeacon={this.displayBeaconHandle}
 		  			/>
 
 					<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>

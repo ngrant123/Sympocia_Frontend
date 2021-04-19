@@ -211,7 +211,8 @@ const HeaderContainer=(props)=>{
 			displayDesktopUI,
 			isGuestProfile,
 			headerAnimation,
-			backgroundColor
+			backgroundColor,
+			displayBeacon
 		}=props;
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
@@ -400,6 +401,21 @@ const HeaderContainer=(props)=>{
 		changeMobileDisplayPostOptions(false);
 	}
 
+	const beaconElement=()=>{
+		return(
+			<svg style={{cursor:"pointer",marginLeft:"5%"}}
+				onClick={()=>displayBeacon()}
+				xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flare" width="44" 
+				height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffec00" fill="none" stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+			  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+			  <circle cx="12" cy="12" r="2" />
+			  <path d="M3 12h4m5 -9v4m5 5h4m-9 5v4m-4.5 -13.5l1 1m8 -1l-1 1m0 7l1 1m-8 -1l-1 1" />
+			</svg>
+		)
+	}
+
 	return(
 		<React.Fragment>
 			{headerAnimation==false ?
@@ -433,6 +449,8 @@ const HeaderContainer=(props)=>{
 			  					<li id="selectedSymposiumTitle" style={{overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",overflow:"hidden"}}>
 			  						{displayDesktopUI==true?<><b>{selectedSymposiumTitle}</b></>:<>{selectedSymposiumTitle}</>}
 			  					</li>
+			  					
+			  					{beaconElement()}
 
 			  					{/*
 				  					<a href="javascript:void(0);" style={{textDecoration:"none",marginRight:"5%"}}>
