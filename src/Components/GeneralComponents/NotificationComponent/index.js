@@ -204,13 +204,20 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	}
 
 	const constructPost=(data)=>{
-		const {postType,post,postUrl,isAudioPost}=data;
+		const {postType,notification,postUrl,isAudioPost,_id}=data;
 		return(
 			<React.Fragment>
-				{createPostUrl(postType,postUrl,isAudioPost)}
-				<p style={{marginLeft:"2%"}}>
-					<b>{post.length}</b> new notifications for this post
-				</p>
+				{_id==""?
+					<p style={{marginLeft:"2%"}}>
+						<b>{notification.length}</b> new notifications for your profile
+					</p>
+					:<>
+						{createPostUrl(postType,postUrl,isAudioPost)}
+						<p style={{marginLeft:"2%"}}>
+							<b>{notification.length}</b> new notifications for this post
+						</p>
+					</>
+				}
 			</React.Fragment>
 		)
 	}
@@ -227,15 +234,20 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	}
 
 	const constructSelectedPostNotifications=()=>{
-		
-		const {postType,post,postUrl,isAudioPost,_id}=postSpecificNotifications;
+		debugger;
+		const {postType,notification,postUrl,isAudioPost,_id}=postSpecificNotifications;
 		const stampCounter=0;
 		const authenticationCounter=0;
+		console.log(notification);
 		return(
 			<>
-				{createPostUrl(postType,postUrl,isAudioPost)}
-				<hr style={HorizontalLineCSS}/>
-				{post.map(data=>
+				{_id!="" &&(
+					<>
+						{createPostUrl(postType,postUrl,isAudioPost)}
+						<hr style={HorizontalLineCSS}/>
+					</>
+				)}
+				{notification.map(data=>
 					<>
 						<NotificationContainer onClick={()=>triggerDisplayExtendedNotification(data,postUrl,_id,isAudioPost)}>
 							{data.notificationType=="Stamp" &&(
@@ -278,6 +290,12 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 									<img src={StampIcon} style={{height:"20px",width:"20px"}}/>
 									<p>Congrats you posted has authenticated by someone (View message)</p>
 								</>
+							)}
+							{data.notificationType=="Recruit" &&(
+								<p>Congrats you have been recruited (View message)</p>
+							)}
+							{data.notificationType=="Promotion" &&(
+								<p>Congrats you have been promoted (View message)</p>
 							)}
 						</NotificationContainer>
 						<hr style={HorizontalLineCSS}/>
