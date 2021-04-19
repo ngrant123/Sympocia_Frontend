@@ -62,6 +62,10 @@ const Notification=styled.div`
 			width:15% !important;
 			height:40px !important
 		}
+		#notificationRecruitOrPromotionProfilePicture{
+			width:10%;
+			height:70px !important;
+		}
 	}
 
 	@media screen and (max-width:650px){
@@ -70,6 +74,11 @@ const Notification=styled.div`
 			margin-top:5%;
 			width:70% !important;
 		}
+		#notificationRecruitOrPromotionProfilePicture{
+			width:15% !important;
+			height:40px !important;
+		}
+
 		#regularCommentAndAuthenticationProfilePicture{
 			width:20% !important;
 			height:40px !important
@@ -99,6 +108,9 @@ const Notification=styled.div`
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
     	#regularCommentAndAuthenticationProfilePicture{
 			width:15% !important;
+		}
+		#notificationRecruitOrPromotionProfilePicture{
+			height:70px !important;
 		}
     }
 `;
@@ -420,7 +432,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 									
 				   					<Link to={{pathname:`/profile/${notificationOwnerId}`}}>
 					   					<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>
-											<img id="regularCommentAndAuthenticationProfilePicture" 
+											<img id="notificationRecruitOrPromotionProfilePicture" 
 												src={notification[0].profilePicture==null?
 													NoProfilePicture:notification[0].profilePicture}
 												style={{width:"10%",height:"80px",borderRadius:"50%"}}/>
@@ -439,7 +451,6 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 													View Post
 												</div>
 												<hr/>
-												<p>Loading please wait </p>:
 												<div style={{height:"40%",overflow:"scroll",marginTop:"10%",marginBottom:"10%"}}>
 													{notificationTypeComponent()}
 												</div>
