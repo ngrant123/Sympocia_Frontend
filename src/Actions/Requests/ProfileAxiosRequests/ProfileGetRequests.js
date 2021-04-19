@@ -481,5 +481,19 @@ export const getNodesSpecificToRecruit=async(profileId,recruitId)=>{
 	}
 }
 
+export const notificationProfileRetrieval=async(profileId)=>{
+	try{
+		const notificationProfileResponse=await axios.get(`${SearchUrl}/notificationProfileRetrieval`,{
+			params:{
+				profileId
+			}
+		})
+		const {data}=notificationProfileResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
 
 

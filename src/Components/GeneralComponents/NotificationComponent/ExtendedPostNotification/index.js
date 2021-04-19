@@ -8,6 +8,7 @@ import{
 	getVideoCommentReplyById,
 	getRegularCommentReplyById
 } from "../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {notificationProfileRetrieval} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 import {
 	createReply,
@@ -17,6 +18,8 @@ import {useSelector,useDispatch} from "react-redux";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 import VideoDescriptionMobileDisplayPortal from "../../PostComponent/VideoDescriptionMobileDisplayPortal.js";
+import {Link} from "react-router-dom";
+
 
 const Container=styled.div`
 	position:fixed;
@@ -156,7 +159,8 @@ const BackButtonCSS={
 */}
 
 const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postId,displayPostElementPage,isPostAudio})=>{
-	const {notificationType,postType,commentID,replyId}=data;
+	console.log(data);
+	const {notificationType,postType,commentID,replyId,notificationOwnerId}=data;
 	const [notification,changeNotification]=useState();
 	const [isLoading,changeIsLoading]=useState(true);
 	const [displayReplyModal,changeDisplayReplyModal]=useState(false);
@@ -171,7 +175,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 			
 			let confirmationResponse;
 			let dataResponse;
-			
+			debugger;
 
 			if(notificationType!="Stamp"){
 				if(notificationType=="RegularComment"){
@@ -198,10 +202,17 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					confirmationResponse=confirmation;
 					dataResponse=data;
 
-				}else{
+				}else if(notificationType=="RegularReply"){
 					const {confirmation,data}=await getRegularCommentReplyById({postType,postId,commentID,replyId});
 					confirmationResponse=confirmation;
 					dataResponse=data;
+				}else if(notificationType=="Recruit" || notificationType=="Promotion"){
+					const {confirmation,data}=await notificationProfileRetrieval(notificationOwnerId);
+					confirmationResponse=confirmation;
+					dataResponse=[{
+						firstName:data.firstName,
+						profilePicture:data.profilePicture
+					}];
 				}
 
 			
@@ -252,7 +263,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 
 	const notificationTypeComponent=()=>{
 		
-			if(notificationType!="Stamp"){
+			if(notificationType!="Stamp" && notificationType!="Recruit"){
 				if(notificationType=="RegularComment" || notificationType=="AuthenticPost"){
 					return(
 						<RegularCommentAndAuthenticationContaienr>
@@ -396,44 +407,70 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					Back
 				</div>
 				<Notification>
-					{postUrlComponent()}
-					<div style={{width:"70%",marginLeft:"2%"}}>
-						{displayReplyModal==false? 
-							<>
-								<div id="viewPostButtonDIV" onClick={()=>triggerDisplayElementPage()} style={BackButtonCSS}>
-									View Post
-								</div>
-								<hr/>
-								{isLoading==true ?
-									<p>Loading please wait </p>:
-									<div style={{height:"40%",overflow:"scroll",marginTop:"10%",marginBottom:"10%"}}>
-										{notificationTypeComponent()}
-									</div>
-								}
-								<hr/>
-								{(notificationType=="RegularComment") &&(
-									<div id="replyButtonDIV" onClick={()=>changeDisplayReplyModal(true)} style={BackButtonCSS}>
-										Reply
-									</div>
-								)}
-							</>:
-							<>
-								<p>
-									<b>Reply to the comment here</b>
-								</p>
-								<hr/>
-								<InputContainer id="replyValue" placeholder="Enter comment here"/>
-								<hr/>
-								{displayIsProcessingCommentPrompt==true? 
-									<div id="submitButtonDIV" onClick={()=>submitReply({isAccessTokenUpdated:false})} style={BackButtonCSS}>
-										Submit
-									</div>
-									:<p>Submitting... Please wait </p>
-								}
-							</>
-						}
 
-					</div>
+					{isLoading==true ?
+						<p>Please wait..</p>:
+						<>
+							{notificationType=="Recruit" || notificationType=="Promotion"?
+								<div style={{display:"flex",flexDirection:"column"}}>
+									{notificationType=="Promotion"?
+										<p> The profile below has promoted you. Check them out :) </p>:
+										<p> The profile below has recruited you. Check them out :) </p>
+									}
+									
+				   					<Link to={{pathname:`/profile/${notificationOwnerId}`}}>
+					   					<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>
+											<img id="regularCommentAndAuthenticationProfilePicture" 
+												src={notification[0].profilePicture==null?
+													NoProfilePicture:notification[0].profilePicture}
+												style={{width:"10%",height:"80px",borderRadius:"50%"}}/>
+											<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
+												<b>{notification[0].firstName}</b>
+											</p>
+										</div>
+				   					</Link>
+				   				</div>
+								:<React.Fragment>
+									{postUrlComponent()}
+									<div style={{width:"70%",marginLeft:"2%"}}>
+										{displayReplyModal==false? 
+											<>
+												<div id="viewPostButtonDIV" onClick={()=>triggerDisplayElementPage()} style={BackButtonCSS}>
+													View Post
+												</div>
+												<hr/>
+												<p>Loading please wait </p>:
+												<div style={{height:"40%",overflow:"scroll",marginTop:"10%",marginBottom:"10%"}}>
+													{notificationTypeComponent()}
+												</div>
+												<hr/>
+												{(notificationType=="RegularComment") &&(
+													<div id="replyButtonDIV" onClick={()=>changeDisplayReplyModal(true)} style={BackButtonCSS}>
+														Reply
+													</div>
+												)}
+											</>:
+											<>
+												<p>
+													<b>Reply to the comment here</b>
+												</p>
+												<hr/>
+												<InputContainer id="replyValue" placeholder="Enter comment here"/>
+												<hr/>
+												{displayIsProcessingCommentPrompt==true? 
+													<div id="submitButtonDIV" onClick={()=>submitReply({isAccessTokenUpdated:false})} style={BackButtonCSS}>
+														Submit
+													</div>
+													:<p>Submitting... Please wait </p>
+												}
+											</>
+										}
+
+									</div>
+								</React.Fragment>
+							}
+						</>
+					}
 				</Notification>
 			</Container>
 			<ShadowContainer
