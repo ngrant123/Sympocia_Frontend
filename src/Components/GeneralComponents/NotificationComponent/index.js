@@ -23,7 +23,7 @@ const Container=styled.div`
 	border-radius:5px;
 	left:40%;
 	display:flex;
-	flex-direction: column;
+	flex-direction:column;
 	padding:30px;
 
 	@media screen and (max-width:1370px){
@@ -32,12 +32,18 @@ const Container=styled.div`
 		overflow:scroll !important;
 	}
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:650px){
 		#postContainerDiv{
-			overflow:scroll;
-			height:150px !important;
+			height:100% !important;
 		}
 	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	#postContainerDiv{
+			margin-top:10% !important;
+		}
+    }
+
 `;
 
 
@@ -46,11 +52,20 @@ const NotificationContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	cursor:pointer;
+
+	@media screen and (max-width:650px){
+		height:60% !important;
+		margin-bottom:15% !important;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	margin-bottom:20% !important;
+    }
 `;
 
 const PostContainer=styled.div`
+	position:relative;
 	display:flex;
-	height:90%;
 	flex-direction:column;
 
 	@media screen and (max-width:740px){
@@ -58,17 +73,6 @@ const PostContainer=styled.div`
 	}
 
 `;
-/*
-	border-style:solid;
-	border-color:#F2F2F2;
-	border-radius:5px;
-	padding:10px;
-	margin-bottom:2%;
-	cursor:pointer;
-	@media screen and (max-width:740px){
-		height:120px !important;
-	}
-*/
 
 
 const ShadowContainer= styled.div`
@@ -84,6 +88,11 @@ const ShadowContainer= styled.div`
 const SelectedFilterContainer=styled.div`
 	display:flex;
 	flex-direction:row;
+	position:relative;
+
+	@media screen and (max-width:650px){
+		display:none !important;
+	}
 `;
 
 const TitleContainer=styled.div`
@@ -98,11 +107,7 @@ const PostsCSS={
 	borderRadius:"5px",
 	padding:"10px",
 	marginBottom:"2%",
-	cursor:"pointer",
-	display:"flex",
-	flexDirection:"row",
-	height:"50%",
-	position:"relative"
+	cursor:"pointer"
 }
 
 const ButtonCSS={
@@ -118,13 +123,13 @@ const ButtonCSS={
 
 const HorizontalLineCSS={
 	marginLeft:"0",
+	position:"relative",
 	marginRight:"0"
 }
 
-let MobilePostOptionsButton={
+let PostOptionsButton={
     listStyle:"none",
     backgroundColor:"white",
-    padding:"10px",
     color:"#6e6e6e",
     boxShadow:"1px 1px 5px #6e6e6e",
     borderRadius:"5px",
@@ -204,13 +209,20 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	}
 
 	const constructPost=(data)=>{
-		const {postType,post,postUrl,isAudioPost}=data;
+		const {postType,notification,postUrl,isAudioPost,_id}=data;
 		return(
 			<React.Fragment>
-				{createPostUrl(postType,postUrl,isAudioPost)}
-				<p style={{marginLeft:"2%"}}>
-					<b>{post.length}</b> new notifications for this post
-				</p>
+				{_id==""?
+					<p style={{marginLeft:"2%"}}>
+						<b>{notification.length}</b> new notifications for your profile
+					</p>
+					:<>
+						{createPostUrl(postType,postUrl,isAudioPost)}
+						<p style={{marginLeft:"2%"}}>
+							<b>{notification.length}</b> new notifications for this post
+						</p>
+					</>
+				}
 			</React.Fragment>
 		)
 	}
@@ -227,15 +239,20 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	}
 
 	const constructSelectedPostNotifications=()=>{
-		
-		const {postType,post,postUrl,isAudioPost,_id}=postSpecificNotifications;
+		debugger;
+		const {postType,notification,postUrl,isAudioPost,_id}=postSpecificNotifications;
 		const stampCounter=0;
 		const authenticationCounter=0;
+		console.log(notification);
 		return(
 			<>
-				{createPostUrl(postType,postUrl,isAudioPost)}
-				<hr style={HorizontalLineCSS}/>
-				{post.map(data=>
+				{_id!="" &&(
+					<>
+						{createPostUrl(postType,postUrl,isAudioPost)}
+						<hr style={HorizontalLineCSS}/>
+					</>
+				)}
+				{notification.map(data=>
 					<>
 						<NotificationContainer onClick={()=>triggerDisplayExtendedNotification(data,postUrl,_id,isAudioPost)}>
 							{data.notificationType=="Stamp" &&(
@@ -278,6 +295,12 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 									<img src={StampIcon} style={{height:"20px",width:"20px"}}/>
 									<p>Congrats you posted has authenticated by someone (View message)</p>
 								</>
+							)}
+							{data.notificationType=="Recruit" &&(
+								<p>Congrats you have been recruited (View message)</p>
+							)}
+							{data.notificationType=="Promotion" &&(
+								<p>Congrats you have been promoted (View message)</p>
 							)}
 						</NotificationContainer>
 						<hr style={HorizontalLineCSS}/>
@@ -372,7 +395,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 							:<>
 								<TitleContainer>
 									<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobilePostOptionsButton}>
+										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionsButton}>
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													<p>{selectedNotificationType}</p>
@@ -383,7 +406,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 											</ul>
 										</button>
 
-										<ul class="dropdown-menu">
+										<ul class="dropdown-menu" style={{padding:"5px"}}>
 											<p onClick={()=>triggerGetNotifications({notificationsStatus:"New",isAccessTokenUpdated:false})}
 												style={{cursor:"pointer"}}>
 												Notifications
@@ -412,8 +435,8 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 										</ul>
 									</div>
 									<p style={{marginLeft:"2%"}}>Selected Filter: <b>{currentSelectedType}</b> </p>
+									<hr style={HorizontalLineCSS}/>
 								</SelectedFilterContainer>
-								<hr style={HorizontalLineCSS}/>
 								<PostContainer>
 									{currentFilterdNotifications.map(data=>
 										<div id="postContainerDiv" style={PostsCSS}
