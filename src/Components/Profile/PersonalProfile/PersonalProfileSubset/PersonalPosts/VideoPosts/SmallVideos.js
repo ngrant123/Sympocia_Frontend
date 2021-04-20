@@ -90,7 +90,7 @@ const IndustryButtonCSS={
 	borderRadius:"5px"
 }
 
-const SmallVideoContainer=({videos,displayPostModal})=>{
+const SmallVideoContainer=({videos,displayPostModal,friendsColorNodesMap})=>{
 	const displayIndustries=(data)=>{
 		
 		const {industriesUploaded}=data;
@@ -129,6 +129,46 @@ const SmallVideoContainer=({videos,displayPostModal})=>{
 	  });
 	}
 
+	const video=(data)=>{
+		debugger
+		const colorCode=friendsColorNodesMap.get(data.levelNode);
+		let postStyle;
+		if(colorCode!=null){
+			postStyle={
+				borderStyle:"solid",
+				borderColor:colorCode
+			}
+		}
+		return <SmallVideo style={postStyle}>
+				<ul id="videoAndAudioDescriptionLI" style={{position:"absolute",padding:"0px"}}>
+					{data.videoDescription==null?null:
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+							<VideoDescriptionContainer>
+								<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+									width="100%" height="100%">
+									<source src={data.videoDescription} type="video/mp4"/>
+								</video>
+							</VideoDescriptionContainer>
+						</li>
+					}
+					
+					{data.audioDescription==null?null:
+						<li style={{listStyle:"none",display:"inline-block"}}>
+							<audio id="audioLI" key={uuidv4()} style={{width:"150px"}} controls>
+								<source src={data.audioDescription} type="audio/ogg"/>
+								<source src={data.audioDescription} type="audio/mp4"/>
+								Your browser does not support the audio element.
+							</audio>
+						</li>
+					}
+				</ul>
+				<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+					width="100%" height="100%">
+					<source src={data.videoUrl} type="video/mp4"/>
+				</video>
+			</SmallVideo>
+	}
+
 	let audioId=uuidv4();
 	let videoDescriptionId=uuidv4();
 	return(
@@ -140,34 +180,7 @@ const SmallVideoContainer=({videos,displayPostModal})=>{
 						<SmallVideoComponent>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none"}}>
-									<SmallVideo>
-										<ul id="videoAndAudioDescriptionLI" style={{position:"absolute",padding:"0px"}}>
-											{data.videoDescription==null?null:
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-													<VideoDescriptionContainer>
-														<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-															width="100%" height="100%">
-															<source src={data.videoDescription} type="video/mp4"/>
-														</video>
-													</VideoDescriptionContainer>
-												</li>
-											}
-											
-											{data.audioDescription==null?null:
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<audio id="audioLI" key={uuidv4()} style={{width:"150px"}} controls>
-														<source src={data.audioDescription} type="audio/ogg"/>
-														<source src={data.audioDescription} type="audio/mp4"/>
-														Your browser does not support the audio element.
-													</audio>
-												</li>
-											}
-										</ul>
-										<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-											width="100%" height="100%">
-											<source src={data.videoUrl} type="video/mp4"/>
-										</video>
-									</SmallVideo>
+									{video(data)}
 								</li>
 
 								<div id="postInformation">

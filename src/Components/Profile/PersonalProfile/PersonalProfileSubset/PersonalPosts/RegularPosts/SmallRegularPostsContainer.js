@@ -89,12 +89,74 @@ const CommentButtonCSS={
 	borderRadius:"5px"	
 }
 
-const SmallRegularPosts=({posts,profilePicture,displayPostModal})=>{
+const SmallRegularPosts=({posts,profilePicture,displayPostModal,friendsColorNodesMap})=>{
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
 	    return v.toString(16);
 	  });
+	}
+
+	const regularPost=(data)=>{
+		const colorCode=friendsColorNodesMap.get(data.levelNode);
+		let postStyle;
+		if(colorCode!=null){
+			postStyle={
+				borderStyle:"solid",
+				borderColor:colorCode
+			}
+		}
+		return <Container style={postStyle}>
+				<ul>
+					<li style={{listStyle:"none"}}>
+						<ul style={{padding:"0px"}}>
+							<li id="postOwnerInformation" style={{listStyle:"none",display:"inline-block",marginLeft:"25%",marginBottom:"2%"}}>
+								<ProfilePicture>
+									{profilePicture==null?
+										 <img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
+										 <img id="profilePicture" src={profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
+									}													    
+								</ProfilePicture>
+							</li>
+							<li id="postLI" style={{listStyle:"none",display:"inline-block",height:"40%",overflowY:"auto",color:"#A4A4A4",marginBottom:"4%"}}>
+								{data.isAudioPost==true?
+									<audio key={uuidv4()} style={{width:"150px"}} controls>
+												<source src={data.post} type="audio/ogg"/>
+												<source src={data.post} type="audio/mp4"/>
+												Your browser does not support the audio element.
+									</audio>:
+									<React.Fragment>
+										{data.post}
+									</React.Fragment>
+								}
+							</li>
+							<div id="commentLI">	
+								{data.comments.regularComments.length==0?
+									<React.Fragment>
+										<p> No comments here :(<ExpandMoreIcon/> </p>
+										<p style={CommentButtonCSS}> Create a comment </p>
+									</React.Fragment>:
+									<React.Fragment>
+										<p> Show comments <ExpandMoreIcon/> </p>
+										<li style={{listStyle:"none"}}>
+											<ul style={{padding:"0px"}}>
+												{data.comments.regularComments.map(data=>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+														<SmallProfileCommentPicture>
+															<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
+															<img id="profilePicture" src={data.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
+														</SmallProfileCommentPicture>
+													</li>
+													)}
+												</ul>
+											</li>
+										</React.Fragment>
+									}
+							</div>
+						</ul>
+					</li>
+				</ul>
+			</Container>
 	}
 	
 	return(
@@ -103,57 +165,7 @@ const SmallRegularPosts=({posts,profilePicture,displayPostModal})=>{
 				{posts.map(data=>
 					<li id="smallContainerLI"  onClick={()=>displayPostModal(data)}
 					 	style={{cursor:"pointer",width:"30%",height:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
-								<Container>
-									<ul>
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"0px"}}>
-												<li id="postOwnerInformation" style={{listStyle:"none",display:"inline-block",marginLeft:"25%",marginBottom:"2%"}}>
-													<ProfilePicture>
-														{profilePicture==null?
-															 <img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-															 <img id="profilePicture" src={profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
-														}													    
-													</ProfilePicture>
-												</li>
-												<li id="postLI" style={{listStyle:"none",display:"inline-block",height:"40%",overflowY:"auto",color:"#A4A4A4",marginBottom:"4%"}}>
-													{data.isAudioPost==true?
-														<audio key={uuidv4()} style={{width:"150px"}} controls>
-																	<source src={data.post} type="audio/ogg"/>
-																	<source src={data.post} type="audio/mp4"/>
-																	Your browser does not support the audio element.
-														</audio>:
-														<React.Fragment>
-															{data.post}
-														</React.Fragment>
-													}
-												</li>
-												<div id="commentLI">	
-													{data.comments.regularComments.length==0?
-														<React.Fragment>
-															<p> No comments here :(<ExpandMoreIcon/> </p>
-															<p style={CommentButtonCSS}> Create a comment </p>
-														</React.Fragment>:
-														<React.Fragment>
-															<p> Show comments <ExpandMoreIcon/> </p>
-															<li style={{listStyle:"none"}}>
-																<ul style={{padding:"0px"}}>
-																	{data.comments.regularComments.map(data=>
-																		<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-																			<SmallProfileCommentPicture>
-																				<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-																				<img id="profilePicture" src={data.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
-																			</SmallProfileCommentPicture>
-																		</li>
-																		)}
-																	</ul>
-																</li>
-															</React.Fragment>
-														}
-												</div>
-											</ul>
-										</li>
-									</ul>
-								</Container>
+								{regularPost(data)}
 					</li>
 				)}
 			</ul>

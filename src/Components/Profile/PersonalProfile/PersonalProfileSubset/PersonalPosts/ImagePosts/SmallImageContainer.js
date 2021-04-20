@@ -83,7 +83,7 @@ const IndustryButtonCSS={
 	borderRadius:"5px"
 }
 
-const SmallImageContainer=({images,displayPostModal})=>{
+const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
 	console.log(images);
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
@@ -100,6 +100,29 @@ const SmallImageContainer=({images,displayPostModal})=>{
 	  });
 	}
 	//onClick={()=>displayPostModal(data)} 
+
+	const image=(data)=>{
+		debugger
+		const colorCode=friendsColorNodesMap.get(data.levelNode);
+		let postStyle;
+		if(colorCode!=null){
+			postStyle={
+				borderStyle:"solid",
+				borderColor:colorCode
+			}
+		}
+		return <Image style={postStyle}>
+					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
+					{data.videoDescription!=null &&(
+						<VideoDesriptionContainer>
+							<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
+								style={{borderRadius:"50%"}} width="50px" height="40px" borderRadius="50%">
+								<source src={data.videoDescription} type="video/mp4"/>
+							</video>
+						</VideoDesriptionContainer>
+					)}
+				</Image>
+	}
 
 	let audioId=uuidv4();
 	let videoDescriptionId=uuidv4();
@@ -119,17 +142,7 @@ const SmallImageContainer=({images,displayPostModal})=>{
 											</audio>
 										</li>:null
 									}	
-									<Image>
-										<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
-										{data.videoDescription!=null &&(
-											<VideoDesriptionContainer>
-												<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
-													style={{borderRadius:"50%"}} width="50px" height="40px" borderRadius="50%">
-													<source src={data.videoDescription} type="video/mp4"/>
-												</video>
-											</VideoDesriptionContainer>
-										)}
-									</Image>
+									{image(data)}
 
 									{data.caption!=""?
 										<li style={{listStyle:"none",marginBottom:"5%"}}>

@@ -85,7 +85,7 @@ const IndustryButtonCSS={
 	marginRight:"2%"
 }
 
-const CrownedImageContainer=({crownedImage,displayPostModal})=>{
+const CrownedImageContainer=({crownedImage,displayPostModal,friendsColorNodesMap})=>{
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -96,6 +96,28 @@ const CrownedImageContainer=({crownedImage,displayPostModal})=>{
 	let audioId=uuidv4();
 	let videoDescriptionId=uuidv4();
 
+	const image=()=>{
+		debugger
+		const colorCode=friendsColorNodesMap.get(crownedImage.levelNode);
+		let postStyle;
+		if(colorCode!=null){
+			postStyle={
+				borderStyle:"solid",
+				borderColor:colorCode
+			}
+		}
+		return <Image style={postStyle}>
+					<img src={crownedImage.imgUrl} style={{width:"100%",height:"100%"}}/>
+					<VideoDesriptionContainer>
+						<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
+							style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
+							<source src={crownedImage.videoDescription} type="video/mp4"/>
+						</video>
+
+					</VideoDesriptionContainer>
+				</Image>
+	}
+
 	return(
 		<li style={{listStyle:"none",marginBottom:"-5%",cursor:"pointer"}}
 					 onClick={()=>displayPostModal(
@@ -104,16 +126,7 @@ const CrownedImageContainer=({crownedImage,displayPostModal})=>{
 
 			<Container>
 				<div id="parentContainer" style={{display:"flex",flexDirection:"row",padding:"0px",height:"45%",overflow:"hidden"}}>
-					<Image>
-						<img src={crownedImage.imgUrl} style={{width:"100%",height:"100%"}}/>
-						<VideoDesriptionContainer>
-							<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
-								style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
-								<source src={crownedImage.videoDescription} type="video/mp4"/>
-							</video>
-
-						</VideoDesriptionContainer>
-					</Image>
+					{image()}
 
 					<div id="postInformationLI" style={{top:"0%",width:"50%"}}>
 						<ul style={{paddging:"0px"}}>

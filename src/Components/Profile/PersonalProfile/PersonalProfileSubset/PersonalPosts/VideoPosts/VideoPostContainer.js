@@ -106,6 +106,7 @@ const VideoPostsContainer=(props)=>{
 									<CrownedVideo
 										headerVideo={props.videos.headerVideo}
 										displayPostModal={displayPostModalCallback}
+										friendsColorNodesMap={props.friendsColorNodesMap}
 									/>
 									<hr/>
 								</React.Fragment>
@@ -113,6 +114,7 @@ const VideoPostsContainer=(props)=>{
 							<SmallVideoContainer
 								videos={props.videos.videos}
 								displayPostModal={displayPostModalCallback}
+								friendsColorNodesMap={props.friendsColorNodesMap}
 							/>
 							{PostContextValues.endOfPostsDBIndicator==false
 								&& PostContextValues.isSearchFilterActivated==false 

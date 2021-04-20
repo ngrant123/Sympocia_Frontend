@@ -302,6 +302,9 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 							{data.notificationType=="Promotion" &&(
 								<p>Congrats you have been promoted (View message)</p>
 							)}
+							{data.notificationType=="RequestAccessToNode" &&(
+								<p>A user has requested access to your node (View Message)</p>
+							)}
 						</NotificationContainer>
 						<hr style={HorizontalLineCSS}/>
 					</>

@@ -115,6 +115,25 @@ const CrownedBlogContainer=(props)=>{
 		return dateToString;
 	}
 
+	const blogImage=()=>{
+		const colorCode=props.friendsColorNodesMap.get(props.headerBlog.levelNode);
+		let postStyle;
+		if(colorCode!=null){
+			postStyle={
+				borderStyle:"solid",
+				borderColor:colorCode,
+				borderRadius:"5px"
+			}
+		}
+		return(
+			<div style={postStyle}>
+				<img  id="headerImage" src={props.headerBlog.blogImageUrl} 
+					style={{marginBottom:"5%",width:"100%",height:"300px"}}
+				/>
+			</div>
+		)
+	}
+
 
 	return(
 		<ThumbnailBlogComponent to={{pathname:props.isOwnProfile==true?`/createBlog`
@@ -141,11 +160,7 @@ const CrownedBlogContainer=(props)=>{
 						</video>
 					)}
 				</div>
-				<div>
-					<img  id="headerImage" src={props.headerBlog.blogImageUrl} 
-						style={{marginBottom:"5%",width:"100%",height:"300px"}}
-					/>
-				</div>
+				{blogImage()}
 			</div>
 
 			<div style={{position:"relative",display:"flex",flexDirection:"column",width:"60%"}}>
