@@ -224,6 +224,7 @@ console.log("Personal posts rerender");
 	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorRegularPost,changeRegularPostsLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorBlogPost,changeBlogPostsLoadingIndicator]=useState(true);
+	const [friendsColorNodesMap,changeFriendsColorNodesMapping]=useState(new Map());
 
 	useEffect(()=>{
 		if(props.personalInformation.isLoading!=true){
@@ -232,6 +233,13 @@ console.log("Personal posts rerender");
 			image.style.borderBottom="solid";
 			image.style.borderColor="#C8B0F4";
 		}
+		debugger;
+		const nodes=props.personalInformation.friendsGaugeNodes;
+		const currentMapping=new Map();
+		for(var i=0;i<nodes.length;i++){
+			currentMapping.set(nodes[i]._id.toString(),nodes[i].colorCode);
+		}
+		changeFriendsColorNodesMapping(currentMapping);
 	},[]);
 
 	/*
@@ -770,6 +778,7 @@ console.log("Personal posts rerender");
 						imageData={imagePost}
 						isLoading={isLoadingIndicatorImages}
 						profile="Personal"
+						friendsColorNodesMap={friendsColorNodesMap}
 					/>
 				break;
 			}
@@ -780,6 +789,7 @@ console.log("Personal posts rerender");
 						id={personalInformation._id}
 						postCounter={currentPostCounter}
 						handleVideoPostModal={props.handleVideoPostModal}
+						friendsColorNodesMap={friendsColorNodesMap}
 					/>
 				break;
 			}
@@ -789,6 +799,7 @@ console.log("Personal posts rerender");
 						isLoadingIndicatorBlogPost={isLoadingIndicatorBlogPost}
 						id={personalInformation._id}
 						friendsNodes={props.personalInformation.friendsGaugeNodes}
+						friendsColorNodesMap={friendsColorNodesMap}
 					/>
 				break;
 			}
@@ -799,6 +810,7 @@ console.log("Personal posts rerender");
 						isLoadingIndicatorRegularPost={isLoadingIndicatorRegularPost}
 						profilePicture={props.personalInformation.profilePicture}
 						profile="Personal"
+						friendsColorNodesMap={friendsColorNodesMap}
 					/>
 				break;
 			}

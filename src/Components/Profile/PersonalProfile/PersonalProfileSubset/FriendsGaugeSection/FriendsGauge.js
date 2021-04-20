@@ -169,10 +169,13 @@ class FriendsGauge extends Component {
      but there probably is a better solution
   */
 
-  displayNodeInformation=(node,isDesktop)=>{  
+  displayNodeInformation=(node,isDesktop,isFirstNode)=>{  
       this.setState({
         displayNodeInformationModule:true,
-        nodeInformation:node
+        nodeInformation:{
+          ...node,
+          isFirstNode
+        }
       },function(){
         this.setState({
           displayPhoneEditNodesModal:false
@@ -182,14 +185,15 @@ class FriendsGauge extends Component {
 
   constructProgessBarStep=(accomplished,index,node)=>{
       const currentNodeCounter=this.state.currentNodeCounter;
-      const {name,description,nodeCounter}=node;
+      const {name,description,nodeCounter,totalPostsCount}=node;
 
       const intervalValue=100/(this.state.numberOfNodes-1);
 
       const currentIntervalValue=index*intervalValue;
       const isUnlocked=this.state.progressBarCounter>=currentIntervalValue;
-      
-      return <ul onClick={()=>this.displayNodeInformation(node,this.props.mobileUIStatus.displayDesktopUI)} style={{marginTop:"5%",padding:"0px"}}>
+      const isFirstNode=index==0?true:false;
+      return <ul onClick={()=>this.displayNodeInformation(node,this.props.mobileUIStatus.displayDesktopUI,isFirstNode)} 
+                style={{marginTop:"5%",padding:"0px"}}>
                 {this.props.mobileUIStatus.displayDesktopUI==false?
                    <a href="javascript:void(0);" style={{textDecoration:"none"}}>
                       <li style={{listStyle:"none"}}>
@@ -220,8 +224,10 @@ class FriendsGauge extends Component {
                     </li>
                     <li style={{listStyle:"none"}}>
                       <ul style={{padding:"0px"}}>
-                        {this.unlockedOrLockedPrompt(index,isUnlocked)}
-                        <p style={{color:"#5298F8",width:"95%",height:"20px",overflow:"hidden"}}> <b>{name}</b></p>
+                        <p style={{width:"40px",color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
+                           {totalPostsCount}
+                        </p>
+                        <p style={{color:"#5298F8",width:"95%",height:"15px",overflow:"hidden"}}> <b>{name}</b></p>
                       </ul>
                     </li>
                   </a>
