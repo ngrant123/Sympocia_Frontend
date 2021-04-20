@@ -435,7 +435,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 											<img id="notificationRecruitOrPromotionProfilePicture" 
 												src={notification[0].profilePicture==null?
 													NoProfilePicture:notification[0].profilePicture}
-												style={{width:"10%",height:"80px",borderRadius:"50%"}}/>
+												style={{width:"70px",height:"60px",borderRadius:"50%"}}/>
 											<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
 												<b>{notification[0].firstName}</b>
 											</p>
