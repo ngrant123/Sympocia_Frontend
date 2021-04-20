@@ -66,10 +66,22 @@ const Notification=styled.div`
 			width:10%;
 			height:70px !important;
 		}
+		#image{
+			height:60% !important;
+		}
 	}
 
 	@media screen and (max-width:650px){
+
 		flex-direction:column;
+
+		#backButton{
+			display:none !important;
+		}
+		#image{
+			width:90% !important;
+			height:200px !important;
+		}
 		#viewPostButtonDIV{
 			margin-top:5%;
 			width:70% !important;
@@ -103,9 +115,17 @@ const Notification=styled.div`
 		#regularCommentAndAuthenticationProfilePicture{
 			width:10% !important;
 		}
+
+		#image{
+			height:100% !important;
+		}
     }
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		#image{
+			height:200px !important;
+		}
+
     	#regularCommentAndAuthenticationProfilePicture{
 			width:15% !important;
 		}
@@ -251,7 +271,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 	const postUrlComponent=()=>{
 		
 		if(postType=="Images" || postType=="Blogs"){
-			return <img src={headerUrl} style={{width:"50%",height:"70%"}}/>
+			return <img id="image" src={headerUrl} style={{width:"50%",height:"70%"}}/>
 		}else if(postType=="Videos"){
 			return <video id="videoPostComponent" key={uuidv4()} objectFit="cover" autoPlay loop autoBuffer muted playsInline 
 						position="absolute" width="50%" top="0px" height="70%" borderRadius="50%" controls>
@@ -279,14 +299,16 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 				if(notificationType=="RegularComment" || notificationType=="AuthenticPost"){
 					return(
 						<RegularCommentAndAuthenticationContaienr>
-							<div style={{display:"flex",flexDirection:"row"}}>
-								<img id="regularCommentAndAuthenticationProfilePicture" src={notification.profilePicture==null?
-									NoProfilePicture:notification.profilePicture}
-									style={{width:"10%",height:"40px",borderRadius:"50%"}}/>
-								<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
-									<b>{notification.firstName}</b>
-								</p>
-							</div>
+							<Link to={{pathname:`/profile/${notificationOwnerId}`}}>
+								<div style={{display:"flex",flexDirection:"row"}}>
+									<img id="regularCommentAndAuthenticationProfilePicture" src={notification.profilePicture==null?
+										NoProfilePicture:notification.profilePicture}
+										style={{width:"12%",height:"40px",borderRadius:"50%"}}/>
+									<p style={{marginLeft:"2%",maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
+										<b>{notification.firstName}</b>
+									</p>
+								</div>
+							</Link>
 							<p>{notification.comment}</p>
 						</RegularCommentAndAuthenticationContaienr>
 					)
@@ -315,16 +337,18 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 							</div>
 				}else{
 			   		return <div style={{display:"flex",flexDirection:"column"}}>
-			   					<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>
-									<img id="regularCommentAndAuthenticationProfilePicture" 
-										src={notification.ownerObject.profilePicture==null?
-											NoProfilePicture:notification.ownerObject.profilePicture}
-										style={{width:"10%",height:"20%",borderRadius:"50%"}}/>
-									<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
-										<b>{notification.ownerObject.owner.firstName}</b>
-									</p>
-								</div>
-								<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+			   					<Link to={{pathname:`/profile/${notificationOwnerId}`}}>
+				   					<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>
+										<img id="regularCommentAndAuthenticationProfilePicture" 
+											src={notification.ownerObject.profilePicture==null?
+												NoProfilePicture:notification.ownerObject.profilePicture}
+											style={{width:"10%",height:"20%",borderRadius:"50%"}}/>
+										<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
+											<b>{notification.ownerObject.owner.firstName}</b>
+										</p>
+									</div>
+			   					</Link>
+								<video style={{cursor:"pointer"}} key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
 									width="60%" height="100%" borderRadius="50%" onClick={()=>displayVideoDescriptionTrigger()}>
 									<source src={notification.videoSrc} type="video/mp4"/>
 								</video>
@@ -415,7 +439,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 				/>
 			)}
 			<Container>
-				<div onClick={()=>triggerCloseModal()} style={BackButtonCSS}>
+				<div id="backButton" onClick={()=>triggerCloseModal()} style={BackButtonCSS}>
 					Back
 				</div>
 				<Notification>
