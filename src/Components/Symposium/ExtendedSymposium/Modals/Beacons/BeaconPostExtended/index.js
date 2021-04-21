@@ -26,16 +26,29 @@ const BackButtonCSS={
 
 
 const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType})=>{
-	console.log(postData);
+
 	const [displaySelectedPost,changeDisplaySelectedPost]=useState(true);
+	const [displayExtendReplyBeacon,changeDisplayReplyBeacon]=useState(false);
 	const [displayZoomedInPostPortal,changeDisplayZoomedInPostPortal]=useState(false);
+	const [selectedPostData,changeSelectedPostData]=useState(postData);
+	const [replies,changeReplies]=useState([
+		{
+			firstName:"Lu",
+			caption:"yessir lol"
+		}
+	])
 
 	const closeCreationModal=()=>{
 		changeDisplaySelectedPost(true);
 	}
 
-	const updateBeaconPosts=()=>{
-
+	const updateBeaconPosts=(beaconPostType,beacon)=>{
+		if(beaconPostType==postType){
+			replies.splice(0,1,beacon);
+			changeReplies([...replies]);
+			
+		}
+		closeCreationModal();
 	}
 
 	const displayZoomedPost=()=>{
@@ -45,29 +58,52 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType})=>{
 	const closeZoomedInPostModal=()=>{
 		changeDisplayZoomedInPostPortal(false);
 	}
+
+	const enableCreationPost=()=>{
+		changeDisplaySelectedPost(false);
+	}
+	const triggerCloseModal=()=>{
+		if(displayExtendReplyBeacon==true){
+			changeSelectedPostData(postData);
+			changeDisplayReplyBeacon(false);
+		}else{	
+			closeExtendedBeaconModal()
+		}
+	}
+	const displayZoomedReplyPost=(data)=>{
+		changeSelectedPostData(data);
+		changeDisplayReplyBeacon(true);
+	}
 	return(
 		<Container>
 			{displayZoomedInPostPortal==true &&(
 				<ZoomedPostImageOrVideoPortal
 					targetDom={"extendedSymposiumContainer"}
 					closeModal={closeZoomedInPostModal}
-					postUrl={postType!="Images"?postData.videoUrl:postData.imgUrl}
+					postUrl={postType!="Images"?selectedPostData.videoUrl:selectedPostData.imgUrl}
 					postType={postType}
 				/>
 			)}
-			<div onClick={()=>closeExtendedBeaconModal()} style={BackButtonCSS}>
-				Back
-			</div>
+			{displaySelectedPost==true &&(
+				<div onClick={()=>triggerCloseModal()} style={BackButtonCSS}>
+					Back
+				</div>
+			)}
 			{displaySelectedPost==true?
 				<React.Fragment>
 					<SelectedPost
-						post={postData}
+						post={selectedPostData}
 						postType={postType}
 						displayZoomedPost={displayZoomedPost}
 					/>
-					<Replies
-						postType={postType}
-					/>
+					{displayExtendReplyBeacon==false &&(
+						<Replies
+							postType={postType}
+							enableCreationPost={enableCreationPost}
+							replies={replies}
+							displayZoomedReplyPost={displayZoomedReplyPost}
+						/>
+					)}
 				</React.Fragment>
 				:<Creation
 					closeCreationModal={closeCreationModal}
