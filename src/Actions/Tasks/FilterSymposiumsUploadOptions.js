@@ -9,7 +9,8 @@ export const filterSymposiumUploadOptions=(character,symposiums,originalSymposiu
 
 		for(var i=0;i<symposiums.length;i++){
 
-			const selectedSymposiums=symposiums[i].industry;
+			const selectedSymposiums=symposiums[i].industry==null?symposiums[i].symposium
+									:symposiums[i].industry;
 
 			if(selectedSymposiums.includes(character)==true){
 				displaySearchIndustries.push(symposiums[i]);

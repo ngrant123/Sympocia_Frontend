@@ -91,9 +91,10 @@ class ImageCreation extends Component{
 		const picture=document.getElementById("uploadPictureFile").files[0];
 
 		reader.onloadend=()=>{
-			const maxFileSize=250*1024;
+			const picUrl=reader.result;
+			const maxFileSize=7000*1024;
 			if(picture.size>maxFileSize){
-				alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
+				alert('Your file is too large. We only accept images that have a max size of 7MB. You can go to preview (Mac) and lower the resolution there.');
 			}else{
 				const picUrl=reader.result;
 				if(this.props.isPreviousLoaded==true){
