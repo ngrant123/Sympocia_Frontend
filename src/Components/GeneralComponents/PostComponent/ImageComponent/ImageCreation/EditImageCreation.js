@@ -399,7 +399,8 @@ class EditImageCreation extends Component{
 				isCrownedPost,
 				industriesUploaded,
 				_id,
-				videoDescriptionKey
+				videoDescriptionKey,
+				uncompressedImageId
 			}=previousData;
 			debugger;
 			const editedImage={
@@ -409,7 +410,8 @@ class EditImageCreation extends Component{
 					industriesUploaded:this.state.isSymposiumsAltered==true?searchCriteriaIndustryArray:null,
 					description:descriptionTextArea!=description?descriptionTextArea:null,
 					caption:captionTextArea!=caption?captionTextArea:null,
-					isCrownedPost:isPostCrowned!=isCrownedPost?isPostCrowned:null
+					isCrownedPost:isPostCrowned!=isCrownedPost?isPostCrowned:null,
+					uncompressedImageId
 				},
 				postS3:[
 					{
