@@ -218,7 +218,7 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 		var fileReader=new FileReader();
 		var currentImgUrl=document.getElementById("uploadPictureFile").files[0];
 
-		const maxFileSize=250*1024;
+		const maxFileSize=7000*1024;
 		if(currentImgUrl.size>maxFileSize){
 			alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
 		}else{

@@ -166,7 +166,7 @@ class BlogEditSubmitModal extends Component{
 	handleUploadPicture=()=>{
 		let fileReader= new FileReader();
 		const picture=document.getElementById("uploadPictureFile").files[0];
-		const maxFileSize=250*1024;
+		const maxFileSize=7000*1024;
 		if(picture.size>maxFileSize){
 			alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
 		}else{
@@ -304,7 +304,8 @@ class BlogEditSubmitModal extends Component{
 				_id,
 				industriesUploaded,
 				blog,
-				videoDescriptionKey
+				videoDescriptionKey,
+				uncompressedImageId
 			}=this.props.previousState;
 			let currentBlogPost;
 			if(blogPostInformation.blogPostState!=""){
@@ -319,6 +320,7 @@ class BlogEditSubmitModal extends Component{
 					description:currentDescription!=description?currentDescription:null,
 					title:currentTitle!=title?currentTitle:null,
 					isCrownedPost:this.state.isPostCrowned!=isCrownedPost?this.state.isPostCrowned:null,
+					uncompressedImageId,
 					//blog:rawDraftContentState!=blog?rawDraftContentState:null
 					blog:currentBlogPost==null?null:(
 						currentBlogPost!=blog?currentBlogPost:null
