@@ -227,6 +227,23 @@ export const getVideoUrl=async(retrievalId)=>{
 }
 
 
+export const getImgUrl=async(retrievalId)=>{
+	try{
+		const imgUrlResponse=await axios.get(`${SearchUrl}/imgUrl`,{
+			params:{
+				imageId:retrievalId
+			}
+		})
+
+		const {data}=imgUrlResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+
+
 
 
 

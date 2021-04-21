@@ -31,7 +31,7 @@ import DeletePostConfirmationPortal from "../../../Profile/PersonalProfile/Perso
 import {useSelector,useDispatch} from  "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 import FirstTimePostOnboarding from "../FirstTimePostOnboardingIndicator.js"
-import {getVideoUrl} from "../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {getVideoUrl,getImgUrl} from "../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import PollOptionPortal from "../PollOptionPortal.js";
 import {OwnerInformationAndPostOptions} from "./OwnerInformationAndPostOption.js";
 import {PostDisplayContainer} from "./Post.js";
@@ -113,7 +113,7 @@ const ImageContainer=(props)=>{
 		const fetchData=async()=>{
 			const destructuredData=props.imageData==null?props.videoData:props.imageData;
 			const destructedFieldTerm=props.imageData==null?"videoData":"imageData";
-			const {videoDescriptionKey,videoUrlKey}=destructuredData;	
+			const {videoDescriptionKey,videoUrlKey,uncompressedImageId}=destructuredData;	
 			let	currentData=postData;
 
 			if(videoDescriptionKey!=null){
@@ -147,6 +147,24 @@ const ImageContainer=(props)=>{
 					}
 				}else{
 					alert('Unfortunately there was an error getting this video. Please try again later');
+				}
+			}else{
+				if(uncompressedImageId!=null){
+					const {confirmation,data}=await getImgUrl(uncompressedImageId);
+					if(confirmation=="Success"){
+						debugger;
+						const imgUrl=data.message;
+
+						currentData={
+							...currentData,
+							[destructedFieldTerm]:{
+								...currentData[destructedFieldTerm],
+								imgUrl:imgUrl
+							}
+						}
+					}else{
+						alert('Unfortunately there was an error getting this image. Please try again later');
+					}
 				}
 			}
 
