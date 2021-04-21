@@ -46,6 +46,7 @@ const ImageContainer=styled.div`
 	height:120%;
 	padding:10px;
 	width:100%;
+	z-index:39;
 
 	@media screen and (max-width:1370px){
 		margin-left:5% !important;

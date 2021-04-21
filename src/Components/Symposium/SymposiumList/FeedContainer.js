@@ -7,7 +7,7 @@ import StampIcon from "../../../designs/img/StampIcon.png";
 import {connect} from "react-redux";
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
 import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
-
+import {filterSymposiumUploadOptions} from "../../../Actions/Tasks/FilterSymposiumsUploadOptions.js";
 
  const keyFrameExampleThree= keyframes`
   0% {
@@ -81,6 +81,12 @@ const Container=styled.div`
 			width:50% !important;
 		}
 	}
+	@media screen and (max-width:650px){
+		#symposiumListOptions{
+			flex-direction:column !important;
+			margin-left:10% !important;
+		}
+	}
 
 	@media screen and (max-width:620px) {
 		#stampIcon{
@@ -117,6 +123,9 @@ const Container=styled.div`
  		#symposiumsLI{
  			margin-bottom:30% !important;
  		}
+ 		#symposiumListOptions{
+			margin-left:1% !important;
+		}
     }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#stampImage{
@@ -171,6 +180,31 @@ const CommunityContainerAnimationExplore=styled.div`
 		animation:${keyFramMobile} 1s ease-in-out 0s forwards;
 	}
 `;
+
+const InputContainer=styled.textarea`
+	position:relative;
+	border-radius:5px;
+	width:40%;
+	border-style:solid;
+	border-width:1px;
+	border-color:#D8D8D8;
+	resize:none;
+	padding:5px;
+	margin-bottom:2%;
+	margin-right:2%;
+
+	@media screen and (max-width:1370px){
+		margin-left:2% !important;
+	}
+
+	@media screen and (max-width:700px){
+		width:95% !important;
+		margin-top:2%;
+	}
+`;
+
+
+
 
 const ExploreButton={
   listStyle:"none",
@@ -235,7 +269,8 @@ class PersonalFeedContainer extends Component{
 			displayMobileUI:false,
 			displayChatPage:false,
 			chatPageIndicator:"",
-			displayDesktopUI:false
+			displayDesktopUI:false,
+			originalSymposiums:[]
 		}
 	}
 
@@ -254,7 +289,7 @@ class PersonalFeedContainer extends Component{
 			}else{
 				var symposiumsResponse=await getSymposiumsFollowedHome(profileId);
 				const {confirmation,data}=symposiumsResponse;
-				
+				console.log(data);
 				if(confirmation=="Success"){
 					const {message}=data;
 					var symposiums=[];
@@ -269,6 +304,7 @@ class PersonalFeedContainer extends Component{
 							this.setState(prevState=>({
 								...prevState,
 								symposiumArray:symposiums,
+								originalSymposiums:symposiums,
 								isPersonalProfile:isPersonalProfile,
 								isLoading:false
 							}));
@@ -382,9 +418,11 @@ class PersonalFeedContainer extends Component{
 			explorePosts=await getSymposiumsFollowedHome(this.props.profileId);
 			const {confirmation,data}=explorePosts;
 			if(confirmation=="Success"){
-				const {message}=data;
+				let {message}=data;
+				message=message.length==0?[]:message;
 				this.setState({
-					symposiumArray:(message.length==0?[]:message),
+					symposiumArray:message,
+					originalSymposiums:message,
 					isLoading:false
 				})
 			}else{
@@ -408,7 +446,8 @@ class PersonalFeedContainer extends Component{
 		if(confirmation=="Success"){
 			const {message}=data;
 			this.setState({
-				symposiumArray:(message.length==0?[]:message),
+				symposiumArray:message,
+				originalSymposiums:message,
 				isLoading:false
 			})
 		}else{
@@ -448,7 +487,7 @@ class PersonalFeedContainer extends Component{
 
 	 	return this.state.triggerAnimation==false?
 	 		<ul id="SymposiumListContainer" style={{position:"relative",paddingTop:"10%"}}>
-	 			<ul style={{position:"relative",marginBottom:"30px"}}>
+	 			<div id="symposiumListOptions" style={{display:"flex",flexDirection:"row"}}>
 	 				{this.state.displayDesktopUI==false?
 	 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 		 	 				<div class="dropdown">
@@ -463,27 +502,17 @@ class PersonalFeedContainer extends Component{
 								</ul>
 							</div>
 						</a>:
-						<li id="symposiumFilterLI" style={{listStyle:"none",marginBottom:"2%"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none"}}>
-									<ul id="titlesContainer" style={{padding:"0px"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>this.displayFollowSymposiums()} id="followedSymposiumsButton" style={{display:"inline-block",listStyle:"none",fontSize:"40px",marginRight:"5%"}}>
-												<b>My symposiums</b>
-											</li>
-										</a>
-
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>this.displayExploreSymposiums()} id="exploreSymposiumsButton" style={{color:"#999999",display:"inline-block",listStyle:"none",fontSize:"40px",marginLeft:"5%"}}>
-												<b>Explore Symposiums</b>
-											</li>
-										</a>
-									</ul>
-								</li>
-							</ul>
-						</li>
+						<React.Fragment>
+							<p onClick={()=>this.displayFollowSymposiums()} id="followedSymposiumsButton" style={{fontSize:"25px",marginRight:"5%",cursor:"pointer"}}>
+								<b>My symposiums</b>
+							</p>
+							<p onClick={()=>this.displayExploreSymposiums()} id="exploreSymposiumsButton" style={{color:"#999999",fontSize:"25px",marginRight:"5%",cursor:"pointer"}}>
+								<b>Explore Symposiums</b>
+							</p>
+						</React.Fragment>
 					}
-					<hr/>
+					{this.symposiumSearchContainer()}
+					
 					{/*
 						<li id="popularButton" onClick={()=>this.changeColorForPopularButton()} id="mostPopularButton"
 						style={{display:"inline-block",listStyle:"none",padding:"10px",backgroundColor:"#5298F8",color:"white",boxShadow:"1px 1px 5px #6e6e6e",marginRight:"10px",borderRadius:"5px"}}>
@@ -493,14 +522,15 @@ class PersonalFeedContainer extends Component{
 						<li id="fastestGrowinButton" onClick={()=>this.changeColorForFastestGrowingButton()} id="fastestGrowingButton" style={ShadowButtonCSS}>
 							Fastest Growing
 						</li>
-					*/}
 						
-					{this.state.displayDesktopUI==true &&(
-						<li style={{listStyle:"none",width:"30%"}}>
-							Go back and check out the newest posts in the symposiums you follow. 
-						</li>
-					)}
-				</ul>
+						{this.state.displayDesktopUI==true &&(
+							<li style={{listStyle:"none",width:"30%"}}>
+								Go back and check out the newest posts in the symposiums you follow. 
+							</li>
+						)}
+					*/}
+				</div>
+				<hr/>
 				{this.state.isLoading==true?
 					<p style={{marginLeft:"15%"}}>Loading please wait..</p>:
 					<>
@@ -565,6 +595,31 @@ class PersonalFeedContainer extends Component{
 				symposiums={this.state.symposiums}
 			/>:
 			<React.Fragment></React.Fragment>
+	}
+
+	symposiumSearchContainer=()=>{
+		return(
+			<React.Fragment>
+				{this.state.isLoading==false &&(
+					<InputContainer
+						placeholder="Search for symposium here"
+						onChange={event=>this.filterSymposiums(event.target.value)}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	filterSymposiums=(character)=>{
+		const symposiums=filterSymposiumUploadOptions(
+							character,
+							this.state.symposiumArray,
+							this.state.originalSymposiums
+						);
+		debugger;
+		this.setState({
+			symposiumArray:symposiums
+		})
 	}
 
 	render(){
