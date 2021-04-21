@@ -58,10 +58,11 @@ const ButtonCSS={
   marginRight:"2%"
 }
 
-const Creation=({closeCreationModal})=>{
+const Creation=({closeCreationModal,updateBeaconPosts})=>{
 	const [displayUploadPrompt,changeDisplayUploadPrompt]=useState(true);
 	const [selectedPostUrl,changeSelectedPostUrl]=useState();
 	const [postType,changePostType]=useState("Images");
+
 
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -74,15 +75,17 @@ const Creation=({closeCreationModal})=>{
 		document.getElementById("uploadFileBeacon").click();
 	}
 
-	const uploadFile=()=>{
+	const uploadBeacon=()=>{
 
 	}
-	const handleUploadFile=()=>{
+	const handleUploadFile=(postType)=>{
 		const fileReader=new FileReader();
 		const currentFileUrl=document.getElementById("uploadFileBeacon").files[0];
 
 		fileReader.onloadend=()=>{
+			debugger;
 			const fileUrl=fileReader.result;
+			changePostType(postType);
 			changeDisplayUploadPrompt(false);
 			changeSelectedPostUrl(fileUrl);
 		}
@@ -91,6 +94,19 @@ const Creation=({closeCreationModal})=>{
 			fileReader.readAsDataURL(currentFileUrl);
 		}else{
 			alert('Sorry, this file type is not allowed. Please try again');
+		}
+	}
+
+	const submitBeacon=async()=>{
+		const userSubmittedInput=document.getElementById("inputPromptContainer").value;
+		if(userSubmittedInput==""){
+			alert('Please enter a prompt');
+		}else{
+			updateBeaconPosts(postType,{
+				imgUrl:selectedPostUrl,
+				firstName:"Nathan",
+				caption:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+			});
 		}
 	}
 
@@ -111,7 +127,7 @@ const Creation=({closeCreationModal})=>{
 						<input type="file" name="img" id="uploadFileBeacon" style={{opacity:"0"}}
 					        accept="image/jpeg" 
 					        name="attachments"
-					        onChange={()=>handleUploadFile()} 
+					        onChange={()=>handleUploadFile("Images")} 
 					    >
 					    </input>
 					</React.Fragment>
@@ -134,9 +150,18 @@ const Creation=({closeCreationModal})=>{
 							name="video" 
 							id="uploadFileBeacon" 
 							style={{position:"relative",opacity:"0",zIndex:"0"}}
-							onChange={()=>handleUploadFile()} 
+							onChange={()=>handleUploadFile("Videos")} 
 						>
 						</input>
+					</React.Fragment>
+				)
+				break;
+			}
+
+			case "Regular":{
+				return(
+					<React.Fragment>
+						{promptContainer()}
 					</React.Fragment>
 				)
 				break;
@@ -149,12 +174,12 @@ const Creation=({closeCreationModal})=>{
 			case "Images":{
 				return(
 					<img src={selectedPostUrl}
-						style={{width:"240px",height:"220px"}}
+						style={{width:"240px",height:"220px",borderRadius:"5px"}}
 					/>
 				)
 				break;
 			}
-			case "Vidoes":{
+			case "Videos":{
 				return(
 					<video id="uploadVideoUrl" key={uuidv4()} width="100%" height="40%" 
 						borderRadius="5px" controls autoplay>
@@ -163,6 +188,19 @@ const Creation=({closeCreationModal})=>{
 				)
 			}
 		}
+	}
+	const promptContainer=()=>{
+		return(
+			<React.Fragment>
+				<InputContainer
+					id="inputPromptContainer"
+					placeholder="Enter a prompt for your beacon"
+				/>
+				<div onClick={()=>submitBeacon()} style={ButtonCSS}>
+					Submit
+				</div>
+			</React.Fragment>
+		)
 	}
 	return(
 		<Container>
@@ -188,12 +226,7 @@ const Creation=({closeCreationModal})=>{
 				</React.Fragment>:
 				<div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
 					{postDisplayDecider()}
-					<InputContainer
-						placeholder="Enter a prompt for your beacon"
-					/>
-					<div style={ButtonCSS}>
-						Submit
-					</div>
+					{promptContainer()}
 				</div>
 			}
 		</Container>

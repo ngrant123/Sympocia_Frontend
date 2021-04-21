@@ -25,7 +25,7 @@ const OwnerNameCSS={
 	maxWidth:"30%",
 	overflow:"hidden"
 }
-const BeaconPosts=({postType,posts})=>{
+const BeaconPosts=({postType,posts,displayExtendedPostModal})=>{
 
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -40,8 +40,9 @@ const BeaconPosts=({postType,posts})=>{
 				return(
 					<React.Fragment>
 						{posts.map(data=>
-							<div style={{cursor:"pointer",marginRight:"3%",width:"30%",marginBottom:"10%"}}>	
-								<img src={TestImage} style={{width:"140px",height:"130px",borderRadius:"5px"}}/>
+							<div onClick={()=>displayExtendedPostModal(data)}
+								style={{cursor:"pointer",marginRight:"3%",width:"30%",marginBottom:"10%"}}>	
+								<img src={data.imgUrl} style={{width:"140px",height:"130px",borderRadius:"5px"}}/>
 								<ProfileInformation>
 									<img src={NoProfilePicture} style={{
 																width:"50px",
@@ -49,18 +50,12 @@ const BeaconPosts=({postType,posts})=>{
 																borderRadius:"50%"
 															}}/>
 									<p style={OwnerNameCSS}>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-										sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+										{data.firstName}
 									</p>
 								</ProfileInformation>
 								<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
 									<b>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-										sed do eiusmod tempor incididunt ut labore et dolore magna 
-										aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-										laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-										in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-										Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+										{data.caption}
 									</b>
 								</p>
 							</div>
@@ -73,10 +68,13 @@ const BeaconPosts=({postType,posts})=>{
 				return(
 					<React.Fragment>
 						{posts.map(data=>
-							<div style={{cursor:"pointer",marginRight:"3%",width:"30%",marginBottom:"5%"}}>
-								<video id="uploadVideoUrl" key={uuidv4()} width="100%" height="40%" 
-									borderRadius="5px" controls autoplay>
-									<source type="video/mp4"/>
+							<div onClick={()=>displayExtendedPostModal(data)} 
+								style={{cursor:"pointer",marginRight:"3%",width:"30%",marginBottom:"5%"}}>
+								<video 
+									style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+									 position="relative" width="100%" height="20%"
+								 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+									<source src={data.videoUrl} type="video/mp4"/>
 								</video>	
 								<ProfileInformation>
 									<img src={NoProfilePicture} style={{
@@ -85,18 +83,12 @@ const BeaconPosts=({postType,posts})=>{
 																borderRadius:"50%"
 															}}/>
 									<p style={OwnerNameCSS}>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-										sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+										{data.firstName}
 									</p>
 								</ProfileInformation>
 								<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
 									<b>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-										sed do eiusmod tempor incididunt ut labore et dolore magna 
-										aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-										laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-										in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-										Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+										{data.title}
 									</b>
 								</p>
 							</div>
@@ -109,15 +101,11 @@ const BeaconPosts=({postType,posts})=>{
 				return(
 					<React.Fragment>
 						{posts.map(data=>
-							<div style={{cursor:"pointer",marginRight:"3%",width:"100%",marginBottom:"5%"}}>
+							<div onClick={()=>displayExtendedPostModal(data)}
+								style={{cursor:"pointer",marginRight:"3%",width:"100%",marginBottom:"5%"}}>
 								<p style={{width:"100%",height:"80px",overflow:"hidden",marginTop:"5%"}}>
 									<b>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-										sed do eiusmod tempor incididunt ut labore et dolore magna 
-										aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-										laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-										in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-										Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+										{data.post}
 									</b>
 								</p>
 								<ProfileInformation>
@@ -127,8 +115,7 @@ const BeaconPosts=({postType,posts})=>{
 																borderRadius:"50%"
 															}}/>
 									<p style={OwnerNameCSS}>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-										sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+										{data.firstName}
 									</p>
 								</ProfileInformation>
 							</div>

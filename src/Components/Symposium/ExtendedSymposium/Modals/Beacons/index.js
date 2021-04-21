@@ -5,6 +5,7 @@ import {BackgroundModalContainer} from "../../indexCSS.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import BeaconPosts from "./BeaconPosts.js";
 import Creation from "./Creation.js";
+import BeaconPostExtended from "./BeaconPostExtended/index.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -88,31 +89,39 @@ const ButtonCSS={
 
 const Beacon=({closeModal})=>{
 	
-	const [displayCreationModal,changeDisplayCreationModal]=useState(true);
+	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [displayExtendedModal,changeDisplayExtendedModal]=useState(false);
-	const [displayPostDisplay,changePostDisplayModal]=useState(false);
+	const [displayPostDisplay,changePostDisplayModal]=useState(true);
 	const [postType,changePostType]=useState("Images");
-	const [posts,changePosts]=useState([
-		{
-			firstName:"Bob",
-			title:"Help me please about this topic lol"
-		},
-		{
-			firstName:"Derrick",
-			title:"Help me please about this topic lollolol"
-		},
-		{
-			firstName:"LEwis",
-			title:"Help me please Inefwc  cion this topic lollolol"
-		},
-		{
-			firstName:"LEwis",
-			title:"Help me please Inefwc  cion this topic lollolol"
-		}
-	]);
+	const [posts,changePosts]=useState([]);
+	const [selectedPost,changeSelectedPost]=useState();
+
+
+
 	const targetElement=document.getElementById("extendedSymposiumContainer");
 	const displayCreationModalTrigger=()=>{
 		changeDisplayCreationModal(true);
+		changePostDisplayModal(false);
+	}
+
+	const updateBeaconPosts=(beaconPostType,beacon)=>{
+		debugger;
+		const currentBeaconPosts=posts;
+		if(beaconPostType==postType){
+			posts.splice(0,1,beacon);
+			changePosts([...posts]);
+			
+		}
+		changePostDisplayModal(true);
+	}
+
+	const triggerChangePostType=(postType)=>{
+		changePosts([]);
+	}
+	const displayExtendedPostModal=(postData)=>{
+		changeSelectedPost(postData);
+		changeDisplayExtendedModal(true);
+		changeDisplayCreationModal(false);
 		changePostDisplayModal(false);
 	}
 	const beaconDecider=()=>{
@@ -132,19 +141,20 @@ const Beacon=({closeModal})=>{
 					<hr style={HorizontalLineCSS}/>
 					<BeaconContent>
 						<PostTypes>
-							<div onClick={()=>changePostType("Images")} style={ButtonCSS}>
+							<div onClick={()=>triggerChangePostType("Images")} style={ButtonCSS}>
 								Images
 							</div>
-							<div onClick={()=>changePostType("Videos")} style={ButtonCSS}>
+							<div onClick={()=>triggerChangePostType("Videos")} style={ButtonCSS}>
 								Videos
 							</div>
-							<div onClick={()=>changePostType("Regular")} style={ButtonCSS}>
+							<div onClick={()=>triggerChangePostType("Regular")} style={ButtonCSS}>
 								Regular Posts
 							</div>
 						</PostTypes>
 						<BeaconPosts
 							posts={posts}
 							postType={postType}
+							displayExtendedPostModal={displayExtendedPostModal}
 						/>
 					</BeaconContent>
 				</React.Fragment>
@@ -154,15 +164,27 @@ const Beacon=({closeModal})=>{
 				<Creation
 					postType={postType}
 					closeCreationModal={closeCreationModal}
+					updateBeaconPosts={updateBeaconPosts}
 				/>
 			)
 		}else{
-
+			return(
+				<BeaconPostExtended
+					closeExtendedBeaconModal={closeExtendedBeaconModal}
+					postData={selectedPost}
+					postType={postType}
+				/>
+			)
 		}
 	}
+	const closeExtendedBeaconModal=()=>{
+		changeDisplayCreationModal(false);
+		changePostDisplayModal(true);
+	}
+
 
 	const closeCreationModal=()=>{
-		changeDisplayCreationModal(false);
+		changeDisplayExtendedModal(false);
 		changePostDisplayModal(true);
 	}
 	return createPortal(
