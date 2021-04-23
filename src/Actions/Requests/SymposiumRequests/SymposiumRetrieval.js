@@ -187,5 +187,43 @@ export const getPopularQuestionReplies=async(industry,counter)=>{
 }
 
 
+export const retrieveBeacons=async(symposiumId,postType,beaconCounter)=>{
+	try{
+		const beaconResponse=await axios.get(`${SearchUrl}/getBeacons`,{
+			params:{
+				symposiumId,
+	            postType,
+	            beaconCounter
+			}
+		})
+
+		const {data}=beaconResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+export const retrieveBeaconReplies=async(symposiumId,postType,beaconCounter,beaconId)=>{
+	try{
+		const beaconReplies=await axios.get(`${SearchUrl}/getBeaconReplies`,{
+			params:{
+				symposiumId,
+	            postType,
+	            beaconCounter,
+	            beaconId
+			}
+		})
+		const {data}=beaconReplies;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+
+
 
 

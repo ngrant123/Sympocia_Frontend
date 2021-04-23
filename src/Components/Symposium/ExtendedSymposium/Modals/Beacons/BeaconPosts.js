@@ -25,14 +25,18 @@ const OwnerNameCSS={
 	maxWidth:"30%",
 	overflow:"hidden"
 }
-const BeaconPosts=({postType,posts,displayExtendedPostModal})=>{
-
+const BeaconPosts=({postType,posts,displayExtendedPostModal,
+					triggerAlterPosts,endOfNewPosts,isFetchingNextPosts})=>{
+	console.log(posts);
+	console.log(postType);
+	console.log(endOfNewPosts);
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
 	    return v.toString(16);
 	  });
 	}
+
 
 	const postsDecider=()=>{
 		switch(postType){
@@ -42,20 +46,22 @@ const BeaconPosts=({postType,posts,displayExtendedPostModal})=>{
 						{posts.map(data=>
 							<div onClick={()=>displayExtendedPostModal(data)}
 								style={{cursor:"pointer",marginRight:"3%",width:"30%",marginBottom:"10%"}}>	
-								<img src={data.imgUrl} style={{width:"140px",height:"130px",borderRadius:"5px"}}/>
+								<img src={data.post.imgUrl} style={{width:"140px",height:"130px",borderRadius:"5px"}}/>
 								<ProfileInformation>
-									<img src={NoProfilePicture} style={{
-																width:"50px",
-																height:"40px",
-																borderRadius:"50%"
-															}}/>
+									<img src={data.post.owner.profilePicture==null?
+												NoProfilePicture:data.post.owner.profilePicture}
+										style={{
+											width:"50px",
+											height:"40px",
+											borderRadius:"50%"
+										}}/>
 									<p style={OwnerNameCSS}>
-										{data.firstName}
+										{data.post.owner.firstName}
 									</p>
 								</ProfileInformation>
 								<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
 									<b>
-										{data.caption}
+										{data.post.caption}
 									</b>
 								</p>
 							</div>
@@ -69,26 +75,29 @@ const BeaconPosts=({postType,posts,displayExtendedPostModal})=>{
 					<React.Fragment>
 						{posts.map(data=>
 							<div onClick={()=>displayExtendedPostModal(data)} 
-								style={{cursor:"pointer",marginRight:"3%",width:"30%",marginBottom:"5%"}}>
+								style={{height:"250px",cursor:"pointer",marginRight:"3%",width:"30%",marginBottom:"15%"}}>
 								<video 
 									style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-									 position="relative" width="100%" height="20%"
-								 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-									<source src={data.videoUrl} type="video/mp4"/>
+									 position="relative" width="100%" height="90%"
+								 	key={data.post.videoUrl} autoPlay loop autoBuffer muted playsInline>
+									<source src={data.post.videoUrl} type="video/mp4"/>
 								</video>	
 								<ProfileInformation>
-									<img src={NoProfilePicture} style={{
+									<img src={data.post.owner.profilePicture==null?
+											NoProfilePicture:
+											data.post.owner.profilePicture
+										} style={{
 																width:"50px",
 																height:"40px",
 																borderRadius:"50%"
 															}}/>
 									<p style={OwnerNameCSS}>
-										{data.firstName}
+										{data.post.owner.firstName}
 									</p>
 								</ProfileInformation>
 								<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
 									<b>
-										{data.title}
+										{data.post.title}
 									</b>
 								</p>
 							</div>
@@ -105,17 +114,20 @@ const BeaconPosts=({postType,posts,displayExtendedPostModal})=>{
 								style={{cursor:"pointer",marginRight:"3%",width:"100%",marginBottom:"5%"}}>
 								<p style={{width:"100%",height:"80px",overflow:"hidden",marginTop:"5%"}}>
 									<b>
-										{data.post}
+										{data.post.post}
 									</b>
 								</p>
 								<ProfileInformation>
-									<img src={NoProfilePicture} style={{
+									<img src={data.post.owner.profilePicture==null?
+												NoProfilePicture:
+												data.post.owner.profilePicture
+											} style={{
 																width:"50px",
 																height:"40px",
 																borderRadius:"50%"
 															}}/>
 									<p style={OwnerNameCSS}>
-										{data.firstName}
+										{data.post.owner.firstName}
 									</p>
 								</ProfileInformation>
 							</div>
@@ -129,7 +141,23 @@ const BeaconPosts=({postType,posts,displayExtendedPostModal})=>{
 	}
 	return(
 		<Container>
-			{postsDecider()}
+			{posts.length==0?
+				<p>No beacons :(</p>:
+				<React.Fragment>
+					{postsDecider()}
+					{endOfNewPosts==false &&(
+						<>
+							{isFetchingNextPosts==true?
+								<p>Loading...</p>:
+								<p onClick={()=>triggerAlterPosts(postType)} 
+									style={{cursor:"pointer",color:"#5298F8"}}>
+									Next
+								</p>
+							}
+						</>
+					)}
+				</React.Fragment>
+			}
 		</Container>
 	)
 }

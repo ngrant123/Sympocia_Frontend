@@ -561,6 +561,7 @@ class Symposium extends Component{
 				{this.state.displayBeaconPrompt==true &&(
 					<Beacons
 						closeModal={this.closeBeaconPrompt}
+						symposiumId={this.state.symposiumId}
 					/>
 				)}
 			</React.Fragment>
@@ -568,9 +569,10 @@ class Symposium extends Component{
 	}
 
 	displayBeaconHandle=()=>{
-		this.setState({
+		this.setState(prevState=>({
+			...prevState,
 			displayBeaconPrompt:true
-		})
+		}))
 	}
 
 	closeBeaconPrompt=()=>{

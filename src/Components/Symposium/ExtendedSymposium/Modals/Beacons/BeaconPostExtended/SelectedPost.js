@@ -24,6 +24,7 @@ const ImageCSS={
 }
 const SelectedPost=({post,postType,displayZoomedPost})=>{
 	console.log(postType);
+	console.log(post);
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -59,20 +60,23 @@ const SelectedPost=({post,postType,displayZoomedPost})=>{
 				break;
 			}
 			case "Regular":{
-				break;
+				return(
+					<p>{post.post}</p>
+				)
 			}
 		}
 	}
 	return(
 		<React.Fragment>
 			<div style={{display:"flex",flexDirection:"row",marginBottom:"2%"}}>
-				<img src={NoProfilePicture} style={{
+				<img src={post.owner.profilePicture==null?NoProfilePicture:
+							post.owner.profilePicture} style={{
 											width:"50px",
 											height:"40px",
 											borderRadius:"50%"
 										}}/>
 				<p style={OwnerNameCSS}>
-					{post.firstName}
+					{post.owner.firstName}
 				</p>
 			</div>
 			{displayPost()}

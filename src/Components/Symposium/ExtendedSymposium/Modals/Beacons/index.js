@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {BackgroundModalContainer} from "../../indexCSS.js";
@@ -6,6 +6,8 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import BeaconPosts from "./BeaconPosts.js";
 import Creation from "./Creation.js";
 import BeaconPostExtended from "./BeaconPostExtended/index.js";
+import {retrieveBeacons} from "../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import {useSelector} from "react-redux";
 
 const Container=styled.div`
 	position:fixed;
@@ -87,7 +89,7 @@ const ButtonCSS={
 
 
 
-const Beacon=({closeModal})=>{
+const Beacon=({closeModal,symposiumId})=>{
 	
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [displayExtendedModal,changeDisplayExtendedModal]=useState(false);
@@ -95,7 +97,48 @@ const Beacon=({closeModal})=>{
 	const [postType,changePostType]=useState("Images");
 	const [posts,changePosts]=useState([]);
 	const [selectedPost,changeSelectedPost]=useState();
+	const [currentBeaconCounter,changeBeaconCounter]=useState(0);
+	const [isLoading,changeIsLoading]=useState(false);
+	const userInformation=useSelector(state=>state.personalInformation);
+	const [endOfNewPosts,changeIsEndOfNewPosts]=useState(false);
+	const [isFetchingNextPosts,changeIsFetchingNextPosts]=useState(false);
 
+	useEffect(()=>{
+		fetchData(postType,currentBeaconCounter);
+	},[]);
+
+	const fetchData=async(selectedPostType,beaconCounter)=>{
+		if(beaconCounter==0)
+			changeIsLoading(true);
+		else
+			changeIsFetchingNextPosts(true);
+
+		const {confirmation,data}=await retrieveBeacons(
+											symposiumId,
+											selectedPostType,
+											beaconCounter
+										);
+		if(confirmation=="Success"){
+			const {message}=data;
+			let newPosts;
+			if(beaconCounter>0){
+				if(message.length==0){
+					changeIsEndOfNewPosts(true);
+				}
+				newPosts=posts.concat(message)
+			}else{
+				newPosts=message;
+			}
+			changePosts([...newPosts])
+			changePostType(selectedPostType);
+			changeBeaconCounter(beaconCounter);
+		}else{
+			alert('An error has occured when retrieving the beacons.')
+			closeModal();
+		}
+		changeIsLoading(false);
+		changeIsFetchingNextPosts(false);
+	}
 
 
 	const targetElement=document.getElementById("extendedSymposiumContainer");
@@ -108,23 +151,36 @@ const Beacon=({closeModal})=>{
 		debugger;
 		const currentBeaconPosts=posts;
 		if(beaconPostType==postType){
-			posts.splice(0,1,beacon);
+			posts.splice(0,0,beacon);
 			changePosts([...posts]);
 			
 		}
 		changePostDisplayModal(true);
 	}
 
-	const triggerChangePostType=(postType)=>{
-		changePosts([]);
+	const triggerAlterPosts=(selectedPostType)=>{
+		let counter;
+		debugger;
+		console.log(selectedPostType);
+		console.log(postType);
+		if(postType!=selectedPostType){
+			counter=0;
+			changeIsEndOfNewPosts(false);
+		}else{
+			counter=currentBeaconCounter+1;
+		}
+		fetchData(selectedPostType,counter);
 	}
+
 	const displayExtendedPostModal=(postData)=>{
-		changeSelectedPost(postData);
-		changeDisplayExtendedModal(true);
-		changeDisplayCreationModal(false);
+		debugger;
 		changePostDisplayModal(false);
+		changeSelectedPost(postData);
+		changeDisplayCreationModal(false);
+		changeDisplayExtendedModal(true);
 	}
 	const beaconDecider=()=>{
+		debugger;
 		if(displayPostDisplay==true){
 			return(
 				<React.Fragment>
@@ -138,24 +194,31 @@ const Beacon=({closeModal})=>{
 							/>
 						</CreatePostButton>
 					</TitleAndCreationHeader>
+					<p>Ask and you shall recieve </p>
 					<hr style={HorizontalLineCSS}/>
 					<BeaconContent>
 						<PostTypes>
-							<div onClick={()=>triggerChangePostType("Images")} style={ButtonCSS}>
+							<div onClick={()=>triggerAlterPosts("Images")} style={ButtonCSS}>
 								Images
 							</div>
-							<div onClick={()=>triggerChangePostType("Videos")} style={ButtonCSS}>
+							<div onClick={()=>triggerAlterPosts("Videos")} style={ButtonCSS}>
 								Videos
 							</div>
-							<div onClick={()=>triggerChangePostType("Regular")} style={ButtonCSS}>
+							<div onClick={()=>triggerAlterPosts("Regular")} style={ButtonCSS}>
 								Regular Posts
 							</div>
 						</PostTypes>
-						<BeaconPosts
-							posts={posts}
-							postType={postType}
-							displayExtendedPostModal={displayExtendedPostModal}
-						/>
+						{isLoading==true?
+							<p>Loading...</p>:
+							<BeaconPosts
+								posts={posts}
+								postType={postType}
+								displayExtendedPostModal={displayExtendedPostModal}
+								triggerAlterPosts={triggerAlterPosts}
+								endOfNewPosts={endOfNewPosts}
+								isFetchingNextPosts={isFetchingNextPosts}
+							/>
+						}
 					</BeaconContent>
 				</React.Fragment>
 			)
@@ -165,6 +228,8 @@ const Beacon=({closeModal})=>{
 					postType={postType}
 					closeCreationModal={closeCreationModal}
 					updateBeaconPosts={updateBeaconPosts}
+					symposiumId={symposiumId}
+					ownerId={userInformation.id}
 				/>
 			)
 		}else{
@@ -173,6 +238,8 @@ const Beacon=({closeModal})=>{
 					closeExtendedBeaconModal={closeExtendedBeaconModal}
 					postData={selectedPost}
 					postType={postType}
+					symposiumId={symposiumId}
+					ownerId={userInformation.id}
 				/>
 			)
 		}
