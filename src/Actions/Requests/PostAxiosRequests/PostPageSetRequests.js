@@ -560,6 +560,54 @@ export const createSpecificIndustryAudioAnswer=async({audio,industryId,questionI
 }
 
 
+export const createBeacon=async({
+				postUrl,
+				beaconDescription,
+				postType,
+				ownerId,
+				symposiumId
+			})=>{
+	try{
+		const createBeaconResponse=await axios.post(`${CreateURl}/createBeacon`,{
+			postUrl,
+			beaconDescription,
+			postType,
+			ownerId,
+			symposiumId
+		})
+		const {data}=createBeaconResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+export const createBeaconReply=async({
+				postUrl,
+				beaconDescription,
+				postType,
+				ownerId,
+				symposiumId,
+				beaconId
+			})=>{
+	try{
+		const createBeaconReplyResponse=await axios.post(`${CreateURl}/createBeaconReply`,{
+			beaconId,
+			postUrl,
+			beaconDescription,
+			postType,
+			ownerId,
+			symposiumId
+		})
+		const {data}=createBeaconReplyResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
 
 
 

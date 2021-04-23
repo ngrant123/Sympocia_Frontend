@@ -1,6 +1,11 @@
 import React,{useState} from "react"
 import styled from "styled-components";
 import CameraIcon from '@material-ui/icons/Camera';
+import {
+		createBeaconReply,
+		createBeacon
+	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+	import {useSelector} from "react-redux";
 
 const Container=styled.div`
 	display:flex;
@@ -58,11 +63,19 @@ const ButtonCSS={
   marginRight:"2%"
 }
 
-const Creation=({closeCreationModal,updateBeaconPosts})=>{
+const Creation=({
+				closeCreationModal,
+				updateBeaconPosts,
+				beaconResponseDesignatedPostType,
+				ownerId,
+				beaconId,
+				symposiumId
+			})=>{
 	const [displayUploadPrompt,changeDisplayUploadPrompt]=useState(true);
 	const [selectedPostUrl,changeSelectedPostUrl]=useState();
 	const [postType,changePostType]=useState("Images");
-
+	const [isSubmtting,changeIsSubmitting]=useState(false);
+	const userInformation=useSelector(state=>state.personalInformation);
 
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -73,10 +86,6 @@ const Creation=({closeCreationModal,updateBeaconPosts})=>{
 
 	const clickFileUpload=()=>{
 		document.getElementById("uploadFileBeacon").click();
-	}
-
-	const uploadBeacon=()=>{
-
 	}
 	const handleUploadFile=(postType)=>{
 		const fileReader=new FileReader();
@@ -99,19 +108,81 @@ const Creation=({closeCreationModal,updateBeaconPosts})=>{
 
 	const submitBeacon=async()=>{
 		const userSubmittedInput=document.getElementById("inputPromptContainer").value;
+		changeIsSubmitting(true);
 		if(userSubmittedInput==""){
 			alert('Please enter a prompt');
 		}else{
-			updateBeaconPosts(postType,{
-				imgUrl:selectedPostUrl,
-				firstName:"Nathan",
-				caption:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-			});
+			let uploadedBeaconResult;
+
+			if(beaconResponseDesignatedPostType!=null){
+				uploadedBeaconResult=await uploadReplyBeacon(userSubmittedInput);
+			}else{
+				uploadedBeaconResult=await uploadedBeacon(userSubmittedInput);
+			}
+			const {confirmation,data}=uploadedBeaconResult;
+			if(confirmation=="Success"){
+			let {message}=data;
+			debugger;
+			let currentSubmittedPostType=beaconResponseDesignatedPostType==null?postType:
+										beaconResponseDesignatedPostType;
+
+			if(currentSubmittedPostType=="Images" || currentSubmittedPostType=="Videos"){
+				const postUrlParameter=currentSubmittedPostType=="Images"?"imgUrl":"videoUrl"
+				message={
+					...message,
+					post:{
+						...message.post,
+						[postUrlParameter]:selectedPostUrl
+					}
+				};
+			}
+			message={
+				...message,
+				post:{
+					...message.post,
+					owner:{
+						...message.post.owner,
+						firstName:userInformation.firstName
+					}
+				}
+			};
+			updateBeaconPosts(currentSubmittedPostType,message);
+			}else{
+				alert('There was an error creating this beacon response');
+				return null;
+			}	
 		}
+		changeIsSubmitting(false);
+	}
+	const uploadedBeacon=async(userSubmittedValue)=>{
+		const createBeaconResult=await createBeacon({
+			postUrl:selectedPostUrl,
+			beaconDescription:userSubmittedValue,
+			postType,
+			ownerId,
+			symposiumId
+		})
+		return createBeaconResult;
+	}
+	const uploadReplyBeacon=async(userSubmittedValue)=>{
+		const createdBeaconReplyResult=await createBeaconReply({
+			beaconId,
+			postUrl:selectedPostUrl,
+			beaconDescription:userSubmittedValue,
+			postType:beaconResponseDesignatedPostType,
+			ownerId,
+			symposiumId
+		});
+		return createdBeaconReplyResult;
 	}
 
+
+
 	const fileUploadSystem=()=>{
-		switch(postType){
+		console.log(beaconResponseDesignatedPostType);
+		let fileSystemPostType=beaconResponseDesignatedPostType==null?postType:
+		beaconResponseDesignatedPostType
+		switch(fileSystemPostType){
 			case "Images":{
 				return(
 					<React.Fragment>
@@ -174,7 +245,7 @@ const Creation=({closeCreationModal,updateBeaconPosts})=>{
 			case "Images":{
 				return(
 					<img src={selectedPostUrl}
-						style={{width:"240px",height:"220px",borderRadius:"5px"}}
+						style={{width:"280px",height:"220px",borderRadius:"5px"}}
 					/>
 				)
 				break;
@@ -196,11 +267,64 @@ const Creation=({closeCreationModal,updateBeaconPosts})=>{
 					id="inputPromptContainer"
 					placeholder="Enter a prompt for your beacon"
 				/>
-				<div onClick={()=>submitBeacon()} style={ButtonCSS}>
-					Submit
-				</div>
+				{isSubmtting==true?
+					<p>Submitting...</p>:
+					<div onClick={()=>submitBeacon()} style={ButtonCSS}>
+						Submit
+					</div>
+				}
 			</React.Fragment>
 		)
+	}
+	const imageUploadType=()=>{
+		return(
+			<div onClick={()=>changePostType("Images")} style={ButtonCSS}>
+				Images
+			</div>
+		)
+	}
+
+	const videoUploadType=()=>{
+		return(
+			<div onClick={()=>changePostType("Videos")} style={ButtonCSS}>
+				Videos
+			</div>
+		)
+	}
+
+	const regularPostUploadType=()=>{
+		return(
+			<div onClick={()=>changePostType("Regular")} style={ButtonCSS}>
+				Regular Posts
+			</div>
+		)
+	}
+
+	const postUploadType=()=>{
+		if(beaconResponseDesignatedPostType!=null){
+			switch(beaconResponseDesignatedPostType){
+				case "Images":{
+					return imageUploadType();
+					break;
+				}
+				case "Videos":{
+					return videoUploadType();
+					break;
+				}
+				case "Regular":{
+					return regularPostUploadType();
+					break;
+				}
+			}
+		}else{
+			return(
+				<React.Fragment>
+					{imageUploadType()}
+					{videoUploadType()}
+					{regularPostUploadType()}
+				</React.Fragment>
+			)
+		}
 	}
 	return(
 		<Container>
@@ -210,15 +334,7 @@ const Creation=({closeCreationModal,updateBeaconPosts})=>{
 			{displayUploadPrompt==true?
 				<React.Fragment>
 					<PostTypes>
-						<div onClick={()=>changePostType("Images")} style={ButtonCSS}>
-							Images
-						</div>
-						<div onClick={()=>changePostType("Videos")} style={ButtonCSS}>
-							Videos
-						</div>
-						<div onClick={()=>changePostType("Regular")} style={ButtonCSS}>
-							Regular Posts
-						</div>
+						{postUploadType()}
 					</PostTypes>
 					<div style={{marginTop:"5%"}}>
 						{fileUploadSystem()}
