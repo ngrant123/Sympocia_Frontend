@@ -158,6 +158,7 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 					beaconId={selectedPostData.beaconId}
 					ownerId={ownerId}
 					symposiumId={symposiumId}
+					originalBeaconOwnerId={selectedPostData.post.owner._id}
 				/>
 			}
 		</Container>

@@ -589,7 +589,8 @@ export const createBeaconReply=async({
 				postType,
 				ownerId,
 				symposiumId,
-				beaconId
+				beaconId,
+				originalBeaconOwnerId
 			})=>{
 	try{
 		const createBeaconReplyResponse=await axios.post(`${CreateURl}/createBeaconReply`,{
@@ -598,7 +599,8 @@ export const createBeaconReply=async({
 			beaconDescription,
 			postType,
 			ownerId,
-			symposiumId
+			symposiumId,
+			originalBeaconOwnerId
 		})
 		const {data}=createBeaconReplyResponse;
 		return data;
