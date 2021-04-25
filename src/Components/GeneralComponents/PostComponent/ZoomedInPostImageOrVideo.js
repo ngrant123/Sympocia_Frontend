@@ -1,6 +1,7 @@
-import React,{useEffect} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
+import {getVideoUrl,getImgUrl} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 
 
 const Container=styled.div`
@@ -44,14 +45,42 @@ const ShadowContainer= styled.div`
 	left:-5%;
 `;
 
-const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType})=>{
+const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType,unCompressedId})=>{
+	debugger;
+	const [isLoadingUnCompressedPost,changeIsLoadingUnCompressedPost]=useState(false);
+	const [selectedPostUrl,changeSelectedPostUrl]=useState(postUrl);
+
+	useEffect(()=>{
+		const fetchData=async()=>{
+			if(unCompressedId!=null){
+				let postData;
+				changeIsLoadingUnCompressedPost(true);
+				if(postType=="Videos"){
+					postData=await getVideoUrl(unCompressedId);
+				}else{
+					postData=await getImgUrl(unCompressedId);
+				}
+				const {confirmation,data}=postData;
+				if(confirmation=="Success"){
+					const {message}=data;
+					changeSelectedPostUrl(message);
+				}else{
+					alert('An error has occured when trying to retrieve this post');
+				}
+				changeIsLoadingUnCompressedPost(false);
+			}
+		}
+
+		fetchData();
+	},[]);
+
 	const postDisplay=()=>{
 		return(
 			<React.Fragment>
 				{postType=="Images"?
-					<img id="postDisplay" src={postUrl} style={{width:"100%",height:"100%"}}/>
+					<img id="postDisplay" src={selectedPostUrl} style={{width:"100%",height:"100%"}}/>
 					:<video id="postDisplay" controls width="100%" height="100%">
-						<source  type="video/mp4" src={postUrl}/>
+						<source  type="video/mp4" src={selectedPostUrl}/>
 						<p>This is fallback content to display for user agents that do not support the video tag.</p>
 					</video>
 				}
@@ -64,17 +93,22 @@ const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType})=>{
 				onClick={()=>closeModal()}
 			/>
 			<Container>
-				<div onClick={()=>closeModal()} style={{cursor:"pointer",marginBottom:"5%"}}>
-					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-					 stroke-linecap="round" stroke-linejoin="round">
-					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-					  <circle cx="12" cy="12" r="9" />
-					  <path d="M10 10l4 4m0 -4l-4 4" />
-					</svg>
-				</div>
-				<hr/>
-				{postDisplay()}
+				{isLoadingUnCompressedPost==false?
+					<React.Fragment>
+						<div onClick={()=>closeModal()} style={{cursor:"pointer",marginBottom:"5%"}}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+							 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+							 stroke-linecap="round" stroke-linejoin="round">
+							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							  <circle cx="12" cy="12" r="9" />
+							  <path d="M10 10l4 4m0 -4l-4 4" />
+							</svg>
+						</div>
+						<hr/>
+						{postDisplay()}
+					</React.Fragment>:
+					<p>Loading...</p>
+				}
 			</Container>
 		</React.Fragment>
 	,document.getElementById(targetDom))

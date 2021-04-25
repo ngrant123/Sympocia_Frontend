@@ -27,6 +27,7 @@ const BackButtonCSS={
 
 
 const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumId,ownerId})=>{
+	console.log(postData);
 
 	const [displaySelectedPost,changeDisplaySelectedPost]=useState(true);
 	const [displayExtendReplyBeacon,changeDisplayReplyBeacon]=useState(false);
@@ -123,7 +124,8 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 					postUrl={postType!="Images"?
 								selectedPostData.post.videoUrl:
 								selectedPostData.post.imgUrl}
-					postType={postType}
+					postType={postType}				
+					unCompressedId={postType!="Images"?selectedPostData.post.videoUrlKey:selectedPostData.post.uncompressedImageId}
 				/>
 			)}
 			{displaySelectedPost==true &&(
@@ -159,6 +161,7 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 					ownerId={ownerId}
 					symposiumId={symposiumId}
 					originalBeaconOwnerId={selectedPostData.post.owner._id}
+					originalBeaconPostId={selectedPostData.post._id}
 				/>
 			}
 		</Container>

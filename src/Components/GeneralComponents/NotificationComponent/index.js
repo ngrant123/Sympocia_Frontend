@@ -302,6 +302,10 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 							{data.notificationType=="Promotion" &&(
 								<p>Congrats you have been promoted (View message)</p>
 							)}
+
+							{data.notificationType=="BeaconResponse" &&(
+								<p>Congrats your beacon has been answered (View message)</p>
+							)}
 						</NotificationContainer>
 						<hr style={HorizontalLineCSS}/>
 					</>
