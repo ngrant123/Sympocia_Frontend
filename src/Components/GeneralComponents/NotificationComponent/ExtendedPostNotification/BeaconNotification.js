@@ -9,6 +9,34 @@ const Container=styled.div`
 	margin-left:5%;
 	display:flex;
 	flex-direction:row;
+
+	@media screen and (max-width:1370px){
+		flex-direction:column;
+		#beaconResponseDiv{
+			margin-left:0% !important;
+			margin-top:6% !important;
+		}
+	}
+
+	@media screen and (max-width:650px){
+		#beaconImage{
+			width:100% !important;
+			height:150px !important;
+		}
+		#beaconVideo{
+			width:100% !important;
+			height:200px !important;	
+		}
+		#beaconResponseDiv{
+			margin-top:15% !important;
+		}
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		#beaconImage{
+			height:250px !important;
+		}
+    }
 `;
 
 const PostCSS={
@@ -103,7 +131,7 @@ const BeaconNotifications=({postData,targetDom})=>{
 						selectedBeaconReplyData.caption
 			return(
 				<div onClick={()=>triggerDisplayUrlPortal(post,true)} style={PostCSS}>
-					<img src={imgUrl} style={{width:"350px",height:"300px",borderRadius:"5px"}}/>
+					<img id="beaconImage" src={imgUrl} style={{width:"350px",height:"300px",borderRadius:"5px"}}/>
 					<p style={{marginTop:"3%"}}>{caption}</p>
 				</div>
 			)
@@ -116,7 +144,7 @@ const BeaconNotifications=({postData,targetDom})=>{
 						selectedBeaconReplyData.title
 			return(
 				<div onClick={()=>triggerDisplayUrlPortal(post,false)} style={PostCSS}>
-					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+					<video id="beaconVideo" key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
 						style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
 						width="350px" height="300px" borderRadius="50%" controls>
 						<source src={videoUrl} type="video/mp4"/>
@@ -137,6 +165,7 @@ const BeaconNotifications=({postData,targetDom})=>{
 	const closeModal=()=>{
 		changeZoomedInPostDisplay(false);
 	}
+	
 	return(
 		<Container>
 			{displayZoomedInPostDisplay==true &&(
@@ -152,7 +181,7 @@ const BeaconNotifications=({postData,targetDom})=>{
 				<p>Please wait...</p>:
 				<React.Fragment>
 					{beaconConstruction(true)}
-					<div style={{marginLeft:"5%"}}>
+					<div id="beaconResponseDiv" style={{display:"flex",flexDirection:"column",marginLeft:"5%"}}>
 						<p>
 							<b>Beacon response:</b>
 						</p>
