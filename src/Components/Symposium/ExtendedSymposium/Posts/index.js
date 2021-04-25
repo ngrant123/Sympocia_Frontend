@@ -11,7 +11,7 @@ import {
         getIndustryInformation
 } from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
-const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,profileId})=>{
+const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,profileId,displayBeacon})=>{
 
     const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
     const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
@@ -109,6 +109,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                 posts={posts}
                 postType={postOption}
                 searchFilterPosts={searchFilterPosts}
+                displayBeacon={displayBeacon}
             />
             <hr/>
             <Posts

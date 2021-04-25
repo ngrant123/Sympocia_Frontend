@@ -96,7 +96,7 @@ const PopularVideosContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		left:5% !important;
-    	top:55% !important;
+    	top:70px !important;
     	width:80% !important;
 		height:20% !important;
 		#titleContainer{
@@ -431,7 +431,6 @@ const HeaderContainer=(props)=>{
 							/>
 						}
 					</HighlightedQuestionsContainer>
-					{mobileArrowDownOptions()}
 					{triggerDisplayMobilePostOptions()}
 
 					<PopularVideosContainer>

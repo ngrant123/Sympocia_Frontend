@@ -43,7 +43,8 @@ import {
 	SymposiumFeatureContainer,
 	ArrowDownContainer,
 	PostContainerTEst,
-	SymposiumChatContainer
+	SymposiumChatContainer,
+	BeaconButtonContainer
 } from "./indexCSS.js";
 import Posts from "./Posts/index.js";
 import SearchOptions from "./Posts/PostFilterOptions/index.js";
@@ -475,6 +476,29 @@ class Symposium extends Component{
 				</ArrowDownContainer>
 	}
 
+	beaconIndicatorButton=()=>{
+		console.log(this.state.handleScroll);
+		console.log(this.state.displayDesktopUI);
+		return(
+			<React.Fragment>
+				{(this.state.handleScroll==false && this.state.displayDesktopUI==false)==true &&(
+					<BeaconButtonContainer>
+						<svg style={{cursor:"pointer",marginLeft:"5%"}}
+			                onClick={()=>this.displayBeaconHandle()}
+			                xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flare" width="44" 
+			                height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#DAD235" fill="none" stroke-linecap="round"
+			                stroke-linejoin="round"
+			            >
+			              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+			              <circle cx="12" cy="12" r="2" />
+			              <path d="M3 12h4m5 -9v4m5 5h4m-9 5v4m-4.5 -13.5l1 1m8 -1l-1 1m0 7l1 1m-8 -1l-1 1" />
+			            </svg>
+					</BeaconButtonContainer>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	highlightedQuestionsSimplifiedModal=()=>{
 		return( <HightLightedQuestions
 					questionInformation={this.state.popularQuestions}
@@ -562,6 +586,7 @@ class Symposium extends Component{
 					<Beacons
 						closeModal={this.closeBeaconPrompt}
 						symposiumId={this.state.symposiumId}
+						isGuestProfile={this.state.isGuestProfile}
 					/>
 				)}
 			</React.Fragment>
@@ -671,6 +696,7 @@ class Symposium extends Component{
 						/>
 					)}
 					{this.arrowIndicatorButton()}
+					{this.beaconIndicatorButton()}
 					{this.handleSeeAllPeopleActiveModal()}
 					{this.handleSeeAllPopularVideos()}
 					{this.specificSymposiumFeatures()}
@@ -728,6 +754,7 @@ class Symposium extends Component{
 								displaySymposium={this.displaySymposium}
 								displayRecruitConfetti={this.displayRecruitConfetti}
 								profileId={this.props.profileId}
+								displayBeacon={this.displayBeaconHandle}
 							/>:<LoadingScreen isScrollEnabled={this.state.headerAnimation} isExtendedSymposium={true}/>
 						}
 					</PostsChatInformation>

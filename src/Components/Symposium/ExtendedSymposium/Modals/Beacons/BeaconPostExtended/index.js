@@ -26,7 +26,7 @@ const BackButtonCSS={
 }
 
 
-const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumId,ownerId})=>{
+const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumId,ownerId,isGuestProfile})=>{
 	console.log(postData);
 
 	const [displaySelectedPost,changeDisplaySelectedPost]=useState(true);
@@ -64,7 +64,11 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 
 	const enableCreationPost=()=>{
 		debugger;
-		changeDisplaySelectedPost(false);
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
+		}else{
+			changeDisplaySelectedPost(false);
+		}
 	}
 	const triggerCloseModal=()=>{
 		if(displayExtendReplyBeacon==true){

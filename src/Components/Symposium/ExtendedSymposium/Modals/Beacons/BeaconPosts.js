@@ -8,6 +8,25 @@ const Container=styled.div`
 	display:flex;
 	flex-direction:row;
 	flex-wrap:wrap;
+
+	@media screen and (max-width:650px){
+		#image{
+			width:100% !important;
+			height:110px !important;
+		}
+		#postOwnerInformation{
+			display:none !important;
+		}
+		#videoElement{
+			height:150px !important;
+		}
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		#image{
+			height:150px !important;
+		}
+	}
 `;
 
 const ProfileInformation=styled.div`
@@ -46,24 +65,26 @@ const BeaconPosts=({postType,posts,displayExtendedPostModal,
 						{posts.map(data=>
 							<div onClick={()=>displayExtendedPostModal(data)}
 								style={{cursor:"pointer",marginRight:"3%",width:"30%",marginBottom:"10%"}}>	
-								<img src={data.post.imgUrl} style={{width:"140px",height:"130px",borderRadius:"5px"}}/>
-								<ProfileInformation>
-									<img src={data.post.owner.profilePicture==null?
-												NoProfilePicture:data.post.owner.profilePicture}
-										style={{
-											width:"50px",
-											height:"40px",
-											borderRadius:"50%"
-										}}/>
-									<p style={OwnerNameCSS}>
-										{data.post.owner.firstName}
+								<img id="image" src={data.post.imgUrl} style={{width:"140px",height:"130px",borderRadius:"5px"}}/>
+								<div id="postOwnerInformation">
+									<ProfileInformation>
+										<img src={data.post.owner.profilePicture==null?
+													NoProfilePicture:data.post.owner.profilePicture}
+											style={{
+												width:"50px",
+												height:"40px",
+												borderRadius:"50%"
+											}}/>
+										<p style={OwnerNameCSS}>
+											{data.post.owner.firstName}
+										</p>
+									</ProfileInformation>
+									<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
+										<b>
+											{data.post.caption}
+										</b>
 									</p>
-								</ProfileInformation>
-								<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
-									<b>
-										{data.post.caption}
-									</b>
-								</p>
+								</div>
 							</div>
 						)}
 					</React.Fragment>
@@ -74,32 +95,34 @@ const BeaconPosts=({postType,posts,displayExtendedPostModal,
 				return(
 					<React.Fragment>
 						{posts.map(data=>
-							<div onClick={()=>displayExtendedPostModal(data)} 
+							<div id="videoElement" onClick={()=>displayExtendedPostModal(data)} 
 								style={{height:"250px",cursor:"pointer",marginRight:"3%",width:"30%",marginBottom:"15%"}}>
 								<video 
 									style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
 									 position="relative" width="100%" height="90%"
 								 	key={data.post.videoUrl} autoPlay loop autoBuffer muted playsInline>
 									<source src={data.post.videoUrl} type="video/mp4"/>
-								</video>	
-								<ProfileInformation>
-									<img src={data.post.owner.profilePicture==null?
-											NoProfilePicture:
-											data.post.owner.profilePicture
-										} style={{
-																width:"50px",
-																height:"40px",
-																borderRadius:"50%"
-															}}/>
-									<p style={OwnerNameCSS}>
-										{data.post.owner.firstName}
+								</video>
+								<div id="postOwnerInformation">
+									<ProfileInformation>
+										<img src={data.post.owner.profilePicture==null?
+												NoProfilePicture:
+												data.post.owner.profilePicture
+											} style={{
+																	width:"50px",
+																	height:"40px",
+																	borderRadius:"50%"
+																}}/>
+										<p style={OwnerNameCSS}>
+											{data.post.owner.firstName}
+										</p>
+									</ProfileInformation>
+									<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
+										<b>
+											{data.post.title}
+										</b>
 									</p>
-								</ProfileInformation>
-								<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
-									<b>
-										{data.post.title}
-									</b>
-								</p>
+								</div>	
 							</div>
 						)}
 					</React.Fragment>
