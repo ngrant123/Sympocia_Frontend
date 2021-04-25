@@ -25,7 +25,7 @@ import BeaconNotifications from "./BeaconNotification.js";
 const Container=styled.div`
 	position:fixed;
 	width:60%;
-	height:55%;
+	height:70%;
 	background-color:white;
 	z-index:55;
 	overflow:scroll;
