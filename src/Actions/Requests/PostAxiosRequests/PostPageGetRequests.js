@@ -243,6 +243,23 @@ export const getImgUrl=async(retrievalId)=>{
 }
 
 
+export const getSpecificBeacon=async({beaconId,postType})=>{
+	try{
+		const beaconResponse=await axios.get(`${SearchUrl}/beacon`,{
+			params:{
+				beaconId,
+				postType
+			}
+		})
+
+		const {data}=beaconResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
 
 
 

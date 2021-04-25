@@ -19,6 +19,7 @@ import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 import VideoDescriptionMobileDisplayPortal from "../../PostComponent/VideoDescriptionMobileDisplayPortal.js";
 import {Link} from "react-router-dom";
+import BeaconNotifications from "./BeaconNotification.js";
 
 
 const Container=styled.div`
@@ -209,7 +210,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 			let dataResponse;
 			debugger;
 
-			if(notificationType!="Stamp"){
+			if(notificationType!="Stamp" && notificationType!="BeaconResponse"){
 				if(notificationType=="RegularComment"){
 
 					const {confirmation,data}=await getCommentByID({postType,commentId:commentID,postId});
@@ -467,41 +468,48 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 				   					</Link>
 				   				</div>
 								:<React.Fragment>
-									{postUrlComponent()}
-									<div style={{width:"70%",marginLeft:"2%"}}>
-										{displayReplyModal==false? 
-											<>
-												<div id="viewPostButtonDIV" onClick={()=>triggerDisplayElementPage()} style={BackButtonCSS}>
-													View Post
-												</div>
-												<hr/>
-												<div style={{height:"40%",overflow:"scroll",marginTop:"10%",marginBottom:"10%"}}>
-													{notificationTypeComponent()}
-												</div>
-												<hr/>
-												{(notificationType=="RegularComment") &&(
-													<div id="replyButtonDIV" onClick={()=>changeDisplayReplyModal(true)} style={BackButtonCSS}>
-														Reply
-													</div>
-												)}
-											</>:
-											<>
-												<p>
-													<b>Reply to the comment here</b>
-												</p>
-												<hr/>
-												<InputContainer id="replyValue" placeholder="Enter comment here"/>
-												<hr/>
-												{displayIsProcessingCommentPrompt==true? 
-													<div id="submitButtonDIV" onClick={()=>submitReply({isAccessTokenUpdated:false})} style={BackButtonCSS}>
-														Submit
-													</div>
-													:<p>Submitting... Please wait </p>
+									{notificationType=="BeaconResponse"?
+										<BeaconNotifications
+											postData={data}
+											targetDom={targetDom}
+										/>:
+										<>
+											{postUrlComponent()}
+											<div style={{width:"70%",marginLeft:"2%"}}>
+												{displayReplyModal==false? 
+													<>
+														<div id="viewPostButtonDIV" onClick={()=>triggerDisplayElementPage()} style={BackButtonCSS}>
+															View Post
+														</div>
+														<hr/>
+														<div style={{height:"40%",overflow:"scroll",marginTop:"10%",marginBottom:"10%"}}>
+															{notificationTypeComponent()}
+														</div>
+														<hr/>
+														{(notificationType=="RegularComment") &&(
+															<div id="replyButtonDIV" onClick={()=>changeDisplayReplyModal(true)} style={BackButtonCSS}>
+																Reply
+															</div>
+														)}
+													</>:
+													<>
+														<p>
+															<b>Reply to the comment here</b>
+														</p>
+														<hr/>
+														<InputContainer id="replyValue" placeholder="Enter comment here"/>
+														<hr/>
+														{displayIsProcessingCommentPrompt==true? 
+															<div id="submitButtonDIV" onClick={()=>submitReply({isAccessTokenUpdated:false})} style={BackButtonCSS}>
+																Submit
+															</div>
+															:<p>Submitting... Please wait </p>
+														}
+													</>
 												}
-											</>
-										}
-
-									</div>
+											</div>
+										</>
+									}
 								</React.Fragment>
 							}
 						</>

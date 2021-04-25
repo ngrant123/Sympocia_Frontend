@@ -70,7 +70,8 @@ const Creation=({
 				ownerId,
 				beaconId,
 				symposiumId,
-				originalBeaconOwnerId
+				originalBeaconOwnerId,
+				originalBeaconPostId
 			})=>{
 	const [displayUploadPrompt,changeDisplayUploadPrompt]=useState(true);
 	const [selectedPostUrl,changeSelectedPostUrl]=useState();
@@ -173,7 +174,8 @@ const Creation=({
 			postType:beaconResponseDesignatedPostType,
 			ownerId,
 			symposiumId,
-			originalBeaconOwnerId
+			originalBeaconOwnerId,
+			originalBeaconPostId
 		});
 		return createdBeaconReplyResult;
 	}

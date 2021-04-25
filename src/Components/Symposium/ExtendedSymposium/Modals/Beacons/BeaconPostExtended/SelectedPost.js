@@ -51,7 +51,7 @@ const SelectedPost=({post,postType,displayZoomedPost})=>{
 					<React.Fragment>
 						<video id="uploadVideoUrl" onClick={()=>displayZoomedPost()}
 							key={uuidv4()} width="100%" height="40%" 
-							borderRadius="5px" controls autoplay>
+							borderRadius="5px" controls autoplay muted>
 							<source src={post.videoUrl} type="video/mp4"/>
 						</video>
 						<p>{post.title}</p>
