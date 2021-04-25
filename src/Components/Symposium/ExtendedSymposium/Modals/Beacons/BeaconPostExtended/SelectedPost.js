@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
+import {Link} from "react-router-dom";
 
 const OwnerNameCSS={
 	marginLeft:"2%",
@@ -69,12 +70,14 @@ const SelectedPost=({post,postType,displayZoomedPost})=>{
 	return(
 		<React.Fragment>
 			<div style={{display:"flex",flexDirection:"row",marginBottom:"2%"}}>
-				<img src={post.owner.profilePicture==null?NoProfilePicture:
-							post.owner.profilePicture} style={{
-											width:"50px",
-											height:"40px",
-											borderRadius:"50%"
-										}}/>
+				<Link to={{pathname:`/profile/${post.owner._id}`}}>
+					<img src={post.owner.profilePicture==null?NoProfilePicture:
+								post.owner.profilePicture} style={{
+												width:"50px",
+												height:"40px",
+												borderRadius:"50%"
+											}}/>
+				</Link>
 				<p style={OwnerNameCSS}>
 					{post.owner.firstName}
 				</p>

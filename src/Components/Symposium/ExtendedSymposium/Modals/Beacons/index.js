@@ -23,9 +23,15 @@ const Container=styled.div`
 	flex-direction:column;
 	overflow:scroll;
 
-	@media screen and (max-width:640px){
+	@media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		top:20%;
+		width:65%;
+		left:15%;
 	}
 `;
 
@@ -89,7 +95,7 @@ const ButtonCSS={
 
 
 
-const Beacon=({closeModal,symposiumId})=>{
+const Beacon=({closeModal,symposiumId,isGuestProfile})=>{
 	
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [displayExtendedModal,changeDisplayExtendedModal]=useState(false);
@@ -143,8 +149,12 @@ const Beacon=({closeModal,symposiumId})=>{
 
 	const targetElement=document.getElementById("extendedSymposiumContainer");
 	const displayCreationModalTrigger=()=>{
-		changeDisplayCreationModal(true);
-		changePostDisplayModal(false);
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
+		}else{
+			changeDisplayCreationModal(true);
+			changePostDisplayModal(false);
+		}
 	}
 
 	const updateBeaconPosts=(beaconPostType,beacon)=>{
@@ -240,6 +250,7 @@ const Beacon=({closeModal,symposiumId})=>{
 					postType={postType}
 					symposiumId={symposiumId}
 					ownerId={userInformation.id}
+					isGuestProfile={isGuestProfile}
 				/>
 			)
 		}

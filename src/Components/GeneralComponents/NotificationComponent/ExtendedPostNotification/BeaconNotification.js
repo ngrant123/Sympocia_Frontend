@@ -2,15 +2,24 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {getPostById} from "../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import ZoomedPostImageOrVideoPortal from "../../PostComponent/ZoomedInPostImageOrVideo.js";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
+import {Link} from "react-router-dom";
 
 const Container=styled.div`
 	margin-left:5%;
 	display:flex;
 	flex-direction:row;
 `;
+
+const PostCSS={
+	cursor:"pointer",
+	display:"flex",
+	flexDirection:"column"
+}
 const BeaconNotifications=({postData,targetDom})=>{
 	console.log(postData);
-	const {replyId,postType,commentID}=postData;
+	let {replyId,postType,commentID,owner,notificationOwnerId}=postData;
+	const {firstName,profilePicture}=owner;
 	const [selectedBeaconReplyData,changeSelectedBeaconReplyData]=useState();
 	const [originalSelectedBeaconData,changeOriginalBeaconData]=useState();
 	const [isLoading,changeIsLoading]=useState(true);
@@ -21,40 +30,41 @@ const BeaconNotifications=({postData,targetDom})=>{
 	useEffect(()=>{
 		const fetchData=async()=>{
 			//commentId
-			debugger;
-			const promise=[];
-			const parentBeacon=getPostById({
-				postId:commentID,
-				postType
-			})
-
-			const replyBeacon=getPostById({
-				postId:replyId,
-				postType
-			})
-			promise.push(parentBeacon);
-			promise.push(replyBeacon);
-
-			await Promise.all(promise).then(result=>{
 				debugger;
-				console.log(result);
-				const originalBeacon=result[0];
-				const replyBeacon=result[1];
+				const promise=[];
+				postType=postType=="Regular"?"RegularPosts":postType;
+				const parentBeacon=getPostById({
+					postId:commentID,
+					postType
+				})
 
-				const originalBeaconConfirmation=originalBeacon.confirmation;
-				const originalBeaconData=originalBeacon.data.message;
+				const replyBeacon=getPostById({
+					postId:replyId,
+					postType
+				})
+				promise.push(parentBeacon);
+				promise.push(replyBeacon);
 
-				const replyBeaconConfirmation=replyBeacon.confirmation;
-				const replyBeaconData=replyBeacon.data.message;
+				await Promise.all(promise).then(result=>{
+					debugger;
+					console.log(result);
+					const originalBeacon=result[0];
+					const replyBeacon=result[1];
 
-				if(originalBeaconConfirmation=="Success" && replyBeaconConfirmation=="Success"){
-					changeOriginalBeaconData(originalBeaconData)
-					changeSelectedBeaconReplyData(replyBeaconData);
-				}else{
-					alert('There was an error when retrieving this beacon response. Please try again');	
-				}
-				changeIsLoading(false);
-			})
+					const originalBeaconConfirmation=originalBeacon.confirmation;
+					const originalBeaconData=originalBeacon.data.message;
+
+					const replyBeaconConfirmation=replyBeacon.confirmation;
+					const replyBeaconData=replyBeacon.data.message;
+
+					if(originalBeaconConfirmation=="Success" && replyBeaconConfirmation=="Success"){
+						changeOriginalBeaconData(originalBeaconData)
+						changeSelectedBeaconReplyData(replyBeaconData);
+					}else{
+						alert('There was an error when retrieving this beacon response. Please try again');	
+					}
+				})	
+			changeIsLoading(false);
 		}
 
 		fetchData();
@@ -92,7 +102,7 @@ const BeaconNotifications=({postData,targetDom})=>{
 						originalSelectedBeaconData.caption:
 						selectedBeaconReplyData.caption
 			return(
-				<div onClick={()=>triggerDisplayUrlPortal(post,true)} style={{display:"flex",flexDirection:"column"}}>
+				<div onClick={()=>triggerDisplayUrlPortal(post,true)} style={PostCSS}>
 					<img src={imgUrl} style={{width:"350px",height:"300px",borderRadius:"5px"}}/>
 					<p style={{marginTop:"3%"}}>{caption}</p>
 				</div>
@@ -105,7 +115,7 @@ const BeaconNotifications=({postData,targetDom})=>{
 						originalSelectedBeaconData.title:
 						selectedBeaconReplyData.title
 			return(
-				<div onClick={()=>triggerDisplayUrlPortal(post,false)} style={{display:"flex",flexDirection:"column"}}>
+				<div onClick={()=>triggerDisplayUrlPortal(post,false)} style={PostCSS}>
 					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
 						style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
 						width="350px" height="300px" borderRadius="50%" controls>
@@ -115,7 +125,12 @@ const BeaconNotifications=({postData,targetDom})=>{
 				</div>
 			)
 		}else{
-
+			const originalPost=parentBeaconIndicator==true?
+							originalSelectedBeaconData.post:
+							selectedBeaconReplyData.post
+			return(
+				<p>{originalPost}</p>
+			)
 		}
 	}
 
@@ -142,6 +157,14 @@ const BeaconNotifications=({postData,targetDom})=>{
 							<b>Beacon response:</b>
 						</p>
 						{beaconConstruction()}
+						<div style={{display:"flex",flexDirection:"row"}}>
+							<Link to={{pathname:`/profile/${notificationOwnerId}`}}>
+								<img src={profilePicture==null?
+									NoProfilePicture:profilePicture}
+									style={{width:"50px",height:"40px",borderRadius:"50%"}}/>
+							</Link>
+							<p>{firstName}</p>
+						</div>
 					</div>
 				</React.Fragment>
 			}
