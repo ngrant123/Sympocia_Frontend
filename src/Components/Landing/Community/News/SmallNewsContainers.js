@@ -77,14 +77,14 @@ const HorizontalLineCSS={
 }
 
 
-const SmallNewsContainer=({news,displaySelectedBlog})=>{
+const SmallNewsContainer=({news,displaySelectedBlog,headerImage})=>{
 	return(
 		<React.Fragment>
 			{news.map(data=>
 				<React.Fragment>
 					<NewsContainer>
 						<div id="newsImage" style={{height:"250px",overflow:"hidden"}}>
-							<img src={HeaderImage} style={{width:"100%",height:"100%"}}/>
+							<img src={data.headerImage} style={{width:"100%",height:"100%"}}/>
 						</div>
 						<NewsInformation>
 							<p style={{fontSize:"20px",maxHeight:"60px",overflow:"hidden"}}>

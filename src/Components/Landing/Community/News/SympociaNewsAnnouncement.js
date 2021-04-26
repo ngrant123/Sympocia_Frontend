@@ -13,7 +13,7 @@ const Container=styled.div`
 	}
 `;
 
-const TEst=()=>{
+const SympociaNewsAnnoucement=()=>{
 	return(
 		<Container>
 			<p id="headerTitle" style={{fontSize:"40px"}}>
@@ -39,4 +39,4 @@ const TEst=()=>{
 
 }
 
-export default TEst;
+export default SympociaNewsAnnoucement;
