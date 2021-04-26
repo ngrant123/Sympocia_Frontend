@@ -52,7 +52,8 @@ const SelectedPost=({post,postType,displayZoomedPost})=>{
 					<React.Fragment>
 						<video id="uploadVideoUrl" onClick={()=>displayZoomedPost()}
 							key={uuidv4()} width="100%" height="40%" 
-							borderRadius="5px" controls autoplay muted>
+							style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+							borderRadius="5px" autoplay muted>
 							<source src={post.videoUrl} type="video/mp4"/>
 						</video>
 						<p>{post.title}</p>
@@ -69,6 +70,8 @@ const SelectedPost=({post,postType,displayZoomedPost})=>{
 	}
 	return(
 		<React.Fragment>
+			<p>Click on the post to zoom in </p>
+			<hr/>
 			<div style={{display:"flex",flexDirection:"row",marginBottom:"2%"}}>
 				<Link to={{pathname:`/profile/${post.owner._id}`}}>
 					<img src={post.owner.profilePicture==null?NoProfilePicture:

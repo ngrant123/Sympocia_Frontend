@@ -111,11 +111,11 @@ const Creation=({
 			if(isFileSizeAppropriate==false){
 				let fileSizeErrorPrompt;
 				if(currentSelectedPostType=="Images"){
-					fileSizeErrorPrompt="&MB for images.";
+					fileSizeErrorPrompt="7MB for images.";
 				}else{
 					fileSizeErrorPrompt="15MB for videos.";
 				}
-				alert('The file you selected is too large. As of right now we only accept files of size'
+				alert('The file you selected is too large. As of right now we only accept files of size '
 						+fileSizeErrorPrompt+' Sorry for the inconvenience.'); 
 			}else{
 				changePostType(currentSelectedPostType);
