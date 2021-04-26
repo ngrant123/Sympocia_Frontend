@@ -68,6 +68,7 @@ const PostContainer=styled.div`
 	position:relative;
 	display:flex;
 	flex-direction:column;
+	margin-top:30px;
 	@media screen and (max-width:1370px){
 		margin-top:30px;
 	}

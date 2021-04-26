@@ -12,7 +12,7 @@ const Container=styled.div`
 	@media screen and (max-width:650px){
 		#image{
 			width:100% !important;
-			height:110px !important;
+			height:90px !important;
 		}
 		#postOwnerInformation{
 			display:none !important;
@@ -135,7 +135,7 @@ const BeaconPosts=({postType,posts,displayExtendedPostModal,
 						{posts.map(data=>
 							<div onClick={()=>displayExtendedPostModal(data)}
 								style={{cursor:"pointer",marginRight:"3%",width:"100%",marginBottom:"5%"}}>
-								<p style={{width:"100%",height:"80px",overflow:"hidden",marginTop:"5%"}}>
+								<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
 									<b>
 										{data.post.post}
 									</b>
