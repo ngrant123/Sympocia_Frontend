@@ -51,7 +51,7 @@ const VideoOptionCSS={
 
  	const uploadVideo=()=>{
  		let reader= new FileReader();
- 		const maxFileSize=15*1024*1024 //50MB;
+ 		const maxFileSize=15*1024*1024
  		let dummyVideoObject=document.createElement('video');
  		dummyVideoObject.preload = 'metadata'
 		const video=document.getElementById("uploadVideoFile").files[0];

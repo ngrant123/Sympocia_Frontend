@@ -89,16 +89,39 @@ const Creation=({
 	const clickFileUpload=()=>{
 		document.getElementById("uploadFileBeacon").click();
 	}
-	const handleUploadFile=(postType)=>{
+	const handleUploadFile=(currentSelectedPostType)=>{
 		const fileReader=new FileReader();
 		const currentFileUrl=document.getElementById("uploadFileBeacon").files[0];
 
 		fileReader.onloadend=()=>{
 			debugger;
 			const fileUrl=fileReader.result;
-			changePostType(postType);
-			changeDisplayUploadPrompt(false);
-			changeSelectedPostUrl(fileUrl);
+			let isFileSizeAppropriate=true;
+			if(currentSelectedPostType=="Images"){
+				const maxFileSize=7000*1024;
+				const currentFileSize=currentFileUrl.size;
+				if(maxFileSize<currentFileSize)
+					isFileSizeAppropriate=false
+			}else if(currentSelectedPostType=="Videos"){
+				const maxFileSize=15*1024*1024 
+				const currentFileSize=currentFileUrl.size;
+				if(maxFileSize<currentFileSize)
+					isFileSizeAppropriate=false
+			}
+			if(isFileSizeAppropriate==false){
+				let fileSizeErrorPrompt;
+				if(currentSelectedPostType=="Images"){
+					fileSizeErrorPrompt="&MB for images.";
+				}else{
+					fileSizeErrorPrompt="15MB for videos.";
+				}
+				alert('The file you selected is too large. As of right now we only accept files of size'
+						+fileSizeErrorPrompt+' Sorry for the inconvenience.'); 
+			}else{
+				changePostType(currentSelectedPostType);
+				changeDisplayUploadPrompt(false);
+				changeSelectedPostUrl(fileUrl);
+			}
 		}
 
 		if(currentFileUrl!=null){
