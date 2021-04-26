@@ -570,6 +570,40 @@ export const ArrowDownContainer=styled.div`
 	  }
 `;
 
+export const BeaconButtonContainer=styled.div`
+	position:fixed;
+	left:80%;
+	top:80%;
+	z-index:39;
+	cursor:pointer;
+	border-radius:5px;
+	background-color:white;
+	border-radius:50%;
+	display:flex;
+	justify-content:center;
+	@media screen and (max-width:1370px){
+		left:80%;
+	}
+
+    animation: glowing 1300ms infinite, bounce 2s infinite;
+  	@keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-30px);
+        }
+        60% {
+          transform: translateY(-15px);
+        }
+	}
+    @keyframes glowing {
+	      0% { border-color: #F7FE2E; box-shadow: 0 0 5px #FFFF00; }
+	      50% { border-color: #FFFF00; box-shadow: 0 0 20px #FFFF00; }
+	      100% { border-color: #F7FE2E; box-shadow: 0 0 5px #FFFF00; }
+	  }
+`;
+
 export const PostContainerTEst=styled.div`
 	z-index:7;
 `;

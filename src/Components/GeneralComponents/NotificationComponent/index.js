@@ -33,6 +33,7 @@ const Container=styled.div`
 	}
 
 	@media screen and (max-width:650px){
+		height:70%;
 		#postContainerDiv{
 			height:100% !important;
 		}
@@ -67,6 +68,9 @@ const PostContainer=styled.div`
 	position:relative;
 	display:flex;
 	flex-direction:column;
+	@media screen and (max-width:1370px){
+		margin-top:30px;
+	}
 
 	@media screen and (max-width:740px){
 		height:200% !important;
@@ -200,7 +204,7 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 							  <source src={postUrl} type="audio/mp4"/>
 							Your browser does not support the audio element.
 							</audio>:
-							<p style={{color:"#A4A4A4",width:"70px",overflow:"hidden"}}>{postUrl}</p>
+							<p style={{color:"#A4A4A4",width:"90%",overflow:"hidden"}}>{postUrl}</p>
 						}
 					</>
 				}
@@ -301,6 +305,10 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 							)}
 							{data.notificationType=="Promotion" &&(
 								<p>Congrats you have been promoted (View message)</p>
+							)}
+
+							{data.notificationType=="BeaconResponse" &&(
+								<p>Congrats your beacon has been answered (View message)</p>
 							)}
 						</NotificationContainer>
 						<hr style={HorizontalLineCSS}/>
