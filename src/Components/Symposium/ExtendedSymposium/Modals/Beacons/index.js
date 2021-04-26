@@ -96,7 +96,7 @@ const ButtonCSS={
 
 
 
-const Beacon=({closeModal,symposiumId,isGuestProfile})=>{
+const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop})=>{
 	
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [displayExtendedModal,changeDisplayExtendedModal]=useState(false);
@@ -241,6 +241,7 @@ const Beacon=({closeModal,symposiumId,isGuestProfile})=>{
 					updateBeaconPosts={updateBeaconPosts}
 					symposiumId={symposiumId}
 					ownerId={userInformation.id}
+					isDesktop={isDesktop}
 				/>
 			)
 		}else{
