@@ -61,7 +61,7 @@ const SelectedPost=({post,postType,displayZoomedPost})=>{
 						<video id="uploadVideoUrl" onClick={()=>displayZoomedPost()}
 							style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
 							position="relative" width="100%" height="80%" 
-						 	key={uuidv4()}  autoplay loop autoBuffer muted playsInline>
+						 	key={post.videoUrl}  autoPlay loop autoBuffer muted playsInline>
 							<source src={post.videoUrl} type="video/mp4"/>
 						</video>
 						<p>{post.title}</p>
