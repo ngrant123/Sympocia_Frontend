@@ -6,8 +6,8 @@ export const Container=styled.div`
 	width:80%;
 	height:14%;
 	border-radius:0px 0px 5px 5px;
-	z-index:40;
 	margin-left:10%;
+	z-index:40;
 
 	@media screen and (max-width:1370px) {
 		margin-left:0%;
