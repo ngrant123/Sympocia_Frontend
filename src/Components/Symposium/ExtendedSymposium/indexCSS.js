@@ -229,7 +229,7 @@ export const BackgroundModalContainer= styled.div`
 	width:100%;
 	height:140%;
 	background: rgba(0, 0, 0, 0.5);
-	z-index:39;
+	z-index:40;
 	top:0%;
 `;
 
