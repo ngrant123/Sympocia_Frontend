@@ -8,8 +8,7 @@ import {
 	import {useSelector} from "react-redux";
 
 const Container=styled.div`
-	display:flex;
-	flex-direction:column;
+	position:relative;
 `;
 
 const PostTypes=styled.div`
@@ -17,7 +16,6 @@ const PostTypes=styled.div`
 	flex-direction:row;
 `;
 const InputContainer=styled.textarea`
-	position:relative;
 	border-radius:5px;
 	width:85%;
 	height:200px;
@@ -71,7 +69,8 @@ const Creation=({
 				beaconId,
 				symposiumId,
 				originalBeaconOwnerId,
-				originalBeaconPostId
+				originalBeaconPostId,
+				isDesktop
 			})=>{
 	const [displayUploadPrompt,changeDisplayUploadPrompt]=useState(true);
 	const [selectedPostUrl,changeSelectedPostUrl]=useState();
@@ -311,9 +310,18 @@ const Creation=({
 		)
 	}
 
+	const triggerVideoUpload=()=>{
+		debugger;
+		if(isDesktop==false){
+			alert('Unfortunately you can only upload videos on a desktop/laptop. Please switch to that to continue')
+		}else{
+			changePostType("Videos")
+		}
+	}
+
 	const videoUploadType=()=>{
 		return(
-			<div onClick={()=>changePostType("Videos")} style={ButtonCSS}>
+			<div onClick={()=>triggerVideoUpload()} style={ButtonCSS}>
 				Videos
 			</div>
 		)
@@ -367,9 +375,13 @@ const Creation=({
 						{fileUploadSystem()}
 					</div>
 				</React.Fragment>:
-				<div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-					{postDisplayDecider()}
-					{promptContainer()}
+				<div style={{position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+					<div>
+						{postDisplayDecider()}
+					</div>
+					<div>
+						{promptContainer()}
+					</div>
 				</div>
 			}
 		</Container>

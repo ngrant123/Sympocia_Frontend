@@ -587,6 +587,7 @@ class Symposium extends Component{
 						closeModal={this.closeBeaconPrompt}
 						symposiumId={this.state.symposiumId}
 						isGuestProfile={this.state.isGuestProfile}
+						isDesktop={this.state.displayDesktopUI}
 					/>
 				)}
 			</React.Fragment>
