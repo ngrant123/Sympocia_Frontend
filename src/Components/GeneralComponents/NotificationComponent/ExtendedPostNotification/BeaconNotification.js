@@ -11,7 +11,6 @@ const Container=styled.div`
 	flex-direction:row;
 
 	@media screen and (max-width:1370px){
-		flex-direction:column;
 		#beaconResponseDiv{
 			margin-left:0% !important;
 			margin-top:6% !important;
@@ -19,6 +18,9 @@ const Container=styled.div`
 	}
 
 	@media screen and (max-width:650px){
+		#postDiv{
+			flex-direction:column !important;
+		}
 		#beaconImage{
 			width:100% !important;
 			height:150px !important;
@@ -146,7 +148,7 @@ const BeaconNotifications=({postData,targetDom})=>{
 				<div onClick={()=>triggerDisplayUrlPortal(post,false)} style={PostCSS}>
 					<video id="beaconVideo" key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
 						style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-						width="350px" height="300px" borderRadius="50%" controls>
+						width="350px" height="300px" borderRadius="50%">
 						<source src={videoUrl} type="video/mp4"/>
 					</video>
 					<p style={{marginTop:"3%"}}>{title}</p>
@@ -179,13 +181,17 @@ const BeaconNotifications=({postData,targetDom})=>{
 			)}
 			{isLoading==true?
 				<p>Please wait...</p>:
-				<React.Fragment>
-					{beaconConstruction(true)}
+				<div id="postDiv" style={{display:"flex",flexDirection:"row"}}>
+					<div>
+						{beaconConstruction(true)}
+					</div>
 					<div id="beaconResponseDiv" style={{display:"flex",flexDirection:"column",marginLeft:"5%"}}>
 						<p>
 							<b>Beacon response:</b>
 						</p>
-						{beaconConstruction()}
+						<div>
+							{beaconConstruction()}
+						</div>
 						<div style={{display:"flex",flexDirection:"row"}}>
 							<Link to={{pathname:`/profile/${notificationOwnerId}`}}>
 								<img src={profilePicture==null?
@@ -195,7 +201,23 @@ const BeaconNotifications=({postData,targetDom})=>{
 							<p>{firstName}</p>
 						</div>
 					</div>
-				</React.Fragment>
+					{/*
+						<div id="beaconResponseDiv" style={{display:"flex",flexDirection:"column",marginLeft:"5%"}}>
+							<p>
+								<b>Beacon response:</b>
+							</p>
+							{beaconConstruction()}
+							<div style={{display:"flex",flexDirection:"row"}}>
+								<Link to={{pathname:`/profile/${notificationOwnerId}`}}>
+									<img src={profilePicture==null?
+										NoProfilePicture:profilePicture}
+										style={{width:"50px",height:"40px",borderRadius:"50%"}}/>
+								</Link>
+								<p>{firstName}</p>
+							</div>
+						</div>
+					*/}
+				</div>
 			}
 		</Container>
 	)

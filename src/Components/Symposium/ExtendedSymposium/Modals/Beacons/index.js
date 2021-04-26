@@ -90,7 +90,8 @@ const ButtonCSS={
   borderWidth:"2px",
   borderColor:"#3898ec",
   cursor:"pointer",
-  marginRight:"2%"
+  marginRight:"2%",
+  overflow:"hidden"
 }
 
 

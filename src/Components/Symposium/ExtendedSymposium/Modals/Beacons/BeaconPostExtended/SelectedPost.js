@@ -3,6 +3,14 @@ import styled from "styled-components";
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 import {Link} from "react-router-dom";
 
+const SelectedPostContainer=styled.div`
+	height:350px;
+	@media screen and (max-width:650px){
+		#uploadVideoUrl{
+			height:80% !important;
+		}
+	}
+`;
 const OwnerNameCSS={
 	marginLeft:"2%",
 	color:"#ADADAD",
@@ -51,9 +59,9 @@ const SelectedPost=({post,postType,displayZoomedPost})=>{
 				return(
 					<React.Fragment>
 						<video id="uploadVideoUrl" onClick={()=>displayZoomedPost()}
-							key={uuidv4()} width="100%" height="40%" 
 							style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-							borderRadius="5px" autoplay muted>
+							position="relative" width="100%" height="80%" 
+						 	key={uuidv4()}  autoplay loop autoBuffer muted playsInline>
 							<source src={post.videoUrl} type="video/mp4"/>
 						</video>
 						<p>{post.title}</p>
@@ -72,20 +80,22 @@ const SelectedPost=({post,postType,displayZoomedPost})=>{
 		<React.Fragment>
 			<p>Click on the post to zoom in </p>
 			<hr/>
-			<div style={{display:"flex",flexDirection:"row",marginBottom:"2%"}}>
-				<Link to={{pathname:`/profile/${post.owner._id}`}}>
-					<img src={post.owner.profilePicture==null?NoProfilePicture:
-								post.owner.profilePicture} style={{
-												width:"50px",
-												height:"40px",
-												borderRadius:"50%"
-											}}/>
-				</Link>
-				<p style={OwnerNameCSS}>
-					{post.owner.firstName}
-				</p>
-			</div>
-			{displayPost()}
+			<SelectedPostContainer>
+				<div style={{display:"flex",flexDirection:"row",marginBottom:"2%"}}>
+					<Link to={{pathname:`/profile/${post.owner._id}`}}>
+						<img src={post.owner.profilePicture==null?NoProfilePicture:
+									post.owner.profilePicture} style={{
+													width:"50px",
+													height:"40px",
+													borderRadius:"50%"
+												}}/>
+					</Link>
+					<p style={OwnerNameCSS}>
+						{post.owner.firstName}
+					</p>
+				</div>
+				{displayPost()}
+			</SelectedPostContainer>
 			<hr style={HorizontalLineCSS}/>
 		</React.Fragment>
 	)

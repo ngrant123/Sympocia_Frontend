@@ -2,6 +2,9 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import BeaconPosts from "../BeaconPosts.js";
 
+const Container=styled.div`
+	position:relative;
+`;
 const CreateButtonCSS={
   listStyle:"none",
   display:"inline-block",
@@ -51,7 +54,7 @@ const Replies=({
 	}
 
 	return(
-		<React.Fragment>
+		<Container>
 			{isLoadingReplies==true?
 				<p>Loading...</p>:
 				<React.Fragment>
@@ -91,7 +94,7 @@ const Replies=({
 				  	)}
 				</React.Fragment>
 			}
-		</React.Fragment>
+		</Container>
 	)
 }
 
