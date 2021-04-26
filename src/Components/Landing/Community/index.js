@@ -6,6 +6,9 @@ import Interviews from "./Interviews/index.js";
 import SympociaNewsOptions from "./SympociaNewsOptionsToolBar.js";
 import NavBar from "../NavBar/index.js";
 import SympociaNewsAnnouncement from "./News/SympociaNewsAnnouncement.js";
+import BeaconsAnnouncement from "./News/BeaconSympociaAnnouncement.js";
+import SympociaAnnouncementImage from "../../../designs/background/ThirdSectionBackground.png";
+import BeaconsHeaderImage from "../../../designs/background/Beacons.png";
 
 
 
@@ -62,9 +65,16 @@ const CommunityContainer=(props)=>{
 	const [displayNews,changeDisplayNews]=useState(true);
 	const [newsMapping,changeNewsMapping]=useState([
 		{
+			title:"Beacons Announcement and Current Sprint Planning",
+			description:"Hope you guys like the new beacons feature. Also what to talk about the current sprint planning",
+			component:<BeaconsAnnouncement/>,
+			headerImage:BeaconsHeaderImage
+		},
+		{
 			title:"Sympocia News Announcement",
 			description:"Here we talk about our new section Sympocia News and why we created it for you :)",
-			component:<SympociaNewsAnnouncement/>
+			component:<SympociaNewsAnnouncement/>,
+			headerImage:SympociaAnnouncementImage
 		}
 	])
 
