@@ -1,7 +1,10 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import {editNodeInformation} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {
+		editNodeInformation,
+		requestAccessToNode
+	} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
 
@@ -44,6 +47,13 @@ const DescriptionTextArea=styled.textarea`
 	border-style:none;
 	margin-bottom:5%;
 `;
+
+
+const ColorChoicesContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+	margin-bottom:5%;
+`;
 const ExploreButton={
   listStyle:"none",
   backgroundColor:"white",
@@ -55,10 +65,38 @@ const ExploreButton={
   borderColor:"#3898ec"
 }
 
+const ColorBlockCSS={
+	height:"40px",
+	width:"40px",
+	borderRadius:"5px",
+	marginRight:"2%",
+	marginBottom:"2%",
+	cursor:"pointer"
+}
+
+const RequestAccessButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  cursor:"pointer"
+}
+
+
 const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNode})=>{
 	const [displayEditArea,changeDisplayEditArea]=useState(false);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
+	const [selectedColorCode,changeSelectedColorCode]=useState(nodeInformation.colorCode);
+	const [colorCodes,changeColorCodes]=useState([
+		"#7FFFD4","#8A2BE2","#FF4500","#008000","#0000FF","#FFC0CB","#DFFF00",
+		"#FFF9E3","#F92424","#3F9FFF","#35FA2C","#FFFB00"
+	])
 
 	const submitInformation=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const name=document.getElementById("name").value;
@@ -68,6 +106,7 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 			_id:userId,
 			name:name,
 			description:description,
+			colorScheme:selectedColorCode,
 			levelId:nodeInformation._id,
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						personalInformation.accessToken
@@ -94,6 +133,32 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 			}else{
 				alert('Unfortunately there has been an error. Please upload again');
 			}
+		}
+	}
+
+	const changeSelectedColorCodeHandle=(colorCode,index)=>{
+		changeSelectedColorCode(colorCode);
+		for(var i=0;i<colorCodes.length;i++){
+			document.getElementById(`colorCode-${i}`).style.borderStyle="none";
+		}
+		if(colorCode==null){
+			document.getElementById("noColorScheme").style.color="red";
+		}else{
+			document.getElementById("noColorScheme").style.color="black";
+			document.getElementById(`colorCode-${index}`).style.borderStyle="dotted dashed solid double";
+		}
+	}
+
+	const requestTrigger=async()=>{
+		const {confirmation,data}=await requestAccessToNode({
+			nodeName:nodeInformation.name,
+			targetId:userId,
+			requestOwnerId:personalInformation.id
+		})
+		if(confirmation=="Success"){
+			alert('Your request has been sent');
+		}else{
+			alert('There has been an error sending your request');
 		}
 	}
 	return createPortal(
@@ -138,9 +203,24 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 					<li style={{listStyle:"none"}}>
 						{displayEditArea==false?
 							<>
+								{(isOwner==false && nodeInformation.isFirstNode==false)&&(
+									<p onClick={()=>requestTrigger()} style={RequestAccessButtonCSS}>
+										Request Access
+									</p>
+								)}
 								<p style={{fontSize:"30px"}}>{nodeInformation.name}</p>
 								<hr/>
 								<p>{nodeInformation.description}</p>
+								<hr/>
+								<p>
+									<b>Selected color:</b>
+								</p>
+								{nodeInformation.colorCode==null?
+									<p>None</p>:
+									<div style={{backgroundColor:nodeInformation.colorCode,
+												height:"40px",width:"40px",borderRadius:"5px"}}
+									/>
+								}
 							</>:
 							<>
 								<NameTextArea id="name">
@@ -150,6 +230,18 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 								<DescriptionTextArea id="description">
 									{nodeInformation.description}
 								</DescriptionTextArea>
+								<p style={{marginBottom:"5%"}}>Select a color scheme:</p>
+								<p id="noColorScheme" style={{cursor:"pointer"}}
+									onClick={()=>changeSelectedColorCodeHandle(null)}
+								>None</p>
+								<ColorChoicesContainer>
+									{colorCodes.map((data,index)=>
+										<div id={`colorCode-${index}`} style={{...ColorBlockCSS,backgroundColor:data}}
+											onClick={()=>changeSelectedColorCodeHandle(data,index)}
+										/>
+									)}
+									
+								</ColorChoicesContainer>
 								<a href="javascript:void(0);" onClick={()=>submitInformation({isAccessTokenUpdated:false})} style={{textDecoration:"none"}}>
 									<li style={ExploreButton}>
 										Submit

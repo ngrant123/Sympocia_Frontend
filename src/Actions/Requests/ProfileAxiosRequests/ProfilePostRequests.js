@@ -231,13 +231,14 @@ export const removeLevel=async({_id,levelId,accessToken})=>{
 	}
 }
 
-export const editNodeInformation=async({_id,name,levelId,description,accessToken})=>{
+export const editNodeInformation=async({_id,name,levelId,description,colorScheme,accessToken})=>{
 	try{
 		const levelResponse=await axios.post(`${CreateUrl}/editNodeInformation`,{
 			_id:_id,
 			name:name,
 			description:description,
-			levelId:levelId
+			levelId:levelId,
+			colorScheme
 		},{
 			headers:{
 				authorization:accessToken
@@ -515,6 +516,20 @@ export const demoteRecruit=async({
 			}
 		})
 		const {data}=demoteRecruitResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+export const requestAccessToNode=async({nodeName,targetId,requestOwnerId})=>{
+	try{
+		const requestAccessResponse=await axios.post(`${CreateUrl}/requestAccessToNode`,{
+			nodeName,
+			targetId,
+			requestOwnerId
+		})
+		const {data}=requestAccessResponse;
 		return data;
 	}catch(err){
 		throw err;

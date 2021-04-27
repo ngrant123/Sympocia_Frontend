@@ -34,7 +34,7 @@ const SmallBlogComponent=styled.div`
 const SmallBlog=styled.div`
 
 	position:relative;
-	height:50%;
+	height:60%;
 	width:100%;
 	border-radius:5px;
 	background-color:red;
@@ -82,7 +82,7 @@ const VideoDesriptionContainer=styled.div`
 
 
 const BlogContainer=(props)=>{
-
+	console.log(props);
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
@@ -90,6 +90,31 @@ const BlogContainer=(props)=>{
 
 		//work on this a little more
 		return dateToString;
+	}
+
+	const blogImage=()=>{
+		const colorCode=props.friendsColorNodesMap.get(props.data.levelNode);
+		let postStyle;
+		if(colorCode!=null){
+			postStyle={
+				borderStyle:"solid",
+				borderColor:colorCode
+			}
+		}
+		return(
+			<SmallBlog style={postStyle}>
+				<img id="smallImage" src={props.data.blogImageUrl} width="100%" height="100%"/>
+				<VideoDesriptionContainer>
+					{props.data.videoDescription!=null &&(
+						<video style={{borderRadius:"50%"}} autoPlay loop autoBuffer muted playsInline 
+							width="100%" height="100%" borderRadius="50%" autoplay="true" >
+							<source src={props.data.videoDescription} type="video/mp4"/>
+						</video>
+					)}
+				</VideoDesriptionContainer>
+
+			</SmallBlog>
+		)
 	}
 
 	return(
@@ -114,18 +139,7 @@ const BlogContainer=(props)=>{
 						</li>
 
 						<li style={{listStyle:"none"}}>
-							<SmallBlog>
-								<img id="smallImage" src={props.data.blogImageUrl} width="100%" height="100%"/>
-								<VideoDesriptionContainer>
-									{props.data.videoDescription!=null &&(
-										<video style={{borderRadius:"50%"}} autoPlay loop autoBuffer muted playsInline 
-											width="100%" height="100%" borderRadius="50%" autoplay="true" >
-											<source src={props.data.videoDescription} type="video/mp4"/>
-										</video>
-									)}
-								</VideoDesriptionContainer>
-
-							</SmallBlog>
+							{blogImage()}
 						</li>
 
 						<li style={{listStyle:"none",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginBottom:"2%"}}>

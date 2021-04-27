@@ -127,6 +127,7 @@ const ImageLabelCSS={
 
 const ImagePostsContainer=(props)=>{
 	console.log(props);
+	debugger;
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
 	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[props.imageData.images]);
@@ -163,6 +164,7 @@ const ImagePostsContainer=(props)=>{
 									<CrownedImageContainer
 										crownedImage={props.imageData.crownedImage}
 										displayPostModal={displayPostModalCallback}
+										friendsColorNodesMap={props.friendsColorNodesMap}
 									/>
 									<hr/>
 								</React.Fragment>
@@ -170,6 +172,7 @@ const ImagePostsContainer=(props)=>{
 							<SmallImageContainer
 								images={props.imageData.images}
 								displayPostModal={displayPostModalCallback}
+								friendsColorNodesMap={props.friendsColorNodesMap}
 							/>
 							{ PostContextValues.endOfPostsDBIndicator==false
 							 && PostContextValues.isSearchFilterActivated==false 

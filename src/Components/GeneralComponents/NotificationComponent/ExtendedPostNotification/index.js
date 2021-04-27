@@ -239,7 +239,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					const {confirmation,data}=await getRegularCommentReplyById({postType,postId,commentID,replyId});
 					confirmationResponse=confirmation;
 					dataResponse=data;
-				}else if(notificationType=="Recruit" || notificationType=="Promotion"){
+				}else if(notificationType=="Recruit" || notificationType=="Promotion" || notificationType=="RequestAccessToNode"){
 					const {confirmation,data}=await notificationProfileRetrieval(notificationOwnerId);
 					confirmationResponse=confirmation;
 					dataResponse=[{
@@ -429,6 +429,20 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 	const displayVideoDescriptionTrigger=()=>{
 	 	changeVideoDescriptionDisplay(true);
 	}	
+
+	const nonPostNotificationDescription=()=>{
+		if(notificationType=="Promotion"){
+			return <p> The profile below has promoted you. Check them out :) </p>
+		}else if(notificationType=="Recruit"){
+			return <p> The profile below has recruited you. Check them out :) </p>
+		}else{
+			return <p> 
+						The profile below has requested access to node:
+						<b>  {data.nodeName}  </b>. 
+						You have give them access on your profile :)
+					</p>
+		}
+	}
 						
 	return createPortal(
 		<>
@@ -448,12 +462,9 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					{isLoading==true ?
 						<p>Please wait..</p>:
 						<>
-							{notificationType=="Recruit" || notificationType=="Promotion"?
+							{notificationType=="Recruit" || notificationType=="Promotion" || notificationType=="RequestAccessToNode"?
 								<div style={{display:"flex",flexDirection:"column"}}>
-									{notificationType=="Promotion"?
-										<p> The profile below has promoted you. Check them out :) </p>:
-										<p> The profile below has recruited you. Check them out :) </p>
-									}
+									{nonPostNotificationDescription()}
 									
 				   					<Link to={{pathname:`/profile/${notificationOwnerId}`}}>
 					   					<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>

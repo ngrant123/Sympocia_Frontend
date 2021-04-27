@@ -55,6 +55,7 @@ const NextPostLabelCSS={
 }
 
 const BlogsPostsContainer=(props)=>{
+	console.log(props);
 	const PostContextValues=useContext(PostContext);
 	const UserContextValues=useContext(UserContext);
 
@@ -73,6 +74,8 @@ const BlogsPostsContainer=(props)=>{
 				headerBlog={props.blogData.headerBlog}
 				isOwnProfile={UserContextValues.isOwnProfile}
 				profileType={props.profileType}
+				friendsColorNodesMap={props.friendsColorNodesMap}
+				friendsNodes={props.friendsNodes}
 			/>
 		)
 	},[props.blogData.headerBlog]);
@@ -85,6 +88,8 @@ const BlogsPostsContainer=(props)=>{
 						data={data}
 						isOwnProfile={UserContextValues.isOwnProfile}
 						profileType={props.profileType}
+						friendsColorNodesMap={props.friendsColorNodesMap}
+						friendsNodes={props.friendsNodes}
 					/>
 				)}
 			</ul>
