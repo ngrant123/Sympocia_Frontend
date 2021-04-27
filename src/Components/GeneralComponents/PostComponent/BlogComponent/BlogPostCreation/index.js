@@ -88,6 +88,7 @@ const authenticPostButtonCSS={
 
 class BlogPostCreation extends Component{
 	constructor(props){
+		console.log(props);
 		super(props);
 		console.log(props);
 		var isPersonalProfile;

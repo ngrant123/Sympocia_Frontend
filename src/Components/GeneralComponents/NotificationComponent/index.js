@@ -311,6 +311,10 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 							{data.notificationType=="BeaconResponse" &&(
 								<p>Congrats your beacon has been answered (View message)</p>
 							)}
+							
+							{data.notificationType=="RequestAccessToNode" &&(
+								<p>A user has requested access to your node (View Message)</p>
+							)}
 						</NotificationContainer>
 						<hr style={HorizontalLineCSS}/>
 					</>

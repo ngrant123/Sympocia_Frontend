@@ -110,7 +110,7 @@ const DescriptionContainer=styled.div`
 `;
 
 
-const CrownedVideoContainer=({headerVideo,displayPostModal})=>{
+const CrownedVideoContainer=({headerVideo,displayPostModal,friendsColorNodesMap})=>{
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -124,15 +124,28 @@ const CrownedVideoContainer=({headerVideo,displayPostModal})=>{
 		var current=new Date();
 		return dateToString;
 	}
+
+	const video=()=>{
+			debugger
+		const colorCode=friendsColorNodesMap.get(headerVideo.levelNode);
+		let postStyle;
+		if(colorCode!=null){
+			postStyle={
+				borderStyle:"solid",
+				borderColor:colorCode
+			}
+		}
+		return <ThumbnailVideo style={postStyle}>
+					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
+						<source src={headerVideo.videoUrl} type="video/mp4"/>
+					</video>
+				</ThumbnailVideo>
+	}
 	return(
 		<li onClick={()=>displayPostModal(headerVideo)} 
 				style={{listStyle:"none",cursor:"pointer"}}>
 			<ThumbnailVideoComponent>
-					<ThumbnailVideo>
-						<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
-							<source src={headerVideo.videoUrl} type="video/mp4"/>
-						</video>
-					</ThumbnailVideo>
+					{video()}
 
 					<DescriptionContainer id="videoDescriptionLI">
 							<div id="postInformation">

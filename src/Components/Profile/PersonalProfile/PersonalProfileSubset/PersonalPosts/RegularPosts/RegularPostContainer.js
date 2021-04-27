@@ -160,6 +160,7 @@ const RegularPostsContainer=(props)=>{
 												post={props.posts.headerPost}
 												profilePicture={props.profilePicture}
 												displayPostModal={displayPostModalCallback}
+												friendsColorNodesMap={props.friendsColorNodesMap}
 											/>	
 											<hr/>
 										</React.Fragment>
@@ -168,6 +169,7 @@ const RegularPostsContainer=(props)=>{
 										posts={props.posts.posts}
 										profilePicture={props.profilePicture}
 										displayPostModal={displayPostModalCallback}
+										friendsColorNodesMap={props.friendsColorNodesMap}
 									/>
 									{PostContextValues.endOfPostsDBIndicator==false
 									 && PostContextValues.isSearchFilterActivated==false 
