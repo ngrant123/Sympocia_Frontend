@@ -142,6 +142,21 @@ const PostSecondSection=styled.div`
 
 `;
 
+const ColorPatchContainer=styled.div`
+	width:30px;
+	height:25px;
+	border-radius:50%;
+	z-index:8;
+
+	${({colorCode})=>
+		colorCode!=null &&
+			`background-color:${colorCode};`
+	}
+
+	@media screen and (max-width:650px){
+    }
+`;
+
 /*
 				comments: [],
 				datePosted: 1594504222028,
@@ -193,16 +208,9 @@ const HeaderRegularPost=({post,profilePicture,displayPostModal,friendsColorNodes
 
 	const regularPost=()=>{
 		const colorCode=friendsColorNodesMap.get(post.levelNode);
-		let postStyle;
-		if(colorCode!=null){
-			postStyle={
-				borderStyle:"solid",
-				borderWidth:"1px",
-				borderColor:colorCode
-			}
-		}
 		return(
-			<Container style={postStyle}>
+			<Container>
+				<ColorPatchContainer colorCode={colorCode}/>
 				<PostFirstSection>
 					<img id="profilePicture" src={profilePicture==null?NoProfilePicture:profilePicture} 
 						style={{width:"100%",height:"60%",borderRadius:"50%",marginBottom:"1%"}}

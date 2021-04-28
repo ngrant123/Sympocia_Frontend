@@ -110,6 +110,28 @@ const DescriptionContainer=styled.div`
 `;
 
 
+const ColorPatchContainer=styled.div`
+	position:absolute;
+	width:30px;
+	height:25px;
+	border-radius:50%;
+	top:85%;
+	left:90%;
+	z-index:8;
+
+	${({colorCode})=>
+		colorCode!=null &&
+			`background-color:${colorCode};`
+	}
+
+	@media screen and (max-width:1370px){
+		top:70%;
+	}
+	@media screen and (max-width:650px){
+		left:80%;
+    }
+`;
+
 const CrownedVideoContainer=({headerVideo,displayPostModal,friendsColorNodesMap})=>{
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -128,17 +150,11 @@ const CrownedVideoContainer=({headerVideo,displayPostModal,friendsColorNodesMap}
 	const video=()=>{
 			debugger
 		const colorCode=friendsColorNodesMap.get(headerVideo.levelNode);
-		let postStyle;
-		if(colorCode!=null){
-			postStyle={
-				borderStyle:"solid",
-				borderColor:colorCode
-			}
-		}
-		return <ThumbnailVideo style={postStyle}>
+		return <ThumbnailVideo>
 					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
 						<source src={headerVideo.videoUrl} type="video/mp4"/>
 					</video>
+					<ColorPatchContainer colorCode={colorCode}/>
 				</ThumbnailVideo>
 	}
 	return(

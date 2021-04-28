@@ -104,6 +104,25 @@ const HeaderVideoDesriptionContainer=styled.div`
 `;
 
 
+const ColorPatchContainer=styled.div`
+	position:absolute;
+	width:30px;
+	height:25px;
+	border-radius:50%;
+	top:85%;
+	left:90%;
+	z-index:8;
+
+	${({colorCode})=>
+		colorCode!=null &&
+			`background-color:${colorCode};`
+	}
+
+	@media screen and (max-width:650px){
+		left:85%;
+    }
+`;
+
 const CrownedBlogContainer=(props)=>{
 
 	const constructDate=(date)=>{
@@ -117,19 +136,12 @@ const CrownedBlogContainer=(props)=>{
 
 	const blogImage=()=>{
 		const colorCode=props.friendsColorNodesMap.get(props.headerBlog.levelNode);
-		let postStyle;
-		if(colorCode!=null){
-			postStyle={
-				borderStyle:"solid",
-				borderColor:colorCode,
-				borderRadius:"5px"
-			}
-		}
 		return(
-			<div style={postStyle}>
+			<div>
 				<img  id="headerImage" src={props.headerBlog.blogImageUrl} 
 					style={{marginBottom:"5%",width:"100%",height:"300px"}}
 				/>
+				<ColorPatchContainer colorCode={colorCode}/>
 			</div>
 		)
 	}
