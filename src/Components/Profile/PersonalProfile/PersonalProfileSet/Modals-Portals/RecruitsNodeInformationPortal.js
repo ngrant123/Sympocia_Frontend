@@ -7,6 +7,9 @@ import {
 	} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
+import {recruitsLocatedInNode} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import {Link} from "react-router-dom";
 
 const Container=styled.div`
 	position:fixed;
@@ -97,6 +100,11 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 		"#7FFFD4","#8A2BE2","#FF4500","#008000","#0000FF","#FFC0CB","#DFFF00",
 		"#FFF9E3","#F92424","#3F9FFF","#35FA2C","#FFFB00"
 	])
+	const [triggerProfilePerNodeDispaly,changeDisplayProfilesPerNode]=useState(false);
+	const [isLoading,changeIsLoading]=useState(false);
+	const [profilesPromotedToNode,changeProfilesPromotedToNode]=useState([]);
+	console.log(nodeInformation);
+
 
 	const submitInformation=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const name=document.getElementById("name").value;
@@ -161,6 +169,23 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 			alert('There has been an error sending your request');
 		}
 	}
+
+	const triggerFilterSpecificNodePosts=()=>{
+
+	}
+	const fetchRecruitsSpecificToNode=async()=>{
+		changeDisplayProfilesPerNode(true);
+		changeIsLoading(true);
+		const {confirmation,data}=await recruitsLocatedInNode(userId,nodeInformation._id)
+		if(confirmation=="Success"){
+			const {message}=data;
+			changeProfilesPromotedToNode([...message]);
+		}else{
+			alert('There has been an error retrieving recruits located in specific node');
+		}
+		changeIsLoading(false);
+	}
+
 	return createPortal(
 		<>
 			<ShadowContainer
@@ -203,14 +228,25 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 					<li style={{listStyle:"none"}}>
 						{displayEditArea==false?
 							<>
-								{(isOwner==false && nodeInformation.isFirstNode==false)&&(
-									<p onClick={()=>requestTrigger()} style={RequestAccessButtonCSS}>
-										Request Access
-									</p>
-								)}
+								<div style={{display:"flex",flexDirection:"row"}}>
+									{(isOwner==false && nodeInformation.isFirstNode==false)&&(
+										<p onClick={()=>requestTrigger()} style={RequestAccessButtonCSS}>
+											Request Access
+										</p>
+									)}
+									{/*
+										<p onClick={()=>triggerFilterSpecificNodePosts()} style={RequestAccessButtonCSS}>
+											Isolate {nodeInformation.name} posts
+										</p>
+									*/}
+								</div>
 								<p style={{fontSize:"30px"}}>{nodeInformation.name}</p>
-								<hr/>
-								<p>{nodeInformation.description}</p>
+								{nodeInformation.description!="" &&(
+									<React.Fragment>
+										<hr/>
+										<p>{nodeInformation.description}</p>
+									</React.Fragment>
+								)}
 								<hr/>
 								<p>
 									<b>Selected color:</b>
@@ -221,6 +257,38 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 												height:"40px",width:"40px",borderRadius:"5px"}}
 									/>
 								}
+
+								{(isOwner==true && nodeInformation.isFirstNode==false)&&(
+									<div style={{marginTop:"2%"}}>
+										<hr/>
+										{triggerProfilePerNodeDispaly==true?
+											<React.Fragment>
+												{isLoading==true?
+													<p>Loading...</p>:
+													<>
+														{profilesPromotedToNode.length==0?
+															<p>No Recruits</p>:
+															<>
+																{profilesPromotedToNode.map(data=>
+																	<Link to={{pathname:`/profile/${data.userId}`}}>
+																		<img src={data.profilePicture==null?
+																					NoProfilePicture
+																					:data.profilePicture}
+																			style={{marginRight:"2%",borderRadius:"50%",width:"60px",height:"50px"}}
+																		/>
+																	</Link>
+																)}
+															</>
+														}
+													</>
+												}
+											</React.Fragment>:
+											<p onClick={()=>fetchRecruitsSpecificToNode()} style={RequestAccessButtonCSS}>
+												View profiles promoted to this node:
+											</p>
+										}
+									</div>
+								)}
 							</>:
 							<>
 								<NameTextArea id="name">

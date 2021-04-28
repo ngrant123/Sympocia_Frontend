@@ -58,6 +58,25 @@ const VideoDesriptionContainer=styled.div`
     }
 `;
 
+const ColorPatchContainer=styled.div`
+	position:absolute;
+	width:30px;
+	height:25px;
+	border-radius:50%;
+	top:55%;
+	left:80%;
+	z-index:8;
+
+	${({colorCode})=>
+		colorCode!=null &&
+			`background-color:${colorCode};`
+	}
+
+	@media screen and (max-width:650px){
+		height:17% !important;
+    	width:20% !important;
+    }
+`;
 const AudioDescriptionContainer=styled.div`
 	width:20px;
 `;
@@ -105,21 +124,18 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
 		debugger
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
 		let postStyle;
-		if(colorCode!=null){
-			postStyle={
-				borderStyle:"solid",
-				borderColor:colorCode
-			}
-		}
-		return <Image style={postStyle}>
+		return <Image>
 					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
 					{data.videoDescription!=null &&(
-						<VideoDesriptionContainer>
-							<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
-								style={{borderRadius:"50%"}} width="50px" height="40px" borderRadius="50%">
-								<source src={data.videoDescription} type="video/mp4"/>
-							</video>
-						</VideoDesriptionContainer>
+						<React.Fragment>
+							<VideoDesriptionContainer>
+								<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
+									style={{borderRadius:"50%"}} width="50px" height="40px" borderRadius="50%">
+									<source src={data.videoDescription} type="video/mp4"/>
+								</video>
+							</VideoDesriptionContainer>
+							<ColorPatchContainer colorCode={colorCode}/>
+						</React.Fragment>
 					)}
 				</Image>
 	}
