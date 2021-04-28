@@ -75,6 +75,23 @@ const SmallProfileCommentPicture=styled.div`
 	border-radius:50%;
 	margin-top:2%;
 `;
+const ColorPatchContainer=styled.div`
+	position:absolute;
+	width:30px;
+	height:25px;
+	border-radius:50%;
+	top:55%;
+	left:80%;
+	z-index:8;
+
+	${({colorCode})=>
+		colorCode!=null &&
+			`background-color:${colorCode};`
+	}
+
+	@media screen and (max-width:650px){
+    }
+`;
 
 const CommentButtonCSS={
 	textAlign:"center",
@@ -99,15 +116,9 @@ const SmallRegularPosts=({posts,profilePicture,displayPostModal,friendsColorNode
 
 	const regularPost=(data)=>{
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
-		let postStyle;
-		if(colorCode!=null){
-			postStyle={
-				borderStyle:"solid",
-				borderColor:colorCode
-			}
-		}
-		return <Container style={postStyle}>
+		return <Container>
 				<ul>
+					<ColorPatchContainer colorCode={colorCode}/>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
 							<li id="postOwnerInformation" style={{listStyle:"none",display:"inline-block",marginLeft:"25%",marginBottom:"2%"}}>

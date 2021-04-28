@@ -123,20 +123,17 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
 	const image=(data)=>{
 		debugger
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
-		let postStyle;
 		return <Image>
 					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
 					{data.videoDescription!=null &&(
-						<React.Fragment>
-							<VideoDesriptionContainer>
-								<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
-									style={{borderRadius:"50%"}} width="50px" height="40px" borderRadius="50%">
-									<source src={data.videoDescription} type="video/mp4"/>
-								</video>
-							</VideoDesriptionContainer>
-							<ColorPatchContainer colorCode={colorCode}/>
-						</React.Fragment>
+						<VideoDesriptionContainer>
+							<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
+								style={{borderRadius:"50%"}} width="50px" height="40px" borderRadius="50%">
+								<source src={data.videoDescription} type="video/mp4"/>
+							</video>
+						</VideoDesriptionContainer>
 					)}
+					<ColorPatchContainer colorCode={colorCode}/>
 				</Image>
 	}
 

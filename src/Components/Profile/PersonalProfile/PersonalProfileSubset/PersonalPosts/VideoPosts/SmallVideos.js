@@ -78,6 +78,23 @@ const VideoDescriptionContainer=styled.div`
 
 `;
 
+const ColorPatchContainer=styled.div`
+	width:30px;
+	height:25px;
+	border-radius:50%;
+	z-index:8;
+
+	${({colorCode})=>
+		colorCode!=null &&
+			`background-color:${colorCode};`
+	}
+
+	@media screen and (max-width:650px){
+		width:20px;
+		height:15px;
+    }
+`;
+
 const IndustryButtonCSS={
 	listStyle:"none",
 	padding:"5px",
@@ -132,15 +149,9 @@ const SmallVideoContainer=({videos,displayPostModal,friendsColorNodesMap})=>{
 	const video=(data)=>{
 		debugger
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
-		let postStyle;
-		if(colorCode!=null){
-			postStyle={
-				borderStyle:"solid",
-				borderColor:colorCode
-			}
-		}
-		return <SmallVideo style={postStyle}>
+		return <SmallVideo>
 				<ul id="videoAndAudioDescriptionLI" style={{position:"absolute",padding:"0px"}}>
+					<ColorPatchContainer colorCode={colorCode}/>
 					{data.videoDescription==null?null:
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 							<VideoDescriptionContainer>

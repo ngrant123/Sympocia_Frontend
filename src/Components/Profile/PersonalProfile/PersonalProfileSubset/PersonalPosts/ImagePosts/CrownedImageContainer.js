@@ -61,6 +61,28 @@ const Description=styled.div`
 	color:#767677;
 `;
 
+const ColorPatchContainer=styled.div`
+	position:absolute;
+	width:30px;
+	height:25px;
+	border-radius:50%;
+	top:85%;
+	left:90%;
+	z-index:8;
+
+	${({colorCode})=>
+		colorCode!=null &&
+			`background-color:${colorCode};`
+	}
+
+	@media screen and (max-width:650px){
+		height:20px !important;
+    	width:30px;
+    	left:80%;
+    }
+`;
+
+
 const VideoDesriptionContainer=styled.div`
 	position:absolute;
 	width:30%;
@@ -99,22 +121,15 @@ const CrownedImageContainer=({crownedImage,displayPostModal,friendsColorNodesMap
 	const image=()=>{
 		debugger
 		const colorCode=friendsColorNodesMap.get(crownedImage.levelNode);
-		let postStyle;
-		if(colorCode!=null){
-			postStyle={
-				borderStyle:"solid",
-				borderColor:colorCode
-			}
-		}
-		return <Image style={postStyle}>
+		return <Image>
 					<img src={crownedImage.imgUrl} style={{width:"100%",height:"100%"}}/>
 					<VideoDesriptionContainer>
 						<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
 							style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
 							<source src={crownedImage.videoDescription} type="video/mp4"/>
 						</video>
-
 					</VideoDesriptionContainer>
+					<ColorPatchContainer colorCode={colorCode}/>
 				</Image>
 	}
 

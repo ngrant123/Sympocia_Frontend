@@ -60,6 +60,24 @@ const SmallBlog=styled.div`
     }
 `;
 
+const ColorPatchContainer=styled.div`
+	position:absolute;
+	width:30px;
+	height:25px;
+	border-radius:50%;
+	top:80%;
+	left:80%;
+	z-index:8;
+
+	${({colorCode})=>
+		colorCode!=null &&
+			`background-color:${colorCode};`
+	}
+
+	@media screen and (max-width:650px){
+    }
+`;
+
 
 const Container=styled(Link)`
 
@@ -94,15 +112,8 @@ const BlogContainer=(props)=>{
 
 	const blogImage=()=>{
 		const colorCode=props.friendsColorNodesMap.get(props.data.levelNode);
-		let postStyle;
-		if(colorCode!=null){
-			postStyle={
-				borderStyle:"solid",
-				borderColor:colorCode
-			}
-		}
 		return(
-			<SmallBlog style={postStyle}>
+			<SmallBlog>
 				<img id="smallImage" src={props.data.blogImageUrl} width="100%" height="100%"/>
 				<VideoDesriptionContainer>
 					{props.data.videoDescription!=null &&(
@@ -112,7 +123,7 @@ const BlogContainer=(props)=>{
 						</video>
 					)}
 				</VideoDesriptionContainer>
-
+				<ColorPatchContainer colorCode={colorCode}/>
 			</SmallBlog>
 		)
 	}
