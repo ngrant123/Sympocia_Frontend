@@ -18,7 +18,7 @@ const OriginalShadowContainer=styled.div`
 	width:100%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:40;
+	z-index:39;
 	top:0px;
 `;
 
@@ -53,7 +53,7 @@ const EditNodeContainer=styled.div`
 	width:25%;
 	height:50%;
 	background-color:white;
-	z-index:40;
+	z-index:39;
 	top:20%;
 	border-radius:5px;
 	left:40%;
@@ -71,7 +71,7 @@ const SponsorExtendedModal=styled.div`
 	width:30%;
 	height:35%;
 	background-color:white;
-	z-index:36;
+	z-index:40;
 	border-radius:5px;
 	box-shadow: 10px 10px 20px 	#9395a0;
 	left:65%;
