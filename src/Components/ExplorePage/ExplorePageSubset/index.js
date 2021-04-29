@@ -516,7 +516,6 @@ class SearchExploreContainer extends Component{
 										<p>Loading...</p>:
 										<li style={{listStyle:"none"}}>
 											<PostsContainer>
-												<ul style={{padding:"0px"}}>
 													{this.state.displayDesktopUI==false &&(
 														<React.Fragment>
 															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
@@ -572,7 +571,6 @@ class SearchExploreContainer extends Component{
 														isGuestProfileIndicator={this.state.isGuestProfileIndicator}
 														postType={this.state.postOption}
 													/>
-												</ul>
 											</PostsContainer>
 										</li>
 									}
