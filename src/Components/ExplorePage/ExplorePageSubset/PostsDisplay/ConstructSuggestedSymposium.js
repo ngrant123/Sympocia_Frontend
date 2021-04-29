@@ -7,9 +7,10 @@ import CompanyIndustry from "../../../../Constants/industryConstants.js";
 import {getSymposiumId} from "../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 const SuggestedSymposiumsContainer=styled.div`
+	position:relative;
 	${({isBlogPost})=>
 		isBlogPost!=null?
-		`width:90%;`:`width:170px;`
+		`width:90%;`:`width:210px;`
 	}
 
 	${({currentHeight})=>
@@ -19,13 +20,20 @@ const SuggestedSymposiumsContainer=styled.div`
 	}
 	margin-left:2%;
 	margin-right:2%;
+	margin-bottom:5%;
 
 	@media screen and (max-width:1370px){
 		width:90%;
+		margin-bottom:15%;
+		height:40%;
+
+		#suggestedSymposiumLI{
+			height:20% !important;
+		}
 	}
-	@media screen and (max-width:650px){
-		width:90%;
-	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		margin-bottom:25%;
+    }
 `;
 
 const SuggestedSymposiumsCSS={
@@ -135,6 +143,8 @@ const ConstructSuggestedSymposium=({personalInformation,previousProps,isBlogPost
 								<b>{data.industry}</b>
 						</div>
 					)}
+					{/*
+					*/}
 			   </SuggestedSymposiumsContainer>
 }
 
