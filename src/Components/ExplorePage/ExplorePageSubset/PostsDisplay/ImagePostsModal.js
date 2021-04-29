@@ -124,7 +124,7 @@ const PostsContainer=styled.div`
 	display:flex;
 	flex-direction:row; 
 	width:90%;
-	height:100%;
+	height:560px;
 	flex-wrap: wrap;
 	overflow:scroll;
 
