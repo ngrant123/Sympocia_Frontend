@@ -9,11 +9,17 @@ import {getSymposiumId} from "../../../../Actions/Requests/HomePageAxiosRequests
 const SuggestedSymposiumsContainer=styled.div`
 	${({isBlogPost})=>
 		isBlogPost!=null?
-		`width:90%;`:`width:30%;`
+		`width:90%;`:`width:170px;`
+	}
+
+	${({currentHeight})=>
+		currentHeight!=null&&(
+			`height:${currentHeight};`
+		)
 	}
 	margin-left:2%;
 	margin-right:2%;
-	margin-top:10%;
+
 	@media screen and (max-width:1370px){
 		width:90%;
 	}
@@ -24,6 +30,7 @@ const SuggestedSymposiumsContainer=styled.div`
 
 const SuggestedSymposiumsCSS={
 	width:"100%",
+	height:"30%",
 	padding:"20px",
 	fontSize:"15px",
 	color:"white",
@@ -104,7 +111,7 @@ const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposi
 }
 
 
-const ConstructSuggestedSymposium=({personalInformation,previousProps,isBlogPost})=>{
+const ConstructSuggestedSymposium=({personalInformation,previousProps,isBlogPost,currentHeight})=>{
 		
 		const {personalInformationState}=personalInformation;
 		var symposiumContainer=new Map();
@@ -120,7 +127,7 @@ const ConstructSuggestedSymposium=({personalInformation,previousProps,isBlogPost
 			counter++;
 		}
 
-		return <SuggestedSymposiumsContainer isBlogPost={isBlogPost}>
+		return <SuggestedSymposiumsContainer isBlogPost={isBlogPost} currentHeight={currentHeight}>
 					<b> Suggested symposiums </b>
 					{selectedSymposiums.map(data=>
 						<div id="suggestedSymposiumLI" onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)}
