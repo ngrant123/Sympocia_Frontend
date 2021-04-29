@@ -14,8 +14,8 @@ import {
 	displayPersonalIndustryFeed
 } from "./ConstructSuggestedSymposium.js";
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
+import {HeaderOwnerAndSymposiumInformation} from "./PostDisplayGeneralComp.js";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-
 
 
 
@@ -384,7 +384,7 @@ const HorizontalLineCSS={
 	display:"none"
 }
 
-const TestHorizontalLineCSS={
+const PostsHorizontalLineCSS={
 	marginLeft:"0",
 	marginRight:"0",
 	width:"100%"
@@ -529,7 +529,7 @@ const ImagePostsModal=(props)=>{
 	const headerImage=props.posts[0];
 	const images=props.posts.slice(1,props.posts.length);
 	console.log(props);
-	const isMobileUI=props;
+	const isMobileUI=props.isMobileUI;
 
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
@@ -592,7 +592,7 @@ const ImagePostsModal=(props)=>{
 
 		while(counter<images.length){
 			if(counter%3==0 && counter>0 && isMobileUI==false){
-				const horizontalLine=<hr style={TestHorizontalLineCSS}/>;
+				const horizontalLine=<hr style={PostsHorizontalLineCSS}/>;
 				components.push(horizontalLine);
 			}
 			const component=smallImageComponent(images[counter]);
@@ -614,33 +614,9 @@ const ImagePostsModal=(props)=>{
 				{props.posts.length>=1?
 					<React.Fragment>
 						<HeaderContainer>
-							<PostUserAndSymposiumInformation>
-								<ProfilePictureLink style={{marginRight:"5%"}} to={{pathname:`/profile/${headerImage.owner._id}`}}>
-									<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
-										headerImage.owner.profilePicture}
-										style={{height:"40px",width:"46px",borderRadius:"50%"}}
-									/>
-								</ProfilePictureLink>
-								<div id="ownerInformationAndSymposiumAudio" 
-									style={{display:"flex",flexDirection:"column"}}>
-									<Link to={{pathname:`/profile/${headerImage.owner._id}`}}
-										id="postOwner" style={{fontSize:"15px",maxWidth:"60%",maxHeight:"50px"}}>
-										<b>{headerImage.owner.firstName}</b>
-									</Link>
-									{headerImage.audioDescription!=null &&(
-										<audio id="headerAudioLI" style={{width:"120px",height:"30px",marginBottom:"2%"}} id="headerAudioLI" controls muted>
-										  	<source src={headerImage.audioDescription} type="audio/ogg"/>
-										  	<source src={headerImage.audioDescription} type="audio/mp4"/>
-											Your browser does not support the audio element.
-										</audio>
-									)}
-								</div>
-								<div style={HeaderArrowDownCSS}>
-									<KeyboardArrowDownIcon
-										style={{color:"#7A7A7A"}}
-									/>
-								</div>
-							</PostUserAndSymposiumInformation>
+							<HeaderOwnerAndSymposiumInformation
+								headerPost={headerImage}
+							/>
 							<div id="headerImageLI" style={HeaderImageCSS}>
 									<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"
 										src={headerImage.imgUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
