@@ -24,7 +24,11 @@ const SuggestedSymposiumsContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:90%;
-		margin-bottom:15%;
+		${({isBlogPost})=>
+			isBlogPost!=null?
+			`margin-bottom:5%;`:`margin-bottom:15%;`
+		}
+
 		height:40%;
 
 		#suggestedSymposiumLI{

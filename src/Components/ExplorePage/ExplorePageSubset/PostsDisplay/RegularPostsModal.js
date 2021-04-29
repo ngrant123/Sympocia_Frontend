@@ -76,7 +76,8 @@ const PostsContainer=styled.div`
 
 	@media screen and (max-width:650px){
 		width:100%;
-		height:300px;
+		height:200px;
+		margin-bottom:5%;
 		#headerOwnerNameLI{
 			max-width:100% !important;
 			margin-left:20% !important;
@@ -213,6 +214,7 @@ const RegularPostModal=(props)=>{
 						<ConstructSuggestedSymposium
 							personalInformation={personalInformationRedux}
 							previousProps={props}
+							currentHeight={"30%"}
 						/>:
 						<PostsContainer onClick={()=>displayPostModal(data)} style={BorderCSS}>
 							<PostUserInformation>
