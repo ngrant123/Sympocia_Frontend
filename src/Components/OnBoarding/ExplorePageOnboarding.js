@@ -16,7 +16,7 @@ const Container=styled.div`
 	width:45%;
 	height:60%;
 	border-radius:5px; 
-	z-index:35;
+	z-index:40;
 	left:30%;
 	top:20%;
 	overflow-y:scroll;
@@ -78,7 +78,7 @@ const ShadowContainer=styled.div`
 	left:-5%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:35;
+	z-index:40;
 	top:0px;
 `;
 
