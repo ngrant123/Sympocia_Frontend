@@ -20,13 +20,11 @@ const AlterFirstNamePrompt=({closeModal})=>{
 										accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 										personalInformation.accessToken
 									});
-		debugger;
 		if(confirmation=="Success"){
 			alert('First name has been changed');
 			UserValues.updateFirstName(userInput);
 			closeModal();
 		}else{
-			debugger;
 			const {statusCode}=data;
 			if(statusCode==401){
 				await refreshTokenApiCallHandle(

@@ -103,7 +103,6 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 	const [triggerProfilePerNodeDispaly,changeDisplayProfilesPerNode]=useState(false);
 	const [isLoading,changeIsLoading]=useState(false);
 	const [profilesPromotedToNode,changeProfilesPromotedToNode]=useState([]);
-	console.log(nodeInformation);
 
 
 	const submitInformation=async({isAccessTokenUpdated,updatedAccessToken})=>{

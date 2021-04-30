@@ -185,7 +185,6 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
-console.log("Personal posts rerender");
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -236,7 +235,6 @@ console.log("Personal posts rerender");
 			image.style.borderBottom="solid";
 			image.style.borderColor="#C8B0F4";
 		}
-		debugger;
 		const nodes=props.personalInformation.friendsGaugeNodes;
 		const currentMapping=new Map();
 		for(var i=0;i<nodes.length;i++){
@@ -343,8 +341,6 @@ console.log("Personal posts rerender");
 												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 												personalRedux.accessToken
 											});
-			debugger;
-			console.log(data);
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
@@ -763,7 +759,6 @@ console.log("Personal posts rerender");
 
 	const postsDisplaySystem=()=>{
 		let posts;
-		debugger;
 		switch(currentPostType){
 			case 'image':{
 				posts=<ImagePosts
@@ -872,7 +867,6 @@ console.log("Personal posts rerender");
 								break;
 							}
 						}
-						debugger;
 						let result =editPostIndexContext(postData,propData);
 						stateCallBackFunction(result);
 						props.closeModal();
@@ -880,7 +874,6 @@ console.log("Personal posts rerender");
 					removePost:(postId,postType)=>{
 						let propData;
 						let stateCallBackFunction;
-						debugger;
 						switch(postType){
 							case 'Images':{
 								propData=imagePost;
@@ -900,8 +893,6 @@ console.log("Personal posts rerender");
 								break;
 							}
 						}
-						console.log(videoPost);
-						console.log(imagePost);
 
 						let result=removePostIndexContext(postId,propData,postType);
 						stateCallBackFunction(result);

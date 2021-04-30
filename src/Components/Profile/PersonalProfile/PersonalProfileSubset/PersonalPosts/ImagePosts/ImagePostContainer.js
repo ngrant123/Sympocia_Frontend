@@ -126,8 +126,6 @@ const ImageLabelCSS={
 }
 
 const ImagePostsContainer=(props)=>{
-	console.log(props);
-	debugger;
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
 	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[props.imageData.images]);

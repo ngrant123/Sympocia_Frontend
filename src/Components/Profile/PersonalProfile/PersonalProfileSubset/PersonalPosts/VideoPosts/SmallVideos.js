@@ -147,7 +147,6 @@ const SmallVideoContainer=({videos,displayPostModal,friendsColorNodesMap})=>{
 	}
 
 	const video=(data)=>{
-		debugger
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
 		return <SmallVideo>
 				<ul id="videoAndAudioDescriptionLI" style={{position:"absolute",padding:"0px"}}>

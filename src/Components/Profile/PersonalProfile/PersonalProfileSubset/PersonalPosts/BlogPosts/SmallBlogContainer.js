@@ -100,7 +100,6 @@ const VideoDesriptionContainer=styled.div`
 
 
 const BlogContainer=(props)=>{
-	console.log(props);
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
