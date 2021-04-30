@@ -40,7 +40,6 @@ const SmallBlog=styled.div`
 	height:60%;
 	width:100%;
 	border-radius:5px;
-	background-color:red;
 	overflow:hidden;
 
 	@media screen and (max-width:840px){
