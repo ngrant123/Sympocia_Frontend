@@ -213,7 +213,7 @@ const SmallPostContainer=styled.div`
 			height:220px !important;
 		}
 		#smallImageArrowDownCSS{
-			margin-left:-10% !important;
+			margin-left:10% !important;
 		}
 		#smallPostCaption{
 			visibility:visible !important;
@@ -222,6 +222,9 @@ const SmallPostContainer=styled.div`
 
 	@media screen and (max-width:650px){
 		height:120px;
+		#smallImageArrowDownCSS{
+			margin-left:-10% !important;
+		}
 		#smallImageContainer{
 			width:100% !important;
 			height:110px !important;
@@ -558,28 +561,28 @@ const ImagePostsModal=(props)=>{
 					currentHeight={"30%"}
 				/>
 				:<SmallPostContainer isSymposiumPostUI={props.isSymposiumPostUI}>
-						<div id="smallImageContainer" onClick={()=>displayImageModal(data)} style={ImageCSS}>
-							<img id="image" src={data.imgUrl} style={{
-								width:"100%",height:"100%",borderRadius:"10px"
-							}}/>
-							<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
-								<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-									<img id="smallProfilePicture" src={data.owner.profilePicture==null?
-											NoProfilePicture:data.owner.profilePicture}
-										 	style={ProfileProfileCSS}
-									/>
-								</ProfilePictureLink>
-								<div id="smallImageArrowDownCSS" style={SmallImageArrowDownCSS}>
-									<KeyboardArrowDownIcon
-										style={{color:"#FFFFFF"}}
-									/>
-								</div>
+					<div id="smallImageContainer" onClick={()=>displayImageModal(data)} style={ImageCSS}>
+						<img id="image" src={data.imgUrl} style={{
+							width:"100%",height:"100%",borderRadius:"10px"
+						}}/>
+						<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
+							<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+								<img id="smallProfilePicture" src={data.owner.profilePicture==null?
+										NoProfilePicture:data.owner.profilePicture}
+									 	style={ProfileProfileCSS}
+								/>
+							</ProfilePictureLink>
+							<div id="smallImageArrowDownCSS" style={SmallImageArrowDownCSS}>
+								<KeyboardArrowDownIcon
+									style={{color:"#FFFFFF"}}
+								/>
 							</div>
 						</div>
-						<p id="smallPostCaption" style={{visibility:"hidden",maxHeight:"15%",overflow:"hidden"}}>
-							<b>{data.caption}</b>
-						</p>
-					</SmallPostContainer>
+					</div>
+					<p id="smallPostCaption" style={{visibility:"hidden",maxHeight:"15%",overflow:"hidden"}}>
+						<b>{data.caption}</b>
+					</p>
+				</SmallPostContainer>
 			}	
 		</React.Fragment>
 		)
@@ -616,6 +619,7 @@ const ImagePostsModal=(props)=>{
 						<HeaderContainer>
 							<HeaderOwnerAndSymposiumInformation
 								headerPost={headerImage}
+								displayPostTrigger={displayImageModal}
 							/>
 							<div id="headerImageLI" style={HeaderImageCSS}>
 									<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"

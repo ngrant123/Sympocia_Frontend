@@ -116,6 +116,7 @@ const HeaderContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		margin-top:30px !important;
+		margin-left:3%;
 		width:90%;
 		#headerPostProfilePictureLIInformation{
 			top:60% !important;
@@ -128,6 +129,7 @@ const HeaderContainer=styled.div`
 
 
 	@media screen and (max-width:650px){
+		margin-left:0%;
 		#headerPostProfilePictureLIInformation{
 			top:-30% !important;
 		}
@@ -420,48 +422,6 @@ const VideoPostModal=(props)=>{
 								{data.title}
 							</b>
 						</p>
-						{/*
-							<div id="video" style={{height:"185px",width:"263px",position:"relative"}}>
-								<video onClick={()=>displayVideoModal(data)} 
-									style={{borderRadius:"5px",backgroundColor:"#151515",position:"absolute",cursor:"pointer"}}
-									 position="relative" height="90%" width="100%" borderRadius="50%"
-								 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-									<source src={data.videoUrl} type="video/mp4"/>
-								</video>
-								{data.videoDescription!=null &&(
-									<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-										style={{position:"absolute",top:"50%",left:"5%"}} width="100px" height="40%">
-										<source src={data.videoDescription} type="video/mp4"/>
-									</video>
-								)}
-							</div>
-							{data.audioDescription!=null &&(
-									<li id="smallAudioDescription" style={{listStyle:"none"}}>
-										<audio style={{width:"150px",height:"25px"}} controls muted>
-										  	<source src={data.audioDescription} type="audio/ogg"/>
-										  	<source src={data.audioDescription} type="audio/mp4"/>
-											Your browser does not support the audio element.
-										</audio>
-									</li>
-								)}
-							<p style={{fontSize:"20px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
-								<b>
-									{data.title}
-								</b>
-							</p>
-							<DescriptionContainer>
-								<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-									<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-										 style={{height:"30px",width:"35px",borderRadius:"50%"}}
-									/>
-								</ProfilePictureLink>
-								<HeaderTextsContainer>
-									<p style={{fontSize:"15px",width:"100%",maxWidth:"100%",height:"60px",overflow:"hidden"}}>
-										{data.owner.firstName}
-									</p>
-								</HeaderTextsContainer>
-							</DescriptionContainer>
-						*/}
 					</PostContainer>
 				}
 			</React.Fragment>
@@ -500,6 +460,7 @@ const VideoPostModal=(props)=>{
 							<HeaderContainer>
 								<HeaderOwnerAndSymposiumInformation
 									headerPost={headerVideo}
+									displayPostTrigger={handleDisplayHeaderVideo}
 								/>
 								<div id="headerVideoLI" style={{height:"264px",width:"464px",position:"relative"}}>
 									<video id="headerVideoContainer" style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer",position:"absolute"}} height="100%" width="90%" borderRadius="50%"

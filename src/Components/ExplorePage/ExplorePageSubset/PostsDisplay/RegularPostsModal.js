@@ -72,6 +72,7 @@ const PostsContainer=styled.div`
 	margin-bottom:2%;
 	@media screen and (max-width:1370px){
 		width:90%;
+		margin-top:5%;
 	}
 
 	@media screen and (max-width:650px){
@@ -164,9 +165,6 @@ const BorderCSS={
 }
 
 const NextButtonCSS={
-	borderStyle:"solid",
-	borderWidth:"2px",
-	borderColor:"#3898ec",
 	color:"#3898ec",
 	height:"70px",
 	width:"30%",

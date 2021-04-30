@@ -6,7 +6,7 @@ import SymposiumList from "../../Symposium/SymposiumList/FeedContainer";
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
 import SearchExploreScreen from "../ExplorePageSubset/index.js";
 
-import ExploreIcon from '@material-ui/icons/Explore';
+import ExploreOutlinedIcon from '@material-ui/icons/ExploreOutlined';
 import RecruitsPosts from "./RecruitsPostsModal.js";
 
 import AppsIcon from '@material-ui/icons/Apps';
@@ -44,7 +44,7 @@ const PageIndicator=styled.div`
 	position:absolute;
 	width:5%;
 	height:20%;
-	top:7%;
+	top:15%;
 	left:2%;
 	border-radius:5%;
 	z-index:4;
@@ -74,13 +74,21 @@ const Home=styled.div`
 
 const ExploreIconContainer=styled.div`
 	position:relative;
-	width:70px;
+	width:89px;
 	left:-80%;
 	border-radius:5px;
 	background-color:white;
 	padding:10px;
-	box-shadow: 1px 1px 1px 1px #d5d5d5;
 	transition:.8s;
+	display:flex;
+	flex-direction:column;
+	cursor:pointer;
+	align-items:center;
+	border-style:solid;
+	border-color:#D0D0D0;
+	border-width:1px;
+
+
 	&:hover{
 		box-shadow: 1px 1px 10px #707070;	
 	}
@@ -88,13 +96,22 @@ const ExploreIconContainer=styled.div`
 
 const ForYouIconContainer=styled.div`
 	position:relative;
-	width:70px;
+	width:89px;
 	left:-80%;
 	border-radius:5px;
 	background-color:white;
 	padding:10px;
-	box-shadow: 1px 1px 1px 1px #d5d5d5;
 	transition:.8s;
+	display:flex;
+	flex-direction:column;
+	cursor:pointer;
+	align-items:center;
+	border-style:solid;
+	border-color:#D0D0D0;
+	border-width:1px;
+	margin-top:30px;
+
+
 
 	&:hover{
 		box-shadow: 1px 1px 10px #707070;	
@@ -477,65 +494,58 @@ class HomePageContainer extends Component{
 						{this.state.displayDesktopUI==true &&(
 							<PageIndicator>
 								<ul>
-									<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
-										<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-											<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none"}}>
-														<ExploreIcon
-															style={{fontSize:50}}
-														/>
-													</li>
+									<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+										<ExploreOutlinedIcon
+											style={{color:"#7C7C7C",fontSize:50}}
+										/>
+										<p>Explore</p>
+									</ExploreIconContainer>
+									{/*
+										<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
+											<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+												<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none"}}>
+															<ExploreOutlinedIcon
+																style={{color:"#7C7C7C",fontSize:50}}
+															/>
+														</li>
 
-													<li style={{listStyle:"none"}}>
-														Explore
-													</li>
-												</ul>
-											</ExploreIconContainer>
-										</a>
-									</li>
-									<li style={{listStyle:"none"}}>
-										<ForYouIconContainer>
+														<li style={{listStyle:"none"}}>
+															Explore
+														</li>
+													</ul>
+												</ExploreIconContainer>
+											</a>
+										</li>
+									*/}
+									<ForYouIconContainer>
+										<AppsIcon
+											onClick={()=>this.props.history.push({
+												pathname:'/symposiumList'
+											})} style={{listStyle:"none",marginBottom:"20%"}}
+											style={{color:"#7C7C7C",fontSize:40}}
+										/>
+										<p style={{fontSize:"12px",listStyle:"none"}}>
+											Symposiums
+										</p>
+										{/*
+
 											<ul style={{padding:"0px"}}>
 												<li onClick={()=>this.props.history.push({
 														pathname:'/symposiumList'
 													})} style={{listStyle:"none",marginBottom:"20%"}}>
 													<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
 														<AppsIcon
-															style={{fontSize:40}}
+															style={{color:"#7C7C7C",fontSize:40}}
 														/>
 													</a>
+													<li style={{fontSize:"12px",listStyle:"none"}}>
+														Symposiums
+													</li>
 												</li>
-												<hr/>
-												
-												{/*
-													<li style={{listStyle:"none",marginBottom:"10%"}}>
-														<PersonPinIcon
-															style={{fontSize:40}}
-														/>
-													</li>
-													<li style={{listStyle:"none",height:"130%",overflowY:"auto "}}>
-														<ul style={{padding:"0px"}}>
-															{this.state.recruitsPost!=null?
-																<React.Fragment>
-																	{this.state.recruitsPost.map(data=>
-																		<li onClick={()=>this.setState({displayRecruitsPosts:true})} style={{listStyle:"none",marginBottom:"15%"}}>
-																			<a style={{textDecoration:"none"}} href="javascript:void(0);">
-																				<img src={data.profilePicture==null?
-																						  NoProfileIcon:
-																						  data.profilePicture} 
-																				style={RecruitImageCSS}/>
-																			</a>
-																		</li>
-																	)}
-																</React.Fragment>:null
-															}
-														</ul>
-													</li>
-												*/}
-											</ul>
-										</ForYouIconContainer>
-									</li>
+										*/}
+									</ForYouIconContainer>
 								</ul>
 							</PageIndicator>
 						)}
