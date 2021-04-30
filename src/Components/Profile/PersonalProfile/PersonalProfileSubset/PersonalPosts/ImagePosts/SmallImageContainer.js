@@ -103,6 +103,7 @@ const IndustryButtonCSS={
 }
 
 const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
+	console.log(images);
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
@@ -120,6 +121,7 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
 	//onClick={()=>displayPostModal(data)} 
 
 	const image=(data)=>{
+		debugger
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
 		return <Image>
 					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
@@ -141,7 +143,7 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
 		<li id="parentLISmallPostContainer" style={{listStyle:"none",marginTop:"3%"}}>
 			{images.map(data=>
 				<li id="smallPostLI" onClick={()=>displayPostModal(data)}
-					style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"20%"}}>
+					style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"10%"}}>
 							<ImageContainer>
 								<ul style={{padding:"0px"}}>
 									{data.audioDescription!=null?
@@ -163,19 +165,8 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
 										</li>:<React.Fragment></React.Fragment>
 									}
 
-									<li id="postInformation" style={{listStyle:"none"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"24%"}}>
-												Comments
-											</li>
-
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",color:"#C8B0F4"}}>
-												{constructDate(data.datePosted)}
-											</li>
-											<li style={IndustryButtonCSS}>
-												{data.industriesUploaded[0].industry}					
-											</li>
-										</ul>
+									<li id="postInformation" style={IndustryButtonCSS}>
+										{data.industriesUploaded[0].industry}
 									</li>
 								</ul>
 							</ImageContainer>
