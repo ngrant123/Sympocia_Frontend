@@ -285,6 +285,9 @@ export const PersonalProfileInformationContainer= styled.div`
 		html.touch *:hover {
 		    all:unset!important;
 		}
+		#mobileUserInformation{
+			margin-left:20% !important;
+		}
 	}
 
 	@media screen and (max-width:650px){

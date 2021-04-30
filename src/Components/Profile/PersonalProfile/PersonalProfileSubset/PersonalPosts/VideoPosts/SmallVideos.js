@@ -8,8 +8,9 @@ const SmallVideoComponent=styled.div`
 	height:40%;
 	background-color:white;
 	@media screen and (max-width:740px){
-		width:250% !important;
+		width:300% !important;
 		height:30%;
+		margin-left:5%;
 		#videoAudio{
 			display:none
 		}
@@ -20,8 +21,8 @@ const SmallVideoComponent=styled.div`
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
-		height:100% !important;
-		width:200%;
+		margin-left:-5%;
+		height:70% !important;
 	 	#videoAudio{
 			display:none
 		}
@@ -48,9 +49,9 @@ const SmallVideo=styled.div`
 	}
 
 	@media screen and (max-width:740px){
-		height:90%;
+		height:60%;
 		#videoAndAudioDescriptionLI{
-			margin-top:80% !important;
+			display:none !important;
 		}
 		#audioLI{
 			height:20px !important;
@@ -61,6 +62,11 @@ const SmallVideo=styled.div`
 	 @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#videoAndAudioDescriptionLI{
 			margin-top:10% !important;
+		}
+    }
+      @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#videoAndAudioDescriptionLI{
+			display:none !important;
 		}
     }
 `;
@@ -164,7 +170,7 @@ const SmallVideoContainer=({videos,displayPostModal,friendsColorNodesMap})=>{
 					
 					{data.audioDescription==null?null:
 						<li style={{listStyle:"none",display:"inline-block"}}>
-							<audio id="audioLI" key={uuidv4()} style={{width:"150px"}} controls>
+							<audio id="audioLI" key={uuidv4()} style={{width:"100px",height:"30px"}} controls>
 								<source src={data.audioDescription} type="audio/ogg"/>
 								<source src={data.audioDescription} type="audio/mp4"/>
 								Your browser does not support the audio element.
@@ -173,7 +179,7 @@ const SmallVideoContainer=({videos,displayPostModal,friendsColorNodesMap})=>{
 					}
 				</ul>
 				<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-					width="100%" height="100%">
+					width="100%" height="100%" style={{backgroundColor:"#151515"}}>
 					<source src={data.videoUrl} type="video/mp4"/>
 				</video>
 			</SmallVideo>
@@ -186,7 +192,7 @@ const SmallVideoContainer=({videos,displayPostModal,friendsColorNodesMap})=>{
 			<ul style={{padding:"0px"}}>
 				{videos.map(data=>
 					<li id="smallVideoLI" onClick={()=>displayPostModal(data)} 
-					style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"2%"}}>
+					style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"5%"}}>
 						<SmallVideoComponent>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none"}}>
@@ -197,15 +203,6 @@ const SmallVideoContainer=({videos,displayPostModal,friendsColorNodesMap})=>{
 									<li style={{listStyle:"none",fontSize:"15px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 										<b>{data.title} </b>
 									</li>
-									{/*
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													{constructDate(data)}
-												</li>
-											</ul>
-										</li>
-									*/}
 
 									<li style={{listStyle:"none"}}>
 										{displayIndustries(data)}

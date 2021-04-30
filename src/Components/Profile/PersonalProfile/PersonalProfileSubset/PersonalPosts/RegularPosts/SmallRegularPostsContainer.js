@@ -18,8 +18,8 @@ const Container=styled.div`
 	padding:10px;
 	overflow:hidden;
 
-	@media screen and (max-width:1030px){
-		width:200% !important;
+	@media screen and (max-width:1370px){
+		width:350% !important;
 		height:60%;
 		#postOwnerInformation{
 			display:none !important;
@@ -42,8 +42,10 @@ const Container=styled.div`
 			display:none !important;
 		}
 	}
-	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	
+
+	 @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+	 	width:350% !important;
+		height:60% !important;
     }
 
     @media screen  and (max-width:840px) and (max-height:420px) 
@@ -121,7 +123,9 @@ const SmallRegularPosts=({posts,profilePicture,displayPostModal,friendsColorNode
 					<ColorPatchContainer colorCode={colorCode}/>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
-							<li id="postOwnerInformation" style={{listStyle:"none",display:"inline-block",marginLeft:"25%",marginBottom:"2%"}}>
+							<li id="postOwnerInformation" 
+								style={{listStyle:"none",display:"inline-block",
+										marginLeft:"25%",marginBottom:"2%",marginBottom:"30px"}}>
 								<ProfilePicture>
 									{profilePicture==null?
 										 <img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
@@ -141,29 +145,32 @@ const SmallRegularPosts=({posts,profilePicture,displayPostModal,friendsColorNode
 									</React.Fragment>
 								}
 							</li>
-							<div id="commentLI">	
-								{data.comments.regularComments.length==0?
-									<React.Fragment>
-										<p> No comments here :(<ExpandMoreIcon/> </p>
-										<p style={CommentButtonCSS}> Create a comment </p>
-									</React.Fragment>:
-									<React.Fragment>
-										<p> Show comments <ExpandMoreIcon/> </p>
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"0px"}}>
-												{data.comments.regularComments.map(data=>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-														<SmallProfileCommentPicture>
-															<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-															<img id="profilePicture" src={data.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
-														</SmallProfileCommentPicture>
-													</li>
-													)}
-												</ul>
-											</li>
-										</React.Fragment>
-									}
-							</div>
+							{/*
+								<div id="commentLI">	
+									{data.comments.regularComments.length==0?
+										<React.Fragment>
+											<p> No comments here :(<ExpandMoreIcon/> </p>
+											<p style={CommentButtonCSS}> Create a comment </p>
+										</React.Fragment>:
+										<React.Fragment>
+											<p> Show comments <ExpandMoreIcon/> </p>
+											<li style={{listStyle:"none"}}>
+												<ul style={{padding:"0px"}}>
+													{data.comments.regularComments.map(data=>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+															<SmallProfileCommentPicture>
+																<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
+																<img id="profilePicture" src={data.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
+															</SmallProfileCommentPicture>
+														</li>
+														)}
+													</ul>
+												</li>
+											</React.Fragment>
+										}
+								</div>
+
+							*/}
 						</ul>
 					</li>
 				</ul>

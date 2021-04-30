@@ -16,8 +16,8 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		width:100%;
 		#profilePicture{
-			height:40% !important;
-			width:50% !important;
+			height:65px !important;
+			width:85px !important;
 		}
 		#postCommentsLI{
 			display:none !important;
@@ -43,6 +43,9 @@ const Container=styled.div`
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 	 	height:70% !important;
 	 	width:200% !important;
+	 	#profilePicture{
+			height:65px !important;
+		}
     }
 `;
 
@@ -213,7 +216,7 @@ const HeaderRegularPost=({post,profilePicture,displayPostModal,friendsColorNodes
 				<ColorPatchContainer colorCode={colorCode}/>
 				<PostFirstSection>
 					<img id="profilePicture" src={profilePicture==null?NoProfilePicture:profilePicture} 
-						style={{width:"100%",height:"60%",borderRadius:"50%",marginBottom:"1%"}}
+						style={{width:"100%",height:"60%",borderRadius:"50%",marginBottom:"4%"}}
 					/>
 					{post.industriesUploaded[0]!=null?
 						<li style={IndustryButtonCSS}>
@@ -238,46 +241,6 @@ const HeaderRegularPost=({post,profilePicture,displayPostModal,friendsColorNodes
 								</React.Fragment>
 							}
 						</Post>
-					</li>
-					<li id="postCommentsLI" style={{listStyle:"none"}}>
-						<ul>
-							{post.comments.regularComments.length==0?
-								<li style={{listStyle:"none",marginLeft:"-10%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-											No comments here unfortunately
-										</li>
-
-										<li style={CommentButtonCSS}>
-											Leave a comment
-										</li>
-									</ul>
-								</li>:
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginLeft:"-10%"}}>
-										<ul style={{padding:"0px"}}>	
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-												Show comments <ExpandMoreIcon/>
-											</li>
-											{/*
-												<li style={{listStyle:"none",display:"inline-block",marginTop:"2%",height:"30%"}}>
-													<CommentsProfile>
-														{post.comments.map(commentData=>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																<SmallProfileCommentPicture>
-																	<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-																	<img id="profilePicture" src={commentData.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
-																</SmallProfileCommentPicture>
-															</li>
-														)}
-													</CommentsProfile>
-												</li>
-											*/}
-										</ul>
-									</li>
-								</a>
-							}
-						</ul>
 					</li>
 				</PostSecondSection>
 			</Container>

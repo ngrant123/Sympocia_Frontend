@@ -5,16 +5,19 @@ import {Link} from "react-router-dom";
 
 const SmallBlogComponent=styled.div`
 	position:relative;
-	width:250px;
-	height:50%;
+	width:200px;
+	height:40%;
 
 	@media screen and (max-width:1370px){
-		width:350px !important;
 		margin-bottom:40%;
+		height:20%;
+		margin-right:20px !important;
 	}
 
-	@media screen and (max-width:700px){
-		width:290px !important;
+	@media screen and (max-width:640px){
+		width:250px !important;
+		height:40%;
+		margin-right:0px !important;
 		#smallAudio{
 			width:170px !important;
 		}
@@ -27,7 +30,7 @@ const SmallBlogComponent=styled.div`
      @media screen  and (max-width:840px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
-		
+		height:60%;
     }
 `;
 
@@ -48,7 +51,7 @@ const SmallBlog=styled.div`
 		}
     }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	height:90% !important;
+    	height:170% !important;
     }
 
     @media screen  and (max-width:840px) and (max-height:420px) 
@@ -113,7 +116,10 @@ const BlogContainer=(props)=>{
 		const colorCode=props.friendsColorNodesMap.get(props.data.levelNode);
 		return(
 			<SmallBlog>
-				<img id="smallImage" src={props.data.blogImageUrl} width="100%" height="100%"/>
+				<img id="smallImage" src={props.data.blogImageUrl}
+					style={{borderRadius:"10px"}}
+				 	width="100%" height="100%"
+				 />
 				<VideoDesriptionContainer>
 					{props.data.videoDescription!=null &&(
 						<video style={{borderRadius:"50%"}} autoPlay loop autoBuffer muted playsInline 
@@ -140,7 +146,7 @@ const BlogContainer=(props)=>{
 					<ul style={{padding:"0px"}}>
 						<li style={{listStyle:"none"}}>
 							{props.data.audioDescription!=null &&(
-								<audio id="smallAudio" controls>
+								<audio id="smallAudio" controls style={{width:"120px",height:"20px"}}>
 								  <source src={props.data.audioDescription} type="audio/ogg"/>
 								  <source src={props.data.audioDescription} type="audio/mp4"/>
 								  Your browser does not support the audio element.
@@ -152,22 +158,12 @@ const BlogContainer=(props)=>{
 							{blogImage()}
 						</li>
 
-						<li style={{listStyle:"none",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginBottom:"2%"}}>
+						<li style={{listStyle:"none",fontSize:"18px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginBottom:"2%"}}>
 							<b> {props.data.title} </b>
 						</li>
-						<li style={{listStyle:"none",fontSize:"15px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+						<li style={{listStyle:"none",fontSize:"12px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 							{props.data.description}
 						</li>
-						{/*
-							<li id="datePostedLI" style={{listStyle:"none",color:"#8c8c8c"}}>
-								<ul style={{padding:"0px"}}>
-
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										{constructDate(props.data.datePosted)}
-									</li>
-								</ul>
-							</li>
-						*/}
 
 						<li id="symposiumsLI" style={{listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
 							{props.data.industriesUploaded[0].industry}
