@@ -246,10 +246,18 @@ export const ActivePeopleContainer=styled.div`
 	left:30%;
 	top:15%;
 	padding:10px;
+	overflow:scroll;
 
 	@media screen and (max-width:640px){
 		width:90% !important;
 		left:5% !important;
+		height:65% !important;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		width:70% !important;
+		height:65% !important;
+		left:10%;
 	}
 `;
 
