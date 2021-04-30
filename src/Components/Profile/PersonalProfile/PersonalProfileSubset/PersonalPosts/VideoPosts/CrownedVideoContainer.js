@@ -67,7 +67,7 @@ const ThumbnailVideo=styled.div`
 	}
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		width:40%;
-		height:200%;
+		height:90%;
 		margin-top:-30px;
 		margin-left:10%;
 
