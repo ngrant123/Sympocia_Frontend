@@ -171,8 +171,8 @@ const HeaderContainer=styled.div`
 		width:90%;
 		margin-top:5%;
 		#headerBlogImage{
-			height:450px !important;
-			width:550px !important;
+			height:550px !important;
+			width:650px !important;
 		}
 	}
 
@@ -295,6 +295,9 @@ const SmallPostContainer=styled.div`
 	border-width:2px;
 	border-color:#EFEFEF;
 
+	@media screen and (max-width:1370px){	
+		margin-bottom:5%;
+	}
 	@media screen and (max-width:650px){
 		width:100%;
 		margin-top:15% !important;
@@ -439,6 +442,7 @@ const BlogPostModal=(props)=>{
 						<HeaderContainer>
 							<HeaderOwnerAndSymposiumInformation
 								headerPost={headerBlog}
+								displayPostTrigger={handleDisplayHeaderBlog}
 							/>
 							<div id="headerBlogImage" style={HeaderBlogCSS}>
 								<img  onClick={()=>handleDisplayHeaderBlog()}  id="headerBlogLI"
@@ -510,55 +514,6 @@ const BlogPostModal=(props)=>{
 														{data.description}
 													</p>
 												</div>
-												{/*
-													{data.audioDescription!=null &&(
-														<li id="smallAudioDescription" style={{listStyle:"none"}}>
-															<audio style={{width:"150px",height:"25px"}} controls muted>
-															  	<source src={data.audioDescription} type="audio/ogg"/>
-															  	<source src={data.audioDescription} type="audio/mp4"/>
-																Your browser does not support the audio element.
-															</audio>
-														</li>
-													)}
-													<div onClick={()=>displayBlogModal(data)} style={{display:"flex",flexDirection:"row",marginBottom:"1%",cursor:"pointer"}}>
-														<div id="smallImageContainer" style={SmallBlogImageCSS}>
-															<img id="image" src={data.blogImageUrl} style={BlogImageContainerCSS}/>
-															{data.videoDescription!=null &&(
-																<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-																	style={{position:"absolute",top:"40%",left:"0%"}} width="100px" height="40%">
-																	<source src={data.videoDescription} type="video/mp4"/>
-																</video>
-															)}
-														</div>
-
-														<SmallPostDescriptionContainer>
-															<li style={{fontSize:"20px",listStyle:"none",height:"60px",overflowY:"hidden",marginBottom:"2%"}}>
-																<b>
-																	{data.title}
-																</b>
-															</li>
-
-															<li style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
-																{data.description}
-															</li>
-														</SmallPostDescriptionContainer>
-													</div>
-													<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
-														<li style={{listStyle:"none"}}>
-															<ul style={{padding:"0px"}}>
-																<img id="profilePicture" 
-																	src={data.owner.profilePicture==null?
-																			NoProfilePicture:
-																			data.owner.profilePicture
-																		} style={ProfileImageCSS}
-																/>
-																<li style={{listStyle:"none",display:"inline-block",maxWidth:"90px",overflow:"hidden",maxHeight:"20px",marginLeft:"2%"}}>
-																	{data.owner.firstName}
-																</li>
-															</ul>
-														</li>
-													</ul>
-												*/}
 											</SmallPostContainer>
 
 										}	

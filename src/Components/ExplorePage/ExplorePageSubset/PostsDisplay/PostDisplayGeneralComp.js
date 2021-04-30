@@ -51,11 +51,12 @@ const HeaderArrowDownCSS={
 	marginLeft:"40%",
 	height:"25px",
 	marginTop:"2%",
+	cursor:"pointer",
 	boxShadow:"1px 1px 10px #707070"
 }
 
 
-export const HeaderOwnerAndSymposiumInformation=({headerPost})=>{
+export const HeaderOwnerAndSymposiumInformation=({headerPost,displayPostTrigger})=>{
 	return(
 		<PostUserAndSymposiumInformation>
 			<ProfilePictureLink style={{marginRight:"5%"}} to={{pathname:`/profile/${headerPost.owner._id}`}}>
@@ -78,7 +79,7 @@ export const HeaderOwnerAndSymposiumInformation=({headerPost})=>{
 					</audio>
 				)}
 			</div>
-			<div style={HeaderArrowDownCSS}>
+			<div onClick={()=>displayPostTrigger(headerPost)} style={HeaderArrowDownCSS}>
 				<KeyboardArrowDownIcon
 					style={{color:"#7A7A7A"}}
 				/>

@@ -32,7 +32,10 @@ import {PhonePersonalInformationHeader} from "../../PersonalProfileSet/MobileUI.
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
-import {searchSymposiumsFilter} from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
+import {
+		searchSymposiumsFilter,
+		initializeSymposiums
+	} from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
 import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts.js";
 
 
@@ -649,20 +652,9 @@ console.log("Personal posts rerender");
 		return displayedPosts;
 	}
 	const selectedPostSymposiums=()=>{
-		let displayedPosts=retrievedCurrentDisplayedPosts();
-		const postSelectedSymposiums=[];
-		const isSymposiumsContained=new Map();
-
-		for(var i=0;i<displayedPosts.length;i++){
-			const symposiums=displayedPosts[i].industriesUploaded;
-			for(var j=0;j<symposiums.length;j++){
-				const selectedSymposium=symposiums[j].industry;
-				if(isSymposiumsContained.get(selectedSymposium)==null){
-					isSymposiumsContained.set(selectedSymposium,1);
-					postSelectedSymposiums.push(selectedSymposium);
-				}
-			}
-		}
+		const postSelectedSymposiums=initializeSymposiums(
+										retrievedCurrentDisplayedPosts
+									);
 
 		return (
 			<ul class="dropdown-menu">
