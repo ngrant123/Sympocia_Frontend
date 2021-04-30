@@ -1,10 +1,17 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
-import {
-	PopularVideosContainer,
-	BackgroundModalContainer
-} from "../indexCSS.js";
+import {PopularVideosContainer} from "../indexCSS.js";
+
+const BackgroundModalContainer=styled.div`
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color: rgba(0,0,0,0.4);
+	z-index:40;
+	top:0px;
+`;
+
 
 const PopularVideosListCSS={
 	listStyle:"none",
@@ -65,7 +72,7 @@ const PopularVideosModal=({popularVideos,changeState,displayPopularVideos})=>{
 							)}
 						</ul>
 					</PopularVideosContainer>
-					<BackgroundModalContainer onClick={()=>changeState.setState({displayPopularVideos:false})}/>
+					<BackgroundModalContainer style={{zIndex:"39"}}onClick={()=>changeState.setState({displayPopularVideos:false})}/>
 				</React.Fragment>
 			)}
 		</React.Fragment>

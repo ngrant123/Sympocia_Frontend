@@ -20,6 +20,21 @@ const PeopleContainer =styled(Link)`
 	overflow:hidden;
 	margin-right:5%;
 	margin-bottom:5%;
+
+	@media screen and (max-width:650px){
+		#profilePicture{
+			width:50px !important;
+			height:55px !important;
+		}
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		height:75%;
+		#profilePicture{
+			width:50px !important;
+			height:50px !important;
+		}
+	}
 `;
 
 const ProfilePicture=styled.div`
@@ -96,7 +111,7 @@ const ActivePeopleModal=(props)=>{
 											<ul style={{position:"relative",left:"-20%",top:"5%"}}>
 
 												<li style={ProfileContainerContentsCSS}>
-													<img src={data.profilePicture==null?
+													<img id="profilePicture" src={data.profilePicture==null?
 															NoProfilePicture:data.profilePicture}
 													style={ProfilePictureCSS}/>
 												</li>
