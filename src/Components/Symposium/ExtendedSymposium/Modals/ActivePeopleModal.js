@@ -79,7 +79,7 @@ const ProfileContainerContentsCSS={
 const ProfilePictureCSS={
 	position:"relative",
 	width:"60px",
-	height:"40%",
+	height:"60px",
 	backgroundColor:"red",
 	borderRadius:"50%",
 	marginBottom:"10px",
