@@ -148,7 +148,6 @@ const CrownedVideoContainer=({headerVideo,displayPostModal,friendsColorNodesMap}
 	}
 
 	const video=()=>{
-			debugger
 		const colorCode=friendsColorNodesMap.get(headerVideo.levelNode);
 		return <ThumbnailVideo>
 					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">

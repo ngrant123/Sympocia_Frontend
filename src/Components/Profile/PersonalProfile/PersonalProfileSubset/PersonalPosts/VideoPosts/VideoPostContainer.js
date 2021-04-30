@@ -80,7 +80,6 @@ const NextPostLabelCSS={
 }
 
 const VideoPostsContainer=(props)=>{
-	console.log(props);
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
 	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[props.videos.videos]);

@@ -103,7 +103,6 @@ const IndustryButtonCSS={
 }
 
 const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
-	console.log(images);
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
@@ -121,7 +120,6 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
 	//onClick={()=>displayPostModal(data)} 
 
 	const image=(data)=>{
-		debugger
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
 		return <Image>
 					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
