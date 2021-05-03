@@ -78,7 +78,6 @@ export const SymposiumContainer=styled.div`
 
 export const Container=styled.div`
 	position:relative;
-	background: linear-gradient(to left, #9933ff 0%, #ff99ff 100%);
 	width:100%;
 	height:42%;
 	paddding-left:5px;
@@ -86,6 +85,8 @@ export const Container=styled.div`
 	boxShadow: "1px 1px 1px 1px #d5d5d5";
 	borderRadius:5px;
 	z-index:30;
+	display:flex;
+	flex-direction:row;
 
 	@media screen and (max-width:1370px){
 		height:20%;
@@ -147,12 +148,12 @@ export const HightLightedQuestionsContainerModal=styled.div`
 	padding:20px;
 	overflow-y:scroll;
 	z-index:40;
-	box-shadow: 1px 5px 5px 1px #d5d5d5;
 	border-radius:5px;
 	background-color:white;
+
 	border-style:solid;
+	border-color:#E4E4E4;
 	border-width:1px;
-	border-color:#5298F8;
 	overflow-y:scroll;
 
 	${({isSimplified})=>
