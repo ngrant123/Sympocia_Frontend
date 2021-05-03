@@ -671,24 +671,25 @@ class Symposium extends Component{
 								/>
 							</div>
 						)}
+					{/*
+						<PageIndicator>
+							<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
+								<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none"}}>
+											<ExploreIcon
+												style={{fontSize:50}}
+											/>
+										</li>
 
-					<PageIndicator>
-						<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-							<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none"}}>
-										<ExploreIcon
-											style={{fontSize:50}}
-										/>
-									</li>
-
-									<li style={{listStyle:"none"}}>
-										Explore
-									</li>
-								</ul>
-							</ExploreIconContainer>
-						</a>
-					</PageIndicator>
+										<li style={{listStyle:"none"}}>
+											Explore
+										</li>
+									</ul>
+								</ExploreIconContainer>
+							</a>
+						</PageIndicator>
+					*/}
 				
 					{this.state.displayConfetti &&(
 						<Confetti

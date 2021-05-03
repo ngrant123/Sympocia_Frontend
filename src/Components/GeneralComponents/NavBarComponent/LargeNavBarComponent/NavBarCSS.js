@@ -3,10 +3,16 @@ import {Link} from "react-router-dom";
 
 export const Container=styled.div`
 	position:fixed;
-	width:80%;
-	height:14%;
-	border-radius:0px 0px 5px 5px;
-	margin-left:10%;
+	width:95%;
+	height:10%;
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+	border-bottom:1px solid #F8F8F8;
+	background-color:white;
+
+	align-items:center;
+	margin-left:3%;
 	z-index:40;
 
 	@media screen and (max-width:1370px) {
@@ -36,6 +42,8 @@ export const Container=styled.div`
 	}
 
 	@media screen and (max-width:600px) {
+		width:90%;
+		margin-top:5%;
 		#mobileRoutesButton{
 			margin-left:2% !important;
 		}
@@ -179,9 +187,17 @@ export const CreateButton=styled.div`
 
 export const BackgroundContainer=styled.div`
 	position:fixed;
-	width:110%;
-	height:100%;
-	left:-5%;
-	z-index:10;
+	width:130%;
+	height:1000%;
+	margin-left:-5%;
 	background-color: rgba(0,0,0,0.4);
+	border-radius:5px;
+	box-shadow: 1px 1px 10px #d5d5d5;
+	z-index:30;
 `;
+
+
+
+
+
+
