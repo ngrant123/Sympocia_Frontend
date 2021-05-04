@@ -673,25 +673,6 @@ class Symposium extends Component{
 								/>
 							</div>
 						)}
-					{/*
-						<PageIndicator>
-							<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-								<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none"}}>
-											<ExploreIcon
-												style={{fontSize:50}}
-											/>
-										</li>
-
-										<li style={{listStyle:"none"}}>
-											Explore
-										</li>
-									</ul>
-								</ExploreIconContainer>
-							</a>
-						</PageIndicator>
-					*/}
 				
 					{this.state.displayConfetti &&(
 						<Confetti
@@ -705,10 +686,6 @@ class Symposium extends Component{
 					{this.handleSeeAllPopularVideos()}
 					{this.specificSymposiumFeatures()}
 					{this.displayBeacon()}
-
-					{/*
-						{this.triggerDisplayMobileSymposiumOptions()}
-					*/}
 
 					<HeaderContainer
 		  				activePeople={this.state.activePeople}
@@ -738,6 +715,7 @@ class Symposium extends Component{
 					  	headerAnimation={this.state.headerAnimation}
 					  	backgroundColor={this.state.backgroundColor}
 					  	displayBeacon={this.displayBeaconHandle}
+					  	isLoading={this.state.isLoading}
 		  			/>
 
 					<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>
