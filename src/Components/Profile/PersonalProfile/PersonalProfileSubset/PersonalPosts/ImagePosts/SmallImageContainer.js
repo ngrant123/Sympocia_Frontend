@@ -99,7 +99,8 @@ const IndustryButtonCSS={
 	backgroundColor:"white",
 	listStyle:"none",
 	padding:"5px",
-	borderRadius:"5px"
+	borderRadius:"5px",
+	marginTop:"2%"
 }
 
 const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
