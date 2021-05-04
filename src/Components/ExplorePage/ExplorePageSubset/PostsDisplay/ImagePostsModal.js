@@ -14,7 +14,10 @@ import {
 	displayPersonalIndustryFeed
 } from "./ConstructSuggestedSymposium.js";
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
-import {HeaderOwnerAndSymposiumInformation} from "./PostDisplayGeneralComp.js";
+import {
+		HeaderOwnerAndSymposiumInformation,
+		SmallProfilePictureAndVideoDescription
+	} from "./PostDisplayGeneralComp.js";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 
@@ -228,6 +231,10 @@ const SmallPostContainer=styled.div`
 		#smallImageContainer{
 			width:100% !important;
 			height:110px !important;
+		}
+		#videoDescriptionContainer{
+			height:30px !important;
+			width:30px !important;
 		}
 	}
 
@@ -567,9 +574,8 @@ const ImagePostsModal=(props)=>{
 						}}/>
 						<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
 							<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-								<img id="smallProfilePicture" src={data.owner.profilePicture==null?
-										NoProfilePicture:data.owner.profilePicture}
-									 	style={ProfileProfileCSS}
+								<SmallProfilePictureAndVideoDescription
+									postData={data}
 								/>
 							</ProfilePictureLink>
 							<div id="smallImageArrowDownCSS" style={SmallImageArrowDownCSS}>

@@ -9,7 +9,10 @@ import {
 } from "./ConstructSuggestedSymposium.js";
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import {HeaderOwnerAndSymposiumInformation} from "./PostDisplayGeneralComp.js";
+import {
+	HeaderOwnerAndSymposiumInformation,
+	SmallProfilePictureAndVideoDescription
+} from "./PostDisplayGeneralComp.js";
 
 const Container=styled.div`
 	display:flex;
@@ -134,10 +137,8 @@ const HeaderContainer=styled.div`
 			top:-30% !important;
 		}
 		#videoDescriptionContainer{
-			top:80% !important;
-			left:0% !important;
+			height:25% !important;
 			width:50px !important;
-			height:20% !important;
 		}
 	}
 
@@ -405,9 +406,8 @@ const VideoPostModal=(props)=>{
 							</video>
 							<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
 								<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-									<img id="smallProfilePicture" src={data.owner.profilePicture==null?
-											NoProfilePicture:data.owner.profilePicture}
-										 	style={ProfileProfileCSS}
+									<SmallProfilePictureAndVideoDescription
+										postData={data}
 									/>
 								</ProfilePictureLink>
 								<div id="smallImageArrowDownCSS" style={SmallImageArrowDownCSS}>

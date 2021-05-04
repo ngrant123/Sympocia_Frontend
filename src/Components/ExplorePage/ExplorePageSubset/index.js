@@ -330,7 +330,6 @@ class SearchExploreContainer extends Component{
 		var {confirmation,data}=homePagePostsResponse;
 		if(confirmation=="Success"){
 			const {message}=data;
-			console.log(data);
 			if(message.length==0){
 				this.setState({
 					endOfPostsDBIndicator:true,

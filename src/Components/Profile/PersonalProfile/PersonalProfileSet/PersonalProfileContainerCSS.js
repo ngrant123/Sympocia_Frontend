@@ -184,7 +184,7 @@ export const ProfilePictureContainer=styled.div`
 		margin-top:55%;
 		#profilePicture{
 		  width:90% !important;
-          height:120% !important;
+          height:110% !important;
           left:10% !important;
 	    }
     }
@@ -192,7 +192,7 @@ export const ProfilePictureContainer=styled.div`
     @media screen and (max-width:340px){
     	height:170px !important;
     	#profilePicture{
-          height:120% !important;
+          height:110% !important;
 	    }
     }
 
@@ -284,6 +284,9 @@ export const PersonalProfileInformationContainer= styled.div`
 		top:10%;
 		html.touch *:hover {
 		    all:unset!important;
+		}
+		#mobileUserInformation{
+			margin-left:20% !important;
 		}
 	}
 
