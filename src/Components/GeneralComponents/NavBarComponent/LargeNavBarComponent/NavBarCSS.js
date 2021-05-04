@@ -15,8 +15,8 @@ export const Container=styled.div`
 	z-index:40;
 
 	@media screen and (max-width:1370px) {
-		margin-left:0%;
-		width:100%;
+		margin-left:-2%;
+		width:101%;
 		height:7%;
 		#ULContainer{
 			background-color:white !important;
@@ -25,7 +25,7 @@ export const Container=styled.div`
 			margin-left:5% !important;
 		}
 		#searchLIContainer{
-			margin-left:0% !important;
+			margin-left:-250% !important;
 			with:110% !important;
 		}
 	}
@@ -35,19 +35,20 @@ export const Container=styled.div`
 			margin-left:10% !important;
 		}
 		#searchLIContainer{
-			margin-left:65% !important;
-			width:10% !important;
+			
+			width:30px !important;
 		}
 	}
 
 	@media screen and (max-width:650px) {
-		width:100%;
+		width:102%;
 		height:12%;
+		margin-left:-3%;
 		#mobileRoutesButton{
 			margin-left:2% !important;
 		}
 		#searchLIContainer{
-			margin-left:50% !important;
+			margin-left:-50% !important;
 		}
 	}
 	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
@@ -55,8 +56,9 @@ export const Container=styled.div`
     }
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
 		height:21%;
+		width:101%;
     	#searchLIContainer{
-    		margin-left:60% !important;
+    		margin-left:-30% !important;
     	}
     }
 `;

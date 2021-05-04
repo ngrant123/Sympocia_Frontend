@@ -375,7 +375,7 @@ const NavBar=(pageProps)=>{
 	const MobileUI=()=>{
 		return(
 			<React.Fragment>
-				<li id="mobileRoutesButton" style={{position:"relative",marginRight:"1%",listStyle:"none",display:"inline-block"}}>
+				<div id="mobileRoutesButton">
 					<div class="dropdown">
 						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileRouteOptionCSS}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-smart-home" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C8B0F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -414,15 +414,17 @@ const NavBar=(pageProps)=>{
 							</li>
 						</ul>
 					</div>
-				</li>
-				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-					id="searchLIContainer" onClick={()=>changeDisplaySearchModal(!displaySearchModal)}
-				  width="44" height="44" viewBox="0 0 24 24" stroke-width="2.5" stroke="#1C1C1C" 
-				  fill="none" stroke-linecap="round" stroke-linejoin="round">
-				  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-				  <circle cx="10" cy="10" r="7" />
-				  <line x1="21" y1="21" x2="15" y2="15" />
-				</svg>
+				</div>
+				<div>
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
+						id="searchLIContainer" onClick={()=>changeDisplaySearchModal(!displaySearchModal)}
+					  width="44" height="44" viewBox="0 0 24 24" stroke-width="2.5" stroke="#1C1C1C" 
+					  fill="none" stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <circle cx="10" cy="10" r="7" />
+					  <line x1="21" y1="21" x2="15" y2="15" />
+					</svg>
+				</div>
 			</React.Fragment>
 		)
 	}
