@@ -215,7 +215,7 @@ export const PostsChatInformation=styled.div`
 	height:45%;
 	left:0%;
 	margin-left:5%;
-	filter:blur(1px);
+	filter:blur(2px);
 	z-index:-1;
 	transition: all 10s;
 
@@ -628,6 +628,7 @@ export const SympociaOptionsContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		top:10%;
+		margin-left:5% !important;
 		${({isScrollEnabled})=>
 			isScrollEnabled?
 			`
@@ -637,7 +638,10 @@ export const SympociaOptionsContainer=styled.div`
 				top:10%;
 			`
 		}
-	} 
+	}
+	@media screen and (max-width:650px){
+		margin-left:0% !important;
+	}
 `;
 
 export const SearchOptionContainer=styled.div`

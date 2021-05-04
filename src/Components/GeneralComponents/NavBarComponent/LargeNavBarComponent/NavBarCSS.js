@@ -50,8 +50,11 @@ export const Container=styled.div`
 			margin-left:50% !important;
 		}
 	}
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		height:9%;
+    }
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
-		height:17%;
+		height:21%;
     	#searchLIContainer{
     		margin-left:60% !important;
     	}

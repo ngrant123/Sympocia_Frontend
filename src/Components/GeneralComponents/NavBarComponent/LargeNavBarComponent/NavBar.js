@@ -489,6 +489,10 @@ const NavBar=(pageProps)=>{
 							<li>
 								<Link to="/symposiumList">Symposiums</Link>
 							</li>
+							<hr/>
+							<li style={{padding:"20px"}}onClick={()=>changeDisplaySearchModal(!displaySearchModal)}>
+								Search
+							</li>
 						</ul>
 					</div>
 				</div>
