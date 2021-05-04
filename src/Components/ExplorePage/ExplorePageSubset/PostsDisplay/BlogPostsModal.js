@@ -10,7 +10,10 @@ import {
 	displayPersonalIndustryFeed
 } from "./ConstructSuggestedSymposium.js";
 import {Link} from "react-router-dom";
-import {HeaderOwnerAndSymposiumInformation} from "./PostDisplayGeneralComp.js";
+import {
+	HeaderOwnerAndSymposiumInformation,
+	SmallProfilePictureAndVideoDescription
+} from "./PostDisplayGeneralComp.js";
 
 const Container=styled.div`
 	display:flex;
@@ -80,25 +83,27 @@ const Container=styled.div`
 			margin-top:5% !important;
 			width:80% !important;
 		}
+		#headerVideoDescriptionContainer{
+			width:50px !important;
+			height:20% !important;
+		}
 		#image{
 			width:120px !important;
 			height:90px !important;
 			margin-right:2%;
-		}
-		#videoDescriptionContainer{
-			top:80% !important;
-			left:0% !important;
-			width:50px !important;
-			height:20% !important;
 		}
 		#headerAudioLI{
 			width:200px !important;
 		}
 	}
 
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		#headerLI{
 			margin-top:25% !important;
+		}
+		#headerVideoDescriptionContainer{
+			width:55px !important;
+			height:15% !important;
 		}
     }
 `;
@@ -211,12 +216,6 @@ const HeaderContainer=styled.div`
     		height:400px !important;
 			width:90% !important;
 		}
-		#videoDescriptionContainer{
-			top:25% !important;
-			left:0% !important;
-			width:100px !important;
-			height:20% !important;
-		}
     }
 `;
 
@@ -314,10 +313,6 @@ const SmallPostContainer=styled.div`
 		}
 		#smallPostDescription{
 
-		}
-		#smallVideoDescriptionContainer{
-			width:50px !important;
-			height:40% !important;
 		}
 
 		#smallImageContainer{
@@ -449,7 +444,7 @@ const BlogPostModal=(props)=>{
 									src={headerBlog.blogImageUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
 								/>
 								{headerBlog.videoDescription!=null &&(
-									<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+									<video id="headerVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
 										style={{position:"absolute",top:"72%",left:"0%",borderRadius:"50%",width:"90px",height:"80px",
 												backgroundColor:"#151515",
 												borderStyle:"solid",
@@ -488,19 +483,21 @@ const BlogPostModal=(props)=>{
 													<div id="smallImageContainer" style={SmallBlogImageCSS}>
 														<img id="image" src={data.blogImageUrl} style={BlogImageContainerCSS}/>
 													</div>
-													<ul style={{padding:"0px",zIndex:"8"}}>
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<img id="profilePicture" 
-																src={data.owner.profilePicture==null?
-																		NoProfilePicture:
-																		data.owner.profilePicture
-																	} style={ProfileImageCSS}
-															/>
-														</li>
-														<li style={{listStyle:"none",display:"inline-block",maxWidth:"90px",overflow:"hidden",maxHeight:"20px",marginLeft:"2%"}}>
+													<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+														<SmallProfilePictureAndVideoDescription
+															postData={data}
+														/>
+														<p style={{marginLeft:"2%",maxWidth:"90px",overflow:"hidden",maxHeight:"20px"}}>
 															{data.owner.firstName}
-														</li>
-													</ul>
+														</p>
+													</div>
+													{/*
+														<ul style={{padding:"0px",zIndex:"8"}}>
+															<li style={{listStyle:"none",display:"inline-block",maxWidth:"90px",overflow:"hidden",maxHeight:"20px",marginLeft:"2%"}}>
+																{data.owner.firstName}
+															</li>
+														</ul>
+													*/}
 												</div>
 												<div id="smallPostTitleAndDescription"
 												 	style={{display:"flex",flexDirection:"column"}}>

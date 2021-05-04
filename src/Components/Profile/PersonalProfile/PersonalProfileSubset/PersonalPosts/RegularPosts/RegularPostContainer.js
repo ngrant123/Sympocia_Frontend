@@ -21,7 +21,7 @@ const Container=styled.div`
 	background-color:white;
 	padding:10px;
 
-	@media screen and (max-width:1030px){
+	@media screen and (max-width:1370px){
 		width:130%;
 		#postContainer{
 			width:90%;
@@ -47,7 +47,7 @@ const Container=styled.div`
 		}
     }
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		margin-left:20% !important;
+	
 		#smallContainerLI{
 			height:60% !important;
 		}

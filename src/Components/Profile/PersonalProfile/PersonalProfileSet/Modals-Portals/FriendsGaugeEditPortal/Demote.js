@@ -75,7 +75,6 @@ const ButtonCSS={
 
 
 const DemoteRecruit=({nodes,closeModal,id})=>{
-	console.log(nodes);
 	const [profileNodes,changeProfileNodes]=useState([...nodes]);
 	const [recruits,changeRecruits]=useState([]);
 	const [selectedRecruit,changeSelectedRecruit]=useState();
@@ -120,7 +119,6 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 	},[]);
 
 	const filterOutSelectedNode=(currentSelectedNode)=>{
-		debugger;
 		for(var i=0;i<profileNodes.length;i++){
 			if(profileNodes[i]._id==currentSelectedNode.node._id){
 				profileNodes.splice(i,1);
@@ -135,7 +133,6 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 		if(confirmation=="Success"){
 			const {message}=data;
 			const specificRecruitNodesMap=new Map();
-			debugger;
 			for(var i=0;i<message.length;i++){
 				specificRecruitNodesMap.set(message[i].node._id,1);
 			}
@@ -148,8 +145,6 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 				}
 			}
 			changeProfileNodes([...tempRecruitNodesContainer])
-
-			console.log(message);
 			changeNodesAssignedToRecruit([...message]);
 			changeSelectedRecruit(target);
 		}else{
@@ -190,7 +185,6 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 	}
 
 	const selectDestinationNode=(data,index)=>{
-		debugger;
 		if(index==0)
 			changeIsGeneralNode(true);
 		changeDestinationDemoteNode(data)

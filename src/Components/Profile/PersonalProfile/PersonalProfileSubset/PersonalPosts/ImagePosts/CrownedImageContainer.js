@@ -119,7 +119,6 @@ const CrownedImageContainer=({crownedImage,displayPostModal,friendsColorNodesMap
 	let videoDescriptionId=uuidv4();
 
 	const image=()=>{
-		debugger
 		const colorCode=friendsColorNodesMap.get(crownedImage.levelNode);
 		return <Image>
 					<img src={crownedImage.imgUrl} style={{width:"100%",height:"100%"}}/>

@@ -41,12 +41,10 @@ const ThumbnailVideoComponent=styled.div`
 		#description{
 			display:none !important;
 		}
-		margin-left:-10% !important;
-    }
-
-    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		
 		margin-left:0% !important;
+		#videoDescriptionLI{
+			display:none !important;
+		}
     }
 
 `;
@@ -69,7 +67,10 @@ const ThumbnailVideo=styled.div`
 	}
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		width:40%;
-		height:200%;
+		height:90%;
+		margin-top:-30px;
+		margin-left:10%;
+
     }
 `;
 
@@ -92,6 +93,7 @@ const DescriptionContainer=styled.div`
 	flex-direction:column;
 	width:50%;
 
+
 	@media screen and (max-width:700px){
 		display:none !important;
 
@@ -99,14 +101,7 @@ const DescriptionContainer=styled.div`
 			display:none !important;
 		}
 	}
-
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		display:none !important;
-
-		#videoDescriptionLI{
-			display:none !important;
-		}
-    }
+ 
 `;
 
 
@@ -148,10 +143,10 @@ const CrownedVideoContainer=({headerVideo,displayPostModal,friendsColorNodesMap}
 	}
 
 	const video=()=>{
-			debugger
 		const colorCode=friendsColorNodesMap.get(headerVideo.levelNode);
 		return <ThumbnailVideo>
-					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
+					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%"
+						style={{borderRadius:"10px"}}>
 						<source src={headerVideo.videoUrl} type="video/mp4"/>
 					</video>
 					<ColorPatchContainer colorCode={colorCode}/>
@@ -171,27 +166,14 @@ const CrownedVideoContainer=({headerVideo,displayPostModal,friendsColorNodesMap}
 								<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 									<b>{headerVideo.title}</b>
 								</li>
-
-								<li style={{listStyle:"none",marginBottom:"5px"}}>
-									<ul style={{padding:"0px",color:"#a6a6a7"}}>
-										{/*
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
-												{headerVideo.views} views
-											</li>
-										*/}
-
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											{constructDate(headerVideo.datePosted)}
-										</li>
-									</ul>
-								</li>
 							</div>
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"0px"}}>
 									{headerVideo.videoDescription==null?null:
 										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 											<VideoDescriptionContainer>
-												<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%">
+												<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%"
+													style={{borderRadius:"10px"}}>
 													<source src={headerVideo.videoDescription} type="video/mp4"/>
 												</video>
 											</VideoDescriptionContainer>

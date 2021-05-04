@@ -55,7 +55,6 @@ const NextPostLabelCSS={
 }
 
 const BlogsPostsContainer=(props)=>{
-	console.log(props);
 	const PostContextValues=useContext(PostContext);
 	const UserContextValues=useContext(UserContext);
 

@@ -43,6 +43,8 @@ const Container=styled.div`
 		}
     }
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		margin-top:5px;
+		margin-left:0% !important;
 		#smallVideoParentContainer{
 			margin-bottom:-5% !important;
 		}
@@ -80,7 +82,6 @@ const NextPostLabelCSS={
 }
 
 const VideoPostsContainer=(props)=>{
-	console.log(props);
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
 	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[props.videos.videos]);
@@ -94,12 +95,12 @@ const VideoPostsContainer=(props)=>{
 			{props.isLoadingIndicatorVideos==true ? <p>We are currently getting the videos please wait </p>:
 				<React.Fragment>
 					{props.videos.videos.length==0 && props.videos.headerVideo==null? 
-													<NoPostsModal
-														id="noPostsModalContainer"
-														postType={"video"}
-														profilePageType={props.profile}
-														isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
-													/>:
+						<NoPostsModal
+							id="noPostsModalContainer"
+							postType={"video"}
+							profilePageType={props.profile}
+							isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
+						/>:
 						<ul style={{padding:"0px"}}>
 							{props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
 								<React.Fragment>

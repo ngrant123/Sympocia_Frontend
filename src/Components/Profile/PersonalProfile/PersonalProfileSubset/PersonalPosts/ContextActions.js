@@ -224,9 +224,7 @@
 			if((Object.keys(currentCrownedPost).length === 0)==true)
 					currentCrownedPost=null
 		}
-		debugger;
 		let finalPosts=finalReturnPosts(props,postType,currentPosts,currentCrownedPost);
-		console.log(finalPosts);
 		return finalPosts;
 	}
 
@@ -286,7 +284,6 @@
 			}
 		}else{
 			currentVideos.splice(0,0,videoObject);
-			console.log(videoPost);
 			newVideoObject={
 					...videoPost,
 					videos:[...currentVideos]

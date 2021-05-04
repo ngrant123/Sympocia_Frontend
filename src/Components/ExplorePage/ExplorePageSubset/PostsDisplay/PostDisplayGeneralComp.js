@@ -33,11 +33,19 @@ const PostUserAndSymposiumInformation=styled.div`
 
 const ProfilePictureLink=styled(Link)`
 	position:relative;
+`;
 
+const ProfilePictureAndVideoDescription=styled.div`
 	@media screen and (max-width:650px){
 		#smallProfilePicture{
 			height:30px !important;
 			width:30px !important;
+			border-width:1px !important;
+		}
+		#videoDescriptionContainer{
+			height:30px !important;
+			width:30px !important;
+			border-width:1px !important;
 		}
 	}
 `;
@@ -53,6 +61,15 @@ const HeaderArrowDownCSS={
 	marginTop:"2%",
 	cursor:"pointer",
 	boxShadow:"1px 1px 10px #707070"
+}
+
+const ProfileProfileCSS={
+	height:"40px",
+	width:"45px",
+	borderRadius:"50%",
+	borderStyle:"solid",
+	borderColor:"white",
+	borderWidth:"5px"
 }
 
 
@@ -85,5 +102,23 @@ export const HeaderOwnerAndSymposiumInformation=({headerPost,displayPostTrigger}
 				/>
 			</div>
 		</PostUserAndSymposiumInformation>
+	)
+}
+
+
+export const SmallProfilePictureAndVideoDescription=({postData})=>{
+	return(
+		<ProfilePictureAndVideoDescription>
+			{postData.videoDescription==null?
+				<img id="smallProfilePicture" src={postData.owner.profilePicture==null?
+					NoProfilePicture:postData.owner.profilePicture}
+				 	style={ProfileProfileCSS}
+				/>:
+				<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+					style={ProfileProfileCSS} key={postData.videoDescription}>
+					<source src={postData.videoDescription} type="video/mp4"/>
+				</video>
+			}
+		</ProfilePictureAndVideoDescription>
 	)
 }
