@@ -463,9 +463,11 @@ class Symposium extends Component{
 	}
 
 	arrowIndicatorButton=()=>{
-		return <ArrowDownContainer id="arrowIndicator" onClick={()=>this.handleScroll()}>
+		return <ArrowDownContainer backgroundColor={this.state.backgroundColor} id="arrowIndicator"
+		 			onClick={()=>this.handleScroll()}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-down-circle"
-					 width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#C8B0F4"
+					 width="44" height="44" viewBox="0 0 24 24" stroke-width="2" 
+					 stroke="white"
 					  fill="none" stroke-linecap="round" stroke-linejoin="round">
 					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 					  <circle cx="12" cy="12" r="9" />
@@ -482,11 +484,11 @@ class Symposium extends Component{
 		return(
 			<React.Fragment>
 				{(this.state.handleScroll==false && this.state.displayDesktopUI==false)==true &&(
-					<BeaconButtonContainer>
+					<BeaconButtonContainer backgroundColor={this.state.backgroundColor}>
 						<svg style={{cursor:"pointer",marginLeft:"5%"}}
 			                onClick={()=>this.displayBeaconHandle()}
 			                xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flare" width="44" 
-			                height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#DAD235" fill="none" stroke-linecap="round"
+			                height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round"
 			                stroke-linejoin="round"
 			            >
 			              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>

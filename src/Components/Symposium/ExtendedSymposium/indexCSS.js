@@ -79,7 +79,7 @@ export const SymposiumContainer=styled.div`
 export const Container=styled.div`
 	position:relative;
 	width:100%;
-	height:42%;
+	height:44%;
 	paddding-left:5px;
 	transition: transform 300ms ease-in-out;
 	boxShadow: "1px 1px 1px 1px #d5d5d5";
@@ -544,8 +544,11 @@ export const ArrowDownContainer=styled.div`
 	top:80%;
 	z-index:39;
 	cursor:pointer;
-	border-radius:5px;
-	background-color:white;
+	${({backgroundColor})=>
+		backgroundColor!=null &&(
+			`background:${backgroundColor};`
+		)
+	}
 	border-radius:50%;
 	display:flex;
 	justify-content:center;
@@ -586,7 +589,11 @@ export const BeaconButtonContainer=styled.div`
 	z-index:39;
 	cursor:pointer;
 	border-radius:5px;
-	background-color:white;
+	${({backgroundColor})=>
+		backgroundColor!=null &&(
+			`background:${backgroundColor};`
+		)
+	}
 	border-radius:50%;
 	display:flex;
 	justify-content:center;
@@ -606,11 +613,6 @@ export const BeaconButtonContainer=styled.div`
           transform: translateY(-15px);
         }
 	}
-    @keyframes glowing {
-	      0% { border-color: #F7FE2E; box-shadow: 0 0 5px #FFFF00; }
-	      50% { border-color: #FFFF00; box-shadow: 0 0 20px #FFFF00; }
-	      100% { border-color: #F7FE2E; box-shadow: 0 0 5px #FFFF00; }
-	  }
 `;
 
 export const PostContainerTEst=styled.div`

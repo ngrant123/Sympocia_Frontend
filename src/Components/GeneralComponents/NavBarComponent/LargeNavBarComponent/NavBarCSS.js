@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 export const Container=styled.div`
 	position:fixed;
-	width:95%;
+	width:100%;
 	height:10%;
 	display:flex;
 	flex-direction:row;
@@ -12,7 +12,6 @@ export const Container=styled.div`
 	background-color:white;
 
 	align-items:center;
-	margin-left:3%;
 	z-index:40;
 
 	@media screen and (max-width:1370px) {
@@ -41,9 +40,9 @@ export const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:600px) {
-		width:90%;
-		margin-top:5%;
+	@media screen and (max-width:650px) {
+		width:100%;
+		height:12%;
 		#mobileRoutesButton{
 			margin-left:2% !important;
 		}
@@ -52,6 +51,7 @@ export const Container=styled.div`
 		}
 	}
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+		height:17%;
     	#searchLIContainer{
     		margin-left:60% !important;
     	}

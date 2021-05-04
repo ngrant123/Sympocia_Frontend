@@ -35,6 +35,20 @@ const ActiveContainer =styled.div`
 	border-width:1px;
 `;
 
+const SymposiumTitle=styled.div`
+	display:flex;
+	flex-direction:row;
+	border-style:solid;
+	border-color:#E4E4E4;
+	border-width:1px;
+	border-radius:5px;
+	justify-content:space-between;
+
+	@media screen and (max-width:1370px){
+		margin-top:5%;
+	}
+`;
+
 const ActiveProfilePictures=styled(Link)`
 	position:relative;
 	width:50px;
@@ -53,14 +67,6 @@ const PopularContainer=styled.div`
 	border-radius:5px;
 	padding:10px;
 
-`;
-
-const PopularVideos=styled.div`
-	position:relative;
-	width:95%;
-	height:30%;
-	background-color:white;
-	border-radius:5px;
 `;
 
 const ChatContainer =styled.div`
@@ -83,20 +89,21 @@ const HighlightedQuestionsContainer=styled.div`
 	left:7%;
 	top:30%;
 	border-radius:5px;
-	background-color:white;
 
 	@media screen and (max-width:1370px){
     	display:none !important;
     }
 `;
 
-const PopularVideosContainer=styled.div`
+const SymposiumTitlesAndVideosContainer=styled.div`
 	position:absolute;
-	left:32%;
-	width:40%;
-	height:40%;
+	left:30%;
+	width:42%;
+	height:55%;
 	border-radius:5px;
 	top:40%;
+	display:flex;
+	flex-direction:column;
 
 	@media screen and (max-width:1370px){
 		left:5% !important;
@@ -158,6 +165,33 @@ const MobileOptions=styled.div`
 	@media screen and (max-width:730px) and (max-height:420px){
     	top:40% !important;
     }
+`;
+
+const PopularVideosContainer=styled.div`
+	margin-top:5%;
+	display:flex;
+	flex-direction:column;
+
+	@media screen and (max-width:1370px){
+		visibility: hidden;
+	}
+
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		visibility:visible;
+	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		visibility: hidden;
+	}
+`;
+
+const PopularVideos=styled.div`
+	display:flex;
+	flex-direction:row;
+	border-style:solid;
+	border-color:#E4E4E4;
+	border-width:1px;
+	border-radius:5px;
+	padding:5px;
 `;
 
 
@@ -276,21 +310,6 @@ const HeaderContainer=(props)=>{
 	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
 	    return v.toString(16);
 	  });
-	}
-	 
-
-	const popularVideosHandle=(video)=>{
-		const {videoUrl,key}=video;
-		var lengthOfReplay=0;
-		const videoElement=<video id={"video"+key} onLoadStart={()=>replayVideo(this)} onEnded={()=>replayVideo(this)} position="relative" height="100%" width="100%" autoplay="autoplay" muted>
-			 					<source src={videoUrl} type="video/mp4"/>
-			 				</video>;
-		
-		return <li style={{listStyle:"none",display:"inline-block",marginRight:"30px"}}> 
-			 			<PopularVideos>
-			 				{videoElement}
-			 			</PopularVideos>
-			 	</li>
 	}
 
 	const replayVideo=(startTime,endTime)=>{
@@ -425,7 +444,7 @@ const HeaderContainer=(props)=>{
 			{headerAnimation==false ?
 				<Container id="headerContents" style={{background:backgroundColor}}>
 					<HighlightedQuestionsContainer>
-						<p style={{fontSize:"18px",color:"#AEADAD"}}>
+						<p style={{fontSize:"18px",color:"white"}}>
 							<b>HighLighted Question</b>
 						</p>
 						{props.popularQuestionObject.questionInformation.length==0?
@@ -438,7 +457,39 @@ const HeaderContainer=(props)=>{
 							/>
 						}
 					</HighlightedQuestionsContainer>
-					<PopularVideosContainer>
+					<SymposiumTitlesAndVideosContainer>
+						<SymposiumTitle>
+							<p style={{color:"white",marginLeft:"2%",fontSize:"36px"}}>
+								{displayDesktopUI==true?
+									<><b>{selectedSymposiumTitle}</b></>:
+									<>{selectedSymposiumTitle}</>
+								}
+							</p>
+							<div style={{width:"20%",display:"flex",alignItems:"center",justifyContent:"center",background:backgroundColor}}>
+								{beaconElement()}
+							</div>
+						</SymposiumTitle>
+						<PopularVideosContainer>
+							<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+								<p style={{color:"white",fontSize:"18px"}}>Popular Videos </p>
+								<p style={{color:"white",fontSize:"18px"}}> See All </p>
+							</div>
+							<PopularVideos>
+								{popularVideos.map(data=>
+									<>
+										{data!=null &&(
+											<li style={PopularVideosListCSS}>
+												<video id="smallVideo" key={uuidv4()} borderRadius="5px" position="relative" height="50px" width="60px">
+													<source src={data.videoUrl} type="video/mp4"/>
+												</video>
+											</li>
+										)}
+									</>
+								)}
+							</PopularVideos>
+						</PopularVideosContainer>
+
+						{/*
 							<ul id="popularVideoContainerLI" style={{padding:"0px"}}>
 								<li id="titleContainer" style={{listStyle:"none",position:"relative"}}>
 				  					<li id="selectedSymposiumTitle" style={{overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",overflow:"hidden"}}>
@@ -477,12 +528,13 @@ const HeaderContainer=(props)=>{
 									</a>
 								</li>
 							</ul>
-						</PopularVideosContainer>
+						*/}
+						</SymposiumTitlesAndVideosContainer>
 						<ActivePeopleAndFollowContainer>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
 									<ul style={{padding:"0px"}}>
-											<p style={{color:"#AEADAD",fontSize:"18px"}}>
+											<p style={{color:"white",fontSize:"18px"}}>
 												<b>Active People</b>
 											</p>
 											<li style={{listStyle:"none",width:"90%"}}>
@@ -504,7 +556,8 @@ const HeaderContainer=(props)=>{
 									</ul>
 								</li>
 
-								<li onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})} style={ButtonCSS}>
+								<li onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})}
+									style={{...ButtonCSS,background:backgroundColor}}>
 									<b>
 										<AddCircleOutlineIcon style={{font:20}}/>
 										 	{followSymposiumButtonClick==false?
@@ -529,7 +582,7 @@ const HeaderContainer=(props)=>{
 						</HighlightedQuestionsContainer>
 						{triggerDisplayMobilePostOptions()}
 
-						<PopularVideosContainer>
+						<SymposiumTitlesAndVideosContainer>
 							<ul id="popularVideoContainerLI" style={{padding:"0px"}}>
 								<li id="titleContainer" style={{listStyle:"none",position:"relative"}}>
 				  					<li id="selectedSymposiumTitle" style={{overflow:"hidden",color:"white",listStyle:"none",display:"inline-block",fontSize:"40px",overflow:"hidden"}}>
@@ -568,7 +621,7 @@ const HeaderContainer=(props)=>{
 									</a>
 								</li>
 							</ul>
-						</PopularVideosContainer>
+						</SymposiumTitlesAndVideosContainer>
 
 						<ActivePeopleAndFollowContainer>
 							<ul style={{padding:"0px"}}>
