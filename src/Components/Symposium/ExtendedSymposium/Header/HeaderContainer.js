@@ -457,92 +457,96 @@ const HeaderContainer=(props)=>{
 		<React.Fragment>
 			{headerAnimation==false ?
 				<Container id="headerContents" style={{background:backgroundColor}}>
-					<HighlightedQuestionsContainer>
-						<p style={{fontSize:"18px",color:"white"}}>
-							<b>HighLighted Question</b>
-						</p>
-						{props.popularQuestionObject.questionInformation.length==0?
-								null
-							:<HightLightedQuestions
-								questionInformation={props.popularQuestionObject.questionInformation}
-								isSimplified={props.popularQuestionObject.isSimplified}
-								selectedSymposium={props.popularQuestionObject.selectedSymposium}
-								isGuestProfile={isGuestProfile}
-							/>
-						}
-					</HighlightedQuestionsContainer>
-					<SymposiumTitlesAndVideosContainer>
-						<SymposiumTitle>
-							<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-								<p id="symposiumTitleText"
-									style={{color:"white",marginLeft:"2%",fontSize:"36px"}}>
-									{displayDesktopUI==true?
-										<><b>{selectedSymposiumTitle}</b></>:
-										<>{selectedSymposiumTitle}</>
-									}
+					{props.isLoading==false &&(
+						<>
+							<HighlightedQuestionsContainer>
+								<p style={{fontSize:"18px",color:"white"}}>
+									<b>HighLighted Question</b>
 								</p>
-								<div style={{...BeaconDivCSS,background:backgroundColor}}>
-									{beaconElement()}
-								</div>
-							</div>
-						</SymposiumTitle>
-						<PopularVideosContainer>
-							<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-								<p style={{color:"white",fontSize:"18px"}}>Popular Videos </p>
-								<p style={{color:"white",fontSize:"18px",cursor:"pointer"}}
-									onClick={()=>displayPopularVideos()}
-								> See All </p>
-							</div>
-							<PopularVideos>
-								{popularVideos.map(data=>
-									<>
-										{data!=null &&(
-											<li style={PopularVideosListCSS}>
-												<video id="smallVideo" key={uuidv4()} borderRadius="5px" 
-													position="relative" height="50px" width="60px">
-													<source src={data.videoUrl} type="video/mp4"/>
-												</video>
-											</li>
+								{props.popularQuestionObject.questionInformation.length==0?
+										null
+									:<HightLightedQuestions
+										questionInformation={props.popularQuestionObject.questionInformation}
+										isSimplified={props.popularQuestionObject.isSimplified}
+										selectedSymposium={props.popularQuestionObject.selectedSymposium}
+										isGuestProfile={isGuestProfile}
+									/>
+								}
+							</HighlightedQuestionsContainer>
+							<SymposiumTitlesAndVideosContainer>
+								<SymposiumTitle>
+									<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+										<p id="symposiumTitleText"
+											style={{color:"white",marginLeft:"2%",fontSize:"36px"}}>
+											{displayDesktopUI==true?
+												<><b>{selectedSymposiumTitle}</b></>:
+												<>{selectedSymposiumTitle}</>
+											}
+										</p>
+										<div style={{...BeaconDivCSS,background:backgroundColor}}>
+											{beaconElement()}
+										</div>
+									</div>
+								</SymposiumTitle>
+								<PopularVideosContainer>
+									<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+										<p style={{color:"white",fontSize:"18px"}}>Popular Videos </p>
+										<p style={{color:"white",fontSize:"18px",cursor:"pointer"}}
+											onClick={()=>displayPopularVideos()}
+										> See All </p>
+									</div>
+									<PopularVideos>
+										{popularVideos.map(data=>
+											<>
+												{data!=null &&(
+													<li style={PopularVideosListCSS}>
+														<video id="smallVideo" key={uuidv4()} borderRadius="5px" 
+															position="relative" height="50px" width="60px">
+															<source src={data.videoUrl} type="video/mp4"/>
+														</video>
+													</li>
+												)}
+											</>
 										)}
-									</>
-								)}
-							</PopularVideos>
-						</PopularVideosContainer>
-					</SymposiumTitlesAndVideosContainer>
-					<ActivePeopleAndFollowContainer>
-						<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
-							<ul style={{padding:"0px"}}>
-									<p style={{color:"white",fontSize:"18px"}}>
-										<b>Active People</b>
-									</p>
-									<li style={{listStyle:"none",width:"90%"}}>
-										<ActiveContainer>
-											<ul>
-								 				{activePeople.map(data=>
-							 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"20px",marginBottom:"10px"}}>
-							 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
-							 								<img src={data.profilePicture!=null?
-							 											data.profilePicture:
-							 											NoProfilePicture} 
-							 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
-							 							</ActiveProfilePictures>
-							 						</li>
-							 					)}
-								 			</ul>
-										</ActiveContainer>
-									</li>
-							</ul>
-						</li>
-						<div style={{...ButtonCSS,background:backgroundColor}}>
-							<b>
-								<AddCircleOutlineIcon style={{font:20}}/>
-								 	{followSymposiumButtonClick==false?
-								 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
-								 		<p>Unfollow {selectedSymposiumTitle} Symposium</p>
-								 	}
-							</b>
-						</div>
-					</ActivePeopleAndFollowContainer>
+									</PopularVideos>
+								</PopularVideosContainer>
+							</SymposiumTitlesAndVideosContainer>
+							<ActivePeopleAndFollowContainer>
+								<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
+									<ul style={{padding:"0px"}}>
+											<p style={{color:"white",fontSize:"18px"}}>
+												<b>Active People</b>
+											</p>
+											<li style={{listStyle:"none",width:"90%"}}>
+												<ActiveContainer>
+													<ul>
+										 				{activePeople.map(data=>
+									 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"20px",marginBottom:"10px"}}>
+									 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
+									 								<img src={data.profilePicture!=null?
+									 											data.profilePicture:
+									 											NoProfilePicture} 
+									 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
+									 							</ActiveProfilePictures>
+									 						</li>
+									 					)}
+										 			</ul>
+												</ActiveContainer>
+											</li>
+									</ul>
+								</li>
+								<div style={{...ButtonCSS,background:backgroundColor}}>
+									<b>
+										<AddCircleOutlineIcon style={{font:20}}/>
+										 	{followSymposiumButtonClick==false?
+										 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
+										 		<p>Unfollow {selectedSymposiumTitle} Symposium</p>
+										 	}
+									</b>
+								</div>
+							</ActivePeopleAndFollowContainer>
+						</>
+					)}
 				</Container>:
 				<SymposiumHeaderAnimation id="animatedHeaderAnimatedContainer" style={{background:backgroundColor}}/>
 			}
