@@ -59,6 +59,10 @@ const Container=styled.div`
 			margin-left:10% !important;
 			width:75% !important;
 		}
+
+		#replyCreateCloseOption{
+			margin-left:5% !important;
+		}
 	}
 
 `;
@@ -109,6 +113,10 @@ const ExtendedTextArea=styled.textarea`
 
 	@media screen and (max-width:650px){
 		height:200px !important;
+	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	width:90%;
+    	margin-left:5%;
 	}
 `;
 
@@ -543,7 +551,7 @@ class CommentsContainer extends Component{
 						<li style={{listStyle:"none"}}>
 							<ExtendedTextArea id="reply"/>
 						</li>
-						<li style={{listStyle:"none"}}>
+						<li id="replyCreateCloseOption" style={{listStyle:"none"}}>
 							{this.state.isProcessingInput==true?
 								<p>Please wait...</p>:
 								<ul style={{padding:"0px"}}>
