@@ -16,30 +16,52 @@ import {Link} from "react-router-dom";
 const Container=styled.div`
 	padding:10px;
 	@media screen and (max-width:1370px){
-		#commentLI{
-			height:10% !important;
+		#commentOwnerProfilePicture{
+			height:40px !important;
 		}
 	}
-	@media screen and (max-width:700px){
+	@media screen and (max-width:650px){
 		height:80% !important;
+		#commentDIVLI{
+			margin-left:-15% !important;
+			margin-bottom:20% !important;
+		}
 		#profilePictureLI{
 			height:120% !important;
-		}
-		#replyLIImage{
-			height:60% !important;
-			overflow:scroll;
 		}
 		#replyCommentLI{
 			margin-top:-80% !important;
 		}
-
-		#commentLI{
-			height:40px !important;
-		}
 		#replyLIImage{
-			height:20% !important;
+			height:30px !important;
+			width:30px !important;
+		}
+
+		#replyDiv{
+			margin-left:12% !important;
+			width:75% !important;
+		}
+		#replyLI{
+			margin-left:-20% !important;
 		}
     }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	#commentDIVLI{
+			margin-left:-5% !important;
+		}
+		#commentOwnerProfilePicture{
+			height:40px !important;
+		}
+		#replyLI{
+			margin-left:-20% !important;
+		}
+		#replyDiv{
+			margin-left:10% !important;
+			width:75% !important;
+		}
+	}
+
 `;
 
 const CommentContainerDiv=styled.div`
@@ -73,7 +95,7 @@ const InputContainer=styled.textarea`
 const ExtendedTextArea=styled.textarea`
 	position:relative;
 	width:100%;
-	height:40%;
+	height:250px;
 	background-color:white;
 	border-radius:10px;
 	border-style:solid;
@@ -84,6 +106,10 @@ const ExtendedTextArea=styled.textarea`
 
 	@media screen and (max-width:1370px){
 		height:50%;
+	}
+
+	@media screen and (max-width:650px){
+		height:200px !important;
 	}
 `;
 
@@ -160,6 +186,7 @@ class CommentsContainer extends Component{
 			selectedReplies:[],
 			commentIndex:0,
 			isProcessingInput:false,
+			isProcessingReplyFetchRequest:false,
 			isCreatingComment:false
 		}
 	}
@@ -184,15 +211,19 @@ class CommentsContainer extends Component{
 
 
 	replyComment=(data)=>{
+		console.log(data);
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-							<img id="replyLIImage" 
-								src={data.ownerObject.profilePicture==null?
-									NoProfilePicture:data.ownerObject.profilePicture}
-							style={ProfilePicture}/>
-						</li>
+						<Link to={{pathname:`/profile/${data.ownerObject.owner._id}`}}>
+							<li style={{cursor:"pointer",listStyle:"none",display:"inline-block",
+								marginRight:"10px"}}>
+								<img id="replyLIImage" 
+									src={data.ownerObject.profilePicture==null?
+										NoProfilePicture:data.ownerObject.profilePicture}
+								style={ProfilePicture}/>
+							</li>
+						</Link>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
 						</li>
@@ -203,7 +234,6 @@ class CommentsContainer extends Component{
 				</CommentText>
 			 </ul>
 	}
-//
 	handleReplyFetch=async(commentId)=>{
 		var indexOfComment=this.state.comments.findIndex(comment=>comment._id === commentId);
 		const replyObject={
@@ -212,7 +242,7 @@ class CommentsContainer extends Component{
 			commentIndex:(this.state.comments.length-1)-indexOfComment
 		}
 		this.setState({
-			isProcessingInput:true
+			isProcessingReplyFetchRequest:true
 		})
 
 		const {confirmation,data}=await getRepliesFromComment(replyObject);
@@ -228,7 +258,7 @@ class CommentsContainer extends Component{
 			alert('Unfortunately there has been an error getting the replies. Please try again');
 		}
 		this.setState({
-			isProcessingInput:false
+			isProcessingReplyFetchRequest:false
 		})
 	}
 
@@ -245,41 +275,46 @@ class CommentsContainer extends Component{
 	}
 	commentComponent=(data,index)=>{
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
-				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
-					<ul style={{padding:"0px"}}>
-						<OwnerProfilePictureLink to={{pathname:`/profile/${data.ownerObject.owner._id}`}}>
-							<img id="commentLI" 
-								src={data.ownerObject.profilePicture==null?
-									NoProfilePicture:data.ownerObject.profilePicture}
-							style={ProfilePicture}/>
-						</OwnerProfilePictureLink>
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<b>{data.ownerObject.owner.firstName}</b>
-						</li>
-					</ul>
-				</li>
-				<CommentText>
-					{data.comment}
-				</CommentText>
-				<li style={{listStyle:"none",marginTop:"5%"}}>
-					<ul style={{padding:"0px"}}>
-						{data.replies.length>0?
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5px"}}
-									 onClick={()=>this.handleReplyFetch(data._id)}>
-
-									<b>View replies </b>
-								</li>
-							</a>:
-							null
-						}
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.triggerReply(data,index)} style={{listStyle:"none",display:"inline-block"}}>
-								Reply
+					<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
+						<ul style={{padding:"0px"}}>
+							<OwnerProfilePictureLink to={{pathname:`/profile/${data.ownerObject.owner._id}`}}>
+								<img id="commentOwnerProfilePicture" 
+									src={data.ownerObject.profilePicture==null?
+										NoProfilePicture:data.ownerObject.profilePicture}
+								style={ProfilePicture}/>
+							</OwnerProfilePictureLink>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<b>{data.ownerObject.owner.firstName}</b>
 							</li>
-						</a>
-					</ul>
-				</li>
+						</ul>
+					</li>
+					<CommentText>
+						{data.comment}
+					</CommentText>
+					<li style={{listStyle:"none",marginTop:"5%"}}>
+						<ul style={{padding:"0px"}}>
+							{this.state.isProcessingReplyFetchRequest==true?
+								<p>Please wait...</p>:
+								<>
+									{data.replies.length>0?
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5px"}}
+												 onClick={()=>this.handleReplyFetch(data._id)}>
+
+												<b>View replies </b>
+											</li>
+										</a>:
+										null
+									}
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li onClick={()=>this.triggerReply(data,index)} style={{listStyle:"none",display:"inline-block"}}>
+											Reply
+										</li>
+									</a>
+								</>
+							}
+						</ul>
+					</li>
 			</ul>
 	}
 
@@ -398,7 +433,7 @@ class CommentsContainer extends Component{
 
 	handleDisplayResponses=(key)=>{
 		if(key==this.state.keyToDisplayRespones){
-			return <ul style={{borderStyle:"solid",borderWidth:"1px",borderColor:"#D8D8D8",borderRadius:"5px"}}>
+			return <ul id="replyDiv" style={{borderStyle:"solid",borderWidth:"1px",borderColor:"#D8D8D8",borderRadius:"5px"}}>
 						<li onClick={()=>this.setState({keyToDisplayRespones:null})} style={{marginRight:"80%",listStyle:"none"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
@@ -425,9 +460,7 @@ class CommentsContainer extends Component{
 			return <React.Fragment>
 					</React.Fragment>
 		}
-	}
-//
-
+	} 
 
 
 	handleCreateReply=async({isAccessTokenUpdated,updatedAccessToken})=>{
@@ -545,7 +578,9 @@ class CommentsContainer extends Component{
 					<>
 						{this.createCommentUI()}
 						{this.state.comments.map((data,index)=>
-							<li style={{padding:"0px",listStyle:"none",marginBottom:"10px"}} key={data._id}>
+							<li id="commentDIVLI" 
+								 style={{padding:"0px",listStyle:"none",marginBottom:"10px"}}
+								 key={data._id}>
 								{this.commentComponent(data,index)}
 								{this.createReplyComment(data._id)}
 								{this.handleDisplayResponses(data._id)}
