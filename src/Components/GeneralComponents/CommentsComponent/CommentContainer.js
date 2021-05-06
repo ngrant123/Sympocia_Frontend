@@ -23,7 +23,6 @@ const Container=styled.div`
 	@media screen and (max-width:650px){
 		height:80% !important;
 		#commentDIVLI{
-			margin-left:-15% !important;
 			margin-bottom:20% !important;
 		}
 		#profilePictureLI{
@@ -38,7 +37,7 @@ const Container=styled.div`
 		}
 
 		#replyDiv{
-			margin-left:12% !important;
+			margin-left:1% !important;
 			width:75% !important;
 		}
 		#replyLI{
@@ -54,7 +53,7 @@ const Container=styled.div`
 			height:40px !important;
 		}
 		#replyLI{
-			margin-left:-20% !important;
+			margin-left:-15% !important;
 		}
 		#replyDiv{
 			margin-left:10% !important;
