@@ -12,7 +12,7 @@ import FilterImageSelection from "./FilterImageSelection.js";
 import {UserConsumer} from "../../../../Profile/PersonalProfile/UserContext.js";
 import MicIcon from '@material-ui/icons/Mic';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
-import VideoDescriptionPortal from "../../VideoDescriptionPortal.js";
+import VideoDescriptionPortal from "../../VideoDescription/VideoDescriptionPortal.js";
 import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
 import { Icon, InlineIcon } from '@iconify/react';
 import crownIcon from '@iconify/icons-mdi/crown';

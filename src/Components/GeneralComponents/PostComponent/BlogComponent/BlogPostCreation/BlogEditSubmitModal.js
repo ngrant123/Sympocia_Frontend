@@ -12,7 +12,7 @@ import {BlogConsumer} from "./BlogContext.js";
 import {PostConsumer} from "../../PostContext.js";
 import { convertToRaw } from 'draft-js';
 
-import VideoDescriptionPortal from "../../VideoDescriptionPortal.js";
+import VideoDescriptionPortal from "../../VideoDescription/VideoDescriptionPortal.js";
 import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
 import MicIcon from '@material-ui/icons/Mic';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';

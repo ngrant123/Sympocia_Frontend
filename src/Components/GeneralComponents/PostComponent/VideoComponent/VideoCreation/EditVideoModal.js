@@ -15,7 +15,7 @@ import {CompanyPostConsumer} from "../../../../Profile/CompanyProfile/CompanyPos
 
 import MicIcon from '@material-ui/icons/Mic';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
-import VideoDescriptionPortal from "../../VideoDescriptionPortal.js";
+import VideoDescriptionPortal from "../../VideoDescription/VideoDescriptionPortal.js";
 import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
 
 import { Icon, InlineIcon } from '@iconify/react';
