@@ -29,8 +29,25 @@ const Video=styled.div`
 	height:80%;
 	overflow:hidden;
 	border-radius:5px
+	display:flex;
+	flex-direction:column;
 	z-index:5;
 	background-color:white;
+
+	@media screen and (max-width:1370px){
+		#videoElement{
+			height:80% !important;
+		}
+	}
+	@media screen and (max-width:650px){
+		margin-top:20px !important;
+		#ownerFirstName{
+			font-size:15px !important;
+		}
+		#videoElement{
+			height:70% !important;
+		}
+	}
 `;
 
 const InputContainer=styled.textarea`
@@ -325,80 +342,102 @@ class VideoResponseContainer extends Component{
 	VideoComponent=()=>{ 
 		const videoData=this.state.videoResponses[this.state.indicatorPosition];
 		return <>
-					{this.state.isProcessingInput==true?
-						<p>Please wait...</p>:
-						<>
-							{this.state.videoResponses.length==0 || videoData==null?
-								<p>No video comments</p>:
-								<>	
-									<ul style={{padding:"0px"}}>
-										{this.state.indicatorPosition==0?null:
-											<li onClick={()=>this.handlePreviousResponse()} style={ButtonCSS}>
-												Previous
-											</li>
-										}
+			{this.state.isProcessingInput==true?
+				<p>Please wait...</p>:
+				<>
+					{this.state.videoResponses.length==0 || videoData==null?
+						<p>No video comments</p>:
+						<>	
+							<ul style={{padding:"0px",marginTop:"15px",marginBottom:"10px"}}>
+								{this.state.indicatorPosition==0?null:
+									<li onClick={()=>this.handlePreviousResponse()} 
+										style={{cursor:"pointer",color:"#5298F8"}}>
+										Previous
+									</li>
+								}
 
-										{this.state.indicatorPosition==this.state.videoResponses.length-1?null:
-											<li onClick={()=>this.handleNextResponse()} style={ButtonCSS}> 
-												Next
-											</li>
-										}
-									</ul>
-									<Video>
-										{this.state.displayComments==false?
-											<>
-												<video key={videoData._id} objectFit="cover" position="absolute" width="100%" top="0px" height="100%" borderRadius="50%" autoplay="true" controls>
-													<source src={videoData.videoSrc} type="video/mp4"/>
-												</video>
-												<ul style={{position:"absolute",top:"50px"}}>
-													<li style={{listStyle:"none",width:"400px"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-																<Link to={{pathname:`/profile/${videoData.ownerObject.owner._id}`}}>
-																	<img src={videoData.ownerObject.profilePicture==null?
-																		NoProfilePicture:videoData.ownerObject.profilePicture}
-																		style={{borderRadius:"50%",width:"50px",height:"45px"}}
-																	/>
-																</Link>
-															</li>
+								{this.state.indicatorPosition==this.state.videoResponses.length-1?null:
+									<li onClick={()=>this.handleNextResponse()} 
+										style={{cursor:"pointer",color:"#5298F8"}}> 
+										Next
+									</li>
+								}
+							</ul>
+							<Video>
+								<div style={{display:"flex",flexDirection:"row",marginBottom:"5px"}}>
+									<Link to={{pathname:`/profile/${videoData.ownerObject.owner._id}`}}>
+										<img src={videoData.ownerObject.profilePicture==null?
+											NoProfilePicture:videoData.ownerObject.profilePicture}
+											style={{borderRadius:"50%",width:"50px",height:"45px"}}
+										/>
+									</Link>
+									<p id="ownerFirstName"
+										style={{color:"#2E2E2E",fontSize:"25px",marginLeft:"5%"}}>
+										<b>{videoData.ownerObject.owner.firstName}</b>
+									</p>
+								</div>
+								<video id="videoElement"
+									style={{borderRadius:"5px",backgroundColor:"#151515"}}
+									key={videoData._id} objectFit="cover" position="absolute" 
+									width="100%" top="0px" height="100%" borderRadius="50%" 
+									autoplay="true" controls>
+									<source src={videoData.videoSrc} type="video/mp4"/>
+								</video>
+								{/*
+									{this.state.displayComments==false?
+										<>
+											<video key={videoData._id} objectFit="cover" position="absolute" width="100%" top="0px" height="100%" borderRadius="50%" autoplay="true" controls>
+												<source src={videoData.videoSrc} type="video/mp4"/>
+											</video>
+											<ul style={{position:"absolute",top:"50px"}}>
+												<li style={{listStyle:"none",width:"400px"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+															<Link to={{pathname:`/profile/${videoData.ownerObject.owner._id}`}}>
+																<img src={videoData.ownerObject.profilePicture==null?
+																	NoProfilePicture:videoData.ownerObject.profilePicture}
+																	style={{borderRadius:"50%",width:"50px",height:"45px"}}
+																/>
+															</Link>
+														</li>
 
-															<li style={{listStyle:"none",display:"inline-block"}}>
-																<p style={{color:"white",fontSize:"25px",marginLeft:"5%"}}>
-																	<b>{videoData.ownerObject.owner.firstName}</b>
-																</p>
+														<li style={{listStyle:"none",display:"inline-block"}}>
+															<p style={{color:"white",fontSize:"25px",marginLeft:"5%"}}>
+																<b>{videoData.ownerObject.owner.firstName}</b>
+															</p>
+														</li>
+													</ul>
+												</li>
+													<li style={{listStyle:"none"}}>
+														<ul style={{zIndex:"2",padding:"0px",width:"15%"}}>
+															<li style={{listStyle:"none",marginBottom:"40%"}} onClick={()=>this.getReplies()}>
+																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+																	<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
+																		 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
+																		 fill="none" stroke-linecap="round" stroke-linejoin="round">
+																	  <path stroke="none" d="M0 0h24v24H0z"/>
+																	  <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
+																	  <line x1="8" y1="9" x2="16" y2="9" />
+																	  <line x1="8" y1="13" x2="14" y2="13" />
+																	</svg>
+																</a>
 															</li>
 														</ul>
 													</li>
-													{/*
-														<li style={{listStyle:"none"}}>
-															<ul style={{zIndex:"2",padding:"0px",width:"15%"}}>
-																<li style={{listStyle:"none",marginBottom:"40%"}} onClick={()=>this.getReplies()}>
-																	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
-																			 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" 
-																			 fill="none" stroke-linecap="round" stroke-linejoin="round">
-																		  <path stroke="none" d="M0 0h24v24H0z"/>
-																		  <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
-																		  <line x1="8" y1="9" x2="16" y2="9" />
-																		  <line x1="8" y1="13" x2="14" y2="13" />
-																		</svg>
-																	</a>
-																</li>
-															</ul>
-														</li>
-													*/}
-												</ul>
-											</>:
-											<>
-												{this.commentUI()}
-											</>
-										}
-									</Video>
-								</>
-							}
+											</ul>
+										</>:
+										<>
+											{this.commentUI()}
+										</>
+									}
+
+								*/}
+							</Video>
 						</>
 					}
 				</>
+			}
+		</>
 	}
 
 	handleNextResponse=()=>{
