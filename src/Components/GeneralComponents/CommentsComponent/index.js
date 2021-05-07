@@ -8,13 +8,7 @@ const Container=styled.div`
 	overflow-y:scroll;
 	height:100%;
 	width:100%;
-	background-color:white;
-	@media screen and (max-width:1370px){
-		height:500px;
-
-	}
 	@media screen and (max-width:700px){
-		height:350px !important;
 		#containerUL{
 			width:100% !important;
 		}
