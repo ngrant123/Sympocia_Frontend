@@ -259,6 +259,20 @@ export const getSpecificBeacon=async({beaconId,postType})=>{
 	}
 }
 
+export const getPostCreationUpdateStatuses=async(profileId)=>{
+	try{
+		const postCreationUpdateStatusResponse=await axios.get(`${SearchUrl}/postCreationUpdateStatuses`,{
+			params:{
+				profileId
+			}
+		})
+		const {data}=postCreationUpdateStatusResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
 
 
 

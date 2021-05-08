@@ -5,13 +5,10 @@ export const Container=styled.div`
 	position:fixed;
 	width:100%;
 	height:10%;
-	display:flex;
-	flex-direction:row;
-	justify-content:space-between;
 	border-bottom:1px solid #F8F8F8;
 	background-color:white;
 
-	align-items:center;
+	
 	z-index:40;
 
 	@media screen and (max-width:1370px) {

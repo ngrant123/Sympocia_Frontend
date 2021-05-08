@@ -32,7 +32,8 @@ import {
 import {getProfilePicture} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import Notifications from "../../NotificationComponent/index.js";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
-
+import {getPostCreationUpdateStatuses} from "../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const glowing=keyframes`
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -54,7 +55,7 @@ const PersonalInformationContainer=styled.div`
 	background-color:white;
 	flex-direction:row;
 	align-items:center;
-	margin-right:5%;
+	margin-right:2%;
 	border-radius:5px;
 	padding:5px;
 	border-style:solid;
@@ -201,6 +202,18 @@ const PersonalPreferencesDropDownCSS={
 	backgroundColor:"white",
 	color:"#4E4E4E"
 }
+
+const PostUploadStatusNotificationCSS={
+	backgroundColor:"#C8B0F4",
+	width:"100%",
+	height:"40%",
+	padding:"10px",
+	color:"white",
+	justifyContent:"center",
+	display:"flex",
+	flexDirection:"row",
+	transition:".8s"
+}
 /*
 	Down the road should look into implementing something like
 	https://medium.com/@gabriele.cimato/on-how-to-store-an-image-in-redux-d623bcc06ca7
@@ -233,6 +246,7 @@ const NavBar=(pageProps)=>{
 	const [displayNotifications,changeDisplayNotifications]=useState(false);
 	const [notifications,changeNotifications]=useState();
 	const [reloadNotificationAccessToken,changeReload]=useState(false);
+	const [displayPostUploadStatus,changeDisplayUploadPostStatus]=useState(false);
 	let {
 			refreshToken,
 			accessToken,
@@ -268,6 +282,7 @@ const NavBar=(pageProps)=>{
 			if(isGuestProfile==false){
 				const statusCheck=statusCheckTrigger({id,isAccessTokenUpdated:false})
 				const profilePictureRetrieval=profilePictureRetrievalTrigger(id);
+				const postUpdateStatusesRetrieval=postCreationUpdateStatusesTrigger(id);
 			}
 			changeDisplayPersonalProfileIcon(true);
 			triggerUIChange();
@@ -301,6 +316,19 @@ const NavBar=(pageProps)=>{
 
 	window.addEventListener('resize',triggerUIChange)
 
+	const postCreationUpdateStatusesTrigger=async(id)=>{
+		const {confirmation,data}=await getPostCreationUpdateStatuses(id);
+		if(confirmation=="Success"){
+			const {message}=data;
+			if(message.length>0){
+				changeDisplayUploadPostStatus(true);
+				setTimeout(()=>{
+					changeDisplayUploadPostStatus(false);
+				},2000);	
+			}
+		}
+
+	}
 	const profilePictureRetrievalTrigger=async(id)=>{
 		const {confirmation,data}=await getProfilePicture(id);
 		if(confirmation=="Success"){
@@ -570,6 +598,21 @@ const NavBar=(pageProps)=>{
 		}
 	}
 
+	const postUploadStatusNotification=()=>{
+		return(
+			<React.Fragment>
+				{displayPostUploadStatus==true &&(
+					<div style={PostUploadStatusNotificationCSS}>
+						<p>Awesome :) Your post has been uploaded</p>
+						<HighlightOffIcon
+							style={{fontSize:"20",color:"white"}}
+						/>
+					</div>
+				)}
+			</React.Fragment>
+		)
+	}
+
 
 
 	return(
@@ -603,11 +646,13 @@ const NavBar=(pageProps)=>{
 				</React.Fragment>:
 				<React.Fragment></React.Fragment>
 			}
-
-			{displayDesktopUI==true ?
-				<>{desktopUI()}</>:
-				<>{MobileUI()}</>
-			}
+			<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center",marginTop:"5px"}}>
+				{displayDesktopUI==true ?
+					<>{desktopUI()}</>:
+					<>{MobileUI()}</>
+				}
+			</div>
+			{postUploadStatusNotification()}
 		</Container>
 	)
 
