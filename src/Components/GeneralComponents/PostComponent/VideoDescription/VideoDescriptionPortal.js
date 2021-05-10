@@ -390,6 +390,7 @@ const VideoResultContainerCSS={
 		}
 
 		const mobileVideoDescription=()=>{
+			alert('Just letting you know we only accept video descriptions that have a size of 11MB :( Sorry.')
 			return(
 				<>
 					<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>

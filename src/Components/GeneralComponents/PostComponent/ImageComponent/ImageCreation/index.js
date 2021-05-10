@@ -196,7 +196,7 @@ class ImageCreation extends Component{
 					<EditImageCreation
 						imageSrcUrl={this.state.pictureUrl}
 						closeModal={this.props.closeModal}
-						isPhoneUIEnabled={true}
+						isPhoneUIEnabled={this.props.isPhoneUIEnabled}
 					/>
 				}
 			</Container>

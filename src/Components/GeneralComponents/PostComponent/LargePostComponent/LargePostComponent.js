@@ -394,6 +394,7 @@ class LargePostComponent extends Component{
 				displayElement:<RegularPostCreation 
 									displayProps={this.displayPostOptions}
 									closeModal={this.props.closeModal}
+                                    isPhoneUIEnabled={this.props.isPhoneUIEnabled}
 								/>,
 				id:this.props._id
 			})
@@ -403,6 +404,7 @@ class LargePostComponent extends Component{
 				displayElement:<ImagePostCreation
 									displayProps={this.displayPostOptions}
 									closeModal={this.props.closeModal}
+                                    isPhoneUIEnabled={this.props.isPhoneUIEnabled}
 								/>,
 				id:this.props._id
 			})
@@ -413,6 +415,7 @@ class LargePostComponent extends Component{
 				displayElement:<VideoPostCreation 
 									displayProps={this.displayPostOptions}
 									closeModal={this.props.closeModal}
+                                    isPhoneUIEnabled={this.props.isPhoneUIEnabled}
 								/>,
 				id:this.props._id
 			})
@@ -448,6 +451,7 @@ class LargePostComponent extends Component{
 					displayElement:<ImagePostCreation
 										displayProps={this.displayPostOptions}
 										closeModal={this.props.closeModal}
+                                        isPhoneUIEnabled={this.props.isPhoneUIEnabled}
 									/>
 			})
 		}else if(props=="VideoPosts"){
@@ -456,6 +460,7 @@ class LargePostComponent extends Component{
 					displayElement:<VideoPostCreation 
 										displayProps={this.displayPostOptions}
 										closeModal={this.props.closeModal}
+                                        isPhoneUIEnabled={this.props.isPhoneUIEnabled}
 									/>})
 
 		}
@@ -470,6 +475,7 @@ class LargePostComponent extends Component{
 				displayElement:<VideoPostCreation
 									displayProps={this.displayPostOptions}
 									closeModal={this.props.closeModal}
+                                    isPhoneUIEnabled={this.props.isPhoneUIEnabled}
 								/>,
 				displayGeneralCreationModal:false
 			})
