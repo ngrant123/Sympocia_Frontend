@@ -146,6 +146,7 @@ class EditOrUploadVideoOption extends Component{
 						<EditVideoModal
 							videoSrc={this.props.videoSrc}
 							redoVideo={this.redoVideo}
+							isPhoneUIEnabled={this.props.isPhoneUIEnabled}
 						/>
 				}
 

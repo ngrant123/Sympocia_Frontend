@@ -402,7 +402,8 @@ class EditImageCreation extends Component{
 			description:descriptionTextArea,
 			caption:captionTextArea,
 			isCrownedPost:isPostCrowned,
-			imgUrl
+			imgUrl,
+			isPhoneUIEnabled:this.props.isPhoneUIEnabled
 		}
 
 		if(this.state.isPreviousLoaded==false){
@@ -412,8 +413,7 @@ class EditImageCreation extends Component{
 				//this.pushDummyImageObjectToProfile(companyPostContextConsumer,searchCriteria);
 			}else{
 				if(currentVideoDescription!=null){
-					alert('Since you upload a video description it might take some time to process on our end sorry :(. We wil notify via email and on here when your post is uploaded though.')
-					this.props.closeModal();
+					alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled')
 				}
 				const {confirmation,data}=await createImagePost(
 													this.props.personalProfile.id,
@@ -461,10 +461,12 @@ class EditImageCreation extends Component{
 				videoDescriptionKey,
 				uncompressedImageId
 			}=previousData;
-			debugger;
+
+			
 			const editedImage={
 				postType:"Images",
 				postId:_id,
+				isPhoneUIEnabled:this.props.isPhoneUIEnabled,
 				post:{
 					industriesUploaded:this.state.isSymposiumsAltered==true?searchCriteriaIndustryArray:null,
 					description:descriptionTextArea!=description?descriptionTextArea:null,
@@ -493,13 +495,11 @@ class EditImageCreation extends Component{
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 							this.props.personalProfile.accessToken
 			}
+			if(editedImage.postS3[2].newUrl!=null){
+				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
 
-			
+			}
 
-		if(currentVideoDescription!=null){
-			alert('Since you upload a video description it might take some time to process on our end sorry :(. We wil notify via email and on here when your post is uploaded though.')
-			this.props.closeModal();
-		}
  			const {confirmation,data}=await editPost(editedImage);
 			if(confirmation=="Success"){
 				alert('Your post has been edited. Please reload your profile to see your updated post.')
@@ -539,7 +539,6 @@ class EditImageCreation extends Component{
 	}
 
 	isArrayEqual=(arr1,arr2)=>{
-		debugger;
 		let isArrayEqualIndicator=true;
 
 		if(arr1.length!=arr2.length)

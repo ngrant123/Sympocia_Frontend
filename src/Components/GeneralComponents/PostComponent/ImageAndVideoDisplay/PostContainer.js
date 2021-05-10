@@ -335,12 +335,14 @@ const ImageContainer=(props)=>{
 							previousData={postData[postDataDestructedField]}
 							editPost={editPost}
 							closeModal={closeEditModal}
+							isPhoneEnabled={displayMobileUI}
 						/>
 						:<EditImageCreation
 							imageSrcUrl={postData[postDataDestructedField].imgUrl}
 							previousData={postData[postDataDestructedField]}
 							editPost={editPost}
 							closeModal={closeEditModal}
+							isPhoneEnabled={displayMobileUI}
 						/>
 					}
 				</React.Fragment>:
