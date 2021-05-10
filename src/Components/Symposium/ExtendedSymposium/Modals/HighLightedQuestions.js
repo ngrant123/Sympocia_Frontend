@@ -26,6 +26,7 @@ const QuestionCSS={
 
 class HighLightedQuestions extends Component{
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			questionData:props.questionInformation,
@@ -218,6 +219,7 @@ class HighLightedQuestions extends Component{
 								triggerVideoPortal={this.setVideoPost}
 								triggerRegularPostPortal={this.setRegularPost}
 								addComment={this.addComment}
+								isMobile={this.props.isMobile}
 							/>:<React.Fragment></React.Fragment>
 						}
 						{this.state.displayImagePortal==true?

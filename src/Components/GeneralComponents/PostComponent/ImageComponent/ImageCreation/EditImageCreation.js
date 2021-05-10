@@ -278,8 +278,8 @@ const ButtonCSS={
 }
 
 class EditImageCreation extends Component{
-
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			imgUrl:"",
@@ -495,6 +495,7 @@ class EditImageCreation extends Component{
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 							this.props.personalProfile.accessToken
 			}
+			console.log(editedImage);
 			if(editedImage.postS3[2].newUrl!=null){
 				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
 

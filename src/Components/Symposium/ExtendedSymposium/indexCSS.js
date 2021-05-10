@@ -189,12 +189,17 @@ export const HightLightedQuestionsContainerModal=styled.div`
 		}
 	}
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:650px){
+		#postLI{
+			width:40% !important;
+		}
 		#videoQuestionAnswers{
 			height:30% !important;
+			width:100% !important;
 		}
 		#imageHighlightedQuestion{
-			height:50% !important;
+			height:20% !important;
+			width:90% !important;
 		}
 	}
 
