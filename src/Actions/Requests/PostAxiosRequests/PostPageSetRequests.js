@@ -131,7 +131,7 @@ export const unStampPost=async(postId,profileType,postType,userId,accessToken)=>
 	}
 }
 
-export const addCommentToPopularQuestions=async(commentObject,accessToken)=>{
+export const addCommentToPopularQuestions=async(commentObject,accessToken,isMobile)=>{
 	try{
 		const {
 			userId,
@@ -149,7 +149,8 @@ export const addCommentToPopularQuestions=async(commentObject,accessToken)=>{
 			questionId:questionId,
 			questionType:questionType,
 			comment:comment,
-			industry:industry
+			industry:industry,
+			isMobile
 		},{
 				headers:{
 					authorization:accessToken
@@ -388,14 +389,18 @@ export const updateCrownedRegularPost=async(_id,updatedStatus,regularPostId,acce
 	}
 }
 
-export const editPost=async({postType,postId,post,postS3,ownerId,accessToken})=>{
+export const editPost=async({
+					postType,postId,post,
+					postS3,ownerId,accessToken,
+					isPhoneUIEnabled})=>{
 	try{
 		const editedPostResponse=await axios.post(`${CreateURl}/editPost`,{
 			postType,
 			postId,
 			post,
 			postS3,
-			ownerId
+			ownerId,
+			isPhoneUIEnabled
 		},{
 			headers:{
 				authorization:accessToken
@@ -513,7 +518,9 @@ export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer)=>{
 	}
 }
 
-export const createSpecificIndustryVideoAnswer=async({video,industryId,questionId,question,userId,accessToken})=>{
+export const createSpecificIndustryVideoAnswer=async({
+									video,industryId,questionId,
+									question,userId,accessToken,isMobile})=>{
 	try{
 		
 		const videoFeatureResponse=await axios.post(`${CreateURl}/createIndustryFeatureVideoResponse`,{
@@ -521,7 +528,8 @@ export const createSpecificIndustryVideoAnswer=async({video,industryId,questionI
 			industryId,
 			question,
 			userId,
-			questionId
+			questionId,
+			isMobile
 		},{
 				headers:{
 					authorization:accessToken
@@ -565,6 +573,7 @@ export const createBeacon=async({
 				beaconDescription,
 				postType,
 				ownerId,
+				isMobile,
 				symposiumId
 			})=>{
 	try{
@@ -573,7 +582,8 @@ export const createBeacon=async({
 			beaconDescription,
 			postType,
 			ownerId,
-			symposiumId
+			symposiumId,
+			isMobile
 		})
 		const {data}=createBeaconResponse;
 		return data;
@@ -590,6 +600,7 @@ export const createBeaconReply=async({
 				ownerId,
 				symposiumId,
 				beaconId,
+				isMobile,
 				originalBeaconOwnerId,
 				originalBeaconPostId
 			})=>{
@@ -600,6 +611,7 @@ export const createBeaconReply=async({
 			beaconDescription,
 			postType,
 			ownerId,
+			isMobile,
 			symposiumId,
 			originalBeaconOwnerId,
 			originalBeaconPostId

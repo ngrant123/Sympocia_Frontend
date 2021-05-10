@@ -603,7 +603,7 @@ const NavBar=(pageProps)=>{
 			<React.Fragment>
 				{displayPostUploadStatus==true &&(
 					<div style={PostUploadStatusNotificationCSS}>
-						<p>Awesome :) Your post has been uploaded</p>
+						<p>Awesome :) Your post and/or video description has been uploaded</p>
 						<HighlightOffIcon
 							style={{fontSize:"20",color:"white"}}
 						/>

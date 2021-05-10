@@ -16,7 +16,14 @@ const VideoContainer=styled.div`
 			margin-left:20% !important;
 		}
 	}
-	@media screen and (max-width:420px){
+	@media screen and (max-width:650px){
+		#editOrUploadOptionDiv{
+			margin-left:15% !important;
+		}
+
+		#videoOptionsContainer{
+			margin-top:10% !important;
+		}
 		#videoElement{
 			margin-left:0% !important;
 			height:50% !important;
@@ -73,7 +80,7 @@ class EditOrUploadVideoOption extends Component{
 		return(
 			<VideoContainer>
 				{this.state.displayEditVideoModal==false?
-					<ul style={{padding:"0px"}}>
+					<ul id="editOrUploadOptionDiv" style={{padding:"0px"}}>
 							<li style={{listStyle:"none"}}>
 								<video id="videoElement" width="100%" height="90%" controls autoplay>
 									<source src={this.props.videoSrc} type="video/mp4"/>
@@ -104,44 +111,26 @@ class EditOrUploadVideoOption extends Component{
 										*/}
 
 										<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block"}} onClick={()=>this.checkVideoLength()}>
+											<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																															borderColor:"#5298F8",
+																															borderStyle:"solid",
+																															borderWidth:"1px",
+																															color:"white",
+																															backgroundColor:"#5298F8",
+																															boxShadow:"2px 10px 10px #b9d6ff"}}>
+												<ul style={{padding:"0px"}}>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+														<CameraFrontIcon/>
+													</li>
 
-														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																		borderColor:"#5298F8",
-																																		borderStyle:"solid",
-																																		borderWidth:"1px",
-																																		color:"white",
-																																		backgroundColor:"#5298F8",
-																																		boxShadow:"2px 10px 10px #b9d6ff"}}>
-															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-																	<CameraFrontIcon/>
-																</li>
-
-																<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-																	Edit video
-																</li>
-															</ul>	
-														</button>
+													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+														Edit video
+													</li>
+												</ul>	
+											</button>
 										</li>
 									</ul>
 							</li>
-							{/*
-								<li id="sideInformation" style={{listStyle:"none",marginLeft:"20%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",width:"30%",marginRight:"10%",color:"#a6a6a6"}}>
-											Already finished with your video? Thats great. 
-											Upload it so that people can finall see it and appreciate your talent
-										</li>
-
-										<li style={{listStyle:"none",display:"inline-block",width:"30%",color:"#a6a6a6"}}>
-											We understand that your video might not be ready yet. Click here to add a caption,
-											description, or even edit your video. Lets make it perfect
-
-										</li>
-									</ul>
-
-								</li>
-							*/}
 						</ul>:
 						<EditVideoModal
 							videoSrc={this.props.videoSrc}

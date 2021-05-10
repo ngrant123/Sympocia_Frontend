@@ -10,16 +10,23 @@ const PortalHOCContainer=styled.div`
 	position:absolute;
 	height:55%;
 	width:60%;
-	left:20%;
+	left:25%;
 	padding:10px;
 	top:20%;
 	border-radius:5px;
 	background-color:white;
 	z-index:40;
+	overflow:scroll;
 
 	@media screen and (max-width:1370px){
 		width:80% !important;
 		left:10% !important;
+    }
+
+    @media screen and (max-width:650px){
+		width:90% !important;
+		left:5% !important;
+		height:75%;
     }
 `;
 

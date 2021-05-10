@@ -9,16 +9,7 @@ import VideoPostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/Vi
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
-	position:absolute;
-	z-index:45;
-	height:95%;
-	width:80%;
-	border-radius:5px;
-	top:2%;
-	left:10%;
-	overflow-y:auto;
-	background-color:white;
-	padding:20px;
+	padding:20px
 `;
 
 const InputContainer=styled.textarea`
@@ -86,6 +77,16 @@ const PostHeaderContainer=styled.div`
 const FinalSubmittionContainer=styled.div`
 	display:flex;
 	flex-direction:column;
+	@media screen and (max-width:1370px){
+		#uploadVideoUrl{
+			height:400px !important;
+		}	
+	}
+	@media screen and (max-width:650px){
+		#uploadVideoUrl{
+			height:200px !important;
+		}	
+	}
 `;
 
 
@@ -247,9 +248,11 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 				questionIndex:questionIndex,
 				userId:userId,
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-							personalInformation.accessToken
+							personalInformation.accessToken,
+				isMobile:displayPhoneUI
 			}
 
+			alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
 			let {confirmation,data}=await createSpecificIndustryVideoAnswer(submitedVideo);
 			if(confirmation=="Success"){
 				let {message}=data;
@@ -300,16 +303,8 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	const closePostModal=()=>{
 		changePostExpand(false);
 	}
-
-	const triggerPostCreation=()=>{
-		if(displayPhoneUI==true){
-			alert('Unfortunately you can only upload videos on a desktop/laptop. Please switch to that to continue');
-		}else{
-			changeDisplayCreationModal(true)
-		}
-	}
 	return(
-		<ul style={{padding:"20px"}}>
+		<Container>
 			{displayPostExpand==false?
 				null:
 				<VideoPostDisplayPortal
@@ -325,7 +320,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 						<p style={{fontSize:"20px"}}>
 							<b>Review my {symposium}</b>
 						</p>
-						<CreatePostButton onClick={()=>triggerPostCreation()} >
+						<CreatePostButton onClick={()=>changeDisplayCreationModal(true)} >
 							<BorderColorIcon
 								style={{fontSize:"20",color:"#C8B0F4"}}
 							/>
@@ -395,7 +390,8 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 								</li>
 							</a>:
 							<FinalSubmittionContainer>
-								<video id="uploadVideoUrl" key={uuidv4()} width="80%" height="20%" borderRadius="5px" controls autoplay>
+								<video id="uploadVideoUrl" key={uuidv4()} width="80%" height="300px" 
+									borderRadius="5px" controls autoplay style={{backgroundColor:"#151515",borderRadius:"5px"}}>
 									<source src={videoUrl} type="video/mp4"/>
 								</video>
 								
@@ -413,7 +409,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 					</li>
 				</>
 			}
-		</ul>
+		</Container>
 	);
 }
 
