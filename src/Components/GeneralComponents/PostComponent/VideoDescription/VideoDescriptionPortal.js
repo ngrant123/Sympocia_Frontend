@@ -164,7 +164,7 @@ const VideoResultContainerCSS={
 				    .then(()=>handleRecording(video.captureStream()))
 				    .then(recordedChunks=>{
 					  	 if(recordedChunks!=null){
-							  	let recordedFile = new File(recordedChunks,'videoDescription2.mp4',{mime:"video/mp4",type:"video/mp4",lastModified:new Date()});
+							  	let recordedFile = new File(recordedChunks,'videoDescription2.mov',{mime:"video/mov",type:"video/mov",lastModified:new Date()});
 							  	var videoSrc=URL.createObjectURL(recordedFile);
 								var currentVideoElements=videoElements;
 
