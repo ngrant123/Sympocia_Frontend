@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import styled from "styled-components";
 import CommentContainer from "./CommentContainer.js";
 import VideoResponseContainer from "./VideosResponseContainer.js";
+import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 
 const Container=styled.div`
 	position:relative;
@@ -22,22 +23,14 @@ const CommentsTitleContainer=styled.div`
 	border-width:2px;
 	border-color:#C8B0F4;
 	transition:.8s;
-
-	&:hover{
-		box-shadow: 1px 1px 1px #d5d5d5;
-
-	}
+	cursor:pointer; 
 `;
 
 const VideoResponesTitleContainer=styled.div`
 	padding:5px;
 	color:#848484;
 	transition:.8s;
-
-	&:hover{
-		box-shadow: 1px 1px 1px #d5d5d5;
-
-	}
+	cursor:pointer;
 `;
 
 const BackButtonCSS={
@@ -169,19 +162,41 @@ class CommentsContainer extends Component{
 		return(
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"10%",marginRight:"10%"}}>
-					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<CommentsTitleContainer id="commentsTitleContainer" onClick={()=>this.handleDisplayComments()}>
-							Comments
-						</CommentsTitleContainer>
-					</a>
+					<CommentsTitleContainer id="commentsTitleContainer"
+						onClick={()=>this.handleDisplayComments()}>
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" 
+								type="button" data-toggle="dropdown" 
+								style={{color:"#C8B0F4",backgroundColor:"white",borderStyle:"none"}}>
+								
+								Comments
+
+							   	<ArrowDropDownCircleOutlinedIcon style={{marginLeft:"5%"}}/>
+							</button>
+
+							<ul class="dropdown-menu" style={{height:"170px",overflow:"auto"}}>
+							</ul>
+					  	</div>
+					</CommentsTitleContainer>
 				</li>
 				{this.props.postType!="RegularPosts" &&(
 					<li  style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<VideoResponesTitleContainer id="videoResponsesTitleContainer" onClick={()=>this.handleDisplayVideoResponses()}>
-								Video Responses
-							</VideoResponesTitleContainer>
-						</a>
+						<VideoResponesTitleContainer id="videoResponsesTitleContainer" 
+							onClick={()=>this.handleDisplayVideoResponses()}>
+							<div class="dropdown">
+								<button class="btn btn-primary dropdown-toggle" 
+									type="button" data-toggle="dropdown" 
+									style={{color:"#848484",backgroundColor:"white",borderStyle:"none"}}>
+									
+									Video Responses
+
+								   	<ArrowDropDownCircleOutlinedIcon style={{marginLeft:"5%"}}/>
+								</button>
+
+								<ul class="dropdown-menu" style={{height:"170px",overflow:"auto"}}>
+								</ul>
+						  	</div>
+						</VideoResponesTitleContainer>
 					</li>
 				)}
 			</ul>
