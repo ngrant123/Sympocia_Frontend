@@ -116,91 +116,6 @@ const VideoResultContainerCSS={
 	overflowY:"scroll"
 }
 
-{/*
-	const VideoDescriptionPortal=(props)=>{
-		var targetContainer=document.getElementById(props.parentContainer);
-		const [isMobileUI,changeIsMobileUI]=useState(false);
-		const triggerUIChange=()=>{
-			if(window.innerWidth<1370){
-				changeIsMobileUI(true);
-			}else{
-				changeIsMobileUI(false);
-			}
-		}
-		window.addEventListener('resize',triggerUIChange)
-		useEffect(()=>{
-			triggerUIChange();
-			const inputElement=document.getElementById("uploadedVideoDescription");
-			inputElement.click();
-		},[]);
-
-		const clickUploadVideoButton=()=>{
-	 		document.getElementById("uploadedVideoDescription").click();
-	 	}
-
-		const handleUploadedVideoDescription=()=>{
-			let reader= new FileReader();
-			const videoDescription=document.getElementById("uploadedVideoDescription").files[0];
-
-			const maxSize=11*1024*1024;
-			if(videoDescription.size>maxSize){
-				alert('Your file is too large. We only accept video descriptions that have a size of 11MB. You can go to quicktime (Mac) and lower the resolution there.');
-			}else{
-				reader.onloadend=()=>{
-					props.createVideoDescription(reader.result);
-				}
-
-				if(videoDescription!=null){
-					reader.readAsDataURL(videoDescription);
-				}
-				else{
-					alert("Sorry but this type of video is not currently allowed. Change it to either mov,mp4 to continue");
-				}
-			}
-		}
-
-		return createPortal(
-			<React.Fragment>
-				<ShadowContainer
-					onClick={()=>props.closeModal()}
-				/>
-				<Container>
-					{isMobileUI==true?
-						<p>Unfortunately this feature is only available for desktops :(</p>:
-						<React.Fragment>
-							<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-								 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-								 stroke-linecap="round" stroke-linejoin="round">
-								  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-								  <circle cx="12" cy="12" r="9" />
-								  <path d="M10 10l4 4m0 -4l-4 4" />
-								</svg>
-							</div>
-							<p>We only allow .mov files as of right now unfortunately</p>
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
-								<ul style={{padding:"0px"}} onClick={()=>clickUploadVideoButton()}>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-										<CameraIcon/>
-									</li>
-
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-										Upload Video
-									</li>
-								</ul>																			
-							</button>
-							<input type="file" accept="video/*" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
-								onChange={()=>handleUploadedVideoDescription()}>
-							</input>
-						</React.Fragment>
-					}
-				</Container>
-			</React.Fragment>,
-			targetContainer
-		)
-	}
-*/}
-
 
 	const VideoDescriptionPortal=(props)=>{
 		var targetContainer=document.getElementById(props.parentContainer);
@@ -493,13 +408,10 @@ const VideoResultContainerCSS={
 					onClick={()=>closeModal()}
 				/>
 				<Container>
-					{mobileVideoDescription()}
-					{/*
-						{isMobileUI==true?
-							<>{mobileVideoDescription()}</>:
-							<>{desktopVideoDescription()}</>
-						}
-					*/}
+					{isMobileUI==true?
+						<>{mobileVideoDescription()}</>:
+						<>{desktopVideoDescription()}</>
+					}
 				</Container>
 			</React.Fragment>
 		,targetContainer)
