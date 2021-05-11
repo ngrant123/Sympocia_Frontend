@@ -124,11 +124,11 @@ const VideoResultContainerCSS={
 		const [maxTime,changeMaxTime]=useState(10000);
 		const [currentTime,changeCurrentTime]=useState(0);
 		const [isRecording,changeRecordingState]=useState(false);
-		const [videoElements,changeVideoElements]=useState([]);
+		const [videoElement,changeVideoElement]=useState();
 		const [reInitilize,changeReInitliazed]=useState(false);
 
 		const [mediaDevice,changeMediaDevice]=useState();
-		const [firstDone,chnagFirstDone]=useState(false);
+		const [firstDone,changeFirstDone]=useState(false);
 		const [isMobileUI,changeIsMobileUI]=useState(false);
 
 		const triggerUIChange=()=>{
@@ -146,43 +146,51 @@ const VideoResultContainerCSS={
 		const recording=()=>{
 			changeRecordingState(true);
 			let video=document.getElementById("videoDescriptionVideo");
+			changeVideoElement(null);
 			if(!navigator.mediaDevices){
-				alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
+				alert('Unable to access voice/video cam. Either you computer does not have this option or something else(maybe an outdated browser). Sorry for the inconvience');
 				props.closeModal();
 			}else{
-				if (navigator.mediaDevices.getUserMedia){
-					navigator.mediaDevices.getUserMedia({ 
-					  		video: true,
-					  		audio:true
-					  	}).then(function(stream) {
-					  	  video.muted='true'
-					  	  changeLocalStream(stream);
-					      video.srcObject = stream;
-					      video.captureStream = video.captureStream || video.mozCaptureStream;
-					      return new Promise(resolve => video.onplaying = resolve);
-					    })
-				    .then(()=>handleRecording(video.captureStream()))
-				    .then(recordedChunks=>{
-					  	 if(recordedChunks!=null){
-							  	let recordedFile = new File(recordedChunks,'videoDescription2.mov',{mime:"video/mov",type:"video/mov",lastModified:new Date()});
+				try{
+					debugger;
+					let recorder =MediaRecorder.state;
+					if (navigator.mediaDevices.getUserMedia){
+						navigator.mediaDevices.getUserMedia({ 
+						  		video: true,
+						  		audio:true
+						  	}).then(function(stream){
+						  	video.muted='true'
+					  	  	changeLocalStream(stream);
+					     	video.srcObject = stream;
+					     	return new Promise(resolve => video.onplaying = resolve);
+						})
+					    .then(()=>handleRecording(video.srcObject))
+					    .then(recordedChunks=>{
+						  	if(recordedChunks!=null){
+						  	 	debugger;
+							  	let recordedFile = new File(recordedChunks,'videoDescription2.mp4',{mime:"video/mp4",type:"video/mp4",lastModified:new Date()});
 							  	var videoSrc=URL.createObjectURL(recordedFile);
-								var currentVideoElements=videoElements;
 
 								const videoObject={
 									videoSrc,
-									videoFile:recordedFile,
-									videoCounter:currentVideoElements.length
+									videoFile:recordedChunks[0]
 								}
 
-							  	 currentVideoElements.push(videoObject);
-							  	 changeVideoElements(currentVideoElements);
-							  	 changeRecordingState(false);
-							  	 changeReInitliazed(true);
-							  	 chnagFirstDone(true)
+						  	 	changeVideoElement(videoObject);
+						  	 	changeRecordingState(false);
+						  	 	changeReInitliazed(true);
+						  	 	changeFirstDone(true)
 							}
-					  }).catch(function (error) {
-					  	alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
-				   	 });
+						  }).catch(function (error) {
+						  	console.log(error);
+						  	changeRecordingState(false);
+						  	alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
+						  	closeModal();
+					   	 });
+					}
+				}catch(err){
+					alert('Unable to access voice/video cam. Either you computer does not have this option or something else(maybe an outdated browser). Sorry for the inconvience');
+					props.closeModal();
 				}
 			}
 		}
@@ -192,60 +200,39 @@ const VideoResultContainerCSS={
 			changeRecordingState(false);
 		}
 		const stopRecording=(stream)=>{
+			debugger;
 			if(isRecording!=false){
 				mediaDevice.stop();
 			}
-			stream.getTracks().forEach(track => track.stop());
-			stream.getVideoTracks()[0].stop();
-			stream.getAudioTracks()[0].stop();
-			changeRecordingState(false);
+			if(stream!=null){
+				stream.getTracks().forEach(track => track.stop());
+				stream.getVideoTracks()[0].stop();
+				stream.getAudioTracks()[0].stop();
+				changeRecordingState(false);
+			}
 		}
 
 		const handleRecording=(stream)=>{
+			debugger;
 			var stoppedVideo;
 			var data;
-			 if(firstDone==true){
-			 	
-				  data=[];
+			let recorder = new MediaRecorder(stream);
+			  data=[];
 
-				  mediaDevice.ondataavailable = event => data.push(event.data);
-				  mediaDevice.start();
+			  recorder.ondataavailable = event => data.push(event.data);
+			  recorder.start();
 
-				  stoppedVideo=new Promise((resolve, reject) => {
-				    mediaDevice.onstop = resolve;
-				    mediaDevice.onerror = event => reject(event.name);
-				  });
-				  //changeRecordingState(true);
-			 }else{
-			 	
-				  let recorder = new MediaRecorder(stream);
-				  data=[];
-
-				  recorder.ondataavailable = event => data.push(event.data);
-				  recorder.start();
-
-				  stoppedVideo=new Promise((resolve, reject) => {
-				    recorder.onstop = resolve;
-				    recorder.onerror = event => reject(event.name);
-				  });
-				  changeMediaDevice(recorder);
-				  //changeRecordingState(true);
-			 }
-			  return Promise.all([stoppedVideo]).then(()=>data);
+			  stoppedVideo=new Promise((resolve, reject) => {
+			    recorder.onstop = resolve;
+			    recorder.onerror = event => reject(event.name);
+			  });
+			  changeMediaDevice(recorder);
+		  return Promise.all([stoppedVideo]).then(()=>data);
 		}
 
 		const closeModal=()=>{
-			if(isRecording!=false)
-				stopRecording(localStream);
+			stopRecording(localStream);
 			props.closeModal()
-		}
-
-		const test=()=>{
-			if(reInitilize==true && videoElements.length>0){
-				var newElements=videoElements;
-				changeVideoElements(newElements);
-				changeReInitliazed(false);
-			}
 		}
 
 		const startRecording=()=>{
@@ -253,31 +240,24 @@ const VideoResultContainerCSS={
 		}
 
 		const submitVideoDescription=()=>{
-			
-			if(videoElements.length>0){
-				stopRecording(localStream);
-				let reader=new FileReader();
-				debugger;
-				const maxSize=11*1024*1024;
-				console.log(videoElements[0].videoFile.size);
-				if(videoElements[0].videoFile.size>maxSize){
-					alert('Your file is too large. We only accept video descriptions that have a size of 11MB. You can go to quicktime (Mac) and lower the resolution there.');
-				}else{
-					reader.onloadend=()=>{
-						props.createVideoDescription(reader.result);
-					}
-				  	reader.readAsDataURL(videoElements[0].videoFile);
-				}
+			stopRecording(localStream);
+			let reader=new FileReader();
+			debugger;
+			const maxSize=11*1024*1024;
+			console.log(videoElement.videoFile.size);
+			if(videoElement.videoFile.size>maxSize){
+				alert('Your file is too large. We only accept video descriptions that have a size of 11MB. You can go to quicktime (Mac) and lower the resolution there.');
 			}else{
-				alert('Create a video to continue or press the exit button on the top left');
+				reader.onloadend=()=>{
+					let url=reader.result;
+					url=url.replace('data:video/x-matroska;codecs=avc1,opus;base64,',"data:video/quicktime;base64,");
+					props.createVideoDescription(url);
+				}
+			  	reader.readAsDataURL(videoElement.videoFile);
 			}
 		}
 		const reDoVideo=()=>{
-			
-			videoElements.splice(0,videoElements.length);
-			var newVideoElements=videoElements;
-			changeVideoElements(newVideoElements);
-			changeReInitliazed(true);
+			changeVideoElement(null);
 		}
 		const clickUploadVideoButton=()=>{
 	 		document.getElementById("uploadedVideoDescription").click();
@@ -339,36 +319,31 @@ const VideoResultContainerCSS={
 		const desktopVideoDescription=()=>{
 			return(
 				<>	
-					{test()}
-					{videoElements.length>0?
+					{videoElement!=null &&(
 						<ul id="videoResultUL" style={VideoResultContainerCSS}>
-							{videoElements.map(data=>
-								<li style={{listStyle:"none",marginBottom:"4%"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<VideoResultContainer>
-												<video id={'video'+data.videoCounter} width="100%" height="100%"  controls>
-													<source src={data.videoSrc} type="video/mp4"/>
-												</video>
-										</VideoResultContainer>
-									</a>
-								</li>
-							)}
-						</ul>:null
-					}
+							<VideoResultContainer>
+								<video id={videoElement.videoSrc} width="100%" height="100%"  controls>
+									<source src={videoElement.videoSrc} type="video/mp4"/>
+								</video>
+							</VideoResultContainer>
+						</ul>
+					)}
 					<video id="videoDescriptionVideo" width="100%" height="100%" autoplay="true">
 					</video>
 
-					<ul id="videoControllerLI" style={{marginLeft:"40%",marginTop:"-10%",padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<ClipVideoContainer onClick={()=>reDoVideo()}>
-									<RefreshIcon
-										id="refreshIconLI"
-										style={{fontSize:40,color:"white"}}
-									/>
-								</ClipVideoContainer>
-							</a>
-						</li>
+					<ul id="videoControllerLI" style={{marginLeft:"35%",marginTop:"-10%",padding:"0px"}}>
+						{isRecording==false &&(
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<ClipVideoContainer onClick={()=>reDoVideo()}>
+										<RefreshIcon
+											id="refreshIconLI"
+											style={{fontSize:40,color:"white"}}
+										/>
+									</ClipVideoContainer>
+								</a>
+							</li>
+						)}
 
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -378,7 +353,7 @@ const VideoResultContainerCSS={
 											onClick={()=>recording()}
 											style={{fontSize:40,color:"#C8B0F4"}}
 										/>:<PauseIcon
-												onClick={()=>pauseRecording(document.getElementById("videoDescriptionVideo").srcObject)}
+												onClick={()=>stopRecording(localStream)}
 												style={{fontSize:40,color:"#C8B0F4"}}
 										/>
 									}
@@ -386,17 +361,19 @@ const VideoResultContainerCSS={
 							</a>
 						</li>
 
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<SubmitVideoDescriptionContainer>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<ReplyIcon
-										id="replyIconLI"
-										onClick={()=>submitVideoDescription()}
-										style={{fontSize:40,color:"white",zIndex:"4"}}
-									/>
-								</a>
-							</SubmitVideoDescriptionContainer>
-						</li>
+						{isRecording==false &&(
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<SubmitVideoDescriptionContainer>
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<ReplyIcon
+											id="replyIconLI"
+											onClick={()=>submitVideoDescription()}
+											style={{fontSize:40,color:"white",zIndex:"4"}}
+										/>
+									</a>
+								</SubmitVideoDescriptionContainer>
+							</li>
+						)}
 					</ul>
 				</>
 			)
