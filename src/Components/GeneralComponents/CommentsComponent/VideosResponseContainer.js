@@ -11,7 +11,7 @@ import {
 		createVideoResponse,
 		createVideoCommentReply
 	} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-import VideoDescriptionPortal from "../PostComponent/VideoDescriptionPortal.js";
+import VideoDescriptionPortal from "../PostComponent/VideoDescription/VideoDescriptionPortal.js";
 import {connect} from "react-redux";
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";

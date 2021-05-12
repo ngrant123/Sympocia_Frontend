@@ -510,6 +510,7 @@ class Symposium extends Component{
 					changeState={this}
 					displayHightletedSimplifiedQuestionsModal={this.state.displayHightletedSimplifiedQuestionsModal}
 					isSimplified={true}
+					isMobile={!this.displayDesktopUI}
 				/>
 		)
 	}

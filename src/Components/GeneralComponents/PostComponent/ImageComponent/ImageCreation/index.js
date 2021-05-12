@@ -42,15 +42,15 @@ const Container=styled.div`
 	
 
 	@media screen and (max-width:1370px){
-		left:20%;
-		width:60%;
+		left:10%;
+		width:80%;
 	}
 
-	@media screen and (max-width:700px){
+	@media screen and (max-width:650px){
 		top:10% !important;
     	width:100% !important;
 		left:1% !important; 
-		height:100% !important;
+		height:90% !important;
 
 		#closeModalButton{
 			marginTop:-80% !important;
@@ -76,6 +76,7 @@ const ImageOptionsCSS={
 
 class ImageCreation extends Component{
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			pictureUrl:"",
@@ -196,7 +197,7 @@ class ImageCreation extends Component{
 					<EditImageCreation
 						imageSrcUrl={this.state.pictureUrl}
 						closeModal={this.props.closeModal}
-						isPhoneUIEnabled={true}
+						isPhoneUIEnabled={this.props.isPhoneUIEnabled}
 					/>
 				}
 			</Container>

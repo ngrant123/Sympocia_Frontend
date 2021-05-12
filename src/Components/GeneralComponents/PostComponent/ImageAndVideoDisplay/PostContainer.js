@@ -297,6 +297,10 @@ const ImageContainer=(props)=>{
 		profileType:postData.profileType
 	}
 
+	const closeEditModal=()=>{
+		changeDisplayPost(false);
+	}
+
 	return(
 		<React.Fragment>
 			<FirstTimePostOnboarding
@@ -330,11 +334,15 @@ const ImageContainer=(props)=>{
 							videoSrc={postData[postDataDestructedField].videoUrl}
 							previousData={postData[postDataDestructedField]}
 							editPost={editPost}
+							closeModal={closeEditModal}
+							isPhoneUIEnabled={displayMobileUI}
 						/>
 						:<EditImageCreation
 							imageSrcUrl={postData[postDataDestructedField].imgUrl}
 							previousData={postData[postDataDestructedField]}
 							editPost={editPost}
+							closeModal={closeEditModal}
+							isPhoneUIEnabled={displayMobileUI}
 						/>
 					}
 				</React.Fragment>:

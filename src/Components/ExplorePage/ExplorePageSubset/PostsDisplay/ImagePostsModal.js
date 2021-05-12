@@ -183,7 +183,8 @@ const HeaderDescriptionContainer=styled.div`
 	overflow:hidden;
 
 	@media screen and (max-width:650px){
-		height:90px;
+		height:70px;
+		margin-bottom:50px !important; 
 	}
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
     	display:none !important;
