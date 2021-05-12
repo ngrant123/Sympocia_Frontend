@@ -578,7 +578,9 @@ const QuestionsPortal=(props)=>{
 								{replies.map(data=>
 									<div style={{marginRight:"2%",marginBottom:"2%"}}>
 										<video id="videoPost" onClick={()=>displayAppropriatePostModal(data,"Videos")} 
-											key={uuidv4()} width="150" height="150" borderRadius="5px" muted autoplay>
+											style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+											 position="relative" width="150" height="150"
+										 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
 											<source src={data.videoUrl} type="video/mp4"/>
 										</video>
 									</div>
