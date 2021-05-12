@@ -393,6 +393,7 @@ const ImageContainer=(props)=>{
 									headlineText={postDataDestructedField=="imageData"?postData.imageData.caption:postData.videoData.title}
 									secondaryText={postData[postDataDestructedField].description}
 									triggerDisplayPostDescriptionAndCaption={changePostAdditionalInformation}
+									isOwnProfile={postData.isOwnProfile}
 								/>
 							}
 						</React.Fragment>
