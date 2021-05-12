@@ -435,6 +435,7 @@ const RegularPostContainer=(props)=>{
 									hideComments={hideComments}
 									targetDom={targetDom}
 									isGuestProfile={isGuestProfile}
+									isOwnProfile={isOwnProfile}
 								/>:
 								<React.Fragment>
 								<PostOwnerAndActionsContainer>
