@@ -385,10 +385,13 @@ const VideoResultContainerCSS={
 					onClick={()=>closeModal()}
 				/>
 				<Container>
-					{isMobileUI==true?
-						<>{mobileVideoDescription()}</>:
-						<>{desktopVideoDescription()}</>
-					}
+					{mobileVideoDescription()}
+					{/*
+						{isMobileUI==true?
+							<>{mobileVideoDescription()}</>:
+							<>{desktopVideoDescription()}</>
+						}
+					*/}
 				</Container>
 			</React.Fragment>
 		,targetContainer)
