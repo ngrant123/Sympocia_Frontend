@@ -81,7 +81,6 @@ const VideoOptionCSS={
 			else{
 				alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
 			}
-
 		}
  	}
 
@@ -96,6 +95,7 @@ const VideoOptionCSS={
  					videoSrc={videoUploaded}
  					parentRedoVideo={parentRedoVideo}
  					closeAndRedoVideo={closeAndRedoVideo}
+ 					isPhoneUIEnabled={props.isPhoneUIEnabled}
  				/>;
  	}
 

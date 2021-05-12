@@ -15,7 +15,7 @@ import {CompanyPostConsumer} from "../../../../Profile/CompanyProfile/CompanyPos
 
 import MicIcon from '@material-ui/icons/Mic';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
-import VideoDescriptionPortal from "../../VideoDescriptionPortal.js";
+import VideoDescriptionPortal from "../../VideoDescription/VideoDescriptionPortal.js";
 import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
 
 import { Icon, InlineIcon } from '@iconify/react';
@@ -300,8 +300,11 @@ class EditVideoModal extends Component{
 			videoUrl:this.props.videoSrc,
 			videoDescription:videoAudioDescription,
 			audioDescription:currentAudioDescription,
-			isCrownedPost:this.state.isPostCrowned
+			isCrownedPost:this.state.isPostCrowned,
+			isPhoneUIEnabled:this.props.isPhoneUIEnabled
 		}
+
+		alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now')
 
 		if(this.props.previousData==null){
 			const {confirmation,data}=await createVideoPost(
@@ -366,6 +369,7 @@ class EditVideoModal extends Component{
 			const editedVideo={
 				postType:"Videos",
 				postId:_id,
+				isPhoneUIEnabled:this.props.isPhoneUIEnabled,
 				post:{
 					industriesUploaded:this.state.isSymposiumsAltered==true?searchCriteriaIndustryArray:null,
 					videoDescription:currentVideoDescription!=videoDescription?currentVideoDescription:null,
@@ -393,6 +397,10 @@ class EditVideoModal extends Component{
 				ownerId:this.props.personalProfile.id,
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 				this.props.personalProfile.accessToken
+			}
+			if(editedVideo.postS3[2].newUrl!=null || editedVideo.postS3[0].newUrl!=null){
+				alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now.')
+
 			}
 
  			const {confirmation,data}=await editPost(editedVideo);

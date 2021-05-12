@@ -60,6 +60,7 @@ const Container = styled.div`
 	@media screen and (max-width:600px){
 		left:5%;
 		width:90% !important;
+		height:75%;
 	}
 `;
 
@@ -514,6 +515,7 @@ const ButtonCSS={
 										</li>
 									</ul>
 								</li>
+								<hr/>
 
 								<li style={{listStyle:"none",marginTop:"5%"}}>
 									{displayAudioORTextScreen==true?
