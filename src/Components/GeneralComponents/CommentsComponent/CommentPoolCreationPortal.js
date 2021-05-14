@@ -1,6 +1,10 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
+import {createCommentPool} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
+
 
 const Container=styled.div`
 	position:fixed;
@@ -76,15 +80,18 @@ const SubmitButtonCSS={
   width:"30%"
 }
 
-const CommentPoolCreation=({closeModal,currentCommentPools,addCommentPool})=>{
+const CommentPoolCreation=({
+							closeModal,
+							currentCommentPools,
+							addCommentPool,
+							commentType,
+							postType,
+							postId
+						})=>{
 	const [initialTextAreaClick,changeInitialTextAreaClick]=useState(false);
-	//test 
-	const uuidv4=()=>{
-	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-	    return v.toString(16);
-	  });
-	}
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const [isProcessing,changeIsProcessing]=useState(false);
 
 	const initializeFirstClick=()=>{
 		if(initialTextAreaClick==false){
@@ -93,18 +100,47 @@ const CommentPoolCreation=({closeModal,currentCommentPools,addCommentPool})=>{
 		}	
 	}
 
-	const submitCommentPool=()=>{
+	const submitCommentPool=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		debugger;
 		const commentPoolInputValue=document.getElementById("commentPoolName").value;
 		if(commentPoolInputValue==""){
 			alert("Please enter a value");
 		}else{
-			const commentPoolAddition={
-				questionType:commentPoolInputValue,
-				_id:uuidv4()
-			}
+			changeIsProcessing(true);
+			const {confirmation,data}=await createCommentPool({
+												userId:personalInformation.id,
+									            postId,
+									            postType,
+									            commentType,
+									            commentPoolDescription:commentPoolInputValue,
+												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+															personalInformation.accessToken
+											});
+			if(confirmation=="Success"){
+				const {message}=data;
+				const commentPoolAddition={
+					description:commentPoolInputValue,
+					_id:message
+				}
 
-			currentCommentPools.splice(0,0,commentPoolAddition);
-			addCommentPool(currentCommentPools);
+				currentCommentPools.splice(0,0,commentPoolAddition);
+				addCommentPool(currentCommentPools);	
+			}else{
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							submitCommentPool,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error creating this comment pool. Please try again');
+				}
+			}
+			changeIsProcessing(false);
 		}
 	}
 	return createPortal(
@@ -123,9 +159,12 @@ const CommentPoolCreation=({closeModal,currentCommentPools,addCommentPool})=>{
 						<InputContainer id="commentPoolName" onClick={()=>initializeFirstClick()} 
 							placeholder="Enter comment pool name here"
 						/>
-						<div onClick={()=>submitCommentPool()} style={SubmitButtonCSS}>
-							Submit
-						</div>
+						{isProcessing==true?
+							<p>Please wait</p>:
+							<div onClick={()=>submitCommentPool({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
+								Submit
+							</div>
+						}
 					</React.Fragment>
 				}
 			</Container>
