@@ -205,7 +205,6 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			
 			let confirmationResponse;
 			let dataResponse;
 			debugger;
@@ -349,7 +348,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 										</p>
 									</div>
 			   					</Link>
-								<video style={{cursor:"pointer"}} key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+								<video style={{cursor:"pointer",marginTop:"5px"}} key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
 									width="60%" height="100%" borderRadius="50%" onClick={()=>displayVideoDescriptionTrigger()}>
 									<source src={notification.videoSrc} type="video/mp4"/>
 								</video>

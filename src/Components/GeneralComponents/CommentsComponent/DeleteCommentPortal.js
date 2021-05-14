@@ -1,6 +1,9 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
+import {deleteCommentPool} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -78,12 +81,47 @@ const DeleteCommentPool=({
 						selectedCommentPool,
 						closeModal,
 						updateCommentPoolsAfterDeletion,
-						currentCommentPools})=>{
+						currentCommentPools,
+						commentType,
+						postType,
+						postId
+					})=>{
+	console.log(selectedCommentPool);
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const [isDeletingStatus,changeIsDeletingStatus]=useState(false);
 
-	const deletedSelectedCommentPool=()=>{
-		const {index}=selectedCommentPool;
-		currentCommentPools.splice(index,1);
-		updateCommentPoolsAfterDeletion(currentCommentPools);
+	const deletedSelectedCommentPool=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeIsDeletingStatus(true);
+		const {confirmation,data}=await deleteCommentPool({
+			userId:personalInformation.id,
+            postId,
+            postType,
+            commentPoolId:selectedCommentPool._id,
+            commentType,
+            accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
+		});
+		if(confirmation=="Success"){
+			const {index}=selectedCommentPool;
+			currentCommentPools.splice(index,1);
+			updateCommentPoolsAfterDeletion(currentCommentPools);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						deletedSelectedCommentPool,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error deleting this comment pool. Please try again');
+			}
+		}
+		changeIsDeletingStatus(false);
 	}
 	return createPortal(
 		<React.Fragment>
@@ -94,14 +132,19 @@ const DeleteCommentPool=({
 					?
 				</p>
 				<hr style={HorizontalLineCSS}/>
-				<div style={{display:"flex",flexDirection:"row"}}>
-					<div onClick={()=>deletedSelectedCommentPool()} style={ButtonCSS}>
-						Delete
+
+				{isDeletingStatus==true?
+					<p>Please wait...</p>:
+					<div style={{display:"flex",flexDirection:"row"}}>
+						<div onClick={()=>deletedSelectedCommentPool({isAccessTokenUpdated:false})}
+						 	style={ButtonCSS}>
+							Delete
+						</div>
+						<div onClick={()=>closeModal()} style={ButtonCSS}>
+							Close
+						</div>
 					</div>
-					<div onClick={()=>closeModal()} style={ButtonCSS}>
-						Close
-					</div>
-				</div>
+				}
 			</Container>
 			<ShadowContainer onClick={()=>closeModal()}/>
 		</React.Fragment>

@@ -235,15 +235,25 @@ export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment,i
 	}
 }
 
-export const createComment=async(userId,postType,postId,comment,profileObject,accessToken)=>{
+export const createComment=async(
+							userId,
+							postType,
+							postId,
+							comment,
+							profileObject,
+							accessToken,
+							ownerId,
+							commentPoolId
+							)=>{
 	try{
-		
 		const commentResponse=await axios.post(`${CreateURl}/createComment`,{
 			userId,
 			postType:postType,
 			postId:postId,
 			comment:comment,
-			profileObject:profileObject
+			profileObject:profileObject,
+			ownerId,
+			commentPoolId
 		},{
 				headers:{
 					authorization:accessToken
@@ -257,7 +267,7 @@ export const createComment=async(userId,postType,postId,comment,profileObject,ac
 }
 
 
-export const createReply=async({postType,postId,commentId,reply,profileObject,commentIndex,accessToken})=>{	
+export const createReply=async({postType,postId,commentId,reply,profileObject,accessToken,ownerId})=>{	
 	try{	
 		const commentResponse=await axios.post(`${CreateURl}/createReply`,{
 			postType:postType,
@@ -265,12 +275,12 @@ export const createReply=async({postType,postId,commentId,reply,profileObject,co
 			commentId:commentId,
 			reply:reply,
 			profileObject:profileObject,
-			commentIndex
+			ownerId
 		},{
-				headers:{
-					authorization:accessToken
-				}
-			})
+			headers:{
+				authorization:accessToken
+			}
+		})
 		const {data}=commentResponse;
 		return data;
 	}catch(err){
@@ -279,14 +289,27 @@ export const createReply=async({postType,postId,commentId,reply,profileObject,co
 }
 
 
-export const createVideoResponse=async({postType,commentId,videoSrc,currentProfile,postId,accessToken})=>{
+export const createVideoResponse=async({
+									postType,
+									commentId,
+									videoSrc,
+									currentProfile,
+									postId,
+									accessToken,
+									commentPoolId,
+									ownerId,
+									isMobile
+								})=>{
 	try{
-		
+		debugger;
 		const videoResponse=await axios.post(`${CreateURl}/createVideoResponse`,{
 			postType:postType,
 			videoSrc:videoSrc,
 			currentProfile:currentProfile,
-			postId:postId
+			postId:postId,
+			commentPoolId,
+			ownerId,
+			isMobile
 		},{
 				headers:{
 					authorization:accessToken
@@ -301,21 +324,30 @@ export const createVideoResponse=async({postType,commentId,videoSrc,currentProfi
 	}
 }
 
-export const createVideoCommentReply=async({postType,postId,commentId,reply,profileObject,commentIndex,userId,accessToken})=>{
+export const createVideoCommentReply=async({
+									postType,
+									postId,
+									commentId,
+									reply,
+									profileObject,
+									userId,
+									commentOwnerId,
+									accessToken})=>{
 	try{
+
 		const videoCommentResponse=await axios.post(`${CreateURl}/createVideoReply`,{
 			postType:postType,
 			postId:postId,
 			commentId:commentId,
 			reply:reply,
 			profileObject:profileObject,
-			commentIndex,
+			commentOwnerId,
 			userId
 		},{
-				headers:{
-					authorization:accessToken
-				}
-			})
+			headers:{
+				authorization:accessToken
+			}
+		})
 		const {data}=videoCommentResponse;
 		return data;
 
@@ -622,6 +654,65 @@ export const createBeaconReply=async({
 		throw err;
 	}
 }
+
+
+export const createCommentPool=async({
+	        userId,
+            postId,
+            postType,
+            commentType,
+            commentPoolDescription,
+            accessToken
+		})=>{
+	try{
+		const createdCommentPoolResponse=await axios.post(`${CreateURl}/createCommentPool`,{
+			userId,
+            postId,
+            postType,
+            commentType,
+            commentPoolDescription
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+		const {data}=createdCommentPoolResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+export const deleteCommentPool=async({
+	        userId,
+            postId,
+            postType,
+            commentPoolId,
+            commentType,
+            accessToken
+		})=>{
+	try{
+		const deletedCommentPoolResponse=await axios.post(`${CreateURl}/deleteCommentPool`,{
+	        userId,
+            postId,
+            postType,
+            commentPoolId,
+            commentType
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+		const {data}=deletedCommentPoolResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
 
 
 

@@ -86,6 +86,7 @@ const HorizontalLineCSS={
 */
 
 const ImageContainer=(props)=>{
+	console.log(props);
 	const [commentPostIndicator,changeCommentsDisplay]=useState(false);
 	const [displayPostModal,changeDisplayPost]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
@@ -394,6 +395,13 @@ const ImageContainer=(props)=>{
 									secondaryText={postData[postDataDestructedField].description}
 									triggerDisplayPostDescriptionAndCaption={changePostAdditionalInformation}
 									isOwnProfile={postData.isOwnProfile}
+									ownerId={postDataDestructedField=="imageData"?postData.imageData.owner:postData.videoData.owner}
+									selectedCommentPools={{
+										regularCommentPool:postDataDestructedField=="imageData"?postData.imageData.regularCommentPool:
+										postData.videoData.regularCommentPool,
+										videoCommentPool:postDataDestructedField=="imageData"?postData.imageData.videoCommentPool:
+										postData.imageData.videoCommentPool
+									}}
 								/>
 							}
 						</React.Fragment>

@@ -9,12 +9,17 @@ import DeleteCommentPool from "./DeleteCommentPortal.js";
 
 const Container=styled.div`
 	position:relative;
-	overflow-y:scroll;
-	height:400px;
+	height:100%;
 	width:100%;
 	@media screen and (max-width:700px){
 		#containerUL{
 			width:100% !important;
+		}
+		#commentLI{
+			width:90px !important;
+		}
+		#videoCommentLI{
+			width:10px !important;
 		}
     }
 `;
@@ -23,6 +28,13 @@ const CommentsTitleContainer=styled.div`
 	padding:5px;
 	transition:.8s;
 	cursor:pointer; 
+
+	@media screen and (max-width:650px){
+		#dropDownUL{
+			width:200px !important;
+			margin-left:-20px !important;
+		}
+	}
 `;
 
 const VideoResponesTitleContainer=styled.div`
@@ -30,7 +42,15 @@ const VideoResponesTitleContainer=styled.div`
 	color:#848484;
 	transition:.8s;
 	cursor:pointer;
+
+	@media screen and (max-width:650px){
+		#dropDownUL{
+			width:200px !important;
+			margin-left:-110px !important;
+		}
+	}
 `;
+
 
 const BackButtonCSS={
 	borderColor:"#5298F8",
@@ -88,6 +108,7 @@ class CommentsContainer extends Component{
 
 	constructor(props){
 		super(props);
+		console.log(props);
 		this.state={
 			displayResponses:false,
 			displayCommentsOrVideoResponses:true,
@@ -99,22 +120,10 @@ class CommentsContainer extends Component{
 			selectedCommentPool:null,
 			currentCommentPools:[],
 			commentType:"RegularComment",
-			testRegularCommentQuestions:[
-				{
-					questionType:"Testing out what comment pools are yessir lol",
-					_id:1234
-				},
-				{
-					questionType:"Anotehr one testiny out the good stuff lmaooooo lol",
-					_id:2345
-				}
-			],
-			testVideoCommentQuestions:[
-				{
-					questionType:"Video Tcomment pools are yessir lol",
-					_id:1234
-				}
-			]
+			selectedCommentPools_Regular:this.props.selectedCommentPools.regularCommentPool,
+			selectedCommentPools_Video:this.props.selectedCommentPools.videoCommentPool,
+			selectedCommentId:"",
+			selectedCommentPoolDescription:"General"
 		}
 	}
 
@@ -153,12 +162,15 @@ class CommentsContainer extends Component{
 		})
 	}
 	displayCommentsOrVideoResponses=()=>{
-
+		debugger;
+		console.log(this.state.selectedCommentId);
 		return this.state.displayCommentsOrVideoResponses==true?
 			<CommentContainer
 				postType={this.props.postType}
 				postId={this.props.postId}
 				isGuestProfile={this.props.isGuestProfile}
+				ownerId={this.props.ownerId}
+				selectedCommentPoolId={this.state.selectedCommentId}
 			/>:
 			<VideoResponseContainer
 				postType={this.props.postType}
@@ -167,6 +179,9 @@ class CommentsContainer extends Component{
 				closeVideoCreationModal={this.closeModal}
 				targetContainer={this.props.targetDom}
 				isGuestProfile={this.props.isGuestProfile}
+				selectedCommentPoolId={this.state.selectedCommentId}
+				displayPhoneUI={this.state.displayPhoneUI}
+				ownerId={this.props.ownerId}
 			/>
 	}
 
@@ -226,11 +241,12 @@ class CommentsContainer extends Component{
 		})
 	}
 	commentPoolComponent=(commentType)=>{
-		const commentPools=commentType=="VideoComment"?this.state.testVideoCommentQuestions:
-		this.state.testRegularCommentQuestions;
+		const commentPools=commentType=="VideoComment"?this.state.selectedCommentPools_Video:
+		this.state.selectedCommentPools_Regular;
 
 		return(
 			<ul class="dropdown-menu" 
+				id="dropDownUL"
 				style={{color:"#848484",padding:"10px",height:"300px",overflow:"auto",width:"400px"}}>
 				{this.props.isOwnProfile==true &&(
 					<>
@@ -245,20 +261,25 @@ class CommentsContainer extends Component{
 						<hr/>
 					</>
 				)}
-				<p>General</p>
+				<p onClick={()=>this.setState({
+								selectedCommentId:"",
+								selectedCommentPoolDescription:"General"
+							})}>General</p>
 				<hr/>
 				{commentPools.map((data,index)=>
 					<React.Fragment>
-						<div style={{display:"flex",flexDirection:"row"}}>
-							<p style={{marginRight:"5%"}}>{data.questionType}</p>
+						<div onClick={()=>this.setState({
+											selectedCommentId:data._id,
+											selectedCommentPoolDescription:data.description})} 
+							style={{display:"flex",flexDirection:"row"}}>
+							<p style={{marginRight:"5%"}}>{data.description}</p>
 							{this.props.isOwnProfile==true &&(
 								<svg id="removePostOption"
 									onClick={()=>this.triggerDeleteCommentPool(
 															data,
 															index,
 															commentType,
-															commentPools
-															)}
+															commentPools)}
 									xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
 									width="35" height="35" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
 									stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>
@@ -279,9 +300,14 @@ class CommentsContainer extends Component{
 	}
 	commentOptions=()=>{
 		return(
-			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginLeft:"10%",marginRight:"10%"}}>
-					<CommentsTitleContainer
+			<ul style={{padding:"0px",marginTop:"2%"}}>
+
+				<li style={{listStyle:"none",fontSize:"15px",marginRight:"10%"}}>
+					Selected comment pool: <b>{this.state.selectedCommentPoolDescription}</b>
+				</li>
+				<li id="commentLI" 
+				style={{listStyle:"none",display:"inline-block",fontSize:"20px",marginRight:"10%"}}>
+					<CommentsTitleContainer commentType={"RegularComment"}
 						onClick={()=>this.handleDisplayComments()}>
 						<div class="dropdown">
 							<button id="commentsTitleContainer" class="btn btn-primary dropdown-toggle" 
@@ -297,8 +323,9 @@ class CommentsContainer extends Component{
 					</CommentsTitleContainer>
 				</li>
 				{this.props.postType!="RegularPosts" &&(
-					<li  style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
-						<VideoResponesTitleContainer 
+					<li  id="videoCommentLI"
+						style={{listStyle:"none",display:"inline-block",fontSize:"20px"}}>
+						<VideoResponesTitleContainer commentType={"VideoComment"}
 							onClick={()=>this.handleDisplayVideoResponses()}>
 							<div class="dropdown">
 								<button id="videoResponsesTitleContainer" class="btn btn-primary dropdown-toggle" 
@@ -338,8 +365,8 @@ class CommentsContainer extends Component{
 		})
 	}
 	updateCommentPools=(updatedCommentPools)=>{
-		let updateCommentParam=this.state.commentType=="VideoComment"?this.state.testVideoCommentQuestions
-		:this.state.testRegularCommentQuestions;
+		let updateCommentParam=this.state.commentType=="VideoComment"?this.state.selectedCommentPools_Video
+		:this.state.selectedCommentPools_Regular;
 
 		this.setState({
 			[updateCommentParam]:updatedCommentPools,
@@ -355,6 +382,9 @@ class CommentsContainer extends Component{
 						closeModal={this.closeCommentPoolIdPortal}
 						currentCommentPools={this.state.currentCommentPools}
 						addCommentPool={this.updateCommentPools}
+						commentType={this.state.commentType}
+						postType={this.props.postType}
+						postId={this.props.postId}
 					/>
 				)}
 			</React.Fragment>
@@ -367,8 +397,8 @@ class CommentsContainer extends Component{
 		})
 	}
 	updateCommentPoolsAfterDeletion=(updatedCommentPools)=>{
-		let updateCommentParam=this.state.commentType=="VideoComment"?this.state.testVideoCommentQuestions
-		:this.state.testRegularCommentQuestions;
+		let updateCommentParam=this.state.commentType=="VideoComment"?this.state.selectedCommentPools_Video
+		:this.state.selectedCommentPools_Regular;
 
 		this.setState({
 			[updateCommentParam]:updatedCommentPools,
@@ -386,6 +416,9 @@ class CommentsContainer extends Component{
 						selectedCommentPool={this.state.selectedCommentPool}
 						updateCommentPoolsAfterDeletion={this.updateCommentPoolsAfterDeletion}
 						currentCommentPools={this.state.currentCommentPools}
+						commentType={this.state.commentType}
+						postType={this.props.postType}
+						postId={this.props.postId}
 					/>
 				)}
 			</React.Fragment>
@@ -422,22 +455,27 @@ class CommentsContainer extends Component{
 							</li>
 						</ul>
 					</li>
+					<li style={{marginBottom:"5%",listStyle:"none"}}>
+						{this.commentOptions()}
+					</li>
+					<hr/>
+					{/*
+						{this.state.displayPhoneUI==true?
+							<div class="dropdown">
+								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileOptionCSS}>
+									{this.state.selectedType}
+									<span class="caret"></span>
+								</button>
 
-					{this.state.displayPhoneUI==true?
-						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileOptionCSS}>
-								{this.state.selectedType}
-								<span class="caret"></span>
-							</button>
-
-							<ul class="dropdown-menu">
+								<ul class="dropdown-menu">
+									{this.commentOptions()}
+								</ul>
+							</div>
+							:<li style={{marginBottom:"5%",listStyle:"none"}}>
 								{this.commentOptions()}
-							</ul>
-						</div>
-						:<li style={{marginBottom:"5%",listStyle:"none"}}>
-							{this.commentOptions()}
-						</li>
-					}
+							</li>
+						}
+					*/}
 					{this.displayCommentsOrVideoResponses()}
 				</ul>
 			</Container>
