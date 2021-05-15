@@ -400,7 +400,7 @@ const ImageContainer=(props)=>{
 										regularCommentPool:postDataDestructedField=="imageData"?postData.imageData.regularCommentPool:
 										postData.videoData.regularCommentPool,
 										videoCommentPool:postDataDestructedField=="imageData"?postData.imageData.videoCommentPool:
-										postData.imageData.videoCommentPool
+										postData.videoData.videoCommentPool
 									}}
 								/>
 							}
