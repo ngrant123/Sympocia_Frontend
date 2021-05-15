@@ -261,8 +261,7 @@ const PollingOptionsCSS={
 
 
 const BlogHomeDisplayPortal=(props)=>{
-	
-
+	console.log(props);
 
 	const [postData,changePostData]=useState(props);
 	const blog=postData.selectedBlog.blog;
@@ -419,7 +418,7 @@ const BlogHomeDisplayPortal=(props)=>{
 	const hideComments=()=>{
 		changeDisplayCommentsContainer(false);
 	}
-
+	
 	const commentModal=()=>{
 		return (
 			<Comments
@@ -428,6 +427,11 @@ const BlogHomeDisplayPortal=(props)=>{
 				hideComments={hideComments}
 				targetDom={postData.targetDom}
 				isGuestProfile={isGuestProfile}
+				ownerId={postData.selectedBlog.owner._id}
+				selectedCommentPools={{
+					regularCommentPool:postData.selectedBlog.regularCommentPool,
+					videoCommentPool:postData.selectedBlog.videoCommentPool
+				}}
 			/>
 		)
 	}

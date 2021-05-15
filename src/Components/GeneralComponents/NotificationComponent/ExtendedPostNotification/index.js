@@ -303,7 +303,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 								<div style={{display:"flex",flexDirection:"row"}}>
 									<img id="regularCommentAndAuthenticationProfilePicture" src={notification.profilePicture==null?
 										NoProfilePicture:notification.profilePicture}
-										style={{width:"12%",height:"40px",borderRadius:"50%"}}/>
+										style={{width:"8%",height:"40px",borderRadius:"50%"}}/>
 									<p style={{marginLeft:"2%",maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
 										<b>{notification.firstName}</b>
 									</p>

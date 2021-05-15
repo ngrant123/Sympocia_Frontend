@@ -436,6 +436,11 @@ const RegularPostContainer=(props)=>{
 									targetDom={targetDom}
 									isGuestProfile={isGuestProfile}
 									isOwnProfile={isOwnProfile}
+									ownerId={postData.owner._id==null?postData.owner:postData.owner._id}
+									selectedCommentPools={{
+										regularCommentPool:postData.regularCommentPool,
+										videoCommentPool:postData.videoCommentPool
+									}}
 								/>:
 								<React.Fragment>
 								<PostOwnerAndActionsContainer>

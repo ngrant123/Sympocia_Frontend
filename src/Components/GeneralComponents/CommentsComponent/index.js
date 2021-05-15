@@ -385,6 +385,7 @@ class CommentsContainer extends Component{
 						commentType={this.state.commentType}
 						postType={this.props.postType}
 						postId={this.props.postId}
+						targetContainer={this.props.targetDom}
 					/>
 				)}
 			</React.Fragment>
@@ -419,6 +420,7 @@ class CommentsContainer extends Component{
 						commentType={this.state.commentType}
 						postType={this.props.postType}
 						postId={this.props.postId}
+						targetContainer={this.props.targetDom}
 					/>
 				)}
 			</React.Fragment>

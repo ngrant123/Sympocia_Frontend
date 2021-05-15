@@ -84,7 +84,8 @@ const DeleteCommentPool=({
 						currentCommentPools,
 						commentType,
 						postType,
-						postId
+						postId,
+						targetContainer
 					})=>{
 	console.log(selectedCommentPool);
 	const dispatch=useDispatch();
@@ -148,7 +149,7 @@ const DeleteCommentPool=({
 			</Container>
 			<ShadowContainer onClick={()=>closeModal()}/>
 		</React.Fragment>
-	,document.getElementById("personalContainer"))
+	,document.getElementById(targetContainer))
 }
 
 export default DeleteCommentPool;

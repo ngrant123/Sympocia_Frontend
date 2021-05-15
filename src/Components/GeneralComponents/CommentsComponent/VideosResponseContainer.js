@@ -273,8 +273,8 @@ class VideoResponseContainer extends Component{
 				var currentComments=this.state.replies;
 				const newComment={
 					comment,
-					profilePicture:message.profilePicture,
 					ownerObject:{
+						profilePicture:message.ownerObject.profilePicture,
 						owner:{
 							firstName:isPersonalProfileIndicator==true?this.props.personalState.firstName:
 							this.props.companyState.companyName

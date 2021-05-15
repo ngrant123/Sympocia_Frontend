@@ -86,7 +86,8 @@ const CommentPoolCreation=({
 							addCommentPool,
 							commentType,
 							postType,
-							postId
+							postId,
+							targetContainer
 						})=>{
 	const [initialTextAreaClick,changeInitialTextAreaClick]=useState(false);
 	const dispatch=useDispatch();
@@ -170,7 +171,7 @@ const CommentPoolCreation=({
 			</Container>
 			<ShadowContainer onClick={()=>closeModal()}/>
 		</React.Fragment>
-	,document.getElementById("personalContainer"))
+	,document.getElementById(targetContainer))
 }
 
 export default CommentPoolCreation;
