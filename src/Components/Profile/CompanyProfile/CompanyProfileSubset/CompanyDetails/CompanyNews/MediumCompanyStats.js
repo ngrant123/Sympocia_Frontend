@@ -215,19 +215,7 @@ class MediumCompanyStats extends Component{
 
 	}
 
-	componentDidMount(){
-
-		/*
-	
-		
-		console.log(this.props);
-		this.setState(prevState=>({
-			Notifications:this.props.companyNews
-		}))
-
-		*/
-
-	}
+	componentDidMount(){}
 
 
 	displayAddNewsModal=()=>{

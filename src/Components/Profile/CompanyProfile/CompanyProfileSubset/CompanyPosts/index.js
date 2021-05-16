@@ -141,7 +141,6 @@ const PersonalPostsIndex=(props)=>{
 
 	const [videoPost,changeVideoPosts]=useState([]);
 	const [isLoadingIndicatorVideos,changeVideosLoadingIndicator]=useState(true);
-	console.log("Teste");
 
 	useEffect(()=>{
 
@@ -190,15 +189,11 @@ const PersonalPostsIndex=(props)=>{
 			changeDisplayForImages(true);
 
 		}else if(kindOfPost=="video"){
-
-			debugger
 			const videos=document.getElementById("videos");
 			videos.style.color="#C8B0F4";
 			videos.style.borderBottom="solid";
 			videos.style.borderColor="#C8B0F4";
 			changeDisplayForVideos(true);
-
-			console.log("Testing video api call");
 			const videoPostResponse=await getCompanyVideos(id);
 			const header=videoPostResponse.headerVideo;
 			const videoPosts=videoPostResponse.videos;

@@ -1,6 +1,5 @@
 export const searchSymposiumsFilter=(targetSymposium,posts)=>{
 	try{
-		debugger;
 		const filteredPost=[];
 		for(var i=0;i<posts.length;i++){
 

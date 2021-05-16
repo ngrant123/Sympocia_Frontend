@@ -159,7 +159,6 @@ const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop})=>{
 	}
 
 	const updateBeaconPosts=(beaconPostType,beacon)=>{
-		debugger;
 		const currentBeaconPosts=posts;
 		if(beaconPostType==postType){
 			posts.splice(0,0,beacon);
@@ -171,9 +170,6 @@ const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop})=>{
 
 	const triggerAlterPosts=(selectedPostType)=>{
 		let counter;
-		debugger;
-		console.log(selectedPostType);
-		console.log(postType);
 		if(postType!=selectedPostType){
 			counter=0;
 			changeIsEndOfNewPosts(false);
@@ -184,14 +180,12 @@ const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop})=>{
 	}
 
 	const displayExtendedPostModal=(postData)=>{
-		debugger;
 		changePostDisplayModal(false);
 		changeSelectedPost(postData);
 		changeDisplayCreationModal(false);
 		changeDisplayExtendedModal(true);
 	}
 	const beaconDecider=()=>{
-		debugger;
 		if(displayPostDisplay==true){
 			return(
 				<React.Fragment>

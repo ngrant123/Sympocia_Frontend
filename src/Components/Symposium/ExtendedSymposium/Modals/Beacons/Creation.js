@@ -100,7 +100,6 @@ const Creation=({
 		const currentFileUrl=document.getElementById("uploadFileBeacon").files[0];
 
 		fileReader.onloadend=()=>{
-			debugger;
 			const fileUrl=fileReader.result;
 			let isFileSizeAppropriate=true;
 			if(currentSelectedPostType=="Images"){
@@ -158,7 +157,6 @@ const Creation=({
 			const {confirmation,data}=uploadedBeaconResult;
 			if(confirmation=="Success"){
 			let {message}=data;
-			debugger;
 
 			if(currentSubmittedPostType=="Images" || currentSubmittedPostType=="Videos"){
 				const postUrlParameter=currentSubmittedPostType=="Images"?"imgUrl":"videoUrl"
@@ -217,7 +215,6 @@ const Creation=({
 
 
 	const fileUploadSystem=()=>{
-		console.log(beaconResponseDesignatedPostType);
 		let fileSystemPostType=beaconResponseDesignatedPostType==null?postType:
 		beaconResponseDesignatedPostType
 		switch(fileSystemPostType){

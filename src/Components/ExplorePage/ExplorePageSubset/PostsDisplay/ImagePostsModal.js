@@ -539,7 +539,6 @@ const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 const ImagePostsModal=(props)=>{
 	const headerImage=props.posts[0];
 	const images=props.posts.slice(1,props.posts.length);
-	console.log(props);
 	const isMobileUI=props.isMobileUI;
 
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
@@ -596,7 +595,6 @@ const ImagePostsModal=(props)=>{
 	}
 
 	const postDisplaySystem=()=>{
-		debugger;
 		const components=[];
 		let counter=0;
 

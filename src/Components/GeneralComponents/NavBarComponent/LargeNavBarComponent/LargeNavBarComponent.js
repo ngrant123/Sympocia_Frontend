@@ -10,7 +10,6 @@ import NavBar from "./NavBar.js";
 const GeneralNavBar=(pageProps)=>{
 
 	const NavBarContainer=useMemo(()=>{
-		console.log(pageProps);
 		if(pageProps.page=="Home"|| pageProps.page=="Map"){
 			return <NavBar
 						pageProps={{...pageProps}}

@@ -244,11 +244,9 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 	}
 
 	const constructSelectedPostNotifications=()=>{
-		debugger;
 		const {postType,notification,postUrl,isAudioPost,_id}=postSpecificNotifications;
 		const stampCounter=0;
 		const authenticationCounter=0;
-		console.log(notification);
 		return(
 			<>
 				{_id!="" &&(

@@ -452,7 +452,6 @@ class SearchExploreContainer extends Component{
 		const postSelectedSymposiums=initializeSymposiums(
 										this.retrievedCurrentDisplayedPosts
 									);
-		debugger;
 		return (
 			<ul class="dropdown-menu">
 				<li style={{cursor:"pointer"}} 

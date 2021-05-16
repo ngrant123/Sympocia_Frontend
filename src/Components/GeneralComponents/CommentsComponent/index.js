@@ -108,7 +108,6 @@ class CommentsContainer extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(props);
 		this.state={
 			displayResponses:false,
 			displayCommentsOrVideoResponses:true,
@@ -162,8 +161,6 @@ class CommentsContainer extends Component{
 		})
 	}
 	displayCommentsOrVideoResponses=()=>{
-		debugger;
-		console.log(this.state.selectedCommentId);
 		return this.state.displayCommentsOrVideoResponses==true?
 			<CommentContainer
 				postType={this.props.postType}

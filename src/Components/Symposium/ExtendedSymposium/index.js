@@ -479,8 +479,6 @@ class Symposium extends Component{
 	}
 
 	beaconIndicatorButton=()=>{
-		console.log(this.state.handleScroll);
-		console.log(this.state.displayDesktopUI);
 		return(
 			<React.Fragment>
 				{(this.state.handleScroll==false && this.state.displayDesktopUI==false)==true &&(

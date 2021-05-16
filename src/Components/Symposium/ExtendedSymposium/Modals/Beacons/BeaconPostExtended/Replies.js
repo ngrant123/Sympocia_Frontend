@@ -38,8 +38,6 @@ const Replies=({
 				endOfNewPosts,
 				isFetchingNextPosts
 			})=>{
-	debugger;
-	console.log(replies);
 	const [isRepliesSelectionSelected,changeIsRepliesSelected]=useState(replies.length>0?true:false);
 	const displayExtendedPostModal=(postData)=>{
 		displayZoomedReplyPost(postData);

@@ -26,7 +26,6 @@ const QuestionCSS={
 
 class HighLightedQuestions extends Component{
 	constructor(props){
-		console.log(props);
 		super(props);
 		this.state={
 			questionData:props.questionInformation,

@@ -495,7 +495,6 @@ class AddEmployees extends Component{
 
 
 	handleUploadEmployeeImage(){
-		//console.log(document.getElementById("imagefile").value);
 		var node = document.getElementById('employeeimagecontainer');
 		var dataUrl=document.getElementById("employeeimagefile").files[0];
 		var reader= new FileReader();
@@ -531,7 +530,6 @@ class AddEmployees extends Component{
 	}
 
 	handleBackButton=()=>{
-		console.log('Test');
 		return this.state.displaySecondPage==false?
 			<React.Fragment></React.Fragment>:
 			<button type="button" class="btn btn-default" onClick={()=>this.setState(prevState=>({...prevState,displaySecondPage:false}))}>Back</button>

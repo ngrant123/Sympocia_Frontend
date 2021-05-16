@@ -46,7 +46,6 @@ const ShadowContainer= styled.div`
 `;
 
 const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType,unCompressedId})=>{
-	debugger;
 	const [isLoadingUnCompressedPost,changeIsLoadingUnCompressedPost]=useState(false);
 	const [selectedPostUrl,changeSelectedPostUrl]=useState(postUrl);
 

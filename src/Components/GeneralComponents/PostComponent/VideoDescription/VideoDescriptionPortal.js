@@ -152,7 +152,6 @@ const VideoResultContainerCSS={
 				props.closeModal();
 			}else{
 				try{
-					debugger;
 					let recorder =MediaRecorder.state;
 					if (navigator.mediaDevices.getUserMedia){
 						navigator.mediaDevices.getUserMedia({ 
@@ -167,7 +166,6 @@ const VideoResultContainerCSS={
 					    .then(()=>handleRecording(video.srcObject))
 					    .then(recordedChunks=>{
 						  	if(recordedChunks!=null){
-						  	 	debugger;
 							  	let recordedFile = new File(recordedChunks,'videoDescription2.mp4',{mime:"video/mp4",type:"video/mp4",lastModified:new Date()});
 							  	var videoSrc=URL.createObjectURL(recordedFile);
 
@@ -182,7 +180,6 @@ const VideoResultContainerCSS={
 						  	 	changeFirstDone(true)
 							}
 						  }).catch(function (error) {
-						  	console.log(error);
 						  	changeRecordingState(false);
 						  	alert('Unable to access voice/video cam. Either you computer does not have this option or something else. Sorry for the inconvience');
 						  	closeModal();
@@ -200,7 +197,6 @@ const VideoResultContainerCSS={
 			changeRecordingState(false);
 		}
 		const stopRecording=(stream)=>{
-			debugger;
 			if(isRecording!=false){
 				mediaDevice.stop();
 			}
@@ -213,7 +209,6 @@ const VideoResultContainerCSS={
 		}
 
 		const handleRecording=(stream)=>{
-			debugger;
 			var stoppedVideo;
 			var data;
 			let recorder = new MediaRecorder(stream);
@@ -242,9 +237,7 @@ const VideoResultContainerCSS={
 		const submitVideoDescription=()=>{
 			stopRecording(localStream);
 			let reader=new FileReader();
-			debugger;
 			const maxSize=11*1024*1024;
-			console.log(videoElement.videoFile.size);
 			if(videoElement.videoFile.size>maxSize){
 				alert('Your file is too large. We only accept video descriptions that have a size of 11MB. You can go to quicktime (Mac) and lower the resolution there.');
 			}else{

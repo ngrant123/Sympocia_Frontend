@@ -37,7 +37,6 @@ class IndustryPostOptions extends Component{
 	constructor(props){
 		super(props);
 		var subCommunitiesMap=new Map();
-		debugger;
 		this.state={
 			industriesSelected:props.symposiumsUploaded.length==0?[]:props.symposiumsUploaded,
 			subIndustriesSelectedDropDown:[],
@@ -99,7 +98,6 @@ class IndustryPostOptions extends Component{
 
 			}
 		}
-		console.log(currentSelectedIndustries);
 		this.setState({
 			industriesSelected:currentSelectedIndustries,
 			subCommunitiesMap:newSubCommunityMap,
@@ -179,7 +177,6 @@ class IndustryPostOptions extends Component{
 							this.state.suppliedSymposiums,
 							this.state.originalSymposiums
 						);
-		debugger;
 		this.setState({
 			suppliedSymposiums:symposiums
 		})

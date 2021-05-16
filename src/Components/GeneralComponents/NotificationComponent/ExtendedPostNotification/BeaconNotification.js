@@ -47,7 +47,6 @@ const PostCSS={
 	flexDirection:"column"
 }
 const BeaconNotifications=({postData,targetDom})=>{
-	console.log(postData);
 	let {replyId,postType,commentID,owner,notificationOwnerId}=postData;
 	const {firstName,profilePicture}=owner;
 	const [selectedBeaconReplyData,changeSelectedBeaconReplyData]=useState();
@@ -59,8 +58,6 @@ const BeaconNotifications=({postData,targetDom})=>{
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			//commentId
-				debugger;
 				const promise=[];
 				postType=postType=="Regular"?"RegularPosts":postType;
 				const parentBeacon=getPostById({
@@ -76,8 +73,6 @@ const BeaconNotifications=({postData,targetDom})=>{
 				promise.push(replyBeacon);
 
 				await Promise.all(promise).then(result=>{
-					debugger;
-					console.log(result);
 					const originalBeacon=result[0];
 					const replyBeacon=result[1];
 
@@ -108,7 +103,6 @@ const BeaconNotifications=({postData,targetDom})=>{
 	}
 
 	const triggerDisplayUrlPortal=(post,isImagePost)=>{
-		debugger;
 		const selectedPost={
 			postUrl:isImagePost==false?post.videoUrl:post.imgUrl,
 			uncompressedPostId:isImagePost==false?post.videoUrlKey:post.uncompressedImageId
@@ -118,11 +112,10 @@ const BeaconNotifications=({postData,targetDom})=>{
 	}
 
 	const beaconConstruction=(parentBeaconIndicator)=>{
-		console.log(selectedBeaconReplyData);
 		const post=parentBeaconIndicator==true?
 					originalSelectedBeaconData:
 					selectedBeaconReplyData
-		debugger;
+
 		if(postType=="Images"){
 			const imgUrl=parentBeaconIndicator==true?
 						originalSelectedBeaconData.imgUrl:
