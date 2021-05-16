@@ -177,7 +177,8 @@ class VideoResponseContainer extends Component{
 			isProcessingSubmitInput:false,
 			isRepliesFetched:false,
 			selectedCommentPoolId:"",
-			isCurrentlyFetchReplies:false
+			isCurrentlyFetchReplies:false,
+			selectedVideoComment:{}
 		}
 	}	
 	componentDidUpdate(){
@@ -219,9 +220,12 @@ class VideoResponseContainer extends Component{
 		})
 	}
 
-	getReplies=async(commentId)=>{
+	getReplies=async(videoData)=>{
+		const commentId=videoData._id;
+
 		this.setState({
-			isCurrentlyFetchReplies:true
+			isCurrentlyFetchReplies:true,
+			selectedVideoComment:videoData
 		})
 		const {confirmation,data}=await getVideoCommentsReplies(
 											this.props.postId,
@@ -261,7 +265,7 @@ class VideoResponseContainer extends Component{
 				profileObject:profileObject,
 				postId:this.props.postId,
 				userId:this.props.personalState.id,
-				commentOwnerId:this.props.ownerId,
+				commentOwnerId:this.state.selectedVideoComment.ownerObject.owner._id,
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 							this.props.personalState.accessToken
 			}
@@ -439,13 +443,13 @@ class VideoResponseContainer extends Component{
 										<video id="videoElement"
 											style={{borderRadius:"5px",backgroundColor:"#151515"}}
 											key={videoData._id} objectFit="cover" position="absolute" 
-											width="100%" top="0px" height="100%" borderRadius="50%" 
+											width="100%" top="0px" height="50%" borderRadius="50%" 
 											autoplay="true" controls>
 											<source src={videoData.videoSrc} type="video/mp4"/>
 										</video>
 										{this.state.isCurrentlyFetchReplies==true?
 											<p>Please wait...</p>:
-											<div onClick={()=>this.getReplies(videoData._id)} 
+											<div onClick={()=>this.getReplies(videoData)} 
 												style={ButtonCSS}>
 												Comments
 											</div>

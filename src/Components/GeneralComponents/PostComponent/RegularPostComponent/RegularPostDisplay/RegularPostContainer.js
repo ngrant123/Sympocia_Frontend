@@ -419,6 +419,7 @@ const RegularPostContainer=(props)=>{
 						postType="RegularPost"
 						targetDom={targetDom}
 						isGuestProfile={isGuestProfile}
+						ownerId={postData.owner._id==null?postData.owner:postData.owner._id}
 					/>:null
 				}
 				<Container>

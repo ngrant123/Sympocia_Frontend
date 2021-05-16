@@ -410,6 +410,7 @@ const BlogHomeDisplayPortal=(props)=>{
 							postType="Blogs"
 							targetDom={postData.targetDom}
 							isGuestProfile={isGuestProfile}
+							ownerId={postData.selectedBlog.owner._id}
 						/>
 					)}
 				</React.Fragment>
@@ -418,7 +419,7 @@ const BlogHomeDisplayPortal=(props)=>{
 	const hideComments=()=>{
 		changeDisplayCommentsContainer(false);
 	}
-	
+
 	const commentModal=()=>{
 		return (
 			<Comments
