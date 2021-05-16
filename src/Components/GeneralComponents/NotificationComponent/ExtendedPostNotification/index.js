@@ -372,12 +372,14 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 	}
 
 	const submitReply=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		debugger;
 		changeIsProcessingCommentPrompt(false);
 		const reply=document.getElementById("replyValue").value;
 		if(reply==""){
 			alert('Please enter a reply');
 		}else{
-			const commentReply={
+			const ownerParams=notificationType=="VideoComment"?"commentOwnerId":"ownerId";
+			let commentReply={
 				postType,
 				postId,
 				commentId:commentID,
@@ -387,7 +389,8 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					profileId:personalInformation.id
 				},
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-				personalInformation.accessToken
+				personalInformation.accessToken,
+				[ownerParams]:data.notificationOwnerId
 			}
 
 			if(notificationType=="VideoComment"){
@@ -399,6 +402,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					alert('Unfortunately there has been an error when submitting your reply. Please try again');
 				}
 			}else{
+
 				const {confirmation,data}=await createReply(commentReply);
 				if(confirmation=="Success"){
 					alert('Success');
@@ -496,7 +500,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 															{notificationTypeComponent()}
 														</div>
 														<hr/>
-														{(notificationType=="RegularComment") &&(
+														{(notificationType=="RegularComment" || notificationType=="VideoComment") &&(
 															<div id="replyButtonDIV" onClick={()=>changeDisplayReplyModal(true)} style={BackButtonCSS}>
 																Reply
 															</div>
