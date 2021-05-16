@@ -147,7 +147,8 @@ const PollOptionPortal=(props)=>{
 		displayApproveModal,
 		postType,
 		targetDom,
-		isGuestProfile
+		isGuestProfile,
+		ownerId
 	}=props;
 
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -184,7 +185,8 @@ const PollOptionPortal=(props)=>{
 				postOption:postType,
 				postId:postId,
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-				personalInformation.accessToken
+				personalInformation.accessToken,
+				ownerId
 			}
 			
 			let confirmationResponse,dataResponse;

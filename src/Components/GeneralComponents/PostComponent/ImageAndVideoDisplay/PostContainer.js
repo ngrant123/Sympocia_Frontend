@@ -326,6 +326,7 @@ const ImageContainer=(props)=>{
 					postType={postData[postDataDestructedField].imgUrl==null?"Videos":"Images"}
 					targetDom={postData.targetDom}
 					isGuestProfile={isGuestProfile}
+					ownerId={postDataDestructedField=="imageData"?postData.imageData.owner:postData.videoData.owner}
 				/>:null
 			}
 			{displayPostModal==true?

@@ -373,7 +373,10 @@ class CommentsContainer extends Component{
 					...data,
 					ownerObject:{
 						...data.ownerObject,
-						firstName:this.props.personalState.firstName
+						owner:{
+							...data.ownerObject.owner,
+							firstName:this.props.personalState.firstName
+						}
 					}
 				}
 				var currentComments=this.state.comments;
@@ -485,7 +488,7 @@ class CommentsContainer extends Component{
 	} 
 
 
-	handleCreateReply=async({isAccessTokenUpdated,updatedAccessToken})=>{
+	handleCreateReply=async({isAccessTokenUpdated,updatedAccessToken,commentOwnerId})=>{
 		this.setState({
 			isProcessingReplyInput:true
 		})
@@ -505,7 +508,7 @@ class CommentsContainer extends Component{
 				postId:this.props.postId,
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 							this.props.personalState.accessToken,
-				ownerId:this.props.ownerId
+				ownerId:commentOwnerId
 			}
 
 
@@ -551,7 +554,7 @@ class CommentsContainer extends Component{
 							this.props.personalState.id,
 							this.handleCreateReply,
 							this.props,
-							{},
+							{commentOwnerId},
 							true
 						);
 				}else{
@@ -567,7 +570,7 @@ class CommentsContainer extends Component{
 		})
 	}
 
-	createReplyComment=(key)=>{
+	createReplyComment=(key,commentOwnerId)=>{
 		if(key==this.state.keyToDisplayReplyCreation && this.state.displayReplyCreation==true){
 			return <ul style={{padding:"0px",backgroundColor:"white"}}>
 						<li style={{listStyle:"none"}}>
@@ -578,7 +581,8 @@ class CommentsContainer extends Component{
 								<p>Please wait...</p>:
 								<ul style={{padding:"0px"}}>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li  onClick={()=>this.handleCreateReply({isAccessTokenUpdated:false})} style={ExtendedCommentAreaButton}>
+										<li  onClick={()=>this.handleCreateReply({isAccessTokenUpdated:false,commentOwnerId})} 
+											style={ExtendedCommentAreaButton}>
 											Create
 										</li>
 									</a>
@@ -611,7 +615,7 @@ class CommentsContainer extends Component{
 								 style={{padding:"0px",listStyle:"none",marginBottom:"10px"}}
 								 key={data._id}>
 								{this.commentComponent(data,index)}
-								{this.createReplyComment(data._id)}
+								{this.createReplyComment(data._id,data.ownerObject.owner._id)}
 								{this.handleDisplayResponses(data._id)}
 							</li>
 						)}

@@ -288,6 +288,7 @@ class BlogPostCreation extends Component{
 							postId={this.props.location.state._id}
 							postType="Blogs"
 							targetDom={"blogPostContainer"}
+							ownerId={this.props.location.state.owner}
 						/>
 					)}
 				</React.Fragment>

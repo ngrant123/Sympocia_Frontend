@@ -187,7 +187,7 @@ export const updateCrownedImage=async(_id,updatedStatus,imageId,accessToken)=>{
 	}
 }
 
-export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment,isOwnPost,accessToken})=>{
+export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment,isOwnPost,accessToken,ownerId})=>{
 	try{
 		
 		const approvePostResponse=await axios.post(`${CreateURl}/markPostAsAuthentic`,{
@@ -196,7 +196,8 @@ export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment,
 			postOption:postOption,
 			postId:postId,
 			comment:comment,
-			isOwnPost
+			isOwnPost,
+			ownerId
 		},{
 				headers:{
 					authorization:accessToken
