@@ -86,7 +86,6 @@ const HorizontalLineCSS={
 */
 
 const ImageContainer=(props)=>{
-	console.log(props);
 	const [commentPostIndicator,changeCommentsDisplay]=useState(false);
 	const [displayPostModal,changeDisplayPost]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
@@ -153,7 +152,6 @@ const ImageContainer=(props)=>{
 				if(uncompressedImageId!=null){
 					const {confirmation,data}=await getImgUrl(uncompressedImageId);
 					if(confirmation=="Success"){
-						debugger;
 						const imgUrl=data.message;
 
 						currentData={

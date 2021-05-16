@@ -302,7 +302,6 @@ export const createVideoResponse=async({
 									isMobile
 								})=>{
 	try{
-		debugger;
 		const videoResponse=await axios.post(`${CreateURl}/createVideoResponse`,{
 			postType:postType,
 			videoSrc:videoSrc,

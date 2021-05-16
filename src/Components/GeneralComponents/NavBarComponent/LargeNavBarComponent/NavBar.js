@@ -221,7 +221,6 @@ const PostUploadStatusNotificationCSS={
 
 const NavBar=(pageProps)=>{
 	const dispatch=useDispatch();
-	console.log(pageProps);
 	const {
 			pageProps:{
 				targetDom

@@ -289,7 +289,6 @@ class PersonalFeedContainer extends Component{
 			}else{
 				var symposiumsResponse=await getSymposiumsFollowedHome(profileId);
 				const {confirmation,data}=symposiumsResponse;
-				console.log(data);
 				if(confirmation=="Success"){
 					const {message}=data;
 					var symposiums=[];
@@ -616,7 +615,6 @@ class PersonalFeedContainer extends Component{
 							this.state.symposiumArray,
 							this.state.originalSymposiums
 						);
-		debugger;
 		this.setState({
 			symposiumArray:symposiums
 		})

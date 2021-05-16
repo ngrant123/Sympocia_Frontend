@@ -102,7 +102,6 @@ const CommentPoolCreation=({
 	}
 
 	const submitCommentPool=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
 		const commentPoolInputValue=document.getElementById("commentPoolName").value;
 		if(commentPoolInputValue==""){
 			alert("Please enter a value");

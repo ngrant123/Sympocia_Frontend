@@ -182,7 +182,6 @@ class VideoResponseContainer extends Component{
 		}
 	}	
 	componentDidUpdate(){
-		debugger;
 		if(this.props.selectedCommentPoolId!=this.state.selectedCommentPoolId){
 			this.setState({
 				selectedCommentPoolId:this.props.selectedCommentPoolId==null?"":
@@ -531,6 +530,8 @@ class VideoResponseContainer extends Component{
 			isMobile:this.props.displayPhoneUI
 		}
 
+		alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now')
+		
 		let {confirmation,data}=await createVideoResponse(videoResponse);
 		if(confirmation=="Success"){
 			data=data.message;

@@ -261,8 +261,6 @@ const PollingOptionsCSS={
 
 
 const BlogHomeDisplayPortal=(props)=>{
-	console.log(props);
-
 	const [postData,changePostData]=useState(props);
 	const blog=postData.selectedBlog.blog;
 	var DBEditorState = convertFromRaw(JSON.parse(blog));

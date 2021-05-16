@@ -214,7 +214,6 @@ const PostSearch=(props)=>{
 	}
 
 	const fetchImagePosts=async(postCount)=>{
-		debugger
 		if(postType!="Images"){
 			postCount=0;
 			posts=[];

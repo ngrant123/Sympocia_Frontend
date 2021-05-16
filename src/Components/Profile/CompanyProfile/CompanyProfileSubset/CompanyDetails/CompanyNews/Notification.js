@@ -66,17 +66,12 @@ class Notification extends Component{
 
 	constructor(props){
 		super(props);
-		console.log(props);
-
 		this.state={
 			description:props.caption,
 			date:props.date,
 			key:props.id,
 			displayTopLevelNewsModal:false
 		};
-
-		console.log("TEs 2");
-	//	handleClick=handleClick.bind(this);
 	}
 
 	closeModal=()=>{

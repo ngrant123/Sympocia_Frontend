@@ -176,7 +176,6 @@ class CommentsContainer extends Component{
 
 
 	constructor(props){
-		console.log(props);
 		super(props);
 		this.state={
 			comments:[],
@@ -201,7 +200,6 @@ class CommentsContainer extends Component{
 	}
 
 	componentDidUpdate(){
-		debugger;
 		if(this.props.selectedCommentPoolId!=this.state.selectedCommentPoolId){
 			this.setState({
 				selectedCommentPoolId:this.props.selectedCommentPoolId==null?"":
@@ -236,7 +234,6 @@ class CommentsContainer extends Component{
 
 
 	replyComment=(data)=>{
-		console.log(data);
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
@@ -345,7 +342,6 @@ class CommentsContainer extends Component{
 
 	handleCreateComment=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		this.setState({isCreatingComment:true});
-		debugger;
 		const comment=document.getElementById("comment").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={

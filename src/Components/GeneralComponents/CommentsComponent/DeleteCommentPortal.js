@@ -87,7 +87,6 @@ const DeleteCommentPool=({
 						postId,
 						targetContainer
 					})=>{
-	console.log(selectedCommentPool);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [isDeletingStatus,changeIsDeletingStatus]=useState(false);

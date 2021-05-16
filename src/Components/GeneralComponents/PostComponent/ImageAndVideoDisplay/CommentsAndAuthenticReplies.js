@@ -49,7 +49,6 @@ const CommentsAndAuthenticReplies=(props)=>{
 		selectedCommentPools,
 		isOwnProfile
 	}=props;
-	console.log(props)
 	return(
 		<React.Fragment>
 			{displayPostAdditionalInformation==true?

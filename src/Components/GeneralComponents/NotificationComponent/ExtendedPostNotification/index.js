@@ -192,7 +192,6 @@ const BackButtonCSS={
 */}
 
 const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postId,displayPostElementPage,isPostAudio})=>{
-	console.log(data);
 	const {notificationType,postType,commentID,replyId,notificationOwnerId}=data;
 	const [notification,changeNotification]=useState();
 	const [isLoading,changeIsLoading]=useState(true);
@@ -207,7 +206,6 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 		const fetchData=async()=>{
 			let confirmationResponse;
 			let dataResponse;
-			debugger;
 
 			if(notificationType!="Stamp" && notificationType!="BeaconResponse"){
 				if(notificationType=="RegularComment"){
@@ -372,7 +370,6 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 	}
 
 	const submitReply=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
 		changeIsProcessingCommentPrompt(false);
 		const reply=document.getElementById("replyValue").value;
 		if(reply==""){

@@ -88,9 +88,6 @@ const authenticPostButtonCSS={
 
 class BlogPostCreation extends Component{
 	constructor(props){
-		console.log(props);
-		console.log(props.location.state.regularCommentPool);
-		console.log(props.location.state.videoCommentPool);
 		super(props);
 		var isPersonalProfile;
 		if(this.props.location.state.profileType=="Company")

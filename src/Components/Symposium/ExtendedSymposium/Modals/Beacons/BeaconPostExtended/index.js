@@ -27,8 +27,6 @@ const BackButtonCSS={
 
 
 const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumId,ownerId,isGuestProfile})=>{
-	console.log(postData);
-
 	const [displaySelectedPost,changeDisplaySelectedPost]=useState(true);
 	const [displayExtendReplyBeacon,changeDisplayReplyBeacon]=useState(false);
 	const [displayZoomedInPostPortal,changeDisplayZoomedInPostPortal]=useState(false);
@@ -46,7 +44,6 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 	}
 
 	const updateBeaconPosts=(beaconPostType,beacon)=>{
-		debugger;
 		if(beaconPostType==postType){
 			replies.splice(0,0,beacon);
 			changeReplies([...replies]);
@@ -63,7 +60,6 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 	}
 
 	const enableCreationPost=()=>{
-		debugger;
 		if(isGuestProfile==true){
 			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
 		}else{
@@ -84,7 +80,6 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 	}
 
 	const fetchReplies=async(increaseCounterIndicator)=>{
-		debugger;
 		if(increaseCounterIndicator==null)
 			changeIsLoadingReplies(true);
 

@@ -1,6 +1,5 @@
 
 export const filterSymposiumUploadOptions=(character,symposiums,originalSymposiums)=>{
-	debugger;
 	if(character==""){
 		return originalSymposiums;
 	}

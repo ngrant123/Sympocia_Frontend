@@ -429,7 +429,6 @@ const VideoPostModal=(props)=>{
 	}
 
 	const postDisplaySystem=()=>{
-		debugger;
 		const components=[];
 		let counter=0;
 
