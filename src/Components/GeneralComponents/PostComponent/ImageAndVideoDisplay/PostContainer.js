@@ -86,6 +86,7 @@ const HorizontalLineCSS={
 */
 
 const ImageContainer=(props)=>{
+	console.log(props);
 	const [commentPostIndicator,changeCommentsDisplay]=useState(false);
 	const [displayPostModal,changeDisplayPost]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
@@ -297,6 +298,10 @@ const ImageContainer=(props)=>{
 		profileType:postData.profileType
 	}
 
+	const closeEditModal=()=>{
+		changeDisplayPost(false);
+	}
+
 	return(
 		<React.Fragment>
 			<FirstTimePostOnboarding
@@ -321,6 +326,7 @@ const ImageContainer=(props)=>{
 					postType={postData[postDataDestructedField].imgUrl==null?"Videos":"Images"}
 					targetDom={postData.targetDom}
 					isGuestProfile={isGuestProfile}
+					ownerId={postDataDestructedField=="imageData"?postData.imageData.owner:postData.videoData.owner}
 				/>:null
 			}
 			{displayPostModal==true?
@@ -330,11 +336,15 @@ const ImageContainer=(props)=>{
 							videoSrc={postData[postDataDestructedField].videoUrl}
 							previousData={postData[postDataDestructedField]}
 							editPost={editPost}
+							closeModal={closeEditModal}
+							isPhoneUIEnabled={displayMobileUI}
 						/>
 						:<EditImageCreation
 							imageSrcUrl={postData[postDataDestructedField].imgUrl}
 							previousData={postData[postDataDestructedField]}
 							editPost={editPost}
+							closeModal={closeEditModal}
+							isPhoneUIEnabled={displayMobileUI}
 						/>
 					}
 				</React.Fragment>:
@@ -385,6 +395,14 @@ const ImageContainer=(props)=>{
 									headlineText={postDataDestructedField=="imageData"?postData.imageData.caption:postData.videoData.title}
 									secondaryText={postData[postDataDestructedField].description}
 									triggerDisplayPostDescriptionAndCaption={changePostAdditionalInformation}
+									isOwnProfile={postData.isOwnProfile}
+									ownerId={postDataDestructedField=="imageData"?postData.imageData.owner:postData.videoData.owner}
+									selectedCommentPools={{
+										regularCommentPool:postDataDestructedField=="imageData"?postData.imageData.regularCommentPool:
+										postData.videoData.regularCommentPool,
+										videoCommentPool:postDataDestructedField=="imageData"?postData.imageData.videoCommentPool:
+										postData.videoData.videoCommentPool
+									}}
 								/>
 							}
 						</React.Fragment>

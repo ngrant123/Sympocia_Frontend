@@ -15,14 +15,11 @@ import {loginCompanyPage} from "../../../../Actions/Redux/Actions/CompanyActions
 import SearchBarModal from "./SearchBarModal.js";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import AnonymousSuggestionPortal from "./AnonymousSuggestionPortal.js";
+import SympociaStampIcon from "../../../../designs/img/StampIcon.png";
 
 import {
 	Container,
 	SearchButton,
-	PersonalProfileChatContainer,
-	PersonalProfileNotificationsContainer,
-	CompanyProfileChatContainer,
-	CompanyProfileNotificationsContainer,
 	NavBarButton,
 	CreateButton,
 	BackgroundContainer
@@ -32,15 +29,51 @@ import {
 	notificationStatusCheck,
 	clearNewNotifications
 } from "../../../../Actions/Requests/NotificationsRequests.js";
+import {getProfilePicture} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import Notifications from "../../NotificationComponent/index.js";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
-
+import {getPostCreationUpdateStatuses} from "../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const glowing=keyframes`
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
       50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
       100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
 `;
+
+const SympociaLogoContainer=styled.div`
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+	margin-left:5%;
+`;
+
+
+const PersonalInformationContainer=styled.div`
+	display:flex;
+	width:228px;
+	background-color:white;
+	flex-direction:row;
+	align-items:center;
+	margin-right:2%;
+	border-radius:5px;
+	padding:5px;
+	border-style:solid;
+	border-width:1px;
+	border-color:${({displayNotificationIndicator})=>(displayNotificationIndicator ?"#FFFFFF":"#C8B0F4")};
+
+	${({ displayNotificationIndicator }) =>
+    displayNotificationIndicator ?
+    css`
+	    animation: ${glowing} 1300ms infinite;
+	    border-color: #C8B0F4;
+    `:
+	`
+		border-color:#E2E2E2;
+	`}
+`;
+
+
 
 
 const NotificationIconContainer=styled.div`
@@ -145,12 +178,45 @@ const TestContainaer=styled.div`
 	flex-direction:row;
 	justify-content:center;
 `;
-/*
-	So right now the nav bar is just explore, home page, and view messages
-	in the future I want to add the option of profile picture, notifications and other pages 
-	to it 
 
-	Component will have to be refactored later cause it lowkey dont make sense 
+const StampIconCSS={
+	width:"59px",
+	height:"53px",
+	borderRadius:"50%",
+	marginRight:"10%"
+}
+
+const VerticalLineCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#EBEBEB",
+	borderLeft:"2px",
+ 	height:"50px",
+ 	marginLeft:"3%"
+}
+
+const PersonalPreferencesDropDownCSS={
+	borderColor:"#5298F8",
+	borderStyle:"none",
+	textDecoration:"none",
+	backgroundColor:"white",
+	color:"#4E4E4E"
+}
+
+const PostUploadStatusNotificationCSS={
+	backgroundColor:"#C8B0F4",
+	width:"100%",
+	height:"40%",
+	padding:"10px",
+	color:"white",
+	justifyContent:"center",
+	display:"flex",
+	flexDirection:"row",
+	transition:".8s"
+}
+/*
+	Down the road should look into implementing something like
+	https://medium.com/@gabriele.cimato/on-how-to-store-an-image-in-redux-d623bcc06ca7
 */
 
 const NavBar=(pageProps)=>{
@@ -174,11 +240,13 @@ const NavBar=(pageProps)=>{
 	const [displayDesktopUI,changeDisplayDesktopUI]=useState(false);
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
 	const [displayAnonymousTipsPortal,changeDispalyAnonymousTipsPortal]=useState(false);
+	const [profilePicture,changeProfilePicture]=useState();
 
 	const [displayNotificationIndicator,changeDisplayNotificationIndicator]=useState(false);
 	const [displayNotifications,changeDisplayNotifications]=useState(false);
 	const [notifications,changeNotifications]=useState();
 	const [reloadNotificationAccessToken,changeReload]=useState(false);
+	const [displayPostUploadStatus,changeDisplayUploadPostStatus]=useState(false);
 	let {
 			refreshToken,
 			accessToken,
@@ -212,12 +280,14 @@ const NavBar=(pageProps)=>{
 	useEffect(()=>{
 		const initialSetUp=async()=>{
 			if(isGuestProfile==false){
-				statusCheckTrigger({id,isAccessTokenUpdated:false})
+				const statusCheck=statusCheckTrigger({id,isAccessTokenUpdated:false})
+				const profilePictureRetrieval=profilePictureRetrievalTrigger(id);
+				const postUpdateStatusesRetrieval=postCreationUpdateStatusesTrigger(id);
 			}
 			changeDisplayPersonalProfileIcon(true);
 			triggerUIChange();
 			/*
-			const notificationTriggerCheck=true;
+				const notificationTriggerCheck=true;
 				while(notificationTriggerCheck){
 						await triggerSetTimeout(10000);
 						const {confirmation,data}=await notificationStatusCheck(personalProfileState.id);
@@ -246,6 +316,25 @@ const NavBar=(pageProps)=>{
 
 	window.addEventListener('resize',triggerUIChange)
 
+	const postCreationUpdateStatusesTrigger=async(id)=>{
+		const {confirmation,data}=await getPostCreationUpdateStatuses(id);
+		if(confirmation=="Success"){
+			const {message}=data;
+			if(message.length>0){
+				changeDisplayUploadPostStatus(true);
+				setTimeout(()=>{
+					changeDisplayUploadPostStatus(false);
+				},2000);	
+			}
+		}
+
+	}
+	const profilePictureRetrievalTrigger=async(id)=>{
+		const {confirmation,data}=await getProfilePicture(id);
+		if(confirmation=="Success"){
+			changeProfilePicture(data);
+		}
+	}
 	const statusCheckTrigger=async({id,isAccessTokenUpdated,updatedAccessToken})=>{
 		
 		const {confirmation,data}=await notificationStatusCheck(
@@ -303,10 +392,6 @@ const NavBar=(pageProps)=>{
 		changeDisplaySearchModal(false);
 	}
 
-	const logoutUser=()=>{
-		
-	}
-
 	const fetchNotificationData=async()=>{
 		if(isGuestProfile==true){
 			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
@@ -315,86 +400,167 @@ const NavBar=(pageProps)=>{
 		}
 	}
 
-	const personalProfileIpadPages=()=>{
+	const MobileUI=()=>{
 		return(
-			<>
-				<TestContainaer> 
-					{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
-						<Link style={{...RouteOptionCSS,borderRadius:"5px",marginLeft:"-5%",marginRight:"5%",color:"white"}} to='/signup'>
-							Sign Up
-						</Link>:
-						<div style={{marginLeft:"-7%",marginRight:"5%"}}>
-							<ul style={{padding:"0px"}}>	
-								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={RouteOptionCSS}>
-										<NavBarButton>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<AccountCircleIcon/>
-											</li>
+			<React.Fragment>
+				<div id="mobileRoutesButton">
+					<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileRouteOptionCSS}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-smart-home" width="44" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C8B0F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							  <path d="M19 8.71l-5.333 -4.148a2.666 2.666 0 0 0 -3.274 0l-5.334 4.148a2.665 2.665 0 0 0 -1.029 2.105v7.2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-7.2c0 -.823 -.38 -1.6 -1.03 -2.105" />
+							  <path d="M16 15c-2.21 1.333-5.792 1.333-8 0" />
+							</svg>
+						</button>
 
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												Me
-											</li>
-										</NavBarButton>
-									</button>
-
-									<ul class="dropdown-menu">
-										<li>
-											<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
-										</li>
-										<li>
-											<Link onClick={()=>logoutUser()} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
-												Logout
-											</Link>
-										</li>
-										<hr/>
-										<li style={{cursor:"pointer",paddingLeft:"10px"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
-											Send opinion
-										</li>
-									</ul>
-								</div>
-							</ul>
-						</div>
-					}
-
-					<NotificationIconContainer displayNotificationIndicator={displayNotificationIndicator} onClick={()=>fetchNotificationData()}>
-						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-urgent" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
-						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-						  <path d="M8 16v-4a4 4 0 0 1 8 0v4" />
-						  <path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7" />
-						  <rect x="6" y="16" width="12" height="4" rx="1" />
-						</svg>
-					</NotificationIconContainer>
-
-					{/*
-						<CreateButton>
-							<ul style={{padding:"0px"}}>
-
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<AddCircleIcon
-										/>
-									</li>
-
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										Create
-									</li>
-							</ul>
-						</CreateButton>
-					*/}
-
-					<NavBarButton  to="/home">
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<ExploreIcon/>
+						<ul class="dropdown-menu">
+							<li>
+								{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
+									<Link to='/signup'>Sign Up</Link>:
+									<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
+								}
+							</li>
+							{NotificationPrompt()}
+							<hr/>
+							<li>
+								<Link  to="/home">Home</Link>
 							</li>
 
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								Explore
+							<li>
+								<Link to="/symposiumList">Symposiums</Link>
+							</li>
+							
+							<hr/>
+							<li>
+								<Link to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
+									Logout
+								</Link>
+							</li>
+
+							<li style={{cursor:"pointer",paddingLeft:"12%",marginTop:"10%"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
+								Send opinion
 							</li>
 						</ul>
-					</NavBarButton>
-				</TestContainaer>
-			</>
+					</div>
+				</div>
+				<div>
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
+						id="searchLIContainer" onClick={()=>changeDisplaySearchModal(!displaySearchModal)}
+					  width="44" height="44" viewBox="0 0 24 24" stroke-width="2.5" stroke="#1C1C1C" 
+					  fill="none" stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <circle cx="10" cy="10" r="7" />
+					  <line x1="21" y1="21" x2="15" y2="15" />
+					</svg>
+				</div>
+			</React.Fragment>
+		)
+	}
+
+	const NotificationPrompt=()=>{
+		let notificationStyle={
+			cursor:"pointer",
+			paddingLeft:"12%",
+			marginTop:"5%"
+		}
+		let prompt;
+		if(displayNotificationIndicator==true){
+			notificationStyle={
+				...notificationStyle,
+				backgroundColor:"#C8B0F4",
+				color:"white"
+			}
+			prompt="(New) Notifications"
+		}else{
+			notificationStyle={
+				...notificationStyle,
+				backgroundColor:"white",
+				color:"black"
+			}
+			prompt="Notifications"
+		}
+		return(
+			<li>
+				<p style={notificationStyle}
+				 	onClick={()=>fetchNotificationData()}>
+					{prompt}
+				 </p>
+			</li>
+		)
+	}
+
+	const desktopUI=()=>{
+		return(
+			<React.Fragment>
+				<SympociaLogoContainer>
+					<img src={SympociaStampIcon} style={StampIconCSS}/>
+					<p style={{fontSize:"18px"}}>
+						<b>Sympocia</b>
+					</p>
+				</SympociaLogoContainer>
+
+				<div style={{display:"flex",alignItems:"center",cursor:"pointer"}}>
+					<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle" 
+							type="button" data-toggle="dropdown" style={PersonalPreferencesDropDownCSS}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-smart-home"
+							 	width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C8B0F4" fill="none"
+							 	stroke-linecap="round" stroke-linejoin="round">
+							  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							 	<path d="M19 8.71l-5.333 -4.148a2.666 2.666 0 0 0 -3.274 0l-5.334 4.148a2.665 2.665 0 0 0 -1.029 2.105v7.2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-7.2c0 -.823 -.38 -1.6 -1.03 -2.105" />
+							  	<path d="M16 15c-2.21 1.333-5.792 1.333-8 0" />
+							</svg>
+						</button>
+						<ul class="dropdown-menu">
+							<li>
+								<Link  to="/home">Home</Link>
+							</li>
+							<hr/>
+							<li>
+								<Link to="/symposiumList">Symposiums</Link>
+							</li>
+							<hr/>
+							<li style={{padding:"20px"}}onClick={()=>changeDisplaySearchModal(!displaySearchModal)}>
+								Search
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<PersonalInformationContainer displayNotificationIndicator={displayNotificationIndicator}>
+					<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle" 
+							type="button" data-toggle="dropdown" style={PersonalPreferencesDropDownCSS}>
+							<b>Me</b>
+						</button>
+
+					   	<span class="caret"></span>
+					   	<ul class="dropdown-menu">
+							<li>
+								{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
+									<Link to='/signup'>Sign Up</Link>:
+									<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
+								}
+							</li>
+							{NotificationPrompt()}
+							<hr/>
+							<li>
+								<Link to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
+									Logout
+								</Link>
+							</li>
+
+							<li style={{cursor:"pointer",paddingLeft:"12%",marginTop:"10%"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
+								Send opinion
+							</li>
+						</ul>
+					</div>
+					<div style={VerticalLineCSS}/>
+					<img src={profilePicture==null?NoProfilePicture:profilePicture} 
+						style={{marginLeft:"50%",width:"39px",height:"36px",borderRadius:"50%"}}
+					/>
+				</PersonalInformationContainer>
+			</React.Fragment>
 		)
 	}
 
@@ -432,6 +598,21 @@ const NavBar=(pageProps)=>{
 		}
 	}
 
+	const postUploadStatusNotification=()=>{
+		return(
+			<React.Fragment>
+				{displayPostUploadStatus==true &&(
+					<div style={PostUploadStatusNotificationCSS}>
+						<p>Awesome :) Your post and/or video description has been uploaded</p>
+						<HighlightOffIcon
+							style={{fontSize:"20",color:"white"}}
+						/>
+					</div>
+				)}
+			</React.Fragment>
+		)
+	}
+
 
 
 	return(
@@ -465,87 +646,13 @@ const NavBar=(pageProps)=>{
 				</React.Fragment>:
 				<React.Fragment></React.Fragment>
 			}
-			<ul style={{padding:"0px"}}>
-				<li style={{listStyle:"none",width:"100%",}}>
-					<ul id="ULContainer" style={{padding:"0px",marginBottom:"2%"}}>
-						{(displayPhoneUI==true || displayIpadUI==true)?
-							<>
-								<li id="mobileRoutesButton" style={{position:"relative",top:"-15px",marginLeft:"200px",marginRight:"1%",listStyle:"none",display:"inline-block"}}>
-									<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileRouteOptionCSS}>
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-smart-home" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C8B0F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-											  <path d="M19 8.71l-5.333 -4.148a2.666 2.666 0 0 0 -3.274 0l-5.334 4.148a2.665 2.665 0 0 0 -1.029 2.105v7.2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-7.2c0 -.823 -.38 -1.6 -1.03 -2.105" />
-											  <path d="M16 15c-2.21 1.333-5.792 1.333-8 0" />
-											</svg>
-										</button>
-
-										<ul class="dropdown-menu">
-											<li>
-												{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
-													<Link to='/signup'>Sign Up</Link>:
-													<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
-												}
-											</li>
-											<li>
-												<p style={{cursor:"pointer",paddingLeft:"12%",marginTop:"5%"}}
-												 	onClick={()=>fetchNotificationData()}>
-													Notifications
-												 </p>
-											</li>
-											<hr/>
-											<li>
-												<Link  to="/home">Home</Link>
-											</li>
-
-											<li>
-												<Link to="/symposiumList">Symposiums</Link>
-											</li>
-											
-											<hr/>
-											<li>
-												<Link onClick={()=>logoutUser()} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
-													Logout
-												</Link>
-											</li>
-
-											<li style={{cursor:"pointer",paddingLeft:"12%",marginTop:"10%"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
-												Send opinion
-											</li>
-										</ul>
-									</div>
-								</li>
-								<li id="searchLIContainer" 
-									onClick={()=>changeDisplaySearchModal(!displaySearchModal)} 
-									style={{marginLeft:"50%",width:"70%",listStyle:"none",display:"inline-block"}}
-								>
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-									  width="44" height="44" viewBox="0 0 24 24" stroke-width="2.5" stroke="#1C1C1C" 
-									  fill="none" stroke-linecap="round" stroke-linejoin="round">
-									  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-									  <circle cx="10" cy="10" r="7" />
-									  <line x1="21" y1="21" x2="15" y2="15" />
-									</svg>
-								</li>
-							</>:
-							<li id="searchLIContainer" 
-								onClick={()=>changeDisplaySearchModal(!displaySearchModal)} 
-								style={{marginRight:"4%",width:"70%",listStyle:"none",display:"inline-block"}}
-							>
-								<SearchButton 
-									placeholder="Search"
-								/>
-							</li>
-						}
-					</ul>
-				</li>
-			</ul>
-
-			{displayDesktopUI==true && (
-				<ul style={{top:"7%"}}>
-					{personalProfileIpadPages()}
-				</ul>
-			)}
+			<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center",marginTop:"5px"}}>
+				{displayDesktopUI==true ?
+					<>{desktopUI()}</>:
+					<>{MobileUI()}</>
+				}
+			</div>
+			{postUploadStatusNotification()}
 		</Container>
 	)
 

@@ -44,9 +44,12 @@ const CommentsAndAuthenticReplies=(props)=>{
 		displayPostAdditionalInformation,
 		headlineText,
 		secondaryText,
-		triggerDisplayPostDescriptionAndCaption
+		triggerDisplayPostDescriptionAndCaption,
+		ownerId,
+		selectedCommentPools,
+		isOwnProfile
 	}=props;
-
+	console.log(props)
 	return(
 		<React.Fragment>
 			{displayPostAdditionalInformation==true?
@@ -62,6 +65,9 @@ const CommentsAndAuthenticReplies=(props)=>{
 							hideComments={hideComments}
 							targetDom={targetDom}
 							isGuestProfile={isGuestProfile}
+							ownerId={ownerId}
+							selectedCommentPools={selectedCommentPools}
+							isOwnProfile={isOwnProfile}
 						/>:
 						<PollingOptionsContainer>
 							<p onClick={()=>changeDisplayPollingOptions(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>

@@ -21,9 +21,18 @@ import {
 		setPersonalProfileRefreshToken
 		} from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import PostsMemo from "./PostsMemo.js";
+import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
+import {
+		searchSymposiumsFilter,
+		initializeSymposiums
+	} from "../../../Actions/Tasks/Search/SearchSymposiums.js";
+import {searchPostsFilter} from "../../../Actions/Tasks/Search/SearchPosts.js";
 
 const Container=styled.div`
+	margin-top:10%;
+	margin-left:3%;
 	@media screen and (max-width:1370px){
+		margin-left:0%;
     	#mobileArenaLI{
     		display:none!important;
     	}
@@ -200,6 +209,30 @@ const MobileArenaButtonCSS={
 	marginLeft:"25%"
 }
 
+const ExplorePageOptionsCSS={
+	borderColor:"#D0D0D0",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderRadius:"5px",
+	padding:"10px",
+	display:"flex",
+	flexDirection:"row",
+	justifyContent:"center",
+	paddingRight:"40px",
+	alignItems:"center",
+	cursor:"pointer",
+	backgroundColor:"white",
+	color:"#000000"
+}
+
+const VerticalLineCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#EBEBEB",
+	borderLeft:"2px",
+ 	height:"50px",
+ 	marginLeft:"3%"
+}
 
 class SearchExploreContainer extends Component{
 
@@ -411,8 +444,113 @@ class SearchExploreContainer extends Component{
 				</div>
 	}
 
+	retrievedCurrentDisplayedPosts=()=>{
+		return this.state.postsInformation;
+	}
+
+	selectedPostSymposiums=()=>{
+		const postSelectedSymposiums=initializeSymposiums(
+										this.retrievedCurrentDisplayedPosts
+									);
+		debugger;
+		return (
+			<ul class="dropdown-menu">
+				<li style={{cursor:"pointer"}} 
+					onClick={()=>this.triggerPostDecider(this.state.postOption)}>
+					<a>Clear Filter</a>
+				</li>
+				<hr/>
+				{postSelectedSymposiums.map(data=>
+					<li style={{cursor:"pointer"}}>
+						<a onClick={()=>this.triggerSymposiumsPostFilters(data)}>{data}</a>
+					</li>
+				)}
+			</ul>
+		)
+	}
+
+	triggerPostDecider=(postType)=>{
+		this.setState(prevState=>({
+			...prevState,
+			postCount:0
+		}),function(){
+			this.handleChangePostOption(postType)
+		})
+	}
+
+	triggerSymposiumsPostFilters=(filteredInput)=>{
+		let displayedPosts=this.retrievedCurrentDisplayedPosts();
+		this.setState(prevState=>({
+			isLoadingReloadedPosts:true
+		}),function(){
+			const filteredPosts=searchSymposiumsFilter(filteredInput,displayedPosts);
+			this.setState(prevState=>({
+				...prevState,
+				isLoadingReloadedPosts:false,
+				postsInformation:filteredPosts
+			}))
+		})
+	}
+
 	headerUI=()=>{
-		return <li style={{listStyle:"none",marginBottom:"2%"}}>
+		return <div style={{display:"flex",flexDirection:"column"}}>
+					<div style={{display:"flex",flexDirection:"row"}}>
+						<p style={{fontSize:"24px",marginRight:"2%",color:"#C8B0F4"}}>
+							<b>Explore</b>
+						</p>
+						<div style={{display:"flex",flexDirection:"row"}}>
+							<div class="btn-group">
+								<button class="btn btn-primary dropdown-toggle" type="button" 
+									data-toggle="dropdown" style={ExplorePageOptionsCSS}>
+									{this.state.postOption}
+									<ArrowDropDownCircleOutlinedIcon
+										style={{fontSize:"15",color:"7C7C7C",marginLeft:"10px"}}
+									/>
+								</button>
+								<ul class="dropdown-menu" style={{padding:"10px"}}>
+									<li style={{cursor:"pointer"}}
+										onClick={()=>this.handleChangePostOption("Images")}>
+										Images
+									</li>
+									<hr/>	
+									<li style={{cursor:"pointer"}}
+										onClick={()=>this.handleChangePostOption("Videos")}>
+										Videos
+									</li>	
+									<hr/>
+									<li style={{cursor:"pointer"}}
+										onClick={()=>this.handleChangePostOption("Blogs")}>
+										Blogs
+									</li>	
+									<hr/>
+									<li style={{cursor:"pointer"}}
+										onClick={()=>this.handleChangePostOption("RegularPosts")}>
+										Regular Posts
+									</li>		
+								</ul>
+							</div>
+							<div style={VerticalLineCSS}/>
+							<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+								<div style={{width:"90px",marginRight:"20px",marginLeft:"30px"}}>
+									<b>Filter By:</b>
+								</div>
+								<div class="btn-group">
+									<button class="btn btn-primary dropdown-toggle" type="button" 
+										data-toggle="dropdown" style={ExplorePageOptionsCSS}>
+										Symposiums
+										<ArrowDropDownCircleOutlinedIcon
+											style={{fontSize:"15",color:"7C7C7C",marginLeft:"10px"}}
+										/>
+									</button>
+									{this.selectedPostSymposiums()}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			{/*
+				<li style={{listStyle:"none",marginBottom:"2%"}}>
 					<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",fontSize:"40px"}}>
@@ -466,24 +604,10 @@ class SearchExploreContainer extends Component{
 									</ul>
 								</div>
 							</li>
-							{/*
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
-											Options
-											<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu">
-											<li><a href="javascript:;">Most Popular</a></li>
-											<li><a href="javascript:;">Newest</a></li>
-											<li><a href="javascript:;">Popular</a></li>						
-										</ul>
-									</div>
-								</li>
-							*/}
 						</ul>
 					</li>
 				</li>
+			*/}
 	}
 	triggerReloadingPostsHandle=(props)=>{
 		this.setState({
@@ -504,7 +628,7 @@ class SearchExploreContainer extends Component{
 						{searchPageInformation=>(
 							<Container>
 								<ul style={{padding:"0px",marginLeft:"10%",marginTop:"8%"}}>
-									<li style={{listStyle:"none",marginBottom:"1%"}}>
+									<li style={{listStyle:"none",marginBottom:"3%"}}>
 										<ul style={{padding:"0px"}}>
 											{this.state.displayDesktopUI==true?
 												<>{this.headerUI()}</>:
@@ -516,7 +640,6 @@ class SearchExploreContainer extends Component{
 										<p>Loading...</p>:
 										<li style={{listStyle:"none"}}>
 											<PostsContainer>
-												<ul style={{padding:"0px"}}>
 													{this.state.displayDesktopUI==false &&(
 														<React.Fragment>
 															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
@@ -572,7 +695,6 @@ class SearchExploreContainer extends Component{
 														isGuestProfileIndicator={this.state.isGuestProfileIndicator}
 														postType={this.state.postOption}
 													/>
-												</ul>
 											</PostsContainer>
 										</li>
 									}

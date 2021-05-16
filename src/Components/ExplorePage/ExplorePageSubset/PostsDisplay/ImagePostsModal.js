@@ -13,7 +13,12 @@ import {
 	ConstructSuggestedSymposium,
 	displayPersonalIndustryFeed
 } from "./ConstructSuggestedSymposium.js";
-
+import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
+import {
+		HeaderOwnerAndSymposiumInformation,
+		SmallProfilePictureAndVideoDescription
+	} from "./PostDisplayGeneralComp.js";
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 
 
@@ -38,10 +43,11 @@ const Container=styled.div`
 		top:-5%;
 		#headerImageLI{
 			width:100% !important;
-			height:260px !important;
+			height:210px !important;
 		}
 		#headerAudioLI{
-			width:200px !important;
+			display:none !important;
+
 		}
 		#smallPersonalInformation{
 			display:none !important;
@@ -59,9 +65,10 @@ const Container=styled.div`
 const HeaderContainer=styled.div`
 	display:flex;
 	flex-direction:column;
-	width:50%;
+	width:40%;
+	margin-right:5%;
+
 	@media screen and (max-width:1370px){
-		flex-wrap:wrap;
 		width:90%;
 		margin-top:5%;
 		#headerPostProfilePictureLIInformation{
@@ -78,6 +85,7 @@ const HeaderContainer=styled.div`
     }
 
 	@media screen and (max-width:650px){
+		margin-top:5%;
 		#headerImageDescription{
 			display:none !important;
 		}
@@ -89,10 +97,10 @@ const HeaderContainer=styled.div`
 		}
 
 		#videoDescriptionContainer{
-			top:25% !important;
+			top:80% !important;
 			left:0% !important;
-			width:100px !important;
-			height:40% !important;
+			width:50px !important;
+			height:20% !important;
 		}
 	}
 
@@ -108,16 +116,20 @@ const HeaderContainer=styled.div`
     	#headerPostProfilePictureLIInformation{
 			top:90% !important;
 		}
+		#headerImageLI{
+			height:300px !important;
+		}
+		margin-bottom:10%;
     }
 `;
 
 const PostsContainer=styled.div`
 	display:flex;
 	flex-direction:row; 
-	width:60%;
-	height:600px;
-	overflow:scroll;
+	width:90%;
+	height:560px;
 	flex-wrap: wrap;
+	overflow:scroll;
 
 	@media screen and (max-width:1370px){
 		width:90%;
@@ -131,6 +143,7 @@ const PostsContainer=styled.div`
 		margin-left:0% !important;
 		margin-top:2%;
 		width:100% !important;
+		margin-bottom:10% !important;
 		#smallAudioDescription{
 			display:none !important;
 		}
@@ -170,39 +183,30 @@ const HeaderDescriptionContainer=styled.div`
 	overflow:hidden;
 
 	@media screen and (max-width:650px){
-		height:90px;
+		height:70px;
+		margin-bottom:50px !important; 
 	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	display:none !important;
+    }
 `;
 
 const SmallPostContainer=styled.div`
 	margin-bottom:10%;
-	margin-top:10%;
-	width:30%;
-	height:40%;
+	width:208px;
+	height:120px;
 	cursor:pointer;
+	margin-right:5%;
 
 	@media screen and (max-width:1370px){
 		margin-right:10%;
-		margin-bottom:5%;
 		width:40%;
-		#smallVideoDescriptionContainer{
-			width:50px !important;
-			height:40% !important;
-		}
-		#smallImageContainer{
-			width:100% !important;
-			height:200px !important;
-		}
-	}
-
-	@media screen and (max-width:650px){
-		margin-right:10%;
-		width:40%;
+		height:250px;
 
 		${({isSymposiumPostUI})=>
 			isSymposiumPostUI==true?
 			`margin-bottom:80px;`:
-			`margin-bottom:30px;`
+			`margin-bottom:60px;`
 		}
 		#smallVideoDescriptionContainer{
 			width:50px !important;
@@ -210,12 +214,43 @@ const SmallPostContainer=styled.div`
 		}
 		#smallImageContainer{
 			width:100% !important;
-			height:120px !important;
+			height:220px !important;
+		}
+		#smallImageArrowDownCSS{
+			margin-left:10% !important;
+		}
+		#smallPostCaption{
+			visibility:visible !important;
 		}
 	}
 
+	@media screen and (max-width:650px){
+		height:120px;
+		#smallImageArrowDownCSS{
+			margin-left:-10% !important;
+		}
+		#smallImageContainer{
+			width:100% !important;
+			height:110px !important;
+		}
+		#videoDescriptionContainer{
+			height:30px !important;
+			width:30px !important;
+		}
+	}
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		margin-bottom:200px;
+    	#smallImageContainer{
+			height:280px !important;
+		}
+    }
+
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-    	margin-bottom:200px;
+    	#smallImageContainer{
+			height:170px !important;
+		}
     }
 `;
 
@@ -228,6 +263,15 @@ const DescriptionContainer=styled.div`
 const HeaderInformationContainer=styled.div`
 	display:flex;
 	flex-direction:column;
+`;
+
+
+const SmallPostOwnerContainer=styled.div`
+	position:absolute;
+	display:flex;
+	flex-direction:column;
+	top:5%;
+	left:75%;
 `;
 const ProfilePictureLink=styled(Link)`
 	position:relative;
@@ -253,16 +297,21 @@ const VideoDesriptionContainer=styled.div`
 const PostUserAndSymposiumInformation=styled.div`
 	display:flex;
 	flex-direction:row;
+	margin-bottom:5%;
 	@media screen and (max-width:1370px){
-		flex-direction:column;
-	}
-
-	@media screen and (max-width:600px){
+		flex-direction:row;
 		#postOwner{
 			font-size:15px !important;
 			margin-right:2% !important;
 		}
 	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    		flex-direction:row;
+		#postOwner{
+			font-size:15px !important;
+			margin-right:2% !important;
+		}
+    }
 `;
 
 const PostUserInformation=styled.div`
@@ -285,20 +334,18 @@ const SuggestedSymposiumsContainer=styled.div`
 `;
 const HeaderImageCSS={
 	position:"relative",
-	width:"90%",
-	height:"360px",
+	width:"382px",
+	height:"269px",
 	borderRadius:"5px",
 	borderRadius:"5px",
-	boxShadow:"1px 1px 10px #707070",
 	cursor:"pointer"
 }
 
 const ImageCSS={
 	position:"relative",
 	width:"100%",
-	height:"70%",
-	borderRadius:"5px",
-	backgroundColor:"green"
+	height:"180px",
+	borderRadius:"10px"
 }
 
 const ImageLabelCSS={
@@ -318,6 +365,14 @@ const ImageLabelCSS={
 	  cursor:"pointer"
 }
 
+const ProfileProfileCSS={
+	height:"40px",
+	width:"45px",
+	borderRadius:"50%",
+	borderStyle:"solid",
+	borderColor:"white",
+	borderWidth:"5px"
+}
 
 const RecruitButtonLabelCSS={
 	listStyle:"none",
@@ -340,6 +395,35 @@ const HorizontalLineCSS={
 	display:"none"
 }
 
+const PostsHorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
+
+const HeaderArrowDownCSS={
+	borderRadius:"50%",
+	display:"flex",
+	justifyContent:"center",
+	padding:"5px",
+	width:"30px",
+	marginLeft:"40%",
+	height:"25px",
+	marginTop:"2%",
+	boxShadow:"1px 1px 10px #707070"
+}
+
+const SmallImageArrowDownCSS={
+	borderRadius:"50%",
+	display:"flex",
+	justifyContent:"center",
+	backgroundColor:"#7A7A7A",
+	padding:"5px",
+	width:"30px",
+	height:"25px",
+	marginTop:"15%",
+	marginLeft:"15%"
+}
 
 const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 	const {isUserFollowing}=post;
@@ -456,6 +540,7 @@ const ImagePostsModal=(props)=>{
 	const headerImage=props.posts[0];
 	const images=props.posts.slice(1,props.posts.length);
 	console.log(props);
+	const isMobileUI=props.isMobileUI;
 
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
@@ -474,6 +559,64 @@ const ImagePostsModal=(props)=>{
 		changeRecommendedImages(images);
 		changeImageDisplay(true);
 	}
+	const smallImageComponent=(data)=>{
+		return(
+			<React.Fragment>
+			{data.owner==null?
+				<ConstructSuggestedSymposium
+					personalInformation={personalInformationRedux}
+					previousProps={props}
+					currentHeight={"30%"}
+				/>
+				:<SmallPostContainer isSymposiumPostUI={props.isSymposiumPostUI}>
+					<div id="smallImageContainer" onClick={()=>displayImageModal(data)} style={ImageCSS}>
+						<img id="image" src={data.imgUrl} style={{
+							width:"100%",height:"100%",borderRadius:"10px"
+						}}/>
+						<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
+							<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+								<SmallProfilePictureAndVideoDescription
+									postData={data}
+								/>
+							</ProfilePictureLink>
+							<div id="smallImageArrowDownCSS" style={SmallImageArrowDownCSS}>
+								<KeyboardArrowDownIcon
+									style={{color:"#FFFFFF"}}
+								/>
+							</div>
+						</div>
+					</div>
+					<p id="smallPostCaption" style={{visibility:"hidden",maxHeight:"15%",overflow:"hidden"}}>
+						<b>{data.caption}</b>
+					</p>
+				</SmallPostContainer>
+			}	
+		</React.Fragment>
+		)
+	}
+
+	const postDisplaySystem=()=>{
+		debugger;
+		const components=[];
+		let counter=0;
+
+		while(counter<images.length){
+			if(counter%3==0 && counter>0 && isMobileUI==false){
+				const horizontalLine=<hr style={PostsHorizontalLineCSS}/>;
+				components.push(horizontalLine);
+			}
+			const component=smallImageComponent(images[counter]);
+			components.push(component)
+			counter++;
+		}
+		return(
+			<React.Fragment>
+				{components.map(data=>
+					<>{data}</>
+				)}
+			</React.Fragment>
+		)
+	}
 
 	const posts=useMemo(()=>{
 		return(
@@ -481,39 +624,25 @@ const ImagePostsModal=(props)=>{
 				{props.posts.length>=1?
 					<React.Fragment>
 						<HeaderContainer>
-							<PostUserAndSymposiumInformation>
-								<PostUserInformation>
-									<ProfilePictureLink style={{marginRight:"20%"}} to={{pathname:`/profile/${headerImage.owner._id}`}}>
-										<img src={headerImage.owner.profilePicture==null?NoProfilePicture:
-											headerImage.owner.profilePicture}
-											style={{height:"50px",width:"60px",borderRadius:"50%"}}
-										/>
-									</ProfilePictureLink>
-
-									<Link to={{pathname:`/profile/${headerImage.owner._id}`}}
-										id="postOwner" style={{fontSize:"20px",maxWidth:"60%",maxHeight:"50px"}}>
-										<b>{headerImage.owner.firstName}</b>
-									</Link>
-								</PostUserInformation>
-								{headerImage.audioDescription!=null &&(
-									<audio id="headerAudioLI" style={{width:"350px",marginBottom:"2%"}} id="headerAudioLI" controls muted>
-									  	<source src={headerImage.audioDescription} type="audio/ogg"/>
-									  	<source src={headerImage.audioDescription} type="audio/mp4"/>
-										Your browser does not support the audio element.
-									</audio>
-								)}
-							</PostUserAndSymposiumInformation>
+							<HeaderOwnerAndSymposiumInformation
+								headerPost={headerImage}
+								displayPostTrigger={displayImageModal}
+							/>
 							<div id="headerImageLI" style={HeaderImageCSS}>
-								<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"
-									src={headerImage.imgUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
-								/>
-								{headerImage.videoDescription!=null &&(
-									<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-										style={{position:"absolute",top:"50%",left:"0%"}} width="200px" height="60%">
-										<source src={headerImage.videoDescription} type="video/mp4"/>
-									</video>
-								)}
-							</div>
+									<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"
+										src={headerImage.imgUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
+									/>
+									{headerImage.videoDescription!=null &&(
+										<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+											style={{position:"absolute",top:"72%",left:"0%",borderRadius:"50%",width:"90px",height:"80px",
+													backgroundColor:"#151515",
+													borderStyle:"solid",
+													borderColor:"white",
+													borderWidth:"5px"}} width="200px" height="60%">
+											<source src={headerImage.videoDescription} type="video/mp4"/>
+										</video>
+									)}
+								</div>
 							<HeaderDescriptionContainer> 
 								<p style={{fontSize:"20px"}}>
 									<b>{headerImage.caption}</b>
@@ -522,65 +651,17 @@ const ImagePostsModal=(props)=>{
 									{headerImage.description}
 								</p>
 							</HeaderDescriptionContainer>
-						</HeaderContainer>
-						<hr id="horizontalSeperator" style={HorizontalLineCSS}/>
 
+						</HeaderContainer>
+
+						<hr id="horizontalSeperator" style={HorizontalLineCSS}/>
 						<PostsContainer>
-							{images.map(data=>
-								<React.Fragment>
-									{data.owner==null?
-										<ConstructSuggestedSymposium
-											personalInformation={personalInformationRedux}
-											previousProps={props}
-										/>
-									:<SmallPostContainer isSymposiumPostUI={props.isSymposiumPostUI}>
-											
-											<div id="smallImageContainer" onClick={()=>displayImageModal(data)} style={ImageCSS}>
-												<img id="image" src={data.imgUrl} style={{width:"100%",height:"100%"}}/>
-												{data.videoDescription!=null &&(
-													<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-														style={{position:"absolute",top:"60%",left:"0%",borderRadius:"5px"}} width="80px" height="30%">
-														<source src={data.videoDescription} type="video/mp4"/>
-													</video>
-												)}
-											</div>
-											<ul style={{padding:"0px",zIndex:"8"}}>
-												{data.audioDescription!=null &&(
-													<li id="smallAudioDescription" style={{listStyle:"none"}}>
-														<audio style={{width:"150px",height:"25px"}} controls muted>
-														  	<source src={data.audioDescription} type="audio/ogg"/>
-														  	<source src={data.audioDescription} type="audio/mp4"/>
-															Your browser does not support the audio element.
-														</audio>
-													</li>
-												)}
-											</ul>
-											<p style={{maxHeight:"15%",overflow:"hidden"}}>
-												<b>{data.caption}</b>
-											</p>
-											<DescriptionContainer>
-												<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-													<img id="smallProfilePicture" src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-														 style={{height:"30px",width:"40px",borderRadius:"50%"}}
-													/>
-												</ProfilePictureLink>
-												<p onClick={()=>displayPersonalIndustryFeed(
-																	personalInformationRedux,
-																	null,
-																	data.industriesUploaded,props
-																)} style={{listStyle:"none",display:"inline-block",height:"40px",overflow:"hidden",marginLeft:"2%"}}>
-													{data.owner.firstName}
-												</p>
-											</DescriptionContainer>
-										</SmallPostContainer>
-									}	
-								</React.Fragment>
-							)}
+							{postDisplaySystem()}
 							{props.endOfPostsDBIndicator==false && (
 								<React.Fragment>
 									{props.isLoadingReloadedPosts==true?
 										<p>Loading please wait...</p>:
-										<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={{...ImageLabelCSS,marginLeft:"2%",marginTop:"30%"}}>
+										<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={{color:"#3898ec",cursor:"pointer",marginLeft:"2%"}}>
 											Next
 										</p>
 									}

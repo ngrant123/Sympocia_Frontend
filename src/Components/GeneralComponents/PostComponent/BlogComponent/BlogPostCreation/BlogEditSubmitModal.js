@@ -12,7 +12,7 @@ import {BlogConsumer} from "./BlogContext.js";
 import {PostConsumer} from "../../PostContext.js";
 import { convertToRaw } from 'draft-js';
 
-import VideoDescriptionPortal from "../../VideoDescriptionPortal.js";
+import VideoDescriptionPortal from "../../VideoDescription/VideoDescriptionPortal.js";
 import VoiceDescriptionPortal from "../../VoiceDescriptionPortal.js";
 import MicIcon from '@material-ui/icons/Mic';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
@@ -253,6 +253,9 @@ class BlogEditSubmitModal extends Component{
 				audioDescription:currentAudioDescription,
 				isPostCrowned:this.state.isPostCrowned
 			}
+			if(currentVideoDescription!=null){
+				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
+			}
 
 			const{confirmation,data}=await createBlogPost(
 											this.props.personalInformation.id,
@@ -312,7 +315,7 @@ class BlogEditSubmitModal extends Component{
 				currentBlogPost=JSON.stringify(convertToRaw(blogPostInformation.blogPostState.getCurrentContent()));
 			}
 
-			const editedImage={
+			const editedBlog={
 				postType:"Blogs",
 				postId:_id,
 				post:{
@@ -347,8 +350,13 @@ class BlogEditSubmitModal extends Component{
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 							this.props.personalInformation.accessToken
 			}
+			if(editedBlog.postS3[2].newUrl!=null){
+				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled')
+
+			}
+
 			
- 			const {confirmation,data}=await editPost(editedImage);
+ 			const {confirmation,data}=await editPost(editedBlog);
 			if(confirmation=="Failure"){
 				
 				const {statusCode}=data;

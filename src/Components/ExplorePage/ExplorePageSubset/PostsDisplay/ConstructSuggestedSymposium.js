@@ -7,23 +7,42 @@ import CompanyIndustry from "../../../../Constants/industryConstants.js";
 import {getSymposiumId} from "../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
 
 const SuggestedSymposiumsContainer=styled.div`
+	position:relative;
 	${({isBlogPost})=>
 		isBlogPost!=null?
-		`width:90%;`:`width:30%;`
+		`width:90%;`:`width:210px;`
+	}
+
+	${({currentHeight})=>
+		currentHeight!=null&&(
+			`height:${currentHeight};`
+		)
 	}
 	margin-left:2%;
 	margin-right:2%;
-	margin-top:10%;
+	margin-bottom:5%;
+
 	@media screen and (max-width:1370px){
 		width:90%;
+		${({isBlogPost})=>
+			isBlogPost!=null?
+			`margin-bottom:5%;`:`margin-bottom:15%;`
+		}
+
+		height:40%;
+
+		#suggestedSymposiumLI{
+			height:20% !important;
+		}
 	}
-	@media screen and (max-width:650px){
-		width:90%;
-	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		margin-bottom:25%;
+    }
 `;
 
 const SuggestedSymposiumsCSS={
 	width:"100%",
+	height:"30%",
 	padding:"20px",
 	fontSize:"15px",
 	color:"white",
@@ -104,7 +123,7 @@ const displayPersonalIndustryFeed=async(personalInformationRedux,selectedSymposi
 }
 
 
-const ConstructSuggestedSymposium=({personalInformation,previousProps,isBlogPost})=>{
+const ConstructSuggestedSymposium=({personalInformation,previousProps,isBlogPost,currentHeight})=>{
 		
 		const {personalInformationState}=personalInformation;
 		var symposiumContainer=new Map();
@@ -120,7 +139,7 @@ const ConstructSuggestedSymposium=({personalInformation,previousProps,isBlogPost
 			counter++;
 		}
 
-		return <SuggestedSymposiumsContainer isBlogPost={isBlogPost}>
+		return <SuggestedSymposiumsContainer isBlogPost={isBlogPost} currentHeight={currentHeight}>
 					<b> Suggested symposiums </b>
 					{selectedSymposiums.map(data=>
 						<div id="suggestedSymposiumLI" onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)}
@@ -128,6 +147,8 @@ const ConstructSuggestedSymposium=({personalInformation,previousProps,isBlogPost
 								<b>{data.industry}</b>
 						</div>
 					)}
+					{/*
+					*/}
 			   </SuggestedSymposiumsContainer>
 }
 

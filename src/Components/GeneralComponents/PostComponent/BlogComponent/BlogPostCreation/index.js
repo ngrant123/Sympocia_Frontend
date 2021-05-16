@@ -89,8 +89,9 @@ const authenticPostButtonCSS={
 class BlogPostCreation extends Component{
 	constructor(props){
 		console.log(props);
+		console.log(props.location.state.regularCommentPool);
+		console.log(props.location.state.videoCommentPool);
 		super(props);
-		console.log(props);
 		var isPersonalProfile;
 		if(this.props.location.state.profileType=="Company")
 			isPersonalProfile=false;
@@ -287,6 +288,7 @@ class BlogPostCreation extends Component{
 							postId={this.props.location.state._id}
 							postType="Blogs"
 							targetDom={"blogPostContainer"}
+							ownerId={this.props.location.state.owner}
 						/>
 					)}
 				</React.Fragment>
@@ -356,6 +358,11 @@ class BlogPostCreation extends Component{
 									postId={this.props.location.state._id}
 									triggerPromoteModal={this.triggerPromoteModal}
 									targetDom={"blogPostContainer"}
+									ownerId={this.props.location.state.owner}
+									selectedCommentPools={{
+										regularCommentPool:this.props.location.state.regularCommentPool,
+										videoCommentPool:this.props.location.state.videoCommentPool
+									}}
 								/>
 
 								<TextOptions
@@ -378,16 +385,6 @@ class BlogPostCreation extends Component{
 								/>
 								{this.editBlogSubmitModal()}
 								{this.promotePortal()}
-								{this.state.displayComments && (
-									<CommentContainer>
-										<Comments
-											postId={this.props.location.state._id}
-											postType={"Blogs"}
-											hideComments={this.hideComments}
-											targetDom={"blogPostContainer"}
-										/>
-									</CommentContainer>
-								)}
 							</>
 						}
 					</>

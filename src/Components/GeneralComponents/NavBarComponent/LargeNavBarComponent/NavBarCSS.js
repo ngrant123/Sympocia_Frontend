@@ -3,15 +3,17 @@ import {Link} from "react-router-dom";
 
 export const Container=styled.div`
 	position:fixed;
-	width:80%;
-	height:14%;
-	border-radius:0px 0px 5px 5px;
-	margin-left:10%;
+	width:100%;
+	height:10%;
+	border-bottom:1px solid #F8F8F8;
+	background-color:white;
+
+	
 	z-index:40;
 
 	@media screen and (max-width:1370px) {
-		margin-left:0%;
-		width:100%;
+		margin-left:-2%;
+		width:105%;
 		height:7%;
 		#ULContainer{
 			background-color:white !important;
@@ -20,7 +22,7 @@ export const Container=styled.div`
 			margin-left:5% !important;
 		}
 		#searchLIContainer{
-			margin-left:0% !important;
+			margin-left:-250% !important;
 			with:110% !important;
 		}
 	}
@@ -30,22 +32,29 @@ export const Container=styled.div`
 			margin-left:10% !important;
 		}
 		#searchLIContainer{
-			margin-left:65% !important;
-			width:10% !important;
+			
+			width:30px !important;
 		}
 	}
 
-	@media screen and (max-width:600px) {
+	@media screen and (max-width:650px) {
+		width:105%;
+		height:12%;
+		margin-left:-3%;
 		#mobileRoutesButton{
 			margin-left:2% !important;
 		}
 		#searchLIContainer{
-			margin-left:50% !important;
+			margin-left:-150% !important;
 		}
 	}
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		height:9%;
+    }
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		height:21%;
     	#searchLIContainer{
-    		margin-left:60% !important;
+    		margin-left:-90px !important;
     	}
     }
 `;
@@ -179,9 +188,17 @@ export const CreateButton=styled.div`
 
 export const BackgroundContainer=styled.div`
 	position:fixed;
-	width:110%;
-	height:100%;
-	left:-5%;
-	z-index:10;
+	width:130%;
+	height:1000%;
+	margin-left:-5%;
 	background-color: rgba(0,0,0,0.4);
+	border-radius:5px;
+	box-shadow: 1px 1px 10px #d5d5d5;
+	z-index:30;
 `;
+
+
+
+
+
+

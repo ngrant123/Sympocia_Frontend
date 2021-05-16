@@ -16,30 +16,55 @@ import {Link} from "react-router-dom";
 const Container=styled.div`
 	padding:10px;
 	@media screen and (max-width:1370px){
-		#commentLI{
-			height:10% !important;
+		#commentOwnerProfilePicture{
+			height:40px !important;
 		}
 	}
-	@media screen and (max-width:700px){
+	@media screen and (max-width:650px){
 		height:80% !important;
+		#commentDIVLI{
+			margin-bottom:20% !important;
+		}
 		#profilePictureLI{
 			height:120% !important;
-		}
-		#replyLIImage{
-			height:60% !important;
-			overflow:scroll;
 		}
 		#replyCommentLI{
 			margin-top:-80% !important;
 		}
-
-		#commentLI{
-			height:40px !important;
-		}
 		#replyLIImage{
-			height:20% !important;
+			height:30px !important;
+			width:30px !important;
+		}
+
+		#replyDiv{
+			margin-left:1% !important;
+			width:75% !important;
+		}
+		#replyLI{
+			margin-left:-20% !important;
 		}
     }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	#commentDIVLI{
+			margin-left:-5% !important;
+		}
+		#commentOwnerProfilePicture{
+			height:40px !important;
+		}
+		#replyLI{
+			margin-left:-15% !important;
+		}
+		#replyDiv{
+			margin-left:10% !important;
+			width:75% !important;
+		}
+
+		#replyCreateCloseOption{
+			margin-left:5% !important;
+		}
+	}
+
 `;
 
 const CommentContainerDiv=styled.div`
@@ -73,7 +98,7 @@ const InputContainer=styled.textarea`
 const ExtendedTextArea=styled.textarea`
 	position:relative;
 	width:100%;
-	height:40%;
+	height:250px;
 	background-color:white;
 	border-radius:10px;
 	border-style:solid;
@@ -84,6 +109,14 @@ const ExtendedTextArea=styled.textarea`
 
 	@media screen and (max-width:1370px){
 		height:50%;
+	}
+
+	@media screen and (max-width:650px){
+		height:200px !important;
+	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	width:90%;
+    	margin-left:5%;
 	}
 `;
 
@@ -135,19 +168,15 @@ const CommentText=styled.div`
 	margin-top:2%;
 `;
 
-
-class CommentsContainer extends Component{
-
 /*
-
-	Right now the program just initiliazes the current comment key then stores it in state
-	Then after the displayResponses is true it checks if the key matches the this state key
-	problem with this is that its continuously re rendering the prop (could be done in a better way)
 
 */
 
-	constructor(props){
+class CommentsContainer extends Component{
 
+
+	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			comments:[],
@@ -160,14 +189,38 @@ class CommentsContainer extends Component{
 			selectedReplies:[],
 			commentIndex:0,
 			isProcessingInput:false,
-			isCreatingComment:false
+			isProcessingReplyInput:false,
+			isProcessingReplyFetchRequest:false,
+			isCreatingComment:false,
+			selectedCommentPoolId:"",
+			selectedFetchRepliesIndex:0
 		}
 	}
 	async componentDidMount(){
+		await this.fetchData();
+	}
+
+	componentDidUpdate(){
+		debugger;
+		if(this.props.selectedCommentPoolId!=this.state.selectedCommentPoolId){
+			this.setState({
+				selectedCommentPoolId:this.props.selectedCommentPoolId==null?"":
+									this.props.selectedCommentPoolId
+			},async()=>{
+				await this.fetchData();
+			})
+		}
+	}
+
+	fetchData=async()=>{
 		this.setState({
 			isProcessingInput:true
 		})
-		const {confirmation,data}=await getRegularComments(this.props.postType,this.props.postId);
+		const {confirmation,data}=await getRegularComments(
+										this.props.postType,
+										this.props.postId,
+										this.state.selectedCommentPoolId
+									);
 		if(confirmation=="Success"){
 			const {message}=data;
 			this.setState({
@@ -179,40 +232,42 @@ class CommentsContainer extends Component{
 		this.setState({
 			isProcessingInput:false
 		})
-
 	}
 
 
 	replyComment=(data)=>{
+		console.log(data);
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
-							<img id="replyLIImage" 
-								src={data.ownerObject.profilePicture==null?
-									NoProfilePicture:data.ownerObject.profilePicture}
-							style={ProfilePicture}/>
-						</li>
+						<Link to={{pathname:`/profile/${data.ownerObject.owner._id}`}}>
+							<li style={{cursor:"pointer",listStyle:"none",display:"inline-block",
+								marginRight:"10px"}}>
+								<img id="replyLIImage" 
+									src={data.ownerObject.profilePicture==null?
+										NoProfilePicture:data.ownerObject.profilePicture}
+								style={ProfilePicture}/>
+							</li>
+						</Link>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
 						</li>
 					</ul>
 				</li>
 				<CommentText>
-					{data.reply}
+					{data.comment}
 				</CommentText>
 			 </ul>
 	}
-//
-	handleReplyFetch=async(commentId)=>{
-		var indexOfComment=this.state.comments.findIndex(comment=>comment._id === commentId);
+	handleReplyFetch=async(commentId,index)=>{
 		const replyObject={
 			postType:this.props.postType,
 			postId:this.props.postId,
-			commentIndex:(this.state.comments.length-1)-indexOfComment
+			commentId
 		}
 		this.setState({
-			isProcessingInput:true
+			isProcessingReplyFetchRequest:true,
+			selectedFetchRepliesIndex:index
 		})
 
 		const {confirmation,data}=await getRepliesFromComment(replyObject);
@@ -228,7 +283,7 @@ class CommentsContainer extends Component{
 			alert('Unfortunately there has been an error getting the replies. Please try again');
 		}
 		this.setState({
-			isProcessingInput:false
+			isProcessingReplyFetchRequest:false
 		})
 	}
 
@@ -248,7 +303,7 @@ class CommentsContainer extends Component{
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
 						<OwnerProfilePictureLink to={{pathname:`/profile/${data.ownerObject.owner._id}`}}>
-							<img id="commentLI" 
+							<img id="commentOwnerProfilePicture" 
 								src={data.ownerObject.profilePicture==null?
 									NoProfilePicture:data.ownerObject.profilePicture}
 							style={ProfilePicture}/>
@@ -263,21 +318,26 @@ class CommentsContainer extends Component{
 				</CommentText>
 				<li style={{listStyle:"none",marginTop:"5%"}}>
 					<ul style={{padding:"0px"}}>
-						{data.replies.length>0?
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5px"}}
-									 onClick={()=>this.handleReplyFetch(data._id)}>
+						{this.state.isProcessingReplyFetchRequest==true &&
+							index==this.state.selectedFetchRepliesIndex?
+							<p>Please wait...</p>:
+							<>
+								{data.containsReplies==true &&(
+									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5px"}}
+											 onClick={()=>this.handleReplyFetch(data._id,index)}>
 
-									<b>View replies </b>
-								</li>
-							</a>:
-							null
+											<b>View replies </b>
+										</li>
+									</a>
+								)}
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>this.triggerReply(data,index)} style={{listStyle:"none",display:"inline-block"}}>
+										Reply
+									</li>
+								</a>
+							</>
 						}
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li onClick={()=>this.triggerReply(data,index)} style={{listStyle:"none",display:"inline-block"}}>
-								Reply
-							</li>
-						</a>
 					</ul>
 				</li>
 			</ul>
@@ -285,7 +345,7 @@ class CommentsContainer extends Component{
 
 	handleCreateComment=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		this.setState({isCreatingComment:true});
-
+		debugger;
 		const comment=document.getElementById("comment").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -301,26 +361,26 @@ class CommentsContainer extends Component{
 												comment,
 												profileObject,
 												isAccessTokenUpdated==true?updatedAccessToken:
-												this.props.personalState.accessToken
+												this.props.personalState.accessToken,
+												this.props.ownerId,
+												this.state.selectedCommentPoolId
 											);
+
 			
 			if(confirmation=="Success"){
 				data=data.message;
-				var currentComments=this.state.comments;
-				const newComment={
-					comment:comment,
+				data={
+					...data,
 					ownerObject:{
+						...data.ownerObject,
 						owner:{
-							firstName:isPersonalProfileIndicator==true?this.props.personalState.firstName:
-							this.props.companyState.companyName
-						},
-						profilePicture:data.profilePicture
-					},
-					replies:[],
-					_id:data.comments.regularComments[data.comments.regularComments.length-1]._id.toString()
+							...data.ownerObject.owner,
+							firstName:this.props.personalState.firstName
+						}
+					}
 				}
-
-				currentComments.splice(0,0,newComment);
+				var currentComments=this.state.comments;
+				currentComments.splice(0,0,data);
 				this.setState({
 					comments:currentComments,
 					creationCommentExtended:false
@@ -398,7 +458,7 @@ class CommentsContainer extends Component{
 
 	handleDisplayResponses=(key)=>{
 		if(key==this.state.keyToDisplayRespones){
-			return <ul style={{borderStyle:"solid",borderWidth:"1px",borderColor:"#D8D8D8",borderRadius:"5px"}}>
+			return <ul id="replyDiv" style={{borderStyle:"solid",borderWidth:"1px",borderColor:"#D8D8D8",borderRadius:"5px"}}>
 						<li onClick={()=>this.setState({keyToDisplayRespones:null})} style={{marginRight:"80%",listStyle:"none"}}>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
@@ -425,12 +485,13 @@ class CommentsContainer extends Component{
 			return <React.Fragment>
 					</React.Fragment>
 		}
-	}
-//
+	} 
 
 
-
-	handleCreateReply=async({isAccessTokenUpdated,updatedAccessToken})=>{
+	handleCreateReply=async({isAccessTokenUpdated,updatedAccessToken,commentOwnerId})=>{
+		this.setState({
+			isProcessingReplyInput:true
+		})
 		const reply=document.getElementById("reply").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
 		const profileObject={
@@ -445,10 +506,12 @@ class CommentsContainer extends Component{
 				reply:reply,
 				profileObject:profileObject,
 				postId:this.props.postId,
-				commentIndex:(this.state.comments.length-1)-this.state.commentIndex,
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-							this.props.personalState.accessToken
+							this.props.personalState.accessToken,
+				ownerId:commentOwnerId
 			}
+
+
 			const {confirmation,data}=await createReply(replyObject);
 			if(confirmation=="Success"){
 				var currentReplies=this.state.selectedReplies;
@@ -472,6 +535,7 @@ class CommentsContainer extends Component{
 					const iterationCommentId=newComments[i]._id;
 					if(iterationCommentId==this.state.keyToDisplayReplyCreation){
 						newComments[i].replies=currentReplies;
+						newComments[i].containsReplies=true;
 						break;
 					}
 				}
@@ -490,7 +554,7 @@ class CommentsContainer extends Component{
 							this.props.personalState.id,
 							this.handleCreateReply,
 							this.props,
-							{},
+							{commentOwnerId},
 							true
 						);
 				}else{
@@ -501,22 +565,24 @@ class CommentsContainer extends Component{
 			alert('Please enter a comment');
 		}
 		this.setState({
-			isProcessingInput:false
+			isProcessingInput:false,
+			isProcessingReplyInput:false
 		})
 	}
 
-	createReplyComment=(key)=>{
+	createReplyComment=(key,commentOwnerId)=>{
 		if(key==this.state.keyToDisplayReplyCreation && this.state.displayReplyCreation==true){
 			return <ul style={{padding:"0px",backgroundColor:"white"}}>
 						<li style={{listStyle:"none"}}>
 							<ExtendedTextArea id="reply"/>
 						</li>
-						<li style={{listStyle:"none"}}>
-							{this.state.isProcessingInput==true?
+						<li id="replyCreateCloseOption" style={{listStyle:"none"}}>
+							{this.state.isProcessingReplyInput==true?
 								<p>Please wait...</p>:
 								<ul style={{padding:"0px"}}>
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li  onClick={()=>this.handleCreateReply({isAccessTokenUpdated:false})} style={ExtendedCommentAreaButton}>
+										<li  onClick={()=>this.handleCreateReply({isAccessTokenUpdated:false,commentOwnerId})} 
+											style={ExtendedCommentAreaButton}>
 											Create
 										</li>
 									</a>
@@ -545,9 +611,11 @@ class CommentsContainer extends Component{
 					<>
 						{this.createCommentUI()}
 						{this.state.comments.map((data,index)=>
-							<li style={{padding:"0px",listStyle:"none",marginBottom:"10px"}} key={data._id}>
+							<li id="commentDIVLI" 
+								 style={{padding:"0px",listStyle:"none",marginBottom:"10px"}}
+								 key={data._id}>
 								{this.commentComponent(data,index)}
-								{this.createReplyComment(data._id)}
+								{this.createReplyComment(data._id,data.ownerObject.owner._id)}
 								{this.handleDisplayResponses(data._id)}
 							</li>
 						)}

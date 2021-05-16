@@ -165,7 +165,7 @@ const PostInformationContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:100%;
-		height:20%;
+		height:90%;
 		display:flex;
 		flex-wrap:wrap;
 		margin-top:2%;
@@ -419,6 +419,7 @@ const RegularPostContainer=(props)=>{
 						postType="RegularPost"
 						targetDom={targetDom}
 						isGuestProfile={isGuestProfile}
+						ownerId={postData.owner._id==null?postData.owner:postData.owner._id}
 					/>:null
 				}
 				<Container>
@@ -428,113 +429,119 @@ const RegularPostContainer=(props)=>{
 							contextLocation={userPostsInformation}
 						/>
 						:<PostContainer>
-							<PostOwnerAndActionsContainer>
-								<ProfileOwnerContainer>
-									<img id="profilePictureDiv" src={profilePicture==null?NoProfilePicture:profilePicture}
-										style={{width:"30%",height:"45px",borderRadius:"50%",marginRight:"5%"}}
-									/>
-									<p style={{marginRight:"5%",maxWidth:"60%",maxHeight:"20px",overflow:"hidden"}}>
-										<b>{props.postData.owner.firstName}</b>
-									</p>
-								</ProfileOwnerContainer>
-								<PostActions>
-									<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
-										<LoyaltyIcon
-											style={{fontSize:20}}
+							{displayCommentsAndResponses==true?
+								<CommentsContainer
+									postId={postData._id}
+									postType={"RegularPosts"}
+									hideComments={hideComments}
+									targetDom={targetDom}
+									isGuestProfile={isGuestProfile}
+									isOwnProfile={isOwnProfile}
+									ownerId={postData.owner._id==null?postData.owner:postData.owner._id}
+									selectedCommentPools={{
+										regularCommentPool:postData.regularCommentPool,
+										videoCommentPool:postData.videoCommentPool
+									}}
+								/>:
+								<React.Fragment>
+								<PostOwnerAndActionsContainer>
+									<ProfileOwnerContainer>
+										<img id="profilePictureDiv" src={profilePicture==null?NoProfilePicture:profilePicture}
+											style={{width:"30%",height:"45px",borderRadius:"50%",marginRight:"5%"}}
 										/>
-									</li>
-									<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-										  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-										  <line x1="8" y1="9" x2="16" y2="9" />
-										  <line x1="8" y1="13" x2="14" y2="13" />
-										</svg>
-									</li>
-									<li style={ShadowButtonCSS}>
-										<AssessmentIcon
-											onClick={()=>changeDisplayPollingOptions(true)}
-											style={{fontSize:20}}
-										/>
-									</li>
-
-									{(profileType=="personalProfile" && isOwnProfile==true) &&(
-										<React.Fragment>
-											<li onClick={()=>displayEditPostHandle()} style={ShadowButtonCSS}>
-												<BorderColorIcon
-													style={{fontSize:20}}
-												/>
-											</li>
-
-											<li onClick={()=>handleRemoveRegularPost()} style={ShadowButtonCSS}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												  <line x1="4" y1="7" x2="20" y2="7" />
-												  <line x1="10" y1="11" x2="10" y2="17" />
-												  <line x1="14" y1="11" x2="14" y2="17" />
-												  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-												  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-												</svg>
-											</li>
-
-											<li onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-													  width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
-													  fill="none" stroke-linecap="round" stroke-linejoin="round">
-													  <path stroke="none" d="M0 0h24v24H0z"/>
-													  <circle cx="12" cy="9" r="6" />
-													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
-													  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
-												</svg>
-											</li>
-
-										</React.Fragment>
-									)}
-								</PostActions>
-							</PostOwnerAndActionsContainer>
-							<PostInformationContainer>
-								{displayPollingOptions==true?
-									<PollingOptionsContainer>
-										<p onClick={()=>changeDisplayPollingOptions(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
-										<p onClick={()=>displayApprovePollModalTrigger()} style={PollingOptionsCSS}>
-											Approve Post
+										<p style={{marginRight:"5%",maxWidth:"60%",maxHeight:"20px",overflow:"hidden"}}>
+											<b>{props.postData.owner.firstName}</b>
 										</p>
-
-										<p onClick={()=>displayDisapproveModalTrigger(false)} style={PollingOptionsCSS}>
-											Disapprove Post
-										</p>
-									</PollingOptionsContainer>
-									:<React.Fragment>
-										{displayStampEffect==true && (
-											<StampIconEffect id="stampEffect">
-												<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-											</StampIconEffect>
-										)}
-										{displayCommentsAndResponses==false?
-											<React.Fragment>
-												{isAudioPost==null || isAudioPost==false?
-													<p>
-														{post}
-													</p>:
-													<audio style={{width:"90%"}} controls>
-														<source src={post} type="audio/ogg"/>
-														<source src={post} type="audio/mp4"/>
-														Your browser does not support the audio element.
-													</audio>
-												}
-											</React.Fragment>:
-											<CommentsContainer
-												postId={postData._id}
-												postType={"RegularPosts"}
-												hideComments={hideComments}
-												targetDom={targetDom}
-												isGuestProfile={isGuestProfile}
+									</ProfileOwnerContainer>
+									<PostActions>
+										<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+											<LoyaltyIcon
+												style={{fontSize:20}}
 											/>
-										}
-									</React.Fragment>
-								}
+										</li>
+										<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+											  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+											  <line x1="8" y1="9" x2="16" y2="9" />
+											  <line x1="8" y1="13" x2="14" y2="13" />
+											</svg>
+										</li>
+										<li style={ShadowButtonCSS}>
+											<AssessmentIcon
+												onClick={()=>changeDisplayPollingOptions(true)}
+												style={{fontSize:20}}
+											/>
+										</li>
 
-							</PostInformationContainer>
+										{(profileType=="personalProfile" && isOwnProfile==true) &&(
+											<React.Fragment>
+												<li onClick={()=>displayEditPostHandle()} style={ShadowButtonCSS}>
+													<BorderColorIcon
+														style={{fontSize:20}}
+													/>
+												</li>
+
+												<li onClick={()=>handleRemoveRegularPost()} style={ShadowButtonCSS}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+													  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+													  <line x1="4" y1="7" x2="20" y2="7" />
+													  <line x1="10" y1="11" x2="10" y2="17" />
+													  <line x1="14" y1="11" x2="14" y2="17" />
+													  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+													  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+													</svg>
+												</li>
+
+												<li onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+														  width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
+														  fill="none" stroke-linecap="round" stroke-linejoin="round">
+														  <path stroke="none" d="M0 0h24v24H0z"/>
+														  <circle cx="12" cy="9" r="6" />
+														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+													</svg>
+												</li>
+
+											</React.Fragment>
+										)}
+									</PostActions>
+								</PostOwnerAndActionsContainer>
+								<PostInformationContainer>
+									{displayPollingOptions==true?
+										<PollingOptionsContainer>
+											<p onClick={()=>changeDisplayPollingOptions(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
+											<p onClick={()=>displayApprovePollModalTrigger()} style={PollingOptionsCSS}>
+												Approve Post
+											</p>
+
+											<p onClick={()=>displayDisapproveModalTrigger(false)} style={PollingOptionsCSS}>
+												Disapprove Post
+											</p>
+										</PollingOptionsContainer>
+										:<React.Fragment>
+											{displayStampEffect==true && (
+												<StampIconEffect id="stampEffect">
+													<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+												</StampIconEffect>
+											)}
+											{isAudioPost==null || isAudioPost==false?
+												<p>
+													{post}
+												</p>:
+												<audio style={{width:"90%"}} controls>
+													<source src={post} type="audio/ogg"/>
+													<source src={post} type="audio/mp4"/>
+													Your browser does not support the audio element.
+												</audio>
+											}
+										</React.Fragment>
+									}
+
+								</PostInformationContainer>
+								</React.Fragment>
+							}
 						</PostContainer>
 					}
 				</Container>

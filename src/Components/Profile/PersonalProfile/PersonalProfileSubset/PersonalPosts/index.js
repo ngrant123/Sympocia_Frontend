@@ -32,7 +32,10 @@ import {PhonePersonalInformationHeader} from "../../PersonalProfileSet/MobileUI.
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
-import {searchSymposiumsFilter} from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
+import {
+		searchSymposiumsFilter,
+		initializeSymposiums
+	} from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
 import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts.js";
 
 
@@ -182,7 +185,6 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
-console.log("Personal posts rerender");
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -233,7 +235,6 @@ console.log("Personal posts rerender");
 			image.style.borderBottom="solid";
 			image.style.borderColor="#C8B0F4";
 		}
-		debugger;
 		const nodes=props.personalInformation.friendsGaugeNodes;
 		const currentMapping=new Map();
 		for(var i=0;i<nodes.length;i++){
@@ -340,8 +341,6 @@ console.log("Personal posts rerender");
 												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 												personalRedux.accessToken
 											});
-			debugger;
-			console.log(data);
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
@@ -649,20 +648,9 @@ console.log("Personal posts rerender");
 		return displayedPosts;
 	}
 	const selectedPostSymposiums=()=>{
-		let displayedPosts=retrievedCurrentDisplayedPosts();
-		const postSelectedSymposiums=[];
-		const isSymposiumsContained=new Map();
-
-		for(var i=0;i<displayedPosts.length;i++){
-			const symposiums=displayedPosts[i].industriesUploaded;
-			for(var j=0;j<symposiums.length;j++){
-				const selectedSymposium=symposiums[j].industry;
-				if(isSymposiumsContained.get(selectedSymposium)==null){
-					isSymposiumsContained.set(selectedSymposium,1);
-					postSelectedSymposiums.push(selectedSymposium);
-				}
-			}
-		}
+		const postSelectedSymposiums=initializeSymposiums(
+										retrievedCurrentDisplayedPosts
+									);
 
 		return (
 			<ul class="dropdown-menu">
@@ -771,7 +759,6 @@ console.log("Personal posts rerender");
 
 	const postsDisplaySystem=()=>{
 		let posts;
-		debugger;
 		switch(currentPostType){
 			case 'image':{
 				posts=<ImagePosts
@@ -880,7 +867,6 @@ console.log("Personal posts rerender");
 								break;
 							}
 						}
-						debugger;
 						let result =editPostIndexContext(postData,propData);
 						stateCallBackFunction(result);
 						props.closeModal();
@@ -888,7 +874,6 @@ console.log("Personal posts rerender");
 					removePost:(postId,postType)=>{
 						let propData;
 						let stateCallBackFunction;
-						debugger;
 						switch(postType){
 							case 'Images':{
 								propData=imagePost;
@@ -908,8 +893,6 @@ console.log("Personal posts rerender");
 								break;
 							}
 						}
-						console.log(videoPost);
-						console.log(imagePost);
 
 						let result=removePostIndexContext(postId,propData,postType);
 						stateCallBackFunction(result);

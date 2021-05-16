@@ -10,6 +10,10 @@ import {
 	displayPersonalIndustryFeed
 } from "./ConstructSuggestedSymposium.js";
 import {Link} from "react-router-dom";
+import {
+	HeaderOwnerAndSymposiumInformation,
+	SmallProfilePictureAndVideoDescription
+} from "./PostDisplayGeneralComp.js";
 
 const Container=styled.div`
 	display:flex;
@@ -79,25 +83,27 @@ const Container=styled.div`
 			margin-top:5% !important;
 			width:80% !important;
 		}
+		#headerVideoDescriptionContainer{
+			width:50px !important;
+			height:20% !important;
+		}
 		#image{
 			width:120px !important;
 			height:90px !important;
 			margin-right:2%;
-		}
-		#videoDescriptionContainer{
-			top:25% !important;
-			left:0% !important;
-			width:100px !important;
-			height:40% !important;
 		}
 		#headerAudioLI{
 			width:200px !important;
 		}
 	}
 
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		#headerLI{
 			margin-top:25% !important;
+		}
+		#headerVideoDescriptionContainer{
+			width:55px !important;
+			height:15% !important;
 		}
     }
 `;
@@ -110,12 +116,6 @@ const HeaderBlog=styled.div`
 `;
 
 
-const BlogImageContainerCSS={
-	position:"relative",
-	width:"200px",
-	height:"160px",
-	borderRadius:"5px"
-}
 
 const VideosContainer=styled.div`
 	position:relative;
@@ -169,15 +169,15 @@ const VideoDesriptionContainer=styled.div`
 const HeaderContainer=styled.div`	
 	display:flex;
 	flex-direction:column;
-	width:50%;
+	width:40%;
 	flex-wrap:wrap;
 	cursor:pointer;
 	@media screen and (max-width:1370px){
 		width:90%;
 		margin-top:5%;
 		#headerBlogImage{
-			height:400px !important;
-			width:450px !important;
+			height:550px !important;
+			width:650px !important;
 		}
 	}
 
@@ -188,6 +188,8 @@ const HeaderContainer=styled.div`
     }
 
 	@media screen and (max-width:650px){
+		width:100%;
+		margin-bottom:-5%;
 		#headerAudioTag{
 			margin-left:0% !important;
 		}
@@ -202,18 +204,17 @@ const HeaderContainer=styled.div`
 			width:90% !important;
 		}
 	}
-
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		#headerBlogImage{
+			width:700px !important;
+		}
+    }
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
     	margin-top:45px !important;
     	#headerBlogImage{
-			height:300px !important;
-		}
-		#videoDescriptionContainer{
-			top:25% !important;
-			left:0% !important;
-			width:100px !important;
-			height:40% !important;
+    		height:400px !important;
+			width:90% !important;
 		}
     }
 `;
@@ -250,11 +251,15 @@ const HeaderBlogImageInformationContainer=styled.div`
 	flex-direction:column;
 	margin-top:2%;
 	width:100%;
+
+	@media screen and (max-width:650px){
+		margin-top:2% !important;
+	}
 `;
 const PostsContainer=styled.div`
 	display:flex;
 	flex-direction:row; 
-	width:50%;
+	width:70%;
 	height:600px;
 	margin-left:5%;
 	overflow:scroll;
@@ -279,16 +284,35 @@ const PostsContainer=styled.div`
 
 const SmallPostContainer=styled.div`
 	display:flex;
-	flex-direction:column;
-	width:100%;
+	flex-direction:row;
+	width:95%;
 	margin-top:10% !important;
 	cursor:pointer;
+	padding:10px;
+	border-radius:10px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#EFEFEF;
 
+	@media screen and (max-width:1370px){	
+		margin-bottom:5%;
+	}
 	@media screen and (max-width:650px){
+		width:100%;
 		margin-top:15% !important;
-		#smallVideoDescriptionContainer{
-			width:50px !important;
-			height:40% !important;
+		margin-bottom:5%;
+
+		#smallImageAndOwnerContainer{
+			margin-right:-30px !important;
+		}
+		#smallPostTitleAndDescription{
+			width:50%;
+		}
+		#smallPostTitle{
+			font-size:15px !important;
+		}
+		#smallPostDescription{
+
 		}
 
 		#smallImageContainer{
@@ -326,12 +350,7 @@ const SymposiumLabelCSS={
 }
 
 const NextButtonCSS={
-	borderStyle:"solid",
-	borderWidth:"2px",
-	borderColor:"#3898ec",
 	color:"#3898ec",
-	height:"70px",
-	width:"30%",
 	padding:"10px",
 	borderRadius:"5px",
 	cursor:"pointer"
@@ -339,8 +358,8 @@ const NextButtonCSS={
 
 const HeaderBlogCSS={
 	position:"relative",
-	width:"90%",
-	height:"400px",
+	width:"425px",
+	height:"276px",
 	borderRadius:"5px",
 	borderRadius:"5px",
 	boxShadow:"1px 1px 10px #707070",
@@ -349,15 +368,23 @@ const HeaderBlogCSS={
 
 const SmallBlogImageCSS={
 	position:"relative",
-	width:"240px",
-	height:"220px",
-	borderRadius:"5px"
+	width:"160px",
+	height:"123px",
+	borderRadius:"5px",
+	marginBottom:"5%"
 }
 
 const HorizontalLineCSS={
 	marginLeft:"0",
 	marginRight:"0",
 	display:"none"
+}
+
+const BlogImageContainerCSS={
+	position:"relative",
+	width:"100%",
+	height:"100%",
+	borderRadius:"5px"
 }
 
 
@@ -395,43 +422,6 @@ const BlogPostModal=(props)=>{
 		changeBlogDisplay(true);
 	}
 
-	const constructSuggestedSymposium=(personalInformation,previousProps)=>{
-		
-
-		const {personalInformationState}=personalInformation;
-		var symposiumContainer=new Map();
-		var selectedSymposiums=[];
-			var counter=0;
-			while(counter<3){   
-				if(previousProps.isPersonalProfile==true){
-					const randomNum=Math.floor(Math.random() * ((PERSONAL_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
-					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
-					if(!symposiumContainer.has(randomlySelected.industry)){
-						symposiumContainer.set(randomlySelected.industry,1);
-						selectedSymposiums.push(randomlySelected);
-					}
-				}else{
-					const randomNum=Math.floor(Math.random() * ((COMPANY_INDUSTRIES.INDUSTRIES.length-1) - 0 + 1)) + 0;
-					const randomlySelected=PERSONAL_INDUSTRIES.INDUSTRIES[randomNum];
-					if(!symposiumContainer.has(randomlySelected.industry)){
-						symposiumContainer.set(randomlySelected.industry,1);
-						selectedSymposiums.push(randomlySelected);
-					}
-				}
-				counter++;
-			}
-
-			return <ul style={{padding:"0px",position:"relative"}}>
-						{selectedSymposiums.map(data=>
-							<a href="javascript:void(0);">
-								<li onClick={()=>displayPersonalIndustryFeed(personalInformation,data,selectedSymposiums,previousProps)} style={{fontSize:"15px",color:"white",background:data.backgroundColor,padding:"20px",listStyle:"none",borderRadius:"5px",marginBottom:"5%"}}>
-									<b>{data.industry}</b>
-								</li>
-							</a>
-						)}
-				   </ul>
-	}
-
 	const detectEndOfPostContainer=(divElement)=>{
 		if(	divElement.scrollHeight - divElement.scrollTop - divElement.clientHeight < 1
 			 && props.endOfPostsDBIndicator==false && props.isLoadingReloadedPosts==false){
@@ -445,35 +435,21 @@ const BlogPostModal=(props)=>{
 				{props.posts.length>=1?
 					<React.Fragment>
 						<HeaderContainer>
-							<PostUserAndSymposiumInformation>
-								<PostUserInformation>
-									<ProfilePictureLink to={{pathname:`/profile/${headerBlog.owner._id}`}}>
-										{headerBlog.owner.profilePicture!=null?
-											<img src={headerBlog.owner.profilePicture} style={ProfileImageCSS}/>:
-											<img src={NoProfilePicture} style={ProfileImageCSS}/>
-										}
-									</ProfilePictureLink>
-
-									<Link to={{pathname:`/profile/${headerBlog.owner._id}`}}
-										id="postOwner" style={{marginLeft:"2%",fontSize:"20px",maxWidth:"60%",maxHeight:"50px"}}>
-										<b>{headerBlog.owner.firstName}</b>
-									</Link>
-								</PostUserInformation>
-								{headerBlog.audioDescription!=null &&(
-									<audio id="headerAudioLI" style={{width:"350px",marginBottom:"2%"}} id="headerAudioLI" controls>
-									  	<source src={headerBlog.audioDescription} type="audio/ogg"/>
-									  	<source src={headerBlog.audioDescription} type="audio/mp4"/>
-										Your browser does not support the audio element.
-									</audio>	
-								)}
-							</PostUserAndSymposiumInformation>
+							<HeaderOwnerAndSymposiumInformation
+								headerPost={headerBlog}
+								displayPostTrigger={handleDisplayHeaderBlog}
+							/>
 							<div id="headerBlogImage" style={HeaderBlogCSS}>
 								<img  onClick={()=>handleDisplayHeaderBlog()}  id="headerBlogLI"
 									src={headerBlog.blogImageUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
 								/>
 								{headerBlog.videoDescription!=null &&(
-									<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-										style={{position:"absolute",top:"50%",left:"0%"}} width="200px" height="60%">
+									<video id="headerVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+										style={{position:"absolute",top:"72%",left:"0%",borderRadius:"50%",width:"90px",height:"80px",
+												backgroundColor:"#151515",
+												borderStyle:"solid",
+												borderColor:"white",
+												borderWidth:"5px"}} width="200px" height="60%">
 										<source src={headerBlog.videoDescription} type="video/mp4"/>
 									</video>
 								)}
@@ -498,56 +474,43 @@ const BlogPostModal=(props)=>{
 													personalInformation={personalInformationRedux}
 													previousProps={props}
 													isBlogPost={true}
+													currentHeight={"30%"}
 												/>
 											:
-											<SmallPostContainer>
-												{data.audioDescription!=null &&(
-													<li id="smallAudioDescription" style={{listStyle:"none"}}>
-														<audio style={{width:"150px",height:"25px"}} controls muted>
-														  	<source src={data.audioDescription} type="audio/ogg"/>
-														  	<source src={data.audioDescription} type="audio/mp4"/>
-															Your browser does not support the audio element.
-														</audio>
-													</li>
-												)}
-												<div onClick={()=>displayBlogModal(data)} style={{display:"flex",flexDirection:"row",marginBottom:"1%",cursor:"pointer"}}>
+											<SmallPostContainer onClick={()=>displayBlogModal(data)}>
+												<div id="smallImageAndOwnerContainer" 
+													style={{marginRight:"3%",display:"flex",flexDirection:"column"}}>
 													<div id="smallImageContainer" style={SmallBlogImageCSS}>
 														<img id="image" src={data.blogImageUrl} style={BlogImageContainerCSS}/>
-														{data.videoDescription!=null &&(
-															<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-																style={{position:"absolute",top:"40%",left:"0%"}} width="100px" height="40%">
-																<source src={data.videoDescription} type="video/mp4"/>
-															</video>
-														)}
 													</div>
-
-													<SmallPostDescriptionContainer>
-														<li style={{fontSize:"20px",listStyle:"none",height:"60px",overflowY:"hidden",marginBottom:"2%"}}>
-															<b>
-																{data.title}
-															</b>
-														</li>
-
-														<li style={{fontSize:"13px",color:"#8c8c8c",listStyle:"none",height:"50px",overflowY:"hidden"}}>
-															{data.description}
-														</li>
-													</SmallPostDescriptionContainer>
-												</div>
-												<ul style={{padding:"0px",zIndex:"8",top:"10%"}}>
-													<li style={{listStyle:"none"}}>
-														<ul style={{padding:"0px"}}>
-															<img id="profilePicture" 
-																src={data.owner.profilePicture==null?
-																		NoProfilePicture:
-																		data.owner.profilePicture
-																	} style={ProfileImageCSS}
-															/>
+													<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+														<SmallProfilePictureAndVideoDescription
+															postData={data}
+														/>
+														<p style={{marginLeft:"2%",maxWidth:"90px",overflow:"hidden",maxHeight:"20px"}}>
+															{data.owner.firstName}
+														</p>
+													</div>
+													{/*
+														<ul style={{padding:"0px",zIndex:"8"}}>
 															<li style={{listStyle:"none",display:"inline-block",maxWidth:"90px",overflow:"hidden",maxHeight:"20px",marginLeft:"2%"}}>
 																{data.owner.firstName}
 															</li>
 														</ul>
-													</li>
-												</ul>
+													*/}
+												</div>
+												<div id="smallPostTitleAndDescription"
+												 	style={{display:"flex",flexDirection:"column"}}>
+													<p id="smallPostTitle" style={{fontSize:"20px",height:"60px",overflowY:"hidden",marginBottom:"2%"}}>
+														<b>
+															{data.title}
+														</b>
+													</p>
+
+													<p id="smallPostDescription" style={{fontSize:"13px",color:"#8c8c8c",height:"50px",overflowY:"hidden"}}>
+														{data.description}
+													</p>
+												</div>
 											</SmallPostContainer>
 
 										}	

@@ -164,30 +164,35 @@ const VideoDescriptionPortal=(props)=>{
 				onClick={()=>props.closeModal()}
 			/>
 			<Container>
-				<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
-					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-					 stroke-linecap="round" stroke-linejoin="round">
-					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-					  <circle cx="12" cy="12" r="9" />
-					  <path d="M10 10l4 4m0 -4l-4 4" />
-					</svg>
-				</div>
-				<p>We only allow .mov files as of right now unfortunately</p>
-				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
-					<ul style={{padding:"0px"}} onClick={()=>clickUploadVideoButton()}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-							<CameraIcon/>
-						</li>
+				{isMobileUI==true?
+					<p>Unfortunately this feature is only available for desktops :(</p>:
+					<React.Fragment>
+						<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+							 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+							 stroke-linecap="round" stroke-linejoin="round">
+							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							  <circle cx="12" cy="12" r="9" />
+							  <path d="M10 10l4 4m0 -4l-4 4" />
+							</svg>
+						</div>
+						<p>We only allow .mov files as of right now unfortunately</p>
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
+							<ul style={{padding:"0px"}} onClick={()=>clickUploadVideoButton()}>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+									<CameraIcon/>
+								</li>
 
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-							Upload Video
-						</li>
-					</ul>																			
-				</button>
-				<input type="file" accept="video/*" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
-					onChange={()=>handleUploadedVideoDescription()}>
-				</input>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+									Upload Video
+								</li>
+							</ul>																			
+						</button>
+						<input type="file" accept="video/*" id="uploadedVideoDescription" style={{opacity:0,zIndex:0,position:"relative",cursor:"pointer"}} 
+							onChange={()=>handleUploadedVideoDescription()}>
+						</input>
+					</React.Fragment>
+				}
 			</Container>
 		</React.Fragment>,
 		targetContainer

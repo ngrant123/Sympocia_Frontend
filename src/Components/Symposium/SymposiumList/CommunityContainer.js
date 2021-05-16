@@ -45,6 +45,7 @@ const MobileContainer=styled.div`
 
 	@media screen and (max-width:650px) {
 		#mobileProfilePicture{
+			height:40px !important;
 			width:40px !important;
 		}
 		#popularVideosLI{
@@ -60,7 +61,8 @@ const MobileContainer=styled.div`
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
     	#mobileProfilePicture{
-			height:80% !important;
+    		width:40px !important;
+			height:40px !important;
 		}
     }
 `;

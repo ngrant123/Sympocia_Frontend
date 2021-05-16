@@ -9,6 +9,12 @@ import {
 
 const Container=styled.div`
 	position:relative;
+	@media screen and (max-width:650px){
+		#uploadVideoUrl{
+			height:180px !important;
+			width:60% !important;
+		}
+	}
 `;
 
 const PostTypes=styled.div`
@@ -28,8 +34,8 @@ const InputContainer=styled.textarea`
 	margin-right:2%;
 	margin-top:5%;
 
-	@media screen and (max-width:700px){
-		width:95% !important;
+	@media screen and (max-width:1370px){
+		width:100% !important;
 	}
 `;
 
@@ -58,6 +64,7 @@ const ButtonCSS={
   borderWidth:"2px",
   borderColor:"#3898ec",
   cursor:"pointer",
+  marginTop:"10px",
   marginRight:"2%"
 }
 
@@ -137,7 +144,12 @@ const Creation=({
 			alert('Please enter a prompt');
 		}else{
 			let uploadedBeaconResult;
+			let currentSubmittedPostType=beaconResponseDesignatedPostType==null?postType:
+										beaconResponseDesignatedPostType;
 
+			if(currentSubmittedPostType=="Videos"){
+				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
+			}
 			if(beaconResponseDesignatedPostType!=null){
 				uploadedBeaconResult=await uploadReplyBeacon(userSubmittedInput);
 			}else{
@@ -147,8 +159,6 @@ const Creation=({
 			if(confirmation=="Success"){
 			let {message}=data;
 			debugger;
-			let currentSubmittedPostType=beaconResponseDesignatedPostType==null?postType:
-										beaconResponseDesignatedPostType;
 
 			if(currentSubmittedPostType=="Images" || currentSubmittedPostType=="Videos"){
 				const postUrlParameter=currentSubmittedPostType=="Images"?"imgUrl":"videoUrl"
@@ -184,7 +194,8 @@ const Creation=({
 			beaconDescription:userSubmittedValue,
 			postType,
 			ownerId,
-			symposiumId
+			symposiumId,
+			isMobile:!isDesktop
 		})
 		return createBeaconResult;
 	}
@@ -197,7 +208,8 @@ const Creation=({
 			ownerId,
 			symposiumId,
 			originalBeaconOwnerId,
-			originalBeaconPostId
+			originalBeaconPostId,
+			isMobile:!isDesktop
 		});
 		return createdBeaconReplyResult;
 	}
@@ -271,7 +283,7 @@ const Creation=({
 			case "Images":{
 				return(
 					<img src={selectedPostUrl}
-						style={{width:"280px",height:"220px",borderRadius:"5px"}}
+						style={{width:"260px",height:"200px",borderRadius:"5px"}}
 					/>
 				)
 				break;
@@ -279,6 +291,7 @@ const Creation=({
 			case "Videos":{
 				return(
 					<video id="uploadVideoUrl" key={uuidv4()} width="100%" height="40%" 
+						style={{backgroundColor:"#151515",borderRadius:"5px"}}
 						borderRadius="5px" controls autoplay>
 						<source src={selectedPostUrl} type="video/mp4"/>
 					</video>
@@ -310,18 +323,9 @@ const Creation=({
 		)
 	}
 
-	const triggerVideoUpload=()=>{
-		debugger;
-		if(isDesktop==false){
-			alert('Unfortunately you can only upload videos on a desktop/laptop. Please switch to that to continue')
-		}else{
-			changePostType("Videos")
-		}
-	}
-
 	const videoUploadType=()=>{
 		return(
-			<div onClick={()=>triggerVideoUpload()} style={ButtonCSS}>
+			<div onClick={()=>changePostType("Videos")} style={ButtonCSS}>
 				Videos
 			</div>
 		)
@@ -375,11 +379,11 @@ const Creation=({
 						{fileUploadSystem()}
 					</div>
 				</React.Fragment>:
-				<div style={{position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+				<div style={{position:"relative",display:"flex",flexDirection:"column"}}>
 					<div>
 						{postDisplayDecider()}
 					</div>
-					<div>
+					<div style={{display:"flex",flexDirection:"column"}}>
 						{promptContainer()}
 					</div>
 				</div>

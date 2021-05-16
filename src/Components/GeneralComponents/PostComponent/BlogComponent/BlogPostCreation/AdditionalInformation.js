@@ -257,6 +257,9 @@ const AdditionalInformation=(props)=>{
 								postType={"Blogs"}
 								hideComments={toggleComments}
 								targetDom={"blogPostContainer"}
+								ownerId={props.ownerId}
+								selectedCommentPools={props.selectedCommentPools}
+								isOwnProfile={props.ownerId==personalInformation.id?true:false}
 							/>
 						</CommentContainer>:
 						<React.Fragment>

@@ -7,6 +7,12 @@ import {Link} from "react-router-dom";
 import {
 	ConstructSuggestedSymposium
 } from "./ConstructSuggestedSymposium.js";
+import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import {
+	HeaderOwnerAndSymposiumInformation,
+	SmallProfilePictureAndVideoDescription
+} from "./PostDisplayGeneralComp.js";
 
 const Container=styled.div`
 	display:flex;
@@ -113,6 +119,7 @@ const HeaderContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		margin-top:30px !important;
+		margin-left:3%;
 		width:90%;
 		#headerPostProfilePictureLIInformation{
 			top:60% !important;
@@ -125,14 +132,13 @@ const HeaderContainer=styled.div`
 
 
 	@media screen and (max-width:650px){
+		margin-left:0%;
 		#headerPostProfilePictureLIInformation{
 			top:-30% !important;
 		}
 		#videoDescriptionContainer{
-			top:25% !important;
-			left:0% !important;
-			width:100px !important;
-			height:40% !important;
+			height:25% !important;
+			width:50px !important;
 		}
 	}
 
@@ -144,10 +150,12 @@ const HeaderContainer=styled.div`
 		}
 		#headerVideoLI{
 			height:400px !important;
-			width:600px !important;
+			width:500px !important;
 		}
 		#videoDescriptionContainer{
 			top:20% !important;
+			width:60px !important;
+			height:15% !important;
 		}
 		#headerVideoContainer{
 			position:relative !important;
@@ -239,10 +247,10 @@ const DescriptionContainer=styled.div`
 const PostContainer=styled.div`
 	margin-bottom:8%;
 	width:35%;
-	margin-right:8%;
-	margin-top:10%;
+	margin-right:15%;
 
 	@media screen and (max-width:1370px){
+		margin-right:8%;
 		width:90%;
 		#smallVideoDescriptionContainer{
 			margin-left:5%;
@@ -259,7 +267,37 @@ const PostContainer=styled.div`
 		}
 	}
 `;
+const PostUserAndSymposiumInformation=styled.div`
+	display:flex;
+	flex-direction:row;
+	margin-bottom:5%;
+	@media screen and (max-width:1370px){
+		flex-direction:row;
+		#postOwner{
+			font-size:15px !important;
+			margin-right:2% !important;
+		}
+	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    		flex-direction:row;
+		#postOwner{
+			font-size:15px !important;
+			margin-right:2% !important;
+		}
+    }
+`;
 
+const HeaderArrowDownCSS={
+	borderRadius:"50%",
+	display:"flex",
+	justifyContent:"center",
+	padding:"5px",
+	width:"30px",
+	marginLeft:"40%",
+	height:"25px",
+	marginTop:"2%",
+	boxShadow:"1px 1px 10px #707070"
+}
 const ImageLabelCSS={
 		listStyle:"none",
 	  display:"inline-block",
@@ -278,9 +316,6 @@ const ImageLabelCSS={
 }
 
 const NextButtonCSS={
-	borderStyle:"solid",
-	borderWidth:"2px",
-	borderColor:"#3898ec",
 	color:"#3898ec",
 	height:"70px",
 	width:"30%",
@@ -295,10 +330,38 @@ const HorizontalLineCSS={
 	display:"none"
 }
 
+const SmallImageArrowDownCSS={
+	borderRadius:"50%",
+	display:"flex",
+	justifyContent:"center",
+	backgroundColor:"#7A7A7A",
+	padding:"5px",
+	width:"30px",
+	height:"25px",
+	marginTop:"15%",
+	marginLeft:"15%"
+}
+
+const ProfileProfileCSS={
+	height:"40px",
+	width:"45px",
+	borderRadius:"50%",
+	borderStyle:"solid",
+	borderColor:"white",
+	borderWidth:"5px"
+}
+
+const PostsHorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
+
+
 const VideoPostModal=(props)=>{
 	const headerVideo=props.posts[0];
 	const videos=props.posts.slice(1,props.posts.length);
-	
+	const isMobileUI=props.isMobileUI;
 
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
@@ -324,6 +387,70 @@ const VideoPostModal=(props)=>{
 		changeVideoDisplay(true);
 	}
 
+	const smallVideoComponent=(data)=>{
+		return(
+			<React.Fragment>
+				{data.owner==null?
+					<ConstructSuggestedSymposium
+						personalInformation={personalInformationRedux}
+						previousProps={props}
+						currentHeight={"30%"}
+					/>:
+					<PostContainer>
+						<div id="video" style={{height:"185px",width:"263px",position:"relative"}}>
+							<video onClick={()=>displayVideoModal(data)} 
+								style={{borderRadius:"5px",backgroundColor:"#151515",position:"absolute",cursor:"pointer"}}
+								 position="relative" height="90%" width="100%" borderRadius="50%"
+							 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+								<source src={data.videoUrl} type="video/mp4"/>
+							</video>
+							<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
+								<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
+									<SmallProfilePictureAndVideoDescription
+										postData={data}
+									/>
+								</ProfilePictureLink>
+								<div id="smallImageArrowDownCSS" style={SmallImageArrowDownCSS}>
+									<KeyboardArrowDownIcon
+										style={{color:"#FFFFFF"}}
+									/>
+								</div>
+							</div>
+						</div>
+						<p style={{fontSize:"15px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
+							<b>
+								{data.title}
+							</b>
+						</p>
+					</PostContainer>
+				}
+			</React.Fragment>
+		)
+	}
+
+	const postDisplaySystem=()=>{
+		debugger;
+		const components=[];
+		let counter=0;
+
+		while(counter<videos.length){
+			if(counter%2==0 && counter>0 && isMobileUI==false){
+				const horizontalLine=<hr style={PostsHorizontalLineCSS}/>;
+				components.push(horizontalLine);
+			}
+			const component=smallVideoComponent(videos[counter]);
+			components.push(component)
+			counter++;
+		}
+		return(
+			<React.Fragment>
+				{components.map(data=>
+					<>{data}</>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	const posts=useMemo(()=>{
 		return(
 			<React.Fragment>
@@ -331,118 +458,54 @@ const VideoPostModal=(props)=>{
 					<p> No video posts yet </p>:
 						<React.Fragment>
 							<HeaderContainer>
-									<HeaderOwnerInformation>
-										<div id="ownerInformationDiv" style={{display:"flex",flexDirection:"row",width:"60%"}}>
-											<ProfilePictureLink to={{pathname:`/profile/${headerVideo.owner._id}`}}>
-												<img src={headerVideo.owner.profilePicture==null?NoProfilePicture:
-													headerVideo.owner.profilePicture}
-													style={{height:"40px",width:"50px",borderRadius:"50%"}}
-												/>
-											</ProfilePictureLink>
-											<Link id="headerOwnerName" to={{pathname:`/profile/${headerVideo.owner._id}`}}
-												style={{marginLeft:"2%",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginRight:"5%"}}>
-												<b>{headerVideo.owner.firstName}</b>
-											</Link>
-										</div>
-										{headerVideo.audioDescription!=null &&(
-											<audio id="headerAudio" style={{width:"200px",marginTop:"2%"}} controls>
-											  	<source src={headerVideo.audioDescription} type="audio/ogg"/>
-											  	<source src={headerVideo.audioDescription} type="audio/mp4"/>
-												Your browser does not support the audio element.
-											</audio>
-										)}
-									</HeaderOwnerInformation>
-									<div id="headerVideoLI" style={{height:"400px",width:"100%",position:"relative"}}>
-										<video id="headerVideoContainer" style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer",position:"absolute"}} height="100%" width="90%" borderRadius="50%"
-										 key={headerVideo.videoUrl} autoPlay loop autoBuffer muted playsInline onClick={()=>handleDisplayHeaderVideo()}>
-											<source src={headerVideo.videoUrl} type="video/mp4"/>
+								<HeaderOwnerAndSymposiumInformation
+									headerPost={headerVideo}
+									displayPostTrigger={handleDisplayHeaderVideo}
+								/>
+								<div id="headerVideoLI" style={{height:"264px",width:"464px",position:"relative"}}>
+									<video id="headerVideoContainer" style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer",position:"absolute"}} height="100%" width="90%" borderRadius="50%"
+									 key={headerVideo.videoUrl} autoPlay loop autoBuffer muted playsInline onClick={()=>handleDisplayHeaderVideo()}>
+										<source src={headerVideo.videoUrl} type="video/mp4"/>
+									</video>
+									{headerVideo.videoDescription!=null &&(
+										<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
+											style={{position:"absolute",top:"72%",left:"0%",borderRadius:"50%",width:"90px",height:"80px",
+													backgroundColor:"#151515",
+													borderStyle:"solid",
+													borderColor:"white",
+													borderWidth:"5px"}} width="200px" height="60%">
+											<source src={headerVideo.videoDescription} type="video/mp4"/>
 										</video>
-										{headerVideo.videoDescription!=null &&(
-											<video id="videoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-												style={{position:"absolute",top:"50px",left:"0%"}} width="200px" height="60%">
-												<source src={headerVideo.videoDescription} type="video/mp4"/>
-											</video>
-										)}
-									</div>
-
-									<HeaderDescriptionContainer>
-										<p id="headerDescriptionParagraph" style={{fontSize:"20px",maxWidth:"70%",maxHeight:"60px",overflow:"hidden"}}>
-											<b>
-												{headerVideo.title}
-											</b>
-										</p>
-										<p id="heaerCaptionParagraph" style={{width:"70%",maxHeight:"60px",overflow:"hidden"}}>
-											{headerVideo.description}
-										</p>
-									</HeaderDescriptionContainer>
-								</HeaderContainer>
-
-								<hr id="horizontalSeperator" style={HorizontalLineCSS}/>
-
-								<SmallPostContainer>
-									{videos.map(data=>
-										<React.Fragment>
-											{data.owner==null?
-												<ConstructSuggestedSymposium
-													personalInformation={personalInformationRedux}
-													previousProps={props}
-												/>:
-												<PostContainer>
-													<div id="video" style={{height:"280px",width:"250px",position:"relative"}}>
-														<video onClick={()=>displayVideoModal(data)} 
-															style={{borderRadius:"5px",backgroundColor:"#151515",position:"absolute",cursor:"pointer"}}
-															 position="relative" height="90%" width="100%" borderRadius="50%"
-														 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-															<source src={data.videoUrl} type="video/mp4"/>
-														</video>
-														{data.videoDescription!=null &&(
-															<video id="smallVideoDescriptionContainer" autoPlay loop autoBuffer muted playsInline 
-																style={{position:"absolute",top:"50%",left:"5%"}} width="100px" height="40%">
-																<source src={data.videoDescription} type="video/mp4"/>
-															</video>
-														)}
-													</div>
-													{data.audioDescription!=null &&(
-															<li id="smallAudioDescription" style={{listStyle:"none"}}>
-																<audio style={{width:"150px",height:"25px"}} controls muted>
-																  	<source src={data.audioDescription} type="audio/ogg"/>
-																  	<source src={data.audioDescription} type="audio/mp4"/>
-																	Your browser does not support the audio element.
-																</audio>
-															</li>
-														)}
-													<p style={{fontSize:"20px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
-														<b>
-															{data.title}
-														</b>
-													</p>
-													<DescriptionContainer>
-														<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-															<img src={data.owner.profilePicture==null?NoProfilePicture:data.owner.profilePicture}
-																 style={{height:"30px",width:"35px",borderRadius:"50%"}}
-															/>
-														</ProfilePictureLink>
-														<HeaderTextsContainer>
-															<p style={{fontSize:"15px",width:"100%",maxWidth:"100%",height:"60px",overflow:"hidden"}}>
-																{data.owner.firstName}
-															</p>
-														</HeaderTextsContainer>
-													</DescriptionContainer>
-												</PostContainer>
-											}
-										</React.Fragment>
 									)}
-									{props.endOfPostsDBIndicator==false && (
-										<React.Fragment>
-											{props.isLoadingReloadedPosts==true?
-												<p>Loading please wait...</p>:
-												<p onClick={()=>props.triggerReloadingPostsHandle("Videos")} style={NextButtonCSS}>
-													Next 
-												</p>
-											}
-										</React.Fragment>
-									)}
-								</SmallPostContainer>
+								</div>
+
+								<HeaderDescriptionContainer>
+									<p id="headerDescriptionParagraph" style={{fontSize:"20px",maxWidth:"70%",maxHeight:"60px",overflow:"hidden"}}>
+										<b>
+											{headerVideo.title}
+										</b>
+									</p>
+									<p id="heaerCaptionParagraph" style={{width:"70%",maxHeight:"60px",overflow:"hidden"}}>
+										{headerVideo.description}
+									</p>
+								</HeaderDescriptionContainer>
+							</HeaderContainer>
+
+							<hr id="horizontalSeperator" style={HorizontalLineCSS}/>
+
+							<SmallPostContainer>
+								{postDisplaySystem()}
+								{props.endOfPostsDBIndicator==false && (
+									<React.Fragment>
+										{props.isLoadingReloadedPosts==true?
+											<p>Loading please wait...</p>:
+											<p onClick={()=>props.triggerReloadingPostsHandle("Videos")} style={NextButtonCSS}>
+												Next 
+											</p>
+										}
+									</React.Fragment>
+								)}
+							</SmallPostContainer>
 						</React.Fragment>
 				}
 			</React.Fragment>

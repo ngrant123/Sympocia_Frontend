@@ -26,6 +26,7 @@ const QuestionCSS={
 
 class HighLightedQuestions extends Component{
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			questionData:props.questionInformation,
@@ -94,7 +95,10 @@ class HighLightedQuestions extends Component{
 				return <React.Fragment>
 							{replies.map(data=>
 								<li id="postLI" onClick={()=>this.setVideoPost(data)} style={{marginBottom:"5%",width:"30%",listStyle:"none",display:"inline-block"}}>
-									<video id="videoQuestionAnswers" key={this.uuidv4()} width="90" height="40" borderRadius="5px" muted autoplay>
+									<video id="videoQuestionAnswers"
+										style={{borderRadius:"5px",cursor:"pointer"}}
+										 position="relative" width="90" height="40"
+									 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
 										<source src={data.videoUrl} type="video/mp4"/>
 									</video>
 								</li>
@@ -218,6 +222,7 @@ class HighLightedQuestions extends Component{
 								triggerVideoPortal={this.setVideoPost}
 								triggerRegularPostPortal={this.setRegularPost}
 								addComment={this.addComment}
+								isMobile={this.props.isMobile}
 							/>:<React.Fragment></React.Fragment>
 						}
 						{this.state.displayImagePortal==true?

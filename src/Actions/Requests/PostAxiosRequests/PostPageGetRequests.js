@@ -41,13 +41,14 @@ export const getAuthenticPostComments=async(postId,postOption)=>{
 	}
 }
 
-export const getRegularComments=async(postType,postId)=>{
+export const getRegularComments=async(postType,postId,commentPoolId)=>{
 	try{
 
 		const commentsResponse=await axios.get(`${SearchUrl}/getComments`,{
 			params:{
 				postId:postId,
-				postType:postType
+				postType:postType,
+				commentPoolId
 			}
 		});
 		const {data}=commentsResponse;
@@ -57,12 +58,13 @@ export const getRegularComments=async(postType,postId)=>{
 	}
 }
 
-export const getVideoComments=async(postType,postId)=>{
+export const getVideoComments=async(postType,postId,commentPoolId)=>{
 	try{
 		const videoCommentsResponse=await axios.get(`${SearchUrl}/getVideoComments`,{
 			params:{
 				postId:postId,
-				postType:postType
+				postType:postType,
+				commentPoolId
 			}
 		});
 		const {data}=videoCommentsResponse;
@@ -72,13 +74,13 @@ export const getVideoComments=async(postType,postId)=>{
 	}
 }
 
-export const getVideoCommentsReplies=async(postId,positionIndicator,postType)=>{
+export const getVideoCommentsReplies=async(postId,postType,commentId)=>{
 	try{
 		
 		const videoCommentReplies=await axios.get(`${SearchUrl}/videoCommentReplies`,{
 			params:{
 				postId:postId,
-				positionIndicator:positionIndicator,
+				commentId,
 				postType:postType
 			}
 		});
@@ -89,13 +91,13 @@ export const getVideoCommentsReplies=async(postId,positionIndicator,postType)=>{
 		return err;
 	}
 }
-export const getRepliesFromComment=async({postType,postId,commentIndex})=>{
+export const getRepliesFromComment=async({postType,postId,commentId})=>{
 	try{
 		const replyResponse=await axios.get(`${SearchUrl}/getReplies`,{
 			params:{
 				postType:postType,
 				postId:postId,
-				commentIndex:commentIndex
+				commentId
 			}
 		});
 		const {data}=replyResponse;
@@ -253,6 +255,20 @@ export const getSpecificBeacon=async({beaconId,postType})=>{
 		})
 
 		const {data}=beaconResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+export const getPostCreationUpdateStatuses=async(profileId)=>{
+	try{
+		const postCreationUpdateStatusResponse=await axios.get(`${SearchUrl}/postCreationUpdateStatuses`,{
+			params:{
+				profileId
+			}
+		})
+		const {data}=postCreationUpdateStatusResponse;
 		return data;
 	}catch(err){
 		throw err;

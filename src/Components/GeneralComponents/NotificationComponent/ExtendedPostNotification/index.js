@@ -205,7 +205,6 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			
 			let confirmationResponse;
 			let dataResponse;
 			debugger;
@@ -304,7 +303,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 								<div style={{display:"flex",flexDirection:"row"}}>
 									<img id="regularCommentAndAuthenticationProfilePicture" src={notification.profilePicture==null?
 										NoProfilePicture:notification.profilePicture}
-										style={{width:"12%",height:"40px",borderRadius:"50%"}}/>
+										style={{width:"8%",height:"40px",borderRadius:"50%"}}/>
 									<p style={{marginLeft:"2%",maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
 										<b>{notification.firstName}</b>
 									</p>
@@ -349,7 +348,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 										</p>
 									</div>
 			   					</Link>
-								<video style={{cursor:"pointer"}} key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+								<video style={{cursor:"pointer",marginTop:"5px"}} key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
 									width="60%" height="100%" borderRadius="50%" onClick={()=>displayVideoDescriptionTrigger()}>
 									<source src={notification.videoSrc} type="video/mp4"/>
 								</video>

@@ -9,7 +9,7 @@ const Container=styled.div`
 	background-color:white;
 	width:45%;
 	border-radius:5px; 
-	z-index:35;
+	z-index:40;
 	left:30%;
 	top:20%;
 	padding:30px;
@@ -30,7 +30,7 @@ const ShadowContainer=styled.div`
 	left:-5%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
-	z-index:35;
+	z-index:40;
 	top:0px;
 `;
 

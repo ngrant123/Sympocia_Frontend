@@ -131,7 +131,7 @@ export const unStampPost=async(postId,profileType,postType,userId,accessToken)=>
 	}
 }
 
-export const addCommentToPopularQuestions=async(commentObject,accessToken)=>{
+export const addCommentToPopularQuestions=async(commentObject,accessToken,isMobile)=>{
 	try{
 		const {
 			userId,
@@ -149,7 +149,8 @@ export const addCommentToPopularQuestions=async(commentObject,accessToken)=>{
 			questionId:questionId,
 			questionType:questionType,
 			comment:comment,
-			industry:industry
+			industry:industry,
+			isMobile
 		},{
 				headers:{
 					authorization:accessToken
@@ -186,7 +187,7 @@ export const updateCrownedImage=async(_id,updatedStatus,imageId,accessToken)=>{
 	}
 }
 
-export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment,isOwnPost,accessToken})=>{
+export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment,isOwnPost,accessToken,ownerId})=>{
 	try{
 		
 		const approvePostResponse=await axios.post(`${CreateURl}/markPostAsAuthentic`,{
@@ -195,7 +196,8 @@ export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment,
 			postOption:postOption,
 			postId:postId,
 			comment:comment,
-			isOwnPost
+			isOwnPost,
+			ownerId
 		},{
 				headers:{
 					authorization:accessToken
@@ -234,15 +236,25 @@ export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment,i
 	}
 }
 
-export const createComment=async(userId,postType,postId,comment,profileObject,accessToken)=>{
+export const createComment=async(
+							userId,
+							postType,
+							postId,
+							comment,
+							profileObject,
+							accessToken,
+							ownerId,
+							commentPoolId
+							)=>{
 	try{
-		
 		const commentResponse=await axios.post(`${CreateURl}/createComment`,{
 			userId,
 			postType:postType,
 			postId:postId,
 			comment:comment,
-			profileObject:profileObject
+			profileObject:profileObject,
+			ownerId,
+			commentPoolId
 		},{
 				headers:{
 					authorization:accessToken
@@ -256,7 +268,7 @@ export const createComment=async(userId,postType,postId,comment,profileObject,ac
 }
 
 
-export const createReply=async({postType,postId,commentId,reply,profileObject,commentIndex,accessToken})=>{	
+export const createReply=async({postType,postId,commentId,reply,profileObject,accessToken,ownerId})=>{	
 	try{	
 		const commentResponse=await axios.post(`${CreateURl}/createReply`,{
 			postType:postType,
@@ -264,12 +276,12 @@ export const createReply=async({postType,postId,commentId,reply,profileObject,co
 			commentId:commentId,
 			reply:reply,
 			profileObject:profileObject,
-			commentIndex
+			ownerId
 		},{
-				headers:{
-					authorization:accessToken
-				}
-			})
+			headers:{
+				authorization:accessToken
+			}
+		})
 		const {data}=commentResponse;
 		return data;
 	}catch(err){
@@ -278,14 +290,27 @@ export const createReply=async({postType,postId,commentId,reply,profileObject,co
 }
 
 
-export const createVideoResponse=async({postType,commentId,videoSrc,currentProfile,postId,accessToken})=>{
+export const createVideoResponse=async({
+									postType,
+									commentId,
+									videoSrc,
+									currentProfile,
+									postId,
+									accessToken,
+									commentPoolId,
+									ownerId,
+									isMobile
+								})=>{
 	try{
-		
+		debugger;
 		const videoResponse=await axios.post(`${CreateURl}/createVideoResponse`,{
 			postType:postType,
 			videoSrc:videoSrc,
 			currentProfile:currentProfile,
-			postId:postId
+			postId:postId,
+			commentPoolId,
+			ownerId,
+			isMobile
 		},{
 				headers:{
 					authorization:accessToken
@@ -300,21 +325,30 @@ export const createVideoResponse=async({postType,commentId,videoSrc,currentProfi
 	}
 }
 
-export const createVideoCommentReply=async({postType,postId,commentId,reply,profileObject,commentIndex,userId,accessToken})=>{
+export const createVideoCommentReply=async({
+									postType,
+									postId,
+									commentId,
+									reply,
+									profileObject,
+									userId,
+									commentOwnerId,
+									accessToken})=>{
 	try{
+
 		const videoCommentResponse=await axios.post(`${CreateURl}/createVideoReply`,{
 			postType:postType,
 			postId:postId,
 			commentId:commentId,
 			reply:reply,
 			profileObject:profileObject,
-			commentIndex,
+			commentOwnerId,
 			userId
 		},{
-				headers:{
-					authorization:accessToken
-				}
-			})
+			headers:{
+				authorization:accessToken
+			}
+		})
 		const {data}=videoCommentResponse;
 		return data;
 
@@ -388,14 +422,18 @@ export const updateCrownedRegularPost=async(_id,updatedStatus,regularPostId,acce
 	}
 }
 
-export const editPost=async({postType,postId,post,postS3,ownerId,accessToken})=>{
+export const editPost=async({
+					postType,postId,post,
+					postS3,ownerId,accessToken,
+					isPhoneUIEnabled})=>{
 	try{
 		const editedPostResponse=await axios.post(`${CreateURl}/editPost`,{
 			postType,
 			postId,
 			post,
 			postS3,
-			ownerId
+			ownerId,
+			isPhoneUIEnabled
 		},{
 			headers:{
 				authorization:accessToken
@@ -513,7 +551,9 @@ export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer)=>{
 	}
 }
 
-export const createSpecificIndustryVideoAnswer=async({video,industryId,questionId,question,userId,accessToken})=>{
+export const createSpecificIndustryVideoAnswer=async({
+									video,industryId,questionId,
+									question,userId,accessToken,isMobile})=>{
 	try{
 		
 		const videoFeatureResponse=await axios.post(`${CreateURl}/createIndustryFeatureVideoResponse`,{
@@ -521,7 +561,8 @@ export const createSpecificIndustryVideoAnswer=async({video,industryId,questionI
 			industryId,
 			question,
 			userId,
-			questionId
+			questionId,
+			isMobile
 		},{
 				headers:{
 					authorization:accessToken
@@ -565,6 +606,7 @@ export const createBeacon=async({
 				beaconDescription,
 				postType,
 				ownerId,
+				isMobile,
 				symposiumId
 			})=>{
 	try{
@@ -573,7 +615,8 @@ export const createBeacon=async({
 			beaconDescription,
 			postType,
 			ownerId,
-			symposiumId
+			symposiumId,
+			isMobile
 		})
 		const {data}=createBeaconResponse;
 		return data;
@@ -590,6 +633,7 @@ export const createBeaconReply=async({
 				ownerId,
 				symposiumId,
 				beaconId,
+				isMobile,
 				originalBeaconOwnerId,
 				originalBeaconPostId
 			})=>{
@@ -600,6 +644,7 @@ export const createBeaconReply=async({
 			beaconDescription,
 			postType,
 			ownerId,
+			isMobile,
 			symposiumId,
 			originalBeaconOwnerId,
 			originalBeaconPostId
@@ -610,6 +655,65 @@ export const createBeaconReply=async({
 		throw err;
 	}
 }
+
+
+export const createCommentPool=async({
+	        userId,
+            postId,
+            postType,
+            commentType,
+            commentPoolDescription,
+            accessToken
+		})=>{
+	try{
+		const createdCommentPoolResponse=await axios.post(`${CreateURl}/createCommentPool`,{
+			userId,
+            postId,
+            postType,
+            commentType,
+            commentPoolDescription
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+		const {data}=createdCommentPoolResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+export const deleteCommentPool=async({
+	        userId,
+            postId,
+            postType,
+            commentPoolId,
+            commentType,
+            accessToken
+		})=>{
+	try{
+		const deletedCommentPoolResponse=await axios.post(`${CreateURl}/deleteCommentPool`,{
+	        userId,
+            postId,
+            postType,
+            commentPoolId,
+            commentType
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+		const {data}=deletedCommentPoolResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
 
 
 

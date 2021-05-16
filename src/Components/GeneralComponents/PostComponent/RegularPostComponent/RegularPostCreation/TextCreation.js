@@ -9,12 +9,17 @@ import crownIcon from '@iconify/icons-mdi/crown';
 const Container=styled.div`
 	@media screen and (max-width:700px){
 		width:120% !important;
+		margin-left:-15% !important;
 		#submitLI{
 			width:100% !important;
 		}
 	}
-	@media screen and (max-width:740px) and (max-height:420px){
-	 	width:160% !important;
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	width:160% !important;
+    	margin-left:0% !important;
+    	#submitLI{
+			width:30% !important;
+		}
     }
 `;
 
@@ -24,6 +29,7 @@ const CrownIconContainer=styled.div`
 	border-color:red;
 	animation: glowing 1300ms infinite;
 	border-radius:50%;
+	margin-bottom:5%;
 
 	@keyframes glowing {
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -37,15 +43,26 @@ const InputContainer=styled.textarea`
 	border-radius:5px;
 	width:60%;
 	height:150px;
+
 	border-style:solid;
 	border-width:1px;
-	border-color:#D8D8D8;
+	border-color:#F0F0F0;
+
 	resize:none;
 	padding:5px;
-	@media screen and (max-width:450px){
+
+	@media screen and (max-width:1370px){
 		width:90% !important;
+		height:250px;
 	}
 
+	@media screen and (max-width:650px){
+		width:105% !important;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	width:60% !important;
+    }
 `;
 
 const RegularPostBackButtonCSS={
@@ -88,22 +105,6 @@ const TextCreation=({isSubmittedAndProcessing,isPostCrowned,displayTextOrAudioSc
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none"}}>
 					<ul style={{padding:"0px"}}>
-						{previousPost==null &&(
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li style={RegularPostBackButtonCSS} onClick={()=>displayTextOrAudioScreen()}>	
-									<ul>
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<ArrowBackIosIcon
-												style={{fontSize:"20"}}
-											/>
-										</li>
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											Back
-										</li>
-									</ul>
-								</li>
-							</a>
-						)}
 
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 							<li style={{listStyle:"none",display:"inline-block"}}>

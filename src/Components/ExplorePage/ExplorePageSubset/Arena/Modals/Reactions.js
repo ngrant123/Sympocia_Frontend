@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import VideoDescriptionPortal from "../../../../GeneralComponents/PostComponent/VideoDescriptionPortal.js";
+import VideoDescriptionPortal from "../../../../GeneralComponents/PostComponent/VideoDescription/VideoDescriptionPortal.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import MicIcon from '@material-ui/icons/Mic';

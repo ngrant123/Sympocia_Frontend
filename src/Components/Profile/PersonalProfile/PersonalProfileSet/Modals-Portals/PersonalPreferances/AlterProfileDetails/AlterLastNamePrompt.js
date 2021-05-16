@@ -22,7 +22,6 @@ const AlterLastNamePrompt=({closeModal})=>{
 			alert('Last name has been changed');
 			closeModal();
 		}else{
-			debugger;
 			const {statusCode}=data;
 			if(statusCode==401){
 				await refreshTokenApiCallHandle(

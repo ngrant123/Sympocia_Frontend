@@ -72,11 +72,13 @@ const PostsContainer=styled.div`
 	margin-bottom:2%;
 	@media screen and (max-width:1370px){
 		width:90%;
+		margin-top:5%;
 	}
 
 	@media screen and (max-width:650px){
 		width:100%;
-		height:300px;
+		height:200px;
+		margin-bottom:5%;
 		#headerOwnerNameLI{
 			max-width:100% !important;
 			margin-left:20% !important;
@@ -163,9 +165,6 @@ const BorderCSS={
 }
 
 const NextButtonCSS={
-	borderStyle:"solid",
-	borderWidth:"2px",
-	borderColor:"#3898ec",
 	color:"#3898ec",
 	height:"70px",
 	width:"30%",
@@ -213,6 +212,7 @@ const RegularPostModal=(props)=>{
 						<ConstructSuggestedSymposium
 							personalInformation={personalInformationRedux}
 							previousProps={props}
+							currentHeight={"30%"}
 						/>:
 						<PostsContainer onClick={()=>displayPostModal(data)} style={BorderCSS}>
 							<PostUserInformation>

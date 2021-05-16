@@ -78,14 +78,15 @@ export const SymposiumContainer=styled.div`
 
 export const Container=styled.div`
 	position:relative;
-	background: linear-gradient(to left, #9933ff 0%, #ff99ff 100%);
 	width:100%;
-	height:42%;
+	height:44%;
 	paddding-left:5px;
 	transition: transform 300ms ease-in-out;
 	boxShadow: "1px 1px 1px 1px #d5d5d5";
 	borderRadius:5px;
 	z-index:30;
+	display:flex;
+	flex-direction:row;
 
 	@media screen and (max-width:1370px){
 		height:20%;
@@ -147,12 +148,12 @@ export const HightLightedQuestionsContainerModal=styled.div`
 	padding:20px;
 	overflow-y:scroll;
 	z-index:40;
-	box-shadow: 1px 5px 5px 1px #d5d5d5;
 	border-radius:5px;
 	background-color:white;
+
 	border-style:solid;
+	border-color:#E4E4E4;
 	border-width:1px;
-	border-color:#5298F8;
 	overflow-y:scroll;
 
 	${({isSimplified})=>
@@ -188,12 +189,17 @@ export const HightLightedQuestionsContainerModal=styled.div`
 		}
 	}
 
-	@media screen and (max-width:740px){
+	@media screen and (max-width:650px){
+		#postLI{
+			width:40% !important;
+		}
 		#videoQuestionAnswers{
 			height:30% !important;
+			width:100% !important;
 		}
 		#imageHighlightedQuestion{
-			height:50% !important;
+			height:20% !important;
+			width:90% !important;
 		}
 	}
 
@@ -214,7 +220,7 @@ export const PostsChatInformation=styled.div`
 	height:45%;
 	left:0%;
 	margin-left:5%;
-	filter:blur(1px);
+	filter:blur(2px);
 	z-index:-1;
 	transition: all 10s;
 
@@ -246,10 +252,18 @@ export const ActivePeopleContainer=styled.div`
 	left:30%;
 	top:15%;
 	padding:10px;
+	overflow:scroll;
 
 	@media screen and (max-width:640px){
 		width:90% !important;
 		left:5% !important;
+		height:65% !important;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		width:70% !important;
+		height:65% !important;
+		left:10%;
 	}
 `;
 
@@ -535,8 +549,11 @@ export const ArrowDownContainer=styled.div`
 	top:80%;
 	z-index:39;
 	cursor:pointer;
-	border-radius:5px;
-	background-color:white;
+	${({backgroundColor})=>
+		backgroundColor!=null &&(
+			`background:${backgroundColor};`
+		)
+	}
 	border-radius:50%;
 	display:flex;
 	justify-content:center;
@@ -577,7 +594,11 @@ export const BeaconButtonContainer=styled.div`
 	z-index:39;
 	cursor:pointer;
 	border-radius:5px;
-	background-color:white;
+	${({backgroundColor})=>
+		backgroundColor!=null &&(
+			`background:${backgroundColor};`
+		)
+	}
 	border-radius:50%;
 	display:flex;
 	justify-content:center;
@@ -597,11 +618,6 @@ export const BeaconButtonContainer=styled.div`
           transform: translateY(-15px);
         }
 	}
-    @keyframes glowing {
-	      0% { border-color: #F7FE2E; box-shadow: 0 0 5px #FFFF00; }
-	      50% { border-color: #FFFF00; box-shadow: 0 0 20px #FFFF00; }
-	      100% { border-color: #F7FE2E; box-shadow: 0 0 5px #FFFF00; }
-	  }
 `;
 
 export const PostContainerTEst=styled.div`
@@ -617,6 +633,7 @@ export const SympociaOptionsContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		top:10%;
+		margin-left:5% !important;
 		${({isScrollEnabled})=>
 			isScrollEnabled?
 			`
@@ -626,7 +643,10 @@ export const SympociaOptionsContainer=styled.div`
 				top:10%;
 			`
 		}
-	} 
+	}
+	@media screen and (max-width:650px){
+		margin-left:0% !important;
+	}
 `;
 
 export const SearchOptionContainer=styled.div`

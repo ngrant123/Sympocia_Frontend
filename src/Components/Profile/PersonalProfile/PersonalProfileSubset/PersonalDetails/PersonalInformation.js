@@ -339,7 +339,7 @@ const PersonalInformation=(props)=>{
 	const mobileUserInformation=(firstName,displayMobileProfileOptions)=>{
 		return(
 			<React.Fragment>
-				<div style={{display:"flex",flexDirection:"row"}}>
+				<div id="mobileUserInformation" style={{display:"flex",flexDirection:"row"}}>
 					<p style={{maxWidth:"90%",maxHeight:"30px",marginRight:"10%",overflow:"hidden",fontSize:"20px"}}>
 						<b>{firstName}</b>
 					</p>
