@@ -139,12 +139,13 @@ export const createChat=async(owner,message,participants)=>{
 
 
 
-export const addSymposium=async(profileId,symposium,subSymposium,accessToken)=>{
+export const addSymposium=async(profileId,symposium,subSymposium,accessToken,symposiumId)=>{
 	try{
 		var symposiumResponse=await axios.post(`${CreateUrl}/addSymposium`,{
 			profileId,
 			symposium,
-			subSymposium
+			subSymposium,
+			symposiumId
 		},{
 			headers:{
 				authorization:accessToken

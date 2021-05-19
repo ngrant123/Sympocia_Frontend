@@ -264,7 +264,8 @@ const HeaderContainer=(props)=>{
 			isGuestProfile,
 			headerAnimation,
 			backgroundColor,
-			displayBeacon
+			displayBeacon,
+			roomId
 		}=props;
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
@@ -360,7 +361,8 @@ const HeaderContainer=(props)=>{
 													selectedSymposiumTitle,
 													null,
 													isAccessTokenUpdated==true?updatedAccessToken:
-													personalInformation.accessToken
+													personalInformation.accessToken,
+													roomId
 												);
 				if(confirmation=="Failure"){
 					const {statusCode}=data;
