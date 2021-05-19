@@ -535,7 +535,8 @@ const HeaderContainer=(props)=>{
 											</li>
 									</ul>
 								</li>
-								<div style={{...ButtonCSS,background:backgroundColor}}>
+								<div onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})}
+									style={{...ButtonCSS,background:backgroundColor}}>
 									<b>
 										<AddCircleOutlineIcon style={{font:20}}/>
 										 	{followSymposiumButtonClick==false?
