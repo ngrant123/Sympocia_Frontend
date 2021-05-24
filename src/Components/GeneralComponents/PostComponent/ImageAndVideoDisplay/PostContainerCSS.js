@@ -57,8 +57,6 @@ export const Container=styled.div`
 
 export const Image=styled.div`
 	position:relative;
-	width:500px;
-	height:100%;
 	border-radius:20px;
 	margin-bottom:5px;
 	cursor:pointer;
@@ -210,12 +208,26 @@ export const PersonalInformation=styled.div`
     }
 `;
 
+/*
+		@media screen and (max-width:650px){
+		${({isImagePost})=>
+			isImagePost==false?
+			css`height:250px;`:
+			css`height:180px;`
+		}
+	}
+*/
 export const Post=styled.div`
 	position:relative;
 	display:flex;
 	flex-direction:row;
 	justify-content:center;
-	height:400px;
+
+	${({postWidth})=>
+		postWidth!=null?
+			`height:${postWidth};`:
+			`height:400px`
+		}
 
 	@media screen and (max-width:1370px){
 		height:600px;

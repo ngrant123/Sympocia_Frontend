@@ -1,4 +1,4 @@
- import React,{useState} from "react";
+ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {userActionsContainer} from "./OwnerInformationAndPostOption.js";
 import {
@@ -13,6 +13,7 @@ import ZoomedPostImageOrVideoPortal from "../ZoomedInPostImageOrVideo.js";
 
 const Container=styled.div`
 	display:flex;
+	margin-bottom:10%;
 	flex-direction:column;
 	@media screen and (max-width:1370px){
 		#audioOnClickDiv{
@@ -70,10 +71,39 @@ const PostDisplayContainer=(props)=>{
 		headlineText,
 		secondaryText,
 	}=props;
+	const [postWidth,changePostWidth]=useState(null);
+	const [postHeight,changePostHeight]=useState(null);
+	const [actualImagePostWidth,changeActualPostWidth]=useState(0);
+	const [actualVideoPostWidth,changeActualPostHeight]=useState(0);
 
 	const containsVideoDescriptionAndIsImage=(postData.imgUrl==null?false:true)&&(postData.videoDescription==null?false:true);
 
+	useEffect(()=>{
+		debugger;
+		let image = document.createElement("img")
+		image.setAttribute("src", postData.imgUrl)
+		const primaryValue=600;
+		const secondaryValue=500;
 
+		if(image.width<image.height){
+			changePostWidth(secondaryValue);
+			changePostHeight(primaryValue);
+
+
+			changeActualPostHeight(primaryValue*2);
+			changeActualPostWidth(secondaryValue*2);
+		}else{
+			changePostWidth(primaryValue);
+			changePostHeight(secondaryValue);
+
+			changeActualPostHeight(secondaryValue*2);
+			changeActualPostWidth(primaryValue*2);
+		}
+
+		console.log(image.width);
+		console.log(image.height);
+
+	},[]);
 	const pauseVideoUrls=()=>{
 		if(document.getElementById("videoDescription")!=null)
 			document.getElementById("videoDescription").pause();
@@ -125,6 +155,8 @@ const PostDisplayContainer=(props)=>{
 					closeModal={closeModal}
 					postUrl={postData.imgUrl==null?postData.videoUrl:postData.imgUrl}
 					postType={postData.imgUrl!=null?"Images":"Videos"}
+					imageWidth={actualImagePostWidth}
+					imageHeight={actualVideoPostWidth}
 				/>
 			)}
 			{displayVideoDescriptionDisplay==true &&(
@@ -148,7 +180,7 @@ const PostDisplayContainer=(props)=>{
 					</audio>
 				</div>
 			)}
-			<Post isImagePost={containsVideoDescriptionAndIsImage}>
+			<Post isImagePost={containsVideoDescriptionAndIsImage} postWidth={postWidth}>
 				{postData.videoDescription==null?null:
 					<VideoDesriptionContainer onClick={()=>displayVideoDescriptionContainer()}>
 						<video id="videoDescription"
@@ -176,7 +208,7 @@ const PostDisplayContainer=(props)=>{
 							<source src={postData.videoUrl} type="video/mp4"/>
 						</video>
 					</VideoDesriptionContainer>
-					:<Image onClick={()=>changeZoomedInPostDisplay(true)}>	
+					:<Image style={{height:postHeight,width:postWidth}} onClick={()=>changeZoomedInPostDisplay(true)}>	
 						<img id="image" src={postData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
 					</Image>
 				}
