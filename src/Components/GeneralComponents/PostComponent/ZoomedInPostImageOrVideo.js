@@ -3,6 +3,13 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {getVideoUrl,getImgUrl} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 
+/*
+		@media screen and (max-width:650px){
+		#postDisplay{
+			height:60% !important;
+		}
+	}
+*/
 
 const Container=styled.div`
 	position:fixed;
@@ -24,14 +31,20 @@ const Container=styled.div`
 		overflow:scroll !important;
 	}
 	@media screen and (max-width:650px){
+		height:90%;
+		width:100% !important;
+		left:0% !important;
 		#postDisplay{
-			height:60% !important;
+			${({imageWidth,imageHeight})=>
+				imageWidth<imageHeight?
+				`width:100% !important;`:
+				`
+					margin-left:-5%;
+					width:110% !important;
+					height:60% !important;
+				`
+			}
 		}
-	}
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-    	#postDisplay{
-    		height:200% !important;
-    	}
 	}
 `;
 
@@ -45,7 +58,7 @@ const ShadowContainer= styled.div`
 	left:-5%;
 `;
 
-const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType,unCompressedId})=>{
+const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType,unCompressedId,imageWidth,imageHeight})=>{
 	const [isLoadingUnCompressedPost,changeIsLoadingUnCompressedPost]=useState(false);
 	const [selectedPostUrl,changeSelectedPostUrl]=useState(postUrl);
 
@@ -73,11 +86,13 @@ const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType,unCompress
 		fetchData();
 	},[]);
 
+	//width:imageWidth,height:imageHeight
+
 	const postDisplay=()=>{
 		return(
 			<React.Fragment>
 				{postType=="Images"?
-					<img id="postDisplay" src={selectedPostUrl} style={{width:"100%",height:"100%"}}/>
+					<img id="postDisplay" src={selectedPostUrl} style={{width:imageWidth,height:imageHeight}}/>
 					:<video id="postDisplay" controls width="100%" height="100%">
 						<source  type="video/mp4" src={selectedPostUrl}/>
 						<p>This is fallback content to display for user agents that do not support the video tag.</p>
@@ -91,7 +106,7 @@ const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType,unCompress
 			<ShadowContainer
 				onClick={()=>closeModal()}
 			/>
-			<Container>
+			<Container imageWidth={imageWidth} imageHeight={imageHeight}>
 				{isLoadingUnCompressedPost==false?
 					<React.Fragment>
 						<div onClick={()=>closeModal()} style={{cursor:"pointer",marginBottom:"5%"}}>
