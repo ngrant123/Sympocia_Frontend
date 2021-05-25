@@ -180,7 +180,8 @@ const PostDisplayContainer=(props)=>{
 					</audio>
 				</div>
 			)}
-			<Post isImagePost={containsVideoDescriptionAndIsImage} postWidth={postWidth}>
+			<Post isWidthFocusedImage={postWidth>postHeight}  
+				isImagePost={containsVideoDescriptionAndIsImage} postWidth={postWidth}>
 				{postData.videoDescription==null?null:
 					<VideoDesriptionContainer onClick={()=>displayVideoDescriptionContainer()}>
 						<video id="videoDescription"
@@ -208,7 +209,8 @@ const PostDisplayContainer=(props)=>{
 							<source src={postData.videoUrl} type="video/mp4"/>
 						</video>
 					</VideoDesriptionContainer>
-					:<Image style={{height:postHeight,width:postWidth}} onClick={()=>changeZoomedInPostDisplay(true)}>	
+					:<Image
+						style={{height:postHeight,width:postWidth}} onClick={()=>changeZoomedInPostDisplay(true)}>	
 						<img id="image" src={postData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
 					</Image>
 				}

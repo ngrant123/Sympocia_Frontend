@@ -21,9 +21,9 @@ const Container=styled.div`
 	}
 	@media screen and (max-width:700px){
 		width:100% !important;
+		top:0%;
 		height:100% !important;
 		margin-right:-10% !important;
-		top:5% !important;
 		margin-left:-5% !important;
 	}
 
