@@ -251,12 +251,7 @@ export const Post=styled.div`
 	display:flex;
 	flex-direction:row;
 	justify-content:center;
-
-	${({postWidth})=>
-		postWidth!=null?
-			`height:${postWidth};`:
-			`height:400px`
-		}
+	height:100%;
 
 	@media screen and (max-width:1370px){
 		height:500px;
