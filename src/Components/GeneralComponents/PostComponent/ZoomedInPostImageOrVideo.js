@@ -31,7 +31,8 @@ const Container=styled.div`
 		overflow:scroll !important;
 	}
 	@media screen and (max-width:650px){
-		height:90%;
+		height:100%;
+		top:0%;
 		width:100% !important;
 		left:0% !important;
 		#postDisplay{

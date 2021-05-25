@@ -135,14 +135,24 @@ export const StampIconEffect=styled.div`
 `;
 export const VideoDesriptionContainer=styled.div`
 	width:50%;
-	height:100%;
+
+	${({postHeight})=>
+		postHeight!=null?
+		`height:${postHeight}px;`:
+		`height:100%;`
+	}
 	justify-content:center;
 	margin-right:2%;
 	background-color:#151515;
 	cursor:pointer;
 
+	@media screen and (max-width:1370px){
+		height:500px;
+	}
+
 	@media screen and (max-width:650px){
-		height:100%;
+		height:200px;
+		width:110%;
 	}
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
    		height:600px !important;
@@ -249,7 +259,7 @@ export const Post=styled.div`
 		}
 
 	@media screen and (max-width:1370px){
-		height:600px;
+		height:500px;
 		margin-bottom:5%;
 		#image{
 			height:100% !important;
@@ -271,15 +281,7 @@ export const Post=styled.div`
 		${({isImagePost})=>
 			isImagePost==false?
 			css`height:250px;`:
-			css`height:180px;`
-		}
-
-		${({isWidthFocusedImage})=>
-			isWidthFocusedImage!=null&&(
-				isWidthFocusedImage==true?
-				`height:200px !important;`:
-				`height:400px !important;`
-			)
+			css`height:200px;`
 		}
 	}
 
