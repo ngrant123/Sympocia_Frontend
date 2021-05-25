@@ -183,7 +183,7 @@ const PostDisplayContainer=(props)=>{
 			<Post isWidthFocusedImage={postWidth>postHeight}  
 				isImagePost={containsVideoDescriptionAndIsImage} postWidth={postWidth}>
 				{postData.videoDescription==null?null:
-					<VideoDesriptionContainer onClick={()=>displayVideoDescriptionContainer()}>
+					<VideoDesriptionContainer postHeight={postHeight} onClick={()=>displayVideoDescriptionContainer()}>
 						<video id="videoDescription"
 							width="100%" height="100%" borderRadius="50%"
 							autoPlay loop autoBuffer playsInline>
