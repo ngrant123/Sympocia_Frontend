@@ -54,6 +54,11 @@ export const Container=styled.div`
 	}
 `;
 
+/*
+    @media screen and (max-width:650px){
+    	height:200px !important;
+    }
+*/
 
 export const Image=styled.div`
 	position:relative;
@@ -65,6 +70,7 @@ export const Image=styled.div`
 		height:100% !important;
 		width:100%;
     }
+
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
    		height:600px !important;
     }
@@ -217,6 +223,19 @@ export const PersonalInformation=styled.div`
 		}
 	}
 */
+//height:350px;
+
+/*
+		${({isImagePost,isWidthFocusedImage})=>
+			isImagePost==false?
+			`
+				isWidthFocusedImage==true?
+	    		height:250px !important;:
+	    		height:300px !important;
+			`:
+			`height:180px;`
+		}
+*/
 export const Post=styled.div`
 	position:relative;
 	display:flex;
@@ -246,11 +265,21 @@ export const Post=styled.div`
 		}
 	}
 
+
+
 	@media screen and (max-width:650px){
 		${({isImagePost})=>
 			isImagePost==false?
 			css`height:250px;`:
 			css`height:180px;`
+		}
+
+		${({isWidthFocusedImage})=>
+			isWidthFocusedImage!=null&&(
+				isWidthFocusedImage==true?
+				`height:200px !important;`:
+				`height:400px !important;`
+			)
 		}
 	}
 

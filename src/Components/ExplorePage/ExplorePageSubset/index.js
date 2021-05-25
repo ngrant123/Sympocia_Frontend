@@ -54,7 +54,7 @@ const Container=styled.div`
 	@media screen and (max-width:650px){
 		margin-left:0%;
 		#mobileHeaderLI{
-  			margin-top:25% !important;
+  			margin-top:30% !important;
   		}
 		#exploreDescriptionLI{
 			display:none !important;

@@ -37,11 +37,13 @@ const Container=styled.div`
 		#postDisplay{
 			${({imageWidth,imageHeight})=>
 				imageWidth<imageHeight?
-				`width:100% !important;`:
+				`
+					width:105% !important;
+					height:500px !important;
+				`:
 				`
 					margin-left:-5%;
 					width:110% !important;
-					height:60% !important;
 				`
 			}
 		}
@@ -92,7 +94,7 @@ const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType,unCompress
 		return(
 			<React.Fragment>
 				{postType=="Images"?
-					<img id="postDisplay" src={selectedPostUrl} style={{width:imageWidth,height:imageHeight}}/>
+					<img id="postDisplay" src={selectedPostUrl} style={{width:imageWidth,imageHeight}}/>
 					:<video id="postDisplay" controls width="100%" height="100%">
 						<source  type="video/mp4" src={selectedPostUrl}/>
 						<p>This is fallback content to display for user agents that do not support the video tag.</p>
