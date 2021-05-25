@@ -71,6 +71,10 @@ export const Image=styled.div`
 		width:100%;
     }
 
+    @media screen and (max-width:650px){
+    	width:90% !important;
+    }
+
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
    		height:600px !important;
     }
