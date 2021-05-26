@@ -155,7 +155,7 @@ export const VideoDesriptionContainer=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		height:200px;
+		height:150px;
 		width:110%;
 	}
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -280,7 +280,7 @@ export const Post=styled.div`
 		${({isImagePost})=>
 			isImagePost==false?
 			css`height:250px;`:
-			css`height:200px;`
+			css`height:150px;`
 		}
 	}
 
