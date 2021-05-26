@@ -474,6 +474,12 @@ export const ImagePopupContainer=styled.div`
     	border-radius:5px !important;
     }
 
+    @media screen and (max-width:650px){
+    	margin-top:0% !important;
+    	height:100% !important;
+    	top:0% !important;
+    }
+
      @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
 		width:95% !important;
     	height:80% !important;
@@ -503,7 +509,6 @@ export const PostPopupContainer=styled.div`
     	height:85% !important;
     	border-radius:5px !important;
     }
-
      @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
 		width:95% !important;
     	height:80% !important;
