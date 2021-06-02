@@ -80,7 +80,7 @@ const SympociaNewsOptionToolBar=({changePostTypeOption,news,interviews})=>{
 		<React.Fragment>
 			<TitleContainer>
 				<p id="sympociaNewsHeader" style={{fontSize:"40px",marginRight:"5%"}}>
-					<b>Sympocia News</b>
+					<b>Sympocia Community</b>
 				</p>
 				<div class="dropdown">
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 

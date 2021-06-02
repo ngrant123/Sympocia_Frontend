@@ -33,6 +33,7 @@ import {getProfilePicture} from "../../../../Actions/Requests/ProfileAxiosReques
 import Notifications from "../../NotificationComponent/index.js";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 import {getPostCreationUpdateStatuses} from "../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {hasUserViewedCommunity} from "../../../../Actions/Requests/SympociaCommunity/SympociaCommunityRetrieval.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const glowing=keyframes`
@@ -41,11 +42,23 @@ const glowing=keyframes`
       100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
 `;
 
-const SympociaLogoContainer=styled.div`
+const SympociaLogoContainer=styled(Link)`
 	display:flex;
 	flex-direction:row;
 	align-items:center;
 	margin-left:5%;
+
+
+
+	#sympociaTitleId{
+		${({ displayNewSympociaCommunityIndicator }) =>
+	    displayNewSympociaCommunityIndicator==false &&(
+	    	css`
+			    animation: ${glowing} 1300ms infinite;
+			    color: #C8B0F4 !important;
+	    	`
+	    )}
+	}
 `;
 
 
@@ -224,7 +237,8 @@ const NavBar=(pageProps)=>{
 	const {
 			pageProps:{
 				targetDom
-			}
+			},
+			isTransparent
 		}=pageProps;
 
 	const personalProfileState=useSelector(state=>state.personalInformation);
@@ -246,6 +260,8 @@ const NavBar=(pageProps)=>{
 	const [notifications,changeNotifications]=useState();
 	const [reloadNotificationAccessToken,changeReload]=useState(false);
 	const [displayPostUploadStatus,changeDisplayUploadPostStatus]=useState(false);
+	const [displayNewSympociaCommunityIndicator,changeDisplaySympociaCommunityIndicator]=useState(false);
+
 	let {
 			refreshToken,
 			accessToken,
@@ -282,6 +298,7 @@ const NavBar=(pageProps)=>{
 				const statusCheck=statusCheckTrigger({id,isAccessTokenUpdated:false})
 				const profilePictureRetrieval=profilePictureRetrievalTrigger(id);
 				const postUpdateStatusesRetrieval=postCreationUpdateStatusesTrigger(id);
+				userViewCommunityRecentlyTrigger(id);
 			}
 			changeDisplayPersonalProfileIcon(true);
 			triggerUIChange();
@@ -315,6 +332,13 @@ const NavBar=(pageProps)=>{
 
 	window.addEventListener('resize',triggerUIChange)
 
+	const userViewCommunityRecentlyTrigger=async(id)=>{
+		const {confirmation,data}=await hasUserViewedCommunity(id);
+		if(confirmation=="Success"){
+			const {message}=data;
+			changeDisplaySympociaCommunityIndicator(message)
+		}
+	}
 	const postCreationUpdateStatusesTrigger=async(id)=>{
 		const {confirmation,data}=await getPostCreationUpdateStatuses(id);
 		if(confirmation=="Success"){
@@ -439,6 +463,8 @@ const NavBar=(pageProps)=>{
 							<li style={{cursor:"pointer",paddingLeft:"12%",marginTop:"10%"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
 								Send opinion
 							</li>
+							<hr/>
+							{SympociaCommunityPrompt()}
 						</ul>
 					</div>
 				</div>
@@ -455,6 +481,38 @@ const NavBar=(pageProps)=>{
 			</React.Fragment>
 		)
 	}
+	const SympociaCommunityPrompt=()=>{
+		let sympociaCommunityStyle={
+			cursor:"pointer",
+			paddingLeft:"15%",
+			marginTop:"15%",
+			padding:"5px"
+		}
+		let prompt;
+		if(displayNewSympociaCommunityIndicator==false){
+			sympociaCommunityStyle={
+				...sympociaCommunityStyle,
+				backgroundColor:"#C8B0F4",
+				color:"white"
+			}
+			prompt="(New) Sympocia Community"
+		}else{
+			sympociaCommunityStyle={
+				...sympociaCommunityStyle,
+				backgroundColor:"white",
+				color:"black"
+			}
+			prompt="Sympocia Community"
+		}
+		return(
+			<Link to={{pathname:`/sympociaNews`}}>
+				<p style={sympociaCommunityStyle}>
+					{prompt}
+				 </p>
+			</Link>
+		)
+	}
+
 
 	const NotificationPrompt=()=>{
 		let notificationStyle={
@@ -489,21 +547,31 @@ const NavBar=(pageProps)=>{
 	}
 
 	const desktopUI=()=>{
+		const homeIconBackgroundFill=isTransparent==true?"#212121":"white";
+		const sympociaTitleColor=isTransparent==true?"white":"#212121";
 		return(
 			<React.Fragment>
-				<SympociaLogoContainer>
+				<SympociaLogoContainer to={{pathname:`/sympociaNews`}} 
+					displayNewSympociaCommunityIndicator={displayNewSympociaCommunityIndicator}>
 					<img src={SympociaStampIcon} style={StampIconCSS}/>
-					<p style={{fontSize:"18px"}}>
+					<p style={{fontSize:"18px",color:sympociaTitleColor}}>
 						<b>Sympocia</b>
 					</p>
+					{displayNewSympociaCommunityIndicator==false &&(
+						<p id="sympociaTitleId" style={{padding:"5px",borderRadius:"5px",marginLeft:"5%",color:"#C8B0F4"}}>
+							<b>New</b>
+						</p>
+					)}
 				</SympociaLogoContainer>
 
 				<div style={{display:"flex",alignItems:"center",cursor:"pointer"}}>
 					<div class="dropdown">
 						<button class="btn btn-primary dropdown-toggle" 
-							type="button" data-toggle="dropdown" style={PersonalPreferencesDropDownCSS}>
+							type="button" data-toggle="dropdown"
+							style={{...PersonalPreferencesDropDownCSS,backgroundColor:homeIconBackgroundFill}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-smart-home"
-							 	width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C8B0F4" fill="none"
+							 	width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" 
+							 	stroke="#C8B0F4" fill="none"
 							 	stroke-linecap="round" stroke-linejoin="round">
 							  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 							 	<path d="M19 8.71l-5.333 -4.148a2.666 2.666 0 0 0 -3.274 0l-5.334 4.148a2.665 2.665 0 0 0 -1.029 2.105v7.2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-7.2c0 -.823 -.38 -1.6 -1.03 -2.105" />
@@ -615,7 +683,7 @@ const NavBar=(pageProps)=>{
 
 
 	return(
-		<Container>
+		<Container isTransparent={isTransparent}>
 			{displayNotifications==true &&(
 				<Notifications
 					targetDom={targetDom}
