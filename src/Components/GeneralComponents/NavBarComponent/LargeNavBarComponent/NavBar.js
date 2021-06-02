@@ -505,7 +505,7 @@ const NavBar=(pageProps)=>{
 			prompt="Sympocia Community"
 		}
 		return(
-			<Link to={{pathname:`/sympociaNews`}}>
+			<Link to={{pathname:`/sympociaCommunity`}}>
 				<p style={sympociaCommunityStyle}>
 					{prompt}
 				 </p>
@@ -551,7 +551,7 @@ const NavBar=(pageProps)=>{
 		const sympociaTitleColor=isTransparent==true?"white":"#212121";
 		return(
 			<React.Fragment>
-				<SympociaLogoContainer to={{pathname:`/sympociaNews`}} 
+				<SympociaLogoContainer to={{pathname:`/sympociaCommunity`}} 
 					displayNewSympociaCommunityIndicator={displayNewSympociaCommunityIndicator}>
 					<img src={SympociaStampIcon} style={StampIconCSS}/>
 					<p style={{fontSize:"18px",color:sympociaTitleColor}}>
