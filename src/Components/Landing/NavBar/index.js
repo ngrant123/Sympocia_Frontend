@@ -57,7 +57,7 @@ const NavBarIndex=({history,isMissionPage})=>{
 							<b>Our Mission</b>
 						</Link>
 						<hr/>
-						<Link to={{pathname:"/sympociaNews"}} style={{cursor:"pointer"}}>	
+						<Link to={{pathname:"/sympociaCommunity"}} style={{cursor:"pointer"}}>	
 							<b> Sympocia Community</b>
 					    </Link>
 					</ChoicesContainer>
