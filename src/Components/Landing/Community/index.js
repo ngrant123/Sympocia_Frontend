@@ -7,9 +7,18 @@ import SympociaNewsOptions from "./SympociaNewsOptionsToolBar.js";
 import NavBar from "../NavBar/index.js";
 import SympociaNewsAnnouncement from "./News/SympociaNewsAnnouncement.js";
 import BeaconsAnnouncement from "./News/BeaconSympociaAnnouncement.js";
+
+import AiyanahBuildABrand from "./News/AiyanahBuildingBrand.js";
+import AiyanahTipsOnBecomingBetterPoet from "./News/AiyanahTipsOnBecomingBetterPoet.js";
+import AiyanahFullInterview from "./News/AiyanahFullInterview.js";
+import AiyanahFullInterviewImage from "../../../designs/background/AiyanahFullInterview.png";
+
 import SympociaAnnouncementImage from "../../../designs/background/ThirdSectionBackground.png";
 import BeaconsHeaderImage from "../../../designs/background/Beacons.png";
-
+import AiyanahHeaderImage from "../../../designs/background/Aiyanah.png";
+import AiyanahTipsOnBrand from "../../../designs/background/AiyanahTipsOnBrand.png";
+import {addUserToCommunityViewedList} from "../../../Actions/Requests/SympociaCommunity/SympociaCommunityAdapter.js";
+import {useSelector} from "react-redux";
 
 
 const Container=styled.div`
@@ -65,6 +74,24 @@ const CommunityContainer=(props)=>{
 	const [displayNews,changeDisplayNews]=useState(true);
 	const [newsMapping,changeNewsMapping]=useState([
 		{
+			title:"Tips for growing your brand as a professional poet",
+			description:"Aiyanah Rose talks about building a brand as a poet.",
+			component:<AiyanahBuildABrand/>,
+			headerImage:AiyanahTipsOnBrand
+		},
+		{
+			title:"Tips for writing better poetry for anyone starting out",
+			description:"Here Aiyanah Rose breaks down tips to becoming a better poet.",
+			component:<AiyanahTipsOnBecomingBetterPoet/>,
+			headerImage:AiyanahHeaderImage
+		},
+		{
+			title:"Aiyanah Full Interview",
+			description:"Aiyanah Rose breaks down the essentials for becoming a better poet",
+			component:<AiyanahFullInterview/>,
+			headerImage:AiyanahFullInterviewImage
+		},
+		{
 			title:"Beacons Announcement and Current Sprint Planning",
 			description:"Hope you guys like the new beacons feature. Also what to talk about the current sprint planning",
 			component:<BeaconsAnnouncement/>,
@@ -77,6 +104,11 @@ const CommunityContainer=(props)=>{
 			headerImage:SympociaAnnouncementImage
 		}
 	])
+	const ownerId=useSelector(state=>state.personalInformation.id);
+
+	useEffect(()=>{
+		addUserToCommunityViewedList(ownerId);
+	},[]);
 
 	const changePostTypeOption=(indicator)=>{
 		changeDisplayNews(indicator)
