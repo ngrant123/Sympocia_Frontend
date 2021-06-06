@@ -449,6 +449,7 @@ class HomePageContainer extends Component{
 							<GuestOnboarding
 								targetDom="homePageContainer"
 								closeModal={this.closeOnboardingModal}
+								routerHistory={this.props.history}
 							/>
 						)}
 

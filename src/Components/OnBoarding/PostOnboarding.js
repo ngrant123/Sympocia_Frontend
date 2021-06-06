@@ -105,7 +105,9 @@ const PostOnboarding=({closeModal})=>{
 							<img src={CommentsButton} style={{width:"80px",height:"70px"}}/>
 							<p id="text" style={{width:"40%",marginLeft:"10%"}}>
 								Hard to believe but this is the comments button. Crazy right?
-								But here you can upload also video comments. Just click on the button and get started
+								Just click on the button and get started.
+								We also created something called comment pools which are basically commection sections that 
+								the creator of the post made. 
 							</p>
 						</div>
 

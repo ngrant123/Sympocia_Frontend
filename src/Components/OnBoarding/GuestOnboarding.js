@@ -48,7 +48,7 @@ const ButtonCSS={
   cursor:"pointer"
 }
 
-const GuestOnBoarding=({targetDom,closeModal})=>{
+const GuestOnBoarding=({targetDom,closeModal,routerHistory})=>{
 	const dispatch=useDispatch();
 
 	const uuidv4=()=>{
@@ -74,14 +74,29 @@ const GuestOnBoarding=({targetDom,closeModal})=>{
 				</p>
 				<hr/>
 				<p>
-				 	We've noticed that you're currently not signed up to our platform. Thats okay we don't mind just go at
-					your own pace but unfortunately you're signed in as a guest. Thats means you can't go anything like comment, post,
-					and all the other good stuff :( But feel free to explore and everything
+					When you make a profile we give a bigger onboarding but since you're a guest we'll give you short one.
+					<br/>
+					<br/>
+					Right now you're on the explore page where you can check out new things that goes on and if you look to your left 
+					you'll see a section called symposiums. Symposiums are dedicated sections of our platform focused on a subject.
+					Like I said before you're a guest so you wont be able to participate but you can still look around :)
 				</p>
-
-				<p onClick={()=>handleCloseModal()} style={ButtonCSS}>
-					Close
+				<br/>
+				<br/>
+				<p>
+					We know the guest experience is boring so whenever you want to sign up hit the me button (desktop) or the house symbol(mobile)
+					and click sign up. Or just do it rigt now :)
 				</p>
+				<div style={{display:"flex",flexDirection:"row"}}>
+					<p onClick={()=>routerHistory.push({
+						pathname:'/signup'
+					})} style={ButtonCSS}>
+						Sign Up
+					</p>
+					<p onClick={()=>handleCloseModal()} style={ButtonCSS}>
+						Close
+					</p>
+				</div>
 			</Container>
 		</>
 	,document.getElementById(targetDom))

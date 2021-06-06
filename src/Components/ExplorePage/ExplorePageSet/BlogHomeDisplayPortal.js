@@ -564,7 +564,8 @@ const BlogHomeDisplayPortal=(props)=>{
 													{postData.selectedBlog.videoDescription!=null &&(
 														<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
 															<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
-																<video autoPlay loop autoBuffer muted playsInline 
+																<video autoPlay loop autoBuffer muted playsInline
+																	style={{borderRadius:"5px",overflow:"hidden"}} 
 																	width="100%" height="100%" borderRadius="50%">
 																	<source src={postData.selectedBlog.videoDescription} type="video/mp4"/>
 																</video>
