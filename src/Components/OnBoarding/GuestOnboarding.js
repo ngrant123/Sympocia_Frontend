@@ -85,7 +85,7 @@ const GuestOnBoarding=({targetDom,closeModal,routerHistory})=>{
 				<br/>
 				<p>
 					We know the guest experience is boring so whenever you want to sign up hit the me button (desktop) or the house symbol(mobile)
-					and click sign up. Or just do it rigt now :)
+					and click sign up. Or just do it right now :)
 				</p>
 				<div style={{display:"flex",flexDirection:"row"}}>
 					<p onClick={()=>routerHistory.push({

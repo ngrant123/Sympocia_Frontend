@@ -208,8 +208,8 @@ const LoginUI=({closeModal,history,displayMobileLoginTrigger})=>{
       />
       <Container>
         <div>
-          <LoginBox id="LoginEmail" placeholder="Email"/>
-          <LoginBox id="LoginPassword" placeholder="Password"/>
+          <LoginBox autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="LoginEmail" placeholder="Email"/>
+          <LoginBox autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="LoginPassword" placeholder="Password"/>
           <Submit onClick ={() =>  handleLoginClick(  
                                     document.getElementById("LoginEmail").value,
                                     document.getElementById("LoginPassword").value,

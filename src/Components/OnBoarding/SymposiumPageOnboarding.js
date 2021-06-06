@@ -213,8 +213,8 @@ const SymposiumPageOnboarding=({closeModal})=>{
 							<b>Beacons:</b>
 						</p>
 						<p style={{marginBottom:"5%",fontSize:"15px"}}> 
-							Have you ever wished there a way for you to request a specific type of post? 
-							For example lets say you're working a math problem and you want a specific video to help you or maybe an 
+							Have you ever wished there was a way for you to request a specific type of post? 
+							For example lets say you're working out a math problem and you want a specific video to help you or maybe an 
 							image?
 							<br/>
 							<br/>
