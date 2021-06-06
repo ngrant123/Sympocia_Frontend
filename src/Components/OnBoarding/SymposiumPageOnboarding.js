@@ -5,6 +5,7 @@ import {createPortal} from "react-dom";
 import SymposiumFeatures from "../../designs/img/SymposiumFeatures.png";
 import SymposiumPostOptions from "../../designs/img/SymposiumPostOptions.png";
 import SymposiumHighlightedQuestions from "../../designs/img/SymposiumHighlightedQuestions.png";
+import Beacons from "../../designs/img/Beacons.png";
 
 import {completeOnboardingSymposiumPage} from "../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {useSelector} from "react-redux";
@@ -24,15 +25,24 @@ const Container=styled.div`
 		width:90% !important;
 		left:5% !important;
 		height:70% !important;
+		 #beaconsImage{
+    		width:40% !important;
+    	}
+
 		#closeOptionIconLI{
 			display:none !important;
 		}
     }
 
-    @media screen and (max-width:700px){
+    @media screen and (max-width:650px){
     	#firstOnboardingImage{
     		height:70% !important;
     		width:90% !important;
+    		margin-left:0% !important;
+    	}
+    	#beaconsImage{
+    		height:20% !important;
+    		width:60% !important;
     		margin-left:0% !important;
     	}
     }
@@ -46,6 +56,12 @@ const Container=styled.div`
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
       #firstOnboardingImage{
     		height:120% !important;
+    	}
+
+    	#beaconsImage{
+    		height:50% !important;
+    		width:40% !important;
+    		margin-left:0% !important;
     	}
     }
 `;
@@ -78,12 +94,14 @@ const SymposiumPageOnboarding=({closeModal})=>{
 	const [displaySecondPage,changeSecondDisplayPage]=useState(false);
 	const [displayThirdPage,changesThirdDisplayPage]=useState(false);
 	const [displayFourthPage,changeFourthDisplayPage]=useState(false);
+	const [displayFifthPage,changeFifthDisplayPage]=useState(false);
 
 	const displayFirstPageHandle=()=>{
 		changeFirstDisplayPage(true);
 		changeSecondDisplayPage(false);
 		changesThirdDisplayPage(false);
 		changeFourthDisplayPage(false);
+		changeFifthDisplayPage(false);
 	}
 
 	const displaySecondPageHandle=()=>{
@@ -91,6 +109,7 @@ const SymposiumPageOnboarding=({closeModal})=>{
 		changeSecondDisplayPage(true);
 		changesThirdDisplayPage(false);
 		changeFourthDisplayPage(false);
+		changeFifthDisplayPage(false);
 	}
 
 	const displayThirdPageHandle=()=>{
@@ -98,6 +117,7 @@ const SymposiumPageOnboarding=({closeModal})=>{
 		changeSecondDisplayPage(false);
 		changesThirdDisplayPage(true);
 		changeFourthDisplayPage(false);
+		changeFifthDisplayPage(false);
 	}
 
 	const displayFourthPageHandle=()=>{
@@ -105,6 +125,15 @@ const SymposiumPageOnboarding=({closeModal})=>{
 		changeSecondDisplayPage(false);
 		changesThirdDisplayPage(false);
 		changeFourthDisplayPage(true);
+		changeFifthDisplayPage(false);
+	}
+
+	const displayFifthPageHandle=()=>{
+		changeFirstDisplayPage(false);
+		changeSecondDisplayPage(false);
+		changesThirdDisplayPage(false);
+		changeFourthDisplayPage(false);
+		changeFifthDisplayPage(true);
 	}
 
 	const onBoardingCloseModal=async()=>{
@@ -160,7 +189,7 @@ const SymposiumPageOnboarding=({closeModal})=>{
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
-									Step 1 of 4
+									Step 1 of 5
 								</li>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 									<li onClick={()=>onBoardingCloseModal()} style={ButtonCSS}>
@@ -168,8 +197,8 @@ const SymposiumPageOnboarding=({closeModal})=>{
 									</li>
 								</a>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>displaySecondPageHandle
-										()} style={ButtonCSS}>
+									<li onClick={()=>displaySecondPageHandle()} 
+										style={ButtonCSS}>
 										Next
 									</li>
 								</a>
@@ -179,6 +208,45 @@ const SymposiumPageOnboarding=({closeModal})=>{
 				)}
 
 				{displaySecondPage && (
+					<ul style={{padding:"30px"}}>
+						<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
+							<b>Beacons:</b>
+						</p>
+						<p style={{marginBottom:"5%",fontSize:"15px"}}> 
+							Have you ever wished there was a way for you to request a specific type of post? 
+							For example lets say you're working out a math problem and you want a specific video to help you or maybe an 
+							image?
+							<br/>
+							<br/>
+							Thats why we introduced beacons and thats what they accomplish. Simply upload a post explaining
+							what you want and people will respond back in that specific post type.
+						</p>
+						<img id="beaconsImage" 
+							src={Beacons} style={{width:"20%",height:"20%",marginLeft:"15%"}}
+						/>
+						<hr/>
+						<li style={{listStyle:"none"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
+									Step 2 of 5
+								</li>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>displayFirstPageHandle()} style={ButtonCSS}>
+										Previous
+									</li>
+								</a>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>displayThirdPageHandle()} style={ButtonCSS}>
+										Next
+									</li>
+								</a>
+							</ul>
+						</li>
+					</ul>
+				)}
+
+
+				{displayThirdPage && (
 					<ul style={{padding:"30px"}}>
 						<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
 							<b>Symposium Specific Features:</b>
@@ -195,16 +263,15 @@ const SymposiumPageOnboarding=({closeModal})=>{
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
-									Step 2 of 4
+									Step 3 of 5
 								</li>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>displayFirstPageHandle()} style={ButtonCSS}>
+									<li onClick={()=>displaySecondPageHandle()} style={ButtonCSS}>
 										Previous
 									</li>
 								</a>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>displayThirdPageHandle
-										()} style={ButtonCSS}>
+									<li onClick={()=>displayFourthPageHandle()} style={ButtonCSS}>
 										Next
 									</li>
 								</a>
@@ -213,7 +280,7 @@ const SymposiumPageOnboarding=({closeModal})=>{
 					</ul>
 				)}
 
-				{displayThirdPage && (
+				{displayFourthPage && (
 					<ul style={{padding:"30px"}}>
 
 						<li style={{listStyle:"none"}}>
@@ -232,15 +299,15 @@ const SymposiumPageOnboarding=({closeModal})=>{
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
-											Step 3 of 4
+											Step 4 of 5
 										</li>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displaySecondPageHandle()} style={ButtonCSS}>
+											<li onClick={()=>displayThirdPageHandle()} style={ButtonCSS}>
 												Previous
 											</li>
 										</a>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayFourthPageHandle()} style={ButtonCSS}>
+											<li onClick={()=>displayFifthPageHandle()} style={ButtonCSS}>
 												Next
 											</li>
 										</a>
@@ -251,7 +318,7 @@ const SymposiumPageOnboarding=({closeModal})=>{
 					</ul>
 				)}
 
-				{displayFourthPage &&(
+				{displayFifthPage &&(
 					<ul style={{padding:"30px"}}>
 						<li id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
@@ -282,10 +349,10 @@ const SymposiumPageOnboarding=({closeModal})=>{
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
 										<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
-											Step 4 of 4
+											Step 5 of 5
 										</li>
 										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayThirdPageHandle()} style={ButtonCSS}>
+											<li onClick={()=>displayFourthPageHandle()} style={ButtonCSS}>
 												Previous
 											</li>
 										</a>

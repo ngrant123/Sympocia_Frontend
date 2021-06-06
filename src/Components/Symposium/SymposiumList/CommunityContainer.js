@@ -144,7 +144,7 @@ const PopularVideosListCSS={
 const ProfilePictureCSS={
 	position:"relative",
 	width:"45px",
-	height:"40%",
+	height:"34%",
 	backgroundColor:"white",
 	borderRadius:"50%",
 	borderStyle:"solid",

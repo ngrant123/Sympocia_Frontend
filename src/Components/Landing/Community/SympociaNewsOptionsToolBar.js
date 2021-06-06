@@ -96,7 +96,7 @@ const SympociaNewsOptionToolBar=({changePostTypeOption,news,interviews})=>{
 						</li>
 						<hr/>
 						<li style={PostOptionButtonCSS} onClick={()=>changePostTypeOption(false)}>
-							Interviews
+							Videos Interviews
 						</li>
 					</ul>
 				</div>

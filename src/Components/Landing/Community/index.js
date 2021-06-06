@@ -17,6 +17,16 @@ import SympociaAnnouncementImage from "../../../designs/background/ThirdSectionB
 import BeaconsHeaderImage from "../../../designs/background/Beacons.png";
 import AiyanahHeaderImage from "../../../designs/background/Aiyanah.png";
 import AiyanahTipsOnBrand from "../../../designs/background/AiyanahTipsOnBrand.png";
+
+import AlexAnifantisInterview from "../../../designs/background/AlexAnifantisInterview.png";
+import AlexAnifantisWritingAboutGames from "../../../designs/background/AlexAnifantisWritingAboutGames.png";
+import AlexAnifantisGrowingBrand from "../../../designs/background/AlexAnifantisGrowingBrand.png";
+import AlexAnifantisBuildABrand from "./News/AlexGrowingBrand.js";
+import AlexAnifantisTipsOnWriting from "./News/AlexTipsOnWritingAboutGames.js";
+import AlexAnifantisFullInterview from "./News/AlexFullInterview.js";
+
+
+
 import {addUserToCommunityViewedList} from "../../../Actions/Requests/SympociaCommunity/SympociaCommunityAdapter.js";
 import {useSelector} from "react-redux";
 
@@ -74,6 +84,24 @@ const CommunityContainer=(props)=>{
 	const [displayNews,changeDisplayNews]=useState(true);
 	const [newsMapping,changeNewsMapping]=useState([
 		{
+			title:"Growing your brand as a writer in the gaming industry",
+			description:"Alex talks about starting out and growing your brand as a writer",
+			component:<AlexAnifantisBuildABrand/>,
+			headerImage:AlexAnifantisGrowingBrand
+		},
+		{
+			title:"Tips for getting better at writing",
+			description:"Alex gives tips on improving your writing",
+			component:<AlexAnifantisTipsOnWriting/>,
+			headerImage:AlexAnifantisWritingAboutGames
+		},
+		{
+			title:"Alex Anyfantis Full Interview (Writing In Gaming)",
+			description:"Alex talks about getting started as a writer in the game industry and more",
+			component:<AlexAnifantisFullInterview/>,
+			headerImage:AlexAnifantisInterview
+		},
+		{
 			title:"Tips for growing your brand as a professional poet",
 			description:"Aiyanah Rose talks about building a brand as a poet.",
 			component:<AiyanahBuildABrand/>,
@@ -86,8 +114,8 @@ const CommunityContainer=(props)=>{
 			headerImage:AiyanahHeaderImage
 		},
 		{
-			title:"Aiyanah Full Interview",
-			description:"Aiyanah Rose breaks down the essentials for becoming a better poet",
+			title:"Aiyanah Full Interview (Poet)",
+			description:"Aiyanah Rose full interview where she gives her insights on poetry",
 			component:<AiyanahFullInterview/>,
 			headerImage:AiyanahFullInterviewImage
 		},

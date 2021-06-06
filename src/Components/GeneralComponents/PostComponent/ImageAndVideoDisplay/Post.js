@@ -79,7 +79,6 @@ const PostDisplayContainer=(props)=>{
 	const containsVideoDescriptionAndIsImage=(postData.imgUrl==null?false:true)&&(postData.videoDescription==null?false:true);
 
 	useEffect(()=>{
-		debugger;
 		let image = document.createElement("img")
 		image.setAttribute("src", postData.imgUrl)
 		const primaryValue=600;
@@ -99,9 +98,6 @@ const PostDisplayContainer=(props)=>{
 			changeActualPostHeight(secondaryValue*2);
 			changeActualPostWidth(primaryValue*2);
 		}
-
-		console.log(image.width);
-		console.log(image.height);
 
 	},[]);
 	const pauseVideoUrls=()=>{

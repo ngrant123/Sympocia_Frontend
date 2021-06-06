@@ -11,7 +11,7 @@ const Container=styled.div`
 const Interviews=()=>{
 	return(
 		<Container>
-			<p> No interveiws yet :( </p>
+			<p> No video interveiws yet :( </p>
 		</Container>
 	)
 }
