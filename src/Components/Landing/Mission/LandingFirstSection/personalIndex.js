@@ -223,12 +223,21 @@ const PageImageContainer=styled.div`
 
    @media screen and (max-width:1370px){
     align-items:center;
+      margin-left:12%;
+      margin-top:2%;
       #headerImage{
         width:200px !important;
         height:225px!important;
       }
       #amountOfUsersText{
         margin-left:0% !important;
+      }
+    }
+
+    @media screen and (max-width:650px){
+      margin-left:0%;
+      #signedUpProfilesLI{
+        width:200px !important;
       }
     }
 
@@ -468,10 +477,10 @@ const FirstSection=(props)=>{
 
                     <PageImageContainer>
                         <img id="headerImage" src={LandingImage} style={{borderRadius:"50%",boxShadow:"1px 1px 2px #d5d5d5",width:"427px",height:"435px"}}/>
-                        <p id="amountOfUsersText" style={{marginLeft:"-30%",marginTop:"5%"}}>
+                        <p id="amountOfUsersText" style={{marginTop:"5%"}}>
                            So far <b>{numberOfUserInTotalInterested}</b> users have signed up. What are you waiting for? :) 
                         </p>
-                          <ul id="signedUpProfilesLI" style={{padding:"5px",width:"70%",height:"80px",borderRadius:"5px",overflowX:"auto",boxShadow:"1px 5px 5px 5px #d5d5d5"}}>
+                          <ul id="signedUpProfilesLI" style={{padding:"5px",width:"450px",height:"80px",borderRadius:"5px",overflowX:"auto",boxShadow:"1px 5px 5px 5px #d5d5d5"}}>
                             {usersInterested.map(data=>
                                 <>
                                   {data.profilePicture==null?
