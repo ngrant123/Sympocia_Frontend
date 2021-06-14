@@ -44,7 +44,8 @@ import {
 	ArrowDownContainer,
 	PostContainerTEst,
 	SymposiumChatContainer,
-	BeaconButtonContainer
+	BeaconButtonContainer,
+	AdditionalSymposiumInformationContainer
 } from "./indexCSS.js";
 import Posts from "./Posts/index.js";
 import SearchOptions from "./Posts/PostFilterOptions/index.js";

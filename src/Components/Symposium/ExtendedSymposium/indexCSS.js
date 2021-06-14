@@ -405,6 +405,21 @@ export const PageIndicator=styled.div`
     }
 `;
 
+export const AdditionalSymposiumInformationContainer=styled.div`
+	position:absolute;
+	width:5%;
+	height:20%;
+	top:20%;
+	left:2%;
+	border-radius:5%;
+	z-index:31;
+
+	@media screen and (max-width:1370px){
+    	display:none !important;
+    }
+`;
+
+
 
 export const SearchContainer=styled.div`
 	position:relative;
