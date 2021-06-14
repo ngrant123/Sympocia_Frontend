@@ -88,10 +88,10 @@ const ChatContainer =styled.div`
 
 
 const HighlightedQuestionsContainer=styled.div`
-	position:absolute;
+    position:absolute;
 	height:55%;
 	width:20%;
-	left:7%;
+	left:10%;
 	top:30%;
 	border-radius:5px;
 
