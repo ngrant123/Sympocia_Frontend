@@ -608,6 +608,98 @@ class Symposium extends Component{
 		})
 	}
 
+
+	additionalInformation=()=>{
+		return(
+			<AdditionalSymposiumInformationContainer>
+				<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+					<ExploreIcon
+						style={{fontSize:50}}
+					/>
+					<p>Explore</p>
+				</ExploreIconContainer>
+			</AdditionalSymposiumInformationContainer>
+		)
+	}
+
+	// render(){
+	// 	return(
+	// 		<SymposiumProvider
+	// 			value={{
+	// 				router:this.props.history,
+	// 				symposiumId:this.state.symposiumId,
+	// 				handleSeeAllPeopleActiveModal:()=>{
+	// 					this.triggerSeeAllPeopleActiveModal()
+	// 				},
+	// 				displayPopularVideos:()=>{
+	// 					this.triggerDisplayPopularVideosModal()
+	// 				},
+	// 				highLightedQuestionComponent:()=>{
+	// 					return this.highlightedQuestionsSimplifiedModal()
+	// 				},
+	// 				specificSymposiumFeaturesComponent:()=>{
+	// 					let specificProps={
+	// 						selectedSymposiumTitle:this.state.selectedSymposiumTitle,
+	// 						symposiumId:this.state.symposiumId,
+	// 						chatRoom:this.state.chatRoom,
+	// 						profileId:this.state.profileId,
+	// 						socket:socket,
+	// 						closeSymposiumFeatureModal:this.closeSymposiumFeatureModal,
+	// 						headerAnimation:this.state.headerAnimation,
+	// 						symposiumFeatureQuestions:this.state.symposiumFeatureQuestions,
+	// 						isGuestProfile:this.state.isGuestProfile,
+	// 						displaySpecficSymposiumFeature:this.state.displaySpecficSymposiumFeature,
+	// 						isSimplified:true
+	// 					}
+	// 					const {requestedComponent}=symposiumFeatures(specificProps);
+						
+						
+	// 					return <>{requestedComponent}</>
+	// 				},
+	// 				handleFollowSymposium:()=>{
+	// 					this.handleFollowSymposium({isAccessTokenUpdated:false});
+	// 				},
+	// 				isUserFollowingSymposium:()=>{
+	// 					return this.state.isProfileFollowingSymposium
+	// 				},
+	// 				handleDisplayBeacons:()=>{
+	// 					this.displayBeaconHandle();
+	// 				}
+	// 			}}
+	// 		>
+	// 			<SymposiumContainer id="extendedSymposiumContainer">
+	// 				<GeneralNavBar
+	// 					displayChatPage={this.displayChatPage}
+	// 					page={"Home"}
+	// 					routerHistory={this.props.history}
+	// 					targetDom={"extendedSymposiumContainer"}
+	// 				/>
+	// 					{this.state.displayOnboarding==true &&(
+	// 						<SymposiumOnboarding
+	// 							closeModal={this.closeOnboardingModal}
+	// 						/>
+	// 					)}
+
+	// 					{this.state.displayGuestOnboarding==true &&(
+	// 						<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
+	// 							<GuestOnboarding
+	// 								targetDom="extendedSymposiumContainer"
+	// 								closeModal={this.closeOnboardingModal}
+	// 							/>
+	// 						</div>
+	// 					)}
+				
+	// 				{this.state.displayConfetti &&(
+	// 					<Confetti
+	// 						style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
+	// 						 run={true}
+	// 					/>
+	// 				)}
+
+	// 				{this.additionalInformation()}
+
+
+
 	render(){
 		return(
 			<SymposiumProvider
@@ -679,6 +771,7 @@ class Symposium extends Component{
 							 run={true}
 						/>
 					)}
+					{this.additionalInformation()}
 					{this.arrowIndicatorButton()}
 					{this.beaconIndicatorButton()}
 					{this.handleSeeAllPeopleActiveModal()}
