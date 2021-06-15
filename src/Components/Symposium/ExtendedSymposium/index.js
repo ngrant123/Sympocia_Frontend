@@ -45,7 +45,8 @@ import {
 	PostContainerTEst,
 	SymposiumChatContainer,
 	BeaconButtonContainer,
-	AdditionalSymposiumInformationContainer
+	AdditionalSymposiumInformationContainer,
+	OligarchsContainer
 } from "./indexCSS.js";
 import Posts from "./Posts/index.js";
 import SearchOptions from "./Posts/PostFilterOptions/index.js";
@@ -56,6 +57,8 @@ import {
 	} from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
 import {SymposiumProvider} from "./SymposiumContext.js";
 import Beacons from "./Modals/Beacons/index.js";
+import Oligarchs from "./Modals/Oligarchs/index.js";
+import OligarchsFinalResults from "./Modals/Oligrachs/FinalResults.js";
 
 
 const socket = io('http://localhost:4000');
@@ -102,7 +105,8 @@ class Symposium extends Component{
 			displayGuestOnboarding:false,
 			displaySpecficSymposiumFeature:false,
 			displayHightletedSimplifiedQuestionsModal:false,
-			displayBeaconPrompt:false
+			displayBeaconPrompt:false,
+			displayFinalOligarchsCompetitionResults:true
 		}
 	}
 
@@ -609,6 +613,41 @@ class Symposium extends Component{
 		})
 	}
 
+	closeOligarchsContest=()=>{
+		this.setState({
+			displayOligarchsElection:false
+		})
+	}
+
+	triggerDisplayOligarchsModal=()=>{
+		this.setState({
+			displayOligarchsElection:true
+		})
+	}
+
+	displayOligarchsElectionModal=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayOligarchsElection==true &&(
+					<Oligarchs
+						closeOligarchModal={this.closeOligarchsContest}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	crownLogo=()=>{
+		return(
+			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crown" 
+			  width="44" height="44" viewBox="0 0 24 24" stroke-width="2.5" stroke="#232323" fill="none" 
+		 	  stroke-linecap="round" stroke-linejoin="round">
+			  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+			  <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+			</svg>
+		)
+	}
+
 
 	additionalInformation=()=>{
 		return(
@@ -619,86 +658,12 @@ class Symposium extends Component{
 					/>
 					<p>Explore</p>
 				</ExploreIconContainer>
+				<OligarchsContainer onClick={()=>this.triggerDisplayOligarchsModal()}>
+					{this.crownLogo()}
+				</OligarchsContainer>
 			</AdditionalSymposiumInformationContainer>
 		)
 	}
-
-	// render(){
-	// 	return(
-	// 		<SymposiumProvider
-	// 			value={{
-	// 				router:this.props.history,
-	// 				symposiumId:this.state.symposiumId,
-	// 				handleSeeAllPeopleActiveModal:()=>{
-	// 					this.triggerSeeAllPeopleActiveModal()
-	// 				},
-	// 				displayPopularVideos:()=>{
-	// 					this.triggerDisplayPopularVideosModal()
-	// 				},
-	// 				highLightedQuestionComponent:()=>{
-	// 					return this.highlightedQuestionsSimplifiedModal()
-	// 				},
-	// 				specificSymposiumFeaturesComponent:()=>{
-	// 					let specificProps={
-	// 						selectedSymposiumTitle:this.state.selectedSymposiumTitle,
-	// 						symposiumId:this.state.symposiumId,
-	// 						chatRoom:this.state.chatRoom,
-	// 						profileId:this.state.profileId,
-	// 						socket:socket,
-	// 						closeSymposiumFeatureModal:this.closeSymposiumFeatureModal,
-	// 						headerAnimation:this.state.headerAnimation,
-	// 						symposiumFeatureQuestions:this.state.symposiumFeatureQuestions,
-	// 						isGuestProfile:this.state.isGuestProfile,
-	// 						displaySpecficSymposiumFeature:this.state.displaySpecficSymposiumFeature,
-	// 						isSimplified:true
-	// 					}
-	// 					const {requestedComponent}=symposiumFeatures(specificProps);
-						
-						
-	// 					return <>{requestedComponent}</>
-	// 				},
-	// 				handleFollowSymposium:()=>{
-	// 					this.handleFollowSymposium({isAccessTokenUpdated:false});
-	// 				},
-	// 				isUserFollowingSymposium:()=>{
-	// 					return this.state.isProfileFollowingSymposium
-	// 				},
-	// 				handleDisplayBeacons:()=>{
-	// 					this.displayBeaconHandle();
-	// 				}
-	// 			}}
-	// 		>
-	// 			<SymposiumContainer id="extendedSymposiumContainer">
-	// 				<GeneralNavBar
-	// 					displayChatPage={this.displayChatPage}
-	// 					page={"Home"}
-	// 					routerHistory={this.props.history}
-	// 					targetDom={"extendedSymposiumContainer"}
-	// 				/>
-	// 					{this.state.displayOnboarding==true &&(
-	// 						<SymposiumOnboarding
-	// 							closeModal={this.closeOnboardingModal}
-	// 						/>
-	// 					)}
-
-	// 					{this.state.displayGuestOnboarding==true &&(
-	// 						<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
-	// 							<GuestOnboarding
-	// 								targetDom="extendedSymposiumContainer"
-	// 								closeModal={this.closeOnboardingModal}
-	// 							/>
-	// 						</div>
-	// 					)}
-				
-	// 				{this.state.displayConfetti &&(
-	// 					<Confetti
-	// 						style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
-	// 						 run={true}
-	// 					/>
-	// 				)}
-
-	// 				{this.additionalInformation()}
-
 
 
 	render(){
@@ -779,6 +744,7 @@ class Symposium extends Component{
 					{this.handleSeeAllPopularVideos()}
 					{this.specificSymposiumFeatures()}
 					{this.displayBeacon()}
+					{this.displayOligarchsElectionModal()}
 
 					<HeaderContainer
 		  				activePeople={this.state.activePeople}

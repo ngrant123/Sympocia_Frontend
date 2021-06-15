@@ -88,7 +88,7 @@ const ChatContainer =styled.div`
 
 
 const HighlightedQuestionsContainer=styled.div`
-    position:absolute;
+	position:absolute;
 	height:55%;
 	width:20%;
 	left:10%;
@@ -102,8 +102,8 @@ const HighlightedQuestionsContainer=styled.div`
 
 const SymposiumTitlesAndVideosContainer=styled.div`
 	position:absolute;
-	left:30%;
-	width:42%;
+	left:35%;
+	width:35%;
 	height:55%;
 	border-radius:5px;
 	top:40%;

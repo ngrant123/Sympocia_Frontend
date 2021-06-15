@@ -25,6 +25,20 @@ export const Posts=styled.div`
 	}
 `;
 
+export const OligarchsContainer=styled.div`
+	position:relative;
+	width:70px;
+	border-radius:5px;
+	background-color:white;
+	padding:10px;
+	box-shadow: 1px 1px 1px 1px #d5d5d5;
+	transition:.8s;
+	margin-top:20%;
+
+	&:hover{
+		box-shadow: 1px 1px 10px #707070;	
+	}
+`;
 
 export const SymposiumHeaderAnimation=styled.div`
 	position:sticky;
@@ -379,7 +393,6 @@ export const PreventScrollScreen=styled.div`
 export const ExploreIconContainer=styled.div`
 	position:relative;
 	width:70px;
-	left:10%;
 	border-radius:5px;
 	background-color:white;
 	padding:10px;
@@ -413,6 +426,8 @@ export const AdditionalSymposiumInformationContainer=styled.div`
 	left:2%;
 	border-radius:5%;
 	z-index:31;
+	display:flex;
+	flex-direction:column;
 
 	@media screen and (max-width:1370px){
     	display:none !important;
