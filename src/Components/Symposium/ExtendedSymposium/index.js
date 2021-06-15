@@ -58,7 +58,7 @@ import {
 import {SymposiumProvider} from "./SymposiumContext.js";
 import Beacons from "./Modals/Beacons/index.js";
 import Oligarchs from "./Modals/Oligarchs/index.js";
-import OligarchsFinalResults from "./Modals/Oligrachs/FinalResults.js";
+import OligarchsFinalResults from "./Modals/Oligarchs/FinalResults.js";
 
 
 const socket = io('http://localhost:4000');
@@ -665,6 +665,25 @@ class Symposium extends Component{
 		)
 	}
 
+	closeOligarchFinalResutlsDisplay=()=>{
+		this.setState({
+			displayFinalOligarchsCompetitionResults:false
+		})
+	}
+
+	oligarchFinalResultDisplay=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayFinalOligarchsCompetitionResults==true &&(
+					<OligarchsFinalResults
+						closeModal={this.closeOligarchFinalResutlsDisplay}
+						selectedSymposiumTitle={this.state.selectedSymposiumTitle}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
 
 	render(){
 		return(
@@ -737,6 +756,7 @@ class Symposium extends Component{
 							 run={true}
 						/>
 					)}
+					{this.oligarchFinalResultDisplay()}
 					{this.additionalInformation()}
 					{this.arrowIndicatorButton()}
 					{this.beaconIndicatorButton()}

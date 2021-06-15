@@ -34,6 +34,7 @@ export const OligarchsContainer=styled.div`
 	box-shadow: 1px 1px 1px 1px #d5d5d5;
 	transition:.8s;
 	margin-top:20%;
+	cursor:pointer;
 
 	&:hover{
 		box-shadow: 1px 1px 10px #707070;	

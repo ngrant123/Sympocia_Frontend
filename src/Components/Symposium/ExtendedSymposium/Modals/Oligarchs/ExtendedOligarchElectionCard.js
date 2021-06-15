@@ -6,7 +6,6 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 const CommentContainer=styled.div`
 	display:flex;
 	flex-direction:row;
-	background-color:red;
 	height:200px;
 	margin-bottom:5%;
 	padding:20px;
@@ -95,7 +94,7 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 			<div onClick={()=>closeOligarchCardModal()} style={ButtonCSS}>
 				Back
 			</div>
-			<div style={{backgroundColor:"red",marginTop:"5%",display:"flex",flexDirection:"row"}}>
+			<div style={{marginTop:"5%",display:"flex",flexDirection:"row"}}>
 				<img src={electionCardInformation.profilePicture==null?
 					NoProfilePicture:
 					electionCardInformation.profilePicture} 
@@ -130,7 +129,7 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 			</div>
 			<hr style={HorizontalLineCSS}/>
 			{displayComments==true &&(
-				<div style={{backgroundColor:"blue"}}>
+				<div>
 					{comments.map(data=>
 						<>{comment(data)}</>
 					)}
