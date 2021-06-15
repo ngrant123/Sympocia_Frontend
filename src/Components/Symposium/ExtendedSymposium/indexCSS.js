@@ -15,6 +15,8 @@ export const Posts=styled.div`
 	position:absolute;
 	width:100%;
 	height:90%;
+	display:flex;
+	flex-direction:row;
 
 	@media screen and (max-width:650px){
 		margin-top:5% !important;

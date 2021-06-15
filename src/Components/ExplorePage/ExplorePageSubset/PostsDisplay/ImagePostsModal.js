@@ -5,7 +5,6 @@ import {useSelector,useDispatch} from "react-redux";
 
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import {addRecruit} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-import {Link} from "react-router-dom";
 
 import {removeRecruitProfileIsFollowing} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
@@ -14,12 +13,8 @@ import {
 	displayPersonalIndustryFeed
 } from "./ConstructSuggestedSymposium.js";
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
-import {
-		HeaderOwnerAndSymposiumInformation,
-		SmallProfilePictureAndVideoDescription
-	} from "./PostDisplayGeneralComp.js";
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-
+import {HeaderOwnerAndSymposiumInformation} from "./PostDisplayGeneralComp.js";
+import ExploreImageDisplay from "../../../GeneralComponents/PostComponent/ImageComponent/SymposiumAndExplorePageImage.js";
 
 
 const Container=styled.div`
@@ -273,16 +268,6 @@ const SmallPostOwnerContainer=styled.div`
 	top:5%;
 	left:75%;
 `;
-const ProfilePictureLink=styled(Link)`
-	position:relative;
-
-	@media screen and (max-width:650px){
-		#smallProfilePicture{
-			height:30px !important;
-			width:30px !important;
-		}
-	}
-`;
 
 
 const VideoDesriptionContainer=styled.div`
@@ -339,13 +324,6 @@ const HeaderImageCSS={
 	borderRadius:"5px",
 	borderRadius:"5px",
 	cursor:"pointer"
-}
-
-const ImageCSS={
-	position:"relative",
-	width:"100%",
-	height:"180px",
-	borderRadius:"10px"
 }
 
 const ImageLabelCSS={
@@ -568,26 +546,11 @@ const ImagePostsModal=(props)=>{
 					currentHeight={"30%"}
 				/>
 				:<SmallPostContainer isSymposiumPostUI={props.isSymposiumPostUI}>
-					<div id="smallImageContainer" onClick={()=>displayImageModal(data)} style={ImageCSS}>
-						<img id="image" src={data.imgUrl} style={{
-							width:"100%",height:"100%",borderRadius:"10px"
-						}}/>
-						<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
-							<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}>
-								<SmallProfilePictureAndVideoDescription
-									postData={data}
-								/>
-							</ProfilePictureLink>
-							<div id="smallImageArrowDownCSS" style={SmallImageArrowDownCSS}>
-								<KeyboardArrowDownIcon
-									style={{color:"#FFFFFF"}}
-								/>
-							</div>
-						</div>
-					</div>
-					<p id="smallPostCaption" style={{visibility:"hidden",maxHeight:"15%",overflow:"hidden"}}>
-						<b>{data.caption}</b>
-					</p>
+					<ExploreImageDisplay
+						imageInformation={data}
+						displayImageModal={displayImageModal}
+						targetDom={props.targetDom}
+					/>
 				</SmallPostContainer>
 			}	
 		</React.Fragment>

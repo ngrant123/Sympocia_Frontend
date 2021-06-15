@@ -110,50 +110,6 @@ const ImageHomeDisplayPortal=(props)=>{
 						closePostModal={closeModal}
 					/>
 				</ImageContainer>
-				{/*
-						<ul style={{padding:"10px",marginTop:"2%"}}>
-							<li style={{fontSize:"20px",listStyle:"none",marginBottom:"5%"}}>
-								<p> 
-									<b>Recommended Posts</b>
-								</p>
-							</li>
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									{props.recommendedImages.map(data=>
-										<React.Fragment>
-											{data=="suggestedSymposium"?null:
-												<li style={{listStyle:"none",display:"inline-block",position:"relative",marginBottom:"8%",width:"45%",marginRight:"-10%"}}>
-														<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginBottom:"1%"}}>
-																<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																	<ShadowContainerRecommenedImages/>
-																	<img src={data.imgUrl} style={ImageCSS}/>
-																</a>
-															</li>
-															<li style={{listStyle:"none",marginBottom:"1%"}}>
-																<ul style={{padding:"0px"}}>
-																	<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>	
-																		<b>{data.firstName}</b>
-																	</li>
-
-																	<li style={ImageLabelCSS}>
-																		{data.industriesUploaded[0].industry}
-																	</li>
-																</ul>
-															</li>
-															<li style={{listStyle:"none",width:"100%",height:"20%",overflow:"hidden"}}>
-																  <p>{data.description}</p>
-															</li>
-											 			</ul>
-												</li>
-											}
-										</React.Fragment>
-									)}
-								</ul>
-							</li>
-						</ul>
-						<hr/>
-				*/}
 
 			</Container>
 		</React.Fragment>,
