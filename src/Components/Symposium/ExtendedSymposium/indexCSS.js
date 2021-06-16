@@ -230,6 +230,12 @@ export const PostsChatInformation=styled.div`
 	@media screen and (max-width:1370px){
 		margin-left:0%;
 	}
+	@media screen and (max-width:650px){
+		margin-left:1%;
+	}
+	@media screen and (max-width:400px){
+		margin-left:-1%;
+	}
 `;
 
 

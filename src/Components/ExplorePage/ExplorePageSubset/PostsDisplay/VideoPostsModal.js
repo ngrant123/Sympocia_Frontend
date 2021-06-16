@@ -13,6 +13,7 @@ import {
 	HeaderOwnerAndSymposiumInformation,
 	SmallProfilePictureAndVideoDescription
 } from "./PostDisplayGeneralComp.js";
+import ExploreVideoDisplay from "../../../GeneralComponents/PostComponent/VideoComponent/SymposiumAndExplorePageVideo.js";
 
 const Container=styled.div`
 	display:flex;

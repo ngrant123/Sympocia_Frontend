@@ -548,7 +548,6 @@ const ImagePostsModal=(props)=>{
 				:<SmallPostContainer isSymposiumPostUI={props.isSymposiumPostUI}>
 					<ExploreImageDisplay
 						imageInformation={data}
-						displayImageModal={displayImageModal}
 						targetDom={props.targetDom}
 					/>
 				</SmallPostContainer>

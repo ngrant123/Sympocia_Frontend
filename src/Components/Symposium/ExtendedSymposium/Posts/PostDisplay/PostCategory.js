@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import CreateIcon from '@material-ui/icons/Create';
 import Image from "./Image.js";
+import Video from "./Video.js";
+
 
 const Container=styled.div`
 	width:650px;
@@ -9,7 +11,6 @@ const Container=styled.div`
 	margin-right:2%;
 	padding:5px;
 	overflow:scroll;
-	background-color:red;
 
 	@media screen and (max-width:1370px){
 		overflow:visible !important;
@@ -51,6 +52,13 @@ const PostCategory=(props)=>{
 				return(
 					<Image
 						imageInformation={data}
+					/>
+				)
+			}
+			case "Video":{
+				return(
+					<Video
+						videoInformation={data}
 					/>
 				)
 			}
