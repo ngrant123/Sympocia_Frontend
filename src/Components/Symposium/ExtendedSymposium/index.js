@@ -106,6 +106,7 @@ class Symposium extends Component{
 	}
 
 	triggerUIChange=()=>{
+		debugger;
 		if(window.innerWidth<600){
 			this.setState({
 				displayDesktopUI:false,
@@ -134,7 +135,7 @@ class Symposium extends Component{
 	}
 
 	 async componentDidMount(){
-		window.addEventListener('resize',this.triggerUIChange)
+		this.triggerUIChange()
   		const postContainerElement=document.getElementById("postChatInformation");
 
 		const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
@@ -190,7 +191,6 @@ class Symposium extends Component{
   		}else{
   			alert('Unfortunately there has been a problem with getting the symposium information. Please try again');
   		}
-  		this.triggerUIChange();
 	  }
 
 

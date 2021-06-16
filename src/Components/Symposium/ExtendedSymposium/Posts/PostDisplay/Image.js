@@ -6,9 +6,12 @@ import SymposiumImageDisplay from "../../../../GeneralComponents/PostComponent/I
 const SmallPostContainer=styled.div`
 	margin-bottom:15%;
 	width:170px;
-	height:142px;
+	height:130px;
 	cursor:pointer;
 	margin-right:5%;
+	#smallImageContainer{
+		height:110% !important;
+	}
 
 	@media screen and (max-width:1370px){
 		margin-right:10%;

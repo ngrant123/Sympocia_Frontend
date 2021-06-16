@@ -14,7 +14,7 @@ import styled, {keyframes} from "styled-components";
 export const Posts=styled.div`
 	position:absolute;
 	width:100%;
-	height:90%;
+	height:100%;
 	display:flex;
 	flex-direction:row;
 
@@ -223,6 +223,7 @@ export const PostsChatInformation=styled.div`
 	left:0%;
 	margin-left:5%;
 	filter:blur(2px);
+
 	z-index:-1;
 	transition: all 10s;
 
@@ -272,9 +273,9 @@ export const ActivePeopleContainer=styled.div`
 export const PostContainer=styled.div`
 	position:relative;
 	padding-left:40px;
-	left:-2%;
+	left:-3%;
 	top:5%;
-	width:100%;
+	width:105%;
 	height:100%;
 	transition:1s;
 

@@ -12,12 +12,21 @@ import {
 import {PostProvider} from "../PostsContext.js";
 
 
-const PostsContainerDisplay=({isLoadingNewPosts,state,triggerReloadingPostsHandle,displaySymposium,displayRecruitConfetti,profileId})=>{
+const PostsContainerDisplay=(props)=>{
+    const {
+        isLoadingNewPosts,
+        state,
+        triggerReloadingPostsHandle,
+        displaySymposium,
+        displayRecruitConfetti,
+        profileId
+    }=props;
+    console.log(props);
     const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
     const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
-    const [posts,changePosts]=useState(state.posts);
     const [postOption,changePostOptionState]=useState(state.postOption);
-    const [postCategoryInformation,changePostCategoryInformation]=useState([
+    const [selectedCategoryType,changeSelectedCategoryType]=useState(state.displayDesktopUI==false?"The Grind":"General");
+    const defaultPostCategoryInformation=[
         {
             headers:{
                 title:"The Grind",
@@ -35,9 +44,11 @@ const PostsContainerDisplay=({isLoadingNewPosts,state,triggerReloadingPostsHandl
                 title:"Achievements",
                 secondaryTitle:"Milestone and your goals"
             }
-        }])
-
+        }
+    ]
+    const [selectedPostCategoryInformation,changeSelectedPostCategoryInformation]=useState([]);
     useEffect(()=>{
+        debugger;
         if(state.handleScroll!=false){
             document.getElementById("postsContainer").style.opacity="0";
     
@@ -45,7 +56,24 @@ const PostsContainerDisplay=({isLoadingNewPosts,state,triggerReloadingPostsHandl
               document.getElementById("postsContainer").style.opacity="1";
             },1000);
         }
-    })
+
+        if(selectedCategoryType=="General"){
+            changeSelectedPostCategoryInformation(defaultPostCategoryInformation)
+        }else{
+            for(var i=0;i<defaultPostCategoryInformation.length;i++){
+                const {headers:{
+                    title
+                }}=defaultPostCategoryInformation[i];
+                if(selectedCategoryType==title){
+                    console.log(defaultPostCategoryInformation[i]);
+                    const selectedPostCategory=[];
+                    selectedPostCategory.push(defaultPostCategoryInformation[i])
+                    changeSelectedPostCategoryInformation([...selectedPostCategory]);
+                    break;
+                }
+            }
+        }
+    },[selectedCategoryType])
 
      const postsProps={
         posts:state.posts,
@@ -60,17 +88,23 @@ const PostsContainerDisplay=({isLoadingNewPosts,state,triggerReloadingPostsHandl
         isSymposiumPostUI:true
     }
 
+    const triggerChangeCategoryType=(selectedCategoryType)=>{
+        changeSelectedCategoryType(selectedCategoryType);
+    }
+
 
     return(
         <PostContainer isScrollEnabled={state.headerAnimation} id="postsContainer">
             {isLoadingNewPosts==true?
                 <p>Loading...</p>:
                 <Posts>
-                    {postCategoryInformation.map(data=>
+                    {selectedPostCategoryInformation.map(data=>
                         <PostCategory
                             {...data}
                             {...postsProps}
                             postType={state.postType}
+                            defaultPostCategoryInformation={defaultPostCategoryInformation}
+                            triggerChangeCategoryType={triggerChangeCategoryType}
                         />
                     )}
                     {/*

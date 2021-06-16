@@ -12,7 +12,7 @@ import {
 } from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
 const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,profileId,displayBeacon})=>{
-
+    console.log(state);
     const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
     const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
     const [posts,changePosts]=useState(state.posts);
@@ -121,7 +121,8 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     postType:postOption,
                     handleScroll:state.handleScroll,
                     postCount,
-                    selectedSymposiumTitle:state.selectedSymposiumTitle
+                    selectedSymposiumTitle:state.selectedSymposiumTitle,
+                    displayDesktopUI:state.displayDesktopUI
                 }}
                 isLoadingNewPosts={isLoadingNewPosts}
                 triggerReloadingPostsHandle={triggerReloadingPostsHandle}
