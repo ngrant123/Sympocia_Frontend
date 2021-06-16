@@ -24,6 +24,7 @@ const Container=styled.div`
 		left:5% !important;
 	}
 
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
 		top:20%;
 		width:65%;
@@ -37,8 +38,13 @@ const OligarchsContainer=styled.div`
 	height:100px;
 	margin-bottom:5%;
 	padding:20px;
-	align-items:center;
-	justify-content:space-between;
+
+	@media screen and (max-width:650px){
+		padding:0px;
+		#oligarchName{
+			font-size:18px !important;
+		}
+	}
 `;
 
 const HorizontalLineCSS={
@@ -50,7 +56,7 @@ const HorizontalLineCSS={
 const FinalResults=({closeModal,selectedSymposiumTitle})=>{
 	const [newOligarchs,changeOligarchs]=useState([
 		{
-			firstName:"Nathan",
+			firstName:"Nathanvdsbfsbfbfxs",
 			score:26
 		},
 		{},
@@ -60,38 +66,41 @@ const FinalResults=({closeModal,selectedSymposiumTitle})=>{
 	const oligarchs=(oligarchData)=>{
 		return(
 			<OligarchsContainer>
-				<div style={{display:"flex",flexDirection:"row"}}>
-					<EmojiEventsIcon
-						style={{fontSize:"40",color:"#F8D913",marginRight:"10%"}}
-					/>
-					<img src={oligarchData.profilePicture==null?
-								NoProfilePicture:oligarchData.profilePicture}
-						style={{marginLeft:"5%",width:"50px",height:"50px",borderRadius:"5px"}}
-					/>
-					<p style={{marginLeft:"5%",fontSize:"24px"}}>
+				<img id="oligarchsProfilePicture" src={oligarchData.profilePicture==null?
+							NoProfilePicture:oligarchData.profilePicture}
+					style={{marginLeft:"5%",width:"50px",height:"50px",borderRadius:"50%"}}
+				/>
+				<div style={{display:"flex",flexDirection:"column"}}>
+					<p id="oligarchName" style={{marginLeft:"5%",fontSize:"24px"}}>
 						<b>{oligarchData.firstName}</b>
 					</p>
+					<p style={{marginLeft:"5%",color:"#76D24C",fontSize:"18px"}}>
+						<b>+ {oligarchData.score}</b>
+					</p>
 				</div>
-				<p style={{color:"#76D24C",fontSize:"18px"}}>
-					<b>+ {oligarchData.score}</b>
-				</p>
-
 			</OligarchsContainer>
 		)
 	}
 	return(
 		<React.Fragment>
 			<Container>
-				<p style={{fontSize:"24px"}}>
-					<b>{selectedSymposiumTitle} Oligarchs</b>
-				</p>
-				<hr style={HorizontalLineCSS}/>
+				<div>
+					<div style={{display:"flex",flexDirection:"row"}}>
+						<p style={{fontSize:"24px"}}>
+							<b>{selectedSymposiumTitle} Oligarchs</b>
+						</p>
+						<EmojiEventsIcon
+							style={{fontSize:"40",color:"#F8D913",marginLeft:"5%"}}
+						/>
+					</div>
+					<hr style={HorizontalLineCSS}/>
+				</div>
 				<div style={{display:"flex",flexDirection:"column"}}>
 					{newOligarchs.map(data=>
-						<>
+						<div>
 							{oligarchs(data)}
 							<hr style={HorizontalLineCSS}/>
-						</>
+						</div>
 					)}
 				</div>
 			</Container>

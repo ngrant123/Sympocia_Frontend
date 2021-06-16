@@ -51,13 +51,15 @@ const CreateSubmission=({addNewElectionContestant,closeCreationModal})=>{
 			<div onClick={()=>closeCreationModal()} style={ButtonCSS}>
 				Back
 			</div>
-			<p style={{marginTop:"5%",fontSize:"24px"}}>
-				<b>Create Oligarch Submission</b>
-			</p>
-			<p>Let everyone know why you're running for a place in the oligarch </p>
-			<InputContainer id="electionSpeech"/>
-			<div onClick={()=>submit()} style={{...ButtonCSS,marginTop:"5%"}}>
-				Submit
+			<div>
+				<p style={{marginTop:"5%",fontSize:"24px"}}>
+					<b>Create Oligarch Submission</b>
+				</p>
+				<p>Let everyone know why you're running for a place in the oligarch </p>
+				<InputContainer id="electionSpeech"/>
+				<div onClick={()=>submit()} style={{...ButtonCSS,marginTop:"5%"}}>
+					Submit
+				</div>
 			</div>
 		</React.Fragment>
 	)

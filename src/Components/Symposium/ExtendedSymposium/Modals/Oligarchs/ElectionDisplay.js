@@ -19,17 +19,40 @@ const InputContainer=styled.textarea`
 
 
 const ElectionCardContainer=styled.div`
-	height:130px;
+	position:relative;
 	display:flex;
 	flex-direction:row;
 	margin-bottom:5%;
 	padding:10px;
 	overflow:hidden;
+
+	@media screen and (max-width:650px){
+		#contestantProfilePicture{
+			height:40px !important;
+			width:40px !important;
+		}
+		#trophyAndNameContainer{
+			flex-direction:column !important;
+		}
+		#ranking{
+			display:none !important;
+		}
+		#electionSpeechAndNameDiv{
+			width:95% !important;
+		}
+		#contestantFirstName{
+			font-size:18px !important;
+		}
+	}
 `;
 
 const BoltContainer=styled.div`
 	cursor:pointer;
 	transform: rotate(25deg);
+
+	@media screen and (max-width:650px){
+		display:none !important;
+	}
 `;
 const CreationIconCSS={
 	backgroundColor:"white",
@@ -74,57 +97,64 @@ const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant})
 			colorTrophy="#A0661C"
 		}
 		return(
-			<ElectionCardContainer>
-				{index<=2 &&(
-					<EmojiEventsIcon
-						style={{fontSize:"40",color:colorTrophy}}
+			<ElectionCardContainer onClick={()=>displayElectionCard(data)}>
+				<div id="trophyAndNameContainer" style={{display:"flex",flexDirection:"row"}}>
+					{index<=2 &&(
+						<EmojiEventsIcon
+							style={{fontSize:"40",color:colorTrophy}}
+						/>
+					)}
+					<img id="contestantProfilePicture" src={data.profilePicture==null?
+							NoProfilePicture:data.profilePicture} 
+							style={{width:"70px",height:"70px",borderRadius:"50%"}}
 					/>
-				)}
-				<img src={data.profilePicture==null?
-						NoProfilePicture:data.profilePicture} 
-						style={{width:"70px",height:"70px",borderRadius:"50%"}}
-				/>
-				<div style={{marginLeft:"2%",width:"70%",display:"flex",flexDirection:"column"}}>
+				</div>
+				<div id="electionSpeechAndNameDiv"
+					style={{marginLeft:"2%",width:"70%",display:"flex",flexDirection:"column"}}>
 					<div style={{display:"flex",flexDirection:"row"}}>
-						<p style={{fontSize:"24px"}}>
+						<p id="contestantFirstName" style={{fontSize:"24px"}}>
 							<b>{data.firstName}</b>
 						</p>
-						<p style={{color:"#C8B0F4",marginLeft:"5%",fontSize:"20px"}}>Rank: {index+1}</p>
+						<p id="ranking" style={{color:"#C8B0F4",marginLeft:"5%",fontSize:"20px"}}>Rank: {index+1}</p>
 					</div>
-					<p>{data.electionSpeech}</p>
+					<div>
+						<p>{data.electionSpeech}</p>
+					</div>
 				</div>
-				<BoltContainer onClick={()=>displayElectionCard(data)}>
+				<BoltContainer>
 					<OfflineBoltIcon
 						style={{fontSize:"50"}}
 					/>
 				</BoltContainer>
-				<hr style={HorizontalLineCSS}/>
 			</ElectionCardContainer>
 		)
 	}
 	return(
 		<React.Fragment>
-			<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-				<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-					<p style={{fontSize:"36px"}}>
-						<b>Oligarchs</b>
-					</p>
-					<div style={CreationIconCSS} onClick={()=>displayCreationModal()}>
-						<BorderColorIcon
-							style={{fontSize:"20",color:"#C8B0F4"}}
-						/>
+			<div>
+				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+					<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+						<p style={{fontSize:"36px"}}>
+							<b>Oligarchs</b>
+						</p>
+						<div style={CreationIconCSS} onClick={()=>displayCreationModal()}>
+							<BorderColorIcon
+								style={{fontSize:"20",color:"#C8B0F4"}}
+							/>
+						</div>
+					</div>
+					<div style={{display:"flex",flexDirection:"row"}}>
 					</div>
 				</div>
-				<div style={{display:"flex",flexDirection:"row"}}>
+				<div>
+					<InputContainer placeholder="Search just the oligarch contestant here"/>
 				</div>
-			</div>
-			<div>
-				<InputContainer placeholder="Search just the oligarch contestant here"/>
 			</div>
 			<div style={{marginTop:"5%"}}>
 				{electionContestants.map((data,index)=>
 					<React.Fragment>
 						{electionCards(data,index)}
+						<hr style={HorizontalLineCSS}/>
 					</React.Fragment>
 				)}
 			</div>

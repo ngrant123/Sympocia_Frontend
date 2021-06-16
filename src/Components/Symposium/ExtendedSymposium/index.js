@@ -16,7 +16,6 @@ import Confetti from 'react-confetti';
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
 import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import ExploreIcon from '@material-ui/icons/Explore';
-//import GroupSharingVideoCall from "./Modals/VideoCall/index.js";
 import SymposiumOnboarding from "../../OnBoarding/SymposiumPageOnboarding.js";
 import GuestOnboarding from "../../OnBoarding/GuestOnboarding.js"
 import LoadingScreen from "../../../LoadingAnimation.js";
@@ -46,7 +45,8 @@ import {
 	SymposiumChatContainer,
 	BeaconButtonContainer,
 	AdditionalSymposiumInformationContainer,
-	OligarchsContainer
+	OligarchsContainer,
+	MobileQuickAccessSymposiumOptions
 } from "./indexCSS.js";
 import Posts from "./Posts/index.js";
 import SearchOptions from "./Posts/PostFilterOptions/index.js";
@@ -200,7 +200,6 @@ class Symposium extends Component{
 
 
 	symposiumBackgroundColor=(symposiumName)=>{
-		//var symposiums=props.isPersonalProfile==true?PERSONAL_INDUSTRIES.INDUSTRIES:COMPANY_INDUSTRIES.INDUSTRIES;
 		var symposiums=PERSONAL_INDUSTRIES.INDUSTRIES;
 		for(var i=0;i<symposiums.length;i++){
 			const currentSymposium=symposiums[i].industry;
@@ -483,22 +482,33 @@ class Symposium extends Component{
 				</ArrowDownContainer>
 	}
 
-	beaconIndicatorButton=()=>{
+	oligarchButton=()=>{
+		return(
+			<OligarchsContainer onClick={()=>this.triggerDisplayOligarchsModal()}>
+				{this.crownLogo()}
+			</OligarchsContainer>
+		)
+	}
+
+	mobileSymposiumQuickAccessOptions=()=>{
 		return(
 			<React.Fragment>
 				{(this.state.handleScroll==false && this.state.displayDesktopUI==false)==true &&(
-					<BeaconButtonContainer backgroundColor={this.state.backgroundColor}>
-						<svg style={{cursor:"pointer",marginLeft:"5%"}}
-			                onClick={()=>this.displayBeaconHandle()}
-			                xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flare" width="44" 
-			                height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round"
-			                stroke-linejoin="round"
-			            >
-			              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-			              <circle cx="12" cy="12" r="2" />
-			              <path d="M3 12h4m5 -9v4m5 5h4m-9 5v4m-4.5 -13.5l1 1m8 -1l-1 1m0 7l1 1m-8 -1l-1 1" />
-			            </svg>
-					</BeaconButtonContainer>
+					<MobileQuickAccessSymposiumOptions>
+						{this.oligarchButton()}
+						<BeaconButtonContainer backgroundColor={this.state.backgroundColor}>
+							<svg style={{cursor:"pointer",marginLeft:"5%"}}
+				                onClick={()=>this.displayBeaconHandle()}
+				                xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flare" width="44" 
+				                height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round"
+				                stroke-linejoin="round"
+				            >
+				              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+				              <circle cx="12" cy="12" r="2" />
+				              <path d="M3 12h4m5 -9v4m5 5h4m-9 5v4m-4.5 -13.5l1 1m8 -1l-1 1m0 7l1 1m-8 -1l-1 1" />
+				            </svg>
+						</BeaconButtonContainer>
+					</MobileQuickAccessSymposiumOptions>
 				)}
 			</React.Fragment>
 		)
@@ -639,7 +649,7 @@ class Symposium extends Component{
 
 	crownLogo=()=>{
 		return(
-			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crown" 
+			<svg id="oligarchButtonIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crown" 
 			  width="44" height="44" viewBox="0 0 24 24" stroke-width="2.5" stroke="#232323" fill="none" 
 		 	  stroke-linecap="round" stroke-linejoin="round">
 			  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -658,9 +668,7 @@ class Symposium extends Component{
 					/>
 					<p>Explore</p>
 				</ExploreIconContainer>
-				<OligarchsContainer onClick={()=>this.triggerDisplayOligarchsModal()}>
-					{this.crownLogo()}
-				</OligarchsContainer>
+				{this.oligarchButton()}
 			</AdditionalSymposiumInformationContainer>
 		)
 	}
@@ -759,7 +767,7 @@ class Symposium extends Component{
 					{this.oligarchFinalResultDisplay()}
 					{this.additionalInformation()}
 					{this.arrowIndicatorButton()}
-					{this.beaconIndicatorButton()}
+					{this.mobileSymposiumQuickAccessOptions()}
 					{this.handleSeeAllPeopleActiveModal()}
 					{this.handleSeeAllPopularVideos()}
 					{this.specificSymposiumFeatures()}

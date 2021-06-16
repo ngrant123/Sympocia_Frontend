@@ -6,13 +6,11 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 const CommentContainer=styled.div`
 	display:flex;
 	flex-direction:row;
-	height:200px;
 	margin-bottom:5%;
 	padding:20px;
 	border-radius:5px;
-	overflow-y:scroll;
 	display:flex;
-	flex-direction:row;
+	flex-direction:column;
 `;
 
 
@@ -68,16 +66,16 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 	const comment=(commentData)=>{
 		return(
 			<CommentContainer>
-				<img src={commentData.profilePicture==null?
-					NoProfilePicture:commentData.profilePicture}
-					style={{width:"50px",height:"50px",borderRadius:"50%"}}
-				/>
-				<div style={{marginLeft:"5%",display:"flex",flexDirection:"column"}}>
-					<p>
+				<div style={{marginBottom:"2%",display:"flex",flexDirection:"row"}}>
+					<img src={commentData.profilePicture==null?
+						NoProfilePicture:commentData.profilePicture}
+						style={{width:"40px",height:"40px",borderRadius:"50%"}}
+					/>
+					<p style={{marginLeft:"2%"}}>
 						<b>{commentData.firstName}</b>
 					</p>
-					<p>{commentData.electionSpeech}</p>
 				</div>
+				<p>{commentData.electionSpeech}</p>
 			</CommentContainer>
 		)
 	}
@@ -94,15 +92,15 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 			<div onClick={()=>closeOligarchCardModal()} style={ButtonCSS}>
 				Back
 			</div>
-			<div style={{marginTop:"5%",display:"flex",flexDirection:"row"}}>
-				<img src={electionCardInformation.profilePicture==null?
-					NoProfilePicture:
-					electionCardInformation.profilePicture} 
-					style={{borderRadius:"50%",width:"100px",height:"100px"}}
-				/>
-				<div style={{marginLeft:"5%",display:"flex",flexDirection:"column"}}>
-					<div style={{display:"flex",flexDirection:"row"}}>
-						<p>	
+			<div>
+				<div style={{marginTop:"5%",marginLeft:"5%",display:"flex",flexDirection:"column"}}>
+					<div style={{display:"flex",flexDirection:"row",alignItems:"center",marginBottom:"5px"}}>
+						<img src={electionCardInformation.profilePicture==null?
+							NoProfilePicture:
+							electionCardInformation.profilePicture} 
+							style={{borderRadius:"50%",width:"50px",height:"50px"}}
+						/>
+						<p style={{marginLeft:"5%"}}>	
 							<b>{electionCardInformation.firstName}</b>
 						</p>
 					</div>
@@ -121,19 +119,21 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 								Hide Comments
 							</div>
 							:<div onClick={()=>changeDisplayComments(true)} style={ShadowButtonCSS}>
-								View Comments
+								Comments
 							</div>
 						}
 					</div>
 				</div>
+				<hr style={HorizontalLineCSS}/>
 			</div>
-			<hr style={HorizontalLineCSS}/>
 			{displayComments==true &&(
-				<div>
+				<React.Fragment>
 					{comments.map(data=>
-						<>{comment(data)}</>
+						<div>
+							{comment(data)}
+						</div>
 					)}
-				</div>
+				</React.Fragment>
 			)}
 		</React.Fragment>
 	)

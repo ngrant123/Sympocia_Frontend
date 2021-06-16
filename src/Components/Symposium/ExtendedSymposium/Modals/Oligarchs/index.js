@@ -25,8 +25,12 @@ const Container=styled.div`
 		left:5% !important;
 	}
 
+	@media screen and (max-width:650px){
+		height:80%;
+	}
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-		top:20%;
+		top:10%;
 		width:65%;
 		left:15%;
 	}
