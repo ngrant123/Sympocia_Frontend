@@ -3,6 +3,8 @@ import styled from "styled-components";
 import CreateIcon from '@material-ui/icons/Create';
 import Image from "./Image.js";
 import Video from "./Video.js";
+import RegularPost from "./RegularPosts.js";
+import Blog from "./Blogs.js";
 
 
 const Container=styled.div`
@@ -35,6 +37,11 @@ const MobileCaretDropDownCSS={
 	borderRadius:"50%",
 	padding:"10px"
 }
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
 
 const PostCategory=(props)=>{
 	const {
@@ -42,7 +49,8 @@ const PostCategory=(props)=>{
 		postType,
 		posts,
 		defaultPostCategoryInformation,
-		triggerChangeCategoryType
+		triggerChangeCategoryType,
+		displayDesktopUI
 	}=props;
 	console.log(props);
 
@@ -60,6 +68,21 @@ const PostCategory=(props)=>{
 					<Video
 						videoInformation={data}
 					/>
+				)
+			}
+			case "Regular":{
+				return(
+					<RegularPost
+						regularPostInformation={data}
+						displayDesktopUI={displayDesktopUI}
+					/>
+				)
+			}
+			case "Blog":{
+				return(
+					<Blog
+						blogInformation={data}
+					/>	
 				)
 			}
 		}
@@ -92,8 +115,11 @@ const PostCategory=(props)=>{
 		<Container>
 				<div style={{display:"flex",flexDirection:"column"}}>
 					<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-						<div style={{display:"flex",flexDirection:"row",width:"40%"}}>
-							{mobileCategoryOptions()}
+						<div style={{display:"flex",flexDirection:"row",width:"70%"}}>
+							{displayDesktopUI==false &&(
+								<>{mobileCategoryOptions()}</>
+							)}
+						
 							<p style={{marginLeft:"5%",fontSize:"24px"}}>
 								<b>{headers.title}</b>
 							</p>
@@ -108,6 +134,9 @@ const PostCategory=(props)=>{
 					</div>
 					<p>{headers.secondaryTitle}</p>
 				</div>
+				{displayDesktopUI==false &&(
+					<hr style={HorizontalLineCSS}/>
+				)}
 				<div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
 					{posts.map(data=>
 						<>{postsDisplay(data)}</>

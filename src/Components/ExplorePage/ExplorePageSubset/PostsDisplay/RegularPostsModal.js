@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import {
 	ConstructSuggestedSymposium
 } from "./ConstructSuggestedSymposium.js";
+import ExplorePageRegularPost from "../../../GeneralComponents/PostComponent/RegularPostComponent/SymposiumAndExplorePageRegularPost.js";
 
 
 const Container=styled.div`	
@@ -214,31 +215,11 @@ const RegularPostModal=(props)=>{
 							previousProps={props}
 							currentHeight={"30%"}
 						/>:
-						<PostsContainer onClick={()=>displayPostModal(data)} style={BorderCSS}>
-							<PostUserInformation>
-								<ProfilePictureLink to={{pathname:`/profile/${data.owner._id}`}}
-									style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px"}}>
-									<img src={data.owner.profilePicture!=null?
-											  data.owner.profilePicture:
-											  NoProfilePicture} 
-									style={{height:"50px",width:"60px",borderRadius:"50%"}}/>
-								</ProfilePictureLink>
-								<p id="headerOwnerNameLI" style={{display:"inline-block",fontSize:"20px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginLeft:"5%"}}>
-									<b>{data.owner.firstName}</b>
-								</p>
-							</PostUserInformation>
-
-							<p id="headerPostTextOrAudioContainerLI" style={{padding:"5px",fontSize:"20px",position:"relative",top:"70px",listStyle:"none",display:"inline-block",width:"100%",overflow:"hidden",marginLeft:"5%"}}>
-								{data.isAudioPost==true?
-									<audio id="audio" controls>
-									 	<source src={data.post} type="audio/ogg"/>
-									  	<source src={data.post} type="audio/mp4"/>
-										Your browser does not support the audio element.
-									</audio>
-									:
-									<>{data.post}</>
-								}
-							</p>
+						<PostsContainer style={BorderCSS}>
+							<ExplorePageRegularPost
+								regularPostInformation={data}
+								targetDom={props.targetDom}
+							/>
 						</PostsContainer>
 					}
 				</React.Fragment>
@@ -253,15 +234,6 @@ const RegularPostModal=(props)=>{
 					}
 				</React.Fragment>
 			)}
-			{displayRegualrPostDisplayPortal==false?
-				null:
-				<RegularPostDisplayPortal
-					closeModal={closeModal}
-					selectedPost={selectedRegularPost}
-					recommendedPosts={displayRecommendedPosts}
-					targetDom={props.targetDom}
-				/>
-			}
 		</Container>
 	)
 }

@@ -639,15 +639,6 @@ const ImagePostsModal=(props)=>{
 	return(
 		<Container>
 			{posts}
-			{displayImageDisplayPortal==false?
-				null:
-				<ImagePostDisplayPortal
-					closeModal={closeModal}
-					selectedImage={selectedImage}
-					recommendedImages={displayRecommendedImages}
-					targetDom={props.targetDom}
-				/>
-			}
 		</Container>
 	)
 }

@@ -105,6 +105,7 @@ const PostsContainerDisplay=(props)=>{
                             postType={state.postType}
                             defaultPostCategoryInformation={defaultPostCategoryInformation}
                             triggerChangeCategoryType={triggerChangeCategoryType}
+                            displayDesktopUI={state.displayDesktopUI}
                         />
                     )}
                     {/*

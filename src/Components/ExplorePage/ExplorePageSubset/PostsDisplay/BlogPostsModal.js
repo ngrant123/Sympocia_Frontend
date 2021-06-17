@@ -14,6 +14,7 @@ import {
 	HeaderOwnerAndSymposiumInformation,
 	SmallProfilePictureAndVideoDescription
 } from "./PostDisplayGeneralComp.js";
+import ExplorePageBlogPost from "../../../GeneralComponents/PostComponent//BlogComponent/SymposiumAndExplorePageBlog.js";
 
 const Container=styled.div`
 	display:flex;
@@ -478,39 +479,10 @@ const BlogPostModal=(props)=>{
 												/>
 											:
 											<SmallPostContainer onClick={()=>displayBlogModal(data)}>
-												<div id="smallImageAndOwnerContainer" 
-													style={{marginRight:"3%",display:"flex",flexDirection:"column"}}>
-													<div id="smallImageContainer" style={SmallBlogImageCSS}>
-														<img id="image" src={data.blogImageUrl} style={BlogImageContainerCSS}/>
-													</div>
-													<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-														<SmallProfilePictureAndVideoDescription
-															postData={data}
-														/>
-														<p style={{marginLeft:"2%",maxWidth:"90px",overflow:"hidden",maxHeight:"20px"}}>
-															{data.owner.firstName}
-														</p>
-													</div>
-													{/*
-														<ul style={{padding:"0px",zIndex:"8"}}>
-															<li style={{listStyle:"none",display:"inline-block",maxWidth:"90px",overflow:"hidden",maxHeight:"20px",marginLeft:"2%"}}>
-																{data.owner.firstName}
-															</li>
-														</ul>
-													*/}
-												</div>
-												<div id="smallPostTitleAndDescription"
-												 	style={{display:"flex",flexDirection:"column"}}>
-													<p id="smallPostTitle" style={{fontSize:"20px",height:"60px",overflowY:"hidden",marginBottom:"2%"}}>
-														<b>
-															{data.title}
-														</b>
-													</p>
-
-													<p id="smallPostDescription" style={{fontSize:"13px",color:"#8c8c8c",height:"50px",overflowY:"hidden"}}>
-														{data.description}
-													</p>
-												</div>
+												<ExplorePageBlogPost
+													blogPostInformation={data}
+													targetDom={props.targetDom}
+												/>
 											</SmallPostContainer>
 
 										}	

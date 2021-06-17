@@ -58,8 +58,8 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                 else
                     nextPosts=currentPosts.concat(data);
 
-                if(newPostOption!="Video")
-                    nextPosts=postCount==0?suggestedSymposiumsRecursive(nextPosts):nextPosts;
+                // if(newPostOption!="Video")
+                //     nextPosts=postCount==0?suggestedSymposiumsRecursive(nextPosts):nextPosts;
 
                 changePostOptionState(newPostOption);
                 changePosts([...nextPosts]);

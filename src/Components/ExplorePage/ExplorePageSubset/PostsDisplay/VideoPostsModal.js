@@ -515,15 +515,6 @@ const VideoPostModal=(props)=>{
 	return(
 	<Container>
 		{posts}
-		{displayVideoDisplayPortal==false?
-			null:
-			<VideoPostDisplayPortal
-				closeModal={closeModal}
-				selectedVideo={selectedVideo}
-				recommendedVideos={displayRecommendedVideos}
-				targetDom={props.targetDom}
-			/>
-		}
 	</Container>
 	)
 }
