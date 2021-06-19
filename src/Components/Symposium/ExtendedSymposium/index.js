@@ -641,6 +641,7 @@ class Symposium extends Component{
 				{this.state.displayOligarchsElection==true &&(
 					<Oligarchs
 						closeOligarchModal={this.closeOligarchsContest}
+						symposiumId={this.state.symposiumId}
 					/>
 				)}
 			</React.Fragment>

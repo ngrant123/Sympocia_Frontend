@@ -48,7 +48,7 @@ const InputContainer=styled.textarea`
 	padding:5px;
 `;
 
-const Oligarchs=({closeOligarchModal})=>{
+const Oligarchs=({symposiumId,closeOligarchModal})=>{
 	const [oligarchModalType,changeOligarchsModalType]=useState("Election");
 	const [selectedElectionCardInformation,changeSelectionCardInformation]=useState();
 	const [newContestant,changeNewContestant]=useState();
@@ -78,6 +78,7 @@ const Oligarchs=({closeOligarchModal})=>{
 							displayElectionCard={displayElectionCard}
 							displayCreationModal={displayCreationModal}
 							newContestant={newContestant}
+							symposiumId={symposiumId}
 						/>
 			}
 			case "ElectionCard":{
@@ -91,6 +92,7 @@ const Oligarchs=({closeOligarchModal})=>{
 				return <CreationSubmission
 							closeCreationModal={closeModalAndDisplayElection}
 							addNewElectionContestant={addNewElectionContestant}
+							symposiumId={symposiumId}
 						/>
 			}
 		}

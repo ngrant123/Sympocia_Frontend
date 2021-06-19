@@ -4,6 +4,7 @@ import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import OfflineBoltIcon from '@material-ui/icons/OfflineBolt';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
+import {getSymposiumOligarchCards} from "../../../../../Actions/Requests/OligarchRequests/OligarchRetrieval.js";
 
 
 const InputContainer=styled.textarea`
@@ -70,23 +71,28 @@ const HorizontalLineCSS={
 	marginRight:"0"
 }
 
-const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant})=>{
-	const [electionContestants,changeElectionContestants]=useState([{
-		firstName:"Nathan",
-		electionSpeech:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."	
-	},{
-
-	},{
-
-	},{
-
-	}]);
+const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant,symposiumId})=>{
+	const [electionContestants,changeElectionContestants]=useState([]);
+	const [loading,changeLoadingStatus]=useState(false);
 	useEffect(()=>{
-		if(newContestant!=null){
-			electionContestants.splice(0,0,newContestant);
-			changeElectionContestants([...electionContestants]);
-		}
+		// if(newContestant!=null){
+		// 	electionContestants.splice(0,0,newContestant);
+		// 	changeElectionContestants([...electionContestants]);
+		// }
+		fetchData();
 	},[]);
+
+	const fetchData=async()=>{
+		changeLoadingStatus(true);
+		const {confirmation,data}=await getSymposiumOligarchCards(symposiumId)
+		if(confirmation=="Success"){
+			const {message}=data;
+			changeElectionContestants(message);
+		}else{
+			alert('Unfortunately there was an error retrieving the oligarch contestants.Please try again');
+		}
+		changeLoadingStatus(false);
+	}
 	const electionCards=(data,index)=>{
 		let colorTrophy;
 		if(index==0){
@@ -104,8 +110,8 @@ const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant})
 							style={{fontSize:"40",color:colorTrophy}}
 						/>
 					)}
-					<img id="contestantProfilePicture" src={data.profilePicture==null?
-							NoProfilePicture:data.profilePicture} 
+					<img id="contestantProfilePicture" src={data.owner.profilePicture==null?
+							NoProfilePicture:data.owner.profilePicture} 
 							style={{width:"70px",height:"70px",borderRadius:"50%"}}
 					/>
 				</div>
@@ -113,7 +119,7 @@ const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant})
 					style={{marginLeft:"2%",width:"70%",display:"flex",flexDirection:"column"}}>
 					<div style={{display:"flex",flexDirection:"row"}}>
 						<p id="contestantFirstName" style={{fontSize:"24px"}}>
-							<b>{data.firstName}</b>
+							<b>{data.owner.firstName}</b>
 						</p>
 						<p id="ranking" style={{color:"#C8B0F4",marginLeft:"5%",fontSize:"20px"}}>Rank: {index+1}</p>
 					</div>
@@ -150,14 +156,22 @@ const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant})
 					<InputContainer placeholder="Search just the oligarch contestant here"/>
 				</div>
 			</div>
-			<div style={{marginTop:"5%"}}>
-				{electionContestants.map((data,index)=>
-					<React.Fragment>
-						{electionCards(data,index)}
-						<hr style={HorizontalLineCSS}/>
-					</React.Fragment>
-				)}
-			</div>
+			{loading==true?
+				<p>Please wait...</p>:
+				<div style={{marginTop:"5%"}}>
+					{electionContestants.length==0?
+						<p>No oligarch contestants</p>:
+						<React.Fragment>
+							{electionContestants.map((data,index)=>
+								<React.Fragment>
+									{electionCards(data,index)}
+									<hr style={HorizontalLineCSS}/>
+								</React.Fragment>
+							)}
+						</React.Fragment>
+					}
+				</div>
+			}
 		</React.Fragment>
 	)
 }
