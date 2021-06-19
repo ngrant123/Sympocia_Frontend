@@ -368,6 +368,17 @@ const PersonalInformation=(props)=>{
 		)
 	}
 
+	const crownLogo=()=>{
+		return(
+			<svg id="oligarchButtonIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crown" 
+			  width="30" height="30" viewBox="0 0 24 24" stroke-width="2.5" stroke="#FAE124" fill="none" 
+		 	  stroke-linecap="round" stroke-linejoin="round">
+			  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+			  <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+			</svg>
+		)
+	}
+
 	const userInformationComponent=(personalInformation,displayDesktopUI,displayMobileProfileOptions)=>{
 		return (
 			<>
@@ -379,6 +390,11 @@ const PersonalInformation=(props)=>{
 								<b>{personalInformation.firstName}</b>
 							</p>
 							{editIcon()}
+							{personalInformation.isOligarch==true &&(
+								<div style={{cursor:"pointer",marginLeft:"5%"}}>
+									{crownLogo()}
+								</div>
+							)}
 						</div>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
