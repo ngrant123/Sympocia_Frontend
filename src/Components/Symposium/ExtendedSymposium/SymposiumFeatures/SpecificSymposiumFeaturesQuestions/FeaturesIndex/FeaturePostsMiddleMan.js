@@ -5,6 +5,7 @@ import VideoPostModal from "../FeaturesPosts/VideoPostModal.js";
 import styled from "styled-components";
 import ImagePostModal from "../FeaturesPosts/ImagePostModal.js";
 import {createPortal} from "react-dom";
+import {SymposiumConsumer} from "../../../SymposiumContext.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -41,54 +42,49 @@ const ShadowContainer=styled.div`
 
 
 const ModalDecider=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
-	const modalDecider=()=>{
+	const modalDecider=(symposiumInformation)=>{
+		const postModalProps={
+			symposium,
+			modalType,
+			questionIndex,
+			question,
+			symposiumId,
+			selectedPostId,
+			isOligarch:symposiumInformation.isOligarch
+		}
 		if(modalType=="Image"){
 			return <ImagePostModal
-						symposium={symposium}
-						modalType={modalType}
-						questionIndex={questionIndex}
-						question={question}
-						symposiumId={symposiumId}
-						selectedPostId={selectedPostId}
+						{...postModalProps}
 					/>
 		}else if(modalType=="Video"){
 			return <VideoPostModal
-						symposium={symposium}
-						modalType={modalType}
-						questionIndex={questionIndex}
-						question={question}
-						symposiumId={symposiumId}
-						selectedPostId={selectedPostId}
+						{...postModalProps}
 					/>
 		}else if(modalType=="RegularPost"){
 			return <RegularPostModal
-						symposium={symposium}
-						modalType={modalType}
-						questionIndex={questionIndex}
-						question={question}
-						symposiumId={symposiumId}
-						selectedPostId={selectedPostId}
+						{...postModalProps}
 					/>
 		}else{
 			return <AudioPostModal
-						symposium={symposium}
-						modalType={modalType}
-						questionIndex={questionIndex}
-						symposiumId={symposiumId}
-						question={question}
-						selectedPostId={selectedPostId}
+						{...postModalProps}
 					/>
 		}
 	}
 		return createPortal(
-		<>
-			<ShadowContainer
-				onClick={()=>closeModal()}
-			/>
-			<Container>
-				{modalDecider()}
-			</Container>
-		</>
+		<SymposiumConsumer>
+			{symposiumInformation=>{
+				return(
+					<React.Fragment>
+						<ShadowContainer
+							onClick={()=>closeModal()}
+						/>
+						<Container>
+							{modalDecider(symposiumInformation)}
+						</Container>
+					</React.Fragment>
+				)
+			}}
+		</SymposiumConsumer>
 
 	,document.getElementById("extendedSymposiumContainer"));
 }

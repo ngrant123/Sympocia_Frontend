@@ -2,7 +2,10 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import CameraIcon from '@material-ui/icons/Camera';
-import {addCommentToPopularQuestions} from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {
+	addCommentToPopularQuestions,
+	deleteCommentToPopularQuestions
+} from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
@@ -209,6 +212,23 @@ const UploadButtonCSS={
   cursor:"pointer"
 }
 
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"5px",
+	borderStyle:"none",
+	marginRight:"10%",
+	marginBottom:"2%",
+	cursor:"pointer",
+	marginTop:"5%"
+}
+
+
 const RegularPostContainer=styled.div`
 	transition:.8s;
 	border-radius:5px;
@@ -260,9 +280,12 @@ const QuestionsPortal=(props)=>{
 			questions,
 			closeModalAndDisplayData,
 			selectedSymposium,
-			isMobile
+			isMobile,
+			isOligarch
 		}=props;
+	console.log(props);
 
+	const [currentReplies,changeCurrentReplies]=useState(questions[counter].responsesId);
 	const [displayCreatePost,changeDisplayPost]=useState(false);
 	const [displayUploadScreen,changeDisplayUploadScreen]=useState(true);
 	let [currentCounter,changeCurrentCounter]=useState(counter);
@@ -561,6 +584,64 @@ const QuestionsPortal=(props)=>{
 		}
 	}
 
+	const deleteHighlightedPost=async({selectedData,index,isAccessTokenUpdated,updatedAccessToken})=>{
+		debugger;
+		const {confirmation,data}=await deleteCommentToPopularQuestions({
+											questionId:questions[currentCounter]._id,
+							           		targetDeletionResponseId:selectedData._id,
+								            symposiumId:selectedSymposium,
+								            userId:_id,
+								            accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken
+										})
+		if(confirmation=="Success"){
+			const currentResponses=currentReplies;
+			currentResponses.splice(index,1);
+			changeCurrentReplies([...currentResponses]);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						deleteHighlightedPost,
+						dispatch,
+						{
+							selectedData,
+							index
+						},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error when trying to delete your post. Please try again');
+			}
+		}
+	}
+
+	const deleteHighLightedQuestionIcon=(data,index)=>{
+		console.log(data);
+		return(
+			<React.Fragment>
+				{(isOligarch==true || data.owner._id==personalInformation.id)==true &&(
+					<div onClick={()=>deleteHighlightedPost({selectedData:data,index,isAccessTokenUpdated:false})}>
+						<svg id="removePostOption" 
+							 xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+							width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
+							stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <line x1="4" y1="7" x2="20" y2="7" />
+						  <line x1="10" y1="11" x2="10" y2="17" />
+						  <line x1="14" y1="11" x2="14" y2="17" />
+						  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+						  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+						</svg>
+					</div>
+				)}
+			</React.Fragment>
+		)
+	}
+
+
 	const constructResponses=(replies)=>{
 			var element;
 			if(replies.length==0){
@@ -568,41 +649,51 @@ const QuestionsPortal=(props)=>{
 			}else{
 				if(currentQuestionType=="Image"){
 					return <React.Fragment>
-								{replies.map(data=>
-									<img id="imgUrl" src={data.imgUrl} onClick={()=>displayAppropriatePostModal(data,"Images")} 
-									style={{borderRadius:"5px",width:"30%",height:"140px",marginRight:"2%",marginBottom:"2%"}}/>
+								{replies.map((data,index)=>
+									<>
+										<img id="imgUrl" src={data.imgUrl} onClick={()=>displayAppropriatePostModal(data,"Images")} 
+											style={{borderRadius:"5px",width:"30%",height:"140px",marginRight:"2%",marginBottom:"2%"}}
+										/>
+										{deleteHighLightedQuestionIcon(data,index)}
+									</>
 								)}
 							</React.Fragment>;
 				}else if(currentQuestionType=="Video"){
 					return <React.Fragment>
-								{replies.map(data=>
-									<div style={{marginRight:"2%",marginBottom:"2%"}}>
-										<video id="videoPost" onClick={()=>displayAppropriatePostModal(data,"Videos")} 
-											style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-											 position="relative" width="150" height="150"
-										 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-											<source src={data.videoUrl} type="video/mp4"/>
-										</video>
-									</div>
+								{replies.map((data,index)=>
+									<>
+										<div style={{marginRight:"2%",marginBottom:"2%"}}>
+											<video id="videoPost" onClick={()=>displayAppropriatePostModal(data,"Videos")} 
+												style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+												 position="relative" width="150" height="150"
+											 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+												<source src={data.videoUrl} type="video/mp4"/>
+											</video>
+										</div>
+										{deleteHighLightedQuestionIcon(data,index)}
+									</>
 								)}
 							</React.Fragment>;
 				}else{
 					return <React.Fragment>
-								{replies.map(data=>
-									<RegularPostContainer onClick={()=>displayAppropriatePostModal(data,"RegularPosts")}>
-										<RegularPostUserInformation>
-											<img id="imagePicture" src={data.owner.profilePicture==null?
-														NoProfilePicture:
-														data.owner.profilePicture} 
-											style={{height:"60px",width:"60px",borderRadius:"50%"}}/>
-											<p style={{maxHeight:"30px",maxWidth:"80%",overflow:"hidden"}}>
-												<b>{data.owner.firstName}</b>
+								{replies.map((data,index)=>
+									<>
+										<RegularPostContainer onClick={()=>displayAppropriatePostModal(data,"RegularPosts")}>
+											<RegularPostUserInformation>
+												<img id="imagePicture" src={data.owner.profilePicture==null?
+															NoProfilePicture:
+															data.owner.profilePicture} 
+												style={{height:"60px",width:"60px",borderRadius:"50%"}}/>
+												<p style={{maxHeight:"30px",maxWidth:"80%",overflow:"hidden"}}>
+													<b>{data.owner.firstName}</b>
+												</p>
+											</RegularPostUserInformation>
+											<p style={{marginLeft:"1%",maxHeight:"90px",maxWidth:"80%",overflow:"hidden"}}>
+												{data.post}		
 											</p>
-										</RegularPostUserInformation>
-										<p style={{marginLeft:"1%",maxHeight:"90px",maxWidth:"80%",overflow:"hidden"}}>
-											{data.post}		
-										</p>
-									</RegularPostContainer>
+										</RegularPostContainer>
+										{deleteHighLightedQuestionIcon(data,index)}
+									</>
 								)}
 							</React.Fragment>;
 			}
@@ -694,7 +785,7 @@ const QuestionsPortal=(props)=>{
 												{questions[currentCounter].responsesId.length==0?
 													<p>No replies yet :( </p>:
 													<React.Fragment>
-														{constructResponses(questions[counter].responsesId)}
+														{constructResponses(currentReplies)}
 													</React.Fragment>
 												}
 											</PostsContainer>

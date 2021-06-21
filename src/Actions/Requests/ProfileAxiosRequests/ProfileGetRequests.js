@@ -510,4 +510,24 @@ export const recruitsLocatedInNode=async(profileId,levelNodeId)=>{
 	}
 }
 
+export const retrieveSymposiumsProfileIsAnOligarch=async(profileId)=>{
+	try{
+		const retrievedProfileSymposiumsOligarchsListResponse=await axios.get(`${SearchUrl}/profilesOligarchRetrieval`,{
+			params:{
+				profileId
+			}
+		})
+		const {data}=retrievedProfileSymposiumsOligarchsListResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+
+
+
+
 

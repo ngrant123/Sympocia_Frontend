@@ -1,6 +1,10 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import BeaconPosts from "../BeaconPosts.js";
+import {deleteBeacon} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
+
 
 const Container=styled.div`
 	position:relative;
@@ -36,9 +40,17 @@ const Replies=({
 				fetchReplies,
 				isLoadingReplies,
 				endOfNewPosts,
-				isFetchingNextPosts
+				isFetchingNextPosts,
+				isOligarch,
+				deleteBeaconPost,
+				symposiumId,
+				beaconId,
+				ownerId
 			})=>{
 	const [isRepliesSelectionSelected,changeIsRepliesSelected]=useState(replies.length>0?true:false);
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
+
 	const displayExtendedPostModal=(postData)=>{
 		displayZoomedReplyPost(postData);
 	}
@@ -49,6 +61,32 @@ const Replies=({
 
 	const fetchNextPosts=()=>{
 		triggerFetchReplies(true)
+	}
+
+	const triggerBeaconDeletion=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		const {confirmation,data}=await deleteBeacon({
+			symposiumId,
+			beaconId,
+			beaconType:postType,
+			ownerId:personalInformation.id,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+			personalInformation.accessToken
+		});
+		if(confirmation=="Success"){
+			deleteBeaconPost();
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					triggerBeaconDeletion,
+					dispatch,
+					{},
+					false
+				);
+			}
+		}
 	}
 
 	return(
@@ -72,6 +110,12 @@ const Replies=({
 							<li style={{cursor:"pointer"}} onClick={()=>triggerFetchReplies()}>
 								View Replies
 							</li>
+							<hr/>
+							{(isOligarch==true || ownerId==personalInformation.id)==true &&(
+								<li style={{cursor:"pointer"}} onClick={()=>triggerBeaconDeletion({isAccessTokenUpdated:false})}>
+									Delete Beacon
+								</li>
+							)}
 						</ul>
 				  	</div>
 				  	{isRepliesSelectionSelected==true &&(
@@ -86,6 +130,10 @@ const Replies=({
 									isFetchingNextPosts={isFetchingNextPosts}
 									triggerAlterPosts={fetchNextPosts}
 									isReplyBeacons={true}
+									isOligarch={isOligarch}
+									symposiumId={symposiumId}
+									beaconId={beaconId}
+									ownerId={ownerId}
 								/>
 						  	}
 				  		</React.Fragment>

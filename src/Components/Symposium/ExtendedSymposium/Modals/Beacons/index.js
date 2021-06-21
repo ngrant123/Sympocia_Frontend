@@ -96,8 +96,8 @@ const ButtonCSS={
 
 
 
-const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop})=>{
-	
+const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop,isOligarch})=>{
+	console.log(isOligarch);
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [displayExtendedModal,changeDisplayExtendedModal]=useState(false);
 	const [displayPostDisplay,changePostDisplayModal]=useState(true);
@@ -109,6 +109,7 @@ const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop})=>{
 	const userInformation=useSelector(state=>state.personalInformation);
 	const [endOfNewPosts,changeIsEndOfNewPosts]=useState(false);
 	const [isFetchingNextPosts,changeIsFetchingNextPosts]=useState(false);
+	const [selectedExtendedPostIndex,changeSelectedPostIndex]=useState();
 
 	useEffect(()=>{
 		fetchData(postType,currentBeaconCounter);
@@ -179,11 +180,17 @@ const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop})=>{
 		fetchData(selectedPostType,counter);
 	}
 
-	const displayExtendedPostModal=(postData)=>{
+	const displayExtendedPostModal=(postData,selectedIndex)=>{
+		changeSelectedPostIndex(selectedIndex);
 		changePostDisplayModal(false);
 		changeSelectedPost(postData);
 		changeDisplayCreationModal(false);
 		changeDisplayExtendedModal(true);
+	}
+
+	const deletedBeacon=()=>{
+		posts.splice(selectedExtendedPostIndex,1);
+		changePosts([...posts]);
 	}
 	const beaconDecider=()=>{
 		if(displayPostDisplay==true){
@@ -247,6 +254,8 @@ const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop})=>{
 					symposiumId={symposiumId}
 					ownerId={userInformation.id}
 					isGuestProfile={isGuestProfile}
+					isOligarch={isOligarch}
+					deletedBeacon={deletedBeacon}
 				/>
 			)
 		}

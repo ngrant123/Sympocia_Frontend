@@ -221,6 +221,44 @@ export const retrieveBeaconReplies=async(symposiumId,postType,beaconCounter,beac
 	}
 }
 
+export const isOligarch=async(profileId,symposium,accessToken)=>{
+	try{
+		const isOligarchResponse=await axios.get(`${SearchUrl}/isProfileOligarchStatus`,{
+			params:{
+				profileId,
+				symposium
+			},
+			headers:{
+				authorization:accessToken
+			}
+		})
+		const {data}=isOligarchResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

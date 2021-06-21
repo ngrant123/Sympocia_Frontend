@@ -3,7 +3,10 @@ import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
-import {createSpecificIndustryRegularPostAnswer} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {
+	createSpecificIndustryRegularPostAnswer,
+	deleteSpecificSymposiumAnswer
+} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryRegularPostFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
 import RegularPostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
@@ -58,7 +61,7 @@ const CreatePostButton=styled.div`
 	background-color:white;
 	border-color:white;
 	border-style:solid;
-	padding:15px;
+	padding:10px;
 	border-width:5px;
 	animation: glowing 1300ms infinite;
 	text-align:center;
@@ -167,7 +170,34 @@ const KnowledgeLevelIndicatorCSS={
   marginTop:"1%"
 }
 
-const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,questionIndex,question,selectedPostId})=>{
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"5px",
+	borderStyle:"none",
+	marginRight:"10%",
+	marginBottom:"2%",
+	cursor:"pointer",
+	marginTop:"5%"
+}
+
+const RegularPostModal=(props)=>{
+	const {
+		closeModal,
+		symposium,
+		displayImage,
+		modalType,
+		symposiumId,
+		questionIndex,
+		question,
+		selectedPostId,
+		isOligarch
+	}=props;
 
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [posts,changePosts]=useState([]);
@@ -323,6 +353,43 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 		changePostExpand(false);
 	}
 
+	const deleteSymposiumFeaturePost=({selectedPostIndex,isAccessTokenUpdated,updatedAccessToken})=>{
+		// const {confirmation,data}=await deleteSpecificSymposiumAnswer();
+		// if(confirmation=="Success"){
+
+		// }else{
+
+		// }
+
+		posts.splice(selectedPostIndex,1);
+		changePosts([...posts]);
+	}
+	const deleteIcon=(data,index)=>{
+		console.log(data);
+		return(
+			<React.Fragment>
+				{(isOligarch==true || data.owner._id==personalInformation.id)==true &&(
+					<div style={{marginLeft:"5%"}}>
+						<svg id="removePostOption" onClick={()=>deleteSymposiumFeaturePost({
+																	selectedPostIndex:index,
+																	isAccessTokenUpdated:false
+																})}
+							xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+							width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
+							stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>
+						  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						 	<line x1="4" y1="7" x2="20" y2="7" />
+					  		<line x1="10" y1="11" x2="10" y2="17" />
+					  		<line x1="14" y1="11" x2="14" y2="17" />
+					  		<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+					  		<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+						</svg>
+					</div>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	return(
 		<ul style={{padding:"20px"}}>
 			{displayPostExpand==false?
@@ -427,22 +494,25 @@ const RegularPostModal=({closeModal,symposium,displayImage,modalType,symposiumId
 									{posts.length==0?
 										<p>No posts</p>:
 										<ul style={{padding:"0px"}}>
-											{posts.map(data=>
-												<RegularPostContainer onClick={()=>displaySelectedPost(data)}>
-													<RegularPostInformation>
-														<img src={data.owner.profilePicture==null?
-																	NoProfilePicture:
-																	data.owner.profilePicture
-																} style={{width:"60px",height:"60px",borderRadius:"50%"}}
-														/>
-														<p> 
-															<b>{data.owner.firstName}</b>
+											{posts.map((data,index)=>
+												<>
+													<RegularPostContainer onClick={()=>displaySelectedPost(data)}>
+														<RegularPostInformation>
+															<img src={data.owner.profilePicture==null?
+																		NoProfilePicture:
+																		data.owner.profilePicture
+																	} style={{width:"60px",height:"60px",borderRadius:"50%"}}
+															/>
+															<p> 
+																<b>{data.owner.firstName}</b>
+															</p>
+														</RegularPostInformation>
+														<p style={{height:"10%",overflow:"hidden",maxHeight:"15%"}}>
+															{data.post}
 														</p>
-													</RegularPostInformation>
-													<p style={{height:"10%",overflow:"hidden",maxHeight:"15%"}}>
-														{data.post}
-													</p>
-												</RegularPostContainer>
+													</RegularPostContainer>
+													{deleteIcon(data,index)}
+												</>
 											)}
 										</ul>
 									}

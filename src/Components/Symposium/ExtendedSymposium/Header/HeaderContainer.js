@@ -472,6 +472,7 @@ const HeaderContainer=(props)=>{
 										isSimplified={props.popularQuestionObject.isSimplified}
 										selectedSymposium={props.popularQuestionObject.selectedSymposium}
 										isGuestProfile={isGuestProfile}
+										isOligarch={props.isOligarch}
 									/>
 								}
 							</HighlightedQuestionsContainer>

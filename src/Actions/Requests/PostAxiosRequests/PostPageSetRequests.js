@@ -711,11 +711,85 @@ export const deleteCommentPool=async({
 	}
 }
 
+export const deleteBeacon=async({
+				symposiumId,
+				beaconId,
+				beaconType,
+				ownerId,
+				accessToken
+			})=>{
+	try{
+		const deletedBeaconResponse=await axios.post(`${CreateURl}/deleteBeacon`,{
+			symposiumId,
+			beaconId,
+			beaconType,
+			ownerId
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+		const {data}=deletedBeaconResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+export const deleteBeaconReply=async({
+			symposiumId,
+			beaconId,
+			replyBeaconId,
+			beaconType,
+			ownerId,
+			accessToken
+		})=>{
+	try{
+		const deletedBeaconReplyResponse=await axios.post(`${CreateURl}/deleteBeaconReply`,{
+			symposiumId,
+			beaconId,
+			replyBeaconId,
+			beaconType,
+			ownerId
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+		const {data}=deletedBeaconReplyResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 
-
-
+export const deleteCommentToPopularQuestions=async({
+			questionId,
+            targetDeletionResponseId,
+            symposiumId,
+            userId,
+            accessToken
+	})=>{
+	try{
+		const deleteCommentToPopularPostResponse=await axios.post(`${CreateURl}/deleteCommentToPopularPost`,{
+				questionId,
+	            targetDeletionResponseId,
+	            symposiumId,
+	            userId
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+		const {data}=deleteCommentToPopularPostResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 

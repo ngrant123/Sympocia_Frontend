@@ -3,7 +3,10 @@ import styled from "styled-components";
 import Chat from "./Modals/ChatRoom.js";
 import { connect } from "react-redux";
 import ActivePeopleModal from "./Modals/ActivePeopleModal";
-import {getIndustryInformation} from "../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import {
+	getIndustryInformation,
+	isOligarch
+} from "../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import PostCreation from "../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 
 import {connectToRoom} from "../../../Actions/Requests/SocketIORequests";
@@ -106,7 +109,8 @@ class Symposium extends Component{
 			displaySpecficSymposiumFeature:false,
 			displayHightletedSimplifiedQuestionsModal:false,
 			displayBeaconPrompt:false,
-			displayFinalOligarchsCompetitionResults:true
+			displayFinalOligarchsCompetitionResults:true,
+			isOligarch:false
 		}
 	}
 
@@ -140,9 +144,44 @@ class Symposium extends Component{
 
 	 async componentDidMount(){
 		window.addEventListener('resize',this.triggerUIChange)
-  		const postContainerElement=document.getElementById("postChatInformation");
 
 		const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
+
+		this.fetchSymposiumInformation(profileId);
+		this.fetchIsOligarchStatus({isAccessTokenUpdated:false,profileId});
+  		this.triggerUIChange();
+	}
+
+	fetchIsOligarchStatus=async({isAccessTokenUpdated,updatedAccessToken,profileId})=>{
+		const {confirmation,data}=await isOligarch(
+										profileId,
+										this.props.match.params.symposiumName,
+										isAccessTokenUpdated==true?updatedAccessToken:
+											this.props.personalInformation.accessToken
+								);
+		if(confirmation=="Success"){
+			const {message}=data;
+			this.setState({
+				isOligarch:message
+			})
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					this.props.personalInformation.refreshToken,
+					this.props.personalInformation.id,
+					this.fetchIsOligarchStatus,
+					this.props,
+					{
+						profileId	
+					},
+					true
+				);
+			}
+		}
+	}
+	fetchSymposiumInformation=async(profileId)=>{
+  		const postContainerElement=document.getElementById("postChatInformation");
   		var {confirmation,data}=await getIndustryInformation(
   										this.props.match.params.symposiumName,
   									   	this.state.postCount,
@@ -195,8 +234,7 @@ class Symposium extends Component{
   		}else{
   			alert('Unfortunately there has been a problem with getting the symposium information. Please try again');
   		}
-  		this.triggerUIChange();
-	  }
+	}
 
 
 	symposiumBackgroundColor=(symposiumName)=>{
@@ -524,6 +562,7 @@ class Symposium extends Component{
 					displayHightletedSimplifiedQuestionsModal={this.state.displayHightletedSimplifiedQuestionsModal}
 					isSimplified={true}
 					isMobile={!this.displayDesktopUI}
+					isOligarch={this.state.isOligarch}
 				/>
 		)
 	}
@@ -604,6 +643,7 @@ class Symposium extends Component{
 						symposiumId={this.state.symposiumId}
 						isGuestProfile={this.state.isGuestProfile}
 						isDesktop={this.state.displayDesktopUI}
+						isOligarch={this.state.isOligarch}
 					/>
 				)}
 			</React.Fragment>
@@ -734,7 +774,8 @@ class Symposium extends Component{
 					},
 					handleDisplayBeacons:()=>{
 						this.displayBeaconHandle();
-					}
+					},
+					isOligarch:this.state.isOligarch
 				}}
 			>
 				<SymposiumContainer id="extendedSymposiumContainer">
@@ -804,6 +845,7 @@ class Symposium extends Component{
 					  	backgroundColor={this.state.backgroundColor}
 					  	displayBeacon={this.displayBeaconHandle}
 					  	isLoading={this.state.isLoading}
+					  	isOligarch={this.state.isOligarch}
 		  			/>
 
 					<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>
