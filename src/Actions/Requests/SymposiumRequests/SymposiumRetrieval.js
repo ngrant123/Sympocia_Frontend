@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const SearchUrl=process.env.NODE_ENV=='production'?
-				process.env.REACT_APP_SYMPOSIUM_URL:
-				process.env.REACT_APP_TEST_SYMPOSIUM_URL;
+				process.env.REACT_APP_SYMPOSIUM_GET_URL:
+				process.env.REACT_APP_TEST_SYMPOSIUM_GET_URL;
 
 
 
@@ -233,6 +233,21 @@ export const isOligarch=async(profileId,symposium,accessToken)=>{
 			}
 		})
 		const {data}=isOligarchResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+export const getOligarchPerSymposium=async(symposiumId)=>{
+	try{
+		const oligarchsResponse=await axios.get(`${SearchUrl}/getOligarchPerSymposium`,{
+			params:{
+				symposiumId
+			}
+		})
+		const {data}=oligarchsResponse;
 		return data;
 	}catch(err){
 		throw err;
