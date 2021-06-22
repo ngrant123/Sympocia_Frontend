@@ -88,21 +88,28 @@ const SpecificFeatureSymposium=({symposium,symposiumId,questions,isGuestProfile}
 		changeLoadStatus(false);
 	},[]);
 
+	// const featureDecider=()=>{
+	// 	if(artMap.has(symposium) || stemMap.has(symposium)|| musicMap.has(symposium)
+	// 	 || newstravelMap.has(symposium) || gamingMap.has(symposium)){
+
+	// 		return <NonMiscellaneousRelatedFeatures
+	// 					symposium={symposium}
+	// 					questions={questions}
+	// 				/>;
+
+	// 	}else{
+	// 		return <MiscellaneousFeatures
+	// 					symposium={symposium}
+	// 					questions={questions}
+	// 				/>
+	// 	}
+	// }
+
 	const featureDecider=()=>{
-		if(artMap.has(symposium) || stemMap.has(symposium)|| musicMap.has(symposium)
-		 || newstravelMap.has(symposium) || gamingMap.has(symposium)){
-
-			return <NonMiscellaneousRelatedFeatures
-						symposium={symposium}
-						questions={questions}
-					/>;
-
-		}else{
-			return <MiscellaneousFeatures
-						symposium={symposium}
-						questions={questions}
-					/>
-		}
+		return <NonMiscellaneousRelatedFeatures
+					symposium={symposium}
+					questions={questions}
+				/>
 	}
 	return(
 		<FeatureProvider

@@ -57,7 +57,7 @@ const CreatePostButton=styled.div`
 	background-color:white;
 	border-color:white;
 	border-style:solid;
-	padding:15px;
+	padding:10px;
 	border-width:5px;
 	animation: glowing 1300ms infinite;
 	text-align:center;
@@ -159,9 +159,33 @@ const SkillLevelButton={
   marginRight:"2%"
 }
 
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"5px",
+	borderStyle:"none",
+	marginRight:"10%",
+	marginBottom:"2%",
+	cursor:"pointer",
+	marginTop:"5%"
+}
 ///<input type="file" accept=".mp3,audio/*">
-const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,question,selectedPostId,questionIndex})=>{
-
+const AudioPostModal=(props)=>{
+	const {
+		isOligarch,
+		closeModal,
+		symposium,
+		questionIndex,
+		symposiumId,
+		question,
+		selectedPostId,
+		deleteSpecificSymposiumAnswerTrigger
+	}=props
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [finalAudioEditDisplay,changeDisplayForFinalAudio]=useState(false);
 	const [audioUrl,changeAudioUrl]=useState();
@@ -281,6 +305,39 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 	const closePostModal=()=>{
 		changePostExpand(false);
 	}
+	const deleteSpecificAnswer=async(data,index)=>{
+		deleteSpecificSymposiumAnswerTrigger({
+			selectedIndex:index,
+			changePosts,
+			posts,
+			selectedPost:data,
+			isAccessTokenUpdated:false,
+			personalInformation
+		})
+	}
+
+	const deleteSymposiumAnswerIcon=(data,index)=>{
+		return(
+			<React.Fragment>
+				{(isOligarch==true || data.owner._id==userId)==true &&(
+					<div onClick={()=>deleteSpecificAnswer(data,index)}>
+						<svg id="removePostOption" 
+							xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+							width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
+							stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <line x1="4" y1="7" x2="20" y2="7" />
+						  <line x1="10" y1="11" x2="10" y2="17" />
+						  <line x1="14" y1="11" x2="14" y2="17" />
+						  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+						  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+						</svg>
+					</div>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	return(
 		<ul style={{padding:"20px"}}>
 			{displayPostExpand==false?
@@ -314,26 +371,29 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 									{posts.length==0?
 										<p>No posts</p>:
 										<ul style={{padding:"0px"}}>
-											{posts.map(data=>
-												<AudioPostContainer onClick={()=>displaySelectedPost(data)}>
-													<AudioPostOwnerInformation>
-														<img src={data.owner.profilePicture==null?
-															NoProfilePicture:
-															data.owner.profilePicture
-														} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
-														<p> 
-															<b>{data.owner.firstName}</b>
+											{posts.map((data,index)=>
+												<>
+													<AudioPostContainer onClick={()=>displaySelectedPost(data)}>
+														<AudioPostOwnerInformation>
+															<img src={data.owner.profilePicture==null?
+																NoProfilePicture:
+																data.owner.profilePicture
+															} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
+															<p> 
+																<b>{data.owner.firstName}</b>
+															</p>
+														</AudioPostOwnerInformation>
+														<audio key={data._id} controls>
+														  <source src={data.post} type="audio/ogg"/>
+														  <source src={data.post} type="audio/mp4"/>
+															Your browser does not support the audio element.
+														</audio>
+														<p style={{overflowY:"auto",maxHeight:"10%",overflow:"hidden"}}>
+															{data.description}
 														</p>
-													</AudioPostOwnerInformation>
-													<audio key={data._id} controls>
-													  <source src={data.post} type="audio/ogg"/>
-													  <source src={data.post} type="audio/mp4"/>
-														Your browser does not support the audio element.
-													</audio>
-													<p style={{overflowY:"auto",maxHeight:"10%",overflow:"hidden"}}>
-														{data.description}
-													</p>
-												</AudioPostContainer>
+													</AudioPostContainer>
+													{deleteSymposiumAnswerIcon(data,index)}
+												</>
 											)}
 										</ul>
 									}
@@ -352,7 +412,7 @@ const AudioPostModal=({closeModal,symposium,displayImage,modalType,symposiumId,q
 							</a>
 							<li style={{listStyle:"none",display:"inline-block"}}>
 								<p style={{fontSize:"20px"}}>
-									<b>Upload an image for others to {modalType}</b>
+									<b>Upload an audio for others to listen to</b>
 								</p>
 							</li>
 						</ul>

@@ -45,7 +45,7 @@ const Replies=({
 				deleteBeaconPost,
 				symposiumId,
 				beaconId,
-				ownerId
+				originalBeaconOwnerId
 			})=>{
 	const [isRepliesSelectionSelected,changeIsRepliesSelected]=useState(replies.length>0?true:false);
 	const dispatch=useDispatch();
@@ -111,7 +111,7 @@ const Replies=({
 								View Replies
 							</li>
 							<hr/>
-							{(isOligarch==true || ownerId==personalInformation.id)==true &&(
+							{(isOligarch==true || originalBeaconOwnerId==personalInformation.id)==true &&(
 								<li style={{cursor:"pointer"}} onClick={()=>triggerBeaconDeletion({isAccessTokenUpdated:false})}>
 									Delete Beacon
 								</li>
@@ -133,7 +133,7 @@ const Replies=({
 									isOligarch={isOligarch}
 									symposiumId={symposiumId}
 									beaconId={beaconId}
-									ownerId={ownerId}
+									originalBeaconOwnerId={originalBeaconOwnerId}
 								/>
 						  	}
 				  		</React.Fragment>

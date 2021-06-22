@@ -27,7 +27,7 @@ const BackButtonCSS={
 
 
 const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumId,ownerId,isGuestProfile,isOligarch,deletedBeacon})=>{
-
+	console.log(postData);
 	const [displaySelectedPost,changeDisplaySelectedPost]=useState(true);
 	const [displayExtendReplyBeacon,changeDisplayReplyBeacon]=useState(false);
 	const [displayZoomedInPostPortal,changeDisplayZoomedInPostPortal]=useState(false);
@@ -156,6 +156,7 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 							deleteBeaconPost={deleteBeaconPost}
 							symposiumId={symposiumId}
 							beaconId={postData.beaconId}
+							originalBeaconOwnerId={selectedPostData.post.owner._id}
 						/>
 					)}
 				</React.Fragment>

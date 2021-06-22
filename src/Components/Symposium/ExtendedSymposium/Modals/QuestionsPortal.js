@@ -488,7 +488,7 @@ const QuestionsPortal=(props)=>{
 								<li style={{listStyle:"none"}}>
 									<img id="creationImage" src={selectedPost} style={{borderRadius:"5px",width:"40%",height:"30%",marginBottom:"10px"}}/>
 								</li>
-								<InputContainer id="videoDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your image here"/>
+								<InputContainer id="imageDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your image here"/>
 								<hr/>
 								{isCommentProcessing==false?
 									<li onClick={()=>sendData({postData:selectedPost,isAccessTokenUpdated:false})} style={SendButtonCSS}>
@@ -651,27 +651,27 @@ const QuestionsPortal=(props)=>{
 					return <React.Fragment>
 								{replies.map((data,index)=>
 									<>
-										<img id="imgUrl" src={data.imgUrl} onClick={()=>displayAppropriatePostModal(data,"Images")} 
-											style={{borderRadius:"5px",width:"30%",height:"140px",marginRight:"2%",marginBottom:"2%"}}
-										/>
-										{deleteHighLightedQuestionIcon(data,index)}
+										<div style={{display:"flex",flexDirection:"column",marginRight:"2%",marginBottom:"2%",width:"25%"}}>
+											<img id="imgUrl" src={data.imgUrl} onClick={()=>displayAppropriatePostModal(data,"Images")} 
+												style={{borderRadius:"5px",height:"140px"}}
+											/>
+											{deleteHighLightedQuestionIcon(data,index)}
+										</div>
 									</>
 								)}
 							</React.Fragment>;
 				}else if(currentQuestionType=="Video"){
 					return <React.Fragment>
 								{replies.map((data,index)=>
-									<>
-										<div style={{marginRight:"2%",marginBottom:"2%"}}>
-											<video id="videoPost" onClick={()=>displayAppropriatePostModal(data,"Videos")} 
-												style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-												 position="relative" width="150" height="150"
-											 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-												<source src={data.videoUrl} type="video/mp4"/>
-											</video>
-										</div>
+									<div style={{display:"flex",flexDirection:"column",marginRight:"2%",marginBottom:"2%"}}>
+										<video id="videoPost" onClick={()=>displayAppropriatePostModal(data,"Videos")} 
+											style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+											 position="relative" width="150" height="150"
+										 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+											<source src={data.videoUrl} type="video/mp4"/>
+										</video>
 										{deleteHighLightedQuestionIcon(data,index)}
-									</>
+									</div>
 								)}
 							</React.Fragment>;
 				}else{
