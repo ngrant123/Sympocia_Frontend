@@ -134,15 +134,23 @@ class Symposium extends Component{
 		window.addEventListener('resize',this.triggerUIChange);
 	}
 
+	uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
+
 	 async componentDidMount(){
 		this.triggerUIChange()
   		const postContainerElement=document.getElementById("postChatInformation");
-
+  		const postSessionManagmentToken=this.uuidv4();
 		const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
   		var {confirmation,data}=await getIndustryInformation(
   										this.props.match.params.symposiumName,
   									   	this.state.postCount,
-  									   	profileId
+  									   	profileId,
+  									   	postSessionManagmentToken
 									);
   		
   		if(confirmation=="Success"){
@@ -178,6 +186,7 @@ class Symposium extends Component{
 		  		displayOnboarding:isOnboardingCompleted,
 		  		symposiumFeatureQuestions:featureQuestions,
 		  		symposiumId:_id,
+		  		postSessionManagmentToken,
 		  		isGuestProfile:(this.props.personalInformation.id=="0" || this.props.personalInformation.isGuestProfile==true)==true?
 								true:false
 	  		}));
@@ -730,7 +739,8 @@ class Symposium extends Component{
 									postCount:this.state.postCount,
 									selectedSymposiumTitle:this.state.selectedSymposiumTitle,
 									displayPhoneUI:this.state.displayPhoneUI,
-									displayDesktopUI:this.state.displayDesktopUI
+									displayDesktopUI:this.state.displayDesktopUI,
+									postSessionManagmentToken:this.state.postSessionManagmentToken
 								}}
 								displaySymposium={this.displaySymposium}
 								displayRecruitConfetti={this.displayRecruitConfetti}

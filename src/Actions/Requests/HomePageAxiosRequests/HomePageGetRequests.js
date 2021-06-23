@@ -22,12 +22,19 @@ export const getSymposiumId=async(name)=>{
 	}
 }
 
-export const exploreImagePosts=async({id,postCount,accessToken,isGuestProfile})=>{
+//These requests almost made me brain dead borderline retarded. Please change???
+export const exploreImagePosts=async({
+				id,
+				postCount,
+				accessToken,
+				isGuestProfile,
+				postSessionManagmentToken})=>{
 	try{
 		const imageResults=await axios.get(`${GetUrl}/getExploreImagePosts`,{
 			params:{
 				_id:id,
-				postCount:postCount
+				postCount:postCount,
+				postSessionManagmentToken
 			},
 			headers:{
 				authorization:accessToken,
@@ -42,13 +49,20 @@ export const exploreImagePosts=async({id,postCount,accessToken,isGuestProfile})=
 	}
 }
 
-export const exploreVideoPosts=async({id,postCount,accessToken,isGuestProfile})=>{
+export const exploreVideoPosts=async({
+				id,
+				postCount,
+				accessToken,
+				isGuestProfile,
+				postSessionManagmentToken
+			})=>{
 	try{
 		
 		const videoResults=await axios.get(`${GetUrl}/getExploreVideoPosts`,{
 			params:{
 				_id:id,
-				postCount:postCount
+				postCount:postCount,
+				postSessionManagmentToken
 			},
 			headers:{
 				authorization:accessToken,
@@ -64,12 +78,18 @@ export const exploreVideoPosts=async({id,postCount,accessToken,isGuestProfile})=
 	}
 }
 
-export const exploreBlogPosts=async({id,postCount,accessToken,isGuestProfile})=>{
+export const exploreBlogPosts=async({		
+				id,
+				postCount,
+				accessToken,
+				isGuestProfile,
+				postSessionManagmentToken})=>{
 	try{
 		const blogResults=await axios.get(`${GetUrl}/getExploreBlogsPosts`,{
 			params:{
 				_id:id,
-				postCount:postCount
+				postCount:postCount,
+				postSessionManagmentToken
 			},
 			headers:{
 				authorization:accessToken,
@@ -84,12 +104,18 @@ export const exploreBlogPosts=async({id,postCount,accessToken,isGuestProfile})=>
 	}
 }
 
-export const exploreRegularPosts=async({id,postCount,accessToken,isGuestProfile})=>{
+export const exploreRegularPosts=async({
+				id,
+				postCount,
+				accessToken,
+				isGuestProfile,
+				postSessionManagmentToken})=>{
 	try{
 		const regularPostResults=await axios.get(`${GetUrl}/getExploreRegularPosts`,{
 			params:{
 				_id:id,
-				postCount:postCount
+				postCount:postCount,
+				postSessionManagmentToken
 			},
 			headers:{
 				authorization:accessToken,

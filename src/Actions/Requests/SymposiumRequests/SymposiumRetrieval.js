@@ -1,18 +1,19 @@
 import axios from "axios";
 
-const SearchUrl=process.env.NODE_ENV=='production'?
-				process.env.REACT_APP_SYMPOSIUM_URL:
-				process.env.REACT_APP_TEST_SYMPOSIUM_URL;
+ const SearchUrl=process.env.NODE_ENV=='production'?
+				process.env.REACT_APP_SYMPOSIUM_GET_URL:
+				process.env.REACT_APP_TEST_SYMPOSIUM_GET_URL;
 
 
 
-export const getImagesInIndustry=async({industry,postCount,userId})=>{
+export const getImagesInIndustry=async({industry,postCount,userId,postSessionManagmentToken})=>{
 	try{
 		const imageResults=await axios.get(`${SearchUrl}/getImagesInIndustry`,{
 			params:{
 				industry,
 				postCount,
-				userId
+				userId,
+				postSessionManagmentToken
 			}
 		});
 
@@ -23,13 +24,14 @@ export const getImagesInIndustry=async({industry,postCount,userId})=>{
 	}
 }
 
-export const getRegularPostsInIndustry=async({industry,postCount,userId})=>{
+export const getRegularPostsInIndustry=async({industry,postCount,userId,postSessionManagmentToken})=>{
 	try{
 		const imageResults=await axios.get(`${SearchUrl}/getRegularPostInIndustry`,{
 			params:{
 				industry,
 				postCount,
-				userId
+				userId,
+				postSessionManagmentToken
 			}
 		});
 
@@ -96,13 +98,14 @@ export const getIndustryRegularPostFeatureAnswers=async({industryId,question,que
 }
 
 
-export const getVideoInIndustry=async({industry,postCount,userId})=>{
+export const getVideoInIndustry=async({industry,postCount,userId,postSessionManagmentToken})=>{
 	try{
 		const videoResponse=await axios.get(`${SearchUrl}/getVideosInIndustry`,{
 			params:{
 				industry,
 				postCount,
-				userId
+				userId,
+				postSessionManagmentToken
 			}
 		});
 
@@ -114,13 +117,14 @@ export const getVideoInIndustry=async({industry,postCount,userId})=>{
 }
 
 
-export const getBlogsInIndustry=async({industry,postCount,userId})=>{
+export const getBlogsInIndustry=async({industry,postCount,userId,postSessionManagmentToken})=>{
 	try{
 		const blogResponse=await axios.get(`${SearchUrl}/getBlogsInIndustry`,{
 			params:{
 				industry,
 				postCount,
-				userId
+				userId,
+				postSessionManagmentToken
 			}
 		});
 
@@ -150,14 +154,15 @@ export const getIndustryAudioFeatureAnswers=async({industryId,question,questionI
 }
 
 
-export const getIndustryInformation=async(industry,postCount,userId)=>{
+export const getIndustryInformation=async(industry,postCount,userId,postSessionManagmentToken)=>{
 	try{
 		
 		const industryInformation=await axios.get(`${SearchUrl}/getIndustryInformation`,{
 			params:{
 				industry:industry,
 				postCount:postCount,
-				userId:userId
+				userId:userId,
+				postSessionManagmentToken
 			}
 		})
 

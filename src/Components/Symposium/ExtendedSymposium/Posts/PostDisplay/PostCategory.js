@@ -141,6 +141,7 @@ const PostCategory=(props)=>{
 					{posts.map(data=>
 						<>{postsDisplay(data)}</>
 					)}
+					<p>Next Posts</p>
 				</div>
 		</Container>
 	)	

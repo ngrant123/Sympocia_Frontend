@@ -19,6 +19,15 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     const [postOption,changePostOptionState]=useState(state.postType);
     const [isLoadingNewPosts,changeIsLoadingNewPosts]=useState(false);
     const [postCount,changePostCount]=useState(state.postCount);
+    const [postSessionToken,changePostSessionToken]=useState(state.postSessionManagmentToken);
+
+    const uuidv4=()=>{
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
 
     const  changePostOption=async(newPostOption,isNewPostOption,postCount)=>{
         if(postCount>0){
@@ -29,7 +38,8 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         const postParameters={
             industry:state.selectedSymposiumTitle,
             postCount,
-            userId:profileId
+            userId:profileId,
+            postSessionManagmentToken:postSessionToken
         }
         let postResults;
 
@@ -89,6 +99,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         changeIsLoadingReloadedPosts(true);
         changePostCount(0);
         changePosts([]);
+        changePostSessionToken(uuidv4());
         changePostOption(newPostOption,true,0);
     }
 

@@ -56,9 +56,9 @@ const PostsContainerDisplay=(props)=>{
               document.getElementById("postsContainer").style.opacity="1";
             },1000);
         }
-
+        let selectedPostCategory=[];
         if(selectedCategoryType=="General"){
-            changeSelectedPostCategoryInformation(defaultPostCategoryInformation)
+            selectedPostCategory=[...defaultPostCategoryInformation];
         }else{
             for(var i=0;i<defaultPostCategoryInformation.length;i++){
                 const {headers:{
@@ -66,17 +66,47 @@ const PostsContainerDisplay=(props)=>{
                 }}=defaultPostCategoryInformation[i];
                 if(selectedCategoryType==title){
                     console.log(defaultPostCategoryInformation[i]);
-                    const selectedPostCategory=[];
                     selectedPostCategory.push(defaultPostCategoryInformation[i])
-                    changeSelectedPostCategoryInformation([...selectedPostCategory]);
                     break;
                 }
             }
         }
+        for(var i=0;i<selectedPostCategory.length;i++){
+            const {headers:{
+                title
+            }}=selectedPostCategory[i];
+            switch(title){
+                case "The Grind":{
+                    const {grind}=state.posts;
+                    selectedPostCategory[i]={
+                        ...selectedPostCategory[i],
+                        posts:grind
+                    }
+                    break;
+                }
+                case "Work In Progress":{
+                    const {progress}=state.posts;
+                    selectedPostCategory[i]={
+                        ...selectedPostCategory[i],
+                        posts:progress
+                    }
+                    break;
+                }
+                case "Achievements":{
+                    const {accomplishment}=state.posts;
+                    selectedPostCategory[i]={
+                        ...selectedPostCategory[i],
+                        posts:accomplishment
+                    }
+                    break;
+                }
+            }
+        }
+        changeSelectedPostCategoryInformation(selectedPostCategory)
+
     },[selectedCategoryType])
 
      const postsProps={
-        posts:state.posts,
         _id:profileId,
         confettiAnimation:displayRecruitConfetti,
         isPersonalProfile:true,

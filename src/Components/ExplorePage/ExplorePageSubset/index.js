@@ -253,7 +253,8 @@ class SearchExploreContainer extends Component{
 			isLoading:true,
 			isLoadingReloadedPosts:false,
 			endOfPostsDBIndicator:false,
-			accessToken:this.props.personalInformation.accessToken
+			accessToken:this.props.personalInformation.accessToken,
+			postSessionManagmentToken:this.uuidv4()
 		}
 	}
 
@@ -284,23 +285,11 @@ class SearchExploreContainer extends Component{
 		this.props.displayGrids(false);
 	}
 
-	alterSelectedIndustry=(selectedIndustries)=>{
-		this.setState({
-			selectedIndustries:selectedIndustries
-		},function(){
-			this.changeHomePagePosts({postOption:this.state.postOption,isAccessTokenUpdated:false});
-		})
-	}
-
-	alterSelectedSubCommunities=(selectedSubCommunities)=>{
-		this.setState({
-			selectedSubCommunities:selectedSubCommunities
-		},function(){
-			this.changeHomePagePosts({
-				postOption:this.state.postOption,
-				isAccessTokenUpdated:false
-			});
-		})
+	uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
 	}
 
 	changeHomePagePosts=async({postOption,isAccessTokenUpdated,updatedAccessToken})=>{
@@ -315,6 +304,7 @@ class SearchExploreContainer extends Component{
 			id:profileId,
 			postCount:this.state.postCount,
 			isGuestProfile:isGuestProfileIndicator,
+			postSessionManagmentToken:this.state.postSessionManagmentToken,
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						this.state.accessToken
 		}
@@ -405,7 +395,8 @@ class SearchExploreContainer extends Component{
 			isLoading:true,
 			postCount:0,
 			postsInformation:[],
-			endOfPostsDBIndicator:false
+			endOfPostsDBIndicator:false,
+			postSessionManagmentToken:this.uuidv4()
 		},function(){
 			
 			this.changeHomePagePosts({postOption:props,isAccessTokenUpdated:false});
@@ -491,6 +482,32 @@ class SearchExploreContainer extends Component{
 		})
 	}
 
+	postOptionDropDown=()=>{
+		return(
+			<React.Fragment>
+				<li style={{cursor:"pointer"}}
+					onClick={()=>this.handleChangePostOption("Images")}>
+					Images
+				</li>
+				<hr/>	
+				<li style={{cursor:"pointer"}}
+					onClick={()=>this.handleChangePostOption("Videos")}>
+					Videos
+				</li>	
+				<hr/>
+				<li style={{cursor:"pointer"}}
+					onClick={()=>this.handleChangePostOption("Blogs")}>
+					Blogs
+				</li>	
+				<hr/>
+				<li style={{cursor:"pointer"}}
+					onClick={()=>this.handleChangePostOption("RegularPosts")}>
+					Regular Posts
+				</li>	
+			</React.Fragment>
+		)
+	}
+
 	headerUI=()=>{
 		return <div style={{display:"flex",flexDirection:"column"}}>
 					<div style={{display:"flex",flexDirection:"row"}}>
@@ -507,25 +524,7 @@ class SearchExploreContainer extends Component{
 									/>
 								</button>
 								<ul class="dropdown-menu" style={{padding:"10px"}}>
-									<li style={{cursor:"pointer"}}
-										onClick={()=>this.handleChangePostOption("Images")}>
-										Images
-									</li>
-									<hr/>	
-									<li style={{cursor:"pointer"}}
-										onClick={()=>this.handleChangePostOption("Videos")}>
-										Videos
-									</li>	
-									<hr/>
-									<li style={{cursor:"pointer"}}
-										onClick={()=>this.handleChangePostOption("Blogs")}>
-										Blogs
-									</li>	
-									<hr/>
-									<li style={{cursor:"pointer"}}
-										onClick={()=>this.handleChangePostOption("RegularPosts")}>
-										Regular Posts
-									</li>		
+									{this.postOptionDropDown()}	
 								</ul>
 							</div>
 							<div style={VerticalLineCSS}/>
@@ -547,66 +546,6 @@ class SearchExploreContainer extends Component{
 						</div>
 					</div>
 				</div>
-
-			{/*
-				<li style={{listStyle:"none",marginBottom:"2%"}}>
-					<li style={{listStyle:"none",display:"inline-block",width:"40%"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",fontSize:"40px"}}>
-								<b>Explore Symposiums</b>
-							</li>
-							<li id="exploreDescriptionLI" style={{listStyle:"none"}}>
-								Check out the posts that we think you might like here. 
-							</li>
-						</ul>
-					</li>
-					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li onClick={()=>alert('Arena coming soon... :)')} style={ArenaButtonCSS}>
-							<ArenaContainer>
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trophy" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-								  <path stroke="none" d="M0 0h24v24H0z"/>
-								  <line x1="8" y1="21" x2="16" y2="21" />
-								  <line x1="12" y1="17" x2="12" y2="21" />
-								  <line x1="7" y1="4" x2="17" y2="4" />
-								  <path d="M17 4v8a5 5 0 0 1 -10 0v-8" />
-								  <circle cx="5" cy="9" r="2" />
-								  <circle cx="19" cy="9" r="2" />
-								</svg>
-							</ArenaContainer>
-						</li>
-					</a>
-					<li style={{listStyle:"none",display:"inline-block",marginLeft:"10%",width:"40%"}}>
-						<ul style={{padding:"0px"}}>
-							<li id="headerTitleLI" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"40px"}}>
-								<b>{this.state.postOption}</b>
-							</li>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-								<div class="btn-group">
-									<button class="btn btn-primary dropdown-toggle" type="button" 
-										data-toggle="dropdown" style={PostOptionButtonCSS}>
-										Post Options
-										<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu">
-										<li onClick={()=>this.handleChangePostOption("Images")}>
-											<a href="javascript:;">Images</a>
-										</li>	
-										<li onClick={()=>this.handleChangePostOption("Videos")}>
-											<a href="javascript:;">Videos</a>
-										</li>	
-										<li onClick={()=>this.handleChangePostOption("Blogs")}>
-											<a href="javascript:;">Blogs</a>
-										</li>	
-										<li onClick={()=>this.handleChangePostOption("RegularPosts")}>
-											<a href="javascript:;">Posts</a>
-										</li>		
-									</ul>
-								</div>
-							</li>
-						</ul>
-					</li>
-				</li>
-			*/}
 	}
 	triggerReloadingPostsHandle=(props)=>{
 		this.setState({
@@ -614,7 +553,6 @@ class SearchExploreContainer extends Component{
 			isLoadingReloadedPosts:true,
 			postCount:(this.state.postCount+1)
 		},()=>{
-			
 			this.changeHomePagePosts({postOption:props,isAccessTokenUpdated:false});	
 		})
 	}
@@ -648,18 +586,7 @@ class SearchExploreContainer extends Component{
 																		<span class="caret"></span>
 																	</button>
 																	<ul class="dropdown-menu">
-																		<li onClick={()=>this.handleChangePostOption("Images")}>
-																			<a href="javascript:;">Images</a>
-																		</li>	
-																		<li onClick={()=>this.handleChangePostOption("Videos")}>
-																			<a href="javascript:;">Videos</a>
-																		</li>	
-																		<li onClick={()=>this.handleChangePostOption("Blogs")}>
-																			<a href="javascript:;">Blogs</a>
-																		</li>	
-																		<li onClick={()=>this.handleChangePostOption("RegularPosts")}>
-																			<a href="javascript:;">Posts</a>
-																		</li>		
+																		{this.postOptionDropDown()}			
 																	</ul>
 																</div>
 															</li>
