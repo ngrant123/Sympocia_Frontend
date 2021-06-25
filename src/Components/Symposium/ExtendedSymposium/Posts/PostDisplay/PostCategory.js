@@ -44,6 +44,13 @@ const HorizontalLineCSS={
 	width:"100%"
 }
 
+const CreateIconCSS={
+	fontSize:"25",
+	color:"#C8B0F4",
+	marginLeft:"20%",
+	cursor:"pointer"
+}
+
 const PostCategory=(props)=>{
 	const {
 		headers,
@@ -185,11 +192,7 @@ const PostCategory=(props)=>{
 						</p>
 					</div>
 					<CreateIcon
-						style={{
-							fontSize:"25",
-							color:"#C8B0F4",
-							marginLeft:"20%"
-						}}
+						style={CreateIconCSS}
 						onClick={()=>changeDisplayCategoryUpload(true)}
 					/>
 				</div>

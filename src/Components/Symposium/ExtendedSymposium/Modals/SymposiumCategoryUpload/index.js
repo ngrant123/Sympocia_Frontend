@@ -66,6 +66,9 @@ const Container=styled.div`
 			height:100px !important;
 			width:40% !important;
 		}
+		#videoDiv{
+			width:210px !important;
+		}
 	}
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
 		#imageDiv{
