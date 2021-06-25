@@ -114,6 +114,7 @@ class Symposium extends Component{
 		}
 	}
 
+
 	triggerUIChange=()=>{
 		debugger;
 		if(window.innerWidth<600){
@@ -152,8 +153,6 @@ class Symposium extends Component{
 
 	 async componentDidMount(){
 		this.triggerUIChange()
-  		const postContainerElement=document.getElementById("postChatInformation");
-  		const postSessionManagmentToken=this.uuidv4();
 		window.addEventListener('resize',this.triggerUIChange)
 
 		const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
@@ -192,6 +191,7 @@ class Symposium extends Component{
 		}
 	}
 	fetchSymposiumInformation=async(profileId)=>{
+  		const postSessionManagmentToken=this.uuidv4();
   		const postContainerElement=document.getElementById("postChatInformation");
   		var {confirmation,data}=await getIndustryInformation(
   										this.props.match.params.symposiumName,
