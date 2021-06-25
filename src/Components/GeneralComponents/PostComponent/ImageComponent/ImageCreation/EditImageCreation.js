@@ -303,7 +303,8 @@ class EditImageCreation extends Component{
 			isDesktop:true,
 			isVideoDescriptionDeleted:false,
 			isAudioDescriptionDeleted:false,
-			isSymposiumsAltered:false
+			isSymposiumsAltered:false,
+			symposiumCategoryUpload:null
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
@@ -385,6 +386,7 @@ class EditImageCreation extends Component{
 		const currentAudioDescription=this.state.audioDescription;
 		const selectedSubCommunities=this.state.subIndustriesSelected;
 		let searchCriteriaIndustryArray=[];
+		const currentSymposiumUploadCategory=this.state.symposiumCategoryUpload==null?"The Grind":this.state.symposiumCategoryUpload
 		const isPostCrowned=this.state.isPostCrowned==undefined?false:this.state.isPostCrowned;
 
 		var descriptionTextArea=(this.state.isImageDescriptionCleared==false)?"":document.getElementById("descriptionTextArea").value;
@@ -401,7 +403,8 @@ class EditImageCreation extends Component{
 			caption:captionTextArea,
 			isCrownedPost:isPostCrowned,
 			imgUrl,
-			isPhoneUIEnabled:this.props.isPhoneUIEnabled
+			isPhoneUIEnabled:this.props.isPhoneUIEnabled,
+			symposiumUploadCategory:currentSymposiumUploadCategory
 		}
 
 		if(this.state.isPreviousLoaded==false){
@@ -457,7 +460,8 @@ class EditImageCreation extends Component{
 				industriesUploaded,
 				_id,
 				videoDescriptionKey,
-				uncompressedImageId
+				uncompressedImageId,
+				symposiumUploadCategory
 			}=previousData;
 
 			
@@ -470,7 +474,8 @@ class EditImageCreation extends Component{
 					description:descriptionTextArea!=description?descriptionTextArea:null,
 					caption:captionTextArea!=caption?captionTextArea:null,
 					isCrownedPost:isPostCrowned!=isCrownedPost?isPostCrowned:null,
-					uncompressedImageId
+					uncompressedImageId,
+					symposiumUploadCategory:currentSymposiumUploadCategory!=symposiumUploadCategory?currentSymposiumUploadCategory:null
 				},
 				postS3:[
 					{
@@ -772,6 +777,12 @@ class EditImageCreation extends Component{
 		})
 	}
 
+	alterSymposiumUploadedCategory=(selectedCategory)=>{
+		this.setState({
+			symposiumCategoryUpload:selectedCategory
+		})
+	}
+
 	render(){
 		return(
 	<PostConsumer>
@@ -949,6 +960,8 @@ class EditImageCreation extends Component{
 								alterSelectedIndustry={this.alterSelectedIndustry}
 								alterSelectedSubCommunities={this.alterSelectedSubCommunities}
 								symposiumsUploaded={this.props.previousData==null?[]:this.props.previousData.industriesUploaded}
+								uploadedCategorySection={this.props.previousData==null?null:this.props.previousData.symposiumUploadCategory}
+								alterSymposiumUploadedCategory={this.alterSymposiumUploadedCategory}
 							/>
 							<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
 								<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>

@@ -165,7 +165,8 @@ class EditVideoModal extends Component{
 			isSubmittedAndProcessing:false,
 			isVideoDescriptionDeleted:false,
 			isAudioDescriptionDeleted:false,
-			isSymposiumsAltered:false
+			isSymposiumsAltered:false,
+			symposiumCategoryUpload:null
 		}
 	}
 
@@ -264,6 +265,7 @@ class EditVideoModal extends Component{
 		const videoAudioDescription=this.state.videoDescription;
 		const currentAudioDescription=this.state.audioDescription;
 		const isPostCrowned=this.state.isPostCrowned==undefined?false:this.state.isPostCrowned;
+		const currentSymposiumUploadCategory=this.state.symposiumCategoryUpload==null?"The Grind":this.state.symposiumCategoryUpload
 
 		const searchCriteriaIndustryArray=[];
 		var counter=0;
@@ -301,7 +303,8 @@ class EditVideoModal extends Component{
 			videoDescription:videoAudioDescription,
 			audioDescription:currentAudioDescription,
 			isCrownedPost:this.state.isPostCrowned,
-			isPhoneUIEnabled:this.props.isPhoneUIEnabled
+			isPhoneUIEnabled:this.props.isPhoneUIEnabled,
+			symposiumUploadCategory:currentSymposiumUploadCategory
 		}
 
 		alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now')
@@ -363,7 +366,8 @@ class EditVideoModal extends Component{
 				industriesUploaded,
 				_id,
 				videoUrlKey,
-				videoDescriptionKey
+				videoDescriptionKey,
+				symposiumUploadCategory
 			}=previousData;
 
 			const editedVideo={
@@ -374,7 +378,8 @@ class EditVideoModal extends Component{
 					industriesUploaded:this.state.isSymposiumsAltered==true?searchCriteriaIndustryArray:null,
 					videoDescription:currentVideoDescription!=videoDescription?currentVideoDescription:null,
 					title:currentVideoTitle!=title?currentVideoTitle:null,
-					isCrownedPost:isPostCrowned!=isCrownedPost?isPostCrowned:null
+					isCrownedPost:isPostCrowned!=isCrownedPost?isPostCrowned:null,
+					symposiumUploadCategory:currentSymposiumUploadCategory!=symposiumUploadCategory?currentSymposiumUploadCategory:null
 				},
 				postS3:[
 					{
@@ -614,6 +619,12 @@ isArrayEqual=(arr1,arr2)=>{
 		})
 	}
 
+	alterSymposiumUploadedCategory=(selectedCategory)=>{
+		this.setState({
+			symposiumCategoryUpload:selectedCategory
+		})
+	}
+
 
 	render(){
 
@@ -819,6 +830,8 @@ isArrayEqual=(arr1,arr2)=>{
 												alterSelectedIndustry={this.alterSelectedIndustry}
 												alterSelectedSubCommunities={this.alterSelectedSubCommunities}
 												symposiumsUploaded={this.props.previousData==null?[]:this.props.previousData.industriesUploaded}
+												uploadedCategorySection={this.props.previousData==null?null:this.props.previousData.symposiumUploadCategory}
+												alterSymposiumUploadedCategory={this.alterSymposiumUploadedCategory}
 											/>
 
 										</li>

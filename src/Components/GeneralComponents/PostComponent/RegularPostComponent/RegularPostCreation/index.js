@@ -169,7 +169,8 @@ const ButtonCSS={
 	const [crownPostBackgroundColor,changeCrownPostBackgroundColor]=useState("white");
 	const [contextInformation,changeContextInformation]=useState();
 	const [isSubmittedAndProcessing,changeIsSubmittedAndProcessing]=useState(false);
-	const [isSymposiumsAltered,changeIsSymposiumsAltered]=useState(false)
+	const [isSymposiumsAltered,changeIsSymposiumsAltered]=useState(false);
+	const [symposiumCategoryUploaded,changeSymposiumCategoryUploaded]=useState();
 
 	useEffect(()=>{
 		
@@ -219,6 +220,8 @@ const ButtonCSS={
 		const industries=industriesSelected;
 		const isPostCrowned=isCrownedPost==undefined?false:isCrownedPost;
 		const selectedSubCommunities=subIndustriesSelected; 
+		const currentSymposiumUploadCategory=symposiumCategoryUploaded==null?"The Grind":symposiumCategoryUploaded;
+
 
 		var counter=0;
 		for(var i=0;i<industries.length;i++){
@@ -254,6 +257,7 @@ const ButtonCSS={
 				numOfApprove:[],
 				numOfDisapprove:[]
 			},
+			symposiumUploadCategory:currentSymposiumUploadCategory,
 			key:uuidv4()
 		}
 
@@ -303,7 +307,8 @@ const ButtonCSS={
 				audioDescription,
 				isCrownedPost,
 				industriesUploaded,
-				_id
+				_id,
+				symposiumUploadCategory
 			}=previousData;
 
 			const editedRegularPost={
@@ -312,7 +317,8 @@ const ButtonCSS={
 				post:{
 					industriesUploaded:isSymposiumsAltered==true?searchCriteriaIndustryArray:null,
 					isCrownedPost:isPostCrowned!=isCrownedPost?isPostCrowned:null,
-					post:currentPost!=post?currentPost:null
+					post:currentPost!=post?currentPost:null,
+					symposiumUploadCategory:currentSymposiumUploadCategory!=symposiumUploadCategory?currentSymposiumUploadCategory:null
 				},
 				postS3:[
 					{
@@ -487,6 +493,10 @@ const ButtonCSS={
 		changeTextDescription(response);
 	}
 
+	const alterSymposiumUploadedCategory=(selectedCategory)=>{
+		changeSymposiumCategoryUploaded(selectedCategory);
+	}
+
 
 	return(
 		<PostConsumer>
@@ -510,7 +520,9 @@ const ButtonCSS={
 											<IndustryPostOptions
 												alterSelectedIndustry={alterSelectedIndustry}
 												alterSelectedSubCommunities={alterSelectedSubCommunities}
-												symposiumsUploaded={props.previousData==null?[]:props.previousData.industriesUploaded}
+												symposiumsUploaded={props.previousData==null?[]:props.previousData.industriesUploaded}				
+												uploadedCategorySection={props.previousData==null?null:props.previousData.symposiumUploadCategory}
+												alterSymposiumUploadedCategory={alterSymposiumUploadedCategory}
 											/>
 										</li>
 									</ul>

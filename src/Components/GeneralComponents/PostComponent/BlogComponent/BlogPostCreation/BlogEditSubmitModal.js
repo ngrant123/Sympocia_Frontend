@@ -126,7 +126,8 @@ class BlogEditSubmitModal extends Component{
 			retryCounter:0,
 			isVideoDescriptionDeleted:false,
 			isAudioDescriptionDeleted:false,
-			isSymposiumsAltered:false
+			isSymposiumsAltered:false,
+			symposiumCategoryUpload:null
 		}
 	}
 
@@ -210,6 +211,7 @@ class BlogEditSubmitModal extends Component{
 		const selectedSubCommunities=this.state.subIndustriesSelected;
 		const currentVideoDescription=this.state.videoDescription;
 		const currentAudioDescription=this.state.audioDescription;
+		const currentSymposiumUploadCategory=this.state.symposiumCategoryUpload==null?"The Grind":this.state.symposiumCategoryUpload;
 		let isEditSuccess=true;
 
 		const searchCriteriaIndustryArray=[];
@@ -251,8 +253,10 @@ class BlogEditSubmitModal extends Component{
 				imgUrl:this.state.pictureUrl,
 				videoDescription:currentVideoDescription,
 				audioDescription:currentAudioDescription,
-				isPostCrowned:this.state.isPostCrowned
+				isPostCrowned:this.state.isPostCrowned,
+				symposiumUploadCategory:currentSymposiumUploadCategory
 			}
+
 			if(currentVideoDescription!=null){
 				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
 			}
@@ -308,8 +312,10 @@ class BlogEditSubmitModal extends Component{
 				industriesUploaded,
 				blog,
 				videoDescriptionKey,
-				uncompressedImageId
+				uncompressedImageId,
+				symposiumUploadCategory
 			}=this.props.previousState;
+			
 			let currentBlogPost;
 			if(blogPostInformation.blogPostState!=""){
 				currentBlogPost=JSON.stringify(convertToRaw(blogPostInformation.blogPostState.getCurrentContent()));
@@ -327,7 +333,8 @@ class BlogEditSubmitModal extends Component{
 					//blog:rawDraftContentState!=blog?rawDraftContentState:null
 					blog:currentBlogPost==null?null:(
 						currentBlogPost!=blog?currentBlogPost:null
-					)
+					),
+					symposiumUploadCategory:currentSymposiumUploadCategory!=symposiumUploadCategory?currentSymposiumUploadCategory:null
 				},
 				postS3:[
 					{
@@ -523,6 +530,12 @@ isArrayEqual=(arr1,arr2)=>{
 		this.setState({
 			audioDescription:null,
 			isAudioDescriptionDeleted:true
+		})
+	}
+
+	alterSymposiumUploadedCategory=(selectedCategory)=>{
+		this.setState({
+			symposiumCategoryUpload:selectedCategory
 		})
 	}
 
@@ -727,7 +740,9 @@ isArrayEqual=(arr1,arr2)=>{
 												<IndustryPostOptions
 													alterSelectedIndustry={this.alterSelectedIndustry}
 													alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-													symposiumsUploaded={this.props.previousState==null?[]:this.props.previousState.industriesUploaded}
+													symposiumsUploaded={this.props.previousState==null?[]:this.props.previousState.industriesUploaded}									
+													uploadedCategorySection={this.props.previousData==null?null:this.props.previousData.symposiumUploadCategory}
+													alterSymposiumUploadedCategory={this.alterSymposiumUploadedCategory}
 												/>
 											</li>
 											{this.state.isSubmittedAndProcessing==false?

@@ -13,9 +13,10 @@ import {
 
 const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,profileId,displayBeacon})=>{
     console.log(state);
+    console.log("Posts filter options rerender");
     const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
     const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
-    const [posts,changePosts]=useState(state.posts);
+    let [posts,changePosts]=useState(state.posts);
     const [postOption,changePostOptionState]=useState(state.postType);
     const [isLoadingNewPosts,changeIsLoadingNewPosts]=useState(false);
     const [postCount,changePostCount]=useState(state.postCount);
@@ -29,7 +30,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     }
 
 
-    const  changePostOption=async(newPostOption,isNewPostOption,postCount)=>{
+    const  changePostOption=async(symposiumCategoryType,newPostOption,isNewPostOption,postCount,loadingNewPostsRef)=>{
         if(postCount>0){
             changeIsLoadingReloadedPosts(true);
         }else{
@@ -39,8 +40,10 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
             industry:state.selectedSymposiumTitle,
             postCount,
             userId:profileId,
-            postSessionManagmentToken:postSessionToken
+            postSessionManagmentToken:postSessionToken,
+            symposiumCategoryType
         }
+        console.log(postParameters);
         let postResults;
 
         if(newPostOption=="Image" || newPostOption=="Images"){
@@ -56,23 +59,65 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
             newPostOption="Regular";
             postResults=await getRegularPostsInIndustry({...postParameters});
         }
+        debugger;
         let {confirmation,data}=postResults;
         if(confirmation=="Success"){
+            console.log(data);
             if(data.length==0){
+                if(loadingNewPostsRef!=null)
+                    loadingNewPostsRef.current.innerHTML="";
+
                 changeEndOfPostIndicator(true);
             }else{
+                if(loadingNewPostsRef!=null)
+                    loadingNewPostsRef.current.innerHTML="Next Posts";
+                
                 const currentPosts=posts;
                 let nextPosts;
                 if(isNewPostOption==true)
                     nextPosts=data;
-                else
-                    nextPosts=currentPosts.concat(data);
+                else{
+                    debugger;
+                    switch(symposiumCategoryType){
+                        case "The Grind":{
+                            let {grind}=posts;
+                            let updatedPosts=grind.concat(data);
+                            grind=updatedPosts;
+                            posts={
+                                ...posts,
+                                grind
+                            }
+                            nextPosts=posts;
+                            break;
+                        }
 
-                // if(newPostOption!="Video")
-                //     nextPosts=postCount==0?suggestedSymposiumsRecursive(nextPosts):nextPosts;
+                        case "Work In Progress":{
+                            let {progress}=posts;
+                            let updatedPosts=progress.concat(data);
+                            progress=updatedPosts;
+                            posts={
+                                ...posts,
+                                progress
+                            }
+                            nextPosts=posts;
+                            break;
+                        }
 
+                        case "Achievements":{
+                            let {accomplishment}=posts;
+                            let updatedPosts=accomplishment.concat(data);
+                            accomplishment=updatedPosts;
+                            posts={
+                                ...posts,
+                                accomplishment
+                            }
+                            nextPosts=posts;
+                            break;
+                        }
+                    }
+                }
                 changePostOptionState(newPostOption);
-                changePosts([...nextPosts]);
+                changePosts({...nextPosts});
                 changeEndOfPostIndicator(false);
             }
                 changeIsLoadingReloadedPosts(false);
@@ -81,9 +126,16 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
             alert('Unfortunately there has been an error getting this post data. Please try again');
         }
     }
-    const triggerReloadingPostsHandle=(postOption)=>{
-        changePostCount(postCount+1);
-        changePostOption(postOption,null,postCount+1);
+
+    const triggerReloadingPostsHandle=(symposiumCategoryType,ref)=>{
+        console.log(ref);
+        ref.current.innerHTML="Loading...";
+        changePostOption(
+            symposiumCategoryType,
+            postOption,
+            false,
+            postCount+1,
+            ref);
     }
 
     const fetchPosts=(newPostOption,resetSearchResults)=>{
@@ -92,7 +144,6 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         }else if(newPostOption!=postOption){
             resetAndFetchPosts(newPostOption);
         }
-        
     }
 
     const resetAndFetchPosts=(newPostOption)=>{
@@ -100,7 +151,11 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         changePostCount(0);
         changePosts([]);
         changePostSessionToken(uuidv4());
-        changePostOption(newPostOption,true,0);
+        changePostOption(
+            null,
+            newPostOption,
+            true,
+            0);
     }
 
     const searchFilterPosts=(posts)=>{

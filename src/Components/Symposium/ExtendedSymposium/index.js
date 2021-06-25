@@ -657,7 +657,9 @@ class Symposium extends Component{
 					},
 					handleDisplayBeacons:()=>{
 						this.displayBeaconHandle();
-					}
+					},
+					displayPhoneUI:this.state.displayPhoneUI,
+					symposiumName:this.props.match.params.symposiumName
 				}}
 			>
 				<SymposiumContainer id="extendedSymposiumContainer">

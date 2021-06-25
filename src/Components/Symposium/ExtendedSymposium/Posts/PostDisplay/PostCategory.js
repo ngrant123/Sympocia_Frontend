@@ -1,10 +1,11 @@
-import React from "react";
+import React,{useEffect,useState,useRef,useMemo} from "react";
 import styled from "styled-components";
 import CreateIcon from '@material-ui/icons/Create';
 import Image from "./Image.js";
 import Video from "./Video.js";
 import RegularPost from "./RegularPosts.js";
 import Blog from "./Blogs.js";
+import SymposiumCategoryUpload from "../../Modals/SymposiumCategoryUpload/index.js";
 
 
 const Container=styled.div`
@@ -47,12 +48,25 @@ const PostCategory=(props)=>{
 	const {
 		headers,
 		postType,
-		posts,
 		defaultPostCategoryInformation,
 		triggerChangeCategoryType,
-		displayDesktopUI
+		displayDesktopUI,
+		triggerNewPostsFetch,
+		triggerReloadingPostsHandle,
+		isLoadingReloadedPosts,
+		posts,
+		endOfPostsDBIndicator
 	}=props;
 	console.log(props);
+	const [postCategoryPosts,changePostCategoryPosts]=useState([]);
+	console.log(props.posts);
+	console.log(postCategoryPosts);
+	const loadingIndicatorRef=useRef();
+	const [displayCategoryUpload,changeDisplayCategoryUpload]=useState(false);
+
+	useEffect(()=>{
+		changePostCategoryPosts([...props.posts])
+	},[posts]);
 
 	const postsDisplay=(data)=>{
 		switch(postType){
@@ -87,6 +101,7 @@ const PostCategory=(props)=>{
 			}
 		}
 	}
+
 	const mobileCategoryOptions=()=>{
 		return(
 			<MobileCategoryOptions>
@@ -111,38 +126,79 @@ const PostCategory=(props)=>{
 			</MobileCategoryOptions>
 		)
 	}
+	const closeSymposiumUploadCategoryPortal=()=>{
+		changeDisplayCategoryUpload(false);
+	}
+
+	const pushDummyPlaceholderPostToStack=(postInformation)=>{
+		console.log("Placeholder called");
+		changeDisplayCategoryUpload(false);
+		const currentPosts=postCategoryPosts;
+		currentPosts.splice(0,0,postInformation);
+		changePostCategoryPosts([...currentPosts]);
+	}
+	const categoryUploadDisplay=()=>{
+		return(
+			<React.Fragment>
+				{displayCategoryUpload==true &&(
+					<SymposiumCategoryUpload
+						closeModal={closeSymposiumUploadCategoryPortal}
+						categoryType={headers.title}
+						postType={postType}
+						pushDummyPlaceholderPostToStack={pushDummyPlaceholderPostToStack}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+	const memoizedPostsDisplay=useMemo(()=>{
+		return(
+			<div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
+				{postCategoryPosts.length==0?
+					<p>No posts</p>:
+					<React.Fragment>
+						{postCategoryPosts.map(data=>
+							<>{postsDisplay(data)}</>
+						)}
+						<p ref={loadingIndicatorRef} onClick={()=>triggerReloadingPostsHandle(headers.title,loadingIndicatorRef)}
+							style={{color:"#5298F8",cursor:"pointer"}}>
+							Next Posts
+						</p>
+					</React.Fragment>
+				}
+			</div>
+		)
+	},[postCategoryPosts]);
+
 	return(
 		<Container>
-				<div style={{display:"flex",flexDirection:"column"}}>
-					<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-						<div style={{display:"flex",flexDirection:"row",width:"70%"}}>
-							{displayDesktopUI==false &&(
-								<>{mobileCategoryOptions()}</>
-							)}
-						
-							<p style={{marginLeft:"5%",fontSize:"24px"}}>
-								<b>{headers.title}</b>
-							</p>
-						</div>
-						<CreateIcon
-							style={{
-								fontSize:"25",
-								color:"#C8B0F4",
-								marginLeft:"20%"
-							}}
-						/>
+			{categoryUploadDisplay()}
+			<div style={{display:"flex",flexDirection:"column"}}>
+				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+					<div style={{display:"flex",flexDirection:"row",width:"70%"}}>
+						{displayDesktopUI==false &&(
+							<>{mobileCategoryOptions()}</>
+						)}
+					
+						<p style={{marginLeft:"5%",fontSize:"24px"}}>
+							<b>{headers.title}</b>
+						</p>
 					</div>
-					<p>{headers.secondaryTitle}</p>
+					<CreateIcon
+						style={{
+							fontSize:"25",
+							color:"#C8B0F4",
+							marginLeft:"20%"
+						}}
+						onClick={()=>changeDisplayCategoryUpload(true)}
+					/>
 				</div>
-				{displayDesktopUI==false &&(
-					<hr style={HorizontalLineCSS}/>
-				)}
-				<div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
-					{posts.map(data=>
-						<>{postsDisplay(data)}</>
-					)}
-					<p>Next Posts</p>
-				</div>
+				<p>{headers.secondaryTitle}</p>
+			</div>
+			{displayDesktopUI==false &&(
+				<hr style={HorizontalLineCSS}/>
+			)}
+			{memoizedPostsDisplay}
 		</Container>
 	)	
 }

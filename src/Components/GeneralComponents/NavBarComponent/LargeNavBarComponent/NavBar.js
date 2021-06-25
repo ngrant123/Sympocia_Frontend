@@ -377,16 +377,16 @@ const NavBar=(pageProps)=>{
 			const {statusCode}=data;
 			if(statusCode==401){
 				await refreshTokenApiCallHandle(
-						personalProfileState.refreshToken,
-						id,
-						statusCheckTrigger,
-						dispatch,
-						{
-							id
-						},
-						false,
-						personalProfileState.isTokenRefreshing
-					);
+					personalProfileState.refreshToken,
+					id,
+					statusCheckTrigger,
+					dispatch,
+					{
+						id
+					},
+					false,
+					personalProfileState.isTokenRefreshing
+				);
 			}
 		}
 	} 

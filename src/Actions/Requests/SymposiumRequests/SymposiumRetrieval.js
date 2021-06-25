@@ -6,15 +6,10 @@ import axios from "axios";
 
 
 
-export const getImagesInIndustry=async({industry,postCount,userId,postSessionManagmentToken})=>{
+export const getImagesInIndustry=async(postFetchCriteria)=>{
 	try{
 		const imageResults=await axios.get(`${SearchUrl}/getImagesInIndustry`,{
-			params:{
-				industry,
-				postCount,
-				userId,
-				postSessionManagmentToken
-			}
+			params:{...postFetchCriteria}
 		});
 
 		const {data}=imageResults;
@@ -24,15 +19,10 @@ export const getImagesInIndustry=async({industry,postCount,userId,postSessionMan
 	}
 }
 
-export const getRegularPostsInIndustry=async({industry,postCount,userId,postSessionManagmentToken})=>{
+export const getRegularPostsInIndustry=async(postFetchCriteria)=>{
 	try{
 		const imageResults=await axios.get(`${SearchUrl}/getRegularPostInIndustry`,{
-			params:{
-				industry,
-				postCount,
-				userId,
-				postSessionManagmentToken
-			}
+			params:{...postFetchCriteria}
 		});
 
 		const {data}=imageResults;
@@ -98,15 +88,10 @@ export const getIndustryRegularPostFeatureAnswers=async({industryId,question,que
 }
 
 
-export const getVideoInIndustry=async({industry,postCount,userId,postSessionManagmentToken})=>{
+export const getVideoInIndustry=async(postFetchCriteria)=>{
 	try{
 		const videoResponse=await axios.get(`${SearchUrl}/getVideosInIndustry`,{
-			params:{
-				industry,
-				postCount,
-				userId,
-				postSessionManagmentToken
-			}
+			params:{...postFetchCriteria}
 		});
 
 		const {data}=videoResponse;
@@ -117,15 +102,10 @@ export const getVideoInIndustry=async({industry,postCount,userId,postSessionMana
 }
 
 
-export const getBlogsInIndustry=async({industry,postCount,userId,postSessionManagmentToken})=>{
+export const getBlogsInIndustry=async(postFetchCriteria)=>{
 	try{
 		const blogResponse=await axios.get(`${SearchUrl}/getBlogsInIndustry`,{
-			params:{
-				industry,
-				postCount,
-				userId,
-				postSessionManagmentToken
-			}
+			params:{...postFetchCriteria}
 		});
 
 		const {data}=blogResponse;

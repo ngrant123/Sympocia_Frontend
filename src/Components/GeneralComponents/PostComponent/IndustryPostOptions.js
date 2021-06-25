@@ -31,6 +31,19 @@ const SelectedIndustryButton=styled.div`
 	background-color:#5298F8;
 `;
 
+const DropDownCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white"
+}
+
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
 
 class IndustryPostOptions extends Component{
 
@@ -41,6 +54,7 @@ class IndustryPostOptions extends Component{
 			industriesSelected:props.symposiumsUploaded.length==0?[]:props.symposiumsUploaded,
 			subIndustriesSelectedDropDown:[],
 			subIndustriesSelected:[],
+			categorySectionSelected:props.uploadedCategorySection==null?null:props.uploadedCategorySection,
 			subCommunitiesMap:subCommunitiesMap,
 			suppliedSymposiums:PERSONAL_INDUSTRIES.INDUSTRIES,
 			originalSymposiums:PERSONAL_INDUSTRIES.INDUSTRIES
@@ -182,36 +196,33 @@ class IndustryPostOptions extends Component{
 		})
 	}
 
-
-	render(){
+	specificSymposiumPostOptions=()=>{
 		return(
 			<React.Fragment>
 				<li style={{listStyle:"none",display:"inline-block"}}>
-					<p style={{color:"#8c8c8c"}}>Choose an symposium:</p>
+					<p style={{color:"#8c8c8c"}}>Choose a symposium:</p>
 					<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																												borderColor:"#5298F8",
-																												borderStyle:"solid",
-																												borderWidth:"1px",
-																												color:"#5298F8",
-																												backgroundColor:"white"
-																											}}>
+						<button class="btn btn-primary dropdown-toggle"
+							type="button" data-toggle="dropdown" style={DropDownCSS}>
 							Symposiums
 						   	<span class="caret"></span>
 						</button>
-						<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto",overflowX:"hidden"}}>
+						<ul class="dropdown-menu" style={{padding:"5px",height:"350px",overflowY:"auto",overflowX:"hidden"}}>
 							<InputContainer placeholder="Search symposiums"
 								onChange={event=>this.filterSymposiums(event.target.value)}
 							/>
 							{this.state.suppliedSymposiums.map(data=>
-								<li onClick={()=>this.addSelectedIndustry(data)}>
-									<a href="javascript:;">{data.industry}</a>
-								</li>
+								<React.Fragment>
+									<li onClick={()=>this.addSelectedIndustry(data)}>
+										<a href="javascript:;">{data.industry}</a>
+									</li>
+									<hr/>
+								</React.Fragment>
 							)}
 						</ul>
 				  	</div>
 				</li>
-				{this.state.industriesSelected.length!=0?
+				{this.state.industriesSelected.length!=0 &&(
 					<React.Fragment>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
@@ -223,7 +234,8 @@ class IndustryPostOptions extends Component{
 													{data.industry}
 												</SelectedIndustryButton>
 											</li>
-											<li  onClick={()=>this.removeIndustry(data)} style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+											<li  onClick={()=>this.removeIndustry(data)} 
+												style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
 												<HighlightOffIcon
 													style={{ fontSize: 30 }}
 												/>
@@ -233,30 +245,6 @@ class IndustryPostOptions extends Component{
 								)}
 							</ul>
 						</li>
-						{/*
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<p>Choose an sub-symposium (optional):</p>
-								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" type="button"
-										data-toggle="dropdown" style={{	
-											borderColor:"#5298F8",
-											borderStyle:"solid",
-											borderWidth:"1px",
-											color:"#5298F8",
-											backgroundColor:"white"}}>
-										Sub-industries
-									   	<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" style={{height:"350px",overflowY:"auto"}}>
-										{this.state.subIndustriesSelectedDropDown.map(data=>
-											<li onClick={()=>this.addSelectedSubCommunity(data)}>
-												<a href="javascript:;">{data.industry}</a>
-											</li>
-										)}
-									</ul>
-							  	</div>
-							</li>
-						*/}
 						<li style={{listStyle:"none",display:"inline-block"}}>
 								<ul style={{padding:"0px"}}>
 									{this.state.subIndustriesSelected.map(data=>
@@ -268,7 +256,8 @@ class IndustryPostOptions extends Component{
 													</SelectedIndustryButton>
 												</li>
 
-												<li onClick={()=>this.removeSubCommunity(data,"selected")} style={{listStyle:"none",display:"inline-block"}}>
+												<li onClick={()=>this.removeSubCommunity(data,"selected")}
+												 	style={{listStyle:"none",display:"inline-block"}}>
 													<HighlightOffIcon/>
 												</li>
 											</ul>
@@ -277,9 +266,86 @@ class IndustryPostOptions extends Component{
 									)}
 								</ul>
 						</li>
-					</React.Fragment>:
-					<React.Fragment></React.Fragment>
-				}
+					</React.Fragment>
+				)}
+				<hr style={HorizontalLineCSS}/>
+			</React.Fragment>
+		)
+	}
+
+	removeSymposiumCategory=()=>{
+		this.setState({
+			categorySectionSelected:null
+		})
+	}
+
+	addSelectedSymposiumCategory=(selectedCategoryType)=>{
+		this.setState({
+			categorySectionSelected:selectedCategoryType
+		})
+		this.props.alterSymposiumUploadedCategory(selectedCategoryType);
+	}
+
+	symposiumCategoryOptions=()=>{
+		return(
+			<React.Fragment>
+				<li style={{listStyle:"none",display:"inline-block",marginTop:"2%"}}>
+					<p style={{color:"#8c8c8c"}}>Choose a symposium category:</p>
+					<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle" 
+							type="button" data-toggle="dropdown" style={DropDownCSS}>
+							Categories
+						   	<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" style={{padding:"5px",height:"350px",overflowY:"auto",overflowX:"hidden"}}>
+							<li onClick={()=>this.addSelectedSymposiumCategory("The Grind")}>
+								<a href="javascript:;">
+									The Grind
+								</a>
+							</li>
+							<hr/>
+							<li onClick={()=>this.addSelectedSymposiumCategory("Work In Progress")}>
+								<a href="javascript:;">
+									Work In Progress
+								</a>
+							</li>
+							<hr/>
+							<li onClick={()=>this.addSelectedSymposiumCategory("Achievements")}>
+								<a href="javascript:;">
+									Achievements
+								</a>
+							</li>
+						</ul>
+				  	</div>
+				</li>
+				{this.state.categorySectionSelected!=null &&(
+					<React.Fragment>
+						<li style={{marginTop:"2%",listStyle:"none",marginRight:"1px",marginBottom:"1%"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+									<p>{this.state.categorySectionSelected}</p>
+								</li>
+								<li onClick={()=>this.removeSymposiumCategory()} 
+									style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+									<HighlightOffIcon
+										style={{ fontSize: 20 }}
+									/>
+								</li>
+							</ul>
+						</li>
+					</React.Fragment>
+				)}
+				<hr style={HorizontalLineCSS}/>
+			</React.Fragment>
+		)
+	}
+
+
+	render(){
+		return(
+			<React.Fragment>
+				{this.specificSymposiumPostOptions()}
+				{this.symposiumCategoryOptions()}
 			</React.Fragment>
 		)
 	}

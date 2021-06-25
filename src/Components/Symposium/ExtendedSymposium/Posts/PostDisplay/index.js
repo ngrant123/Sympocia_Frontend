@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState,useEffect,useMemo} from "react";
 
 import {ImagePostsModal} from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/ImagePostsModal.js";
 import VideoPostModal from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/VideoPostsModal.js";
@@ -104,7 +104,7 @@ const PostsContainerDisplay=(props)=>{
         }
         changeSelectedPostCategoryInformation(selectedPostCategory)
 
-    },[selectedCategoryType])
+    },[selectedCategoryType,state.posts])
 
      const postsProps={
         _id:profileId,
@@ -122,44 +122,33 @@ const PostsContainerDisplay=(props)=>{
         changeSelectedCategoryType(selectedCategoryType);
     }
 
+    const postsCategory=useMemo(()=>{
+        console.log(selectedPostCategoryInformation);
+        console.log("Memoized function");
+        return(
+            <Posts>
+                {selectedPostCategoryInformation.map(data=>
+                    <PostCategory
+                        {...data}
+                        {...postsProps}
+                        postType={state.postType}
+                        defaultPostCategoryInformation={defaultPostCategoryInformation}
+                        triggerChangeCategoryType={triggerChangeCategoryType}
+                        displayDesktopUI={state.displayDesktopUI}
+                    />
+                )}
+            </Posts>
+        )
+    },[selectedPostCategoryInformation,state.isLoadingReloadedPosts]);
+
 
     return(
         <PostContainer isScrollEnabled={state.headerAnimation} id="postsContainer">
-            {isLoadingNewPosts==true?
+            {isLoadingNewPosts==true? 
                 <p>Loading...</p>:
-                <Posts>
-                    {selectedPostCategoryInformation.map(data=>
-                        <PostCategory
-                            {...data}
-                            {...postsProps}
-                            postType={state.postType}
-                            defaultPostCategoryInformation={defaultPostCategoryInformation}
-                            triggerChangeCategoryType={triggerChangeCategoryType}
-                            displayDesktopUI={state.displayDesktopUI}
-                        />
-                    )}
-                    {/*
-                        {state.postType=="Image"?
-                            <ImagePostsModal {...postsProps}/>:null
-                        }
-
-                        {state.postType=="Video"?
-                            <VideoPostModal {...postsProps}/>:null
-                        }
-
-                        {state.postType=="Blog"?
-                            <li style={{listStyle:"none",marginTop:"0%",marginLeft:"5%"}}>
-                                <BlogPostModal {...postsProps}/>
-                            </li>:null
-                        }
-
-                        {state.postType=="Regular"?
-                            <li style={{listStyle:"none",marginTop:"1%",marginLeft:"5%",width:"90%"}}>
-                                <RegularPostModal {...postsProps}/>
-                            </li>:null
-                        }
-                    */}
-                </Posts>
+                <React.Fragment>
+                    {postsCategory}
+                </React.Fragment>
             }
         </PostContainer>
     )
