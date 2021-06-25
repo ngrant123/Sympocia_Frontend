@@ -26,7 +26,8 @@ const BackButtonCSS={
 }
 
 
-const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumId,ownerId,isGuestProfile})=>{
+const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumId,ownerId,isGuestProfile,isOligarch,deletedBeacon})=>{
+
 	const [displaySelectedPost,changeDisplaySelectedPost]=useState(true);
 	const [displayExtendReplyBeacon,changeDisplayReplyBeacon]=useState(false);
 	const [displayZoomedInPostPortal,changeDisplayZoomedInPostPortal]=useState(false);
@@ -36,8 +37,6 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 	const [isLoadingReplies,changeIsLoadingReplies]=useState(false);
 	const [endOfNewPosts,changeIsEndOfNewPosts]=useState(false);
 	const [isFetchingNextPosts,changeIsFetchingNextPosts]=useState(false);
-
-
 
 	const closeCreationModal=()=>{
 		changeDisplaySelectedPost(true);
@@ -114,6 +113,10 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 		changeIsLoadingReplies(false);
 		changeIsFetchingNextPosts(false);
 	}
+	const deleteBeaconPost=()=>{
+		deletedBeacon();
+		triggerCloseModal();
+	}
 	return(
 		<Container>
 			{displayZoomedInPostPortal==true &&(
@@ -149,6 +152,10 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 							isLoadingReplies={isLoadingReplies}
 							endOfNewPosts={endOfNewPosts}
 							isFetchingNextPosts={isFetchingNextPosts}
+							isOligarch={isOligarch}
+							deleteBeaconPost={deleteBeaconPost}
+							symposiumId={symposiumId}
+							beaconId={postData.beaconId}
 						/>
 					)}
 				</React.Fragment>

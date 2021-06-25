@@ -16,7 +16,7 @@ import {
 import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import ProfileSettingsModal from "../../PersonalProfileSet/Modals-Portals/PersonalPreferances/index.js";
-
+import OligarchPortalDisplay from "../../PersonalProfileSet/Modals-Portals/OligarchPortal.js";
 
 
 const FriendsAndIndustryDisplayButton=styled.div`
@@ -264,6 +264,7 @@ const PersonalInformation=(props)=>{
 	const [displayFriendsPortal,changeDisplayFriendsPortal]=useState(false);
 	const [displaySymposiumsPortal,changeDisplaySymposiumsPortal]=useState(false);
 	const [displayProfileSettingsPage,changeDisplayProfileSettingsPage]=useState(false);
+	const [displayOligarchPage,changeDisplayOligarchPage]=useState(false);
 
 	
 	const handleDonateButton=()=>{
@@ -344,6 +345,9 @@ const PersonalInformation=(props)=>{
 						<b>{firstName}</b>
 					</p>
 					{editIcon()}
+					<div style={{marginLeft:"10%"}}>
+						{crownLogo()}
+					</div>
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
 						style={ShadowButtonCSS}
 						onClick={()=>displayMobileProfileOptions()}
@@ -368,6 +372,18 @@ const PersonalInformation=(props)=>{
 		)
 	}
 
+	const crownLogo=()=>{
+		return(
+			<svg id="oligarchButtonIcon" onClick={()=>changeDisplayOligarchPage(true)}
+				xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crown" 
+			  	width="30" height="30" viewBox="0 0 24 24" stroke-width="2.5" stroke="#FAE124" fill="none" 
+		 	  	stroke-linecap="round" stroke-linejoin="round">
+			  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+			  	<path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+			</svg>
+		)
+	}
+
 	const userInformationComponent=(personalInformation,displayDesktopUI,displayMobileProfileOptions)=>{
 		return (
 			<>
@@ -379,6 +395,11 @@ const PersonalInformation=(props)=>{
 								<b>{personalInformation.firstName}</b>
 							</p>
 							{editIcon()}
+							{personalInformation.isOligarch==true &&(
+								<div style={{cursor:"pointer",marginLeft:"5%"}}>
+									{crownLogo()}
+								</div>
+							)}
 						</div>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
@@ -446,14 +467,43 @@ const PersonalInformation=(props)=>{
 	const closeProfileSettingsModal=()=>{
 		changeDisplayProfileSettingsPage(false);
 	}
+
+	const profileSettingsDisplay=()=>{
+		return(
+			<React.Fragment>
+				{displayProfileSettingsPage==true &&(
+					<ProfileSettingsModal
+						closeModal={closeProfileSettingsModal}
+						userProfilePicture={props.personalInformation.profilePicture}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	const closeOligarchModal=()=>{
+		changeDisplayOligarchPage(false);
+	}
+
+	const oligarchDisplayPage=()=>{
+		return(
+			<React.Fragment>
+				{displayOligarchPage==true &&(
+					<OligarchPortalDisplay
+						closeOligarchModal={closeOligarchModal}
+						ownerFirstName={props.personalInformation.firstName}
+						ownerId={props.personalInformation._id}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+
 	return(
 		<React.Fragment>
-			{displayProfileSettingsPage==true &&(
-				<ProfileSettingsModal
-					closeModal={closeProfileSettingsModal}
-					userProfilePicture={props.personalInformation.profilePicture}
-				/>
-			)}
+			{profileSettingsDisplay()}
+			{oligarchDisplayPage()}
 			{props.isLoading==false &&(
 				<React.Fragment>
 					{displayFriendsPortal==true &&(

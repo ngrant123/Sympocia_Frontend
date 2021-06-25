@@ -91,7 +91,7 @@ const HighlightedQuestionsContainer=styled.div`
 	position:absolute;
 	height:55%;
 	width:20%;
-	left:7%;
+	left:10%;
 	top:30%;
 	border-radius:5px;
 
@@ -102,8 +102,8 @@ const HighlightedQuestionsContainer=styled.div`
 
 const SymposiumTitlesAndVideosContainer=styled.div`
 	position:absolute;
-	left:30%;
-	width:42%;
+	left:35%;
+	width:35%;
 	height:55%;
 	border-radius:5px;
 	top:40%;
@@ -472,6 +472,7 @@ const HeaderContainer=(props)=>{
 										isSimplified={props.popularQuestionObject.isSimplified}
 										selectedSymposium={props.popularQuestionObject.selectedSymposium}
 										isGuestProfile={isGuestProfile}
+										isOligarch={props.isOligarch}
 									/>
 								}
 							</HighlightedQuestionsContainer>

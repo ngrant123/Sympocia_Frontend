@@ -26,6 +26,7 @@ const QuestionCSS={
 
 class HighLightedQuestions extends Component{
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			questionData:props.questionInformation,
@@ -70,7 +71,6 @@ class HighLightedQuestions extends Component{
 	    return v.toString(16);
 	  });
 	}
-
 
 
 	constructResponses=(question)=>{
@@ -221,6 +221,7 @@ class HighLightedQuestions extends Component{
 								triggerVideoPortal={this.setVideoPost}
 								triggerRegularPostPortal={this.setRegularPost}
 								addComment={this.addComment}
+								isOligarch={this.props.isOligarch}
 								isMobile={this.props.isMobile}
 							/>:<React.Fragment></React.Fragment>
 						}

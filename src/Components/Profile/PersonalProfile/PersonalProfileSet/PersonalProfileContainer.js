@@ -637,7 +637,8 @@ class LProfile extends Component{
 						},
 						isGuestVisitorProfile:this.state.isGuestVisitorProfile,
 						recruits:this.state.userProfile.recruits,
-						profilePicture:this.state.userProfile.profilePicture
+						profilePicture:this.state.userProfile.profilePicture,
+						isOligarch:this.state.userProfile.isOligarch
 					}}
 					displayDesktopUI={isMobileInformation==true?true:this.state.displayDesktopUI}
 					displaySocialMediaModal={this.displaySocialMediaModal}

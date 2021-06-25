@@ -27,6 +27,30 @@ export const Posts=styled.div`
 	}
 `;
 
+export const OligarchsContainer=styled.div`
+	position:relative;
+	border-radius:5px;
+	background-color:white;
+	padding:10px;
+	box-shadow: 1px 1px 1px 1px #d5d5d5;
+	transition:.8s;
+	margin-top:20%;
+	cursor:pointer;
+	width:70px;
+
+	@media screen and (max-width:650px){
+		width:50px;
+		margin-bottom:40%; 
+		#oligarchButtonIcon{
+			width:30px !important;
+			height:30px !important;
+		}
+	}
+
+	&:hover{
+		box-shadow: 1px 1px 10px #707070;	
+	}
+`;
 
 export const SymposiumHeaderAnimation=styled.div`
 	position:sticky;
@@ -83,7 +107,7 @@ export const Container=styled.div`
 	width:100%;
 	height:44%;
 	paddding-left:5px;
-	transition: transform 300ms ease-in-out;
+	transition: transform 200ms ease-in-out;
 	boxShadow: "1px 1px 1px 1px #d5d5d5";
 	borderRadius:5px;
 	z-index:30;
@@ -220,15 +244,15 @@ export const PostsChatInformation=styled.div`
 	top:0%;
 	width:90%;
 	height:45%;
-	left:0%;
-	margin-left:5%;
+	left:8%;
 	filter:blur(2px);
 
 	z-index:-1;
-	transition: all 10s;
+	transition: all 1s;
 
 	@media screen and (max-width:1370px){
 		margin-left:0%;
+		left:0%;
 	}
 	@media screen and (max-width:650px){
 		margin-left:1%;
@@ -388,7 +412,6 @@ export const PreventScrollScreen=styled.div`
 export const ExploreIconContainer=styled.div`
 	position:relative;
 	width:70px;
-	left:10%;
 	border-radius:5px;
 	background-color:white;
 	padding:10px;
@@ -413,6 +436,23 @@ export const PageIndicator=styled.div`
     	display:none !important;
     }
 `;
+
+export const AdditionalSymposiumInformationContainer=styled.div`
+	position:absolute;
+	width:5%;
+	height:20%;
+	top:20%;
+	left:2%;
+	border-radius:5%;
+	z-index:31;
+	display:flex;
+	flex-direction:column;
+
+	@media screen and (max-width:1370px){
+    	display:none !important;
+    }
+`;
+
 
 
 export const SearchContainer=styled.div`
@@ -596,26 +636,24 @@ export const ArrowDownContainer=styled.div`
 	  }
 `;
 
-export const BeaconButtonContainer=styled.div`
+export const MobileQuickAccessSymposiumOptions=styled.div`
 	position:fixed;
 	left:80%;
 	top:80%;
 	z-index:39;
 	cursor:pointer;
-	border-radius:5px;
-	${({backgroundColor})=>
-		backgroundColor!=null &&(
-			`background:${backgroundColor};`
-		)
-	}
-	border-radius:50%;
 	display:flex;
+	flex-direction:column;
 	justify-content:center;
+	@media screen and (max-width:1370px){
+		left:90%;
+		top:70%;
+	}
 	@media screen and (max-width:1370px){
 		left:80%;
 	}
 
-    animation: glowing 1300ms infinite, bounce 2s infinite;
+    animation:bounce 2s infinite;
   	@keyframes bounce {
         0%, 20%, 50%, 80%, 100% {
           transform: translateY(0);
@@ -627,6 +665,37 @@ export const BeaconButtonContainer=styled.div`
           transform: translateY(-15px);
         }
 	}
+`;
+export const BeaconButtonContainer=styled.div`
+	z-index:39;
+	cursor:pointer;
+	border-radius:5px;
+	${({backgroundColor})=>
+		backgroundColor!=null &&(
+			`background:${backgroundColor};`
+		)
+	}
+	border-radius:50%;
+	display:flex;
+	justify-content:center;
+	animation: glowing 1300ms infinite;
+
+    @keyframes glowing {
+	    0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+	    50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+	    100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+	}
+
+	@media screen and (max-width:1370px){
+		left:80%;
+		padding:10px;
+		margin-top:20%;
+	}
+
+	@media screen and (max-width:650px){
+		padding:0px;
+	}
+
 `;
 
 export const PostContainerTEst=styled.div`

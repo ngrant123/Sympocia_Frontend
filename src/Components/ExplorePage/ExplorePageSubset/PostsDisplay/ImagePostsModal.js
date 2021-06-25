@@ -429,7 +429,11 @@ const DisplayRecruitButton=({post,previousProps,personalInformationRedux})=>{
 					_id,
 					unRecruitButton,
 					dispatch,
-					{},
+					{
+						previousProps,
+						post,
+						changeDisplayRecruitButton				
+					},
 					false
 				);
 			}else{

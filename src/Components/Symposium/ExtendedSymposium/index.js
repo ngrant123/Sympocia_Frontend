@@ -3,7 +3,10 @@ import styled from "styled-components";
 import Chat from "./Modals/ChatRoom.js";
 import { connect } from "react-redux";
 import ActivePeopleModal from "./Modals/ActivePeopleModal";
-import {getIndustryInformation} from "../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import {
+	getIndustryInformation,
+	isOligarch
+} from "../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import PostCreation from "../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
 
 import {connectToRoom} from "../../../Actions/Requests/SocketIORequests";
@@ -16,7 +19,6 @@ import Confetti from 'react-confetti';
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
 import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import ExploreIcon from '@material-ui/icons/Explore';
-//import GroupSharingVideoCall from "./Modals/VideoCall/index.js";
 import SymposiumOnboarding from "../../OnBoarding/SymposiumPageOnboarding.js";
 import GuestOnboarding from "../../OnBoarding/GuestOnboarding.js"
 import LoadingScreen from "../../../LoadingAnimation.js";
@@ -44,7 +46,10 @@ import {
 	ArrowDownContainer,
 	PostContainerTEst,
 	SymposiumChatContainer,
-	BeaconButtonContainer
+	BeaconButtonContainer,
+	AdditionalSymposiumInformationContainer,
+	OligarchsContainer,
+	MobileQuickAccessSymposiumOptions
 } from "./indexCSS.js";
 import Posts from "./Posts/index.js";
 import SearchOptions from "./Posts/PostFilterOptions/index.js";
@@ -55,6 +60,8 @@ import {
 	} from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
 import {SymposiumProvider} from "./SymposiumContext.js";
 import Beacons from "./Modals/Beacons/index.js";
+import Oligarchs from "./Modals/Oligarchs/index.js";
+import OligarchsFinalResults from "./Modals/Oligarchs/FinalResults.js";
 
 
 const socket = io('http://localhost:4000');
@@ -101,7 +108,9 @@ class Symposium extends Component{
 			displayGuestOnboarding:false,
 			displaySpecficSymposiumFeature:false,
 			displayHightletedSimplifiedQuestionsModal:false,
-			displayBeaconPrompt:false
+			displayBeaconPrompt:false,
+			displayFinalOligarchsCompetitionResults:true,
+			isOligarch:false
 		}
 	}
 
@@ -145,7 +154,45 @@ class Symposium extends Component{
 		this.triggerUIChange()
   		const postContainerElement=document.getElementById("postChatInformation");
   		const postSessionManagmentToken=this.uuidv4();
+		window.addEventListener('resize',this.triggerUIChange)
+
 		const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
+
+		this.fetchSymposiumInformation(profileId);
+		this.fetchIsOligarchStatus({isAccessTokenUpdated:false,profileId});
+  		this.triggerUIChange();
+	}
+
+	fetchIsOligarchStatus=async({isAccessTokenUpdated,updatedAccessToken,profileId})=>{
+		const {confirmation,data}=await isOligarch(
+										profileId,
+										this.props.match.params.symposiumName,
+										isAccessTokenUpdated==true?updatedAccessToken:
+											this.props.personalInformation.accessToken
+								);
+		if(confirmation=="Success"){
+			const {message}=data;
+			this.setState({
+				isOligarch:message
+			})
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					this.props.personalInformation.refreshToken,
+					this.props.personalInformation.id,
+					this.fetchIsOligarchStatus,
+					this.props,
+					{
+						profileId	
+					},
+					true
+				);
+			}
+		}
+	}
+	fetchSymposiumInformation=async(profileId)=>{
+  		const postContainerElement=document.getElementById("postChatInformation");
   		var {confirmation,data}=await getIndustryInformation(
   										this.props.match.params.symposiumName,
   									   	this.state.postCount,
@@ -204,7 +251,6 @@ class Symposium extends Component{
 
 
 	symposiumBackgroundColor=(symposiumName)=>{
-		//var symposiums=props.isPersonalProfile==true?PERSONAL_INDUSTRIES.INDUSTRIES:COMPANY_INDUSTRIES.INDUSTRIES;
 		var symposiums=PERSONAL_INDUSTRIES.INDUSTRIES;
 		for(var i=0;i<symposiums.length;i++){
 			const currentSymposium=symposiums[i].industry;
@@ -487,22 +533,33 @@ class Symposium extends Component{
 				</ArrowDownContainer>
 	}
 
-	beaconIndicatorButton=()=>{
+	oligarchButton=()=>{
+		return(
+			<OligarchsContainer onClick={()=>this.triggerDisplayOligarchsModal()}>
+				{this.crownLogo()}
+			</OligarchsContainer>
+		)
+	}
+
+	mobileSymposiumQuickAccessOptions=()=>{
 		return(
 			<React.Fragment>
 				{(this.state.handleScroll==false && this.state.displayDesktopUI==false)==true &&(
-					<BeaconButtonContainer backgroundColor={this.state.backgroundColor}>
-						<svg style={{cursor:"pointer",marginLeft:"5%"}}
-			                onClick={()=>this.displayBeaconHandle()}
-			                xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flare" width="44" 
-			                height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round"
-			                stroke-linejoin="round"
-			            >
-			              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-			              <circle cx="12" cy="12" r="2" />
-			              <path d="M3 12h4m5 -9v4m5 5h4m-9 5v4m-4.5 -13.5l1 1m8 -1l-1 1m0 7l1 1m-8 -1l-1 1" />
-			            </svg>
-					</BeaconButtonContainer>
+					<MobileQuickAccessSymposiumOptions>
+						{this.oligarchButton()}
+						<BeaconButtonContainer backgroundColor={this.state.backgroundColor}>
+							<svg style={{cursor:"pointer",marginLeft:"5%"}}
+				                onClick={()=>this.displayBeaconHandle()}
+				                xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flare" width="44" 
+				                height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round"
+				                stroke-linejoin="round"
+				            >
+				              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+				              <circle cx="12" cy="12" r="2" />
+				              <path d="M3 12h4m5 -9v4m5 5h4m-9 5v4m-4.5 -13.5l1 1m8 -1l-1 1m0 7l1 1m-8 -1l-1 1" />
+				            </svg>
+						</BeaconButtonContainer>
+					</MobileQuickAccessSymposiumOptions>
 				)}
 			</React.Fragment>
 		)
@@ -518,6 +575,7 @@ class Symposium extends Component{
 					displayHightletedSimplifiedQuestionsModal={this.state.displayHightletedSimplifiedQuestionsModal}
 					isSimplified={true}
 					isMobile={!this.displayDesktopUI}
+					isOligarch={this.state.isOligarch}
 				/>
 		)
 	}
@@ -598,6 +656,7 @@ class Symposium extends Component{
 						symposiumId={this.state.symposiumId}
 						isGuestProfile={this.state.isGuestProfile}
 						isDesktop={this.state.displayDesktopUI}
+						isOligarch={this.state.isOligarch}
 					/>
 				)}
 			</React.Fragment>
@@ -616,6 +675,77 @@ class Symposium extends Component{
 			displayBeaconPrompt:false
 		})
 	}
+
+	closeOligarchsContest=()=>{
+		this.setState({
+			displayOligarchsElection:false
+		})
+	}
+
+	triggerDisplayOligarchsModal=()=>{
+		this.setState({
+			displayOligarchsElection:true
+		})
+	}
+
+	displayOligarchsElectionModal=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayOligarchsElection==true &&(
+					<Oligarchs
+						closeOligarchModal={this.closeOligarchsContest}
+						symposiumId={this.state.symposiumId}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	crownLogo=()=>{
+		return(
+			<svg id="oligarchButtonIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crown" 
+			  width="44" height="44" viewBox="0 0 24 24" stroke-width="2.5" stroke="#232323" fill="none" 
+		 	  stroke-linecap="round" stroke-linejoin="round">
+			  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+			  <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+			</svg>
+		)
+	}
+
+
+	additionalInformation=()=>{
+		return(
+			<AdditionalSymposiumInformationContainer>
+				<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
+					<ExploreIcon
+						style={{fontSize:50}}
+					/>
+					<p>Explore</p>
+				</ExploreIconContainer>
+				{this.oligarchButton()}
+			</AdditionalSymposiumInformationContainer>
+		)
+	}
+
+	closeOligarchFinalResutlsDisplay=()=>{
+		this.setState({
+			displayFinalOligarchsCompetitionResults:false
+		})
+	}
+
+	oligarchFinalResultDisplay=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayFinalOligarchsCompetitionResults==true &&(
+					<OligarchsFinalResults
+						closeModal={this.closeOligarchFinalResutlsDisplay}
+						selectedSymposiumTitle={this.state.selectedSymposiumTitle}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
 
 	render(){
 		return(
@@ -659,7 +789,8 @@ class Symposium extends Component{
 						this.displayBeaconHandle();
 					},
 					displayPhoneUI:this.state.displayPhoneUI,
-					symposiumName:this.props.match.params.symposiumName
+					symposiumName:this.props.match.params.symposiumName,
+					isOligarch:this.state.isOligarch
 				}}
 			>
 				<SymposiumContainer id="extendedSymposiumContainer">
@@ -690,12 +821,15 @@ class Symposium extends Component{
 							 run={true}
 						/>
 					)}
+					{this.oligarchFinalResultDisplay()}
+					{this.additionalInformation()}
 					{this.arrowIndicatorButton()}
-					{this.beaconIndicatorButton()}
+					{this.mobileSymposiumQuickAccessOptions()}
 					{this.handleSeeAllPeopleActiveModal()}
 					{this.handleSeeAllPopularVideos()}
 					{this.specificSymposiumFeatures()}
 					{this.displayBeacon()}
+					{this.displayOligarchsElectionModal()}
 
 					<HeaderContainer
 		  				activePeople={this.state.activePeople}
@@ -726,6 +860,7 @@ class Symposium extends Component{
 					  	backgroundColor={this.state.backgroundColor}
 					  	displayBeacon={this.displayBeaconHandle}
 					  	isLoading={this.state.isLoading}
+					  	isOligarch={this.state.isOligarch}
 		  			/>
 
 					<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>

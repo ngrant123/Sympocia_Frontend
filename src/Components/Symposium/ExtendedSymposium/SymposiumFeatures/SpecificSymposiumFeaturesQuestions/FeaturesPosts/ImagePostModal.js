@@ -58,7 +58,7 @@ const CreatePostButton=styled.div`
 	background-color:white;
 	border-color:white;
 	border-style:solid;
-	padding:15px;
+	padding:10px;
 	border-width:5px;
 	animation: glowing 1300ms infinite;
 	text-align:center;
