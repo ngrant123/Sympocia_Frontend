@@ -46,7 +46,7 @@ const SmallPostContainer=styled.div`
 		}
 		#smallImageContainer{
 			width:100% !important;
-			height:110px !important;
+			height:100px !important;
 		}
 		#videoDescriptionContainer{
 			height:30px !important;
@@ -57,7 +57,7 @@ const SmallPostContainer=styled.div`
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 		margin-bottom:200px;
     	#smallImageContainer{
-			height:280px !important;
+			height:190px !important;
 		}
     }
 

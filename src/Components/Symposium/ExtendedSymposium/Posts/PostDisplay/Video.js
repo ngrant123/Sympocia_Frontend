@@ -15,7 +15,7 @@ const Container=styled.div`
 		}
 		#video{
 			height:185px !important;
-			width:663px !important;
+			width:550px !important;
 		}
 	}
 

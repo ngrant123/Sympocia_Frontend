@@ -57,25 +57,25 @@ const SymposiumAndExplorePageDisplay=({imageInformation,targetDom})=>{
 				/>
 			)}
 			<div id="smallImageContainer" onClick={()=>displayImageModal(imageInformation)} style={ImageCSS}>
-					<img id="image" src={imageInformation.imgUrl} style={{
-						width:"100%",height:"100%",borderRadius:"10px"
-					}}/>
-					<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
-						<ProfilePictureLink to={{pathname:`/profile/${imageInformation.owner._id}`}}>
-							<SmallProfilePictureAndVideoDescription
-								postData={imageInformation}
-							/>
-						</ProfilePictureLink>
-						<div id="smallImageArrowDownCSS" style={SmallImageArrowDownCSS}>
-							<KeyboardArrowDownIcon
-								style={{color:"#FFFFFF"}}
-							/>
-						</div>
+				<img id="image" src={imageInformation.imgUrl} style={{
+					width:"100%",height:"100%",borderRadius:"10px"
+				}}/>
+				<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
+					<ProfilePictureLink to={{pathname:`/profile/${imageInformation.owner._id}`}}>
+						<SmallProfilePictureAndVideoDescription
+							postData={imageInformation}
+						/>
+					</ProfilePictureLink>
+					<div id="smallImageArrowDownCSS" style={SmallImageArrowDownCSS}>
+						<KeyboardArrowDownIcon
+							style={{color:"#FFFFFF"}}
+						/>
 					</div>
 				</div>
-				<p id="smallPostCaption" style={{visibility:"hidden",maxHeight:"15%",overflow:"hidden"}}>
-					<b>{imageInformation.caption}</b>
-				</p>
+			</div>
+			<p id="smallPostCaption" style={{visibility:"hidden",maxHeight:"15%",overflow:"hidden"}}>
+				<b>{imageInformation.caption}</b>
+			</p>
 		</React.Fragment>
 	)
 }

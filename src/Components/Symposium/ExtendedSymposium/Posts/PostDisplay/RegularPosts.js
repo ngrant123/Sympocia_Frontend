@@ -7,13 +7,12 @@ const Container=styled.div`
 	flex-direction:column;
 	height:350px;
 	flex-shrink: 0;
+	background-color:white;
 
 	width:90%;
-	background-color:red;
 	cursor:pointer;
 	overflow:hidden;
 	border-radius:5px;
-	background-color:white;
 	margin-right:2%;
 	margin-bottom:2%;
 	@media screen and (max-width:1370px){
@@ -55,15 +54,17 @@ const HorizontalLineCSS={
 const RegularPost=({regularPostInformation,displayDesktopUI})=>{
 	console.log(regularPostInformation);
 	return(
-		<Container>
-			<SymposiumRegularPostDisplay
-				regularPostInformation={regularPostInformation}
-				targetDom={"extendedSymposiumContainer"}
-			/>
+		<React.Fragment>
+			<Container>
+				<SymposiumRegularPostDisplay
+					regularPostInformation={regularPostInformation}
+					targetDom={"extendedSymposiumContainer"}
+				/>
+			</Container>
 			{displayDesktopUI==false &&(
 				<hr style={HorizontalLineCSS}/>
 			)}
-		</Container>
+		</React.Fragment>
 	)
 }
 

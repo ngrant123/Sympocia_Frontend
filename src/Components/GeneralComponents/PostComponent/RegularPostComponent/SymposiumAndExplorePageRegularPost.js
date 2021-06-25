@@ -66,7 +66,6 @@ const SymposiumAndExplorePageDisplay=({regularPostInformation,targetDom})=>{
 
 	return(
 		<React.Fragment>
-
 			{displayRegualrPostDisplayPortal==true &&(
 				<RegularPostDisplayPortal
 					closeModal={closeModal}

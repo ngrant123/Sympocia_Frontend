@@ -305,7 +305,7 @@ export const PostContainer=styled.div`
 	padding-left:40px;
 	left:-3%;
 	top:5%;
-	width:105%;
+	width:100%;
 	height:100%;
 	transition:1s;
 
@@ -645,13 +645,6 @@ export const MobileQuickAccessSymposiumOptions=styled.div`
 	display:flex;
 	flex-direction:column;
 	justify-content:center;
-	@media screen and (max-width:1370px){
-		left:90%;
-		top:70%;
-	}
-	@media screen and (max-width:1370px){
-		left:80%;
-	}
 
     animation:bounce 2s infinite;
   	@keyframes bounce {
@@ -664,6 +657,21 @@ export const MobileQuickAccessSymposiumOptions=styled.div`
         60% {
           transform: translateY(-15px);
         }
+	}
+
+	@media screen and (max-width:1370px){
+		left:75%;
+		top:70%;
+	}
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		left:85%;
+    }
+
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		top:50%;
+		left:75%;
 	}
 `;
 export const BeaconButtonContainer=styled.div`
@@ -723,7 +731,7 @@ export const SympociaOptionsContainer=styled.div`
 		}
 	}
 	@media screen and (max-width:650px){
-		margin-left:0% !important;
+		margin-left:-5px !important;
 	}
 `;
 

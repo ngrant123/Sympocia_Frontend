@@ -9,17 +9,20 @@ import SymposiumCategoryUpload from "../../Modals/SymposiumCategoryUpload/index.
 
 
 const Container=styled.div`
-	width:650px;
+	width:470px;
 	height:600px;
 	margin-right:2%;
 	padding:5px;
 	overflow:scroll;
+	background-color:white;
 
 	@media screen and (max-width:1370px){
 		overflow:visible !important;
+		width:590px;
 	}
 	@media screen and (max-width:650px){
 		margin-left:-5%;
+		width:650px;
 	}
 `;
 
