@@ -6,6 +6,12 @@ import styled from "styled-components";
 import ImagePostModal from "../FeaturesPosts/ImagePostModal.js";
 import {createPortal} from "react-dom";
 import {SymposiumConsumer} from "../../../SymposiumContext.js";
+import {
+	deleteSpecificSymposiumAnswer
+} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
+import {useDispatch} from "react-redux";
+
 
 const Container=styled.div`
 	position:fixed;
@@ -42,7 +48,10 @@ const ShadowContainer=styled.div`
 
 
 const ModalDecider=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
+	const dispatch=useDispatch();
 	const modalDecider=(symposiumInformation)=>{
+		console.log(symposiumInformation);
+		debugger;
 		const postModalProps={
 			symposium,
 			modalType,
@@ -50,8 +59,11 @@ const ModalDecider=({closeModal,modalType,symposium,questionIndex,symposiumId,qu
 			question,
 			symposiumId,
 			selectedPostId,
-			isOligarch:symposiumInformation.isOligarch
+			isOligarch:symposiumInformation.isOligarch,
+			deleteSpecificSymposiumAnswerTrigger
 		}
+		console.log(symposiumInformation.isOligarch);
+		console.log(postModalProps.isOligarch)
 		if(modalType=="Image"){
 			return <ImagePostModal
 						{...postModalProps}
@@ -70,7 +82,56 @@ const ModalDecider=({closeModal,modalType,symposium,questionIndex,symposiumId,qu
 					/>
 		}
 	}
-		return createPortal(
+
+	const deleteSpecificSymposiumAnswerTrigger=async({
+			selectedIndex,
+			changePosts,
+			posts,
+			selectedPost,
+			updatedAccessToken,
+			isAccessTokenUpdated,
+			postLevel,
+			personalInformation})=>{
+
+		const {_id}=selectedPost;
+		const {confirmation,data}=await deleteSpecificSymposiumAnswer({
+											postType:modalType,
+											symposiumId,
+											symposiumQuestionId:selectedPostId,
+											symposiumAnswerId:_id,
+											postAnswerLevel:postLevel,
+											userId:personalInformation.id,
+											accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken
+										})
+
+		if(confirmation=="Success"){
+			posts.splice(selectedIndex,1);
+			changePosts([...posts]);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						deleteSpecificSymposiumAnswerTrigger,
+						dispatch,
+						{
+							selectedIndex,
+							changePosts,
+							posts,
+							selectedPost,
+							postLevel,
+							personalInformation
+						},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error when trying to add your post. Please try again');
+			}
+		}
+	}
+	return createPortal(
 		<SymposiumConsumer>
 			{symposiumInformation=>{
 				return(

@@ -187,16 +187,17 @@ const ShadowButtonCSS={
 }
 
 const RegularPostModal=(props)=>{
+	console.log(props.isOligarch);
 	const {
 		closeModal,
 		symposium,
-		displayImage,
 		modalType,
 		symposiumId,
 		questionIndex,
 		question,
 		selectedPostId,
-		isOligarch
+		isOligarch,
+		deleteSpecificSymposiumAnswerTrigger
 	}=props;
 
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
@@ -353,16 +354,16 @@ const RegularPostModal=(props)=>{
 		changePostExpand(false);
 	}
 
-	const deleteSymposiumFeaturePost=({selectedPostIndex,isAccessTokenUpdated,updatedAccessToken})=>{
-		// const {confirmation,data}=await deleteSpecificSymposiumAnswer();
-		// if(confirmation=="Success"){
-
-		// }else{
-
-		// }
-
-		posts.splice(selectedPostIndex,1);
-		changePosts([...posts]);
+	const deleteSymposiumFeaturePost=(data,index)=>{
+		deleteSpecificSymposiumAnswerTrigger({
+			selectedIndex:index,
+			changePosts,
+			posts,
+			selectedPost:data,
+			isAccessTokenUpdated:false,
+			personalInformation,
+			postLevel:displayCurrentLevel
+		})
 	}
 	const deleteIcon=(data,index)=>{
 		console.log(data);
@@ -370,10 +371,7 @@ const RegularPostModal=(props)=>{
 			<React.Fragment>
 				{(isOligarch==true || data.owner._id==personalInformation.id)==true &&(
 					<div style={{marginLeft:"5%"}}>
-						<svg id="removePostOption" onClick={()=>deleteSymposiumFeaturePost({
-																	selectedPostIndex:index,
-																	isAccessTokenUpdated:false
-																})}
+						<svg id="removePostOption" onClick={()=>deleteSymposiumFeaturePost(data,index)}
 							xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
 							width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
 							stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>

@@ -225,6 +225,21 @@ export const isOligarch=async(profileId,symposium,accessToken)=>{
 }
 
 
+export const getOligarchPerSymposium=async(symposiumId)=>{
+	try{
+		const oligarchsResponse=await axios.get(`${SearchUrl}/getOligarchPerSymposium`,{
+			params:{
+				symposiumId
+			}
+		})
+		const {data}=oligarchsResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
 
 
 

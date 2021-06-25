@@ -2,7 +2,9 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
-import {createIndustryFeatureImageResponse} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {
+	createIndustryFeatureImageResponse
+} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryImageFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
 import ImagePostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
@@ -11,21 +13,32 @@ import {FeatureConsumer} from "../FeatureContext.js";
 
 const Container=styled.div`
 	padding:20px;
-	@media screen and (max-width:600px){
+	@media screen and (max-width:1370px){
+		#image{
+			height:50% !important;
+		}
 		#imageLI{
-			height:20% !important;
+			width:60% !important;
+		}
+	}
+	@media screen and (max-width:650px){
+		#imageLI{
+			width:80% !important;
+		}
+		#image{
+			height:200px !important;
 		}
 	}
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
- 		#imageLI{
-			height:60% !important;
+ 		#image{
+			height:80% !important;
 		}
     }
 
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
-    	#imageLI{
-			height:50% !important;
+    	#image{
+			height:95% !important;
 		}
     }
 `;
@@ -128,7 +141,8 @@ const ImageCSS={
 	borderRadius:"5px",
 	marginRight:"5%",
 	marginBottom:"5%",
-	width:"40%"
+	width:"40%",
+	height:"45%"
 }
 
 const ButtonCSS={
@@ -170,8 +184,33 @@ const SkillLevelButton={
   marginRight:"2%"
 }
 
-const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposiumId,question,selectedPostId})=>{
-	
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"5px",
+	borderStyle:"none",
+	marginRight:"10%",
+	marginBottom:"2%",
+	cursor:"pointer",
+	marginTop:"5%"
+}
+
+const ImagePostModal=(props)=>{
+	const {
+		isOligarch,
+		closeModal,
+		symposium,
+		questionIndex,
+		symposiumId,
+		question,
+		selectedPostId,
+		deleteSpecificSymposiumAnswerTrigger
+	}=props
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [finalImageEditDisplay,changeDisplayForFinalImage]=useState(false);
 	const [imgUrl,changeImageUrl]=useState();
@@ -315,6 +354,39 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 		}
 	}
 
+	const deleteSpecificAnswer=async(data,index)=>{
+		deleteSpecificSymposiumAnswerTrigger({
+			selectedIndex:index,
+			changePosts,
+			posts,
+			selectedPost:data,
+			isAccessTokenUpdated:false,
+			personalInformation
+		})
+	}
+
+	const deleteSymposiumAnswerIcon=(data,index)=>{
+		return(
+			<React.Fragment>
+				{(isOligarch==true || data.owner._id==userId)==true &&(
+					<div onClick={()=>deleteSpecificAnswer(data,index)}>
+						<svg id="removePostOption" 
+							xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+							width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
+							stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <line x1="4" y1="7" x2="20" y2="7" />
+						  <line x1="10" y1="11" x2="10" y2="17" />
+						  <line x1="14" y1="11" x2="14" y2="17" />
+						  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+						  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+						</svg>
+					</div>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	return(
 		<FeatureConsumer>
 			{featureConsumer=>{
@@ -352,16 +424,17 @@ const ImagePostModal=({closeModal,symposium,displayImage,questionIndex,symposium
 											<li style={{listStyle:"none",marginTop:"2%"}}>
 												{posts.length==0?
 													<p>No posts</p>:
-													<ul style={{padding:"0px"}}>
-														{posts.map(data=>
-															<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
-																	<img id="imageLI" src={data.imgUrl} 
-																	style={{height:"40%",width:"100%",borderRadius:"5px"}}/>
+													<>
+														{posts.map((data,index)=>
+															<>
+																<li id="imageLI" onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
+																	<img id="image" src={data.imgUrl} 
+																	style={{height:"100%",width:"100%",borderRadius:"5px"}}/>
 																</li>
-															</a>
+																{deleteSymposiumAnswerIcon(data,index)}
+															</>
 														)}
-													</ul>
+													</>
 												}
 											</li>
 										</ul>

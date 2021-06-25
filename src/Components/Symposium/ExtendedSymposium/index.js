@@ -109,7 +109,7 @@ class Symposium extends Component{
 			displaySpecficSymposiumFeature:false,
 			displayHightletedSimplifiedQuestionsModal:false,
 			displayBeaconPrompt:false,
-			displayFinalOligarchsCompetitionResults:true,
+			displayFinalOligarchsCompetitionResults:false,
 			isOligarch:false
 		}
 	}
@@ -209,6 +209,7 @@ class Symposium extends Component{
 	  			isProfileFollowedSymposium,
 	  			isOnboardingCompleted,
 	  			featureQuestions,
+	  			hasProfileViewedOligarchFinalResults,
 	  			_id
   			}=data;
 
@@ -234,6 +235,7 @@ class Symposium extends Component{
 		  		symposiumFeatureQuestions:featureQuestions,
 		  		symposiumId:_id,
 		  		postSessionManagmentToken,
+		  		displayFinalOligarchsCompetitionResults:!hasProfileViewedOligarchFinalResults,
 		  		isGuestProfile:(this.props.personalInformation.id=="0" || this.props.personalInformation.isGuestProfile==true)==true?
 								true:false
 	  		}));
@@ -734,12 +736,14 @@ class Symposium extends Component{
 	}
 
 	oligarchFinalResultDisplay=()=>{
+		debugger;
 		return(
 			<React.Fragment>
 				{this.state.displayFinalOligarchsCompetitionResults==true &&(
 					<OligarchsFinalResults
 						closeModal={this.closeOligarchFinalResutlsDisplay}
 						selectedSymposiumTitle={this.state.selectedSymposiumTitle}
+						symposiumId={this.state.symposiumId}
 					/>
 				)}
 			</React.Fragment>

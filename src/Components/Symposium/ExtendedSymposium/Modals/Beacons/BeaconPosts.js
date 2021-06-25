@@ -75,10 +75,11 @@ const BeaconPosts=({
 				isOligarch,
 				symposiumId,
 				beaconId,
-				ownerId
+				originalBeaconOwnerId
 			})=>{
-	const [currentPost,changePosts]=useState([...
-		posts]);
+	console.log(originalBeaconOwnerId);
+	const [currentPost,changePosts]=useState([...posts]);
+	console.log(currentPost);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const uuidv4=()=>{
@@ -149,7 +150,7 @@ const BeaconPosts=({
 											<img src={data.post.owner.profilePicture==null?
 														NoProfilePicture:data.post.owner.profilePicture}
 												style={{
-													width:"50px",
+													width:"45px",
 													height:"40px",
 													borderRadius:"50%"
 												}}/>
@@ -164,14 +165,19 @@ const BeaconPosts=({
 										</p>
 									</div>
 								</div>
-								{(isReplyBeacons==true && isOligarch==true)==true &&(
-									<div onClick={()=>triggerDeleteBeaconComment({
-										replyBeaconId:data.beaconId,
-										index,
-										isAccessTokenUpdated:false,
-									})}>
-										{deleteBeaconCommentIcon()}
-									</div>
+								{isReplyBeacons==true &&(
+									<React.Fragment>
+										{(isOligarch==true || 
+											data.post.owner._id==personalInformation.id)==true &&(
+											<div onClick={()=>triggerDeleteBeaconComment({
+												replyBeaconId:data.beaconId,
+												index,
+												isAccessTokenUpdated:false,
+											})}>
+												{deleteBeaconCommentIcon()}
+											</div>	
+										)}
+									</React.Fragment>
 								)}
 							</div>
 						)}
@@ -183,12 +189,12 @@ const BeaconPosts=({
 				return(
 					<React.Fragment>
 						{currentPost.map((data,index)=>
-							<div style={{marginRight:"3%",width:"30%",marginBottom:"15%"}}>
-								<div id="videoElement" onClick={()=>displayExtendedPostModal(data,index)} 
-									style={{height:"250px",cursor:"pointer"}}>
-									<video 
+							<div style={{display:"flex",flexDirection:"column",marginRight:"3%",width:"30%",marginBottom:"15%"}}>
+								<div onClick={()=>displayExtendedPostModal(data,index)} 
+									style={{cursor:"pointer"}}>
+									<video id="videoElement"
 										style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-										 position="relative" width="100%" height="90%"
+										 position="relative" width="100%" height="250px"
 									 	key={data.post.videoUrl} autoPlay loop autoBuffer muted playsInline>
 										<source src={data.post.videoUrl} type="video/mp4"/>
 									</video>
@@ -198,7 +204,7 @@ const BeaconPosts=({
 													NoProfilePicture:
 													data.post.owner.profilePicture
 												} style={{
-																		width:"50px",
+																		width:"45px",
 																		height:"40px",
 																		borderRadius:"50%"
 																	}}/>
@@ -213,7 +219,8 @@ const BeaconPosts=({
 										</p>
 									</div>	
 								</div>
-								{(isReplyBeacons==true && isOligarch==true)==true &&(
+								{(isReplyBeacons==true && (isOligarch==true ||
+								 	data.post.owner._id==personalInformation.id))==true &&(
 									<div onClick={()=>triggerDeleteBeaconComment({
 										replyBeaconId:data.beaconId,
 										index,
@@ -245,7 +252,7 @@ const BeaconPosts=({
 													NoProfilePicture:
 													data.post.owner.profilePicture
 												} style={{
-																	width:"50px",
+																	width:"45px",
 																	height:"40px",
 																	borderRadius:"50%"
 																}}/>
@@ -254,7 +261,8 @@ const BeaconPosts=({
 										</p>
 									</ProfileInformation>
 								</div>
-								{(isReplyBeacons==true && (isOligarch==true || ownerId==personalInformation.id))==true &&(
+								{(isReplyBeacons==true && (isOligarch==true || 
+									data.post.owner._id==personalInformation.id))==true &&(
 									<div onClick={()=>triggerDeleteBeaconComment({
 										replyBeaconId:data.beaconId,
 										index,

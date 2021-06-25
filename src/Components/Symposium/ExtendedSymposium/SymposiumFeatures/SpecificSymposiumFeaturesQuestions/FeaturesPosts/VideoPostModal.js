@@ -40,7 +40,7 @@ const CreatePostButton=styled.div`
 	background-color:white;
 	border-color:white;
 	border-style:solid;
-	padding:15px;
+	padding:10px;
 	border-width:5px;
 	animation: glowing 1300ms infinite;
 	text-align:center;
@@ -140,8 +140,36 @@ const SkillLevelButton={
   marginRight:"2%"
 }
 
-const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questionIndex,symposiumId,question,selectedPostId})=>{
-	
+
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"5px",
+	borderStyle:"none",
+	marginRight:"10%",
+	marginBottom:"2%",
+	cursor:"pointer",
+	marginTop:"5%"
+}
+
+
+const VideoPostModal=(props)=>{
+	const {
+		isOligarch,
+		closeModal,
+		symposium,
+		questionIndex,
+		symposiumId,
+		question,
+		selectedPostId,
+		deleteSpecificSymposiumAnswerTrigger
+	}=props
+	console.log(props);
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [finalImageEditDisplay,changeDisplayForFinalImage]=useState(false);
 	const [videoUrl,changeVideoUrl]=useState();
@@ -303,6 +331,41 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 	const closePostModal=()=>{
 		changePostExpand(false);
 	}
+
+	const deleteSpecificAnswer=async(data,index)=>{
+		deleteSpecificSymposiumAnswerTrigger({
+			selectedIndex:index,
+			changePosts,
+			posts,
+			selectedPost:data,
+			isAccessTokenUpdated:false,
+			personalInformation
+		})
+	}
+
+	const deleteSymposiumAnswerIcon=(data,index)=>{
+		return(
+			<React.Fragment>
+				{(isOligarch==true || data.owner._id==userId)==true &&(
+					<div onClick={()=>deleteSpecificAnswer(data,index)}>
+						<svg id="removePostOption" 
+							xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+							width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
+							stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <line x1="4" y1="7" x2="20" y2="7" />
+						  <line x1="10" y1="11" x2="10" y2="17" />
+						  <line x1="14" y1="11" x2="14" y2="17" />
+						  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+						  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+						</svg>
+					</div>
+				)}
+			</React.Fragment>
+		)
+	}
+
+
 	return(
 		<Container>
 			{displayPostExpand==false?
@@ -336,7 +399,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 									{posts.length==0?
 										<p>No posts</p>:
 										<ul style={{padding:"0px"}}>
-											{posts.map(data=>
+											{posts.map((data,index)=>
 												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 													<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
 														<video key={data._id} autoPlay loop autoBuffer muted playsInline 
@@ -344,6 +407,7 @@ const VideoPostModal=({closeModal,symposium,displayVideoHandler,modalType,questi
 															<source src={data.videoUrl} type="video/mp4"/>
 														</video>
 													</li>
+													{deleteSymposiumAnswerIcon(data,index)}
 												</a>
 											)}
 										</ul>

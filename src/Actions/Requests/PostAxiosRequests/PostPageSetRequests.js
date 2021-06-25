@@ -746,6 +746,7 @@ export const deleteBeaconReply=async({
 			accessToken
 		})=>{
 	try{
+		debugger;
 		const deletedBeaconReplyResponse=await axios.post(`${CreateURl}/deleteBeaconReply`,{
 			symposiumId,
 			beaconId,
@@ -789,6 +790,35 @@ export const deleteCommentToPopularQuestions=async({
 	}catch(err){
 		throw err;
 	}
+}
+
+export const deleteSpecificSymposiumAnswer=async({
+		postType,
+		symposiumId,
+		symposiumAnswerId,
+		postAnswerLevel,
+		userId,
+		accessToken,
+		symposiumQuestionId
+	})=>{
+		try{
+			const deletedSymposiumAnswerResponse=await axios.post(`${CreateURl}/deleteSpecificSymposiumAnswer`,{
+				postType,
+				symposiumId,
+				symposiumAnswerId,
+				postAnswerLevel,
+				userId,
+				symposiumQuestionId
+			},{
+				headers:{
+					authorization:accessToken
+				}
+			})
+			const {data}=deletedSymposiumAnswerResponse;
+			return data;
+		}catch(err){
+			throw err;
+		}
 }
 
 

@@ -71,9 +71,11 @@ const CreateSubmission=({addNewElectionContestant,closeCreationModal,symposiumId
 		debugger;
 		if(confirmation=="Success"){
 			const {message}=data;
-			changeEditOligarcCardDisplay(true);
-			changePreviousOwnerOligarchCard(message);
-			document.getElementById("electionSpeech").value=message.electionSpeech;
+			if(message!=null){
+				changeEditOligarcCardDisplay(true);
+				changePreviousOwnerOligarchCard(message);
+				document.getElementById("electionSpeech").value=message.electionSpeech;
+			}
 		}
 	}
 
