@@ -63,7 +63,7 @@ const SubmitButtonCSS={
 
 const ImageCSS={
 	height:"220px",
-	width:"100%",
+	width:"250px",
 	borderRadius:"5px",
 	marginBottom:"5%"
 }

@@ -163,20 +163,11 @@ const PostCategory=(props)=>{
 	}
 	const memoizedPostsDisplay=useMemo(()=>{
 		return(
-			<div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
-				{postCategoryPosts.length==0?
-					<p>No posts</p>:
-					<React.Fragment>
-						{postCategoryPosts.map(data=>
-							<>{postsDisplay(data)}</>
-						)}
-						<p ref={loadingIndicatorRef} onClick={()=>triggerReloadingPostsHandle(headers.title,loadingIndicatorRef)}
-							style={{color:"#5298F8",cursor:"pointer"}}>
-							Next Posts
-						</p>
-					</React.Fragment>
-				}
-			</div>
+			<React.Fragment>
+				{postCategoryPosts.map(data=>
+					<>{postsDisplay(data)}</>
+				)}
+			</React.Fragment>
 		)
 	},[postCategoryPosts]);
 
@@ -204,7 +195,18 @@ const PostCategory=(props)=>{
 			{displayDesktopUI==false &&(
 				<hr style={HorizontalLineCSS}/>
 			)}
-			{memoizedPostsDisplay}
+			<div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
+				{postCategoryPosts.length==0?
+					<p>No posts</p>:
+					<React.Fragment>
+						{memoizedPostsDisplay}
+						<p ref={loadingIndicatorRef} onClick={()=>triggerReloadingPostsHandle(headers.title,loadingIndicatorRef)}
+							style={{color:"#5298F8",cursor:"pointer",marginTop:"15%"}}>
+							Next Posts
+						</p>
+					</React.Fragment>
+				}
+			</div>
 		</Container>
 	)	
 }

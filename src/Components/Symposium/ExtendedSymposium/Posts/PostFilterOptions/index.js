@@ -23,6 +23,15 @@ const MobilePostOptionsButton={
     cursor:"pointer"
 }
 
+const OptionDropDownCSS={
+    listStyle:"none",
+    display:"inline-block",
+    marginRight:"5%",
+    color:"#5298F8",
+    cursor:"pointer",
+    padding:"15px"
+}
+
 const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,displayBeacon})=>{
 
     const searchPromptTrigger=(event)=>{
@@ -62,37 +71,20 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
 
     const postOptions=()=>{
         return <>
-                    <li onClick={()=>updatePosts("Regular")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-                        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <PostOptions id="regular">  
-                                Regular posts
-                            </PostOptions>
-                        </a>
+                    <li onClick={()=>updatePosts("Regular")} id="regular" style={OptionDropDownCSS}>
+                        Regular posts
                     </li>
                     <hr/>
-
-                    <li  onClick={()=>updatePosts("Image")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-                        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <PostOptions id="image">    
-                                Images
-                            </PostOptions>
-                        </a>
+                    <li  onClick={()=>updatePosts("Image")} id="image" style={OptionDropDownCSS}>
+                        Images
                     </li>
                     <hr/>
-                    <li onClick={()=>updatePosts("Video")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-                        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <PostOptions id="video">    
-                                Videos
-                            </PostOptions>
-                        </a>
+                    <li onClick={()=>updatePosts("Video")} id="video" style={OptionDropDownCSS}> 
+                        Videos
                     </li>
                     <hr/>
-                    <li onClick={()=>updatePosts("Blog")} style={{listStyle:"none",display:"inline-block"}}>
-                        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <PostOptions id="blog"> 
-                                Blogs
-                            </PostOptions>
-                        </a>
+                    <li onClick={()=>updatePosts("Blog")} id="blog" style={OptionDropDownCSS}>
+                        Blogs
                     </li>
                 </>
     }

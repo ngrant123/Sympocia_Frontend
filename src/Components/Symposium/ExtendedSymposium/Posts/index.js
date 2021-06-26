@@ -73,6 +73,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     loadingNewPostsRef.current.innerHTML="Next Posts";
                 
                 const currentPosts=posts;
+                console.log(posts);
                 let nextPosts;
                 if(isNewPostOption==true)
                     nextPosts=data;
@@ -116,8 +117,9 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                         }
                     }
                 }
-                changePostOptionState(newPostOption);
+                console.log(nextPosts);
                 changePosts({...nextPosts});
+                changePostOptionState(newPostOption);
                 changeEndOfPostIndicator(false);
             }
                 changeIsLoadingReloadedPosts(false);

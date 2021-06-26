@@ -7,7 +7,7 @@ import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 const PrimaryInputContainer=styled.textarea`
 	position:relative;
 	resize:none;
-	width:400px;
+	width:350px;
 	height:70px;
 	padding:10px;
 	border-stlye:solid;
@@ -28,7 +28,7 @@ const SecondaryInputContainer=styled.textarea`
 	position:relative;
 	margin-top:10px;
 	resize:none;
-	width:400px;
+	width:350px;
 	height:180px;
 	padding:10px;
 	border-style:solid;
@@ -104,6 +104,7 @@ const VideoPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,pus
 		if(videoUrl==null){
 			alert('Please enter a video url');
 		}else{
+			alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now');
 			changeIsProcessing(true);
 			let searchVideoResult={
 				title:currentVideoTitle,

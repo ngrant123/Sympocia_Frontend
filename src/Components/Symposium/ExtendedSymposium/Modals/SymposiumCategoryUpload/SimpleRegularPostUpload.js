@@ -48,7 +48,7 @@ const RegularPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,p
 	const submit=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const post=document.getElementById("primaryTextValue").value;
 		if(post==""){
-
+			alert('Please fill in the post section to submit');
 		}else{
 			changeIsProcessing(true);
 			let searchCriteriaObject={
@@ -57,7 +57,7 @@ const RegularPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,p
 					industry:currentSymposiumName,
 					subIndustry:[]
 				}],
-				isAudioPost:false,
+				isAudioPost:null,
 				isCrownedPost:false,
 				isPostAuthentic:{
 					numOfApprove:[],
@@ -124,9 +124,12 @@ const RegularPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,p
 				id="primaryTextValue"
 				placeholder="Enter post"
 			/>
-			<div onClick={()=>submit({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
-				Submit
-			</div>
+			{isProcessing==true?
+				<p>Processing...</p>:
+				<div onClick={()=>submit({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
+					Submit
+				</div>
+			}
 		</div>
 	)
 }
