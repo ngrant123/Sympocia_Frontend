@@ -462,6 +462,7 @@ export const SearchContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	border-radius:5px;
+	padding:5px;
 	margin-right:2%;
 	box-shadow: 1px 1px 5px 	#dbdddf;
 	@media screen and (max-width:1370px){

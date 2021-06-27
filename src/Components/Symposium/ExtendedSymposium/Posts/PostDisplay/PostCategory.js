@@ -70,11 +70,13 @@ const PostCategory=(props)=>{
 	console.log(props);
 	const [postCategoryPosts,changePostCategoryPosts]=useState([]);
 	console.log(props.posts);
+	console.log(posts);
 	console.log(postCategoryPosts);
 	const loadingIndicatorRef=useRef();
 	const [displayCategoryUpload,changeDisplayCategoryUpload]=useState(false);
 
 	useEffect(()=>{
+		console.log("Post Category Use Effect Called");
 		changePostCategoryPosts([...props.posts])
 	},[posts]);
 
@@ -140,13 +142,14 @@ const PostCategory=(props)=>{
 		changeDisplayCategoryUpload(false);
 	}
 
-	const pushDummyPlaceholderPostToStack=(postInformation)=>{
-		console.log("Placeholder called");
-		changeDisplayCategoryUpload(false);
-		const currentPosts=postCategoryPosts;
-		currentPosts.splice(0,0,postInformation);
-		changePostCategoryPosts([...currentPosts]);
-	}
+	// const pushDummyPlaceholderPostToStack=(postInformation)=>{
+	// 	console.log("Placeholder called");
+	// 	changeDisplayCategoryUpload(false);
+	// 	const currentPosts=postCategoryPosts;
+	// 	currentPosts.splice(0,0,postInformation);
+	// 	changePostCategoryPosts([...currentPosts]);
+	// }
+
 	const categoryUploadDisplay=()=>{
 		return(
 			<React.Fragment>
@@ -155,7 +158,6 @@ const PostCategory=(props)=>{
 						closeModal={closeSymposiumUploadCategoryPortal}
 						categoryType={headers.title}
 						postType={postType}
-						pushDummyPlaceholderPostToStack={pushDummyPlaceholderPostToStack}
 					/>
 				)}
 			</React.Fragment>

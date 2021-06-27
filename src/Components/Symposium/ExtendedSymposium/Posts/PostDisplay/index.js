@@ -9,7 +9,6 @@ import {
     PostContainer,
     Posts
 } from "../../indexCSS.js";
-import {PostProvider} from "../PostsContext.js";
 
 
 const PostsContainerDisplay=(props)=>{

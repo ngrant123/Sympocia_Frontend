@@ -3,6 +3,8 @@ import styled from "styled-components";
 import {useDispatch,useSelector} from "react-redux";
 import {createVideoPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {PostConsumer} from "../../Posts/PostsContext.js";
+import {getProfilePicture} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 const PrimaryInputContainer=styled.textarea`
 	position:relative;
@@ -69,7 +71,7 @@ const VideoDivCSS={
 	borderRadius:"5px"
 }
 
-const VideoPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,pushDummyPlaceholderPostToStack})=>{
+const VideoPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,closeModal})=>{
 	const [videoUrl,changeVideoUrl]=useState();
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -97,7 +99,7 @@ const VideoPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,pus
 	    return v.toString(16);
 	  });
 	}
-	const submit=async({isAccessTokenUpdated,updatedAccessToken})=>{
+	const submit=async({isAccessTokenUpdated,updatedAccessToken,pushToStackTrigger})=>{
 		const currentVideoTitle=document.getElementById("primaryTextValue").value;
 		const currentVideoDescription=document.getElementById("secondaryTextValue").value;
 
@@ -136,12 +138,13 @@ const VideoPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,pus
 						numOfDisapprove:[]
 					},
 					owner:{
-						_id:personalInformation.id
+						_id:personalInformation.id,
+						firstName:personalInformation.firstName
 					},
 					_id:data.message,
 					key:uuidv4()
 				}
-				constructPlaceHolderPost(searchVideoResult);
+				constructPlaceHolderPost(searchVideoResult,pushToStackTrigger);
 
 			}else{
 				const {statusCode}=data;
@@ -162,43 +165,59 @@ const VideoPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,pus
 		}
 	}
 
-	const constructPlaceHolderPost=(searchCriteriaObject)=>{
+	const constructPlaceHolderPost=async(searchCriteriaObject,pushToStackTrigger)=>{
+		const {confirmation,data}=await getProfilePicture(personalInformation.id);
+
 		const dateInMill=new Date().getTime();
 		let newVideoObject={
 			...searchCriteriaObject,
 			industriesUploaded:searchCriteriaObject.industriesUploaded.length==0?
 			[{industry:"General",subIndustry:[]}]:searchCriteriaObject.industriesUploaded,
 			comments:[],
-			datePosted:dateInMill
+			datePosted:dateInMill,
+			owner:{
+				...searchCriteriaObject.owner,
+				profilePicture:data
+			}
 		}
-		pushDummyPlaceholderPostToStack(newVideoObject);
+		pushToStackTrigger(newVideoObject);
+		closeModal();
 	}
 	return(
-		<React.Fragment>
-			<div style={{marginRight:"3%"}}>
-				{videoUrl==null?
-					<input type="file" accept="video/mp4,video/x-m4v,video/*" name="img" style={{marginBottom:"5%"}}
-						 id="uploadVideoFile" onChange={()=>handeUploadVideo()}>
-					</input>:
-					<div id="videoDiv" style={VideoDivCSS}>
-					    <video key={uuidv4()} width="100%" height="100%" borderRadius="50px" controls autoplay="true">
-							<source src={videoUrl} type="video/mp4"/>
-						</video>
-					</div>
-				}
-			</div>
-			<div style={{display:"flex",flexDirection:"column"}}>
-				<PrimaryInputContainer id="primaryTextValue" placeholder="Enter title"/>
-				<SecondaryInputContainer id="secondaryTextValue" placeholder="Enter description"/>
+		<PostConsumer>
+			{postsContext=>{
+				return(
+					<React.Fragment>
+						<div style={{marginRight:"3%"}}>
+							{videoUrl==null?
+								<input type="file" accept="video/mp4,video/x-m4v,video/*" name="img" style={{marginBottom:"5%"}}
+									 id="uploadVideoFile" onChange={()=>handeUploadVideo()}>
+								</input>:
+								<div id="videoDiv" style={VideoDivCSS}>
+								    <video key={uuidv4()} width="100%" height="100%" borderRadius="50px" controls autoplay="true">
+										<source src={videoUrl} type="video/mp4"/>
+									</video>
+								</div>
+							}
+						</div>
+						<div style={{display:"flex",flexDirection:"column"}}>
+							<PrimaryInputContainer id="primaryTextValue" placeholder="Enter title"/>
+							<SecondaryInputContainer id="secondaryTextValue" placeholder="Enter description"/>
 
-				{isProcessing==true?
-					<p>Processing...</p>:
-					<div onClick={()=>submit({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
-						Submit
-					</div>
-				}
-			</div>
-		</React.Fragment>
+							{isProcessing==true?
+								<p>Processing...</p>:
+								<div onClick={()=>submit({
+										isAccessTokenUpdated:false,
+										pushToStackTrigger:postsContext.pushDummyPlaceholderPostToStack
+									})} style={SubmitButtonCSS}>
+									Submit
+								</div>
+							}
+						</div>
+					</React.Fragment>
+				)
+			}}
+		</PostConsumer>
 	)
 }
 

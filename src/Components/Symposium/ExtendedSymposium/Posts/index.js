@@ -10,6 +10,7 @@ import {
         getRegularPostsInIndustry,
         getIndustryInformation
 } from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import {PostProvider} from "./PostsContext.js";
 
 const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,profileId,displayBeacon})=>{
     console.log(state);
@@ -43,6 +44,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
             postSessionManagmentToken:postSessionToken,
             symposiumCategoryType
         }
+        console.log(postSessionToken);
         console.log(postParameters);
         let postResults;
 
@@ -83,10 +85,9 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                         case "The Grind":{
                             let {grind}=posts;
                             let updatedPosts=grind.concat(data);
-                            grind=updatedPosts;
                             posts={
                                 ...posts,
-                                grind
+                                grind:updatedPosts
                             }
                             nextPosts=posts;
                             break;
@@ -95,10 +96,9 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                         case "Work In Progress":{
                             let {progress}=posts;
                             let updatedPosts=progress.concat(data);
-                            progress=updatedPosts;
                             posts={
                                 ...posts,
-                                progress
+                                progress:updatedPosts
                             }
                             nextPosts=posts;
                             break;
@@ -107,10 +107,9 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                         case "Achievements":{
                             let {accomplishment}=posts;
                             let updatedPosts=accomplishment.concat(data);
-                            accomplishment=updatedPosts;
                             posts={
                                 ...posts,
-                                accomplishment
+                                accomplishment:updatedPosts
                             }
                             nextPosts=posts;
                             break;
@@ -153,6 +152,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         changePostCount(0);
         changePosts([]);
         changePostSessionToken(uuidv4());
+        console.log(postSessionToken);
         changePostOption(
             null,
             newPostOption,
@@ -161,11 +161,63 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     }
 
     const searchFilterPosts=(posts)=>{
-        changePosts([...posts])
+        console.log(posts);
+        changePosts({...posts})
+    }
+
+    const triggerPushPlaceholder=(dummyData)=>{
+        console.log('Place holder upload');
+        console.log(dummyData);
+        debugger;
+        const {symposiumUploadCategory}=dummyData;
+        let updatedPosts;
+        switch(symposiumUploadCategory){
+            case "The Grind":{
+                let {grind}=posts;
+                grind.splice(0,0,dummyData);
+                const updatedGrindPosts=[...grind]
+                posts={
+                    ...posts,
+                    grind:updatedGrindPosts
+                }
+                updatedPosts=posts;
+                break;
+            }
+
+            case "Work In Progress":{
+                let {progress}=posts;
+                progress.splice(0,0,dummyData);
+                const updatedProgressPosts=[...progress];
+                posts={
+                    ...posts,
+                    progress:updatedProgressPosts
+                }
+                updatedPosts=posts;
+                break;
+            }
+
+            case "Achievements":{
+                let {accomplishment}=posts;
+                accomplishment.splice(0,0,dummyData);
+                const updatedAccomplishmentPosts=[...accomplishment];
+                posts={
+                    ...posts,
+                    accomplishment:updatedAccomplishmentPosts
+                }
+                updatedPosts=posts;
+                break;
+            }
+        }
+        changePosts({...updatedPosts});
     }
 
     return(
-        <React.Fragment>
+        <PostProvider
+            value={{
+                pushDummyPlaceholderPostToStack:(dummyData)=>{
+                   triggerPushPlaceholder(dummyData);
+                }
+            }}>
             <SearchOptions
                 state={{
                     headerAnimation:state.headerAnimation,
@@ -198,7 +250,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                 displayRecruitConfetti={displayRecruitConfetti}
                 profileId={profileId}
             />
-        </React.Fragment>
+        </PostProvider>
     )
 }
 

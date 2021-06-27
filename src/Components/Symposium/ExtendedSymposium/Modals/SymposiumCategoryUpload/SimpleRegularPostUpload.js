@@ -3,6 +3,8 @@ import styled from "styled-components";
 import {createRegularPost} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {PostConsumer} from "../../Posts/PostsContext.js";
+import {getProfilePicture} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 const PrimaryInputContainer=styled.textarea`
 	position:relative;
@@ -40,12 +42,12 @@ const SubmitButtonCSS={
 }
 
 
-const RegularPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,pushDummyPlaceholderPostToStack})=>{
+const RegularPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,closeModal})=>{
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [isProcessing,changeIsProcessing]=useState(false);
 
-	const submit=async({isAccessTokenUpdated,updatedAccessToken})=>{
+	const submit=async({isAccessTokenUpdated,updatedAccessToken,pushToStackTrigger})=>{
 		const post=document.getElementById("primaryTextValue").value;
 		if(post==""){
 			alert('Please fill in the post section to submit');
@@ -82,7 +84,8 @@ const RegularPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,p
 						_id:personalInformation.id
 					}
 				}
-				constructDummyPost(searchCriteriaObject);
+				debugger;
+				constructDummyPost(searchCriteriaObject,pushToStackTrigger);
 			}else{
 				const {statusCode}=data;
 				if(statusCode==401){
@@ -102,7 +105,8 @@ const RegularPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,p
 		}
 	}
 
-	const constructDummyPost=(searchCriteriaObject)=>{
+	const constructDummyPost=async(searchCriteriaObject,pushToStackTrigger)=>{
+		const {confirmation,data}=await getProfilePicture(personalInformation.id);
 		const date=new Date();
 		const dateInMill=date.getTime();
 		var newRegularObject={
@@ -113,24 +117,39 @@ const RegularPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,p
 				regularComments:[],
 				videoComments:[]
 			},
+			owner:{
+				_id:personalInformation.id,
+				firstName:personalInformation.firstName,
+				profilePicture:data
+			},
 			datePosted:dateInMill
 		}	
-		pushDummyPlaceholderPostToStack(newRegularObject);
+		pushToStackTrigger(newRegularObject);
+		closeModal();
 	}
 
 	return(
-		<div style={{width:"100%"}}>
-			<PrimaryInputContainer
-				id="primaryTextValue"
-				placeholder="Enter post"
-			/>
-			{isProcessing==true?
-				<p>Processing...</p>:
-				<div onClick={()=>submit({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
-					Submit
-				</div>
-			}
-		</div>
+		<PostConsumer>
+			{postsContext=>{
+				return(
+					<div style={{width:"100%"}}>
+						<PrimaryInputContainer
+							id="primaryTextValue"
+							placeholder="Enter post"
+						/>
+						{isProcessing==true?
+							<p>Processing...</p>:
+							<div onClick={()=>submit({
+								isAccessTokenUpdated:false,
+								pushToStackTrigger:postsContext.pushDummyPlaceholderPostToStack
+							})} style={SubmitButtonCSS}>
+								Submit
+							</div>
+						}
+					</div>
+				)
+			}}
+		</PostConsumer>
 	)
 }
 

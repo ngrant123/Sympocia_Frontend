@@ -128,9 +128,13 @@ const ButtonCSS={
 	marginRight:"5%"
 }
 
+/*
+	Maybe I should have made it double consumers for the dummy upload functionality but for now
+	each one handles the dummy post upload to stack function. Maybe should make this the central
+	option who knows lolz
+*/
 
-
-const QuickSymposiumUpload=({categoryType,closeModal,postType,pushDummyPlaceholderPostToStack})=>{
+const QuickSymposiumUpload=({categoryType,closeModal,postType})=>{
 	const [selectedCategoryType,changeSelectedCategoryType]=useState(categoryType);
 	const personalInformation=useSelector(state=>state.personalInformation);
 
@@ -139,7 +143,7 @@ const QuickSymposiumUpload=({categoryType,closeModal,postType,pushDummyPlacehold
 			isMobileUi,
 			selectedCategoryType,
 			currentSymposiumName:symposiumName,
-			pushDummyPlaceholderPostToStack
+			closeModal
 		}
 		console.log(postType);
 		debugger;
