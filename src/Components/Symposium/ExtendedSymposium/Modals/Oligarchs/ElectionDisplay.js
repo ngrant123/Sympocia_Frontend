@@ -4,7 +4,10 @@ import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import OfflineBoltIcon from '@material-ui/icons/OfflineBolt';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
-import {getSymposiumOligarchCards} from "../../../../../Actions/Requests/OligarchRequests/OligarchRetrieval.js";
+import {
+	getSymposiumOligarchCards,
+	searchForSpecificOligarchCard
+} from "../../../../../Actions/Requests/OligarchRequests/OligarchRetrieval.js";
 
 
 const InputContainer=styled.textarea`
@@ -74,16 +77,14 @@ const HorizontalLineCSS={
 const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant,symposiumId})=>{
 	const [electionContestants,changeElectionContestants]=useState([]);
 	const [loading,changeLoadingStatus]=useState(false);
+	const [isSearchResult,changeIsSearchResult]=useState(false);
 	useEffect(()=>{
-		// if(newContestant!=null){
-		// 	electionContestants.splice(0,0,newContestant);
-		// 	changeElectionContestants([...electionContestants]);
-		// }
 		fetchData();
 	},[]);
 
 	const fetchData=async()=>{
 		changeLoadingStatus(true);
+		changeIsSearchResult(false);
 		const {confirmation,data}=await getSymposiumOligarchCards(symposiumId)
 		if(confirmation=="Success"){
 			const {message}=data;
@@ -105,10 +106,14 @@ const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant,s
 		return(
 			<ElectionCardContainer onClick={()=>displayElectionCard(data)}>
 				<div id="trophyAndNameContainer" style={{display:"flex",flexDirection:"row"}}>
-					{index<=2 &&(
-						<EmojiEventsIcon
-							style={{fontSize:"40",color:colorTrophy}}
-						/>
+					{isSearchResult==false &&(
+						<React.Fragment>
+							{index<=2 &&(
+								<EmojiEventsIcon
+									style={{fontSize:"40",color:colorTrophy}}
+								/>
+							)}
+						</React.Fragment>
 					)}
 					<img id="contestantProfilePicture" src={data.owner.profilePicture==null?
 							NoProfilePicture:data.owner.profilePicture} 
@@ -135,6 +140,31 @@ const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant,s
 			</ElectionCardContainer>
 		)
 	}
+
+	const triggerSearchForSpecificOligarchCard=async(event)=>{
+		const keyEntered=event.key;
+        if(keyEntered=="Enter"){
+        	event.preventDefault();
+        	const searchQuery=document.getElementById("searchQuery").value;
+        	if(searchQuery==""){
+        		fetchData();
+        	}else{
+        		changeIsSearchResult(true);
+        		changeLoadingStatus(true);
+	        	const {confirmation,data}=await searchForSpecificOligarchCard(
+								        			symposiumId,
+								        			searchQuery
+								        		);
+	        	if(confirmation=="Success"){
+	        		const {message}=data;
+	        		changeElectionContestants(message);
+	        	}else{
+	        		alert('Unfortunately there has been an error seach for this specific oligarch card. Please try again');
+	        	}	
+	        	changeLoadingStatus(false);	
+        	}
+        }
+	}
 	return(
 		<React.Fragment>
 			<div>
@@ -152,9 +182,10 @@ const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant,s
 					<div style={{display:"flex",flexDirection:"row"}}>
 					</div>
 				</div>
-				<div>
-					<InputContainer placeholder="Search just the oligarch contestant here"/>
-				</div>
+				<InputContainer onKeyPress={e=>triggerSearchForSpecificOligarchCard(e)}
+					placeholder="Search just the oligarch contestant here"
+					id="searchQuery"
+				/>
 			</div>
 			{loading==true?
 				<p>Please wait...</p>:

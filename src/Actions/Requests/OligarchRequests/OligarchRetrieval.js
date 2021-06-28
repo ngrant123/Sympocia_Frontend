@@ -62,3 +62,26 @@ export const retrieveOwnerVoterCardIfItExits=async(symposiumId,ownerId)=>{
 		throw err;
 	}
 }
+
+
+export const searchForSpecificOligarchCard=async(symposiumId,searchQuery)=>{
+	try{
+		const searchOligarchCardResponse=await axios.get(`${SearchUrl}/oligarchSearch`,{
+			params:{
+				symposiumId,
+				searchQuery
+			}
+		})
+		const {data}=searchOligarchCardResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+
+
+
+
