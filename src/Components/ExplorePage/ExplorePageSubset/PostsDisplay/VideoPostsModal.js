@@ -191,7 +191,7 @@ const SmallPostContainer=styled.div`
 	width:80%;
 	height:600px;
 	margin-left:5%;
-	overflow:scroll;
+	overflow-y:scroll;
 	flex-wrap:wrap;
 
 

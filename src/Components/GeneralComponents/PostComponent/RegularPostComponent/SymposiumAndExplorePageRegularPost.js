@@ -10,7 +10,7 @@ const ProfilePictureLink=styled(Link)`
 	@media screen and (max-width:650px){
 		#smallProfilePicture{
 			height:30px !important;
-			width:30px !important;
+			width:25px !important;
 		}
 	}
 `;
@@ -81,7 +81,7 @@ const SymposiumAndExplorePageDisplay=({regularPostInformation,targetDom})=>{
 					<img src={regularPostInformation.owner.profilePicture!=null?
 							  regularPostInformation.owner.profilePicture:
 							  NoProfilePicture} 
-					style={{height:"50px",width:"60px",borderRadius:"50%"}}/>
+					style={{height:"50px",width:"55px",borderRadius:"50%"}}/>
 				</ProfilePictureLink>
 				<p id="headerOwnerNameLI" style={headerPostNameCSS}>
 					<b>{regularPostInformation.owner.firstName}</b>

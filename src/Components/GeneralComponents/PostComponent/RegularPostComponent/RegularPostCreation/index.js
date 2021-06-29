@@ -51,13 +51,17 @@ const Container = styled.div`
 	overflow:scroll;
 	z-index:35;
 
+	#symposiumCategoryOptionsHR{
+		display:none !important;
+	}
+
 	@media screen and (max-width:1370px){
 		width:90%;
 		left:5%;
 	}
 
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:650px){
 		left:5%;
 		width:90% !important;
 		height:75%;

@@ -56,7 +56,7 @@ const PostsContainerDisplay=(props)=>{
             },1000);
         }
         let selectedPostCategory=[];
-        if(selectedCategoryType=="General"){
+        if(state.displayDesktopUI){
             selectedPostCategory=[...defaultPostCategoryInformation];
         }else{
             for(var i=0;i<defaultPostCategoryInformation.length;i++){
@@ -103,7 +103,7 @@ const PostsContainerDisplay=(props)=>{
         }
         changeSelectedPostCategoryInformation(selectedPostCategory)
 
-    },[selectedCategoryType,state.posts])
+    },[selectedCategoryType,state.posts,state.displayDesktopUI])
 
      const postsProps={
         _id:profileId,

@@ -15,7 +15,7 @@ const Container=styled.div`
 	top:5%;
 	flex-direction:row;
 	flex-wrap:wrap;
-	overflow:scroll;
+	overflow-y:scroll;
 	width:100%;
 	height:600px;
 	@media screen and (max-width:1370px){

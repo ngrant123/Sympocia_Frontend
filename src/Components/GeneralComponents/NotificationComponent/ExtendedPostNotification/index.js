@@ -193,6 +193,7 @@ const BackButtonCSS={
 
 const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postId,displayPostElementPage,isPostAudio})=>{
 	const {notificationType,postType,commentID,replyId,notificationOwnerId}=data;
+	console.log(data);
 	const [notification,changeNotification]=useState();
 	const [isLoading,changeIsLoading]=useState(true);
 	const [displayReplyModal,changeDisplayReplyModal]=useState(false);
@@ -207,7 +208,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 			let confirmationResponse;
 			let dataResponse;
 
-			if(notificationType!="Stamp" && notificationType!="BeaconResponse"){
+			if(notificationType!="Stamp" && notificationType!="BeaconResponse" && notificationType!="OligarchWin"){
 				if(notificationType=="RegularComment"){
 
 					const {confirmation,data}=await getCommentByID({postType,commentId:commentID,postId});
@@ -435,6 +436,11 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 			return <p> The profile below has promoted you. Check them out :) </p>
 		}else if(notificationType=="Recruit"){
 			return <p> The profile below has recruited you. Check them out :) </p>
+		}else if(notificationType=="OligarchWin"){
+			return <p>
+						Congrats you have been selected as an oligarch for the <b>{data.symposium.symposiumName}</b> symposium.
+						You can now do a number of things so whenever you have the chance check it out:)
+					</p>
 		}else{
 			return <p> 
 						The profile below has requested access to node:
@@ -462,21 +468,24 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					{isLoading==true ?
 						<p>Please wait..</p>:
 						<>
-							{notificationType=="Recruit" || notificationType=="Promotion" || notificationType=="RequestAccessToNode"?
+							{notificationType=="Recruit" || notificationType=="Promotion" || notificationType=="RequestAccessToNode"
+								|| notificationType=="OligarchWin"?
 								<div style={{display:"flex",flexDirection:"column"}}>
 									{nonPostNotificationDescription()}
 									
-				   					<Link to={{pathname:`/profile/${notificationOwnerId}`}}>
-					   					<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>
-											<img id="notificationRecruitOrPromotionProfilePicture" 
-												src={notification[0].profilePicture==null?
-													NoProfilePicture:notification[0].profilePicture}
-												style={{width:"70px",height:"60px",borderRadius:"50%"}}/>
-											<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
-												<b>{notification[0].firstName}</b>
-											</p>
-										</div>
-				   					</Link>
+									{notificationType!="OligarchWin" &&(
+					   					<Link to={{pathname:`/profile/${notificationOwnerId}`}}>
+						   					<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>
+												<img id="notificationRecruitOrPromotionProfilePicture" 
+													src={notification[0].profilePicture==null?
+														NoProfilePicture:notification[0].profilePicture}
+													style={{width:"70px",height:"60px",borderRadius:"50%"}}/>
+												<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
+													<b>{notification[0].firstName}</b>
+												</p>
+											</div>
+					   					</Link>
+									)}
 				   				</div>
 								:<React.Fragment>
 									{notificationType=="BeaconResponse"?

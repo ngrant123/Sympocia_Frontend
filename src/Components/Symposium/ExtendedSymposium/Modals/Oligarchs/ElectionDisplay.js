@@ -8,15 +8,17 @@ import {
 	getSymposiumOligarchCards,
 	searchForSpecificOligarchCard
 } from "../../../../../Actions/Requests/OligarchRequests/OligarchRetrieval.js";
+import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
+import CurrentOligarchs from "./CurrentOligarchs.js";
 
 
 const InputContainer=styled.textarea`
 	border-radius:5px;
 	border-style:solid;
 	border-width:1px;
+	border-color:#D8D8D8;
 	margin-top:2%;
 	width:100%;
-	border-color:#D8D8D8;
 	resize:none;
 	padding:5px;
 `;
@@ -58,6 +60,25 @@ const BoltContainer=styled.div`
 		display:none !important;
 	}
 `;
+
+const ShadowContainer=styled.div`
+	position:absolute
+	width:100%;
+	height:100%;
+	background-color: rgba(0,0,0,0.4);
+	z-index:40;
+	top:0px;
+`;
+
+const CurrentOligarchsContainer=styled.div`
+	position:absolute;
+	background-color:red;
+	width:265px;
+	height:400px;
+	border-radius:5px;
+	left:70%;
+	top:15%;
+`;
 const CreationIconCSS={
 	backgroundColor:"white",
 	borderRadius:"50%",
@@ -73,8 +94,44 @@ const HorizontalLineCSS={
 	position:"relative",
 	marginRight:"0"
 }
+const BootStrapDropDownButtonCSS={
+	borderStyle:"none",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white"
+}
 
-const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant,symposiumId})=>{
+const DropDownMenuCSS={
+	marginLeft:"-150px",
+	width:"290px",
+	height:"400px",
+	overflow:"auto",
+	marginTop:"30px",
+	padding:"10px",
+	overflowY:"scroll"
+}
+
+const CurrentOligarchsContainerCSS={
+	display:"flex",
+	flexDirection:"row",
+	width:"20%",
+	borderRadius:"5px",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#D8D8D8",
+	padding:"5px",
+	alignItems:"center"
+}
+const VerticalLineCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#EBEBEB",
+	borderLeft:"2px",
+ 	height:"50px",
+ 	marginLeft:"3%"
+}
+
+const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant,symposiumId,displayCurrentOligarchsMobile})=>{
 	const [electionContestants,changeElectionContestants]=useState([]);
 	const [loading,changeLoadingStatus]=useState(false);
 	const [isSearchResult,changeIsSearchResult]=useState(false);
@@ -165,6 +222,29 @@ const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant,s
         	}
         }
 	}
+
+	const MobileDropDownOptions=()=>{
+		return(
+			<div class="dropdown" id="mobileOligarchOptionsDropDown" style={{display:"none"}}>
+				<button class="btn btn-primary dropdown-toggle" 
+					type="button" data-toggle="dropdown" style={{borderStyle:"none",backgroundColor:"white"}}>
+					<ArrowDropDownCircleOutlinedIcon
+						style={{fontSize:"20",color:"#D9D9D9",cursor:"pointer"}}
+					/>
+				</button>
+
+				<ul id="mobileDropDown" class="dropdown-menu" style={DropDownMenuCSS}>
+					<p onClick={()=>displayCreationModal()}>
+						Create Oligarch Card
+					</p>
+					<hr/>
+					<p onClick={()=>displayCurrentOligarchsMobile()}>
+						Current oligarchs
+					</p>
+				</ul>
+		  	</div>
+		)
+	}
 	return(
 		<React.Fragment>
 			<div>
@@ -173,14 +253,34 @@ const ElectionDisplay=({displayCreationModal,displayElectionCard,newContestant,s
 						<p style={{fontSize:"36px"}}>
 							<b>Oligarchs</b>
 						</p>
-						<div style={CreationIconCSS} onClick={()=>displayCreationModal()}>
+						<div id="desktopCreationIcon" style={CreationIconCSS} onClick={()=>displayCreationModal()}>
 							<BorderColorIcon
 								style={{fontSize:"20",color:"#C8B0F4"}}
 							/>
 						</div>
 					</div>
-					<div style={{display:"flex",flexDirection:"row"}}>
+					<div id="desktopOligarchDisplay" style={CurrentOligarchsContainerCSS}>
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" 
+								type="button" data-toggle="dropdown" style={BootStrapDropDownButtonCSS}>
+								<ArrowDropDownCircleOutlinedIcon
+									style={{fontSize:"20",color:"#D9D9D9",cursor:"pointer"}}
+								/>
+							</button>
+
+							<ul id="currentOligarchsDropDown" class="dropdown-menu" style={DropDownMenuCSS}>
+								<CurrentOligarchs
+									symposiumId={symposiumId}
+								/>
+							</ul>
+					  	</div>
+							
+						<div style={VerticalLineCSS}/>
+						<img src={NoProfilePicture}
+							style={{width:"40px",height:"40px",borderRadius:"50%",marginLeft:"10%"}}
+						/>
 					</div>
+					{MobileDropDownOptions()}
 				</div>
 				<InputContainer onKeyPress={e=>triggerSearchForSpecificOligarchCard(e)}
 					placeholder="Search just the oligarch contestant here"

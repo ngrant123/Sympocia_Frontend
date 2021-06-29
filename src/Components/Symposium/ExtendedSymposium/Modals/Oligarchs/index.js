@@ -4,6 +4,7 @@ import {BackgroundModalContainer} from "../../indexCSS.js";
 import ElectionDisplay from "./ElectionDisplay.js";
 import ExtendedOligarichElectionCard from "./ExtendedOligarchElectionCard.js";
 import CreationSubmission from "./CreateSubmission.js";
+import CurrentOligarchs from "./CurrentOligarchs.js";
 
 
 const Container=styled.div`
@@ -23,10 +24,37 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
+
+		#currentOligarchsDropDown{
+			margin-left:-200px !important;
+		}
 	}
 
 	@media screen and (max-width:650px){
 		height:80%;
+		#electionSpeechDiv{
+			margin-bottom:15% !important;
+		}
+		#mobileOligarchOptionsDropDown{
+			display:block !important;
+		}
+		#desktopOligarchDisplay{
+			display:none !important;
+		}
+
+		#desktopCreationIcon{
+			display:none !important;
+		}
+
+		#mobileDropDown{
+			width:200px !important;
+			height:200px !important;
+			padding:20px !important;
+		}
+
+		#backButtonCurrentOligarchs{
+			display:block !important;
+		}
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
@@ -61,6 +89,9 @@ const Oligarchs=({symposiumId,closeOligarchModal})=>{
 	const closeModalAndDisplayElection=()=>{
 		changeOligarchsModalType("Election");
 	}
+	const displayCurrentOligarchsMobile=()=>{
+		changeOligarchsModalType("CurrentOligarchs");
+	}
 
 	const displayCreationModal=()=>{
 		changeOligarchsModalType("Creation");
@@ -79,6 +110,7 @@ const Oligarchs=({symposiumId,closeOligarchModal})=>{
 							displayCreationModal={displayCreationModal}
 							newContestant={newContestant}
 							symposiumId={symposiumId}
+							displayCurrentOligarchsMobile={displayCurrentOligarchsMobile}
 						/>
 			}
 			case "ElectionCard":{
@@ -94,6 +126,12 @@ const Oligarchs=({symposiumId,closeOligarchModal})=>{
 							addNewElectionContestant={addNewElectionContestant}
 							symposiumId={symposiumId}
 						/>
+			}
+			case "CurrentOligarchs":{
+				return <CurrentOligarchs
+							symposiumId={symposiumId}
+							closeModal={closeModalAndDisplayElection}
+						/>	
 			}
 		}
 	}

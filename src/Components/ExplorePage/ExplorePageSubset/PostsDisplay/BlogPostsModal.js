@@ -263,7 +263,7 @@ const PostsContainer=styled.div`
 	width:70%;
 	height:600px;
 	margin-left:5%;
-	overflow:scroll;
+	overflow-y:scroll;
 	flex-wrap: wrap;
 	margin-bottom:5%;
 	@media screen and (max-width:1370px){

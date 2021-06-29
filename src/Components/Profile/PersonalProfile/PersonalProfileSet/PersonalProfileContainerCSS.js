@@ -287,11 +287,16 @@ export const PersonalProfileInformationContainer= styled.div`
 		}
 		#mobileUserInformation{
 			margin-left:20% !important;
+			flex-direction:column !important;
 		}
 	}
 
 	@media screen and (max-width:650px){
 		top:-20% !important;
+		#mobileUserInformation{
+			margin-left:2% !important;
+			flex-direction:row !important;
+		}
 	}
 
 	  @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){

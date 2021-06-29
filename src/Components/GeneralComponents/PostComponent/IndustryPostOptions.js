@@ -335,7 +335,7 @@ class IndustryPostOptions extends Component{
 						</li>
 					</React.Fragment>
 				)}
-				<hr style={HorizontalLineCSS}/>
+				<hr id="symposiumCategoryOptionsHR" style={HorizontalLineCSS}/>
 			</React.Fragment>
 		)
 	}

@@ -112,7 +112,7 @@ const SymposiumTitlesAndVideosContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		left:5% !important;
-    	top:70px !important;
+    	top:40px !important;
     	width:80% !important;
 		height:20% !important;
 		#titleContainer{

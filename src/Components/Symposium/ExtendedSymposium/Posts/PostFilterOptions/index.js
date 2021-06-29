@@ -118,24 +118,24 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
 
     return(
         <SympociaOptionsContainer isScrollEnabled={state.headerAnimation}>	
-                <SearchOptionContainer style={{width:"80%",marginLeft:state.headerAnimation==false?"10%":"0%"}}>	
-                    <SearchContainer>
-                        <SearchIcon
-                            style={{fontSize:30}}
-                        />
-                        <SearchTextArea
-                            id="symposiumSearchPostTextArea"
-                            placeholder="Press enter to quick search"
-                            onKeyPress={e=>searchPromptTrigger(e)}
-                        />
-                    </SearchContainer>
-                    {postOptionsMobileOrDesktop()}
-                    <SymposiumOptions
-                        headerAnimation={state.headerAnimation}
-                        displayPhoneUI={state.displayPhoneUI}
-                        selectedSymposiumTitle={state.selectedSymposiumTitle}
+            <SearchOptionContainer style={{width:"80%",marginLeft:state.headerAnimation==false?"10%":"0%"}}>	
+                <SearchContainer>
+                    <SearchIcon
+                        style={{fontSize:30}}
                     />
-                </SearchOptionContainer>
+                    <SearchTextArea
+                        id="symposiumSearchPostTextArea"
+                        placeholder="Press enter to quick search"
+                        onKeyPress={e=>searchPromptTrigger(e)}
+                    />
+                </SearchContainer>
+                {postOptionsMobileOrDesktop()}
+                <SymposiumOptions
+                    headerAnimation={state.headerAnimation}
+                    displayPhoneUI={state.displayPhoneUI}
+                    selectedSymposiumTitle={state.selectedSymposiumTitle}
+                />
+            </SearchOptionContainer>
 
             {state.headerAnimation==true && (
                 <MinifiedSymposiumInformation isScrollEnabled={state.headerAnimation}>

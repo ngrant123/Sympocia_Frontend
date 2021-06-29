@@ -157,7 +157,7 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 						personalInformation.accessToken
 			);
 			if(confirmation=="Success"){
-				changeDisplayComments(true);
+				changeDisplayComments(false);
 			}else{
 				await refreshTokenApiCallHandle(
 					personalInformation.refreshToken,
@@ -299,7 +299,9 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 									<b>{electionCardInformation.owner.firstName}</b>
 								</p>
 							</div>
-							<p>{electionCardInformation.electionSpeech}</p>
+							<div id="electionSpeechDiv" style={{display:"flex",flexWrap:"wrap",marginBottom:"5%"}}>
+								{electionCardInformation.electionSpeech}
+							</div>
 							<div style={{display:"flex",flexDirection:"row"}}>
 								{isSponsored==true?
 									<div onClick={()=>unSponsoreUser({isAccessTokenUpdated:false})} 
@@ -313,7 +315,7 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 								}
 								{displayComments==true?
 									<div onClick={()=>changeDisplayComments(false)} style={ShadowButtonCSS}>
-										Hide Comments
+										Hide
 									</div>
 									:<div onClick={()=>changeDisplayComments(true)} style={ShadowButtonCSS}>
 										Comments
@@ -334,11 +336,16 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 							{retrievingCommentsStatus==true?
 								<p>Please wait...</p>:
 								<>	
-									{comments.map((data,index)=>
-										<div>
-											{comment(data,index)}
-										</div>
-									)}
+									{comments.length==0?
+										<p style={{marginTop:"20px"}}>No comments</p>:
+										<React.Fragment>
+											{comments.map((data,index)=>
+												<div>
+													{comment(data,index)}
+												</div>
+											)}
+										</React.Fragment>
+									}
 								</>
 							}
 						</React.Fragment>

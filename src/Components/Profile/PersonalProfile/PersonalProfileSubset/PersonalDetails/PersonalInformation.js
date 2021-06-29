@@ -337,24 +337,48 @@ const PersonalInformation=(props)=>{
 		changeDisplaySymposiumsPortal(false);
 	}
 	
-	const mobileUserInformation=(firstName,displayMobileProfileOptions)=>{
+	const mobileUserInformation=(firstName,displayMobileProfileOptions,isOligarch)=>{
+		console.log(isOligarch);
 		return(
 			<React.Fragment>
 				<div id="mobileUserInformation" style={{display:"flex",flexDirection:"row"}}>
 					<p style={{maxWidth:"90%",maxHeight:"30px",marginRight:"10%",overflow:"hidden",fontSize:"20px"}}>
 						<b>{firstName}</b>
 					</p>
-					{editIcon()}
-					<div style={{marginLeft:"10%"}}>
-						{crownLogo()}
+					<div style={{display:"flex",flexDirection:"row"}}>
+						{editIcon()}
+						{isOligarch==true &&(
+							<div style={{cursor:"pointer",marginLeft:"10%"}}>
+								{crownLogo()}
+							</div>
+						)}
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+							style={ShadowButtonCSS}
+							onClick={()=>displayMobileProfileOptions()}
+							>
+						   		<span class="caret"></span>
+						</button>
 					</div>
-					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-						style={ShadowButtonCSS}
-						onClick={()=>displayMobileProfileOptions()}
-						>
-					   		<span class="caret"></span>
-					</button>
 				</div>
+				{/*
+					<div id="mobileUserInformation" style={{display:"flex",flexDirection:"row"}}>
+						<p style={{maxWidth:"90%",maxHeight:"30px",marginRight:"10%",overflow:"hidden",fontSize:"20px"}}>
+							<b>{firstName}</b>
+						</p>
+						{editIcon()}
+						{isOligarch==true &&(
+							<div style={{cursor:"pointer",marginLeft:"5%"}}>
+								{crownLogo()}
+							</div>
+						)}
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+							style={ShadowButtonCSS}
+							onClick={()=>displayMobileProfileOptions()}
+							>
+						   		<span class="caret"></span>
+						</button>
+					</div>
+				*/}
 			</React.Fragment>
 		)
 	}
@@ -388,7 +412,10 @@ const PersonalInformation=(props)=>{
 		return (
 			<>
 				{displayDesktopUI==false?
-					<>{mobileUserInformation(personalInformation.firstName,displayMobileProfileOptions)}</>:
+					<>{mobileUserInformation(
+							personalInformation.firstName,
+							displayMobileProfileOptions,
+							personalInformation.isOligarch)}</>:
 					<>
 						<div style={{display:"flex",flexDirection:"row"}}>
 							<p style={FirstNameCSS}>

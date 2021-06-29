@@ -32,6 +32,9 @@ import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 
 const Container=styled.div`
+	#symposiumCategoryOptionsHR{
+		display:none !important;
+	}
 	@media screen and (max-width:1370px){
 		width:80%;
 	}

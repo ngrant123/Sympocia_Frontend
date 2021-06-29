@@ -124,7 +124,7 @@ const PostsContainer=styled.div`
 	width:90%;
 	height:560px;
 	flex-wrap: wrap;
-	overflow:scroll;
+	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
 		width:90%;

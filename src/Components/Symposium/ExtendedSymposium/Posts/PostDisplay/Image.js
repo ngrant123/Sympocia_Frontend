@@ -5,8 +5,8 @@ import SymposiumImageDisplay from "../../../../GeneralComponents/PostComponent/I
 
 const SmallPostContainer=styled.div`
 	margin-bottom:15%;
-	width:170px;
-	height:130px;
+	width:160px;
+	height:120px;
 	cursor:pointer;
 	margin-right:5%;
 	#smallImageContainer{
@@ -46,7 +46,7 @@ const SmallPostContainer=styled.div`
 		}
 		#smallImageContainer{
 			width:100% !important;
-			height:100px !important;
+			height:125px !important;
 		}
 		#videoDescriptionContainer{
 			height:30px !important;

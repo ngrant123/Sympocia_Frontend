@@ -313,6 +313,10 @@ const Notification=({targetDom,closeModal,userId,history,tokens})=>{
 							{data.notificationType=="RequestAccessToNode" &&(
 								<p>A user has requested access to your node (View Message)</p>
 							)}
+
+							{data.notificationType=="OligarchWin" &&(
+								<p>Congrats you have been selected as an oligarch (View Message)</p>
+							)}
 						</NotificationContainer>
 						<hr style={HorizontalLineCSS}/>
 					</>

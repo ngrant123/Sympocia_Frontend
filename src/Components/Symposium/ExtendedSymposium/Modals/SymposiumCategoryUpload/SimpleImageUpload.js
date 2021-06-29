@@ -9,7 +9,7 @@ import {PostConsumer} from "../../Posts/PostsContext.js";
 const PrimaryInputContainer=styled.textarea`
 	position:relative;
 	resize:none;
-	width:350px;
+	width:320px;
 	height:70px;
 	padding:10px;
 	border-stlye:solid;
@@ -31,7 +31,7 @@ const SecondaryInputContainer=styled.textarea`
 	position:relative;
 	margin-top:10px;
 	resize:none;
-	width:350px;
+	width:320px;;
 	height:180px;
 	padding:10px;
 	border-style:solid;
