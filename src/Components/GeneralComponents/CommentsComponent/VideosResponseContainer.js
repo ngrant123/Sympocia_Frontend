@@ -9,7 +9,8 @@ import {getVideoComments,
 
 import {
 		createVideoResponse,
-		createVideoCommentReply
+		createVideoCommentReply,
+		deleteVideoCommentOrReply
 	} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import VideoDescriptionPortal from "../PostComponent/VideoDescription/VideoDescriptionPortal.js";
 import {connect} from "react-redux";
@@ -151,6 +152,23 @@ const ButtonCSS={
 	marginBottom:"1%",
 	cursor:"pointer",
 	marginTop:"10px"
+}
+
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"5px",
+	borderStyle:"none",
+	marginRight:"10%",
+	marginBottom:"2%",
+	cursor:"pointer",
+	marginTop:"5%",
+	marginLeft:"5%"
 }
 
 
@@ -388,6 +406,16 @@ class VideoResponseContainer extends Component{
 										<CommentText>
 											{data.comment}
 										</CommentText>
+										{(this.props.isOligarch==true || this.props.personalState.id==this.props.ownerId._id
+											|| data.ownerObject.owner._id==this.props.personalState.id)==true &&(
+											<div onClick={()=>this.triggerDeleteVideoCommentOrReply({
+												isAccessTokenUpdated:false,
+												commentId:data._id,
+												isReplyDeletion:true
+											})}>
+												{this.deleteCommentIcon()}
+											</div>
+										)}
 										<hr/>
 									</>
 								)}
@@ -398,6 +426,62 @@ class VideoResponseContainer extends Component{
 			</ul>
 	}
 
+	deleteCommentIcon=()=>{
+		return(
+			<svg id="removePostOption" 
+				 xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+				width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
+				stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>
+			  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+			  <line x1="4" y1="7" x2="20" y2="7" />
+			  <line x1="10" y1="11" x2="10" y2="17" />
+			  <line x1="14" y1="11" x2="14" y2="17" />
+			  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+			  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+			</svg>
+		)
+	}
+
+	triggerDeleteVideoCommentOrReply=async({isAccessTokenUpdated,updatedAccessToken,commentId,isReplyDeletion,targetIndex})=>{
+		const {confirmation,data}=await deleteVideoCommentOrReply(
+											commentId,
+											this.props.personalState.id,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											this.props.personalState.accessToken)
+		if(confirmation=="Success"){
+			if(isReplyDeletion==true){
+				const replies=this.state.replies;
+				replies.splice(targetIndex,1);
+				this.setState({
+					replies
+				})
+			}else{
+				const videoResponses=this.state.videoResponses;
+				videoResponses.splice(this.state.indicatorPosition,1);
+				this.setState({
+					videoResponses
+				})	
+			}
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						this.props.personalState.refreshToken,
+						this.props.personalState.id,
+						this.triggerDeleteVideoCommentOrReply,
+						this.props,
+						{
+							commentId,
+							isReplyDeletion,
+							targetIndex
+						},
+						true
+					);
+			}else{
+				alert('Unfortunately an error has occured. Please try again');
+			}
+		}
+	}
 
 
 	VideoComponent=()=>{ 
@@ -427,7 +511,7 @@ class VideoResponseContainer extends Component{
 							<Video>
 								{this.state.displayComments==false?
 									<React.Fragment>
-										<div style={{display:"flex",flexDirection:"row",marginBottom:"5px"}}>
+										<div style={{display:"flex",flexDirection:"row",marginBottom:"5px",alignItems:"center"}}>
 											<Link to={{pathname:`/profile/${videoData.ownerObject.owner._id}`}}>
 												<img src={videoData.ownerObject.profilePicture==null?
 													NoProfilePicture:videoData.ownerObject.profilePicture}
@@ -438,6 +522,15 @@ class VideoResponseContainer extends Component{
 												style={{color:"#2E2E2E",fontSize:"25px",marginLeft:"5%"}}>
 												<b>{videoData.ownerObject.owner.firstName}</b>
 											</p>
+											{(this.props.isOligarch==true || this.props.personalState.id==this.props.ownerId._id
+												|| videoData.ownerObject.owner._id==this.props.personalState.id)==true &&(
+												<div onClick={()=>this.triggerDeleteVideoCommentOrReply({
+													isAccessTokenUpdated:false,
+													commentId:videoData._id
+												})}>
+													{this.deleteCommentIcon()}
+												</div>
+											)}
 										</div>
 										<video id="videoElement"
 											style={{borderRadius:"5px",backgroundColor:"#151515"}}

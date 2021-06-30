@@ -267,6 +267,27 @@ export const createComment=async(
 	}
 }
 
+export const deleteCommentOrReply=async(commentId,userId,accessToken)=>{
+	try{
+		debugger;
+		const deletedCommentResponse=await axios.post(`${CreateURl}/deleteCommentOrReply`,{
+			commentId,
+			userId
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+
+		const {data}=deletedCommentResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
 
 export const createReply=async({postType,postId,commentId,reply,profileObject,accessToken,ownerId})=>{	
 	try{	
@@ -353,6 +374,23 @@ export const createVideoCommentReply=async({
 
 	}catch(err){
 		return err;
+	}
+}
+
+export const deleteVideoCommentOrReply=async(videoCommentId,userId,accessToken)=>{
+	try{
+		const deletedVideoCommentResponse=await axios.post(`${CreateURl}/deleteVideoResponseOrReply`,{
+			videoCommentId,
+			userId
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		})
+		const {data}=deletedVideoCommentResponse;
+		return data;
+	}catch(err){
+		throw err;
 	}
 }
 

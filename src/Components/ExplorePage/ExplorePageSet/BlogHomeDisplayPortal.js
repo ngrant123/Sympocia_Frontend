@@ -21,6 +21,7 @@ import FirstTimePostOnboarding from "../../GeneralComponents/PostComponent/First
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 import {getVideoUrl} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {PostDisplayConsumer} from "../../Symposium/ExtendedSymposium/Posts/PostDisplay/PostDisplayContext.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -440,167 +441,193 @@ const BlogHomeDisplayPortal=(props)=>{
 	const closeVideoDescriptionDisplayModal=()=>{
 		changeVideoDescriptionDisplay(false);
 	}
+
+	const crownLogo=()=>{
+		return(
+			<svg id="oligarchButtonIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crown" 
+			  width="30" height="30" viewBox="0 0 24 24" stroke-width="2.5" stroke="#6e6e6e" fill="none" 
+		 	  stroke-linecap="round" stroke-linejoin="round">
+			  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+			  <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+			</svg>
+		)
+	}
 	
 
 	return createPortal(
-		<React.Fragment>
-			<ShadowContainerBlog onClick={()=>postData.closeModal()}/>
-			<Container>	
-				<FirstTimePostOnboarding
-					userId={personalInformation.id}
-					isGuestProfile={isGuestProfile}
-				/>
-				{displayVideoDescriptionDisplay==true &&(
-					<VideoDescriptionMobileDisplayPortal
-						targetDom={postData.targetDom}
-						closeModal={closeVideoDescriptionDisplayModal}
-						videoUrl={postData.selectedBlog.videoDescription}
-					/>
-				)}
-				<div onClick={()=>postData.closeModal()} style={{cursor:"pointer",marginBottom:"5%"}}>
-					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-					 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-					 stroke-linecap="round" stroke-linejoin="round">
-					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-					  <circle cx="12" cy="12" r="9" />
-					  <path d="M10 10l4 4m0 -4l-4 4" />
-					</svg>
-				</div>
-				{pollModal()}
-				<div id="blogContainerDiv" style={{marginTop:"2%"}}>
-					<Editor
-						editorState={blogContentState}
-						toolbarClassName="toolbarClassName"
-						wrapperClassName="wrapperClassName"
-						editorClassName="editorClassName"
-						placeholder="Start typing to create your masterpiece"
-						readOnly={false}
-						toolbarHidden={true}
-					/>
-				</div>
-				{displayLargeModal==true?
-					<PosterInformationModal>
-						{isLoading==true?
-							<p>Loading please wait...</p>:
-							<React.Fragment>
-								{displayApproveDisapproveIndicator==true?
-									<React.Fragment>
-										<p onClick={()=>changeDisplayApproveDisapproveIndicator(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
-										<p onClick={()=>triggerApprovePollModal(true)} style={PollingOptionsCSS}>
-											Approve Post
-										</p>
+	<PostDisplayConsumer>
+		{symposiumPostInformation=>{
+			return(
+				<React.Fragment>
+					<ShadowContainerBlog onClick={()=>postData.closeModal()}/>
+					<Container>	
+						<FirstTimePostOnboarding
+							userId={personalInformation.id}
+							isGuestProfile={isGuestProfile}
+						/>
+						{displayVideoDescriptionDisplay==true &&(
+							<VideoDescriptionMobileDisplayPortal
+								targetDom={postData.targetDom}
+								closeModal={closeVideoDescriptionDisplayModal}
+								videoUrl={postData.selectedBlog.videoDescription}
+							/>
+						)}
+						<div onClick={()=>postData.closeModal()} style={{cursor:"pointer",marginBottom:"5%"}}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+							 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+							 stroke-linecap="round" stroke-linejoin="round">
+							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							  <circle cx="12" cy="12" r="9" />
+							  <path d="M10 10l4 4m0 -4l-4 4" />
+							</svg>
+						</div>
+						{pollModal()}
+						<div id="blogContainerDiv" style={{marginTop:"2%"}}>
+							<Editor
+								editorState={blogContentState}
+								toolbarClassName="toolbarClassName"
+								wrapperClassName="wrapperClassName"
+								editorClassName="editorClassName"
+								placeholder="Start typing to create your masterpiece"
+								readOnly={false}
+								toolbarHidden={true}
+							/>
+						</div>
+						{displayLargeModal==true?
+							<PosterInformationModal>
+							{isLoading==true?
+								<p>Loading please wait...</p>:
+								<React.Fragment>
+									{displayApproveDisapproveIndicator==true?
+										<React.Fragment>
+											<p onClick={()=>changeDisplayApproveDisapproveIndicator(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
+											<p onClick={()=>triggerApprovePollModal(true)} style={PollingOptionsCSS}>
+												Approve Post
+											</p>
 
-										<p onClick={()=>triggerDisapprovePollModal(false)} style={PollingOptionsCSS}>
-											Disapprove Post
-										</p>
-									</React.Fragment>
-									:<React.Fragment>
-										{displayCommentsContainer==true?
-											<>{commentModal()}</>
-										:<ul style={{padding:"0px"}}>
-											<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<ExpandLessIcon
-														style={{fontSize:25}}
-													/>
-												</a>
-											</li>
-											{displayStampEffect==true?
-													<li style={{listStyle:"none"}}>
-														<StampIconEffect
-															id="stampEffect"
-														>
-															<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-														</StampIconEffect>
-													</li>
-											:null}
-						
-											<li style={{listStyle:"none",marginBottom:"5%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-														<ProfilePicture to={{pathname:`/profile/${postData.selectedBlog.owner._id}`}}>
-															<img id="smallImagePicture" src={postData.selectedBlog.owner.profilePicture==null?
-																	NoProfilePicture:
-																	postData.selectedBlog.owner.profilePicture
-																} style={{width:"55px",height:"50px",borderRadius:"50%"}}/>
-														</ProfilePicture>
-													</li>
-													<li style={{listStyle:"none"}}>
-														<b>{postData.selectedBlog.owner.firstName}</b>
-													</li>
-
-													<li style={{height:"90px",overflowY:"auto",listStyle:"none"}}>
-														{postData.selectedBlog.title}
-													</li>
-												</ul>
-											</li>
-											<li style={{listStyle:"none"}}>
-												<ul style={{padding:"0px"}}>
-													<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
-														<LoyaltyIcon
-															style={{fontSize:30}}
+											<p onClick={()=>triggerDisapprovePollModal(false)} style={PollingOptionsCSS}>
+												Disapprove Post
+											</p>
+										</React.Fragment>
+										:<React.Fragment>
+											{displayCommentsContainer==true?
+												<>{commentModal()}</>
+											:<ul style={{padding:"0px"}}>
+												<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",marginRight:"70%"}}>
+													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+														<ExpandLessIcon
+															style={{fontSize:25}}
 														/>
-													</li>
-
-													<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} style={ShadowButtonCSS}>
-														<PollIcon
-															style={{fontSize:"30"}}
-														/>
-													</li>
-
-													<li onClick={()=>changeDisplayCommentsContainer(true)} style={ShadowButtonCSS}>
-														<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#585858" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-														  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-														  <line x1="8" y1="9" x2="16" y2="9" />
-														  <line x1="8" y1="13" x2="14" y2="13" />
-														</svg>
-													</li>
-												</ul>
-											</li>
-											<hr/>
-											<li style={{listStyle:"none",marginTop:"2%"}}>
-												<ul style={{padding:"0px"}}>
-													{postData.selectedBlog.videoDescription!=null &&(
-														<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
-															<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
-																<video autoPlay loop autoBuffer muted playsInline
-																	style={{borderRadius:"5px",overflow:"hidden"}} 
-																	width="100%" height="100%" borderRadius="50%">
-																	<source src={postData.selectedBlog.videoDescription} type="video/mp4"/>
-																</video>
-															</VideoDescriptionContainer>
+													</a>
+												</li>
+												{displayStampEffect==true?
+														<li style={{listStyle:"none"}}>
+															<StampIconEffect
+																id="stampEffect"
+															>
+																<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+															</StampIconEffect>
 														</li>
-													)}
-													{postData.selectedBlog.audioDescription && (
-														<li style={{listStyle:"none",display:"inline-block"}}>
-															<audio controls>
-																<source src={postData.selectedBlog.audioDescription} type="audio/ogg"/>
-																<source src={postData.selectedBlog.audioDescription} type="audio/mp4"/>
-																Your browser does not support the audio element.
-															</audio>
+												:null}
+							
+												<li style={{listStyle:"none",marginBottom:"5%"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
+															<ProfilePicture to={{pathname:`/profile/${postData.selectedBlog.owner._id}`}}>
+																<img id="smallImagePicture" src={postData.selectedBlog.owner.profilePicture==null?
+																		NoProfilePicture:
+																		postData.selectedBlog.owner.profilePicture
+																	} style={{width:"55px",height:"50px",borderRadius:"50%"}}/>
+															</ProfilePicture>
 														</li>
-													)}
-												</ul>
-											</li>
+														<li style={{listStyle:"none"}}>
+															<b>{postData.selectedBlog.owner.firstName}</b>
+														</li>
 
-										</ul>
-										}
-									</React.Fragment>
+														<li style={{height:"90px",overflowY:"auto",listStyle:"none"}}>
+															{postData.selectedBlog.title}
+														</li>
+													</ul>
+												</li>
+												<li style={{listStyle:"none"}}>
+													<ul style={{padding:"0px"}}>
+														<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+															<LoyaltyIcon
+																style={{fontSize:30}}
+															/>
+														</li>
+
+														<li onClick={()=>changeDisplayApproveDisapproveIndicator(true)} style={ShadowButtonCSS}>
+															<PollIcon
+																style={{fontSize:"30"}}
+															/>
+														</li>
+
+														<li onClick={()=>changeDisplayCommentsContainer(true)} style={ShadowButtonCSS}>
+															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#585858" fill="none" stroke-linecap="round" stroke-linejoin="round">
+															  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+															  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+															  <line x1="8" y1="9" x2="16" y2="9" />
+															  <line x1="8" y1="13" x2="14" y2="13" />
+															</svg>
+														</li>
+														<li onClick={()=>symposiumPostInformation.displayOligarchPostSettings(
+																		postData.selectedBlog._id,
+																		postData.selectedBlog.symposiumUploadCategory)}
+															style={{listStyle:"none",display:"inline-block"}}>
+															{(symposiumPostInformation!=null && symposiumPostInformation.isOligarch==true)==true &&(
+																<div style={ShadowButtonCSS}>
+																	{crownLogo()}
+																</div>
+															)}
+														</li>
+													</ul>
+												</li>
+												<hr/>
+												<li style={{listStyle:"none",marginTop:"2%"}}>
+													<ul style={{padding:"0px"}}>
+														{postData.selectedBlog.videoDescription!=null &&(
+															<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
+																<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
+																	<video autoPlay loop autoBuffer muted playsInline
+																		style={{borderRadius:"5px",overflow:"hidden"}} 
+																		width="100%" height="100%" borderRadius="50%">
+																		<source src={postData.selectedBlog.videoDescription} type="video/mp4"/>
+																	</video>
+																</VideoDescriptionContainer>
+															</li>
+														)}
+														{postData.selectedBlog.audioDescription && (
+															<li style={{listStyle:"none",display:"inline-block"}}>
+																<audio controls>
+																	<source src={postData.selectedBlog.audioDescription} type="audio/ogg"/>
+																	<source src={postData.selectedBlog.audioDescription} type="audio/mp4"/>
+																	Your browser does not support the audio element.
+																</audio>
+															</li>
+														)}
+													</ul>
+												</li>
+											</ul>
+											}
+										</React.Fragment>
+									}
+								</React.Fragment>
 								}
-							</React.Fragment>
-						}
-					</PosterInformationModal>:
-					<SmallPostInformationModal>
-							<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
-								<ExpandMoreIcon
-									style={{fontSize:25}}
-								/>
-							</li>
-					</SmallPostInformationModal>
-					}
-				</Container>
-			</React.Fragment>
+							</PosterInformationModal>:
+							<SmallPostInformationModal>
+									<li onClick={()=>displayOrHideModal()} style={{listStyle:"none",display:"inline-block"}}>
+										<ExpandMoreIcon
+											style={{fontSize:25}}
+										/>
+									</li>
+							</SmallPostInformationModal>
+							}
+						</Container>
+				</React.Fragment>
+			)
+		}}
+		</PostDisplayConsumer>
 	,document.getElementById(postData.targetDom));
 
 }

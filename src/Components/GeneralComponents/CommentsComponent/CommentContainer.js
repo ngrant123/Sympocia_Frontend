@@ -3,7 +3,11 @@ import styled from "styled-components";
 import {getRegularComments,
 		getRepliesFromComment
 	} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
-import {createComment,createReply} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js"
+import {
+	createComment,
+	createReply,
+	deleteCommentOrReply
+} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js"
 import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
 import {connect} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
@@ -141,6 +145,13 @@ const OwnerProfilePictureLink=styled(Link)`
 	margin-right:10px
 `;
 
+const CommentText=styled.div`
+	position:relative;
+	width:80%;
+	margin-left:10px;
+	margin-top:2%;
+`;
+
 const ProfilePicture={
 	position:"relative",
 	width:"40px",
@@ -161,21 +172,30 @@ const ExtendedCommentAreaButton={
   marginRight:"5%"
 }
 
-const CommentText=styled.div`
-	position:relative;
-	width:80%;
-	margin-left:10px;
-	margin-top:2%;
-`;
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	marginRight:"5px",
+	borderRadius:"5px",
+	borderStyle:"none",
+	marginRight:"10%",
+	marginBottom:"2%",
+	cursor:"pointer",
+	marginTop:"5%"
+}
 
-/*
 
-*/
+
 
 class CommentsContainer extends Component{
 
 
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			comments:[],
@@ -233,7 +253,8 @@ class CommentsContainer extends Component{
 	}
 
 
-	replyComment=(data)=>{
+	replyComment=(data,index)=>{
+		console.log(data);
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
@@ -254,6 +275,19 @@ class CommentsContainer extends Component{
 				<CommentText>
 					{data.comment}
 				</CommentText>
+
+				{(this.props.isOligarch==true || this.props.personalState.id==this.props.ownerId._id
+					|| data.ownerObject.owner._id==this.props.personalState.id)==true &&(
+					<div onClick={()=>this.triggerDeleteCommentOrReply({
+						isAccessTokenUpdated:false,
+						commentId:data._id,
+						targetIndex:index,
+						isReplyDeletion:true
+					})}>
+						{this.deleteCommentIcon()}
+					</div>
+				)}
+
 			 </ul>
 	}
 	handleReplyFetch=async(commentId,index)=>{
@@ -295,7 +329,66 @@ class CommentsContainer extends Component{
 			}) 												
 		}
 	}
+
+	deleteCommentIcon=()=>{
+		return(
+			<svg id="removePostOption" 
+				 xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+				width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
+				stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>
+			  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+			  <line x1="4" y1="7" x2="20" y2="7" />
+			  <line x1="10" y1="11" x2="10" y2="17" />
+			  <line x1="14" y1="11" x2="14" y2="17" />
+			  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+			  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+			</svg>
+		)
+	}
+
+	triggerDeleteCommentOrReply=async({isAccessTokenUpdated,updatedAccessToken,commentId,targetIndex,isReplyDeletion})=>{
+		debugger;
+		const {confirmation,data}=await deleteCommentOrReply(
+											commentId,
+											this.props.personalState.id,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											this.props.personalState.accessToken)
+		if(confirmation=="Success"){
+			if(isReplyDeletion==true){
+				const replies=this.state.selectedReplies;
+				replies.splice(targetIndex,1);
+				this.setState({
+					replies
+				})
+			}else{
+				const comments=this.state.comments;
+				comments.splice(targetIndex,1);
+				this.setState({
+					comments
+				})	
+			}
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						this.props.personalState.refreshToken,
+						this.props.personalState.id,
+						this.triggerDeleteCommentOrReply,
+						this.props,
+						{
+							commentId,
+							targetIndex,
+							isReplyDeletion
+						},
+						true
+					);
+			}else{
+				alert('Unfortunately an error has occured. Please try again');
+			}
+		}
+	}
 	commentComponent=(data,index)=>{
+		console.log(data);
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
@@ -337,6 +430,16 @@ class CommentsContainer extends Component{
 						}
 					</ul>
 				</li>
+				{(this.props.isOligarch==true || this.props.personalState.id==this.props.ownerId._id
+					|| data.ownerObject.owner._id==this.props.personalState.id)==true &&(
+					<div onClick={()=>this.triggerDeleteCommentOrReply({
+						isAccessTokenUpdated:false,
+						commentId:data._id,
+						targetIndex:index
+					})}>
+						{this.deleteCommentIcon()}
+					</div>
+				)}
 			</ul>
 	}
 
@@ -469,9 +572,9 @@ class CommentsContainer extends Component{
 
 						<li style={{listStyle:"none",marginTop:"5%"}}>
 							<ul style={{padding:"0px"}}>
-								{this.state.selectedReplies.map(data=>
+								{this.state.selectedReplies.map((data,index)=>
 									<li id="replyLI" style={{listStyle:"none"}}>
-										{this.replyComment(data)}
+										{this.replyComment(data,index)}
 									</li>
 								)}
 							</ul>

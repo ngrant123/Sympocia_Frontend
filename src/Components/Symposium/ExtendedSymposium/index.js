@@ -520,7 +520,7 @@ class Symposium extends Component{
 	}
 
 	arrowIndicatorButton=()=>{
-		return <ArrowDownContainer backgroundColor={this.state.backgroundColor} id="arrowIndicator"
+		return <ArrowDownContainer style={{background:this.state.backgroundColor}} id="arrowIndicator"
 		 			onClick={()=>this.handleScroll()}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-down-circle"
 					 width="44" height="44" viewBox="0 0 24 24" stroke-width="2" 
@@ -881,7 +881,8 @@ class Symposium extends Component{
 									selectedSymposiumTitle:this.state.selectedSymposiumTitle,
 									displayPhoneUI:this.state.displayPhoneUI,
 									displayDesktopUI:this.state.displayDesktopUI,
-									postSessionManagmentToken:this.state.postSessionManagmentToken
+									postSessionManagmentToken:this.state.postSessionManagmentToken,
+									isOligarch:this.state.isOligarch
 								}}
 								displaySymposium={this.displaySymposium}
 								displayRecruitConfetti={this.displayRecruitConfetti}

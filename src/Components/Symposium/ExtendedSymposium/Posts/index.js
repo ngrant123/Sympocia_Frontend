@@ -81,40 +81,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     nextPosts=data;
                 else{
                     debugger;
-                    switch(symposiumCategoryType){
-                        case "The Grind":{
-                            let {grind}=posts;
-                            let updatedPosts=grind.concat(data);
-                            posts={
-                                ...posts,
-                                grind:updatedPosts
-                            }
-                            nextPosts=posts;
-                            break;
-                        }
-
-                        case "Work In Progress":{
-                            let {progress}=posts;
-                            let updatedPosts=progress.concat(data);
-                            posts={
-                                ...posts,
-                                progress:updatedPosts
-                            }
-                            nextPosts=posts;
-                            break;
-                        }
-
-                        case "Achievements":{
-                            let {accomplishment}=posts;
-                            let updatedPosts=accomplishment.concat(data);
-                            posts={
-                                ...posts,
-                                accomplishment:updatedPosts
-                            }
-                            nextPosts=posts;
-                            break;
-                        }
-                    }
+                    nextPosts=addToCurrentPosts(symposiumCategoryType,data);
                 }
                 console.log(nextPosts);
                 changePosts({...nextPosts});
@@ -126,6 +93,45 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         }else{
             alert('Unfortunately there has been an error getting this post data. Please try again');
         }
+    }
+
+    const addToCurrentPosts=(symposiumCategoryType,postsToBeAdded)=>{
+        let nextPosts;
+        switch(symposiumCategoryType){
+            case "The Grind":{
+                let {grind}=posts;
+                let updatedPosts=grind.concat(postsToBeAdded);
+                posts={
+                    ...posts,
+                    grind:updatedPosts
+                }
+                nextPosts=posts;
+                break;
+            }
+
+            case "Work In Progress":{
+                let {progress}=posts;
+                let updatedPosts=progress.concat(postsToBeAdded);
+                posts={
+                    ...posts,
+                    progress:updatedPosts
+                }
+                nextPosts=posts;
+                break;
+            }
+
+            case "Achievements":{
+                let {accomplishment}=posts;
+                let updatedPosts=accomplishment.concat(postsToBeAdded);
+                posts={
+                    ...posts,
+                    accomplishment:updatedPosts
+                }
+                nextPosts=posts;
+                break;
+            }
+        }
+        return nextPosts;
     }
 
     const triggerReloadingPostsHandle=(symposiumCategoryType,ref)=>{
@@ -211,11 +217,98 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         changePosts({...updatedPosts});
     }
 
+    const triggerRemovePostFromStack=(postId,postCategoryType)=>{
+        debugger;
+        let updatedPosts;
+        let selectedPost;
+        switch(postCategoryType){
+            case "The Grind":{
+
+                let {grind}=posts;
+                const targetIndex=retrieveSelectedPostIdIndex(grind,postId);
+                selectedPost=grind[targetIndex];
+                grind.splice(targetIndex,1);
+
+                const updatedGrindPosts=[...grind]
+                posts={
+                    ...posts,
+                    grind:updatedGrindPosts
+                }
+                updatedPosts=posts;
+                break;
+            }
+
+            case "Work In Progress":{
+
+                let {progress}=posts;
+                const targetIndex=retrieveSelectedPostIdIndex(progress,postId);
+                selectedPost=progress[targetIndex];
+                progress.splice(targetIndex,1);
+
+                const updatedProgressPosts=[...progress];
+                posts={
+                    ...posts,
+                    progress:updatedProgressPosts
+                }
+                updatedPosts=posts;
+                break;
+            }
+
+            case "Achievements":{
+
+                let {accomplishment}=posts;
+                const targetIndex=retrieveSelectedPostIdIndex(accomplishment,postId);
+                selectedPost=accomplishment[targetIndex];
+                accomplishment.splice(targetIndex,1);
+
+                const updatedAccomplishmentPosts=[...accomplishment];
+                posts={
+                    ...posts,
+                    accomplishment:updatedAccomplishmentPosts
+                }
+                updatedPosts=posts;
+                break;
+            }
+        }
+        changePosts({...updatedPosts});
+        return selectedPost;
+    }
+
+    const retrieveSelectedPostIdIndex=(posts,postId)=>{
+        let targetIndex;
+        posts.forEach((data,index)=>{
+            if(data._id==postId)
+                targetIndex=index;
+        })
+        return targetIndex;
+    }
+
+    const triggerSwapPostFromStack=(postId,currentPostCategoryType,targetPostCategoryType,symposiumName)=>{
+        debugger;
+        if(state.selectedSymposiumTitle==symposiumName){
+            const selectedPost=triggerRemovePostFromStack(postId,currentPostCategoryType);
+            const tempPosts=[];
+            tempPosts.push(selectedPost);
+            const nextPosts=addToCurrentPosts(targetPostCategoryType,tempPosts);
+            changePosts({...nextPosts});
+        }   
+    }
+
+
     return(
         <PostProvider
             value={{
                 pushDummyPlaceholderPostToStack:(dummyData)=>{
                    triggerPushPlaceholder(dummyData);
+                },
+                removePostFromStack:(postId,postCategoryType)=>{
+                    triggerRemovePostFromStack(postId,postCategoryType);
+                },swapPostFromStack:(
+                        postId,
+                        currentPostCategoryType,
+                        targetPostCategoryType,
+                        symposiumName)=>{
+                    triggerSwapPostFromStack(postId,currentPostCategoryType,targetPostCategoryType,symposiumName);
                 }
             }}>
             <SearchOptions
@@ -242,7 +335,8 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     handleScroll:state.handleScroll,
                     postCount,
                     selectedSymposiumTitle:state.selectedSymposiumTitle,
-                    displayDesktopUI:state.displayDesktopUI
+                    displayDesktopUI:state.displayDesktopUI,
+                    isOligarch:state.isOligarch
                 }}
                 isLoadingNewPosts={isLoadingNewPosts}
                 triggerReloadingPostsHandle={triggerReloadingPostsHandle}

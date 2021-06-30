@@ -8,6 +8,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import ChatIcon from '@material-ui/icons/Chat';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import {Link} from "react-router-dom";
+import {PostDisplayConsumer} from "../../../Symposium/ExtendedSymposium/Posts/PostDisplay/PostDisplayContext.js";
 
 const ShadowButtonCSS={
 	display:"inline-block",
@@ -24,7 +25,16 @@ const ShadowButtonCSS={
 }
 
 
-const userActionsContainer=({actions,isOwnProfile,displayPostModal,profileType})=>{
+
+const userActionsContainer=({
+						actions,
+						isOwnProfile,
+						displayPostModal,
+						profileType,
+						symposiumPostInformation,
+						postData})=>{
+	console.log(symposiumPostInformation);
+	console.log(postData);
 	const{
 		createOrRemoveStampEffect,
 		displayComments,
@@ -33,6 +43,17 @@ const userActionsContainer=({actions,isOwnProfile,displayPostModal,profileType})
 		changeDisplayPost,
 		promoteModal
 	}=actions;
+
+	const crownLogo=()=>{
+		return(
+			<svg id="oligarchButtonIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crown" 
+			  width="30" height="30" viewBox="0 0 24 24" stroke-width="2.5" stroke="#6e6e6e" fill="none" 
+		 	  stroke-linecap="round" stroke-linejoin="round">
+			  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+			  <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+			</svg>
+		)
+	}
 
 	return(
 		<React.Fragment>
@@ -49,6 +70,16 @@ const userActionsContainer=({actions,isOwnProfile,displayPostModal,profileType})
 				style={{fontSize:50,...ShadowButtonCSS}}
 				onClick={()=>changeDisplayPollingOptions(true)}
 			/>
+
+			{(symposiumPostInformation!=null && symposiumPostInformation.isOligarch==true)==true &&(
+				<div style={ShadowButtonCSS} 
+					onClick={()=>symposiumPostInformation.displayOligarchPostSettings(
+															postData._id,
+															postData.symposiumUploadCategory)}>
+					{crownLogo()}
+				</div>
+			)}
+
 				
 			{(profileType=="personalProfile" && isOwnProfile==true) &&(
 				<>
@@ -97,34 +128,44 @@ const OwnerInformationAndPostOptions=(props)=>{
 		postType
 	}=props;
 	return(
-		<PersonalInformation>
-			{targetDom!="personalContainer" &&(
-				<React.Fragment>
-					<img id="ownerProfilePicture" 
-						src={postData.owner.profilePicture==null?
-						NoProfilePicture:postData.owner.profilePicture}
-					 style={{borderRadius:"50%",width:"7%",height:"50px"}}
-					/>
-					<Link style={{marginLeft:"4%",fontSize:"20px",width:"80%",height:"30px",maxWidth:"80%",maxHeight:"30px",overflow:"hidden",textDecoration:"none",color:"black",marginRight:"10%"}}
-						to={{pathname:`/profile/${postData.owner._id}`}}
-					>	
-						<p>
-							<b>{postData.owner.firstName}</b>
-						</p>
-					</Link>
-				</React.Fragment>
-			)}
-			{displayMobileUI==false ?
-				<React.Fragment>
-					{userActionsContainer({...userActions})}
-				</React.Fragment>:
-				<KeyboardArrowDownIcon
-					id="keyBoardDownLI"
-					onClick={()=>triggerDisplayPostDescriptionAndCaption(true)}
-					style={{borderRadius:"50%",fontSize:"40",boxShadow:"1px 1px 5px #dbdddf"}}
-				/>
-			}
-		</PersonalInformation>
+		<PostDisplayConsumer>
+			{symposiumPostInformation=>{
+				return(
+					<PersonalInformation>
+						{targetDom!="personalContainer" &&(
+							<React.Fragment>
+								<img id="ownerProfilePicture" 
+									src={postData.owner.profilePicture==null?
+									NoProfilePicture:postData.owner.profilePicture}
+								 style={{borderRadius:"50%",width:"7%",height:"50px"}}
+								/>
+								<Link style={{marginLeft:"4%",fontSize:"20px",width:"80%",height:"30px",maxWidth:"80%",maxHeight:"30px",overflow:"hidden",textDecoration:"none",color:"black",marginRight:"10%"}}
+									to={{pathname:`/profile/${postData.owner._id}`}}
+								>	
+									<p>
+										<b>{postData.owner.firstName}</b>
+									</p>
+								</Link>
+							</React.Fragment>
+						)}
+						{displayMobileUI==false ?
+							<React.Fragment>
+								{userActionsContainer({
+									...userActions,
+									symposiumPostInformation,
+									postData
+								})}
+							</React.Fragment>:
+							<KeyboardArrowDownIcon
+								id="keyBoardDownLI"
+								onClick={()=>triggerDisplayPostDescriptionAndCaption(true)}
+								style={{borderRadius:"50%",fontSize:"40",boxShadow:"1px 1px 5px #dbdddf"}}
+							/>
+						}
+					</PersonalInformation>
+				)
+			}}
+		</PostDisplayConsumer>
 	)
 }
 

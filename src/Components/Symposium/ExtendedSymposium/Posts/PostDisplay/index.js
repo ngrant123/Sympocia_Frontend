@@ -18,7 +18,8 @@ const PostsContainerDisplay=(props)=>{
         triggerReloadingPostsHandle,
         displaySymposium,
         displayRecruitConfetti,
-        profileId
+        profileId,
+        selectedSymposiumTitle
     }=props;
     console.log(props);
     const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
@@ -114,7 +115,8 @@ const PostsContainerDisplay=(props)=>{
         isLoadingReloadedPosts:state.isLoadingReloadedPosts,
         triggerReloadingPostsHandle:triggerReloadingPostsHandle,
         endOfPostsDBIndicator:state.endOfPostsDBIndicator,
-        isSymposiumPostUI:true
+        isSymposiumPostUI:true,
+        selectedSymposiumTitle
     }
 
     const triggerChangeCategoryType=(selectedCategoryType)=>{
@@ -134,6 +136,7 @@ const PostsContainerDisplay=(props)=>{
                         defaultPostCategoryInformation={defaultPostCategoryInformation}
                         triggerChangeCategoryType={triggerChangeCategoryType}
                         displayDesktopUI={state.displayDesktopUI}
+                        isOligarch={state.isOligarch}
                     />
                 )}
             </Posts>

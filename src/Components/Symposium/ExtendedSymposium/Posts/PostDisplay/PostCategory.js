@@ -6,7 +6,8 @@ import Video from "./Video.js";
 import RegularPost from "./RegularPosts.js";
 import Blog from "./Blogs.js";
 import SymposiumCategoryUpload from "../../Modals/SymposiumCategoryUpload/index.js";
-
+import {PostDisplayProvider} from "./PostDisplayContext.js";
+import OligarchPostSettings from "../../Modals/Oligarchs/OligarchPostAbilities/OligarchDeleteOrMovePost.js";
 
 const Container=styled.div`
 	width:470px;
@@ -65,7 +66,9 @@ const PostCategory=(props)=>{
 		triggerReloadingPostsHandle,
 		isLoadingReloadedPosts,
 		posts,
-		endOfPostsDBIndicator
+		endOfPostsDBIndicator,
+		isOligarch,
+		selectedSymposiumTitle
 	}=props;
 	console.log(props);
 	const [postCategoryPosts,changePostCategoryPosts]=useState([]);
@@ -74,6 +77,9 @@ const PostCategory=(props)=>{
 	console.log(postCategoryPosts);
 	const loadingIndicatorRef=useRef();
 	const [displayCategoryUpload,changeDisplayCategoryUpload]=useState(false);
+	const [displayOligarchPostSettings,changeOligarchPostSettingsDisplay]=useState(false);
+	const [selectedpostId,changeSelectedpostId]=useState();
+	const [selectedSymposiumCategory,changeSelectedSymposiumCategory]=useState();
 
 	useEffect(()=>{
 		console.log("Post Category Use Effect Called");
@@ -173,43 +179,76 @@ const PostCategory=(props)=>{
 		)
 	},[postCategoryPosts]);
 
-	return(
-		<Container>
-			{categoryUploadDisplay()}
-			<div style={{display:"flex",flexDirection:"column"}}>
-				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-					<div style={{display:"flex",flexDirection:"row",width:"70%"}}>
-						{displayDesktopUI==false &&(
-							<>{mobileCategoryOptions()}</>
-						)}
-					
-						<p style={{marginLeft:"5%",fontSize:"24px"}}>
-							<b>{headers.title}</b>
-						</p>
-					</div>
-					<CreateIcon
-						style={CreateIconCSS}
-						onClick={()=>changeDisplayCategoryUpload(true)}
+	const closeOligarchPostSettingsModal=()=>{
+		changeOligarchPostSettingsDisplay(false);
+	}
+
+	const oligarchSettingsPortal=()=>{
+		return(
+			<React.Fragment>
+				{displayOligarchPostSettings==true &&(
+					<OligarchPostSettings
+						closeModal={closeOligarchPostSettingsModal}
+						postId={selectedpostId}
+						postType={postType}
+						selectedSymposiumCategory={selectedSymposiumCategory}
+						selectedSymposiumTitle={selectedSymposiumTitle}
 					/>
-				</div>
-				<p>{headers.secondaryTitle}</p>
-			</div>
-			{displayDesktopUI==false &&(
-				<hr style={HorizontalLineCSS}/>
-			)}
-			<div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
-				{postCategoryPosts.length==0?
-					<p>No posts</p>:
-					<React.Fragment>
-						{memoizedPostsDisplay}
-						<p ref={loadingIndicatorRef} onClick={()=>triggerReloadingPostsHandle(headers.title,loadingIndicatorRef)}
-							style={{color:"#5298F8",cursor:"pointer",marginTop:"15%"}}>
-							Next Posts
-						</p>
-					</React.Fragment>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	return(
+		<PostDisplayProvider
+			value={{
+				isOligarch,
+				displayOligarchPostSettings:(postId,selectedSymposiumCategory)=>{
+					changeSelectedSymposiumCategory(selectedSymposiumCategory);
+					changeSelectedpostId(postId);
+					changeOligarchPostSettingsDisplay(true);
 				}
-			</div>
-		</Container>
+			}}
+		>
+			<Container>
+				{oligarchSettingsPortal()}
+				{categoryUploadDisplay()}
+				<div style={{display:"flex",flexDirection:"column"}}>
+					<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+						<div style={{display:"flex",flexDirection:"row",width:"70%"}}>
+							{displayDesktopUI==false &&(
+								<>{mobileCategoryOptions()}</>
+							)}
+						
+							<p style={{marginLeft:"5%",fontSize:"24px"}}>
+								<b>{headers.title}</b>
+							</p>
+						</div>
+						<CreateIcon
+							style={CreateIconCSS}
+							onClick={()=>changeDisplayCategoryUpload(true)}
+						/>
+					</div>
+					<p>{headers.secondaryTitle}</p>
+				</div>
+				{displayDesktopUI==false &&(
+					<hr style={HorizontalLineCSS}/>
+				)}
+				<div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
+					{postCategoryPosts.length==0?
+						<p>No posts</p>:
+						<React.Fragment>
+							{memoizedPostsDisplay}
+							<p ref={loadingIndicatorRef} onClick={()=>triggerReloadingPostsHandle(headers.title,loadingIndicatorRef)}
+								style={{color:"#5298F8",cursor:"pointer",marginTop:"15%"}}>
+								Next Posts
+							</p>
+						</React.Fragment>
+					}
+				</div>
+			</Container>
+
+		</PostDisplayProvider>
 	)	
 }
 

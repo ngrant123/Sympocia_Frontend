@@ -5,6 +5,7 @@ import VideoResponseContainer from "./VideosResponseContainer.js";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import CommentPoolCreation from "./CommentPoolCreationPortal.js";
 import DeleteCommentPool from "./DeleteCommentPortal.js";
+import {PostDisplayConsumer} from "../../Symposium/ExtendedSymposium/Posts/PostDisplay/PostDisplayContext.js";
 
 
 const Container=styled.div`
@@ -107,6 +108,7 @@ const ShadowButtonCSS={
 class CommentsContainer extends Component{
 
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state={
 			displayResponses:false,
@@ -160,7 +162,7 @@ class CommentsContainer extends Component{
 			createVideoResponses:!this.state.createVideoResponses
 		})
 	}
-	displayCommentsOrVideoResponses=()=>{
+	displayCommentsOrVideoResponses=(isOligarch)=>{
 		return this.state.displayCommentsOrVideoResponses==true?
 			<CommentContainer
 				postType={this.props.postType}
@@ -168,6 +170,8 @@ class CommentsContainer extends Component{
 				isGuestProfile={this.props.isGuestProfile}
 				ownerId={this.props.ownerId}
 				selectedCommentPoolId={this.state.selectedCommentId}
+				isOligarch={isOligarch}
+				isOwnProfile={this.props.isOwnProfile}
 			/>:
 			<VideoResponseContainer
 				postType={this.props.postType}
@@ -179,6 +183,8 @@ class CommentsContainer extends Component{
 				selectedCommentPoolId={this.state.selectedCommentId}
 				displayPhoneUI={this.state.displayPhoneUI}
 				ownerId={this.props.ownerId}
+				isOligarch={isOligarch}
+				isOwnProfile={this.props.isOwnProfile}
 			/>
 	}
 
@@ -427,57 +433,64 @@ class CommentsContainer extends Component{
 
 	render(){
 		return(
-			<Container>
-				{this.commentPoolCreationPortal()}
-				{this.deleteCommentPoolPortal()}
+		<PostDisplayConsumer>
+			{symposiumPostInformation=>{
+				return(
+					<Container>
+						{this.commentPoolCreationPortal()}
+						{this.deleteCommentPoolPortal()}
 
-				<ul id="containerUL" style={{padding:"0px",backgroundColor:"white"}}>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",cursor:"pointer"}}
-								 onClick={()=>this.props.hideComments()}>
-								<p style={BackButtonCSS} onClick={()=>this.props.hideComments()}>
-									Back
-								</p>
-							</li>
+						<ul id="containerUL" style={{padding:"0px",backgroundColor:"white"}}>
+							<li style={{listStyle:"none"}}>
+								<ul style={{padding:"0px"}}>
+									<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",cursor:"pointer"}}
+										 onClick={()=>this.props.hideComments()}>
+										<p style={BackButtonCSS} onClick={()=>this.props.hideComments()}>
+											Back
+										</p>
+									</li>
 
 
-							<li onClick={()=>this.triggerDisplayVideoComments()}
-																 style={{listStyle:"none",display:"inline-block"}}>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									{this.state.displayCommentsOrVideoResponses==false?
-										<p style={BackButtonCSS}>
-											Create Video Response
-										</p>:null	
-									}
-								</a>
-							</li>
-						</ul>
-					</li>
-					<li style={{marginBottom:"5%",listStyle:"none"}}>
-						{this.commentOptions()}
-					</li>
-					<hr/>
-					{/*
-						{this.state.displayPhoneUI==true?
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileOptionCSS}>
-									{this.state.selectedType}
-									<span class="caret"></span>
-								</button>
-
-								<ul class="dropdown-menu">
-									{this.commentOptions()}
+									<li onClick={()=>this.triggerDisplayVideoComments()}
+																		 style={{listStyle:"none",display:"inline-block"}}>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											{this.state.displayCommentsOrVideoResponses==false?
+												<p style={BackButtonCSS}>
+													Create Video Response
+												</p>:null	
+											}
+										</a>
+									</li>
 								</ul>
-							</div>
-							:<li style={{marginBottom:"5%",listStyle:"none"}}>
+							</li>
+							<li style={{marginBottom:"5%",listStyle:"none"}}>
 								{this.commentOptions()}
 							</li>
-						}
-					*/}
-					{this.displayCommentsOrVideoResponses()}
-				</ul>
-			</Container>
+							<hr/>
+							{/*
+								{this.state.displayPhoneUI==true?
+									<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileOptionCSS}>
+											{this.state.selectedType}
+											<span class="caret"></span>
+										</button>
+
+										<ul class="dropdown-menu">
+											{this.commentOptions()}
+										</ul>
+									</div>
+									:<li style={{marginBottom:"5%",listStyle:"none"}}>
+										{this.commentOptions()}
+									</li>
+								}
+							*/}
+							{this.displayCommentsOrVideoResponses(symposiumPostInformation.isOligarch)}
+						</ul>
+					</Container>
+					
+				)
+			}}
+		</PostDisplayConsumer>
 		)
 	}
 }

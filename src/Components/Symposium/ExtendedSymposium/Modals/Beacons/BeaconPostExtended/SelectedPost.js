@@ -83,7 +83,7 @@ const SelectedPost=({post,postType,displayZoomedPost})=>{
 					<Link to={{pathname:`/profile/${post.owner._id}`}}>
 						<img src={post.owner.profilePicture==null?NoProfilePicture:
 									post.owner.profilePicture} style={{
-													width:"50px",
+													width:"45px",
 													height:"40px",
 													borderRadius:"50%"
 												}}/>

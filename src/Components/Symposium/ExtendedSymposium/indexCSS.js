@@ -594,7 +594,7 @@ export const ChatAndIndustryInformationContainer=styled.div`
 
 
 export const ArrowDownContainer=styled.div`
-	position:fixed;
+position:fixed;
 	left:50%;
 	top:80%;
 	z-index:39;
@@ -616,8 +616,6 @@ export const ArrowDownContainer=styled.div`
 	@media screen and (max-width:740px) and (max-height:420px){
 	 	left:40% !important;
     }
-
-
     animation: glowing 1300ms infinite, bounce 2s infinite;
   	@keyframes bounce {
         0%, 20%, 50%, 80%, 100% {
@@ -740,6 +738,9 @@ export const SympociaOptionsContainer=styled.div`
 	}
 	@media screen and (max-width:650px){
 		margin-left:-5px !important;
+		#postFilterDropDownMenu{
+			margin-left:20px !important;
+		}
 	}
 `;
 

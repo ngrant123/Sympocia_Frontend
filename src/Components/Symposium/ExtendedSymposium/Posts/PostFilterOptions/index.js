@@ -23,6 +23,14 @@ const MobilePostOptionsButton={
     cursor:"pointer"
 }
 
+const PostOptionsCSS={
+    listStyle:"none",
+    display:"inline-block",
+    marginRight:"5%",
+    cursor:"pointer",
+    color:"#5298F8"
+}
+
 const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,displayBeacon})=>{
 
     const searchPromptTrigger=async(event)=>{
@@ -58,7 +66,7 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
                             Post Options
                         </button>
 
-                        <ul class="dropdown-menu">
+                        <ul id="postFilterDropDownMenu" style={{padding:"10px"}} class="dropdown-menu">
                             {postOptions()}
                         </ul>
                 </div>
@@ -66,37 +74,21 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
 
     const postOptions=()=>{
         return <>
-                    <li onClick={()=>updatePosts("Regular")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-                        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <PostOptions id="regular">  
-                                Regular posts
-                            </PostOptions>
-                        </a>
+                    <li onClick={()=>updatePosts("Regular")} id="regular" style={PostOptionsCSS}>
+                        Regular posts
                     </li>
                     <hr/>
 
-                    <li  onClick={()=>updatePosts("Image")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-                        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <PostOptions id="image">    
-                                Images
-                            </PostOptions>
-                        </a>
+                    <li  onClick={()=>updatePosts("Image")} id="image" style={PostOptionsCSS}>  
+                        Images
                     </li>
                     <hr/>
-                    <li onClick={()=>updatePosts("Video")} style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-                        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <PostOptions id="video">    
-                                Videos
-                            </PostOptions>
-                        </a>
+                    <li onClick={()=>updatePosts("Video")} id="video" style={PostOptionsCSS}> 
+                        Videos
                     </li>
                     <hr/>
-                    <li onClick={()=>updatePosts("Blog")} style={{listStyle:"none",display:"inline-block"}}>
-                        <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-                            <PostOptions id="blog"> 
-                                Blogs
-                            </PostOptions>
-                        </a>
+                    <li onClick={()=>updatePosts("Blog")} id="blog" style={PostOptionsCSS}>
+                        Blogs
                     </li>
                 </>
     }

@@ -75,7 +75,11 @@ const FinalResults=({closeModal,selectedSymposiumTitle,symposiumId})=>{
 			debugger;
 			if(confirmation=="Success"){
 				const {message}=data;
-				changeOligarchs(message);
+				if(message.length==0){
+					closeModal();
+				}else{
+					changeOligarchs(message);
+				}
 			}else{
 				debugger;
 				alert('Unfortunately there has been an error retrieving oligarchs for this symposiums. Please try again');
