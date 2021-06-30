@@ -371,7 +371,7 @@ class VideoResponseContainer extends Component{
 	}
 
 	commentUI=()=>{
-		
+		const postOwnerId=this.props.ownerId==null?this.props.ownerId._id:this.props.ownerId
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 					<li onClick={()=>this.setState({displayComments:false})} style={{marginRight:"80%",listStyle:"none"}}>
 						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -406,7 +406,7 @@ class VideoResponseContainer extends Component{
 										<CommentText>
 											{data.comment}
 										</CommentText>
-										{(this.props.isOligarch==true || this.props.personalState.id==this.props.ownerId._id
+										{(this.props.isOligarch==true || this.props.personalState.id==postOwnerId
 											|| data.ownerObject.owner._id==this.props.personalState.id)==true &&(
 											<div onClick={()=>this.triggerDeleteVideoCommentOrReply({
 												isAccessTokenUpdated:false,
@@ -486,6 +486,7 @@ class VideoResponseContainer extends Component{
 
 	VideoComponent=()=>{ 
 		const videoData=this.state.videoResponses[this.state.indicatorPosition];
+		const postOwnerId=this.props.ownerId==null?this.props.ownerId._id:this.props.ownerId
 		return <>
 			{this.state.isProcessingInput==true?
 				<p>Please wait...</p>:
@@ -522,7 +523,7 @@ class VideoResponseContainer extends Component{
 												style={{color:"#2E2E2E",fontSize:"25px",marginLeft:"5%"}}>
 												<b>{videoData.ownerObject.owner.firstName}</b>
 											</p>
-											{(this.props.isOligarch==true || this.props.personalState.id==this.props.ownerId._id
+											{(this.props.isOligarch==true || this.props.personalState.id==postOwnerId
 												|| videoData.ownerObject.owner._id==this.props.personalState.id)==true &&(
 												<div onClick={()=>this.triggerDeleteVideoCommentOrReply({
 													isAccessTokenUpdated:false,

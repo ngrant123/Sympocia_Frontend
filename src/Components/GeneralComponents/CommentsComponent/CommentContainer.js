@@ -255,6 +255,7 @@ class CommentsContainer extends Component{
 
 	replyComment=(data,index)=>{
 		console.log(data);
+		const postOwnerId=this.props.ownerId==null?this.props.ownerId._id:this.props.ownerId
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
@@ -276,7 +277,7 @@ class CommentsContainer extends Component{
 					{data.comment}
 				</CommentText>
 
-				{(this.props.isOligarch==true || this.props.personalState.id==this.props.ownerId._id
+				{(this.props.isOligarch==true || this.props.personalState.id==postOwnerId
 					|| data.ownerObject.owner._id==this.props.personalState.id)==true &&(
 					<div onClick={()=>this.triggerDeleteCommentOrReply({
 						isAccessTokenUpdated:false,
@@ -389,6 +390,8 @@ class CommentsContainer extends Component{
 	}
 	commentComponent=(data,index)=>{
 		console.log(data);
+		const postOwnerId=this.props.ownerId==null?this.props.ownerId._id:this.props.ownerId
+
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
 					<ul style={{padding:"0px"}}>
@@ -430,7 +433,7 @@ class CommentsContainer extends Component{
 						}
 					</ul>
 				</li>
-				{(this.props.isOligarch==true || this.props.personalState.id==this.props.ownerId._id
+				{(this.props.isOligarch==true || this.props.personalState.id==postOwnerId
 					|| data.ownerObject.owner._id==this.props.personalState.id)==true &&(
 					<div onClick={()=>this.triggerDeleteCommentOrReply({
 						isAccessTokenUpdated:false,
