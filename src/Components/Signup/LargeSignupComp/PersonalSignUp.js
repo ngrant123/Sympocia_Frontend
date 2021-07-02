@@ -304,10 +304,12 @@ class PersonalSignUp extends Component{
 			<React.Fragment>
 				<ul style={{padding:"0px"}}>
 					<img id="image" src={SympociaIcon} style={{position:"relative",marginLeft:"40%",width:"80px",height:"60px"}}/>
-					<p id="headerText" style={{fontSize:"30px",marginLeft:"10%",color:"#424242"}}>
+					<p id="headerText" style={{textAlign:"center",fontSize:"30px",color:"#424242"}}>
 						<b>Welcome to Sympocia</b>
 					</p>
-					<p id="signUpText" style={{marginLeft:"35%"}}> Sign up is quick and easy </p>
+					<p id="signUpText" style={{textAlign:"center",marginLeft:"35%"}}>
+						Sign up is quick and easy
+					</p>
 
 					<ul id="inputContainerLI" style={{paddingLeft:"70px"}}>
 						<InputContainer id="email" placeholder="Email"/>

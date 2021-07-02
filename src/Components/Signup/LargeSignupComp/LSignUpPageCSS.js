@@ -12,7 +12,10 @@ export const PersonalSignUpCard=styled.div`
     border-color:#5298F8;
 
     @media screen and (max-width:1370px) {
-		width:80% !important;
+		width:90% !important;
+		#signUpText{
+			margin-left:-10% !important;
+		}
 	}
 
 	@media screen and (max-width:650px){
@@ -23,18 +26,26 @@ export const PersonalSignUpCard=styled.div`
 			padding-left:0px !important;
 		}
 		#signUpText{
-			margin-left:0% !important;
+			margin-left:-10% !important;
 		}
 		#headerText{
 			font-size:20px !important;
-			margin-left:0% !important;
+			margin-left:-10% !important;
 		}
 		#image{
 			width:95px !important;
 			height:80px !important;
-			margin-left:25% !important;
+			margin-left:28% !important;
 		}
 	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#image{
+			margin-left:35% !important;
+		}
+		#signUpText{
+			margin-left:-10% !important;
+		}
+    }
 
 `;
 

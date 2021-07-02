@@ -80,42 +80,47 @@ const CreateSubmission=({addNewElectionContestant,closeCreationModal,symposiumId
 	}
 
 	const submit=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		changeProcessingStatus(true);
-		const submissionElectionSpeech=document.getElementById("electionSpeech").value;
-		if(submissionElectionSpeech.length<20){
-			alert('Your election speech is too small. We require a minimum length of 20 so add more stuff')
+		if(personalInformation.isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
 		}else{
-			const {confirmation,data}=await createOligarchVoterCard(
-				{
-					ownerId:personalInformation.id,
-		            electionSpeech:submissionElectionSpeech,
-		            firstName:personalInformation.firstName,
-		            symposiumId
-				},
-				isAccessTokenUpdated==true?updatedAccessToken:
-					personalInformation.accessToken
-				);
-			if(confirmation=="Success"){
-				closeCreationModal();
+			changeProcessingStatus(true);
+			const submissionElectionSpeech=document.getElementById("electionSpeech").value;
+			if(submissionElectionSpeech.length<20){
+				alert('Your election speech is too small. We require a minimum length of 20 so add more stuff')
 			}else{
-				const {statusCode}=data;
-				if(statusCode==409){
-					alert('You have previously created an oligarch vote card. Delete your previous one to create a new one');
-				}else if(statusCode==401){
-					await refreshTokenApiCallHandle(
-						personalInformation.refreshToken,
-						personalInformation.id,
-						submit,
-						dispatch,
-						{},
-						false
+				const {confirmation,data}=await createOligarchVoterCard(
+					{
+						ownerId:personalInformation.id,
+			            electionSpeech:submissionElectionSpeech,
+			            firstName:personalInformation.firstName,
+			            symposiumId
+					},
+					isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 					);
+				if(confirmation=="Success"){
+					closeCreationModal();
 				}else{
-					alert('Unfortunately there was an error creating this oligarch vote card.Please try again');
+					const {statusCode}=data;
+					if(statusCode==409){
+						alert('You have previously created an oligarch vote card. Delete your previous one to create a new one');
+					}else if(statusCode==401){
+						await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							submit,
+							dispatch,
+							{},
+							false
+						);
+					}else{
+						alert('Unfortunately there was an error creating this oligarch vote card.Please try again');
+					}
 				}
 			}
+			changeProcessingStatus(false);
+			
 		}
-		changeProcessingStatus(false);
 	}
 
 	const editOligarch=async({isAccessTokenUpdated,updatedAccessToken})=>{

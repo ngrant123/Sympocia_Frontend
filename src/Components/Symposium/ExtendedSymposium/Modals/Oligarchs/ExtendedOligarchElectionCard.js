@@ -142,35 +142,40 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 	}
 
 	const submitComment=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		changeProcessingStatus(true);
-		const comment=document.getElementById("oligarchComment").value;
-		if(comment==""){
-			alert('Please enter a value');
-		}else{	
-			const {confirmation,data}=await createOligarchCardComment({
-				parentOligarchVoterId:electionCardInformation._id,
-	            comment,
-	            ownerId:personalInformation.id,
-	            firstName:personalInformation.firstName
-			},
-				isAccessTokenUpdated==true?updatedAccessToken:
-						personalInformation.accessToken
-			);
-			if(confirmation=="Success"){
-				changeDisplayComments(false);
-			}else{
-				await refreshTokenApiCallHandle(
-					personalInformation.refreshToken,
-					personalInformation.id,
-					submitComment,
-					dispatch,
-					{},
-					false
+		if(personalInformation.isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+		}else{
+			changeProcessingStatus(true);
+			const comment=document.getElementById("oligarchComment").value;
+			if(comment==""){
+				alert('Please enter a value');
+			}else{	
+				const {confirmation,data}=await createOligarchCardComment({
+					parentOligarchVoterId:electionCardInformation._id,
+		            comment,
+		            ownerId:personalInformation.id,
+		            firstName:personalInformation.firstName
+				},
+					isAccessTokenUpdated==true?updatedAccessToken:
+							personalInformation.accessToken
 				);
+				if(confirmation=="Success"){
+					changeDisplayComments(false);
+				}else{
+					await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitComment,
+						dispatch,
+						{},
+						false
+					);
+				}
+				changeDisplayCommentCreation(false);
 			}
-			changeDisplayCommentCreation(false);
+			changeProcessingStatus(false);
+
 		}
-		changeProcessingStatus(false);
 	}
 	const fetchData=async()=>{
 		changeRetrievingCommentsStatus(true);
@@ -227,23 +232,27 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 	}
 
 	const sponsorUser=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		const {confirmation,data}=await sponsorOligarchCard(
-											electionCardInformation._id,
-											personalInformation.id,
-											isAccessTokenUpdated==true?updatedAccessToken:
-											personalInformation.accessToken
-										);
-		if(confirmation=="Success"){
-			changeIsSponsored(true);
+		if(personalInformation.isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
 		}else{
-			await refreshTokenApiCallHandle(
-				personalInformation.refreshToken,
-				personalInformation.id,
-				sponsorUser,
-				dispatch,
-				{},
-				false
-			);
+			const {confirmation,data}=await sponsorOligarchCard(
+												electionCardInformation._id,
+												personalInformation.id,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken
+											);
+			if(confirmation=="Success"){
+				changeIsSponsored(true);
+			}else{
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					sponsorUser,
+					dispatch,
+					{},
+					false
+				);
+			}
 		}
 	}
 

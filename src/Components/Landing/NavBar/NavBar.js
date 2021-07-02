@@ -19,12 +19,26 @@ const NavBarContainer=styled.div`
   box-shadow:1px 1px 1px #d5d5d5;
 
   	@media screen and (max-width:1370px){
+  		#signUpButton{
+  			display:none !important;
+  		}
+  		#forgotPassword{
+  			margin-right:2% !important;
+  		}
+  	}
+
+  	@media screen and (max-width:650px){
+  		#signUpButton{
+  			display:block !important;
+  		}
+
 	    flex-direction:column;
 	    padding:0px;
+	    margin-left:5%;
 	    #forgotPassword{
 	    	display:none !important;
 	    }
-	    padding:50px;
+	    padding:30px;
 	    width:90%;
 	    box-shadow:none;
 	}
@@ -95,7 +109,10 @@ const LandingPageNavBar=({isMissionPage,displayCommunityMissionOption,history,di
             	<>{communityButton()}</>
            	}
             <SignUpLoginContainer>
-            	<p id="forgotPassword" onClick={()=>history.push({pathname:'/emailreset'})} style={{cursor:"pointer",color:"#5298F8"}}>Forgot Password? </p>
+            	<p id="forgotPassword" onClick={()=>history.push({pathname:'/emailreset'})} 
+            		style={{cursor:"pointer",color:"#5298F8"}}>
+            		Forgot Password? 
+            	</p>
             	<div id="signUpButton" onClick={()=>history.push({pathname:'/signup'})}style={SignUpButton}>
             		Sign Up
             	</div>

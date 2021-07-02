@@ -1,13 +1,10 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
-import FirstSection from "./Mission/LandingFirstSection/personalIndex.js";
-import SecondSection from "./Mission/LandingSecondSection/personalIndex.js";
-import ThirdSection from "./Mission/LandingThirdSection/personalIndex.js";
-import FourthSection from "./Mission/LandingFourthSection/index.js";
+import FirstSection from "./Mission/FirstSection/index.js";
+import SecondSection from "./Mission/SecondSection/index.js";
+import ThirdSection from "./Mission/ThirdSection/index.js";
+import FourthSection from './Mission/FourthSection/index.js';
 
-import CompanyFirstSection from "./Mission/LandingFirstSection/companyIndex.js";
-import CompanySecondSection from "./Mission/LandingSecondSection/companyIndex.js";
-import CompanyThirdSection from "./Mission/LandingThirdSection/companyIndex.js";
 import {logOutUser} from "../../Actions/Redux/Actions/PersonalProfile.js";
 import {useDispatch,useSelector} from "react-redux";
 import NavBar from "./NavBar/index.js";
@@ -16,6 +13,8 @@ import NavBar from "./NavBar/index.js";
 const Container=styled.div`
 	display:flex;
 	flex-direction:column;
+	overflow:hidden;
+	width:100%;
 `;
 
 const LandingPage=(props)=>{
@@ -79,54 +78,15 @@ const LandingPage=(props)=>{
 				history={props.history}
 				isMissionPage={true}
 			/>
-			{displayPersonalLanding==true?
-				<React.Fragment>
-					<FirstSection
-						increaseCounter={increasePageCounter}
-						displaySelectedPage={displaySelectedPage}
-						history={props.history}
-					/>
-					<SecondSection
-						increaseCounter={increasePageCounter}
-						decreaseCounter={decreasePageCounter}
-						displaySelectedPage={displaySelectedPage}
-						props={props}
-					/>
-					<ThirdSection
-						decreaseCounter={decreasePageCounter}
-						displaySelectedPage={displaySelectedPage}
-						props={props}
-					/>
-					<FourthSection
-						history={props.history}
-					/>
-
-				</React.Fragment>:
-				<React.Fragment>
-					{/*
-						<ArrowCompanyContainer onClick={()=>changeDisplayForPersonal(true)}>
-							<ArrowBackIosIcon/>
-						</ArrowCompanyContainer>
-					*/}
-					<CompanyFirstSection
-						increaseCounter={increasePageCounter}
-						displaySelectedPage={displaySelectedPage}
-						props={props}
-					/>
-					<CompanySecondSection
-						increaseCounter={increasePageCounter}
-						decreaseCounter={decreasePageCounter}
-						displaySelectedPage={displaySelectedPage}
-						props={props}
-					/>
-					<CompanyThirdSection
-						decreaseCounter={decreasePageCounter}
-						displaySelectedPage={displaySelectedPage}
-						props={props}
-					/>
-					<FourthSection/>
-				</React.Fragment>
-			}
+			<hr/>
+			<FirstSection
+				history={props.history}
+			/>
+			<SecondSection/>
+			<ThirdSection/>
+			<FourthSection
+				history={props.history}
+			/>
 		</Container>
 	)
 }

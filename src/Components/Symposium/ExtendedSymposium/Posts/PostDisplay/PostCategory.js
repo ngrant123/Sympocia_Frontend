@@ -8,6 +8,7 @@ import Blog from "./Blogs.js";
 import SymposiumCategoryUpload from "../../Modals/SymposiumCategoryUpload/index.js";
 import {PostDisplayProvider} from "./PostDisplayContext.js";
 import OligarchPostSettings from "../../Modals/Oligarchs/OligarchPostAbilities/OligarchDeleteOrMovePost.js";
+import {useSelector} from "react-redux";
 
 const Container=styled.div`
 	width:470px;
@@ -80,6 +81,7 @@ const PostCategory=(props)=>{
 	const [displayOligarchPostSettings,changeOligarchPostSettingsDisplay]=useState(false);
 	const [selectedpostId,changeSelectedpostId]=useState();
 	const [selectedSymposiumCategory,changeSelectedSymposiumCategory]=useState();
+	const personalInformation=useSelector(state=>state.personalInformation);
 
 	useEffect(()=>{
 		console.log("Post Category Use Effect Called");
@@ -148,14 +150,6 @@ const PostCategory=(props)=>{
 		changeDisplayCategoryUpload(false);
 	}
 
-	// const pushDummyPlaceholderPostToStack=(postInformation)=>{
-	// 	console.log("Placeholder called");
-	// 	changeDisplayCategoryUpload(false);
-	// 	const currentPosts=postCategoryPosts;
-	// 	currentPosts.splice(0,0,postInformation);
-	// 	changePostCategoryPosts([...currentPosts]);
-	// }
-
 	const categoryUploadDisplay=()=>{
 		return(
 			<React.Fragment>
@@ -199,6 +193,14 @@ const PostCategory=(props)=>{
 		)
 	}
 
+	const triggerCreateQuickCategoryUpload=()=>{
+		if(personalInformation.isGuestProfile==false){
+			changeDisplayCategoryUpload(true)
+		}else{
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+		}
+	}
+
 	return(
 		<PostDisplayProvider
 			value={{
@@ -226,7 +228,7 @@ const PostCategory=(props)=>{
 						</div>
 						<CreateIcon
 							style={CreateIconCSS}
-							onClick={()=>changeDisplayCategoryUpload(true)}
+							onClick={()=>triggerCreateQuickCategoryUpload()}
 						/>
 					</div>
 					<p>{headers.secondaryTitle}</p>
