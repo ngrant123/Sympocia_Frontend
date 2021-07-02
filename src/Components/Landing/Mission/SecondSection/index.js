@@ -75,9 +75,12 @@ const InformationalContainer=styled.div`
 		margin-top:110%;
 	}
 
+	@media screen and (max-width:420px){
+		margin-top:120%;
+	}
 
 	@media screen and (max-width:340px){
-		margin-top:170%;
+		margin-top:180%;
 	}
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
