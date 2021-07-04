@@ -1,11 +1,14 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {BackgroundModalContainer} from "../../indexCSS.js";
 import ElectionDisplay from "./ElectionDisplay.js";
 import ExtendedOligarichElectionCard from "./ExtendedOligarchElectionCard.js";
 import CreationSubmission from "./CreateSubmission.js";
 import CurrentOligarchs from "./CurrentOligarchs.js";
-
+import OligarchOnboarding from "../../../../OnBoarding/OligarchOnboarding.js";
+import {
+	retrieveProfileFirstTimeViewingCompetitionStatus
+} from "../../../../../Actions/Requests/OligarchRequests/OligarchRetrieval.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -76,10 +79,22 @@ const InputContainer=styled.textarea`
 	padding:5px;
 `;
 
-const Oligarchs=({symposiumId,closeOligarchModal})=>{
+const Oligarchs=({symposiumId,closeOligarchModal,profileId})=>{
 	const [oligarchModalType,changeOligarchsModalType]=useState("Election");
 	const [selectedElectionCardInformation,changeSelectionCardInformation]=useState();
 	const [newContestant,changeNewContestant]=useState();
+	const [displayOnboardingModal,changeDisplayOnboarding]=useState(false);
+
+	useEffect(()=>{
+		const fetchData=async()=>{
+			const {confirmation,data}=await retrieveProfileFirstTimeViewingCompetitionStatus(profileId);
+			if(confirmation=="Success"){
+				const {message}=data;
+				changeDisplayOnboarding(message);
+			}
+		}
+		fetchData();
+	},[]);
 
 
 	const displayElectionCard=(data)=>{
@@ -136,9 +151,27 @@ const Oligarchs=({symposiumId,closeOligarchModal})=>{
 		}
 	}
 
+	const closeOligarchOnboardingModal=()=>{
+		changeDisplayOnboarding(false);
+	}
+
+	const oligarchOnboardModal=()=>{
+		return(
+			<React.Fragment>
+				{displayOnboardingModal==true &&(
+					<OligarchOnboarding
+						closeModal={closeOligarchOnboardingModal}
+						profileId={profileId}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	return(
 		<React.Fragment>
 			<Container>
+				{oligarchOnboardModal()}
 				{modalDecider()}
 			</Container>
 

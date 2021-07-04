@@ -80,7 +80,20 @@ export const searchForSpecificOligarchCard=async(symposiumId,searchQuery)=>{
 }
 
 
+export const retrieveProfileFirstTimeViewingCompetitionStatus=async(profileId)=>{
+	try{
+		const oligarchOnboardingStatus=await axios.get(`${SearchUrl}/retrieveOligarchOnboardingStatus`,{
+			params:{
+				_id:profileId
+			}
+		})
 
+		const {data}=oligarchOnboardingStatus;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 

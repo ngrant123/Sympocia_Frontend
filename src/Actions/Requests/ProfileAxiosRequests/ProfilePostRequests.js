@@ -272,6 +272,18 @@ export const promoteRecruitRequest=async({node,selectedRecruits,_id,accessToken}
 	}
 }
 
+export const completeOnboardingOligarchPage=async(id)=>{
+	try{
+		const onBoardingOligarchPageResponse=await axios.post(`${CreateUrl}/onBoardingCompeteOligarchPage`,{
+			_id:id
+		});
+		const {data}=onBoardingOligarchPageResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
 export const completeOnboardingPersonalPage=async(id)=>{
 	try{
 		const onBoardingPersonalPageResponse=await axios.post(`${CreateUrl}/onBoardingCompletePersonalPage`,{

@@ -536,9 +536,9 @@ const ImagePostsModal=(props)=>{
 	}
 
 	const displayImageModal=(data)=>{
+		changeImageDisplay(true);
 		changeSelectedImage(data);
 		changeRecommendedImages(images);
-		changeImageDisplay(true);
 	}
 	const smallImageComponent=(data)=>{
 		return(
@@ -592,8 +592,8 @@ const ImagePostsModal=(props)=>{
 								headerPost={headerImage}
 								displayPostTrigger={displayImageModal}
 							/>
-							<div id="headerImageLI" style={HeaderImageCSS}>
-									<img  onClick={()=>displayImageModal(headerImage)} id="headerImageLI"
+							<div id="headerImageLI" style={HeaderImageCSS} onClick={()=>displayImageModal(headerImage)}>
+									<img id="headerImageLI"
 										src={headerImage.imgUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
 									/>
 									{headerImage.videoDescription!=null &&(
@@ -643,6 +643,15 @@ const ImagePostsModal=(props)=>{
 	return(
 		<Container>
 			{posts}
+			{displayImageDisplayPortal==false?
+				null:
+				<ImagePostDisplayPortal
+					closeModal={closeModal}
+					selectedImage={selectedImage}
+					recommendedImages={displayRecommendedImages}
+					targetDom={props.targetDom}
+				/>
+			}
 		</Container>
 	)
 }

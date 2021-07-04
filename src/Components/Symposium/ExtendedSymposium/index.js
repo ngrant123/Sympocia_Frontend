@@ -204,7 +204,7 @@ class Symposium extends Component{
 									);
   		
   		if(confirmation=="Success"){
-  			const {
+  			let {
   				posts,
 	  			popularPosts,
 	  			activeUsers,
@@ -215,9 +215,6 @@ class Symposium extends Component{
 	  			hasProfileViewedOligarchFinalResults,
 	  			_id
   			}=data;
-
-  			//var newHomePagePosts=this.addSuggestedSymposiums(posts);
-  			
 	  			
 	  		this.setState(prevState=>({
 		  		...prevState,
@@ -238,7 +235,7 @@ class Symposium extends Component{
 		  		symposiumFeatureQuestions:featureQuestions,
 		  		symposiumId:_id,
 		  		postSessionManagmentToken,
-		  		displayFinalOligarchsCompetitionResults:!hasProfileViewedOligarchFinalResults,
+		  		displayFinalOligarchsCompetitionResults:isOnboardingCompleted==true?false:!hasProfileViewedOligarchFinalResults,
 		  		isGuestProfile:(this.props.personalInformation.id=="0" || this.props.personalInformation.isGuestProfile==true)==true?
 								true:false
 	  		}));
@@ -700,6 +697,7 @@ class Symposium extends Component{
 					<Oligarchs
 						closeOligarchModal={this.closeOligarchsContest}
 						symposiumId={this.state.symposiumId}
+						profileId={this.props.profileId}
 					/>
 				)}
 			</React.Fragment>

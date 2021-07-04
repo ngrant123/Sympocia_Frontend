@@ -5,6 +5,7 @@ import {createPortal} from "react-dom";
 import SymposiumFeatures from "../../designs/img/SymposiumFeatures.png";
 import SymposiumPostOptions from "../../designs/img/SymposiumPostOptions.png";
 import SymposiumHighlightedQuestions from "../../designs/img/SymposiumHighlightedQuestions.png";
+import SympociaCategoryPostSection from "../../designs/img/SymposiumCategorySection.png";
 import Beacons from "../../designs/img/Beacons.png";
 
 import {completeOnboardingSymposiumPage} from "../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
@@ -35,6 +36,8 @@ const Container=styled.div`
     }
 
     @media screen and (max-width:650px){
+    	top:10%;
+    	height:75% !important;
     	#firstOnboardingImage{
     		height:70% !important;
     		width:90% !important;
@@ -70,7 +73,7 @@ const ShadowContainer=styled.div`
 	position:fixed;
 	width:100%;
 	height:100%;
-	background-color: rgba(0,0,0,0.4);
+	background-color: rgba(0,0,0,0.7);
 	z-index:50;
 	top:0px;
 `;
@@ -209,37 +212,58 @@ const SymposiumPageOnboarding=({closeModal})=>{
 
 				{displaySecondPage && (
 					<ul style={{padding:"30px"}}>
-						<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
-							<b>Beacons:</b>
-						</p>
-						<p style={{marginBottom:"5%",fontSize:"15px"}}> 
-							Have you ever wished there was a way for you to request a specific type of post? 
-							For example lets say you're working out a math problem and you want a specific video to help you or maybe an 
-							image?
-							<br/>
-							<br/>
-							Thats why we introduced beacons and thats what they accomplish. Simply upload a post explaining
-							what you want and people will respond back in that specific post type.
-						</p>
-						<img id="beaconsImage" 
-							src={Beacons} style={{width:"20%",height:"20%",marginLeft:"15%"}}
-						/>
-						<hr/>
+						<li id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%"}}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
+								width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
+								fill="none" stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z"/>
+								<circle cx="12" cy="12" r="9" />
+								<path d="M10 10l4 4m0 -4l-4 4" />
+							</svg>
+						</li>
+
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
-									Step 2 of 5
+								<p style={{color:"#585858",fontSize:"24px",marginBottom:"7%"}}>
+									<b>How are symposiums different?</b>
+								</p>
+								<p style={{fontSize:"18px"}}>
+									We'll be transparent with you right now. You have facebook groups, subreddits, and god 
+									knows how many platform groups there are. So how are we different? 
+									We believe that people bond the most when they are working towards their goals. 
+									Leading through examples. Motivating people. Not just showing their accomplishments.
+								</p>
+
+								<hr/>
+								<p style={{marginTop:"5%",color:"#585858",fontSize:"18px",marginBottom:"7%"}}>
+									<b>The Big Three</b>
+								</p>
+
+								<p style={{fontSize:"18px"}}>
+									Introducing the big three. Choose either the grind, progress,
+									or accomplishments and help people grow and lead through example. Or have fun and for once
+									actually meet authentic people.
+								</p>
+								<img src={SympociaCategoryPostSection} style={{width:"90%"}}/>
+
+								<hr/>
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
+											Step 2 of 5
+										</li>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>displayFirstPageHandle()} style={ButtonCSS}>
+												Previous
+											</li>
+										</a>
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li onClick={()=>displayThirdPageHandle()} style={ButtonCSS}>
+												Next
+											</li>
+										</a>
+									</ul>
 								</li>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>displayFirstPageHandle()} style={ButtonCSS}>
-										Previous
-									</li>
-								</a>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>displayThirdPageHandle()} style={ButtonCSS}>
-										Next
-									</li>
-								</a>
 							</ul>
 						</li>
 					</ul>
@@ -320,49 +344,41 @@ const SymposiumPageOnboarding=({closeModal})=>{
 
 				{displayFifthPage &&(
 					<ul style={{padding:"30px"}}>
-						<li id="closeOptionIconLI" style={{listStyle:"none",marginLeft:"85%"}}>
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
-								width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2196F3"
-								fill="none" stroke-linecap="round" stroke-linejoin="round">
-								<path stroke="none" d="M0 0h24v24H0z"/>
-								<circle cx="12" cy="12" r="9" />
-								<path d="M10 10l4 4m0 -4l-4 4" />
-							</svg>
-						</li>
+						<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
+							<b>Beacons:</b>
+						</p>
+						<p style={{marginBottom:"5%",fontSize:"15px"}}> 
+							Have you ever wished there was a way for you to request a specific type of post? 
+							For example lets say you're working out a math problem and you want a specific video to help you or maybe an 
+							image?
+							<br/>
+							<br/>
+							Thats why we introduced beacons and thats what they accomplish. Simply upload a post explaining
+							what you want and people will respond back in that specific post type.
+						</p>
+						<img id="beaconsImage" 
+							src={Beacons} style={{width:"20%",height:"20%",marginLeft:"15%"}}
+						/>
+						<p style={{marginBottom:"5%",fontSize:"15px",marginTop:"5%"}}> 
+							And there you have it. Finished :)
+						</p>
 
+						<hr/>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
-								<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
-									<b>Post Options:</b>
-								</p>
-								<p style={{marginBottom:"5%",fontSize:"15px"}}> 
-									And finally we got post options. Want to see only blogs for this symposium? Easy 
-									click the blog option button. What about videos? Got that also. We honestly got it all :)
-								</p>
-								<img src={SymposiumPostOptions} style={{width:"90%"}}/>
-
-								<p style={{marginBottom:"5%",fontSize:"15px",marginTop:"5%"}}> 
-									And there you have it. Finished :)
-								</p>
-
-								<hr/>
-								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
-											Step 5 of 5
-										</li>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayFourthPageHandle()} style={ButtonCSS}>
-												Previous
-											</li>
-										</a>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>onBoardingCloseModal()} style={ButtonCSS}>
-												Close
-											</li>
-										</a>
-									</ul>
+								<li style={{listStyle:"none",display:"inline-block",color:"#BDBDBD",marginRight:"4%"}}>
+									Step 5 of 5
 								</li>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>displayFourthPageHandle()} style={ButtonCSS}>
+										Previous
+									</li>
+								</a>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+									<li onClick={()=>onBoardingCloseModal()} style={ButtonCSS}>
+										Close
+									</li>
+								</a>
 							</ul>
 						</li>
 					</ul>
