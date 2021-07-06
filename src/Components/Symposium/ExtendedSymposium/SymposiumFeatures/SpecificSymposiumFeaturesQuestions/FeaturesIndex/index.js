@@ -1,6 +1,8 @@
-import React,{useState} from "react";
+import React,{useState,useContext} from "react";
+import styled from "styled-components";
 import ModalDecider from "./FeaturePostsMiddleMan.js";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
+import {FeatureConsumer} from "../FeatureContext.js";
 
 const OptionsCSS={
   listStyle:"none",
@@ -14,6 +16,32 @@ const OptionsCSS={
 }
 
 
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
+
+
+const Container=styled.div`
+	${({isSimplified})=>
+		isSimplified==true &&(
+			`
+				display:flex !important;
+				flex-direction:column;
+				justify-content:center !important;
+				align-items:center !important;
+				padding:5%;
+
+				#questionDiv{
+					border-style:none !important;
+				}
+			`
+		)
+	}
+`;
+
+
 
 const QuestionsIndex=({symposium,questions,isGuestProfile,symposiumId})=>{
 	if(questions!=null){
@@ -24,6 +52,8 @@ const QuestionsIndex=({symposium,questions,isGuestProfile,symposiumId})=>{
 			videoQuestion
 		}=questions;
 	}
+	const {isSimplified}=useContext(FeatureConsumer);
+	console.log(isSimplified);
 	const [displayFeaturesPostsModal,changeDisplayFeaturesPostModal]=useState(false);
 	const [displayModalType,changeModalType]=useState();
 	const [questionIndex,changeQuestionIndex]=useState();
@@ -48,7 +78,7 @@ const QuestionsIndex=({symposium,questions,isGuestProfile,symposiumId})=>{
 		changeDisplayFeaturesPostModal(false);
 	}
 	return(
-		<React.Fragment>
+		<Container isSimplified={isSimplified}>
 			{displayFeaturesPostsModal==true &&(
 				<ModalDecider	
 					modalType={displayModalType}
@@ -60,87 +90,84 @@ const QuestionsIndex=({symposium,questions,isGuestProfile,symposiumId})=>{
 					selectedPostId={selectedPostId}
 				/>
 			)}
-			<ul>
-				{audioQuestion.map(data=>
-					<>
-					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li onClick={()=>displayPostModal(audioQuestion,"Audio",data,isGuestProfile)} 
-							style={OptionsCSS}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{data.question}
-								</li>
-
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<ArrowDropDownCircleOutlinedIcon/>
-								</li>
-							</ul>
-						</li>
-					</a>
-					<hr/>
-					</>
-				)}
-				{imageQuestion.map(data=>
-					<>
-					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li onClick={()=>displayPostModal(imageQuestion,"Image",data,isGuestProfile)}
-							style={OptionsCSS}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{data.question}
-								</li>
-
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<ArrowDropDownCircleOutlinedIcon/>
-								</li>
-							</ul>
-						</li>
-					</a>
-					<hr/>
-					</>
-				)}
-
-				{regularPostQuestion.map(data=>
-					<>
-					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li onClick={()=>displayPostModal(
-											regularPostQuestion,"RegularPost",data,isGuestProfile
-										)} style={OptionsCSS}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{data.question}
-								</li>
-
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<ArrowDropDownCircleOutlinedIcon/>
-								</li>
-							</ul>
-						</li>
-					</a>
-					<hr/>
-					</>
-				)}
-				{videoQuestion.map(data=>
-					<>
-					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						<li onClick={()=>displayPostModal(videoQuestion,"Video",data,isGuestProfile)}
+			{audioQuestion.map(data=>
+				<>
+				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					<li id="questionDiv" onClick={()=>displayPostModal(audioQuestion,"Audio",data,isGuestProfile)} 
 						style={OptionsCSS}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									{data.question}
-								</li>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								{data.question}
+							</li>
 
-								<li style={{listStyle:"none",display:"inline-block"}}>
-									<ArrowDropDownCircleOutlinedIcon/>
-								</li>
-							</ul>
-						</li>
-					</a>
-					<hr/>
-					</>
-				)}
-			</ul>
-		</React.Fragment>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<ArrowDropDownCircleOutlinedIcon/>
+							</li>
+						</ul>
+					</li>
+				</a>
+				<hr style={HorizontalLineCSS}/>
+				</>
+			)}
+			{imageQuestion.map(data=>
+				<>
+				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					<li id="questionDiv" onClick={()=>displayPostModal(imageQuestion,"Image",data,isGuestProfile)}
+						style={OptionsCSS}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								{data.question}
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<ArrowDropDownCircleOutlinedIcon/>
+							</li>
+						</ul>
+					</li>
+				</a>
+				<hr style={HorizontalLineCSS}/>
+				</>
+			)}
+			{regularPostQuestion.map(data=>
+				<>
+				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					<li id="questionDiv" onClick={()=>displayPostModal(
+										regularPostQuestion,"RegularPost",data,isGuestProfile
+									)} style={OptionsCSS}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								{data.question}
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<ArrowDropDownCircleOutlinedIcon/>
+							</li>
+						</ul>
+					</li>
+				</a>
+				<hr style={HorizontalLineCSS}/>
+				</>
+			)}
+			{videoQuestion.map(data=>
+				<>
+				<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					<li id="questionDiv" onClick={()=>displayPostModal(videoQuestion,"Video",data,isGuestProfile)}
+					style={OptionsCSS}>
+						<ul style={{padding:"0px"}}>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								{data.question}
+							</li>
+
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<ArrowDropDownCircleOutlinedIcon/>
+							</li>
+						</ul>
+					</li>
+				</a>
+				<hr style={HorizontalLineCSS}/>
+				</>
+			)}
+		</Container>
 	)
 }
 

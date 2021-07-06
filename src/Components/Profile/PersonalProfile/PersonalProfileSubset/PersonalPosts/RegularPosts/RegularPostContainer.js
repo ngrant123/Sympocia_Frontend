@@ -26,13 +26,17 @@ const Container=styled.div`
 		#postContainer{
 			width:90%;
 		}
+		#regularPostHorizontalLine{
+			display:block !important;
+		}
 		#smallContainerLI{
 			display:block !important;
 		}
 	}
 
-	@media screen and (max-width:450px){
+	@media screen and (max-width:650px){
 		width:150% !important;
+
 		#headerContainerLI{
 			margin-bottom:5% !important;
 			width:350px !important;

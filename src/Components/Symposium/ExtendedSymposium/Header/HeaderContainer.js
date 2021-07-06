@@ -465,16 +465,15 @@ const HeaderContainer=(props)=>{
 								<p style={{fontSize:"18px",color:"white"}}>
 									<b>HighLighted Question</b>
 								</p>
-								{props.popularQuestionObject.questionInformation.length==0?
-										null
-									:<HightLightedQuestions
+								{props.popularQuestionObject.questionInformation.length!=0 &&(
+									<HightLightedQuestions
 										questionInformation={props.popularQuestionObject.questionInformation}
 										isSimplified={props.popularQuestionObject.isSimplified}
 										selectedSymposium={props.popularQuestionObject.selectedSymposium}
 										isGuestProfile={isGuestProfile}
 										isOligarch={props.isOligarch}
 									/>
-								}
+								)}
 							</HighlightedQuestionsContainer>
 							<SymposiumTitlesAndVideosContainer>
 								<SymposiumTitle>

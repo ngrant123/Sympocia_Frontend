@@ -486,7 +486,7 @@ const QuestionsPortal=(props)=>{
 								</p>
 								<hr/>
 								<li style={{listStyle:"none"}}>
-									<img id="creationImage" src={selectedPost} style={{borderRadius:"5px",width:"40%",height:"30%",marginBottom:"10px"}}/>
+									<img id="creationImage" src={selectedPost} style={{borderRadius:"5px",width:"35%",height:"30%",marginBottom:"10px"}}/>
 								</li>
 								<InputContainer id="imageDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your image here"/>
 								<hr/>
@@ -766,7 +766,7 @@ const QuestionsPortal=(props)=>{
 							{createPost()}
 						</div>:
 						<React.Fragment>
-							<ul style={{padding:"10px"}}>
+							<ul style={{padding:"15px"}}>
 								<li style={{listStyle:"none",display:"inline-block",width:"100%"}}>
 									<ul style={{padding:"0px"}}>
 										<li id="createButtonLI" onClick={()=>changeDisplayPost(true)} 
@@ -774,7 +774,7 @@ const QuestionsPortal=(props)=>{
 											Create
 										</li>
 
-										<li id="questionHeader" style={{width:"100%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"30px"}}>
+										<li id="questionHeader" style={{width:"100%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"24px"}}>
 											<b>
 												{questions[currentCounter].question}
 											</b>

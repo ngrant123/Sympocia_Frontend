@@ -54,6 +54,11 @@ const Container=styled.div`
     	width:350% !important;
 		height:60% !important;
     }
+    @media screen  and (max-width:570px) and (max-height:320px) 
+		  and (orientation: landscape) 
+		  and (-webkit-min-device-pixel-ratio: 1){
+			width:200% !important;
+    }
 `;
 
 const ProfilePicture=styled.div`
@@ -94,6 +99,15 @@ const ColorPatchContainer=styled.div`
 	@media screen and (max-width:650px){
     }
 `;
+
+const RegularPostCSS={
+	cursor:"pointer",
+	width:"30%",
+	height:"30%",
+	listStyle:"none",
+	display:"inline-block",
+	marginBottom:"3%"
+}
 
 const CommentButtonCSS={
 	textAlign:"center",
@@ -181,10 +195,13 @@ const SmallRegularPosts=({posts,profilePicture,displayPostModal,friendsColorNode
 		<li style={{listStyle:"none"}}>
 			<ul style={{padding:"0px"}}>
 				{posts.map(data=>
-					<li id="smallContainerLI"  onClick={()=>displayPostModal(data)}
-					 	style={{cursor:"pointer",width:"30%",height:"30%",listStyle:"none",display:"inline-block",marginBottom:"3%"}}>
+					<React.Fragment>
+						<li id="smallContainerLI"  onClick={()=>displayPostModal(data)}
+						 	style={RegularPostCSS}>
 								{regularPost(data)}
-					</li>
+						</li>
+						<hr id="regularPostHorizontalLine" style={{display:"none",width:"90%"}}/>
+					</React.Fragment>
 				)}
 			</ul>
 		</li>

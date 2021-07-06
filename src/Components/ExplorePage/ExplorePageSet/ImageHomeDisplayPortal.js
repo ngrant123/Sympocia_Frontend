@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import ImageDisplayContainer from "../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
+import ImageContainer from "../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
+import {ImageDisplayContainer} from "../../GeneralComponents/PostComponent/ImageComponent/indexCSS.js";
+
 const Container=styled.div`
 	position:fixed;
 	background-color:red;
@@ -56,23 +58,6 @@ const ShadowContainerRecommenedImages=styled.div`
 	}
 `;
 
-const ImageContainer=styled.div`
-	position:relative;
-	height:80%;
-
-	@media screen and (max-width:1370px){
-		margin-left:1% !important;
-    	width:100% !important;
-    	height:90% !important;
-    	border-radius:5px !important;
-    }
-
-     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		width:95% !important;
-    	height:80% !important;
-    }
-`;
-
 const ImageLabelCSS={
 	listStyle:"none",
 	display:"inline-block",
@@ -103,13 +88,13 @@ const ImageHomeDisplayPortal=(props)=>{
 		<React.Fragment>
 			<ShadowContainer onClick={()=>closeModal()}/>
 			<Container>
-				<ImageContainer>
-					<ImageDisplayContainer
+				<ImageDisplayContainer>
+					<ImageContainer
 						imageData={props.selectedImage}
 						targetDom={props.targetDom}
 						closePostModal={closeModal}
 					/>
-				</ImageContainer>
+				</ImageDisplayContainer>
 
 			</Container>
 		</React.Fragment>,

@@ -26,6 +26,12 @@ export const Container=styled.div`
     }
 
     @media screen and (max-width:650px){
+		#postSelectionAndRecruitDiv{
+			margin-top:-10% !important;
+		}
+		#mobilePhonePostOption{
+			margin-left:20% !important;
+		}
     	#postCollectionContainer{
     		margin-left:2% !important;
     	}
@@ -108,13 +114,20 @@ export const Container=styled.div`
 		}
     }
 
-    @media screen and (max-width:650px) and (max-height:420px) and (orientation:landscape){
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	#postsContainer{
-			margin-top:120% !important;
+			margin-top:10% !important;
 			margin-left:-60% !important;
 		}
 		#createPostIcon{
-			margin-left:-10% !important;
+			display:none !important;
+		}
+    }
+
+
+    @media screen and (max-width:650px) and (max-height:420px) and (orientation:landscape){
+    	#postsContainer{
+			margin-top:120% !important;
 		}
     }
 
@@ -131,6 +144,16 @@ export const MobilePersonalInformationContainer=styled.div`
 	left:20%;
 	top:20%;
 	overflow-y:scroll;
+
+	@media screen and (max-width:1370px){
+		padding:30px;
+		#profileSocialMediaContainer{
+			display:none !important;
+		}
+		#mobileDivider{
+			display:block !important;
+		}
+	}
 	@media screen and (max-width:650px){
 		width:90% !important;
 		left:5% !important;
@@ -138,11 +161,11 @@ export const MobilePersonalInformationContainer=styled.div`
 `;
 
 export const MobileShadowContainer=styled.div`
-		position:fixed;
+	position:fixed;
 	width:100%;
 	height:100%;
 	top:0%;
-	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
 	display:block;
 	z-index:40;
 
@@ -199,7 +222,7 @@ export const ProfilePictureContainer=styled.div`
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
     	margin-left:5%;
 	 	#profilePicture{
-	 		width:50% !important;
+	 		width:45% !important;
 	 	}
     }
 
@@ -209,6 +232,7 @@ export const ProfilePictureContainer=styled.div`
     	height:80px !important;
     	width:160px !important;
     	#profilePicture{
+    		width:50% !important;
           height:70px !important;
 	    }
    	}
@@ -281,7 +305,7 @@ export const PersonalProfileInformationContainer= styled.div`
 		box-shadow: 5px 5px 5px 5px #d5d5d5;
 	}
 	@media screen and (max-width:1370px){
-		top:10%;
+		top:0%;
 		html.touch *:hover {
 		    all:unset!important;
 		}

@@ -2,39 +2,39 @@ import React from "react";
 import styled from "styled-components"
 import ImageOrVideoContainer from "../../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
 import RegularPostContainer from "../../../../GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
- 
-import {
-	ImagePopupContainer,
-	PostPopupContainer
-} from "../PersonalProfileContainerCSS.js";
+
+import {ImageDisplayContainer} from "../../../../GeneralComponents/PostComponent/ImageComponent/indexCSS.js";
+import {VideoDisplayContainer} from "../../../../GeneralComponents/PostComponent/VideoComponent/indexCSS.js";
+import {RegularPostDisplayContainer} from "../../../../GeneralComponents/PostComponent/RegularPostComponent/indexCSS.js";
+
 
 const PostDisplayDecider=({postData,postDisplayParams})=>{
 	const {selectedDisplayPostType}=postData;
 	const postDecider=()=>{
 		switch(selectedDisplayPostType){
 			case 'Images':{
-				return <ImagePopupContainer>
+				return <ImageDisplayContainer>
 							<ImageOrVideoContainer
 								imageData={postData}
 								{...postDisplayParams}
 							/>
-						</ImagePopupContainer>
+						</ImageDisplayContainer>
 			};
 			case 'Videos':{
-				return <PostPopupContainer>
-					<ImageOrVideoContainer
-						videoData={postData}
-						{...postDisplayParams}
-					/>
-				</PostPopupContainer>
+				return <VideoDisplayContainer>
+							<ImageOrVideoContainer
+								videoData={postData}
+								{...postDisplayParams}
+							/>
+						</VideoDisplayContainer>
 			};
 			case 'Regular':{
-				return <PostPopupContainer>
-					<RegularPostContainer
-						postData={postData}
-						{...postDisplayParams}
-					/>
-				</PostPopupContainer>
+				return <RegularPostDisplayContainer>
+							<RegularPostContainer
+								postData={postData}
+								{...postDisplayParams}
+							/>
+						</RegularPostDisplayContainer>
 			};
 		}
 	}

@@ -39,11 +39,12 @@ const symposiumFeatures=(props)=>{
 		return features;
 	}else{
 		return {requestedComponent:<SpecificFeatureSymposium
-		  			symposium={selectedSymposiumTitle}
-		  			symposiumId={symposiumId}
-		  			questions={symposiumFeatureQuestions}
-		  			isGuestProfile={isGuestProfile}
-		  		/>
+							  			symposium={selectedSymposiumTitle}
+							  			symposiumId={symposiumId}
+							  			questions={symposiumFeatureQuestions}
+							  			isGuestProfile={isGuestProfile}
+							  			isSimplified={isSimplified}
+							  		/>
 		  	}
 	}
 	

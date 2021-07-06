@@ -3,7 +3,8 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import DescriptionModal from "./DescriptionModal.js";
 
-const SponsorModal=styled.div`
+
+const Container=styled.div`
 	position:fixed;
 	width:40%;
 	height:60%;
@@ -17,12 +18,37 @@ const SponsorModal=styled.div`
 	@media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
-
+		height:70%;
+		top:15%;
+		justify-content:center;
     }
+`;
+const SponsorModal=styled.div`
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	margin-left:-5%;
 
-    @media screen and (max-width:600px){
+	padding:10%;
+
+    @media screen and (max-width:650px){
+    	padding:5%;
 	    #sponsoreModalUL{
 	    	margin-left:-20% !important;
+	    }
+	    #championTitleName{
+	    	font-size:18px !important;
+	    	width:100% !important;
+	    }
+	    #secondaryDescription{
+	    	display:none !important;
+	    }
+	    #tertianryDescription{
+	    	display:none !important;
+	    }
+
+	    #mobileHorizontalLine{
+	    	display:block !important;
 	    }
     }
 `;
@@ -43,15 +69,22 @@ const UploadPicture=styled.div`
 	border-radius:5px;
 	border-style:solid;
 	border-color:#5298F8;
-	left:25%;
 	border-width:1px;
 	transition:.8s;
 	background-color:white;
 	color:#5298F8;
-	width:40%;
+	cursor:pointer;
 
 	&:hover{
 		background-color:#0101DF;
+	}
+
+	@media screen and (max-width:1370px){
+		margin-left:-5% !important;
+	}
+
+	@media screen and (max-width:650px){
+		margin-left:0% !important;
 	}
 
 `;
@@ -67,6 +100,12 @@ const LocationStyle = {
 	borderRadius:'5px',
 	marginLeft:"15%",
 	marginBottom:"7%"
+}
+
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
 }
 
 
@@ -118,36 +157,28 @@ const SponsorPortal=(props)=>{
 
 	return createPortal(
 		<React.Fragment>
-			<SponsorModal>	
+			<Container>
 				{displayDescriptionScreen==false?
-					<ul id="sponsoreModalUL" style={{paddingTop:"90px"}}>
-						{/*
-							<p style={{marginLeft:"30%",color:"#6E6E6E"}}><b>Search for someone through here</b></p>
-							<input id="locations" list="locationcategories" style={LocationStyle} placeholder="Search for someone"/>
-										<datalist id="locationcategories" style={{height:"40px"}}>
-												<option value="Testing1"/>
-												<option value="Testing2"/>
-												<option value="Testin3"/>
-										</datalist>	
-							<hr/>
-							<p style={{marginLeft:"45%",marginBottom:"7%"}}>Or</p>
-						*/}
-						<p style={{marginLeft:"20%",fontSize:"40px"}}><b>Champion someone</b></p>
-						<p style={{color:"#A4A4A4",marginLeft:"13%",marginBottom:"5%"}}>Nows your chance to show your appreciation for someone</p>
+					<SponsorModal displayDescriptionScreen={displayDescriptionScreen}>
+						<div style={{display:"flex",alignItem:"center"}}>
+							<p id="championTitleName" style={{fontSize:"24px"}}>
+								<b>Champion someone</b>
+							</p>
+						</div>
+						<p id="secondaryDescription" style={{color:"#A4A4A4",marginBottom:"5%"}}>
+							Nows your chance to show your appreciation for someone
+						</p>
 						
-						<p style={{marginLeft:"15%",color:"#6E6E6E"}}><b>Upload a picture of someone and describe why they're great</b></p>
+						<hr id="mobileHorizontalLine" style={HorizontalLineCSS}/>
+						<UploadPicture onClick={()=>handleDisplayImagePrompt()}>
+							Upload picture
+						</UploadPicture>
 						
-						<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-							<UploadPicture onClick={()=>handleDisplayImagePrompt()}>
-								Upload picture
-							</UploadPicture>
-						</a>
-						
-						<input type="file" name="img" id="imageFile" style={{opacity:"0"}} onChange={()=>displayImage()}  
+						<input type="file" name="img" id="imageFile" style={{width:"5%",opacity:"0"}} onChange={()=>displayImage()}  
 					        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
 					        name="attachments">
-					    </input>					
-					</ul>:
+					    </input>		
+					</SponsorModal>:
 					<DescriptionModal
 						imgData={imageData}
 						backButton={displayUploadImageSearchProfileScreen}
@@ -155,7 +186,7 @@ const SponsorPortal=(props)=>{
 						profileType={props.profileType}
 					/>
 				}
-			</SponsorModal>
+			</Container>
 			<ShadowContainer onClick={()=>props.closeModal()}/>
 		</React.Fragment>
 	,document.getElementById("personalContainer"));

@@ -34,6 +34,13 @@ const FriendsAndIndustryDisplayButton=styled.div`
 		background-color:#5298F8;
 		color:white;
 	}
+
+	@media screen and (max-width:1370px){
+		margin-top:10%;
+		border-style:none;
+		color:#868686;
+		text-align: left !important;
+	}
 `;
 
 
@@ -46,6 +53,7 @@ const RecruitButtonContainer=styled.div`
 	background-color:#C8B0F4;
 	border-radius:5px;
 	width:80px;
+	margin-bottom:5%;
 
 
 	@keyframes glowing {
@@ -53,6 +61,7 @@ const RecruitButtonContainer=styled.div`
       50% { background-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
       100% { background-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
 	}
+
 `;
 
 
@@ -69,6 +78,12 @@ const SponsorButton=styled.div`
 
 	&:hover{
 		background-color:#0101DF;
+	}
+
+	@media screen and (max-width:1370px){
+		border-color:#5298F8;
+		background-color:white;
+		color:#5298F8;
 	}
 `;
 
@@ -219,42 +234,18 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 		}
 	}
 
-	return <>
+	return(
+		<React.Fragment>
 			{isProfileARecruitOrOwner==true?
-				<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-							<a style={{textDecoration:"none"}} href="javascript:void(0);">
-								<RecruitButtonContainer onClick={()=>unRecruitVisitor({isAccessTokenUpdated:false})}>
-									- Recruit
-								</RecruitButtonContainer>
-							</a>
-						</li>
-					</ul>
-				</li>
-				:<li style={{listStyle:"none",marginTop:"2%",marginBottom:"10%"}}>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-							<a style={{textDecoration:"none"}} href="javascript:void(0);">
-								<RecruitButtonContainer onClick={()=>recruitProfile({isAccessTokenUpdated:false})}>
-									+ Recruit
-								</RecruitButtonContainer>
-							</a>
-						</li>
-						{/*
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<a style={{textDecoration:"none"}} href="javascript:void(0);">
-									<DonateButton onClick={()=>handleDonateButton()}>
-										Donate
-									</DonateButton>
-									
-								</a>
-							</li>
-						*/}
-					</ul>
-				</li>
+				<RecruitButtonContainer onClick={()=>unRecruitVisitor({isAccessTokenUpdated:false})}>
+					- Recruit
+				</RecruitButtonContainer>
+				:<RecruitButtonContainer onClick={()=>recruitProfile({isAccessTokenUpdated:false})}>
+					+ Recruit
+				</RecruitButtonContainer>
 			}
-		   </>
+		</React.Fragment>
+	)
 }
 
 
@@ -339,6 +330,7 @@ const PersonalInformation=(props)=>{
 	
 	const mobileUserInformation=(firstName,displayMobileProfileOptions,isOligarch)=>{
 		console.log(isOligarch);
+		const crownLogoMarginLeft=props.personalInformation.isOwnProfile==true?"10%":"0%"
 		return(
 			<React.Fragment>
 				<div id="mobileUserInformation" style={{display:"flex",flexDirection:"row"}}>
@@ -348,7 +340,7 @@ const PersonalInformation=(props)=>{
 					<div style={{display:"flex",flexDirection:"row"}}>
 						{editIcon()}
 						{isOligarch==true &&(
-							<div style={{cursor:"pointer",marginLeft:"10%"}}>
+							<div style={{cursor:"pointer",marginLeft:crownLogoMarginLeft}}>
 								{crownLogo()}
 							</div>
 						)}
@@ -360,25 +352,6 @@ const PersonalInformation=(props)=>{
 						</button>
 					</div>
 				</div>
-				{/*
-					<div id="mobileUserInformation" style={{display:"flex",flexDirection:"row"}}>
-						<p style={{maxWidth:"90%",maxHeight:"30px",marginRight:"10%",overflow:"hidden",fontSize:"20px"}}>
-							<b>{firstName}</b>
-						</p>
-						{editIcon()}
-						{isOligarch==true &&(
-							<div style={{cursor:"pointer",marginLeft:"5%"}}>
-								{crownLogo()}
-							</div>
-						)}
-						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-							style={ShadowButtonCSS}
-							onClick={()=>displayMobileProfileOptions()}
-							>
-						   		<span class="caret"></span>
-						</button>
-					</div>
-				*/}
 			</React.Fragment>
 		)
 	}
@@ -412,10 +385,15 @@ const PersonalInformation=(props)=>{
 		return (
 			<>
 				{displayDesktopUI==false?
-					<>{mobileUserInformation(
-							personalInformation.firstName,
-							displayMobileProfileOptions,
-							personalInformation.isOligarch)}</>:
+					<>
+						{
+							mobileUserInformation(
+								personalInformation.firstName,
+								displayMobileProfileOptions,
+								personalInformation.isOligarch
+							)
+						}
+					</>:
 					<>
 						<div style={{display:"flex",flexDirection:"row"}}>
 							<p style={FirstNameCSS}>
@@ -429,27 +407,29 @@ const PersonalInformation=(props)=>{
 							)}
 						</div>
 						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
-								Social Media
-							</li>
-							<li style={{listStyle:"none",marginTop:"5%"}}>
-								{props.personalInformation.isOwnProfile==true?
-									<ul style={{padding:"0px"}}>
-										<a style={{textDecoration:"none"}} href="javascript:void(0);">	
-											<li onClick={()=>alert('Option to add social media profiles coming soon')}
-											style={EditSocialMediaUrlsCSS}>
-												Edit Social Media
-											</li>
-										</a>
-										{socialMediaIcons(props.personalInformation.socialMediaUrls)}
-										
-									</ul>
-									:
-									<ul style={{padding:"0px"}}>
-										{socialMediaIcons(props.personalInformation.socialMediaUrls)}
-									</ul>
-								}
-							</li>
+							<div id="profileSocialMediaContainer">
+								<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
+									Social Media
+								</li>
+								<li style={{listStyle:"none",marginTop:"5%"}}>
+									{props.personalInformation.isOwnProfile==true?
+										<ul style={{padding:"0px"}}>
+											<a style={{textDecoration:"none"}} href="javascript:void(0);">	
+												<li onClick={()=>alert('Option to add social media profiles coming soon')}
+												style={EditSocialMediaUrlsCSS}>
+													Edit Social Media
+												</li>
+											</a>
+											{socialMediaIcons(props.personalInformation.socialMediaUrls)}
+											
+										</ul>
+										:
+										<ul style={{padding:"0px"}}>
+											{socialMediaIcons(props.personalInformation.socialMediaUrls)}
+										</ul>
+									}
+								</li>
+							</div>
 							
 
 							<li style={{listStyle:"none",marginBottom:"20px"}}>
@@ -459,7 +439,7 @@ const PersonalInformation=(props)=>{
 									</FriendsAndIndustryDisplayButton>
 								</a>
 							</li>
-
+							<hr id="mobileDivider" style={{display:"none"}}/>
 							<li style={{listStyle:"none",marginBottom:"2%"}}>
 								<a style={{textDecoration:"none"}} href="javascript:void(0);">
 									<FriendsAndIndustryDisplayButton onClick={()=>changeDisplaySymposiumsPortal(true)}>

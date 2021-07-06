@@ -172,7 +172,6 @@ export const HightLightedQuestionsContainerModal=styled.div`
 	width:100%;
 	height:100%;
 	padding:20px;
-	overflow-y:scroll;
 	z-index:40;
 	border-radius:5px;
 	background-color:white;
@@ -180,18 +179,21 @@ export const HightLightedQuestionsContainerModal=styled.div`
 	border-style:solid;
 	border-color:#E4E4E4;
 	border-width:1px;
+	display:flex;
+	flex-direction:column;
 	overflow-y:scroll;
 
 	${({isSimplified})=>
 		isSimplified==true &&(
 			`
 				#videoQuestionAnswers{
-					height:80% !important;
-					width:300px !important;
+					height:210px !important;
+					width:200px !important;
 				}
 
 				#imageHighlightedQuestion{
 					width:200px !important;
+					height:190px !important;
 				}
 
 				#postLI{
@@ -541,7 +543,7 @@ export const ChatContainer=styled.div`
 export const SymposiumFeatureContainer=styled.div`
 	position: absolute;
 	overflow:hidden;
-	width:80%;
+	width:20%;
 	height:40%;
 	top:55%;
 	left:75%;

@@ -146,6 +146,7 @@ class LProfile extends Component{
 	The code below could be structured in a better way in the future
 */
 	async componentDidMount(){
+		this.triggerUIChange();
 		this.getProfileApiTriggerCall({isAccessTokenUpdated:false});
 	}
 
@@ -232,7 +233,6 @@ class LProfile extends Component{
 				}
 			}
 		}
-		this.triggerUIChange();
 	}
 
 

@@ -48,7 +48,7 @@ const PersonalInformationContainer=styled.div`
     }
 `;
 
-const EditNodeContainer=styled.div`
+const ProfileInformationContainer=styled.div`
 	position:fixed;
 	width:25%;
 	height:50%;
@@ -63,6 +63,8 @@ const EditNodeContainer=styled.div`
 	 @media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
+		height:70%;
+		top:15%;
     }
 `;
 
@@ -176,9 +178,13 @@ const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampi
 				<OriginalShadowContainer
 					onClick={()=>closeModal()}
 				/>
-				<EditNodeContainer>
+				<ProfileInformationContainer>
 					{displayChampionModal==false?
 						<>
+							<p style={{fontSize:"24px"}}>
+								<b>Profile Additional Information</b>
+							</p>
+							<hr/>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 				                <li onClick={()=>displayPersonalInformation()} style={{listStyle:"none"}}>
 				                    Personal Information
@@ -190,15 +196,6 @@ const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampi
 				                    Champion
 				                </li>
 				            </a>
-				            {/*
-					            {isIphoneDisplay!=null &&(
-					            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-						                <li onClick={()=>changeDisplayChampionModal(true)} style={{listStyle:"none"}}>
-						                    Friends Gauge
-						                </li>
-						            </a>
-					            )}
-				            */}
 				            <hr/>
 			            </>
 						:<>
@@ -219,7 +216,7 @@ const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampi
 				            )}
 			            </>
 					}
-				</EditNodeContainer>
+				</ProfileInformationContainer>
 			</>
 		,document.getElementById("personalContainer"));
 }
@@ -234,7 +231,7 @@ const EditNodeModal=({closeNodeOptions,editFriendNodeActionType})=>{
 				<OriginalShadowContainer
 					onClick={()=>closeNodeOptions()}
 				/>
-				<EditNodeContainer>
+				<ProfileInformationContainer>
 					 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
 		                <li onClick={()=>closeAndEditActionType("Add")} style={{listStyle:"none"}}>
 		                    Add level
@@ -261,7 +258,7 @@ const EditNodeModal=({closeNodeOptions,editFriendNodeActionType})=>{
 			                    Demote Someone
 			                </li>
 			            </a>
-				</EditNodeContainer>
+				</ProfileInformationContainer>
 			</>
 		,document.getElementById("personalContainer"));
 }

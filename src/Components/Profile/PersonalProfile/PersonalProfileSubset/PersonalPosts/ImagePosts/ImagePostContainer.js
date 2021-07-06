@@ -11,15 +11,17 @@ import Typed from "react-typed";
 
 const Container=styled.div`
 	position:absolute;
-	width:120%;
+	width:100%;
 	height:95%;
+	display:flex;
+	flex-wrap:wrap;
 
     #smallPostLI{
 		width:200px !important;
-		margin-right:10% !important;
+		margin-right:7% !important;
 	}
 	@media screen and (max-width:1370px){
-		width:95%;
+		width:150%;
 		#parentLISmallPostContainer{
 			width:190% !important;
 		}
@@ -27,11 +29,13 @@ const Container=styled.div`
 			margin-right:10% !important;
 		}
     }
-	@media screen and (max-width:740px){
-
+	@media screen and (max-width:650px){
+		#smallImageDiv{
+			height:110px !important;
+		}
 		#smallPostLI{
 			width:37% !important;
-			margin-right:5% !important;
+			margin-right:10% !important;
 			margin-bottom:5% !important;
 		}
 		#parentLISmallPostContainer{
@@ -52,6 +56,9 @@ const Container=styled.div`
     	margin-left:5% !important;
     	#parentLISmallPostContainer{
 			width:150% !important;
+		}
+		#smallImageDiv{
+			height:170px !important;
 		}
 		#smallPostLI{
 			width:35% !important;
@@ -171,23 +178,8 @@ const ImagePostsContainer=(props)=>{
 								images={props.imageData.images}
 								displayPostModal={displayPostModalCallback}
 								friendsColorNodesMap={props.friendsColorNodesMap}
+								PostContextValues={PostContextValues}
 							/>
-							{ PostContextValues.endOfPostsDBIndicator==false
-							 && PostContextValues.isSearchFilterActivated==false 
-							 && PostContextValues.isFilteredPostsActivated==false  && (
-								<React.Fragment>
-									{PostContextValues.isLoadingReloadedPosts==true?
-										 <Typed 
-						                    strings={['Loading...']} 
-						                    typeSpeed={60} 
-						                    backSpeed={30} 
-				                		  />:
-										<p onClick={()=>PostContextValues.fetchNextPosts()} style={ImageLabelCSS}>
-											Next
-										</p>
-									}
-								</React.Fragment>
-							)}
 						</ul>
 					}
 					</React.Fragment>

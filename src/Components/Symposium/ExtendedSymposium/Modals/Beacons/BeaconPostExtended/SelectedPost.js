@@ -4,7 +4,7 @@ import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png
 import {Link} from "react-router-dom";
 
 const SelectedPostContainer=styled.div`
-	height:350px;
+	position:relative; 
 	@media screen and (max-width:650px){
 		#uploadVideoUrl{
 			height:80% !important;
@@ -55,15 +55,15 @@ const SelectedPost=({post,postType,displayZoomedPost})=>{
 			}
 			case "Videos":{
 				return(
-					<React.Fragment>
+					<div style={{display:"flex",flexDirection:"column"}}>
 						<video id="uploadVideoUrl" onClick={()=>displayZoomedPost()}
 							style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-							position="relative" width="100%" height="80%" 
+							width="100%" height="20%" 
 						 	key={post.videoUrl}  autoPlay loop autoBuffer muted playsInline>
 							<source src={post.videoUrl} type="video/mp4"/>
 						</video>
-						<p>{post.title}</p>
-					</React.Fragment>
+						<p style={{marginTop:"5%"}}>{post.title}</p>
+					</div>
 				)
 				break;
 			}

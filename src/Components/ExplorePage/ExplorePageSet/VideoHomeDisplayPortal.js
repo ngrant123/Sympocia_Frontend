@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import VideoDisplayContainer from "../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
+import VideoContainer from "../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
+import {VideoDisplayContainer} from "../../GeneralComponents/PostComponent/VideoComponent/indexCSS.js";
 
 const ShadowContainerVideos=styled.div`
 	position:fixed;
@@ -40,13 +41,6 @@ const Container=styled.div`
 `;
 
 
-const VideoContainer=styled.div`
-	padding:20px;
-	 @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-    	width:90%;
-    }
-
-`;
 const VideoHomeDisplayPortal=(props)=>{
 	const closePostsModal=()=>{
 		props.closeModal()
@@ -55,14 +49,14 @@ const VideoHomeDisplayPortal=(props)=>{
 		<React.Fragment>
 			<ShadowContainerVideos onClick={()=>props.closeModal()}/>
 			<Container>
-				<VideoContainer>
-					<VideoDisplayContainer
+				<VideoDisplayContainer>
+					<VideoContainer
 						videoData={props.selectedVideo}
 						recommendedVideos={props.recommendedVideos}
 						targetDom={props.targetDom}
 						closePostModal={closePostsModal}
 					/>
-				</VideoContainer>
+				</VideoDisplayContainer>
 			</Container>
 		</React.Fragment>
 	,document.getElementById(props.targetDom));

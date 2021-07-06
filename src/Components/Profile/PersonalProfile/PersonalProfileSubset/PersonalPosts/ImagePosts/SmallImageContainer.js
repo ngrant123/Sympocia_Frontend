@@ -1,13 +1,14 @@
-import React,{useState,useEffect,memo} from "react";
+import React,{useState,useEffect,memo,useContext} from "react";
 import styled from "styled-components";
 import EditIcon from '@material-ui/icons/Edit';
+import Typed from "react-typed";
+
 
 const ImageContainer=styled.div`
 	position:relative;
 	width:100%;
-	height:30%;
+	height:100%;
 	cursor:pointer;
-
 	@media screen and (max-width:420px){
 		#imageAudio{
 			display:none
@@ -24,7 +25,7 @@ const ImageContainer=styled.div`
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px)  and (orientation: landscape){
-		height:100% !important;
+		height:270px !important;
 		width:100%;
 	 	#imageAudio{
 			display:none
@@ -37,10 +38,14 @@ const ImageContainer=styled.div`
 
 const Image=styled.div`
 	width:100%;
-	height:75%;
+	height:20%;
 	background-color:black;
 	border-radius:5px;
 	overflow:hidden;
+
+	@media screen and (max-width:650px){
+		height:140px;
+	}
 `;
 
 const VideoDesriptionContainer=styled.div`
@@ -103,7 +108,24 @@ const IndustryButtonCSS={
 	marginTop:"2%"
 }
 
-const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
+const ImageLabelCSS={
+	listStyle:"none",
+	  display:"inline-block",
+	  backgroundColor:"white",
+	  borderRadius:"5px",
+	  padding:"10px",
+	  color:"#3898ec",
+	  borderStyle:"solid",
+	  borderWidth:"2px",
+	  borderColor:"#3898ec",
+	  maxWidth:"30%",
+	  maxHeight:"50px",
+	  overflow:"hidden",
+	  cursor:"pointer"
+}
+
+const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostContextValues})=>{
+	console.log(images);
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
@@ -139,40 +161,55 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap})=>{
 	let audioId=uuidv4();
 	let videoDescriptionId=uuidv4();
 	return(
-		<li id="parentLISmallPostContainer" style={{listStyle:"none",marginTop:"3%"}}>
+		<div style={{marginTop:"5%",width:"100%",display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
 			{images.map(data=>
-				<li id="smallPostLI" onClick={()=>displayPostModal(data)}
-					style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"10%"}}>
-							<ImageContainer>
-								<ul style={{padding:"0px"}}>
-									{data.audioDescription!=null?
-										<li style={{listStyle:"none"}}>
-											<audio id="audio" key={audioId} style={{width:"200px"}} controls>
-											    <source src={data.audioDescription} type="audio/ogg"/>
-											    <source src={data.audioDescription} type="audio/mp4"/>
-												Your browser does not support the audio element.
-											</audio>
-										</li>:null
-									}	
-									{image(data)}
-
-									{data.caption!=""?
-										<li style={{listStyle:"none",marginBottom:"5%"}}>
-											<ImageCaption>
-												{data.caption}
-											</ImageCaption>
-										</li>:<React.Fragment></React.Fragment>
-									}
-
-									<li id="postInformation" style={IndustryButtonCSS}>
-										{data.industriesUploaded[0].industry}
-									</li>
-								</ul>
-							</ImageContainer>
-				</li>
+				<div id="smallPostLI" style={{marginBottom:"5%"}} onClick={()=>displayPostModal(data)}>
+					<div id="smallImageDiv" style={{height:"170px",marginBottom:"5%"}}>
+						<img id="img" src={data.imgUrl} 
+							style={{cursor:"pointer",borderRadius:"5px",height:"100%",width:"100%"}}
+						/>
+						{data.audioDescription!=null?
+							<li style={{listStyle:"none"}}>
+								<audio id="audio" key={audioId} style={{width:"200px"}} controls>
+								    <source src={data.audioDescription} type="audio/ogg"/>
+								    <source src={data.audioDescription} type="audio/mp4"/>
+									Your browser does not support the audio element.
+								</audio>
+							</li>:null
+						}	
+					</div>
+					<div id="postInformation">
+						{data.caption!=""?
+							<li style={{listStyle:"none",marginBottom:"5%"}}>
+								<ImageCaption>
+									{data.caption}
+								</ImageCaption>
+							</li>:<React.Fragment></React.Fragment>
+						}
+					</div>
+				</div>
 			)}
-		</li>
+			{ PostContextValues.endOfPostsDBIndicator==false
+			 && PostContextValues.isSearchFilterActivated==false 
+			 && PostContextValues.isFilteredPostsActivated==false  && (
+				<React.Fragment>
+					{PostContextValues.isLoadingReloadedPosts==true?
+						 <Typed 
+		                    strings={['Loading...']} 
+		                    typeSpeed={60} 
+		                    backSpeed={30} 
+                		  />:
+						<p onClick={()=>PostContextValues.fetchNextPosts()} style={ImageLabelCSS}>
+							Next
+						</p>
+					}
+				</React.Fragment>
+			)}
+		</div>
 	)
 }
 
 export default memo(SmallImageContainer);
+
+
+

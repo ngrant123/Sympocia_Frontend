@@ -21,8 +21,17 @@ const QuestionCSS={
 	display:"inline-block",
 	width:"70%",
 	marginLeft:"2%",
-	marginRight:"2%"
+	marginRight:"2%",
+	cursor:"pointer"
 }
+
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
+
+
 
 class HighLightedQuestions extends Component{
 	constructor(props){
@@ -81,17 +90,17 @@ class HighLightedQuestions extends Component{
 			return <p> No replies yet :(. Click on the question and click the pencil icon to make a post </p>
 		}else{
 			if(questionType=="Image"){
-				return <React.Fragment>
+				return <div style={{display:"flex",flexDirection:"row"}}>
 							{replies.map(data=>
 								<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 									<img id="imageHighlightedQuestion" src={data.imgUrl}
-									 style={{borderRadius:"5px",width:"90px",height:"40%",marginBottom:"5%"}}
+									 style={{borderRadius:"5px",width:"90px",height:"80px",marginBottom:"5%",cursor:"pointer"}}
 									/>
 								</li>
 							)}
-						</React.Fragment>;
+						</div>;
 			}else if(questionType=="Video"){
-				return <React.Fragment>
+				return <div style={{display:"flex",flexDirection:"row"}}>
 							{replies.map(data=>
 								<li id="postLI" onClick={()=>this.setVideoPost(data)} style={{marginBottom:"5%",width:"30%",listStyle:"none",display:"inline-block"}}>
 									<video id="videoQuestionAnswers"
@@ -102,18 +111,18 @@ class HighLightedQuestions extends Component{
 									</video>
 								</li>
 							)}
-						</React.Fragment>;
+						</div>;
 			}else{
-				return <React.Fragment>
+				return <div style={{display:"flex",flexDirection:"column"}}>
 							{replies.map(data=>
 								<React.Fragment>
-									<li onClick={()=>this.setRegularPost(data)} style={{listStyle:"none",marginBottom:"5%"}}>
+									<p onClick={()=>this.setRegularPost(data)} style={{cursor:"pointer",width:"100%",marginBottom:"5%"}}>
 										{data.post}	
-									</li>
+									</p>
 									<hr/>
 								</React.Fragment>
 							)}
-						</React.Fragment>;
+						</div>;
 			}
 		}
 	}
@@ -258,46 +267,25 @@ class HighLightedQuestions extends Component{
 								{this.state.isLoading==true?
 									<p> Loading...</p>:
 									<>
-										<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"10px"}}>
-												{this.state.counter!=0?
-													<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<NavigateBeforeIcon
-																style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-																onClick={()=>this.decreaseCounter()}
-															/>
-														</a>
-													</li>:<React.Fragment></React.Fragment>
-												}
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>this.expandQuestion()} style={QuestionCSS}>
-														
-															{this.state.questionData[this.state.counter].question}
-													</li>
-												</a>
-												{this.state.counter!=(this.state.questionData.length-1)?
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-														<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-															<NavigateNextIcon
-																style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf"}}
-																onClick={()=>this.increaseCounter()}
-															/>
-														</a>
-													</li>:<React.Fragment></React.Fragment>
-												}
-											</ul>
-										</li>
-										<hr/>
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"10px"}}>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													{this.constructResponses(this.state.questionData[this.state.counter])}
-												</a>
-											</ul>
-										</li>
-									</ul>
+										<div style={{display:"flex",flexDirection:"row"}}>
+											{this.state.counter!=0 &&(
+												<NavigateBeforeIcon
+													style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf",marginLeft:"2%",cursor:"pointer"}}
+													onClick={()=>this.decreaseCounter()}
+												/>
+											)}
+											<p onClick={()=>this.expandQuestion()} style={QuestionCSS}>			
+												{this.state.questionData[this.state.counter].question}
+											</p>
+											{this.state.counter!=(this.state.questionData.length-1) &&(
+												<NavigateNextIcon
+													style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf",cursor:"pointer"}}
+													onClick={()=>this.increaseCounter()}
+												/>
+											)}
+										</div>
+										<hr style={HorizontalLineCSS}/>
+										{this.constructResponses(this.state.questionData[this.state.counter])}
 									</>
 								}
 							</HightLightedQuestionsContainerModal>

@@ -10,14 +10,16 @@ const SmallBlogComponent=styled.div`
 
 	@media screen and (max-width:1370px){
 		margin-bottom:40%;
-		height:20%;
+		height:30%;
+		width:220px;
 		margin-right:20px !important;
 	}
 
 	@media screen and (max-width:640px){
 		width:250px !important;
-		height:40%;
+		height:210px !important;
 		margin-right:0px !important;
+
 		#smallAudio{
 			width:170px !important;
 		}
@@ -50,14 +52,15 @@ const SmallBlog=styled.div`
 		}
     }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	height:170% !important;
+    	height:180px !important;
+    	width:80%;
     }
 
     @media screen  and (max-width:840px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
-	  	width:90% !important;
-		height:140% !important;
+	  	width:250px !important;
+		height:190px !important;
 
     }
 `;
@@ -82,7 +85,11 @@ const ColorPatchContainer=styled.div`
 
 
 const Container=styled(Link)`
-
+	@media screen and (max-width:650px){
+		#blogHorizontalLine{
+			display:block !important;
+		}
+    }
 `;
 
 const VideoDesriptionContainer=styled.div`
@@ -116,7 +123,7 @@ const BlogContainer=(props)=>{
 		return(
 			<SmallBlog>
 				<img id="smallImage" src={props.data.blogImageUrl}
-					style={{borderRadius:"10px"}}
+					style={{borderRadius:"5px"}}
 				 	width="100%" height="100%"
 				 />
 				<VideoDesriptionContainer>
@@ -157,10 +164,10 @@ const BlogContainer=(props)=>{
 							{blogImage()}
 						</li>
 
-						<li style={{listStyle:"none",fontSize:"18px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden",marginBottom:"2%"}}>
+						<li style={{listStyle:"none",fontSize:"18px",maxWidth:"90%",maxHeight:"50px",overflow:"hidden",marginBottom:"2%"}}>
 							<b> {props.data.title} </b>
 						</li>
-						<li style={{listStyle:"none",fontSize:"12px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
+						<li style={{listStyle:"none",fontSize:"12px",maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
 							{props.data.description}
 						</li>
 
@@ -170,6 +177,7 @@ const BlogContainer=(props)=>{
 					</ul>
 
 				</SmallBlogComponent>
+				<hr id="blogHorizontalLine" style={{display:"none"}}/>
 			</li>
 		</Container>
 	)

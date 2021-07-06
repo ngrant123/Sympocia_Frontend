@@ -9,14 +9,12 @@ import {
 const PortalHOCContainer=styled.div`
 	position:absolute;
 	height:55%;
-	width:60%;
-	left:25%;
-	padding:10px;
+	width:40%;
+	left:30%;
 	top:20%;
 	border-radius:5px;
 	background-color:white;
 	z-index:40;
-	overflow:scroll;
 
 	@media screen and (max-width:1370px){
 		width:80% !important;

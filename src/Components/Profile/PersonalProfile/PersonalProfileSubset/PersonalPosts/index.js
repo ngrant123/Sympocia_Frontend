@@ -37,6 +37,7 @@ import {
 		initializeSymposiums
 	} from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
 import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts.js";
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 
 const PostCreationContainer=styled.div`
@@ -90,21 +91,18 @@ const CommentTextArea=styled.textarea`
 const SearchPostsTextArea=styled.textarea`
 	position:relative;
 	width:120%;
+	height:35px;
 	resize:none;
-	height:5%;
+	padding:10px;
 	border-radius:5px;
-	border-style:none;
-	  border: none;
-    overflow: auto;
-    outline: none;
-
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
+	border-style:solid;
+	border-color:#E5E5E5;
+	overflow:hidden;
+	border-width:1px;
 
     resize: none; /*remove the resize handle on the bottom right*/
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		height:10%;
+		height:40px;
     }
 `;
 
@@ -156,6 +154,24 @@ const ShadowContainer= styled.div`
 	z-index:35;
 `;
 
+const PostOptionsAndSearchContainer=styled.div`
+	${({displayExtendedSearchTextArea})=>
+		displayExtendedSearchTextArea==true?
+			`
+				display:flex;
+				flex-direction:column;
+			`:
+			`
+				display:flex;
+				flex-direction:row;
+			`
+	}
+	@media screen and (max-width:1370px){
+		#postOptionsAndSearchDiv{
+			margin-bottom:5% !important;
+		}
+	}
+`;
 const listCSSButton={	
 	listStyle:"none",
 	display:"inline-block",
@@ -198,6 +214,7 @@ const PersonalPostsIndex=(props)=>{
 	const [endOfPostsDBIndicator,changeEndOfPostsDBIndicator]=useState(false);
 	const [isFilteredPostsActivated,changeIsFilteredPosts]=useState(false);
 	const [isSearchFilterActivated,changeIsSearchFilterActivated]=useState(false);
+	const [displayExtendedSearchTextArea,changeDisplayExtendedTextArea]=useState(false);
 
 	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
@@ -521,70 +538,63 @@ const PersonalPostsIndex=(props)=>{
 	}
 	const mobilePostSelectionAndRecruitUI=(personalInformation)=>{
 		return (
-			<li  style={{listStyle:"none",marginLeft:"-5%"}}>
-				<ul style={{padding:"0px"}}>
-					<li id="mobilePhonePostOption" style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-								style={ShadowButtonCSS}>
-									Post Type
-							   		<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu">
-								<li onClick={()=>triggerPostDecider("image",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
-									<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
-										Images
+			<div id="postSelectionAndRecruitDiv" style={{display:"flex",flexDirection:"row"}}>
+				<div class="dropdown" id="mobilePhonePostOption"
+				 	style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+						style={ShadowButtonCSS}>
+							Post Type <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li onClick={()=>triggerPostDecider("image",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+							<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
+								Images
+							</a>
+						</li>
+						{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) &&(
+							<React.Fragment>
+								<li onClick={()=>triggerPostDecider("video",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
+
+									<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+										Videos
 									</a>
 								</li>
-								{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) &&(
-									<React.Fragment>
-										<li onClick={()=>triggerPostDecider("video",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
 
-											<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-												Videos
-											</a>
-										</li>
+								<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
-										<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-
-											<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-												Regular Posts
-											</a>
-										</li>
+									<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+										Regular Posts
+									</a>
+								</li>
 
 
-										<li onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
+								<li onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
-											<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-												Blogs
-											</a>
-										</li>
-									</React.Fragment>
-								)}
-							</ul>
-						</div>
-					</li>
-					<li style={{listStyle:"none",display:"inline-block"}}>
-						<RecruitButton
-							personalInformation={{
-								_id:personalInformation._id,
-								isGuestProfile:personalInformation.isGuestProfile,
-								isOwnProfile:personalInformation.isOwnProfile,
-								firstName:personalInformation.firstName,
-								socialMediaUrls:{
-									instagramUrl:"",
-									tikTokUrl:""
-								},
-								isGuestVisitorProfile:personalInformation.isGuestVisitorProfile,
-								recruits:personalInformation.recruits
-							}}
-							displayConfettiHandle={personalInformation.displayConfettiHandle}
-							userId={personalRedux.id}
-						/>
-					</li>
-				</ul>
-				<hr/>
-			</li>
+									<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
+										Blogs
+									</a>
+								</li>
+							</React.Fragment>
+						)}
+					</ul>
+				</div>
+				<RecruitButton
+					personalInformation={{
+						_id:personalInformation._id,
+						isGuestProfile:personalInformation.isGuestProfile,
+						isOwnProfile:personalInformation.isOwnProfile,
+						firstName:personalInformation.firstName,
+						socialMediaUrls:{
+							instagramUrl:"",
+							tikTokUrl:""
+						},
+						isGuestVisitorProfile:personalInformation.isGuestVisitorProfile,
+						recruits:personalInformation.recruits
+					}}
+					displayConfettiHandle={personalInformation.displayConfettiHandle}
+					userId={personalRedux.id}
+				/>
+			</div>
 		)
 	}
 
@@ -709,7 +719,7 @@ const PersonalPostsIndex=(props)=>{
 
 	}
 
-	const searchPromptTrigger=(event)=>{
+	const searchPromptTrigger=async(event)=>{
 		const textAreaValue=document.getElementById("searchPostTextArea").value;
 		const keyEntered=event.key;
 		const currentSelectedPosts=retrievedCurrentDisplayedPosts();
@@ -719,7 +729,7 @@ const PersonalPostsIndex=(props)=>{
 			if(textAreaValue==""){
 				triggerPostDecider(currentPostType,props.personalInformation._id,0)
 			}else{
-				const posts=searchPostsFilter(currentSelectedPosts,textAreaValue,currentPostType);
+				const posts=await searchPostsFilter(currentSelectedPosts,textAreaValue,currentPostType);
 				switch(currentPostType){
 					case 'image':{
 						const filteredImagePosts={
@@ -805,6 +815,27 @@ const PersonalPostsIndex=(props)=>{
 		return <div id="postCollectionContainer">
 					{posts}
 				</div>
+	}
+
+	const triggerSearchPostExtended=()=>{
+		changeDisplayExtendedTextArea(true);
+	}
+
+	const closeSeachAreaModal=()=>{
+		changeDisplayExtendedTextArea(false);
+	}
+
+	const searchAreaCloseIcon=()=>{
+		return(
+			<React.Fragment>
+				{displayExtendedSearchTextArea==true &&(
+					<HighlightOffIcon
+						onClick={()=>closeSeachAreaModal()}
+						style={{fontSize:30,cursor:"pointer"}}
+					/>
+				)}
+			</React.Fragment>
+		)
 	}
 	return (
 			<PostProvider
@@ -912,26 +943,21 @@ const PersonalPostsIndex=(props)=>{
 						<ul style={{padding:"0px"}}>
 							{props.uiStatus.displayPhoneUI==true? 
 								<>{mobilePostSelectionAndRecruitUI(props.personalInformation)}</>:
-								<li style={{listStyle:"none",marginBottom:"20px"}}>
-									<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<SearchIcon
-															style={{fontSize:40}}
-														/>
-													</li>
-
-													<li style={{listStyle:"none",display:"inline-block"}}>
-														<SearchPostsTextArea
-															id="searchPostTextArea"
-															onKeyPress={e=>searchPromptTrigger(e)}
-															placeholder="Search for any posts here"
-														/>
-													</li>
-												</ul>
-											</li>
-
+								<PostOptionsAndSearchContainer 
+									displayExtendedSearchTextArea={displayExtendedSearchTextArea}>
+									<div style={{alignItems:"center",display:"flex",flexDirection:"row",marginRight:"5%"}}>
+										<SearchIcon
+											style={{fontSize:30}}
+										/>
+										<SearchPostsTextArea
+											id="searchPostTextArea"
+											onClick={()=>triggerSearchPostExtended()}
+											onKeyPress={e=>searchPromptTrigger(e)}
+											placeholder="Search for any posts here"
+										/>
+										{searchAreaCloseIcon()}
+									</div>
+									<div style={{display:"flex",flexDirection:"row"}}>
 										<li onClick={()=>triggerPostDecider("image",props.personalInformation._id,0)} 
 											style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
 											<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
@@ -952,7 +978,7 @@ const PersonalPostsIndex=(props)=>{
 												<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
 
 													<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-														Regular Posts
+														Regular 
 													</a>
 												</li>
 
@@ -979,30 +1005,8 @@ const PersonalPostsIndex=(props)=>{
 													{selectedPostSymposiums()}
 							  				 </div>
 										</li>
-
-										{/*
-											<li style={listCSSButton}>	
-
-												<div class="dropdown">
-														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																				borderColor:"#5298F8",
-																																				borderStyle:"solid",
-																																				borderWidth:"1px",
-																																				color:"#5298F8",
-																																				backgroundColor:"white"}}>
-															Sort By
-														   	<span class="caret"></span>
-														</button>
-														<ul class="dropdown-menu">
-															<li><a href="">Most Popular</a></li>
-															<li><a href="">Most Recent</a></li>
-														</ul>
-								  				 </div>
-								  			</li>
-
-										*/}
-									</ul>
-								</li>
+									</div>
+								</PostOptionsAndSearchContainer>
 							}
 							{postsDisplaySystem()}
 						</ul>

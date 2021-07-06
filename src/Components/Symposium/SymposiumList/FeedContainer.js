@@ -496,8 +496,13 @@ class PersonalFeedContainer extends Component{
 								   		<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">
-									<li id="followedSymposiumsButton" onClick={()=>this.displayFollowSymposiums()}><a>My Symposiums</a></li>
-									<li id="exploreSymposiumsButton"  onClick={()=>this.displayExploreSymposiums()}><a>Explore Symposiums</a></li>
+									<li id="followedSymposiumsButton" onClick={()=>this.displayFollowSymposiums()}>
+										<a>My Symposiums</a>
+									</li>
+									<hr/>
+									<li id="exploreSymposiumsButton"  onClick={()=>this.displayExploreSymposiums()}>
+										<a>Explore Symposiums</a>
+									</li>
 								</ul>
 							</div>
 						</a>:

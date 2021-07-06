@@ -7,6 +7,7 @@ import {FeatureProvider} from "./FeatureContext.js";
 
 const Container=styled.div`
 	z-index:10;
+	width:100%;
 	@media screen and (max-width:1370px){
     	height:90% !important;
     	display:flex;
@@ -46,7 +47,7 @@ const ChatOption={
 	be refactored in the near distant future
 */
 
-const SpecificFeatureSymposium=({symposium,symposiumId,questions,isGuestProfile})=>{
+const SpecificFeatureSymposium=({symposium,symposiumId,questions,isGuestProfile,isSimplified})=>{
 	const [artMap,changeArtMap]=useState(new Map);
 	const [stemMap,changeStemMap]=useState(new Map);
 	const [musicMap,changeMusicMap]=useState(new Map);
@@ -115,16 +116,13 @@ const SpecificFeatureSymposium=({symposium,symposiumId,questions,isGuestProfile}
 		<FeatureProvider
 			value={{
 				symposiumId:symposiumId,
-				isGuestProfile
+				isGuestProfile,
+				isSimplified
 			}}
 		>
 			{isLoadingFeatureSymposiums==false?
-				<Container>
-					<ul id="symposiumFeatureContainerUL" style={{padding:"0px",position:"fixed"}}>
-						<li style={{listStyle:"none"}}>
-							{featureDecider()}
-						</li>
-					</ul>
+				<Container isSimplified={isSimplified}>
+					{featureDecider()}
 				</Container>:
 				null
 			}

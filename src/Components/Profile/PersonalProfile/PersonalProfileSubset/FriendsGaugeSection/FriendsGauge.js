@@ -59,7 +59,7 @@ class FriendsGauge extends Component {
 
   constructor(props){
     super(props);
-
+    console.log(props);
     
     var numberNodes;
     var progressBarCounter;
@@ -227,7 +227,9 @@ class FriendsGauge extends Component {
                         <p style={{width:"40px",color:"white",backgroundColor:"#C8B0F4",padding:"7px",borderRadius:"5px"}}>
                            {totalPostsCount}
                         </p>
-                        <p style={{color:"#5298F8",width:"95%",height:"15px",overflow:"hidden"}}> <b>{name}</b></p>
+                        <p style={{color:"#5298F8",width:"100%",height:"15px",overflow:"hidden"}}>
+                          <b>{name}</b>
+                        </p>
                       </ul>
                     </li>
                   </a>
