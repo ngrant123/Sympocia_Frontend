@@ -16,9 +16,11 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		#image{
 			height:50% !important;
+			width:350px !important;
 		}
 		#imageLI{
 			width:60% !important;
+			height:100% !important;
 		}
 	}
 	@media screen and (max-width:650px){
@@ -27,6 +29,7 @@ const Container=styled.div`
 		}
 		#image{
 			height:200px !important;
+			width:200px !important;
 		}
 	}
 
@@ -36,9 +39,10 @@ const Container=styled.div`
 		}
     }
 
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
     	#image{
-			height:95% !important;
+			height:85% !important;
+			width:200px !important;
 		}
     }
 `;
@@ -426,13 +430,13 @@ const ImagePostModal=(props)=>{
 													<p>No posts</p>:
 													<>
 														{posts.map((data,index)=>
-															<>
-																<li id="imageLI" onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
-																	<img id="image" src={data.imgUrl} 
-																	style={{height:"100%",width:"100%",borderRadius:"5px"}}/>
-																</li>
+															<div style={{marginBottom:"5%"}}>
+																<img id="image" src={data.imgUrl} 
+																 	onClick={()=>displaySelectedPost(data)} style={ImageCSS}
+																	style={{height:"100%",width:"100%",borderRadius:"5px"}}
+																/>
 																{deleteSymposiumAnswerIcon(data,index)}
-															</>
+															</div>
 														)}
 													</>
 												}

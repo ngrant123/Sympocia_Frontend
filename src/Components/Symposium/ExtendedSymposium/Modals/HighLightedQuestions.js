@@ -90,26 +90,27 @@ class HighLightedQuestions extends Component{
 			return <p> No replies yet :(. Click on the question and click the pencil icon to make a post </p>
 		}else{
 			if(questionType=="Image"){
-				return <div style={{display:"flex",flexDirection:"row"}}>
+				return <div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
 							{replies.map(data=>
-								<li id="postLI" onClick={()=>this.setImagePost(data)} style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+								<div id="postLI" onClick={()=>this.setImagePost(data)} style={{marginRight:"2%"}}>
 									<img id="imageHighlightedQuestion" src={data.imgUrl}
 									 style={{borderRadius:"5px",width:"90px",height:"80px",marginBottom:"5%",cursor:"pointer"}}
 									/>
-								</li>
+								</div>
 							)}
 						</div>;
 			}else if(questionType=="Video"){
-				return <div style={{display:"flex",flexDirection:"row"}}>
+				return <div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
 							{replies.map(data=>
-								<li id="postLI" onClick={()=>this.setVideoPost(data)} style={{marginBottom:"5%",width:"30%",listStyle:"none",display:"inline-block"}}>
+								<div id="postLI" onClick={()=>this.setVideoPost(data)} 
+									style={{marginRight:"10%",marginBottom:"5%",width:"30%"}}>
 									<video id="videoQuestionAnswers"
 										style={{borderRadius:"5px",cursor:"pointer"}}
-										 position="relative" width="90" height="40"
+										 position="relative" width="120" height="60"
 									 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
 										<source src={data.videoUrl} type="video/mp4"/>
 									</video>
-								</li>
+								</div>
 							)}
 						</div>;
 			}else{

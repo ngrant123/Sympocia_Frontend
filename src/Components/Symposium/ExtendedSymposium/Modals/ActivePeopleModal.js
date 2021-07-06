@@ -21,6 +21,10 @@ const PeopleContainer =styled(Link)`
 	margin-right:5%;
 	margin-bottom:5%;
 
+	@media screen and (max-width:1370px){
+		height:30%;
+	}
+
 	@media screen and (max-width:650px){
 		#profilePicture{
 			width:50px !important;
@@ -103,28 +107,33 @@ const ActivePeopleModal=(props)=>{
 			{displayModalPeopleActive==true &&(
 				<React.Fragment>	
 					<ActivePeopleContainer>
-							{props.peopleActive.length==0?
-								<p>Unfortunately there are no people here at the moment. Why dont you follow the symposium instead? </p>:
-								<ActivePeople>
-									{props.peopleActive.map(data=>
-										<PeopleContainer to={{pathname:`/profile/${data._id}`}}>
-											<ul style={{position:"relative",left:"-20%",top:"5%"}}>
+						<p style={{fontSize:"18px"}}>
+							<b>Active People</b>
+						</p>
+						<hr/>
+						{props.peopleActive.length==0?
+							<p>Unfortunately there are no people here at the moment. Why dont you follow the symposium instead? </p>:
+							<ActivePeople>
+								{props.peopleActive.map(data=>
+									<PeopleContainer to={{pathname:`/profile/${data._id}`}}>
+										<ul style={{position:"relative",left:"-20%",top:"5%"}}>
 
-												<li style={ProfileContainerContentsCSS}>
-													<img id="profilePicture" src={data.profilePicture==null?
-															NoProfilePicture:data.profilePicture}
-													style={ProfilePictureCSS}/>
-												</li>
-												<li style={ProfileContainerContentsCSS}>
-													<p style={{overflow:"hidden",color:"#a2a2a2"}}>
-														<b>{data.firstName}</b>
-													</p>
-												</li>
-											</ul>
-										</PeopleContainer>
-									)}
-								</ActivePeople>
-							}
+											<li style={ProfileContainerContentsCSS}>
+												<img id="profilePicture" src={data.profilePicture==null?
+														NoProfilePicture:data.profilePicture}
+												style={ProfilePictureCSS}/>
+											</li>
+											<hr/>
+											<li style={ProfileContainerContentsCSS}>
+												<p style={{overflow:"hidden",color:"#a2a2a2"}}>
+													<b>{data.firstName}</b>
+												</p>
+											</li>
+										</ul>
+									</PeopleContainer>
+								)}
+							</ActivePeople>
+						}
 					</ActivePeopleContainer>
 					<BackgroundModalContainer onClick={()=>changeState.setState({displayModalPeopleActive:false})}/>
 				</React.Fragment>

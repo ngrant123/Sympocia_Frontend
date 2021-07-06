@@ -25,6 +25,7 @@ const PortalHOCContainer=styled.div`
 		width:90% !important;
 		left:5% !important;
 		height:75%;
+		top:20%;
     }
 `;
 

@@ -36,6 +36,10 @@ export const RegularPostDisplayContainer=styled.div`
 		width:80% !important;
 	}
 
+	@media screen and (max-width:650px){
+		top:0% !important;
+	}
+
 	@media screen and (max-width:450px){
 		left:0% !important;
 		height:100% !important;

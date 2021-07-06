@@ -34,8 +34,10 @@ const Container=styled.div`
 			width:80% !important;
 		}
 		#imgUrl{
-			width:60% !important;
-			height:200px !important;
+			width:170px !important;
+			height:170px !important;
+			margin-bottom:5% !important;
+			margin-right:5% !important;
 		}
 		#creationImage{
 			width:50% !important;
@@ -60,6 +62,10 @@ const Container=styled.div`
 			margin-bottom:5% !important;
 		}
 
+		#regularReplyContainer{
+			margin-bottom:5% !important;
+		}
+
 		#creationImage{
 			width:150px !important;
 			height:150px !important;
@@ -73,8 +79,8 @@ const Container=styled.div`
 			margin-left:30% !important;
 		}
 		#imagePicture{
-			width:25% !important;
-			height:50px !important;
+			width:50px !important;
+			height:45px !important;
 		}
 		#questionHeader{
 			margin-top:10% !important;
@@ -85,7 +91,7 @@ const Container=styled.div`
 			margin-left:-20% !important;
 		}
 		#imgUrl{
-			width:80% !important;
+			width:200px !important;
 			height:180px !important;
 		}
 		#regularPostQuestionLI{
@@ -99,8 +105,8 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
 		#imgUrl{
-			width:40% !important;
-			height:40% !important;
+			width:190px !important;
+			height:150px !important;
 		}
 		#videoLI{
 			height:400px !important;
@@ -117,7 +123,8 @@ const Container=styled.div`
 			margin-left:0% !important;
 		}
 		#imagePicture{
-			width:15% !important;
+			width:50px !important;
+			height:40px !important;
 		}
 		#imgUrl{
 			height:200px !important;
@@ -176,7 +183,7 @@ const CreatePostContainer=styled.div`
 
 const PostsContainer=styled.div`
 	display:flex;
-	flex-direction:row;
+	flex-direction:column;
 	flex-wrap:wrap;
 
 	@media screen and (max-width:650px){
@@ -677,7 +684,7 @@ const QuestionsPortal=(props)=>{
 				}else{
 					return <React.Fragment>
 								{replies.map((data,index)=>
-									<>
+									<div id="regularReplyContainer">
 										<RegularPostContainer onClick={()=>displayAppropriatePostModal(data,"RegularPosts")}>
 											<RegularPostUserInformation>
 												<img id="imagePicture" src={data.owner.profilePicture==null?
@@ -689,11 +696,11 @@ const QuestionsPortal=(props)=>{
 												</p>
 											</RegularPostUserInformation>
 											<p style={{marginLeft:"1%",maxHeight:"90px",maxWidth:"80%",overflow:"hidden"}}>
-												{data.post}		
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum	
 											</p>
 										</RegularPostContainer>
 										{deleteHighLightedQuestionIcon(data,index)}
-									</>
+									</div>
 								)}
 							</React.Fragment>;
 			}

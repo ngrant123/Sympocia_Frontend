@@ -205,15 +205,15 @@ export const HightLightedQuestionsContainerModal=styled.div`
 
 	@media screen and (max-width:1370px){
 		#postLI{
-			width:110% !important;
+			width:40% !important;
 		}
 		#videoQuestionAnswers{
-			width:60% !important;
-			height:50% !important;
+			width:200px !important;
+			height:218px !important;
 		}
 
 		#imageHighlightedQuestion{
-			width:70% !important;
+			width:90% !important;
 		}
 	}
 
@@ -222,11 +222,11 @@ export const HightLightedQuestionsContainerModal=styled.div`
 			width:40% !important;
 		}
 		#videoQuestionAnswers{
-			height:30% !important;
-			width:100% !important;
+			height:150px !important;
+			width:110% !important;
 		}
 		#imageHighlightedQuestion{
-			height:20% !important;
+			height:95px !important;
 			width:90% !important;
 		}
 	}
@@ -289,7 +289,7 @@ export const ActivePeopleContainer=styled.div`
 	padding:10px;
 	overflow:scroll;
 
-	@media screen and (max-width:640px){
+	@media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
 		height:65% !important;

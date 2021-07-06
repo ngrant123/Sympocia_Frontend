@@ -29,10 +29,15 @@ const Container=styled.div`
 		width:80%;
 		left:10%;
 	}
-	@media screen and (max-width:600px){
-		left:5%;
-		height:80%;
-		width:90%;
+	@media screen and (max-width:650px){
+		top:0%;
+		left:0%;
+		height:100%;
+		width:100%;
+
+		#closeIcon{
+			display:block !important;
+		}
 	}
 `;
 
@@ -140,6 +145,15 @@ const ModalDecider=({closeModal,modalType,symposium,questionIndex,symposiumId,qu
 							onClick={()=>closeModal()}
 						/>
 						<Container>
+							<div id="closeIcon" onClick={()=>closeModal()} style={{display:"none",cursor:"pointer",marginBottom:"5%"}}>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+								 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+								 stroke-linecap="round" stroke-linejoin="round">
+								  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+								  <circle cx="12" cy="12" r="9" />
+								  <path d="M10 10l4 4m0 -4l-4 4" />
+								</svg>
+							</div>
 							{modalDecider(symposiumInformation)}
 						</Container>
 					</React.Fragment>
