@@ -162,7 +162,8 @@ class CommentsContainer extends Component{
 			createVideoResponses:!this.state.createVideoResponses
 		})
 	}
-	displayCommentsOrVideoResponses=(isOligarch)=>{
+	displayCommentsOrVideoResponses=(symposiumPostInformation)=>{
+		const isOligarch=symposiumPostInformation==null?false:symposiumPostInformation.isOligarch;
 		return this.state.displayCommentsOrVideoResponses==true?
 			<CommentContainer
 				postType={this.props.postType}
@@ -484,7 +485,7 @@ class CommentsContainer extends Component{
 									</li>
 								}
 							*/}
-							{this.displayCommentsOrVideoResponses(symposiumPostInformation.isOligarch)}
+							{this.displayCommentsOrVideoResponses(symposiumPostInformation)}
 						</ul>
 					</Container>
 					

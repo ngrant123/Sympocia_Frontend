@@ -15,8 +15,8 @@ const Container=styled.div`
 	padding:20px;
 	@media screen and (max-width:1370px){
 		#image{
-			height:50% !important;
-			width:350px !important;
+			height:200px !important;
+			width:200px !important;
 		}
 		#imageLI{
 			width:60% !important;
@@ -28,21 +28,22 @@ const Container=styled.div`
 			width:80% !important;
 		}
 		#image{
-			height:200px !important;
-			width:200px !important;
+			height:100px !important;
+			width:100px !important;
+			margin-bottom:90px !important;
 		}
 	}
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
  		#image{
-			height:80% !important;
+			height:200px !important;
 		}
     }
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
     	#image{
-			height:85% !important;
-			width:200px !important;
+    		width:250px !important;
+			height:200px !important;
 		}
     }
 `;
@@ -424,24 +425,23 @@ const ImagePostModal=(props)=>{
 								<li style={{listStyle:"none"}}>
 									{isLoading==true?
 										<p>Loading please wait...</p>
-										:<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",marginTop:"2%"}}>
-												{posts.length==0?
-													<p>No posts</p>:
-													<>
-														{posts.map((data,index)=>
-															<div style={{marginBottom:"5%"}}>
-																<img id="image" src={data.imgUrl} 
-																 	onClick={()=>displaySelectedPost(data)} style={ImageCSS}
-																	style={{height:"100%",width:"100%",borderRadius:"5px"}}
-																/>
-																{deleteSymposiumAnswerIcon(data,index)}
-															</div>
-														)}
-													</>
-												}
-											</li>
-										</ul>
+										:<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
+											{posts.length==0?
+												<p>No posts</p>:
+												<>
+													{posts.map((data,index)=>
+														<div id="image" 
+															style={{marginRight:"20px",width:"200px",height:"200px",marginBottom:"15%"}}>
+															<img src={data.imgUrl} 
+															 	onClick={()=>displaySelectedPost(data)} style={ImageCSS}
+																style={{height:"100%",width:"100%",borderRadius:"5px"}}
+															/>
+															{deleteSymposiumAnswerIcon(data,index)}
+														</div>
+													)}
+												</>
+											}
+										</div>
 									}
 								</li>
 							</>:

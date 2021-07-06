@@ -13,6 +13,7 @@ const Container=styled.div`
 	left:30%;
 	top:20%;
 	padding:30px;
+	overflow:scroll;
 
 	@media screen  and (max-width:1370px){
 		width:90% !important;
@@ -21,6 +22,10 @@ const Container=styled.div`
 		#closeOptionIconLI{
 			display:none !important;
 		}
+    }
+
+    @media screen and (max-width:650px){
+    	height:80% !important;
     }
 `;
 

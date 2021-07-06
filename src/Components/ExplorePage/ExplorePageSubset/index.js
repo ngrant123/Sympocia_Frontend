@@ -585,7 +585,7 @@ class SearchExploreContainer extends Component{
 																		Post Options
 																		<span class="caret"></span>
 																	</button>
-																	<ul class="dropdown-menu">
+																	<ul class="dropdown-menu" style={{padding:"10px"}}>
 																		{this.postOptionDropDown()}			
 																	</ul>
 																</div>

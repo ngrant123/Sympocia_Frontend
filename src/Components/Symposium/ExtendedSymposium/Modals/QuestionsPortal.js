@@ -183,10 +183,11 @@ const CreatePostContainer=styled.div`
 
 const PostsContainer=styled.div`
 	display:flex;
-	flex-direction:column;
+	flex-direction:row;
 	flex-wrap:wrap;
 
 	@media screen and (max-width:650px){
+		flex-direction:column;
 		justify-content:center !important;
 	}
 `;

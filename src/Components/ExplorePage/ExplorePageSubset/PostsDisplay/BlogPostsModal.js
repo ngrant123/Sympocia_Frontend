@@ -478,7 +478,7 @@ const BlogPostModal=(props)=>{
 													currentHeight={"30%"}
 												/>
 											:
-											<SmallPostContainer onClick={()=>displayBlogModal(data)}>
+											<SmallPostContainer>
 												<ExplorePageBlogPost
 													blogPostInformation={data}
 													targetDom={props.targetDom}

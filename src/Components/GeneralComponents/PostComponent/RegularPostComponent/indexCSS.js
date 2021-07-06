@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 
+
 export const RegularPostDisplayContainer=styled.div`
 	position:fixed;
 	z-index:45;
@@ -18,9 +19,9 @@ export const RegularPostDisplayContainer=styled.div`
 		position:fixed;
 		z-index:45;
 		height:90%;
+		top:5%; 
 		width:95%;
 		border-radius:5px;
-		top:15%;
 		left:5%;
 		overflow-y:auto;
 		background-color:white;

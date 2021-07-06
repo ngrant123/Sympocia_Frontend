@@ -10,7 +10,10 @@ const SuggestedSymposiumsContainer=styled.div`
 	position:relative;
 	${({isBlogPost})=>
 		isBlogPost!=null?
-		`width:90%;`:`width:210px;`
+		`
+			width:90%;
+			margin-top:5%;
+		`:`width:210px;`
 	}
 
 	${({currentHeight})=>
