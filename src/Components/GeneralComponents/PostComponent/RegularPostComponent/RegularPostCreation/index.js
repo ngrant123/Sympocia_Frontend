@@ -41,12 +41,12 @@ import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
 const Container = styled.div`
 	position:fixed;
-	padding:40px;
+	padding:45px;
 	width:70%;
 	border-radius:5px;
 	top:20%;
 	left:20%;
-	height:60%;
+	height:70%;
 	background-color:white;
 	overflow:scroll;
 	z-index:35;

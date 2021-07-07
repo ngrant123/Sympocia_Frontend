@@ -20,13 +20,39 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {StampIconEffect} from "../../../PostComponent/ImageAndVideoDisplay/PostContainerCSS.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
-import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js"
+import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js";
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import {PostDisplayConsumer} from "../../../../Symposium/ExtendedSymposium/Posts/PostDisplay/PostDisplayContext.js";
 
 const Container=styled.div`
 	padding:30px;
 	height:100%;
+	display:flex;
+	flex-direction:column;
+
+	@media screen and (max-width:650px){
+		#postOptions{
+			width:100% !important;
+			margin-left:1% !important;
+		}
+		#ownerOptionsAndPostOptions{
+			height:120% !important;
+			flex-direction:row !important;
+		}
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		#postInformationHorizontalLine{
+			display:none !important;
+		}
+		#ownerOptionsAndPostOptions{
+			margin-bottom:20% !important;
+		}
+
+		#postOptions{
+			display:none !important;
+		}
+    }
 `;
 
 
@@ -112,10 +138,6 @@ const PostContainer=styled.div`
 		overflow:scroll;
 	}
 
-	@media screen and (max-width:650px){
-		height:70% !important;
-	}
-
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
    		height:110% !important;
     }
@@ -125,6 +147,7 @@ const PostOwnerAndActionsContainer=styled.div`
 	display:flex;
 	align-items:center;
 	flex-direction:row;
+	background-color:red;
 
 	@media screen and (max-width:1370px){
 		flex-direction:column;
@@ -135,15 +158,28 @@ const PostActions=styled.div`
 	display:flex;
 	flex-direction:row;
 	flex-wrap:wrap;
+	background-color:blue;
+
 	@media screen and (max-width:1370px){
-		margin-top:2%;
+		margin-top:20%;
+		width:100%;
+		height:110px;
 	}
+
+	@media screen and (max-width:650px){	
+		width:100%;
+		height:240px;
+	}
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+   		display:none !important;
+    }
 `;
 
 const ProfileOwnerContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	width:20%;
+	background-color:yellow;
 
 	@media screen and (max-width:1370px){
 		width:100%;
@@ -154,6 +190,9 @@ const ProfileOwnerContainer=styled.div`
 			height:50px !important;
 		}
 	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+   		margin-bottom:120px !important;
+    }
 `;
 
 
@@ -203,21 +242,17 @@ const BackButtonCSS={
 	overflow:"scroll",
 	padding:"10px"
 }
-
 const ShadowButtonCSS={
-	display:"inline-block",
-	listStyle:"none",
 	padding:"10px",
 	backgroundColor:"white",
 	color:"#6e6e6e",
 	boxShadow:"1px 1px 5px #6e6e6e",
 	borderRadius:"50%",
 	borderStyle:"none",
-	marginRight:"10px",
+	marginRight:"5%",
 	marginBottom:"2%",
 	cursor:"pointer"
 }
-
 
 const ButtonCSS={
   listStyle:"none",
@@ -246,6 +281,24 @@ const HorizontalLineCSS={
 	position:"relative",
 	marginRight:"0"
 }
+
+// <b>{props.postData.owner.firstName}</b>
+
+
+
+
+// {isAudioPost==null || isAudioPost==false?
+// 	<p>
+// 		{post}
+// 	</p>:
+// 	<audio style={{width:"90%"}} controls>
+// 		<source src={post} type="audio/ogg"/>
+// 		<source src={post} type="audio/mp4"/>
+// 		Your browser does not support the audio element.
+// 	</audio>
+// }
+
+
 
 /*
 	Would be better down the road to seperate this into two whole components where one is post information/functiions
@@ -449,6 +502,15 @@ const RegularPostContainer=(props)=>{
 									contextLocation={userPostsInformation}
 								/>
 								:<PostContainer>
+									<div style={{marginBottom:"2%",cursor:"pointer"}} onClick={()=>props.closePostModal()}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+											 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+											 stroke-linecap="round" stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+											  <circle cx="12" cy="12" r="9" />
+											  <path d="M10 10l4 4m0 -4l-4 4" />
+										</svg>
+									</div>
 									{displayCommentsAndResponses==true?
 										<CommentsContainer
 											postId={postData._id}
@@ -464,113 +526,115 @@ const RegularPostContainer=(props)=>{
 											}}
 										/>:
 										<React.Fragment>
-										<PostOwnerAndActionsContainer>
-											<ProfileOwnerContainer>
-												<img id="profilePictureDiv" src={profilePicture==null?NoProfilePicture:profilePicture}
-													style={{width:"30%",height:"45px",borderRadius:"50%",marginRight:"5%"}}
-												/>
-												<p style={{marginRight:"5%",maxWidth:"60%",maxHeight:"20px",overflow:"hidden"}}>
-													<b>{props.postData.owner.firstName}</b>
-												</p>
-											</ProfileOwnerContainer>
-											<PostActions>
-												<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
-													<LoyaltyIcon
-														style={{fontSize:30}}
+											<div id="ownerOptionsAndPostOptions" 
+												style={{display:"flex",flexDirection:"column",flexWrap:"wrap",width:"100%"}}>
+												<div style={{width:"100%",display:"flex",flexDirection:"row"}}>
+													<img id="profilePictureDiv" src={profilePicture==null?
+														NoProfilePicture:profilePicture}
+														style={{width:"70px",height:"65px",borderRadius:"50%",marginRight:"5%"}}
 													/>
-												</li>
-												<li onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none" stroke-linecap="round" stroke-linejoin="round">
-													  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-													  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-													  <line x1="8" y1="9" x2="16" y2="9" />
-													  <line x1="8" y1="13" x2="14" y2="13" />
-													</svg>
-												</li>
-												<li style={ShadowButtonCSS}>
-													<AssessmentIcon
-														onClick={()=>changeDisplayPollingOptions(true)}
-														style={{fontSize:30}}
-													/>
-												</li>
+													<p style={{marginRight:"5%",maxWidth:"60%",maxHeight:"20px",overflow:"hidden"}}>
+														<b>{props.postData.owner.firstName}</b>
+													</p>
+												</div>
+												<div id="postOptions" style={{flexWrap:"wrap",marginLeft:"10%",display:"flex",flexDirection:"row",alignItems:"center"}}>
+													<div onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+														<LoyaltyIcon
+															style={{fontSize:30}}
+														/>
+													</div>
+													<div onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+														<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
+															icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" 
+															stroke-width="1.5" stroke="#6e6e6e" fill="none" stroke-linecap="round" 
+															stroke-linejoin="round">
+														  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+														  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+														  <line x1="8" y1="9" x2="16" y2="9" />
+														  <line x1="8" y1="13" x2="14" y2="13" />
+														</svg>
+													</div>
+													<div style={ShadowButtonCSS}>
+														<AssessmentIcon
+															onClick={()=>changeDisplayPollingOptions(true)}
+															style={{fontSize:30}}
+														/>
+													</div>
 
-												{(profileType=="personalProfile" && isOwnProfile==true) &&(
-													<React.Fragment>
-														<li onClick={()=>displayEditPostHandle()} style={ShadowButtonCSS}>
-															<BorderColorIcon
-																style={{fontSize:30}}
-															/>
-														</li>
+													{(profileType=="personalProfile" && isOwnProfile==true) &&(
+														<React.Fragment>
+															<div onClick={()=>displayEditPostHandle()} style={ShadowButtonCSS}>
+																<BorderColorIcon
+																	style={{fontSize:30}}
+																/>
+															</div>
 
-														<li onClick={()=>handleRemoveRegularPost()} style={ShadowButtonCSS}>
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" fill="none" stroke-linecap="round" stroke-linejoin="round">
-															  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-															  <line x1="4" y1="7" x2="20" y2="7" />
-															  <line x1="10" y1="11" x2="10" y2="17" />
-															  <line x1="14" y1="11" x2="14" y2="17" />
-															  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-															  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-															</svg>
-														</li>
+															<div onClick={()=>handleRemoveRegularPost()} style={ShadowButtonCSS}>
+																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
+																	icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" 
+																	stroke-width="1.5" stroke="#858585" fill="none" stroke-linecap="round" 
+																	stroke-linejoin="round">
+																  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+																  <line x1="4" y1="7" x2="20" y2="7" />
+																  <line x1="10" y1="11" x2="10" y2="17" />
+																  <line x1="14" y1="11" x2="14" y2="17" />
+																  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+																  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+																</svg>
+															</div>
 
-														<li onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-																  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
-																  fill="none" stroke-linecap="round" stroke-linejoin="round">
-																  <path stroke="none" d="M0 0h24v24H0z"/>
-																  <circle cx="12" cy="9" r="6" />
-																  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
-																  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
-															</svg>
-														</li>
+															<div onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
+																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+																	  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" 
+																	  stroke="#858585"
+																	  fill="none" stroke-linecap="round" stroke-linejoin="round">
+																	  <path stroke="none" d="M0 0h24v24H0z"/>
+																	  <circle cx="12" cy="9" r="6" />
+																	  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+																	  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+																</svg>
+															</div>
+
+														</React.Fragment>
+													)}
+													{(symposiumPostInformation!=null && symposiumPostInformation.isOligarch==true)==true &&(
+														<div style={ShadowButtonCSS} 
+															onClick={()=>symposiumPostInformation.displayOligarchPostSettings(
+																									postData._id,
+																									postData.symposiumUploadCategory)}>
+															{crownLogo()}
+														</div>
+													)}
+												</div>
+											</div>
+											<hr id="postInformationHorizontalLine" style={HorizontalLineCSS}/>
+
+											<div style={{display:"flex",flexDirection:"column"}}>
+												{displayPollingOptions==true?
+													<PollingOptionsContainer>
+														<p onClick={()=>changeDisplayPollingOptions(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
+														<p onClick={()=>displayApprovePollModalTrigger()} style={PollingOptionsCSS}>
+															Approve Post
+														</p>
+
+														<p onClick={()=>displayDisapproveModalTrigger(false)} style={PollingOptionsCSS}>
+															Disapprove Post
+														</p>
+													</PollingOptionsContainer>
+													:<React.Fragment>
+														{displayStampEffect==true && (
+															<StampIconEffect id="stampEffect">
+																<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
+															</StampIconEffect>
+														)}
+														<p>
+															Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+															Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+														</p>
 
 													</React.Fragment>
-												)}
-												{(symposiumPostInformation!=null && symposiumPostInformation.isOligarch==true)==true &&(
-													<div style={ShadowButtonCSS} 
-														onClick={()=>symposiumPostInformation.displayOligarchPostSettings(
-																								postData._id,
-																								postData.symposiumUploadCategory)}>
-														{crownLogo()}
-													</div>
-												)}
-											</PostActions>
-										</PostOwnerAndActionsContainer>
-
-										<hr style={HorizontalLineCSS}/>
-
-										<PostInformationContainer>
-											{displayPollingOptions==true?
-												<PollingOptionsContainer>
-													<p onClick={()=>changeDisplayPollingOptions(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
-													<p onClick={()=>displayApprovePollModalTrigger()} style={PollingOptionsCSS}>
-														Approve Post
-													</p>
-
-													<p onClick={()=>displayDisapproveModalTrigger(false)} style={PollingOptionsCSS}>
-														Disapprove Post
-													</p>
-												</PollingOptionsContainer>
-												:<React.Fragment>
-													{displayStampEffect==true && (
-														<StampIconEffect id="stampEffect">
-															<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-														</StampIconEffect>
-													)}
-													{isAudioPost==null || isAudioPost==false?
-														<p>
-															{post}
-														</p>:
-														<audio style={{width:"90%"}} controls>
-															<source src={post} type="audio/ogg"/>
-															<source src={post} type="audio/mp4"/>
-															Your browser does not support the audio element.
-														</audio>
-													}
-												</React.Fragment>
-											}
-
-										</PostInformationContainer>
+												}
+											</div>
 										</React.Fragment>
 									}
 								</PostContainer>

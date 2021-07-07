@@ -414,7 +414,6 @@ export const getRecruits=async(profileId)=>{
 		const {data}=recruitsResponse;
 		return data;
 	}catch(err){
-		o
 		return err;
 	}
 }

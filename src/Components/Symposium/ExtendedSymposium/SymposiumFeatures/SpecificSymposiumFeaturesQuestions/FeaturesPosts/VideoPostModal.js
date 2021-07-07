@@ -9,7 +9,14 @@ import VideoPostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/Vi
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
-	padding:20px
+	padding:20px;
+
+	@media screen and (max-width:650px){
+		#symposiumFeatureVideo{
+			width:250px !important;
+			margin-bottom:25% !important;
+		}
+	}
 `;
 
 const InputContainer=styled.textarea`
@@ -91,14 +98,16 @@ const FinalSubmittionContainer=styled.div`
 
 
 
-const ImageCSS={
+const VideoCSS={
 	listStyle:"none",
 	display:"inline-block",
 	overflow:"hidden",
 	borderRadius:"5px",
 	marginRight:"5%",
 	marginBottom:"5%",
-	width:"40%"
+	width:"40%",
+	height:"200px",
+	cursor:"pointer"
 }
 
 const ButtonCSS={
@@ -393,28 +402,23 @@ const VideoPostModal=(props)=>{
 
 					{isLoading==true?
 						<p>Loading please wait</p>:
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginTop:"2%"}}>
-									{posts.length==0?
-										<p>No posts</p>:
-										<ul style={{padding:"0px"}}>
-											{posts.map((data,index)=>
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>displaySelectedPost(data)} style={ImageCSS}>
-														<video key={data._id} autoPlay loop autoBuffer muted playsInline 
-															style={{borderRadius:"5px"}} width="100%" height="40%">
-															<source src={data.videoUrl} type="video/mp4"/>
-														</video>
-													</li>
-													{deleteSymposiumAnswerIcon(data,index)}
-												</a>
-											)}
-										</ul>
-									}
-								</li>
-							</ul>
-						</li>
+						<React.Fragment>
+							{posts.legnth==0?
+								<p>No posts</p>:
+								<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
+									{posts.map((data,index)=>
+										<div onClick={()=>displaySelectedPost(data)} 
+											style={{display:"flex",flexDirection:"column",marginRight:"5%",marginBottom:"5%"}}>
+											<video id="symposiumFeatureVideo" key={data._id} autoPlay loop autoBuffer muted playsInline 
+												style={{borderRadius:"5px",height:"200px",width:"200px"}}>
+												<source src={data.videoUrl} type="video/mp4"/>
+											</video>	
+											{deleteSymposiumAnswerIcon(data,index)}
+										</div>
+									)}
+								</div>
+							}
+						</React.Fragment>
 					}
 				</>:
 				<>

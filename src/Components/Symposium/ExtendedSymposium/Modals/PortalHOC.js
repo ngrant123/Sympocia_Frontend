@@ -15,6 +15,7 @@ const PortalHOCContainer=styled.div`
 	border-radius:5px;
 	background-color:white;
 	z-index:40;
+	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
 		width:80% !important;

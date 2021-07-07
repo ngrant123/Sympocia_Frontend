@@ -37,6 +37,7 @@ import {
 		initializeSymposiums
 	} from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
 import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts.js";
+import {getProfilePostsSearch} from "../../../../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 
@@ -201,6 +202,8 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
+	console.log(props);
+
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -729,39 +732,52 @@ const PersonalPostsIndex=(props)=>{
 			if(textAreaValue==""){
 				triggerPostDecider(currentPostType,props.personalInformation._id,0)
 			}else{
-				const posts=await searchPostsFilter(currentSelectedPosts,textAreaValue,currentPostType);
-				switch(currentPostType){
-					case 'image':{
-						const filteredImagePosts={
-							...imagePost,
-							images:posts
+				const {confirmation,data}=await getProfilePostsSearch({
+					searchUrl:textAreaValue,
+				    postType:currentPostType,
+				    targetProfileId:personalInformation._id,
+				    postCount:0,
+				    levelNode:""
+				})
+				if(confirmation=="Success"){
+					console.log(data);
+					const {message}=data;
+					switch(currentPostType){
+						case 'image':{
+							const filteredImagePosts={
+								...imagePost,
+								images:message
+							}
+							changeImagePost(filteredImagePosts);
 						}
-						changeImagePost(filteredImagePosts);
+
+						case 'video':{
+
+							const filteredVideoPosts={
+								...videoPost,
+								videos:message
+							}
+							changeVideoPosts(filteredVideoPosts);
+						}
+						case 'blog':{
+							const filteredBlogPosts={
+								...blogPost,
+								blogs:message
+							}
+							changeBlogPosts(filteredBlogPosts);
+						}
+
+						case 'regularPost':{
+							const filteredRegularPosts={
+								...regularPost,
+								posts:message
+							}
+							changeRegularPost(filteredRegularPosts);
+						}
 					}
 
-					case 'video':{
-
-						const filteredVideoPosts={
-							...videoPost,
-							videos:posts
-						}
-						changeVideoPosts(filteredVideoPosts);
-					}
-					case 'blog':{
-						const filteredBlogPosts={
-							...blogPost,
-							blogs:posts
-						}
-						changeBlogPosts(filteredBlogPosts);
-					}
-
-					case 'regularPost':{
-						const filteredRegularPosts={
-							...regularPost,
-							posts:posts
-						}
-						changeRegularPost(filteredRegularPosts);
-					}
+				}else{
+					alert('Unfortunately there has been an error search for this post. Please try again');
 				}
 			}
 		}
@@ -822,6 +838,8 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const closeSeachAreaModal=()=>{
+		document.getElementById("searchPostTextArea").value="";
+		triggerPostDecider(currentPostType,props.personalInformation._id,0)
 		changeDisplayExtendedTextArea(false);
 	}
 

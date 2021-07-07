@@ -19,6 +19,11 @@ const Container=styled.div`
     		width:70% !important;
     	}
     }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		height:150% !important;
+	}
+
 `;
 
 const ChatOption={

@@ -174,6 +174,12 @@ const ShadowButtonCSS={
 	cursor:"pointer",
 	marginTop:"5%"
 }
+
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
 ///<input type="file" accept=".mp3,audio/*">
 const AudioPostModal=(props)=>{
 	const {
@@ -376,9 +382,10 @@ const AudioPostModal=(props)=>{
 													<AudioPostContainer onClick={()=>displaySelectedPost(data)}>
 														<AudioPostOwnerInformation>
 															<img src={data.owner.profilePicture==null?
-																NoProfilePicture:
-																data.owner.profilePicture
-															} style={{width:"60px",height:"10%",borderRadius:"50%"}}/>
+																	NoProfilePicture:
+																	data.owner.profilePicture
+																} style={{width:"60px",height:"60px",borderRadius:"50%"}}
+															/>
 															<p> 
 																<b>{data.owner.firstName}</b>
 															</p>
@@ -393,6 +400,7 @@ const AudioPostModal=(props)=>{
 														</p>
 													</AudioPostContainer>
 													{deleteSymposiumAnswerIcon(data,index)}
+													<hr style={HorizontalLineCSS}/>
 												</>
 											)}
 										</ul>

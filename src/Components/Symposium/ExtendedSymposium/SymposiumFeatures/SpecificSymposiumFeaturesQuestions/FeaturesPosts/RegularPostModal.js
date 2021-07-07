@@ -186,6 +186,13 @@ const ShadowButtonCSS={
 	marginTop:"5%"
 }
 
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
+
+
 const RegularPostModal=(props)=>{
 	console.log(props.isOligarch);
 	const {
@@ -510,9 +517,11 @@ const RegularPostModal=(props)=>{
 														</p>
 													</RegularPostContainer>
 													{deleteIcon(data,index)}
+													<hr style={HorizontalLineCSS}/>
 												</>
 											)}
 										</ul>
+
 									}
 								</li>
 

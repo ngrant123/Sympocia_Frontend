@@ -825,6 +825,7 @@ class LProfile extends Component{
 											imagePost:this.state.userProfile.imagePost,
 											isGuestVisitorProfile:this.state.isGuestVisitorProfile,
 											recruits:this.state.userProfile.recruits,
+											friendsGauge:this.state.userProfile.friendsGauge,
 											friendsGaugeNodes:this.state.userProfile.friendsGaugeNodes
 										}}
 										uiStatus={{

@@ -52,3 +52,33 @@ export const getPostsFromSearch=async({searchUrl,postType,userId,postCount})=>{
 	}
 
 }
+
+
+export const getProfilePostsSearch=async({
+	searchUrl,
+    postType,
+    targetProfileId,
+    postCount,
+    levelNode
+})=>{
+	try{
+
+		const profilePostsSearch=await axios.get(`${SearchUrl}/getProfilePosts`,{
+			params:{
+				searchUrl,
+			    postType,
+			    targetProfileId,
+			    postCount,
+			    levelNode
+			}
+		})
+		const {data}=profilePostsSearch;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+
+
+
