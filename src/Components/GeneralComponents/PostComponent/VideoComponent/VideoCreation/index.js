@@ -43,6 +43,7 @@ const VideoOptionCSS={
 }
 
  const VideoPostCreation=(props)=>{
+ 	console.log(props);
  	const [videoUploaded,changeVideo]=useState();
 
  	const clickUploadVideoButton=()=>{
@@ -96,6 +97,7 @@ const VideoOptionCSS={
  					parentRedoVideo={parentRedoVideo}
  					closeAndRedoVideo={closeAndRedoVideo}
  					isPhoneUIEnabled={props.isPhoneUIEnabled}
+ 					closeModal={props.closeModal}
  				/>;
  	}
 
