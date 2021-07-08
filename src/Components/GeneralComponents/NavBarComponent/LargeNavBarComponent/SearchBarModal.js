@@ -195,9 +195,11 @@ class SearchBarModal extends Component{
 										<li onClick={()=>this.setState({searchType:"People"})}>
 											<a href="javascript:;">People</a>
 										</li>
+										<hr/>
 										<li onClick={()=>this.setState({searchType:"Posts"})}>
 											<a href="javascript:;">Posts</a>
 										</li>
+										<hr/>
 										<li onClick={()=>this.setState({searchType:"Symposiums"})}>
 											<a href="javascript:;">Symposiums</a>
 										</li>						
@@ -234,12 +236,15 @@ class SearchBarModal extends Component{
 													<li onClick={()=>this.setState({selectedPostType:"Images"})}>
 														<a href="javascript:;">Images</a>
 													</li>
+													<hr/>
 													<li onClick={()=>this.setState({selectedPostType:"Videos"})}>
 														<a href="javascript:;">Videos</a>
 													</li>
+													<hr/>
 													<li onClick={()=>this.setState({selectedPostType:"Blogs"})}>
 														<a href="javascript:;">Blogs</a>
 													</li>	
+													<hr/>
 													<li onClick={()=>this.setState({selectedPostType:"RegularPosts"})}>
 														<a href="javascript:;">Regular Posts</a>
 													</li>						

@@ -107,7 +107,6 @@ const VideoOptionCSS={
 		<Container id="container">
 			{videoUploaded==null?
 				<React.Fragment>
-
 					<input type="file" accept="video/mp4,video/x-m4v,video/*" name="img"
 						 id="uploadVideoFile" style={{position:"relative",opacity:"0",zIndex:"0"}}
 						 onChange={()=>uploadVideo()}>

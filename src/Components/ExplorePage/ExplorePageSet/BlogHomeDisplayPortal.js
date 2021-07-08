@@ -45,9 +45,9 @@ const Container=styled.div`
 	}
 	@media screen and (max-width:700px){
 		width:100% !important;
-		height:90% !important;
+		height:100% !important;
 		margin-right:-10% !important;
-		top:5% !important;
+		top:0% !important;
 		margin-left:-5% !important;
 	}
 
@@ -87,6 +87,7 @@ const PosterInformationModal=styled.div`
 	@media screen and (max-width:700px){
 		width:90% !important;
 		left:5% !important;
+		top:12% !important;
 	}
 
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){

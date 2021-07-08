@@ -963,7 +963,7 @@ const PersonalPostsIndex=(props)=>{
 								<>{mobilePostSelectionAndRecruitUI(props.personalInformation)}</>:
 								<PostOptionsAndSearchContainer 
 									displayExtendedSearchTextArea={displayExtendedSearchTextArea}>
-									<div style={{alignItems:"center",display:"flex",flexDirection:"row",marginRight:"5%"}}>
+									<div style={{alignItems:"center",display:"flex",flexDirection:"row",marginRight:"5%",marginBottom:"15px"}}>
 										<SearchIcon
 											style={{fontSize:30}}
 										/>

@@ -3,6 +3,18 @@ import styled from "styled-components";
 import EditIcon from '@material-ui/icons/Edit';
 import Typed from "react-typed";
 
+const Container=styled.div`
+	display:flex;
+	@media screen and (max-width:650px){
+		width:100% !important;
+		margin-left:5% !important;
+		justify-content:center !important;
+	}
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
+	 	justify-content:start !important;
+	 	margin-left:0% !important;
+    }
+`;
 
 const ImageContainer=styled.div`
 	position:relative;
@@ -161,7 +173,7 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 	let audioId=uuidv4();
 	let videoDescriptionId=uuidv4();
 	return(
-		<div style={{marginTop:"5%",width:"100%",display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
+		<Container style={{marginTop:"5%",width:"90%",display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
 			{images.map(data=>
 				<div id="smallPostLI" style={{marginBottom:"5%"}} onClick={()=>displayPostModal(data)}>
 					<div id="smallImageDiv" style={{height:"170px",marginBottom:"5%"}}>
@@ -205,7 +217,7 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 					}
 				</React.Fragment>
 			)}
-		</div>
+		</Container>
 	)
 }
 

@@ -494,24 +494,27 @@ class VideoResponseContainer extends Component{
 					{this.state.videoResponses.length==0 || videoData==null?
 						<p>No video comments</p>:
 						<>	
-							<ul style={{padding:"0px",marginTop:"15px",marginBottom:"10px"}}>
-								{this.state.indicatorPosition==0?null:
-									<li onClick={()=>this.handlePreviousResponse()} 
-										style={{listStyle:"none",cursor:"pointer",color:"#5298F8"}}>
-										Previous
-									</li>
-								}
+							{this.state.displayComments==true?
+								<React.Fragment>
+									{this.commentUI()}
+								</React.Fragment>:
+								<React.Fragment>
+									<ul style={{padding:"0px",marginTop:"15px",marginBottom:"10px"}}>
+										{this.state.indicatorPosition==0?null:
+											<li onClick={()=>this.handlePreviousResponse()} 
+												style={{listStyle:"none",cursor:"pointer",color:"#5298F8"}}>
+												Previous
+											</li>
+										}
 
-								{this.state.indicatorPosition==this.state.videoResponses.length-1?null:
-									<li onClick={()=>this.handleNextResponse()} 
-										style={{listStyle:"none",cursor:"pointer",color:"#5298F8"}}> 
-										Next
-									</li>
-								}
-							</ul>
-							<Video>
-								{this.state.displayComments==false?
-									<React.Fragment>
+										{this.state.indicatorPosition==this.state.videoResponses.length-1?null:
+											<li onClick={()=>this.handleNextResponse()} 
+												style={{listStyle:"none",cursor:"pointer",color:"#5298F8"}}> 
+												Next
+											</li>
+										}
+									</ul>
+									<Video>
 										<div style={{display:"flex",flexDirection:"row",marginBottom:"5px",alignItems:"center"}}>
 											<Link to={{pathname:`/profile/${videoData.ownerObject.owner._id}`}}>
 												<img src={videoData.ownerObject.profilePicture==null?
@@ -547,12 +550,9 @@ class VideoResponseContainer extends Component{
 												Comments
 											</div>
 										}
-									</React.Fragment>:
-									<React.Fragment>
-										{this.commentUI()}
-									</React.Fragment>
-								}
-							</Video>
+									</Video>
+								</React.Fragment>
+							}
 						</>
 					}
 				</>

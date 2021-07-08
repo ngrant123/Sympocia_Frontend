@@ -15,6 +15,7 @@ const Container=styled.div`
 	height:95%;
 	display:flex;
 	flex-wrap:wrap;
+	justify-content:center;
 
     #smallPostLI{
 		width:200px !important;
@@ -30,6 +31,7 @@ const Container=styled.div`
 		}
     }
 	@media screen and (max-width:650px){
+		margin-left:-5% !important;
 		#smallImageDiv{
 			height:110px !important;
 		}
@@ -53,7 +55,7 @@ const Container=styled.div`
     }
 
     @media screen and (max-width:840px) and (max-height:420px)  and (orientation: landscape){
-    	margin-left:5% !important;
+    	margin-left:-5% !important;
     	#parentLISmallPostContainer{
 			width:150% !important;
 		}

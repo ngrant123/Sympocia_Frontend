@@ -436,7 +436,7 @@ const NavBar=(pageProps)=>{
 							</svg>
 						</button>
 
-						<ul class="dropdown-menu">
+						<ul class="dropdown-menu" style={{marginLeft:"10px"}}>
 							<li>
 								{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
 									<Link to='/signup'>Sign Up</Link>:
@@ -613,10 +613,13 @@ const NavBar=(pageProps)=>{
 							<hr/>
 							<li>
 								<Link to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
-									Logout
+									{personalProfileState.isGuestProfile==true?
+										<p>Log In</p>:
+										<p>Logout</p>
+									}
 								</Link>
 							</li>
-
+							<hr/>
 							<li style={{cursor:"pointer",paddingLeft:"12%",marginTop:"10%"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
 								Send opinion
 							</li>

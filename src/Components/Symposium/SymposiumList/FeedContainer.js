@@ -92,6 +92,10 @@ const Container=styled.div`
 		#stampIcon{
 			width:50% !important;
 		}
+		#stampImage{
+    		height:140px !important;
+    		width:150px !important;
+    	}
 	}
 
 

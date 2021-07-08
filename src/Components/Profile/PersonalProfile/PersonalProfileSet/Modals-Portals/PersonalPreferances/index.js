@@ -44,8 +44,8 @@ const Container=styled.div`
 			margin-left:15% !important;
 		}
 		#settingsProfilePicture{
-			width:20% !important;
-			height:13% !important;
+			width:55px !important;
+			height:50px !important;
 		}
 	}
 

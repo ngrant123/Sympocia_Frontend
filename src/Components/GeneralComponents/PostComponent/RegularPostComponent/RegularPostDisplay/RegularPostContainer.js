@@ -49,9 +49,6 @@ const Container=styled.div`
 			margin-bottom:20% !important;
 		}
 
-		#postOptions{
-			display:none !important;
-		}
     }
 `;
 
@@ -282,23 +279,6 @@ const HorizontalLineCSS={
 	marginRight:"0"
 }
 
-// <b>{props.postData.owner.firstName}</b>
-
-
-
-
-// {isAudioPost==null || isAudioPost==false?
-// 	<p>
-// 		{post}
-// 	</p>:
-// 	<audio style={{width:"90%"}} controls>
-// 		<source src={post} type="audio/ogg"/>
-// 		<source src={post} type="audio/mp4"/>
-// 		Your browser does not support the audio element.
-// 	</audio>
-// }
-
-
 
 /*
 	Would be better down the road to seperate this into two whole components where one is post information/functiions
@@ -463,6 +443,10 @@ const RegularPostContainer=(props)=>{
 	}
 
 
+	const closeRegularCreationModal=()=>{
+		changeDisplayEditPostModal(false);
+	}
+
 	return(
 	<PostConsumer>
 		{userPostsInformation=>(
@@ -500,6 +484,7 @@ const RegularPostContainer=(props)=>{
 								<RegularPostCreation 
 									previousData={props.postData}
 									contextLocation={userPostsInformation}
+									closeModal={closeRegularCreationModal}
 								/>
 								:<PostContainer>
 									<div style={{marginBottom:"2%",cursor:"pointer"}} onClick={()=>props.closePostModal()}>
@@ -627,10 +612,16 @@ const RegularPostContainer=(props)=>{
 																<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
 															</StampIconEffect>
 														)}
-														<p>
-															Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-															Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-														</p>
+														{isAudioPost==null || isAudioPost==false?
+															<p>
+																{post}
+															</p>:
+															<audio style={{width:"90%"}} controls>
+																<source src={post} type="audio/ogg"/>
+																<source src={post} type="audio/mp4"/>
+																Your browser does not support the audio element.
+															</audio>
+														}
 
 													</React.Fragment>
 												}

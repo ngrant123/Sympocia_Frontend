@@ -9,7 +9,6 @@ const Container=styled.div`
 	height:100%;
 	padding:10px;
 	border-radius:5px;
-	background-color:white;
 	display:flex;
 	flex-direction:row;
 
@@ -17,7 +16,7 @@ const Container=styled.div`
 		width:100%;
 		#profilePicture{
 			height:65px !important;
-			width:85px !important;
+			width:80px !important;
 		}
 		#postCommentsLI{
 			display:none !important;
@@ -27,16 +26,16 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:700px){
-		width:200%;
+	@media screen and (max-width:650px){
+		width:100%;
 		flex-direction:column;
 	}
 
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	#profilePicture{
-			height:50% !important;
-			width:60% !important;
+			height:50px !important;
+			width:60px !important;
 		}
 		width:200%;
     }
@@ -45,6 +44,7 @@ const Container=styled.div`
 	 	width:200% !important;
 	 	#profilePicture{
 			height:65px !important;
+			width:80px !important;
 		}
     }
 `;
@@ -129,6 +129,7 @@ const PostFirstSection=styled.div`
     }
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		height:55% !important;
+		width:100% !important;
     }
 `;
 
@@ -136,11 +137,11 @@ const PostSecondSection=styled.div`
 	display:flex;
 	flex-direction:column;	
 	width:100%;
-	@media screen and (max-width:700px){
-		width:40% !important;
+	@media screen and (max-width:650px){
+		width:100% !important;
 	}
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		width:100% !important;
+		width:50% !important;
     }
 
 `;
@@ -212,7 +213,7 @@ const HeaderRegularPost=({post,profilePicture,displayPostModal,friendsColorNodes
 	const regularPost=()=>{
 		const colorCode=friendsColorNodesMap.get(post.levelNode);
 		return(
-			<Container>
+			<React.Fragment>
 				<ColorPatchContainer colorCode={colorCode}/>
 				<PostFirstSection>
 					<img id="profilePicture" src={profilePicture==null?NoProfilePicture:profilePicture} 
@@ -243,16 +244,16 @@ const HeaderRegularPost=({post,profilePicture,displayPostModal,friendsColorNodes
 						</Post>
 					</li>
 				</PostSecondSection>
-			</Container>
+			</React.Fragment>
 		)
 	}
 	
 
 	return(
-		<li id="headerContainerLI" onClick={()=>displayPostModal(post)} 
+		<Container id="headerContainerLI" onClick={()=>displayPostModal(post)} 
 			style={{cursor:"pointer",listStyle:"none",marginBottom:"2%",marginBottom:"2%",height:"25%"}}>
 			{regularPost()}
-		</li>
+		</Container>
 	)
 }
 

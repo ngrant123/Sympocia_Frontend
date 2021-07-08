@@ -133,7 +133,7 @@ const SponsorPortal=(props)=>{
 		var reader=new FileReader();
 		var image=document.getElementById("imageFile").files[0];
 		
-		const maxFileSize=250*1024;
+		const maxFileSize=7000*1024;
 		if(image.size>maxFileSize){
 			alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
 		}else{

@@ -453,10 +453,21 @@ const PostSearch=(props)=>{
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">
-									<li onClick={()=>triggerPostHandle("Images")}><a href="javascript:;">Images</a></li>	
-									<li onClick={()=>triggerPostHandle("Videos")}><a href="javascript:;">Videos</a></li>	
-									<li onClick={()=>triggerPostHandle("Blogs")}><a href="javascript:;">Blogs</a></li>	
-									<li onClick={()=>triggerPostHandle("RegularPosts")}><a href="javascript:;">Posts</a></li>			
+									<li onClick={()=>triggerPostHandle("Images")}>
+										<a href="javascript:;">Images</a>
+									</li>	
+									<hr/>
+									<li onClick={()=>triggerPostHandle("Videos")}>
+										<a href="javascript:;">Videos</a>
+									</li>	
+									<hr/>
+									<li onClick={()=>triggerPostHandle("Blogs")}>
+										<a href="javascript:;">Blogs</a>
+									</li>	
+									<hr/>
+									<li onClick={()=>triggerPostHandle("RegularPosts")}>
+										<a href="javascript:;">Posts</a>
+									</li>			
 								</ul>
 							</div>
 						</li>

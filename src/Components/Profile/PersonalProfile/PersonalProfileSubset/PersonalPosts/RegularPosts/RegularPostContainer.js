@@ -38,8 +38,8 @@ const Container=styled.div`
 		width:150% !important;
 
 		#headerContainerLI{
-			margin-bottom:5% !important;
-			width:350px !important;
+			margin-bottom:10% !important;
+			width:250px !important;
 		}
 		#postContainer{
 			width:150% !important;
@@ -51,7 +51,9 @@ const Container=styled.div`
 		}
     }
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-	
+		#headerContainerLI{
+			width:100% !important;
+		}
 		#smallContainerLI{
 			height:60% !important;
 		}

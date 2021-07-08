@@ -6,9 +6,11 @@ const Container=styled.div`
 	position:relative;
 	z-index:25;
 	width:140%;
+	display:flex;
 
-	@media screen and (max-width:770px){
-		width:180%;
+	@media screen and (max-width:650px){
+		width:100%;
+		justify-content:center;
 		#postInformationLI{
     		width:30% !important;
     		margin-left:-5%;
@@ -26,7 +28,7 @@ const Container=styled.div`
 
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
-	 	
+	 	justify-content:start;
 		#parentContainer{
 			height:100% !important;
 		}
@@ -35,21 +37,24 @@ const Container=styled.div`
 
 const Image=styled.div`
 	position:relative;
-	width:30%;
-	height:90%;
+	width:400px;
+	height:300px;
 	background-color:blue;
 	border-radius:5px;
 	overflow:hidden;
+	margin-bottom:15px;
 
 	@media screen and (max-width:1370px){
-		width:60% !important;
+		width:35% !important;
 	}
 	@media screen and (max-width:650px){
-		width:80% !important;
+		width:250px !important;
+		height:200px !important;
     }
 
      @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
-	 	width:70% !important;
+		height:250px !important;
+		width:300px !important;
     }
 `;
 
@@ -107,6 +112,16 @@ const IndustryButtonCSS={
 	marginRight:"2%"
 }
 
+const CaptionCSS={
+	listStyle:"none",
+	marginRight:"5%",
+	marginBottom:"15px",
+	maxWidth:"60%",
+	maxHeight:"50px",
+	overflow:"hidden",
+	fontSize:"18px"
+}
+
 const CrownedImageContainer=({crownedImage,displayPostModal,friendsColorNodesMap})=>{
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -133,66 +148,42 @@ const CrownedImageContainer=({crownedImage,displayPostModal,friendsColorNodesMap
 	}
 
 	return(
-		<li style={{listStyle:"none",marginBottom:"-5%",cursor:"pointer"}}
-					 onClick={()=>displayPostModal(
-					 				crownedImage
-								)}>
+		<Container style={{listStyle:"none",marginBottom:"-5%",cursor:"pointer"}} onClick={()=>displayPostModal(
+				 				crownedImage
+							)}>
+			<div id="parentContainer" style={{display:"flex",flexDirection:"row",padding:"0px",overflow:"hidden"}}>
+				{image()}
+				<div id="postInformationLI" style={{top:"0%",width:"50%"}}>
+					<ul style={{paddging:"0px"}}>
+						<li style={IndustryButtonCSS}>
+							{crownedImage.industriesUploaded[0].industry}
+						</li>
+						<li style={CaptionCSS}>
+							<b>{crownedImage.caption}</b>
+						</li>
 
-			<Container>
-				<div id="parentContainer" style={{display:"flex",flexDirection:"row",padding:"0px",height:"45%",overflow:"hidden"}}>
-					{image()}
-
-					<div id="postInformationLI" style={{top:"0%",width:"50%"}}>
-						<ul style={{paddging:"0px"}}>
-							<li style={IndustryButtonCSS}>
-								{crownedImage.industriesUploaded[0].industry}
-							</li>
-							<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-								<b>{crownedImage.caption}</b>
-							</li>
-
-							{/*
-								<li style={{listStyle:"none",marginBottom:"5px"}}>
-									2 days ago
-								</li>
-							*/}
-
-							<li style={{listStyle:"none"}}>
-								<Description style={{maxWidth:"60%",maxHeight:"60px",overflow:"hidden"}}>
-									{crownedImage.description}
-								</Description>
-							</li>
-							<li style={{listStyle:"none",marginTop:"2%"}}>
-								<ul style={{padding:"0px"}}>
-									{/*	
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={IndustryButtonCSS}>
-												Stamp
-											</li>
-										</a>
-
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={IndustryButtonCSS}>
-												Comment
-											</li>
-										</a>
-									*/}
-									{crownedImage.audioDescription!=null?
-										<li style={{listStyle:"none"}}>
-												<audio key={audioId} style={{width:"200px"}} controls>
-												  <source src={crownedImage.audioDescription} type="audio/ogg"/>
-												  <source src={crownedImage.audioDescription} type="audio/mp4"/>
-												Your browser does not support the audio element.
-												</audio>
-										</li>:null
-									}	
-								</ul>
-							</li>
-						</ul>
-					</div>
+						<li style={{listStyle:"none"}}>
+							<Description style={{maxWidth:"60%",maxHeight:"60px",overflow:"hidden"}}>
+								{crownedImage.description}
+							</Description>
+						</li>
+						<li style={{listStyle:"none",marginTop:"2%"}}>
+							<ul style={{padding:"0px"}}>
+								{crownedImage.audioDescription!=null?
+									<li style={{listStyle:"none"}}>
+											<audio key={audioId} style={{width:"200px"}} controls>
+											  <source src={crownedImage.audioDescription} type="audio/ogg"/>
+											  <source src={crownedImage.audioDescription} type="audio/mp4"/>
+											Your browser does not support the audio element.
+											</audio>
+									</li>:null
+								}	
+							</ul>
+						</li>
+					</ul>
 				</div>
-			</Container>
-		</li>
+			</div>
+		</Container>
 	)
 }
 

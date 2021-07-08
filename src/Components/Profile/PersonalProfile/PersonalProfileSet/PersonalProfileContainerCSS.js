@@ -147,6 +147,10 @@ export const MobilePersonalInformationContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		padding:30px;
+		width: 90% !important;
+	    left: 5% !important;
+	    height: 70%;
+	    top: 15%;
 		#profileSocialMediaContainer{
 			display:none !important;
 		}
@@ -157,6 +161,14 @@ export const MobilePersonalInformationContainer=styled.div`
 	@media screen and (max-width:650px){
 		width:90% !important;
 		left:5% !important;
+		height:75% !important;
+		top:10% !important;
+    }
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	width: 90% !important;
+	    left: 5% !important;
+	    height: 70%;
+	    top: 15%;
     }
 `;
 
@@ -207,7 +219,7 @@ export const ProfilePictureContainer=styled.div`
 		margin-top:55%;
 		#profilePicture{
 		  width:90% !important;
-          height:110% !important;
+          height:105% !important;
           left:10% !important;
 	    }
     }

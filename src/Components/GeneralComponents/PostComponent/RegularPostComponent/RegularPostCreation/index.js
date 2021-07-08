@@ -56,15 +56,20 @@ const Container = styled.div`
 	}
 
 	@media screen and (max-width:1370px){
-		width:90%;
-		left:5%;
+		left: 10% !important;
+    	width: 80% !important;
 	}
 
 
 	@media screen and (max-width:650px){
-		left:5%;
-		width:90% !important;
-		height:75%;
+		left:0% !important;
+		width:100% !important;
+		height:100%;
+		top:0%;
+
+		#symposiumPostOptions{
+			margin-left:-5% !important;
+		}
 	}
 `;
 
@@ -507,6 +512,16 @@ const ButtonCSS={
 			{userPostsInformation=>{
 				changeContextInformation(userPostsInformation);
 				return <Container>
+							<div id="closeModalButton" 
+								onClick={()=>props.closeModal()} style={{marginTop:"0%",cursor:"pointer"}}>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+								 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+								 stroke-linecap="round" stroke-linejoin="round">
+								  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+								  <circle cx="12" cy="12" r="9" />
+								  <path d="M10 10l4 4m0 -4l-4 4" />
+								</svg>
+							</div>
 							{displayCrownModalIndicator==true?
 								<CrownPostModal
 									closeModal={closeCrownModal}
@@ -517,20 +532,16 @@ const ButtonCSS={
 								/>
 								:null
 							}
-							<ul id="postOptions" style={{padding:"10px"}}>			
-								<li style={{listStyle:"none"}}>	
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<IndustryPostOptions
-												alterSelectedIndustry={alterSelectedIndustry}
-												alterSelectedSubCommunities={alterSelectedSubCommunities}
-												symposiumsUploaded={props.previousData==null?[]:props.previousData.industriesUploaded}				
-												uploadedCategorySection={props.previousData==null?null:props.previousData.symposiumUploadCategory}
-												alterSymposiumUploadedCategory={alterSymposiumUploadedCategory}
-											/>
-										</li>
-									</ul>
-								</li>
+							<ul id="postOptions" style={{padding:"10px"}}>		
+								<ul id="symposiumPostOptions" style={{padding:"0px"}}>
+									<IndustryPostOptions
+										alterSelectedIndustry={alterSelectedIndustry}
+										alterSelectedSubCommunities={alterSelectedSubCommunities}
+										symposiumsUploaded={props.previousData==null?[]:props.previousData.industriesUploaded}				
+										uploadedCategorySection={props.previousData==null?null:props.previousData.symposiumUploadCategory}
+										alterSymposiumUploadedCategory={alterSymposiumUploadedCategory}
+									/>
+								</ul>
 								<hr/>
 
 								<li style={{listStyle:"none",marginTop:"5%"}}>

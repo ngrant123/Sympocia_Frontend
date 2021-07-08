@@ -40,6 +40,15 @@ const Container=styled.div`
 	}
 	@media screen and (max-width:700px){
 		width:120%;
+		padding:5px;
+		#editContainer{
+			width:90% !important;
+			margin-left:-5% !important;
+		}
+
+		#secondaryVideoInformation{
+			width:90% !important;
+		}
 		#videoElement{
 			display:block !important;
 			width:120% !important;
@@ -643,6 +652,16 @@ isArrayEqual=(arr1,arr2)=>{
 						 		/>
 						 		:
 						 		<Container>
+						 			<div id="closeModalButton" 
+										onClick={()=>this.props.closeModal()} style={{marginTop:"0%",cursor:"pointer"}}>
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+										 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+										 stroke-linecap="round" stroke-linejoin="round">
+										  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+										  <circle cx="12" cy="12" r="9" />
+										  <path d="M10 10l4 4m0 -4l-4 4" />
+										</svg>
+									</div>
 						 			{this.state.displayVideoDescriptionPortal==false?
 										null:
 										<VideoDescriptionPortal
@@ -691,7 +710,7 @@ isArrayEqual=(arr1,arr2)=>{
 										</li>
 						
 										<hr/>
-										<li style={{position:"relative",listStyle:"none",top:"-50px",display:"inline-block",marginLeft:"5%"}}>
+										<li id="editContainer" style={{position:"relative",listStyle:"none",top:"-50px",display:"inline-block",marginLeft:"5%"}}>
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													<ul style={{padding:"0px"}}>
@@ -752,7 +771,7 @@ isArrayEqual=(arr1,arr2)=>{
 											</ul>
 										</li>
 										<hr/>
-										<li style={{listStyle:"none"}}>
+										<li id="secondaryVideoInformation" style={{listStyle:"none"}}>
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e",marginBottom:"4%"}}>
 													<b>Audio/Video Description</b>

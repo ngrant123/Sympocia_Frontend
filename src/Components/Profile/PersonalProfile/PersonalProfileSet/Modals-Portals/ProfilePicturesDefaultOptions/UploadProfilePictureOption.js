@@ -48,7 +48,7 @@ const UploadProfilePictureOption=({backButtonTrigger,uploadFile})=>{
 	const changeProfilePicture=()=>{
 		let reader=new FileReader();
 		const uploadedFile=document.getElementById("profilePictureFileUpload").files[0];
-		const maxFileSize=250*1024;
+		const maxFileSize=7000*1024;
 		if(uploadedFile.size>maxFileSize){
 			alert('Your file is too large. We only accept images that have a size of 250KB. You can go to preview (Mac) and lower the resolution there.');
 		}else{
