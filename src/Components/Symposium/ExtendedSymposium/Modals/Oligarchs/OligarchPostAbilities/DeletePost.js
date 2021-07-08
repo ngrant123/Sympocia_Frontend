@@ -24,10 +24,7 @@ const DeletePost=({closeModal,postId,postType,selectedSymposiumCategory,triggerC
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [isProcessing,changeIsProcessing]=useState(false);
-
-	console.log(closeModal);
-	console.log(postId);
-
+	
 	const handleDeletePost=async({isAccessTokenUpdated,updatedAccessToken,removePostFromStack})=>{
 		/*
 			Right now since Im not querying by industries but by the actual post schema itself there is no need

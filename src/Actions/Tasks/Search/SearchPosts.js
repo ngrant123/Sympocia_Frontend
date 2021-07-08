@@ -25,7 +25,6 @@ export const searchPostsFilter=async(posts,searchCriteria,postType,isSymposiumPo
 
 		}
 		if(isSymposiumPosts==true){
-			debugger;
 			const promise=[];
 			Object.keys(posts).forEach((key,index)=>{
 				const startingPosts=posts[key];
@@ -36,7 +35,6 @@ export const searchPostsFilter=async(posts,searchCriteria,postType,isSymposiumPo
 			})
 
 			return await Promise.all(promise).then(result=>{
-				debugger;
 				const filteredGrindPosts=result[0];
 				const filteredProgressPosts=result[1];
 				const filteredAccomplishmentPosts=result[2];
@@ -46,7 +44,6 @@ export const searchPostsFilter=async(posts,searchCriteria,postType,isSymposiumPo
 					grind:filteredGrindPosts,
 					progress:filteredProgressPosts
 				}
-				console.log(filteredPosts);
 				return filteredPosts;
 			})
 		}else{

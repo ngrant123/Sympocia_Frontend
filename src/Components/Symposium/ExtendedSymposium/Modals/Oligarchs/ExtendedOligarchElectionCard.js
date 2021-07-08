@@ -257,7 +257,6 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 	}
 
 	const unSponsoreUser=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
 		const {confirmation,data}=await unsponsorOligarchCard(
 											electionCardInformation._id,
 											personalInformation.id,

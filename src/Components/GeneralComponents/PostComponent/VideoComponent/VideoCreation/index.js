@@ -43,7 +43,6 @@ const VideoOptionCSS={
 }
 
  const VideoPostCreation=(props)=>{
- 	console.log(props);
  	const [videoUploaded,changeVideo]=useState();
 
  	const clickUploadVideoButton=()=>{

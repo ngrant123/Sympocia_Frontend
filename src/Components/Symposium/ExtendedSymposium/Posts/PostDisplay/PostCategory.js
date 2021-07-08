@@ -71,11 +71,7 @@ const PostCategory=(props)=>{
 		isOligarch,
 		selectedSymposiumTitle
 	}=props;
-	console.log(props);
 	const [postCategoryPosts,changePostCategoryPosts]=useState([]);
-	console.log(props.posts);
-	console.log(posts);
-	console.log(postCategoryPosts);
 	const loadingIndicatorRef=useRef();
 	const [displayCategoryUpload,changeDisplayCategoryUpload]=useState(false);
 	const [displayOligarchPostSettings,changeOligarchPostSettingsDisplay]=useState(false);
@@ -84,7 +80,6 @@ const PostCategory=(props)=>{
 	const personalInformation=useSelector(state=>state.personalInformation);
 
 	useEffect(()=>{
-		console.log("Post Category Use Effect Called");
 		changePostCategoryPosts([...props.posts])
 	},[posts]);
 

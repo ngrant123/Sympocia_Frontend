@@ -145,8 +145,6 @@ const QuickSymposiumUpload=({categoryType,closeModal,postType})=>{
 			currentSymposiumName:symposiumName,
 			closeModal
 		}
-		console.log(postType);
-		debugger;
 		switch(postType){
 			case "Image":{
 				return(

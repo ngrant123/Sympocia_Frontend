@@ -53,12 +53,10 @@ const CurrentOligarchs=({symposiumId,closeModal})=>{
 		const fetchOligarchsResults=async()=>{
 			changeIsLoading(true);
 			const {confirmation,data}=await getOligarchPerSymposium(symposiumId);
-			debugger;
 			if(confirmation=="Success"){
 				const {message}=data;
 				changeOligarchs(message);
 			}else{
-				debugger;
 				alert('Unfortunately there has been an error retrieving oligarchs for this symposiums. Please try again');
 			}
 			changeIsLoading(false);

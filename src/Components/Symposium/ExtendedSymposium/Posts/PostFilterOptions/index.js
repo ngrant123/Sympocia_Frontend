@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import {
     SympociaOptionsContainer,
     SearchOptionContainer,
@@ -11,16 +11,17 @@ import SymposiumOptions from "../../SymposiumFeatures/SymposiumOptions.js";
 import {PostOptions} from "../../indexCSS.js";
 import SearchIcon from '@material-ui/icons/Search';
 import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts.js";
+import PostsOptionsPortal from "../../Modals/PostOptionsPortal.js";
 
 const MobilePostOptionsButton={
-    listStyle:"none",
+     backgroundColor:"white",
     padding:"10px",
-    backgroundColor:"white",
     color:"#6e6e6e",
     boxShadow:"1px 1px 5px #6e6e6e",
     borderRadius:"5px",
     borderStyle:"none",
-    cursor:"pointer"
+    cursor:"pointer",
+    marginRight:"2%"
 }
 
 const PostOptionsCSS={
@@ -32,6 +33,7 @@ const PostOptionsCSS={
 }
 
 const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,displayBeacon})=>{
+    const [displayPostOptionsPortal,changePostOptionsDisplayPortal]=useState(false);
 
     const searchPromptTrigger=async(event)=>{
         const textAreaValue=document.getElementById("symposiumSearchPostTextArea").value;
@@ -51,25 +53,23 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
             }
         }
     }
+    const closePostOptionsPortal=()=>{
+        changePostOptionsDisplayPortal(false);
+    }
 
     const postOptionsMobileOrDesktop=()=>{
         let mobilePostCSS={...MobilePostOptionsButton};
-        if(state.headerAnimation==true){
-            mobilePostCSS={
-                ...mobilePostCSS,
-                marginTop:"10%",
-                marginLeft:"20%"
-            }
-        }
-        return  <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={mobilePostCSS}>
-                            Post Options
-                        </button>
-
-                        <ul id="postFilterDropDownMenu" style={{padding:"10px"}} class="dropdown-menu">
-                            {postOptions()}
-                        </ul>
-                </div>
+        return  <React.Fragment>
+                    {displayPostOptionsPortal==true &&(
+                        <PostsOptionsPortal
+                            closeModal={closePostOptionsPortal}
+                            updatePosts={updatePosts}
+                        />
+                    )}
+                    <div onClick={()=>changePostOptionsDisplayPortal(true)} style={mobilePostCSS}>
+                        Post Options
+                    </div>
+                </React.Fragment>
     }
 
     const postOptions=()=>{
@@ -133,29 +133,12 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
                 <MinifiedSymposiumInformation isScrollEnabled={state.headerAnimation}>
                     {(state.displayPhoneUI==true && state.headerAnimation==true)==false &&(
                         <>
-                            {/*
-                                <ChevronLeftRoundedIcon
-                                    style={{fontSize:40,marginTop:"10px"}}
-                                    onClick={()=>handlePreviousSymposiumButton()}
-                                />
-                            */}
                             <p style={{marginTop:"10px",fontSize:"20px",marginRight:"5%"}}>
                                 <b>{state.selectedSymposiumTitle}</b>
                             </p>
                             {beaconElement()}
-
-                            {/*
-                                <ChevronRightRoundedIcon
-                                    style={{fontSize:40,marginTop:"10px"}}
-                                    onClick={()=>handleNextSymposiumButton()}
-                                />
-                            */}
                         </>
                     )}
-                    {/*
-                        {symposiumOptions(state.headerAnimation,state.displayPhoneUI)}
-                    */}
-
                 </MinifiedSymposiumInformation>
             )}
         </SympociaOptionsContainer>

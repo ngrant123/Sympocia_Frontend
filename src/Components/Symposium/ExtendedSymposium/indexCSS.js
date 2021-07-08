@@ -739,7 +739,7 @@ export const SympociaOptionsContainer=styled.div`
 		}
 	}
 	@media screen and (max-width:650px){
-		margin-left:-5px !important;
+		margin-left:10px !important;
 		#postFilterDropDownMenu{
 			margin-left:20px !important;
 		}
@@ -751,6 +751,11 @@ export const SearchOptionContainer=styled.div`
 	flex-direction:row;
 	@media screen and (max-width:1370px){
 		flex-direction:row;
+	}
+
+	@media screen and (max-width:650px){
+		width:100% !important;
+		margin-left:5% !important;
 	}
 `;
 

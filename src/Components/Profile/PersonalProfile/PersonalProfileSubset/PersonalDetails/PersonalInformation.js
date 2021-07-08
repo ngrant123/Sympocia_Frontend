@@ -329,7 +329,6 @@ const PersonalInformation=(props)=>{
 	}
 	
 	const mobileUserInformation=(firstName,displayMobileProfileOptions,isOligarch)=>{
-		console.log(isOligarch);
 		const crownLogoMarginLeft=props.personalInformation.isOwnProfile==true?"10%":"0%"
 		return(
 			<React.Fragment>

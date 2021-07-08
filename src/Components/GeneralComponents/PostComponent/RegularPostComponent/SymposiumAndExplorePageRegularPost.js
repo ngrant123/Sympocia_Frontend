@@ -51,8 +51,6 @@ const headerPostNameCSS={
 
 
 const SymposiumAndExplorePageDisplay=({regularPostInformation,targetDom})=>{
-	debugger;
-	console.log(regularPostInformation)
 	const [selectedRegularPost,changeSelectedRegularPost]=useState();
 	const [displayRegualrPostDisplayPortal,changeRegularPostDisplay]=useState(false);
 	const closeModal=()=>{

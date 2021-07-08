@@ -157,7 +157,6 @@ const Creation=({
 			const {confirmation,data}=uploadedBeaconResult;
 			if(confirmation=="Success"){
 			let {message}=data;
-			debugger;
 			if(currentSubmittedPostType=="Images" || currentSubmittedPostType=="Videos"){
 				const postUrlParameter=currentSubmittedPostType=="Images"?"imgUrl":"videoUrl"
 				message={

@@ -137,7 +137,6 @@ const ImageLabelCSS={
 }
 
 const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostContextValues})=>{
-	console.log(images);
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();

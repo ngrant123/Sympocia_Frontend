@@ -27,7 +27,6 @@ const BackButtonCSS={
 
 
 const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumId,ownerId,isGuestProfile,isOligarch,deletedBeacon})=>{
-	console.log(postData);
 	const [displaySelectedPost,changeDisplaySelectedPost]=useState(true);
 	const [displayExtendReplyBeacon,changeDisplayReplyBeacon]=useState(false);
 	const [displayZoomedInPostPortal,changeDisplayZoomedInPostPortal]=useState(false);

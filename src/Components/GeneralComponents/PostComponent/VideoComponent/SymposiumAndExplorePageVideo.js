@@ -24,7 +24,6 @@ const SmallImageArrowDownCSS={
 }
 
 const SymposiumAndExplorePageDisplay=({videoInformation,targetDom})=>{
-	console.log(videoInformation);
 	const [selectedVideo,changeSelectedVideo]=useState();
 	const [displayVideoDisplayPortal,changeVideoDisplay]=useState(false);
 

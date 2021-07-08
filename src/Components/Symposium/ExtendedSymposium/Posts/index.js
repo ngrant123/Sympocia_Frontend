@@ -13,8 +13,6 @@ import {
 import {PostProvider} from "./PostsContext.js";
 
 const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,profileId,displayBeacon})=>{
-    console.log(state);
-    console.log("Posts filter options rerender");
     const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
     const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
     let [posts,changePosts]=useState(state.posts);
@@ -44,8 +42,6 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
             postSessionManagmentToken:postSessionToken,
             symposiumCategoryType
         }
-        console.log(postSessionToken);
-        console.log(postParameters);
         let postResults;
 
         if(newPostOption=="Image" || newPostOption=="Images"){
@@ -61,10 +57,8 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
             newPostOption="Regular";
             postResults=await getRegularPostsInIndustry({...postParameters});
         }
-        debugger;
         let {confirmation,data}=postResults;
         if(confirmation=="Success"){
-            console.log(data);
             if(data.length==0){
                 if(loadingNewPostsRef!=null)
                     loadingNewPostsRef.current.innerHTML="";
@@ -75,15 +69,12 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     loadingNewPostsRef.current.innerHTML="Next Posts";
                 
                 const currentPosts=posts;
-                console.log(posts);
                 let nextPosts;
                 if(isNewPostOption==true)
                     nextPosts=data;
                 else{
-                    debugger;
                     nextPosts=addToCurrentPosts(symposiumCategoryType,data);
                 }
-                console.log(nextPosts);
                 changePosts({...nextPosts});
                 changePostOptionState(newPostOption);
                 changeEndOfPostIndicator(false);
@@ -135,7 +126,6 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     }
 
     const triggerReloadingPostsHandle=(symposiumCategoryType,ref)=>{
-        console.log(ref);
         ref.current.innerHTML="Loading...";
         changePostOption(
             symposiumCategoryType,
@@ -158,7 +148,6 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         changePostCount(0);
         changePosts([]);
         changePostSessionToken(uuidv4());
-        console.log(postSessionToken);
         changePostOption(
             null,
             newPostOption,
@@ -167,14 +156,10 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     }
 
     const searchFilterPosts=(posts)=>{
-        console.log(posts);
         changePosts({...posts})
     }
 
     const triggerPushPlaceholder=(dummyData)=>{
-        console.log('Place holder upload');
-        console.log(dummyData);
-        debugger;
         const {symposiumUploadCategory}=dummyData;
         let updatedPosts;
         switch(symposiumUploadCategory){
@@ -218,7 +203,6 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     }
 
     const triggerRemovePostFromStack=(postId,postCategoryType)=>{
-        debugger;
         let updatedPosts;
         let selectedPost;
         switch(postCategoryType){
@@ -284,7 +268,6 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     }
 
     const triggerSwapPostFromStack=(postId,currentPostCategoryType,targetPostCategoryType,symposiumName)=>{
-        debugger;
         if(state.selectedSymposiumTitle==symposiumName){
             const selectedPost=triggerRemovePostFromStack(postId,currentPostCategoryType);
             const tempPosts=[];

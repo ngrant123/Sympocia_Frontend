@@ -84,7 +84,6 @@ const RegularPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,c
 						_id:personalInformation.id
 					}
 				}
-				debugger;
 				constructDummyPost(searchCriteriaObject,pushToStackTrigger);
 			}else{
 				const {statusCode}=data;

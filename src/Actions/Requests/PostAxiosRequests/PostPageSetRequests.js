@@ -269,7 +269,6 @@ export const createComment=async(
 
 export const deleteCommentOrReply=async(commentId,userId,accessToken)=>{
 	try{
-		debugger;
 		const deletedCommentResponse=await axios.post(`${CreateURl}/deleteCommentOrReply`,{
 			commentId,
 			userId
@@ -784,7 +783,6 @@ export const deleteBeaconReply=async({
 			accessToken
 		})=>{
 	try{
-		debugger;
 		const deletedBeaconReplyResponse=await axios.post(`${CreateURl}/deleteBeaconReply`,{
 			symposiumId,
 			beaconId,

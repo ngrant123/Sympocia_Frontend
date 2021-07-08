@@ -202,8 +202,6 @@ Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
-	console.log(props);
-
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -740,7 +738,6 @@ const PersonalPostsIndex=(props)=>{
 				    levelNode:""
 				})
 				if(confirmation=="Success"){
-					console.log(data);
 					const {message}=data;
 					switch(currentPostType){
 						case 'image':{

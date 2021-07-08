@@ -291,7 +291,6 @@ const QuestionsPortal=(props)=>{
 			isMobile,
 			isOligarch
 		}=props;
-	console.log(props);
 
 	const [currentReplies,changeCurrentReplies]=useState(questions[counter].responsesId);
 	const [displayCreatePost,changeDisplayPost]=useState(false);
@@ -593,7 +592,6 @@ const QuestionsPortal=(props)=>{
 	}
 
 	const deleteHighlightedPost=async({selectedData,index,isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
 		const {confirmation,data}=await deleteCommentToPopularQuestions({
 											questionId:questions[currentCounter]._id,
 							           		targetDeletionResponseId:selectedData._id,
@@ -627,7 +625,6 @@ const QuestionsPortal=(props)=>{
 	}
 
 	const deleteHighLightedQuestionIcon=(data,index)=>{
-		console.log(data);
 		return(
 			<React.Fragment>
 				{(isOligarch==true || data.owner._id==personalInformation.id)==true &&(

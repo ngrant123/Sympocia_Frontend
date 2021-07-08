@@ -116,7 +116,6 @@ class Symposium extends Component{
 
 
 	triggerUIChange=()=>{
-		debugger;
 		if(window.innerWidth<600){
 			this.setState({
 				displayDesktopUI:false,
@@ -737,7 +736,6 @@ class Symposium extends Component{
 	}
 
 	oligarchFinalResultDisplay=()=>{
-		debugger;
 		return(
 			<React.Fragment>
 				{this.state.displayFinalOligarchsCompetitionResults==true &&(

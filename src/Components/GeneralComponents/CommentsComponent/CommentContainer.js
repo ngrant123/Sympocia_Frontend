@@ -195,7 +195,6 @@ class CommentsContainer extends Component{
 
 
 	constructor(props){
-		console.log(props);
 		super(props);
 		this.state={
 			comments:[],
@@ -254,7 +253,6 @@ class CommentsContainer extends Component{
 
 
 	replyComment=(data,index)=>{
-		console.log(data);
 		const postOwnerId=this.props.ownerId==null?this.props.ownerId._id:this.props.ownerId
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
 				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
@@ -348,7 +346,6 @@ class CommentsContainer extends Component{
 	}
 
 	triggerDeleteCommentOrReply=async({isAccessTokenUpdated,updatedAccessToken,commentId,targetIndex,isReplyDeletion})=>{
-		debugger;
 		const {confirmation,data}=await deleteCommentOrReply(
 											commentId,
 											this.props.personalState.id,
@@ -389,7 +386,6 @@ class CommentsContainer extends Component{
 		}
 	}
 	commentComponent=(data,index)=>{
-		console.log(data);
 		const postOwnerId=this.props.ownerId==null?this.props.ownerId._id:this.props.ownerId
 
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>

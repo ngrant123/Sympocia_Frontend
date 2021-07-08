@@ -63,7 +63,6 @@ const HorizontalLineCSS={
 }
 
 const OligarchDeletOrMovePostPortal=({closeModal,postId,postType,selectedSymposiumCategory})=>{
-	console.log(postId);
 	const [displayInitialScreen,changeDisplayInitialScreen]=useState(true);
 	const [displayDeleteModal,changeDisplayDeleteModal]=useState(false);
 

@@ -97,7 +97,6 @@ const ButtonCSS={
 
 
 const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop,isOligarch})=>{
-	console.log(isOligarch);
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [displayExtendedModal,changeDisplayExtendedModal]=useState(false);
 	const [displayPostDisplay,changePostDisplayModal]=useState(true);

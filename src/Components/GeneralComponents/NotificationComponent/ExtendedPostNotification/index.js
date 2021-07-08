@@ -193,7 +193,6 @@ const BackButtonCSS={
 
 const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postId,displayPostElementPage,isPostAudio})=>{
 	const {notificationType,postType,commentID,replyId,notificationOwnerId}=data;
-	console.log(data);
 	const [notification,changeNotification]=useState();
 	const [isLoading,changeIsLoading]=useState(true);
 	const [displayReplyModal,changeDisplayReplyModal]=useState(false);

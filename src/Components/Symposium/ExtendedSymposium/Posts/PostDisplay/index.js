@@ -21,7 +21,6 @@ const PostsContainerDisplay=(props)=>{
         profileId,
         selectedSymposiumTitle
     }=props;
-    console.log(props);
     const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
     const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
     const [postOption,changePostOptionState]=useState(state.postOption);
@@ -48,7 +47,6 @@ const PostsContainerDisplay=(props)=>{
     ]
     const [selectedPostCategoryInformation,changeSelectedPostCategoryInformation]=useState([]);
     useEffect(()=>{
-        debugger;
         if(state.handleScroll!=false){
             document.getElementById("postsContainer").style.opacity="0";
     
@@ -65,7 +63,6 @@ const PostsContainerDisplay=(props)=>{
                     title
                 }}=defaultPostCategoryInformation[i];
                 if(selectedCategoryType==title){
-                    console.log(defaultPostCategoryInformation[i]);
                     selectedPostCategory.push(defaultPostCategoryInformation[i])
                     break;
                 }
@@ -124,8 +121,6 @@ const PostsContainerDisplay=(props)=>{
     }
 
     const postsCategory=useMemo(()=>{
-        console.log(selectedPostCategoryInformation);
-        console.log("Memoized function");
         return(
             <Posts>
                 {selectedPostCategoryInformation.map(data=>

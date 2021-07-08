@@ -194,7 +194,6 @@ const HorizontalLineCSS={
 
 
 const RegularPostModal=(props)=>{
-	console.log(props.isOligarch);
 	const {
 		closeModal,
 		symposium,
@@ -373,7 +372,6 @@ const RegularPostModal=(props)=>{
 		})
 	}
 	const deleteIcon=(data,index)=>{
-		console.log(data);
 		return(
 			<React.Fragment>
 				{(isOligarch==true || data.owner._id==personalInformation.id)==true &&(

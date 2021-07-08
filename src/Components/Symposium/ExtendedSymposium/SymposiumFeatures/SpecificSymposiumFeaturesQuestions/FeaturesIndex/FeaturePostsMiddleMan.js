@@ -55,8 +55,6 @@ const ShadowContainer=styled.div`
 const ModalDecider=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
 	const dispatch=useDispatch();
 	const modalDecider=(symposiumInformation)=>{
-		console.log(symposiumInformation);
-		debugger;
 		const postModalProps={
 			symposium,
 			modalType,
@@ -67,8 +65,6 @@ const ModalDecider=({closeModal,modalType,symposium,questionIndex,symposiumId,qu
 			isOligarch:symposiumInformation.isOligarch,
 			deleteSpecificSymposiumAnswerTrigger
 		}
-		console.log(symposiumInformation.isOligarch);
-		console.log(postModalProps.isOligarch)
 		if(modalType=="Image"){
 			return <ImagePostModal
 						{...postModalProps}

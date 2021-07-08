@@ -68,7 +68,6 @@ const CreateSubmission=({addNewElectionContestant,closeCreationModal,symposiumId
 
 	const retrieveOwnerOligarchCard=async()=>{
 		const {confirmation,data}=await retrieveOwnerVoterCardIfItExits(symposiumId,personalInformation.id);
-		debugger;
 		if(confirmation=="Success"){
 			const {message}=data;
 			if(message!=null){
@@ -124,7 +123,6 @@ const CreateSubmission=({addNewElectionContestant,closeCreationModal,symposiumId
 	}
 
 	const editOligarch=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
 		changeProcessingStatus(true);
 		const submissionElectionSpeech=document.getElementById("electionSpeech").value;
 		if(submissionElectionSpeech==previousOwnerOligarchCardInformation.electionSpeech){

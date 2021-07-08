@@ -77,9 +77,7 @@ const BeaconPosts=({
 				beaconId,
 				originalBeaconOwnerId
 			})=>{
-	console.log(originalBeaconOwnerId);
 	const [currentPost,changePosts]=useState([...posts]);
-	console.log(currentPost);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const uuidv4=()=>{

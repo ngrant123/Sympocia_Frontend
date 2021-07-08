@@ -2,31 +2,23 @@ import React,{useState} from "react";
 import {ChatAndIndustryInformationContainer} from "../indexCSS.js";
 import {SymposiumConsumer} from "../SymposiumContext.js";
 import PortalHOC from "../Modals/PortalHOC.js";
+import SymposiumOptionsPortal from "../Modals/SymposiumOptionsPortal.js";
+
 
 let MobilePostOptionsButton={
-    listStyle:"none",
     backgroundColor:"white",
     padding:"10px",
     color:"#6e6e6e",
     boxShadow:"1px 1px 5px #6e6e6e",
     borderRadius:"5px",
     borderStyle:"none",
-    cursor:"pointer",
-    marginLeft:"5%",
-    zIndex:"45"
+    cursor:"pointer"
 }
 const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle})=>{
 		const isPhoneScrollTriggered=(displayPhoneUI==true && headerAnimation==true)==true?true:false;
 		const [displayHighLightedQuestions,changeDisplayHighLightQuesition]=useState(false)
 		const [displaySpecificSymposiumFeatures,changeDisplaySpecficSymposiumFeatures]=useState(false);
-
-		if(headerAnimation==true){
-            MobilePostOptionsButton={
-                ...MobilePostOptionsButton,
-                marginTop:"7%",
-                marginLeft:"20%"
-            }
-        }
+		const [displaySymposiumOptionsPortal,changeDisplaySymposiumOptions]=useState(false)
         const closeModal=()=>{
         	changeDisplayHighLightQuesition(false)
         	changeDisplaySpecficSymposiumFeatures(false);
@@ -41,6 +33,10 @@ const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle})
 				 	}
         		</React.Fragment>
         	)
+        }
+
+        const closeSymposiumOptionsModal=()=>{
+        	changeDisplaySymposiumOptions(false);
         }
 		return(
 			<SymposiumConsumer>
@@ -59,42 +55,17 @@ const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle})
 										closeModal={closeModal}
 									/>
 								)}
-
-								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobilePostOptionsButton}>
-										Symposium Options
-									</button>
-
-									<ul class="dropdown-menu">
-										<ChatAndIndustryInformationContainer onClick={()=>symposiumInformation.handleFollowSymposium()}>
-											{isUserFollowingSymposium(symposiumInformation.isUserFollowingSymposium())}
-										</ChatAndIndustryInformationContainer>
-										<hr/>
-										<ChatAndIndustryInformationContainer onClick={()=>changeDisplayHighLightQuesition(true)}>
-											Highlighted Questions
-										</ChatAndIndustryInformationContainer>
-										<hr/>
-
-										<ChatAndIndustryInformationContainer onClick={()=>symposiumInformation.displayPopularVideos()}>
-											Popular videos
-										</ChatAndIndustryInformationContainer>
-										<hr/>
-
-										<ChatAndIndustryInformationContainer onClick={()=>symposiumInformation.handleSeeAllPeopleActiveModal()}>
-											Active people
-										</ChatAndIndustryInformationContainer>
-										<hr/>
-										<ChatAndIndustryInformationContainer onClick={()=>changeDisplaySpecficSymposiumFeatures(true)}>
-											{
-												selectedSymposiumTitle=="General"||
-												selectedSymposiumTitle=="Religion"||
-												selectedSymposiumTitle=="Gaming"||
-												selectedSymposiumTitle=="Philosophy"?
-												<p>Chat </p>:
-												<p> Symposium Features </p>
-											}	
-										</ChatAndIndustryInformationContainer>
-									</ul>
+								{displaySymposiumOptionsPortal==true &&(
+									<SymposiumOptionsPortal
+										closeModal={closeSymposiumOptionsModal}
+										symposiumInformation={symposiumInformation}
+										changeDisplayHighLightQuesition={changeDisplayHighLightQuesition}
+										selectedSymposiumTitle={selectedSymposiumTitle}
+										changeDisplaySpecficSymposiumFeatures={changeDisplaySpecficSymposiumFeatures}
+									/>
+								)}
+								<div onClick={()=>changeDisplaySymposiumOptions(true)} style={MobilePostOptionsButton}>
+									Symposium Options
 								</div>
 
 							</React.Fragment>

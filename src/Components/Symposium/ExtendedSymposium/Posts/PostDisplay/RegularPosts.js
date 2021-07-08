@@ -52,7 +52,6 @@ const HorizontalLineCSS={
 
 
 const RegularPost=({regularPostInformation,displayDesktopUI})=>{
-	console.log(regularPostInformation);
 	return(
 		<React.Fragment>
 			<Container>

@@ -7,7 +7,6 @@ const CreateUrl=process.env.NODE_ENV=='production'?
 
 export const addProfileToViewedOligarchNotification=async(symposiumId,profileId)=>{
 	try{
-		debugger;
 		const addProfileResponse=await axios.post(`${CreateUrl}/addProfileToViewedOligarchNotification`,{
 			symposiumId,
 			profileId

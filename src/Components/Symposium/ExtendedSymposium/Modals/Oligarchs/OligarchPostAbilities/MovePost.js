@@ -37,7 +37,6 @@ const MovePost=({closeModal,postId,postType,selectedSymposiumCategory,triggerClo
 	const [targetSymposiumCategory,changeTargetSymposiumCategory]=useState();
 
 	useEffect(()=>{
-		console.log(PERSONAL_INDUSTRIES);
 		changeSymposiums([...PERSONAL_INDUSTRIES.INDUSTRIES]); 
 	},[]);
 
@@ -47,7 +46,6 @@ const MovePost=({closeModal,postId,postType,selectedSymposiumCategory,triggerClo
 	}
 
 	const triggerEditPost=async({isAccessTokenUpdated,updatedAccessToken,swapPost})=>{
-		debugger;
 		changeIsProcessing(true);
 		const editedPost={
 			postType,

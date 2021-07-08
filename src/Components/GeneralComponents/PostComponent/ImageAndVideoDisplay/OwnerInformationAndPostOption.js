@@ -33,8 +33,6 @@ const userActionsContainer=({
 						profileType,
 						symposiumPostInformation,
 						postData})=>{
-	console.log(symposiumPostInformation);
-	console.log(postData);
 	const{
 		createOrRemoveStampEffect,
 		displayComments,

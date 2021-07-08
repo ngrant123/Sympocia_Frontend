@@ -178,7 +178,6 @@ const VideoPostModal=(props)=>{
 		selectedPostId,
 		deleteSpecificSymposiumAnswerTrigger
 	}=props
-	console.log(props);
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [finalImageEditDisplay,changeDisplayForFinalImage]=useState(false);
 	const [videoUrl,changeVideoUrl]=useState();

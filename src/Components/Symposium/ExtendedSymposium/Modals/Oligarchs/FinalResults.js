@@ -69,10 +69,7 @@ const FinalResults=({closeModal,selectedSymposiumTitle,symposiumId})=>{
 	const [newOligarchs,changeOligarchs]=useState([]);
 	useEffect(()=>{
 		const fetchOligarchsResults=async()=>{
-			debugger;
-			console.log(symposiumId);
 			const {confirmation,data}=await getOligarchPerSymposium(symposiumId);
-			debugger;
 			if(confirmation=="Success"){
 				const {message}=data;
 				if(message.length==0){
@@ -81,14 +78,12 @@ const FinalResults=({closeModal,selectedSymposiumTitle,symposiumId})=>{
 					changeOligarchs(message);
 				}
 			}else{
-				debugger;
 				alert('Unfortunately there has been an error retrieving oligarchs for this symposiums. Please try again');
 			}
 		}
 		fetchOligarchsResults();
 	},[]);
 	const oligarchs=(oligarchData)=>{
-		console.log(oligarchData);
 		return(
 			<OligarchsContainer to={{pathname:`/profile/${oligarchData.profileId}`}}>
 				<img id="oligarchsProfilePicture" src={oligarchData.profilePicture==null?
