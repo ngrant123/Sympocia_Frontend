@@ -15,31 +15,68 @@ const Container=styled.div`
 	display:flex;
 	flex-direction: column;
 	padding:30px;
+	overflow-y:scroll;
+	display:flex;
+	flex-direction:column;
 
 	@media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
-		overflow:scroll !important;
+	}
+	@media screen and (max-width:650px){
+		top:5% !important;
+		height:90% !important;
+
+		#closeAnonymousSuggestionPortal{
+			display:block !important;
+		}
 	}
 `;
 
 const ShadowContainer= styled.div`
 	position:fixed;
-	width:100%;
+	width:110%;
 	height:100%;
 	background-color: rgba(0,0,0,0.4);
 	z-index:40;
 	top:0px;
+	left:-5%;
+`;
+const SearchTextArea=styled.textarea`
+	position:relative;
+	resize:none;
+	width:500px;
+	height:90%;
+	padding-top:10px;
+	border-style:none;
+
+	border: none;
+    overflow: auto;
+    outline: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    resize: none; /*remove the resize handle on the bottom right*/
+
 `;
 
+
 const TextInput=styled.textarea`
-	width:90%;
+	position:relative;
+	width:100%;
 	height:30%;
 	border-radius:5px;
 	resize:none;
 	margin-bottom:5%;
 	border-style:solid;
    	border-color: #E6E6E6;
+
+   	@media screen and (max-width:650px){
+   		width:100%;
+   		height:250px !important;
+   	}
 `;
 
 const Button=styled.div`
@@ -104,6 +141,16 @@ const AnonymousSuggestions=({targetDom,closeModal})=>{
 				onClick={()=>closeModal()}
 			/>
 			<Container>
+				<div id="closeAnonymousSuggestionPortal" onClick={()=>closeModal()} 
+					style={{display:"none",marginBottom:"5%"}}>
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+					 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+					 stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <circle cx="12" cy="12" r="9" />
+					  <path d="M10 10l4 4m0 -4l-4 4" />
+					</svg>
+				</div>
 				{confirmationDisplay==false? 
 					<>
 						<p>
