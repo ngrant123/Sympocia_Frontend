@@ -25,7 +25,10 @@ import AlexAnifantisBuildABrand from "./News/AlexGrowingBrand.js";
 import AlexAnifantisTipsOnWriting from "./News/AlexTipsOnWritingAboutGames.js";
 import AlexAnifantisFullInterview from "./News/AlexFullInterview.js";
 
-
+import WhatDoWeOffer from "../../../designs/background/WhatDoWeOffer.png";
+import HowDoesSympociaDiffer from "./News/HowDoesSympociaDiffer.js";
+import SympociaRepresents from "./News/SympociaRepresents.js";
+import WhatDoesSympociaRepresent from "../../../designs/background/WhatDoesSympociaRepresent.png";
 
 import {addUserToCommunityViewedList} from "../../../Actions/Requests/SympociaCommunity/SympociaCommunityAdapter.js";
 import {useSelector} from "react-redux";
@@ -83,6 +86,18 @@ const InputContainer=styled.textarea`
 const CommunityContainer=(props)=>{
 	const [displayNews,changeDisplayNews]=useState(true);
 	const [newsMapping,changeNewsMapping]=useState([
+		{	
+			title:"How does Sympocia differ?",
+			description:"Here we explain why sympocia is different and a better alternative",
+			component:<HowDoesSympociaDiffer/>,
+			headerImage:WhatDoWeOffer
+		},
+		{
+			title:"What do we represent at Sympocia? ",
+			description:"We answer the long await question: What do we represent at Sympocia?",
+			component:<SympociaRepresents/>,
+			headerImage:WhatDoesSympociaRepresent
+		},	
 		{
 			title:"Growing your brand as a writer in the gaming industry",
 			description:"Alex talks about starting out and growing your brand as a writer",
