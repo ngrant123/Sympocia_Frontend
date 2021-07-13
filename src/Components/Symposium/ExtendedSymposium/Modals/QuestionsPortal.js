@@ -598,7 +598,8 @@ const QuestionsPortal=(props)=>{
 								            symposiumId:selectedSymposium,
 								            userId:_id,
 								            accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-											personalInformation.accessToken
+											personalInformation.accessToken,
+											postType:currentQuestionType
 										})
 		if(confirmation=="Success"){
 			const currentResponses=currentReplies;

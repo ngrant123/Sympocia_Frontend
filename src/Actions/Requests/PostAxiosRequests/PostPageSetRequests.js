@@ -808,14 +808,16 @@ export const deleteCommentToPopularQuestions=async({
             targetDeletionResponseId,
             symposiumId,
             userId,
-            accessToken
+            accessToken,
+            postType
 	})=>{
 	try{
 		const deleteCommentToPopularPostResponse=await axios.post(`${CreateURl}/deleteCommentToPopularPost`,{
 				questionId,
 	            targetDeletionResponseId,
 	            symposiumId,
-	            userId
+	            userId,
+	            postType
 		},{
 			headers:{
 				authorization:accessToken
