@@ -15,7 +15,6 @@ const Container=styled.div`
 	height:95%;
 	display:flex;
 	flex-wrap:wrap;
-	justify-content:center;
 
     #smallPostLI{
 		width:200px !important;
@@ -31,6 +30,7 @@ const Container=styled.div`
 		}
     }
 	@media screen and (max-width:650px){
+		justify-content:center;
 		margin-left:-5% !important;
 		#smallImageDiv{
 			height:110px !important;
@@ -164,7 +164,7 @@ const ImagePostsContainer=(props)=>{
 							profilePageType={props.profile}
 							isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
 						 />:
-						<ul style={{padding:"0px"}}>
+						<ul style={{padding:"0px",width:"100%"}}>
 							{props.imageData.crownedImage==null?
 								null:
 								<React.Fragment>

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import CopyrightIcon from '@material-ui/icons/Copyright';
+import {Link} from "react-router-dom";
 
 const Container=styled.div`
 	display:flex;
@@ -158,12 +159,14 @@ const FourthSection=({history})=>{
 						<p id="questionId" style={{fontSize:"18px"}}>
 							<b>Company</b>
 						</p>
-						<a href="https://www.instagram.com/sympocia/">
+
+						<Link to={{pathname:"/privacyPolicy"}}>
 							<p>Privacy Policy</p>
-						</a>
-						<a href="https://twitter.com/sympocia">
+						</Link>
+
+						<Link to={{pathname:"/termsOfService"}}>
 							<p>Terms & Conditions</p>
-						</a>
+						</Link>
 					</div>
 				</div>
 				<div style={{display:"flex",flexDirection:"row",marginLeft:"15%"}}>

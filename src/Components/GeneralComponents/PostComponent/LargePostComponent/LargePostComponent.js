@@ -39,7 +39,7 @@ const Container=styled.div`
 
     @media screen and (max-width:770px){
     	top:20% !important;
-    	width:100% !important;
+    	width:97% !important;
 		left:1% !important; 
 		height:70% !important;
 		overflow:scroll;
@@ -73,15 +73,18 @@ const PostOptionsContainer = styled.div`
 	width:100%;
 	height:15%;
 	top:85%;
-	overflow:scroll;
+	display:flex;
+	flex-direction:row;
+	padding:10px;
 
 	@media screen and (max-width:1030px){
  		top:65% !important;
  	}
 
-	 @media screen and (max-width:420px){
+	 @media screen and (max-width:650px){
     	top:10% !important;
     	height:90%;
+    	flex-direction:column;
     }
 
 	@media screen and (max-width:740px) and (max-height:420px){
@@ -92,6 +95,8 @@ const PostOptionsContainer = styled.div`
     }
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	top:30% !important;
+    	flex-direction:column;
+    	padding:10%;
     }
 
 
@@ -184,19 +189,17 @@ const PostOptionsContainer = styled.div`
 
 
  const PostOptionButton = styled.div`
- 	position:relative;
  	height:70%;
  	width:100px;
  	background-color:#C8B0F4;
- 	left:7%;
- 	top:5%;
  	border-radius:5px;
  	color:	#f7f4f8;
- 	text-align:center;
+ 	display:flex;
+ 	justify-content:center;
+ 	align-items:center;
+ 	cursor:pointer;
+ 	margin-right:5%;
  	
- 	@media screen and (max-width:1030px){
- 		height:30% !important;
- 	}
 
  	@media screen and (max-width:740px){
  		${({isPhoneUIEnabled})=>
@@ -364,6 +367,14 @@ const BlogPostOptionCSS={
 	marginLeft:"5%"
 }
 
+const HorizontalLineCSS={
+	position:"relative",
+	width:"100%",
+	height:"2px",
+	borderRadius:"5px",
+	borderRadius:"5px"
+}
+
 
 /*
     Plz refactor this before I end my life u fuck
@@ -475,73 +486,61 @@ class LargePostComponent extends Component{
 					</PostContainer>
 
 					<PostOptionsContainer>
-						<ul style={{padding:"0px",marginLeft:"10%",marginTop:"5px"}}>
-							<li onClick={()=>this.setState({
-											displayElement:<RegularPostCreation
-																displayProps={this.displayPostOptions}
-																closeModal={this.props.closeModal}
-                                                                isPhoneUIEnabled={this.props.isPhoneUIEnabled}
-															  />,
-											displayGeneralCreationModal:false
-										 })} 
-								id="postOptionLI" style={PostOptionCSS}>
-								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
-										Post
-									</PostOptionButton>
-								</a>
-							</li>
-							{this.props.isPhoneUIEnabled==true &&(
-								<hr/>
-							)}
+						<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+							onClick={()=>this.setState({
+										displayElement:<RegularPostCreation
+															displayProps={this.displayPostOptions}
+															closeModal={this.props.closeModal}
+                                                            isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+														  />,
+										displayGeneralCreationModal:false
+									 })} 
+							id="postOptionLI">
+							<p>Post</p>
+						</PostOptionButton>
+						{this.props.isPhoneUIEnabled==true &&(
+							<hr style={HorizontalLineCSS}/>
+						)}
 
-							<li  onClick={()=>this.setState({
-														displayElement:<ImagePostCreation
-																		displayProps={this.displayPostOptions}
-																		closeModal={this.props.closeModal}
-                                                                        isPhoneUIEnabled={this.props.isPhoneUIEnabled}
-																		/>,
-														displayGeneralCreationModal:false
-													})} 
-								id="postOptionLI" style={PostOptionCSS}>
-								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
-										Image
-									</PostOptionButton>
-								</a>
-							</li>
-							{this.props.isPhoneUIEnabled==true &&(
-								<hr/>
-							)}
+						<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+							onClick={()=>this.setState({
+								displayElement:<ImagePostCreation
+												displayProps={this.displayPostOptions}
+												closeModal={this.props.closeModal}
+                                                isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+												/>,
+								displayGeneralCreationModal:false
+							})} 
+							id="postOptionLI">
+							<p>Image</p>
+						</PostOptionButton>
+						{this.props.isPhoneUIEnabled==true &&(
+							<hr style={HorizontalLineCSS}/>
+						)}
 
-							<li onClick={()=>this.setState({
-                                    displayElement:<VideoPostCreation
-                                                        displayProps={this.displayPostOptions}
-                                                        closeModal={this.props.closeModal}
-                                                        isPhoneUIEnabled={this.props.isPhoneUIEnabled}
-                                                    />,
-                                    displayGeneralCreationModal:false
-                                })}
-								id="postOptionLI" style={PostOptionCSS}>
-								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
-										Video
-									</PostOptionButton>
-								</a>
-							</li>
-							{this.props.isPhoneUIEnabled==true &&(
-								<hr/>
-							)}
+						<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+							onClick={()=>this.setState({
+                                displayElement:<VideoPostCreation
+                                                    displayProps={this.displayPostOptions}
+                                                    closeModal={this.props.closeModal}
+                                                    isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+                                                />,
+                                displayGeneralCreationModal:false
+                            })}
+							id="postOptionLI">
+								Video
+						</PostOptionButton>
+						{this.props.isPhoneUIEnabled==true &&(
+							<hr style={HorizontalLineCSS}/>
+						)}
 
-							<li id="postOptionLI" style={BlogPostOptionCSS}>
-								<a href="javascript:void(0)" style={{textDecoration:"none"}}>
-									<BlogOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled} 
-									id="blogCreationButton" to={{pathname:`/createBlog`,state:{postType:"Creation"}}}>
-										Blog
-									</BlogOptionButton>
-								</a>
-							</li>
-						</ul>
+						<Link to={{pathname:`/createBlog`,state:{postType:"Creation"}}}
+							style={{textDecoration:"none"}}>
+							<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+								id="postOptionLI">
+									Blog
+							</PostOptionButton>
+						</Link>
 					</PostOptionsContainer>
 				</React.Fragment>
 		)

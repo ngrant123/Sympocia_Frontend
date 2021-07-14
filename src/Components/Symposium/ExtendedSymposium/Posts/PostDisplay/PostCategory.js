@@ -244,7 +244,6 @@ const PostCategory=(props)=>{
 					}
 				</div>
 			</Container>
-
 		</PostDisplayProvider>
 	)	
 }

@@ -123,11 +123,9 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 											<b> {data.name} </b>
 										 </p>
 										<p> {data.description} </p>
-										<a href="javascription:void(0)" style={{textDecoration:"none"}}>
-											<li onClick={()=>confirmSelectedNode(data)} style={ButtonCSS}>
-												Add
-											</li>
-										</a>
+										<li onClick={()=>confirmSelectedNode(data)} style={ButtonCSS}>
+											Add
+										</li>
 									</ul>
 								</li>
 							)}

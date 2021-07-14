@@ -29,7 +29,7 @@ const InputContainer=styled.textarea`
 
 const SubmitButton=styled.div`
 
-	   width:30%;
+	   width:85%;
 	   height:10%;
 	   border-color: #C8B0F4;
 	   border-style:solid;
@@ -43,7 +43,6 @@ const SubmitButton=styled.div`
 	   transition:8s;
 	  border-radius:5px;
 	  padding:20px;
-	  margin-left:25%;
 	  margin-bottom:10%;
 
 	   z-index:2;
@@ -314,7 +313,7 @@ class PersonalSignUp extends Component{
 					<p id="headerText" style={{textAlign:"center",fontSize:"30px",color:"#424242"}}>
 						<b>Welcome to Sympocia</b>
 					</p>
-					<p id="signUpText" style={{textAlign:"center",marginLeft:"35%"}}>
+					<p id="signUpText" style={{textAlign:"center"}}>
 						Sign up is quick and easy
 					</p>
 

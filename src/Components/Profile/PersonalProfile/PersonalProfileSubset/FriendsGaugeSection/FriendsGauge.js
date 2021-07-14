@@ -416,6 +416,7 @@ class FriendsGauge extends Component {
                       userId={this.props.personalInformation._id}
                       updateNode={this.updateNode}
                       isOwner={this.props.personalInformation.isOwnProfile}
+                      isGuestVisitorProfile={this.props.personalInformation.isGuestVisitorProfile}
                   />:<React.Fragment></React.Fragment>
               }
             </ul>

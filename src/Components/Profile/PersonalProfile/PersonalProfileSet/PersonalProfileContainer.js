@@ -589,7 +589,8 @@ class LProfile extends Component{
 					isOwnProfile:this.state.isOwnProfile,
 					_id:this.state.userProfile._id,
 					friendsGauge:this.state.userProfile.friendsGauge,
-					friendsGaugeNodes:this.state.userProfile.friendsGaugeNodes
+					friendsGaugeNodes:this.state.userProfile.friendsGaugeNodes,
+					isGuestVisitorProfile:this.state.isGuestVisitorProfile
 				}}
 				mobileUIStatus={{
 				    displayPhoneUI:this.state.displayPhoneUI,

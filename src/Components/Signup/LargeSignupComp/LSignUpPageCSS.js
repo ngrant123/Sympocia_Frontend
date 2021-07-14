@@ -89,11 +89,11 @@ export const BodyContainer= styled.div`
 			font-size:20px !important;
 		}
 		#CardContainer{
-			left:15% !important;
+			left:12% !important;
 			top:10% !important;
 		}
 	}
-	@media screen and (max-width:840px) {
+	@media screen and (max-width:650px) {
 		#personalCardContainer{
 			top:-200px !important;
 		}

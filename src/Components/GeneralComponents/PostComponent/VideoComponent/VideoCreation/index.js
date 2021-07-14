@@ -11,21 +11,32 @@ const Container=styled.div`
 	border-radius:5px;
 	top:20%;
 	left:30%;
-	height:40%;
+	height:50%;
 	overflow:scroll;
+	width:45%;
 
 	@media screen and (max-width:1370px){
     	top:20% !important;
     	width:100% !important;
 		left:1% !important; 
 		height:70% !important;
+		overflow:scroll;
 
 		#uploadOptionTypeLI{
 			margin-bottom:15% !important;
 		}
     }
+
+    @media screen and (max-width:650px){
+    	width:100% !important;
+    	top:0% !important;
+    	height:100% !important;
+    	#headerCreationText{
+    		font-size:18px !important;
+    	}
+    }
      @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-	  top:20% !important;
+	  	top:20% !important;
     	width:100% !important;
 		left:1% !important; 
 		height:70% !important;
@@ -108,19 +119,29 @@ const VideoOptionCSS={
 		<Container id="container">
 			{videoUploaded==null?
 				<React.Fragment>
+					<div id="closeModalButton" 
+						onClick={()=>props.closeModal()} style={{marginTop:"0%",cursor:"pointer"}}>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+						 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+						 stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <circle cx="12" cy="12" r="9" />
+						  <path d="M10 10l4 4m0 -4l-4 4" />
+						</svg>
+					</div>
 					<input type="file" accept="video/mp4,video/x-m4v,video/*" name="img"
 						 id="uploadVideoFile" style={{position:"relative",opacity:"0",zIndex:"0"}}
 						 onChange={()=>uploadVideo()}>
 					</input>
 
 					<ul style={{padding:"0px",marginLeft:"20%",paddingTop:"10%",width:"70%"}}>
-						<p style={{fontSize:"25px"}}>
+						<p id="headerCreationText" style={{fontSize:"25px"}}>
 							<b>Create your own video here with the click of a button</b>
 						</p>
 						<p style={{fontSize:"15px",color:"#b3b3b3"}}>
 							Everyone has a story. Show people your talents or your ideas that you've been working on
 						</p>
-
+						<hr/>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<li id="uploadOptionTypeLI" style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>

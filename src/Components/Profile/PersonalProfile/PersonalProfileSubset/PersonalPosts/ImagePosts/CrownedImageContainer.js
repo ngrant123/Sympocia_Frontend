@@ -38,14 +38,16 @@ const Container=styled.div`
 const Image=styled.div`
 	position:relative;
 	width:400px;
-	height:300px;
+	height:260px;
 	background-color:blue;
 	border-radius:5px;
 	overflow:hidden;
-	margin-bottom:15px;
+	margin-bottom:35px;
 
 	@media screen and (max-width:1370px){
 		width:35% !important;
+		margin-bottom:15px;
+		height:220px;
 	}
 	@media screen and (max-width:650px){
 		width:250px !important;
@@ -116,7 +118,7 @@ const CaptionCSS={
 	listStyle:"none",
 	marginRight:"5%",
 	marginBottom:"15px",
-	maxWidth:"60%",
+	maxWidth:"70%",
 	maxHeight:"50px",
 	overflow:"hidden",
 	fontSize:"18px"

@@ -11,6 +11,16 @@ import {
 } from "../../indexCSS.js";
 
 
+const VerticalLineCSS={
+    borderStyle:"solid",
+    borderWidth:"1px",
+    borderColor:"#EBEBEB",
+    borderLeft:"2px",
+    height:"50px",
+    marginLeft:"3%"
+}
+
+
 const PostsContainerDisplay=(props)=>{
     const {
         isLoadingNewPosts,
@@ -124,15 +134,18 @@ const PostsContainerDisplay=(props)=>{
         return(
             <Posts>
                 {selectedPostCategoryInformation.map(data=>
-                    <PostCategory
-                        {...data}
-                        {...postsProps}
-                        postType={state.postType}
-                        defaultPostCategoryInformation={defaultPostCategoryInformation}
-                        triggerChangeCategoryType={triggerChangeCategoryType}
-                        displayDesktopUI={state.displayDesktopUI}
-                        isOligarch={state.isOligarch}
-                    />
+                    <React.Fragment>
+                        <PostCategory
+                            {...data}
+                            {...postsProps}
+                            postType={state.postType}
+                            defaultPostCategoryInformation={defaultPostCategoryInformation}
+                            triggerChangeCategoryType={triggerChangeCategoryType}
+                            displayDesktopUI={state.displayDesktopUI}
+                            isOligarch={state.isOligarch}
+                        />
+                        <div id="verticalPostCategoryDivider" style={VerticalLineCSS}/>
+                    </React.Fragment>
                 )}
             </Posts>
         )

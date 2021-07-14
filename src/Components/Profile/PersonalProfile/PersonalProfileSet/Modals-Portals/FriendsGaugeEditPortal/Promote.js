@@ -57,7 +57,7 @@ const SubmitButton=styled.div`
 `;
 
 const ImageCSS={
-	width:"80%",
+	width:"70px",
 	height:"30%",
 	borderRadius:"50%",
 	borderType:"solid",
@@ -194,8 +194,8 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 													<ul style={{padding:"10px"}}>
 														<li style={{listStyle:"none"}}>
 															<img id="recruitImage" src={data.profilePicture==null?
-																NoProfilePicture:data.profilePicture} style={ImageCSS
-															}/>
+																NoProfilePicture:data.profilePicture} style={ImageCSS}
+															/>
 														</li>
 														<li style={{listStyle:"none"}}>
 															{data.firstName}

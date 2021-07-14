@@ -54,6 +54,7 @@ const RecruitButtonContainer=styled.div`
 	border-radius:5px;
 	width:80px;
 	margin-bottom:5%;
+	cursor:pointer;
 
 
 	@keyframes glowing {

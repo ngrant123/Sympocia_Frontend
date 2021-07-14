@@ -8,6 +8,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 const OligarchsContainer=styled(Link)`
 	display:flex;
 	flex-direction:row;
+	margin-bottom:10px;
 
 	@media screen and (max-width:650px){
 		#oligarchName{

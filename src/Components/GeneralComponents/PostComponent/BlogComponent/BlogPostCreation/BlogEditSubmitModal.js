@@ -687,12 +687,12 @@ isArrayEqual=(arr1,arr2)=>{
 												</ul>
 											</li>
 
-											<p> Title</p>
+											<p> Title (required)</p>
 											<BlogTitle
 												placeholder="Write down a title so it will immediately grab users attention"
 												id="blogTitle"
 											/>
-											<p> Description</p>
+											<p> Description (required)</p>
 											<BlogDescription
 												placeholder="Write down a description so readers can get a quick summary of you masterpiece"
 												id="blogDescription"

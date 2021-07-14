@@ -97,6 +97,7 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 											});
 			if(confirmation=="Success"){
 				const {message}=data;
+				console.log(data);
 				changeRecruits([...message]);
 			}else{
 				const {statusCode}=data;

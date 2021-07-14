@@ -91,7 +91,7 @@ const RequestAccessButtonCSS={
 }
 
 
-const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNode})=>{
+const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNode,isGuestVisitorProfile})=>{
 	const [displayEditArea,changeDisplayEditArea]=useState(false);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -157,15 +157,19 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 	}
 
 	const requestTrigger=async()=>{
-		const {confirmation,data}=await requestAccessToNode({
-			nodeName:nodeInformation.name,
-			targetId:userId,
-			requestOwnerId:personalInformation.id
-		})
-		if(confirmation=="Success"){
-			alert('Your request has been sent');
+		if(isGuestVisitorProfile==true){
+			alert('Create your own profile so you can request access to this node');
 		}else{
-			alert('There has been an error sending your request');
+			const {confirmation,data}=await requestAccessToNode({
+				nodeName:nodeInformation.name,
+				targetId:userId,
+				requestOwnerId:personalInformation.id
+			})
+			if(confirmation=="Success"){
+				alert('Your request has been sent');
+			}else{
+				alert('There has been an error sending your request');
+			}
 		}
 	}
 

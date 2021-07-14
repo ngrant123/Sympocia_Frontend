@@ -21,7 +21,7 @@ const Container=styled.div`
   left:35%;
   padding:40px;
   display:flex;
-  overflow-y:scroll;
+  overflow:hidden;
   flex-direction:column;
 
   @media screen and (max-width:1370px){
@@ -41,7 +41,7 @@ const Container=styled.div`
 const LoginBox=styled.textarea`
   position:relative;
   border-radius:5px;
-  width:85%;
+  width:95%;
   border-style:solid;
   border-width:1px;
   border-color:#D8D8D8;
@@ -49,14 +49,14 @@ const LoginBox=styled.textarea`
   padding:5px;
   margin-bottom:2%;
   margin-right:2%;
-  height:20%;
+  height:50px;
   @media screen and (max-width:700px){
     width:95% !important;
   }
 `;
 
 const Submit=styled.div`
-   width:70%;
+   width:95%;
    height:50px;
    border-color: #C8B0F4;
    border-style:solid;
@@ -67,7 +67,7 @@ const Submit=styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition:8s;
+  transition:.8s;
   border-radius:5px;
   padding:20px;
   margin-bottom:5%;

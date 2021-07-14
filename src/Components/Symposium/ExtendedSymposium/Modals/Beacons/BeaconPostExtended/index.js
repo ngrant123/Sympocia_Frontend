@@ -2,9 +2,9 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import Creation from "../Creation.js";
 import SelectedPost from "./SelectedPost.js";
-import Replies from "./Replies.js";
 import ZoomedPostImageOrVideoPortal from "../../../../../GeneralComponents/PostComponent/ZoomedInPostImageOrVideo.js";
 import {retrieveBeaconReplies} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import BeaconPosts from "../BeaconPosts.js";
 
 const Container=styled.div`
 	display:flex;
@@ -36,6 +36,7 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 	const [isLoadingReplies,changeIsLoadingReplies]=useState(false);
 	const [endOfNewPosts,changeIsEndOfNewPosts]=useState(false);
 	const [isFetchingNextPosts,changeIsFetchingNextPosts]=useState(false);
+	const [displayReplies,changeDisplayReplies]=useState(false);
 
 	const closeCreationModal=()=>{
 		changeDisplaySelectedPost(true);
@@ -68,6 +69,8 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 		if(displayExtendReplyBeacon==true){
 			changeSelectedPostData(postData);
 			changeDisplayReplyBeacon(false);
+		}else if(displayReplies==true){
+			changeDisplayReplies(false);
 		}else{	
 			closeExtendedBeaconModal()
 		}
@@ -75,6 +78,7 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 	const displayZoomedReplyPost=(data)=>{
 		changeSelectedPostData(data);
 		changeDisplayReplyBeacon(true);
+		changeDisplayReplies(false);
 	}
 
 	const fetchReplies=async(increaseCounterIndicator)=>{
@@ -111,11 +115,13 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 		}
 		changeIsLoadingReplies(false);
 		changeIsFetchingNextPosts(false);
+		changeDisplayReplies(true);
 	}
 	const deleteBeaconPost=()=>{
 		deletedBeacon();
 		triggerCloseModal();
 	}
+
 	return(
 		<Container>
 			{displayZoomedInPostPortal==true &&(
@@ -136,28 +142,34 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 			)}
 			{displaySelectedPost==true?
 				<React.Fragment>
-					<SelectedPost
-						post={selectedPostData.post}
-						postType={postType}
-						displayZoomedPost={displayZoomedPost}
-					/>
-					{displayExtendReplyBeacon==false &&(
-						<Replies
+					{displayReplies==false?
+						<SelectedPost
+							post={selectedPostData.post}
 							postType={postType}
+							displayZoomedPost={displayZoomedPost}
 							enableCreationPost={enableCreationPost}
-							replies={replies}
-							displayZoomedReplyPost={displayZoomedReplyPost}
+							isOligarch={isOligarch}
+							originalBeaconOwnerId={selectedPostData.post.owner._id}
 							fetchReplies={fetchReplies}
-							isLoadingReplies={isLoadingReplies}
+							deleteBeaconPost={deleteBeaconPost}
+							symposiumId={symposiumId}
+							beaconId={postData.beaconId}
+							isReplyBeacon={displayExtendReplyBeacon}
+						/>:
+						<BeaconPosts
+							posts={replies}
+							postType={postType}
+							displayExtendedPostModal={displayZoomedReplyPost}
 							endOfNewPosts={endOfNewPosts}
 							isFetchingNextPosts={isFetchingNextPosts}
+							triggerAlterPosts={fetchReplies}
+							isReplyBeacons={true}
 							isOligarch={isOligarch}
-							deleteBeaconPost={deleteBeaconPost}
 							symposiumId={symposiumId}
 							beaconId={postData.beaconId}
 							originalBeaconOwnerId={selectedPostData.post.owner._id}
 						/>
-					)}
+					}
 				</React.Fragment>
 				:<Creation
 					closeCreationModal={closeCreationModal}

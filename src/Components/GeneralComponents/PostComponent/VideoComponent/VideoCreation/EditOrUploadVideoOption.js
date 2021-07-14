@@ -79,66 +79,72 @@ class EditOrUploadVideoOption extends Component{
 	render(){
 		return(
 			<VideoContainer>
-				{this.state.displayEditVideoModal==false?
-					<ul id="editOrUploadOptionDiv" style={{padding:"0px"}}>
-							<li style={{listStyle:"none"}}>
-								<video id="videoElement" width="100%" height="90%" controls autoplay>
-									<source src={this.props.videoSrc} type="video/mp4"/>
-								</video>
-							</li>
-							<li id="videoOptionsContainer" style={{listStyle:"none",marginTop:"-5%",marginBottom:"2%"}}>
-									<ul style={{padding:"0px",marginTop:"5%"}}>
-										{/*
-											<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"25%"}}>
-														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																			borderColor:"#5298F8",
-																																			borderStyle:"solid",
-																																			borderWidth:"1px",
-																																			color:"white",
-																																			backgroundColor:"#5298F8",
-																																			boxShadow:"2px 10px 10px #b9d6ff"}}>
-																<ul style={{padding:"0px"}}>
-																	<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-																		<PublishIcon/>
-																	</li>
+				<EditVideoModal
+					videoSrc={this.props.videoSrc}
+					redoVideo={this.redoVideo}
+					isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+					closeModal={this.props.closeModal}
+				/>
+				{/*
+					{this.state.displayEditVideoModal==false?
+						<ul id="editOrUploadOptionDiv" style={{padding:"0px"}}>
+								<li style={{listStyle:"none"}}>
+									<video id="videoElement" width="100%" height="90%" controls autoplay>
+										<source src={this.props.videoSrc} type="video/mp4"/>
+									</video>
+								</li>
+								<li id="videoOptionsContainer" style={{listStyle:"none",marginTop:"-5%",marginBottom:"2%"}}>
+										<ul style={{padding:"0px",marginTop:"5%"}}>
+												<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"25%"}}>
+															<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																				borderColor:"#5298F8",
+																																				borderStyle:"solid",
+																																				borderWidth:"1px",
+																																				color:"white",
+																																				backgroundColor:"#5298F8",
+																																				boxShadow:"2px 10px 10px #b9d6ff"}}>
+																	<ul style={{padding:"0px"}}>
+																		<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+																			<PublishIcon/>
+																		</li>
 
-																	<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-																		Upload video
-																	</li>
-																</ul>	
-														</button>
+																		<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+																			Upload video
+																		</li>
+																	</ul>	
+															</button>
+												</li>
+
+											<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block"}} onClick={()=>this.checkVideoLength()}>
+												<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
+																																borderColor:"#5298F8",
+																																borderStyle:"solid",
+																																borderWidth:"1px",
+																																color:"white",
+																																backgroundColor:"#5298F8",
+																																boxShadow:"2px 10px 10px #b9d6ff"}}>
+													<ul style={{padding:"0px"}}>
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+															<CameraFrontIcon/>
+														</li>
+
+														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+															Edit video
+														</li>
+													</ul>	
+												</button>
 											</li>
-										*/}
-
-										<li id="videoUploadOption" style={{position:"relative",listStyle:"none",display:"inline-block"}} onClick={()=>this.checkVideoLength()}>
-											<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																															borderColor:"#5298F8",
-																															borderStyle:"solid",
-																															borderWidth:"1px",
-																															color:"white",
-																															backgroundColor:"#5298F8",
-																															boxShadow:"2px 10px 10px #b9d6ff"}}>
-												<ul style={{padding:"0px"}}>
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-														<CameraFrontIcon/>
-													</li>
-
-													<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-														Edit video
-													</li>
-												</ul>	
-											</button>
-										</li>
-									</ul>
-							</li>
-						</ul>:
-						<EditVideoModal
-							videoSrc={this.props.videoSrc}
-							redoVideo={this.redoVideo}
-							isPhoneUIEnabled={this.props.isPhoneUIEnabled}
-							closeModal={this.props.closeModal}
-						/>
-				}
+										</ul>
+								</li>
+							</ul>:
+							<EditVideoModal
+								videoSrc={this.props.videoSrc}
+								redoVideo={this.redoVideo}
+								isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+								closeModal={this.props.closeModal}
+							/>
+					}
+				*/}
 
 			</VideoContainer>
 		)

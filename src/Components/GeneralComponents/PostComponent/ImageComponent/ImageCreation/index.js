@@ -56,8 +56,15 @@ const Container=styled.div`
 			marginTop:-80% !important;
 		}
     }
-   	@media screen and (max-width:740px) and (max-height:420px){
-    	top:20% !important;
+   	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+       	top:10% !important;
+		height:80% !important;
+    }
+
+
+
+   	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+    	top:0% !important;
     	width:100% !important;
 		left:1% !important; 
 		height:100% !important;

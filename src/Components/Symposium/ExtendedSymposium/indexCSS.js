@@ -18,6 +18,12 @@ export const Posts=styled.div`
 	display:flex;
 	flex-direction:row;
 
+	@media screen and (max-width:1370px){
+		#verticalPostCategoryDivider{
+			display:none !important;
+		}
+	}
+
 	@media screen and (max-width:650px){
 		margin-top:5% !important;
 		width:100%;
@@ -248,6 +254,7 @@ export const PostsChatInformation=styled.div`
 	height:45%;
 	left:8%;
 	filter:blur(2px);
+	margin-left:2%;
 
 	z-index:-1;
 	transition: all 1s;

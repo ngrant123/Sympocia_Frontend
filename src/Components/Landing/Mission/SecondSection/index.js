@@ -55,7 +55,12 @@ const InformationalContainer=styled.div`
 		margin-top:7%;
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:375px) and (max-height:1030px){
+    	margin-top:80%;
+    }
+
+
+	@media screen and (max-width:650px) and (max-height:1030px){
 		flex-direction:column-reverse;
 		margin-top:70%;
 
@@ -71,15 +76,19 @@ const InformationalContainer=styled.div`
 		}
 	}
 
-	@media screen and (max-width:500px){
-		margin-top:110%;
+	@media screen and (max-width:510px) and (max-height:800px){
+		margin-top:90%;
 	}
 
-	@media screen and (max-width:420px){
+	@media screen and (max-width:420px) and (max-height:800px){
+		margin-top:100%;
+	}
+	@media screen and (max-width:375px) and (max-height:800px){
 		margin-top:120%;
 	}
 
-	@media screen and (max-width:340px){
+
+	@media screen and (max-width:340px) and (max-height:800px){
 		margin-top:180%;
 	}
 

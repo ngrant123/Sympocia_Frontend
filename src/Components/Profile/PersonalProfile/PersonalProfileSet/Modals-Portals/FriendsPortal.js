@@ -167,9 +167,11 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 			<Container>
 				{displayRemoveRecruitsVerification==false?
 					<ul style={{padding:"20px"}}>
-						<InputContainer
-							placeholder="Search through you recruits"
-						/>
+						{/*
+							<InputContainer
+								placeholder="Search through you recruits"
+							/>
+						*/}
 						<hr/>
 						{isLoadingData==true?
 							<p>Please wait... </p>:

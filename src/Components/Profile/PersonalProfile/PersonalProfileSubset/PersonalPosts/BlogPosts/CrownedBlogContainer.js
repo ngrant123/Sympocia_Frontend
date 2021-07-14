@@ -158,7 +158,7 @@ const CrownedBlogContainer=(props)=>{
 													profileType:props.profileType,
 													friendsNodes:props.friendsNodes
 											}}} style={{textDecoration:"none"}}>
-			<div id="imageContainer" style={{display:"flex",flexDirection:"column",width:"80%",marginRight:"2%"}}>
+			<div id="imageContainer" style={{display:"flex",flexDirection:"column",width:"50%",marginRight:"2%"}}>
 				<div style={{display:"flex",flexDirection:"row",marginBottom:"2%"}}>
 					{props.headerBlog.audioDescription!=null &&(
 						<audio id="headerAudioLI" controls style={{width:"200px"}} >
