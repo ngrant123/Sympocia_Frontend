@@ -350,7 +350,8 @@ class CommentsContainer extends Component{
 											commentId,
 											this.props.personalState.id,
 											isAccessTokenUpdated==true?updatedAccessToken:
-											this.props.personalState.accessToken)
+											this.props.personalState.accessToken,
+											this.props.symposiumId)
 		if(confirmation=="Success"){
 			if(isReplyDeletion==true){
 				const replies=this.state.selectedReplies;

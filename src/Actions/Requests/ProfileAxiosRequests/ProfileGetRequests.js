@@ -413,7 +413,7 @@ export const getRecruits=async(profileId)=>{
 		})
 		const {data}=recruitsResponse;
 		return data;
-	}catch(err){
+	}catch(err){ 
 		return err;
 	}
 }
@@ -465,12 +465,15 @@ export const getPromotedRecruits=async({id,accessToken})=>{
 	}
 }
 
-export const getNodesSpecificToRecruit=async(profileId,recruitId)=>{
+export const getNodesSpecificToRecruit=async(profileId,recruitId,accessToken)=>{
 	try{
 		const nodesSpecificToRoute=await axios.get(`${SearchUrl}/nodeAssignedToRecruit`,{
 			params:{
 				profileId,
 				recruitId
+			},
+			headers:{
+				authorization:accessToken
 			}
 		})
 		const {data}=nodesSpecificToRoute;

@@ -4,6 +4,8 @@ import {verifyCode} from "../../../../Actions/Requests/EmailServiceRequests.js";
 import {resetPassword} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js"; 
 import {useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
+import PasswordSuggestions from "../../../GeneralComponents/PassWordSuggestionsModal.js";
+import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 
 const Container=styled.div`
 	position:absolute;
@@ -92,6 +94,7 @@ const EmailReset=({email,triggerEmailConfirmationModal,history})=>{
 	const [displayEnterPasswordPrompt,changeEnterPasswordPrompt]=useState(true);
 	const [userRefreshToken,changeUserRefreshToken]=useState();
 	const [userAccessToken,changeUserAccessToken]=useState();
+	const [displayPasswordSuggestionsModal,changeDisplayPasswordSuggestionModal]=useState(false);
 	const [userId,changeUserId]=useState();
 	const dispatch=useDispatch();
 
@@ -150,33 +153,51 @@ const EmailReset=({email,triggerEmailConfirmationModal,history})=>{
 			}
 		}
 	}
+
+	const closePasswordSuggestionsModal=()=>{
+		changeDisplayPasswordSuggestionModal(false);
+	}
 	return(
-		<Container>
-			<p style={{fontSize:"30px"}}>
-				<b>Reset password</b>
-			</p>
-			{displayEnterPasswordPrompt==true?
-				<React.Fragment>
-					<p>
-						Please enter the verification code that was sent to your email. It will be located in either your inbox or spam.
-						The code will be invalid in five minutes
-				 	</p>
-					<InputContainer id="verificationCode" verficplaceholder="Enter verification code"/>
-					<Button onClick={()=>verifyToken()}>
-						Submit
-					</Button>
-				</React.Fragment>:
-				<React.Fragment>
-					<InputContainer id="newPassword" placeholder="New Password"/>
-					<Button onClick={()=>setPasswordForUser({isAccessTokenUpdated:false})}>
-						Submit
-					</Button>
-				</React.Fragment>
-			}
-			<p style={{color:"#5298F8",cursor:"pointer"}} onClick={()=>triggerEmailConfirmationModal()}>
-				Resend Verfication Code
-			</p>
-		</Container>
+		<React.Fragment>
+			<PasswordSuggestions
+				closePasswordSuggestionsModal={closePasswordSuggestionsModal}
+				displayPasswordSuggestionsModal={displayPasswordSuggestionsModal}
+			/>
+			<Container>
+				<p style={{fontSize:"30px"}}>
+					<b>Reset password</b>
+				</p>
+				{displayEnterPasswordPrompt==true?
+					<React.Fragment>
+						<p>
+							Please enter the verification code that was sent to your email. It will be located in either your inbox or spam.
+							The code will be invalid in five minutes
+					 	</p>
+						<InputContainer id="verificationCode" verficplaceholder="Enter verification code"/>
+						<Button onClick={()=>verifyToken()}>
+							Submit
+						</Button>
+					</React.Fragment>:
+					<React.Fragment>
+						<div style={{display:"flex",flexDirection:"row"}}>
+							<InputContainer id="newPassword" placeholder="New Password"/>
+							<div style={{width:"25%"}}>
+								<HelpOutlineOutlinedIcon
+									style={{fontSize:"30",marginRight:"5%",color:"#C8B0F4",cursor:"pointer"}}
+									onClick={()=>changeDisplayPasswordSuggestionModal(true)}
+								/>
+							</div>
+						</div>
+						<Button onClick={()=>setPasswordForUser({isAccessTokenUpdated:false})}>
+							Submit
+						</Button>
+					</React.Fragment>
+				}
+				<p style={{color:"#5298F8",cursor:"pointer"}} onClick={()=>triggerEmailConfirmationModal()}>
+					Resend Verfication Code
+				</p>
+			</Container>
+		</React.Fragment>
 	)
 }
 

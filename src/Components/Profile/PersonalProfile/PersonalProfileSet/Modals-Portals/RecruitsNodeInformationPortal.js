@@ -172,15 +172,31 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 	const triggerFilterSpecificNodePosts=()=>{
 
 	}
-	const fetchRecruitsSpecificToNode=async()=>{
+	const fetchRecruitsSpecificToNode=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changeDisplayProfilesPerNode(true);
 		changeIsLoading(true);
-		const {confirmation,data}=await recruitsLocatedInNode(userId,nodeInformation._id)
+		const {confirmation,data}=await recruitsLocatedInNode(
+											userId,
+											nodeInformation._id,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken)
 		if(confirmation=="Success"){
 			const {message}=data;
 			changeProfilesPromotedToNode([...message]);
 		}else{
-			alert('There has been an error retrieving recruits located in specific node');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						fetchRecruitsSpecificToNode,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('There has been an error retrieving recruits located in specific node');
+			}
 		}
 		changeIsLoading(false);
 	}
@@ -282,7 +298,8 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 													</>
 												}
 											</React.Fragment>:
-											<p onClick={()=>fetchRecruitsSpecificToNode()} style={RequestAccessButtonCSS}>
+											<p onClick={()=>fetchRecruitsSpecificToNode({isAccessTokenUpdated:false})}
+												style={RequestAccessButtonCSS}>
 												View profiles promoted to this node:
 											</p>
 										}

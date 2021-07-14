@@ -6,6 +6,7 @@ import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCir
 import CommentPoolCreation from "./CommentPoolCreationPortal.js";
 import DeleteCommentPool from "./DeleteCommentPortal.js";
 import {PostDisplayConsumer} from "../../Symposium/ExtendedSymposium/Posts/PostDisplay/PostDisplayContext.js";
+import {SymposiumConsumer} from "../../Symposium/ExtendedSymposium/SymposiumContext.js"
 
 
 const Container=styled.div`
@@ -161,8 +162,11 @@ class CommentsContainer extends Component{
 			createVideoResponses:!this.state.createVideoResponses
 		})
 	}
-	displayCommentsOrVideoResponses=(symposiumPostInformation)=>{
+	displayCommentsOrVideoResponses=(symposiumPostInformation,symposiumInformation)=>{
+		console.log(symposiumPostInformation);
 		const isOligarch=symposiumPostInformation==null?false:symposiumPostInformation.isOligarch;
+		const symposiumId=symposiumInformation==null?null:symposiumInformation.symposiumId;
+
 		return this.state.displayCommentsOrVideoResponses==true?
 			<CommentContainer
 				postType={this.props.postType}
@@ -172,6 +176,7 @@ class CommentsContainer extends Component{
 				selectedCommentPoolId={this.state.selectedCommentId}
 				isOligarch={isOligarch}
 				isOwnProfile={this.props.isOwnProfile}
+				symposiumId={symposiumId}
 			/>:
 			<VideoResponseContainer
 				postType={this.props.postType}
@@ -185,6 +190,7 @@ class CommentsContainer extends Component{
 				ownerId={this.props.ownerId}
 				isOligarch={isOligarch}
 				isOwnProfile={this.props.isOwnProfile}
+				symposiumId={symposiumId}
 			/>
 	}
 
@@ -434,62 +440,47 @@ class CommentsContainer extends Component{
 	render(){
 		return(
 		<PostDisplayConsumer>
-			{symposiumPostInformation=>{
-				return(
-					<Container>
-						{this.commentPoolCreationPortal()}
-						{this.deleteCommentPoolPortal()}
+			{symposiumPostInformation=>
+				<SymposiumConsumer>
+					{symposiumInformation=>
+						<Container>
+							{this.commentPoolCreationPortal()}
+							{this.deleteCommentPoolPortal()}
 
-						<ul id="containerUL" style={{padding:"0px",backgroundColor:"white"}}>
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",cursor:"pointer"}}
-										 onClick={()=>this.props.hideComments()}>
-										<p style={BackButtonCSS} onClick={()=>this.props.hideComments()}>
-											Back
-										</p>
-									</li>
+							<ul id="containerUL" style={{padding:"0px",backgroundColor:"white"}}>
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"3%",cursor:"pointer"}}
+											 onClick={()=>this.props.hideComments()}>
+											<p style={BackButtonCSS} onClick={()=>this.props.hideComments()}>
+												Back
+											</p>
+										</li>
 
 
-									<li onClick={()=>this.triggerDisplayVideoComments()}
-																		 style={{listStyle:"none",display:"inline-block"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											{this.state.displayCommentsOrVideoResponses==false?
-												<p style={BackButtonCSS}>
-													Create Video Response
-												</p>:null	
-											}
-										</a>
-									</li>
-								</ul>
-							</li>
-							<li style={{marginBottom:"5%",listStyle:"none"}}>
-								{this.commentOptions()}
-							</li>
-							<hr/>
-							{/*
-								{this.state.displayPhoneUI==true?
-									<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileOptionCSS}>
-											{this.state.selectedType}
-											<span class="caret"></span>
-										</button>
+										<li onClick={()=>this.triggerDisplayVideoComments()}
+																			 style={{listStyle:"none",display:"inline-block"}}>
+											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												{this.state.displayCommentsOrVideoResponses==false?
+													<p style={BackButtonCSS}>
+														Create Video Response
+													</p>:null	
+												}
+											</a>
+										</li>
+									</ul>
+								</li>
+								<li style={{marginBottom:"5%",listStyle:"none"}}>
+									{this.commentOptions()}
+								</li>
+								<hr/>
+								{this.displayCommentsOrVideoResponses(symposiumPostInformation,symposiumInformation)}
+							</ul>
+						</Container>
 
-										<ul class="dropdown-menu">
-											{this.commentOptions()}
-										</ul>
-									</div>
-									:<li style={{marginBottom:"5%",listStyle:"none"}}>
-										{this.commentOptions()}
-									</li>
-								}
-							*/}
-							{this.displayCommentsOrVideoResponses(symposiumPostInformation)}
-						</ul>
-					</Container>
-					
-				)
-			}}
+					}
+				</SymposiumConsumer>
+			}
 		</PostDisplayConsumer>
 		)
 	}

@@ -7,6 +7,8 @@ import {checkIfEmailIsUsed} from "../../../Actions/Requests/ProfileAxiosRequests
 import {connect} from "react-redux";
 import {signInPersonalUser} from "../../../Actions/Redux/Actions/PersonalProfile.js";
 import {loginCompanyPage} from "../../../Actions/Redux/Actions/CompanyActions.js";
+import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
+import PasswordSuggestions from "../../GeneralComponents/PassWordSuggestionsModal.js";
 
 const InputContainer=styled.textarea`
 	position:relative;
@@ -103,7 +105,8 @@ class PersonalSignUp extends Component{
 			createProfile:this.handleSignUpButton,
 			password:[],
 			reformatedPassword:"",
-			isCreatingProfile:false
+			isCreatingProfile:false,
+			displayPasswordSuggestionsModal:false
 		}
 	}
 
@@ -155,14 +158,6 @@ class PersonalSignUp extends Component{
 				}else{
 					const {statusCode,error}=data;
 					if(statusCode==400){
-						/*
-							let errorValidationResonse="";
-							for(var i=0;i<error.length;i++){
-								errorValidationResonse=errorValidationResonse+' '+error[i]+',';
-							}
-						*/
-						alert('Unfortunately an error has occured on using the credentials you supplied for. Please repeat the process and submit again');
-					}else if(statusCode==401){
 						alert(error);
 					}else{
 						alert('Unfortunately an error has occured when creating your profile. Please try again later');
@@ -299,9 +294,21 @@ class PersonalSignUp extends Component{
 		*/
 	}
 
+	closePasswordSuggestionsModal=()=>{
+		this.setState({
+			displayPasswordSuggestionsModal:false
+		})
+	}
+
+
 	render(){
 		return (
 			<React.Fragment>
+				<PasswordSuggestions
+					closePasswordSuggestionsModal={this.closePasswordSuggestionsModal}
+					displayPasswordSuggestionsModal={this.state.displayPasswordSuggestionsModal}
+				/>
+
 				<ul style={{padding:"0px"}}>
 					<img id="image" src={SympociaIcon} style={{position:"relative",marginLeft:"40%",width:"80px",height:"60px"}}/>
 					<p id="headerText" style={{textAlign:"center",fontSize:"30px",color:"#424242"}}>
@@ -321,10 +328,18 @@ class PersonalSignUp extends Component{
 							 id="lastName" placeholder="Last Name (optional)"
 						/>
 
-						<InputContainer onKeyDown={e=>this.test(e)} 
-							onClick={()=>this.checkIfEmailIsValid()} id="password"
-							 style={{width:"85%"}} placeholder="Password"
-						/>
+						<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+							<InputContainer onKeyDown={e=>this.test(e)} 
+								onClick={()=>this.checkIfEmailIsValid()} id="password"
+								 style={{width:"85%"}} placeholder="Password"
+							/>
+							<div style={{width:"25%"}}>
+								<HelpOutlineOutlinedIcon
+									style={{fontSize:"30",marginRight:"5%",color:"#C8B0F4",cursor:"pointer"}}
+									onClick={()=>this.setState({displayPasswordSuggestionsModal:true})}
+								/>
+							</div>
+						</div>
 
 						{this.state.isCreatingProfile==true ?
 							<p>Please wait...</p>

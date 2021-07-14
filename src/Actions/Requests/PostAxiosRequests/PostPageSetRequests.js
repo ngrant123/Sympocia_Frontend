@@ -267,11 +267,12 @@ export const createComment=async(
 	}
 }
 
-export const deleteCommentOrReply=async(commentId,userId,accessToken)=>{
+export const deleteCommentOrReply=async(commentId,userId,accessToken,symposiumId)=>{
 	try{
 		const deletedCommentResponse=await axios.post(`${CreateURl}/deleteCommentOrReply`,{
 			commentId,
-			userId
+			userId,
+			symposiumId
 		},{
 			headers:{
 				authorization:accessToken
@@ -376,11 +377,12 @@ export const createVideoCommentReply=async({
 	}
 }
 
-export const deleteVideoCommentOrReply=async(videoCommentId,userId,accessToken)=>{
+export const deleteVideoCommentOrReply=async(videoCommentId,userId,accessToken,symposiumId)=>{
 	try{
 		const deletedVideoCommentResponse=await axios.post(`${CreateURl}/deleteVideoResponseOrReply`,{
 			videoCommentId,
-			userId
+			userId,
+			symposiumId
 		},{
 			headers:{
 				authorization:accessToken

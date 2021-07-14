@@ -128,8 +128,12 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 		changeSelectedNodeInformation(currentSelectedNode)
 	}
 
-	const fetchSpecificNodesForRecruit=async(target)=>{
-		const {confirmation,data}=await getNodesSpecificToRecruit(id,target.recruits._id);
+	const fetchSpecificNodesForRecruit=async({isAccessTokenUpdated,updatedAccessToken,target})=>{
+		const {confirmation,data}=await getNodesSpecificToRecruit(
+											id,
+											target.recruits._id,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken);
 		if(confirmation=="Success"){
 			const {message}=data;
 			const specificRecruitNodesMap=new Map();
@@ -148,7 +152,19 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 			changeNodesAssignedToRecruit([...message]);
 			changeSelectedRecruit(target);
 		}else{
-			alert('An error has occured when getting nodes assigned to recruit');
+						const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						fetchSpecificNodesForRecruit,
+						dispatch,
+						{target},
+						false
+					);
+			}else{
+				alert('An error has occured when getting nodes assigned to recruit');
+			}
 		}
 	}
 
@@ -252,7 +268,8 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 							<p>Here are the recruits you have promoted so far. Click one to demote </p>
 							<hr/>
 							{recruits.map(data=>
-								<li onClick={()=>fetchSpecificNodesForRecruit(data)} style={RecruitsCSS}>
+								<li onClick={()=>fetchSpecificNodesForRecruit({isAccessTokenUpdated:false,target:data})}
+								 	style={RecruitsCSS}>
 									<ul style={{padding:"10px"}}>
 										<li style={{listStyle:"none"}}>
 											<img id="recruitImage" src={data.recruits.profilePicture==null?

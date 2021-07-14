@@ -754,6 +754,7 @@ class Symposium extends Component{
 		return(
 			<SymposiumProvider
 				value={{
+					symposiumId:this.state.symposiumId,
 					handleSeeAllPeopleActiveModal:()=>{
 						this.triggerSeeAllPeopleActiveModal()
 					},
