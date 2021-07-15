@@ -77,6 +77,7 @@ const BeaconPosts=({
 				beaconId,
 				originalBeaconOwnerId
 			})=>{
+	console.log(posts);
 	const [currentPost,changePosts]=useState([...posts]);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -105,6 +106,8 @@ const BeaconPosts=({
 	}
 
 	const triggerDeleteBeaconComment=async({replyBeaconId,index,isAccessTokenUpdated,updatedAccessToken})=>{
+
+		debugger;
 		const {confirmation,data}=await deleteBeaconReply({
 			symposiumId,
 			beaconId,
@@ -125,7 +128,10 @@ const BeaconPosts=({
 					personalInformation.id,
 					triggerDeleteBeaconComment,
 					dispatch,
-					{},
+					{
+						replyBeaconId,
+						index
+					},
 					false
 				);
 			}
