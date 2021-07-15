@@ -461,9 +461,14 @@ export const updateCrownedRegularPost=async(_id,updatedStatus,regularPostId,acce
 }
 
 export const editPost=async({
-					postType,postId,post,
-					postS3,ownerId,accessToken,
-					isPhoneUIEnabled})=>{
+					postType,
+					postId,
+					post,
+					postS3,
+					ownerId,
+					accessToken,
+					isPhoneUIEnabled,
+					symposiumId})=>{
 	try{
 		const editedPostResponse=await axios.post(`${CreateURl}/editPost`,{
 			postType,
@@ -471,6 +476,7 @@ export const editPost=async({
 			post,
 			postS3,
 			ownerId,
+			symposiumId,
 			isPhoneUIEnabled
 		},{
 			headers:{
@@ -506,7 +512,15 @@ export const promotePost=async({postId,nodeId,postType,accessToken,userId})=>{
 
 }
 
-export const deletePost=async({postId,postType,industriesUploaded,profileId,accessToken,userId,isCrownedPost})=>{
+export const deletePost=async({
+		symposiumId,
+		postId,
+		postType,
+		industriesUploaded,
+		profileId,
+		accessToken,
+		userId,
+		isCrownedPost})=>{
 	try{
 		
 		const deleteResponse=await axios.post(`${CreateURl}/deletePost`,{
@@ -515,7 +529,8 @@ export const deletePost=async({postId,postType,industriesUploaded,profileId,acce
 			industriesUploaded,
 			profileId,
 			isCrownedPost,
-			userId
+			userId,
+			symposiumId
 		},{
 				headers:{
 					authorization:accessToken

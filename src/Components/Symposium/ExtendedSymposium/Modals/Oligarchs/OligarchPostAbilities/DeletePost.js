@@ -1,9 +1,10 @@
-import React,{useState} from "react";
+import React,{useState,useContext} from "react";
 import styled from "styled-components";
 import {deletePost} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
 import {PostConsumer} from "../../../Posts/PostsContext.js";
+import {SymposiumContext} from "../../../SymposiumContext.js";
 
 const ButtonCSS={
   listStyle:"none",
@@ -24,6 +25,7 @@ const DeletePost=({closeModal,postId,postType,selectedSymposiumCategory,triggerC
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [isProcessing,changeIsProcessing]=useState(false);
+	const SymposiumInformation=useContext(SymposiumContext);
 	
 	const handleDeletePost=async({isAccessTokenUpdated,updatedAccessToken,removePostFromStack})=>{
 		/*
@@ -37,6 +39,7 @@ const DeletePost=({closeModal,postId,postType,selectedSymposiumCategory,triggerC
 			industriesUploaded:[],
 			profileId:personalInformation.id,
 			isCrownedPost:false,
+			symposiumId:SymposiumInformation.symposiumId,
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						personalInformation.accessToken
 		}

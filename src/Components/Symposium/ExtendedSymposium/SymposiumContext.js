@@ -10,5 +10,6 @@ const SymposiumConsumer=SymposiumContext.Consumer;
 
 export{
 	SymposiumProvider,
-	SymposiumConsumer
+	SymposiumConsumer,
+	SymposiumContext
 }

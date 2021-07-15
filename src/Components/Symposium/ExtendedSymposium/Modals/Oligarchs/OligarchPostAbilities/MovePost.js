@@ -1,10 +1,11 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useContext} from "react";
 import styled from "styled-components";
 import PERSONAL_INDUSTRIES from "../../../../../../Constants/personalIndustryConstants.js";
 import {editPost} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 import {PostConsumer} from "../../../Posts/PostsContext.js";
+import {SymposiumContext} from "../../../SymposiumContext.js";
 
 const ButtonCSS={
   listStyle:"none",
@@ -35,6 +36,7 @@ const MovePost=({closeModal,postId,postType,selectedSymposiumCategory,triggerClo
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [displayTargetSymposiumCategoryModal,changeDisplayTargetSymposiumCategory]=useState(false);
 	const [targetSymposiumCategory,changeTargetSymposiumCategory]=useState();
+	const SymposiumInformation=useContext(SymposiumContext);
 
 	useEffect(()=>{
 		changeSymposiums([...PERSONAL_INDUSTRIES.INDUSTRIES]); 
@@ -59,6 +61,7 @@ const MovePost=({closeModal,postId,postType,selectedSymposiumCategory,triggerClo
 				symposiumUploadCategory:targetSymposiumCategory
 			},
 			postS3:[],
+			symposiumId:SymposiumInformation.symposiumId,
 			ownerId:personalInformation.id,
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						personalInformation.accessToken

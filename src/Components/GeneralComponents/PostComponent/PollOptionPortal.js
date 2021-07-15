@@ -104,6 +104,7 @@ const CommentContainer=styled.div`
 const CommentOwnerImage=styled(Link)`
 	display:flex;
 	flex-direction:column;
+	margin-right:2%;
 `;
 
 const CommentTextAndOwner=styled.div`
@@ -112,7 +113,7 @@ const CommentTextAndOwner=styled.div`
 `;
 
 const ProfilePictureCSS={
-	width:"60px",
+	width:"50px",
 	height:"50px",
 	borderRadius:"50%",
 	backgroundColor:"blue"
@@ -321,10 +322,10 @@ const PollOptionPortal=(props)=>{
 											{comments.map(data=>
 												<CommentContainer>
 													<CommentOwnerImage to={{pathname:`/profile/${data.ownerId}`}}>
-														{data.ownerObject.profilePicture==null?
-															<img src={NoProfilePicture} style={ProfilePictureCSS}/>:
-															<img src={data.ownerObject.profilePicture} style={ProfilePictureCSS}/>
-														}
+														<img src={data.ownerObject.profilePicture==null?
+																NoProfilePicture:data.ownerObject.profilePicture} 
+															style={ProfilePictureCSS}
+														/>
 													</CommentOwnerImage>
 													<CommentTextAndOwner>
 														<p>
