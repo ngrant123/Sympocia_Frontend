@@ -498,12 +498,15 @@ export const notificationProfileRetrieval=async(profileId)=>{
 	}
 }
 
-export const recruitsLocatedInNode=async(profileId,levelNodeId)=>{
+export const recruitsLocatedInNode=async(profileId,levelNodeId,accessToken)=>{
 	try{
 		const recruitsLocatedInNodeResponse=await axios.get(`${SearchUrl}/recruitsInNode`,{
 			params:{
 				profileId,
 				levelNodeId
+			},
+			headers:{
+				authorization:accessToken
 			}
 		})
 		const {data}=recruitsLocatedInNodeResponse;

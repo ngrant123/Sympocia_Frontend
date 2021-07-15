@@ -924,7 +924,7 @@ export default{
 				},
 				{
 					question:"Advice from seasoned engineers to people who are just starting out in their respective fields",
-					type:"ImagePost"
+					type:"Image"
 				}
 			]
 		},

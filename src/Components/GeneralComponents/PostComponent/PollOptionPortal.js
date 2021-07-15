@@ -33,7 +33,7 @@ const Container=styled.div`
 	border-radius:5px;
 	left:30%;
 	padding:20px;
-	overflow-y:scroll;
+	overflow-y:auto;
 
 	@media screen and (max-width:1370px){
 		width:100% !important;
@@ -187,7 +187,7 @@ const PollOptionPortal=(props)=>{
 				postId:postId,
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 				personalInformation.accessToken,
-				ownerId
+				ownerId:ownerId._id==null?ownerId:ownerId._id
 			}
 			
 			let confirmationResponse,dataResponse;

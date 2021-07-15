@@ -36,8 +36,10 @@ const PostsContainer=styled.div`
 	position:absolute;
 	width:90%;
 	height:60%;
+	margin-left:5%;
 
 	@media screen and (max-width:1300px){
+		margin-left:0%;
 		#headerTitleLI{
 			display:none !important;
 		}

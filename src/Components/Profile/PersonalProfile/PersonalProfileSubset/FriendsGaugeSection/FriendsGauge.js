@@ -15,7 +15,10 @@ import {
 } from "../../PersonalProfileSet/MobileUI.js";
 
 const Container=styled.div`
+  margin-bottom:50px;
+  
   @media screen and (max-width:1370px){
+    margin-bottom:0px;
     margin-left:5%;
   }
   @media screen and (max-width:650px){

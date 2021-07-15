@@ -737,7 +737,7 @@ export const SympociaOptionsContainer=styled.div`
 			isScrollEnabled?
 			`
 				margin-left:5% !important;
-				top:30%;
+				top:35%;
 			`:
 			`
 				margin-left:-5% !important;

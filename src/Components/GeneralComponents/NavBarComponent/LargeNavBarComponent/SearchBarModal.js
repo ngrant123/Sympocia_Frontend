@@ -176,9 +176,10 @@ class SearchBarModal extends Component{
 				<ul style={{padding:"20px"}}>
 					<li style={{listStyle:"none"}}>
 						<ul style={{padding:"0px"}}>
-							<li id="searchContainerLI" style={{listStyle:"none",display:"inline-block",width:"75%"}}>
+							<li id="searchContainerLI" style={{listStyle:"none",display:"inline-block",width:"100%"}}>
 								<SearchButton id="searchTextArea" placeholder="Search here (case-sensitive)"/>
 							</li>
+							<hr/>
 							<li id="optionLI" style={{listStyle:"none",marginTop:"2%"}}>
 								<div class="dropdown">
 									<button class="btn btn-primary dropdown-toggle" 
