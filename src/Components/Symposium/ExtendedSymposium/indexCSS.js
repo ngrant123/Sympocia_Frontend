@@ -33,6 +33,9 @@ export const Posts=styled.div`
 	}
 `;
 
+
+
+
 export const OligarchsContainer=styled.div`
 	position:relative;
 	border-radius:5px;
