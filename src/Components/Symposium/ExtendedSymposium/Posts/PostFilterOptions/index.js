@@ -66,7 +66,8 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
                             updatePosts={updatePosts}
                         />
                     )}
-                    <div onClick={()=>changePostOptionsDisplayPortal(true)} style={mobilePostCSS}>
+                    <div id="symposiumPostOptionsId"
+                        onClick={()=>changePostOptionsDisplayPortal(true)} style={mobilePostCSS}>
                         Post Options
                     </div>
                 </React.Fragment>

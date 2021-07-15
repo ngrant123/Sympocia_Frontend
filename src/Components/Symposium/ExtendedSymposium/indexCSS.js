@@ -764,6 +764,17 @@ export const SearchOptionContainer=styled.div`
 		width:100% !important;
 		margin-left:5% !important;
 	}
+
+	@media screen and (max-width:350px){
+		#symposiumPostOptionsId{
+			font-size:12px !important;
+		}
+
+		#symposiumOptionsId{
+			font-size:12px !important;
+		}
+		
+	}
 `;
 
 export const MinifiedSymposiumInformation=styled.div`

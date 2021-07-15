@@ -64,7 +64,8 @@ const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle})
 										changeDisplaySpecficSymposiumFeatures={changeDisplaySpecficSymposiumFeatures}
 									/>
 								)}
-								<div onClick={()=>changeDisplaySymposiumOptions(true)} style={MobilePostOptionsButton}>
+								<div id="symposiumOptionsId" 
+									onClick={()=>changeDisplaySymposiumOptions(true)} style={MobilePostOptionsButton}>
 									Symposium Options
 								</div>
 
