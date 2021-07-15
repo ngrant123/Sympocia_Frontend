@@ -18,7 +18,8 @@ const PopularVideosListCSS={
 	display:"inline-block",
 	marginRight:"20px",
 	marginBottom:"10px",
-	overflow:"hidden"
+	overflow:"hidden",
+	cursor:"pointer"
 }
 
 
@@ -60,13 +61,13 @@ const PopularVideosModal=({popularVideos,changeState,displayPopularVideos})=>{
 							{popularVideos.map(data=>
 								<>
 									{data!=null &&(
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>displayVideo(data)}style={PopularVideosListCSS}>
-												<video id="smallVideo" key={uuidv4()} borderRadius="5px" position="relative" height="200px" width="300px">
-													<source src={data.videoUrl} type="video/mp4"/>
-												</video>
-											</li>
-										</a>
+										<li onClick={()=>displayVideo(data)} style={PopularVideosListCSS}>
+											<video id="smallVideo" key={uuidv4()} borderRadius="5px"
+											 	position="relative" height="200px" width="300px"
+											 	autoPlay loop autoBuffer muted playsInline>
+												<source src={data.videoUrl} type="video/mp4"/>
+											</video>
+										</li>
 									)}
 								</>
 							)}

@@ -611,6 +611,8 @@ class EditImageCreation extends Component{
 			industriesUploaded:searchCriteriaObject.industryArray.length==0?
 			[{industry:"General",subIndustry:[]}]:searchCriteriaObject.industryArray,
 			comments:[],
+			videoCommentPool:[],
+			regularCommentPool:[],
 			datePosted:dateInMill,
 			owner:profileId,
 			_id

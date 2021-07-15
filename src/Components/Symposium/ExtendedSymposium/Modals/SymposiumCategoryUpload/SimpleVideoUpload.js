@@ -115,6 +115,8 @@ const VideoPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,clo
 					industry:currentSymposiumName,
 					subIndustry:[]
 				}],
+				videoCommentPool:[],
+				regularCommentPool:[],
 				videoUrl,
 				videoDescription:null,
 				audioDescription:null,

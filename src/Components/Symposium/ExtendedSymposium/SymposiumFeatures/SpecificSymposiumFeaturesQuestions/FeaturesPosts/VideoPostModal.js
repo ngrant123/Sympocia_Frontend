@@ -406,9 +406,9 @@ const VideoPostModal=(props)=>{
 								<p>No posts</p>:
 								<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
 									{posts.map((data,index)=>
-										<div onClick={()=>displaySelectedPost(data)} 
-											style={{display:"flex",flexDirection:"column",marginRight:"5%",marginBottom:"5%"}}>
-											<video id="symposiumFeatureVideo" key={data._id} autoPlay loop autoBuffer muted playsInline 
+										<div style={{display:"flex",flexDirection:"column",marginRight:"5%",marginBottom:"5%"}}>
+											<video onClick={()=>displaySelectedPost(data)} 
+												id="symposiumFeatureVideo" key={data._id} autoPlay loop autoBuffer muted playsInline 
 												style={{borderRadius:"5px",height:"200px",width:"200px"}}>
 												<source src={data.videoUrl} type="video/mp4"/>
 											</video>	

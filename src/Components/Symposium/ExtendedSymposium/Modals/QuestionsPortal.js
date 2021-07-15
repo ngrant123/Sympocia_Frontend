@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useContext} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import CameraIcon from '@material-ui/icons/Camera';
@@ -13,6 +13,7 @@ import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 import ImagePostDisplayPortal from "../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
 import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
 import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
+import {SymposiumContext} from "../SymposiumContext.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -282,6 +283,7 @@ const QuestionsPortal=(props)=>{
 	const [displayRegularPortal,changeRegularPortal]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState();
 	const [selectedPostDisplayModal,changeSelectedPostDisplayModal]=useState();
+	const symposiumInformation=useContext(SymposiumContext);
 
 	const {	questionType,
 			counter,
@@ -595,7 +597,7 @@ const QuestionsPortal=(props)=>{
 		const {confirmation,data}=await deleteCommentToPopularQuestions({
 											questionId:questions[currentCounter]._id,
 							           		targetDeletionResponseId:selectedData._id,
-								            symposiumId:selectedSymposium,
+								            symposiumId:symposiumInformation.symposiumId,
 								            userId:_id,
 								            accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 											personalInformation.accessToken,

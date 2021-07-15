@@ -91,6 +91,8 @@ const ImageUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,closeMo
 					industry:currentSymposiumName,
 					subIndustry:[]
 				}],
+				videoCommentPool:[],
+				regularCommentPool:[],
 				description:secondaryTextValue,
 				caption:primaryTextValue,
 				isCrownedPost:false,

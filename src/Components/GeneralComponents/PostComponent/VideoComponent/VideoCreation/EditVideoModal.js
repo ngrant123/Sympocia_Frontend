@@ -316,7 +316,9 @@ class EditVideoModal extends Component{
 			audioDescription:currentAudioDescription,
 			isCrownedPost:this.state.isPostCrowned,
 			isPhoneUIEnabled:this.props.isPhoneUIEnabled,
-			symposiumUploadCategory:currentSymposiumUploadCategory
+			symposiumUploadCategory:currentSymposiumUploadCategory,
+			videoCommentPool:[],
+			regularCommentPool:[]
 		}
 
 		alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now')

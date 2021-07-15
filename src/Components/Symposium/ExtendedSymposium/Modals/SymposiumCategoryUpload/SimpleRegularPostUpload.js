@@ -59,6 +59,8 @@ const RegularPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,c
 					industry:currentSymposiumName,
 					subIndustry:[]
 				}],
+				videoCommentPool:[],
+				regularCommentPool:[],
 				isAudioPost:null,
 				isCrownedPost:false,
 				isPostAuthentic:{

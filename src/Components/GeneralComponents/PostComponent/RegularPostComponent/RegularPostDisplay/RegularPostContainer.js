@@ -36,8 +36,13 @@ const Container=styled.div`
 			margin-left:1% !important;
 		}
 		#ownerOptionsAndPostOptions{
-			height:120% !important;
 			flex-direction:row !important;
+		}
+	}
+
+	@media screen and (max-width:350px){
+		#ownerOptionsAndPostOptions{
+			height:260px !important;
 		}
 	}
 

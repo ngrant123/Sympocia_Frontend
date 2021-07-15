@@ -12,7 +12,7 @@ const Container=styled.div`
 	top:20%;
 	left:30%;
 	height:50%;
-	overflow:scroll;
+	overflow:auto;
 	width:45%;
 
 	@media screen and (max-width:1370px){

@@ -187,7 +187,7 @@ export const HightLightedQuestionsContainerModal=styled.div`
 	border-width:1px;
 	display:flex;
 	flex-direction:column;
-	overflow-y:scroll;
+	overflow-y:auto;
 
 	${({isSimplified})=>
 		isSimplified==true &&(

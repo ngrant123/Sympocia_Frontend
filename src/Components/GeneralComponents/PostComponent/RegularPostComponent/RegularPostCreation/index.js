@@ -266,6 +266,8 @@ const ButtonCSS={
 				numOfApprove:[],
 				numOfDisapprove:[]
 			},
+			videoCommentPool:[],
+			regularCommentPool:[],
 			symposiumUploadCategory:currentSymposiumUploadCategory,
 			key:uuidv4()
 		}

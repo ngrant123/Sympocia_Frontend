@@ -216,7 +216,7 @@ const SelectedPost=({
 					{isReplyBeacon==false &&(
 						<ArrowDropDownCircleOutlinedIcon
 							onClick={()=>changeBeaconOptionsModal(true)}
-							style={{fontSize:"30",cursor:"pointer"}}
+							style={{fontSize:"30",cursor:"pointer",color:"#6E6E6E"}}
 						/>
 					)}
 				</div>

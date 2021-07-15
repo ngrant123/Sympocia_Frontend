@@ -43,7 +43,7 @@ export const Container=styled.div`
 
     @media screen and (max-width:650px){
     	#ownerProfilePicture{
-			width:20% !important;
+			width:50px !important;
 			height:50px !important;
 		}
     }  

@@ -24,8 +24,9 @@ const Container=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		width:100%;
+		width:80%;
 		height:200px;
+		overflow:hidden;
 		margin-bottom:5%;
 		#headerOwnerNameLI{
 			max-width:100% !important;
