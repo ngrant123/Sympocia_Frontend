@@ -518,7 +518,7 @@ const RegularPostContainer=(props)=>{
 										<React.Fragment>
 											<div id="ownerOptionsAndPostOptions" 
 												style={{display:"flex",flexDirection:"column",flexWrap:"wrap",width:"100%"}}>
-												<div style={{width:"100%",display:"flex",flexDirection:"row"}}>
+												<div style={{width:"100%",display:"flex",flexDirection:"row",marginBottom:"5px"}}>
 													<img id="profilePictureDiv" src={profilePicture==null?
 														NoProfilePicture:profilePicture}
 														style={{width:"70px",height:"65px",borderRadius:"50%",marginRight:"5%"}}
