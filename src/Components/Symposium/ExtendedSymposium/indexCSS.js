@@ -575,7 +575,6 @@ export const SymposiumFeatureContainer=styled.div`
 
 export const SymposiumChatContainer=styled.div`
 	position: fixed;
-	background-color:red;
 	overflow:hidden;
 	width:20%;
 	height:45%;
