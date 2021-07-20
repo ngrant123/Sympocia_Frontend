@@ -8,6 +8,20 @@ const Container=styled.div`
 	flex-shrink: 0;
 	width:100%;
 
+
+	@media screen and (min-width:1920px){
+		#backgroundDiv{
+			height:900px !important;
+		}
+    }
+
+    @media screen and (min-width:2500px){
+		#backgroundDiv{
+			height:1300px !important;
+		}
+    }
+
+
 	@media screen and (max-width:1370px){
 		#secondaryBackgroundDiv{
 			display:none !important;
@@ -21,6 +35,13 @@ const Container=styled.div`
 		#backgroundDiv{
 			height:1000px !important;
 			margin-left:-20% !important;
+		}
+	}
+
+	@media screen and (min-width:300px) and (max-width:400px) 
+		and (min-height:750px) and (max-height:1039px){
+		#backgroundDiv{
+			height:1100px !important;
 		}
 	}
 
@@ -43,26 +64,78 @@ const InformationalContainer=styled.div`
 	align-items:center;
 	justify-content:space-between;
 
-	@media screen and (max-width:1370px){
+
+    @media screen and (min-width:1920px){
+		margin-top:7%;
+		#manifestoText{
+			font-size:24px !important;
+		}
+		#secondSectionHeaderText{
+			font-size:36px !important;
+		}
+		#howAreWeDifferentText{
+			font-size:18px !important;
+		}
+		#offerHeaderText{
+			font-size:18px !important;
+		}
+		#OLListCSSID{
+			font-size:18px !important;
+		}
+
+		#secondSectionImage{
+			width:427px !important;
+			height:435px !important;
+		}
+    }
+
+    @media screen and (min-width:2500px){
 		margin-top:-5%;
+		#manifestoText{
+			font-size:48px !important;
+		}
+		#secondSectionHeaderText{
+			font-size:64px !important;
+		}
+		#howAreWeDifferentText{
+			font-size:36px !important;
+		}
+		#offerHeaderText{
+			font-size:36px !important;
+		}
+		#OLListCSSID{
+			font-size:36px !important;
+		}
+		#secondSectionImage{
+			width:650px !important;
+			height:650px !important;
+		}
+    }
+
+
+
+    @media screen and (min-width:2800px){
+		margin-top:10%;
+    }
+
+
+
+	@media screen and (max-width:1370px){
+		margin-top:-70px;
+	}
+
+
+	@media screen and (max-width:1000px){
+		margin-top:30px;
 		#secondSectionImage{
 			width:300px !important;
 			height:300px !important;
 		}
 	}
 
-	@media screen and (max-width:1000px){
-		margin-top:7%;
-	}
-
-	@media screen and (max-width:375px) and (max-height:1030px){
-    	margin-top:80%;
-    }
-
-
-	@media screen and (max-width:650px) and (max-height:1030px){
+	@media screen and (max-width:700px){
 		flex-direction:column-reverse;
-		margin-top:70%;
+		margin-top:200px;
 
 		#secondSectionImage{
 			width:200px !important;
@@ -76,34 +149,66 @@ const InformationalContainer=styled.div`
 		}
 	}
 
-	@media screen and (max-width:510px) and (max-height:800px){
-		margin-top:90%;
+	@media screen and (min-width:310px) and (max-width:400px) 
+		and (min-height:1000px) and (max-height:1370px){
+		margin-top:100px;
 	}
 
-	@media screen and (max-width:420px) and (max-height:800px){
-		margin-top:100%;
-	}
-	@media screen and (max-width:375px) and (max-height:800px){
-		margin-top:120%;
+	@media screen and (min-width:410px) and (max-width:640px) 
+		and (min-height:1000px) and (max-height:1370px){
+		margin-top:100px;
 	}
 
 
-	@media screen and (max-width:340px) and (max-height:800px){
-		margin-top:180%;
+	@media screen and (min-width:300px) and (max-width:440px) 
+		and (min-height:550px) and (max-height:740px){
+		margin-top:400px;
+	}
+
+	@media screen and (max-width:340px) and (max-height:570px){
+		margin-top:550px;
+	}
+
+	@media screen and (min-width:300px) and (max-width:400px) 
+		and (min-height:750px) and (max-height:1039px){
+		margin-top:400px;
+	}
+
+	@media screen and (min-width:650px) and (max-width:1000px) 
+		and (min-height:740px) and (max-height:1039px){
+		margin-top:250px;
+	}
+
+	@media screen and (min-width:700px) and (max-width:1000px) 
+		and (min-height:750px) and (max-height:860px){
+		margin-top:140px !important;
+	}
+
+
+	@media screen and (min-width:470px) and (max-width:800px) 
+		and (min-height:750px) and (max-height:1039px){
+		margin-top:350px;
+	}
+
+
+
+	@media screen and (min-width:650px) and (max-width:1000px) 
+		and (min-height:740px) and (max-height:1039px){
+		margin-top:250px;
+	}
+
+
+
+
+	@media screen and (min-width:600px) and (max-width:1000px) 
+		and (min-height:1000px) and (max-height:1039px){
+		margin-top:100px;
 	}
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-		margin-top:10%;
+		margin-top:90px;
     }
 
-    @media screen and (max-width:840px) and (max-height:650px) and (orientation:landscape){
-    	margin-top:60%;
-    }
-
-
-	@media screen and (max-width:800px) and (max-height:620px) and (orientation:landscape){
-		margin-top:25%;
-    }
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		flex-direction:column-reverse;
@@ -120,8 +225,6 @@ const InformationalContainer=styled.div`
 			font-size:15px !important;
 		}
     }
-
-
 `;
 
 
@@ -161,7 +264,7 @@ const SecondSection=()=>{
 					/>
 				</div>
                  <div id="secondSectionPrimaryText" style={{width:"40%",marginRight:"5%"}}>
-                 	<p style={{color:"#C8B0F4",fontSize:"24px"}}>
+                 	<p id="manifestoText" style={{color:"#C8B0F4",fontSize:"24px"}}>
                       <b>Manifesto</b>
                     </p>
                     <p id="secondSectionHeaderText" style={{fontSize:"36px",color:"white"}}>

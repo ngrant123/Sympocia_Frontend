@@ -9,6 +9,51 @@ const Container=styled.div`
 	padding-left:5%;
 	padding-right:5%;
 
+    @media screen and (min-width:1920px){
+		#purposeText{
+			font-size:24px !important;
+		}
+		#thirdSectionHeaderText{
+			font-size:36px !important;
+		}
+		#reasoningTitleText{
+			font-size:36px !important;
+		}
+
+		#reasoningText{
+			font-size:18px !important;
+		}
+
+		#thirdSectionImage{
+			width:427px !important;
+			height:435px !important;
+		}
+    }
+
+    @media screen and (min-width:2500px){
+		#purposeText{
+			font-size:48px !important;
+		}
+		#thirdSectionHeaderText{
+			font-size:64px !important;
+		}
+		#reasoningTitleText{
+			font-size:36px !important;
+		}
+
+		#reasoningText{
+			font-size:36px !important;
+		}
+
+		#thirdSectionImage{
+			width:650px !important;
+			height:650px !important;
+		}
+    }
+
+
+
+
 
 	@media screen and (max-width:1370px){
 		#thirdSectionImage{
@@ -98,7 +143,7 @@ const ThirdSection=()=>{
 	return(
 		<Container>
 			<div>
-				<p style={{color:"#C8B0F4",fontSize:"24px"}}>
+				<p id="purposeText" style={{color:"#C8B0F4",fontSize:"24px"}}>
                    <b>Purpose</b>
                 </p>
                 <p id="thirdSectionHeaderText" style={{fontSize:"36px"}}>
@@ -108,10 +153,10 @@ const ThirdSection=()=>{
                 	style={{marginTop:"5%",display:"flex",flexDirecition:"row",justifyContent:"space-between"}}>
                 	<div id="informationDiv" style={{width:"20%"}}>
                 		{addictionSymbol()}
-                		<p style={{marginTop:"10%"}}>
+                		<p id="reasoningTitleText" style={{marginTop:"10%"}}>
                 			<b>Addiction</b>
                 		</p>
-                		<p style={ReasoningCSS}>
+                		<p id="reasoningText" style={ReasoningCSS}>
                 			Whether we like it or not, we’re all addicted to social media.
                 			We love connecting with people, learning, and growing from each other. 
                 		</p>
@@ -119,10 +164,10 @@ const ThirdSection=()=>{
 
                 	<div id="informationDiv" style={{width:"20%"}}>
                 		{normalitySympbol()}
-                		<p style={{marginTop:"10%"}}>
+                		<p id="reasoningTitleText" style={{marginTop:"10%"}}>
                 			<b>Normality</b>
                 		</p>
-                		<p style={ReasoningCSS}>
+                		<p id="reasoningText" style={ReasoningCSS}>
                 			But currently we live in an era where misinformation is the new normal.
                 			Where being fake is the new normal. Where getting clout is the main goal not authenticity.
                 		</p>
@@ -130,10 +175,10 @@ const ThirdSection=()=>{
 
                 	<div id="informationDiv" style={{width:"20%"}}>
                 		{atomSymbol()}
-                		<p style={{marginTop:"10%"}}>
+                		<p id="reasoningTitleText" style={{marginTop:"10%"}}>
                 			<b>Solution</b>
                 		</p>
-                		<p style={ReasoningCSS}>
+                		<p id="reasoningText" style={ReasoningCSS}>
                 			Sympocia allows you to truly be authentic and doesn’t force you to fit into this mold that other platforms have.
 							Just be yourself :) 
                 		</p>

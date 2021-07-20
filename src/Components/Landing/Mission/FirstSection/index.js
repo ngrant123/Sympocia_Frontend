@@ -12,14 +12,69 @@ const Container=styled.div`
 	opacity:0;
     transition:.8s;
 
+
+    @media screen and (min-width:1920px){
+   		#headerText{
+			font-size:48px !important;
+		}
+		#secondaryFirstSectionText{
+			font-size:24px !important;
+		}
+		#headerImage{
+			width:427px !important;
+			height:435px !important;
+		}
+		#signUpButton{
+			padding:10px !important;
+			font-size:14px !important;
+		}
+		#exploreButton{
+			padding:10px !important;
+			font-size:14px !important;
+		}
+		#totalUsersText{
+			font-size:14px !important;
+		}
+    }
+
+    @media screen and (min-width:2500px){
+   		#headerText{
+			font-size:64px !important;
+		}
+		#secondaryFirstSectionText{
+			font-size:48px !important;
+		}
+		#headerImage{
+			width:650px !important;
+			height:650px !important;
+		}
+		#signUpButton{
+			padding:20px !important;
+			font-size:24px !important;
+		}
+		#exploreButton{
+			padding:20px !important;
+			font-size:24px !important;
+		}
+		#totalUsersText{
+			font-size:24px !important;
+		}
+    }
+
+
 	@media screen and (max-width:1370px){
 		#mainIntroductionDiv{
-			width:90% !important;
+			width:40% !important;
 			margin-left:5% !important;
 		}
 		#headerText{
 			font-size:24px !important;
 		}
+
+		#totalUsersText{
+			display:none !important;
+		}
+
 		#secondaryFirstSectionText{
 			font-size:18px !important;
 		}
@@ -29,7 +84,7 @@ const Container=styled.div`
 		}
 
 		#interestedProfilesDiv{
-			width:90% !important;
+			width:320px !important;
 		}
 		#firstSectionImageDiv{
 			margin-top:-5%;
@@ -38,6 +93,9 @@ const Container=styled.div`
 
 	@media screen and (max-width:650px){
 		flex-direction:column;
+		#totalUsersText{
+			display:block !important;
+		}
 		#mainIntroductionDiv{
 			width:90% !important;
 			margin-left:5% !important;
@@ -71,7 +129,7 @@ const Container=styled.div`
 			width:40% !important;
 		}
 		#interestedProfilesDiv{
-			width:70% !important;
+			width:350px !important;
 		}
     }
 
@@ -132,7 +190,7 @@ const ExploreButton={
 }
 
 const FirstSection=({history})=>{
-	const [usersInterested,changeUsersInterested]=useState([]);
+	const [usersInterested,changeUsersInterested]=useState([{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]);
 	const [numberOfUserInTotalInterested,changeTotalAmountInterested]=useState(0);
 
 	useEffect(()=>{
@@ -141,17 +199,17 @@ const FirstSection=({history})=>{
 			container.style.opacity="1";
 		},200);
 
-		const getInterestedApi=async()=>{
-			const {confirmation,data}=await getInterestedProfiles(1);
-			const {
-				numberOfPeopleInterested,
-				responses
-			}=data;
+		// const getInterestedApi=async()=>{
+		// 	const {confirmation,data}=await getInterestedProfiles(1);
+		// 	const {
+		// 		numberOfPeopleInterested,
+		// 		responses
+		// 	}=data;
 
-			changeTotalAmountInterested(numberOfPeopleInterested);
-			changeUsersInterested([...responses]);
-		}
-		getInterestedApi();
+		// 	changeTotalAmountInterested(numberOfPeopleInterested);
+		// 	changeUsersInterested([...responses]);
+		// }
+		// getInterestedApi();
 
 	},[]);
 
@@ -183,7 +241,7 @@ const FirstSection=({history})=>{
                     	Sign Up
 					</div>
 
-					<div style={ExploreButton} onClick={()=>history.push({
+					<div id="exploreButton" style={ExploreButton} onClick={()=>history.push({
                       pathname:'/home'
                     })}>
 						Enter as Guest
@@ -195,8 +253,11 @@ const FirstSection=({history})=>{
 				<img id="headerImage" src={LandingImage} 
 					style={{borderRadius:"50%",width:"427px",height:"435px"}}
 				/>
-				<p>
-					So far <b>{numberOfUserInTotalInterested}</b> users have signed up. What are you waiting for? :)
+				<p id="totalUsersText">
+					So far <b>79</b> users have signed up. What are you waiting for? :)
+					{/*
+						So far <b>{numberOfUserInTotalInterested}</b> users have signed up. What are you waiting for? :)
+					*/}
 				</p>
 
 				<div id="interestedProfilesDiv"

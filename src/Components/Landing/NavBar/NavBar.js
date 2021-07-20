@@ -5,9 +5,6 @@ import {Link} from "react-router-dom";
 const SignUpLoginContainer=styled.div`
 	display:flex;
 	flex-direction:row;
-	@media screen and (max-width:1370px){
-		margin-top:5% !important;
-	}
 `;
 
 const NavBarContainer=styled.div`
@@ -18,30 +15,30 @@ const NavBarContainer=styled.div`
   padding:50px;
   box-shadow:1px 1px 1px #d5d5d5;
 
-  	@media screen and (max-width:1370px){
-  		#signUpButton{
-  			display:none !important;
-  		}
-  		#forgotPassword{
-  			margin-right:2% !important;
-  		}
+  @media screen and (max-width:1370px){
+  	#signUpButton{
+  		display:none !important;
   	}
+  	#forgotPassword{
+  		display:none !important;
+  	}
+  }
 
-  	@media screen and (max-width:650px){
-  		#signUpButton{
-  			display:block !important;
-  		}
+	@media screen and (max-width:650px){
+		#signUpButton{
+			display:block !important;
+		}
 
-	    flex-direction:column;
-	    padding:0px;
-	    margin-left:5%;
-	    #forgotPassword{
-	    	display:none !important;
-	    }
-	    padding:30px;
-	    width:90%;
-	    box-shadow:none;
-	}
+    flex-direction:column;
+    padding:0px;
+    margin-left:5%;
+    #forgotPassword{
+    	display:none !important;
+    }
+    padding:30px;
+    width:90%;
+    box-shadow:none;
+  }
 `;
 
 const SignUpButton={
@@ -53,7 +50,8 @@ const SignUpButton={
     color:"white",
     marginRight:"2%",
     width:"80px",
-    cursor:"pointer"
+    cursor:"pointer",
+    textAlign:"center"
 }
 
 const LoginButton={
@@ -101,27 +99,26 @@ const LandingPageNavBar=({isMissionPage,displayCommunityMissionOption,history,di
 	}
 	return (
 		<NavBarContainer>
-            <p onClick={()=>history.push({pathname:'/'})} style={{cursor:"pointer",fontSize:"30px",color:"#C8B0F4"}}>
-                <b>Sympocia</b>
-            </p>
-            {isMissionPage==true?
-            	<>{missionButton()}</>:
-            	<>{communityButton()}</>
-           	}
-            <SignUpLoginContainer>
-            	<p id="forgotPassword" onClick={()=>history.push({pathname:'/emailreset'})} 
-            		style={{cursor:"pointer",color:"#5298F8"}}>
-            		Forgot Password? 
-            	</p>
-            	<div id="signUpButton" onClick={()=>history.push({pathname:'/signup'})}style={SignUpButton}>
-            		Sign Up
-            	</div>
-            	<div onClick={()=>displayLoginModalHandle()}style={LoginButton}>
-            		Login
-            	</div>
-            </SignUpLoginContainer>
-            
-        </NavBarContainer>
+        <p onClick={()=>history.push({pathname:'/'})} style={{cursor:"pointer",fontSize:"30px",color:"#C8B0F4"}}>
+            <b>Sympocia</b>
+        </p>
+        {isMissionPage==true?
+        	<>{missionButton()}</>:
+        	<>{communityButton()}</>
+       	}
+        <SignUpLoginContainer>
+        	<p id="forgotPassword" onClick={()=>history.push({pathname:'/emailreset'})} 
+        		style={{cursor:"pointer",color:"#5298F8"}}>
+        		Forgot Password? 
+        	</p>
+        	<div id="signUpButton" onClick={()=>history.push({pathname:'/signup'})}style={SignUpButton}>
+        		Sign Up
+        	</div>
+        	<div onClick={()=>displayLoginModalHandle()}style={LoginButton}>
+        		Login
+        	</div>
+        </SignUpLoginContainer>
+    </NavBarContainer>
 	)
 }
 

@@ -7,6 +7,33 @@ const Container=styled.div`
 	display:flex;
 	flex-direction:column;
 
+
+    @media screen and (min-width:1920px){
+    	#headerTexts{
+			font-size:36px !important;
+		}
+		#questionId{
+			font-size:18px !important;
+		}
+		#socialNetworksContainer{
+			width:160px !important;
+		}
+    }
+
+    @media screen and (min-width:2500px){
+		#headerTexts{
+			font-size:64px !important;
+		}
+		#questionId{
+			font-size:48px !important;
+		}
+		#socialNetworksContainer{
+			width:400px !important;
+		}
+    }
+
+
+
 	@media screen and (max-width:650px){
 		#questionSpecificDiv{
 			width:90% !important;
@@ -79,7 +106,8 @@ const SignUpButton={
     marginRight:"2%",
     cursor:"pointer",
     width:"120px",
-    marginBottom:"5%"
+    marginBottom:"5%",
+    textAlign:"center"
 }
 
 const ExploreButton={
@@ -95,7 +123,8 @@ const ExploreButton={
     marginBottom:"5%",
     borderStyle:"solid",
     borderWidth:"1px",
-    borderColor:"#3898ec"
+    borderColor:"#3898ec",
+    textAlign:"center"
 }
 
 const FourthSection=({history})=>{
@@ -135,7 +164,7 @@ const FourthSection=({history})=>{
 					<p id="questionId" style={HeaderQuestionCSS}>
 						<b>What information do we store about the user? </b>
 					</p>
-					<p style={QuestionAnswerCSS}> 
+					<p id="questionId" style={QuestionAnswerCSS}> 
 						We store the general information about the user like name, email, and posts. Thats the
 					 	only thing we store. Dont worry we're not like our other competitors who track
 						your every move on the internet 
@@ -144,7 +173,8 @@ const FourthSection=({history})=>{
 			</div>
 			<div id="companyInformationDiv" style={CompanyInformationEndNotesCSS}>
 				<div id="companySecondaryInformation" style={{display:"flex",flexDirection:"row"}}>
-					<div style={{display:"flex",flexDirection:"column",marginRight:"20%",width:"160px"}}>
+					<div id="socialNetworksContainer"
+						style={{display:"flex",flexDirection:"column",marginRight:"20%",width:"160px"}}>
 						<p id="questionId" style={{fontSize:"18px"}}>
 							<b>Follow us</b>
 						</p>
@@ -176,7 +206,7 @@ const FourthSection=({history})=>{
 	                })}>
 						Sign Up
 					</div>
-					<div style={ExploreButton}
+					<div id="enterAsGuestButton" style={ExploreButton}
 						onClick={()=>history.push({
 	                       pathname:'/home'
 	                    })}>
