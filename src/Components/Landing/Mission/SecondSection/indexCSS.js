@@ -189,8 +189,19 @@ export const InformationalContainer=styled.div`
 		margin-top:400px;
 	}
 
+
+	@media screen and (min-width:350px) and (max-width:440px) 
+		and (min-height:550px) and (max-height:740px){
+		margin-top:500px;
+	}
+
+
 	@media screen and (max-width:340px) and (max-height:570px){
 		margin-top:550px;
+	}
+
+	@media screen and (max-width:310px) and (max-height:570px){
+		margin-top:620px;
 	}
 
 	@media screen and (min-width:300px) and (max-width:400px) 
@@ -253,7 +264,18 @@ export const InformationalContainer=styled.div`
 			font-size:15px !important;
 		}
     }
+
+    @media screen and (max-width:700px) and (max-height:650px) and (orientation:landscape){
+		margin-top:360px;
+    }
+
+
     @media screen and (max-width:670px) and (max-height:380px) and (orientation:landscape){
 		margin-top:95%;
     }
 `;
+
+
+
+
+
