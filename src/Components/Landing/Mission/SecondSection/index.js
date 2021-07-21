@@ -118,8 +118,8 @@ const InformationalContainer=styled.div`
 		}
     }
 
-    @media screen and (min-width:2800px){
-		margin-top:10%;
+    @media screen and (min-width:2800px) and (min-height:2800px){
+    	margin-top:-150px;
     }
 
 	@media screen and (max-width:1370px){
@@ -169,9 +169,9 @@ const InformationalContainer=styled.div`
 		margin-top:400px;
 	}
 
-	@media screen and (min-width:310px) and (max-width:400px) 
+	@media screen and (min-width:300px) and (max-width:400px) 
 		and (min-height:1000px) and (max-height:1370px){
-		margin-top:100px;
+		margin-top:160px;
 	}
 
 	@media screen and (min-width:410px) and (max-width:640px) 
@@ -213,7 +213,6 @@ const InformationalContainer=styled.div`
 	@media screen and (max-width:290px) and (max-height:670px){
 		margin-top:600px;
 	}
-
 
 
 	@media screen and (min-width:650px) and (max-width:1000px) 
