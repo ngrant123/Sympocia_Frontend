@@ -79,4 +79,32 @@ export const Container=styled.div`
 			font-size:24px !important;
 		}
 	}
+
+	@media screen and (max-width:840px) and (max-height:580px) and (orientation:landscape){
+		#thirdSectionPrimaryText{
+			flex-direction:column !important;
+		}
+		#informationDiv{
+			width:90% !important;
+			margin-left:2% important;
+			margin-bottom:20% !important;
+		}
+
+		#thirdSectionImage{
+			width:200px !important;
+			height:200px !important;
+		}
+
+		#thirdSectionHeaderText{
+			font-size:24px !important;
+		}
+    }
 `;
+
+
+
+
+
+
+
+
