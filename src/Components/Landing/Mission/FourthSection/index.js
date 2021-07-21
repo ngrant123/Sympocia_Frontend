@@ -127,6 +127,16 @@ const ExploreButton={
     textAlign:"center"
 }
 
+const CopyrightCSS={
+	alignItems:"center",
+	display:"flex",
+	flexDirection:"row",
+	justifyContent:"center",
+	marginTop:"7%",
+	fontSize:"18px",
+	marginBottom:"2%"
+}
+
 const FourthSection=({history})=>{
 	return(
 		<Container>
@@ -214,7 +224,7 @@ const FourthSection=({history})=>{
 					</div>
 				</div>
 			</div>
-			<div style={{display:"flex",flexDirection:"row",justifyContent:"center",marginTop:"7%",fontSize:"18px",marginBottom:"2%"}}>
+			<div style={CopyrightCSS}>
 				<CopyrightIcon style={{marginRight:"2%"}}/> <b>2021 Sympocia</b>
 			</div>
 		</Container>

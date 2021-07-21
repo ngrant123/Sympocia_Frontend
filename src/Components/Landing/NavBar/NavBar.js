@@ -5,6 +5,10 @@ import {Link} from "react-router-dom";
 const SignUpLoginContainer=styled.div`
 	display:flex;
 	flex-direction:row;
+
+  @media screen and (max-width:650px){
+    margin-top:5%;
+  }
 `;
 
 const NavBarContainer=styled.div`

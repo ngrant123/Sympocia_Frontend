@@ -45,6 +45,12 @@ const Container=styled.div`
 		}
 	}
 
+	@media screen and (max-width:290px) and (max-height:670px){
+		#backgroundDiv{
+			height:1100px !important;
+		}
+	}
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		#backgroundDiv{
 			height:1000px !important;
@@ -112,26 +118,27 @@ const InformationalContainer=styled.div`
 		}
     }
 
-
-
     @media screen and (min-width:2800px){
 		margin-top:10%;
     }
 
-
-
 	@media screen and (max-width:1370px){
 		margin-top:-70px;
-	}
-
-
-	@media screen and (max-width:1000px){
-		margin-top:30px;
 		#secondSectionImage{
 			width:300px !important;
 			height:300px !important;
 		}
 	}
+
+
+	@media screen and (max-width:1000px){
+		margin-top:30px;
+	}
+
+	@media screen and (max-width:730px) and (max-height:750px){
+		margin-top:180px;
+	}
+
 
 	@media screen and (max-width:700px){
 		flex-direction:column-reverse;
@@ -147,6 +154,19 @@ const InformationalContainer=styled.div`
 		#howAreWeDifferentText{
 			font-size:15px !important;
 		}
+	}
+
+	@media screen and (max-width:700px) and (max-height:750px){
+		margin-top:280px;
+	}
+
+
+	@media screen and (max-width:590px){
+		margin-top:300px;
+	}
+
+	@media screen and (max-width:550px) and (max-height:730px){
+		margin-top:400px;
 	}
 
 	@media screen and (min-width:310px) and (max-width:400px) 
@@ -190,15 +210,16 @@ const InformationalContainer=styled.div`
 		margin-top:350px;
 	}
 
+	@media screen and (max-width:290px) and (max-height:670px){
+		margin-top:600px;
+	}
+
 
 
 	@media screen and (min-width:650px) and (max-width:1000px) 
 		and (min-height:740px) and (max-height:1039px){
 		margin-top:250px;
 	}
-
-
-
 
 	@media screen and (min-width:600px) and (max-width:1000px) 
 		and (min-height:1000px) and (max-height:1039px){
@@ -209,10 +230,14 @@ const InformationalContainer=styled.div`
 		margin-top:90px;
     }
 
+    @media screen and (max-width:820px) and (max-height:750px) and (orientation:landscape){
+		margin-top:150px;
+	}
+
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		flex-direction:column-reverse;
-		margin-top:95%;
+		margin-top:70%;
 
 		#secondSectionImage{
 			width:200px !important;
@@ -224,6 +249,9 @@ const InformationalContainer=styled.div`
 		#howAreWeDifferentText{
 			font-size:15px !important;
 		}
+    }
+    @media screen and (max-width:670px) and (max-height:380px) and (orientation:landscape){
+		margin-top:95%;
     }
 `;
 
