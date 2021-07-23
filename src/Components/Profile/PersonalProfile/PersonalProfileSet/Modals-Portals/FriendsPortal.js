@@ -61,7 +61,7 @@ const ViewProfile=styled(Link)`
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 	  #profilePicture{
-	  	height:30% !important;
+	  	height:50px !important;
 	  }
     }
 `;
@@ -187,7 +187,7 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 															<li style={{listStyle:"none",display:"inline-block",width:"25%"}}>
 																<ViewProfile to={{pathname:`/profile/${data._id}`}}>
 																	<img id="profilePicture" src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
-																		style={{borderRadius:"50%",width:"75%",height:"15%"}}
+																		style={{borderRadius:"50%",width:"55px",height:"50px"}}
 																	/>
 																</ViewProfile>
 															</li>

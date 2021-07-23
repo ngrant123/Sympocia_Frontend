@@ -97,9 +97,8 @@ const ColorPatchContainer=styled.div`
 	width:30px;
 	height:25px;
 	border-radius:50%;
-	top:55%;
-	left:80%;
-	z-index:8;
+	z-index:15;
+	margin-top:-28px;
 
 	${({colorCode})=>
 		colorCode!=null &&
