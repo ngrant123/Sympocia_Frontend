@@ -92,7 +92,7 @@ const ColorPatchContainer=styled.div`
 
 const VideoDesriptionContainer=styled.div`
 	position:absolute;
-	width:30%;
+	width:20%;
 	height:30%;
 	border-radius:50%;
 	top:70%;

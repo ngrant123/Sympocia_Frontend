@@ -5,11 +5,27 @@ import Typed from "react-typed";
 
 const Container=styled.div`
 	display:flex;
+
+	@media screen and (max-width:1370px){
+		#videoAndAudioDescriptionLI{
+			margin-top:11% !important;
+		}
+	}
+
 	@media screen and (max-width:650px){
 		width:100% !important;
 		margin-left:5% !important;
 		justify-content:center !important;
+		#videoAndAudioDescriptionLI{
+			display:none !important;
+		}
 	}
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		#videoAndAudioDescriptionLI{
+			display:none !important;
+		}
+    }
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
 	 	justify-content:start !important;
 	 	margin-left:0% !important;
@@ -62,10 +78,11 @@ const Image=styled.div`
 
 const VideoDesriptionContainer=styled.div`
 	position:absolute;
-	width:30%;
-	height:30%;
+	background-color:red;
+	width:50px;
 	border-radius:50%;
-	top:50%;
+	display:flex;
+	flex-direction:column;
 	left:2%;
 	z-index:8;
 
@@ -136,7 +153,16 @@ const ImageLabelCSS={
 	  cursor:"pointer"
 }
 
+const VideoAndAudioDescriptionCSS={
+	position:"absolute",
+	padding:"0px",
+	marginTop:"-165px",
+	display:"flex",
+	flexDirection:"column-reverse"
+}
+
 const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostContextValues})=>{
+	console.log(images);
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
@@ -154,19 +180,35 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 	//onClick={()=>displayPostModal(data)} 
 
 	const image=(data)=>{
+		debugger;
+		console.log(data);
+		console.log(data.audioDescription);
+		console.log(data.videoDescription);
+
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
-		return <Image>
-					<img id="img" src={data.imgUrl} style={{height:"100%",width:"100%"}}/>
-					{data.videoDescription!=null &&(
-						<VideoDesriptionContainer>
-							<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
-								style={{borderRadius:"50%"}} width="50px" height="40px" borderRadius="50%">
+		return 	<div>
+					<img id="img" src={data.imgUrl} 
+						style={{cursor:"pointer",borderRadius:"5px",height:"100%",width:"100%"}}
+					/>
+					<ul id="videoAndAudioDescriptionLI" style={VideoAndAudioDescriptionCSS}>
+						{data.videoDescription!=null &&(
+							<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+								width="90px" height="40px" borderRadius="5px">
 								<source src={data.videoDescription} type="video/mp4"/>
 							</video>
-						</VideoDesriptionContainer>
-					)}
+						)}
+						
+						{data.audioDescription!=null &&(
+							<audio id="audioLI" key={uuidv4()} 
+								style={{width:"200px",height:"40px",marginBottom:"2%"}} controls>
+								<source src={data.audioDescription} type="audio/ogg"/>
+								<source src={data.audioDescription} type="audio/mp4"/>
+								Your browser does not support the audio element.
+							</audio>
+						)}
+					</ul>
 					<ColorPatchContainer colorCode={colorCode}/>
-				</Image>
+				</div>
 	}
 
 	let audioId=uuidv4();
@@ -176,18 +218,7 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 			{images.map(data=>
 				<div id="smallPostLI" style={{marginBottom:"5%"}} onClick={()=>displayPostModal(data)}>
 					<div id="smallImageDiv" style={{height:"170px",marginBottom:"5%"}}>
-						<img id="img" src={data.imgUrl} 
-							style={{cursor:"pointer",borderRadius:"5px",height:"100%",width:"100%"}}
-						/>
-						{data.audioDescription!=null?
-							<li style={{listStyle:"none"}}>
-								<audio id="audio" key={audioId} style={{width:"200px"}} controls>
-								    <source src={data.audioDescription} type="audio/ogg"/>
-								    <source src={data.audioDescription} type="audio/mp4"/>
-									Your browser does not support the audio element.
-								</audio>
-							</li>:null
-						}	
+						{image(data)}
 					</div>
 					<div id="postInformation">
 						{data.caption!=""?
