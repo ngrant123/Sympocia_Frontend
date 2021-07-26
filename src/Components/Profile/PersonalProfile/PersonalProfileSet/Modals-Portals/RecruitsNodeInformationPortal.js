@@ -9,6 +9,7 @@ import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
 import {recruitsLocatedInNode} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {Link} from "react-router-dom";
 
 const Container=styled.div`
@@ -90,6 +91,11 @@ const RequestAccessButtonCSS={
   cursor:"pointer"
 }
 
+const DropDownCSS={
+	borderRadius:"50%",
+	boxShadow:"1px 1px 5px #dbdddf",
+	cursor:"pointer"
+}
 
 const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNode,isGuestVisitorProfile})=>{
 	const [displayEditArea,changeDisplayEditArea]=useState(false);
@@ -259,7 +265,12 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 										</p>
 									*/}
 								</div>
-								<p style={{fontSize:"30px"}}>{nodeInformation.name}</p>
+								<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+									<p style={{fontSize:"30px"}}>{nodeInformation.name}</p>
+									<ArrowDropDownCircleOutlinedIcon
+										style={{fontSize:"20",marginLeft:"5%",cursor:"pointer"}}
+									/>
+								</div>
 								{nodeInformation.description!="" &&(
 									<React.Fragment>
 										<hr/>
@@ -273,42 +284,44 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 								{nodeInformation.colorCode==null?
 									<p>None</p>:
 									<div style={{backgroundColor:nodeInformation.colorCode,
-												height:"40px",width:"40px",borderRadius:"5px"}}
+										height:"40px",width:"40px",borderRadius:"5px"}}
 									/>
 								}
+								{/*
+									{(isOwner==true && nodeInformation.isFirstNode==false)&&(
+										<div style={{marginTop:"2%"}}>
+											<hr/>
+											{triggerProfilePerNodeDispaly==true?
+												<React.Fragment>
+													{isLoading==true?
+														<p>Loading...</p>:
+														<>
+															{profilesPromotedToNode.length==0?
+																<p>No Recruits</p>:
+																<>
+																	{profilesPromotedToNode.map(data=>
+																		<Link to={{pathname:`/profile/${data.userId}`}}>
+																			<img src={data.profilePicture==null?
+																						NoProfilePicture
+																						:data.profilePicture}
+																				style={{marginRight:"2%",borderRadius:"50%",width:"60px",height:"50px"}}
+																			/>
+																		</Link>
+																	)}
+																</>
+															}
+														</>
+													}
+												</React.Fragment>:
+												<p onClick={()=>fetchRecruitsSpecificToNode({isAccessTokenUpdated:false})}
+													style={RequestAccessButtonCSS}>
+													View profiles promoted to this node:
+												</p>
+											}
+										</div>
+									)}
+								*/}
 
-								{(isOwner==true && nodeInformation.isFirstNode==false)&&(
-									<div style={{marginTop:"2%"}}>
-										<hr/>
-										{triggerProfilePerNodeDispaly==true?
-											<React.Fragment>
-												{isLoading==true?
-													<p>Loading...</p>:
-													<>
-														{profilesPromotedToNode.length==0?
-															<p>No Recruits</p>:
-															<>
-																{profilesPromotedToNode.map(data=>
-																	<Link to={{pathname:`/profile/${data.userId}`}}>
-																		<img src={data.profilePicture==null?
-																					NoProfilePicture
-																					:data.profilePicture}
-																			style={{marginRight:"2%",borderRadius:"50%",width:"60px",height:"50px"}}
-																		/>
-																	</Link>
-																)}
-															</>
-														}
-													</>
-												}
-											</React.Fragment>:
-											<p onClick={()=>fetchRecruitsSpecificToNode({isAccessTokenUpdated:false})}
-												style={RequestAccessButtonCSS}>
-												View profiles promoted to this node:
-											</p>
-										}
-									</div>
-								)}
 							</>:
 							<>
 								<NameTextArea id="name">
