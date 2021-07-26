@@ -106,8 +106,9 @@ const ColorPatchContainer=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		height:17% !important;
-    	width:20% !important;
+		height:17px !important;
+    	width:20px !important;
+    	margin-left:2%;
     }
 `;
 const AudioDescriptionContainer=styled.div`
