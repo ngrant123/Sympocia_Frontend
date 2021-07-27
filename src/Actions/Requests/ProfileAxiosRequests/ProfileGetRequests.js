@@ -516,6 +516,29 @@ export const recruitsLocatedInNode=async(profileId,levelNodeId,accessToken)=>{
 	}
 }
 
+
+
+export const profilesRequestedAccessToNodeFetch=async(nodeId,accessToken)=>{
+	try{
+		const profileThatRequestedAccess=await axios.get(`${SearchUrl}/profilesRequestedAccessToNode`,{
+			params:{
+				nodeId
+			},headers:{
+				authorization:accessToken
+			}
+		})
+
+		const {data}=profileThatRequestedAccess;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+
+
 export const retrieveSymposiumsProfileIsAnOligarch=async(profileId)=>{
 	try{
 		const retrievedProfileSymposiumsOligarchsListResponse=await axios.get(`${SearchUrl}/profilesOligarchRetrieval`,{

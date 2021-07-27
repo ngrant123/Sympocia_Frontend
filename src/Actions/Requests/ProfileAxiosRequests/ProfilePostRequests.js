@@ -535,12 +535,14 @@ export const demoteRecruit=async({
 	}
 }
 
-export const requestAccessToNode=async({nodeName,targetId,requestOwnerId})=>{
+export const requestAccessToNode=async({nodeName,targetId,requestOwnerId,requestOwnerFirstName,nodeId})=>{
 	try{
 		const requestAccessResponse=await axios.post(`${CreateUrl}/requestAccessToNode`,{
 			nodeName,
 			targetId,
-			requestOwnerId
+			requestOwnerId,
+			requestOwnerFirstName,
+			nodeId
 		})
 		const {data}=requestAccessResponse;
 		return data;

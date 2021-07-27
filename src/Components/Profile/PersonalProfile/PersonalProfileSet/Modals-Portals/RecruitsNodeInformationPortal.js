@@ -7,7 +7,10 @@ import {
 	} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
-import {recruitsLocatedInNode} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {
+	recruitsLocatedInNode,
+	profilesRequestedAccessToNodeFetch
+} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {Link} from "react-router-dom";
@@ -106,9 +109,11 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 		"#7FFFD4","#8A2BE2","#FF4500","#008000","#0000FF","#FFC0CB","#DFFF00",
 		"#FFF9E3","#F92424","#3F9FFF","#35FA2C","#FFFB00"
 	])
-	const [triggerProfilePerNodeDispaly,changeDisplayProfilesPerNode]=useState(false);
+	const [displaySpecifiedNodeInformation,changeDisplayForSpecifiedNodeInformation]=useState(false);
 	const [isLoading,changeIsLoading]=useState(false);
 	const [profilesPromotedToNode,changeProfilesPromotedToNode]=useState([]);
+	const [profilesRequestedAccessToNode,changeProfilesRequestedAccessToNode]=useState([]);
+	const [notificationNodeInformationType,changeNodeInformationType]=useState();
 
 
 	const submitInformation=async({isAccessTokenUpdated,updatedAccessToken})=>{
@@ -169,21 +174,25 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 			const {confirmation,data}=await requestAccessToNode({
 				nodeName:nodeInformation.name,
 				targetId:userId,
-				requestOwnerId:personalInformation.id
+				requestOwnerId:personalInformation.id,
+				requestOwnerFirstName:personalInformation.firstName,
+				nodeId:nodeInformation._id
 			})
 			if(confirmation=="Success"){
 				alert('Your request has been sent');
 			}else{
-				alert('There has been an error sending your request');
+				const {statusCode}=data;
+				if(statusCode==400){
+					alert('You have already sent a request to this level');
+				}else{
+					alert('There has been an error sending your request');
+				}
 			}
 		}
 	}
 
-	const triggerFilterSpecificNodePosts=()=>{
-
-	}
 	const fetchRecruitsSpecificToNode=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		changeDisplayProfilesPerNode(true);
+		changeDisplayForSpecifiedNodeInformation(true);
 		changeIsLoading(true);
 		const {confirmation,data}=await recruitsLocatedInNode(
 											userId,
@@ -209,6 +218,112 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 			}
 		}
 		changeIsLoading(false);
+	}
+
+
+	const fetchProfilesRequestedAccessToNode=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeDisplayForSpecifiedNodeInformation(true);
+		changeIsLoading(true);
+
+		const {confirmation,data}=await profilesRequestedAccessToNodeFetch(
+											nodeInformation._id,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken);
+		if(confirmation=="Success"){
+			const {message}=data;
+			changeProfilesRequestedAccessToNode([...message]);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						fetchProfilesRequestedAccessToNode,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('There has been an error retrieving recruits located in specific node');
+			}
+		}
+		changeIsLoading(false);
+	}
+
+	const nodeInformationDisplayComponent=()=>{
+		if(notificationNodeInformationType=="selectedColorType"){
+			return(
+				<React.Fragment>
+					<p>
+						<b>Selected color:</b>
+					</p>
+					{nodeInformation.colorCode==null?
+						<p>None</p>:
+						<div style={{backgroundColor:nodeInformation.colorCode,
+							height:"40px",width:"40px",borderRadius:"5px"}}
+						/>
+					}
+				</React.Fragment>
+			)
+		}else if(notificationNodeInformationType=="requestedAccess"){
+			return(
+				<React.Fragment>
+					{isLoading==true?
+						<p>Loading...</p>:
+						<>
+							{profilesRequestedAccessToNode.length==0?
+								<p>No profiles requested access</p>:
+								<>
+									{profilesRequestedAccessToNode.map(data=>
+										<Link to={{pathname:`/profile/${data.profileId}`}}>
+											<img src={data.profilePicture==null?
+														NoProfilePicture
+														:data.profilePicture}
+												style={{marginRight:"2%",borderRadius:"50%",width:"60px",height:"50px"}}
+											/>
+										</Link>
+									)}
+								</>
+							}
+						</>
+					}
+				</React.Fragment>
+			)
+		}else{
+			return(
+				<React.Fragment>
+					{isLoading==true?
+						<p>Loading...</p>:
+						<>
+							{profilesPromotedToNode.length==0?
+								<p>No Recruits</p>:
+								<>
+									{profilesPromotedToNode.map(data=>
+										<Link to={{pathname:`/profile/${data.userId}`}}>
+											<img src={data.profilePicture==null?
+														NoProfilePicture
+														:data.profilePicture}
+												style={{marginRight:"2%",borderRadius:"50%",width:"60px",height:"50px"}}
+											/>
+										</Link>
+									)}
+								</>
+							}
+						</>
+					}
+				</React.Fragment>
+			)
+		}
+	}
+
+	const handleDisplayNodeInformation=(displayType)=>{
+		if(displayType=="promotedProfiles"){
+			fetchRecruitsSpecificToNode({isAccessTokenUpdated:false});
+		}else if(displayType=="requestedAccess"){
+			fetchProfilesRequestedAccessToNode({isAccessTokenUpdated:false});
+		}
+		changeNodeInformationType(displayType);
+		changeDisplayForSpecifiedNodeInformation(true);
 	}
 
 	return createPortal(
@@ -259,18 +374,8 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 											Request Access
 										</p>
 									)}
-									{/*
-										<p onClick={()=>triggerFilterSpecificNodePosts()} style={RequestAccessButtonCSS}>
-											Isolate {nodeInformation.name} posts
-										</p>
-									*/}
 								</div>
-								<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-									<p style={{fontSize:"30px"}}>{nodeInformation.name}</p>
-									<ArrowDropDownCircleOutlinedIcon
-										style={{fontSize:"20",marginLeft:"5%",cursor:"pointer"}}
-									/>
-								</div>
+								<p style={{fontSize:"30px"}}>{nodeInformation.name}</p>
 								{nodeInformation.description!="" &&(
 									<React.Fragment>
 										<hr/>
@@ -278,50 +383,49 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 									</React.Fragment>
 								)}
 								<hr/>
-								<p>
-									<b>Selected color:</b>
-								</p>
-								{nodeInformation.colorCode==null?
-									<p>None</p>:
-									<div style={{backgroundColor:nodeInformation.colorCode,
-										height:"40px",width:"40px",borderRadius:"5px"}}
-									/>
-								}
-								{/*
-									{(isOwner==true && nodeInformation.isFirstNode==false)&&(
-										<div style={{marginTop:"2%"}}>
-											<hr/>
-											{triggerProfilePerNodeDispaly==true?
-												<React.Fragment>
-													{isLoading==true?
-														<p>Loading...</p>:
-														<>
-															{profilesPromotedToNode.length==0?
-																<p>No Recruits</p>:
-																<>
-																	{profilesPromotedToNode.map(data=>
-																		<Link to={{pathname:`/profile/${data.userId}`}}>
-																			<img src={data.profilePicture==null?
-																						NoProfilePicture
-																						:data.profilePicture}
-																				style={{marginRight:"2%",borderRadius:"50%",width:"60px",height:"50px"}}
-																			/>
-																		</Link>
-																	)}
-																</>
-															}
-														</>
-													}
-												</React.Fragment>:
-												<p onClick={()=>fetchRecruitsSpecificToNode({isAccessTokenUpdated:false})}
-													style={RequestAccessButtonCSS}>
-													View profiles promoted to this node:
-												</p>
-											}
-										</div>
-									)}
-								*/}
+								<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+									<p style={{fontSize:"15px",marginTop:"2%"}}>Node Information:</p>
+									<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+											style={{backgroundColor:"white",borderStyle:"none"}}>
+											<ArrowDropDownCircleOutlinedIcon
+												style={{color:"black",fontSize:"20",marginLeft:"5%",cursor:"pointer"}}
+											/>
+										</button>
 
+										<ul class="dropdown-menu" 
+											style={{width:"200px",height:"200px",overflow:"auto",padding:"10%"}}>
+											{isOwner==true &&(
+												<React.Fragment>
+													<li style={{listStyle:"none",cursor:"pointer"}}
+														onClick={()=>handleDisplayNodeInformation("promotedProfiles")}>
+														View profiles promoted to this node
+													</li>
+													<hr/>
+												</React.Fragment>
+											)}
+											<li style={{listStyle:"none",cursor:"pointer"}}
+												onClick={()=>handleDisplayNodeInformation("selectedColorType")}>
+												View selected color
+											</li>
+											{isOwner==true &&(
+												<React.Fragment>
+													<hr/>
+													<li style={{listStyle:"none",cursor:"pointer"}}
+														onClick={()=>handleDisplayNodeInformation("requestedAccess")}>
+														View profiles that requested access
+													</li>
+												</React.Fragment>
+											)}
+										</ul>
+								  	</div>
+								</div>
+								{displaySpecifiedNodeInformation==true &&(
+									<React.Fragment>
+										<hr/>
+										{nodeInformationDisplayComponent()}
+									</React.Fragment>
+								)}
 							</>:
 							<>
 								<NameTextArea id="name">
@@ -343,7 +447,8 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 									)}
 									
 								</ColorChoicesContainer>
-								<a href="javascript:void(0);" onClick={()=>submitInformation({isAccessTokenUpdated:false})} style={{textDecoration:"none"}}>
+								<a href="javascript:void(0);" onClick={()=>submitInformation({isAccessTokenUpdated:false})} 
+									style={{textDecoration:"none"}}>
 									<li style={ExploreButton}>
 										Submit
 									</li>
