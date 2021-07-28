@@ -21,6 +21,12 @@ const Container=styled.div`
 	background-color:white;
 	padding:10px;
 
+	@media screen and (min-width:2500px){
+		#smallContainerLI{
+			margin-bottom:-15% !important;
+		}
+	}
+
 	@media screen and (max-width:1370px){
 		width:130%;
 		#postContainer{

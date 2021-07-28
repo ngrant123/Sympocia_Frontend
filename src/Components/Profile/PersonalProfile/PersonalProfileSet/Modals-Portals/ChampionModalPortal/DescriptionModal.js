@@ -32,6 +32,20 @@ const BackButtonCSS={
 
 const Container=styled.div`
 	padding:10%;
+
+	@media screen and (min-width:2500px){
+		#backButton{
+			font-size:24px !important;
+		}
+		#pictureLI{
+	    	width:220px !important;
+	    	height:220px !important;
+		}
+		#loadingText{
+			font-size:24px !important;
+		}
+	}
+
 	@media screen and (max-width:1370px){
 		padding:20px;
 		#pictureLI{
@@ -100,6 +114,10 @@ const NameTextArea=styled.textarea`
 	width:90%;
 	margin-bottom:2%;
 
+	@media screen and (min-width:2500px){
+		font-size:24px !important;
+	}
+
 	@media screen and (max-width:1370px){
 		width:100%;
 	}
@@ -115,6 +133,10 @@ const DescriptionTextArea=styled.textarea`
 	width:90%;
 	margin-bottom:2%;
 
+	@media screen and (min-width:2500px){
+		font-size:24px !important;
+	}
+
 	@media screen and (max-width:1370px){
 		width:100%;
 	}
@@ -127,6 +149,10 @@ const SubmitButton=styled.div`
 	background-color:#C8B0F4;
 	border-radius:5px;
 	cursor:pointer;
+
+	@media screen and (min-width:2500px){
+		font-size:36px !important;
+	}
 
 	@media screen and (max-width:1370px){
 		width:100%;
@@ -300,7 +326,7 @@ const DescriptionModal=(props)=>{
 				<CompanyConsumer>
 					{companyInformation=>(
 						<Container>
-							<div style={BackButtonCSS} onClick={()=>props.backButton()}>
+							<div id="backButton" style={BackButtonCSS} onClick={()=>props.backButton()}>
 								Back
 							</div>
 							<img id="pictureLI" src={props.imgData} style={ChampionPictureCSS}/>
@@ -308,7 +334,7 @@ const DescriptionModal=(props)=>{
 							<DescriptionTextArea id="description" placeholder="Enter a description"/>
 
 							{isProcessingSubmittion==true?
-								<p>Loading please wait...</p>:
+								<p id="loadingText">Loading please wait...</p>:
 								<SubmitButton onClick={()=>handleSubmitButton(personalInformation,companyInformation)}>
 									Submit
 								</SubmitButton>

@@ -55,6 +55,12 @@ const Container = styled.div`
 		display:none !important;
 	}
 
+	@media screen and (min-width:2500px){
+		#postOption{
+			font-size:36px !important;
+		}
+	}
+
 	@media screen and (max-width:1370px){
 		left: 10% !important;
     	width: 80% !important;
@@ -550,15 +556,15 @@ const ButtonCSS={
 									{displayAudioORTextScreen==true?
 										<ul style={{padding:"0px"}}>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li style={ButtonCSS} onClick={()=>diplayRegularPostCreation()}>
+												<li id="postOption" style={ButtonCSS} onClick={()=>diplayRegularPostCreation()}>
 													<BorderColorIcon/> Write Post
 												</li>
 											</a>
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+											<li id="postOption" style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 												Or
 											</li>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>displayAudioPostCreation()} style={ButtonCSS}>
+												<li id="postOption" onClick={()=>displayAudioPostCreation()} style={ButtonCSS}>
 													<MicIcon/> Say Post
 												</li>
 											</a>

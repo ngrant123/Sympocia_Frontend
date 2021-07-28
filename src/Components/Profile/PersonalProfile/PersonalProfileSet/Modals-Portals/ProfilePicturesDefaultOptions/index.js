@@ -21,6 +21,16 @@ const Container=styled.div`
 	flex-direction:column;
 	overflow:scroll;
 
+	@media screen and (min-width:2500px){
+		padding:20px;
+		#profilePictureOptionTitle{
+			font-size:36px !important;
+		}
+		#profilePictureUploadOption{
+			font-size:24px !important;
+		}
+	}
+
 
 	@media screen and (max-width:1370px){
 		width:60% !important;
@@ -120,13 +130,19 @@ const ProfilePicturesDefaultOptions=({targetDom,closeModal,userId,accessToken,re
 							</svg>
 						</div>
 
-						<p style={{fontSize:"20px"}}> 	
+						<p id="profilePictureOptionTitle" style={{fontSize:"20px"}}> 	
 							<b>Choose your profile picture option:</b>
 						</p>
 						<hr style={HorizontalLineCSS}/>
-						<p onClick={()=>handleDisplayDefaultPictures()} style={OptionsCSS}> Choose from our default options </p>
+						<p id="profilePictureUploadOption" onClick={()=>handleDisplayDefaultPictures()} 
+							style={OptionsCSS}> 
+							Choose from our default options
+						</p>
 						<p> or </p>
-						<p onClick={()=>handleFileUploadProfilePicture()} style={OptionsCSS}> Select your own </p>
+						<p id="profilePictureUploadOption" onClick={()=>handleFileUploadProfilePicture()} 
+							style={OptionsCSS}>
+							Select your own 
+						</p>
 					</React.Fragment>
 				)}
 			</React.Fragment>

@@ -6,9 +6,14 @@ import Typed from "react-typed";
 const Container=styled.div`
 	display:flex;
 
+	@media screen and (min-width:2500px){
+		#smallImageDiv{
+			height:270px !important;
+		}
+  	}
+
 	@media screen and (max-width:1370px){
 		#videoAndAudioDescriptionLI{
-			margin-top:11% !important;
 		}
 	}
 

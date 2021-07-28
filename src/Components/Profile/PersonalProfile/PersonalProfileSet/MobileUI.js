@@ -60,7 +60,21 @@ const ProfileInformationContainer=styled.div`
 	overflow:auto;
 	padding:20px;
 
-	 @media screen and (max-width:1370px){
+	@media screen and (min-width:2500px){
+		height:50%;
+		width:50%;
+		left:25%;
+		padding:2%;
+		text-align:center;
+
+		#friendsNodeOptions{
+			font-size:36px !important;
+			margin-left:-7%;
+		}
+	}
+
+
+	@media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
 		height:70%;
@@ -166,59 +180,65 @@ const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampi
 	}
 
 	return createPortal(
-			<>
-				{editChampionModal==true &&(
-					<ChampionEditPortal
-						closeModal={closeChampionEditModal}
-					/>
-				)}
-				{displayChampion==true &&(
-					<>{MobileChampionData(championModalData)}</>
-				)}
-				<OriginalShadowContainer
-					onClick={()=>closeModal()}
+		<>
+			{editChampionModal==true &&(
+				<ChampionEditPortal
+					closeModal={closeChampionEditModal}
 				/>
-				<ProfileInformationContainer>
-					{displayChampionModal==false?
-						<>
-							<p style={{fontSize:"24px"}}>
-								<b>Profile Additional Information</b>
-							</p>
-							<hr/>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				                <li onClick={()=>displayPersonalInformation()} style={{listStyle:"none"}}>
-				                    Personal Information
-				                </li>
-				            </a>
-				            <hr/>
-				            <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				                <li onClick={()=>changeDisplayChampionModal(true)} style={{listStyle:"none"}}>
-				                    Champion
-				                </li>
-				            </a>
-				            <hr/>
-			            </>
-						:<>
-							{isOwner==true && (
-				            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					                <li onClick={()=>changeEditChampionModal(true)} style={{listStyle:"none"}}>
-					                    Edit Champion
+			)}
+			<OriginalShadowContainer
+				onClick={()=>closeModal()}
+			/>
+			{displayChampion==true ?
+				<>{MobileChampionData(championModalData)}</>:
+				<React.Fragment>
+					<ProfileInformationContainer>
+						{displayChampionModal==false?
+							<>
+								<p style={{fontSize:"24px"}}>
+									<b>Profile Additional Information</b>
+								</p>
+								<hr/>
+								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					                <li onClick={()=>displayPersonalInformation()} 
+					                	style={{listStyle:"none",fontSize:"18px"}}>
+					                    Personal Information
 					                </li>
 					            </a>
-							)}
-				            <hr/>
-				            {(championModalData!=null || championModalData.name!="")==true && (
-				            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-				            		<li onClick={()=>changeDisplayChampion(true)}style={{listStyle:"none"}}>
-					                    View Champion
+					            <hr/>
+					            <a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					                <li onClick={()=>changeDisplayChampionModal(true)} 
+					                	style={{listStyle:"none",fontSize:"18px"}}>
+					                    Champion
 					                </li>
 					            </a>
-				            )}
-			            </>
-					}
-				</ProfileInformationContainer>
-			</>
-		,document.getElementById("personalContainer"));
+					            <hr/>
+				            </>
+							:<>
+								{isOwner==true && (
+					            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						                <li onClick={()=>changeEditChampionModal(true)} 
+						                	style={{listStyle:"none",fontSize:"18px"}}>
+						                    Edit Champion
+						                </li>
+						            </a>
+								)}
+					            <hr/>
+					            {(championModalData!=null || championModalData.name!="")==true && (
+					            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+					            		<li onClick={()=>changeDisplayChampion(true)}
+					            			style={{listStyle:"none",fontSize:"18px"}}>
+						                    View Champion
+						                </li>
+						            </a>
+					            )}
+				            </>
+						}
+					</ProfileInformationContainer>
+				</React.Fragment>
+			}
+		</>
+	,document.getElementById("personalContainer"));
 }
 
 const EditNodeModal=({closeNodeOptions,editFriendNodeActionType})=>{
@@ -233,20 +253,20 @@ const EditNodeModal=({closeNodeOptions,editFriendNodeActionType})=>{
 				/>
 				<ProfileInformationContainer>
 					 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-		                <li onClick={()=>closeAndEditActionType("Add")} style={{listStyle:"none"}}>
+		                <li id="friendsNodeOptions" onClick={()=>closeAndEditActionType("Add")} style={{listStyle:"none"}}>
 		                    Add level
 		                </li>
 		              </a>
 		              <hr/>
 		              <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-		                <li onClick={()=>closeAndEditActionType("Remove")} style={{listStyle:"none"}}>
+		                <li id="friendsNodeOptions" onClick={()=>closeAndEditActionType("Remove")} style={{listStyle:"none"}}>
 		                    Remove level
 		              </li>
 		              </a>
 		              <hr/>
 
 		              <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-		                <li onClick={()=>closeAndEditActionType("Promote")} style={{listStyle:"none"}}>
+		                <li id="friendsNodeOptions" onClick={()=>closeAndEditActionType("Promote")} style={{listStyle:"none"}}>
 		                    Promote Someone
 		                </li>
 		              </a>
@@ -254,7 +274,7 @@ const EditNodeModal=({closeNodeOptions,editFriendNodeActionType})=>{
 
 						
 		               <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-			                <li onClick={()=>closeAndEditActionType("Demote")} style={{listStyle:"none"}}>
+			                <li id="friendsNodeOptions" onClick={()=>closeAndEditActionType("Demote")} style={{listStyle:"none"}}>
 			                    Demote Someone
 			                </li>
 			            </a>

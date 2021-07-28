@@ -18,9 +18,17 @@ const Container=styled.div`
 	height:125%;
 	padding:10px;
 	padding-right:20px;
+
+	@media screen and (min-width:2500px){
+		#smallVideoParentContainer{
+			margin-right:-10% !important;
+			margin-top:5% !important;
+		}
+	}
 	@media screen and (max-width:1370px){
 		width:140%;
 		#smallVideoLI{
+			margin-left:5%;
 			margin-right:15% !important;
 			width:10% !important;
 		}

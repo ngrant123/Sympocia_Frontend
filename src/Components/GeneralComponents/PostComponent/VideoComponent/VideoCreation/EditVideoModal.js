@@ -35,8 +35,28 @@ const Container=styled.div`
 	#symposiumCategoryOptionsHR{
 		display:none !important;
 	}
+	@media screen and (min-width:2500px){
+		padding:20px !important;
+		#editContainer{
+			top:-150px !important;
+		}
+		#videoElementContainer{
+			margin-left:30% !important;
+			width:20% !important;
+		}
+		#title{
+			font-size:48px !important;
+		}
+		#text{
+			font-size:24px !important;
+		}
+	}
+
 	@media screen and (max-width:1370px){
 		width:80%;
+		#closeModalButton{
+			display:block !important;
+		}
 	}
 	@media screen and (max-width:700px){
 		width:120%;
@@ -85,6 +105,11 @@ const TextContainerTitle=styled.textarea`
 	border-width:1px;
 	border-color:#d7dadb;
 	width:100%;
+
+	@media screen and (min-width:2500px){
+		font-size:36px !important;
+		width:600px !important;
+	}
 `;
 const VideoDescriptionContainer=styled.div`
 	position:relative;
@@ -607,10 +632,11 @@ isArrayEqual=(arr1,arr2)=>{
 
 	displayVideoElement=()=>{
 		return(
-			<li style={{position:"relative",listStyle:"none",width:"45%",display:"inline-block",marginLeft:"3%"}}>
+			<li id="videoElementContainer"
+				style={{position:"relative",listStyle:"none",width:"45%",display:"inline-block",marginLeft:"3%"}}>
 				<ul style={{padding:"0px"}}>
 					<li id="videoElement" style={{listStyle:"none",borderRadius:"5px",overflow:"hidden"}}>
-						<video key={this.uuidv4()} width="100%" height="80%" controls autoplay>
+						<video id="video" key={this.uuidv4()} width="100%" height="80%" controls autoplay>
 								<source src={this.state.videoSrc} type="video/mp4"/>
 						</video>
 					</li>
@@ -655,7 +681,8 @@ isArrayEqual=(arr1,arr2)=>{
 						 		:
 						 		<Container>
 						 			<div id="closeModalButton" 
-										onClick={()=>this.props.closeModal()} style={{marginTop:"0%",cursor:"pointer"}}>
+										onClick={()=>this.props.closeModal()} 
+										style={{marginTop:"0%",cursor:"pointer",display:"none"}}>
 										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 										 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 										 stroke-linecap="round" stroke-linejoin="round">
@@ -705,7 +732,7 @@ isArrayEqual=(arr1,arr2)=>{
 									<ul style={{padding:"20px"}}>
 										<li style={{listStyle:"none"}}>
 											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e"}}>
+												<li id="title" style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e"}}>
 													<b>Edit Video Description </b>
 												</li>
 											</ul>				
@@ -716,13 +743,13 @@ isArrayEqual=(arr1,arr2)=>{
 											<ul style={{padding:"0px"}}>
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													<ul style={{padding:"0px"}}>
-														<li onClick={()=>this.redoVideo()} style={ButtonCSS}>
+														<li id="text" onClick={()=>this.redoVideo()} style={ButtonCSS}>
 															Redo
 														</li>
 
 														<li style={{listStyle:"none",paddingTop:"3%"}}>
 															<ul style={{padding:"0px"}}>
-																<li style={{listStyle:"none",}}>
+																<li id="text" style={{listStyle:"none",}}>
 																	<b>Title for video (optional)</b>
 																</li>
 
@@ -746,7 +773,7 @@ isArrayEqual=(arr1,arr2)=>{
 
 														<li style={{listStyle:"none",paddingTop:"3%",marginTop:"3%"}}>
 															<ul style={{padding:"0px"}}>
-																<li style={{position:"relative",listStyle:"none",display:"inline-block"}}>
+																<li id="text" style={{position:"relative",listStyle:"none",display:"inline-block"}}>
 																	<b>Enter a description for your video (optional)</b>
 																</li>
 
@@ -775,7 +802,8 @@ isArrayEqual=(arr1,arr2)=>{
 										<hr/>
 										<li id="secondaryVideoInformation" style={{listStyle:"none"}}>
 											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e",marginBottom:"4%"}}>
+												<li id="text"
+													style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e",marginBottom:"4%"}}>
 													<b>Audio/Video Description</b>
 
 												</li>

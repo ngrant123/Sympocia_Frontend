@@ -167,6 +167,25 @@ const PostOptionsAndSearchContainer=styled.div`
 				flex-direction:row;
 			`
 	}
+	@media screen and (min-width:2500px){
+	    #images{
+	    	font-size:24px !important;
+	    }
+	    #videos{
+	    	font-size:24px !important;
+	    }
+	    #regularPosts{
+	    	font-size:24px !important;
+	    }
+	    #blogs{
+	    	font-size:24px !important;
+	    }
+	    #symposiumsDropDown{
+	    	font-size:24px !important;
+	    }
+  	}
+  
+
 	@media screen and (max-width:1370px){
 		#postOptionsAndSearchDiv{
 			margin-bottom:5% !important;
@@ -194,6 +213,13 @@ const ShadowButtonCSS={
 	borderStyle:"none"
 }
 
+const SymposiumDropDownCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white"
+}
 /*
 Later down the road this whole post section has to be refactored completely 
 because at this point it getting too crazy and sphagetti like 
@@ -665,13 +691,13 @@ const PersonalPostsIndex=(props)=>{
 
 		return (
 			<ul class="dropdown-menu">
-				<li style={{cursor:"pointer"}} 
+				<li id="symposiumsDropDown" style={{cursor:"pointer"}} 
 					onClick={()=>triggerPostDecider(currentPostType,props.personalInformation._id,0)}>
 					<a>Clear Filter</a>
 				</li>
 				<hr/>
 				{postSelectedSymposiums.map(data=>
-					<li style={{cursor:"pointer"}}>
+					<li id="symposiumsDropDown" style={{cursor:"pointer"}}>
 						<a onClick={()=>triggerSymposiumsPostFilters(data)}>{data}</a>
 					</li>
 				)}
@@ -973,47 +999,36 @@ const PersonalPostsIndex=(props)=>{
 										{searchAreaCloseIcon()}
 									</div>
 									<div style={{display:"flex",flexDirection:"row"}}>
-										<li onClick={()=>triggerPostDecider("image",props.personalInformation._id,0)} 
-											style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
-											<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
-												Images
-											</a>
+										<li id="images" onClick={()=>triggerPostDecider("image",props.personalInformation._id,0)} 
+											style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",cursor:"pointer",color:"#C8B0F4"}}>
+											Images
 										</li>
 
 										{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) && (
 											<React.Fragment>
-												<li onClick={()=>triggerPostDecider("video",props.personalInformation._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px"}}>
-
-													<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-														Videos
-													</a>
+												<li id="videos" onClick={()=>triggerPostDecider("video",props.personalInformation._id,0)} 
+													style={{listStyle:"none",display:"inline-block",fontSize:"17px",cursor:"pointer",padding:"10px",color:"#bebebf"}}>
+													Videos
 												</li>
 
 
-												<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-
-													<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-														Regular 
-													</a>
+												<li id="regularPosts" onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0)} 
+													style={{listStyle:"none",display:"inline-block",fontSize:"17px",cursor:"pointer",padding:"10px",color:"#bebebf"}}>
+													Regular 
 												</li>
 
-												<li onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0)} style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-
-													<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-														Blogs
-													</a>
+												<li id="blogs" onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0)} 
+													style={{listStyle:"none",display:"inline-block",fontSize:"17px",cursor:"pointer",padding:"10px",color:"#bebebf"}}>
+													Blogs
 												</li>
 											</React.Fragment>
 										)}
 
 										<li style={listCSSButton}>
 											<div class="dropdown">
-													<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																			borderColor:"#5298F8",
-																																			borderStyle:"solid",
-																																			borderWidth:"1px",
-																																			color:"#5298F8",
-																																			backgroundColor:"white"}}>
+													<button id="symposiumsDropDown" 
+														class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+														style={SymposiumDropDownCSS}>
 														Symposiums
 													   	<span class="caret"></span>
 													</button>

@@ -5,10 +5,15 @@ import styled from "styled-components";
 const ThumbnailVideoComponent=styled.div`
 	position:relative;
 	width:100%;
-	height:35%;
+	height:350px;
 	overflow:hidden;
 	display:flex;
 	flex-direction:row;
+
+	@media screen and (min-width:2500px){
+		height:450px;
+		margin-top:2%;
+	}
 
 	@media screen and (max-width:1370px){
 		#videoDescriptionLI{
@@ -52,15 +57,18 @@ const ThumbnailVideoComponent=styled.div`
 const ThumbnailVideo=styled.div`
 	position:relative;
 	width:60%;
-	height:100%;
+	height:320px;
 	border-radius:5px;
 	display:flex;
 	flex-direction:column;
 	margin-right:2%;
-	@media screen and (max-width:1370px){
-		margin-top:-10%;
+
+	@media screen and (min-width:2500px){
+		height:450px;
 	}
-	@media screen and (max-width:420px){
+
+
+	@media screen and (max-width:650px){
 		width:110% !important;
 		height:120% !important;
 		margin-right:-5% !important;
@@ -86,6 +94,12 @@ const VideoDescriptionContainer=styled.div`
 	width:70px;
 	height:60px;
 	border-radius:50%;
+
+	@media screen and (min-width:2500px){
+		width:80px;
+		height:70px;
+	}
+
 `;
 
 const DescriptionContainer=styled.div`
@@ -146,7 +160,7 @@ const CrownedVideoContainer=({headerVideo,displayPostModal,friendsColorNodesMap}
 		const colorCode=friendsColorNodesMap.get(headerVideo.levelNode);
 		return <ThumbnailVideo>
 					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%"
-						style={{borderRadius:"10px"}}>
+						style={{borderRadius:"10px",backgroundColor:"#151515"}}>
 						<source src={headerVideo.videoUrl} type="video/mp4"/>
 					</video>
 					<ColorPatchContainer colorCode={colorCode}/>
@@ -157,7 +171,6 @@ const CrownedVideoContainer=({headerVideo,displayPostModal,friendsColorNodesMap}
 				style={{listStyle:"none",cursor:"pointer"}}>
 			<ThumbnailVideoComponent>
 					{video()}
-
 					<DescriptionContainer id="videoDescriptionLI">
 							<div id="postInformation">
 								<li style={{marginBottom:"5%",listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
@@ -165,6 +178,11 @@ const CrownedVideoContainer=({headerVideo,displayPostModal,friendsColorNodesMap}
 								</li>
 								<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
 									<b>{headerVideo.title}</b>
+								</li>
+								<li id="description" style={{listStyle:"none"}}>
+									<Description style={{maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
+										{headerVideo.description}
+									</Description>
 								</li>
 							</div>
 							<li style={{listStyle:"none"}}>
@@ -190,11 +208,6 @@ const CrownedVideoContainer=({headerVideo,displayPostModal,friendsColorNodesMap}
 										</li>
 									}
 								</ul>
-							</li>
-							<li id="description" style={{listStyle:"none"}}>
-								<Description style={{maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
-									{headerVideo.description}
-								</Description>
 							</li>
 						</DescriptionContainer>
 

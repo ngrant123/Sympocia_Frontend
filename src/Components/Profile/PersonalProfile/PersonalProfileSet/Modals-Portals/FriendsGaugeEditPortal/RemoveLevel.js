@@ -4,45 +4,50 @@ import {removeLevel} from "../../../../../../Actions/Requests/ProfileAxiosReques
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
-const ShadowContainer= styled.div`
-	position:fixed;
-	width:100%;
-	height:100%;
-	background-color: rgba(0,0,0,0.4);
-	z-index:11;
-	top:0px;
-	left:0%;
-`;
+const Container=styled.div`	
+	@media screen and (min-width:2500px){
+		padding:20px;
+		#removeLevelTitle{
+			font-size:36px !important;
+		}
+		#nodeLevelName{
+			font-size:36px !important;
+		}
+		#nodeLevelDescription{
+			font-size:24px !important;
+		}
 
-const RemoveLevelVerificationContainer=styled.div`
-	position:fixed;
-	width:35%;
-	height:30%;
-	background-color:white;
-	z-index:13;
-	top:25%;
-	border-radius:5px;
-	left:35%;
-	overflow-y:auto;
+		#backButton{
+			font-size:24px !important;
+		}
+		#removeVerificationText{
+			margin-top:5% !important;
+			font-size:36px !important;
+		}
+		#removeLevelOptions{
+			margin-top:5%;
+			font-size:36px !important;
+		}
 
-	@media screen and (max-width:1370px){
-		top:20%;
-		left:20% !important;
-		width:60% !important;
-		height:30%;
 	}
 
-	@media screen and (max-width:700px){
-		left:10% !important;
-		width:80% !important;
-		height:30%;
-	}
-	  @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-    	height:65%;
-    	left:5% !important;
-    	width:90% !important;
-    }
 `;
+
+
+
+const BackButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  cursor:"pointer",
+  marginBottom:"5%"
+}
 
 {/*
 	Right now the plan in the future is to be able to allow the user
@@ -108,79 +113,53 @@ const RemoveLevel=({nodes,closeModal,id})=>{
 		changeIsSubmitProcessing(false);
 	}
 
-	const removeNodeVerification=()=>{
-		return(
-			<>
-				<ShadowContainer
-					onClick={()=>closeRemoveNodeVerificationModal()}
-				/>
-				<RemoveLevelVerificationContainer>
-					<ul style={{padding:"20px"}}>
-						<p> Are you sure you want to remove this level? All of your posts in this level will be placed
-						in the general section </p>
-						<li style={{listStyle:"none"}}>
-							<ul style={{pading:"20px"}}>
-								{isProcessingSubmit==true?
-									<p>Please wait</p>:
-									<li style={{listStyle:"none"}}>
-										<ul style={{padding:"0px"}}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>removeLevelHandler({isAccessTokenUpdated:false})}style={{listStyle:"none",display:"inline-block"}}>
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-check" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7cfc00" fill="none" stroke-linecap="round" stroke-linejoin="round">
-													  <path stroke="none" d="M0 0h24v24H0z"/>
-													  <circle cx="12" cy="12" r="9" />
-													  <path d="M9 12l2 2l4 -4" />
-													</svg> Yes
-												</li>
-											</a>
-											<a href="javascript:void(0);" style={{textDecoration:"none",marginTop:"3%"}}>
-												<li onClick={()=>closeRemoveNodeVerificationModal()} style={{listStyle:"none",display:"inline-block"}}>
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#E91E63" fill="none" stroke-linecap="round" stroke-linejoin="round">
-													  <path stroke="none" d="M0 0h24v24H0z"/>
-													  <rect x="4" y="4" width="16" height="16" rx="2" />
-													  <path d="M10 10l4 4m0 -4l-4 4" />
-													</svg> No
-												</li>
-											</a>
-										</ul>
-									</li>
-								}
-							
-							</ul>
-						</li>
-					</ul>
-				</RemoveLevelVerificationContainer>
-			</>
-		)
-	}
-
 	return(
-		<>
+		<Container>
 			{displayRemoveNodeVerification==false?
-				null:
-				removeNodeVerification()
-			}
-			<ul style={{padding:"10px"}}>
-				<p>Click on the level you would like to remove </p>
-				{nodes.length>=1 &&(
-					<>
-						{nodes.map(data=>
-							<>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>addRemovedNodeToQueue(data)} style={{listStyle:"none"}}>
-										<p style={{fontSize:"25px"}}>
+				<ul style={{padding:"10px"}}>
+					<p id="removeLevelTitle">Click on the level you would like to remove </p>
+					<hr/>
+					{nodes.length>=1 &&(
+						<>
+							{nodes.map(data=>
+								<>
+									<li onClick={()=>addRemovedNodeToQueue(data)} 
+										style={{listStyle:"none",cursor:"pointer"}}>
+										<p id="nodeLevelName" style={{fontSize:"25px"}}>
 											<b> {data.name} </b>
 										</p>
-										<p>{data.description}</p>
+										<p id="nodeLevelDescription">{data.description}</p>
 									</li>
-								</a>
-								<hr/>
-							</>
-						)}
-					</>
-				)}
-				</ul>
-		</>
+									<hr/>
+								</>
+							)}
+						</>
+					)}
+				</ul>:
+				<div style={{padding:"10px"}}>
+					<div id="backButton" onClick={()=>closeRemoveNodeVerificationModal()} style={BackButtonCSS}>
+						Back
+					</div>
+
+					<p id="removeVerificationText">
+						Are you sure you want to remove this level? All of your posts in this level will be placed
+						in the general section 
+					</p>
+					<hr/>
+					<div style={{display:"flex",flexDirection:"row"}}>
+						<div id="removeLevelOptions" style={{...BackButtonCSS,marginRight:"2%"}}
+							onClick={()=>removeLevelHandler({isAccessTokenUpdated:false})}>
+							Yes
+						</div>
+
+						<div id="removeLevelOptions" style={BackButtonCSS}
+							onClick={()=>closeRemoveNodeVerificationModal()}>
+							No
+						</div>
+					</div>
+				</div>
+			}
+		</Container>
 
 	)
 }

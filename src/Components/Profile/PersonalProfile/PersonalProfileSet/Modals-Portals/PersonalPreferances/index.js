@@ -27,6 +27,19 @@ const Container=styled.div`
 	align-items:center;
 	overflow-y:scroll;
 
+	@media screen and (min-width:2500px){
+		height:50%;
+		#settingsProfilePicture{
+			height:150px !important;
+		}
+		#accountSettingsTitle{
+			font-size:24px !important;
+		}
+		#profilePreferencesOption{
+			font-size:30px !important;
+		}
+	}
+
 	@media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
@@ -181,7 +194,7 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 						<img id="settingsProfilePicture" src={userProfilePicture==null?
 									NoProfilePicture:userProfilePicture
 								} 
-								style={{width:"20%",height:"20%",borderRadius:"50%"}}
+								style={{width:"20%",height:"90px",borderRadius:"50%"}}
 						/>
 						<hr style={HorizontalLineCSS}/>
 						<div id="settingsContainer" style={UserSettingOptionsCSS}>
@@ -189,7 +202,7 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 								<b>Account Settings</b>
 							</p>
 							<div id="options" style={{padding:"40px",borderRadius:"5px",boxShadow:"2px 2px 10px #A4A4A4"}}>
-								<div onClick={()=>handleDisplayEmailModal()}
+								<div id="profilePreferencesOption" onClick={()=>handleDisplayEmailModal()}
 									style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>
 									<p>
 										<b>Update email addresses</b>
@@ -200,7 +213,7 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 								</div>
 								<hr/>
 
-								<div onClick={()=>hanldeDisplayFirstNameModal()}
+								<div id="profilePreferencesOption" onClick={()=>hanldeDisplayFirstNameModal()}
 									style={SpecificSettingOptionCSS}>
 									<p>
 										<b>Update first name</b>
@@ -211,7 +224,8 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 								</div>
 								<hr/>
 
-								<div style={SpecificSettingOptionCSS} onClick={()=>hanldeDisplayLastNameModal()}>
+								<div id="profilePreferencesOption" style={SpecificSettingOptionCSS} 
+									onClick={()=>hanldeDisplayLastNameModal()}>
 									<p>
 										<b>Update last name</b>
 									</p>
@@ -221,7 +235,9 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 								</div>
 								<hr/>
 
-								<Link to={{pathname:'/emailreset'}} style={{...SpecificSettingOptionCSS,textDecoration:"none",color:"black"}}>
+								<Link id="profilePreferencesOption"
+									to={{pathname:'/emailreset'}} 
+									style={{...SpecificSettingOptionCSS,textDecoration:"none",color:"black"}}>
 									<p>
 										<b>Update password</b>
 									</p>

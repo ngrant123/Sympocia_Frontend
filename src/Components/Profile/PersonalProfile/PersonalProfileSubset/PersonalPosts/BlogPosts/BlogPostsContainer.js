@@ -37,7 +37,6 @@ const Container=styled.div`
 
 
 
-
 const NextPostLabelCSS={
 	listStyle:"none",
 	  display:"inline-block",

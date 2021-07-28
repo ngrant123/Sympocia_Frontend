@@ -18,11 +18,24 @@ const Container=styled.div`
 	padding:10px;
 	overflow:hidden;
 
+	@media screen and (min-width:2500px){
+		height:50% !important;
+	}
+
 	@media screen and (max-width:1370px){
 		width:350% !important;
 		height:60%;
-		#postOwnerInformation{
-			display:none !important;
+		#smallRegularPostProfilePicture{
+			height:80px !important;
+			width:90px !important;
+			margin-bottom:2% !important;
+		}
+
+		#post{
+			font-size:24px !important;
+		}
+		#postLI{
+			font-size:18px !important;
 		}
 		#commentLI{
 			display:none !important;
@@ -64,7 +77,7 @@ const Container=styled.div`
 const ProfilePicture=styled.div`
 	position:relative;
 	border-radius:50%;
-	height:20%;
+	height:50px;
 	width:55px;
 	margin-top:2%;
 	overflow:hidden;
@@ -109,6 +122,17 @@ const RegularPostCSS={
 	marginBottom:"3%"
 }
 
+const ProfilePictureCSS={
+	position:"relative",
+	borderRadius:"50%",
+	height:"50px",
+	width:"55px",
+	marginTop:"2%",
+	overflow:"hidden",
+	borderRadius:"50%",
+	marginBottom:"15%"
+}
+
 const CommentButtonCSS={
 	textAlign:"center",
 	listStyle:"none",
@@ -132,63 +156,26 @@ const SmallRegularPosts=({posts,profilePicture,displayPostModal,friendsColorNode
 
 	const regularPost=(data)=>{
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
-		return <Container>
-				<ul>
+		return 	<Container>
 					<ColorPatchContainer colorCode={colorCode}/>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<li id="postOwnerInformation" 
-								style={{listStyle:"none",display:"inline-block",
-										marginLeft:"25%",marginBottom:"2%",marginBottom:"30px"}}>
-								<ProfilePicture>
-									{profilePicture==null?
-										 <img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-										 <img id="profilePicture" src={profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
-									}													    
-								</ProfilePicture>
-							</li>
-							<li id="postLI" style={{listStyle:"none",display:"inline-block",height:"40%",overflowY:"auto",color:"#A4A4A4",marginBottom:"4%"}}>
-								{data.isAudioPost==true?
-									<audio key={uuidv4()} style={{width:"150px"}} controls>
-												<source src={data.post} type="audio/ogg"/>
-												<source src={data.post} type="audio/mp4"/>
-												Your browser does not support the audio element.
-									</audio>:
-									<React.Fragment>
-										{data.post}
-									</React.Fragment>
-								}
-							</li>
-							{/*
-								<div id="commentLI">	
-									{data.comments.regularComments.length==0?
-										<React.Fragment>
-											<p> No comments here :(<ExpandMoreIcon/> </p>
-											<p style={CommentButtonCSS}> Create a comment </p>
-										</React.Fragment>:
-										<React.Fragment>
-											<p> Show comments <ExpandMoreIcon/> </p>
-											<li style={{listStyle:"none"}}>
-												<ul style={{padding:"0px"}}>
-													{data.comments.regularComments.map(data=>
-														<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-															<SmallProfileCommentPicture>
-																<img id="profilePicture" src={NoProfilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>:
-																<img id="profilePicture" src={data.profilePicture} style={{position:"absolute",width:"100%",height:"100%"}}/>
-															</SmallProfileCommentPicture>
-														</li>
-														)}
-													</ul>
-												</li>
-											</React.Fragment>
-										}
-								</div>
-
-							*/}
-						</ul>
-					</li>
-				</ul>
-			</Container>
+					<div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+						<img id="smallRegularPostProfilePicture" 
+							src={profilePicture==null?
+									NoProfilePicture:profilePicture} 
+							style={ProfilePictureCSS}
+						/>
+						{data.isAudioPost==true?
+							<audio key={uuidv4()} style={{width:"150px"}} controls>
+										<source src={data.post} type="audio/ogg"/>
+										<source src={data.post} type="audio/mp4"/>
+										Your browser does not support the audio element.
+							</audio>:
+							<React.Fragment>
+								<p id="post" style={{color:"#A4A4A4"}}>{data.post}</p>
+							</React.Fragment>
+						}
+					</div>
+				</Container>
 	}
 	
 	return(

@@ -15,6 +15,15 @@ const Container=styled.div`
 	overflow:auto;
 	width:45%;
 
+	@media screen and (min-width:2500px){
+		#headerCreationText{
+    		font-size:48px !important;
+    	}
+    	#secondaryCreationText{
+    		font-size:36px !important;
+    	}
+	}
+
 	@media screen and (max-width:1370px){
     	top:20% !important;
     	width:100% !important;
@@ -24,6 +33,10 @@ const Container=styled.div`
 
 		#uploadOptionTypeLI{
 			margin-bottom:15% !important;
+		}
+
+		#closeModalButton{
+			display:block !important;
 		}
     }
 
@@ -120,7 +133,7 @@ const VideoOptionCSS={
 			{videoUploaded==null?
 				<React.Fragment>
 					<div id="closeModalButton" 
-						onClick={()=>props.closeModal()} style={{marginTop:"0%",cursor:"pointer"}}>
+						onClick={()=>props.closeModal()} style={{marginTop:"0%",cursor:"pointer",display:"none"}}>
 						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 						 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 						 stroke-linecap="round" stroke-linejoin="round">
@@ -138,7 +151,7 @@ const VideoOptionCSS={
 						<p id="headerCreationText" style={{fontSize:"25px"}}>
 							<b>Create your own video here with the click of a button</b>
 						</p>
-						<p style={{fontSize:"15px",color:"#b3b3b3"}}>
+						<p id="secondaryCreationText" style={{fontSize:"15px",color:"#b3b3b3"}}>
 							Everyone has a story. Show people your talents or your ideas that you've been working on
 						</p>
 						<hr/>
@@ -151,7 +164,7 @@ const VideoOptionCSS={
 													<CameraIcon/>
 												</li>
 
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+												<li id="secondaryCreationText" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
 													Upload Video
 												</li>
 											</ul>																			

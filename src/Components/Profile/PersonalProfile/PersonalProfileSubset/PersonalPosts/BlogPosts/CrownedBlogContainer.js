@@ -10,6 +10,13 @@ const ThumbnailBlogComponent=styled(Link)`
 	display:flex;
 	flex-direction:row;
 
+	@media screen and (min-width:2500px){
+		margin-top:2%;
+		#headerImage{
+			height:450px !important;
+		}
+  	}
+
 	@media screen and (max-width:1370px){
 		width:100%;
 		#headerImage{
@@ -126,6 +133,32 @@ const ColorPatchContainer=styled.div`
     }
 `;
 
+
+const TitleCSS={
+	listStyle:"none",
+	marginRight:"5%",
+	marginBottom:"15px",
+	maxWidth:"70%",
+	maxHeight:"50px",
+	overflow:"hidden",
+	fontSize:"18px",
+	color:"black"
+}
+
+
+const SymposiumCSS={
+	marginBottom:"5px",
+	listStyle:"none",
+	padding:"5px",
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white",
+	borderRadius:"5px"
+}
+
+
 const CrownedBlogContainer=(props)=>{
 
 	const constructDate=(date)=>{
@@ -179,10 +212,10 @@ const CrownedBlogContainer=(props)=>{
 			</div>
 
 			<div style={{position:"relative",display:"flex",flexDirection:"column",width:"60%"}}>
-				<li id="headerSymposiumsLI" style={{marginBottom:"5px",listStyle:"none",padding:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
+				<li id="headerSymposiumsLI" style={SymposiumCSS}>
 					{props.headerBlog.industriesUploaded[0].industry}
 				</li>
-				<li style={{listStyle:"none",marginRight:"5%",marginBottom:"5px",maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
+				<li style={TitleCSS}>
 					<b>{props.headerBlog.title}</b>
 				</li>
 

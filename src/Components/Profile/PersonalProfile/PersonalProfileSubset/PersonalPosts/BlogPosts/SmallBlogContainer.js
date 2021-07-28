@@ -8,6 +8,10 @@ const SmallBlogComponent=styled.div`
 	width:200px;
 	height:40%;
 
+	@media screen and (min-width:2500px){
+		width:310px !important;
+	}
+
 	@media screen and (max-width:1370px){
 		margin-bottom:40%;
 		height:30%;
@@ -39,10 +43,15 @@ const SmallBlogComponent=styled.div`
 const SmallBlog=styled.div`
 
 	position:relative;
-	height:60%;
+	height:160px;
 	width:100%;
 	border-radius:5px;
 	overflow:hidden;
+
+	@media screen and (min-width:2500px){
+		height:270px !important;
+		width:310px !important;
+	}
 
 	@media screen and (max-width:840px){
 		width:90% !important;
@@ -107,6 +116,37 @@ const VideoDesriptionContainer=styled.div`
     }
 `;
 
+const SymposiumCSS={
+	listStyle:"none",
+	padding:"5px",
+	width:"50%",
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white",
+	borderRadius:"5px"
+}
+
+
+const SmallBlogTitleCSS={
+	listStyle:"none",
+	fontSize:"18px",
+	maxWidth:"90%",
+	maxHeight:"50px",
+	overflow:"hidden",
+	marginBottom:"2%",
+	color:"black"
+}
+
+const SmallBlogDescriptionCSS={
+	listStyle:"none",
+	fontSize:"12px",
+	maxWidth:"80%",
+	maxHeight:"50px",
+	overflow:"hidden",
+	color:"#767677"
+}
 
 const BlogContainer=(props)=>{
 	const constructDate=(date)=>{
@@ -159,19 +199,16 @@ const BlogContainer=(props)=>{
 								</audio>
 							)}
 						</li>
+						{blogImage()}
 
-						<li style={{listStyle:"none"}}>
-							{blogImage()}
-						</li>
-
-						<li style={{listStyle:"none",fontSize:"18px",maxWidth:"90%",maxHeight:"50px",overflow:"hidden",marginBottom:"2%"}}>
+						<li style={SmallBlogTitleCSS}>
 							<b> {props.data.title} </b>
 						</li>
-						<li style={{listStyle:"none",fontSize:"12px",maxWidth:"80%",maxHeight:"50px",overflow:"hidden"}}>
+						<li style={SmallBlogDescriptionCSS}>
 							{props.data.description}
 						</li>
 
-						<li id="symposiumsLI" style={{listStyle:"none",padding:"5px",width:"50%",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",color:"#5298F8",backgroundColor:"white",borderRadius:"5px"}}>
+						<li id="symposiumsLI" style={SymposiumCSS}>
 							{props.data.industriesUploaded[0].industry}
 						</li>
 					</ul>

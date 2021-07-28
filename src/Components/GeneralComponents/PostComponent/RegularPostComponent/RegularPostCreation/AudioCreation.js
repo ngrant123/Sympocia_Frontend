@@ -20,6 +20,11 @@ const ButtonCSS={
 }
 
 const Container=styled.div`
+	@media screen and (min-width:2500px){
+		#text{
+			font-size:36px !important;
+		}
+	}
 	@media screen and (max-width:700px){
 		#sendButtonLI{
 			width:100% !important;
@@ -95,13 +100,13 @@ const AudioCreation=({audio,isPreviousDataLoaded,isSubmittedAndProcessing,sendDa
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
 								{isPreviousDataLoaded==false &&(
-									<li onClick={()=>displayTextOrAudioScreen()} style={ButtonCSS}>
+									<li id="text" onClick={()=>displayTextOrAudioScreen()} style={ButtonCSS}>
 										Back
 									</li>
 
 								)}
 
-								<li onClick={()=>changeDisplayAudioCreation(false)} style={ButtonCSS}>
+								<li id="text" onClick={()=>changeDisplayAudioCreation(false)} style={ButtonCSS}>
 									Redo
 								</li>
 								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -137,11 +142,11 @@ const AudioCreation=({audio,isPreviousDataLoaded,isSubmittedAndProcessing,sendDa
 													/>
 												</li>
 
-												<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
+												<li id="text" style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
 													Send
 												</li>
 											</React.Fragment>:
-											<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
+											<li id="text" style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
 												Edit
 											</li>
 										}

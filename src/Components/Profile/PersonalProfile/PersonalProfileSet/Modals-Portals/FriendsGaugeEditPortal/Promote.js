@@ -7,6 +7,32 @@ import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.j
 import {useSelector,useDispatch} from "react-redux";
 
 const Container=styled.div`
+	@media screen and (min-width:2500px){
+		padding:20px;
+		#title{
+			font-size:36px !important;
+		}
+		#recruitImage{
+			width:110px !important;
+			height:100px !important;
+		}
+		#recruitFirstName{
+			font-size:36px !important;
+		}
+		#promoteButton{
+			font-size:24px !important;
+		}
+		#removedRecruitIcon{
+			font-size:48px !important;
+		}
+		#nodeTitle{
+			font-size:36px !important;
+		}
+		#nodeDescription{
+			font-size:24px !important;
+		}
+	}
+
 	@media screen and (max-width:1370px){
 		#recruitImage{
 			height:40% !important;
@@ -45,6 +71,10 @@ const NextButton=styled.div`
 	padding:10px;
 	background-color:#C8B0F4;
 	border-radius:5px;
+
+	@media screen and (min-width:2500px){
+		font-size:36px !important;
+	}
 `;
 
 const SubmitButton=styled.div`
@@ -54,15 +84,41 @@ const SubmitButton=styled.div`
 	padding:10px;
 	background-color:#C8B0F4;
 	border-radius:5px;
+
+	@media screen and (min-width:2500px){
+		font-size:36px !important;
+	}
 `;
 
 const ImageCSS={
 	width:"70px",
-	height:"30%",
+	height:"65px",
 	borderRadius:"50%",
 	borderType:"solid",
 	borderColor:"#5298F8",
 	borderWidth:"1px"
+}
+
+const RecruitsContainerCSS={
+	display:"flex",
+	flexDirection:"column",
+	justifyContent:"center",
+	alignItems:"center",
+	width:"35%",
+	marginRight:"3%",
+	borderRadius:"5px",
+	boxShadow:"1px 1px 10px #d5d5d5",
+	cursor:"pointer"
+}
+
+const PromoteButtonCSS={
+	color:"#5298F8",
+	borderRadius:"5px",
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	padding:"10px",
+	textAlign:"center"
 }
 
 const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
@@ -165,49 +221,43 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 							</li>
 							<hr/>
 				 		*/}
-				 		<p style={{fontSize:"20px"}}>
+				 		<p id="title" style={{fontSize:"20px"}}>
 				 			<b>Click on the recruits that you would like to promote </b>
 				 		</p>
 				 		<hr/>
 						{selectedRecruits.map(data=>
-										<li style={{listStyle:"none",display:"inline-block",width:"20%",marginBottom:"5%"}}>
-											<ul style={{padding:"0px",width:"150%"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													{data.firstName}
-												</li>
-												<li onClick={()=>removeSelectedPerson(data)} style={{listStyle:"none",display:"inline-block",width:"20%"}}>
-														<HighlightOffIcon
-															onClick={()=>removeSelectedPerson(data)}
-														/>
-												</li>
-											</ul>
-										</li>
-							)}
+							<li style={{listStyle:"none",display:"inline-block",width:"20%",marginBottom:"5%"}}>
+								<ul style={{padding:"0px",width:"150%"}}>
+									<li id="recruitFirstName" style={{listStyle:"none",display:"inline-block"}}>
+										{data.firstName}
+									</li>
+									<li onClick={()=>removeSelectedPerson(data)} 
+										style={{listStyle:"none",display:"inline-block",width:"20%",cursor:"pointer"}}>
+										<HighlightOffIcon
+											id="removedRecruitIcon"
+											onClick={()=>removeSelectedPerson(data)}
+										/>
+									</li>
+								</ul>
+							</li>
+						)}
 						<li style={{listStyle:"none",height:"45%",overflowY:"auto",marginBottom:"1%"}}>
 							<ul style={{padding:"0px"}}>
 								{recruitsInformationProp.length==0?
 									<p> Unfortunately you dont have any recruits. Add some then come back here later </p>:
-									<>
+									<div style={{display:"flex",flexDirection:"row"}}>
 										{recruitsInformationProp.map(data=>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li  onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",display:"inline-block",width:"35%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
-													<ul style={{padding:"10px"}}>
-														<li style={{listStyle:"none"}}>
-															<img id="recruitImage" src={data.profilePicture==null?
-																NoProfilePicture:data.profilePicture} style={ImageCSS}
-															/>
-														</li>
-														<li style={{listStyle:"none"}}>
-															{data.firstName}
-														</li>
-														<li style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
-															Promote
-														</li>
-													</ul>
-												</li>
-											</a>
+											<div onClick={()=>pushSelectedPersonToArray(data)} style={RecruitsContainerCSS}>
+												<img id="recruitImage" src={data.profilePicture==null?
+													NoProfilePicture:data.profilePicture} style={ImageCSS}
+												/>
+												<p id="recruitFirstName">{data.firstName}</p>
+												<p id="promoteButton" style={PromoteButtonCSS}>
+													Promote
+												</p>
+											</div>
 										)}
-									</>
+									</div>
 								}
 							</ul>
 						</li>
@@ -238,8 +288,8 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 							}
 							<li style={{listStyle:"none"}}>
 								<ul style={{padding:"0px"}}>
-									<p style={{fontSize:"20px"}}>
-							 			<b>Click the level that you want to promote the recruit to</b>
+									<p id="title"  style={{marginBottom:"5%",fontSize:"20px"}}>
+							 			Click the level that you want to promote the recruit to
 							 		</p>
 							 		<hr/>
 							 		{nodes.length==0?
@@ -250,14 +300,13 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 							 			<>
 											{nodes.map(data=>
 												<>
-													<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-														<li onClick={()=>changeSelectedNode(data)} style={{listStyle:"none"}}>
-															<p style={{fontSize:"25px"}}>
-																<b> {data.name} </b>
-															</p>
-															<p>{data.description}</p>
-														</li>
-													</a>
+													<li onClick={()=>changeSelectedNode(data)}
+														style={{listStyle:"none",cursor:"pointer"}}>
+														<p id="nodeTitle" style={{fontSize:"25px"}}>
+															<b> {data.name} </b>
+														</p>
+														<p id="nodeDescription">{data.description}</p>
+													</li>
 													<hr/>
 												</>
 											)}

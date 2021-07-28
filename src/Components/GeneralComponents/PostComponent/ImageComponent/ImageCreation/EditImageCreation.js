@@ -31,6 +31,18 @@ import {
 
 const Container=styled.div`
 	padding:20px;
+
+	@media screen and (min-width:2500px){
+		#text{
+			font-size:36px !important;
+		}
+		#icon{
+			font-size:60px !important;
+		}
+		#submitButton{
+			width:200px !important;
+		}
+	}
     @media screen and (max-width:1370px){
     	${({isPhoneUIEnabled})=>(
     		isPhoneUIEnabled==true && (
@@ -144,6 +156,11 @@ const ImageTextArea=styled.textarea`
 	border-radius:5px;
 	background-color:#f1f1f1;
 	padding:5px;
+
+	@media screen and (min-width:2500px){
+		width:90% !important;
+		font-size:36px !important;
+	}
 
 	@media screen and (max-width:650px){
 		width:90% !important;
@@ -979,7 +996,7 @@ class EditImageCreation extends Component{
 							</li>
 							<p style={{marginLeft:"50%",fontSize:"20px",color:"#5298F8"}}> Or </p>
 							<ul style={{padding:"0px"}}>
-								<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
+								<li id="text" style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
 									Create either a video or voice description for your image. Much more interesting than regular text imo ;)
 								</li>
 								<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>
@@ -987,7 +1004,7 @@ class EditImageCreation extends Component{
 										<li onClick={()=>this.setUpVoiceDescriptionCreation(userSessionInformation.displayDesktopUI)}
 											 style={{listStyle:"none",display:"inline-block",marginLeft:"20%",marginRight:"20%"}}>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<MicIcon
+												<MicIcon id="icon"
 													style={{fontSize:40}}
 												/>
 											</a>
@@ -996,7 +1013,7 @@ class EditImageCreation extends Component{
 										<li onClick={()=>this.setUpVideoDescriptionCreation(userSessionInformation.displayDesktopUI)}
 											 style={{listStyle:"none",display:"inline-block"}}>
 											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<CameraAltIcon
+												<CameraAltIcon id="icon"
 													style={{fontSize:40}}
 												/>
 											</a>
@@ -1041,7 +1058,8 @@ class EditImageCreation extends Component{
 							)}
 
 							{this.state.isSubmittedAndProcessing==false?
-								<li style={{cursor:"pointer",listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+								<li id="submitButton"
+									style={{cursor:"pointer",listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
 									<ul onClick={()=>this.sendImageDateToDB({profilePostInformation,isAccessTokenUpdated:false})}>
 										{this.props.previousData==null?
 											<React.Fragment>
@@ -1051,11 +1069,11 @@ class EditImageCreation extends Component{
 													/>
 												</li>
 
-												<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+												<li id="text" style={{listStyle:"none",display:"inline-block",color:"white"}}>
 													Send
 												</li>
 											</React.Fragment>:
-											<li style={{listStyle:"none",display:"inline-block",color:"white"}}>
+											<li id="text" style={{listStyle:"none",display:"inline-block",color:"white"}}>
 												Edit
 											</li>
 										}

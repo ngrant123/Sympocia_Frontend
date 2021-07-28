@@ -2,16 +2,46 @@ import React,{useEffect,useState} from "react";
 import styled from "styled-components";
 
 const importAll = (r) => r.keys().map(r);
+
+const Container=styled.div`
+	@media screen and (min-width:2500px){
+		#backButton{
+			font-size:24px !important;	
+		}
+		#optionsText{
+			font-size:36px !important;
+		}
+	}
+`;
+
 const PicturesContainer=styled.div`
 	width:100%;
 	flex-wrap:wrap;
 	display:flex;
 	flex-direction:row;
+
+	@media screen and (min-width:2500px){
+	    #defaultProfilePicture{
+	    	width:220px !important;
+	    	height:220px !important;
+	    }
+	}
 `;
 
 const SelectedPictureContainer=styled.div`
 	display:flex;
 	flex-direction:row;
+
+	@media screen and (min-width:2500px){
+		flex-direction:column;
+	    #defaultProfilePicture{
+	    	width:220px !important;
+	    	height:220px !important;
+	    }
+	    #uploadOption{
+	    	font-size:36px !important;
+	    }
+	}
 `;
 
 const ButtonContainerCSS={
@@ -74,29 +104,31 @@ const DefaultOptions=({backButtonTrigger,uploadFile})=>{
 		}
 	}
 	return(
-		<React.Fragment>
-			<p style={ButtonContainerCSS} onClick={()=>backButton()}>
+		<Container>
+			<p id="backButton" style={ButtonContainerCSS} onClick={()=>backButton()}>
 				Back
 			</p>
 			{selectedImgSrc!=null ?
 				<SelectedPictureContainer>
-					<img src={selectedImgSrc} style={ImageCSS}/>
-					<p onClick={()=>convertImageToDataUrl()} style={ButtonContainerCSS}> Upload</p>
+					<img id="defaultProfilePicture" src={selectedImgSrc} style={ImageCSS}/>
+					<p id="uploadOption"
+						onClick={()=>convertImageToDataUrl()} style={ButtonContainerCSS}>
+						Upload
+					</p>
 				</SelectedPictureContainer>:
 				<React.Fragment>
-					<p> Choose from the options below </p>
+					<p id="optionsText"> Choose from the options below </p>
 					<hr style={HorizontalLineCSS}/>
 					<PicturesContainer>
 						{defaultProfileOptions.map(data=>
-							<img onClick={()=>selectImage(data.default)}
+							<img id="defaultProfilePicture" onClick={()=>selectImage(data.default)}
 								src={data.default} style={ImageCSS}
 							/>
 						)}
 					</PicturesContainer>
 				</React.Fragment>
 			}
-
-		</React.Fragment>
+		</Container>
 	)
 }
 

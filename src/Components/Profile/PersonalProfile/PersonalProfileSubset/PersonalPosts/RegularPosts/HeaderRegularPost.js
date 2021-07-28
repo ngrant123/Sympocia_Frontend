@@ -12,11 +12,19 @@ const Container=styled.div`
 	display:flex;
 	flex-direction:row;
 
+	@media screen and (min-width:2500px){
+		height:10% !important;
+		#profilePicture{
+			width:60% !important;
+			margin-left:20%;
+		}
+	}
+
 	@media screen and (max-width:1370px){
 		width:100%;
 		#profilePicture{
-			height:65px !important;
-			width:80px !important;
+			height:100px !important;
+			width:110px !important;
 		}
 		#postCommentsLI{
 			display:none !important;
@@ -90,7 +98,7 @@ const Post=styled.div`
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		heigth:70% !important;
-		#headerPostTest{
+		#headerPost{
 			max-height:90% !important;
 			width:100% !important;
 		}
@@ -137,6 +145,12 @@ const PostSecondSection=styled.div`
 	display:flex;
 	flex-direction:column;	
 	width:100%;
+	@media screen and (max-width:1370px){	
+		#headerPost{
+			font-size:24px !important;
+			max-height:100% !important;
+		}
+	}
 	@media screen and (max-width:650px){
 		width:100% !important;
 	}
@@ -217,7 +231,7 @@ const HeaderRegularPost=({post,profilePicture,displayPostModal,friendsColorNodes
 				<ColorPatchContainer colorCode={colorCode}/>
 				<PostFirstSection>
 					<img id="profilePicture" src={profilePicture==null?NoProfilePicture:profilePicture} 
-						style={{width:"100%",height:"60%",borderRadius:"50%",marginBottom:"4%"}}
+						style={{width:"100%",height:"140px",borderRadius:"50%",marginBottom:"4%"}}
 					/>
 					{post.industriesUploaded[0]!=null?
 						<li style={IndustryButtonCSS}>
@@ -236,7 +250,7 @@ const HeaderRegularPost=({post,profilePicture,displayPostModal,friendsColorNodes
 									Your browser does not support the audio element.
 								</audio>:
 								<React.Fragment>
-									<p id="headerPostTest" style={{maxHeight:"60%",overflow:"hidden"}}>
+									<p id="headerPost" style={{maxHeight:"60%",overflow:"hidden"}}>
 										{post.post}
 									</p>
 								</React.Fragment>

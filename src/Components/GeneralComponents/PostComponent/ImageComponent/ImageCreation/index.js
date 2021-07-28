@@ -39,6 +39,12 @@ const Container=styled.div`
 
 		`
 	}
+
+	@media screen and (min-width:2500px){
+		#text{
+			font-size:36px !important;
+		}
+	}
 	
 
 	@media screen and (max-width:1370px){
@@ -154,7 +160,7 @@ class ImageCreation extends Component{
 						{this.state.displayCreateImageScreen==false?
 							<ul style={{marginLeft:"10%",top:"10%",padding:"1px"}}>
 							
-								<li style={{fontSize:"20px",marginBottom:"1%",listStyle:"none"}}>	
+								<li id="text" style={{fontSize:"20px",marginBottom:"1%",listStyle:"none"}}>	
 									Image Creation
 								</li>
 								<hr/>
@@ -165,7 +171,7 @@ class ImageCreation extends Component{
 												<CameraIcon/>
 											</li>
 
-											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+											<li id="text" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
 												Upload Photo
 											</li>
 										</ul>																			

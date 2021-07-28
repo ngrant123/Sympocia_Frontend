@@ -2,9 +2,10 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {
-		editNodeInformation,
-		requestAccessToNode
-	} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+	editNodeInformation,
+	requestAccessToNode
+} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
 import {recruitsLocatedInNode} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
@@ -21,6 +22,41 @@ const Container=styled.div`
 	border-radius:5px;
 	left:40%;
 	overflow:auto;
+	@media screen and (min-width:2500px){
+		height:50%;
+		width:50%;
+		left:25%;
+		padding:2%;
+
+		#requestAccessButton{
+			font-size:36px !important;
+		}
+
+		#editIcon{
+			height:50px !important;
+			width:50px !important;
+		}
+
+		#closeModalIcon{
+			height:50px !important;
+			width:50px !important;	
+		}
+		#viewProfiles{
+			font-size:36px !important;
+		}
+
+		#profilePictureRecruit{
+			width:150px !important;
+			height:140px !important;
+		}
+		#name{
+			font-size:36px !important;
+		}
+		#editScreenText{
+			font-size:36px !important;
+		}
+	}
+
 
 	@media screen and (max-width:1370px){
 		width:90% !important;
@@ -41,6 +77,10 @@ const NameTextArea=styled.textarea`
 	width:90%;
 	resize:none;
 	border-style:none;
+
+	@media screen and (min-width:2500px){
+		font-size:36px !important;
+	}
 `;
 
 const DescriptionTextArea=styled.textarea`
@@ -49,6 +89,11 @@ const DescriptionTextArea=styled.textarea`
 	resize:none;
 	border-style:none;
 	margin-bottom:5%;
+
+	@media screen and (min-width:2500px){
+		font-size:36px !important;
+	}
+
 `;
 
 
@@ -205,6 +250,36 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 		changeIsLoading(false);
 	}
 
+	const editIcon=()=>{
+		return(
+			<li onClick={()=>changeDisplayEditArea(true)} 
+				style={{listStyle:"none",display:"inline-block",marginRight:"80%",cursor:"pointer"}}>
+				<svg id="editIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="30" 
+					height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#2196F3" fill="none" 
+					stroke-linecap="round" stroke-linejoin="round">
+				  <path stroke="none" d="M0 0h24v24H0z"/>
+				  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+				  <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+				  <line x1="16" y1="5" x2="19" y2="8" />
+				</svg>
+			</li>
+		)
+	}
+
+	const closeModalIcon=()=>{
+		return(
+			<li onClick={()=>closeModal()} style={{listStyle:"none",display:"inline-block"}}>
+				<svg id="closeModalIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" 
+					width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#2196F3" fill="none" 
+					stroke-linecap="round" stroke-linejoin="round">
+					<path stroke="none" d="M0 0h24v24H0z"/>
+					<rect x="4" y="4" width="16" height="16" rx="2" />
+					<path d="M10 10l4 4m0 -4l-4 4" />
+				</svg>
+			</li>
+		)
+	}
+
 	return createPortal(
 		<>
 			<ShadowContainer
@@ -218,27 +293,8 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 								<p>Your general node can not be edited. Create a new one to be able to edit it</p>:
 								<li style={{listStyle:"none",marginBottom:"10%"}}>
 									<ul style={{padding:"0px"}}>
-
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>changeDisplayEditArea(true)} style={{listStyle:"none",display:"inline-block",marginRight:"80%"}}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#2196F3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z"/>
-												  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-												  <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-												  <line x1="16" y1="5" x2="19" y2="8" />
-												</svg>
-											</li>
-										</a>
-
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>closeModal()} style={{listStyle:"none",display:"inline-block"}}>
-												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#2196F3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												  <path stroke="none" d="M0 0h24v24H0z"/>
-												  <rect x="4" y="4" width="16" height="16" rx="2" />
-												  <path d="M10 10l4 4m0 -4l-4 4" />
-												</svg>
-											</li>
-										</a>
+										{editIcon()}
+										{closeModalIcon()}
 									</ul>
 								</li>
 							}
@@ -249,7 +305,8 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 							<>
 								<div style={{display:"flex",flexDirection:"row"}}>
 									{(isOwner==false && nodeInformation.isFirstNode==false)&&(
-										<p onClick={()=>requestTrigger()} style={RequestAccessButtonCSS}>
+										<p id="requestAccessButton" onClick={()=>requestTrigger()} 
+											style={RequestAccessButtonCSS}>
 											Request Access
 										</p>
 									)}
@@ -290,7 +347,7 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 															<>
 																{profilesPromotedToNode.map(data=>
 																	<Link to={{pathname:`/profile/${data.userId}`}}>
-																		<img src={data.profilePicture==null?
+																		<img id="profilePictureRecruit" src={data.profilePicture==null?
 																					NoProfilePicture
 																					:data.profilePicture}
 																			style={{marginRight:"2%",borderRadius:"50%",width:"60px",height:"50px"}}
@@ -302,7 +359,8 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 													</>
 												}
 											</React.Fragment>:
-											<p onClick={()=>fetchRecruitsSpecificToNode({isAccessTokenUpdated:false})}
+											<p id="viewProfiles"
+												onClick={()=>fetchRecruitsSpecificToNode({isAccessTokenUpdated:false})}
 												style={RequestAccessButtonCSS}>
 												View profiles promoted to this node:
 											</p>
@@ -315,10 +373,10 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 									{nodeInformation.name}
 								</NameTextArea>
 								<hr/>
-								<DescriptionTextArea id="description">
+								<DescriptionTextArea placeholder="Enter description here" id="description">
 									{nodeInformation.description}
 								</DescriptionTextArea>
-								<p style={{marginBottom:"5%"}}>Select a color scheme:</p>
+								<p id="editScreenText" style={{marginBottom:"5%"}}>Select a color scheme:</p>
 								<p id="noColorScheme" style={{cursor:"pointer"}}
 									onClick={()=>changeSelectedColorCodeHandle(null)}
 								>None</p>
@@ -331,7 +389,7 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 									
 								</ColorChoicesContainer>
 								<a href="javascript:void(0);" onClick={()=>submitInformation({isAccessTokenUpdated:false})} style={{textDecoration:"none"}}>
-									<li style={ExploreButton}>
+									<li id="editScreenText" style={ExploreButton}>
 										Submit
 									</li>
 								</a>

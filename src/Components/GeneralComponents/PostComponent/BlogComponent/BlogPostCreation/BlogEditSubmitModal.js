@@ -35,16 +35,32 @@ const Container=styled.div`
 	height:70%;
 	background-color:white;
 	border-radius:5px;
-	z-index:35;
+	z-index:50;
 	top:25%;
 	left:25%;
 	overflow:scroll;
+
+	@media screen and (min-width:2500px){
+		height:50%;
+		left:20%;
+		width:60%;
+		#title{
+			font-size:48px !important;
+		}
+		#text{
+			font-size:24px !important;
+		}
+	}
 `;
 
 const ImageContainer=styled.div`
 	position:relative;
 	width:310px;
 	height:60%;
+
+	@media screen and (min-width:2500px){
+		height:25%;
+	}
 `;
 
 const BlogDescription=styled.textarea`
@@ -58,6 +74,10 @@ const BlogDescription=styled.textarea`
 	border-color:#d7dadb;
 	width:90%;
 	padding:5px;
+
+	@media screen and (min-width:2500px){
+		font-size:24px !important;
+	}
 `;
 
 const BlogTitle=styled.textarea`
@@ -72,6 +92,10 @@ const BlogTitle=styled.textarea`
 	width:90%;
 	marginBottom:5%;
 	padding:5px;
+
+	@media screen and (min-width:2500px){
+		font-size:24px !important;
+	}
 `;
 
 const VideoDescriptionContainer=styled.div`
@@ -580,10 +604,10 @@ isArrayEqual=(arr1,arr2)=>{
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:'none',marginLeft:"5%",marginTop:"5%"}}>
 									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",fontSize:"25px"}}>
+										<li id="title" style={{listStyle:"none",fontSize:"25px"}}>
 											<b>Final touches</b>    (optional)
 										</li>
-										<li style={{listStyle:"none"}}>
+										<li id="text" style={{listStyle:"none"}}>
 											Before you finally submit your blog you can add some additional information. This would allow people to 
 											learn about your article more and even locate it easier 
 										</li>
@@ -687,12 +711,12 @@ isArrayEqual=(arr1,arr2)=>{
 												</ul>
 											</li>
 
-											<p> Title (required)</p>
+											<p id="text"> Title (required)</p>
 											<BlogTitle
 												placeholder="Write down a title so it will immediately grab users attention"
 												id="blogTitle"
 											/>
-											<p> Description (required)</p>
+											<p id="text"> Description (required)</p>
 											<BlogDescription
 												placeholder="Write down a description so readers can get a quick summary of you masterpiece"
 												id="blogDescription"
@@ -700,7 +724,7 @@ isArrayEqual=(arr1,arr2)=>{
 											<hr/>
 											 <li style={{listStyle:"none"}}>
 												<ul style={{padding:"0px"}}>
-													<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
+													<li id="text" style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
 														Create either a video or voice description for your image. Much more interesting than regular text imo ;)
 													</li>
 													<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>

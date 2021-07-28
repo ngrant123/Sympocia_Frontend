@@ -7,6 +7,12 @@ import crownIcon from '@iconify/icons-mdi/crown';
 
 
 const Container=styled.div`
+	@media screen and (min-width:2500px){
+		#sendText{
+			font-size:36px !important;
+		}
+	}
+
 	@media screen and (max-width:700px){
 		width:120% !important;
 		margin-left:-15% !important;
@@ -50,6 +56,12 @@ const InputContainer=styled.textarea`
 
 	resize:none;
 	padding:5px;
+
+	@media screen and (min-width:2500px){
+		font-size:24px !important;
+	}
+
+
 
 	@media screen and (max-width:1370px){
 		width:90% !important;
@@ -138,7 +150,7 @@ const TextCreation=({isSubmittedAndProcessing,isPostCrowned,displayTextOrAudioSc
 											/>
 										</li>
 
-										<li style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
+										<li id="sendText" style={{listStyle:"none",display:"inline-block",fontSize:"20px",color:"white"}}>
 											Send
 										</li>
 									</React.Fragment>:

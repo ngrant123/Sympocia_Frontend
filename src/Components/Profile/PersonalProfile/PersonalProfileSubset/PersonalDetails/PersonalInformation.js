@@ -18,6 +18,33 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import ProfileSettingsModal from "../../PersonalProfileSet/Modals-Portals/PersonalPreferances/index.js";
 import OligarchPortalDisplay from "../../PersonalProfileSet/Modals-Portals/OligarchPortal.js";
 
+const Container=styled.div`
+	@media screen and (min-width:2500px){
+		#personalInformationDisplayDiv{
+			margin-top:5% !important;
+			margin-bottom:10% !important;
+		}
+		#firstName{
+			font-size:64px !important;
+			max-height:90px !important;
+		}
+		#oligarchButtonIcon{
+			width:50px !important;
+			height:50px !important;
+		}
+		#settingsIcon{
+			font-size:48px !important;
+		}
+
+		#editSocialMediaTitleText{
+			font-size:24px !important;
+		}
+
+		#socialMediaTitleText{
+			font-size:24px !important;
+		}
+	}
+`;
 
 const FriendsAndIndustryDisplayButton=styled.div`
 	padding:10px;
@@ -34,6 +61,11 @@ const FriendsAndIndustryDisplayButton=styled.div`
 		background-color:#5298F8;
 		color:white;
 	}
+
+	@media screen and (min-width:2500px){
+		font-size:24px;
+	}
+
 
 	@media screen and (max-width:1370px){
 		margin-top:10%;
@@ -63,6 +95,10 @@ const RecruitButtonContainer=styled.div`
       100% { background-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
 	}
 
+	@media screen and (min-width:2500px){
+		font-size:24px;
+		width:120px;
+	}
 `;
 
 
@@ -79,6 +115,10 @@ const SponsorButton=styled.div`
 
 	&:hover{
 		background-color:#0101DF;
+	}
+
+	@media screen and (min-width:2500px){
+		font-size:24px !important;
 	}
 
 	@media screen and (max-width:1370px){
@@ -125,7 +165,8 @@ const EditSocialMediaUrlsCSS={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  marginBottom:"5%"
+  marginBottom:"5%",
+  cursor:"pointer"
 }
 
 const FirstNameCSS={
@@ -138,6 +179,14 @@ const FirstNameCSS={
 	overflow:"hidden",
 	marginRight:"5%"
 }
+
+/*
+	Right now it works but it doesnt make logic sense for the personal information display rendering. 
+	Should refactor later
+*/
+
+
+
 const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 	const _id=personalInformation._id;
 
@@ -361,6 +410,7 @@ const PersonalInformation=(props)=>{
 			<React.Fragment>
 				{props.personalInformation.isOwnProfile==true &&(
 					<BorderColorIcon
+						id="settingsIcon"
 						onClick={()=>changeDisplayProfileSettingsPage(true)}
 						style={{fontSize:25,color:"#C8B0F4",cursor:"pointer"}}
 					/>
@@ -395,8 +445,9 @@ const PersonalInformation=(props)=>{
 						}
 					</>:
 					<>
-						<div style={{display:"flex",flexDirection:"row"}}>
-							<p style={FirstNameCSS}>
+						<div id="personalInformationDisplayDiv" 
+							style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+							<p id="firstName" style={FirstNameCSS}>
 								<b>{personalInformation.firstName}</b>
 							</p>
 							{editIcon()}
@@ -408,18 +459,17 @@ const PersonalInformation=(props)=>{
 						</div>
 						<ul style={{padding:"0px"}}>
 							<div id="profileSocialMediaContainer">
-								<li style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
+								<li id="socialMediaTitleText" style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
 									Social Media
 								</li>
 								<li style={{listStyle:"none",marginTop:"5%"}}>
 									{props.personalInformation.isOwnProfile==true?
 										<ul style={{padding:"0px"}}>
-											<a style={{textDecoration:"none"}} href="javascript:void(0);">	
-												<li onClick={()=>alert('Option to add social media profiles coming soon')}
+											<li id="editSocialMediaTitleText"
+												onClick={()=>alert('Option to add social media profiles coming soon')}
 												style={EditSocialMediaUrlsCSS}>
-													Edit Social Media
-												</li>
-											</a>
+												Edit Social Media
+											</li>
 											{socialMediaIcons(props.personalInformation.socialMediaUrls)}
 											
 										</ul>
@@ -508,7 +558,7 @@ const PersonalInformation=(props)=>{
 
 
 	return(
-		<React.Fragment>
+		<Container>
 			{profileSettingsDisplay()}
 			{oligarchDisplayPage()}
 			{props.isLoading==false &&(
@@ -553,7 +603,7 @@ const PersonalInformation=(props)=>{
 					}
 				</React.Fragment>
 			)}
-		</React.Fragment>
+		</Container>
 	)
 }
 export{

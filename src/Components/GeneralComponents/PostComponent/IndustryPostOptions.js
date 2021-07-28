@@ -4,6 +4,13 @@ import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {filterSymposiumUploadOptions} from "../../../Actions/Tasks/FilterSymposiumsUploadOptions.js";
 
+const Container=styled.div`
+	@media screen and (min-width:2500px){
+		#text{
+			font-size:24px !important;
+		}
+	}
+`;
 const InputContainer=styled.textarea`
 	position:relative;
 	border-radius:5px;
@@ -200,9 +207,9 @@ class IndustryPostOptions extends Component{
 		return(
 			<React.Fragment>
 				<li style={{listStyle:"none",display:"inline-block"}}>
-					<p style={{color:"#8c8c8c"}}>Choose a symposium:</p>
+					<p id="text" style={{color:"#8c8c8c"}}>Choose a symposium:</p>
 					<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle"
+						<button class="btn btn-primary dropdown-toggle" id="text"
 							type="button" data-toggle="dropdown" style={DropDownCSS}>
 							Symposiums
 						   	<span class="caret"></span>
@@ -213,7 +220,7 @@ class IndustryPostOptions extends Component{
 							/>
 							{this.state.suppliedSymposiums.map(data=>
 								<React.Fragment>
-									<li onClick={()=>this.addSelectedIndustry(data)}>
+									<li id="text" onClick={()=>this.addSelectedIndustry(data)}>
 										<a href="javascript:;">{data.industry}</a>
 									</li>
 									<hr/>
@@ -230,7 +237,7 @@ class IndustryPostOptions extends Component{
 									<li style={{listStyle:"none",display:"inline-block",marginRight:"1px",marginBottom:"1%"}}>
 										<ul style={{padding:"0px"}}>
 											<li style={{listStyle:"none",display:"inline-block"}}>
-												<SelectedIndustryButton>
+												<SelectedIndustryButton id="text">
 													{data.industry}
 												</SelectedIndustryButton>
 											</li>
@@ -290,30 +297,24 @@ class IndustryPostOptions extends Component{
 		return(
 			<React.Fragment>
 				<li style={{listStyle:"none",display:"inline-block",marginTop:"2%"}}>
-					<p style={{color:"#8c8c8c"}}>Choose a symposium category:</p>
+					<p id="text" style={{color:"#8c8c8c"}}>Choose a symposium category:</p>
 					<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle" 
+						<button id="text" class="btn btn-primary dropdown-toggle" 
 							type="button" data-toggle="dropdown" style={DropDownCSS}>
 							Categories
 						   	<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" style={{padding:"5px",height:"350px",overflowY:"auto",overflowX:"hidden"}}>
-							<li onClick={()=>this.addSelectedSymposiumCategory("The Grind")}>
-								<a href="javascript:;">
-									The Grind
-								</a>
+							<li id="text" style={{cursor:"pointer"}} onClick={()=>this.addSelectedSymposiumCategory("The Grind")}>
+								The Grind
 							</li>
 							<hr/>
-							<li onClick={()=>this.addSelectedSymposiumCategory("Work In Progress")}>
-								<a href="javascript:;">
-									Work In Progress
-								</a>
+							<li id="text" style={{cursor:"pointer"}} onClick={()=>this.addSelectedSymposiumCategory("Work In Progress")}>
+								Work In Progress
 							</li>
 							<hr/>
-							<li onClick={()=>this.addSelectedSymposiumCategory("Achievements")}>
-								<a href="javascript:;">
-									Achievements
-								</a>
+							<li id="text" style={{cursor:"pointer"}} onClick={()=>this.addSelectedSymposiumCategory("Achievements")}>
+								Achievements
 							</li>
 						</ul>
 				  	</div>
@@ -322,7 +323,7 @@ class IndustryPostOptions extends Component{
 					<React.Fragment>
 						<li style={{marginTop:"2%",listStyle:"none",marginRight:"1px",marginBottom:"1%"}}>
 							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+								<li id="text" style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 									<p>{this.state.categorySectionSelected}</p>
 								</li>
 								<li onClick={()=>this.removeSymposiumCategory()} 
@@ -343,10 +344,10 @@ class IndustryPostOptions extends Component{
 
 	render(){
 		return(
-			<React.Fragment>
+			<Container>
 				{this.specificSymposiumPostOptions()}
 				{this.symposiumCategoryOptions()}
-			</React.Fragment>
+			</Container>
 		)
 	}
 }

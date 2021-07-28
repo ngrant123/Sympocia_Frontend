@@ -16,6 +16,15 @@ import {
 
 const Container=styled.div`
   margin-bottom:50px;
+
+  @media screen and (min-width:2500px){
+    #friendsGaugeTitle{
+      font-size:48px !important;
+    }
+    #friendsGaugeOptions{
+      font-size:24px !important;
+    }
+  }
   
   @media screen and (max-width:1370px){
     margin-bottom:0px;
@@ -51,6 +60,14 @@ const AddRemoveLevelButtonCSS={
   padding:"10px",
   marginRight:"3%",
   cursor:"pointer"
+}
+
+const FriendsGaugeTitleCSS={
+  listStyle:"none",
+  display:"inline-block",
+  marginRight:"5%",
+  marginLeft:"-5%",
+  fontSize:"30px"
 }
 
 /*
@@ -353,21 +370,21 @@ class FriendsGauge extends Component {
           <li style={{listStyle:"none",marginBottom:"7%"}}>
             <ul style={{padding:"0px"}}>
               {this.props.mobileUIStatus.displayPhoneUI==false &&(
-                <li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginLeft:"-5%"}}>
-                    <p style={{fontSize:"30px"}}><b>Friends Gauge</b></p>
-                </li>
+                <p id="friendsGaugeTitle" style={FriendsGaugeTitleCSS}>
+                  <b>Friends Gauge</b>
+                </p>
               )}
               
               {this.props.mobileUIStatus.displayDesktopUI==true &&(
                   <>
                     {this.props.personalInformation.isOwnProfile==true &&(
                       <React.Fragment>
-                          <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({
+                          <li id="friendsGaugeOptions" style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({
                                                                         displayFriendsGaugeEditModal:true,
                                                                         friendsGaugeActionType:"Add"})}>
                               Add level
                           </li>
-                          <li style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({
+                          <li id="friendsGaugeOptions" style={AddRemoveLevelButtonCSS} onClick={()=>this.setState({
                                                                           displayFriendsGaugeEditModal:true,
                                                                           friendsGaugeActionType:"Remove"})}>
                               Remove level
@@ -375,18 +392,21 @@ class FriendsGauge extends Component {
                           <li style={{listStyle:"none",display:"inline-block"}}>
                             <div class="dropdown">
                               <button class="btn btn-primary dropdown-toggle" 
-                                type="button" data-toggle="dropdown" style={AddRemoveLevelButtonCSS}>
+                                type="button" data-toggle="dropdown" id="friendsGaugeOptions" 
+                                style={AddRemoveLevelButtonCSS}>
+
                                 Recruit Status
+
                                 <span class="caret"></span>
                               </button>
                               <ul class="dropdown-menu" style={{padding:"10px"}}>
-                                  <li style={{cursor:"pointer"}} onClick={()=>this.setState({
+                                  <li id="friendsGaugeOptions" style={{cursor:"pointer"}} onClick={()=>this.setState({
                                                         displayFriendsGaugeEditModal:true,
                                                         friendsGaugeActionType:"Promote"})}>
                                       Promote Someone
                                   </li>
                                   <hr/>
-                                  <li style={{cursor:"pointer"}} onClick={()=>this.setState({
+                                  <li id="friendsGaugeOptions" style={{cursor:"pointer"}} onClick={()=>this.setState({
                                                     displayFriendsGaugeEditModal:true,
                                                     friendsGaugeActionType:"Demote"})}>
                                       Demote Someone

@@ -520,6 +520,7 @@ class LProfile extends Component{
 					<li id="createPostIcon" onClick={()=>this.setState({displayCreationPortal:true})} style={{listStyle:"none",marginLeft:"380px",marginBottom:"5%"}}>
 						<CreatePostButton>
 							<BorderColorIcon
+								id="postCreationIcon"
 								style={{fontSize:"30",color:"#C8B0F4"}}
 							/>
 						</CreatePostButton>

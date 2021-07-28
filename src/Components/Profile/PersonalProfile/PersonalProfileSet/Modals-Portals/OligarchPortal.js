@@ -25,6 +25,24 @@ const Container=styled.div`
 	left:40%;
 	overflow-y:auto;
 	padding:20px;
+
+	@media screen and (min-width:2500px){
+		height:50%;
+		width:50%;
+		left:25%;
+		#oligarchTitle{
+			font-size:48px !important;
+		}
+		#oligarchSecondaryTitle{
+			font-size:36px !important;
+		}
+
+		#symposium{
+			font-size:36px !important;
+		}
+	}
+
+
 	@media screen and (max-width:1370px){
 		width:60% !important;
 		left:20% !important;
@@ -79,16 +97,18 @@ const OligarchPortalDisplay=({closeOligarchModal,ownerFirstName,ownerId})=>{
 				onClick={()=>closeOligarchModal()}
 			/>
 			<Container>
-				<p style={{fontSize:"24px"}}>
+				<p id="oligarchTitle" style={{fontSize:"24px"}}>
 					<b>Oligarched Symposium(s)</b>
 				</p>
-				<p>Here is a list of the symposiums <b>{ownerFirstName}</b> oligarchs over</p>
+				<p id="oligarchSecondaryTitle">
+					Here is a list of the symposiums <b>{ownerFirstName}</b> oligarchs over
+				</p>
 				<hr/>
 				{isLoading==true?
 					<p>Please wait...</p>:
 					<div>
 						{symposiums.map(data=>
-							<div style={SymposiumsCSS}>
+							<div id="symposium" style={SymposiumsCSS}>
 								{data.industry}
 							</div>
 						)}

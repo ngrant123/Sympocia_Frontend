@@ -7,6 +7,12 @@ const Container=styled.div`
 	z-index:25;
 	width:140%;
 	display:flex;
+	margin-top:2%;
+
+	@media screen and (min-width:2500px){
+		margin-top:5%;
+		margin-bottom:15px;
+  	}
 
 	@media screen and (max-width:650px){
 		width:100%;
@@ -44,14 +50,21 @@ const Image=styled.div`
 	overflow:hidden;
 	margin-bottom:35px;
 
+	@media screen and (min-width:2500px){
+		width:500px;
+		height:360px;
+		margin-bottom:80px;
+  	}
+
 	@media screen and (max-width:1370px){
-		width:35% !important;
-		margin-bottom:15px;
+		width:320px !important;
+		margin-bottom:40px;
 		height:220px;
 	}
 	@media screen and (max-width:650px){
 		width:250px !important;
 		height:200px !important;
+		margin-bottom:15px
     }
 
      @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
@@ -150,7 +163,8 @@ const CrownedImageContainer=({crownedImage,displayPostModal,friendsColorNodesMap
 	}
 
 	return(
-		<Container style={{listStyle:"none",marginBottom:"-5%",cursor:"pointer"}} onClick={()=>displayPostModal(
+		<Container style={{listStyle:"none",marginBottom:"-5%",cursor:"pointer"}} 
+				onClick={()=>displayPostModal(
 				 				crownedImage
 							)}>
 			<div id="parentContainer" style={{display:"flex",flexDirection:"row",padding:"0px",overflow:"hidden"}}>

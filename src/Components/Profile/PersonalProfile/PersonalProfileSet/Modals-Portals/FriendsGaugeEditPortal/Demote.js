@@ -13,6 +13,41 @@ const Container=styled.div`
 	padding:10px;
 	overflow-y:scroll;
 
+	@media screen and (min-width:2500px){
+		padding:20px;
+		#title{
+			font-size:36px !important;
+		}
+
+		#secondaryText{
+			font-size:24px !important;
+		}
+		#recruitImage{
+			width:110px !important;
+			height:100px !important;
+		}
+		#recruitFirstName{
+			font-size:36px !important;
+		}
+		#demoteButton{
+			font-size:24px !important;
+		}
+		#removedRecruitIcon{
+			font-size:48px !important;
+		}
+		#nodeTitle{
+			font-size:36px !important;
+			margin-top:5% !important;
+		}
+		#nodeDescription{
+			font-size:24px !important;
+		}
+
+		#backButton{
+			font-size:24px !important;
+		}
+	}
+
 	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
 		#recruitImage{
 			width:90px !important;;
@@ -38,28 +73,34 @@ const Submit=styled.div`
 	border-radius:5px;
 	cursor:pointer;
 	margin-top:15%;
+
+	
+	@media screen and (min-width:2500px){
+		font-size:36px !important;
+	}
 `;
 
 
 const ImageCSS={
-	width:"80%",
-	height:"20%",
+	width:"70px",
+	height:"65px",
 	borderRadius:"50%",
 	borderType:"solid",
 	borderColor:"#5298F8",
 	borderWidth:"1px"
 }
 
-const RecruitsCSS={
-	listStyle:"none",
-	display:"inline-block",
+const RecruitsContainerCSS={
+	display:"flex",
+	flexDirection:"column",
+	justifyContent:"center",
+	alignItems:"center",
 	width:"35%",
 	marginRight:"3%",
 	borderRadius:"5px",
 	boxShadow:"1px 1px 10px #d5d5d5",
 	cursor:"pointer"
 }
-
 
 const ButtonCSS={
 	listStyle:"none",
@@ -213,13 +254,16 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 				<React.Fragment>
 					{selectedNodeInformation==null?
 						<React.Fragment>
-							<p style={ButtonCSS} onClick={()=>changeSelectedRecruit(null)}>Back</p>
-							<p>You've selected <b>{selectedRecruit.recruits.firstName}</b> to demote </p>
-							<p>Below are the current nodes they are on. Click on the node that you want to demote them from.</p>
+							<p id="backButton" style={ButtonCSS} onClick={()=>changeSelectedRecruit(null)}>Back</p>
+							<p id="title">You've selected <b>{selectedRecruit.recruits.firstName}</b> to demote </p>
+							<p id="secondaryText">
+								Below are the current nodes they are on. Click on the node 
+								that you want to demote them from.
+							</p>
 							<hr/>
 							{nodesAssignedToRecruit.map(data=>
 								<React.Fragment>
-									<p onClick={()=>filterOutSelectedNode(data)}
+									<p id="nodeTitle" onClick={()=>filterOutSelectedNode(data)}
 										style={{color:"#C8B0F4",fontSize:"20px",cursor:"pointer"}}>
 										<b>{data.node.name}</b>
 									</p>
@@ -230,13 +274,13 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 						<React.Fragment>
 							{destinationDemoteNode==null?
 								<React.Fragment>
-									<p style={ButtonCSS} onClick={()=>changeSelectedNodeInformation(null)}>
+									<p id="backButton" style={ButtonCSS} onClick={()=>changeSelectedNodeInformation(null)}>
 										Back
 									</p>
-									<p>What node do you want to demote the recruit to?</p>
+									<p id="title">What node do you want to demote the recruit to?</p>
 									{nodesNotAssignedToRecruit.map((data,index)=>
 										<React.Fragment>
-											<p onClick={()=>selectDestinationNode(data,index)}
+											<p id="nodeTitle" onClick={()=>selectDestinationNode(data,index)}
 												style={{color:"#C8B0F4",fontSize:"20px",cursor:"pointer"}}>
 												<b>{data.name}</b>
 											</p>
@@ -245,12 +289,14 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 									)}
 								</React.Fragment>:
 								<React.Fragment>
-									<p style={ButtonCSS} onClick={()=>changeDestinationDemoteNode(null)}>
+									<p id="backButton" style={ButtonCSS} onClick={()=>changeDestinationDemoteNode(null)}>
 										Back
 									</p>
-									<p> Are you sure you want to demote <b>{selectedRecruit.recruits.firstName}</b></p>
-									<p> from <b>{selectedNodeInformation.node.name}</b></p>
-									<p> to <b>{destinationDemoteNode.name}</b> ?</p>
+									<p id="title"> 
+										Are you sure you want to demote <b>{selectedRecruit.recruits.firstName}</b>
+									</p>
+									<p id="title"> from <b>{selectedNodeInformation.node.name}</b></p>
+									<p id="title"> to <b>{destinationDemoteNode.name}</b> ?</p>
 		 							<Submit onClick={()=>demoteRecruitHandle({isAccessTokenUpdated:false})}> 
 		 								{isSubmitting==false?
 		 									<p>Demote</p>:
@@ -266,25 +312,22 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 					{recruits.length==0?
 						<p>No recruits to demote :(</p>:
 						<React.Fragment>
-							<p>Here are the recruits you have promoted so far. Click one to demote </p>
+							<p id="title">Here are the recruits you have promoted so far. Click one to demote </p>
 							<hr/>
-							{recruits.map(data=>
-								<li onClick={()=>fetchSpecificNodesForRecruit({isAccessTokenUpdated:false,target:data})}
-								 	style={RecruitsCSS}>
-									<ul style={{padding:"10px"}}>
-										<li style={{listStyle:"none"}}>
-											<img id="recruitImage" src={data.recruits.profilePicture==null?
-												NoProfilePicture:data.recruits.profilePicture} style={ImageCSS}/>
-										</li>
-										<li style={{listStyle:"none"}}>
-											{data.recruits.firstName}
-										</li>
-										<li style={ButtonCSS}>
+							<div style={{display:"flex",flexDirection:"row"}}>
+								{recruits.map(data=>
+									<div onClick={()=>fetchSpecificNodesForRecruit({isAccessTokenUpdated:false,target:data})}
+										 style={RecruitsContainerCSS}>
+										<img id="recruitImage" src={data.recruits.profilePicture==null?
+											NoProfilePicture:data.recruits.profilePicture} style={ImageCSS}
+										/>
+										<p id="recruitFirstName">{data.recruits.firstName}</p>
+										<p id="demoteButton" style={ButtonCSS}>
 											Demote
-										</li>
-									</ul>
-								</li>
-							)}
+										</p>
+									</div>
+								)}
+							</div>
 						</React.Fragment>
 					}
 				</React.Fragment>

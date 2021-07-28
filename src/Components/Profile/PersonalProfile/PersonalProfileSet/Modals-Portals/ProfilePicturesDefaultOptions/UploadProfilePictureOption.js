@@ -1,6 +1,20 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 
+const Container=styled.div`
+	@media screen and (min-width:2500px){
+		#uploadOptionFile{
+			font-size:36px !important;
+		}
+	    #uploadedImage{
+	    	width:400px !important;
+	    	height:350px !important;
+	    }
+	    #upload{
+	    	font-size:36px !important;
+	    }
+	}
+`;
 
 const ButtonContainerCSS={
   backgroundColor:"white",
@@ -67,23 +81,28 @@ const UploadProfilePictureOption=({backButtonTrigger,uploadFile})=>{
 
 
 	return(
-		<React.Fragment>
+		<Container>
 			<p style={ButtonContainerCSS} onClick={()=>backButtonTrigger()}>
 				Back
 			</p>
 			{uploadedImageSrc!=null ?
 				<React.Fragment>
-					<img src={uploadedImageSrc} style={ImageCSS}/>
-					<p onClick={()=>uploadFile({isAccessTokenUpdated:false,selectedImageSrc:uploadedImageSrc})} style={{...ButtonContainerCSS,width:"30%"}}>Upload </p>
+					<img id="uploadedImage" src={uploadedImageSrc} style={ImageCSS}/>
+					<p id="upload" onClick={()=>uploadFile({isAccessTokenUpdated:false,selectedImageSrc:uploadedImageSrc})} 
+						style={{...ButtonContainerCSS,width:"30%"}}>
+						Upload 
+					</p>
 				</React.Fragment>:
 				<React.Fragment>
-					<p onClick={()=>triggerFileUploadPrompt()} style={UploadOptionsCSS}>Upload File</p>
+					<div id="uploadOptionFile" onClick={()=>triggerFileUploadPrompt()} style={UploadOptionsCSS}>
+						Upload File
+					</div>
 					<input type="file" name="img" id="profilePictureFileUpload" style={{opacity:"0",width:"1px",height:"1px"}} 
 						accept="image/jpeg" name="attachments" onChange={()=>changeProfilePicture()}>
 					</input>
 				</React.Fragment>
 			}
-		</React.Fragment>
+		</Container>
 	)
 }
 

@@ -20,6 +20,12 @@ const Container=styled.div`
 		width:200px !important;
 		margin-right:7% !important;
 	}
+
+	@media screen and (min-width:2500px){
+	   #smallPostLI{
+			width:300px !important;
+		}
+  	}
 	@media screen and (max-width:1370px){
 		width:150%;
 		#parentLISmallPostContainer{

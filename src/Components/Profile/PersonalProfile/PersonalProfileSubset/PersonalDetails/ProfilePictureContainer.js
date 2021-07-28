@@ -4,7 +4,7 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {
 	ProfilePictureContainer,
 	ChangePictureButton
-} from "../../PersonalProfileSet/PersonalProfileContainerCSS.js";
+} from "./ProfilePictureContainerCSS.js";
 
 
 const ProfilePicture=({state,displayCreatePostOptionTrigger,handleChangeProfilePicture})=>{

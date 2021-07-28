@@ -8,6 +8,36 @@ import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
+	@media screen and (min-width:2500px){
+		padding:20px;
+		#friendsGaugeTitleText{
+			font-size:36px !important;
+			margin-bottom:5% !important;
+		}
+		#levelName{
+			font-size:48px !important;
+		}
+		#levelDescription{
+			font-size:30px !important;
+		}
+		#recruitImage{
+			height:200px !important;
+		}
+		#recruitFirstName{
+			margin-top:5%;
+			font-size:30px !important;
+		}
+		#addRecruitsToLevelText{
+			font-size:30px !important;
+		}
+		#addButton{
+			font-size:36px !important;
+		}
+		#removedRecruitIcon{
+			font-size:48px !important;
+		}
+	}
+
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#recruitImage{
 			height:60% !important;
@@ -31,6 +61,11 @@ const InputContainer=styled.textarea`
 	padding:5px;
 	padding-right:120px;
 	width:100%;
+
+	@media screen and (min-width:2500px){
+		font-size:36px !important;
+		padding:10px;
+	}
 `;
 
 const SubmitButton=styled.div`
@@ -41,6 +76,10 @@ const SubmitButton=styled.div`
 	background-color:#C8B0F4;
 	border-radius:5px;
 	cursor:pointer;
+	@media screen and (min-width:2500px){
+		font-size:36px !important;
+	}
+
 `;
 
 const NextButton=styled.div`
@@ -50,15 +89,32 @@ const NextButton=styled.div`
 	padding:10px;
 	background-color:#C8B0F4;
 	border-radius:5px;
+
+	@media screen and (min-width:2500px){
+		font-size:36px !important;
+	}
 `;
 
 const ImageCSS={
 	width:"80%",
-	height:"30%",
+	height:"55px",
 	borderRadius:"50%",
 	borderType:"solid",
 	borderColor:"#5298F8",
 	borderWidth:"1px"
+}
+
+
+const AddButtonCSS={
+	listStyle:"none",
+	color:"#5298F8",
+	borderRadius:"5px",
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	padding:"10px",
+	textAlign:"center",
+	cursor:"pointer"
 }
 
 
@@ -231,12 +287,14 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 				<React.Fragment>
 					{displayAddNodeScreen==true?
 					 <ul style={{padding:"10px"}}>
-							<p style={{color:"#292929"}}>
+							<p id="levelName" style={{color:"#292929"}}>
 								<b>{levelName}</b>
 							</p>
-							<p style={{color:"#292929"}}>{levelDescription}</p>
+							<p id="levelDescription" style={{color:"#292929"}}>{levelDescription}</p>
 							<hr/>
-							<p style={{color:"#A4A4A4"}}> List the people who you want to add to your new level (optional) </p>
+							<p id="addRecruitsToLevelText" style={{color:"#A4A4A4"}}>
+								List the people who you want to add to your new level (optional) 
+							</p>
 							{recruitsInformation.length==0?
 								<p>Unfortunately, you dont have any recruits right now</p>:
 								<>
@@ -246,18 +304,19 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 									{selectedRecruits.map(data=>
 										<li style={{listStyle:"none",display:"inline-block",width:"20%",marginBottom:"5%"}}>
 											<ul style={{padding:"0px",width:"150%"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
+												<li id="recruitFirstName" style={{listStyle:"none",display:"inline-block"}}>
 													{data.firstName}
 												</li>
 												<li onClick={()=>removeSelectedPerson(data)} style={{listStyle:"none",display:"inline-block",width:"20%"}}>
 														<HighlightOffIcon
+															id="removedRecruitIcon"
 															onClick={()=>removeSelectedPerson(data)}
 														/>
 												</li>
 											</ul>
 										</li>
 									)}
-									<li style={{listStyle:"none",height:"45%",overflowY:"auto",marginBottom:"1%"}}>
+									<li style={{marginTop:"2%",listStyle:"none",height:"45%",overflowY:"auto",marginBottom:"1%"}}>
 										<ul style={{padding:"0px"}}>
 											{currentSearchNames.length!=0?
 												<>
@@ -270,7 +329,7 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 																			NoProfilePicture:
 																			data.profilePicture} style={ImageCSS}/>
 																</li>
-																<li style={{listStyle:"none"}}>
+																<li id="recruitFirstName" style={{listStyle:"none"}}>
 																	{data.firstName}
 																</li>
 																 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
@@ -288,20 +347,17 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 														<li style={{listStyle:"none",display:"inline-block",width:"25%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
 															<ul style={{padding:"10px"}}>
 																<li style={{listStyle:"none"}}>
-																	{data.profilePicture==null?
-																		<img id="recruitImage" src={NoProfilePicture} style={ImageCSS}/>:
-																		<img id="recruitImage" src={data.profilePicture} style={ImageCSS}/>
-																	}
+																	<img id="recruitImage" src={data.profilePicture==null?
+																								NoProfilePicture:data.profilePicture} 
+																		 style={ImageCSS}/>
 																</li>
-																<li style={{listStyle:"none"}}>
+																<li id="recruitFirstName" style={{listStyle:"none"}}>
 																	{data.firstName}
 																</li>
-																 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
-																			Add
-																		</li>
-																</a>
-
+																<li id="addButton" 
+																	onClick={()=>pushSelectedPersonToArray(data)} style={AddButtonCSS}>
+																	Add
+																</li>
 															</ul>
 														</li>
 													)}
@@ -321,7 +377,9 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 							}
 						</ul>
 						:<ul style={{padding:"20px"}}>
-							<p style={{color:"#A4A4A4"}}> Give us more details about what you want to call this level </p>
+							<p id="friendsGaugeTitleText" style={{color:"#A4A4A4"}}>
+								Give us more details about what you want to call this level 
+							</p>
 							<li style={{listStyle:"none",marginBottom:"5%"}}>
 								<InputContainer id="levelName" placeholder="What do you want to call this level?"/>
 

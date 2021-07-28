@@ -7,6 +7,16 @@ const SmallVideoComponent=styled.div`
 	width:250px;
 	height:40%;
 	background-color:white;
+
+
+	@media screen and (min-width:2500px){
+		height:30%;
+		width:350px;
+		#symposiumsDisplay{
+			margin-top:2% !important;
+		}
+	}
+
 	@media screen and (max-width:740px){
 		width:300% !important;
 		height:30%;
@@ -192,7 +202,7 @@ const SmallVideoContainer=({videos,displayPostModal,friendsColorNodesMap})=>{
 			<ul style={{padding:"0px"}}>
 				{videos.map(data=>
 					<li id="smallVideoLI" onClick={()=>displayPostModal(data)} 
-					style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"100px",marginLeft:"5%"}}>
+					style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"120px"}}>
 						<SmallVideoComponent>
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none"}}>
@@ -204,7 +214,7 @@ const SmallVideoContainer=({videos,displayPostModal,friendsColorNodesMap})=>{
 										<b>{data.title} </b>
 									</li>
 
-									<li style={{listStyle:"none"}}>
+									<li id="symposiumsDisplay" style={{listStyle:"none"}}>
 										{displayIndustries(data)}
 									</li>
 								</div>

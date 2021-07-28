@@ -15,6 +15,14 @@ const Container=styled.div`
 	left:30%;
 	overflow:auto;
 
+	@media screen and (min-width:2500px){
+		height:50%;
+		width:50%;
+		left:25%;
+		padding:20px;
+	}
+
+
 	@media screen and (max-width:1370px){
 		width:90% !important;
 		left:5% !important;
@@ -30,6 +38,18 @@ const SponsorModal=styled.div`
 	margin-left:-5%;
 
 	padding:10%;
+
+	@media screen and (min-width:2500px){
+	    #championTitleName{
+	    	font-size:48px !important;
+	    	width:100% !important;
+	    }
+
+	    #secondaryDescription{
+	    	font-size:24px !important;
+	    }
+	}
+
 
     @media screen and (max-width:650px){
     	padding:5%;
@@ -77,6 +97,10 @@ const UploadPicture=styled.div`
 
 	&:hover{
 		background-color:#0101DF;
+	}
+
+	@media screen and (min-width:2500px){
+		font-size:36px !important;
 	}
 
 	@media screen and (max-width:1370px){

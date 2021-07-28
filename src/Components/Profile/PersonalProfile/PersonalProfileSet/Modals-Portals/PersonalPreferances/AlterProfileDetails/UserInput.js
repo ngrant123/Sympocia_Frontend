@@ -3,6 +3,12 @@ import styled from "styled-components";
 
 const Container=styled.div`
 	position:absolute;
+	@media screen and (min-width:2500px){
+		margin-left:-5%;
+		#submitButton{
+			font-size:24px !important;
+		}
+	}
 `;
 const InputContainer=styled.textarea`
 	position:relative;
@@ -16,6 +22,12 @@ const InputContainer=styled.textarea`
 	padding:5px;
 	margin-top:5%;
 	margin-bottom:5%;
+
+	@media screen and (min-width:2500px){
+		width:120%;
+		height:70% !important;
+		font-size:30px !important;
+	}
 
 	@media screen and (max-width:1370px){
 		left:1% !important;
