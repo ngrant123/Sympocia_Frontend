@@ -190,6 +190,7 @@ const FriendsGaugeEditPortal=(props)=>{
 						nodeNumber={props.nodes.length}
 						recruitsInformation={recruitsInformation}
 						closeModal={closingScreen}
+						isPhoneUITriggered={props.isPhoneUITriggered}
 					/>;
 		}else if(actionType=="Promote"){
 			return <Promote

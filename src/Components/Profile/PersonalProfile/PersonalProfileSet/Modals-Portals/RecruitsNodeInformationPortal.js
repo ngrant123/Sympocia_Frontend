@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {
@@ -14,6 +14,7 @@ import {
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {Link} from "react-router-dom";
+import {getVideoUrl} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -44,15 +45,20 @@ const ShadowContainer= styled.div`
 const NameTextArea=styled.textarea`
 	width:90%;
 	resize:none;
-	border-style:none;
+	border-style:solid;
+	border-color:#E5E5E5;
+	border-width:1px;
 `;
 
 const DescriptionTextArea=styled.textarea`
 	width:90%;
 	height:40%;
 	resize:none;
-	border-style:none;
 	margin-bottom:5%;
+	border-style:solid;
+	border-color:#E5E5E5;
+	padding:2px;
+	border-width:1px;
 `;
 
 
@@ -61,7 +67,7 @@ const ColorChoicesContainer=styled.div`
 	flex-direction:row;
 	margin-bottom:5%;
 `;
-const ExploreButton={
+const ButtonCSS={
   listStyle:"none",
   backgroundColor:"white",
   borderRadius:"5px",
@@ -69,7 +75,8 @@ const ExploreButton={
   color:"#3898ec",
   borderStyle:"solid",
   borderWidth:"2px",
-  borderColor:"#3898ec"
+  borderColor:"#3898ec",
+  cursor:"pointer"
 }
 
 const ColorBlockCSS={
@@ -100,7 +107,17 @@ const DropDownCSS={
 	cursor:"pointer"
 }
 
-const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNode,isGuestVisitorProfile})=>{
+const NodeInformationPortal=({
+	isOwner,
+	userId,
+	nodeInformation,
+	closeModal,
+	updateNode,
+	isGuestVisitorProfile,
+	isPhoneUITriggered})=>{
+
+	console.log(nodeInformation);
+
 	const [displayEditArea,changeDisplayEditArea]=useState(false);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -114,20 +131,60 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 	const [profilesPromotedToNode,changeProfilesPromotedToNode]=useState([]);
 	const [profilesRequestedAccessToNode,changeProfilesRequestedAccessToNode]=useState([]);
 	const [notificationNodeInformationType,changeNodeInformationType]=useState();
+	const [videoDescription,changeVideoDescription]=useState(nodeInformation.nodeVideoDescription);
+	const [changedVideoDesciption,changeAndCreateNewVideoDescription]=useState();
+	const [isVideoDescriptionCleared,changeIsVideoDescriptionCleared]=useState(false);
+	const [loadingVideoDescription,changeLoadingVideoDescription]=useState(false);
 
+
+	useEffect(()=>{
+		const fetchData=async()=>{
+			changeLoadingVideoDescription(true);
+			const {confirmation,data}=await getVideoUrl(nodeInformation._id);
+			if(confirmation=="Success"){
+				const {message}=data;
+				changeVideoDescription(message);
+			}else{
+				alert('Unfortunately there was an error retrieving this levels video description');
+			}
+			changeLoadingVideoDescription(false);
+		}	
+
+		const {containsVideoDescription,nodeVideoDescription}=nodeInformation;
+		if(nodeVideoDescription==null && containsVideoDescription==true){
+			fetchData();
+		}
+	},[]);
 
 	const submitInformation=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const name=document.getElementById("name").value;
 		const description=document.getElementById("description").value;
+		debugger;
 
+		let isNodeVideoDescriptionAltered;
+		if(isVideoDescriptionCleared==true){
+			isNodeVideoDescriptionAltered=true;
+		}else{
+			if(((videoDescription==changedVideoDesciption)||changedVideoDesciption==null)==true){
+				isNodeVideoDescriptionAltered=false;
+			}else{
+				isNodeVideoDescriptionAltered=true;
+			}
+		}
 		const nodeObject={
 			_id:userId,
 			name:name,
 			description:description,
 			colorScheme:selectedColorCode,
 			levelId:nodeInformation._id,
+			isPhoneUIEnabled:isPhoneUITriggered,
+			isNodeVideoDescriptionAltered,
+			nodeVideoDescription:isNodeVideoDescriptionAltered==true?changedVideoDesciption:videoDescription,
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						personalInformation.accessToken
+		}
+		if((videoDescription!=null || changedVideoDesciption!=null) && isAccessTokenUpdated==false){
+			alert('Your video is processing. We wil notify via email and on here when your video description is uploaded :). You can close this screen now');
 		}
 		const {confirmation,data}=await editNodeInformation(nodeObject);
 		if(confirmation=="Success"){
@@ -326,6 +383,47 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 		changeDisplayForSpecifiedNodeInformation(true);
 	}
 
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
+
+	const uploadNodeVideoDescription=()=>{
+		const videoFile=document.getElementById("uploadVideoFile").files[0];
+		const filereader=new FileReader();
+		const maxFileSize=15*1024*1024
+		const videoSize=videoFile.size;
+
+		if(videoSize>maxFileSize){
+			alert('The file you selected is too large. As of right now we only accept files of size 15MB for videos. Sorry for the inconvenience.');
+		}else{
+			filereader.onloadend=()=>{
+				const videoUrl=filereader.result;
+				changeIsVideoDescriptionCleared(false);
+				changeAndCreateNewVideoDescription(videoUrl);
+			}
+
+			if(videoFile==null){
+				alert('File format is not accepted unfortunately')
+			}else{
+				filereader.readAsDataURL(videoFile);
+			}	
+		}
+	}
+
+	const toggleVideoCreation=()=>{
+		document.getElementById("uploadVideoFile").click();
+	}
+
+	const clearVideoVideoDescriptions=()=>{
+		changeAndCreateNewVideoDescription(null);
+		changeVideoDescription(null);
+		changeIsVideoDescriptionCleared(true);
+	}
+
+
 	return createPortal(
 		<>
 			<ShadowContainer
@@ -383,6 +481,18 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 									</React.Fragment>
 								)}
 								<hr/>
+								{nodeInformation.containsVideoDescription==true &&(
+									<React.Fragment>	
+										{loadingVideoDescription==true ?
+											<p>Loading video description...</p>:
+											<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+												width="100%" height="100%" style={{backgroundColor:"#151515"}}>
+												<source src={videoDescription} type="video/mp4"/>
+											</video>
+										}
+										<hr/>
+									</React.Fragment>
+								)}
 								<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 									<p style={{fontSize:"15px",marginTop:"2%"}}>Node Information:</p>
 									<div class="dropdown">
@@ -432,9 +542,45 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 									{nodeInformation.name}
 								</NameTextArea>
 								<hr/>
-								<DescriptionTextArea id="description">
+								<DescriptionTextArea id="description" placeholder="Enter level description">
 									{nodeInformation.description}
 								</DescriptionTextArea>
+
+								{(videoDescription==null && changedVideoDesciption==null)?
+									<React.Fragment>
+										<hr/>
+										<div onClick={()=>toggleVideoCreation()} style={ButtonCSS}>
+											Create video description
+										</div>
+										<hr/>
+									</React.Fragment>:
+									<React.Fragment>
+										<hr/>
+										<div style={{display:"flex",flexDirection:"column"}}>
+											<div style={{display:"flex",flexDirection:"row",marginBottom:"2%"}}>
+												<div onClick={()=>toggleVideoCreation()} style={ButtonCSS}>
+													Redo video
+												</div>
+												<div onClick={()=>clearVideoVideoDescriptions()}
+													style={{...ButtonCSS,marginLeft:"2%"}}>
+													Clear video
+												</div>
+											</div>
+											<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+												width="100%" height="100%" style={{backgroundColor:"#151515"}}>
+												<source src={changedVideoDesciption==null?
+													videoDescription:changedVideoDesciption} type="video/mp4"/>
+											</video>
+										</div>
+										<hr/>
+									</React.Fragment>
+								}
+								<input type="file" accept="video/mp4,video/x-m4v,video/*" name="img"
+								 	id="uploadVideoFile" style={{position:"relative",opacity:"0",zIndex:"0"}}
+									onChange={()=>uploadNodeVideoDescription()}>
+								</input>
+
+
 								<p style={{marginBottom:"5%"}}>Select a color scheme:</p>
 								<p id="noColorScheme" style={{cursor:"pointer"}}
 									onClick={()=>changeSelectedColorCodeHandle(null)}
@@ -449,7 +595,7 @@ const NodeInformationPortal=({isOwner,userId,nodeInformation,closeModal,updateNo
 								</ColorChoicesContainer>
 								<a href="javascript:void(0);" onClick={()=>submitInformation({isAccessTokenUpdated:false})} 
 									style={{textDecoration:"none"}}>
-									<li style={ExploreButton}>
+									<li style={ButtonCSS}>
 										Submit
 									</li>
 								</a>
