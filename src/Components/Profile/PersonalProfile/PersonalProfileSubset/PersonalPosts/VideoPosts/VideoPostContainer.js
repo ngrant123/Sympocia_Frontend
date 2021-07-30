@@ -32,6 +32,9 @@ const Container=styled.div`
 			margin-right:15% !important;
 			width:10% !important;
 		}
+		#smallVideoParentContainer{
+			margin-left:-5% !important;
+		}
 	}
 	@media screen and (max-width:1030px){
 		width:140%;
@@ -43,6 +46,21 @@ const Container=styled.div`
 		#smallVideoLI{
 			width:15% !important;
 		}
+	}
+
+	@media screen and (min-width:400px) and (max-width:650px) 
+	    and (min-height:740px) and (max-height:850px){
+		margin-left:15% !important;
+	}
+
+	@media screen and (min-width:400px) and (max-width:650px) 
+	    and (min-height:1000px) and (max-height:1370px){
+		margin-left:10% !important;
+	}
+
+	@media screen and (min-width:620px) and (max-width:650px) 
+	    and (min-height:1300px) and (max-height:1370px){
+		margin-left:15% !important;
 	}
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	margin-left:10% !important;

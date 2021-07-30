@@ -16,6 +16,7 @@ const ThumbnailVideoComponent=styled.div`
 	}
 
 	@media screen and (max-width:1370px){
+		height:300px;
 		#videoDescriptionLI{
 			display:block !important;
 		}
@@ -67,6 +68,10 @@ const ThumbnailVideo=styled.div`
 		height:450px;
 	}
 
+
+	@media screen and (max-width:1370px){
+		height:300px;
+	}
 
 	@media screen and (max-width:650px){
 		width:110% !important;

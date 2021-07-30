@@ -9,9 +9,9 @@ import {PostConsumer,PostContext} from "../PostsContext.js";
 import Typed from "react-typed";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 import {
-		setPersonalProfileAccessToken,
-		setPersonalProfileRefreshToken
-	} from "../../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
+	setPersonalProfileAccessToken,
+	setPersonalProfileRefreshToken
+} from "../../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import {connect} from "react-redux";
 import CrownedBlogContainer from "./CrownedBlogContainer.js";
 import SmallBlogContainer from "./SmallBlogContainer.js";
@@ -23,9 +23,38 @@ const Container=styled.div`
 
 	padding:10px;
 	padding-right:10px;
+	#nextButton{
+		margin-top:10% !important;
+	}
 
 	@media screen and (max-width:1370px){
 		width:130% !important;
+	}
+
+	@media screen and (max-width:650px){
+		#smallPostsContainer{
+			flex-direction:column !important;
+		}
+	}
+
+	@media screen and (min-width:400px) and (max-width:650px) 
+	    and (min-height:740px) and (max-height:850px){
+		margin-left:15% !important;
+	}
+
+
+	@media screen and (min-width:400px) and (max-width:650px) 
+	    and (min-height:1000px) and (max-height:1370px){
+	    #nextButton{
+			margin-left:10% !important;
+		}
+	}
+
+	@media screen and (min-width:620px) and (max-width:650px) 
+	    and (min-height:1300px) and (max-height:1370px){
+	    #nextButton{
+			margin-left:15% !important;
+		}
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
@@ -80,7 +109,7 @@ const BlogsPostsContainer=(props)=>{
 
 	const blogPostRender=useMemo(()=>{
 		return(
-			<ul style={{padding:"0px"}}>
+			<div id="smallPostsContainer" style={{flexWrap:"wrap",display:"flex",flexDirection:"row"}}>
 				{props.blogData.blogs.map(data=>
 					<SmallBlogContainer
 						data={data}
@@ -90,7 +119,7 @@ const BlogsPostsContainer=(props)=>{
 						friendsNodes={props.friendsNodes}
 					/>
 				)}
-			</ul>
+			</div>
 		)
 	},[props.blogData.blogs]);
 
@@ -115,7 +144,7 @@ const BlogsPostsContainer=(props)=>{
 							}
 						</li>
 
-						<li id="smallPostsContainerLI" style={{listStyle:"none",marginTop:"5%"}}>	
+						<li style={{listStyle:"none",marginTop:"5%"}}>	
 								{blogPostRender}
 								{PostContextValues.endOfPostsDBIndicator==false
 								 && PostContextValues.isSearchFilterActivated==false 

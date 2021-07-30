@@ -7,6 +7,8 @@ const SmallBlogComponent=styled.div`
 	position:relative;
 	width:200px;
 	height:40%;
+	margin-right:8%;
+	margin-bottom:7%;
 
 	@media screen and (min-width:2500px){
 		width:310px !important;
@@ -94,11 +96,22 @@ const ColorPatchContainer=styled.div`
 
 
 const Container=styled(Link)`
+	margin-right:5% !important;
 	@media screen and (max-width:650px){
 		#blogHorizontalLine{
 			display:block !important;
 		}
     }
+    @media screen and (min-width:400px) and (max-width:650px) 
+	    and (min-height:1000px) and (max-height:1370px){
+		margin-left:10% !important;
+	}
+
+	@media screen and (min-width:620px) and (max-width:650px) 
+	    and (min-height:1300px) and (max-height:1370px){
+		margin-left:15% !important;
+		margin-right:1% !important;
+	}
 `;
 
 const VideoDesriptionContainer=styled.div`
@@ -186,36 +199,32 @@ const BlogContainer=(props)=>{
 												profileType:props.profileType,
 												friendsNodes:props.friendsNodes
 										}}}>
-										
-			<li id="smallBlogLI" style={{listStyle:"none",display:"inline-block",marginRight:"8%",marginBottom:"7%"}}>
-				<SmallBlogComponent>
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none"}}>
-							{props.data.audioDescription!=null &&(
-								<audio id="smallAudio" controls style={{width:"120px",height:"20px"}}>
-								  <source src={props.data.audioDescription} type="audio/ogg"/>
-								  <source src={props.data.audioDescription} type="audio/mp4"/>
-								  Your browser does not support the audio element.
-								</audio>
-							)}
-						</li>
-						{blogImage()}
+			<SmallBlogComponent>
+				<ul style={{padding:"0px"}}>
+					<li style={{listStyle:"none"}}>
+						{props.data.audioDescription!=null &&(
+							<audio id="smallAudio" controls style={{width:"120px",height:"20px"}}>
+							  <source src={props.data.audioDescription} type="audio/ogg"/>
+							  <source src={props.data.audioDescription} type="audio/mp4"/>
+							  Your browser does not support the audio element.
+							</audio>
+						)}
+					</li>
+					{blogImage()}
 
-						<li style={SmallBlogTitleCSS}>
-							<b> {props.data.title} </b>
-						</li>
-						<li style={SmallBlogDescriptionCSS}>
-							{props.data.description}
-						</li>
+					<li style={SmallBlogTitleCSS}>
+						<b> {props.data.title} </b>
+					</li>
+					<li style={SmallBlogDescriptionCSS}>
+						{props.data.description}
+					</li>
 
-						<li id="symposiumsLI" style={SymposiumCSS}>
-							{props.data.industriesUploaded[0].industry}
-						</li>
-					</ul>
-
-				</SmallBlogComponent>
-				<hr id="blogHorizontalLine" style={{display:"none"}}/>
-			</li>
+					<li id="symposiumsLI" style={SymposiumCSS}>
+						{props.data.industriesUploaded[0].industry}
+					</li>
+				</ul>
+			</SmallBlogComponent>
+			<hr id="blogHorizontalLine" style={{display:"none"}}/>
 		</Container>
 	)
 }

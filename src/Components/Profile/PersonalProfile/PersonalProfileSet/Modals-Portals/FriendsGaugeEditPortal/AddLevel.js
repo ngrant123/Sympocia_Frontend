@@ -38,6 +38,13 @@ const Container=styled.div`
 		}
 	}
 
+	@media screen and (max-width:650px){
+		#recruitImage{
+			width:45px !important;
+			height:40px !important;
+		}
+	}
+
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#recruitImage{
 			height:60% !important;

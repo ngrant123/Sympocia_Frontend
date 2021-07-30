@@ -19,8 +19,10 @@ const ThumbnailBlogComponent=styled(Link)`
 
 	@media screen and (max-width:1370px){
 		width:100%;
+		margin-top:2% !important;
 		#headerImage{
-			height:300px !important;
+			height:250px !important;
+			width:300px !important;
 		}
 		#imageContainer{
 			width:95% !important;
@@ -57,9 +59,21 @@ const ThumbnailBlogComponent=styled(Link)`
 			width:150% !important;
 		}
 	}
+
+	@media screen and (min-width:400px) and (max-width:650px) 
+	    and (min-height:1000px) and (max-height:1370px){
+		margin-left:10% !important;
+	}
+
+	@media screen and (min-width:620px) and (max-width:650px) 
+	    and (min-height:1300px) and (max-height:1370px){
+		margin-left:15% !important;
+	}
+
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	#headerImage{
-			height:400px !important;
+			height:290px !important;
+			width:300px !important;
 		}
     }
 

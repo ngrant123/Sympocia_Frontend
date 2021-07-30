@@ -44,6 +44,10 @@ const Container=styled.div`
 		width:90% !important;
 		left:5% !important;
 		overflow:scroll !important;
+		#settingsProfilePicture{
+			height:150px !important;
+			width:170px !important;
+		}
 	}
 
 	@media screen and (max-width:650px){

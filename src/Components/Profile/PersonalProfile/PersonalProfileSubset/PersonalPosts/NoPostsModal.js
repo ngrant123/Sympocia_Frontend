@@ -23,6 +23,10 @@ const SympociaStampIconContainer=styled.div`
 	width:65%;
 	height:40%;
 
+	@media screen and (max-width:650px){
+		height:110px;
+	}
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		height:100%;
 		width:60%;

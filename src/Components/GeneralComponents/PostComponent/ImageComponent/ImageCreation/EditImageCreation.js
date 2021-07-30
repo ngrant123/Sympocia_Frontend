@@ -75,8 +75,8 @@ const Container=styled.div`
 			width:400px !important;
 		}
 		#uploadedImage{
-			width:70% !important;
-			height:300px !important;
+			width:310px !important;
+			height:290px !important;
 		}
     }
 
@@ -104,7 +104,8 @@ const Container=styled.div`
     }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
     	#uploadedImage{
-			width:50% !important;
+			width:300px !important;
+			height:280px !important;
 		}
     }
 

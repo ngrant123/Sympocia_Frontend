@@ -38,6 +38,17 @@ const Container=styled.div`
 			height:40% !important;
 		}
 	}
+
+	@media screen and (max-width:650px){
+		#recruitImage{
+			height:70px !important;
+			width:75px !important;
+		}
+		#recruitContainer{
+			padding:10px !important;
+			width:40% !important;
+		}
+	}
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#recruitImage{
 			height:60% !important;
@@ -247,7 +258,8 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 									<p> Unfortunately you dont have any recruits. Add some then come back here later </p>:
 									<div style={{display:"flex",flexDirection:"row"}}>
 										{recruitsInformationProp.map(data=>
-											<div onClick={()=>pushSelectedPersonToArray(data)} style={RecruitsContainerCSS}>
+											<div id="recruitContainer"
+												onClick={()=>pushSelectedPersonToArray(data)} style={RecruitsContainerCSS}>
 												<img id="recruitImage" src={data.profilePicture==null?
 													NoProfilePicture:data.profilePicture} style={ImageCSS}
 												/>

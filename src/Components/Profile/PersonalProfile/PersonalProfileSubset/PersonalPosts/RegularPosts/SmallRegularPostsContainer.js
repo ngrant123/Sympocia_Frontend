@@ -24,7 +24,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:350% !important;
-		height:60%;
+		height:80%;
 		#smallRegularPostProfilePicture{
 			height:80px !important;
 			width:90px !important;
@@ -32,7 +32,7 @@ const Container=styled.div`
 		}
 
 		#post{
-			font-size:24px !important;
+			font-size:15px !important;
 		}
 		#postLI{
 			font-size:18px !important;
@@ -44,8 +44,13 @@ const Container=styled.div`
 
 	@media screen and (max-width:600px){
 		width:200% !important;
+		height:60%;
+
 		#postOwnerInformation{
 			display:none !important;
+		}
+		#post{
+			font-size:18px !important;
 		}
 		#postLI{
 			height:60% !important;
@@ -55,10 +60,21 @@ const Container=styled.div`
 			display:none !important;
 		}
 	}
+	@media screen and (min-width:620px) and (max-width:650px) 
+	    and (min-height:1300px) and (max-height:1390px){
+		width:200% !important;
+		margin-left:10% !important;
+	}
 
-	 @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	width:350% !important;
-		height:60% !important;
+		height:90% !important;
+
+		#smallRegularPostProfilePicture{
+			height:50px !important;
+			width:60px !important;
+		}
     }
 
     @media screen  and (max-width:840px) and (max-height:420px) 

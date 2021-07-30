@@ -120,6 +120,15 @@ export const PostContainer = styled.div`
     	display:none !important;
     	height:10% !important;
     }
+
+
+    @media screen and (min-width:400px) and (max-width:700px) 
+        and (min-height:1000px) and (max-height:1370px){
+        display:none !important;
+    }
+
+
+
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	display:none;
     }

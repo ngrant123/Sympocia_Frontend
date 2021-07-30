@@ -42,8 +42,8 @@ const Container=styled.div`
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	#profilePicture{
-			height:50px !important;
-			width:60px !important;
+			height:80px !important;
+			width:90px !important;
 		}
 		width:200%;
     }
@@ -96,12 +96,21 @@ const Post=styled.div`
 	padding-top:30px;
 	background-color:white;
 
+	@media screen and (min-width:400px) and (max-width:650px) 
+	    and (min-height:740px) and (max-height:850px){
+		width:170%;
+	}
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		heigth:70% !important;
 		#headerPost{
 			max-height:90% !important;
 			width:100% !important;
 		}
+    }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	width:500px !important;
     }
 `;
 
@@ -147,13 +156,30 @@ const PostSecondSection=styled.div`
 	width:100%;
 	@media screen and (max-width:1370px){	
 		#headerPost{
-			font-size:24px !important;
+			font-size:20px !important;
 			max-height:100% !important;
 		}
 	}
 	@media screen and (max-width:650px){
 		width:100% !important;
 	}
+
+
+	@media screen and (min-width:400px) and (max-width:650px) 
+	    and (min-height:1000px) and (max-height:1370px){
+	    width:150% !important;
+	    margin-left:5% !important;
+	}
+
+	@media screen and (min-width:620px) and (max-width:650px) 
+	    and (min-height:1300px) and (max-height:1390px){
+		width:210% !important;
+		margin-left:5% !important;
+	}
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	margin-left:5% !important;
+    }
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		width:50% !important;
     }

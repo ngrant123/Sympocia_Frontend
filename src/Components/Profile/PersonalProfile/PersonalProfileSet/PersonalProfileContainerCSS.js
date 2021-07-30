@@ -25,6 +25,7 @@ export const Container=styled.div`
 		}
     }
 
+
     @media screen and (max-width:650px){
 		#postSelectionAndRecruitDiv{
 			margin-top:-10% !important;
@@ -107,6 +108,20 @@ export const Container=styled.div`
 			}
 		}
     }
+
+    @media screen and (min-width:490px) and (max-width:510px) 
+	    and (min-height:1100px) and (max-height:1120px){
+	    #postSelectionAndRecruitDiv{
+			margin-left:60px !important;
+		}
+	}
+
+	@media screen and (min-width:630px) and (max-width:670px) 
+	    and (min-height:1350px) and (max-height:1370px){
+	    #postSelectionAndRecruitDiv{
+			margin-left:140px !important;
+		}
+	}
 
     @media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
 		#postsContainer{
@@ -260,6 +275,11 @@ export const PersonalProfileInformationContainer= styled.div`
 			margin-left:2% !important;
 			flex-direction:row !important;
 		}
+	}
+
+	@media screen and (min-width:600px) and (max-width:700px) 
+		and (min-height:1000px) and (max-height:1370px){
+		top:0% !important;
 	}
 
 	  @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){

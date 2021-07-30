@@ -31,11 +31,11 @@ export const ProfilePictureContainer=styled.div`
 		width:100% !important;
 	 	#profilePicture{
 	      border-radius:50%;
-          height:95% !important;
-          width:85% !important;
-          margin-left:10%;
-	    }
-    }
+        height:95% !important;
+        width:85% !important;
+        margin-left:10%;
+	   }
+  }
 
 
     @media screen and (max-width:650px){
@@ -43,21 +43,61 @@ export const ProfilePictureContainer=styled.div`
     	margin-bottom:2%;
     	margin-left:0%;
     	width:75% !important;
-		z-index:10;
-		margin-top:55%;
-		#profilePicture{
-		  width:90% !important;
-          height:105% !important;
-          left:10% !important;
+		  z-index:10;
+		  margin-top:55%;
+
+		  #profilePicture{
+	      width:90% !important;
+        height:105% !important;
+        left:10% !important;
 	    }
     }
 
-    @media screen and (max-width:340px){
-    	height:170px !important;
-    	#profilePicture{
-          height:110% !important;
-	    }
+  @media screen and (max-width:340px){
+  	height:170px !important;
+  	#profilePicture{
+        height:110% !important;
     }
+  }
+
+  @media screen and (min-width:490px) and (max-width:570px) 
+    and (min-height:740px) and (max-height:900px){
+    #profilePicture{
+        width:300px !important;
+        height:290px !important;
+    }
+  }
+
+  @media screen and (min-width:670px) and (max-width:1000px) 
+    and (min-height:740px) and (max-height:1370px){
+    #profilePicture{
+        width:150px !important;
+        height:140px !important;
+    }
+  }
+
+ @media screen and (min-width:480px) and (max-width:700px) 
+    and (min-height:1000px) and (max-height:1370px){
+    #profilePicture{
+        width:300px !important;
+        height:290px !important;
+    }
+  }
+  @media screen and (min-width:600px) and (max-width:700px) 
+    and (min-height:1000px) and (max-height:1370px){
+    #profilePicture{
+        width:400px !important;
+        height:390px !important;
+    }
+  }
+
+  @media screen and (min-width:650px) and (max-width:700px) 
+    and (min-height:1000px) and (max-height:1040px){
+    #profilePicture{
+        width:150px !important;
+        height:140px !important;
+    }
+  }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
     	margin-left:5%;
