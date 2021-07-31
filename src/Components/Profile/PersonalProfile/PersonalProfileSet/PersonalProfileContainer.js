@@ -105,6 +105,7 @@ class LProfile extends Component{
 			isGuestProfile:false,
 			selectedDisplayPostType:"Images",
 			displayProfilePictureOptionsModal:false,
+			currentRequestedFriendsGaugeNodeId:null,
 			displayConfettiHandle:()=>{
 				this.displayConfetti()
 			}
@@ -581,6 +582,12 @@ class LProfile extends Component{
 					)}
 			   </React.Fragment>
 	}
+
+	triggerRetrieveFriendsGaugeSpecificPosts=(selectedPostId)=>{
+		this.setState({
+			currentRequestedFriendsGaugeNodeId:selectedPostId
+		})
+	}
 	friendsGauge=()=>{
 		return(
 			<FriendsGauge
@@ -592,6 +599,7 @@ class LProfile extends Component{
 					friendsGaugeNodes:this.state.userProfile.friendsGaugeNodes,
 					isGuestVisitorProfile:this.state.isGuestVisitorProfile
 				}}
+				retrieveFriendsGaugePosts={this.triggerRetrieveFriendsGaugeSpecificPosts}
 				mobileUIStatus={{
 				    displayPhoneUI:this.state.displayPhoneUI,
 					displayIpadUI:this.state.displayIpadUI,
@@ -844,6 +852,7 @@ class LProfile extends Component{
 										isGuestVisitorProfile={this.state.isGuestVisitorProfile}
 										updateEndOfPostsDBIndicator={this.updateEndOfPostsDBIndicator}
 										handleVideoPostModal={this.handleVideoPostModal}
+										currentRequestedFriendsGaugeNodeId={this.state.currentRequestedFriendsGaugeNodeId}
 									/>
 								</PostInformationContainer>
 							</>

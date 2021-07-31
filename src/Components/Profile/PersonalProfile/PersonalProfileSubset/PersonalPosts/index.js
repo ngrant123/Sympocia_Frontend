@@ -195,10 +195,10 @@ const ShadowButtonCSS={
 }
 
 /*
-Later down the road this whole post section has to be refactored completely 
-because at this point it getting too crazy and sphagetti like 
+	Later down the road this whole post section has to be refactored completely 
+	because at this point it getting too crazy and sphagetti like 
 
-Naw i need to redo this now like this shit awful lol
+	Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
@@ -216,6 +216,7 @@ const PersonalPostsIndex=(props)=>{
 	const [isFilteredPostsActivated,changeIsFilteredPosts]=useState(false);
 	const [isSearchFilterActivated,changeIsSearchFilterActivated]=useState(false);
 	const [displayExtendedSearchTextArea,changeDisplayExtendedTextArea]=useState(false);
+	const [currentRequestedFriendsGaugeNodeId,changeRequestedFriendsGaugeLevelId]=useState();
 
 	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
@@ -289,10 +290,18 @@ const PersonalPostsIndex=(props)=>{
 
 // Should be refactored in the future everytime i look at it i want to kill myself
 
-	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter})=>{
-			changeIsLoadingReloadedPosts(true);
-			unSelectButtonsCSS();
-			
+	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter,requestedFriendsGaugeNodeId})=>{
+		changeIsLoadingReloadedPosts(true);
+		unSelectButtonsCSS();
+		const postFetchRequest={
+			userId:id,
+			visitorId:props.visitorId,
+			postCount:postCounter==null?0:postCounter,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+			personalRedux.accessToken,
+			isGuestProfile:props.isGuestVisitorProfile,
+			requestedFriendsGaugeNodeId:currentRequestedFriendsGaugeNodeId
+		}
 
 		if(kindOfPost=="image"){
 			const image=document.getElementById("images");
@@ -301,14 +310,7 @@ const PersonalPostsIndex=(props)=>{
 			image.style.borderColor="#C8B0F4";
 			changeCurrentPostType("image");
 
-			const {confirmation,data}=await getUserImages({
-											userId:id,
-											visitorId:props.visitorId,
-											postCount:postCounter==null?0:postCounter,
-											accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-											personalRedux.accessToken,
-											isGuestProfile:props.isGuestVisitorProfile
-										});
+			const {confirmation,data}=await getUserImages(postFetchRequest);
 			
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
@@ -352,13 +354,7 @@ const PersonalPostsIndex=(props)=>{
 			videos.style.borderColor="#C8B0F4";
 			changeCurrentPostType("video");
 
-			const {confirmation,data}=await getVideosFromUser({
-												userId:id,
-												visitorId:props.visitorId,
-												postCount:postCounter==null?0:postCounter,
-												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-												personalRedux.accessToken
-											});
+			const {confirmation,data}=await getVideosFromUser(postFetchRequest);
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
@@ -401,13 +397,7 @@ const PersonalPostsIndex=(props)=>{
 			blogDiv.style.borderBottom="solid";
 			blogDiv.style.borderColor="#C8B0F4";
 
-			const {	confirmation,data}=await getBlogFromUser({
-												userId:id,
-												visitorId:props.visitorId,
-												postCount:postCounter==null?0:postCounter,
-												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-												personalRedux.accessToken
-											});
+			const {	confirmation,data}=await getBlogFromUser(postFetchRequest);
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 
@@ -455,13 +445,7 @@ const PersonalPostsIndex=(props)=>{
 			regularPostDiv.style.borderColor="#C8B0F4";
 
 
-			const {confirmation,data}=await getRegularPostFromUser({
-												userId:id,
-												visitorId:props.visitorId,
-												postCount:postCounter==null?0:postCounter,
-												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-												personalRedux.accessToken
-											});
+			const {confirmation,data}=await getRegularPostFromUser(postFetchRequest);
 			if(confirmation=="Success"){	
 				const {crownedPost}=data;
 				const postsResponse=data.posts;
@@ -613,7 +597,7 @@ const PersonalPostsIndex=(props)=>{
 		})
 	}
 
-	const triggerPostDecider=(postType,profileId,counter)=>{
+	const triggerPostDecider=(postType,profileId,counter,requestedFriendsGaugeNodeId)=>{
 		if(postType!=currentPostType || isFilteredPostsActivated==true || isSearchFilterActivated==true){
 			switch(postType){
 				case 'image':{
@@ -640,7 +624,8 @@ const PersonalPostsIndex=(props)=>{
 				id:profileId,
 				isAccessTokenUpdated:false,
 				postCounter:0,
-				isLoadingNewPosts:true
+				isLoadingNewPosts:true,
+				requestedFriendsGaugeNodeId
 			})
 		}
 	}
@@ -943,6 +928,15 @@ const PersonalPostsIndex=(props)=>{
 						let result=removePostIndexContext(postId,propData,postType);
 						stateCallBackFunction(result);
 						props.closeModal();
+					},
+					fetchIsolateFriendsGaugePosts:(selectedFriendsGaugeNodeId)=>{
+						debugger;
+						changeRequestedFriendsGaugeLevelId(selectedFriendsGaugeNodeId);
+						triggerPostDecider(
+							currentPostType,
+							props.personalInformation._id,
+							0,
+							selectedFriendsGaugeNodeId);
 					},
 					fetchNextPosts:()=>{
 						handleTriggerPostReload();
