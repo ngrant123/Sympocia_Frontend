@@ -423,6 +423,10 @@ const NodeInformationPortal=({
 		changeIsVideoDescriptionCleared(true);
 	}
 
+	const isolatePosts=()=>{
+		
+	}
+
 
 	return createPortal(
 		<>
@@ -517,6 +521,11 @@ const NodeInformationPortal=({
 											<li style={{listStyle:"none",cursor:"pointer"}}
 												onClick={()=>handleDisplayNodeInformation("selectedColorType")}>
 												View selected color
+											</li>
+											<hr/>
+											<li style={{listStyle:"none",cursor:"pointer"}}
+												onClick={()=>isolatePosts()}>
+												View posts
 											</li>
 											{isOwner==true &&(
 												<React.Fragment>
