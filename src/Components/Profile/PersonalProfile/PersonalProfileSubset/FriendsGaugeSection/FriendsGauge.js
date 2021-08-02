@@ -79,7 +79,7 @@ class FriendsGauge extends Component {
 
   constructor(props){
     super(props);
-    
+    console.log(props);
     var numberNodes;
     var progressBarCounter;
     var {friendsGauge,friendsGaugeNodes}=this.props.personalInformation;
@@ -428,6 +428,7 @@ class FriendsGauge extends Component {
                       nodes={this.state.nodes}
                       createLevel={this.state.createLevel}
                       implementAction={this.implementAction}
+                      isPhoneUITriggered={this.props.mobileUIStatus.displayPhoneUI}
                   />
                 :<React.Fragment></React.Fragment>
               }
@@ -440,6 +441,7 @@ class FriendsGauge extends Component {
                       updateNode={this.updateNode}
                       isOwner={this.props.personalInformation.isOwnProfile}
                       isGuestVisitorProfile={this.props.personalInformation.isGuestVisitorProfile}
+                      isPhoneUITriggered={this.props.mobileUIStatus.displayPhoneUI}
                   />:<React.Fragment></React.Fragment>
               }
             </ul>

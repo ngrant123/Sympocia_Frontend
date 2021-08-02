@@ -113,6 +113,17 @@ const ImageCSS={
 	borderWidth:"1px"
 }
 
+const ButtonCSS={	
+  borderColor:"#5298F8",
+  borderStyle:"solid",
+  borderWidth:"1px",
+  color:"#5298F8",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  marginBottom:"5%",
+  cursor:"pointer"
+}
 
 const AddButtonCSS={
 	listStyle:"none",
@@ -127,13 +138,13 @@ const AddButtonCSS={
 }
 
 
-const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
+const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITriggered})=>{
 	const [displayAddNodeScreen,changeDisplayAddScreen]=useState(false);
 	const [selectedRecruits,changeSelectedRecruits]=useState([]);
 
 	const [currentSearchNames,changeCurrentSearchedNames]=useState([]);
 	const [currentSearchName,changeSearchName]=useState([]);
-
+	const [nodeVideoDescription,changeNodeVideoDescription]=useState();
 	const [levelName,changeLevelName]=useState();
 	const [levelDescription,changeLevelDescription]=useState();
 	const [isProcessingSubmit,changeIsSubmitProcessing]=useState(false);
@@ -182,10 +193,16 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 			description:levelDescription,
 			recruits:selectedRecruits,
 			_id:userId,
+			nodeVideoDescription,
+			isPhoneUIEnabled:isPhoneUITriggered,
 			nodeCounter:nodeNumber,
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-						personalInformation.accessToken
+			personalInformation.accessToken
 		}
+		if(nodeVideoDescription!=null && isAccessTokenUpdated==false){
+			alert('Your video is processing. We wil notify via email and on here when your video description is uploaded :). You can close this screen now');
+		}
+
 		const {confirmation,data}=await createLevel(levelObject);
 		if(confirmation=="Success"){
 			const {message}=data;
@@ -193,6 +210,8 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 				name:levelName,
 				description:levelDescription,
 				nodeCounter:nodeNumber,
+				nodeVideoDescription,
+				containsVideoDescription:nodeVideoDescription==null?false:true,
 				_id:message
 			}
 			const addNodeAction={
@@ -287,6 +306,40 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 			changeSearchName(currentSearchName);
 			changeCurrentSearchedNames(searchedNames);
 		}
+	}
+
+	const toggleVideoCreation=()=>{
+		document.getElementById("uploadVideoFile").click();
+	}
+
+	const uploadNodeVideoDescription=()=>{
+		const videoFile=document.getElementById("uploadVideoFile").files[0];
+		const filereader=new FileReader();
+		const maxFileSize=15*1024*1024
+		const videoSize=videoFile.size;
+
+		if(videoSize>maxFileSize){
+			alert('The file you selected is too large. As of right now we only accept files of size 15MB for videos. Sorry for the inconvenience.');
+		}else{
+			filereader.onloadend=()=>{
+				const videoUrl=filereader.result;
+				console.log(videoUrl);
+				changeNodeVideoDescription(videoUrl);
+			}
+
+			if(videoFile==null){
+				alert('File format is not accepted unfortunately')
+			}else{
+				filereader.readAsDataURL(videoFile);
+			}	
+		}
+	}
+
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
 	}
 
 	return(
@@ -391,13 +444,37 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal})=>{
 							</p>
 							<li style={{listStyle:"none",marginBottom:"5%"}}>
 								<InputContainer id="levelName" placeholder="What do you want to call this level?"/>
-
 							</li>
 
 							<li style={{listStyle:"none",marginBottom:"5%"}}>
 								<InputContainer id="levelDescription" style={{height:"40%"}}placeholder="Enter a description (optional)"/>
 							</li>
-
+							{nodeVideoDescription==null?
+								<div onClick={()=>toggleVideoCreation()} style={ButtonCSS}>
+									Create video description
+								</div>:
+								<div style={{display:"flex",flexDirection:"column"}}>
+									<div style={{display:"flex",flexDirection:"row"}}>
+										<div onClick={()=>toggleVideoCreation()} style={ButtonCSS}>
+											Redo video
+										</div>
+										<div onClick={()=>changeNodeVideoDescription(null)} 
+											style={{...ButtonCSS,marginLeft:"2%"}}>
+											Clear video
+										</div>
+									</div>
+									{nodeVideoDescription!=null &&(
+										<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+											width="100%" height="100%" style={{backgroundColor:"#151515"}}>
+											<source src={nodeVideoDescription} type="video/mp4"/>
+										</video>
+									)}
+								</div>
+							}
+							<input type="file" accept="video/mp4,video/x-m4v,video/*" name="img"
+								 id="uploadVideoFile" style={{position:"relative",opacity:"0",zIndex:"0"}}
+								 onChange={()=>uploadNodeVideoDescription()}>
+							</input>
 							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 								<NextButton onClick={()=>addNodeToProfile()}>
 									Next

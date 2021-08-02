@@ -193,14 +193,24 @@ export const concatVideoTogether=async(videos)=>{
 
 
 
-export const createLevel=async({name,description,recruits,_id,nodeCounter,accessToken})=>{
+export const createLevel=async({
+	name,
+	description,
+	recruits,
+	_id,
+	nodeVideoDescription,
+	isPhoneUIEnabled,
+	nodeCounter,
+	accessToken})=>{
 	try{
 		const levelResponse=await axios.post(`${CreateUrl}/createLevel`,{
 			name:name,
 			description:description,
 			recruits:recruits,
 			_id:_id,
-			nodeCounter:nodeCounter
+			nodeCounter:nodeCounter,
+			isPhoneUIEnabled,
+			nodeVideoDescription
 		},{
 			headers:{
 				authorization:accessToken
@@ -232,14 +242,26 @@ export const removeLevel=async({_id,levelId,accessToken})=>{
 	}
 }
 
-export const editNodeInformation=async({_id,name,levelId,description,colorScheme,accessToken})=>{
+export const editNodeInformation=async({
+	_id,
+	name,
+	levelId,
+	description,
+	colorScheme,
+	accessToken,
+	nodeVideoDescription,
+	isNodeVideoDescriptionAltered,
+	isPhoneUIEnabled})=>{
 	try{
 		const levelResponse=await axios.post(`${CreateUrl}/editNodeInformation`,{
-			_id:_id,
-			name:name,
-			description:description,
-			levelId:levelId,
-			colorScheme
+			_id,
+			name,
+			description,
+			levelId,
+			colorScheme,
+			nodeVideoDescription,
+			isNodeVideoDescriptionAltered,
+			isPhoneUIEnabled
 		},{
 			headers:{
 				authorization:accessToken
@@ -535,12 +557,14 @@ export const demoteRecruit=async({
 	}
 }
 
-export const requestAccessToNode=async({nodeName,targetId,requestOwnerId})=>{
+export const requestAccessToNode=async({nodeName,targetId,requestOwnerId,requestOwnerFirstName,nodeId})=>{
 	try{
 		const requestAccessResponse=await axios.post(`${CreateUrl}/requestAccessToNode`,{
 			nodeName,
 			targetId,
-			requestOwnerId
+			requestOwnerId,
+			requestOwnerFirstName,
+			nodeId
 		})
 		const {data}=requestAccessResponse;
 		return data;
