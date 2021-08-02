@@ -68,6 +68,24 @@ export const ProfilePictureContainer=styled.div`
     }
   }
 
+  @media screen and (min-width:700px) and (max-width:800px)
+    and (min-height:520px) and (max-height:560px){
+      #profilePicture{
+          width:200px !important;
+          height:90px !important;
+          margin-top:-20px !important;
+      }
+    }
+
+  @media screen and (min-width:500px) and (max-width:570px) 
+    and (min-height:700px) and (max-height:840px){
+    #profilePicture{
+        margin-left:15% !important;
+        width:300px !important;
+        height:290px !important;
+    }
+  }
+
   @media screen and (min-width:670px) and (max-width:1000px) 
     and (min-height:740px) and (max-height:1370px){
     #profilePicture{

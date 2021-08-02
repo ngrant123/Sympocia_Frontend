@@ -30,6 +30,11 @@ const Container=styled.div`
 		top:15%;
 		justify-content:center;
     }
+
+    @media screen and (max-width:650px){
+    	top:10%;
+    	height:75%;	
+    }
 `;
 const SponsorModal=styled.div`
 	display:flex;

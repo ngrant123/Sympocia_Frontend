@@ -53,10 +53,10 @@ const Container=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		top:10% !important;
+		top:0% !important;
     	width:100% !important;
-		left:1% !important; 
-		height:90% !important;
+		left:0% !important; 
+		height:100% !important;
 
 		#closeModalButton{
 			marginTop:-80% !important;
@@ -69,10 +69,10 @@ const Container=styled.div`
 
 
 
-   	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
+   	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	top:0% !important;
     	width:100% !important;
-		left:1% !important; 
+		left:0% !important; 
 		height:100% !important;
     }
 `;

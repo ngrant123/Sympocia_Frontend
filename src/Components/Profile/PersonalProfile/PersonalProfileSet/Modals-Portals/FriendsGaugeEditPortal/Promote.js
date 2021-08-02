@@ -35,7 +35,8 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		#recruitImage{
-			height:40% !important;
+			width:65px !important;
+			height:60px !important;
 		}
 	}
 
@@ -51,14 +52,8 @@ const Container=styled.div`
 	}
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#recruitImage{
-			height:60% !important;
-			width:60% !important;
-		}
-    }
-
-    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-    	#recruitImage{
-			width:45% !important;
+			width:65px !important;
+			height:60px !important;
 		}
     }
 `;

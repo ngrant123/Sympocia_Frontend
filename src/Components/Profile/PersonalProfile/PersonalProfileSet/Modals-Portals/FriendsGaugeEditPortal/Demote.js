@@ -57,10 +57,10 @@ const Container=styled.div`
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	#recruitImage{
-			width:90px !important;;
-			height:80px !important;
+			width:65px !important;
+			height:60px !important;
 		}
-   	}
+    }
 `;
 
 

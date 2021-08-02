@@ -54,16 +54,16 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:80%;
-		#closeModalButton{
-			display:block !important;
-		}
 	}
 	@media screen and (max-width:700px){
 		width:120%;
 		padding:5px;
 		#editContainer{
-			width:90% !important;
+			width:100% !important;
 			margin-left:-5% !important;
+		}
+		#closeModalButton{
+			display:block !important;
 		}
 
 		#secondaryVideoInformation{
@@ -78,9 +78,30 @@ const Container=styled.div`
 			margin-bottom:50% !important;
 		}
 		#audioOptionsLI{
-			width:70% !important;
+			width:100% !important;
 		}
 	}
+
+	@media screen and (min-width:500px) and (max-width:750px) 
+        and (min-height:730px) and (max-height:1039px){
+        #editContainer{
+			margin-left:0% !important;
+		}
+    }
+
+	@media screen and (min-width:680px) and (max-width:1000px) 
+        and (min-height:730px) and (max-height:1039px){
+       	#editContainer{
+			margin-left:0% !important;
+		}
+    }
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#editContainer{
+			margin-left:5% !important;
+		}
+
+    }
 `;
 
 const TextContainerDescription=styled.textarea`
@@ -93,6 +114,10 @@ const TextContainerDescription=styled.textarea`
 	border-width:1px;
 	border-color:#d7dadb;
 	width:100%;
+
+	@media screen and (max-width:650px){
+		padding:10px !important;
+	}
 `;
 
 const TextContainerTitle=styled.textarea`
@@ -109,6 +134,10 @@ const TextContainerTitle=styled.textarea`
 	@media screen and (min-width:2500px){
 		font-size:36px !important;
 		width:600px !important;
+	}
+
+	@media screen and (max-width:650px){
+		padding:10px !important;
 	}
 `;
 const VideoDescriptionContainer=styled.div`

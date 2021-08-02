@@ -28,14 +28,22 @@ export const Container=styled.div`
 	 	#postOptionLI{
     		margin-bottom:5% !important;
     	}
+
+        #blogPostOptionLI{
+           margin-bottom:5% !important; 
+        }
     }
 
-    @media screen and (max-width:770px){
-    	top:20% !important;
-    	width:97% !important;
-		left:1% !important; 
-		height:70% !important;
-		overflow:scroll;
+    @media screen and (max-width:650px){
+    	top:0% !important;
+    	width:100% !important;
+		left:0% !important; 
+		height:100% !important;
+		overflow:auto;
+
+        #closeModalButton{
+            display:block !important;
+        }
     }
 
     @media screen and (max-width:420px){
@@ -44,6 +52,12 @@ export const Container=styled.div`
     		margin-bottom:5% !important;
     		height:20% !important;
     	}
+
+        #blogPostOptionLI{
+            display:block !important;
+            margin-bottom:5% !important;
+            height:20% !important;
+        }
     }
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	#blogCreationButton{
@@ -70,6 +84,7 @@ export const PostOptionsContainer = styled.div`
 	flex-direction:row;
 	padding:10px;
 
+
 	@media screen and (max-width:1030px){
  		top:65% !important;
  	}
@@ -85,6 +100,54 @@ export const PostOptionsContainer = styled.div`
 	 	margin-bottom:10% !important;
 	 	height:40% !important;
 	 	top:20% !important;
+    }
+    @media screen and (min-width:470px) and (max-width:800px) 
+        and (min-height:730px) and (max-height:1039px){
+        flex-direction:column;
+
+        #blogPostOptionLI{
+           margin-top:0% !important; 
+            height:10% !important;
+        }
+    }
+
+    @media screen and (min-width:680px) and (max-width:1000px) 
+        and (min-height:730px) and (max-height:1039px){
+        flex-direction:column;
+        top:5% !important;
+        
+        #postOptionLI{
+            display:block !important;
+            margin-bottom:5% !important;
+            height:50% !important;
+            padding:20px !important;
+            width:90% !important;
+        }
+
+        #blogPostOptionLI{
+            display:block !important;
+            margin-bottom:5% !important;
+             height:50% !important;
+            padding:20px !important;
+            width:90% !important;
+        }
+    }
+
+    @media screen and (min-width:670px) and (max-width:800px) 
+        and (min-height:1000px) and (max-height:1039px){
+        flex-direction:column;
+        top:10% !important;
+        #blogPostOptionLI{
+            display:block !important;
+            margin-bottom:5% !important;
+            height:20% !important;
+        }
+
+        #postOptionLI{
+            display:block !important;
+            margin-bottom:5% !important;
+            height:20% !important;
+        }
     }
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	top:30% !important;
@@ -108,6 +171,13 @@ export const PostContainer = styled.div`
  	border-color:#e0e0e0;
  	z-index:6;
 
+    @media screen and (min-width:470px) and (max-width:800px) 
+        and (min-height:750px) and (max-height:1039px){
+        display:none !important;
+    }
+
+
+
  	@media screen and (max-width:740px) and (max-height:420px){
 	 	display:none !important;
     }
@@ -124,6 +194,11 @@ export const PostContainer = styled.div`
 
     @media screen and (min-width:400px) and (max-width:700px) 
         and (min-height:1000px) and (max-height:1370px){
+        display:none !important;
+    }
+
+    @media screen and (min-width:680px) and (max-width:1000px) 
+        and (min-height:730px) and (max-height:1039px){
         display:none !important;
     }
 
@@ -155,6 +230,8 @@ export const PostTextarea = styled.textarea`
  	@media screen and (max-width:1030){
  		height:60% !important;
  	}
+
+
 
  `;
 
@@ -220,6 +297,23 @@ export const PostOptionButton = styled.div`
  			)
  		}
  	}
+
+
+    @media screen and (min-width:470px) and (max-width:810px) 
+        and (min-height:750px) and (max-height:1039px){
+        ${({isPhoneUIEnabled})=>
+            isPhoneUIEnabled==true &&(
+                `background-color:white;
+                color:#C8B0F4;`
+            )
+        }
+    }
+
+     @media screen and (min-width:670px) and (max-width:800px) 
+        and (min-height:1000px) and (max-height:1039px){
+        padding:30px !important;
+        width:90% !important;
+    }
  	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	height:70% !important;
     	background-color:white;
@@ -254,6 +348,9 @@ export const BlogOptionButton=styled(Link)`
  			)
  		}
  	}
+
+
+
  	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	height:70% !important;
     	background-color:white;

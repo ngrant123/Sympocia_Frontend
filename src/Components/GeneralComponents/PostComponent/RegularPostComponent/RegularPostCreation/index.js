@@ -74,9 +74,23 @@ const Container = styled.div`
 		top:0%;
 
 		#symposiumPostOptions{
-			margin-left:-5% !important;
+			margin-left:-12% !important;
 		}
 	}
+
+	@media screen and (min-width:500px) and (max-width:750px) 
+        and (min-height:730px) and (max-height:1039px){
+        
+		#symposiumPostOptions{
+			margin-left:-5% !important;
+		}
+    }
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#symposiumPostOptions{
+			margin-left:0% !important;
+		}
+    }
 `;
 
 const TextArea=styled.div`
@@ -541,16 +555,20 @@ const ButtonCSS={
 								:null
 							}
 							<ul id="postOptions" style={{padding:"10px"}}>		
-								<ul id="symposiumPostOptions" style={{padding:"0px"}}>
-									<IndustryPostOptions
-										alterSelectedIndustry={alterSelectedIndustry}
-										alterSelectedSubCommunities={alterSelectedSubCommunities}
-										symposiumsUploaded={props.previousData==null?[]:props.previousData.industriesUploaded}				
-										uploadedCategorySection={props.previousData==null?null:props.previousData.symposiumUploadCategory}
-										alterSymposiumUploadedCategory={alterSymposiumUploadedCategory}
-									/>
-								</ul>
-								<hr/>
+								{displayAudioORTextScreen==false &&(
+									<React.Fragment>
+										<ul id="symposiumPostOptions" style={{padding:"0px"}}>
+											<IndustryPostOptions
+												alterSelectedIndustry={alterSelectedIndustry}
+												alterSelectedSubCommunities={alterSelectedSubCommunities}
+												symposiumsUploaded={props.previousData==null?[]:props.previousData.industriesUploaded}				
+												uploadedCategorySection={props.previousData==null?null:props.previousData.symposiumUploadCategory}
+												alterSymposiumUploadedCategory={alterSymposiumUploadedCategory}
+											/>
+										</ul>
+										<hr/>
+									</React.Fragment>
+								)}
 
 								<li style={{listStyle:"none",marginTop:"5%"}}>
 									{displayAudioORTextScreen==true?

@@ -102,6 +102,15 @@ const Container=styled.div`
 			width:250px !important;
 		}
     }
+
+    @media screen and (min-width:500px) and (max-width:750px) 
+        and (min-height:730px) and (max-height:1039px){
+        #uploadedImage{
+			height:120px !important;
+			width:130px !important;
+		}
+    }
+
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
     	#uploadedImage{
 			width:300px !important;

@@ -37,6 +37,13 @@ const Container=styled.div`
 	 	justify-content:start;
 		#parentContainer{
 			height:100% !important;
+			margin-left:2% !important;
+		}
+    }
+
+    @media screen and (max-width:570px) and (max-height:330px) and (orientation: landscape){
+		#parentContainer{
+			margin-left:15% !important;
 		}
     }
 `;

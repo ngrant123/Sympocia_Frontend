@@ -30,6 +30,14 @@ const Container=styled.div`
 			width:190% !important;
 		}
     }
+
+
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:700px) and (max-height:800px){
+	    margin-left:7% !important;
+	}
+
+
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#parentLISmallPostContainer{
 			width:190% !important;

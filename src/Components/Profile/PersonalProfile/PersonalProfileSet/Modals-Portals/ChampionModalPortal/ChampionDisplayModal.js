@@ -14,7 +14,7 @@ const SponsorExtendedModal=styled.div`
 	background-color:white;
 	top:0px;
 	overflow-y:scroll;
-	z-index:25;
+	z-index:40;
 	border-radius:5px;
 	box-shadow: 10px 10px 20px 	#9395a0;
 	left:65%;
@@ -32,9 +32,36 @@ const SponsorExtendedModal=styled.div`
 			height:150px !important;
 		}
 	}
+
+	@media screen and (max-width:1370px){
+		left:5% !important;
+		top:20%;
+		width:90% !important;
+		height:70%;
+		padding:40px;
+		overflow:scroll;
+
+		#extendChampionDescriptionUL{
+			top:10px !important;
+		}
+	}
+
+	@media screen and (max-width:650px){
+		top:15%;
+		padding:20px;
+		height:70%; 
+	}
+
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		height:50%;
+    }
+	 @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+	 	top:15%;
+	 	height:70%;
+    }
 `;
 
-const SponsorSimpliedModal=styled.div`
+const SponsorSimplifiedModal=styled.div`
 	position:fixed;
 	width:30%;
 	height:10%;
@@ -72,7 +99,22 @@ const ExtendedChampionInformation=styled.div`
 			height:100px !important;
 		}
 	}
+
+	@media screen and (max-width:650px){
+		#championImageLI{
+			width:50px !important;
+			height:50px !important;
+		}
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#championImageLI{
+			width:50px !important;
+			height:50px !important;
+		}
+    }
 `;
+
 
 const ExtendedProfilePicture=styled.div`
 	position:relative;
@@ -146,7 +188,7 @@ const ExtendedChampionModal=(championData)=>{
 }
 
 const SponsorDisplayModal=(props)=>{
-	const [displayExtendedSponsorModal,changeExtendedSponsorModal]=useState(false);
+	const [displayExtendedSponsorModal,changeExtendedSponsorModal]=useState(props.isMobile==true?true:false);
 	const [displayDeletePortal,changeDisplayDeletePortal]=useState(false);
 
 	const closeDeletePortal=()=>{
@@ -170,22 +212,24 @@ const SponsorDisplayModal=(props)=>{
 							</li>
 
 						)}
-						<li style={{listStyle:"none",marginBottom:"5%",marginLeft:"85%"}}>
-							<KeyboardArrowDownIcon
-								style={{borderStyle:"solid",
-										borderRadius:"50%",
-										color:"#BDBDBD",
-										fontSize:30}}
-								onClick={()=>changeExtendedSponsorModal(false)}
-							/>
-						</li>
+						{props.isMobile==false &&(
+							<li style={{listStyle:"none",marginBottom:"5%",marginLeft:"85%"}}>
+								<KeyboardArrowDownIcon
+									style={{borderStyle:"solid",
+											borderRadius:"50%",
+											color:"#BDBDBD",
+											fontSize:30}}
+									onClick={()=>changeExtendedSponsorModal(false)}
+								/>
+							</li>
+						)}
 
 						<li style={{listStyle:"none",marginTop:"10%"}}>
 							{ExtendedChampionModal(props.championData)}
 						</li>
 					</ul>
 				</SponsorExtendedModal>:
-				<SponsorSimpliedModal>
+				<SponsorSimplifiedModal>
 					<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
 						<img src={props.championData.imgUrl} 
 							style={ChampionImageCSS}
@@ -205,7 +249,7 @@ const SponsorDisplayModal=(props)=>{
 							/>
 						</a>
 					</li>
-				</SponsorSimpliedModal>
+				</SponsorSimplifiedModal>
 			}
 
 		</React.Fragment>

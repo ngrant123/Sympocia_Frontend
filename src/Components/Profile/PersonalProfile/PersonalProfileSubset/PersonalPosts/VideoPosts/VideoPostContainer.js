@@ -48,6 +48,10 @@ const Container=styled.div`
 		}
 	}
 
+	@media screen and (max-width:650px){
+		margin-left:2%;
+	}
+
 	@media screen and (min-width:400px) and (max-width:650px) 
 	    and (min-height:740px) and (max-height:850px){
 		margin-left:15% !important;
@@ -56,6 +60,11 @@ const Container=styled.div`
 	@media screen and (min-width:400px) and (max-width:650px) 
 	    and (min-height:1000px) and (max-height:1370px){
 		margin-left:10% !important;
+	}
+
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:700px) and (max-height:800px){
+	    	margin-left:10% !important;
 	}
 
 	@media screen and (min-width:620px) and (max-width:650px) 
@@ -75,6 +84,10 @@ const Container=styled.div`
 			margin-bottom:-5% !important;
 		}
     }
+	@media screen and (min-width:700px) and (max-width:750px) 
+	    and (min-height:500px) and (max-height:560px){
+	    margin-left:-5% !important;
+	}
 `;
 
 const SmallVideoComponent=styled.div`

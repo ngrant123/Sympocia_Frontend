@@ -26,33 +26,38 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
     	top:20% !important;
-    	width:100% !important;
-		left:1% !important; 
+    	width:90% !important;
+		left:5% !important; 
 		height:70% !important;
-		overflow:scroll;
+		overflow:auto;
 
 		#uploadOptionTypeLI{
 			margin-bottom:15% !important;
 		}
 
-		#closeModalButton{
-			display:block !important;
-		}
     }
 
     @media screen and (max-width:650px){
     	width:100% !important;
     	top:0% !important;
+    	left:0% !important; 
     	height:100% !important;
     	#headerCreationText{
     		font-size:18px !important;
     	}
+		#closeModalButton{
+			display:block !important;
+		}
     }
      @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-	  	top:20% !important;
+	  	top:0% !important;
     	width:100% !important;
-		left:1% !important; 
-		height:70% !important;
+		left:0% !important; 
+		height:100% !important;
+
+		#closeModalButton{
+			display:block !important;
+		}
     }
 `;
 

@@ -48,6 +48,7 @@ const ThumbnailBlogComponent=styled(Link)`
 		}
 		#headerImage{
 			height:200px !important;
+			width:250px !important;
 		}
 
 
@@ -57,6 +58,13 @@ const ThumbnailBlogComponent=styled(Link)`
 		}
 		#headerImageLI{
 			width:150% !important;
+		}
+	}
+
+	@media screen and (max-width:340px){
+		#headerImage{
+			height:190px !important;
+			width:210px !important;
 		}
 	}
 
@@ -82,6 +90,10 @@ const ThumbnailBlogComponent=styled(Link)`
 		flex-direction:column;
 		#headerDescriptionLI{
 			margin-left:-5% !important;
+		}
+		 #headerImage{
+			height:250px !important;
+			width:300px !important;
 		}
     }
 `;

@@ -62,6 +62,12 @@ const Container=styled.div`
 		margin-left:10% !important;
 	}
 
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:700px) and (max-height:800px){
+	    	margin-left:10% !important;
+	}
+
+
 	@media screen and (min-width:620px) and (max-width:650px) 
 	    and (min-height:1300px) and (max-height:1370px){
 		margin-left:15% !important;

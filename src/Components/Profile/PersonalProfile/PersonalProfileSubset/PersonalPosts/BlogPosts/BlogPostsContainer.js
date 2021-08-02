@@ -32,9 +32,14 @@ const Container=styled.div`
 	}
 
 	@media screen and (max-width:650px){
+		margin-left:15% !important;
 		#smallPostsContainer{
 			flex-direction:column !important;
 		}
+	}
+
+	@media screen and (max-width:340px){
+		margin-left:1% !important;
 	}
 
 	@media screen and (min-width:400px) and (max-width:650px) 
@@ -52,16 +57,22 @@ const Container=styled.div`
 
 	@media screen and (min-width:620px) and (max-width:650px) 
 	    and (min-height:1300px) and (max-height:1370px){
+	   	margin-left:30% !important;
 	    #nextButton{
 			margin-left:15% !important;
 		}
 	}
+
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		#nextButton{
 			margin-top:20% !important;
 		}
     }
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:700px) and (max-height:800px){
+	    	margin-left:35% !important;
+	}
 `;
 
 

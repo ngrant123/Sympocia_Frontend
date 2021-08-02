@@ -26,6 +26,7 @@ const ThumbnailVideoComponent=styled.div`
 	}
 
 	@media screen and (max-width:740px){
+		height:250px;
 		#description{
 			display:none !important;
 		}
@@ -39,10 +40,12 @@ const ThumbnailVideoComponent=styled.div`
 	
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	height:50% !important;
+	 	margin-top:5% !important;
     }
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		width:150% !important;
+		margin-top:0% !important;
 		height:100% !important;
 		#description{
 			display:none !important;
@@ -51,6 +54,11 @@ const ThumbnailVideoComponent=styled.div`
 		#videoDescriptionLI{
 			display:none !important;
 		}
+    }
+
+    @media screen and (max-width:570px) and (max-height:330px) and (orientation: landscape){
+		width:100% !important;
+		margin-left:0% !important;
     }
 
 `;
@@ -74,16 +82,20 @@ const ThumbnailVideo=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		width:110% !important;
-		height:120% !important;
+		width:100% !important;
+		height:80% !important;
 		margin-right:-5% !important;
 	}
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		width:40%;
-		height:90%;
-		margin-top:-30px;
+		height:80%;
 		margin-left:10%;
+    }
 
+    @media screen and (max-width:570px) and (max-height:330px) and (orientation: landscape){
+		margin-top:0px;
+		margin-left:0%;
+		height:90%;
     }
 `;
 
@@ -163,7 +175,7 @@ const CrownedVideoContainer=({headerVideo,displayPostModal,friendsColorNodesMap}
 
 	const video=()=>{
 		const colorCode=friendsColorNodesMap.get(headerVideo.levelNode);
-		return <ThumbnailVideo>
+		return 	<ThumbnailVideo>
 					<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline width="100%" height="100%"
 						style={{borderRadius:"10px",backgroundColor:"#151515"}}>
 						<source src={headerVideo.videoUrl} type="video/mp4"/>

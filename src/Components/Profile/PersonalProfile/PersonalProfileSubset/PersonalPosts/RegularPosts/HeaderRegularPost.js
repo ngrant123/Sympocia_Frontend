@@ -101,17 +101,40 @@ const Post=styled.div`
 		width:170%;
 	}
 
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:700px) and (max-height:850px){
+	    width:140%;
+	}
+
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	width:900px !important;
+    }
+
+
+	@media screen and (max-width:1200px) and (max-height:900px) and (orientation:landscape){
+		width:500px !important;
+    }
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		heigth:70% !important;
+		margin-left:-25%;
 		#headerPost{
 			max-height:90% !important;
 			width:100% !important;
 		}
     }
 
-    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	width:500px !important;
-    }
+
+    @media screen and (max-width:570px) and (max-height:330px) and (orientation: landscape){
+    	width:90% !important;
+    	margin-left:0%;
+    } 
+
+
+
+
+
 `;
 
 const CommentsProfile=styled.div`
@@ -141,12 +164,18 @@ const PostFirstSection=styled.div`
 	@media screen and (max-width:700px){
 		display:none !important;
 	}
+
+	@media screen and (min-width:700px) and (max-width:750px) 
+	    and (min-height:500px) and (max-height:560px){
+	    	display:none !important;
+	}
+
+
 	 @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	width:40% !important;
     }
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		height:55% !important;
-		width:100% !important;
+		display:none !important;
     }
 `;
 
@@ -161,8 +190,16 @@ const PostSecondSection=styled.div`
 		}
 	}
 	@media screen and (max-width:650px){
+		width:130% !important;
+		#headerPost{
+			max-height:90px !important;
+		}
+	}
+
+	@media screen and (max-width:340px){
 		width:100% !important;
 	}
+
 
 
 	@media screen and (min-width:400px) and (max-width:650px) 

@@ -20,6 +20,29 @@ const Container=styled.div`
 			width:100% !important;
 		}
 	}
+
+	@media screen and (max-width:330px){
+		width:115% !important;
+		margin-left:-20% !important;
+	}
+    @media screen and (min-width:500px) and (max-width:750px) 
+        and (min-height:730px) and (max-height:1039px){
+       margin-left:-5% !important;
+       #submitLI{
+       	width:90% !important;
+       }
+    }
+
+
+
+    @media screen and (min-width:680px) and (max-width:1000px) 
+        and (min-height:730px) and (max-height:1039px){
+       margin-left:-5% !important;
+       #submitLI{
+       	width:90% !important;
+       }
+    }
+
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	width:160% !important;
     	margin-left:0% !important;
@@ -69,9 +92,17 @@ const InputContainer=styled.textarea`
 	}
 
 	@media screen and (max-width:650px){
-		width:113% !important;
-		margin-left:-2% !important;
+		width:105% !important;
 	}
+
+	@media screen and (max-width:330px){
+		width:120% !important;
+	}
+
+	@media screen and (min-width:500px) and (max-width:750px) 
+        and (min-height:730px) and (max-height:1039px){
+        width:90% !important;
+    }
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	width:60% !important;

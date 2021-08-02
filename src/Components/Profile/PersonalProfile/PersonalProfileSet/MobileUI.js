@@ -11,7 +11,7 @@ import AccountBoxOutlinedIcon from '@material-ui/icons/AccountBoxOutlined';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import ChampionEditPortal from "./Modals-Portals/ChampionModalPortal/index.js";
-import {ExtendedChampionModal} from "./Modals-Portals/ChampionModalPortal/ChampionDisplayModal.js";
+import {SponsorDisplayModal} from "./Modals-Portals/ChampionModalPortal/ChampionDisplayModal.js";
 
 const OriginalShadowContainer=styled.div`
 	position:fixed;
@@ -94,10 +94,10 @@ const SponsorExtendedModal=styled.div`
 	top:60%;
 	@media screen and (max-width:1370px){
 		left:5% !important;
-		top:40%;
+		top:20%;
 		width:90% !important;
-		height:35%;
-		padding:20px;
+		height:70%;
+		padding:40px;
 		overflow:scroll;
 
 		#extendChampionDescriptionUL{
@@ -105,17 +105,18 @@ const SponsorExtendedModal=styled.div`
 		}
 	}
 
-
+	@media screen and (max-width:650px){
+		top:15%;
+		padding:20px;
+		height:70%; 
+	}
 
 	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
 		height:50%;
     }
-	 @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
-		#extendedChampionModalUL{
-			#championImageLI{
-				height:70% !important;
-			}
-		}
+	 @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+	 	top:15%;
+	 	height:70%;
     }
 `;
 
@@ -162,15 +163,9 @@ const MobilePersonalInformation=({closeModal,displayConfetti,personalInformation
 		   </>
 }
 
-const MobileChampionData=(championData)=>{
-	return (
-		<SponsorExtendedModal>
-			{ExtendedChampionModal(championData)}
-		</SponsorExtendedModal>
-	)
-}
 
 const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampionsModal,championModalData,isIphoneDisplay,isOwner})=>{
+	console.log(championModalData);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [editChampionModal,changeEditChampionModal]=useState(false);
 	const [displayChampion,changeDisplayChampion]=useState(false); 
@@ -190,7 +185,11 @@ const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampi
 				onClick={()=>closeModal()}
 			/>
 			{displayChampion==true ?
-				<>{MobileChampionData(championModalData)}</>:
+				<SponsorDisplayModal
+					isMobile={true}
+					championData={championModalData}
+					isOwnProfile={isOwner}
+				/>:
 				<React.Fragment>
 					<ProfileInformationContainer>
 						{displayChampionModal==false?
@@ -224,7 +223,7 @@ const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampi
 						            </a>
 								)}
 					            <hr/>
-					            {(championModalData!=null || championModalData.name!="")==true && (
+					            {(championModalData!=null && championModalData.name!="")==true && (
 					            	<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 					            		<li onClick={()=>changeDisplayChampion(true)}
 					            			style={{listStyle:"none",fontSize:"18px"}}>
