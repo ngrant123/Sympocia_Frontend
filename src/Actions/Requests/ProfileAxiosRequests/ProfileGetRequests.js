@@ -136,13 +136,14 @@ export async function getMostPopular(investors){
 }
 
 
-export async function getVideosFromUser({userId,visitorId,postCount,accessToken}){
+export async function getVideosFromUser({userId,requestedFriendsGaugeNodeId,visitorId,postCount,accessToken}){
 	try{
 		const videos=await axios.get(`${SearchUrl}/getUserVideos`,{
 			params:{
 				id:userId,
 				visitorId,
 				postCount,
+				requestedFriendsGaugeNodeId,
 				visitorId
 			},
 			headers:{
@@ -159,14 +160,15 @@ export async function getVideosFromUser({userId,visitorId,postCount,accessToken}
 	}
 }
 
-export async function getBlogFromUser({userId,visitorId,postCount,accessToken}){
+export async function getBlogFromUser({userId,requestedFriendsGaugeNodeId,visitorId,postCount,accessToken}){
 	try{
 		const blogsPostsData=await axios.get(`${SearchUrl}/getUserBlogs`,{
 			params:{
 				id:userId,
 				visitorId,
 				postCount,
-				visitorId
+				visitorId,
+				requestedFriendsGaugeNodeId
 			},
 			headers:{
 				authorization:accessToken
@@ -182,14 +184,15 @@ export async function getBlogFromUser({userId,visitorId,postCount,accessToken}){
 }
 
 
-export async function getRegularPostFromUser({userId,visitorId,postCount,accessToken}){
+export async function getRegularPostFromUser({userId,requestedFriendsGaugeNodeId,visitorId,postCount,accessToken}){
 	try{
 		const regularPostsResults=await axios.get(`${SearchUrl}/getUserRegularPosts`,{
 			params:{
 				id:userId,
 				visitorId,
 				postCount,
-				visitorId
+				visitorId,
+				requestedFriendsGaugeNodeId
 			},
 			headers:{
 				authorization:accessToken
@@ -244,13 +247,14 @@ export const getRecruitsPostsHomePage=async({id,currentTime,postType,recruits})=
 	}
 }
 
-export const getUserImages=async({userId,visitorId,postCount,accessToken,isGuestProfile})=>{
+export const getUserImages=async({userId,requestedFriendsGaugeNodeId,visitorId,postCount,accessToken,isGuestProfile})=>{
 	try{
 		const userImageResponse=await axios.get(`${SearchUrl}/getUserImages`,{
 			params:{
 				_id:userId,
 				visitorId,
-				postCount
+				postCount,
+				requestedFriendsGaugeNodeId
 			},
 			headers:{
 				authorization:accessToken,

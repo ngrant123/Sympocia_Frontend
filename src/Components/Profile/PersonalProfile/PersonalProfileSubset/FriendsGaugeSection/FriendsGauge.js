@@ -442,6 +442,7 @@ class FriendsGauge extends Component {
                       isOwner={this.props.personalInformation.isOwnProfile}
                       isGuestVisitorProfile={this.props.personalInformation.isGuestVisitorProfile}
                       isPhoneUITriggered={this.props.mobileUIStatus.displayPhoneUI}
+                      triggerFriendsGaugePostDisplay={this.props.retrieveFriendsGaugePosts}
                   />:<React.Fragment></React.Fragment>
               }
             </ul>

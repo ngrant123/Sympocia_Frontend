@@ -221,13 +221,14 @@ const SymposiumDropDownCSS={
 	backgroundColor:"white"
 }
 /*
-Later down the road this whole post section has to be refactored completely 
-because at this point it getting too crazy and sphagetti like 
+	Later down the road this whole post section has to be refactored completely 
+	because at this point it getting too crazy and sphagetti like 
 
-Naw i need to redo this now like this shit awful lol
+	Naw i need to redo this now like this shit awful lol
 */
 
 const PersonalPostsIndex=(props)=>{
+	debugger;
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -242,6 +243,7 @@ const PersonalPostsIndex=(props)=>{
 	const [isFilteredPostsActivated,changeIsFilteredPosts]=useState(false);
 	const [isSearchFilterActivated,changeIsSearchFilterActivated]=useState(false);
 	const [displayExtendedSearchTextArea,changeDisplayExtendedTextArea]=useState(false);
+	const [currentRequestedFriendsGaugeNodeId,changeRequestedFriendsGaugeLevelId]=useState(props.currentRequestedFriendsGaugeNodeId);
 
 	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
@@ -271,6 +273,17 @@ const PersonalPostsIndex=(props)=>{
 	const [isLoadingIndicatorRegularPost,changeRegularPostsLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorBlogPost,changeBlogPostsLoadingIndicator]=useState(true);
 	const [friendsColorNodesMap,changeFriendsColorNodesMapping]=useState(new Map());
+
+	useEffect(()=>{
+		debugger;
+		console.log(props.currentRequestedFriendsGaugeNodeId);
+		triggerPostDecider(
+			currentPostType,
+			props.personalInformation._id,
+			0,
+			props.currentRequestedFriendsGaugeNodeId=="General"?null:
+			props.currentRequestedFriendsGaugeNodeId);
+	},[props.currentRequestedFriendsGaugeNodeId]);
 
 	useEffect(()=>{
 		if(props.personalInformation.isLoading!=true){
@@ -315,10 +328,21 @@ const PersonalPostsIndex=(props)=>{
 
 // Should be refactored in the future everytime i look at it i want to kill myself
 
-	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter})=>{
-			changeIsLoadingReloadedPosts(true);
-			unSelectButtonsCSS();
-			
+	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter,requestedFriendsGaugeNodeId})=>{
+		changeIsLoadingReloadedPosts(true);
+		unSelectButtonsCSS();
+		const postFetchRequest={
+			userId:id,
+			visitorId:props.visitorId,
+			postCount:postCounter==null?0:postCounter,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+			personalRedux.accessToken,
+			isGuestProfile:props.isGuestVisitorProfile,
+			requestedFriendsGaugeNodeId:currentRequestedFriendsGaugeNodeId==null?(
+				(props.currentRequestedFriendsGaugeNodeId=="General" || requestedFriendsGaugeNodeId=="General")==true?null
+				:props.currentRequestedFriendsGaugeNodeId):
+			currentRequestedFriendsGaugeNodeId
+		}
 
 		if(kindOfPost=="image"){
 			const image=document.getElementById("images");
@@ -327,27 +351,35 @@ const PersonalPostsIndex=(props)=>{
 			image.style.borderColor="#C8B0F4";
 			changeCurrentPostType("image");
 
-			const {confirmation,data}=await getUserImages({
-											userId:id,
-											visitorId:props.visitorId,
-											postCount:postCounter==null?0:postCounter,
-											accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-											personalRedux.accessToken,
-											isGuestProfile:props.isGuestVisitorProfile
-										});
+			const {confirmation,data}=await getUserImages(postFetchRequest);
 			
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
+				console.log(data);
 				if(posts.length==0 && crownedPost==null){
+					if(currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId){
+						const imagePost={
+							...imagePost,
+							crownedImage:null,
+							images:[]
+						}
+						changeImagePost(imagePost);
+					}
 					changeEndOfPostsDBIndicator(true);
 				}else{
-					let {images}=imagePost;
+					debugger;
+					let {
+						images,
+						crownedImage
+					}=imagePost;
 					images=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:images;
 					const newImages=postCounter==0?posts:images.concat(posts);
 					imagePost={
 						...imagePost,
+						crownedImage:requestedFriendsGaugeNodeId!=null?crownedPost:crownedImage,
 						images:newImages
 					}
+					console.log(imagePost);
 					changeImagePost(imagePost);
 					changeIsLoadingNewPosts(false)
 				}
@@ -378,16 +410,18 @@ const PersonalPostsIndex=(props)=>{
 			videos.style.borderColor="#C8B0F4";
 			changeCurrentPostType("video");
 
-			const {confirmation,data}=await getVideosFromUser({
-												userId:id,
-												visitorId:props.visitorId,
-												postCount:postCounter==null?0:postCounter,
-												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-												personalRedux.accessToken
-											});
+			const {confirmation,data}=await getVideosFromUser(postFetchRequest);
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
+					if(currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId){
+						const videoObject={
+							headerVideo:null,
+							videos:[]
+						}
+						changeVideoPosts(videoObject);
+					}
+
 					changeEndOfPostsDBIndicator(true);
 				}else{
 					let {videos}=videoPost;
@@ -427,18 +461,19 @@ const PersonalPostsIndex=(props)=>{
 			blogDiv.style.borderBottom="solid";
 			blogDiv.style.borderColor="#C8B0F4";
 
-			const {	confirmation,data}=await getBlogFromUser({
-												userId:id,
-												visitorId:props.visitorId,
-												postCount:postCounter==null?0:postCounter,
-												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-												personalRedux.accessToken
-											});
+			const {	confirmation,data}=await getBlogFromUser(postFetchRequest);
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 
 				changeBlogPostsLoadingIndicator(false);
 				if(posts.length==0 && crownedPost==null){
+					if(currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId){
+						const blogObject={
+							headerBlog:null,
+							blogs:[]
+						}
+						changeBlogPosts(blogObject);
+					}
 					changeEndOfPostsDBIndicator(true);
 				}else{
 
@@ -481,17 +516,18 @@ const PersonalPostsIndex=(props)=>{
 			regularPostDiv.style.borderColor="#C8B0F4";
 
 
-			const {confirmation,data}=await getRegularPostFromUser({
-												userId:id,
-												visitorId:props.visitorId,
-												postCount:postCounter==null?0:postCounter,
-												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-												personalRedux.accessToken
-											});
+			const {confirmation,data}=await getRegularPostFromUser(postFetchRequest);
 			if(confirmation=="Success"){	
 				const {crownedPost}=data;
 				const postsResponse=data.posts;
 				if(postsResponse.length==0 && crownedPost==null){
+					if(currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId){
+						const regularPostObject={
+							headerPost:null,
+							posts:[]
+						}
+						changeRegularPost(regularPostObject);
+					}
 					changeEndOfPostsDBIndicator(true);
 				}else{
 					let {posts}=regularPost;
@@ -573,36 +609,7 @@ const PersonalPostsIndex=(props)=>{
 							Post Type <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-						<li onClick={()=>triggerPostDecider("image",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
-							<a id="images" href="javascript:void(0);" style={{textDecoration:"none",color:"#C8B0F4"}}>
-								Images
-							</a>
-						</li>
-						{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) &&(
-							<React.Fragment>
-								<li onClick={()=>triggerPostDecider("video",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px"}}>
-
-									<a id="videos" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-										Videos
-									</a>
-								</li>
-
-								<li onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-
-									<a id="regularPosts" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-										Regular Posts
-									</a>
-								</li>
-
-
-								<li onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0)} style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf"}}>
-
-									<a id="blogs" href="javascript:void(0);" style={{textDecoration:"none",color:"#bebebf"}}>
-										Blogs
-									</a>
-								</li>
-							</React.Fragment>
-						)}
+						{postOptions()}
 					</ul>
 				</div>
 				<RecruitButton
@@ -639,8 +646,13 @@ const PersonalPostsIndex=(props)=>{
 		})
 	}
 
-	const triggerPostDecider=(postType,profileId,counter)=>{
-		if(postType!=currentPostType || isFilteredPostsActivated==true || isSearchFilterActivated==true){
+	const triggerPostDecider=(postType,profileId,counter,requestedFriendsGaugeNodeId)=>{
+		debugger;
+		if(postType!=currentPostType || isFilteredPostsActivated==true || isSearchFilterActivated==true
+			|| props.currentRequestedFriendsGaugeNodeId!=currentRequestedFriendsGaugeNodeId){
+			if(postType!=currentPostType)
+				changeRequestedFriendsGaugeLevelId(null);
+
 			switch(postType){
 				case 'image':{
 					changeImagesLoadingIndicator(true)
@@ -666,7 +678,8 @@ const PersonalPostsIndex=(props)=>{
 				id:profileId,
 				isAccessTokenUpdated:false,
 				postCounter:0,
-				isLoadingNewPosts:true
+				isLoadingNewPosts:true,
+				requestedFriendsGaugeNodeId
 			})
 		}
 	}
@@ -878,6 +891,36 @@ const PersonalPostsIndex=(props)=>{
 			</React.Fragment>
 		)
 	}
+
+	const postOptions=()=>{
+		return(
+			<React.Fragment>
+				<li id="images" onClick={()=>triggerPostDecider("image",props.personalInformation._id,0,"General")} 
+					style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",textDecoration:"none",color:"#C8B0F4",cursor:"pointer"}}>
+					Images
+				</li>
+
+				{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) && (
+					<React.Fragment>
+						<li id="videos" onClick={()=>triggerPostDecider("video",props.personalInformation._id,0,"General")} 
+							style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",textDecoration:"none",color:"#bebebf",cursor:"pointer"}}>
+							Videos
+						</li>
+
+						<li id="regularPosts" onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0,"General")} 	
+							style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",cursor:"pointer"}}>
+							Regular 
+						</li>
+
+						<li id="blogs" onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0,"General")} 
+							style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",color:"#bebebf",cursor:"pointer"}}>
+							Blogs
+						</li>
+					</React.Fragment>
+				)}
+			</React.Fragment>
+		)
+	}
 	return (
 			<PostProvider
 				value={{
@@ -999,31 +1042,7 @@ const PersonalPostsIndex=(props)=>{
 										{searchAreaCloseIcon()}
 									</div>
 									<div style={{display:"flex",flexDirection:"row"}}>
-										<li id="images" onClick={()=>triggerPostDecider("image",props.personalInformation._id,0)} 
-											style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",cursor:"pointer",color:"#C8B0F4"}}>
-											Images
-										</li>
-
-										{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) && (
-											<React.Fragment>
-												<li id="videos" onClick={()=>triggerPostDecider("video",props.personalInformation._id,0)} 
-													style={{listStyle:"none",display:"inline-block",fontSize:"17px",cursor:"pointer",padding:"10px",color:"#bebebf"}}>
-													Videos
-												</li>
-
-
-												<li id="regularPosts" onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0)} 
-													style={{listStyle:"none",display:"inline-block",fontSize:"17px",cursor:"pointer",padding:"10px",color:"#bebebf"}}>
-													Regular 
-												</li>
-
-												<li id="blogs" onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0)} 
-													style={{listStyle:"none",display:"inline-block",fontSize:"17px",cursor:"pointer",padding:"10px",color:"#bebebf"}}>
-													Blogs
-												</li>
-											</React.Fragment>
-										)}
-
+										{postOptions()}
 										<li style={listCSSButton}>
 											<div class="dropdown">
 													<button id="symposiumsDropDown" 
