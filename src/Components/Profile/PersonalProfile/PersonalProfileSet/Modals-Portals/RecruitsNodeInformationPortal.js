@@ -114,7 +114,8 @@ const NodeInformationPortal=({
 	closeModal,
 	updateNode,
 	isGuestVisitorProfile,
-	isPhoneUITriggered})=>{
+	isPhoneUITriggered,
+	triggerFriendsGaugePostDisplay})=>{
 
 	console.log(nodeInformation);
 
@@ -423,10 +424,14 @@ const NodeInformationPortal=({
 		changeIsVideoDescriptionCleared(true);
 	}
 
-	const isolatePosts=()=>{
-		
+	const handleIsolateFriendsGaugePosts=()=>{
+		if(nodeInformation.nodeCounter==0){
+			triggerFriendsGaugePostDisplay("General");
+		}else{
+			triggerFriendsGaugePostDisplay(nodeInformation._id);
+		}
+		closeModal()
 	}
-
 
 	return createPortal(
 		<>
@@ -524,7 +529,7 @@ const NodeInformationPortal=({
 											</li>
 											<hr/>
 											<li style={{listStyle:"none",cursor:"pointer"}}
-												onClick={()=>isolatePosts()}>
+												onClick={()=>handleIsolateFriendsGaugePosts()}>
 												View posts
 											</li>
 											{isOwner==true &&(

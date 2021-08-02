@@ -584,6 +584,7 @@ class LProfile extends Component{
 	}
 
 	triggerRetrieveFriendsGaugeSpecificPosts=(selectedPostId)=>{
+		debugger;
 		this.setState({
 			currentRequestedFriendsGaugeNodeId:selectedPostId
 		})
