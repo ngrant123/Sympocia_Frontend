@@ -67,6 +67,18 @@ const Container=styled.div`
 		width:90% !important;
 		left:5% !important;
 	}
+
+	@media screen and (max-width:650px){
+		width:100% !important;
+		left:0% !important;
+		height:100% !important;
+		top:0% !important;
+
+		#nodeInformationDropDownMenu{
+			margin-left:-120% !important;
+			margin-top:-250px !important;
+		}
+	}
 `;
 
 const ShadowContainer= styled.div`
@@ -545,6 +557,7 @@ const NodeInformationPortal=({
 										{loadingVideoDescription==true ?
 											<p>Loading video description...</p>:
 											<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+												controls
 												width="100%" height="100%" style={{backgroundColor:"#151515"}}>
 												<source src={videoDescription} type="video/mp4"/>
 											</video>
@@ -562,7 +575,7 @@ const NodeInformationPortal=({
 											/>
 										</button>
 
-										<ul class="dropdown-menu" 
+										<ul id="nodeInformationDropDownMenu" class="dropdown-menu" 
 											style={{width:"200px",height:"200px",overflow:"auto",padding:"10%"}}>
 											{isOwner==true &&(
 												<React.Fragment>
