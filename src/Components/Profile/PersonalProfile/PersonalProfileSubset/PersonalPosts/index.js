@@ -902,24 +902,24 @@ console.log(currentRequestedFriendsGaugeNodeId);
 		return(
 			<React.Fragment>
 				<li id="images" onClick={()=>triggerPostDecider("image",props.personalInformation._id,0,"General")} 
-					style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",textDecoration:"none",color:"#C8B0F4",cursor:"pointer"}}>
+					style={{listStyle:"none",fontSize:"17px",padding:"10px",textDecoration:"none",color:"#C8B0F4",cursor:"pointer"}}>
 					Images
 				</li>
 
 				{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) && (
 					<React.Fragment>
 						<li id="videos" onClick={()=>triggerPostDecider("video",props.personalInformation._id,0,"General")} 
-							style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",textDecoration:"none",color:"#bebebf",cursor:"pointer"}}>
+							style={{listStyle:"none",fontSize:"17px",padding:"10px",textDecoration:"none",color:"#bebebf",cursor:"pointer"}}>
 							Videos
 						</li>
 
 						<li id="regularPosts" onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0,"General")} 	
-							style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",cursor:"pointer"}}>
+							style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",cursor:"pointer"}}>
 							Regular 
 						</li>
 
 						<li id="blogs" onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0,"General")} 
-							style={{listStyle:"none",display:"inline-block",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",color:"#bebebf",cursor:"pointer"}}>
+							style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",color:"#bebebf",cursor:"pointer"}}>
 							Blogs
 						</li>
 					</React.Fragment>
