@@ -218,7 +218,7 @@ export const HeaderContainer=styled.div`
 export const ProfileContainer=styled.div`
 	position:fixed;
 	width:30%;
-	height:100%;
+	height:90%;
 	z-index:10;
 	display:flex;
 	flex-direction:column;

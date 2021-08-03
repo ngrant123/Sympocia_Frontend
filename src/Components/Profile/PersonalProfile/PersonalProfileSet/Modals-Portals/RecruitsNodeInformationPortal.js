@@ -527,19 +527,19 @@ const NodeInformationPortal=({
 			/>
 			<Container>
 				<ul style={{padding:"15px"}}>
-					{isOwner==true &&(
-						<React.Fragment>
-							{nodeInformation.nodeCounter==0 ?
-								<p>Your general node can not be edited. Create a new one to be able to edit it</p>:
-								<li style={{listStyle:"none",marginBottom:"10%"}}>
-									<ul style={{padding:"0px"}}>
+					<div style={{display:"flex",justifyContent:"space-between"}}>
+						{isOwner==true &&(
+							<React.Fragment>
+								{nodeInformation.nodeCounter==0 ?
+									<p>Your general node can not be edited. Create a new one to be able to edit it</p>:
+									<li style={{listStyle:"none",marginBottom:"10%"}}>
 										{editIcon()}
-										{closeModalIcon()}
-									</ul>
-								</li>
-							}
-						</React.Fragment>
-					)}
+									</li>
+								}
+							</React.Fragment>
+						)}
+						{closeModalIcon()}
+					</div>
 					<li style={{listStyle:"none"}}>
 						{displayEditArea==false?
 							<>
