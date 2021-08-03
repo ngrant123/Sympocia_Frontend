@@ -130,6 +130,7 @@ const BlogCreationButton=styled(Link)`
 `;
 
 const NoPostsModal=(props)=>{
+	console.log(props);
 	const [recommendedPosts,changeRecommendedPosts]=useState([]);
 	const postContext=useContext(PostContext);
 	const profileContext=useContext(UserContext);
@@ -188,7 +189,9 @@ const NoPostsModal=(props)=>{
 	return(
 			<Container>
 				<p>Currently there are no posts available here</p>
-				{createPostModal()}
+				{props.currentRequestedFriendsGaugeNodeId==null &&(
+					<>{createPostModal()}</>
+				)}
 			</Container>
 	)
 }

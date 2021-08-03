@@ -30,7 +30,7 @@ const ShadowContainer = styled.div`
 	height:100%;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
-	z-index:50;
+	z-index:51;
 `;
 
 const CommentContainer=styled.div`
@@ -57,13 +57,12 @@ const CommentContainer=styled.div`
 const ApproveDisapproveContainer=styled.div`
 	position:fixed;
 	background-color:white;
-	width:30%;
-	height:10%;
+	width:50%;
+	height:70%;
 	border-radius:5px;
-	left:15%;
-	top:20%;
-	height:25%;
-	z-index:40;
+	left:25%;
+	top:15%;
+	z-index:51;
 	overflow:scroll;
 
 	@media screen and (max-width:600px){

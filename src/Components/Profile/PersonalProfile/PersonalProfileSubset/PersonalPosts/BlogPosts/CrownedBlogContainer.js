@@ -9,6 +9,7 @@ const ThumbnailBlogComponent=styled(Link)`
 	overflow:hidden;
 	display:flex;
 	flex-direction:row;
+	margin-top:2%;
 
 	@media screen and (min-width:2500px){
 		margin-top:2%;
@@ -181,7 +182,9 @@ const SymposiumCSS={
 	borderWidth:"1px",
 	color:"#5298F8",
 	backgroundColor:"white",
-	borderRadius:"5px"
+	borderRadius:"5px",
+	width:"50%",
+	overflow:"hidden"
 }
 
 

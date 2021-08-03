@@ -35,8 +35,8 @@ const Container=styled.div`
 	height:70%;
 	background-color:white;
 	border-radius:5px;
-	z-index:50;
-	top:25%;
+	z-index:51;
+	top:15%;
 	left:25%;
 	overflow:scroll;
 

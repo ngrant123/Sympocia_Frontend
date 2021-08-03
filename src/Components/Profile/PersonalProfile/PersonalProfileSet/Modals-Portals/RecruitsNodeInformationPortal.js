@@ -366,6 +366,7 @@ const NodeInformationPortal=({
 
 	const fetchProfilesRequestedAccessToNode=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changeDisplayForSpecifiedNodeInformation(true);
+
 		changeIsLoading(true);
 
 		const {confirmation,data}=await profilesRequestedAccessToNodeFetch(
@@ -394,6 +395,7 @@ const NodeInformationPortal=({
 	}
 
 	const nodeInformationDisplayComponent=()=>{
+		console.log(profilesRequestedAccessToNode);
 		if(notificationNodeInformationType=="selectedColorType"){
 			return(
 				<React.Fragment>
@@ -418,7 +420,7 @@ const NodeInformationPortal=({
 								<p>No profiles requested access</p>:
 								<>
 									{profilesRequestedAccessToNode.map(data=>
-										<Link to={{pathname:`/profile/${data.userId}`}}>
+										<Link to={{pathname:`/profile/${data.profileId}`}}>
 											<img id="profilePictureRecruit" src={data.profilePicture==null?
 														NoProfilePicture
 														:data.profilePicture}

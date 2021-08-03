@@ -229,6 +229,7 @@ const SymposiumDropDownCSS={
 
 const PersonalPostsIndex=(props)=>{
 	debugger;
+
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
 	const [displayBlogs,changeDisplayForBlogs]=useState(false);
@@ -243,8 +244,9 @@ const PersonalPostsIndex=(props)=>{
 	const [isFilteredPostsActivated,changeIsFilteredPosts]=useState(false);
 	const [isSearchFilterActivated,changeIsSearchFilterActivated]=useState(false);
 	const [displayExtendedSearchTextArea,changeDisplayExtendedTextArea]=useState(false);
-	const [currentRequestedFriendsGaugeNodeId,changeRequestedFriendsGaugeLevelId]=useState(props.currentRequestedFriendsGaugeNodeId);
-
+	const [currentRequestedFriendsGaugeNodeId,changeRequestedFriendsGaugeLevelId]=useState(
+		props.currentRequestedFriendsGaugeNodeId);
+console.log(currentRequestedFriendsGaugeNodeId);
 	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
 		posts:[]
@@ -329,6 +331,7 @@ const PersonalPostsIndex=(props)=>{
 // Should be refactored in the future everytime i look at it i want to kill myself
 
 	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter,requestedFriendsGaugeNodeId})=>{
+		debugger;
 		changeIsLoadingReloadedPosts(true);
 		unSelectButtonsCSS();
 		const postFetchRequest={
@@ -338,10 +341,9 @@ const PersonalPostsIndex=(props)=>{
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 			personalRedux.accessToken,
 			isGuestProfile:props.isGuestVisitorProfile,
-			requestedFriendsGaugeNodeId:currentRequestedFriendsGaugeNodeId==null?(
+			requestedFriendsGaugeNodeId:
 				(props.currentRequestedFriendsGaugeNodeId=="General" || requestedFriendsGaugeNodeId=="General")==true?null
-				:props.currentRequestedFriendsGaugeNodeId):
-			currentRequestedFriendsGaugeNodeId
+				:props.currentRequestedFriendsGaugeNodeId
 		}
 
 		if(kindOfPost=="image"){
@@ -376,7 +378,7 @@ const PersonalPostsIndex=(props)=>{
 					const newImages=postCounter==0?posts:images.concat(posts);
 					imagePost={
 						...imagePost,
-						crownedImage:requestedFriendsGaugeNodeId!=null?crownedPost:crownedImage,
+						crownedImage:crownedPost,
 						images:newImages
 					}
 					console.log(imagePost);
@@ -652,7 +654,7 @@ const PersonalPostsIndex=(props)=>{
 			|| props.currentRequestedFriendsGaugeNodeId!=currentRequestedFriendsGaugeNodeId){
 			if(postType!=currentPostType)
 				changeRequestedFriendsGaugeLevelId(null);
-
+			changeRequestedFriendsGaugeLevelId(requestedFriendsGaugeNodeId);
 			switch(postType){
 				case 'image':{
 					changeImagesLoadingIndicator(true)
@@ -828,6 +830,7 @@ const PersonalPostsIndex=(props)=>{
 						isLoading={isLoadingIndicatorImages}
 						profile="Personal"
 						friendsColorNodesMap={friendsColorNodesMap}
+						currentRequestedFriendsGaugeNodeId={currentRequestedFriendsGaugeNodeId}
 					/>
 				break;
 			}
@@ -839,6 +842,7 @@ const PersonalPostsIndex=(props)=>{
 						postCounter={currentPostCounter}
 						handleVideoPostModal={props.handleVideoPostModal}
 						friendsColorNodesMap={friendsColorNodesMap}
+						currentRequestedFriendsGaugeNodeId={currentRequestedFriendsGaugeNodeId}
 					/>
 				break;
 			}
@@ -849,6 +853,7 @@ const PersonalPostsIndex=(props)=>{
 						id={personalInformation._id}
 						friendsNodes={props.personalInformation.friendsGaugeNodes}
 						friendsColorNodesMap={friendsColorNodesMap}
+						currentRequestedFriendsGaugeNodeId={currentRequestedFriendsGaugeNodeId}
 					/>
 				break;
 			}
@@ -860,6 +865,7 @@ const PersonalPostsIndex=(props)=>{
 						profilePicture={props.personalInformation.profilePicture}
 						profile="Personal"
 						friendsColorNodesMap={friendsColorNodesMap}
+						currentRequestedFriendsGaugeNodeId={currentRequestedFriendsGaugeNodeId}
 					/>
 				break;
 			}

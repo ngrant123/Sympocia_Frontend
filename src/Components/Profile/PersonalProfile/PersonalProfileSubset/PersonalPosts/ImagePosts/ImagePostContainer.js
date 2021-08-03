@@ -145,6 +145,7 @@ const ImagePostsContainer=(props)=>{
 							postType={"image"}
 							profilePageType={props.profile}
 							isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
+							currentRequestedFriendsGaugeNodeId={props.currentRequestedFriendsGaugeNodeId}
 						 />:
 						<ul style={{padding:"0px",width:"100%"}}>
 							{props.imageData.crownedImage==null?

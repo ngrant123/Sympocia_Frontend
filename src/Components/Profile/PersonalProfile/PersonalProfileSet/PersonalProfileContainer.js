@@ -48,9 +48,10 @@ import {
 const ChampionAndCreateButtonCSS={
 	position:"fixed",
 	padding:"0px",
-	left:"68%",
+	left:"85%",
 	zIndex:"7",
-	top:"75%"
+	top:"75%",
+	width:"10%"
 }
 
 
@@ -518,7 +519,8 @@ class LProfile extends Component{
 
 	displayCreatePostOptionTrigger=()=>{
 		return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li id="createPostIcon" onClick={()=>this.setState({displayCreationPortal:true})} style={{listStyle:"none",marginLeft:"380px",marginBottom:"5%"}}>
+					<li id="createPostIcon" onClick={()=>this.setState({displayCreationPortal:true})} 
+						style={{listStyle:"none",marginLeft:"50px",marginBottom:"5%"}}>
 						<CreatePostButton>
 							<BorderColorIcon
 								id="postCreationIcon"
@@ -532,11 +534,12 @@ class LProfile extends Component{
 
 	displayChampionModalTrigger=()=>{
 		return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li style={{listStyle:"none"}}>
+					<li style={{listStyle:"none",marginLeft:"-165%"}}>
 						{this.state.displayChampion==true &&(
 							<SponsorDisplayModal
 								championData={this.state.championModalData}
 								isOwnProfile={this.state.isOwnProfile}
+								isMobile={this.state.displayPhoneUI}
 							/>
 						)}
 					</li>
