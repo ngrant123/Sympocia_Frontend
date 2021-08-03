@@ -75,8 +75,17 @@ const Container=styled.div`
 		top:0% !important;
 
 		#nodeInformationDropDownMenu{
-			margin-left:-120% !important;
-			margin-top:-250px !important;
+			${({videoDescription})=>
+				videoDescription!=null ?
+				`
+					margin-left:-120% !important;
+					margin-top:-250px !important;
+				`:
+				`
+					margin-left:-120% !important;
+					margin-top:10px !important;
+				`
+			}
 		}
 	}
 `;
@@ -525,7 +534,7 @@ const NodeInformationPortal=({
 			<ShadowContainer
 				onClick={()=>closeModal()}
 			/>
-			<Container>
+			<Container videoDescription={videoDescription}>
 				<ul style={{padding:"15px"}}>
 					<div style={{display:"flex",justifyContent:"space-between"}}>
 						{isOwner==true &&(
