@@ -16,6 +16,7 @@ import {
 	setPersonalProfileRefreshToken,
 	addName
 } from "../../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
 const BackButtonCSS={
 	listStyle:"none",
@@ -329,7 +330,12 @@ const DescriptionModal=(props)=>{
 							<div id="backButton" style={BackButtonCSS} onClick={()=>props.backButton()}>
 								Back
 							</div>
-							<img id="pictureLI" src={props.imgData} style={ChampionPictureCSS}/>
+							<div style={{display:"flex",flexDirection:"row"}}>
+								<img id="pictureLI" src={props.imgData} style={ChampionPictureCSS}/>
+								<AccessTimeIcon
+									style={{fontSize:"30",marginLeft:"2%",cursor:"pointer"}}
+								/>
+							</div>
 							<NameTextArea id="name" placeholder="Enter a name here"/>
 							<DescriptionTextArea id="description" placeholder="Enter a description"/>
 
