@@ -50,11 +50,17 @@ const Container=styled.div`
     }
 
     @media screen and (max-width:650px){
-    	top:10%;
-    	height:75%;	
+    	top:0%;
+    	left:0% !important;
+    	width:100% !important;
+    	height:100%;	
    		#profilePicture{
 			width:45px !important;
 			height:40px !important;
+		}
+
+		#mobileCloseButton{
+			display:block !important;
 		}
     }
 
@@ -290,14 +296,36 @@ const SponsorPortal=(props)=>{
 		});
 		changeChangeDescriptionScreen(!displayDescriptionScreen);
 	}
+	const mobileCloseButton=()=>{
+		return(
+			<div id="mobileCloseButton" onClick={()=>props.closeModal()} style={{display:"none"}}>
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+				 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+				 stroke-linecap="round" stroke-linejoin="round">
+				  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+				  <circle cx="12" cy="12" r="9" />
+				  <path d="M10 10l4 4m0 -4l-4 4" />
+				</svg>
+			</div>
+		)
+	}
+
+
+	const analyzeKeyInput=(event)=>{
+		if(event.key=="Enter"){
+			event.preventDefault();
+			fetchProfileFromSearchUrl();
+		}
+	}
 
 	return createPortal(
 		<React.Fragment>
 			<Container>
+				{mobileCloseButton()}
 				{displayDescriptionScreen==false?
 					<SponsorModal displayDescriptionScreen={displayDescriptionScreen}>
 						{displayProfileTagModal==true?
-							<div>
+							<div style={{padding:"10px"}}>
 								<div id="backButton" style={BackButtonCSS} 
 									onClick={()=>displayInitialScreen()}>
 									Back
@@ -307,30 +335,34 @@ const SponsorPortal=(props)=>{
 								<div style={{justifyContent:"center",display:"flex",flexDirection:"row"}}>
 									<SympociaProfileSearchTextArea
 										id="sympociaProfilesSearchUrl"
+										onKeyPress={e=>analyzeKeyInput(e)}
 									/>
 									<SearchIcon
 										style={{fontSize:"30",cursor:"pointer"}}
 										onClick={()=>fetchProfileFromSearchUrl()}
 									/>
 								</div>
-								<div style={{display:"flex",flexDirection:"row"}}>
-									{searchedProfiles.map(data=>
-										<div style={SearchProfileContainerCSS}>
-											<img id="profilePicture" src={
-												data.profilePicture==null?
-												NoProfilePicture:
-												data.profilePicture} style={ProfilePictureCSS}
-											/>
-											<p id="profileFirstName" style={{listStyle:"none"}}>
-												{data.firstName}
-											</p>
-											<div onClick={()=>selectPerson(data)} 
-												style={SelectedProfileButtonCSS}>
-												Add 
+								{loadingProfilesPrompt==true?
+									<p>Loading...</p>:
+									<div style={{display:"flex",flexDirection:"row"}}>
+										{searchedProfiles.map(data=>
+											<div style={SearchProfileContainerCSS}>
+												<img id="profilePicture" src={
+													data.profilePicture==null?
+													NoProfilePicture:
+													data.profilePicture} style={ProfilePictureCSS}
+												/>
+												<p id="profileFirstName" style={{listStyle:"none"}}>
+													{data.firstName}
+												</p>
+												<div onClick={()=>selectPerson(data)} 
+													style={SelectedProfileButtonCSS}>
+													Add 
+												</div>
 											</div>
-										</div>
-									)}
-								</div>
+										)}
+									</div>
+								}
 							</div>:
 							<React.Fragment>
 								<div style={{display:"flex",alignItem:"center"}}>
