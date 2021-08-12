@@ -6,6 +6,7 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import { Icon, InlineIcon } from '@iconify/react';
 import tiktokIcon from '@iconify/icons-simple-icons/tiktok';
 import DeletePostPortal from "../DeletePostConfirmationPortal.js";
+import {Link} from "react-router-dom";
 
 const SponsorExtendedModal=styled.div`
 	position:fixed;
@@ -175,8 +176,14 @@ const ChampionNameCSS={
 const ExtendedChampionModal=(championData)=>{
 	return  <ExtendedChampionModalContainer id="extendedChampionModalUL">
 				<ExtendedChampionInformation>
-					<img id="championImageLI" src={championData.imgUrl} 
-					style={{width:"70px",height:"70px",borderRadius:"50%"}}/>
+					<ProfileLink
+						propsRendered={
+							<img id="championImageLI" src={championData.imgUrl} 
+								style={{width:"70px",height:"70px",borderRadius:"50%"}}
+							/>
+						}
+						championData={championData}
+					/>
 
 					<p id="championName"
 						style={{fontSize:"20px",maxWidth:"60%",overflow:"hidden",color:"#5298F8",marginTop:"2%"}}>
@@ -187,6 +194,20 @@ const ExtendedChampionModal=(championData)=>{
 			</ExtendedChampionModalContainer>
 }
 
+const ProfileLink=({propsRendered,championData})=>{
+	if(championData.sympociaProfileLinkedId==null){
+		return(
+			<>{propsRendered}</>
+		)
+	}else{
+		return(
+			<Link to={{pathname:`/profile/${championData.sympociaProfileLinkedId}`}}>
+				{propsRendered}
+			</Link>
+		)
+	}
+}
+
 const SponsorDisplayModal=(props)=>{
 	console.log(props);
 	const [displayExtendedSponsorModal,changeExtendedSponsorModal]=useState(props.isMobile==true?true:false);
@@ -195,6 +216,7 @@ const SponsorDisplayModal=(props)=>{
 	const closeDeletePortal=()=>{
 		changeDisplayDeletePortal(false);
 	}
+
 	return (
 		<React.Fragment>
 			{displayDeletePortal &&(
@@ -232,8 +254,13 @@ const SponsorDisplayModal=(props)=>{
 				</SponsorExtendedModal>:
 				<SponsorSimplifiedModal>
 					<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
-						<img src={props.championData.imgUrl} 
-							style={ChampionImageCSS}
+						<ProfileLink
+							propsRendered={
+								<img src={props.championData.imgUrl} 
+									style={ChampionImageCSS}
+								/>
+							}
+							championData={props.championData}
 						/>
 					</li>
 					<li id="championName" style={ChampionNameCSS}>

@@ -1,4 +1,27 @@
 import styled from "styled-components";
+
+	// @media screen and (max-width:1370px){
+	// 	#postsContainer{
+	// 		margin-left:-50%;
+	// 		margin-top:20% !important;
+	// 	}
+	// 	#createPostIcon{
+	// 		top:5% !important;
+	// 		position:absolute !important;
+	// 		left:10px !important;
+	// 		margin-left:0px !important;
+	// 		z-index:22;
+	// 	}
+
+	// 	#championIcon{
+	// 		top: 5% !important;
+	// 	    position: absolute !important;
+	// 	    left: 10px !important;
+	// 	    margin-left: 0px !important;
+	// 	    z-index: 22;
+	// 	}
+ //    }
+
 export const Container=styled.div`
 	position:absolute;
 	width:100%;
@@ -17,6 +40,8 @@ export const Container=styled.div`
 			margin-left:0px !important;
 			z-index:22;
 		}
+
+
     }
 
     @media screen and (max-width:1060px){
@@ -537,6 +562,43 @@ export const CreatePostButton=styled.div`
 			margin-left:15%; 
 			margin-top:15%;
 		}
+  	}
+  	@media screen and (max-width:1200px){
+			width:60px !important;
+			height:60px !important;
+    }
+    @media screen and (max-width:1080px){
+			width:50px !important;
+			height:50px !important;
+    }
+     @media screen and (max-width:1080px){
+			width:70px !important;
+			height:70px !important;
+    }
+`;
+
+
+export const ChampionMobileUIButton=styled.div`	
+	width:70px;
+	height:70px;
+	border-radius:50%;
+	background-color:white;
+	border-color:white;
+	border-style:solid;
+	padding:15px;
+	border-width:5px;
+	animation: glowing 1300ms infinite;
+
+
+	@keyframes glowing {
+      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+  	}
+
+  	@media screen and (min-width:2500px){
+  		width:120px;
+		height:120px;
   	}
   	@media screen and (max-width:1200px){
 			width:60px !important;

@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import styled from "styled-components";
+import 'react-calendar/dist/Calendar.css';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import { Icon, InlineIcon } from '@iconify/react';
@@ -17,6 +17,18 @@ import {
 	addName
 } from "../../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import Calendar from 'react-calendar';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {
+	Container,
+	ProfilePicture,
+	NameTextArea,
+	SympociaProfileSearchTextArea,
+	DescriptionTextArea,
+	SubmitButton,
+	ShadowContainer
+} from "./DescriptionModalCSS.js";
+
 
 const BackButtonCSS={
 	listStyle:"none",
@@ -31,197 +43,6 @@ const BackButtonCSS={
 	cursor:"pointer"
 }
 
-const Container=styled.div`
-	padding:10%;
-
-	@media screen and (min-width:2500px){
-		#backButton{
-			font-size:24px !important;
-		}
-		#pictureLI{
-	    	width:220px !important;
-	    	height:220px !important;
-		}
-		#loadingText{
-			font-size:24px !important;
-		}
-	}
-
-	@media screen and (max-width:1370px){
-		padding:20px;
-		#pictureLI{
-			width:140px !important;
-			height:120px !important;
-		}
-	}
-
-	@media screen and (max-width:650px){
-		width:100% !important;
-		#userPictureAndNameLI{
-			width:90% !important;
-		}
-		#pictureLI{
-			width:130px !important;
-			height:130px !important;
-		}
-		#nameLI{
-			width:90% !important;
-		}
-		#descriptionAndSubmitLI{
-			margin-left:-5% !important;
-			border-style:none !important;
-			border-left:none !important;
-		}
-	}
-
-	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-		#pictureLI{
-			width:110px !important;
-			height:90px !important;
-		}
-    }
-
-
-    @media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
-	 	#descriptionAndSubmitLI{
-			margin-left:10% !important;
-			border-style:none !important;
-			border-left:none !important;
-		}
-		#pictureLI{
-			width:110px !important;
-			height:90px !important;
-		}
-    }
-`;
-
-const ProfilePicture=styled.div`
-	position:relative;
-	width:115%;
-	height:35%;
-	border-radius:50%;
-	background-color:red;
-	border-style:solid;
-	border-color:#5298F8;
-	border-width:5px;
-`;
-
-const NameTextArea=styled.textarea`
-	padding:10px;
-	border-radius:5px;
-	resize:none;
-	border-style:solid;
-	border-color:#E5E5E5;
-	width:90%;
-	margin-bottom:2%;
-
-	@media screen and (min-width:2500px){
-		font-size:24px !important;
-	}
-
-	@media screen and (max-width:1370px){
-		width:100%;
-	}
-`;
-
-const DescriptionTextArea=styled.textarea`
-	padding:10px;
-	border-radius:5px;
-	resize:none;
-	border-style:solid;
-	border-color:#E5E5E5;
-	height:140px;
-	width:90%;
-	margin-bottom:2%;
-
-	@media screen and (min-width:2500px){
-		font-size:24px !important;
-	}
-
-	@media screen and (max-width:1370px){
-		width:100%;
-	}
-`;
-
-const SubmitButton=styled.div`
-	color:white;
-	padding:10px;
-	width:50%;
-	background-color:#C8B0F4;
-	border-radius:5px;
-	cursor:pointer;
-
-	@media screen and (min-width:2500px){
-		font-size:36px !important;
-	}
-
-	@media screen and (max-width:1370px){
-		width:100%;
-		margin-top:2%;
-		margin-bottom:10px;
-	}
-`;
-
-const ShadowContainer= styled.div`
-	position:fixed;
-	width:40%;
-	height:60%;
-	background-color: rgba(0,0,0,0.4);
-	top:95px;
-	z-index:5;
-`;
-
-const SocialMediaUrlContainer=styled.div`
-	position:absolute;
-	width:60%;
-	height:30%;
-	background-color:white;
-	top:0px;
-	z-index:6;
-	border-radius:5px;
-	top:20%;
-	left:20%;
-	padding:20px;
-`;
-
-const InstagramUrlTextArea=styled.textarea`
-	position:relative;
-	width:300px;
-	height:50px;
-	resize:none;
-	border-style:solid;
-	border-color:#BDBDBD;
-	border-radius:5px;
-`;
-
-const SocialMediaSubmitButton=styled.div`
-	position:relative;
-	color:white;
-	padding:10px;
-	width:50%;
-	height:30%;
-	background-color:#5298F8;
-	border-radius:5px;
-	margin-top:10px;
-`;
-
-
-const TikTokUrlTextArea=styled.textarea`
-	position:relative;
-	width:300px;
-	height:50px;
-	resize:none;
-	border-style:solid;
-	border-color:#BDBDBD;
-	border-radius:5px;
-
-`;
-
-const DescriptionContainer=styled.div`
-	display:flex;
-	flex-direction:column;
-`;
-
 const ChampionPictureCSS={
 	marginBottom:"2%",
 	position:"relative",
@@ -231,6 +52,7 @@ const ChampionPictureCSS={
 }
 
 const DescriptionModal=(props)=>{
+	const [currentCalendarTimeStamp,changeCalendarTimeStamp]=useState(new Date());
 	const [instagramUrl,changeInstagramUrl]=useState();
 	const [tikTokUlr,changeTikTokUrl]=useState();
 	const personalReduxInformation=useSelector(state=>state.personalInformation);
@@ -243,27 +65,26 @@ const DescriptionModal=(props)=>{
 	const dispatch=useDispatch();
 	const [displayIGUrlPrompt,changeDisplayIGUrlPrompt]=useState(false);
 	const [displayTikTokUrlPrompt,changeDisplayTikTokUrlPrompt]=useState(false);
+	const [displayChampionExpirationDate,changeChampionExpirationDateDisplay]=useState(false);
+	const [displayProfileTagModal,changeProfileTagModalDisplay]=useState(false);
+
+	const [selectedDisplayDate,changeDisplayDate]=useState();
+	const [loadingProfilesPrompt,changeLoadingProfilesPrompt]=useState(false);
+	const [searchProfiles,changeSearchedProfiles]=useState();
 
 	useEffect(()=>{
-		
 		if(isAccessTokenRefreshTriggered==true){
 			dispatch(setPersonalProfileAccessToken(currentAccessToken));
 			dispatch(setPersonalProfileRefreshToken(personalReduxInformation.refreshToken));
 			handleSubmitButton(contextPersonalInformation,contextCompanyInformation);
 		}
+
+		const {selectedSympociaProfile}=props;
+		if(selectedSympociaProfile!=null){
+			const {firstName}=selectedSympociaProfile;
+			document.getElementById("name").value=firstName;
+		}
 	},[currentAccessToken]);
-
-	const handleSubmitIGUrl=()=>{
-		const instagramUrl=document.getElementById("igUrl").value;
-		changeInstagramUrl(instagramUrl);
-		changeDisplayIGUrlPrompt(false);
-	}
-
-	const handleSubmitTikTokUrl=()=>{
-		const tikTokUrl=document.getElementById("tikTokUrl").value;
-		changeTikTokUrl(tikTokUrl);
-		changeDisplayTikTokUrlPrompt(false);
-	}
 
 	const handleSubmitButton=async(personalInformation,companyInformation)=>{
 		
@@ -278,9 +99,10 @@ const DescriptionModal=(props)=>{
 			const ChampionModalObject={
 				name:name,
 				imgUrl:props.imgData,
-				description:description,
-				tikTokUrl:tikTokUlr,
-				instagramUrl:instagramUrl
+				description:description, 
+				expirationDate:new Date(selectedDisplayDate).getTime(),
+				sympociaProfileLinkedId:props.selectedSympociaProfile!=null?
+				props.selectedSympociaProfile._id:null
 			}
 			const {confirmation,data}=await createChampion(
 												personalReduxInformation.id,
@@ -320,30 +142,86 @@ const DescriptionModal=(props)=>{
 			changeIsProcessingSubmittion(false);
 		}
 	}
-	
+
+	const triggerOnChangeTimeStamp=(timeStampEvent)=>{
+		debugger;
+		console.log(timeStampEvent);
+		changeCalendarTimeStamp(timeStampEvent);
+		var date = new Date(timeStampEvent.toString());
+		console.log(date);
+		var newDate= (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
+		changeDisplayDate(newDate);
+		changeChampionExpirationDateDisplay(false)
+	}
+
+	const resetSelectedDisplayDate=()=>{
+		changeDisplayDate(null);
+		changeCalendarTimeStamp(new Date());
+	}
+	const displayInitialScreen=()=>{
+		changeChampionExpirationDateDisplay(false);
+	}
+
 	return(
 		<UserConsumer>
 			{personalInformation=>(
 				<CompanyConsumer>
 					{companyInformation=>(
 						<Container>
-							<div id="backButton" style={BackButtonCSS} onClick={()=>props.backButton()}>
-								Back
-							</div>
-							<div style={{display:"flex",flexDirection:"row"}}>
-								<img id="pictureLI" src={props.imgData} style={ChampionPictureCSS}/>
-								<AccessTimeIcon
-									style={{fontSize:"30",marginLeft:"2%",cursor:"pointer"}}
-								/>
-							</div>
-							<NameTextArea id="name" placeholder="Enter a name here"/>
-							<DescriptionTextArea id="description" placeholder="Enter a description"/>
+							{displayChampionExpirationDate==false?
+								<React.Fragment>
+									<div id="backButton" style={BackButtonCSS} onClick={()=>props.backButton()}>
+										Back
+									</div>
+									<div id="selectedChampionImageAndDate" 
+										style={{display:"flex",flexDirection:"row"}}>
+										<img id="pictureLI" src={props.imgData} style={ChampionPictureCSS}/>
 
-							{isProcessingSubmittion==true?
-								<p id="loadingText">Loading please wait...</p>:
-								<SubmitButton onClick={()=>handleSubmitButton(personalInformation,companyInformation)}>
-									Submit
-								</SubmitButton>
+										<hr id="mobileHorizontalDivider" style={{width:"100%",display:"none"}}/>
+
+										<div style={{display:"flex",flexDirection:"column",marginLeft:"2%"}}>
+											<div style={{marginBottom:"10%"}}>
+												{selectedDisplayDate==null ?
+													<AccessTimeIcon
+														style={{fontSize:"30",cursor:"pointer"}}
+														onClick={()=>changeChampionExpirationDateDisplay(true)}
+													/>
+													:<div style={{display:"flex",flexDirection:"column"}}>
+														{selectedDisplayDate}
+														<HighlightOffIcon
+															style={{fontSize:"20",cursor:"pointer"}}
+															onClick={()=>resetSelectedDisplayDate()}
+														/>
+													</div>
+												}
+											</div>
+										</div>
+									</div>
+									<hr id="mobileHorizontalDivider" style={{display:"none"}}/>
+									<NameTextArea id="name" placeholder="Enter a name here"/>
+									<DescriptionTextArea id="description" placeholder="Enter a description"/>
+
+									{isProcessingSubmittion==true?
+										<p id="loadingText">Loading please wait...</p>:
+										<SubmitButton onClick={()=>handleSubmitButton(personalInformation,companyInformation)}>
+											Submit
+										</SubmitButton>
+									}
+								</React.Fragment>:
+								<React.Fragment>
+									<div id="backButton" style={BackButtonCSS} 
+										onClick={()=>displayInitialScreen()}>
+										Back
+									</div>
+									<p>
+										<b>Choose an expiration date for your champion:</b>
+									</p>
+									<Calendar
+										id="reactCalendarDiv"
+								        onChange={triggerOnChangeTimeStamp}
+								        value={currentCalendarTimeStamp}
+			    					/>
+								</React.Fragment>
 							}
 						</Container>
 							)

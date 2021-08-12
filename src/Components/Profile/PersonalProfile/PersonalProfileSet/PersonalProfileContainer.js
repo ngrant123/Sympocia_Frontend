@@ -24,7 +24,8 @@ import {
 	} from "../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import CONSTANTS from "../../../../Constants/constants.js";
 import {
-	MobileProfileOptions
+	MobileProfileOptions,
+	MobileChampionsDisplay
 } from "./MobileUI.js";
 import ProfilePicturesDefaultOptionsModal from "./Modals-Portals/ProfilePicturesDefaultOptions/index.js";
 import ProfilePicture from "../PersonalProfileSubset/PersonalDetails/ProfilePictureContainer.js";
@@ -109,7 +110,8 @@ class LProfile extends Component{
 			currentRequestedFriendsGaugeNodeId:null,
 			displayConfettiHandle:()=>{
 				this.displayConfetti()
-			}
+			},
+			remoteChampionsMobileDisplayTrigger:false
 		};
 	}
 
@@ -462,7 +464,7 @@ class LProfile extends Component{
 						<MobileProfileOptions
 							closeModal={this.closeMobileProfileOptions}
 							displayPersonalInformation={this.displayPersonalInformationMobile}
-							displayChampionsModal={this.displayChampionModalTrigger}
+							displayChampionsModalMobileRemoteTrigger={this.state.remoteChampionsMobileDisplayTrigger}
 							championModalData={this.state.championModalData}
 							isOwner={this.state.isOwnProfile}
 							isGuestProfile={this.state.isGuestProfile}
@@ -501,7 +503,8 @@ class LProfile extends Component{
 	}
 	closeMobileProfileOptions=()=>{
 		this.setState({
-			displayMobileUIProfileOptions:false
+			displayMobileUIProfileOptions:false,
+			remoteChampionsMobileDisplayTrigger:false
 		})
 	}
 
@@ -517,19 +520,38 @@ class LProfile extends Component{
 		})
 	}
 
-	displayCreatePostOptionTrigger=()=>{
-		return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li id="createPostIcon" onClick={()=>this.setState({displayCreationPortal:true})} 
-						style={{listStyle:"none",marginLeft:"50px",marginBottom:"5%"}}>
-						<CreatePostButton>
-							<BorderColorIcon
-								id="postCreationIcon"
-								style={{fontSize:"30",color:"#C8B0F4"}}
-							/>
-						</CreatePostButton>
-					</li>
-				</a>
+	displayMobileDisplayViaRemote=()=>{
+		this.setState({
+			remoteChampionsMobileDisplayTrigger:true,
+			displayMobileUIProfileOptions:true
+		})
+	}
 
+	diplayMobileChampionTrigger=()=>{
+		return(
+			<React.Fragment>
+				{(this.state.displayChampion==true && this.state.displayDesktopUI==false)==true &&(
+					<MobileChampionsDisplay
+						championProfilePicture={this.state.championModalData.imgUrl}
+						displayChampionsExtendedMobileDisplay={this.displayMobileDisplayViaRemote}
+						isOwner={this.state.isOwnProfile}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+
+	displayCreatePostOptionTrigger=()=>{
+		return  <li id="createPostIcon" onClick={()=>this.setState({displayCreationPortal:true})} 
+					style={{listStyle:"none",marginLeft:"50px",marginBottom:"5%",cursor:"pointer"}}>
+					<CreatePostButton>
+						<BorderColorIcon
+							id="postCreationIcon"
+							style={{fontSize:"30",color:"#C8B0F4"}}
+						/>
+					</CreatePostButton>
+				</li>
 	}
 
 	displayChampionModalTrigger=()=>{
@@ -674,6 +696,7 @@ class LProfile extends Component{
 					displayPhoneUI:this.state.displayPhoneUI,
 					displayIpadUI:this.state.displayIpadUI
 				}}
+				diplayMobileChampionTrigger={this.diplayMobileChampionTrigger}
 				displayCreatePostOptionTrigger={this.displayCreatePostOptionTrigger}
 				handleChangeProfilePicture={this.handleChangeProfilePicture}
 			/>
@@ -871,7 +894,6 @@ class LProfile extends Component{
 								{this.displayChampionModalTrigger()}
 							</ul>
 						)}
-					
 					</Container>
 			</PostDisplayProvider>
 		</UserProvider>

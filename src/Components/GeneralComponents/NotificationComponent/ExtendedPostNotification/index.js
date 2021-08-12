@@ -236,7 +236,8 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 					const {confirmation,data}=await getRegularCommentReplyById({postType,postId,commentID,replyId});
 					confirmationResponse=confirmation;
 					dataResponse=data;
-				}else if(notificationType=="Recruit" || notificationType=="Promotion" || notificationType=="RequestAccessToNode"){
+				}else if(notificationType=="Recruit" || notificationType=="Promotion" 
+					|| notificationType=="RequestAccessToNode" || notificationType=="Championed"){
 					const {confirmation,data}=await notificationProfileRetrieval(notificationOwnerId);
 					confirmationResponse=confirmation;
 					dataResponse=[{
@@ -440,6 +441,10 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 						Congrats you have been selected as an oligarch for the <b>{data.symposium.symposiumName}</b> symposium.
 						You can now do a number of things so whenever you have the chance check it out:)
 					</p>
+		}else if(notificationType=="Championed"){
+			return <p>
+						Congrats you have been championed by:
+					</p>
 		}else{
 			return <p> 
 						The profile below has requested access to node:
@@ -468,7 +473,7 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 						<p>Please wait..</p>:
 						<>
 							{notificationType=="Recruit" || notificationType=="Promotion" || notificationType=="RequestAccessToNode"
-								|| notificationType=="OligarchWin"?
+								|| notificationType=="OligarchWin" || notificationType=="Championed"?
 								<div style={{display:"flex",flexDirection:"column"}}>
 									{nonPostNotificationDescription()}
 									

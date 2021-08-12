@@ -12,6 +12,9 @@ import HowToRegIcon from '@material-ui/icons/HowToReg';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import ChampionEditPortal from "./Modals-Portals/ChampionModalPortal/index.js";
 import {SponsorDisplayModal} from "./Modals-Portals/ChampionModalPortal/ChampionDisplayModal.js";
+import {ChampionMobileUIButton} from "./PersonalProfileContainerCSS.js";
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 
 const OriginalShadowContainer=styled.div`
 	position:fixed;
@@ -120,6 +123,33 @@ const SponsorExtendedModal=styled.div`
     }
 `;
 
+const MobileChampionContainer=styled.div`
+	top: 5% !important;
+    position: absolute !important;
+    left: 10px !important;
+    margin-left: 0px !important;
+    z-index: 22;
+		
+	@media screen and (max-width:1370px){
+		${({isOwner})=>
+			isOwner==true?
+			`top:90px !important`:
+			`top:20px !important`
+		}
+    }
+
+    @media screen and (max-width:650px){
+		${({isOwner})=>
+			isOwner==true?
+			`top:110px !important`:
+			`top:20px !important`
+		}
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		display:none !important;
+	}
+`;
 
 const ShadowButtonCSS={
 	display:"inline-block",
@@ -164,11 +194,18 @@ const MobilePersonalInformation=({closeModal,displayConfetti,personalInformation
 }
 
 
-const MobileProfileOptions=({closeModal,displayPersonalInformation,displayChampionsModal,championModalData,isIphoneDisplay,isOwner})=>{
+const MobileProfileOptions=({
+	closeModal,
+	displayPersonalInformation,
+	displayChampionsModalMobileRemoteTrigger,
+	championModalData,
+	isIphoneDisplay,
+	isOwner})=>{
+
 	console.log(championModalData);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [editChampionModal,changeEditChampionModal]=useState(false);
-	const [displayChampion,changeDisplayChampion]=useState(false); 
+	const [displayChampion,changeDisplayChampion]=useState(displayChampionsModalMobileRemoteTrigger); 
 
 	const closeChampionEditModal=()=>{
 		changeEditChampionModal(false);
@@ -326,9 +363,28 @@ const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType,isOwner})=>
 		   </UserConsumer>
 }
 
+const MobileChampionsDisplay=({
+	championProfilePicture,
+	displayChampionsExtendedMobileDisplay,
+	isOwner})=>{
+	return(	
+		<MobileChampionContainer isOwner={isOwner}
+			id="championIcon" onClick={()=>displayChampionsExtendedMobileDisplay()}
+			style={{listStyle:"none",zIndex:"50"}}>
+			<ChampionMobileUIButton>
+				<img src={championProfilePicture==null?
+					NoProfilePicture:championProfilePicture}
+					style={{width:"30px",height:"30px",borderRadius:"50%"}}
+				/>
+			</ChampionMobileUIButton>
+		</MobileChampionContainer>
+	)
+}
+
 export{
 	MobilePersonalInformation,
 	MobileRecruitAndFriendsGaugeOptions,
 	MobileProfileOptions,
-	EditNodeModal
+	EditNodeModal,
+	MobileChampionsDisplay
 }

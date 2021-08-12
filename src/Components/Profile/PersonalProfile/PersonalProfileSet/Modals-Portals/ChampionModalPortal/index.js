@@ -2,7 +2,11 @@ import React,{useEffect,useState} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import DescriptionModal from "./DescriptionModal.js";
-
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import SearchIcon from '@material-ui/icons/Search';
+import {getProfilesFromSearch} from "../../../../../../Actions/Requests/SearchPageAxiosRequests/index.js";
+import {SympociaProfileSearchTextArea} from "./DescriptionModalCSS.js";
+import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 
 const Container=styled.div`
 	position:fixed;
@@ -20,6 +24,15 @@ const Container=styled.div`
 		width:50%;
 		left:25%;
 		padding:20px;
+
+		#profilePicture{
+			height:200px !important;
+		}
+
+		#profileFirstName{
+			margin-top:5%;
+			font-size:30px !important;
+		}
 	}
 
 
@@ -29,11 +42,27 @@ const Container=styled.div`
 		height:70%;
 		top:15%;
 		justify-content:center;
+
+		#profilePicture{
+			width:65px !important;
+			height:60px !important;
+		}
     }
 
     @media screen and (max-width:650px){
     	top:10%;
     	height:75%;	
+   		#profilePicture{
+			width:45px !important;
+			height:40px !important;
+		}
+    }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	#profilePicture{
+			width:65px !important;
+			height:60px !important;
+		}
     }
 `;
 const SponsorModal=styled.div`
@@ -137,6 +166,51 @@ const HorizontalLineCSS={
 	width:"100%"
 }
 
+const BackButtonCSS={
+	listStyle:"none",
+	borderRadius:"5px",
+	borderStyle:"solid",
+	borderColor:"#5298F8",
+	borderWidth:"1px",
+	color:"#5298F8",
+	width:"30%",
+	padding:"10px",
+	marginBottom:"5%",
+	cursor:"pointer"
+}
+
+
+const SearchProfileContainerCSS={
+	display:"flex",
+	flexDirection:"column",
+	width:"90px",
+	marginRight:"3%",
+	borderRadius:"5px",
+	boxShadow:"1px 1px 10px #d5d5d5",
+	padding:"10px"
+}
+
+const SelectedProfileButtonCSS={
+	listStyle:"none",
+	color:"#5298F8",
+	borderRadius:"5px",
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	padding:"10px",
+	textAlign:"center",
+	cursor:"pointer"
+}
+
+const ProfilePictureCSS={
+	width:"80%",
+	height:"55px",
+	borderRadius:"50%",
+	borderType:"solid",
+	borderColor:"#5298F8",
+	borderWidth:"1px"
+}
+
 
 const SponsorPortal=(props)=>{
 	
@@ -148,10 +222,24 @@ const SponsorPortal=(props)=>{
 	}
 	const [imageData,changeImageData]=useState();
 	const [displayDescriptionScreen,changeChangeDescriptionScreen]=useState(false);
+	const [displayProfileTagModal,changeProfileTagModalDisplay]=useState(false);
+	const [searchedProfiles,changeSearchedProfiles]=useState([]);
+	const [loadingProfilesPrompt,changeLoadingProfilesPrompt]=useState(false);
+	const [searchedProfile,changeSearchedProfile]=useState();
 
-	useEffect(()=>{
+	const fetchProfileFromSearchUrl=async()=>{
+		changeLoadingProfilesPrompt(true);
+		const searchedProfile=document.getElementById("sympociaProfilesSearchUrl").value;
+		const {confirmation,data}=await getProfilesFromSearch(searchedProfile);
+		if(confirmation=="Success"){
+			console.log(data);
+			changeSearchedProfiles([...data]);
+			changeLoadingProfilesPrompt(false);
+		}else{
+			alert('Unfortunately there has been an error trying to get the profiles. Please try again');
+		}
+	}
 
-	});
 
 	const handleDisplayImagePrompt=()=>{
 		document.getElementById("imageFile").click();
@@ -184,35 +272,100 @@ const SponsorPortal=(props)=>{
 		changeChangeDescriptionScreen(!displayDescriptionScreen)
 	}
 
+	const displayInitialScreen=()=>{
+		changeProfileTagModalDisplay(false);
+	}
+
+	const selectPerson=(data)=>{
+		const {
+			firstName,
+			profilePicture,
+			_id
+		}=data;
+		changeImageData(profilePicture);
+		changeSearchedProfile({
+			firstName,
+			profilePicture,
+			_id
+		});
+		changeChangeDescriptionScreen(!displayDescriptionScreen);
+	}
+
 	return createPortal(
 		<React.Fragment>
 			<Container>
 				{displayDescriptionScreen==false?
 					<SponsorModal displayDescriptionScreen={displayDescriptionScreen}>
-						<div style={{display:"flex",alignItem:"center"}}>
-							<p id="championTitleName" style={{fontSize:"24px"}}>
-								<b>Champion someone</b>
-							</p>
-						</div>
-						<p id="secondaryDescription" style={{color:"#A4A4A4",marginBottom:"5%"}}>
-							Nows your chance to show your appreciation for someone
-						</p>
-						
-						<hr id="mobileHorizontalLine" style={HorizontalLineCSS}/>
-						<UploadPicture onClick={()=>handleDisplayImagePrompt()}>
-							Upload picture
-						</UploadPicture>
-						
-						<input type="file" name="img" id="imageFile" style={{width:"5%",opacity:"0"}} onChange={()=>displayImage()}  
-					        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
-					        name="attachments">
-					    </input>		
+						{displayProfileTagModal==true?
+							<div>
+								<div id="backButton" style={BackButtonCSS} 
+									onClick={()=>displayInitialScreen()}>
+									Back
+								</div>
+								<p>Search for the Sympocia profile here and we will handle the rest</p>
+								<hr/>
+								<div style={{justifyContent:"center",display:"flex",flexDirection:"row"}}>
+									<SympociaProfileSearchTextArea
+										id="sympociaProfilesSearchUrl"
+									/>
+									<SearchIcon
+										style={{fontSize:"30",cursor:"pointer"}}
+										onClick={()=>fetchProfileFromSearchUrl()}
+									/>
+								</div>
+								<div style={{display:"flex",flexDirection:"row"}}>
+									{searchedProfiles.map(data=>
+										<div style={SearchProfileContainerCSS}>
+											<img id="profilePicture" src={
+												data.profilePicture==null?
+												NoProfilePicture:
+												data.profilePicture} style={ProfilePictureCSS}
+											/>
+											<p id="profileFirstName" style={{listStyle:"none"}}>
+												{data.firstName}
+											</p>
+											<div onClick={()=>selectPerson(data)} 
+												style={SelectedProfileButtonCSS}>
+												Add 
+											</div>
+										</div>
+									)}
+								</div>
+							</div>:
+							<React.Fragment>
+								<div style={{display:"flex",alignItem:"center"}}>
+									<p id="championTitleName" style={{fontSize:"24px"}}>
+										<b>Champion someone</b>
+									</p>
+								</div>
+								<p id="secondaryDescription" style={{color:"#A4A4A4",marginBottom:"5%"}}>
+									Nows your chance to show your appreciation for someone
+								</p>
+								
+								<hr id="mobileHorizontalLine" style={HorizontalLineCSS}/>
+								<div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
+									<UploadPicture onClick={()=>handleDisplayImagePrompt()}>
+										Upload picture
+									</UploadPicture>
+									<p style={{marginTop:"5%"}}>Or</p>
+									<AccountCircleIcon
+										style={{fontSize:"40",cursor:"pointer"}}
+										onClick={()=>changeProfileTagModalDisplay(true)}
+									/>
+								</div>
+								<input type="file" name="img" id="imageFile" style={{width:"5%",opacity:"0"}} onChange={()=>displayImage()}  
+							        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
+							        name="attachments">
+							    </input>		
+							</React.Fragment>
+						}
 					</SponsorModal>:
 					<DescriptionModal
 						imgData={imageData}
+						selectedSympociaProfile={searchedProfile}
 						backButton={displayUploadImageSearchProfileScreen}
 						closeModal={props.closeModal}
-						profileType={props.profileType}
+						profileType={props.profileType}   
 					/>
 				}
 			</Container>

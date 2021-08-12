@@ -7,7 +7,11 @@ import {
 } from "./ProfilePictureContainerCSS.js";
 
 
-const ProfilePicture=({state,displayCreatePostOptionTrigger,handleChangeProfilePicture})=>{
+const ProfilePicture=({
+	state,
+	displayCreatePostOptionTrigger,
+	handleChangeProfilePicture,
+	diplayMobileChampionTrigger})=>{
 	const displayMobileUserInformationnModal=()=>{
 		return <ul style={{maxHeight:"20px",position:"relative",position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
 					{/*
@@ -35,6 +39,7 @@ const ProfilePicture=({state,displayCreatePostOptionTrigger,handleChangeProfileP
 					{state.isGuestProfile==false && (
 						<>{displayCreatePostOptionTrigger()}</>
 					)}
+					{diplayMobileChampionTrigger()}
 					<img id="profilePicture" 
 						onClick={()=>handleChangeProfilePicture()}
 						src={state.profilePicture==null?
@@ -44,6 +49,7 @@ const ProfilePicture=({state,displayCreatePostOptionTrigger,handleChangeProfileP
 					/>
 				</>:
 				<>
+					{diplayMobileChampionTrigger()}
 					<img id="profilePicture" 
 						src={state.profilePicture==null?
 								NoProfilePicture:
