@@ -20,6 +20,21 @@ export const PersonalSignUpCard=styled.div`
     	width:70%;
 
     	#image{
+			width:100px !important;
+			height:100px !important;
+		}
+		#headerText{
+			font-size:70px !important;
+		}
+		#signUpText{
+			font-size:40px !important;
+		}
+    }
+
+	@media screen and (min-width:2500px){
+		width:70%;
+
+    	#image{
 			width:300px !important;
 			height:300px !important;
 		}
@@ -36,17 +51,17 @@ export const PersonalSignUpCard=styled.div`
 		width:90% !important;
 		height:90% !important;
 		#signUpText{
-			margin-left:-10% !important;
+			margin-left:-5% !important;
 		}
 		#headerText{
 			font-size:20px !important;
-			margin-left:-10% !important;
+			margin-left:-5% !important;
 		}
 		#passwordContainer{
 			margin-left:1% !important;
 		}
 		#image{
-			margin-left:-10% !important;
+			margin-left:-5% !important;
 		}
 	}
 
@@ -101,7 +116,7 @@ export const PersonalSignUpCard=styled.div`
 			margin-left:-10% !important;
 		}
 		border-style:none;
-		margin-top:130px;
+		margin-top:130px !important;
 
 		#passwordContainer{
 			margin-left:2% !important;
@@ -121,7 +136,7 @@ export const PersonalSignUpCard=styled.div`
 			margin-left:0% !important;
 		}
 		border-style:none;
-		margin-top:160px;
+		margin-top:140px !important;
     }
 
 `;

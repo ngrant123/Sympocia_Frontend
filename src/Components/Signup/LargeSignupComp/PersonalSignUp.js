@@ -27,6 +27,11 @@ const InputContainer=styled.textarea`
 
 
 	@media screen and (min-width:1900px){
+		padding:10px !important;
+		font-size:20px !important;
+    }
+
+    @media screen and (min-width:2500px){
 		padding:50px !important;
 		font-size:40px !important;
     }
@@ -75,29 +80,36 @@ const SubmitButton=styled.div`
 	justify-content:center;
 	cursor:pointer;
 
-	   z-index:2;
-	   &:hover{
+	z-index:2;
+	&:hover{
+	  	background-color:white;
+		color:#C8B0F4;
+		border-style:solid;
+		border-color: #C8B0F4;
+		text-decoration:none;
+	}
 
-	      background-color:white;
+	@media screen and (min-width:1900px){
+		padding:10px !important;
+		font-size:20px !important;
+		height:20%;
+    }
+    @media screen and (min-width:2500px){
+		font-size:40px !important;
+    }
 
-	    color:#C8B0F4;
-	   border-style:solid;
-	   border-color: #C8B0F4;
-	   text-decoration:none;
 
-	   }
+	@media screen and (max-width:1370px){
+		width:80% !important;
+		padding:10px !important;
+		height:5%;
+	}
 
-	  @media screen and (max-width:1370px){
-	  	width:80% !important;
-	  	padding:10px !important;
-	  	height:5%;
-	  }
-
-	  @media screen and (max-width:650px){
-	  	width:85% !important;
-	  	padding:20px !important;
-	  	height:10%;
-	  }
+	@media screen and (max-width:650px){
+		width:85% !important;
+		padding:20px !important;
+		height:10%;
+	}
 `;
 
 const TermsOfAgreement=styled.div`
