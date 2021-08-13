@@ -200,6 +200,12 @@ const LoginUI=({closeModal,history,displayMobileLoginTrigger})=>{
   },[]);
   window.addEventListener('resize',triggerUIChange);
 
+  const inspectKeyCodeEntered=(event)=>{
+    if(event.key==" "){
+      event.preventDefault();
+    }
+  }
+
 
   return (
     <React.Fragment>
@@ -208,7 +214,12 @@ const LoginUI=({closeModal,history,displayMobileLoginTrigger})=>{
       />
       <Container>
         <div>
-          <LoginBox autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="LoginEmail" placeholder="Email"/>
+          <LoginBox autocomplete="off" 
+            autocorrect="off" 
+            autocapitalize="off" 
+            spellcheck="false" id="LoginEmail" placeholder="Email"
+            onKeyPress={event=>inspectKeyCodeEntered(event)}
+          />
           <LoginBox autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="LoginPassword" placeholder="Password"/>
           <Submit onClick ={() =>  handleLoginClick(  
                                     document.getElementById("LoginEmail").value,

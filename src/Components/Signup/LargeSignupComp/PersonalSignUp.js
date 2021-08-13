@@ -170,6 +170,9 @@ class PersonalSignUp extends Component{
 		if(emailIndicator==true){
 			alert('The email that you have typed is already used unfortunately by someone else. Please enter another one or sign in if its yours');
 		}else{
+			this.setState({
+				isCreatingProfile:true
+			})
 			const firstName=document.getElementById("firstName").value;
 			const lastName=document.getElementById("lastName").value;
 			const password=document.getElementById("password").value;
@@ -351,6 +354,12 @@ class PersonalSignUp extends Component{
 		})
 	}
 
+	inspectKeyCodeEntered=(event)=>{
+		if(event.key==" "){
+			event.preventDefault();
+		}
+	}
+
 
 	render(){
 		return (
@@ -369,7 +378,9 @@ class PersonalSignUp extends Component{
 					Sign up is quick and easy
 				</p>
 				<div style={{width:"87%"}}>
-					<InputContainer id="email" placeholder="Email (required)"/>
+					<InputContainer id="email" placeholder="Email (required)"
+						onKeyPress={event=>this.inspectKeyCodeEntered(event)}
+					/>
 					<InputContainer onClick={()=>this.checkIfEmailIsValid()}
 						 id="firstName" placeholder="First Name (required)"
 					/>
