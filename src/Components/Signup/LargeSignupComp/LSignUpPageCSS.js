@@ -4,24 +4,55 @@ import { Link } from "react-router-dom";
 
 
 export const PersonalSignUpCard=styled.div`
-	position:relative;
+	position:absolute;
 	background-color:white;
-	width:60%;
+	width:35%;
 	border-radius:5px;
 	border-style:solid;
     border-color:#5298F8;
+    z-index:10;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    @media screen and (min-width:1920px){
+    	width:70%;
+
+    	#image{
+			width:300px !important;
+			height:300px !important;
+		}
+		#headerText{
+			font-size:70px !important;
+		}
+		#signUpText{
+			font-size:40px !important;
+		}
+    }
+
 
     @media screen and (max-width:1370px) {
 		width:90% !important;
+		height:90% !important;
 		#signUpText{
+			margin-left:-10% !important;
+		}
+		#headerText{
+			font-size:20px !important;
+			margin-left:-10% !important;
+		}
+		#passwordContainer{
+			margin-left:1% !important;
+		}
+		#image{
 			margin-left:-10% !important;
 		}
 	}
 
 	@media screen and (max-width:650px){
 		border-style:none;
-		margin-left:20% !important;
-		width:40% !important;
+		width:100% !important;
 		#inputContainerLI{
 			padding-left:0px !important;
 		}
@@ -35,16 +66,62 @@ export const PersonalSignUpCard=styled.div`
 		#image{
 			width:95px !important;
 			height:80px !important;
-			margin-left:28% !important;
+			margin-left:-10% !important;
+			margin-top:5% !important;
+		}
+		#passwordContainer{
+			width:87% !important;
+			margin-left:0% !important;
 		}
 	}
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		#image{
-			margin-left:35% !important;
+
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	#image{
+			margin-left:-10% !important;
+			margin-top:10% !important;
 		}
 		#signUpText{
 			margin-left:-10% !important;
 		}
+		border-style:none;
+		margin-top:90px !important;
+		#passwordContainer{
+			margin-left:2% !important;
+		}
+    }
+
+
+
+    @media screen and (max-width:700px) and (max-height:650px) and (orientation:landscape){
+    	#image{
+			margin-left:-10% !important;
+		}
+		#signUpText{
+			margin-left:-10% !important;
+		}
+		border-style:none;
+		margin-top:130px;
+
+		#passwordContainer{
+			margin-left:2% !important;
+		}
+    }
+
+
+    @media screen and (max-width:600px) and (max-height:380px) and (orientation:landscape){
+		#image{
+			margin-left:-10% !important;
+		}
+		#signUpText{
+			margin-left:-10% !important;
+		}
+
+		#passwordContainer{
+			margin-left:0% !important;
+		}
+		border-style:none;
+		margin-top:160px;
     }
 
 `;
@@ -55,6 +132,9 @@ export const BodyContainer= styled.div`
 	height:100%;
 	width:100%;
 	top:0%;
+	display:flex;
+	justify-content:center;
+	align-items:center;
 
 	#mobileDivider{
 		display:none;
@@ -89,7 +169,7 @@ export const BodyContainer= styled.div`
 			font-size:20px !important;
 		}
 		#CardContainer{
-			left:12% !important;
+			left:0% !important;
 			top:10% !important;
 		}
 	}
@@ -118,7 +198,7 @@ export const BodyContainer= styled.div`
 			display:block;
 		}
 		#particlesJS{
-			display:none;
+			display:none !important;
 		}
 		#personalCardContainer{
 			border-style:none !important;

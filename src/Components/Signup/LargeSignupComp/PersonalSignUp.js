@@ -9,6 +9,8 @@ import {signInPersonalUser} from "../../../Actions/Redux/Actions/PersonalProfile
 import {loginCompanyPage} from "../../../Actions/Redux/Actions/CompanyActions.js";
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import PasswordSuggestions from "../../GeneralComponents/PassWordSuggestionsModal.js";
+import {PersonalSignUpCard} from "./LSignUpPageCSS.js";
+
 
 const InputContainer=styled.textarea`
 	position:relative;
@@ -21,29 +23,57 @@ const InputContainer=styled.textarea`
 	padding:5px;
 	margin-bottom:2%;
 	margin-right:2%;
+	margin-left:7% !important;
 
-	@media screen and (max-width:700px){
-		width:95% !important;
+
+	@media screen and (min-width:1900px){
+		padding:50px !important;
+		font-size:40px !important;
+    }
+
+    @media screen and (max-width:1370px) {
+    	margin-left:5% !important;
 	}
+
+	@media screen and (max-width:650px){
+		width:95% !important;
+		margin-left:0% !important;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		width:70% !important;
+		margin-left:17% !important;
+    }
+
+    @media screen and (max-width:700px) and (max-height:650px) and (orientation:landscape){
+		margin-left:15% !important;
+    }
+
+
+    @media screen and (max-width:600px) and (max-height:380px) and (orientation:landscape){
+		width:95% !important;
+		margin-left:0% !important;
+    }
+
 `;
 
 const SubmitButton=styled.div`
-
-	   width:85%;
-	   height:10%;
-	   border-color: #C8B0F4;
-	   border-style:solid;
-	   background-color:#C8B0F4;
-	   color:white;
-	   text-decoration:none;
-
-	   display: flex;
-	   align-items: center;
-	   justify-content: center;
-	   transition:8s;
-	  border-radius:5px;
-	  padding:20px;
-	  margin-bottom:10%;
+	position:relative;
+	width:20%;
+	height:10%;
+	border-color: #C8B0F4;
+	border-style:solid;
+	background-color:#C8B0F4;
+	color:white;
+	text-decoration:none;
+	transition:8s;
+	border-radius:5px;
+	padding:20px;
+	margin-bottom:10%;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	cursor:pointer;
 
 	   z-index:2;
 	   &:hover{
@@ -57,35 +87,48 @@ const SubmitButton=styled.div`
 
 	   }
 
-	  @media screen and (max-width:400px) {top:78%}
-	  @media screen and (max-width:330px) {top:79%;font-size:10px}
-	  @media screen and (max-width:414px) {top:77%;}
-	  @media screen and (max-height:570px) {top:85%}
-	  @media screen and (max-height:530px) {top:75%;height:20%}
+	  @media screen and (max-width:1370px){
+	  	width:80% !important;
+	  	padding:10px !important;
+	  	height:5%;
+	  }
+
+	  @media screen and (max-width:650px){
+	  	width:85% !important;
+	  	padding:20px !important;
+	  	height:10%;
+	  }
 `;
 
 const TermsOfAgreement=styled.div`
 
-  color:black;
-  position:relative;
-  height:30%;
-  font-size:10px;
-  padding:20px;
-  margin-left:-10%;
-
-  @media screen and (max-width:1375px) {font-size:10px}
-  @media screen and (max-width:1024px) {left:10%;width:75%;font-size:10px}
-  @media screen and (max-width:900px) {display:none}
-  @media screen and (max-width:400px) {left:5%;width:90%;top:60%;font-size:7px}
-  @media screen and (max-width:414px) {left:5%;width:90%;top:60%;font-size:7px}
-  @media screen and (max-width:330px) {left:2%;width:100%;top:60%;font-size:6px}
+	color:black;
+	position:relative;
+	height:30%;
+	font-size:10px;
+	padding:20px;
 
 
-   @media screen and (max-height:630px) {font-size:10px;top:110%}
+	@media screen and (min-width:1920px){
+		margin-left:0%;
+		font-size:20px !important;
+	}
+	@media screen and (min-width:2500px){
+		margin-left:0%;
+		font-size:20px !important;
+    }
 
-   @media screen and (max-height:400px) {display:none}
-   @media screen and (max-height:680px) {display:none}
-   @media screen and (max-height:930px) {top:110%}
+
+
+
+	@media screen and (max-width:1375px) {
+		font-size:10px
+		margin-left:1% !important;
+	}
+
+	@media screen and (max-width:600px) and (max-height:380px) and (orientation:landscape){
+		width:95% !important;
+    }
 
 `;
 
@@ -110,16 +153,13 @@ class PersonalSignUp extends Component{
 	}
 
 	handleSignUpButton=async()=>{
-		if(this.state.isEmailValid==false){
+		const email=document.getElementById("email").value;
+		var {emailIndicator}=await checkIfEmailIsUsed(email);
+		if(emailIndicator==true){
 			alert('The email that you have typed is already used unfortunately by someone else. Please enter another one or sign in if its yours');
 		}else{
-			this.setState({
-				isCreatingProfile:true
-			})
-
 			const firstName=document.getElementById("firstName").value;
 			const lastName=document.getElementById("lastName").value;
-			const email=document.getElementById("email").value;
 			const password=document.getElementById("password").value;
 
 			if(firstName==""||email==""||password==""){
@@ -302,70 +342,62 @@ class PersonalSignUp extends Component{
 
 	render(){
 		return (
-			<React.Fragment>
+			<PersonalSignUpCard>
 				<PasswordSuggestions
 					closePasswordSuggestionsModal={this.closePasswordSuggestionsModal}
 					displayPasswordSuggestionsModal={this.state.displayPasswordSuggestionsModal}
 				/>
-
-				<ul style={{padding:"0px"}}>
-					<img id="image" src={SympociaIcon} style={{position:"relative",marginLeft:"40%",width:"80px",height:"60px"}}/>
-					<p id="headerText" style={{textAlign:"center",fontSize:"30px",color:"#424242"}}>
-						<b>Welcome to Sympocia</b>
-					</p>
-					<p id="signUpText" style={{textAlign:"center"}}>
-						Sign up is quick and easy
-					</p>
-
-					<ul id="inputContainerLI" style={{paddingLeft:"70px"}}>
-						<InputContainer id="email" placeholder="Email"/>
-						<InputContainer onClick={()=>this.checkIfEmailIsValid()}
-							 id="firstName" placeholder="First Name"
+				<img id="image" src={SympociaIcon} 
+					style={{position:"relative",width:"80px",height:"60px"}}
+				/>
+				<p id="headerText" style={{textAlign:"center",fontSize:"30px",color:"#424242"}}>
+					<b>Welcome to Sympocia</b>
+				</p>
+				<p id="signUpText" style={{textAlign:"center"}}>
+					Sign up is quick and easy
+				</p>
+				<div style={{width:"87%"}}>
+					<InputContainer id="email" placeholder="Email (required)"/>
+					<InputContainer onClick={()=>this.checkIfEmailIsValid()}
+						 id="firstName" placeholder="First Name (required)"
+					/>
+					<InputContainer onClick={()=>this.checkIfEmailIsValid()}
+						 id="lastName" placeholder="Last Name (optional)"
+					/>
+					<div id="passwordContainer" style={{position:"relative",display:"flex",flexDirection:"row",width:"88%"
+					,marginLeft:"1%"}}>
+						<InputContainer onKeyDown={e=>this.test(e)} 
+							onClick={()=>this.checkIfEmailIsValid()} id="password"
+							placeholder="Password (required)"
+							style={{width:"85%"}}
 						/>
-
-						<InputContainer onClick={()=>this.checkIfEmailIsValid()}
-							 id="lastName" placeholder="Last Name (optional)"
-						/>
-
-						<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-							<InputContainer onKeyDown={e=>this.test(e)} 
-								onClick={()=>this.checkIfEmailIsValid()} id="password"
-								 style={{width:"85%"}} placeholder="Password"
+						<div>
+							<HelpOutlineOutlinedIcon
+								style={{fontSize:"30",marginRight:"5%",color:"#C8B0F4",cursor:"pointer"}}
+								onClick={()=>this.setState({displayPasswordSuggestionsModal:true})}
 							/>
-							<div style={{width:"25%"}}>
-								<HelpOutlineOutlinedIcon
-									style={{fontSize:"30",marginRight:"5%",color:"#C8B0F4",cursor:"pointer"}}
-									onClick={()=>this.setState({displayPasswordSuggestionsModal:true})}
-								/>
-							</div>
 						</div>
+					</div>
+				</div>
+				{this.state.isCreatingProfile==true ?
+					<p>Please wait...</p>
+					:<SubmitButton onClick={()=>this.handleSignUpButton()}>
+						Submit
+					 </SubmitButton>
+				}
+				<TermsOfAgreement>
+					By clicking Submit, you agree to our &nbsp;
+					<Link to={{pathname:"/termsOfService"}}>
+							Terms
+					</Link> and &nbsp;
+					<Link to={{pathname:"/privacyPolicy"}}>
+						Privacy Policy
+					</Link>
+					.We dont use your data or sell it without letting you know first.
 
-						{this.state.isCreatingProfile==true ?
-							<p>Please wait...</p>
-							:<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<SubmitButton onClick={()=>this.handleSignUpButton()}>
-									Submit
-								</SubmitButton>
-							</a>
-						}
+				</TermsOfAgreement>
 
-
-
-						 <TermsOfAgreement>
-                           By clicking Submit, you agree to our 
-                           <Link to={{pathname:"/termsOfService"}}>
-                           		Terms
-                           </Link> and 
-                           <Link to={{pathname:"/privacyPolicy"}}>
-								Privacy Policy
-							</Link>
-                           .We dont use your data or sell it without letting you know first.
-
-                        </TermsOfAgreement>
-					</ul>
-				</ul>
-
-			</React.Fragment>
+			</PersonalSignUpCard>
 		)
 	}
 }
