@@ -42,32 +42,32 @@ const SecondSection=()=>{
 						style={{width:"427px",height:"435px",left:"5%",borderRadius:"50%"}}
 					/>
 				</div>
-                 <div id="secondSectionPrimaryText" style={{width:"40%",marginRight:"5%"}}>
-                 	<p id="manifestoText" style={{color:"#C8B0F4",fontSize:"24px"}}>
-                      <b>Manifesto</b>
-                    </p>
-                    <p id="secondSectionHeaderText" style={{fontSize:"36px",color:"white"}}>
-                      <b>How are we different?</b>
-                    </p>
-                    <p id="howAreWeDifferentText" style={{marginBottom:"15%",color:"#DFDFDF",fontSize:"18px"}}>
-                      We've all been there. You've asked yourself "I really like this photo but will it get likes?"
-                      or "Will anyone care about my hobbies?". You've also asked yourself, "Why do I feel so alone after
-                      using social media?". We've asked ourselves these question also. Which is why we built Sympocia
-                    </p>
-                    <p id="offerHeaderText"style={{color:"#5298F8",fontSize:"18px"}}>Here’s some things that we offer:</p>
-                    <ol id="OLListCSSID"style={{color:"#5298F8",fontSize:"18px"}}>
-                      <li style={OLListCSS}>
-                        New improved algorithm for images, videos, blogs, and regular posts
-                      </li>
-                      <li style={OLListCSS}>
-                        More emphasis on creating real connections with people that you like
-                      </li>
+				<div id="secondSectionPrimaryText" style={{width:"40%",marginRight:"5%"}}>
+						<p id="manifestoText" style={{color:"#C8B0F4",fontSize:"24px"}}>
+					  <b>Manifesto</b>
+					</p>
+					<p id="secondSectionHeaderText" style={{fontSize:"36px",color:"white"}}>
+					  <b>How are we different?</b>
+					</p>
+					<p id="howAreWeDifferentText" style={{marginBottom:"15%",color:"#DFDFDF",fontSize:"18px"}}>
+					  We've all been there. You've asked yourself "I really like this photo but will it get likes?"
+					  or "Will anyone care about my hobbies?". You've also asked yourself, "Why do I feel so alone after
+					  using social media?". We've asked ourselves these question also. Which is why we built Sympocia
+					</p>
+					<p id="offerHeaderText"style={{color:"#5298F8",fontSize:"18px"}}>Here’s some things that we offer:</p>
+					<ol id="OLListCSSID"style={{color:"#5298F8",fontSize:"18px"}}>
+					  <li style={OLListCSS}>
+					    New improved algorithm for images, videos, blogs, and regular posts
+					  </li>
+					  <li style={OLListCSS}>
+					    More emphasis on creating real connections with people that you like
+					  </li>
 
-                      <li style={OLListCSS}>
-                        More control over posts than you ever had before
-                      </li>
-                    </ol>
-                 </div>
+					  <li style={OLListCSS}>
+					    More control over posts than you ever had before
+					  </li>
+					</ol>
+				</div>
 			</InformationalContainer>
 			<div id="backgroundDiv" style={BackgroundDivCSS}>
 				<div id="secondaryBackgroundDiv" 
