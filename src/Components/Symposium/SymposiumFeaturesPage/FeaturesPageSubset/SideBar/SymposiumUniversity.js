@@ -13,7 +13,7 @@ const SymposiumSpecilistsCSS={
 	marginTop:"2%",
 	borderRadius:"5px",
 	width:"95%",
-	height:"40%"
+	height:"260px"
 }
 
 const SymposiumResourcesCSS={
@@ -23,7 +23,7 @@ const SymposiumResourcesCSS={
 	marginTop:"5%",
 	borderRadius:"5px",
 	width:"95%",
-	height:"40%"
+	height:"260px"
 }
 
 const HorizontalLineCSS={

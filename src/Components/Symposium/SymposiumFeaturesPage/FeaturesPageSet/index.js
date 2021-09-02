@@ -2,12 +2,15 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {GeneralNavBar} from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import CreationBeaconPortal from "./Modals-Portals/Beacons/CreateBeaconPortal.js";
+import SymposiumCreationPortal from "./Modals-Portals/SymposiumCommunity/CreationModal.js";
 
 import {FeaturePosts} from "../FeaturesPageSubset/Posts/index.js";
 import SideBar from "../FeaturesPageSubset/SideBar/index.js";
 import SearchBar from "../FeaturesPageSubset/SearchBar.js";
 import {FeaturesProvider} from "./FeaturesPageContext.js";
 import {useSelector} from "react-redux";
+import PortalHoc from "./Modals-Portals/PortalsHOC.js";
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 
 
 const Container=styled.div`
@@ -38,6 +41,61 @@ const FeaturesContainer=styled.div`
 		}
 	}
 `;
+const CreatePostButton=styled.div`	
+	width:70px;
+	height:70px;
+	border-radius:50%;
+	background-color:white;
+	border-color:white;
+	border-style:solid;
+	padding:15px;
+	border-width:5px;
+	animation: glowing 1300ms infinite;
+	margin-left:280px;
+	display:none;
+
+	margin-top:530px;
+	position:fixed;
+	z-index:10;
+
+
+	@keyframes glowing {
+      0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
+      100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
+  	}
+
+  	@media screen and (min-width:2500px){
+  		width:120px;
+		height:120px;
+		#postCreationIcon{
+			font-size:50px !important;
+			margin-left:15%; 
+			margin-top:15%;
+		}
+  	}
+  	@media screen and (max-width:1200px){
+  		display:block;
+		width:60px !important;
+		height:60px !important;
+		margin-left:85%;
+		margin-top:120%;
+    }
+    @media screen and (max-width:1080px){
+			width:50px !important;
+			height:50px !important;
+    }
+     @media screen and (max-width:1080px){
+			width:70px !important;
+			height:70px !important;
+    }
+
+    @media screen and (max-width:650px){
+    	margin-top:530px;
+    	margin-left:280px;
+    }
+`;
+
 
 const BEACONS_featuresPagePrimaryInformation={
 		posts:[
@@ -167,9 +225,9 @@ const SYMPOSIUM_featuresPageSecondaryInformation={
 }
 
 const COMMUNITY_featuresPagePrimaryInformation={
-				headerQuestions:[
+			headerQuestions:[
 				{
-					question:"What’s scommunity yessir ?",
+					question:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 					questionType:"Images",
 					responses:[
 						{},
@@ -197,20 +255,23 @@ const COMMUNITY_featuresPagePrimaryInformation={
 					]
 				}
 			],
+			competitionEndDate:1631246400000,
 			symposiumName:"Engineering"
 }
 
 
 const COMMUNITY_featuresPageSecondaryInformation={
-				submissionCount:55,
+			submissionCount:55,
 			currentQuestionsStandings:[
 				{
 					question:"What do you think about pizza?",
-					votes:23
+					postType:"Images",
+					votes:"23 votes"
 				},
 				{
 					question:"What do you think about pizza1?",
-					votes:2
+					postType:"Videos",
+					votes:"2 votes"
 				}
 			]
 		}
@@ -224,6 +285,8 @@ const SymposiumFeatures=(props)=>{
 	const [displayBeaconCreation,changeDisplayBeaconCreation]=useState(false);
 	const [currentCreationCriteria,changeCurrentCreationCriteria]=useState();
 	const personalInformation=useSelector(state=>state.personalInformation);
+	const [displaySymposiumCreationModal,changeSymposiumDisplayCreationModal]=useState(false);
+
 	const [isDesktop,changeIsDesktopStatus]=useState(false);
 
 
@@ -287,6 +350,7 @@ const SymposiumFeatures=(props)=>{
 
 	const closeFeaturesPageCreationModal=()=>{
 		changeDisplayBeaconCreation(false);
+		changeSymposiumDisplayCreationModal(false);
 	}
 
 
@@ -294,20 +358,72 @@ const SymposiumFeatures=(props)=>{
 
 	}
 
-	const featuresPageCreationModals=()=>{
+	const updateSymposiumCommunityQuestionStandings=(userSubmittedQuestion)=>{
+		let communitySecondaryInformation=featuresPageSecondaryInformation;
+		let {
+			currentQuestionsStandings,
+			submissionCount
+		}=communitySecondaryInformation;
+
+		currentQuestionsStandings.splice(0,0,userSubmittedQuestion);
+		submissionCount+=1;
+
+		communitySecondaryInformation={
+			...communitySecondaryInformation,
+			currentQuestionsStandings,
+			submissionCount
+		}
+		changeSecondaryInformation(communitySecondaryInformation);
+	}
+
+	const beaconCreationModals=()=>{
 		return(
 			<React.Fragment>
 				{displayBeaconCreation==true &&(
-					<CreationBeaconPortal
-						postType={currentCreationCriteria.postType}
-						closeCreationModal={closeFeaturesPageCreationModal}
-						updateBeaconPosts={updateCurrentFeaturePagePosts}
-						symposiumId={props.match.params.symposiumId}
-						ownerId={personalInformation.id}
-						isDesktop={isDesktop}
+					<PortalHoc
+						closeModal={closeFeaturesPageCreationModal}
+						component={
+							<CreationBeaconPortal
+								postType={currentCreationCriteria.postType}
+								closeCreationModal={closeFeaturesPageCreationModal}
+								updateBeaconPosts={updateCurrentFeaturePagePosts}
+								symposiumId={props.match.params.symposiumId}
+								ownerId={personalInformation.id}
+								isDesktop={isDesktop}
+							/>
+						}
 					/>
 				)}
 			</React.Fragment>
+		)
+	}
+
+	const symposiumCommunityCreationModal=()=>{
+		return(
+			<React.Fragment>
+				{displaySymposiumCreationModal==true &&(
+					<PortalHoc
+						closeModal={closeFeaturesPageCreationModal}
+						component={
+							<SymposiumCreationPortal
+								closeModal={closeFeaturesPageCreationModal}
+								updateStandings={updateSymposiumCommunityQuestionStandings}
+							/>
+						}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	const mobileCreationPostButton=()=>{
+		return(
+			<CreatePostButton>
+				<BorderColorIcon
+					id="postCreationIcon"
+					style={{fontSize:"30",color:"#C8B0F4"}}
+				/>
+			</CreatePostButton>
 		)
 	}
 
@@ -325,26 +441,33 @@ const SymposiumFeatures=(props)=>{
 					updateSymposiumFeatureType(requestedSymposiumFeatureType);
 				},
 				displayCreationModal:(creationCriteria)=>{
+					debugger;
+					console.log(creationCriteria);
+					console.log("Display Toggled");
+					console.log(featuresType);
 					switch(featuresType){
-					case "Beacons":{
-						changeCurrentCreationCriteria({...creationCriteria})
-						changeDisplayBeaconCreation(true);
-						break;
-					}
+						case "Beacons":{
+							changeCurrentCreationCriteria({...creationCriteria})
+							changeDisplayBeaconCreation(true);
+							break;
+						}
 
-					case "University":{
-						break;
-					}
+						case "University":{
+							break;
+						}
 
-					case "Community":{
-						break;
+						case "Community":{
+							changeSymposiumDisplayCreationModal(true);
+							break;
+						}
 					}
-				}
 				}
 			}}
 		>
 			<Container id="symposiumFeaturesPage">
-				{featuresPageCreationModals()}
+				{mobileCreationPostButton()}
+				{beaconCreationModals()}
+				{symposiumCommunityCreationModal()}
 				<GeneralNavBar
 					page={"SymposiumFeatures"}
 					routerHistory={props.history}

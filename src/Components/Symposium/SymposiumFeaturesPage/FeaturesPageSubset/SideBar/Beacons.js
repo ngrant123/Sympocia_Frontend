@@ -8,18 +8,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {FeaturesContext} from "../../FeaturesPageSet/FeaturesPageContext.js";
 import ProgressBarExtendedModal from "../../FeaturesPageSet/Modals-Portals/Beacons/ProgressBarBeaconsExtended.js";
-import TagsPortal from "../../FeaturesPageSet/Modals-Portals/DropDowns/TagsPortal.js";
+import TagsDropDownPortal from "../../FeaturesPageSet/Modals-Portals/DropDowns/TagsPortal.js";
+import PortalsHOC from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
+
 
 const Container=styled.div`
-	@media screen and (max-width:1370px){
-		#beaconCreation{
-			display:none !important;
-		}
-		#tagsOptions{
-			display:none !important;
-		}
-	}
-
 	@media screen and (max-width:650px){
 		#progressBar{
 			width:95% !important;
@@ -222,16 +215,27 @@ const BeaconSideBar=()=>{
 	const closeTagOptionsModal=()=>{
 		changeDisplayTagOptions(false);
 	}
+
+	const progressBarModal=()=>{
+		return(
+			<React.Fragment>
+				{displayProgressBarExtended==true &&(
+					<PortalsHOC
+						closeModal={closeProgressBarExtendedModal}
+						component={
+							<ProgressBarExtendedModal/>
+						}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
 	return(
 		<Container>
+			{progressBarModal()}
 			{displayTagOptions==true &&(
-				<TagsPortal
+				<TagsDropDownPortal
 					closeModal={closeTagOptionsModal}
-				/>
-			)}
-			{displayProgressBarExtended==true &&(
-				<ProgressBarExtendedModal
-					closeModal={closeProgressBarExtendedModal}
 				/>
 			)}
 			<div>

@@ -7,6 +7,7 @@ import ArrowBackIosOutlinedIcon from '@material-ui/icons/ArrowBackIosOutlined';
 import Images from "./PostDisplay/Images.js";
 import Videos from "./PostDisplay/Videos.js";
 import RegularPosts from "./PostDisplay/RegularPosts.js";
+import {CountDownTimer} from "../SideBar/SymposiumCommunity.js";
 
 
 const Container=styled.div`
@@ -18,9 +19,7 @@ const Container=styled.div`
 const DropDownCSS={
 	borderRadius:"50%",
 	boxShadow:"1px 1px 5px #dbdddf",
-	marginLeft:"2%",
 	cursor:"pointer",
-	marginLeft:"10%",
 	padding:"2px",
 	marginRight:"5px"
 }
@@ -38,11 +37,15 @@ const HorizontalLineCSS={
 const SymposiumCommunity=({featuresType})=>{
 	const featuresPageConsumer=useContext(FeaturesContext);
 	const [currentQuestionIndex,changeCurrentQuestionIndex]=useState(0);
-		const {
+	const {
 		featuresPagePrimaryInformation:{
-			headerQuestions
-		}
+			headerQuestions,
+			competitionEndDate
+		},
+		isDesktop
 	}=featuresPageConsumer;
+
+
 
 	const incrementQuestionIndex=()=>{
 		let currentCounterIndex=currentQuestionIndex;
@@ -71,28 +74,67 @@ const SymposiumCommunity=({featuresType})=>{
 		}
 	}
 
+	const mobileHeaders=()=>{
+		return(
+			<div style={{display:"flex",flexDirection:"column",marginTop:"2%"}}>
+				<p style={{fontSize:"20px"}}>
+					{headerQuestions[currentQuestionIndex].question}
+				</p>
+				<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+					{currentQuestionIndex>0 &&(
+						<div style={{...DropDownCSS,marginRight:"5%"}} onClick={()=>decrementQuestionIndex()}>
+							<ArrowBackIosOutlinedIcon/>
+						</div>
+					)}
+					{currentQuestionIndex<headerQuestions.length-1 &&(
+						<div style={{...DropDownCSS,marginRight:"5%"}} onClick={()=>incrementQuestionIndex()}>
+							<ArrowForwardIosOutlinedIcon/>
+						</div>
+					)}
+					<CountDownTimer
+						countDownDateMilliSeconds={competitionEndDate}
+					/>
+				</div>
+			</div>
+		)
+	}
+
+	const desktopHeaders=()=>{
+		return(
+			<div style={{display:"flex",flexDirection:"row",alignItems:"center",marginTop:"2%"}}>
+				{currentQuestionIndex>0 &&(
+					<div style={DropDownCSS} onClick={()=>decrementQuestionIndex()}>
+						<ArrowBackIosOutlinedIcon/>
+					</div>
+				)}
+
+				<p style={{marginLeft:currentQuestionIndex==0?"0%":"5%",marginRight:"5%",fontSize:"20px"}}>
+					{headerQuestions[currentQuestionIndex].question}
+				</p>
+
+				{currentQuestionIndex<headerQuestions.length-1 &&(
+					<div style={DropDownCSS} onClick={()=>incrementQuestionIndex()}>
+						<ArrowForwardIosOutlinedIcon/>
+					</div>
+				)}
+			</div>
+		)
+	}
+
 	return(
 		<Container>
 			<PostsHeader
 				featuresType={featuresType}
 			/>
-			<div style={{display:"flex",flexDirection:"row",alignItems:"center",marginTop:"2%"}}>
-				<p style={{fontSize:"20px"}}>{headerQuestions[currentQuestionIndex].question}</p>
-				<div style={{display:"flex",flexDirection:"row",alignItems:"center",marginLeft:"5%"}}>
-
-					{currentQuestionIndex>0 &&(
-						<div style={DropDownCSS} onClick={()=>decrementQuestionIndex()}>
-							<ArrowBackIosOutlinedIcon/>
-						</div>
-					)}
-
-					{currentQuestionIndex<headerQuestions.length-1 &&(
-						<div style={DropDownCSS} onClick={()=>incrementQuestionIndex()}>
-							<ArrowForwardIosOutlinedIcon/>
-						</div>
-					)}
-				</div>
-			</div>
+			{isDesktop==true?
+				<React.Fragment>
+					{desktopHeaders()}
+				</React.Fragment>:
+				<React.Fragment>
+					{mobileHeaders()}
+				</React.Fragment>
+			}
+			
 			<hr style={HorizontalLineCSS}/>
 			{postsDisplayFunctionality(headerQuestions[currentQuestionIndex])}
 		</Container>

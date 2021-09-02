@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import BeaconsSideBar from "./Beacons.js";
 import SymposiumUniversitySideBar from "./SymposiumUniversity.js";
-import CommunitySideBar from "./SymposiumCommunity.js";
+import {SymposiumCommunity} from "./SymposiumCommunity.js";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SymposiumOptionsPortal from "../../FeaturesPageSet/Modals-Portals/DropDowns/SymposiumsOptionsPortal.js";
 
@@ -20,6 +20,10 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		position:relative;
 		width:100%;
+
+		#sideBarComponentParentDiv{
+			display:none !important;
+		}
 	}
 
 	@media screen and (max-width:650px){
@@ -60,7 +64,7 @@ const SideBar=({featuresType,symposiumName})=>{
 				break;
 			}
 			case 'Community':{
-				component=<CommunitySideBar/>;
+				component=<SymposiumCommunity/>;
 				break;
 			}
 		}
@@ -85,7 +89,9 @@ const SideBar=({featuresType,symposiumName})=>{
 				</div>
 			</div>
 			<hr style={HorizontalLineCSS}/>
-			{sideBarComponent()}
+			<div id="sideBarComponentParentDiv">
+				{sideBarComponent()}
+			</div>
 		</Container>
 	)
 }

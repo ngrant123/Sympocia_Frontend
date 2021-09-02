@@ -44,6 +44,7 @@ const ShadowContainer=styled.div`
 `;
 
 const TagsPortal=({closeModal})=>{
+	
 	return(
 		<React.Fragment>
 			<ShadowContainer

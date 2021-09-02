@@ -1,16 +1,24 @@
-import React,{useContext} from "react";
+import React,{useState,useEffect,useContext} from "react";
 import styled from "styled-components";
 import {FeaturesContext} from "../../FeaturesPageSet/FeaturesPageContext.js";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CurrentSubmissions from "../../FeaturesPageSet/Modals-Portals/SymposiumCommunity/CurrentSubmissions.js";
+import ExtendedSubmission from "../../FeaturesPageSet/Modals-Portals/SymposiumCommunity/ExtendedSubmission.js";
+import PortalsHOC from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
 
 const SubmissionsCSS={
 	padding:"15px",
 	borderRadius:"5px",
-	color:"white",
-	backgroundColor:"#A878FF",
+	color:"#A878FF",
+	backgroundColor:"white",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#A878FF",
 	display:"flex",
 	justifyContent:"center",
-	alignItems:"center"
+	alignItems:"center",
+	marginLeft:"2%",
+	cursor:"pointer"
 }
 
 const HorizontalLineCSS={
@@ -25,7 +33,9 @@ const TagsContainerCSS={
 	flexDirection:"column",
 	width:"95%",
 	borderRadius:"5px",
-	padding:"10px"
+	padding:"10px",
+	maxHeight:"290px",
+	overflowY:"auto"
 }
 
 const DropDownCSS={
@@ -46,20 +56,96 @@ const VotesCSS={
 	alignItems:"center"
 }
 
+
+const CreateButtonCSS={
+	backgroundColor:"#C8B0F4",
+	padding:"10px",
+	display:"flex",
+	alignItems:"center",
+	justifyContent:"center",
+	borderRadius:"5px",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#B38AFF",
+	color:"white",
+	cursor:"pointer",
+	width:"100%",
+	marginTop:"10%"
+}
+
+const CountDownTimer=({countDownDateMilliSeconds})=>{
+	const [timerCountDown,changeTimeCounterDowm]=useState();
+
+	useEffect(()=>{
+		constructTimer(countDownDateMilliSeconds);
+	},[]);
+
+	const constructTimer=(countDownDateMilliSeconds)=>{
+		let countDownId=setInterval(()=>{
+			var now = new Date().getTime();
+			var distance = countDownDateMilliSeconds - now;
+
+			var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+			const countDown = days + ":" + hours + ":" + minutes + ":" + seconds + "";
+			changeTimeCounterDowm(countDown);
+
+			if (distance < 0) {
+				clearInterval(countDownId);
+				changeTimeCounterDowm("")
+			}
+		},100);
+	}
+
+	return(
+		<p style={{fontSize:"36px",color:"#C8B0F4"}}>
+			<b>{timerCountDown}</b>
+		</p>
+	)
+};
+
+
+
+
 const SymposiumCommunity=()=>{
+
 	const featuresPageConsumer=useContext(FeaturesContext);
+	const [displayCurrentSubmission,changeDisplayCurrentSubmissions]=useState(false);
+	const [displaySelectedSubmission,changeSelectedSubmission]=useState(false);
+	const [selectedSubmissionQuestion,changeSelectedSubmissionQuestion]=useState();
+
 	const{
 		featuresPageSecondaryInformation:{
 			submissionCount,
 			currentQuestionsStandings
-		}
+		},
+		featuresPagePrimaryInformation:{
+			competitionEndDate
+		},
+		displayCreationModal
 	}=featuresPageConsumer;
+
+	var date = new Date(competitionEndDate);
+	var options = {
+        year: 'numeric', month: 'numeric', day: 'numeric',
+    };
+
+	var competitionEndDateText = date.toLocaleDateString('en', options);
+
+	const triggerSelectedSubmissionDisplay=(data)=>{
+		changeSelectedSubmissionQuestion(data);
+		changeSelectedSubmission(true);
+	}
 
 	const constructQuestionStandings=()=>{
 		return(
 			<React.Fragment>
 				{currentQuestionsStandings.map(data=>
-					<div style={{display:"flex",flexDirection:"column"}}>
+					<div style={{display:"flex",flexDirection:"column",cursor:"pointer"}} 
+						onClick={()=>triggerSelectedSubmissionDisplay(data)}>
 						<p>{data.question}</p>
 						<div style={VotesCSS}>
 							{data.votes}
@@ -71,20 +157,61 @@ const SymposiumCommunity=()=>{
 		)
 	}
 
+	const changeCurrentSubmissionsDisplay=()=>{
+		changeDisplayCurrentSubmissions(false);
+		changeSelectedSubmission(false);
+	}
+
+	const currentSubmissionsModal=()=>{
+		return(
+			<React.Fragment>
+				{displayCurrentSubmission==true &&(
+					<PortalsHOC
+						closeModal={changeCurrentSubmissionsDisplay}
+						component={
+							<CurrentSubmissions
+								currentQuestions={currentQuestionsStandings}
+							/>
+						}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	const extendedSubmissionModal=()=>{
+		return(
+			<React.Fragment>
+				{displaySelectedSubmission==true &&(
+					<PortalsHOC
+						closeModal={changeCurrentSubmissionsDisplay}
+						component={
+							<ExtendedSubmission
+								submissionData={selectedSubmissionQuestion}
+							/>
+						}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	return(
 		<React.Fragment>
+			{extendedSubmissionModal()}
+			{currentSubmissionsModal()}
 			<div style={{display:"flex",flexDirection:"column"}}>
-				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-					<p style={{fontSize:"36px",color:"#C8B0F4"}}>
-						<b>23:12:06</b>
-					</p>
+				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",marginBottom:"5%"}}>
+					<CountDownTimer
+						countDownDateMilliSeconds={competitionEndDate}
+					/>
 
-					<div style={SubmissionsCSS}>
+					<div style={SubmissionsCSS} onClick={()=>changeDisplayCurrentSubmissions(true)}>
 						{submissionCount} submissions
 					</div>
 				</div>
 				<p style={{color:"#B38AFF"}}>
-					Competition Ends: July 12
+					Competition Ends: {competitionEndDateText}
 				</p>
 			</div>
 			<hr style={HorizontalLineCSS}/>
@@ -103,10 +230,18 @@ const SymposiumCommunity=()=>{
 				<hr style={HorizontalLineCSS}/>
 				{constructQuestionStandings()}
 			</div>
+			<div style={CreateButtonCSS} onClick={()=>displayCreationModal()}>
+				Create Community Question
+			</div>
 		</React.Fragment>
 	)
 }
 
 
 
-export default SymposiumCommunity;
+export{
+	SymposiumCommunity,
+	CountDownTimer
+}
+
+

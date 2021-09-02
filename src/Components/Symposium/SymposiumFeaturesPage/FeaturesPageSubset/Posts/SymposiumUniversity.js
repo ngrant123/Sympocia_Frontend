@@ -13,7 +13,13 @@ import RegularPosts from "./PostDisplay/RegularPosts.js";
 const Container=styled.div`
 	display:flex;
 	flex-direction:column;
-	width:"100%"
+	width:100%;
+
+	@media screen and (max-width:650px){
+		#universityResponsesDiv{
+			width:90% !important;
+		}
+	}
 `;
 
 const PostsContainer=styled.div`
@@ -63,7 +69,8 @@ const SymposiumUniversity=({featuresType})=>{
 	const {
 		featuresPagePrimaryInformation:{
 			headerQuestions
-		}
+		},
+		isDesktop
 	}=featuresPageConsumer;
 
 	const incrementQuestionIndex=()=>{
@@ -93,30 +100,9 @@ const SymposiumUniversity=({featuresType})=>{
 		}
 	}
 
-	return(
-		<Container>
-			<PostsHeader
-				featuresType={featuresType}
-			/>
-			<div style={{display:"flex",flexDirection:"row",alignItems:"center",marginTop:"2%"}}>
-				<p style={{fontSize:"20px"}}>{headerQuestions[currentQuestionIndex].question}</p>
-				<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-
-					{currentQuestionIndex>0 &&(
-						<div style={DropDownCSS} onClick={()=>decrementQuestionIndex()}>
-							<ArrowBackIosOutlinedIcon/>
-						</div>
-					)}
-
-					{currentQuestionIndex<headerQuestions.length-1 &&(
-						<div style={DropDownCSS} onClick={()=>incrementQuestionIndex()}>
-							<ArrowForwardIosOutlinedIcon/>
-						</div>
-					)}
-				</div>
-			</div>
-
-			<div style={ResponsesCSS}>
+	const universityResponse=()=>{
+		return(
+			<div id="universityResponsesDiv" style={ResponsesCSS}>
 				<div style={{backgroundColor:"#C8B0F4",display:"flex",alignItems:"center"}}>
 					<p>116 Responses</p>
 				</div>
@@ -126,6 +112,71 @@ const SymposiumUniversity=({featuresType})=>{
 					/>	
 				</div>
 			</div>
+		)
+	}
+
+	const desktopHeaders=()=>{
+		return(
+			<React.Fragment>
+				<div style={{display:"flex",flexDirection:"row",alignItems:"center",marginTop:"2%"}}>
+					<p style={{fontSize:"20px"}}>{headerQuestions[currentQuestionIndex].question}</p>
+					<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+
+						{currentQuestionIndex>0 &&(
+							<div style={DropDownCSS} onClick={()=>decrementQuestionIndex()}>
+								<ArrowBackIosOutlinedIcon/>
+							</div>
+						)}
+
+						{currentQuestionIndex<headerQuestions.length-1 &&(
+							<div style={DropDownCSS} onClick={()=>incrementQuestionIndex()}>
+								<ArrowForwardIosOutlinedIcon/>
+							</div>
+						)}
+					</div>
+				</div>
+
+				{universityResponse()}
+			</React.Fragment>
+		)
+	}
+
+	const mobileHeaders=()=>{
+		return(
+			<div style={{display:"flex",flexDirection:"column",marginTop:"2%"}}>
+				<p style={{fontSize:"20px"}}>{headerQuestions[currentQuestionIndex].question}</p>
+				<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+					{currentQuestionIndex>0 &&(
+						<div style={{...DropDownCSS,marginLeft:"0%",marginRight:"5%"}} 
+							onClick={()=>decrementQuestionIndex()}>
+							<ArrowBackIosOutlinedIcon/>
+						</div>
+					)}
+					{currentQuestionIndex<headerQuestions.length-1 &&(
+						<div style={{...DropDownCSS,marginRight:"5%"}} onClick={()=>incrementQuestionIndex()}>
+							<ArrowForwardIosOutlinedIcon/>
+						</div>
+					)}
+
+					{universityResponse()}
+				</div>
+			</div>
+		)
+	}
+
+	return(
+		<Container>
+			<PostsHeader
+				featuresType={featuresType}
+			/>
+			{isDesktop==true?
+				<React.Fragment>
+					{desktopHeaders()}
+				</React.Fragment>:
+				<React.Fragment>
+					{mobileHeaders()}
+				</React.Fragment>
+			}
 			<hr style={HorizontalLineCSS}/>
 			{postsDisplayFunctionality(headerQuestions[currentQuestionIndex])}
 		</Container>
