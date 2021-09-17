@@ -660,6 +660,7 @@ export const createBeacon=async({
 				postType,
 				ownerId,
 				isMobile,
+				tags,
 				symposiumId
 			})=>{
 	try{
@@ -669,7 +670,8 @@ export const createBeacon=async({
 			postType,
 			ownerId,
 			symposiumId,
-			isMobile
+			isMobile,
+			tags
 		})
 		const {data}=createBeaconResponse;
 		return data;
@@ -797,7 +799,8 @@ export const deleteBeaconReply=async({
 			replyBeaconId,
 			beaconType,
 			ownerId,
-			accessToken
+			accessToken,
+			replyPostRefId
 		})=>{
 	try{
 		const deletedBeaconReplyResponse=await axios.post(`${CreateURl}/deleteBeaconReply`,{
@@ -805,7 +808,8 @@ export const deleteBeaconReply=async({
 			beaconId,
 			replyBeaconId,
 			beaconType,
-			ownerId
+			ownerId,
+			replyPostRefId
 		},{
 			headers:{
 				authorization:accessToken

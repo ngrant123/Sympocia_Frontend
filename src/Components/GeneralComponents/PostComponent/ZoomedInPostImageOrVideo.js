@@ -1,15 +1,12 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import {getVideoUrl,getImgUrl} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {
+	getVideoUrl,
+	getImgUrl
+} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 
-/*
-		@media screen and (max-width:650px){
-		#postDisplay{
-			height:60% !important;
-		}
-	}
-*/
+
 
 const Container=styled.div`
 	position:fixed;

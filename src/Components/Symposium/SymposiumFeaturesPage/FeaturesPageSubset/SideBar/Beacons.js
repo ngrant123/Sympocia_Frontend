@@ -62,8 +62,11 @@ const TagOptionsCSS={
 	cursor:"pointer",
 	display:"flex",
 	flexDirection:"row",
+	alignItems:"center",
 	marginBottom:"2%",
-	marginRight:"2%"
+	marginRight:"2%",
+	height:"50px",
+	overflow:"hidden"
 }
 
 const TagHeaderCSS={
@@ -78,11 +81,12 @@ const TagHeaderCSS={
 
 const TagNumCSS={
 	width:"25px",
+	height:"25px",
 	display:"flex",
 	padding:"2px",
 	alignItems:"center",
 	justifyContent:"center",
-	marginLeft:"20px",
+	marginLeft:"15px",
 	borderRadius:"50%",
 	backgroundColor:"#3898ec",
 	fontSize:"10px",
@@ -104,30 +108,39 @@ const CreateButtonCSS={
 	width:"100%"
 }
 
-const BeaconSideBar=()=>{
-	const featuresPageConsumer=useContext(FeaturesContext);
-	const {
-		featuresPageSecondaryInformation:{
-			progressBarValue,
-			tags
-		},
-		displayCreationModal
-	}=featuresPageConsumer;
-
-	let [currentPercentage,changeCurrentPercentage]=useState(0);
-	const [selectedTags,changeSelectedTags]=useState([]);
+const BeaconProgressBar=({currentSymposiumId,answeredBeacons,acceptedBeacons,totalBeacon,isProgressBarInExtendedModal})=>{
 	const [displayProgressBarExtended,changeDisplayProgressParExtended]=useState(false);
-	const [displayTagOptions,changeDisplayTagOptions]=useState(false);
+	let [currentPercentage,changeCurrentPercentage]=useState(0);
+	const beaconInteractedWith=answeredBeacons+acceptedBeacons;
 
 	useState(()=>{
 		debugger;
+		let progressBarCompletion;
+		let completedBeaconsAnsweredPercentage=(beaconInteractedWith)/totalBeacon;
+		if(completedBeaconsAnsweredPercentage==1)
+			progressBarCompletion=100;
+		else{
+			completedBeaconsAnsweredPercentage*=100;
+			Math.floor(completedBeaconsAnsweredPercentage);
+			progressBarCompletion=completedBeaconsAnsweredPercentage;
+		}
 		setTimeout(()=>{
-	        while(currentPercentage<progressBarValue){
+	        while(currentPercentage<progressBarCompletion){
 	        	changeCurrentPercentage(currentPercentage);
 	          	currentPercentage++;
         	}
       	},1000);
-	},[progressBarValue]);
+	},[answeredBeacons]);
+
+	const closeProgressBarExtendedModal=()=>{
+		changeDisplayProgressParExtended(false);
+	}
+
+	const displayExtendedProgressBarModal=()=>{
+		if(isProgressBarInExtendedModal!=true){
+			changeDisplayProgressParExtended(true);
+		}
+	}
 
 	const constructNodeElements=()=>{
 		debugger;
@@ -141,7 +154,7 @@ const BeaconSideBar=()=>{
 					                    {({ accomplished,index }) => (
 					                      <img
 					                      	style={{ filter: `grayscale(0%)`,borderRadius:"50%",cursor:"pointer"}}
-					                      	onClick={()=>changeDisplayProgressParExtended(true)}
+					                      	onClick={()=>displayExtendedProgressBarModal()}
 			                                width="40"
 			                                src={StampIcon}
 			                              />
@@ -153,69 +166,6 @@ const BeaconSideBar=()=>{
 	    return ProgressBarSteps;
 	}
 
-	const addTag=(tagData)=>{
-		const currentTags=selectedTags;
-		selectedTags.push(tagData);
-		changeSelectedTags([...selectedTags]);
-	}
-
-	const constructTags=()=>{
-		return(
-			<React.Fragment>
-				{tags.map(data=>
-					<div onClick={()=>addTag(data)} style={TagOptionsCSS}>
-						<p>
-							{data.tagName}
-						</p>
-						<div style={TagNumCSS}>
-							{data.currentNumOfTag2}
-						</div>
-					</div>
-				)}
-			</React.Fragment>
-		)
-	}
-
-	const removeSelectedTag=(selectedTagId)=>{
-		for(var i=0;i<selectedTags.length;i++){
-			if(selectedTags[i]._id==selectedTagId){
-				selectedTags.splice(i,1);
-				break;
-			}
-		}
-		changeSelectedTags([...selectedTags]);
-	}
-
-	const seletectedTags=()=>{
-		return(
-			<React.Fragment>
-				{selectedTags.length!=0 &&(
-					<div style={{width:"100%",display:"flex",flexDirection:"row"}}>
-						{selectedTags.map(data=>
-							<div style={{marginLeft:"2%",display:"flex",flexDirection:"row"}}>
-								<p>
-									{data.tagName}
-								</p>
-								<HighlightOffIcon
-									onClick={()=>removeSelectedTag(data._id)}
-									style={{cursor:"pointer"}}
-								/>
-							</div>	
-						)}
-					</div>
-				)}
-			</React.Fragment>
-		)
-	}
-
-	const closeProgressBarExtendedModal=()=>{
-		changeDisplayProgressParExtended(false);
-	}
-
-	const closeTagOptionsModal=()=>{
-		changeDisplayTagOptions(false);
-	}
-
 	const progressBarModal=()=>{
 		return(
 			<React.Fragment>
@@ -223,21 +173,22 @@ const BeaconSideBar=()=>{
 					<PortalsHOC
 						closeModal={closeProgressBarExtendedModal}
 						component={
-							<ProgressBarExtendedModal/>
+							<ProgressBarExtendedModal
+								answeredBeacons={answeredBeacons}
+								acceptedBeacons={acceptedBeacons}
+								totalBeacon={totalBeacon}
+								currentSymposiumId={currentSymposiumId}
+							/>
 						}
 					/>
 				)}
 			</React.Fragment>
 		)
 	}
+
 	return(
-		<Container>
+		<React.Fragment>
 			{progressBarModal()}
-			{displayTagOptions==true &&(
-				<TagsDropDownPortal
-					closeModal={closeTagOptionsModal}
-				/>
-			)}
 			<div>
 				<p style={{fontSize:"18px"}}>
 					<b>Your Progress</b>
@@ -251,8 +202,135 @@ const BeaconSideBar=()=>{
 		            	{constructNodeElements()}
 		            </ProgressBar>
 				</div>
-                <p style={{marginTop:"5%"}}>8/13 Answered</p>
+	            <p style={{marginTop:"5%"}}>
+	            	{beaconInteractedWith}/{totalBeacon} Answered
+	            </p>
 			</div>
+		</React.Fragment>
+	)
+}
+
+const BeaconSideBar=()=>{
+	const featuresPageConsumer=useContext(FeaturesContext);
+	const {
+		featuresPageSecondaryInformation:{
+			progressBarInformation,
+			tags:{
+				symposiumTags,
+				ownerCreationTagStatus
+			}
+		},
+		fetchPosts,
+		currentPostType,
+		currentSymposiumId,
+		displayCreationModal
+	}=featuresPageConsumer;
+
+	const [selectedTags,changeSelectedTags]=useState([]);
+	const [displayTagOptions,changeDisplayTagOptions]=useState(false);
+
+
+	const constructTags=()=>{
+		return(
+			<React.Fragment>
+				{symposiumTags.length==0?
+					<p>No tags</p>:
+					<React.Fragment>
+						{symposiumTags.map(data=>
+							<div onClick={()=>addTag(data)} style={TagOptionsCSS}>
+								<p>
+									{data.name}
+								</p>
+								<div style={TagNumCSS}>
+									{data.postCountUsingTag}
+								</div>
+							</div>
+						)}
+					</React.Fragment>
+				}
+			</React.Fragment>
+		)
+	}
+
+	const addTag=(tagData)=>{
+		const currentTags=selectedTags;
+		let isProspectiveTagAlreadyPicked=false;
+
+		for(var i=0;i<currentTags.length;i++){
+			if(currentTags[i]._id==tagData._id){
+				isProspectiveTagAlreadyPicked=true;
+				break;
+			}
+		}
+		if(isProspectiveTagAlreadyPicked==false){
+			selectedTags.push(tagData);
+			changeSelectedTags([...selectedTags]);
+			const beaconFetchParams={
+				postType:currentPostType,
+				tags:selectedTags,
+				isNextPostsRequest:false
+			}
+			fetchPosts("Beacons",beaconFetchParams);
+		}
+	}
+
+	const removeSelectedTag=(selectedTagId)=>{
+		for(var i=0;i<selectedTags.length;i++){
+			if(selectedTags[i]._id==selectedTagId){
+				selectedTags.splice(i,1);
+				break;
+			}
+		}
+		changeSelectedTags([...selectedTags]);
+		const beaconFetchParams={
+			postType:currentPostType,
+			tags:selectedTags,
+			isNextPostsRequest:false
+		}
+		fetchPosts("Beacons",beaconFetchParams);
+	}
+
+	const seletectedTags=()=>{
+		return(
+			<React.Fragment>
+				{selectedTags.length!=0 &&(
+					<div style={{width:"100%",display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
+						{selectedTags.map(data=>
+							<div style={{marginLeft:"2%",marginRight:"5%",display:"flex",flexDirection:"row"}}>
+								<p>
+									{data.name}
+								</p>
+								<HighlightOffIcon
+									onClick={()=>removeSelectedTag(data._id)}
+									style={{cursor:"pointer"}}
+								/>
+							</div>	
+						)}
+					</div>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	const closeTagOptionsModal=()=>{
+		changeDisplayTagOptions(false);
+	}
+
+	return(
+		<Container>
+			{displayTagOptions==true &&(
+				<TagsDropDownPortal
+					closeModal={closeTagOptionsModal}
+					ownerCreationTagStatus={ownerCreationTagStatus}
+					symposiumId={currentSymposiumId}
+				/>
+			)}
+			<BeaconProgressBar
+				{...progressBarInformation}
+				currentSymposiumId={currentSymposiumId}
+			/>
+
+
 			<div style={{padding:"30px"}} id="tagsOptions">
 				<div style={TagsContainerCSS}>
 					<div style={TagHeaderCSS}>
@@ -307,4 +385,7 @@ const BeaconSideBar=()=>{
 }
 
 
-export default BeaconSideBar;
+export{
+	BeaconSideBar,
+	BeaconProgressBar
+}

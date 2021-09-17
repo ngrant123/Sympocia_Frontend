@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
-import BeaconsSideBar from "./Beacons.js";
+import {BeaconSideBar} from "./Beacons.js";
 import SymposiumUniversitySideBar from "./SymposiumUniversity.js";
 import {SymposiumCommunity} from "./SymposiumCommunity.js";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -56,7 +56,7 @@ const SideBar=({featuresType,symposiumName})=>{
 		let component;
 		switch(featuresType){
 			case 'Beacons':{
-				component=<BeaconsSideBar/>;
+				component=<BeaconSideBar/>;
 				break;
 			}
 			case 'University':{

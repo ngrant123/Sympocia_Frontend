@@ -11,7 +11,14 @@ import {FeaturesProvider} from "./FeaturesPageContext.js";
 import {useSelector} from "react-redux";
 import PortalHoc from "./Modals-Portals/PortalsHOC.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
-
+import BeaconsTagsCreationModal from "./Modals-Portals/Beacons/TagsCreationModal.js";
+import TagExtendedInformationModal from "./Modals-Portals/Beacons/TagInformationExtended/index.js";
+import{
+	getSymposiumName,
+	isOligarch,
+	getBeaconsFeaturePage,
+	getBeacons
+} from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
 const Container=styled.div`
 	width:100%;
@@ -96,74 +103,6 @@ const CreatePostButton=styled.div`
     }
 `;
 
-
-const BEACONS_featuresPagePrimaryInformation={
-		posts:[
-			{},
-			{},
-			{},
-			{},
-			{},
-			{}
-		],
-		symposiumName:"Engineering"
-}
-
-const BEACONS_featuresPageSecondaryInformation={
-			progressBarValue:50,
-		tags:[
-			{
-				_id:1,
-				tagName:"Linear 1",
-				currentNumOfTag2:6
-			},
-			{
-				_id:2,
-				tagName:"Linear 2",
-				currentNumOfTag2:7
-			},
-			{
-				_id:3,
-				tagName:"Linear 3",
-				currentNumOfTag2:9
-			},
-			{
-				_id:4,
-				tagName:"Linear 4",
-				currentNumOfTag2:6
-			},
-			{
-				_id:5,
-				tagName:"Linear 5",
-				currentNumOfTag2:6
-			},
-			{
-				_id:6,
-				tagName:"Linear 6",
-				currentNumOfTag2:11
-			},
-			{
-				_id:7,
-				tagName:"Linear 7",
-				currentNumOfTag2:12
-			},
-			{
-				_id:8,
-				tagName:"Linear 8",
-				currentNumOfTag2:6
-			},
-			{
-				_id:9,
-				tagName:"Linear 9",
-				currentNumOfTag2:6
-			},
-			{
-				_id:10,
-				tagName:"Linear 10",
-				currentNumOfTag2:2
-			}
-		]
-}
 
 const SYMPOSIUM_featuresPagePrimaryInformation={
 			headerQuestions:[
@@ -286,6 +225,19 @@ const SymposiumFeatures=(props)=>{
 	const [currentCreationCriteria,changeCurrentCreationCriteria]=useState();
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [displaySymposiumCreationModal,changeSymposiumDisplayCreationModal]=useState(false);
+	const [currentPostManagmentToken,changePostManagmentToken]=useState();
+	const [displayBeaconsTagCreationModal,changeDisplayBeaconTagsModal]=useState(false);
+	const [displayExtendedTagsInformationModal,changeDisplayExtendedTagsMOdal]=useState(false);
+	const [isOligarch,changeOligarchStatus]=useState(false);
+	const [currentPostType,changeCurrentPostType]=useState("Images");
+	const [isLoadingPosts,changeIsLoadingPostsStatus]=useState(false);
+	const [loadingNewPostsIndicator,changeLoadingNewPostsIndicator]=useState(false);
+	const [endOfPostIndicator,changeEndOfPostsIndicator]=useState(false);
+	const [currentTagsSelection,changeCurrentTagSelection]=useState([]);
+
+
+	const [currentSymposiumName,changeSymposiumName]=useState();
+	const [currentSymposiumId,changeSymposiumId]=useState(props.match.params.symposiumId);
 
 	const [isDesktop,changeIsDesktopStatus]=useState(false);
 
@@ -300,21 +252,87 @@ const SymposiumFeatures=(props)=>{
 
 
 	useEffect(()=>{
-		changeLoadingStatus(true);
-		fetchData("Beacons")
-		changeLoadingStatus(false);
-		triggerUIChange();
+		const fetchInitialData=async()=>{
+			debugger;
+			const {confirmation,data}=await getSymposiumName(currentSymposiumId);
+			if(confirmation=="Success"){
+				const {message}=data;
+				changeSymposiumName(message);
+				changeLoadingStatus(true);
+
+				fetchData("Beacons")
+				triggerUIChange();
+
+			}else{
+				alert('Unfortunately there has been an error retrieving this symposiums features page');
+			}
+		}
+		fetchInitialData();
 	},[]);
 
+	const postFeedTokenGenerator=()=>{
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			return v.toString(16);
+		});
+	}
+
+	const retrieveBeaconsFeaturePage=async(featuresPageGetParams)=>{
+		debugger;
+		const {confirmation,data}=await getBeaconsFeaturePage(featuresPageGetParams);
+
+		if(confirmation=="Success"){
+			const {message}=data;
+			const {
+				beacons,
+				tags,
+				progressBar
+			}=message;
+
+			const beaconsPrimaryInformation={
+				posts:beacons,
+				symposiumName:currentSymposiumName
+			}
+			changePrimaryInformation(beaconsPrimaryInformation);
+
+			const beaconsSecondaryInformation={
+				progressBarInformation:progressBar,
+				tags
+			}
+			changeSecondaryInformation(beaconsSecondaryInformation);
+		}else{
+			alert('Unfortunately there was an error when retrieving the beacons page');
+		}
+	}
 
 
-	const fetchData=(featurePageType)=>{
-		//Placeholder
-		changeLoadingStatus(true);
+	const fetchData=async(featurePageType,isNewSymposiumRequest,newSymposiumId)=>{
+
+		if(isNewSymposiumRequest==true){
+			changeIsLoadingPostsStatus(true);
+		}else{
+			changeLoadingStatus(true);
+		}
+
+		const {id}=personalInformation;
+
+
+		let token=currentPostManagmentToken;
+		if(featuresType!=featurePageType || isNewSymposiumRequest==true){
+			token=postFeedTokenGenerator();
+			changePostManagmentToken(token);
+		}
+
+		const featuresPageGetParams={
+			symposiumId:isNewSymposiumRequest==true?newSymposiumId:currentSymposiumId,
+	        postType:currentPostType,
+	        currentPostSessionManagment:token,
+	        ownerId:id
+		}
+		debugger;
 		switch(featurePageType){
 			case "Beacons":{
-				changePrimaryInformation({...BEACONS_featuresPagePrimaryInformation});
-				changeSecondaryInformation({...BEACONS_featuresPageSecondaryInformation});
+				await retrieveBeaconsFeaturePage(featuresPageGetParams);
 				break;
 			}
 
@@ -330,18 +348,76 @@ const SymposiumFeatures=(props)=>{
 				break;
 			}
 		}
-		const newType=featurePageType;
-		changeLoadingStatus(false);
-		changeFeaturesType(newType);
+		if(isNewSymposiumRequest==true){
+			changeIsLoadingPostsStatus(false);
+		}else{
+			changeLoadingStatus(false);
+		}
+		changeFeaturesType(featurePageType);
 	}
 
-	const updateSymposiumHandle=(selectedSymposiumName)=>{
-		let currentPrimarySymposiumInformation=featuresPagePrimaryInformation;
-		currentPrimarySymposiumInformation={
-			...currentPrimarySymposiumInformation,
-			symposiumName:selectedSymposiumName
+	const fetchBeaconPosts=async({postType,tags,isNextPostsRequest})=>{
+		const {id}=personalInformation;
+		debugger;
+		let token=currentPostManagmentToken;
+		if(currentPostType!=postType || isNextPostsRequest==false){
+			token=postFeedTokenGenerator();
+			changePostManagmentToken(token);
+			if(currentPostType!=postType){
+				changeEndOfPostsIndicator(false);
+				changeLoadingNewPostsIndicator(true);
+			}
 		}
-		changePrimaryInformation({...currentPrimarySymposiumInformation});
+
+
+		const featuresPageGetParams={
+			symposiumId:currentSymposiumId,
+	        postType,
+	        currentPostSessionManagment:token,
+	        ownerId:id,
+	        tags:tags==null?((currentTagsSelection==null || currentTagsSelection.length==0)?null:currentTagsSelection):tags
+		}
+		const {confirmation,data}=await getBeacons(featuresPageGetParams);
+		if(confirmation=="Success"){
+			const {message}=data;
+			if(message.length==0){
+				changeEndOfPostsIndicator(true);
+			}else{
+				updatePrimaryPosts(message,isNextPostsRequest);
+			}
+		}else{
+			alert('Unfortunately there has been an error retrieving these beacon posts. Please try again');
+		}
+
+		if(tags!=null){
+			changeCurrentTagSelection(tags);
+			if(tags.length==0 && endOfPostIndicator==true && data.message.length>0){
+				changeEndOfPostsIndicator(false);
+			}else if(tags.length>0 && data.message.length>0){
+				changeEndOfPostsIndicator(false);
+			}
+		}
+
+
+		changeCurrentPostType(postType);
+		changeLoadingNewPostsIndicator(false);
+	}
+
+	const fetchPosts=async(featurePostType,postRetrievalInformation)=>{
+		changeIsLoadingPostsStatus(true);
+		switch(featurePostType){
+			case "Beacons":{
+				await fetchBeaconPosts(postRetrievalInformation)
+				break;
+			}
+		}
+		changeIsLoadingPostsStatus(false);
+	}
+
+	const updateSymposiumHandle=(newSymposiumName,newSymposiumId)=>{
+		changeSymposiumName(newSymposiumName)
+		changeSymposiumId(newSymposiumId);
+		fetchData(featuresType,true,newSymposiumId);
 	}
 
 	const updateSymposiumFeatureType=(selectedFeaturesType)=>{
@@ -351,11 +427,24 @@ const SymposiumFeatures=(props)=>{
 	const closeFeaturesPageCreationModal=()=>{
 		changeDisplayBeaconCreation(false);
 		changeSymposiumDisplayCreationModal(false);
+		changeDisplayBeaconTagsModal(false);
+		changeDisplayExtendedTagsMOdal(false);
 	}
 
 
-	const updateCurrentFeaturePagePosts=()=>{
-
+	const updateCurrentBeaconPosts=(beaconPostType,beacon)=>{
+		debugger;
+		let currentBeaconPrimaryInformation=featuresPagePrimaryInformation;
+		if(beaconPostType==currentPostType){
+			const {posts}=currentBeaconPrimaryInformation;
+			posts.splice(0,0,beacon);
+			currentBeaconPrimaryInformation={
+				...currentBeaconPrimaryInformation,
+				posts
+			}
+			changePrimaryInformation(currentBeaconPrimaryInformation);
+		}
+		closeFeaturesPageCreationModal();
 	}
 
 	const updateSymposiumCommunityQuestionStandings=(userSubmittedQuestion)=>{
@@ -384,9 +473,9 @@ const SymposiumFeatures=(props)=>{
 						closeModal={closeFeaturesPageCreationModal}
 						component={
 							<CreationBeaconPortal
-								postType={currentCreationCriteria.postType}
+								preSelectedPostType={currentCreationCriteria.postType}
 								closeCreationModal={closeFeaturesPageCreationModal}
-								updateBeaconPosts={updateCurrentFeaturePagePosts}
+								updateBeaconPosts={updateCurrentBeaconPosts}
 								symposiumId={props.match.params.symposiumId}
 								ownerId={personalInformation.id}
 								isDesktop={isDesktop}
@@ -427,18 +516,201 @@ const SymposiumFeatures=(props)=>{
 		)
 	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	const insertTagIntoQueue=(newlyCreatedTag)=>{
+		let secondaryInformation=featuresPageSecondaryInformation;
+		const currentTagList=secondaryInformation.tags.symposiumTags;
+		currentTagList.splice(0,0,newlyCreatedTag);
+
+		secondaryInformation={
+			...secondaryInformation,
+			tags:{
+				...secondaryInformation.tags,
+				symposiumTags:currentTagList
+			}
+		}
+
+		changeSecondaryInformation(secondaryInformation);
+	}
+
+
+	const editTagHandle=(editedTag)=>{
+		let secondaryInformation=featuresPageSecondaryInformation;
+		const currentTagList=secondaryInformation.tags.symposiumTags;
+		for(var i=0;i<currentTagList.length;i++){
+			if(currentTagList[i]._id==editedTag._id){
+				currentTagList[i]=editedTag;
+				break;
+			}
+		}
+
+		secondaryInformation={
+			...secondaryInformation,
+			tags:{
+				...secondaryInformation.tags,
+				symposiumTags:currentTagList
+			}
+		}
+
+		changeSecondaryInformation(secondaryInformation);
+	}
+
+	const deleteTagHandle=(idTag)=>{
+		debugger;
+		let secondaryInformation=featuresPageSecondaryInformation;
+		const currentTagList=secondaryInformation.tags.symposiumTags;
+		for(var i=0;i<currentTagList.length;i++){
+			if(currentTagList[i]._id==idTag){
+				currentTagList.splice(i,1);
+				break;
+			}
+		}
+		secondaryInformation={
+			...secondaryInformation,
+			tags:{
+				...secondaryInformation.tags,
+				symposiumTags:currentTagList
+			}
+		}
+
+		changeSecondaryInformation(secondaryInformation);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	const beaconsTagCreationModal=()=>{
+		return(
+			<React.Fragment>
+				{displayBeaconsTagCreationModal==true &&(
+					<PortalHoc
+						closeModal={closeFeaturesPageCreationModal}
+						component={
+							<BeaconsTagsCreationModal
+								closeModal={closeFeaturesPageCreationModal}
+								symposiumId={currentSymposiumId}
+								ownerId={personalInformation.id}
+								insertTagIntoQueue={insertTagIntoQueue}
+							/>
+						}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	const tagExtendedInformationModal=()=>{
+		return(
+			<React.Fragment>
+				{displayExtendedTagsInformationModal==true &&(
+					<PortalHoc
+						closeModal={closeFeaturesPageCreationModal}
+						component={
+							<TagExtendedInformationModal
+								closeModal={closeFeaturesPageCreationModal}
+								symposiumId={currentSymposiumId}
+								ownerId={personalInformation.id}
+							/>
+						}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+
+	const updatePrimaryPosts=(updatedPosts,isNextPostsRequest)=>{
+		debugger;
+		switch(featuresType){
+			case "Beacons":{
+				let currentBeaconPrimaryInformation=featuresPagePrimaryInformation;
+				let currentPosts=currentBeaconPrimaryInformation.posts;
+				let newUpdatedPosts;
+				if(isNextPostsRequest==false){
+					newUpdatedPosts=updatedPosts;
+				}else{
+					newUpdatedPosts=currentPosts.concat(updatedPosts);
+				}
+			
+				currentBeaconPrimaryInformation={
+					...currentBeaconPrimaryInformation,
+					posts:newUpdatedPosts
+				}
+				changePrimaryInformation(currentBeaconPrimaryInformation);
+				break;
+			}
+
+			case "University":{
+				break;
+			}
+
+			case "Community":{
+				break;
+			}
+		}
+	}
+
 	return(
 		<FeaturesProvider
 			value={{
 				featuresPageSecondaryInformation,
 				featuresPagePrimaryInformation,
 				featuresType,
+				currentSymposiumId,
+				isOligarch,
+				fetchPosts,
+				currentPostType,
+				loadingNewPostsIndicator,
+				endOfPostIndicator,
 				isDesktop,
-				triggerCurrentSymposiumChange:(seletedSymposium)=>{
-					updateSymposiumHandle(seletedSymposium);
+				triggerCurrentSymposiumChange:(seletedSymposium,newSymposiumId)=>{
+					updateSymposiumHandle(seletedSymposium,newSymposiumId);
 				},
 				triggerFeaturesTypeChange:(requestedSymposiumFeatureType)=>{
 					updateSymposiumFeatureType(requestedSymposiumFeatureType);
+				},
+				triggerBeaconTagsCreationDisplay:()=>{
+					changeDisplayBeaconTagsModal(true);
+				},
+				triggerDisplayExtendedTagsModal:()=>{
+					changeDisplayExtendedTagsMOdal(true);
+				},
+				editTag:(editedTag)=>{
+					editTagHandle(editedTag);
+				},
+				deleteTag:(tagId)=>{
+					deleteTagHandle(tagId);
+				},
+				updatePrimaryPosts:(symposiumFeaturesPageType,updatedPosts)=>{
+					updatePrimaryPosts(symposiumFeaturesPageType,updatedPosts);
+				},
+				updateSecondaryInformation:(updatedSecondaryInformation)=>{
+					changeSecondaryInformation(updatedSecondaryInformation);
 				},
 				displayCreationModal:(creationCriteria)=>{
 					debugger;
@@ -447,7 +719,7 @@ const SymposiumFeatures=(props)=>{
 					console.log(featuresType);
 					switch(featuresType){
 						case "Beacons":{
-							changeCurrentCreationCriteria({...creationCriteria})
+							changeCurrentCreationCriteria(creationCriteria)
 							changeDisplayBeaconCreation(true);
 							break;
 						}
@@ -465,9 +737,13 @@ const SymposiumFeatures=(props)=>{
 			}}
 		>
 			<Container id="symposiumFeaturesPage">
+
 				{mobileCreationPostButton()}
 				{beaconCreationModals()}
 				{symposiumCommunityCreationModal()}
+				{beaconsTagCreationModal()}
+				{tagExtendedInformationModal()}
+
 				<GeneralNavBar
 					page={"SymposiumFeatures"}
 					routerHistory={props.history}
@@ -480,7 +756,7 @@ const SymposiumFeatures=(props)=>{
 							<SideBar
 								id="desktopSideBar"
 								featuresType={featuresType}
-								symposiumName={featuresPagePrimaryInformation.symposiumName}
+								symposiumName={currentSymposiumName}
 							/>
 							<div id="searchBarAndPosts" 
 								style={{display:"flex",flexDirection:"column",marginLeft:"30%",width:"65%"}}>
@@ -491,6 +767,7 @@ const SymposiumFeatures=(props)=>{
 								</div>
 								<FeaturePosts
 									featuresType={featuresType}
+									isLoading={isLoadingPosts}
 								/>
 							</div>
 						</React.Fragment>

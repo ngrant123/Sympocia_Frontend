@@ -249,6 +249,7 @@ const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop,isOligarch})=>{
 								triggerAlterPosts={triggerAlterPosts}
 								endOfNewPosts={endOfNewPosts}
 								isFetchingNextPosts={isFetchingNextPosts}
+								targetDom={"extendedSymposiumContainer"}
 							/>
 						}
 					</BeaconContent>

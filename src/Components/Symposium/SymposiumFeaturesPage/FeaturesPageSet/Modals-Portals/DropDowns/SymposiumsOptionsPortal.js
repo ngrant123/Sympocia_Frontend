@@ -3,6 +3,8 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import PERSONAL_INDUSTRIES from "../../../../../../Constants/personalIndustryConstants.js";
 import {FeaturesContext} from "../../FeaturesPageContext.js";
+import {getSymposiumId} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+
 
 const Container=styled.div`
 	position:fixed;
@@ -49,9 +51,15 @@ const ShadowContainer=styled.div`
 const SymposiumOptions=({closeModal})=>{
 	const featuresPageConsumer=useContext(FeaturesContext);
 
-	const triggerChangeSymposium=(desiredSymposium)=>{
-		featuresPageConsumer.triggerCurrentSymposiumChange(desiredSymposium);
-		closeModal();
+	const triggerChangeSymposium=async(desiredSymposium)=>{
+		const {confirmation,data}=await getSymposiumId(desiredSymposium);
+		if(confirmation=="Success"){
+			const {message}=data;
+			featuresPageConsumer.triggerCurrentSymposiumChange(desiredSymposium,message);
+			closeModal();
+		}else{
+			alert('Unfortunately there has been an error when retrieving this symposium feature page. Please try again');
+		}
 	}
 
 	return createPortal(

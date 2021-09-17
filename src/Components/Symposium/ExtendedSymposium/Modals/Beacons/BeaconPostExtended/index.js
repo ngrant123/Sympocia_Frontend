@@ -1,8 +1,7 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import Creation from "../Creation.js";
 import SelectedPost from "./SelectedPost.js";
-import ZoomedPostImageOrVideoPortal from "../../../../../GeneralComponents/PostComponent/ZoomedInPostImageOrVideo.js";
 import {retrieveBeaconReplies} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import BeaconPosts from "../BeaconPosts.js";
 
@@ -26,10 +25,23 @@ const BackButtonCSS={
 }
 
 
-const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumId,ownerId,isGuestProfile,isOligarch,deletedBeacon})=>{
+const BeaconPostExtended=({
+	closeExtendedBeaconModal,
+	postData,
+	postType,
+	symposiumId,
+	ownerId,
+	isGuestProfile,
+	isOligarch,
+	deletedBeacon,
+	targetDom,
+	updateBeaconAnsweredStatus,
+	updateBeaconUpdatedStatus
+})=>{
+
+	debugger;
 	const [displaySelectedPost,changeDisplaySelectedPost]=useState(true);
 	const [displayExtendReplyBeacon,changeDisplayReplyBeacon]=useState(false);
-	const [displayZoomedInPostPortal,changeDisplayZoomedInPostPortal]=useState(false);
 	const [selectedPostData,changeSelectedPostData]=useState(postData);
 	const [replies,changeReplies]=useState([])
 	const [beaconCounter,changeBeaconCounter]=useState(0);
@@ -37,9 +49,28 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 	const [endOfNewPosts,changeIsEndOfNewPosts]=useState(false);
 	const [isFetchingNextPosts,changeIsFetchingNextPosts]=useState(false);
 	const [displayReplies,changeDisplayReplies]=useState(false);
+	const [currentPostToken,changeCurrentPostToken]=useState();
 
+	const props={
+		postType,
+		isOligarch,
+		beaconOwnerId:selectedPostData.post.owner._id,
+		symposiumId,
+		beaconId:selectedPostData.beaconId
+	}
+
+	const uuidv4=()=>{
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			return v.toString(16);
+		});
+	}
+	useEffect(()=>{
+		const postToken=uuidv4();
+		changeCurrentPostToken(postToken);
+	},[]);
 	const closeCreationModal=()=>{
-		changeDisplaySelectedPost(true);
+		changeDisplayReplies(true);
 	}
 
 	const updateBeaconPosts=(beaconPostType,beacon)=>{
@@ -47,15 +78,10 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 			replies.splice(0,0,beacon);
 			changeReplies([...replies]);
 		}
+		if(updateBeaconAnsweredStatus!=null){
+			updateBeaconAnsweredStatus();
+		}
 		closeCreationModal();
-	}
-
-	const displayZoomedPost=()=>{
-		changeDisplayZoomedInPostPortal(true);
-	}
-
-	const closeZoomedInPostModal=()=>{
-		changeDisplayZoomedInPostPortal(false);
 	}
 
 	const enableCreationPost=()=>{
@@ -69,9 +95,10 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 		if(displayExtendReplyBeacon==true){
 			changeSelectedPostData(postData);
 			changeDisplayReplyBeacon(false);
+			changeDisplayReplies(true);
 		}else if(displayReplies==true){
 			changeDisplayReplies(false);
-		}else{	
+		}else{
 			closeExtendedBeaconModal()
 		}
 	}
@@ -90,11 +117,13 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 		if(increaseCounterIndicator==true){
 			counter+=1;
 		}
+		debugger;
 		const {confirmation,data}=await retrieveBeaconReplies(
 											symposiumId,
 											postType,
-											counter,
-											postData.beaconId
+											selectedPostData.beaconId,
+											currentPostToken,
+											ownerId
 										);
 		if(confirmation=="Success"){
 			const {message}=data;
@@ -122,19 +151,25 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 		triggerCloseModal();
 	}
 
+	const triggerBeaconUpdateStatus=(beaconId,beaconUpdateAcceptStatus)=>{
+		debugger;
+		let beaconReplies=replies;
+		for(var i=0;i<beaconReplies.length;i++){
+
+			if(beaconReplies[i].beaconId==selectedPostData.beaconId){
+				beaconReplies[i]={
+					...beaconReplies[i],
+					acceptedAnswerStatus:beaconUpdateAcceptStatus
+				}
+				break;
+			}
+		}
+		changeReplies([...beaconReplies])
+		updateBeaconUpdatedStatus(beaconId,beaconUpdateAcceptStatus);
+	}
+
 	return(
 		<Container>
-			{displayZoomedInPostPortal==true &&(
-				<ZoomedPostImageOrVideoPortal
-					targetDom={"extendedSymposiumContainer"}
-					closeModal={closeZoomedInPostModal}
-					postUrl={postType!="Images"?
-								selectedPostData.post.videoUrl:
-								selectedPostData.post.imgUrl}
-					postType={postType}				
-					unCompressedId={postType!="Images"?selectedPostData.post.videoUrlKey:selectedPostData.post.uncompressedImageId}
-				/>
-			)}
 			{displaySelectedPost==true &&(
 				<div onClick={()=>triggerCloseModal()} style={BackButtonCSS}>
 					Back
@@ -145,29 +180,25 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 					{displayReplies==false?
 						<SelectedPost
 							post={selectedPostData.post}
-							postType={postType}
-							displayZoomedPost={displayZoomedPost}
+							acceptedStatus={selectedPostData.acceptedAnswerStatus}
 							enableCreationPost={enableCreationPost}
-							isOligarch={isOligarch}
-							originalBeaconOwnerId={selectedPostData.post.owner._id}
 							fetchReplies={fetchReplies}
 							deleteBeaconPost={deleteBeaconPost}
-							symposiumId={symposiumId}
-							beaconId={postData.beaconId}
 							isReplyBeacon={displayExtendReplyBeacon}
+							targetDom={targetDom}
+							originalBeaconId={postData.beaconId}
+							originalBeaconOwnerId={postData.post.owner._id}
+							updateBeaconUpdatedStatus={triggerBeaconUpdateStatus}
+							{...props}
 						/>:
 						<BeaconPosts
 							posts={replies}
-							postType={postType}
 							displayExtendedPostModal={displayZoomedReplyPost}
 							endOfNewPosts={endOfNewPosts}
 							isFetchingNextPosts={isFetchingNextPosts}
 							triggerAlterPosts={fetchReplies}
 							isReplyBeacons={true}
-							isOligarch={isOligarch}
-							symposiumId={symposiumId}
-							beaconId={postData.beaconId}
-							originalBeaconOwnerId={selectedPostData.post.owner._id}
+							{...props}
 						/>
 					}
 				</React.Fragment>
@@ -178,7 +209,7 @@ const BeaconPostExtended=({closeExtendedBeaconModal,postData,postType,symposiumI
 					beaconId={selectedPostData.beaconId}
 					ownerId={ownerId}
 					symposiumId={symposiumId}
-					originalBeaconOwnerId={selectedPostData.post.owner._id}
+					beaconOwnerId={selectedPostData.post.owner._id}
 					originalBeaconPostId={selectedPostData.post._id}
 				/>
 			}

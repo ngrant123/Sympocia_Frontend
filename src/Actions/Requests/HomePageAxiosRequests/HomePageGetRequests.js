@@ -10,7 +10,7 @@ export const getSymposiumId=async(name)=>{
 	try{
 		const symposiumResponse=await axios.get(`${GetUrl}/getSymposiumId`,{
 			params:{
-				industryName:name
+				symposiumName:name
 			}
 		});
 		const {data}=symposiumResponse;

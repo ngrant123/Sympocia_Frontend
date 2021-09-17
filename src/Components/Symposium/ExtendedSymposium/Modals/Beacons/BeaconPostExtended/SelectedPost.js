@@ -1,12 +1,20 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {deleteBeacon} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
-
 import {Link} from "react-router-dom";
+import ZoomedPostImageOrVideoPortal from "../../../../../GeneralComponents/PostComponent/ZoomedInPostImageOrVideo.js";
+import {
+	getVideoUrl
+} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {
+	updateBeaconsAcceptedAnswerStatus
+} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumAdapter.js";
+import AcceptedBeaconIcon from "../../../../../../designs/img/StampIcon.png";
+import UnAcceptedBeaconIcon from "../../../../../../designs/img/UnStampIcon.png";
 
 const SelectedPostContainer=styled.div`
 	position:relative; 
@@ -60,9 +68,7 @@ const ShadowContainer=styled.div`
 const OwnerNameCSS={
 	marginLeft:"2%",
 	color:"#ADADAD",
-	maxHeight:"20px",
-	maxWidth:"30%",
-	overflow:"hidden"
+	maxHeight:"20px"
 }
 
 const HorizontalLineCSS={
@@ -78,23 +84,76 @@ const ImageCSS={
 	marginBottom:"2%"
 }
 
+const BeaconAcceptionButtonCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderRadius:"5px",
+	borderColor:"#ECECEC",
+	display:"flex",
+	flexDirection:"row",
+	alignItems:"center",
+	padding:"5px",
+	width:"50%",
+	cursor:"pointer"
+}
+
 const SelectedPost=({
 		post,
 		postType,
-		displayZoomedPost,
 		enableCreationPost,
 		isOligarch,
-		originalBeaconOwnerId,
+		beaconOwnerId,
 		fetchReplies,
 		deleteBeaconPost,
 		symposiumId,
 		beaconId,
-		isReplyBeacon
+		isReplyBeacon,
+		acceptedStatus,
+		originalBeaconId,
+		targetDom,
+		originalBeaconOwnerId,
+		updateBeaconUpdatedStatus
 	})=>{
+	console.log(post);
 	console.log(isOligarch);
 	const [beaconOptionsDropDownModal,changeBeaconOptionsModal]=useState(false);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
+	const [displayZoomedInPostPortal,changeDisplayZoomedInPostPortal]=useState(false);
+	const [isLoadingUnCompressedPost,changeIsLoadingUnCompressedPost]=useState(false);
+	const [selectedPostUrl,changeSelectedPostUrl]=useState(post.videoUrl);
+	const [beaconAcceptedStatus,changeBeaconAcceptedStatus]=useState(acceptedStatus);
+
+
+	useEffect(()=>{
+		const fetchData=async()=>{
+			if(post.videoUrlKey!=null){
+				let postData;
+				changeIsLoadingUnCompressedPost(true);
+				if(postType=="Videos"){
+					postData=await getVideoUrl(post.videoUrlKey);
+				}
+				const {confirmation,data}=postData;
+				if(confirmation=="Success"){
+					const {message}=data;
+					changeSelectedPostUrl(message);
+				}else{
+					alert('An error has occured when trying to retrieve this post');
+				}
+				changeIsLoadingUnCompressedPost(false);
+			}
+		}
+
+		fetchData();
+	},[post.videoUrlKey]);
+
+	const displayZoomedPost=()=>{
+		changeDisplayZoomedInPostPortal(true);
+	}
+
+	const closeZoomedInPostModal=()=>{
+		changeDisplayZoomedInPostPortal(false);
+	}
 
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -120,13 +179,18 @@ const SelectedPost=({
 			case "Videos":{
 				return(
 					<div style={{display:"flex",flexDirection:"column"}}>
-						<video id="uploadVideoUrl" onClick={()=>displayZoomedPost()}
-							style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-							width="100%" height="20%" 
-						 	key={post.videoUrl}  autoPlay loop autoBuffer muted playsInline>
-							<source src={post.videoUrl} type="video/mp4"/>
-						</video>
-						<p style={{marginTop:"5%"}}>{post.title}</p>
+						{isLoadingUnCompressedPost==false?
+							<React.Fragment>
+								<video id="uploadVideoUrl" onClick={()=>displayZoomedPost()}
+									style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+									width="100%" height="20%" 
+								 	key={selectedPostUrl}  autoPlay loop autoBuffer muted playsInline>
+									<source src={selectedPostUrl} type="video/mp4"/>
+								</video>
+								<p style={{marginTop:"5%"}}>{post.title}</p>
+							</React.Fragment>:
+							<p>Loading...</p>
+						}
 					</div>
 				)
 				break;
@@ -180,7 +244,7 @@ const SelectedPost=({
 								View Replies
 							</div>
 							<hr/>
-							{(isOligarch==true || originalBeaconOwnerId==personalInformation.id)==true &&(
+							{(isOligarch==true || beaconOwnerId==personalInformation.id)==true &&(
 								<div style={{cursor:"pointer"}} 
 									onClick={()=>triggerBeaconDeletion({isAccessTokenUpdated:false})}>
 									Delete Beacon
@@ -193,8 +257,35 @@ const SelectedPost=({
 			</React.Fragment>
 		)
 	}
+
+	const triggerBeaconAcceptedStatusUpdate=async()=>{
+		const updateStatusInformation={
+			beaconId:originalBeaconId,
+			acceptedAnswerStatus:!beaconAcceptedStatus,
+			postType,
+			acceptedAnswerBeaconId:beaconId,
+			postId:post._id,
+			acceptedAnswerOwnerId:beaconOwnerId,
+			symposiumId
+		}
+		const {confirmation,data}=await updateBeaconsAcceptedAnswerStatus(updateStatusInformation);
+
+		updateBeaconUpdatedStatus(originalBeaconId,!beaconAcceptedStatus);
+		changeBeaconAcceptedStatus(!beaconAcceptedStatus);
+		alert('Beacon has been accepted');
+	}
+
 	return(
 		<React.Fragment>
+			{displayZoomedInPostPortal==true &&(
+				<ZoomedPostImageOrVideoPortal
+					targetDom={targetDom}
+					closeModal={closeZoomedInPostModal}
+					postUrl={postType!="Images"?post.videoUrl:post.imgUrl}
+					postType={postType}				
+					unCompressedId={postType!="Images"?post.videoUrlKey:post.uncompressedImageId}
+				/>
+			)}
 			<p>Click on the post to zoom in </p>
 			<hr/>
 			<SelectedPostContainer>
@@ -223,7 +314,24 @@ const SelectedPost=({
 				<hr/>
 				{displayPost()}
 			</SelectedPostContainer>
-			<hr style={HorizontalLineCSS}/>
+			{originalBeaconId!=beaconId &&(
+				<React.Fragment>
+					<hr style={HorizontalLineCSS}/>
+
+
+					{(isOligarch==true || originalBeaconOwnerId==personalInformation.id)==true &&(
+						<div style={BeaconAcceptionButtonCSS} onClick={()=>triggerBeaconAcceptedStatusUpdate()}>
+							<img src={beaconAcceptedStatus==true?AcceptedBeaconIcon:UnAcceptedBeaconIcon}
+							 	style={{width:"60px",height:"60px"}}
+							/>
+							<p style={{marginLeft:"5%"}}>
+								<b>{beaconAcceptedStatus==true?
+									"UnAccept":"Accept"}</b>
+							</p>
+						</div>
+					)}
+				</React.Fragment>
+			)}
 		</React.Fragment>
 	)
 }

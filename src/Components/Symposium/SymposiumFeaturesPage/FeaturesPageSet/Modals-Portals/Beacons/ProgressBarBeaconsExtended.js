@@ -1,5 +1,14 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
+import {BeaconProgressBar} from "../../../FeaturesPageSubset/SideBar/Beacons.js";
+import {
+	getBeaconsTargetIdInteractedWith,
+    getTargetIdAcceptedBeacons
+} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import {useSelector} from "react-redux";
+import Images from "../../../FeaturesPageSubset/Posts/PostDisplay/Images.js";
+import Videos from "../../../FeaturesPageSubset/Posts/PostDisplay/Videos.js";
+import RegularPosts from "../../../FeaturesPageSubset/Posts/PostDisplay/RegularPosts.js";
 
 
 const Container=styled.div`
@@ -13,7 +22,28 @@ const HorizontalLineCSS={
 	width:"100%"
 }
 
-const ProgressBarBeaconsExtended=()=>{
+const ButtonCSS={
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px",
+	color:"#3898ec",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	cursor:"pointer",
+	marginLeft:"10%"
+}
+const ProgressBarBeaconsExtended=({currentSymposiumId,answeredBeacons,acceptedBeacons,totalBeacon})=>{
+
+	const [displayBeaconPosts,changeDisplayBeaconPosts]=useState(false);
+	const [selectedPostType,changeSelectedPostType]=useState();
+	const [currentPostTokenManagement,changePostTokenManagement]=useState();
+	const [posts,changePosts]=useState([]);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const [isLoading,changeIsLoading]=useState(false);
+
 	const mobileCloseIcon=()=>{
 		return(
 			<div id="mobileCloseModalIcon" style={{cursor:"pointer",display:"none"}} >
@@ -27,13 +57,176 @@ const ProgressBarBeaconsExtended=()=>{
 			</div>
 		)
 	}
+
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
+
+	const fetchBeaconsInteracted=async(postType,currentPostTokenManagement)=>{
+		const {confirmation,data}=await getBeaconsTargetIdInteractedWith({
+			ownerId:personalInformation.id,
+            symposiumId:currentSymposiumId,
+            beaconType:postType,
+            currentPostSessionManagment:currentPostTokenManagement
+		});
+
+		if(confirmation=="Success"){
+			const {message}=data;
+			if(posts.length==0){
+				changePosts([...message]);
+			}else{
+				posts.concat(message);
+				changePosts([...posts]);
+			}
+		}else{
+			alert('Unfortunately there was an error when retrieving the answered beacons');
+		}
+		return;
+	}
+
+
+	const fetchBeaconsAccepted=async(postType,currentPostTokenManagement)=>{
+		debugger;
+		const {confirmation,data}=await getTargetIdAcceptedBeacons({
+			ownerId:personalInformation.id,
+            symposiumId:currentSymposiumId,
+            beaconType:postType,
+            currentPostSessionManagment:currentPostTokenManagement
+		});
+
+
+		if(confirmation=="Success"){
+			const {message}=data;
+			if(posts.length==0){
+				changePosts([...message]);
+			}else{
+				posts.concat(message);
+				changePosts([...posts]);
+			}
+		}else{
+			alert('Unfortunately there was an error when retrieving the accepted beacons');
+		}
+		return;
+	}
+
+	const triggerDisplayPosts=async(retrievalType,postType)=>{
+		debugger;
+		let currentPostToken=currentPostTokenManagement;
+		if(postType!=selectedPostType){
+			currentPostToken=uuidv4();
+			changePostTokenManagement(currentPostToken);
+			changePosts([]);
+			changeSelectedPostType(postType);
+		}
+		changeDisplayBeaconPosts(true);
+		changeIsLoading(true);
+		if(retrievalType=="accepted"){
+			await fetchBeaconsAccepted(
+				postType,
+				currentPostToken);
+		}else{
+			await fetchBeaconsInteracted(
+				postType,
+				currentPostToken);
+		}
+		changeIsLoading(false);
+	}
+
+	const triggerViewPosts=(beaconReviewType)=>{
+		return(
+			<div class="dropdown">
+				<button class="btn btn-primary dropdown-toggle" id="text"
+					type="button" data-toggle="dropdown" style={ButtonCSS}>
+					<p>View Posts</p>
+				</button>
+				<ul class="dropdown-menu" style={{padding:"5px",height:"170px",overflowY:"auto",overflowX:"hidden"}}>
+					<li style={{listStyle:"none",cursor:"pointer"}}
+						onClick={()=>triggerDisplayPosts(beaconReviewType,"Images")}>
+						Images
+					</li>
+					<hr/>
+
+					<li style={{listStyle:"none",cursor:"pointer"}}
+						onClick={()=>triggerDisplayPosts(beaconReviewType,"Videos")}>
+						Videos
+					</li>
+					<hr/>
+
+					<li style={{listStyle:"none",cursor:"pointer"}}
+						onClick={()=>triggerDisplayPosts(beaconReviewType,"Text")}>
+						Regular Posts
+					</li>
+					<hr/>
+				</ul>
+		  	</div>
+		)
+	}
+
+	const postsDisplayFunctionality=()=>{
+		switch(selectedPostType){
+			case "Images":{
+				return <Images posts={posts}/>
+			}
+			case "Videos":{
+				return <Videos posts={posts}/>
+			}
+
+			case "Text":{
+				return <RegularPosts posts={posts}/>
+			}
+		}
+	}
+
 	return(
 		<Container>
 			{mobileCloseIcon()}
-			<p style={{fontSize:"24px"}}>
-				<b>Progress Bar</b>
-			</p>
-			<hr style={HorizontalLineCSS}/>
+			{displayBeaconPosts==true?
+				<div>
+					{isLoading==true?
+						<p>Loading...</p>:
+						<React.Fragment>
+							<div style={{...ButtonCSS,marginLeft:"0%",marginBottom:"5%"}} 
+								onClick={()=>changeDisplayBeaconPosts(false)}>
+								Back
+							</div>
+							{postsDisplayFunctionality()}
+						</React.Fragment>
+					}
+				</div>:
+				<React.Fragment>
+					<p style={{fontSize:"24px"}}>
+						<b>Progress Bar</b>
+					</p>
+					<hr style={HorizontalLineCSS}/>
+					<BeaconProgressBar
+						acceptedBeacons={acceptedBeacons}
+						answeredBeacons={answeredBeacons}
+						totalBeacon={totalBeacon}
+						isProgressBarInExtendedModal={true}
+					/>
+
+					<div style={{display:"flex",flexBox:"row",marginTop:"5%",alignItems:"center"}}>
+						<p>
+							<b>Beacons answered:</b>
+						</p>
+						<p style={{marginLeft:"5%",color:"#43D351"}}>{answeredBeacons}</p>
+						{triggerViewPosts("answered")}
+					</div>
+
+					<hr style={HorizontalLineCSS}/>
+
+					<div style={{display:"flex",flexBox:"row",marginTop:"5%",alignItems:"center"}}>
+						<p>
+							<b>Beacons accepted:</b>
+						</p>
+						<p style={{marginLeft:"5%",color:"#43D351"}}>{answeredBeacons}</p>
+						{triggerViewPosts("accepted")}
+					</div>
+				</React.Fragment>
+			}
 		</Container>
 	)
 }

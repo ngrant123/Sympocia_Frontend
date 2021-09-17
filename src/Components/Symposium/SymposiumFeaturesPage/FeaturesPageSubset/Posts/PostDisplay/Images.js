@@ -61,45 +61,63 @@ const DropDownCSS={
 	marginLeft:"10%"
 }
 
-const Images=({posts})=>{
+const PostCSS={
+	display:"flex",
+	flexDirection:"column",
+	marginRight:"8%",
+	marginBottom:"5%",
+	cursor:"pointer"
+}
+
+const Images=({posts,triggerDisplaySelectedBeaconPost})=>{
+	console.log(posts);
 	return(
 		<Container>
-			{posts.map(data=>
-				<div id="imageContainer" style={{display:"flex",flexDirection:"column",marginRight:"8%",marginBottom:"5%"}}>
-					<div style={{position:"relative"}}>
-						<div id="beaconCorrectAndExpandMoreDiv"
-							style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
-							{data.correctAnswerStatus==true &&(
-								<CheckCircleIcon
-									id="checkMarkIcon"
-									style={{color:"#43D351",fontSize:"36"}}
-								/>
-							)}
-							<div style={DropDownCSS}>
-								<ExpandMoreIcon
-									id="expandMoreIcon"
-									style={{color:"#2B2B2B",fontSize:"36"}}
+			{posts.length==0?
+				<p>No posts</p>:
+				<React.Fragment>
+					{posts.map((data,index)=>
+						<div id="imageContainer" style={PostCSS} 
+							onClick={()=>triggerDisplaySelectedBeaconPost(data,index)}>
+							<div style={{position:"relative"}}>
+								<div id="beaconCorrectAndExpandMoreDiv"
+									style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
+									{data.acceptedAnswerStatus==true &&(
+										<CheckCircleIcon
+											id="checkMarkIcon"
+											style={{color:"#43D351",fontSize:"36"}}
+										/>
+									)}
+									<div style={DropDownCSS}>
+										<ExpandMoreIcon
+											id="expandMoreIcon"
+											style={{color:"#2B2B2B",fontSize:"36"}}
+										/>
+									</div>
+								</div>
+								<img id="image" src={data.post.imgUrl} 
+									style={{width:"220px",height:"190px",borderRadius:"5px"}}
 								/>
 							</div>
+							<div style={{display:"flex",flexDirection:"row",marginTop:"5%"}}>
+								<img id="profilePicture" src={data.post.owner.profilePicture==null?
+															NoProfilePicture:
+															data.post.owner.profilePicture
+														} 
+									style={{height:"40px",width:"46px",borderRadius:"50%"}}
+								/>
+								<div id="beaconInformation" style={{display:"flex",flexDirection:"column",marginLeft:"5%"}}>
+									<p>
+										<b><span style={{color:"#43D351"}}>1000000</span> beacon replies</b>
+									</p>
+									<hr style={HorizontalLineCSS}/>
+									<p>asked 1 min ago</p>
+								</div>
+							</div>
 						</div>
-						<img id="image" src={NoProfilePicture} 
-							style={{width:"220px",height:"190px",borderRadius:"5px"}}
-						/>
-					</div>
-					<div style={{display:"flex",flexDirection:"row",marginTop:"5%"}}>
-						<img id="profilePicture" src={NoProfilePicture}
-							style={{height:"40px",width:"46px",borderRadius:"50%"}}
-						/>
-						<div id="beaconInformation" style={{display:"flex",flexDirection:"column",marginLeft:"5%"}}>
-							<p>
-								<b><span style={{color:"#43D351"}}>1000000</span> beacon replies</b>
-							</p>
-							<hr style={HorizontalLineCSS}/>
-							<p>asked 1 min ago</p>
-						</div>
-					</div>
-				</div>
-			)}
+					)}
+				</React.Fragment>
+			}
 		</Container>
 	)
 }

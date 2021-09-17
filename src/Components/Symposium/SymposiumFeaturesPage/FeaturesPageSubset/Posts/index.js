@@ -71,23 +71,26 @@ const PostsHeader=({featuresType})=>{
 
 
 
-const FeaturePosts=({featuresType,posts,isLoading})=>{
+const FeaturePosts=({featuresType,isLoading})=>{
 	const component=()=>{
 		switch(featuresType){
 			case "Beacons":{
 				return <BeaconPosts
 							featuresType={featuresType}
+							isLoading={isLoading}
 						/>
 			}
 			case "University":{
 				return <SymposiumUnivesity
 							featuresType={featuresType}
+							isLoading={isLoading}
 						/>
 			}
 
 			case "Community":{
 				return  <SymposiumCommunity
 							featuresType={featuresType}
+							isLoading={isLoading}
 						/>
 			}
 		}
@@ -95,12 +98,7 @@ const FeaturePosts=({featuresType,posts,isLoading})=>{
 
 	return(
 		<div style={{marginTop:"5%",width:"100%"}}>
-			{isLoading==true?
-				<p>Loading...</p>:
-				<React.Fragment>
-					{component()}
-				</React.Fragment>
-			}
+			{component()}
 		</div>
 	)
 }

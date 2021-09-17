@@ -25,11 +25,6 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-		#image{
-			height:150px !important;
-		}
-	}
 `;
 
 const ProfileInformation=styled.div`
@@ -38,6 +33,74 @@ const ProfileInformation=styled.div`
 	margin-top:2%;
 	justify-content:cetner;
 	align-items:center;
+`;
+
+const ImageContainer=styled.div`
+	width:140px;
+	height:130px;
+	border-radius:5px;
+
+	${({acceptedAnswerStatus})=>
+		acceptedAnswerStatus==true &&(
+			`
+				border-left-style:solid;
+				border-bottom-style:solid;
+				border-width:5px;
+				border-color:#43D351;
+			`
+		)}
+	}
+
+	@media screen and (max-width:650px){
+		width:100% !important;
+		height:90px !important;
+	}	
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		height:150px !important;
+	}
+`;
+
+const VideoContainer=styled.div`	
+	width:100%;
+	height:150px;
+	border-radius:5px;
+
+
+	${({acceptedAnswerStatus})=>
+		acceptedAnswerStatus==true &&(
+			`
+				border-left-style:solid;
+				border-bottom-style:solid;
+				border-width:5px;
+				border-color:#43D351;
+			`
+		)}
+	}
+
+	@media screen and (max-width:650px){
+		#videoElement{
+			height:150px !important;
+		}
+	}
+`;
+
+
+const TextPostContainer=styled.div`
+	cursor:pointer;
+	padding:5px;
+	border-radius:5px;
+
+	${({acceptedAnswerStatus})=>
+		acceptedAnswerStatus==true &&(
+			`
+				border-style:solid;
+				border-style:solid;
+				border-width:1px;
+				border-color:#43D351;
+			`
+		)}
+	}
 `;
 
 const OwnerNameCSS={
@@ -105,13 +168,19 @@ const BeaconPosts=({
 		)
 	}
 
-	const triggerDeleteBeaconComment=async({replyBeaconId,index,isAccessTokenUpdated,updatedAccessToken})=>{
+	const triggerDeleteBeaconComment=async({
+		replyBeaconId,
+		index,
+		isAccessTokenUpdated,
+		updatedAccessToken,
+		postRef})=>{
 
 		debugger;
 		const {confirmation,data}=await deleteBeaconReply({
 			symposiumId,
 			beaconId,
 			replyBeaconId,
+			replyPostRefId:postRef,
 			beaconType:postType,
 			ownerId:personalInformation.id,
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
@@ -130,7 +199,8 @@ const BeaconPosts=({
 					dispatch,
 					{
 						replyBeaconId,
-						index
+						index,
+						postRef
 					},
 					false
 				);
@@ -148,7 +218,11 @@ const BeaconPosts=({
 							<div style={{marginRight:"3%",width:"30%",marginBottom:"10%"}}>
 								<div onClick={()=>displayExtendedPostModal(data,index)}
 									style={{cursor:"pointer"}}>	
-									<img id="image" src={data.post.imgUrl} style={{width:"140px",height:"130px",borderRadius:"5px"}}/>
+									<ImageContainer acceptedAnswerStatus={data.acceptedAnswerStatus}>
+										<img src={data.post.imgUrl} 
+											style={{position:"relative",width:"100%",height:"100%",borderRadius:"5px"}}
+										/>
+									</ImageContainer>
 									<div id="postOwnerInformation">
 										<ProfileInformation>
 											<img src={data.post.owner.profilePicture==null?
@@ -175,6 +249,7 @@ const BeaconPosts=({
 											data.post.owner._id==personalInformation.id)==true &&(
 											<div onClick={()=>triggerDeleteBeaconComment({
 												replyBeaconId:data.beaconId,
+												postRef:data.post._id,
 												index,
 												isAccessTokenUpdated:false,
 											})}>
@@ -196,12 +271,14 @@ const BeaconPosts=({
 							<div style={{display:"flex",flexDirection:"column",marginRight:"3%",width:"30%",marginBottom:"15%"}}>
 								<div onClick={()=>displayExtendedPostModal(data,index)} 
 									style={{cursor:"pointer"}}>
-									<video id="videoElement"
-										style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-										 position="relative" width="100%" height="250px"
-									 	key={data.post.videoUrl} autoPlay loop autoBuffer muted playsInline>
-										<source src={data.post.videoUrl} type="video/mp4"/>
-									</video>
+									<VideoContainer acceptedAnswerStatus={data.acceptedAnswerStatus}>
+										<video id="videoElement"
+											style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+											 position="relative" width="100%" height="100%"
+										 	key={data.post.videoUrl} autoPlay loop autoBuffer muted playsInline>
+											<source src={data.post.videoUrl} type="video/mp4"/>
+										</video>
+									</VideoContainer>
 									<div id="postOwnerInformation">
 										<ProfileInformation>
 											<img src={data.post.owner.profilePicture==null?
@@ -227,6 +304,7 @@ const BeaconPosts=({
 								 	data.post.owner._id==personalInformation.id))==true &&(
 									<div onClick={()=>triggerDeleteBeaconComment({
 										replyBeaconId:data.beaconId,
+										postRef:data.post._id,
 										index,
 										isAccessTokenUpdated:false,
 									})}>
@@ -244,8 +322,8 @@ const BeaconPosts=({
 					<React.Fragment>
 						{currentPost.map((data,index)=>
 							<div style={{marginRight:"3%",width:"100%",marginBottom:"5%"}}>
-								<div onClick={()=>displayExtendedPostModal(data,index)}
-									style={{cursor:"pointer"}}>
+								<TextPostContainer onClick={()=>displayExtendedPostModal(data,index)}
+									acceptedAnswerStatus={data.acceptedAnswerStatus}>
 									<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
 										<b>
 											{data.post.post}
@@ -264,11 +342,12 @@ const BeaconPosts=({
 											{data.post.owner.firstName}
 										</p>
 									</ProfileInformation>
-								</div>
+								</TextPostContainer>
 								{(isReplyBeacons==true && (isOligarch==true || 
 									data.post.owner._id==personalInformation.id))==true &&(
 									<div onClick={()=>triggerDeleteBeaconComment({
 										replyBeaconId:data.beaconId,
+										postRef:data.post._id,
 										index,
 										isAccessTokenUpdated:false,
 									})}>

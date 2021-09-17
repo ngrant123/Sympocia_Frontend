@@ -21,12 +21,13 @@ const Container=styled.div`
 `;
 
 
+
+//height:"200px",
 const VideosContainerCSS={
 	display:"flex",
 	flexDirection:"column",
 	marginRight:"8%",
 	marginBottom:"5%",
-	height:"200px",
 	width:"310px",
 	position:"relative"
 }
@@ -41,14 +42,15 @@ const DropDownCSS={
 }
 
 
-const Videos=({posts})=>{
+const Videos=({posts,triggerDisplaySelectedBeaconPost})=>{
+	console.log(posts);
 	return(
 		<Container>
-			{posts.map(data=>
-				<div id="videoDiv" style={VideosContainerCSS}>
+			{posts.map((data,index)=>
+				<div id="videoDiv" style={VideosContainerCSS} onClick={()=>triggerDisplaySelectedBeaconPost(data,index)}>
 					<div id="video"style={{position:"relative"}}>
 						<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
-							{data.correctAnswerStatus==true &&(
+							{data.acceptedAnswerStatus==true &&(
 								<CheckCircleIcon
 									style={{color:"#43D351",fontSize:"36"}}
 								/>
@@ -62,12 +64,15 @@ const Videos=({posts})=>{
 						<video
 							style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
 							 position="relative" height="90%" width="100%" borderRadius="50%"
-						 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-							<source src={data.videoUrl} type="video/mp4"/>
+						 	key={data.post.videoUrl} autoPlay loop autoBuffer muted playsInline>
+							<source src={data.post.videoUrl} type="video/mp4"/>
 						</video>
 					</div>
 					<div style={{display:"flex",flexDirection:"row",marginTop:"1%"}}>
-						<img src={NoProfilePicture}
+						<img src={data.post.owner.profilePicture==null?
+									NoProfilePicture:
+									data.post.owner.profilePicture
+								}
 							style={{height:"40px",width:"46px",borderRadius:"50%"}}
 						/>
 						<p>

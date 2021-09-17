@@ -1,7 +1,11 @@
-import React from "react";
+import React,{useContext} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-
+import {FeaturesContext} from "../../FeaturesPageContext.js";
+import {
+	getRecentSymposiumTags,
+	getHottestSymposiumTags
+} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -43,20 +47,89 @@ const ShadowContainer=styled.div`
 	top:0px;
 `;
 
-const TagsPortal=({closeModal})=>{
-	
+const TagsPortal=({closeModal,ownerCreationTagStatus,symposiumId})=>{
+	const featuresPageConsumer=useContext(FeaturesContext);
+	let {
+		featuresPageSecondaryInformation,
+		updateSecondaryInformation
+	}=featuresPageConsumer;
+
+	const displayBeaconsTagCreationModal=()=>{
+		featuresPageConsumer.triggerBeaconTagsCreationDisplay();
+		closeModal();
+	}
+
+	const displayExtendedTagsModal=()=>{
+		featuresPageConsumer.triggerDisplayExtendedTagsModal();
+		closeModal();
+	}
+
+	const fetchRecentTags=async()=>{
+		const {confirmation,data}=await getRecentSymposiumTags(symposiumId);
+		if(confirmation=="Success"){
+			const {message}=data;	
+
+			featuresPageSecondaryInformation={
+				...featuresPageSecondaryInformation,
+				tags:{
+					...featuresPageSecondaryInformation.tags,
+					symposiumTags:message
+				}
+			}
+			updateSecondaryInformation(featuresPageSecondaryInformation);
+		}else{
+			alert('Unfortunately an error has occured when retrieving recent tags.Please try again');
+		}
+		closeModal();
+	}
+
+	const fetchHottestTags=async()=>{
+		const {confirmation,data}=await getHottestSymposiumTags(symposiumId);
+		if(confirmation=="Success"){
+			const {message}=data;	
+
+			featuresPageSecondaryInformation={
+				...featuresPageSecondaryInformation,
+				tags:{
+					...featuresPageSecondaryInformation.tags,
+					symposiumTags:message
+				}
+			}
+			updateSecondaryInformation(featuresPageSecondaryInformation);
+		}else{
+			alert('Unfortunately an error has occured when retrieving recent tags.Please try again');
+		}
+		closeModal();
+	}
+
 	return(
 		<React.Fragment>
 			<ShadowContainer
 				onClick={()=>closeModal()}
 			/>
 			<Container>
-				<li style={{listStyle:"none",cursor:"pointer"}}>
+				<li style={{listStyle:"none",cursor:"pointer"}}
+					onClick={()=>displayBeaconsTagCreationModal()}>
+					Create Tag
+				</li>
+				<hr/>
+
+				{ownerCreationTagStatus==true &&(
+					<React.Fragment>
+						<li style={{listStyle:"none",cursor:"pointer"}}
+							onClick={()=>displayExtendedTagsModal()}>
+							Edit/View Tags
+						</li>
+						<hr/>
+					</React.Fragment>
+				)}
+
+				<li style={{listStyle:"none",cursor:"pointer"}} onClick={()=>fetchRecentTags()}>
 					Most Recent
 				</li>
 				<hr/>
 
-				<li style={{listStyle:"none",cursor:"pointer"}}>
+				<li style={{listStyle:"none",cursor:"pointer"}} onClick={()=>fetchHottestTags()}>
 					Hottest Tag
 				</li>
 			</Container>

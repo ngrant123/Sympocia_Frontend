@@ -5,10 +5,14 @@ import {
 		createBeaconReply,
 		createBeacon
 	} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-	import {useSelector} from "react-redux";
+import {useSelector} from "react-redux";
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import {getSymposiumTags} from "../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const Container=styled.div`
 	position:relative;
+	padding:10px;
 	@media screen and (max-width:650px){
 		#uploadVideoUrl{
 			height:180px !important;
@@ -21,9 +25,10 @@ const PostTypes=styled.div`
 	display:flex;
 	flex-direction:row;
 `;
+
 const InputContainer=styled.textarea`
 	border-radius:5px;
-	width:85%;
+	width:100%;
 	height:200px;
 	border-style:solid;
 	border-width:1px;
@@ -38,6 +43,41 @@ const InputContainer=styled.textarea`
 		width:100% !important;
 	}
 `;
+
+const TagsInputContainer=styled.textarea`
+	border-radius:5px;
+	width:100%;
+	height:50px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#D8D8D8;
+	resize:none;
+	padding:5px;
+	margin-bottom:2%;
+	margin-right:2%;
+	margin-top:5%;
+
+	@media screen and (max-width:1370px){
+		width:100% !important;
+	}
+`;
+
+
+const DropDownMenuCSS={
+	padding:"5px",
+	height:"300px",
+	top:"-50px",
+	marginLeft:"15%",
+	width:"80%",
+	overflowY:"auto",
+	overflowX:"hidden"
+}
+
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
 
 const BackButtonCSS={
   listStyle:"none",
@@ -54,18 +94,44 @@ const BackButtonCSS={
 }
 
 const ButtonCSS={
-  listStyle:"none",
-  display:"inline-block",
-  backgroundColor:"white",
-  borderRadius:"5px",
-  padding:"10px",
-  color:"#3898ec",
-  borderStyle:"solid",
-  borderWidth:"2px",
-  borderColor:"#3898ec",
-  cursor:"pointer",
-  marginTop:"10px",
-  marginRight:"2%"
+	display:"flex",
+	flexDirection:"row",
+	alignItems:"center",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"5px",
+	color:"#3898ec",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	cursor:"pointer",
+	marginTop:"10px",
+	marginRight:"2%"
+}
+
+const SubmitButtonCSS={
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px",
+	color:"#3898ec",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	cursor:"pointer",
+	marginTop:"10px",
+	marginRight:"2%",
+	width:"30%"
+}
+
+const SelectedTagCSS={
+	display:"flex",
+	flexDirection:"row",
+	alignItems:"center",
+	cursor:"pointer",
+	marginRight:"5%",
+	marginBottom:"5%"
 }
 
 const Creation=({
@@ -75,15 +141,21 @@ const Creation=({
 				ownerId,
 				beaconId,
 				symposiumId,
-				originalBeaconOwnerId,
+				beaconOwnerId,
 				originalBeaconPostId,
-				isDesktop
+				isDesktop,
+				preSelectedPostType
 			})=>{
+
 	const [displayUploadPrompt,changeDisplayUploadPrompt]=useState(true);
 	const [selectedPostUrl,changeSelectedPostUrl]=useState();
-	const [postType,changePostType]=useState("Images");
+	const [postType,changePostType]=useState(preSelectedPostType==null?"Images":preSelectedPostType);
 	const [isSubmtting,changeIsSubmitting]=useState(false);
 	const userInformation=useSelector(state=>state.personalInformation);
+	const [tags,changeTags]=useState([]);
+	const [loadingTags,changeLoadingTagsStatus]=useState(false);
+	const [selectedTags,changeSelectedTags]=useState([]);
+
 
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -192,6 +264,7 @@ const Creation=({
 			postType,
 			ownerId,
 			symposiumId,
+			tags:selectedTags,
 			isMobile:!isDesktop
 		})
 		return createBeaconResult;
@@ -204,14 +277,26 @@ const Creation=({
 			postType:beaconResponseDesignatedPostType,
 			ownerId,
 			symposiumId,
-			originalBeaconOwnerId,
+			beaconOwnerId,
 			originalBeaconPostId,
 			isMobile:!isDesktop
 		});
 		return createdBeaconReplyResult;
 	}
 
-
+	const fetchTagsData=async()=>{
+		if(tags.length==0){
+			changeLoadingTagsStatus(true);
+			const {confirmation,data}=await getSymposiumTags(symposiumId);
+			if(confirmation=="Success"){
+				const {message}=data;
+				changeTags([...message]);
+			}else{
+				alert('Unfortunately there has been an error when retrieving the symposium tags.Please try again');
+			}
+			changeLoadingTagsStatus(false);
+		}
+	}
 
 	const fileUploadSystem=()=>{
 		let fileSystemPostType=beaconResponseDesignatedPostType==null?postType:
@@ -279,7 +364,7 @@ const Creation=({
 			case "Images":{
 				return(
 					<img src={selectedPostUrl}
-						style={{width:"260px",height:"200px",borderRadius:"5px"}}
+						style={{width:"160px",height:"150px",borderRadius:"5px"}}
 					/>
 				)
 				break;
@@ -298,13 +383,14 @@ const Creation=({
 	const promptContainer=()=>{
 		return(
 			<React.Fragment>
+				{tagsDesign()}
 				<InputContainer
 					id="inputPromptContainer"
 					placeholder="Enter a prompt for your beacon"
 				/>
 				{isSubmtting==true?
 					<p>Submitting...</p>:
-					<div onClick={()=>submitBeacon()} style={ButtonCSS}>
+					<div onClick={()=>submitBeacon()} style={SubmitButtonCSS}>
 						Submit
 					</div>
 				}
@@ -361,6 +447,99 @@ const Creation=({
 			)
 		}
 	}
+
+	const addSelectedTag=(selectedTag)=>{
+		const {
+			name,
+			_id
+		}=selectedTag;	
+		let currentTags=selectedTags;
+		currentTags.push({
+			name,
+			tagReferenceId:_id
+		})
+
+		changeSelectedTags([...currentTags]);
+	}
+
+	const removeSelectedTag=(_id)=>{
+		debugger;
+		let currentTags=selectedTags;
+		for(var i=0;i<currentTags.length;i++){
+			if(currentTags[i].tagReferenceId==_id){
+				currentTags.splice(i,1);
+				break;
+			}
+		}
+		changeSelectedTags([...currentTags]);
+	}
+
+	const tagsDesign=()=>{
+		return(
+			<React.Fragment>
+				{originalBeaconPostId==null &&(
+					<React.Fragment>
+						<hr style={HorizontalLineCSS}/>
+						<div style={{display:"flex",flexDirection:"column"}}>
+							<div class="dropdown">
+								<button class="btn btn-primary dropdown-toggle" id="text"
+									type="button" data-toggle="dropdown" style={ButtonCSS}
+									onClick={()=>fetchTagsData()}>
+									<p>Tags</p>
+									<ArrowDropDownIcon
+										style={{marginTop:"-15%"}}
+									/>
+								</button>
+								<ul class="dropdown-menu" style={DropDownMenuCSS}>
+									<TagsInputContainer
+										placeholder="Search through tags"
+									/>
+									<hr/>
+									{loadingTags==true?
+										<p>Loading...</p>:
+										<React.Fragment>
+											{tags.length==0?
+												<p>No tags</p>:
+												<React.Fragment>
+													{tags.map(data=>
+														<React.Fragment>
+															<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}
+																onClick={()=>addSelectedTag(data)}>
+																<p>{data.name}</p>
+																<p style={{marginLeft:"5%"}}>
+																	<b>{data.postCountUsingTag}</b>
+																</p>
+															</div>
+															<hr/>
+														</React.Fragment>
+													)}
+												</React.Fragment>
+											}
+										</React.Fragment>
+									}
+								</ul>
+						  	</div>
+						  	<div style={{display:"flex",flexDirection:"row",marginTop:"5%",flexWrap:"wrap"}}>
+						  		{selectedTags.map(data=>
+						  			<div style={SelectedTagCSS}
+						  				onClick={()=>removeSelectedTag(data.tagReferenceId)}>
+										<p>
+											<b>{data.name}</b>
+										</p>
+										<HighlightOffIcon
+											style={{marginTop:"-10%",marginLeft:"2px"}}
+										/>
+						  			</div>
+						  		)}
+						  	</div>
+						</div>
+						<hr style={HorizontalLineCSS}/>
+					</React.Fragment>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	return(
 		<Container>
 			<div onClick={()=>closeCreationModal()} style={BackButtonCSS}>
@@ -379,6 +558,7 @@ const Creation=({
 					<div>
 						{postDisplayDecider()}
 					</div>
+
 					<div style={{display:"flex",flexDirection:"column"}}>
 						{promptContainer()}
 					</div>
