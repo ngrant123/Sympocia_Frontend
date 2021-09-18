@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useContext} from "react";
 import styled from "styled-components";
 import {BeaconProgressBar} from "../../../FeaturesPageSubset/SideBar/Beacons.js";
 import {
@@ -6,10 +6,8 @@ import {
     getTargetIdAcceptedBeacons
 } from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector} from "react-redux";
-import Images from "../../../FeaturesPageSubset/Posts/PostDisplay/Images.js";
-import Videos from "../../../FeaturesPageSubset/Posts/PostDisplay/Videos.js";
-import RegularPosts from "../../../FeaturesPageSubset/Posts/PostDisplay/RegularPosts.js";
-
+import {Posts} from "../../../FeaturesPageSubset/Posts/Beacons.js";
+import {FeaturesContext} from "../../../FeaturesPageSet/FeaturesPageContext.js";
 
 const Container=styled.div`
 	width:100%;
@@ -43,6 +41,15 @@ const ProgressBarBeaconsExtended=({currentSymposiumId,answeredBeacons,acceptedBe
 	const [posts,changePosts]=useState([]);
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [isLoading,changeIsLoading]=useState(false);
+	const featuresPageConsumer=useContext(FeaturesContext);
+
+
+	const {
+		featuresPageSecondaryInformation,
+		isOligarch,
+		updateSecondaryInformation,
+		updatePrimaryPosts
+	}=featuresPageConsumer;
 
 	const mobileCloseIcon=()=>{
 		return(
@@ -165,21 +172,6 @@ const ProgressBarBeaconsExtended=({currentSymposiumId,answeredBeacons,acceptedBe
 		)
 	}
 
-	const postsDisplayFunctionality=()=>{
-		switch(selectedPostType){
-			case "Images":{
-				return <Images posts={posts}/>
-			}
-			case "Videos":{
-				return <Videos posts={posts}/>
-			}
-
-			case "Text":{
-				return <RegularPosts posts={posts}/>
-			}
-		}
-	}
-
 	return(
 		<Container>
 			{mobileCloseIcon()}
@@ -192,7 +184,15 @@ const ProgressBarBeaconsExtended=({currentSymposiumId,answeredBeacons,acceptedBe
 								onClick={()=>changeDisplayBeaconPosts(false)}>
 								Back
 							</div>
-							{postsDisplayFunctionality()}
+							<Posts
+								posts={posts}
+								postType={selectedPostType}
+								currentSymposiumId={currentSymposiumId}
+								isOligarch={isOligarch}
+								updatePrimaryPosts={updatePrimaryPosts}
+								updateSecondaryInformation={updateSecondaryInformation}
+								featuresPageSecondaryInformation={featuresPageSecondaryInformation}
+							/>
 						</React.Fragment>
 					}
 				</div>:

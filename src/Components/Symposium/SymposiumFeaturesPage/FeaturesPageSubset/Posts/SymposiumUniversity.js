@@ -68,11 +68,12 @@ const SymposiumUniversity=({featuresType})=>{
 	const [currentQuestionIndex,changeCurrentQuestionIndex]=useState(0);
 	const {
 		featuresPagePrimaryInformation:{
-			headerQuestions
+			headerQuestions,
+			currentPostQuestionReplies
 		},
 		isDesktop
 	}=featuresPageConsumer;
-
+	console.log(headerQuestions);
 	const incrementQuestionIndex=()=>{
 		let currentCounterIndex=currentQuestionIndex;
 		currentCounterIndex++
@@ -85,17 +86,18 @@ const SymposiumUniversity=({featuresType})=>{
 		changeCurrentQuestionIndex(currentCounterIndex);
 	}
 
-	const postsDisplayFunctionality=({questionType,responses})=>{
-		switch(questionType){
-			case "Images":{
-				return <Images posts={responses}/>
+	const postsDisplayFunctionality=()=>{
+		debugger;
+		switch(headerQuestions[currentQuestionIndex].questionType){
+			case "Image":{
+				return <Images posts={currentPostQuestionReplies}/>
 			}
-			case "Videos":{
-				return <Videos posts={responses}/>
+			case "Video":{
+				return <Videos posts={currentPostQuestionReplies}/>
 			}
 
-			case "Regular":{
-				return <RegularPosts posts={responses}/>
+			case "Text":{
+				return <RegularPosts posts={currentPostQuestionReplies}/>
 			}
 		}
 	}
@@ -104,7 +106,7 @@ const SymposiumUniversity=({featuresType})=>{
 		return(
 			<div id="universityResponsesDiv" style={ResponsesCSS}>
 				<div style={{backgroundColor:"#C8B0F4",display:"flex",alignItems:"center"}}>
-					<p>116 Responses</p>
+					<p>{currentPostQuestionReplies.length} Responses</p>
 				</div>
 				<div style={{backgroundColor:"#B38AFF",width:"15%",display:"flex",justifyContent:"center",alignItems:"center"}}>
 					<KeyboardArrowDownIcon
@@ -178,7 +180,7 @@ const SymposiumUniversity=({featuresType})=>{
 				</React.Fragment>
 			}
 			<hr style={HorizontalLineCSS}/>
-			{postsDisplayFunctionality(headerQuestions[currentQuestionIndex])}
+			{postsDisplayFunctionality()}
 		</Container>
 	)
 }

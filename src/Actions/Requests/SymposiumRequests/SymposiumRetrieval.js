@@ -252,14 +252,10 @@ export const getSymposiumUniversityPostsApi=async(information)=>{
 	}
 }
 
-export const getSymposiumUniversityPage=async(symposiumId,ownerId,currentPostSessionManagmentToken)=>{
+export const getSymposiumUniversityPage=async(symposiumUniversityRetrievalInformation)=>{
 	try{
 		const symposiumUniversityPageResponse=await axios.get(`${SearchUrl}/getSymposiumUniversityPage`,{
-			params:{
-				symposiumId,
-				ownerId,
-				currentPostSessionManagmentToken
-			}
+			params:{...symposiumUniversityRetrievalInformation}
 		});
 
 		const {data}=symposiumUniversityPageResponse;
@@ -565,15 +561,6 @@ export const getHottestSymposiumTags=async(symposiumId)=>{
 		throw err;
 	}
 }
-
-
-
-
-
-
-
-
-
 
 
 

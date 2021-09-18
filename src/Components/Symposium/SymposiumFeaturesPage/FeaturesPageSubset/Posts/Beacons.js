@@ -89,25 +89,19 @@ const NextButtonCSS={
 	cursor:"pointer"
 }
 
-const BeaconPosts=({featuresType,isLoading})=>{
-	const [postType,changePostType]=useState("Images");
-	const featuresPageConsumer=useContext(FeaturesContext);
-	const [displaySelectedBeaconPost,changeSelectedBeaconPostDisplay]=useState(false);
-	const {
-		featuresPagePrimaryInformation:{
-			posts
-		},
-		featuresPageSecondaryInformation,
-		fetchPosts,
-		isOligarch,
-		updateSecondaryInformation,
-		currentSymposiumId,
-		endOfPostIndicator,
-		loadingNewPostsIndicator,
-		updatePrimaryPosts
-	}=featuresPageConsumer;
-	const personalInformation=useSelector(state=>state.personalInformation);
+
+const Posts=({
+	posts,
+	postType,
+	currentSymposiumId,
+	isOligarch,
+	updatePrimaryPosts,
+	featuresPageSecondaryInformation,
+	updateSecondaryInformation})=>{
+
 	const [selectedBeaconPost,changeSelectedBeaconPost]=useState();
+	const [displaySelectedBeaconPost,changeSelectedBeaconPostDisplay]=useState(false);
+	const personalInformation=useSelector(state=>state.personalInformation);
 	const [selectedPostIndex,changeSelectedPostIndex]=useState();
 
 	const triggerDisplaySelectedBeaconPost=(selectedPost,index)=>{
@@ -116,7 +110,6 @@ const BeaconPosts=({featuresType,isLoading})=>{
 		changeSelectedBeaconPost(selectedPost);
 		changeSelectedBeaconPostDisplay(true);
 	}
-
 	const postsDisplayFunctionality=()=>{
 		const postDisplayFunctions={
 			posts,
@@ -136,19 +129,26 @@ const BeaconPosts=({featuresType,isLoading})=>{
 		}
 	}
 
-	const displaySpecificBeaconPostType=(selectedPostType)=>{
-		debugger;
-		changePostType(selectedPostType);
-		triggerFetchPostsNewPostType(selectedPostType);
-	}
 
 	const closeModal=()=>{
 		changeSelectedBeaconPostDisplay(false);
 	}
 
-	const deletedBeacon=()=>{
-		posts.splice(selectedPostIndex,1);
-		updatePrimaryPosts(posts);
+	const updateBeaconUpdatedStatus=(beaconId,beaconUpdateAcceptStatus)=>{
+		debugger;
+		let beaconPrimaryInformationPosts=posts;
+		for(var i=0;i<beaconPrimaryInformationPosts.length;i++){
+
+			if(beaconPrimaryInformationPosts[i].beaconId==beaconId){
+				beaconPrimaryInformationPosts[i]={
+					...beaconPrimaryInformationPosts[i],
+					acceptedAnswerStatus:beaconUpdateAcceptStatus
+				}
+				break;
+			}
+		}
+
+		updatePrimaryPosts(beaconPrimaryInformationPosts,false);
 	}
 
 	const updateBeaconAnsweredStatus=()=>{
@@ -169,23 +169,11 @@ const BeaconPosts=({featuresType,isLoading})=>{
 		updateSecondaryInformation(beaconSecondaryInformation);
 
 	}
-
-	const updateBeaconUpdatedStatus=(beaconId,beaconUpdateAcceptStatus)=>{
-		debugger;
-		let beaconPrimaryInformationPosts=posts;
-		for(var i=0;i<beaconPrimaryInformationPosts.length;i++){
-
-			if(beaconPrimaryInformationPosts[i].beaconId==beaconId){
-				beaconPrimaryInformationPosts[i]={
-					...beaconPrimaryInformationPosts[i],
-					acceptedAnswerStatus:beaconUpdateAcceptStatus
-				}
-				break;
-			}
-		}
-
-		updatePrimaryPosts(beaconPrimaryInformationPosts,false);
+	const deletedBeacon=()=>{
+		posts.splice(selectedPostIndex,1);
+		updatePrimaryPosts(posts);
 	}
+
 
 	const displaySelectedBeaconPostModal=()=>{
 		return(
@@ -214,6 +202,42 @@ const BeaconPosts=({featuresType,isLoading})=>{
 		)
 	}
 
+
+	return(
+		<React.Fragment>
+			{displaySelectedBeaconPostModal()}
+			{postsDisplayFunctionality()}
+		</React.Fragment>
+	)
+}
+
+
+const BeaconPosts=({featuresType,isLoading})=>{
+	const [postType,changePostType]=useState("Images");
+	const featuresPageConsumer=useContext(FeaturesContext);
+	const {
+		featuresPagePrimaryInformation:{
+			posts
+		},
+		featuresPageSecondaryInformation,
+		fetchPosts,
+		isOligarch,
+		updateSecondaryInformation,
+		currentSymposiumId,
+		endOfPostIndicator,
+		loadingNewPostsIndicator,
+		updatePrimaryPosts
+	}=featuresPageConsumer;
+
+	const displaySpecificBeaconPostType=(selectedPostType)=>{
+		debugger;
+		changePostType(selectedPostType);
+		triggerFetchPostsNewPostType(selectedPostType);
+	}
+
+
+
+
 	const triggerFetchNextPosts=()=>{
 		debugger;
 		const beaconFetchParams={
@@ -233,7 +257,6 @@ const BeaconPosts=({featuresType,isLoading})=>{
 
 	return(
 		<Container>
-			{displaySelectedBeaconPostModal()}
 			<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
 				<PostsHeader
 					featuresType={featuresType}
@@ -282,7 +305,15 @@ const BeaconPosts=({featuresType,isLoading})=>{
 				{loadingNewPostsIndicator==true?
 					<p>Loading...</p>:
 					<React.Fragment>
-						{postsDisplayFunctionality()}
+						<Posts
+							posts={posts}
+							postType={postType}
+							currentSymposiumId={currentSymposiumId}
+							isOligarch={isOligarch}
+							updatePrimaryPosts={updatePrimaryPosts}
+							updateSecondaryInformation={updateSecondaryInformation}
+							featuresPageSecondaryInformation={featuresPageSecondaryInformation}
+						/>
 						{endOfPostIndicator==false &&(
 							<React.Fragment>
 								{isLoading==true?
@@ -301,4 +332,7 @@ const BeaconPosts=({featuresType,isLoading})=>{
 }
 
 
-export default BeaconPosts;
+export{
+	BeaconPosts,
+	Posts
+};

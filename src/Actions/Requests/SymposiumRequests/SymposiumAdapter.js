@@ -59,9 +59,9 @@ export const removeTag=async(tagId,symposiumId,ownerId)=>{
 	}
 }
 
-export const addSymposiumSpeciailist=async(symposiumId,firstName,profileId)=>{
+export const addSymposiumSpecialist=async(symposiumId,firstName,profileId)=>{
 	try{
-		const addedSpecialistResponses=await axios.post(`${CreateUrl}/addSymposiumSpeciailist`,{
+		const addedSpecialistResponses=await axios.post(`${CreateUrl}/addSymposiumSpecialist`,{
 			symposiumId,
 			firstName,
 			profileId

@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
-import BeaconPosts from "./Beacons.js";
+import {BeaconPosts} from "./Beacons.js";
 import SymposiumUnivesity from "./SymposiumUniversity.js";
 import SymposiumCommunity from "./SymposiumCommunity.js";
 import SettingsIcon from '@material-ui/icons/Settings';

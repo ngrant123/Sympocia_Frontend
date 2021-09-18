@@ -17,7 +17,8 @@ import{
 	getSymposiumName,
 	isOligarch,
 	getBeaconsFeaturePage,
-	getBeacons
+	getBeacons,
+	getSymposiumUniversityPage
 } from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
 const Container=styled.div`
@@ -305,6 +306,39 @@ const SymposiumFeatures=(props)=>{
 		}
 	}
 
+	const retrieveSymposiumUniversityPage=async(featuresPageGetParams)=>{
+		debugger;
+		const {confirmation,data}=await getSymposiumUniversityPage(featuresPageGetParams);
+
+		if(confirmation=="Success"){
+			const {message}=data;
+			const {
+				specialists,
+				resources,
+				posts
+			}=message;
+
+			const {
+				questions,
+				currentPostQuestionReplies
+			}=posts;
+
+			const symposiumUniversityPrimaryInformation={
+				headerQuestions:questions,
+				currentPostQuestionReplies
+			}
+			changePrimaryInformation(symposiumUniversityPrimaryInformation);
+
+			const symposiumUniversitySecondaryInformation={
+				specialists,
+				resources
+			}
+			changeSecondaryInformation(symposiumUniversitySecondaryInformation);
+		}else{
+			alert('Unfortunately there was an error retrieving the symposium university');
+		}
+	}
+
 
 	const fetchData=async(featurePageType,isNewSymposiumRequest,newSymposiumId)=>{
 
@@ -330,6 +364,7 @@ const SymposiumFeatures=(props)=>{
 	        ownerId:id
 		}
 		debugger;
+		changeFeaturesType(featurePageType);
 		switch(featurePageType){
 			case "Beacons":{
 				await retrieveBeaconsFeaturePage(featuresPageGetParams);
@@ -337,8 +372,7 @@ const SymposiumFeatures=(props)=>{
 			}
 
 			case "University":{
-				changePrimaryInformation({...SYMPOSIUM_featuresPagePrimaryInformation});
-				changeSecondaryInformation({...SYMPOSIUM_featuresPageSecondaryInformation});
+				await retrieveSymposiumUniversityPage(featuresPageGetParams);
 				break;
 			}
 
@@ -353,7 +387,7 @@ const SymposiumFeatures=(props)=>{
 		}else{
 			changeLoadingStatus(false);
 		}
-		changeFeaturesType(featurePageType);
+		
 	}
 
 	const fetchBeaconPosts=async({postType,tags,isNextPostsRequest})=>{
@@ -394,7 +428,7 @@ const SymposiumFeatures=(props)=>{
 			if(tags.length==0 && endOfPostIndicator==true && data.message.length>0){
 				changeEndOfPostsIndicator(false);
 			}else if(tags.length>0 && data.message.length>0){
-				changeEndOfPostsIndicator(false);
+				changeEndOfPostsIndicator();
 			}
 		}
 
