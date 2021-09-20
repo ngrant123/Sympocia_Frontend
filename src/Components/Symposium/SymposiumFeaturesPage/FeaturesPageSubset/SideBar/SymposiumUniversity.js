@@ -48,17 +48,24 @@ const SymposiumUniversity=()=>{
 	const [displayResourcesDropDown,changeDisplayResourcesDropDown]=useState(false);
 	const [displaySpecialistDropDown,changeDisplaySpecialistDropDown]=useState(false);
 	const [displaySpecialistExtendedModal,changeSpecialistExtendedModalDisplay]=useState(false);
+	const [selectedSymposiumSpecialist,changeSelectedSymposiumSpecialist]=useState();
 
 	const featuresPageConsumer=useContext(FeaturesContext);
 	const {
 		featuresPageSecondaryInformation:{
 			specialists,
 			resources
-		}
+		},
+		currentSymposiumId
 	}=featuresPageConsumer;
 
 	console.log(specialists);
 	console.log(resources);
+
+	const triggerDisplaySelectedSpecialist=(specialistData)=>{
+		changeSelectedSymposiumSpecialist(specialistData);
+		changeSpecialistExtendedModalDisplay(true);
+	}
 
 	const constructSpecialists=()=>{
 		return(
@@ -68,7 +75,8 @@ const SymposiumUniversity=()=>{
 					<React.Fragment>
 						{specialists.map(data=>
 							<React.Fragment>
-								<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+								<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}
+									onClick={()=>triggerDisplaySelectedSpecialist(data)}>
 									<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 										<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
 											style={{height:"40px",width:"46px",borderRadius:"50%"}}
@@ -122,6 +130,7 @@ const SymposiumUniversity=()=>{
 	}
 
 	const retrieveSymposiumSpecialists=()=>{
+		changeSpecialistExtendedModalDisplay(true);
 		closeDropDowns();
 	}
 
@@ -132,6 +141,7 @@ const SymposiumUniversity=()=>{
 					<SymposiumUniversitySpecialistsDropDown
 						closeModal={closeDropDowns}
 						retrieveSymposiumSpecialists={retrieveSymposiumSpecialists}
+						currentSymposiumId={currentSymposiumId}
 					/>
 				)}
 			</React.Fragment> 
@@ -144,6 +154,7 @@ const SymposiumUniversity=()=>{
 				{displayResourcesDropDown==true &&(
 					<SymposiumUniversityResourcesDropDown
 						closeModal={closeDropDowns}
+						currentSymposiumId={currentSymposiumId}
 					/>
 				)}
 			</React.Fragment>
@@ -163,6 +174,8 @@ const SymposiumUniversity=()=>{
 						component={
 							<SymposiumSpecialistsExtended
 								closeModal={closeModalModal}
+								selectedSymposiumSpecialist={selectedSymposiumSpecialist}
+								currentSymposiumId={currentSymposiumId}
 							/>
 						}
 					/>

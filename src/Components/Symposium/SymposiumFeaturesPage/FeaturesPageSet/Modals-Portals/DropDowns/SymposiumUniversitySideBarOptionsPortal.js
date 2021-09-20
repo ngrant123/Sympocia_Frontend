@@ -1,6 +1,11 @@
 import React,{useContext} from "react";
 import styled from "styled-components";
 import {FeaturesContext} from "../../FeaturesPageContext.js";
+import {
+	getMostPopularSymposiumSpecialists,
+	getRecentSymposiumSpecialists
+} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+
 
 const SpecialistContainer=styled.div`
 	position:fixed;
@@ -73,21 +78,42 @@ const ShadowContainer=styled.div`
 	top:0px;
 `;
 
-const SymposiumUniversitySpecialistsDropDown=({closeModal,retrieveSymposiumSpecialists})=>{
+const SymposiumUniversitySpecialistsDropDown=({closeModal,retrieveSymposiumSpecialists,currentSymposiumId})=>{
 
 	const featuresPageConsumer=useContext(FeaturesContext);
 	let {
 		featuresPageSecondaryInformation,
-		updateSecondaryInformation,
-		currentSymposiumId
+		updateSecondaryInformation
 	}=featuresPageConsumer;
 
 	const retrieveRecentSpecialists=async()=>{
-		
+		const {confirmation,data}=await getRecentSymposiumSpecialists(currentSymposiumId);
+		if(confirmation=="Success"){
+			const {message}=data;
+			featuresPageSecondaryInformation={
+				...featuresPageSecondaryInformation,
+				specialists:message
+			}
+			updateSecondaryInformation(featuresPageSecondaryInformation);
+		}else{
+			alert('Unfortunately an error has occured when retrieving recent specialists.Please try again');
+		}
+		closeModal();
 	}
 
-	const retrieveMostPopularSpecialists=()=>{
-
+	const retrieveMostPopularSpecialists=async()=>{
+		const {confirmation,data}=await getMostPopularSymposiumSpecialists(currentSymposiumId);
+		if(confirmation=="Success"){
+			const {message}=data;
+			featuresPageSecondaryInformation={
+				...featuresPageSecondaryInformation,
+				specialists:message
+			}
+			updateSecondaryInformation(featuresPageSecondaryInformation);
+		}else{
+			alert('Unfortunately an error has occured when retrieving recent specialists.Please try again');
+		}
+		closeModal();
 	}
 	return(
 		<React.Fragment>

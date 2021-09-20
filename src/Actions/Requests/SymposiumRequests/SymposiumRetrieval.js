@@ -562,6 +562,47 @@ export const getHottestSymposiumTags=async(symposiumId)=>{
 	}
 }
 
+export const getMostPopularSymposiumSpecialists=async(symposiumId)=>{
+	try{
+		const popularSpecialistsResponses=await axios.get(`${SearchUrl}/getMostPopularSymposiumSpecialists`,{
+			params:{
+				symposiumId
+			}
+		})
+		const {data}=popularSpecialistsResponses;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+export const getRecentSymposiumSpecialists=async(symposiumId)=>{
+	try{
+		const recentSpecialists=await axios.get(`${SearchUrl}/getRecentSymposiumSpecialists`,{
+			params:{
+				symposiumId
+			}
+		})
+		const {data}=recentSpecialists;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
