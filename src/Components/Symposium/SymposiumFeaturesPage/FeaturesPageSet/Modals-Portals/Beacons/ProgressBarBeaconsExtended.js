@@ -12,6 +12,12 @@ import {FeaturesContext} from "../../../FeaturesPageSet/FeaturesPageContext.js";
 const Container=styled.div`
 	width:100%;
 	height:100%;
+
+	@media screen and (max-width:1370px){
+		#closeModalIcon{
+			display:block !important;
+		}
+	}
 `;
 
 const HorizontalLineCSS={
@@ -33,7 +39,12 @@ const ButtonCSS={
 	cursor:"pointer",
 	marginLeft:"10%"
 }
-const ProgressBarBeaconsExtended=({currentSymposiumId,answeredBeacons,acceptedBeacons,totalBeacon})=>{
+const ProgressBarBeaconsExtended=({
+	currentSymposiumId,
+	answeredBeacons,
+	acceptedBeacons,
+	totalBeacon,
+	closeModal})=>{
 
 	const [displayBeaconPosts,changeDisplayBeaconPosts]=useState(false);
 	const [selectedPostType,changeSelectedPostType]=useState();
@@ -42,7 +53,6 @@ const ProgressBarBeaconsExtended=({currentSymposiumId,answeredBeacons,acceptedBe
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [isLoading,changeIsLoading]=useState(false);
 	const featuresPageConsumer=useContext(FeaturesContext);
-
 
 	const {
 		featuresPageSecondaryInformation,
@@ -172,6 +182,21 @@ const ProgressBarBeaconsExtended=({currentSymposiumId,answeredBeacons,acceptedBe
 		)
 	}
 
+	const closeMobileIconPrompt=()=>{
+		return(
+			<div id="closeModalIcon" style={{marginBottom:"2%",cursor:"pointer",display:"none"}} 
+				onClick={()=>closeModal()}>
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+					 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+					 stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <circle cx="12" cy="12" r="9" />
+					  <path d="M10 10l4 4m0 -4l-4 4" />
+				</svg>
+			</div>
+		)
+	}
+
 	return(
 		<Container>
 			{mobileCloseIcon()}
@@ -197,9 +222,13 @@ const ProgressBarBeaconsExtended=({currentSymposiumId,answeredBeacons,acceptedBe
 					}
 				</div>:
 				<React.Fragment>
-					<p style={{fontSize:"24px"}}>
-						<b>Progress Bar</b>
-					</p>
+					<div style={{display:"flex",justifyContent:"space-between"}}>
+						<p style={{fontSize:"24px"}}>
+							<b>Progress Bar</b>
+						</p>
+
+						{closeMobileIconPrompt()}
+					</div>
 					<hr style={HorizontalLineCSS}/>
 					<BeaconProgressBar
 						acceptedBeacons={acceptedBeacons}

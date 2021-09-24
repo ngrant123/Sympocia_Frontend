@@ -265,6 +265,25 @@ export const getSymposiumUniversityPage=async(symposiumUniversityRetrievalInform
 	}
 }
 
+
+
+export const getProfileToSpecialistRankingInteractionStatus=async(profileId,specialistId)=>{
+	try{
+		const profileToSpecialistInteractionResponses=
+		await axios.get(`${SearchUrl}/getProfileToSpecialistRankingInteractionStatus`,{
+			params:{
+				profileId,
+				specialistId
+			}
+		})
+
+		const {data}=profileToSpecialistInteractionResponses;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
 export const getSymposiumSpecialists=async(symposiumId)=>{
 	try{
 		const symposiumSpecialistsResponse=await axios.get(`${SearchUrl}/getSymposiumSpecialists`,{
@@ -412,7 +431,7 @@ export const retrieveCurrentSubmissions=async(symposiumId)=>{
 }
 
 
-export const getCommunityFeaturesPage=async(symposiumId,ownerId)=>{
+export const getCommunityFeaturesPage=async({symposiumId,ownerId})=>{
 	try{
 
 		const communtiyFeaturesPageResponses=await axios.get(`${SearchUrl}/getCommunityFeaturesPage`,{
@@ -591,11 +610,19 @@ export const getRecentSymposiumSpecialists=async(symposiumId)=>{
 }
 
 
-
-
-
-
-
+export const getSymposiumQuestions=async(symposiumId)=>{
+	try{
+		const symposiumQuestionsResponse=await axios.get(`${SearchUrl}/getSymposiumQuestions`,{
+			params:{
+				symposiumId
+			}
+		});
+		const {data}=symposiumQuestionsResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 

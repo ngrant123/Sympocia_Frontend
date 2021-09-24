@@ -9,7 +9,8 @@ import {
 	SymposiumUniversityResourcesDropDown
 } from "../../FeaturesPageSet/Modals-Portals/DropDowns/SymposiumUniversitySideBarOptionsPortal.js";
 import PortalsHOC from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
-import SymposiumSpecialistsExtended from "../../FeaturesPageSet/Modals-Portals/SymposiumUniversity/ExtendedSpecialists.js";
+import SymposiumSpecialists from "../../FeaturesPageSet/Modals-Portals/SymposiumUniversity/Specialists/index.js";
+import SymposiumResources from "../../FeaturesPageSet/Modals-Portals/SymposiumUniversity/Resources/index.js";
 
 const SymposiumSpecilistsCSS={
 	boxShadow:"1px 1px 5px #dbdddf",
@@ -48,8 +49,9 @@ const SymposiumUniversity=()=>{
 	const [displayResourcesDropDown,changeDisplayResourcesDropDown]=useState(false);
 	const [displaySpecialistDropDown,changeDisplaySpecialistDropDown]=useState(false);
 	const [displaySpecialistExtendedModal,changeSpecialistExtendedModalDisplay]=useState(false);
+	const [displayResourcesModal,changeDisplayResourcesModal]=useState(false);
 	const [selectedSymposiumSpecialist,changeSelectedSymposiumSpecialist]=useState();
-
+	const [selectedResource,changeSelectedResource]=useState()
 	const featuresPageConsumer=useContext(FeaturesContext);
 	const {
 		featuresPageSecondaryInformation:{
@@ -75,7 +77,7 @@ const SymposiumUniversity=()=>{
 					<React.Fragment>
 						{specialists.map(data=>
 							<React.Fragment>
-								<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}
+								<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center",cursor:"pointer"}}
 									onClick={()=>triggerDisplaySelectedSpecialist(data)}>
 									<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 										<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
@@ -96,6 +98,11 @@ const SymposiumUniversity=()=>{
 		)
 	}
 
+	const triggerDisplaySelectedResources=(resourceData)=>{
+		changeSelectedResource(resourceData);
+		changeDisplayResourcesModal(true);
+	}
+
 	const constructResources=()=>{
 		return(
 			<div style={{display:"flex",flexDirection:"column",height:"60%",overflowY:"auto",padding:"20px"}}>
@@ -104,7 +111,8 @@ const SymposiumUniversity=()=>{
 					<React.Fragment>
 						{resources.map(data=>
 							<React.Fragment>
-								<div style={{display:"flex",flexDirection:"row"}}>
+								<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}} 
+									onClick={()=>triggerDisplaySelectedResources(data)}>
 									<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
 										style={{height:"40px",width:"46px",borderRadius:"50%"}}
 									/>
@@ -148,6 +156,11 @@ const SymposiumUniversity=()=>{
 		)
 	}
 
+	const retrieveSymposiumResources=()=>{
+		changeDisplayResourcesModal(true);
+		closeDropDowns();
+	}
+
 	const resourcesDropDown=()=>{
 		return(
 			<React.Fragment>
@@ -155,14 +168,19 @@ const SymposiumUniversity=()=>{
 					<SymposiumUniversityResourcesDropDown
 						closeModal={closeDropDowns}
 						currentSymposiumId={currentSymposiumId}
+						retrieveSymposiumResources={retrieveSymposiumResources}
 					/>
 				)}
 			</React.Fragment>
 		)
 	}
 
-	const closeModalModal=()=>{
+	const closeModal=()=>{
 		changeSpecialistExtendedModalDisplay(false);
+		changeSelectedSymposiumSpecialist(null);
+		changeSelectedResource(null);
+		changeDisplayResourcesModal(false);
+
 	}
 
 	const SymposiumSpecialistsExtendedModal=()=>{
@@ -170,12 +188,31 @@ const SymposiumUniversity=()=>{
 			<React.Fragment>
 				{displaySpecialistExtendedModal==true &&(
 					<PortalsHOC
-						closeModal={closeModalModal}
+						closeModal={closeModal}
 						component={
-							<SymposiumSpecialistsExtended
-								closeModal={closeModalModal}
+							<SymposiumSpecialists
+								closeModal={closeModal}
 								selectedSymposiumSpecialist={selectedSymposiumSpecialist}
 								currentSymposiumId={currentSymposiumId}
+							/>
+						}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	const SymposiumResourcesDisplay=()=>{
+		return(
+			<React.Fragment>
+				{displayResourcesModal==true &&(
+					<PortalsHOC
+						closeModal={closeModal}
+						component={
+							<SymposiumResources
+								closeModal={closeModal}
+								symposiumId={currentSymposiumId}
+								selectedResource={selectedResource}
 							/>
 						}
 					/>
@@ -187,6 +224,7 @@ const SymposiumUniversity=()=>{
 	return(
 		<React.Fragment>
 			{SymposiumSpecialistsExtendedModal()}
+			{SymposiumResourcesDisplay()}
 			{resourcesDropDown()}
 			{specialistDropDown()}
 

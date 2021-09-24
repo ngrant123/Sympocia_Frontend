@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {GeneralNavBar} from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import CreationBeaconPortal from "./Modals-Portals/Beacons/CreateBeaconPortal.js";
-import SymposiumCreationPortal from "./Modals-Portals/SymposiumCommunity/CreationModal.js";
+import SymposiumCommunityCreationPortal from "./Modals-Portals/SymposiumCommunity/QuestionStandings/CreationModal.js";
 
 import {FeaturePosts} from "../FeaturesPageSubset/Posts/index.js";
 import SideBar from "../FeaturesPageSubset/SideBar/index.js";
@@ -18,7 +18,8 @@ import{
 	isOligarch,
 	getBeaconsFeaturePage,
 	getBeacons,
-	getSymposiumUniversityPage
+	getSymposiumUniversityPage,
+	getCommunityFeaturesPage
 } from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
 const Container=styled.div`
@@ -105,119 +106,9 @@ const CreatePostButton=styled.div`
 `;
 
 
-const SYMPOSIUM_featuresPagePrimaryInformation={
-			headerQuestions:[
-			{
-				question:"What’s something new that you learned about photography?",
-				questionType:"Images",
-				responses:[
-					{},
-					{},
-					{},
-					{},
-					{},
-					{}
-				]		
-			},
-			{
-				question:"What’s something n2?",
-				questionType:"Videos",
-				responses:[
-					{},
-					{},
-					{}
-				]
-			},
-			{
-				question:"Whaoine felma lmao?",
-				questionType:"Regular",
-				responses:[
-					{}
-				]
-			}
-		],
-		symposiumName:"Engineering"
-}
-
-const SYMPOSIUM_featuresPageSecondaryInformation={
-			specialists:[
-			{
-
-			},
-			{
-
-			},
-			{
-
-			}
-		],
-		resources:[
-			{
-
-			},
-			{
-
-			},
-			{
-
-			}
-		]
-}
-
-const COMMUNITY_featuresPagePrimaryInformation={
-			headerQuestions:[
-				{
-					question:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-					questionType:"Images",
-					responses:[
-						{},
-						{},
-						{},
-						{},
-						{},
-						{}
-					]		
-				},
-				{
-					question:"What’s community omething n2?",
-					questionType:"Videos",
-					responses:[
-						{},
-						{},
-						{}
-					]
-				},
-				{
-					question:"community Whaoine felma lmao?",
-					questionType:"Regular",
-					responses:[
-						{}
-					]
-				}
-			],
-			competitionEndDate:1631246400000,
-			symposiumName:"Engineering"
-}
-
-
-const COMMUNITY_featuresPageSecondaryInformation={
-			submissionCount:55,
-			currentQuestionsStandings:[
-				{
-					question:"What do you think about pizza?",
-					postType:"Images",
-					votes:"23 votes"
-				},
-				{
-					question:"What do you think about pizza1?",
-					postType:"Videos",
-					votes:"2 votes"
-				}
-			]
-		}
-
 const SymposiumFeatures=(props)=>{
 	const {history}=props;
+
 	const [featuresType,changeFeaturesType]=useState();
 	const [featuresPagePrimaryInformation,changePrimaryInformation]=useState();
 	const [featuresPageSecondaryInformation,changeSecondaryInformation]=useState();
@@ -229,7 +120,7 @@ const SymposiumFeatures=(props)=>{
 	const [currentPostManagmentToken,changePostManagmentToken]=useState();
 	const [displayBeaconsTagCreationModal,changeDisplayBeaconTagsModal]=useState(false);
 	const [displayExtendedTagsInformationModal,changeDisplayExtendedTagsMOdal]=useState(false);
-	const [isOligarch,changeOligarchStatus]=useState(false);
+	const [isOligarchStatus,changeOligarchStatus]=useState(false);
 	const [currentPostType,changeCurrentPostType]=useState("Images");
 	const [isLoadingPosts,changeIsLoadingPostsStatus]=useState(false);
 	const [loadingNewPostsIndicator,changeLoadingNewPostsIndicator]=useState(false);
@@ -251,6 +142,19 @@ const SymposiumFeatures=(props)=>{
 		}
 	}
 
+	const retrieveOligarchStatus=async({isAccessTokenUpdated,updatedAccessToken,symposiumName})=>{
+		const {confirmation,data}=await isOligarch(
+										personalInformation.id,
+										symposiumName,
+										isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken
+								);
+		if(confirmation=="Success"){
+			const {message}=data;
+			changeOligarchStatus(message);
+		}
+	}
+
 
 	useEffect(()=>{
 		const fetchInitialData=async()=>{
@@ -262,6 +166,7 @@ const SymposiumFeatures=(props)=>{
 				changeLoadingStatus(true);
 
 				fetchData("Beacons")
+				retrieveOligarchStatus({symposiumName:message});
 				triggerUIChange();
 
 			}else{
@@ -320,7 +225,8 @@ const SymposiumFeatures=(props)=>{
 
 			const {
 				questions,
-				currentPostQuestionReplies
+				currentPostQuestionReplies,
+				totalPostCount
 			}=posts;
 
 			const symposiumUniversityPrimaryInformation={
@@ -331,12 +237,45 @@ const SymposiumFeatures=(props)=>{
 
 			const symposiumUniversitySecondaryInformation={
 				specialists,
-				resources
+				resources,
+				totalPostCount
 			}
 			changeSecondaryInformation(symposiumUniversitySecondaryInformation);
 		}else{
 			alert('Unfortunately there was an error retrieving the symposium university');
 		}
+	}
+
+
+	const retrieveSymposiumCommunity=async(featuresPageGetParams)=>{
+		const {confirmation,data}=await getCommunityFeaturesPage(featuresPageGetParams);
+		if(confirmation=="Success"){
+			const {message}=data;
+			const {
+				competitionEndDate,
+				questions,
+				responses,
+				questionStandings,
+				submissionCount
+			}=message
+
+			const symposiumCommunityPrimaryInformation={
+				headerQuestions:questions,
+				responses,
+				competitionEndDate
+			}
+			changePrimaryInformation(symposiumCommunityPrimaryInformation);
+
+			const symposiumCommunitySecondaryInformation={
+				submissionCount,
+				currentQuestionsStandings:questionStandings
+			}
+			changeSecondaryInformation(symposiumCommunitySecondaryInformation);
+
+		}else{
+			alert('Unfortunately there was an error retrieving the symposium community');
+		}
+
 	}
 
 
@@ -377,8 +316,7 @@ const SymposiumFeatures=(props)=>{
 			}
 
 			case "Community":{
-				changePrimaryInformation({...COMMUNITY_featuresPagePrimaryInformation});
-				changeSecondaryInformation({...COMMUNITY_featuresPageSecondaryInformation});
+				await retrieveSymposiumCommunity(featuresPageGetParams);
 				break;
 			}
 		}
@@ -399,7 +337,6 @@ const SymposiumFeatures=(props)=>{
 			changePostManagmentToken(token);
 			if(currentPostType!=postType){
 				changeEndOfPostsIndicator(false);
-				changeLoadingNewPostsIndicator(true);
 			}
 		}
 
@@ -415,6 +352,10 @@ const SymposiumFeatures=(props)=>{
 		if(confirmation=="Success"){
 			const {message}=data;
 			if(message.length==0){
+				if(isNextPostsRequest==false && tags!=null){
+					if(tags.length>0)
+						updatePrimaryPosts([],isNextPostsRequest);
+				}
 				changeEndOfPostsIndicator(true);
 			}else{
 				updatePrimaryPosts(message,isNextPostsRequest);
@@ -434,23 +375,31 @@ const SymposiumFeatures=(props)=>{
 
 
 		changeCurrentPostType(postType);
-		changeLoadingNewPostsIndicator(false);
 	}
 
 	const fetchPosts=async(featurePostType,postRetrievalInformation)=>{
-		changeIsLoadingPostsStatus(true);
+		if(postRetrievalInformation.isNextPostsRequest==false){
+			changeLoadingNewPostsIndicator(true);
+		}else{
+			changeIsLoadingPostsStatus(true);
+		}
 		switch(featurePostType){
 			case "Beacons":{
 				await fetchBeaconPosts(postRetrievalInformation)
 				break;
 			}
 		}
-		changeIsLoadingPostsStatus(false);
+		if(postRetrievalInformation.isNextPostsRequest==false){
+			changeLoadingNewPostsIndicator(false);
+		}else{
+			changeIsLoadingPostsStatus(false);
+		}
 	}
 
 	const updateSymposiumHandle=(newSymposiumName,newSymposiumId)=>{
 		changeSymposiumName(newSymposiumName)
 		changeSymposiumId(newSymposiumId);
+		retrieveOligarchStatus({symposiumName:newSymposiumName});
 		fetchData(featuresType,true,newSymposiumId);
 	}
 
@@ -499,6 +448,17 @@ const SymposiumFeatures=(props)=>{
 		changeSecondaryInformation(communitySecondaryInformation);
 	}
 
+
+
+
+
+
+
+
+
+
+	
+
 	const beaconCreationModals=()=>{
 		return(
 			<React.Fragment>
@@ -510,7 +470,7 @@ const SymposiumFeatures=(props)=>{
 								preSelectedPostType={currentCreationCriteria.postType}
 								closeCreationModal={closeFeaturesPageCreationModal}
 								updateBeaconPosts={updateCurrentBeaconPosts}
-								symposiumId={props.match.params.symposiumId}
+								symposiumId={currentSymposiumId}
 								ownerId={personalInformation.id}
 								isDesktop={isDesktop}
 							/>
@@ -528,9 +488,10 @@ const SymposiumFeatures=(props)=>{
 					<PortalHoc
 						closeModal={closeFeaturesPageCreationModal}
 						component={
-							<SymposiumCreationPortal
+							<SymposiumCommunityCreationPortal
 								closeModal={closeFeaturesPageCreationModal}
 								updateStandings={updateSymposiumCommunityQuestionStandings}
+								symposiumId={currentSymposiumId}
 							/>
 						}
 					/>
@@ -538,6 +499,13 @@ const SymposiumFeatures=(props)=>{
 			</React.Fragment>
 		)
 	}
+
+
+
+
+
+
+
 
 	const mobileCreationPostButton=()=>{
 		return(
@@ -700,10 +668,39 @@ const SymposiumFeatures=(props)=>{
 			}
 
 			case "University":{
+				let currentUniversityPrimaryInformation=featuresPagePrimaryInformation;
+				let currentPosts=currentUniversityPrimaryInformation.currentPostQuestionReplies;
+				let newUpdatedPosts;
+				if(isNextPostsRequest==false){
+					newUpdatedPosts=updatedPosts;
+				}else{
+					newUpdatedPosts=currentPosts.concat(updatedPosts);
+				}
+			
+				currentUniversityPrimaryInformation={
+					...currentUniversityPrimaryInformation,
+					currentPostQuestionReplies:newUpdatedPosts
+				}
+				changePrimaryInformation(currentUniversityPrimaryInformation);
+
 				break;
 			}
 
 			case "Community":{
+				let currentCommunityPrimaryInformation=featuresPagePrimaryInformation;
+				let currentPosts=currentCommunityPrimaryInformation.responses;
+				let newUpdatedPosts;
+				if(isNextPostsRequest==false){
+					newUpdatedPosts=updatedPosts;
+				}else{
+					newUpdatedPosts=currentPosts.concat(updatedPosts);
+				}
+			
+				currentCommunityPrimaryInformation={
+					...currentCommunityPrimaryInformation,
+					responses:newUpdatedPosts
+				}
+				changePrimaryInformation(currentCommunityPrimaryInformation);
 				break;
 			}
 		}
@@ -716,7 +713,8 @@ const SymposiumFeatures=(props)=>{
 				featuresPagePrimaryInformation,
 				featuresType,
 				currentSymposiumId,
-				isOligarch,
+				currentSymposiumName,
+				isOligarchStatus,
 				fetchPosts,
 				currentPostType,
 				loadingNewPostsIndicator,
@@ -742,6 +740,9 @@ const SymposiumFeatures=(props)=>{
 				},
 				updatePrimaryPosts:(symposiumFeaturesPageType,updatedPosts)=>{
 					updatePrimaryPosts(symposiumFeaturesPageType,updatedPosts);
+				},
+				updatePrimaryInformation:(updatedPrimaryInformation)=>{
+					changePrimaryInformation(updatedPrimaryInformation);
 				},
 				updateSecondaryInformation:(updatedSecondaryInformation)=>{
 					changeSecondaryInformation(updatedSecondaryInformation);

@@ -42,12 +42,12 @@ const DropDownCSS={
 }
 
 
-const Videos=({posts,triggerDisplaySelectedBeaconPost})=>{
+const Videos=({posts,triggerDisplaySelectedPost})=>{
 	console.log(posts);
 	return(
 		<Container>
 			{posts.map((data,index)=>
-				<div id="videoDiv" style={VideosContainerCSS} onClick={()=>triggerDisplaySelectedBeaconPost(data,index)}>
+				<div id="videoDiv" style={VideosContainerCSS} onClick={()=>triggerDisplaySelectedPost(data,index)}>
 					<div id="video"style={{position:"relative"}}>
 						<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
 							{data.acceptedAnswerStatus==true &&(
@@ -64,19 +64,19 @@ const Videos=({posts,triggerDisplaySelectedBeaconPost})=>{
 						<video
 							style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
 							 position="relative" height="90%" width="100%" borderRadius="50%"
-						 	key={data.post.videoUrl} autoPlay loop autoBuffer muted playsInline>
-							<source src={data.post.videoUrl} type="video/mp4"/>
+						 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+							<source src={data.videoUrl} type="video/mp4"/>
 						</video>
 					</div>
 					<div style={{display:"flex",flexDirection:"row",marginTop:"1%"}}>
-						<img src={data.post.owner.profilePicture==null?
+						<img src={data.owner.profilePicture==null?
 									NoProfilePicture:
-									data.post.owner.profilePicture
+									data.owner.profilePicture
 								}
 							style={{height:"40px",width:"46px",borderRadius:"50%"}}
 						/>
 						<p>
-							<b><span style={{color:"#43D351"}}>1000000</span> beacon replies</b>
+							<b><span style={{color:"#43D351"}}>{data.beaconRepliesCount}</span> beacon replies</b>
 						</p>
 					</div>
 				</div>

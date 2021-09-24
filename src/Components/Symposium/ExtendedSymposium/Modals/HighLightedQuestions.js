@@ -5,7 +5,7 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import ImagePostDisplayPortal from "../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
 import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
 import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
-import QuestionsPortal from "./QuestionsPortal.js";
+import {QuestionsPortal} from "./QuestionsPortal.js";
 import {getPopularQuestionReplies} from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
 import {

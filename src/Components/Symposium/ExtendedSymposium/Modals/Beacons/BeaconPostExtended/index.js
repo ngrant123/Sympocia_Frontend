@@ -50,11 +50,11 @@ const BeaconPostExtended=({
 	const [isFetchingNextPosts,changeIsFetchingNextPosts]=useState(false);
 	const [displayReplies,changeDisplayReplies]=useState(false);
 	const [currentPostToken,changeCurrentPostToken]=useState();
-
+	console.log(selectedPostData);
 	const props={
 		postType,
 		isOligarch,
-		beaconOwnerId:selectedPostData.post.owner._id,
+		beaconOwnerId:selectedPostData.owner._id,
 		symposiumId,
 		beaconId:selectedPostData.beaconId
 	}
@@ -70,7 +70,8 @@ const BeaconPostExtended=({
 		changeCurrentPostToken(postToken);
 	},[]);
 	const closeCreationModal=()=>{
-		changeDisplayReplies(true);
+		changeDisplayReplies(false);
+		changeDisplaySelectedPost(true);
 	}
 
 	const updateBeaconPosts=(beaconPostType,beacon)=>{
@@ -179,7 +180,7 @@ const BeaconPostExtended=({
 				<React.Fragment>
 					{displayReplies==false?
 						<SelectedPost
-							post={selectedPostData.post}
+							post={selectedPostData}
 							acceptedStatus={selectedPostData.acceptedAnswerStatus}
 							enableCreationPost={enableCreationPost}
 							fetchReplies={fetchReplies}
@@ -187,7 +188,7 @@ const BeaconPostExtended=({
 							isReplyBeacon={displayExtendReplyBeacon}
 							targetDom={targetDom}
 							originalBeaconId={postData.beaconId}
-							originalBeaconOwnerId={postData.post.owner._id}
+							originalBeaconOwnerId={postData.owner._id}
 							updateBeaconUpdatedStatus={triggerBeaconUpdateStatus}
 							{...props}
 						/>:
@@ -198,6 +199,7 @@ const BeaconPostExtended=({
 							isFetchingNextPosts={isFetchingNextPosts}
 							triggerAlterPosts={fetchReplies}
 							isReplyBeacons={true}
+							originalBeaconPostId={selectedPostData._id}
 							{...props}
 						/>
 					}
@@ -209,8 +211,8 @@ const BeaconPostExtended=({
 					beaconId={selectedPostData.beaconId}
 					ownerId={ownerId}
 					symposiumId={symposiumId}
-					beaconOwnerId={selectedPostData.post.owner._id}
-					originalBeaconPostId={selectedPostData.post._id}
+					beaconOwnerId={selectedPostData.owner._id}
+					originalBeaconPostId={selectedPostData._id}
 				/>
 			}
 		</Container>

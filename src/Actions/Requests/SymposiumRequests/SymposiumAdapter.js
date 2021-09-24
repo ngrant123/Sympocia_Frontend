@@ -59,12 +59,10 @@ export const removeTag=async(tagId,symposiumId,ownerId)=>{
 	}
 }
 
-export const addSymposiumSpecialist=async(symposiumId,firstName,profileId)=>{
+export const addSymposiumSpecialist=async(symposiumSpecialist)=>{
 	try{
 		const addedSpecialistResponses=await axios.post(`${CreateUrl}/addSymposiumSpecialist`,{
-			symposiumId,
-			firstName,
-			profileId
+			...symposiumSpecialist
 		});
 		const {data}=addedSpecialistResponses;
 		return data;
@@ -112,20 +110,34 @@ export const deleteSymposiumResource=async(deletedSymposiumResourceInformation)=
 	}
 }
 
-export const updateSpecialistReputation=async(reputationScore,specialistId,symposiumId)=>{
+export const incrementSpecialistRanking=async(specialistId,updateOwnerId)=>{
 	try{
-		const updatedSpecialistReputationResponse=await axios.post(`${CreateUrl}/updateSpecialistReputation`,{
-			reputationScore,
+		const incrementedSpecialistRankingResponse=await axios.post(`${CreateUrl}/incrementSpecialistRanking`,{
 			specialistId,
-			symposiumId
-		})
-
-		const {data}=updatedSpecialistReputationResponse;
+			updateOwnerId
+		});
+		const {data}=incrementedSpecialistRankingResponse;
 		return data;
 	}catch(err){
 		throw err;
 	}
 }
+
+
+
+export const decrementSymposiumSpecialistRanking=async(specialistId,updateOwnerId)=>{
+	try{
+		const decrementedSpecialistRankingResponse=await axios.post(`${CreateUrl}/decrementSymposiumSpecialistRanking`,{
+			specialistId,
+			updateOwnerId
+		});
+		const {data}=decrementedSpecialistRankingResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
 
 export const createCommunityQuestion=async(communityQuestionCreationInformation)=>{
 	try{

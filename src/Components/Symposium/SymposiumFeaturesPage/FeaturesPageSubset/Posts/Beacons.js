@@ -13,6 +13,7 @@ import RegularPosts from "./PostDisplay/RegularPosts.js";
 import BeaconPostExtended from "../../../../Symposium/ExtendedSymposium/Modals/Beacons/BeaconPostExtended/index.js";
 import {useSelector} from "react-redux";
 import PortalHoc from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
+import {BeaconProgressBar} from "../SideBar/Beacons.js";
 
 const Container=styled.div`
 	display:flex;
@@ -59,7 +60,7 @@ const PostTypeCSS={
 const HorizontalLineCSS={
 	marginLeft:"0",
 	marginRight:"0",
-	width:"110%",
+	width:"100%",
 	height:"1px"
 }
 
@@ -94,7 +95,7 @@ const Posts=({
 	posts,
 	postType,
 	currentSymposiumId,
-	isOligarch,
+	isOligarchStatus,
 	updatePrimaryPosts,
 	featuresPageSecondaryInformation,
 	updateSecondaryInformation})=>{
@@ -104,7 +105,7 @@ const Posts=({
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [selectedPostIndex,changeSelectedPostIndex]=useState();
 
-	const triggerDisplaySelectedBeaconPost=(selectedPost,index)=>{
+	const triggerDisplaySelectedPost=(selectedPost,index)=>{
 		console.log("Trigger display beacon post");
 		changeSelectedPostIndex(index);
 		changeSelectedBeaconPost(selectedPost);
@@ -113,7 +114,7 @@ const Posts=({
 	const postsDisplayFunctionality=()=>{
 		const postDisplayFunctions={
 			posts,
-			triggerDisplaySelectedBeaconPost
+			triggerDisplaySelectedPost
 		}
 		switch(postType){
 			case "Images":{
@@ -189,7 +190,7 @@ const Posts=({
 								symposiumId={currentSymposiumId}
 								ownerId={personalInformation.id}
 								isGuestProfile={personalInformation.isGuestProfile}
-								isOligarch={isOligarch}
+								isOligarch={isOligarchStatus}
 								deletedBeacon={deletedBeacon}
 								targetDom={"symposiumFeaturesPage"}
 								updateBeaconAnsweredStatus={updateBeaconAnsweredStatus}
@@ -221,13 +222,19 @@ const BeaconPosts=({featuresType,isLoading})=>{
 		},
 		featuresPageSecondaryInformation,
 		fetchPosts,
-		isOligarch,
+		isOligarchStatus,
 		updateSecondaryInformation,
 		currentSymposiumId,
 		endOfPostIndicator,
 		loadingNewPostsIndicator,
-		updatePrimaryPosts
+		updatePrimaryPosts,
+		isDesktop
 	}=featuresPageConsumer;
+
+	const{ progressBarInformation }=featuresPageSecondaryInformation;
+	const [displayMobileProgressBar,changeDisplayMobileProgressBar]=useState(!isDesktop);
+
+	console.log(isOligarchStatus)
 
 	const displaySpecificBeaconPostType=(selectedPostType)=>{
 		debugger;
@@ -254,9 +261,23 @@ const BeaconPosts=({featuresType,isLoading})=>{
 		}
 		fetchPosts("Beacons",beaconFetchParams)
 	}
+	const mobileProgressBar=()=>{
+		return(
+			<React.Fragment>
+				{displayMobileProgressBar==true &&(
+					<BeaconProgressBar
+						{...progressBarInformation}
+						currentSymposiumId={currentSymposiumId}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
 
 	return(
 		<Container>
+			{mobileProgressBar()}
 			<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
 				<PostsHeader
 					featuresType={featuresType}
@@ -309,7 +330,7 @@ const BeaconPosts=({featuresType,isLoading})=>{
 							posts={posts}
 							postType={postType}
 							currentSymposiumId={currentSymposiumId}
-							isOligarch={isOligarch}
+							isOligarch={isOligarchStatus}
 							updatePrimaryPosts={updatePrimaryPosts}
 							updateSecondaryInformation={updateSecondaryInformation}
 							featuresPageSecondaryInformation={featuresPageSecondaryInformation}

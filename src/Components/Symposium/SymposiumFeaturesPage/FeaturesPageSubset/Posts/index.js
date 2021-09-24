@@ -59,11 +59,15 @@ const PostsHeader=({featuresType})=>{
 					/>	
 				</div>
 
-				<div style={DropDownCSS}>
-					<SettingsIcon
-						style={{fontSize:"20"}}
-					/>	
-				</div>
+				{/*
+					Later down the road will implement most popular and recent
+					
+					<div style={DropDownCSS}>
+						<SettingsIcon
+							style={{fontSize:"20"}}
+						/>	
+					</div>
+				*/}
 			</div>
 		</React.Fragment>
 	)

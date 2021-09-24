@@ -1,9 +1,9 @@
 import React from "react";
-import AudioPostModal from "../FeaturesPosts/AudioPostModal.js";
-import RegularPostModal from "../FeaturesPosts/RegularPostModal.js";
-import VideoPostModal from "../FeaturesPosts/VideoPostModal.js";
+import {AudioPostModal} from "../FeaturesPosts/AudioPostModal.js";
+import {RegularPostModal} from "../FeaturesPosts/RegularPostModal.js";
+import {VideoPostModal} from "../FeaturesPosts/VideoPostModal.js";
 import styled from "styled-components";
-import ImagePostModal from "../FeaturesPosts/ImagePostModal.js";
+import {ImagePostModal} from "../FeaturesPosts/ImagePostModal.js";
 import {createPortal} from "react-dom";
 import {SymposiumConsumer} from "../../../SymposiumContext.js";
 import {

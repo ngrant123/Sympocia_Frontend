@@ -138,8 +138,11 @@ const BeaconPosts=({
 				isOligarch,
 				symposiumId,
 				beaconId,
-				originalBeaconOwnerId
+				beaconOwnerId,
+				originalBeaconPostId
 			})=>{
+	console.log(beaconOwnerId);
+	console.log(isOligarch);
 	console.log(posts);
 	const [currentPost,changePosts]=useState([...posts]);
 	const dispatch=useDispatch();
@@ -180,6 +183,7 @@ const BeaconPosts=({
 			symposiumId,
 			beaconId,
 			replyBeaconId,
+			originalBeaconPostId,
 			replyPostRefId:postRef,
 			beaconType:postType,
 			ownerId:personalInformation.id,
@@ -219,26 +223,26 @@ const BeaconPosts=({
 								<div onClick={()=>displayExtendedPostModal(data,index)}
 									style={{cursor:"pointer"}}>	
 									<ImageContainer acceptedAnswerStatus={data.acceptedAnswerStatus}>
-										<img src={data.post.imgUrl} 
+										<img src={data.imgUrl} 
 											style={{position:"relative",width:"100%",height:"100%",borderRadius:"5px"}}
 										/>
 									</ImageContainer>
 									<div id="postOwnerInformation">
 										<ProfileInformation>
-											<img src={data.post.owner.profilePicture==null?
-														NoProfilePicture:data.post.owner.profilePicture}
+											<img src={data.owner.profilePicture==null?
+														NoProfilePicture:data.owner.profilePicture}
 												style={{
 													width:"45px",
 													height:"40px",
 													borderRadius:"50%"
 												}}/>
 											<p style={OwnerNameCSS}>
-												{data.post.owner.firstName}
+												{data.owner.firstName}
 											</p>
 										</ProfileInformation>
 										<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
 											<b>
-												{data.post.caption}
+												{data.caption}
 											</b>
 										</p>
 									</div>
@@ -246,10 +250,11 @@ const BeaconPosts=({
 								{isReplyBeacons==true &&(
 									<React.Fragment>
 										{(isOligarch==true || 
-											data.post.owner._id==personalInformation.id)==true &&(
+											data.owner._id==personalInformation.id
+											|| beaconOwnerId==personalInformation.id)==true &&(
 											<div onClick={()=>triggerDeleteBeaconComment({
 												replyBeaconId:data.beaconId,
-												postRef:data.post._id,
+												postRef:data._id,
 												index,
 												isAccessTokenUpdated:false,
 											})}>
@@ -275,36 +280,37 @@ const BeaconPosts=({
 										<video id="videoElement"
 											style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
 											 position="relative" width="100%" height="100%"
-										 	key={data.post.videoUrl} autoPlay loop autoBuffer muted playsInline>
-											<source src={data.post.videoUrl} type="video/mp4"/>
+										 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+											<source src={data.videoUrl} type="video/mp4"/>
 										</video>
 									</VideoContainer>
 									<div id="postOwnerInformation">
 										<ProfileInformation>
-											<img src={data.post.owner.profilePicture==null?
+											<img src={data.owner.profilePicture==null?
 													NoProfilePicture:
-													data.post.owner.profilePicture
+													data.owner.profilePicture
 												} style={{
 																		width:"45px",
 																		height:"40px",
 																		borderRadius:"50%"
 																	}}/>
 											<p style={OwnerNameCSS}>
-												{data.post.owner.firstName}
+												{data.owner.firstName}
 											</p>
 										</ProfileInformation>
 										<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
 											<b>
-												{data.post.title}
+												{data.title}
 											</b>
 										</p>
 									</div>	
 								</div>
 								{(isReplyBeacons==true && (isOligarch==true ||
-								 	data.post.owner._id==personalInformation.id))==true &&(
+								 	data.owner._id==personalInformation.id
+								 	|| beaconOwnerId==personalInformation.id))==true &&(
 									<div onClick={()=>triggerDeleteBeaconComment({
 										replyBeaconId:data.beaconId,
-										postRef:data.post._id,
+										postRef:data._id,
 										index,
 										isAccessTokenUpdated:false,
 									})}>
@@ -326,28 +332,29 @@ const BeaconPosts=({
 									acceptedAnswerStatus={data.acceptedAnswerStatus}>
 									<p style={{width:"100%",height:"40px",overflow:"hidden",marginTop:"5%"}}>
 										<b>
-											{data.post.post}
+											{data.post}
 										</b>
 									</p>
 									<ProfileInformation>
-										<img src={data.post.owner.profilePicture==null?
+										<img src={data.owner.profilePicture==null?
 													NoProfilePicture:
-													data.post.owner.profilePicture
+													data.owner.profilePicture
 												} style={{
 																	width:"45px",
 																	height:"40px",
 																	borderRadius:"50%"
 																}}/>
 										<p style={OwnerNameCSS}>
-											{data.post.owner.firstName}
+											{data.owner.firstName}
 										</p>
 									</ProfileInformation>
 								</TextPostContainer>
 								{(isReplyBeacons==true && (isOligarch==true || 
-									data.post.owner._id==personalInformation.id))==true &&(
+									data.owner._id==personalInformation.id
+									|| beaconOwnerId==personalInformation.id))==true &&(
 									<div onClick={()=>triggerDeleteBeaconComment({
 										replyBeaconId:data.beaconId,
-										postRef:data.post._id,
+										postRef:data._id,
 										index,
 										isAccessTokenUpdated:false,
 									})}>

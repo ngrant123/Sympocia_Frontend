@@ -3,7 +3,7 @@ import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
 import {
-	createIndustryFeatureImageResponse
+	createSymposiumUniversityAnswer
 } from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryImageFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
@@ -205,58 +205,62 @@ const ShadowButtonCSS={
 	marginTop:"5%"
 }
 
-const ImagePostModal=(props)=>{
-	const {
-		isOligarch,
-		closeModal,
-		symposium,
-		questionIndex,
-		symposiumId,
-		question,
-		selectedPostId,
-		deleteSpecificSymposiumAnswerTrigger
-	}=props
-	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
-	const [finalImageEditDisplay,changeDisplayForFinalImage]=useState(false);
-	const [imgUrl,changeImageUrl]=useState();
-	const [posts,changePosts]=useState([]);
-	const [questionId,changeQuestionId]=useState();	
-	const [symposiumIdState,changeSymposiumIdState]=useState();
+const ImagePostUpload=({
+	closeModal,
+	symposiumId,
+	userId,
+	personalInformation,
+	updatePosts,
+	questionId,
+	selectedUploadType})=>{
 
-	const [displayPostExpand,changePostExpand]=useState(false);
-	const [selectedPost,changeSelectedPost]=useState(false);
+	const [imgUrl,changeImageUrl]=useState();
+	const [finalImageEditDisplay,changeDisplayForFinalImage]=useState(false);
 	const [isProccessingPost,changeIsProcessingPost]=useState(false);
 	const dispatch=useDispatch();
-	const {personalInformation}=useSelector(state=>state);
-	const [isLoading,changeIsLoadingStatus]=useState(false);
 
+	const submitImage=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeIsProcessingPost(true);
 
-	const userId=useSelector(state=>state.personalInformation.id);
-
-	useEffect(()=>{
-		const fetchData=async()=>{
-			changeIsLoadingStatus(true);
-			const {confirmation,data}=await getIndustryImageFeatureAnswers({
-				industryId:symposiumId,
-				questionIndex,
-				questionId:selectedPostId
-			})
-
-			if(confirmation=="Success"){
-				const {message}=data;
-				const {
-					posts
-				}=message;
-				changePosts(posts);
-				changeQuestionId(selectedPostId);
-			}else{
-				alert('Unfortunately there has been an error trying to get this images data. Please try again');
+		const submitedImage={
+			symposiumUniversityPostUrl:imgUrl,
+			symposiumuniversityPrimaryText:document.getElementById("imageDescription").value,
+			symposiumId,
+			questionId,
+			isMobile:false,
+			selectedUploadType,
+			userId:userId,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
+		}
+		let {confirmation,data}=await createSymposiumUniversityAnswer(submitedImage);
+		
+		if(confirmation=="Success"){
+			let {message}=data;
+			debugger;
+			message={
+				...message,
+				imgUrl
 			}
-			changeIsLoadingStatus(false);
+			updatePosts(message);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitImage,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with adding this image. Please try again');
+			}
 		}
 
-		fetchData();
-	},[])
+		changeIsProcessingPost(false);
+	}
 
 	const handleUploadPicture=()=>{
 		var fileReader=new FileReader();
@@ -280,64 +284,113 @@ const ImagePostModal=(props)=>{
 		}
 	}
 
+
 	const clickFileUpload=()=>{
 		document.getElementById("uploadPictureFile").click();
 	}
 
-	const submitImage=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		changeIsProcessingPost(true);
-		var image={
-			imgUrl:imgUrl,
-			description:document.getElementById("imageDescription").value
-		}
-		const submitedImage={
-			image,
-			industryId:symposiumId,
-			questionId:selectedPostId,
-			questionIndex:questionIndex,
-			userId:userId,
-			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-						personalInformation.accessToken
-		}
-		const message={
-			imgUrl,
-			description:document.getElementById("imageDescription").value
-		}
-		let {confirmation,data}=await createIndustryFeatureImageResponse(submitedImage);
-		
-		if(confirmation=="Success"){
-			let {message}=data;
 
-			message={
-				...message,
-				owner:{
-					...message.owner,
-					firstName:personalInformation.firstName
-				},
-				imgUrl
-			}
-			posts.splice(0,0,message);
-			changeQuestionId(questionId);
-			changePosts([...posts]);
-			changeDisplayCreationModal(false);
-		}else{
-			const {statusCode}=data;
-			if(statusCode==401){
-				await refreshTokenApiCallHandle(
-						personalInformation.refreshToken,
-						personalInformation.id,
-						submitImage,
-						dispatch,
-						{},
-						false
-					);
+	return(
+		<React.Fragment>
+			<li style={{listStyle:"none"}}>
+				<ul style={{padding:"0px"}}>
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li onClick={()=>closeModal()} style={ButtonCSS}>
+							Back
+						</li>
+					</a>
+					<li style={{listStyle:"none",display:"inline-block"}}>
+						<p style={{fontSize:"20px"}}>
+							<b>Upload an image for others to see</b>
+						</p>
+					</li>
+				</ul>
+			</li>
+			<hr/>
+			<li style={{marginTop:"2%",listStyle:"none"}}>
+				{finalImageEditDisplay==false?
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li onClick={()=>clickFileUpload()} style={ButtonCSS}>
+								<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+											<CameraIcon/>
+										</li>
+
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+											Upload Photo
+										</li>
+									</ul>
+								<input type="file" name="img" id="uploadPictureFile" 
+									style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadPicture()} 
+									accept="image/jpeg">
+								</input>
+						</li>
+					</a>:
+					<FinalSubmittionContainer>
+						<img id="selectedImage" src={imgUrl} style={{height:"210px",width:"40%",borderRadius:"5px"}}/>
+						<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
+
+						{isProccessingPost==true ?
+							<p>Please wait while we process your post </p>:
+							<li onClick={()=>submitImage({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
+								Submit
+							</li>
+						}
+						
+					</FinalSubmittionContainer>
+				}
+			</li>
+		</React.Fragment>
+	)
+}
+
+const ImagePostModal=(props)=>{
+	const {
+		isOligarch,
+		closeModal,
+		symposium,
+		questionIndex,
+		symposiumId,
+		question,
+		questionId,
+		deleteSpecificSymposiumAnswerTrigger
+	}=props
+	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
+	const [posts,changePosts]=useState([]);
+	const [symposiumIdState,changeSymposiumIdState]=useState();
+
+	const [displayPostExpand,changePostExpand]=useState(false);
+	const [selectedPost,changeSelectedPost]=useState(false);
+	const {personalInformation}=useSelector(state=>state);
+	const [isLoading,changeIsLoadingStatus]=useState(false);
+
+
+	const userId=useSelector(state=>state.personalInformation.id);
+
+	useEffect(()=>{
+		const fetchData=async()=>{
+			changeIsLoadingStatus(true);
+			const {confirmation,data}=await getIndustryImageFeatureAnswers({
+				industryId:symposiumId,
+				questionIndex,
+				questionId:questionId
+			})
+
+			if(confirmation=="Success"){
+				const {message}=data;
+				const {
+					posts
+				}=message;
+				changePosts(posts);
 			}else{
-				alert('Unfortunately there has been an error with adding this image. Please try again');
+				alert('Unfortunately there has been an error trying to get this images data. Please try again');
 			}
+			changeIsLoadingStatus(false);
 		}
 
-		changeIsProcessingPost(false);
-	}
+		fetchData();
+	},[])
+
 
 	const initializeSymposiumId=(id)=>{
 		changeSymposiumIdState(id);
@@ -392,6 +445,16 @@ const ImagePostModal=(props)=>{
 		)
 	}
 
+	const closeCreationModal=()=>{
+		changeDisplayCreationModal(false);
+	}
+
+	const updatePosts=(post)=>{
+		posts.splice(0,0,post);
+		changePosts([...posts]);
+		changeDisplayCreationModal(false);
+
+	}
 	return(
 		<FeatureConsumer>
 			{featureConsumer=>{
@@ -445,56 +508,9 @@ const ImagePostModal=(props)=>{
 									}
 								</li>
 							</>:
-							<>
-								<li style={{listStyle:"none"}}>
-									<ul style={{padding:"0px"}}>
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>changeDisplayCreationModal(false)} style={ButtonCSS}>
-												Back
-											</li>
-										</a>
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<p style={{fontSize:"20px"}}>
-												<b>Upload an image for others to see</b>
-											</p>
-										</li>
-									</ul>
-								</li>
-								<hr/>
-								<li style={{marginTop:"2%",listStyle:"none"}}>
-									{finalImageEditDisplay==false?
-										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li onClick={()=>clickFileUpload()} style={ButtonCSS}>
-													<ul style={{padding:"0px"}}>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-																<CameraIcon/>
-															</li>
-
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-																Upload Photo
-															</li>
-														</ul>
-													<input type="file" name="img" id="uploadPictureFile" 
-														style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadPicture()} 
-														accept="image/jpeg">
-													</input>
-											</li>
-										</a>:
-										<FinalSubmittionContainer>
-											<img id="selectedImage" src={imgUrl} style={{height:"210px",width:"40%",borderRadius:"5px"}}/>
-											<DescriptionInputContainer id="imageDescription" placeholder="Write down a description here"/>
-
-											{isProccessingPost==true ?
-												<p>Please wait while we process your post </p>:
-												<li onClick={()=>submitImage({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
-													Submit
-												</li>
-											}
-											
-										</FinalSubmittionContainer>
-									}
-								</li>
-							</>
+							<ImagePostUpload
+								closeModal={closeCreationModal}
+							/>
 						}
 					</Container>
 				}
@@ -503,5 +519,8 @@ const ImagePostModal=(props)=>{
 	);
 }
 
-export default ImagePostModal;
+export{
+	ImagePostModal,
+	ImagePostUpload
+};
 

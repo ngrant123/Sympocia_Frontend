@@ -131,40 +131,6 @@ export const unStampPost=async(postId,profileType,postType,userId,accessToken)=>
 	}
 }
 
-export const addCommentToPopularQuestions=async(commentObject,accessToken,isMobile)=>{
-	try{
-		const {
-			userId,
-			profileIndicator,
-			questionId={},
-			questionType,
-			comment,
-			industry
-		}=commentObject;
-
-		
-		const commentResponse=await axios.post(`${CreateURl}/addCommentToPopularPost`,{
-			userId:userId,
-			profileIndicator:profileIndicator,
-			questionId:questionId,
-			questionType:questionType,
-			comment:comment,
-			industry:industry,
-			isMobile
-		},{
-				headers:{
-					authorization:accessToken
-				}
-			});
-		const {data}=commentResponse;
-		return data;
-	}catch(err){
-		
-		return err;
-	}
-}
-
-
 
 export const updateCrownedImage=async(_id,updatedStatus,imageId,accessToken)=>{
 	try{
@@ -546,29 +512,41 @@ export const deletePost=async({
 }
 
 
-export const createIndustryFeatureImageResponse=async({image,industryId,questionId,questionIndex,question,userId,accessToken})=>{
+export const createSymposiumUniversityAnswer=async(symposiumUniversityPostParams)=>{
 	try{
-		
-		const imageFeatureResponse=await axios.post(`${CreateURl}/createIndustryFeatureImageResponse`,{
-			image,
-			industryId,
-			questionId,
-			question,
-			userId,
-			questionIndex
-		},{
-			headers:{
-				authorization:accessToken
-			}
+		const universityPostResponse=await axios.post(`${CreateURl}/createSymposiumUniversityAnswer`,{
+			...symposiumUniversityPostParams
 		});
-
-		const {data}=imageFeatureResponse
+		const {data}=universityPostResponse;
 		return data;
 	}catch(err){
-		
-		return err;
+		throw err;
 	}
 }
+
+
+export const createSymposiumCommunityAnswer=async(symposiumCommunityPostParams)=>{
+	try{
+		const communityPostResponse=await axios.post(`${CreateURl}/createSymposiumCommunityAnswer`,{
+			...symposiumCommunityPostParams
+		});
+		const {data}=communityPostResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
 
 export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer)=>{
 	try{
@@ -800,7 +778,8 @@ export const deleteBeaconReply=async({
 			beaconType,
 			ownerId,
 			accessToken,
-			replyPostRefId
+			replyPostRefId,
+			originalBeaconPostId
 		})=>{
 	try{
 		const deletedBeaconReplyResponse=await axios.post(`${CreateURl}/deleteBeaconReply`,{
@@ -809,7 +788,8 @@ export const deleteBeaconReply=async({
 			replyBeaconId,
 			beaconType,
 			ownerId,
-			replyPostRefId
+			replyPostRefId,
+			originalBeaconPostId
 		},{
 			headers:{
 				authorization:accessToken

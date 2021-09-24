@@ -228,28 +228,25 @@ const Creation=({
 			}
 			const {confirmation,data}=uploadedBeaconResult;
 			if(confirmation=="Success"){
-			let {message}=data;
-			if(currentSubmittedPostType=="Images" || currentSubmittedPostType=="Videos"){
-				const postUrlParameter=currentSubmittedPostType=="Images"?"imgUrl":"videoUrl"
+				debugger;
+				let {message}=data;
+				if(currentSubmittedPostType=="Images" || currentSubmittedPostType=="Videos" ||
+					currentSubmittedPostType=="Image" || currentSubmittedPostType=="Video"){
+
+					const postUrlParameter=currentSubmittedPostType=="Images"?"imgUrl":"videoUrl"
+					message={
+						...message,
+						[postUrlParameter]:selectedPostUrl
+					};
+				}
 				message={
 					...message,
-					post:{
-						...message.post,
-						[postUrlParameter]:selectedPostUrl
-					}
-				};
-			}
-			message={
-				...message,
-				post:{
-					...message.post,
 					owner:{
-						...message.post.owner,
+						...message.owner,
 						firstName:userInformation.firstName
 					}
-				}
-			};
-			updateBeaconPosts(currentSubmittedPostType,message);
+				};
+				updateBeaconPosts(currentSubmittedPostType,message);
 			}else{
 				alert('There was an error creating this beacon response');
 				return null;

@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
-import {createSpecificIndustryVideoAnswer} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {createSymposiumUniversityAnswer} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryVideoFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
 import VideoPostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
@@ -166,70 +166,20 @@ const ShadowButtonCSS={
 	marginTop:"5%"
 }
 
+const VideoPostUpload=({
+	closeModal,
+	symposiumId,
+	questionId,
+	personalInformation,
+	userId,
+	displayPhoneUI,
+	updatePosts,
+	selectedUploadType})=>{
 
-const VideoPostModal=(props)=>{
-	const {
-		isOligarch,
-		closeModal,
-		symposium,
-		questionIndex,
-		symposiumId,
-		question,
-		selectedPostId,
-		deleteSpecificSymposiumAnswerTrigger
-	}=props
-	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
-	const [finalImageEditDisplay,changeDisplayForFinalImage]=useState(false);
+	const [finalVideoEditDisplay,changeDisplayForFinalImage]=useState(false);
 	const [videoUrl,changeVideoUrl]=useState();
-	const [questionId,changeQuestionId]=useState();
-	const [posts,changePosts]=useState([]);	
-
-	const [displayPostExpand,changePostExpand]=useState(false);
-	const [selectedPost,changeSelectedPost]=useState(false);
-	const userId=useSelector(state=>state.personalInformation.id);
 	const [isProccessingPost,changeIsProcessingPost]=useState(false);
 	const dispatch=useDispatch();
-	const {personalInformation}=useSelector(state=>state);
-	const [isLoading,changeIsLoadingIndicator]=useState(false);
-	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
-
-
-	const triggerUIChange=()=>{
-		if(window.innerWidth<740){
-			changeDisplayPhoneUI(true);
-
-		}else{
-			changeDisplayPhoneUI(false);
-		}
-	}
-
-	window.addEventListener('resize',triggerUIChange)
-
-	useEffect(()=>{
-		const fetchData=async()=>{
-			changeIsLoadingIndicator(true);
-			const {confirmation,data}=await getIndustryVideoFeatureAnswers({
-				industryId:symposiumId,
-				questionIndex,
-				questionId:selectedPostId
-			})
-
-			if(confirmation=="Success"){
-				const {message}=data;
-				const {
-					posts
-				}=message;
-				changePosts(posts);
-				changeQuestionId(selectedPostId);
-			}else{
-				alert('Unfortunately there has been an error trying to get this video data. Please try again');
-			}
-			changeIsLoadingIndicator(false);
-		}
-
-		triggerUIChange();
-		fetchData();
-	},[])
 
 	const checkVideoLength=()=>{
 		const video=document.getElementById("uploadVideoUrl");
@@ -273,23 +223,21 @@ const VideoPostModal=(props)=>{
 		const isVideoAppropriateSize=checkVideoLength();
 		if(isVideoAppropriateSize==true){
 			changeIsProcessingPost(true);
-			var video={
-				videoUrl,
-				description:document.getElementById("videoDescription").value
-			}
 			const submitedVideo={
-				video,
-				industryId:symposiumId,
-				questionId:selectedPostId,
-				questionIndex:questionIndex,
+				symposiumUniversityPostUrl:videoUrl,
+				symposiumuniversityPrimaryText:document.getElementById("videoDescription").value,
+				symposiumId,
+				questionId,
+				isMobile:displayPhoneUI,
+				selectedUploadType,
 				userId:userId,
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-							personalInformation.accessToken,
-				isMobile:displayPhoneUI
+					personalInformation.accessToken
+
 			}
 
 			alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
-			let {confirmation,data}=await createSpecificIndustryVideoAnswer(submitedVideo);
+			let {confirmation,data}=await createSymposiumUniversityAnswer(submitedVideo);
 			if(confirmation=="Success"){
 				let {message}=data;
 				message={
@@ -301,10 +249,7 @@ const VideoPostModal=(props)=>{
 					videoUrl
 				}
 
-				posts.splice(0,0,message);
-				changeQuestionId(questionId);
-				changePosts([...posts]);
-				changeDisplayCreationModal(false);
+				updatePosts(message);
 			}else{
 				const {statusCode}=data;
 				if(statusCode==401){
@@ -330,6 +275,127 @@ const VideoPostModal=(props)=>{
 	    return v.toString(16);
 	  });
 	}
+
+	return(
+		<React.Fragment>
+			<li style={{listStyle:"none"}}>
+				<ul style={{padding:"0px"}}>
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li onClick={()=>closeModal()} style={ButtonCSS}>
+							Back
+						</li>
+					</a>
+					<li style={{listStyle:"none",display:"inline-block"}}>
+						<p style={{fontSize:"20px"}}>
+							<b>Upload video for others to view</b>
+						</p>
+					</li>
+				</ul>
+			</li>
+			<hr/>
+			<li style={{marginTop:"2%",listStyle:"none"}}>
+				{finalVideoEditDisplay==false?
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li onClick={()=>clickFileUpload()} style={ButtonCSS}>
+								<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+											<CameraIcon/>
+										</li>
+
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+											Upload Video
+										</li>
+									</ul>
+								<input type="file" name="img" id="uploadVideoFile" 
+									style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadVideo()} 
+									accept="video/*">
+								</input>
+
+						</li>
+					</a>:
+					<FinalSubmittionContainer>
+						<video id="uploadVideoUrl" key={uuidv4()} width="80%" height="300px" 
+							borderRadius="5px" controls autoplay style={{backgroundColor:"#151515",borderRadius:"5px"}}>
+							<source src={videoUrl} type="video/mp4"/>
+						</video>
+						
+						<DescriptionInputContainer id="videoDescription" placeholder="Write down a description here"/>
+						
+						{isProccessingPost==true ?
+							<p>Please wait while we process your post </p>:
+							<li onClick={()=>submitVideo({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
+								Submit
+							</li>
+						}
+
+					</FinalSubmittionContainer>
+				}
+			</li>
+		</React.Fragment>
+	)
+}
+
+
+const VideoPostModal=(props)=>{
+	const {
+		isOligarch,
+		closeModal,
+		symposium,
+		questionIndex,
+		symposiumId,
+		question,
+		selectedPostId,
+		deleteSpecificSymposiumAnswerTrigger
+	}=props
+	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
+	const [questionId,changeQuestionId]=useState();
+	const [posts,changePosts]=useState([]);	
+
+	const [displayPostExpand,changePostExpand]=useState(false);
+	const [selectedPost,changeSelectedPost]=useState(false);
+	const userId=useSelector(state=>state.personalInformation.id);
+	const {personalInformation}=useSelector(state=>state);
+	const [isLoading,changeIsLoadingIndicator]=useState(false);
+	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
+
+
+	const triggerUIChange=()=>{
+		if(window.innerWidth<740){
+			changeDisplayPhoneUI(true);
+
+		}else{
+			changeDisplayPhoneUI(false);
+		}
+	}
+
+	window.addEventListener('resize',triggerUIChange)
+
+	useEffect(()=>{
+		const fetchData=async()=>{
+			changeIsLoadingIndicator(true);
+			const {confirmation,data}=await getIndustryVideoFeatureAnswers({
+				industryId:symposiumId,
+				questionIndex,
+				questionId:selectedPostId
+			})
+
+			if(confirmation=="Success"){
+				const {message}=data;
+				const {
+					posts
+				}=message;
+				changePosts(posts);
+				changeQuestionId(selectedPostId);
+			}else{
+				alert('Unfortunately there has been an error trying to get this video data. Please try again');
+			}
+			changeIsLoadingIndicator(false);
+		}
+
+		triggerUIChange();
+		fetchData();
+	},[])
+
 
 	const displaySelectedPost=(data)=>{
 		changeSelectedPost(data);
@@ -371,6 +437,17 @@ const VideoPostModal=(props)=>{
 				)}
 			</React.Fragment>
 		)
+	}
+
+	const closeVideoUploadModal=()=>{
+		changeDisplayCreationModal(false);
+	}
+
+	const updatePosts=(message)=>{
+		posts.splice(0,0,message);
+		changeQuestionId(questionId);
+		changePosts([...posts]);
+		changeDisplayCreationModal(false);
 	}
 
 
@@ -420,64 +497,23 @@ const VideoPostModal=(props)=>{
 						</React.Fragment>
 					}
 				</>:
-				<>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>changeDisplayCreationModal(false)} style={ButtonCSS}>
-									Back
-								</li>
-							</a>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<p style={{fontSize:"20px"}}>
-									<b>Upload video for others to view</b>
-								</p>
-							</li>
-						</ul>
-					</li>
-					<hr/>
-					<li style={{marginTop:"2%",listStyle:"none"}}>
-						{finalImageEditDisplay==false?
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>clickFileUpload()} style={ButtonCSS}>
-										<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-													<CameraIcon/>
-												</li>
-
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-													Upload Video
-												</li>
-											</ul>
-										<input type="file" name="img" id="uploadVideoFile" 
-											style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadVideo()} 
-											accept="video/*">
-										</input>
-
-								</li>
-							</a>:
-							<FinalSubmittionContainer>
-								<video id="uploadVideoUrl" key={uuidv4()} width="80%" height="300px" 
-									borderRadius="5px" controls autoplay style={{backgroundColor:"#151515",borderRadius:"5px"}}>
-									<source src={videoUrl} type="video/mp4"/>
-								</video>
-								
-								<DescriptionInputContainer id="videoDescription" placeholder="Write down a description here"/>
-								
-								{isProccessingPost==true ?
-									<p>Please wait while we process your post </p>:
-									<li onClick={()=>submitVideo({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
-										Submit
-									</li>
-								}
-
-							</FinalSubmittionContainer>
-						}
-					</li>
-				</>
+				<VideoPostUpload
+					closeModal={closeVideoUploadModal}
+					symposiumId={symposiumId}
+					userId={userId}
+					personalInformation={personalInformation}
+					displayPhoneUI={displayPhoneUI}
+					updatePosts={updatePosts}
+				/>
 			}
 		</Container>
 	);
 }
 
-export default VideoPostModal;
+export{
+	VideoPostModal,
+	VideoPostUpload
+};
+
+
+

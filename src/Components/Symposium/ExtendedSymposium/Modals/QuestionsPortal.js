@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import CameraIcon from '@material-ui/icons/Camera';
 import {
-	addCommentToPopularQuestions,
+	createSymposiumCommunityAnswer,
 	deleteCommentToPopularQuestions
 } from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
@@ -269,92 +269,35 @@ const MobileCreationButtonCSS={
 	width:"20%"
 }
 
-
-
-const QuestionsPortal=(props)=>{
-	const ownerInformation=useSelector(state=>state.personalInformation);
-	const _id=useSelector(state=>state.personalInformation.id);
-	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
+const QuestionUploadOption=({
+	currentQuestionType,
+	userId,
+	questions,
+	questionId,
+	symposiumId,
+	personalInformation,
+	question,
+	updatePosts,
+	dispatch
+})=>{
 	const [isCommentProcessing,changeIsCommentProcessing]=useState(false);
-	const personalInformation=useSelector(state=>state.personalInformation);
-
-	const [displayImagePortal,changeImagePortal]=useState(false);
-	const [displayVideoPortal,changeVideoPortal]=useState(false);
-	const [displayRegularPortal,changeRegularPortal]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState();
-	const [selectedPostDisplayModal,changeSelectedPostDisplayModal]=useState();
-	const symposiumInformation=useContext(SymposiumContext);
-
-	const {	questionType,
-			counter,
-			questions,
-			closeModalAndDisplayData,
-			selectedSymposium,
-			isMobile,
-			isOligarch
-		}=props;
-
-	const [currentReplies,changeCurrentReplies]=useState(questions[counter].responsesId);
-	const [displayCreatePost,changeDisplayPost]=useState(false);
 	const [displayUploadScreen,changeDisplayUploadScreen]=useState(true);
-	let [currentCounter,changeCurrentCounter]=useState(counter);
-	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[currentCounter].questionType);
-
-	//const [displayExpandedQuestionModal,change]
-
-	const dispatch=useDispatch();
-
-	const triggerUIChange=()=>{
-		if(window.innerWidth<740){
-			changeDisplayPhoneUI(true);
-
-		}else{
-			changeDisplayPhoneUI(false);
-		}
-	}
-	useEffect(()=>{
-		triggerUIChange();
-	},[]);
-
-	window.addEventListener('resize',triggerUIChange)
-
-	const checkVideoLength=()=>{
-		const video=document.getElementById("videoLI");
-		let duration=video.duration;
-		duration=Math.ceil(duration);
-		if(duration>30){
-			alert('The video is too long. As of right now we only support 30 sec videos that are below 50MB. Sorry for the inconvience.');
-			return false;
-		}else{
-			return true;
-		}
-	}
-
 
 	const sendData=async({postData,isAccessTokenUpdated,updatedAccessToken})=>{
 		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
 		changeIsCommentProcessing(true);
-		let addCommentRequestData;
+		let description;
 		let continueUploadProcess=true;
 		if(currentQuestionType=="Video"){
 			const isVideoAppropiateSize=checkVideoLength();
 			continueUploadProcess=isVideoAppropiateSize;
 
-			addCommentRequestData={
-				videoUrl:postData,
-				description:document.getElementById("videoDescription").value
-			}
+			description=document.getElementById("videoDescription").value;
 		}else if(currentQuestionType=="Image"){
-			addCommentRequestData={
-				imgUrl:postData,
-				description:document.getElementById("imageDescription").value,
-				comment:[]
-			}
+			description=document.getElementById("imageDescription").value;
 		}else{
-			addCommentRequestData={
-				post:postData,
-				comment:[]
-			}
+			description=postData;
 		}
 
 		if(continueUploadProcess!=false){
@@ -362,29 +305,35 @@ const QuestionsPortal=(props)=>{
 				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
 			}
 			const postInformation={
-				userId:_id,
-				profileIndicator:"Profile",
-				questionId:questions[currentCounter]._id,
-				questionType:currentQuestionType,
-				comment:addCommentRequestData,
-				industry:selectedSymposium
+				symposiumCommunityPostUrl:postData,
+				symposiumCommunityPrimaryText:description,
+				symposiumId,
+				questionId,
+				userId,
+				selectedUploadType:currentQuestionType,
+				isMobile:false,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 			}
-			const {confirmation,data}=await addCommentToPopularQuestions(
-												postInformation,
-												isAccessTokenUpdated==true?updatedAccessToken:
-												personalInformation.accessToken,
-												isMobile
-											);
+			const {confirmation,data}=await createSymposiumCommunityAnswer(postInformation);
 			if(confirmation=="Success"){
-				const {message}=data;
-				props.closeModalAndDisplayData({
-					data:{
+				let {message}=data;
+				if(currentQuestionType=="Images" || currentQuestionType=="Videos"
+					|| currentQuestionType=="Image" || currentQuestionType=="Video"){
+					const postUrlParameter=currentQuestionType=="Image"?"imgUrl":"videoUrl"
+					message={
 						...message,
-						videoUrl:postData,
-						imgUrl:postData
-					},
-					currentQuestionType
-				});
+						[postUrlParameter]:postData
+					};
+				}
+				message={
+					...message,
+					owner:{
+						...message.owner,
+						firstName:personalInformation.firstName
+					}
+				};
+				updatePosts(message);
 			}else{
 				const {statusCode}=data;
 				if(statusCode==401){
@@ -404,25 +353,6 @@ const QuestionsPortal=(props)=>{
 		changeIsCommentProcessing(false);
 
 	}
-
-	const displayAppropriatePostModal=(data,currentQuestionType)=>{
-		changeSelectedPostDisplayModal(data);
-		if(currentQuestionType=="Images"){
-			changeImagePortal(true);
-		}else if(currentQuestionType=="Videos"){
-			changeVideoPortal(true);
-		}else{
-			changeRegularPortal(true);
-		}
-	}
-
-	const uuidv4=()=>{
-	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-	    return v.toString(16);
-	  });
-	}
-
 
 	const uploadFile=(postType)=>{
 		const reader=new FileReader();
@@ -457,8 +387,20 @@ const QuestionsPortal=(props)=>{
 		}
 	}
 
+	const checkVideoLength=()=>{
+		const video=document.getElementById("videoLI");
+		let duration=video.duration;
+		duration=Math.ceil(duration);
+		if(duration>30){
+			alert('The video is too long. As of right now we only support 30 sec videos that are below 50MB. Sorry for the inconvience.');
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 	const createPost=()=>{
+		console.log(currentQuestionType);
 		if(currentQuestionType=="Image"){
 			return <React.Fragment>
 						{displayUploadScreen==true?
@@ -569,7 +511,7 @@ const QuestionsPortal=(props)=>{
 									marginBottom:"10%",width:"80%",color:"#585858",listStyle:"none",
 									display:"inline-block",fontSize:"20px",marginTop:"2%"}}>
 								<b>
-									{questions[currentCounter].question}
+									{question}
 								</b>
 						</p>
 						<hr/>
@@ -593,9 +535,80 @@ const QuestionsPortal=(props)=>{
 		}
 	}
 
+	return(
+		<div id="creationPostDiv" style={{padding:"50px"}}>
+			{createPost()}
+		</div>
+	)
+}
+
+
+
+const QuestionsPortal=(props)=>{
+	const ownerInformation=useSelector(state=>state.personalInformation);
+	const _id=useSelector(state=>state.personalInformation.id);
+	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
+	const personalInformation=useSelector(state=>state.personalInformation);
+
+	const [displayImagePortal,changeImagePortal]=useState(false);
+	const [displayVideoPortal,changeVideoPortal]=useState(false);
+	const [displayRegularPortal,changeRegularPortal]=useState(false);
+	const [selectedPostDisplayModal,changeSelectedPostDisplayModal]=useState();
+	const symposiumInformation=useContext(SymposiumContext);
+
+	const {	questionType,
+			counter,
+			questions,
+			closeModalAndDisplayData,
+			selectedSymposium,
+			isMobile,
+			isOligarch
+		}=props;
+
+	const [currentReplies,changeCurrentReplies]=useState(questions[counter].responsesId);
+	const [displayCreatePost,changeDisplayPost]=useState(false);
+	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[counter].questionType);
+
+	//const [displayExpandedQuestionModal,change]
+
+	const dispatch=useDispatch();
+
+	const triggerUIChange=()=>{
+		if(window.innerWidth<740){
+			changeDisplayPhoneUI(true);
+
+		}else{
+			changeDisplayPhoneUI(false);
+		}
+	}
+	useEffect(()=>{
+		triggerUIChange();
+	},[]);
+
+	window.addEventListener('resize',triggerUIChange)
+
+	const displayAppropriatePostModal=(data,currentQuestionType)=>{
+		changeSelectedPostDisplayModal(data);
+		if(currentQuestionType=="Images"){
+			changeImagePortal(true);
+		}else if(currentQuestionType=="Videos"){
+			changeVideoPortal(true);
+		}else{
+			changeRegularPortal(true);
+		}
+	}
+
+	const uuidv4=()=>{
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
+	}
+
+
 	const deleteHighlightedPost=async({selectedData,index,isAccessTokenUpdated,updatedAccessToken})=>{
 		const {confirmation,data}=await deleteCommentToPopularQuestions({
-											questionId:questions[currentCounter]._id,
+											questionId:questions[counter]._id,
 							           		targetDeletionResponseId:selectedData._id,
 								            symposiumId:symposiumInformation.symposiumId,
 								            userId:_id,
@@ -708,28 +721,17 @@ const QuestionsPortal=(props)=>{
 		}
 	}
 
-	const increaseCounter=()=>{
-
-		const nextCounter=currentCounter+1;
-		const previousType=questions[nextCounter].questionType
-
-		changeCurrentCounter(nextCounter);
-		changeCurrentQuestionType(previousType);
-	}
-
-	const decreaseCounter=()=>{
-
-		const previousCounter=currentCounter-1;
-		const previousType=questions[previousCounter].questionType
-
-		changeCurrentCounter(previousCounter);
-		changeCurrentQuestionType(previousType);
-	}
-
 	const closeModal=()=>{
 		changeImagePortal(false);
 		changeRegularPortal(false);
 		changeVideoPortal(false);
+	}
+
+	const updatePosts=(recentlyAddedPost)=>{
+		props.closeModalAndDisplayData({
+			data:recentlyAddedPost,
+			currentQuestionType
+		});
 	}
 
 
@@ -770,9 +772,14 @@ const QuestionsPortal=(props)=>{
 				/>
 				<Container>
 					{displayCreatePost==true?
-						<div id="creationPostDiv" style={{padding:"50px"}}>
-							{createPost()}
-						</div>:
+						<QuestionUploadOption
+							currentQuestionType={currentQuestionType}
+							_id={_id}
+							questions={questions}
+							counter={counter}
+							updatePosts={updatePosts}
+							dispatch={dispatch}
+						/>:
 						<React.Fragment>
 							<ul style={{padding:"15px"}}>
 								<li style={{listStyle:"none",display:"inline-block",width:"100%"}}>
@@ -784,13 +791,13 @@ const QuestionsPortal=(props)=>{
 
 										<li id="questionHeader" style={{width:"100%",color:"#585858",listStyle:"none",display:"inline-block",fontSize:"24px"}}>
 											<b>
-												{questions[currentCounter].question}
+												{questions[counter].question}
 											</b>
 										</li>
 										<hr/>
 										<li style={{listStyle:"none",cursor:"pointer"}}>
 											<PostsContainer>
-												{questions[currentCounter].responsesId.length==0?
+												{questions[counter].responsesId.length==0?
 													<p>No replies yet :( </p>:
 													<React.Fragment>
 														{constructResponses(currentReplies)}
@@ -808,4 +815,7 @@ const QuestionsPortal=(props)=>{
 	,document.getElementById("extendedSymposiumContainer"))
 };
 
-export default QuestionsPortal;
+export{
+	QuestionsPortal,
+	QuestionUploadOption
+};

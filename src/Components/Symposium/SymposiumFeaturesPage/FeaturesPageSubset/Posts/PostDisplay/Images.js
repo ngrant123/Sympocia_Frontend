@@ -12,8 +12,8 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		margin-top:5%;
 		#image{
-			width:250px !important;
-			height:210px !important;
+			width:290px !important;
+			height:270px !important;
 		}
 	}
 
@@ -69,7 +69,7 @@ const PostCSS={
 	cursor:"pointer"
 }
 
-const Images=({posts,triggerDisplaySelectedBeaconPost})=>{
+const Images=({posts,triggerDisplaySelectedPost})=>{
 	console.log(posts);
 	return(
 		<Container>
@@ -78,7 +78,7 @@ const Images=({posts,triggerDisplaySelectedBeaconPost})=>{
 				<React.Fragment>
 					{posts.map((data,index)=>
 						<div id="imageContainer" style={PostCSS} 
-							onClick={()=>triggerDisplaySelectedBeaconPost(data,index)}>
+							onClick={()=>triggerDisplaySelectedPost(data,index)}>
 							<div style={{position:"relative"}}>
 								<div id="beaconCorrectAndExpandMoreDiv"
 									style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
@@ -95,23 +95,30 @@ const Images=({posts,triggerDisplaySelectedBeaconPost})=>{
 										/>
 									</div>
 								</div>
-								<img id="image" src={data.post.imgUrl} 
+								<img id="image" src={data.imgUrl} 
 									style={{width:"220px",height:"190px",borderRadius:"5px"}}
 								/>
 							</div>
 							<div style={{display:"flex",flexDirection:"row",marginTop:"5%"}}>
-								<img id="profilePicture" src={data.post.owner.profilePicture==null?
+								<img id="profilePicture" src={data.owner.profilePicture==null?
 															NoProfilePicture:
-															data.post.owner.profilePicture
+															data.owner.profilePicture
 														} 
 									style={{height:"40px",width:"46px",borderRadius:"50%"}}
 								/>
 								<div id="beaconInformation" style={{display:"flex",flexDirection:"column",marginLeft:"5%"}}>
 									<p>
-										<b><span style={{color:"#43D351"}}>1000000</span> beacon replies</b>
+										<b>
+											<span style={{color:"#43D351",marginRight:"5%"}}>
+												{data.beaconRepliesCount==null?0:data.beaconRepliesCount}
+											</span> 
+											beacon replies
+										</b>
 									</p>
 									<hr style={HorizontalLineCSS}/>
-									<p>asked 1 min ago</p>
+									{/*
+										<p>asked 1 min ago</p>
+									*/}
 								</div>
 							</div>
 						</div>

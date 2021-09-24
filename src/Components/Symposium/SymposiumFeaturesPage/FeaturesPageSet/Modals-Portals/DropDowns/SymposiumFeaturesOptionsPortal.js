@@ -26,7 +26,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:40%;
-		top:25%;
+		top:35%;
 		left:10%;
 	}
 
@@ -50,6 +50,7 @@ const ShadowContainer=styled.div`
 
 const SymposiumFeaturesOptionPortal=({closeModal,featuresType})=>{
 	const featuresPageConsumer=useContext(FeaturesContext);
+	const {currentSymposiumName}=featuresPageConsumer;
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer
@@ -68,11 +69,18 @@ const SymposiumFeaturesOptionPortal=({closeModal,featuresType})=>{
 				</li>
 
 				<hr/>
-				<li style={{listStyle:"none",cursor:"pointer"}}
-					onClick={()=>featuresPageConsumer.triggerFeaturesTypeChange("University")}>
-					Symposium University
-				</li>
-				<hr/>
+				{(currentSymposiumName=="General"||
+					currentSymposiumName=="Religion"||
+					currentSymposiumName=="Gaming"||
+					currentSymposiumName=="Philosophy")==false &&(
+					<React.Fragment>
+						<li style={{listStyle:"none",cursor:"pointer"}}
+							onClick={()=>featuresPageConsumer.triggerFeaturesTypeChange("University")}>
+							Symposium University
+						</li>
+						<hr/>
+					</React.Fragment>
+				)}
 			</Container>
 		</React.Fragment>
 	,document.getElementById("symposiumFeaturesPage"))

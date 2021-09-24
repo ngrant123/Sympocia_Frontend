@@ -4,7 +4,7 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 import {
-	createSpecificIndustryRegularPostAnswer,
+	createSymposiumUniversityAnswer,
 	deleteSpecificSymposiumAnswer
 } from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryRegularPostFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
@@ -193,6 +193,116 @@ const HorizontalLineCSS={
 }
 
 
+const DropDownButtonCSS={
+	borderColor:"#5298F8",
+	borderStyle:"solid",
+	borderWidth:"1px",
+	color:"#5298F8",
+	backgroundColor:"white"
+}
+
+const TextPostUpload=({
+	symposiumId,
+	questionId,
+	userId,
+	personalInformation,
+	displayCurrentLevel,
+	updatePosts})=>{
+	
+	const [knowledgeLevel,changeKnowledge]=useState();
+	const [isProccessingPost,changeIsProcessingPost]=useState(false);
+	const dispatch=useDispatch();
+
+	const submitPost=async({isAccessTokenUpdated,updatedAccessToken})=>{	
+		if(knowledgeLevel==null || document.getElementById("post").value==""){
+			alert('Please enter a level to continue');
+		}else{
+			changeIsProcessingPost(true);
+
+			const post={
+				symposiumuniversityPrimaryText:document.getElementById("post").value,
+				symposiumId,
+				questionId,
+				isMobile:false,
+				selectedUploadType:"Text",
+				textKnowledgeLevel:knowledgeLevel,
+				userId:userId,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							personalInformation.accessToken
+			}
+
+			const {confirmation,data}=await createSymposiumUniversityAnswer(post);
+			if(confirmation=="Success"){
+				let {message}=data;
+				if(displayCurrentLevel.toLowerCase()==knowledgeLevel.toLowerCase()){	
+					message={
+						...message,
+						owner:{
+							...message.owner,
+							firstName:personalInformation.firstName
+						}
+					}
+					updatePosts(message);
+				}
+			}else{
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							personalInformation.refreshToken,
+							personalInformation.id,
+							submitPost,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('Unfortunately there has been an error with adding this image. Please try again');
+				}
+			}
+			changeIsProcessingPost(false);
+		}
+	}
+
+	return(
+		<React.Fragment>
+			<div class="dropdown">
+				<button class="btn btn-primary dropdown-toggle" 
+					type="button" data-toggle="dropdown" style={DropDownButtonCSS}>
+						Choose Level
+					   	<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li onClick={()=>changeKnowledge("Beginner")}>
+							<a href="javascript:void(0);">Beginner</a>
+						</li>
+						<li onClick={()=>changeKnowledge("Intermediate")}>
+							<a href="javascript:void(0);">Intermediate</a>
+						</li>
+						<li onClick={()=>changeKnowledge("Advanced")}>
+							<a href="javascript:void(0);">Advanced</a>
+						</li>
+					</ul>
+				 </div>
+				 {knowledgeLevel!=null && (
+				 	<li style={KnowledgeLevelIndicatorCSS}>
+				 		{knowledgeLevel}
+				 	</li>
+
+				 )}
+
+			<InputContainer id="post" placeholder='Enter your text here'/>
+
+			{isProccessingPost==true ?
+				<p>Please wait while we process your post </p>:
+				<li onClick={()=>submitPost({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
+					Submit
+				</li>
+			}
+		</React.Fragment>
+	)
+}
+
+
 const RegularPostModal=(props)=>{
 	const {
 		closeModal,
@@ -208,16 +318,13 @@ const RegularPostModal=(props)=>{
 
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [posts,changePosts]=useState([]);
-	const [knowledgeLevel,changeKnowledge]=useState();
 	const [questionId,changeQuestionId]=useState();	
 
 	const [displayPostExpand,changePostExpand]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
 	const name=useSelector(state=>state.personalInformation.firstName);
-	const [isProccessingPost,changeIsProcessingPost]=useState(false);
 	const [isLoadingTextIndicator,changeIsLoadingTextIndicator]=useState(false);
-	const dispatch=useDispatch();
 	const {personalInformation}=useSelector(state=>state);
 
 	const [displayCurrentLevel,changeCurrentLevel]=useState(false);
@@ -298,59 +405,6 @@ const RegularPostModal=(props)=>{
 		changeIsLoadingTextIndicator(false);
 	}
 
-	const submitPost=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		
-		if(knowledgeLevel==null || document.getElementById("post").value==""){
-			alert('Please enter a level to continue');
-		}else{
-			changeIsProcessingPost(true);
-			const post={
-				industryId:symposiumId,
-				questionId:selectedPostId,
-				question,
-				userId:userId,
-				post:document.getElementById("post").value,
-				postLevel:knowledgeLevel,
-				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-							personalInformation.accessToken
-			}
-			const {confirmation,data}=await createSpecificIndustryRegularPostAnswer(post);
-			if(confirmation=="Success"){
-				let {message}=data;
-				if(displayCurrentLevel.toLowerCase()==knowledgeLevel.toLowerCase()){	
-					message={
-						...message,
-						owner:{
-							...message.owner,
-							firstName:personalInformation.firstName
-						}
-					}
-					posts.splice(0,0,message);
-					changePosts([...posts]);
-				}
-
-				changeDisplayCreationModal(false);
-				changeQuestionId(questionId);
-
-			}else{
-				const {statusCode}=data;
-				if(statusCode==401){
-					await refreshTokenApiCallHandle(
-							personalInformation.refreshToken,
-							personalInformation.id,
-							submitPost,
-							dispatch,
-							{},
-							false
-						);
-				}else{
-					alert('Unfortunately there has been an error with adding this image. Please try again');
-				}
-			}
-			changeIsProcessingPost(false);
-		}
-	}
-
 	const displaySelectedPost=(data)=>{
 		changeSelectedPost(data);
 		changePostExpand(true);
@@ -393,6 +447,13 @@ const RegularPostModal=(props)=>{
 		)
 	}
 
+	const updatePosts=(recentlyAddedPost)=>{
+		posts.splice(0,0,recentlyAddedPost);
+		changePosts([...posts]);
+		changeDisplayCreationModal(false);
+		changeQuestionId(questionId);
+	}
+
 	return(
 		<ul style={{padding:"20px"}}>
 			{displayPostExpand==false?
@@ -406,45 +467,13 @@ const RegularPostModal=(props)=>{
 			}
 
 			{displayCreationModal==true?
-				<>
-					<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{	
-																																borderColor:"#5298F8",
-																																borderStyle:"solid",
-																																borderWidth:"1px",
-																																color:"#5298F8",
-																																backgroundColor:"white"}}>
-								Choose Level
-							   	<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu">
-								<li onClick={()=>changeKnowledge("Beginner")}>
-									<a href="javascript:void(0);">Beginner</a>
-								</li>
-								<li onClick={()=>changeKnowledge("Intermediate")}>
-									<a href="javascript:void(0);">Intermediate</a>
-								</li>
-								<li onClick={()=>changeKnowledge("Advanced")}>
-									<a href="javascript:void(0);">Advanced</a>
-								</li>
-							</ul>
-	  				 </div>
-	  				 {knowledgeLevel!=null && (
-	  				 	<li style={KnowledgeLevelIndicatorCSS}>
-	  				 		{knowledgeLevel}
-	  				 	</li>
-
-	  				 )}
-
-					<InputContainer id="post" placeholder='Enter your text here'/>
-
-					{isProccessingPost==true ?
-						<p>Please wait while we process your post </p>:
-						<li onClick={()=>submitPost({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
-							Submit
-						</li>
-					}
-				</>
+				<TextPostUpload
+					symposiumId={symposiumId}
+					userId={userId}
+					personalInformation={personalInformation}
+					displayCurrentLevel={displayCurrentLevel}
+					updatePosts={updatePosts}
+				/>
 				:<>
 					<PostHeaderContainer>
 						<p style={{fontSize:"20px"}}>
@@ -533,5 +562,8 @@ const RegularPostModal=(props)=>{
 	)
 }
 
-export default RegularPostModal;
+export{
+	RegularPostModal,
+	TextPostUpload
+};
 

@@ -1,10 +1,10 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import AudioPostModal from "../FeaturesPosts/AudioPostModal.js";
-import RegularPostModal from "../FeaturesPosts/RegularPostModal.js";
-import VideoPostModal from "../FeaturesPosts/VideoPostModal.js";
-import ImagePostModal from "../FeaturesPosts/ImagePostModal.js";
+import {AudioPostModal} from "../FeaturesPosts/AudioPostModal.js";
+import {RegularPostModal} from "../FeaturesPosts/RegularPostModal.js";
+import {VideoPostModal} from "../FeaturesPosts/VideoPostModal.js";
+import {ImagePostModal} from "../FeaturesPosts/ImagePostModal.js";
 
 import ImageDisplayContainer from "../../../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
 

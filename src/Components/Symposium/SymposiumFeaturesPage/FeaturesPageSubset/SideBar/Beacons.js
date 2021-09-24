@@ -178,6 +178,7 @@ const BeaconProgressBar=({currentSymposiumId,answeredBeacons,acceptedBeacons,tot
 								acceptedBeacons={acceptedBeacons}
 								totalBeacon={totalBeacon}
 								currentSymposiumId={currentSymposiumId}
+								closeModal={closeProgressBarExtendedModal}
 							/>
 						}
 					/>

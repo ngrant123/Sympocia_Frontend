@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import styled from "styled-components";
-import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
+import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.png";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import OfflineBoltIcon from '@material-ui/icons/OfflineBolt';
@@ -61,10 +61,10 @@ const DropDownCSS={
 }
 
 const VoteButtonCSS={
-	padding:"10px",
+	padding:"5px",
 	color:"white",
 	backgroundColor:"#43D351",
-	width:"30%",
+	width:"20%",
 	borderRadius:"5px",
 	display:"flex",
 	flexDirection:"row",
@@ -80,6 +80,8 @@ const VoteButtonCSS={
 	votes:"23 votes"
 */
 const ExtendedSubmission=({submissionData,closeModal})=>{
+	console.log(submissionData);
+	
 	const [isSubmissionVotedOn,changeSubmissionVoteStatus]=useState(false);
 	const [displaySubmissionOptions,changeDisplayOptionsModal]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
@@ -116,11 +118,12 @@ const ExtendedSubmission=({submissionData,closeModal})=>{
 					{dropDownOptions()}
 					<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
 						<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-							<img src={NoProfilePicture}
+							<img src={submissionData.profilePicture==null?
+										NoProfilePicture:submissionData.profilePicture}
 								style={{height:"40px",width:"46px",borderRadius:"50%"}}
 							/>
 							<p style={{marginLeft:"10%",fontSize:"18px"}}>
-								<b>Nathan</b>
+								<b>{submissionData.owner.firstName}</b>
 							</p>
 						</div>
 						<div style={DropDownCSS}>
@@ -135,15 +138,10 @@ const ExtendedSubmission=({submissionData,closeModal})=>{
 						</div>
 					</div>
 					<hr style={HorizontalLineCSS}/>
-					<p style={{marginTop:"5%"}}>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-						 exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute 
-						 irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-						 pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui 
-						 officia deserunt mollit anim id est laborum.
-					</p>
+					
+					<p style={{marginTop:"5%"}}>{submissionData.question}</p>
 
+					<hr style={HorizontalLineCSS}/>
 					<div style={VoteButtonCSS} onClick={()=>voteSubmittedQuestion()}>
 						<OfflineBoltIcon
 							style={{color:"white",fontSize:"25"}}

@@ -139,16 +139,22 @@ const SymposiumUniversitySpecialistsDropDown=({closeModal,retrieveSymposiumSpeci
 
 
 
-const SymposiumUniversityResourcesDropDown=({closeModal})=>{
+const SymposiumUniversityResourcesDropDown=({closeModal,retrieveSymposiumResources})=>{
 	return(
 		<React.Fragment>
 			<ShadowContainer
 				onClick={()=>closeModal()}
 			/>
 			<ResourcesContainer>
-				<li style={{listStyle:"none",cursor:"pointer"}}>
-					Recent
+				<li style={{listStyle:"none",cursor:"pointer"}} onClick={()=>retrieveSymposiumResources()}>
+					View all
 				</li>
+				<hr/>
+				{/*
+					<li style={{listStyle:"none",cursor:"pointer"}}>
+						Recent
+					</li>
+				*/}
 			</ResourcesContainer>
 		</React.Fragment>
 	)

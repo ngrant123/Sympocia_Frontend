@@ -1,14 +1,13 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
+import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.png";
 import ExtendedSubmission from "./ExtendedSubmission.js";
 
 const Container=styled.div`
 	width:100%;
 	height:100%;
 	padding:20px;
-	overflow-y:auto;
 `;
 
 const HorizontalLineCSS={
@@ -84,13 +83,13 @@ const CurrentSubmissions=({currentQuestions})=>{
 								<img src={NoProfilePicture}
 									style={{height:"40px",width:"46px",borderRadius:"50%"}}
 								/>
-								<div style={{display:"flex",flexDirection:"column",marginLeft:"5%"}}>
+								<div style={{display:"flex",flexDirection:"column",marginLeft:"5%",width:"70%"}}>
 									<p>
 										<b>Nathan</b>
 									</p>
 									<p>{data.question}</p>
 									<div style={VotesCSS}>
-										{data.votes}
+										{data.votes.length} votes
 									</div>
 								</div>
 							</div>

@@ -2,6 +2,8 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {createCommunityQuestion} from "../../../../../../../Actions/Requests/SymposiumRequests/SymposiumAdapter.js";
+import {useSelector} from "react-redux";
 
 const Container=styled.div`
 	width:100%;
@@ -64,22 +66,50 @@ const CreationButtonCSS={
 	width:"30%",
 	marginTop:"5%"
 }
-const SymposiumCommunityCreation=({closeModal,updateStandings})=>{
+const SymposiumCommunityCreation=({closeModal,updateStandings,symposiumId})=>{
 	const [selectedPostType,changeSelectedPostType]=useState();
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const [isSubmitting,changeSubmittingStatus]=useState(false);
 
-	const createSymposiumCommunityQuestion=()=>{
+	const createSymposiumCommunityQuestion=async()=>{
+		changeSubmittingStatus(true);
 		const question=document.getElementById("symposiumQuestion").value;
 		if(question!="" && selectedPostType!=null){
-			const userSubmittedQuestion={
-				question,
-				postType:selectedPostType,
-				votes:0
+			const communityQuestion={
+				symposiumId,
+	            firstName:personalInformation.firstName,
+	            profileId:personalInformation.id,
+	            question,
+	            postType:selectedPostType
 			}
-			updateStandings(userSubmittedQuestion);
+
+			const {confirmation,data}=await createCommunityQuestion(communityQuestion);
+			if(confirmation=="Success"){
+				const {message}=data;
+				const {
+					questionId,
+					profilePicture
+				}=message;
+
+				const userSubmittedQuestion={
+					question,
+					postType:selectedPostType,
+					profilePicture,
+					owner:{
+						firstName:personalInformation.firstName
+					},
+					votes:[],
+					_id:questionId
+				}
+				updateStandings(userSubmittedQuestion);
+				closeModal();
+			}else{
+				alert('Unfortunately there has been an error when creating community question. Please try again');
+			}
 		}else{
 			alert("Please enter a question and a post-type");
 		}
-		closeModal();
+		changeSubmittingStatus(true);
 	}
 
 	return (
@@ -104,19 +134,19 @@ const SymposiumCommunityCreation=({closeModal,updateStandings})=>{
 					<ul class="dropdown-menu" 	
 						style={{padding:"20px",height:"170px",width:"90%",overflow:"auto"}}>
 						<li style={{listStyle:"none",cursor:"pointer"}}
-							onClick={()=>changeSelectedPostType("Images")}>
+							onClick={()=>changeSelectedPostType("Image")}>
 							Images
 						</li>
 						<hr/>
 
 						<li style={{listStyle:"none",cursor:"pointer"}}
-							onClick={()=>changeSelectedPostType("Images")}>
+							onClick={()=>changeSelectedPostType("Video")}>
 							Videos
 						</li>
 						<hr/>
 
 						<li style={{listStyle:"none",cursor:"pointer"}}
-							onClick={()=>changeSelectedPostType("Images")}>
+							onClick={()=>changeSelectedPostType("Text")}>
 							Regular
 						</li>
 						<hr/>
@@ -131,9 +161,12 @@ const SymposiumCommunityCreation=({closeModal,updateStandings})=>{
 			  		</div>
 			  	)}
 			</div>
-			<div style={CreationButtonCSS} onClick={()=>createSymposiumCommunityQuestion()}>
-				Create
-			</div>
+			{isSubmitting==true?
+				<p>Please wait...</p>:
+				<div style={CreationButtonCSS} onClick={()=>createSymposiumCommunityQuestion()}>
+					Create
+				</div>
+			}
 		</Container>
 	)
 }

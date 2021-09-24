@@ -3,7 +3,7 @@ import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import MicIcon from '@material-ui/icons/Mic';
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
-import {createSpecificIndustryAudioAnswer} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import {createSymposiumUniversityAnswer} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getIndustryAudioFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
 import RegularPostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
@@ -181,6 +181,150 @@ const HorizontalLineCSS={
 	width:"100%"
 }
 ///<input type="file" accept=".mp3,audio/*">
+const AudioPostUpload=({
+	closeModal,
+	symposiumId,
+	questionId,
+	questionIndex,
+	userId,
+	personalInformation,
+	updatePosts,
+	selectedUploadType})=>{
+
+	const [finalAudioEditDisplay,changeDisplayForFinalAudio]=useState(false);
+	const [audioUrl,changeAudioUrl]=useState();
+	const [isProccessingPost,changeIsProcessingPost]=useState(false);
+	const dispatch=useDispatch();
+
+	const handleUploadAudio=()=>{
+		var fileReader=new FileReader();
+		var currentAudioUrl=document.getElementById("uploadAudioFile").files[0];
+
+		fileReader.onloadend=()=>{
+			const audioResult=fileReader.result;
+			changeAudioUrl(audioResult);
+			changeDisplayForFinalAudio(true);
+		}
+
+		if(currentAudioUrl!=null){
+			fileReader.readAsDataURL(currentAudioUrl);
+		}else{
+			alert('Sorry, this image type is not allowed. Please try again');
+		}
+	}
+
+	const clickFileUpload=()=>{
+		document.getElementById("uploadAudioFile").click();
+	}
+
+	const submitAudio=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		changeIsProcessingPost(true);
+		const submitedAudio={
+			symposiumUniversityPostUrl:audioUrl,
+			symposiumuniversityPrimaryText:document.getElementById("audioDescription").value,
+			symposiumId,
+			questionId,
+			isMobile:false,
+			selectedUploadType,
+			userId,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
+		}
+
+		let {confirmation,data}=await createSymposiumUniversityAnswer(submitedAudio);
+		if(confirmation=="Success"){
+			let {message}=data;
+			message={
+				...message,
+				post:audioUrl,
+				owner:{
+					...message.owner,
+					firstName:personalInformation.firstName
+				}
+			}
+			updatePosts(message);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						submitAudio,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with adding this audio post. Please try again');
+			}
+		}
+		changeIsProcessingPost(false);
+	}
+
+	return(
+		<React.Fragment>
+			<li style={{listStyle:"none"}}>
+				<ul style={{padding:"0px"}}>
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li onClick={()=>closeModal()} style={ButtonCSS}>
+							Back
+						</li>
+					</a>
+					<li style={{listStyle:"none",display:"inline-block"}}>
+						<p style={{fontSize:"20px"}}>
+							<b>Upload an audio for others to listen to</b>
+						</p>
+					</li>
+				</ul>
+			</li>
+			<hr/>
+			<li style={{marginTop:"2%",listStyle:"none"}}>
+				{finalAudioEditDisplay==false?
+					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+						<li onClick={()=>clickFileUpload()} style={ButtonCSS}>
+								<ul style={{padding:"0px"}}>
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+											<MicIcon/>
+										</li>
+
+										<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+											Upload Audio
+										</li>
+									</ul>
+								<input type="file" id="uploadAudioFile" name="img" accept=".mp3,.mp4,.wav"
+									style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadAudio()}>
+								</input>
+						</li>
+					</a>:
+					<ul style={{padding:"0px"}}>
+						<li style={{listStyle:"none",marginBottom:"2%"}}>
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none",width:"40%"}}>
+									<audio id="audioLI" controls>
+									  <source src={audioUrl} type="audio/ogg"/>
+									  <source src={audioUrl} type="audio/mp4"/>
+									Your browser does not support the audio element.
+									</audio>
+								</li>
+								<DescriptionInputContainer id="audioDescription" 
+									placeholder="Write down a description here"
+								/>
+							</ul>
+						</li>
+
+						{isProccessingPost==true ?
+							<p>Please wait while we process your post </p>:
+							<li onClick={()=>submitAudio({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
+								Submit
+							</li>
+						}
+					</ul>
+				}
+			</li>
+		</React.Fragment>
+	)
+}
+
 const AudioPostModal=(props)=>{
 	const {
 		isOligarch,
@@ -193,8 +337,6 @@ const AudioPostModal=(props)=>{
 		deleteSpecificSymposiumAnswerTrigger
 	}=props
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
-	const [finalAudioEditDisplay,changeDisplayForFinalAudio]=useState(false);
-	const [audioUrl,changeAudioUrl]=useState();
 	const [posts,changePosts]=useState([]);
 	const [questionId,changeQuestionId]=useState();	
 	const [symposiumIdState,changeSymposiumIdState]=useState();	
@@ -203,8 +345,6 @@ const AudioPostModal=(props)=>{
 	const [selectedPost,changeSelectedPost]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
 	const name=useSelector(state=>state.personalInformation.firstName);
-	const [isProccessingPost,changeIsProcessingPost]=useState(false);
-	const dispatch=useDispatch();
 	const {personalInformation}=useSelector(state=>state);
 	const [isLoading,changeIsLoading]=useState(false);
 
@@ -232,76 +372,6 @@ const AudioPostModal=(props)=>{
 
 		fetchData();
 	},[])
-
-	const handleUploadAudio=()=>{
-		var fileReader=new FileReader();
-		var currentAudioUrl=document.getElementById("uploadAudioFile").files[0];
-
-		fileReader.onloadend=()=>{
-			const audioResult=fileReader.result;
-			changeAudioUrl(audioResult);
-			changeDisplayForFinalAudio(true);
-		}
-
-		if(currentAudioUrl!=null){
-			fileReader.readAsDataURL(currentAudioUrl);
-		}else{
-			alert('Sorry, this image type is not allowed. Please try again');
-		}
-	}
-
-	const clickFileUpload=()=>{
-		document.getElementById("uploadAudioFile").click();
-	}
-
-	const submitAudio=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		changeIsProcessingPost(true);
-		var audio={
-			audioUrl:audioUrl
-		}
-		const submitedAudio={
-			audio,
-			industryId:symposiumId,
-			questionId:selectedPostId,
-			questionIndex:questionIndex,
-			userId:userId,
-			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-						personalInformation.accessToken
-		}
-
-		let {confirmation,data}=await createSpecificIndustryAudioAnswer(submitedAudio);
-		if(confirmation=="Success"){
-			let {message}=data;
-			message={
-				...message,
-				post:audioUrl,
-				owner:{
-					...message.owner,
-					firstName:personalInformation.firstName
-				}
-			}
-			posts.splice(0,0,message);
-			changeQuestionId(questionId);
-			changePosts([...posts]);
-			changeDisplayForFinalAudio(false);
-			changeDisplayCreationModal(false);
-		}else{
-			const {statusCode}=data;
-			if(statusCode==401){
-				await refreshTokenApiCallHandle(
-						personalInformation.refreshToken,
-						personalInformation.id,
-						submitAudio,
-						dispatch,
-						{},
-						false
-					);
-			}else{
-				alert('Unfortunately there has been an error with adding this audio post. Please try again');
-			}
-		}
-		changeIsProcessingPost(false);
-	}
 
 	const displaySelectedPost=(data)=>{
 		changeSelectedPost(data);
@@ -342,6 +412,17 @@ const AudioPostModal=(props)=>{
 				)}
 			</React.Fragment>
 		)
+	}
+
+	const closeCreationModal=()=>{
+		changeDisplayCreationModal(false);
+	}
+
+	const updatePosts=(uploadedPost)=>{
+		posts.splice(0,0,uploadedPost);
+		changeQuestionId(questionId);
+		changePosts([...posts]);
+		changeDisplayCreationModal(false);
 	}
 
 	return(
@@ -410,71 +491,20 @@ const AudioPostModal=(props)=>{
 						</li>
 					}
 				</>:
-				<>
-					<li style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>changeDisplayCreationModal(false)} style={ButtonCSS}>
-									Back
-								</li>
-							</a>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<p style={{fontSize:"20px"}}>
-									<b>Upload an audio for others to listen to</b>
-								</p>
-							</li>
-						</ul>
-					</li>
-					<hr/>
-					<li style={{marginTop:"2%",listStyle:"none"}}>
-						{finalAudioEditDisplay==false?
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<li onClick={()=>clickFileUpload()} style={ButtonCSS}>
-										<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-													<MicIcon/>
-												</li>
-
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-													Upload Audio
-												</li>
-											</ul>
-										<input type="file" id="uploadAudioFile" name="img" accept=".mp3,.mp4,.wav"
-											style={{position:"relative",opacity:"0",zIndex:"0"}} onChange={()=>handleUploadAudio()}>
-										</input>
-								</li>
-							</a>:
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none",marginBottom:"2%"}}>
-									<ul style={{padding:"0px"}}>
-										<li style={{listStyle:"none",width:"40%"}}>
-											<audio id="audioLI" controls>
-											  <source src={audioUrl} type="audio/ogg"/>
-											  <source src={audioUrl} type="audio/mp4"/>
-											Your browser does not support the audio element.
-											</audio>
-										</li>
-										{/*
-											<DescriptionInputContainer id="imageDescription" 
-												placeholder="Write down a description here"
-											/>
-										*/}
-									</ul>
-								</li>
-
-								{isProccessingPost==true ?
-									<p>Please wait while we process your post </p>:
-									<li onClick={()=>submitAudio({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
-										Submit
-									</li>
-								}
-							</ul>
-						}
-					</li>
-				</>
+				<AudioPostUpload
+					closeModal={closeCreationModal}
+					symposiumId={symposiumId}
+					questionIndex={questionIndex}
+					userId={userId}
+					personalInformation={personalInformation}
+					updatePosts={updatePosts}
+				/>
 			}
 		</ul>
 	);
 }
 
-export default AudioPostModal;
+export{
+	AudioPostUpload,
+	AudioPostModal
+};
