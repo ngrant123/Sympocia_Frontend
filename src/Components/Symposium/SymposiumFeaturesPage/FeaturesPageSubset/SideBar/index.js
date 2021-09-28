@@ -10,17 +10,15 @@ import SymposiumOptionsPortal from "../../FeaturesPageSet/Modals-Portals/DropDow
 const Container=styled.div`
 	position:fixed;
 	width:25%;
-	height:80%;
 	display:flex;
 	flex-direction:column;
-	overflow-y:auto;
 	overflow-x:visible;
 	padding:15px;
 
 	@media screen and (max-width:1370px){
 		position:relative;
 		width:100%;
-
+		margin-top:5%;
 		#sideBarComponentParentDiv{
 			display:none !important;
 		}
@@ -28,14 +26,14 @@ const Container=styled.div`
 
 	@media screen and (max-width:650px){
 		margin-top:20% !important;
-		width:120%;
+		width:100%;
 	}
 `;
 
 const HorizontalLineCSS={
 	marginLeft:"0",
 	marginRight:"0",
-	width:"100%"
+	width:"90%"
 }
 
 const DropDownCSS={

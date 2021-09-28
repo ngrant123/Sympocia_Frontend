@@ -2,6 +2,7 @@ import React,{useContext} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {FeaturesContext} from "../../FeaturesPageContext.js";
+// top:35%;
 
 const Container=styled.div`
 	position:fixed;
@@ -11,7 +12,7 @@ const Container=styled.div`
 		`left:30%;`
 	}
 
-	top:35%;
+	top:25%;
 	height:30%;
 	width:20%;
 	background-color:white;
@@ -23,6 +24,14 @@ const Container=styled.div`
 	padding:5px;
 	box-shadow: 1px 1px 5px #C1C1C1;
 	overflow-y:auto;
+
+	@media screen and (min-width:1920px){
+		top:20%;
+    }
+	@media screen and (min-width:2500px){
+		top:17%;
+    }
+
 
 	@media screen and (max-width:1370px){
 		width:40%;

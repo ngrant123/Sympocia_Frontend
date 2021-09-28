@@ -126,17 +126,29 @@ const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop,isOligarch})=>{
 		fetchData(postType,currentBeaconCounter);
 	},[]);
 
+
+	const postFeedTokenGenerator=()=>{
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			return v.toString(16);
+		});
+	}
+
 	const fetchData=async(selectedPostType,beaconCounter)=>{
 		if(beaconCounter==0)
 			changeIsLoading(true);
 		else
 			changeIsFetchingNextPosts(true);
 
-		const {confirmation,data}=await retrieveBeacons(
-											symposiumId,
-											selectedPostType,
-											beaconCounter
-										);
+		const beaconRetrievalInformation={
+			symposiumId,
+            postType:selectedPostType,
+            currentPostSessionManagment:postFeedTokenGenerator(),
+            tags:[],
+            ownerId:userInformation.id
+		}
+
+		const {confirmation,data}=await retrieveBeacons(beaconRetrievalInformation);
 		if(confirmation=="Success"){
 			const {message}=data;
 			let newPosts;

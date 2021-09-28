@@ -323,7 +323,6 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 		}else{
 			filereader.onloadend=()=>{
 				const videoUrl=filereader.result;
-				console.log(videoUrl);
 				changeNodeVideoDescription(videoUrl);
 			}
 

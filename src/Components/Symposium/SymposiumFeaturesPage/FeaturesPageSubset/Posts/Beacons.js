@@ -27,6 +27,10 @@ const Container=styled.div`
 			margin-right:10px !important;
 			margin-left:-20px !important;
 		}
+
+		#beaconDropDownMenu{
+			margin-left:-50px !important;
+		}
 	}
 `;
 
@@ -114,7 +118,9 @@ const Posts=({
 	const postsDisplayFunctionality=()=>{
 		const postDisplayFunctions={
 			posts,
-			triggerDisplaySelectedPost
+			triggerDisplaySelectedPost,
+			isBeaconParentComponent:true,
+			featurePageType:"Beacons"
 		}
 		switch(postType){
 			case "Images":{
@@ -228,7 +234,8 @@ const BeaconPosts=({featuresType,isLoading})=>{
 		endOfPostIndicator,
 		loadingNewPostsIndicator,
 		updatePrimaryPosts,
-		isDesktop
+		isDesktop,
+		isGuestProfile
 	}=featuresPageConsumer;
 
 	const{ progressBarInformation }=featuresPageSecondaryInformation;
@@ -268,6 +275,7 @@ const BeaconPosts=({featuresType,isLoading})=>{
 					<BeaconProgressBar
 						{...progressBarInformation}
 						currentSymposiumId={currentSymposiumId}
+						isGuestProfile={isGuestProfile}
 					/>
 				)}
 			</React.Fragment>
@@ -293,7 +301,8 @@ const BeaconPosts=({featuresType,isLoading})=>{
 								style={{marginTop:"-10"}}
 							/>
 						</button>
-						<ul class="dropdown-menu" style={{padding:"5px",height:"250px",overflowY:"auto",overflowX:"hidden"}}>
+						<ul id="beaconDropDownMenu"
+							class="dropdown-menu" style={{padding:"5px",height:"250px",overflowY:"auto",overflowX:"hidden"}}>
 							<li style={{listStyle:"none",cursor:"pointer"}}
 								onClick={()=>displaySpecificBeaconPostType("Images")}>
 								Images

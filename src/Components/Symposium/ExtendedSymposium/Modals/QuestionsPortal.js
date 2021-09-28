@@ -24,6 +24,7 @@ const Container=styled.div`
 	z-index:40;
 	left:30%;
 	top:20%;
+	padding:15px;
 	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
@@ -52,11 +53,14 @@ const Container=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		top:10%;
-		width:90% !important;
-		height:85% !important;
-		left:5% !important;
+		width:100% !important;
+		top:0%;
+		left:0% !important;
+		height:100% !important;
 
+		#closeIconMobile{
+			display:block !important;
+		}
 		#videoLI{
 			width:80% !important;
 			height:30% !important;
@@ -140,6 +144,55 @@ const Container=styled.div`
     }
 `;
 
+const UploadContainer=styled.div`
+	@media screen and (max-width:650px){
+		#creationImage{
+			width:160px !important;
+			height:150px !important;
+		}
+		#videoLI{
+			width:100% !important;
+			height:30% !important;
+			margin-bottom:5% !important;
+		}
+	}
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+		#imgUrl{
+			width:190px !important;
+			height:150px !important;
+		}
+		#videoLI{
+			height:400px !important;
+		}
+
+		#creationImage{
+			height:60% !important;
+		}
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#imageDescriptionLI{
+			width:90% !important;
+			margin-left:0% !important;
+		}
+		#imagePicture{
+			width:50px !important;
+			height:40px !important;
+		}
+		#imgUrl{
+			height:200px !important;
+		}
+		#videoLI{
+			height:250px !important;
+		}
+		#creationImage{
+			height:150px !important;
+			width:30% !important;
+		}
+    }
+`;
+
 const ShadowContainer=styled.div`
 	position:fixed;
 	width:100%;
@@ -163,6 +216,10 @@ const InputContainer=styled.textarea`
 	@media screen and (max-width:1370px){
 		width:100% !important;
 	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		height:170px !important;
+    }
 `;
 
 const CreatePostContainer=styled.div`
@@ -437,7 +494,7 @@ const QuestionUploadOption=({
 								</p>
 								<hr/>
 								<li style={{listStyle:"none"}}>
-									<img id="creationImage" src={selectedPost} style={{borderRadius:"5px",width:"35%",height:"30%",marginBottom:"10px"}}/>
+									<img id="creationImage" src={selectedPost} style={{borderRadius:"5px",width:"27%",height:"30%",marginBottom:"10px"}}/>
 								</li>
 								<InputContainer id="imageDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your image here"/>
 								<hr/>
@@ -493,7 +550,7 @@ const QuestionUploadOption=({
 										<source src={selectedPost} type="video/mp4"/>
 									</video>
 								</li>
-								<InputContainer id="videoDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your video here"/>
+								<InputContainer id="videoDescription" style={{width:"100%",marginRight:"2%"}} placeholder="Describe your video here"/>
 								<hr/>
 								{isCommentProcessing==false?
 									<li onClick={()=>sendData({postData:selectedPost,isAccessTokenUpdated:false})} style={SendButtonCSS}>
@@ -536,17 +593,18 @@ const QuestionUploadOption=({
 	}
 
 	return(
-		<div id="creationPostDiv" style={{padding:"50px"}}>
+		<UploadContainer>
 			{createPost()}
-		</div>
+		</UploadContainer>
 	)
 }
 
 
 
 const QuestionsPortal=(props)=>{
+	console.log(props);
 	const ownerInformation=useSelector(state=>state.personalInformation);
-	const _id=useSelector(state=>state.personalInformation.id);
+	const userId=useSelector(state=>state.personalInformation.id);
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
 	const personalInformation=useSelector(state=>state.personalInformation);
 
@@ -562,10 +620,12 @@ const QuestionsPortal=(props)=>{
 			closeModalAndDisplayData,
 			selectedSymposium,
 			isMobile,
-			isOligarch
+			isOligarch,
+			responses,
+			closeModal
 		}=props;
 
-	const [currentReplies,changeCurrentReplies]=useState(questions[counter].responsesId);
+	const [currentReplies,changeCurrentReplies]=useState(responses);
 	const [displayCreatePost,changeDisplayPost]=useState(false);
 	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[counter].questionType);
 
@@ -611,7 +671,7 @@ const QuestionsPortal=(props)=>{
 											questionId:questions[counter]._id,
 							           		targetDeletionResponseId:selectedData._id,
 								            symposiumId:symposiumInformation.symposiumId,
-								            userId:_id,
+								            userId,
 								            accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 											personalInformation.accessToken,
 											postType:currentQuestionType
@@ -721,7 +781,7 @@ const QuestionsPortal=(props)=>{
 		}
 	}
 
-	const closeModal=()=>{
+	const closePostModal=()=>{
 		changeImagePortal(false);
 		changeRegularPortal(false);
 		changeVideoPortal(false);
@@ -734,13 +794,26 @@ const QuestionsPortal=(props)=>{
 		});
 	}
 
+	const closeIcon=()=>{
+		return(
+			<div id="closeIconMobile" style={{marginBottom:"2%",cursor:"pointer",display:"none"}} onClick={()=>closeModal()}>
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+					 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+					 stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <circle cx="12" cy="12" r="9" />
+					  <path d="M10 10l4 4m0 -4l-4 4" />
+				</svg>
+			</div>
+		)
+	}
 
 
 	return createPortal(
 			<React.Fragment>
 				{displayImagePortal==true?
 					<ImagePostDisplayPortal
-						closeModal={closeModal}
+						closeModal={closePostModal}
 						selectedImage={selectedPostDisplayModal}
 						recommendedImages={[]}
 						targetDom="extendedSymposiumContainer"
@@ -750,7 +823,7 @@ const QuestionsPortal=(props)=>{
 
 				{displayVideoPortal==true?
 					<VideoPostDisplayPortal
-						closeModal={closeModal}
+						closeModal={closePostModal}
 						selectedVideo={selectedPostDisplayModal}
 						recommendedVideos={[]}
 						targetDom="extendedSymposiumContainer"
@@ -760,7 +833,7 @@ const QuestionsPortal=(props)=>{
 
 				{displayRegularPortal==true?
 					<RegularPostDisplayPortal
-						closeModal={closeModal}
+						closeModal={closePostModal}
 						selectedPost={selectedPostDisplayModal}
 						recommendedRegularPosts={[]}
 						targetDom="extendedSymposiumContainer"
@@ -771,12 +844,16 @@ const QuestionsPortal=(props)=>{
 					onClick={()=>props.closeModal()}
 				/>
 				<Container>
+					{closeIcon()}
 					{displayCreatePost==true?
 						<QuestionUploadOption
 							currentQuestionType={currentQuestionType}
-							_id={_id}
+							userId={userId}
 							questions={questions}
-							counter={counter}
+							questionId={questions[counter]._id}
+							symposiumId={symposiumInformation.symposiumId}
+							personalInformation={personalInformation}
+							question={questions[counter].question}
 							updatePosts={updatePosts}
 							dispatch={dispatch}
 						/>:
@@ -797,7 +874,7 @@ const QuestionsPortal=(props)=>{
 										<hr/>
 										<li style={{listStyle:"none",cursor:"pointer"}}>
 											<PostsContainer>
-												{questions[counter].responsesId.length==0?
+												{responses.length==0?
 													<p>No replies yet :( </p>:
 													<React.Fragment>
 														{constructResponses(currentReplies)}

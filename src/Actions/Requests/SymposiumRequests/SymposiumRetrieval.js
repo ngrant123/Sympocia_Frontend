@@ -172,14 +172,10 @@ export const getPopularQuestionReplies=async(industry,counter)=>{
 }
 
 
-export const retrieveBeacons=async(symposiumId,postType,beaconCounter)=>{
+export const retrieveBeacons=async(beaconsRetrievalInformation)=>{
 	try{
 		const beaconResponse=await axios.get(`${SearchUrl}/getBeacons`,{
-			params:{
-				symposiumId,
-	            postType,
-	            beaconCounter
-			}
+			params:{...beaconsRetrievalInformation}
 		})
 
 		const {data}=beaconResponse;
@@ -431,14 +427,11 @@ export const retrieveCurrentSubmissions=async(symposiumId)=>{
 }
 
 
-export const getCommunityFeaturesPage=async({symposiumId,ownerId})=>{
+export const getCommunityFeaturesPage=async(communityRetrievalInformation)=>{
 	try{
 
 		const communtiyFeaturesPageResponses=await axios.get(`${SearchUrl}/getCommunityFeaturesPage`,{
-			params:{
-				symposiumId,
-				ownerId
-			}
+			params:{...communityRetrievalInformation}
 		})
 
 		const {data}=communtiyFeaturesPageResponses;
@@ -625,8 +618,66 @@ export const getSymposiumQuestions=async(symposiumId)=>{
 }
 
 
+export const getSpecificQuestionStandingComments=async(parentQuestionStandingId)=>{
+	try{
+		const specificQuestionStandingComments=await axios.get(`${SearchUrl}/getSpecificQuestionStandingComments`,{
+			params:{
+				parentQuestionStandingId
+			}
+		})
+		const {data}=specificQuestionStandingComments;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
+export const hasProfileInteractedWithQuestionStanding=async(profileId,questionId)=>{
+	try{
+
+		const profileInteractionStatus=await axios.get(`${SearchUrl}/hasProfileInteractedWithQuestionStanding`,{
+			params:{
+				profileId,
+				questionId
+			}
+		})
+
+		const {data}=profileInteractionStatus;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+export const retrieveMostPopularQuestionStandingSubmission=async(symposiumId)=>{
+	try{
+		const popularQuestionSubmissions=await axios.get(`${SearchUrl}/retrievePopularQuestionStandings`,{
+			params:{
+				symposiumId
+			}
+		})
+
+		const {data}=popularQuestionSubmissions;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+export const retrieveRecentQuestionStandings=async(symposiumId)=>{
+	try{
+		const recentQuestionSubmissions=await axios.get(`${SearchUrl}/retrieveRecentQuestionStandings`,{
+			params:{
+				symposiumId
+			}
+		})
+		const {data}=recentQuestionSubmissions;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 

@@ -25,15 +25,30 @@ const Container=styled.div`
 	flex-direction:column;
 	width:100%;
 
+	@media screen and (max-width:1370px){
+		#universityResponsesDiv{
+			width:320px !important;
+		}
+	}
+
 	@media screen and (max-width:650px){
 		#universityResponsesDiv{
-			width:90% !important;
+			width:200px !important;
+		}
+
+		#textOptions{
+			display:none !important;
+		}
+
+		#headerText{
+			font-size:15px !important;
+			width:60% !important;
+			margin-right:25%;
 		}
 	}
 `;
 
 const PostsContainer=styled.div`
-	background-color:green;
 	margin-top:2%;
 	width:100%;
 `;
@@ -47,7 +62,7 @@ const PostTypeCSS={
 	alignItems:"center",
 	flexDirection:"row",
 	justifyContent:"center",
-	padding:"10px",
+	padding:"5px",
 	backgroundColor:"white",
 	color:"#000000",
 }
@@ -81,8 +96,8 @@ const ResponsesCSS={
 	color:"white",
 	width:"40%",
 	height:"40px",
-	marginTop:"2%",
-	cursor:"pointer"
+	cursor:"pointer",
+	overflow:"hidden"
 }
 
 const SelectedPostTypeCSS={
@@ -98,31 +113,62 @@ const SelectedPostTypeCSS={
 	marginLeft:"10%"
 }
 
-const SymposiumUniversity=({featuresType})=>{
+
+const NextButtonCSS={
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px",
+	color:"#3898ec",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	cursor:"pointer"
+}
+
+const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 	const featuresPageConsumer=useContext(FeaturesContext);
+	const {
+		featuresPagePrimaryInformation,
+		featuresPageSecondaryInformation:{
+			totalPostCount
+		},
+		updatePrimaryInformation,
+		isDesktop,
+		currentSymposiumId,
+		updatePrimaryPosts,
+		endOfPostIndicator,
+		loadingNewPostsIndicator,
+		currentPostManagmentToken,
+		isGuestProfile
+	}=featuresPageConsumer;
+
 	const [currentQuestionIndex,changeCurrentQuestionIndex]=useState(0);
 	const [displayUniversityPostUpload,changeUniversityUploadDisplay]=useState(false);
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [selectedTextKnowledgeLevel,changeSelectedTextKnowledgeLevel]=useState("Beginner");
 	const [displaySelectedPostPortal,changeDisplaySelectedPostPortal]=useState(false);
+	const [isFirstAccess,changeFirstAccessStatus]=useState(firstAccessStatus);
 	const [selectedPost,changeSelectedPost]=useState();
+	const [currentPostToken,changePostToken]=useState(currentPostManagmentToken);
+	const [hideNextButton,changeDisplayHideButton]=useState(endOfPostIndicator);
+	const [isLoadingText,changeIsLoadingText]=useState(isLoading);
+
+	console.log(totalPostCount);
 
 	const {
-		featuresPagePrimaryInformation:{
-			headerQuestions,
-			currentPostQuestionReplies
-		},
-		featuresPageSecondaryInformation:{
-			totalPostCount
-		},
-		isDesktop,
-		currentSymposiumId,
-		updatePrimaryPosts
-	}=featuresPageConsumer;
-	console.log(totalPostCount);
+		headerQuestions,
+		currentPostQuestionReplies
+	}=featuresPagePrimaryInformation;
 	
 	useEffect(()=>{
-		fetchSymposiumUniversityPost();
+		if(isFirstAccess==false){
+			changeDisplayHideButton(false);
+			fetchSymposiumUniversityPost(false);
+		}else{
+			changeFirstAccessStatus(false);
+		}
 	},[currentQuestionIndex,selectedTextKnowledgeLevel]);
 
 	const postFeedTokenGenerator=()=>{
@@ -133,36 +179,61 @@ const SymposiumUniversity=({featuresType})=>{
 	}
 
 
-	const fetchSymposiumUniversityPost=async()=>{
+	const fetchSymposiumUniversityPost=async(isNextPostsRequest)=>{
 		debugger;
+		changeIsLoadingText(true);
+		let postToken=currentPostToken;
+		if(isNextPostsRequest==false){
+			postToken=postFeedTokenGenerator();
+			changePostToken(postToken)
+		}
 		const symposiumFetchParams={
 			questionId:headerQuestions[currentQuestionIndex].questionId,
             questionType:headerQuestions[currentQuestionIndex].questionType,
             questionLevel:headerQuestions[currentQuestionIndex].questionType!="Text"?null:selectedTextKnowledgeLevel,
-            currentPostSessionManagmentToken:postFeedTokenGenerator(),
+            currentPostSessionManagmentToken:isNextPostsRequest==true?currentPostToken:postToken,
             ownerId:personalInformation.id
 		}
+
 		const {confirmation,data}=await getSymposiumUniversityPostsApi(symposiumFetchParams);
 		if(confirmation=="Success"){
 			const {message}=data;
-			let currentReplies=message;
-			updatePrimaryPosts(message,false);
-
+			if(message.length==0){
+				if(isNextPostsRequest==false){
+					updatePrimaryPosts([],false);
+				}
+				changeDisplayHideButton(true);
+			}else{	
+				let currentReplies=message;
+				updatePrimaryPosts(message,isNextPostsRequest);
+			}
 		}else{	
 			alert('Unfortunately there has been an error when retrieving these symposium posts. Please try again');
 		}
+		changeIsLoadingText(false);
 	}
+	const updateCurrentIndexPrimaryInformation=(currentIndex)=>{
+		let universityPrimaryInformation=featuresPagePrimaryInformation;
+		universityPrimaryInformation={
+			...universityPrimaryInformation,
+			currentIndex:currentIndex
+		}
+		updatePrimaryInformation(universityPrimaryInformation);
+	}
+
 
 	const incrementQuestionIndex=()=>{
 		debugger;
 		let currentCounterIndex=currentQuestionIndex;
 		currentCounterIndex++;
+		updateCurrentIndexPrimaryInformation(currentCounterIndex);
 		changeCurrentQuestionIndex(currentCounterIndex);
 	}
 
 	const decrementQuestionIndex=()=>{
 		let currentCounterIndex=currentQuestionIndex;
 		currentCounterIndex--;
+		updateCurrentIndexPrimaryInformation(currentCounterIndex);
 		changeCurrentQuestionIndex(currentCounterIndex);
 	}
 
@@ -175,7 +246,9 @@ const SymposiumUniversity=({featuresType})=>{
 		debugger;
 		const postProps={
 			triggerDisplaySelectedPost,
-			posts:currentPostQuestionReplies
+			posts:currentPostQuestionReplies,
+			isBeaconParentComponent:false,
+			featurePageType:"University"
 		}
 		switch(headerQuestions[currentQuestionIndex].questionType){
 			case "Image":{
@@ -191,12 +264,33 @@ const SymposiumUniversity=({featuresType})=>{
 			}
 		}
 	}
+	const updateKnowledgeLevelPrimaryInformation=(knowledgeLevel)=>{
+		let communityPrimaryInformation=featuresPagePrimaryInformation;
+		communityPrimaryInformation={
+			...communityPrimaryInformation,
+			selectedTextKnowledgeLevel:knowledgeLevel
+		}
+		updatePrimaryInformation(communityPrimaryInformation);
+	}
+
+	const triggerChangeSelectedTextKnowledgeLevel=(knowledgeLevel)=>{
+		updateKnowledgeLevelPrimaryInformation(knowledgeLevel);
+		changeSelectedTextKnowledgeLevel(knowledgeLevel);
+	}
+
+	const triggerUploadPostDisplay=()=>{
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+		}else{
+			changeUniversityUploadDisplay(true)
+		}
+	}
 
 	const universityResponse=()=>{
 		return(
 			<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-				<div id="universityResponsesDiv" style={ResponsesCSS} onClick={()=>changeUniversityUploadDisplay(true)}>
-					<div style={{backgroundColor:"#C8B0F4",display:"flex",alignItems:"center"}}>
+				<div id="universityResponsesDiv" style={ResponsesCSS} onClick={()=>triggerUploadPostDisplay()}>
+					<div style={{backgroundColor:"#C8B0F4",display:"flex",alignItems:"center",padding:"10px"}}>
 						<p>{totalPostCount} Responses</p>
 					</div>
 					<div style={{backgroundColor:"#B38AFF",width:"15%",display:"flex",justifyContent:"center",alignItems:"center"}}>
@@ -206,7 +300,8 @@ const SymposiumUniversity=({featuresType})=>{
 					</div>
 				</div>
 				{headerQuestions[currentQuestionIndex].questionType=="Text" &&(
-					<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+					<div id="textOptions"
+						style={{display:"flex",flexDirection:"row",alignItems:"center",marginLeft:"5%"}}>
 						<div class="dropdown">
 							<button class="btn btn-primary dropdown-toggle" id="text"
 								type="button" data-toggle="dropdown" style={PostTypeCSS}>
@@ -217,19 +312,19 @@ const SymposiumUniversity=({featuresType})=>{
 							</button>
 							<ul class="dropdown-menu" style={{padding:"5px",height:"250px",overflowY:"auto",overflowX:"hidden"}}>
 								<li style={{listStyle:"none",cursor:"pointer"}}
-									onClick={()=>changeSelectedTextKnowledgeLevel("Beginner")}>
+									onClick={()=>triggerChangeSelectedTextKnowledgeLevel("Beginner")}>
 									Beginner
 								</li>
 								<hr/>
 
 								<li style={{listStyle:"none",cursor:"pointer"}}
-									onClick={()=>changeSelectedTextKnowledgeLevel("Intermediate")}>
+									onClick={()=>triggerChangeSelectedTextKnowledgeLevel("Intermediate")}>
 									Intermediate
 								</li>
 								<hr/>
 
 								<li style={{listStyle:"none",cursor:"pointer"}}
-									onClick={()=>changeSelectedTextKnowledgeLevel("Advanced")}>
+									onClick={()=>triggerChangeSelectedTextKnowledgeLevel("Advanced")}>
 									Advanced
 								</li>
 								<hr/>
@@ -369,6 +464,7 @@ const SymposiumUniversity=({featuresType})=>{
 		)
 	}
 
+
 	return(
 		<Container>
 			{selectedPostDisplay()}
@@ -385,7 +481,27 @@ const SymposiumUniversity=({featuresType})=>{
 				</React.Fragment>
 			}
 			<hr style={HorizontalLineCSS}/>
-			{postsDisplayFunctionality()}
+			<PostsContainer>
+				{loadingNewPostsIndicator==true?
+					<p>Loading...</p>:
+					<>
+						{postsDisplayFunctionality()}
+
+						<React.Fragment>
+							{hideNextButton==false &&(
+								<React.Fragment>
+									{isLoadingText==true?
+										<p>Loading...</p>:
+										<div onClick={()=>fetchSymposiumUniversityPost(true)} style={NextButtonCSS}>
+											Next
+										</div>
+									}
+								</React.Fragment>
+							)}
+						</React.Fragment>
+					</>
+				}
+			</PostsContainer>
 		</Container>
 	)
 }

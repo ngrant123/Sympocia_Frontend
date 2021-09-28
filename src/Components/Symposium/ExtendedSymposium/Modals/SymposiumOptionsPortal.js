@@ -77,7 +77,7 @@ const SymposiumOptionsPortal=({
 				<hr/>
 				<div style={SymposiumAndChatInformationCSS} 
 					onClick={()=>changeDisplayHighLightQuesition(true)}>
-					Highlighted Questions
+					Community Questions
 				</div>
 
 				<hr/>
@@ -103,7 +103,7 @@ const SymposiumOptionsPortal=({
 						selectedSymposiumTitle=="Gaming"||
 						selectedSymposiumTitle=="Philosophy"?
 						<p>Chat </p>:
-						<p> Symposium Features </p>
+						<p> Symposium University </p>
 					}	
 				</div>
 			</Container>

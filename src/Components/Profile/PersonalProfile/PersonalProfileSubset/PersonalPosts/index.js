@@ -246,7 +246,6 @@ const PersonalPostsIndex=(props)=>{
 	const [displayExtendedSearchTextArea,changeDisplayExtendedTextArea]=useState(false);
 	const [currentRequestedFriendsGaugeNodeId,changeRequestedFriendsGaugeLevelId]=useState(
 		props.currentRequestedFriendsGaugeNodeId);
-console.log(currentRequestedFriendsGaugeNodeId);
 	let [regularPost,changeRegularPost]=useState({
 		headerPost:null,
 		posts:[]
@@ -277,8 +276,6 @@ console.log(currentRequestedFriendsGaugeNodeId);
 	const [friendsColorNodesMap,changeFriendsColorNodesMapping]=useState(new Map());
 
 	useEffect(()=>{
-		debugger;
-		console.log(props.currentRequestedFriendsGaugeNodeId);
 		triggerPostDecider(
 			currentPostType,
 			props.personalInformation._id,
@@ -357,7 +354,6 @@ console.log(currentRequestedFriendsGaugeNodeId);
 			
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
-				console.log(data);
 				if(posts.length==0 && crownedPost==null){
 					if(currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId){
 						const imagePost={

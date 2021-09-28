@@ -51,8 +51,8 @@ const HorizontalLineCSS={
 }
 
 
-const SymposiumSpecialistsExtended=({closeModal,selectedSymposiumSpecialist,currentSymposiumId})=>{
-
+const SymposiumSpecialistsExtended=({closeModal,selectedSymposiumSpecialist,currentSymposiumId,isGuestProfile})=>{
+	console.log(isGuestProfile);
 	console.log(selectedSymposiumSpecialist);
 	const [specialists,changeSpecialists]=useState([]);
 	const [highlightedSpecialist,changeHighLightedSpecialist]=useState(selectedSymposiumSpecialist);
@@ -83,30 +83,38 @@ const SymposiumSpecialistsExtended=({closeModal,selectedSymposiumSpecialist,curr
 	}
 
 	const incrementRanking=async()=>{
-		changeSubmittingStatus(true);
-		const {confirmation,data}=await incrementSpecialistRanking(
-											highlightedSpecialist._id,
-											personalInformation.id);
-		if(confirmation=="Success"){
-			changeInteractionStatus(!hasProfilePreviouslyInteractedWithSpecialist);
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
 		}else{
-			alert('Unfortunately there has been an error adding the reputation. Please try again');
+			changeSubmittingStatus(true);
+			const {confirmation,data}=await incrementSpecialistRanking(
+												highlightedSpecialist._id,
+												personalInformation.id);
+			if(confirmation=="Success"){
+				changeInteractionStatus(!hasProfilePreviouslyInteractedWithSpecialist);
+			}else{
+				alert('Unfortunately there has been an error adding the reputation. Please try again');
+			}
+			changeSubmittingStatus(false);
 		}
-		changeSubmittingStatus(false);
 	}
 
 
 	const decrementRanking=async()=>{
-		changeSubmittingStatus(true);
-		const {confirmation,data}=await decrementSymposiumSpecialistRanking(
-											highlightedSpecialist._id,
-											personalInformation.id);
-		if(confirmation=="Success"){
-			changeInteractionStatus(!hasProfilePreviouslyInteractedWithSpecialist);
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
 		}else{
-			alert('Unfortunately there has been an error removing this reputation. Please try again');
+			changeSubmittingStatus(true);
+			const {confirmation,data}=await decrementSymposiumSpecialistRanking(
+												highlightedSpecialist._id,
+												personalInformation.id);
+			if(confirmation=="Success"){
+				changeInteractionStatus(!hasProfilePreviouslyInteractedWithSpecialist);
+			}else{
+				alert('Unfortunately there has been an error removing this reputation. Please try again');
+			}
+			changeSubmittingStatus(false);
 		}
-		changeSubmittingStatus(false);
 	}
 
 	return(

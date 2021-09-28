@@ -238,7 +238,6 @@ const SponsorPortal=(props)=>{
 		const searchedProfile=document.getElementById("sympociaProfilesSearchUrl").value;
 		const {confirmation,data}=await getProfilesFromSearch(searchedProfile);
 		if(confirmation=="Success"){
-			console.log(data);
 			changeSearchedProfiles([...data]);
 			changeLoadingProfilesPrompt(false);
 		}else{

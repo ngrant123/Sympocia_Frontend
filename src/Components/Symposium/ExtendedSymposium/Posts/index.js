@@ -13,6 +13,7 @@ import {
 import {PostProvider} from "./PostsContext.js";
 
 const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,profileId,displayBeacon})=>{
+    console.log(state);
     const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
     const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
     let [posts,changePosts]=useState(state.posts);
@@ -299,7 +300,8 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     headerAnimation:state.headerAnimation,
                     displayPhoneUI:state.displayPhoneUI,
                     selectedSymposiumTitle:state.selectedSymposiumTitle,
-                    displayDesktopUI:state.displayDesktopUI
+                    displayDesktopUI:state.displayDesktopUI,
+                    symposiumId:state.symposiumId
                 }}
                 updatePosts={fetchPosts}
                 posts={posts}

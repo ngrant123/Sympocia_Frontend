@@ -20,7 +20,7 @@ const Container=styled.div`
 	@media screen and (max-width:650px){
 		#image{
 			width:120px !important;
-			height:100px !important;
+			height:110px !important;
 		}
 		#beaconInformation{
 			display:none !important;
@@ -43,6 +43,40 @@ const Container=styled.div`
 			width:30px !important;
 		}
 	}
+
+	@media screen and (min-width:300px) and (max-width:330px) 
+		and (min-height:1000px) and (max-height:1200px){
+		#image{
+			width:100px !important;
+			height:90px !important;
+		}
+	}
+
+
+	@media screen and (min-width:650px) and (max-width:720px) 
+		and (min-height:1000px) and (max-height:1040px){
+		#image{
+			width:180px !important;
+			height:170px !important;
+		}
+	}
+
+	@media screen and (min-width:650px) and (max-width:720px) 
+		and (min-height:850px) and (max-height:900px){
+		#image{
+			width:100px !important;
+			height:90px !important;
+		}
+	}
+
+
+	@media screen and (max-width:350px) and (max-height:900px){
+		#image{
+			width:100px !important;
+			height:90px !important;
+		}
+	}
+
 `;
 
 
@@ -69,7 +103,7 @@ const PostCSS={
 	cursor:"pointer"
 }
 
-const Images=({posts,triggerDisplaySelectedPost})=>{
+const Images=({posts,triggerDisplaySelectedPost,featurePageType})=>{
 	console.log(posts);
 	return(
 		<Container>
@@ -106,20 +140,25 @@ const Images=({posts,triggerDisplaySelectedPost})=>{
 														} 
 									style={{height:"40px",width:"46px",borderRadius:"50%"}}
 								/>
-								<div id="beaconInformation" style={{display:"flex",flexDirection:"column",marginLeft:"5%"}}>
-									<p>
-										<b>
-											<span style={{color:"#43D351",marginRight:"5%"}}>
-												{data.beaconRepliesCount==null?0:data.beaconRepliesCount}
-											</span> 
-											beacon replies
-										</b>
+								{featurePageType=="Beacons"?
+									<div id="beaconInformation" style={{display:"flex",flexDirection:"column",marginLeft:"5%"}}>
+										<p>
+											<b>
+												<span style={{color:"#43D351",marginRight:"5%"}}>
+													{data.beaconRepliesCount==null?0:data.beaconRepliesCount}
+												</span> 
+												beacon replies
+											</b>
+										</p>
+										<hr style={HorizontalLineCSS}/>
+										{/*
+											<p>asked 1 min ago</p>
+										*/}
+									</div>:
+									<p style={{marginLeft:"5%"}}>
+										<b>{data.owner.firstName}</b>
 									</p>
-									<hr style={HorizontalLineCSS}/>
-									{/*
-										<p>asked 1 min ago</p>
-									*/}
-								</div>
+								}
 							</div>
 						</div>
 					)}

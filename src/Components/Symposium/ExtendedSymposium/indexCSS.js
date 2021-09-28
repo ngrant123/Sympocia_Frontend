@@ -758,6 +758,7 @@ export const SympociaOptionsContainer=styled.div`
 export const SearchOptionContainer=styled.div`
 	display:flex;
 	flex-direction:row;
+	align-items:center;
 	@media screen and (max-width:1370px){
 		flex-direction:row;
 	}

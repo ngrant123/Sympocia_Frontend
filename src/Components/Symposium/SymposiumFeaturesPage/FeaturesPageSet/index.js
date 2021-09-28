@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {GeneralNavBar} from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
-import CreationBeaconPortal from "./Modals-Portals/Beacons/CreateBeaconPortal.js";
 import SymposiumCommunityCreationPortal from "./Modals-Portals/SymposiumCommunity/QuestionStandings/CreationModal.js";
 
 import {FeaturePosts} from "../FeaturesPageSubset/Posts/index.js";
@@ -19,8 +18,10 @@ import{
 	getBeaconsFeaturePage,
 	getBeacons,
 	getSymposiumUniversityPage,
-	getCommunityFeaturesPage
+	getCommunityFeaturesPage,
+	retrieveCommunityPosts
 } from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import MobileCreationButton from "./MobileUI/Creation.js";
 
 const Container=styled.div`
 	width:100%;
@@ -38,16 +39,28 @@ const FeaturesContainer=styled.div`
 	width:100%;
 	padding:10px;
 
+	@media screen and (min-width:1920px){
+		top:10%;
+    }
+
 	@media screen and (max-width:1370px){
 		top:5%;
 		flex-direction:column !important;
 		#searchBarAndPosts{
-			width:100% !important;
+			width:95% !important;
 			margin-left:2% !important;
 		}
 		#desktopSearchBar{
 			display:none !important;
 		}
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		top:20%;
+	}
+
+	@media screen and (max-width:600px) and (max-height:350px) and (orientation: landscape) {
+		top:-15%;
 	}
 `;
 const CreatePostButton=styled.div`	
@@ -113,10 +126,11 @@ const SymposiumFeatures=(props)=>{
 	const [featuresPagePrimaryInformation,changePrimaryInformation]=useState();
 	const [featuresPageSecondaryInformation,changeSecondaryInformation]=useState();
 	const [loadingStatus,changeLoadingStatus]=useState(true);
-	const [displayBeaconCreation,changeDisplayBeaconCreation]=useState(false);
 	const [currentCreationCriteria,changeCurrentCreationCriteria]=useState();
 	const personalInformation=useSelector(state=>state.personalInformation);
-	const [displaySymposiumCreationModal,changeSymposiumDisplayCreationModal]=useState(false);
+
+	const isGuestProfile=(personalInformation.id=="0" || personalInformation.isGuestProfile==true)==true?true:false;
+
 	const [currentPostManagmentToken,changePostManagmentToken]=useState();
 	const [displayBeaconsTagCreationModal,changeDisplayBeaconTagsModal]=useState(false);
 	const [displayExtendedTagsInformationModal,changeDisplayExtendedTagsMOdal]=useState(false);
@@ -130,7 +144,6 @@ const SymposiumFeatures=(props)=>{
 
 	const [currentSymposiumName,changeSymposiumName]=useState();
 	const [currentSymposiumId,changeSymposiumId]=useState(props.match.params.symposiumId);
-
 	const [isDesktop,changeIsDesktopStatus]=useState(false);
 
 
@@ -206,6 +219,7 @@ const SymposiumFeatures=(props)=>{
 				tags
 			}
 			changeSecondaryInformation(beaconsSecondaryInformation);
+			changeEndOfPostsIndicator(false);
 		}else{
 			alert('Unfortunately there was an error when retrieving the beacons page');
 		}
@@ -223,24 +237,31 @@ const SymposiumFeatures=(props)=>{
 				posts
 			}=message;
 
-			const {
-				questions,
-				currentPostQuestionReplies,
-				totalPostCount
-			}=posts;
+			if(posts==null){
+				fetchData("Beacons",false,currentSymposiumId);
+			}else{
+				const {
+					questions,
+					currentPostQuestionReplies,
+					totalPostCount
+				}=posts;
 
-			const symposiumUniversityPrimaryInformation={
-				headerQuestions:questions,
-				currentPostQuestionReplies
-			}
-			changePrimaryInformation(symposiumUniversityPrimaryInformation);
+				const symposiumUniversityPrimaryInformation={
+					headerQuestions:questions,
+					currentIndex:0,
+					selectedTextKnowledgeLevel:"Beginner",
+					currentPostQuestionReplies
+				}
+				changePrimaryInformation(symposiumUniversityPrimaryInformation);
 
-			const symposiumUniversitySecondaryInformation={
-				specialists,
-				resources,
-				totalPostCount
+				const symposiumUniversitySecondaryInformation={
+					specialists,
+					resources,
+					totalPostCount
+				}
+				changeSecondaryInformation(symposiumUniversitySecondaryInformation);
 			}
-			changeSecondaryInformation(symposiumUniversitySecondaryInformation);
+
 		}else{
 			alert('Unfortunately there was an error retrieving the symposium university');
 		}
@@ -262,6 +283,7 @@ const SymposiumFeatures=(props)=>{
 			const symposiumCommunityPrimaryInformation={
 				headerQuestions:questions,
 				responses,
+				currentIndex:0,
 				competitionEndDate
 			}
 			changePrimaryInformation(symposiumCommunityPrimaryInformation);
@@ -280,7 +302,7 @@ const SymposiumFeatures=(props)=>{
 
 
 	const fetchData=async(featurePageType,isNewSymposiumRequest,newSymposiumId)=>{
-
+		debugger;
 		if(isNewSymposiumRequest==true){
 			changeIsLoadingPostsStatus(true);
 		}else{
@@ -352,9 +374,8 @@ const SymposiumFeatures=(props)=>{
 		if(confirmation=="Success"){
 			const {message}=data;
 			if(message.length==0){
-				if(isNextPostsRequest==false && tags!=null){
-					if(tags.length>0)
-						updatePrimaryPosts([],isNextPostsRequest);
+				if(isNextPostsRequest==false){
+					updatePrimaryPosts([],isNextPostsRequest);
 				}
 				changeEndOfPostsIndicator(true);
 			}else{
@@ -373,11 +394,48 @@ const SymposiumFeatures=(props)=>{
 			}
 		}
 
+		if(isNextPostsRequest==false){
+			changeEndOfPostsIndicator(false);
+		}
+
 
 		changeCurrentPostType(postType);
 	}
 
+	const fetchCommunityPosts=async({currentQuestionId,postType,isNextPostsRequest})=>{
+		debugger;
+		let token=currentPostManagmentToken;
+		if(isNextPostsRequest==false){
+			token=postFeedTokenGenerator();
+			changePostManagmentToken(token);
+		}
+
+		const communityGetParams={
+			symposiumId:currentSymposiumId,
+            parentQuestionId:currentQuestionId,
+            ownerId:personalInformation.id,
+            currentPostManagmentToken,
+            postType
+		}
+
+		const {confirmation,data}=await retrieveCommunityPosts(communityGetParams);
+		if(confirmation=="Success"){
+			const {message}=data;
+			if(message.length==0){
+				if(isNextPostsRequest==false){
+					updatePrimaryPosts([],false);
+				}
+				changeEndOfPostsIndicator(true);
+			}else{
+				updatePrimaryPosts(message,isNextPostsRequest);
+			}
+		}else{
+			alert('Unfortunately there has been an error retrieving these community posts. Please try again');
+		}
+	}
+
 	const fetchPosts=async(featurePostType,postRetrievalInformation)=>{
+		debugger;
 		if(postRetrievalInformation.isNextPostsRequest==false){
 			changeLoadingNewPostsIndicator(true);
 		}else{
@@ -386,6 +444,11 @@ const SymposiumFeatures=(props)=>{
 		switch(featurePostType){
 			case "Beacons":{
 				await fetchBeaconPosts(postRetrievalInformation)
+				break;
+			}
+
+			case "Community":{
+				await fetchCommunityPosts(postRetrievalInformation);
 				break;
 			}
 		}
@@ -408,8 +471,6 @@ const SymposiumFeatures=(props)=>{
 	}
 
 	const closeFeaturesPageCreationModal=()=>{
-		changeDisplayBeaconCreation(false);
-		changeSymposiumDisplayCreationModal(false);
 		changeDisplayBeaconTagsModal(false);
 		changeDisplayExtendedTagsMOdal(false);
 	}
@@ -448,73 +509,16 @@ const SymposiumFeatures=(props)=>{
 		changeSecondaryInformation(communitySecondaryInformation);
 	}
 
-
-
-
-
-
-
-
-
-
-	
-
-	const beaconCreationModals=()=>{
-		return(
-			<React.Fragment>
-				{displayBeaconCreation==true &&(
-					<PortalHoc
-						closeModal={closeFeaturesPageCreationModal}
-						component={
-							<CreationBeaconPortal
-								preSelectedPostType={currentCreationCriteria.postType}
-								closeCreationModal={closeFeaturesPageCreationModal}
-								updateBeaconPosts={updateCurrentBeaconPosts}
-								symposiumId={currentSymposiumId}
-								ownerId={personalInformation.id}
-								isDesktop={isDesktop}
-							/>
-						}
-					/>
-				)}
-			</React.Fragment>
-		)
-	}
-
-	const symposiumCommunityCreationModal=()=>{
-		return(
-			<React.Fragment>
-				{displaySymposiumCreationModal==true &&(
-					<PortalHoc
-						closeModal={closeFeaturesPageCreationModal}
-						component={
-							<SymposiumCommunityCreationPortal
-								closeModal={closeFeaturesPageCreationModal}
-								updateStandings={updateSymposiumCommunityQuestionStandings}
-								symposiumId={currentSymposiumId}
-							/>
-						}
-					/>
-				)}
-			</React.Fragment>
-		)
-	}
-
-
-
-
-
-
-
-
 	const mobileCreationPostButton=()=>{
 		return(
-			<CreatePostButton>
-				<BorderColorIcon
-					id="postCreationIcon"
-					style={{fontSize:"30",color:"#C8B0F4"}}
-				/>
-			</CreatePostButton>
+			<React.Fragment>
+				{isDesktop==false &&(
+					<MobileCreationButton
+						featurePageType={featuresType}
+						isGuestProfile={isGuestProfile}
+					/>
+				)}
+			</React.Fragment>
 		)
 	}
 
@@ -594,6 +598,15 @@ const SymposiumFeatures=(props)=>{
 
 		changeSecondaryInformation(secondaryInformation);
 	}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -716,10 +729,12 @@ const SymposiumFeatures=(props)=>{
 				currentSymposiumName,
 				isOligarchStatus,
 				fetchPosts,
+				isGuestProfile,
 				currentPostType,
 				loadingNewPostsIndicator,
 				endOfPostIndicator,
 				isDesktop,
+				currentPostManagmentToken,
 				triggerCurrentSymposiumChange:(seletedSymposium,newSymposiumId)=>{
 					updateSymposiumHandle(seletedSymposium,newSymposiumId);
 				},
@@ -746,36 +761,11 @@ const SymposiumFeatures=(props)=>{
 				},
 				updateSecondaryInformation:(updatedSecondaryInformation)=>{
 					changeSecondaryInformation(updatedSecondaryInformation);
-				},
-				displayCreationModal:(creationCriteria)=>{
-					debugger;
-					console.log(creationCriteria);
-					console.log("Display Toggled");
-					console.log(featuresType);
-					switch(featuresType){
-						case "Beacons":{
-							changeCurrentCreationCriteria(creationCriteria)
-							changeDisplayBeaconCreation(true);
-							break;
-						}
-
-						case "University":{
-							break;
-						}
-
-						case "Community":{
-							changeSymposiumDisplayCreationModal(true);
-							break;
-						}
-					}
 				}
 			}}
 		>
 			<Container id="symposiumFeaturesPage">
-
 				{mobileCreationPostButton()}
-				{beaconCreationModals()}
-				{symposiumCommunityCreationModal()}
 				{beaconsTagCreationModal()}
 				{tagExtendedInformationModal()}
 
@@ -795,11 +785,13 @@ const SymposiumFeatures=(props)=>{
 							/>
 							<div id="searchBarAndPosts" 
 								style={{display:"flex",flexDirection:"column",marginLeft:"30%",width:"65%"}}>
-								<div id="desktopSearchBar">
-									<SearchBar
-										featuresType={featuresType}
-									/>
-								</div>
+								{/*
+									<div id="desktopSearchBar">
+										<SearchBar
+											featuresType={featuresType}
+										/>
+									</div>
+								*/}
 								<FeaturePosts
 									featuresType={featuresType}
 									isLoading={isLoadingPosts}

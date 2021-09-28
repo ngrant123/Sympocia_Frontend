@@ -79,7 +79,6 @@ class FriendsGauge extends Component {
 
   constructor(props){
     super(props);
-    console.log(props);
     var numberNodes;
     var progressBarCounter;
     var {friendsGauge,friendsGaugeNodes}=this.props.personalInformation;

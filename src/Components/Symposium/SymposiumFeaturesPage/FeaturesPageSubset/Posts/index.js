@@ -50,24 +50,26 @@ const PostsHeader=({featuresType})=>{
 				/>
 			)}
 			<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-				<p style={{fontSize:"18px"}}>
+				<p id="headerText" style={{fontSize:"18px"}}>
 					<b>{headerText}</b>
 				</p>
-				<div style={DropDownCSS} onClick={()=>changeDisplaySymposiumFeatures(true)}>
-					<KeyboardArrowDownIcon
-						style={{fontSize:"20"}}
-					/>	
-				</div>
-
-				{/*
-					Later down the road will implement most popular and recent
-					
-					<div style={DropDownCSS}>
-						<SettingsIcon
+				<div style={{display:"flex",flexDirection:"row"}}>				
+					<div style={DropDownCSS} onClick={()=>changeDisplaySymposiumFeatures(true)}>
+						<KeyboardArrowDownIcon
 							style={{fontSize:"20"}}
 						/>	
 					</div>
-				*/}
+
+					{/*
+						Later down the road will implement most popular and recent
+						
+						<div style={DropDownCSS}>
+							<SettingsIcon
+								style={{fontSize:"20"}}
+							/>	
+						</div>
+					*/}
+				</div>
 			</div>
 		</React.Fragment>
 	)
@@ -88,6 +90,7 @@ const FeaturePosts=({featuresType,isLoading})=>{
 				return <SymposiumUnivesity
 							featuresType={featuresType}
 							isLoading={isLoading}
+							firstAccessStatus={true}
 						/>
 			}
 
@@ -101,7 +104,7 @@ const FeaturePosts=({featuresType,isLoading})=>{
 	}
 
 	return(
-		<div style={{marginTop:"5%",width:"100%"}}>
+		<div style={{width:"100%"}}>
 			{component()}
 		</div>
 	)

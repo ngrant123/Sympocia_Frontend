@@ -178,7 +178,7 @@ export const removeCommunityQuestion=async(communityQuestionId,symposiumId,profi
 	}
 }
 
-export const removeVoteFromCommunityQuestion=async(voterProfileId,questionId,symposiumId)=>{
+export const removeVoteFromCommunityQuestion=async({voterProfileId,questionId,symposiumId})=>{
 	try{
 		const removedCommunityQuestionVoteResponse=await axios.post(`${CreateUrl}/removeVoteFromCommunityQuestion`,{
 			voterProfileId,
@@ -208,7 +208,17 @@ export const editTag=async(tagId,tagName,symposiumId)=>{
 	}
 }
 
-
+export const createCommunityQuestionStandingComment=async(questionCommentInformation)=>{
+	try{
+		const questionCommentResponse=await axios.post(`${CreateUrl}/createQuestionStandingComment`,{
+			...questionCommentInformation
+		});
+		const {data}=questionCommentResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}	
 
 
 

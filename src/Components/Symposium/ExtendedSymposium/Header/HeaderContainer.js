@@ -265,7 +265,7 @@ const HeaderContainer=(props)=>{
 			headerAnimation,
 			backgroundColor,
 			displayBeacon,
-			roomId
+			symposiumId
 		}=props;
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
@@ -362,7 +362,7 @@ const HeaderContainer=(props)=>{
 													null,
 													isAccessTokenUpdated==true?updatedAccessToken:
 													personalInformation.accessToken,
-													roomId
+													symposiumId
 												);
 				if(confirmation=="Failure"){
 					const {statusCode}=data;
@@ -463,17 +463,17 @@ const HeaderContainer=(props)=>{
 						<>
 							<HighlightedQuestionsContainer>
 								<p style={{fontSize:"18px",color:"white"}}>
-									<b>HighLighted Question</b>
+									<b>Community Questions</b>
 								</p>
-								{props.popularQuestionObject.questionInformation.length!=0 &&(
-									<HightLightedQuestions
-										questionInformation={props.popularQuestionObject.questionInformation}
-										isSimplified={props.popularQuestionObject.isSimplified}
-										selectedSymposium={props.popularQuestionObject.selectedSymposium}
-										isGuestProfile={isGuestProfile}
-										isOligarch={props.isOligarch}
-									/>
-								)}
+								<HightLightedQuestions
+									questionInformation={props.communityQuestions.questionInformation}
+									isSimplified={props.communityQuestions.isSimplified}
+									selectedSymposium={props.communityQuestions.selectedSymposium}
+									isGuestProfile={isGuestProfile}
+									isOligarch={props.isOligarch}
+									ownerId={personalInformation.id}
+									symposiumId={symposiumId}
+								/>
 							</HighlightedQuestionsContainer>
 							<SymposiumTitlesAndVideosContainer>
 								<SymposiumTitle>

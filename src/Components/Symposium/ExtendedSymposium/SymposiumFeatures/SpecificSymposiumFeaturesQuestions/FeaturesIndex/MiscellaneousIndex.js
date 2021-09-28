@@ -67,7 +67,7 @@ const PostPopupContainer=styled.div`
 `;
 
 
-const MusicIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
+const MusicIndex=({closeModal,modalType,symposium,symposiumId,question,selectedPostId})=>{
 
 	const [displayImageExpand,changeImageExpandDisplay]=useState(false);
 	const [displayVideoExpand,changeVideoExpandDisplay]=useState(false);
@@ -82,7 +82,6 @@ const MusicIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,ques
 						symposium={symposium}
 						displayImage={displayImageHandler}
 						modalType={modalType}
-						questionIndex={questionIndex}
 						question={question}
 						symposiumId={symposiumId}
 						selectedPostId={selectedPostId}
@@ -92,7 +91,6 @@ const MusicIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,ques
 						symposium={symposium}
 						displayImage={displayImageHandler}
 						modalType={modalType}
-						questionIndex={questionIndex}
 						question={question}
 						symposiumId={symposiumId}
 						selectedPostId={selectedPostId}
@@ -102,7 +100,6 @@ const MusicIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,ques
 						symposium={symposium}
 						displayImage={displayImageHandler}
 						modalType={modalType}
-						questionIndex={questionIndex}
 						question={question}
 						symposiumId={symposiumId}
 						selectedPostId={selectedPostId}
@@ -112,7 +109,6 @@ const MusicIndex=({closeModal,modalType,symposium,questionIndex,symposiumId,ques
 						symposium={symposium}
 						displayImage={displayImageHandler}
 						modalType={modalType}
-						questionIndex={questionIndex}
 						symposiumId={symposiumId}
 						question={question}
 						selectedPostId={selectedPostId}

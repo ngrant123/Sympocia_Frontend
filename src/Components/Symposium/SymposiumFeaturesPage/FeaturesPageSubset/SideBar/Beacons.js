@@ -10,7 +10,8 @@ import {FeaturesContext} from "../../FeaturesPageSet/FeaturesPageContext.js";
 import ProgressBarExtendedModal from "../../FeaturesPageSet/Modals-Portals/Beacons/ProgressBarBeaconsExtended.js";
 import TagsDropDownPortal from "../../FeaturesPageSet/Modals-Portals/DropDowns/TagsPortal.js";
 import PortalsHOC from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
-
+import CreationBeaconPortal from "../../FeaturesPageSet/Modals-Portals/Beacons/CreateBeaconPortal.js";
+import {useSelector} from "react-redux";
 
 const Container=styled.div`
 	@media screen and (max-width:650px){
@@ -108,7 +109,56 @@ const CreateButtonCSS={
 	width:"100%"
 }
 
-const BeaconProgressBar=({currentSymposiumId,answeredBeacons,acceptedBeacons,totalBeacon,isProgressBarInExtendedModal})=>{
+const BeaconPostCreation=({
+	featuresPagePrimaryInformation,
+	updatePrimaryPosts,
+	closeFeaturesPageCreationModal,
+	selectedPostType,
+	currentSymposiumId,
+	personalInformation,
+	isDesktop})=>{
+
+	const updateCurrentBeaconPosts=(beaconPostType,beacon)=>{
+		debugger;
+		let currentBeaconPrimaryInformation=featuresPagePrimaryInformation;
+		const {posts}=currentBeaconPrimaryInformation;
+		posts.splice(0,0,beacon);
+		updatePrimaryPosts(posts,false)
+		closeFeaturesPageCreationModal();
+	}
+
+	const beaconCreationModals=()=>{
+		return(
+			<PortalsHOC
+				closeModal={closeFeaturesPageCreationModal}
+				component={
+					<CreationBeaconPortal
+						preSelectedPostType={selectedPostType}
+						closeCreationModal={closeFeaturesPageCreationModal}
+						updateBeaconPosts={updateCurrentBeaconPosts}
+						symposiumId={currentSymposiumId}
+						ownerId={personalInformation.id}
+						isDesktop={isDesktop}
+					/>
+				}
+			/>
+		)
+	}
+	return(
+		<React.Fragment>
+			{beaconCreationModals()}
+		</React.Fragment>
+	)
+}
+
+const BeaconProgressBar=({
+	currentSymposiumId,
+	answeredBeacons,
+	acceptedBeacons,
+	totalBeacon,
+	isProgressBarInExtendedModal,
+	isGuestProfile})=>{
+
 	const [displayProgressBarExtended,changeDisplayProgressParExtended]=useState(false);
 	let [currentPercentage,changeCurrentPercentage]=useState(0);
 	const beaconInteractedWith=answeredBeacons+acceptedBeacons;
@@ -137,8 +187,12 @@ const BeaconProgressBar=({currentSymposiumId,answeredBeacons,acceptedBeacons,tot
 	}
 
 	const displayExtendedProgressBarModal=()=>{
-		if(isProgressBarInExtendedModal!=true){
-			changeDisplayProgressParExtended(true);
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+		}else{
+			if(isProgressBarInExtendedModal!=true){
+				changeDisplayProgressParExtended(true);
+			}
 		}
 	}
 
@@ -221,15 +275,21 @@ const BeaconSideBar=()=>{
 				ownerCreationTagStatus
 			}
 		},
+		featuresPagePrimaryInformation,
+		updatePrimaryPosts,
 		fetchPosts,
 		currentPostType,
 		currentSymposiumId,
-		displayCreationModal
+		displayCreationModal,
+		isGuestProfile,
+		isDesktop
 	}=featuresPageConsumer;
 
+	const personalInformation=useSelector(state=>state.personalInformation);
 	const [selectedTags,changeSelectedTags]=useState([]);
 	const [displayTagOptions,changeDisplayTagOptions]=useState(false);
-
+	const [displayBeaconCreation,changeDisplayBeaconCreation]=useState(false);
+	const [selectedPostType,changeSelectedPostType]=useState();
 
 	const constructTags=()=>{
 		return(
@@ -317,18 +377,44 @@ const BeaconSideBar=()=>{
 		changeDisplayTagOptions(false);
 	}
 
+	const closeFeaturesPageCreationModal=()=>{
+		changeDisplayBeaconCreation(false);
+	}
+
+	const triggerDisplayCreationModal=(selectedPostType)=>{
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+		}else{
+			changeSelectedPostType(selectedPostType);
+			changeDisplayBeaconCreation(true);
+		}
+	}
+
 	return(
 		<Container>
+			{displayBeaconCreation==true &&(
+				<BeaconPostCreation
+					featuresPagePrimaryInformation={featuresPagePrimaryInformation}
+					updatePrimaryPosts={updatePrimaryPosts}
+					closeFeaturesPageCreationModal={closeFeaturesPageCreationModal}
+					selectedPostType={selectedPostType}
+					currentSymposiumId={currentSymposiumId}
+					personalInformation={personalInformation}
+					isDesktop={isDesktop}
+				/>
+			)}
 			{displayTagOptions==true &&(
 				<TagsDropDownPortal
 					closeModal={closeTagOptionsModal}
 					ownerCreationTagStatus={ownerCreationTagStatus}
 					symposiumId={currentSymposiumId}
+					isGuestProfile={isGuestProfile}
 				/>
 			)}
 			<BeaconProgressBar
 				{...progressBarInformation}
 				currentSymposiumId={currentSymposiumId}
+				isGuestProfile={isGuestProfile}
 			/>
 
 
@@ -363,19 +449,19 @@ const BeaconSideBar=()=>{
 				<ul class="dropdown-menu" 	
 					style={{padding:"20px",height:"170px",marginTop:"-220px",width:"90%",overflow:"auto"}}>
 					<li style={{listStyle:"none",cursor:"pointer"}}
-						onClick={()=>displayCreationModal({postType:"Images"})}>
+						onClick={()=>triggerDisplayCreationModal("Images")}>
 						Images
 					</li>
 					<hr/>
 
 					<li style={{listStyle:"none",cursor:"pointer"}}
-						onClick={()=>displayCreationModal({postType:"Videos"})}>
+						onClick={()=>triggerDisplayCreationModal("Videos")}>
 						Videos
 					</li>
 					<hr/>
 
 					<li style={{listStyle:"none",cursor:"pointer"}}
-						onClick={()=>displayCreationModal({postType:"Regular"})}>
+						onClick={()=>triggerDisplayCreationModal("Regular")}>
 						Regular
 					</li>
 					<hr/>
@@ -388,5 +474,6 @@ const BeaconSideBar=()=>{
 
 export{
 	BeaconSideBar,
-	BeaconProgressBar
+	BeaconProgressBar,
+	BeaconPostCreation
 }

@@ -41,9 +41,11 @@ const SpecialistsView=({specialists,triggerCreationModal,displayHighLightedSpeci
 				<b>Photography Specialists</b>
 			</p>
 			<hr/>
-			<InputContainer
-				placeholder="Search specialists here"
-			/>
+			{/*
+				<InputContainer
+					placeholder="Search specialists here"
+				/>
+			*/}
 			<div style={{...ButtonCSS,marginTop:"2%",marginBottom:"5%"}} onClick={()=>triggerCreationModal()}>
 				Create
 			</div>

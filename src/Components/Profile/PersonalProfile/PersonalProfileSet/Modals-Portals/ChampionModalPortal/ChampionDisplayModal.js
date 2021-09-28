@@ -209,7 +209,6 @@ const ProfileLink=({propsRendered,championData})=>{
 }
 
 const SponsorDisplayModal=(props)=>{
-	console.log(props);
 	const [displayExtendedSponsorModal,changeExtendedSponsorModal]=useState(props.isMobile==true?true:false);
 	const [displayDeletePortal,changeDisplayDeletePortal]=useState(false);
 

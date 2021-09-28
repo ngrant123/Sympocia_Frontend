@@ -16,7 +16,7 @@ const Container=styled.div`
 	@media screen and (max-width:650px){
 		#uploadVideoUrl{
 			height:180px !important;
-			width:60% !important;
+			width:100% !important;
 		}
 	}
 `;

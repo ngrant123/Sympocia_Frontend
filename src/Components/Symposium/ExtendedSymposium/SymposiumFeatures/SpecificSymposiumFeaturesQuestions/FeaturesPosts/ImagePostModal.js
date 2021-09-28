@@ -5,7 +5,7 @@ import CameraIcon from '@material-ui/icons/Camera';
 import {
 	createSymposiumUniversityAnswer
 } from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-import {getIndustryImageFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import {getSymposiumUniversityPostsApi} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
 import ImagePostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
@@ -31,6 +31,9 @@ const Container=styled.div`
 			height:100px !important;
 			width:100px !important;
 			margin-bottom:90px !important;
+		}
+		#selectedImage{
+			width:150px !important;
 		}
 	}
 
@@ -102,6 +105,10 @@ const DescriptionInputContainer=styled.textarea`
 	padding:5px;
 	margin-top:5%;
 	margin-bottom:5%;
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+		height:170px;
+    }
 `;
 
 
@@ -132,6 +139,17 @@ const FinalSubmittionContainer=styled.div`
 			height:130px !important;
 		}
 	}
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+		#selectedImage{
+			height:270px !important;
+		}
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		#selectedImage{
+			height:190px !important;
+		}
+    }
 `;
 
 const PostHeaderContainer=styled.div`
@@ -349,12 +367,18 @@ const ImagePostModal=(props)=>{
 		isOligarch,
 		closeModal,
 		symposium,
-		questionIndex,
 		symposiumId,
-		question,
-		questionId,
+		selectedQuestion,
 		deleteSpecificSymposiumAnswerTrigger
 	}=props
+
+	const {
+		_id,
+		question,
+		questionType
+	}=selectedQuestion;
+
+	console.log(props);
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [posts,changePosts]=useState([]);
 	const [symposiumIdState,changeSymposiumIdState]=useState();
@@ -366,22 +390,31 @@ const ImagePostModal=(props)=>{
 
 
 	const userId=useSelector(state=>state.personalInformation.id);
+	const postFeedTokenGenerator=()=>{
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			return v.toString(16);
+		});
+	}
 
 	useEffect(()=>{
 		const fetchData=async()=>{
 			changeIsLoadingStatus(true);
-			const {confirmation,data}=await getIndustryImageFeatureAnswers({
-				industryId:symposiumId,
-				questionIndex,
-				questionId:questionId
-			})
+
+			const symposiumFetchParams={
+				questionId:_id,
+	            questionType,
+	            questionLevel:null,
+	            //currentPostSessionManagmentToken:isNextPostsRequest==true?currentPostToken:postToken,
+	            currentPostSessionManagmentToken:postFeedTokenGenerator(),
+	            ownerId:userId
+			}
+
+			const {confirmation,data}=await getSymposiumUniversityPostsApi(symposiumFetchParams);
 
 			if(confirmation=="Success"){
 				const {message}=data;
-				const {
-					posts
-				}=message;
-				changePosts(posts);
+				changePosts(message);
 			}else{
 				alert('Unfortunately there has been an error trying to get this images data. Please try again');
 			}
@@ -510,6 +543,12 @@ const ImagePostModal=(props)=>{
 							</>:
 							<ImagePostUpload
 								closeModal={closeCreationModal}
+								symposiumId={symposiumId}
+								userId={personalInformation.id}
+								personalInformation={personalInformation}
+								updatePosts={updatePosts}
+								questionId={_id}
+								selectedUploadType={questionType}
 							/>
 						}
 					</Container>

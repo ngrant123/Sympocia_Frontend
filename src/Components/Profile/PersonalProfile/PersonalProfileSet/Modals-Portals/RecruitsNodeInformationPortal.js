@@ -181,8 +181,6 @@ const NodeInformationPortal=({
 	isPhoneUITriggered,
 	triggerFriendsGaugePostDisplay})=>{
 
-	console.log(nodeInformation);
-
 	const [displayEditArea,changeDisplayEditArea]=useState(false);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -404,7 +402,6 @@ const NodeInformationPortal=({
 	}
 
 	const nodeInformationDisplayComponent=()=>{
-		console.log(profilesRequestedAccessToNode);
 		if(notificationNodeInformationType=="selectedColorType"){
 			return(
 				<React.Fragment>

@@ -7,7 +7,7 @@ import {
 	createSymposiumUniversityAnswer,
 	deleteSpecificSymposiumAnswer
 } from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-import {getIndustryRegularPostFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import {getSymposiumUniversityPostsApi} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
 import RegularPostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
@@ -47,10 +47,18 @@ const InputContainer=styled.textarea`
 	margin-top:2%;
 	margin-bottom:2%;
 
-	@media screen and (max-width:600px){
-		height:60% !important;
-		width:90% !important;
+	@media screen and (max-width:1370px){
+		width:95% !important;
 	}
+
+	@media screen and (max-width:650px){
+		height:60% !important;
+		width:95% !important;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		width:95% !important;
+    }
 `;
 
 
@@ -207,7 +215,8 @@ const TextPostUpload=({
 	userId,
 	personalInformation,
 	displayCurrentLevel,
-	updatePosts})=>{
+	updatePosts,
+	closeCreationModal})=>{
 	
 	const [knowledgeLevel,changeKnowledge]=useState();
 	const [isProccessingPost,changeIsProcessingPost]=useState(false);
@@ -243,6 +252,8 @@ const TextPostUpload=({
 						}
 					}
 					updatePosts(message);
+				}else{
+					closeCreationModal();
 				}
 			}else{
 				const {statusCode}=data;
@@ -305,16 +316,19 @@ const TextPostUpload=({
 
 const RegularPostModal=(props)=>{
 	const {
+		isOligarch,
 		closeModal,
 		symposium,
-		modalType,
 		symposiumId,
-		questionIndex,
-		question,
-		selectedPostId,
-		isOligarch,
+		selectedQuestion,
 		deleteSpecificSymposiumAnswerTrigger
 	}=props;
+
+	const {
+		_id,
+		question,
+		questionType
+	}=selectedQuestion;
 
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [posts,changePosts]=useState([]);
@@ -326,8 +340,14 @@ const RegularPostModal=(props)=>{
 	const name=useSelector(state=>state.personalInformation.firstName);
 	const [isLoadingTextIndicator,changeIsLoadingTextIndicator]=useState(false);
 	const {personalInformation}=useSelector(state=>state);
-
 	const [displayCurrentLevel,changeCurrentLevel]=useState(false);
+	
+	const postFeedTokenGenerator=()=>{
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			return v.toString(16);
+		});
+	}
 
 	useEffect(()=>{
 		const fetchData=async()=>{
@@ -337,12 +357,18 @@ const RegularPostModal=(props)=>{
 		fetchData();
 	},[]);
 
+
+	/*
+		Could be refactored later on into two methods
+	*/
 	const retrievePosts=async(questionLevel)=>{
-		const response=await getIndustryRegularPostFeatureAnswers({
-			industryId:symposiumId,
-			questionIndex,
-			questionId:selectedPostId,
-			questionLevel
+		const response=await getSymposiumUniversityPostsApi({
+			questionId:_id,
+            questionType,
+            questionLevel,
+            //currentPostSessionManagmentToken:isNextPostsRequest==true?currentPostToken:postToken,
+            currentPostSessionManagmentToken:postFeedTokenGenerator(),
+            ownerId:userId
 		});
 		return response;
 	}
@@ -352,11 +378,11 @@ const RegularPostModal=(props)=>{
 		const {confirmation,data}=await retrievePosts('Intermediate');
 		if(confirmation=="Success"){
 			const {message}=data;
-			const {posts}=message;
+
 			if(displayCreationModal==false){
 				changeCurrentLevel("Intermediate");
-				changePosts(posts);
-				changeQuestionId(selectedPostId);
+				changePosts(message);
+				changeQuestionId(_id);
 			}
 		}else{
 			alert('Unfortunately there has been an error trying to get this regular post data. Please try again');
@@ -370,12 +396,10 @@ const RegularPostModal=(props)=>{
 		const {confirmation,data}=await retrievePosts('Beginner');
 		if(confirmation=="Success"){
 			const {message}=data;
-			const {posts}=message;
-
 			if(displayCreationModal==false){
 				changeCurrentLevel("Beginner");
-				changePosts(posts);
-				changeQuestionId(selectedPostId);
+				changePosts(message);
+				changeQuestionId(_id);
 			}
 
 		}else{
@@ -390,12 +414,11 @@ const RegularPostModal=(props)=>{
 
 		if(confirmation=="Success"){
 			const {message}=data;
-			const {posts}=message;
 
 			if(displayCreationModal==false){
 				changeCurrentLevel("Advanced");
-				changePosts(posts);
-				changeQuestionId(selectedPostId);				
+				changePosts(message);
+				changeQuestionId(_id);				
 			}
 
 
@@ -454,6 +477,10 @@ const RegularPostModal=(props)=>{
 		changeQuestionId(questionId);
 	}
 
+	const closeCreationModal=()=>{
+		changeDisplayCreationModal(false);
+	}
+
 	return(
 		<ul style={{padding:"20px"}}>
 			{displayPostExpand==false?
@@ -470,9 +497,11 @@ const RegularPostModal=(props)=>{
 				<TextPostUpload
 					symposiumId={symposiumId}
 					userId={userId}
+					questionId={_id}
 					personalInformation={personalInformation}
 					displayCurrentLevel={displayCurrentLevel}
 					updatePosts={updatePosts}
+					closeCreationModal={closeCreationModal}
 				/>
 				:<>
 					<PostHeaderContainer>

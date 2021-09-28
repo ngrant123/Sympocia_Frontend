@@ -51,7 +51,6 @@ const VideoAndAudioDescriptionCSS={
 }
 
 const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostContextValues})=>{
-	console.log(images);
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
 		var dateToString=convertedDate.toString();
@@ -69,11 +68,6 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 	//onClick={()=>displayPostModal(data)} 
 
 	const image=(data)=>{
-		debugger;
-		console.log(data);
-		console.log(data.audioDescription);
-		console.log(data.videoDescription);
-
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
 		return 	<div>
 					<img id="img" src={data.imgUrl} 

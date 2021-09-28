@@ -7,6 +7,7 @@ import ExtendedSubmission from "../../FeaturesPageSet/Modals-Portals/SymposiumCo
 import PortalsHOC from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
 import SymposiumCommunityQuestionStandingDropDown from "../../FeaturesPageSet/Modals-Portals/DropDowns/SymposiumCommunityQuestionStandingOptions.js";
 import CompetitionEndModal from "../../FeaturesPageSet/Modals-Portals/SymposiumCommunity/CompetitionEnd.js";
+import SymposiumCommunityCreationPortal from "../../FeaturesPageSet/Modals-Portals/SymposiumCommunity/QuestionStandings/CreationModal.js";
 
 const SubmissionsCSS={
 	padding:"15px",
@@ -84,8 +85,9 @@ const CountDownTimer=({countDownDateMilliSeconds,triggerDisplayCompetitionEndMod
 
 	const constructTimer=(countDownDateMilliSeconds)=>{
 		let countDownId=setInterval(()=>{
+			debugger;
 			var now = new Date().getTime();
-			var distance = countDownDateMilliSeconds - (now-3000);
+			var distance = countDownDateMilliSeconds - (now);
 
 			var days = Math.floor(distance / (1000 * 60 * 60 * 24));
 			var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -96,9 +98,11 @@ const CountDownTimer=({countDownDateMilliSeconds,triggerDisplayCompetitionEndMod
 			changeTimeCounterDowm(countDown);
 
 			if (distance < 0) {
+				debugger;
 				clearInterval(countDownId);
 				changeTimeCounterDowm("Finished")
-				triggerDisplayCompetitionEndModal();
+				if(triggerDisplayCompetitionEndModal!=null)
+					triggerDisplayCompetitionEndModal();
 			}
 		},100);
 	}
@@ -121,17 +125,22 @@ const SymposiumCommunity=()=>{
 	const [selectedSubmissionQuestion,changeSelectedSubmissionQuestion]=useState();
 	const [displayCommunityOptionsDropDown,changeCommunityOptionsDropDownDisplay]=useState(false);
 	const [displayCompetitionEndModal,changeDisplayCompetitionEndModal]=useState(false);
+	const [displaySymposiumQuestionCreationModal,changeSymposiumQuestionCreationModal]=useState(false);
 
 	const{
-		featuresPageSecondaryInformation:{
-			submissionCount,
-			currentQuestionsStandings
-		},
+		featuresPageSecondaryInformation,
 		featuresPagePrimaryInformation:{
 			competitionEndDate
 		},
-		displayCreationModal
+		currentSymposiumId,
+		updateSecondaryInformation,
+		isGuestProfile
 	}=featuresPageConsumer;
+
+	const{
+		submissionCount,
+		currentQuestionsStandings
+	}=featuresPageSecondaryInformation;
 
 	console.log(featuresPageConsumer);
 	debugger;
@@ -186,6 +195,8 @@ const SymposiumCommunity=()=>{
 						component={
 							<CurrentSubmissions
 								currentQuestions={currentQuestionsStandings}
+								currentSymposiumId={currentSymposiumId}
+								isGuestProfile={isGuestProfile}
 							/>
 						}
 					/>
@@ -203,6 +214,8 @@ const SymposiumCommunity=()=>{
 						component={
 							<ExtendedSubmission
 								submissionData={selectedSubmissionQuestion}
+								currentSymposiumId={currentSymposiumId}
+								isGuestProfile={isGuestProfile}
 							/>
 						}
 					/>
@@ -211,12 +224,18 @@ const SymposiumCommunity=()=>{
 		)
 	}
 
+	const triggerDisplaySubmission=()=>{
+		changeDisplayCurrentSubmissions(true)
+	}
+
 	const displayCommunityQuestionOptions=()=>{
 		return(
 			<React.Fragment>
 				{displayCommunityOptionsDropDown==true &&(
 					<SymposiumCommunityQuestionStandingDropDown
 						closeModal={changeCurrentSubmissionsDisplay}
+						displaySubmission={triggerDisplaySubmission}
+						currentSymposiumId={currentSymposiumId}
 					/>
 				)}
 			</React.Fragment>
@@ -242,8 +261,62 @@ const SymposiumCommunity=()=>{
 		changeDisplayCompetitionEndModal(true);
 	}
 
+	const closeQuestionCreationModal=()=>{
+		changeSymposiumQuestionCreationModal(false);
+	}
+
+	const updateSymposiumCommunityQuestionStandings=(userSubmittedQuestion)=>{
+		let communitySecondaryInformation=featuresPageSecondaryInformation;
+		let {
+			currentQuestionsStandings,
+			submissionCount
+		}=communitySecondaryInformation;
+
+		currentQuestionsStandings.splice(0,0,userSubmittedQuestion);
+		submissionCount+=1;
+
+		communitySecondaryInformation={
+			...communitySecondaryInformation,
+			currentQuestionsStandings,
+			submissionCount
+		}
+		updateSecondaryInformation(communitySecondaryInformation);
+		changeSymposiumQuestionCreationModal(false);
+	}
+
+
+
+	const symposiumCommunityQuestionCreationModal=()=>{
+		return(
+			<React.Fragment>
+				{displaySymposiumQuestionCreationModal==true &&(
+					<PortalsHOC
+						closeModal={closeQuestionCreationModal}
+						component={
+							<SymposiumCommunityCreationPortal
+								closeModal={closeQuestionCreationModal}
+								updateStandings={updateSymposiumCommunityQuestionStandings}
+								symposiumId={currentSymposiumId}
+							/>
+						}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	const triggerSymposiumQuestionCreationModal=()=>{
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+		}else{
+			changeSymposiumQuestionCreationModal(true);
+		}
+	}
+
+
 	return(
 		<React.Fragment>
+			{symposiumCommunityQuestionCreationModal()}
 			{competitionEndModal()}
 			{displayCommunityQuestionOptions()}
 			{extendedSubmissionModal()}
@@ -279,7 +352,7 @@ const SymposiumCommunity=()=>{
 				<hr style={HorizontalLineCSS}/>
 				{constructQuestionStandings()}
 			</div>
-			<div style={CreateButtonCSS} onClick={()=>displayCreationModal()}>
+			<div style={CreateButtonCSS} onClick={()=>triggerSymposiumQuestionCreationModal()}>
 				Create Community Question
 			</div>
 		</React.Fragment>

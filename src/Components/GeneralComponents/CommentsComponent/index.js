@@ -163,7 +163,6 @@ class CommentsContainer extends Component{
 		})
 	}
 	displayCommentsOrVideoResponses=(symposiumPostInformation,symposiumInformation)=>{
-		console.log(symposiumPostInformation);
 		const isOligarch=symposiumPostInformation==null?false:symposiumPostInformation.isOligarch;
 		const symposiumId=symposiumInformation==null?null:symposiumInformation.symposiumId;
 

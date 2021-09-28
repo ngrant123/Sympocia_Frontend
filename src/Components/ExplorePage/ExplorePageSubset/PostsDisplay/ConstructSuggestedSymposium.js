@@ -4,7 +4,7 @@ import PERSONAL_INDUSTRIES from "../../../../Constants/personalIndustryConstants
 import COMPANY_INDUSTRIES from "../../../../Constants/industryConstants.js";
 import PersonalIndustry from "../../../../Constants/personalIndustryConstants.js";
 import CompanyIndustry from "../../../../Constants/industryConstants.js";
-import {getSymposiumId} from "../../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+import {getSymposiumId} from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
 const SuggestedSymposiumsContainer=styled.div`
 	position:relative;

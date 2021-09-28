@@ -3,7 +3,7 @@ import styled from "styled-components";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CameraIcon from '@material-ui/icons/Camera';
 import {createSymposiumUniversityAnswer} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
-import {getIndustryVideoFeatureAnswers} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+import {getSymposiumUniversityPostsApi} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
 import VideoPostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
@@ -87,6 +87,7 @@ const FinalSubmittionContainer=styled.div`
 	@media screen and (max-width:1370px){
 		#uploadVideoUrl{
 			height:400px !important;
+			width:95% !important;
 		}	
 	}
 	@media screen and (max-width:650px){
@@ -341,12 +342,17 @@ const VideoPostModal=(props)=>{
 		isOligarch,
 		closeModal,
 		symposium,
-		questionIndex,
 		symposiumId,
-		question,
-		selectedPostId,
+		selectedQuestion,
 		deleteSpecificSymposiumAnswerTrigger
-	}=props
+	}=props;
+
+	const {
+		_id,
+		question,
+		questionType
+	}=selectedQuestion;
+
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [questionId,changeQuestionId]=useState();
 	const [posts,changePosts]=useState([]);	
@@ -369,23 +375,31 @@ const VideoPostModal=(props)=>{
 	}
 
 	window.addEventListener('resize',triggerUIChange)
+	const postFeedTokenGenerator=()=>{
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			return v.toString(16);
+		});
+	}
 
 	useEffect(()=>{
 		const fetchData=async()=>{
 			changeIsLoadingIndicator(true);
-			const {confirmation,data}=await getIndustryVideoFeatureAnswers({
-				industryId:symposiumId,
-				questionIndex,
-				questionId:selectedPostId
-			})
 
+			const symposiumFetchParams={
+				questionId:_id,
+	            questionType,
+	            questionLevel:null,
+	            //currentPostSessionManagmentToken:isNextPostsRequest==true?currentPostToken:postToken,
+	            currentPostSessionManagmentToken:postFeedTokenGenerator(),
+	            ownerId:userId
+			}
+
+			const {confirmation,data}=await getSymposiumUniversityPostsApi(symposiumFetchParams)
 			if(confirmation=="Success"){
 				const {message}=data;
-				const {
-					posts
-				}=message;
-				changePosts(posts);
-				changeQuestionId(selectedPostId);
+				changePosts(message);
+				changeQuestionId(_id);
 			}else{
 				alert('Unfortunately there has been an error trying to get this video data. Please try again');
 			}
@@ -479,7 +493,7 @@ const VideoPostModal=(props)=>{
 					{isLoading==true?
 						<p>Loading please wait</p>:
 						<React.Fragment>
-							{posts.legnth==0?
+							{posts.length==0?
 								<p>No posts</p>:
 								<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
 									{posts.map((data,index)=>
@@ -498,6 +512,8 @@ const VideoPostModal=(props)=>{
 					}
 				</>:
 				<VideoPostUpload
+					selectedUploadType={questionType}
+					questionId={_id}
 					closeModal={closeVideoUploadModal}
 					symposiumId={symposiumId}
 					userId={userId}

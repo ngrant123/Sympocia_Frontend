@@ -1,6 +1,12 @@
-import React from "react";
+import React,{useContext} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
+import {FeaturesContext} from "../../FeaturesPageContext.js";
+import {
+	retrieveMostPopularQuestionStandingSubmission,
+	retrieveRecentQuestionStandings
+} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+
 
 const Container=styled.div`
 	position:fixed;
@@ -18,6 +24,10 @@ const Container=styled.div`
 	box-shadow: 1px 1px 5px #C1C1C1;
 	overflow-y:auto;
 	padding:20px;
+
+	@media screen and (min-width:1920px){
+		top:23%;
+    }
 
 	@media screen and (max-width:1370px){
 		width:40%;
@@ -43,22 +53,59 @@ const ShadowContainer=styled.div`
 `;
 
 
-const CommunityOptions=({closeModal})=>{
+const CommunityOptions=({closeModal,displaySubmission,currentSymposiumId})=>{
+	const featuresPageConsumer=useContext(FeaturesContext);
+	let {
+		featuresPageSecondaryInformation,
+		updateSecondaryInformation
+	}=featuresPageConsumer;
+
+	const retrievePopularQuestionSubmissions=async()=>{
+		const {confirmation,data}=await retrieveMostPopularQuestionStandingSubmission(currentSymposiumId);
+		if(confirmation=="Success"){
+			const {message}=data;
+			featuresPageSecondaryInformation={
+				...featuresPageSecondaryInformation,
+				currentQuestionsStandings:message
+			}
+			updateSecondaryInformation(featuresPageSecondaryInformation);
+		}else{
+			alert('Unfortunately an error has occured when retrieving popular questions.Please try again');
+		}
+		closeModal();
+	}
+
+	const retrieveRecentQuestionSubmissions=async()=>{
+		const {confirmation,data}=await retrieveRecentQuestionStandings(currentSymposiumId);
+		if(confirmation=="Success"){
+			const {message}=data;
+			featuresPageSecondaryInformation={
+				...featuresPageSecondaryInformation,
+				currentQuestionsStandings:message
+			}
+			updateSecondaryInformation(featuresPageSecondaryInformation);
+		}else{
+			alert('Unfortunately an error has occured when retrieving recent questions.Please try again');
+		}
+		closeModal();
+	}
+
+
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer
 				onClick={()=>closeModal()}
 			/>
 			<Container>
-				<li style={{listStyle:"none",cursor:"pointer"}}>
+				<li style={{listStyle:"none",cursor:"pointer"}} onClick={()=>displaySubmission()}>
 					View all
 				</li>
 				<hr/>
-				<li style={{listStyle:"none",cursor:"pointer"}}>
+				<li style={{listStyle:"none",cursor:"pointer"}} onClick={()=>retrievePopularQuestionSubmissions()}>
 					Popular
 				</li>
 				<hr/>
-				<li style={{listStyle:"none",cursor:"pointer"}}>
+				<li style={{listStyle:"none",cursor:"pointer"}} onClick={()=>retrieveRecentQuestionSubmissions()}>
 					Recent
 				</li>
 			</Container>

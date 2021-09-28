@@ -27,7 +27,7 @@ const InputContainer=styled.textarea`
 
 
 
-const SymposiumResources=({closeModal,symposiumId,selectedResource})=>{
+const SymposiumResources=({closeModal,symposiumId,selectedResource,isGuestProfile})=>{
 	const [resources,changeResources]=useState([]);
 	const [createResources,changeCreateResourceDisplay]=useState(false);
 	const [highLightedResource,changeHighLightedResource]=useState(selectedResource);
@@ -46,7 +46,11 @@ const SymposiumResources=({closeModal,symposiumId,selectedResource})=>{
 	},[]);
 
 	const displayCreateResource=()=>{
-		changeCreateResourceDisplay(true);
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+		}else{
+			changeCreateResourceDisplay(true);
+		}
 	}
 
 	const closeCreationModal=()=>{
@@ -89,6 +93,7 @@ const SymposiumResources=({closeModal,symposiumId,selectedResource})=>{
 						<SelectedResource
 							closeModal={closeSelectedResourceModal}
 							highlightedSpecialist={highLightedResource}
+							isGuestProfile={isGuestProfile}
 						/>
 					}
 				</React.Fragment>

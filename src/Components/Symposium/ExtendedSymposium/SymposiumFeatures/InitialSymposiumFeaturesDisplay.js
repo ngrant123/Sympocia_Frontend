@@ -15,11 +15,12 @@ const symposiumFeatures=(props)=>{
 		socket,
 		closeSymposiumFeatureModal,
 		headerAnimation,
-		symposiumFeatureQuestions,
+		symposiumUniversityQuestions,
 		isGuestProfile,
 		displaySpecficSymposiumFeature,
 		isSimplified
 	}=props;
+	console.log(props);
 
 	if(selectedSymposiumTitle=="General"||
 		selectedSymposiumTitle=="Religion"||
@@ -41,7 +42,7 @@ const symposiumFeatures=(props)=>{
 		return {requestedComponent:<SpecificFeatureSymposium
 							  			symposium={selectedSymposiumTitle}
 							  			symposiumId={symposiumId}
-							  			questions={symposiumFeatureQuestions}
+							  			questions={symposiumUniversityQuestions}
 							  			isGuestProfile={isGuestProfile}
 							  			isSimplified={isSimplified}
 							  		/>

@@ -12,6 +12,7 @@ import {FeaturesContext} from "../../../FeaturesPageSet/FeaturesPageContext.js";
 const Container=styled.div`
 	width:100%;
 	height:100%;
+	padding:10px;
 
 	@media screen and (max-width:1370px){
 		#closeModalIcon{
@@ -60,20 +61,6 @@ const ProgressBarBeaconsExtended=({
 		updateSecondaryInformation,
 		updatePrimaryPosts
 	}=featuresPageConsumer;
-
-	const mobileCloseIcon=()=>{
-		return(
-			<div id="mobileCloseModalIcon" style={{cursor:"pointer",display:"none"}} >
-				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-					 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-					 stroke-linecap="round" stroke-linejoin="round">
-					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-					  <circle cx="12" cy="12" r="9" />
-					  <path d="M10 10l4 4m0 -4l-4 4" />
-				</svg>
-			</div>
-		)
-	}
 
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -182,24 +169,8 @@ const ProgressBarBeaconsExtended=({
 		)
 	}
 
-	const closeMobileIconPrompt=()=>{
-		return(
-			<div id="closeModalIcon" style={{marginBottom:"2%",cursor:"pointer",display:"none"}} 
-				onClick={()=>closeModal()}>
-				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-					 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-					 stroke-linecap="round" stroke-linejoin="round">
-					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-					  <circle cx="12" cy="12" r="9" />
-					  <path d="M10 10l4 4m0 -4l-4 4" />
-				</svg>
-			</div>
-		)
-	}
-
 	return(
 		<Container>
-			{mobileCloseIcon()}
 			{displayBeaconPosts==true?
 				<div>
 					{isLoading==true?
@@ -222,13 +193,9 @@ const ProgressBarBeaconsExtended=({
 					}
 				</div>:
 				<React.Fragment>
-					<div style={{display:"flex",justifyContent:"space-between"}}>
-						<p style={{fontSize:"24px"}}>
-							<b>Progress Bar</b>
-						</p>
-
-						{closeMobileIconPrompt()}
-					</div>
+					<p style={{fontSize:"24px"}}>
+						<b>Progress Bar</b>
+					</p>
 					<hr style={HorizontalLineCSS}/>
 					<BeaconProgressBar
 						acceptedBeacons={acceptedBeacons}

@@ -9,7 +9,7 @@ import {
 	SymposiumUniversityResourcesDropDown
 } from "../../FeaturesPageSet/Modals-Portals/DropDowns/SymposiumUniversitySideBarOptionsPortal.js";
 import PortalsHOC from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
-import SymposiumSpecialists from "../../FeaturesPageSet/Modals-Portals/SymposiumUniversity/Specialists/index.js";
+import SymposiumSpecialist from "../../FeaturesPageSet/Modals-Portals/SymposiumUniversity/Specialists/index.js";
 import SymposiumResources from "../../FeaturesPageSet/Modals-Portals/SymposiumUniversity/Resources/index.js";
 
 const SymposiumSpecilistsCSS={
@@ -58,7 +58,8 @@ const SymposiumUniversity=()=>{
 			specialists,
 			resources
 		},
-		currentSymposiumId
+		currentSymposiumId,
+		isGuestProfile
 	}=featuresPageConsumer;
 
 	console.log(specialists);
@@ -111,19 +112,22 @@ const SymposiumUniversity=()=>{
 					<React.Fragment>
 						{resources.map(data=>
 							<React.Fragment>
-								<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}} 
+
+								<div style={{padding:"10px",display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center",cursor:"pointer"}}
 									onClick={()=>triggerDisplaySelectedResources(data)}>
 									<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
 										style={{height:"40px",width:"46px",borderRadius:"50%"}}
 									/>
 									<div style={{display:"flex",flexDirection:"column",marginLeft:"10%"}}>
-										<p>
-											<b>{data.firstName}</b>
-										</p>
-										<p>{data.resourcePost}</p>
+										<div>
+											<p>
+												<b>{data.firstName}</b>
+											</p>
+										</div>
+										<p style={{maxHeight:"20px",overflow:"hidden"}}>{data.resourcePost}</p>
 									</div>
 								</div>
-								<hr/>
+								<hr style={HorizontalLineCSS}/>
 							</React.Fragment>
 						)}
 					</React.Fragment>
@@ -190,10 +194,11 @@ const SymposiumUniversity=()=>{
 					<PortalsHOC
 						closeModal={closeModal}
 						component={
-							<SymposiumSpecialists
+							<SymposiumSpecialist
 								closeModal={closeModal}
 								selectedSymposiumSpecialist={selectedSymposiumSpecialist}
 								currentSymposiumId={currentSymposiumId}
+								isGuestProfile={isGuestProfile}
 							/>
 						}
 					/>
@@ -213,6 +218,7 @@ const SymposiumUniversity=()=>{
 								closeModal={closeModal}
 								symposiumId={currentSymposiumId}
 								selectedResource={selectedResource}
+								isGuestProfile={isGuestProfile}
 							/>
 						}
 					/>

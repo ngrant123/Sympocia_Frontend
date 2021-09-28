@@ -13,7 +13,7 @@ const Container=styled.div`
 	padding:10px;
 `;
 
-const SpecialistsModal=({closeModal,selectedSymposiumSpecialist,currentSymposiumId})=>{
+const SpecialistsModal=({closeModal,selectedSymposiumSpecialist,currentSymposiumId,isGuestProfile})=>{
 	debugger;
 	console.log("Specialists Modal");
 	console.log(selectedSymposiumSpecialist);
@@ -49,7 +49,11 @@ const SpecialistsModal=({closeModal,selectedSymposiumSpecialist,currentSymposium
 	}
 
 	const triggerCreationModal=()=>{
-		changeDispalyCreation(true);
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+		}else{
+			changeDispalyCreation(true);
+		}
 	}
 
 	const displayHighLightedSpecialist=(specialistData)=>{
@@ -77,12 +81,14 @@ const SpecialistsModal=({closeModal,selectedSymposiumSpecialist,currentSymposium
 						<ExtendedSpecialist
 							selectedSymposiumSpecialist={highlightedSpecialist}
 							closeModal={triggerBackButton}
+							isGuestProfile={isGuestProfile}
 						/>:
 						<SpecialistsView
 							specialists={specialists}
 							triggerCreationModal={triggerCreationModal}
 							displayHighLightedSpecialist={displayHighLightedSpecialist}
 							closeModal={triggerBackButton}
+							isGuestProfile={isGuestProfile}
 						/>
 					}
 				</React.Fragment>

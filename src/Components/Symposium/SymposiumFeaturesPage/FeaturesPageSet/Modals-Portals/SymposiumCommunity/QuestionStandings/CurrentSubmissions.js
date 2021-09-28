@@ -42,7 +42,7 @@ const BackButtonCSS={
 }
 
 
-const CurrentSubmissions=({currentQuestions})=>{
+const CurrentSubmissions=({currentQuestions,currentSymposiumId,isGuestProfile})=>{
 	const [selectedSubmission,changeSelectedSubmission]=useState();
 
 	const mobileCloseIcon=()=>{
@@ -68,6 +68,8 @@ const CurrentSubmissions=({currentQuestions})=>{
 					</div>
 					<ExtendedSubmission
 						submissionData={selectedSubmission}
+						currentSymposiumId={currentSymposiumId}
+						isGuestProfile={isGuestProfile}
 					/>
 				</React.Fragment>:
 				<React.Fragment>
@@ -80,12 +82,13 @@ const CurrentSubmissions=({currentQuestions})=>{
 						<React.Fragment>
 							<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}
 								onClick={()=>changeSelectedSubmission(data)}>
-								<img src={NoProfilePicture}
+								<img src={data.profilePicture==null?
+											NoProfilePicture:data.profilePicture}
 									style={{height:"40px",width:"46px",borderRadius:"50%"}}
 								/>
 								<div style={{display:"flex",flexDirection:"column",marginLeft:"5%",width:"70%"}}>
 									<p>
-										<b>Nathan</b>
+										<b>{data.owner.firstName}</b>
 									</p>
 									<p>{data.question}</p>
 									<div style={VotesCSS}>

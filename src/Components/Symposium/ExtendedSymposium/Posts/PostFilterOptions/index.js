@@ -12,6 +12,8 @@ import {PostOptions} from "../../indexCSS.js";
 import SearchIcon from '@material-ui/icons/Search';
 import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts.js";
 import PostsOptionsPortal from "../../Modals/PostOptionsPortal.js";
+import {Link} from "react-router-dom";
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 
 const MobilePostOptionsButton={
      backgroundColor:"white",
@@ -33,6 +35,7 @@ const PostOptionsCSS={
 }
 
 const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,displayBeacon})=>{
+    console.log(state);
     const [displayPostOptionsPortal,changePostOptionsDisplayPortal]=useState(false);
 
     const searchPromptTrigger=async(event)=>{
@@ -128,6 +131,13 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
                     displayPhoneUI={state.displayPhoneUI}
                     selectedSymposiumTitle={state.selectedSymposiumTitle}
                 />
+                {state.displayDesktopUI==false &&(
+                    <Link to={{pathname:`/symposiumFeatures/${state.symposiumId}`}}>
+                        <MeetingRoomIcon
+                            style={{fontSize:30,color:"#333",marginLeft:"35%"}}
+                        />
+                    </Link>
+                )}
             </SearchOptionContainer>
 
             {state.headerAnimation==true && (

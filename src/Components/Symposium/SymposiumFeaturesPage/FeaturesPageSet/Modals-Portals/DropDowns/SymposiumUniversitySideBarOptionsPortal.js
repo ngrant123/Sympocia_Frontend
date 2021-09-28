@@ -24,6 +24,10 @@ const SpecialistContainer=styled.div`
 	overflow-y:auto;
 	padding:20px;
 
+	@media screen and (min-width:1920px){
+		top:20%;
+    }
+
 	@media screen and (max-width:1370px){
 		width:40%;
 		top:25%;
@@ -54,6 +58,10 @@ const ResourcesContainer=styled.div`
 	box-shadow: 1px 1px 5px #C1C1C1;
 	overflow-y:auto;
 	padding:20px;
+
+	@media screen and (min-width:1920px){
+		top:35%;
+    }
 
 	@media screen and (max-width:1370px){
 		width:40%;

@@ -144,11 +144,8 @@ const DescriptionModal=(props)=>{
 	}
 
 	const triggerOnChangeTimeStamp=(timeStampEvent)=>{
-		debugger;
-		console.log(timeStampEvent);
 		changeCalendarTimeStamp(timeStampEvent);
 		var date = new Date(timeStampEvent.toString());
-		console.log(date);
 		var newDate= (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
 		changeDisplayDate(newDate);
 		changeChampionExpirationDateDisplay(false)

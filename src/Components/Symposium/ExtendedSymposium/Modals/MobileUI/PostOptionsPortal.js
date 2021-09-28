@@ -182,14 +182,14 @@ const MobilePostOptionsPortal=(props)=>{
 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 						<li onClick={()=>triggerSymposiumFeatures()} 
 							style={{listStyle:"none"}}>
-							Symposium Features
+							Symposium University
 						</li>
 					</a>
 					<hr/>
 
 					<a href="javascript:void(0);" style={{textDecoration:"none"}}>
 						<li onClick={()=>triggerHighlightedQuestions()} style={{listStyle:"none"}}>
-							Highlighted Questions
+							Community Questions
 						</li>
 					</a>
 					<hr/>

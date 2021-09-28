@@ -22,6 +22,10 @@ const Container=styled.div`
 	box-shadow: 1px 1px 5px #C1C1C1;
 	overflow-y:auto;
 
+	@media screen and (min-width:1920px){
+		top:15%;
+    }
+
 	@media screen and (max-width:1370px){
 		width:60%;
 		top:15%;
@@ -34,6 +38,14 @@ const Container=styled.div`
 		overflow-y:scroll;
 		left:5%;
 		width:90%;
+		top:25%;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		top:30%;
+	}
+
+	@media screen and (max-width:600px) and (max-height:350px) and (orientation: landscape) {
 		top:25%;
 	}
 `;

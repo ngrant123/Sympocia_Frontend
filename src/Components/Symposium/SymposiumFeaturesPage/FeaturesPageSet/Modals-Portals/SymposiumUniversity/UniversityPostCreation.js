@@ -45,6 +45,10 @@ const UniversityPostCreation=({closeModal,selectedUploadType,symposiumId,questio
 		closeModal();
 	}
 
+	const closeCreationModal=()=>{
+		closeModal();
+	}
+
 	const postModalDecider=()=>{
 		const postUniversityProps={
 			closeModal,
@@ -71,6 +75,7 @@ const UniversityPostCreation=({closeModal,selectedUploadType,symposiumId,questio
 				return <TextPostUpload
 							{...postUniversityProps}
 							displayCurrentLevel={selectedTextKnowledgeLevel}
+							closeCreationModal={closeCreationModal}
 						/>
 			}
 

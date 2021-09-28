@@ -107,15 +107,6 @@ const OptionsCSS={
   borderColor:"#3898ec"
 }
 const NonMiscellaneousRelatedFeatures=({symposium,questions})=>{
-	if(questions!=null){
-		var {
-			audioQuestion,
-			imageQuestion,
-			regularPostQuestion,
-			videoQuestion
-		}=questions;
-	}
-	
 
 	const [displayArtFeaturesPortal,changeDisplayArtModal]=useState(false);
 	const [displayModalType,changeModalType]=useState();

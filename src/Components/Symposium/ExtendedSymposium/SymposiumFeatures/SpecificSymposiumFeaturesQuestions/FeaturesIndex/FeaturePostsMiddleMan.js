@@ -52,16 +52,14 @@ const ShadowContainer=styled.div`
 `;
 
 
-const ModalDecider=({closeModal,modalType,symposium,questionIndex,symposiumId,question,selectedPostId})=>{
+const ModalDecider=({closeModal,modalType,symposium,symposiumId,selectedQuestion})=>{
 	const dispatch=useDispatch();
 	const modalDecider=(symposiumInformation)=>{
 		const postModalProps={
 			symposium,
 			modalType,
-			questionIndex,
-			question,
+			selectedQuestion,
 			symposiumId,
-			selectedPostId,
 			isOligarch:symposiumInformation.isOligarch,
 			deleteSpecificSymposiumAnswerTrigger
 		}
@@ -98,7 +96,7 @@ const ModalDecider=({closeModal,modalType,symposium,questionIndex,symposiumId,qu
 		const {confirmation,data}=await deleteSpecificSymposiumAnswer({
 											postType:modalType,
 											symposiumId,
-											symposiumQuestionId:selectedPostId,
+											symposiumQuestionId:selectedQuestionId,
 											symposiumAnswerId:_id,
 											postAnswerLevel:postLevel,
 											userId:personalInformation.id,

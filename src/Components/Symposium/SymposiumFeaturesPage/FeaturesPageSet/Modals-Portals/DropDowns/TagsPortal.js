@@ -9,7 +9,7 @@ import {
 
 const Container=styled.div`
 	position:fixed;
-	left:10%;
+	left:5%;
 	top:50%;
 	height:30%;
 	width:20%;
@@ -23,6 +23,10 @@ const Container=styled.div`
 	box-shadow: 1px 1px 5px #C1C1C1;
 	overflow-y:auto;
 	padding:20px;
+
+	@media screen and (min-width:1920px){
+		top:22%;
+    }
 
 	@media screen and (max-width:1370px){
 		width:40%;
@@ -47,7 +51,7 @@ const ShadowContainer=styled.div`
 	top:0px;
 `;
 
-const TagsPortal=({closeModal,ownerCreationTagStatus,symposiumId})=>{
+const TagsPortal=({closeModal,ownerCreationTagStatus,symposiumId,isGuestProfile})=>{
 	const featuresPageConsumer=useContext(FeaturesContext);
 	let {
 		featuresPageSecondaryInformation,
@@ -55,8 +59,12 @@ const TagsPortal=({closeModal,ownerCreationTagStatus,symposiumId})=>{
 	}=featuresPageConsumer;
 
 	const displayBeaconsTagCreationModal=()=>{
-		featuresPageConsumer.triggerBeaconTagsCreationDisplay();
-		closeModal();
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+		}else{
+			featuresPageConsumer.triggerBeaconTagsCreationDisplay();
+			closeModal();
+		}
 	}
 
 	const displayExtendedTagsModal=()=>{

@@ -1,4 +1,4 @@
-import React,{useContext,useState} from "react";
+import React,{useContext,useState,useEffect} from "react";
 import styled from "styled-components";
 import {PostsHeader} from "./index.js";
 import {FeaturesContext} from "../../FeaturesPageSet/FeaturesPageContext.js";
@@ -19,8 +19,22 @@ import RegularPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Reg
 const Container=styled.div`
 	display:flex;
 	flex-direction:column;
-	width:"100%"
+	width:100%;
+
+	@media screen and (max-width:650px){
+		#headerText{
+			font-size:15px !important;
+			width:60% !important;
+			margin-right:25%;
+		}
+	}
 `;
+
+const PostsContainer=styled.div`
+	margin-top:2%;
+	width:100%;
+`;
+
 
 const DropDownCSS={
 	borderRadius:"50%",
@@ -50,8 +64,22 @@ const CurrentQuestion=styled.div`
 `;
 
 
+const NextButtonCSS={
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px",
+	color:"#3898ec",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	cursor:"pointer"
+}
 
-const SymposiumCommunity=({featuresType})=>{
+
+
+const SymposiumCommunity=({featuresType,isLoading})=>{
 	const featuresPageConsumer=useContext(FeaturesContext);
 	const [currentQuestionIndex,changeCurrentQuestionIndex]=useState(0);
 	const [displayCommunityPostCreation,changeDisplayCommunityPostCreation]=useState(false);
@@ -59,26 +87,48 @@ const SymposiumCommunity=({featuresType})=>{
 	const [selectedPost,changeSelectedPost]=useState();
 
 	const {
-		featuresPagePrimaryInformation:{
-			headerQuestions,
-			competitionEndDate,
-			responses
-		},
+		featuresPagePrimaryInformation,
+		updatePrimaryInformation,
 		isDesktop,
-		currentSymposiumId
+		currentSymposiumId,
+		endOfPostIndicator,
+		loadingNewPostsIndicator,
+		fetchPosts,
+		isGuestProfile
 	}=featuresPageConsumer;
 
+	const {
+		headerQuestions,
+		competitionEndDate,
+		responses
+	}=featuresPagePrimaryInformation;
+
+	useEffect(()=>{
+		triggerFetchNextPosts(currentQuestionIndex,false);
+	},[currentQuestionIndex])
+
+	const updateCurrentIndexPrimaryInformation=(currentIndex)=>{
+		debugger;
+		let communityPrimaryInformation=featuresPagePrimaryInformation;
+		communityPrimaryInformation={
+			...communityPrimaryInformation,
+			currentIndex:currentIndex
+		}
+		updatePrimaryInformation(communityPrimaryInformation);
+	}
 
 
 	const incrementQuestionIndex=()=>{
 		let currentCounterIndex=currentQuestionIndex;
-		currentCounterIndex++
+		currentCounterIndex++;
+		updateCurrentIndexPrimaryInformation(currentCounterIndex);
 		changeCurrentQuestionIndex(currentCounterIndex);
 	}
 
 	const decrementQuestionIndex=()=>{
 		let currentCounterIndex=currentQuestionIndex;
-		currentCounterIndex--
+		currentCounterIndex--;
+		updateCurrentIndexPrimaryInformation(currentCounterIndex);
 		changeCurrentQuestionIndex(currentCounterIndex);
 	}
 
@@ -91,7 +141,9 @@ const SymposiumCommunity=({featuresType})=>{
 		debugger;
 		const postProps={
 			triggerDisplaySelectedPost,
-			posts:responses
+			posts:responses,
+			isBeaconParentComponent:false,
+			featurePageType:"Community"
 		}
 		switch(questionType){
 			case "Image":{
@@ -132,6 +184,14 @@ const SymposiumCommunity=({featuresType})=>{
 		)
 	}
 
+	const triggerDisplayPostCreation=()=>{
+		if(isGuestProfile==true){
+			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
+		}else{
+			changeDisplayCommunityPostCreation(true)
+		}
+	}
+
 	const desktopHeaders=()=>{
 		return(
 			<div style={{display:"flex",flexDirection:"row",alignItems:"center",marginTop:"2%"}}>
@@ -146,7 +206,7 @@ const SymposiumCommunity=({featuresType})=>{
 						{headerQuestions[currentQuestionIndex].question}
 					</p>
 					<BorderColorIcon
-						onClick={()=>changeDisplayCommunityPostCreation(true)}
+						onClick={()=>triggerDisplayPostCreation()}
 						id="postCreationIcon"
 						style={{fontSize:"30",color:"#C8B0F4",marginLeft:"2%",cursor:"pointer"}}
 					/>
@@ -234,6 +294,17 @@ const SymposiumCommunity=({featuresType})=>{
 		)
 	}
 
+	const triggerFetchNextPosts=(index,isNextPostsRequest)=>{
+		debugger;
+		const communityFetchParams={
+			currentQuestionId:headerQuestions[index==null?currentQuestionIndex:index]._id,
+			postType:headerQuestions[index==null?currentQuestionIndex:index].questionType,
+			isNextPostsRequest
+		}
+		fetchPosts("Community",communityFetchParams);
+	}
+
+
 	return(
 		<Container>
 			{selectedPostDisplay()}
@@ -251,7 +322,24 @@ const SymposiumCommunity=({featuresType})=>{
 			}
 			
 			<hr style={HorizontalLineCSS}/>
-			{postsDisplayFunctionality(headerQuestions[currentQuestionIndex])}
+			<PostsContainer>
+				{loadingNewPostsIndicator==true?
+					<p>Loading...</p>:
+					<>
+						{postsDisplayFunctionality(headerQuestions[currentQuestionIndex])}
+						{endOfPostIndicator==false &&(
+							<React.Fragment>
+								{isLoading==true?
+									<p>Loading...</p>:
+									<div onClick={()=>triggerFetchNextPosts(null,true)} style={NextButtonCSS}>
+										Next
+									</div>
+								}
+							</React.Fragment>
+						)}
+					</>
+				}
+			</PostsContainer>
 		</Container>
 	)
 }

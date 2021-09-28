@@ -14,7 +14,7 @@ import {
 		exploreVideoPosts,
 		exploreBlogPosts,
 		exploreRegularPosts
-	} from "../../../Actions/Requests/HomePageAxiosRequests/HomePageGetRequests.js";
+	} from "../../../Actions/Requests/ExplorePageRequests/ExplorePageRetrieval.js";
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 import {
 		setPersonalProfileAccessToken,
