@@ -108,7 +108,7 @@ const SymposiumCommunity=({featuresType,isLoading})=>{
 	},[currentQuestionIndex])
 
 	const updateCurrentIndexPrimaryInformation=(currentIndex)=>{
-		debugger;
+		
 		let communityPrimaryInformation=featuresPagePrimaryInformation;
 		communityPrimaryInformation={
 			...communityPrimaryInformation,
@@ -138,7 +138,7 @@ const SymposiumCommunity=({featuresType,isLoading})=>{
 	}
 
 	const postsDisplayFunctionality=({questionType})=>{
-		debugger;
+		
 		const postProps={
 			triggerDisplaySelectedPost,
 			posts:responses,
@@ -251,7 +251,7 @@ const SymposiumCommunity=({featuresType,isLoading})=>{
 
 
 	const selectedPostDisplay=()=>{
-		debugger;
+		
 		let postPortalComponent;
 		switch(headerQuestions[currentQuestionIndex].questionType){
 			case "Image":{
@@ -295,7 +295,7 @@ const SymposiumCommunity=({featuresType,isLoading})=>{
 	}
 
 	const triggerFetchNextPosts=(index,isNextPostsRequest)=>{
-		debugger;
+		
 		const communityFetchParams={
 			currentQuestionId:headerQuestions[index==null?currentQuestionIndex:index]._id,
 			postType:headerQuestions[index==null?currentQuestionIndex:index].questionType,

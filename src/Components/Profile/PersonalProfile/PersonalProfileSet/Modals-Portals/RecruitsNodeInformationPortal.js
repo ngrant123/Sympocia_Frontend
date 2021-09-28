@@ -222,7 +222,6 @@ const NodeInformationPortal=({
 	const submitInformation=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const name=document.getElementById("name").value;
 		const description=document.getElementById("description").value;
-		debugger;
 
 		let isNodeVideoDescriptionAltered;
 		if(isVideoDescriptionCleared==true){

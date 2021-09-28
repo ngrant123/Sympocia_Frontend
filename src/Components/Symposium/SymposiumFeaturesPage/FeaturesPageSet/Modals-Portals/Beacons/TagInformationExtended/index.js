@@ -57,7 +57,6 @@ const TagInformationExtendedDisplay=({closeModal,symposiumId,ownerId})=>{
 			const {confirmation,data}=await getOwnerTags(ownerId,symposiumId);
 			if(confirmation=="Success"){
 				const {message}=data;
-				debugger;
 				changeTags([...message]);
 			}else{
 				alert('Unfortunately there has been an error retrieving your tags. Please try again');

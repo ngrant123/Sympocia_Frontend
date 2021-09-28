@@ -93,7 +93,7 @@ const ProgressBarBeaconsExtended=({
 
 
 	const fetchBeaconsAccepted=async(postType,currentPostTokenManagement)=>{
-		debugger;
+		
 		const {confirmation,data}=await getTargetIdAcceptedBeacons({
 			ownerId:personalInformation.id,
             symposiumId:currentSymposiumId,
@@ -117,7 +117,7 @@ const ProgressBarBeaconsExtended=({
 	}
 
 	const triggerDisplayPosts=async(retrievalType,postType)=>{
-		debugger;
+		
 		let currentPostToken=currentPostTokenManagement;
 		if(postType!=selectedPostType){
 			currentPostToken=uuidv4();

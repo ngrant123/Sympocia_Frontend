@@ -462,7 +462,6 @@ export const getPromotedRecruits=async({id,accessToken})=>{
 				authorization:accessToken
 			}
 		});
-		debugger;
 		const {data}=promotedRecruits;
 		return data;
 	}catch(err){

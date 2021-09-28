@@ -119,7 +119,7 @@ const BeaconPostCreation=({
 	isDesktop})=>{
 
 	const updateCurrentBeaconPosts=(beaconPostType,beacon)=>{
-		debugger;
+		
 		let currentBeaconPrimaryInformation=featuresPagePrimaryInformation;
 		const {posts}=currentBeaconPrimaryInformation;
 		posts.splice(0,0,beacon);
@@ -164,7 +164,7 @@ const BeaconProgressBar=({
 	const beaconInteractedWith=answeredBeacons+acceptedBeacons;
 
 	useState(()=>{
-		debugger;
+		
 		let progressBarCompletion;
 		let completedBeaconsAnsweredPercentage=(beaconInteractedWith)/totalBeacon;
 		if(completedBeaconsAnsweredPercentage==1)
@@ -197,7 +197,7 @@ const BeaconProgressBar=({
 	}
 
 	const constructNodeElements=()=>{
-		debugger;
+		
 	    const ProgressBarSteps=[];
 	    for(var i=0;i<2;i++){
 	    	if(i==0){

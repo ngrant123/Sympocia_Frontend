@@ -255,7 +255,6 @@ const ImagePostUpload=({
 		
 		if(confirmation=="Success"){
 			let {message}=data;
-			debugger;
 			message={
 				...message,
 				imgUrl
@@ -378,7 +377,6 @@ const ImagePostModal=(props)=>{
 		questionType
 	}=selectedQuestion;
 
-	console.log(props);
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [posts,changePosts]=useState([]);
 	const [symposiumIdState,changeSymposiumIdState]=useState();

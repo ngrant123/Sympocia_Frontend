@@ -43,7 +43,6 @@ const TextPostCSS={
 }
 
 const RegularPosts=({posts,triggerDisplaySelectedPost,isBeaconParentComponent})=>{
-	console.log(posts);
 	return(
 		<Container>
 			{posts.length==0?

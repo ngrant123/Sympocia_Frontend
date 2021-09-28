@@ -38,8 +38,6 @@ const BeaconPostExtended=({
 	updateBeaconAnsweredStatus,
 	updateBeaconUpdatedStatus
 })=>{
-
-	debugger;
 	const [displaySelectedPost,changeDisplaySelectedPost]=useState(true);
 	const [displayExtendReplyBeacon,changeDisplayReplyBeacon]=useState(false);
 	const [selectedPostData,changeSelectedPostData]=useState(postData);
@@ -50,7 +48,7 @@ const BeaconPostExtended=({
 	const [isFetchingNextPosts,changeIsFetchingNextPosts]=useState(false);
 	const [displayReplies,changeDisplayReplies]=useState(false);
 	const [currentPostToken,changeCurrentPostToken]=useState();
-	console.log(selectedPostData);
+
 	const props={
 		postType,
 		isOligarch,
@@ -118,7 +116,6 @@ const BeaconPostExtended=({
 		if(increaseCounterIndicator==true){
 			counter+=1;
 		}
-		debugger;
 		const {confirmation,data}=await retrieveBeaconReplies(
 											symposiumId,
 											postType,
@@ -153,7 +150,6 @@ const BeaconPostExtended=({
 	}
 
 	const triggerBeaconUpdateStatus=(beaconId,beaconUpdateAcceptStatus)=>{
-		debugger;
 		let beaconReplies=replies;
 		for(var i=0;i<beaconReplies.length;i++){
 

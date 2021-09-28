@@ -22,7 +22,6 @@ const ButtonCSS={
 
 
 const Resources=({resources,displayCreateResource,displayHighLightedResource})=>{
-	console.log(resources);
 	return(
 		<Container>
 			<p style={{fontSize:"25px"}}>

@@ -52,8 +52,6 @@ const HorizontalLineCSS={
 
 
 const SymposiumSpecialistsExtended=({closeModal,selectedSymposiumSpecialist,currentSymposiumId,isGuestProfile})=>{
-	console.log(isGuestProfile);
-	console.log(selectedSymposiumSpecialist);
 	const [specialists,changeSpecialists]=useState([]);
 	const [highlightedSpecialist,changeHighLightedSpecialist]=useState(selectedSymposiumSpecialist);
 	const [hasProfilePreviouslyInteractedWithSpecialist,changeInteractionStatus]=useState(false);

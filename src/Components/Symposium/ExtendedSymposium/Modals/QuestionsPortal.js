@@ -457,7 +457,6 @@ const QuestionUploadOption=({
 	}
 
 	const createPost=()=>{
-		console.log(currentQuestionType);
 		if(currentQuestionType=="Image"){
 			return <React.Fragment>
 						{displayUploadScreen==true?
@@ -602,7 +601,6 @@ const QuestionUploadOption=({
 
 
 const QuestionsPortal=(props)=>{
-	console.log(props);
 	const ownerInformation=useSelector(state=>state.personalInformation);
 	const userId=useSelector(state=>state.personalInformation.id);
 	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);

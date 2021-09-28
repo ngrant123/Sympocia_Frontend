@@ -62,9 +62,6 @@ const SymposiumUniversity=()=>{
 		isGuestProfile
 	}=featuresPageConsumer;
 
-	console.log(specialists);
-	console.log(resources);
-
 	const triggerDisplaySelectedSpecialist=(specialistData)=>{
 		changeSelectedSymposiumSpecialist(specialistData);
 		changeSpecialistExtendedModalDisplay(true);

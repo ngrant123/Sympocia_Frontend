@@ -72,7 +72,6 @@ const DropDownCSS={
 
 
 const Videos=({posts,triggerDisplaySelectedPost,featurePageType})=>{
-	console.log(posts);
 	return(
 		<Container>
 			{posts.map((data,index)=>

@@ -533,7 +533,6 @@ export const getSymposiumTags=async(symposiumId)=>{
 
 export const getSymposiumId=async(name)=>{
 	try{
-		debugger;
 		const symposiumResponse=await axios.get(`${SearchUrl}/getSymposiumId`,{
 			params:{
 				symposiumName:name

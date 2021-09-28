@@ -110,7 +110,6 @@ const Posts=({
 	const [selectedPostIndex,changeSelectedPostIndex]=useState();
 
 	const triggerDisplaySelectedPost=(selectedPost,index)=>{
-		console.log("Trigger display beacon post");
 		changeSelectedPostIndex(index);
 		changeSelectedBeaconPost(selectedPost);
 		changeSelectedBeaconPostDisplay(true);
@@ -142,7 +141,7 @@ const Posts=({
 	}
 
 	const updateBeaconUpdatedStatus=(beaconId,beaconUpdateAcceptStatus)=>{
-		debugger;
+		
 		let beaconPrimaryInformationPosts=posts;
 		for(var i=0;i<beaconPrimaryInformationPosts.length;i++){
 
@@ -241,10 +240,8 @@ const BeaconPosts=({featuresType,isLoading})=>{
 	const{ progressBarInformation }=featuresPageSecondaryInformation;
 	const [displayMobileProgressBar,changeDisplayMobileProgressBar]=useState(!isDesktop);
 
-	console.log(isOligarchStatus)
-
 	const displaySpecificBeaconPostType=(selectedPostType)=>{
-		debugger;
+		
 		changePostType(selectedPostType);
 		triggerFetchPostsNewPostType(selectedPostType);
 	}
@@ -253,7 +250,7 @@ const BeaconPosts=({featuresType,isLoading})=>{
 
 
 	const triggerFetchNextPosts=()=>{
-		debugger;
+		
 		const beaconFetchParams={
 			postType,
 			isNextPostsRequest:true

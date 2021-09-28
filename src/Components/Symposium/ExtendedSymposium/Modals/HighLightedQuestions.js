@@ -88,7 +88,6 @@ class HighLightedQuestions extends Component{
 
 
 	constructResponses=(question)=>{
-		debugger;
 		var element;
 		if(this.state.responses.length==0){
 			return <p> No responses yet :(. Click on the question and click the pencil icon to make a post </p>
@@ -181,7 +180,6 @@ class HighLightedQuestions extends Component{
 	}
 
 	triggerRetrieveCommunityPosts=async(currentCounter)=>{
-		debugger;
 		this.alterIsLoading(true);
 		const communityGetParams={
 			symposiumId:this.props.symposiumId,

@@ -14,9 +14,6 @@ const Container=styled.div`
 `;
 
 const SpecialistsModal=({closeModal,selectedSymposiumSpecialist,currentSymposiumId,isGuestProfile})=>{
-	debugger;
-	console.log("Specialists Modal");
-	console.log(selectedSymposiumSpecialist);
 
 	const [highlightedSpecialist,changeHighLightedSpecialist]=useState(selectedSymposiumSpecialist);
 	const [displayCreation,changeDispalyCreation]=useState(false);

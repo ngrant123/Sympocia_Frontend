@@ -35,7 +35,6 @@ const PostOptionsCSS={
 }
 
 const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,displayBeacon})=>{
-    console.log(state);
     const [displayPostOptionsPortal,changePostOptionsDisplayPortal]=useState(false);
 
     const searchPromptTrigger=async(event)=>{

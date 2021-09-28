@@ -125,8 +125,7 @@ const ButtonCSS={
 	marginTop:"5%"
 }
 const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestProfile})=>{
-	console.log(isGuestProfile);
-	
+
 	const [isSubmissionVotedOn,changeSubmissionVoteStatus]=useState(false);
 	const [displaySubmissionOptions,changeDisplayOptionsModal]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);

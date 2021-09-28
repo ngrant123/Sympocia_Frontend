@@ -294,14 +294,12 @@ const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop,isOligarch})=>{
 		}
 	}
 	const closeExtendedBeaconModal=()=>{
-		console.log("Back button clicked");
 		changeDisplayCreationModal(false);
 		changePostDisplayModal(true);
 	}
 
 
 	const closeCreationModal=()=>{
-		console.log("Back button clicked");
 		changeDisplayCreationModal(false);
 		changeDisplayExtendedModal(false);
 		changePostDisplayModal(true);

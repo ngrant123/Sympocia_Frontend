@@ -114,8 +114,6 @@ const SelectedPost=({
 		originalBeaconOwnerId,
 		updateBeaconUpdatedStatus
 	})=>{
-	console.log(post);
-	console.log(isOligarch);
 	const [beaconOptionsDropDownModal,changeBeaconOptionsModal]=useState(false);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);

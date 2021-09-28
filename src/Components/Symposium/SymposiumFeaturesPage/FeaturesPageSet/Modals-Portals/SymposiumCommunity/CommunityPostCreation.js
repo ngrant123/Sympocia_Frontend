@@ -24,7 +24,6 @@ const CommunityPostCreation=(props)=>{
 	}=featuresPageConsumer;
 
 	const updatePosts=(uploadedPost)=>{
-		debugger;
 		let currentReplies=responses;
 		currentReplies.splice(0,0,uploadedPost);
 		updatePrimaryPosts(currentReplies,false);

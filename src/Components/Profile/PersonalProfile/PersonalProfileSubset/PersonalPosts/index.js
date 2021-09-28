@@ -228,7 +228,6 @@ const SymposiumDropDownCSS={
 */
 
 const PersonalPostsIndex=(props)=>{
-	debugger;
 
 	const [displayImages,changeDisplayForImages]=useState(true);
 	const [displayVideos,changeDisplayForVideos]=useState(false);
@@ -327,8 +326,14 @@ const PersonalPostsIndex=(props)=>{
 
 // Should be refactored in the future everytime i look at it i want to kill myself
 
-	const handlePostsClick=async({kindOfPost,id,isAccessTokenUpdated,updatedAccessToken,postCounter,requestedFriendsGaugeNodeId})=>{
-		debugger;
+	const handlePostsClick=async({
+		kindOfPost,
+		id,
+		isAccessTokenUpdated,
+		updatedAccessToken,
+		postCounter,
+		requestedFriendsGaugeNodeId})=>{
+
 		changeIsLoadingReloadedPosts(true);
 		unSelectButtonsCSS();
 		const postFetchRequest={
@@ -365,7 +370,6 @@ const PersonalPostsIndex=(props)=>{
 					}
 					changeEndOfPostsDBIndicator(true);
 				}else{
-					debugger;
 					let {
 						images,
 						crownedImage
@@ -377,7 +381,6 @@ const PersonalPostsIndex=(props)=>{
 						crownedImage:crownedPost,
 						images:newImages
 					}
-					console.log(imagePost);
 					changeImagePost(imagePost);
 					changeIsLoadingNewPosts(false)
 				}
@@ -645,7 +648,6 @@ const PersonalPostsIndex=(props)=>{
 	}
 
 	const triggerPostDecider=(postType,profileId,counter,requestedFriendsGaugeNodeId)=>{
-		debugger;
 		if(postType!=currentPostType || isFilteredPostsActivated==true || isSearchFilterActivated==true
 			|| props.currentRequestedFriendsGaugeNodeId!=currentRequestedFriendsGaugeNodeId){
 			if(postType!=currentPostType)

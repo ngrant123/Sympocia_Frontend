@@ -33,7 +33,6 @@ const ButtonCSS={
 
 
 const SpecialistsView=({specialists,triggerCreationModal,displayHighLightedSpecialist})=>{
-	console.log(specialists);
 
 	return(
 		<Container>

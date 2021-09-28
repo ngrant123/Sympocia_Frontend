@@ -228,7 +228,6 @@ const Creation=({
 			}
 			const {confirmation,data}=uploadedBeaconResult;
 			if(confirmation=="Success"){
-				debugger;
 				let {message}=data;
 				if(currentSubmittedPostType=="Images" || currentSubmittedPostType=="Videos" ||
 					currentSubmittedPostType=="Image" || currentSubmittedPostType=="Video"){
@@ -460,7 +459,6 @@ const Creation=({
 	}
 
 	const removeSelectedTag=(_id)=>{
-		debugger;
 		let currentTags=selectedTags;
 		for(var i=0;i<currentTags.length;i++){
 			if(currentTags[i].tagReferenceId==_id){

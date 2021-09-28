@@ -154,9 +154,6 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 	const [currentPostToken,changePostToken]=useState(currentPostManagmentToken);
 	const [hideNextButton,changeDisplayHideButton]=useState(endOfPostIndicator);
 	const [isLoadingText,changeIsLoadingText]=useState(isLoading);
-
-	console.log(totalPostCount);
-
 	const {
 		headerQuestions,
 		currentPostQuestionReplies
@@ -180,7 +177,7 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 
 
 	const fetchSymposiumUniversityPost=async(isNextPostsRequest)=>{
-		debugger;
+		
 		changeIsLoadingText(true);
 		let postToken=currentPostToken;
 		if(isNextPostsRequest==false){
@@ -223,7 +220,7 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 
 
 	const incrementQuestionIndex=()=>{
-		debugger;
+		
 		let currentCounterIndex=currentQuestionIndex;
 		currentCounterIndex++;
 		updateCurrentIndexPrimaryInformation(currentCounterIndex);
@@ -243,7 +240,7 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 	}
 
 	const postsDisplayFunctionality=()=>{
-		debugger;
+		
 		const postProps={
 			triggerDisplaySelectedPost,
 			posts:currentPostQuestionReplies,
@@ -421,7 +418,7 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 	}
 
 	const selectedPostDisplay=()=>{
-		debugger;
+		
 		let postPortalComponent;
 		switch(headerQuestions[currentQuestionIndex].questionType){
 			case "Image":{

@@ -142,7 +142,7 @@ const MobileCreation=({featurePageType,isGuestProfile})=>{
 	const [hideDropDownMenu,changeHideChangeDownMenu]=useState(false);
 
 	const triggerDisplayCreationModal=(e)=>{
-		debugger;
+		
 		if(isGuestProfile==true){
 			changeHideChangeDownMenu(true);
 			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');

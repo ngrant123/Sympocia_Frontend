@@ -104,7 +104,6 @@ const PostCSS={
 }
 
 const Images=({posts,triggerDisplaySelectedPost,featurePageType})=>{
-	console.log(posts);
 	return(
 		<Container>
 			{posts.length==0?

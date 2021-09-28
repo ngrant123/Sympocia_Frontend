@@ -20,7 +20,6 @@ const symposiumFeatures=(props)=>{
 		displaySpecficSymposiumFeature,
 		isSimplified
 	}=props;
-	console.log(props);
 
 	if(selectedSymposiumTitle=="General"||
 		selectedSymposiumTitle=="Religion"||

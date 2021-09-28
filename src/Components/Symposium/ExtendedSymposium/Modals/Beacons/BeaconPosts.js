@@ -141,9 +141,6 @@ const BeaconPosts=({
 				beaconOwnerId,
 				originalBeaconPostId
 			})=>{
-	console.log(beaconOwnerId);
-	console.log(isOligarch);
-	console.log(posts);
 	const [currentPost,changePosts]=useState([...posts]);
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -178,7 +175,6 @@ const BeaconPosts=({
 		updatedAccessToken,
 		postRef})=>{
 
-		debugger;
 		const {confirmation,data}=await deleteBeaconReply({
 			symposiumId,
 			beaconId,

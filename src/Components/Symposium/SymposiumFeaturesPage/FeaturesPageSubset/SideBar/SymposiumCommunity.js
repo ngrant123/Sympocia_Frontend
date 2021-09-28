@@ -85,7 +85,7 @@ const CountDownTimer=({countDownDateMilliSeconds,triggerDisplayCompetitionEndMod
 
 	const constructTimer=(countDownDateMilliSeconds)=>{
 		let countDownId=setInterval(()=>{
-			debugger;
+			
 			var now = new Date().getTime();
 			var distance = countDownDateMilliSeconds - (now);
 
@@ -98,7 +98,7 @@ const CountDownTimer=({countDownDateMilliSeconds,triggerDisplayCompetitionEndMod
 			changeTimeCounterDowm(countDown);
 
 			if (distance < 0) {
-				debugger;
+				
 				clearInterval(countDownId);
 				changeTimeCounterDowm("Finished")
 				if(triggerDisplayCompetitionEndModal!=null)
@@ -141,10 +141,7 @@ const SymposiumCommunity=()=>{
 		submissionCount,
 		currentQuestionsStandings
 	}=featuresPageSecondaryInformation;
-
-	console.log(featuresPageConsumer);
-	debugger;
-
+	
 	var date = new Date(competitionEndDate);
 	var options = {
         year: 'numeric', month: 'numeric', day: 'numeric',

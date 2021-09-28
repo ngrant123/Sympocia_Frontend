@@ -5,7 +5,6 @@ import PostCreation from "../../../FeaturesPageSet/Modals-Portals/SymposiumCommu
 import {MobileUIContext} from "../MobileUIContext.js";
 
 const CommunityPostCreation=({currentSymposiumId,headerQuestions,currentQuestionIndex})=>{
-	console.log(currentQuestionIndex);
 	const [displayCommunityPostCreation,changeDisplayCommunityPostCreation]=useState(true);
 	const mobileUIContextInformation=useContext(MobileUIContext);
 

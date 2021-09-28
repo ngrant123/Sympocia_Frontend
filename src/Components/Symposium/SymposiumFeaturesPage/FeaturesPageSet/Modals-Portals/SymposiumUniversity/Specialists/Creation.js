@@ -69,7 +69,6 @@ const Creation=({closeModal,triggerAddSymposiumSpecialist,symposiumId})=>{
 
 
 	const createSymposiumSpecialist=async()=>{
-		debugger;
 		const introduction=document.getElementById("introduction").value;
 		if(introduction==""){
 			alert('Please enter an introduction');

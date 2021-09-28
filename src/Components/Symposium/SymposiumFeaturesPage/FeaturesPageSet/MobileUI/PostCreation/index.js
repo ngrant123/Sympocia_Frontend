@@ -17,7 +17,6 @@ const PostCreation=({featurePageType,creationButtonClick})=>{
 	}=featuresPageConsumer;
 
 	const postCreationDecider=()=>{
-		debugger;
 		switch(featurePageType){
 			case "Beacons":{
 				return <BeaconsCreation
@@ -34,7 +33,6 @@ const PostCreation=({featurePageType,creationButtonClick})=>{
 					headerQuestions,
 					currentIndex
 				}=featuresPagePrimaryInformation;
-				console.log(currentIndex);
 
 				return 	<React.Fragment>
 							{creationButtonClick==true &&(
