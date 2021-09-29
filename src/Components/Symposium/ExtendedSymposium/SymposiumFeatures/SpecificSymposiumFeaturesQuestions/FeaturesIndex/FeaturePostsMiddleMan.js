@@ -96,7 +96,7 @@ const ModalDecider=({closeModal,modalType,symposium,symposiumId,selectedQuestion
 		const {confirmation,data}=await deleteSpecificSymposiumAnswer({
 											postType:modalType,
 											symposiumId,
-											symposiumQuestionId:selectedQuestionId,
+											symposiumQuestionId:selectedQuestion.questionId,
 											symposiumAnswerId:_id,
 											postAnswerLevel:postLevel,
 											userId:personalInformation.id,
