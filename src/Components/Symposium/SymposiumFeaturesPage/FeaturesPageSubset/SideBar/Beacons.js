@@ -117,13 +117,18 @@ const BeaconPostCreation=({
 	currentSymposiumId,
 	personalInformation,
 	isDesktop})=>{
+	const featuresPageConsumer=useContext(FeaturesContext);
+	const {currentBeaconSelectedPostType}=featuresPageConsumer;
+
 
 	const updateCurrentBeaconPosts=(beaconPostType,beacon)=>{
-		
-		let currentBeaconPrimaryInformation=featuresPagePrimaryInformation;
-		const {posts}=currentBeaconPrimaryInformation;
-		posts.splice(0,0,beacon);
-		updatePrimaryPosts(posts,false)
+		debugger;
+		if(beaconPostType==currentBeaconSelectedPostType){
+			let currentBeaconPrimaryInformation=featuresPagePrimaryInformation;
+			const {posts}=currentBeaconPrimaryInformation;
+			posts.splice(0,0,beacon);
+			updatePrimaryPosts(posts,false)
+		}
 		closeFeaturesPageCreationModal();
 	}
 

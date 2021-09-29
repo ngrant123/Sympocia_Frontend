@@ -140,6 +140,7 @@ const SymposiumFeatures=(props)=>{
 	const [loadingNewPostsIndicator,changeLoadingNewPostsIndicator]=useState(false);
 	const [endOfPostIndicator,changeEndOfPostsIndicator]=useState(false);
 	const [currentTagsSelection,changeCurrentTagSelection]=useState([]);
+	const [currentBeaconSelectedPostType,changeBeaconSelectedPostType]=useState();
 
 
 	const [currentSymposiumName,changeSymposiumName]=useState();
@@ -351,6 +352,7 @@ const SymposiumFeatures=(props)=>{
 
 	const fetchBeaconPosts=async({postType,tags,isNextPostsRequest})=>{
 		const {id}=personalInformation;
+		changeBeaconSelectedPostType(postType);
 		
 		let token=currentPostManagmentToken;
 		if(currentPostType!=postType || isNextPostsRequest==false){
@@ -727,6 +729,7 @@ const SymposiumFeatures=(props)=>{
 				currentSymposiumId,
 				currentSymposiumName,
 				isOligarchStatus,
+				currentBeaconSelectedPostType,
 				fetchPosts,
 				isGuestProfile,
 				currentPostType,

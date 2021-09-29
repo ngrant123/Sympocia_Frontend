@@ -342,22 +342,21 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 	const desktopHeaders=()=>{
 		return(
 			<React.Fragment>
-				<div style={{display:"flex",flexDirection:"row",alignItems:"center",marginTop:"2%"}}>
+				<div style={{display:"flex",flexDirection:"row",alignItems:"center",marginTop:"2%",marginBottom:"2%"}}>	
+					{currentQuestionIndex>0 &&(
+						<div style={{...DropDownCSS,marginLeft:"0%",marginRight:"10%"}} 
+							onClick={()=>decrementQuestionIndex()}>
+							<ArrowBackIosOutlinedIcon/>
+						</div>
+					)}
+
 					<p style={{fontSize:"20px"}}>{headerQuestions[currentQuestionIndex].question}</p>
-					<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 
-						{currentQuestionIndex>0 &&(
-							<div style={DropDownCSS} onClick={()=>decrementQuestionIndex()}>
-								<ArrowBackIosOutlinedIcon/>
-							</div>
-						)}
-
-						{currentQuestionIndex<headerQuestions.length-1 &&(
-							<div style={DropDownCSS} onClick={()=>incrementQuestionIndex()}>
-								<ArrowForwardIosOutlinedIcon/>
-							</div>
-						)}
-					</div>
+					{currentQuestionIndex<headerQuestions.length-1 &&(
+						<div style={DropDownCSS} onClick={()=>incrementQuestionIndex()}>
+							<ArrowForwardIosOutlinedIcon/>
+						</div>
+					)}
 				</div>
 
 				{universityResponse()}
