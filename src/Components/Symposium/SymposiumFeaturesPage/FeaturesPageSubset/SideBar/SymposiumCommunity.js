@@ -87,7 +87,7 @@ const CountDownTimer=({countDownDateMilliSeconds,triggerDisplayCompetitionEndMod
 		let countDownId=setInterval(()=>{
 			
 			var now = new Date().getTime();
-			var distance = countDownDateMilliSeconds - (now);
+			var distance = countDownDateMilliSeconds - (now-3000);
 
 			var days = Math.floor(distance / (1000 * 60 * 60 * 24));
 			var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
