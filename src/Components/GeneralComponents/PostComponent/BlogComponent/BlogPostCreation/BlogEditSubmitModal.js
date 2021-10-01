@@ -260,7 +260,9 @@ class BlogEditSubmitModal extends Component{
 			}
 			const searchObject={
 				industry:industries[i].industry,
-				subIndustry:subCommunitiyArray
+				subIndustry:subCommunitiyArray,
+				isSwimmingTriggeredForPost:false,
+				isSymposiumUploadedToViaSwimming:false
 			}
 			searchCriteriaIndustryArray.push(searchObject);
 		}
