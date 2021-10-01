@@ -7,12 +7,17 @@ import SymposiumOptionsPortal from "../Modals/SymposiumOptionsPortal.js";
 
 let MobilePostOptionsButton={
     backgroundColor:"white",
-    padding:"10px",
-    color:"#6e6e6e",
-    boxShadow:"1px 1px 5px #6e6e6e",
     borderRadius:"5px",
-    borderStyle:"none",
-    cursor:"pointer"
+    padding:"5px",
+    color:"white",
+    backgroundColor:"#3898ec",
+    cursor:"pointer",
+    display:"flex",
+    justifyContent:"center",
+    flexDirection:"row",
+    alignItems:"center",
+    marginRight:"10%",
+    width:"200px"
 }
 const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle})=>{
 		const isPhoneScrollTriggered=(displayPhoneUI==true && headerAnimation==true)==true?true:false;

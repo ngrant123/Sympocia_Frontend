@@ -11,29 +11,6 @@ import styled, {keyframes} from "styled-components";
   }
 `;
 
-export const Posts=styled.div`
-	position:absolute;
-	width:100%;
-	height:100%;
-	display:flex;
-	flex-direction:row;
-
-	@media screen and (max-width:1370px){
-		#verticalPostCategoryDivider{
-			display:none !important;
-		}
-	}
-
-	@media screen and (max-width:650px){
-		margin-top:5% !important;
-		width:100%;
-	}
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-		margin-top:10% !important;
-	}
-`;
-
-
 
 
 export const OligarchsContainer=styled.div`
@@ -253,12 +230,9 @@ export const HightLightedQuestionsContainerModal=styled.div`
 export const PostsChatInformation=styled.div`
 	position:relative;
 	top:0%;
-	width:90%;
+	width:100%;
 	height:45%;
-	left:8%;
 	filter:blur(2px);
-	margin-left:2%;
-
 	z-index:-1;
 	transition: all 1s;
 
@@ -312,82 +286,6 @@ export const ActivePeopleContainer=styled.div`
 	}
 `;
 
-export const PostContainer=styled.div`
-	position:relative;
-	padding-left:40px;
-	left:-3%;
-	top:5%;
-	width:100%;
-	height:100%;
-	transition:1s;
-
-	@media screen and (max-width:1370px){
-    	position:absolute;
-    	left:5%;
-		height:180% !important;
-		padding-top:15% !important;
-    	margin-left:-2% !important;
-
-		${({isScrollEnabled})=>
-			isScrollEnabled?
-			`
-				top:50% !important;
-			`:
-			`
-				top:10% !important; 
-			`
-		}
-    }
-
-	@media screen and (max-width:650px){
-    	position:absolute;
-		width:100%;
-		height:150% !important;
-		padding-top:50% !important;
-    	top:58% !important;
-    	margin-left:-7% !important;
-    }
-
-    @media screen and (max-width:600px){
-    	top:-20% !important;
-    	${({isScrollEnabled})=>
-			isScrollEnabled==true &&(
-				`top:10% !important;`
-			)
-		}
-    }
-    @media screen  and (max-width:850px) and (max-height:420px) 
-	  and (orientation: landscape) 
-	  and (-webkit-min-device-pixel-ratio: 1){
-    	height:170% !important;
-    	padding:20px !important;
-    	width:90%;
-    	top:130% !important;
-    	margin-bottom:120% !important;
-    	margin-left:0% !important;
-    }
-
-
-    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	height:170% !important;
-    	padding:20px !important;
-    	width:100%;
-    	top:60% !important;
-    	margin-bottom:120% !important;
-    	margin-left:0% !important;
-    }
-
-    @media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
-		top:50%!important;
-		${({isScrollEnabled})=>
-			isScrollEnabled==true &&(
-				`top:90% !important;`
-			)
-		}
-    }
-
-
-`;
 
 export const ShadowContainer=styled.div`
 	position:fixed;
@@ -465,63 +363,6 @@ export const AdditionalSymposiumInformationContainer=styled.div`
     }
 `;
 
-
-
-export const SearchContainer=styled.div`
-	position:relative;
-	width:630px;
-	height:50px;
-	display:flex;
-	flex-direction:row;
-	border-radius:5px;
-	padding:5px;
-	margin-right:2%;
-	box-shadow: 1px 1px 5px 	#dbdddf;
-	@media screen and (max-width:1370px){
-    	width:400px;
-    	margin-left:2% !important;
-    }
-
-    @media screen and (max-width:730px){
-    	margin-left:-140% !important;
-    	width:720px;
-    	display:none !important;
-    }
-
-    @media screen and (max-width:730px) and (max-height:420px){
-    	height:35% !important;
-    }
-
-    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	margin-left:0% !important;
-    }
-
-    @media screen  and (max-width:730px) and (max-height:420px) 
-	  and (orientation: landscape) 
-	  and (-webkit-min-device-pixel-ratio: 1){
-    	margin-left:-100% !important;
-    }
-`;
-
-export const SearchTextArea=styled.textarea`
-	position:relative;
-	resize:none;
-	width:500px;
-	height:90%;
-	padding-top:10px;
-	border-style:none;
-
-	border: none;
-    overflow: auto;
-    outline: none;
-
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-
-    resize: none; /*remove the resize handle on the bottom right*/
-
-`;
 
 export const PostOptions=styled.div`
 	color:#5298F8;
@@ -727,64 +568,3 @@ export const PostContainerTEst=styled.div`
 `;
 
 
-export const SympociaOptionsContainer=styled.div`
-	position:relative;
-	display:flex;							
-	flex-direction:row;
-	z-index:30;
-
-	@media screen and (max-width:1370px){
-		top:10%;
-		${({isScrollEnabled})=>
-			isScrollEnabled?
-			`
-				margin-left:5% !important;
-				top:35%;
-			`:
-			`
-				margin-left:-5% !important;
-				top:10%;
-			`
-		}
-	}
-	@media screen and (max-width:650px){
-		margin-left:10px !important;
-		#postFilterDropDownMenu{
-			margin-left:20px !important;
-		}
-	}
-`;
-
-export const SearchOptionContainer=styled.div`
-	display:flex;
-	flex-direction:row;
-	align-items:center;
-	@media screen and (max-width:1370px){
-		flex-direction:row;
-	}
-
-	@media screen and (max-width:650px){
-		width:100% !important;
-		margin-left:5% !important;
-	}
-
-	@media screen and (max-width:350px){
-		#symposiumPostOptionsId{
-			font-size:12px !important;
-		}
-
-		#symposiumOptionsId{
-			font-size:12px !important;
-		}
-		
-	}
-`;
-
-export const MinifiedSymposiumInformation=styled.div`
-	display:flex;
-	flex-direction:row;
-
-	@media screen and (max-width:1370px){
-		display:none !important;
-	}
-`;

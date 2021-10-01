@@ -8,7 +8,7 @@ import PostCategory from "./PostCategory.js";
 import {
     PostContainer,
     Posts
-} from "../../indexCSS.js";
+} from "./indexCSS.js";
 
 
 const VerticalLineCSS={

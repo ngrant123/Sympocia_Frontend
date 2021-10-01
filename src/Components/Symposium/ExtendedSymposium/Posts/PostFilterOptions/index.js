@@ -5,11 +5,13 @@ import {
     MinifiedSymposiumInformation,
     SearchContainer,
     SearchTextArea
-} from "../../indexCSS.js";
+} from "./indexCSS.js";
 import {PostConsumer} from "../PostsContext.js"
 import SymposiumOptions from "../../SymposiumFeatures/SymposiumOptions.js";
 import {PostOptions} from "../../indexCSS.js";
 import SearchIcon from '@material-ui/icons/Search';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+
 import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts.js";
 import PostsOptionsPortal from "../../Modals/PostOptionsPortal.js";
 import {Link} from "react-router-dom";
@@ -32,6 +34,20 @@ const PostOptionsCSS={
     marginRight:"5%",
     cursor:"pointer",
     color:"#5298F8"
+}
+
+const ButtonCSS={
+    backgroundColor:"white",
+    borderRadius:"5px",
+    padding:"10px",
+    color:"#3898ec",
+    borderStyle:"solid",
+    borderWidth:"2px",
+    borderColor:"#3898ec",
+    cursor:"pointer",
+    display:"flex",
+    flexDirection:"row",
+    alignItems:"center"
 }
 
 const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,displayBeacon})=>{
@@ -69,8 +85,9 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
                         />
                     )}
                     <div id="symposiumPostOptionsId"
-                        onClick={()=>changePostOptionsDisplayPortal(true)} style={mobilePostCSS}>
-                        Post Options
+                        onClick={()=>changePostOptionsDisplayPortal(true)} style={ButtonCSS}>
+                        Images
+                        <KeyboardArrowDownIcon/>
                     </div>
                 </React.Fragment>
     }
@@ -113,44 +130,65 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
 
     return(
         <SympociaOptionsContainer isScrollEnabled={state.headerAnimation}>	
-            <SearchOptionContainer style={{width:"80%",marginLeft:state.headerAnimation==false?"10%":"0%"}}>	
-                <SearchContainer>
-                    <SearchIcon
-                        style={{fontSize:30}}
-                    />
-                    <SearchTextArea
-                        id="symposiumSearchPostTextArea"
-                        placeholder="Press enter to quick search"
-                        onKeyPress={e=>searchPromptTrigger(e)}
-                    />
-                </SearchContainer>
-                {postOptionsMobileOrDesktop()}
+            <SearchContainer>
+                <SearchTextArea
+                    id="symposiumSearchPostTextArea"
+                    placeholder="Search"
+                    onKeyPress={e=>searchPromptTrigger(e)}
+                />
+                <SearchIcon
+                    style={{fontSize:30}}
+                />
+            </SearchContainer>
+            <div style={{display:"flex",flexDirection:"row"}}>
                 <SymposiumOptions
                     headerAnimation={state.headerAnimation}
                     displayPhoneUI={state.displayPhoneUI}
                     selectedSymposiumTitle={state.selectedSymposiumTitle}
                 />
-                {state.displayDesktopUI==false &&(
-                    <Link to={{pathname:`/symposiumFeatures/${state.symposiumId}`}}>
-                        <MeetingRoomIcon
-                            style={{fontSize:30,color:"#333",marginLeft:"35%"}}
-                        />
-                    </Link>
-                )}
-            </SearchOptionContainer>
+                {postOptionsMobileOrDesktop()}
+            </div>
 
-            {state.headerAnimation==true && (
-                <MinifiedSymposiumInformation isScrollEnabled={state.headerAnimation}>
-                    {(state.displayPhoneUI==true && state.headerAnimation==true)==false &&(
-                        <>
-                            <p style={{marginTop:"10px",fontSize:"20px",marginRight:"5%"}}>
-                                <b>{state.selectedSymposiumTitle}</b>
-                            </p>
-                            {beaconElement()}
-                        </>
+            {/*
+                <SearchOptionContainer style={{width:"80%",marginLeft:state.headerAnimation==false?"10%":"0%"}}>	
+                    <SearchContainer>
+                        <SearchIcon
+                            style={{fontSize:30}}
+                        />
+                        <SearchTextArea
+                            id="symposiumSearchPostTextArea"
+                            placeholder="Search"
+                            onKeyPress={e=>searchPromptTrigger(e)}
+                        />
+                    </SearchContainer>
+                    {postOptionsMobileOrDesktop()}
+                    <SymposiumOptions
+                        headerAnimation={state.headerAnimation}
+                        displayPhoneUI={state.displayPhoneUI}
+                        selectedSymposiumTitle={state.selectedSymposiumTitle}
+                    />
+                    {state.displayDesktopUI==false &&(
+                        <Link to={{pathname:`/symposiumFeatures/${state.symposiumId}`}}>
+                            <MeetingRoomIcon
+                                style={{fontSize:30,color:"#333",marginLeft:"35%"}}
+                            />
+                        </Link>
                     )}
-                </MinifiedSymposiumInformation>
-            )}
+                </SearchOptionContainer>
+
+                {state.headerAnimation==true && (
+                    <MinifiedSymposiumInformation isScrollEnabled={state.headerAnimation}>
+                        {(state.displayPhoneUI==true && state.headerAnimation==true)==false &&(
+                            <>
+                                <p style={{marginTop:"10px",fontSize:"20px",marginRight:"5%"}}>
+                                    <b>{state.selectedSymposiumTitle}</b>
+                                </p>
+                                {beaconElement()}
+                            </>
+                        )}
+                    </MinifiedSymposiumInformation>
+                )}
+            */}
         </SympociaOptionsContainer>
     )
 }

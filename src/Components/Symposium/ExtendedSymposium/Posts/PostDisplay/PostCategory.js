@@ -1,6 +1,8 @@
 import React,{useEffect,useState,useRef,useMemo} from "react";
 import styled from "styled-components";
 import CreateIcon from '@material-ui/icons/Create';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
 import Image from "./Image.js";
 import Video from "./Video.js";
 import RegularPost from "./RegularPosts.js";
@@ -11,12 +13,16 @@ import OligarchPostSettings from "../../Modals/Oligarchs/OligarchPostAbilities/O
 import {useSelector} from "react-redux";
 
 const Container=styled.div`
-	width:470px;
-	height:600px;
-	margin-right:2%;
+	width:90%;
+	height:550px;
+	margin-right:1%;
 	padding:5px;
-	overflow:scroll;
+	overflow-x:hidden;
+	overflow-y:auto;
 	background-color:white;
+	border-radius:5px;
+	box-shadow: -5px 5px 10px #C4C4C4;
+	padding:20px;
 
 	@media screen and (max-width:1370px){
 		overflow:visible !important;
@@ -50,7 +56,7 @@ const HorizontalLineCSS={
 }
 
 const CreateIconCSS={
-	fontSize:"25",
+	fontSize:"35",
 	color:"#C8B0F4",
 	marginLeft:"20%",
 	cursor:"pointer"
@@ -217,11 +223,11 @@ const PostCategory=(props)=>{
 								<>{mobileCategoryOptions()}</>
 							)}
 						
-							<p style={{marginLeft:"5%",fontSize:"24px"}}>
+							<p style={{fontSize:"18px"}}>
 								<b>{headers.title}</b>
 							</p>
 						</div>
-						<CreateIcon
+						<AddCircleIcon
 							style={CreateIconCSS}
 							onClick={()=>triggerCreateQuickCategoryUpload()}
 						/>

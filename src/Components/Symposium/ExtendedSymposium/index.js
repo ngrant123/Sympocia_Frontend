@@ -268,7 +268,7 @@ class Symposium extends Component{
 		  	if(this.state.handleScroll!=false){
 		  		document.getElementById("extendedSymposiumContainer").style.overflow="auto";
 			  	document.getElementById("postChatInformation").style.overflow="visible";
-			  	document.getElementById("postChatInformation").style.top="-20%";
+			  	document.getElementById("postChatInformation").style.top="-25%";
 			  	document.getElementById("postChatInformation").style.filter="blur(0)";
 			  	document.getElementById("postChatInformation").style.zIndex=2;
 			  	document.getElementById("arrowIndicator").style.opacity="0";
@@ -841,7 +841,15 @@ class Symposium extends Component{
 						/>
 					)}
 					{this.oligarchFinalResultDisplay()}
-					{this.additionalInformation()}
+
+
+					{/*
+						{this.additionalInformation()}
+					*/}
+
+
+
+
 					{this.arrowIndicatorButton()}
 					{this.mobileSymposiumQuickAccessOptions()}
 					{this.handleSeeAllPeopleActiveModal()}
