@@ -223,7 +223,7 @@ const PostCategory=(props)=>{
 								<>{mobileCategoryOptions()}</>
 							)}
 						
-							<p style={{fontSize:"18px"}}>
+							<p style={{fontSize:"18px",fontFamily:"'Poppins'"}}>
 								<b>{headers.title}</b>
 							</p>
 						</div>

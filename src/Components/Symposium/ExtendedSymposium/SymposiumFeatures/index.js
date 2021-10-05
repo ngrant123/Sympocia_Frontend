@@ -5,18 +5,98 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import ImagePostDisplayPortal from "../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
 import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
 import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
-import {QuestionsPortal} from "./QuestionsPortal.js";
+import {QuestionsPortal} from "./SymposiumCommunityPortal.js";
 import {retrieveCommunityPosts} from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 
-import {
-	HightLightedQuestionsContainerModal,
-	BackgroundModalContainer
-} from "../indexCSS.js";
+const BackgroundModalContainer= styled.div`
+	position:fixed;
+	width:100%;
+	height:140%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index:40;
+	top:0%;
+`;
+
+
+
+const HightLightedQuestionsContainerModal=styled.div`
+	position:relative;
+	width:100%;
+	height:100%;
+	padding:20px;
+	z-index:40;
+	border-radius:5px;
+	background-color:white;
+
+	border-style:solid;
+	border-color:#E4E4E4;
+	border-width:1px;
+	display:flex;
+	flex-direction:column;
+	overflow-y:auto;
+
+	${({isSimplified})=>
+		isSimplified==true &&(
+			`
+				#videoQuestionAnswers{
+					height:210px !important;
+					width:200px !important;
+				}
+
+				#imageHighlightedQuestion{
+					width:200px !important;
+					height:190px !important;
+				}
+
+				#postLI{
+					margin-right:10% !important
+				}
+			`
+		)
+	}
+
+	@media screen and (max-width:1370px){
+		#postLI{
+			width:40% !important;
+		}
+		#videoQuestionAnswers{
+			width:200px !important;
+			height:218px !important;
+		}
+
+		#imageHighlightedQuestion{
+			width:90% !important;
+		}
+	}
+
+	@media screen and (max-width:650px){
+		#postLI{
+			width:40% !important;
+		}
+		#videoQuestionAnswers{
+			height:150px !important;
+			width:110% !important;
+		}
+		#imageHighlightedQuestion{
+			height:95px !important;
+			width:90% !important;
+		}
+	}
+
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		#imageHighlightedQuestion{
+			width:40% !important;
+			height:40% !important;
+		}
+    }
+
+`;
+
 
 
 const QuestionCSS={
 	fontSize:"15px",
-	color:"#3898ec",
+	color:"#000000",
 	listStyle:"none",
 	display:"inline-block",
 	width:"70%",
@@ -31,6 +111,23 @@ const HorizontalLineCSS={
 	width:"100%"
 }
 
+
+const AnswerButtonCSS={
+	position:"absolute",
+	width:"25%",
+	height:"15%",
+	borderRadius:"5px",
+	color:"white",
+	backgroundColor:"#272727",
+	top:"75%",
+	left:"70%",
+	display:"flex",
+	alignItems:"center",
+	justifyContent:"center",
+	fontSize:"18px",
+	cursor:"pointer",
+	boxShadow:"1px 1px 5px #6e6e6e"
+}
 
 
 class HighLightedQuestions extends Component{
@@ -270,7 +367,7 @@ class HighLightedQuestions extends Component{
 									/>
 								)}
 								<p onClick={()=>this.expandQuestion()} style={QuestionCSS}>			
-									{this.state.questions[this.state.counter].question}
+									<b>{this.state.questions[this.state.counter].question}</b>
 								</p>
 								{this.state.counter!=(this.state.questions.length-1) &&(
 									<NavigateNextIcon
@@ -281,6 +378,10 @@ class HighLightedQuestions extends Component{
 							</div>
 							<hr style={HorizontalLineCSS}/>
 							{this.constructResponses(this.state.responses)}
+							<div style={AnswerButtonCSS}
+								onClick={()=>this.expandQuestion()}>
+								Answer
+							</div>
 						</div>
 					}
 				</HightLightedQuestionsContainerModal>

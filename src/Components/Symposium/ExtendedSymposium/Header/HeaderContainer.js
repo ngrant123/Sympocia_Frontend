@@ -6,199 +6,33 @@ import {
 		addSymposium,
 		removeSymposium
 } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-import HightLightedQuestions from "../Modals/HighLightedQuestions.js";
+import SymposiumFeaturesModals from "../SymposiumFeatures/index.js";
 import {Link} from "react-router-dom";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MobilePostOptionsPortal from "../Modals/MobileUI/PostOptionsPortal.js";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
+import { Icon } from '@iconify/react';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import ShadowOverlay from "./ShadowOverlay.js";
 
 import {
 	SymposiumHeaderAnimation,
-	Container
-} from '../indexCSS.js';
-
-const ActiveContainer =styled.div`
-	position:relative;
-	width:300px;
-	height:50%;
-	background-color:white;
-	padding:5px;
-	padding-top:10px;
-	overflow:auto;
-	-ms-overflow-style: none;  /* IE 10+ */
-    scrollbar-width: none;
-    border-radius:5px;
-
-    border-style:solid;
-	border-color:#E4E4E4;
-	border-width:1px;
-`;
-
-const SymposiumTitle=styled.div`
-	position:relative;
-	border-style:solid;
-	border-color:#E4E4E4;
-	border-width:1px;
-	border-radius:5px;
-	
-
-	@media screen and (max-width:1370px){
-		margin-top:10%;
-		#symposiumTitleText{
-			font-size:24px !important;
-		}
-	}
-	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-		margin-top:5%;
-    }
-`;
-
-const ActiveProfilePictures=styled(Link)`
-	position:relative;
-	width:50px;
-	height:25%;
-	border-radius:50%;
-	background-color:red;
-	cursor:pointer;
-`;
-
-const PopularContainer=styled.div`
-
-	position:relative;
-	width:40%;
-	background-color:white;
-	height:25%;
-	border-radius:5px;
-	padding:10px;
-
-`;
-
-const ChatContainer =styled.div`
-	position:relative;
-	width:100%;
-	height:50%;
-	background-color:white;
-	padding:5px;
-	padding-top:10px;
-	overflow:auto;
-	-ms-overflow-style: none;  /* IE 10+ */
-    scrollbar-width: none;
-`;
-
-
-const HighlightedQuestionsContainer=styled.div`
-	position:absolute;
-	height:55%;
-	width:20%;
-	left:10%;
-	top:30%;
-	border-radius:5px;
-
-	@media screen and (max-width:1370px){
-    	display:none !important;
-    }
-`;
-
-const SymposiumTitlesAndVideosContainer=styled.div`
-	position:absolute;
-	left:35%;
-	width:35%;
-	height:55%;
-	border-radius:5px;
-	top:40%;
-	display:flex;
-	flex-direction:column;
-
-	@media screen and (max-width:1370px){
-		left:5% !important;
-    	top:40px !important;
-    	width:80% !important;
-		height:20% !important;
-		#titleContainer{
-			font-size:10px !important;
-		}
-
-		#selectedSymposiumTitle{
-			font-size:20px !important;
-			color:red;
-		}
-		#popularVideosTitle{
-			display:none !important;
-		}
-		#seeAllTitle{
-			display:none !important;
-		}
-		#previousTitleLI{
-			margin-top:-5% !important;
-		}
-		#nextTitleLI{
-			margin-top:-5% !important;
-		}
-		#popularVideosUL{
-			height:120% !important;
-		}
-    }
-
-    @media screen and (max-width:640px){
-    	display:none !important;
-    }
-`;
-
-const ActivePeopleAndFollowContainer=styled.div`
-	position:absolute;
-	height:55%;
-	width:20%;
-	left:75%;
-	top:33%;
-	border-radius:5px;
-	display:flex;
-	flex-direction:column;
-
-	@media screen and (max-width:1370px){
-    	display:none !important;
-    }
-`;
-
-const MobileOptions=styled.div`
-	position:absolute;
-	top:40%;
-	left:90%;
-	z-index:40;
-	border-radius:50%;
-	box-shadow:1px 1px 5px #6e6e6e;
-	background-color:white;
-
-	@media screen and (max-width:730px) and (max-height:420px){
-    	top:40% !important;
-    }
-`;
-
-const PopularVideosContainer=styled.div`
-	position:relative;
-	margin-top:5%;
-
-	@media screen and (max-width:1370px){
-		visibility: hidden;
-	}
-
-	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
-		visibility:visible;
-	}
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-		visibility: hidden;
-	}
-`;
-
-const PopularVideos=styled.div`
-	display:flex;
-	flex-direction:row;
-	border-style:solid;
-	border-color:#E4E4E4;
-	border-width:1px;
-	border-radius:5px;
-	padding:5px;
-`;
+	Container,
+	ActiveContainer,
+	SymposiumTitle,
+	ActiveProfilePictures,
+	PopularContainer,
+	ChatContainer,
+	HighlightedQuestionsContainer,
+	SymposiumTitlesAndVideosContainer,
+	ActivePeopleAndFollowContainer,
+	MobileOptions,
+	PopularVideosContainer,
+	PopularVideos,
+	OligarchButtonContainer,
+	HeaderContainerDiv
+} from './HeaderContainerCSS.js';
 
 const BeaconDivCSS={
 	width:"20%",
@@ -212,14 +46,15 @@ const BeaconDivCSS={
 const ButtonCSS={
 	listStyle:"none",
 	borderRadius:"5px",
-	padding:"20px",
-	width:"100%",
-	marginBottom:"30%",
+	padding:"15px",
+	width:"60%",
 	borderStyle:"solid",
 	borderColor:"white",
 	borderWidth:"1px",
+	display:"flex",
+	justifyContent:"center",
+	alignItems:"center",
 	color:"white",
-	marginTop:"-25%",
 	cursor:"pointer"
 }
 
@@ -231,11 +66,11 @@ const MobileRouteOptionCSS={
 	borderStyle:"none"
 }
 
-const PopularVideosListCSS={
-	listStyle:"none",
-	display:"inline-block",
+const PopularVideosCSS={
 	marginRight:"20px",
-	marginBottom:"10px"
+	marginBottom:"10px",
+	borderRadius:"5px",
+	overflow:"hidden"
 }
 
 /*
@@ -246,8 +81,78 @@ const PopularVideosListCSS={
 	linear-gradient(to left, #9933ff 0%, #ff99ff 100%)
 	linear-gradient(to right,#E44D26 0%,#F16529 100%)
 
+
+	background:"rgba(0, 0, 0, 0.2)"
+
+
+
+		  specificSymposiumFeatures=()=>{
+	  	return <InitialSymposiumFeaturesDisplay
+	  				selectedSymposiumTitle={this.state.selectedSymposiumTitle}
+					symposiumId={this.state.symposiumId}
+					chatRoom={this.state.chatRoom}
+					profileId={this.state.profileId}
+					socket={socket}
+					closeSymposiumFeatureModal={this.closeSymposiumFeatureModal}
+					headerAnimation={this.state.headerAnimation}
+					symposiumUniversityQuestions={this.state.symposiumUniversityQuestions}
+					isGuestProfile={this.state.isGuestProfile}
+					displaySpecficSymposiumFeature={this.state.displaySpecficSymposiumFeature}
+	  			/>
+	  }
+
+	if(selectedSymposiumTitle=="General"||
+		selectedSymposiumTitle=="Religion"||
+		selectedSymposiumTitle=="Gaming"||
+		selectedSymposiumTitle=="Philosophy"){
+		const features={
+			requestedComponent:<Chat
+							  		roomId={symposiumId}
+							  		chat={chatRoom}
+							  		profileId={profileId}
+							  		socket={socket}
+							  		closePostModal={closeSymposiumFeatureModal}
+							  		isSimplified={isSimplified}
+								/>,
+			isGeneral:true
+		}
+		return features;
+	}else{
+	
+	}
 */
 
+const ShadowDivCSS={
+	width:"100%",
+	height:"100%",
+	background:"rgba(0, 0, 0, 0.5)",
+	zIndex:5
+}
+
+const SelectedSymposiumOptionCSS={
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px",
+	color:"#3898ec",
+	cursor:"pointer"
+}
+
+const NonSelectedSymposiumOptionCSS={
+	cursor:"pointer",
+	color:"white",
+	opacity:0.7
+}
+
+const NonSelectedSymposiumCommunityOptionCSS={
+	...NonSelectedSymposiumOptionCSS,
+	marginRight:"5%"
+}
+const SymposiumCommunitySelectedOptionCSS={
+	...SelectedSymposiumOptionCSS,
+	marginRight:"5%"
+}
 
 const HeaderContainer=(props)=>{
 	const {
@@ -265,11 +170,18 @@ const HeaderContainer=(props)=>{
 			headerAnimation,
 			backgroundColor,
 			displayBeacon,
-			symposiumId
+			symposiumId,
+			triggerDisplayOligarchsModal,
+			posts,
+			postType
 		}=props;
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 	const [displayMobilePostOptions,changeMobileDisplayPostOptions]=useState(false);
+
+	const [displaySymposiumCommunityModal,changeDisplaySymposiumCommunityModal]=useState(true);
+	const [displayBeaconModal,changeDisplayBeaconsModal]=useState(false);
+	const [displayUniversityModal,changeDisplayUniversityModal]=useState(false);
 
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const dispatch=useDispatch();
@@ -455,99 +367,276 @@ const HeaderContainer=(props)=>{
 		)
 	}
 
+	const oligarchIcon=()=>{
+		return(
+			<OligarchButtonContainer style={{marginLeft:"5%",cursor:"pointer"}} onClick={()=>triggerDisplayOligarchsModal()}>
+				<svg xmlns="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink" 
+					aria-hidden="true" role="img" width="30" height="30" preserveAspectRatio="xMidYMid meet" 
+					viewBox="0 0 24 24">
+					<path d="M12 1l9 4v6c0 5.55-3.84 10.74-9 12c-5.16-1.26-9-6.45-9-12V5l9-4m0 2.18L5 6.3v4.92C5 15.54 8.25 20 12 21c3.75-1 7-5.46 7-9.78V6.3l-7-3.12M16 14v1.59c-.04.22-.22.37-.47.41H8.47c-.25-.04-.43-.19-.47-.41V14h8m1-6l-1 5H8L7 8l2.67 2.67L12 8.34l2.33 2.33L17 8z" 
+					fill="#FFFFFF"/>
+				</svg>
+			</OligarchButtonContainer>
+		)
+	}
+
+	const popularVideoConstruct=()=>{
+		const videos=[];
+		for(var i=0;i<popularVideos.length;i++){
+			let component;
+			if(i==popularVideos.length-1){
+				component=<div style={{...PopularVideosCSS,cursor:"pointer"}}>
+								<div style={{...ShadowDivCSS,height:"60px",width:"70px",position:"absolute",zInde:10,color:"white",justifyContent:"center",alignItems:"center",display:"flex",borderRadius:"5px",opacity:0.9}}
+									onClick={()=>displayPopularVideos()}>
+									View All
+								</div>
+								<div style={{zIndex:5}}>
+									<video id="smallVideo" key={uuidv4()} borderRadius="5px" 
+										position="relative" height="60px" width="70px"
+										style={{borderRadius:"5px"}}>
+										<source src={popularVideos[i].videoUrl} type="video/mp4"/>
+									</video>
+								</div>
+							</div>
+			}else{
+				component=<div style={PopularVideosCSS}>
+								<video id="smallVideo" key={uuidv4()} borderRadius="5px" 
+									position="relative" height="60px" width="70px"
+									style={{borderRadius:"5px"}}>
+									<source src={popularVideos[i].videoUrl} type="video/mp4"/>
+								</video>
+							</div>
+			}
+			videos.push(component)
+		}
+		return(
+			<div style={{display:"flex",flexDirection:"row"}}>
+				{videos.map(data=>
+					<React.Fragment>
+						{data}
+					</React.Fragment>
+				)}
+			</div>
+		)
+	}
+
+	const triggerDisplaySymposiumCommunityModal=()=>{
+		changeDisplaySymposiumCommunityModal(true);
+		changeDisplayBeaconsModal(false);
+		changeDisplayUniversityModal(false);
+	}
+
+	const triggerDisplaySymposiumUniversityModal=()=>{
+		changeDisplaySymposiumCommunityModal(false);
+		changeDisplayBeaconsModal(false);
+		changeDisplayUniversityModal(true);
+	}
+
+	const triggerDisplaySymposiumBeaconsModal=()=>{
+		changeDisplaySymposiumCommunityModal(false);
+		changeDisplayBeaconsModal(true);
+		changeDisplayUniversityModal(false);
+	}
+
+	const symposiumFeaturesEntrance=()=>{
+		return(
+			<Link to={{pathname:`/symposiumFeatures/${symposiumId}`}}>
+				<MeetingRoomIcon
+					style={{fontSize:30,color:"#FFFFFF",marginLeft:"20%"}}
+				/>
+			</Link>
+		)
+	}
+
+	const shadowOverlay=()=>{
+		return(
+			<ShadowOverlay
+				posts={posts}
+				postType={postType}
+			/>
+		)
+	}
+
 	return(
 		<React.Fragment>
 			{headerAnimation==false ?
-				<Container id="headerContents" style={{background:backgroundColor}}>
+				<Container id="headerContents">
 					{props.isLoading==false &&(
 						<>
-							<HighlightedQuestionsContainer>
-								<p style={{fontSize:"18px",color:"white"}}>
-									<b>Community Questions</b>
-								</p>
-								<HightLightedQuestions
-									questionInformation={props.communityQuestions.questionInformation}
-									isSimplified={props.communityQuestions.isSimplified}
-									selectedSymposium={props.communityQuestions.selectedSymposium}
-									isGuestProfile={isGuestProfile}
-									isOligarch={props.isOligarch}
-									ownerId={personalInformation.id}
-									symposiumId={symposiumId}
-								/>
-							</HighlightedQuestionsContainer>
-							<SymposiumTitlesAndVideosContainer>
-								<SymposiumTitle>
-									<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-										<p id="symposiumTitleText"
-											style={{color:"white",marginLeft:"2%",fontSize:"36px"}}>
-											{displayDesktopUI==true?
-												<><b>{selectedSymposiumTitle}</b></>:
-												<>{selectedSymposiumTitle}</>
-											}
-										</p>
-										<div style={{...BeaconDivCSS,background:backgroundColor}}>
-											{beaconElement()}
-										</div>
-									</div>
-								</SymposiumTitle>
-								<PopularVideosContainer>
-									<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-										<p style={{color:"white",fontSize:"18px"}}>Popular Videos </p>
-										<p style={{color:"white",fontSize:"18px",cursor:"pointer"}}
-											onClick={()=>displayPopularVideos()}
-										> See All </p>
-									</div>
-									<PopularVideos>
-										{popularVideos.map(data=>
-											<>
-												{data!=null &&(
-													<li style={PopularVideosListCSS}>
-														<video id="smallVideo" key={uuidv4()} borderRadius="5px" 
-															position="relative" height="50px" width="60px">
-															<source src={data.videoUrl} type="video/mp4"/>
-														</video>
-													</li>
-												)}
-											</>
-										)}
-									</PopularVideos>
-								</PopularVideosContainer>
-							</SymposiumTitlesAndVideosContainer>
-							<ActivePeopleAndFollowContainer>
-								<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
-									<ul style={{padding:"0px"}}>
-											<p style={{color:"white",fontSize:"18px"}}>
-												<b>Active People</b>
+							<HeaderContainerDiv style={{background:backgroundColor}}>
+								<div style={{padding:"30px",position:"absolute",marginTop:"22%",width:"90%",height:"100%",zIndex:10,marginLeft:"5%"}}>
+									<div style={{marginBottom:"22%"}}>
+										<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+											<p style={{color:"white",fontSize:"30px",fontFamily:"'Poppins'"}}>
+												<b>{selectedSymposiumTitle}</b>
 											</p>
-											<li style={{listStyle:"none",width:"90%"}}>
-												<ActiveContainer>
-													<ul>
-										 				{activePeople.map(data=>
-									 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"20px",marginBottom:"10px"}}>
-									 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
-									 								<img src={data.profilePicture!=null?
-									 											data.profilePicture:
-									 											NoProfilePicture} 
-									 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
-									 							</ActiveProfilePictures>
-									 						</li>
-									 					)}
-										 			</ul>
-												</ActiveContainer>
-											</li>
-									</ul>
-								</li>
-								<div onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})}
-									style={{...ButtonCSS,background:backgroundColor}}>
-									<b>
-										<AddCircleOutlineIcon style={{font:20}}/>
+											{oligarchIcon()}
+											{symposiumFeaturesEntrance()}
+										</div>
+										<p style={{color:"white",opacity:0.7}}>Foods, Grinds, Aims, and Funs</p>
+									</div>
+									<div style={{display:"flex",flexDirection:"column"}}>
+										<p style={{color:"white",opacity:0.7}}>Popular Videos</p>
+										{popularVideoConstruct()}
+									</div>
+								</div>
+								{shadowOverlay()}
+							</HeaderContainerDiv>
+
+							<HeaderContainerDiv style={{background:backgroundColor,width:"50%"}}>
+								<div style={{position:"absolute",marginTop:"12%",width:"100%",zIndex:10,padding:"30px"}}>
+									<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+										<p style={displaySymposiumCommunityModal==true?
+											SymposiumCommunitySelectedOptionCSS:
+											NonSelectedSymposiumCommunityOptionCSS}
+											onClick={()=>triggerDisplaySymposiumCommunityModal()}>
+											Symposium Community
+										</p>
+										<p style={displayUniversityModal==true?SelectedSymposiumOptionCSS:
+											NonSelectedSymposiumOptionCSS}
+											onClick={()=>triggerDisplaySymposiumUniversityModal()}>
+											Symposium University
+										</p>
+
+										<p style={displayBeaconModal==true?SelectedSymposiumOptionCSS:
+											{...NonSelectedSymposiumOptionCSS,marginLeft:"5%"}}
+											onClick={()=>triggerDisplaySymposiumBeaconsModal()}>
+											Beacons
+										</p>
+									</div>
+
+									<div style={{backgroundColor:"red",width:"100%",height:"230px",borderRadius:"5px"}}>
+										<SymposiumFeaturesModals
+											questionInformation={props.communityQuestions.questionInformation}
+											isSimplified={props.communityQuestions.isSimplified}
+											selectedSymposium={props.communityQuestions.selectedSymposium}
+											isGuestProfile={isGuestProfile}
+											isOligarch={props.isOligarch}
+											ownerId={personalInformation.id}
+											symposiumId={symposiumId}
+										/>
+									</div>
+								</div>
+								{shadowOverlay()}
+							</HeaderContainerDiv>
+
+							<HeaderContainerDiv style={{background:backgroundColor}}>
+								<div style={{position:"absolute",marginTop:"30%",width:"100%",zIndex:10,marginLeft:"30%"}}>
+									<div onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})}
+										style={{...ButtonCSS,backgroundColor:"white",color:"#252525",marginBottom:"17%",boxShadow:"1px 1px 5px #6e6e6e"}}>
+										<b>
 										 	{followSymposiumButtonClick==false?
 										 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
 										 		<p>Unfollow {selectedSymposiumTitle} Symposium</p>
 										 	}
-									</b>
+										</b>
+									</div>
+									<div style={{display:"flex",flexDirection:"column"}}>
+										<p style={{color:"white",opacity:0.7}}>Active Users</p>
+										<div style={{display:"flex",flexDirection:"row",marginBottom:"1%"}}>
+							 				{activePeople.map(data=>
+					 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
+					 								<img src={data.profilePicture!=null?
+					 											data.profilePicture:
+					 											NoProfilePicture} 
+					 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
+					 							</ActiveProfilePictures>
+						 					)}
+							 			</div>
+							 			<p style={{color:"white",opacity:0.7}}>{activePeople.length} members</p>
+									</div>
 								</div>
-							</ActivePeopleAndFollowContainer>
+								{shadowOverlay()}
+							</HeaderContainerDiv>
+							{/*
+								<HighlightedQuestionsContainer>
+									<p style={{fontSize:"18px",color:"white"}}>
+										<b>Community Questions</b>
+									</p>
+									<SymposiumFeaturesModals
+										questionInformation={props.communityQuestions.questionInformation}
+										isSimplified={props.communityQuestions.isSimplified}
+										selectedSymposium={props.communityQuestions.selectedSymposium}
+										isGuestProfile={isGuestProfile}
+										isOligarch={props.isOligarch}
+										ownerId={personalInformation.id}
+										symposiumId={symposiumId}
+									/>
+								</HighlightedQuestionsContainer>
+								<SymposiumTitlesAndVideosContainer>
+									<SymposiumTitle>
+										<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+											<p id="symposiumTitleText"
+												style={{color:"white",marginLeft:"2%",fontSize:"36px"}}>
+												{displayDesktopUI==true?
+													<><b>{selectedSymposiumTitle}</b></>:
+													<>{selectedSymposiumTitle}</>
+												}
+											</p>
+											<div style={{...BeaconDivCSS,background:backgroundColor}}>
+												{beaconElement()}
+											</div>
+										</div>
+									</SymposiumTitle>
+									<PopularVideosContainer>
+										<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+											<p style={{color:"white",fontSize:"18px"}}>Popular Videos </p>
+											<p style={{color:"white",fontSize:"18px",cursor:"pointer"}}
+												onClick={()=>displayPopularVideos()}
+											> See All </p>
+										</div>
+										<PopularVideos>
+											{popularVideos.map(data=>
+												<>
+													{data!=null &&(
+														<li style={PopularVideosCSS}>
+															<video id="smallVideo" key={uuidv4()} borderRadius="5px" 
+																position="relative" height="50px" width="60px">
+																<source src={data.videoUrl} type="video/mp4"/>
+															</video>
+														</li>
+													)}
+												</>
+											)}
+										</PopularVideos>
+									</PopularVideosContainer>
+								</SymposiumTitlesAndVideosContainer>
+								<ActivePeopleAndFollowContainer>
+									<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
+										<ul style={{padding:"0px"}}>
+												<p style={{color:"white",fontSize:"18px"}}>
+													<b>Active People</b>
+												</p>
+												<li style={{listStyle:"none",width:"90%"}}>
+													<ActiveContainer>
+														<ul>
+											 				{activePeople.map(data=>
+										 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"20px",marginBottom:"10px"}}>
+										 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
+										 								<img src={data.profilePicture!=null?
+										 											data.profilePicture:
+										 											NoProfilePicture} 
+										 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
+										 							</ActiveProfilePictures>
+										 						</li>
+										 					)}
+											 			</ul>
+													</ActiveContainer>
+												</li>
+										</ul>
+									</li>
+									<div onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})}
+										style={{...ButtonCSS,background:backgroundColor}}>
+										<b>
+											<AddCircleOutlineIcon style={{font:20}}/>
+											 	{followSymposiumButtonClick==false?
+											 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
+											 		<p>Unfollow {selectedSymposiumTitle} Symposium</p>
+											 	}
+										</b>
+									</div>
+								</ActivePeopleAndFollowContainer>
+							*/}
 						</>
 					)}
 				</Container>:

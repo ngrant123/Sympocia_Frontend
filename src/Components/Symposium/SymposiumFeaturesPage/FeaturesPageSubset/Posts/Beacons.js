@@ -10,7 +10,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import Images from "./PostDisplay/Images.js";
 import Videos from "./PostDisplay/Videos.js";
 import RegularPosts from "./PostDisplay/RegularPosts.js";
-import BeaconPostExtended from "../../../../Symposium/ExtendedSymposium/Modals/Beacons/BeaconPostExtended/index.js";
+import BeaconPostExtended from "../../../../Symposium/ExtendedSymposium/SymposiumFeatures/Beacons/BeaconPostExtended/index.js";
 import {useSelector} from "react-redux";
 import PortalHoc from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
 import {BeaconProgressBar} from "../SideBar/Beacons.js";

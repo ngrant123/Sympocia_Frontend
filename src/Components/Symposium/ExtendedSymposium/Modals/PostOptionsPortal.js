@@ -5,7 +5,7 @@ import {createPortal} from "react-dom";
 const Container=styled.div`
 	position:fixed;
 	left:75%;
-	top:30%;
+	top:25%;
 	width:20%;
 	background-color:white;
 	z-index:30;

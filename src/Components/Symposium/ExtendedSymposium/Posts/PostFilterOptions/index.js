@@ -7,7 +7,7 @@ import {
     SearchTextArea
 } from "./indexCSS.js";
 import {PostConsumer} from "../PostsContext.js"
-import SymposiumOptions from "../../SymposiumFeatures/SymposiumOptions.js";
+import SymposiumOptions from "../../Modals/SymposiumOptions.js";
 import {PostOptions} from "../../indexCSS.js";
 import SearchIcon from '@material-ui/icons/Search';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -39,18 +39,29 @@ const PostOptionsCSS={
 const ButtonCSS={
     backgroundColor:"white",
     borderRadius:"5px",
-    padding:"10px",
-    color:"#3898ec",
-    borderStyle:"solid",
-    borderWidth:"2px",
-    borderColor:"#3898ec",
+    color:"white",
     cursor:"pointer",
     display:"flex",
+    justifyContent:"space-between",
     flexDirection:"row",
-    alignItems:"center"
+    alignItems:"center",
+    marginRight:"10%",
+    width:"200px",
+    overflow:"hidden",
+    boxShadow:"1px 1px 5px #6e6e6e"
 }
 
-const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,displayBeacon})=>{
+const SearchOptions=(props)=>{
+    const {
+        state,
+        updatePosts,
+        posts,
+        postType,
+        searchFilterPosts,
+        displayBeacon
+    }=props;
+
+
     const [displayPostOptionsPortal,changePostOptionsDisplayPortal]=useState(false);
 
     const searchPromptTrigger=async(event)=>{
@@ -84,10 +95,17 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
                             updatePosts={updatePosts}
                         />
                     )}
+
+
                     <div id="symposiumPostOptionsId"
-                        onClick={()=>changePostOptionsDisplayPortal(true)} style={ButtonCSS}>
-                        Images
-                        <KeyboardArrowDownIcon/>
+                        onClick={()=>changePostOptionsDisplayPortal(true)} 
+                        style={{...ButtonCSS,background:state.backgroundColor}}>
+                        <div style={{display:"flex",padding:"5px",textAlign:"center",alignItems:"center",justifyContent:"center"}}>
+                            Images
+                        </div>
+                        <div style={{width:"30%",height:"100%",background:"rgba(0, 0, 0, 0.2)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                            <KeyboardArrowDownIcon/>
+                        </div>
                     </div>
                 </React.Fragment>
     }
@@ -144,6 +162,7 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
                 <SymposiumOptions
                     headerAnimation={state.headerAnimation}
                     displayPhoneUI={state.displayPhoneUI}
+                    backgroundColor={state.backgroundColor}
                     selectedSymposiumTitle={state.selectedSymposiumTitle}
                 />
                 {postOptionsMobileOrDesktop()}

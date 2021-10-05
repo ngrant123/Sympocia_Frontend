@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import Creation from "../../../../../Symposium/ExtendedSymposium/Modals/Beacons/Creation.js";
+import Creation from "../../../../../Symposium/ExtendedSymposium/SymposiumFeatures/Beacons/Creation.js";
 
 const Container=styled.div`
 	width:100%;

@@ -301,7 +301,8 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                     displayPhoneUI:state.displayPhoneUI,
                     selectedSymposiumTitle:state.selectedSymposiumTitle,
                     displayDesktopUI:state.displayDesktopUI,
-                    symposiumId:state.symposiumId
+                    symposiumId:state.symposiumId,
+                    backgroundColor:state.backgroundColor
                 }}
                 updatePosts={fetchPosts}
                 posts={posts}

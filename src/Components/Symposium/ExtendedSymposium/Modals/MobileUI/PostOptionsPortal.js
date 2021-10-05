@@ -1,9 +1,9 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import HightLightedQuestions from "../HighLightedQuestions.js";
-import Chat from "../ChatRoom.js";
-import SpecificFeatureSymposium from "../../SymposiumFeatures/SpecificSymposiumFeaturesQuestions/index.js";
+import HightLightedQuestions from "../../SymposiumFeatures/index.js";
+// import Chat from "../ChatRoom.js";
+// import SpecificFeatureSymposium from "../../SymposiumFeatures/SpecificSymposiumFeaturesQuestions/index.js";
 import {Link} from "react-router-dom"
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 
@@ -134,23 +134,25 @@ const MobilePostOptionsPortal=(props)=>{
 		return <>
 				{displaySymposiumFeatures==true &&(
 					<>
-						{props.symposium=="General"||
-							props.symposium=="Religion"||
-							props.symposium=="Gaming"||
-							props.symposium=="Philosophy"?
-							<Chat
-						  		roomId={props.roomId}
-						  		chat={props.chat}
-						  		profileId={props.profileId}
-						  		socket={props.socket}
-							/>:
-						  	<SpecificFeatureSymposium
-					  			symposium={props.symposium}
-					  			symposiumId={props.roomId}
-					  			questions={props.questions}
-					  			isGuestProfile={props.isGuestProfile}
-					  		/>
-				  		} 
+						{/*
+							{props.symposium=="General"||
+								props.symposium=="Religion"||
+								props.symposium=="Gaming"||
+								props.symposium=="Philosophy"?
+								<Chat
+									roomId={props.roomId}
+									chat={props.chat}
+									profileId={props.profileId}
+									socket={props.socket}
+								/>:
+								<SpecificFeatureSymposium
+									symposium={props.symposium}
+									symposiumId={props.roomId}
+									questions={props.questions}
+									isGuestProfile={props.isGuestProfile}
+								/>
+							} 
+						*/}
 					</>
 				)}
 			</>

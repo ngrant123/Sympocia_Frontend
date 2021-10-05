@@ -34,7 +34,7 @@ import {
 		setPersonalProfileRefreshToken
 } from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
-import HightLightedQuestions from "./Modals/HighLightedQuestions.js";
+import HightLightedQuestions from "./SymposiumFeatures/index.js";
 import {
 	SymposiumContainer,
 	PopularVideos,
@@ -54,13 +54,14 @@ import {
 } from "./indexCSS.js";
 import Posts from "./Posts/index.js";
 import SearchOptions from "./Posts/PostFilterOptions/index.js";
-import {
-		InitialSymposiumFeaturesDisplay,
-		symposiumFeaturesAndChat,
-		symposiumFeatures
-	} from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
+// import {
+// 		InitialSymposiumFeaturesDisplay,
+// 		symposiumFeaturesAndChat,
+// 		symposiumFeatures
+// 	} from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
+
 import {SymposiumProvider} from "./SymposiumContext.js";
-import Beacons from "./Modals/Beacons/index.js";
+import Beacons from "./SymposiumFeatures/Beacons/index.js";
 import Oligarchs from "./Modals/Oligarchs/index.js";
 import OligarchsFinalResults from "./Modals/Oligarchs/FinalResults.js";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
@@ -429,21 +430,6 @@ class Symposium extends Component{
 	  	})
 	  }
 
-	  specificSymposiumFeatures=()=>{
-	  	return <InitialSymposiumFeaturesDisplay
-	  				selectedSymposiumTitle={this.state.selectedSymposiumTitle}
-					symposiumId={this.state.symposiumId}
-					chatRoom={this.state.chatRoom}
-					profileId={this.state.profileId}
-					socket={socket}
-					closeSymposiumFeatureModal={this.closeSymposiumFeatureModal}
-					headerAnimation={this.state.headerAnimation}
-					symposiumUniversityQuestions={this.state.symposiumUniversityQuestions}
-					isGuestProfile={this.state.isGuestProfile}
-					displaySpecficSymposiumFeature={this.state.displaySpecficSymposiumFeature}
-	  			/>
-	  }
-
 	displayRecruitConfetti=()=>{
 		this.setState({
 			displayConfetti:true
@@ -793,8 +779,8 @@ class Symposium extends Component{
 							displaySpecficSymposiumFeature:this.state.displaySpecficSymposiumFeature,
 							isSimplified:true
 						}
-						const {requestedComponent}=symposiumFeatures(specificProps);
-						
+						//const {requestedComponent}=symposiumFeatures(specificProps);
+						const requestedComponent=<p>TEst</p>
 						
 						return <>{requestedComponent}</>
 					},
@@ -847,14 +833,10 @@ class Symposium extends Component{
 						{this.additionalInformation()}
 					*/}
 
-
-
-
 					{this.arrowIndicatorButton()}
 					{this.mobileSymposiumQuickAccessOptions()}
 					{this.handleSeeAllPeopleActiveModal()}
 					{this.handleSeeAllPopularVideos()}
-					{this.specificSymposiumFeatures()}
 					{this.displayBeacon()}
 					{this.displayOligarchsElectionModal()}
 
@@ -888,6 +870,9 @@ class Symposium extends Component{
 					  	displayBeacon={this.displayBeaconHandle}
 					  	isLoading={this.state.isLoading}
 					  	isOligarch={this.state.isOligarch}
+					  	triggerDisplayOligarchsModal={this.triggerDisplayOligarchsModal}
+					  	posts={this.state.posts}
+					  	postType={this.state.postType}
 		  			/>
 
 					<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>
@@ -906,7 +891,8 @@ class Symposium extends Component{
 									displayDesktopUI:this.state.displayDesktopUI,
 									postSessionManagmentToken:this.state.postSessionManagmentToken,
 									isOligarch:this.state.isOligarch,
-									symposiumId:this.state.symposiumId
+									symposiumId:this.state.symposiumId,
+									backgroundColor:this.state.backgroundColor
 								}}
 								displaySymposium={this.displaySymposium}
 								displayRecruitConfetti={this.displayRecruitConfetti}

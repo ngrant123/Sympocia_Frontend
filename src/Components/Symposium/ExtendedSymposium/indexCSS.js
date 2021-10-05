@@ -38,20 +38,6 @@ export const OligarchsContainer=styled.div`
 	}
 `;
 
-export const SymposiumHeaderAnimation=styled.div`
-	position:sticky;
-	top:0%;
-	background-color:red;
-	width:400px;
-	height:40%;
-	paddding-left:5px;
-	transition: transform 300ms ease-in-out;
-	boxShadow: 1px 1px 1px 1px #d5d5d5;
-	border-radius:5px;
-	z-index:3;
-	animation:${keyFrameExampleTwo} 1s ease-in-out 0s forwards;
-`;
-
 export const SymposiumContainer=styled.div`
 	position:absolute;
 	width:100%;
@@ -86,31 +72,6 @@ export const SymposiumContainer=styled.div`
     		margin-left:-20% !important;
     	}
     }
-`;
-
-export const Container=styled.div`
-	position:relative;
-	width:100%;
-	height:44%;
-	paddding-left:5px;
-	transition: transform 200ms ease-in-out;
-	boxShadow: "1px 1px 1px 1px #d5d5d5";
-	borderRadius:5px;
-	z-index:30;
-	display:flex;
-	flex-direction:row;
-
-	@media screen and (max-width:1370px){
-		height:20%;
-	}
-
-	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
-		height:50% !important;
-    }
-	@media screen and (max-width:730px) and (max-height:420px){
-    	height:60% !important;
-    }
-
 `;
 
 export const PopularContainer=styled.div`
