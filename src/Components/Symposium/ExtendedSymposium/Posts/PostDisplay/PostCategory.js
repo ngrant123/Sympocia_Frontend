@@ -21,7 +21,7 @@ const Container=styled.div`
 	overflow-y:auto;
 	background-color:white;
 	border-radius:5px;
-	box-shadow: -5px 5px 10px #C4C4C4;
+	box-shadow: -5px 20px 20px #C4C4C4;
 	padding:20px;
 
 	@media screen and (max-width:1370px){

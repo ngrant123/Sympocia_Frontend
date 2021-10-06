@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useContext} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -15,6 +15,7 @@ import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 import { Icon } from '@iconify/react';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import ShadowOverlay from "./ShadowOverlay.js";
+import {SymposiumContext} from "../SymposiumContext.js"
 
 import {
 	SymposiumHeaderAnimation,
@@ -175,6 +176,8 @@ const HeaderContainer=(props)=>{
 			posts,
 			postType
 		}=props;
+	debugger;
+	const SymposiumConsumer=useContext(SymposiumContext);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 	const [displayMobilePostOptions,changeMobileDisplayPostOptions]=useState(false);
@@ -517,16 +520,7 @@ const HeaderContainer=(props)=>{
 									</div>
 
 									<div style={{backgroundColor:"red",width:"100%",height:"230px",borderRadius:"5px"}}>
-										<SymposiumFeaturesModals
-											questionInformation={props.communityQuestions}
-											isSimplified={props.headerAnimation}
-											selectedSymposium={props.selectedSymposiumTitle}
-											isGuestProfile={isGuestProfile}
-											isOligarch={props.isOligarch}
-											ownerId={personalInformation.id}
-											symposiumId={symposiumId}
-											selectedSymposiumFeature={selectedSymposiumFeature}
-										/>
+										{SymposiumConsumer.specificSymposiumFeaturesComponent(selectedSymposiumFeature)}
 									</div>
 								</div>
 								{shadowOverlay()}

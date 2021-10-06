@@ -765,22 +765,17 @@ class Symposium extends Component{
 					highLightedQuestionComponent:()=>{
 						return this.symposiumFeaturesSimplifiedModal()
 					},
-					specificSymposiumFeaturesComponent:()=>{
-						let specificProps={
-							selectedSymposiumTitle:this.state.selectedSymposiumTitle,
-							symposiumId:this.state.symposiumId,
-							chatRoom:this.state.chatRoom,
-							profileId:this.state.profileId,
-							socket:socket,
-							closeSymposiumFeatureModal:this.closeSymposiumFeatureModal,
-							headerAnimation:this.state.headerAnimation,
-							symposiumUniversityQuestions:this.state.symposiumUniversityQuestions,
-							isGuestProfile:this.state.isGuestProfile,
-							displaySpecficSymposiumFeature:this.state.displaySpecficSymposiumFeature,
-							isSimplified:true
-						}
-						//const {requestedComponent}=symposiumFeatures(specificProps);
-						const requestedComponent=<p>TEst</p>
+					specificSymposiumFeaturesComponent:(selectedSymposiumFeatureType)=>{
+						const requestedComponent=<SymposiumFeatures
+													questionInformation={this.state.communityQuestionsAndResponses}
+													isSimplified={this.state.headerAnimation}
+													selectedSymposium={this.state.selectedSymposiumTitle}
+													isGuestProfile={this.state.isGuestProfile}
+													isOligarch={this.state.isOligarch}
+													ownerId={this.props.personalInformation.id}
+													symposiumId={this.state.symposiumId}
+													selectedSymposiumFeature={selectedSymposiumFeatureType}
+												/>
 						
 						return <>{requestedComponent}</>
 					},

@@ -26,7 +26,7 @@ const BackgroundModalContainer= styled.div`
 	top:0%;
 `;
 
-const HightLightedQuestionsContainerModal=styled.div`
+const SymposiumFeatureContainer=styled.div`
 	position:relative;
 	width:100%;
 	height:100%;
@@ -34,32 +34,32 @@ const HightLightedQuestionsContainerModal=styled.div`
 	z-index:40;
 	border-radius:5px;
 	background-color:white;
-
-	border-style:solid;
-	border-color:#E4E4E4;
-	border-width:1px;
 	display:flex;
 	flex-direction:column;
 	overflow-y:auto;
 
 	${({isSimplified})=>
-		isSimplified==true &&(
-			`
-				#videoQuestionAnswers{
-					height:210px !important;
-					width:200px !important;
-				}
+		isSimplified==false?
+		`
+			border-style:solid;
+			border-color:#E4E4E4;
+			border-width:1px;
+		`:
+		`
+			#videoQuestionAnswers{
+				height:210px !important;
+				width:200px !important;
+			}
 
-				#imageHighlightedQuestion{
-					width:200px !important;
-					height:190px !important;
-				}
+			#imageHighlightedQuestion{
+				width:200px !important;
+				height:190px !important;
+			}
 
-				#postLI{
-					margin-right:10% !important
-				}
-			`
-		)
+			#postLI{
+				margin-right:10% !important
+			}
+		`
 	}
 
 	@media screen and (max-width:1370px){
@@ -455,7 +455,7 @@ const SymposiumFeatures=(props)=>{
 				/>
 				:<React.Fragment></React.Fragment>
 			}
-			<HightLightedQuestionsContainerModal isSimplified={props.isSimplified}>
+			<SymposiumFeatureContainer isSimplified={props.isSimplified}>
 				{isLoading==true?
 					<p> Loading...</p>:
 					<div>
@@ -484,7 +484,7 @@ const SymposiumFeatures=(props)=>{
 						</div>
 					</div>
 				}
-			</HightLightedQuestionsContainerModal>
+			</SymposiumFeatureContainer>
 		</React.Fragment>
 	)
 }
@@ -714,7 +714,7 @@ const SymposiumFeatures=(props)=>{
 // 					/>
 // 					:<React.Fragment></React.Fragment>
 // 				}
-// 				<HightLightedQuestionsContainerModal isSimplified={this.props.isSimplified}>
+// 				<SymposiumFeatureContainer isSimplified={this.props.isSimplified}>
 // 					{this.state.isLoading==true?
 // 						<p> Loading...</p>:
 // 						<div>
@@ -743,7 +743,7 @@ const SymposiumFeatures=(props)=>{
 // 							</div>
 // 						</div>
 // 					}
-// 				</HightLightedQuestionsContainerModal>
+// 				</SymposiumFeatureContainer>
 // 			</React.Fragment>
 // 		)
 // 	}

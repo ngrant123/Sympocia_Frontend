@@ -28,11 +28,7 @@ const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle,b
 		const isPhoneScrollTriggered=(displayPhoneUI==true && headerAnimation==true)==true?true:false;
 		const [displayHighLightedQuestions,changeDisplayHighLightQuesition]=useState(false)
 		const [displaySpecificSymposiumFeatures,changeDisplaySpecficSymposiumFeatures]=useState(false);
-		const [displaySymposiumOptionsPortal,changeDisplaySymposiumOptions]=useState(false)
-        const closeModal=()=>{
-        	changeDisplayHighLightQuesition(false)
-        	changeDisplaySpecficSymposiumFeatures(false);
-        }
+		const [displaySymposiumOptionsPortal,changeDisplaySymposiumOptions]=useState(false);
 
         const isUserFollowingSymposium=(followingIndicator)=>{
         	return(
@@ -52,26 +48,12 @@ const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle,b
 			<SymposiumConsumer>
 				{symposiumInformation=>{
 					return <React.Fragment>
-								{displayHighLightedQuestions==true &&(
-									<PortalHOC
-										component={symposiumInformation.highLightedQuestionComponent()}
-										closeModal={closeModal}
-									/>
-								)}
-
-								{displaySpecificSymposiumFeatures==true &&(
-									<PortalHOC
-										component={symposiumInformation.specificSymposiumFeaturesComponent()}
-										closeModal={closeModal}
-									/>
-								)}
 								{displaySymposiumOptionsPortal==true &&(
 									<SymposiumOptionsPortal
 										closeModal={closeSymposiumOptionsModal}
 										symposiumInformation={symposiumInformation}
 										changeDisplayHighLightQuesition={changeDisplayHighLightQuesition}
 										selectedSymposiumTitle={selectedSymposiumTitle}
-										changeDisplaySpecficSymposiumFeatures={changeDisplaySpecficSymposiumFeatures}
 									/>
 								)}
 								<div id="symposiumOptionsId" 

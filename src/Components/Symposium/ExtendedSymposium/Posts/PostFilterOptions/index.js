@@ -63,6 +63,7 @@ const SearchOptions=(props)=>{
 
 
     const [displayPostOptionsPortal,changePostOptionsDisplayPortal]=useState(false);
+    const [currentPostType,changeCurrentPostType]=useState("Images");
 
     const searchPromptTrigger=async(event)=>{
         const textAreaValue=document.getElementById("symposiumSearchPostTextArea").value;
@@ -85,6 +86,11 @@ const SearchOptions=(props)=>{
     const closePostOptionsPortal=()=>{
         changePostOptionsDisplayPortal(false);
     }
+    const triggerUpdatePosts=({updatePostType,displayPostText})=>{
+        debugger;
+        changeCurrentPostType(displayPostText);
+        updatePosts(updatePostType);
+    }
 
     const postOptionsMobileOrDesktop=()=>{
         let mobilePostCSS={...MobilePostOptionsButton};
@@ -92,7 +98,7 @@ const SearchOptions=(props)=>{
                     {displayPostOptionsPortal==true &&(
                         <PostsOptionsPortal
                             closeModal={closePostOptionsPortal}
-                            updatePosts={updatePosts}
+                            updatePosts={triggerUpdatePosts}
                         />
                     )}
 
@@ -101,34 +107,13 @@ const SearchOptions=(props)=>{
                         onClick={()=>changePostOptionsDisplayPortal(true)} 
                         style={{...ButtonCSS,background:state.backgroundColor}}>
                         <div style={{display:"flex",padding:"5px",textAlign:"center",alignItems:"center",justifyContent:"center"}}>
-                            Images
+                            {currentPostType}
                         </div>
                         <div style={{width:"30%",height:"100%",background:"rgba(0, 0, 0, 0.2)",display:"flex",alignItems:"center",justifyContent:"center"}}>
                             <KeyboardArrowDownIcon/>
                         </div>
                     </div>
                 </React.Fragment>
-    }
-
-    const postOptions=()=>{
-        return <>
-                    <li onClick={()=>updatePosts("Regular")} id="regular" style={PostOptionsCSS}>
-                        Regular posts
-                    </li>
-                    <hr/>
-
-                    <li  onClick={()=>updatePosts("Image")} id="image" style={PostOptionsCSS}>  
-                        Images
-                    </li>
-                    <hr/>
-                    <li onClick={()=>updatePosts("Video")} id="video" style={PostOptionsCSS}> 
-                        Videos
-                    </li>
-                    <hr/>
-                    <li onClick={()=>updatePosts("Blog")} id="blog" style={PostOptionsCSS}>
-                        Blogs
-                    </li>
-                </>
     }
 
     const beaconElement=()=>{

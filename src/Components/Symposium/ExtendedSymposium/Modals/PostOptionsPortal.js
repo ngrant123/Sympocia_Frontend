@@ -59,27 +59,32 @@ const PostOptionsCSS={
 
 
 const PostOptionsPortal=({closeModal,updatePosts})=>{
-	const triggerUpdatePosts=(postType)=>{
-		updatePosts(postType);
+	const triggerUpdatePosts=(postType,displayPostText)=>{
+		debugger;
+		const updatePostInformation={
+			updatePostType:postType,
+			displayPostText
+		}
+		updatePosts(updatePostInformation);
 		closeModal();
 	}
 	return createPortal(
 		<React.Fragment>
 			<Container>
-				<li onClick={()=>triggerUpdatePosts("Regular")} id="regular" style={PostOptionsCSS}>
+				<li onClick={()=>triggerUpdatePosts("Regular","Regular posts")} id="regular" style={PostOptionsCSS}>
                     Regular posts
                 </li>
                 <hr/>
 
-                <li  onClick={()=>triggerUpdatePosts("Image")} id="image" style={PostOptionsCSS}>  
+                <li  onClick={()=>triggerUpdatePosts("Image","Images")} id="image" style={PostOptionsCSS}>  
                     Images
                 </li>
                 <hr/>
-                <li onClick={()=>triggerUpdatePosts("Video")} id="video" style={PostOptionsCSS}> 
+                <li onClick={()=>triggerUpdatePosts("Video","Videos")} id="video" style={PostOptionsCSS}> 
                     Videos
                 </li>
                 <hr/>
-                <li onClick={()=>triggerUpdatePosts("Blog")} id="blog" style={PostOptionsCSS}>
+                <li onClick={()=>triggerUpdatePosts("Blog","Blogs")} id="blog" style={PostOptionsCSS}>
                     Blogs
                 </li>
 			</Container>

@@ -1,6 +1,8 @@
-import React,{useState} from "react";
+import React,{useState,useContext} from "react";
+import {SymposiumContext} from "../SymposiumContext.js";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
+import PortalHOC from "./PortalHOC.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -55,6 +57,9 @@ const SymposiumOptionsPortal=({
 		selectedSymposiumTitle,
 		changeDisplaySpecficSymposiumFeatures
 	})=>{
+	const symposiumConsumer=useContext(SymposiumContext);
+	const [component,changeComponent]=useState();
+	const [displayPortalHOC,changeDisplayPortalHOC]=useState(false);
     const isUserFollowingSymposium=(followingIndicator)=>{
     	return(
     		<React.Fragment>
@@ -66,9 +71,30 @@ const SymposiumOptionsPortal=({
     	)
     }
 
+    const featureDisplay=(displayChat,symposiumFeatureType)=>{
+    	let targetComponent;
+    	if(displayChat==true){
+
+    	}else{
+    		targetComponent=symposiumConsumer.specificSymposiumFeaturesComponent(symposiumFeatureType)
+    	}
+    	changeComponent(targetComponent);
+    	changeDisplayPortalHOC(true);
+    }
+
+    const closePortalModal=()=>{
+    	changeDisplayPortalHOC(false);
+    }
+
 	return createPortal(
 		<React.Fragment>
 			<Container>
+				{displayPortalHOC==true &&(
+					<PortalHOC
+						component={component}
+						closeModal={closePortalModal}
+					/>
+				)}
 				<div style={SymposiumAndChatInformationCSS} 
 					onClick={()=>symposiumInformation.handleFollowSymposium()}>
 					{isUserFollowingSymposium(symposiumInformation.isUserFollowingSymposium())}
@@ -76,12 +102,32 @@ const SymposiumOptionsPortal=({
 
 				<hr/>
 				<div style={SymposiumAndChatInformationCSS} 
-					onClick={()=>changeDisplayHighLightQuesition(true)}>
-					Community Questions
+					onClick={()=>featureDisplay(false,"Community")}>
+					Community Posts
 				</div>
 
 				<hr/>
+				<div style={SymposiumAndChatInformationCSS} 
+					onClick={()=>featureDisplay(false,"Beacon")}>
+					Beacons
+				</div>
 
+				<hr/>
+				{
+					selectedSymposiumTitle=="General"||
+					selectedSymposiumTitle=="Religion"||
+					selectedSymposiumTitle=="Gaming"||
+					selectedSymposiumTitle=="Philosophy"?
+					<div style={SymposiumAndChatInformationCSS} 
+						onClick={()=>featureDisplay(true,"Chat")}>
+						<p>Chat </p>
+					</div>:
+					<div style={SymposiumAndChatInformationCSS} 
+						onClick={()=>featureDisplay(false,"University")}>
+						<p> Symposium University </p>
+					</div>
+				}	
+				<hr/>
 				<div style={SymposiumAndChatInformationCSS} 
 					onClick={()=>symposiumInformation.displayPopularVideos()}>
 					Popular videos
@@ -95,17 +141,6 @@ const SymposiumOptionsPortal=({
 				</div>
 
 				<hr/>
-				<div style={SymposiumAndChatInformationCSS} 
-					onClick={()=>changeDisplaySpecficSymposiumFeatures(true)}>
-					{
-						selectedSymposiumTitle=="General"||
-						selectedSymposiumTitle=="Religion"||
-						selectedSymposiumTitle=="Gaming"||
-						selectedSymposiumTitle=="Philosophy"?
-						<p>Chat </p>:
-						<p> Symposium University </p>
-					}	
-				</div>
 			</Container>
 			<ShadowContainer
 				onClick={()=>closeModal()}
