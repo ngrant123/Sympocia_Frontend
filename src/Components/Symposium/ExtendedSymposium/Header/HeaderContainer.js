@@ -178,6 +178,7 @@ const HeaderContainer=(props)=>{
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
 	const [displayMobilePostOptions,changeMobileDisplayPostOptions]=useState(false);
+	const [selectedSymposiumFeature,changeSelectedSymposiumFeature]=useState("Community");
 
 	const [displaySymposiumCommunityModal,changeDisplaySymposiumCommunityModal]=useState(true);
 	const [displayBeaconModal,changeDisplayBeaconsModal]=useState(false);
@@ -424,18 +425,21 @@ const HeaderContainer=(props)=>{
 		changeDisplaySymposiumCommunityModal(true);
 		changeDisplayBeaconsModal(false);
 		changeDisplayUniversityModal(false);
+		changeSelectedSymposiumFeature("Community");
 	}
 
 	const triggerDisplaySymposiumUniversityModal=()=>{
 		changeDisplaySymposiumCommunityModal(false);
 		changeDisplayBeaconsModal(false);
 		changeDisplayUniversityModal(true);
+		changeSelectedSymposiumFeature("University");
 	}
 
 	const triggerDisplaySymposiumBeaconsModal=()=>{
 		changeDisplaySymposiumCommunityModal(false);
 		changeDisplayBeaconsModal(true);
 		changeDisplayUniversityModal(false);
+		changeSelectedSymposiumFeature("Beacon");
 	}
 
 	const symposiumFeaturesEntrance=()=>{
@@ -492,11 +496,18 @@ const HeaderContainer=(props)=>{
 											onClick={()=>triggerDisplaySymposiumCommunityModal()}>
 											Symposium Community
 										</p>
-										<p style={displayUniversityModal==true?SelectedSymposiumOptionCSS:
-											NonSelectedSymposiumOptionCSS}
-											onClick={()=>triggerDisplaySymposiumUniversityModal()}>
-											Symposium University
-										</p>
+										
+										{(selectedSymposiumTitle=="General"||
+											selectedSymposiumTitle=="Religion"||
+											selectedSymposiumTitle=="Gaming"||
+											selectedSymposiumTitle=="Philosophy")==false &&(
+											<p style={displayUniversityModal==true?SelectedSymposiumOptionCSS:
+												NonSelectedSymposiumOptionCSS}
+												onClick={()=>triggerDisplaySymposiumUniversityModal()}>
+												Symposium University
+											</p>
+										)}
+
 
 										<p style={displayBeaconModal==true?SelectedSymposiumOptionCSS:
 											{...NonSelectedSymposiumOptionCSS,marginLeft:"5%"}}
@@ -507,13 +518,14 @@ const HeaderContainer=(props)=>{
 
 									<div style={{backgroundColor:"red",width:"100%",height:"230px",borderRadius:"5px"}}>
 										<SymposiumFeaturesModals
-											questionInformation={props.communityQuestions.questionInformation}
-											isSimplified={props.communityQuestions.isSimplified}
-											selectedSymposium={props.communityQuestions.selectedSymposium}
+											questionInformation={props.communityQuestions}
+											isSimplified={props.headerAnimation}
+											selectedSymposium={props.selectedSymposiumTitle}
 											isGuestProfile={isGuestProfile}
 											isOligarch={props.isOligarch}
 											ownerId={personalInformation.id}
 											symposiumId={symposiumId}
+											selectedSymposiumFeature={selectedSymposiumFeature}
 										/>
 									</div>
 								</div>

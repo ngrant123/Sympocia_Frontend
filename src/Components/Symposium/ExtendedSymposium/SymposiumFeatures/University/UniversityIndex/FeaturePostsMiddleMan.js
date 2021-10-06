@@ -52,11 +52,10 @@ const ShadowContainer=styled.div`
 `;
 
 
-const ModalDecider=({closeModal,modalType,symposium,symposiumId,selectedQuestion})=>{
+const ModalDecider=({closeModal,modalType,symposiumId,selectedQuestion})=>{
 	const dispatch=useDispatch();
 	const modalDecider=(symposiumInformation)=>{
 		const postModalProps={
-			symposium,
 			modalType,
 			selectedQuestion,
 			symposiumId,

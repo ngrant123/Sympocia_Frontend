@@ -34,7 +34,7 @@ import {
 		setPersonalProfileRefreshToken
 } from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
-import HightLightedQuestions from "./SymposiumFeatures/index.js";
+import SymposiumFeatures from "./SymposiumFeatures/index.js";
 import {
 	SymposiumContainer,
 	PopularVideos,
@@ -217,7 +217,7 @@ class Symposium extends Component{
 	  			hasProfileViewedOligarchFinalResults,
 	  			_id
   			}=data;
-	  			
+	  		console.log(data);
 	  		this.setState(prevState=>({
 		  		...prevState,
 		  		selectedSymposiumTitle:this.props.match.params.symposiumName,
@@ -245,9 +245,7 @@ class Symposium extends Component{
 		  	setTimeout(function(){
 				postContainerElement.style.opacity="1";
 		  	},500);
-
 		  	connectToRoom(socket,_id);
-
   		}else{
   			alert('Unfortunately there has been a problem with getting the symposium information. Please try again');
   		}
@@ -554,8 +552,8 @@ class Symposium extends Component{
 		)
 	}
 
-	highlightedQuestionsSimplifiedModal=()=>{
-		return( <HightLightedQuestions
+	symposiumFeaturesSimplifiedModal=()=>{
+		return( <SymposiumFeatures
 					questionInformation={this.state.communityQuestionsAndResponses}
 					isSimplified={this.state.headerAnimation}
 					selectedSymposium={this.state.selectedSymposiumTitle}
@@ -756,6 +754,8 @@ class Symposium extends Component{
 			<SymposiumProvider
 				value={{
 					symposiumId:this.state.symposiumId,
+					communityQuestions:this.state.communityQuestionsAndResponses,
+					symposiumUniversityQuestions:this.state.symposiumUniversityQuestions,
 					handleSeeAllPeopleActiveModal:()=>{
 						this.triggerSeeAllPeopleActiveModal()
 					},
@@ -763,7 +763,7 @@ class Symposium extends Component{
 						this.triggerDisplayPopularVideosModal()
 					},
 					highLightedQuestionComponent:()=>{
-						return this.highlightedQuestionsSimplifiedModal()
+						return this.symposiumFeaturesSimplifiedModal()
 					},
 					specificSymposiumFeaturesComponent:()=>{
 						let specificProps={
@@ -852,16 +852,11 @@ class Symposium extends Component{
 		  				isProfileFollowingSymposium={this.state.isProfileFollowingSymposium}
 		  				profileId={this.state.profileId}
 		  				changeFollowIndicator={this.changeFollowIndicator}
-		  				communityQuestions={{
-		  					questionInformation:this.state.communityQuestionsAndResponses,
-		  					isSimplified:this.state.headerAnimation,
-							selectedSymposium:this.state.selectedSymposiumTitle
-		  				}}
+		  				communityQuestions={this.state.communityQuestionsAndResponses}
 		  				displayDesktopUI={this.state.displayDesktopUI}
 		  				symposiumId={this.state.symposiumId}
 						chat={this.state.chatRoom}
 						socket={socket}
-					  	symposium={this.state.selectedSymposiumTitle}
 					  	questions={this.state.symposiumUniversityQuestions}
 					  	isIpadView={this.state.displayIpadUI}
 					  	isGuestProfile={this.state.isGuestProfile}

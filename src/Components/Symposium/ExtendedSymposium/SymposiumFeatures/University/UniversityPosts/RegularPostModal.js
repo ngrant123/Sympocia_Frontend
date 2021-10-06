@@ -366,7 +366,6 @@ const RegularPostModal=(props)=>{
 			questionId:_id,
             questionType,
             questionLevel,
-            //currentPostSessionManagmentToken:isNextPostsRequest==true?currentPostToken:postToken,
             currentPostSessionManagmentToken:postFeedTokenGenerator(),
             ownerId:userId
 		});

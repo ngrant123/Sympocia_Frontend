@@ -366,7 +366,6 @@ const AudioPostModal=(props)=>{
 				questionId:_id,
 	            questionType,
 	            questionLevel:null,
-	            //currentPostSessionManagmentToken:isNextPostsRequest==true?currentPostToken:postToken,
 	            currentPostSessionManagmentToken:postFeedTokenGenerator(),
 	            ownerId:userId
 			}
