@@ -44,6 +44,14 @@ export const SymposiumHeaderAnimation=styled.div`
 	border-radius:5px;
 	z-index:3;
 	animation:${keyFrameExampleTwo} 1s ease-in-out 0s forwards;
+
+	@media screen and (max-width:1370px){
+		height:100px !important;
+	}
+
+	@media screen and (max-width:670px){
+		height:40% !important;
+	}
 `;
 
 
@@ -63,14 +71,51 @@ export const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		height:20%;
+		#headerContentsDiv{
+    		display:none !important;
+    	}
+   		#firstHeaderContentsContainer{
+    		width:200% !important;
+    	}
+    	#firstHeaderContentsDiv{
+    		margin-top:10% !important;
+    	}
 	}
 
-	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
-		height:50% !important;
-    }
 	@media screen and (max-width:730px) and (max-height:420px){
     	height:60% !important;
     }
+
+    @media screen and (max-width:650px){
+    	#headerContentsDiv{
+    		display:none !important;
+    	}
+    	#firstHeaderContentsContainer{
+    		width:35% !important;
+    	}
+    	#firstHeaderContentsDiv{
+    		display:none !important;
+    	}
+    	#firstHeaderContentsDiv{
+    		display:none !important;
+    	}
+    }
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		height:20% !important;
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	height:50% !important;
+   		#headerContentsDiv{
+    		display:none !important;
+    	}
+    	#firstHeaderContentsDiv{
+    		display:none !important;
+    	}
+    	#firstHeaderContentsDiv{
+    		display:none !important;
+    	}
+	}
 
 `;
 

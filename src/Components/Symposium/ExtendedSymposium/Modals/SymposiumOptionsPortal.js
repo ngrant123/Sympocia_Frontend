@@ -19,6 +19,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:40%;
+		left:40%;
 	}
 
 	@media screen and (max-width:650px){

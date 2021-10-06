@@ -1,4 +1,4 @@
-import React,{useEffect,useState,useRef,useMemo} from "react";
+import React,{useEffect,useState,useRef,useMemo,useContext} from "react";
 import styled from "styled-components";
 import CreateIcon from '@material-ui/icons/Create';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -10,8 +10,10 @@ import Blog from "./Blogs.js";
 import SymposiumCategoryUpload from "../../Modals/SymposiumCategoryUpload/index.js";
 import {PostDisplayProvider} from "./PostDisplayContext.js";
 import OligarchPostSettings from "../../Modals/Oligarchs/OligarchPostAbilities/OligarchDeleteOrMovePost.js";
+import {SymposiumContext} from "../../SymposiumContext.js";
 import {useSelector} from "react-redux";
 
+// margin-top:5%;
 const Container=styled.div`
 	width:90%;
 	height:550px;
@@ -23,14 +25,48 @@ const Container=styled.div`
 	border-radius:5px;
 	box-shadow: -5px 20px 20px #C4C4C4;
 	padding:20px;
-
 	@media screen and (max-width:1370px){
 		overflow:visible !important;
-		width:590px;
+		width:100%;
+		margin-left:-5%;
+		margin-top:5%;
+		box-shadow:none;
 	}
 	@media screen and (max-width:650px){
 		margin-left:-5%;
-		width:650px;
+		width:100% !important;
+		${({isSimplified})=>
+			isSimplified==true?
+			`
+				margin-top:90px;
+			`:
+			`
+				margin-top:-5px;
+			`
+		}
+	}
+
+	@media screen and (max-width:650px){
+		margin-left:-5%;
+		width:100% !important;
+		${({isSimplified})=>
+			isSimplified==true?
+			`
+				margin-top:90px;
+			`:
+			`
+				margin-top:-5px;
+			`
+		}
+	}
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+		margin-top:10%;
+    }
+
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		box-shadow:none;
 	}
 `;
 
@@ -77,6 +113,10 @@ const PostCategory=(props)=>{
 		isOligarch,
 		selectedSymposiumTitle
 	}=props;
+
+	const symposiumContext=useContext(SymposiumContext);
+	const {isSimplified}=symposiumContext;
+
 	const [postCategoryPosts,changePostCategoryPosts]=useState([]);
 	const loadingIndicatorRef=useRef();
 	const [displayCategoryUpload,changeDisplayCategoryUpload]=useState(false);
@@ -213,7 +253,7 @@ const PostCategory=(props)=>{
 				}
 			}}
 		>
-			<Container>
+			<Container isSimplified={isSimplified}>
 				{oligarchSettingsPortal()}
 				{categoryUploadDisplay()}
 				<div style={{display:"flex",flexDirection:"column"}}>

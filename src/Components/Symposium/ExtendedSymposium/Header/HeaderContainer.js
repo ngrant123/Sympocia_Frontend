@@ -77,50 +77,6 @@ const PopularVideosCSS={
 /*
 	Idea down the road is to have it so that the videos automatically display and play and repeat 
 	but that will be done later in a to do list
-
-
-	linear-gradient(to left, #9933ff 0%, #ff99ff 100%)
-	linear-gradient(to right,#E44D26 0%,#F16529 100%)
-
-
-	background:"rgba(0, 0, 0, 0.2)"
-
-
-
-		  specificSymposiumFeatures=()=>{
-	  	return <InitialSymposiumFeaturesDisplay
-	  				selectedSymposiumTitle={this.state.selectedSymposiumTitle}
-					symposiumId={this.state.symposiumId}
-					chatRoom={this.state.chatRoom}
-					profileId={this.state.profileId}
-					socket={socket}
-					closeSymposiumFeatureModal={this.closeSymposiumFeatureModal}
-					headerAnimation={this.state.headerAnimation}
-					symposiumUniversityQuestions={this.state.symposiumUniversityQuestions}
-					isGuestProfile={this.state.isGuestProfile}
-					displaySpecficSymposiumFeature={this.state.displaySpecficSymposiumFeature}
-	  			/>
-	  }
-
-	if(selectedSymposiumTitle=="General"||
-		selectedSymposiumTitle=="Religion"||
-		selectedSymposiumTitle=="Gaming"||
-		selectedSymposiumTitle=="Philosophy"){
-		const features={
-			requestedComponent:<Chat
-							  		roomId={symposiumId}
-							  		chat={chatRoom}
-							  		profileId={profileId}
-							  		socket={socket}
-							  		closePostModal={closeSymposiumFeatureModal}
-							  		isSimplified={isSimplified}
-								/>,
-			isGeneral:true
-		}
-		return features;
-	}else{
-	
-	}
 */
 
 const ShadowDivCSS={
@@ -177,6 +133,8 @@ const HeaderContainer=(props)=>{
 			postType
 		}=props;
 	debugger;
+	console.log("Header logs");
+	console.log(props);
 	const SymposiumConsumer=useContext(SymposiumContext);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);
@@ -470,8 +428,9 @@ const HeaderContainer=(props)=>{
 				<Container id="headerContents">
 					{props.isLoading==false &&(
 						<>
-							<HeaderContainerDiv style={{background:backgroundColor}}>
-								<div style={{padding:"30px",position:"absolute",marginTop:"22%",width:"90%",height:"100%",zIndex:10,marginLeft:"5%"}}>
+							<HeaderContainerDiv id="firstHeaderContentsContainer"  style={{background:backgroundColor}}>
+								<div id="firstHeaderContentsDiv" 
+									style={{padding:"30px",position:"absolute",marginTop:"22%",width:"90%",height:"100%",zIndex:10,marginLeft:"5%"}}>
 									<div style={{marginBottom:"22%"}}>
 										<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 											<p style={{color:"white",fontSize:"30px",fontFamily:"'Poppins'"}}>
@@ -491,7 +450,7 @@ const HeaderContainer=(props)=>{
 							</HeaderContainerDiv>
 
 							<HeaderContainerDiv style={{background:backgroundColor,width:"50%"}}>
-								<div style={{position:"absolute",marginTop:"12%",width:"100%",zIndex:10,padding:"30px"}}>
+								<div id="headerContentsDiv" style={{position:"absolute",marginTop:"12%",width:"100%",zIndex:10,padding:"30px"}}>
 									<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
 										<p style={displaySymposiumCommunityModal==true?
 											SymposiumCommunitySelectedOptionCSS:
@@ -527,7 +486,7 @@ const HeaderContainer=(props)=>{
 							</HeaderContainerDiv>
 
 							<HeaderContainerDiv style={{background:backgroundColor}}>
-								<div style={{position:"absolute",marginTop:"30%",width:"100%",zIndex:10,marginLeft:"30%"}}>
+								<div id="headerContentsDiv" style={{position:"absolute",marginTop:"30%",width:"100%",zIndex:10,marginLeft:"30%"}}>
 									<div onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})}
 										style={{...ButtonCSS,backgroundColor:"white",color:"#252525",marginBottom:"17%",boxShadow:"1px 1px 5px #6e6e6e"}}>
 										<b>
@@ -554,95 +513,6 @@ const HeaderContainer=(props)=>{
 								</div>
 								{shadowOverlay()}
 							</HeaderContainerDiv>
-							{/*
-								<HighlightedQuestionsContainer>
-									<p style={{fontSize:"18px",color:"white"}}>
-										<b>Community Questions</b>
-									</p>
-									<SymposiumFeaturesModals
-										questionInformation={props.communityQuestions.questionInformation}
-										isSimplified={props.communityQuestions.isSimplified}
-										selectedSymposium={props.communityQuestions.selectedSymposium}
-										isGuestProfile={isGuestProfile}
-										isOligarch={props.isOligarch}
-										ownerId={personalInformation.id}
-										symposiumId={symposiumId}
-									/>
-								</HighlightedQuestionsContainer>
-								<SymposiumTitlesAndVideosContainer>
-									<SymposiumTitle>
-										<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-											<p id="symposiumTitleText"
-												style={{color:"white",marginLeft:"2%",fontSize:"36px"}}>
-												{displayDesktopUI==true?
-													<><b>{selectedSymposiumTitle}</b></>:
-													<>{selectedSymposiumTitle}</>
-												}
-											</p>
-											<div style={{...BeaconDivCSS,background:backgroundColor}}>
-												{beaconElement()}
-											</div>
-										</div>
-									</SymposiumTitle>
-									<PopularVideosContainer>
-										<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-											<p style={{color:"white",fontSize:"18px"}}>Popular Videos </p>
-											<p style={{color:"white",fontSize:"18px",cursor:"pointer"}}
-												onClick={()=>displayPopularVideos()}
-											> See All </p>
-										</div>
-										<PopularVideos>
-											{popularVideos.map(data=>
-												<>
-													{data!=null &&(
-														<li style={PopularVideosCSS}>
-															<video id="smallVideo" key={uuidv4()} borderRadius="5px" 
-																position="relative" height="50px" width="60px">
-																<source src={data.videoUrl} type="video/mp4"/>
-															</video>
-														</li>
-													)}
-												</>
-											)}
-										</PopularVideos>
-									</PopularVideosContainer>
-								</SymposiumTitlesAndVideosContainer>
-								<ActivePeopleAndFollowContainer>
-									<li style={{listStyle:"none",display:"inline-block",marginBottom:"30%"}}>
-										<ul style={{padding:"0px"}}>
-												<p style={{color:"white",fontSize:"18px"}}>
-													<b>Active People</b>
-												</p>
-												<li style={{listStyle:"none",width:"90%"}}>
-													<ActiveContainer>
-														<ul>
-											 				{activePeople.map(data=>
-										 						<li  style={{listStyle:"none",display:"inline-block",marginRight:"20px",marginBottom:"10px"}}>
-										 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
-										 								<img src={data.profilePicture!=null?
-										 											data.profilePicture:
-										 											NoProfilePicture} 
-										 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
-										 							</ActiveProfilePictures>
-										 						</li>
-										 					)}
-											 			</ul>
-													</ActiveContainer>
-												</li>
-										</ul>
-									</li>
-									<div onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})}
-										style={{...ButtonCSS,background:backgroundColor}}>
-										<b>
-											<AddCircleOutlineIcon style={{font:20}}/>
-											 	{followSymposiumButtonClick==false?
-											 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
-											 		<p>Unfollow {selectedSymposiumTitle} Symposium</p>
-											 	}
-										</b>
-									</div>
-								</ActivePeopleAndFollowContainer>
-							*/}
 						</>
 					)}
 				</Container>:
@@ -667,3 +537,6 @@ export {
 	HeaderContainer,
 	SimpliedHeaderContainer
 }
+
+
+

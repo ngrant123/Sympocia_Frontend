@@ -41,6 +41,7 @@ const ButtonCSS={
     borderRadius:"5px",
     color:"white",
     cursor:"pointer",
+    height:"50px",
     display:"flex",
     justifyContent:"space-between",
     flexDirection:"row",
@@ -152,47 +153,6 @@ const SearchOptions=(props)=>{
                 />
                 {postOptionsMobileOrDesktop()}
             </div>
-
-            {/*
-                <SearchOptionContainer style={{width:"80%",marginLeft:state.headerAnimation==false?"10%":"0%"}}>	
-                    <SearchContainer>
-                        <SearchIcon
-                            style={{fontSize:30}}
-                        />
-                        <SearchTextArea
-                            id="symposiumSearchPostTextArea"
-                            placeholder="Search"
-                            onKeyPress={e=>searchPromptTrigger(e)}
-                        />
-                    </SearchContainer>
-                    {postOptionsMobileOrDesktop()}
-                    <SymposiumOptions
-                        headerAnimation={state.headerAnimation}
-                        displayPhoneUI={state.displayPhoneUI}
-                        selectedSymposiumTitle={state.selectedSymposiumTitle}
-                    />
-                    {state.displayDesktopUI==false &&(
-                        <Link to={{pathname:`/symposiumFeatures/${state.symposiumId}`}}>
-                            <MeetingRoomIcon
-                                style={{fontSize:30,color:"#333",marginLeft:"35%"}}
-                            />
-                        </Link>
-                    )}
-                </SearchOptionContainer>
-
-                {state.headerAnimation==true && (
-                    <MinifiedSymposiumInformation isScrollEnabled={state.headerAnimation}>
-                        {(state.displayPhoneUI==true && state.headerAnimation==true)==false &&(
-                            <>
-                                <p style={{marginTop:"10px",fontSize:"20px",marginRight:"5%"}}>
-                                    <b>{state.selectedSymposiumTitle}</b>
-                                </p>
-                                {beaconElement()}
-                            </>
-                        )}
-                    </MinifiedSymposiumInformation>
-                )}
-            */}
         </SympociaOptionsContainer>
     )
 }

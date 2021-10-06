@@ -20,6 +20,7 @@ let MobilePostOptionsButton={
     marginRight:"10%",
     width:"250px",
     overflow:"hidden",
+    height:"50px",
     boxShadow:"1px 1px 5px #6e6e6e"
 }
 const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle,backgroundColor})=>{
@@ -60,7 +61,7 @@ const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle,b
 									onClick={()=>changeDisplaySymposiumOptions(true)} 
 									style={{...MobilePostOptionsButton,background:backgroundColor}}>
 									<div style={{padding:"5px",textAlign:"center"}}>
-										Symposium Options
+										Symposium 
 									</div>
 			                        <div style={{width:"30%",height:"100%",background:"rgba(0, 0, 0, 0.2)",display:"flex",alignItems:"center",justifyContent:"center"}}>
 			                            <KeyboardArrowDownIcon/>

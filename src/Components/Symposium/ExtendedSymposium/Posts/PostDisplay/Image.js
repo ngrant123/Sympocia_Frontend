@@ -45,14 +45,22 @@ const SmallPostContainer=styled.div`
 			margin-left:-10% !important;
 		}
 		#smallImageContainer{
-			width:100% !important;
-			height:125px !important;
+			width:110% !important;
+			height:80% !important;
 		}
 		#videoDescriptionContainer{
 			height:30px !important;
 			width:30px !important;
 		}
 	}
+
+	@media screen and (min-width:650px) and (max-width:1100px) 
+		and (min-height:740px) and (max-height:1040px){
+		#smallImageContainer{
+			height:210px !important;
+		}
+	}
+
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 		margin-bottom:200px;

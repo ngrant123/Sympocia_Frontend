@@ -190,7 +190,6 @@ export const HightLightedQuestionsContainerModal=styled.div`
 
 export const PostsChatInformation=styled.div`
 	position:relative;
-	top:0%;
 	width:100%;
 	height:45%;
 	filter:blur(2px);
@@ -481,6 +480,10 @@ export const MobileQuickAccessSymposiumOptions=styled.div`
 		left:75%;
 	}
 
+	@media screen and (max-width:350px){
+		display:none !important;
+	}
+
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 		left:85%;
     }
@@ -488,7 +491,7 @@ export const MobileQuickAccessSymposiumOptions=styled.div`
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
 		top:50%;
-		left:75%;
+		left:80%;
 	}
 `;
 export const BeaconButtonContainer=styled.div`

@@ -267,7 +267,7 @@ class Symposium extends Component{
 		  	if(this.state.handleScroll!=false){
 		  		document.getElementById("extendedSymposiumContainer").style.overflow="auto";
 			  	document.getElementById("postChatInformation").style.overflow="visible";
-			  	document.getElementById("postChatInformation").style.top="-25%";
+			  	document.getElementById("postChatInformation").style.top="-210px";
 			  	document.getElementById("postChatInformation").style.filter="blur(0)";
 			  	document.getElementById("postChatInformation").style.zIndex=2;
 			  	document.getElementById("arrowIndicator").style.opacity="0";
@@ -756,6 +756,7 @@ class Symposium extends Component{
 					symposiumId:this.state.symposiumId,
 					communityQuestions:this.state.communityQuestionsAndResponses,
 					symposiumUniversityQuestions:this.state.symposiumUniversityQuestions,
+					isSimplified:this.state.headerAnimation,
 					handleSeeAllPeopleActiveModal:()=>{
 						this.triggerSeeAllPeopleActiveModal()
 					},

@@ -34,7 +34,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:330px){
 		#video{
-			width:250px !important;
+			width:200px !important;
 		}
 	}
 `;

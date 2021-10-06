@@ -19,12 +19,13 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		width:40%;
 		top:25%;
+		left:56%;
 	}
 
 	@media screen and (max-width:650px){
 		height:60%;
 		overflow-y:scroll;
-		left:5%;
+		left:45%;
 		width:50%;
 		top:25%;
 	}

@@ -29,7 +29,7 @@ export const PostContainer=styled.div`
 
 	@media screen and (max-width:650px){
     	position:absolute;
-		width:100%;
+		width:90%;
 		height:150% !important;
 		padding-top:50% !important;
     	top:58% !important;
@@ -65,14 +65,15 @@ export const PostContainer=styled.div`
     	margin-left:0% !important;
     }
 
-    @media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
-		top:50%!important;
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
 		${({isScrollEnabled})=>
-			isScrollEnabled==true &&(
-				`top:90% !important;`
-			)
-		}
-    }
+		isScrollEnabled==true &&(
+		`			
+			top:80% !important;
+			width:90%;
+		`
+		)}
+	}
 
 
 `;

@@ -16,13 +16,16 @@ import SearchBarModal from "./SearchBarModal.js";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import AnonymousSuggestionPortal from "./AnonymousSuggestionPortal.js";
 import SympociaStampIcon from "../../../../designs/img/StampIcon.png";
+import SearchIcon from '@material-ui/icons/Search';
 
 import {
 	Container,
 	SearchButton,
 	NavBarButton,
 	CreateButton,
-	BackgroundContainer
+	BackgroundContainer,
+	SearchContainer,
+	SearchTextArea
 } from "./NavBarCSS.js";
 import {
 	getNotifications,
@@ -65,7 +68,6 @@ const SympociaLogoContainer=styled(Link)`
 const PersonalInformationContainer=styled.div`
 	display:flex;
 	width:228px;
-	background-color:white;
 	flex-direction:row;
 	align-items:center;
 	margin-right:2%;
@@ -226,6 +228,28 @@ const PostUploadStatusNotificationCSS={
 	display:"flex",
 	flexDirection:"row",
 	transition:".8s"
+}
+
+const HorizontalLineCSS={
+	marginLeft:"0",
+	position:"relative",
+	marginRight:"0",
+	backgroundColor:"red",
+	width:"2px",
+	height:"30px"
+}
+
+const SignupButtonCSS={
+	height:"15%",
+	borderRadius:"5px",
+	backgroundColor:"#272727",
+	padding:"10px",
+	display:"flex",
+	alignItems:"center",
+	justifyContent:"center",
+	fontSize:"16px",
+	cursor:"pointer",
+	boxShadow:"1px 1px 5px #6e6e6e"
 }
 /*
 	Down the road should look into implementing something like
@@ -564,72 +588,74 @@ const NavBar=(pageProps)=>{
 					)}
 				</SympociaLogoContainer>
 
-				<div style={{display:"flex",alignItems:"center",cursor:"pointer"}}>
-					<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle" 
-							type="button" data-toggle="dropdown"
-							style={{...PersonalPreferencesDropDownCSS,backgroundColor:homeIconBackgroundFill}}>
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-smart-home"
-							 	width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" 
-							 	stroke="#C8B0F4" fill="none"
-							 	stroke-linecap="round" stroke-linejoin="round">
-							  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-							 	<path d="M19 8.71l-5.333 -4.148a2.666 2.666 0 0 0 -3.274 0l-5.334 4.148a2.665 2.665 0 0 0 -1.029 2.105v7.2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-7.2c0 -.823 -.38 -1.6 -1.03 -2.105" />
-							  	<path d="M16 15c-2.21 1.333-5.792 1.333-8 0" />
-							</svg>
-						</button>
-						<ul class="dropdown-menu">
-							<li>
-								<Link  to="/home">Home</Link>
-							</li>
-							<hr/>
-							<li>
-								<Link to="/symposiumList">Symposiums</Link>
-							</li>
-							<hr/>
-							<li style={{padding:"20px"}}onClick={()=>changeDisplaySearchModal(!displaySearchModal)}>
-								Search
-							</li>
-						</ul>
+				<div style={{display:"flex",alignItems:"center",cursor:"pointer",width:"50%",justifyContent:"space-between"}}>
+					<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+						<ExploreIcon
+							style={{fontSize:"25",marginTop:"-10px"}}
+						/>
+						<p style={{fontSize:"16px"}}>
+							<Link style={{color:"#151515"}} to="/home">Explore</Link>
+						</p>
 					</div>
+					<p style={{fontSize:"16px",color:"#151515"}}>
+						<Link style={{color:"#151515"}} to="/symposiumList">Symposiums</Link>
+					</p>
+					<SearchContainer onClick={()=>changeDisplaySearchModal(!displaySearchModal)}>
+		                <SearchTextArea
+		                    placeholder="Search"
+		                />
+		                <SearchIcon
+		                    style={{fontSize:30}}
+		                />
+		            </SearchContainer>
 				</div>
 
-				<PersonalInformationContainer displayNotificationIndicator={displayNotificationIndicator}>
-					<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle" 
-							type="button" data-toggle="dropdown" style={PersonalPreferencesDropDownCSS}>
-							<b>Me</b>
-						</button>
+				{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
+					<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center",width:"10%"}}>
+						<p style={{fontSize:"16px"}} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>Login</p>
+						<div style={HorizontalLineCSS}/>
+						<div style={SignupButtonCSS}>
+							<Link style={{color:"white"}} to={{pathname:`/signup`}}>Signup</Link>
+						</div>
+					</div>:
+					<PersonalInformationContainer displayNotificationIndicator={displayNotificationIndicator}>
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" 
+								type="button" data-toggle="dropdown" style={PersonalPreferencesDropDownCSS}>
+								<b>Me</b>
+							</button>
 
-					   	<span class="caret"></span>
-					   	<ul class="dropdown-menu">
-							<li>
-								{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
-									<Link to='/signup'>Sign Up</Link>:
-									<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
-								}
-							</li>
-							{NotificationPrompt()}
-							<hr/>
-							<li>
-								<Link to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
-									{personalProfileState.isGuestProfile==true?
-										<p>Log In</p>:
-										<p>Logout</p>
+						   	<span class="caret"></span>
+						   	<ul class="dropdown-menu">
+								<li>
+									{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
+										<Link to='/signup'>Sign Up</Link>:
+										<Link to={`/profile/${personalProfileState.id}`}>Me</Link>
 									}
-								</Link>
-							</li>
-							<hr/>
-							<li style={{cursor:"pointer",paddingLeft:"12%",marginTop:"10%"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
-								Send opinion
-							</li>
-						</ul>
-					</div>
-					<div style={VerticalLineCSS}/>
-					<img src={profilePicture==null?NoProfilePicture:profilePicture} 
-						style={{marginLeft:"50%",width:"39px",height:"36px",borderRadius:"50%"}}
-					/>
-				</PersonalInformationContainer>
+								</li>
+								{NotificationPrompt()}
+								<hr/>
+								<li>
+									<Link to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
+										{personalProfileState.isGuestProfile==true?
+											<p>Log In</p>:
+											<p>Logout</p>
+										}
+									</Link>
+								</li>
+								<hr/>
+								<li style={{cursor:"pointer",paddingLeft:"12%",marginTop:"10%"}} onClick={()=>changeDispalyAnonymousTipsPortal(true)}>
+									Send opinion
+								</li>
+							</ul>
+						</div>
+						<div style={VerticalLineCSS}/>
+						<img src={profilePicture==null?NoProfilePicture:profilePicture} 
+							style={{marginLeft:"50%",width:"39px",height:"36px",borderRadius:"50%"}}
+						/>
+					</PersonalInformationContainer>
+				}
+
 			</React.Fragment>
 		)
 	}
