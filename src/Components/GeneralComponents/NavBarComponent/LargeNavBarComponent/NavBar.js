@@ -45,13 +45,13 @@ const glowing=keyframes`
       100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
 `;
 
-const SympociaLogoContainer=styled(Link)`
+const SympociaLogoContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	align-items:center;
 	margin-left:5%;
-
-
+	text-decoration:none;
+	cursor:pointer;
 
 	#sympociaTitleId{
 		${({ displayNewSympociaCommunityIndicator }) =>
@@ -234,7 +234,7 @@ const HorizontalLineCSS={
 	marginLeft:"0",
 	position:"relative",
 	marginRight:"0",
-	backgroundColor:"red",
+	backgroundColor:"#272727",
 	width:"2px",
 	height:"30px"
 }
@@ -453,7 +453,9 @@ const NavBar=(pageProps)=>{
 				<div id="mobileRoutesButton">
 					<div class="dropdown">
 						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={MobileRouteOptionCSS}>
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-smart-home" width="44" height="35" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C8B0F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							<svg id="routeIcon" xmlns="http://www.w3.org/2000/svg" 
+								class="icon icon-tabler icon-tabler-smart-home" width="44" height="35" viewBox="0 0 24 24" 
+								stroke-width="1.5" stroke="#C8B0F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
 							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 							  <path d="M19 8.71l-5.333 -4.148a2.666 2.666 0 0 0 -3.274 0l-5.334 4.148a2.665 2.665 0 0 0 -1.029 2.105v7.2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-7.2c0 -.823 -.38 -1.6 -1.03 -2.105" />
 							  <path d="M16 15c-2.21 1.333-5.792 1.333-8 0" />
@@ -493,7 +495,7 @@ const NavBar=(pageProps)=>{
 					</div>
 				</div>
 				<div>
-					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
+					<svg id="searchIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
 						id="searchLIContainer" onClick={()=>changeDisplaySearchModal(!displaySearchModal)}
 					  width="44" height="44" viewBox="0 0 24 24" stroke-width="2.5" stroke="#1C1C1C" 
 					  fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -575,18 +577,19 @@ const NavBar=(pageProps)=>{
 		const sympociaTitleColor=isTransparent==true?"white":"#212121";
 		return(
 			<React.Fragment>
-				<SympociaLogoContainer to={{pathname:`/sympociaCommunity`}} 
-					displayNewSympociaCommunityIndicator={displayNewSympociaCommunityIndicator}>
-					<img src={SympociaStampIcon} style={StampIconCSS}/>
-					<p style={{fontSize:"18px",color:sympociaTitleColor}}>
-						<b>Sympocia</b>
-					</p>
-					{displayNewSympociaCommunityIndicator==false &&(
-						<p id="sympociaTitleId" style={{padding:"5px",borderRadius:"5px",marginLeft:"5%",color:"#C8B0F4"}}>
-							<b>New</b>
-						</p>
-					)}
-				</SympociaLogoContainer>
+				<Link style={{textDecoration:"none"}} to={{pathname:`/sympociaCommunity`}}>
+					<SympociaLogoContainer displayNewSympociaCommunityIndicator={displayNewSympociaCommunityIndicator}>
+							<img src={SympociaStampIcon} style={StampIconCSS}/>
+							<p style={{fontSize:"18px",color:sympociaTitleColor}}>
+								<b>Sympocia</b>
+							</p>
+							{displayNewSympociaCommunityIndicator==false &&(
+								<p id="sympociaTitleId" style={{padding:"5px",borderRadius:"5px",marginLeft:"5%",color:"#C8B0F4"}}>
+									<b>New</b>
+								</p>
+							)}
+					</SympociaLogoContainer>
+				</Link>
 
 				<div style={{display:"flex",alignItems:"center",cursor:"pointer",width:"50%",justifyContent:"space-between"}}>
 					<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
@@ -612,7 +615,12 @@ const NavBar=(pageProps)=>{
 
 				{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
 					<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center",width:"10%"}}>
-						<p style={{fontSize:"16px"}} to={{pathname:`/logout`,state:{isLoggedOut:true}}}>Login</p>
+						<p style={{fontSize:"16px",cursor:"pointer"}}>
+							<Link style={{textDecoration:"none",color:"black"}}
+								to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
+								Login
+							</Link>
+						</p>
 						<div style={HorizontalLineCSS}/>
 						<div style={SignupButtonCSS}>
 							<Link style={{color:"white"}} to={{pathname:`/signup`}}>Signup</Link>
@@ -635,7 +643,7 @@ const NavBar=(pageProps)=>{
 								</li>
 								{NotificationPrompt()}
 								<hr/>
-								<li>
+								<li> 
 									<Link to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
 										{personalProfileState.isGuestProfile==true?
 											<p>Log In</p>:

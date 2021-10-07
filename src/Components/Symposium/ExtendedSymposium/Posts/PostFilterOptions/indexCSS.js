@@ -55,9 +55,13 @@ export const SympociaOptionsContainer=styled.div`
 	}
 
 	@media screen and (min-width:1000px) and (max-width:1030px) and (min-height:1300px) and (max-height:1390px){
-		display:none !important;
+		${({isScrollEnabled})=>
+		isScrollEnabled==true &&(
+		`			
+			top:130px;
+		`
+		)}
 	}
-
 
 
 	@media screen and (max-width:350px){

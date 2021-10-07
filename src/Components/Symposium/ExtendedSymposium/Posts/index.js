@@ -31,6 +31,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
 
 
     const  changePostOption=async(symposiumCategoryType,newPostOption,isNewPostOption,postCount,loadingNewPostsRef)=>{
+        debugger;
         if(postCount>0){
             changeIsLoadingReloadedPosts(true);
         }else{
@@ -137,23 +138,23 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     }
 
     const fetchPosts=(newPostOption,resetSearchResults)=>{
+        debugger;
         if(resetSearchResults==true){
-            resetAndFetchPosts(newPostOption);
+            resetAndFetchPosts(newPostOption,true);
         }else if(newPostOption!=postOption){
-            resetAndFetchPosts(newPostOption);
+            resetAndFetchPosts(newPostOption,false);
         }
     }
 
-    const resetAndFetchPosts=(newPostOption)=>{
+    const resetAndFetchPosts=(newPostOption,reset)=>{
         changeIsLoadingReloadedPosts(true);
         changePostCount(0);
-        changePosts([]);
+        changePosts({...state.posts});
         changePostSessionToken(uuidv4());
-        changePostOption(
-            null,
-            newPostOption,
-            true,
-            0);
+        
+        if(reset==false){
+            changePostOption(null,newPostOption,true,0);
+        }
     }
 
     const searchFilterPosts=(posts)=>{

@@ -15,7 +15,7 @@ const Container=styled.div`
 		}
 		#video{
 			height:185px !important;
-			width:550px !important;
+			width:110% !important;
 		}
 	}
 
@@ -37,6 +37,13 @@ const Container=styled.div`
 			width:200px !important;
 		}
 	}
+
+	@media screen and (min-width:400px) and (max-width:720px) and (min-height:1100px) and (max-height:1370px){
+		#video{
+			width:120% !important;
+		}
+	}
+
 `;
 
 const Video=({videoInformation})=>{

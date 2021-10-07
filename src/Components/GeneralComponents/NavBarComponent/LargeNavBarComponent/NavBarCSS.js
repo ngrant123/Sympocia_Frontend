@@ -75,8 +75,6 @@ export const Container=styled.div`
 	height:10%;
 	border-bottom:1px solid #F8F8F8;
 	background-color:white;
-
-	
 	z-index:40;
 
 	@media screen and (max-width:1370px) {
@@ -116,6 +114,18 @@ export const Container=styled.div`
 			margin-left:-150% !important;
 		}
 	}
+
+
+
+	@media screen and (min-width:650px) and (max-width:720px) and (min-height:700px) and (max-height:800px){
+		#routeIcon{
+			height:25px !important;
+		}
+		#searchIcon{
+			height:25px !important;
+		}
+	}
+
 	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
 		height:9%;
     }

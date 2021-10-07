@@ -25,6 +25,7 @@ import GuestOnboarding from "../../OnBoarding/GuestOnboarding.js"
 import LoadingScreen from "../../../LoadingAnimation.js";
 import MobilePostOptionsPortal from "./Modals/MobileUI/PostOptionsPortal.js";
 import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
+import PortalHOC from "./Modals/PortalHOC.js";
 import {
 		addSymposium,
 		removeSymposium
@@ -40,7 +41,6 @@ import {
 	PopularVideos,
 	PostsChatInformation,
 	BackgroundModalContainer,
-	ActivePeopleContainer,
 	ExploreIconContainer,
 	PageIndicator,
 	SymposiumFeatureContainer,
@@ -305,13 +305,27 @@ class Symposium extends Component{
 	  			isLoading:true
 	  		})	
 	  }
+	  closePopularVideosModal=()=>{
+	  	this.setState({
+	  		displayPopularVideos:false
+	  	})
+	  }
 
 	  handleSeeAllPopularVideos=()=>{
-	  	return <PopularVideosModal
-	  				popularVideos={this.state.popularVideos}
-	  				changeState={this}
-  					displayPopularVideos={this.state.displayPopularVideos}
-	  			/>
+	  	return  <React.Fragment>
+	  				{this.state.displayPopularVideos==true &&(
+			  			<PortalHOC
+			  				component={
+			  					<PopularVideosModal
+					  				popularVideos={this.state.popularVideos}
+					  				changeState={this}
+				  					displayPopularVideos={this.state.displayPopularVideos}
+					  			/>
+			  				}
+			  				closeModal={this.closePopularVideosModal}
+			  			/>
+	  				)}
+	  			</React.Fragment>
 	  } 
 
 	  //Method below is not working completely correct but is doing half it correctly moving on 
@@ -360,13 +374,27 @@ class Symposium extends Component{
 			 	</li>
 	}
 
-	  handleSeeAllPeopleActiveModal=()=>{
-	  	return <ActivePeopleModal
-  					peopleActive={this.state.activePeople}
-  					changeState={this}
-  					displayModalPeopleActive={this.state.displayModalPeopleActive}
-  				/>
-	  }
+	closeActivePeopleModal=()=>{
+		this.setState({
+			displayModalPeopleActive:false
+		})
+	}
+
+	handleSeeAllPeopleActiveModal=()=>{
+		return 	<React.Fragment>
+					{this.state.displayModalPeopleActive==true &&(
+						<PortalHOC
+							component={
+					  			<ActivePeopleModal
+				  					peopleActive={this.state.activePeople}
+				  				/>
+							}
+							closeModal={this.closeActivePeopleModal}
+						/>
+					)}
+				</React.Fragment>
+
+	}
 
 	  handleHeaderAnimatedContents=()=>{
 
@@ -675,15 +703,23 @@ class Symposium extends Component{
 		})
 	}
 
+
+
 	displayOligarchsElectionModal=()=>{
 		return(
 			<React.Fragment>
 				{this.state.displayOligarchsElection==true &&(
-					<Oligarchs
-						closeOligarchModal={this.closeOligarchsContest}
-						symposiumId={this.state.symposiumId}
-						profileId={this.props.profileId}
+					<PortalHOC
+						component={
+							<Oligarchs
+								closeOligarchModal={this.closeOligarchsContest}
+								symposiumId={this.state.symposiumId}
+								profileId={this.props.profileId}
+							/>
+						}
+						closeModal={this.closeOligarchsContest}
 					/>
+					
 				)}
 			</React.Fragment>
 		)
@@ -738,10 +774,15 @@ class Symposium extends Component{
 		return(
 			<React.Fragment>
 				{this.state.displayFinalOligarchsCompetitionResults==true &&(
-					<OligarchsFinalResults
+					<PortalHOC
+						component={
+							<OligarchsFinalResults
+								closeModal={this.closeOligarchFinalResutlsDisplay}
+								selectedSymposiumTitle={this.state.selectedSymposiumTitle}
+								symposiumId={this.state.symposiumId}
+							/>
+						}
 						closeModal={this.closeOligarchFinalResutlsDisplay}
-						selectedSymposiumTitle={this.state.selectedSymposiumTitle}
-						symposiumId={this.state.symposiumId}
 					/>
 				)}
 			</React.Fragment>
@@ -757,6 +798,7 @@ class Symposium extends Component{
 					communityQuestions:this.state.communityQuestionsAndResponses,
 					symposiumUniversityQuestions:this.state.symposiumUniversityQuestions,
 					isSimplified:this.state.headerAnimation,
+					triggerDisplayOligarchsModal:this.triggerDisplayOligarchsModal,
 					handleSeeAllPeopleActiveModal:()=>{
 						this.triggerSeeAllPeopleActiveModal()
 					},
@@ -766,8 +808,18 @@ class Symposium extends Component{
 					highLightedQuestionComponent:()=>{
 						return this.symposiumFeaturesSimplifiedModal()
 					},
-					specificSymposiumFeaturesComponent:(selectedSymposiumFeatureType)=>{
-						const requestedComponent=<SymposiumFeatures
+					specificSymposiumFeaturesComponent:(selectedSymposiumFeatureType,isPortalHocComponent)=>{
+						let requestedComponent;
+						if(selectedSymposiumFeatureType=="Chat"){
+							requestedComponent=<Chat
+											  		roomId={this.state.symposiumId}
+											  		chat={this.state.chatRoom}
+											  		profileId={this.props.profileId}
+											  		socket={socket}
+											  		isSimplified={this.state.headerAnimation}
+												/>
+						}else{
+							requestedComponent=<SymposiumFeatures
 													questionInformation={this.state.communityQuestionsAndResponses}
 													isSimplified={this.state.headerAnimation}
 													selectedSymposium={this.state.selectedSymposiumTitle}
@@ -775,8 +827,10 @@ class Symposium extends Component{
 													isOligarch={this.state.isOligarch}
 													ownerId={this.props.personalInformation.id}
 													symposiumId={this.state.symposiumId}
-													selectedSymposiumFeature={selectedSymposiumFeatureType}
+													selectedSymposiumFeature={selectedSymposiumFeatureType}								
+													isPortalHocComponent={isPortalHocComponent}
 												/>
+						}
 						
 						return <>{requestedComponent}</>
 					},
@@ -827,10 +881,10 @@ class Symposium extends Component{
 
 					{/*
 						{this.additionalInformation()}
+						{this.mobileSymposiumQuickAccessOptions()}
 					*/}
 
 					{this.arrowIndicatorButton()}
-					{this.mobileSymposiumQuickAccessOptions()}
 					{this.handleSeeAllPeopleActiveModal()}
 					{this.handleSeeAllPopularVideos()}
 					{this.displayBeacon()}

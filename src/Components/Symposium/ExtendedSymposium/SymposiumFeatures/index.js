@@ -6,7 +6,7 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import ImagePostDisplayPortal from "../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
 import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
 import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
-import {QuestionsPortal} from "./SymposiumCommunityPortal.js";
+import {QuestionsPortal} from "./Community/SymposiumCommunityPortal.js";
 import {
 	getSymposiumUniversityPostsApi,
 	getBeacons,
@@ -36,7 +36,12 @@ const SymposiumFeatureContainer=styled.div`
 	background-color:white;
 	display:flex;
 	flex-direction:column;
-	overflow-y:auto;
+
+	${({isPortalHocComponent})=>
+		isPortalHocComponent==true ?
+		`overflow-y:none;`:
+		`overflow-y:auto;`
+	}
 
 	${({isSimplified})=>
 		isSimplified==false?
@@ -59,6 +64,9 @@ const SymposiumFeatureContainer=styled.div`
 			#postLI{
 				margin-right:10% !important
 			}
+			#answerButton{
+				top:65% !important;
+			}
 		`
 	}
 
@@ -71,6 +79,17 @@ const SymposiumFeatureContainer=styled.div`
 			height:218px !important;
 		}
 
+		#imageHighlightedQuestion{
+			width:80% !important;
+		}
+
+		#answerButton{
+			top:67% !important;
+			left:70% !important;
+			width:15% !important;
+		}
+	}
+	@media screen and (max-width:800px){
 		#imageHighlightedQuestion{
 			width:90% !important;
 		}
@@ -86,16 +105,48 @@ const SymposiumFeatureContainer=styled.div`
 		}
 		#imageHighlightedQuestion{
 			height:95px !important;
-			width:90% !important;
+			width:85% !important;
+		}
+
+		#answerButton{
+			position:fixed !important;
+			left:65% !important;
+			top:80% !important;
+			width:30% !important;
 		}
 	}
 
 	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		width:100% !important;
 		#imageHighlightedQuestion{
-			width:40% !important;
-			height:40% !important;
+			width:250px !important;
+			height:200px !important;
+		}
+
+		#answerButton{
+			top:90% !important;
+		}
+		#videoQuestionAnswers{
+			height:300px !important;
+			width:400px !important;
 		}
     }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		#imageHighlightedQuestion{
+			width:200px !important;
+			height:150px !important;
+		}
+
+		#answerButton{
+			top:80% !important;
+		}
+
+		#videoQuestionAnswers{
+			height:210px !important;
+			width:200px !important;
+		}
+	}
 
 `;
 
@@ -120,15 +171,16 @@ const HorizontalLineCSS={
 
 
 const AnswerButtonCSS={
-	position:"absolute",
-	width:"25%",
-	height:"15%",
+	position:"fixed",
+	width:"10%",
+	height:"50px",
 	borderRadius:"5px",
 	color:"white",
 	backgroundColor:"#272727",
-	top:"75%",
-	left:"70%",
+	top:"37%",
+	left:"56%",
 	display:"flex",
+	zIndex:20,
 	alignItems:"center",
 	justifyContent:"center",
 	fontSize:"18px",
@@ -137,7 +189,11 @@ const AnswerButtonCSS={
 }
 
 const SymposiumFeatures=(props)=>{
-	const {selectedSymposiumFeature}=props;
+	const {
+		selectedSymposiumFeature,
+		isPortalHocComponent
+	}=props;
+	console.log(isPortalHocComponent);
 	const symposiumConsumers=useContext(SymposiumContext);
 	const {
 		symposiumId,
@@ -159,11 +215,19 @@ const SymposiumFeatures=(props)=>{
 	const [isLoading,changeIsLoading]=useState(false);
 	const [displayExtendedUniversityModal,changeDisplayExtendeUniversityModal]=useState(false);
 
-	const [beaconType,changeBeaconType]=useState("Images");
 	const beaconScrollQuestionsType=[
-		{question:"Images"},
-		{question:"Videos"},
-		{question:"Regular"}
+		{
+			question:"Images",
+			questionType:"Image"
+		},
+		{
+			question:"Videos",
+			questionType:"Video"
+		},
+		{
+			question:"Regular",
+			questionType:"Text"
+		}
 	]
 
 	useEffect(()=>{
@@ -186,13 +250,14 @@ const SymposiumFeatures=(props)=>{
 	const triggerRetrieveBeacons=async(counter)=>{
 		const featuresPageGetParams={
 			symposiumId,
-	        postType:beaconType,
+	        postType:beaconScrollQuestionsType[counter].question,
 	        currentPostSessionManagment:uuidv4(),
 	        ownerId:id,
 	        tags:null
 		}
 		const {confirmation,data}=await getBeacons(featuresPageGetParams);
 		if(confirmation=="Success"){
+			debugger;
 			const {message}=data;
 			changeCounter(counter)
 			changeResponses([...message]);
@@ -251,10 +316,13 @@ const SymposiumFeatures=(props)=>{
 
 	const constructResponses=(question)=>{
 		var element;
+		debugger;
 		if(responses.length==0){
 			return <p> No responses yet :(. Click on the question and click the pencil icon to make a post </p>
 		}else{
 			if(questions[counter].questionType=="Image"){
+				console.log("Responses");
+				console.log(responses);
 				return <div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
 							{responses.map(data=>
 								<div id="postLI" onClick={()=>setImagePost(data)} style={{marginRight:"2%"}}>
@@ -455,10 +523,10 @@ const SymposiumFeatures=(props)=>{
 				/>
 				:<React.Fragment></React.Fragment>
 			}
-			<SymposiumFeatureContainer isSimplified={props.isSimplified}>
+			<SymposiumFeatureContainer isSimplified={props.isSimplified} isPortalHocComponent={isPortalHocComponent}>
 				{isLoading==true?
 					<p> Loading...</p>:
-					<div>
+					<div style={{position:"relative"}}>
 						<div style={{display:"flex",flexDirection:"row"}}>
 							{counter!=0 &&(
 								<NavigateBeforeIcon
@@ -478,7 +546,7 @@ const SymposiumFeatures=(props)=>{
 						</div>
 						<hr style={HorizontalLineCSS}/>
 						{constructResponses(responses)}
-						<div style={AnswerButtonCSS}
+						<div id="answerButton" style={AnswerButtonCSS}
 							onClick={()=>expandQuestion()}>
 							Answer
 						</div>
@@ -488,266 +556,6 @@ const SymposiumFeatures=(props)=>{
 		</React.Fragment>
 	)
 }
-
-
-
-
-
-// class HighLightedQuestions extends Component{
-// 	constructor(props){
-// 		super(props);
-// 		const {
-// 			questions,
-// 			responses
-// 		}=props.questionInformation;
-
-// 		this.state={
-// 			questions,
-// 			responses,
-// 			displayImagePortal:false,
-// 			displayVideoPortal:false,
-// 			displayRegularPortal:false,
-// 			selectedPost:{},
-// 			displayExpandedQuestionModal:false,
-// 			counter:0,
-// 			isLoading:false
-// 		}
-// 	}
-
-// 	setImagePost=(data)=>{
-// 		this.setState({
-// 			selectedPost:data,
-// 			displayImagePortal:!this.state.displayImagePortal
-// 		})
-// 	}
-
-// 	setVideoPost=(data)=>{
-// 		this.setState({
-// 			selectedPost:data,
-// 			displayVideoPortal:!this.state.displayVideoPortal
-// 		})
-// 	}
-
-// 	setRegularPost=(data)=>{
-// 		this.setState({
-// 			selectedPost:data,
-// 			displayRegularPortal:!this.state.displayRegularPortal
-// 		})
-// 	}
-
-// 	uuidv4=()=>{
-// 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-// 	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-// 	    return v.toString(16);
-// 	  });
-// 	}
-
-
-// 	constructResponses=(question)=>{
-// 		var element;
-// 		if(this.state.responses.length==0){
-// 			return <p> No responses yet :(. Click on the question and click the pencil icon to make a post </p>
-// 		}else{
-// 			if(this.state.questions[this.state.counter].questionType=="Image"){
-// 				return <div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
-// 							{this.state.responses.map(data=>
-// 								<div id="postLI" onClick={()=>this.setImagePost(data)} style={{marginRight:"2%"}}>
-// 									<img id="imageHighlightedQuestion" src={data.imgUrl}
-// 									 style={{borderRadius:"5px",width:"90px",height:"80px",marginBottom:"5%",cursor:"pointer"}}
-// 									/>
-// 								</div>
-// 							)}
-// 						</div>;
-// 			}else if(this.state.questions[this.state.counter].questionType=="Video"){
-// 				return <div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
-// 							{this.state.responses.map(data=>
-// 								<div id="postLI" onClick={()=>this.setVideoPost(data)} 
-// 									style={{marginRight:"10%",marginBottom:"5%",width:"30%"}}>
-// 									<video id="videoQuestionAnswers"
-// 										style={{borderRadius:"5px",cursor:"pointer"}}
-// 										 position="relative" width="120" height="60"
-// 									 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-// 										<source src={data.videoUrl} type="video/mp4"/>
-// 									</video>
-// 								</div>
-// 							)}
-// 						</div>;
-// 			}else{
-// 				return <div style={{display:"flex",flexDirection:"column"}}>
-// 							{this.state.responses.map(data=>
-// 								<React.Fragment>
-// 									<p onClick={()=>this.setRegularPost(data)} style={{cursor:"pointer",width:"100%",marginBottom:"5%"}}>
-// 										{data.post}	
-// 									</p>
-// 									<hr/>
-// 								</React.Fragment>
-// 							)}
-// 						</div>;
-// 			}
-// 		}
-// 	}
-
-// 	expandQuestion=()=>{
-// 		if(this.props.isGuestProfile==true){
-// 			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
-// 		}else{
-// 			this.setState({
-// 				displayExpandedQuestionModal:true
-// 			});
-// 		}
-// 	}
-
-// 	addComment=(data)=>{}
-
-// 	closeModal=()=>{
-// 		this.setState({
-// 			displayImagePortal:false,
-// 			displayVideoPortal:false,
-// 			displayRegularPortal:false,
-// 			displayExpandedQuestionModal:false
-// 		})
-// 	}
-
-// 	closeModalAndDisplayData=({data,currentQuestionType})=>{
-// 		if(currentQuestionType==this.state.questions[this.state.counter].questionType){
-			
-// 			var replies=this.state.responses;
-
-// 			replies.splice(0,0,data);
-// 			this.setState(prevState=>({
-// 				...prevState,
-// 				displayExpandedQuestionModal:false,
-// 				responses:replies
-// 			}))
-// 		}
-// 	}
-
-// 	alterIsLoading=(loadingIndicator)=>{
-// 		this.setState({
-// 			isLoading:loadingIndicator
-// 		})
-// 	}
-
-
-// 	increaseCounter=()=>{
-// 		var currentCounter=this.state.counter;
-// 		currentCounter=this.state.counter+1;
-// 		this.triggerRetrieveCommunityPosts(currentCounter);
-// 	}
-
-// 	triggerRetrieveCommunityPosts=async(currentCounter)=>{
-// 		this.alterIsLoading(true);
-// 		const communityGetParams={
-// 			symposiumId:this.props.symposiumId,
-//             parentQuestionId:this.state.questions[currentCounter]._id,
-//             ownerId:this.props.ownerId,
-//             currentPostManagmentToken:this.uuidv4(),
-//             postType:this.state.questions[currentCounter].questionType
-// 		}
-
-// 		const {confirmation,data}=await retrieveCommunityPosts(communityGetParams);
-// 		if(confirmation=="Success"){
-// 			const {message}=data;
-// 			this.setState({
-// 				counter:currentCounter,
-// 				responses:message
-// 			})
-// 		}else{
-// 			alert('Unfortunately an error has occured when trying to get this question. Please try again');
-// 		}
-// 		this.alterIsLoading(false);
-// 	}
-
-// 	decreaseCounter=()=>{
-// 		var currentCounter=this.state.counter;
-// 		currentCounter=this.state.counter-1;
-// 		this.triggerRetrieveCommunityPosts(currentCounter);
-// 	}
-
-// 	render(){
-// 		return(
-// 			<React.Fragment>
-// 				{this.state.displayExpandedQuestionModal==true &&(
-// 					<QuestionsPortal
-// 						questionType={this.state.questions[this.state.counter].questionType}													
-// 						closeModalAndDisplayData={this.closeModalAndDisplayData}
-// 						closeModal={this.closeModal}
-// 						counter={this.state.counter}
-// 						questions={this.state.questions}
-// 						responses={this.state.responses}
-// 						selectedSymposium={this.props.selectedSymposium}
-// 						triggerImagePortal={this.setImagePost}
-// 						triggerVideoPortal={this.setVideoPost}
-// 						triggerRegularPostPortal={this.setRegularPost}
-// 						addComment={this.addComment}
-// 						isOligarch={this.props.isOligarch}
-// 						isMobile={this.props.isMobile}
-// 					/>
-// 				)}
-
-// 				{this.state.displayImagePortal==true?
-// 					<ImagePostDisplayPortal
-// 						closeModal={this.closeModal}
-// 						selectedImage={this.state.selectedPost}
-// 						recommendedImages={[]}
-// 						targetDom="extendedSymposiumContainer"
-// 					/>:
-// 					<React.Fragment></React.Fragment>
-// 				}
-
-// 				{this.state.displayVideoPortal==true?
-// 					<VideoPostDisplayPortal
-// 						closeModal={this.closeModal}
-// 						selectedVideo={this.state.selectedPost}
-// 						recommendedVideos={[]}
-// 						targetDom="extendedSymposiumContainer"
-// 					/>
-// 					:<React.Fragment></React.Fragment>
-// 				}
-
-// 				{this.state.displayRegularPortal==true?
-// 					<RegularPostDisplayPortal
-// 						closeModal={this.closeModal}
-// 						selectedPost={this.state.selectedPost}
-// 						recommendedRegularPosts={[]}
-// 						targetDom="extendedSymposiumContainer"
-// 					/>
-// 					:<React.Fragment></React.Fragment>
-// 				}
-// 				<SymposiumFeatureContainer isSimplified={this.props.isSimplified}>
-// 					{this.state.isLoading==true?
-// 						<p> Loading...</p>:
-// 						<div>
-// 							<div style={{display:"flex",flexDirection:"row"}}>
-// 								{this.state.counter!=0 &&(
-// 									<NavigateBeforeIcon
-// 										style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf",marginLeft:"2%",cursor:"pointer"}}
-// 										onClick={()=>this.decreaseCounter()}
-// 									/>
-// 								)}
-// 								<p onClick={()=>this.expandQuestion()} style={QuestionCSS}>			
-// 									<b>{this.state.questions[this.state.counter].question}</b>
-// 								</p>
-// 								{this.state.counter!=(this.state.questions.length-1) &&(
-// 									<NavigateNextIcon
-// 										style={{borderRadius:"50%",boxShadow:"1px 1px 5px #dbdddf",cursor:"pointer"}}
-// 										onClick={()=>this.increaseCounter()}
-// 									/>
-// 								)}
-// 							</div>
-// 							<hr style={HorizontalLineCSS}/>
-// 							{this.constructResponses(this.state.responses)}
-// 							<div style={AnswerButtonCSS}
-// 								onClick={()=>this.expandQuestion()}>
-// 								Answer
-// 							</div>
-// 						</div>
-// 					}
-// 				</SymposiumFeatureContainer>
-// 			</React.Fragment>
-// 		)
-// 	}
-// }
 
 
 export default SymposiumFeatures;

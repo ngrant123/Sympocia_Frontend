@@ -60,8 +60,39 @@ const Container=styled.div`
 		}
 	}
 
+
+	@media screen and (min-width:500px) and (max-width:520px) and (min-height:1100px) and (max-height:1370px){
+		margin-top:-5px !important;
+	}
+	@media screen and (min-width:600px) and (max-width:720px) and (min-height:1100px) and (max-height:1370px){
+		${({isSimplified})=>
+			isSimplified==true?
+			`
+				margin-top:-300px !important;
+			`:
+			`
+				margin-top:-500px !important;
+			`
+		}
+	}
+
+
+	@media screen and (min-width:1000px) and (max-width:1030px) and (min-height:1300px) and (max-height:1390px){
+		margin-top:-5px;
+	}
+
+
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-		margin-top:10%;
+
+		${({isSimplified})=>
+			isSimplified==true?
+			`
+				margin-top:10%;
+			`:
+			`
+				margin-top:-5% !important;
+			`
+		}
     }
 
 
@@ -114,6 +145,7 @@ const PostCategory=(props)=>{
 		selectedSymposiumTitle
 	}=props;
 
+	debugger;
 	const symposiumContext=useContext(SymposiumContext);
 	const {isSimplified}=symposiumContext;
 

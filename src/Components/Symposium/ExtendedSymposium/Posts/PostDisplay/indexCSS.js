@@ -34,6 +34,10 @@ export const PostContainer=styled.div`
 		padding-top:50% !important;
     	top:58% !important;
     	margin-left:-7% !important;
+
+    	#postLoadingText{
+    		margin-top:20%;
+    	}	
     }
 
     @media screen and (max-width:600px){
@@ -63,6 +67,10 @@ export const PostContainer=styled.div`
     	top:60% !important;
     	margin-bottom:120% !important;
     	margin-left:0% !important;
+
+    	#postLoadingText{
+    		margin-top:10%;
+    	}	
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {

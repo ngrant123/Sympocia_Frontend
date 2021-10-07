@@ -23,10 +23,9 @@ import {
 import PostsMemo from "./PostsMemo.js";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {
-		searchSymposiumsFilter,
-		initializeSymposiums
-	} from "../../../Actions/Tasks/Search/SearchSymposiums.js";
-import {searchPostsFilter} from "../../../Actions/Tasks/Search/SearchPosts.js";
+	searchSymposiumsFilter,
+	initializeSymposiums
+} from "../../../Actions/Tasks/Search/SearchSymposiums.js";
 
 const Container=styled.div`
 	margin-top:10%;

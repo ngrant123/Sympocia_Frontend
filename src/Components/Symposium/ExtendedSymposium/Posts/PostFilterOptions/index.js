@@ -66,24 +66,22 @@ const SearchOptions=(props)=>{
     const [displayPostOptionsPortal,changePostOptionsDisplayPortal]=useState(false);
     const [currentPostType,changeCurrentPostType]=useState("Images");
 
-    const searchPromptTrigger=async(event)=>{
+    const searchPromptTrigger=async()=>{
+        debugger;
         const textAreaValue=document.getElementById("symposiumSearchPostTextArea").value;
-        const keyEntered=event.key;
         const currentSelectedPosts=posts;
-        if(keyEntered=="Enter"){
-            event.preventDefault();
-            if(textAreaValue==""){
-               updatePosts(postType,true);
-            }else{
-                const posts=await searchPostsFilter(
-                                currentSelectedPosts,
-                                textAreaValue,
-                                postType.toLowerCase(),
-                                true);
-                searchFilterPosts(posts);
-            }
+        if(textAreaValue==""){
+           updatePosts(postType,true);
+        }else{
+            const posts=await searchPostsFilter(
+                            currentSelectedPosts,
+                            textAreaValue,
+                            postType.toLowerCase(),
+                            true);
+            searchFilterPosts(posts);
         }
     }
+
     const closePostOptionsPortal=()=>{
         changePostOptionsDisplayPortal(false);
     }
@@ -138,10 +136,10 @@ const SearchOptions=(props)=>{
                 <SearchTextArea
                     id="symposiumSearchPostTextArea"
                     placeholder="Search"
-                    onKeyPress={e=>searchPromptTrigger(e)}
                 />
                 <SearchIcon
-                    style={{fontSize:30}}
+                    style={{fontSize:30,cursor:"pointer"}}
+                    onClick={()=>searchPromptTrigger()}
                 />
             </SearchContainer>
             <div style={{display:"flex",flexDirection:"row"}}>

@@ -132,7 +132,6 @@ const HeaderContainer=(props)=>{
 			posts,
 			postType
 		}=props;
-	debugger;
 	console.log("Header logs");
 	console.log(props);
 	const SymposiumConsumer=useContext(SymposiumContext);
@@ -479,7 +478,9 @@ const HeaderContainer=(props)=>{
 									</div>
 
 									<div style={{backgroundColor:"red",width:"100%",height:"230px",borderRadius:"5px"}}>
-										{SymposiumConsumer.specificSymposiumFeaturesComponent(selectedSymposiumFeature)}
+										{SymposiumConsumer.specificSymposiumFeaturesComponent(
+											selectedSymposiumFeature,
+											false)}
 									</div>
 								</div>
 								{shadowOverlay()}

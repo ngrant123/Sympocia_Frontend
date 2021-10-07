@@ -2,9 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import {Link} from "react-router-dom";
-
 import {
-	ActivePeopleContainer,
 	BackgroundModalContainer
 } from "../indexCSS.js";
 
@@ -12,25 +10,37 @@ import {
 const PeopleContainer =styled(Link)`
 	position:relative;
 	width:100px;
-	height:40%;
 	background-color:white;
 	border-radius:5px;
 	box-shadow: 1px 5px 5px 1px #d5d5d5;
+	height:40%;
 	cursor:pointer;
-	overflow:hidden;
 	margin-right:5%;
 	margin-bottom:5%;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
 
 	@media screen and (max-width:1370px){
 		height:30%;
 	}
 
 	@media screen and (max-width:650px){
+		height:40%;
 		#profilePicture{
 			width:50px !important;
 			height:55px !important;
 		}
 	}
+
+	@media screen and (min-width:400px) and (max-width:720px) and (min-height:1100px) and (max-height:1370px){
+		height:20%;
+		#profilePicture{
+			width:60px !important;
+			height:55px !important;
+		}
+	}
+
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
 		height:75%;
@@ -97,48 +107,37 @@ const ActivePeopleListCSS={
 	marginTop:"20px"
 }
 
-const ActivePeopleModal=(props)=>{
-	const {
-			changeState,
-			displayModalPeopleActive
-		}=props;
-	return(
-		<>
-			{displayModalPeopleActive==true &&(
-				<React.Fragment>	
-					<ActivePeopleContainer>
-						<p style={{fontSize:"18px"}}>
-							<b>Active People</b>
-						</p>
-						<hr/>
-						{props.peopleActive.length==0?
-							<p>Unfortunately there are no people here at the moment. Why dont you follow the symposium instead? </p>:
-							<ActivePeople>
-								{props.peopleActive.map(data=>
-									<PeopleContainer to={{pathname:`/profile/${data._id}`}}>
-										<ul style={{position:"relative",left:"-20%",top:"5%"}}>
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
 
-											<li style={ProfileContainerContentsCSS}>
-												<img id="profilePicture" src={data.profilePicture==null?
-														NoProfilePicture:data.profilePicture}
-												style={ProfilePictureCSS}/>
-											</li>
-											<hr/>
-											<li style={ProfileContainerContentsCSS}>
-												<p style={{overflow:"hidden",color:"#a2a2a2"}}>
-													<b>{data.firstName}</b>
-												</p>
-											</li>
-										</ul>
-									</PeopleContainer>
-								)}
-							</ActivePeople>
-						}
-					</ActivePeopleContainer>
-					<BackgroundModalContainer onClick={()=>changeState.setState({displayModalPeopleActive:false})}/>
-				</React.Fragment>
-			)}
-		</>
+
+const ActivePeopleModal=(props)=>{
+	return(	
+		<div style={{padding:"5px"}}>
+			<p style={{fontSize:"18px"}}>
+				<b>Active People</b>
+			</p>
+			<hr/>
+			{props.peopleActive.length==0?
+				<p>Unfortunately there are no people here at the moment. Why dont you follow the symposium instead? </p>:
+				<ActivePeople>
+					{props.peopleActive.map(data=>
+						<PeopleContainer to={{pathname:`/profile/${data._id}`}}>
+							<img id="profilePicture" src={data.profilePicture==null?
+									NoProfilePicture:data.profilePicture}
+							style={ProfilePictureCSS}/>
+							<hr style={HorizontalLineCSS}/>
+							<p style={{overflow:"hidden",color:"black"}}>
+								<b>{data.firstName}</b>
+							</p>
+						</PeopleContainer>
+					)}
+				</ActivePeople>
+			}
+		</div>
 	)
 }
 

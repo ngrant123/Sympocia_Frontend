@@ -11,30 +11,13 @@ import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 
 const Container=styled.div`
-	position:fixed;
 	background-color:white;
 	border-radius:5px;
-	width:40%;
-	height:70%;
 	z-index:41;
-	left:30%;
-	top:15%;
 	padding:20px;
 	display:flex;
 	flex-direction:column;
 	overflow-y:scroll;
-
-	@media screen and (max-width:1370px){
-		width:90% !important;
-		left:5% !important;
-	}
-
-
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-		top:20%;
-		width:65%;
-		left:15%;
-	}
 `;
 
 const OligarchsContainer=styled(Link)`
@@ -104,32 +87,27 @@ const FinalResults=({closeModal,selectedSymposiumTitle,symposiumId})=>{
 		)
 	}
 	return(
-		<React.Fragment>
-			<Container>
-				<div>
-					<div style={{display:"flex",flexDirection:"row"}}>
-						<p style={{fontSize:"24px"}}>
-							<b>{selectedSymposiumTitle} Oligarchs</b>
-						</p>
-						<EmojiEventsIcon
-							style={{fontSize:"40",color:"#F8D913",marginLeft:"5%"}}
-						/>
+		<Container>
+			<div>
+				<div style={{display:"flex",flexDirection:"row"}}>
+					<p style={{fontSize:"24px"}}>
+						<b>{selectedSymposiumTitle} Oligarchs</b>
+					</p>
+					<EmojiEventsIcon
+						style={{fontSize:"40",color:"#F8D913",marginLeft:"5%"}}
+					/>
+				</div>
+				<hr style={HorizontalLineCSS}/>
+			</div>
+			<div style={{display:"flex",flexDirection:"column"}}>
+				{newOligarchs.map(data=>
+					<div>
+						{oligarchs(data)}
+						<hr style={HorizontalLineCSS}/>
 					</div>
-					<hr style={HorizontalLineCSS}/>
-				</div>
-				<div style={{display:"flex",flexDirection:"column"}}>
-					{newOligarchs.map(data=>
-						<div>
-							{oligarchs(data)}
-							<hr style={HorizontalLineCSS}/>
-						</div>
-					)}
-				</div>
-			</Container>
-			<BackgroundModalContainer 
-				onClick={()=>addProfileIdToOligarchFinalResultViewed()}
-			/>
-		</React.Fragment>
+				)}
+			</div>
+		</Container>
 	)
 }
 

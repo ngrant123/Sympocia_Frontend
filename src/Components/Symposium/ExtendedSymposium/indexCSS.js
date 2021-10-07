@@ -95,24 +95,6 @@ export const PopularVideos=styled.div`
 	border-radius:5px;
 `;
 
-export const PopularVideosContainer=styled.div`
-	position:fixed;
-	background-color:white;
-	border-radius:5px;
-	top:20%;
-	left:25%;
-	width:50%;
-	height:60%;
-	padding:20px;
-	overflow-y:scroll;
-	z-index:40;
-	box-shadow: 1px 5px 5px 1px #d5d5d5;
-
-	@media screen and (max-width:740px){
-		width:90% !important;
-		left:5% !important;
-	}
-`;
 
 export const HightLightedQuestionsContainerModal=styled.div`
 	position:relative;
@@ -216,34 +198,6 @@ export const BackgroundModalContainer= styled.div`
 	background: rgba(0, 0, 0, 0.5);
 	z-index:40;
 	top:0%;
-`;
-
-
-
-export const ActivePeopleContainer=styled.div`
-
-	position:fixed;
-	background-color:white;
-	border-radius:5px;
-	width:40%;
-	height:50%;
-	z-index:46;
-	left:30%;
-	top:15%;
-	padding:10px;
-	overflow:scroll;
-
-	@media screen and (max-width:1370px){
-		width:90% !important;
-		left:5% !important;
-		height:65% !important;
-	}
-
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-		width:70% !important;
-		height:65% !important;
-		left:10%;
-	}
 `;
 
 

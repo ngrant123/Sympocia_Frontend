@@ -6,9 +6,11 @@ import PortalHOC from "./PortalHOC.js";
 
 const Container=styled.div`
 	position:fixed;
-	left:65%;
+	left:60%;
 	top:25%;
 	width:20%;
+	height:60%;
+	overflow-y:auto;
 	background-color:white;
 	z-index:30;
 	border-radius:5px;
@@ -20,6 +22,11 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		width:40%;
 		left:40%;
+		top:17%;
+	}
+
+	@media screen and (max-width:800px){
+		top:25%;
 	}
 
 	@media screen and (max-width:650px){
@@ -77,7 +84,7 @@ const SymposiumOptionsPortal=({
     	if(displayChat==true){
 
     	}else{
-    		targetComponent=symposiumConsumer.specificSymposiumFeaturesComponent(symposiumFeatureType)
+    		targetComponent=symposiumConsumer.specificSymposiumFeaturesComponent(symposiumFeatureType,true)
     	}
     	changeComponent(targetComponent);
     	changeDisplayPortalHOC(true);
@@ -103,6 +110,12 @@ const SymposiumOptionsPortal=({
 
 				<hr/>
 				<div style={SymposiumAndChatInformationCSS} 
+					onClick={()=>symposiumInformation.triggerDisplayOligarchsModal()}>
+					Oligarchs
+				</div>
+				<hr/>
+
+				<div style={SymposiumAndChatInformationCSS} 
 					onClick={()=>featureDisplay(false,"Community")}>
 					Community Posts
 				</div>
@@ -114,21 +127,38 @@ const SymposiumOptionsPortal=({
 				</div>
 
 				<hr/>
+				{/*
+					{
+						selectedSymposiumTitle=="General"||
+						selectedSymposiumTitle=="Religion"||
+						selectedSymposiumTitle=="Gaming"||
+						selectedSymposiumTitle=="Philosophy"?
+						<div style={SymposiumAndChatInformationCSS} 
+							onClick={()=>featureDisplay(true,"Chat")}>
+							<p>Chat </p>
+						</div>:
+						<div style={SymposiumAndChatInformationCSS} 
+							onClick={()=>featureDisplay(false,"University")}>
+							<p> Symposium University </p>
+						</div>
+					}	
+				*/}
+
 				{
-					selectedSymposiumTitle=="General"||
+					(selectedSymposiumTitle=="General"||
 					selectedSymposiumTitle=="Religion"||
 					selectedSymposiumTitle=="Gaming"||
-					selectedSymposiumTitle=="Philosophy"?
-					<div style={SymposiumAndChatInformationCSS} 
-						onClick={()=>featureDisplay(true,"Chat")}>
-						<p>Chat </p>
-					</div>:
-					<div style={SymposiumAndChatInformationCSS} 
-						onClick={()=>featureDisplay(false,"University")}>
-						<p> Symposium University </p>
-					</div>
-				}	
-				<hr/>
+					selectedSymposiumTitle=="Philosophy")==false &&(
+						<React.Fragment>
+							<div style={SymposiumAndChatInformationCSS} 
+								onClick={()=>featureDisplay(false,"University")}>
+								<p> Symposium University </p>
+							</div>
+							<hr/>
+						</React.Fragment>
+					)
+				}
+				
 				<div style={SymposiumAndChatInformationCSS} 
 					onClick={()=>symposiumInformation.displayPopularVideos()}>
 					Popular videos

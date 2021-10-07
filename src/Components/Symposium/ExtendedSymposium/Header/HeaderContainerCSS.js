@@ -50,7 +50,10 @@ export const SymposiumHeaderAnimation=styled.div`
 	}
 
 	@media screen and (max-width:670px){
-		height:40% !important;
+		height:120px !important;
+	}
+	@media screen and (min-width:500px) and (max-width:720px) and (min-height:1100px) and (max-height:1370px){
+		height:220px !important;
 	}
 `;
 
