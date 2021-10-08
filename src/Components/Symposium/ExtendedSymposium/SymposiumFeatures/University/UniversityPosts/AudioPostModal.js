@@ -337,12 +337,12 @@ const AudioPostModal=(props)=>{
 	const {
 		_id,
 		question,
+		questionId,
 		questionType
 	}=selectedQuestion;
 
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [posts,changePosts]=useState([]);
-	const [questionId,changeQuestionId]=useState();	
 	const [symposiumIdState,changeSymposiumIdState]=useState();	
 
 	const [displayPostExpand,changePostExpand]=useState(false);
@@ -363,7 +363,7 @@ const AudioPostModal=(props)=>{
 		const fetchData=async()=>{
 			changeIsLoading(true);
 			const symposiumFetchParams={
-				questionId:_id,
+				questionId,
 	            questionType,
 	            questionLevel:null,
 	            currentPostSessionManagmentToken:postFeedTokenGenerator(),
@@ -375,7 +375,6 @@ const AudioPostModal=(props)=>{
 			if(confirmation=="Success"){
 				const {message}=data;
 				changePosts(message);
-				changeQuestionId(_id);
 			}else{
 				alert('Unfortunately there has been an error trying to get this images data. Please try again');
 			}
@@ -432,7 +431,6 @@ const AudioPostModal=(props)=>{
 
 	const updatePosts=(uploadedPost)=>{
 		posts.splice(0,0,uploadedPost);
-		changeQuestionId(questionId);
 		changePosts([...posts]);
 		changeDisplayCreationModal(false);
 	}
@@ -504,7 +502,7 @@ const AudioPostModal=(props)=>{
 					}
 				</>:
 				<AudioPostUpload
-					questionId={_id}
+					questionId={questionId}
 					selectedUploadType={questionType}
 					closeModal={closeCreationModal}
 					symposiumId={symposiumId}

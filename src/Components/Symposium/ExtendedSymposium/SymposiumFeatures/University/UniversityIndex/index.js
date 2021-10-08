@@ -53,6 +53,7 @@ const QuestionsIndex=({symposium,questions,isGuestProfile,symposiumId})=>{
 		}=questions;
 	}
 	const {isSimplified}=useContext(FeatureConsumer);
+	console.log(isSimplified);
 	const [displayFeaturesPostsModal,changeDisplayFeaturesPostModal]=useState(false);
 	const [displayModalType,changeModalType]=useState();
 	const [selectedQuestion,changeSelectedQuestion]=useState();

@@ -801,6 +801,7 @@ class Symposium extends Component{
 					symposiumUniversityQuestions:this.state.symposiumUniversityQuestions,
 					isSimplified:this.state.headerAnimation,
 					triggerDisplayOligarchsModal:this.triggerDisplayOligarchsModal,
+					isGuestProfile:this.state.isGuestProfile,
 					handleSeeAllPeopleActiveModal:()=>{
 						this.triggerSeeAllPeopleActiveModal()
 					},

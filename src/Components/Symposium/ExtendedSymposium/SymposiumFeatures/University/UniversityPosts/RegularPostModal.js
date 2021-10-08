@@ -327,12 +327,12 @@ const RegularPostModal=(props)=>{
 	const {
 		_id,
 		question,
+		questionId,
 		questionType
 	}=selectedQuestion;
 
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [posts,changePosts]=useState([]);
-	const [questionId,changeQuestionId]=useState();	
 
 	const [displayPostExpand,changePostExpand]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState(false);
@@ -363,7 +363,7 @@ const RegularPostModal=(props)=>{
 	*/
 	const retrievePosts=async(questionLevel)=>{
 		const response=await getSymposiumUniversityPostsApi({
-			questionId:_id,
+			questionId,
             questionType,
             questionLevel,
             currentPostSessionManagmentToken:postFeedTokenGenerator(),
@@ -381,7 +381,6 @@ const RegularPostModal=(props)=>{
 			if(displayCreationModal==false){
 				changeCurrentLevel("Intermediate");
 				changePosts(message);
-				changeQuestionId(_id);
 			}
 		}else{
 			alert('Unfortunately there has been an error trying to get this regular post data. Please try again');
@@ -398,7 +397,6 @@ const RegularPostModal=(props)=>{
 			if(displayCreationModal==false){
 				changeCurrentLevel("Beginner");
 				changePosts(message);
-				changeQuestionId(_id);
 			}
 
 		}else{
@@ -416,8 +414,7 @@ const RegularPostModal=(props)=>{
 
 			if(displayCreationModal==false){
 				changeCurrentLevel("Advanced");
-				changePosts(message);
-				changeQuestionId(_id);				
+				changePosts(message);			
 			}
 
 
@@ -473,7 +470,6 @@ const RegularPostModal=(props)=>{
 		posts.splice(0,0,recentlyAddedPost);
 		changePosts([...posts]);
 		changeDisplayCreationModal(false);
-		changeQuestionId(questionId);
 	}
 
 	const closeCreationModal=()=>{
@@ -496,7 +492,7 @@ const RegularPostModal=(props)=>{
 				<TextPostUpload
 					symposiumId={symposiumId}
 					userId={userId}
-					questionId={_id}
+					questionId={questionId}
 					personalInformation={personalInformation}
 					displayCurrentLevel={displayCurrentLevel}
 					updatePosts={updatePosts}

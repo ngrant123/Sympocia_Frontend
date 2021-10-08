@@ -53,6 +53,7 @@ const ShadowContainer=styled.div`
 
 
 const ModalDecider=({closeModal,modalType,symposiumId,selectedQuestion})=>{
+	debugger;
 	const dispatch=useDispatch();
 	const modalDecider=(symposiumInformation)=>{
 		const postModalProps={
@@ -70,7 +71,7 @@ const ModalDecider=({closeModal,modalType,symposiumId,selectedQuestion})=>{
 			return <VideoPostModal
 						{...postModalProps}
 					/>
-		}else if(modalType=="RegularPost"){
+		}else if(modalType=="RegularPost" || modalType=="Text"){
 			return <RegularPostModal
 						{...postModalProps}
 					/>

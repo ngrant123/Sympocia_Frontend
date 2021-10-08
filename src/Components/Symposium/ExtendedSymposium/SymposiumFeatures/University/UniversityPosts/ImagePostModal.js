@@ -9,7 +9,7 @@ import {getSymposiumUniversityPostsApi} from "../../../../../../Actions/Requests
 import {useSelector,useDispatch} from "react-redux";
 import ImagePostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
-import {FeatureConsumer} from "../FeatureContext.js";
+import {SymposiumConsumer} from "../../../SymposiumContext.js";
 
 const Container=styled.div`
 	padding:20px;
@@ -362,6 +362,7 @@ const ImagePostUpload=({
 }
 
 const ImagePostModal=(props)=>{
+	debugger;
 	const {
 		isOligarch,
 		closeModal,
@@ -374,6 +375,7 @@ const ImagePostModal=(props)=>{
 	const {
 		_id,
 		question,
+		questionId,
 		questionType
 	}=selectedQuestion;
 
@@ -400,13 +402,13 @@ const ImagePostModal=(props)=>{
 			changeIsLoadingStatus(true);
 
 			const symposiumFetchParams={
-				questionId:_id,
+				questionId,
 	            questionType,
 	            questionLevel:null,
 	            currentPostSessionManagmentToken:postFeedTokenGenerator(),
 	            ownerId:userId
 			}
-
+			console.log(symposiumFetchParams);
 			const {confirmation,data}=await getSymposiumUniversityPostsApi(symposiumFetchParams);
 
 			if(confirmation=="Success"){
@@ -486,8 +488,8 @@ const ImagePostModal=(props)=>{
 
 	}
 	return(
-		<FeatureConsumer>
-			{featureConsumer=>{
+		<SymposiumConsumer>
+			{symposiumConsumer=>{
 				return <Container>
 						{displayPostExpand==false?
 								null:
@@ -507,7 +509,7 @@ const ImagePostModal=(props)=>{
 									<p style={{fontSize:"20px",marginRight:"5%"}}>
 										<b>{question}</b>
 									</p>
-									<CreatePostButton onClick={()=>triggerCreationModal(featureConsumer.isGuestProfile)}>
+									<CreatePostButton onClick={()=>triggerCreationModal(symposiumConsumer.isGuestProfile)}>
 										<BorderColorIcon
 											style={{fontSize:"20",color:"#C8B0F4"}}
 										/>
@@ -524,7 +526,7 @@ const ImagePostModal=(props)=>{
 												<>
 													{posts.map((data,index)=>
 														<div id="image" 
-															style={{marginRight:"20px",width:"200px",height:"200px",marginBottom:"15%"}}>
+															style={{marginRight:"20px",width:"200px",height:"200px",marginBottom:"15%",cursor:"pointer"}}>
 															<img src={data.imgUrl} 
 															 	onClick={()=>displaySelectedPost(data)} style={ImageCSS}
 																style={{height:"100%",width:"100%",borderRadius:"5px"}}
@@ -551,7 +553,7 @@ const ImagePostModal=(props)=>{
 					</Container>
 				}
 			}
-		</FeatureConsumer>
+		</SymposiumConsumer>
 	);
 }
 

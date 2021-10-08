@@ -350,11 +350,11 @@ const VideoPostModal=(props)=>{
 	const {
 		_id,
 		question,
+		questionId,
 		questionType
 	}=selectedQuestion;
 
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
-	const [questionId,changeQuestionId]=useState();
 	const [posts,changePosts]=useState([]);	
 
 	const [displayPostExpand,changePostExpand]=useState(false);
@@ -387,7 +387,7 @@ const VideoPostModal=(props)=>{
 			changeIsLoadingIndicator(true);
 
 			const symposiumFetchParams={
-				questionId:_id,
+				questionId,
 	            questionType,
 	            questionLevel:null,
 	            currentPostSessionManagmentToken:postFeedTokenGenerator(),
@@ -398,7 +398,6 @@ const VideoPostModal=(props)=>{
 			if(confirmation=="Success"){
 				const {message}=data;
 				changePosts(message);
-				changeQuestionId(_id);
 			}else{
 				alert('Unfortunately there has been an error trying to get this video data. Please try again');
 			}
@@ -458,7 +457,6 @@ const VideoPostModal=(props)=>{
 
 	const updatePosts=(message)=>{
 		posts.splice(0,0,message);
-		changeQuestionId(questionId);
 		changePosts([...posts]);
 		changeDisplayCreationModal(false);
 	}
@@ -496,7 +494,7 @@ const VideoPostModal=(props)=>{
 								<p>No posts</p>:
 								<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
 									{posts.map((data,index)=>
-										<div style={{display:"flex",flexDirection:"column",marginRight:"5%",marginBottom:"5%"}}>
+										<div style={{display:"flex",flexDirection:"column",marginRight:"5%",marginBottom:"5%",cursor:"pointer"}}>
 											<video onClick={()=>displaySelectedPost(data)} 
 												id="symposiumFeatureVideo" key={data._id} autoPlay loop autoBuffer muted playsInline 
 												style={{borderRadius:"5px",height:"200px",width:"200px"}}>
@@ -512,7 +510,7 @@ const VideoPostModal=(props)=>{
 				</>:
 				<VideoPostUpload
 					selectedUploadType={questionType}
-					questionId={_id}
+					questionId={questionId}
 					closeModal={closeVideoUploadModal}
 					symposiumId={symposiumId}
 					userId={userId}

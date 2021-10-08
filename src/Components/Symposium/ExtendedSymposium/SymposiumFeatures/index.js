@@ -230,6 +230,7 @@ const SymposiumFeatures=(props)=>{
 	const [isLoading,changeIsLoading]=useState(false);
 	const [displayExtendedUniversityModal,changeDisplayExtendeUniversityModal]=useState(false);
 
+	console.log(questions);
 	const beaconScrollQuestionsType=[
 		{
 			question:"Images",
@@ -331,7 +332,6 @@ const SymposiumFeatures=(props)=>{
 
 	const constructResponses=(question)=>{
 		var element;
-		debugger;
 		if(responses.length==0){
 			return <p> No responses yet :(. Click on the question and click the pencil icon to make a post </p>
 		}else{
