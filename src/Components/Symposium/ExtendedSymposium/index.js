@@ -215,7 +215,8 @@ class Symposium extends Component{
 	  			isOnboardingCompleted,
 	  			universityQuestions,
 	  			hasProfileViewedOligarchFinalResults,
-	  			_id
+	  			_id,
+	  			miscellaneous
   			}=data;
 	  		console.log(data);
 	  		this.setState(prevState=>({
@@ -237,6 +238,7 @@ class Symposium extends Component{
 		  		symposiumUniversityQuestions:universityQuestions,
 		  		symposiumId:_id,
 		  		postSessionManagmentToken,
+		  		miscellaneousSymposiumInformation:miscellaneous,
 		  		displayFinalOligarchsCompetitionResults:isOnboardingCompleted==true?false:!hasProfileViewedOligarchFinalResults,
 		  		isGuestProfile:(this.props.personalInformation.id=="0" || this.props.personalInformation.isGuestProfile==true)==true?
 								true:false
@@ -918,6 +920,7 @@ class Symposium extends Component{
 					  	triggerDisplayOligarchsModal={this.triggerDisplayOligarchsModal}
 					  	posts={this.state.posts}
 					  	postType={this.state.postType}
+					  	miscellaneousSymposiumInformation={this.state.miscellaneousSymposiumInformation}
 		  			/>
 
 					<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>

@@ -130,7 +130,8 @@ const HeaderContainer=(props)=>{
 			symposiumId,
 			triggerDisplayOligarchsModal,
 			posts,
-			postType
+			postType,
+			miscellaneousSymposiumInformation
 		}=props;
 	console.log("Header logs");
 	console.log(props);
@@ -438,7 +439,7 @@ const HeaderContainer=(props)=>{
 											{oligarchIcon()}
 											{symposiumFeaturesEntrance()}
 										</div>
-										<p style={{color:"white",opacity:0.7}}>Foods, Grinds, Aims, and Funs</p>
+										<p style={{color:"white",opacity:0.7}}>{miscellaneousSymposiumInformation.symposiumIntroductionTitle}</p>
 									</div>
 									<div style={{display:"flex",flexDirection:"column"}}>
 										<p style={{color:"white",opacity:0.7}}>Popular Videos</p>
