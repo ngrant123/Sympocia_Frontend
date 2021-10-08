@@ -487,7 +487,7 @@ const HeaderContainer=(props)=>{
 								{shadowOverlay()}
 							</HeaderContainerDiv>
 
-							<HeaderContainerDiv style={{background:backgroundColor}}>
+							<HeaderContainerDiv style={{background:backgroundColor,marginRight:"0%"}}>
 								<div id="headerContentsDiv" style={{position:"absolute",marginTop:"30%",width:"100%",zIndex:10,marginLeft:"30%"}}>
 									<div onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})}
 										style={{...ButtonCSS,backgroundColor:"white",color:"#252525",marginBottom:"17%",boxShadow:"1px 1px 5px #6e6e6e"}}>

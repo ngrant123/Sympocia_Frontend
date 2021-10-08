@@ -77,7 +77,7 @@ const PostOptionsPortal=({closeModal,updatePosts})=>{
 		<React.Fragment>
 			<Container>
 				<li onClick={()=>triggerUpdatePosts("Regular","Regular posts")} id="regular" style={PostOptionsCSS}>
-                    Regular posts
+                    Text
                 </li>
                 <hr/>
 
