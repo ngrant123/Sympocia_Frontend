@@ -38,6 +38,14 @@ const Container=styled.div`
 		}
 	}
 
+	@media screen and (min-width:500px) and (max-width:600px) 
+		and (min-height:750px) and (max-height:850px){
+		#video{
+			width:120% !important;
+		}
+	}
+
+
 	@media screen and (min-width:400px) and (max-width:720px) and (min-height:1100px) and (max-height:1370px){
 		#video{
 			width:120% !important;

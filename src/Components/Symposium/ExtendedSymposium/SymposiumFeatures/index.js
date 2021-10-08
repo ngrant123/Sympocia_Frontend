@@ -115,6 +115,21 @@ const SymposiumFeatureContainer=styled.div`
 			width:30% !important;
 		}
 	}
+	@media screen and (min-width:500px) and (max-width:600px) 
+		and (min-height:750px) and (max-height:850px){
+		#imageHighlightedQuestion{
+			height:150px !important;
+		}
+	}
+
+	@media screen and (min-width:1110px) and (max-width:1380px) and (min-height:800px) and (max-height:1100px){
+		#imageHighlightedQuestion{
+			height:280px !important;
+		}
+		#videoQuestionAnswers{
+			width:400px !important;
+		}
+	}
 
 	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
 		width:100% !important;

@@ -54,6 +54,16 @@ export const SympociaOptionsContainer=styled.div`
 		}
 	}
 
+	@media screen and (min-width:1110px) and (max-width:1380px) and (min-height:800px) and (max-height:1100px){
+		${({isScrollEnabled})=>
+		isScrollEnabled==true &&(
+		`			
+			margin-left:2% !important;
+		`
+		)}
+	}
+
+
 	@media screen and (min-width:1000px) and (max-width:1030px) and (min-height:1300px) and (max-height:1390px){
 		${({isScrollEnabled})=>
 		isScrollEnabled==true &&(

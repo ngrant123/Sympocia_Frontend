@@ -59,6 +59,12 @@ export const PostContainer=styled.div`
     	margin-left:0% !important;
     }
 
+	@media screen and (min-width:300px) and (max-width:350px) and (min-height:700px) and (max-height:900px){
+		#postLoadingText{
+    		margin-top:40%;
+    	}	
+	}
+
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	height:170% !important;

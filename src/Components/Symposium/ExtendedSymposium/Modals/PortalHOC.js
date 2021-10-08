@@ -34,6 +34,7 @@ const PortalHOCContainer=styled.div`
 		left:0% !important;
 		height:100% !important;
 		top:0% !important;
+		padding:10px !important;
     }
 `;
 
