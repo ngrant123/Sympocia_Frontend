@@ -518,9 +518,13 @@ export const createSymposiumUniversityAnswer=async(symposiumUniversityPostParams
 			accessToken,
 			...postSymposiumUniversityParam
 		}=symposiumUniversityPostParams;
-
+		
 		const universityPostResponse=await axios.post(`${CreateURl}/createSymposiumUniversityAnswer`,{
 			...postSymposiumUniversityParam
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=universityPostResponse;
 		return data;
@@ -846,7 +850,7 @@ export const deleteSpecificSymposiumAnswer=async({
 		symposiumQuestionId
 	})=>{
 		try{
-			const deletedSymposiumAnswerResponse=await axios.post(`${CreateURl}/deleteSpecificSymposiumAnswer`,{
+			const deletedSymposiumAnswerResponse=await axios.post(`${CreateURl}/deleteSymposiumUniversityAnswer`,{
 				postType,
 				symposiumId,
 				symposiumAnswerId,

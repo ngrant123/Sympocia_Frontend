@@ -33,10 +33,9 @@ import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 import {
-		searchSymposiumsFilter,
-		initializeSymposiums
-	} from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
-import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts.js";
+	searchSymposiumsFilter,
+	initializeSymposiums
+} from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
 import {getProfilePostsSearch} from "../../../../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 

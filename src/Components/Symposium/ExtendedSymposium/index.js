@@ -25,6 +25,7 @@ import GuestOnboarding from "../../OnBoarding/GuestOnboarding.js"
 import LoadingScreen from "../../../LoadingAnimation.js";
 import MobilePostOptionsPortal from "./Modals/MobileUI/PostOptionsPortal.js";
 import PERSONAL_INDUSTRIES from "../../../Constants/personalIndustryConstants.js";
+import PortalHOC from "./Modals/PortalHOC.js";
 import {
 		addSymposium,
 		removeSymposium
@@ -34,13 +35,12 @@ import {
 		setPersonalProfileRefreshToken
 } from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
-import HightLightedQuestions from "./Modals/HighLightedQuestions.js";
+import SymposiumFeatures from "./SymposiumFeatures/index.js";
 import {
 	SymposiumContainer,
 	PopularVideos,
 	PostsChatInformation,
 	BackgroundModalContainer,
-	ActivePeopleContainer,
 	ExploreIconContainer,
 	PageIndicator,
 	SymposiumFeatureContainer,
@@ -54,13 +54,14 @@ import {
 } from "./indexCSS.js";
 import Posts from "./Posts/index.js";
 import SearchOptions from "./Posts/PostFilterOptions/index.js";
-import {
-		InitialSymposiumFeaturesDisplay,
-		symposiumFeaturesAndChat,
-		symposiumFeatures
-	} from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
+// import {
+// 		InitialSymposiumFeaturesDisplay,
+// 		symposiumFeaturesAndChat,
+// 		symposiumFeatures
+// 	} from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
+
 import {SymposiumProvider} from "./SymposiumContext.js";
-import Beacons from "./Modals/Beacons/index.js";
+import Beacons from "./SymposiumFeatures/Beacons/index.js";
 import Oligarchs from "./Modals/Oligarchs/index.js";
 import OligarchsFinalResults from "./Modals/Oligarchs/FinalResults.js";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
@@ -214,9 +215,10 @@ class Symposium extends Component{
 	  			isOnboardingCompleted,
 	  			universityQuestions,
 	  			hasProfileViewedOligarchFinalResults,
-	  			_id
+	  			_id,
+	  			miscellaneous
   			}=data;
-	  			
+	  		console.log(data);
 	  		this.setState(prevState=>({
 		  		...prevState,
 		  		selectedSymposiumTitle:this.props.match.params.symposiumName,
@@ -236,6 +238,7 @@ class Symposium extends Component{
 		  		symposiumUniversityQuestions:universityQuestions,
 		  		symposiumId:_id,
 		  		postSessionManagmentToken,
+		  		miscellaneousSymposiumInformation:miscellaneous,
 		  		displayFinalOligarchsCompetitionResults:isOnboardingCompleted==true?false:!hasProfileViewedOligarchFinalResults,
 		  		isGuestProfile:(this.props.personalInformation.id=="0" || this.props.personalInformation.isGuestProfile==true)==true?
 								true:false
@@ -244,9 +247,7 @@ class Symposium extends Component{
 		  	setTimeout(function(){
 				postContainerElement.style.opacity="1";
 		  	},500);
-
 		  	connectToRoom(socket,_id);
-
   		}else{
   			alert('Unfortunately there has been a problem with getting the symposium information. Please try again');
   		}
@@ -268,7 +269,7 @@ class Symposium extends Component{
 		  	if(this.state.handleScroll!=false){
 		  		document.getElementById("extendedSymposiumContainer").style.overflow="auto";
 			  	document.getElementById("postChatInformation").style.overflow="visible";
-			  	document.getElementById("postChatInformation").style.top="-20%";
+			  	document.getElementById("postChatInformation").style.top="-210px";
 			  	document.getElementById("postChatInformation").style.filter="blur(0)";
 			  	document.getElementById("postChatInformation").style.zIndex=2;
 			  	document.getElementById("arrowIndicator").style.opacity="0";
@@ -306,13 +307,27 @@ class Symposium extends Component{
 	  			isLoading:true
 	  		})	
 	  }
+	  closePopularVideosModal=()=>{
+	  	this.setState({
+	  		displayPopularVideos:false
+	  	})
+	  }
 
 	  handleSeeAllPopularVideos=()=>{
-	  	return <PopularVideosModal
-	  				popularVideos={this.state.popularVideos}
-	  				changeState={this}
-  					displayPopularVideos={this.state.displayPopularVideos}
-	  			/>
+	  	return  <React.Fragment>
+	  				{this.state.displayPopularVideos==true &&(
+			  			<PortalHOC
+			  				component={
+			  					<PopularVideosModal
+					  				popularVideos={this.state.popularVideos}
+					  				changeState={this}
+				  					displayPopularVideos={this.state.displayPopularVideos}
+					  			/>
+			  				}
+			  				closeModal={this.closePopularVideosModal}
+			  			/>
+	  				)}
+	  			</React.Fragment>
 	  } 
 
 	  //Method below is not working completely correct but is doing half it correctly moving on 
@@ -361,13 +376,27 @@ class Symposium extends Component{
 			 	</li>
 	}
 
-	  handleSeeAllPeopleActiveModal=()=>{
-	  	return <ActivePeopleModal
-  					peopleActive={this.state.activePeople}
-  					changeState={this}
-  					displayModalPeopleActive={this.state.displayModalPeopleActive}
-  				/>
-	  }
+	closeActivePeopleModal=()=>{
+		this.setState({
+			displayModalPeopleActive:false
+		})
+	}
+
+	handleSeeAllPeopleActiveModal=()=>{
+		return 	<React.Fragment>
+					{this.state.displayModalPeopleActive==true &&(
+						<PortalHOC
+							component={
+					  			<ActivePeopleModal
+				  					peopleActive={this.state.activePeople}
+				  				/>
+							}
+							closeModal={this.closeActivePeopleModal}
+						/>
+					)}
+				</React.Fragment>
+
+	}
 
 	  handleHeaderAnimatedContents=()=>{
 
@@ -427,21 +456,6 @@ class Symposium extends Component{
 	  	this.setState({
 	  		displaySpecficSymposiumFeature:!this.state.displaySpecficSymposiumFeature
 	  	})
-	  }
-
-	  specificSymposiumFeatures=()=>{
-	  	return <InitialSymposiumFeaturesDisplay
-	  				selectedSymposiumTitle={this.state.selectedSymposiumTitle}
-					symposiumId={this.state.symposiumId}
-					chatRoom={this.state.chatRoom}
-					profileId={this.state.profileId}
-					socket={socket}
-					closeSymposiumFeatureModal={this.closeSymposiumFeatureModal}
-					headerAnimation={this.state.headerAnimation}
-					symposiumUniversityQuestions={this.state.symposiumUniversityQuestions}
-					isGuestProfile={this.state.isGuestProfile}
-					displaySpecficSymposiumFeature={this.state.displaySpecficSymposiumFeature}
-	  			/>
 	  }
 
 	displayRecruitConfetti=()=>{
@@ -568,8 +582,8 @@ class Symposium extends Component{
 		)
 	}
 
-	highlightedQuestionsSimplifiedModal=()=>{
-		return( <HightLightedQuestions
+	symposiumFeaturesSimplifiedModal=()=>{
+		return( <SymposiumFeatures
 					questionInformation={this.state.communityQuestionsAndResponses}
 					isSimplified={this.state.headerAnimation}
 					selectedSymposium={this.state.selectedSymposiumTitle}
@@ -691,15 +705,23 @@ class Symposium extends Component{
 		})
 	}
 
+
+
 	displayOligarchsElectionModal=()=>{
 		return(
 			<React.Fragment>
 				{this.state.displayOligarchsElection==true &&(
-					<Oligarchs
-						closeOligarchModal={this.closeOligarchsContest}
-						symposiumId={this.state.symposiumId}
-						profileId={this.props.profileId}
+					<PortalHOC
+						component={
+							<Oligarchs
+								closeOligarchModal={this.closeOligarchsContest}
+								symposiumId={this.state.symposiumId}
+								profileId={this.props.profileId}
+							/>
+						}
+						closeModal={this.closeOligarchsContest}
 					/>
+					
 				)}
 			</React.Fragment>
 		)
@@ -754,10 +776,15 @@ class Symposium extends Component{
 		return(
 			<React.Fragment>
 				{this.state.displayFinalOligarchsCompetitionResults==true &&(
-					<OligarchsFinalResults
+					<PortalHOC
+						component={
+							<OligarchsFinalResults
+								closeModal={this.closeOligarchFinalResutlsDisplay}
+								selectedSymposiumTitle={this.state.selectedSymposiumTitle}
+								symposiumId={this.state.symposiumId}
+							/>
+						}
 						closeModal={this.closeOligarchFinalResutlsDisplay}
-						selectedSymposiumTitle={this.state.selectedSymposiumTitle}
-						symposiumId={this.state.symposiumId}
 					/>
 				)}
 			</React.Fragment>
@@ -770,6 +797,11 @@ class Symposium extends Component{
 			<SymposiumProvider
 				value={{
 					symposiumId:this.state.symposiumId,
+					communityQuestions:this.state.communityQuestionsAndResponses,
+					symposiumUniversityQuestions:this.state.symposiumUniversityQuestions,
+					isSimplified:this.state.headerAnimation,
+					triggerDisplayOligarchsModal:this.triggerDisplayOligarchsModal,
+					isGuestProfile:this.state.isGuestProfile,
 					handleSeeAllPeopleActiveModal:()=>{
 						this.triggerSeeAllPeopleActiveModal()
 					},
@@ -777,24 +809,31 @@ class Symposium extends Component{
 						this.triggerDisplayPopularVideosModal()
 					},
 					highLightedQuestionComponent:()=>{
-						return this.highlightedQuestionsSimplifiedModal()
+						return this.symposiumFeaturesSimplifiedModal()
 					},
-					specificSymposiumFeaturesComponent:()=>{
-						let specificProps={
-							selectedSymposiumTitle:this.state.selectedSymposiumTitle,
-							symposiumId:this.state.symposiumId,
-							chatRoom:this.state.chatRoom,
-							profileId:this.state.profileId,
-							socket:socket,
-							closeSymposiumFeatureModal:this.closeSymposiumFeatureModal,
-							headerAnimation:this.state.headerAnimation,
-							symposiumUniversityQuestions:this.state.symposiumUniversityQuestions,
-							isGuestProfile:this.state.isGuestProfile,
-							displaySpecficSymposiumFeature:this.state.displaySpecficSymposiumFeature,
-							isSimplified:true
+					specificSymposiumFeaturesComponent:(selectedSymposiumFeatureType,isPortalHocComponent)=>{
+						let requestedComponent;
+						if(selectedSymposiumFeatureType=="Chat"){
+							requestedComponent=<Chat
+											  		roomId={this.state.symposiumId}
+											  		chat={this.state.chatRoom}
+											  		profileId={this.props.profileId}
+											  		socket={socket}
+											  		isSimplified={this.state.headerAnimation}
+												/>
+						}else{
+							requestedComponent=<SymposiumFeatures
+													questionInformation={this.state.communityQuestionsAndResponses}
+													isSimplified={this.state.headerAnimation}
+													selectedSymposium={this.state.selectedSymposiumTitle}
+													isGuestProfile={this.state.isGuestProfile}
+													isOligarch={this.state.isOligarch}
+													ownerId={this.props.personalInformation.id}
+													symposiumId={this.state.symposiumId}
+													selectedSymposiumFeature={selectedSymposiumFeatureType}								
+													isPortalHocComponent={isPortalHocComponent}
+												/>
 						}
-						const {requestedComponent}=symposiumFeatures(specificProps);
-						
 						
 						return <>{requestedComponent}</>
 					},
@@ -841,12 +880,16 @@ class Symposium extends Component{
 						/>
 					)}
 					{this.oligarchFinalResultDisplay()}
-					{this.additionalInformation()}
+
+
+					{/*
+						{this.additionalInformation()}
+						{this.mobileSymposiumQuickAccessOptions()}
+					*/}
+
 					{this.arrowIndicatorButton()}
-					{this.mobileSymposiumQuickAccessOptions()}
 					{this.handleSeeAllPeopleActiveModal()}
 					{this.handleSeeAllPopularVideos()}
-					{this.specificSymposiumFeatures()}
 					{this.displayBeacon()}
 					{this.displayOligarchsElectionModal()}
 
@@ -862,16 +905,11 @@ class Symposium extends Component{
 		  				isProfileFollowingSymposium={this.state.isProfileFollowingSymposium}
 		  				profileId={this.state.profileId}
 		  				changeFollowIndicator={this.changeFollowIndicator}
-		  				communityQuestions={{
-		  					questionInformation:this.state.communityQuestionsAndResponses,
-		  					isSimplified:this.state.headerAnimation,
-							selectedSymposium:this.state.selectedSymposiumTitle
-		  				}}
+		  				communityQuestions={this.state.communityQuestionsAndResponses}
 		  				displayDesktopUI={this.state.displayDesktopUI}
 		  				symposiumId={this.state.symposiumId}
 						chat={this.state.chatRoom}
 						socket={socket}
-					  	symposium={this.state.selectedSymposiumTitle}
 					  	questions={this.state.symposiumUniversityQuestions}
 					  	isIpadView={this.state.displayIpadUI}
 					  	isGuestProfile={this.state.isGuestProfile}
@@ -880,6 +918,10 @@ class Symposium extends Component{
 					  	displayBeacon={this.displayBeaconHandle}
 					  	isLoading={this.state.isLoading}
 					  	isOligarch={this.state.isOligarch}
+					  	triggerDisplayOligarchsModal={this.triggerDisplayOligarchsModal}
+					  	posts={this.state.posts}
+					  	postType={this.state.postType}
+					  	miscellaneousSymposiumInformation={this.state.miscellaneousSymposiumInformation}
 		  			/>
 
 					<PostsChatInformation  id="postChatInformation" style={{paddingTop:this.state.handleScroll==false?"15%":"1%"}}>
@@ -898,7 +940,8 @@ class Symposium extends Component{
 									displayDesktopUI:this.state.displayDesktopUI,
 									postSessionManagmentToken:this.state.postSessionManagmentToken,
 									isOligarch:this.state.isOligarch,
-									symposiumId:this.state.symposiumId
+									symposiumId:this.state.symposiumId,
+									backgroundColor:this.state.backgroundColor
 								}}
 								displaySymposium={this.displaySymposium}
 								displayRecruitConfetti={this.displayRecruitConfetti}

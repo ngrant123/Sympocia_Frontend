@@ -1,6 +1,6 @@
 import React,{useContext} from "react";
 import styled from "styled-components";
-import {QuestionUploadOption} from "../../../../ExtendedSymposium/Modals/QuestionsPortal.js"
+import {QuestionUploadOption} from "../../../../ExtendedSymposium/SymposiumFeatures/Community/SymposiumCommunityPortal.js"
 import {useDispatch} from "react-redux";
 import {FeaturesContext} from "../../../FeaturesPageSet/FeaturesPageContext.js";
 import {useSelector} from "react-redux";

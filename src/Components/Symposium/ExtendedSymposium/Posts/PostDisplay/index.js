@@ -8,7 +8,7 @@ import PostCategory from "./PostCategory.js";
 import {
     PostContainer,
     Posts
-} from "../../indexCSS.js";
+} from "./indexCSS.js";
 
 
 const VerticalLineCSS={
@@ -57,6 +57,7 @@ const PostsContainerDisplay=(props)=>{
     ]
     const [selectedPostCategoryInformation,changeSelectedPostCategoryInformation]=useState([]);
     useEffect(()=>{
+        debugger;
         if(state.handleScroll!=false){
             document.getElementById("postsContainer").style.opacity="0";
     
@@ -155,7 +156,7 @@ const PostsContainerDisplay=(props)=>{
     return(
         <PostContainer isScrollEnabled={state.headerAnimation} id="postsContainer">
             {isLoadingNewPosts==true? 
-                <p>Loading...</p>:
+                <p id="postLoadingText">Loading...</p>:
                 <React.Fragment>
                     {postsCategory}
                 </React.Fragment>

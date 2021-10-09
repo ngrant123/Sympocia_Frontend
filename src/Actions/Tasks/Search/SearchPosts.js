@@ -1,6 +1,7 @@
 
 export const searchPostsFilter=async(posts,searchCriteria,postType,isSymposiumPosts)=>{
 	try{
+		debugger;
 		searchCriteria=searchCriteria.toLowerCase();
 		let postText;
 		switch(postType){
@@ -55,6 +56,7 @@ export const searchPostsFilter=async(posts,searchCriteria,postType,isSymposiumPo
 }
 
 const searchFunctionality=(searchCriteria,posts,postText)=>{
+	debugger;
 	let postsRanking=[];
 	searchCriteria=searchCriteria.split(" ");
 

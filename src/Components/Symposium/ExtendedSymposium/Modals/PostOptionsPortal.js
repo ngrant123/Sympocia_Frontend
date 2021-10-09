@@ -4,8 +4,8 @@ import {createPortal} from "react-dom";
 
 const Container=styled.div`
 	position:fixed;
-	left:47%;
-	top:30%;
+	left:75%;
+	top:25%;
 	width:20%;
 	background-color:white;
 	z-index:30;
@@ -18,13 +18,18 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:40%;
+		top:17%;
+		left:56%;
+	}
+
+	@media screen and (max-width:800px){
 		top:25%;
 	}
 
 	@media screen and (max-width:650px){
 		height:60%;
 		overflow-y:scroll;
-		left:5%;
+		left:45%;
 		width:50%;
 		top:25%;
 	}
@@ -59,27 +64,32 @@ const PostOptionsCSS={
 
 
 const PostOptionsPortal=({closeModal,updatePosts})=>{
-	const triggerUpdatePosts=(postType)=>{
-		updatePosts(postType);
+	const triggerUpdatePosts=(postType,displayPostText)=>{
+		debugger;
+		const updatePostInformation={
+			updatePostType:postType,
+			displayPostText
+		}
+		updatePosts(updatePostInformation);
 		closeModal();
 	}
 	return createPortal(
 		<React.Fragment>
 			<Container>
-				<li onClick={()=>triggerUpdatePosts("Regular")} id="regular" style={PostOptionsCSS}>
-                    Regular posts
+				<li onClick={()=>triggerUpdatePosts("Regular","Regular posts")} id="regular" style={PostOptionsCSS}>
+                    Text
                 </li>
                 <hr/>
 
-                <li  onClick={()=>triggerUpdatePosts("Image")} id="image" style={PostOptionsCSS}>  
+                <li  onClick={()=>triggerUpdatePosts("Image","Images")} id="image" style={PostOptionsCSS}>  
                     Images
                 </li>
                 <hr/>
-                <li onClick={()=>triggerUpdatePosts("Video")} id="video" style={PostOptionsCSS}> 
+                <li onClick={()=>triggerUpdatePosts("Video","Videos")} id="video" style={PostOptionsCSS}> 
                     Videos
                 </li>
                 <hr/>
-                <li onClick={()=>triggerUpdatePosts("Blog")} id="blog" style={PostOptionsCSS}>
+                <li onClick={()=>triggerUpdatePosts("Blog","Blogs")} id="blog" style={PostOptionsCSS}>
                     Blogs
                 </li>
 			</Container>

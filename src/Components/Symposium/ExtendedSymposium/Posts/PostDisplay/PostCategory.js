@@ -1,6 +1,8 @@
-import React,{useEffect,useState,useRef,useMemo} from "react";
+import React,{useEffect,useState,useRef,useMemo,useContext} from "react";
 import styled from "styled-components";
 import CreateIcon from '@material-ui/icons/Create';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
 import Image from "./Image.js";
 import Video from "./Video.js";
 import RegularPost from "./RegularPosts.js";
@@ -8,23 +10,101 @@ import Blog from "./Blogs.js";
 import SymposiumCategoryUpload from "../../Modals/SymposiumCategoryUpload/index.js";
 import {PostDisplayProvider} from "./PostDisplayContext.js";
 import OligarchPostSettings from "../../Modals/Oligarchs/OligarchPostAbilities/OligarchDeleteOrMovePost.js";
+import {SymposiumContext} from "../../SymposiumContext.js";
 import {useSelector} from "react-redux";
 
+// margin-top:5%;
 const Container=styled.div`
-	width:470px;
-	height:600px;
-	margin-right:2%;
+	width:90%;
+	height:550px;
+	margin-right:1%;
 	padding:5px;
-	overflow:scroll;
+	overflow-x:hidden;
+	overflow-y:auto;
 	background-color:white;
-
+	border-radius:5px;
+	box-shadow: -5px 20px 20px #C4C4C4;
+	padding:20px;
 	@media screen and (max-width:1370px){
 		overflow:visible !important;
-		width:590px;
+		width:100%;
+		margin-left:-5%;
+		margin-top:5%;
+		box-shadow:none;
 	}
 	@media screen and (max-width:650px){
 		margin-left:-5%;
-		width:650px;
+		width:100% !important;
+		${({isSimplified})=>
+			isSimplified==true?
+			`
+				margin-top:90px;
+			`:
+			`
+				margin-top:-5px;
+			`
+		}
+	}
+
+	@media screen and (max-width:650px){
+		margin-left:-5%;
+		width:100% !important;
+		${({isSimplified})=>
+			isSimplified==true?
+			`
+				margin-top:90px;
+			`:
+			`
+				margin-top:-5px;
+			`
+		}
+	}
+
+	@media screen and (min-width:500px) and (max-width:600px) 
+		and (min-height:750px) and (max-height:850px){
+		${({isSimplified})=>
+			isSimplified==true &&(
+			`margin-top:20px;`	
+		)}
+	}
+
+	@media screen and (min-width:500px) and (max-width:520px) and (min-height:1100px) and (max-height:1370px){
+		margin-top:-5px !important;
+	}
+	@media screen and (min-width:600px) and (max-width:720px) and (min-height:1100px) and (max-height:1370px){
+		${({isSimplified})=>
+			isSimplified==true?
+			`
+				margin-top:-300px !important;
+			`:
+			`
+				margin-top:-500px !important;
+			`
+		}
+	}
+
+
+	@media screen and (min-width:1000px) and (max-width:1030px) and (min-height:1300px) and (max-height:1390px){
+		margin-top:-5px;
+	}
+
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+
+		${({isSimplified})=>
+			isSimplified==true?
+			`
+				margin-top:10%;
+			`:
+			`
+				margin-top:-5% !important;
+			`
+		}
+    }
+
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		box-shadow:none;
 	}
 `;
 
@@ -50,7 +130,7 @@ const HorizontalLineCSS={
 }
 
 const CreateIconCSS={
-	fontSize:"25",
+	fontSize:"35",
 	color:"#C8B0F4",
 	marginLeft:"20%",
 	cursor:"pointer"
@@ -71,6 +151,11 @@ const PostCategory=(props)=>{
 		isOligarch,
 		selectedSymposiumTitle
 	}=props;
+
+	debugger;
+	const symposiumContext=useContext(SymposiumContext);
+	const {isSimplified}=symposiumContext;
+
 	const [postCategoryPosts,changePostCategoryPosts]=useState([]);
 	const loadingIndicatorRef=useRef();
 	const [displayCategoryUpload,changeDisplayCategoryUpload]=useState(false);
@@ -207,7 +292,7 @@ const PostCategory=(props)=>{
 				}
 			}}
 		>
-			<Container>
+			<Container isSimplified={isSimplified}>
 				{oligarchSettingsPortal()}
 				{categoryUploadDisplay()}
 				<div style={{display:"flex",flexDirection:"column"}}>
@@ -217,11 +302,11 @@ const PostCategory=(props)=>{
 								<>{mobileCategoryOptions()}</>
 							)}
 						
-							<p style={{marginLeft:"5%",fontSize:"24px"}}>
+							<p style={{fontSize:"18px",fontFamily:"'Poppins'"}}>
 								<b>{headers.title}</b>
 							</p>
 						</div>
-						<CreateIcon
+						<AddCircleIcon
 							style={CreateIconCSS}
 							onClick={()=>triggerCreateQuickCategoryUpload()}
 						/>

@@ -11,30 +11,21 @@ import {
 } from "../../../../../Actions/Requests/OligarchRequests/OligarchRetrieval.js";
 
 const Container=styled.div`
-	position:fixed;
 	background-color:white;
 	border-radius:5px;
-	width:60%;
-	height:70%;
 	z-index:41;
-	left:20%;
-	top:15%;
 	padding:20px;
 	display:flex;
 	flex-direction:column;
 	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
-		width:90% !important;
-		left:5% !important;
-
 		#currentOligarchsDropDown{
 			margin-left:-200px !important;
 		}
 	}
 
 	@media screen and (max-width:650px){
-		height:80%;
 		#electionSpeechDiv{
 			margin-bottom:15% !important;
 		}
@@ -58,12 +49,6 @@ const Container=styled.div`
 		#backButtonCurrentOligarchs{
 			display:block !important;
 		}
-	}
-
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-		top:10%;
-		width:65%;
-		left:15%;
 	}
 `;
 
@@ -169,16 +154,10 @@ const Oligarchs=({symposiumId,closeOligarchModal,profileId})=>{
 	}
 
 	return(
-		<React.Fragment>
-			<Container>
-				{oligarchOnboardModal()}
-				{modalDecider()}
-			</Container>
-
-			<BackgroundModalContainer 
-				onClick={()=>closeOligarchModal()}
-			/>
-		</React.Fragment>
+		<Container>
+			{oligarchOnboardModal()}
+			{modalDecider()}
+		</Container>
 	)
 }
 

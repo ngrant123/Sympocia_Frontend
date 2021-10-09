@@ -28,6 +28,14 @@ const PortalHOCContainer=styled.div`
 		height:100%;
 		top:0%;
     }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		width:100% !important;
+		left:0% !important;
+		height:100% !important;
+		top:0% !important;
+		padding:10px !important;
+    }
 `;
 
 

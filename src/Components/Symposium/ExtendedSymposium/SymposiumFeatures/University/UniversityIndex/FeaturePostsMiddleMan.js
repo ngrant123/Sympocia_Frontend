@@ -1,9 +1,9 @@
 import React from "react";
-import {AudioPostModal} from "../FeaturesPosts/AudioPostModal.js";
-import {RegularPostModal} from "../FeaturesPosts/RegularPostModal.js";
-import {VideoPostModal} from "../FeaturesPosts/VideoPostModal.js";
+import {AudioPostModal} from "../UniversityPosts/AudioPostModal.js";
+import {RegularPostModal} from "../UniversityPosts/RegularPostModal.js";
+import {VideoPostModal} from "../UniversityPosts/VideoPostModal.js";
 import styled from "styled-components";
-import {ImagePostModal} from "../FeaturesPosts/ImagePostModal.js";
+import {ImagePostModal} from "../UniversityPosts/ImagePostModal.js";
 import {createPortal} from "react-dom";
 import {SymposiumConsumer} from "../../../SymposiumContext.js";
 import {
@@ -52,11 +52,11 @@ const ShadowContainer=styled.div`
 `;
 
 
-const ModalDecider=({closeModal,modalType,symposium,symposiumId,selectedQuestion})=>{
+const ModalDecider=({closeModal,modalType,symposiumId,selectedQuestion})=>{
+	debugger;
 	const dispatch=useDispatch();
 	const modalDecider=(symposiumInformation)=>{
 		const postModalProps={
-			symposium,
 			modalType,
 			selectedQuestion,
 			symposiumId,
@@ -71,7 +71,7 @@ const ModalDecider=({closeModal,modalType,symposium,symposiumId,selectedQuestion
 			return <VideoPostModal
 						{...postModalProps}
 					/>
-		}else if(modalType=="RegularPost"){
+		}else if(modalType=="RegularPost" || modalType=="Text"){
 			return <RegularPostModal
 						{...postModalProps}
 					/>

@@ -5,11 +5,13 @@ import {
     MinifiedSymposiumInformation,
     SearchContainer,
     SearchTextArea
-} from "../../indexCSS.js";
+} from "./indexCSS.js";
 import {PostConsumer} from "../PostsContext.js"
-import SymposiumOptions from "../../SymposiumFeatures/SymposiumOptions.js";
+import SymposiumOptions from "../../Modals/SymposiumOptions.js";
 import {PostOptions} from "../../indexCSS.js";
 import SearchIcon from '@material-ui/icons/Search';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+
 import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts.js";
 import PostsOptionsPortal from "../../Modals/PostOptionsPortal.js";
 import {Link} from "react-router-dom";
@@ -34,29 +36,59 @@ const PostOptionsCSS={
     color:"#5298F8"
 }
 
-const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,displayBeacon})=>{
-    const [displayPostOptionsPortal,changePostOptionsDisplayPortal]=useState(false);
+const ButtonCSS={
+    backgroundColor:"white",
+    borderRadius:"5px",
+    color:"white",
+    cursor:"pointer",
+    height:"50px",
+    display:"flex",
+    justifyContent:"space-between",
+    flexDirection:"row",
+    alignItems:"center",
+    marginRight:"10%",
+    width:"200px",
+    overflow:"hidden",
+    boxShadow:"1px 1px 5px #6e6e6e"
+}
 
-    const searchPromptTrigger=async(event)=>{
+const SearchOptions=(props)=>{
+    const {
+        state,
+        updatePosts,
+        posts,
+        postType,
+        searchFilterPosts,
+        displayBeacon
+    }=props;
+
+
+    const [displayPostOptionsPortal,changePostOptionsDisplayPortal]=useState(false);
+    const [currentPostType,changeCurrentPostType]=useState("Images");
+
+    const searchPromptTrigger=async()=>{
+        debugger;
         const textAreaValue=document.getElementById("symposiumSearchPostTextArea").value;
-        const keyEntered=event.key;
         const currentSelectedPosts=posts;
-        if(keyEntered=="Enter"){
-            event.preventDefault();
-            if(textAreaValue==""){
-               updatePosts(postType,true);
-            }else{
-                const posts=await searchPostsFilter(
-                                currentSelectedPosts,
-                                textAreaValue,
-                                postType.toLowerCase(),
-                                true);
-                searchFilterPosts(posts);
-            }
+        if(textAreaValue==""){
+           updatePosts(postType,true);
+        }else{
+            const posts=await searchPostsFilter(
+                            currentSelectedPosts,
+                            textAreaValue,
+                            postType.toLowerCase(),
+                            true);
+            searchFilterPosts(posts);
         }
     }
+
     const closePostOptionsPortal=()=>{
         changePostOptionsDisplayPortal(false);
+    }
+    const triggerUpdatePosts=({updatePostType,displayPostText})=>{
+        debugger;
+        changeCurrentPostType(displayPostText);
+        updatePosts(updatePostType);
     }
 
     const postOptionsMobileOrDesktop=()=>{
@@ -65,35 +97,22 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
                     {displayPostOptionsPortal==true &&(
                         <PostsOptionsPortal
                             closeModal={closePostOptionsPortal}
-                            updatePosts={updatePosts}
+                            updatePosts={triggerUpdatePosts}
                         />
                     )}
+
+
                     <div id="symposiumPostOptionsId"
-                        onClick={()=>changePostOptionsDisplayPortal(true)} style={mobilePostCSS}>
-                        Post Options
+                        onClick={()=>changePostOptionsDisplayPortal(true)} 
+                        style={{...ButtonCSS,background:state.backgroundColor}}>
+                        <div style={{display:"flex",padding:"5px",textAlign:"center",alignItems:"center",justifyContent:"center"}}>
+                            {currentPostType}
+                        </div>
+                        <div style={{width:"30%",height:"100%",background:"rgba(0, 0, 0, 0.2)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                            <KeyboardArrowDownIcon/>
+                        </div>
                     </div>
                 </React.Fragment>
-    }
-
-    const postOptions=()=>{
-        return <>
-                    <li onClick={()=>updatePosts("Regular")} id="regular" style={PostOptionsCSS}>
-                        Regular posts
-                    </li>
-                    <hr/>
-
-                    <li  onClick={()=>updatePosts("Image")} id="image" style={PostOptionsCSS}>  
-                        Images
-                    </li>
-                    <hr/>
-                    <li onClick={()=>updatePosts("Video")} id="video" style={PostOptionsCSS}> 
-                        Videos
-                    </li>
-                    <hr/>
-                    <li onClick={()=>updatePosts("Blog")} id="blog" style={PostOptionsCSS}>
-                        Blogs
-                    </li>
-                </>
     }
 
     const beaconElement=()=>{
@@ -113,44 +132,25 @@ const SearchOptions=({state,updatePosts,posts,postType,searchFilterPosts,display
 
     return(
         <SympociaOptionsContainer isScrollEnabled={state.headerAnimation}>	
-            <SearchOptionContainer style={{width:"80%",marginLeft:state.headerAnimation==false?"10%":"0%"}}>	
-                <SearchContainer>
-                    <SearchIcon
-                        style={{fontSize:30}}
-                    />
-                    <SearchTextArea
-                        id="symposiumSearchPostTextArea"
-                        placeholder="Press enter to quick search"
-                        onKeyPress={e=>searchPromptTrigger(e)}
-                    />
-                </SearchContainer>
-                {postOptionsMobileOrDesktop()}
+            <SearchContainer>
+                <SearchTextArea
+                    id="symposiumSearchPostTextArea"
+                    placeholder="Search"
+                />
+                <SearchIcon
+                    style={{fontSize:30,cursor:"pointer"}}
+                    onClick={()=>searchPromptTrigger()}
+                />
+            </SearchContainer>
+            <div style={{display:"flex",flexDirection:"row"}}>
                 <SymposiumOptions
                     headerAnimation={state.headerAnimation}
                     displayPhoneUI={state.displayPhoneUI}
+                    backgroundColor={state.backgroundColor}
                     selectedSymposiumTitle={state.selectedSymposiumTitle}
                 />
-                {state.displayDesktopUI==false &&(
-                    <Link to={{pathname:`/symposiumFeatures/${state.symposiumId}`}}>
-                        <MeetingRoomIcon
-                            style={{fontSize:30,color:"#333",marginLeft:"35%"}}
-                        />
-                    </Link>
-                )}
-            </SearchOptionContainer>
-
-            {state.headerAnimation==true && (
-                <MinifiedSymposiumInformation isScrollEnabled={state.headerAnimation}>
-                    {(state.displayPhoneUI==true && state.headerAnimation==true)==false &&(
-                        <>
-                            <p style={{marginTop:"10px",fontSize:"20px",marginRight:"5%"}}>
-                                <b>{state.selectedSymposiumTitle}</b>
-                            </p>
-                            {beaconElement()}
-                        </>
-                    )}
-                </MinifiedSymposiumInformation>
-            )}
+                {postOptionsMobileOrDesktop()}
+            </div>
         </SympociaOptionsContainer>
     )
 }

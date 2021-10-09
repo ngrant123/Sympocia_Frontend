@@ -1,9 +1,9 @@
 import React,{useState,useEffect,useContext} from "react";
 import styled from "styled-components";
-import {ImagePostUpload} from "../../../../ExtendedSymposium/SymposiumFeatures/SpecificSymposiumFeaturesQuestions/FeaturesPosts/ImagePostModal.js";
-import {VideoPostUpload} from "../../../../ExtendedSymposium/SymposiumFeatures/SpecificSymposiumFeaturesQuestions/FeaturesPosts/VideoPostModal.js";
-import {TextPostUpload} from "../../../../ExtendedSymposium/SymposiumFeatures/SpecificSymposiumFeaturesQuestions/FeaturesPosts/RegularPostModal.js";
-import {AudioPostUpload} from "../../../../ExtendedSymposium/SymposiumFeatures/SpecificSymposiumFeaturesQuestions/FeaturesPosts/AudioPostModal.js";
+import {ImagePostUpload} from "../../../../ExtendedSymposium/SymposiumFeatures/University/UniversityPosts/ImagePostModal.js";
+import {VideoPostUpload} from "../../../../ExtendedSymposium/SymposiumFeatures/University/UniversityPosts/VideoPostModal.js";
+import {TextPostUpload} from "../../../../ExtendedSymposium/SymposiumFeatures/University/UniversityPosts/RegularPostModal.js";
+import {AudioPostUpload} from "../../../../ExtendedSymposium/SymposiumFeatures/University/UniversityPosts/AudioPostModal.js";
 import {useSelector} from "react-redux";
 import {FeaturesContext} from "../../../FeaturesPageSet/FeaturesPageContext.js";
 
