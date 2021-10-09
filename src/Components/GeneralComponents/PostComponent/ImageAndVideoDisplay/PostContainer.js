@@ -8,7 +8,8 @@ import {
 		unStampPost,
 		fakeNewsPostResponse,
 		markPostAsAuthentic,
-		deletePost
+		deletePost,
+		processS3UrlView
 	} from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 import { Icon, InlineIcon } from '@iconify/react';
@@ -110,72 +111,82 @@ const ImageContainer=(props)=>{
 	const [displayPostAdditionalInformation,changePostAdditionalInformation]=useState(false);
 
 	useEffect(()=>{
-		const fetchData=async()=>{
-			const destructuredData=props.imageData==null?props.videoData:props.imageData;
-			const destructedFieldTerm=props.imageData==null?"videoData":"imageData";
-			const {videoDescriptionKey,videoUrlKey,uncompressedImageId}=destructuredData;	
-			let	currentData=postData;
-
-			if(videoDescriptionKey!=null){
-				const {confirmation,data}=await getVideoUrl(videoDescriptionKey);
-
-				if(confirmation=="Success"){
-					const videoDescriptionUrl=data.message;
-
-					currentData={
-						...currentData,
-						[destructedFieldTerm]:{
-							...currentData[destructedFieldTerm],
-							videoDescription:videoDescriptionUrl
-						}
-					}
-				}else{
-					alert('Unfortunately there was an error getting this video. Please try again later');
-				}
-			} 
-			if(videoUrlKey!=null){
-				const {confirmation,data}=await getVideoUrl(videoUrlKey);
-				if(confirmation=="Success"){
-					const videoUrl=data.message;
-
-					currentData={
-						...currentData,
-						[destructedFieldTerm]:{
-							...currentData[destructedFieldTerm],
-							videoUrl:videoUrl
-						}
-					}
-				}else{
-					alert('Unfortunately there was an error getting this video. Please try again later');
-				}
-			}else{
-				if(uncompressedImageId!=null){
-					const {confirmation,data}=await getImgUrl(uncompressedImageId);
-					if(confirmation=="Success"){
-						const imgUrl=data.message;
-
-						currentData={
-							...currentData,
-							[destructedFieldTerm]:{
-								...currentData[destructedFieldTerm],
-								imgUrl:imgUrl
-							}
-						}
-					}else{
-						alert('Unfortunately there was an error getting this image. Please try again later');
-					}
-				}
-			}
-
-
-			changePostData(currentData);
-			changePostDataDestructuredField(destructedFieldTerm)
-			changeIsLoadingStatus(false);
-		}
-
 		fetchData();
 		triggerUIChange();
+		triggerS3Processing();
+		return ()=>{
+
+		}
 	},[]);
+
+	const triggerS3Processing=()=>{
+		
+	}
+
+	const fetchData=async()=>{
+		const destructuredData=props.imageData==null?props.videoData:props.imageData;
+		const destructedFieldTerm=props.imageData==null?"videoData":"imageData";
+		const {videoDescriptionKey,videoUrlKey,uncompressedImageId}=destructuredData;	
+		let	currentData=postData;
+
+		if(videoDescriptionKey!=null){
+			const {confirmation,data}=await getVideoUrl(videoDescriptionKey);
+
+			if(confirmation=="Success"){
+				const videoDescriptionUrl=data.message;
+
+				currentData={
+					...currentData,
+					[destructedFieldTerm]:{
+						...currentData[destructedFieldTerm],
+						videoDescription:videoDescriptionUrl
+					}
+				}
+			}else{
+				alert('Unfortunately there was an error getting this video. Please try again later');
+			}
+		} 
+		if(videoUrlKey!=null){
+			const {confirmation,data}=await getVideoUrl(videoUrlKey);
+			if(confirmation=="Success"){
+				const videoUrl=data.message;
+
+				currentData={
+					...currentData,
+					[destructedFieldTerm]:{
+						...currentData[destructedFieldTerm],
+						videoUrl:videoUrl
+					}
+				}
+			}else{
+				alert('Unfortunately there was an error getting this video. Please try again later');
+			}
+		}else{
+			if(uncompressedImageId!=null){
+				const {confirmation,data}=await getImgUrl(uncompressedImageId);
+				if(confirmation=="Success"){
+					const imgUrl=data.message;
+
+					currentData={
+						...currentData,
+						[destructedFieldTerm]:{
+							...currentData[destructedFieldTerm],
+							imgUrl:imgUrl
+						}
+					}
+				}else{
+					alert('Unfortunately there was an error getting this image. Please try again later');
+				}
+			}
+		}
+
+
+		changePostData(currentData);
+		changePostDataDestructuredField(destructedFieldTerm)
+		changeIsLoadingStatus(false);
+	}
+
+
 	window.addEventListener('resize',triggerUIChange)
 
 	const triggerUIChange=()=>{
