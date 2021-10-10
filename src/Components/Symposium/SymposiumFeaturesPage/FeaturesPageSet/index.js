@@ -12,6 +12,7 @@ import PortalHoc from "./Modals-Portals/PortalsHOC.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import BeaconsTagsCreationModal from "./Modals-Portals/Beacons/TagsCreationModal.js";
 import TagExtendedInformationModal from "./Modals-Portals/Beacons/TagInformationExtended/index.js";
+import {signUpGuestUser} from "../../../../Actions/Redux/Actions/PersonalProfile.js";
 import{
 	getSymposiumName,
 	isOligarch,
@@ -22,6 +23,7 @@ import{
 	retrieveCommunityPosts
 } from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import MobileCreationButton from "./MobileUI/Creation.js";
+import {useDispatch} from "react-redux";
 
 const Container=styled.div`
 	width:100%;
@@ -121,6 +123,7 @@ const CreatePostButton=styled.div`
 
 const SymposiumFeatures=(props)=>{
 	const {history}=props;
+	const dispatch=useDispatch();
 
 	const [featuresType,changeFeaturesType]=useState();
 	const [featuresPagePrimaryInformation,changePrimaryInformation]=useState();
@@ -172,6 +175,9 @@ const SymposiumFeatures=(props)=>{
 
 	useEffect(()=>{
 		const fetchInitialData=async()=>{
+			if(personalInformation.id=="0"){
+				dispatch(signUpGuestUser());
+			}
 			const {confirmation,data}=await getSymposiumName(currentSymposiumId);
 			if(confirmation=="Success"){
 				const {message}=data;

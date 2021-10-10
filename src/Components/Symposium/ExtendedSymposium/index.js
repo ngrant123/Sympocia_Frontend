@@ -54,11 +54,7 @@ import {
 } from "./indexCSS.js";
 import Posts from "./Posts/index.js";
 import SearchOptions from "./Posts/PostFilterOptions/index.js";
-// import {
-// 		InitialSymposiumFeaturesDisplay,
-// 		symposiumFeaturesAndChat,
-// 		symposiumFeatures
-// 	} from "./SymposiumFeatures/InitialSymposiumFeaturesDisplay.js";
+import {signUpGuestUser} from "../../../Actions/Redux/Actions/PersonalProfile.js";
 
 import {SymposiumProvider} from "./SymposiumContext.js";
 import Beacons from "./SymposiumFeatures/Beacons/index.js";
@@ -166,6 +162,9 @@ class Symposium extends Component{
 		}=this.props.personalInformation;
 		if(isGuestProfile==false && id!="0"){
 			this.fetchIsOligarchStatus({isAccessTokenUpdated:false,profileId});
+		}else{
+			if(id=="0")
+				this.props.signUserToGuestStatus();
 		}
   		this.triggerUIChange();
 	}
@@ -971,6 +970,7 @@ const mapStateToProps=(state)=>{
 
 const mapDispatchToProps=dispatch=>{
 	return{
+		signUserToGuestStatus:()=>dispatch(signUpGuestUser()),
 		setPersonalProfileAccessToken:(accessToken)=>dispatch(setPersonalProfileAccessToken(accessToken)),
 		setPersonalProfileRefreshToken:(refreshToken)=>dispatch(setPersonalProfileRefreshToken(refreshToken))
 	}
