@@ -158,10 +158,13 @@ class Symposium extends Component{
 		window.addEventListener('resize',this.triggerUIChange)
 
 		const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
-
+		debugger;
 		this.fetchSymposiumInformation(profileId);
-		const {isGuestProfile}=this.props.personalInformation;
-		if(isGuestProfile==false){
+		const {
+			isGuestProfile,
+			id
+		}=this.props.personalInformation;
+		if(isGuestProfile==false && id!="0"){
 			this.fetchIsOligarchStatus({isAccessTokenUpdated:false,profileId});
 		}
   		this.triggerUIChange();

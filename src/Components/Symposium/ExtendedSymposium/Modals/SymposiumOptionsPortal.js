@@ -3,6 +3,7 @@ import {SymposiumContext} from "../SymposiumContext.js";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import PortalHOC from "./PortalHOC.js";
+import {Link} from "react-router-dom";
 
 const Container=styled.div`
 	position:fixed;
@@ -106,6 +107,13 @@ const SymposiumOptionsPortal=({
 				<div style={SymposiumAndChatInformationCSS} 
 					onClick={()=>symposiumInformation.handleFollowSymposium()}>
 					{isUserFollowingSymposium(symposiumInformation.isUserFollowingSymposium())}
+				</div>
+
+				<hr/>
+				<div style={SymposiumAndChatInformationCSS}>
+					<Link style={{textDecoration:"none"}} to={{pathname:`/symposiumFeatures/${symposiumInformation.symposiumId}`}}>
+						<p>Symposium Features</p>
+					</Link>
 				</div>
 
 				<hr/>

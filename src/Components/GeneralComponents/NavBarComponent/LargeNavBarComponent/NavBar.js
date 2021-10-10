@@ -614,7 +614,7 @@ const NavBar=(pageProps)=>{
 				</div>
 
 				{(personalProfileState.id==0 || personalProfileState.isGuestProfile)==true?
-					<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center",width:"10%"}}>
+					<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center",width:"10%",marginRight:"2%"}}>
 						<p style={{fontSize:"16px",cursor:"pointer"}}>
 							<Link style={{textDecoration:"none",color:"black"}}
 								to={{pathname:`/logout`,state:{isLoggedOut:true}}}>

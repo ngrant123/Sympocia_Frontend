@@ -648,9 +648,11 @@ export const createBeacon=async({
 				ownerId,
 				isMobile,
 				tags,
-				symposiumId
+				symposiumId,
+				accessToken
 			})=>{
 	try{
+		debugger;
 		const createBeaconResponse=await axios.post(`${CreateURl}/createBeacon`,{
 			postUrl,
 			beaconDescription,
@@ -659,6 +661,10 @@ export const createBeacon=async({
 			symposiumId,
 			isMobile,
 			tags
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		})
 		const {data}=createBeaconResponse;
 		return data;
@@ -677,7 +683,8 @@ export const createBeaconReply=async({
 				beaconId,
 				isMobile,
 				originalBeaconOwnerId,
-				originalBeaconPostId
+				originalBeaconPostId,
+				accessToken
 			})=>{
 	try{
 		const createBeaconReplyResponse=await axios.post(`${CreateURl}/createBeaconReply`,{
@@ -690,6 +697,10 @@ export const createBeaconReply=async({
 			symposiumId,
 			originalBeaconOwnerId,
 			originalBeaconPostId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		})
 		const {data}=createBeaconReplyResponse;
 		return data;

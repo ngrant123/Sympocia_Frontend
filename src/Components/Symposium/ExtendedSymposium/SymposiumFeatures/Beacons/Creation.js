@@ -9,6 +9,8 @@ import {useSelector} from "react-redux";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import {getSymposiumTags} from "../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {useDispatch} from "react-redux";
 
 const Container=styled.div`
 	position:relative;
@@ -155,7 +157,7 @@ const Creation=({
 	const [tags,changeTags]=useState([]);
 	const [loadingTags,changeLoadingTagsStatus]=useState(false);
 	const [selectedTags,changeSelectedTags]=useState([]);
-
+	const dispatch=useDispatch();
 
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -208,7 +210,7 @@ const Creation=({
 		}
 	}
 
-	const submitBeacon=async()=>{
+	const submitBeacon=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const userSubmittedInput=document.getElementById("inputPromptContainer").value;
 		changeIsSubmitting(true);
 		if(userSubmittedInput==""){
@@ -221,10 +223,33 @@ const Creation=({
 			if(currentSubmittedPostType=="Videos"){
 				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
 			}
+			debugger;
 			if(beaconResponseDesignatedPostType!=null){
-				uploadedBeaconResult=await uploadReplyBeacon(userSubmittedInput);
+				uploadedBeaconResult=await createBeaconReply({
+								beaconId,
+								postUrl:selectedPostUrl,
+								beaconDescription:userSubmittedInput,
+								postType:beaconResponseDesignatedPostType,
+								ownerId,
+								symposiumId,
+								beaconOwnerId,
+								originalBeaconPostId,
+								isMobile:!isDesktop,
+								accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+											userInformation.accessToken
+							});
 			}else{
-				uploadedBeaconResult=await uploadedBeacon(userSubmittedInput);
+				uploadedBeaconResult=await createBeacon({
+												postUrl:selectedPostUrl,
+												beaconDescription:userSubmittedInput,
+												postType,
+												ownerId,
+												symposiumId,
+												tags:selectedTags,
+												isMobile:!isDesktop,
+												accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+															userInformation.accessToken
+											});
 			}
 			const {confirmation,data}=uploadedBeaconResult;
 			if(confirmation=="Success"){
@@ -247,37 +272,23 @@ const Creation=({
 				};
 				updateBeaconPosts(currentSubmittedPostType,message);
 			}else{
-				alert('There was an error creating this beacon response');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+							userInformation.refreshToken,
+							userInformation.id,
+							submitBeacon,
+							dispatch,
+							{},
+							false
+						);
+				}else{
+					alert('There was an error creating this beacon response');
+				}
 				return null;
 			}	
 		}
 		changeIsSubmitting(false);
-	}
-	const uploadedBeacon=async(userSubmittedValue)=>{
-		const createBeaconResult=await createBeacon({
-			postUrl:selectedPostUrl,
-			beaconDescription:userSubmittedValue,
-			postType,
-			ownerId,
-			symposiumId,
-			tags:selectedTags,
-			isMobile:!isDesktop
-		})
-		return createBeaconResult;
-	}
-	const uploadReplyBeacon=async(userSubmittedValue)=>{
-		const createdBeaconReplyResult=await createBeaconReply({
-			beaconId,
-			postUrl:selectedPostUrl,
-			beaconDescription:userSubmittedValue,
-			postType:beaconResponseDesignatedPostType,
-			ownerId,
-			symposiumId,
-			beaconOwnerId,
-			originalBeaconPostId,
-			isMobile:!isDesktop
-		});
-		return createdBeaconReplyResult;
 	}
 
 	const fetchTagsData=async()=>{
@@ -386,7 +397,7 @@ const Creation=({
 				/>
 				{isSubmtting==true?
 					<p>Submitting...</p>:
-					<div onClick={()=>submitBeacon()} style={SubmitButtonCSS}>
+					<div onClick={()=>submitBeacon({isAccessTokenUpdated:false})} style={SubmitButtonCSS}>
 						Submit
 					</div>
 				}
