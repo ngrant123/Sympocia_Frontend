@@ -450,7 +450,7 @@ const HeaderContainer=(props)=>{
 							</HeaderContainerDiv>
 
 							<HeaderContainerDiv style={{background:backgroundColor,width:"50%"}}>
-								<div id="headerContentsDiv" style={{position:"absolute",marginTop:"12%",width:"100%",zIndex:10,padding:"30px"}}>
+								<div id="headerContentsDiv" style={{position:"absolute",marginTop:"12%",width:"100%",zIndex:10,padding:"30px",height:"72%"}}>
 									<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
 										<p style={displaySymposiumCommunityModal==true?
 											SymposiumCommunitySelectedOptionCSS:
@@ -478,7 +478,7 @@ const HeaderContainer=(props)=>{
 										</p>
 									</div>
 
-									<div style={{backgroundColor:"red",width:"100%",height:"270px",borderRadius:"5px"}}>
+									<div style={{backgroundColor:"red",width:"100%",height:"100%",borderRadius:"5px"}}>
 										{SymposiumConsumer.specificSymposiumFeaturesComponent(
 											selectedSymposiumFeature,
 											false)}
