@@ -290,13 +290,13 @@ class HomePageContainer extends Component{
 		document.getElementById('homePageContainer').style.backgroundColor="white";
 
 		this.setState(prevState=>({
-					 ...prevState,
-					 displaySymposiumList:true,
-					 displayExplorerFeed:false,
-					 displayCustomizedFeed:false,
-					 displaySearchExplorePage:false,
-					displayExpandedSymposium:false
-				}))
+			...prevState,
+			displaySymposiumList:true,
+			displayExplorerFeed:false,
+			displayCustomizedFeed:false,
+			displaySearchExplorePage:false,
+			displayExpandedSymposium:false
+		}))
 	}
 
 
