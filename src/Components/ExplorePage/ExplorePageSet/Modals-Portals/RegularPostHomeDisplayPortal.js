@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import RegularPostDisplay from "../../GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
-import {RegularPostDisplayContainer} from "../../GeneralComponents/PostComponent/RegularPostComponent/indexCSS.js";
+import RegularPostDisplay from "../../../GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js";
+import {RegularPostDisplayContainer} from "../../../GeneralComponents/PostComponent/RegularPostComponent/indexCSS.js";
 
 const ShadowContainer=styled.div`
 	position:fixed;

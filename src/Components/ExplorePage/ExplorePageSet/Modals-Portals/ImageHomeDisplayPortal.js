@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import ImageContainer from "../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
-import {ImageDisplayContainer} from "../../GeneralComponents/PostComponent/ImageComponent/indexCSS.js";
+import ImageContainer from "../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
+import {ImageDisplayContainer} from "../../../GeneralComponents/PostComponent/ImageComponent/indexCSS.js";
 
 const Container=styled.div`
 	position:fixed;

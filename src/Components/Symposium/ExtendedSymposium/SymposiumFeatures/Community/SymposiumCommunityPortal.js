@@ -10,9 +10,9 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 
-import ImagePostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
-import VideoPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
-import RegularPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
+import ImagePostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/ImageHomeDisplayPortal.js";
+import VideoPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/VideoHomeDisplayPortal.js";
+import RegularPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/RegularPostHomeDisplayPortal.js";
 import {SymposiumContext} from "../../SymposiumContext.js";
 import {
 	Container,

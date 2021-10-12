@@ -4,10 +4,10 @@ import {connect} from "react-redux";
 import {HomeConsumer} from "../HomeContext.js";
 import {SearchConsumer} from "../../SearchPage/SearchContext.js";
 
-import {ImagePostsModal} from './PostsDisplay/ImagePostsModal.js';
-import VideosPostsModal from './PostsDisplay/VideoPostsModal.js';
-import BlogsPostsModal from './PostsDisplay/BlogPostsModal.js';
-import RegularPostsModal from './PostsDisplay/RegularPostsModal.js';
+import {ImagePostsModal} from './PostsDisplay/Images/ImagePostsModal.js';
+import VideosPostsModal from './PostsDisplay/Videos/VideoPostsModal.js';
+import BlogsPostsModal from './PostsDisplay/Blogs/BlogPostsModal.js';
+import RegularPostsModal from './PostsDisplay/Text/RegularPostsModal.js';
 
 import {
 		exploreImagePosts,
@@ -28,8 +28,9 @@ import {
 } from "../../../Actions/Tasks/Search/SearchSymposiums.js";
 
 const Container=styled.div`
+	display:flex;
+	flex-direction:column;
 	margin-top:10%;
-	margin-left:3%;
 	@media screen and (max-width:1370px){
 		margin-left:0%;
     	#mobileArenaLI{
@@ -217,7 +218,6 @@ const ExplorePageOptionsCSS={
 	display:"flex",
 	flexDirection:"row",
 	justifyContent:"center",
-	paddingRight:"40px",
 	alignItems:"center",
 	cursor:"pointer",
 	backgroundColor:"white",
@@ -225,6 +225,7 @@ const ExplorePageOptionsCSS={
 }
 
 const VerticalLineCSS={
+	position:"relative",
 	borderStyle:"solid",
 	borderWidth:"1px",
 	borderColor:"#EBEBEB",
@@ -508,12 +509,43 @@ class SearchExploreContainer extends Component{
 	}
 
 	headerUI=()=>{
-		return <div style={{display:"flex",flexDirection:"column"}}>
+		return <div style={{display:"flex",flexDirection:"row",backgroundColor:"red",justifyContent:"space-between"}}>
+					<p style={{fontSize:"24px",marginRight:"2%",color:"#C8B0F4"}}>
+						<b>Explore</b>
+					</p>
+
 					<div style={{display:"flex",flexDirection:"row"}}>
-						<p style={{fontSize:"24px",marginRight:"2%",color:"#C8B0F4"}}>
-							<b>Explore</b>
-						</p>
-						<div style={{display:"flex",flexDirection:"row"}}>
+						<div class="btn-group">
+							<button class="btn btn-primary dropdown-toggle" type="button" 
+								data-toggle="dropdown" style={ExplorePageOptionsCSS}>
+								{this.state.postOption}
+								<ArrowDropDownCircleOutlinedIcon
+									style={{fontSize:"15",color:"7C7C7C",marginLeft:"10px"}}
+								/>
+							</button>
+							<ul class="dropdown-menu" style={{padding:"10px"}}>
+								{this.postOptionDropDown()}	
+							</ul>
+						</div>
+						<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+								<p style={{marginRight:"10px",marginLeft:"30px"}}>
+									<b>Filter By:</b>
+								</p>
+								<div class="btn-group">
+									<button class="btn btn-primary dropdown-toggle" type="button" 
+										data-toggle="dropdown" style={ExplorePageOptionsCSS}>
+										Symposiums
+										<ArrowDropDownCircleOutlinedIcon
+											style={{fontSize:"15",color:"7C7C7C"}}
+										/>
+									</button>
+									{this.selectedPostSymposiums()}
+								</div>
+							</div>
+					</div>
+
+					{/*
+						<div style={{display:"flex",flexDirection:"row",marginLeft:"-10%"}}>
 							<div class="btn-group">
 								<button class="btn btn-primary dropdown-toggle" type="button" 
 									data-toggle="dropdown" style={ExplorePageOptionsCSS}>
@@ -536,14 +568,14 @@ class SearchExploreContainer extends Component{
 										data-toggle="dropdown" style={ExplorePageOptionsCSS}>
 										Symposiums
 										<ArrowDropDownCircleOutlinedIcon
-											style={{fontSize:"15",color:"7C7C7C",marginLeft:"10px"}}
+											style={{fontSize:"15",color:"7C7C7C",marginLeft:"5px"}}
 										/>
 									</button>
 									{this.selectedPostSymposiums()}
 								</div>
 							</div>
 						</div>
-					</div>
+					*/}
 				</div>
 	}
 	triggerReloadingPostsHandle=(props)=>{
@@ -563,67 +595,31 @@ class SearchExploreContainer extends Component{
 					<SearchConsumer>
 						{searchPageInformation=>(
 							<Container>
-								<ul style={{padding:"0px",marginLeft:"10%",marginTop:"8%"}}>
-									<li style={{listStyle:"none",marginBottom:"3%"}}>
-										<ul style={{padding:"0px"}}>
-											{this.state.displayDesktopUI==true?
-												<>{this.headerUI()}</>:
-												<>{this.mobileHeaderUI()}</>
-											}
-										</ul> 
+								{this.state.displayDesktopUI==true?
+									<>{this.headerUI()}</>:
+									<>{this.mobileHeaderUI()}</>
+								}
+								{this.state.isLoading==true?
+									<p>Loading...</p>:
+									<li style={{listStyle:"none"}}>
+										<PostsContainer>
+											<PostsMemo
+												posts={this.state.postsInformation}
+												_id={homePageInformation.personalInformationState._id}
+												confettiAnimation={homePageInformation.displayRecruitConfetti}
+												isPersonalProfile={homePageInformation.isPersonalProfile}
+												displaySymposium={homePageInformation.displaySymposium}
+												targetDom={"homePageContainer"}
+												isMobileUI={this.state.displayDesktopUI==true?false:true}
+												isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
+												triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
+												endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
+												isGuestProfileIndicator={this.state.isGuestProfileIndicator}
+												postType={this.state.postOption}
+											/>
+										</PostsContainer>
 									</li>
-									{this.state.isLoading==true?
-										<p>Loading...</p>:
-										<li style={{listStyle:"none"}}>
-											<PostsContainer>
-													{this.state.displayDesktopUI==false &&(
-														<React.Fragment>
-															<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-																<div class="btn-group">
-																	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
-																		Post Options
-																		<span class="caret"></span>
-																	</button>
-																	<ul class="dropdown-menu" style={{padding:"10px"}}>
-																		{this.postOptionDropDown()}			
-																	</ul>
-																</div>
-															</li>
-															{/*
-																<li style={{listStyle:"none",display:"inline-block"}}>
-																	<div class="dropdown">
-																		<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={PostOptionButtonCSS}>
-																			Options
-																			<span class="caret"></span>
-																		</button>
-																		<ul class="dropdown-menu">
-																			<li><a href="javascript:;">Most Popular</a></li>
-																			<li><a href="javascript:;">Newest</a></li>
-																			<li><a href="javascript:;">Popular</a></li>						
-																		</ul>
-																	</div>
-																</li>
-															*/}
-														</React.Fragment>
-													)}
-													<PostsMemo
-														posts={this.state.postsInformation}
-														_id={homePageInformation.personalInformationState._id}
-														confettiAnimation={homePageInformation.displayRecruitConfetti}
-														isPersonalProfile={homePageInformation.isPersonalProfile}
-														displaySymposium={homePageInformation.displaySymposium}
-														targetDom={"homePageContainer"}
-														isMobileUI={this.state.displayDesktopUI==true?false:true}
-														isLoadingReloadedPosts={this.state.isLoadingReloadedPosts}
-														triggerReloadingPostsHandle={this.triggerReloadingPostsHandle}
-														endOfPostsDBIndicator={this.state.endOfPostsDBIndicator}
-														isGuestProfileIndicator={this.state.isGuestProfileIndicator}
-														postType={this.state.postOption}
-													/>
-											</PostsContainer>
-										</li>
-									}
-								</ul>
+								}
 							</Container>
 						)}
 					</SearchConsumer>

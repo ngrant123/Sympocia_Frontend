@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import VideoContainer from "../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
-import {VideoDisplayContainer} from "../../GeneralComponents/PostComponent/VideoComponent/indexCSS.js";
+import VideoContainer from "../../../GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js";
+import {VideoDisplayContainer} from "../../../GeneralComponents/PostComponent/VideoComponent/indexCSS.js";
 
 const ShadowContainerVideos=styled.div`
 	position:fixed;

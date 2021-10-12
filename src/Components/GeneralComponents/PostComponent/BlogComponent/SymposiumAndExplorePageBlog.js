@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import {SmallProfilePictureAndVideoDescription} from "../../../ExplorePage/ExplorePageSubset/PostsDisplay/PostDisplayGeneralComp.js";
 import {useSelector} from "react-redux";
-import BlogHomeDisplayPortal from "../../../ExplorePage/ExplorePageSet/BlogHomeDisplayPortal.js";
+import BlogHomeDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/BlogHomeDisplayPortal.js";
 
 const BlogImageContainerCSS={
 	position:"relative",

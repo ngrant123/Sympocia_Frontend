@@ -4,11 +4,9 @@ import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBar
 import { connect } from "react-redux";
 import SymposiumList from "../../Symposium/SymposiumList/FeedContainer";
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
-import SearchExploreScreen from "../ExplorePageSubset/index.js";
+import ExplorePagePosts from "../ExplorePageSubset/index.js";
 
 import ExploreOutlinedIcon from '@material-ui/icons/ExploreOutlined';
-import RecruitsPosts from "./RecruitsPostsModal.js";
-
 import AppsIcon from '@material-ui/icons/Apps';
 import PlayListComponent from "../../PlayList/PlayListSet/PlayListContainer.js";
 import {HomeProvider} from "../HomeContext.js";
@@ -361,40 +359,6 @@ class HomePageContainer extends Component{
 		}))
 	}
 
-	displaySelectedScreen=()=>{
-		if(this.state.displaySymposiumList==true){
-			return <SymposiumList
-						isPersonalProfile={this.state.isPersonalProfile}
-						profileId={this.state.profile._id}
-						routerHistory={this.props.history}
-					/>
-		}else if(this.state.displaySearchExplorePage==true){
-				return <SearchExploreScreen
-								displayGrids={this.handleDisplayGridLayout}
-								history={this.props.history}
-							/>;
-		}else if(this.state.displayPlayListPage==true){
-			return <PlayListComponent/>
-		}else if(this.state.displayExpandedSymposium==true){
-			
-			this.props.history.push({
-			  pathname:`/symposium/${this.state.selectedSymposiumPersonalFeed.symposium}`,
-			  state: {
-			  	selectedSymposium:this.state.selectedSymposiumPersonalFeed,
-				symposiums:this.state.symposiums,
-				profileId:this.state.profileId
-			  }
-			});
-			/*
-			return <Symposium
-						selectedSymposium={this.state.selectedSymposiumPersonalFeed}
-						symposiums={this.state.symposiums}
-						profileId={this.state.profileId}
-					/>
-			*/
-		}
-	}
-
 	closeOnboardingModal=()=>{
 		this.setState({
 			hideOnboarding:true,
@@ -413,6 +377,37 @@ class HomePageContainer extends Component{
 			selectedSymposiumPersonalFeed:data.selectedSymposiums,
 			symposiums:data.symposiums
 		}))	
+	}
+
+	guestOnboarding=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayGuestOnboarding==true &&(
+					<GuestOnboarding
+						targetDom="homePageContainer"
+						closeModal={this.closeOnboardingModal}
+						routerHistory={this.props.history}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	explorePageOnboarding=()=>{
+		return(
+			<React.Fragment>
+				{(
+					this.state.hideOnboarding==false &&
+				 	this.props.personalInformation.id!="0" &&
+				 	this.props.personalInformation.isGuestProfile!=true && 
+				 	this.props.personalInformation.isGuestProfile!=null
+				 )==true &&(
+					<ExplorePageOnboarding
+						closeModal={this.closeOnboardingModal}
+					/>
+				)}
+			</React.Fragment>
+		)
 	}
 
 	render(){
@@ -445,116 +440,15 @@ class HomePageContainer extends Component{
 							routerHistory={this.props.history}
 							targetDom={"homePageContainer"}
 						/>
-						{this.state.displayGuestOnboarding==true &&(
-							<GuestOnboarding
-								targetDom="homePageContainer"
-								closeModal={this.closeOnboardingModal}
-								routerHistory={this.props.history}
+						{this.guestOnboarding()}
+						{this.explorePageOnboarding()}
+						
+						{this.state.isLoading==true?
+							<LoadingScreen/>:
+							<ExplorePagePosts
+								displayGrids={this.handleDisplayGridLayout}
+								history={this.props.history}
 							/>
-						)}
-
-						{(
-							this.state.hideOnboarding==false &&
-						 	this.props.personalInformation.id!="0" &&
-						 	this.props.personalInformation.isGuestProfile!=true && 
-						 	this.props.personalInformation.isGuestProfile!=null
-						 )==true &&(
-							<ExplorePageOnboarding
-								closeModal={this.closeOnboardingModal}
-							/>
-						)}
-
-						{this.state.displayConfetti==true?
-								<Confetti
-									id="confettiAnimation"
-									style={{position:"fixed",width:"100%",height:"100%",zIndex:"20"}}
-									 run={true}
-								/>
-							:<React.Fragment></React.Fragment>
-						}
-
-						{this.chatPage()}
-						{this.state.displayRecruitsPosts==true?
-								<React.Fragment>
-									<ShadowContainer
-										onClick={()=>this.setState({displayRecruitsPosts:!this.state.displayRecruitsPosts})}
-									/>
-									<RecruitsPosts
-										recruits={this.state.recruitsPost}
-										id={this.state.profileId}
-										isPersonalProfile={this.state.isPersonalProfile}
-										displaySymposium={this.displaySymposiumHandle}
-									/>
-								</React.Fragment>
-								:<React.Fragment></React.Fragment>}
-
-								{/*
-									Home for you like for what you subscribed
-									and something like a mix between what you already like and what you may like
-						*/}
-						{this.state.displayDesktopUI==true &&(
-							<PageIndicator>
-								<ul>
-									<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
-										<ExploreOutlinedIcon
-											style={{color:"#7C7C7C",fontSize:50}}
-										/>
-										<p>Explore</p>
-									</ExploreIconContainer>
-									{/*
-										<li style={{listStyle:"none",marginBottom:"30px",marginTop:"10px"}}>
-											<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-												<ExploreIconContainer onClick={()=>this.handleDisplayExplorePage()}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none"}}>
-															<ExploreOutlinedIcon
-																style={{color:"#7C7C7C",fontSize:50}}
-															/>
-														</li>
-
-														<li style={{listStyle:"none"}}>
-															Explore
-														</li>
-													</ul>
-												</ExploreIconContainer>
-											</a>
-										</li>
-									*/}
-									<ForYouIconContainer>
-										<AppsIcon
-											onClick={()=>this.props.history.push({
-												pathname:'/symposiumList'
-											})} style={{listStyle:"none",marginBottom:"20%"}}
-											style={{color:"#7C7C7C",fontSize:40}}
-										/>
-										<p style={{fontSize:"12px",listStyle:"none"}}>
-											Symposiums
-										</p>
-										{/*
-
-											<ul style={{padding:"0px"}}>
-												<li onClick={()=>this.props.history.push({
-														pathname:'/symposiumList'
-													})} style={{listStyle:"none",marginBottom:"20%"}}>
-													<a style={{textDecoration:"none",color:"black"}} href="javascript:void(0);">
-														<AppsIcon
-															style={{color:"#7C7C7C",fontSize:40}}
-														/>
-													</a>
-													<li style={{fontSize:"12px",listStyle:"none"}}>
-														Symposiums
-													</li>
-												</li>
-										*/}
-									</ForYouIconContainer>
-								</ul>
-							</PageIndicator>
-						)}
-
-						{this.state.isLoading==true?<LoadingScreen/>:
-							<React.Fragment>
-								{this.displaySelectedScreen()}
-							</React.Fragment>
 						}
 						
 					</Container>

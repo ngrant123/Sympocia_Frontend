@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 
-import {ImagePostsModal} from "../ExplorePage/ExplorePageSubset/PostsDisplay/ImagePostsModal.js";
-import VideoPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/VideoPostsModal.js";
-import BlogPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/BlogPostsModal.js";
-import RegularPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/RegularPostsModal.js";
+import {ImagePostsModal} from "../ExplorePage/ExplorePageSubset/PostsDisplay/Images/ImagePostsModal.js";
+import VideoPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/Videos/VideoPostsModal.js";
+import BlogPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/Blogs/BlogPostsModal.js";
+import RegularPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/Text/RegularPostsModal.js";
 import {getPostsFromSearch} from "../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import LoadingScreen from "../../LoadingAnimation.js";
 import {useSelector} from "react-redux";

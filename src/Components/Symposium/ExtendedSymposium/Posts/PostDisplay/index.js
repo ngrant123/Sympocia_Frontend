@@ -1,9 +1,9 @@
 import React, {useState,useEffect,useMemo} from "react";
 
-import {ImagePostsModal} from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/ImagePostsModal.js";
-import VideoPostModal from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/VideoPostsModal.js";
-import RegularPostModal from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/RegularPostsModal.js";
-import BlogPostModal from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/BlogPostsModal.js";
+import {ImagePostsModal} from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/Images/ImagePostsModal.js";
+import VideoPostModal from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/Videos/VideoPostsModal.js";
+import RegularPostModal from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/Text/RegularPostsModal.js";
+import BlogPostModal from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/Blogs/BlogPostsModal.js";
 import PostCategory from "./PostCategory.js";
 import {
     PostContainer,

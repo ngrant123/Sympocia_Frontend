@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
-import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
+import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/RegularPostHomeDisplayPortal.js";
 
 const ProfilePictureLink=styled(Link)`
 	position:relative;

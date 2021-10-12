@@ -1,9 +1,9 @@
 import React,{useMemo} from "react";
 import styled from "styled-components";
-import {ImagePostsModal} from './PostsDisplay/ImagePostsModal.js';
-import VideosPostsModal from './PostsDisplay/VideoPostsModal.js';
-import BlogsPostsModal from './PostsDisplay/BlogPostsModal.js';
-import RegularPostsModal from './PostsDisplay/RegularPostsModal.js';
+import {ImagePostsModal} from './PostsDisplay/Images/ImagePostsModal.js';
+import VideosPostsModal from './PostsDisplay/Videos/VideoPostsModal.js';
+import BlogsPostsModal from './PostsDisplay/Blogs/BlogPostsModal.js';
+import RegularPostsModal from './PostsDisplay/Text/RegularPostsModal.js';
 
 
 

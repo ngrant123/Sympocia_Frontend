@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import styled from "styled-components";
-import BlogDisplayContainer from "../../ExplorePage/ExplorePageSet/BlogHomeDisplayPortal.js";
+import BlogDisplayContainer from "../../ExplorePage/ExplorePageSet/Modals-Portals/BlogHomeDisplayPortal.js";
 import {getPostById} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import LoadingAnimation from "../../../LoadingAnimation.js";
 import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";

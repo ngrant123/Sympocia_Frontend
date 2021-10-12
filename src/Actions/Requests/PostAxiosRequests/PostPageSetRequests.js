@@ -547,16 +547,6 @@ export const createSymposiumCommunityAnswer=async(symposiumCommunityPostParams)=
 }
 
 
-
-
-
-
-
-
-
-
-
-
 export const createSpecificIndustryRegularPostAnswer=async(regularPostAnswer)=>{
 	try{
 		

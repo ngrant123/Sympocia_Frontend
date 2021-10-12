@@ -4,24 +4,24 @@ import {createPortal} from "react-dom";
 import { Editor } from 'react-draft-wysiwyg';
 import { convertFromRaw,EditorState } from 'draft-js';
 import { Icon, InlineIcon } from '@iconify/react';
-import StampIcon from "../../../designs/img/StampIcon.png";
+import StampIcon from "../../../../designs/img/StampIcon.png";
 
-import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
-import {addStampPost,unStampPost} from "../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
+import {addStampPost,unStampPost} from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import PollOptionPortal from "../../GeneralComponents/PostComponent/PollOptionPortal.js";
-import Comments from "../../GeneralComponents/CommentsComponent/index.js";
-import VideoDescriptionMobileDisplayPortal from "../../GeneralComponents/PostComponent/VideoDescriptionMobileDisplayPortal.js";
+import PollOptionPortal from "../../../GeneralComponents/PostComponent/PollOptionPortal.js";
+import Comments from "../../../GeneralComponents/CommentsComponent/index.js";
+import VideoDescriptionMobileDisplayPortal from "../../../GeneralComponents/PostComponent/VideoDescriptionMobileDisplayPortal.js";
 import PollIcon from '@material-ui/icons/Poll';
-import {HomeConsumer} from "../HomeContext.js";
+import {HomeConsumer} from "../../HomeContext.js";
 import {Link} from "react-router-dom";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
-import FirstTimePostOnboarding from "../../GeneralComponents/PostComponent/FirstTimePostOnboardingIndicator.js"
+import FirstTimePostOnboarding from "../../../GeneralComponents/PostComponent/FirstTimePostOnboardingIndicator.js"
 import {useSelector,useDispatch} from "react-redux";
-import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
-import {getVideoUrl} from "../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
-import {PostDisplayConsumer} from "../../Symposium/ExtendedSymposium/Posts/PostDisplay/PostDisplayContext.js";
+import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
+import {getVideoUrl} from "../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {PostDisplayConsumer} from "../../../Symposium/ExtendedSymposium/Posts/PostDisplay/PostDisplayContext.js";
 
 const Container=styled.div`
 	position:fixed;

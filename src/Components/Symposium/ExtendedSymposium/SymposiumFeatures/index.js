@@ -3,9 +3,9 @@ import {SymposiumContext} from "../SymposiumContext.js";
 import styled from "styled-components";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import ImagePostDisplayPortal from "../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
-import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
-import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
+import ImagePostDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/ImageHomeDisplayPortal.js";
+import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/VideoHomeDisplayPortal.js";
+import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/RegularPostHomeDisplayPortal.js";
 import {QuestionsPortal} from "./Community/SymposiumCommunityPortal.js";
 import {
 	getSymposiumUniversityPostsApi,

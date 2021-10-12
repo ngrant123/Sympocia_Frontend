@@ -12,9 +12,9 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CommunityPostCreation from "../../FeaturesPageSet/Modals-Portals/SymposiumCommunity/CommunityPostCreation.js";
 import PortalsHOC from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
 
-import ImagePostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
-import VideoPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/VideoHomeDisplayPortal.js";
-import RegularPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
+import ImagePostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/ImageHomeDisplayPortal.js";
+import VideoPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/VideoHomeDisplayPortal.js";
+import RegularPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/RegularPostHomeDisplayPortal.js";
 
 const Container=styled.div`
 	display:flex;

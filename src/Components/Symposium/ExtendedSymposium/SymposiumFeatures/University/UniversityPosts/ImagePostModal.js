@@ -7,7 +7,7 @@ import {
 } from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {getSymposiumUniversityPostsApi} from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import {useSelector,useDispatch} from "react-redux";
-import ImagePostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
+import ImagePostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/Modals-Portals/ImageHomeDisplayPortal.js";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 import {SymposiumConsumer} from "../../../SymposiumContext.js";
 

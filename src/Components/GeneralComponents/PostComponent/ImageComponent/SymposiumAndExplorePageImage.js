@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 import {SmallProfilePictureAndVideoDescription} from "../../../ExplorePage/ExplorePageSubset/PostsDisplay/PostDisplayGeneralComp.js";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import ImagePostDisplayPortal from "../../../ExplorePage/ExplorePageSet/ImageHomeDisplayPortal.js";
+import ImagePostDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/ImageHomeDisplayPortal.js";
 
 const ProfilePictureLink=styled(Link)`
 	position:relative;
