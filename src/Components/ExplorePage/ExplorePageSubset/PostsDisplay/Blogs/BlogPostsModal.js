@@ -5,10 +5,7 @@ import BlogHomeDisplayPortal from "../../../ExplorePageSet/Modals-Portals/BlogHo
 import {useSelector} from "react-redux";
 import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConstants.js";
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
-import {
-	ConstructSuggestedSymposium,
-	displayPersonalIndustryFeed
-} from "../ConstructSuggestedSymposium.js";
+import ConstructSuggestedSymposium from "../../ConstructSuggestedSymposium.js";
 import {Link} from "react-router-dom";
 import {
 	HeaderOwnerAndSymposiumInformation,

@@ -4,9 +4,7 @@ import {useSelector} from "react-redux";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import RegularPostDisplayPortal from "../../../ExplorePageSet/Modals-Portals/RegularPostHomeDisplayPortal.js";
 import {Link} from "react-router-dom";
-import {
-	ConstructSuggestedSymposium
-} from "../ConstructSuggestedSymposium.js";
+import ConstructSuggestedSymposium from "../../ConstructSuggestedSymposium.js";
 import ExplorePageRegularPost from "../../../../GeneralComponents/PostComponent/RegularPostComponent/SymposiumAndExplorePageRegularPost.js";
 
 import {

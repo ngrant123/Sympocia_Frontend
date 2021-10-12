@@ -8,10 +8,6 @@ import {addRecruit} from "../../../../../Actions/Requests/ProfileAxiosRequests/P
 
 import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
-import {
-	ConstructSuggestedSymposium,
-	displayPersonalIndustryFeed
-} from "../ConstructSuggestedSymposium.js";
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import {HeaderOwnerAndSymposiumInformation} from "../PostDisplayGeneralComp.js";
 import ExploreImageDisplay from "../../../../GeneralComponents/PostComponent/ImageComponent/SymposiumAndExplorePageImage.js";
@@ -257,21 +253,12 @@ const ImagePostsModal=(props)=>{
 	}
 	const smallImageComponent=(data)=>{
 		return(
-			<React.Fragment>
-			{data.owner==null?
-				<ConstructSuggestedSymposium
-					personalInformation={personalInformationRedux}
-					previousProps={props}
-					currentHeight={"30%"}
+			<SmallPostContainer isSymposiumPostUI={props.isSymposiumPostUI}>
+				<ExploreImageDisplay
+					imageInformation={data}
+					targetDom={props.targetDom}
 				/>
-				:<SmallPostContainer isSymposiumPostUI={props.isSymposiumPostUI}>
-					<ExploreImageDisplay
-						imageInformation={data}
-						targetDom={props.targetDom}
-					/>
-				</SmallPostContainer>
-			}	
-		</React.Fragment>
+			</SmallPostContainer>
 		)
 	}
 

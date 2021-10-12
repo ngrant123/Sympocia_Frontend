@@ -8,7 +8,7 @@ import {ImagePostsModal} from './PostsDisplay/Images/ImagePostsModal.js';
 import VideosPostsModal from './PostsDisplay/Videos/VideoPostsModal.js';
 import BlogsPostsModal from './PostsDisplay/Blogs/BlogPostsModal.js';
 import RegularPostsModal from './PostsDisplay/Text/RegularPostsModal.js';
-
+import SuggestedSymposiums from "./ConstructSuggestedSymposium.js";
 import {
 		exploreImagePosts,
 		exploreVideoPosts,
@@ -30,7 +30,7 @@ import {
 const Container=styled.div`
 	display:flex;
 	flex-direction:column;
-	margin-top:10%;
+	margin-top:7%;
 	@media screen and (max-width:1370px){
 		margin-left:0%;
     	#mobileArenaLI{
@@ -331,7 +331,7 @@ class SearchExploreContainer extends Component{
 				let currentPosts=this.state.postsInformation;
 				currentPosts=currentPosts.concat(message);
 				this.setState({
-					postsInformation:this.state.postCount==0?this.addSuggestedSymposiums(currentPosts):currentPosts,
+					postsInformation:currentPosts,
 					isLoading:false,
 					isLoadingReloadedPosts:false,
 					postOption:postOption,
@@ -356,35 +356,6 @@ class SearchExploreContainer extends Component{
 			}else{
 				alert('Unfortunately there has been an error in retrieving you data. Please try again');
 			}
-		}
-	}
-
-
-	addSuggestedSymposiums=(posts)=>{
-		return this.suggestedSymposiumsRecursive(posts);
-	}
-
-	suggestedSymposiumsRecursive=(posts)=>{
-		if(posts==null||posts.length==0){
-			return posts;
-		}else if(posts.length==1){
-			return posts;
-		}else{
-			var randomNumber;
-			if(posts.length<8){
-				randomNumber=Math.floor(Math.random() * ((posts.length-1) - 1 + 1)) + 1;
-			}else{
-				randomNumber=Math.floor(Math.random() * (7 - 1 + 1)) + 1;
-			}
-
-			posts.splice(randomNumber,0,"suggestedSymposium");
-			const currentPosts=posts.slice(0,6);
-			const newPost=posts.slice(6,posts.length);
-			const returnArray=this.suggestedSymposiumsRecursive(newPost);
-			for(var i=0;i<returnArray.length;i++){
-				currentPosts.push(returnArray[i]);
-			}
-			return currentPosts;
 		}
 	}
 
@@ -509,7 +480,12 @@ class SearchExploreContainer extends Component{
 	}
 
 	headerUI=()=>{
-		return <div style={{display:"flex",flexDirection:"row",backgroundColor:"red",justifyContent:"space-between"}}>
+		return(
+			<div style={{display:"flex",flexDirection:"column"}}>
+				<SuggestedSymposiums
+					userId={this.props.personalInformation.id}
+				/>
+				<div style={{display:"flex",flexDirection:"row",backgroundColor:"red",justifyContent:"space-between"}}>
 					<p style={{fontSize:"24px",marginRight:"2%",color:"#C8B0F4"}}>
 						<b>Explore</b>
 					</p>
@@ -577,6 +553,10 @@ class SearchExploreContainer extends Component{
 						</div>
 					*/}
 				</div>
+			</div>
+		)
+
+
 	}
 	triggerReloadingPostsHandle=(props)=>{
 		this.setState({
@@ -595,10 +575,13 @@ class SearchExploreContainer extends Component{
 					<SearchConsumer>
 						{searchPageInformation=>(
 							<Container>
-								{this.state.displayDesktopUI==true?
-									<>{this.headerUI()}</>:
-									<>{this.mobileHeaderUI()}</>
-								}
+								{this.headerUI()}
+								{/*
+									{this.state.displayDesktopUI==true?
+										<>{this.headerUI()}</>:
+										<>{this.mobileHeaderUI()}</>
+									}
+								*/}
 								{this.state.isLoading==true?
 									<p>Loading...</p>:
 									<li style={{listStyle:"none"}}>

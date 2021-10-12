@@ -3,9 +3,7 @@ import styled from "styled-components";
 import VideoPostDisplayPortal from "../../../ExplorePageSet/Modals-Portals/VideoHomeDisplayPortal.js";
 import {useSelector} from "react-redux";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
-import {
-	ConstructSuggestedSymposium
-} from "../ConstructSuggestedSymposium.js";
+import ConstructSuggestedSymposium from "../../ConstructSuggestedSymposium.js";
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import {
