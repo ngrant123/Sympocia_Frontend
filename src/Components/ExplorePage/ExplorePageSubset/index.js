@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {HomeConsumer} from "../HomeContext.js";
 import {SearchConsumer} from "../../SearchPage/SearchContext.js";
 
-import {ImagePostsModal} from './PostsDisplay/Images/ImagePostsModal.js';
+import {ImagePostsModal} from './PostsDisplay/Images/index.js';
 import VideosPostsModal from './PostsDisplay/Videos/VideoPostsModal.js';
 import BlogsPostsModal from './PostsDisplay/Blogs/BlogPostsModal.js';
 import RegularPostsModal from './PostsDisplay/Text/RegularPostsModal.js';
@@ -31,6 +31,7 @@ const Container=styled.div`
 	display:flex;
 	flex-direction:column;
 	margin-top:7%;
+	padding:10px;
 	@media screen and (max-width:1370px){
 		margin-left:0%;
     	#mobileArenaLI{
@@ -157,9 +158,8 @@ const MobileArenaContainer=styled.div`
 
 const PostsContainer=styled.div`
 	position:absolute;
-	width:85%;
 	height:70%;
-	overflow:hidden;
+	width:100%;
 
 	@media screen and (max-width:1370px){
 		overflow:visible;
@@ -233,7 +233,10 @@ const VerticalLineCSS={
  	height:"50px",
  	marginLeft:"3%"
 }
-
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0"
+}
 class SearchExploreContainer extends Component{
 
 	constructor(props){
@@ -485,7 +488,8 @@ class SearchExploreContainer extends Component{
 				<SuggestedSymposiums
 					userId={this.props.personalInformation.id}
 				/>
-				<div style={{display:"flex",flexDirection:"row",backgroundColor:"red",justifyContent:"space-between"}}>
+				<hr style={HorizontalLineCSS}/>
+				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
 					<p style={{fontSize:"24px",marginRight:"2%",color:"#C8B0F4"}}>
 						<b>Explore</b>
 					</p>
@@ -576,15 +580,9 @@ class SearchExploreContainer extends Component{
 						{searchPageInformation=>(
 							<Container>
 								{this.headerUI()}
-								{/*
-									{this.state.displayDesktopUI==true?
-										<>{this.headerUI()}</>:
-										<>{this.mobileHeaderUI()}</>
-									}
-								*/}
 								{this.state.isLoading==true?
 									<p>Loading...</p>:
-									<li style={{listStyle:"none"}}>
+									<li style={{listStyle:"none",marginTop:"2%"}}>
 										<PostsContainer>
 											<PostsMemo
 												posts={this.state.postsInformation}

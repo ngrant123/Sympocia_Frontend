@@ -4,7 +4,9 @@ import {Link} from "react-router-dom";
 export const Container=styled.div`
 	display:flex;
 	top:5%;
+	width:100%;
 	flex-direction:row;
+	flex-wrap:wrap;
 
 	@media screen and (max-width:1370px){
 		flex-direction:column;
@@ -105,7 +107,7 @@ export const HeaderContainer=styled.div`
 export const PostsContainer=styled.div`
 	display:flex;
 	flex-direction:row; 
-	width:90%;
+	width:100%;
 	height:560px;
 	flex-wrap: wrap;
 	overflow-y:scroll;

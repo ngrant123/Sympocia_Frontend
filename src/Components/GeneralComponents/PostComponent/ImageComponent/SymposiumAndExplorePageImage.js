@@ -73,9 +73,11 @@ const SymposiumAndExplorePageDisplay=({imageInformation,targetDom})=>{
 					</div>
 				</div>
 			</div>
-			<p id="smallPostCaption" style={{visibility:"hidden",maxHeight:"15%",overflow:"hidden"}}>
-				<b>{imageInformation.caption}</b>
-			</p>
+			{/*
+				<p id="smallPostCaption" style={{visibility:"hidden",maxHeight:"15%",overflow:"hidden"}}>
+					<b>{imageInformation.caption}</b>
+				</p>
+			*/}
 		</React.Fragment>
 	)
 }

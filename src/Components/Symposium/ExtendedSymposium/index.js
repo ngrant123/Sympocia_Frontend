@@ -221,6 +221,8 @@ class Symposium extends Component{
 	  			miscellaneous
   			}=data;
 	  		console.log(data);
+	  		debugger;
+	  		console.log(this.props.location.state.selectedSymposium);
 	  		this.setState(prevState=>({
 		  		...prevState,
 		  		selectedSymposiumTitle:this.props.match.params.symposiumName,
@@ -257,6 +259,7 @@ class Symposium extends Component{
 
 
 	symposiumBackgroundColor=(symposiumName)=>{
+		console.log(this.props);
 		var symposiums=PERSONAL_INDUSTRIES.INDUSTRIES;
 		for(var i=0;i<symposiums.length;i++){
 			const currentSymposium=symposiums[i].industry;

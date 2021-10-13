@@ -1,6 +1,6 @@
 import React,{useMemo} from "react";
 import styled from "styled-components";
-import {ImagePostsModal} from './PostsDisplay/Images/ImagePostsModal.js';
+import {ImagePostsModal} from './PostsDisplay/Images/index.js';
 import VideosPostsModal from './PostsDisplay/Videos/VideoPostsModal.js';
 import BlogsPostsModal from './PostsDisplay/Blogs/BlogPostsModal.js';
 import RegularPostsModal from './PostsDisplay/Text/RegularPostsModal.js';

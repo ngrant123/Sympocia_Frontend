@@ -9,6 +9,7 @@ import {
 	getSymposiumsFollowedHome,
 	getSymposiumsNotFollowed
 } from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {Link} from "react-router-dom";
 
 const SuggestedSymposiumsContainer=styled.div`
 	background-color:white;
@@ -16,6 +17,7 @@ const SuggestedSymposiumsContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	justify-content:space-between;
+	margin-bottom:5px;
 `;
 
 const SuggestedSymposiumsCSS={
@@ -30,6 +32,25 @@ const SuggestedSymposiumsCSS={
 	cursor:"pointer"
 }
 
+const SymposiumCSS={
+	display:"flex",
+	alignItems:"center",
+	justifyContent:"center",
+	borderRadius:"5px",
+	color:"white",
+	padding:"5px",
+	position:"relative",
+	width:"120px",
+	overflow:"hidden",
+	boxShadow:"1px 1px 5px #6e6e6e",
+	cursor:"pointer"
+}
+
+const ShadowDivCSS={
+	position:"absolute",
+	width:"100%",
+	height:"100%"
+}
 
 const ConstructSuggestedSymposium=({userId})=>{
 	const [followedSymposiums,changeFollowedSymposiums]=useState([]);
@@ -63,46 +84,81 @@ const ConstructSuggestedSymposium=({userId})=>{
 		});
 	},[]);
 
-	const symposiumConstruction=(symposium)=>{
+	const symposiumConstruction=(symposiumData)=>{
 		var symposiums=PERSONAL_INDUSTRIES.INDUSTRIES;
-		let backgroundColor;
+		let symposiumColors;
+		const {symposium}=symposiumData;
+		console.log(symposiumData);
 		for(var i=0;i<symposiums.length;i++){
 			const currentSymposium=symposiums[i].industry;
 			if(currentSymposium==symposium){
-				backgroundColor=symposiums[i].backgroundColor;
+				const {
+					backgroundColor,
+					solidBackgroundColor
+				}=symposiums[i];
+				symposiumColors={
+					backgroundColor,
+					solidBackgroundColor
+				}
 				break;
 			}
 		}
+		symposiumData={
+			...symposiumData,
+			...symposiumColors
+		}
 
 		return(
-			<div style={{display:"flex",alignItems:"center",justifyContent:"center",background:backgroundColor}}>
-				<p>{symposium}</p>
-			</div>
+			<Link to={{pathname:`/symposium/${symposiumData.symposium}`,
+					state:{
+						selectedSymposium:symposiumData,
+						profileId:userId,
+						symposiums:[]
+					}
+				}} style={{marginRight:"2%",textDecoration:"none"}}>
+				<div style={{...SymposiumCSS,backgroundColor:symposiumColors.solidBackgroundColor}}>
+					<div style={ShadowDivCSS}>
+						<div style={{background:"rgba(0, 0, 0, 0.1)",position:"absolute",width:"100%",height:"100%",zIndex:2}}/>
+					</div>
+					<p style={{zIndex:10}}>{symposium}</p>
+				</div>
+			</Link>
 		)
 	}
 	return (
 		<SuggestedSymposiumsContainer>
 			<div style={{display:"flex",flexDirection:"column"}}>
-				<div style={{display:"flex",flexDirection:"row"}}>
-					<p>Popular Symposiums</p>
-					<p>View All</p>
+				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+					<p style={{color:"#BEBEBE"}}>
+						<b>Popular Symposiums</b>
+					</p>
+					<p style={{cursor:"pointer",color:"#BEBEBE"}}>
+						<b>View All</b>
+					</p>
 				</div>
 				<div style={{display:"flex",flexDirection:"row"}}>
 					{unFollowedSymposiums.map(data=>
 						<React.Fragment>
-							{symposiumConstruction(data.symposium)}
+							{symposiumConstruction(data)}
 						</React.Fragment>
 					)}
 				</div>
 			</div>
 
-			<div style={{display:"flex",flexDirection:"column"}}>
-				<div style={{display:"flex",flexDirection:"row"}}>
-					<p>Symposiums For You</p>
+			<div style={{display:"flex",flexDirection:"column",width:"40%"}}>
+				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+					<p style={{color:"#BEBEBE"}}>
+						<b>Symposiums For You</b>
+					</p>
+					<p style={{color:"#BEBEBE",cursor:"pointer"}}>
+						<b>View All</b>
+					</p>
 				</div>
 				<div style={{display:"flex",flexDirection:"row"}}>
 					{followedSymposiums.map(data=>
-						<p>{data.symposium}</p>
+						<React.Fragment>
+							{symposiumConstruction(data)}
+						</React.Fragment>
 					)}
 				</div>
 			</div>

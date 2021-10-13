@@ -76,6 +76,7 @@ export const Container=styled.div`
 	border-bottom:1px solid #F8F8F8;
 	background-color:white;
 	z-index:40;
+	box-shadow:1px 1px 10px #EEEEEE;
 
 	@media screen and (max-width:1370px) {
 		margin-left:-2%;
