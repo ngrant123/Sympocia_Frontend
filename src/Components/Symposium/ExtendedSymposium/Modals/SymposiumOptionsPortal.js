@@ -1,9 +1,12 @@
 import React,{useState,useContext} from "react";
 import {SymposiumContext} from "../SymposiumContext.js";
+import {PostContext} from "../Posts/PostsContext.js";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import PortalHOC from "./PortalHOC.js";
 import {Link} from "react-router-dom";
+import SwimmingPosts from "./SwimmingPosts.js";
+import HighRankingPosts from "./HighRankingPosts.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -66,9 +69,13 @@ const SymposiumOptionsPortal=({
 		selectedSymposiumTitle,
 		changeDisplaySpecficSymposiumFeatures
 	})=>{
+
+	const postsConsumer=useContext(PostContext);
 	const symposiumConsumer=useContext(SymposiumContext);
 	const [component,changeComponent]=useState();
+	const [closePortalHandle,changeClosePortalHandle]=useState();
 	const [displayPortalHOC,changeDisplayPortalHOC]=useState(false);
+
     const isUserFollowingSymposium=(followingIndicator)=>{
     	return(
     		<React.Fragment>
@@ -81,6 +88,7 @@ const SymposiumOptionsPortal=({
     }
 
     const featureDisplay=(displayChat,symposiumFeatureType)=>{
+    	debugger;
     	let targetComponent;
     	if(displayChat==true){
 
@@ -90,6 +98,26 @@ const SymposiumOptionsPortal=({
     	changeComponent(targetComponent);
     	changeDisplayPortalHOC(true);
     }
+
+    const displayHighRankingPosts=()=>{
+    	const component=<HighRankingPosts
+    						symposiumId={symposiumConsumer.symposiumId}
+							postType={postsConsumer.postOption}
+    					/>
+    	changeComponent(component);
+    	changeDisplayPortalHOC(true);
+    }
+
+    const displaySwimmingPosts=()=>{
+    	const component=<SwimmingPosts
+    						symposiumName={symposiumConsumer.symposiumName}
+							postType={postsConsumer.postOption}
+    					/>
+    	changeComponent(component);
+    	changeDisplayPortalHOC(true);
+    }	
+
+
 
     const closePortalModal=()=>{
     	changeDisplayPortalHOC(false);
@@ -180,6 +208,17 @@ const SymposiumOptionsPortal=({
 				</div>
 
 				<hr/>
+
+				<div style={SymposiumAndChatInformationCSS} onClick={()=>displaySwimmingPosts()}>
+					Swimming posts
+				</div>
+
+				<hr/>
+
+				<div style={SymposiumAndChatInformationCSS} onClick={()=>displayHighRankingPosts()}>
+					High ranking posts
+				</div>
+
 			</Container>
 			<ShadowContainer
 				onClick={()=>closeModal()}

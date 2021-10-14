@@ -294,7 +294,8 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                         targetPostCategoryType,
                         symposiumName)=>{
                     triggerSwapPostFromStack(postId,currentPostCategoryType,targetPostCategoryType,symposiumName);
-                }
+                },
+                postOption
             }}>
             <SearchOptions
                 state={{

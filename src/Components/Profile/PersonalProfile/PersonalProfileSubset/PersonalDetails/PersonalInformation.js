@@ -458,30 +458,6 @@ const PersonalInformation=(props)=>{
 							)}
 						</div>
 						<ul style={{padding:"0px"}}>
-							<div id="profileSocialMediaContainer">
-								<li id="socialMediaTitleText" style={{listStyle:"none",marginLeft:"35%",marginBottom:"10px"}}>
-									Social Media
-								</li>
-								<li style={{listStyle:"none",marginTop:"5%"}}>
-									{props.personalInformation.isOwnProfile==true?
-										<ul style={{padding:"0px"}}>
-											<li id="editSocialMediaTitleText"
-												onClick={()=>alert('Option to add social media profiles coming soon')}
-												style={EditSocialMediaUrlsCSS}>
-												Edit Social Media
-											</li>
-											{socialMediaIcons(props.personalInformation.socialMediaUrls)}
-											
-										</ul>
-										:
-										<ul style={{padding:"0px"}}>
-											{socialMediaIcons(props.personalInformation.socialMediaUrls)}
-										</ul>
-									}
-								</li>
-							</div>
-							
-
 							<li style={{listStyle:"none",marginBottom:"20px"}}>
 								<a style={{textDecoration:"none"}} href="javascript:void(0);">
 									<FriendsAndIndustryDisplayButton onClick={()=>changeDisplayFriendsPortal(true)}>

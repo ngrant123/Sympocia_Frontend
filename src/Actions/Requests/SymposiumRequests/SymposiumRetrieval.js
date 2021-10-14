@@ -679,6 +679,38 @@ export const retrieveRecentQuestionStandings=async(symposiumId)=>{
 }
 
 
+export const retrieveSwimmingPostsPerSymposium=async(symposiumName,postType)=>{
+	try{
+		const symposiumSwimmingPostsResponse=await axios.get(`${SearchUrl}/getSwimmingPostPerSymposium`,{
+			params:{
+				symposiumName,
+				postType
+			}
+		});
+
+		const {data}=symposiumSwimmingPostsResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+export const getHighRankingPostPerSymposium=async(symposiumId,postType)=>{
+	try{
+		const highRankingPostsPerSymposiumResponse=await axios.get(`${SearchUrl}/getHighRankingPosts`,{
+			params:{
+				symposiumId,
+				postType
+			}
+		});
+		const {data}=highRankingPostsPerSymposiumResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
 
 
 
