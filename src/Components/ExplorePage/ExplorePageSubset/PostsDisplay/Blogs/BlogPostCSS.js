@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 export const Container=styled.div`
 	display:flex;
 	top:5%;
-	flex-direction:row;
+	flex-direction:column;
 
 	@media screen and (max-width:1370px){
 		width:100%;
@@ -236,7 +236,6 @@ export const HeaderBlogImageInformationContainer=styled.div`
 	display:flex;
 	flex-direction:column;
 	margin-top:2%;
-	width:100%;
 
 	@media screen and (max-width:650px){
 		margin-top:2% !important;
@@ -272,13 +271,13 @@ export const SmallPostContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	width:95%;
-	margin-top:10% !important;
 	cursor:pointer;
 	padding:10px;
 	border-radius:10px;
 	border-style:solid;
 	border-width:2px;
 	border-color:#EFEFEF;
+	margin-bottom:2%;
 
 	@media screen and (max-width:1370px){	
 		margin-bottom:5%;

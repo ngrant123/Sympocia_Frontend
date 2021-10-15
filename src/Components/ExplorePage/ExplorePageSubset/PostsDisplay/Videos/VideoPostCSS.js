@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 export const Container=styled.div`
 	display:flex;
 	top:5%;
-	flex-direction:row;
+	flex-direction:column;
 
 	@media screen and (max-width:1370px){
 		width:100%;

@@ -1,7 +1,6 @@
 import React,{useRef,useState,useEffect} from "react";
 import styled from "styled-components";
 import ExploreImageDisplay from "../../../../GeneralComponents/PostComponent/ImageComponent/SymposiumAndExplorePageImage.js";
-import{SmallPostContainer} from "./ImagePostCSS.js";
 
 const Container=styled.div`
 	display:flex;

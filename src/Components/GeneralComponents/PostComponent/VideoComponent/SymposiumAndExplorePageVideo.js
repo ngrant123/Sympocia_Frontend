@@ -64,7 +64,7 @@ const SymposiumAndExplorePageDisplay=({videoInformation,targetDom})=>{
 					</div>
 				</div>
 			</div>
-			<p style={{fontSize:"15px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
+			<p id="videoTitle" style={{fontSize:"15px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
 				<b>
 					{videoInformation.title}
 				</b>

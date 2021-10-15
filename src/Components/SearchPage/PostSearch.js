@@ -2,8 +2,8 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 
 import {ImagePostsModal} from "../ExplorePage/ExplorePageSubset/PostsDisplay/Images/index.js";
-import VideoPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/Videos/VideoPostsModal.js";
-import BlogPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/Blogs/BlogPostsModal.js";
+import VideoPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/Videos/index.js";
+import BlogPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/Blogs/index.js";
 import RegularPostModal from "../ExplorePage/ExplorePageSubset/PostsDisplay/Text/RegularPostsModal.js";
 import {getPostsFromSearch} from "../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import LoadingScreen from "../../LoadingAnimation.js";

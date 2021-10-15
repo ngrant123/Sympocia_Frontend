@@ -220,9 +220,7 @@ class Symposium extends Component{
 	  			_id,
 	  			miscellaneous
   			}=data;
-	  		console.log(data);
-	  		debugger;
-	  		console.log(this.props.location.state.selectedSymposium);
+
 	  		this.setState(prevState=>({
 		  		...prevState,
 		  		selectedSymposiumTitle:this.props.match.params.symposiumName,

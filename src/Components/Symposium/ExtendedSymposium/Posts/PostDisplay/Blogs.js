@@ -13,6 +13,7 @@ const Container=styled.div`
 	border-style:solid;
 	border-width:2px;
 	border-color:#EFEFEF;
+	overflow:hidden;
 
 	@media screen and (max-width:1370px){	
 		margin-bottom:5%;

@@ -5,8 +5,8 @@ import {HomeConsumer} from "../HomeContext.js";
 import {SearchConsumer} from "../../SearchPage/SearchContext.js";
 
 import {ImagePostsModal} from './PostsDisplay/Images/index.js';
-import VideosPostsModal from './PostsDisplay/Videos/VideoPostsModal.js';
-import BlogsPostsModal from './PostsDisplay/Blogs/BlogPostsModal.js';
+import VideosPostsModal from './PostsDisplay/Videos/index.js';
+import BlogsPostsModal from './PostsDisplay/Blogs/index.js';
 import RegularPostsModal from './PostsDisplay/Text/RegularPostsModal.js';
 import SuggestedSymposiums from "./ConstructSuggestedSymposium.js";
 import {
