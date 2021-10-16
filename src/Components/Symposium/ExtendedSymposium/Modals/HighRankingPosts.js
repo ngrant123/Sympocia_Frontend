@@ -12,6 +12,8 @@ const Container=styled.div`
 	width:100%;
 	height:100%;
 	padding:10px;
+
+
 `;
 
 const PostOptionCSS={
@@ -23,16 +25,15 @@ const PostOptionCSS={
 }
 
 const SwimmingPosts=({symposiumId,postType})=>{
-	console.log(postType);
 	const [highRankingPosts,changeHighRankingPosts]=useState([]);
 	const [loadingStatus,changeIsLoading]=useState(true);
 
 	useEffect(()=>{
-		fetchData();
+		fetchData(postType);
 	},[]);
-	const fetchData=async()=>{
+	const fetchData=async(postTypeRetrieval)=>{
 		changeIsLoading(true);
-		const {confirmation,data}=await getHighRankingPostPerSymposium(symposiumId,postType);
+		const {confirmation,data}=await getHighRankingPostPerSymposium(symposiumId,postTypeRetrieval);
 		if(confirmation=="Success"){
 			const {message}=data;
 			changeHighRankingPosts([...message]);
@@ -117,7 +118,7 @@ const SwimmingPosts=({symposiumId,postType})=>{
 	}
 	const posts=()=>{
 		return(
-			<div style={{marginTop:"2%"}}>
+			<div style={{marginTop:"2%",display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
 				{loadingStatus==true?
 					<p>Loading...</p>:
 					<>

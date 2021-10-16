@@ -28,11 +28,11 @@ const SwimmingPosts=({symposiumName,postType})=>{
 	const [loadingStatus,changeIsLoading]=useState(true);
 
 	useEffect(()=>{
-		fetchData();
+		fetchData(postType);
 	},[]);
-	const fetchData=async()=>{
+	const fetchData=async(retrievalPostType)=>{
 		changeIsLoading(true);
-		const {confirmation,data}=await retrieveSwimmingPostsPerSymposium(symposiumName,postType);
+		const {confirmation,data}=await retrieveSwimmingPostsPerSymposium(symposiumName,retrievalPostType);
 		if(confirmation=="Success"){
 			const {message}=data;
 			changeSwimmingPosts([...message]);
@@ -117,7 +117,7 @@ const SwimmingPosts=({symposiumName,postType})=>{
 	}
 	const posts=()=>{
 		return(
-			<div style={{marginTop:"2%"}}>
+			<div style={{marginTop:"2%",display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap",padding:"20px"}}>
 				{loadingStatus==true?
 					<p>Loading...</p>:
 					<>
