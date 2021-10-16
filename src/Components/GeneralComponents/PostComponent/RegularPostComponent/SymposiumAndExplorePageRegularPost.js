@@ -1,11 +1,19 @@
-import React,{useState} from "react";
-import styled from "styled-components";
+import React,{useState,useEffect} from "react";
+import styled,{keyframes,css} from "styled-components";
 import {Link} from "react-router-dom";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/RegularPostHomeDisplayPortal.js";
 
 const ProfilePictureLink=styled(Link)`
 	position:relative;
+	border-radius:50% !important;
+	${({swimmingStatus})=>
+		swimmingStatus==true &&(
+			css`
+				animation: ${glowing} 1300ms infinite;
+			`
+		)
+	}
 
 	@media screen and (max-width:650px){
 		#smallProfilePicture{
@@ -26,6 +34,11 @@ const PostUserInformation=styled.div`
 	}
 `;
 
+const glowing=keyframes`
+      0% { border-color: #D6C5F4; box-shadow: 0 0 10px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0px 0px 10px 5px #FFF52C; }
+      100% { border-color: #B693F7; box-shadow: 0 0 10px #C8B0F4; }
+`;
 
 const TextAndAudioCSS={
 	padding:"5px",
@@ -53,6 +66,19 @@ const headerPostNameCSS={
 const SymposiumAndExplorePageDisplay=({regularPostInformation,targetDom})=>{
 	const [selectedRegularPost,changeSelectedRegularPost]=useState();
 	const [displayRegualrPostDisplayPortal,changeRegularPostDisplay]=useState(false);
+	const [swimmingStatus,changeSwimmingStatus]=useState(false);
+
+	useEffect(()=>{
+		const {industriesUploaded}=regularPostInformation;
+		for(var i=0;i<industriesUploaded.length;i++){
+			if(industriesUploaded[i].isSwimmingTriggeredForPost==true){
+				console.log("True")
+				changeSwimmingStatus(true);
+				break;
+			}
+		}
+	},[]);
+
 	const closeModal=()=>{
 		changeRegularPostDisplay(false)
 	}
@@ -74,7 +100,8 @@ const SymposiumAndExplorePageDisplay=({regularPostInformation,targetDom})=>{
 			)}
 
 			<PostUserInformation>
-				<ProfilePictureLink to={{pathname:`/profile/${regularPostInformation.owner._id}`}}
+				<ProfilePictureLink swimmingStatus={swimmingStatus} 
+					to={{pathname:`/profile/${regularPostInformation.owner._id}`}}
 					style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px"}}>
 					<img src={regularPostInformation.owner.profilePicture!=null?
 							  regularPostInformation.owner.profilePicture:

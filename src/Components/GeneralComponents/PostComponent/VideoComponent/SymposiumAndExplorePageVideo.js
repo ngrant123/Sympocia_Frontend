@@ -18,6 +18,7 @@ const glowing=keyframes`
 
 
 const Container=styled.div`
+	border-radius:5px;
 	${({swimmingStatus})=>
 		swimmingStatus==true &&(
 			css`
@@ -72,13 +73,15 @@ const SymposiumAndExplorePageDisplay=({videoInformation,targetDom})=>{
 					targetDom={targetDom}
 				/>
 			)}
-			<Container id="video" style={{height:"185px",width:"263px",position:"relative"}}>
-				<video onClick={()=>displayVideoModal(videoInformation)} 
-					style={{borderRadius:"5px",backgroundColor:"#151515",position:"absolute",cursor:"pointer"}}
-					 position="relative" height="90%" width="100%" borderRadius="50%"
-				 	key={videoInformation.videoUrl} autoPlay loop autoBuffer muted playsInline>
-					<source src={videoInformation.videoUrl} type="video/mp4"/>
-				</video>
+			<div id="video" style={{height:"185px",width:"263px",position:"relative"}}>
+				<Container swimmingStatus={swimmingStatus} style={{height:"90%"}}>
+					<video onClick={()=>displayVideoModal(videoInformation)} 
+						style={{borderRadius:"5px",backgroundColor:"#151515",position:"absolute",cursor:"pointer"}}
+						 position="relative" height="90%" width="100%" borderRadius="50%"
+					 	key={videoInformation.videoUrl} autoPlay loop autoBuffer muted playsInline>
+						<source src={videoInformation.videoUrl} type="video/mp4"/>
+					</video>
+				</Container>
 				<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
 					<ProfilePictureLink to={{pathname:`/profile/${videoInformation.owner._id}`}}>
 						<SmallProfilePictureAndVideoDescription
@@ -91,7 +94,7 @@ const SymposiumAndExplorePageDisplay=({videoInformation,targetDom})=>{
 						/>
 					</div>
 				</div>
-			</Container>
+			</div>
 			<p style={{fontSize:"15px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
 				<b>
 					{videoInformation.title}
