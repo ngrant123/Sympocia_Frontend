@@ -871,6 +871,18 @@ export const deleteSpecificSymposiumAnswer=async({
 }
 
 
+export const processS3UrlView=async(s3ViewProcessInformation)=>{
+	try{
+		const processS3UrlViewResponse=await axios.post(`${CreateURl}/processS3UrlView`,{
+			...s3ViewProcessInformation
+		});
+		const {data}=processS3UrlViewResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
 
 
 

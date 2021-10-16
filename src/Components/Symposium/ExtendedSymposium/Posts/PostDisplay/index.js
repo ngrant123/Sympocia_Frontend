@@ -1,9 +1,4 @@
 import React, {useState,useEffect,useMemo} from "react";
-
-import {ImagePostsModal} from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/Images/index.js";
-import VideoPostModal from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/Videos/index.js";
-import RegularPostModal from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/Text/RegularPostsModal.js";
-import BlogPostModal from "../../../../ExplorePage/ExplorePageSubset/PostsDisplay/Blogs/index.js";
 import PostCategory from "./PostCategory.js";
 import {
     PostContainer,
@@ -31,9 +26,6 @@ const PostsContainerDisplay=(props)=>{
         profileId,
         selectedSymposiumTitle
     }=props;
-    const [endOfPostsDBIndicator,changeEndOfPostIndicator]=useState(false);
-    const [isLoadingReloadedPosts,changeIsLoadingReloadedPosts]=useState(false);
-    const [postOption,changePostOptionState]=useState(state.postOption);
     const [selectedCategoryType,changeSelectedCategoryType]=useState(state.displayDesktopUI==false?"The Grind":"General");
     const defaultPostCategoryInformation=[
         {

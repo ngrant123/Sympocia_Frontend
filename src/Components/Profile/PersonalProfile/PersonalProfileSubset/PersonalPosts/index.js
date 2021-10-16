@@ -14,10 +14,12 @@ import FriendsGauge from "../FriendsGaugeSection/FriendsGauge.js";
 import PostCreationPortal from "../../PersonalProfileSet/Modals-Portals/PostCreationPortal.js";
 
 import {
-		getRegularPostFromUser,
-		getVideosFromUser,
-		getUserImages,
-		getBlogFromUser
+	getRegularPostFromUser,
+	getVideosFromUser,
+	getUserImages,
+	getBlogFromUser,
+	retrieveProfileSpecificSwimmingPosts,
+	retrieveHighRankingProfileSpecificPosts	
 } from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 import {
@@ -38,7 +40,6 @@ import {
 } from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
 import {getProfilePostsSearch} from "../../../../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-
 
 const PostCreationContainer=styled.div`
 	position:relative;
@@ -219,6 +220,14 @@ const SymposiumDropDownCSS={
 	color:"#5298F8",
 	backgroundColor:"white"
 }
+
+const PostOptionsDropDownCaret={
+	borderStyle:"none",
+	backgroundColor:"white",
+	color:"#C8B0F4",
+	fontSize:"17px",
+	padding:"1px"
+}
 /*
 	Later down the road this whole post section has to be refactored completely 
 	because at this point it getting too crazy and sphagetti like 
@@ -272,6 +281,7 @@ const PersonalPostsIndex=(props)=>{
 	const [isLoadingIndicatorRegularPost,changeRegularPostsLoadingIndicator]=useState(true);
 	const [isLoadingIndicatorBlogPost,changeBlogPostsLoadingIndicator]=useState(true);
 	const [friendsColorNodesMap,changeFriendsColorNodesMapping]=useState(new Map());
+	const [highRankingOrSwimmingPostsTriggered,changeHighRankingOrSwimmingPostTriggeredStatus]=useState(false);
 
 	useEffect(()=>{
 		triggerPostDecider(
@@ -646,9 +656,9 @@ const PersonalPostsIndex=(props)=>{
 		})
 	}
 
-	const triggerPostDecider=(postType,profileId,counter,requestedFriendsGaugeNodeId)=>{
+	const triggerPostDecider=(postType,profileId,counter,requestedFriendsGaugeNodeId,resetIndicator)=>{
 		if(postType!=currentPostType || isFilteredPostsActivated==true || isSearchFilterActivated==true
-			|| props.currentRequestedFriendsGaugeNodeId!=currentRequestedFriendsGaugeNodeId){
+			|| props.currentRequestedFriendsGaugeNodeId!=currentRequestedFriendsGaugeNodeId || resetIndicator==true){
 			if(postType!=currentPostType)
 				changeRequestedFriendsGaugeLevelId(null);
 			changeRequestedFriendsGaugeLevelId(requestedFriendsGaugeNodeId);
@@ -895,29 +905,168 @@ const PersonalPostsIndex=(props)=>{
 		)
 	}
 
+	const updatePosts=(posts)=>{
+		let headerPostParam;
+		let postParam;
+		let updatePostAction;
+
+		switch(currentPostType){
+			case "image":{
+				headerPostParam="crownedImage";
+				postParam="images";
+				updatePostAction=changeImagePost;
+
+				break;
+			}
+			case "video":{
+				headerPostParam="headerVideo";
+				postParam="videos";	
+				updatePostAction=changeVideoPosts;
+
+				break;
+			}
+
+			case "blog":{
+				headerPostParam="headerBlog";
+				postParam="blogs";	
+				updatePostAction=changeBlogPosts;
+
+				break;	
+			}
+
+			case "regularPost":{
+				headerPostParam="headerPost";
+				postParam="posts";	
+				updatePostAction=changeRegularPost;
+				break;			
+			}
+
+		}
+		const updatedPosts={
+			[headerPostParam]:null,
+			[postParam]:posts
+		}
+		updatePostAction(updatedPosts);
+		changeEndOfPostsDBIndicator(true);
+	}
+
+	const triggerRetrieveSwimmingPosts=async()=>{
+		const {confirmation,data}=await retrieveProfileSpecificSwimmingPosts(
+			props.personalInformation._id,
+			currentPostType
+		);
+		if(confirmation=="Success"){
+			const {message}=data;
+			updatePosts(message);
+			changeHighRankingOrSwimmingPostTriggeredStatus(true);
+
+		}else{
+			alert('Unfortunately there has been an error when retrieving swimming posts. Please try again');
+		}
+	}
+
+	const triggerRetrieveHighRankingPosts=async()=>{
+		const {confirmation,data}=await retrieveHighRankingProfileSpecificPosts(
+			props.personalInformation._id,
+			currentPostType
+		);
+		if(confirmation=="Success"){
+			const {message}=data;
+			updatePosts(message);
+			changeHighRankingOrSwimmingPostTriggeredStatus(true);
+
+		}else{
+			alert('Unfortunately there has been an error when retrieving high-ranking posts. Please try again');
+		}
+	}
+
+	const resetPosts=()=>{
+		triggerPostDecider(
+			currentPostType,
+			props.personalInformation._id,
+			0,
+			"General",
+			true
+		);
+		changeHighRankingOrSwimmingPostTriggeredStatus(false);
+	}
+
+	const postOptionsDropDownHOC=(postType)=>{
+		return(
+			<div class="dropdown">
+				<button id="symposiumsDropDown" 
+					class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+					style={PostOptionsDropDownCaret}>
+					{postType}
+				   	<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					{highRankingOrSwimmingPostsTriggered==true &&(
+						<React.Fragment>
+							<li style={{cursor:"pointer",color:"black",padding:"5px"}} onClick={()=>resetPosts()}>
+								Clear
+							</li>
+							<hr/>
+						</React.Fragment>
+					)}
+					<li style={{cursor:"pointer",color:"black",padding:"5px"}}
+						onClick={()=>triggerRetrieveHighRankingPosts()}>
+						High-Ranking Posts
+					</li>
+					<hr/>
+					<li style={{cursor:"pointer",color:"black",padding:"5px"}} 
+						onClick={()=>triggerRetrieveSwimmingPosts()}>
+						Swimming Posts
+					</li>
+				</ul>
+			</div>
+		)
+	}
+
 	const postOptions=()=>{
 		return(
 			<React.Fragment>
-				<li id="images" onClick={()=>triggerPostDecider("image",props.personalInformation._id,0,"General")} 
-					style={{listStyle:"none",fontSize:"17px",padding:"10px",textDecoration:"none",color:"#C8B0F4",cursor:"pointer"}}>
-					Images
+				<li id="images" style={{listStyle:"none",fontSize:"17px",padding:"10px",textDecoration:"none",color:"#C8B0F4",cursor:"pointer"}}>
+					{currentPostType=="image"?
+						<>{postOptionsDropDownHOC("Images")}</>:
+						<div style={{display:"flex",flexDirection:"row",alignItems:"center"}} 
+						onClick={()=>triggerPostDecider("image",props.personalInformation._id,0,"General")} >
+							Images
+						</div>
+					}
 				</li>
 
 				{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) && (
 					<React.Fragment>
-						<li id="videos" onClick={()=>triggerPostDecider("video",props.personalInformation._id,0,"General")} 
-							style={{listStyle:"none",fontSize:"17px",padding:"10px",textDecoration:"none",color:"#bebebf",cursor:"pointer"}}>
-							Videos
+						<li id="videos" style={{listStyle:"none",fontSize:"17px",padding:"10px",textDecoration:"none",color:"#bebebf",cursor:"pointer"}}>
+							{currentPostType=="video"?
+								<>{postOptionsDropDownHOC("Videos")}</>:
+								<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}
+									onClick={()=>triggerPostDecider("video",props.personalInformation._id,0,"General")}>
+									Videos
+								</div>
+							}
 						</li>
 
-						<li id="regularPosts" onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0,"General")} 	
-							style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",cursor:"pointer"}}>
-							Regular 
+						<li id="regularPosts" style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",cursor:"pointer"}}>
+							{currentPostType=="regularPost"?
+								<>{postOptionsDropDownHOC("Texts")}</>:
+								<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}
+									onClick={()=>triggerPostDecider("regularPost",props.personalInformation._id,0,"General")} >
+									Text
+								</div>
+							}
+							 
 						</li>
 
-						<li id="blogs" onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0,"General")} 
-							style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",color:"#bebebf",cursor:"pointer"}}>
-							Blogs
+						<li id="blogs" style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",color:"#bebebf",cursor:"pointer"}}>
+							{currentPostType=="blog"?
+								<>{postOptionsDropDownHOC("Blogs")}</>:
+								<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}
+									onClick={()=>triggerPostDecider("blog",props.personalInformation._id,0,"General")}>
+									Blogs
+								</div>
+							}
 						</li>
 					</React.Fragment>
 				)}

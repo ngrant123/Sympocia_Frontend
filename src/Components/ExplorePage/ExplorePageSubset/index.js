@@ -3,18 +3,8 @@ import styled from "styled-components";
 import {connect} from "react-redux";
 import {HomeConsumer} from "../HomeContext.js";
 import {SearchConsumer} from "../../SearchPage/SearchContext.js";
-
-import {ImagePostsModal} from './PostsDisplay/Images/index.js';
-import VideosPostsModal from './PostsDisplay/Videos/index.js';
-import BlogsPostsModal from './PostsDisplay/Blogs/index.js';
-import RegularPostsModal from './PostsDisplay/Text/RegularPostsModal.js';
 import SuggestedSymposiums from "./ConstructSuggestedSymposium.js";
-import {
-		exploreImagePosts,
-		exploreVideoPosts,
-		exploreBlogPosts,
-		exploreRegularPosts
-	} from "../../../Actions/Requests/ExplorePageRequests/ExplorePageRetrieval.js";
+import {explorePagePosts} from "../../../Actions/Requests/ExplorePageRequests/ExplorePageRetrieval.js";
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 import {
 	setPersonalProfileAccessToken,
@@ -318,21 +308,12 @@ class SearchExploreContainer extends Component{
 		const searchParameters={
 			id:profileId,
 			postCount:this.state.postCount,
-			isGuestProfile:isGuestProfileIndicator,
+			requestedPostType:postOption,
 			postSessionManagmentToken:this.state.postSessionManagmentToken,
 			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 						this.state.accessToken
 		}
-		if(postOption=="Images"){
-			homePagePostsResponse=await exploreImagePosts(searchParameters);
-		}else if(postOption=="Blogs"){
-			homePagePostsResponse=await exploreBlogPosts(searchParameters);
-		}else if(postOption=="Videos"){
-			homePagePostsResponse=await exploreVideoPosts(searchParameters);
-		}else{
-			homePagePostsResponse=await exploreRegularPosts(searchParameters);
-		}
-		var {confirmation,data}=homePagePostsResponse;
+		var {confirmation,data}=await explorePagePosts(searchParameters);
 		if(confirmation=="Success"){
 			const {message}=data;
 			if(message.length==0){

@@ -7,5 +7,6 @@ const PostConsumer=PostContext.Consumer;
 
 export{
 	PostProvider,
-	PostConsumer
+	PostConsumer,
+	PostContext
 }

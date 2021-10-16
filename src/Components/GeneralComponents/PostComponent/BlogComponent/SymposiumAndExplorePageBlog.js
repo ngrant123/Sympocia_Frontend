@@ -1,8 +1,25 @@
-import React,{useState} from "react";
-import styled from "styled-components";
+import React,{useState,useEffect} from "react";
+import styled,{keyframes,css} from "styled-components";
 import {SmallProfilePictureAndVideoDescription} from "../../../ExplorePage/ExplorePageSubset/PostsDisplay/PostDisplayGeneralComp.js";
 import {useSelector} from "react-redux";
 import BlogHomeDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/BlogHomeDisplayPortal.js";
+
+const glowing=keyframes`
+      0% { border-color: #D6C5F4; box-shadow: 0 0 10px #C8B0F4; }
+      50% { border-color: #C8B0F4; box-shadow: 0px 0px 10px 5px #FFF52C; }
+      100% { border-color: #B693F7; box-shadow: 0 0 10px #C8B0F4; }
+`;
+
+const Container=styled.div`
+	${({swimmingStatus})=>
+		swimmingStatus==true &&(
+			css`
+				animation: ${glowing} 1300ms infinite;
+			`
+		)
+	}
+`;
+
 
 const BlogImageContainerCSS={
 	position:"relative",
@@ -19,10 +36,23 @@ const SmallBlogImageCSS={
 	marginBottom:"5%"
 }
 
+
 const SymposiumAndExplorePageDisplay=({blogPostInformation,targetDom})=>{
 	const [selectedBlog,changeSelectedBlog]=useState();
 	const [displayBlogDisplayPortal,changeBlogDisplay]=useState(false);
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
+	const [swimmingStatus,changeSwimmingStatus]=useState(false);
+
+	useEffect(()=>{
+		const {industriesUploaded}=blogPostInformation;
+		for(var i=0;i<industriesUploaded.length;i++){
+			if(industriesUploaded[i].isSwimmingTriggeredForPost==true){
+				console.log("True")
+				changeSwimmingStatus(true);
+				break;
+			}
+		}
+	},[]);
 
 	const closeModal=()=>{
 		changeBlogDisplay(false)
@@ -46,9 +76,9 @@ const SymposiumAndExplorePageDisplay=({blogPostInformation,targetDom})=>{
 			)}
 			<div onClick={()=>displayBlogModal(blogPostInformation)} id="smallImageAndOwnerContainer" 
 				style={{marginRight:"3%",display:"flex",flexDirection:"column"}}>
-				<div id="smallImageContainer" style={SmallBlogImageCSS}>
+				<Container swimmingStatus={swimmingStatus} id="smallImageContainer" style={SmallBlogImageCSS}>
 					<img id="image" src={blogPostInformation.blogImageUrl} style={BlogImageContainerCSS}/>
-				</div>
+				</Container>
 				<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 					<SmallProfilePictureAndVideoDescription
 						postData={blogPostInformation}

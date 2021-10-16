@@ -69,7 +69,10 @@ const PostDisplayContainer=(props)=>{
 		userActions,
 		targetDom,
 		headlineText,
+		triggerAudioInitS3Proccessing,
 		secondaryText,
+		triggerVideoInitS3Processing,
+		triggerVideoViewProcessing
 	}=props;
 	const [postWidth,changePostWidth]=useState(null);
 	const [postHeight,changePostHeight]=useState(null);
@@ -124,6 +127,7 @@ const PostDisplayContainer=(props)=>{
 		
 		changeVideoDescriptionDisplay(false);
 		changeZoomedInPostDisplay(false);
+		triggerVideoViewProcessing();
 	}
 
 	const playAudio=()=>{
@@ -153,6 +157,8 @@ const PostDisplayContainer=(props)=>{
 					postType={postData.imgUrl!=null?"Images":"Videos"}
 					imageWidth={actualImagePostWidth}
 					imageHeight={actualVideoPostWidth}
+					triggerVideoInitS3Processing={triggerVideoInitS3Processing}
+					triggerVideoViewProcessing={triggerVideoViewProcessing}
 				/>
 			)}
 			{displayVideoDescriptionDisplay==true &&(
@@ -169,7 +175,7 @@ const PostDisplayContainer=(props)=>{
 						<div id="audioOnClickDiv" onClick={()=>playAudio()} style={{cursor:"pointer",zIndex:"7",position:"absolute",width:"800px",height:"7%"}}>
 						</div>
 					)}
-					<audio id="audioDescription" style={{width:"800px"}} controls>
+					<audio id="audioDescription" onPlay={()=>triggerAudioInitS3Proccessing()} style={{width:"800px"}} controls>
 						<source src={postData.audioDescription} type="audio/ogg"/>
 						<source src={postData.audioDescription} type="audio/mp4"/>
 						Your browser does not support the audio element.
@@ -197,11 +203,13 @@ const PostDisplayContainer=(props)=>{
 					</React.Fragment>:
 					null
 				}
+
 				{postData.imgUrl==null?
 					<VideoDesriptionContainer onClick={()=>displayVideoContainer()}>
 						<video id="videoElement"
 							width="100%" height="100%" borderRadius="50%"
-							autoPlay loop autoBuffer muted playsInline>
+							autoPlay loop autoBuffer muted={postData.videoDescription==null?false:true} 
+							controls={postData.videoDescription==null?true:false} playsInline>
 							<source src={postData.videoUrl} type="video/mp4"/>
 						</video>
 					</VideoDesriptionContainer>

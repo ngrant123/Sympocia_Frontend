@@ -558,7 +558,38 @@ export const retrieveSymposiumsProfileIsAnOligarch=async(profileId)=>{
 
 
 
+export const retrieveProfileSpecificSwimmingPosts=async(userId,postType)=>{
+	try{
+		const swimmingPosts=await axios.get(`${SearchUrl}/getProfileSpecificSwimmingPosts`,{
+			params:{
+				userId,
+				postType
+			}
+		})
+		console.log(swimmingPosts);
+		const {data}=swimmingPosts;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
+
+export const retrieveHighRankingProfileSpecificPosts=async(profileId,postType)=>{
+	try{
+		const highRankingPostsResponse=await axios.get(`${SearchUrl}/getProfilesHighRankingPosts`,{
+			params:{
+				profileId,
+				postType
+			}
+		})
+
+		const {data}=highRankingPostsResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 

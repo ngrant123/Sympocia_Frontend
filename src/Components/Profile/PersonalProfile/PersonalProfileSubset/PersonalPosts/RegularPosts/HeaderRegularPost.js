@@ -294,7 +294,7 @@ const HeaderRegularPost=({post,profilePicture,displayPostModal,friendsColorNodes
 				<ColorPatchContainer colorCode={colorCode}/>
 				<PostFirstSection>
 					<img id="profilePicture" src={profilePicture==null?NoProfilePicture:profilePicture} 
-						style={{width:"100%",height:"140px",borderRadius:"50%",marginBottom:"4%"}}
+						style={{width:"100%",height:"130px",borderRadius:"50%",marginBottom:"4%"}}
 					/>
 					{post.industriesUploaded[0]!=null?
 						<li style={IndustryButtonCSS}>

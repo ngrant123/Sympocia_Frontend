@@ -34,7 +34,7 @@ const ShadowContainer= styled.div`
 	left:-5%;
 `;
 
-const VideoDescriptionMobileDisplayPortal=({videoUrl,targetDom,closeModal})=>{
+const VideoDescriptionMobileDisplayPortal=({videoUrl,targetDom,closeModal,triggerVideoInitS3Processing})=>{
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer
@@ -51,7 +51,7 @@ const VideoDescriptionMobileDisplayPortal=({videoUrl,targetDom,closeModal})=>{
 					</svg>
 				</div>
 				<hr/>
-				<video controls width="100%" height="100%">
+				<video controls width="100%" height="100%" onPlay={()=>triggerVideoInitS3Processing()}>
 					<source  type="video/mp4" src={videoUrl}/>
 					<p>This is fallback content to display for user agents that do not support the video tag.</p>
 				</video>

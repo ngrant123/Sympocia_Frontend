@@ -37,7 +37,6 @@ const CommentsAndAuthenticReplies=(props)=>{
 		hideComments,
 		targetDom,
 		isGuestProfile,
-		changeDisplayPollingOptions,
 		displayPollingOptionsTrigger,
 		postType,
 		displayPollingOptions,
@@ -70,7 +69,7 @@ const CommentsAndAuthenticReplies=(props)=>{
 							isOwnProfile={isOwnProfile}
 						/>:
 						<PollingOptionsContainer>
-							<p onClick={()=>changeDisplayPollingOptions(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
+							<p onClick={()=>displayPollingOptionsTrigger(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
 							<p onClick={()=>displayPollingOptionsTrigger(true)} style={PollingOptionsCSS}>
 								Approve Post
 							</p>

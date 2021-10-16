@@ -54,7 +54,7 @@ const ProfilePicture=({
 						src={state.profilePicture==null?
 								NoProfilePicture:
 								state.profilePicture
-							} style={{position:"absolute",width:"70%",height:"80%",borderRadius:"50%"}}
+							} style={{position:"absolute",width:"70%",height:"75%",borderRadius:"50%"}}
 					/>
 					
 					{state.isLoading==true &&(

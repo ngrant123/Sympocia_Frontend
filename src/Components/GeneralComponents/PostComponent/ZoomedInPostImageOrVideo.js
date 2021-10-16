@@ -58,7 +58,19 @@ const ShadowContainer= styled.div`
 	left:-5%;
 `;
 
-const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType,unCompressedId,imageWidth,imageHeight})=>{
+const ZoomedPostDisplayPortal=(props)=>{
+	const {
+		postUrl,
+		argetDom,
+		closeModal,
+		postType,
+		unCompressedId,
+		imageWidth,
+		imageHeight,
+		targetDom,
+		triggerVideoInitS3Processing
+	}=props;
+
 	const [isLoadingUnCompressedPost,changeIsLoadingUnCompressedPost]=useState(false);
 	const [selectedPostUrl,changeSelectedPostUrl]=useState(postUrl);
 
@@ -86,14 +98,12 @@ const ZoomedPostDisplayPortal=({postUrl,targetDom,closeModal,postType,unCompress
 		fetchData();
 	},[]);
 
-	//width:imageWidth,height:imageHeight
-
 	const postDisplay=()=>{
 		return(
 			<React.Fragment>
 				{postType=="Images"?
 					<img id="postDisplay" src={selectedPostUrl} style={{width:imageWidth,imageHeight}}/>
-					:<video id="postDisplay" controls width="100%" height="100%">
+					:<video id="postDisplay" onPlay={()=>triggerVideoInitS3Processing()} controls width="100%" height="100%">
 						<source  type="video/mp4" src={selectedPostUrl}/>
 						<p>This is fallback content to display for user agents that do not support the video tag.</p>
 					</video>

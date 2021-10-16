@@ -1,15 +1,15 @@
-import React,{useState,useEffect,Component} from "react";
+import React,{useState,useEffect,useRef} from "react";
 import styled,{keyframes} from "styled-components";
 import EditImageCreation from "../ImageComponent/ImageCreation/EditImageCreation.js";
 import EditIcon from '@material-ui/icons/Edit';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {
-		addStampPost,
-		unStampPost,
-		fakeNewsPostResponse,
-		markPostAsAuthentic,
-		deletePost
-	} from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
+	addStampPost,
+	unStampPost,
+	fakeNewsPostResponse,
+	markPostAsAuthentic,
+	deletePost
+} from "../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 
 import { Icon, InlineIcon } from '@iconify/react';
 import crownIcon from '@iconify/icons-mdi/crown';
@@ -26,6 +26,7 @@ import {
 	PersonalInformation,
 	PollingOptionsContainer
 } from "./PostContainerCSS.js";
+import {triggerS3UrlViewProcessing} from "../S3PostViewProcessing.js"; 
 
 import DeletePostConfirmationPortal from "../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import {useSelector,useDispatch} from  "react-redux";
@@ -109,73 +110,149 @@ const ImageContainer=(props)=>{
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 	const [displayPostAdditionalInformation,changePostAdditionalInformation]=useState(false);
 
-	useEffect(()=>{
-		const fetchData=async()=>{
-			const destructuredData=props.imageData==null?props.videoData:props.imageData;
-			const destructedFieldTerm=props.imageData==null?"videoData":"imageData";
-			const {videoDescriptionKey,videoUrlKey,uncompressedImageId}=destructuredData;	
-			let	currentData=postData;
+	const videoDescriptionViewStartTimeStamp=useRef(); 
+	const audioDescritptionViewStartTimeStamp=useRef();
+	const videoViewStartTimeStamp=useRef();
 
-			if(videoDescriptionKey!=null){
-				const {confirmation,data}=await getVideoUrl(videoDescriptionKey);
+	const isVideoDescriptionS3PostProcessingCompleted=useRef(false);
+	const isAudioDescriptionS3PostProcessingCompleted=useRef(false);
+	const isVideoS3PostProcessingCompleted=useRef(false);
 
-				if(confirmation=="Success"){
-					const videoDescriptionUrl=data.message;
-
-					currentData={
-						...currentData,
-						[destructedFieldTerm]:{
-							...currentData[destructedFieldTerm],
-							videoDescription:videoDescriptionUrl
-						}
-					}
-				}else{
-					alert('Unfortunately there was an error getting this video. Please try again later');
-				}
-			} 
-			if(videoUrlKey!=null){
-				const {confirmation,data}=await getVideoUrl(videoUrlKey);
-				if(confirmation=="Success"){
-					const videoUrl=data.message;
-
-					currentData={
-						...currentData,
-						[destructedFieldTerm]:{
-							...currentData[destructedFieldTerm],
-							videoUrl:videoUrl
-						}
-					}
-				}else{
-					alert('Unfortunately there was an error getting this video. Please try again later');
-				}
-			}else{
-				if(uncompressedImageId!=null){
-					const {confirmation,data}=await getImgUrl(uncompressedImageId);
-					if(confirmation=="Success"){
-						const imgUrl=data.message;
-
-						currentData={
-							...currentData,
-							[destructedFieldTerm]:{
-								...currentData[destructedFieldTerm],
-								imgUrl:imgUrl
-							}
-						}
-					}else{
-						alert('Unfortunately there was an error getting this image. Please try again later');
-					}
-				}
-			}
-
-
-			changePostData(currentData);
-			changePostDataDestructuredField(destructedFieldTerm)
-			changeIsLoadingStatus(false);
+	const triggerVideoDescriptionViewProcessing=()=>{
+		if(isVideoDescriptionS3PostProcessingCompleted.current==false && postData.isOwnProfile==false){
+			triggerS3UrlViewProcessing(
+				"videoDescription",
+				"PPWatchTimeVideoDescription",
+				videoDescriptionViewStartTimeStamp.current,
+				props.imageData==null?"Videos":"Images",
+				props.imageData==null?props.videoData._id:props.imageData._id,
+				userId
+			);
 		}
+	}
 
+	const triggerAudioDescriptionViewProcessing=()=>{
+		if(isAudioDescriptionS3PostProcessingCompleted.current==false && audioDescritptionViewStartTimeStamp.current!=null
+			&& postData.isOwnProfile==false){
+			isAudioDescriptionS3PostProcessingCompleted.current=true;
+			triggerS3UrlViewProcessing(
+				"audioDescription",
+				"PPWatchTimeAudioDescription",
+				audioDescritptionViewStartTimeStamp.current,
+				props.imageData==null?"Videos":"Images",
+				props.imageData==null?props.videoData._id:props.imageData._id,
+				userId
+			);	
+		}
+	}
+
+	const triggerVideoViewProcessing=()=>{
+		if(isVideoS3PostProcessingCompleted.current==false && videoViewStartTimeStamp.current!=null
+			&& postData.isOwnProfile==false){
+			isVideoS3PostProcessingCompleted.current=true;
+			triggerS3UrlViewProcessing(
+				"videoElement",
+				"PPWatchTimeVideo",
+				videoViewStartTimeStamp.current,
+				props.imageData==null?"Videos":"Images",
+				props.imageData==null?props.videoData._id:props.imageData._id,
+				userId
+			);
+		}
+	}
+
+	useEffect(()=>{
 		fetchData();
 		triggerUIChange();
+		return ()=>{
+			if(isVideoDescriptionS3PostProcessingCompleted.current==false){		
+				triggerVideoDescriptionViewProcessing();
+			}
+			if(isAudioDescriptionS3PostProcessingCompleted.current==false){
+				triggerAudioDescriptionViewProcessing();
+			}
+			if(isVideoS3PostProcessingCompleted.current==false){
+				triggerVideoViewProcessing();
+			}
+		}
 	},[]);
+
+	const triggerInitS3Processing=()=>{
+		debugger;
+		const destructuredData=props.imageData==null?props.videoData:props.imageData;
+		const {videoDescriptionKey}=destructuredData;
+		const currentTimeStamp=new Date().getTime();
+		if(videoDescriptionKey!=null){
+			videoDescriptionViewStartTimeStamp.current=currentTimeStamp;
+		}else{
+			videoViewStartTimeStamp.current=currentTimeStamp;
+		}
+	}
+
+	const fetchData=async()=>{
+		const destructuredData=props.imageData==null?props.videoData:props.imageData;
+		const destructedFieldTerm=props.imageData==null?"videoData":"imageData";
+		const {videoDescriptionKey,videoUrlKey,uncompressedImageId}=destructuredData;	
+		let	currentData=postData;
+
+		if(videoDescriptionKey!=null){
+			const {confirmation,data}=await getVideoUrl(videoDescriptionKey);
+
+			if(confirmation=="Success"){
+				const videoDescriptionUrl=data.message;
+
+				currentData={
+					...currentData,
+					[destructedFieldTerm]:{
+						...currentData[destructedFieldTerm],
+						videoDescription:videoDescriptionUrl
+					}
+				}
+			}else{
+				alert('Unfortunately there was an error getting this video. Please try again later');
+			}
+		} 
+		if(videoUrlKey!=null){
+			const {confirmation,data}=await getVideoUrl(videoUrlKey);
+			if(confirmation=="Success"){
+				const videoUrl=data.message;
+
+				currentData={
+					...currentData,
+					[destructedFieldTerm]:{
+						...currentData[destructedFieldTerm],
+						videoUrl:videoUrl
+					}
+				}
+			}else{
+				alert('Unfortunately there was an error getting this video. Please try again later');
+			}
+		}else{
+			if(uncompressedImageId!=null){
+				const {confirmation,data}=await getImgUrl(uncompressedImageId);
+				if(confirmation=="Success"){
+					const imgUrl=data.message;
+
+					currentData={
+						...currentData,
+						[destructedFieldTerm]:{
+							...currentData[destructedFieldTerm],
+							imgUrl:imgUrl
+						}
+					}
+				}else{
+					alert('Unfortunately there was an error getting this image. Please try again later');
+				}
+			}
+		}
+
+		triggerInitS3Processing();
+		changePostData(currentData);
+		changePostDataDestructuredField(destructedFieldTerm)
+		changeIsLoadingStatus(false);
+	}
+
+
 	window.addEventListener('resize',triggerUIChange)
 
 	const triggerUIChange=()=>{
@@ -195,10 +272,18 @@ const ImageContainer=(props)=>{
 		changeDisplayDeleteConfirmation(true);
 	}
 
+	const triggerS3UrlProcessing=()=>{
+		triggerVideoDescriptionViewProcessing();
+		triggerAudioDescriptionViewProcessing();
+		triggerVideoViewProcessing();
+	}
+
 	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		if(isGuestProfile==true){
 			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free')
 		}else{
+			triggerS3UrlProcessing();
+
 			let confirmationResponse;
 			let dataResponse;
 			if(displayStampEffect==false){
@@ -271,6 +356,7 @@ const ImageContainer=(props)=>{
 	}
 
 	const displayComments=()=>{
+		triggerS3UrlProcessing();
 		changeCommentsDisplay(true)
 	}
 
@@ -282,11 +368,17 @@ const ImageContainer=(props)=>{
 		changeDisplayPollingModal(true);
 		changeDisplayApproveModal(indicator);
 	}
+
+	const triggerDisplayPollingOptionDecider=()=>{
+		triggerS3UrlProcessing();
+		changeDisplayPollingOptions(true);
+	}
+
 	const userActions={
 		actions:{
 			createOrRemoveStampEffect:createOrRemoveStampEffect,
 			displayComments:displayComments,
-			changeDisplayPollingOptions:changeDisplayPollingOptions,
+			changeDisplayPollingOptions:triggerDisplayPollingOptionDecider,
 			handleRemoveImagePost:handleRemoveImagePost,
 			changeDisplayPost:changeDisplayPost,
 			promoteModal:triggerPromoteModal
@@ -298,6 +390,22 @@ const ImageContainer=(props)=>{
 
 	const closeEditModal=()=>{
 		changeDisplayPost(false);
+	}
+
+	const triggerAudioInitS3Proccessing=()=>{
+		debugger;
+		console.log("Audio init s3 processing");
+		if(audioDescritptionViewStartTimeStamp.current==null){
+			audioDescritptionViewStartTimeStamp.current=new Date().getTime();
+		}
+	}
+
+	const triggerVideoInitS3Processing=()=>{
+		debugger;
+		console.log("Video Element clicked");
+		if(videoViewStartTimeStamp.current==null){
+			videoViewStartTimeStamp.current=new Date().getTime();
+		}
 	}
 
 	return(
@@ -369,6 +477,7 @@ const ImageContainer=(props)=>{
 										triggerDisplayPostDescriptionAndCaption={changePostAdditionalInformation}
 										targetDom={postData.targetDom}
 										postType={postData[postDataDestructedField].imgUrl==null?"Videos":"Images"}
+										videoDescriptionViewStartTimeStamp={videoDescriptionViewStartTimeStamp}
 									/>
 									<PostDisplayContainer
 										postData={postData[postDataDestructedField]}
@@ -378,6 +487,9 @@ const ImageContainer=(props)=>{
 										targetDom={postData.targetDom}
 										headlineText={postDataDestructedField=="imageData"?postData.imageData.caption:postData.videoData.title}
 										secondaryText={postData[postDataDestructedField].description}
+										triggerAudioInitS3Proccessing={triggerAudioInitS3Proccessing}
+										triggerVideoInitS3Processing={triggerVideoInitS3Processing}
+										triggerVideoViewProcessing={triggerVideoViewProcessing}
 									/>
 								</React.Fragment>:
 								<CommentsAndAuthenticReplies
@@ -385,7 +497,6 @@ const ImageContainer=(props)=>{
 									hideComments={hideComments}
 									targetDom={postData.targetDom}
 									isGuestProfile={isGuestProfile}
-									changeDisplayPollingOptions={changeDisplayPollingOptions}
 									displayPollingOptionsTrigger={displayPollingOptionsTrigger}
 									postType={postData[postDataDestructedField].imgUrl==null?"Videos":"Images"}
 									displayPollingOptions={displayPollingOptions}
