@@ -9,6 +9,18 @@ const Container=styled.div`
 	flex-wrap:wrap;
 	width:100%;
 
+	@media screen and (max-width:1370px){
+		flex-direction:column;
+		#blogContainer{
+			width:95% !important;
+		}
+	}
+
+	@media screen and (max-width:650px){
+		#blogContainer{
+			width:90% !important;
+		}
+	}
 `;
 
 
@@ -16,7 +28,7 @@ const Posts=({posts,targetDom,isSymposiumPostUI})=>{
 	return(
 		<Container>
 			{posts.map(data=>
-				<SmallPostContainer style={{width:"30%",marginRight:"2%"}}>
+				<SmallPostContainer id="blogContainer" style={{width:"30%",marginRight:"2%"}}>
 					<ExplorePageBlogPost
 						blogPostInformation={data}
 						targetDom={targetDom}

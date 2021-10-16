@@ -7,12 +7,23 @@ import {
 import {SmallProfilePictureAndVideoDescription} from "../PostDisplayGeneralComp.js";
 import ExplorePageBlogPost from "../../../../GeneralComponents/PostComponent/BlogComponent/SymposiumAndExplorePageBlog.js";
 
+const Container=styled.div`
+	display:flex;
+	flex-direction:row;
+
+	@media screen and (max-width:1370px){
+		flex-direction:column;
+	}
+`;
+
 const HeaderContainer=styled.div`
 	display:flex;
 	flex-direction:row;
+	width:60%;
+	margin-right:2%;
 	#headerBlogImage{
 		height:350px !important;
-		width:550px !important;
+		width:400px !important;
 	}
 
 	#smallProfilePicture{
@@ -21,16 +32,36 @@ const HeaderContainer=styled.div`
 	}
 
 	@media screen and (max-width:1370px){
+		flex-direction:column;
 		#headerBlogImage{
 			height:550px !important;
 			width:650px !important;
 		}
+
+		#headerTextInformation{
+			margin-top:2%;
+			width:100% !important;
+		}
 	}
 
 	@media screen and (max-width:650px){
-		#headerBlogImage{
-			height:200px !important;
+		width:90%;
+		margin-top:2%;
+
+		#headerTitle{
+			font-size:18px !important;
+		}
+		#headerTextInformation{
+			margin-top:2%;
 			width:90% !important;
+		}
+		#headerDescription{
+			font-size:16px !important;
+		}
+		#headerBlogImage{
+			height:220px !important;
+			width:240px !important;
+			margin-left:2%;
 		}
 	}
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -51,7 +82,7 @@ const SupportingPosts=styled.div`
 	display:flex;
 	flex-direction:column;
 	flex-wrap:wrap;
-	width:100%;
+	width:50%;
 
 	#video{
 		width:700px !important;
@@ -61,6 +92,13 @@ const SupportingPosts=styled.div`
 	#videoTitle{
 		font-size:15px !important;
 	}
+	@media screen and (max-width:1370px){
+		width:100%;
+	}
+
+	@media screen and (max-width:650px){
+		width:90%;
+	}
 `;
 
 
@@ -69,7 +107,6 @@ const HeaderBlogCSS={
 	position:"relative",
 	borderRadius:"5px",
 	borderRadius:"5px",
-	boxShadow:"1px 1px 10px #707070",
 	cursor:"pointer"
 }
 
@@ -107,23 +144,22 @@ const Header=({posts,displayBlogModal,targetDom})=>{
 						</video>
 					)}
 				</div>
-				<HeaderBlogImageInformationContainer style={{marginLeft:"5%",width:"60%"}}>
+				<div id="headerTextInformation" style={{display:"flex",flexDirection:"column",width:"50%",marginLeft:"2%"}}>
 					<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 						<SmallProfilePictureAndVideoDescription
 							postData={highLightedPost}
 						/>
-						<p style={{fontSize:"20px"}}>
-							<b>{highLightedPost.owner.firstName}</b>
+						<p style={{fontSize:"20px",marginLeft:"5%"}}>
+							{highLightedPost.owner.firstName}
 						</p>
 					</div>
-					<p style={{fontSize:"25px",listStyle:"none",height:"65px",overflowY:"hidden"}}>
-						<b>{highLightedPost.title}</b>
+					<p id="headerTitle" style={{fontSize:"25px",listStyle:"none",height:"80px",overflow:"hidden"}}>
+						<b>{highLightedPost.title}dsvoisnv;odsinv;odsinvo;idsnvoi;dsnvoindsvoidns</b>
 					</p>
-
-					<p style={{fontSize:"20px",color:"#8c8c8c",listStyle:"none",height:"80px",overflowY:"hidden",marginTop:"2%"}}>
-						{highLightedPost.description}
+					<p  id="headerDescription" style={{fontSize:"20px",color:"#8c8c8c",listStyle:"none",height:"80px",overflow:"hidden",marginTop:"2%"}}>
+						{highLightedPost.description}o;ifne;osnvodinvo;dsnv;odsinv;sodnvooc;dincodisn...
 					</p>
-				</HeaderBlogImageInformationContainer>
+				</div>
 			</HeaderContainer>
 		)
 	}
@@ -144,14 +180,14 @@ const Header=({posts,displayBlogModal,targetDom})=>{
 	}
 
 	return(
-		<div style={{display:"flex",flexDirection:"row"}}>
+		<Container>
 			{isMounted==true &&(
 				<>
 					{headerPost()}
 					{supportingPostsRender()}
 				</>
 			)}
-		</div>
+		</Container>
 	)
 }
 

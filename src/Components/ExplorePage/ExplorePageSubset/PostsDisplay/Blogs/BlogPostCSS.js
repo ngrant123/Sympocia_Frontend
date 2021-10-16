@@ -64,7 +64,6 @@ export const Container=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		margin-left:-5% !important;
 		#headerLI{
 			margin-top:5% !important;
 			width:80% !important;

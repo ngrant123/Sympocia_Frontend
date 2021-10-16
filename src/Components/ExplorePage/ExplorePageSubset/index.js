@@ -17,9 +17,9 @@ import {
 	} from "../../../Actions/Requests/ExplorePageRequests/ExplorePageRetrieval.js";
 import {refreshTokenApiCallHandle} from "../../../Actions/Tasks/index.js";
 import {
-		setPersonalProfileAccessToken,
-		setPersonalProfileRefreshToken
-		} from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
+	setPersonalProfileAccessToken,
+	setPersonalProfileRefreshToken
+} from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import PostsMemo from "./PostsMemo.js";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {
@@ -54,6 +54,9 @@ const Container=styled.div`
 
 	@media screen and (max-width:650px){
 		margin-left:0%;
+		#explorePageHeader{
+			flex-direction:column !important;
+		}
 		#mobileHeaderLI{
   			margin-top:30% !important;
   		}
@@ -63,6 +66,15 @@ const Container=styled.div`
 		#mobileArenaLI{
     		width:28% !important;
 			margin-left:27% !important;
+    	}
+    	#mobileIntroductionText{
+    		display:block !important;
+    	}
+    	#filterByText{
+    		display:none !important;
+    	}
+    	#symposiumFilterOption{
+    		margin-left:2% !important;
     	}
 	}
 
@@ -381,34 +393,6 @@ class SearchExploreContainer extends Component{
 		this.props.history.push('/arena');
 	}
 
-	mobileHeaderUI=()=>{
-		return  <div id="mobileHeaderLI" style={{listStyle:"none",marginBottom:"2%",marginTop:"30%"}}>
-					<li id="mobileArenaLI" onClick={()=>alert('Arena coming soon... :)')} style={MobileArenaButtonCSS}>
-						<MobileArenaContainer>
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trophy" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#03A9F4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-							  <path stroke="none" d="M0 0h24v24H0z"/>
-							  <line x1="8" y1="21" x2="16" y2="21" />
-							  <line x1="12" y1="17" x2="12" y2="21" />
-							  <line x1="7" y1="4" x2="17" y2="4" />
-							  <path d="M17 4v8a5 5 0 0 1 -10 0v-8" />
-							  <circle cx="5" cy="9" r="2" />
-							  <circle cx="19" cy="9" r="2" />
-							</svg>
-						</MobileArenaContainer>
-					</li>
-					<li style={{listStyle:"none",width:"100%"}}>
-						<ul style={{padding:"0px"}}>
-							<li style={{listStyle:"none",fontSize:"20px"}}>
-								<b>Explore Symposiums</b>
-							</li>
-							<li style={{listStyle:"none"}}>
-								Check out the posts that we think you might like here. 
-							</li>
-						</ul>
-					</li>
-				</div>
-	}
-
 	retrievedCurrentDisplayedPosts=()=>{
 		return this.state.postsInformation;
 	}
@@ -476,7 +460,7 @@ class SearchExploreContainer extends Component{
 				<hr/>
 				<li style={{cursor:"pointer"}}
 					onClick={()=>this.handleChangePostOption("RegularPosts")}>
-					Regular Posts
+					Text
 				</li>	
 			</React.Fragment>
 		)
@@ -489,9 +473,12 @@ class SearchExploreContainer extends Component{
 					userId={this.props.personalInformation.id}
 				/>
 				<hr style={HorizontalLineCSS}/>
-				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+				<div id="explorePageHeader" style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
 					<p style={{fontSize:"24px",marginRight:"2%",color:"#C8B0F4"}}>
 						<b>Explore</b>
+					</p>
+					<p id="mobileIntroductionText" style={{display:"none"}}>
+						Check out the posts that we think you might like here.
 					</p>
 
 					<div style={{display:"flex",flexDirection:"row"}}>
@@ -507,8 +494,8 @@ class SearchExploreContainer extends Component{
 								{this.postOptionDropDown()}	
 							</ul>
 						</div>
-						<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-								<p style={{marginRight:"10px",marginLeft:"30px"}}>
+						<div id="symposiumFilterOption" style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+								<p id="filterByText" style={{marginRight:"10px",marginLeft:"30px"}}>
 									<b>Filter By:</b>
 								</p>
 								<div class="btn-group">
@@ -523,39 +510,6 @@ class SearchExploreContainer extends Component{
 								</div>
 							</div>
 					</div>
-
-					{/*
-						<div style={{display:"flex",flexDirection:"row",marginLeft:"-10%"}}>
-							<div class="btn-group">
-								<button class="btn btn-primary dropdown-toggle" type="button" 
-									data-toggle="dropdown" style={ExplorePageOptionsCSS}>
-									{this.state.postOption}
-									<ArrowDropDownCircleOutlinedIcon
-										style={{fontSize:"15",color:"7C7C7C",marginLeft:"10px"}}
-									/>
-								</button>
-								<ul class="dropdown-menu" style={{padding:"10px"}}>
-									{this.postOptionDropDown()}	
-								</ul>
-							</div>
-							<div style={VerticalLineCSS}/>
-							<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-								<div style={{width:"90px",marginRight:"20px",marginLeft:"30px"}}>
-									<b>Filter By:</b>
-								</div>
-								<div class="btn-group">
-									<button class="btn btn-primary dropdown-toggle" type="button" 
-										data-toggle="dropdown" style={ExplorePageOptionsCSS}>
-										Symposiums
-										<ArrowDropDownCircleOutlinedIcon
-											style={{fontSize:"15",color:"7C7C7C",marginLeft:"5px"}}
-										/>
-									</button>
-									{this.selectedPostSymposiums()}
-								</div>
-							</div>
-						</div>
-					*/}
 				</div>
 			</div>
 		)

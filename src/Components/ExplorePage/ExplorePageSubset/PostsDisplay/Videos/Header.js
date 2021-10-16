@@ -1,37 +1,10 @@
 import React,{useState,useEffect} from "react";
-import styled from "styled-components";
 import ExploreVideoDisplay from "../../../../GeneralComponents/PostComponent/VideoComponent/SymposiumAndExplorePageVideo.js";
-
-const HeaderContainer=styled.div`
-	width:600px !important;
-	height:400px !important;
-	margin-right:2%;
-
-	#video{
-		width:600px !important;
-		height:400px !important;
-	}
-
-	#videoTitle{
-		font-size:18px !important;
-	}
-`;
-
-const SupportingPosts=styled.div`
-	display:flex;
-	flex-direction:column;
-	flex-wrap:wrap;
-	width:100%;
-
-	#video{
-		width:700px !important;
-		height:200px !important;
-
-	}
-	#videoTitle{
-		font-size:15px !important;
-	}
-`;
+import {
+	Container,
+	HeaderContainer,
+	SupportingPosts
+} from "./HeaderCSS.js";
 
 const Header=({posts,targetDom,isSymposiumPostUI})=>{
 	console.log(posts);
@@ -78,14 +51,14 @@ const Header=({posts,targetDom,isSymposiumPostUI})=>{
 		)
 	}
 	return(
-		<div style={{display:"flex",flexDirection:"row"}}>
+		<Container>
 			{isMounted==true &&(
-				<>
+				<React.Fragment>
 					{headerPost()}
 					{supportingPostsRender()}
-				</>
+				</React.Fragment>
 			)}
-		</div>
+		</Container>
 	)
 }
 

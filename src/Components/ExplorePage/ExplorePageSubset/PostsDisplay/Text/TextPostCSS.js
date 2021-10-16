@@ -15,8 +15,8 @@ export const Container=styled.div`
 		flex-wrap:nowrap;
 	}
 	@media screen and (max-width:650px){
-		margin-left:-10%;
 		padding-bottom:10px;
+		width:90%;
 		margin-top:5%;
 		#headerImageLI{
 			width:220px !important;

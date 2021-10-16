@@ -9,7 +9,6 @@ export const Container=styled.div`
 	@media screen and (max-width:1370px){
 		width:100%;
 		flex-direction:column;
-		margin-left:-5% !important;
 
 		#symposiumText{
 			display:none !important;
@@ -36,9 +35,6 @@ export const Container=styled.div`
 			height:200px !important;
 			width:300px !important;
 		}
-	}
-	@media screen and (max-width:450px){
-		margin-left:-5% !important;
 	}
 `;
 

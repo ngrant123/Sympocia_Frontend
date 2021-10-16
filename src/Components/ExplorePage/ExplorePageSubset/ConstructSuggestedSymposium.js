@@ -18,6 +18,45 @@ const SuggestedSymposiumsContainer=styled.div`
 	flex-direction:row;
 	justify-content:space-between;
 	margin-bottom:5px;
+
+	@media screen and (max-width:1370px){
+		margin-top:7% !important;
+		#userSymposiums{
+			display:none !important;
+		}
+	}
+
+	@media screen and (max-width:650px){
+		margin-top:30% !important;
+		#popularSymposiumsDiv{
+			width:100% !important;
+		}
+
+		#popularSymposiums{
+			overflow-x:scroll !important;
+		}
+
+		#symposium{
+			margin-bottom:3% !important;
+			width:130px !important;
+		}
+		#viewAllText{
+			display:none !important;
+		}
+	}
+
+	@media screen and (min-width:300px) and (max-width:430px) 
+		and (min-height:1000px) and (max-height:1400px){
+		margin-top:40% !important;
+	}
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		margin-top:0% !important;
+    }
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	margin-top:5% !important;
+    }
 `;
 
 const SuggestedSymposiumsCSS={
@@ -116,7 +155,7 @@ const ConstructSuggestedSymposium=({userId})=>{
 						symposiums:[]
 					}
 				}} style={{marginRight:"2%",textDecoration:"none"}}>
-				<div style={{...SymposiumCSS,backgroundColor:symposiumColors.solidBackgroundColor}}>
+				<div id="symposium" style={{...SymposiumCSS,backgroundColor:symposiumColors.solidBackgroundColor}}>
 					<div style={ShadowDivCSS}>
 						<div style={{background:"rgba(0, 0, 0, 0.1)",position:"absolute",width:"100%",height:"100%",zIndex:2}}/>
 					</div>
@@ -127,16 +166,16 @@ const ConstructSuggestedSymposium=({userId})=>{
 	}
 	return (
 		<SuggestedSymposiumsContainer>
-			<div style={{display:"flex",flexDirection:"column"}}>
+			<div id="popularSymposiumsDiv" style={{display:"flex",flexDirection:"column"}}>
 				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
 					<p style={{color:"#BEBEBE"}}>
 						<b>Popular Symposiums</b>
 					</p>
-					<p style={{cursor:"pointer",color:"#BEBEBE"}}>
+					<p id="viewAllText" style={{cursor:"pointer",color:"#BEBEBE"}}>
 						<b>View All</b>
 					</p>
 				</div>
-				<div style={{display:"flex",flexDirection:"row"}}>
+				<div id="popularSymposiums" style={{display:"flex",flexDirection:"row"}}>
 					{unFollowedSymposiums.map(data=>
 						<React.Fragment>
 							{symposiumConstruction(data)}
@@ -145,7 +184,7 @@ const ConstructSuggestedSymposium=({userId})=>{
 				</div>
 			</div>
 
-			<div style={{display:"flex",flexDirection:"column",width:"40%"}}>
+			<div id="userSymposiums" style={{display:"flex",flexDirection:"column",width:"40%"}}>
 				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
 					<p style={{color:"#BEBEBE"}}>
 						<b>Symposiums For You</b>

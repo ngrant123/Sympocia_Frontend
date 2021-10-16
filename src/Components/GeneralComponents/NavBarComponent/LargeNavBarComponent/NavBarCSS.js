@@ -78,6 +78,11 @@ export const Container=styled.div`
 	z-index:40;
 	box-shadow:1px 1px 10px #EEEEEE;
 
+    @media screen and (min-width:2600px) and (min-height:2600px){
+    	height:5% !important;
+    }
+
+
 	@media screen and (max-width:1370px) {
 		margin-left:-2%;
 		width:105%;
