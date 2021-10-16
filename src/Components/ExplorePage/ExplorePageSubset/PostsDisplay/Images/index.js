@@ -132,8 +132,8 @@ const ImagePostsModal=(props)=>{
 
 	useEffect(()=>{
 		debugger;
-		const splicedHeaderPosts=props.posts.splice(0,7);
-		const splicedImages=props.posts.splice(7,props.posts.length);
+		const splicedHeaderPosts=props.posts.slice(0,7);
+		const splicedImages=props.posts.slice(7,props.posts.length);
 
 		changeHeaderPosts([...splicedHeaderPosts]);
 		changeImages([...splicedImages])

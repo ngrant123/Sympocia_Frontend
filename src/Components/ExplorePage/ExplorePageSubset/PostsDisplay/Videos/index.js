@@ -112,8 +112,8 @@ const VideoPostModal=(props)=>{
 	const [isInitializing,changeInitializingStatus]=useState(false);
 
 	useEffect(()=>{
-		const splicedHeaderPosts=props.posts.splice(0,3);
-		const splicedVideos=props.posts.splice(3,props.posts.length);
+		const splicedHeaderPosts=props.posts.slice(0,3);
+		const splicedVideos=props.posts.slice(3,props.posts.length);
 
 		changeHeaderPosts([...splicedHeaderPosts]);
 		changeVideos([...splicedVideos])

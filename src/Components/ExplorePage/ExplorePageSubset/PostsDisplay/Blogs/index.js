@@ -102,8 +102,8 @@ const BlogPostModal=(props)=>{
 
 	useEffect(()=>{
 		debugger;
-		const splicedHeaderPosts=props.posts.splice(0,3);
-		const splicedBlogs=props.posts.splice(3,props.posts.length);
+		const splicedHeaderPosts=props.posts.slice(0,3);
+		const splicedBlogs=props.posts.slice(3,props.posts.length);
 
 		changeHeaderPosts(splicedHeaderPosts);
 		changeBlogs([...splicedBlogs])

@@ -16,6 +16,7 @@ import {
 	searchSymposiumsFilter,
 	initializeSymposiums
 } from "../../../Actions/Tasks/Search/SearchSymposiums.js";
+import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 
 const Container=styled.div`
 	display:flex;
@@ -324,6 +325,7 @@ class SearchExploreContainer extends Component{
 					isGuestProfileIndicator
 				})
 			}else{
+				debugger;
 				let currentPosts=this.state.postsInformation;
 				currentPosts=currentPosts.concat(message);
 				this.setState({
@@ -455,9 +457,14 @@ class SearchExploreContainer extends Component{
 				/>
 				<hr style={HorizontalLineCSS}/>
 				<div id="explorePageHeader" style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-					<p style={{fontSize:"24px",marginRight:"2%",color:"#C8B0F4"}}>
-						<b>Explore</b>
-					</p>
+					<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+						<p style={{fontSize:"24px",marginRight:"2%",color:"#C8B0F4"}}>
+							<b>Explore</b>
+						</p>
+						<FolderOpenIcon
+							style={{fontSize:"30",cursor:"pointer"}}
+						/>
+					</div>
 					<p id="mobileIntroductionText" style={{display:"none"}}>
 						Check out the posts that we think you might like here.
 					</p>
