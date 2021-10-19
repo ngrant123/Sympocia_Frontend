@@ -28,3 +28,18 @@ export const explorePagePosts=async({
 		return err;
 	}
 }
+
+
+export const retrieveProfileFeedBreakDowns=async(profileId)=>{
+	try{
+		const profileFeedBreakDownsResponse=await axios.get(`${GetUrl}/retrieveProfileFeedBreakDown`,{
+			params:{
+				profileId
+			}
+		});
+		const {data}=profileFeedBreakDownsResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}

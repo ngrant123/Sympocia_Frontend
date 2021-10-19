@@ -23,6 +23,7 @@ const ProfilePictureLink=styled(Link)`
 `;
 
 const Container=styled.div`
+	cursor:pointer;
 	${({swimmingStatus})=>
 		swimmingStatus==true &&(
 			css`

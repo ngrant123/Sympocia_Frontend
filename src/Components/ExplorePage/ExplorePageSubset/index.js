@@ -17,6 +17,7 @@ import {
 	initializeSymposiums
 } from "../../../Actions/Tasks/Search/SearchSymposiums.js";
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
+import EditExplorePageDisplay from "../ExplorePageSet/Modals-Portals/EditExploreFeed/index.js";
 
 const Container=styled.div`
 	display:flex;
@@ -260,7 +261,8 @@ class SearchExploreContainer extends Component{
 			isLoadingReloadedPosts:false,
 			endOfPostsDBIndicator:false,
 			accessToken:this.props.personalInformation.accessToken,
-			postSessionManagmentToken:this.uuidv4()
+			postSessionManagmentToken:this.uuidv4(),
+			displayEditExplorePageOption:false
 		}
 	}
 
@@ -462,6 +464,7 @@ class SearchExploreContainer extends Component{
 							<b>Explore</b>
 						</p>
 						<FolderOpenIcon
+							onClick={()=>this.setState({displayEditExplorePageOption:true})}
 							style={{fontSize:"30",cursor:"pointer"}}
 						/>
 					</div>
@@ -483,27 +486,26 @@ class SearchExploreContainer extends Component{
 							</ul>
 						</div>
 						<div id="symposiumFilterOption" style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-								<p id="filterByText" style={{marginRight:"10px",marginLeft:"30px"}}>
-									<b>Filter By:</b>
-								</p>
-								<div class="btn-group">
-									<button class="btn btn-primary dropdown-toggle" type="button" 
-										data-toggle="dropdown" style={ExplorePageOptionsCSS}>
-										Symposiums
-										<ArrowDropDownCircleOutlinedIcon
-											style={{fontSize:"15",color:"7C7C7C"}}
-										/>
-									</button>
-									{this.selectedPostSymposiums()}
-								</div>
+							<p id="filterByText" style={{marginRight:"10px",marginLeft:"30px"}}>
+								<b>Filter By:</b>
+							</p>
+							<div class="btn-group">
+								<button class="btn btn-primary dropdown-toggle" type="button" 
+									data-toggle="dropdown" style={ExplorePageOptionsCSS}>
+									Symposiums
+									<ArrowDropDownCircleOutlinedIcon
+										style={{fontSize:"15",color:"7C7C7C"}}
+									/>
+								</button>
+								{this.selectedPostSymposiums()}
 							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		)
-
-
 	}
+
 	triggerReloadingPostsHandle=(props)=>{
 		this.setState({
 			triggerPostReload:true,
@@ -514,6 +516,24 @@ class SearchExploreContainer extends Component{
 		})
 	}
 
+	closeExplorePageModal=()=>{
+		this.setState({
+			displayEditExplorePageOption:false
+		})
+	}
+
+	editExplorePage=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayEditExplorePageOption==true &&(
+					<EditExplorePageDisplay
+						closeModal={this.closeExplorePageModal}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	render(){
 		return(
 			<HomeConsumer>
@@ -522,6 +542,7 @@ class SearchExploreContainer extends Component{
 						{searchPageInformation=>(
 							<Container>
 								{this.headerUI()}
+								{this.editExplorePage()}
 								{this.state.isLoading==true?
 									<p>Loading...</p>:
 									<li style={{listStyle:"none",marginTop:"2%"}}>

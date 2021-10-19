@@ -25,7 +25,7 @@ const Header=({posts,targetDom,isSymposiumPostUI})=>{
 
 	const image=(data)=>{
 		return(
-			<ExploreImageDisplay
+			<ExploreImageDisplay 
 				imageInformation={data}
 				targetDom={targetDom}
 			/>
