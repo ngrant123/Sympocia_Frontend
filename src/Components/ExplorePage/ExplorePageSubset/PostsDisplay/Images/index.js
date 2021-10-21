@@ -115,7 +115,18 @@ const SmallImageArrowDownCSS={
 	marginLeft:"15%"
 }
 
-
+const NextButtonCSS={
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px",
+	color:"#3898ec",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	cursor:"pointer"
+}
 const ImagePostsModal=(props)=>{
 	const isMobileUI=props.isMobileUI;
 
@@ -128,18 +139,27 @@ const ImagePostsModal=(props)=>{
 	const [selectedImage,changeSelectedImage]=useState();
 	const [displayRecommendedImages,changeRecommendedImages]=useState();
 	const [isInitializing,changeInitializingStatus]=useState(true);
+	const [firstIndicator,changeFirstIndicator]=useState(false);
 	const imageComponents=[];
 
 	useEffect(()=>{
 		debugger;
-		const splicedHeaderPosts=props.posts.slice(0,7);
-		const splicedImages=props.posts.slice(7,props.posts.length);
+		if(firstIndicator==false){
+			const splicedHeaderPosts=props.posts.slice(0,7);
+			const splicedImages=props.posts.slice(7,props.posts.length);
 
-		changeHeaderPosts([...splicedHeaderPosts]);
-		changeImages([...splicedImages])
-		changeInitializingStatus(false);
+			changeHeaderPosts([...splicedHeaderPosts]);
+			changeImages([...splicedImages])
+			changeInitializingStatus(false);
+			changeFirstIndicator(true);
+		}else{
+			const currentImages=images;
+			const updatedImages=currentImages.concat(props.posts);
+			changeImages([...updatedImages])
+			changeInitializingStatus(false);	
+		}
 
-	},[]);
+	},[props.posts]);
 
 	const closeModal=()=>{
 		changeImageDisplay(false)
@@ -227,7 +247,7 @@ const ImagePostsModal=(props)=>{
 					<React.Fragment>
 						{props.isLoadingReloadedPosts==true?
 							<p>Loading please wait...</p>:
-							<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={{color:"#3898ec",cursor:"pointer",marginLeft:"2%"}}>
+							<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={NextButtonCSS}>
 								Next
 							</p>
 						}

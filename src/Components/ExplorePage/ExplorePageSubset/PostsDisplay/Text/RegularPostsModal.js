@@ -39,12 +39,17 @@ const BorderCSS={
 }
 
 const NextButtonCSS={
-	color:"#3898ec",
-	height:"70px",
-	width:"30%",
-	padding:"10px",
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
 	borderRadius:"5px",
-	cursor:"pointer"
+	padding:"10px",
+	color:"#3898ec",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	cursor:"pointer",
+	width:"10%"
 }
 
 const RegularPostModal=(props)=>{

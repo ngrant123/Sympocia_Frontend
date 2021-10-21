@@ -327,11 +327,8 @@ class SearchExploreContainer extends Component{
 					isGuestProfileIndicator
 				})
 			}else{
-				debugger;
-				let currentPosts=this.state.postsInformation;
-				currentPosts=currentPosts.concat(message);
 				this.setState({
-					postsInformation:currentPosts,
+					postsInformation:message,
 					isLoading:false,
 					isLoadingReloadedPosts:false,
 					postOption:postOption,

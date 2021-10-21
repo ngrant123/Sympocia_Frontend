@@ -45,13 +45,6 @@ const SymposiumLabelCSS={
 	marginRight:"2%"
 }
 
-const NextButtonCSS={
-	color:"#3898ec",
-	padding:"10px",
-	borderRadius:"5px",
-	cursor:"pointer"
-}
-
 const HeaderBlogCSS={
 	position:"relative",
 	width:"425px",
@@ -89,6 +82,19 @@ const PostsHorizontalLineCSS={
 	width:"100%"
 }
 
+const NextButtonCSS={
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px",
+	color:"#3898ec",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	cursor:"pointer",
+	width:"10%"
+}
 const BlogPostModal=(props)=>{
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
@@ -96,20 +102,28 @@ const BlogPostModal=(props)=>{
 	const [selectedBlog,changeSelectedBlog]=useState();
 	const [displayRecommendedBlogs,changeRecommendedBlogs]=useState();
 	const [isInitializing,changeInitializingStatus]=useState(true);
-
+	const [firstIndicator,changeFirstIndicator]=useState(false);
 	const [headerPosts,changeHeaderPosts]=useState([]);
 	const [blogs,changeBlogs]=useState([]);
 
 	useEffect(()=>{
 		debugger;
-		const splicedHeaderPosts=props.posts.slice(0,3);
-		const splicedBlogs=props.posts.slice(3,props.posts.length);
 
-		changeHeaderPosts(splicedHeaderPosts);
-		changeBlogs([...splicedBlogs])
-		changeInitializingStatus(false);
+		if(firstIndicator==false){
+			const splicedHeaderPosts=props.posts.slice(0,3);
+			const splicedBlogs=props.posts.slice(3,props.posts.length);
 
-	},[]);
+			changeHeaderPosts(splicedHeaderPosts);
+			changeBlogs([...splicedBlogs])
+			changeInitializingStatus(false);
+		}else{
+			const currentBlogs=blogs;
+			const updatedBlogs=currentBlogs.concat(props.posts);
+			changeBlogs([...updatedBlogs])
+			changeInitializingStatus(false);	
+		}
+
+	},[props.posts]);
 
 	const closeModal=()=>{
 		changeBlogDisplay(false)
@@ -140,7 +154,7 @@ const BlogPostModal=(props)=>{
 					<React.Fragment>
 						{props.isLoadingReloadedPosts==true?
 							<p>Loading please wait...</p>:
-							<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={{color:"#3898ec",cursor:"pointer",marginLeft:"2%"}}>
+							<p onClick={()=>props.triggerReloadingPostsHandle("Blogs")} style={NextButtonCSS}>
 								Next
 							</p>
 						}

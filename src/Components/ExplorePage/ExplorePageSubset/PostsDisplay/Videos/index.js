@@ -54,15 +54,6 @@ const ImageLabelCSS={
 	  width:"90%"
 }
 
-const NextButtonCSS={
-	color:"#3898ec",
-	height:"70px",
-	width:"30%",
-	padding:"10px",
-	borderRadius:"5px",
-	cursor:"pointer"
-}
-
 const HorizontalLineCSS={
 	marginLeft:"0",
 	marginRight:"0",
@@ -96,6 +87,20 @@ const PostsHorizontalLineCSS={
 	width:"100%"
 }
 
+const NextButtonCSS={
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px",
+	color:"#3898ec",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
+	cursor:"pointer",
+	width:"10%"
+}
+
 
 const VideoPostModal=(props)=>{
 	console.log("Video Post Modal");
@@ -109,16 +114,24 @@ const VideoPostModal=(props)=>{
 	const [displayRecommendedVideos,changeRecommendedVideos]=useState();
 	const [headerPosts,changeHeaderPosts]=useState([]);
 	const [videos,changeVideos]=useState([]);
+	const [firstIndicator,changeFirstIndicator]=useState(false);
 	const [isInitializing,changeInitializingStatus]=useState(false);
 
 	useEffect(()=>{
-		const splicedHeaderPosts=props.posts.slice(0,3);
-		const splicedVideos=props.posts.slice(3,props.posts.length);
+		if(firstIndicator==false){
+			const splicedHeaderPosts=props.posts.slice(0,3);
+			const splicedVideos=props.posts.slice(3,props.posts.length);
 
-		changeHeaderPosts([...splicedHeaderPosts]);
-		changeVideos([...splicedVideos])
-		changeInitializingStatus(true);
-	},[]);
+			changeHeaderPosts([...splicedHeaderPosts]);
+			changeVideos([...splicedVideos])
+			changeInitializingStatus(true);
+		}else{
+			const currentVideos=videos;
+			const updatedVideos=currentVideos.concat(props.posts);
+			changeVideos([...updatedVideos])
+			changeInitializingStatus(false);	
+		}
+	},[props.posts]);
 
 	const closeModal=()=>{
 		changeVideoDisplay(false)
@@ -149,7 +162,7 @@ const VideoPostModal=(props)=>{
 					<React.Fragment>
 						{props.isLoadingReloadedPosts==true?
 							<p>Loading please wait...</p>:
-							<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={{color:"#3898ec",cursor:"pointer",marginLeft:"2%"}}>
+							<p onClick={()=>props.triggerReloadingPostsHandle("Videos")} style={NextButtonCSS}>
 								Next
 							</p>
 						}
