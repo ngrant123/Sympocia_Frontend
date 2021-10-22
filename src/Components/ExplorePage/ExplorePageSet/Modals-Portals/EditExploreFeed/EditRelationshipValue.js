@@ -120,7 +120,6 @@ const EditRelationshipValue=({closeModal,symposiumData,userId,updateRelationShip
 			alert("Please enter a number");
 		}
 	}
-	console.log(symposiumData);
 	return(
 		<Container>
 			<div style={ButtonCSS} onClick={()=>closeModal()}>

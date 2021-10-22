@@ -31,7 +31,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
 
 
     const  changePostOption=async(symposiumCategoryType,newPostOption,isNewPostOption,postCount,loadingNewPostsRef)=>{
-        debugger;
+        
         if(postCount>0){
             changeIsLoadingReloadedPosts(true);
         }else{
@@ -138,7 +138,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     }
 
     const fetchPosts=(newPostOption,resetSearchResults)=>{
-        debugger;
+        
         if(resetSearchResults==true){
             resetAndFetchPosts(newPostOption,true);
         }else if(newPostOption!=postOption){

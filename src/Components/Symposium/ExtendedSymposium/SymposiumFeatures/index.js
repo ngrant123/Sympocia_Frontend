@@ -208,7 +208,6 @@ const SymposiumFeatures=(props)=>{
 		selectedSymposiumFeature,
 		isPortalHocComponent
 	}=props;
-	console.log(isPortalHocComponent);
 	const symposiumConsumers=useContext(SymposiumContext);
 	const {
 		symposiumId,
@@ -216,7 +215,6 @@ const SymposiumFeatures=(props)=>{
 		symposiumUniversityQuestions,
 		communityQuestions
 	}=symposiumConsumers;
-	console.log(symposiumConsumers);
 
 	const {id}=useSelector(state=>state.personalInformation);
 	const [questions,changeQuestions]=useState(props.questionInformation.questions);
@@ -230,7 +228,6 @@ const SymposiumFeatures=(props)=>{
 	const [isLoading,changeIsLoading]=useState(false);
 	const [displayExtendedUniversityModal,changeDisplayExtendeUniversityModal]=useState(false);
 
-	console.log(questions);
 	const beaconScrollQuestionsType=[
 		{
 			question:"Images",
@@ -248,7 +245,7 @@ const SymposiumFeatures=(props)=>{
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			debugger;
+			
 			changeIsLoading(true);
 			if(selectedSymposiumFeature=="University"){
 				await retrieveUniversityPosts(0);
@@ -273,7 +270,7 @@ const SymposiumFeatures=(props)=>{
 		}
 		const {confirmation,data}=await getBeacons(featuresPageGetParams);
 		if(confirmation=="Success"){
-			debugger;
+			
 			const {message}=data;
 			changeCounter(counter)
 			changeResponses([...message]);
@@ -287,7 +284,7 @@ const SymposiumFeatures=(props)=>{
 
 
 	const retrieveUniversityPosts=async(counter)=>{
-		debugger;
+		
 		const symposiumFetchParams={
 			questionId:symposiumUniversityQuestions[counter].questionId,
             questionType:symposiumUniversityQuestions[counter].questionType,
@@ -336,8 +333,6 @@ const SymposiumFeatures=(props)=>{
 			return <p> No responses yet :(. Click on the question and click the pencil icon to make a post </p>
 		}else{
 			if(questions[counter].questionType=="Image"){
-				console.log("Responses");
-				console.log(responses);
 				return <div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
 							{responses.map(data=>
 								<div id="postLI" onClick={()=>setImagePost(data)} style={{marginRight:"2%"}}>
@@ -421,7 +416,7 @@ const SymposiumFeatures=(props)=>{
 
 
 	const increaseCounter=()=>{
-		debugger;
+		
 		var currentCounter=counter;
 		currentCounter=counter+1;
 		triggerPostsDisplay(currentCounter);

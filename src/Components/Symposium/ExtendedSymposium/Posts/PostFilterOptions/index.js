@@ -67,7 +67,6 @@ const SearchOptions=(props)=>{
     const [currentPostType,changeCurrentPostType]=useState("Images");
 
     const searchPromptTrigger=async()=>{
-        debugger;
         const textAreaValue=document.getElementById("symposiumSearchPostTextArea").value;
         const currentSelectedPosts=posts;
         if(textAreaValue==""){
@@ -86,7 +85,6 @@ const SearchOptions=(props)=>{
         changePostOptionsDisplayPortal(false);
     }
     const triggerUpdatePosts=({updatePostType,displayPostText})=>{
-        debugger;
         changeCurrentPostType(displayPostText);
         updatePosts(updatePostType);
     }

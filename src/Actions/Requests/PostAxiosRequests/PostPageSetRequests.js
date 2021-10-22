@@ -642,7 +642,6 @@ export const createBeacon=async({
 				accessToken
 			})=>{
 	try{
-		debugger;
 		const createBeaconResponse=await axios.post(`${CreateURl}/createBeacon`,{
 			postUrl,
 			beaconDescription,

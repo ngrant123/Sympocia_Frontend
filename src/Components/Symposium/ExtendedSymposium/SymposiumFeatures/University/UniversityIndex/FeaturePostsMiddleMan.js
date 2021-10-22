@@ -53,7 +53,6 @@ const ShadowContainer=styled.div`
 
 
 const ModalDecider=({closeModal,modalType,symposiumId,selectedQuestion})=>{
-	debugger;
 	const dispatch=useDispatch();
 	const modalDecider=(symposiumInformation)=>{
 		const postModalProps={

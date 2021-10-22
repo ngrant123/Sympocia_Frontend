@@ -23,7 +23,6 @@ const PostOptionCSS={
 }
 
 const SwimmingPosts=({symposiumName,postType})=>{
-	console.log(postType);
 	const [swimmingPosts,changeSwimmingPosts]=useState([]);
 	const [loadingStatus,changeIsLoading]=useState(true);
 

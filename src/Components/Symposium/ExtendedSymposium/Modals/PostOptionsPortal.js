@@ -65,7 +65,6 @@ const PostOptionsCSS={
 
 const PostOptionsPortal=({closeModal,updatePosts})=>{
 	const triggerUpdatePosts=(postType,displayPostText)=>{
-		debugger;
 		const updatePostInformation={
 			updatePostType:postType,
 			displayPostText

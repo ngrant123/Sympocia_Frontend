@@ -362,7 +362,6 @@ const ImagePostUpload=({
 }
 
 const ImagePostModal=(props)=>{
-	debugger;
 	const {
 		isOligarch,
 		closeModal,
@@ -408,7 +407,6 @@ const ImagePostModal=(props)=>{
 	            currentPostSessionManagmentToken:postFeedTokenGenerator(),
 	            ownerId:userId
 			}
-			console.log(symposiumFetchParams);
 			const {confirmation,data}=await getSymposiumUniversityPostsApi(symposiumFetchParams);
 
 			if(confirmation=="Success"){

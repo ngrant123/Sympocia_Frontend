@@ -96,7 +96,6 @@ const ConstructSuggestedSymposium=({userId})=>{
 	const [unFollowedSymposiums,changeUnFollowedSymposiums]=useState([]);
 
 	useEffect(()=>{
-		debugger;
 		const promise=[];
 		if(userId!="0"){
 			promise.push(getSymposiumsFollowedHome(userId));
@@ -104,7 +103,6 @@ const ConstructSuggestedSymposium=({userId})=>{
 		promise.push(getSymposiumsNotFollowed(userId));
 
 		Promise.all(promise).then(result=>{
-			debugger;
 			if(userId=="0"){
 				const spliceSymposiums=result[0].data.message.splice(0,5);
 				changeUnFollowedSymposiums([...spliceSymposiums]);
@@ -127,7 +125,6 @@ const ConstructSuggestedSymposium=({userId})=>{
 		var symposiums=PERSONAL_INDUSTRIES.INDUSTRIES;
 		let symposiumColors;
 		const {symposium}=symposiumData;
-		console.log(symposiumData);
 		for(var i=0;i<symposiums.length;i++){
 			const currentSymposium=symposiums[i].industry;
 			if(currentSymposium==symposium){

@@ -107,8 +107,6 @@ const BlogPostModal=(props)=>{
 	const [blogs,changeBlogs]=useState([]);
 
 	useEffect(()=>{
-		debugger;
-
 		if(firstIndicator==false){
 			const splicedHeaderPosts=props.posts.slice(0,3);
 			const splicedBlogs=props.posts.slice(3,props.posts.length);

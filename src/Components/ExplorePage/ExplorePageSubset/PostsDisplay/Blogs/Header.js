@@ -112,7 +112,6 @@ const HeaderBlogCSS={
 
 
 const Header=({posts,displayBlogModal,targetDom})=>{
-	console.log(posts);
 	const [isMounted,changeMountStatus]=useState(false);
 	const [highLightedPost,changeHighLightedPosts]=useState();
 	const [supportingPosts,changeSupportingPosts]=useState([]);

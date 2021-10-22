@@ -24,7 +24,6 @@ let MobilePostOptionsButton={
     boxShadow:"1px 1px 5px #6e6e6e"
 }
 const SymposiumOptions=({headerAnimation,displayPhoneUI,selectedSymposiumTitle,backgroundColor})=>{
-		console.log(backgroundColor);
 
 		const isPhoneScrollTriggered=(displayPhoneUI==true && headerAnimation==true)==true?true:false;
 		const [displayHighLightedQuestions,changeDisplayHighLightQuesition]=useState(false)

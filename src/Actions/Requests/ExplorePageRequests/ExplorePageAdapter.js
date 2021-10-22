@@ -6,7 +6,6 @@ const CreateURL=process.env.NODE_ENV=='production'?
 
 export const alterProfileToSymposiumRelationship=async(profileId,symposiumId,adapterValue)=>{
 	try{
-		debugger;
 		const alteredRelationshipResponse=await axios.post(`${CreateURL}/alterProfileToSymposiumRelationship`,{
 			profileId,
 			symposiumId,

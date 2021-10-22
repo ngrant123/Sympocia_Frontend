@@ -133,8 +133,6 @@ const HeaderContainer=(props)=>{
 			postType,
 			miscellaneousSymposiumInformation
 		}=props;
-	console.log("Header logs");
-	console.log(props);
 	const SymposiumConsumer=useContext(SymposiumContext);
 	const [hideChatButtonClicked,changeChatButtonHide]=useState(false);
 	const [followSymposiumButtonClick,changeSymposiumFollow]=useState(true);

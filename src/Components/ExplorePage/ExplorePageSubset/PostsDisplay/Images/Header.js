@@ -14,7 +14,6 @@ const Header=({posts,targetDom,isSymposiumPostUI})=>{
 	const [isMounted,changeMountStatus]=useState(false);
 
 	useEffect(()=>{
-		debugger;
 		const highLightedPost=posts[0];
 		const supportedPosts=posts.splice(1,posts.length);
 

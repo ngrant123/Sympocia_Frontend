@@ -154,7 +154,6 @@ class Symposium extends Component{
 		window.addEventListener('resize',this.triggerUIChange)
 
 		const profileId=this.props.location.state==null?this.props.profileId:this.props.location.state.profileId;
-		debugger;
 		this.fetchSymposiumInformation(profileId);
 		const {
 			isGuestProfile,
@@ -257,7 +256,6 @@ class Symposium extends Component{
 
 
 	symposiumBackgroundColor=(symposiumName)=>{
-		console.log(this.props);
 		var symposiums=PERSONAL_INDUSTRIES.INDUSTRIES;
 		for(var i=0;i<symposiums.length;i++){
 			const currentSymposium=symposiums[i].industry;

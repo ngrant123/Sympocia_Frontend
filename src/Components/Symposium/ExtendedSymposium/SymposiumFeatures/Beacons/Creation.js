@@ -223,7 +223,7 @@ const Creation=({
 			if(currentSubmittedPostType=="Videos"){
 				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
 			}
-			debugger;
+			
 			if(beaconResponseDesignatedPostType!=null){
 				uploadedBeaconResult=await createBeaconReply({
 								beaconId,

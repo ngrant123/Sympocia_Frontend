@@ -122,7 +122,6 @@ const BeaconPostCreation=({
 
 
 	const updateCurrentBeaconPosts=(beaconPostType,beacon)=>{
-		debugger;
 		if(beaconPostType==currentBeaconSelectedPostType){
 			let currentBeaconPrimaryInformation=featuresPagePrimaryInformation;
 			const {posts}=currentBeaconPrimaryInformation;

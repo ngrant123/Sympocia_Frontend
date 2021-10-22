@@ -110,7 +110,6 @@ const EditExplorePageFeed=({closeModal})=>{
 		const fetchData=async()=>{
 			const {confirmation,data}=await retrieveProfileFeedBreakDowns(userId);
 			if(confirmation=="Success"){
-				debugger;
 				const {message}=data;
 				const mapping={};
 				for(var i=0;i<message.length;i++){
@@ -127,7 +126,6 @@ const EditExplorePageFeed=({closeModal})=>{
 	},[])
 
 	const feedBreakDown=(data)=>{
-		console.log(data);
 		return(
 			<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 				<p style={{fontSize:"18px",marginRight:"5%"}}>
@@ -186,7 +184,6 @@ const EditExplorePageFeed=({closeModal})=>{
 	}
 
 	const deleteSymposiumFeedBreakDown=(symposiumId)=>{
-		debugger;
 		const index=indexToSymposiumMapping[symposiumId];
 		feedBreakDowns.splice(index,1);
 		changeFeedBreakDowns([...feedBreakDowns]); 
@@ -208,7 +205,6 @@ const EditExplorePageFeed=({closeModal})=>{
 	}
 
 	const updateRelationShipValue=(symposiumId,value)=>{
-		debugger;
 		const index=indexToSymposiumMapping[symposiumId];
 		feedBreakDowns[index]={
 			...feedBreakDowns[index],
@@ -238,7 +234,6 @@ const EditExplorePageFeed=({closeModal})=>{
 	}
 
 	const clearFeedBreakDowns=()=>{
-		debugger;
 		changeFeedBreakDowns([]);
 	}
 

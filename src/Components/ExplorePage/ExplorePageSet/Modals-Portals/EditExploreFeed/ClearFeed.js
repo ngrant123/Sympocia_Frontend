@@ -77,7 +77,6 @@ const ClearFeed=({closeModal,symposiumId,userId,clearFeedBreakDowns})=>{
 	}
 
 	const clearFeed=async()=>{
-		debugger;
 		const {confirmation,data}=await clearFeedRecommendations(userId,selectedPostType );
 		if(confirmation=="Success"){
 			alert("Feed cleared");

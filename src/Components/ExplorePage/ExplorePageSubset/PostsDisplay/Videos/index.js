@@ -103,7 +103,6 @@ const NextButtonCSS={
 
 
 const VideoPostModal=(props)=>{
-	console.log("Video Post Modal");
 	const isMobileUI=props.isMobileUI;
 
 	const personalInformationRedux=useSelector(state=>state.personalInformation);

@@ -59,7 +59,6 @@ const SymposiumAndExplorePageDisplay=({imageInformation,targetDom})=>{
 		const {industriesUploaded}=imageInformation;
 		for(var i=0;i<industriesUploaded.length;i++){
 			if(industriesUploaded[i].isSwimmingTriggeredForPost==true){
-				console.log("True")
 				changeSwimmingStatus(true);
 				break;
 			}

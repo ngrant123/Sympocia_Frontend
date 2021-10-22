@@ -152,7 +152,6 @@ const PostCategory=(props)=>{
 		selectedSymposiumTitle
 	}=props;
 
-	debugger;
 	const symposiumContext=useContext(SymposiumContext);
 	const {isSimplified}=symposiumContext;
 

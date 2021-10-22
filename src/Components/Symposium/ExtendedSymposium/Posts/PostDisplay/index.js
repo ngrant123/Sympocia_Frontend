@@ -49,7 +49,6 @@ const PostsContainerDisplay=(props)=>{
     ]
     const [selectedPostCategoryInformation,changeSelectedPostCategoryInformation]=useState([]);
     useEffect(()=>{
-        debugger;
         if(state.handleScroll!=false){
             document.getElementById("postsContainer").style.opacity="0";
     

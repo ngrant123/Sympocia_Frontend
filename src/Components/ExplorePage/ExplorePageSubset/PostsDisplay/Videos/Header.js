@@ -7,7 +7,6 @@ import {
 } from "./HeaderCSS.js";
 
 const Header=({posts,targetDom,isSymposiumPostUI})=>{
-	console.log(posts);
 	const [isMounted,changeMountStatus]=useState(false);
 	const [highLightedPost,changeHighLightedPosts]=useState();
 	const [supportingPosts,changeSupportingPosts]=useState([]);

@@ -566,7 +566,6 @@ export const retrieveProfileSpecificSwimmingPosts=async(userId,postType)=>{
 				postType
 			}
 		})
-		console.log(swimmingPosts);
 		const {data}=swimmingPosts;
 		return data;
 	}catch(err){

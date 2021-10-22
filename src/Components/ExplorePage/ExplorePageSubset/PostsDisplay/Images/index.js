@@ -143,7 +143,6 @@ const ImagePostsModal=(props)=>{
 	const imageComponents=[];
 
 	useEffect(()=>{
-		debugger;
 		if(firstIndicator==false){
 			const splicedHeaderPosts=props.posts.slice(0,7);
 			const splicedImages=props.posts.slice(7,props.posts.length);

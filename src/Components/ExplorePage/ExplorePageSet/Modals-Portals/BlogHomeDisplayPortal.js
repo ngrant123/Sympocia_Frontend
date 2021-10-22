@@ -292,7 +292,6 @@ const BlogHomeDisplayPortal=(props)=>{
 
 
 	const triggerVideoDescriptionViewProcessing=()=>{
-		debugger;
 		if(videoDescriptionViewStartTimeStamp.current!=null && isVideoDescriptionS3PostProcessingCompleted.current==false){
 			isVideoDescriptionS3PostProcessingCompleted.current=true;
 			triggerS3UrlViewProcessing(
@@ -308,7 +307,6 @@ const BlogHomeDisplayPortal=(props)=>{
 
 
 	const triggerAudioDescriptionViewProcessing=()=>{
-		debugger;
 		if(audioDescritptionViewStartTimeStamp.current!=null && isAudioDescriptionS3PostProcessingCompleted.current==false){
 			isAudioDescriptionS3PostProcessingCompleted.current=true;
 			triggerS3UrlViewProcessing(
@@ -323,7 +321,6 @@ const BlogHomeDisplayPortal=(props)=>{
 	}
 
 	const triggerInitVideoS3Processing=()=>{
-		debugger;
 		const currentTimeStamp=new Date().getTime();
 		videoDescriptionViewStartTimeStamp.current=currentTimeStamp;
 	}

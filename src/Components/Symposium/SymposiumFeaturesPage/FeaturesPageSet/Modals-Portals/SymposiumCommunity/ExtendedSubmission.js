@@ -80,7 +80,6 @@ const VoteButtonCSS={
 	votes:"23 votes"
 */
 const ExtendedSubmission=({submissionData,closeModal})=>{
-	console.log(submissionData);
 	
 	const [isSubmissionVotedOn,changeSubmissionVoteStatus]=useState(false);
 	const [displaySubmissionOptions,changeDisplayOptionsModal]=useState(false);

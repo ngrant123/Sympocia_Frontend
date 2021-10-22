@@ -88,7 +88,6 @@ const SymposiumOptionsPortal=({
     }
 
     const featureDisplay=(displayChat,symposiumFeatureType)=>{
-    	debugger;
     	let targetComponent;
     	if(displayChat==true){
 

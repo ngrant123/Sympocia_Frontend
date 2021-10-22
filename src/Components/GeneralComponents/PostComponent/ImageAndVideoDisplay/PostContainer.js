@@ -178,7 +178,6 @@ const ImageContainer=(props)=>{
 	},[]);
 
 	const triggerInitS3Processing=()=>{
-		debugger;
 		const destructuredData=props.imageData==null?props.videoData:props.imageData;
 		const {videoDescriptionKey}=destructuredData;
 		const currentTimeStamp=new Date().getTime();
@@ -393,16 +392,12 @@ const ImageContainer=(props)=>{
 	}
 
 	const triggerAudioInitS3Proccessing=()=>{
-		debugger;
-		console.log("Audio init s3 processing");
 		if(audioDescritptionViewStartTimeStamp.current==null){
 			audioDescritptionViewStartTimeStamp.current=new Date().getTime();
 		}
 	}
 
 	const triggerVideoInitS3Processing=()=>{
-		debugger;
-		console.log("Video Element clicked");
 		if(videoViewStartTimeStamp.current==null){
 			videoViewStartTimeStamp.current=new Date().getTime();
 		}

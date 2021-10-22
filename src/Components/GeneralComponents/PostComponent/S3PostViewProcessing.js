@@ -8,7 +8,6 @@ export const triggerS3UrlViewProcessing=(
 		postId,
 		userId
 	)=>{
-	debugger;
 	const currentTimeStamp=new Date().getTime();
 	const s3UrlElement=document.getElementById(elementId);
 	if(s3UrlElement!=null){
@@ -25,15 +24,7 @@ export const triggerS3UrlViewProcessing=(
 			performanceAdapterType:s3ProcessingType,
 			totalWatchTime:descriptionTotalTime		
 		}
-		console.log(s3UrlViewPostProcessor);
 
-	// processS3UrlView({
-	//     postId,
-	//           s3ViewCount:timeSpentWatching,
-	//           userId,
-	//           postType,
-	//           performanceAdapterType:s3ProcessingType,
-	//           totalWatchTime:descriptionTotalTime
-	// })
+		processS3UrlView(s3UrlViewPostProcessor)
 	}
 }
