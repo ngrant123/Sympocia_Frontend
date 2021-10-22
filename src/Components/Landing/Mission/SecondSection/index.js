@@ -50,21 +50,32 @@ const SecondSection=()=>{
 					  <b>How are we different?</b>
 					</p>
 					<p id="howAreWeDifferentText" style={{marginBottom:"15%",color:"#DFDFDF",fontSize:"18px"}}>
-					  We've all been there. You've asked yourself "I really like this photo but will it get likes?"
-					  or "Will anyone care about my hobbies?". You've also asked yourself, "Why do I feel so alone after
-					  using social media?". We've asked ourselves these question also. Which is why we built Sympocia
+					  Most social media platforms make us feel like we don’t belong. They’re filled with people who’re
+					  trying to prove they’re perfect, and in order to mingle with everyone else, you’ve got to 
+					  put on this mask of perfection as well.
+
+					  <br/>
+					  <br/>
+					  Sympocia doesn’t focus on creating an illusion of perfection. We focus on creating
+					  authentic connections so people can learn, grow, and create strong bonds. 
 					</p>
-					<p id="offerHeaderText"style={{color:"#5298F8",fontSize:"18px"}}>Here’s some things that we offer:</p>
+
+					<p id="offerHeaderText"style={{color:"#5298F8",fontSize:"18px"}}>
+						Here are some things that make Sympocia different:
+					</p>
 					<ol id="OLListCSSID"style={{color:"#5298F8",fontSize:"18px"}}>
+					  
 					  <li style={OLListCSS}>
-					    New improved algorithm for images, videos, blogs, and regular posts
-					  </li>
-					  <li style={OLListCSS}>
-					    More emphasis on creating real connections with people that you like
+					    A new improved algorithm that chooses the recommended content based on the topic and 
+					    people you like.
 					  </li>
 
 					  <li style={OLListCSS}>
-					    More control over posts than you ever had before
+					    The entire platform is designed to help people connect with similar minded people.
+					  </li>
+
+					  <li style={OLListCSS}>
+					    Users get a tremendous amount of control over their posts. 
 					  </li>
 					</ol>
 				</div>

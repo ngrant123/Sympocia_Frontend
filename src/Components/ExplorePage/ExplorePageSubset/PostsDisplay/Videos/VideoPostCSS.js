@@ -35,6 +35,10 @@ export const Container=styled.div`
 			height:200px !important;
 			width:300px !important;
 		}
+
+		#nextButton{
+			width:25% !important;
+		}
 	}
 `;
 

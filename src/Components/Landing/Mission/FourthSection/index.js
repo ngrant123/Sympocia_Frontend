@@ -103,31 +103,27 @@ const FourthSection=({history})=>{
 						</b>
 					</p>
 					<p id="questionId" style={QuestionAnswerCSS}> 
-						We plan on bringing in payment options that will enhance your experience on our platform but
-						will never restrict a major feature to just paying customers. Thats just not who we are and
-						what we represent. 
+						Although we will offer some small features to our paying customers, all the major features 
+						in Sympocia are free and always will be.
 					</p>
 				</div>
 
 				<div id="questionSpecificDiv" style={QuestionsSpecificDivCSS}>
 					<p id="questionId" style={HeaderQuestionCSS}>
-						<b>Are we going to sell you're data and think of you as information rather than people like 
-							our other competitors?
-						</b>
+						<b>Is Sympocia safe to use?</b>
 					</p>
 					<p id="questionId" style={QuestionAnswerCSS}> 
-						No our main mission is serving you guys so we will never do that 
+						Yes, it is. Your safety and privacy are our biggest concerns. No one can
+						get access to your private information.
 					</p>
 				</div>
 
 				<div id="questionSpecificDiv" style={QuestionsSpecificDivCSS}>
 					<p id="questionId" style={HeaderQuestionCSS}>
-						<b>What information do we store about the user? </b>
+						<b>Does Sympocia have access to all of my account info?</b>
 					</p>
 					<p id="questionId" style={QuestionAnswerCSS}> 
-						We store the general information about the user like name, email, and posts. Thats the
-					 	only thing we store. Dont worry we're not like our other competitors who track
-						your every move on the internet 
+						No, we don’t. We only save 3 pieces of information in our storage. Name, email, and posts.
 					</p>
 				</div>
 			</div>

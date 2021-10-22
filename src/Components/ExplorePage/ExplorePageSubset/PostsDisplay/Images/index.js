@@ -125,7 +125,8 @@ const NextButtonCSS={
 	borderStyle:"solid",
 	borderWidth:"2px",
 	borderColor:"#3898ec",
-	cursor:"pointer"
+	cursor:"pointer",
+	width:"10%"
 }
 const ImagePostsModal=(props)=>{
 	const isMobileUI=props.isMobileUI;
@@ -246,7 +247,8 @@ const ImagePostsModal=(props)=>{
 					<React.Fragment>
 						{props.isLoadingReloadedPosts==true?
 							<p>Loading please wait...</p>:
-							<p onClick={()=>props.triggerReloadingPostsHandle("Images")} style={NextButtonCSS}>
+							<p id="nextButton" onClick={()=>props.triggerReloadingPostsHandle("Images")} 
+								style={NextButtonCSS}>
 								Next
 							</p>
 						}

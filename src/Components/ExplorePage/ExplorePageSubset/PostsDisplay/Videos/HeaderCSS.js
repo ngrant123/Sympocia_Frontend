@@ -10,6 +10,9 @@ export const Container=styled.div`
 
 	@media screen and (max-width:650px){
 		margin-top:5% !important;
+		#nextButton{
+			width:25% !important;
+		}
 	}
 `;
 
@@ -46,10 +49,22 @@ export const HeaderContainer=styled.div`
 
 	@media screen and (max-width:680px){
 		width:100% !important;
+		height:100% !important;
+		margin-bottom:2%;
 		#video{
 			width:90% !important;
 		}
+		#videoTitle{
+			max-height:55px !important;
+		}
 	}
+
+	@media screen and (max-width:330px){
+		#videoTitle{
+			display:none !important;
+		}
+	}
+
 
 	@media screen and (min-width:600px) and (max-width:700px) 
 		and (min-height:700px) and (max-height:800px){
@@ -71,7 +86,7 @@ export const SupportingPosts=styled.div`
 	display:flex;
 	flex-direction:column;
 	flex-wrap:wrap;
-	width:100%;
+	width:700px !important;
 
 	#video{
 		width:700px !important;
@@ -103,7 +118,7 @@ export const SupportingPosts=styled.div`
 	}
 
 	@media screen and (max-width:680px){
-		width:100% !important;
+		width:90% !important;
 		#video{
 			width:90% !important;
 		}

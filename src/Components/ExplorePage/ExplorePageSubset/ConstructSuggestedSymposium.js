@@ -27,7 +27,7 @@ const SuggestedSymposiumsContainer=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		margin-top:30% !important;
+		margin-top:20% !important;
 		#popularSymposiumsDiv{
 			width:100% !important;
 		}

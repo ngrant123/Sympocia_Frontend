@@ -60,7 +60,7 @@ export const Container=styled.div`
 export const InformationalContainer=styled.div`
 	position:absolute;
 	z-index:5;
-	margin-top:7%;
+	margin-top:10%;
 	width:100%;
 	height:65%;
 	display:flex;

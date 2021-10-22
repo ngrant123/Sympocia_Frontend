@@ -40,6 +40,10 @@ export const Container=styled.div`
 			top:-80px;
 			margin-bottom:20% !important;
 		}
+
+		#nextButton{
+			width:25% !important;
+		}
 	}
 `;
 

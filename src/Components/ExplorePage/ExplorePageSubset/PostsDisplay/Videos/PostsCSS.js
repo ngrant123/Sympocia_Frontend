@@ -11,6 +11,7 @@ export const VideoContainer=styled.div`
 	display:flex;
 	flex-direction:column;
 	margin-right:7%;
+	width:250px !important;
 	#video{
 		width:250px !important;
 		height:200px !important;
@@ -24,7 +25,7 @@ export const VideoContainer=styled.div`
 		}
 	}
 	@media screen and (max-width:680px){
-		width:100%;
+		width:100% !important;
 		#video{
 			width:90% !important;
 		}
