@@ -138,7 +138,7 @@ const BlogsPostsContainer=(props)=>{
 		 <Container>
 			{props.isLoadingIndicatorBlogPost==true?<p>Currently loading blog posts</p>:
 				<React.Fragment>
-					{props.blogData.blogs.length==0&&props.blogData.headerBlog==null?
+					{props.blogData.blogs.length==0 && props.blogData.headerBlog==null?
 					<NoPostsModal
 						id="noPostsModalContainer"
 						postType={"blog"}

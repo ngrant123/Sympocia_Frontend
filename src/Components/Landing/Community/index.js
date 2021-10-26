@@ -30,6 +30,9 @@ import HowDoesSympociaDiffer from "./News/HowDoesSympociaDiffer.js";
 import SympociaRepresents from "./News/SympociaRepresents.js";
 import WhatDoesSympociaRepresent from "../../../designs/background/WhatDoesSympociaRepresent.png";
 
+import ExploreAndFeedRankingExplanation from "../../../designs/background/ExploreAndFeedRankingExplanation.png";
+import RankingExplanation from "./News/ExploreFeedAndRankingExplanation.js";
+
 import {addUserToCommunityViewedList} from "../../../Actions/Requests/SympociaCommunity/SympociaCommunityAdapter.js";
 import {useSelector} from "react-redux";
 
@@ -86,6 +89,12 @@ const InputContainer=styled.textarea`
 const CommunityContainer=(props)=>{
 	const [displayNews,changeDisplayNews]=useState(true);
 	const [newsMapping,changeNewsMapping]=useState([
+		{
+			title:"News feed and ranking algorithm",
+			description:"In this post I breakdown what the ranking system is and how your feed is created",
+			component:<RankingExplanation/>,
+			headerImage:ExploreAndFeedRankingExplanation
+		},
 		{	
 			title:"How does Sympocia differ?",
 			description:"Here we explain why sympocia is different and a better alternative",

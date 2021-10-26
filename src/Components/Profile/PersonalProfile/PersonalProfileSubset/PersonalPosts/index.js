@@ -369,7 +369,8 @@ const PersonalPostsIndex=(props)=>{
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
-					if(currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId){
+					if((currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId) &&
+						props.currentRequestedFriendsGaugeNodeId!=null){
 						const imagePost={
 							...imagePost,
 							crownedImage:null,
@@ -379,6 +380,7 @@ const PersonalPostsIndex=(props)=>{
 					}
 					changeEndOfPostsDBIndicator(true);
 				}else{
+					debugger;
 					let {
 						images,
 						crownedImage
@@ -387,7 +389,7 @@ const PersonalPostsIndex=(props)=>{
 					const newImages=postCounter==0?posts:images.concat(posts);
 					imagePost={
 						...imagePost,
-						crownedImage:crownedPost,
+						crownedImage:postCounter==0?crownedPost:crownedImage,
 						images:newImages
 					}
 					changeImagePost(imagePost);
@@ -424,7 +426,8 @@ const PersonalPostsIndex=(props)=>{
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
-					if(currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId){
+					if((currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId) &&
+						props.currentRequestedFriendsGaugeNodeId!=null){
 						const videoObject={
 							headerVideo:null,
 							videos:[]
@@ -438,8 +441,9 @@ const PersonalPostsIndex=(props)=>{
 					videos=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:videos;
 					const newVideos=postCounter==0?posts:videos.concat(posts);
 					
+
 					const videoObject={
-						headerVideo:crownedPost==null?videoPost.headerVideo:crownedPost,
+						headerVideo:postCounter==0?crownedPost:videoPost.headerVideo,
 						videos:[...newVideos]
 					}
 					changeVideoPosts({...videoObject});
@@ -477,7 +481,9 @@ const PersonalPostsIndex=(props)=>{
 
 				changeBlogPostsLoadingIndicator(false);
 				if(posts.length==0 && crownedPost==null){
-					if(currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId){
+					debugger;
+					if((currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId) &&
+						props.currentRequestedFriendsGaugeNodeId!=null){
 						const blogObject={
 							headerBlog:null,
 							blogs:[]
@@ -490,8 +496,9 @@ const PersonalPostsIndex=(props)=>{
 					let {blogs}=blogPost;
 					blogs=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:blogs;
 					const newBlogs=postCounter==0?posts:blogs.concat(posts);
+
 					const blogObject={
-						headerBlog:crownedPost==null?blogPost.headerBlog:crownedPost,
+						headerBlog:postCounter==0?crownedPost:blogPost.headerBlog,
 						blogs:newBlogs
 					}
 							
@@ -531,7 +538,8 @@ const PersonalPostsIndex=(props)=>{
 				const {crownedPost}=data;
 				const postsResponse=data.posts;
 				if(postsResponse.length==0 && crownedPost==null){
-					if(currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId){
+					if((currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId) &&
+						props.currentRequestedFriendsGaugeNodeId!=null){
 						const regularPostObject={
 							headerPost:null,
 							posts:[]
@@ -543,8 +551,10 @@ const PersonalPostsIndex=(props)=>{
 					let {posts}=regularPost;
 					posts=(isFilteredPostsActivated==true || isSearchFilterActivated==true)?[]:posts;
 					const newRegularPosts=postCounter==0?postsResponse:posts.concat(postsResponse);
+
+
 					const regularPostObject={
-						headerPost:crownedPost==null?regularPost.headerPost:crownedPost,
+						headerPost:postCounter==0?crownedPost:regularPost.headerPost,
 						posts:newRegularPosts
 					}
 					changeRegularPost(regularPostObject);
