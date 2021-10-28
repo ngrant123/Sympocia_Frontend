@@ -18,6 +18,8 @@ import ExplorePageOnboarding from "../../OnBoarding/ExplorePageOnboarding.js";
 import LoadingScreen from "../../../LoadingAnimation.js";
 import GuestOnboarding from "../../OnBoarding/GuestOnboarding.js";
 import {signUpGuestUser} from "../../../Actions/Redux/Actions/PersonalProfile.js";
+import TokenDisplay from "../../GeneralComponents/TokenComponent/index.js";
+
 
 const Container=styled.div`
 	position:absolute;
@@ -206,7 +208,8 @@ class HomePageContainer extends Component{
 			isLoading:true,
 			hideOnboarding:true,
 			displayDesktopUI:false,
-			displayGuestOnboarding:false
+			displayGuestOnboarding:false,
+			displayToken:false
 		}
 	}
 
@@ -238,6 +241,9 @@ class HomePageContainer extends Component{
 		}
 		this.initiliazeUserProfileForHomePage(id);
 		this.triggerUIChange();
+		this.setState({
+			displayToken:true
+		})	
 	}
 
 	initiliazeUserProfileForHomePage=async(id)=>{
@@ -410,6 +416,18 @@ class HomePageContainer extends Component{
 		)
 	}
 
+	handleTokenDisplay=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayToken==true &&(
+					<TokenDisplay
+						targetDom={"homePageContainer"}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	render(){
 		return(
 			<HomeProvider
@@ -440,6 +458,7 @@ class HomePageContainer extends Component{
 							routerHistory={this.props.history}
 							targetDom={"homePageContainer"}
 						/>
+						{this.handleTokenDisplay()}
 						{this.guestOnboarding()}
 						{this.explorePageOnboarding()}
 						
