@@ -21,17 +21,22 @@ export const Container=styled.div`
 
 
 	@media screen and (max-width:1370px){
+		flex-direction:column !important;
+		overflow:hidden;
 		#secondaryBackgroundDiv{
 			display:none !important;
 		}
 		#secondSectionHeaderText{
 			font-size:24px !important;
 		}
+		#backgroundDiv{
+			height:850px !important;
+		}
 	}
 
 	@media screen and (max-width:650px){
 		#backgroundDiv{
-			height:1000px !important;
+			height:1050px !important;
 			margin-left:-20% !important;
 		}
 	}
@@ -121,161 +126,62 @@ export const InformationalContainer=styled.div`
     }
 
 	@media screen and (max-width:1370px){
-		margin-top:-70px;
+		margin-top:-40px;
+		#secondSectionPrimaryText{
+			width:100% !important;
+		}
+		#secondSectionImage{
+			width:300px !important;
+			height:300px !important;
+		}
+	}
+`;
+
+
+export const MobileTextDisplay=styled.div`
+	display:flex;
+	flex-direction:column-reverse;
+	align-items:center;
+	justify-content:space-between;
+	background-color:#232323;
+
+	@media screen and (max-width:1370px){
+		margin-top:15%;
+		margin-bottom:15%;
+		padding-bottom:20px;
+		margin-top:20px;
+		#secondSectionPrimaryText{
+			width:90% !important;
+
+			margin-top:5%;
+			margin-bottom:5%;
+		}
 		#secondSectionImage{
 			width:300px !important;
 			height:300px !important;
 		}
 	}
 
-
-	@media screen and (max-width:1000px){
-		margin-top:30px;
-	}
-
-	@media screen and (max-width:730px) and (max-height:750px){
-		margin-top:180px;
-	}
-
-
-	@media screen and (max-width:700px){
-		flex-direction:column-reverse;
-		margin-top:200px;
-
+	@media screen and (max-width:650px){
+		#secondSectionPrimaryText{
+			width:85% !important;
+		}
 		#secondSectionImage{
 			width:200px !important;
 			height:200px !important;
 		}
-		#secondSectionPrimaryText{
-			width:80% !important;
-		}
-		#howAreWeDifferentText{
-			font-size:15px !important;
-		}
 	}
-
-	@media screen and (max-width:700px) and (max-height:750px){
-		margin-top:280px;
-	}
-
-
-	@media screen and (max-width:590px){
-		margin-top:300px;
-	}
-
-	@media screen and (max-width:550px) and (max-height:730px){
-		margin-top:400px;
-	}
-
-	@media screen and (min-width:300px) and (max-width:400px) 
-		and (min-height:1000px) and (max-height:1370px){
-		margin-top:160px;
-	}
-
-	@media screen and (min-width:350px) and (max-width:400px) 
-		and (min-height:1300px) and (max-height:1370px){
-		margin-top:90px;
-	}
-
-
-	@media screen and (min-width:410px) and (max-width:640px) 
-		and (min-height:1000px) and (max-height:1370px){
-		margin-top:100px;
-	}
-
-
-	@media screen and (min-width:300px) and (max-width:440px) 
-		and (min-height:550px) and (max-height:740px){
-		margin-top:400px;
-	}
-
-
-	@media screen and (min-width:350px) and (max-width:440px) 
-		and (min-height:550px) and (max-height:740px){
-		margin-top:500px;
-	}
-
-
-	@media screen and (max-width:340px) and (max-height:570px){
-		margin-top:550px;
-	}
-
-	@media screen and (max-width:310px) and (max-height:570px){
-		margin-top:620px;
-	}
-
-	@media screen and (min-width:300px) and (max-width:400px) 
-		and (min-height:750px) and (max-height:1039px){
-		margin-top:400px;
-	}
-
-	@media screen and (min-width:650px) and (max-width:1000px) 
-		and (min-height:740px) and (max-height:1039px){
-		margin-top:250px;
-	}
-
-	@media screen and (min-width:700px) and (max-width:1000px) 
-		and (min-height:750px) and (max-height:860px){
-		margin-top:140px !important;
-	}
-
-
-	@media screen and (min-width:470px) and (max-width:800px) 
-		and (min-height:750px) and (max-height:1039px){
-		margin-top:350px;
-	}
-
-	@media screen and (max-width:290px) and (max-height:670px){
-		margin-top:600px;
-	}
-
-
-	@media screen and (min-width:650px) and (max-width:1000px) 
-		and (min-height:740px) and (max-height:1039px){
-		margin-top:250px;
-	}
-
-	@media screen and (min-width:600px) and (max-width:1000px) 
-		and (min-height:1000px) and (max-height:1039px){
-		margin-top:100px;
-	}
-
-	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-		margin-top:90px;
-    }
-
-    @media screen and (max-width:820px) and (max-height:750px) and (orientation:landscape){
-		margin-top:150px;
-	}
-
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		flex-direction:column-reverse;
-		margin-top:70%;
+		#secondSectionPrimaryText{
+			margin-right:0% !important;
+			width:90% !important;
+		}
 
 		#secondSectionImage{
 			width:200px !important;
 			height:200px !important;
 		}
-		#secondSectionPrimaryText{
-			width:80% !important;
-		}
-		#howAreWeDifferentText{
-			font-size:15px !important;
-		}
     }
 
-    @media screen and (max-width:700px) and (max-height:650px) and (orientation:landscape){
-		margin-top:360px;
-    }
-
-
-    @media screen and (max-width:670px) and (max-height:380px) and (orientation:landscape){
-		margin-top:95%;
-    }
 `;
-
-
-
-
-

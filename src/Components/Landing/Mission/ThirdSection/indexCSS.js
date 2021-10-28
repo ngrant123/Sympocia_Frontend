@@ -49,10 +49,6 @@ export const Container=styled.div`
 		}
     }
 
-
-
-
-
 	@media screen and (max-width:1370px){
 		#thirdSectionImage{
 			width:300px !important;
