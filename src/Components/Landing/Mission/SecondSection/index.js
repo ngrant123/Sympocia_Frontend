@@ -1,9 +1,10 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import LandingImage from '../../../../designs/img/SecondSectionImage.png';
 import {
 	Container,
-	InformationalContainer
+	InformationalContainer,
+	MobileTextDisplay
 } from "./indexCSS.js";
 
 
@@ -34,9 +35,23 @@ const OLListCSS={
 }
 
 const SecondSection=()=>{
-	return(
-		<Container>
-			<InformationalContainer>
+	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
+
+	const triggerUIChange=()=>{
+		if(window.innerWidth<1370){
+			changeDisplayPhoneUI(true);
+		}else{
+			changeDisplayPhoneUI(false);
+		}
+	}
+	useEffect(()=>{
+		triggerUIChange();
+		window.addEventListener('resize', triggerUIChange)
+	},[window.innerWidth]);
+
+	const testDisplay=()=>{
+		return(
+			<>
 				<div style={{marginLeft:"5%"}}>
 					<img id="secondSectionImage" src={LandingImage} 
 						style={{width:"427px",height:"435px",left:"5%",borderRadius:"50%"}}
@@ -79,12 +94,26 @@ const SecondSection=()=>{
 					  </li>
 					</ol>
 				</div>
-			</InformationalContainer>
-			<div id="backgroundDiv" style={BackgroundDivCSS}>
-				<div id="secondaryBackgroundDiv" 
-					style={SecondaryBackgroundDivCSS}
-				/>
-			</div>
+			</>
+		)
+	}
+	return(
+		<Container>
+			{displayPhoneUI==true?
+				<MobileTextDisplay>
+					{testDisplay()}
+				</MobileTextDisplay>:
+				<React.Fragment>
+					<InformationalContainer>
+						{testDisplay()}
+					</InformationalContainer>
+					<div id="backgroundDiv" style={BackgroundDivCSS}>
+						<div id="secondaryBackgroundDiv" 
+							style={SecondaryBackgroundDivCSS}
+						/>
+					</div>
+				</React.Fragment>
+			}
 		</Container>
 	)
 }
