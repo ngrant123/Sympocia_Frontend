@@ -590,6 +590,23 @@ export const retrieveHighRankingProfileSpecificPosts=async(profileId,postType)=>
 	}
 }
 
+export const retrieveProfileTokenInformation=async(profileId)=>{
+	try{
+		const tokenResponse=await axios.get(`${SearchUrl}/retrieveProfileTokenInformation`,{
+			params:{
+				profileId
+			}
+		});
+		const {data}=tokenResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+
 
 
 

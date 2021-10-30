@@ -18,7 +18,7 @@ import ExplorePageOnboarding from "../../OnBoarding/ExplorePageOnboarding.js";
 import LoadingScreen from "../../../LoadingAnimation.js";
 import GuestOnboarding from "../../OnBoarding/GuestOnboarding.js";
 import {signUpGuestUser} from "../../../Actions/Redux/Actions/PersonalProfile.js";
-import TokenDisplay from "../../GeneralComponents/TokenComponent/index.js";
+import TokenDisplay from "../../GeneralComponents/TokenComponent/Display/index.js";
 
 
 const Container=styled.div`

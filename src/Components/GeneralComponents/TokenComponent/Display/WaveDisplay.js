@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 
 
@@ -7,7 +7,11 @@ import styled from "styled-components";
  	background-color:#A98DDE;
  	width:200%;
  	height:200%;
- 	top:80%;
+ 	
+ 	${({startingTopLevel})=>
+ 		`top:${startingTopLevel}%;`
+ 	}
+ 
  	border-radius: 35%;
  	z-index:10;
  	animation: wave 7000ms infinite;
@@ -25,12 +29,19 @@ import styled from "styled-components";
 	}
  `;
 
+//100%
+
+ //5% top is the cuttoff limit
+
   const SupportingWave=styled.div`
  	position:absolute;
  	background-color:#C8B0F4;
  	width:200%;
  	height:200%;
- 	top:70%;
+ 	 ${({startingTopLevel})=>
+ 		`top:${startingTopLevel}%;`
+ 	}
+
  	border-radius: 35%;
  	z-index:9;
  	animation: wave2 7000ms infinite;
@@ -53,11 +64,21 @@ import styled from "styled-components";
  `;
 
 
-const Waves=()=>{
+const Waves=({tokenScore,maxTokenScore})=>{
+	const [startingTopLevel,changeStartingTopLevel]=useState();
+
+	useEffect(()=>{
+		debugger;
+		const percentileCompleted=tokenScore/maxTokenScore;
+		const normalizedCompletion=percentileCompleted*100;
+		const cssCompatibleTopLevel=105-normalizedCompletion;
+		changeStartingTopLevel(cssCompatibleTopLevel);
+
+	},[tokenScore]);
 	return(
 		<React.Fragment>
-			<HeaderWave/>
-			<SupportingWave/>
+			<HeaderWave startingTopLevel={startingTopLevel}/>
+			<SupportingWave startingTopLevel={startingTopLevel}/>
 		</React.Fragment>
 	)
 }
