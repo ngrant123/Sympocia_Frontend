@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const Container=styled.div`
+	position:relative;
+	width:100%;
+	height:100%;
 	display:flex;
 	flex-direction:row;
 
@@ -119,8 +122,11 @@ export const SupportingPosts=styled.div`
 
 	@media screen and (max-width:680px){
 		width:90% !important;
+		flex-wrap:nowrap;
+		height:300px !important;
 		#video{
 			width:90% !important;
+			height:300px !important;
 		}
 	}
 
