@@ -153,10 +153,10 @@ const Header=({posts,displayBlogModal,targetDom})=>{
 						</p>
 					</div>
 					<p id="headerTitle" style={{fontSize:"25px",listStyle:"none",height:"80px",overflow:"hidden"}}>
-						<b>{highLightedPost.title}dsvoisnv;odsinv;odsinvo;idsnvoi;dsnvoindsvoidns</b>
+						<b>{highLightedPost.title}</b>
 					</p>
 					<p  id="headerDescription" style={{fontSize:"20px",color:"#8c8c8c",listStyle:"none",height:"80px",overflow:"hidden",marginTop:"2%"}}>
-						{highLightedPost.description}o;ifne;osnvodinvo;dsnv;odsinv;sodnvooc;dincodisn...
+						{highLightedPost.description}
 					</p>
 				</div>
 			</HeaderContainer>

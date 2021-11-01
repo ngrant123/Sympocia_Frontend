@@ -50,14 +50,14 @@ const Header=({posts,targetDom,isSymposiumPostUI})=>{
 		)
 	}
 	return(
-		<Container>
+		<React.Fragment>
 			{isMounted==true &&(
-				<React.Fragment>
+				<Container>
 					{headerPost()}
 					{supportingPostsRender()}
-				</React.Fragment>
+				</Container>
 			)}
-		</Container>
+		</React.Fragment>
 	)
 }
 
