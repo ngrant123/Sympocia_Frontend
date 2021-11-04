@@ -61,6 +61,7 @@ import Beacons from "./SymposiumFeatures/Beacons/index.js";
 import Oligarchs from "./Modals/Oligarchs/index.js";
 import OligarchsFinalResults from "./Modals/Oligarchs/FinalResults.js";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import TokenDisplay from "../../GeneralComponents/TokenComponent/Display/index.js";
 
 
 const socket = io('http://localhost:4000');
@@ -109,7 +110,8 @@ class Symposium extends Component{
 			displayHightletedSimplifiedQuestionsModal:false,
 			displayBeaconPrompt:false,
 			displayFinalOligarchsCompetitionResults:false,
-			isOligarch:false
+			isOligarch:false,
+			displayToken:false
 		}
 	}
 
@@ -240,6 +242,7 @@ class Symposium extends Component{
 		  		symposiumId:_id,
 		  		postSessionManagmentToken,
 		  		miscellaneousSymposiumInformation:miscellaneous,
+		  		displayToken:true,
 		  		displayFinalOligarchsCompetitionResults:isOnboardingCompleted==true?false:!hasProfileViewedOligarchFinalResults,
 		  		isGuestProfile:(this.props.personalInformation.id=="0" || this.props.personalInformation.isGuestProfile==true)==true?
 								true:false
@@ -752,6 +755,17 @@ class Symposium extends Component{
 		)
 	}
 
+	handleTokenDisplay=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayToken==true &&(
+					<TokenDisplay
+						targetDom={"extendedSymposiumContainer"}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
 
 	render(){
 		return(
@@ -840,6 +854,7 @@ class Symposium extends Component{
 							 run={true}
 						/>
 					)}
+					{this.handleTokenDisplay()}
 					{this.oligarchFinalResultDisplay()}
 					{this.arrowIndicatorButton()}
 					{this.handleSeeAllPeopleActiveModal()}

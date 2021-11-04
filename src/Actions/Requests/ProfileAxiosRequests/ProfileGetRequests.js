@@ -605,8 +605,28 @@ export const retrieveProfileTokenInformation=async(profileId)=>{
 }
 
 
+export const retrieveUnlockedUserTokenBreakDown=async()=>{
+	try{
+		const unlockedUsersTokenBreakDown=await axios.get(`${SearchUrl}/retrieveUnlockedUserTokenBreakDown`);
+		const {data}=unlockedUsersTokenBreakDown;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
+export const retrieveProfilesInTokenTier=async(tokenTier)=>{
+	try{
+		const profilesInTokenResponse=await axios.get(`${SearchUrl}/retrieveProfilesInTokenTier`,{
+			params:{
+				tokenTier
+			}
+		})
 
-
-
+		const {data}=profilesInTokenResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}

@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 
-
 const BackgroundModalContainer= styled.div`
 	position:fixed;
 	width:100%;

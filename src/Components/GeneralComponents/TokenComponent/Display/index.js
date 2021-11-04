@@ -10,6 +10,7 @@ import {retrieveProfileTokenInformation} from "../../../../Actions/Requests/Prof
 import {useSelector} from "react-redux";
 import PortalHOC from "../Modals/index.js";
 import TokenLevelDetails from "../Modals/TokenLevelDetails/index.js";
+import Promotion from "../Modals/Promotion/index.js";
 
 const keyFrameOsicallating1=keyframes`
 	0% {
@@ -83,7 +84,7 @@ const TokenDisplay=({targetDom})=>{
 	const [maxTokenScore,changeMaxTokenScore]=useState(0);
 	const [isLoading,changeIsLoadingStatus]=useState(true);
 	const [displayTokenLevelDetailsModal,changeDisplayTokenLevelDetailsModal]=useState(false);
-	const [displayPromotion,changeDisplayPromotion]=useState(false);
+	const [displayPromotion,changeDisplayPromotion]=useState(true);
 	const userId=useSelector(state=>state.personalInformation.id);
 
 	useEffect(()=>{
@@ -93,8 +94,11 @@ const TokenDisplay=({targetDom})=>{
 				const {message}=data;
 				const {
 					tokenScore,
-					maxLevelScore
+					maxLevelScore,
+					tokenLevel
 				}=message;
+
+				changeTokenLevel(tokenLevel);
 				changeTokenScore(tokenScore);
 				changeMaxTokenScore(maxLevelScore);
 			}else{
@@ -115,7 +119,28 @@ const TokenDisplay=({targetDom})=>{
 					<PortalHOC
 						targetDom={targetDom}
 						closeModal={hideTokenDetails}
-						component=<TokenLevelDetails/>
+						component=<TokenLevelDetails
+									tokenScore={tokenScore}
+									tokenLevel={tokenLevel}
+								  />
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	const hidePromotionDetails=()=>{
+		changeDisplayPromotion(false);
+	}
+
+	const displayPromotionDetails=()=>{
+		return(	
+			<React.Fragment>
+				{displayPromotion==true &&(
+					<PortalHOC
+						targetDom={targetDom}
+						closeModal={hidePromotionDetails}
+						component=<Promotion/>
 					/>
 				)}
 			</React.Fragment>
@@ -124,6 +149,7 @@ const TokenDisplay=({targetDom})=>{
 
 	return createPortal(
 		<React.Fragment>
+			{displayPromotionDetails()}
 			{displayTokenLevelDetails()}
 			{displayMinifiedToken==true?
 				<MinifiedTokenDisplay onClick={()=>changeDisplayMinifiedToken(false)}>

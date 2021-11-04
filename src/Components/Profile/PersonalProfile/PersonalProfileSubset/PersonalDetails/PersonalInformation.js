@@ -1,4 +1,4 @@
-import React,{useState,Component} from "react";
+import React,{useState,useContext} from "react";
 import styled from "styled-components";
 import DonatePortal from "../../PersonalProfileSet/Modals-Portals/DonatePortal.js";
 import ChampionPortal from "../../PersonalProfileSet/Modals-Portals/ChampionModalPortal/index.js";
@@ -17,6 +17,8 @@ import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/Gues
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import ProfileSettingsModal from "../../PersonalProfileSet/Modals-Portals/PersonalPreferances/index.js";
 import OligarchPortalDisplay from "../../PersonalProfileSet/Modals-Portals/OligarchPortal.js";
+import PaymentButton from '@material-ui/icons/MonetizationOn';
+import {UserContext} from "../../UserContext.js";
 
 const Container=styled.div`
 	@media screen and (min-width:2500px){
@@ -306,6 +308,7 @@ const PersonalInformation=(props)=>{
 	const [displaySymposiumsPortal,changeDisplaySymposiumsPortal]=useState(false);
 	const [displayProfileSettingsPage,changeDisplayProfileSettingsPage]=useState(false);
 	const [displayOligarchPage,changeDisplayOligarchPage]=useState(false);
+	const userInformation=useContext(UserContext);
 
 	
 	const handleDonateButton=()=>{
@@ -456,6 +459,24 @@ const PersonalInformation=(props)=>{
 									{crownLogo()}
 								</div>
 							)}
+							<div class="dropdown">
+								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+									style={{backgroundColor:"white",borderStyle:"none",color:"black",marginLeft:"10%"}}>
+									<span style={{color:"#797979"}} class="caret"></span>
+								</button>
+
+								<ul id="nodeInformationDropDownMenu" class="dropdown-menu" 
+									style={{width:"200px",height:"200px",overflow:"auto",padding:"10px"}}>
+									<li style={{listStyle:"none",cursor:"pointer"}}>
+										Payment
+									</li>
+									<hr/>
+									<li style={{listStyle:"none",cursor:"pointer"}} 
+										onClick={()=>userInformation.displayTokenLevelDetails()}>
+										Tokens
+									</li>
+								</ul>
+						  	</div>
 						</div>
 						<ul style={{padding:"0px"}}>
 							<li style={{listStyle:"none",marginBottom:"20px"}}>

@@ -32,6 +32,8 @@ import ProfilePicture from "../PersonalProfileSubset/PersonalDetails/ProfilePict
 import FriendsGauge from "./FriendsGaugeMemo.js";
 import PostDisplay from "./PostsDisplay/index.js";
 import PersonalPostsIndexContainer from "./PersonalPostsIndexContainer";
+import TokenLevelDetails from "../../../GeneralComponents/TokenComponent/Modals/TokenLevelDetails/index.js";
+import TokenPortalHOC from "../../../GeneralComponents/TokenComponent/Modals/index.js";
 
 
 import {
@@ -111,7 +113,8 @@ class LProfile extends Component{
 			displayConfettiHandle:()=>{
 				this.displayConfetti()
 			},
-			remoteChampionsMobileDisplayTrigger:false
+			remoteChampionsMobileDisplayTrigger:false,
+			displayTokenLevelDetails:false
 		};
 	}
 
@@ -722,27 +725,56 @@ class LProfile extends Component{
 		)
 	}
 
+	hideTokenLevelDetails=()=>{
+		this.setState({
+			displayTokenLevelDetails:false
+		})
+	}
+
+	displayTokenLevelDetails=()=>{
+		this.setState({
+			displayTokenLevelDetails:true
+		})
+	}
+
+	handleTokenLevelDetailsDisplay=()=>{
+		return(
+			<React.Fragment>
+				{this.state.displayTokenLevelDetails==true &&(
+					<TokenPortalHOC
+						targetDom={"personalContainer"}
+						closeModal={this.hideTokenLevelDetails}
+						component=<TokenLevelDetails/>
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
 
 
 	render(){
 		return(
 
 			<UserProvider value={{
-								...this.state,
-								mobilePhoneUIParameters:{
-									displayPersonalInformation:this.displayPersonalInformationMobile,
-									displayChampionsModal:this.displayChampionModalTrigger,
-									championData:this.state.champion
-								},
-								updateFirstName:(firstName)=>{
-									this.setState({
-										userProfile:{
-											...this.state.userProfile,
-											firstName
-										}
-									})
-								}
-							}}>
+					...this.state,
+					mobilePhoneUIParameters:{
+						displayPersonalInformation:this.displayPersonalInformationMobile,
+						displayChampionsModal:this.displayChampionModalTrigger,
+						championData:this.state.champion
+					},
+					updateFirstName:(firstName)=>{
+						this.setState({
+							userProfile:{
+								...this.state.userProfile,
+								firstName
+							}
+						})
+					},
+					displayTokenLevelDetails:()=>{
+						this.displayTokenLevelDetails();
+					}
+				}}>
 				<PostDisplayProvider
 					value={{
 						handleImagePostModal:(imagePostData,contextLocation)=>{
@@ -801,6 +833,7 @@ class LProfile extends Component{
 								onClick={()=>this.closePostsModal()}
 							/>
 						)}
+						{this.handleTokenLevelDetailsDisplay()}
 						{this.displayProfilePictureOptionsTrigger()}
 						{this.displayMobileProfileOptions()}
 						{this.PostModal()}
