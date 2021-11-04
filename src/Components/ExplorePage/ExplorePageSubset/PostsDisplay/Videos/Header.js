@@ -44,7 +44,9 @@ const Header=({posts,targetDom,isSymposiumPostUI})=>{
 		return(
 			<SupportingPosts>
 				{supportingPosts.map(data=>
-					<>{video(data)}</>
+					<div id="supportingVideoElement">
+						{video(data)}
+					</div>
 				)}
 			</SupportingPosts>
 		)

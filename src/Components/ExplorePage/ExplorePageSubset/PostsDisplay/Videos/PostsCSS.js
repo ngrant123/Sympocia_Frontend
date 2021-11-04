@@ -29,6 +29,11 @@ export const VideoContainer=styled.div`
 		#video{
 			width:90% !important;
 		}
+
+		#videoTitle{
+			margin-top:-7% !important;
+		}
+		margin-bottom:15% !important;
 	}
 
 

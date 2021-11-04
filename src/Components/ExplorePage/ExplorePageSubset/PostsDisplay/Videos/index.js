@@ -145,20 +145,18 @@ const VideoPostModal=(props)=>{
 	const posts=()=>{
 		return(
 			<React.Fragment>
-				<div style={{height:"100%"}}>
-					<Header
-						posts={headerPosts}
-						targetDom={props.targetDom}
-						isSymposiumPostUI={props.isSymposiumPostUI}
-					/>
-				</div>
+				<Header
+					posts={headerPosts}
+					targetDom={props.targetDom}
+					isSymposiumPostUI={props.isSymposiumPostUI}
+				/>
 				<hr style={PostsHorizontalLineCSS}/>
 				<Posts
 					posts={videos}
 					targetDom={props.targetDom}
 					isSymposiumPostUI={props.isSymposiumPostUI}
 				/>
-						
+
 				{props.endOfPostsDBIndicator==false && (
 					<React.Fragment>
 						{props.isLoadingReloadedPosts==true?
