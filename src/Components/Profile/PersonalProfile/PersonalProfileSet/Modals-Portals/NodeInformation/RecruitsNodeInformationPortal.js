@@ -4,28 +4,29 @@ import {createPortal} from "react-dom";
 import {
 	editNodeInformation,
 	requestAccessToNode
-} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 
-import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
 import {
 	recruitsLocatedInNode,
 	profilesRequestedAccessToNodeFetch
-} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
-import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {Link} from "react-router-dom";
-import {getVideoUrl} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import {getVideoUrl} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import NodeDesignOptions from "./NodeDesignOptions.js";
 
 const Container=styled.div`
 	position:fixed;
-	width:25%;
-	height:50%;
+	width:40%;
+	height:60%;
 	background-color:white;
 	z-index:36;
 	top:20%;
 	border-radius:5px;
-	left:40%;
+	left:35%;
 	overflow:auto;
 	@media screen and (min-width:2500px){
 		height:50%;
@@ -143,6 +144,7 @@ const ButtonCSS={
   cursor:"pointer"
 }
 
+
 const ColorBlockCSS={
 	height:"40px",
 	width:"40px",
@@ -198,6 +200,7 @@ const NodeInformationPortal=({
 	const [changedVideoDesciption,changeAndCreateNewVideoDescription]=useState();
 	const [isVideoDescriptionCleared,changeIsVideoDescriptionCleared]=useState(false);
 	const [loadingVideoDescription,changeLoadingVideoDescription]=useState(false);
+	const [displayNodeInformation,changeDisplayNodeInformation]=useState(true);
 
 
 	useEffect(()=>{
@@ -525,6 +528,10 @@ const NodeInformationPortal=({
 		closeModal()
 	}
 
+	const closeEditArea=()=>{
+		changeDisplayEditArea(false);
+	}
+
 	return createPortal(
 		<>
 			<ShadowContainer
@@ -627,67 +634,103 @@ const NodeInformationPortal=({
 								)}
 							</>:
 							<>
-								<NameTextArea id="name">
-									{nodeInformation.name}
-								</NameTextArea> 
-								<hr/>
-								<DescriptionTextArea id="description" placeholder="Enter level description">
-									{nodeInformation.description}
-								</DescriptionTextArea>
+								<div class="btn-group">
+									<button class="btn btn-primary dropdown-toggle" type="button" 
+										data-toggle="dropdown" style={ButtonCSS}>
+										{displayNodeInformation==true?
+											<>Node Information</>:
+											<>Node Design</>
+										}
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" style={{padding:"10px"}}>	
+										<li onClick={()=>changeDisplayNodeInformation(true)}
+											style={{listStyle:"none",cursor:"pointer"}}>
+											Node Information
+										</li>
+										<hr/>
+										<li onClick={()=>changeDisplayNodeInformation(false)}
+											style={{listStyle:"none",cursor:"pointer"}}>
+											Node Design
+										</li>
+									</ul>
+								</div>	
+								{displayNodeInformation==true?
+									<React.Fragment>
+										<p style={{marginTop:"5%"}}>
+											<b>Friends Gauge Node Name:</b>
+										</p>
+										<NameTextArea id="name">
+											{nodeInformation.name}
+										</NameTextArea> 
+										<hr/>
+										<p>
+											<b>Description</b>
+										</p>
+										<DescriptionTextArea id="description" placeholder="Enter level description">
+											{nodeInformation.description}
+										</DescriptionTextArea>
 
-								{(videoDescription==null && changedVideoDesciption==null)?
-									<React.Fragment>
-										<hr/>
-										<div onClick={()=>toggleVideoCreation()} style={ButtonCSS}>
-											Create video description
-										</div>
-										<hr/>
-									</React.Fragment>:
-									<React.Fragment>
-										<hr/>
-										<div style={{display:"flex",flexDirection:"column"}}>
-											<div style={{display:"flex",flexDirection:"row",marginBottom:"2%"}}>
+										{(videoDescription==null && changedVideoDesciption==null)?
+											<React.Fragment>
+												<hr/>
 												<div onClick={()=>toggleVideoCreation()} style={ButtonCSS}>
-													Redo video
+													Create video description
 												</div>
-												<div onClick={()=>clearVideoVideoDescriptions()}
-													style={{...ButtonCSS,marginLeft:"2%"}}>
-													Clear video
+												<hr/>
+											</React.Fragment>:
+											<React.Fragment>
+												<hr/>
+												<div style={{display:"flex",flexDirection:"column"}}>
+													<div style={{display:"flex",flexDirection:"row",marginBottom:"2%"}}>
+														<div onClick={()=>toggleVideoCreation()} style={ButtonCSS}>
+															Redo video
+														</div>
+														<div onClick={()=>clearVideoVideoDescriptions()}
+															style={{...ButtonCSS,marginLeft:"2%"}}>
+															Clear video
+														</div>
+													</div>
+													<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+														width="100%" height="100%" style={{backgroundColor:"#151515"}}>
+														<source src={changedVideoDesciption==null?
+															videoDescription:changedVideoDesciption} type="video/mp4"/>
+													</video>
 												</div>
-											</div>
-											<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-												width="100%" height="100%" style={{backgroundColor:"#151515"}}>
-												<source src={changedVideoDesciption==null?
-													videoDescription:changedVideoDesciption} type="video/mp4"/>
-											</video>
-										</div>
-										<hr/>
-									</React.Fragment>
+												<hr/>
+											</React.Fragment>
+										}
+										<input type="file" accept="video/mp4,video/x-m4v,video/*" name="img"
+										 	id="uploadVideoFile" style={{position:"relative",opacity:"0",zIndex:"0"}}
+											onChange={()=>uploadNodeVideoDescription()}>
+										</input>
+
+
+										<p id="editScreenText" style={{marginBottom:"5%"}}>Select a color scheme:</p>
+										<p id="noColorScheme" style={{cursor:"pointer"}}
+											onClick={()=>changeSelectedColorCodeHandle(null)}
+										>None</p>
+										<ColorChoicesContainer>
+											{colorCodes.map((data,index)=>
+												<div id={`colorCode-${index}`} style={{...ColorBlockCSS,backgroundColor:data}}
+													onClick={()=>changeSelectedColorCodeHandle(data,index)}
+												/>
+											)}
+											
+										</ColorChoicesContainer>
+										<a href="javascript:void(0);" onClick={()=>submitInformation({isAccessTokenUpdated:false})} 
+											style={{textDecoration:"none"}}>
+											<li id="editScreenText" style={ButtonCSS}>
+												Submit
+											</li>
+										</a>
+									</React.Fragment>:
+									<NodeDesignOptions
+										userId={userId}
+										nodeId={nodeInformation._id}
+										closeEditArea={closeEditArea}
+									/>
 								}
-								<input type="file" accept="video/mp4,video/x-m4v,video/*" name="img"
-								 	id="uploadVideoFile" style={{position:"relative",opacity:"0",zIndex:"0"}}
-									onChange={()=>uploadNodeVideoDescription()}>
-								</input>
-
-
-								<p id="editScreenText" style={{marginBottom:"5%"}}>Select a color scheme:</p>
-								<p id="noColorScheme" style={{cursor:"pointer"}}
-									onClick={()=>changeSelectedColorCodeHandle(null)}
-								>None</p>
-								<ColorChoicesContainer>
-									{colorCodes.map((data,index)=>
-										<div id={`colorCode-${index}`} style={{...ColorBlockCSS,backgroundColor:data}}
-											onClick={()=>changeSelectedColorCodeHandle(data,index)}
-										/>
-									)}
-									
-								</ColorChoicesContainer>
-								<a href="javascript:void(0);" onClick={()=>submitInformation({isAccessTokenUpdated:false})} 
-									style={{textDecoration:"none"}}>
-									<li id="editScreenText" style={ButtonCSS}>
-										Submit
-									</li>
-								</a>
 							</>
 						}
 					</li>

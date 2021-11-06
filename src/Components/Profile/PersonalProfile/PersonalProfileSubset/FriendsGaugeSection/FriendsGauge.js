@@ -7,7 +7,7 @@ import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import {connect} from "react-redux";
 import FriendsGaugeEditModal from "../../PersonalProfileSet/Modals-Portals/FriendsGaugeEditPortal/index.js";
-import RecruitsNodeInformationPortal from "../../PersonalProfileSet/Modals-Portals/RecruitsNodeInformationPortal.js";
+import RecruitsNodeInformationPortal from "../../PersonalProfileSet/Modals-Portals/NodeInformation/RecruitsNodeInformationPortal.js";
 import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {
   MobileRecruitAndFriendsGaugeOptions,
@@ -203,7 +203,14 @@ class FriendsGauge extends Component {
 
   constructProgessBarStep=(accomplished,index,node)=>{
       const currentNodeCounter=this.state.currentNodeCounter;
-      const {name,description,nodeCounter,totalPostsCount}=node;
+      console.log(node);
+      const {
+        name,
+        description,
+        nodeCounter,
+        totalPostsCount,
+        nodeAvatar
+      }=node;
 
       const intervalValue=100/(this.state.numberOfNodes-1);
 
@@ -220,7 +227,7 @@ class FriendsGauge extends Component {
                              <img
                                 style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
                                 width="30"
-                                src={StampIcon}
+                                src={nodeAvatar==null?StampIcon:nodeAvatar}
                                 style={{borderRadius:"50%"}}
                               />
                           </p>
@@ -236,7 +243,7 @@ class FriendsGauge extends Component {
                       <img
                         style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
                         width="30"
-                        src={StampIcon}
+                        src={nodeAvatar==null?StampIcon:nodeAvatar}
                         style={{borderRadius:"50%"}}
                       />
                     </li>

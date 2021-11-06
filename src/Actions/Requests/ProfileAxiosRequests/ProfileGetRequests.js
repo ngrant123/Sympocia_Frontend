@@ -630,3 +630,43 @@ export const retrieveProfilesInTokenTier=async(tokenTier)=>{
 		throw err;
 	}
 }
+
+export const retrieveFriendsGaugeNodePaymentVerification=async(profileId)=>{
+	try{
+		const nodePaymentVerificationResponse=await axios.get(`${SearchUrl}/retrieveFriendsGaugeNodePaymentVerification`,{
+			params:{
+				profileId
+			}
+		})
+
+		const {data}=nodePaymentVerificationResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+export const retrieveSympociaFriendsGaugeNodeAvatars=async()=>{
+	try{
+		const sympociaFriendGaugeAvatarsResponse=await axios.get(`${SearchUrl}/retrieveSympociaFriendsGaugeNodeAvatars`);
+		const {data}=sympociaFriendGaugeAvatarsResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
