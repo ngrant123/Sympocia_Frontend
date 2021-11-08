@@ -227,8 +227,8 @@ class FriendsGauge extends Component {
                              <img
                                 style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
                                 width="30"
-                                src={nodeAvatar==null?StampIcon:nodeAvatar}
-                                style={{borderRadius:"50%"}}
+                                src={nodeAvatar==null?StampIcon:nodeAvatar.imgUrl}
+                                style={{borderRadius:"50%",height:"30px"}}
                               />
                           </p>
                         </ul>
@@ -242,9 +242,9 @@ class FriendsGauge extends Component {
                     <li style={{listStyle:"none"}}>
                       <img
                         style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
-                        width="30"
-                        src={nodeAvatar==null?StampIcon:nodeAvatar}
-                        style={{borderRadius:"50%"}}
+                        width="50"
+                        src={nodeAvatar==null?StampIcon:nodeAvatar.imgUrl}
+                        style={{borderRadius:"50%",height:"50px"}}
                       />
                     </li>
                     <li style={{listStyle:"none"}}>

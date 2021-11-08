@@ -542,12 +542,17 @@ const NodeInformationPortal=({
 					<div style={{display:"flex",justifyContent:"space-between"}}>
 						{isOwner==true &&(
 							<React.Fragment>
-								{nodeInformation.nodeCounter==0 ?
-									<p>Your general node can not be edited. Create a new one to be able to edit it</p>:
-									<li style={{listStyle:"none",marginBottom:"10%"}}>
-										{editIcon()}
-									</li>
-								}
+								<li style={{listStyle:"none",marginBottom:"10%"}}>
+									{editIcon()}
+								</li>
+								{/*
+									{nodeInformation.nodeCounter==0 ?
+										<p>Your general node can not be edited. Create a new one to be able to edit it</p>:
+										<li style={{listStyle:"none",marginBottom:"10%"}}>
+											{editIcon()}
+										</li>
+									}
+								*/}
 							</React.Fragment>
 						)}
 						{closeModalIcon()}
@@ -634,28 +639,34 @@ const NodeInformationPortal=({
 								)}
 							</>:
 							<>
-								<div class="btn-group">
-									<button class="btn btn-primary dropdown-toggle" type="button" 
-										data-toggle="dropdown" style={ButtonCSS}>
-										{displayNodeInformation==true?
-											<>Node Information</>:
-											<>Node Design</>
-										}
-										<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" style={{padding:"10px"}}>	
-										<li onClick={()=>changeDisplayNodeInformation(true)}
-											style={{listStyle:"none",cursor:"pointer"}}>
-											Node Information
-										</li>
-										<hr/>
-										<li onClick={()=>changeDisplayNodeInformation(false)}
-											style={{listStyle:"none",cursor:"pointer"}}>
-											Node Design
-										</li>
-									</ul>
-								</div>	
-								{displayNodeInformation==true?
+								{(displayNodeInformation==true && nodeInformation.nodeCounter!=0)==false ?
+									<div style={{...ButtonCSS,width:"20%"}}>
+										<p>Node Design</p>
+									</div>:
+									<div class="btn-group">
+										<button class="btn btn-primary dropdown-toggle" type="button" 
+											data-toggle="dropdown" style={ButtonCSS}>
+											{displayNodeInformation==true?
+												<>Node Information</>:
+												<>Node Design</>
+											}
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" style={{padding:"10px"}}>	
+											<li onClick={()=>changeDisplayNodeInformation(true)}
+												style={{listStyle:"none",cursor:"pointer"}}>
+												Node Information
+											</li>
+											<hr/>
+											<li onClick={()=>changeDisplayNodeInformation(false)}
+												style={{listStyle:"none",cursor:"pointer"}}>
+												Node Design
+											</li>
+										</ul>
+									</div>	
+								}
+
+								{(displayNodeInformation==true && nodeInformation.nodeCounter!=0)==true?
 									<React.Fragment>
 										<p style={{marginTop:"5%"}}>
 											<b>Friends Gauge Node Name:</b>

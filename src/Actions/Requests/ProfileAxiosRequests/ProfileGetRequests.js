@@ -658,6 +658,19 @@ export const retrieveSympociaFriendsGaugeNodeAvatars=async()=>{
 }
 
 
+export const retrieveFriendsGaugeMaxLimitPaymentVerification=async(profileId)=>{
+	try{
+		const maxLimitFriendGaugePaymentVerificationResponse=await axios.get(`${SearchUrl}/retrieveFriendsGaugeMaxLimitPaymentVerification`,{
+			params:{
+				profileId
+			}
+		})
+		const {data}=maxLimitFriendGaugePaymentVerificationResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 

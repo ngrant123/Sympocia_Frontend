@@ -8,6 +8,7 @@ import ArrowBackIosNewIcon from '@material-ui/icons/ChevronLeft';
 import {
 	updateFriendsGaugeNodeAvatar
 } from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {Link} from "react-router-dom";
 
 const ButtonCSS={
   listStyle:"none",
@@ -167,10 +168,53 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 		)
 	}
 
+
+	const handleUploadPicture=()=>{
+		let reader= new FileReader();
+		const picture=document.getElementById("uploadPictureFile").files[0];
+
+		reader.onloadend=()=>{
+			const picUrl=reader.result;
+			const maxFileSize=7000*1024;
+			if(picture.size>maxFileSize){
+				alert('Your file is too large. We only accept images that have a max size of 7MB. You can go to preview (Mac) and lower the resolution there.');
+			}else{
+				const picUrl=reader.result;
+				changeImgUrl(picUrl);
+				changeDisplaySelectedFriendsGaugeAvatar(false);
+
+
+			}
+		}
+
+		if(picture!=null){
+				reader.readAsDataURL(picture);
+		}
+		else{
+			alert("Sorry but this type of image is not currently allowed. Change it to either jpeg,png to continue");
+		}
+	}
+
+	const clickUploadPhotoButton=()=>{
+		document.getElementById("uploadPictureFile").click();
+	}
+
+
 	const uploadOwnerFriendNodeAvatarModal=()=>{
 		return(
 			<div>
-				<p>User upload </p>
+				{img==null?
+					<>
+						<div style={{...ButtonCSS,width:"30%"}} onClick={()=>clickUploadPhotoButton()}>
+							Upload image
+						</div>
+						<input type="file" name="img" id="uploadPictureFile" style={{opacity:"0"}}  onChange={()=>handleUploadPicture()} 
+					        accept="image/jpeg" 
+					        name="attachments">
+					    </input>
+					</>:
+					<>{selectedImageDisplay()}</>
+				}
 			</div>
 		)
 	}
@@ -184,20 +228,35 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 		<div style={{marginTop:"5%"}}>	
 			{displayEditStage==false?
 				<React.Fragment>
-					<p>Which would you like to do?</p>
-					<div style={{display:"flex",flexDirection:"row"}}>
-						{displaySympociaAvatarOption==true &&(
-							<div style={ButtonCSS} onClick={()=>triggerDisplayEditStage(true)}>
-								Choose from sympocia avatars
+					{(displaySympociaAvatarOption==false && displayUserUploadAvatarOption==false)==true?
+						<div>
+							<p>
+								Unfortunately you have not unlocked the option to design your node avatar. 
+								You can access this option through the payment page.
+							</p>
+							<div style={ButtonCSS}>
+								<Link to={{pathname:"/payment"}}>
+									<p>Proceed to payment page</p>
+								</Link>
 							</div>
-						)}
+						</div>:
+						<React.Fragment>
+							<p>Which would you like to do?</p>
+							<div style={{display:"flex",flexDirection:"row"}}>
+								{displaySympociaAvatarOption==true &&(
+									<div style={ButtonCSS} onClick={()=>triggerDisplayEditStage(true)}>
+										Choose from sympocia avatars
+									</div>
+								)}
 
-						{displayUserUploadAvatarOption==true &&(
-							<div style={ButtonCSS} onClick={()=>triggerDisplayEditStage(false)}>
-								Upload own friend gauge node avatar
+								{displayUserUploadAvatarOption==true &&(
+									<div style={ButtonCSS} onClick={()=>triggerDisplayEditStage(false)}>
+										Upload own friend gauge node avatar
+									</div>
+								)}
 							</div>
-						)}
-					</div>
+						</React.Fragment>
+					}
 				</React.Fragment>:
 				<React.Fragment>
 					{displaySympociaFriendsNodeAvatars==true?

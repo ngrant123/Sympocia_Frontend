@@ -1,7 +1,10 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createLevel} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-import {getProfileForHomePage} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {
+	getProfileForHomePage,
+	retrieveFriendsGaugeMaxLimitPaymentVerification
+} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 import {useSelector,useDispatch} from "react-redux";
@@ -151,6 +154,21 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [isMaxNodesReached,changeIsMaxNodesReached]=useState(nodeNumber==3?true:false);
+
+	useEffect(()=>{
+		const fetchPaymentVerification=async()=>{
+			const {confirmation,data}=await retrieveFriendsGaugeMaxLimitPaymentVerification(userId);
+			if(confirmation=="Success"){
+				const {message}=data;
+				if(message==true){
+					changeIsMaxNodesReached(nodeNumber==5?true:false);
+				}
+			}else{
+				alert('Unfortunately there has been an error verifying payment so you will be limited to max 3 nodes. Please try again');
+			}
+		}
+		fetchPaymentVerification();
+	},[]);
 
 	const addNodeToProfile=()=>{
 		if(document.getElementById("levelName").value!=""){
