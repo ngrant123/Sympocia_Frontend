@@ -673,8 +673,34 @@ export const retrieveFriendsGaugeMaxLimitPaymentVerification=async(profileId)=>{
 }
 
 
+export const getProfileAscensionStatus=async(profileId)=>{
+	try{
+		const ascensionStatusResponse=await axios.get(`${SearchUrl}/getProfileAscensionStatus`,{
+			params:{
+				profileId
+			}
+		});
+		const {data}=ascensionStatusResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
+export const adPageVerification=async(profileId)=>{
+	try{
+		const adPageVerificationResponse=await axios.get(`${SearchUrl}/adPageVerification`,{
+			params:{
+				profileId
+			}
+		});
+		const {data}=adPageVerificationResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 

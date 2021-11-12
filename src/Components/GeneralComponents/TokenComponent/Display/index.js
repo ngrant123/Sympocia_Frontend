@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import styled,{keyframes} from "styled-components";
+import styled,{keyframes,css} from "styled-components";
 import {createPortal} from "react-dom";
 import VideoCallImage5 from "../../../../designs/background/AiyanahFullInterview.png";
 import Bubbles from "./Bubbles.js";
@@ -7,6 +7,7 @@ import Waves from "./WaveDisplay.js";
 import ClearIcon from '@material-ui/icons/Clear';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import {retrieveProfileTokenInformation} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {toggleOffAscensionStatusIndicator} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {useSelector} from "react-redux";
 import PortalHOC from "../Modals/index.js";
 import TokenLevelDetails from "../Modals/TokenLevelDetails/index.js";
@@ -23,6 +24,7 @@ const keyFrameOsicallating1=keyframes`
 		width:100%;
 	}
 `;
+
 const Container=styled.div`
 	position:fixed;
 	width:12%;
@@ -34,8 +36,29 @@ const Container=styled.div`
 	right: 0;
 	padding:10px;
 	margin-right:25px;
+
 `;
 
+// ${({triggerTokenIncreaseUI})=>{
+// 	triggerTokenIncreaseUI==true &&(
+// 		css`animation: glowing 1300ms infinite;
+// 	    @keyframes glowing {
+// 			0% { 
+// 				border-color: #D6C5F4;
+// 				box-shadow:-1px 1px 5px 1px #C8B0F4;
+// 			}
+// 		    50% {
+// 		     	border-color: #C8B0F4;
+// 		     	box-shadow:-1px 1px 20px 9px #C8B0F4;
+// 		    }
+// 		    100% {
+// 		     	border-color: #B693F7;
+// 		     	box-shadow:-1px 1px 5px 1px #C8B0F4;
+// 		    }
+// 		  }
+// 		`
+// 	)
+// }}
 const CloseTokenDisplay=styled.div`
 	position:absolute;
 	border-radius:50%;
@@ -84,7 +107,7 @@ const TokenDisplay=({targetDom})=>{
 	const [maxTokenScore,changeMaxTokenScore]=useState(0);
 	const [isLoading,changeIsLoadingStatus]=useState(true);
 	const [displayTokenLevelDetailsModal,changeDisplayTokenLevelDetailsModal]=useState(false);
-	const [displayPromotion,changeDisplayPromotion]=useState(true);
+	const [displayPromotion,changeDisplayPromotion]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
 
 	useEffect(()=>{
@@ -95,9 +118,10 @@ const TokenDisplay=({targetDom})=>{
 				const {
 					tokenScore,
 					maxLevelScore,
-					tokenLevel
+					tokenLevel,
+					ascensionStatus
 				}=message;
-
+				changeDisplayPromotion(ascensionStatus);
 				changeTokenLevel(tokenLevel);
 				changeTokenScore(tokenScore);
 				changeMaxTokenScore(maxLevelScore);
@@ -131,6 +155,7 @@ const TokenDisplay=({targetDom})=>{
 
 	const hidePromotionDetails=()=>{
 		changeDisplayPromotion(false);
+		toggleOffAscensionStatusIndicator(userId);
 	}
 
 	const displayPromotionDetails=()=>{
@@ -140,7 +165,10 @@ const TokenDisplay=({targetDom})=>{
 					<PortalHOC
 						targetDom={targetDom}
 						closeModal={hidePromotionDetails}
-						component=<Promotion/>
+						component=<Promotion
+									closeModal={hidePromotionDetails}
+									tokenLevel={tokenLevel}
+								  />
 					/>
 				)}
 			</React.Fragment>

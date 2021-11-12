@@ -3,6 +3,7 @@ import styled,{keyframes,css} from "styled-components";
 import {Link} from "react-router-dom";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import RegularPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/RegularPostHomeDisplayPortal.js";
+import AdIndicator from "../AdIndicator.js";
 
 const ProfilePictureLink=styled(Link)`
 	position:relative;
@@ -97,7 +98,11 @@ const SymposiumAndExplorePageDisplay=({regularPostInformation,targetDom})=>{
 					targetDom={targetDom}
 				/>
 			)}
-
+			<div style={{width:"30%"}}>
+				<AdIndicator
+					postData={regularPostInformation}
+				/>
+			</div>
 			<PostUserInformation>
 				<ProfilePictureLink swimmingStatus={swimmingStatus} 
 					to={{pathname:`/profile/${regularPostInformation.owner._id}`}}

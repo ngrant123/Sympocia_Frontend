@@ -52,7 +52,7 @@ const PaymentOptions=()=>{
 			price:4.99,
 			offers:[
 				"3 Free Ads",
-				"Payment option ability(Sympocia takes 15% of each donation you recieve",
+				//"Payment option ability(Sympocia takes 15% of each donation you recieve",
 				"Bronze offers included"
 			]
 		},
@@ -60,7 +60,7 @@ const PaymentOptions=()=>{
 			tier:"Gold",
 			price:9.99,
 			offers:[
-				"Payment option ability(Sympocia takes 5% of each donation you recieve)",
+				//"Payment option ability(Sympocia takes 5% of each donation you recieve)",
 				"5 Free Ads",
 				"Option to upload own friends node avatars",
 				"Silver and Bronze offers included (Excluding the 3 free ads)"
@@ -120,11 +120,13 @@ const PaymentOptions=()=>{
 		)
 	}
 	return(
-		<ul style={{padding:"0px",paddingBottom:"10%"}}>
-			{options.map(data=>
-				<>{paymentCard(data)}</>
-			)}
-		</ul>
+		<React.Fragment>
+			<ul style={{padding:"0px",paddingBottom:"10%"}}>
+				{options.map(data=>
+					<>{paymentCard(data)}</>
+				)}
+			</ul>
+		</React.Fragment>
 	)
 }
 

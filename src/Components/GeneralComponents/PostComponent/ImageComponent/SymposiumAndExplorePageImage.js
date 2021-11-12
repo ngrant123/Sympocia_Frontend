@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {SmallProfilePictureAndVideoDescription} from "../../../ExplorePage/ExplorePageSubset/PostsDisplay/PostDisplayGeneralComp.js";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import ImagePostDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/ImageHomeDisplayPortal.js";
+import AdIndicator from "../AdIndicator.js";
 
 const glowing=keyframes`
       0% { border-color: #D6C5F4; box-shadow: 0 0 10px #C8B0F4; }
@@ -74,6 +75,7 @@ const SymposiumAndExplorePageDisplay=({imageInformation,targetDom})=>{
 		changeSelectedImage(data);
 		changeImageDisplay(true);
 	}
+
 	return(
 		<React.Fragment>
 			{displayImageDisplayPortal==true &&(
@@ -98,6 +100,12 @@ const SymposiumAndExplorePageDisplay=({imageInformation,targetDom})=>{
 					<div id="smallImageArrowDownCSS" style={SmallImageArrowDownCSS}>
 						<KeyboardArrowDownIcon
 							style={{color:"#FFFFFF"}}
+						/>
+					</div>
+
+					<div style={{marginTop:"150%"}}>
+						<AdIndicator
+							postData={imageInformation}
 						/>
 					</div>
 				</div>

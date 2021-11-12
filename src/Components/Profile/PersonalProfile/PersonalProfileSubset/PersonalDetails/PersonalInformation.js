@@ -475,6 +475,11 @@ const PersonalInformation=(props)=>{
 										onClick={()=>userInformation.displayTokenLevelDetails()}>
 										Tokens
 									</li>
+									<hr/>
+									<li style={{listStyle:"none",cursor:"pointer"}} 
+										onClick={()=>userInformation.displayTokenLevelDetails()}>
+										Ads
+									</li>
 								</ul>
 						  	</div>
 						</div>

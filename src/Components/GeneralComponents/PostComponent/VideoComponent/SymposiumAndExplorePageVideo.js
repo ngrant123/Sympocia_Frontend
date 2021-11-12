@@ -4,6 +4,8 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import {SmallProfilePictureAndVideoDescription} from "../../../ExplorePage/ExplorePageSubset/PostsDisplay/PostDisplayGeneralComp.js";
 import {Link} from "react-router-dom";
 import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/VideoHomeDisplayPortal.js";
+import AdIndicator from "../AdIndicator.js";
+
 
 const ProfilePictureLink=styled(Link)`
 	position:relative;
@@ -92,8 +94,14 @@ const SymposiumAndExplorePageDisplay=({videoInformation,targetDom})=>{
 							style={{color:"#FFFFFF"}}
 						/>
 					</div>
+					<div style={{marginTop:"130%"}}>
+						<AdIndicator
+							postData={videoInformation}
+						/>
+					</div>
 				</div>
 			</div>
+
 			<p id="videoTitle" style={{fontSize:"15px",maxWidth:"100%",maxHeight:"60px",overflow:"hidden"}}>
 				<b>{videoInformation.title}</b>
 			</p>

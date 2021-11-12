@@ -587,6 +587,19 @@ export const updateFriendsGaugeNodeAvatar=async(updatedAvatarInformation)=>{
 }
 
 
+export const toggleOffAscensionStatusIndicator=async(profileId)=>{
+	try{
+		const toggledAscensionStatusResponse=await axios.post(`${CreateUrl}/toggleOffAscensionStatusIndicator`,{
+			profileId
+		});
+		const {data}=toggledAscensionStatusResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
 
 
 

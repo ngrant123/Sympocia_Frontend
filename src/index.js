@@ -67,6 +67,7 @@ const PageNotFound=React.lazy(()=>import('./Components/ErrorPage/404ErrorPage.js
 const SympociaCommunity=React.lazy(()=>import('./Components/Landing/Community/index.js'));
 const SymposiumFeaturesPage=React.lazy(()=>import('./Components/Symposium/SymposiumFeaturesPage/FeaturesPageSet/index.js'));
 const PaymentPage=React.lazy(()=>import('./Components/Payments/PaymentSet/index.js'));
+const Ads=React.lazy(()=>import('./Components/AdCreation/AdSet/index.js'));
 
 
 const ApplicationElementIndicator=VerifyBrowserIsChrome();
@@ -96,6 +97,7 @@ const application  = (
 							<Route exact path="/sympociaCommunity" component={SympociaCommunity}/>
 							<Route exact path="/symposiumFeatures/:symposiumId" component={SymposiumFeaturesPage}/>
 							<Route exact path="/payment" component={PaymentPage}/>
+							<Route exact path="/ad" component={Ads}/>
 							<Route component={PageNotFound}/>
 
 							{/*

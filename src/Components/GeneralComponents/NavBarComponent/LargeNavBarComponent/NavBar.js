@@ -8,6 +8,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import MapIcon from '@material-ui/icons/Map';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import {useSelector,useDispatch} from "react-redux";
 import {loginPersonalPage} from "../../../../Actions/Redux/Actions/PersonalProfile.js";
@@ -599,10 +600,30 @@ const NavBar=(pageProps)=>{
 						<p style={{fontSize:"16px"}}>
 							<Link style={{color:"#151515"}} to="/home">Explore</Link>
 						</p>
+
 					</div>
-					<p style={{fontSize:"16px",color:"#151515"}}>
+					<p style={{fontSize:"16px",color:"#151515",marginRight:"5%",marginLeft:"5%"}}>
 						<Link style={{color:"#151515"}} to="/symposiumList">Symposiums</Link>
 					</p>
+
+					<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle" 
+							type="button" data-toggle="dropdown" style={PersonalPreferencesDropDownCSS}>
+							<MoreHorizIcon
+								style={{fontSize:"36"}}
+							/>
+						</button>
+					   	<ul class="dropdown-menu">
+							<li>
+								<Link to='/payment'>Payment Options</Link>
+							</li>
+							<hr/>
+							<li>
+								<Link to='/ad'>Ads</Link>
+							</li>
+						</ul>
+					</div>
+
 					<SearchContainer onClick={()=>changeDisplaySearchModal(!displaySearchModal)}>
 		                <SearchTextArea
 		                    placeholder="Search"

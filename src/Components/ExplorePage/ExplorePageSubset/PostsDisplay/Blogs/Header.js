@@ -6,6 +6,8 @@ import {
 } from "./BlogPostCSS.js";
 import {SmallProfilePictureAndVideoDescription} from "../PostDisplayGeneralComp.js";
 import ExplorePageBlogPost from "../../../../GeneralComponents/PostComponent/BlogComponent/SymposiumAndExplorePageBlog.js";
+import AdIndicator from "../../../../GeneralComponents/PostComponent/AdIndicator.js";
+
 
 const Container=styled.div`
 	display:flex;
@@ -158,6 +160,15 @@ const Header=({posts,displayBlogModal,targetDom})=>{
 					<p  id="headerDescription" style={{fontSize:"20px",color:"#8c8c8c",listStyle:"none",height:"80px",overflow:"hidden",marginTop:"2%"}}>
 						{highLightedPost.description}
 					</p>
+
+					<div style={{width:"40%",marginLeft:"5%"}}>
+						<AdIndicator
+							postData={highLightedPost}
+						/>
+					</div>
+
+
+
 				</div>
 			</HeaderContainer>
 		)

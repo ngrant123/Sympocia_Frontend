@@ -3,6 +3,7 @@ import styled,{keyframes,css} from "styled-components";
 import {SmallProfilePictureAndVideoDescription} from "../../../ExplorePage/ExplorePageSubset/PostsDisplay/PostDisplayGeneralComp.js";
 import {useSelector} from "react-redux";
 import BlogHomeDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/BlogHomeDisplayPortal.js";
+import AdIndicator from "../AdIndicator.js";
 
 const glowing=keyframes`
       0% { border-color: #D6C5F4; box-shadow: 0 0 10px #C8B0F4; }
@@ -85,6 +86,11 @@ const SymposiumAndExplorePageDisplay=({blogPostInformation,targetDom})=>{
 					<p style={{marginLeft:"2%",maxWidth:"90px",overflow:"hidden",maxHeight:"20px"}}>
 						{blogPostInformation.owner.firstName}
 					</p>
+					<div style={{width:"40%",marginLeft:"5%"}}>
+						<AdIndicator
+							postData={blogPostInformation}
+						/>
+					</div>
 				</div>
 			</div>
 			<div onClick={()=>displayBlogModal(blogPostInformation)} id="smallPostTitleAndDescription"

@@ -5,6 +5,7 @@ import BundlePaymentOptions from "../PaymentSubset/BundlePaymentOptions.js";
 import Checkout from "./Modals-Portals/Checkout.js";
 import ItemizedCheckout from "../PaymentSubset/ItemizedCheckout.js";
 import Particles from 'react-particles-js';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 const Container=styled.div`
 	position:absolute;
@@ -40,6 +41,23 @@ const VerticalLineCSS={
  	height:"40px",
  	marginLeft:"3%",
  	marginRight:"3%"
+}
+
+const ClearPaymentOptionDropDownCSS={
+	borderColor:"#D0D0D0",
+	borderStyle:"none",
+	borderWidth:"1px",
+	borderRadius:"5px",
+	padding:"10px",
+	display:"flex",
+	flexDirection:"row",
+	justifyContent:"center",
+	alignItems:"center",
+	cursor:"pointer",
+	backgroundColor:"white",
+	color:"#000000",
+	marginBottom:"2%",
+	marginLeft:"15%"
 }
 
 
@@ -114,12 +132,45 @@ const Payment=(props)=>{
 						<b>Choose your payment plan:</b>
 					</p>
 					<div style={{display:"flex",flexDirection:"row"}}>
-						<div style={PaymentOptionCSS} onClick={()=>changeDisplayBundleOption(true)}>
-							Bundle
+						<div style={{display:"flex",flexDirection:"row",justifyContent:"center"}}>
+							<div style={PaymentOptionCSS} onClick={()=>changeDisplayBundleOption(true)}>
+								Bundle
+							</div>
+							<div class="btn-group">
+								<button class="btn btn-primary dropdown-toggle" type="button" 
+									data-toggle="dropdown" style={ClearPaymentOptionDropDownCSS}>
+									<HelpOutlineIcon
+										style={{fontSize:"24"}}
+									/>
+								</button>
+								<ul class="dropdown-menu" style={{padding:"25px",width:"300px"}}>
+									<li style={{cursor:"pointer"}}>
+										Bundles give you an opportunity  to purchase items at a more cheaper cost 
+										than if you were to buy them standalone but after a month these features you
+										previously bought are reset.
+									</li>
+								</ul>
+							</div>	
 						</div>
 						<div style={VerticalLineCSS}/>
-						<div style={PaymentOptionCSS} onClick={()=>changeDisplayBundleOption(false)}>
-							Select Items
+						<div style={{display:"flex",flexDirection:"row",justifyContent:"center"}}>
+							<div style={PaymentOptionCSS} onClick={()=>changeDisplayBundleOption(false)}>
+								Select Items
+							</div>
+							<div class="btn-group">
+								<button class="btn btn-primary dropdown-toggle" type="button" 
+									data-toggle="dropdown" style={ClearPaymentOptionDropDownCSS}>
+									<HelpOutlineIcon
+										style={{fontSize:"24"}}
+									/>
+								</button>
+								<ul class="dropdown-menu" style={{padding:"25px",width:"300px"}}>
+									<li style={{cursor:"pointer"}}>
+										Each selected item is a one time fee for unlimited time for now. Ads have a duration
+										of a week.
+									</li>
+								</ul>
+							</div>	
 						</div>
 					</div>
 					{displayBundleOption==true ?
