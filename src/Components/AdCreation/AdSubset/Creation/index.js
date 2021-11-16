@@ -25,6 +25,11 @@ const Container=styled.div`
 	justify-content:space-between;
 	flex-direction:column;
 	align-items:center;
+	
+	@media screen and (max-width:1370px){
+		width:100% !important;
+	}
+
 `;
 
 const HorizontalLineCSS={

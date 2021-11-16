@@ -5,6 +5,12 @@ import {Link} from "react-router-dom";
 
 const Container=styled.div`
 	width:100%;
+
+	@media screen and (max-width:650px){
+		#postMappingDiv{
+			justify-content:center !important;
+		}
+	}
 `;
 const HorizontalLineCSS={
 	position:"relative",
@@ -121,7 +127,7 @@ const PostDisplay=(props)=>{
 
 	const postMapping=()=>{
 		return(
-			<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
+			<div id="postMappingDiv" style={{display:"flex",flexDirection:"row",flexWrap:"wrap",width:"100%"}}>
 				{posts.length==0?
 					<div style={{display:"flex",flexDirection:"column"}}>
 						<p>No ads</p>

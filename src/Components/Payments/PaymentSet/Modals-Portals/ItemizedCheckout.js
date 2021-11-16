@@ -23,6 +23,18 @@ const Container=styled.div`
 	display:flex;
 	flex-direction:column;
 	overflow-y:auto;
+
+
+	@media screen and (max-width:1370px){
+		width:60%;
+	}
+
+	@media screen and (max-width:650px){
+		margin-right:0px;
+		bottom:0;
+		width:100%;
+		height:100%;
+	}
 `;
 
 
@@ -59,8 +71,8 @@ const HorizontalLineCSS={
 	width:"100%"
 }
 
-const ItemizedCheckout=({item,unMountItemCheckoutModal})=>{
-	const [displayMinifiedToken,changeDisplayMinifiedToken]=useState(false);
+const ItemizedCheckout=({item,unMountItemCheckoutModal,isPhoneUIEnabled})=>{
+	const [displayMinifiedToken,changeDisplayMinifiedToken]=useState(isPhoneUIEnabled);
 	const [currentSelectedItems,changeCurrentSelectedItems]=useState([]);
 	const [pricingTotal,changePricingTotal]=useState(0);
 
@@ -115,6 +127,9 @@ const ItemizedCheckout=({item,unMountItemCheckoutModal})=>{
 		<React.Fragment>	
 			{displayMinifiedToken==true?
 				<MinifiedTokenDisplay onClick={()=>changeDisplayMinifiedToken(false)}>
+					<div style={{borderRadius:"50%",backgroundColor:"#F00404",display:"flex",justifyContent:"center",padding:"10px",color:"white"}}>
+						{currentSelectedItems.length}
+					</div>
 					<ArrowLeftIcon
 						style={{fontSize:"40"}}
 					/>
@@ -129,8 +144,8 @@ const ItemizedCheckout=({item,unMountItemCheckoutModal})=>{
 					</p>
 					<hr style={HorizontalLineCSS}/>
 					{currentSelectedItems.map(data=>
-						<>{
-							selectedItem(data)}
+						<>
+							{selectedItem(data)}
 							<hr/>
 						</>
 					)}

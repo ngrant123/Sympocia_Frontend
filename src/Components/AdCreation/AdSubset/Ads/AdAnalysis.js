@@ -26,7 +26,7 @@ const PeopleContainer =styled(Link)`
 	background-color:white;
 	border-radius:5px;
 	box-shadow: 1px 5px 5px 1px #d5d5d5;
-	height:40%;
+	height:150px;
 	cursor:pointer;
 	margin-right:5%;
 	margin-bottom:5%;

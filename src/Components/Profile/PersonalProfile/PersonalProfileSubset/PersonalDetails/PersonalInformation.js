@@ -3,21 +3,23 @@ import styled from "styled-components";
 import DonatePortal from "../../PersonalProfileSet/Modals-Portals/DonatePortal.js";
 import ChampionPortal from "../../PersonalProfileSet/Modals-Portals/ChampionModalPortal/index.js";
 import {useSelector,useDispatch} from "react-redux";
-import {addRecruit} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {
+	addRecruit,
+	removeRecruitProfileIsFollowing
+} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import FriendsPortal from "../../PersonalProfileSet/Modals-Portals/FriendsPortal.js";
 import SymposiumPortal from "../../PersonalProfileSet/Modals-Portals/FollowedSymposiumsPortal.js";
 
 import { Icon } from '@iconify/react';
 import tiktokIcon from '@iconify/icons-simple-icons/tiktok';
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
-import {
-	removeRecruitProfileIsFollowing
-} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/GuestLockScreenHOC.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import ProfileSettingsModal from "../../PersonalProfileSet/Modals-Portals/PersonalPreferances/index.js";
 import OligarchPortalDisplay from "../../PersonalProfileSet/Modals-Portals/OligarchPortal.js";
 import PaymentButton from '@material-ui/icons/MonetizationOn';
+import {adPageVerification} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+
 import {UserContext} from "../../UserContext.js";
 
 const Container=styled.div`
@@ -308,6 +310,9 @@ const PersonalInformation=(props)=>{
 	const [displaySymposiumsPortal,changeDisplaySymposiumsPortal]=useState(false);
 	const [displayProfileSettingsPage,changeDisplayProfileSettingsPage]=useState(false);
 	const [displayOligarchPage,changeDisplayOligarchPage]=useState(false);
+	const [loadingPersonalInformationVerification,changePersonalInformationOptionLoadingStatus]=useState(true);
+	const [isAdOptionAllowed,changeAdAvailablityStatus]=useState(false);
+
 	const userInformation=useContext(UserContext);
 
 	
@@ -434,6 +439,15 @@ const PersonalInformation=(props)=>{
 		)
 	}
 
+	const verfiyAdPayment=async()=>{
+		const {confirmation,data}=await adPageVerification(props.personalInformation._id);
+		if(confirmation=="Success"){
+			const {message}=data;
+			changeAdAvailablityStatus(message);
+		}
+		changePersonalInformationOptionLoadingStatus(false);
+	}
+
 	const userInformationComponent=(personalInformation,displayDesktopUI,displayMobileProfileOptions)=>{
 		return (
 			<>
@@ -461,25 +475,36 @@ const PersonalInformation=(props)=>{
 							)}
 							<div class="dropdown">
 								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
-									style={{backgroundColor:"white",borderStyle:"none",color:"black",marginLeft:"10%"}}>
+									style={{backgroundColor:"white",borderStyle:"none",color:"black",marginLeft:"10%"}}
+									onClick={()=>verfiyAdPayment()}>
 									<span style={{color:"#797979"}} class="caret"></span>
 								</button>
 
 								<ul id="nodeInformationDropDownMenu" class="dropdown-menu" 
 									style={{width:"200px",height:"200px",overflow:"auto",padding:"10px"}}>
-									<li style={{listStyle:"none",cursor:"pointer"}}>
-										Payment
-									</li>
-									<hr/>
-									<li style={{listStyle:"none",cursor:"pointer"}} 
-										onClick={()=>userInformation.displayTokenLevelDetails()}>
-										Tokens
-									</li>
-									<hr/>
-									<li style={{listStyle:"none",cursor:"pointer"}} 
-										onClick={()=>userInformation.displayTokenLevelDetails()}>
-										Ads
-									</li>
+									{loadingPersonalInformationVerification==true?
+										<p>Loading...</p>:
+										<React.Fragment>
+											{/*
+												<li style={{listStyle:"none",cursor:"pointer"}}>
+													Payment
+												</li>
+												<hr/>
+											*/}
+											<li style={{listStyle:"none",cursor:"pointer"}} 
+												onClick={()=>userInformation.displayTokenLevelDetails()}>
+												Tokens
+											</li>
+											<hr/>
+
+											{isAdOptionAllowed==true &&(
+												<li style={{listStyle:"none",cursor:"pointer"}} 
+													onClick={()=>userInformation.displayTokenLevelDetails()}>
+													Ads
+												</li>
+											)}
+										</React.Fragment>
+									}
 								</ul>
 						  	</div>
 						</div>

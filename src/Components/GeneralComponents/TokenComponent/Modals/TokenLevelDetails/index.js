@@ -1,7 +1,10 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import { ProgressBar, Step } from "react-step-progress-bar";
-import StampIcon from "../../../../../designs/img/StampIcon.png";
+import GoldStampIcon from "../../../../../designs/img/GoldStampIcon.png";
+import SilverStampIcon from "../../../../../designs/img/SilverStampIcon.png";
+import BronzeStampIcon from "../../../../../designs/img/BronzeStampIcon.png";
+
 import "react-step-progress-bar/styles.css";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {retrieveUnlockedUserTokenBreakDown} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
@@ -19,6 +22,18 @@ const Container=styled.div`
 	flex-direction:column;
 	justify-content:center;
 	padding:10%;
+
+	@media screen and (max-width:650px){
+		width:100%;
+		height:100%;
+		top:0%;
+		left:0%;
+		justify-content:flex-start;
+
+		#mobileCloseIcon{
+			display:block !important;
+		}
+	}
 `;
 
 const TokenLevelDisplayCSS={
@@ -72,7 +87,7 @@ const VerticalLineCSS={
 }
 
 
-const TokenLevelDetails=({tokenScore,tokenLevel})=>{
+const TokenLevelDetails=({tokenScore,tokenLevel,closeModal})=>{
 	let [currentPercentage,changeCurrentPercentage]=useState(0);
 	const [bronzeUnlockedUsers,changeBronzeUnlockedUsers]=useState(0);
 	const [silverUnlockedUsers,changeSilverUnlockedUsers]=useState(0);
@@ -118,15 +133,30 @@ const TokenLevelDetails=({tokenScore,tokenLevel})=>{
 	    for(var i=0;i<4;i++){
 	    	if(i==0){
 	    		ProgressBarSteps.push(<div></div>);  
-	    	}else{    		
+	    	}else{    	
+	    		let stampIcon;	
+	    		switch(i){
+	    			case 1:{
+	    				stampIcon=BronzeStampIcon;
+	    				break;
+	    			}
+	    			case 2:{
+	    				stampIcon=SilverStampIcon;
+	    				break;
+	    			}
+
+	    			case 3:{
+	    				stampIcon=GoldStampIcon;
+	    				break;
+	    			}
+	    		}
 				const StepElement=<Step transition="scale"
 		                    index={0}>
 		                {({ accomplished,index }) => (
 			                <img style={{ 
-			                	filter:`grayscale(${accomplished ? 0 : 80}%)`,
 			                	borderRadius:"50%",
 			                	cursor:"pointer"}}
-				                width="40" src={StampIcon}
+				                width="40" src={stampIcon}
 				            />
 		                )}
 		            </Step>;
@@ -139,18 +169,29 @@ const TokenLevelDetails=({tokenScore,tokenLevel})=>{
 	const unlockedUsers=(userUnlocked)=>{
 		return(
             <div style={{display:"flex",flexDirection:"row"}}>
-            	<div style={UserUnlockedCSS}>
-            		<p> {userUnlocked} people unlocked</p>
-            	</div>
-            	<ArrowDropDownCircleOutlinedIcon
-            		style={{fontSize:"18"}}
-            	/>
+            	<p> 
+            		<b>{userUnlocked}</b> people unlocked
+            	</p>
             </div>
 		)
 	}
 
+	const mobileCloseIcon=()=>{
+		return(
+			<div style={{display:"none"}} onClick={()=>closeModal()} id="mobileCloseIcon">
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+					 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+					 stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <circle cx="12" cy="12" r="9" />
+					  <path d="M10 10l4 4m0 -4l-4 4" />
+				</svg>
+			</div>
+		)
+	}
 	return(
 		<Container>
+			{mobileCloseIcon()}
 			<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 				<p>
 					<b>Progress Bar</b>
@@ -160,7 +201,7 @@ const TokenLevelDetails=({tokenScore,tokenLevel})=>{
 				</div>
 			</div>
 			<hr style={HorizontalLineCSS}/>
-			<div style={{position:"relative",width:"100%",borderRadius:"5px"}}>
+			<div id="progressBarDiv" style={{position:"relative",width:"100%",borderRadius:"5px"}}>
 				<ProgressBar
 				    percent={currentPercentage}
 				    height={30}

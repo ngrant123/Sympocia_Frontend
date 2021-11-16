@@ -37,6 +37,28 @@ const Container=styled.div`
 	padding:10px;
 	margin-right:25px;
 
+	@media screen and (max-width:1370px){
+		width:250px;
+		height:240px;	
+		margin-right:5px;	
+	}
+
+	@media screen and (max-width:650px){
+		width:150px;
+		height:140px;	
+		margin-right:5px;	
+	}
+
+
+    @media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
+		width:250px;
+		height:240px;
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+   		width:150px;
+		height:140px;	
+    }
 `;
 
 // ${({triggerTokenIncreaseUI})=>{
@@ -84,6 +106,11 @@ const MinifiedTokenDisplay=styled.div`
 	border-radius:5px;
 	cursor:pointer;
 	box-shadow: 1px 1px 10px #707070;
+
+
+	@media screen and (max-width:650px){
+		right:-40;
+	}
 `;
 
 const InnerTokenCSS={
@@ -96,7 +123,9 @@ const InnerTokenCSS={
 	display:"flex",
 	justifyContent:"center",
 	alignItems:"center",
-	cursor:"pointer"
+	cursor:"pointer",
+	position:"relative",
+	zIndex:0
 }
 
 const TokenDisplay=({targetDom})=>{
@@ -146,6 +175,7 @@ const TokenDisplay=({targetDom})=>{
 						component=<TokenLevelDetails
 									tokenScore={tokenScore}
 									tokenLevel={tokenLevel}
+									closeModal={hideTokenDetails}
 								  />
 					/>
 				)}
@@ -192,15 +222,13 @@ const TokenDisplay=({targetDom})=>{
 
 					<Bubbles/>
 					<div style={InnerTokenCSS} onClick={()=>changeDisplayTokenLevelDetailsModal(true)}>
-						<div style={{display:"flex",justifyContent:"center",alignItems:"center",position:"relative",textAlign:"center",borderRadius:"50%",padding:"10px"}}>
-							<img src={VideoCallImage5} style={{width:"90%",height:"90%",borderRadius:"50%"}}/>
-							{isLoading==false &&(
-								<Waves
-									tokenScore={tokenScore}
-									maxTokenScore={maxTokenScore}
-								/>
-							)}
-						</div>
+						<img src={VideoCallImage5} style={{width:"90%",height:"90%",borderRadius:"50%"}}/>
+						{isLoading==false &&(
+							<Waves
+								tokenScore={tokenScore}
+								maxTokenScore={maxTokenScore}
+							/>
+						)}
 					</div>
 				</Container>
 			}

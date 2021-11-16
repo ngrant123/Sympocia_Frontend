@@ -1,7 +1,9 @@
 import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
-import VideoCallImage5 from "../../../../../designs/background/AiyanahFullInterview.png";
+import GoldStampIcon from "../../../../../designs/img/GoldStampIcon.png";
+import SilverStampIcon from "../../../../../designs/img/SilverStampIcon.png";
+import BronzeStampIcon from "../../../../../designs/img/BronzeStampIcon.png";
 
 const Container=styled.div`
 	position:fixed;
@@ -62,6 +64,26 @@ const options=[
 const Promotion=({closeModal,tokenLevel})=>{
 	const [unlockedFeaturesDescriptionPage,changeUnlockedFeaturesDescriptionPage]=useState(false);
 	const [featuresExplanation,changeFeaturesExplanation]=useState();
+	const [promotionIconTier,changePromotionIconTier]=useState();
+
+	useEffect(()=>{
+		switch(tokenLevel){
+			case "Bronze":{
+				changePromotionIconTier(BronzeStampIcon);
+				break;
+			}
+
+			case "Silver":{
+				changePromotionIconTier(SilverStampIcon);
+				break;
+			}
+
+			case "Gold":{
+				changePromotionIconTier(GoldStampIcon);
+				break;
+			}
+		}
+	},[]);
 
 	const displayUnlockedFeaturesBreakDown=()=>{
 		debugger;
@@ -113,7 +135,7 @@ const Promotion=({closeModal,tokenLevel})=>{
 						</ul>
 					</div>:
 					<React.Fragment>
-						<img src={VideoCallImage5} 
+						<img src={promotionIconTier} 
 							style={{width:"55%",height:"90%",borderRadius:"50%",marginBottom:"5%"}}
 						/>
 						<p style={{width:"70%",marginBottom:"20%"}}>

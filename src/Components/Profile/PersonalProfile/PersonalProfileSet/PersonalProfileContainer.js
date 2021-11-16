@@ -2,7 +2,10 @@ import React, {Component } from 'react'
 import { GeneralNavBar } from "../../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import {PersonalInformation} from "../PersonalProfileSubset/PersonalDetails/PersonalInformation.js";
 import {connect} from 'react-redux';
-import { getProfile } from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import { 
+	getProfile,
+	retrieveProfileTokenInformation
+} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 
 import { UserProvider } from "../UserContext.js";
 //import BIRDS from '../../../../../vanta/src/vanta.birds.js'
@@ -731,10 +734,24 @@ class LProfile extends Component{
 		})
 	}
 
-	displayTokenLevelDetails=()=>{
-		this.setState({
-			displayTokenLevelDetails:true
-		})
+	displayTokenLevelDetails=async()=>{
+		const {confirmation,data}=await retrieveProfileTokenInformation(this.state.userProfile._id);
+			if(confirmation=="Success"){
+				const {message}=data;
+				const {
+					tokenScore,
+					maxLevelScore,
+					tokenLevel,
+					ascensionStatus
+				}=message;
+				this.setState({
+					displayTokenLevelDetails:true,
+					tokenScore,
+					tokenLevel
+				});
+			}else{
+				alert("Unfortunately there has been an error when retrieving your token information. Please try again");
+			}
 	}
 
 	handleTokenLevelDetailsDisplay=()=>{
@@ -744,7 +761,11 @@ class LProfile extends Component{
 					<TokenPortalHOC
 						targetDom={"personalContainer"}
 						closeModal={this.hideTokenLevelDetails}
-						component=<TokenLevelDetails/>
+						component=<TokenLevelDetails
+									tokenScore={this.state.tokenScore}
+									tokenLevel={this.state.tokenLevel}
+									closeModal={this.hideTokenLevelDetails}
+								  />
 					/>
 				)}
 			</React.Fragment>

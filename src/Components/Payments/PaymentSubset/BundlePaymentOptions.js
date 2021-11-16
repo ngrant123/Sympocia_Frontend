@@ -2,18 +2,33 @@ import React,{useEffect} from "react";
 import styled from "styled-components";
 import Checkout from "../PaymentSet/Modals-Portals/Checkout.js";
 
+const Container=styled.div`
+	display:flex;
+	flex-direction:row;
+	margin-top:2%;
+
+	@media screen and (max-width:1370px){
+		flex-direction:column;
+		#card{
+			margin-bottom:5%;
+			width:95% !important;
+		}
+
+		#cardHorizontalLine{
+			display:block !important;
+		}
+	}
+`;
+
 const CardCSS={
 	position:"relative",
-	width:"30%",
+	width:"60%",
 	backgroundColor:"white",
 	marginRight:"2%",
 	borderRadius:"5px",
 	boxShadow:"1px 1px 5px #6e6e6e",
-	heigh:"50%",
-	listStyle:"none",
-	display:"inline-block",
-	overflow:"hidden",
-	top:"0%"
+	height:"50%",
+	overflow:"hidden"
 }
 
 
@@ -21,6 +36,11 @@ const HorizontalLineCSS={
 	marginLeft:"0",
 	marginRight:"0",
 	width:"100%"
+}
+
+const CardHorizontalLineCSS={
+	...HorizontalLineCSS,
+	display:"none"
 }
 
 const ProceedButton={
@@ -97,7 +117,7 @@ const PaymentOptions=()=>{
 
 	const paymentCard=({tier,offers,price})=>{
 		return(
-			<li style={CardCSS}>
+			<div id="card" style={CardCSS}>
 				<div style={{display:"flex",flexDirection:"column",alignItems:"center",padding:"5%"}}>
 					<p style={{color:"#C8B0F4",fontSize:"24px"}}>
 						<b>{tier}</b>
@@ -116,17 +136,18 @@ const PaymentOptions=()=>{
 						tokenTier={tier}
 					/>
 				</div>
-			</li>
+			</div>
 		)
 	}
 	return(
-		<React.Fragment>
-			<ul style={{padding:"0px",paddingBottom:"10%"}}>
-				{options.map(data=>
-					<>{paymentCard(data)}</>
-				)}
-			</ul>
-		</React.Fragment>
+		<Container>
+			{options.map(data=>
+				<>
+					{paymentCard(data)}
+					<hr id="cardHorizontalLine" style={CardHorizontalLineCSS}/>
+				</>
+			)}
+		</Container>
 	)
 }
 

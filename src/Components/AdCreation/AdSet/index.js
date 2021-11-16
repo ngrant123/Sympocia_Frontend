@@ -26,6 +26,16 @@ const AdsContainer=styled.div`
 	flex-direction:column;
 	justify-content:center;
 	align-items:center;
+
+	@media screen and (max-width:1370px){
+		justify-content:flex-start;
+		align-items:start;
+		margin-top:10%;
+	}
+
+	@media screen and (max-width:650px){
+		margin-top:20%;
+	}
 `;
 
 
@@ -123,14 +133,16 @@ const Ads=(props)=>{
 						<li style={{cursor:"pointer"}} onClick={()=>changeDisplayAdOptionType("Ads")}>
 							Current Ads 
 						</li>
-						<hr/>	
 						{adCreationVerificationLoading==true?
 							<p> Loading...</p>:
 							<React.Fragment>
 								{isAdCreationAllowed==true &&(
-									<li style={{cursor:"pointer"}} onClick={()=>changeDisplayAdOptionType("Creation")}>
-										Create
-									</li>	
+									<React.Fragment>
+										<hr/>	
+										<li style={{cursor:"pointer"}} onClick={()=>changeDisplayAdOptionType("Creation")}>
+											Create
+										</li>	
+									</React.Fragment>
 								)}
 							</React.Fragment>
 						}

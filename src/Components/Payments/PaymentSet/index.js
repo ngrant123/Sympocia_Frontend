@@ -13,10 +13,26 @@ const Container=styled.div`
 	height:100%;
 `;
 const PaymentOptionsContainer=styled.div`
+	position:relative;
 	width:100%;
 	height:80%;
-	margin-top:5%;
+	top:40px;
+	left:0%;
 	padding:5%;
+
+	@media screen and (max-width:1370px){
+		top:60px;
+	}
+	
+	@media screen and (max-width:650px){
+		top:90px;
+		#selectItemsDropDownExplanation{
+			margin-left:-230px !important;
+		}
+		#bundleItemsDropDownExplanation{
+			margin-left:-70px !important;
+		}
+	}
 `;
 
 const PaymentOptionCSS={
@@ -120,7 +136,7 @@ const Payment=(props)=>{
 					}}	
 				/>	
 			</div>
-			<div style={{position:"absolute",top:"0%"}}>
+			<div style={{position:"absolute",top:"0%",width:"100%"}}>
 				<GeneralNavBar
 					page={"PaymentPage"}
 					routerHistory={props.history}
@@ -143,7 +159,8 @@ const Payment=(props)=>{
 										style={{fontSize:"24"}}
 									/>
 								</button>
-								<ul class="dropdown-menu" style={{padding:"25px",width:"300px"}}>
+								<ul id="bundleItemsDropDownExplanation" class="dropdown-menu" 
+									style={{padding:"25px",width:"300px"}}>
 									<li style={{cursor:"pointer"}}>
 										Bundles give you an opportunity  to purchase items at a more cheaper cost 
 										than if you were to buy them standalone but after a month these features you
@@ -164,7 +181,8 @@ const Payment=(props)=>{
 										style={{fontSize:"24"}}
 									/>
 								</button>
-								<ul class="dropdown-menu" style={{padding:"25px",width:"300px"}}>
+								<ul id="selectItemsDropDownExplanation" class="dropdown-menu"
+								 	style={{padding:"25px",width:"300px"}}>
 									<li style={{cursor:"pointer"}}>
 										Each selected item is a one time fee for unlimited time for now. Ads have a duration
 										of a week.

@@ -10,7 +10,21 @@ import {PostAdsProvider} from "./PostAdsContext.js";
 
 
 const Container=styled.div`
+	position:relative;
 	width:35%;
+	@media screen and (max-width:1370px){
+		width:100% !important;
+	}
+
+	@media screen and (max-width:650px){
+		#postOptions{
+			flex-wrap:wrap;
+		}
+
+		#adStatusDropDown{
+			margin-top:2% !important;
+		}
+	}
 `;
 
 const ButtonCSS={
@@ -162,7 +176,7 @@ const Ads=()=>{
 						<p style={{marginBottom:"2%",fontSize:"18px"}}>
 							<b>Select which of your current ad you want to analyze</b>
 						</p>
-						<div style={PostOptionsCSS}>
+						<div id="postOptions" style={PostOptionsCSS}>
 							<div style={postDisplay=="Images"?SelectedButtonCSS:UnSelectedButtonCSS} 
 								onClick={()=>triggerFetchNewPosts("Images")}>
 								Images
@@ -180,7 +194,7 @@ const Ads=()=>{
 								Text
 							</div>
 
-							<div class="btn-group">
+							<div class="btn-group" id="adStatusDropDown">
 								<button class="btn btn-primary dropdown-toggle" type="button" 
 									data-toggle="dropdown" style={ClearFeedPostOptions}>
 									{currentAdStatus}

@@ -639,9 +639,9 @@ const NodeInformationPortal=({
 								)}
 							</>:
 							<>
-								{(displayNodeInformation==true && nodeInformation.nodeCounter!=0)==false ?
-									<div style={{...ButtonCSS,width:"20%"}}>
-										<p>Node Design</p>
+								{nodeInformation.isFirstNode==true?
+									<div style={ButtonCSS}>
+										Node Design
 									</div>:
 									<div class="btn-group">
 										<button class="btn btn-primary dropdown-toggle" type="button" 
@@ -665,6 +665,7 @@ const NodeInformationPortal=({
 										</ul>
 									</div>	
 								}
+
 
 								{(displayNodeInformation==true && nodeInformation.nodeCounter!=0)==true?
 									<React.Fragment>

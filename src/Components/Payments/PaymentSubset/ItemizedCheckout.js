@@ -17,6 +17,19 @@ const Container=styled.div`
 	border-radius:5px;
 	flex-wrap:wrap;
 	padding:5%;
+
+	@media screen and (max-width:1370px){
+		#itemizedPaymentOption{
+			width:250px !important;
+		}
+	}
+
+	@media screen and (max-width:650px){
+		background-color:white;
+		#itemizedPaymentOption{
+			width:95% !important;
+		}
+	}
 `;
 
 const ItemizedResultCSS={
@@ -43,6 +56,7 @@ const ItemizedCheckout=()=>{
 	const [displayCheckoutModal,changeDisplayCheckoutModal]=useState(false);
 	const [currentSelectedItem,changeCurrentSelectedItem]=useState();
 	const [itemizedOptions,changeItemizedOptions]=useState([]);
+	const [isPhoneUIEnabled,changePhoneUIStatus]=useState(false);
 
 	useEffect(()=>{
 		const fetchData=async()=>{
@@ -55,7 +69,14 @@ const ItemizedCheckout=()=>{
 			}
 		}
 		fetchData();
+		triggerUIChange();
 	},[]);
+
+	const triggerUIChange=()=>{
+		if(window.innerWidth<670){
+			changePhoneUIStatus(true);
+		}
+	}
 
 
 
@@ -77,11 +98,12 @@ const ItemizedCheckout=()=>{
 				<ItemizedCheckoutModal
 					item={currentSelectedItem}
 					unMountItemCheckoutModal={unMountItemCheckoutModal}
+					isPhoneUIEnabled={isPhoneUIEnabled}
 				/>
 			)}
 			<Container>
 				{itemizedOptions.map(data=>
-					<div style={ItemizedResultCSS} onClick={()=>triggerAddItemToCheckout(data)}>
+					<div id="itemizedPaymentOption" style={ItemizedResultCSS} onClick={()=>triggerAddItemToCheckout(data)}>
 						<div style={{display:"flex",flexDirection:"column"}}>
 							<p>{data.offer}</p>
 							<hr style={HorizontalLineCSS}/>
