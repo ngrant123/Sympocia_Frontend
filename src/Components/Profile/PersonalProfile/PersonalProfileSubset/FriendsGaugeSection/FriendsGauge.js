@@ -314,9 +314,9 @@ class FriendsGauge extends Component {
       })
   }
 
-  addNode=(data)=>{
-    
-    if(this.state.nodes.length==3){
+  addNode=(data,isMaxAllowed)=>{
+    debugger;
+    if(this.state.nodes.length==3 && isMaxAllowed==false){
       alert('Maximum nodes is 3 :( Please delete one');
     }else{
       var currentNodes=this.state.nodes;
@@ -346,9 +346,9 @@ class FriendsGauge extends Component {
   }
 
   implementAction=(action)=>{
-    const {actionType,node}=action;
+    const {actionType,node,isMaxAllowed}=action;
     if(actionType=="Add"){  
-        this.addNode(node);
+        this.addNode(node,isMaxAllowed);
     }else{
         this.removeNode(node);
     }

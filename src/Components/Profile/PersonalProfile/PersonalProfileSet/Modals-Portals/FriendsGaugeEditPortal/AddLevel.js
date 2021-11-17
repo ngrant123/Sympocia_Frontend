@@ -234,7 +234,8 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 			}
 			const addNodeAction={
 				actionType:"Add",
-				node:newNode
+				node:newNode,
+				isMaxAllowed:isMaxNodesReached==5?true:false
 			}
 			closeModal(addNodeAction);
 		}else{

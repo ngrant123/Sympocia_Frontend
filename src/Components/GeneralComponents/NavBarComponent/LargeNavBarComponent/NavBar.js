@@ -482,6 +482,15 @@ const NavBar=(pageProps)=>{
 							
 							<hr/>
 							<li>
+								<Link to='/payment'>Payment Options</Link>
+							</li>
+							<li>
+								<Link to='/ad'>Ads</Link>
+							</li>
+							
+
+							<hr/>
+							<li>
 								<Link to={{pathname:`/logout`,state:{isLoggedOut:true}}}>
 									Logout
 								</Link>

@@ -16,6 +16,14 @@ const Container=styled.div`
 	border-radius:5px;
 	overflow-y:auto;
 	padding:5%;
+
+	@media screen and (max-width:650px){
+		width:100%;
+		height:100%;
+		top:0%;
+		left:0%;
+		justify-content:flex-start;
+	} 
 `;
 
 const UnlockedFeaturesCSS={

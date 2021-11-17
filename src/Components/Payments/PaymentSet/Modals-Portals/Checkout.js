@@ -19,22 +19,36 @@ const Checkout=({paymentValue,tokenTier,itemizedIds,unMountItemCheckoutModal})=>
 			email,
 			id
 		}=tokenInformation;
-		const itemIds=[];
-		for(var i=0;i<itemizedIds.length;i++){
-			itemIds.push(itemizedIds[i]._id);
+		let chargeInformation={};
+		if(itemizedIds==null){
+			chargeInformation={
+				itemizedIds:null
+			}
+		}else{
+			const itemIds=[];
+			for(var i=0;i<itemizedIds.length;i++){
+				itemIds.push(itemizedIds[i]._id);
+			}
+
+			chargeInformation={
+				itemizedIds:itemIds
+			}
 		}
 
-		const chargeInformation={
+		chargeInformation={
+			...chargeInformation,
 			stripeConfirmationId:id,
 			email,
-			itemizedIds:itemIds,
             userId,
             tokenTier,
             paymentPrice:paymentValue
 		}
+
 		const {confirmation,data}=await createCharge(chargeInformation);
 		if(confirmation=="Success"){
-			unMountItemCheckoutModal();
+			if(unMountItemCheckoutModal!=null){
+				unMountItemCheckoutModal();
+			}
 			alert("Payment secured. Enjoy your features");
 		}else{
 			alert("Unfortunately there has been an error when processing your transaction. Please try again");

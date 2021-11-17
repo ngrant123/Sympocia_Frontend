@@ -2,7 +2,6 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import { GeneralNavBar } from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import AdContent from "../AdSubset/index.js";
-import StampIcon from "../../../designs/img/StampIcon.png";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {
 	getProfilePicture,
@@ -10,6 +9,8 @@ import {
 } from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {useSelector} from "react-redux";
 import {AdProvider} from "./AdContext.js";
+import NoProfilePicture from "../../../designs/img/NoProfilePicture.png";
+import {Link} from "react-router-dom";
 
 const Container=styled.div`
 	position:absolute;
@@ -34,12 +35,12 @@ const AdsContainer=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		margin-top:20%;
+		margin-top:25%;
 	}
 `;
 
 
-const ClearFeedPostOptions={
+const ButtonCSS={
 	borderColor:"#D0D0D0",
 	borderStyle:"solid",
 	borderWidth:"1px",
@@ -97,6 +98,7 @@ const Ads=(props)=>{
 			const {confirmation,data}=await adPageVerification(id);
 			if(confirmation=="Success"){
 				const {message}=data;
+				console.log(data);
 				if(message){
 					changeIsAdCreationAllowed(true);
 				}
@@ -113,14 +115,17 @@ const Ads=(props)=>{
 	const userInformation=()=>{
 		return(
 			<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-				<img src={userProfilePicture} style={{width:"60px",height:"60px",borderRadius:"50%",marginRight:"1%"}}/>
+				<img src={userProfilePicture==null?
+					NoProfilePicture:userProfilePicture} 
+					style={{width:"60px",height:"50px",borderRadius:"50%",marginRight:"1%"}}
+				/>
 				<p>
 					<b>{firstName}</b>
 				</p>
 				<div style={VerticalLineCSS}/>
 				<div class="btn-group">
 					<button class="btn btn-primary dropdown-toggle" type="button" 
-						data-toggle="dropdown" style={ClearFeedPostOptions}>
+						data-toggle="dropdown" style={ButtonCSS}>
 						{adDisplayOptionType=="Ads"?
 							<>Current Ads </>:
 							<>Create</>
@@ -170,11 +175,26 @@ const Ads=(props)=>{
 				/>
 
 				<AdsContainer>
-					{userInformation()}
-					<hr style={HorizontalLineCSS}/>
-					<AdContent
-						adDisplayOptionType={adDisplayOptionType}
-					/>
+					{isAdCreationAllowed==false?
+						<div>
+							<p>
+								Unfortunately you have not unlocked the option to create an ad. 
+								You can access this option through the payment page.
+							</p>
+							<div style={ButtonCSS}>
+								<Link to={{pathname:"/payment"}}>
+									<p>Proceed to payment page</p>
+								</Link>
+							</div>
+						</div>:
+						<React.Fragment>
+							{userInformation()}
+							<hr style={HorizontalLineCSS}/>
+							<AdContent
+								adDisplayOptionType={adDisplayOptionType}
+							/>
+						</React.Fragment>
+					}
 				</AdsContainer>
 			</Container>
 		</AdProvider>

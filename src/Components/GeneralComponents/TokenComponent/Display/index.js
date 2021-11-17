@@ -1,17 +1,21 @@
 import React,{useState,useEffect} from "react";
 import styled,{keyframes,css} from "styled-components";
 import {createPortal} from "react-dom";
-import VideoCallImage5 from "../../../../designs/background/AiyanahFullInterview.png";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import Bubbles from "./Bubbles.js";
 import Waves from "./WaveDisplay.js";
 import ClearIcon from '@material-ui/icons/Clear';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
-import {retrieveProfileTokenInformation} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {
+	retrieveProfileTokenInformation,
+	getProfilePicture
+} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {toggleOffAscensionStatusIndicator} from "../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {useSelector} from "react-redux";
 import PortalHOC from "../Modals/index.js";
 import TokenLevelDetails from "../Modals/TokenLevelDetails/index.js";
 import Promotion from "../Modals/Promotion/index.js";
+
 
 const keyFrameOsicallating1=keyframes`
 	0% {
@@ -137,29 +141,44 @@ const TokenDisplay=({targetDom})=>{
 	const [isLoading,changeIsLoadingStatus]=useState(true);
 	const [displayTokenLevelDetailsModal,changeDisplayTokenLevelDetailsModal]=useState(false);
 	const [displayPromotion,changeDisplayPromotion]=useState(false);
-	const userId=useSelector(state=>state.personalInformation.id);
+	const [profilePicture,changeProfilePicture]=useState();
+	const {
+		isGuestProfile,
+		id
+	}=useSelector(state=>state.personalInformation);
+	const guestProfileStatus=(isGuestProfile==true || id=="0")?true:false;
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			const {confirmation,data}=await retrieveProfileTokenInformation(userId);
-			if(confirmation=="Success"){
-				const {message}=data;
-				const {
-					tokenScore,
-					maxLevelScore,
-					tokenLevel,
-					ascensionStatus
-				}=message;
-				changeDisplayPromotion(ascensionStatus);
-				changeTokenLevel(tokenLevel);
-				changeTokenScore(tokenScore);
-				changeMaxTokenScore(maxLevelScore);
-			}else{
-				alert("Unfortunately there has been an error when retrieving your token information. Please try again");
+			if(!guestProfileStatus){
+				const {confirmation,data}=await retrieveProfileTokenInformation(id);
+				if(confirmation=="Success"){
+					const {message}=data;
+					const {
+						tokenScore,
+						maxLevelScore,
+						tokenLevel,
+						ascensionStatus
+					}=message;
+					changeDisplayPromotion(ascensionStatus);
+					changeTokenLevel(tokenLevel);
+					changeTokenScore(tokenScore);
+					changeMaxTokenScore(maxLevelScore);
+				}else{
+					alert("Unfortunately there has been an error when retrieving your token information. Please try again");
+				}
+				changeIsLoadingStatus(false);
 			}
-			changeIsLoadingStatus(false);
+		}
+
+		const fetchProfilePicture=async()=>{
+			const {confirmation,data}=await getProfilePicture(id);
+			if(confirmation=="Success"){
+				changeProfilePicture(data);
+			}
 		}
 		fetchData();
+		fetchProfilePicture();
 	},[]);
 
 	const hideTokenDetails=()=>{
@@ -185,7 +204,7 @@ const TokenDisplay=({targetDom})=>{
 
 	const hidePromotionDetails=()=>{
 		changeDisplayPromotion(false);
-		toggleOffAscensionStatusIndicator(userId);
+		toggleOffAscensionStatusIndicator(id);
 	}
 
 	const displayPromotionDetails=()=>{
@@ -207,31 +226,38 @@ const TokenDisplay=({targetDom})=>{
 
 	return createPortal(
 		<React.Fragment>
-			{displayPromotionDetails()}
-			{displayTokenLevelDetails()}
-			{displayMinifiedToken==true?
-				<MinifiedTokenDisplay onClick={()=>changeDisplayMinifiedToken(false)}>
-					<ArrowLeftIcon
-						style={{fontSize:"40"}}
-					/>
-				</MinifiedTokenDisplay>:
-				<Container>
-					<CloseTokenDisplay onClick={()=>changeDisplayMinifiedToken(true)}>
-						<ClearIcon/>
-					</CloseTokenDisplay>
-
-					<Bubbles/>
-					<div style={InnerTokenCSS} onClick={()=>changeDisplayTokenLevelDetailsModal(true)}>
-						<img src={VideoCallImage5} style={{width:"90%",height:"90%",borderRadius:"50%"}}/>
-						{isLoading==false &&(
-							<Waves
-								tokenScore={tokenScore}
-								maxTokenScore={maxTokenScore}
+			{guestProfileStatus==false &&(
+				<React.Fragment>
+					{displayPromotionDetails()}
+					{displayTokenLevelDetails()}
+					{displayMinifiedToken==true?
+						<MinifiedTokenDisplay onClick={()=>changeDisplayMinifiedToken(false)}>
+							<ArrowLeftIcon
+								style={{fontSize:"40"}}
 							/>
-						)}
-					</div>
-				</Container>
-			}
+						</MinifiedTokenDisplay>:
+						<Container>
+							<CloseTokenDisplay onClick={()=>changeDisplayMinifiedToken(true)}>
+								<ClearIcon/>
+							</CloseTokenDisplay>
+
+							<Bubbles/>
+							<div style={InnerTokenCSS} onClick={()=>changeDisplayTokenLevelDetailsModal(true)}>
+								<img src={profilePicture==null?NoProfilePicture:profilePicture} 
+									style={{width:"90%",height:"90%",borderRadius:"50%"}}
+								/>
+								{isLoading==false &&(
+									<Waves
+										tokenScore={tokenScore}
+										maxTokenScore={maxTokenScore}
+									/>
+								)}
+							</div>
+						</Container>
+					}
+				</React.Fragment>
+
+			)}
 		</React.Fragment>
 	,document.getElementById(targetDom))
 }

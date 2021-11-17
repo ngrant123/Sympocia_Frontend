@@ -116,7 +116,7 @@ const TokenLevelDetails=({tokenScore,tokenLevel,closeModal})=>{
 
 	const triggerProgressBarCompletion=()=>{
 		debugger;
-		const normalizedTokenScore=Math.floor((tokenScore/1000)*100)-10;
+		const normalizedTokenScore=Math.floor((tokenScore/1000)*100)-(tokenLevel=="Gold"?0:10);
 		console.log(normalizedTokenScore);
 		setTimeout(()=>{
 	        while(currentPercentage<normalizedTokenScore){

@@ -24,7 +24,12 @@ const Container=styled.div`
 		#adStatusDropDown{
 			margin-top:2% !important;
 		}
+
+		#adStatusDropDown{
+			margin-left:-70px !important;
+		}
 	}
+
 `;
 
 const ButtonCSS={
@@ -143,9 +148,10 @@ const Ads=()=>{
 	}
 
 	const triggerRemovePost=(postId)=>{
+		debugger;
 		let currentPosts=posts;
 		for(let i=0;i<currentPosts.length;i++){
-			if(currentPosts._id==postId){
+			if(currentPosts[i]._id==postId){
 				currentPosts.splice(i,1);
 				break;
 			}
@@ -158,7 +164,7 @@ const Ads=()=>{
 		<PostAdsProvider
 			value={{
 				removePost:(postId)=>{
-					triggerRemovePost();
+					triggerRemovePost(postId);
 				}			
 			}}
 		>
@@ -202,7 +208,7 @@ const Ads=()=>{
 										style={{fontSize:"15",color:"7C7C7C",marginLeft:"10px"}}
 									/>
 								</button>
-								<ul class="dropdown-menu" style={{padding:"10px"}}>
+								<ul id="adStatusDropDown" class="dropdown-menu" style={{padding:"10px"}}>
 									<li style={{cursor:"pointer"}} 
 										onClick={()=>triggerFetchSpecifiedAdStatusPosts("Active")}>
 										Active
@@ -213,10 +219,12 @@ const Ads=()=>{
 										Paused
 									</li>
 									<hr/>	
-									<li style={{cursor:"pointer"}}
-										onClick={()=>triggerFetchSpecifiedAdStatusPosts("Terminated")}>
-										Terminated
-									</li>	
+									{/*
+										<li style={{cursor:"pointer"}}
+											onClick={()=>triggerFetchSpecifiedAdStatusPosts("Terminated")}>
+											Terminated
+										</li>	
+									*/}
 								</ul>
 							</div>	
 						</div>

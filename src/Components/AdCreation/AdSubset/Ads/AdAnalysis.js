@@ -18,6 +18,36 @@ const Container=styled.div`
 	flex-direction:column;
 	padding-bottom:10%;
 	width:100%;
+
+	@media screen and (max-width:650px){
+		#postContainer{
+			flex-direction:column !important;
+		}
+		#image{
+			width:90% !important;
+			height:25% !important;
+		}
+		#postText{
+			margin-left:0% !important;
+			margin-top:2% !important;
+		}
+
+		#text{
+			font-size:15px !important;
+		}
+
+		#post{
+			width:100% !important;
+		}
+
+		#backButton{
+			width:20% !important;
+		}
+
+		#videoElement{
+			width:100% !important;
+		}
+	}
 `;
 
 const PeopleContainer =styled(Link)`
@@ -175,43 +205,59 @@ const AdAnalysis=({postData,postDisplayType,closeAnalysis,userId})=>{
 		});
 	}
 
+	const expirationDate=()=>{
+		return(
+			<React.Fragment>
+				{adStatistics.adStatus=="Paused"?
+					<p>Paused</p>:
+					<>{new Date(adStatistics.expirationDate).toLocaleString()}</>
+				}
+			</React.Fragment>
+		)
+	}
 	const statistics=()=>{
 		return(
-			<div style={{display:"flex",flexDirection:"row"}}>
-				<div style={{display:"flex",flexDirection:"column"}}>
-					<div style={StatisDisplayButtonCSS}>
-						Interactions
-					</div>
+			<React.Fragment>
+				<div style={{display:"flex",flexDirection:"row"}}>
+					<div style={{display:"flex",flexDirection:"column"}}>
+						<div style={StatisDisplayButtonCSS}>
+							Interactions
+						</div>
 
-					<p style={{fontSize:"36px"}}>
-						<b>{adStatistics.profilesInteracted.length}</b>
-					</p>
-				</div>
-				<div style={VerticalLineCSS}/>
-				<div style={{display:"flex",flexDirection:"column"}}>
-					<div style={StatisDisplayButtonCSS}>
-						Clicks
+						<p style={{fontSize:"36px"}}>
+							<b>{adStatistics.profilesInteracted.length}</b>
+						</p>
 					</div>
+					<div style={VerticalLineCSS}/>
+					<div style={{display:"flex",flexDirection:"column"}}>
+						<div style={StatisDisplayButtonCSS}>
+							Clicks
+						</div>
 
-					<p style={{fontSize:"36px"}}>
-						<b>{adStatistics.profilesClicked}</b>
-					</p>
+						<p style={{fontSize:"36px"}}>
+							<b>{adStatistics.profilesClicked}</b>
+						</p>
+					</div>
 				</div>
-			</div>
+				<p style={{color:"#F00404"}}>
+					<b>Expiration Date:{expirationDate()}</b>
+				</p>
+			</React.Fragment>
 		)
 	}
 
 	const image=()=>{
 		return(
 			<React.Fragment>
-				<img src={postData.imgUrl} style={{width:"400px",height:"350px",borderRadius:"5px"}}/>
-				<div style={{display:"flex",flexDirection:"column",marginLeft:"5%",justifyContent:"space-between"}}>
+				<img id="image" src={postData.imgUrl} style={{width:"400px",height:"350px",borderRadius:"5px"}}/>
+				<div id="postText" 
+					style={{display:"flex",flexDirection:"column",marginLeft:"5%",justifyContent:"space-between"}}>
 					<div style={{display:"flex",flexDirection:"column"}}>
-						<p style={{fontSize:"24px",marginBottom:"5%"}}>
+						<p id="text" style={{fontSize:"24px",marginBottom:"5%"}}>
 							<b>{postData.caption}</b>
 						</p>
 
-						<p style={{fontSize:"18px"}}>{postData.description}</p>
+						<p id="text" style={{fontSize:"18px"}}>{postData.description}</p>
 					</div>
 					{statistics()}
 				</div>
@@ -222,14 +268,15 @@ const AdAnalysis=({postData,postDisplayType,closeAnalysis,userId})=>{
 	const blog=()=>{
 		return(
 			<React.Fragment>
-				<img src={postData.blogImageUrl} style={{width:"400px",height:"350px",borderRadius:"5px"}}/>
-				<div style={{display:"flex",flexDirection:"column",marginLeft:"5%",justifyContent:"space-between"}}>
+				<img id="image" src={postData.blogImageUrl} style={{width:"400px",height:"350px",borderRadius:"5px"}}/>
+				<div id="postText" 
+					style={{display:"flex",flexDirection:"column",marginLeft:"5%",justifyContent:"space-between"}}>
 					<div style={{display:"flex",flexDirection:"column"}}>
-						<p style={{fontSize:"24px",marginBottom:"5%"}}>
+						<p id="text" style={{fontSize:"24px",marginBottom:"5%"}}>
 							<b>{postData.title}</b>
 						</p>
 
-						<p style={{fontSize:"18px"}}>{postData.description}</p>
+						<p id="text" style={{fontSize:"18px"}}>{postData.description}</p>
 					</div>
 					{statistics()}
 				</div>
@@ -258,7 +305,7 @@ const AdAnalysis=({postData,postDisplayType,closeAnalysis,userId})=>{
 	const video=()=>{
 		return(
 			<React.Fragment>
-				<video key={uuid()} autoPlay loop autoBuffer muted playsInline 
+				<video id="videoElement" key={uuid()} autoPlay loop autoBuffer muted playsInline 
 					width="40%" height="20%" style={{borderRadius:"5px",backgroundColor:"#151515"}}>
 					<source src={postData.videoUrl} type="video/mp4"/>
 				</video>
@@ -348,7 +395,7 @@ const AdAnalysis=({postData,postDisplayType,closeAnalysis,userId})=>{
 			{pausePortal()}
 
 			<Container>
-				<div style={BackButtonCSS} onClick={()=>closeAnalysis()}>
+				<div id="backButton" style={BackButtonCSS} onClick={()=>closeAnalysis()}>
 					Back
 				</div>
 				{loading==true?
@@ -373,7 +420,7 @@ const AdAnalysis=({postData,postDisplayType,closeAnalysis,userId})=>{
 							</div>
 
 						</div>
-						<div style={{display:"flex",flexDirection:"row"}}>
+						<div id="postContainer" style={{display:"flex",flexDirection:"row"}}>
 							{post()}
 						</div>
 						<hr style={HorizontalLineCSS}/>
