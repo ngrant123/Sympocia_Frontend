@@ -33,6 +33,15 @@ import WhatDoesSympociaRepresent from "../../../designs/background/WhatDoesSympo
 import ExploreAndFeedRankingExplanation from "../../../designs/background/ExploreAndFeedRankingExplanation.png";
 import RankingExplanation from "./News/ExploreFeedAndRankingExplanation.js";
 
+import TokenBackgroundImg from "../../../designs/background/TokenExplanation.png";
+import TokenExplanation from "./News/TokenExplanation.js";
+
+import PaymentExplanation from "./News/PaymentExplanation.js";
+import PaymentBackgroundImg from "../../../designs/background/PaymentExplanation.png";
+
+import AdBackgroundImg from "../../../designs/background/AdExplanation.png";
+import AdExplanation from "./News/AdExplanation.js";
+
 import {addUserToCommunityViewedList} from "../../../Actions/Requests/SympociaCommunity/SympociaCommunityAdapter.js";
 import {useSelector} from "react-redux";
 
@@ -89,6 +98,24 @@ const InputContainer=styled.textarea`
 const CommunityContainer=(props)=>{
 	const [displayNews,changeDisplayNews]=useState(true);
 	const [newsMapping,changeNewsMapping]=useState([
+		{
+			title:"Ads Breakdown",
+			description:"In this post I talk about ads and how they are implemented",
+			component:<AdExplanation/>,
+			headerImage:AdBackgroundImg
+		},
+		{
+			title:"Payment Features Breakdown",
+			description:"In this post I breakdown the payment plans for Sympocia and what each of them offer",
+			component:<PaymentExplanation/>,
+			headerImage:PaymentBackgroundImg
+		},
+		{
+			title:"Tokens Explanation",
+			description:"In this post I breakdown what tokens are and how they impact Sympocia",
+			component:<TokenExplanation/>,
+			headerImage:TokenBackgroundImg
+		},
 		{
 			title:"News feed and ranking algorithm",
 			description:"In this post I breakdown what the ranking system is and how your feed is created",

@@ -17,7 +17,7 @@ const FeedAndRankingExplanation=()=>{
 	return(
 		<Container>
 			<p id="headerTitle" style={{fontSize:"40px"}}>
-				<b> How do we <span style={{color:"#C8B0F4"}}>does it work</span> ?</b>
+				<b> How <span style={{color:"#C8B0F4"}}>does it work</span> ?</b>
 			</p>
 			<p id="coreContent" style={{width:"80%",fontSize:"20px",marginTop:"5%"}}>
 				Awesome so without further ado, let me talk about the ranking and recommendation algorithm. 
