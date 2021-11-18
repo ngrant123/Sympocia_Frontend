@@ -5,7 +5,7 @@ import StripeCheckout from "react-stripe-checkout";
 import {createCharge} from "../../../../Actions/Requests/PaymentAxiosRequests/PaymentPostRequests.js";
 import {useSelector} from "react-redux";
 
-const StripePublishableKey=process.env.NODE=="production"?
+const StripePublishableKey=process.env.NODE_ENV=="production"?
 	process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY:
 	process.env.REACT_APP_STRIPE_TEST_PUBLISHABLE_KEY;
 
