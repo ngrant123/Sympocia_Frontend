@@ -19,6 +19,7 @@ import ProfileSettingsModal from "../../PersonalProfileSet/Modals-Portals/Person
 import OligarchPortalDisplay from "../../PersonalProfileSet/Modals-Portals/OligarchPortal.js";
 import PaymentButton from '@material-ui/icons/MonetizationOn';
 import {adPageVerification} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import FriendsGaugeBadgeEntrance from "../../PersonalProfileSet/Modals-Portals/FriendsGaugeBadgePortal/index.js";
 
 import {UserContext} from "../../UserContext.js";
 
@@ -312,6 +313,7 @@ const PersonalInformation=(props)=>{
 	const [displayOligarchPage,changeDisplayOligarchPage]=useState(false);
 	const [loadingPersonalInformationVerification,changePersonalInformationOptionLoadingStatus]=useState(true);
 	const [isAdOptionAllowed,changeAdAvailablityStatus]=useState(false);
+	const [displayFriendsGaugeBadge,changeFriendsGaugeBadge]=useState(false);
 
 	const userInformation=useContext(UserContext);
 
@@ -524,11 +526,16 @@ const PersonalInformation=(props)=>{
 									</FriendsAndIndustryDisplayButton>
 								</a>
 							</li>
-							<RecruitButton
-								personalInformation={personalInformation}
-								displayConfettiHandle={props.displayConfetti}
-								userId={props.userId}
-							/>
+							<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+								<RecruitButton
+									personalInformation={personalInformation}
+									displayConfettiHandle={props.displayConfetti}
+									userId={props.userId}
+								/>
+								<div class="fa fa-shield" style={{fontSize:"48px",color:"#0D0D0E",cursor:"pointer"}}
+									onClick={()=>changeFriendsGaugeBadge(true)}
+								/>
+							</div>
 
 							{personalInformation.isOwnProfile==true?
 								<li style={{listStyle:"none",marginBottom:"20px",color:"white"}}>
@@ -583,11 +590,28 @@ const PersonalInformation=(props)=>{
 		)
 	}
 
+	const closeFriendsGaugeModal=()=>{
+		changeFriendsGaugeBadge(false);
+	}
+
+	const friendsGaugeBadge=()=>{
+		return(
+			<React.Fragment>
+				{displayFriendsGaugeBadge==true &&(
+					<FriendsGaugeBadgeEntrance
+						closeModal={closeFriendsGaugeModal}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
 
 	return(
 		<Container>
 			{profileSettingsDisplay()}
 			{oligarchDisplayPage()}
+			{friendsGaugeBadge()}
 			{props.isLoading==false &&(
 				<React.Fragment>
 					{displayFriendsPortal==true &&(

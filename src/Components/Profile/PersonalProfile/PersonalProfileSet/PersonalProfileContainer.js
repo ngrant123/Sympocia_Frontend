@@ -779,6 +779,7 @@ class LProfile extends Component{
 
 			<UserProvider value={{
 					...this.state,
+					profilePicture:this.state.userProfile.profilePicture,
 					mobilePhoneUIParameters:{
 						displayPersonalInformation:this.displayPersonalInformationMobile,
 						displayChampionsModal:this.displayChampionModalTrigger,
