@@ -627,11 +627,12 @@ export const addPostBadge=async(addedPostInformation)=>{
 }
 
 
-export const editBadgeCaption=async(badgeId,profileId)=>{
+export const editBadgeCaption=async(badgeId,profileId,updatedCaption)=>{
 	try{
 		const editedBadgeResponse=await axios.post(`${CreateUrl}/editBadgeCaption`,{
 			badgeId,
-			profileId
+			profileId,
+			updatedCaption
 		})
 
 		const {data}=editedBadgeResponse;
@@ -665,6 +666,20 @@ export const removeBadge=async(badgeId,profileId)=>{
 			profileId
 		});
 		const {data}=removeBadgeResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+export const editBadgePostType=async(badgeId,requestedPostType,profileId)=>{
+	try{
+		const editedBadgePostTypeResponse=await axios.post(`${CreateUrl}/editBadgePostType`,{
+			badgeId,
+			requestedPostType,
+			profileId
+		});
+		const {data}=editedBadgePostTypeResponse;
 		return data;
 	}catch(err){
 		throw err;

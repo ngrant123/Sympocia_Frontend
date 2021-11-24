@@ -39,7 +39,8 @@ const userActionsContainer=({
 		changeDisplayPollingOptions,
 		handleRemoveImagePost,
 		changeDisplayPost,
-		promoteModal
+		promoteModal,
+		handleDisplayPostBadgeAdditionModal
 	}=actions;
 
 	const crownLogo=()=>{
@@ -107,6 +108,10 @@ const userActionsContainer=({
 						  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
 						  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
 					</svg>
+
+					<div class="fa fa-shield" onClick={()=>handleDisplayPostBadgeAdditionModal()}
+						style={{...ShadowButtonCSS,fontSize:"30px",color:"#6e6e6e",cursor:"pointer"}}
+					/>
 				</>
 			)}
 		</React.Fragment>

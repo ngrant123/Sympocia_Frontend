@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {retrieveBadgeInformation} from "../../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
-import EditBadge from "./EditBadge.js";
+import EditBadge from "./EditBadge/index.js";
 import BadgeCreation from "./BadgeCreation.js";
 
 const ShadowContainer= styled.div`
@@ -47,6 +47,7 @@ const Container=styled.div`
 		#closeModalButton{
 			display:block !important;
 		}
+	}
 
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
@@ -78,6 +79,7 @@ const BadgePortal=({closeModal,profileId})=>{
 				const {message}=data;
 				if(message!=null){
 					changeBadgeInformation(message);
+					changeDisplayEditModal(true);
 				}
 			}else{
 				alert('Unfortunately there has been an error retrieving this badge information. Please try again');
@@ -94,9 +96,11 @@ const BadgePortal=({closeModal,profileId})=>{
 					<EditBadge
 						badgeInformation={badgeInformation}
 						profileId={profileId}
+						closeParentModal={closeModal}
 					/>:
 					<BadgeCreation
 						profileId={profileId}
+						closeParentModal={closeModal}
 					/>
 				}
 			</Container>

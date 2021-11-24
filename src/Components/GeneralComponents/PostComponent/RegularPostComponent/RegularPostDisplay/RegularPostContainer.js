@@ -23,6 +23,7 @@ import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js";
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import {PostDisplayConsumer} from "../../../../Symposium/ExtendedSymposium/Posts/PostDisplay/PostDisplayContext.js";
+import PostBadgeAdditionModal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/BadgePortal/PostBadgeAddition/index.js";
 
 const Container=styled.div`
 	padding:30px;
@@ -316,6 +317,7 @@ const RegularPostContainer=(props)=>{
 	const [displayRegularPostModal,changeDisplayRegularPostModal]=useState(false);
 	const [displayStampEffect,changeDisplayStampEffect]=useState(false);
 	const [displayPollingModal,changeDisplayPollingModal]=useState(false);
+	const [displayPostBadgeAdditionPortal,changePostBadgeAdditionalDisplayPortal]=useState(false);
 
 	const [displayPostApprovalAndSymposiumInfo,changeDisplayPostApprovalAndSymposium]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
@@ -452,6 +454,10 @@ const RegularPostContainer=(props)=>{
 		changeDisplayEditPostModal(false);
 	}
 
+	const closePostBadgeAdditionalModal=()=>{
+		changePostBadgeAdditionalDisplayPortal(false);
+	}
+
 	return(
 	<PostConsumer>
 		{userPostsInformation=>(
@@ -462,6 +468,15 @@ const RegularPostContainer=(props)=>{
 							userId={personalId}
 							isGuestProfile={isGuestProfile}
 						/>
+
+						{displayPostBadgeAdditionPortal==true &&(
+							<PostBadgeAdditionModal
+								profileId={postData.owner._id==null?postData.owner:postData.owner._id}
+								closeModal={closePostBadgeAdditionalModal}
+								postType={"Text"}
+								postId={postData._id}
+							/>
+						)}
 						{displayDeleteConfirmation==true &&(
 							<DeletePostConfirmationPortal
 								postType={"Posts"}
@@ -584,7 +599,9 @@ const RegularPostContainer=(props)=>{
 																	  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
 																</svg>
 															</div>
-
+															<div class="fa fa-shield" onClick={()=>changePostBadgeAdditionalDisplayPortal(true)}
+																style={{...ShadowButtonCSS,fontSize:"30px",color:"#6e6e6e",cursor:"pointer"}}
+															/>
 														</React.Fragment>
 													)}
 													{(symposiumPostInformation!=null && symposiumPostInformation.isOligarch==true)==true &&(

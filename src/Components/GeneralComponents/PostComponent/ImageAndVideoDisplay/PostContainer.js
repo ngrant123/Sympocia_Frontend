@@ -38,6 +38,7 @@ import {OwnerInformationAndPostOptions} from "./OwnerInformationAndPostOption.js
 import {PostDisplayContainer} from "./Post.js";
 import CommentsAndAuthenticReplies from "./CommentsAndAuthenticReplies.js";
 import EditVideoModal from "../VideoComponent/VideoCreation/EditVideoModal.js";
+import PostBadgeAdditionModal from "../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/BadgePortal/PostBadgeAddition/index.js";
 
 const ButtonCSS={
   listStyle:"none",
@@ -109,6 +110,7 @@ const ImageContainer=(props)=>{
 	const [displayPollModal,changeDisplayPollingModal]=useState(false);
 	const [displayApproveModal,changeDisplayApproveModal]=useState(false);
 	const [displayPostAdditionalInformation,changePostAdditionalInformation]=useState(false);
+	const [displayPostBadgeAdditionPortal,changePostBadgeAdditionalDisplayPortal]=useState(false);
 
 	const videoDescriptionViewStartTimeStamp=useRef(); 
 	const audioDescritptionViewStartTimeStamp=useRef();
@@ -373,6 +375,14 @@ const ImageContainer=(props)=>{
 		changeDisplayPollingOptions(true);
 	}
 
+	const handleDisplayPostBadgeAdditionModal=()=>{
+		changePostBadgeAdditionalDisplayPortal(true);
+	}
+
+	const closePostBadgeAdditionalModal=()=>{
+		changePostBadgeAdditionalDisplayPortal(false);
+	}
+
 	const userActions={
 		actions:{
 			createOrRemoveStampEffect:createOrRemoveStampEffect,
@@ -380,7 +390,8 @@ const ImageContainer=(props)=>{
 			changeDisplayPollingOptions:triggerDisplayPollingOptionDecider,
 			handleRemoveImagePost:handleRemoveImagePost,
 			changeDisplayPost:changeDisplayPost,
-			promoteModal:triggerPromoteModal
+			promoteModal:triggerPromoteModal,
+			handleDisplayPostBadgeAdditionModal:handleDisplayPostBadgeAdditionModal
 		},
 		isOwnProfile:postData.isOwnProfile,
 		displayPostModal:displayPostModal,
@@ -403,12 +414,21 @@ const ImageContainer=(props)=>{
 		}
 	}
 
+
 	return(
 		<React.Fragment>
 			<FirstTimePostOnboarding
 				userId={userId}
 				isGuestProfile={isGuestProfile}
 			/>
+			{displayPostBadgeAdditionPortal==true &&(
+				<PostBadgeAdditionModal
+					profileId={postDataDestructedField=="imageData"?postData.imageData.owner:postData.videoData.owner}
+					closeModal={closePostBadgeAdditionalModal}
+					postType={postData[postDataDestructedField].imgUrl==null?"Videos":"Images"}
+					postId={postData[postDataDestructedField]._id}
+				/>
+			)}
 			{displayDeleteConfirmation==true &&(
 				<DeletePostConfirmationPortal
 					postType={"Posts"}
