@@ -19,7 +19,7 @@ import ProfileSettingsModal from "../../PersonalProfileSet/Modals-Portals/Person
 import OligarchPortalDisplay from "../../PersonalProfileSet/Modals-Portals/OligarchPortal.js";
 import PaymentButton from '@material-ui/icons/MonetizationOn';
 import {adPageVerification} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
-import FriendsGaugeBadgeEntrance from "../../PersonalProfileSet/Modals-Portals/FriendsGaugeBadgePortal/index.js";
+import BadgeEntrance from "../../PersonalProfileSet/Modals-Portals/BadgePortal/BadgeInformation/index.js";
 
 import {UserContext} from "../../UserContext.js";
 
@@ -598,8 +598,9 @@ const PersonalInformation=(props)=>{
 		return(
 			<React.Fragment>
 				{displayFriendsGaugeBadge==true &&(
-					<FriendsGaugeBadgeEntrance
+					<BadgeEntrance
 						closeModal={closeFriendsGaugeModal}
+						profileId={props.personalInformation._id}
 					/>
 				)}
 			</React.Fragment>

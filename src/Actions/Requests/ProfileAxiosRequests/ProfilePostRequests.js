@@ -600,6 +600,85 @@ export const toggleOffAscensionStatusIndicator=async(profileId)=>{
 }
 
 
+export const createBadge=async(badgeInformation)=>{
+	try{
+		const createdBadgeResponse=await axios.post(`${CreateUrl}/createBadge`,{
+			...badgeInformation
+		});
+		const {data}=createdBadgeResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+export const addPostBadge=async(addedPostInformation)=>{
+	try{
+		const addedPostResponse=await axios.post(`${CreateUrl}/addPostBadge`,{
+			...addedPostInformation
+		});
+		const {data}=addedPostResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+export const editBadgeCaption=async(badgeId,profileId)=>{
+	try{
+		const editedBadgeResponse=await axios.post(`${CreateUrl}/editBadgeCaption`,{
+			badgeId,
+			profileId
+		})
+
+		const {data}=editedBadgeResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+export const removePostFromBadge=async(badgeId,postId)=>{
+	try{
+		const removedPostResponse=await axios.post(`${CreateUrl}/removePostFromBadge`,{
+			badgeId,
+			postId
+		})
+		const {data}=removedPostResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+export const removeBadge=async(badgeId,profileId)=>{
+	try{
+		const removeBadgeResponse=await axios.post(`${CreateUrl}/removeBadge`,{
+			badgeId,
+			profileId
+		});
+		const {data}=removeBadgeResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+
+
+
+
+
+
 
 
 

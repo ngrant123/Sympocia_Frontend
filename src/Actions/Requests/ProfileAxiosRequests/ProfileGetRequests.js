@@ -703,6 +703,51 @@ export const adPageVerification=async(profileId)=>{
 }
 
 
+export const retrieveBadgePostStatus=async(profileId,postId)=>{
+	try{
+		const badgePostStatusResponse=await axios.get(`${SearchUrl}/retrieveBadgePostStatus`,{
+			params:{
+				profileId,
+				postId
+			}
+		});
+		const {data}=badgePostStatusResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+export const retrieveBadgeInformation=async(profileId)=>{
+	try{
+		const badgeInformationResponse=await axios.get(`${SearchUrl}/retrieveBadgeInformation`,{
+			params:{
+				profileId
+			}
+		});
+		const {data}=badgeInformationResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
