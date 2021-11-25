@@ -219,6 +219,7 @@ export const CommentContainer=styled.div`
 export const PersonalInformation=styled.div`
 	display:flex;
 	flex-direction:row;
+	justify-content:space-between;
 
 	@media screen and (max-width:650px){
 		margin-bottom:5%;

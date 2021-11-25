@@ -24,6 +24,7 @@ import FirstTimePostOnboarding from "../../FirstTimePostOnboardingIndicator.js";
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import {PostDisplayConsumer} from "../../../../Symposium/ExtendedSymposium/Posts/PostDisplay/PostDisplayContext.js";
 import PostBadgeAdditionModal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/BadgePortal/PostBadgeAddition/index.js";
+import BadgeDisplay from "../../../BadgeComponent/index.js"; 
 
 const Container=styled.div`
 	padding:30px;
@@ -533,14 +534,20 @@ const RegularPostContainer=(props)=>{
 										<React.Fragment>
 											<div id="ownerOptionsAndPostOptions" 
 												style={{display:"flex",flexDirection:"column",flexWrap:"wrap",width:"100%"}}>
-												<div style={{width:"100%",display:"flex",flexDirection:"row",marginBottom:"5px"}}>
+												<div style={{width:"100%",display:"flex",flexDirection:"row",marginBottom:"5px",alignItems:"center"}}>
 													<img id="profilePictureDiv" src={profilePicture==null?
 														NoProfilePicture:profilePicture}
-														style={{width:"70px",height:"65px",borderRadius:"50%",marginRight:"5%"}}
+														style={{width:"50px",height:"50px",borderRadius:"50%",marginRight:"5%"}}
 													/>
 													<p style={{marginRight:"5%",maxWidth:"60%",maxHeight:"20px",overflow:"hidden"}}>
 														<b>{props.postData.owner.firstName}</b>
 													</p>
+
+													{profileType!="personalProfile"==true &&(
+														<BadgeDisplay
+															profileId={props.postData.owner._id}
+														/>
+													)}
 												</div>
 												<div id="postOptions" style={{flexWrap:"wrap",marginLeft:"10%",display:"flex",flexDirection:"row",alignItems:"center"}}>
 													<div onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>

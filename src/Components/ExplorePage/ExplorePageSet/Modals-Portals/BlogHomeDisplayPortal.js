@@ -23,6 +23,7 @@ import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 import {getVideoUrl} from "../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import {PostDisplayConsumer} from "../../../Symposium/ExtendedSymposium/Posts/PostDisplay/PostDisplayContext.js";
 import {triggerS3UrlViewProcessing} from "../../../GeneralComponents/PostComponent/S3PostViewProcessing.js"; 
+import BadgeDisplay from "../../../GeneralComponents/BadgeComponent/index.js"; 
 
 const Container=styled.div`
 	position:fixed;
@@ -597,23 +598,25 @@ const BlogHomeDisplayPortal=(props)=>{
 												:null}
 							
 												<li style={{listStyle:"none",marginBottom:"5%"}}>
-													<ul style={{padding:"0px"}}>
-														<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-															<ProfilePicture to={{pathname:`/profile/${postData.selectedBlog.owner._id}`}}>
-																<img id="smallImagePicture" src={postData.selectedBlog.owner.profilePicture==null?
-																		NoProfilePicture:
-																		postData.selectedBlog.owner.profilePicture
-																	} style={{width:"55px",height:"50px",borderRadius:"50%"}}/>
-															</ProfilePicture>
-														</li>
-														<li style={{listStyle:"none"}}>
-															<b>{postData.selectedBlog.owner.firstName}</b>
-														</li>
-
-														<li style={{height:"90px",overflowY:"auto",listStyle:"none"}}>
+													<div style={{display:"flex",flexDirection:"column"}}>
+														<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+																<ProfilePicture to={{pathname:`/profile/${postData.selectedBlog.owner._id}`}}>
+																	<img id="smallImagePicture" src={postData.selectedBlog.owner.profilePicture==null?
+																			NoProfilePicture:
+																			postData.selectedBlog.owner.profilePicture
+																		} style={{width:"55px",height:"50px",borderRadius:"50%"}}/>
+																</ProfilePicture>
+															<p style={{marginLeft:"2%"}}>
+																<b>{postData.selectedBlog.owner.firstName}</b>
+															</p>
+															<BadgeDisplay
+																profileId={postData.selectedBlog.owner._id}
+															/>
+														</div>
+														<p style={{height:"90px",overflowY:"auto"}}>
 															{postData.selectedBlog.title}
-														</li>
-													</ul>
+														</p>
+													</div>
 												</li>
 												<li style={{listStyle:"none"}}>
 													<ul style={{padding:"0px"}}>

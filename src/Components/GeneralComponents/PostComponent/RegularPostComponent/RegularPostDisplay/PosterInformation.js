@@ -10,6 +10,7 @@ import StampIcon from "../../../../../designs/img/StampIcon.png";
 import {StampIconEffect} from "../../../PostComponent/ImageAndVideoDisplay/PostContainerCSS.js";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import BadgeDisplay from "../../BadgeComponent/index.js"; 
 
 const PostInformationContainer=styled.div`
 	position:relative;
@@ -115,6 +116,10 @@ const EditPostButtonCSS={
 }
 	
 	
+
+/*
+	Believe that component is not used. May be safe to delete
+*/
 
 const PosterInformation=(props)=>{
 
@@ -224,6 +229,9 @@ const PosterInformation=(props)=>{
 											{owner.firstName}
 										</NameContainer>
 									</li>
+									<BadgeDisplay
+										profileId={owner._id}
+									/>
 								</>
 							)}
 

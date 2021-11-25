@@ -20,8 +20,8 @@ import {Link} from "react-router-dom";
 import {
 		setPersonalProfileAccessToken,
 		setPersonalProfileRefreshToken
-	} from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
-
+} from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
+import BadgeDisplay from "../BadgeComponent/index.js";
 
 const Video=styled.div`
 
@@ -401,6 +401,12 @@ class VideoResponseContainer extends Component{
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													<b>{data.ownerObject.owner.firstName}</b>
 												</li>
+
+												<li style={{listStyle:"none",display:"inline-block"}}>
+													<BadgeDisplay
+														profileId={data.ownerObject.owner._id}
+													/>
+												</li>
 											</ul>
 										</li>
 										<CommentText>
@@ -527,6 +533,10 @@ class VideoResponseContainer extends Component{
 												style={{color:"#2E2E2E",fontSize:"25px",marginLeft:"5%"}}>
 												<b>{videoData.ownerObject.owner.firstName}</b>
 											</p>
+											<BadgeDisplay
+												profileId={videoData.ownerObject.owner._id}
+											/>
+
 											{(this.props.isOligarch==true || this.props.personalState.id==postOwnerId
 												|| videoData.ownerObject.owner._id==this.props.personalState.id)==true &&(
 												<div onClick={()=>this.triggerDeleteVideoCommentOrReply({

@@ -16,6 +16,7 @@ import {
 		setPersonalProfileRefreshToken
 } from "../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import {Link} from "react-router-dom";
+import BadgeDisplay from "../BadgeComponent/index.js";
 
 const Container=styled.div`
 	padding:10px;
@@ -269,6 +270,11 @@ class CommentsContainer extends Component{
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
 						</li>
+						<li style={{listStyle:"none",display:"inline-block"}}>
+							<BadgeDisplay
+								profileId={data.ownerObject.owner._id}
+							/>
+						</li>
 					</ul>
 				</li>
 				<CommentText>
@@ -400,6 +406,12 @@ class CommentsContainer extends Component{
 						</OwnerProfilePictureLink>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<b>{data.ownerObject.owner.firstName}</b>
+						</li>
+
+						<li style={{listStyle:"none",display:"inline-block"}}>
+							<BadgeDisplay
+								profileId={data.ownerObject.owner._id}
+							/>
 						</li>
 					</ul>
 				</li>
