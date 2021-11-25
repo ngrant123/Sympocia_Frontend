@@ -251,7 +251,7 @@ const SponsorDisplayModal=(props)=>{
 						</li>
 					</ul>
 				</SponsorExtendedModal>:
-				<SponsorSimplifiedModal>
+				<SponsorSimplifiedModal id="championModal">
 					<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
 						<ProfileLink
 							propsRendered={

@@ -372,7 +372,7 @@ class FriendsGauge extends Component {
   render() {
 
     return (
-        <Container>
+        <Container id="friendsGaugeContainer">
           <li style={{listStyle:"none",marginBottom:"7%"}}>
             <ul style={{padding:"0px"}}>
               {this.props.mobileUIStatus.displayPhoneUI==false &&(

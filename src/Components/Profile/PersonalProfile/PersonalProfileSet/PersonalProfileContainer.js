@@ -897,6 +897,7 @@ class LProfile extends Component{
 									{this.desktopIpadFriendsGauge()}	
 
 									<PersonalPostsIndexContainer
+										id="postsContainer"
 										displayShadowOverlay={this.displayShadow}
 										disappearShadow={this.disappearShadow}
 										displayCreationPortal={this.state.displayCreationPortal}
