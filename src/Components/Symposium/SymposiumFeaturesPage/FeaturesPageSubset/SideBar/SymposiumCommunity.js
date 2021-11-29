@@ -134,7 +134,8 @@ const SymposiumCommunity=()=>{
 		},
 		currentSymposiumId,
 		updateSecondaryInformation,
-		isGuestProfile
+		isGuestProfile,
+		triggerGenerateAirPlane
 	}=featuresPageConsumer;
 
 	const{
@@ -335,7 +336,8 @@ const SymposiumCommunity=()=>{
 			</div>
 			<hr style={HorizontalLineCSS}/>
 
-			<div style={TagsContainerCSS}>
+			<div style={TagsContainerCSS} id="communityQuestionStandings"
+				onClick={()=>triggerGenerateAirPlane("communityQuestionStandings")}>
 				<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 					<p>
 						<b>Current questions standings:</b>

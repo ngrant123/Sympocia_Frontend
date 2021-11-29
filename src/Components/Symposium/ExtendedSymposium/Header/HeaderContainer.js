@@ -380,25 +380,30 @@ const HeaderContainer=(props)=>{
 		)
 	}
 
-	const triggerDisplaySymposiumCommunityModal=()=>{
+
+
+	const triggerDisplaySymposiumCommunityModal=(selectedDivId)=>{
 		changeDisplaySymposiumCommunityModal(true);
 		changeDisplayBeaconsModal(false);
 		changeDisplayUniversityModal(false);
 		changeSelectedSymposiumFeature("Community");
+		SymposiumConsumer.triggerGenerateAirPlane(selectedDivId);
 	}
 
-	const triggerDisplaySymposiumUniversityModal=()=>{
+	const triggerDisplaySymposiumUniversityModal=(selectedDivId)=>{
 		changeDisplaySymposiumCommunityModal(false);
 		changeDisplayBeaconsModal(false);
 		changeDisplayUniversityModal(true);
 		changeSelectedSymposiumFeature("University");
+		SymposiumConsumer.triggerGenerateAirPlane(selectedDivId);
 	}
 
-	const triggerDisplaySymposiumBeaconsModal=()=>{
+	const triggerDisplaySymposiumBeaconsModal=(selectedDivId)=>{
 		changeDisplaySymposiumCommunityModal(false);
 		changeDisplayBeaconsModal(true);
 		changeDisplayUniversityModal(false);
 		changeSelectedSymposiumFeature("Beacon");
+		SymposiumConsumer.triggerGenerateAirPlane(selectedDivId);
 	}
 
 	const symposiumFeaturesEntrance=()=>{
@@ -450,10 +455,10 @@ const HeaderContainer=(props)=>{
 							<HeaderContainerDiv style={{background:backgroundColor,width:"50%"}}>
 								<div id="headerContentsDiv" style={{position:"absolute",marginTop:"12%",width:"100%",zIndex:10,padding:"30px",height:"72%"}}>
 									<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-										<p style={displaySymposiumCommunityModal==true?
+										<p id="communityHeaderButton" style={displaySymposiumCommunityModal==true?
 											SymposiumCommunitySelectedOptionCSS:
 											NonSelectedSymposiumCommunityOptionCSS}
-											onClick={()=>triggerDisplaySymposiumCommunityModal()}>
+											onClick={()=>triggerDisplaySymposiumCommunityModal("communityHeaderButton")}>
 											Symposium Community
 										</p>
 										
@@ -461,17 +466,19 @@ const HeaderContainer=(props)=>{
 											selectedSymposiumTitle=="Religion"||
 											selectedSymposiumTitle=="Gaming"||
 											selectedSymposiumTitle=="Philosophy")==false &&(
-											<p style={displayUniversityModal==true?SelectedSymposiumOptionCSS:
+											<p id="universityHeaderButton" 
+												style={displayUniversityModal==true?SelectedSymposiumOptionCSS:
 												NonSelectedSymposiumOptionCSS}
-												onClick={()=>triggerDisplaySymposiumUniversityModal()}>
+												onClick={()=>triggerDisplaySymposiumUniversityModal("universityHeaderButton")}>
 												Symposium University
 											</p>
 										)}
 
 
-										<p style={displayBeaconModal==true?SelectedSymposiumOptionCSS:
+										<p id="beaconsHeaderButton"
+										 	style={displayBeaconModal==true?SelectedSymposiumOptionCSS:
 											{...NonSelectedSymposiumOptionCSS,marginLeft:"5%"}}
-											onClick={()=>triggerDisplaySymposiumBeaconsModal()}>
+											onClick={()=>triggerDisplaySymposiumBeaconsModal("beaconsHeaderButton")}>
 											Beacons
 										</p>
 									</div>

@@ -24,6 +24,7 @@ import{
 } from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import MobileCreationButton from "./MobileUI/Creation.js";
 import {useDispatch} from "react-redux";
+import {generateAirPlane} from "../../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
 
 const Container=styled.div`
 	width:100%;
@@ -144,6 +145,7 @@ const SymposiumFeatures=(props)=>{
 	const [endOfPostIndicator,changeEndOfPostsIndicator]=useState(false);
 	const [currentTagsSelection,changeCurrentTagSelection]=useState([]);
 	const [currentBeaconSelectedPostType,changeBeaconSelectedPostType]=useState();
+	const [componentMountedStatus,changeComponentMountedStatus]=useState(false);
 
 
 	const [currentSymposiumName,changeSymposiumName]=useState();
@@ -186,6 +188,7 @@ const SymposiumFeatures=(props)=>{
 
 				fetchData("Beacons")
 				retrieveOligarchStatus({symposiumName:message});
+				changeComponentMountedStatus(true);
 				triggerUIChange();
 
 			}else{
@@ -769,6 +772,14 @@ const SymposiumFeatures=(props)=>{
 				},
 				updateSecondaryInformation:(updatedSecondaryInformation)=>{
 					changeSecondaryInformation(updatedSecondaryInformation);
+				},
+				triggerGenerateAirPlane:(selectedDivId)=>{
+					generateAirPlane({
+					    pageType:"Symposium_Features",
+				        pageTypeParamsId:props.match.params.symposiumId,
+				        targetDivAccessed:selectedDivId,
+				        profileIdAccessingDiv:personalInformation.id
+					})
 				}
 			}}
 		>
@@ -778,9 +789,11 @@ const SymposiumFeatures=(props)=>{
 				{tagExtendedInformationModal()}
 
 				<GeneralNavBar
-					page={"SymposiumFeatures"}
+					page={"Symposium_Features"}
 					routerHistory={props.history}
 					targetDom={"symposiumFeaturesPage"}
+					componentMountedStatus={componentMountedStatus}
+					paramsPageId={props.match.params.symposiumId}
 				/>
 				<FeaturesContainer>
 					{loadingStatus==true?

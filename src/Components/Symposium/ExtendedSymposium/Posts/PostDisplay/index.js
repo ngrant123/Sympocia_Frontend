@@ -26,6 +26,9 @@ const PostsContainerDisplay=(props)=>{
         profileId,
         selectedSymposiumTitle
     }=props;
+    console.log(props);
+
+
     const [selectedCategoryType,changeSelectedCategoryType]=useState(state.displayDesktopUI==false?"The Grind":"General");
     const defaultPostCategoryInformation=[
         {
@@ -79,7 +82,8 @@ const PostsContainerDisplay=(props)=>{
                     const {grind}=state.posts;
                     selectedPostCategory[i]={
                         ...selectedPostCategory[i],
-                        posts:grind
+                        posts:grind,
+                        divIdentification:"grindCategoryDivId"
                     }
                     break;
                 }
@@ -87,7 +91,8 @@ const PostsContainerDisplay=(props)=>{
                     const {progress}=state.posts;
                     selectedPostCategory[i]={
                         ...selectedPostCategory[i],
-                        posts:progress
+                        posts:progress,
+                        divIdentification:"progressCategoryDivId"
                     }
                     break;
                 }
@@ -95,12 +100,14 @@ const PostsContainerDisplay=(props)=>{
                     const {accomplishment}=state.posts;
                     selectedPostCategory[i]={
                         ...selectedPostCategory[i],
-                        posts:accomplishment
+                        posts:accomplishment,
+                        divIdentification:"accomplishmentCategoryDivId"
                     }
                     break;
                 }
             }
         }
+        console.log(selectedPostCategory);
         changeSelectedPostCategoryInformation(selectedPostCategory)
 
     },[selectedCategoryType,state.posts,state.displayDesktopUI])
@@ -128,6 +135,7 @@ const PostsContainerDisplay=(props)=>{
                 {selectedPostCategoryInformation.map(data=>
                     <React.Fragment>
                         <PostCategory
+                            selectedDivId={data.divIdentification}
                             {...data}
                             {...postsProps}
                             postType={state.postType}

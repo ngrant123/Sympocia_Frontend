@@ -12,13 +12,13 @@ const GeneralNavBar=(pageProps)=>{
 	const NavBarContainer=useMemo(()=>{
 		if(pageProps.page=="Home"|| pageProps.page=="Map"){
 			return <NavBar
-						pageProps={{...pageProps}}
+						{...pageProps}
 						color="transparent"
 					/>
 		}else{
 			return (
 				<NavBar
-					pageProps={{...pageProps}}
+					{...pageProps}
 					color="none"
 				/>
 			);
@@ -26,9 +26,10 @@ const GeneralNavBar=(pageProps)=>{
 	},[]);
 
 	return (
-		<React.Fragment>
-			{NavBarContainer}
-		</React.Fragment>
+		<NavBar
+			{...pageProps}
+			color="transparent"
+		/>
 	);
 }
 

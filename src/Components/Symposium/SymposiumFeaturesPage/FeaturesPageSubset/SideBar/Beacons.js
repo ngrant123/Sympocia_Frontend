@@ -286,7 +286,8 @@ const BeaconSideBar=()=>{
 		currentSymposiumId,
 		displayCreationModal,
 		isGuestProfile,
-		isDesktop
+		isDesktop,
+		triggerGenerateAirPlane
 	}=featuresPageConsumer;
 
 	const personalInformation=useSelector(state=>state.personalInformation);
@@ -422,7 +423,7 @@ const BeaconSideBar=()=>{
 			/>
 
 
-			<div style={{padding:"30px"}} id="tagsOptions">
+			<div style={{padding:"30px"}} id="tagsOptions" onClick={()=>triggerGenerateAirPlane("tagsOptions")}>
 				<div style={TagsContainerCSS}>
 					<div style={TagHeaderCSS}>
 						<p>

@@ -209,7 +209,8 @@ class HomePageContainer extends Component{
 			hideOnboarding:true,
 			displayDesktopUI:false,
 			displayGuestOnboarding:false,
-			displayToken:false
+			displayToken:false,
+			componentMountedStatus:false
 		}
 	}
 
@@ -242,7 +243,8 @@ class HomePageContainer extends Component{
 		this.initiliazeUserProfileForHomePage(id);
 		this.triggerUIChange();
 		this.setState({
-			displayToken:true
+			displayToken:true,
+			componentMountedStatus:true
 		})	
 	}
 
@@ -451,27 +453,28 @@ class HomePageContainer extends Component{
 					}
 				}}
 			>
-					<Container id="homePageContainer">
-						<GeneralNavBar
-							displayChatPage={this.displayChatPage}
-							page={"Home"}
-							routerHistory={this.props.history}
-							targetDom={"homePageContainer"}
-						/>
-						{this.handleTokenDisplay()}
-						{this.guestOnboarding()}
-						{this.explorePageOnboarding()}
-						
-						{this.state.isLoading==true?
-							<LoadingScreen/>:
-							<ExplorePagePosts
-								displayGrids={this.handleDisplayGridLayout}
-								history={this.props.history}
-							/>
-						}
-						
-					</Container>
+				<Container id="homePageContainer">
+					<GeneralNavBar
+						displayChatPage={this.displayChatPage}
+						page={"Explore"}
+						routerHistory={this.props.history}
+						targetDom={"homePageContainer"}
+						componentMountedStatus={this.state.componentMountedStatus}
+						paramsPageId={null}
+					/>
+					{this.handleTokenDisplay()}
+					{this.guestOnboarding()}
+					{this.explorePageOnboarding()}
 					
+					{this.state.isLoading==true?
+						<LoadingScreen/>:
+						<ExplorePagePosts
+							displayGrids={this.handleDisplayGridLayout}
+							history={this.props.history}
+						/>
+					}
+					
+				</Container>
 			</HomeProvider>
 		)
 	}

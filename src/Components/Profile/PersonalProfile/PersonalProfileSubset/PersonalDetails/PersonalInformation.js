@@ -19,6 +19,7 @@ import ProfileSettingsModal from "../../PersonalProfileSet/Modals-Portals/Person
 import OligarchPortalDisplay from "../../PersonalProfileSet/Modals-Portals/OligarchPortal.js";
 import PaymentButton from '@material-ui/icons/MonetizationOn';
 import {adPageVerification} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import {generateAirPlane} from "../../../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
 
 import {UserContext} from "../../UserContext.js";
 
@@ -390,7 +391,9 @@ const PersonalInformation=(props)=>{
 		const crownLogoMarginLeft=props.personalInformation.isOwnProfile==true?"10%":"0%"
 		return(
 			<React.Fragment>
-				<div id="mobileUserInformation" style={{display:"flex",flexDirection:"row"}}>
+				<div id="mobileUserInformation" style={{display:"flex",flexDirection:"row"}}
+					onClick={()=>triggerGenerateAirPlane()}>
+
 					<p style={{maxWidth:"90%",maxHeight:"30px",marginRight:"10%",overflow:"hidden",fontSize:"20px"}}>
 						<b>{firstName}</b>
 					</p>
@@ -448,6 +451,15 @@ const PersonalInformation=(props)=>{
 		changePersonalInformationOptionLoadingStatus(false);
 	}
 
+	const triggerGenerateAirPlane=()=>{
+		generateAirPlane({
+		    pageType:"Profile",
+	        pageTypeParamsId:props.pageTypeParamsId,
+	        targetDivAccessed:"personalInformationDisplayDiv",
+	        profileIdAccessingDiv:props.profileIdAccessingDiv
+		})
+	}
+
 	const userInformationComponent=(personalInformation,displayDesktopUI,displayMobileProfileOptions)=>{
 		return (
 			<>
@@ -463,7 +475,8 @@ const PersonalInformation=(props)=>{
 					</>:
 					<>
 						<div id="personalInformationDisplayDiv" 
-							style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+							style={{display:"flex",flexDirection:"row",alignItems:"center"}}
+							onClick={()=>triggerGenerateAirPlane()}>
 							<p id="firstName" style={FirstNameCSS}>
 								<b>{personalInformation.firstName}</b>
 							</p>

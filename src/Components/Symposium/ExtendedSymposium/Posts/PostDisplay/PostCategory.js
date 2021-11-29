@@ -149,7 +149,8 @@ const PostCategory=(props)=>{
 		posts,
 		endOfPostsDBIndicator,
 		isOligarch,
-		selectedSymposiumTitle
+		selectedSymposiumTitle,
+		selectedDivId
 	}=props;
 
 	const symposiumContext=useContext(SymposiumContext);
@@ -291,7 +292,8 @@ const PostCategory=(props)=>{
 				}
 			}}
 		>
-			<Container isSimplified={isSimplified}>
+			<Container isSimplified={isSimplified} id={selectedDivId}
+				onClick={()=>symposiumContext.triggerGenerateAirPlane(selectedDivId)}>
 				{oligarchSettingsPortal()}
 				{categoryUploadDisplay()}
 				<div style={{display:"flex",flexDirection:"column"}}>

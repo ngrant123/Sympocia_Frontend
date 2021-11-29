@@ -117,7 +117,8 @@ class LProfile extends Component{
 				this.displayConfetti()
 			},
 			remoteChampionsMobileDisplayTrigger:false,
-			displayTokenLevelDetails:false
+			displayTokenLevelDetails:false,
+			componentMountedStatus:false
 		};
 	}
 
@@ -161,7 +162,7 @@ class LProfile extends Component{
 	}
 
 	getProfileApiTriggerCall=async({isAccessTokenUpdated})=>{
-		
+		debugger;
 		window.addEventListener('resize',this.triggerUIChange)
 		const {id}=this.props.match.params;
 		let confirmationResponse;
@@ -178,7 +179,8 @@ class LProfile extends Component{
 				champion:{},
 				isLoading:false,
 				displayOnboarding:false,
-				isGuestProfile:true
+				isGuestProfile:true,
+				componentMountedStatus:true
 			})
 
 		}else{
@@ -224,7 +226,8 @@ class LProfile extends Component{
 					isLoading:false,
 					displayOnboarding:message.firstTimeLoggedIn.personalPage,
 					visitorId,
-					isGuestVisitorProfile:isGuestProfileIndicator
+					isGuestVisitorProfile:isGuestProfileIndicator,
+					componentMountedStatus:true
 				}));
 			}else{
 				
@@ -568,6 +571,8 @@ class LProfile extends Component{
 								championData={this.state.championModalData}
 								isOwnProfile={this.state.isOwnProfile}
 								isMobile={this.state.displayPhoneUI}
+								pageTypeParamsId={this.props.match.params.id}
+								profileIdAccessingDiv={this.props.personalInformation.id}
 							/>
 						)}
 					</li>
@@ -623,7 +628,6 @@ class LProfile extends Component{
 	friendsGauge=()=>{
 		return(
 			<FriendsGauge
-				id="friendsGaugeContainer"
 				personalInformation={{
 					isOwnProfile:this.state.isOwnProfile,
 					_id:this.state.userProfile._id,
@@ -631,6 +635,7 @@ class LProfile extends Component{
 					friendsGaugeNodes:this.state.userProfile.friendsGaugeNodes,
 					isGuestVisitorProfile:this.state.isGuestVisitorProfile
 				}}
+				pageTypeParamsId={this.props.match.params.id}
 				retrieveFriendsGaugePosts={this.triggerRetrieveFriendsGaugeSpecificPosts}
 				mobileUIStatus={{
 				    displayPhoneUI:this.state.displayPhoneUI,
@@ -686,6 +691,8 @@ class LProfile extends Component{
 					displayMobileProfileOptionsTrigger={this.displayMobileProfileOptionsTrigger}
 					userId={this.props.personalId}
 					isLoading={this.state.isLoading}
+					pageTypeParamsId={this.props.match.params.id}
+					profileIdAccessingDiv={this.props.personalInformation.id}
 				/>
 	}
 
@@ -843,9 +850,11 @@ class LProfile extends Component{
 						:<React.Fragment></React.Fragment>}
 						<HeaderContainer>
 							<GeneralNavBar
-								page={"PersonalProfile"}
+								page={"Profile"}
 								routerHistory={this.props.history}
 								targetDom={"personalContainer"}
+								componentMountedStatus={this.state.componentMountedStatus}
+								paramsPageId={this.props.match.params.id}
 							/>
 						</HeaderContainer>
 
@@ -935,6 +944,8 @@ class LProfile extends Component{
 										updateEndOfPostsDBIndicator={this.updateEndOfPostsDBIndicator}
 										handleVideoPostModal={this.handleVideoPostModal}
 										currentRequestedFriendsGaugeNodeId={this.state.currentRequestedFriendsGaugeNodeId}
+										pageTypeParamsId={this.props.match.params.id}
+										profileIdAccessingDiv={this.props.personalInformation.id}
 									/>
 								</PostInformationContainer>
 							</>

@@ -59,7 +59,8 @@ const SymposiumUniversity=()=>{
 			resources
 		},
 		currentSymposiumId,
-		isGuestProfile
+		isGuestProfile,
+		triggerGenerateAirPlane
 	}=featuresPageConsumer;
 
 	const triggerDisplaySelectedSpecialist=(specialistData)=>{
@@ -224,6 +225,10 @@ const SymposiumUniversity=()=>{
 		)
 	}
 
+	const generateAirPlanes=(selectedDivId)=>{
+		triggerGenerateAirPlane(selectedDivId);
+	}
+
 	return(
 		<React.Fragment>
 			{SymposiumSpecialistsExtendedModal()}
@@ -231,7 +236,8 @@ const SymposiumUniversity=()=>{
 			{resourcesDropDown()}
 			{specialistDropDown()}
 
-			<div style={SymposiumSpecilistsCSS}>
+			<div style={SymposiumSpecilistsCSS} id="symposiumSpecialists"
+				onClick={()=>generateAirPlanes("symposiumSpecialists")}>
 				<div style={{padding:"10px",display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
 					<p style={{color:"#565656"}}>
 						<b>Symposium Specialists</b>
@@ -245,7 +251,8 @@ const SymposiumUniversity=()=>{
 				<hr style={HorizontalLineCSS}/>
 				{constructSpecialists()}
 			</div>
-			<div style={SymposiumResourcesCSS}>
+			<div style={SymposiumResourcesCSS} id="symposiumResources"
+				onClick={()=>generateAirPlanes("symposiumResources")}>
 				<div style={{padding:"10px",display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
 					<p style={{color:"#565656"}}>
 						<b>Symposium Resources</b>
