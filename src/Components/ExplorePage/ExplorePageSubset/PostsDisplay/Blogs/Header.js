@@ -131,7 +131,7 @@ const Header=({posts,displayBlogModal,targetDom})=>{
 		return(
 			<HeaderContainer>
 				<div id="headerBlogImage" style={HeaderBlogCSS}>
-					<img  onClick={()=>displayBlogModal()}  id="headerBlogLI"
+					<img  onClick={()=>displayBlogModal(highLightedPost)}  id="headerBlogLI"
 						src={highLightedPost.blogImageUrl} style={{borderRadius:"5px",position:"relative",width:"100%",height:"100%"}}
 					/>
 					{highLightedPost.videoDescription!=null &&(

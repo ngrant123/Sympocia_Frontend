@@ -35,7 +35,7 @@ const Container=styled.div`
 	height:20%;
 	border-radius:50%;
 	background-color:#C8B0F4;
-	z-index:50;
+	z-index:40;
 	bottom: 10;
 	right: 0;
 	padding:10px;

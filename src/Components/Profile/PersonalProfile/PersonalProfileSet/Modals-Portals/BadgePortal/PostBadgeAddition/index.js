@@ -73,6 +73,7 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 	const [displayBadgeCreationRequest,changeBadgeCreationRequestDisplay]=useState(false);
 	const [badgeId,changeBadgeId]=useState();
 	const [postBadgeSubmittingStatus,changePostBadgeSubmittingStatus]=useState(false);
+	const [maximumBadgePostsIndicator,changeMaximumBadgePostsIndicator]=useState(false);
 
 	useEffect(()=>{
 		const fetchData=async()=>{
@@ -83,12 +84,20 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 					changeBadgeCreationRequestDisplay(true);
 				}else{
 					debugger;
-					const {badgePostType,_id}=message;
+					const {
+						badgePostType,
+						_id,
+						badgePosts
+					}=message;
 					if(badgePostType!=postType){
 						alert('Unfortunately you can only add the same post-type on your badge');
 						closeModal();
 					}else{
-						changeBadgeId(_id);
+						if(badgePosts.length>=5){
+							changeMaximumBadgePostsIndicator(true);
+						}else{
+							changeBadgeId(_id);
+						}
 					}
 				}
 			}else{
@@ -122,29 +131,43 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 		<React.Fragment>
 			<ShadowContainer onClick={()=>closeModal()}/>
 			<Container>
-				{displayBadgeCreationRequest==true?
-					<p>In order to add this post to your badge, you have to first create one. So create one :) </p>:
-					<div>
-						<p>
-							<b>Are you sure you want to add this post to your badge?</b>
-							<hr/>
-							<div style={{display:"flex",flexDirection:"row"}}>
-								{postBadgeSubmittingStatus==true?
-									<p>Please wait...</p>:
-									<React.Fragment>
-										<div style={{...ButtonCSS,marginLeft:"0%"}} onClick={()=>addPostToBadgeHandler()}>
-											Yes
-										</div>
+				<div style={{marginBottom:"2%",cursor:"pointer"}} onClick={()=>closeModal()}>
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+						 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+						 stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <circle cx="12" cy="12" r="9" />
+						  <path d="M10 10l4 4m0 -4l-4 4" />
+					</svg>
+				</div>
+				{maximumBadgePostsIndicator==true?
+					<p>Maximum badge posts is 5. Please delete one to continue </p>:
+					<React.Fragment>
+						{displayBadgeCreationRequest==true?
+							<p>In order to add this post to your badge, you have to first create one. So create one :) </p>:
+							<div>
+								<p>
+									<b>Are you sure you want to add this post to your badge?</b>
+									<hr/>
+									<div style={{display:"flex",flexDirection:"row"}}>
+										{postBadgeSubmittingStatus==true?
+											<p>Please wait...</p>:
+											<React.Fragment>
+												<div style={{...ButtonCSS,marginLeft:"0%"}} onClick={()=>addPostToBadgeHandler()}>
+													Yes
+												</div>
 
-										<div style={{...ButtonCSS,marginLeft:"0%",marginLeft:"2%"}}
-											onClick={()=>closeModal()}>
-											No
-										</div>
-									</React.Fragment>
-								}
+												<div style={{...ButtonCSS,marginLeft:"0%",marginLeft:"2%"}}
+													onClick={()=>closeModal()}>
+													No
+												</div>
+											</React.Fragment>
+										}
+									</div>
+								</p>
 							</div>
-						</p>
-					</div>
+						}
+					</React.Fragment>
 				}
 			</Container>
 		</React.Fragment>

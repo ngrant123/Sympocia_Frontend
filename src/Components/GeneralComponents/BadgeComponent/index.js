@@ -2,10 +2,27 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import BadgeInformation from "./BadgeInformation.js";
 
+const Container=styled.div`
+	@media screen and (max-width:650px){
+		#dropDownMenu{
+			left:-345% !important;
+			width:300px !important;
+		}
+	}
+`;
+
+const DropDownMenuCSS={
+	height:"400px",
+	width:"400px",
+	padding:"30px",
+	overflow:"auto", 
+	backgroundColor:"white"
+}
+
 const BadgeDisplay=({profileId})=>{
 	const [isBadgeInformationMounted,changeIsBadgeInformationMounted]=useState(false);
 	return(
-		<React.Fragment>
+		<Container>
 			<div class="dropdown">
 				<button class="btn btn-primary dropdown-toggle" 
 					onClick={()=>changeIsBadgeInformationMounted(true)}
@@ -14,7 +31,7 @@ const BadgeDisplay=({profileId})=>{
 						style={{fontSize:"30px",color:"#6e6e6e",cursor:"pointer"}}
 					/>
 				</button>
-				<ul class="dropdown-menu" style={{width:"400px",height:"400px",padding:"30px"}}>
+				<ul id="dropDownMenu" class="dropdown-menu" style={DropDownMenuCSS}>
 					{isBadgeInformationMounted==true &&(
 						<BadgeInformation
 							profileId={profileId}
@@ -22,7 +39,7 @@ const BadgeDisplay=({profileId})=>{
 					)}
 				</ul>
 			</div>
-		</React.Fragment>
+		</Container>
 	)
 }
 

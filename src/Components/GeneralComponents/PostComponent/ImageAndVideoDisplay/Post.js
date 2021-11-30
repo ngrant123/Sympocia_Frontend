@@ -23,6 +23,13 @@ const Container=styled.div`
 		#audioDescription{
 			width:500px !important;
 		}
+		#postOptions{
+			box-shadow:none !important;
+		}
+
+		#mobilePostOptionsDivider{
+			display:block !important;
+		}
 	}
 
 	@media screen and (max-width:650px){

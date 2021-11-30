@@ -32,8 +32,18 @@ const Container=styled.div`
 	display:flex;
 	flex-direction:column;
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:1370px){
 		#postOptions{
+			box-shadow:none !important;
+		}
+
+		#mobilePostOptionsDivider{
+			display:block !important;
+		}
+	}
+
+	@media screen and (max-width:650px){
+		#postOptionsDiv{
 			width:100% !important;
 			margin-left:1% !important;
 		}
@@ -139,7 +149,6 @@ const PostContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		height:90% !important;
-		overflow:scroll;
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
@@ -286,6 +295,15 @@ const HorizontalLineCSS={
 	marginRight:"0"
 }
 
+const VerticalLineCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#EBEBEB",
+	borderLeft:"2px",
+ 	height:"30px",
+ 	marginRight:"2%",
+	display:"none"
+}
 
 /*
 	Would be better down the road to seperate this into two whole components where one is post information/functiions
@@ -549,13 +567,18 @@ const RegularPostContainer=(props)=>{
 														/>
 													)}
 												</div>
-												<div id="postOptions" style={{flexWrap:"wrap",marginLeft:"10%",display:"flex",flexDirection:"row",alignItems:"center"}}>
-													<div onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
+												<div id="postOptionsDiv" style={{flexWrap:"wrap",marginLeft:"10%",display:"flex",flexDirection:"row",alignItems:"center"}}>
+													<div onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} 
+														style={ShadowButtonCSS}
+														id="postOptions">
 														<LoyaltyIcon
 															style={{fontSize:30}}
 														/>
 													</div>
-													<div onClick={()=>displayCommentsTrigger()} style={ShadowButtonCSS}>
+													<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+													<div onClick={()=>displayCommentsTrigger()} 
+														style={ShadowButtonCSS}
+														id="postOptions">
 														<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
 															icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" 
 															stroke-width="1.5" stroke="#6e6e6e" fill="none" stroke-linecap="round" 
@@ -566,22 +589,25 @@ const RegularPostContainer=(props)=>{
 														  <line x1="8" y1="13" x2="14" y2="13" />
 														</svg>
 													</div>
-													<div style={ShadowButtonCSS}>
+													<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+													<div style={ShadowButtonCSS} id="postOptions">
 														<AssessmentIcon
 															onClick={()=>changeDisplayPollingOptions(true)}
 															style={{fontSize:30}}
 														/>
 													</div>
-
+													<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
 													{(profileType=="personalProfile" && isOwnProfile==true) &&(
 														<React.Fragment>
-															<div onClick={()=>displayEditPostHandle()} style={ShadowButtonCSS}>
+															<div onClick={()=>displayEditPostHandle()} style={ShadowButtonCSS}
+																id="postOptions">
 																<BorderColorIcon
 																	style={{fontSize:30}}
 																/>
 															</div>
-
-															<div onClick={()=>handleRemoveRegularPost()} style={ShadowButtonCSS}>
+															<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+															<div onClick={()=>handleRemoveRegularPost()} style={ShadowButtonCSS}
+																id="postOptions">
 																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
 																	icon-tabler-trash" width="30" height="30" viewBox="0 0 24 24" 
 																	stroke-width="1.5" stroke="#858585" fill="none" stroke-linecap="round" 
@@ -594,8 +620,9 @@ const RegularPostContainer=(props)=>{
 																  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
 																</svg>
 															</div>
-
-															<div onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}>
+															<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+															<div onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}
+																id="postOptions">
 																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
 																	  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" 
 																	  stroke="#858585"
@@ -606,18 +633,23 @@ const RegularPostContainer=(props)=>{
 																	  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
 																</svg>
 															</div>
+															<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
 															<div class="fa fa-shield" onClick={()=>changePostBadgeAdditionalDisplayPortal(true)}
 																style={{...ShadowButtonCSS,fontSize:"30px",color:"#6e6e6e",cursor:"pointer"}}
+																id="postOptions"
 															/>
 														</React.Fragment>
 													)}
 													{(symposiumPostInformation!=null && symposiumPostInformation.isOligarch==true)==true &&(
-														<div style={ShadowButtonCSS} 
-															onClick={()=>symposiumPostInformation.displayOligarchPostSettings(
-																									postData._id,
-																									postData.symposiumUploadCategory)}>
-															{crownLogo()}
-														</div>
+														<React.Fragment>
+															<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+															<div style={ShadowButtonCSS} 
+																onClick={()=>symposiumPostInformation.displayOligarchPostSettings(
+																										postData._id,
+																										postData.symposiumUploadCategory)}>
+																{crownLogo()}
+															</div>
+														</React.Fragment>
 													)}
 												</div>
 											</div>

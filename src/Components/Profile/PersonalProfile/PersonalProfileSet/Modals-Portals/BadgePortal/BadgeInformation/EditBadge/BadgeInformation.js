@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useRef,useEffect} from "react";
 import styled from "styled-components";
 import {
 	editBadgeCaption,
@@ -120,7 +120,8 @@ const BadgeInformation=({badgeInformation,displayAppropriateComponentName,profil
 			}
 		}
 	}
-	const deletePostHandle=async(postId)=>{
+	const deletePostHandle=async(postId,deletionRef)=>{
+		deletionRef.current.innerHTML="Please wait...";
 		const {confirmation,data}=await removePostFromBadge(badgeInformation._id,postId);
 		if(confirmation=="Success"){
 			alert('Post deleted from badge');
@@ -128,6 +129,7 @@ const BadgeInformation=({badgeInformation,displayAppropriateComponentName,profil
 		}else{
 			alert('Unfortunately there has been an error deleting this post from the badge. Please try again');
 		}
+		deletionRef.current.innerHTML="Delete";
 	}
 	const deletePostFromState=(postId)=>{
 		for(var i=0;i<badgePosts.length;i++){
@@ -136,6 +138,17 @@ const BadgeInformation=({badgeInformation,displayAppropriateComponentName,profil
 			}
 		}
 		changeBadgePosts([...badgePosts]);
+	}
+
+	const Post=({data})=>{
+		const deletionRef=useRef();
+		return(
+			<div style={{display:"flex",flexDirection:"column",marginRight:"2%",marginBottom:"2%"}}>
+		 		{postsDecider(data)}
+		 		<p ref={deletionRef} style={{marginTop:"10%",color:"#5298F8",cursor:"pointer"}}
+		 			onClick={()=>deletePostHandle(data._id,deletionRef)}>Delete</p>
+		 	</div>
+		)
 	}
 
 	return(
@@ -172,11 +185,7 @@ const BadgeInformation=({badgeInformation,displayAppropriateComponentName,profil
 						<p>No posts</p>:
 						<>
 							{badgePosts.map(data=>
-							 	<div style={{display:"flex",flexDirection:"column",marginRight:"2%",marginBottom:"2%"}}>
-							 		{postsDecider(data)}
-							 		<p style={{marginTop:"10%",color:"#5298F8",cursor:"pointer"}}
-							 			onClick={()=>deletePostHandle(data._id)}>Delete</p>
-							 	</div>
+								<Post data={data}/>
 							)}
 						</>
 					}

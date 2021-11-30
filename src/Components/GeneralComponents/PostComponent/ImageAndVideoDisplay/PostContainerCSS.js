@@ -20,8 +20,8 @@ export const Container=styled.div`
 			display:none !important;
 		}
 		#ownerProfilePicture{
-			width:10% !important;
-			height:60px !important;
+			width:50px !important;
+			height:50px !important;
 		}
 		#audio{
 			margin-top:5%;
@@ -49,7 +49,7 @@ export const Container=styled.div`
     }  
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
     	#ownerProfilePicture{
-			width:10% !important;
+			width:50px !important;
 		}
 	}
 `;
